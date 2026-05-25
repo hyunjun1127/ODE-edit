@@ -96,6 +96,33 @@ the global head can promote accepted changes into `plans/global/` and
 The helper script `scripts/claim-task.sh <agent_id>` implements the claim/push
 part for the simple first-pending-task case.
 
+## Periodic Sync
+
+Every server head should sync every 10 minutes. The sync rule is:
+
+1. do nothing if the working tree has uncommitted changes
+2. fetch and rebase onto `origin/main`
+3. push only if local commits are ahead of `origin/main`
+4. immediately before push, fetch/rebase again
+
+Use `scripts/sync-agent.sh` for this. It takes a local lock under `.git/` so
+two scheduled syncs on the same clone do not overlap.
+
+Recommended cron entry:
+
+```cron
+*/10 * * * * cd /path/to/Reflection-based-KE && scripts/sync-agent.sh >> local/sync-agent.log 2>&1
+```
+
+Do not use the periodic sync as a substitute for task state transitions. When
+an agent claims, finishes, fails, or publishes an important shared message, it
+should commit and push that state transition immediately. The 10-minute sync is
+a safety net for ordinary server-head updates and cross-server coordination.
+
+Do not enable automatic `git stash` or `git pull --autostash` for agents. A
+dirty working tree means the agent is in the middle of writing something; the
+scheduled sync should skip rather than hide a partial edit in a stash.
+
 ## Commit Messages
 
 Use short, machine-readable commit messages:
@@ -133,6 +160,17 @@ agents/status.json
 plans/current.md
 runs/all_status.json
 ```
+
+Conflict risk is low if ownership boundaries are respected. The main conflict
+cases are:
+
+- two agents editing the same plan or message file
+- two clones using the same `agent.id` and writing the same status file
+- a scheduled sync running while an agent has half-written local changes
+- direct edits to global files outside the owning role
+
+Avoid these by using per-server/per-agent paths, committing complete changes,
+and letting scheduled sync skip dirty working trees.
 
 ## Message Policy
 
