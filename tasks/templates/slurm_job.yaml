@@ -1,8 +1,8 @@
 id: exp_example
 type: slurm_job
-created_by: head-server2
-created_at: "2026-05-25T12:10:05+09:00"
-cwd: /mnt/raid5/janghj/00.KE/00.Experiment/03.Reflection_based_KE
+created_by: <global-head-agent-id>
+created_at: "YYYY-MM-DDTHH:MM:SS+TZ"
+cwd: /path/to/project
 command: bash scripts/run_exp.sh
 resources:
   gpu: 1
@@ -10,7 +10,7 @@ resources:
   time: "24:00:00"
 allowed_workers: []
 outputs:
-  artifact_dir: /mnt/raid5/janghj/00.KE/00.Experiment/03.Reflection_based_KE/results/exp_example
-  stdout: /mnt/raid5/janghj/00.KE/00.Experiment/03.Reflection_based_KE/logs/exp_example.out
-  stderr: /mnt/raid5/janghj/00.KE/00.Experiment/03.Reflection_based_KE/logs/exp_example.err
+  artifact_dir: /path/to/project/results/exp_example
+  stdout: /path/to/project/logs/exp_example.out
+  stderr: /path/to/project/logs/exp_example.err
 notes: "Copy this file into tasks/pending/ and replace fields before dispatch."

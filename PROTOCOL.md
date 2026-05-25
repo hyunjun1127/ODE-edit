@@ -1,10 +1,10 @@
 # Agent Protocol
 
-## Current Global Head
+## Deployment Configuration
 
-- Final head server: `server2`
-- Global head agent ID: `head-server2`
-- Repository path: `/mnt/raid5/janghj/agent-control/Reflection-based-KE`
+Choose one final head server per deployment and configure it as
+`global-head`. All server names, repository URLs, and local paths in this file
+are examples and should be replaced for each deployment.
 
 ## Purpose
 
@@ -14,7 +14,7 @@ message queue and it is not storage for large artifacts.
 
 ## Roles
 
-- `global-head`: final coordinator. `head-server2` owns canonical plans,
+- `global-head`: final coordinator. Owns canonical plans,
   resolves conflicts between server heads, creates approved tasks, and talks to
   the user.
 - `server-head`: per-server coordinator. A `head-serverN` agent can update its
@@ -31,7 +31,7 @@ Each agent must configure repository-local identity before writing commits.
 The `user.*` values are used by Git history, and the `agent.*` values are used
 by helper scripts when no explicit agent ID is passed.
 
-Global head on `server2`:
+Global head example:
 
 ```bash
 git config user.name "head-server2"
@@ -65,7 +65,7 @@ git config agent.hostname "server3"
 
 Plan updates are allowed from every server head, but avoid shared hot files.
 
-- `plans/global/`: canonical plans. Owned by `head-server2`.
+- `plans/global/`: canonical plans. Owned by the configured `global-head`.
 - `plans/updates/<server>/`: server-specific plan updates. Owned by that
   server's `server-head`.
 - `tasks/proposed/<server>/`: task proposals from server heads.
@@ -114,7 +114,7 @@ Agents do not wake themselves up after a session exits. Use `cron`,
 Recommended cron entry:
 
 ```cron
-0 * * * * cd /path/to/Reflection-based-KE && scripts/sync-agent.sh >> local/sync-agent.log 2>&1
+0 * * * * cd /path/to/agent-control && scripts/sync-agent.sh >> local/sync-agent.log 2>&1
 ```
 
 Do not use the periodic sync as a substitute for task state transitions. When
@@ -247,11 +247,11 @@ Example:
 2026-05-25T12:40:00+09:00 head-server1 -> head-server2 [request]
 Plan: plan_004, Task: exp_27011
 Observed: head-server1 checked server2 local log
-/mnt/raid5/janghj/local/runs/exp_27011/train.log through timestamp
+/path/to/local/runs/exp_27011/train.log through timestamp
 2026-05-25T12:20:00+09:00. Training appears complete and produced
 best.pt on server1.
 Request: Need the destination path on server2 before rsyncing the trained
-file. Proposed source is /mnt/raid5/janghj/artifacts/exp_27011/best.pt.
+file. Proposed source is /path/to/artifacts/exp_27011/best.pt.
 Please provide the server2 destination directory and whether existing files
 may be overwritten.
 Next owner: head-server2.
@@ -285,8 +285,8 @@ path from `runs/<task_id>/artifact_paths.json`.
 On each server head clone:
 
 ```bash
-git clone https://github.com/hyunjun1127/Reflection-based-KE.git ~/agent-control/Reflection-based-KE
-cd ~/agent-control/Reflection-based-KE
+git clone https://github.com/<owner>/<repo>.git ~/agent-control/<repo>
+cd ~/agent-control/<repo>
 git config user.name "head-server3"
 git config user.email "head-server3@lab.local"
 git config agent.id "head-server3"
@@ -300,8 +300,8 @@ scripts/heartbeat.sh
 On each worker clone:
 
 ```bash
-git clone https://github.com/hyunjun1127/Reflection-based-KE.git ~/agent-control/Reflection-based-KE
-cd ~/agent-control/Reflection-based-KE
+git clone https://github.com/<owner>/<repo>.git ~/agent-control/<repo>
+cd ~/agent-control/<repo>
 git config user.name "agent-server3"
 git config user.email "agent-server3@lab.local"
 git config agent.id "agent-server3"

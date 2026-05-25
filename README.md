@@ -1,10 +1,11 @@
-# Reflection-based-KE
+# Agent Control Template
 
-Reflection-based knowledge editing experiments and coordination records.
+Reusable Git-backed coordination template for multi-server agents, task
+handoffs, experiment plans, and run summaries.
 
 ## Layout
 
-- `plans/global/`: canonical plans owned by the final head on `server2`.
+- `plans/global/`: canonical plans owned by the configured global head.
 - `plans/updates/<server>/`: plan updates from each server head.
 - `tasks/pending/`: task specs waiting to be claimed.
 - `tasks/proposed/<server>/`: task proposals from server heads.
