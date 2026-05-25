@@ -1,42 +1,57 @@
 # Agent Protocol
 
-## Current Head
+## Current Global Head
 
-- Server hostname: `server2`
-- Head agent ID: `head-server2`
+- Final head server: `server2`
+- Global head agent ID: `head-server2`
 - Repository path: `/mnt/raid5/janghj/agent-control/Reflection-based-KE`
 
 ## Purpose
 
-Git is the durable control plane for experiment coordination. It is not a
-message queue for high-frequency events and it is not storage for large
-artifacts.
+Git is the durable control plane for experiment coordination. It stores plans,
+task metadata, status summaries, and small run records. It is not a real-time
+message queue and it is not storage for large artifacts.
+
+## Roles
+
+- `global-head`: final coordinator. `head-server2` owns canonical plans,
+  resolves conflicts between server heads, creates approved tasks, and talks to
+  the user.
+- `server-head`: per-server coordinator. A `head-serverN` agent can update its
+  server plan notes, propose tasks, inspect local resources, and coordinate
+  local workers/subagents.
+- `worker`: execution agent. Claims approved tasks, runs jobs, monitors logs,
+  and reports results.
+- `subagent`: local helper owned by a server head or worker. Subagents should
+  not push to Git directly; their parent agent summarizes and commits results.
 
 ## Git Identity
 
-Each agent must configure a repository-local identity before writing commits.
+Each agent must configure repository-local identity before writing commits.
 The `user.*` values are used by Git history, and the `agent.*` values are used
 by helper scripts when no explicit agent ID is passed.
 
-```bash
-git config user.name "agent-serverN"
-git config user.email "agent-serverN@lab.local"
-git config agent.id "agent-serverN"
-git config agent.role "worker"
-git config agent.hostname "serverN"
-```
-
-The head agent on this server uses:
+Global head on `server2`:
 
 ```bash
 git config user.name "head-server2"
 git config user.email "head-server2@lab.local"
 git config agent.id "head-server2"
-git config agent.role "head"
+git config agent.role "global-head"
 git config agent.hostname "server2"
 ```
 
-Worker examples:
+Server head example:
+
+```bash
+git config user.name "head-server3"
+git config user.email "head-server3@lab.local"
+git config agent.id "head-server3"
+git config agent.role "server-head"
+git config agent.hostname "server3"
+```
+
+Worker example:
 
 ```bash
 git config user.name "agent-server3"
@@ -46,21 +61,40 @@ git config agent.role "worker"
 git config agent.hostname "server3"
 ```
 
+## Plan Ownership
+
+Plan updates are allowed from every server head, but avoid shared hot files.
+
+- `plans/global/`: canonical plans. Owned by `head-server2`.
+- `plans/updates/<server>/`: server-specific plan updates. Owned by that
+  server's `server-head`.
+- `tasks/proposed/<server>/`: task proposals from server heads.
+- `tasks/pending/`: approved executable tasks. Owned by the global head unless
+  explicitly delegated.
+
+Server heads should write updates as append-only notes or separate files, then
+the global head can promote accepted changes into `plans/global/` and
+`tasks/pending/`.
+
 ## Task Lifecycle
 
-1. Head creates a task file in `tasks/pending/`.
-2. Worker runs `git pull --rebase`.
-3. Worker claims the task by moving it to `tasks/running/<task_id>.<agent>.yaml`.
-4. Worker commits with `claim <task_id> by <agent>`.
-5. Worker pushes.
-6. If push fails, worker pulls/rebases and checks whether the task is still in
+1. A server head writes plan updates under `plans/updates/<server>/` or task
+   proposals under `tasks/proposed/<server>/`.
+2. The global head reviews updates and creates approved task files in
    `tasks/pending/`.
-7. Worker executes the task.
-8. Worker moves the task to `tasks/done/` or `tasks/failed/`, writes a small
+3. Worker runs `git pull --rebase`.
+4. Worker claims the task by moving it to
+   `tasks/running/<task_id>.<agent>.yaml`.
+5. Worker commits with `claim <task_id> by <agent>`.
+6. Worker pushes.
+7. If push fails, worker pulls/rebases and checks whether the task is still in
+   `tasks/pending/`.
+8. Worker executes the task.
+9. Worker moves the task to `tasks/done/` or `tasks/failed/`, writes a small
    run summary, commits, and pushes.
 
-The helper script `scripts/claim-task.sh <agent_id>` implements steps 2-6 for
-the simple first-pending-task case.
+The helper script `scripts/claim-task.sh <agent_id>` implements the claim/push
+part for the simple first-pending-task case.
 
 ## Commit Messages
 
@@ -68,8 +102,11 @@ Use short, machine-readable commit messages:
 
 ```text
 plan exp_27011 by head-server2
+update plan exp_27011 by head-server3
+propose task exp_27011 by head-server3
 create task exp_27011 by head-server2
 claim exp_27011 by agent-server3
+heartbeat head-server3
 heartbeat agent-server3
 finish exp_27011 by agent-server3 exit=0
 fail exp_27011 by agent-server3 exit=1
@@ -77,19 +114,23 @@ fail exp_27011 by agent-server3 exit=1
 
 ## File Ownership
 
-Avoid shared hot files. Prefer one file per worker or one file per task.
+Avoid shared hot files. Prefer one file per server, one file per agent, or one
+file per task.
 
 Good:
 
 ```text
-workers/server3/status.json
+agents/server3/head-server3.json
+agents/server3/agent-server3.json
+plans/updates/server3/exp_27011.md
 runs/exp_27011/summary.agent-server3.md
 ```
 
 Avoid:
 
 ```text
-workers/status.json
+agents/status.json
+plans/current.md
 runs/all_status.json
 ```
 
@@ -115,11 +156,20 @@ Git must not store:
 Store large files on shared storage or local server storage, then reference the
 path from `runs/<task_id>/artifact_paths.json`.
 
-## Head Workflow
+## Server Head Bootstrap
 
-The head agent should keep user-facing reasoning in `plans/` and executable
-instructions in `tasks/pending/`. A message in `messages/head/` can describe
-intent, but workers should execute only validated task files.
+On each server head clone:
+
+```bash
+git clone https://github.com/hyunjun1127/Reflection-based-KE.git ~/agent-control/Reflection-based-KE
+cd ~/agent-control/Reflection-based-KE
+git config user.name "head-server3"
+git config user.email "head-server3@lab.local"
+git config agent.id "head-server3"
+git config agent.role "server-head"
+git config agent.hostname "server3"
+scripts/heartbeat.sh
+```
 
 ## Worker Bootstrap
 
