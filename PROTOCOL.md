@@ -21,6 +21,7 @@ not storage for large artifacts.
 - `messages/`
 - `plans/`
 - `experiment-reports/`
+- `audits/`
 - global-head 또는 사용자에게 전달되는 conflict report
 
 단, 기술적 정확성을 위해 command, path, metric 이름, filename, error
@@ -38,6 +39,10 @@ snippet은 원문 그대로 남길 수 있다.
   and reports results.
 - `subagent`: local helper owned by a server head or worker. Subagents should
   not push to Git directly; their parent agent summarizes and commits results.
+- `blue-team subagent`: 연구 파이프라인을 실행하는 subagent. Plan 실행,
+  실험 실행, 결과 정리, 해석을 담당한다.
+- `red-team subagent`: blue team 작업을 감사하는 subagent. 데이터 분리,
+  실험 논리, 근거, Git/protocol 준수 여부를 검사한다.
 
 ## Git Identity
 
@@ -94,17 +99,19 @@ the global head can promote accepted changes into `plans/global/` and
 
 1. A server head writes plan updates under `plans/updates/<server>/` or task
    proposals under `tasks/proposed/<server>/`.
-2. The global head reviews updates and creates approved task files in
+2. Red team performs a pre-flight audit before the proposal is promoted.
+3. The global head reviews updates and creates approved task files in
    `tasks/pending/`.
-3. Worker runs `git pull --rebase`.
-4. Worker claims the task by moving it to
+4. Worker runs `git pull --rebase`.
+5. Worker claims the task by moving it to
    `tasks/running/<task_id>.<agent>.yaml`.
-5. Worker commits with `claim <task_id> by <agent>`.
-6. Worker pushes.
-7. If push fails, worker pulls/rebases and checks whether the task is still in
+6. Worker commits with `claim <task_id> by <agent>`.
+7. Worker pushes.
+8. If push fails, worker pulls/rebases and checks whether the task is still in
    `tasks/pending/`.
-8. Worker executes the task.
-9. Worker moves the task to `tasks/done/` or `tasks/failed/`, writes a small
+9. Worker executes the task.
+10. Red team performs a post-run audit before results are finalized.
+11. Worker moves the task to `tasks/done/` or `tasks/failed/`, writes a small
    machine-readable run summary under `runs/`, writes or updates a Korean
    experiment summary under `experiment-reports/`, commits, and pushes.
 
@@ -140,6 +147,8 @@ Repository-managed:
 
 - `scripts/`: agent helper scripts such as sync, heartbeat, claim, and finish
 - `run-scripts/`: experiment execution scripts and wrappers
+- `subagents/`: required blue/red team role specs
+- `audits/`: Korean red-team audit reports
 - `plans/`: Korean plans and plan updates
 - `tasks/`: task specs and task lifecycle files
 - `messages/`: Korean server-to-server communication only
@@ -157,6 +166,46 @@ Local-managed:
 
 Local-managed files should be referenced by path from `runs/` and
 `experiment-reports/`, not copied into Git.
+
+## Required Red/Blue Team Subagents
+
+Every server head must maintain both blue-team and red-team subagents. Blue
+team executes the research pipeline. Red team audits blue-team work before it
+can affect canonical plans, approved tasks, or finalized reports.
+
+Minimum blue-team subagents per server:
+
+- `blue-plan-runner`: plan/task를 실행 가능한 형태로 해석하고, 필요한
+  `run-scripts/`, config, command, resource 요구사항을 정리한다.
+- `blue-experiment-runner`: 승인된 task를 실행하고, job 상태, log tail,
+  artifact path, exit code를 `runs/`에 기계가 읽을 수 있게 정리한다.
+- `blue-result-analyst`: 실험 결과를 한글로 정리하고 해석하여
+  `experiment-reports/servers/<server>/`에 작성한다.
+
+Minimum red-team subagents per server:
+
+- `red-data-eval-auditor`: train/test/validation 분리, data leakage,
+  evaluation set 오염, metric 계산 조건을 검사한다.
+- `red-logic-evidence-auditor`: 실험 가정, 비교 기준, ablation 논리,
+  결과 해석, hallucination 가능성, 근거 없는 주장 여부를 검사한다.
+- `red-git-protocol-auditor`: Git file ownership, message/report 분리,
+  local-managed output 미추적, secret/checkpoint/full-log 유입 여부,
+  sync/conflict protocol 준수를 검사한다.
+
+Red team 결과는 반드시 한글로 `audits/servers/<server>/`에 남긴다. Red
+team이 `block`으로 판정한 경우 server-head는 해당 task 승격, 결과 확정,
+또는 관련 push를 진행하지 않고 `messages/server-heads/<server>/`에
+blocker를 공유해야 한다. Global-head가 예외를 허용할 때는
+`audits/`에 waiver 사유를 남긴다.
+
+Required gates:
+
+- `pre-flight`: `tasks/proposed/<server>/`가 `tasks/pending/`으로 승격되기
+  전에 data split, 논리, 실행 경로, Git 경로 정책을 검사한다.
+- `post-run`: `tasks/done/` 또는 `tasks/failed/`로 확정하기 전에 metric,
+  report 해석, artifact path, log 근거를 검사한다.
+- `pre-push-sensitive`: canonical plan, approved task, experiment report,
+  audit 결과처럼 여러 서버에 영향을 주는 변경은 red-team check 후 push한다.
 
 ## Conflict Stop Policy
 
@@ -239,6 +288,8 @@ Good:
 ```text
 agents/server3/head-server3.json
 agents/server3/agent-server3.json
+audits/servers/server3/exp_27011.preflight.md
+audits/servers/server3/exp_27011.postrun.md
 plans/updates/server3/exp_27011.md
 experiment-reports/servers/server3/exp_27011.md
 runs/exp_27011/status.agent-server3.json
@@ -382,6 +433,8 @@ Git may store:
 
 - plans
 - task YAML
+- subagent role specs under `subagents/`
+- red-team audit reports under `audits/`
 - experiment run scripts under `run-scripts/`
 - small JSON metrics
 - short log tails

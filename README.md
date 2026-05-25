@@ -13,6 +13,10 @@ handoffs, experiment plans, and run summaries.
 - `tasks/done/`: completed task specs.
 - `tasks/failed/`: failed task specs.
 - `run-scripts/`: repository-managed experiment execution scripts.
+- `subagents/blue/`: required blue-team subagent role specs.
+- `subagents/red/`: required red-team subagent role specs.
+- `audits/servers/<server>/`: Korean red-team audit reports.
+- `audits/templates/`: Korean audit templates.
 - `runs/`: machine-readable run status, metrics, log tails, and artifact path
   manifests.
 - `experiment-reports/global/`: Korean final experiment summaries.
