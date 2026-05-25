@@ -35,12 +35,17 @@ cross-server 이슈, 요청, handoff 내용을 충분히 자세히 적는다.
 
 파일 전송이 필요한 경우 다음을 포함한다.
 
+- transfer request 경로:
+- transfer approval 경로:
 - Source server:
 - Source path:
 - Destination server:
 - 요청 또는 제안 destination path:
 - overwrite 정책:
 - 전송 후 검증 방법:
+
+사용자 승인 기록이 `transfers/approvals/`에 남기 전에는 실제 전송을
+실행하지 않는다.
 
 ## Blocker 또는 Risk
 

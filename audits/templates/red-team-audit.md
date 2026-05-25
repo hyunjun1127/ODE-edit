@@ -2,7 +2,7 @@
 
 ## 요약
 
-- 감사 유형: pre-flight/post-run/pre-push-sensitive
+- 감사 유형: pre-flight/post-run/pre-push-sensitive/server-onboarding/server-offboarding
 - 판정: pass/warn/block/waived
 - 관련 plan:
 - 관련 task:
@@ -50,6 +50,9 @@
 - local-managed 파일 유입 여부:
 - secret/checkpoint/full-log 유입 여부:
 - output/checkpoint/dataset path만 기록했는지:
+- transfer request/approval/verification 분리:
+- 사용자 승인 없는 반복 rsync 가능성:
+- server onboarding/offboarding checklist:
 - sync/conflict protocol:
 
 ## Warn 또는 Blocker

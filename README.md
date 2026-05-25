@@ -17,6 +17,9 @@ handoffs, experiment plans, and run summaries.
 - `subagents/red/`: required red-team subagent role specs.
 - `audits/servers/<server>/`: Korean red-team audit reports.
 - `audits/templates/`: Korean audit templates.
+- `servers/`: server onboarding/offboarding records and templates.
+- `transfers/`: user-approved large file transfer requests, approvals, and
+  verification records.
 - `runs/`: machine-readable run status, metrics, log tails, and artifact path
   manifests.
 - `experiment-reports/global/`: Korean final experiment summaries.

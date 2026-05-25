@@ -10,6 +10,7 @@
 - 작성 서버:
 - 수신 대상:
 - 관련 plan/task/run:
+- 관련 transfer request/approval/verification:
 - 로컬 로그 경로:
 - artifact 경로:
 - 상태: info/request/blocked/handoff/done

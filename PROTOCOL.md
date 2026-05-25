@@ -22,6 +22,8 @@ not storage for large artifacts.
 - `plans/`
 - `experiment-reports/`
 - `audits/`
+- `transfers/`
+- `servers/`
 - global-head 또는 사용자에게 전달되는 conflict report
 
 단, 기술적 정확성을 위해 command, path, metric 이름, filename, error
@@ -134,7 +136,7 @@ Use this model:
   from the latest pushed state
 - large artifacts remain outside Git and are referenced by path
 - server heads record cross-server backup, restore, and transfer requests in
-  `messages/server-heads/<server>/`
+  `messages/server-heads/<server>/` and `transfers/`
 
 Do not rely on unpushed local commits as the only copy of important state.
 Important plan updates, task state transitions, and handoff messages should be
@@ -151,6 +153,9 @@ Repository-managed:
 - `run-scripts/`: experiment execution scripts and wrappers
 - `subagents/`: required blue/red team role specs
 - `audits/`: Korean red-team audit reports
+- `servers/`: server onboarding/offboarding records and templates
+- `transfers/`: large file transfer requests, approvals, and verification
+  summaries
 - `plans/`: Korean plans and plan updates
 - `tasks/`: task specs and task lifecycle files
 - `messages/`: Korean server-to-server communication only
@@ -168,6 +173,97 @@ Local-managed:
 
 Local-managed files should be referenced by path from `runs/` and
 `experiment-reports/`, not copied into Git.
+
+## Large Output And Transfer Approval Policy
+
+Raw output, datasets, checkpoints, generated artifacts, and full logs can be
+very large and must stay local or on shared storage. Git stores only metadata,
+summaries, paths, and verification records.
+
+Store in Git:
+
+- short log tail
+- metrics summary
+- experiment report
+- artifact path manifest
+- file size/checksum when useful
+- transfer request, user approval record, and verification summary
+
+Do not store in Git:
+
+- raw output directories
+- generated samples or model outputs at scale
+- checkpoints, trained `.pt` files, model weights
+- full stdout/stderr logs
+- datasets or preprocessed datasets
+
+Large file transfers between servers require explicit approval through the
+global-head/user path. Agents must not run repeated or open-ended `rsync`
+transfers on their own.
+
+Transfer workflow:
+
+1. requesting server-head writes a Korean request under `transfers/requests/`
+   and links it from `messages/server-heads/<server>/`
+2. request includes source server/path, destination server/path, expected size,
+   checksum if available, overwrite policy, reason, priority, and one concrete
+   transfer command or transfer plan
+3. global-head reviews the request and reports it to the user
+4. user approves, rejects, or asks for changes
+5. if approved, global-head records approval under `transfers/approvals/`
+6. only the approved one-shot transfer may be executed by the designated agent
+7. after transfer, agent verifies destination existence, file size, checksum,
+   and expected path
+8. verification result is written under `transfers/verifications/` and linked
+   from `runs/` or `experiment-reports/`
+
+If SSH/rsync authentication is not already configured, the user must handle the
+credential setup. Passwords, SSH private keys, tokens, and private connection
+details must never be written to Git, messages, reports, or local conflict
+reports.
+
+Approval scope is narrow. A user approval applies only to the source,
+destination, overwrite policy, and command described in that request. Any
+different path, retry strategy, recursive directory, or overwrite behavior
+requires a new approval.
+
+## Dynamic Server Lifecycle
+
+Deployments may add temporary rental servers and later remove them. Server
+lifecycle changes must be explicit and auditable.
+
+Server onboarding workflow:
+
+1. user or global-head registers the server identity and expected use in
+   `servers/active/<server>.md`
+2. user handles account access, SSH trust, storage mount, Slurm access, and any
+   rsync authentication setup when needed
+3. server-head clones the project repo and configures `agent.id`,
+   `agent.role=server-head`, and `agent.hostname`
+4. server-head writes a heartbeat under `agents/<server>/`
+5. blue/red team subagents are initialized and documented
+6. red team performs onboarding audit: Git identity, Slurm command access,
+   local paths, dataset/output policy, and message/report separation
+7. global-head assigns tasks only after onboarding audit passes or is explicitly
+   waived
+
+Server offboarding workflow:
+
+1. server-head stops claiming new tasks and writes an offboarding notice
+2. running tasks are completed, failed, or reassigned by global-head
+3. needed large outputs/checkpoints/log archives are requested through
+   `transfers/requests/` and approved by the user through global-head
+4. approved transfers are executed and verified
+5. server-head writes final server summary under
+   `experiment-reports/servers/<server>/` if needed
+6. global-head moves server record from `servers/active/` to
+   `servers/retired/`
+7. credentials, scheduled sync, Slurm submissions, and local agent processes are
+   disabled by the user or server owner
+
+Rental servers should not be treated as durable storage. Important state must
+be pushed to Git, and important large artifacts must be transferred with user
+approval or explicitly marked disposable before the rental period ends.
 
 ## Required Red/Blue Team Subagents
 
@@ -213,6 +309,10 @@ Required gates:
   report 해석, artifact path, log 근거를 검사한다.
 - `pre-push-sensitive`: canonical plan, approved task, experiment report,
   audit 결과처럼 여러 서버에 영향을 주는 변경은 red-team check 후 push한다.
+- `server-onboarding`: 새 서버에 task를 배정하기 전에 Slurm, Git identity,
+  local path, output policy, subagent readiness를 검사한다.
+- `server-offboarding`: 서버 종료 전에 task handoff, transfer approval,
+  transfer verification, scheduler/credential 정리 여부를 검사한다.
 
 Red-team 판정은 다음 네 단계 중 하나를 사용한다.
 
@@ -340,6 +440,10 @@ agents/server3/head-server3.json
 agents/server3/agent-server3.json
 audits/servers/server3/exp_27011.preflight.md
 audits/servers/server3/exp_27011.postrun.md
+servers/active/server3.md
+transfers/requests/exp_27011.server1-to-server2.md
+transfers/approvals/exp_27011.server1-to-server2.md
+transfers/verifications/exp_27011.server1-to-server2.md
 plans/updates/server3/exp_27011.md
 experiment-reports/servers/server3/exp_27011.md
 runs/exp_27011/status.agent-server3.json
@@ -442,7 +546,9 @@ Write a server-head message for:
 - remote log inspection or partial verification on another server
 - requests for a missing path, permission, environment detail, or account setup
 - planned file transfers such as `rsync` of trained `.pt` files, checkpoints,
-  datasets, or generated artifacts
+  datasets, or generated artifacts. This is a transfer request only; execution
+  waits for user approval recorded by the global-head.
+- server onboarding/offboarding status that affects scheduling
 - discovery that a task should move to another server
 - blockers that require the global head or another server head
 - completion of a cross-server handoff
@@ -470,10 +576,12 @@ Observed: head-server1 checked server2 local log
 /path/to/local/runs/exp_27011/train.log through timestamp
 2026-05-25T12:20:00+09:00. Training appears complete and produced
 best.pt on server1.
-Request: Need the destination path on server2 before rsyncing the trained
-file. Proposed source is /path/to/artifacts/exp_27011/best.pt.
+Transfer request: transfers/requests/exp_27011.server1-to-server2.md
+Request: Need the destination path on server2 before asking global-head for
+user approval. Proposed source is /path/to/artifacts/exp_27011/best.pt.
 Please provide the server2 destination directory and whether existing files
-may be overwritten.
+may be overwritten. No rsync will run until user approval is recorded under
+transfers/approvals/.
 Next owner: head-server2.
 ```
 
@@ -485,6 +593,9 @@ Git may store:
 - task YAML
 - subagent role specs under `subagents/`
 - red-team audit reports under `audits/`
+- server lifecycle records under `servers/`
+- user-approved transfer requests, approvals, and verification summaries under
+  `transfers/`
 - experiment run scripts under `run-scripts/`
 - small JSON metrics
 - short log tails
@@ -500,6 +611,8 @@ Git must not store:
 - checkpoints
 - model weights
 - datasets
+- raw output directories
+- generated samples or model outputs at scale
 
 Store large files on shared storage or local server storage, then reference the
 path from `runs/<task_id>/artifact_paths.json`.
