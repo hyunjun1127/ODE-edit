@@ -9,8 +9,22 @@ are examples and should be replaced for each deployment.
 ## Purpose
 
 Git is the durable control plane for experiment coordination. It stores plans,
-task metadata, status summaries, and small run records. It is not a real-time
-message queue and it is not storage for large artifacts.
+task metadata, repository-managed scripts, status summaries, Korean experiment
+reports, and small run records. It is not a real-time message queue and it is
+not storage for large artifacts.
+
+## Language Policy
+
+모든 agent 간 통신은 사용자가 바로 읽을 수 있도록 한글로 작성한다.
+다음 항목은 반드시 한글로 쓴다.
+
+- `messages/`
+- `plans/`
+- `experiment-reports/`
+- global-head 또는 사용자에게 전달되는 conflict report
+
+단, 기술적 정확성을 위해 command, path, metric 이름, filename, error
+snippet은 원문 그대로 남길 수 있다.
 
 ## Roles
 
@@ -91,7 +105,8 @@ the global head can promote accepted changes into `plans/global/` and
    `tasks/pending/`.
 8. Worker executes the task.
 9. Worker moves the task to `tasks/done/` or `tasks/failed/`, writes a small
-   run summary, commits, and pushes.
+   machine-readable run summary under `runs/`, writes or updates a Korean
+   experiment summary under `experiment-reports/`, commits, and pushes.
 
 The helper script `scripts/claim-task.sh <agent_id>` implements the claim/push
 part for the simple first-pending-task case.
@@ -115,6 +130,33 @@ Use this model:
 Do not rely on unpushed local commits as the only copy of important state.
 Important plan updates, task state transitions, and handoff messages should be
 committed and pushed promptly.
+
+## Repository-Managed And Local-Managed Files
+
+Keep scripts and coordination state in Git. Keep datasets and heavy experiment
+outputs local.
+
+Repository-managed:
+
+- `scripts/`: agent helper scripts such as sync, heartbeat, claim, and finish
+- `run-scripts/`: experiment execution scripts and wrappers
+- `plans/`: Korean plans and plan updates
+- `tasks/`: task specs and task lifecycle files
+- `messages/`: Korean server-to-server communication only
+- `experiment-reports/`: Korean experiment result summaries
+- `runs/`: small machine-readable status, metrics, log tails, and artifact
+  path manifests
+
+Local-managed:
+
+- datasets and preprocessed data
+- raw model outputs and generated artifacts
+- checkpoints, model weights, and trained `.pt` files
+- full stdout/stderr logs
+- temporary scratch files
+
+Local-managed files should be referenced by path from `runs/` and
+`experiment-reports/`, not copied into Git.
 
 ## Conflict Stop Policy
 
@@ -198,7 +240,8 @@ Good:
 agents/server3/head-server3.json
 agents/server3/agent-server3.json
 plans/updates/server3/exp_27011.md
-runs/exp_27011/summary.agent-server3.md
+experiment-reports/servers/server3/exp_27011.md
+runs/exp_27011/status.agent-server3.json
 ```
 
 Avoid:
@@ -222,8 +265,10 @@ and letting scheduled sync skip dirty working trees.
 
 ## Message Policy
 
-`messages/` is for shared coordination, not raw logs. Agents should write
-detailed but curated messages that are useful to another agent or to the user.
+`messages/` is for Korean server-to-server communication only. It is not for
+experiment result reports and it is not for raw logs. Agents should write
+detailed but curated Korean messages that are useful to another agent or to the
+user.
 
 Use these paths:
 
@@ -245,6 +290,7 @@ Put these in `messages/`:
 
 Do not put these in `messages/`:
 
+- experiment result reports; use `experiment-reports/`
 - full shell transcripts
 - complete stdout/stderr logs
 - repeated progress ticks with no new information
@@ -256,6 +302,33 @@ shared storage. A shared message may reference them by path. The right level of
 detail is enough for a future agent to understand what changed, why it changed,
 what evidence supports it, and what should happen next without reading the full
 local transcript.
+
+## Experiment Reports
+
+Experiment result summaries must be written in Korean and stored separately
+from communication messages.
+
+Use these paths:
+
+- `experiment-reports/global/<experiment_id>.md`: final integrated summary
+  curated by the `global-head`
+- `experiment-reports/servers/<server>/<experiment_id>.md`: server-specific
+  observations written by that server's `server-head` or worker
+- `runs/<run_id>/`: machine-readable metadata such as status JSON, metrics JSON,
+  short log tails, and artifact path manifests
+
+Experiment reports should include:
+
+- experiment purpose and related plan/task/run IDs
+- server, agent, command, environment, and resource summary
+- dataset path and output/artifact paths without copying the data into Git
+- key metrics and comparison against expectations
+- notable failure modes, warnings, or caveats
+- interpretation of the result and recommended next action
+
+Do not use `messages/` as a result report archive. Use `messages/` only to tell
+other servers what changed, what is requested, and where the report/artifacts
+are located.
 
 ## Server Head Shared Messages
 
@@ -309,10 +382,12 @@ Git may store:
 
 - plans
 - task YAML
+- experiment run scripts under `run-scripts/`
 - small JSON metrics
 - short log tails
 - artifact path manifests
 - detailed shared messages
+- Korean experiment result summaries under `experiment-reports/`
 
 Git must not store:
 

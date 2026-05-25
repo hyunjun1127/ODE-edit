@@ -22,24 +22,24 @@ write_conflict_report() {
 
   mkdir -p "${report_dir}"
   {
-    echo "# Git Sync Conflict"
+    echo "# Git Sync 충돌 보고"
     echo
-    echo "- Time: ${timestamp}"
-    echo "- Agent: ${agent_id}"
-    echo "- Hostname: ${agent_hostname}"
-    echo "- Branch: ${branch}"
-    echo "- Remote: ${remote}"
-    echo "- Reason: ${reason}"
+    echo "- 시간: ${timestamp}"
+    echo "- 보고 agent: ${agent_id}"
+    echo "- 서버: ${agent_hostname}"
+    echo "- branch: ${branch}"
+    echo "- remote: ${remote}"
+    echo "- 원인: ${reason}"
     echo "- HEAD: $(git rev-parse HEAD 2>/dev/null || echo unknown)"
     echo "- Upstream: $(git rev-parse "${remote}/${branch}" 2>/dev/null || echo unknown)"
     echo
-    echo "## Status"
+    echo "## Git 상태"
     echo
     git status --short --branch 2>&1 || true
     echo
-    echo "## Next Action"
+    echo "## 다음 행동"
     echo
-    echo "Stop automated sync for this clone and report this file to the server-head/global-head."
+    echo "이 clone의 자동 sync를 멈추고 이 파일을 server-head/global-head에게 보고한다."
   } > "${report_file}"
 
   printf '%s\n' "${reason}" > "${pause_file}"

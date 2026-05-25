@@ -12,8 +12,14 @@ handoffs, experiment plans, and run summaries.
 - `tasks/running/`: claimed tasks, named with the claiming agent.
 - `tasks/done/`: completed task specs.
 - `tasks/failed/`: failed task specs.
-- `runs/`: summaries, metrics, log tails, and artifact path manifests.
-- `messages/head/`: global-head announcements.
+- `run-scripts/`: repository-managed experiment execution scripts.
+- `runs/`: machine-readable run status, metrics, log tails, and artifact path
+  manifests.
+- `experiment-reports/global/`: Korean final experiment summaries.
+- `experiment-reports/servers/<server>/`: Korean server-specific experiment
+  summaries.
+- `experiment-reports/templates/`: Korean experiment report templates.
+- `messages/head/`: global-head communication messages.
 - `messages/server-heads/<server>/`: cross-server updates and requests from
   each server head.
 - `messages/templates/`: message templates.

@@ -1,37 +1,36 @@
-# Conflict Report Template
+# 충돌 보고 템플릿
 
-## Summary
+## 요약
 
-State which repository/clone hit the conflict, what operation failed, and
-whether automated sync has been paused.
+어떤 repository/clone에서 충돌이 났는지, 어떤 작업이 실패했는지, 자동
+sync가 중단됐는지 적는다.
 
-## Context
+## 맥락
 
-- Time:
-- Reporting agent:
-- Server:
-- Repository:
-- Branch:
-- Remote:
-- Related plan/task/run:
-- Local conflict report path:
+- 시간:
+- 보고 agent:
+- 서버:
+- repository:
+- branch:
+- remote:
+- 관련 plan/task/run:
+- local conflict report 경로:
 
-## Evidence
+## 근거
 
-Include the key `git status --short --branch` output, failed command, conflicted
-paths, and relevant commit SHAs. Do not paste private local scratch logs.
+핵심 `git status --short --branch` 출력, 실패한 command, 충돌 path, 관련
+commit SHA를 적는다. private local scratch log는 붙이지 않는다.
 
-## Impact
+## 영향
 
-State which servers or tasks should stop pull/rebase/push activity and whether
-the global pause marker `control/sync-paused` has been published.
+어떤 서버 또는 task가 pull/rebase/push를 멈춰야 하는지, global pause
+marker `control/sync-paused`가 올라갔는지 적는다.
 
-## Requested Decision
+## 필요한 결정
 
-Ask the global head/user for the specific resolution needed, such as choosing
-one branch of changes, manually merging a file, recloning a server, or restoring
-from a clean remote state.
+global-head/user에게 필요한 결정을 구체적으로 요청한다. 예: 한쪽 변경
+선택, 파일 수동 merge, 특정 서버 reclone, clean remote state로 복구.
 
-## Next Owner
+## 다음 담당자
 
-Name the agent or role expected to resolve or continue.
+충돌을 해결하거나 이어서 처리할 agent 또는 role을 적는다.

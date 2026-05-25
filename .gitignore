@@ -12,6 +12,9 @@
 # Large experiment outputs
 logs/
 local/
+data/
+outputs/
+results/
 artifacts/
 checkpoints/
 datasets/
