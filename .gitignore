@@ -1,0 +1,31 @@
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+.ssh/
+*.pem
+*.key
+*.token
+*credentials*
+*secret*
+
+# Large experiment outputs
+logs/
+artifacts/
+checkpoints/
+datasets/
+*.out
+*.err
+*.log
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+
+# Local/tooling noise
+__pycache__/
+*.py[cod]
+.DS_Store
+.vscode/
+.idea/
