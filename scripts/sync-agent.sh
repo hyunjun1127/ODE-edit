@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+. "${script_dir}/agent-policy.sh"
+
 branch="${AGENT_BRANCH:-main}"
 remote="${AGENT_REMOTE:-origin}"
-agent_id="$(git config --get agent.id || git config user.name || true)"
+agent_id="$(agent_policy_get_id)"
+agent_role="$(agent_policy_get_role)"
 agent_hostname="$(git config --get agent.hostname || hostname)"
 pause_file=".git/agent-sync.paused"
 repo_pause_file="control/sync-paused"
 
-if [ -z "${agent_id}" ]; then
-  echo "agent identity is not configured; set git config agent.id" >&2
-  exit 2
-fi
+agent_policy_require_identity "${agent_id}" "${agent_role}"
+agent_policy_require_git_writer_role "${agent_role}"
 
 write_conflict_report() {
   reason="${1:-unknown sync failure}"

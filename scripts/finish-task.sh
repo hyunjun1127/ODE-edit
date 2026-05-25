@@ -1,17 +1,25 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+. "${script_dir}/agent-policy.sh"
+
 task_id="${1:-}"
 state="${2:-}"
 exit_code="${3:-}"
-default_agent_id="$(git config --get agent.id || git config user.name || true)"
-agent_id="${4:-${default_agent_id}}"
+default_agent_id="$(agent_policy_get_id)"
+requested_agent_id="${4:-}"
+agent_id="${requested_agent_id:-${default_agent_id}}"
+agent_role="$(agent_policy_get_role)"
 branch="${AGENT_BRANCH:-main}"
 
 if [ -z "${task_id}" ] || [ -z "${state}" ] || [ -z "${exit_code}" ] || [ -z "${agent_id}" ]; then
   echo "usage: scripts/finish-task.sh <task_id> <done|failed> <exit_code> [agent_id]" >&2
   exit 2
 fi
+
+agent_policy_require_config_match "${requested_agent_id}" ""
+agent_policy_require_worker_role "${agent_role}"
 
 if [ "${state}" != "done" ] && [ "${state}" != "failed" ]; then
   echo "state must be done or failed" >&2

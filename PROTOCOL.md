@@ -48,6 +48,77 @@ snippet은 원문 그대로 남길 수 있다.
 - `red-team subagent`: blue team 작업을 감사하는 subagent. 데이터 분리,
   실험 논리, 근거, Git/protocol 준수 여부를 검사한다.
 
+## Universal Agent Rules
+
+All agents must follow these rules.
+
+- keep repository-local `user.*` and `agent.*` identity accurate
+- write shared communication, plans, reports, audits, transfer records, and
+  server lifecycle records in Korean
+- pull/rebase before important writes and before push
+- keep one file per server, agent, task, run, request, or verification when
+  possible
+- never commit credentials, SSH material, datasets, checkpoints, raw outputs,
+  generated outputs at scale, or full logs
+- never run unapproved repeated/open-ended `rsync` or large file transfer
+- stop and report upward on Git conflict, uncertain destructive action, or
+  red-team `block`
+- write enough evidence for another agent to reproduce the decision without
+  reading private local scratch
+- do not impersonate another `agent.id`, `agent.role`, or server hostname
+
+## Parent Chain And Access Control
+
+Parent agents own final responsibility for their child agents' outputs.
+Subagents can draft, inspect, summarize, and audit, but they do not directly
+push Git state.
+
+Parent chain:
+
+```text
+user
+  -> global-head
+       -> server-head
+            -> worker
+            -> blue-team subagents
+            -> red-team subagents
+```
+
+Role access matrix:
+
+| Role | Primary parent | May own/write | Must not directly write |
+| --- | --- | --- | --- |
+| `global-head` | user | `plans/global/`, `tasks/pending/`, `messages/head/`, `transfers/approvals/`, `servers/active/`, `servers/retired/`, `control/`, `experiment-reports/global/`, protocol/template updates | server-local raw output, another role's unreviewed execution results, unapproved transfer execution |
+| `server-head` | global-head | `plans/updates/<server>/`, `tasks/proposed/<server>/`, `messages/server-heads/<server>/`, `agents/<server>/`, `audits/servers/<server>/`, `experiment-reports/servers/<server>/`, `transfers/requests/`, approved `transfers/verifications/`, own `servers/active/<server>.md` updates | `plans/global/`, `tasks/pending/`, `messages/head/`, `transfers/approvals/`, other server-owned files |
+| `worker` | server-head | its claimed `tasks/running/<task>.<agent>.*`, matching `tasks/done/` or `tasks/failed/`, `runs/<run_id>/...<agent>.*`, `agents/<server>/<agent>.json`, assigned report/audit evidence under its server | creating tasks, editing canonical plans, approving transfers, changing server lifecycle, editing other agents' task/run files |
+| `blue-team subagent` | server-head or worker | local scratch, draft plan/run/report material for parent review | direct Git push, final report promotion, task approval, transfer approval, red-team waiver |
+| `red-team subagent` | server-head or worker | local scratch and audit drafts for parent review | direct Git push, modifying blue-team artifacts instead of reporting issues, waiving its own blocker |
+
+Actions that require escalation:
+
+- promote `tasks/proposed/<server>/` to `tasks/pending/`: `global-head`
+- edit `plans/global/`: `global-head`
+- record `transfers/approvals/`: `global-head` after user decision
+- execute a large transfer: designated agent only after recorded user approval
+- waive red-team `warn` or `block`: `global-head`, with reason in `audits/`
+- register or retire a server: `global-head` with user/server-owner context
+- modify `control/sync-paused`: `global-head`
+
+Helper scripts are intentionally narrow. `claim-task.sh` and `finish-task.sh`
+are for `worker` agents. `heartbeat.sh` and `sync-agent.sh` are for
+`global-head`, `server-head`, or `worker` clones. Subagents should report to
+their parent instead of running Git-writing helper scripts directly.
+
+Before committing sensitive changes, run:
+
+```bash
+scripts/check-agent-access.sh --staged
+```
+
+This checks staged paths against the current clone's `agent.role`,
+`agent.id`, and `agent.hostname`. It is a guardrail, not a replacement for
+red-team review or global-head/user approval.
+
 ## Git Identity
 
 Each agent must configure repository-local identity before writing commits.

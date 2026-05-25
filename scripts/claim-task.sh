@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-default_agent_id="$(git config --get agent.id || git config user.name || true)"
-agent_id="${1:-${default_agent_id}}"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+. "${script_dir}/agent-policy.sh"
+
+default_agent_id="$(agent_policy_get_id)"
+requested_agent_id="${1:-}"
+agent_id="${requested_agent_id:-${default_agent_id}}"
+agent_role="$(agent_policy_get_role)"
 branch="${AGENT_BRANCH:-main}"
 
-if [ -z "${agent_id}" ]; then
-  echo "usage: scripts/claim-task.sh <agent_id>" >&2
-  exit 2
-fi
+agent_policy_require_config_match "${requested_agent_id}" ""
+agent_policy_require_worker_role "${agent_role}"
 
 if ! git diff --quiet || ! git diff --cached --quiet; then
   echo "working tree is dirty; commit or stash local changes first" >&2
@@ -43,8 +46,7 @@ while true; do
     exit 0
   fi
 
-  echo "push failed; another agent may have claimed first, resyncing" >&2
-  git rebase --abort >/dev/null 2>&1 || true
-  git fetch origin "${branch}"
-  git reset --hard "origin/${branch}"
+  echo "push failed; stop and inspect instead of rewriting local task state" >&2
+  echo "report this claim failure to the server-head/global-head before retrying" >&2
+  exit 20
 done

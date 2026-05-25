@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-default_agent_id="$(git config --get agent.id || git config user.name || true)"
-default_role="$(git config --get agent.role || true)"
-agent_id="${1:-${default_agent_id}}"
-role="${2:-${default_role:-worker}}"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+. "${script_dir}/agent-policy.sh"
+
+default_agent_id="$(agent_policy_get_id)"
+default_role="$(agent_policy_get_role)"
+requested_agent_id="${1:-}"
+requested_role="${2:-}"
+agent_id="${requested_agent_id:-${default_agent_id}}"
+role="${requested_role:-${default_role}}"
 branch="${AGENT_BRANCH:-main}"
 agent_hostname="$(git config --get agent.hostname || hostname)"
 
-if [ -z "${agent_id}" ]; then
-  echo "usage: scripts/heartbeat.sh <agent_id> [role]" >&2
-  exit 2
-fi
+agent_policy_require_config_match "${requested_agent_id}" "${requested_role}"
+agent_policy_require_git_writer_role "${role}"
 
 if ! git diff --quiet || ! git diff --cached --quiet; then
   echo "working tree is dirty; commit or stash local changes first" >&2
