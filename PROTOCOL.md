@@ -98,7 +98,7 @@ part for the simple first-pending-task case.
 
 ## Periodic Sync
 
-Every server head should sync every 10 minutes. The sync rule is:
+Every server head should sync once per hour. The sync rule is:
 
 1. do nothing if the working tree has uncommitted changes
 2. fetch and rebase onto `origin/main`
@@ -108,15 +108,18 @@ Every server head should sync every 10 minutes. The sync rule is:
 Use `scripts/sync-agent.sh` for this. It takes a local lock under `.git/` so
 two scheduled syncs on the same clone do not overlap.
 
+Agents do not wake themselves up after a session exits. Use `cron`,
+`systemd timer`, or another scheduler to call `scripts/sync-agent.sh`.
+
 Recommended cron entry:
 
 ```cron
-*/10 * * * * cd /path/to/Reflection-based-KE && scripts/sync-agent.sh >> local/sync-agent.log 2>&1
+0 * * * * cd /path/to/Reflection-based-KE && scripts/sync-agent.sh >> local/sync-agent.log 2>&1
 ```
 
 Do not use the periodic sync as a substitute for task state transitions. When
 an agent claims, finishes, fails, or publishes an important shared message, it
-should commit and push that state transition immediately. The 10-minute sync is
+should commit and push that state transition immediately. The hourly sync is
 a safety net for ordinary server-head updates and cross-server coordination.
 
 Do not enable automatic `git stash` or `git pull --autostash` for agents. A
