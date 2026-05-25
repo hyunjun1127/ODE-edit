@@ -139,6 +139,13 @@ runs/all_status.json
 `messages/` is for shared coordination, not raw logs. Agents should write
 detailed but curated messages that are useful to another agent or to the user.
 
+Use these paths:
+
+- `messages/head/YYYY-MM-DD.md`: global-head announcements and decisions.
+- `messages/server-heads/<server>/YYYY-MM-DD.md`: shared updates written by
+  that server's `server-head`.
+- `messages/templates/`: reusable message templates.
+
 Put these in `messages/`:
 
 - decisions and their rationale
@@ -146,6 +153,7 @@ Put these in `messages/`:
 - task handoffs, blockers, and requested review
 - failure summaries with enough context to debug
 - important resource or environment changes
+- cross-server observations, requests, and handoffs
 - links or paths to local logs and artifacts
 
 Do not put these in `messages/`:
@@ -161,6 +169,52 @@ shared storage. A shared message may reference them by path. The right level of
 detail is enough for a future agent to understand what changed, why it changed,
 what evidence supports it, and what should happen next without reading the full
 local transcript.
+
+## Server Head Shared Messages
+
+Server heads must leave a shared message whenever their work affects another
+server, global scheduling, or the user's next decision. These messages should
+be detailed enough for another server head to act without private context.
+
+Write a server-head message for:
+
+- remote log inspection or partial verification on another server
+- requests for a missing path, permission, environment detail, or account setup
+- planned file transfers such as `rsync` of trained `.pt` files, checkpoints,
+  datasets, or generated artifacts
+- discovery that a task should move to another server
+- blockers that require the global head or another server head
+- completion of a cross-server handoff
+
+Every cross-server request should include:
+
+- `from`: requesting agent and server
+- `to`: target agent/server or role
+- related `plan`, `task`, or `run`
+- status: `info`, `request`, `blocked`, `handoff`, or `done`
+- exact source and destination paths when file movement is involved
+- log coverage, for example "checked server2 log through line 1842" or "read
+  until timestamp 2026-05-25T12:20:00+09:00"
+- evidence: key metric, short error excerpt, checksum, file size, or command
+  result when useful
+- requested action and owner
+- deadline or priority if relevant
+
+Example:
+
+```text
+2026-05-25T12:40:00+09:00 head-server1 -> head-server2 [request]
+Plan: plan_004, Task: exp_27011
+Observed: head-server1 checked server2 local log
+/mnt/raid5/janghj/local/runs/exp_27011/train.log through timestamp
+2026-05-25T12:20:00+09:00. Training appears complete and produced
+best.pt on server1.
+Request: Need the destination path on server2 before rsyncing the trained
+file. Proposed source is /mnt/raid5/janghj/artifacts/exp_27011/best.pt.
+Please provide the server2 destination directory and whether existing files
+may be overwritten.
+Next owner: head-server2.
+```
 
 ## Artifact Rule
 

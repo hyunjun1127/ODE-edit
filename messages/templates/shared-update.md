@@ -8,9 +8,11 @@ State the main update in one or two precise paragraphs.
 
 - Agent:
 - Server:
+- To:
 - Related plan/task/run:
 - Local log path:
 - Artifact path:
+- Status: info/request/blocked/handoff/done
 
 ## Evidence
 
