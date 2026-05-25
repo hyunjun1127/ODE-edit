@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-agent_id="${1:-$(git config user.name || true)}"
-role="${2:-worker}"
+default_agent_id="$(git config --get agent.id || git config user.name || true)"
+default_role="$(git config --get agent.role || true)"
+agent_id="${1:-${default_agent_id}}"
+role="${2:-${default_role:-worker}}"
 branch="${AGENT_BRANCH:-main}"
 
 if [ -z "${agent_id}" ]; then
@@ -25,7 +27,7 @@ cat > "${status_file}" <<EOF
 {
   "agent_id": "${agent_id}",
   "role": "${role}",
-  "hostname": "$(hostname)",
+  "hostname": "$(git config --get agent.hostname || hostname)",
   "status": "online",
   "last_seen": "$(date --iso-8601=seconds)",
   "repo_path": "$(pwd)"

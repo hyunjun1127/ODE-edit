@@ -4,7 +4,8 @@ set -euo pipefail
 task_id="${1:-}"
 state="${2:-}"
 exit_code="${3:-}"
-agent_id="${4:-$(git config user.name || true)}"
+default_agent_id="$(git config --get agent.id || git config user.name || true)"
+agent_id="${4:-${default_agent_id}}"
 branch="${AGENT_BRANCH:-main}"
 
 if [ -z "${task_id}" ] || [ -z "${state}" ] || [ -z "${exit_code}" ] || [ -z "${agent_id}" ]; then

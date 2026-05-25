@@ -15,10 +15,15 @@ artifacts.
 ## Git Identity
 
 Each agent must configure a repository-local identity before writing commits.
+The `user.*` values are used by Git history, and the `agent.*` values are used
+by helper scripts when no explicit agent ID is passed.
 
 ```bash
 git config user.name "agent-serverN"
 git config user.email "agent-serverN@lab.local"
+git config agent.id "agent-serverN"
+git config agent.role "worker"
+git config agent.hostname "serverN"
 ```
 
 The head agent on this server uses:
@@ -26,6 +31,9 @@ The head agent on this server uses:
 ```bash
 git config user.name "head-server2"
 git config user.email "head-server2@lab.local"
+git config agent.id "head-server2"
+git config agent.role "head"
+git config agent.hostname "server2"
 ```
 
 Worker examples:
@@ -33,6 +41,9 @@ Worker examples:
 ```bash
 git config user.name "agent-server3"
 git config user.email "agent-server3@lab.local"
+git config agent.id "agent-server3"
+git config agent.role "worker"
+git config agent.hostname "server3"
 ```
 
 ## Task Lifecycle
@@ -119,6 +130,9 @@ git clone https://github.com/hyunjun1127/Reflection-based-KE.git ~/agent-control
 cd ~/agent-control/Reflection-based-KE
 git config user.name "agent-server3"
 git config user.email "agent-server3@lab.local"
-scripts/heartbeat.sh agent-server3 worker
-scripts/claim-task.sh agent-server3
+git config agent.id "agent-server3"
+git config agent.role "worker"
+git config agent.hostname "server3"
+scripts/heartbeat.sh
+scripts/claim-task.sh
 ```

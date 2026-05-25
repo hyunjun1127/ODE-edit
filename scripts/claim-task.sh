@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-agent_id="${1:-$(git config user.name || true)}"
+default_agent_id="$(git config --get agent.id || git config user.name || true)"
+agent_id="${1:-${default_agent_id}}"
 branch="${AGENT_BRANCH:-main}"
 
 if [ -z "${agent_id}" ]; then
