@@ -18,6 +18,7 @@ handoffs, experiment plans, and run summaries.
   each server head.
 - `messages/templates/`: message templates.
 - `agents/<server>/<agent>.json`: per-agent status files.
+- `control/`: repository-wide control markers such as sync pause signals.
 - `scripts/`: helper scripts for heartbeat, task claim, and task finish.
 
 Agent coordination rules are defined in [PROTOCOL.md](PROTOCOL.md).

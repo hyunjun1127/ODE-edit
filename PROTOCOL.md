@@ -96,6 +96,50 @@ the global head can promote accepted changes into `plans/global/` and
 The helper script `scripts/claim-task.sh <agent_id>` implements the claim/push
 part for the simple first-pending-task case.
 
+## Project Repository Sharing
+
+For each deployment, every server should keep a clone of the same project
+repository. The remote repository is the source of truth, and server-local
+clones are replaceable working copies.
+
+Use this model:
+
+- every server has a local clone of the project/control repository
+- server heads sync their clone periodically and before important writes
+- if one server fails, another server can clone the same remote and continue
+  from the latest pushed state
+- large artifacts remain outside Git and are referenced by path
+- server heads record cross-server backup, restore, and transfer requests in
+  `messages/server-heads/<server>/`
+
+Do not rely on unpushed local commits as the only copy of important state.
+Important plan updates, task state transitions, and handoff messages should be
+committed and pushed promptly.
+
+## Conflict Stop Policy
+
+If any server detects a Git conflict or unrecoverable sync failure, it must
+stop automated Git activity for that clone and report upward instead of trying
+to fix the conflict independently.
+
+Fail-stop sequence:
+
+1. the detecting agent stops scheduled sync for its local clone
+2. it writes a local report under `local/conflicts/`
+3. it notifies its `server-head`
+4. the `server-head` reports to the `global-head`
+5. the `global-head` tells the user and waits for a resolution decision
+6. no server should continue automated pull/rebase/push while the conflict is
+   being triaged
+
+The `global-head` may publish a repository-wide pause marker at
+`control/sync-paused` when all servers should stop scheduled sync. Clean clones
+that receive this marker must skip sync until the marker is removed by the
+`global-head`.
+
+The local pause marker is `.git/agent-sync.paused`. It is not committed. Remove
+it only after the conflict is resolved and the local clone is known clean.
+
 ## Periodic Sync
 
 Every server head should sync once per hour. The sync rule is:
@@ -104,6 +148,7 @@ Every server head should sync once per hour. The sync rule is:
 2. fetch and rebase onto `origin/main`
 3. push only if local commits are ahead of `origin/main`
 4. immediately before push, fetch/rebase again
+5. on conflict, write a local conflict report and pause the clone
 
 Use `scripts/sync-agent.sh` for this. It takes a local lock under `.git/` so
 two scheduled syncs on the same clone do not overlap.
@@ -193,6 +238,7 @@ Put these in `messages/`:
 - plan changes and rejected alternatives
 - task handoffs, blockers, and requested review
 - failure summaries with enough context to debug
+- conflict summaries after the global head has been notified
 - important resource or environment changes
 - cross-server observations, requests, and handoffs
 - links or paths to local logs and artifacts
