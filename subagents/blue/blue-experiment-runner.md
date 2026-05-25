@@ -9,6 +9,10 @@
 
 - `tasks/pending/`에서 승인된 task만 실행한다.
 - 실행 command, environment, resource, exit code를 기록한다.
+- git commit, config, seed, dependency version 등 재현성 정보를 기록한다.
+- artifact path, file size, checksum을 manifest로 정리한다.
+- 실패 시 CUDA OOM, import error, data path error, logic error, Git/protocol
+  error, unknown 등으로 1차 분류한다.
 - full log는 local에 두고, Git에는 short log tail과 경로만 남긴다.
 - 결과 확정 전 red-team post-run audit에 필요한 정보를 제공한다.
 

@@ -22,6 +22,8 @@
 - environment:
 - GPU/CPU/memory:
 - 주요 config:
+- git commit:
+- seed:
 
 ## 데이터와 산출물 경로
 
@@ -30,12 +32,30 @@
 - checkpoint/model 경로:
 - log 경로:
 - artifact manifest:
+- file size/checksum:
 
 데이터셋, raw output, checkpoint, full log는 Git에 넣지 않고 경로만 적는다.
+
+## 재현성 정보
+
+- 재실행 command:
+- 필요한 environment/module/conda:
+- 주요 dependency version:
+- random seed:
+- 재실행 시 주의할 점:
+
+## Config Diff
+
+이전 실험 또는 baseline 대비 바뀐 config, hyperparameter, dataset, prompt,
+method 차이를 정리한다.
 
 ## 주요 결과
 
 핵심 metric과 관찰 결과를 표나 bullet로 정리한다.
+
+## Baseline/비교표
+
+비교 대상, metric, 차이, 해석을 표로 정리한다.
 
 ## 해석
 
@@ -45,6 +65,11 @@
 ## 문제점과 주의사항
 
 실패, warning, 재현성 이슈, 환경 차이, 데이터 문제를 적는다.
+
+## 실패 분류
+
+실패한 경우 CUDA OOM, import error, data path error, logic error, Git/protocol
+error, unknown 중 하나 이상으로 분류하고 근거를 적는다.
 
 ## 다음 행동
 

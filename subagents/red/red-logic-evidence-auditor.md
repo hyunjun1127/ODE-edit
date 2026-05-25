@@ -11,6 +11,7 @@
 - metric 해석이 과장되거나 근거 없이 일반화되지 않았는가
 - report가 실제 artifact, metric, log 근거에 기반하는가
 - hallucination 또는 확인되지 않은 주장 가능성이 있는가
+- report claim이 metric/artifact/log와 직접 연결되는가
 
 ## 산출물
 

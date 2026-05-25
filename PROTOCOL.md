@@ -34,11 +34,13 @@ snippet은 원문 그대로 남길 수 있다.
   the user.
 - `server-head`: per-server coordinator. A `head-serverN` agent can update its
   server plan notes, propose tasks, inspect local resources, and coordinate
-  local workers/subagents.
+  local workers/subagents. The server-head is responsible for integrating
+  subagent outputs and deciding what gets committed.
 - `worker`: execution agent. Claims approved tasks, runs jobs, monitors logs,
   and reports results.
 - `subagent`: local helper owned by a server head or worker. Subagents should
-  not push to Git directly; their parent agent summarizes and commits results.
+  not push to Git directly; their parent agent reviews, summarizes, and commits
+  results.
 - `blue-team subagent`: 연구 파이프라인을 실행하는 subagent. Plan 실행,
   실험 실행, 결과 정리, 해석을 담당한다.
 - `red-team subagent`: blue team 작업을 감사하는 subagent. 데이터 분리,
@@ -176,21 +178,26 @@ can affect canonical plans, approved tasks, or finalized reports.
 Minimum blue-team subagents per server:
 
 - `blue-plan-runner`: plan/task를 실행 가능한 형태로 해석하고, 필요한
-  `run-scripts/`, config, command, resource 요구사항을 정리한다.
+  `run-scripts/`, config, command, resource 요구사항을 정리한다. 이전
+  실험 대비 config 차이도 함께 정리한다.
 - `blue-experiment-runner`: 승인된 task를 실행하고, job 상태, log tail,
-  artifact path, exit code를 `runs/`에 기계가 읽을 수 있게 정리한다.
+  artifact path, file size/checksum, exit code를 `runs/`에 기계가 읽을 수
+  있게 정리한다. 실패 시 CUDA OOM, import error, data path error, logic
+  error 등으로 1차 분류한다.
 - `blue-result-analyst`: 실험 결과를 한글로 정리하고 해석하여
-  `experiment-reports/servers/<server>/`에 작성한다.
+  `experiment-reports/servers/<server>/`에 작성한다. 재현성 정보, baseline
+  비교표, 핵심 metric, caveat, 다음 실험 제안을 포함한다.
 
 Minimum red-team subagents per server:
 
 - `red-data-eval-auditor`: train/test/validation 분리, data leakage,
-  evaluation set 오염, metric 계산 조건을 검사한다.
+  evaluation set 오염, metric 계산 조건, 재현 가능한 data path를 검사한다.
 - `red-logic-evidence-auditor`: 실험 가정, 비교 기준, ablation 논리,
-  결과 해석, hallucination 가능성, 근거 없는 주장 여부를 검사한다.
+  결과 해석, hallucination 가능성, 근거 없는 주장 여부를 검사한다. report
+  claim이 실제 metric/artifact/log 근거와 연결되는지 확인한다.
 - `red-git-protocol-auditor`: Git file ownership, message/report 분리,
   local-managed output 미추적, secret/checkpoint/full-log 유입 여부,
-  sync/conflict protocol 준수를 검사한다.
+  artifact manifest 존재 여부, sync/conflict protocol 준수를 검사한다.
 
 Red team 결과는 반드시 한글로 `audits/servers/<server>/`에 남긴다. Red
 team이 `block`으로 판정한 경우 server-head는 해당 task 승격, 결과 확정,
@@ -206,6 +213,49 @@ Required gates:
   report 해석, artifact path, log 근거를 검사한다.
 - `pre-push-sensitive`: canonical plan, approved task, experiment report,
   audit 결과처럼 여러 서버에 영향을 주는 변경은 red-team check 후 push한다.
+
+Red-team 판정은 다음 네 단계 중 하나를 사용한다.
+
+- `pass`: 진행 가능
+- `warn`: 진행 가능하지만 report와 message에 caveat를 남겨야 함
+- `block`: 진행 중단. 수정 또는 사용자/global-head 결정 필요
+- `waived`: 원래는 block 또는 warn이지만 global-head가 사유를 남기고 예외 허용
+
+## Server Head And Subagent Policy
+
+Subagent에게 결과 정리, 실행 준비, 감사, 분석을 맡기는 것은 맞다. 다만
+subagent는 repo의 최종 작성자가 아니다. Subagent는 초안, 검사 결과,
+근거 목록을 만들고, server-head 또는 명시된 parent agent가 이를 검토한 뒤
+commit/push한다.
+
+Server-head 책임:
+
+- blue/red subagent를 호출하고 작업 범위를 나눈다
+- subagent 산출물을 모아 서로 모순되는 부분을 정리한다
+- Red team `block` 또는 `warn`을 확인하고 필요한 수정/waiver를 결정한다
+- repo에 반영할 파일을 선별하고 file ownership을 지킨다
+- 중요한 변경 전 `git pull --rebase`를 수행하고, push 후 공유 메시지를 남긴다
+- global-head/user에게 필요한 결정을 한글로 보고한다
+
+Subagent 제한:
+
+- 직접 `git push`하지 않는다
+- `tasks/pending/`, `plans/global/` 같은 global-head 소유 경로를 직접
+  바꾸지 않는다
+- full log, checkpoint, dataset, raw output을 Git에 추가하지 않는다
+- 확정되지 않은 분석을 최종 report처럼 작성하지 않는다
+- 의심 사항은 수정하지 말고 audit 또는 message 초안으로 parent에게 보고한다
+
+권장 local 작업 흐름:
+
+1. subagent는 local scratch 또는 parent agent의 작업 메모리에 초안을 만든다
+2. server-head가 초안을 검토하고 필요한 repo path로 옮긴다
+3. red-team이 gate를 통과시키거나 `warn/block`을 남긴다
+4. server-head가 최종 파일을 commit/push한다
+
+Worker가 task lifecycle을 직접 처리하는 배포에서는 worker가 parent agent가
+될 수 있다. 이 경우에도 worker 내부 subagent는 직접 push하지 않고, worker가
+server-head 정책을 따른다.
 
 ## Conflict Stop Policy
 

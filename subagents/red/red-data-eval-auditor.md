@@ -10,6 +10,7 @@
 - test set이 학습, prompt tuning, early stopping, model selection에 쓰이지 않았는가
 - data leakage 또는 중복 샘플 가능성이 있는가
 - metric 계산 대상과 filtering 조건이 plan과 일치하는가
+- data path와 split 생성 절차가 재현 가능한가
 - dataset/output/checkpoint/full log가 Git에 들어가지 않았는가
 
 ## 산출물
