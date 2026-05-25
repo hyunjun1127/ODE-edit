@@ -1,5 +1,11 @@
 # Agent Protocol
 
+## Current Head
+
+- Server hostname: `server2`
+- Head agent ID: `head-server2`
+- Repository path: `/mnt/raid5/janghj/agent-control/Reflection-based-KE`
+
 ## Purpose
 
 Git is the durable control plane for experiment coordination. It is not a
@@ -20,6 +26,13 @@ The head agent on this server uses:
 ```bash
 git config user.name "head-server2"
 git config user.email "head-server2@lab.local"
+```
+
+Worker examples:
+
+```bash
+git config user.name "agent-server3"
+git config user.email "agent-server3@lab.local"
 ```
 
 ## Task Lifecycle
@@ -96,3 +109,16 @@ path from `runs/<task_id>/artifact_paths.json`.
 The head agent should keep user-facing reasoning in `plans/` and executable
 instructions in `tasks/pending/`. A message in `messages/head/` can describe
 intent, but workers should execute only validated task files.
+
+## Worker Bootstrap
+
+On each worker clone:
+
+```bash
+git clone https://github.com/hyunjun1127/Reflection-based-KE.git ~/agent-control/Reflection-based-KE
+cd ~/agent-control/Reflection-based-KE
+git config user.name "agent-server3"
+git config user.email "agent-server3@lab.local"
+scripts/heartbeat.sh agent-server3 worker
+scripts/claim-task.sh agent-server3
+```
