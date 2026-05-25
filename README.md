@@ -12,7 +12,7 @@ Reflection-based knowledge editing experiments and coordination records.
 - `tasks/done/`: completed task specs.
 - `tasks/failed/`: failed task specs.
 - `runs/`: summaries, metrics, log tails, and artifact path manifests.
-- `messages/`: dated head/worker messages.
+- `messages/`: detailed shared summaries, decisions, and coordination updates.
 - `agents/<server>/<agent>.json`: per-agent status files.
 - `scripts/`: helper scripts for heartbeat, task claim, and task finish.
 

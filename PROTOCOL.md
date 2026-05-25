@@ -134,6 +134,34 @@ plans/current.md
 runs/all_status.json
 ```
 
+## Message Policy
+
+`messages/` is for shared coordination, not raw logs. Agents should write
+detailed but curated messages that are useful to another agent or to the user.
+
+Put these in `messages/`:
+
+- decisions and their rationale
+- plan changes and rejected alternatives
+- task handoffs, blockers, and requested review
+- failure summaries with enough context to debug
+- important resource or environment changes
+- links or paths to local logs and artifacts
+
+Do not put these in `messages/`:
+
+- full shell transcripts
+- complete stdout/stderr logs
+- repeated progress ticks with no new information
+- private scratch reasoning
+- credentials, tokens, or SSH material
+
+Raw local logs should stay outside Git under `local/`, server-local storage, or
+shared storage. A shared message may reference them by path. The right level of
+detail is enough for a future agent to understand what changed, why it changed,
+what evidence supports it, and what should happen next without reading the full
+local transcript.
+
 ## Artifact Rule
 
 Git may store:
@@ -143,6 +171,7 @@ Git may store:
 - small JSON metrics
 - short log tails
 - artifact path manifests
+- detailed shared messages
 
 Git must not store:
 
