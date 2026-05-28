@@ -78,3 +78,27 @@ agent_policy_require_worker_role() {
     exit 6
   fi
 }
+
+agent_policy_require_global_head_role() {
+  agent_role="${1:-}"
+  agent_policy_require_known_role "${agent_role}"
+
+  if [ "${agent_role}" != "global-head" ]; then
+    echo "this helper is global-head-only; current role is ${agent_role}" >&2
+    exit 6
+  fi
+}
+
+agent_policy_require_task_status_writer_role() {
+  agent_role="${1:-}"
+  agent_policy_require_known_role "${agent_role}"
+
+  case "${agent_role}" in
+    global-head|server-head)
+      ;;
+    *)
+      echo "task status updates are global-head/server-head-only; current role is ${agent_role}" >&2
+      exit 6
+      ;;
+  esac
+}

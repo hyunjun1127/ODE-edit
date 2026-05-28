@@ -38,16 +38,16 @@ is_global_head_allowed() {
   path="${1}"
 
   case "${path}" in
-    PROTOCOL.md|README.md|.gitignore)
+    PROTOCOL.md|README.md|.gitignore|local/README.md)
       return 0
       ;;
-    scripts/*|subagents/*|messages/templates/*|tasks/templates/*|audits/templates/*|experiment-reports/templates/*|transfers/templates/*|servers/templates/*)
+    scripts/*|project/*|subagents/*|docs/*|local/templates/*|messages/templates/*|tasks/templates/*|runs/templates/*|audits/templates/*|experiment-reports/templates/*|transfers/templates/*|servers/templates/*|run-scripts/*)
       return 0
       ;;
-    plans/global/*|tasks/pending/*|messages/head/*|transfers/approvals/*|servers/active/*|servers/retired/*|control/*|experiment-reports/global/*|audits/*)
+    plans/global/*|tasks/pending/*|tasks/done/*|tasks/failed/*|tasks/status/.gitkeep|tasks/status/*/*|messages/README.md|messages/head/*|messages/server-heads/*|messages/acks/.gitkeep|messages/acks/"${agent_hostname}"/*|transfers/approvals/*|transfers/verifications/*|servers/connection-inventory.md|servers/active/*|servers/retired/*|control/*|experiment-reports/global/*|audits/*)
       return 0
       ;;
-    agents/"${agent_hostname}"/"${agent_id}".json)
+    agents/"${agent_hostname}"/*.json)
       return 0
       ;;
   esac
@@ -59,7 +59,10 @@ is_server_head_allowed() {
   path="${1}"
 
   case "${path}" in
-    agents/"${agent_hostname}"/*|plans/updates/"${agent_hostname}"/*|tasks/proposed/"${agent_hostname}"/*|messages/server-heads/"${agent_hostname}"/*|audits/servers/"${agent_hostname}"/*|experiment-reports/servers/"${agent_hostname}"/*)
+    README.md)
+      return 0
+      ;;
+    agents/"${agent_hostname}"/*|plans/updates/"${agent_hostname}"/*|tasks/proposed/"${agent_hostname}"/*|tasks/status/*/"${agent_hostname}".json|messages/server-heads/"${agent_hostname}"/*|messages/acks/"${agent_hostname}"/*|audits/servers/"${agent_hostname}"/*|experiment-reports/servers/"${agent_hostname}"/*)
       return 0
       ;;
     transfers/requests/*|transfers/verifications/*)

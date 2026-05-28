@@ -1,0 +1,4 @@
+Recent log tail only. Keep this short, normally the last 50 lines or fewer.
+
+Do not paste full Slurm stdout/stderr logs into Git. Include enough lines for
+the global-head to understand current progress, ETA caveats, and recent errors.

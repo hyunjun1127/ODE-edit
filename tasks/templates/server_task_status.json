@@ -1,0 +1,11 @@
+{
+  "task_id": "<task_id>",
+  "server": "<server>",
+  "agent_id": "<server-head-agent-id>",
+  "agent_role": "server-head",
+  "status": "acknowledged|running|done|failed|blocked|manual_required|waived",
+  "updated_at": "YYYY-MM-DDTHH:MM:SS+09:00",
+  "ack_path": "messages/acks/<server>/YYYY-MM-DD.md",
+  "report_dir": "messages/server-heads/<server>/",
+  "note": "<short Korean status note>"
+}

@@ -1,0 +1,32 @@
+{
+  "run_id": "<run_id>",
+  "task_id": "<task_id>",
+  "server": "<server>",
+  "agent_id": "<agent_id>",
+  "status": "pending|running|done|failed|blocked",
+  "updated_at": "YYYY-MM-DDTHH:MM:SS+09:00",
+  "progress": {
+    "current_step": null,
+    "total_steps": null,
+    "current_epoch": null,
+    "total_epochs": null,
+    "percent": null,
+    "eta_seconds": null,
+    "eta_note": "Set to null when the run does not expose reliable ETA."
+  },
+  "slurm": {
+    "job_id": null,
+    "state": null,
+    "elapsed": null,
+    "time_limit": null,
+    "node": null
+  },
+  "paths": {
+    "raw_stdout": "/path/to/slurm.out",
+    "raw_stderr": "/path/to/slurm.err",
+    "log_tail_file": "runs/<run_id>/log-tail.<agent_id>.txt",
+    "artifact_paths_file": "runs/<run_id>/artifact-paths.<agent_id>.md"
+  },
+  "last_log_timestamp": null,
+  "summary": "Short human-readable status for global-head progress answers."
+}

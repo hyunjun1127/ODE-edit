@@ -11,7 +11,12 @@
 
 # Large experiment outputs
 logs/
-local/
+local/*
+!local/README.md
+!local/templates/
+!local/templates/**
+project/local/
+servers/local/
 data/
 outputs/
 results/

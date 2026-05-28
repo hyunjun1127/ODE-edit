@@ -1,0 +1,23 @@
+id: <command_id>
+type: global_head_command
+created_by: <global-head-agent-id>
+created_at: "YYYY-MM-DDTHH:MM:SS+TZ"
+priority: normal
+target_servers:
+  - <server>
+ack_required: true
+command_summary: "<short command>"
+instructions:
+  - "<step 1>"
+  - "<step 2>"
+acceptance_criteria:
+  - "<observable result>"
+expected_updates:
+  - "messages/acks/<server>/YYYY-MM-DD.md"
+  - "tasks/status/<command_id>/<server>.json"
+  - "messages/server-heads/<server>/YYYY-MM-DD.md"
+closure_policy:
+  owner: global-head
+  close_when: "all target servers are done or explicitly waived"
+  closure_note: "tasks/done/<command_id>.closure.md"
+notes: "Copy this file into tasks/pending/ and replace fields before dispatch. Server-heads must not claim or move this task."

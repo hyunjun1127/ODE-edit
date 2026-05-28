@@ -4,13 +4,53 @@ created_by: <global-head-agent-id>
 created_at: "YYYY-MM-DDTHH:MM:SS+TZ"
 cwd: /path/to/project
 command: bash scripts/run_exp.sh
+submission:
+  mode: local|remote_ssh
+  submitted_by: <agent-id>
+  target_server: <server>
+  target_repo_path: /path/to/repo
+  target_head_commit: <git-sha>
+  remote_preflight_report: messages/server-heads/<server>/YYYY-MM-DD-<experiment_id>-submit-report.md
+  active_gates:
+    - "<gate name and decision>"
 resources:
   gpu: 1
   mem_gb: 48
   time: "24:00:00"
+slurm:
+  job_id: <filled-after-submit>
+  job_name: <slurm-job-name>
+  fanout_dependency_job_id: <filled-after-submit>
+  gpu_cap_policy: "<deployment-specific GPU cap policy>"
+blue_team:
+  monitor_status: true
+  postrun_report: experiment-reports/servers/<server>/<experiment_id>.md
+  required_sections:
+    - purpose_and_claim
+    - command_config_commit
+    - artifacts_and_reproducibility
+    - metric_tables
+    - representative_samples
+    - interpretation_limits_next_steps
+red_team:
+  postsubmit_audit: audits/servers/<server>/<experiment_id>.postsubmit.md
+  postrun_audit: audits/servers/<server>/<experiment_id>.postrun.md
+  required_checks:
+    - resource_collision_and_gpu_cap
+    - dependency_ordering_and_duplicate_experiments
+    - code_config_specificity
+    - data_eval_split_and_leakage
+    - artifact_git_boundary
+    - claim_evidence_alignment
 allowed_workers: []
 outputs:
-  artifact_dir: /path/to/project/results/exp_example
-  stdout: /path/to/project/logs/exp_example.out
-  stderr: /path/to/project/logs/exp_example.err
+  artifact_dir: local/results/raw/experiments/<experiment_family>/<slurm_job_id>_<slurm_job_name>
+  stdout: local/logs/slurm/<experiment_family>/<slurm_job_id>_<slurm_job_name>.out
+  stderr: local/logs/slurm/<experiment_family>/<slurm_job_id>_<slurm_job_name>.err
+progress_reporting:
+  status_json: runs/exp_example/status.<agent_id>.json
+  log_tail: runs/exp_example/log-tail.<agent_id>.txt
+  artifact_paths: runs/exp_example/artifact-paths.<agent_id>.md
+  update_interval_minutes: 10
+  raw_logs_stay_out_of_git: true
 notes: "Copy this file into tasks/pending/ and replace fields before dispatch."

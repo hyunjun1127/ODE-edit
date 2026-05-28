@@ -12,6 +12,9 @@ Git is the durable control plane for experiment coordination. It stores plans,
 task metadata, repository-managed scripts, status summaries, Korean experiment
 reports, and small run records. It is not a real-time message queue and it is
 not storage for large artifacts.
+SSH, Slurm, and rsync are the execution plane. Once SSH mesh is available,
+global-head may submit remote jobs after preflight, but the target server-head
+still owns the experiment lifecycle and evidence review.
 
 ## Language Policy
 
@@ -60,7 +63,9 @@ All agents must follow these rules.
   possible
 - never commit credentials, SSH material, datasets, checkpoints, raw outputs,
   generated outputs at scale, or full logs
-- never run unapproved repeated/open-ended `rsync` or large file transfer
+- never run destructive `rsync --delete`, sensitive file transfer, or repo
+  external large transfer without explicit user/global-head approval. Ordinary
+  project artifact fan-out under `local/` uses the approved helper flow.
 - stop and report upward on Git conflict, uncertain destructive action, or
   red-team `block`
 - write enough evidence for another agent to reproduce the decision without
@@ -100,6 +105,9 @@ Actions that require escalation:
 - edit `plans/global/`: `global-head`
 - record `transfers/approvals/`: `global-head` after user decision
 - execute a large transfer: designated agent only after recorded user approval
+- execute ordinary project artifact fan-out under `local/`: submitting or
+  source-server agent through `scripts/rsync-artifact-fanout.sh` or a Slurm
+  `afterany` fan-out dependency
 - waive red-team `warn` or `block`: `global-head`, with reason in `audits/`
 - register or retire a server: `global-head` with user/server-owner context
 - modify `control/sync-paused`: `global-head`
@@ -172,6 +180,13 @@ the global head can promote accepted changes into `plans/global/` and
 
 ## Task Lifecycle
 
+Do not create a task for every message. Most policy announcements, research
+decisions, and one-off status updates belong only in `messages/`. Use
+`tasks/` when work needs durable per-server state, execution ownership, or a
+global-head closure decision.
+
+Worker execution lifecycle:
+
 1. A server head writes plan updates under `plans/updates/<server>/` or task
    proposals under `tasks/proposed/<server>/`.
 2. Red team performs a pre-flight audit before the proposal is promoted.
@@ -193,6 +208,11 @@ the global head can promote accepted changes into `plans/global/` and
 The helper script `scripts/claim-task.sh <agent_id>` implements the claim/push
 part for the simple first-pending-task case.
 
+Broadcast/global-head command tasks are not worker-claimable. When a command
+targets multiple servers, the global-head writes a readable message under
+`messages/head/`, optionally creates a structured task under `tasks/pending/`,
+and each target server writes status under `tasks/status/<task_id>/<server>.json`.
+
 ## Project Repository Sharing
 
 For each deployment, every server should keep a clone of the same project
@@ -213,6 +233,28 @@ Do not rely on unpushed local commits as the only copy of important state.
 Important plan updates, task state transitions, and handoff messages should be
 committed and pushed promptly.
 
+## SSH Mesh Execution Model
+
+When server-to-server SSH aliases are configured, use Git for durable
+instruction and evidence, but use SSH/Slurm/rsync for execution.
+
+Rules:
+
+1. Global-head may run a remote submission such as
+   `ssh <alias> 'cd <repo> && sbatch ...'` only after checking the target
+   clone, required local artifacts, current Git commit, Slurm access, and
+   server-specific resource caps.
+2. A remotely submitted job is target-server owned. The target server-head
+   acknowledges it after sync and performs or delegates post-submit red-team,
+   post-run blue-team, and post-run red-team review when the deployment uses
+   those gates.
+3. Ordinary artifacts under `local/` are shared by automatic rsync fan-out and,
+   for Slurm jobs, an `afterany:<job_id>` fan-out dependency.
+4. `transfers/` is reserved for manual exceptions: external paths, destructive
+   mirror behavior, sensitive material, or unusual overwrite risk.
+5. A Git message or task does not execute LLM analysis by itself. Analysis
+   happens only when an agent session or explicit automation is alive.
+
 ## Repository-Managed And Local-Managed Files
 
 Keep scripts and coordination state in Git. Keep datasets and heavy experiment
@@ -221,7 +263,7 @@ outputs local.
 Repository-managed:
 
 - `scripts/`: agent helper scripts such as sync, heartbeat, claim, and finish
-- `run-scripts/`: experiment execution scripts and wrappers
+- `project/run_scripts/`: experiment execution scripts and wrappers
 - `subagents/`: required blue/red team role specs
 - `audits/`: Korean red-team audit reports
 - `servers/`: server onboarding/offboarding records and templates
@@ -268,11 +310,22 @@ Do not store in Git:
 - full stdout/stderr logs
 - datasets or preprocessed datasets
 
-Large file transfers between servers require explicit approval through the
-global-head/user path. Agents must not run repeated or open-ended `rsync`
-transfers on their own.
+Ordinary project artifact sharing under repo-local `local/` is automatic once
+SSH mesh is configured. It uses `scripts/rsync-artifact-fanout.sh` and, for
+Slurm jobs, the mandatory `afterany` dependency helper. Per-transfer user
+approval is not required for normal experiment raw results, run logs, Slurm
+logs, datasets, and checkpoints that are already part of this project.
 
-Transfer workflow:
+Manual transfer approval is still required for exceptions:
+
+- `rsync --delete` or destructive mirror behavior
+- repo-external source or destination paths
+- sensitive/private paths such as `local/secrets/`, SSH material, private
+  inventories, credentials, tokens, or passphrases
+- unusual overwrite risk or unclear ownership
+- one-time import/export outside normal project fan-out
+
+Manual-exception transfer workflow:
 
 1. requesting server-head writes a Korean request under `transfers/requests/`
    and links it from `messages/server-heads/<server>/`
@@ -297,6 +350,35 @@ Approval scope is narrow. A user approval applies only to the source,
 destination, overwrite policy, and command described in that request. Any
 different path, retry strategy, recursive directory, or overwrite behavior
 requires a new approval.
+
+### Ordinary Artifact Fan-Out
+
+Server-local `local/` folders are not shared through Git. When ordinary project
+artifacts need to be copied between active servers, use:
+
+```bash
+scripts/rsync-artifact-fanout.sh local/results/raw/<run_id>
+scripts/rsync-artifact-fanout.sh local/logs/slurm/<family>
+```
+
+For Slurm experiment submissions, submit a second dependency job:
+
+```bash
+scripts/submit-artifact-fanout-dependency.sh --job-id <experiment_job_id> \
+  local/results/raw/<run_id> \
+  local/logs/slurm/<family> \
+  local/logs/run/<family>
+```
+
+Required constraints:
+
+- no `--delete`
+- exclude `local/secrets/`, SSH material, credentials, private inventory,
+  `local/scratch/`, `local/run_scripts/`, `local/conflicts/`, `local/tmp/`,
+  and `local/.cache/`
+- record compact evidence in `runs/`, `messages/`, reports, or fan-out Slurm
+  logs
+- use `transfers/` only for manual exceptions
 
 ## Dynamic Server Lifecycle
 
@@ -345,7 +427,7 @@ can affect canonical plans, approved tasks, or finalized reports.
 Minimum blue-team subagents per server:
 
 - `blue-plan-runner`: plan/task를 실행 가능한 형태로 해석하고, 필요한
-  `run-scripts/`, config, command, resource 요구사항을 정리한다. 이전
+  `project/run_scripts/`, config, command, resource 요구사항을 정리한다. 이전
   실험 대비 config 차이도 함께 정리한다.
 - `blue-experiment-runner`: 승인된 task를 실행하고, job 상태, log tail,
   artifact path, file size/checksum, exit code를 `runs/`에 기계가 읽을 수
@@ -667,7 +749,7 @@ Git may store:
 - server lifecycle records under `servers/`
 - user-approved transfer requests, approvals, and verification summaries under
   `transfers/`
-- experiment run scripts under `run-scripts/`
+- experiment run scripts under `project/run_scripts/`
 - small JSON metrics
 - short log tails
 - artifact path manifests
