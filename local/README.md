@@ -14,4 +14,4 @@ Use it for server-local runtime state:
 
 Do not commit datasets, checkpoints, raw outputs, full logs, credentials,
 private SSH material, or private connection inventory. Share ordinary project
-artifacts between servers with `scripts/rsync-artifact-fanout.sh`.
+artifacts between servers with `scripts/rsync-artifact-broadcast.sh`.

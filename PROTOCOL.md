@@ -65,7 +65,7 @@ All agents must follow these rules.
   generated outputs at scale, or full logs
 - never run destructive `rsync --delete`, sensitive file transfer, or repo
   external large transfer without explicit user/global-head approval. Ordinary
-  project artifact fan-out under `local/` uses the approved helper flow.
+  project artifact broadcast under `local/` uses the approved helper flow.
 - stop and report upward on Git conflict, uncertain destructive action, or
   red-team `block`
 - write enough evidence for another agent to reproduce the decision without
@@ -93,8 +93,8 @@ Role access matrix:
 
 | Role | Primary parent | May own/write | Must not directly write |
 | --- | --- | --- | --- |
-| `global-head` | user | `plans/global/`, `tasks/pending/`, `messages/head/`, `transfers/approvals/`, `servers/active/`, `servers/retired/`, `control/`, `experiment-reports/global/`, protocol/template updates | server-local raw output, another role's unreviewed execution results, unapproved transfer execution |
-| `server-head` | global-head | `plans/updates/<server>/`, `tasks/proposed/<server>/`, `messages/server-heads/<server>/`, `agents/<server>/`, `audits/servers/<server>/`, `experiment-reports/servers/<server>/`, `transfers/requests/`, approved `transfers/verifications/`, own `servers/active/<server>.md` updates | `plans/global/`, `tasks/pending/`, `messages/head/`, `transfers/approvals/`, other server-owned files |
+| `global-head` | user | `plans/global/`, `tasks/pending/`, `messages/head/`, `messages/inbox/<server>.md`, `transfers/approvals/`, `servers/active/`, `servers/retired/`, `control/`, `experiment-reports/global/`, protocol/template updates | server-local raw output, another role's unreviewed execution results, unapproved transfer execution |
+| `server-head` | global-head | `plans/updates/<server>/`, `tasks/proposed/<server>/`, `messages/server-heads/<server>/`, `agents/<server>/`, `audits/servers/<server>/`, `experiment-reports/servers/<server>/`, `transfers/requests/`, approved `transfers/verifications/`, own `servers/active/<server>.md` updates | `plans/global/`, `tasks/pending/`, `messages/head/`, `messages/inbox/`, `transfers/approvals/`, other server-owned files |
 | `worker` | server-head | its claimed `tasks/running/<task>.<agent>.*`, matching `tasks/done/` or `tasks/failed/`, `runs/<run_id>/...<agent>.*`, `agents/<server>/<agent>.json`, assigned report/audit evidence under its server | creating tasks, editing canonical plans, approving transfers, changing server lifecycle, editing other agents' task/run files |
 | `blue-team subagent` | server-head or worker | local scratch, draft plan/run/report material for parent review | direct Git push, final report promotion, task approval, transfer approval, red-team waiver |
 | `red-team subagent` | server-head or worker | local scratch and audit drafts for parent review | direct Git push, modifying blue-team artifacts instead of reporting issues, waiving its own blocker |
@@ -105,9 +105,10 @@ Actions that require escalation:
 - edit `plans/global/`: `global-head`
 - record `transfers/approvals/`: `global-head` after user decision
 - execute a large transfer: designated agent only after recorded user approval
-- execute ordinary project artifact fan-out under `local/`: submitting or
-  source-server agent through `scripts/rsync-artifact-fanout.sh` or a Slurm
-  `afterany` fan-out dependency
+- execute ordinary project artifact broadcast under `local/`: submitting or
+  source-server agent through `scripts/rsync-artifact-broadcast.sh`, or a Slurm
+  `afterany` broadcast dependency when immediate post-job copy is explicitly
+  desired
 - waive red-team `warn` or `block`: `global-head`, with reason in `audits/`
 - register or retire a server: `global-head` with user/server-owner context
 - modify `control/sync-paused`: `global-head`
@@ -248,12 +249,47 @@ Rules:
    acknowledges it after sync and performs or delegates post-submit red-team,
    post-run blue-team, and post-run red-team review when the deployment uses
    those gates.
-3. Ordinary artifacts under `local/` are shared by automatic rsync fan-out and,
-   for Slurm jobs, an `afterany:<job_id>` fan-out dependency.
+3. Ordinary artifacts under `local/` are shared by rsync artifact broadcast
+   after the source server-head verifies the job output. A Slurm
+   `afterany:<job_id>` broadcast dependency is available when the global-head
+   or user explicitly wants immediate post-job artifact copy.
 4. `transfers/` is reserved for manual exceptions: external paths, destructive
    mirror behavior, sensitive material, or unusual overwrite risk.
 5. A Git message or task does not execute LLM analysis by itself. Analysis
    happens only when an agent session or explicit automation is alive.
+
+## Server-Head Experiment Lifecycle
+
+Default experiment ownership is server-local. The global-head should normally
+write an instruction or approved task, then the target server-head handles the
+experiment lifecycle on its own server.
+
+Default lifecycle:
+
+1. global-head writes the experiment intent under `messages/inbox/<server>.md`
+   or creates/promotes a structured task under `tasks/pending/`
+2. target server-head syncs, reads the inbox/task, and writes an ack
+3. blue-plan-runner converts the intent into concrete config, command, resource
+   request, output path, and expected metric table
+4. red-team performs pre-flight audit: data split, leakage, command, resource
+   request, output boundary, and novelty/logic checks when relevant
+5. server-head submits the Slurm job and records job id, job name, command,
+   commit SHA, and artifact paths
+6. blue-experiment-runner monitors progress, preserves generated outputs under
+   `local/`, and writes compact run metadata under `runs/`
+7. after completion or failure, blue-result-analyst writes a Korean result
+   report with metric definitions and artifact paths
+8. red-team performs post-run audit and marks `pass`, `warn`, or `block`
+9. if normal artifact broadcast is appropriate, server-head runs
+   `scripts/rsync-artifact-broadcast.sh` or the Slurm broadcast dependency
+   helper, then records verification evidence
+10. server-head reports closure or blocker to global-head/user through
+    `messages/server-heads/<server>/`, `experiment-reports/`, and `audits/`
+
+Global-head may directly submit a remote Slurm job only for explicit user
+instruction, emergency scheduling, or time-critical exploratory work. Even in
+that case, the target server-head owns post-submit acknowledgement, monitoring,
+audit, reporting, and artifact broadcast once it syncs.
 
 ## Repository-Managed And Local-Managed Files
 
@@ -311,10 +347,11 @@ Do not store in Git:
 - datasets or preprocessed datasets
 
 Ordinary project artifact sharing under repo-local `local/` is automatic once
-SSH mesh is configured. It uses `scripts/rsync-artifact-fanout.sh` and, for
-Slurm jobs, the mandatory `afterany` dependency helper. Per-transfer user
-approval is not required for normal experiment raw results, run logs, Slurm
-logs, datasets, and checkpoints that are already part of this project.
+SSH mesh is configured. It uses `scripts/rsync-artifact-broadcast.sh`; for
+Slurm jobs, `scripts/submit-artifact-broadcast-dependency.sh` may be used when
+immediate post-job copy is explicitly desired. Per-transfer user approval is
+not required for normal experiment raw results, run logs, Slurm logs, datasets,
+and checkpoints that are already part of this project.
 
 Manual transfer approval is still required for exceptions:
 
@@ -323,7 +360,7 @@ Manual transfer approval is still required for exceptions:
 - sensitive/private paths such as `local/secrets/`, SSH material, private
   inventories, credentials, tokens, or passphrases
 - unusual overwrite risk or unclear ownership
-- one-time import/export outside normal project fan-out
+- one-time import/export outside normal project broadcast
 
 Manual-exception transfer workflow:
 
@@ -351,20 +388,21 @@ destination, overwrite policy, and command described in that request. Any
 different path, retry strategy, recursive directory, or overwrite behavior
 requires a new approval.
 
-### Ordinary Artifact Fan-Out
+### Ordinary Artifact Broadcast
 
 Server-local `local/` folders are not shared through Git. When ordinary project
 artifacts need to be copied between active servers, use:
 
 ```bash
-scripts/rsync-artifact-fanout.sh local/results/raw/<run_id>
-scripts/rsync-artifact-fanout.sh local/logs/slurm/<family>
+scripts/rsync-artifact-broadcast.sh local/results/raw/<run_id>
+scripts/rsync-artifact-broadcast.sh local/logs/slurm/<family>
 ```
 
-For Slurm experiment submissions, submit a second dependency job:
+For Slurm experiment submissions that should copy immediately after the job
+finishes, submit a second dependency job:
 
 ```bash
-scripts/submit-artifact-fanout-dependency.sh --job-id <experiment_job_id> \
+scripts/submit-artifact-broadcast-dependency.sh --job-id <experiment_job_id> \
   local/results/raw/<run_id> \
   local/logs/slurm/<family> \
   local/logs/run/<family>
@@ -376,7 +414,7 @@ Required constraints:
 - exclude `local/secrets/`, SSH material, credentials, private inventory,
   `local/scratch/`, `local/run_scripts/`, `local/conflicts/`, `local/tmp/`,
   and `local/.cache/`
-- record compact evidence in `runs/`, `messages/`, reports, or fan-out Slurm
+- record compact evidence in `runs/`, `messages/`, reports, or broadcast Slurm
   logs
 - use `transfers/` only for manual exceptions
 
@@ -447,6 +485,21 @@ Minimum red-team subagents per server:
 - `red-git-protocol-auditor`: Git file ownership, message/report 분리,
   local-managed output 미추적, secret/checkpoint/full-log 유입 여부,
   artifact manifest 존재 여부, sync/conflict protocol 준수를 검사한다.
+
+Red team research-audit behavior:
+
+- 연구 방향을 점검할 때는 항상 근본 시작점부터 다시 묻는다. 최근 실험 실패가
+  단순 reframing 문제인지, 아니면 중심 가설 자체의 실패 신호인지 분리한다.
+- 관련 연구는 이름만 나열하지 않는다. 각 논문의 actual method, supervision,
+  runtime input, retrieval/routing assumption, intervention timing, metric,
+  reported result를 직접 비교한다.
+- `interesting`, `useful diagnostic`, `novel`, `paper-ready`를 구분한다.
+  흥미로운 signal이 바로 novelty나 publishable contribution을 의미하지 않는다.
+- 실험 결과를 냉정하게 해석한다. Positive result는 leakage, prompt length,
+  stronger instruction, oracle retrieval, parser artifact, cherry-picking,
+  model-specific behavior로 설명 가능한지 먼저 검사한다.
+- Blue team이나 global-head가 원래 아이디어를 살리는 방향으로만 결론을 내릴
+  때는, 대체 설명과 중단 기준을 명시적으로 요구한다.
 
 Red team 결과는 반드시 한글로 `audits/servers/<server>/`에 남긴다. Red
 team이 `block`으로 판정한 경우 server-head는 해당 task 승격, 결과 확정,
@@ -536,7 +589,8 @@ it only after the conflict is resolved and the local clone is known clean.
 
 ## Periodic Sync
 
-Every server head should sync once per hour. The sync rule is:
+Every global-head and server-head clone should sync every 10 minutes with a
+staggered startup delay per server. The sync rule is:
 
 1. do nothing if the working tree has uncommitted changes
 2. fetch and rebase onto `origin/main`
@@ -550,16 +604,28 @@ two scheduled syncs on the same clone do not overlap.
 Agents do not wake themselves up after a session exits. Use `cron`,
 `systemd timer`, or another scheduler to call `scripts/sync-agent.sh`.
 
-Recommended cron entry:
+Recommended systemd installation:
+
+```bash
+scripts/install-sync-timer.sh
+```
+
+The template default is `OnUnitActiveSec=10min`, `AccuracySec=30s`, and a
+server-dependent startup delay. If using cron instead, stagger each server
+manually.
+
+Recommended cron entries:
 
 ```cron
-0 * * * * cd /path/to/agent-control && scripts/sync-agent.sh >> local/sync-agent.log 2>&1
+1-59/10 * * * * cd /path/to/agent-control && scripts/sync-agent.sh >> local/sync-agent.log 2>&1
+3-59/10 * * * * cd /path/to/agent-control && scripts/sync-agent.sh >> local/sync-agent.log 2>&1
+7-59/10 * * * * cd /path/to/agent-control && scripts/sync-agent.sh >> local/sync-agent.log 2>&1
 ```
 
 Do not use the periodic sync as a substitute for task state transitions. When
 an agent claims, finishes, fails, or publishes an important shared message, it
-should commit and push that state transition immediately. The hourly sync is
-a safety net for ordinary server-head updates and cross-server coordination.
+should commit and push that state transition immediately. Periodic sync is a
+safety net for ordinary server-head updates and cross-server coordination.
 
 Do not enable automatic `git stash` or `git pull --autostash` for agents. A
 dirty working tree means the agent is in the middle of writing something; the
@@ -631,6 +697,11 @@ user.
 Use these paths:
 
 - `messages/head/YYYY-MM-DD.md`: global-head announcements and decisions.
+- `messages/inbox/<server>.md`: global-head-owned durable instruction inbox
+  for one target server. The target server-head reads this file but reports
+  execution status through `messages/server-heads/<server>/`,
+  `messages/acks/<server>/`, `tasks/status/`, reports, or audits instead of
+  editing the inbox.
 - `messages/server-heads/<server>/YYYY-MM-DD.md`: shared updates written by
   that server's `server-head`.
 - `messages/templates/`: reusable message templates.
@@ -640,6 +711,8 @@ Put these in `messages/`:
 - decisions and their rationale
 - plan changes and rejected alternatives
 - task handoffs, blockers, and requested review
+- target-server instructions that a live server-head agent or automation must
+  read and execute; Git does not execute the instruction by itself
 - failure summaries with enough context to debug
 - conflict summaries after the global head has been notified
 - important resource or environment changes

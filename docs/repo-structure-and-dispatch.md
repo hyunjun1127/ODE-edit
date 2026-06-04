@@ -20,9 +20,11 @@ runs through active agents, SSH, Slurm, and one-shot rsync jobs.
 |---|---|---|
 | Operating rules | `PROTOCOL.md` | Final policy source |
 | Human overview | `README.md` | Layout and artifact boundary |
+| Research proposals | `project/proposals/` | New GH handoff and project proposal drafts |
 | Redacted SSH/rsync inventory | `servers/connection-inventory.md` | Raw host/IP/user/port stays in `servers/local/` |
 | Server/agent state | `agents/<server>/` | Heartbeat, sync, and subagent status |
 | Global-head messages | `messages/head/` | Human-readable broadcasts and decisions |
+| Server inbox | `messages/inbox/<server>.md` | Global-head-owned durable instructions for one target server |
 | Server-head messages | `messages/server-heads/<server>/` | Source server reports and blockers |
 | Message index | `messages/README.md` | All server-heads read this and ack |
 | Message ack | `messages/acks/<server>/` | Each server writes only its own ack |
@@ -31,9 +33,9 @@ runs through active agents, SSH, Slurm, and one-shot rsync jobs.
 | Experiment reports | `experiment-reports/` | Human interpretation and result summaries |
 | Red-team audits | `audits/` | Logic, protocol, data, and result audits |
 | Run scripts | `project/run_scripts/` | Root `run-scripts/` is deprecated |
-| Raw artifacts | `local/` | Git ignored; share by rsync fan-out |
-| Artifact fan-out helper | `scripts/rsync-artifact-fanout.sh` | Source server executes |
-| Slurm fan-out dependency | `scripts/submit-artifact-fanout-dependency.sh` | Submit with experiment job |
+| Raw artifacts | `local/` | Git ignored; share by rsync broadcast |
+| Artifact broadcast helper | `scripts/rsync-artifact-broadcast.sh` | Source server executes |
+| Slurm broadcast dependency | `scripts/submit-artifact-broadcast-dependency.sh` | Optional immediate post-job broadcast |
 
 ## Deprecated Or Legacy Paths
 
@@ -41,7 +43,7 @@ runs through active agents, SSH, Slurm, and one-shot rsync jobs.
 |---|---|---|
 | `run-scripts/` | deprecated | `project/run_scripts/` |
 | `workers/` | deprecated/unused | `agents/<server>/`, `tasks/running/`, `runs/<run_id>/` |
-| `transfers/` for ordinary artifacts | legacy | automatic `local/` fan-out |
+| `transfers/` for ordinary artifacts | legacy | automatic `local/` broadcast |
 | old policy-adoption tasks in `tasks/pending/` | cleanup backlog | close or waive once policy is merged |
 
 ## SSH Mesh Dispatch
@@ -54,7 +56,8 @@ user
   -> global-head
        -> ssh <target-server> preflight
        -> ssh <target-server> sbatch
-       -> afterany artifact fan-out dependency
+       -> server-head completion/audit
+       -> artifact broadcast
        -> target server-head blue/red review
 ```
 
@@ -62,9 +65,13 @@ Rules:
 
 1. A remotely submitted job is owned by the target server.
 2. The target server-head acknowledges and reviews the job after sync.
-3. Ordinary artifacts stay under `local/` and are shared by fan-out rsync.
+3. Ordinary artifacts stay under `local/` and are shared by artifact broadcast.
 4. Git receives compact status, reports, summaries, and manifests only.
 5. LLM analysis requires an active agent process or explicit automation.
+
+Inbox/task instructions do not execute by themselves. A target server-head must
+sync, read the inbox/task, run preflight, submit or delegate the job, monitor
+completion, audit, report, and then broadcast artifacts when appropriate.
 
 ## Task Compression
 

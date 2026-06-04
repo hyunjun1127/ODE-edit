@@ -20,6 +20,6 @@
 
 - Keep checkpoints, datasets, raw outputs, model weights, and full logs outside Git.
 - Ordinary project artifacts under `local/` can be shared by automatic rsync
-  fan-out. Use `transfers/` only for manual exceptions such as repo-external
+  broadcast. Use `transfers/` only for manual exceptions such as repo-external
   paths, destructive mirror behavior, sensitive material, or unusual overwrite
   risk.

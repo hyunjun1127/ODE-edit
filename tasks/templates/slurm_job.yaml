@@ -20,7 +20,7 @@ resources:
 slurm:
   job_id: <filled-after-submit>
   job_name: <slurm-job-name>
-  fanout_dependency_job_id: <filled-after-submit>
+  broadcast_dependency_job_id: <filled-after-submit-or-null>
   gpu_cap_policy: "<deployment-specific GPU cap policy>"
 blue_team:
   monitor_status: true

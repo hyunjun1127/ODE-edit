@@ -27,6 +27,6 @@
 ## 주의 사항
 
 - credentials, token, private key는 기록하지 않는다.
-- 실험 완료 후 Git-excluded artifact 공유는 자동 rsync fan-out 정책을 따른다.
+- 실험 완료 후 Git-excluded artifact 공유는 자동 rsync broadcast 정책을 따른다.
 - `--delete`, credentials, `local/secrets/`, private inventory, SSH material 전송은
   사용자 명시 승인 없이는 실행하지 않는다.

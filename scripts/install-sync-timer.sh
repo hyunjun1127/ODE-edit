@@ -6,8 +6,27 @@ repo_root="$(cd "${script_dir}/.." && pwd)"
 . "${script_dir}/agent-policy.sh"
 
 unit_name="${SYNC_TIMER_UNIT:-agent-control-sync}"
-interval="${SYNC_TIMER_INTERVAL:-1h}"
-startup_delay="${SYNC_TIMER_STARTUP_DELAY:-3min}"
+default_startup_delay() {
+  hostname_hint="$(agent_policy_get_hostname)"
+
+  case "${hostname_hint}" in
+    server1)
+      printf '1min'
+      ;;
+    server2)
+      printf '3min'
+      ;;
+    server3)
+      printf '7min'
+      ;;
+    *)
+      printf '9min'
+      ;;
+  esac
+}
+
+interval="${SYNC_TIMER_INTERVAL:-10min}"
+startup_delay="${SYNC_TIMER_STARTUP_DELAY:-$(default_startup_delay)}"
 accuracy="${SYNC_TIMER_ACCURACY:-30s}"
 systemd_user_dir="${XDG_CONFIG_HOME:-${HOME}/.config}/systemd/user"
 service_file="${systemd_user_dir}/${unit_name}.service"

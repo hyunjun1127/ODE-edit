@@ -44,7 +44,7 @@ is_global_head_allowed() {
     scripts/*|project/*|subagents/*|docs/*|local/templates/*|messages/templates/*|tasks/templates/*|runs/templates/*|audits/templates/*|experiment-reports/templates/*|transfers/templates/*|servers/templates/*|run-scripts/*)
       return 0
       ;;
-    plans/global/*|tasks/pending/*|tasks/done/*|tasks/failed/*|tasks/status/.gitkeep|tasks/status/*/*|messages/README.md|messages/head/*|messages/server-heads/*|messages/acks/.gitkeep|messages/acks/"${agent_hostname}"/*|transfers/approvals/*|transfers/verifications/*|servers/connection-inventory.md|servers/active/*|servers/retired/*|control/*|experiment-reports/global/*|audits/*)
+    plans/global/*|tasks/pending/*|tasks/done/*|tasks/failed/*|tasks/status/.gitkeep|tasks/status/*/*|messages/README.md|messages/head/*|messages/inbox/.gitkeep|messages/inbox/*|messages/server-heads/*|messages/acks/.gitkeep|messages/acks/"${agent_hostname}"/*|transfers/approvals/*|transfers/verifications/*|servers/connection-inventory.md|servers/active/*|servers/retired/*|control/*|experiment-reports/global/*|audits/*)
       return 0
       ;;
     agents/"${agent_hostname}"/*.json)

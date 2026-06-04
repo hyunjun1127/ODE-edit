@@ -38,7 +38,7 @@ server1	rke-server1	/mnt/shared/project-repo
 
 ## SSH Alias Convention
 
-서버 간 자동 artifact fan-out은 tracked raw IP/user/port가 아니라 local-only
+서버 간 자동 artifact broadcast는 tracked raw IP/user/port가 아니라 local-only
 SSH alias를 사용한다.
 
 Tracked 문서와 메시지에는 alias 이름, repository server name, repo path,
@@ -48,6 +48,6 @@ Git에 기록하지 않는다.
 ## rsync 사용 메모
 
 - Git-excluded project artifacts는 Git이 아니라 rsync로 공유한다.
-- 일반 실험 artifact는 per-transfer 사용자 승인 없이 source 서버가 active 서버들로 자동 fan-out할 수 있다.
+- 일반 실험 artifact는 per-transfer 사용자 승인 없이 source 서버가 active 서버들로 자동 broadcast할 수 있다.
 - `--delete`, repo-external path, 민감 파일, private inventory, SSH material, credentials는 자동 전송하지 않고 사용자/global-head 승인을 요구한다.
 - 전송 후 Git에는 raw artifact가 아니라 compact message/status/verification만 기록한다.
