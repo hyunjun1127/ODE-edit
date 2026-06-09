@@ -29,20 +29,28 @@ Detailed structure and cleanup policy are in
 - `servers/`: active/retired server records and redacted SSH/rsync inventory.
   Raw host/IP/user/port remains in ignored `servers/local/`.
 - `scripts/`: repo coordination helpers, including heartbeat, sync, task
-  audit/status/closure, worker claim/finish, and artifact broadcast.
+  audit/status/closure, worker claim/finish, GPU cap checks, and artifact
+  broadcast.
 - `subagents/`: blue/red role specifications.
 - `transfers/`: manual-exception transfer records. Ordinary experiment
   artifact broadcast uses `scripts/rsync-artifact-broadcast.sh` and does not
   need per-transfer user approval.
 
-Agent coordination rules are defined in [PROTOCOL.md](PROTOCOL.md).
+Agent coordination rules are defined in [PROTOCOL.md](PROTOCOL.md). Actionable
+global-head instructions should use the execution envelope in
+`messages/templates/global-head-command.md`.
 
 ## Research Handoff
 
-When this template is used to start the superseded-prior reflective KE project,
-the initial proposal for the new global-head is in
-`project/proposals/superseded-prior-reflective-ke-proposal.md`. Treat it as the
+When this template is used to start a new research project, put the user's
+proposal or GH handoff under `project/proposals/`. Treat that proposal as the
 starting research handoff, not as a finalized paper plan.
+
+## Local Runtime Config
+
+Private SSH, rsync, and GPU cap config stays out of Git under `servers/local/`.
+For Slurm GPU cap checks, copy `servers/templates/gpu-caps.tsv` to
+`servers/local/gpu-caps.tsv` and edit it for the active servers.
 
 ## Artifact Rule
 

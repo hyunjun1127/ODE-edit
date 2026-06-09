@@ -36,6 +36,8 @@ runs through active agents, SSH, Slurm, and one-shot rsync jobs.
 | Raw artifacts | `local/` | Git ignored; share by rsync broadcast |
 | Artifact broadcast helper | `scripts/rsync-artifact-broadcast.sh` | Source server executes |
 | Slurm broadcast dependency | `scripts/submit-artifact-broadcast-dependency.sh` | Optional immediate post-job broadcast |
+| GPU cap helper | `scripts/check-slurm-gpu-cap.sh` | Uses ignored `servers/local/gpu-caps.tsv` |
+| GPU cap config template | `servers/templates/gpu-caps.tsv` | Copy to `servers/local/` and edit |
 
 ## Deprecated Or Legacy Paths
 
@@ -65,13 +67,18 @@ Rules:
 
 1. A remotely submitted job is owned by the target server.
 2. The target server-head acknowledges and reviews the job after sync.
-3. Ordinary artifacts stay under `local/` and are shared by artifact broadcast.
-4. Git receives compact status, reports, summaries, and manifests only.
-5. LLM analysis requires an active agent process or explicit automation.
+3. Slurm work must respect the target server's project GPU cap; if the cap is
+   unknown or exceeded, leave the work pending instead of submitting.
+4. Ordinary artifacts stay under `local/` and are shared by artifact broadcast.
+5. Git receives compact status, reports, summaries, and manifests only.
+6. LLM analysis requires an active agent process or explicit automation.
 
 Inbox/task instructions do not execute by themselves. A target server-head must
 sync, read the inbox/task, run preflight, submit or delegate the job, monitor
 completion, audit, report, and then broadcast artifacts when appropriate.
+Actionable global-head instructions must include allowed write paths, Slurm
+permission, GPU cap, red-team gate, artifact broadcast duty, and completion
+report paths.
 
 ## Task Compression
 

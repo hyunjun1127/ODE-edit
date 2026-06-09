@@ -10,6 +10,15 @@
 - ack 필요 여부: yes/no
 - 완료 보고 경로:
 
+## 실행 권한 envelope
+
+- 허용 write path:
+- Slurm 제출 권한: allowed/not allowed/requires global-head or user confirmation
+- GPU cap:
+- red-team gate:
+- artifact broadcast 의무:
+- 완료 보고 경로:
+
 ## 명령
 
 구체적인 수행 내용을 적는다.
@@ -30,3 +39,5 @@
 - 실험 완료 후 Git-excluded artifact 공유는 자동 rsync broadcast 정책을 따른다.
 - `--delete`, credentials, `local/secrets/`, private inventory, SSH material 전송은
   사용자 명시 승인 없이는 실행하지 않는다.
+- actionable GH 명령에 실행 권한 envelope가 없으면 SH는 추측 실행하지 말고
+  ack/blocker로 clarification을 요청한다.

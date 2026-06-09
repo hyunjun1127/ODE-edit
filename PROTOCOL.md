@@ -258,11 +258,82 @@ Rules:
 5. A Git message or task does not execute LLM analysis by itself. Analysis
    happens only when an agent session or explicit automation is alive.
 
+## Deployment GPU Cap Policy
+
+Each deployment should define a per-server concurrent GPU cap for project jobs.
+The cap is about GPUs actively running for this project on that server, not the
+physical GPU count of the machine.
+
+Configure the active caps in ignored local config or environment variables:
+
+- preferred local config: `servers/local/gpu-caps.tsv`
+- template/example format: `servers/templates/gpu-caps.tsv`
+- optional environment fallback:
+  `AGENT_GPU_CAP_<SERVER>`, `AGENT_GPU_NODE_<SERVER>`,
+  `AGENT_GPU_JOB_PATTERNS_<SERVER>`, and `AGENT_DEFAULT_GPU_CAP`
+
+The TSV format is:
+
+```text
+server<TAB>slurm_node<TAB>max_project_gpus<TAB>job_patterns
+```
+
+Rules:
+
+1. Every Slurm experiment job for this repo must declare its target server,
+   requested GPU count, expected job name, and current cap check in its task,
+   server-head message, or run metadata.
+2. A server-head must check active project GPU usage before submitting a new
+   job. Use `scripts/check-slurm-gpu-cap.sh <server> <requested_gpus>` when
+   Slurm is available.
+3. If the cap is unknown, the cap check cannot run, or
+   `active_project_gpus + requested_gpus > cap`, the work must remain pending
+   instead of starting another running job.
+4. Pending can mean a Git task/status waiting on `pending_resource_cap`, or a
+   Slurm-side pending/throttled submission such as a dependency or array
+   throttle. The required invariant is that the running project allocation
+   never exceeds the cap.
+5. A single job must not request more than that server's cap unless the user
+   explicitly overrides the policy.
+6. Job names should use a project-specific prefix so server-heads and red-team
+   auditors can distinguish project jobs from other Slurm work.
+7. Red-team pre-flight must check `resource_collision_and_gpu_cap` before a
+   task is promoted or submitted. Post-run audit must check whether the cap was
+   respected in the recorded job state.
+8. If the global-head directly submits a remote Slurm job under an emergency or
+   user instruction, the same cap policy still applies.
+
 ## Server-Head Experiment Lifecycle
 
 Default experiment ownership is server-local. The global-head should normally
 write an instruction or approved task, then the target server-head handles the
 experiment lifecycle on its own server.
+
+Global-head natural-language instructions must include an explicit execution
+envelope. This applies to `messages/inbox/<server>.md`, `messages/head/`
+broadcasts that expect action, and `tasks/pending/` global-head command tasks.
+The envelope can be written in Korean prose, but it must clearly specify:
+
+- allowed write paths: exact repo paths the target server-head may create or
+  modify for this instruction; use `local/` for raw outputs and large logs
+- Slurm submission permission: `allowed`, `not allowed`, or `requires
+  global-head/user confirmation`; include any required preflight
+- GPU cap: the active project GPU cap for the target server and how pending
+  overflow jobs should be handled
+- red-team gate: required pre-flight and post-run audit checks, and whether a
+  `warn` may proceed or a `block` must stop execution
+- artifact broadcast duty: whether `local/` artifacts/logs must be broadcast
+  with `scripts/rsync-artifact-broadcast.sh` or a Slurm dependency helper, and
+  what exception record is required if broadcast is impossible or unnecessary
+- completion report paths: exact `messages/server-heads/`, `messages/acks/`,
+  `tasks/status/`, `runs/`, `audits/`, and `experiment-reports/` paths expected
+  from the target server-head
+
+If a server-head receives an actionable global-head instruction that lacks this
+envelope, it should write an ack/blocker asking for clarification instead of
+guessing execution authority. Small informational messages do not need the full
+envelope when no coding, Slurm submission, artifact movement, or durable task
+state transition is requested.
 
 Default lifecycle:
 
@@ -280,9 +351,11 @@ Default lifecycle:
 7. after completion or failure, blue-result-analyst writes a Korean result
    report with metric definitions and artifact paths
 8. red-team performs post-run audit and marks `pass`, `warn`, or `block`
-9. if normal artifact broadcast is appropriate, server-head runs
-   `scripts/rsync-artifact-broadcast.sh` or the Slurm broadcast dependency
-   helper, then records verification evidence
+9. after an experiment produces ordinary project artifacts under `local/`,
+   server-head runs `scripts/rsync-artifact-broadcast.sh` or the Slurm
+   broadcast dependency helper to copy artifacts to the other active server
+   `local/` trees, then records verification evidence. If no broadcast is
+   needed or possible, the server-head records the exception and reason.
 10. server-head reports closure or blocker to global-head/user through
     `messages/server-heads/<server>/`, `experiment-reports/`, and `audits/`
 
@@ -298,7 +371,8 @@ outputs local.
 
 Repository-managed:
 
-- `scripts/`: agent helper scripts such as sync, heartbeat, claim, and finish
+- `scripts/`: agent helper scripts such as sync, heartbeat, claim, finish,
+  GPU cap check, and artifact broadcast
 - `project/run_scripts/`: experiment execution scripts and wrappers
 - `subagents/`: required blue/red team role specs
 - `audits/`: Korean red-team audit reports
@@ -346,12 +420,14 @@ Do not store in Git:
 - full stdout/stderr logs
 - datasets or preprocessed datasets
 
-Ordinary project artifact sharing under repo-local `local/` is automatic once
-SSH mesh is configured. It uses `scripts/rsync-artifact-broadcast.sh`; for
-Slurm jobs, `scripts/submit-artifact-broadcast-dependency.sh` may be used when
-immediate post-job copy is explicitly desired. Per-transfer user approval is
-not required for normal experiment raw results, run logs, Slurm logs, datasets,
-and checkpoints that are already part of this project.
+Ordinary project artifact sharing under repo-local `local/` is mandatory after
+an experiment produces project artifacts, unless the server-head records that
+there is no artifact to share or that broadcast is blocked. It uses
+`scripts/rsync-artifact-broadcast.sh`; for Slurm jobs,
+`scripts/submit-artifact-broadcast-dependency.sh` may be used when immediate
+post-job copy is explicitly desired. Per-transfer user approval is not required
+for normal experiment raw results, run logs, Slurm logs, datasets, and
+checkpoints that are already part of this project.
 
 Manual transfer approval is still required for exceptions:
 
@@ -390,8 +466,8 @@ requires a new approval.
 
 ### Ordinary Artifact Broadcast
 
-Server-local `local/` folders are not shared through Git. When ordinary project
-artifacts need to be copied between active servers, use:
+Server-local `local/` folders are not shared through Git. After an experiment
+produces ordinary project artifacts, copy them between active servers with:
 
 ```bash
 scripts/rsync-artifact-broadcast.sh local/results/raw/<run_id>
@@ -416,6 +492,8 @@ Required constraints:
   and `local/.cache/`
 - record compact evidence in `runs/`, `messages/`, reports, or broadcast Slurm
   logs
+- if broadcast is impossible or unnecessary, record the exception and reason in
+  `runs/`, `messages/server-heads/`, or the relevant experiment report
 - use `transfers/` only for manual exceptions
 
 ## Dynamic Server Lifecycle
@@ -712,7 +790,10 @@ Put these in `messages/`:
 - plan changes and rejected alternatives
 - task handoffs, blockers, and requested review
 - target-server instructions that a live server-head agent or automation must
-  read and execute; Git does not execute the instruction by itself
+  read and execute; Git does not execute the instruction by itself. Actionable
+  global-head instructions must include the execution envelope: allowed write
+  paths, Slurm permission, GPU cap, red-team gate, artifact broadcast duty, and
+  completion report paths.
 - failure summaries with enough context to debug
 - conflict summaries after the global head has been notified
 - important resource or environment changes

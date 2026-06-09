@@ -1,0 +1,8 @@
+# Copy this file to servers/local/gpu-caps.tsv on each clone and edit it.
+# Format:
+# server<TAB>slurm_node<TAB>max_project_gpus<TAB>job_patterns
+#
+# Examples:
+# server1	server1	3	project_*,*_stage0,stage0_*
+# server2	server2	3	project_*,*_stage0,stage0_*
+# server3	server3	2	project_*,*_stage0,stage0_*

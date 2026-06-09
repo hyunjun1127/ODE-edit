@@ -122,7 +122,7 @@ if [[ "${dry_run}" == "1" ]]; then
 fi
 
 target_filter=" ${targets[*]} "
-while IFS=$'\t' read -r server alias repo_path rest; do
+while IFS=$'\t' read -r server alias repo_path rest <&3; do
   [[ -n "${server}" ]] || continue
   [[ "${server}" != \#* ]] || continue
   [[ -n "${alias}" && -n "${repo_path}" ]] || {
@@ -140,7 +140,7 @@ while IFS=$'\t' read -r server alias repo_path rest; do
   dest="${repo_path}/${source_rel}"
   dest_parent="$(dirname "${dest}")"
   echo "Checking SSH alias ${alias} for ${server}"
-  ssh -F "${ssh_config}" -o BatchMode=yes -o ConnectTimeout=10 "${alias}" "mkdir -p '${dest_parent}'"
+  ssh -n -F "${ssh_config}" -o BatchMode=yes -o ConnectTimeout=10 "${alias}" "mkdir -p '${dest_parent}'"
   echo "Broadcast ${source_rel} -> ${server}:${dest}"
   rsync "${rsync_args[@]}" -e "ssh -F ${ssh_config}" "${source_abs}/" "${alias}:${dest}/"
-done < "${targets_file}"
+done 3< "${targets_file}"
