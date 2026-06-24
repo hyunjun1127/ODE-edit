@@ -93,7 +93,7 @@ Role access matrix:
 
 | Role | Primary parent | May own/write | Must not directly write |
 | --- | --- | --- | --- |
-| `global-head` | user | `plans/global/`, `tasks/pending/`, `messages/head/`, `messages/inbox/<server>.md`, `transfers/approvals/`, `servers/active/`, `servers/retired/`, `control/`, `experiment-reports/global/`, protocol/template updates | server-local raw output, another role's unreviewed execution results, unapproved transfer execution |
+| `global-head` | user | `plans/global/`, `tasks/pending/`, `messages/head/`, `messages/inbox/<server>.md`, `transfers/approvals/`, `servers/active/`, `servers/retired/`, `control/`, `project/proposals/` or `proposals/`, `experiment-reports/global/`, protocol/template updates | server-local raw output, another role's unreviewed execution results, unapproved transfer execution |
 | `server-head` | global-head | `plans/updates/<server>/`, `tasks/proposed/<server>/`, `messages/server-heads/<server>/`, `agents/<server>/`, `audits/servers/<server>/`, `experiment-reports/servers/<server>/`, `transfers/requests/`, approved `transfers/verifications/`, own `servers/active/<server>.md` updates | `plans/global/`, `tasks/pending/`, `messages/head/`, `messages/inbox/`, `transfers/approvals/`, other server-owned files |
 | `worker` | server-head | its claimed `tasks/running/<task>.<agent>.*`, matching `tasks/done/` or `tasks/failed/`, `runs/<run_id>/...<agent>.*`, `agents/<server>/<agent>.json`, assigned report/audit evidence under its server | creating tasks, editing canonical plans, approving transfers, changing server lifecycle, editing other agents' task/run files |
 | `blue-team subagent` | server-head or worker | local scratch, draft plan/run/report material for parent review | direct Git push, final report promotion, task approval, transfer approval, red-team waiver |
@@ -178,6 +178,131 @@ Plan updates are allowed from every server head, but avoid shared hot files.
 Server heads should write updates as append-only notes or separate files, then
 the global head can promote accepted changes into `plans/global/` and
 `tasks/pending/`.
+
+## Research Narrative And Experiment Evidence Boundary
+
+Research repositories should keep proposal-side reasoning and experiment-side
+evidence separate. This separation makes the project easier to audit, easier
+to port to a new repository, and less likely to turn preliminary diagnostics
+into overstated claims.
+
+Use this boundary by default:
+
+- `project/proposals/` or `proposals/`: research narrative, motivation,
+  hypothesis development, related work, method rationale, staged decision
+  logic, kill criteria, next-stage criteria, and links to evidence. Proposal
+  documents explain why an experiment should exist and how the research
+  direction changed. When experiment results arrive, proposal-side section
+  files should summarize the important result, the current claim boundary, and
+  the reason for continuing, pivoting, or killing the direction.
+- `experiment-reports/`: experiment evidence and interpretation after a run:
+  concrete commands, config, dataset/model/method identifiers, Slurm job IDs,
+  artifact paths, metric summaries, row counts, failure modes, post-run
+  analyses, and links back to the proposal rationale.
+- `audits/`: red-team checks, leakage reviews, Git/protocol audits,
+  pre-flight gates, and post-run gates. Audits may be linked from proposals
+  or experiment reports, but should not be stored as proposal narrative unless
+  they directly change the research hypothesis.
+- `messages/`: coordination, instructions, acknowledgements, and status
+  handoffs. Messages can link to proposal or experiment files, but should not
+  become the durable final report.
+- `plans/`: operational task plans and server/global execution plans. Plans
+  should reference proposal motivation and expected experiment outputs, but
+  should not duplicate final results.
+
+Experiment section layout:
+
+- Use `experiment-reports/experiments/<ordered-experiment-section>/` for each
+  major experiment family or stage.
+- Each experiment section must have a `README.md` as the entry point. The
+  README should include the experiment question, proposal links, execution
+  scope, canonical short result summary, claim boundary, and a curated list of
+  detailed report paths.
+- Detailed experiment design notes, post-run reviews, metric tables, plots,
+  red/blue summaries, and rerun analyses should live under that section's
+  `reports/` directory unless they are server-owned status reports.
+- Server-specific lifecycle reports belong under
+  `experiment-reports/servers/<server>/` and should be linked from the relevant
+  experiment section README after they become evidence for a section.
+- The section README is an index and synthesis file, not a place for raw metric
+  dumps or full logs.
+
+Proposal section layout:
+
+- Use `project/proposals/sections/<ordered-rationale>.md` or the equivalent
+  `proposals/sections/` path for research-development sections.
+- A proposal section should explain the significance of the experiment family,
+  what earlier evidence motivated it, which experiment section tests it, and
+  what the current claim status is.
+- Proposal sections may summarize key results from experiment reports, but
+  they must link to the exact report paths that contain the detailed evidence.
+  Do not copy full metric tables into proposal sections unless a compact table
+  is needed to explain a research decision.
+- If a result weakens, kills, or pivots a hypothesis, update the matching
+  proposal section and keep the detailed post-run analysis in the experiment
+  section.
+
+Classification rules:
+
+1. If a document primarily argues why a research direction, hypothesis, method,
+   scoring rule, or next experiment is worth trying, write it under
+   `project/proposals/` or `proposals/`.
+2. If a document primarily records what actually ran, with which parameters,
+   on which server, and what metrics or failures were observed, write it under
+   `experiment-reports/`.
+3. If a document primarily attacks validity, leakage, resource risk, protocol
+   compliance, or claim strength, write it under `audits/`.
+4. If a document primarily tells another agent what to do or reports a short
+   coordination status, write it under `messages/`.
+5. Do not put raw logs, raw generations, checkpoints, datasets, hidden states,
+   or large intermediate files in either proposal or experiment-report paths.
+   Store them under `local/` and link to them from compact reports.
+
+Required cross-links:
+
+- Every proposal section that motivates an experiment should include an
+  "evidence links" or "experiment matching" section pointing to the relevant
+  `experiment-reports/` files once they exist.
+- Every proposal section for an active experiment family should include the
+  current claim state, such as `hypothesis only`, `diagnostic supported`,
+  `mixed evidence`, `scheduler claim hold`, `kill`, or `paper-ready candidate`.
+- Every experiment report should include a "proposal link" or "research
+  rationale" section pointing back to the proposal section that motivated the
+  run.
+- Every experiment section README should list all canonical detailed reports
+  in order, with one short Korean description per report so a new agent can
+  inspect the section without opening every file.
+- Every post-run report should state its claim boundary: diagnostic only,
+  smoke/preflight, baseline, scheduler performance, ablation, or paper-ready
+  evidence candidate.
+- Every experiment report should state the local artifact path, Git commit,
+  dataset/subset identifier, model, method, seed, batch/step configuration,
+  and whether raw artifacts were broadcast.
+- If an experiment result changes the research direction, update the proposal
+  narrative in a separate proposal-side patch rather than burying the decision
+  only inside `experiment-reports/`.
+
+Suggested portable index structure:
+
+```text
+project/proposals/README.md
+project/proposals/00-research-thread.md
+project/proposals/sections/<ordered-rationale>.md
+
+experiment-reports/README.md
+experiment-reports/experiments/README.md
+experiment-reports/experiments/<ordered-experiment-section>/README.md
+experiment-reports/experiments/<ordered-experiment-section>/reports/<date-run-report>.md
+experiment-reports/servers/<server>/<date-server-report>.md
+```
+
+The index should let a new agent reconstruct:
+
+```text
+proposal idea -> diagnostic question -> exact experiment -> audit -> result -> next decision
+```
+
+without reading raw logs or private local scratch.
 
 ## Task Lifecycle
 
@@ -349,7 +474,8 @@ Default lifecycle:
 6. blue-experiment-runner monitors progress, preserves generated outputs under
    `local/`, and writes compact run metadata under `runs/`
 7. after completion or failure, blue-result-analyst writes a Korean result
-   report with metric definitions and artifact paths
+   report with metric definitions, artifact paths, proposal links, and claim
+   boundary
 8. red-team performs post-run audit and marks `pass`, `warn`, or `block`
 9. after an experiment produces ordinary project artifacts under `local/`,
    server-head runs `scripts/rsync-artifact-broadcast.sh` or the Slurm
@@ -374,6 +500,8 @@ Repository-managed:
 - `scripts/`: agent helper scripts such as sync, heartbeat, claim, finish,
   GPU cap check, and artifact broadcast
 - `project/run_scripts/`: experiment execution scripts and wrappers
+- `project/proposals/` or `proposals/`: research narrative, hypotheses,
+  method rationale, related work, staged decisions, and experiment links
 - `subagents/`: required blue/red team role specs
 - `audits/`: Korean red-team audit reports
 - `servers/`: server onboarding/offboarding records and templates
@@ -382,7 +510,8 @@ Repository-managed:
 - `plans/`: Korean plans and plan updates
 - `tasks/`: task specs and task lifecycle files
 - `messages/`: Korean server-to-server communication only
-- `experiment-reports/`: Korean experiment result summaries
+- `experiment-reports/`: Korean experiment result summaries and evidence
+  reports, each linked back to proposal rationale when applicable
 - `runs/`: small machine-readable status, metrics, log tails, and artifact
   path manifests
 
