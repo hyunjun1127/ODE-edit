@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Fail-closed one-shot submit helper for the exact paired MV-2 refresh run.
+# Fail-closed helper for the single approved technical retry of paired MV-2.
 
 set -euo pipefail
 umask 077
@@ -16,12 +16,15 @@ readonly SQUEUE_BIN="/usr/bin/squeue"
 readonly SBATCH_FILE="${REPO_ROOT}/project/run_scripts/session01_mv2refresh_pair_server1.sbatch"
 readonly MV1_POSTRUN="${REPO_ROOT}/audits/global/2026-07-31-mv1mix-untouched-pair-v1.postrun.md"
 readonly RED_GATE="${REPO_ROOT}/audits/global/2026-07-31-session01-mv2-execution-preflight.md"
+readonly RETRY_GATE="${REPO_ROOT}/audits/global/2026-07-31-session01-mv2-technical-retry-preflight.md"
 readonly MV1_POSTRUN_VERDICT='- 최종 판정: `MV2 PREPARE` — MV-1 untouched pair reproduced; locked MV-2 pair 한 건 허용'
 readonly RED_GATE_VERDICT='- 최종 판정: `PASS` — locked MV-2 Llama/Qwen 동시 pair 한 건에만 유효'
+readonly RETRY_GATE_VERDICT='- 최종 판정: `PASS` — locked MV-2 pair의 technical retry 1회에만 유효'
 readonly LOG_ROOT="${REPO_ROOT}/local/logs/slurm/session01_motivation"
 readonly OUTPUT_ROOT="${REPO_ROOT}/local/results/raw/session01_motivation"
 readonly STATE_ROOT="${REPO_ROOT}/local/state/slurm-submissions/session01_motivation"
-readonly PAIR_MARKER="${STATE_ROOT}/mv2refresh_pair_v1.submitted"
+readonly ORIGINAL_PAIR_MARKER="${STATE_ROOT}/mv2refresh_pair_v1.submitted"
+readonly PAIR_MARKER="${STATE_ROOT}/mv2refresh_pair_v1_retry1.submitted"
 readonly JOB_NAME="odeedit_mv2refresh_pair_v1"
 
 require_exact_final_verdict() {
@@ -83,6 +86,7 @@ cd "${REPO_ROOT}"
   plans/global/2026-07-31-session01-mv2-implementation-spec.md \
   audits/global/2026-07-31-mv1mix-untouched-pair-v1.postrun.md \
   audits/global/2026-07-31-session01-mv2-execution-preflight.md \
+  audits/global/2026-07-31-session01-mv2-technical-retry-preflight.md \
   >/dev/null
 [[ -z "$("${GIT_BIN}" status --porcelain --untracked-files=normal)" ]] || {
   echo "paired MV-2 submission requires a clean repository" >&2
@@ -101,6 +105,10 @@ require_exact_final_verdict \
   "${RED_GATE}" \
   "${RED_GATE_VERDICT}" \
   "MV-2 execution preflight"
+require_exact_final_verdict \
+  "${RETRY_GATE}" \
+  "${RETRY_GATE_VERDICT}" \
+  "MV-2 technical retry preflight"
 
 [[ ! -e "${OUTPUT_ROOT}/mv2refresh_llama_e0_v1" \
   && ! -L "${OUTPUT_ROOT}/mv2refresh_llama_e0_v1" ]] || {
@@ -112,8 +120,18 @@ require_exact_final_verdict \
   echo "Qwen MV-2 output already exists" >&2
   exit 2
 }
+[[ -f "${ORIGINAL_PAIR_MARKER}/job-id" \
+  && ! -L "${ORIGINAL_PAIR_MARKER}" \
+  && ! -L "${ORIGINAL_PAIR_MARKER}/job-id" ]] || {
+  echo "original MV-2 submission marker is unavailable" >&2
+  exit 2
+}
+[[ "$(<"${ORIGINAL_PAIR_MARKER}/job-id")" =~ ^[0-9]+$ ]] || {
+  echo "original MV-2 job ID is malformed" >&2
+  exit 2
+}
 [[ ! -e "${PAIR_MARKER}" && ! -L "${PAIR_MARKER}" ]] || {
-  echo "MV-2 one-shot marker already exists" >&2
+  echo "MV-2 technical-retry marker already exists" >&2
   exit 2
 }
 if [[ -n "$("${SQUEUE_BIN}" -h --name="${JOB_NAME}")" ]]; then

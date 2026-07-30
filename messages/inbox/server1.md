@@ -413,3 +413,80 @@ calibration `[8:20]` 12 case/model을 동시에 실행해 calibration 17 case를
 - 후속 보고:
   위 완료 보고 경로, model별 독립 analysis, pair red post-run audit,
   no-peer artifact-broadcast exception
+
+---
+
+# MV-2 technical retry 보충 instruction — `session01-mv2refresh-pair-v1-retry1`
+
+## 목적과 배경
+
+- proposal에서 온 내용:
+  최초 lock과 동일한 refresh/stale direction·coefficient 분리 diagnostic을
+  기술적으로 완주한다.
+- repo/protocol에서 확인한 사실:
+  job `15597`은 Llama first-case `RuntimeError`로 scientific commitment 전
+  fail-closed했고 Qwen은 sibling fail-fast로 종료됐다. partial result는
+  해석하지 않는다.
+- GH 추정:
+  synchronous proposal의 missing inference guard가 memory amplification의
+  1순위 원인이다. exact stack이 없으므로 technical retry에서 safe
+  stack-location 계측을 유지한다.
+- 사용자 확인 필요:
+  없음. 빠른 동시 pair 실행 지시 범위 안의 technical recovery다.
+
+## 실행 권한 envelope
+
+- 허용 write path:
+  canonical raw
+  `local/results/raw/session01_motivation/mv2refresh_{llama,qwen}_e0_v1/`,
+  failed archive
+  `local/results/raw/session01_motivation/failed/mv2refresh_pair_v1_job15597/`,
+  `local/logs/slurm/session01_motivation/`,
+  `local/state/slurm-submissions/session01_motivation/`,
+  small report는 기존 global/server1 완료 보고 경로
+- Slurm 제출 허용 여부:
+  retry audit exact `PASS`, clean pushed main, failed raw archive 뒤 GH exact
+  helper 1회만 `allowed`; 미등록 SH submit/retry/cancel은 `not allowed`
+- GPU cap:
+  server1 최대 3; parent 총 2, child별 1,
+  parent `16 CPU / 130000M / 08:00:00`, child별
+  `8 CPU / 65000M`
+- red-team gate 통과 조건:
+  기존 MV-1 `MV2 PREPARE`, 최초 MV-2 preflight `PASS`,
+  `audits/global/2026-07-31-session01-mv2-technical-retry-preflight.md`의
+  exact retry `PASS`, independent patch review residual P1/P2 없음
+- artifact broadcast 의무:
+  active peer clone이 없으므로 no-peer 예외를 완료 보고에 기록한다.
+  peer 활성화 뒤 protocol helper만 사용한다.
+- 완료 보고 경로:
+  `messages/server-heads/server1/2026-07-31.md`,
+  `experiment-reports/global/2026-07-31-mv2refresh-*-e0-v1-analysis.md`,
+  `audits/global/2026-07-31-mv2refresh-pair-v1.postrun.md`
+- 금지 사항:
+  EasyEdit/cache/dataset/stats 수정·재계산·download, raw Git 유입,
+  case/model/arm/q/h/seed/bootstrap/threshold 변경, partial rescue,
+  다른 repo/session/job 조작
+- 예상 산출물:
+  최초 lock과 동일한 12 event/model, six-arm outcome 72/model,
+  model별 독립 compact analysis와 pair red 판정; safe local stack은
+  technical failure 때만 생성
+- 중단 조건:
+  output/retry marker 중복, dirty/unpushed main, session/cap mismatch,
+  child 비동시 시작, safe trace leakage, technical gate 위반, child nonzero
+
+## GH 직접 technical retry 예외 기록
+
+- 사유:
+  server1 SH 부재, 사용자의 time-critical 동시 실행 지시, scientific
+  commitment 전 fail-closed한 job `15597` 복구
+- exact archive command 범위:
+  failed 두 run directory를 위 explicit ignored archive directory로
+  `mv`; 삭제·덮어쓰기 금지
+- exact submit command:
+  `project/run_scripts/submit_session01_mv2refresh_pair_server1.sh`
+- 영향 범위:
+  failed local raw의 recoverable relocation, server1 single retry parent
+  `2 GPU / 16 CPU / 130000M`; scientific contract 변화 없음
+- 후속 보고:
+  retry job ID/state/resource, safe trace 여부, model별 독립 analysis,
+  pair red post-run, no-peer broadcast exception

@@ -1182,7 +1182,15 @@ class EasyEditBridge:
         raw_requests = [request.to_easyedit() for request in requests]
         z_layer = layers[-1]
         factors = []
-        with _EASYEDIT_GLOBAL_LOCK, _preserve_model_runtime_state(model):
+        # Proposal construction is inference-only.  Without this guard,
+        # upstream representation helpers may retain full autograd graphs
+        # until the per-layer solver loop exits, which needlessly amplifies
+        # GPU memory in descendant-state refresh diagnostics.
+        with (
+            torch.no_grad(),
+            _EASYEDIT_GLOBAL_LOCK,
+            _preserve_model_runtime_state(model),
+        ):
             assert_snapshot_current(model, snapshot)
             current_z = bindings.compute_z.get_module_input_output_at_words(
                 model,

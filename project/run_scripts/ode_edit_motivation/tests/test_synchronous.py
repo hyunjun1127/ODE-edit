@@ -290,15 +290,25 @@ class DirectZAndSynchronousTests(unittest.TestCase):
                 }
 
             memit_main.execute_memit = execute_memit
-            compute_ks = SimpleNamespace(
-                compute_ks=lambda model, tokenizer, requests, hp, layer, contexts: (
-                    torch.eye(2, dtype=torch.float64)
-                )
-            )
+            synchronous_grad_modes = []
+
+            def compute_synchronous_keys(
+                model,
+                tokenizer,
+                requests,
+                hp,
+                layer,
+                contexts,
+            ):
+                synchronous_grad_modes.append(torch.is_grad_enabled())
+                return torch.eye(2, dtype=torch.float64)
+
+            compute_ks = SimpleNamespace(compute_ks=compute_synchronous_keys)
             current_z_calls = []
 
             def get_current_z(*args, **kwargs):
                 current_z_calls.append((args, kwargs))
+                synchronous_grad_modes.append(torch.is_grad_enabled())
                 return torch.zeros(2, 3, dtype=torch.float32)
 
             compute_z = SimpleNamespace(
@@ -399,6 +409,7 @@ class DirectZAndSynchronousTests(unittest.TestCase):
             self.assertTrue(synchronous.is_synchronous)
             self.assertEqual(synchronous.residual_denominator, 2)
             self.assertEqual(len(current_z_calls), 1)
+            self.assertEqual(synchronous_grad_modes, [False, False, False])
             for factor in synchronous.factors:
                 torch.testing.assert_close(
                     factor.left,

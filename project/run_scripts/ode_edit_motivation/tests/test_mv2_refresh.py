@@ -469,16 +469,25 @@ class MV2CommitAndLoopTests(unittest.TestCase):
                     self.assertEqual(abort, "ContractError")
 
         def fatal(**_kwargs):
-            raise RuntimeError("fatal")
+            raise RuntimeError("SENSITIVE_PROMPT_SHOULD_NOT_LEAK")
 
-        results, abort = run_mv2_event_loop(
-            requests=(request,),
-            event_runner=fatal,
-            event_writer=MemoryWriter(),
-            event_kwargs={},
+        with mock.patch("sys.stderr") as stderr:
+            results, abort = run_mv2_event_loop(
+                requests=(request,),
+                event_runner=fatal,
+                event_writer=MemoryWriter(),
+                event_kwargs={},
+            )
+        rendered_stderr = "".join(
+            str(call.args[0])
+            for call in stderr.write.call_args_list
+            if call.args
         )
         self.assertEqual(abort, "RuntimeError")
         self.assertFalse(results[0]["rollback_exact"])
+        self.assertIn("MV2_LOCAL_TRACEBACK_BEGIN type=RuntimeError", rendered_stderr)
+        self.assertIn("MV2_LOCAL_TRACEBACK_END", rendered_stderr)
+        self.assertNotIn("SENSITIVE_PROMPT_SHOULD_NOT_LEAK", rendered_stderr)
 
     def test_fatal_placeholders_preserve_exact_analysis_denominator(self):
         rows = [

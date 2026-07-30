@@ -24,7 +24,9 @@ import json
 import math
 import os
 import resource
+import sys
 import time
+import traceback
 from dataclasses import dataclass
 from pathlib import Path
 from types import MappingProxyType
@@ -1345,6 +1347,23 @@ def run_mv2_event_loop(
                 raise ContractError("MV-2 event runner must return a mapping")
             result = _validate_event_result(raw, request=request)
         except Exception as exc:
+            # Slurm stderr is an ignored local artifact.  Preserve only the
+            # exception type and stack locations needed for technical triage;
+            # never serialize ``str(exc)`` because upstream exceptions may
+            # contain request text or other evaluation-sensitive material.
+            print(
+                f"MV2_LOCAL_TRACEBACK_BEGIN type={type(exc).__name__}",
+                file=sys.stderr,
+            )
+            for frame, line_number in traceback.walk_tb(exc.__traceback__):
+                print(
+                    (
+                        f'  File "{frame.f_code.co_filename}", '
+                        f"line {line_number}, in {frame.f_code.co_name}"
+                    ),
+                    file=sys.stderr,
+                )
+            print("MV2_LOCAL_TRACEBACK_END", file=sys.stderr)
             result = {
                 "case_id": request.case_id,
                 "request_id": request.request_id,
