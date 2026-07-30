@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Fail-closed helper for the single approved tensor-hash repair execution.
+# Fail-closed helper for the single approved singleton-stride repair execution.
 
 set -euo pipefail
 umask 077
@@ -18,16 +18,20 @@ readonly MV1_POSTRUN="${REPO_ROOT}/audits/global/2026-07-31-mv1mix-untouched-pai
 readonly RED_GATE="${REPO_ROOT}/audits/global/2026-07-31-session01-mv2-execution-preflight.md"
 readonly RETRY_GATE="${REPO_ROOT}/audits/global/2026-07-31-session01-mv2-technical-retry-preflight.md"
 readonly REPAIR_GATE="${REPO_ROOT}/audits/global/2026-07-31-session01-mv2-tensor-hash-repair-preflight.md"
+readonly LAYOUT_GATE="${REPO_ROOT}/audits/global/2026-07-31-session01-mv2-singleton-stride-repair-preflight.md"
 readonly MV1_POSTRUN_VERDICT='- 최종 판정: `MV2 PREPARE` — MV-1 untouched pair reproduced; locked MV-2 pair 한 건 허용'
 readonly RED_GATE_VERDICT='- 최종 판정: `PASS` — locked MV-2 Llama/Qwen 동시 pair 한 건에만 유효'
 readonly RETRY_GATE_VERDICT='- 최종 판정: `PASS` — locked MV-2 pair의 technical retry 1회에만 유효'
 readonly REPAIR_GATE_VERDICT='- 최종 판정: `PASS` — locked MV-2 pair의 tensor-hash repair execution 1회에만 유효'
+readonly LAYOUT_GATE_VERDICT='- 최종 판정: `PASS` — locked MV-2 pair의 singleton-stride repair execution 1회에만 유효'
 readonly LOG_ROOT="${REPO_ROOT}/local/logs/slurm/session01_motivation"
 readonly OUTPUT_ROOT="${REPO_ROOT}/local/results/raw/session01_motivation"
 readonly STATE_ROOT="${REPO_ROOT}/local/state/slurm-submissions/session01_motivation"
 readonly ORIGINAL_PAIR_MARKER="${STATE_ROOT}/mv2refresh_pair_v1.submitted"
 readonly RETRY1_PAIR_MARKER="${STATE_ROOT}/mv2refresh_pair_v1_retry1.submitted"
-readonly PAIR_MARKER="${STATE_ROOT}/mv2refresh_pair_v1_retry2.submitted"
+readonly RETRY2_PAIR_MARKER="${STATE_ROOT}/mv2refresh_pair_v1_retry2.submitted"
+readonly HASH_DIAG_MARKER="${STATE_ROOT}/mv2refresh_hashdiag_v1.submitted"
+readonly PAIR_MARKER="${STATE_ROOT}/mv2refresh_pair_v1_retry3.submitted"
 readonly JOB_NAME="odeedit_mv2refresh_pair_v1"
 
 require_exact_final_verdict() {
@@ -93,6 +97,8 @@ cd "${REPO_ROOT}"
   audits/global/2026-07-31-session01-mv2-execution-preflight.md \
   audits/global/2026-07-31-session01-mv2-technical-retry-preflight.md \
   audits/global/2026-07-31-session01-mv2-tensor-hash-repair-preflight.md \
+  audits/global/2026-07-31-session01-mv2-cuda-hash-diagnostic-preflight.md \
+  audits/global/2026-07-31-session01-mv2-singleton-stride-repair-preflight.md \
   >/dev/null
 [[ -z "$("${GIT_BIN}" status --porcelain --untracked-files=normal)" ]] || {
   echo "paired MV-2 submission requires a clean repository" >&2
@@ -119,6 +125,10 @@ require_exact_final_verdict \
   "${REPAIR_GATE}" \
   "${REPAIR_GATE_VERDICT}" \
   "MV-2 tensor-hash repair preflight"
+require_exact_final_verdict \
+  "${LAYOUT_GATE}" \
+  "${LAYOUT_GATE_VERDICT}" \
+  "MV-2 singleton-stride repair preflight"
 
 [[ ! -e "${OUTPUT_ROOT}/mv2refresh_llama_e0_v1" \
   && ! -L "${OUTPUT_ROOT}/mv2refresh_llama_e0_v1" ]] || {
@@ -150,8 +160,22 @@ require_exact_final_verdict \
   echo "first MV-2 retry job ID is malformed" >&2
   exit 2
 }
+[[ -f "${RETRY2_PAIR_MARKER}/job-id" \
+  && ! -L "${RETRY2_PAIR_MARKER}" \
+  && ! -L "${RETRY2_PAIR_MARKER}/job-id" \
+  && "$(<"${RETRY2_PAIR_MARKER}/job-id")" =~ ^[0-9]+$ ]] || {
+  echo "second MV-2 retry marker is unavailable or malformed" >&2
+  exit 2
+}
+[[ -f "${HASH_DIAG_MARKER}/job-id" \
+  && ! -L "${HASH_DIAG_MARKER}" \
+  && ! -L "${HASH_DIAG_MARKER}/job-id" \
+  && "$(<"${HASH_DIAG_MARKER}/job-id")" =~ ^[0-9]+$ ]] || {
+  echo "MV-2 hash diagnostic marker is unavailable or malformed" >&2
+  exit 2
+}
 [[ ! -e "${PAIR_MARKER}" && ! -L "${PAIR_MARKER}" ]] || {
-  echo "MV-2 tensor-hash repair marker already exists" >&2
+  echo "MV-2 singleton-stride repair marker already exists" >&2
   exit 2
 }
 if [[ -n "$("${SQUEUE_BIN}" -h --name="${JOB_NAME}")" ]]; then

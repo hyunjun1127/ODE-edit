@@ -89,7 +89,7 @@ def tensor_sha256(tensor: torch.Tensor) -> str:
     # combinations reject ``view(torch.uint8)`` even after ``contiguous()``,
     # and a device-side contiguous byte copy also creates avoidable GPU peak
     # memory.  Moving first preserves dtype and logical element order; the
-    # following contiguous conversion defines the canonical byte stream.
+    # following logical flattening defines the canonical byte stream.
     detached = tensor.detach()
     if detached.is_cuda:
         try:
@@ -109,15 +109,20 @@ def tensor_sha256(tensor: torch.Tensor) -> str:
             exc=exc,
         )
     try:
-        canonical = host.contiguous()
+        # Flatten first.  A shape such as ``(N, 1)`` with strides ``(1, N)``
+        # is reported contiguous because the singleton stride is ignored, so
+        # ``contiguous()`` can be a no-op even though dtype-view requires the
+        # final stride to be one.  ``reshape(-1)`` both preserves logical
+        # C-order and canonicalizes that degenerate stride.
+        canonical = host.reshape(-1)
     except RuntimeError as exc:
         _raise_tensor_hash_runtime(
-            phase="cpu_contiguous",
+            phase="cpu_logical_flatten",
             tensor=host,
             exc=exc,
         )
     try:
-        value = canonical.view(torch.uint8).reshape(-1)
+        value = canonical.view(torch.uint8)
     except RuntimeError as exc:
         _raise_tensor_hash_runtime(
             phase="cpu_byte_view",

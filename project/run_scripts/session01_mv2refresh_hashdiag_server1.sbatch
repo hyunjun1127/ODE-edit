@@ -19,6 +19,7 @@ umask 077
 readonly REPO_ROOT="/mnt/raid5/janghj/ODE-edit"
 readonly RUNTIME="${REPO_ROOT}/project/run_scripts/session01_mv2refresh_server1.sbatch"
 readonly SRUN_BIN="/usr/bin/srun"
+readonly DIAG_EXPORT="ALL,CUDA_LAUNCH_BLOCKING=1,ODEEDIT_MV2_TECHNICAL_DIAGNOSTIC=hashdiag-v1,ODEEDIT_MV2_TECHNICAL_MAX_CASES=1"
 
 [[ "${SLURM_JOB_NAME:-}" == "odeedit_mv2refresh_pair_v1" ]] || {
   echo "MV-2 hash diagnostic job-name boundary mismatch" >&2
@@ -40,9 +41,7 @@ readonly SRUN_BIN="/usr/bin/srun"
 # This diagnostic intentionally synchronizes CUDA kernels so an asynchronous
 # runtime fault is attributed to its originating repo-local operation.  It is
 # not eligible for scientific analysis and is capped at twelve minutes.
-export CUDA_LAUNCH_BLOCKING=1
-export ODEEDIT_MV2_TECHNICAL_DIAGNOSTIC=hashdiag-v1
-export ODEEDIT_MV2_TECHNICAL_MAX_CASES=1
 exec "${SRUN_BIN}" --exclusive --exact --nodes=1 --ntasks=1 --cpus-per-task=8 \
   --gres=gpu:1 --mem=65000M \
+  --export="${DIAG_EXPORT}" \
   "${RUNTIME}" llama3-8b-inst mv2refresh_llama_e0_v1

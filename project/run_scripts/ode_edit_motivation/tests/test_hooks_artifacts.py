@@ -96,6 +96,18 @@ class HookAndArtifactTests(unittest.TestCase):
                 ).hexdigest()
                 self.assertEqual(tensor_sha256(value), expected)
 
+    def test_tensor_hash_normalizes_singleton_degenerate_stride(self):
+        value = torch.arange(12, dtype=torch.float64).reshape(1, 12).T
+        self.assertEqual(value.shape, (12, 1))
+        self.assertEqual(value.stride(), (1, 12))
+        self.assertTrue(value.is_contiguous())
+        with self.assertRaises(RuntimeError):
+            value.contiguous().view(torch.uint8)
+        expected = hashlib.sha256(
+            value.reshape(-1).view(torch.uint8).numpy().tobytes(order="C")
+        ).hexdigest()
+        self.assertEqual(tensor_sha256(value), expected)
+
     def test_tensor_hash_device_parity_rejects_cpu(self):
         with self.assertRaisesRegex(
             ContractError,

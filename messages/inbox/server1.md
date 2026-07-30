@@ -614,3 +614,62 @@ calibration `[8:20]` 12 case/model을 동시에 실행해 calibration 17 case를
 - 후속 보고:
   diagnostic job ID, safe category/line, resource, failed raw archive,
   별도 root-cause fix 및 final-pair red gate
+
+---
+
+# MV-2 singleton-stride final repair instruction — `session01-mv2refresh-pair-v1-retry3`
+
+## 목적과 배경
+
+- 목적:
+  exact root cause인 `(N,1)` singleton stride byte-view bug만 고치고 최초
+  scientific lock의 Llama/Qwen pair를 완주한다.
+- repo/protocol에서 확인한 사실:
+  job `15607`은 `cpu_byte_view/tensor_layout`, float64 `(14336,1)`을
+  기록해 원인을 확정했다.
+- GH 추정:
+  없음. pathological stride는 unit test로 재현된다.
+- 사용자 확인 필요:
+  없음. 빠른 동시 pair technical recovery다.
+
+## 실행 권한 envelope
+
+- 허용 write path:
+  canonical two raw dirs, 기존 local log/state, job15607 ignored archive,
+  small analysis/audit/completion paths
+- Slurm 제출 허용 여부:
+  singleton-stride repair exact `PASS`, clean pushed main 뒤 GH pair helper
+  retry3 1회만 `allowed`
+- GPU cap:
+  server1 최대 3; parent `2 GPU / 16 CPU / 130000M / 08:00:00`,
+  child별 `1 GPU / 8 CPU / 65000M`
+- red-team gate:
+  exact pathological regression, full tests, all prior marker/archive,
+  independent review residual P1/P2 없음
+- artifact broadcast:
+  peer clone 부재 no-peer 예외; 다른 repo/session 조작 금지
+- 완료 보고 경로:
+  기존 model별 global analysis, pair post-run, server1 completion message
+- 금지 사항:
+  scientific lock 변경, EasyEdit/cache/data write, raw Git 유입,
+  partial-result rescue, 다른 repo/session/job 조작
+- 예상 산출물:
+  exact 12 event/72 outcome per model, model별 독립 analysis/compact summary,
+  pair red verdict와 refresh expected-effect/cost
+- 중단 조건:
+  hash/layout/category error 재발, output/retry3 marker 중복,
+  dirty/unpushed main, cap/session mismatch, child 비동시 시작/nonzero
+
+## GH 직접 final repair 예외 기록
+
+- 사유:
+  SH 부재, user time-critical simultaneous request, exact first-case plumbing
+  root cause 확정과 regression closure
+- exact submit command:
+  `project/run_scripts/submit_session01_mv2refresh_pair_server1.sh`
+- 영향 범위:
+  server1 one simultaneous pair `2 GPU / 16 CPU / 130000M`;
+  scientific contract 변화 없음
+- 후속 보고:
+  retry3 job ID/state/resource, safe trace 여부, model별 독립 analysis,
+  pair red post-run, no-peer broadcast exception
