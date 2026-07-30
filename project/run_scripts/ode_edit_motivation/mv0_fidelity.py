@@ -165,12 +165,21 @@ def _write_json_exclusive(path: Path, payload: Mapping[str, Any]) -> None:
             separators=(",", ":"),
         )
         handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
 
 
 class SanitizedJsonlWriter:
-    def __init__(self, path: Path, run_id: str) -> None:
+    def __init__(
+        self,
+        path: Path,
+        run_id: str,
+        *,
+        schema_version: str = "ode-edit-mv0/v1",
+    ) -> None:
         self.path = path
         self.run_id = run_id
+        self.schema_version = schema_version
         self.sequence = 0
         self.handle: Any = None
 
@@ -183,7 +192,7 @@ class SanitizedJsonlWriter:
             raise RuntimeError("JSONL writer is not open")
         record = _safe_payload(
             {
-                "schema_version": "ode-edit-mv0/v1",
+                "schema_version": self.schema_version,
                 "run_id": self.run_id,
                 "sequence": self.sequence,
                 "recorded_at": dt.datetime.now(dt.timezone.utc).isoformat(),
@@ -203,6 +212,12 @@ class SanitizedJsonlWriter:
         )
         self.handle.flush()
         self.sequence += 1
+
+    def sync(self) -> None:
+        if self.handle is None:
+            raise RuntimeError("JSONL writer is not open")
+        self.handle.flush()
+        os.fsync(self.handle.fileno())
 
     def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> bool:
         if self.handle is not None:
@@ -1252,7 +1267,10 @@ def run_mv0(
                 "projector_policy": "sha256-and-size-verify-only; never-deserialized",
                 "covariance_policy": "verified-read-only; recompute-and-download-blocked",
                 "direct_z_policy": "computed-once-and-frozen-under-this-local-run",
-                "artifact_firewall": "case IDs/hashes/metrics only; no raw edit or eval fields",
+                "artifact_firewall": (
+                    "structured JSON contains case IDs/full request hashes/metrics "
+                    "only; activation-derived direct_z remains local-only"
+                ),
             },
         )
         torch.cuda.reset_peak_memory_stats(0)
