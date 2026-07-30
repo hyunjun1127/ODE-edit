@@ -7,32 +7,33 @@ umask 077
 readonly REPO_ROOT="/mnt/raid5/janghj/ODE-edit"
 readonly SESSION_ID="019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2"
 readonly SBATCH_FILE="${REPO_ROOT}/project/run_scripts/session01_mv0_server1.sbatch"
-readonly RED_GATE="${REPO_ROOT}/audits/global/2026-07-30-session01-mv0-execution-preflight.md"
 readonly LOG_ROOT="${REPO_ROOT}/local/logs/slurm/session01_motivation"
 readonly OUTPUT_ROOT="${REPO_ROOT}/local/results/raw/session01_motivation"
 readonly STATE_ROOT="${REPO_ROOT}/local/state/slurm-submissions/session01_motivation"
 
 [[ "$#" -eq 3 ]] || {
-  echo "usage: $0 llama3-8b-inst mv0_llama_smoke_v1 1" >&2
+  echo "usage: $0 MODEL_ALIAS AUDITED_RUN_ID 1" >&2
   exit 2
 }
 readonly MODEL_ALIAS="$1"
 readonly RUN_ID="$2"
 readonly CASES="$3"
-readonly JOB_NAME="odeedit_mv0_llama_smoke"
 
-[[ "${MODEL_ALIAS}" == "llama3-8b-inst" ]] || {
-  echo "this one-shot gate permits only llama3-8b-inst" >&2
-  exit 2
-}
-[[ "${RUN_ID}" == "mv0_llama_smoke_v1" ]] || {
-  echo "this one-shot gate permits only run ID mv0_llama_smoke_v1" >&2
-  exit 2
-}
-[[ "${CASES}" == "1" ]] || {
-  echo "this one-shot gate permits exactly one case" >&2
-  exit 2
-}
+case "${MODEL_ALIAS}|${RUN_ID}|${CASES}" in
+  "llama3-8b-inst|mv0_llama_smoke_v1|1")
+    JOB_NAME="odeedit_mv0_llama_smoke"
+    RED_GATE="${REPO_ROOT}/audits/global/2026-07-30-session01-mv0-execution-preflight.md"
+    ;;
+  "qwen2.5-7b-inst|mv0_qwen_smoke_v1|1")
+    JOB_NAME="odeedit_mv0_qwen_smoke"
+    RED_GATE="${REPO_ROOT}/audits/global/2026-07-30-session01-mv0-qwen-execution-preflight.md"
+    ;;
+  *)
+    echo "arguments do not match an audited exact one-shot envelope" >&2
+    exit 2
+    ;;
+esac
+readonly JOB_NAME RED_GATE
 
 cd "${REPO_ROOT}"
 [[ "$(git config --local agent.id)" == "head-server1-gh" ]] || {
@@ -54,7 +55,7 @@ cd "${REPO_ROOT}"
 git ls-files --error-unmatch \
   project/run_scripts/session01_mv0_server1.sbatch \
   project/run_scripts/submit_session01_mv0_server1.sh \
-  audits/global/2026-07-30-session01-mv0-execution-preflight.md \
+  "${RED_GATE#${REPO_ROOT}/}" \
   project/run_scripts/ode_edit_motivation/__init__.py \
   project/run_scripts/ode_edit_motivation/artifacts.py \
   project/run_scripts/ode_edit_motivation/contracts.py \
@@ -66,6 +67,12 @@ git ls-files --error-unmatch \
   project/run_scripts/ode_edit_motivation/manifests.py \
   project/run_scripts/ode_edit_motivation/mv0_fidelity.py \
   >/dev/null
+if [[ "${MODEL_ALIAS}" == "qwen2.5-7b-inst" ]]; then
+  git ls-files --error-unmatch \
+    experiment-reports/global/2026-07-30-mv0-llama-smoke-analysis.md \
+    audits/global/2026-07-30-mv0-llama-smoke.postrun.md \
+    >/dev/null
+fi
 [[ -z "$(git status --porcelain --untracked-files=normal)" ]] || {
   echo "MV-0 submission requires a clean repository with no untracked files" >&2
   exit 2

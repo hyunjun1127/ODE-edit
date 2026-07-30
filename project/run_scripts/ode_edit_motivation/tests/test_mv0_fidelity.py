@@ -1,4 +1,5 @@
 import json
+import os
 import tempfile
 import types
 import unittest
@@ -42,6 +43,7 @@ from project.run_scripts.ode_edit_motivation.mv0_fidelity import (
     _apply_native_deltas,
     _local_run_directory,
     _safe_payload,
+    _slurm_runtime_state,
     compare_tensors,
     run_mv0,
 )
@@ -89,6 +91,34 @@ class _FakeBridge:
 
 
 class MV0FidelityCpuTests(unittest.TestCase):
+    def test_slurm_identity_is_bound_to_exact_audited_smoke(self):
+        with mock.patch.dict(
+            os.environ,
+            {
+                "SLURM_JOB_ID": "15501",
+                "SLURM_JOB_NAME": "odeedit_mv0_qwen_smoke",
+                "SLURMD_NODENAME": "devbox",
+            },
+            clear=False,
+        ):
+            self.assertEqual(
+                _slurm_runtime_state(
+                    "qwen2.5-7b-inst",
+                    "mv0_qwen_smoke_v1",
+                ),
+                {
+                    "under_slurm": True,
+                    "job_id": "15501",
+                    "job_name": "odeedit_mv0_qwen_smoke",
+                    "node": "devbox",
+                },
+            )
+            with self.assertRaises(MV0Error):
+                _slurm_runtime_state(
+                    "llama3-8b-inst",
+                    "mv0_llama_smoke_v1",
+                )
+
     def setUp(self):
         self.model = torch.nn.Linear(3, 2, bias=False, dtype=torch.float32)
         with torch.no_grad():

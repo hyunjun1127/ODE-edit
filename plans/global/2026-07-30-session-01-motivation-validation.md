@@ -239,6 +239,17 @@ run 종료 뒤 실행 담당이 아닌 별도 agent가 raw manifest와 compact s
 
 ### MV-1 — Calibrated predictive heterogeneity
 
+#### 진입 전 필수 보강
+
+- model/revision/stats/hparams identity가 없는 EasyEdit `COV_CACHE`를 arm 사이에
+  공유하지 않고, pinned file을 process-local로 다시 load한다.
+- editable weight뿐 아니라 `requires_grad`, model mode, `use_cache`, context
+  cache, RNG 등 non-weight state neutrality를 sentinel로 검증한다.
+- generated context cache는 model별 fresh process에서 만들고 paired
+  order/arm의 context hash가 byte-identical해야 한다.
+- multi-token target의 encode→continuation→tokenize round trip, right padding,
+  causal target position, logits tensor layout을 고정 sentinel로 검증한다.
+
 #### 실행
 
 - 사전 선택 100 case를 `calibration 20 / confirmatory 60 / untouched 20`으로
@@ -253,18 +264,39 @@ run 종료 뒤 실행 담당이 아닌 별도 agent가 raw manifest와 compact s
 #### Primary event effect
 
 ```text
-realized_progress(analytic-utility winner)
-  - median_layer_realized_progress
+realized_progress(analytic-utility allocation)
+  - realized_progress(calibration-fixed static-best)
 ```
 
-그리고 analytic utility와 realized layer ordering의 event-level concordance를
-사용한다. layer를 독립 sample로 세지 않는다.
+calibration에서 고정한 operational `C`-budget에서 비교하며, winner-vs-median과
+analytic utility–realized ordering concordance는 secondary로 둔다. layer를
+독립 sample로 세지 않는다. `C`-specific claim에는 norm-min allocation과
+cost-shuffled allocation을 negative control로 포함한다.
 
 #### Kill
 
 두 모델 모두에서 winner advantage가 replay/permutation/context null envelope와
 구분되지 않거나 utility가 realized progress를 예측하지 못하면 layer-routing
 motivation을 kill한다.
+
+#### 기대효과 예측
+
+confirmatory/untouched event에서 다음을 model별 paired CI로 분리한다.
+
+1. `oracle allocation - best static`: routing이 가질 수 있는 empirical upper
+   bound
+2. `cross-validated controller - best static`: tuning leakage 없이 기대할 수
+   있는 achievable gain
+3. `refreshed controller - fixed-direction controller`: dynamic refresh만의
+   incremental gain
+4. 같은 rewrite progress에서의 displacement frontier 차이: retention
+   개선으로 연결되기 전의 mechanism-side 예상효과
+
+MV-4에서 displacement–retention intervention slope가 생존한 경우에만 4를
+retention 기대효과로 변환한다. 그 전에는 성능 개선 예측이 아니라
+`matched-progress displacement reduction forecast`로 보고한다. point estimate,
+paired bootstrap CI, model별 sign, compute/NFE 비용을 함께 공개하며 oracle을
+실현 가능한 method 성능처럼 쓰지 않는다.
 
 #### Pivot
 
@@ -396,6 +428,11 @@ retention(displacement-reducing arm)
 - retention gain이 under-edit로 설명:
   matched-progress procedure 재설계
 
+단, canonical baseline damage 자체가 replay/order noise를 넘지 않으면
+“capacity effect 없음”으로 kill하지 않고
+`inconclusive_at_this_horizon`으로 판정하여 더 긴 horizon의 비용/필요성을
+별도로 결정한다.
+
 #### 독립 분석
 
 별도 agent가 MV-4 artifact/report만 읽고 독립 보고서를 작성한다.
@@ -422,15 +459,21 @@ retention(displacement-reducing arm)
 
 ODE 이름을 유지하려면 MV-2/MV-3에 다음을 포함한다.
 
-- multiple step-size curve
+- 최소 2회 accepted refresh
+- 최소 3개 step size의 refinement curve
 - fixed initial direction 대 refreshed direction
 - proposal C-cosine/curvature
 - step refinement에 따른 endpoint/trajectory stability
-- 가능하면 Euler 대 Heun/local truncation proxy
+- Euler–Heun 또는 step-doubling consistency
+- matched NFE에서 fixed-direction/static/Gauss–Seidel small-step 대비 refresh gain
 - wall-clock, forward/backward, solve/NFE
 
 한 step에서만 이득이 있거나 평균 1–2 round가 fixed-direction iterative method와
 다르지 않으면 `ODE` 이름을 제거한다.
+
+controller/QP 해 자체가 step size `h`에 따라 불연속적으로 바뀌어 하나의
+`F(W,Z)`를 정의할 수 없다면 ODE discretization이 아니라 discrete
+state-dependent controller로 기술한다.
 
 ## 8. Baseline scope
 
@@ -477,8 +520,10 @@ local EasyEdit에 없는 방법을 implemented/reproduced baseline이라고 쓰�
 - project GPU cap: 3
 - host-memory cap: 198117 MiB per requested GPU
 - 현재 exact one-shot: Llama 1 case, 1 GPU, 8 CPU, 65000 MiB
-- Qwen smoke와 2–3 case 확장은 이 one-shot의 독립 analysis/red audit를
-  통과한 뒤 새 execution audit로만 허용하며 동시 제출하지 않는다.
+- 현재 Qwen smoke는 Llama one-shot이 이미 끝난 뒤 별도 audit로 제출한다.
+- 이후 양 model의 calibration/MV-1 이상은 각 model별 dependency와 red gate가
+  모두 PASS하면 GPU 1개씩, 총 2개를 동시에 제출한다. 제출 직전 aggregate
+  cap 3과 두 job의 memory cap을 함께 검사한다.
 - job name: `motivation_*` 또는 `odeedit_*`
 - 제출 직전:
 

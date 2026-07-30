@@ -107,22 +107,14 @@ export CUDA_VISIBLE_DEVICES="${SLURM_ASSIGNED_CUDA}"
 readonly MODEL_ALIAS="$1"
 readonly RUN_ID="$2"
 readonly CASES="$3"
-[[ "${MODEL_ALIAS}" == "llama3-8b-inst" ]] || {
-  echo "this Slurm envelope permits only llama3-8b-inst" >&2
-  exit 2
-}
-[[ "${RUN_ID}" == "mv0_llama_smoke_v1" ]] || {
-  echo "this Slurm envelope permits only run ID mv0_llama_smoke_v1" >&2
-  exit 2
-}
-[[ "${CASES}" == "1" ]] || {
-  echo "this Slurm envelope permits exactly one case" >&2
-  exit 2
-}
-[[ "${SLURM_JOB_NAME:-}" == "odeedit_mv0_llama_smoke" ]] || {
-  echo "Slurm job-name boundary mismatch" >&2
-  exit 2
-}
+case "${MODEL_ALIAS}|${RUN_ID}|${CASES}|${SLURM_JOB_NAME:-}" in
+  "llama3-8b-inst|mv0_llama_smoke_v1|1|odeedit_mv0_llama_smoke") ;;
+  "qwen2.5-7b-inst|mv0_qwen_smoke_v1|1|odeedit_mv0_qwen_smoke") ;;
+  *)
+    echo "Slurm arguments/job-name do not match an audited one-shot envelope" >&2
+    exit 2
+    ;;
+esac
 
 readonly OUTPUT_ROOT="${REPO_ROOT}/local/results/raw/session01_motivation"
 [[ ! -e "${OUTPUT_ROOT}/${RUN_ID}" ]] || {

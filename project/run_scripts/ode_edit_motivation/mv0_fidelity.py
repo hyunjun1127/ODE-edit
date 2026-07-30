@@ -1103,6 +1103,46 @@ def _git_runtime_state() -> dict[str, Any]:
     }
 
 
+def _slurm_runtime_state(model_alias: str, run_id: str) -> dict[str, Any]:
+    """Bind a Slurm-launched artifact to its exact audited job envelope."""
+
+    values = {
+        "job_id": os.environ.get("SLURM_JOB_ID"),
+        "job_name": os.environ.get("SLURM_JOB_NAME"),
+        "node": os.environ.get("SLURMD_NODENAME"),
+    }
+    if all(value is None for value in values.values()):
+        return {"under_slurm": False}
+    if any(value is None for value in values.values()):
+        raise MV0Error("partial Slurm identity is forbidden")
+    expected_jobs = {
+        ("llama3-8b-inst", "mv0_llama_smoke_v1"): (
+            "odeedit_mv0_llama_smoke",
+            "devbox",
+        ),
+        ("qwen2.5-7b-inst", "mv0_qwen_smoke_v1"): (
+            "odeedit_mv0_qwen_smoke",
+            "devbox",
+        ),
+    }
+    expected = expected_jobs.get((model_alias, run_id))
+    if expected is None:
+        raise MV0Error("Slurm run is outside the audited MV-0 smoke identities")
+    expected_name, expected_node = expected
+    if (
+        re.fullmatch(r"[0-9]+", values["job_id"] or "") is None
+        or values["job_name"] != expected_name
+        or values["node"] != expected_node
+    ):
+        raise MV0Error("Slurm job identity does not match the audited envelope")
+    return {
+        "under_slurm": True,
+        "job_id": values["job_id"],
+        "job_name": values["job_name"],
+        "node": values["node"],
+    }
+
+
 def _selection_cases(
     selection: CounterFactSelectionManifest,
     count: int,
@@ -1129,6 +1169,7 @@ def run_mv0(
     root = Path(easyedit_root).expanduser().resolve(strict=True)
     spec = fixed_model_spec(model_alias)
     git_state = _git_runtime_state()
+    slurm_state = _slurm_runtime_state(model_alias, run_id)
     # All byte checks and request sanitization happen before model allocation.
     provenance = preflight_fixed_artifacts(root, model_alias=model_alias)
     selection = generate_counterfact_selection(root, seed=selection_seed)
@@ -1161,6 +1202,7 @@ def run_mv0(
                 "schema_version": "ode-edit-mv0-manifest/v1",
                 "run_id": run_id,
                 "ode_edit_git": git_state,
+                "slurm": slurm_state,
                 "model": runtime.metadata(),
                 "hparams_relative_path": spec.hparams_path,
                 "selection": selection.to_dict(),
@@ -1310,6 +1352,7 @@ def run_mv0(
             "schema_version": "ode-edit-mv0-summary/v1",
             "run_id": run_id,
             "model_alias": model_alias,
+            "slurm": slurm_state,
             "provenance_id": provenance.manifest_id,
             "selection_manifest_id": selection.manifest_id,
             "context_id": contexts.manifest_id,
