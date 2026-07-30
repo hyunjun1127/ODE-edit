@@ -26,6 +26,7 @@ import subprocess
 import time
 from dataclasses import dataclass
 from pathlib import Path
+from types import MappingProxyType
 from typing import Any, Callable, Mapping, Sequence
 
 import torch
@@ -216,6 +217,133 @@ CONFIRMATORY_RUN_IDS = {
     "llama3-8b-inst": "mv1mix_llama_c1_v1",
     "qwen2.5-7b-inst": "mv1mix_qwen_c1_v1",
 }
+
+
+@dataclass(frozen=True, slots=True)
+class ScoreMixWaveLock:
+    """Outcome-blind execution envelope shared by C1 and its fixed follow-ups."""
+
+    label: str
+    selected_split: str
+    fold: int | None
+    case_count: int
+    job_name: str
+    run_ids: Mapping[str, str]
+    run_seed: int | None = None
+
+    def __post_init__(self) -> None:
+        if (
+            type(self.label) is not str
+            or type(self.selected_split) is not str
+            or type(self.case_count) is not int
+            or (
+                self.fold is not None
+                and type(self.fold) is not int
+            )
+        ):
+            raise ContractError("score-mix wave slice types are invalid")
+        exact_slice = (
+            self.label,
+            self.selected_split,
+            self.fold,
+            self.case_count,
+        )
+        if exact_slice not in {
+            ("c1", "confirmatory", 0, 12),
+            ("fold1", "confirmatory", 1, 12),
+            ("untouched", "untouched", None, 20),
+        }:
+            raise ContractError("score-mix wave slice is outside the fixed envelope")
+        if (
+            not isinstance(self.job_name, str)
+            or not self.job_name
+            or any(ord(character) < 32 for character in self.job_name)
+        ):
+            raise ContractError("score-mix wave job name is invalid")
+        normalized_runs = dict(self.run_ids)
+        if (
+            set(normalized_runs) != set(MODEL_SPECS)
+            or any(
+                not isinstance(run_id, str)
+                or not run_id
+                or any(ord(character) < 32 for character in run_id)
+                for run_id in normalized_runs.values()
+            )
+            or len(set(normalized_runs.values())) != len(normalized_runs)
+        ):
+            raise ContractError("score-mix wave run-ID map is invalid")
+        if self.run_seed is not None and (
+            isinstance(self.run_seed, bool) or not isinstance(self.run_seed, int)
+        ):
+            raise ContractError("score-mix wave run seed must be an integer")
+        expected_identity = {
+            "c1": {
+                "job_name": "odeedit_mv1mix_c1_pair_v1",
+                "run_ids": {
+                    "llama3-8b-inst": "mv1mix_llama_c1_v1",
+                    "qwen2.5-7b-inst": "mv1mix_qwen_c1_v1",
+                },
+                "run_seed": None,
+            },
+            "fold1": {
+                "job_name": "odeedit_mv1mix_fold1_pair_v1",
+                "run_ids": {
+                    "llama3-8b-inst": "mv1mix_llama_fold1_v1",
+                    "qwen2.5-7b-inst": "mv1mix_qwen_fold1_v1",
+                },
+                "run_seed": 17,
+            },
+            "untouched": {
+                "job_name": "odeedit_mv1mix_untouched_pair_v1",
+                "run_ids": {
+                    "llama3-8b-inst": "mv1mix_llama_untouched_v1",
+                    "qwen2.5-7b-inst": "mv1mix_qwen_untouched_v1",
+                },
+                "run_seed": 17,
+            },
+        }[self.label]
+        if (
+            self.job_name != expected_identity["job_name"]
+            or normalized_runs != expected_identity["run_ids"]
+            or self.run_seed != expected_identity["run_seed"]
+        ):
+            raise ContractError("score-mix wave identity differs from the precommit")
+        object.__setattr__(
+            self,
+            "run_ids",
+            MappingProxyType(normalized_runs),
+        )
+
+
+CONFIRMATORY_WAVE_LOCK = ScoreMixWaveLock(
+    label=CONFIRMATORY_LABEL,
+    selected_split="confirmatory",
+    fold=CONFIRMATORY_FOLD,
+    case_count=CONFIRMATORY_CASE_COUNT,
+    job_name=CONFIRMATORY_JOB_NAME,
+    run_ids=CONFIRMATORY_RUN_IDS,
+)
+
+
+def _validated_score_mix_wave_lock(wave: ScoreMixWaveLock) -> ScoreMixWaveLock:
+    """Reject annotation bypasses and revalidate every canonical field."""
+
+    if type(wave) is not ScoreMixWaveLock:
+        raise ContractError("score-mix wave lock has an invalid runtime type")
+    revalidated = ScoreMixWaveLock(
+        label=wave.label,
+        selected_split=wave.selected_split,
+        fold=wave.fold,
+        case_count=wave.case_count,
+        job_name=wave.job_name,
+        run_ids=wave.run_ids,
+        run_seed=wave.run_seed,
+    )
+    if wave != revalidated:
+        raise ContractError("score-mix wave lock failed canonical revalidation")
+    return wave
+
+
 CONFIRMATORY_POLICY_PATHS = {
     "llama3-8b-inst": {
         "static": (
@@ -665,16 +793,22 @@ def load_forecast_policy(
     )
 
 
-def select_confirmatory_fold_cases(
+def select_score_mix_wave_cases(
     selection: CounterFactSelectionManifest,
+    *,
+    wave: ScoreMixWaveLock,
 ) -> tuple[tuple[str, ...], ConfirmatoryFoldManifest]:
-    """Return fold 0 in fixed-selection order, using IDs only."""
+    """Return one exact outcome-blind wave in fixed-selection order."""
 
+    wave = _validated_score_mix_wave_lock(wave)
     if (
         selection.seed != DEFAULT_SELECTION_SEED
         or len(selection.calibration) != 20
         or len(selection.confirmatory) != 60
         or len(selection.untouched) != 20
+        or set(selection.calibration).intersection(selection.confirmatory)
+        or set(selection.calibration).intersection(selection.untouched)
+        or set(selection.confirmatory).intersection(selection.untouched)
     ):
         raise ContractError(
             "confirmatory runner requires the canonical seed and fixed 20/60/20 split"
@@ -684,35 +818,75 @@ def select_confirmatory_fold_cases(
         seed=CONFIRMATORY_FOLD_SEED,
         fold_count=CONFIRMATORY_FOLD_COUNT,
     )
-    selected = tuple(
-        case_id
-        for case_id in selection.confirmatory
-        if folds.fold_for(case_id) == CONFIRMATORY_FOLD
-    )
+    if wave.selected_split == "confirmatory":
+        selected = tuple(
+            case_id
+            for case_id in selection.confirmatory
+            if folds.fold_for(case_id) == wave.fold
+        )
+        allowed = set(selection.confirmatory)
+    elif wave.selected_split == "untouched":
+        selected = tuple(selection.untouched)
+        allowed = set(selection.untouched)
+    else:  # ScoreMixWaveLock already rejects this; retain a local fail-closed guard.
+        raise ContractError("score-mix wave selected split is invalid")
     if (
-        len(selected) != CONFIRMATORY_CASE_COUNT
-        or len(set(selected)) != CONFIRMATORY_CASE_COUNT
-        or not set(selected).issubset(set(selection.confirmatory))
+        len(selected) != wave.case_count
+        or len(set(selected)) != wave.case_count
+        or not set(selected).issubset(allowed)
+        or set(selected).intersection(selection.calibration)
+        or (
+            wave.selected_split == "untouched"
+            and set(selected).intersection(selection.confirmatory)
+        )
     ):
-        raise ContractError("confirmatory fold 0 is not the exact 12-case envelope")
+        raise ContractError("score-mix wave cases differ from the exact envelope")
     return selected, folds
 
 
-def _execution_envelope(model_alias: str, run_id: str) -> str:
+def select_confirmatory_fold_cases(
+    selection: CounterFactSelectionManifest,
+) -> tuple[tuple[str, ...], ConfirmatoryFoldManifest]:
+    """Return C1 fold 0 in fixed-selection order, using IDs only."""
+
+    return select_score_mix_wave_cases(
+        selection,
+        wave=CONFIRMATORY_WAVE_LOCK,
+    )
+
+
+def _score_mix_execution_envelope(
+    model_alias: str,
+    run_id: str,
+    *,
+    wave: ScoreMixWaveLock,
+) -> str:
+    wave = _validated_score_mix_wave_lock(wave)
     try:
-        expected = CONFIRMATORY_RUN_IDS[model_alias]
+        expected = wave.run_ids[model_alias]
     except KeyError as exc:
         raise MV1Error("model is outside the confirmatory envelope") from exc
     if run_id != expected:
         raise MV1Error("run ID is outside the confirmatory envelope")
-    return CONFIRMATORY_LABEL
+    return wave.label
 
 
-def _confirmatory_slurm_state(
+def _execution_envelope(model_alias: str, run_id: str) -> str:
+    return _score_mix_execution_envelope(
+        model_alias,
+        run_id,
+        wave=CONFIRMATORY_WAVE_LOCK,
+    )
+
+
+def _score_mix_slurm_state(
     model_alias: str,
     run_id: str,
+    *,
+    wave: ScoreMixWaveLock,
 ) -> dict[str, Any]:
-    label = _execution_envelope(model_alias, run_id)
+    wave = _validated_score_mix_wave_lock(wave)
+    label = _score_mix_execution_envelope(model_alias, run_id, wave=wave)
     values = {
         "job_id": os.environ.get("SLURM_JOB_ID"),
         "job_name": os.environ.get("SLURM_JOB_NAME"),
@@ -723,7 +897,7 @@ def _confirmatory_slurm_state(
     if any(value is None for value in values.values()):
         raise MV1Error("partial Slurm identity is forbidden")
     if (
-        values["job_name"] != CONFIRMATORY_JOB_NAME
+        values["job_name"] != wave.job_name
         or values["node"] != "devbox"
         or not str(values["job_id"]).isdigit()
     ):
@@ -734,8 +908,19 @@ def _confirmatory_slurm_state(
         "job_name": values["job_name"],
         "node": values["node"],
         "slice_label": label,
-        "fold": CONFIRMATORY_FOLD,
+        "fold": wave.fold,
     }
+
+
+def _confirmatory_slurm_state(
+    model_alias: str,
+    run_id: str,
+) -> dict[str, Any]:
+    return _score_mix_slurm_state(
+        model_alias,
+        run_id,
+        wave=CONFIRMATORY_WAVE_LOCK,
+    )
 
 
 def _validate_execution_mode(
@@ -1684,8 +1869,9 @@ def run_confirmatory_event_loop(
     return results, abort_failure_type
 
 
-def run_mv1_score_mix_confirmatory(
+def run_score_mix_wave(
     *,
+    wave: ScoreMixWaveLock,
     easyedit_root: str | Path,
     model_alias: str,
     run_id: str,
@@ -1697,13 +1883,18 @@ def run_mv1_score_mix_confirmatory(
     model_loader: Callable[[str], FixedModelRuntime] = load_fixed_model,
     event_runner: Callable[..., Mapping[str, Any]] = _run_confirmatory_event,
 ) -> dict[str, Any]:
-    """Run one fixed model on exactly confirmatory fold 0 (12 cases)."""
+    """Run one exact C1/follow-up slice through the shared C1 event core."""
 
+    wave = _validated_score_mix_wave_lock(wave)
     started = time.perf_counter()
-    _execution_envelope(model_alias, run_id)
+    _score_mix_execution_envelope(model_alias, run_id, wave=wave)
     if selection_seed != DEFAULT_SELECTION_SEED:
         raise MV1Error("confirmatory selection seed differs from the canonical lock")
-    slurm_state = _confirmatory_slurm_state(model_alias, run_id)
+    if wave.run_seed is not None and (
+        type(seed) is not int or seed != wave.run_seed
+    ):
+        raise MV1Error("score-mix wave seed differs from the fixed lock")
+    slurm_state = _score_mix_slurm_state(model_alias, run_id, wave=wave)
     production = _validate_execution_mode(
         slurm_state=slurm_state,
         model_loader=model_loader,
@@ -1731,7 +1922,7 @@ def run_mv1_score_mix_confirmatory(
     git_state = _git_runtime_state()
     provenance = preflight_fixed_artifacts(root, model_alias=model_alias)
     selection = generate_counterfact_selection(root, seed=selection_seed)
-    case_ids, fold_manifest = select_confirmatory_fold_cases(selection)
+    case_ids, fold_manifest = select_score_mix_wave_cases(selection, wave=wave)
     requests = load_counterfact_requests(root, case_ids)
     bridge = EasyEditBridge(root, expected_files=_bridge_pins())
     bridge_provenance = bridge.preflight()
@@ -1763,13 +1954,18 @@ def run_mv1_score_mix_confirmatory(
                 "model": runtime.metadata(),
                 "hparams_relative_path": spec.hparams_path,
                 "selection": selection.to_dict(),
-                "selected_split": "confirmatory",
+                "selected_split": wave.selected_split,
                 "confirmatory_folds": fold_manifest.to_dict(),
                 "selected_fold": {
-                    "label": CONFIRMATORY_LABEL,
-                    "fold": CONFIRMATORY_FOLD,
-                    "count": CONFIRMATORY_CASE_COUNT,
+                    "label": wave.label,
+                    "fold": wave.fold,
+                    "count": wave.case_count,
                     "case_ids": list(case_ids),
+                    **(
+                        {"run_seed": wave.run_seed}
+                        if wave.run_seed is not None
+                        else {}
+                    ),
                 },
                 "selected_case_ids": list(case_ids),
                 "selected_request_ids": [
@@ -1848,13 +2044,12 @@ def run_mv1_score_mix_confirmatory(
                     "activation-derived direct_z remains local-only"
                 ),
                 "expected_counts": {
-                    "features": CONFIRMATORY_CASE_COUNT,
-                    "commitments": CONFIRMATORY_CASE_COUNT,
+                    "features": wave.case_count,
+                    "commitments": wave.case_count,
                     "outcomes": (
-                        CONFIRMATORY_CASE_COUNT
-                        * len(CONFIRMATORY_OUTCOME_ACTIONS)
+                        wave.case_count * len(CONFIRMATORY_OUTCOME_ACTIONS)
                     ),
-                    "receipts": CONFIRMATORY_CASE_COUNT,
+                    "receipts": wave.case_count,
                 },
         }
         if set(manifest_payload) != CONFIRMATORY_MANIFEST_FIELDS:
@@ -1955,12 +2150,17 @@ def run_mv1_score_mix_confirmatory(
             "run_id": run_id,
             "model_alias": model_alias,
             "slice": {
-                "label": CONFIRMATORY_LABEL,
-                "split": "confirmatory",
-                "fold": CONFIRMATORY_FOLD,
+                "label": wave.label,
+                "split": wave.selected_split,
+                "fold": wave.fold,
                 "fold_count": CONFIRMATORY_FOLD_COUNT,
-                "count": CONFIRMATORY_CASE_COUNT,
+                "count": wave.case_count,
                 "fold_manifest_id": fold_manifest.manifest_id,
+                **(
+                    {"run_seed": wave.run_seed}
+                    if wave.run_seed is not None
+                    else {}
+                ),
             },
             "slurm": slurm_state,
             "provenance_id": provenance.manifest_id,
@@ -2049,6 +2249,36 @@ def run_mv1_score_mix_confirmatory(
             raise MV1Error("confirmatory summary fields differ from the lock")
         _write_json_exclusive(summary_path, summary)
         return {**summary, "output_directory": str(destination)}
+
+
+def run_mv1_score_mix_confirmatory(
+    *,
+    easyedit_root: str | Path,
+    model_alias: str,
+    run_id: str,
+    static_policy_path: str | Path,
+    forecast_policy_path: str | Path,
+    output_root: str | Path = DEFAULT_OUTPUT_ROOT,
+    seed: int = 17,
+    selection_seed: str = DEFAULT_SELECTION_SEED,
+    model_loader: Callable[[str], FixedModelRuntime] = load_fixed_model,
+    event_runner: Callable[..., Mapping[str, Any]] = _run_confirmatory_event,
+) -> dict[str, Any]:
+    """Run one fixed model on exactly confirmatory fold 0 (12 cases)."""
+
+    return run_score_mix_wave(
+        wave=CONFIRMATORY_WAVE_LOCK,
+        easyedit_root=easyedit_root,
+        model_alias=model_alias,
+        run_id=run_id,
+        static_policy_path=static_policy_path,
+        forecast_policy_path=forecast_policy_path,
+        output_root=output_root,
+        seed=seed,
+        selection_seed=selection_seed,
+        model_loader=model_loader,
+        event_runner=event_runner,
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:

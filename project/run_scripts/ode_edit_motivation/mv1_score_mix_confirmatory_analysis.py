@@ -20,9 +20,11 @@ import statistics
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from types import MappingProxyType
 from typing import Any, Mapping, Sequence
 
 from .contracts import ContractError
+from .manifests import DEFAULT_SELECTION_SEED
 from .mv1_score_mix_analysis import (
     MODEL_ENVELOPES,
     NUMERIC_COMPARISON_TOLERANCE,
@@ -59,6 +61,12 @@ from .mv1_analysis import build_confirmatory_fold_manifest
 
 
 CONFIRMATORY_ANALYSIS_SCHEMA = "ode-edit-mv1-score-mix-confirmatory-analysis/v1"
+CONFIRMATORY_FOLD01_INPUT_SCHEMA = (
+    "ode-edit-mv1-score-mix-c1-fold01-aggregate-input/v1"
+)
+CONFIRMATORY_FOLD01_IDENTITY_SCHEMA = (
+    "ode-edit-mv1-score-mix-c1-fold01-aggregate-identity/v1"
+)
 CONFIRMATORY_MANIFEST_SCHEMA = "ode-edit-mv1-score-mix-confirmatory-manifest/v1"
 CONFIRMATORY_SUMMARY_SCHEMA = "ode-edit-mv1-score-mix-confirmatory-summary/v1"
 CONFIRMATORY_STREAM_SCHEMA = "ode-edit-mv1-score-mix-confirmatory/v1"
@@ -110,6 +118,122 @@ CONFIRMATORY_RUN_IDS = {
     "llama3-8b-inst": "mv1mix_llama_c1_v1",
     "qwen2.5-7b-inst": "mv1mix_qwen_c1_v1",
 }
+
+
+@dataclass(frozen=True, slots=True)
+class ScoreMixAnalysisWaveLock:
+    """Exact artifact identity for C1 or one precommitted follow-up."""
+
+    label: str
+    selected_split: str
+    fold: int | None
+    case_count: int
+    job_name: str
+    run_ids: Mapping[str, str]
+    run_seed: int | None
+    require_canonical_selection_seed: bool
+
+    def __post_init__(self) -> None:
+        if (
+            type(self.label) is not str
+            or type(self.selected_split) is not str
+            or type(self.case_count) is not int
+            or (
+                self.fold is not None
+                and type(self.fold) is not int
+            )
+            or (
+                self.run_seed is not None
+                and type(self.run_seed) is not int
+            )
+            or type(self.require_canonical_selection_seed) is not bool
+        ):
+            raise ContractError("analysis wave slice types are invalid")
+        normalized_runs = dict(self.run_ids)
+        expected = {
+            "c1": {
+                "slice": ("confirmatory", 0, 12),
+                "job_name": "odeedit_mv1mix_c1_pair_v1",
+                "run_ids": {
+                    "llama3-8b-inst": "mv1mix_llama_c1_v1",
+                    "qwen2.5-7b-inst": "mv1mix_qwen_c1_v1",
+                },
+                "run_seed": None,
+                "canonical_seed": False,
+            },
+            "fold1": {
+                "slice": ("confirmatory", 1, 12),
+                "job_name": "odeedit_mv1mix_fold1_pair_v1",
+                "run_ids": {
+                    "llama3-8b-inst": "mv1mix_llama_fold1_v1",
+                    "qwen2.5-7b-inst": "mv1mix_qwen_fold1_v1",
+                },
+                "run_seed": 17,
+                "canonical_seed": True,
+            },
+            "untouched": {
+                "slice": ("untouched", None, 20),
+                "job_name": "odeedit_mv1mix_untouched_pair_v1",
+                "run_ids": {
+                    "llama3-8b-inst": "mv1mix_llama_untouched_v1",
+                    "qwen2.5-7b-inst": "mv1mix_qwen_untouched_v1",
+                },
+                "run_seed": 17,
+                "canonical_seed": True,
+            },
+        }.get(self.label)
+        if expected is None or (
+            (self.selected_split, self.fold, self.case_count)
+            != expected["slice"]
+            or self.job_name != expected["job_name"]
+            or normalized_runs != expected["run_ids"]
+            or self.run_seed != expected["run_seed"]
+            or self.require_canonical_selection_seed
+            is not expected["canonical_seed"]
+        ):
+            raise ContractError("analysis wave identity differs from the precommit")
+        object.__setattr__(
+            self,
+            "run_ids",
+            MappingProxyType(normalized_runs),
+        )
+
+
+CONFIRMATORY_ANALYSIS_WAVE_LOCK = ScoreMixAnalysisWaveLock(
+    label="c1",
+    selected_split="confirmatory",
+    fold=CONFIRMATORY_FOLD_INDEX,
+    case_count=CONFIRMATORY_CASE_COUNT,
+    job_name=CONFIRMATORY_JOB_NAME,
+    run_ids=CONFIRMATORY_RUN_IDS,
+    run_seed=None,
+    require_canonical_selection_seed=False,
+)
+
+
+def _validated_analysis_wave_lock(
+    wave: ScoreMixAnalysisWaveLock,
+) -> ScoreMixAnalysisWaveLock:
+    """Reject annotation bypasses and revalidate every canonical field."""
+
+    if type(wave) is not ScoreMixAnalysisWaveLock:
+        raise ContractError("analysis wave lock has an invalid runtime type")
+    revalidated = ScoreMixAnalysisWaveLock(
+        label=wave.label,
+        selected_split=wave.selected_split,
+        fold=wave.fold,
+        case_count=wave.case_count,
+        job_name=wave.job_name,
+        run_ids=wave.run_ids,
+        run_seed=wave.run_seed,
+        require_canonical_selection_seed=(
+            wave.require_canonical_selection_seed
+        ),
+    )
+    if wave != revalidated:
+        raise ContractError("analysis wave lock failed canonical revalidation")
+    return wave
+
 
 CONFIRMATORY_FEATURE_FIELDS = {
     "case_id",
@@ -443,7 +567,20 @@ def _percentile(values: Sequence[float], probability: float) -> float:
     if low == high:
         return ordered[low]
     fraction = position - low
-    return ordered[low] * (1.0 - fraction) + ordered[high] * fraction
+    return _finite(
+        ordered[low] * (1.0 - fraction) + ordered[high] * fraction,
+        name="percentile_result",
+    )
+
+
+def _fmean(values: Sequence[float] | Any, *, name: str) -> float:
+    """Return a finite mean and normalize finite-input arithmetic overflow."""
+
+    try:
+        result = statistics.fmean(values)
+    except ArithmeticError as exc:
+        raise ScoreMixAnalysisError(f"{name} arithmetic overflow") from exc
+    return _finite(result, name=name)
 
 
 def _trimmed_mean(values: Sequence[float], fraction: float = 0.2) -> float:
@@ -454,33 +591,39 @@ def _trimmed_mean(values: Sequence[float], fraction: float = 0.2) -> float:
     retained = ordered[trim : len(ordered) - trim]
     if not retained:
         raise ScoreMixAnalysisError("trimmed mean removed all values")
-    return statistics.fmean(retained)
+    return _fmean(retained, name="trimmed_mean")
 
 
 def _effect_summary(
     values: Sequence[float],
     *,
+    expected_case_count: int = CONFIRMATORY_CASE_COUNT,
     replay_envelope: float,
     bootstrap_seed: int,
     bootstrap_replicates: int,
 ) -> dict[str, Any]:
-    if len(values) != CONFIRMATORY_CASE_COUNT:
+    if len(values) != expected_case_count:
         raise ScoreMixAnalysisError("confirmatory effect denominator mismatch")
     if bootstrap_replicates < 100:
         raise ScoreMixAnalysisError("at least 100 bootstrap replicates are required")
     finite = [_finite(value, name="effect") for value in values]
     generator = random.Random(bootstrap_seed)
     boot = [
-        statistics.fmean(
-            finite[generator.randrange(len(finite))] for _ in finite
+        _fmean(
+            (
+                finite[generator.randrange(len(finite))]
+                for _ in finite
+            ),
+            name="bootstrap_mean",
         )
         for _ in range(bootstrap_replicates)
     ]
+    median = _finite(statistics.median(finite), name="effect_median")
     return {
         "case_count": len(finite),
-        "mean": statistics.fmean(finite),
+        "mean": _fmean(finite, name="effect_mean"),
         "trimmed_mean_20pct": _trimmed_mean(finite),
-        "median": statistics.median(finite),
+        "median": median,
         "positive_sign_count_above_replay_envelope": sum(
             value > replay_envelope for value in finite
         ),
@@ -747,8 +890,8 @@ def _dot(weights: Mapping[str, Any], scores: Mapping[str, Any]) -> float:
 def _pearson(left: Sequence[float], right: Sequence[float]) -> float | None:
     if len(left) != len(right) or len(left) < 2:
         return None
-    mean_left = statistics.fmean(left)
-    mean_right = statistics.fmean(right)
+    mean_left = _fmean(left, name="pearson_left_mean")
+    mean_right = _fmean(right, name="pearson_right_mean")
     centered_left = [value - mean_left for value in left]
     centered_right = [value - mean_right for value in right]
     denominator = math.sqrt(
@@ -757,14 +900,19 @@ def _pearson(left: Sequence[float], right: Sequence[float]) -> float | None:
     )
     if denominator <= NUMERIC_COMPARISON_TOLERANCE:
         return None
-    return sum(
-        left_value * right_value
-        for left_value, right_value in zip(centered_left, centered_right)
-    ) / denominator
+    return _finite(
+        sum(
+            left_value * right_value
+            for left_value, right_value in zip(centered_left, centered_right)
+        )
+        / denominator,
+        name="pearson",
+    )
 
 
 def _validate_manifest_and_policies(
     *,
+    wave: ScoreMixAnalysisWaveLock,
     root: Path,
     manifest: Mapping[str, Any],
     summary: Mapping[str, Any],
@@ -788,7 +936,7 @@ def _validate_manifest_and_policies(
     if envelope is None:
         errors.append("model_outside_confirmatory_envelope")
     else:
-        if run_id != CONFIRMATORY_RUN_IDS[model_alias]:
+        if run_id != wave.run_ids[model_alias]:
             errors.append("run_id_outside_confirmatory_envelope")
         if (
             model.get("repository_id") != envelope["repository_id"]
@@ -806,7 +954,7 @@ def _validate_manifest_and_policies(
     ):
         errors.append("summary_run_model_mismatch")
 
-    if manifest.get("selected_split") != "confirmatory":
+    if manifest.get("selected_split") != wave.selected_split:
         errors.append("confirmatory_split_mismatch")
     if (
         manifest.get("q") != SCORE_MIX_Q
@@ -882,25 +1030,38 @@ def _validate_manifest_and_policies(
                 seed=CONFIRMATORY_FOLD_SEED,
                 fold_count=CONFIRMATORY_FOLD_COUNT,
             )
-            expected = tuple(
-                case_id
-                for case_id in confirmatory
-                if fold_manifest.fold_for(case_id) == CONFIRMATORY_FOLD_INDEX
-            )
+            if wave.selected_split == "confirmatory":
+                expected = tuple(
+                    case_id
+                    for case_id in confirmatory
+                    if fold_manifest.fold_for(case_id) == wave.fold
+                )
+            else:
+                expected = untouched
             expected_fold_payload = fold_manifest.to_dict()
             expected_selected_fold = {
-                "label": "c1",
-                "fold": CONFIRMATORY_FOLD_INDEX,
-                "count": CONFIRMATORY_CASE_COUNT,
+                "label": wave.label,
+                "fold": wave.fold,
+                "count": wave.case_count,
                 "case_ids": list(expected),
+                **(
+                    {"run_seed": wave.run_seed}
+                    if wave.run_seed is not None
+                    else {}
+                ),
             }
             expected_summary_slice = {
-                "label": "c1",
-                "split": "confirmatory",
-                "fold": CONFIRMATORY_FOLD_INDEX,
+                "label": wave.label,
+                "split": wave.selected_split,
+                "fold": wave.fold,
                 "fold_count": CONFIRMATORY_FOLD_COUNT,
-                "count": CONFIRMATORY_CASE_COUNT,
+                "count": wave.case_count,
                 "fold_manifest_id": fold_manifest.manifest_id,
+                **(
+                    {"run_seed": wave.run_seed}
+                    if wave.run_seed is not None
+                    else {}
+                ),
             }
         except ContractError:
             expected = ()
@@ -912,9 +1073,19 @@ def _validate_manifest_and_policies(
             len(calibration) != 20
             or len(confirmatory) != 60
             or len(untouched) != 20
-            or len(expected) != CONFIRMATORY_CASE_COUNT
+            or len(expected) != wave.case_count
             or case_ids != expected
-            or set(case_ids).intersection((*calibration, *untouched))
+            or set(calibration).intersection(confirmatory)
+            or set(calibration).intersection(untouched)
+            or set(confirmatory).intersection(untouched)
+            or (
+                wave.selected_split == "confirmatory"
+                and set(case_ids).intersection((*calibration, *untouched))
+            )
+            or (
+                wave.selected_split == "untouched"
+                and set(case_ids).intersection((*calibration, *confirmatory))
+            )
         ):
             errors.append("confirmatory_exact_fold_or_disjointness_mismatch")
         if (
@@ -943,10 +1114,15 @@ def _validate_manifest_and_policies(
             or selection.get("manifest_id") != _selection_manifest_id(selection)
         ):
             errors.append("selection_manifest_hash_mismatch")
+        if (
+            wave.require_canonical_selection_seed
+            and selection.get("seed") != DEFAULT_SELECTION_SEED
+        ):
+            errors.append("selection_seed_mismatch")
     if (
-        len(case_ids) != CONFIRMATORY_CASE_COUNT
-        or len(set(case_ids)) != CONFIRMATORY_CASE_COUNT
-        or len(request_ids) != CONFIRMATORY_CASE_COUNT
+        len(case_ids) != wave.case_count
+        or len(set(case_ids)) != wave.case_count
+        or len(request_ids) != wave.case_count
         or not all(_is_full_hash(value) for value in request_ids)
     ):
         errors.append("confirmatory_case_or_request_count_mismatch")
@@ -965,7 +1141,7 @@ def _validate_manifest_and_policies(
     ):
         errors.append("summary_selection_context_provenance_mismatch")
 
-    if model_alias in CONFIRMATORY_RUN_IDS:
+    if model_alias in wave.run_ids:
         try:
             normalized_static = _validate_static_policy(
                 static_policy, model_alias=model_alias
@@ -1031,10 +1207,10 @@ def _validate_manifest_and_policies(
         not isinstance(slurm, dict)
         or slurm != summary.get("slurm")
         or slurm.get("under_slurm") is not True
-        or slurm.get("job_name") != CONFIRMATORY_JOB_NAME
+        or slurm.get("job_name") != wave.job_name
         or slurm.get("node") != "devbox"
-        or slurm.get("slice_label") != "c1"
-        or slurm.get("fold") != CONFIRMATORY_FOLD_INDEX
+        or slurm.get("slice_label") != wave.label
+        or slurm.get("fold") != wave.fold
         or not isinstance(slurm.get("job_id"), str)
         or not slurm["job_id"].isdigit()
     ):
@@ -1056,6 +1232,7 @@ def _validate_manifest_and_policies(
 
 def _validate_stream_payloads(
     *,
+    expected_case_count: int,
     case_ids: Sequence[str],
     request_ids: Sequence[str],
     streams: Mapping[str, Sequence[ConfirmatoryStreamRow]],
@@ -1474,13 +1651,14 @@ def _validate_stream_payloads(
                         errors.append(f"replay_mismatch:{case_id}")
             except ScoreMixAnalysisError:
                 errors.append(f"outcome_nonfinite:{case_id}:{action_id}")
-    if len(receipts) != CONFIRMATORY_CASE_COUNT:
+    if len(receipts) != expected_case_count:
         errors.append("receipt_count_mismatch")
     return features, actions, outcomes
 
 
 def _validate_summary_and_hashes(
     *,
+    expected_case_count: int,
     manifest: Mapping[str, Any],
     summary: Mapping[str, Any],
     streams: Mapping[str, Sequence[ConfirmatoryStreamRow]],
@@ -1489,35 +1667,33 @@ def _validate_summary_and_hashes(
     errors: list[str],
 ) -> None:
     expected_counts = {
-        "features": CONFIRMATORY_CASE_COUNT,
-        "commitments": CONFIRMATORY_CASE_COUNT,
-        "outcomes": CONFIRMATORY_CASE_COUNT * len(CONFIRMATORY_OUTCOME_ACTIONS),
-        "receipts": CONFIRMATORY_CASE_COUNT,
+        "features": expected_case_count,
+        "commitments": expected_case_count,
+        "outcomes": expected_case_count * len(CONFIRMATORY_OUTCOME_ACTIONS),
+        "receipts": expected_case_count,
     }
     if manifest.get("expected_counts") != expected_counts:
         errors.append("manifest_expected_counts_mismatch")
     exact_summary = {
-        "planned_case_count": CONFIRMATORY_CASE_COUNT,
-        "attempted_case_count": CONFIRMATORY_CASE_COUNT,
+        "planned_case_count": expected_case_count,
+        "attempted_case_count": expected_case_count,
         "not_run_due_to_abort_count": 0,
-        "pass_count": CONFIRMATORY_CASE_COUNT,
+        "pass_count": expected_case_count,
         "failure_count": 0,
-        "feature_count": CONFIRMATORY_CASE_COUNT,
-        "commitment_count": CONFIRMATORY_CASE_COUNT,
-        "outcome_count": CONFIRMATORY_CASE_COUNT
-        * len(CONFIRMATORY_OUTCOME_ACTIONS),
-        "action_receipt_count": CONFIRMATORY_CASE_COUNT,
+        "feature_count": expected_case_count,
+        "commitment_count": expected_case_count,
+        "outcome_count": expected_case_count * len(CONFIRMATORY_OUTCOME_ACTIONS),
+        "action_receipt_count": expected_case_count,
         "probe_direction_count_per_case": len(PROBE_ACTIONS),
     }
     for field, expected in exact_summary.items():
         if summary.get(field) != expected:
             errors.append(f"summary_count_mismatch:{field}")
     if summary.get("stream_sequences") != {
-        "features": CONFIRMATORY_CASE_COUNT,
-        "actions": CONFIRMATORY_CASE_COUNT,
-        "outcomes": CONFIRMATORY_CASE_COUNT
-        * len(CONFIRMATORY_OUTCOME_ACTIONS),
-        "events": CONFIRMATORY_CASE_COUNT,
+        "features": expected_case_count,
+        "actions": expected_case_count,
+        "outcomes": expected_case_count * len(CONFIRMATORY_OUTCOME_ACTIONS),
+        "events": expected_case_count,
     }:
         errors.append("summary_stream_sequence_mismatch")
     if (
@@ -1531,12 +1707,12 @@ def _validate_summary_and_hashes(
     ):
         errors.append("summary_completion_or_firewall_mismatch")
     if (
-        len(streams.get("features.jsonl", ())) != CONFIRMATORY_CASE_COUNT
-        or len(streams.get("actions.jsonl", ())) != CONFIRMATORY_CASE_COUNT
+        len(streams.get("features.jsonl", ())) != expected_case_count
+        or len(streams.get("actions.jsonl", ())) != expected_case_count
         or len(streams.get("outcomes.jsonl", ()))
-        != CONFIRMATORY_CASE_COUNT * len(CONFIRMATORY_OUTCOME_ACTIONS)
-        or len(streams.get("events.jsonl", ())) != CONFIRMATORY_CASE_COUNT
-        or len(receipts) != CONFIRMATORY_CASE_COUNT
+        != expected_case_count * len(CONFIRMATORY_OUTCOME_ACTIONS)
+        or len(streams.get("events.jsonl", ())) != expected_case_count
+        or len(receipts) != expected_case_count
     ):
         errors.append("observed_exact_count_mismatch")
     artifacts = summary.get("artifacts")
@@ -1562,15 +1738,44 @@ def _validate_summary_and_hashes(
         errors.append("summary_receipt_hash_map_mismatch")
 
 
-def analyze_confirmatory_run(
+def analyze_score_mix_wave(
     run_directory: str | Path,
     *,
+    wave: ScoreMixAnalysisWaveLock,
     static_policy: Mapping[str, Any],
     forecast_policy: Mapping[str, Any],
     forecast_analysis: Mapping[str, Any],
     bootstrap_seed: int = DEFAULT_BOOTSTRAP_SEED,
     bootstrap_replicates: int = DEFAULT_BOOTSTRAP_REPLICATES,
+    emit_fold01_aggregate_input: bool = False,
 ) -> dict[str, Any]:
+    wave = _validated_analysis_wave_lock(wave)
+    if type(emit_fold01_aggregate_input) is not bool:
+        raise ScoreMixAnalysisError(
+            "fold01 aggregate-input option must be boolean"
+        )
+    if emit_fold01_aggregate_input and wave.label != "c1":
+        raise ScoreMixAnalysisError(
+            "fold01 aggregate-input envelope is C1-only"
+        )
+    if emit_fold01_aggregate_input and (
+        type(bootstrap_seed) is not int
+        or type(bootstrap_replicates) is not int
+        or bootstrap_seed != DEFAULT_BOOTSTRAP_SEED
+        or bootstrap_replicates != DEFAULT_BOOTSTRAP_REPLICATES
+    ):
+        raise ScoreMixAnalysisError(
+            "fold01 aggregate-input bootstrap differs from the precommit"
+        )
+    if wave.label != "c1" and (
+        type(bootstrap_seed) is not int
+        or type(bootstrap_replicates) is not int
+        or bootstrap_seed != DEFAULT_BOOTSTRAP_SEED
+        or bootstrap_replicates != DEFAULT_BOOTSTRAP_REPLICATES
+    ):
+        raise ScoreMixAnalysisError(
+            "follow-up bootstrap configuration differs from the precommit"
+        )
     root = Path(run_directory).expanduser().resolve()
     if not root.is_dir():
         raise ScoreMixAnalysisError("confirmatory run directory unavailable")
@@ -1600,6 +1805,7 @@ def analyze_confirmatory_run(
 
     errors: list[str] = []
     model_alias, case_ids, request_ids = _validate_manifest_and_policies(
+        wave=wave,
         root=root,
         manifest=manifest,
         summary=summary,
@@ -1611,6 +1817,7 @@ def analyze_confirmatory_run(
         features, actions, outcomes = {}, {}, {}
     else:
         features, actions, outcomes = _validate_stream_payloads(
+            expected_case_count=wave.case_count,
             case_ids=case_ids,
             request_ids=request_ids,
             streams=streams,
@@ -1624,6 +1831,7 @@ def analyze_confirmatory_run(
             errors=errors,
         )
     _validate_summary_and_hashes(
+        expected_case_count=wave.case_count,
         manifest=manifest,
         summary=summary,
         streams=streams,
@@ -1714,12 +1922,14 @@ def analyze_confirmatory_run(
             )
         primary = _effect_summary(
             effects,
+            expected_case_count=wave.case_count,
             replay_envelope=replay_envelope,
             bootstrap_seed=bootstrap_seed,
             bootstrap_replicates=bootstrap_replicates,
         )
         oracle_summary = _effect_summary(
             oracle_values,
+            expected_case_count=wave.case_count,
             replay_envelope=replay_envelope,
             bootstrap_seed=bootstrap_seed + 1,
             bootstrap_replicates=bootstrap_replicates,
@@ -1735,19 +1945,31 @@ def analyze_confirmatory_run(
             else None
         )
         prediction = {
-            "predicted_mean": statistics.fmean(predicted_values),
-            "realized_mean": statistics.fmean(effects),
-            "mean_error": statistics.fmean(
-                realized - predicted
-                for predicted, realized in zip(predicted_values, effects)
+            "predicted_mean": _fmean(
+                predicted_values,
+                name="predicted_mean",
             ),
-            "mean_absolute_error": statistics.fmean(
-                abs(realized - predicted)
-                for predicted, realized in zip(predicted_values, effects)
+            "realized_mean": _fmean(effects, name="realized_mean"),
+            "mean_error": _fmean(
+                (
+                    realized - predicted
+                    for predicted, realized in zip(predicted_values, effects)
+                ),
+                name="prediction_mean_error",
             ),
-            "median_absolute_error": statistics.median(
-                abs(realized - predicted)
-                for predicted, realized in zip(predicted_values, effects)
+            "mean_absolute_error": _fmean(
+                (
+                    abs(realized - predicted)
+                    for predicted, realized in zip(predicted_values, effects)
+                ),
+                name="prediction_mean_absolute_error",
+            ),
+            "median_absolute_error": _finite(
+                statistics.median(
+                    abs(realized - predicted)
+                    for predicted, realized in zip(predicted_values, effects)
+                ),
+                name="prediction_median_absolute_error",
             ),
             "zero_intercept_realized_on_predicted_slope": (
                 realized_on_predicted_slope
@@ -1759,34 +1981,48 @@ def analyze_confirmatory_run(
             )
             / len(effects),
         }
-        clear_continue = bool(
-            primary["mean"] > replay_envelope
-            and (
-                primary["trimmed_mean_20pct"] > replay_envelope
-                or primary["median"] > replay_envelope
-                or primary["positive_sign_count_above_replay_envelope"] >= 7
+        if wave.label == "c1":
+            clear_continue = bool(
+                primary["mean"] > replay_envelope
+                and (
+                    primary["trimmed_mean_20pct"] > replay_envelope
+                    or primary["median"] > replay_envelope
+                    or primary[
+                        "positive_sign_count_above_replay_envelope"
+                    ]
+                    >= 7
+                )
             )
-        )
-        scientific_kill_input = bool(
-            primary["mean"] <= replay_envelope
-            and primary["trimmed_mean_20pct"] <= replay_envelope
-            and primary["positive_sign_fraction_above_replay_envelope"] <= 0.50
-            and oracle_summary["mean"] <= replay_envelope
-        )
-        controller_pivot_input = bool(
-            primary["mean"] <= replay_envelope
-            and primary["trimmed_mean_20pct"] <= replay_envelope
-            and primary["positive_sign_fraction_above_replay_envelope"] <= 0.50
-            and oracle_summary["mean"] > replay_envelope
-            and (
-                oracle_summary["trimmed_mean_20pct"] > replay_envelope
-                or oracle_summary["median"] > replay_envelope
-                or oracle_summary[
-                    "positive_sign_count_above_replay_envelope"
+            scientific_kill_input = bool(
+                primary["mean"] <= replay_envelope
+                and primary["trimmed_mean_20pct"] <= replay_envelope
+                and primary[
+                    "positive_sign_fraction_above_replay_envelope"
                 ]
-                >= 7
+                <= 0.50
+                and oracle_summary["mean"] <= replay_envelope
             )
-        )
+            controller_pivot_input = bool(
+                primary["mean"] <= replay_envelope
+                and primary["trimmed_mean_20pct"] <= replay_envelope
+                and primary[
+                    "positive_sign_fraction_above_replay_envelope"
+                ]
+                <= 0.50
+                and oracle_summary["mean"] > replay_envelope
+                and (
+                    oracle_summary["trimmed_mean_20pct"] > replay_envelope
+                    or oracle_summary["median"] > replay_envelope
+                    or oracle_summary[
+                        "positive_sign_count_above_replay_envelope"
+                    ]
+                    >= 7
+                )
+            )
+        else:
+            clear_continue = False
+            scientific_kill_input = False
+            controller_pivot_input = False
     else:
         replay_envelope = None
         c1_replay_envelope = None
@@ -1810,37 +2046,92 @@ def analyze_confirmatory_run(
         scientific_kill_input = False
         controller_pivot_input = False
 
+    selection = manifest.get("selection")
+    fold_payload = manifest.get("confirmatory_folds")
+    artifact_validation = {
+        "valid": artifact_valid,
+        "panel_complete": bool(
+            artifact_valid
+            and len(features) == wave.case_count
+            and len(actions) == wave.case_count
+            and len(outcomes)
+            == wave.case_count * len(CONFIRMATORY_OUTCOME_ACTIONS)
+        ),
+        "error_codes": error_codes,
+        "exact_fold": (
+            "confirmatory[0::5]"
+            if wave.label == "c1"
+            else f"confirmatory_hash_fold_{wave.fold}"
+            if wave.selected_split == "confirmatory"
+            else "selection_manifest_untouched_exact"
+        ),
+        "case_count": wave.case_count,
+        "arm_count_per_case": len(CONFIRMATORY_OUTCOME_ACTIONS),
+        "static_policy_hash": static_policy.get("policy_hash"),
+        "forecast_policy_hash": forecast_policy.get("policy_hash"),
+        "outcome_firewall_and_receipts_valid": artifact_valid,
+        "equal_c_and_rollback_valid": artifact_valid,
+    }
+    if wave.label != "c1":
+        artifact_validation.update(
+            {
+                "selection_manifest_id": (
+                    selection.get("manifest_id")
+                    if isinstance(selection, Mapping)
+                    else None
+                ),
+                "fold_manifest_id": (
+                    fold_payload.get("manifest_id")
+                    if isinstance(fold_payload, Mapping)
+                    else None
+                ),
+                "selected_case_ids_sha256": _sha256_bytes(
+                    _canonical_json(list(case_ids)).encode("utf-8")
+                ),
+                "context_id": summary.get("context_id"),
+                "provenance_id": summary.get("provenance_id"),
+                "q": SCORE_MIX_Q,
+                "outcome_action_order": list(CONFIRMATORY_OUTCOME_ACTIONS),
+                "calibration_hash": forecast_policy.get("calibration_hash"),
+                "forecast_beta": forecast_policy.get("beta"),
+                "run_seed": wave.run_seed,
+                "primary_estimand": (
+                    "progress(score_mix)-progress(frozen_static_mix)"
+                ),
+                "bootstrap_seed": bootstrap_seed,
+                "bootstrap_replicates": bootstrap_replicates,
+            }
+        )
     report = {
-        "schema_version": CONFIRMATORY_ANALYSIS_SCHEMA,
-        "claim_status": "single_model_confirmatory_gate_inputs_only",
+        "schema_version": (
+            CONFIRMATORY_ANALYSIS_SCHEMA
+            if wave.label == "c1"
+            else "ode-edit-mv1-score-mix-followup-analysis/v1"
+        ),
+        "claim_status": (
+            "single_model_confirmatory_gate_inputs_only"
+            if wave.label == "c1"
+            else "single_model_followup_gate_inputs_only"
+        ),
         "analysis_status": (
-            "confirmatory_single_model_complete"
+            (
+                "confirmatory_single_model_complete"
+                if wave.label == "c1"
+                else "followup_single_model_complete"
+            )
             if artifact_valid
             else "technical_block_invalid_artifacts"
         ),
         "run_id": run_id,
         "model_alias": model_alias,
-        "artifact_validation": {
-            "valid": artifact_valid,
-            "panel_complete": bool(
-                artifact_valid
-                and len(features) == CONFIRMATORY_CASE_COUNT
-                and len(actions) == CONFIRMATORY_CASE_COUNT
-                and len(outcomes)
-                == CONFIRMATORY_CASE_COUNT * len(CONFIRMATORY_OUTCOME_ACTIONS)
-            ),
-            "error_codes": error_codes,
-            "exact_fold": "confirmatory[0::5]",
-            "case_count": CONFIRMATORY_CASE_COUNT,
-            "arm_count_per_case": len(CONFIRMATORY_OUTCOME_ACTIONS),
-            "static_policy_hash": static_policy.get("policy_hash"),
-            "forecast_policy_hash": forecast_policy.get("policy_hash"),
-            "outcome_firewall_and_receipts_valid": artifact_valid,
-            "equal_c_and_rollback_valid": artifact_valid,
-        },
+        "artifact_validation": artifact_validation,
         "replay_envelope": replay_envelope,
         "calibration_replay_envelope": calibration_replay_envelope,
-        "c1_replay_envelope": c1_replay_envelope,
+        **(
+            {"c1_replay_envelope": c1_replay_envelope}
+            if wave.label == "c1"
+            else {"wave_replay_envelope": c1_replay_envelope}
+        ),
         "primary_adaptive_minus_frozen_static": primary,
         "finite_panel_oracle_opportunity": oracle_summary,
         "predicted_vs_realized": prediction,
@@ -1852,6 +2143,7 @@ def analyze_confirmatory_run(
             "controller_pivot_input": controller_pivot_input,
             "gray_input": bool(
                 artifact_valid
+                and wave.label == "c1"
                 and not clear_continue
                 and not scientific_kill_input
                 and not controller_pivot_input
@@ -1860,14 +2152,157 @@ def analyze_confirmatory_run(
             "pair_level_decision_computed": False,
         },
         "claim_boundary": (
-            "One fixed-model 12-case C1 fold. Pair-level continuation, "
-            "architecture-conditional continuation, gray/kill/pivot, method "
-            "gain, MV-2, and ODE decisions are not made here."
+            (
+                "One fixed-model 12-case C1 fold. Pair-level continuation, "
+                "architecture-conditional continuation, gray/kill/pivot, method "
+                "gain, MV-2, and ODE decisions are not made here."
+            )
+            if wave.label == "c1"
+            else (
+                f"One fixed-model {wave.case_count}-case {wave.label} run. "
+                "Only single-run gate inputs are emitted; pair, cross-model, "
+                "aggregate-24, method-gain, MV-2, and ODE decisions are not made."
+            )
         ),
     }
+    if wave.label != "c1":
+        report["mode"] = wave.label
+        report["execution_lock"] = {
+            "selected_split": wave.selected_split,
+            "fold": wave.fold,
+            "case_count": wave.case_count,
+            "run_seed": wave.run_seed,
+            "q": SCORE_MIX_Q,
+            "outcome_action_order": list(CONFIRMATORY_OUTCOME_ACTIONS),
+            "primary_estimand": (
+                "progress(score_mix)-progress(frozen_static_mix)"
+            ),
+            "bootstrap_seed": bootstrap_seed,
+            "bootstrap_replicates": bootstrap_replicates,
+            "pair_level_decision_computed": False,
+        }
+        report["model_single_run_gate_inputs"] = {
+            "replay_envelope": replay_envelope,
+            "primary": primary,
+            "oracle": oracle_summary,
+            "forecast_calibration": {
+                "predicted_vs_realized": prediction,
+                "calibration_residual_envelope": residual_envelope,
+                "calibration_replay_envelope": calibration_replay_envelope,
+            },
+            "pair_level_decision_computed": False,
+        }
     _json_safe(report, location="confirmatory_analysis")
     json.dumps(report, allow_nan=False)
+    if emit_fold01_aggregate_input:
+        if (
+            not isinstance(selection, Mapping)
+            or selection.get("seed") != DEFAULT_SELECTION_SEED
+        ):
+            raise ScoreMixAnalysisError(
+                "fold01 aggregate-input selection seed is not canonical"
+            )
+        aggregate_identity = None
+        if artifact_valid:
+            selection_case_ids = selection.get("case_ids")
+            confirmatory_case_ids = (
+                list(selection_case_ids.get("confirmatory", []))
+                if isinstance(selection_case_ids, Mapping)
+                else []
+            )
+            aggregate_identity = {
+                "schema_version": CONFIRMATORY_FOLD01_IDENTITY_SCHEMA,
+                "selected_split": "confirmatory",
+                "fold": CONFIRMATORY_FOLD_INDEX,
+                "fold_count": CONFIRMATORY_FOLD_COUNT,
+                "case_count": CONFIRMATORY_CASE_COUNT,
+                "selection_seed": DEFAULT_SELECTION_SEED,
+                "confirmatory_case_ids": confirmatory_case_ids,
+                "selection_manifest_id": selection.get("manifest_id"),
+                "fold_manifest_id": (
+                    fold_payload.get("manifest_id")
+                    if isinstance(fold_payload, Mapping)
+                    else None
+                ),
+                "selected_case_ids_sha256": _sha256_bytes(
+                    _canonical_json(list(case_ids)).encode("utf-8")
+                ),
+                "context_id": summary.get("context_id"),
+                "provenance_id": summary.get("provenance_id"),
+                "q": SCORE_MIX_Q,
+                "outcome_action_order": list(
+                    CONFIRMATORY_OUTCOME_ACTIONS
+                ),
+                "calibration_hash": forecast_policy.get("calibration_hash"),
+                "forecast_beta": forecast_policy.get("beta"),
+                "static_policy_hash": static_policy.get("policy_hash"),
+                "forecast_policy_hash": forecast_policy.get("policy_hash"),
+                "primary_estimand": (
+                    "progress(score_mix)-progress(frozen_static_mix)"
+                ),
+                "bootstrap_seed": bootstrap_seed,
+                "bootstrap_replicates": bootstrap_replicates,
+                "c1_runtime_seed": None,
+            }
+        envelope = {
+            "schema_version": CONFIRMATORY_FOLD01_INPUT_SCHEMA,
+            "claim_status": "c1_fold01_aggregate_input_only",
+            "analysis_status": (
+                "c1_fold01_aggregate_input_complete"
+                if artifact_valid
+                else "technical_block_invalid_artifacts"
+            ),
+            "c1_analysis": report,
+            "aggregate_identity": aggregate_identity,
+        }
+        envelope["analysis_hash"] = _sha256_bytes(
+            _canonical_json(envelope).encode("utf-8")
+        )
+        _json_safe(envelope, location="c1_fold01_aggregate_input")
+        json.dumps(envelope, allow_nan=False)
+        return envelope
     return report
+
+
+def analyze_confirmatory_run(
+    run_directory: str | Path,
+    *,
+    static_policy: Mapping[str, Any],
+    forecast_policy: Mapping[str, Any],
+    forecast_analysis: Mapping[str, Any],
+    bootstrap_seed: int = DEFAULT_BOOTSTRAP_SEED,
+    bootstrap_replicates: int = DEFAULT_BOOTSTRAP_REPLICATES,
+) -> dict[str, Any]:
+    return analyze_score_mix_wave(
+        run_directory,
+        wave=CONFIRMATORY_ANALYSIS_WAVE_LOCK,
+        static_policy=static_policy,
+        forecast_policy=forecast_policy,
+        forecast_analysis=forecast_analysis,
+        bootstrap_seed=bootstrap_seed,
+        bootstrap_replicates=bootstrap_replicates,
+    )
+
+
+def analyze_confirmatory_run_for_fold01(
+    run_directory: str | Path,
+    *,
+    static_policy: Mapping[str, Any],
+    forecast_policy: Mapping[str, Any],
+    forecast_analysis: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Emit a versioned aggregate-input envelope around unchanged C1 v1."""
+
+    return analyze_score_mix_wave(
+        run_directory,
+        wave=CONFIRMATORY_ANALYSIS_WAVE_LOCK,
+        static_policy=static_policy,
+        forecast_policy=forecast_policy,
+        forecast_analysis=forecast_analysis,
+        bootstrap_seed=DEFAULT_BOOTSTRAP_SEED,
+        bootstrap_replicates=DEFAULT_BOOTSTRAP_REPLICATES,
+        emit_fold01_aggregate_input=True,
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -1887,6 +2322,14 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         default=DEFAULT_BOOTSTRAP_REPLICATES,
     )
+    parser.add_argument(
+        "--fold01-aggregate-input",
+        action="store_true",
+        help=(
+            "emit a versioned C1 envelope with the identities required by "
+            "the CPU-only fold0+fold1 aggregate"
+        ),
+    )
     return parser
 
 
@@ -1896,14 +2339,31 @@ def main(argv: Sequence[str] | None = None) -> int:
         static_policy = _read_json_object(args.static_policy)
         forecast_policy = _read_json_object(args.forecast_policy)
         forecast_analysis = _read_json_object(args.forecast_analysis)
-        report = analyze_confirmatory_run(
-            args.run_directory,
-            static_policy=static_policy,
-            forecast_policy=forecast_policy,
-            forecast_analysis=forecast_analysis,
-            bootstrap_seed=args.bootstrap_seed,
-            bootstrap_replicates=args.bootstrap_replicates,
-        )
+        if args.fold01_aggregate_input:
+            if (
+                args.bootstrap_seed != DEFAULT_BOOTSTRAP_SEED
+                or args.bootstrap_replicates != DEFAULT_BOOTSTRAP_REPLICATES
+            ):
+                raise ScoreMixAnalysisError(
+                    "fold01 aggregate-input bootstrap differs from the precommit"
+                )
+            report = analyze_confirmatory_run_for_fold01(
+                args.run_directory,
+                static_policy=static_policy,
+                forecast_policy=forecast_policy,
+                forecast_analysis=forecast_analysis,
+            )
+            analyzed_report = report["c1_analysis"]
+        else:
+            report = analyze_confirmatory_run(
+                args.run_directory,
+                static_policy=static_policy,
+                forecast_policy=forecast_policy,
+                forecast_analysis=forecast_analysis,
+                bootstrap_seed=args.bootstrap_seed,
+                bootstrap_replicates=args.bootstrap_replicates,
+            )
+            analyzed_report = report
         _write_exclusive(
             args.analysis_output,
             (
@@ -1921,13 +2381,15 @@ def main(argv: Sequence[str] | None = None) -> int:
             json.dumps(
                 {
                     "status": report["analysis_status"],
-                    "artifact_valid": report["artifact_validation"]["valid"],
+                    "artifact_valid": analyzed_report[
+                        "artifact_validation"
+                    ]["valid"],
                     "pair_level_decision_computed": False,
                 },
                 sort_keys=True,
             )
         )
-        return 0 if report["artifact_validation"]["valid"] else 2
+        return 0 if analyzed_report["artifact_validation"]["valid"] else 2
     except (OSError, ScoreMixAnalysisError) as exc:
         print(
             json.dumps(

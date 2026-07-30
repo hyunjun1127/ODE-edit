@@ -529,3 +529,63 @@ hard gate가 아니다.
 Clear continue도 즉시 MV-2 또는 ODE claim을 승인하지 않는다. 같은 controller와
 threshold를 바꾸지 않은 untouched 20-case replication을 먼저 열고, primary
 방향이 재현될 때만 최소 MV-2 stale-vs-refreshed diagnostic으로 진행한다.
+
+### 10.9 C1 결과 전 고정한 fold1 / untouched follow-up
+
+이 절은 C1 job `15576`의 outcome을 열기 전에 고정했다. Proposal의
+“작은 diagnostic 뒤 살아남을 때만 다음 단계” 원칙과 §10.8 gate를 실행
+가능한 두 wave로 한정한다. Repo에서 확인한 고정 20/60/20 selection과
+5-way hash fold를 사용하며, 아래 선택 외 사후 case 추가·threshold 변경·policy
+refit은 금지한다. 추가 사용자 확인은 현재 필요하지 않다.
+
+| C1 pair 판정 | 허용되는 다음 실행 | 그 외 |
+| --- | --- | --- |
+| pair clear | `untouched` 20-case pair 한 번 | fold1 실행 금지 |
+| gray 또는 architecture-conditional | `fold1` 12-case pair 한 번 | untouched 선개봉 금지 |
+| routing kill 또는 controller pivot | 없음 | follow-up submit 금지 |
+
+Exact production lock은 다음과 같다.
+
+| 항목 | `fold1` | `untouched` |
+| --- | --- | --- |
+| selected cases | confirmatory 60의 같은 hash seed에서 fold `1`, exact 12 | canonical selection manifest의 untouched split exact 20 |
+| job name | `odeedit_mv1mix_fold1_pair_v1` | `odeedit_mv1mix_untouched_pair_v1` |
+| Llama run | `mv1mix_llama_fold1_v1` | `mv1mix_llama_untouched_v1` |
+| Qwen run | `mv1mix_qwen_fold1_v1` | `mv1mix_qwen_untouched_v1` |
+| run seed | `17` | `17` |
+| q / arms | `1/256`; §10.8 exact six-arm order | `1/256`; §10.8 exact six-arm order |
+| policy | D0+D1 frozen static/forecast exact hash; refit 금지 | 같은 exact hash; refit 금지 |
+| bootstrap | seed `20260731`, replicate `4000`; CLI override 없음 | seed `20260731`, replicate `4000`; CLI override 없음 |
+
+Runner는 C1 event core를 재사용한다. Event마다 direct-z, synchronous/ordered
+factor와 probe를 한 번만 만들고 six arm에 재사용한다. EasyEdit, moments,
+projector, dataset 및 model cache는 read-only이며 재계산·download를 금지한다.
+Static/forecast action과 hash receipt는 outcome 전에 durable하게 고정한다.
+
+`fold1` single-model analyzer는 해당 12 case의 gate input만 내고 pair verdict를
+계산하지 않는다. C1 fold0와 fold1을 합치는 CPU helper는 두 model을 섞지 않고
+model별 versioned analysis JSON만 입력받는다. Selection/fold/context/provenance/
+calibration/β/q/arm/policy/estimand/bootstrap identity가 모두 exact하고 두 fold가
+disjoint일 때만 24-event metric을 재계산한다. Invalid input은 metric을 내지 않는
+deterministic `technical block`이다.
+
+24-case 재판정은 C1의 비율과 balanced gate를 유지한다.
+
+- clear input: `mean(D)>e_m`이고 trimmed mean, median, positive sign
+  `>=14/24` 중 하나 이상이 같은 방향
+- gray input: core summary가 엇갈리거나 positive sign이 `13/24`
+- kill input: mean과 trimmed mean이 `<=e_m`, sign `<=12/24`, matched-`C`
+  oracle mean도 `<=e_m`
+- Pair/cross-model 판정은 model별 analysis가 끝난 뒤 별도 red agent만 수행한다.
+
+Fold1 aggregate가 pair clear로 바뀌면 같은 locked policy로 untouched 20을
+한 번만 연다. 계속 gray이면 추가 confirmatory fold, threshold retuning,
+controller refit으로 구제하지 않고 `inconclusive/pivot`한다.
+
+Untouched는 최종 MV-1 replication이다. 양 model에서 mean이 replay envelope보다
+양수이고, trimmed mean·median·positive sign `>=11/20` 중 하나 이상이 같은
+방향이면 primary direction이 재현된 것으로 보아 최소 MV-2만 연다. 한 model만
+clear이고 다른 model이 materially negative가 아니면 architecture-conditional로
+제한하고 cross-model claim을 금지한다. 두 model 모두 mean·trimmed mean·oracle이
+null이고 sign `<=10/20`이면 routing mechanism을 kill한다. Oracle만 남으면
+controller/static-policy pivot이며 ODE refresh를 시작하지 않는다.
