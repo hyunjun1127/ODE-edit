@@ -5,6 +5,9 @@
 - 시간:
 - From:
 - To:
+- 대상 Codex session ID:
+- 대상 repository CWD:
+- 대상 Git repository identity:
 - 상태: info/request/blocked/handoff/done
 - 우선순위:
 - 관련 plan:
@@ -32,6 +35,7 @@ cross-server 이슈, 요청, handoff 내용을 충분히 자세히 적는다.
 ## 요청 행동
 
 대상 agent 또는 global-head에게 요청하는 정확한 행동을 적는다.
+실행 전 `scripts/check-session-boundary.sh <session_id>`가 pass했는지도 적는다.
 
 파일 전송이 필요한 경우 다음을 포함한다.
 

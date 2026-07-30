@@ -17,7 +17,7 @@ Cap configuration:
              AGENT_GPU_JOB_PATTERNS_<SERVER>, AGENT_DEFAULT_GPU_CAP
 
 TSV format:
-  server<TAB>slurm_node<TAB>max_project_gpus<TAB>job_patterns
+  server<TAB>slurm_node<TAB>max_project_gpus<TAB>mem_mb_per_gpu<TAB>job_patterns
 
 Default job patterns: project_*,*_stage0,stage0_*.
 
@@ -66,7 +66,7 @@ if [[ -z "${job_patterns}" ]]; then
 fi
 
 if [[ -f "${caps_file}" ]]; then
-  while IFS=$'\t' read -r cfg_server cfg_node cfg_cap cfg_patterns rest; do
+  while IFS=$'\t' read -r cfg_server cfg_node cfg_cap _cfg_mem_mb_per_gpu cfg_patterns rest; do
     [[ -n "${cfg_server}" ]] || continue
     [[ "${cfg_server}" != \#* ]] || continue
     [[ "${cfg_server}" == "${server}" ]] || continue
@@ -116,6 +116,15 @@ while IFS='|' read -r job_id job_name tres_per_node; do
     fi
   done
   [[ "${matched}" == "1" ]] || continue
+
+  # Some Slurm versions emit N/A for %b when jobs request GPUs via --gpus.
+  # The running job record still carries the allocated TRES in scontrol.
+  if [[ "${tres_per_node}" == "N/A" ]] && command -v scontrol >/dev/null 2>&1; then
+    job_record="$(scontrol show job "${job_id}" --oneliner 2>/dev/null || true)"
+    if [[ "${job_record}" =~ AllocTRES=([^[:space:]]+) ]]; then
+      tres_per_node="${BASH_REMATCH[1]}"
+    fi
+  fi
 
   gpu_count=0
   if [[ "${tres_per_node}" =~ gpu(:[^,=]+)?:([0-9]+) ]]; then

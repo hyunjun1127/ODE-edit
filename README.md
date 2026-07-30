@@ -1,58 +1,44 @@
-# Agent Control Template
+# BF-ODE-Edit
 
-Reusable Git-backed coordination template for multi-server agents, task
-handoffs, experiment plans, and run summaries.
+`BF-ODE-Edit`는 sequential knowledge editing에서 layer-synchronous,
+capacity-aware edit flow가 필요한지를 작은 Stage 0 diagnostic으로 먼저
+검증하는 독립 연구 repository다. 이 저장소는 기존 프로젝트의 patch 공간이
+아니며, `project/proposals/00.proposal`을 출발점으로 삼는다.
 
-## Layout
+현재 claim 상태는 **hypothesis only**다. proposal의 방법·성능·문헌 해석은
+실험으로 검증되기 전의 연구 입력이며, canonical Stage 0 판정 기준은
+[`plans/global/2026-07-30-stage0-diagnostic.md`](plans/global/2026-07-30-stage0-diagnostic.md)에
+있다.
 
-Detailed structure and cleanup policy are in
-`docs/repo-structure-and-dispatch.md`. The short version is:
+## Canonical 경로
 
-- `project/run_scripts/`: repository-managed experiment execution scripts.
-  Root `run-scripts/` is deprecated.
-- `local/`: ignored server-local raw artifacts, Slurm logs, run logs,
-  checkpoints, datasets, transfers, and secrets. Share ordinary project
-  artifacts by rsync broadcast, not Git.
-- `messages/`: human-readable Korean coordination. `messages/inbox/<server>.md`
-  is the global-head-owned durable instruction inbox for a target server;
-  `messages/README.md` is the cross-server index; all active server-heads read
-  it and write their own ack.
-- `tasks/`: durable state only for approved work that needs per-server status,
-  worker ownership, or global-head closure. Do not create a task for every
-  message. A task file or inbox message is not executed unless a live agent or
-  explicit automation reads and acts on it.
-- `runs/`: small machine-readable run status, log tails, metrics, and artifact
-  manifests. Full logs stay under `local/`.
-- `experiment-reports/`: Korean experiment summaries and interpretation.
-- `audits/`: Korean red-team/protocol/research audits.
-- `agents/`: agent heartbeat, sync, and subagent status files.
-- `servers/`: active/retired server records and redacted SSH/rsync inventory.
-  Raw host/IP/user/port remains in ignored `servers/local/`.
-- `scripts/`: repo coordination helpers, including heartbeat, sync, task
-  audit/status/closure, worker claim/finish, GPU cap checks, and artifact
-  broadcast.
-- `subagents/`: blue/red role specifications.
-- `transfers/`: manual-exception transfer records. Ordinary experiment
-  artifact broadcast uses `scripts/rsync-artifact-broadcast.sh` and does not
-  need per-transfer user approval.
+- 운영 규칙: [`PROTOCOL.md`](PROTOCOL.md)
+- 원 proposal: [`project/proposals/00.proposal`](project/proposals/00.proposal)
+- Stage 0 연구 근거: [`project/proposals/sections/01-stage-0-diagnostic.md`](project/proposals/sections/01-stage-0-diagnostic.md)
+- Stage 0 실행 계획: [`plans/global/2026-07-30-stage0-diagnostic.md`](plans/global/2026-07-30-stage0-diagnostic.md)
+- Stage 0 global evidence index: [`experiment-reports/global/2026-07-30-stage0-diagnostics.md`](experiment-reports/global/2026-07-30-stage0-diagnostics.md)
+- redacted 서버 인벤토리: [`servers/connection-inventory.md`](servers/connection-inventory.md)
+- server1 onboarding record: [`servers/active/server1.md`](servers/active/server1.md)
+- 실행 스크립트: `project/run_scripts/` (현재 등록된 실행 스크립트 없음)
+- raw artifact·dataset·checkpoint·full log·credential: ignored `local/`
+- session boundary: ignored `servers/local/session-boundary.env`
 
-Agent coordination rules are defined in [PROTOCOL.md](PROTOCOL.md). Actionable
-global-head instructions should use the execution envelope in
-`messages/templates/global-head-command.md`.
+## 운영 요약
 
-## Research Handoff
+Git은 plan, instruction, audit, compact metadata, report를 위한 control
+plane이다. SSH/Slurm/rsync와 ignored `local/`은 execution plane이다. 실제
+server-head가 등록되고 red-team onboarding gate를 통과하기 전에는 실험을
+제출하지 않는다. `messages/inbox/<server>.md`의 actionable instruction은
+해당 server-head가 sync 후 읽어 실행하며, Git message 자체가 실행기가
+아니다.
 
-When this template is used to start a new research project, put the user's
-proposal or GH handoff under `project/proposals/`. Treat that proposal as the
-starting research handoff, not as a finalized paper plan.
+GPU cap과 host-memory request cap은 ignored `servers/local/gpu-caps.tsv`에
+있다. Slurm job은 `scripts/check-slurm-resource-cap.sh <server> <gpus>
+<mem_mb>`를 먼저 통과해야 한다. Codex session은 server record에 기록된
+session ID, repository CWD, Git identity가 모두 일치할 때만 이 repo를 조작한다.
+Actionable session은 먼저 `scripts/check-session-boundary.sh <session_id>`를
+통과해야 한다.
 
-## Local Runtime Config
-
-Private SSH, rsync, and GPU cap config stays out of Git under `servers/local/`.
-For Slurm GPU cap checks, copy `servers/templates/gpu-caps.tsv` to
-`servers/local/gpu-caps.tsv` and edit it for the active servers.
-
-## Artifact Rule
-
-Keep large logs, checkpoints, model weights, datasets, and credentials outside
-Git. Track only small metadata and paths to external artifacts.
+원격 저장소와 실제 서버 접속 정보는 이 문서에 기록하지 않는다. raw IP,
+username, port, key, token, password와 private dataset secret은
+`servers/local/` 또는 `local/`의 ignored private path에만 둔다.

@@ -385,9 +385,9 @@ Rules:
 
 ## Deployment GPU Cap Policy
 
-Each deployment should define a per-server concurrent GPU cap for project jobs.
-The cap is about GPUs actively running for this project on that server, not the
-physical GPU count of the machine.
+Each deployment should define a per-server concurrent GPU cap and host-memory
+request cap for project jobs. The GPU cap is about GPUs actively running for
+this project on that server, not the physical GPU count of the machine.
 
 Configure the active caps in ignored local config or environment variables:
 
@@ -400,19 +400,21 @@ Configure the active caps in ignored local config or environment variables:
 The TSV format is:
 
 ```text
-server<TAB>slurm_node<TAB>max_project_gpus<TAB>job_patterns
+server<TAB>slurm_node<TAB>max_project_gpus<TAB>mem_mb_per_gpu<TAB>job_patterns
 ```
 
 Rules:
 
 1. Every Slurm experiment job for this repo must declare its target server,
-   requested GPU count, expected job name, and current cap check in its task,
-   server-head message, or run metadata.
-2. A server-head must check active project GPU usage before submitting a new
-   job. Use `scripts/check-slurm-gpu-cap.sh <server> <requested_gpus>` when
-   Slurm is available.
-3. If the cap is unknown, the cap check cannot run, or
-   `active_project_gpus + requested_gpus > cap`, the work must remain pending
+   requested GPU count, total host-memory request, expected job name, and
+   current cap check in its task, server-head message, or run metadata.
+2. A server-head must check active project GPU usage and the host-memory
+   request before submitting a new job. Use
+   `scripts/check-slurm-resource-cap.sh <server> <requested_gpus>
+   <requested_mem_mb>` when Slurm is available.
+3. If either cap is unknown, the cap check cannot run,
+   `active_project_gpus + requested_gpus > cap`, or the requested total memory
+   exceeds `requested_gpus * mem_mb_per_gpu`, the work must remain pending
    instead of starting another running job.
 4. Pending can mean a Git task/status waiting on `pending_resource_cap`, or a
    Slurm-side pending/throttled submission such as a dependency or array
@@ -453,6 +455,22 @@ The envelope can be written in Korean prose, but it must clearly specify:
 - completion report paths: exact `messages/server-heads/`, `messages/acks/`,
   `tasks/status/`, `runs/`, `audits/`, and `experiment-reports/` paths expected
   from the target server-head
+- Codex session boundary: the target Codex session ID, expected CWD, and
+  repository identity; the target must stop if any of these does not match
+
+## Codex Session Boundary
+
+Codex sessions may coexist on the same server for different repositories. A
+server record and every actionable GH instruction must state the target session
+ID, expected repository CWD, and Git repository identity. Before a session
+reads an inbox, runs SSH/Slurm/rsync, or writes a task/report, it must verify
+all three values with `scripts/check-session-boundary.sh <session_id>`. A
+mismatch is a `block`: do not "helpfully" act on another repo's files or
+session, and report the mismatch to the global-head.
+
+Session IDs are coordination identifiers, not credentials. Record them in the
+relevant `servers/active/<server>.md` and instruction envelope. When a session
+is replaced, update the record; never reuse an inactive session's authority.
 
 If a server-head receives an actionable global-head instruction that lacks this
 envelope, it should write an ack/blocker asking for clarification instead of

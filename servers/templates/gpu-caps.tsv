@@ -1,8 +1,12 @@
 # Copy this file to servers/local/gpu-caps.tsv on each clone and edit it.
 # Format:
-# server<TAB>slurm_node<TAB>max_project_gpus<TAB>job_patterns
+# server<TAB>slurm_node<TAB>max_project_gpus<TAB>mem_mb_per_gpu<TAB>job_patterns
+#
+# `mem_mb_per_gpu` is the maximum total Slurm memory request attributable to
+# one requested GPU. A k-GPU job must request at most k times this value unless
+# the user records an explicit exception.
 #
 # Examples:
-# server1	server1	3	project_*,*_stage0,stage0_*
-# server2	server2	3	project_*,*_stage0,stage0_*
-# server3	server3	2	project_*,*_stage0,stage0_*
+# server1	server1	3	198117	odeedit_*,bfode_*,*_stage0,stage0_*
+# server2	server2	3	66017	odeedit_*,bfode_*,*_stage0,stage0_*
+# server3	server3	2	65984	odeedit_*,bfode_*,*_stage0,stage0_*

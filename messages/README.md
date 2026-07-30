@@ -1,8 +1,8 @@
 # 메시지 통합 인덱스
 
-- 갱신 시각:
-- 작성 agent:
-- 역할:
+- 갱신 시각: 2026-07-30
+- 작성 agent: head-server1-gh
+- 역할: global-head
 
 서버별 메시지 폴더는 쓰기 충돌을 줄이기 위한 원본 보관 위치다. 전체
 흐름을 읽을 때는 이 인덱스를 먼저 보고, 세부 내용은 원문 링크를 따라간다.
@@ -23,6 +23,7 @@ agent session, systemd/cron automation, SSH, Slurm job이 읽고 수행할 때�
 
 | 작성 시각 | 작성 agent | 작성 서버 | 범위/수신 | 상태 | 요약 | 다음 행동 | 원문 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-07-30 | head-server1-gh | server1 | 전체 / 등록 전 SH | info | BF-ODE-Edit 독립 연구 Stage 0 초기화; active server가 없어 실행 보류 | user가 remote·server/SH·compute context 확인 | [초기화 공지](head/2026-07-30-gh-initialization.md) |
 
 ## 갱신 규칙
 

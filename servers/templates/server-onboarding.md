@@ -7,6 +7,8 @@
 - 사용 목적:
 - 예상 사용 기간:
 - 담당 server-head:
+- Codex session ID:
+- Codex session CWD:
 - global-head 승인:
 
 ## 접근과 권한
@@ -26,6 +28,7 @@
 - `agent.id`:
 - `agent.role`:
 - `agent.hostname`:
+- repository identity: GitHub `owner/repo` + expected `origin` URL
 - heartbeat 경로:
 - hourly sync 설정:
 
@@ -42,9 +45,10 @@
 - partition:
 - GPU:
 - CPU:
-- memory:
+- memory: GPU 1개당 최대 요청량을 `servers/local/gpu-caps.tsv`의
+  `mem_mb_per_gpu`에 맞춘다.
 - time limit:
-- 주의할 quota/사용 정책:
+- 주의할 quota/사용 정책: GPU cap 또는 `mem_mb_per_gpu`가 unknown이면 submit 금지
 
 ## Subagent 준비
 

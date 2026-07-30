@@ -16,10 +16,9 @@
 
 아래 proposal을 canonical research input으로 읽어라. 단, proposal은 최종 paper plan, 확정된 실험 계획, 또는 이미 검증된 claim이 아니다. proposal은 새 연구 방향을 시작하기 위한 handoff이며, GH는 이를 바탕으로 가설, diagnostic, kill criteria, next-stage criteria를 다시 정리해야 한다.
 
-```text
-<PROPOSAL_HERE>
-사용자가 여기에 proposal을 붙여넣는다.
-</PROPOSAL_HERE>
+```
+/mnt/raid5/janghj/ODE-edit/project/proposals/00.proposal
+위 경로의 초기 proposal을 보고 repo 초기 세팅을 진행하라.
 ```
 
 repo 안에 `PROTOCOL.md`가 있으면 그것을 운영 protocol의 canonical source로 삼아라. 별도 protocol을 외부에서 받는 방식으로 운영하지 말고, repo 내부 protocol을 기준으로 GH/SH/blue/red 역할, inbox, artifact broadcast, sync, Git boundary를 운영하라.

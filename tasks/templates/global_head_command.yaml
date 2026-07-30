@@ -5,6 +5,11 @@ created_at: "YYYY-MM-DDTHH:MM:SS+TZ"
 priority: normal
 target_servers:
   - <server>
+target_session_boundary:
+  codex_session_id: <session-id>
+  repository_cwd: /absolute/path/to/ODE-edit
+  repository_identity: hyunjun1127/ODE-edit
+  preflight_command: "scripts/check-session-boundary.sh <session-id>"
 ack_required: true
 command_summary: "<short command>"
 instructions:

@@ -1,0 +1,3 @@
+# name	path
+# Copy to servers/local/dataset-roots.tsv and fill local-only paths there.
+easyedit	local/datasets/easyedit
