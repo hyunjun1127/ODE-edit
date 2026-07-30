@@ -7,6 +7,6 @@
 # the user records an explicit exception.
 #
 # Examples:
-# server1	server1	3	198117	odeedit_*,bfode_*,*_stage0,stage0_*
-# server2	server2	3	66017	odeedit_*,bfode_*,*_stage0,stage0_*
-# server3	server3	2	65984	odeedit_*,bfode_*,*_stage0,stage0_*
+# server1	server1	3	198117	odeedit_*,bfode_*,motivation_*,session01_*
+# server2	server2	3	66017	odeedit_*,bfode_*,motivation_*,session01_*
+# server3	server3	2	65984	odeedit_*,bfode_*,motivation_*,session01_*

@@ -1,20 +1,31 @@
-# GH Stage 0 Diagnostic Plan — BF-ODE-Edit
+# GH Session 01 Plan — Motivation Validation for ODE-Edit
 
 - 작성 시각: 2026-07-30
 - 작성 agent: head-server1-gh (global-head)
 - 상태: `blocked_on_server_onboarding_and_user_context`
 - proposal: `project/proposals/00.proposal`
-- proposal-side rationale: `project/proposals/sections/01-stage-0-diagnostic.md`
-- global evidence index: `experiment-reports/global/2026-07-30-stage0-diagnostics.md`
+- proposal-side rationale: `project/proposals/sections/01-motivation-validation.md`
+- global evidence index: `experiment-reports/global/2026-07-30-session-01-motivation-validation.md`
+
+## Session identity
+
+- 세션명: **Session 01 — Motivation Validation**
+- 진행 방향: ODE-Edit의 controller를 구현·비교하기 전에, same-snapshot utility
+  heterogeneity, partial-update ranking non-stationarity, sequential capacity
+  concentration이라는 motivation 전제가 실제 MEMIT trace에서 성립하는지 검증한다.
+- 이 세션이 아닌 것: ODE-Edit 성능 우위, long-horizon retention, AlphaEdit 확장,
+  논문 novelty의 검증이 아니다.
+- 종료 산출물: fixed subset/order/backbone별 motivation metric table, firewall
+  audit, `motivation supported` 또는 `motivation rejected/pivot` 결정.
 
 ## 1. 인수 판정과 운영 경계
 
 | 구분 | 내용 |
 | --- | --- |
-| repo/protocol에서 확인한 사실 | server1에 GH clone이 있으며 `agent.role=global-head`, `agent.hostname=server1`이다. 별도 server-head, inbox, task, run, audit, tracked 실행 script는 없다. private GitHub remote `hyunjun1127/ODE-edit`는 등록됐고 첫 push 전이다. |
+| repo/protocol에서 확인한 사실 | server1에 GH clone이 있으며 `agent.role=global-head`, `agent.hostname=server1`이다. 별도 server-head, inbox, task, run, audit, tracked 실행 script는 없다. private GitHub remote `hyunjun1127/ODE-edit` 등록과 main bootstrap push가 완료됐다. |
 | GH 추정 | 이 clone은 template로부터 시작한 독립 연구 repo 초기화 단계다. 실제 연구 remote로의 전환은 아직 이루어지지 않았다. |
-| 사용자 확인 필요 | server1의 server-head 겸임 여부, model/dataset 접근, baseline revision, Stage 0 compute budget. GPU cap과 memory cap은 local-only config로 이식하되, 실제 job 전 current availability를 재확인한다. |
-| 이번 GH 조치 | proposal을 canonical input으로 보존하고, Stage 0 diagnostic·claim boundary·server registration 전 instruction envelope를 만든다. Slurm/SSH/rsync는 실행하지 않는다. |
+| 사용자 확인 필요 | server1의 server-head 겸임 여부, model/dataset 접근, baseline revision, Session 01 compute budget. GPU cap과 memory cap은 local-only config로 이식하되, 실제 job 전 current availability를 재확인한다. |
+| 이번 GH 조치 | proposal을 canonical input으로 보존하고, Motivation Validation·claim boundary·server registration 전 instruction envelope를 만든다. Slurm/SSH/rsync는 실행하지 않는다. |
 
 추가 read-only 환경 점검에서 이 GH clone은 Slurm client와 controller 응답을
 확인했다. server1의 local GPU cap은 3, GPU당 host-memory request cap은
@@ -47,7 +58,7 @@ checker는 `experiment-reports/global/`만 GH에게 허용한다. 이 plan은 �
 
 핵심 가설은 “dynamic relinearization과 capacity routing이 필요하다”가 아니라,
 **static allocation이 설명하지 못하는 layer-state 변화와 load concentration이
-관측될 때에만 dynamic method를 고려한다**이다. Stage 0가 그 전제의 최소
+관측될 때에만 dynamic method를 고려한다**이다. Session 01이 그 전제의 최소
 증거를 판정한다.
 
 ### 왜 final paper plan이 아닌가
@@ -58,25 +69,25 @@ proxy가 장기 손상과 관련되는지, 최신 baseline과 공정 비교가 �
 run artifact나 audit로 검증되지 않았다. 따라서 proposal의 superiority,
 causality, novelty, full-stream feasibility는 claim으로 승격하지 않는다.
 
-## 3. Stage 0 scope와 정보 firewall
+## 3. Session 01 — Motivation Validation scope와 정보 firewall
 
 ### 최소 실행 단위
 
-1. **S0-preflight (실행 전):** frozen baseline revision과 CounterFact atomic
+1. **S01-MV-preflight (실행 전):** frozen baseline revision과 CounterFact atomic
    subset manifest를 기록한다. edit-time 허용 prompt와 evaluation-only prompt
    handle을 코드 수준에서 분리한다.
-2. **S0-baseline trace:** MEMIT sequential baseline을 100 edits × 2 fixed edit
+2. **S01-MV-baseline-trace:** MEMIT sequential baseline을 100 edits × 2 fixed edit
    orders로 실행하여 layer별 key/residual/proposal/capacity trace를 `local/`에
    기록한다. 이 run은 controller 성능 비교가 아니다.
-3. **S0-perturbation diagnostic:** 성공하거나 아직 rewrite deficit이 있는
+3. **S01-MV-perturbation:** 성공하거나 아직 rewrite deficit이 있는
    edit에 대해 same-state proposals를 기록하고, 사전 고정된 small joint
    partial update 하나 뒤 동일 허용 context에서 다시 측정한다. 평가 prompt는
    이 loop에 접근하지 못한다.
-4. **S0-replication:** 서로 다른 두 primary backbone에서 동일 diagnostic을
+4. **S01-MV-replication:** 서로 다른 두 primary backbone에서 동일 diagnostic을
    반복한다. second backbone이 준비되지 않으면 결과는 `single-backbone
-   diagnostic`으로만 표시하고 Stage 1로 승격하지 않는다.
+   diagnostic`으로만 표시하고 Session 02로 승격하지 않는다.
 
-### Stage 0에서 증명해야 할 최소 신호
+### Motivation Validation에서 증명해야 할 최소 신호
 
 아래 수치는 **GH 사전등록 operational threshold**다. 논문 claim이나 보편적
 자연 법칙이 아니다. viable edit는 base editor가 direct-z를 만들고, 허용
@@ -118,20 +129,20 @@ denominator를 숨기지 않는다. 비율의 uncertainty는 edit-level bootstra
 - average accepted macro-round가 2를 지속적으로 초과할 것이 확실하고
   compute-normalized signal이 없다: **BF-ODE method track kill**.
 
-### Stage 1 진입 (`GO`, 아직 성능 claim 아님)
+### Session 02 — Controller Feasibility 진입 (`GO`, 아직 성능 claim 아님)
 
 모든 firewall/reproducibility gate가 pass이고, 두 backbone 각각에서 H1–H3 중
 적어도 두 signal이 pass하며, 특히 H2가 한 backbone 이상에서 pass해야 한다.
-그 뒤에만 1K-edit의 matched-efficacy 비교군(MEMIT, naive K-step,
+그 뒤에만 Session 02에서 1K-edit의 matched-efficacy 비교군(MEMIT, naive K-step,
 global alpha, static alpha_l, sequential-small-step, BF-uniform)을 제안한다.
-Stage 1 proposal은 별도 red pre-flight audit 후 GH가 `tasks/pending/`으로
+Session 02 plan은 별도 red pre-flight audit 후 GH가 `tasks/pending/`으로
 승격한다.
 
 ## 5. Blue team checklist
 
 - [ ] baseline source revision/license, model revision, CounterFact subset
   manifest와 allowed 5-prefix semantics를 명시한다.
-- [ ] `project/run_scripts/`에 deterministic Stage 0 wrapper와 dry-run을
+- [ ] `project/run_scripts/`에 deterministic Motivation Validation wrapper와 dry-run을
   만들고, output은 `local/results/raw/<run_id>/`로만 쓴다.
 - [ ] base MEMIT을 먼저 1–3 edit smoke test로 재현하고, controller를 끈
   instrumentation-only trace를 만든다.
@@ -177,15 +188,15 @@ server1은 GH clone만 있는 `pending-onboarding` 상태이고 server-head가 �
 `messages/inbox/<server>.md`로 아직 발행하지 않는다.
 
 ```text
-명령 ID: stage0-onboard-and-preflight-<server>
+명령 ID: session01-motivation-onboard-and-preflight-<server>
 대상: <server>의 server-head
 대상 Codex session ID: <servers/active/<server>.md에 등록된 session ID>
 대상 repository CWD: <servers/active/<server>.md에 등록된 repo clone 경로>
 대상 Git repository identity: hyunjun1127/ODE-edit
 사전 boundary check:
   scripts/check-session-boundary.sh <target-session-id> 가 pass여야 한다.
-목적과 배경: BF-ODE-Edit Stage 0를 시작하기 전에 MEMIT diagnostic의
-  실행 가능성·firewall·재현성을 확인한다. 이 명령은 성능 실험 또는 논문
+목적과 배경: ODE-Edit Session 01 — Motivation Validation을 시작하기 전에 MEMIT
+  diagnostic의 실행 가능성·firewall·재현성을 확인한다. 이 명령은 성능 실험 또는 논문
   claim을 승인하지 않는다.
 허용 write path:
   servers/active/<server>.md
@@ -214,16 +225,16 @@ artifact broadcast 의무: smoke/preflight가 ordinary local artifact를 만들�
   기록한다. private/sensitive/repo-external/--delete transfer는 금지한다.
 완료 보고 경로:
   messages/acks/<server>/
-  messages/server-heads/<server>/2026-07-30-stage0-onboarding.md
-  audits/servers/<server>/stage0-onboarding.preflight.md
-  plans/updates/<server>/stage0-feasibility.md
+  messages/server-heads/<server>/2026-07-30-session01-motivation-onboarding.md
+  audits/servers/<server>/session01-motivation-onboarding.preflight.md
+  plans/updates/<server>/session01-motivation-feasibility.md
 금지 사항: evaluation prompt/label을 controller에 주입하지 말 것; raw
   credential/connection detail/dataset/checkpoint/log를 Git에 쓰지 말 것;
   red block 무시, unapproved Slurm submission, destructive rsync, direct
   global plan/task/inbox 수정 금지.
 예상 산출물: onboarding record, agent heartbeat, local path/cap feasibility,
   baseline revision and dry-run command, pre-flight audit, proposed (not
-  approved) Stage 0 task.
+  approved) Session 01 Motivation Validation task.
 중단 조건: missing model/dataset access, unknown/exceeded GPU or memory cap,
   missing baseline provenance, session boundary mismatch, firewall failure,
   red block, Git conflict, private artifact exposure.
@@ -246,10 +257,10 @@ artifact broadcast 의무: smoke/preflight가 ordinary local artifact를 만들�
 
 1. server1에서 GH가 server-head를 겸임할지, 별도 server-head Codex session을
    만들지.
-2. Stage 0를 맡을 server 이름/SH와 해당 server의 model·CounterFact·baseline
+2. Session 01을 맡을 server 이름/SH와 해당 server의 model·CounterFact·baseline
    access, Slurm GPU/memory cap, compute budget.
 3. baseline source repository/revision 및 Llama-3-8B/GPT-J 사용 승인·접근 조건.
 4. GH가 `experiment-reports/experiments/<section>/` index를 작성하도록
    protocol access matrix/checker를 확장할지, 현재처럼 global index만 쓸지.
 
-이 확인 전에는 Stage 0 문서화만 완료된 상태이며, 실험은 pending이다.
+이 확인 전에는 Session 01 문서화만 완료된 상태이며, 실험은 pending이다.

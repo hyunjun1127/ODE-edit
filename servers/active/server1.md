@@ -4,7 +4,7 @@
 
 - 서버 이름: server1
 - 서버 유형: local GH host
-- 사용 목적: BF-ODE-Edit repository bootstrap 및 Stage 0 preflight 후보
+- 사용 목적: ODE-Edit repository bootstrap 및 Session 01 preflight 후보
 - 예상 사용 기간: 사용자 확인 필요
 - 담당 global-head: head-server1-gh
 - 담당 server-head: 미지정
@@ -37,7 +37,7 @@ secret은 절대 기록하지 않는다.
 - `agent.role`: `global-head`
 - `agent.hostname`: `server1`
 - heartbeat 경로: `agents/server1/head-server1-gh.json`
-- sync 설정: GitHub remote 등록 완료; 첫 push 뒤 GH가 설치 여부를 결정
+- sync 설정: GitHub remote와 main bootstrap push 완료; GH가 설치 여부를 결정
 
 ## Codex Session Boundary
 
@@ -71,11 +71,11 @@ ID를 재사용하지 않는다.
 - Blue team 준비 상태: server-head 배정 후 필요
 - Red team 준비 상태: server-head 배정 후 필요
 - red-team onboarding audit 경로:
-  `audits/servers/server1/stage0-onboarding.preflight.md`
+  `audits/servers/server1/session01-motivation-onboarding.preflight.md`
 
 ## 판정
 
 - 상태: `pending-onboarding`
-- 남은 작업: GitHub remote 첫 push, local SSH/rsync dry-run, runtime/dataset
+- 남은 작업: local SSH/rsync dry-run, runtime/dataset
   path 확인, server-head 배정 여부, red-team onboarding audit
 - 다음 담당자: global-head 및 사용자

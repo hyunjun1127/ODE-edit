@@ -1,16 +1,16 @@
-# GH 초기화 공지 — BF-ODE-Edit Stage 0
+# GH 초기화 공지 — ODE-Edit Session 01: Motivation Validation
 
 - 작성 시각: 2026-07-30
 - 작성 agent: head-server1-gh (global-head)
 - 상태: `info / execution blocked pending onboarding`
-- 관련 plan: `plans/global/2026-07-30-stage0-diagnostic.md`
+- 관련 plan: `plans/global/2026-07-30-session-01-motivation-validation.md`
 - 관련 proposal: `project/proposals/00.proposal`
 
 ## 결정
 
-이 repo는 기존 실험의 후속 patch가 아니라 BF-ODE-Edit 독립 연구 방향의
+이 repo는 기존 실험의 후속 patch가 아니라 ODE-Edit 독립 연구 방향의
 초기화 상태로 판정한다. proposal은 canonical research input으로 보존하되,
-현재 claim은 `hypothesis only`다. Stage 0는 method 성능이 아니라
+현재 claim은 `hypothesis only`다. Session 01은 method 성능이 아니라
 same-snapshot utility heterogeneity, partial-update ranking non-stationarity,
 sequential capacity concentration의 최소 신호를 검사한다.
 
@@ -29,7 +29,7 @@ sequential capacity concentration의 최소 신호를 검사한다.
 
 ## 다음 행동
 
-private research remote `hyunjun1127/ODE-edit`를 등록했고, 첫 bootstrap push를
-준비 중이다. server1/4 onboarding, red-team gate, server별 actionable inbox는
+private research remote `hyunjun1127/ODE-edit` 등록과 첫 bootstrap push를
+완료했다. server1/4 onboarding, red-team gate, server별 actionable inbox는
 SH session이 등록된 뒤에 순서대로 발행한다. 그 전에는 Slurm/SSH/rsync 실행을
 하지 않는다.

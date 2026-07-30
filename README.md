@@ -1,22 +1,23 @@
-# BF-ODE-Edit
+# ODE-Edit
 
-`BF-ODE-Edit`는 sequential knowledge editing에서 layer-synchronous,
-capacity-aware edit flow가 필요한지를 작은 Stage 0 diagnostic으로 먼저
-검증하는 독립 연구 repository다. 이 저장소는 기존 프로젝트의 patch 공간이
+`ODE-Edit`는 sequential knowledge editing에서 layer-synchronous,
+capacity-aware edit flow의 motivation이 성립하는지를 Session 01 — Motivation
+Validation으로 먼저 검증하는 독립 연구 repository다. 이 저장소는 기존 프로젝트의 patch 공간이
 아니며, `project/proposals/00.proposal`을 출발점으로 삼는다.
 
 현재 claim 상태는 **hypothesis only**다. proposal의 방법·성능·문헌 해석은
-실험으로 검증되기 전의 연구 입력이며, canonical Stage 0 판정 기준은
-[`plans/global/2026-07-30-stage0-diagnostic.md`](plans/global/2026-07-30-stage0-diagnostic.md)에
+실험으로 검증되기 전의 연구 입력이며, Session 01 — Motivation Validation의
+canonical 판정 기준은
+[`plans/global/2026-07-30-session-01-motivation-validation.md`](plans/global/2026-07-30-session-01-motivation-validation.md)에
 있다.
 
 ## Canonical 경로
 
 - 운영 규칙: [`PROTOCOL.md`](PROTOCOL.md)
 - 원 proposal: [`project/proposals/00.proposal`](project/proposals/00.proposal)
-- Stage 0 연구 근거: [`project/proposals/sections/01-stage-0-diagnostic.md`](project/proposals/sections/01-stage-0-diagnostic.md)
-- Stage 0 실행 계획: [`plans/global/2026-07-30-stage0-diagnostic.md`](plans/global/2026-07-30-stage0-diagnostic.md)
-- Stage 0 global evidence index: [`experiment-reports/global/2026-07-30-stage0-diagnostics.md`](experiment-reports/global/2026-07-30-stage0-diagnostics.md)
+- Session 01 연구 근거: [`project/proposals/sections/01-motivation-validation.md`](project/proposals/sections/01-motivation-validation.md)
+- Session 01 실행 계획: [`plans/global/2026-07-30-session-01-motivation-validation.md`](plans/global/2026-07-30-session-01-motivation-validation.md)
+- Session 01 global evidence index: [`experiment-reports/global/2026-07-30-session-01-motivation-validation.md`](experiment-reports/global/2026-07-30-session-01-motivation-validation.md)
 - redacted 서버 인벤토리: [`servers/connection-inventory.md`](servers/connection-inventory.md)
 - server1 onboarding record: [`servers/active/server1.md`](servers/active/server1.md)
 - 실행 스크립트: `project/run_scripts/` (현재 등록된 실행 스크립트 없음)

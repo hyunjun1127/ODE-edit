@@ -19,7 +19,7 @@ Cap configuration:
 TSV format:
   server<TAB>slurm_node<TAB>max_project_gpus<TAB>mem_mb_per_gpu<TAB>job_patterns
 
-Default job patterns: project_*,*_stage0,stage0_*.
+Default job patterns: project_*,motivation_*,session01_*.
 
 Exit codes:
   0: submit is allowed under the cap
@@ -62,7 +62,7 @@ if [[ -z "${node}" ]]; then
   node="${server}"
 fi
 if [[ -z "${job_patterns}" ]]; then
-  job_patterns="${AGENT_PROJECT_JOB_PATTERNS:-project_*,*_stage0,stage0_*}"
+  job_patterns="${AGENT_PROJECT_JOB_PATTERNS:-project_*,motivation_*,session01_*}"
 fi
 
 if [[ -f "${caps_file}" ]]; then

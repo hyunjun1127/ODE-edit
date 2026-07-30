@@ -4,14 +4,14 @@
 - 판정: waived
 - 감사 시간: 2026-07-30
 - 작성 agent: head-server1-gh (global-head)
-- 대상: BF-ODE-Edit 첫 GitHub push
+- 대상: ODE-Edit 첫 GitHub push
 
 ## Waiver 사유
 
 현재 server1에는 global-head Codex session만 있고 독립 server-head 및 red-team
 session이 아직 없다. 따라서 red-team `pass`를 가장해 기록하지 않는다. 대신
 첫 bootstrap commit 범위에 한해 GH가 protocol상 waiver를 기록한다. 이 waiver는
-Stage 0 실행, Slurm 제출, experiment report claim, task 승격에는 적용되지 않는다.
+Session 01 실행, Slurm 제출, experiment report claim, task 승격에는 적용되지 않는다.
 
 ## 확인 범위
 

@@ -4,7 +4,7 @@
 
 - 서버 이름: server4
 - 서버 유형: registered remote host
-- 사용 목적: 향후 BF-ODE-Edit Stage 0/재현 실행 후보
+- 사용 목적: 향후 ODE-Edit Session 01/재현 실행 후보
 - 예상 사용 기간: 사용자 확인 필요
 - 담당 global-head: head-server1-gh
 - 담당 server-head: 미지정
