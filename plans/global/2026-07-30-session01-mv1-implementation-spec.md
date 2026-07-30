@@ -242,3 +242,179 @@ run IDs: mv1_llama_<wave>_v1, mv1_qwen_<wave>_v1
 - raw artifact 생성 후 active peer가 없으므로 broadcast exception을 summary와
   report에 기록한다.
 - 실행과 다른 analysis agent 및 red post-run이 동시 실행, cap, firewall, denominator, action hash를 확인한다.
+
+## 10. Post-pilot v2 amendment — finite-action identifiability 교정
+
+- amendment 일자: 2026-07-30
+- 상태: **REVISE-before-full / v2 D0만 실행 허용**
+- 근거 red:
+  `audits/global/2026-07-30-mv1-finite-action-identifiability-postpilot.md`
+- 우선순위: 이 절은 v2 실행에 한해 위 2, 4–7, 9절과 충돌하는 내용을
+  대체한다. 위 절은 `mv1_*_c0p_v1`의 historical contract로 보존한다.
+
+### 10.1 네 범주
+
+#### Proposal에서 온 내용
+
+- fixed direct-z와 same-snapshot layer proposal 아래 event별 allocation이
+  static allocation보다 유리할 수 있는지를 작고 반증 가능한 Motivation
+  diagnostic으로 검사한다.
+- outcome을 보지 않는 rewrite-side signal만 controller에 허용하고, static
+  policy가 충분하거나 signal이 actual progress를 예측하지 못하면
+  routing/controller를 빠르게 kill 또는 pivot한다.
+
+#### Repo/protocol에서 확인한 사실
+
+- v1 3-case pair는 실행·artifact·rollback 측면에서는 PASS했다.
+- v1에서 five single-layer unit directions를 `V_l`, 해당 central-difference
+  slope를 `s_l`이라 하면 locked uniform direction의 local score는 선형성상
+  `sum_l s_l / sqrt(5)`다.
+- 양 model의 v1 세 case와 세 fraction에서 controller, retrospective
+  best-static, six-arm event-wise winner가 모두 `uniform`이었다.
+- Qwen은 세 fraction 모두 derivative p90 error gate에 실패했고, 특히
+  finite-step magnitude calibration tail risk가 남았다.
+- 기존 v1 pilot의 세 case는 v2 calibration의 첫 세 case와 겹치므로 v2
+  estimand, action/static selection, uncertainty interval에서 모두 제외한다.
+
+#### GH의 추정 및 확정 운영 결정
+
+- positive slope가 여러 layer에 넓게 분포하면 layer별 heterogeneity가
+  존재해도 `uniform`이 구조적으로 single-layer보다 높은 score를 갖는다.
+  따라서 기존 six-arm oracle gap `0`은 “continuous routing opportunity가
+  없다”를 식별하지 않는다.
+- v2는 sparse single-layer winner를 찾는 대신, non-negative unit-`C`
+  continuous mixture가 uniform보다 나은지를 직접 검사한다.
+- 사용자의 claim-revealing Motivation diagnostic과 빠른 kill 지시에 따라
+  pairwise/continuous mixture를 MV-1에서 열며, 이는 위 4절의 “MV-3 전
+  pairwise mixture 금지”를 v2 D0/D1 범위에서 대체한다.
+
+#### 사용자 확인 필요
+
+- 없음. D0는 기존 calibration split 안의 다섯 case만 사용하고, positive
+  결과도 GO나 MV-2를 승인하지 않는 제한된 diagnostic이다.
+
+### 10.2 v2 action과 tie/fallback lock
+
+각 event와 layer `l ∈ {4,5,6,7,8}`에 대해 unit-`C` direction `V_il`과
+outcome 이전 central-difference slope `s_il`을 만든다. Event-adaptive
+mixture weight는 다음으로 고정한다.
+
+```text
+if any_l(s_il > 0):
+    w_il = relu(s_il) / ||relu(s_i)||_2
+else:
+    l* = argmax_l s_il
+         # exact tie이면 더 낮은 layer
+    w_il* = 1; other weights = 0
+
+V_mix,i = sum_l w_il V_il
+```
+
+Layer parameter block은 서로 분리된 direct-sum `C` geometry이므로
+`sum_l w_il^2=1`을 강제한다. Runner는 계산된 `V_mix`와 `uniform`의 실제
+`C` energy가 같은 operational budget과 허용 오차 내 일치하는지
+fail-closed assert한다. 임의 renormalization, negative coefficient,
+outcome 기반 weight 수정은 금지한다.
+
+Local-linear diagnostic은 다음이다.
+
+```text
+score_mix,i    = sum_l w_il s_il
+score_uniform,i = sum_l s_il / sqrt(5)
+```
+
+Primary realized outcome contrast는 같은 event, snapshot, direct-z,
+`q=1/256`, `C` budget에서:
+
+```text
+G_mix,i = P_i(V_mix,i) - P_i(V_uniform,i)
+```
+
+이다. `score_mix-score_uniform`은 prediction/identifiability diagnostic이고
+`G_mix`를 대신하지 않는다. 기존
+`{single_4,...,single_8,uniform}` panel은 sparse-vs-uniform sentinel로만
+남기며 continuous routing 전체의 oracle 또는 kill estimand로 사용하지
+않는다. `ordered_global_alpha`, `native MEMIT full`, `no-op replay`도
+sentinel이며 그 contrast를 `G_mix`에 더하지 않는다.
+
+### 10.3 D0/D1 sequential calibration
+
+v2는 `q=1/256` 하나만 사용한다. Llama와 Qwen은 각 wave에서 하나의 paired
+allocation으로 동시에 시작한다.
+
+| wave | exact calibration slice | model별 case | 허용 결정 |
+| --- | --- | ---: | --- |
+| historical v1 | `[0:3]` | 3 | v2 estimand/selection/CI에서 제외 |
+| `D0` | `[3:8]` | 5 | technical validation 및 continuous-routing early kill만 |
+| `D1` | `[8:20]` | 12 | D0 생존 시 calibration 완료 및 policy freeze |
+
+D0의 모든 planned event/arm을 ITD에 남긴다. Source/artifact mismatch,
+teacher-forcing contract failure, non-finite, rollback mismatch, budget
+mismatch, firewall violation, covariance recompute 시도, missing denominator는
+research null로 바꾸지 않고 **technical BLOCK**한다.
+
+Model별 replay/near-tie envelope를 `e_m`이라 하고, D0의 다섯 paired realized
+gain을 `G_mix,mi`라 한다. 아래가 동시에 성립하면:
+
+```text
+for both models m:
+    all five D0 events satisfy G_mix,mi <= e_m
+```
+
+current continuous-routing direction을 early kill하고 D1, confirmatory,
+MV-2를 열지 않는다. 한 model에서라도 한 event가 envelope를 넘으면 두
+model을 같은 paired D1 wave로 확장한다. D0의 positive event는 오직 D1
+실행을 허용할 뿐, positive claim, GO, confirmatory success 또는 MV-2
+진입을 허용하지 않는다.
+
+### 10.4 D0+D1 뒤 frozen static comparator
+
+Confirmatory를 열기 전에 v2 calibration 17 case만으로 model별 static pooled
+mix를 한 번 fit하고 hash와 함께 freeze한다. Pilot 세 case와 outcome은
+사용하지 않는다. Outcome leakage를 막기 위해 fit 입력은 slope feature뿐이다.
+
+```text
+sbar_ml = mean_{i in D0 union D1} s_mil
+w_static,m = relu(sbar_m) / ||relu(sbar_m)||_2
+             # all-nonpositive이면 max-slope one-hot,
+             # exact tie이면 더 낮은 layer
+```
+
+Raw slope scale를 model 간 pooling하지 않으며 model별 weight를 따로 고정한다.
+Confirmatory primary는 event-adaptive `V_mix,i`와 frozen
+`V_static,m=sum_l w_static,ml V_il`의 realized progress 차이다. 두 arm의
+actual update `C` budget은 정확히 같아야 한다. Adaptive probe를 포함한
+forward/solve NFE, wall-clock, GPU/host-memory peak를 arm별로 공개하고,
+matched-NFE sensitivity를 별도 표기한다. Extra NFE를 숨기거나 effect와
+latency를 임의 scalar로 합치지 않는다.
+
+### 10.5 Pilot-only structural forecast와 금지된 해석
+
+GH가 확정한 v1 slope-only pure-rotation 계산은 다음 descriptive reference로
+만 남긴다.
+
+| model | mean of casewise score ratios | ratio of mean scores |
+| --- | ---: | ---: |
+| Llama3-8B-Instruct | 약 `+0.71%` | 약 `+1.06%` |
+| Qwen2.5-7B-Instruct | 약 `+1.22%` | 약 `+1.74%` |
+
+이는 동일 local slope를 uniform에서 `relu(s)/L2` 방향으로 회전했을 때의
+analytic score forecast다. Actual finite-step gain, expected ODE-Edit
+improvement, CI 또는 population estimate가 아니다. 특히 Qwen의 큰 raw
+slope-derived finite-step 값은 v1 p90 derivative failure가 보여 준
+nonadditivity/calibration risk 때문에 보고하거나 gain으로 환산하지 않는다.
+이 pilot 수치는 v2 selection, estimand, CI 어디에도 넣지 않는다.
+
+### 10.6 Deprecated submission과 최소 감사
+
+- 위 9절에 따른 기존 20-case `full C0` v1 wrapper/job은
+  **deprecated / 제출 금지**다. 이미 존재하더라도 `D0` 결과 없이 실행하지
+  않으며 v2 결과로 부르지 않는다.
+- 새 실행은 `D0 [3:8]` pair를 먼저 제출하고, early-kill gate가 살아남을
+  때만 별도 `D1 [8:20]` pair를 제출한다.
+- 필수 감사·분석은 각 wave당 다음 최소 범위로 제한한다.
+  1. v2 execution preflight red 1건
+  2. model별 독립 post-run analysis 각 1건
+  3. pair post-run red 1건
+- 추가 감사를 자동 증식하지 않는다. Technical BLOCK, emergency triage,
+  artifact mismatch가 생긴 경우에만 영향 범위에 맞춘 별도 기록을 연다.
