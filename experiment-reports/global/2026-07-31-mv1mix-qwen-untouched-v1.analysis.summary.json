@@ -1,0 +1,115 @@
+{
+  "schema_version": "ode-edit-mv1-score-mix-untouched-compact-summary/v1",
+  "analysis_status": "complete",
+  "model_alias": "qwen2.5-7b-inst",
+  "run_id": "mv1mix_qwen_untouched_v1",
+  "mode": "untouched",
+  "source": {
+    "analysis_path": "experiment-reports/global/2026-07-31-mv1mix-qwen-untouched-v1.analysis.json",
+    "analysis_sha256": "f401d62e57e33d27bfac6623ac0d89f0f063a2fdf7819f21ddcbc2cb21ae8947",
+    "manifest_sha256": "e93605704088b458e78cbc302d1406e66eff352cd7693b9b8ad5d235f2ad43d2",
+    "summary_sha256": "dd12913804becaa669d09d478cadcc871177d7b3ad3fc3fe6cd433182f034e6b",
+    "execution_commit": "a7c929f11da540c7435f9b0f3d367c5009c1ff2d",
+    "analyzer_unchanged_from_execution_commit_through_head": true,
+    "head_checked": "51d85971f825b237d7a79320c9c8eb9cf9cf92bd"
+  },
+  "artifact_validation": {
+    "valid": true,
+    "planned_cases": 20,
+    "attempted_cases": 20,
+    "passed_cases": 20,
+    "failed_cases": 0,
+    "features": 20,
+    "actions": 20,
+    "events": 20,
+    "outcomes": 120,
+    "action_receipts": 20,
+    "commitments": 20,
+    "direct_z_artifact_count": 20,
+    "arms_per_case": 6,
+    "all_rollbacks_exact": true,
+    "equal_c_and_rollback_valid": true,
+    "outcome_firewall_and_receipts_valid": true,
+    "git_output_written": false,
+    "error_codes": []
+  },
+  "execution_lock": {
+    "job_id": "15586",
+    "job_name": "odeedit_mv1mix_untouched_pair_v1",
+    "node": "devbox",
+    "under_slurm": true,
+    "run_seed": 17,
+    "q": 0.00390625,
+    "bootstrap_seed": 20260731,
+    "bootstrap_replicates": 4000,
+    "primary_estimand": "progress(score_mix)-progress(frozen_static_mix)"
+  },
+  "replay_envelope": 1e-12,
+  "primary_adaptive_minus_frozen_static": {
+    "case_count": 20,
+    "mean": 0.04832061529159546,
+    "trimmed_mean_20pct": 0.03188145160675049,
+    "median": 0.021752119064331055,
+    "positive_sign_count_above_replay_envelope": 20,
+    "positive_sign_fraction_above_replay_envelope": 1.0,
+    "paired_case_bootstrap_mean_ci_95": [
+      0.027076385319232944,
+      0.0734122896194458
+    ]
+  },
+  "finite_panel_oracle_opportunity": {
+    "case_count": 20,
+    "mean": 0.04847902059555054,
+    "trimmed_mean_20pct": 0.03188145160675049,
+    "median": 0.021752119064331055,
+    "positive_sign_count_above_replay_envelope": 20,
+    "positive_sign_fraction_above_replay_envelope": 1.0,
+    "paired_case_bootstrap_mean_ci_95": [
+      0.0264308500289917,
+      0.07327890038490295
+    ]
+  },
+  "forecast_calibration": {
+    "d0_d1_calibration_prior": {
+      "adaptive_static_forecast": {
+        "expected_realized_gap": 0.11201531043591464,
+        "case_bootstrap_interval_95": [
+          0.06476441445994054,
+          0.17629666495305207
+        ]
+      },
+      "untouched_realized_mean": 0.04832061529159546,
+      "realized_minus_prior": -0.06369469514431918,
+      "realized_to_prior_ratio_approx": 0.431374
+    },
+    "untouched_casewise_frozen_predicted_mean": 0.0845762937360485,
+    "untouched_realized_mean": 0.04832061529159546,
+    "mean_error_realized_minus_predicted": -0.03625567844445304,
+    "mean_absolute_error": 0.038683593051440535,
+    "median_absolute_error": 0.018002594769061388,
+    "zero_intercept_realized_on_predicted_slope": 0.563926864638651,
+    "pearson": 0.8164494890719834,
+    "positive_direction_concordance": 1.0,
+    "calibration_residual_envelope": 0.03236109868826046
+  },
+  "resource": {
+    "visible_gpu_count": 1,
+    "gpu_peak_allocated_bytes": 43798774272,
+    "gpu_peak_reserved_bytes": 47605350400,
+    "host_max_rss_kib": 17342640,
+    "wall_seconds": 8411.899771494791
+  },
+  "locked_section_10_9_single_model_gate_inputs": {
+    "clear_sign_count_threshold": 11,
+    "kill_sign_count_upper_bound": 10,
+    "clear_continue_input": true,
+    "scientific_kill_input": false,
+    "controller_pivot_input": false,
+    "gray_input": false,
+    "architecture_conditional_tolerance_input": 0.03236109868826046,
+    "pair_level_decision_computed": false,
+    "mv2_decision_computed": false
+  },
+  "gate_provenance_note": "The generic analyzer intentionally emits false follow-up gate booleans outside C1. The authoritative values above are a direct aggregate-only recomputation of locked spec section 10.9; no threshold was changed and no pair decision was made.",
+  "claim_boundary": "Qwen fixed-model untouched 20-case aggregate evidence and locked single-model gate input only. No case-level values, pair/cross-model verdict, method gain, MV-2 decision, or ODE claim."
+}

@@ -1,0 +1,152 @@
+{
+  "schema_version": "ode-edit-mv1-untouched-single-model-compact-summary/v1",
+  "analysis_status": "complete",
+  "run_id": "mv1mix_llama_untouched_v1",
+  "model_alias": "llama3-8b-inst",
+  "source_classification": {
+    "proposal_input": {
+      "used": false,
+      "statement": "이 독립 분석의 허용 입력에는 proposal 원문이 없으며 새로운 proposal claim을 추가하지 않았다."
+    },
+    "repo_protocol_confirmed": {
+      "statement": "고정 analyzer 출력, run manifest/summary, frozen Llama policy, MV-1 spec section 10.9에서 확인한 사실만 기록했다."
+    },
+    "gh_estimate": {
+      "statement": "section 10.9의 untouched 단일-model 입력 규칙을 기계적으로 적용하면 clear input이다."
+    },
+    "user_confirmation_required": {
+      "required": false,
+      "statement": "단일-model 입력 계산에는 추가 확인이 필요하지 않다. Pair 및 MV-2 결정은 별도 red audit 전까지 금지된다."
+    }
+  },
+  "execution": {
+    "execution_commit": "a7c929f11da540c7435f9b0f3d367c5009c1ff2d",
+    "execution_tracked_worktree_clean": true,
+    "analysis_verification_head": "51d85971f825b237d7a79320c9c8eb9cf9cf92bd",
+    "analyzer_unchanged_from_execution_commit_through_verification_head": true,
+    "analyzer_git_blob": "92ca2d491c1c8bc930f4b0bbe37520a92db3dfce",
+    "slurm_job_id": "15586",
+    "slurm_job_name": "odeedit_mv1mix_untouched_pair_v1",
+    "under_slurm": true
+  },
+  "artifact_validation": {
+    "valid": true,
+    "panel_complete": true,
+    "planned_cases": 20,
+    "attempted_cases": 20,
+    "passed_cases": 20,
+    "failed_cases": 0,
+    "not_run_due_to_abort": 0,
+    "events": 20,
+    "features": 20,
+    "actions": 20,
+    "outcomes": 120,
+    "action_receipts": 20,
+    "direct_z_local_artifacts": 20,
+    "arms_per_case": 6,
+    "expected_counts_exact": true,
+    "all_rollbacks_exact": true,
+    "equal_c_and_rollback_valid": true,
+    "outcome_firewall_and_receipts_valid": true,
+    "git_output_written": false,
+    "covariance_files_loaded_read_only": 5,
+    "projector_files_deserialized": 0,
+    "selection_manifest_id": "186372487e0a79d64a4895dfa5ad142a5e9b1dd3f675c9a3468205147c38c4ce",
+    "selected_case_ids_sha256": "e6658d6b53d8ed54c64152e1eabf024c99b4313d90cd03151d13617646448376",
+    "context_id": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
+    "provenance_id": "273d06af367904aac61931331e6aa2ea09204b0db1f6c7557bca16a9e2c84d2b"
+  },
+  "locks": {
+    "split": "untouched",
+    "case_count": 20,
+    "run_seed": 17,
+    "q": 0.00390625,
+    "primary_estimand": "progress(score_mix)-progress(frozen_static_mix)",
+    "outcome_action_order": [
+      "score_mix",
+      "frozen_static_mix",
+      "uniform",
+      "ordered_global_alpha",
+      "native_memit_full",
+      "no_op_replay"
+    ],
+    "static_policy_hash": "e37443fa075245aa52828773ffc062217d983fb46254d1f40010d396be3d5e06",
+    "forecast_policy_hash": "da5b352cbae20a44ff24e22f9c598f4a5df88aeab373995df3025ce2d0894533",
+    "replay_envelope": 1e-12,
+    "calibration_residual_envelope": 0.0012365315172465315,
+    "bootstrap_seed": 20260731,
+    "bootstrap_replicates": 4000
+  },
+  "primary_adaptive_minus_frozen_static": {
+    "mean": 0.010262799263000489,
+    "trimmed_mean_20pct": 0.007329424222310384,
+    "median": 0.007647037506103516,
+    "positive_sign_count_above_replay_envelope": 20,
+    "case_count": 20,
+    "paired_case_bootstrap_mean_ci_95": [
+      0.005930529832839966,
+      0.015292656421661378
+    ]
+  },
+  "finite_panel_oracle_opportunity": {
+    "mean": 0.010279297828674316,
+    "trimmed_mean_20pct": 0.007356921831766765,
+    "median": 0.007647037506103516,
+    "positive_sign_count_above_replay_envelope": 20,
+    "case_count": 20,
+    "paired_case_bootstrap_mean_ci_95": [
+      0.005953561663627625,
+      0.015286592841148378
+    ],
+    "bootstrap_seed": 20260732
+  },
+  "forecast": {
+    "d0_d1_calibration_expected_realized_gap": 0.010963672438775659,
+    "d0_d1_calibration_case_bootstrap_interval_95": [
+      0.005291678279052575,
+      0.017507945627132517
+    ],
+    "untouched_casewise_predicted_mean": 0.008498514037922367,
+    "untouched_realized_mean": 0.010262799263000489,
+    "untouched_minus_d0_d1_expected_gap": -0.0007008731757751699,
+    "untouched_casewise_mean_error_realized_minus_predicted": 0.0017642852250781215,
+    "untouched_casewise_mean_absolute_error": 0.002590510556911647,
+    "untouched_casewise_median_absolute_error": 0.0010548005386717201,
+    "zero_intercept_realized_on_predicted_slope": 1.1849713069832435,
+    "pearson": 0.9270568073422046,
+    "positive_direction_concordance": 1.0
+  },
+  "resource": {
+    "visible_gpu_count": 1,
+    "gpu_peak_allocated_bytes": 40712323584,
+    "gpu_peak_allocated_gib": 37.916306018829346,
+    "gpu_peak_reserved_bytes": 43518001152,
+    "gpu_peak_reserved_gib": 40.529296875,
+    "host_max_rss_kib": 10747568,
+    "host_max_rss_gib": 10.249679565429688,
+    "wall_seconds": 6281.279592327774
+  },
+  "spec_derived_single_model_gate": {
+    "rule_source": "plans/global/2026-07-30-session01-mv1-implementation-spec.md section 10.9",
+    "clear_input": true,
+    "scientific_kill_input": false,
+    "controller_static_policy_pivot_input": false,
+    "gray_input": false,
+    "evidence": {
+      "mean_above_replay_envelope": true,
+      "trimmed_mean_above_replay_envelope": true,
+      "median_above_replay_envelope": true,
+      "positive_sign_count_at_least_11_of_20": true,
+      "oracle_only": false
+    },
+    "analyzer_followup_gate_booleans_are_not_a_verdict": true,
+    "pair_level_decision_computed": false,
+    "mv2_decision_computed": false
+  },
+  "claim_boundary": "Llama untouched 20-case 한 run의 단일-model gate input만 지지한다. Pair, cross-model, method gain, MV-2, ODE claim은 하지 않는다.",
+  "source_hashes": {
+    "analysis_json_sha256": "161f3a9725ae8da62cbcbd07d5bf7e0e075e6ddd20996f7794fcb2fbebc1125e",
+    "run_summary_sha256": "b27cb4cf9f7e1cfd5474d7006647d0f31cb42a74f5772514a80ef418a718d1ad",
+    "run_manifest_sha256": "95262c59625bb13f31395081dcac1524cf494c6cf19b7931eb5bb7d1e8667459"
+  }
+}

@@ -297,3 +297,119 @@ calibration `[8:20]` 12 case/model을 동시에 실행해 calibration 17 case를
   full log 및 credential의 Git 유입
 - online dependency/model download, EasyEdit/cache 수정·재계산
 - untouched 결과 전 MV-2, ODE dynamics, retention 또는 paper GO 주장
+
+---
+
+# MV-2 refresh 추가 instruction — `session01-mv2refresh-pair-v1`
+
+## 명령 메타데이터
+
+- 대상 서버 / repository:
+  `server1` / `/mnt/raid5/janghj/ODE-edit` / `hyunjun1127/ODE-edit`
+- 대상 server-head Codex session ID:
+  미지정 — 현재 SH 없음; 다른 repo/session 및 미등록 SH 실행 금지
+- GH Codex session ID:
+  `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`
+- 완료 보고 경로:
+  `messages/server-heads/server1/2026-07-31.md`,
+  `runs/mv2refresh_*_e0_v1/`,
+  `experiment-reports/servers/server1/`,
+  `audits/servers/server1/`
+
+## 목적과 배경
+
+- proposal에서 온 내용: fixed direct-z 아래 partial update 뒤의
+  non-stationarity가 actionable한지, stale W0 direction/coefficient와
+  refreshed W1 direction/coefficient를 분리해 검증한다.
+- repo/protocol에서 확인한 사실: MV-1 untouched pair는 양 model 모두 locked
+  clear이고 pair red audit의 exact `MV2 PREPARE`를 통과했다. MV-2는
+  outcome-blind 사전등록의 exact 12 case/model, `h=1/2`, `q=1/256`,
+  equal-`C` six-arm diagnostic이다.
+- GH 추정: MV-1은 allocation 방향만 재현했다. ODE/relinearization의 필요성은
+  아직 검증되지 않았으며 MV-2에서 direction refresh가 null이면 즉시
+  coefficient/static controller로 pivot해야 한다.
+- 사용자 확인 필요: 없음. 사용자는 필수 감사만 거쳐 Llama/Qwen을 순차가
+  아니라 함께 빠르게 제출하라고 명시했다.
+
+## 실행 권한 envelope
+
+- 허용 write path:
+  - raw:
+    `local/results/raw/session01_motivation/mv2refresh_{llama,qwen}_e0_v1/`
+  - log/state:
+    `local/logs/slurm/session01_motivation/`,
+    `local/state/slurm-submissions/session01_motivation/`
+  - small report: 위 완료 보고 경로와
+    `experiment-reports/global/`, `audits/global/`
+- Slurm 제출 허용 여부:
+  pair post-run과 MV-2 preflight exact gate를 통과한 GH
+  `project/run_scripts/submit_session01_mv2refresh_pair_server1.sh`
+  one-shot에만 `allowed`; 미등록 SH의 submit/retry/cancel은 `not allowed`
+- GPU cap:
+  server1 project 동시 최대 3; 이번 parent 총 2, child별 1.
+  parent `2 GPU / 16 CPU / 130000M / 08:00:00`, child별
+  `1 GPU / 8 CPU / 65000M`; overflow면 `pending_resource_cap`
+- red-team gate:
+  `audits/global/2026-07-31-mv1mix-untouched-pair-v1.postrun.md`의 exact
+  `MV2 PREPARE`와
+  `audits/global/2026-07-31-session01-mv2-execution-preflight.md`의 exact
+  `PASS`; 어느 하나라도 없거나 ambiguous하면 제출 금지
+- artifact broadcast 의무:
+  active peer clone이 없어 즉시 broadcast 예외를 완료 보고에 기록한다.
+  Peer 활성화 뒤 protocol helper만 사용하고 destructive mirror는 금지한다.
+- 완료 보고 경로:
+  위 명령 metadata 경로와
+  `experiment-reports/global/2026-07-31-mv2refresh-*-e0-v1-analysis.md`,
+  `audits/global/2026-07-31-mv2refresh-pair-v1.postrun.md`
+
+## 예상 산출물
+
+- canonical salted rank `[100:112]`, 기존 first 100과 disjoint한 exact
+  12 event/model
+- event별 feature/action/analysis-case/receipt/direct-z 1, exact six-arm
+  outcome 6으로 model별 총 72 outcome
+- W0 direct-z one-compute lineage, W1 descendant receipt, matched second-`C`,
+  exact rollback/RNG, replay/`h=0` sham validation
+- model별 독립 한국어 분석과 compact summary, 별도 pair red audit
+- 기대효과:
+  `A-C` total refresh absolute rewrite-utility와
+  direction/coefficient decomposition, bootstrap CI, controller incremental
+  proposal/probe 비용. Downstream accuracy나 paper 성능으로 환산 금지
+
+## 중단 조건
+
+- session/CWD/origin/branch/HEAD/job/run/model/resource envelope 불일치
+- 두 child가 같은 parent allocation에서 동시에 시작하지 않음
+- salted next12가 first100과 겹치거나 selection/source hash 불일치
+- direct-z recompute, target token/context/request/lineage mismatch
+- covariance cache 재계산·download·write 또는 projector deserialize
+- action receipt 전에 outcome 접근, unequal `C`, non-finite metric,
+  rollback/RNG/firewall failure
+- output/marker 중복, dirty/unpushed Git, active duplicate job, child nonzero
+- 어느 child든 실패하면 fail-fast supervisor가 sibling을 종료하며 재제출은
+  새 red 승인 전 금지
+
+## 금지 사항
+
+- 다른 repository, 다른 서버의 SH Codex session, 다른 task/job/artifact 조작
+- 미등록 SH의 제출·재제출·취소
+- raw prompt/target/logit/generation, `.pt`, weights, checkpoint, dataset,
+  full log 및 credential의 Git 유입
+- EasyEdit/model cache/dataset/stats/projector 수정, online dependency/model
+  download
+- MV-2 단일 model 또는 oracle을 pair success, ODE-Edit 우위, retention,
+  일반화, novelty, paper GO로 과대해석
+
+## GH 직접 제출 예외 기록
+
+- 사유:
+  현재 server1 SH가 없고 사용자가 time-critical한 Llama/Qwen 동시 제출을
+  명시했다. `PROTOCOL.md:506-509`의 최소 범위 예외를 적용한다.
+- exact command:
+  `project/run_scripts/submit_session01_mv2refresh_pair_server1.sh`
+- 영향 범위:
+  server1의 단일 one-shot parent allocation
+  `2 GPU / 16 CPU / 130000M`, 두 child 동시 실행, local-only raw artifact
+- 후속 보고:
+  위 완료 보고 경로, model별 독립 analysis, pair red post-run audit,
+  no-peer artifact-broadcast exception
