@@ -1,266 +1,583 @@
-# GH Session 01 Plan — Motivation Validation for ODE-Edit
+# Session 01 — ODE-Edit Motivation Validation canonical plan
 
-- 작성 시각: 2026-07-30
-- 작성 agent: head-server1-gh (global-head)
-- 상태: `blocked_on_server_onboarding_and_user_context`
-- proposal: `project/proposals/00.proposal`
-- proposal-side rationale: `project/proposals/sections/01-motivation-validation.md`
-- global evidence index: `experiment-reports/global/2026-07-30-session-01-motivation-validation.md`
+- 작성/개정일: 2026-07-30
+- 소유자: `head-server1-gh` (`global-head`)
+- 현재 상태: `mv0_llama_one_shot_preflight`
+- 현재 claim: `hypothesis only`
+- canonical audit:
+  `audits/global/2026-07-30-proposal-easyedit-baseline-audit.md`
+- canonical rationale:
+  `project/proposals/sections/01-motivation-validation.md`
+- raw artifact root:
+  `local/results/raw/session01_motivation/`
+- compact run metadata:
+  `runs/<run_id>/`
 
-## Session identity
+## 1. 네 범주
 
-- 세션명: **Session 01 — Motivation Validation**
-- 진행 방향: ODE-Edit의 controller를 구현·비교하기 전에, same-snapshot utility
-  heterogeneity, partial-update ranking non-stationarity, sequential capacity
-  concentration이라는 motivation 전제가 실제 MEMIT trace에서 성립하는지 검증한다.
-- 이 세션이 아닌 것: ODE-Edit 성능 우위, long-horizon retention, AlphaEdit 확장,
-  논문 novelty의 검증이 아니다.
-- 종료 산출물: fixed subset/order/backbone별 motivation metric table, firewall
-  audit, `motivation supported` 또는 `motivation rejected/pivot` 결정.
+### Proposal에서 온 내용
 
-## 1. 인수 판정과 운영 경계
+- fixed direct-z guide 아래 여러 layer low-rank proposal을 local actuator로 보고,
+  same-snapshot utility와 editor-native geometry로 write를 재배분할 수 있다는
+  가설
+- utility heterogeneity, partial update 뒤 non-stationarity, sequential load
+  concentration을 먼저 검증하라는 진단 방향
+- paraphrase, neighborhood/locality, downstream prompt를 edit-time에서 금지하는
+  information firewall
 
-| 구분 | 내용 |
+### Repo/protocol에서 확인한 사실
+
+- `PROTOCOL.md`가 canonical 운영 source다.
+- remote, server1/server4 record, private resource cap, runtime path가 등록돼 있다.
+- 별도 SH Codex session과 completed ODE-Edit run은 아직 없다.
+- local EasyEdit는 commit `3488a66`의 dirty worktree이며, core file과 hparams
+  hash를 run별로 고정해야 한다.
+- 두 고정 model snapshot, CounterFact full file, 두 모델의 precomputed
+  Wikipedia covariance와 AlphaEdit projector가 local에 존재한다.
+
+### GH 추정
+
+- 올바른 대비는 “open-loop MEMIT vs feedback”이 아니라
+  `Gauss–Seidel-style one-pass construction` 대
+  `same-snapshot comparison + all-layer revisit`이다.
+- same-snapshot utility CV, rank turnover, Gini만으로는 dynamic routing을
+  정당화할 수 없다.
+- ODE라는 이름은 step refinement와 refreshed-direction benefit이 확인될 때만
+  유지할 수 있다.
+
+### 사용자 확인 필요
+
+- 별도 server-head Codex session ID 등록. 다만 사용자가 지금 Motivation
+  kill-test 실행을 명시적으로 지시했으므로, SH가 생기기 전 server1의 최소
+  Slurm 제출이 필요하면 GH exception audit에 사유·명령·범위·후속 보고를
+  기록한다.
+
+## 2. 고정 연구 범위
+
+### Model
+
+| alias | exact local revision |
 | --- | --- |
-| repo/protocol에서 확인한 사실 | server1에 GH clone이 있으며 `agent.role=global-head`, `agent.hostname=server1`이다. 별도 server-head, inbox, task, run, audit, tracked 실행 script는 없다. private GitHub remote `hyunjun1127/ODE-edit` 등록과 main bootstrap push가 완료됐다. |
-| GH 추정 | 이 clone은 template로부터 시작한 독립 연구 repo 초기화 단계다. 실제 연구 remote로의 전환은 아직 이루어지지 않았다. |
-| 사용자 확인 필요 | server1의 server-head 겸임 여부, model/dataset 접근, baseline revision, Session 01 compute budget. GPU cap과 memory cap은 local-only config로 이식하되, 실제 job 전 current availability를 재확인한다. |
-| 이번 GH 조치 | proposal을 canonical input으로 보존하고, Motivation Validation·claim boundary·server registration 전 instruction envelope를 만든다. Slurm/SSH/rsync는 실행하지 않는다. |
+| `llama3-8b-inst` | `meta-llama/Meta-Llama-3-8B-Instruct@8afb486c1db24fe5011ec46dfbe5b5dccdb575c2` |
+| `qwen2.5-7b-inst` | `Qwen/Qwen2.5-7B-Instruct@a09a35458c702b33eeacc393d103063234e8bc28` |
 
-추가 read-only 환경 점검에서 이 GH clone은 Slurm client와 controller 응답을
-확인했다. server1의 local GPU cap은 3, GPU당 host-memory request cap은
-198117 MiB로 private config에 이식한다. 이는 server-head ownership,
-model/dataset readiness 또는 Slurm 제출 권한을 뜻하지 않는다.
+다른 backbone은 canonical Motivation result에 포함하지 않는다.
 
-`PROTOCOL.md`와 user prompt 사이의 실질 충돌은 발견하지 못했다. 다만 prompt의
-"각 SH에게" 지시는 active SH가 없으므로 실제 inbox 대신 등록 후 즉시 사용할
-server별 envelope 초안으로 해석했다. 등록 전 실행 지시는 protocol의 server
-onboarding/GPU-cap gate와 충돌한다.
+### Dataset
 
-또한 `PROTOCOL.md` 내부에서 experiment-section layout은
-`experiment-reports/experiments/`를 권장하지만 GH access matrix와 access
-checker는 `experiment-reports/global/`만 GH에게 허용한다. 이 plan은 더 좁은
-권한을 우선해 global evidence index를 사용한다. section index의 GH 소유권은
-사용자 확인 후 protocol/template을 함께 바꿔야 한다.
+- source:
+  `/mnt/raid5/janghj/EasyEdit/data/counterfact/counterfact.json`
+- row count: `21,919`
+- SHA256:
+  `d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f`
+- selection은 evaluation field나 outcome을 보지 않고 `case_id`의 deterministic
+  hash만으로 정한다.
+- Git manifest에는 case ID, split/order hash와 source hash만 남긴다.
 
-## 2. Canonical research direction
+### Editor
 
-### proposal에서 온 내용
+- primary: local EasyEdit MEMIT internal function을 read-only import
+- AlphaEdit: MEMIT Motivation 생존 뒤 별도 cache/projector audit 후에만 실행
+- EasyEdit source file은 수정, patch, checkout, restore하지 않는다.
+- existing EasyEdit example shell과 `BaseEditor.batch_edit`는 사용하지 않는다.
 
-- MEMIT의 layer별 low-rank write를 final endpoint가 아닌 local actuator로
-  보고, synchronous READ–PROPOSE–CONTROL–COMMIT 후 재선형화한다.
-- controller는 rewrite prompt와 MEMIT의 5 prefix만 보며, paraphrase,
-  neighborhood/locality, downstream metric은 edit-time signal로 쓰지 않는다.
-- 장기 sequential stream에서 covariance-weighted cumulative capacity load를
-  측정하고, 낮은 marginal cost layer로 write를 routing한다.
+### Precomputed artifact
 
-### GH 재정리
+- covariance:
+  `/mnt/raid5/janghj/EasyEdit/examples/data/stats/`
+- projector:
+  `/mnt/raid5/janghj/EasyEdit/examples/null_space_project_*.pt`
+- expected file size와 SHA256을 config에 고정한다.
+- missing/mismatch일 때 download/recompute하지 않고 fail-closed한다.
+- `layer_stats()` 계산 path와 AlphaEdit `get_project()` 계산 path를 runtime
+  guard로 막는다.
 
-핵심 가설은 “dynamic relinearization과 capacity routing이 필요하다”가 아니라,
-**static allocation이 설명하지 못하는 layer-state 변화와 load concentration이
-관측될 때에만 dynamic method를 고려한다**이다. Session 01이 그 전제의 최소
-증거를 판정한다.
+## 3. 실행 전 공통 계약
 
-### 왜 final paper plan이 아닌가
+### 3.1 State-edit event
 
-proposal에는 구현, 데이터, 비교군, 성공 narrative가 제시되어 있으나,
-same-snapshot utility가 측정 가능한지, ranking이 실제로 변하는지, capacity
-proxy가 장기 손상과 관련되는지, 최신 baseline과 공정 비교가 가능한지는 아직
-run artifact나 audit로 검증되지 않았다. 따라서 proposal의 superiority,
-causality, novelty, full-stream feasibility는 claim으로 승격하지 않는다.
-
-## 3. Session 01 — Motivation Validation scope와 정보 firewall
-
-### 최소 실행 단위
-
-1. **S01-MV-preflight (실행 전):** frozen baseline revision과 CounterFact atomic
-   subset manifest를 기록한다. edit-time 허용 prompt와 evaluation-only prompt
-   handle을 코드 수준에서 분리한다.
-2. **S01-MV-baseline-trace:** MEMIT sequential baseline을 100 edits × 2 fixed edit
-   orders로 실행하여 layer별 key/residual/proposal/capacity trace를 `local/`에
-   기록한다. 이 run은 controller 성능 비교가 아니다.
-3. **S01-MV-perturbation:** 성공하거나 아직 rewrite deficit이 있는
-   edit에 대해 same-state proposals를 기록하고, 사전 고정된 small joint
-   partial update 하나 뒤 동일 허용 context에서 다시 측정한다. 평가 prompt는
-   이 loop에 접근하지 못한다.
-4. **S01-MV-replication:** 서로 다른 두 primary backbone에서 동일 diagnostic을
-   반복한다. second backbone이 준비되지 않으면 결과는 `single-backbone
-   diagnostic`으로만 표시하고 Session 02로 승격하지 않는다.
-
-### Motivation Validation에서 증명해야 할 최소 신호
-
-아래 수치는 **GH 사전등록 operational threshold**다. 논문 claim이나 보편적
-자연 법칙이 아니다. viable edit는 base editor가 direct-z를 만들고, 허용
-rewrite context에서 finite proposal/metric을 산출한 edit다.
-
-| Signal | 기록 metric | provisional pass criterion |
-| --- | --- | --- |
-| H1 heterogeneity | C-normalized `a_l`의 edit별 coefficient of variation, top/median ratio | viable edit의 60% 이상에서 `CV(a_l) >= 0.15` 및 `top/median >= 1.10` |
-| H2 non-stationarity | pre/post partial update Spearman rank, top-2 Jaccard, proposal cosine | accepted partial update의 20% 이상에서 `Spearman < 0.90` 또는 top-2 membership change; 동일 edit-layer proposal cosine도 함께 보고 |
-| H3 concentration | sequential baseline의 `Psi_l` Gini, max-load share | 각 backbone/order에서 마지막 checkpoint의 `Gini(Psi) >= 0.20` 또는 max-load share가 균등 share의 1.5배 이상 |
-| Firewall | controller input access log와 metric call trace | edit loop에서 paraphrase/neighborhood/locality/downstream prompt 또는 label 접근 0건 |
-| Reproducibility | manifest, seed/order/subset/config/commit | 두 order와 가능한 두 backbone에서 동일 metric schema·실행 path를 재현 |
-
-threshold가 전체적으로 충족되지 않아도 raw metric, failure, viable-edit
-denominator를 숨기지 않는다. 비율의 uncertainty는 edit-level bootstrap CI로
-보고한다.
-
-## 4. Kill, pivot, next-stage criteria
-
-### 즉시 중단 (`block`)
-
-- edit-time loop가 evaluation-only prompt, label, metric을 읽거나 step-size,
-  layer choice, stopping에 사용한 경우.
-- dataset split/subset provenance, baseline revision, seed/order, code commit,
-  local artifact path 중 하나라도 복원할 수 없는 경우.
-- GPU cap이 unknown/exceeded, server onboarding audit가 `block`, 또는 raw
-  output/checkpoint/credential이 Git에 들어간 경우.
-
-### 연구 방향 kill 또는 pivot
-
-- 두 backbone에서 H1 또는 H2가 사전 기준에 일관되게 미달하고, static
-  layer-wise scaling이 matched rewrite efficacy에서 동등하거나 낫다:
-  **ODE/relinearization claim kill; static capacity routing만 별도 연구
-  후보로 재정의**.
-- H3가 없거나 `Psi_l` concentration과 retention/capability proxy의 관계를
-  subsequent small validation에서 지지하지 못한다: **capacity-routing
-  mechanism claim kill**. routing 없이 state-adaptive scheduler만 분리하여
-  재평가하거나 종료한다.
-- average accepted macro-round가 2를 지속적으로 초과할 것이 확실하고
-  compute-normalized signal이 없다: **BF-ODE method track kill**.
-
-### Session 02 — Controller Feasibility 진입 (`GO`, 아직 성능 claim 아님)
-
-모든 firewall/reproducibility gate가 pass이고, 두 backbone 각각에서 H1–H3 중
-적어도 두 signal이 pass하며, 특히 H2가 한 backbone 이상에서 pass해야 한다.
-그 뒤에만 Session 02에서 1K-edit의 matched-efficacy 비교군(MEMIT, naive K-step,
-global alpha, static alpha_l, sequential-small-step, BF-uniform)을 제안한다.
-Session 02 plan은 별도 red pre-flight audit 후 GH가 `tasks/pending/`으로
-승격한다.
-
-## 5. Blue team checklist
-
-- [ ] baseline source revision/license, model revision, CounterFact subset
-  manifest와 allowed 5-prefix semantics를 명시한다.
-- [ ] `project/run_scripts/`에 deterministic Motivation Validation wrapper와 dry-run을
-  만들고, output은 `local/results/raw/<run_id>/`로만 쓴다.
-- [ ] base MEMIT을 먼저 1–3 edit smoke test로 재현하고, controller를 끈
-  instrumentation-only trace를 만든다.
-- [ ] same snapshot에서 모든 editable layer의 key, residual, normalized
-  proposal, `a_l`, `Psi_l`을 record한다; sequential write 중간값과 혼동하지
-  않는다.
-- [ ] perturbation h, accept/reject definition, viable-edit denominator,
-  checkpoint schedule을 실행 전 고정한다.
-- [ ] `Naive K-step`, global alpha, static alpha_l가 same direct-z, layer set,
-  covariance, edit order, stopping definition을 공유하는지 확인한다.
-- [ ] wall-clock, forward/backward count, NFE, requested/actual GPU를
-  reportable metadata로 기록한다.
-- [ ] raw trace/full log/checkpoint는 `local/`에만 두고 compact manifest와
-  checksum/size만 Git에 남긴다.
-
-## 6. Red team kill-test checklist
-
-- [ ] controller module과 callback이 paraphrase, neighborhood/locality,
-  downstream prompt/label/metric object에 import 또는 access하지 않는지
-  static check와 runtime trace로 확인한다.
-- [ ] direct-z, layer set, covariance cache, model revision, edit order가
-  baseline/variant 간 동일한지 확인한다.
-- [ ] partial update가 fixed update split인지, actual relinearization인지
-  proposal hash/direction and utility pre/post records로 판별한다.
-- [ ] `a_l` normalization, target token position, viable-edit exclusion,
-  tie/top-k rule, Gini implementation이 사전에 고정되었는지 확인한다.
-- [ ] empty/zero utility, QP infeasible, rejected step, failed edit를
-  denominator에서 사후 제거하지 않았는지 확인한다.
-- [ ] 100-edit subset이나 edit order를 positive signal 기준으로 고르지
-  않았는지 확인한다; subset hash와 order seed를 확인한다.
-- [ ] raw dataset/generation/checkpoint/full log/credential이 Git staged
-  paths에 없는지와 artifact broadcast exception을 확인한다.
-- [ ] server onboarding, Slurm GPU cap, resource collision, pre/post-run
-  audit 판정이 모두 기록되었는지 확인한다.
-
-`block`은 실행/승격을 중지한다. `warn`은 caveat를 message/report에 남기고
-GH waiver 없이는 long-horizon claim으로 승격하지 않는다.
-
-## 7. Server-head instruction envelope 초안
-
-server1은 GH clone만 있는 `pending-onboarding` 상태이고 server-head가 없다.
-아래는 향후 `server=<등록명>`에 대한 **초안**이며
-`messages/inbox/<server>.md`로 아직 발행하지 않는다.
+분석 단위는:
 
 ```text
-명령 ID: session01-motivation-onboard-and-preflight-<server>
-대상: <server>의 server-head
-대상 Codex session ID: <servers/active/<server>.md에 등록된 session ID>
-대상 repository CWD: <servers/active/<server>.md에 등록된 repo clone 경로>
-대상 Git repository identity: hyunjun1127/ODE-edit
-사전 boundary check:
-  scripts/check-session-boundary.sh <target-session-id> 가 pass여야 한다.
-목적과 배경: ODE-Edit Session 01 — Motivation Validation을 시작하기 전에 MEMIT
-  diagnostic의 실행 가능성·firewall·재현성을 확인한다. 이 명령은 성능 실험 또는 논문
-  claim을 승인하지 않는다.
-허용 write path:
-  servers/active/<server>.md
-  agents/<server>/
-  plans/updates/<server>/
-  tasks/proposed/<server>/
-  messages/server-heads/<server>/
-  messages/acks/<server>/
-  audits/servers/<server>/
-  experiment-reports/servers/<server>/
-  runs/<run_id>/ (compact metadata only)
-  project/run_scripts/ (parent-reviewed tracked wrapper only)
-  local/ (raw dataset/output/log/checkpoint only)
-Slurm 제출 권한: not allowed. GH가 red pre-flight pass, active GPU cap,
-  proposed task를 확인한 뒤 별도 envelope로만 allowed가 될 수 있다.
-GPU cap: `servers/local/gpu-caps.tsv`의 server별 private cap과
-  `mem_mb_per_gpu`를 사용한다. server1은 3 GPU / 198117 MiB per GPU,
-  server4는 3 GPU / 65984 MiB per GPU다.
-  `scripts/check-slurm-resource-cap.sh <server> <requested_gpus>
-  <requested_mem_mb>`가 통과할 때까지 pending_resource_cap으로 둔다.
-red-team gate: onboarding audit와 S0 pre-flight에서 data/eval, logic/evidence,
-  git/protocol auditor 모두 pass 또는 GH 기록 waiver. block이면 즉시 중단.
-artifact broadcast 의무: smoke/preflight가 ordinary local artifact를 만들면
-  scripts/rsync-artifact-broadcast.sh를 사용한다. active peer가 없거나
-  artifact가 없으면 exception/reason을 server-head message와 run metadata에
-  기록한다. private/sensitive/repo-external/--delete transfer는 금지한다.
-완료 보고 경로:
-  messages/acks/<server>/
-  messages/server-heads/<server>/2026-07-30-session01-motivation-onboarding.md
-  audits/servers/<server>/session01-motivation-onboarding.preflight.md
-  plans/updates/<server>/session01-motivation-feasibility.md
-금지 사항: evaluation prompt/label을 controller에 주입하지 말 것; raw
-  credential/connection detail/dataset/checkpoint/log를 Git에 쓰지 말 것;
-  red block 무시, unapproved Slurm submission, destructive rsync, direct
-  global plan/task/inbox 수정 금지.
-예상 산출물: onboarding record, agent heartbeat, local path/cap feasibility,
-  baseline revision and dry-run command, pre-flight audit, proposed (not
-  approved) Session 01 Motivation Validation task.
-중단 조건: missing model/dataset access, unknown/exceeded GPU or memory cap,
-  missing baseline provenance, session boundary mismatch, firewall failure,
-  red block, Git conflict, private artifact exposure.
+(model, order, stream_step, case_id, pre_edit_state_hash)
 ```
 
-## 8. Git, protocol, artifact, credential risk controls
+다. 같은 event의 paired arm은 byte-identical pre-state, sanitized request,
+frozen contexts, direct-z, covariance, dtype, RNG state를 공유한다. 각 arm은
+동일 state에서 독립 branch하고 exact rollback/hash gate를 통과해야 한다.
 
-| 위험 | 방지책 |
-| --- | --- |
-| template remote를 연구 remote로 오인 | remote 변경은 user confirmation 후에만 수행; 현재 URL은 template로 기록 |
-| uncommitted proposal/template 변경과 충돌 | 기존 변경을 덮어쓰지 않고 GH 파일만 추가; commit 전 staged access check |
-| server1에 SH 없는 실행 지시 | inbox/task/Slurm 대신 onboarding envelope 초안만 유지 |
-| 다른 repo Codex session 오조작 | target session ID + CWD + Git identity를 instruction에 쓰고 boundary helper failure는 `block` |
-| evaluation leakage | static + runtime access audit, forbidden prompt objects 분리, red pre-flight block |
-| raw artifact/credential Git 유입 | `local/`, `servers/local/` ignored boundary, staged scan, compact manifest만 tracked |
-| broadcast 누락 또는 sensitive transfer | ordinary `local/` broadcast 기록, exception reason, manual `transfers/` approval for sensitive/destructive/external path |
-| sync conflict | `scripts/sync-agent.sh`의 dirty-tree skip 및 protocol fail-stop; conflict 시 `control/sync-paused` 판단 |
+### 3.2 Information firewall
 
-## 9. 사용자 확인 필요
+Edit process가 받을 수 있는 field:
 
-1. server1에서 GH가 server-head를 겸임할지, 별도 server-head Codex session을
-   만들지.
-2. Session 01을 맡을 server 이름/SH와 해당 server의 model·CounterFact·baseline
-   access, Slurm GPU/memory cap, compute budget.
-3. baseline source repository/revision 및 Llama-3-8B/GPT-J 사용 승인·접근 조건.
-4. GH가 `experiment-reports/experiments/<section>/` index를 작성하도록
-   protocol access matrix/checker를 확장할지, 현재처럼 global index만 쓸지.
+```text
+case_id, prompt, subject, target_new
+```
 
-이 확인 전에는 Session 01 문서화만 완료된 상태이며, 실험은 pending이다.
+와 frozen six allowed rewrite contexts, current model state, covariance뿐이다.
+
+금지:
+
+- paraphrase, neighborhood/locality, generation prompt
+- ground-truth locality label
+- downstream prompt/label/metric object
+- evaluation result를 다음 edit의 layer/step/stopping에 feedback
+
+Evaluator는 별도 process와 artifact namespace를 사용한다. forbidden field가
+edit artifact/runtime trace에서 한 건이라도 발견되면 해당 run 전체를
+`block`한다.
+
+### 3.3 Context와 direct-z
+
+- base `"{}"` + generated five context 문자열을 model별 fresh process에서
+  seed와 함께 freeze하고 SHA256을 기록한다.
+- direct-z target construction의 KL row `"{} is a"`는 base-editor 내부
+  정보로 별도 기록한다.
+- main diagnostic key는 EasyEdit `compute_ks()` aggregation을 유지한다.
+- main residual은 canonical MEMIT처럼 raw rewrite prompt에서 측정한다.
+- direct-z는 event 시작 state에서 한 번 계산하여 paired branches에서 고정한다.
+- cache identity는 model revision, order, step, case ID, state/context/hparams
+  hash를 포함한다. 안전한 identity를 구현하지 못하면 cache를 끈다.
+
+### 3.4 Denominator
+
+모든 사전 선택 event는 `intention-to-diagnose`에 포함한다. 다음을 사후
+제외하지 않는다.
+
+- direct-z/solve/non-finite failure
+- pre-satisfied request
+- all non-positive utility
+- rejected step
+- matched-progress target 미도달
+- rollback failure
+
+Actionable denominator는 결과를 보기 전에:
+
+1. pre-edit deficit
+   `phi_stop = max(max_non_target_logit - target_logit)`가 양수
+   (`exact_top1_stop` helper의 `target-best_other` margin으로는 음수)
+2. 모든 지정 layer에서 finite factor 생성
+3. paired arm이 동일 direct-z 사용
+4. MV-0 fidelity pass
+
+로만 정의한다.
+
+### 3.5 Metric
+
+- exact stop:
+  `max_{context,token}(max_non_target_logit - target_logit)`
+- differentiable utility:
+  별도 normalized smooth surrogate와 signed derivative
+- realized progress:
+  independent finite-step branch의 exact stop/surrogate 변화
+- displacement:
+  `C`-weighted state displacement와 non-negative path expenditure를 분리
+- raw `CV`, Spearman, Jaccard, Gini는 descriptive only
+
+## 4. Reusable implementation contract
+
+Tracked code는 `project/run_scripts/ode_edit_motivation/`에 둔다.
+
+전체 Motivation ladder에서 순차적으로 갖춰야 할 module:
+
+- immutable request/provenance/context contracts
+- EasyEdit read-only import/hash bridge
+- native MEMIT canonical-mode adapter
+- same-snapshot low-rank factor proposal
+- exact stop margin와 differentiable utility
+- C-inner-product/norm와 factor-only telemetry
+- temporary apply/rollback/hash guard
+- MV-0~MV-4 runner mode
+- deterministic selection/order manifest
+- JSONL raw trace + compact summary
+- Slurm render-only envelope
+
+향후 experiment는 같은 request, provenance, factor, metric, rollback, artifact
+schema를 import하고 stage-specific controller만 추가한다. 기존 module을 복사해
+variant를 만들지 않는다.
+
+현재 구현 완료 범위는 MV-0 fidelity runner와 그 공통 contract/bridge/hook다.
+MV-1~4 controller는 각 앞 단계가 생존한 뒤 같은 package에 추가하며, 아직
+구현됐다고 간주하지 않는다.
+
+CPU unit test와 no-model preflight가 pass하지 않으면 GPU job을 render하지 않는다.
+
+## 5. Staged kill-test
+
+### MV-0 — Native fidelity and neutrality
+
+#### 실행
+
+- model별 deterministic 3 edit
+- base state에서 native singleton `execute_memit` 대 adapter canonical mode
+- trace-off 대 trace-on-no-write
+- exact solve만 primary
+- early/middle sequential sentinel은 MV-4 진입 전에 추가
+
+#### 기록
+
+- layer factor/update C-cosine와 relative C-norm error
+- materialized parameter delta relative/max error
+- final update cosine/norm error
+- allowed-context logits와 rewrite progress 차이
+- trace-only 전후 weight/output hash
+
+#### 판정
+
+Self-replay와 dtype-aware numerical floor로 calibration equivalence bound를 먼저
+정한다. 양 모델에서 paired equivalence CI가 bound 안에 있어야 pass한다.
+한 모델이라도 fail이면 implementation을 고치고 MV-0부터 다시 한다.
+
+#### 독립 분석
+
+run 종료 뒤 실행 담당이 아닌 별도 agent가 raw manifest와 compact summary만
+읽고:
+
+`experiment-reports/global/<date>-mv0-fidelity-analysis.md`
+
+를 작성한다.
+
+### MV-1 — Calibrated predictive heterogeneity
+
+#### 실행
+
+- 사전 선택 100 case를 `calibration 20 / confirmatory 60 / untouched 20`으로
+  deterministic split
+- calibration에서 finite-step C-budget, replay noise, near-tie equivalence
+  envelope 고정
+- confirmatory에서 same-snapshot signed utility와 layer별 actual finite-step
+  progress 측정
+- scale-renormalization, replay, layer-label permutation,
+  leave-one-allowed-context-out control
+
+#### Primary event effect
+
+```text
+realized_progress(analytic-utility winner)
+  - median_layer_realized_progress
+```
+
+그리고 analytic utility와 realized layer ordering의 event-level concordance를
+사용한다. layer를 독립 sample로 세지 않는다.
+
+#### Kill
+
+두 모델 모두에서 winner advantage가 replay/permutation/context null envelope와
+구분되지 않거나 utility가 realized progress를 예측하지 못하면 layer-routing
+motivation을 kill한다.
+
+#### Pivot
+
+layer effect는 재현되나 winner가 state와 무관하게 고정이면 static layer
+allocation으로 pivot한다.
+
+#### 독립 분석
+
+별도 agent가 MV-1 artifact/report만 읽고 독립 보고서를 작성한다.
+
+### MV-2 — Actionable non-stationarity
+
+#### Paired branches
+
+1. replay/no-op
+2. `h=0` sham
+3. preregistered partial joint step
+4. refreshed direction + refreshed coefficient
+5. fixed initial direction + refreshed coefficient
+6. fixed direction + fixed coefficient
+
+Primary는 fixed direct-z다. post-step direct-z recomputation은 sensitivity다.
+
+#### Primary effects
+
+```text
+Delta_direction_refresh
+  = progress(refreshed direction/coefficient)
+    - progress(fixed direction/refreshed coefficient)
+
+Delta_coefficient_refresh
+  = progress(fixed direction/refreshed coefficient)
+    - progress(fixed direction/fixed coefficient)
+```
+
+#### Kill/pivot
+
+- direction refresh effect가 replay/near-tie noise와 동등:
+  ODE/relinearization kill
+- coefficient refresh만 positive:
+  fixed-direction dynamic coefficient controller로 pivot
+- 둘 다 없음:
+  static routing으로 pivot
+
+Spearman/top-k change는 primary가 아니다.
+
+#### 독립 분석
+
+별도 agent가 MV-2 artifact/report만 읽고 독립 보고서를 작성한다.
+
+### MV-3 — Matched-progress reroutability and interaction
+
+#### Arms
+
+- canonical MEMIT
+- global alpha first-hit
+- C-normalized uniform allocation
+- calibration에서 고정한 static layer allocation
+- best single-layer/static selection
+- minimum-predicted-displacement allocation
+- fixed-direction dynamic coefficient
+- refreshed joint allocation
+- Gauss–Seidel small-step
+
+#### Primary
+
+evaluation prompt 없이 allowed rewrite metric으로만 공통 progress support를
+정하고, 그 구간의 displacement–progress frontier AUC를 paired 비교한다.
+
+추가로:
+
+- layer-cap compensation frontier
+- single-layer effect 합과 joint effect의 additivity error
+- fixed proposal simultaneous 대 commit-order invariance
+- context rotation에서 held-allowed-context progress
+
+를 측정한다.
+
+#### Kill/pivot
+
+- global scaling/early stop과 frontier가 동등: rerouting kill
+- rerouting gain은 있으나 refresh gain 없음: static capacity routing
+- refresh gain은 있으나 displacement gain 없음: capacity-free dynamic scheduler
+- joint prediction error가 trust region 밖: additive QP block
+
+#### 독립 분석
+
+별도 agent가 MV-3 artifact/report만 읽고 독립 보고서를 작성한다.
+
+### MV-4 — Short sequential proxy relevance
+
+MV-0~3이 생존할 때만 실행한다.
+
+#### Stream
+
+- 동일 100 case
+- two fixed orders primary
+- non-overlapping micro-window
+- canonical MEMIT, global-alpha matched progress, preregistered
+  displacement-reducing allocation
+- MV-2가 pass하면 refreshed allocation 추가
+
+#### Primary
+
+동일 window start state와 cumulative achieved rewrite progress에서:
+
+```text
+retention(displacement-reducing arm)
+  - retention(global-alpha arm)
+```
+
+를 평가한다. observational `corr(Gini, retention)`은 secondary다.
+
+#### Confound
+
+- total displacement와 total norm
+- current-edit underfitting
+- failed edit 수
+- stream position
+- target token length/base difficulty
+- repeated subject/relation/order
+
+#### Kill/pivot
+
+- intervention effect 없음:
+  capacity mechanism kill
+- correlation만 존재:
+  degradation marker로 낮춤
+- retention gain이 under-edit로 설명:
+  matched-progress procedure 재설계
+
+#### 독립 분석
+
+별도 agent가 MV-4 artifact/report만 읽고 독립 보고서를 작성한다.
+
+## 6. Motivation closure
+
+`motivation supported diagnostic`으로 닫으려면:
+
+1. MV-0 양 model pass
+2. MV-1 utility가 independent actual progress 예측
+3. MV-2 refresh가 stale decision보다 이득
+4. MV-3 matched-progress rerouting opportunity
+5. joint prediction error가 accepted trust region 안
+6. MV-4 paired microstream에서 proxy의 intervention relevance
+7. untouched 20-case split과 결과를 보지 않은 third order에서 threshold/controller
+   retuning 없이 재현
+
+이 모두 필요하다.
+
+중간 단계에서 kill criterion이 충족되면 뒤의 큰 실험을 실행하지 않고
+`repo research direction killed` 또는 명시된 pivot으로 Motivation을 닫는다.
+
+## 7. ODE naming gate와 claim-closing experiment
+
+ODE 이름을 유지하려면 MV-2/MV-3에 다음을 포함한다.
+
+- multiple step-size curve
+- fixed initial direction 대 refreshed direction
+- proposal C-cosine/curvature
+- step refinement에 따른 endpoint/trajectory stability
+- 가능하면 Euler 대 Heun/local truncation proxy
+- wall-clock, forward/backward, solve/NFE
+
+한 step에서만 이득이 있거나 평균 1–2 round가 fixed-direction iterative method와
+다르지 않으면 `ODE` 이름을 제거한다.
+
+## 8. Baseline scope
+
+### Motivation 내부 필수
+
+- native MEMIT
+- fixed-delta K-step negative control
+- global alpha/first-hit
+- static layer scaling
+- best single-layer/WilKE-style proxy
+- `C`-normalized uniform allocation
+- Gauss–Seidel small-step
+- refreshed joint
+
+`WilKE-style proxy`는 WilKE 재현이라고 부르지 않는다.
+
+### Motivation 생존 후
+
+- AlphaEdit native
+- EMMET/PMET contextual
+- external pinned ENCORE, NAS, BetaEdit
+- capability-data budget을 분리한 CrispEdit
+- LocFT-BF/WISE 등 다른 update family
+
+local EasyEdit에 없는 방법을 implemented/reproduced baseline이라고 쓰지 않는다.
+
+## 9. 통계
+
+- primary unit: event 또는 non-overlapping paired window
+- layer/context/order를 독립 sample로 세지 않음
+- calibration과 confirmatory/untouched split 분리
+- paired moving-block bootstrap + case-ID cluster sensitivity
+- model별 결과를 별도 판정
+- order별 sign 공개
+- multiple primary contrast는 simultaneous CI/Holm correction
+- technical failure와 target-not-reached를 ITD에서 제거하지 않음
+- mean, median, sign fraction, trimmed mean과 denominator flow를 함께 보고
+
+## 10. Resource and Slurm policy
+
+### server1
+
+- node: `devbox`
+- project GPU cap: 3
+- host-memory cap: 198117 MiB per requested GPU
+- 현재 exact one-shot: Llama 1 case, 1 GPU, 8 CPU, 65000 MiB
+- Qwen smoke와 2–3 case 확장은 이 one-shot의 독립 analysis/red audit를
+  통과한 뒤 새 execution audit로만 허용하며 동시 제출하지 않는다.
+- job name: `motivation_*` 또는 `odeedit_*`
+- 제출 직전:
+
+```bash
+scripts/check-slurm-resource-cap.sh server1 1 65000
+```
+
+### server4
+
+- project GPU cap: 3
+- host-memory cap: 65984 MiB per requested GPU
+- repo/SH/onboarding이 없으므로 현재 제출 대상이 아니다.
+
+GPU memory peak, host RSS, wall-clock, solve/NFE를 run metadata에 기록한다.
+
+## 11. SH instruction envelope
+
+현재 SH가 없으므로 아래는 등록 뒤 발행할 canonical 초안이다.
+
+```text
+명령 ID: session01-motivation-<mv>-<server>
+대상: <server>의 등록된 server-head
+대상 Codex session ID: servers/connection-inventory.md와
+  servers/active/<server>.md의 server별 SH session ID
+대상 repository CWD: servers/active/<server>.md의 exact clone path
+대상 Git identity: hyunjun1127/ODE-edit
+
+목적과 배경:
+  ODE-Edit Motivation kill-test <MV>를 실행한다. 성능 우위나 paper claim을
+  승인하는 task가 아니다.
+
+허용 write path:
+  local/results/raw/session01_motivation/<run_id>/
+  runs/<run_id>/ (compact metadata)
+  experiment-reports/servers/<server>/
+  audits/servers/<server>/
+  plans/updates/<server>/
+  messages/server-heads/<server>/
+
+Slurm 제출 허용 여부:
+  envelope에 명시된 exact sbatch file과 resource만 allowed.
+
+GPU cap:
+  servers/local/gpu-caps.tsv의 해당 server row.
+  scripts/check-slurm-resource-cap.sh가 pass해야 함.
+
+red-team gate 통과 조건:
+  session boundary, source/artifact hash, firewall, MV dependency,
+  no-recompute guard, CPU test, resource cap 모두 pass.
+
+artifact broadcast 의무:
+  raw artifact 생성 후 scripts/rsync-artifact-broadcast.sh 사용.
+  active peer가 없으면 exception 이유를 run metadata와 server report에 기록.
+
+완료 보고 경로:
+  messages/server-heads/<server>/<date>-<run_id>.md
+  experiment-reports/servers/<server>/<date>-<run_id>.md
+  audits/servers/<server>/<run_id>.postrun.md
+
+금지 사항:
+  EasyEdit file 수정; stats/projector 재계산/download; eval field를 edit process에
+  전달; credential/raw log/model/checkpoint Git commit; unapproved resource;
+  destructive rsync; 다른 Codex session/repo 조작.
+
+예상 산출물:
+  provenance manifest, sanitized request manifest, JSONL trace, compact metric
+  summary, resource summary, firewall audit, artifact broadcast receipt/exception.
+
+중단 조건:
+  session/CWD/repo mismatch; imported-file/artifact hash mismatch; no-recompute
+  guard activation; firewall violation; rollback hash mismatch; non-finite;
+  GPU/memory cap failure; red block; Git conflict.
+```
+
+실험 종료 뒤 결과 분석은 이 실행 SH/agent가 아니라, 해당 artifact와 compact
+report만 허용받은 별도 result-analysis agent가 맡는다.
+
+## 12. Related-work deliverable
+
+별도 agent가 primary source만 사용해 다음을 포함한 Korean report를 작성한다.
+
+- ROME, MEMIT, AlphaEdit, EMMET, PMET
+- WilKE와 layer selection prior
+- ENCORE, NAS, LyapLock, BetaEdit, CrispEdit
+- LocFT-BF, WISE, GRACE
+- ODESteer, ODE-M
+- information budget, layer allocation, history/norm/capacity, public code,
+  reproducibility risk와 ODE-Edit novelty boundary
+
+proposal에 없는 인접 prior가 확인되면 proposal-side narrative를 별도 patch한다.
+
+## 13. 현재 다음 action
+
+1. reusable hook과 CPU test 완료
+2. artifact/source manifest 완료
+3. red preflight 및 GH direct-submit exception 기록
+4. exact Llama 1-case MV-0 implementation smoke 한 건
+5. 별도 analysis agent와 red agent의 smoke report
+6. pass일 때만 새 audit 아래 Qwen smoke와 MV-0 calibration case로 확장
+7. 두 model MV-0가 pass일 때만 MV-1로 진행
+
+아직 Slurm job은 제출하지 않았다.

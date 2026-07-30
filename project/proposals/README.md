@@ -14,3 +14,10 @@ canonical research input이지만 final paper plan이나 검증된 claim이 아�
 GH는 proposal을 읽은 뒤 목적이 명확한 research session plan, kill criterion,
 next-session criterion, server-head instruction envelope를 `PROTOCOL.md`에 따라
 작성한다.
+
+## 현재 rationale section
+
+- [`sections/01-motivation-validation.md`](sections/01-motivation-validation.md):
+  Session 01의 mechanism chain과 현재 claim 상태
+- [`sections/02-related-work-and-novelty-boundary.md`](sections/02-related-work-and-novelty-boundary.md):
+  layer allocation, sequential regularization, ODE prior와 baseline/novelty 경계
