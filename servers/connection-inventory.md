@@ -23,6 +23,26 @@ future target이다.
 | `server3` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | future target / clone 전 / Codex session 미지정 |
 | `server4` | `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | registered-pending-clone / GPU cap 3, memory cap 65984 MiB per GPU / Codex session 미지정 |
 
+## Codex Session Registry
+
+아래 registry는 **이 repository 전용** session만 기록한다. 각 서버의
+global-head와 server-head는 서로 다른 role/session으로 명시하며, `미지정`은
+해당 role의 Codex session을 아직 만들거나 배정하지 않았다는 뜻이다. 다른 repo의
+session ID를 채우거나 대체 대상으로 사용하지 않는다.
+
+| 서버 | 역할 | Codex session ID | Repository CWD | 상태 |
+| --- | --- | --- | --- | --- |
+| `server1` | global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `/mnt/raid5/janghj/ODE-edit` | active / 현재 GH session |
+| `server1` | server-head | 미지정 | `/mnt/raid5/janghj/ODE-edit` | SH 미배정; GH와 별도 session 필요 |
+| `server2` | server-head | 미지정 | `/mnt/raid5/janghj/ODE-edit` | future target / clone 전 |
+| `server3` | server-head | 미지정 | `/data/janghj/ODE-edit` | future target / clone 전 |
+| `server4` | server-head | 미지정 | `/data/janghj/ODE-edit` | registered-pending-clone |
+
+새 SH를 등록할 때 GH는 이 table, `servers/active/<server>.md`, 그리고 해당
+clone의 ignored `servers/local/session-boundary.env`에 **동일한** session ID,
+CWD, repository identity를 기록한다. 실제 instruction은 그 ID를 envelope에
+넣고 `scripts/check-session-boundary.sh <session-id>`를 먼저 실행한다.
+
 서버를 등록할 때는 `servers/templates/server-onboarding.md`를 바탕으로
 `servers/active/<server>.md`를 만들고, 해당 server-head의 heartbeat와
 red-team onboarding audit이 `pass` 또는 명시적 `waived`가 된 뒤에만 task를
@@ -63,7 +83,7 @@ SSH material, credential, 민감 경로, repo-external 경로는 별도 user app
 
 ## Codex Session Boundary
 
-각 서버 record에는 해당 repo를 담당하는 Codex session ID와 CWD를 기록한다.
+각 서버 record에는 해당 repo를 담당하는 Codex session ID와 CWD를 역할별로 기록한다.
 Git/SSH/rsync/Slurm command는 `repository identity + session ID + CWD`가 모두
 일치할 때만 수행한다. 다른 repo session, 특히 `knowledge-revision` session은
 이 repo의 command·message·artifact target으로 사용할 수 없다.
