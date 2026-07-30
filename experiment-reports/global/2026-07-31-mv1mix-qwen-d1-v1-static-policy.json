@@ -1,0 +1,49 @@
+{
+  "claim_boundary": "frozen calibration comparator only; no positive claim, GO, confirmatory success, or MV-2 authorization",
+  "controller": "relu(sbar)/L2-else-max-onehot",
+  "controller_branch": "positive-relu-l2",
+  "feature_case_count": 17,
+  "feature_panel_sha256": "9399206584fe18ee5977b79625b48bc114c42957416d3efec2ebd5a9d0ebfbe5",
+  "fit_numeric_inputs": [
+    "action_scores.layer_4",
+    "action_scores.layer_5",
+    "action_scores.layer_6",
+    "action_scores.layer_7",
+    "action_scores.layer_8"
+  ],
+  "layer_weights": {
+    "layer_4": 0.30583144454336836,
+    "layer_5": 0.37380481435908547,
+    "layer_6": 0.5130070830980947,
+    "layer_7": 0.4823126282841114,
+    "layer_8": 0.5205145046771928
+  },
+  "model_alias": "qwen2.5-7b-inst",
+  "outcome_fields_used": [],
+  "policy_hash": "381e22334e0e3d07c37f07db16c22e8cdd1b689deba66ec7b032dd32ba0b2955",
+  "predicted_mean_score": 177.38997997271153,
+  "sbar_single_layer_slopes": {
+    "layer_4": 54.251433822573546,
+    "layer_5": 66.30922853286133,
+    "layer_6": 91.00231619663018,
+    "layer_7": 85.55742747190439,
+    "layer_8": 92.3340575601931
+  },
+  "schema_version": "ode-edit-mv1-score-mix-static-policy/v1",
+  "source_runs": {
+    "d0": "mv1mix_qwen_d0_v1",
+    "d1": "mv1mix_qwen_d1_v1"
+  },
+  "source_slices": {
+    "d0": {
+      "count": 5,
+      "start": 3
+    },
+    "d1": {
+      "count": 12,
+      "start": 8
+    }
+  },
+  "tie_policy": "exact-tie-lower-layer",
+  "weight_l2_norm": 1.0
+}

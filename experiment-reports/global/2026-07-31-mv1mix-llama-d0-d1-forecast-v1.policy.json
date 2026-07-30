@@ -1,0 +1,14 @@
+{
+  "beta": 0.9497786623102332,
+  "calibration_hash": "1f1ecf1a393df1f5474e523be49ca7d1dbecc9de3b812d766a1c3e41f9ca51a0",
+  "calibration_method": "nonnegative-zero-intercept-median-ratio/eligible:abs(x_AU)>1e-12/beta=max(0,median(y_AU/x_AU))/feature-only-17-case-leave-one-out-static/case-bootstrap-refit-beta-and-mean-x_AS",
+  "confirmatory_outcomes_used": [],
+  "model_alias": "llama3-8b-inst",
+  "policy_hash": "da5b352cbae20a44ff24e22f9c598f4a5df88aeab373995df3025ce2d0894533",
+  "schema_version": "ode-edit-mv1-score-mix-forecast-policy/v1",
+  "source_runs": {
+    "d0": "mv1mix_llama_d0_v1",
+    "d1": "mv1mix_llama_d1_v1"
+  },
+  "static_policy_hash": "e37443fa075245aa52828773ffc062217d983fb46254d1f40010d396be3d5e06"
+}

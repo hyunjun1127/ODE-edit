@@ -1,0 +1,22 @@
+{
+  "analysis_status": "d1_descriptive_complete",
+  "artifact_valid": true,
+  "claim_status": "d1_calibration_descriptive_only",
+  "d1_replay_envelope": 1e-12,
+  "decision_boundary": "D1 descriptive calibration and frozen comparator only; never GO",
+  "error_codes": [],
+  "events_above_d1_replay_envelope": 12,
+  "finite_gain_count": 12,
+  "mean_g_mix": 0.007597804069519043,
+  "model_alias": "llama3-8b-inst",
+  "observed_g_mix_range": [
+    0.00041103363037109375,
+    0.04623699188232422
+  ],
+  "pair_level_decision_computed": false,
+  "panel_complete": true,
+  "run_id": "mv1mix_llama_d1_v1",
+  "schema_version": "ode-edit-mv1-score-mix-d1-analysis-summary/v1",
+  "static_policy_feature_case_count": 17,
+  "static_policy_hash": "e37443fa075245aa52828773ffc062217d983fb46254d1f40010d396be3d5e06"
+}

@@ -1,0 +1,22 @@
+{
+  "analysis_status": "d1_descriptive_complete",
+  "artifact_valid": true,
+  "claim_status": "d1_calibration_descriptive_only",
+  "d1_replay_envelope": 1e-12,
+  "decision_boundary": "D1 descriptive calibration and frozen comparator only; never GO",
+  "error_codes": [],
+  "events_above_d1_replay_envelope": 12,
+  "finite_gain_count": 12,
+  "mean_g_mix": 0.1624626417954763,
+  "model_alias": "qwen2.5-7b-inst",
+  "observed_g_mix_range": [
+    0.01695537567138672,
+    0.4432029724121094
+  ],
+  "pair_level_decision_computed": false,
+  "panel_complete": true,
+  "run_id": "mv1mix_qwen_d1_v1",
+  "schema_version": "ode-edit-mv1-score-mix-d1-analysis-summary/v1",
+  "static_policy_feature_case_count": 17,
+  "static_policy_hash": "381e22334e0e3d07c37f07db16c22e8cdd1b689deba66ec7b032dd32ba0b2955"
+}

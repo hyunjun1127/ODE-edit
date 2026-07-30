@@ -1,0 +1,14 @@
+{
+  "beta": 1.1595737381191145,
+  "calibration_hash": "440f1eadd495d7e9a36cde258d711acfc0207867dab4d468b4c920765df0f122",
+  "calibration_method": "nonnegative-zero-intercept-median-ratio/eligible:abs(x_AU)>1e-12/beta=max(0,median(y_AU/x_AU))/feature-only-17-case-leave-one-out-static/case-bootstrap-refit-beta-and-mean-x_AS",
+  "confirmatory_outcomes_used": [],
+  "model_alias": "qwen2.5-7b-inst",
+  "policy_hash": "a1feb93481f64785539c102a1ac58340fee71ba4e91a9ccc4b8f699cc6c04c99",
+  "schema_version": "ode-edit-mv1-score-mix-forecast-policy/v1",
+  "source_runs": {
+    "d0": "mv1mix_qwen_d0_v1",
+    "d1": "mv1mix_qwen_d1_v1"
+  },
+  "static_policy_hash": "381e22334e0e3d07c37f07db16c22e8cdd1b689deba66ec7b032dd32ba0b2955"
+}
