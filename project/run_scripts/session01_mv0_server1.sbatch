@@ -110,8 +110,8 @@ readonly CASES="$3"
 case "${MODEL_ALIAS}|${RUN_ID}|${CASES}|${SLURM_JOB_NAME:-}" in
   "llama3-8b-inst|mv0_llama_smoke_v1|1|odeedit_mv0_llama_smoke") ;;
   "qwen2.5-7b-inst|mv0_qwen_smoke_v1|1|odeedit_mv0_qwen_smoke") ;;
-  "llama3-8b-inst|mv0_llama_c3_v2|3|odeedit_mv0_pair_c3v2") ;;
-  "qwen2.5-7b-inst|mv0_qwen_c3_v2|3|odeedit_mv0_pair_c3v2") ;;
+  "llama3-8b-inst|mv0_llama_c3_v3|3|odeedit_mv0_pair_c3v3") ;;
+  "qwen2.5-7b-inst|mv0_qwen_c3_v3|3|odeedit_mv0_pair_c3v3") ;;
   *)
     echo "Slurm arguments/job-name do not match an audited one-shot envelope" >&2
     exit 2

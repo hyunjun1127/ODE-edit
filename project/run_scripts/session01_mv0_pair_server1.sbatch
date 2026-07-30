@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Session 01 paired MV-0 c3; two fixed models run concurrently on server1.
-#SBATCH --job-name=odeedit_mv0_pair_c3v2
+#SBATCH --job-name=odeedit_mv0_pair_c3v3
 #SBATCH --partition=gpu
 #SBATCH --nodelist=devbox
 #SBATCH --nodes=1
@@ -19,7 +19,7 @@ umask 077
 readonly REPO_ROOT="/mnt/raid5/janghj/ODE-edit"
 readonly RUNTIME="${REPO_ROOT}/project/run_scripts/session01_mv0_server1.sbatch"
 
-[[ "${SLURM_JOB_NAME:-}" == "odeedit_mv0_pair_c3v2" ]] || {
+[[ "${SLURM_JOB_NAME:-}" == "odeedit_mv0_pair_c3v3" ]] || {
   echo "paired Slurm job-name boundary mismatch" >&2
   exit 2
 }
@@ -32,11 +32,13 @@ readonly RUNTIME="${REPO_ROOT}/project/run_scripts/session01_mv0_server1.sbatch"
   exit 2
 }
 
-srun --exclusive --exact --nodes=1 --ntasks=1 --cpus-per-task=8 --gres=gpu:1 \
-  "${RUNTIME}" llama3-8b-inst mv0_llama_c3_v2 3 &
+srun --exclusive --exact --nodes=1 --ntasks=1 --cpus-per-task=8 \
+  --gres=gpu:1 --mem=65000M \
+  "${RUNTIME}" llama3-8b-inst mv0_llama_c3_v3 3 &
 llama_pid="$!"
-srun --exclusive --exact --nodes=1 --ntasks=1 --cpus-per-task=8 --gres=gpu:1 \
-  "${RUNTIME}" qwen2.5-7b-inst mv0_qwen_c3_v2 3 &
+srun --exclusive --exact --nodes=1 --ntasks=1 --cpus-per-task=8 \
+  --gres=gpu:1 --mem=65000M \
+  "${RUNTIME}" qwen2.5-7b-inst mv0_qwen_c3_v3 3 &
 qwen_pid="$!"
 
 set +e

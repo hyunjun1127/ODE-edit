@@ -1127,12 +1127,12 @@ def _slurm_runtime_state(model_alias: str, run_id: str) -> dict[str, Any]:
             "odeedit_mv0_qwen_smoke",
             "devbox",
         ),
-        ("llama3-8b-inst", "mv0_llama_c3_v2"): (
-            "odeedit_mv0_pair_c3v2",
+        ("llama3-8b-inst", "mv0_llama_c3_v3"): (
+            "odeedit_mv0_pair_c3v3",
             "devbox",
         ),
-        ("qwen2.5-7b-inst", "mv0_qwen_c3_v2"): (
-            "odeedit_mv0_pair_c3v2",
+        ("qwen2.5-7b-inst", "mv0_qwen_c3_v3"): (
+            "odeedit_mv0_pair_c3v3",
             "devbox",
         ),
     }
