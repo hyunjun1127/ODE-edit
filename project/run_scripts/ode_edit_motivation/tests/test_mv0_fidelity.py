@@ -118,6 +118,14 @@ class MV0FidelityCpuTests(unittest.TestCase):
                     "llama3-8b-inst",
                     "mv0_llama_smoke_v1",
                 )
+            os.environ["SLURM_JOB_NAME"] = "odeedit_mv0_pair_c3"
+            self.assertEqual(
+                _slurm_runtime_state(
+                    "llama3-8b-inst",
+                    "mv0_llama_c3_v1",
+                )["job_id"],
+                "15501",
+            )
 
     def setUp(self):
         self.model = torch.nn.Linear(3, 2, bias=False, dtype=torch.float32)

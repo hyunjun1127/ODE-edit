@@ -1124,6 +1124,14 @@ def _slurm_runtime_state(model_alias: str, run_id: str) -> dict[str, Any]:
             "odeedit_mv0_qwen_smoke",
             "devbox",
         ),
+        ("llama3-8b-inst", "mv0_llama_c3_v1"): (
+            "odeedit_mv0_pair_c3",
+            "devbox",
+        ),
+        ("qwen2.5-7b-inst", "mv0_qwen_c3_v1"): (
+            "odeedit_mv0_pair_c3",
+            "devbox",
+        ),
     }
     expected = expected_jobs.get((model_alias, run_id))
     if expected is None:
