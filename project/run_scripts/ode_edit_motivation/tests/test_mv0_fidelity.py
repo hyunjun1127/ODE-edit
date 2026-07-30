@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 import tempfile
 import types
 import unittest
@@ -8,6 +9,7 @@ from unittest import mock
 
 import torch
 
+from project.run_scripts.ode_edit_motivation import mv0_fidelity
 from project.run_scripts.ode_edit_motivation.contracts import (
     ContextManifest,
     EditRequest,
@@ -91,6 +93,40 @@ class _FakeBridge:
 
 
 class MV0FidelityCpuTests(unittest.TestCase):
+    def test_git_runtime_uses_fixed_binary_with_restricted_path(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            repository = Path(temporary)
+            git = str(mv0_fidelity.GIT_BIN)
+            subprocess.run((git, "init", "-q", str(repository)), check=True)
+            subprocess.run(
+                (
+                    git,
+                    "-C",
+                    str(repository),
+                    "-c",
+                    "user.name=ODE-Edit test",
+                    "-c",
+                    "user.email=ode-edit-test@invalid",
+                    "commit",
+                    "--allow-empty",
+                    "-q",
+                    "-m",
+                    "initial",
+                ),
+                check=True,
+            )
+            with (
+                mock.patch.object(mv0_fidelity, "REPOSITORY_ROOT", repository),
+                mock.patch.dict(
+                    os.environ,
+                    {"PATH": str(repository / "venv-only")},
+                    clear=False,
+                ),
+            ):
+                state = mv0_fidelity._git_runtime_state()
+        self.assertTrue(state["tracked_worktree_clean"])
+        self.assertRegex(state["commit"], r"^[0-9a-f]{40}$")
+
     def test_slurm_identity_is_bound_to_exact_audited_smoke(self):
         with mock.patch.dict(
             os.environ,
@@ -118,11 +154,11 @@ class MV0FidelityCpuTests(unittest.TestCase):
                     "llama3-8b-inst",
                     "mv0_llama_smoke_v1",
                 )
-            os.environ["SLURM_JOB_NAME"] = "odeedit_mv0_pair_c3"
+            os.environ["SLURM_JOB_NAME"] = "odeedit_mv0_pair_c3v2"
             self.assertEqual(
                 _slurm_runtime_state(
                     "llama3-8b-inst",
-                    "mv0_llama_c3_v1",
+                    "mv0_llama_c3_v2",
                 )["job_id"],
                 "15501",
             )

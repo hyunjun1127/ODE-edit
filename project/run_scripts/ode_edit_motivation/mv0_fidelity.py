@@ -76,6 +76,7 @@ from .manifests import (
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
+GIT_BIN = Path("/usr/bin/git")
 DEFAULT_OUTPUT_ROOT = (
     REPOSITORY_ROOT / "local/results/raw/session01_motivation"
 )
@@ -1074,8 +1075,10 @@ def _file_sha256(path: Path) -> str:
 def _git_runtime_state() -> dict[str, Any]:
     """Bind a run to one clean tracked ODE-Edit commit."""
 
+    if not GIT_BIN.is_file() or not os.access(GIT_BIN, os.X_OK):
+        raise MV0Error("fixed Git runtime is unavailable")
     commit = subprocess.run(
-        ("git", "-C", str(REPOSITORY_ROOT), "rev-parse", "HEAD"),
+        (str(GIT_BIN), "-C", str(REPOSITORY_ROOT), "rev-parse", "HEAD"),
         check=True,
         capture_output=True,
         text=True,
@@ -1084,7 +1087,7 @@ def _git_runtime_state() -> dict[str, Any]:
         raise MV0Error("ODE-Edit HEAD is not a full Git commit")
     tracked_status = subprocess.run(
         (
-            "git",
+            str(GIT_BIN),
             "-C",
             str(REPOSITORY_ROOT),
             "status",
@@ -1124,12 +1127,12 @@ def _slurm_runtime_state(model_alias: str, run_id: str) -> dict[str, Any]:
             "odeedit_mv0_qwen_smoke",
             "devbox",
         ),
-        ("llama3-8b-inst", "mv0_llama_c3_v1"): (
-            "odeedit_mv0_pair_c3",
+        ("llama3-8b-inst", "mv0_llama_c3_v2"): (
+            "odeedit_mv0_pair_c3v2",
             "devbox",
         ),
-        ("qwen2.5-7b-inst", "mv0_qwen_c3_v1"): (
-            "odeedit_mv0_pair_c3",
+        ("qwen2.5-7b-inst", "mv0_qwen_c3_v2"): (
+            "odeedit_mv0_pair_c3v2",
             "devbox",
         ),
     }

@@ -7,12 +7,14 @@ umask 077
 readonly REPO_ROOT="/mnt/raid5/janghj/ODE-edit"
 readonly SESSION_ID="019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2"
 readonly SBATCH_FILE="${REPO_ROOT}/project/run_scripts/session01_mv0_pair_server1.sbatch"
-readonly RED_GATE="${REPO_ROOT}/audits/global/2026-07-30-session01-mv0-paired-c3-execution-preflight.md"
+readonly FAILURE_ANALYSIS="${REPO_ROOT}/experiment-reports/global/2026-07-30-mv0-pair-c3-failure-analysis.md"
+readonly RED_GATE="${REPO_ROOT}/audits/global/2026-07-30-session01-mv0-paired-c3-v2-execution-preflight.md"
 readonly LOG_ROOT="${REPO_ROOT}/local/logs/slurm/session01_motivation"
 readonly OUTPUT_ROOT="${REPO_ROOT}/local/results/raw/session01_motivation"
 readonly STATE_ROOT="${REPO_ROOT}/local/state/slurm-submissions/session01_motivation"
-readonly PAIR_MARKER="${STATE_ROOT}/mv0_pair_c3_v1.submitted"
-readonly JOB_NAME="odeedit_mv0_pair_c3"
+readonly FAILED_PAIR_MARKER="${STATE_ROOT}/mv0_pair_c3_v1.submitted"
+readonly PAIR_MARKER="${STATE_ROOT}/mv0_pair_c3_v2.submitted"
+readonly JOB_NAME="odeedit_mv0_pair_c3v2"
 
 [[ "$#" -eq 0 ]] || {
   echo "this paired helper takes no arguments" >&2
@@ -29,7 +31,8 @@ git ls-files --error-unmatch \
   project/run_scripts/session01_mv0_pair_server1.sbatch \
   project/run_scripts/session01_mv0_server1.sbatch \
   project/run_scripts/submit_session01_mv0_pair_server1.sh \
-  audits/global/2026-07-30-session01-mv0-paired-c3-execution-preflight.md \
+  experiment-reports/global/2026-07-30-mv0-pair-c3-failure-analysis.md \
+  audits/global/2026-07-30-session01-mv0-paired-c3-v2-execution-preflight.md \
   experiment-reports/global/2026-07-30-mv0-llama-smoke-analysis.md \
   experiment-reports/global/2026-07-30-mv0-qwen-smoke-analysis.md \
   audits/global/2026-07-30-mv0-llama-smoke.postrun.md \
@@ -41,13 +44,24 @@ git ls-files --error-unmatch \
   exit 2
 }
 [[ "$(git rev-parse HEAD)" == "$(git rev-parse origin/main)" ]] || exit 2
-grep -Fxq -- '- 최종 판정: `PASS` — exact paired MV-0 c3 한 건에만 유효' \
+grep -Fxq -- '- 최종 판정: `PASS` — exact paired MV-0 c3 v2 한 건에만 유효' \
   "${RED_GATE}" || {
   echo "paired execution preflight has not passed" >&2
   exit 2
 }
+grep -Fxq -- '- 결론: **실험 실패가 아니라 launcher/runtime 환경의 공통 조기 실패**' \
+  "${FAILURE_ANALYSIS}" || {
+  echo "first paired failure has not been independently analyzed" >&2
+  exit 2
+}
+[[ -f "${FAILED_PAIR_MARKER}/job-id" ]] || exit 2
+[[ "$(<"${FAILED_PAIR_MARKER}/job-id")" == "15508" ]] || exit 2
+[[ -s "${LOG_ROOT}/odeedit_mv0_pair_c3-15508.out" ]] || exit 2
+[[ -s "${LOG_ROOT}/odeedit_mv0_pair_c3-15508.err" ]] || exit 2
 [[ ! -e "${OUTPUT_ROOT}/mv0_llama_c3_v1" ]] || exit 2
 [[ ! -e "${OUTPUT_ROOT}/mv0_qwen_c3_v1" ]] || exit 2
+[[ ! -e "${OUTPUT_ROOT}/mv0_llama_c3_v2" ]] || exit 2
+[[ ! -e "${OUTPUT_ROOT}/mv0_qwen_c3_v2" ]] || exit 2
 [[ ! -e "${PAIR_MARKER}" ]] || exit 2
 if [[ -n "$(squeue -h --name="${JOB_NAME}")" ]]; then
   echo "paired MV-0 job is already active" >&2
