@@ -1,0 +1,248 @@
+{
+  "schema_version": "ode-edit-mv1-score-mix-c1-single-model-analysis-summary/v1",
+  "summary_hash_algorithm": "sha256(jq -S -c 'del(.summary_hash)' UTF-8 bytes plus trailing LF)",
+  "summary_hash": "4bf54c3818288406116b56e41f2ea4ceefc93ad2a163e8674a3aded4f9621c17",
+  "scope": {
+    "model_alias": "qwen2.5-7b-inst",
+    "run_id": "mv1mix_qwen_c1_v1",
+    "claim_status": "single_model_confirmatory_gate_inputs_only",
+    "pair_level_decision_computed": false,
+    "downstream_claims_computed": {
+      "method_gain": false,
+      "mv2": false,
+      "ode": false
+    }
+  },
+  "run_completion": {
+    "slurm_step": "15576.1",
+    "slurm_state": "COMPLETED",
+    "slurm_exit_code": "0:0",
+    "run_status": "completed",
+    "all_pass": true,
+    "planned_case_count": 12,
+    "attempted_case_count": 12,
+    "pass_count": 12,
+    "outcome_count": 72
+  },
+  "artifact_validation": {
+    "valid": true,
+    "error_codes": [],
+    "panel_complete": true,
+    "exact_fold": {
+      "description": "confirmatory[0::5]",
+      "selected_split": "confirmatory",
+      "fold": 0,
+      "fold_count": 5,
+      "case_count": 12,
+      "case_ids": [
+        "5349",
+        "609",
+        "13925",
+        "17345",
+        "2700",
+        "14151",
+        "8769",
+        "12891",
+        "15915",
+        "135",
+        "17238",
+        "8583"
+      ],
+      "selected_case_ids_sha256": "20d5249f481ae367bb6447140f90681a34becc08951e60c0324ea571d3c142ac",
+      "selection_seed": "ode-edit-motivation-counterfact-v1",
+      "fold_seed": "ode-edit-mv1-score-mix-confirmatory-folds-v1",
+      "selection_manifest_id": "186372487e0a79d64a4895dfa5ad142a5e9b1dd3f675c9a3468205147c38c4ce",
+      "fold_manifest_id": "8b428f5c619df6b056cb9507042745e438dc50cbe261cd547e16f5d8469515a1"
+    },
+    "panel": {
+      "arm_count_per_case": 6,
+      "outcome_action_order": [
+        "score_mix",
+        "frozen_static_mix",
+        "uniform",
+        "ordered_global_alpha",
+        "native_memit_full",
+        "no_op_replay"
+      ],
+      "matched_c_actions": [
+        "score_mix",
+        "frozen_static_mix",
+        "uniform",
+        "ordered_global_alpha"
+      ],
+      "q": 0.00390625,
+      "matched_c_case_groups": 12,
+      "matched_c_rows": 48,
+      "all_matched_c_distances_exactly_equal_within_case": true,
+      "max_matched_c_energy_span": 9.576245081199114e-11
+    },
+    "firewall": {
+      "outcome_firewall_and_receipts_valid": true,
+      "action_receipt_count": 12,
+      "receipt_hash_map_matches": true,
+      "confirmatory_outcomes_used_by_forecast_policy": [],
+      "sanitized_artifacts_only": true
+    },
+    "equal_c_and_rollback_valid": true,
+    "rollback": {
+      "outcome_rows": 72,
+      "rollback_exact_true_rows": 72,
+      "no_op_rows": 12,
+      "no_op_logits_hash_equal_true_rows": 12
+    },
+    "artifact_sha256": {
+      "manifest.json": "b5a746828931fea757242451226dc75c14ae1179da82189913073b5c2c20cdb8",
+      "features.jsonl": "be683914f3be9163bfc75f8b971a517c9150e594422a14843a9caa18a5495aad",
+      "actions.jsonl": "7cf4b985eabbe10d88e900706c3414f5d86e06803a9acde023a46536ea6b7b24",
+      "outcomes.jsonl": "b6ea6125b7853151841564bd4a5cdac76e05161761983b1c9401086da328602f",
+      "events.jsonl": "0050e70a2dab99081f634f06947bc948d409089b7dce57ac50f76029a779d63f"
+    },
+    "context_id": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
+    "provenance_id": "d247b27edf638b7a9625954e8bf2aeac745b61247230f8bcf733e991a3ed9d16"
+  },
+  "locked_policy": {
+    "static_policy_hash": "381e22334e0e3d07c37f07db16c22e8cdd1b689deba66ec7b032dd32ba0b2955",
+    "forecast_policy_hash": "a1feb93481f64785539c102a1ac58340fee71ba4e91a9ccc4b8f699cc6c04c99",
+    "calibration_hash": "440f1eadd495d7e9a36cde258d711acfc0207867dab4d468b4c920765df0f122",
+    "forecast_analysis_hash": "cabff79e285f252b7219de3f016e2ef280ad506a4b79264d5806dd8909ba6e22",
+    "forecast_beta": 1.1595737381191145,
+    "policy_file_sha256": {
+      "static_policy": "1c785d1b0a4bf0be70a8eeb9a1ea9a6ddea85899becc950fefed3b6688230f0c",
+      "forecast_policy": "edab0e6b077457e2a57bd34ba1e0db04fd935dd2012e80b158e23314d5ffaf92",
+      "forecast_analysis": "97fc3855e1cb61c1b8c7ed274e212b8e78c220cf93e10ebe16dbc23290a1d69a"
+    }
+  },
+  "replay": {
+    "c1_no_op_max_absolute_progress": 0,
+    "c1_replay_envelope": 1e-12,
+    "calibration_replay_envelope": 1e-12,
+    "combined_replay_envelope": 1e-12
+  },
+  "primary_adaptive_minus_frozen_static": {
+    "case_count": 12,
+    "mean": 0.059492299954096474,
+    "trimmed_mean_20pct": 0.03591315448284149,
+    "median": 0.037488460540771484,
+    "positive_sign_count_above_replay_envelope": 11,
+    "positive_sign_fraction_above_replay_envelope": 0.9166666666666666,
+    "paired_case_bootstrap_mean_ci_95": [
+      0.017130000640948613,
+      0.12305578043063482
+    ],
+    "observed_range": [
+      -0.03737926483154297,
+      0.3771786689758301
+    ],
+    "bootstrap_seed": 20260731,
+    "bootstrap_replicates": 4000
+  },
+  "matched_c_finite_panel_oracle_opportunity": {
+    "case_count": 12,
+    "mean": 0.0627475877602895,
+    "trimmed_mean_20pct": 0.0359298437833786,
+    "median": 0.037488460540771484,
+    "positive_sign_count_above_replay_envelope": 11,
+    "positive_sign_fraction_above_replay_envelope": 0.9166666666666666,
+    "paired_case_bootstrap_mean_ci_95": [
+      0.02319556698203087,
+      0.1264144552250703
+    ],
+    "observed_range": [
+      0,
+      0.3771786689758301
+    ],
+    "oracle_minus_primary_mean": 0.0032552878061930315,
+    "bootstrap_seed": 20260732,
+    "bootstrap_replicates": 4000
+  },
+  "forecast_comparison": {
+    "c1_predicted_vs_realized": {
+      "predicted_mean": 0.0919819535484502,
+      "realized_mean": 0.059492299954096474,
+      "mean_error_realized_minus_predicted": -0.03248965359435372,
+      "mean_absolute_error": 0.03510902746891767,
+      "median_absolute_error": 0.013232614757795899,
+      "zero_intercept_realized_on_predicted_slope": 0.8224793064689951,
+      "pearson": 0.8996197195922011,
+      "positive_direction_concordance": 0.9166666666666666
+    },
+    "calibration_forecast": {
+      "expected_realized_gap": 0.11201531043591464,
+      "case_bootstrap_interval_95": [
+        0.06476441445994054,
+        0.17629666495305207
+      ],
+      "calibration_residual_envelope": 0.03236109868826046,
+      "bootstrap_seed": 20260731,
+      "bootstrap_replicates": 4000
+    },
+    "differences": {
+      "c1_predicted_minus_calibration_expected": -0.02003335688746445,
+      "realized_minus_calibration_expected": -0.05252301048181817,
+      "realized_minus_c1_predicted": -0.03248965359435372,
+      "realized_minus_calibration_ci_lower": -0.0052721145058440624,
+      "absolute_c1_prediction_error_minus_calibration_residual_envelope": 0.00012855490609325892
+    },
+    "interpretation_boundary": "Calibration CI endpoints are descriptive and are not a hard gate."
+  },
+  "single_model_gate_inputs": {
+    "clear_continue_input": true,
+    "gray_input": false,
+    "scientific_kill_input": false,
+    "controller_pivot_input": false,
+    "architecture_conditional_tolerance_input": 0.03236109868826046,
+    "pair_level_decision_computed": false,
+    "interpretation": "Qwen C1 single-model gate inputs only; no downstream authorization."
+  },
+  "code_boundary": {
+    "run_ode_edit_commit": "03a5df6e65c4933b66178361ac5683ee4e02b1a6",
+    "run_ode_edit_commit_short": "03a5df6",
+    "run_tracked_worktree_clean": true,
+    "analysis_code_commit": "26d5ed2",
+    "analysis_code_commit_source": "task-specified boundary; Git was not invoked",
+    "relationship": "The completed raw run is frozen at 03a5df6; post-run analysis uses the later 26d5ed2 analyzer boundary.",
+    "legacy_c1_behavior_preserved": true,
+    "legacy_guard_test": "test_default_c1_shape_is_legacy_and_enriched_input_is_separate"
+  },
+  "aggregate_input": {
+    "path": "experiment-reports/global/2026-07-31-mv1mix-qwen-c1-v1.fold01-input.json",
+    "schema_version": "ode-edit-mv1-score-mix-c1-fold01-aggregate-input/v1",
+    "analysis_status": "c1_fold01_aggregate_input_complete",
+    "analysis_hash": "89af4e5ea6882464f6508789e5498557c9ace9855390103ec28e001cb4eddae9",
+    "file_sha256": "4920d798ab61fbb0ef5704e10f379562c932399a0c779d819f682f5398ab1dde"
+  },
+  "verification": {
+    "json_finite": true,
+    "aggregate_internal_hash_valid": true,
+    "deterministic_rerun": {
+      "match": true,
+      "comparison": "byte-identical",
+      "temporary_output": "/tmp/mv1mix-qwen-c1-rerun.ZmaJx4/2026-07-31-mv1mix-qwen-c1-v1.fold01-input.json",
+      "temporary_file_sha256": "4920d798ab61fbb0ef5704e10f379562c932399a0c779d819f682f5398ab1dde",
+      "retained_after_verification": false
+    },
+    "focused_tests": {
+      "command": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python -m unittest project.run_scripts.ode_edit_motivation.tests.test_mv1_score_mix_confirmatory_analysis project.run_scripts.ode_edit_motivation.tests.test_mv1_score_mix_followup_analysis",
+      "tests_run": 20,
+      "result": "OK"
+    }
+  },
+  "evidence_partition": {
+    "proposal": {
+      "status": "not_directly_assessed",
+      "statement": "The proposal itself was not opened; only the small-diagnostic-then-gate principle attributed by implementation spec section 10.9 is retained as context."
+    },
+    "repo_facts": {
+      "status": "verified",
+      "statement": "Completion, sanitized artifact identities, fold/panel/firewall/equal-C/rollback contracts, policies, metrics, hashes, deterministic rerun, and focused tests were verified from the allowed repository artifacts."
+    },
+    "github_inference": {
+      "status": "none",
+      "statement": "No Git or GitHub operation was used, and no branch, pull request, remote, or review-state inference is made."
+    },
+    "user_confirmation_needed": {
+      "status": "none_for_this_analysis",
+      "statement": "No confirmation is needed to retain this completed read-only analysis; any downstream pair review or execution is outside this artifact and requires separate authorization."
+    }
+  }
+}

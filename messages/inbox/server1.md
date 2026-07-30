@@ -212,3 +212,88 @@ calibration `[8:20]` 12 case/model을 동시에 실행해 calibration 17 case를
 - online dependency/model download, EasyEdit 수정, cache 재계산
 - C1 단일 model/calibration forecast를 cross-model gain, ODE dynamics,
   paper GO 또는 즉시 MV-2 승인으로 과대해석
+
+---
+
+# Untouched 추가 instruction — `session01-mv1mix-untouched-pair-v1`
+
+## 명령 메타데이터
+
+- 대상 서버 / repository:
+  `server1` / `/mnt/raid5/janghj/ODE-edit` / `hyunjun1127/ODE-edit`
+- 대상 Codex SH session ID: 미지정 — 다른 repo/session 및 미등록 SH 실행 금지
+- GH session ID: `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`
+- 완료 보고 경로:
+  `messages/server-heads/server1/2026-07-31.md`,
+  `runs/mv1mix_*_untouched_v1/`,
+  `experiment-reports/servers/server1/`,
+  `audits/servers/server1/`
+
+## 목적과 배경
+
+- proposal에서 온 내용: 작은 held-out diagnostic에서 same-snapshot routing
+  signal이 살아남을 때만 다음 mechanism test를 연다.
+- repo/protocol에서 확인한 사실: C1 pair는 technical PASS이며 model별
+  analysis에서 양 model 모두 core clear input을 냈다. 실제 실행 권한은
+  pair red audit의 exact `UNTOUCHED PREPARE`가 있을 때만 열린다.
+- GH 추정: untouched 20은 C1보다 약 1.67배 많은 event다. C1 wall time을
+  단순 환산하면 Llama 약 1시간 45분, Qwen 약 2시간 20분이며 `08:00:00`
+  안이다.
+- 사용자 확인 필요: 없음. 사용자는 필수 감사 후 두 model을 순차가 아니라
+  함께 빠르게 제출하라고 명시했다.
+
+## 실행 권한 envelope
+
+- 허용 write path:
+  - raw: `local/results/raw/session01_motivation/mv1mix_{llama,qwen}_untouched_v1/`
+  - log/state: `local/logs/slurm/session01_motivation/`,
+    `local/state/slurm-submissions/session01_motivation/`
+  - small report: 위 완료 보고 경로
+- Slurm 제출 허용 여부: pair post-run과 untouched preflight exact gate를
+  통과한 GH `submit_session01_mv1mix_untouched_pair_server1.sh` one-shot에만
+  `allowed`; 미등록 SH submit/retry/cancel은 `not allowed`
+- GPU cap: server1 project 동시 최대 3; 이번 parent 총 2, child별 1.
+  Overflow면 `pending_resource_cap`으로 중단
+- host-memory cap / 요청: GPU당 `198117 MiB`; parent `130000M`,
+  child별 `65000M`
+- red-team gate:
+  `audits/global/2026-07-31-mv1mix-c1-pair-v1.postrun.md`의 exact
+  `UNTOUCHED PREPARE`와
+  `audits/global/2026-07-31-session01-mv1mix-untouched-execution-preflight.md`의
+  exact `PASS`; `block`은 제출 금지
+- artifact broadcast 의무: active peer clone이 없어 즉시 broadcast
+  예외를 완료 보고에 기록한다. Peer 활성화 뒤 protocol helper만 사용하며
+  destructive mirror는 금지한다.
+- Codex session boundary: SH가 생기면 SH 전용 ID를 이 inbox와
+  `servers/active/server1.md`에 먼저 등록하고
+  `scripts/check-session-boundary.sh <server1-SH-session-id>`를 통과해야
+  한다. 현재는 GH one-shot helper의 GH ID exact match만 허용한다.
+
+## 예상 산출물
+
+- canonical untouched split exact 20 event/model
+- event별 feature/action/receipt/direct-z 1, six-arm outcome 6으로
+  model별 총 120 outcome
+- sanitized manifest/streams/summary, model별 독립 한국어 분석,
+  pair-level final MV-1 red audit
+- C1과 같은 `adaptive - frozen_static` raw progress unit, replay/oracle/
+  forecast summary; benchmark %, retention, ODE gain으로 환산 금지
+
+## 중단 조건
+
+- session/CWD/repository/job/run/model/resource envelope 불일치
+- 두 child가 같은 allocation에서 동시에 시작하지 않음
+- selected split이 canonical untouched exact 20이 아니거나 이미 개봉됨
+- C1과 policy hash/q/six-arm/controller/threshold/seed가 다름
+- fold1을 함께 실행하거나 C1 outcome으로 policy를 refit/retune함
+- outcome leakage, equal-`C`, receipt ordering, rollback/hash/firewall 위반
+- moments/projector 재계산·수정·download·deserialize 또는 EasyEdit write
+- output/marker 중복, dirty/unpushed Git, active duplicate job, child nonzero
+
+## 금지 사항
+
+- 다른 repository/Codex session 조작, 미등록 SH의 제출·재제출·취소
+- raw prompt/target/logit/generation, `.pt`, weights, checkpoint, dataset,
+  full log 및 credential의 Git 유입
+- online dependency/model download, EasyEdit/cache 수정·재계산
+- untouched 결과 전 MV-2, ODE dynamics, retention 또는 paper GO 주장

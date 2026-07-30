@@ -1,0 +1,242 @@
+{
+  "schema_version": "ode-edit-mv1-score-mix-llama-c1-postrun-summary/v1",
+  "scope": {
+    "model_alias": "llama3-8b-inst",
+    "run_id": "mv1mix_llama_c1_v1",
+    "wave": "c1",
+    "selected_split": "confirmatory",
+    "claim_status": "single_model_confirmatory_gate_inputs_only",
+    "pair_level_decision_computed": false
+  },
+  "execution": {
+    "slurm_job_step": "15576.0",
+    "slurm_state": "COMPLETED",
+    "slurm_exit_code": "0:0",
+    "run_status": "completed",
+    "all_pass": true,
+    "planned_case_count": 12,
+    "attempted_case_count": 12,
+    "pass_count": 12,
+    "failure_count": 0,
+    "outcome_count": 72
+  },
+  "artifact_validation": {
+    "valid": true,
+    "error_codes": [],
+    "exact_fold": {
+      "expression": "confirmatory[0::5]",
+      "fold": 0,
+      "fold_count": 5,
+      "case_count": 12,
+      "case_ids": [
+        "5349",
+        "609",
+        "13925",
+        "17345",
+        "2700",
+        "14151",
+        "8769",
+        "12891",
+        "15915",
+        "135",
+        "17238",
+        "8583"
+      ],
+      "selected_case_ids_sha256": "20d5249f481ae367bb6447140f90681a34becc08951e60c0324ea571d3c142ac",
+      "selection_manifest_id": "186372487e0a79d64a4895dfa5ad142a5e9b1dd3f675c9a3468205147c38c4ce",
+      "fold_manifest_id": "8b428f5c619df6b056cb9507042745e438dc50cbe261cd547e16f5d8469515a1",
+      "context_id": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
+      "provenance_id": "273d06af367904aac61931331e6aa2ea09204b0db1f6c7557bca16a9e2c84d2b"
+    },
+    "panel": {
+      "complete": true,
+      "arm_count_per_case": 6,
+      "outcome_action_order": [
+        "score_mix",
+        "frozen_static_mix",
+        "uniform",
+        "ordered_global_alpha",
+        "native_memit_full",
+        "no_op_replay"
+      ],
+      "primary_estimand": "progress(score_mix)-progress(frozen_static_mix)"
+    },
+    "firewall_and_receipts": {
+      "valid": true,
+      "receipt_count": 12,
+      "unique_commitment_count": 12,
+      "outcomes_observed_before_commitment": false,
+      "durability": "feature+adaptive-static-forecast-action-write+flush+fsync-before-exclusive-receipt",
+      "static_weights_use_outcomes": false,
+      "adaptive_weights_use_outcomes": false,
+      "confirmatory_outcomes_used_by_forecast": [],
+      "git_output_written": false,
+      "direct_z_files_read_or_deserialized_by_analysis": false
+    },
+    "equal_c_and_rollback": {
+      "valid": true,
+      "q": 0.00390625,
+      "matched_c_actions": [
+        "score_mix",
+        "frozen_static_mix",
+        "uniform",
+        "ordered_global_alpha"
+      ],
+      "matched_c_distance_max_spread": 0.0,
+      "matched_c_energy_max_spread": 3.930214223594455e-13,
+      "all_72_outcomes_rollback_exact": true,
+      "all_12_events_rollback_exact": true
+    },
+    "raw_file_sha256": {
+      "manifest.json": "144f4bbce52389611c5028169345ea8a5fb06a59e90389bf2fee7b74ca2d1857",
+      "summary.json": "96dca0902c72390c395aab794abde6527be03144d85fb855cf6c2852bc995e71",
+      "features.jsonl": "909206c980d798c42babfe112c5247e485e8ce4c9671abcb5524295f19b1e199",
+      "actions.jsonl": "04e3cfd687ff27f4f24aaec263bfcf98f84b5389718bfb5c1d1abe0f6ca7e3c2",
+      "outcomes.jsonl": "5b4c87e08134d6ed2248298b3c689941372b73a4ed69c76d57a19658c85052c9",
+      "events.jsonl": "457ed00d357b78950ec9cd36c3abfb1e0aba4d4765e19edce27ca39fb7b82512"
+    },
+    "receipt_hash_map_matches_summary": true
+  },
+  "replay": {
+    "c1_replay_envelope": 1e-12,
+    "calibration_replay_envelope": 1e-12,
+    "effective_replay_envelope": 1e-12,
+    "c1_no_op_absolute_progress_max": 0.0
+  },
+  "primary_adaptive_minus_frozen_static": {
+    "case_count": 12,
+    "mean": 0.008755276600519816,
+    "trimmed_mean_20pct": 0.006667003035545349,
+    "median": 0.00555419921875,
+    "positive_sign_count_above_replay_envelope": 12,
+    "positive_sign_fraction_above_replay_envelope": 1.0,
+    "paired_case_bootstrap_mean_ci_95": [
+      0.00441025123000145,
+      0.013934093713760377
+    ],
+    "observed_range": [
+      0.00049591064453125,
+      0.02647113800048828
+    ],
+    "bootstrap_seed": 20260731,
+    "bootstrap_replicates": 4000
+  },
+  "matched_c_finite_panel_oracle_opportunity": {
+    "case_count": 12,
+    "mean": 0.008755276600519816,
+    "trimmed_mean_20pct": 0.006667003035545349,
+    "median": 0.00555419921875,
+    "positive_sign_count_above_replay_envelope": 12,
+    "positive_sign_fraction_above_replay_envelope": 1.0,
+    "paired_case_bootstrap_mean_ci_95": [
+      0.004272228479385376,
+      0.013962519168853762
+    ],
+    "observed_range": [
+      0.00049591064453125,
+      0.02647113800048828
+    ],
+    "bootstrap_seed": 20260732,
+    "bootstrap_replicates": 4000
+  },
+  "forecast_calibration": {
+    "calibration_case_count": 17,
+    "beta": 0.9497786623102332,
+    "calibration_hash": "1f1ecf1a393df1f5474e523be49ca7d1dbecc9de3b812d766a1c3e41f9ca51a0",
+    "calibration_residual_envelope": 0.0012365315172465315,
+    "locked_expected_realized_gap": 0.010963672438775659,
+    "locked_case_bootstrap_interval_95": [
+      0.005291678279052575,
+      0.017507945627132517
+    ],
+    "c1_predicted_vs_realized": {
+      "predicted_mean": 0.009918976144819487,
+      "realized_mean": 0.008755276600519816,
+      "realized_minus_predicted_mean": -0.0011636995442996718,
+      "mean_absolute_error": 0.00436933714406695,
+      "median_absolute_error": 0.0005172882016112145,
+      "pearson": 0.6803640896042981,
+      "zero_intercept_realized_on_predicted_slope": 0.5864924590968326,
+      "positive_direction_concordance": 1.0
+    },
+    "difference_from_locked_calibration_forecast": {
+      "realized_minus_locked_expected_gap": -0.0022083958382558434,
+      "predicted_minus_locked_expected_gap": -0.0010446962939561714,
+      "realized_mean_within_locked_interval": true
+    }
+  },
+  "policy_identity": {
+    "static_policy_hash": "e37443fa075245aa52828773ffc062217d983fb46254d1f40010d396be3d5e06",
+    "static_policy_file_sha256": "935ec07fb72907c79ccaf9563e314bd2513c462888180cb97810af9662886ce6",
+    "forecast_policy_hash": "da5b352cbae20a44ff24e22f9c598f4a5df88aeab373995df3025ce2d0894533",
+    "forecast_policy_file_sha256": "51d09aaf8c3a98256d482a0c9bddda309055cde66e33cf1f012f112194a3d0a6",
+    "forecast_analysis_hash": "d8b371b37c76877c06349251d7abd3f9c5d828421c441f31e272cacd2b2e2094",
+    "forecast_analysis_file_sha256": "6f977b55ed6c4d85761ef65e809f90a231cf8d97357f40a3e630c005d43a8d7f"
+  },
+  "single_model_gate_inputs_only": {
+    "clear_continue_input": true,
+    "gray_input": false,
+    "scientific_kill_input": false,
+    "controller_pivot_input": false,
+    "architecture_conditional_tolerance_input": 0.0012365315172465315,
+    "pair_level_decision_computed": false,
+    "interpretation": "These booleans are one-model gate inputs, not a pair or downstream decision."
+  },
+  "code_boundary": {
+    "run_manifest_commit": "03a5df6e65c4933b66178361ac5683ee4e02b1a6",
+    "run_manifest_commit_short": "03a5df6",
+    "run_manifest_tracked_worktree_clean": true,
+    "post_run_analysis_code_commit": "26d5ed2",
+    "analysis_code_commit_basis": "task-pinned post-run boundary; Git was not queried",
+    "analysis_code_file_sha256": "5510710d3b2ed7c65d837bafc8cb6021cb9785cd83aef76e2827f35fd37f5556",
+    "boundary": "The run artifacts were produced at 03a5df6; the later 26d5ed2 analyzer only consumed sanitized artifacts and emitted post-run analysis.",
+    "legacy_c1_behavior_test_preserved": true
+  },
+  "evidence_categories": {
+    "proposal": {
+      "role": "prespecified design and gate rules only",
+      "items": [
+        "Specification sections 10.8-10.9 fix fold 0, the six-arm panel, the estimand, and bootstrap 20260731/4000 before interpreting C1.",
+        "Those rules are not observed-effect evidence."
+      ]
+    },
+    "repository_facts": {
+      "role": "directly verified local artifacts and executable analysis",
+      "items": [
+        "Slurm completion, raw run counts, hashes, receipts, panel order, equal-C, rollback, analyzer metrics, deterministic rerun, and focused tests.",
+        "No direct_z tensor was opened or deserialized."
+      ]
+    },
+    "github_inference": {
+      "used": false,
+      "items": []
+    },
+    "user_confirmation_required": {
+      "for_this_analysis": false,
+      "items": [
+        "No submission, cancellation, pair review, or external write was performed.",
+        "Any follow-up execution remains outside this single-model report."
+      ]
+    }
+  },
+  "outputs_and_verification": {
+    "fold01_input_path": "experiment-reports/global/2026-07-31-mv1mix-llama-c1-v1.fold01-input.json",
+    "fold01_input_analysis_hash": "4cfae701eca06e335ba7f86376c807c48b1288fd74574168b3d724b23448681e",
+    "fold01_input_file_sha256": "792b9c7900bb1452f8e3fd6bb7f7c1bffff90f9295c7f309655d66b1c22c751f",
+    "deterministic_rerun_byte_identical": true,
+    "deterministic_rerun_file_sha256": "792b9c7900bb1452f8e3fd6bb7f7c1bffff90f9295c7f309655d66b1c22c751f",
+    "bootstrap_seed": 20260731,
+    "bootstrap_replicates": 4000,
+    "focused_tests": {
+      "passed": 10,
+      "failed": 0,
+      "elapsed_seconds": 0.518,
+      "legacy_c1_shape_test_passed": true,
+      "canonical_fold01_lock_test_passed": true,
+      "invalid_envelope_redaction_test_passed": true
+    },
+    "json_finite": true,
+    "summary_hash_contract": "sha256(canonical UTF-8 JSON of this document with summary_hash removed; sorted keys; compact separators; allow_nan=false)"
+  },
+  "summary_hash": "68ffa6c5707ca2c1647bffd9c6c5c675ee0d1c4758d9b2235eedd76e243d0ded"
+}
