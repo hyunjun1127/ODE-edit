@@ -623,6 +623,29 @@ def _ratio(numerator: float, denominator: float) -> float | None:
     return value if math.isfinite(value) else None
 
 
+def _cosine_float64(
+    reference: torch.Tensor,
+    candidate: torch.Tensor,
+    *,
+    chunk_size: int = 1_048_576,
+) -> float | None:
+    """Compute bounded cosine without full-tensor FP64 copies."""
+
+    ref_flat = reference.reshape(-1)
+    cand_flat = candidate.reshape(-1)
+    dot = ref_sq = cand_sq = 0.0
+    for start in range(0, ref_flat.numel(), chunk_size):
+        ref_chunk = ref_flat[start : start + chunk_size].double()
+        cand_chunk = cand_flat[start : start + chunk_size].double()
+        dot += float(torch.dot(ref_chunk, cand_chunk))
+        ref_sq += float(torch.dot(ref_chunk, ref_chunk))
+        cand_sq += float(torch.dot(cand_chunk, cand_chunk))
+    cosine = _ratio(dot, math.sqrt(ref_sq) * math.sqrt(cand_sq))
+    if cosine is None:
+        return None
+    return max(-1.0, min(1.0, cosine))
+
+
 def compare_tensors(
     reference: torch.Tensor,
     candidate: torch.Tensor,
@@ -643,8 +666,7 @@ def compare_tensors(
     ref_norm = float(torch.linalg.vector_norm(ref))
     cand_norm = float(torch.linalg.vector_norm(cand))
     diff_norm = float(torch.linalg.vector_norm(difference))
-    dot = float(torch.sum(ref * cand))
-    cosine = _ratio(dot, ref_norm * cand_norm)
+    cosine = _cosine_float64(ref, cand)
     return {
         "reference_norm": ref_norm,
         "candidate_norm": cand_norm,

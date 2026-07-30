@@ -231,6 +231,20 @@ class MV0FidelityCpuTests(unittest.TestCase):
         self.assertEqual(metrics["max_abs_error"], 0.0)
         self.assertTrue(metrics["exact_bytes"])
 
+    def test_tensor_comparison_cosine_is_bounded_for_large_exact_tensor(self):
+        reference = torch.linspace(
+            -1000.0,
+            1000.0,
+            steps=2_000_003,
+            dtype=torch.float32,
+        )
+
+        metrics = compare_tensors(reference, reference.clone())
+
+        self.assertGreater(metrics["cosine"], 0.999999999999)
+        self.assertLessEqual(metrics["cosine"], 1.0)
+        self.assertTrue(metrics["exact_bytes"])
+
     def test_exact_bridge_reconstructs_native_gemm_order(self):
         with ExactWeightBranch(self.model, {"weight": self.base_hash}):
             _apply_native_deltas(
