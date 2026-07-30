@@ -73,3 +73,53 @@ ack, monitoring, post-run 보고와 가능한 artifact broadcast를 인수한다
 - credential, token, private SSH 값의 Git 기록
 - `rsync --delete`, destructive mirror, EasyEdit 수정, online dependency/model download
 - D0 positive를 method gain, GO, confirmatory 또는 MV-2 승인으로 해석
+
+---
+
+# D1 추가 instruction — `session01-mv1mix-d1-pair-v1`
+
+## 목적과 배경
+
+D0의 두 model 모두 5/5 `G_mix`가 replay envelope를 넘어 early-kill
+조건이 깨졌다. Canonical continue rule에 따라 pilot/D0와 겹치지 않는
+calibration `[8:20]` 12 case/model을 동시에 실행해 calibration 17 case를
+완성하고 slope-only frozen static comparator를 고정한다.
+
+## 실행 권한 envelope
+
+- 대상 Codex session ID: 미지정 — server-head 등록 전 SH 실행 금지
+- 허용 write path:
+  - raw: `local/results/raw/session01_motivation/mv1mix_{llama,qwen}_d1_v1/`
+  - log/state: `local/logs/slurm/session01_motivation/`,
+    `local/state/slurm-submissions/session01_motivation/`
+  - small report: `runs/mv1mix_*_d1_v1/`,
+    `experiment-reports/servers/server1/`, `audits/servers/server1/`
+- Slurm 제출 허용 여부: GH one-shot helper에만 allowed; 미등록 SH의 추가
+  제출·재제출은 not allowed
+- GPU cap: server1 project 최대 3; 이번 pair 총 2, child별 1
+- host-memory cap / 요청: GPU당 `198117 MiB`; parent `130000M`, child별
+  `65000M`
+- red-team gate:
+  `audits/global/2026-07-31-session01-mv1mix-d1-execution-preflight.md`의
+  exact `PASS`
+- artifact broadcast 의무: active peer 없음 예외를 완료 보고에 기록하고,
+  peer 활성화 후 protocol helper로 검증·전송
+- 완료 보고 경로: `messages/server-heads/server1/2026-07-31.md`,
+  `runs/mv1mix_*_d1_v1/`, `experiment-reports/servers/server1/`
+- session boundary: 등록된 server1 SH session ID로
+  `scripts/check-session-boundary.sh` 통과
+
+## 예상 산출물
+
+- model별 12 event, event별 feature/action/receipt 1, outcome 5
+- sanitized manifest/streams/summary
+- model별 독립 D1 분석과 D0+D1 slope-only frozen static policy
+- pair post-run red audit
+
+## 중단 조건과 금지 사항
+
+- D0의 instruction과 같은 session/repository/resource/read-only/firewall
+  중단 조건을 적용한다.
+- D1 slice가 `[8:20]`이 아니거나 pilot/D0 case와 겹치면 중단한다.
+- Static policy에 outcome을 사용하거나 D1 positive를 gain/GO/MV-2로
+  해석하는 것을 금지한다.

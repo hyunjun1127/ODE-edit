@@ -279,6 +279,15 @@ cost-shuffled allocation을 negative control로 포함한다.
 구분되지 않거나 utility가 realized progress를 예측하지 못하면 layer-routing
 motivation을 kill한다.
 
+단, 이 문장의 “구분되지 않음”은 단일 secondary metric, 한 case, 또는 CI
+endpoint 하나의 실패를 뜻하지 않는다. 최신 사용자 지시에 따라
+`plans/global/2026-07-30-session01-mv1-implementation-spec.md` 10.6절의
+핵심신호 우선 gate를 적용한다. Technical validity는 엄격히 block하되,
+scientific kill은 두 model의 primary mean·robust mean·sign과 oracle
+opportunity가 함께 null인 경우로 제한한다. 한 model의 강한 신호와 다른
+model의 비음수 신호는 architecture-conditional bounded continuation으로
+분리하고, 사후 threshold/controller retuning으로 rescue하지 않는다.
+
 #### 기대효과 예측
 
 confirmatory/untouched event에서 다음을 model별 paired CI로 분리한다.

@@ -412,7 +412,46 @@ slope-derived finite-step 값은 v1 p90 derivative failure가 보여 준
 nonadditivity/calibration risk 때문에 보고하거나 gain으로 환산하지 않는다.
 이 pilot 수치는 v2 selection, estimand, CI 어디에도 넣지 않는다.
 
-### 10.6 Deprecated submission과 최소 감사
+### 10.6 핵심신호 우선 scientific gate amendment
+
+사용자 지시에 따라 technical validity와 scientific signal의 문턱을 분리한다.
+Rollback/source/hash/firewall/equal-`C`/outcome-leakage 위반은 계속
+fail-closed `TECHNICAL BLOCK`이다. 반면 하나의 secondary metric, 한 event,
+또는 CI endpoint 하나가 문턱을 못 넘었다는 이유만으로 핵심 routing signal을
+kill하지 않는다.
+
+- D1은 calibration과 static-policy freeze 단계이므로 technical validity가
+  통과하면 독립 descriptive analysis까지 진행한다. D1 effect 자체로 GO 또는
+  kill하지 않는다.
+- Confirmatory primary는 사전 고정한
+  `adaptive score_mix - frozen static mix`의 model별 paired realized
+  progress다. Mean, 20% trimmed mean, median, positive-sign fraction과 paired
+  CI를 함께 내되 primary estimand를 사후 교체하지 않는다.
+- **명확한 continue**: 두 model의 mean이 replay envelope보다 양수이고 각
+  model에서 `trimmed mean > envelope`, `median > envelope`,
+  `sign fraction >= 0.55` 중 하나 이상이 같은 방향이면 핵심 signal이
+  생존한다. 모든 event나 모든 secondary metric의 동시 통과는 요구하지 않는다.
+- **architecture-conditional continue**: 한 model이 위 조건을 강하게
+  만족하고 다른 model이 mean 기준으로 material하게 음수가 아니면, 작은
+  bounded confirmatory/untouched 확인만 허용한다. 이를 cross-model
+  generality로 보고하지 않는다.
+- **회색지대**: mean 방향이나 robust summary가 엇갈리거나 CI가 envelope를
+  가로지르면 즉시 kill/GO하지 않고, 이미 고정된 다음 confirmatory look 한
+  번만 열어 분산과 outlier 민감도를 확인한다. Threshold/controller retuning은
+  금지한다.
+- **scientific kill**: 두 model 모두에서 primary mean과 20% trimmed mean이
+  replay envelope 이하이고 sign fraction도 `<=0.50`이며, 같은 candidate
+  panel의 oracle opportunity까지 null일 때만 current routing direction을
+  kill한다. Oracle은 있으나 controller만 null이면 controller pivot이다.
+- MV-2/ODE claim으로의 승격은 confirmatory와 untouched에서 primary 방향이
+  재현되어야 하지만, 사전 지정 secondary metric 전부 또는 모든 case의
+  양수를 요구하지 않는다.
+
+이 amendment는 세부 threshold 실패로 실질 signal을 놓치는 것을 막되,
+outlier 한두 개, 단일 model의 positive, calibration 재사용, outcome 기반
+retuning으로 연구를 구제하지 못하게 한다.
+
+### 10.7 Deprecated submission과 최소 감사
 
 - 위 9절에 따른 기존 20-case `full C0` v1 wrapper/job은
   **deprecated / 제출 금지**다. 이미 존재하더라도 `D0` 결과 없이 실행하지

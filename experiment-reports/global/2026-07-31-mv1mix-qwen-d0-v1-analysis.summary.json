@@ -1,0 +1,22 @@
+{
+  "all_five_g_mix_leq_model_replay_envelope": false,
+  "analysis_status": "d0_descriptive_complete",
+  "artifact_valid": true,
+  "claim_status": "d0_calibration_descriptive_only",
+  "decision_boundary": "single-model D0 calibration only; positive permits paired D1, never GO",
+  "error_codes": [],
+  "events_above_envelope": 5,
+  "finite_gain_count": 5,
+  "mean_g_mix": 0.20584945678710936,
+  "model_alias": "qwen2.5-7b-inst",
+  "numeric_envelope_floor": 1e-12,
+  "observed_g_mix_range": [
+    0.09227180480957031,
+    0.532503604888916
+  ],
+  "pair_level_early_kill_computed": false,
+  "panel_complete": true,
+  "replay_envelope": 1e-12,
+  "run_id": "mv1mix_qwen_d0_v1",
+  "schema_version": "ode-edit-mv1-score-mix-analysis-summary/v1"
+}
