@@ -26,6 +26,7 @@ readonly SESSION_CHECK="${REPO_ROOT}/scripts/check-session-boundary.sh"
 readonly CHILD_WRAPPER="${REPO_ROOT}/project/run_scripts/session01_mv2refresh_server1.sbatch"
 readonly RUNNER="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/mv2_refresh.py"
 readonly BRIDGE="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/easyedit_bridge.py"
+readonly HOOKS="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/hooks.py"
 readonly LINEAGE="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/frozen_target_lineage.py"
 readonly TRAJECTORY="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/trajectory.py"
 readonly SPEC="${REPO_ROOT}/plans/global/2026-07-31-session01-mv2-implementation-spec.md"
@@ -206,6 +207,7 @@ for tracked_path in \
   "${CHILD_WRAPPER}" \
   "${RUNNER}" \
   "${BRIDGE}" \
+  "${HOOKS}" \
   "${LINEAGE}" \
   "${TRAJECTORY}" \
   "${SPEC}"; do

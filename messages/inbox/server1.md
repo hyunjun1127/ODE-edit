@@ -490,3 +490,71 @@ calibration `[8:20]` 12 case/model을 동시에 실행해 calibration 17 case를
 - 후속 보고:
   retry job ID/state/resource, safe trace 여부, model별 독립 analysis,
   pair red post-run, no-peer broadcast exception
+
+---
+
+# MV-2 tensor-hash repair 보충 instruction — `session01-mv2refresh-pair-v1-repair`
+
+## 목적과 배경
+
+- proposal에서 온 내용:
+  최초 scientific lock과 동일한 MV-2 diagnostic을 완주한다.
+- repo/protocol에서 확인한 사실:
+  job `15600` safe stack은 failure를
+  `hooks.tensor_sha256()`의 CUDA-side byte view로 특정했다. scientific
+  feature/action/outcome/receipt는 생성되지 않았다.
+- GH 추정:
+  없음. tensor hash plumbing line은 safe stack으로 확인됐다.
+- 사용자 확인 필요:
+  없음. time-critical 동시 pair technical recovery다.
+
+## 실행 권한 envelope
+
+- 허용 write path:
+  canonical
+  `local/results/raw/session01_motivation/mv2refresh_{llama,qwen}_e0_v1/`,
+  failed archive
+  `local/results/raw/session01_motivation/failed/mv2refresh_pair_v1_job15600/`,
+  기존 local log/state 및 small completion-report path
+- Slurm 제출 허용 여부:
+  tensor-hash repair audit exact `PASS`, clean pushed main 뒤 GH helper 1회만
+  `allowed`; 미등록 SH submit/retry/cancel은 `not allowed`
+- GPU cap:
+  server1 최대 3; parent 총 2, child별 1,
+  `16 CPU / 130000M / 08:00:00`, child별 `8 CPU / 65000M`
+- red-team gate 통과 조건:
+  prior three exact gates와 새 tensor-hash repair exact `PASS`,
+  full tests, actual-CUDA synthetic parity preflight, independent review
+  residual P1/P2 없음
+- artifact broadcast 의무:
+  peer clone 부재 no-peer 예외를 완료 보고에 기록하며 다른 repo/session을
+  건드리지 않는다.
+- 완료 보고 경로:
+  `messages/server-heads/server1/2026-07-31.md`,
+  기존 model별 global analysis path와 pair post-run audit
+- 금지 사항:
+  EasyEdit/cache/dataset/stats 수정·재계산, raw Git 유입, scientific lock
+  변경, partial rescue, 다른 repo/session/job 조작
+- 예상 산출물:
+  model load 전 synthetic CUDA hash parity 통과 후 exact 12 event/model,
+  72 outcome/model, 독립 model analysis 및 pair red verdict
+- 중단 조건:
+  CUDA parity 실패, output/repair marker 중복, dirty/unpushed main,
+  cap/session mismatch, child 비동시 시작, child nonzero
+
+## GH 직접 repair execution 예외 기록
+
+- 사유:
+  SH 부재, 사용자의 빠른 동시 실행 지시, safe stack으로 확정된 scientific
+  commitment 전 hashing plumbing failure 복구
+- exact archive command 범위:
+  job `15600`의 두 failed run directory를 위 ignored archive로 `mv`;
+  삭제·덮어쓰기 금지
+- exact submit command:
+  `project/run_scripts/submit_session01_mv2refresh_pair_server1.sh`
+- 영향 범위:
+  failed local raw recoverable relocation, synthetic hash parity와 server1
+  one parent `2 GPU / 16 CPU / 130000M`; scientific contract 변화 없음
+- 후속 보고:
+  repair job ID/state/resource, CUDA parity/trace 여부, model별 독립 analysis,
+  pair red post-run, no-peer broadcast exception

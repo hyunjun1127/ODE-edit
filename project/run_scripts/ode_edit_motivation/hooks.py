@@ -31,7 +31,12 @@ class ConcurrentWeightMutationError(RuntimeError):
 def tensor_sha256(tensor: torch.Tensor) -> str:
     """Hash exact tensor storage bytes in logical contiguous order."""
 
-    value = tensor.detach().contiguous().view(torch.uint8).cpu().reshape(-1)
+    # Reinterpret bytes only after crossing to CPU.  Some CUDA dtype/layout
+    # combinations reject ``view(torch.uint8)`` even after ``contiguous()``,
+    # and a device-side contiguous byte copy also creates avoidable GPU peak
+    # memory.  Moving first preserves dtype and logical element order; the
+    # following contiguous conversion defines the canonical byte stream.
+    value = tensor.detach().cpu().contiguous().view(torch.uint8).reshape(-1)
     digest = hashlib.sha256()
     try:
         digest.update(value.numpy().tobytes(order="C"))
@@ -45,6 +50,33 @@ def tensor_sha256(tensor: torch.Tensor) -> str:
         for start in range(0, value.numel(), chunk_bytes):
             digest.update(bytes(value[start : start + chunk_bytes].tolist()))
     return digest.hexdigest()
+
+
+def assert_tensor_sha256_device_parity(device: torch.device | str) -> None:
+    """Fail closed unless CUDA hashing matches canonical CPU bytes.
+
+    The probe is deliberately tiny and contains no request/model data.  It
+    covers every floating dtype used by the fixed Motivation runtimes and both
+    contiguous and transposed layouts.
+    """
+
+    resolved = torch.device(device)
+    if resolved.type != "cuda" or not torch.cuda.is_available():
+        raise ContractError("tensor hash device parity requires available CUDA")
+    for dtype in (
+        torch.float16,
+        torch.bfloat16,
+        torch.float32,
+        torch.float64,
+    ):
+        base = torch.arange(12, dtype=dtype).reshape(3, 4)
+        for cpu_value in (base, base.T):
+            expected = tensor_sha256(cpu_value)
+            observed = tensor_sha256(cpu_value.to(device=resolved))
+            if observed != expected:
+                raise ContractError(
+                    f"tensor hash CPU/CUDA parity failed for {dtype}"
+                )
 
 
 def resolve_parameter(model: torch.nn.Module, name: str) -> torch.nn.Parameter:

@@ -1,3 +1,4 @@
+import hashlib
 import json
 import tempfile
 import unittest
@@ -7,6 +8,7 @@ import torch
 
 from project.run_scripts.ode_edit_motivation.artifacts import JsonlArtifactWriter
 from project.run_scripts.ode_edit_motivation.contracts import (
+    ContractError,
     ContextManifest,
     EditRequest,
     LowRankFactor,
@@ -19,6 +21,7 @@ from project.run_scripts.ode_edit_motivation.hooks import (
     ForwardCapture,
     TemporaryExactMemitApplication,
     TemporaryLowRankApplication,
+    assert_tensor_sha256_device_parity,
     capture_snapshot,
     tensor_sha256,
 )
@@ -74,6 +77,29 @@ class HookAndArtifactTests(unittest.TestCase):
             )
         torch.testing.assert_close(self.model.weight, original, rtol=0, atol=0)
         self.assertEqual(tensor_sha256(self.model.weight), original_hash)
+
+    def test_tensor_hash_uses_cpu_logical_contiguous_bytes(self):
+        for dtype in (
+            torch.float16,
+            torch.bfloat16,
+            torch.float32,
+            torch.float64,
+        ):
+            with self.subTest(dtype=dtype):
+                value = torch.arange(12, dtype=dtype).reshape(3, 4).T
+                self.assertFalse(value.is_contiguous())
+                canonical = value.detach().cpu().contiguous().view(torch.uint8)
+                expected = hashlib.sha256(
+                    canonical.numpy().tobytes(order="C")
+                ).hexdigest()
+                self.assertEqual(tensor_sha256(value), expected)
+
+    def test_tensor_hash_device_parity_rejects_cpu(self):
+        with self.assertRaisesRegex(
+            ContractError,
+            "requires available CUDA",
+        ):
+            assert_tensor_sha256_device_parity(torch.device("cpu"))
 
     def test_temporary_apply_detects_mutation_and_still_restores(self):
         original_hash = tensor_sha256(self.model.weight)

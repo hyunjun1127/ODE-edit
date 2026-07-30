@@ -52,6 +52,7 @@ from .gpu_runtime import (
 )
 from .hooks import (
     TemporaryLowRankApplication,
+    assert_tensor_sha256_device_parity,
     capture_snapshot,
 )
 from .manifests import (
@@ -1489,6 +1490,7 @@ def run_mv2_refresh(
         raise MV1Error("MV-2 bridge provenance is outside the fixed manifest")
 
     with offline_environment():
+        assert_tensor_sha256_device_parity(torch.device("cuda", 0))
         bindings = bridge.load()
         hparams = _load_hparams(root, spec, bindings)
         seed_runtime(MV2_RUN_SEED)
