@@ -558,3 +558,59 @@ calibration `[8:20]` 12 case/model을 동시에 실행해 calibration 17 case를
 - 후속 보고:
   repair job ID/state/resource, CUDA parity/trace 여부, model별 독립 analysis,
   pair red post-run, no-peer broadcast exception
+
+---
+
+# MV-2 CUDA hash RCA diagnostic instruction — `session01-mv2-hashdiag-v1`
+
+## 목적과 배경
+
+- 목적:
+  actual proposal에서만 재발한 CUDA/hash `RuntimeError`를 과학 결과 없이
+  exact originating operation 또는 fixed safe category로 좁힌다.
+- repo/protocol에서 확인한 사실:
+  job `15603`도 feature/action/outcome/receipt 전 fail-closed했다.
+- GH 추정:
+  async CUDA fault 또는 actual factor size/layout-specific transfer 문제다.
+- 사용자 확인 필요:
+  없음. pair 반복 제출보다 작은 time-critical technical RCA다.
+
+## 실행 권한 envelope
+
+- 허용 write path:
+  Llama canonical raw, local Slurm log/state, 종료 후 explicit ignored failed
+  archive, small technical audit/report
+- Slurm 제출 허용 여부:
+  exact diagnostic audit `PASS`와 clean pushed main 뒤 GH diagnostic helper
+  1회만 `allowed`
+- GPU cap:
+  server1 최대 3 중 `1 GPU / 8 CPU / 65000M / 00:12:00`
+- red-team gate:
+  category non-leakage, `CUDA_LAUNCH_BLOCKING=1`, Llama-only/12분 cap,
+  independent review residual P1/P2 없음
+- artifact broadcast:
+  peer clone 부재 no-peer 예외; 다른 repo/session 조작 금지
+- 완료 보고 경로:
+  `audits/global/2026-07-31-session01-mv2-cuda-hash-diagnostic-preflight.md`
+  및 server1 completion message
+- 금지 사항:
+  Qwen 실행, scientific analysis/claim, EasyEdit/cache/data write,
+  raw exception/request/target persist, direct untracked command
+- 예상 산출물:
+  safe stack originating line 또는 fixed tensor-hash
+  phase/category/dtype/shape/device/numel, terminal/resource state
+- 중단 조건:
+  1 GPU/12분 cap 초과, safe field 외 leakage, dirty/unpushed Git,
+  marker/output/active duplicate, session mismatch
+
+## GH 직접 diagnostic 예외 기록
+
+- 사유:
+  SH 부재, repeated scientific-commitment-before failure, pair GPU 낭비 방지
+- exact command:
+  `project/run_scripts/submit_session01_mv2refresh_hashdiag_server1.sh`
+- 영향 범위:
+  server1 one Llama technical allocation; Qwen/scientific result 없음
+- 후속 보고:
+  diagnostic job ID, safe category/line, resource, failed raw archive,
+  별도 root-cause fix 및 final-pair red gate

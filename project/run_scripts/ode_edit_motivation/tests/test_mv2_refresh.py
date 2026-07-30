@@ -20,18 +20,23 @@ from project.run_scripts.ode_edit_motivation.manifests import (
 from project.run_scripts.ode_edit_motivation.mv0_fidelity import (
     SanitizedJsonlWriter,
 )
-from project.run_scripts.ode_edit_motivation.mv1_calibration import _feature_hash
+from project.run_scripts.ode_edit_motivation.mv1_calibration import (
+    MV1Error,
+    _feature_hash,
+)
 from project.run_scripts.ode_edit_motivation.mv2_refresh import (
     CONTINUATION_ACTIONS,
     MV2_BRANCH_ORDER,
     MV2_CASE_COUNT,
     MV2_JOB_NAME,
+    MV2_HASH_DIAGNOSTIC_ID,
     MV2_Q,
     MV2_RUN_IDS,
     MV2_RUN_SEED,
     MV2_STEP_SIZE,
     MV2_STREAM_SCHEMA,
     _execution_envelope,
+    _technical_case_limit,
     _run_mv2_event,
     _slurm_state,
     _validate_execution_mode,
@@ -74,7 +79,6 @@ class MV2SelectionAndEnvelopeTests(unittest.TestCase):
         self.assertFalse(
             set(selected.case_ids).intersection(self.canonical.ordered_case_ids)
         )
-
         ranked = tuple(
             sorted(
                 self.case_ids,
@@ -89,6 +93,29 @@ class MV2SelectionAndEnvelopeTests(unittest.TestCase):
             )
         )
         self.assertEqual(selected.case_ids, ranked[100:112])
+
+    def test_technical_case_limit_is_exact_and_diagnostic_only(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            self.assertIsNone(_technical_case_limit("llama3-8b-inst"))
+        exact = {
+            "ODEEDIT_MV2_TECHNICAL_DIAGNOSTIC": MV2_HASH_DIAGNOSTIC_ID,
+            "ODEEDIT_MV2_TECHNICAL_MAX_CASES": "1",
+            "CUDA_LAUNCH_BLOCKING": "1",
+        }
+        with mock.patch.dict(os.environ, exact, clear=True):
+            self.assertEqual(_technical_case_limit("llama3-8b-inst"), 1)
+            with self.assertRaises(MV1Error):
+                _technical_case_limit("qwen2.5-7b-inst")
+        for key, value in (
+            ("ODEEDIT_MV2_TECHNICAL_DIAGNOSTIC", "wrong"),
+            ("ODEEDIT_MV2_TECHNICAL_MAX_CASES", "2"),
+            ("CUDA_LAUNCH_BLOCKING", "0"),
+        ):
+            poisoned = {**exact, key: value}
+            with self.subTest(key=key):
+                with mock.patch.dict(os.environ, poisoned, clear=True):
+                    with self.assertRaises(MV1Error):
+                        _technical_case_limit("llama3-8b-inst")
 
     def test_next12_rejects_tampered_first100_and_duplicates(self):
         tampered = type(self.canonical)(

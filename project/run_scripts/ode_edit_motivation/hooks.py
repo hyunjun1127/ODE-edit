@@ -28,6 +28,60 @@ class ConcurrentWeightMutationError(RuntimeError):
     """A temporary application detected an unexpected in-context mutation."""
 
 
+class TensorHashRuntimeError(RuntimeError):
+    """Sanitized tensor-hash runtime failure with no upstream message text."""
+
+    def __init__(self, *, phase: str, category: str, tensor: torch.Tensor):
+        self.phase = phase
+        self.category = category
+        self.dtype = str(tensor.dtype)
+        self.shape = tuple(int(dimension) for dimension in tensor.shape)
+        self.device = str(tensor.device)
+        self.numel = int(tensor.numel())
+        super().__init__(f"tensor hash {phase} failed ({category})")
+
+
+def _classify_tensor_hash_runtime_error(exc: RuntimeError) -> str:
+    """Map an ephemeral runtime message to a fixed non-sensitive category."""
+
+    message = str(exc).lower()
+    if "out of memory" in message:
+        return "cuda_out_of_memory" if "cuda" in message else "host_out_of_memory"
+    if "illegal memory access" in message:
+        return "cuda_illegal_memory_access"
+    if "misaligned address" in message:
+        return "cuda_misaligned_address"
+    if "device-side assert" in message:
+        return "cuda_device_assert"
+    if "cublas" in message:
+        return "cuda_cublas"
+    if "cusolver" in message:
+        return "cuda_cusolver"
+    if "cuda" in message:
+        return "cuda_runtime"
+    if any(
+        marker in message
+        for marker in ("stride", "view size", "divisible", "unsupported")
+    ):
+        return "tensor_layout"
+    if "allocat" in message and "memory" in message:
+        return "host_out_of_memory"
+    return "unknown_runtime"
+
+
+def _raise_tensor_hash_runtime(
+    *,
+    phase: str,
+    tensor: torch.Tensor,
+    exc: RuntimeError,
+) -> None:
+    raise TensorHashRuntimeError(
+        phase=phase,
+        category=_classify_tensor_hash_runtime_error(exc),
+        tensor=tensor,
+    ) from None
+
+
 def tensor_sha256(tensor: torch.Tensor) -> str:
     """Hash exact tensor storage bytes in logical contiguous order."""
 
@@ -36,7 +90,40 @@ def tensor_sha256(tensor: torch.Tensor) -> str:
     # and a device-side contiguous byte copy also creates avoidable GPU peak
     # memory.  Moving first preserves dtype and logical element order; the
     # following contiguous conversion defines the canonical byte stream.
-    value = tensor.detach().cpu().contiguous().view(torch.uint8).reshape(-1)
+    detached = tensor.detach()
+    if detached.is_cuda:
+        try:
+            torch.cuda.synchronize(detached.device)
+        except RuntimeError as exc:
+            _raise_tensor_hash_runtime(
+                phase="pre_copy_cuda_sync",
+                tensor=detached,
+                exc=exc,
+            )
+    try:
+        host = detached.cpu()
+    except RuntimeError as exc:
+        _raise_tensor_hash_runtime(
+            phase="device_to_cpu",
+            tensor=detached,
+            exc=exc,
+        )
+    try:
+        canonical = host.contiguous()
+    except RuntimeError as exc:
+        _raise_tensor_hash_runtime(
+            phase="cpu_contiguous",
+            tensor=host,
+            exc=exc,
+        )
+    try:
+        value = canonical.view(torch.uint8).reshape(-1)
+    except RuntimeError as exc:
+        _raise_tensor_hash_runtime(
+            phase="cpu_byte_view",
+            tensor=canonical,
+            exc=exc,
+        )
     digest = hashlib.sha256()
     try:
         digest.update(value.numpy().tobytes(order="C"))

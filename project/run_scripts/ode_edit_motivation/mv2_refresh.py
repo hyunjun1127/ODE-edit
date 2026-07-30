@@ -52,6 +52,7 @@ from .gpu_runtime import (
 )
 from .hooks import (
     TemporaryLowRankApplication,
+    TensorHashRuntimeError,
     assert_tensor_sha256_device_parity,
     capture_snapshot,
 )
@@ -129,6 +130,7 @@ MV2_RUN_IDS = MappingProxyType(
         "qwen2.5-7b-inst": "mv2refresh_qwen_e0_v1",
     }
 )
+MV2_HASH_DIAGNOSTIC_ID = "hashdiag-v1"
 MV2_RUN_SEED = 17
 MV2_STEP_SIZE = 0.5
 MV2_Q = SCORE_MIX_Q
@@ -385,6 +387,23 @@ def generate_mv2_selection(easyedit_root: str | Path) -> MV2SelectionManifest:
 def _execution_envelope(model_alias: str, run_id: str) -> None:
     if model_alias not in MV2_RUN_IDS or run_id != MV2_RUN_IDS[model_alias]:
         raise MV1Error("MV-2 model/run identity differs from the precommit")
+
+
+def _technical_case_limit(model_alias: str) -> int | None:
+    """Return the exact diagnostic limit without exposing a scientific knob."""
+
+    diagnostic_id = os.environ.get("ODEEDIT_MV2_TECHNICAL_DIAGNOSTIC")
+    raw_limit = os.environ.get("ODEEDIT_MV2_TECHNICAL_MAX_CASES")
+    if diagnostic_id is None and raw_limit is None:
+        return None
+    if (
+        diagnostic_id != MV2_HASH_DIAGNOSTIC_ID
+        or raw_limit != "1"
+        or model_alias != "llama3-8b-inst"
+        or os.environ.get("CUDA_LAUNCH_BLOCKING") != "1"
+    ):
+        raise MV1Error("MV-2 technical case limit is outside the diagnostic lock")
+    return 1
 
 
 def _slurm_state(model_alias: str, run_id: str) -> dict[str, Any]:
@@ -1364,6 +1383,16 @@ def run_mv2_event_loop(
                     ),
                     file=sys.stderr,
                 )
+            if isinstance(exc, TensorHashRuntimeError):
+                print(
+                    (
+                        "MV2_LOCAL_TENSOR_HASH_DIAGNOSTIC "
+                        f"phase={exc.phase} category={exc.category} "
+                        f"dtype={exc.dtype} shape={','.join(map(str, exc.shape))} "
+                        f"device={exc.device} numel={exc.numel}"
+                    ),
+                    file=sys.stderr,
+                )
             print("MV2_LOCAL_TRACEBACK_END", file=sys.stderr)
             result = {
                 "case_id": request.case_id,
@@ -1482,6 +1511,12 @@ def run_mv2_refresh(
     provenance = preflight_fixed_artifacts(root, model_alias=model_alias)
     selection = generate_mv2_selection(root)
     requests = load_counterfact_requests(root, selection.case_ids)
+    technical_case_limit = _technical_case_limit(model_alias)
+    event_requests = (
+        requests
+        if technical_case_limit is None
+        else requests[:technical_case_limit]
+    )
     bridge = EasyEditBridge(root, expected_files=_bridge_pins())
     bridge_provenance = bridge.preflight()
     if not set(record.path for record in bridge_provenance.files).issubset(
@@ -1600,7 +1635,7 @@ def run_mv2_refresh(
             ) as event_writer,
         ):
             results, abort_failure_type = run_mv2_event_loop(
-                requests=requests,
+                requests=event_requests,
                 event_runner=event_runner,
                 event_writer=event_writer,
                 event_kwargs={
@@ -1618,8 +1653,8 @@ def run_mv2_refresh(
                     "analysis_case_writer": analysis_case_writer,
                 },
             )
-            while analysis_case_writer.sequence < len(requests):
-                request = requests[analysis_case_writer.sequence]
+            while analysis_case_writer.sequence < len(event_requests):
+                request = event_requests[analysis_case_writer.sequence]
                 analysis_case_writer.write(
                     "mv2_refresh_analysis_case",
                     failure_analysis_case(
@@ -1635,12 +1670,13 @@ def run_mv2_refresh(
                 "analysis_cases": analysis_case_writer.sequence,
                 "events": event_writer.sequence,
             }
-        planned = len(requests)
+        planned = len(event_requests)
         attempted = len(results)
         pass_count = sum(bool(result["pass"]) for result in results)
         receipt_count = len(tuple(receipt_root.glob("*.json")))
         exact_counts = bool(
-            abort_failure_type is None
+            technical_case_limit is None
+            and abort_failure_type is None
             and stream_sequences
             == {
                 "features": planned,
@@ -1660,7 +1696,9 @@ def run_mv2_refresh(
             "selection_manifest_id": selection.manifest_id,
             "context_id": contexts.manifest_id,
             "run_status": (
-                "aborted" if abort_failure_type is not None else "completed"
+                "technical_diagnostic"
+                if technical_case_limit is not None
+                else ("aborted" if abort_failure_type is not None else "completed")
             ),
             "abort_failure_type": abort_failure_type,
             "planned_case_count": planned,
@@ -1688,7 +1726,9 @@ def run_mv2_refresh(
                     "status": "not_run_due_to_abort",
                     "pass": False,
                 }
-                for case_id in selection.case_ids[attempted:]
+                for case_id in tuple(
+                    request.case_id for request in event_requests
+                )[attempted:]
             ],
             "constants": {
                 "layers": list(LAYERS),

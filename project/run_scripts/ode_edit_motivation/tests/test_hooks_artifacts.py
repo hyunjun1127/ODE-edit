@@ -21,6 +21,8 @@ from project.run_scripts.ode_edit_motivation.hooks import (
     ForwardCapture,
     TemporaryExactMemitApplication,
     TemporaryLowRankApplication,
+    TensorHashRuntimeError,
+    _classify_tensor_hash_runtime_error,
     assert_tensor_sha256_device_parity,
     capture_snapshot,
     tensor_sha256,
@@ -100,6 +102,41 @@ class HookAndArtifactTests(unittest.TestCase):
             "requires available CUDA",
         ):
             assert_tensor_sha256_device_parity(torch.device("cpu"))
+
+    def test_tensor_hash_runtime_categories_are_fixed(self):
+        examples = {
+            "CUDA out of memory. SENSITIVE": "cuda_out_of_memory",
+            "an illegal memory access was encountered": (
+                "cuda_illegal_memory_access"
+            ),
+            "misaligned address": "cuda_misaligned_address",
+            "device-side assert triggered": "cuda_device_assert",
+            "CUBLAS_STATUS_EXECUTION_FAILED": "cuda_cublas",
+            "CUSOLVER_STATUS_INTERNAL_ERROR": "cuda_cusolver",
+            "CUDA error: SENSITIVE": "cuda_runtime",
+            "view size is not compatible with stride": "tensor_layout",
+            "DefaultCPUAllocator cannot allocate memory": "host_out_of_memory",
+            "SENSITIVE_UNKNOWN": "unknown_runtime",
+        }
+        for message, expected in examples.items():
+            with self.subTest(message=message):
+                self.assertEqual(
+                    _classify_tensor_hash_runtime_error(RuntimeError(message)),
+                    expected,
+                )
+
+    def test_tensor_hash_runtime_error_contains_metadata_not_raw_message(self):
+        tensor = torch.zeros((2, 3), dtype=torch.float32)
+        error = TensorHashRuntimeError(
+            phase="device_to_cpu",
+            category="cuda_runtime",
+            tensor=tensor,
+        )
+        self.assertEqual(error.phase, "device_to_cpu")
+        self.assertEqual(error.category, "cuda_runtime")
+        self.assertEqual(error.shape, (2, 3))
+        self.assertEqual(error.numel, 6)
+        self.assertNotIn("SENSITIVE", str(error))
 
     def test_temporary_apply_detects_mutation_and_still_restores(self):
         original_hash = tensor_sha256(self.model.weight)
