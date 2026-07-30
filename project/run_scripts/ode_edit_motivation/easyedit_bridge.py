@@ -32,6 +32,7 @@ from .contracts import (
 )
 from .diagnostic_math import MemitSystemSolver, NativeMemitSolver
 from .direct_z import DirectZCache, FrozenDirectZ
+from .frozen_target_lineage import FrozenTargetLineage
 from .hooks import (
     assert_snapshot_current,
     capture_snapshot,
@@ -1076,8 +1077,15 @@ class EasyEditBridge:
         model_id: str,
         solver: MemitSystemSolver | None = None,
         residual_denominator: int | None = None,
+        frozen_target_lineage: FrozenTargetLineage | None = None,
     ) -> MemitFactorProposal:
-        """Measure all layer factors against one unchanged model snapshot."""
+        """Measure all layer factors against one unchanged model snapshot.
+
+        The default path retains the original exact-source binding used by
+        MV-0/MV-1.  MV-2 may explicitly present a canonical
+        :class:`FrozenTargetLineage` to reuse the *unchanged* W0 direct-z bytes
+        at one verified descendant.  No implicit rebinding is permitted.
+        """
 
         requests = tuple(requests)
         if not requests:
@@ -1128,31 +1136,47 @@ class EasyEditBridge:
             weight_names=weight_names,
             provenance_ids=(bindings.provenance.manifest_id,),
         )
-        if direct_z.source_snapshot_id != source_snapshot.snapshot_id:
-            raise ContractError(
-                "direct-z was not generated for this source/model entry snapshot"
+        if frozen_target_lineage is None:
+            if direct_z.source_snapshot_id != source_snapshot.snapshot_id:
+                raise ContractError(
+                    "direct-z was not generated for this source/model entry snapshot"
+                )
+            if (
+                direct_z.source_state_id != source_snapshot.state_id
+                or direct_z.z_layer != layers[-1]
+                or direct_z.request_ids != source_snapshot.request_ids
+            ):
+                raise ContractError(
+                    "direct-z metadata does not match the synchronous request"
+                )
+        else:
+            if type(frozen_target_lineage) is not FrozenTargetLineage:
+                raise ContractError("frozen-target lineage runtime type is invalid")
+            if (
+                direct_z.z_layer != layers[-1]
+                or direct_z.request_ids != source_snapshot.request_ids
+            ):
+                raise ContractError(
+                    "lineage target metadata does not match the synchronous request"
+                )
+            frozen_target_lineage.assert_authorizes(
+                direct_z=direct_z,
+                snapshot=source_snapshot,
             )
-        if (
-            direct_z.source_state_id != source_snapshot.state_id
-            or direct_z.z_layer != layers[-1]
-            or direct_z.request_ids != source_snapshot.request_ids
-        ):
-            raise ContractError("direct-z metadata does not match the synchronous request")
+        snapshot_provenance = {
+            bindings.provenance.manifest_id,
+            covariance_manifest.manifest_id,
+            direct_z.artifact_id,
+        }
+        if frozen_target_lineage is not None:
+            snapshot_provenance.add(frozen_target_lineage.lineage_id)
         snapshot = SnapshotManifest(
             model_id=source_snapshot.model_id,
             context_id=source_snapshot.context_id,
             request_ids=source_snapshot.request_ids,
             hparams_sha256=source_snapshot.hparams_sha256,
             parameters=source_snapshot.parameters,
-            provenance_ids=tuple(
-                sorted(
-                    {
-                        bindings.provenance.manifest_id,
-                        covariance_manifest.manifest_id,
-                        direct_z.artifact_id,
-                    }
-                )
-            ),
+            provenance_ids=tuple(sorted(snapshot_provenance)),
         )
 
         raw_requests = [request.to_easyedit() for request in requests]
