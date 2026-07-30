@@ -353,8 +353,15 @@ teacher-forcing contract failure, non-finite, rollback mismatch, budget
 mismatch, firewall violation, covariance recompute 시도, missing denominator는
 research null로 바꾸지 않고 **technical BLOCK**한다.
 
-Model별 replay/near-tie envelope를 `e_m`이라 하고, D0의 다섯 paired realized
-gain을 `G_mix,mi`라 한다. 아래가 동시에 성립하면:
+Model별 replay/near-tie envelope는 결과를 열기 전에 다음으로 고정한다.
+
+```text
+e_m = max(1e-12, max_i abs(P_i(no_op_replay)))
+```
+
+`no_op_replay`의 exact logits hash와 모든 technical validity gate가 먼저
+통과해야 하며, missing/non-finite replay를 `0`으로 대체하지 않는다. D0의
+다섯 paired realized gain을 `G_mix,mi`라 할 때 아래가 동시에 성립하면:
 
 ```text
 for both models m:

@@ -168,8 +168,11 @@ Technical BLOCK에서는 D0 effect를 해석하거나 D1을 자동 제출하지 
 
 ### Early kill / continue
 
-Model별 replay/near-tie envelope를 `e_m`이라 한다. 양 model 각각에서 다섯
-event가 모두:
+Model별 replay/near-tie envelope는
+`e_m=max(1e-12, max_i abs(P_i(no_op_replay)))`로 결과 전에 고정한다.
+Replay exact-logits/hash와 모든 technical validity gate가 먼저 통과해야 하며
+missing/non-finite replay는 scientific zero로 바꾸지 않는다. 양 model
+각각에서 다섯 event가 모두:
 
 ```text
 G_mix,mi <= e_m
