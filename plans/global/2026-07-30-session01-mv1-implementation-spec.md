@@ -464,3 +464,68 @@ retuning으로 연구를 구제하지 못하게 한다.
   3. pair post-run red 1건
 - 추가 감사를 자동 증식하지 않는다. Technical BLOCK, emergency triage,
   artifact mismatch가 생긴 경우에만 영향 범위에 맞춘 별도 기록을 연다.
+
+### 10.8 D1 뒤 첫 held-out claim test: C1 fold 0
+
+이 절은 위 2절의 오래된 20-case look보다 우선하는 v2 score-mix envelope다.
+D1 outcome을 열기 전에 첫 held-out wave를 다음으로 고정한다.
+
+| 항목 | exact lock |
+| --- | --- |
+| fold | fixed confirmatory 60을 seed `ode-edit-mv1-score-mix-confirmatory-folds-v1`로 5-way outcome-blind round-robin hash; fold `0`의 12 case |
+| models | 고정 `llama3-8b-inst`, `qwen2.5-7b-inst`; 한 paired allocation에서 동시 시작 |
+| job/run | `odeedit_mv1mix_c1_pair_v1`; `mv1mix_llama_c1_v1`, `mv1mix_qwen_c1_v1` |
+| q | `1/256`; adaptive/static/uniform/ordered-global-alpha exact equal-`C` |
+| primary | `D_mi=P_mi(score_mix)-P_mi(frozen_static_mix)` |
+| static input | D0+D1 17개 feature-only frozen policy와 exact policy hash |
+| forecast input | D0+D1 calibration-only finite-step transfer policy; confirmatory outcome 사용 금지 |
+
+Outcome arm은 exact order
+`score_mix`, `frozen_static_mix`, `uniform`, `ordered_global_alpha`,
+`native_memit_full`, `no_op_replay`다. 기존 D0/D1의 direct-z, covariance,
+synchronous/ordered factors와 six-direction central-FD probe를 event당 한 번만
+만들어 재사용한다. Static arm 하나 때문에 direct-z/proposal/covariance를 다시
+계산하지 않는다. `native_memit_full`은 contextual unmatched-budget reference,
+`no_op_replay`는 numerical envelope이며 primary에 섞지 않는다.
+
+Calibration-only 기대효과 forecast는 17개 event에서
+`x_AU=d(score_adaptive-score_uniform)`와 realized adaptive-uniform gain의
+사전 명세된 non-negative zero-intercept robust transfer `beta_m`을 fit한다.
+각 calibration event의 adaptive-static structural gap은 그 event를 뺀
+feature-only static weight로 계산해 in-sample optimism을 줄인다. C1에서는
+outcome 전에 다음을 action bundle과 receipt에 고정한다.
+
+```text
+x_AS,mi = d_mi (w_adaptive,mi - w_static,m)^T s_mi
+forecast_AS,mi = beta_m x_AS,mi
+```
+
+이는 예상되는 local realized progress gap이지 benchmark accuracy,
+retention, long-horizon 또는 완성된 ODE-Edit gain이 아니다.
+
+C1의 model별 replay envelope는 D0+D1+C1의 valid no-op absolute progress로
+`e_m=max(1e-12,max(abs(no-op)))`를 사용한다. Model별 summary는 primary mean,
+20% trimmed mean, median, positive-sign fraction, paired bootstrap CI,
+finite-panel oracle와 forecast calibration을 모두 낸다. CI endpoint 하나는
+hard gate가 아니다.
+
+- **pair clear continue**: 양 model 모두 `mean(D)>e_m`이고,
+  `trimmed mean>e_m`, `median>e_m`, `positive sign>=7/12` 중 하나 이상을
+  만족한다.
+- **architecture-conditional**: 한 model은 clear이고 다른 model의 mean이
+  calibration forecast residual envelope보다 심하게 음수가 아니며 median과
+  trimmed mean이 동시에 반대 방향이 아니면, 같은 고정 policy로 fold `1`
+  12 case 한 번만 허용한다. Cross-model claim은 금지한다.
+- **gray**: mean/robust summary가 엇갈림, sign `6/12`, CI가 0을 가로지름,
+  또는 model 방향이 calibration uncertainty 안에서 다른 경우 fold `1`
+  한 번만 열어 aggregate 24 case로 재판정한다. Retuning은 금지한다.
+- **routing kill**: 두 model 모두 mean과 20% trimmed mean이 `<=e_m`,
+  positive-sign fraction이 `<=0.50`, 그리고 locked matched-`C` panel
+  `{adaptive,static,uniform,ordered_global_alpha}`의 mean oracle opportunity도
+  `<=e_m`일 때만 발동한다.
+- Adaptive만 null이고 finite-panel oracle이 남으면 연구 전체를 kill하지
+  않고 controller/static-policy pivot으로 판정한다.
+
+Clear continue도 즉시 MV-2 또는 ODE claim을 승인하지 않는다. 같은 controller와
+threshold를 바꾸지 않은 untouched 20-case replication을 먼저 열고, primary
+방향이 재현될 때만 최소 MV-2 stale-vs-refreshed diagnostic으로 진행한다.
