@@ -773,3 +773,41 @@ Motivation 진단이다.
   job ID/state/resource, child 동시 시작, raw integrity/hash, model별 compact
   analysis, pair red post-run, no-peer artifact broadcast 예외를 위 완료
   경로에 기록
+
+## Pre-run env-parser repair retry 보충
+
+- repo/protocol에서 확인한 사실:
+  original job `15700`은 `00:00:03`, `FAILED 1:0`이며 scientific runner와
+  output 생성 전에 canonical session env의 quoted `Sol Ultra` 값을 새
+  wrapper가 거부했다. sibling은 pair fail-fast로 종료됐다.
+- 허용 write path:
+  기존 qstep raw/log/state path와 새 one-shot marker
+  `local/state/slurm-submissions/session01_motivation/qstep4_pair_v1_retry1.submitted/`
+- Slurm 제출 허용 여부:
+  `audits/global/2026-07-31-session01-quarter-step-env-parser-repair-preflight.md`
+  exact `PASS`, clean pushed main, original marker numeric ID와 exact Slurm
+  `FAILED`, no canonical outputs/active qstep job, session/cap 재검증 뒤 같은
+  helper retry1 1회만 `allowed`
+- GPU/memory cap:
+  변경 없음. server1 cap `3`, retry parent `2 GPU / 130000M`; overflow면
+  pending
+- red-team gate:
+  exact 두 `Sol Ultra` quoted assignment만 허용하고 arbitrary quote/expansion은
+  거부, 두 profile 값을 load 후 재검사, scientific code/contract diff 없음
+- artifact broadcast/완료 보고:
+  기존 no-peer 예외 및 동일 completion path 사용; original failure와 retry
+  job ID를 함께 보고
+- 금지 사항:
+  env 파일 수정, generic quote parser 도입, scientific retuning, manual
+  untracked sbatch, original marker/log 삭제, 다른 repo/session/job 조작
+- 예상 산출물:
+  retry child 둘이 parser/session/Git gate를 통과해 동시에 scientific
+  runner로 진입하고 기존 exact qstep 산출물을 생성
+- 중단 조건:
+  original state가 exact `FAILED`가 아님, retry marker/output/active job
+  중복, parser/profile/session/cap mismatch, child nonzero
+- GH 직접 retry 사유/명령/영향:
+  SH 부재와 사용자 time-critical 지시 아래 scientific pre-run wrapper
+  defect만 고친다. exact command는
+  `project/run_scripts/submit_session01_qstep4_pair_server1.sh`, 영향은 동일
+  server1 pair allocation 한 건과 새 retry marker뿐이다.

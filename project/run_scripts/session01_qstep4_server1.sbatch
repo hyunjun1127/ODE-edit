@@ -38,12 +38,19 @@ load_allowlisted_env() {
   local line key value
   while IFS= read -r line || [[ -n "${line}" ]]; do
     [[ -z "${line}" || "${line}" == \#* ]] && continue
-    [[ "${line}" =~ ^([A-Z][A-Z0-9_]*)=([A-Za-z0-9_./:@+-]+)$ ]] || {
+    if [[ "${line}" =~ ^([A-Z][A-Z0-9_]*)=([A-Za-z0-9_./:@+-]+)$ ]]; then
+      key="${BASH_REMATCH[1]}"
+      value="${BASH_REMATCH[2]}"
+    elif [[ "${line}" == "ODEEDIT_REQUIRED_CODEX_MODEL_PROFILE='Sol Ultra'" ]]; then
+      key="ODEEDIT_REQUIRED_CODEX_MODEL_PROFILE"
+      value="Sol Ultra"
+    elif [[ "${line}" == "ODEEDIT_CONFIRMED_CODEX_MODEL_PROFILE='Sol Ultra'" ]]; then
+      key="ODEEDIT_CONFIRMED_CODEX_MODEL_PROFILE"
+      value="Sol Ultra"
+    else
       echo "environment file contains an unsafe assignment" >&2
       exit 2
-    }
-    key="${BASH_REMATCH[1]}"
-    value="${BASH_REMATCH[2]}"
+    fi
     [[ ",${allowed_keys}," == *",${key},"* ]] || {
       echo "environment file contains a non-allowlisted key" >&2
       exit 2
@@ -100,7 +107,7 @@ load_allowlisted_env \
   "EASYEDIT_ROOT,KR_UV_BIN,HF_HOME,HF_HUB_CACHE,HF_HUB_OFFLINE,TRANSFORMERS_OFFLINE,PYTHONPATH"
 load_allowlisted_env \
   "${SESSION_ENV}" \
-  "ODEEDIT_REPOSITORY_ID,ODEEDIT_REPOSITORY_CWD,ODEEDIT_CODEX_SESSION_ID,ODEEDIT_CURRENT_SERVER"
+  "ODEEDIT_REPOSITORY_ID,ODEEDIT_REPOSITORY_CWD,ODEEDIT_CODEX_SESSION_ID,ODEEDIT_REQUIRED_CODEX_MODEL_PROFILE,ODEEDIT_CONFIRMED_CODEX_MODEL_PROFILE,ODEEDIT_CURRENT_SERVER"
 
 [[ "${EASYEDIT_ROOT:-}" == "/mnt/raid5/janghj/EasyEdit" ]] || exit 2
 [[ "${KR_UV_BIN:-}" == "uv" ]] || exit 2
@@ -111,6 +118,8 @@ load_allowlisted_env \
 [[ "${ODEEDIT_REPOSITORY_CWD:-}" == "${REPO_ROOT}" ]] || exit 2
 [[ "${ODEEDIT_REPOSITORY_ID:-}" == "hyunjun1127/ODE-edit" ]] || exit 2
 [[ "${ODEEDIT_CODEX_SESSION_ID:-}" == "${EXPECTED_SESSION_ID}" ]] || exit 2
+[[ "${ODEEDIT_REQUIRED_CODEX_MODEL_PROFILE:-}" == "Sol Ultra" ]] || exit 2
+[[ "${ODEEDIT_CONFIRMED_CODEX_MODEL_PROFILE:-}" == "Sol Ultra" ]] || exit 2
 [[ "${ODEEDIT_CURRENT_SERVER:-}" == "server1" ]] || exit 2
 [[ "$("${GIT_BIN}" rev-parse --show-toplevel)" == "${REPO_ROOT}" ]] || exit 2
 [[ "$("${GIT_BIN}" branch --show-current)" == "main" ]] || exit 2
