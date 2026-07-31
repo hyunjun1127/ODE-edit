@@ -2,9 +2,11 @@
 
 ``FrozenDirectZ`` deliberately binds its tensor artifact to the model snapshot
 where EasyEdit computed it.  MV-2 must keep that semantic target fixed while
-relinearizing factor directions at W1.  This module records that distinction
-explicitly: the target remains a W0 artifact, while an immutable ancestry
-receipt authorizes using the same bytes at one verified descendant.
+relinearizing factor directions at W1.  The quarter-step Motivation diagnostic
+extends the same invariant to four verified descendants.  This module records
+that distinction explicitly: the target remains a W0 artifact, while an
+immutable ancestry receipt authorizes using the same bytes at an exact
+descendant.
 
 The lineage contains hashes and scalar metadata only.  It never serializes
 direct-z values, target tokens, prompts, or model weights.
@@ -31,10 +33,20 @@ from .hooks import TemporaryLowRankApplication, tensor_sha256
 
 
 FROZEN_TARGET_LINEAGE_SCHEMA = "ode-edit-frozen-target-lineage/v1"
+QUARTER_STEP_LINEAGE_SCHEMA = "ode-edit-quarter-step-target-lineage/v1"
 _ALLOWED_HOPS = {
     ("h0_sham", 0.0),
     ("partial_joint", 0.5),
 }
+_QUARTER_STEP_LABELS = frozenset(
+    {
+        "common_step_1",
+        *(f"refreshed_step_{index}" for index in range(2, 5)),
+        *(f"coefficient_step_{index}" for index in range(2, 5)),
+        *(f"fixed_step_{index}" for index in range(2, 5)),
+        *(f"native_step_{index}" for index in range(1, 5)),
+    }
+)
 
 
 def _full_sha256(name: str, value: Any) -> str:
@@ -129,7 +141,9 @@ class TargetLineageHop:
 
     def __post_init__(self) -> None:
         scale = _finite_scale(self.step_scale)
-        if (self.label, scale) not in _ALLOWED_HOPS:
+        if (self.label, scale) not in _ALLOWED_HOPS and not (
+            self.label in _QUARTER_STEP_LABELS and scale == 0.25
+        ):
             raise ContractError("target-lineage hop is outside the fixed MV-2 envelope")
         for field_name in (
             "parent_snapshot_id",
@@ -159,8 +173,8 @@ class TargetLineageHop:
         )
         if scale == 0.0 and self.child_state_id != self.parent_state_id:
             raise ContractError("h=0 lineage must preserve exact state identity")
-        if scale == 0.5 and self.child_state_id == self.parent_state_id:
-            raise ContractError("h=1/2 lineage must reach a distinct descendant state")
+        if scale in (0.25, 0.5) and self.child_state_id == self.parent_state_id:
+            raise ContractError("positive-step lineage must reach a distinct descendant state")
         object.__setattr__(self, "step_scale", scale)
         object.__setattr__(self, "child_parameter_hashes", normalized)
 
@@ -183,7 +197,12 @@ class TargetLineageHop:
 
 @dataclass(frozen=True, slots=True)
 class FrozenTargetLineage:
-    """Identity of a W0 target plus a verified zero- or one-hop ancestry."""
+    """Identity of a W0 target plus a verified bounded ancestry.
+
+    The original MV-2 envelope remains exactly zero or one ``h=1/2`` hop.  The
+    independent quarter-step envelope permits exactly chained ``h=1/4`` hops,
+    up to four.  Mixing the two envelopes is rejected.
+    """
 
     model_id: str
     context_id: str
@@ -251,8 +270,19 @@ class FrozenTargetLineage:
             for name, digest in origin_hashes
         )
         hops = tuple(self.hops)
-        if len(hops) > 1:
-            raise ContractError("MV-2 frozen target permits at most one lineage hop")
+        legacy_envelope = bool(
+            len(hops) <= 1
+            and all((hop.label, hop.step_scale) in _ALLOWED_HOPS for hop in hops)
+        )
+        quarter_envelope = bool(
+            1 <= len(hops) <= 4
+            and all(
+                hop.label in _QUARTER_STEP_LABELS and hop.step_scale == 0.25
+                for hop in hops
+            )
+        )
+        if hops and not (legacy_envelope or quarter_envelope):
+            raise ContractError("frozen-target lineage mixes or exceeds its fixed envelope")
         if hops:
             hop = hops[0]
             if (
@@ -262,6 +292,14 @@ class FrozenTargetLineage:
                 != tuple(name for name, _digest in normalized_origin)
             ):
                 raise ContractError("lineage hop does not descend from the target origin")
+            for previous, current in zip(hops, hops[1:]):
+                if (
+                    current.parent_snapshot_id != previous.child_snapshot_id
+                    or current.parent_state_id != previous.child_state_id
+                    or tuple(name for name, _digest in current.child_parameter_hashes)
+                    != tuple(name for name, _digest in normalized_origin)
+                ):
+                    raise ContractError("quarter-step lineage is not an exact chain")
         object.__setattr__(self, "origin_parameter_hashes", normalized_origin)
         object.__setattr__(self, "hops", hops)
 
@@ -332,13 +370,25 @@ class FrozenTargetLineage:
     ) -> "FrozenTargetLineage":
         """Construct one already-bound hop after checking its observed state."""
 
-        if self.hops:
+        legacy_step = (label, step_scale) in _ALLOWED_HOPS
+        quarter_step = label in _QUARTER_STEP_LABELS and step_scale == 0.25
+        if legacy_step and self.hops:
             raise ContractError("MV-2 lineage cannot be extended beyond one hop")
-        if (
-            parent_snapshot.snapshot_id != self.origin_snapshot_id
-            or parent_snapshot.state_id != self.origin_state_id
+        if quarter_step and (
+            len(self.hops) >= 4
+            or any(
+                hop.label not in _QUARTER_STEP_LABELS or hop.step_scale != 0.25
+                for hop in self.hops
+            )
         ):
-            raise ContractError("lineage parent is not the frozen target origin")
+            raise ContractError("quarter-step lineage cannot exceed or mix four hops")
+        if not (legacy_step or quarter_step):
+            raise ContractError("lineage step is outside its fixed envelope")
+        if (
+            parent_snapshot.snapshot_id != self.terminal_snapshot_id
+            or parent_snapshot.state_id != self.terminal_state_id
+        ):
+            raise ContractError("lineage parent is not the current verified terminal")
         for field_name in ("model_id", "context_id", "request_ids", "hparams_sha256"):
             if getattr(parent_snapshot, field_name) != getattr(child_snapshot, field_name):
                 raise ContractError(f"lineage changed immutable {field_name}")
@@ -394,7 +444,7 @@ class FrozenTargetLineage:
             target_token_shape=self.target_token_shape,
             target_token_dtype=self.target_token_dtype,
             origin_parameter_hashes=self.origin_parameter_hashes,
-            hops=(hop,),
+            hops=(*self.hops, hop),
         )
 
     def derive_h0(self, *, snapshot: SnapshotManifest) -> "FrozenTargetLineage":
@@ -513,6 +563,63 @@ class FrozenTargetLineage:
             observed_child_parameter_hashes=observed,
         )
 
+    def derive_quarter_step(
+        self,
+        *,
+        parent_snapshot: SnapshotManifest,
+        child_snapshot: SnapshotManifest,
+        application: TemporaryLowRankApplication,
+        label: str,
+    ) -> "FrozenTargetLineage":
+        """Bind one exact ``h=1/4`` transition for the K=4 diagnostic.
+
+        C-distance matching is checked by the runner against the immutable
+        covariance.  This method owns only ancestry, action-byte, and observed
+        child-state identity.
+        """
+
+        if label not in _QUARTER_STEP_LABELS:
+            raise ContractError("quarter-step lineage label is outside the lock")
+        if type(application) is not TemporaryLowRankApplication:
+            raise ContractError("quarter-step lineage requires canonical application")
+        if application.scale != 1.0:
+            raise ContractError("quarter-step proposal must be pre-scaled and applied at one")
+        proposal = application.proposal
+        if not isinstance(proposal, MemitFactorProposal):
+            raise ContractError("quarter-step lineage requires MemitFactorProposal")
+        if (
+            proposal.snapshot.state_id != parent_snapshot.state_id
+            or proposal.snapshot.model_id != parent_snapshot.model_id
+            or proposal.snapshot.context_id != parent_snapshot.context_id
+            or proposal.snapshot.request_ids != parent_snapshot.request_ids
+            or proposal.snapshot.hparams_sha256 != parent_snapshot.hparams_sha256
+            or _parameter_hashes(proposal.snapshot) != _parameter_hashes(parent_snapshot)
+        ):
+            raise ContractError("quarter-step proposal does not start at its lineage parent")
+        factor_names = tuple(factor.weight_name for factor in proposal.factors)
+        parent_hashes = _parameter_hashes(parent_snapshot)
+        if (
+            not factor_names
+            or len(set(factor_names)) != len(factor_names)
+            or not set(factor_names).issubset(parent_hashes)
+            or any(
+                factor.expected_weight_sha256 != parent_hashes[factor.weight_name]
+                for factor in proposal.factors
+            )
+        ):
+            raise ContractError("quarter-step factors are outside the lineage parent")
+        observed = application.applied_hashes
+        if set(observed) != set(factor_names):
+            raise ContractError("quarter-step application receipt is incomplete")
+        return self._derive_verified(
+            parent_snapshot=parent_snapshot,
+            child_snapshot=child_snapshot,
+            action_hash=proposal_direction_hash(proposal),
+            step_scale=0.25,
+            label=label,
+            observed_child_parameter_hashes=observed,
+        )
+
     def assert_target_tokens(self, target_token_ids: torch.Tensor) -> None:
         digest, shape, dtype = _token_identity(target_token_ids)
         if (
@@ -570,8 +677,19 @@ class FrozenTargetLineage:
             self.assert_target_tokens(target_token_ids)
 
     def to_dict(self, *, include_id: bool = True) -> dict[str, Any]:
+        quarter_envelope = bool(
+            self.hops
+            and all(
+                hop.label in _QUARTER_STEP_LABELS and hop.step_scale == 0.25
+                for hop in self.hops
+            )
+        )
         payload: dict[str, Any] = {
-            "schema_version": FROZEN_TARGET_LINEAGE_SCHEMA,
+            "schema_version": (
+                QUARTER_STEP_LINEAGE_SCHEMA
+                if quarter_envelope
+                else FROZEN_TARGET_LINEAGE_SCHEMA
+            ),
             "model_id": self.model_id,
             "context_id": self.context_id,
             "request_ids": list(self.request_ids),

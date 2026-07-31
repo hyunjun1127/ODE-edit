@@ -1,4 +1,5 @@
 import unittest
+from contextlib import ExitStack
 
 import torch
 
@@ -244,6 +245,63 @@ class FrozenTargetLineageTests(unittest.TestCase):
         sham = lineage.derive_h0(snapshot=self.origin)
         with self.assertRaises(ContractError):
             sham.derive_h0(snapshot=self.origin)
+
+    def test_exact_four_quarter_hops_chain_and_fifth_or_mixed_hop_fail(self):
+        lineage = self.lineage()
+        current = self.origin
+        labels = (
+            "common_step_1",
+            "refreshed_step_2",
+            "refreshed_step_3",
+            "refreshed_step_4",
+        )
+        with ExitStack() as stack:
+            for index, label in enumerate(labels, start=1):
+                factors = tuple(
+                    LowRankFactor(
+                        weight_name=factor.weight_name,
+                        left=factor.left,
+                        right=0.25 * factor.right,
+                        expected_weight_sha256=current.parameter(
+                            factor.weight_name
+                        ).sha256,
+                        native_update_transposed=factor.native_update_transposed,
+                    )
+                    for factor in self.proposal.factors
+                )
+                proposal = MemitFactorProposal(
+                    snapshot=current,
+                    factors=factors,
+                    semantics=ProposalSemantics.SYNCHRONOUS_FROZEN_SNAPSHOT,
+                    solver_name=f"quarter-{index}",
+                    residual_denominator=2,
+                )
+                applied = stack.enter_context(
+                    TemporaryLowRankApplication(self.model, proposal)
+                )
+                child = capture_snapshot(
+                    self.model,
+                    model_id="toy",
+                    requests=(self.request,),
+                    context_id=self.contexts.manifest_id,
+                    hparams=self.hparams,
+                    weight_names=self.names,
+                    provenance_ids=("b" * 64,),
+                )
+                lineage = lineage.derive_quarter_step(
+                    parent_snapshot=current,
+                    child_snapshot=child,
+                    application=applied,
+                    label=label,
+                )
+                current = child
+            self.assertEqual(len(lineage.hops), 4)
+            self.assertEqual(
+                lineage.to_dict()["schema_version"],
+                "ode-edit-quarter-step-target-lineage/v1",
+            )
+            with self.assertRaises(ContractError):
+                lineage.derive_h0(snapshot=current)
 
     def make_wrong_direction(self):
         factors = tuple(

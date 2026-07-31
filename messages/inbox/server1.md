@@ -673,3 +673,103 @@ calibration `[8:20]` 12 case/model을 동시에 실행해 calibration 17 case를
 - 후속 보고:
   retry3 job ID/state/resource, safe trace 여부, model별 독립 analysis,
   pair red post-run, no-peer broadcast exception
+
+---
+
+# Motivation quarter-step pair instruction — `session01-qstep4-pair-v1`
+
+## 목적과 배경
+
+- proposal에서 온 내용:
+  ODE-Edit의 Motivation인 경로 중 방향 재계산 이점을 작고 엄격하게
+  검증한다.
+- repo/protocol에서 확인한 사실:
+  이전 MV-2의 첫 state treatment는 native C-distance의 약 `D/32`였고
+  Llama/Qwen direction 결론이 갈렸다. 사용자가 이 under-manipulation
+  가능성을 검토해 native update를 약 1/4씩 나누도록 명시했다.
+- GH 추정:
+  더 큰 `D/4` state 변화라면 실제 direction rotation 신호와 수치 잡음을
+  구분하기 쉬워질 수 있다.
+- 사용자 확인 필요:
+  없음. 동시 Llama/Qwen 제출과 분석까지 명시적으로 요청됐다.
+
+정확한 scientific contract는
+`plans/global/2026-07-31-session01-quarter-step-implementation-spec.md`를
+따른다. 기존 MV-2 결과를 덮어쓰지 않는 fresh rank `[112:124]` 독립
+Motivation 진단이다.
+
+## 실행 권한 envelope
+
+- 허용 write path:
+  - raw:
+    `local/results/raw/session01_motivation/qstep4_llama_f0_v1/`,
+    `local/results/raw/session01_motivation/qstep4_qwen_f0_v1/`
+  - compact local analysis:
+    `local/results/analysis/session01_motivation/qstep4_{llama,qwen}_f0_v1/`
+  - logs/state:
+    `local/logs/slurm/session01_motivation/`,
+    `local/state/slurm-submissions/session01_motivation/qstep4_pair_v1.submitted/`
+  - small completion report/audit는 아래 완료 보고 경로만 허용
+- Slurm 제출 허용 여부:
+  `audits/global/2026-07-31-session01-quarter-step-execution-preflight.md`의
+  exact `PASS`, clean pushed `main`, session/cap check 뒤 GH one-shot helper
+  `project/run_scripts/submit_session01_qstep4_pair_server1.sh` 1회만
+  `allowed`; 미등록 SH의 별도 submit/retry/cancel은 `not allowed`
+- GPU cap:
+  server1 cap `3`; 이번 parent는 `2 GPU / 16 CPU / 130000M /
+  12:00:00`, child별 `1 GPU / 8 CPU / 65000M`; active project GPU와 합이
+  3을 넘거나 memory cap을 넘으면 제출하지 않고 pending
+- red-team gate 통과 조건:
+  fresh-case disjointness, direct-z 1회 고정, exact four-hop lineage,
+  per-hop `D/4`/`E_native/16`, probe `D/64`, receipt-before-outcome,
+  no best-hop selection, native one-shot/split4 control, full tests와 shell
+  syntax가 모두 pass해야 한다. `warn`은 GH가 기록한 비차단 항목만 진행,
+  `block` 또는 residual P1/P2면 중단
+- artifact broadcast 의무:
+  현재 active peer clone/SH가 없으므로 no-peer 예외를 완료 보고에
+  명시한다. peer 활성화 뒤에는 protocol의
+  `scripts/rsync-artifact-broadcast.sh`만 사용하며 다른 repo/session을
+  건드리지 않는다.
+- 완료 보고 경로:
+  `messages/server-heads/server1/2026-07-31.md`,
+  `experiment-reports/global/2026-07-31-qstep4-llama-f0-v1-analysis.md`,
+  `experiment-reports/global/2026-07-31-qstep4-qwen-f0-v1-analysis.md`,
+  `audits/global/2026-07-31-qstep4-pair-v1.postrun.md`
+- Codex session boundary:
+  server1 SH session ID는 아직 **미등록**이며 SH가 생기면 해당 server별
+  registry에 별도 ID를 등록해야 한다. 요구 profile은 primary SH
+  `Sol Ultra` (`gpt-5.6-sol`, `ultra`), CWD
+  `/mnt/raid5/janghj/ODE-edit`, repository
+  `hyunjun1127/ODE-edit`; 불일치하거나 다른 repo session이면 즉시 중단.
+  이번 GH one-shot 실행의 session ID는
+  `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`이다. delegated 분석 agent는
+  runtime metadata로 확인된 `Terra Ultra`만 허용한다.
+- 금지 사항:
+  EasyEdit/cache/dataset/covariance/projector 수정·재계산·download, raw
+  Git 유입, case/model/layer/K/hop/probe/seed/bootstrap/threshold 변경,
+  partial-result rescue, best-hop 선택, AlphaEdit 혼합, 다른 repo/session/job
+  조작, credential/private connection 정보 기록
+- 예상 산출물:
+  model별 exact 12 event, 12 feature/action/receipt/analysis row, 156 outcome,
+  technical-valid compact analysis, step-4 A4-B4/B4-C4/A4-C4,
+  A4-native proxy, native split noise control, pair post-run verdict
+- 중단 조건:
+  output/marker/active job 중복, dirty/unpushed main, session/cap mismatch,
+  child 비동시 시작, 한 child nonzero, lineage/C budget/rollback/firewall/
+  receipt/native-control 위반, unsafe raw leakage, 12시간 또는 resource cap
+  초과
+
+## GH 직접 one-shot 제출 예외 기록
+
+- 사유:
+  server1 SH가 아직 없고 사용자가 빠른 Llama/Qwen 동시 제출과 분석을
+  명시했다. 이는 protocol 524--527행의 explicit user/time-critical 예외다.
+- exact submit command:
+  `project/run_scripts/submit_session01_qstep4_pair_server1.sh`
+- 영향 범위:
+  server1에서 ODE-Edit parent allocation 한 건(`2 GPU / 16 CPU /
+  130000M`)과 위 explicit ignored local output/log/state path만 사용
+- 후속 보고 경로:
+  job ID/state/resource, child 동시 시작, raw integrity/hash, model별 compact
+  analysis, pair red post-run, no-peer artifact broadcast 예외를 위 완료
+  경로에 기록

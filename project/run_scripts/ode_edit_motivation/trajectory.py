@@ -82,12 +82,18 @@ def transport_fixed_proposal(
         or not isinstance(descendant_snapshot, SnapshotManifest)
     ):
         raise ContractError("fixed-basis transport requires synchronous proposals")
-    if (
-        type(frozen_target_lineage) is not FrozenTargetLineage
-        or len(frozen_target_lineage.hops) != 1
-        or frozen_target_lineage.hops[0].label != "partial_joint"
-        or frozen_target_lineage.hops[0].step_scale != 0.5
-    ):
+    if type(frozen_target_lineage) is not FrozenTargetLineage:
+        raise ContractError("fixed-basis transport requires canonical frozen lineage")
+    legacy_lineage = bool(
+        len(frozen_target_lineage.hops) == 1
+        and frozen_target_lineage.hops[0].label == "partial_joint"
+        and frozen_target_lineage.hops[0].step_scale == 0.5
+    )
+    quarter_lineage = bool(
+        1 <= len(frozen_target_lineage.hops) <= 4
+        and all(hop.step_scale == 0.25 for hop in frozen_target_lineage.hops)
+    )
+    if not (legacy_lineage or quarter_lineage):
         raise ContractError("fixed-basis transport requires a verified partial lineage")
     frozen_target_lineage.assert_terminal_state(descendant_snapshot)
     if (
