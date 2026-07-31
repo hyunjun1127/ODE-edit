@@ -1,0 +1,157 @@
+{
+  "schema_version": "ode-edit-quarter-step-single-model-analysis-summary/v1",
+  "scope": {
+    "session_phase": "motivation",
+    "model_alias": "qwen2.5-7b-inst",
+    "run_id": "qstep4_qwen_f0_v1",
+    "claim_status": "mechanism_diagnostic_only",
+    "pair_level_decision_computed": false,
+    "method_or_benchmark_gain_claimed": false
+  },
+  "run_completion": {
+    "slurm_parent_job": "15701",
+    "slurm_child_step": "15701.1",
+    "slurm_state": "COMPLETED",
+    "slurm_exit_code": "0:0",
+    "elapsed": "07:58:40",
+    "max_rss": "15448700K",
+    "run_status": "completed",
+    "all_pass": true,
+    "expected_counts_exact": true,
+    "all_rollbacks_exact": true,
+    "planned_case_count": 12,
+    "attempted_case_count": 12,
+    "pass_count": 12,
+    "failure_count": 0,
+    "artifact_counts": {
+      "features": 12,
+      "actions": 12,
+      "receipts": 12,
+      "outcomes": 156,
+      "analysis_cases": 12,
+      "events": 12,
+      "direct_z": 12
+    }
+  },
+  "locked_contract": {
+    "fresh_rank_slice": "[112:124]",
+    "selection_manifest_id": "4a8da8d6267fe77b11d0875a5b38e2d34c02d0dfc7bf73113164ede81ce09f2c",
+    "k": 4,
+    "hop_fraction_of_native_c_distance": 0.25,
+    "per_hop_fraction_of_native_c_energy": 0.0625,
+    "probe_fraction_of_native_c_distance": 0.015625,
+    "primary_checkpoint": 4,
+    "best_hop_selection_forbidden": true,
+    "practical_envelope": 0.0001,
+    "bootstrap_seed": 20260802,
+    "bootstrap_resamples": 4000
+  },
+  "technical_validity": {
+    "pass": true,
+    "itd_denominator": 12,
+    "failed_case_count": 0,
+    "failures": [],
+    "native_split_application_gap_mean": 0.0000011324882507324219,
+    "native_split_all_within_practical_envelope": true
+  },
+  "locked_analyzer_decision": {
+    "verdict": "DIRECTION_REFRESH_CLEAR",
+    "verdict_ko": "방향 재계산 및 총 refresh 기대효과가 명확",
+    "gh_qualification": "방향·계수·총 refresh의 mean CI가 모두 0보다 크고 step별 효과도 단조 증가해 이 모델에서는 강한 mechanism 신호다."
+  },
+  "primary_effects": {
+    "direction_refresh_A4_minus_B4": {
+      "mean": 1.65900685886542,
+      "trimmed_mean_10pct": 1.5528292775154113,
+      "median": 1.747012972831726,
+      "positive_count": 11,
+      "negative_count": 1,
+      "within_noise_count": 0,
+      "bootstrap_mean_ci95": [0.9747604926427206, 2.405700773000717]
+    },
+    "coefficient_refresh_B4_minus_C4": {
+      "mean": 0.8742061704397202,
+      "trimmed_mean_10pct": 0.8094235301017761,
+      "median": 0.7670102119445801,
+      "positive_count": 11,
+      "negative_count": 1,
+      "within_noise_count": 0,
+      "bootstrap_mean_ci95": [0.530975341796875, 1.2516948928435643]
+    },
+    "total_refresh_A4_minus_C4": {
+      "mean": 2.53321302930514,
+      "trimmed_mean_10pct": 2.3076799631118776,
+      "median": 2.514023184776306,
+      "positive_count": 12,
+      "negative_count": 0,
+      "within_noise_count": 0,
+      "bootstrap_mean_ci95": [1.618285636107127, 3.5322700838247933]
+    }
+  },
+  "mean_progress_trajectory": {
+    "refreshed_direction_refreshed_coefficient_A": [8.257650022705397, 12.373297194639841, 13.784771005312601, 14.654012759526571],
+    "fixed_direction_refreshed_coefficient_B": [8.257650022705397, 11.583309332529703, 12.610321715474129, 12.99500590066115],
+    "fixed_direction_fixed_coefficient_C": [8.257650022705397, 11.258651369561752, 11.987685521443685, 12.12079973022143],
+    "direction_effect_A_minus_B": [0.0, 0.7899878621101384, 1.1744492898384724, 1.65900685886542]
+  },
+  "outcome_free_geometry": {
+    "metric": "W0-to-current refreshed-direction C-cosine across 12 cases x 5 layers",
+    "step_2": {"n": 60, "mean": 0.8537997495424255, "median": 0.9141354509350492, "min": 0.4828616686613042},
+    "step_3": {"n": 60, "mean": 0.7150049720418129, "median": 0.775160155235983, "min": 0.3194610611279472},
+    "step_4": {"n": 60, "mean": 0.6269578054159258, "median": 0.698993164263783, "min": 0.15787477841596767}
+  },
+  "native_comparison": {
+    "native_memit_mean_progress": 14.811437626679739,
+    "refreshed_A4_minus_native_mean": -0.15742486715316772,
+    "refreshed_A4_minus_native_median": -0.07221007347106934,
+    "refreshed_A4_minus_native_bootstrap_mean_ci95": [-0.5372057358423868, 0.2757614652315776],
+    "fixed_C4_minus_native_mean": -2.690637896458309,
+    "refresh_recovery_fraction_of_fixed_to_native_gap": 0.9414916190096082,
+    "recovery_fraction_is_proxy_only": true,
+    "beats_native_memit_on_mean": false
+  },
+  "expected_effect_boundary": {
+    "cross_case_outcome_selected_direction_gate_oracle_mean": 1.6661218255758286,
+    "unconditional_direction_refresh_mean": 1.65900685886542,
+    "dynamic_coefficient_mean": 0.8742061704397202,
+    "interpretation": "unconditional direction refresh가 outcome-selected oracle에 거의 도달했지만 teacher-forced utility proxy일 뿐 benchmark gain 예측은 아니다."
+  },
+  "comparison_to_prior_d_over_32_mv2": {
+    "prior_direction_mean": 0.006887376308441162,
+    "current_direction_mean": 1.65900685886542,
+    "interpretation": "D/32 treatment가 실제 회전 효과를 드러내기에는 지나치게 작았다는 under-manipulation 설명을 강하게 지지한다."
+  },
+  "compute": {
+    "controlled_nfe_total": 1176,
+    "proposal_build_count_total": 60,
+    "probe_panel_count_total": 84,
+    "case_wall_seconds_total": 28663.435679178685,
+    "runner_wall_seconds": 28717.6149882935,
+    "gpu_peak_allocated_bytes": 47497015808,
+    "gpu_peak_reserved_bytes": 49853497344,
+    "host_max_rss_kib": 17368268,
+    "visible_gpu_count": 1
+  },
+  "provenance": {
+    "context_id": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
+    "provenance_id": "d247b27edf638b7a9625954e8bf2aeac745b61247230f8bcf733e991a3ed9d16",
+    "artifact_sha256": {
+      "manifest.json": "d447a934d07c89b04320c6e509cd13b75115d1456a3e2b9ff4a0655b22d32438",
+      "features.jsonl": "4d7687e140b50052a027aab69fed746a3db73e6e0647b1396124f6cb500aed6a",
+      "actions.jsonl": "d49fa1484cb1cb455e14b5670c804ac7aa36a3f06dd4561e041231920a94023a",
+      "outcomes.jsonl": "16cc9d10dd9ef8234a904ca23c3f7f80e32d59ab8a7cc8ca79ddf41eb1f9067b",
+      "analysis_cases.jsonl": "c62bf37dad6262c5de092feb10dee434b761e8f1ad19c70f818580bb370bc565",
+      "events.jsonl": "eb794e4effd3802294dbaea5a91e78ffba7c662e35a67d5a590d98e15c84f44a",
+      "summary.json": "4d2101c680226eb68a69127f7dccbbea883c7884f72fe78b5949cf5edac4487a",
+      "local_analysis.json": "4304e5db939f06992288069fbf6c006bd6a22180d7ab62b99c7a2dd9a39d5f63",
+      "local_analysis.md": "b416eedc0b5b6ac5411117ad282c2bca1ea6c4db80d5225403439eda25bebce6"
+    }
+  },
+  "claim_boundary": {
+    "direction_rotation_observed": true,
+    "unconditional_direction_refresh_this_model_supported": true,
+    "ode_edit_method_gain_established": false,
+    "accuracy_or_retention_measured": false,
+    "alphaedit_factorial_tested": false
+  }
+}

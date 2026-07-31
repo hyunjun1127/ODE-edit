@@ -1,0 +1,157 @@
+{
+  "schema_version": "ode-edit-quarter-step-single-model-analysis-summary/v1",
+  "scope": {
+    "session_phase": "motivation",
+    "model_alias": "llama3-8b-inst",
+    "run_id": "qstep4_llama_f0_v1",
+    "claim_status": "mechanism_diagnostic_only",
+    "pair_level_decision_computed": false,
+    "method_or_benchmark_gain_claimed": false
+  },
+  "run_completion": {
+    "slurm_parent_job": "15701",
+    "slurm_child_step": "15701.0",
+    "slurm_state": "COMPLETED",
+    "slurm_exit_code": "0:0",
+    "elapsed": "06:30:51",
+    "max_rss": "9464128K",
+    "run_status": "completed",
+    "all_pass": true,
+    "expected_counts_exact": true,
+    "all_rollbacks_exact": true,
+    "planned_case_count": 12,
+    "attempted_case_count": 12,
+    "pass_count": 12,
+    "failure_count": 0,
+    "artifact_counts": {
+      "features": 12,
+      "actions": 12,
+      "receipts": 12,
+      "outcomes": 156,
+      "analysis_cases": 12,
+      "events": 12,
+      "direct_z": 12
+    }
+  },
+  "locked_contract": {
+    "fresh_rank_slice": "[112:124]",
+    "selection_manifest_id": "4a8da8d6267fe77b11d0875a5b38e2d34c02d0dfc7bf73113164ede81ce09f2c",
+    "k": 4,
+    "hop_fraction_of_native_c_distance": 0.25,
+    "per_hop_fraction_of_native_c_energy": 0.0625,
+    "probe_fraction_of_native_c_distance": 0.015625,
+    "primary_checkpoint": 4,
+    "best_hop_selection_forbidden": true,
+    "practical_envelope": 0.0001,
+    "bootstrap_seed": 20260802,
+    "bootstrap_resamples": 4000
+  },
+  "technical_validity": {
+    "pass": true,
+    "itd_denominator": 12,
+    "failed_case_count": 0,
+    "failures": [],
+    "native_split_application_gap_mean": 0.000001152356465657552,
+    "native_split_all_within_practical_envelope": true
+  },
+  "locked_analyzer_decision": {
+    "verdict": "DIRECTION_REFRESH_CLEAR",
+    "verdict_ko": "방향 재계산 및 총 refresh 기대효과가 명확",
+    "gh_qualification": "최소 사전등록 gate는 통과했지만 방향 효과의 bootstrap CI가 0을 포함하고 step 2와 3에서는 음수이므로 강한 일반화 신호로 해석하지 않는다."
+  },
+  "primary_effects": {
+    "direction_refresh_A4_minus_B4": {
+      "mean": 0.03701850771903992,
+      "trimmed_mean_10pct": 0.08399739265441894,
+      "median": 0.08569002151489258,
+      "positive_count": 8,
+      "negative_count": 4,
+      "within_noise_count": 0,
+      "bootstrap_mean_ci95": [-0.5154292186101278, 0.5683786074320475]
+    },
+    "coefficient_refresh_B4_minus_C4": {
+      "mean": 0.12491782506306966,
+      "trimmed_mean_10pct": 0.10613844394683838,
+      "median": 0.03172755241394043,
+      "positive_count": 8,
+      "negative_count": 4,
+      "within_noise_count": 0,
+      "bootstrap_mean_ci95": [0.006955007712046306, 0.25541843970616657]
+    },
+    "total_refresh_A4_minus_C4": {
+      "mean": 0.1619363327821096,
+      "trimmed_mean_10pct": 0.21407442092895507,
+      "median": 0.17734158039093018,
+      "positive_count": 8,
+      "negative_count": 4,
+      "within_noise_count": 0,
+      "bootstrap_mean_ci95": [-0.4569234053293864, 0.7423725525538126]
+    }
+  },
+  "mean_progress_trajectory": {
+    "refreshed_direction_refreshed_coefficient_A": [2.6018991619348526, 6.338639875253041, 10.752516148611903, 13.263728539148966],
+    "fixed_direction_refreshed_coefficient_B": [2.6018991619348526, 6.6027046491702395, 11.270045541226864, 13.226710031429926],
+    "fixed_direction_fixed_coefficient_C": [2.6018991619348526, 6.562349287172158, 11.179680936038494, 13.101792206366857],
+    "direction_effect_A_minus_B": [0.0, -0.2640647739171982, -0.517529392614961, 0.03701850771903992]
+  },
+  "outcome_free_geometry": {
+    "metric": "W0-to-current refreshed-direction C-cosine across 12 cases x 5 layers",
+    "step_2": {"n": 60, "mean": 0.9239464333397714, "median": 0.9355956460135184, "min": 0.7335484096948539},
+    "step_3": {"n": 60, "mean": 0.7681484628199053, "median": 0.7780925382414356, "min": 0.4963435944397221},
+    "step_4": {"n": 60, "mean": 0.6197968274403404, "median": 0.6328977002111754, "min": 0.37983996489708743}
+  },
+  "native_comparison": {
+    "native_memit_mean_progress": 13.512351950009663,
+    "refreshed_A4_minus_native_mean": -0.24862341086069742,
+    "refreshed_A4_minus_native_median": -0.28154516220092773,
+    "refreshed_A4_minus_native_bootstrap_mean_ci95": [-0.49417845408121747, 0.03985206286112467],
+    "fixed_C4_minus_native_mean": -0.41055974364280523,
+    "refresh_recovery_fraction_of_fixed_to_native_gap": 0.3944281807692214,
+    "recovery_fraction_is_proxy_only": true,
+    "beats_native_memit_on_mean": false
+  },
+  "expected_effect_boundary": {
+    "cross_case_outcome_selected_direction_gate_oracle_mean": 0.371430367231369,
+    "unconditional_direction_refresh_mean": 0.03701850771903992,
+    "dynamic_coefficient_mean": 0.12491782506306966,
+    "interpretation": "oracle은 outcome을 보고 양수 case만 고른 비실현 상한이다. 다음 outcome-free gate의 성능 예측값이나 method gain이 아니다."
+  },
+  "comparison_to_prior_d_over_32_mv2": {
+    "prior_direction_mean": -0.0044080813725789385,
+    "current_direction_mean": 0.03701850771903992,
+    "interpretation": "under-manipulation 가능성은 일부 지지되지만 현재 신호는 비단조이고 불확실하다."
+  },
+  "compute": {
+    "controlled_nfe_total": 1176,
+    "proposal_build_count_total": 60,
+    "probe_panel_count_total": 84,
+    "case_wall_seconds_total": 23410.86291708611,
+    "runner_wall_seconds": 23448.422160468996,
+    "gpu_peak_allocated_bytes": 43071349248,
+    "gpu_peak_reserved_bytes": 46812626944,
+    "host_max_rss_kib": 10770080,
+    "visible_gpu_count": 1
+  },
+  "provenance": {
+    "context_id": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
+    "provenance_id": "273d06af367904aac61931331e6aa2ea09204b0db1f6c7557bca16a9e2c84d2b",
+    "artifact_sha256": {
+      "manifest.json": "0b41a24433d1432ff550e491c546a15f64ff575d1ef061888559ea337aa70467",
+      "features.jsonl": "d8a53a2a07dc0c3ed7d0171f5b6c9274f191d610f9017a01824f297371ca7c9f",
+      "actions.jsonl": "04245767a97c2833e11c460bf3d18b59ec0013db85af4fb5cc9fbe62e0e86ac7",
+      "outcomes.jsonl": "92afbcd9e083274c4ba4bad95cadbb9823f1b11fa88bce41891e9d07658ac0e1",
+      "analysis_cases.jsonl": "8263e4b0afcc2031f47b9b13a82408940253d97879f30bc908428f16af526122",
+      "events.jsonl": "7a5f6cd5420247aa0a287aa748b0e164248509877c308de80cbdd37b8b350788",
+      "summary.json": "cbde5d2b549fc835a4f92bb8959ac940c02c0287876fe2b390398614e2778f2d",
+      "local_analysis.json": "c4c120602a8bbd89335a6655a0d35ca0f71326966bfc47ab307620bb3a166f54",
+      "local_analysis.md": "823c09203496f7024055dadece52c100306b98f616b502c9f8969d4d00df991f"
+    }
+  },
+  "claim_boundary": {
+    "direction_rotation_observed": true,
+    "unconditional_direction_refresh_cross_model_supported": false,
+    "ode_edit_method_gain_established": false,
+    "accuracy_or_retention_measured": false,
+    "alphaedit_factorial_tested": false
+  }
+}
