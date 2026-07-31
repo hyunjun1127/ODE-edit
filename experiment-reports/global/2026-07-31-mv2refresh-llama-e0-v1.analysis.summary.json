@@ -1,0 +1,178 @@
+{
+  "schema_version": "ode-edit.mv2.refresh-analysis.failure.v1",
+  "scope": "single_model",
+  "model_alias": "llama3-8b-inst",
+  "run_id": "mv2refresh_llama_e0_v1",
+  "analysis_status": "REJECTED_BY_LOCKED_ANALYZER",
+  "locked_analyzer": {
+    "script": "project/run_scripts/ode_edit_motivation/mv2_refresh_analysis.py",
+    "runtime": "uv run --offline --no-sync python",
+    "exit_code": 2,
+    "error": "MV-2 analysis rejected: records[0].technical: exact key/order 위반: expected=('exact_panel', 'lineage_exact', 'matched_second_c', 'rollback_exact', 'firewall_pass', 'receipt_before_outcome'), actual=('exact_panel', 'firewall_pass', 'lineage_exact', 'matched_second_c', 'receipt_before_outcome', 'rollback_exact')",
+    "result_object_emitted": false,
+    "posthoc_normalization_or_retune": false
+  },
+  "fixed_contract": {
+    "expected_cases": 12,
+    "arm_order": [
+      "no_op_replay",
+      "h0_sham",
+      "partial_joint",
+      "refreshed_direction_refreshed_coefficient",
+      "fixed_direction_refreshed_coefficient",
+      "fixed_direction_fixed_coefficient"
+    ],
+    "bootstrap_seed": 20260801,
+    "bootstrap_samples": 4000,
+    "practical_effect_floor": 0.0001,
+    "matched_c_rel_tol": 0.00003,
+    "matched_c_abs_tol": 0.00003
+  },
+  "technical_validity": {
+    "pass": false,
+    "blocking_disposition": "BLOCK_TECHNICAL_INVALID",
+    "failure_class": "analysis_input_schema_key_order",
+    "affected_case_count": 12,
+    "expected_technical_key_order": [
+      "exact_panel",
+      "lineage_exact",
+      "matched_second_c",
+      "rollback_exact",
+      "firewall_pass",
+      "receipt_before_outcome"
+    ],
+    "observed_technical_key_order_all_12": [
+      "exact_panel",
+      "firewall_pass",
+      "lineage_exact",
+      "matched_second_c",
+      "receipt_before_outcome",
+      "rollback_exact"
+    ],
+    "effect_analysis_performed": false,
+    "reason": "잠금 분석기가 records[0]의 exact key/order 계약에서 fail-closed로 종료했으므로, raw record의 재정렬·정규화·사후 rescue 없이 효과량 및 scientific verdict를 산출하지 않았다."
+  },
+  "estimands": {
+    "delta_direction": {
+      "definition": "A-B",
+      "status": "not_computed_after_technical_rejection"
+    },
+    "delta_coefficient": {
+      "definition": "B-C",
+      "status": "not_computed_after_technical_rejection"
+    },
+    "delta_total": {
+      "definition": "A-C",
+      "status": "not_computed_after_technical_rejection"
+    },
+    "replay_sham_envelope_e_m": {
+      "definition": "max_i(max(1e-4, abs(no_op), abs(h0_sham-no_op)))",
+      "status": "not_computed_after_technical_rejection"
+    },
+    "paired_bootstrap_ci95": {
+      "seed": 20260801,
+      "samples": 4000,
+      "status": "not_computed_after_technical_rejection"
+    },
+    "refresh_opportunity_oracle": {
+      "definition": "max(A,B,C)-C",
+      "status": "not_computed_after_technical_rejection",
+      "outcome_selected_upper_bound": true
+    },
+    "generic_continuation_gain": {
+      "definition": "max(A,B,C)-partial_joint",
+      "status": "not_computed_after_technical_rejection",
+      "refresh_kill_rescue_allowed": false
+    }
+  },
+  "decision": {
+    "scientific_verdict": null,
+    "blocking_disposition": "BLOCK_TECHNICAL_INVALID",
+    "source": "사전등록된 technical-failure 우선순위; 잠금 분석기 result object는 생성되지 않음",
+    "no_threshold_change_retune_or_rescue": true
+  },
+  "producer_declared_compute_and_resource": {
+    "all_pass": true,
+    "expected_counts_exact": true,
+    "attempted_case_count": 12,
+    "pass_count": 12,
+    "failure_count": 0,
+    "case_compute_contract": {
+      "controlled_nfe_per_case": 43,
+      "proposal_build_count_per_case": 4,
+      "probe_panel_count_per_case": 3
+    },
+    "w1_policy_incremental_cost_per_case": {
+      "A_refreshed_direction_refreshed_coefficient": {
+        "proposal_build_count": 1,
+        "probe_nfe": 12
+      },
+      "B_fixed_direction_refreshed_coefficient": {
+        "proposal_build_count": 0,
+        "probe_nfe": 12
+      },
+      "C_fixed_direction_fixed_coefficient": {
+        "proposal_build_count": 0,
+        "probe_nfe": 0
+      }
+    },
+    "gpu_peak_allocated_bytes": 40718852608,
+    "gpu_peak_reserved_bytes": 43526389760,
+    "host_max_rss_kib": 10761128,
+    "visible_gpu_count": 1,
+    "run_wall_seconds": 8713.666184685193,
+    "status": "생산자 summary의 선언값이며, schema-rejected 분석의 효과 결과로 사용하지 않음"
+  },
+  "slurm_technical_metadata": {
+    "job_step": "15610.0",
+    "job_name": "session01_mv2refresh_server1.sbatch",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "node": "devbox",
+    "allocated_tres": "cpu=8,gres/gpu=1,mem=65000M,node=1",
+    "elapsed": "02:25:16",
+    "total_cpu": "02:32:53",
+    "max_rss": "10196536K",
+    "average_rss": "10196536K"
+  },
+  "provenance": {
+    "provenance_id": "273d06af367904aac61931331e6aa2ea09204b0db1f6c7557bca16a9e2c84d2b",
+    "ode_edit_git_commit": "cdc70db327ff264442cf26641c898bdefed3eaf3",
+    "tracked_worktree_clean": true,
+    "input_analysis_cases": {
+      "path": "local/results/raw/session01_motivation/mv2refresh_llama_e0_v1/analysis_cases.jsonl",
+      "sha256": "c5c698ee7828000e4ecc0c5c15b86f0dca9ba014dbb5b5f678c59f5ab7d23e38"
+    },
+    "input_manifest": {
+      "path": "local/results/raw/session01_motivation/mv2refresh_llama_e0_v1/manifest.json",
+      "sha256": "ad771d07c8980883a534e1b58719c7ee360ed231fdce4a9ac8d407b5d31b0c03"
+    },
+    "selection_manifest_id": "47bb14e437ce193397dd4650a1bb2e98d5f48ba10821dc24c3e2723712741b66",
+    "selection_rank_slice": {
+      "start": 100,
+      "stop": 112,
+      "count": 12
+    },
+    "offline": true,
+    "information_firewall": "only canonical request plus allowed rewrite contexts; evaluation prompts, generations, weights, logits, activations excluded"
+  },
+  "four_category": {
+    "proposal": "fixed direct-z guide 아래 partial update 후 state-dependent non-stationarity의 최소 mechanism diagnostic이다.",
+    "repo_protocol_fact": "canonical backbone은 llama3-8b-inst와 qwen2.5-7b-inst이고, MV-2는 model별 12 case의 고정 six-arm 계약 및 technical fail-closed analyzer를 사용한다.",
+    "gh_estimate": "refreshed direction 대 fixed W0 direction의 equal-C 비교가 ODE/relinearization 필요성의 최소 신호이며, coefficient-only 신호는 fixed-direction dynamic coefficient 방향이다.",
+    "user_confirmation": "별도 확인 없음; 사용자는 Llama/Qwen 동시 MV-2 실행을 지시했고 사전등록 gate를 유지한다."
+  },
+  "result_firewall": {
+    "allowed_input_scope": "Llama analysis_cases.jsonl, manifest.json, summary.json, preregistration/protocol, locked analyzer 및 직접 관련 tests, Slurm job 15610.0 technical metadata",
+    "qwen_raw_or_reports_read": false,
+    "pair_audit_or_peer_report_read": false,
+    "peer_result_used": false,
+    "posthoc_outcome_rescue": false,
+    "no_peer_broadcast_exception": {
+      "recorded": true,
+      "reason": "사전등록된 per-model 독립 분석/result firewall에 따라 이 analyst는 peer raw·report를 읽거나 peer broadcast를 요청·수행하지 않았다.",
+      "scope_limit": "이는 server-head의 ordinary local artifact broadcast 의무를 면제하거나 그 상태를 검증한 기록이 아니다."
+    }
+  },
+  "claim_boundary": "A-C는 teacher-forced rewrite utility의 absolute progress일 뿐 accuracy, retention, full-method 성능 또는 paper claim이 아니다. 본 run은 schema-rejected여 A-C 자체도 산출되지 않았다."
+}

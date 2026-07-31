@@ -1,0 +1,203 @@
+{
+  "schema_version": "ode-edit.mv2.refresh-analysis-rejection.v1",
+  "scope": "single_model",
+  "model_alias": "qwen2.5-7b-inst",
+  "run_id": "mv2refresh_qwen_e0_v1",
+  "analysis_status": {
+    "status": "REJECTED_INPUT_SCHEMA",
+    "technical_validity": "BLOCK",
+    "scientific_verdict": "NOT_EMITTED",
+    "locked_analyzer_exit_code": 2,
+    "reason": "locked analyzer rejected records[0].technical exact key/order before any numerical estimand was calculated",
+    "no_posthoc_normalization_or_rescue": true
+  },
+  "locked_analyzer": {
+    "path": "project/run_scripts/ode_edit_motivation/mv2_refresh_analysis.py",
+    "mode": "offline",
+    "command_contract": {
+      "model_alias": "qwen2.5-7b-inst",
+      "bootstrap_seed": 20260801,
+      "bootstrap_resamples": 4000,
+      "case_count": 12,
+      "practical_effect_floor": 0.0001,
+      "matched_c_rel_tol": 0.00003,
+      "matched_c_abs_tol": 0.00003
+    },
+    "rejection": {
+      "field": "records[0].technical",
+      "expected_key_order": [
+        "exact_panel",
+        "lineage_exact",
+        "matched_second_c",
+        "rollback_exact",
+        "firewall_pass",
+        "receipt_before_outcome"
+      ],
+      "observed_key_order": [
+        "exact_panel",
+        "firewall_pass",
+        "lineage_exact",
+        "matched_second_c",
+        "receipt_before_outcome",
+        "rollback_exact"
+      ],
+      "all_12_rows_share_observed_technical_order": true,
+      "additional_observed_orders": {
+        "lineage": [
+          "context_id",
+          "direct_z_tensor_sha256",
+          "lineage_id",
+          "origin_state_id",
+          "target_token_sha256",
+          "w1_state_id"
+        ],
+        "compute": [
+          "controlled_nfe",
+          "probe_panel_count",
+          "proposal_build_count",
+          "wall_seconds"
+        ]
+      }
+    }
+  },
+  "estimands": {
+    "delta_direction": {
+      "definition": "A-B",
+      "expanded": "P(refreshed_direction_refreshed_coefficient)-P(fixed_direction_refreshed_coefficient)",
+      "status": "not_computed"
+    },
+    "delta_coefficient": {
+      "definition": "B-C",
+      "expanded": "P(fixed_direction_refreshed_coefficient)-P(fixed_direction_fixed_coefficient)",
+      "status": "not_computed"
+    },
+    "delta_total": {
+      "definition": "A-C",
+      "expanded": "P(refreshed_direction_refreshed_coefficient)-P(fixed_direction_fixed_coefficient)",
+      "status": "not_computed"
+    },
+    "e_m": {
+      "definition": "max_i(max(1e-4, abs(P(no_op_replay)), abs(P(h0_sham)-P(no_op_replay))))",
+      "status": "not_computed"
+    },
+    "oracle_refresh_opportunity": {
+      "definition": "max(A,B,C)-C",
+      "status": "not_computed",
+      "outcome_selected_upper_bound": true
+    },
+    "generic_continuation_gain": {
+      "definition": "max(A,B,C)-partial_joint",
+      "status": "not_computed",
+      "refresh_kill_rescue_allowed": false
+    },
+    "paired_bootstrap_mean_ci95": {
+      "seed": 20260801,
+      "resamples": 4000,
+      "status": "not_computed"
+    }
+  },
+  "nfe_wall_cost": {
+    "aggregate_controlled_nfe": "not_emitted because locked analysis rejected before aggregation",
+    "fixed_contract_per_case": {
+      "controlled_nfe": 43,
+      "proposal_build_count": 4,
+      "probe_panel_count": 3
+    },
+    "fixed_w1_policy_incremental_cost_per_case": {
+      "A_refreshed_direction_refreshed_coefficient": {
+        "proposal_build_count": 1,
+        "probe_nfe": 12
+      },
+      "B_fixed_direction_refreshed_coefficient": {
+        "proposal_build_count": 0,
+        "probe_nfe": 12
+      },
+      "C_fixed_direction_fixed_coefficient": {
+        "proposal_build_count": 0,
+        "probe_nfe": 0
+      }
+    },
+    "run_wall_seconds": 11617.540922372602
+  },
+  "resource_and_slurm": {
+    "runner_resource": {
+      "gpu_peak_allocated_bytes": 44776698368,
+      "gpu_peak_reserved_bytes": 47779414016,
+      "host_max_rss_kib": 17354312,
+      "visible_gpu_count": 1,
+      "wall_seconds": 11617.540922372602
+    },
+    "slurm_job_15610_1": {
+      "job_name": "session01_mv2refresh_server1.sbatch",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "03:13:40",
+      "alloc_tres": "cpu=8,gres/gpu=1,mem=65000M,node=1",
+      "req_tres": "",
+      "max_rss": "16474488K",
+      "node_list": "devbox"
+    }
+  },
+  "provenance": {
+    "provenance_id": "d247b27edf638b7a9625954e8bf2aeac745b61247230f8bcf733e991a3ed9d16",
+    "context_manifest_id": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
+    "selection_manifest_id": "47bb14e437ce193397dd4650a1bb2e98d5f48ba10821dc24c3e2723712741b66",
+    "analysis_cases_sha256": "5fee05d7d6c3ec5870bdc3689f5422f38e588adfc23d45ab77401f9a11c5d618",
+    "model": {
+      "repository_id": "Qwen/Qwen2.5-7B-Instruct",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "dtype": "torch.float32",
+      "offline": true
+    },
+    "ode_edit_git_commit": "cdc70db327ff264442cf26641c898bdefed3eaf3",
+    "selection": {
+      "rank_start": 100,
+      "rank_stop": 112,
+      "case_count": 12,
+      "run_seed": 17,
+      "q": 0.00390625,
+      "h": 0.5,
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    "runner_summary_evidence": {
+      "run_status": "completed",
+      "all_pass": true,
+      "all_rollbacks_exact": true,
+      "expected_counts_exact": true,
+      "failure_count": 0,
+      "analysis_cases_hash_matches_manifest_summary": true,
+      "not_a_substitute_for_locked_analyzer_acceptance": true
+    }
+  },
+  "four_category_context": {
+    "proposal": "fixed direct-z guide 뒤 partial update의 state-dependent non-stationarity와 ODE/relinearization 필요 신호를 검정한다.",
+    "repo_protocol_fact": "canonical Qwen backbone, layers 4-8, salted ranks [100:112], immutable covariance, projector identity-only 정책이 고정돼 있다.",
+    "gh_inference": "동일 W1/equal-C에서 A 대 B가 최소 direction 검정이고, coefficient-only 신호는 fixed-direction dynamic-coefficient pivot 후보이다.",
+    "user_confirmation_required": "없음; 다만 model별 독립 분석 뒤 pair red agent만 compact summary를 읽는 경계가 고정돼 있다."
+  },
+  "result_firewall": {
+    "policy": "only canonical request plus allowed rewrite contexts; evaluation prompts, generations, weights, logits, activations excluded",
+    "artifact_policy": "Git-excluded local tensors; structured streams contain IDs, hashes, finite scalars, and compact metadata only",
+    "covariance_policy": "run-start pinned immutable cache; miss/recompute/download blocked",
+    "projector_policy": "preflight identity only; never deserialized",
+    "target_policy": "direct-z computed once at W0; tensor/target-token/context frozen and descendant use authorized only by exact lineage"
+  },
+  "no_peer_broadcast_exception": {
+    "peer_artifact_read": false,
+    "peer_artifact_broadcast": false,
+    "llama_directory_accessed": false,
+    "pair_level_conclusion_emitted": false,
+    "note": "Qwen-local analysis only; later pair red review may consume compact summaries, not raw peer artifacts."
+  },
+  "claim_boundary": {
+    "delta_total_interpretation": "A-C would be absolute progress in teacher-forced allowed rewrite utility only.",
+    "not_an_accuracy_retention_full_method_or_paper_claim": true,
+    "current_state": "No effect, oracle, generic-continuation, e_m, or CI value is reported because the locked analyzer did not accept the input."
+  }
+}
