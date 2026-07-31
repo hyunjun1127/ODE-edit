@@ -1,8 +1,9 @@
 # ODE-Edit 관련 연구와 novelty 경계
 
 - 작성일: 2026-07-30
+- 최종 갱신: 2026-07-31
 - 문서 성격: Motivation Validation을 위한 proposal-side related-work audit
-- claim 상태: `hypothesis only`
+- claim 상태: `motivation_not_supported_cross_model`; novelty claim 미승격
 - 조사 원칙: 논문 본문, 학회 페이지, 저자 공개 저장소 등 primary source를
   우선하며, 공개 구현의 존재와 이 repo에서의 재현 완료를 구분한다.
 
@@ -17,7 +18,16 @@ ODE-Edit의 방어 가능한 연구 질문은 “ODE를 처음 적용한 model e
 > 배분한 뒤, 부분 동시 적용 후 모든 proposal을 다시 계산하는
 > layer-synchronous state-dependent routing.
 
-이 문장도 최초성 claim이 아니라 검증할 연구 공백이다. 특히
+이 문장도 최초성 claim이 아니라 검증할 연구 공백이었다. Session 01에서
+same-snapshot allocation signal은 관측됐지만 refreshed-direction 효과가
+Llama와 Qwen에서 반대 부호였고 pair gate가 `NO MV3`로 닫혔다. 따라서 현재
+이 조합은 **방어 가능한 contribution이 아니라 반증된 cross-model
+motivation**이다. 상세 수치와 first-match 판정은
+[`Session 01 GH 최종 보고서`](../../../experiment-reports/global/2026-07-31-session-01-motivation-final.md)와
+[`MV-2 pair red audit`](../../../audits/global/2026-07-31-mv2refresh-pair-v2.postrun.md)에
+분리해 기록했다.
+
+특히
 [WilKE](https://arxiv.org/abs/2402.10987),
 [NSE](https://arxiv.org/abs/2410.04045),
 [AlphaEdit](https://arxiv.org/abs/2410.02355),
@@ -25,8 +35,26 @@ ODE-Edit의 방어 가능한 연구 질문은 “ODE를 처음 적용한 model e
 [Norm Anchors Make Model Edits Last](https://arxiv.org/abs/2602.02543),
 [BetaEdit](https://arxiv.org/abs/2605.09285),
 [CrispEdit](https://arxiv.org/abs/2602.15823),
+[HiEdit](https://arxiv.org/abs/2604.11214),
 [ODESteer](https://arxiv.org/abs/2602.17560), 그리고
 [ODE-M](https://arxiv.org/abs/2605.19409)이 넓은 최초성 주장을 차단한다.
+
+## 2026-07-31 primary-source 재검증
+
+| 축 | Primary source에서 확인한 범위 | ODE-Edit에 미치는 경계 |
+| --- | --- | --- |
+| single/fixed-layer locate-and-edit | [ROME](https://arxiv.org/abs/2202.05262)는 mid-layer FFN의 rank-one factual update를 제안 | fixed-layer editing 최초성 없음 |
+| multi-layer/mass editing | [MEMIT](https://arxiv.org/abs/2210.07229)은 다수 memory를 직접 갱신하고, [EMMET](https://arxiv.org/abs/2403.14236)은 ROME/MEMIT을 preservation–memorization 관점에서 통일 | multi-layer/constrained write 최초성 없음 |
+| alternative target/distribution | [PMET](https://arxiv.org/abs/2308.08742)은 MHSA/FFN hidden target을 분리해 FFN update를 정밀화 | 다른 layer allocation 자체가 novelty가 아님 |
+| preservation geometry | [AlphaEdit](https://arxiv.org/abs/2410.02355)은 preserved knowledge null-space projection을 사용 | projector/covariance/history 보호 최초성 없음 |
+| dynamic selection | [WilKE](https://arxiv.org/abs/2402.10987)는 request별 editing layer를 고르고, [NSE](https://arxiv.org/abs/2410.04045)는 neuron-level sequential editing, [HiEdit](https://arxiv.org/abs/2604.11214)는 hierarchical RL로 knowledge-relevant layer를 식별 | adaptive/dynamic layer selection 최초성 금지 |
+| lifelong system memory | [WISE](https://arxiv.org/abs/2405.14768)는 side memory/router/sharding, [GRACE](https://arxiv.org/abs/2211.11031)는 discrete latent codebook | in-weight editor와 별도 system/information budget |
+| regularization/norm | [Lifelong Knowledge Editing requires Better Regularization](https://arxiv.org/abs/2502.01636)은 MPES와 Frobenius norm constraint, [Norm Anchors Make Model Edits Last](https://arxiv.org/abs/2602.02543)는 original-model norm anchor를 사용 | norm-growth 발견·anchor 최초성 금지 |
+| null-space/capability constraint | [BetaEdit](https://arxiv.org/abs/2605.09285)은 approximate null-space leakage와 history-aware update, [CrispEdit](https://arxiv.org/abs/2602.15823)은 capability-loss low-curvature projection을 사용 | capacity/preservation proxy를 정의상 capability로 해석 금지 |
+| ODE/trajectory | [ODESteer](https://arxiv.org/abs/2602.17560)는 barrier-guided ODE activation steering, [ODE-M](https://arxiv.org/abs/2605.19409)은 continual model merging의 barrier-aware parameter trajectory, [ODEdit](https://arxiv.org/abs/2601.19700)은 invariant trajectory 기반 multimodal editing | “first ODE/trajectory editor” 및 현재 paper name 금지 |
+
+위 표는 primary source의 제안 범위를 확인한 것이며, 해당 방법을 이 repo에서
+재현했다는 뜻이 아니다.
 
 ## 네 범주
 
@@ -41,9 +69,14 @@ ODE-Edit의 방어 가능한 연구 질문은 “ODE를 처음 적용한 model e
 
 ### Repo/protocol에서 확인한 사실
 
-- 현재 EasyEdit checkout에는 MEMIT, ROME, AlphaEdit, EMMET, PMET 등의 코드가
-  있으나, ENCORE, NAS, BetaEdit, CrispEdit, LyapLock, WilKE의 canonical
-  구현은 없다.
+- 현재 EasyEdit checkout에는 ROME, MEMIT, PMET, AlphaEdit, EMMET, WISE,
+  GRACE의 model 코드가 있다.
+- pinned backbone 이름의 hparams file은 ROME, MEMIT, AlphaEdit, WISE에
+  Llama3-8B와 Qwen2.5-7B가 모두 있고, GRACE는 Qwen2.5-7B가 있다.
+  PMET/EMMET에는 이 두 pinned 이름의 pair가 없다.
+- WilKE, NSE, MPES+norm, NAS, BetaEdit, CrispEdit, HiEdit, ODESteer, ODE-M,
+  ODEdit의 canonical implementation은 해당 EasyEdit method/hparams listing에서
+  확인되지 않았다.
 - 따라서 이 세션에서 실제 실행하지 않은 방법을 “EasyEdit baseline으로
   재현했다”고 쓰지 않는다.
 - Session 01의 동일-track baseline은 우선 native MEMIT과 그 proposal을
@@ -73,12 +106,13 @@ ODE-Edit의 방어 가능한 연구 질문은 “ODE를 처음 적용한 model e
 | --- | --- | --- | --- |
 | B0 editor-native | 현재 request, 표준 rewrite context, 현재 hidden/key, 사전 계산 covariance/projector | ROME, MEMIT, PMET, WilKE, ODE-Edit main | Session 01의 주 비교 |
 | B1 history-aware | B0 + 이전 edit key/value/update, queue 또는 streaming statistic | canonical AlphaEdit, NSE, LyapLock, BetaEdit, DeltaEdit | 별도 history panel |
-| B2 auxiliary/calibration | pilot edit, capability/replay/calibration data, 미래 batch | NAS 기본 설정, CrispEdit, LocFT-BF | 정보 우위를 표에 명시 |
+| B2 auxiliary/calibration | capability/replay/calibration data, 미래 batch | CrispEdit, LocFT-BF | 정보 우위를 표에 명시 |
 | B3 inference augmentation | 외부 memory/router/adapter 또는 activation intervention | WISE, GRACE, ODESteer | in-weight editor와 별도 system panel |
 
-정보 예산이 다른 방법을 하나의 숫자로 무차별 순위화하지 않는다. 특히 NAS의
-pilot, CrispEdit의 capability data, WISE/GRACE의 inference-time component를
-숨긴 비교는 금지한다.
+NAS는 original-model reference norm을 사용하는 low-overhead anchor이므로 B0의
+강한 regularization baseline으로 별도 표시한다. 정보 예산이 다른 방법을
+하나의 숫자로 무차별 순위화하지 않는다. 특히 CrispEdit의 capability data와
+WISE/GRACE의 inference-time component를 숨긴 비교는 금지한다.
 
 ## Layer selection과 allocation
 
@@ -192,10 +226,16 @@ paired branch다.
 - “C-weighted cost를 줄이면 장기 capability가 보존된다.”
 - “CounterFact 성공으로 practical lifelong editing을 해결했다.”
 
-## Motivation 판정에 미치는 영향
+## Motivation 최종 판정에 미치는 영향
 
-관련 연구는 ODE-Edit을 즉시 kill하지 않지만, 통과 기준을 강화한다.
-MV-1의 heterogeneity만으로는 부족하고, MV-2의 refreshed decision advantage,
-MV-3의 best static/single-winner 대비 matched-progress frontier, MV-4의
-retention intervention이 모두 필요하다. 하나라도 실패하면 해당 mechanism과
-claim을 제거하며, descriptive statistic으로 연구 방향을 유지하지 않는다.
+관련 연구가 Session 01을 kill한 것은 아니다. 사전등록된 MV-2
+refreshed-direction primary가 cross-model로 재현되지 않아 empirical gate가
+연구를 닫았다. 이 결과와 선행연구를 함께 적용하면 다음만 허용된다.
+
+> 두 고정 모델에서 same-snapshot allocation signal은 관측됐으나,
+> all-proposal direction refresh의 효과는 architecture-dependent였고
+> cross-model ODE/relinearization motivation은 지지되지 않았다.
+
+따라서 MV-3/MV-4, 외부 baseline 이식, long-horizon benchmark를 진행하지
+않는다. fixed-direction dynamic coefficient 또는 static allocation을
+연구하려면 ODE contribution의 후속이 아니라 새 proposal로 시작해야 한다.

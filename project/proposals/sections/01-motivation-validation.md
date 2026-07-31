@@ -1,64 +1,98 @@
-# Session 01 — Motivation Validation: ODE-Edit 진단 근거와 claim boundary
+# Session 01 — Motivation Validation: 최종 연구 판정
 
-## 연구 입력과 현재 상태
+- 최종 갱신: 2026-07-31
+- 상태: **closed — `motivation_not_supported_cross_model`; `NO MV3`; no retune**
+- 현재 방법명: `ODE-Edit` (원 handoff의 `BF-ODE-Edit`은 원문 보존)
 
-- **proposal에서 온 내용:** 동일 direct-z에 여러 parameter realization이
-  있을 수 있고, layer별 MEMIT/AlphaEdit proposal을 same snapshot에서 비교해
-  capacity-aware하게 재배분하면 long-horizon editing의 trade-off가 개선될 수
-  있다는 가설이다.
-- **repo/protocol에서 확인한 사실:** repository remote와 server1/server4
-  resource policy는 등록돼 있으나 별도 SH와 completed run은 없다.
-  `PROTOCOL.md`는 Session 01 실행 전에 resource-cap check, pre-flight
-  red-team audit, local artifact boundary와 Korean evidence record를 요구한다.
-  proposal/EasyEdit 재감사는
-  [`audits/global/2026-07-30-proposal-easyedit-baseline-audit.md`](../../../audits/global/2026-07-30-proposal-easyedit-baseline-audit.md)에
-  기록했다.
-- **GH 추정:** ODE라는 표현을 유지하려면 단순 update split이나 static
-  layer-wise scaling으로 설명되지 않는 state-dependent signal이 먼저 있어야
-  한다.
-- **repo/protocol에서 확인한 사실:** 고정 모델은
-  `Meta-Llama-3-8B-Instruct`와 `Qwen2.5-7B-Instruct`이고 local snapshot,
-  CounterFact, 두 모델의 precomputed Wikipedia covariance와 AlphaEdit
-  projector가 존재한다. EasyEdit는 commit `3488a66`의 dirty worktree이므로
-  imported-file hash를 run마다 별도로 고정해야 한다.
-- **사용자 확인 필요:** 별도 server-head Codex session은 아직 등록되지 않았다.
+## 출발 가설과 proposal의 지위
 
-## Motivation Validation 질문
+### Proposal에서 온 내용
 
-Session 01은 방법의 성능을 보이는 단계가 아니다. proposal의 motivation이
-정당한지 다음 mechanism chain이 MEMIT instrumentation에서 관측되는지
-판정한다.
+동일 direct-z에는 여러 parameter realization이 있을 수 있고, 여러
+MEMIT/AlphaEdit layer proposal을 같은 model snapshot에서 비교·재배분한 뒤
+partial write마다 proposal direction까지 다시 계산하면 one-shot 또는 static
+allocation보다 나을 수 있다는 가설이었다.
 
-1. custom hook이 canonical EasyEdit MEMIT을 보존하는가?
-2. 동일 snapshot의 analytic layer utility가 actual finite-step progress
-   차이를 예측하는가?
-3. joint partial update 뒤 refreshed decision이 stale decision보다 실제로
-   나은가?
-4. layer 간 allocation이 matched rewrite progress에서 global/static
-   scaling보다 낮은 displacement frontier를 만드는가?
-5. 짧은 sequential intervention에서 그 displacement 차이가 retention/locality
-   proxy와 연결되는가?
+`project/proposals/00.proposal`은 이 가설을 시작하기 위한 handoff다. 최종
+paper plan, 확정된 방법, 검증된 성능 claim이 아니므로 Session 01은 작은
+diagnostic에서 구현 fidelity → allocation signal → refreshed-direction
+advantage 순서로 반증 가능하게 분해했다.
 
-단순 utility CV, rank turnover, load Gini는 descriptive metric일 뿐 pass
-criterion이 아니다. 2가 실패하면 routing motivation을 kill하고, 2는
-통과하지만 3이 실패하면 static allocation으로 pivot한다. 3은 통과하지만
-4가 실패하면 capacity-free dynamic scheduler로 claim을 낮추며, 4는
-통과하지만 5가 실패하면 displacement를 mechanism이 아닌 descriptor로만
-남긴다.
+## Motivation evidence chain
 
-## 증거 연결
+| 질문 | 관측 | 판정 |
+| --- | --- | --- |
+| EasyEdit MEMIT hook이 native 동작을 보존하는가? | Llama/Qwen 각각 `3/3/3`, primary tensor/logit error `0`, rollback exact | MV-0 fidelity `PASS` |
+| same-snapshot allocation signal이 held-out에서도 살아남는가? | MV-1 untouched mean: Llama `+0.0102628` (`20/20`), Qwen `+0.0483206` (`20/20`) | two-model allocation signal 재현 |
+| partial update 뒤 direction refresh가 fixed direction보다 나은가? | Llama mean `-0.0044081`, sign `0/12`; Qwen mean `+0.0068874`, sign `7/12` | architecture-dependent sign reversal |
+| refreshed direction+coefficient의 총 proxy가 fixed/fixed보다 나은가? | Llama mean `-0.0043044`, sign `0/12`; Qwen mean `+0.0085523`, sign `7/12` | cross-model total gain 불성립 |
+| MV-3 matched-progress frontier를 열 수 있는가? | 사전등록 pair rule 1–6 불일치 후 rule 7 | `NO MV3` |
 
-- 실행 계획과 사전 판정: [`plans/global/2026-07-30-session-01-motivation-validation.md`](../../../plans/global/2026-07-30-session-01-motivation-validation.md)
-- 관련 연구와 novelty 경계: [`project/proposals/sections/02-related-work-and-novelty-boundary.md`](02-related-work-and-novelty-boundary.md)
-- Session 01 global evidence index: [`experiment-reports/global/2026-07-30-session-01-motivation-validation.md`](../../../experiment-reports/global/2026-07-30-session-01-motivation-validation.md)
-- 원 handoff: [`project/proposals/00.proposal`](../00.proposal)
+작은 보조 metric 하나 때문에 중단한 것이 아니다. Llama에서 primary
+direction과 total이 mean, trimmed mean, median, sign, bootstrap CI 전체에서
+일관되게 음수였고, `e_m=0.0001`보다 충분히 낮았다. Qwen의 양의 단일-model
+신호가 이 반대 방향을 상쇄하지 않는다.
 
-## Claim 상태
+## 기대효과 판정
 
-**hypothesis only.** `motivation supported`는 Session 01의 사전 기준을 통과한
-것만 뜻하며, long-horizon superiority, novelty, causal mechanism 또는
-paper-ready claim을 뜻하지 않는다.
+### Repo/protocol에서 확인한 사실
 
-현재 세부 판정은 **preflight block**이다. 이는 가설 kill이 아니라, read-only
-EasyEdit hook과 1–3 edit native-fidelity gate가 통과하기 전에는 GPU 결과를
-evidence로 승격하지 않는다는 뜻이다.
+- MV-1 forecast는 양의 방향을 두 모델 모두 맞혔다. Pearson은 Llama
+  `0.9271`, Qwen `0.8164`였다.
+- aggregate magnitude prior는 Llama에서 약 `6.39%` 과대였지만 Qwen에서 약
+  `56.86%` 과대였다. 따라서 Qwen prior `0.1120`은 후속 개선폭으로 재사용할
+  수 없다.
+- 현재 숫자로 허용되는 기대효과는 고정된 diagnostic의
+  **teacher-forced absolute rewrite-utility proxy**뿐이다.
+- full ODE-Edit의 accuracy, efficacy, locality, retention, long-horizon
+  robustness 또는 EasyEdit baseline 대비 개선률은 산출되지 않았으며 현재
+  예측할 수 없다.
+
+안전한 요약은 다음과 같다.
+
+> allocation controller 자체의 local signal은 두 모델에서 관측됐지만,
+> proposal direction을 state마다 refresh하는 ODE/relinearization의
+> cross-model 기대효과는 0보다 안정적으로 크다고 예측할 수 없다. 현재
+> evidence에서는 Llama에 해롭고 Qwen에만 유리하다.
+
+## Kill 범위와 남는 가설
+
+### GH 추정
+
+- **Kill:** 현재 설계의 cross-model refreshed-direction ODE/relinearization
+  mechanism, 이를 전제로 한 MV-3/MV-4, ODE 일반성, capacity/retention
+  improvement narrative.
+- **보존:** MV-1이 보인 same-snapshot allocation signal.
+- **새 proposal로만 검토 가능:** fixed-direction dynamic coefficient,
+  Qwen-specific refreshed-direction controller, 또는 static capacity-aware
+  routing. 이들은 현재 ODE-Edit 방법의 성공이나 자동 후속 단계가 아니다.
+- 추가 fold, threshold 변경, retuning 또는 post-hoc model pooling으로
+  MV-2를 구제하지 않는다.
+
+## 사용자 확인 필요
+
+- Session 01 종결과 `NO MV3`에는 추가 확인이 필요 없다.
+- 이후 연구를 재개하려면 다음 중 하나를 **새 독립 방향**으로 선택해야 한다:
+  fixed-direction coefficient controller, static routing, 또는
+  architecture-specific Qwen track.
+- paper method name은 `ODEdit`, `ODESteer`, `ODE-M`과 충돌하므로 새 방향이
+  생존한 뒤 명칭 유지 여부를 다시 확인해야 한다. Repo의 현재 이름
+  `ODE-Edit`은 사용자 지시대로 유지한다.
+
+## Canonical evidence
+
+- 실행 계획:
+  [`plans/global/2026-07-30-session-01-motivation-validation.md`](../../../plans/global/2026-07-30-session-01-motivation-validation.md)
+- 최종 GH 보고서:
+  [`experiment-reports/global/2026-07-31-session-01-motivation-final.md`](../../../experiment-reports/global/2026-07-31-session-01-motivation-final.md)
+- MV-0 pair red:
+  [`audits/global/2026-07-30-mv0-pair-c3-v3.postrun.md`](../../../audits/global/2026-07-30-mv0-pair-c3-v3.postrun.md)
+- MV-1 untouched pair:
+  [`experiment-reports/global/2026-07-31-mv1mix-untouched-pair-v1-analysis.md`](../../../experiment-reports/global/2026-07-31-mv1mix-untouched-pair-v1-analysis.md)
+- MV-2 Llama/Qwen:
+  [`Llama`](../../../experiment-reports/global/2026-07-31-mv2refresh-llama-e0-v2-analysis.md),
+  [`Qwen`](../../../experiment-reports/global/2026-07-31-mv2refresh-qwen-e0-v2-analysis.md)
+- MV-2 pair red:
+  [`audits/global/2026-07-31-mv2refresh-pair-v2.postrun.md`](../../../audits/global/2026-07-31-mv2refresh-pair-v2.postrun.md)
+- 관련 연구:
+  [`project/proposals/sections/02-related-work-and-novelty-boundary.md`](02-related-work-and-novelty-boundary.md)

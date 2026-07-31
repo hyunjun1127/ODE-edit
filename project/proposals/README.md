@@ -18,6 +18,10 @@ next-session criterion, server-head instruction envelope를 `PROTOCOL.md`에 따
 ## 현재 rationale section
 
 - [`sections/01-motivation-validation.md`](sections/01-motivation-validation.md):
-  Session 01의 mechanism chain과 현재 claim 상태
+  Session 01의 mechanism chain과 최종 `NO MV3` 판정
 - [`sections/02-related-work-and-novelty-boundary.md`](sections/02-related-work-and-novelty-boundary.md):
   layer allocation, sequential regularization, ODE prior와 baseline/novelty 경계
+
+Session 01은 `motivation_not_supported_cross_model`로 종료됐다. 후속
+fixed-direction coefficient, static allocation 또는 architecture-specific
+track은 기존 ODE-Edit 성공의 다음 단계가 아니라 새 proposal로 시작해야 한다.
