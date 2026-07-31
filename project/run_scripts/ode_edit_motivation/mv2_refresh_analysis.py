@@ -75,11 +75,12 @@ def _require_mapping(value: Any, path: str) -> Mapping[str, Any]:
 def _require_exact_keys(
     value: Mapping[str, Any], expected: Sequence[str], path: str
 ) -> None:
-    actual = tuple(value.keys())
-    expected_tuple = tuple(expected)
-    if actual != expected_tuple:
+    actual = set(value)
+    expected_set = set(expected)
+    if actual != expected_set:
         raise MV2AnalysisError(
-            f"{path}: exact key/order 위반: expected={expected_tuple}, actual={actual}"
+            f"{path}: exact key set 위반: "
+            f"expected={tuple(expected)}, actual={tuple(value.keys())}"
         )
 
 

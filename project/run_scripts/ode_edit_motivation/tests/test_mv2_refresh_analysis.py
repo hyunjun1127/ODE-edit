@@ -103,6 +103,32 @@ def _records(**kwargs) -> list[dict]:
     return [_case(index, **kwargs) for index in range(12)]
 
 
+def _stream_rows(records: list[dict]) -> list[dict]:
+    return [
+        {
+            "schema_version": analysis.RUN_STREAM_SCHEMA,
+            "run_id": "mv2-test",
+            "sequence": index,
+            "recorded_at": "2026-08-01T00:00:00+00:00",
+            "event": analysis.RUN_STREAM_EVENT,
+            "payload": record,
+        }
+        for index, record in enumerate(records)
+    ]
+
+
+def _rotate_mapping_members(value: object) -> object:
+    if isinstance(value, dict):
+        items = [
+            (key, _rotate_mapping_members(child))
+            for key, child in value.items()
+        ]
+        return dict(items[1:] + items[:1])
+    if isinstance(value, list):
+        return [_rotate_mapping_members(child) for child in value]
+    return value
+
+
 class MV2RefreshAnalysisTests(unittest.TestCase):
     def test_known_answer_direction_refresh_is_clear(self) -> None:
         summary = analysis.analyze_records(
@@ -222,6 +248,21 @@ class MV2RefreshAnalysisTests(unittest.TestCase):
 
                 with self.assertRaisesRegex(
                     analysis.MV2AnalysisError, "exact six-arm"
+                ):
+                    analysis.analyze_records(records)
+
+    def test_nested_mapping_missing_or_extra_keys_are_rejected(self) -> None:
+        cases = (
+            ("missing", lambda record: record["technical"].pop("exact_panel")),
+            ("extra", lambda record: record["compute"].update({"extra": 0})),
+        )
+        for mutation, apply in cases:
+            with self.subTest(mutation=mutation):
+                records = _records()
+                apply(records[0])
+
+                with self.assertRaisesRegex(
+                    analysis.MV2AnalysisError, "exact key set"
                 ):
                     analysis.analyze_records(records)
 
@@ -430,30 +471,55 @@ class MV2RefreshAnalysisTests(unittest.TestCase):
                             analysis._build_parser().parse_args(argv)
                     self.assertIn("unrecognized arguments", stderr.getvalue())
 
-    def test_runner_sanitized_stream_is_unwrapped_with_exact_order(self) -> None:
+    def test_json_object_member_order_does_not_change_analysis(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             path = Path(temporary_directory) / "analysis_cases.jsonl"
-            rows = [
-                {
-                    "schema_version": analysis.RUN_STREAM_SCHEMA,
-                    "run_id": "mv2-test",
-                    "sequence": index,
-                    "recorded_at": "2026-08-01T00:00:00+00:00",
-                    "event": analysis.RUN_STREAM_EVENT,
-                    "payload": record,
-                }
-                for index, record in enumerate(_records())
-            ]
-            path.write_text(
-                "\n".join(json.dumps(row) for row in rows) + "\n",
-                encoding="utf-8",
-            )
-            loaded = analysis.load_jsonl(path)
-            self.assertEqual(loaded, _records())
+            insertion_rows = _stream_rows(_records())
+            sorted_rows = json.loads(json.dumps(insertion_rows, sort_keys=True))
+            permuted_rows = _rotate_mapping_members(insertion_rows)
 
-            rows[3]["sequence"] = 9
+            for reordered_rows in (sorted_rows, permuted_rows):
+                self.assertNotEqual(
+                    tuple(insertion_rows[0]["payload"]),
+                    tuple(reordered_rows[0]["payload"]),
+                )
+                for field in ("technical", "lineage", "compute"):
+                    self.assertNotEqual(
+                        tuple(insertion_rows[0]["payload"][field]),
+                        tuple(reordered_rows[0]["payload"][field]),
+                    )
+                for arm_id in analysis.ARM_ORDER:
+                    self.assertNotEqual(
+                        tuple(insertion_rows[0]["payload"]["arms"][arm_id]),
+                        tuple(reordered_rows[0]["payload"]["arms"][arm_id]),
+                    )
+
+            summaries = []
+            for name, rows in (
+                ("insertion", insertion_rows),
+                ("recursively_sorted", sorted_rows),
+                ("permuted", permuted_rows),
+            ):
+                with self.subTest(name=name):
+                    path.write_text(
+                        "\n".join(json.dumps(row) for row in rows) + "\n",
+                        encoding="utf-8",
+                    )
+                    loaded = analysis.load_jsonl(path)
+                    self.assertEqual(
+                        loaded[0], rows[0]["payload"]
+                    )
+                    self.assertEqual(
+                        loaded[0]["budgets"], rows[0]["payload"]["budgets"]
+                    )
+                    summaries.append(analysis.analyze_records(loaded))
+
+            self.assertEqual(summaries[0], summaries[1])
+            self.assertEqual(summaries[0], summaries[2])
+
+            insertion_rows[3]["sequence"] = 9
             path.write_text(
-                "\n".join(json.dumps(row) for row in rows) + "\n",
+                "\n".join(json.dumps(row) for row in insertion_rows) + "\n",
                 encoding="utf-8",
             )
             with self.assertRaises(analysis.MV2AnalysisError):
