@@ -10,9 +10,9 @@
 - 담당 server-head: 미지정
 - global-head 승인: `registered-pending-clone`
 
-| 역할 | Codex session ID | Codex session CWD | 상태 |
-| --- | --- | --- | --- |
-| server-head | 미지정 | `/data/janghj/ODE-edit` | pending clone and assignment |
+| 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
+| --- | --- | --- | --- | --- |
+| server-head | 미지정 | `Terra Ultra` / 미지정 | `/data/janghj/ODE-edit` | pending clone and assignment |
 
 ## Git/Agent 설정
 
@@ -24,10 +24,11 @@
 
 ## Codex Session Boundary
 
-server4에서 이 repo 작업은 registry의 전용 Codex session ID, 해당 `ODE-edit`
-clone CWD, Git identity `hyunjun1127/ODE-edit`가 `servers/active/server4.md`와
-`servers/local/session-boundary.env`에 모두 기록된 뒤에만 시작한다. 다른 repo
-session 또는 CWD로 SSH/Slurm/rsync/Git 작업을 수행하지 않는다.
+server4에서 이 repo 작업은 registry의 전용 Codex session ID, confirmed
+`Terra Ultra` model profile, 해당 `ODE-edit` clone CWD, Git identity
+`hyunjun1127/ODE-edit`가 `servers/active/server4.md`와
+`servers/local/session-boundary.env`에 모두 기록된 뒤에만 시작한다. 다른
+repo session 또는 CWD로 SSH/Slurm/rsync/Git 작업을 수행하지 않는다.
 
 ## Slurm/Resource
 

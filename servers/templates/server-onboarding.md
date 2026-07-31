@@ -9,9 +9,9 @@
 - 담당 server-head:
 - Codex session registry (role별 별도 행):
 
-| 역할 | Codex session ID | Codex session CWD | 상태 |
-| --- | --- | --- | --- |
-| server-head |  |  | pending/active/retired |
+| 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
+| --- | --- | --- | --- | --- |
+| server-head |  | `Terra Ultra` /  |  | pending/active/retired |
 - global-head 승인:
 
 ## 접근과 권한

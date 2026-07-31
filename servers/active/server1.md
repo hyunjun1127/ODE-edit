@@ -10,10 +10,10 @@
 - 담당 server-head: 미지정
 - global-head 승인: `pending-onboarding`
 
-| 역할 | Codex session ID | Codex session CWD | 상태 |
-| --- | --- | --- | --- |
-| global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `/mnt/raid5/janghj/ODE-edit` | active |
-| server-head | 미지정 | `/mnt/raid5/janghj/ODE-edit` | pending assignment |
+| 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
+| --- | --- | --- | --- | --- |
+| global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Terra Ultra` / `Terra Ultra` (`gpt-5.6-terra`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active |
+| server-head | 미지정 | `Terra Ultra` / 미지정 | `/mnt/raid5/janghj/ODE-edit` | pending assignment |
 
 ## 접근과 권한
 
@@ -41,11 +41,11 @@ secret은 절대 기록하지 않는다.
 
 ## Codex Session Boundary
 
-이 record의 command/message는 역할별 registry의 Codex session ID와 CWD를
-확인한 session만 수행한다. `knowledge-revision` 등 다른 repository CWD 또는
-그 session ID를 대상으로 message, shell command, artifact transfer, task
-claim을 실행하지 않는다. 새 GH/SH session은 이 record를 갱신하고, 기존 session
-ID를 재사용하지 않는다.
+이 record의 command/message는 역할별 registry의 Codex session ID,
+confirmed `Terra Ultra` model profile, CWD를 확인한 session만 수행한다.
+`knowledge-revision` 등 다른 repository CWD 또는 그 session ID를 대상으로
+message, shell command, artifact transfer, task claim을 실행하지 않는다. 새
+GH/SH session은 이 record를 갱신하고, 기존 session ID를 재사용하지 않는다.
 
 ## Local 경로
 

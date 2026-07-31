@@ -6,6 +6,7 @@
 - From:
 - To:
 - 대상 Codex session ID:
+- required/confirmed Codex model profile: `Terra Ultra` /
 - 대상 repository CWD:
 - 대상 Git repository identity:
 - 상태: info/request/blocked/handoff/done

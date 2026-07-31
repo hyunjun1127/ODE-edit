@@ -455,22 +455,35 @@ The envelope can be written in Korean prose, but it must clearly specify:
 - completion report paths: exact `messages/server-heads/`, `messages/acks/`,
   `tasks/status/`, `runs/`, `audits/`, and `experiment-reports/` paths expected
   from the target server-head
-- Codex session boundary: the target Codex session ID, expected CWD, and
-  repository identity; the target must stop if any of these does not match
+- Codex session boundary: the target Codex session ID, required Codex model
+  profile, expected CWD, and repository identity; the target must stop if any
+  of these does not match
 
 ## Codex Session Boundary
 
 Codex sessions may coexist on the same server for different repositories. A
 server record and every actionable GH instruction must state the target session
-ID, expected repository CWD, and Git repository identity. Before a session
-reads an inbox, runs SSH/Slurm/rsync, or writes a task/report, it must verify
-all three values with `scripts/check-session-boundary.sh <session_id>`. A
-mismatch is a `block`: do not "helpfully" act on another repo's files or
+ID, required Codex model profile, expected repository CWD, and Git repository
+identity. The required model profile for new GH, SH, blue-team, and red-team
+sessions in this repository is **`Terra Ultra`**, canonically
+`model = "gpt-5.6-terra"` with `model_reasoning_effort = "ultra"`.
+Repository-local defaults live in `.codex/config.toml`; do not change the
+user-global Codex configuration because that would affect other repositories.
+Before a session reads an inbox, runs SSH/Slurm/rsync, or writes a task/report,
+an operator must confirm the session's displayed/runtime model profile and
+record it in the ignored
+`servers/local/session-boundary.env`. It must then verify the complete boundary
+with `scripts/check-session-boundary.sh <session_id>`. The checker validates the
+recorded model assertion as well as the session ID, CWD, and repository
+identity; it cannot independently query the Codex UI. A missing confirmation
+or mismatch is a `block`: do not "helpfully" act on another repo's files or
 session, and report the mismatch to the global-head.
 
-Session IDs are coordination identifiers, not credentials. Record them in the
-relevant `servers/active/<server>.md` and instruction envelope. When a session
-is replaced, update the record; never reuse an inactive session's authority.
+Session IDs and model-profile labels are coordination identifiers, not
+credentials. Record both in the relevant `servers/active/<server>.md` and
+instruction envelope. Do not infer or fabricate a model confirmation when the
+runtime does not expose it. When a session is replaced, update the record;
+never reuse an inactive session's authority.
 
 If a server-head receives an actionable global-head instruction that lacks this
 envelope, it should write an ack/blocker asking for clarification instead of
