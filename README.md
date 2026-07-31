@@ -35,13 +35,15 @@ server-head가 등록되고 red-team onboarding gate를 통과하기 전에는 �
 
 GPU cap과 host-memory request cap은 ignored `servers/local/gpu-caps.tsv`에
 있다. Slurm job은 `scripts/check-slurm-resource-cap.sh <server> <gpus>
-<mem_mb>`를 먼저 통과해야 한다. 새 GH/SH/blue/red Codex session의 required
-model profile은 `Terra Ultra` (`gpt-5.6-terra`, reasoning effort `ultra`)이며
-repo-local [`.codex/config.toml`](.codex/config.toml)이 이를 고정한다. Codex
-session은 server record에 기록된 session ID, confirmed model profile,
-repository CWD, Git identity가 모두 일치할 때만 이 repo를 조작한다.
-Actionable session은 먼저 `scripts/check-session-boundary.sh <session_id>`를
-통과해야 한다.
+<mem_mb>`를 먼저 통과해야 한다. GH/SH primary Codex session은 `Sol Ultra`
+(`gpt-5.6-sol`, reasoning effort `ultra`)이며 delegated blue/red/analysis
+subagent만 `Terra Ultra` (`gpt-5.6-terra`, `ultra`)다. repo-local
+[`.codex/config.toml`](.codex/config.toml)과
+[`.codex/agents/default.toml`](.codex/agents/default.toml)이 이 split을
+고정한다. Primary session은 server record의 session ID, confirmed Sol
+profile, repository CWD, Git identity가 모두 일치할 때만 이 repo를
+조작한다. Actionable primary session은 먼저
+`scripts/check-session-boundary.sh <session_id>`를 통과해야 한다.
 
 원격 저장소와 실제 서버 접속 정보는 이 문서에 기록하지 않는다. raw IP,
 username, port, key, token, password와 private dataset secret은

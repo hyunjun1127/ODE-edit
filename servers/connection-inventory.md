@@ -32,15 +32,15 @@ session ID를 채우거나 대체 대상으로 사용하지 않는다.
 
 | 서버 | 역할 | Codex session ID | Required/confirmed model | Repository CWD | 상태 |
 | --- | --- | --- | --- | --- | --- |
-| `server1` | global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Terra Ultra` / `Terra Ultra` (`gpt-5.6-terra`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active / 현재 GH session |
-| `server1` | server-head | 미지정 | `Terra Ultra` / 미지정 | `/mnt/raid5/janghj/ODE-edit` | SH 미배정; GH와 별도 session 필요 |
-| `server2` | server-head | 미지정 | `Terra Ultra` / 미지정 | `/mnt/raid5/janghj/ODE-edit` | future target / clone 전 |
-| `server3` | server-head | 미지정 | `Terra Ultra` / 미지정 | `/data/janghj/ODE-edit` | future target / clone 전 |
-| `server4` | server-head | 미지정 | `Terra Ultra` / 미지정 | `/data/janghj/ODE-edit` | registered-pending-clone |
+| `server1` | global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active / 현재 GH session |
+| `server1` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/mnt/raid5/janghj/ODE-edit` | SH 미배정; GH와 별도 session 필요 |
+| `server2` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/mnt/raid5/janghj/ODE-edit` | future target / clone 전 |
+| `server3` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | future target / clone 전 |
+| `server4` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | registered-pending-clone |
 
 새 SH를 등록할 때 GH는 이 table, `servers/active/<server>.md`, 그리고 해당
 clone의 ignored `servers/local/session-boundary.env`에 **동일한** session ID,
-confirmed `Terra Ultra` model profile, CWD, repository identity를 기록한다.
+confirmed `Sol Ultra` primary model profile, CWD, repository identity를 기록한다.
 실제 instruction은 그 ID와 model profile을 envelope에 넣고
 `scripts/check-session-boundary.sh <session-id>`를 먼저 실행한다.
 
@@ -84,8 +84,10 @@ SSH material, credential, 민감 경로, repo-external 경로는 별도 user app
 
 ## Codex Session Boundary
 
-각 서버 record에는 해당 repo를 담당하는 Codex session ID, required/confirmed
-Codex model profile, CWD를 역할별로 기록한다. Git/SSH/rsync/Slurm command는
-`repository identity + session ID + confirmed Terra Ultra profile + CWD`가
-모두 일치할 때만 수행한다. 다른 repo session, 특히 `knowledge-revision`
-session은 이 repo의 command·message·artifact target으로 사용할 수 없다.
+각 서버 record에는 해당 repo를 담당하는 primary Codex session ID,
+required/confirmed `Sol Ultra` profile, CWD를 역할별로 기록한다.
+Git/SSH/rsync/Slurm command는 `repository identity + session ID + confirmed
+Sol Ultra profile + CWD`가 모두 일치할 때만 수행한다. Delegated subagent는
+별도 `Terra Ultra` runtime metadata를 확인하되 server-session authority를
+대체할 수 없다. 다른 repo session, 특히 `knowledge-revision` session은 이
+repo의 command·message·artifact target으로 사용할 수 없다.

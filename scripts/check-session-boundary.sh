@@ -8,7 +8,8 @@ Usage:
 
 Verifies that the caller is in this repository's configured clone and presents
 the Codex session ID assigned to that clone. It also requires a locally
-confirmed Codex model profile matching this repository's `Terra Ultra` policy.
+confirmed primary Codex model profile matching this repository's `Sol Ultra`
+policy. Delegated subagents are verified separately as `Terra Ultra`.
 The local configuration is servers/local/session-boundary.env and is never
 committed.
 USAGE
@@ -29,7 +30,7 @@ source "${config_file}"
   exit 4
 }
 
-canonical_model_profile="Terra Ultra"
+canonical_model_profile="Sol Ultra"
 [[ "${ODEEDIT_REQUIRED_CODEX_MODEL_PROFILE}" == "${canonical_model_profile}" ]] || {
   echo "BLOCK required Codex model profile mismatch for repository=${ODEEDIT_REPOSITORY_ID}" >&2
   exit 4

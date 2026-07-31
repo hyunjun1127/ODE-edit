@@ -7,7 +7,7 @@
 - 작성 agent:
 - 대상 서버:
 - 대상 Codex session ID:
-- required/confirmed Codex model profile: `Terra Ultra` /
+- required/confirmed primary Codex model profile: `Sol Ultra` /
 - 대상 repository CWD:
 - 대상 Git repository identity:
 - 우선순위: low/normal/high/blocking
@@ -47,6 +47,6 @@
   사용자 명시 승인 없이는 실행하지 않는다.
 - actionable GH 명령에 실행 권한 envelope가 없으면 SH는 추측 실행하지 말고
   ack/blocker로 clarification을 요청한다.
-- 대상 session ID, confirmed `Terra Ultra` model profile, repository CWD, Git
+- 대상 session ID, confirmed `Sol Ultra` primary model profile, repository CWD, Git
   identity 중 하나라도 불일치하면 다른 repo session을 조작하지 말고
   `block`으로 보고한다.

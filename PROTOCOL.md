@@ -464,20 +464,25 @@ The envelope can be written in Korean prose, but it must clearly specify:
 Codex sessions may coexist on the same server for different repositories. A
 server record and every actionable GH instruction must state the target session
 ID, required Codex model profile, expected repository CWD, and Git repository
-identity. The required model profile for new GH, SH, blue-team, and red-team
-sessions in this repository is **`Terra Ultra`**, canonically
+identity. The required model profile for primary GH and SH sessions in this
+repository is **`Sol Ultra`**, canonically `model = "gpt-5.6-sol"` with
+`model_reasoning_effort = "ultra"`. Every delegated blue-team, red-team, and
+result-analysis subagent must instead use **`Terra Ultra`**, canonically
 `model = "gpt-5.6-terra"` with `model_reasoning_effort = "ultra"`.
-Repository-local defaults live in `.codex/config.toml`; do not change the
+Repository-local defaults in `.codex/config.toml` pin this split, while
+`.codex/agents/default.toml` pins delegated agents; do not change the
 user-global Codex configuration because that would affect other repositories.
-Before a session reads an inbox, runs SSH/Slurm/rsync, or writes a task/report,
-an operator must confirm the session's displayed/runtime model profile and
-record it in the ignored
+Before a primary session reads an inbox, runs SSH/Slurm/rsync, or writes a
+task/report, an operator must confirm the session's displayed/runtime model
+profile and record it in the ignored
 `servers/local/session-boundary.env`. It must then verify the complete boundary
 with `scripts/check-session-boundary.sh <session_id>`. The checker validates the
-recorded model assertion as well as the session ID, CWD, and repository
-identity; it cannot independently query the Codex UI. A missing confirmation
-or mismatch is a `block`: do not "helpfully" act on another repo's files or
-session, and report the mismatch to the global-head.
+recorded primary-session model assertion as well as the session ID, CWD, and
+repository identity; it cannot independently query the Codex UI. Before a
+subagent performs its assigned work, GH must verify its runtime metadata shows
+`Terra Ultra`; a mismatch is a `block`. A missing confirmation or mismatch is
+also a `block`: do not "helpfully" act on another repo's files or session, and
+report the mismatch to the global-head.
 
 Session IDs and model-profile labels are coordination identifiers, not
 credentials. Record both in the relevant `servers/active/<server>.md` and
