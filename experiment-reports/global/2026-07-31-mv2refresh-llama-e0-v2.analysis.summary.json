@@ -1,0 +1,334 @@
+{
+  "case_effects": [
+    {
+      "analysis_success": true,
+      "case_id": "12955",
+      "coefficient_refresh_effect": 3.337860107421875e-06,
+      "direction_refresh_effect": -0.0003905296325683594,
+      "generic_continuation_gain": 0.07000255584716797,
+      "refresh_opportunity_oracle": 3.337860107421875e-06,
+      "replay_sham_envelope": 0.0001,
+      "total_refresh_effect": -0.0003871917724609375
+    },
+    {
+      "analysis_success": true,
+      "case_id": "621",
+      "coefficient_refresh_effect": 8.0108642578125e-05,
+      "direction_refresh_effect": -0.0051727294921875,
+      "generic_continuation_gain": 0.7362861633300781,
+      "refresh_opportunity_oracle": 8.0108642578125e-05,
+      "replay_sham_envelope": 0.0001,
+      "total_refresh_effect": -0.005092620849609375
+    },
+    {
+      "analysis_success": true,
+      "case_id": "117",
+      "coefficient_refresh_effect": 3.62396240234375e-05,
+      "direction_refresh_effect": -0.0022821426391601562,
+      "generic_continuation_gain": 0.30067920684814453,
+      "refresh_opportunity_oracle": 3.62396240234375e-05,
+      "replay_sham_envelope": 0.0001,
+      "total_refresh_effect": -0.0022459030151367188
+    },
+    {
+      "analysis_success": true,
+      "case_id": "11196",
+      "coefficient_refresh_effect": 2.09808349609375e-05,
+      "direction_refresh_effect": -0.0023565292358398438,
+      "generic_continuation_gain": 0.26168060302734375,
+      "refresh_opportunity_oracle": 2.09808349609375e-05,
+      "replay_sham_envelope": 0.0001,
+      "total_refresh_effect": -0.0023355484008789062
+    },
+    {
+      "analysis_success": true,
+      "case_id": "4231",
+      "coefficient_refresh_effect": 7.200241088867188e-05,
+      "direction_refresh_effect": -0.0026178359985351562,
+      "generic_continuation_gain": 0.2451796531677246,
+      "refresh_opportunity_oracle": 7.200241088867188e-05,
+      "replay_sham_envelope": 0.0001,
+      "total_refresh_effect": -0.0025458335876464844
+    },
+    {
+      "analysis_success": true,
+      "case_id": "4215",
+      "coefficient_refresh_effect": 2.384185791015625e-05,
+      "direction_refresh_effect": -0.0009975433349609375,
+      "generic_continuation_gain": 0.16742897033691406,
+      "refresh_opportunity_oracle": 2.384185791015625e-05,
+      "replay_sham_envelope": 0.0001,
+      "total_refresh_effect": -0.0009737014770507812
+    },
+    {
+      "analysis_success": true,
+      "case_id": "9639",
+      "coefficient_refresh_effect": 4.100799560546875e-05,
+      "direction_refresh_effect": -0.0010800361633300781,
+      "generic_continuation_gain": 0.2401294708251953,
+      "refresh_opportunity_oracle": 4.100799560546875e-05,
+      "replay_sham_envelope": 0.0001,
+      "total_refresh_effect": -0.0010390281677246094
+    },
+    {
+      "analysis_success": true,
+      "case_id": "15144",
+      "coefficient_refresh_effect": 0.0007061958312988281,
+      "direction_refresh_effect": -0.01775503158569336,
+      "generic_continuation_gain": 1.9346721172332764,
+      "refresh_opportunity_oracle": 0.0007061958312988281,
+      "replay_sham_envelope": 0.0001,
+      "total_refresh_effect": -0.01704883575439453
+    },
+    {
+      "analysis_success": true,
+      "case_id": "6357",
+      "coefficient_refresh_effect": 0.00014019012451171875,
+      "direction_refresh_effect": -0.009612083435058594,
+      "generic_continuation_gain": 1.0673112869262695,
+      "refresh_opportunity_oracle": 0.00014019012451171875,
+      "replay_sham_envelope": 0.0001,
+      "total_refresh_effect": -0.009471893310546875
+    },
+    {
+      "analysis_success": true,
+      "case_id": "7001",
+      "coefficient_refresh_effect": 5.340576171875e-05,
+      "direction_refresh_effect": -0.0019159317016601562,
+      "generic_continuation_gain": 0.16161346435546875,
+      "refresh_opportunity_oracle": 5.340576171875e-05,
+      "replay_sham_envelope": 0.0001,
+      "total_refresh_effect": -0.0018625259399414062
+    },
+    {
+      "analysis_success": true,
+      "case_id": "17174",
+      "coefficient_refresh_effect": 3.0517578125e-05,
+      "direction_refresh_effect": -0.005260467529296875,
+      "generic_continuation_gain": 0.38109588623046875,
+      "refresh_opportunity_oracle": 3.0517578125e-05,
+      "replay_sham_envelope": 0.0001,
+      "total_refresh_effect": -0.005229949951171875
+    },
+    {
+      "analysis_success": true,
+      "case_id": "4201",
+      "coefficient_refresh_effect": 3.62396240234375e-05,
+      "direction_refresh_effect": -0.00345611572265625,
+      "generic_continuation_gain": 0.20105361938476562,
+      "refresh_opportunity_oracle": 3.62396240234375e-05,
+      "replay_sham_envelope": 0.0001,
+      "total_refresh_effect": -0.0034198760986328125
+    }
+  ],
+  "compute": {
+    "arms": {
+      "fixed_direction_fixed_coefficient": {
+        "failed_count": 0,
+        "nfe_mean": 1.0,
+        "nfe_total": 12,
+        "success_count": 12
+      },
+      "fixed_direction_refreshed_coefficient": {
+        "failed_count": 0,
+        "nfe_mean": 1.0,
+        "nfe_total": 12,
+        "success_count": 12
+      },
+      "h0_sham": {
+        "failed_count": 0,
+        "nfe_mean": 1.0,
+        "nfe_total": 12,
+        "success_count": 12
+      },
+      "no_op_replay": {
+        "failed_count": 0,
+        "nfe_mean": 1.0,
+        "nfe_total": 12,
+        "success_count": 12
+      },
+      "partial_joint": {
+        "failed_count": 0,
+        "nfe_mean": 1.0,
+        "nfe_total": 12,
+        "success_count": 12
+      },
+      "refreshed_direction_refreshed_coefficient": {
+        "failed_count": 0,
+        "nfe_mean": 1.0,
+        "nfe_total": 12,
+        "success_count": 12
+      }
+    },
+    "case_count": 12,
+    "controlled_nfe_total": 516,
+    "probe_panel_count_total": 36,
+    "proposal_build_count_total": 48,
+    "w1_policy_incremental_cost_per_case": {
+      "fixed_direction_fixed_coefficient": {
+        "probe_nfe": 0,
+        "proposal_build_count": 0
+      },
+      "fixed_direction_refreshed_coefficient": {
+        "probe_nfe": 12,
+        "proposal_build_count": 0
+      },
+      "refreshed_direction_refreshed_coefficient": {
+        "probe_nfe": 12,
+        "proposal_build_count": 1
+      }
+    },
+    "wall_seconds_mean": 723.0516502710525,
+    "wall_seconds_total": 8676.61980325263
+  },
+  "decision": {
+    "coefficient_clear": true,
+    "coefficient_null": false,
+    "direction_clear": false,
+    "direction_kill": false,
+    "direction_null": true,
+    "total_clear": false,
+    "total_nonnegative": false,
+    "verdict": "PIVOT_FIXED_DIRECTION_DYNAMIC_COEFFICIENT",
+    "verdict_ko": "fixed-direction dynamic coefficient로 전환"
+  },
+  "effects": {
+    "coefficient_refresh": {
+      "bootstrap": {
+        "mean_ci95": [
+          3.484785556793213e-05,
+          0.0002209345499674479
+        ],
+        "probability_mean_positive": 1.0,
+        "samples": 4000,
+        "seed": 20260801,
+        "stream": 1
+      },
+      "mean": 0.00010367234547932942,
+      "mean_above_envelope": true,
+      "median": 3.8623809814453125e-05,
+      "median_above_envelope": false,
+      "n": 12,
+      "positive_count": 12,
+      "sign_at_least_7_of_12": true,
+      "sign_rate": 1.0,
+      "trimmed_mean_10pct": 5.345344543457031e-05,
+      "trimmed_mean_above_envelope": false
+    },
+    "direction_refresh": {
+      "bootstrap": {
+        "mean_ci95": [
+          -0.007394531369209289,
+          -0.0021643350521723427
+        ],
+        "probability_mean_positive": 0.0,
+        "samples": 4000,
+        "seed": 20260801,
+        "stream": 0
+      },
+      "mean": -0.0044080813725789385,
+      "mean_above_envelope": false,
+      "median": -0.0024871826171875,
+      "median_above_envelope": false,
+      "n": 12,
+      "positive_count": 0,
+      "sign_at_least_7_of_12": false,
+      "sign_rate": 0.0,
+      "trimmed_mean_10pct": -0.0034751415252685545,
+      "trimmed_mean_above_envelope": false
+    },
+    "total_refresh": {
+      "bootstrap": {
+        "mean_ci95": [
+          -0.0071797053019205725,
+          -0.002130027612050374
+        ],
+        "probability_mean_positive": 0.0,
+        "samples": 4000,
+        "seed": 20260801,
+        "stream": 2
+      },
+      "mean": -0.004304409027099609,
+      "mean_above_envelope": false,
+      "median": -0.0024406909942626953,
+      "median_above_envelope": false,
+      "n": 12,
+      "positive_count": 0,
+      "sign_at_least_7_of_12": false,
+      "sign_rate": 0.0,
+      "trimmed_mean_10pct": -0.0034216880798339845,
+      "trimmed_mean_above_envelope": false
+    }
+  },
+  "fixed_contract": {
+    "arm_order": [
+      "no_op_replay",
+      "h0_sham",
+      "partial_joint",
+      "refreshed_direction_refreshed_coefficient",
+      "fixed_direction_refreshed_coefficient",
+      "fixed_direction_fixed_coefficient"
+    ],
+    "bootstrap_samples": 4000,
+    "bootstrap_seed": 20260801,
+    "expected_cases": 12,
+    "matched_c_abs_tol": 3e-05,
+    "matched_c_rel_tol": 3e-05,
+    "practical_effect_floor": 0.0001
+  },
+  "generic_continuation_gain": {
+    "all_finite": true,
+    "definition": "max(A,B,C)-partial_joint",
+    "max": 1.9346721172332764,
+    "mean": 0.48059441645940143,
+    "median": 0.2534301280975342,
+    "n": 12,
+    "refresh_kill_rescue_allowed": false,
+    "trimmed_mean_10pct": 0.3762458324432373
+  },
+  "model_alias": "llama3-8b-inst",
+  "refresh_opportunity_oracle": {
+    "all_finite": true,
+    "definition": "max(A,B,C)-C",
+    "max": 0.0007061958312988281,
+    "mean": 0.00010367234547932942,
+    "median": 3.8623809814453125e-05,
+    "n": 12,
+    "outcome_selected_upper_bound": true,
+    "trimmed_mean_10pct": 5.345344543457031e-05
+  },
+  "replay_sham_envelope": {
+    "definition": "max(1e-4, abs(no_op), abs(h0_sham-no_op))",
+    "per_case": [
+      0.0001,
+      0.0001,
+      0.0001,
+      0.0001,
+      0.0001,
+      0.0001,
+      0.0001,
+      0.0001,
+      0.0001,
+      0.0001,
+      0.0001,
+      0.0001
+    ],
+    "value": 0.0001
+  },
+  "schema_version": "ode-edit.mv2.refresh-analysis.v1",
+  "scope": "single_model",
+  "technical_validity": {
+    "failed_arm_counts": {
+      "fixed_direction_fixed_coefficient": 0,
+      "fixed_direction_refreshed_coefficient": 0,
+      "h0_sham": 0,
+      "no_op_replay": 0,
+      "partial_joint": 0,
+      "refreshed_direction_refreshed_coefficient": 0
+    },
+    "failed_case_count_in_denominator": 0,
+    "failed_case_ids": [],
+    "failures": [],
+    "pass": true
+  }
+}
