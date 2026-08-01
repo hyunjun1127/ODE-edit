@@ -1,10 +1,14 @@
 import unittest
 
 from project.run_scripts.ode_edit_motivation.adaptive_path import (
+    adaptive_lineage_label,
     choose_refreshed_direction,
     normalized_predicted_advantage,
 )
 from project.run_scripts.ode_edit_motivation.contracts import ContractError
+from project.run_scripts.ode_edit_motivation.frozen_target_lineage import (
+    _QUARTER_STEP_LABELS,
+)
 
 
 class AdaptiveDirectionGateTests(unittest.TestCase):
@@ -30,6 +34,21 @@ class AdaptiveDirectionGateTests(unittest.TestCase):
             normalized_predicted_advantage(float("nan"), 1.0)
         with self.assertRaises(ContractError):
             choose_refreshed_direction(1.0, 1.0, relative_margin=1.0)
+
+    def test_gate_choice_reuses_existing_quarter_step_labels(self):
+        self.assertEqual(adaptive_lineage_label("refreshed", 2), "refreshed_step_2")
+        self.assertEqual(adaptive_lineage_label("fixed", 4), "fixed_step_4")
+        self.assertTrue(
+            {
+                adaptive_lineage_label(selection, step)
+                for selection in ("refreshed", "fixed")
+                for step in range(2, 5)
+            }.issubset(_QUARTER_STEP_LABELS)
+        )
+        with self.assertRaises(ContractError):
+            adaptive_lineage_label("gated_fixed", 2)
+        with self.assertRaises(ContractError):
+            adaptive_lineage_label("fixed", 1)
 
 
 if __name__ == "__main__":

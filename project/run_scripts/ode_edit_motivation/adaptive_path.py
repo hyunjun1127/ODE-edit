@@ -70,6 +70,14 @@ def choose_refreshed_direction(
     return advantage > margin, advantage
 
 
+def adaptive_lineage_label(selection: str, step_index: int) -> str:
+    """Map one gate choice onto the existing quarter-step vocabulary."""
+
+    if selection not in {"refreshed", "fixed"} or step_index not in range(2, 5):
+        raise ContractError("adaptive lineage choice/step is outside the lock")
+    return f"{selection}_step_{step_index}"
+
+
 def build_adaptive_gated_path(
     *,
     runtime: FixedModelRuntime,
@@ -272,7 +280,7 @@ def build_adaptive_gated_path(
                     label=(
                         COMMON_STEP_1
                         if step_index == 1
-                        else f"gated_{selection}_step_{step_index}"
+                        else adaptive_lineage_label(selection, step_index)
                     ),
                 )
                 current_lineage.assert_authorizes(

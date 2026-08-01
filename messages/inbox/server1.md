@@ -897,3 +897,37 @@ Motivation 진단이다.
 - 후속 보고 경로:
   job state/resource, model별 agent analysis, pair post-run audit,
   server1 completion, no-peer broadcast 예외
+
+## Zero-outcome lineage-label repair v2
+
+- 목적과 배경:
+  original job `15730`은 첫 case의 새 `gated_*` lineage label이 existing
+  allowlist 밖이라 outcome 0건 상태에서 실패했다. scientific contract를
+  바꾸지 않고 기존 `fixed_step_i/refreshed_step_i` label을 재사용한다.
+- 허용 write path:
+  기존 v1 raw/log/marker는 read-only 보존. 새
+  `agate_{memit,alpha}_{llama,qwen}_g0_v2/`, `agate_*_pair_v2.submitted/`,
+  v2 Slurm log와 small repair/report path만 허용
+- Slurm 제출 허용 여부:
+  repair audit exact `PASS`, original job exact `FAILED`, 양 outcome 0 byte,
+  clean pushed main/session/cap 확인 후 MEMIT v2 one-shot 1회만 `allowed`;
+  Alpha v2는 MEMIT v2 technical complete 후에만 `allowed`
+- GPU cap:
+  변경 없음. pair `2 GPU / 130000M`, child `1 GPU / 65000M`, server1 cap 3
+- red-team gate:
+  generated adaptive labels 전부 existing quarter-step allowlist subset,
+  targeted 19 tests, compile/shell syntax, no scientific constant diff
+- artifact broadcast:
+  active peer 부재 no-peer 예외 유지; 임의 SSH/rsync 금지
+- 완료 보고 경로:
+  기존 completion/model report/post-run 경로에 original `15730`과 v2 job을
+  함께 기록
+- 금지 사항:
+  v1 삭제/수정, model별 controller, threshold/case/path retune, partial rescue,
+  EasyEdit/cache/projector write·recompute, 다른 repo/session/job 조작
+- 예상 산출물:
+  v2 model별 8 technical-valid event와 56 outcome; v1은 zero-outcome failure
+  provenance로만 보존
+- 중단 조건:
+  original state/outcome 검증 실패, v2 collision, session/cap/Git mismatch,
+  동일 label/lineage 오류 재발 또는 child nonzero

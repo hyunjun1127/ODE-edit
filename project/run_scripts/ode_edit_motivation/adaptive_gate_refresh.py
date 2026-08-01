@@ -121,22 +121,22 @@ AGATE_BOOTSTRAP_RESAMPLES = 4000
 
 AGATE_JOB_NAMES = MappingProxyType(
     {
-        TRACK_MEMIT: "odeedit_agate_memit_pair_v1",
-        TRACK_ALPHAEDIT: "odeedit_agate_alpha_pair_v1",
+        TRACK_MEMIT: "odeedit_agate_memit_pair_v2",
+        TRACK_ALPHAEDIT: "odeedit_agate_alpha_pair_v2",
     }
 )
 AGATE_RUN_IDS = MappingProxyType(
     {
         TRACK_MEMIT: MappingProxyType(
             {
-                "llama3-8b-inst": "agate_memit_llama_g0_v1",
-                "qwen2.5-7b-inst": "agate_memit_qwen_g0_v1",
+                "llama3-8b-inst": "agate_memit_llama_g0_v2",
+                "qwen2.5-7b-inst": "agate_memit_qwen_g0_v2",
             }
         ),
         TRACK_ALPHAEDIT: MappingProxyType(
             {
-                "llama3-8b-inst": "agate_alpha_llama_g0_v1",
-                "qwen2.5-7b-inst": "agate_alpha_qwen_g0_v1",
+                "llama3-8b-inst": "agate_alpha_llama_g0_v2",
+                "qwen2.5-7b-inst": "agate_alpha_qwen_g0_v2",
             }
         ),
     }

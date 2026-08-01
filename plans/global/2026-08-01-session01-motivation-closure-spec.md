@@ -212,3 +212,11 @@ A보다 약 `-0.04` 이내에서 B보다 약 `+1.62` 높을 것으로 예상됐�
 각 track 완료 후 raw를 보지 않은 별도 Terra Ultra agent가 model별 report를
 작성해야 한다. runtime metadata가 `gpt-5.6-terra`, `ultra`로 확인되지 않은
 agent 결과는 report 승격에 사용하지 않는다.
+
+## Zero-outcome execution amendment
+
+original MEMIT v1 job `15730`은 첫 case의 outcome/feature/action 생성 전에
+gate path가 새 lineage label을 사용해 existing quarter-step allowlist에
+거부됐다. 양 model outcome은 0건이다. scientific contract는 바꾸지 않고
+gate 선택을 existing `fixed_step_i/refreshed_step_i` lineage label에
+매핑한 v2 identity로 재실행한다. v1 raw/log/marker는 보존한다.

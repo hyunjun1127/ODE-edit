@@ -23,13 +23,13 @@ readonly SRUN_BIN="/usr/bin/srun"
 [[ "$#" -eq 1 ]] || exit 2
 readonly TRACK="$1"
 case "${TRACK}|${SLURM_JOB_NAME:-}" in
-  "memit|odeedit_agate_memit_pair_v1")
-    readonly LLAMA_RUN="agate_memit_llama_g0_v1"
-    readonly QWEN_RUN="agate_memit_qwen_g0_v1"
+  "memit|odeedit_agate_memit_pair_v2")
+    readonly LLAMA_RUN="agate_memit_llama_g0_v2"
+    readonly QWEN_RUN="agate_memit_qwen_g0_v2"
     ;;
-  "alphaedit_projected|odeedit_agate_alpha_pair_v1")
-    readonly LLAMA_RUN="agate_alpha_llama_g0_v1"
-    readonly QWEN_RUN="agate_alpha_qwen_g0_v1"
+  "alphaedit_projected|odeedit_agate_alpha_pair_v2")
+    readonly LLAMA_RUN="agate_alpha_llama_g0_v2"
+    readonly QWEN_RUN="agate_alpha_qwen_g0_v2"
     ;;
   *) exit 2 ;;
 esac
