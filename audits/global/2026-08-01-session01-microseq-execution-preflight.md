@@ -37,7 +37,7 @@
 
 ## 검증 증거
 
-- full CPU regression: `279 tests OK`
+- full CPU regression: `284 tests OK`
 - microseq evaluator/controller/artifact/analysis: `py_compile PASS`
 - child/pair/submission wrappers: `bash -n PASS`
 - Terra Ultra 독립 review: runtime metadata에서 `gpt-5.6-terra`와 `ultra`를

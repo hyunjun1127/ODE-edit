@@ -1061,7 +1061,7 @@ Motivation 진단이다.
 - red-team gate 통과 조건:
   exact salted rank `[140:144]`, model 공통 layers/seed/K/hop/policy,
   controller 두 개 종료와 8 receipts 뒤 evaluation decode, fresh-W0 branch
-  replay, pinned covariance only, raw-field firewall, `279 tests OK`, compile 및
+  replay, pinned covariance only, raw-field firewall, `284 tests OK`, compile 및
   shell syntax pass
 - artifact broadcast 의무:
   active peer SH/clone이 없으므로 no-peer 예외를 completion에 기록한다. 임의
