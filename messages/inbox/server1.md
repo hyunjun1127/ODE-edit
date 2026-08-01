@@ -1112,3 +1112,20 @@ Motivation 진단이다.
   artifact 삭제, partial resume
 - 재제출 조건: incident audit `PASS`, failed artifact local archive, clean pushed
   main, exact session/resource gate
+
+### Motivation microseq 완료
+
+- repair rerun job: `15799`, 2026-08-02 03:44:13--05:17:00 KST,
+  `COMPLETED 0:0`
+- technical: 양 model/branch controller 4 actions·4 receipts, evaluator 4
+  checkpoints, combined 8 checkpoints, firewall/cache/state/hash all-pass
+- scientific: pair `MICROSEQ_HARM_SIGNAL`; capacity와 neighborhood KL reduction은
+  공통 양수지만 current utility와 retention은 양 model 모두 악화
+- 결정: unconditional always-refresh full-distance sequential skeleton kill;
+  추가 Motivation retry 금지
+- 다음 권한: 사용자 확인 전 Method Session/large-scale Slurm 제출 `not allowed`
+- artifact broadcast: server4 pending clone/SH로 no-peer exception; 임의 rsync 금지
+- 완료 보고:
+  `experiment-reports/global/2026-08-02-session01-motivation-closure-gh.md`,
+  `audits/global/2026-08-02-session01-microseq-pair.postrun.md`,
+  `messages/head/2026-08-02-motivation-closure.md`

@@ -2,7 +2,7 @@
 
 날짜: 2026-08-01
 
-상태: **GH primary-source survey; novelty 확정 문서 아님**
+상태: **GH primary-source survey; 2026-08-02 Motivation closure 반영; novelty 확정 문서 아님**
 
 분석 주체: GH. Terra Ultra subagent는 runtime model/reasoning metadata를 검증할
 수 없어 파일 열람 없이 종료했으므로, 이 문서는 독립 agent review를 대체하지
@@ -183,10 +183,18 @@ calibration loss를 사용하는 점이 edit-authorized context만 쓰는 ODE-Ed
   central-probe adaptive selector는 그 방향을 거의 선택하지 못했다.
 - 이는 state dependence의 가능성은 남기되 “현재 gate/controller가 작동한다”는
   claim을 닫는다.
-- AlphaEdit projected run은 projection과 refresh가 상보적인지 보는 작은 signal이며,
-  null-space preservation이나 lifelong superiority를 검증하지 않는다.
-- 4-edit micro-sequential 진단은 retention/KL/load proxy의 방향만 본다. ENCORE,
-  NAS, LyapLock, BetaEdit, CrispEdit, LocFT-BF 대비 비교는 다음 stage에서만 가능하다.
+- AlphaEdit projected run에서 always-refresh `A4-B4`는 Llama `+0.826986`,
+  Qwen `+1.668561`이고 양 model 모두 8/8 positive였다. 이는 projected actuator의
+  atomic transfer signal이지 null-space preservation이나 lifelong superiority가
+  아니다.
+- 4-edit micro-sequential always-refresh는 두 model에서 capacity와 neighborhood
+  KL을 줄였지만 current utility와 retention을 악화시켜 `MICROSEQ_HARM_SIGNAL`로
+  닫혔다. 따라서 relinearization만 항상 켜는 skeleton은 ENCORE/NAS보다 강한
+  baseline이 아니며, first-hit·rewrite constraint·capacity routing을 실제 구현한
+  뒤에만 비교할 수 있다.
+- ENCORE, NAS, LyapLock, BetaEdit, CrispEdit, LocFT-BF 대비 우위는 미성립이다.
+  특히 현재 약 6.4--6.8배 measured wall과 49배 controlled NFE는 harm 결과로
+  정당화되지 않는다.
 
 ## 7. 사용자 확인 필요
 

@@ -4,11 +4,11 @@
 
 - 서버 이름: server1
 - 서버 유형: local GH host
-- 사용 목적: ODE-Edit repository bootstrap 및 Session 01 preflight 후보
+- 사용 목적: ODE-Edit repository bootstrap 및 Session 01 Motivation 실행 host
 - 예상 사용 기간: 사용자 확인 필요
 - 담당 global-head: head-server1-gh
 - 담당 server-head: 미지정
-- global-head 승인: `pending-onboarding`
+- global-head 승인: `active-local-gh-exception`; server-head onboarding은 pending
 
 | 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
 | --- | --- | --- | --- | --- |
@@ -20,7 +20,8 @@
 - 사용자 계정: Git 기록 금지
 - SSH 접속 확인: local-only `servers/local/ssh_config`를 통한 read-only check 필요
 - host key 확인: 사용자 또는 향후 server-head 확인 필요
-- Slurm 접근 확인: controller read-only visibility만 확인됨; job submit은 미승인
+- Slurm 접근 확인: 사용자 time-critical 지시와 protocol 예외 아래 GH helper
+  submit/monitor/terminal artifact 검증 완료
 - storage mount 확인: `/mnt/raid5/janghj/ODE-edit` local clone 존재 확인
 - rsync 인증 상태: local-only config 이식 후 dry-run으로 확인 필요
 - method runtime: `servers/local/method-runtime.env`에 기존 EasyEdit/Hugging
@@ -77,7 +78,9 @@ GH/SH session은 이 record를 갱신하고, 기존 session ID를 재사용하�
 
 ## 판정
 
-- 상태: `pending-onboarding`
-- 남은 작업: local SSH/rsync dry-run, runtime/dataset
-  path 확인, server-head 배정 여부, red-team onboarding audit
+- 상태: `active-local-gh`; server-head는 미배정
+- 완료: repository/remote/session/resource boundary, EasyEdit runtime,
+  pinned dataset/cache, Slurm pair 실행과 Session 01 Motivation closure
+- 남은 작업: local SSH/rsync dry-run, server-head 배정, remote peer clone 뒤
+  artifact broadcast 검증, red-team onboarding audit
 - 다음 담당자: global-head 및 사용자
