@@ -25,7 +25,12 @@ from .contracts import (
     canonical_json,
 )
 from .frozen_target_lineage import proposal_direction_hash
-from .hooks import tensor_sha256
+from .hooks import (
+    _match_update_shape,
+    assert_snapshot_current,
+    resolve_parameter,
+    tensor_sha256,
+)
 
 
 ARTIFACT_SCHEMA = "ode-edit-microseq-proposal-artifact/v1"
@@ -35,6 +40,50 @@ _HEX = frozenset("0123456789abcdef")
 
 class MicroseqArtifactError(ContractError):
     """A local replay artifact differs from its strict sidecar contract."""
+
+
+def apply_proposal_in_disposable_process(
+    model: torch.nn.Module,
+    proposal: MemitFactorProposal,
+    *,
+    application_mode: str,
+) -> dict[str, str]:
+    """Permanently apply one proposal to a process-local disposable model.
+
+    This deliberately has no rollback path: the controller process must abort
+    and exit on any exception.  Entry hashes are checked before the first
+    write, and callers must compare the returned hashes with a precomputed
+    descendant snapshot before constructing the next action.
+    """
+
+    if not isinstance(proposal, MemitFactorProposal):
+        raise MicroseqArtifactError("disposable application requires a proposal")
+    if application_mode not in {"low_rank_addmm", "easyedit_exact"}:
+        raise MicroseqArtifactError("unknown disposable application mode")
+    assert_snapshot_current(model, proposal.snapshot)
+    changed: dict[str, str] = {}
+    with torch.no_grad():
+        for factor in proposal.factors:
+            parameter = resolve_parameter(model, factor.weight_name)
+            if tensor_sha256(parameter) != factor.expected_weight_sha256:
+                raise MicroseqArtifactError("proposal factor entry hash differs")
+            if application_mode == "low_rank_addmm":
+                left = factor.left.to(device=parameter.device, dtype=parameter.dtype)
+                right = factor.right.to(device=parameter.device, dtype=parameter.dtype)
+                parameter.addmm_(left, right.transpose(0, 1), beta=1.0, alpha=1.0)
+            else:
+                left = factor.left.to(device=parameter.device)
+                right = factor.right.to(device=parameter.device)
+                dense = (
+                    right @ left.transpose(0, 1)
+                    if factor.native_update_transposed
+                    else left @ right.transpose(0, 1)
+                )
+                parameter[...] += _match_update_shape(dense, parameter.shape).float()
+            changed[factor.weight_name] = tensor_sha256(parameter)
+    if not changed:
+        raise MicroseqArtifactError("proposal application changed no parameters")
+    return changed
 
 
 def _sha256_file(path: Path) -> str:

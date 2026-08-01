@@ -17,6 +17,7 @@ from project.run_scripts.ode_edit_motivation.contracts import (
 from project.run_scripts.ode_edit_motivation.hooks import tensor_sha256
 from project.run_scripts.ode_edit_motivation.microseq_artifacts import (
     MicroseqArtifactError,
+    apply_proposal_in_disposable_process,
     load_proposal_artifact,
     write_proposal_artifact,
 )
@@ -62,6 +63,50 @@ def _proposal() -> tuple[MemitFactorProposal, SnapshotManifest]:
 
 
 class MicroseqArtifactTests(unittest.TestCase):
+    def test_disposable_application_is_hash_guarded(self) -> None:
+        model = torch.nn.Linear(4, 3, bias=False)
+        with torch.no_grad():
+            model.weight.zero_()
+        source_snapshot = _snapshot(model.weight)
+        source, _ = _proposal()
+        snapshot = SnapshotManifest(
+            model_id=source_snapshot.model_id,
+            context_id=source_snapshot.context_id,
+            request_ids=source_snapshot.request_ids,
+            hparams_sha256=source_snapshot.hparams_sha256,
+            parameters=(
+                ParameterRecord(
+                    name="weight",
+                    sha256=source_snapshot.parameters[0].sha256,
+                    shape=source_snapshot.parameters[0].shape,
+                    dtype=source_snapshot.parameters[0].dtype,
+                ),
+            ),
+        )
+        proposal = MemitFactorProposal(
+            snapshot=snapshot,
+            factors=(
+                LowRankFactor(
+                    weight_name="weight",
+                    left=source.factors[0].left,
+                    right=source.factors[0].right,
+                    expected_weight_sha256=snapshot.parameter("weight").sha256,
+                ),
+            ),
+            semantics=ProposalSemantics.SYNCHRONOUS_FROZEN_SNAPSHOT,
+            solver_name="unit-apply",
+            residual_denominator=5,
+        )
+        changed = apply_proposal_in_disposable_process(
+            model, proposal, application_mode="low_rank_addmm"
+        )
+        self.assertEqual(set(changed), {"weight"})
+        self.assertFalse(torch.equal(model.weight, torch.zeros_like(model.weight)))
+        with self.assertRaisesRegex(Exception, "no longer matches proposal snapshot"):
+            apply_proposal_in_disposable_process(
+                model, proposal, application_mode="low_rank_addmm"
+            )
+
     def test_tensor_only_round_trip(self) -> None:
         proposal, snapshot = _proposal()
         with tempfile.TemporaryDirectory() as directory:
