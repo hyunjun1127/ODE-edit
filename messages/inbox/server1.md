@@ -811,3 +811,88 @@ Motivation 진단이다.
   defect만 고친다. exact command는
   `project/run_scripts/submit_session01_qstep4_pair_server1.sh`, 영향은 동일
   server1 pair allocation 한 건과 새 retry marker뿐이다.
+
+---
+
+# Motivation adaptive direction gate instruction — `session01-agate-g0-v1`
+
+## 목적과 배경
+
+- proposal에서 온 내용:
+  ODE-Edit의 path 중 direction/ranking non-stationarity와 AlphaEdit
+  null-space proposal transfer를 Motivation에서 검증한다.
+- repo/protocol에서 확인한 사실:
+  직전 native-distance `qstep4`에서 unconditional direction refresh는
+  Llama와 Qwen에 서로 다른 효과를 냈고 coefficient refresh는 양쪽에서
+  양의 방향이었다. 현재 server1 SH는 없다.
+- GH 추정:
+  같은 current state의 refreshed/fixed 후보를 outcome-free probe로 고르는
+  gate가 Llama의 불필요한 refresh를 줄이고 Qwen 이득을 보존할 수 있다.
+- 사용자 확인 필요:
+  없음. 사용자가 빠른 동시 pair, AlphaEdit hook, cache 재사용과 lenient
+  Motivation closure를 명시했다.
+
+정확한 scientific contract는
+`plans/global/2026-08-01-session01-motivation-closure-spec.md`를 따른다.
+
+## 실행 권한 envelope
+
+- 허용 write path:
+  `local/results/raw/session01_motivation/agate_{memit,alpha}_{llama,qwen}_g0_v1/`,
+  `local/results/analysis/session01_motivation/agate_*_g0_v1/`,
+  `local/logs/slurm/session01_motivation/`,
+  `local/state/slurm-submissions/session01_motivation/agate_*_pair_v1.submitted/`,
+  그리고 이 instruction에 명시된 small report/audit/completion path만 허용
+- Slurm 제출 허용 여부:
+  preflight exact `PASS`, clean pushed `main`, session/cap 재확인 뒤 GH
+  one-shot helper로 MEMIT 1회 `allowed`; 그 job exact `COMPLETED` 및 양
+  summary `all_pass=true` 뒤 AlphaEdit-projected 1회 `allowed`. 임의 retry,
+  별도 model 제출, 미등록 SH 제출은 `not allowed`
+- GPU cap:
+  server1 최대 3; parent별 `2 GPU / 16 CPU / 130000M / 12:00:00`,
+  child별 `1 GPU / 8 CPU / 65000M`. 두 track pair 동시 제출 금지
+- red-team gate 통과 조건:
+  fresh `[124:132]`, direct-z 1회, identical-current-state candidate gate,
+  exact `D/4` hop/`D/64` probe, receipt-before-outcome, full/split4 control,
+  pinned cache/projector read-only, 190-test regression과 shell syntax가 모두
+  pass해야 함
+- artifact broadcast 의무:
+  active peer clone/SH가 없으므로 no-peer 예외를 completion에 기록한다.
+  peer가 생기기 전 임의 SSH/rsync 금지; 이후 protocol script만 사용
+- 완료 보고 경로:
+  `messages/server-heads/server1/2026-08-01.md`,
+  `experiment-reports/global/2026-08-01-agate-*-analysis.md`,
+  `audits/global/2026-08-01-agate-*-pair-v1.postrun.md`
+- Codex session boundary:
+  이번 GH one-shot session은
+  `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`, primary profile은 `Sol Ultra`.
+  server별 SH session ID는 아직 미등록이며 향후 registry에 별도 등록한다.
+  report agent는 runtime metadata가 확인된 `Terra Ultra`만 허용하고 다른
+  repo/session agent는 사용하지 않는다.
+- 금지 사항:
+  EasyEdit source/runtime/data/cache/projector write·download·recompute,
+  native AlphaEdit 전체 재현이라고 과장, case/model/layer/K/hop/probe/margin
+  retune, new-case outcome에 따른 policy 변경, partial-case rescue, raw Git
+  유입, credential/private connection 기록, 다른 repo/session/job 조작
+- 예상 산출물:
+  track/model별 exact 8 event, 8 feature/action/receipt/analysis row, 56 final
+  outcomes, adaptive selection/contrast/projector retention compact summary,
+  별도 verified Terra Ultra agent model report, pair post-run verdict
+- 중단 조건:
+  output/marker/active job 중복, dirty/unpushed main, session/cap mismatch,
+  MEMIT technical failure, child 비동시 시작/nonzero, 12시간 또는 resource
+  cap 초과, hash/cache/projector/lineage/C-budget/rollback/firewall/receipt
+  위반, unsafe raw leakage
+
+## GH 직접 one-shot 제출 예외 기록
+
+- 사유:
+  SH 부재와 사용자 time-critical 동시 실행 지시
+- 명령:
+  `project/run_scripts/submit_session01_adaptive_gate_pair_server1.sh memit`,
+  이후 gate 충족 시 `... alphaedit_projected`
+- 영향 범위:
+  server1에서 순차 pair 두 건과 위 ignored local path만 사용
+- 후속 보고 경로:
+  job state/resource, model별 agent analysis, pair post-run audit,
+  server1 completion, no-peer broadcast 예외

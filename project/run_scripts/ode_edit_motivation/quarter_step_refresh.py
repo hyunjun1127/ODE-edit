@@ -631,6 +631,11 @@ def _build_policy_path(
     base_state_identity: str,
     base_cpu_rng: torch.Tensor,
     base_cuda_rng: torch.Tensor,
+    proposal_transform: Callable[
+        [MemitFactorProposal, str],
+        tuple[MemitFactorProposal, Mapping[str, Any]],
+    ]
+    | None = None,
 ) -> BuiltPath:
     if policy not in {REFRESHED_PREFIX, COEFFICIENT_PREFIX, FIXED_PREFIX}:
         raise ContractError("quarter-step path policy is outside the lock")
@@ -670,6 +675,12 @@ def _build_policy_path(
                             model_id=runtime.spec.snapshot_name,
                             frozen_target_lineage=current_lineage,
                         )
+                    transform_payload: Mapping[str, Any] = {}
+                    if proposal_transform is not None:
+                        refreshed, transform_payload = proposal_transform(
+                            refreshed,
+                            f"{policy}-step-{step_index}",
+                        )
                     refreshed_unit = build_unit_c_actions(
                         refreshed, covariance_moments, layer_by_weight
                     )
@@ -703,6 +714,11 @@ def _build_policy_path(
                         solver_suffix=f"qstep-{policy}-step-{step_index}",
                     )
                     panel_payload = panel.to_dict()
+                    if proposal_transform is not None:
+                        panel_payload = {
+                            **panel_payload,
+                            "proposal_transform": dict(transform_payload),
+                        }
                     cosine_payload = per_layer_c_cosines(
                         b0,
                         refreshed,
