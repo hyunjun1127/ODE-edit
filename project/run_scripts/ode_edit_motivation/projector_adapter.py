@@ -139,6 +139,46 @@ class AlphaEditProjectorBank:
         self.manifest.assert_current()
         self.assert_stat_current()
 
+    def layer_matrix(
+        self,
+        layer: int,
+        *,
+        device: torch.device | str | None = None,
+        dtype: torch.dtype | None = None,
+    ) -> torch.Tensor:
+        """Return an independent read-only-source copy of one pinned matrix.
+
+        ``torch.load(..., mmap=True)`` keeps the source bytes resident in the
+        bank.  ``copy=True`` ensures a consumer cannot mutate that mmap-backed
+        tensor, including when it asks for the source CPU dtype.  This method
+        performs no P/SVD calculation and writes neither EasyEdit nor the
+        projector artifact.
+        """
+
+        if isinstance(layer, bool) or not isinstance(layer, int):
+            raise ContractError("AlphaEdit projector layer must be an integer")
+        try:
+            index = self.layers.index(layer)
+        except ValueError as exc:
+            raise ContractError(f"AlphaEdit projector does not cover layer {layer}") from exc
+        target_device = self._tensor.device if device is None else torch.device(device)
+        target_dtype = self._tensor.dtype if dtype is None else dtype
+        if not isinstance(target_dtype, torch.dtype) or not torch.empty(
+            (), dtype=target_dtype
+        ).is_floating_point():
+            raise ContractError("AlphaEdit projector dtype must be floating point")
+        self.assert_stat_current()
+        matrix = self._tensor[index].to(
+            device=target_device,
+            dtype=target_dtype,
+            non_blocking=False,
+            copy=True,
+        )
+        if matrix.requires_grad or not bool(torch.isfinite(matrix).all()):
+            raise ContractError("AlphaEdit projector layer is non-finite")
+        self.assert_stat_current()
+        return matrix.detach()
+
     def project_proposal(
         self,
         proposal: MemitFactorProposal,

@@ -163,6 +163,23 @@ class AlphaEditProjectorAdapterTests(unittest.TestCase):
                         solver_suffix="unit",
                     )
 
+    def test_layer_matrix_returns_independent_read_only_source_copy(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            _, identity, spec, _ = self._fixture(root)
+            with mock.patch(
+                "project.run_scripts.ode_edit_motivation.projector_adapter.FIXED_FILE_IDENTITIES",
+                {"projector.pt": identity},
+            ):
+                bank = AlphaEditProjectorBank.open(root, spec)
+                first = bank.layer_matrix(4, dtype=torch.float64)
+                self.assertEqual(first.dtype, torch.float64)
+                first[0, 0] = -99.0
+                second = bank.layer_matrix(4, dtype=torch.float64)
+            self.assertEqual(float(second[0, 0]), 1.0)
+            with self.assertRaisesRegex(ValueError, "does not cover"):
+                bank.layer_matrix(99)
+
 
 if __name__ == "__main__":
     unittest.main()

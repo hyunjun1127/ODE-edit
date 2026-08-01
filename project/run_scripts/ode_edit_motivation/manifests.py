@@ -54,6 +54,24 @@ MEMIT_HPARAM_PATHS: tuple[str, ...] = (
     "hparams/MEMIT/qwen2.5-7b.yaml",
 )
 
+# AlphaEdit is consumed as a pinned, read-only mathematical reference by the
+# ODE-side isolated-first-edit adapter.  These files are deliberately not part
+# of ``EASYEDIT_SOURCE_PATHS``: the verified MEMIT import bridge must keep its
+# executable import closure unchanged.
+ALPHAEDIT_REFERENCE_SOURCE_PATHS: tuple[str, ...] = (
+    "easyeditor/models/alphaedit/AlphaEdit_main.py",
+    "easyeditor/models/alphaedit/compute_ks.py",
+    "easyeditor/models/alphaedit/compute_z.py",
+    "easyeditor/models/alphaedit/AlphaEdit_hparams.py",
+)
+
+ALPHAEDIT_HPARAM_BY_MODEL: Mapping[str, str] = MappingProxyType(
+    {
+        "llama3-8b-inst": "hparams/AlphaEdit/llama3-8b.yaml",
+        "qwen2.5-7b-inst": "hparams/AlphaEdit/qwen2.5-7b.yaml",
+    }
+)
+
 EASYEDIT_RUNTIME_PATHS: tuple[str, ...] = (
     "pyproject.toml",
     "uv.lock",
@@ -146,6 +164,22 @@ FIXED_FILE_IDENTITIES: Mapping[str, ExpectedFileIdentity] = MappingProxyType(
             "223dc4e663a049214c0528a02eff8c066413fbee9bce98735a2ce8d1c6585f41",
             1_578,
         ),
+        "easyeditor/models/alphaedit/AlphaEdit_main.py": _identity(
+            "a3a459abc4e05f4b3ccaf424a8950245c491686e943fdcaa52b296343e7458b1",
+            14_586,
+        ),
+        "easyeditor/models/alphaedit/compute_ks.py": _identity(
+            "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba",
+            1_552,
+        ),
+        "easyeditor/models/alphaedit/compute_z.py": _identity(
+            "e12140c66b467759f3fb0061ec844f79147221e0649f0d0a5f9657225ff12c95",
+            10_210,
+        ),
+        "easyeditor/models/alphaedit/AlphaEdit_hparams.py": _identity(
+            "703776fdfd095d0834483705311b7e103b898c9cf18c66388d5b4b06e8aeeac2",
+            1_674,
+        ),
         "easyeditor/models/rome/layer_stats.py": _identity(
             "10c5f6204697a090671d3810f7fd60e781c44b7537e47a9625c07e542ff87cc4",
             7_157,
@@ -201,6 +235,14 @@ FIXED_FILE_IDENTITIES: Mapping[str, ExpectedFileIdentity] = MappingProxyType(
         "hparams/MEMIT/qwen2.5-7b.yaml": _identity(
             "fccad05cf749c710ba0ce58ae24203f0bb90d9bf488966a5184dacd489a0311b",
             639,
+        ),
+        "hparams/AlphaEdit/llama3-8b.yaml": _identity(
+            "d403e1875e62096b089be5343d33896510e454b0cdd2b256618ab53de6609ef8",
+            1_134,
+        ),
+        "hparams/AlphaEdit/qwen2.5-7b.yaml": _identity(
+            "82d04976c4ab65e67c537ac3bd1b04d42c8f7527e2a749bdefcce63e43b995c3",
+            695,
         ),
         COUNTERFACT_RELATIVE_PATH: _identity(
             "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
