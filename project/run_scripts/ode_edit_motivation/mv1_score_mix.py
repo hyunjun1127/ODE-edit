@@ -323,11 +323,25 @@ _OUTCOME_ONLY_FIELDS = {
     "status",
 }
 
+# Boolean firewall attestations describe the absence/order of outcome access;
+# they are not outcome payloads.  Keep this allow-list exact and value-locked
+# so a misspelled key or a flipped attestation still fails closed.
+_OUTCOME_FREE_ATTESTATIONS = {
+    "outcome_fields_loaded": False,
+    "all_actions_before_outcomes": True,
+}
+
 
 def _assert_outcome_free(value: Any) -> None:
     if isinstance(value, Mapping):
         for raw_key, item in value.items():
             key = str(raw_key).lower()
+            if key in _OUTCOME_FREE_ATTESTATIONS:
+                if item is not _OUTCOME_FREE_ATTESTATIONS[key]:
+                    raise ContractError(
+                        f"outcome firewall attestation differs: {raw_key}"
+                    )
+                continue
             if key in _OUTCOME_ONLY_FIELDS or "outcome" in key:
                 raise ContractError(
                     f"outcome field is forbidden before commitment: {raw_key}"

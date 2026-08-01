@@ -2,7 +2,8 @@
 
 - 날짜: 2026-08-01
 - 작성: GH 최소 red preflight
-- 대상: `odeedit_microseq_pair_v1` 1회
+- 대상: `odeedit_microseq_pair_v1`; job `15798` pre-action technical failure 뒤
+  동일 locked panel의 1회 repair 재제출
 - claim boundary: 4-edit Motivation proxy; lifelong·method superiority claim 금지
 
 ## 구분
@@ -37,15 +38,22 @@
 
 ## 검증 증거
 
-- full CPU regression: `284 tests OK`
+- original full CPU regression: `284 tests OK`
+- job `15798` repair regression: targeted sentinel test, `py_compile`, full
+  `290 tests OK`
 - microseq evaluator/controller/artifact/analysis: `py_compile PASS`
 - child/pair/submission wrappers: `bash -n PASS`
 - Terra Ultra 독립 review: runtime metadata에서 `gpt-5.6-terra`와 `ultra`를
   검증할 수 없어 agent가 파일을 열지 않고 즉시 종료함. 이 제한 때문에 GH가
   필수 kill-test만 직접 확인했으며, scientific 결과 report에서는 동일 조건의
   Terra Ultra agent를 다시 시도한다.
-- GPU smoke: 아직 미실행. Alpha technical-valid 전 제출 금지와 controller/
-  evaluator fail-closed contract로 첫 이상에서 scientific interpretation 없이
-  job을 실패시킨다.
+- GPU startup job `15798`: 양 model child가 함께 시작했으나 Llama 첫 edit의
+  outcome-free action commitment 전에 boolean firewall attestation 이름이 generic
+  substring guard와 충돌해 실패했다. action/receipt 0, outcome field load false였고
+  sibling Qwen은 fail-fast 종료됐다. 과학 결과로 사용하지 않는다.
+- repair: `outcome_fields_loaded=False`와
+  `all_actions_before_outcomes=True` 두 exact boolean attestation만 value-locked
+  allow-list로 허용한다. 값 반전·정수 대체·다른 outcome key·nested progress는
+  계속 fail-closed다.
 
-- 최종 판정: `PASS` — Alpha technical-valid 이후 locked four-edit pair 1회에만 유효
+- 최종 판정: `PASS` — Alpha technical-valid 및 pre-action contract repair 검증 후 locked four-edit pair 1회 재제출에만 유효

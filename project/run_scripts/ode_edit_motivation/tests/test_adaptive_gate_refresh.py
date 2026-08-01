@@ -106,6 +106,27 @@ class AdaptiveGateEnvelopeTests(unittest.TestCase):
     def test_adaptive_commit_uses_own_branch_and_outcome_free_schema(self) -> None:
         with self.assertRaisesRegex(ContractError, "outcome field"):
             _assert_outcome_free({"outcomes_unseen_at_commit": True})
+        _assert_outcome_free(
+            {
+                "outcome_fields_loaded": False,
+                "all_actions_before_outcomes": True,
+            }
+        )
+        for invalid in (
+            {"outcome_fields_loaded": True},
+            {"outcome_fields_loaded": 0},
+            {"all_actions_before_outcomes": False},
+            {"all_actions_before_outcomes": 1},
+        ):
+            with self.assertRaisesRegex(ContractError, "firewall attestation"):
+                _assert_outcome_free(invalid)
+        with self.assertRaisesRegex(ContractError, "outcome field"):
+            _assert_outcome_free(
+                {
+                    "outcome_fields_loaded": False,
+                    "nested": {"progress": 0.0},
+                }
+            )
         feature = {
             "case_id": "one",
             "request_id": "1" * 64,

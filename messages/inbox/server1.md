@@ -1052,8 +1052,11 @@ Motivation 진단이다.
   및 이 instruction의 small report/audit/completion path
 - Slurm 제출 허용 여부:
   Alpha pair exact `COMPLETED`와 양 model `all_pass=true`, microseq red gate
-  `PASS`, clean pushed `main`, session/resource 재확인 뒤 GH one-shot pair 1회
-  `allowed`; 임의 retry·model별 단독 제출은 `not allowed`
+  `PASS`, clean pushed `main`, session/resource 재확인 뒤 GH pair 1회
+  `allowed`. 최초 job `15798`은 Llama 첫 action commit 전 boolean firewall
+  attestation 충돌로 실패했으므로 과학 retry가 아니다. exact repair 검증 뒤
+  동일 panel의 1회 재제출만 `allowed`; 그 밖의 retry·model별 단독 제출은
+  `not allowed`
 - GPU cap:
   server1 project cap `4`; pair `2 GPU / 16 CPU / 130000M / 12:00:00`,
   child `1 GPU / 8 CPU / 65000M`. launcher가 aggregate active usage를
@@ -1061,8 +1064,8 @@ Motivation 진단이다.
 - red-team gate 통과 조건:
   exact salted rank `[140:144]`, model 공통 layers/seed/K/hop/policy,
   controller 두 개 종료와 8 receipts 뒤 evaluation decode, fresh-W0 branch
-  replay, pinned covariance only, raw-field firewall, `284 tests OK`, compile 및
-  shell syntax pass
+  replay, pinned covariance only, raw-field firewall, original `284 tests OK`와
+  repair `290 tests OK`, compile 및 shell syntax pass
 - artifact broadcast 의무:
   active peer SH/clone이 없으므로 no-peer 예외를 completion에 기록한다. 임의
   SSH/rsync는 금지하고 peer 활성화 뒤 protocol script만 사용한다.
@@ -1097,3 +1100,15 @@ Motivation 진단이다.
 - 영향 범위: server1의 2-GPU pair 한 건과 위 ignored local path만 사용
 - 후속 보고: 30분 job state/count monitor, model별 Terra Ultra 분석 시도,
   pair post-run audit, server1 completion 및 no-peer broadcast 예외
+
+### Pre-action contract repair 재제출 기록
+
+- original job: `15798`, 2026-08-02 03:36:51--03:39:03 KST, `FAILED`
+- failure scope: Llama edit 1에서 actions 0, receipts 0, evaluator field load
+  false; Qwen sibling은 fail-fast signal로 종료
+- 허용 repair: shared outcome-free guard에 두 exact boolean attestation의
+  value-locked allow-list와 regression test만 추가
+- 금지: case/model/policy/K/hop/metric/evaluator/scientific gate 변경, failed
+  artifact 삭제, partial resume
+- 재제출 조건: incident audit `PASS`, failed artifact local archive, clean pushed
+  main, exact session/resource gate
