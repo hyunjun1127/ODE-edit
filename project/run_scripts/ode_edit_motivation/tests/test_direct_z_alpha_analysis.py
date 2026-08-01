@@ -335,6 +335,10 @@ class DirectZAlphaAnalysisTest(unittest.TestCase):
                 0,
             )
             analysis = json.loads(output_json.read_text(encoding="utf-8"))
+            self.assertEqual(
+                analysis["schema_version"],
+                "ode-edit-direct-z-alpha-paired-analysis/v2",
+            )
             self.assertTrue(analysis["artifact_validation"]["valid"])
             self.assertEqual(
                 analysis["classification"]["verdict"],
@@ -347,7 +351,45 @@ class DirectZAlphaAnalysisTest(unittest.TestCase):
             self.assertTrue(residual["sign_normalized"])
             self.assertAlmostEqual(residual["mean"], 0.2)
             self.assertTrue(residual["lenient_positive"])
-            self.assertIn("method-superiority", output_markdown.read_text(encoding="utf-8"))
+            self.assertEqual(
+                set(analysis["contrasts"]),
+                {
+                    "genuine_c_vs_posthoc_c",
+                    "bf_vs_genuine_c",
+                    "genuine_c_vs_noop",
+                    "bf_vs_noop",
+                    "cone_vs_noop",
+                    "oracle_vs_noop",
+                    "genuine_full_vs_c_matched",
+                    "posthoc_full_vs_c_matched",
+                },
+            )
+            genuine_absolute = analysis["contrasts"]["genuine_c_vs_noop"]
+            bf_absolute = analysis["contrasts"]["bf_vs_noop"]
+            for absolute in (genuine_absolute, bf_absolute):
+                self.assertTrue(
+                    absolute["metrics"]["z_residual_ratio"]["lenient_positive"]
+                )
+                self.assertTrue(
+                    absolute["metrics"]["output_nll_reduction"][
+                        "lenient_positive"
+                    ]
+                )
+            self.assertFalse(
+                genuine_absolute["metrics"]["preservation_score"][
+                    "lenient_positive"
+                ]
+            )
+            self.assertFalse(
+                bf_absolute["metrics"]["preservation_score"]["lenient_positive"]
+            )
+            signals = analysis["classification"]["axis_level_lenient_signals"]
+            self.assertTrue(signals["genuine_c_vs_noop_z_actual_write_signal"])
+            self.assertTrue(signals["bf_vs_noop_z_actual_write_signal"])
+            markdown = output_markdown.read_text(encoding="utf-8")
+            self.assertIn("genuine C vs no-op (absolute write)", markdown)
+            self.assertIn("BF vs no-op (absolute write)", markdown)
+            self.assertIn("method-superiority", markdown)
 
     def test_failed_case_blocks_validity_but_remains_in_itd_denominator(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

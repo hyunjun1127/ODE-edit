@@ -34,7 +34,7 @@ MANIFEST_SCHEMA = "ode-edit-direct-z-alpha-paired-manifest/v1"
 SUMMARY_SCHEMA = "ode-edit-direct-z-alpha-paired-summary/v1"
 STREAM_SCHEMA = "ode-edit-direct-z-alpha-paired-stream/v1"
 STREAM_EVENT = "direct_z_alpha_outcome"
-ANALYSIS_SCHEMA = "ode-edit-direct-z-alpha-paired-analysis/v1"
+ANALYSIS_SCHEMA = "ode-edit-direct-z-alpha-paired-analysis/v2"
 
 EXPECTED_CASE_COUNT = 8
 BOOTSTRAP_SEED = 20260801
@@ -123,6 +123,8 @@ METRIC_DIRECTIONS: dict[str, str] = {
 CONTRASTS = (
     ("genuine_c_vs_posthoc_c", GENUINE_C, POSTHOC_C),
     ("bf_vs_genuine_c", BF_GENUINE, GENUINE_C),
+    ("genuine_c_vs_noop", GENUINE_C, NO_OP),
+    ("bf_vs_noop", BF_GENUINE, NO_OP),
     ("cone_vs_noop", SYNC_CONE_GENUINE, NO_OP),
     ("oracle_vs_noop", ORACLE_DO_Z, NO_OP),
     ("genuine_full_vs_c_matched", GENUINE_FULL, GENUINE_C),
@@ -975,6 +977,12 @@ def _classify(contrasts: Mapping[str, Any], technical_pass: bool) -> dict[str, A
         "bf_vs_genuine_c_z_fidelity_signal": _signal(
             contrasts, "bf_vs_genuine_c", "z_residual_ratio"
         ),
+        "genuine_c_vs_noop_z_actual_write_signal": _signal(
+            contrasts, "genuine_c_vs_noop", "z_residual_ratio"
+        ),
+        "bf_vs_noop_z_actual_write_signal": _signal(
+            contrasts, "bf_vs_noop", "z_residual_ratio"
+        ),
         "genuine_full_vs_c_matched_z_signal": _signal(
             contrasts, "genuine_full_vs_c_matched", "z_residual_ratio"
         ),
@@ -1195,6 +1203,8 @@ def render_markdown(analysis: Mapping[str, Any]) -> str:
     focus_rows = (
         ("genuine C vs posthoc C", "genuine_c_vs_posthoc_c"),
         ("BF vs genuine C", "bf_vs_genuine_c"),
+        ("genuine C vs no-op (absolute write)", "genuine_c_vs_noop"),
+        ("BF vs no-op (absolute write)", "bf_vs_noop"),
         ("genuine cone vs no-op", "cone_vs_noop"),
         ("oracle vs no-op", "oracle_vs_noop"),
         ("genuine full vs C-match", "genuine_full_vs_c_matched"),
