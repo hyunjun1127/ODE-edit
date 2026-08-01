@@ -963,3 +963,49 @@ Motivation 진단이다.
 - 중단 조건:
   earlier state/outcome 검증 실패, v3 collision, session/cap/Git mismatch,
   commit/receipt/lineage 오류 재발 또는 child nonzero
+
+## User-authorized direct-z possibility experiment and GPU-cap increase
+
+- 사용자 직접 명령:
+  direct-z를 충실히 구현하는 것이 edit 성능 또는 model 보존을 보장하지
+  않는다는 claim boundary 아래, method 우위가 아닌 가능성 진단으로 이번
+  Session 01에서 실험을 구현·실행한다.
+- GPU cap 변경:
+  server1 project 동시 cap을 `3`에서 `4`로 증액한다. 기존
+  `odeedit_agate_memit_pair_v3`의 2 GPU를 중단하거나 변경하지 않고, 신규
+  direct-z Llama/Qwen pair가 child별 1 GPU, 합계 2 GPU를 사용한다.
+- 고정 model:
+  `llama3-8b-inst`, `qwen2.5-7b-inst`만 허용한다.
+- 구현 경계:
+  EasyEdit repository의 source/runtime/data/cache/projector는 수정하지 않는다.
+  ODE-Edit-side reusable hook/runner/analyzer만 추가하며, 기존 Wikipedia
+  covariance와 null-space artifact는 pinned read-only로 재사용하고
+  download/recompute하지 않는다.
+- scientific 지위:
+  direct-z target construction, weight realization, BF objective gap,
+  off-token spill, rewrite 및 held-out preservation의 가능성 진단이다. 결과를
+  method superiority, downstream capability, retention 또는 sequential-collapse
+  개선으로 과장하지 않는다.
+- 실행/분석:
+  fresh fixed case panel을 두 model에서 동시에 실행하고, feature/action을
+  outcome 전에 commit한다. 필수 provenance/cache/lineage/rollback/resource
+  check만 수행한다. 각 model 종료 후 서로의 결과를 보지 않는 별도 analysis
+  agent가 compact scalar artifact로 report를 작성한다. Gate는 큰 방향에 맞춘
+  lenient possibility gate를 쓰되 실패 case와 불리한 수치를 제외하지 않는다.
+- 현재 session:
+  Codex task `019fbb9a-e810-7330-ac55-5b72b7c24337`; 사용자의 이번 메시지가
+  GPU cap 증액과 신규 2-GPU pair 실행의 권한 근거다.
+
+## GH role-boundary handoff for direct-z task
+
+- GH task `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`는 기존 adaptive/Alpha
+  실행을 계속 소유하고, direct-z task
+  `019fbb9a-e810-7330-ac55-5b72b7c24337`가 신규 파일의 commit/push/submit과
+  결과 분석을 독립적으로 소유한다.
+- 공용 ignored `servers/local/session-boundary.env`는 GH task 값으로 그대로
+  보존한다. direct-z launcher는 전용 ignored
+  `servers/local/session-boundaries/direct-z-019fbb9a.env`만 읽으며 공용 env를
+  덮어쓰거나 다른 job/session/repository를 조작하지 않는다.
+- cap 4와 기존 2 GPU + 신규 2 GPU 병행은 GH preflight `PASS`로 전달되었다.
+  GH는 direct-z 파일/job을 조작하지 않고 direct-z task도 adaptive/Alpha
+  파일/job을 조작하지 않는다.

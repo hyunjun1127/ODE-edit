@@ -58,7 +58,9 @@ GH/SH session은 이 record를 갱신하고, 기존 session ID를 재사용하�
 ## Slurm/Resource
 
 - partition: local-only Slurm query로 확인 필요
-- GPU cap: 동시 최대 `3` GPU (`servers/local/gpu-caps.tsv`)
+- GPU cap: 동시 최대 `4` GPU (`servers/local/gpu-caps.tsv`); 2026-08-01
+  사용자가 direct-z possibility pair를 기존 2-GPU job과 병행하도록 명시적으로
+  증액 승인
 - GPU memory request cap: GPU 1개당 최대 `198117 MiB`
 - CPU: task별 명시 필요
 - time limit: task별 명시 필요
