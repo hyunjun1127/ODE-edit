@@ -1024,3 +1024,76 @@ Motivation 진단이다.
 - 별도 failure-report agent가 v1 technical report를 작성한다. exact v2
   preflight, full CPU regression, clean pushed main, cap 4가 다시 확인될 때
   user의 원래 experiment-completion 명령 범위에서 v2 pair 1회 재제출한다.
+
+## Motivation four-edit common-policy instruction — `session01-microseq-m0-v1`
+
+### 목적과 배경
+
+- proposal에서 온 내용: cumulative capacity와 layer load를 trajectory state로
+  보고 current-state proposal을 재계산할 때 short sequential preservation이
+  달라질 수 있다는 H3--H5의 최소 신호를 확인한다.
+- repo/protocol에서 확인한 사실: atomic MEMIT에서 adaptive selector는 Llama와
+  Qwen에 공통으로 성립하지 않았지만, always-refresh `A4-B4` 방향은 양 모델에서
+  양수였다. 이 진단은 AlphaEdit-projected pair가 technical-valid일 때만 연다.
+- GH 추정: 4 edits는 lifelong 증거가 아니지만, 동일 policy의 retention/KL/load
+  방향이 두 모델에서 함께 나타나는지 확인하는 Motivation proxy로는 충분하다.
+- 사용자 확인 필요: 없음. 사용자가 작은 signal의 lenient gate, 두 모델 동일
+  method, 빠른 동시 제출과 GH의 기존 실험 집중을 명시했다.
+
+정확한 contract는
+`plans/global/2026-08-01-session01-micro-sequential-specialization-spec.md`다.
+
+### 실행 권한 envelope
+
+- 허용 write path:
+  `local/results/raw/session01_motivation/microseq_*_m0_v1/`,
+  `local/logs/slurm/session01_motivation/`,
+  `local/state/slurm-submissions/session01_motivation/microseq_pair_m0_v1.submitted/`
+  및 이 instruction의 small report/audit/completion path
+- Slurm 제출 허용 여부:
+  Alpha pair exact `COMPLETED`와 양 model `all_pass=true`, microseq red gate
+  `PASS`, clean pushed `main`, session/resource 재확인 뒤 GH one-shot pair 1회
+  `allowed`; 임의 retry·model별 단독 제출은 `not allowed`
+- GPU cap:
+  server1 project cap `4`; pair `2 GPU / 16 CPU / 130000M / 12:00:00`,
+  child `1 GPU / 8 CPU / 65000M`. launcher가 aggregate active usage를
+  확인하되 별도 direct-z task의 job·파일·결과는 조회하거나 조정하지 않는다.
+- red-team gate 통과 조건:
+  exact salted rank `[140:144]`, model 공통 layers/seed/K/hop/policy,
+  controller 두 개 종료와 8 receipts 뒤 evaluation decode, fresh-W0 branch
+  replay, pinned covariance only, raw-field firewall, `279 tests OK`, compile 및
+  shell syntax pass
+- artifact broadcast 의무:
+  active peer SH/clone이 없으므로 no-peer 예외를 completion에 기록한다. 임의
+  SSH/rsync는 금지하고 peer 활성화 뒤 protocol script만 사용한다.
+- 완료 보고 경로:
+  `messages/server-heads/server1/2026-08-01.md`,
+  `experiment-reports/global/2026-08-01-session01-microseq-*-analysis.md`,
+  `audits/global/2026-08-01-session01-microseq-pair.postrun.md`
+- Codex session boundary:
+  GH task `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`, primary `Sol Ultra`.
+  분석 subagent는 runtime metadata가 확인된 `Terra Ultra`만 허용하고 결과를
+  받은 즉시 종료한다. 별도 task/session/repository는 건드리지 않는다.
+- 금지 사항:
+  model alias별 policy/threshold/branch 변경, adaptive selector rescue,
+  case/layer/K/hop retune, evaluation field의 controller 유입, partial rescue,
+  EasyEdit source/runtime/data/covariance write·download·recompute, raw prompt/
+  token/logit/factor/weight Git 유입, credential 기록, 별도 direct-z task의
+  모니터링·파일 수정·job 조정
+- 예상 산출물:
+  model/branch별 4 committed controller actions, 4 scalar checkpoints,
+  pair 총 16 checkpoints, model별 analysis와 pair common-axis verdict,
+  exact replay/resource/firewall summary
+- 중단 조건:
+  Alpha technical invalid, output/marker/job collision, dirty/unpushed main,
+  session/cap mismatch, child nonzero/12시간 초과, model/contract drift,
+  receipt-before-evaluation·state-lineage·W0 anchor·cache·finite metric 위반,
+  raw artifact leakage 또는 한 model의 current-edit mean delta `< -0.10`
+
+### GH 직접 one-shot 제출 예외 기록
+
+- 사유: server1 SH 부재와 사용자의 time-critical 동시 pair 제출 지시
+- 명령: `project/run_scripts/submit_session01_microseq_pair_server1.sh`
+- 영향 범위: server1의 2-GPU pair 한 건과 위 ignored local path만 사용
+- 후속 보고: 30분 job state/count monitor, model별 Terra Ultra 분석 시도,
+  pair post-run audit, server1 completion 및 no-peer broadcast 예외
