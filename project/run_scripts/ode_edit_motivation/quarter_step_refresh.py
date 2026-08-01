@@ -1019,14 +1019,28 @@ def _commit_action(
     receipt_root: Path,
     feature: Mapping[str, Any],
     action: Mapping[str, Any],
+    expected_branch_order: Sequence[str] = QSTEP_BRANCH_ORDER,
+    feature_event: str = "quarter_step_feature",
+    action_event: str = "quarter_step_action_commitment",
+    receipt_schema: str = QSTEP_RECEIPT_SCHEMA,
 ) -> tuple[str, str]:
+    locked_branch_order = tuple(str(item) for item in expected_branch_order)
+    if (
+        not locked_branch_order
+        or len(set(locked_branch_order)) != len(locked_branch_order)
+        or any(not item for item in locked_branch_order)
+        or not feature_event
+        or not action_event
+        or not receipt_schema
+    ):
+        raise ContractError("feature/action commitment envelope is invalid")
     _assert_outcome_free(feature)
     _assert_outcome_free(action)
     if (
         feature["case_id"] != action["case_id"]
         or feature["request_id"] != action["request_id"]
         or action["feature_hash"] != feature["feature_hash"]
-        or tuple(action["branch_order"]) != QSTEP_BRANCH_ORDER
+        or tuple(action["branch_order"]) != locked_branch_order
         or _feature_hash(
             {key: value for key, value in feature.items() if key != "feature_hash"}
         )
@@ -1043,8 +1057,8 @@ def _commit_action(
         raise ContractError("quarter-step feature/action commitment mismatch")
     _safe_payload(feature)
     _safe_payload(action)
-    feature_writer.write("quarter_step_feature", feature)
-    action_writer.write("quarter_step_action_commitment", action)
+    feature_writer.write(feature_event, feature)
+    action_writer.write(action_event, action)
     feature_writer.sync()
     action_writer.sync()
     identity = {
@@ -1056,9 +1070,9 @@ def _commit_action(
     }
     receipt_name = sha256_bytes(canonical_json(identity).encode("utf-8")) + ".json"
     receipt = {
-        "schema_version": QSTEP_RECEIPT_SCHEMA,
+        "schema_version": receipt_schema,
         **identity,
-        "branch_order": list(QSTEP_BRANCH_ORDER),
+        "branch_order": list(locked_branch_order),
         "path_action_hashes": action["path_action_hashes"],
         "per_hop_c_energy": action["per_hop_c_energy"],
         "all_paths_committed_before_outcomes": True,

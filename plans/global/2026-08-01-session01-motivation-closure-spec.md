@@ -220,3 +220,10 @@ gate path가 새 lineage label을 사용해 existing quarter-step allowlist에
 거부됐다. 양 model outcome은 0건이다. scientific contract는 바꾸지 않고
 gate 선택을 existing `fixed_step_i/refreshed_step_i` lineage label에
 매핑한 v2 identity로 재실행한다. v1 raw/log/marker는 보존한다.
+
+v2 job `15731`은 lineage를 통과한 뒤 첫 action commit에서 key 이름에
+`outcome`이 포함되어 generic firewall이 거부했고, 양 model outcome은 다시
+0건이다. firewall은 완화하지 않는다. key를 outcome-free 이름으로 바꾸고
+reusable commit helper에 adaptive 7-arm/event/receipt envelope를 명시하는
+v3 identity로 재실행한다. scientific controller와 판정 기준은 불변이며
+v1/v2 raw/log/marker를 모두 보존한다.

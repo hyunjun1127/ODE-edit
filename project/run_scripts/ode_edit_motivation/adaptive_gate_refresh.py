@@ -121,22 +121,22 @@ AGATE_BOOTSTRAP_RESAMPLES = 4000
 
 AGATE_JOB_NAMES = MappingProxyType(
     {
-        TRACK_MEMIT: "odeedit_agate_memit_pair_v2",
-        TRACK_ALPHAEDIT: "odeedit_agate_alpha_pair_v2",
+        TRACK_MEMIT: "odeedit_agate_memit_pair_v3",
+        TRACK_ALPHAEDIT: "odeedit_agate_alpha_pair_v3",
     }
 )
 AGATE_RUN_IDS = MappingProxyType(
     {
         TRACK_MEMIT: MappingProxyType(
             {
-                "llama3-8b-inst": "agate_memit_llama_g0_v2",
-                "qwen2.5-7b-inst": "agate_memit_qwen_g0_v2",
+                "llama3-8b-inst": "agate_memit_llama_g0_v3",
+                "qwen2.5-7b-inst": "agate_memit_qwen_g0_v3",
             }
         ),
         TRACK_ALPHAEDIT: MappingProxyType(
             {
-                "llama3-8b-inst": "agate_alpha_llama_g0_v2",
-                "qwen2.5-7b-inst": "agate_alpha_qwen_g0_v2",
+                "llama3-8b-inst": "agate_alpha_llama_g0_v3",
+                "qwen2.5-7b-inst": "agate_alpha_qwen_g0_v3",
             }
         ),
     }
@@ -163,6 +163,7 @@ MANIFEST_SCHEMA = "ode-edit-adaptive-gate-manifest/v1"
 STREAM_SCHEMA = "ode-edit-adaptive-gate/v1"
 SUMMARY_SCHEMA = "ode-edit-adaptive-gate-summary/v1"
 EVENT_SCHEMA = "ode-edit-adaptive-gate-event/v1"
+RECEIPT_SCHEMA = "ode-edit-adaptive-gate-receipt/v1"
 
 
 def _full_hash(name: str, value: Any) -> str:
@@ -639,6 +640,7 @@ def _run_event(
             policy: [proposal_direction_hash(item) for item in path.proposals]
             for policy, path in paths.items()
         },
+        "per_hop_c_energy": hop_energy,
         "native_ordered_hash": proposal_direction_hash(ordered_w0),
         "native_split_action_hashes": [
             proposal_direction_hash(item) for item in native_path.proposals
@@ -655,7 +657,7 @@ def _run_event(
         ],
         "matched_per_hop_c": True,
         "common_first_hop_exact": True,
-        "outcomes_unseen_at_commit": True,
+        "evaluation_unseen_at_commit": True,
     }
     action["commitment_hash"] = _feature_hash(action)
     receipt_name, receipt_hash = _commit_action(
@@ -664,6 +666,10 @@ def _run_event(
         receipt_root=receipt_root,
         feature=feature,
         action=action,
+        expected_branch_order=AGATE_BRANCH_ORDER,
+        feature_event="adaptive_gate_feature",
+        action_event="adaptive_gate_action_commitment",
+        receipt_schema=RECEIPT_SCHEMA,
     )
 
     def evaluate_frozen_target() -> Any:

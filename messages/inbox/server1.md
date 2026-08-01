@@ -931,3 +931,35 @@ Motivation 진단이다.
 - 중단 조건:
   original state/outcome 검증 실패, v2 collision, session/cap/Git mismatch,
   동일 label/lineage 오류 재발 또는 child nonzero
+
+## Zero-outcome commit-envelope repair v3
+
+- 목적과 배경:
+  v2 job `15731`은 lineage를 통과했으나 action key 이름의 `outcome` 문자열이
+  firewall에 거부됐다. feature/action/outcome/receipt는 0건이다. generic
+  commit helper의 latent qstep branch hardcode도 outcome 없이 확인됐다.
+- 허용 write path:
+  v1/v2는 read-only 보존. 새 `agate_{memit,alpha}_{llama,qwen}_g0_v3/`,
+  `agate_*_pair_v3.submitted/`, v3 log와 small repair/report만 허용
+- Slurm 제출 허용 여부:
+  commit repair audit exact `PASS`, v1/v2 exact `FAILED`와 네 outcome 0 byte,
+  clean pushed main/session/cap 확인 후 MEMIT v3 1회만 `allowed`; Alpha v3는
+  MEMIT v3 technical complete 뒤 1회만 `allowed`
+- GPU cap:
+  변경 없음. pair `2 GPU / 130000M`, child `1 GPU / 65000M`, cap 3
+- red-team gate:
+  synthetic adaptive commit/receipt test, legacy qstep default regression,
+  전체 192 tests, compile/shell syntax, scientific constant diff 없음
+- artifact broadcast:
+  active peer 부재 no-peer 예외; 임의 SSH/rsync 금지
+- 완료 보고 경로:
+  기존 report/post-run/completion에 v1 `15730`, v2 `15731`, v3 job을 함께 기록
+- 금지 사항:
+  firewall 완화, model별 controller, scientific retune, v1/v2 삭제·수정,
+  partial rescue, EasyEdit/cache/projector write·recompute, 다른 job 조작
+- 예상 산출물:
+  v3 model별 8 technical-valid event/receipt와 56 outcome; 이전 두 run은
+  zero-outcome failure provenance로만 보존
+- 중단 조건:
+  earlier state/outcome 검증 실패, v3 collision, session/cap/Git mismatch,
+  commit/receipt/lineage 오류 재발 또는 child nonzero

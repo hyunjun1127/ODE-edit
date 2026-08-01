@@ -80,10 +80,10 @@ readonly TRACK="$1"
 readonly MODEL_ALIAS="$2"
 readonly RUN_ID="$3"
 case "${TRACK}|${MODEL_ALIAS}|${RUN_ID}|${SLURM_JOB_NAME:-}" in
-  "memit|llama3-8b-inst|agate_memit_llama_g0_v2|odeedit_agate_memit_pair_v2") ;;
-  "memit|qwen2.5-7b-inst|agate_memit_qwen_g0_v2|odeedit_agate_memit_pair_v2") ;;
-  "alphaedit_projected|llama3-8b-inst|agate_alpha_llama_g0_v2|odeedit_agate_alpha_pair_v2") ;;
-  "alphaedit_projected|qwen2.5-7b-inst|agate_alpha_qwen_g0_v2|odeedit_agate_alpha_pair_v2") ;;
+  "memit|llama3-8b-inst|agate_memit_llama_g0_v3|odeedit_agate_memit_pair_v3") ;;
+  "memit|qwen2.5-7b-inst|agate_memit_qwen_g0_v3|odeedit_agate_memit_pair_v3") ;;
+  "alphaedit_projected|llama3-8b-inst|agate_alpha_llama_g0_v3|odeedit_agate_alpha_pair_v3") ;;
+  "alphaedit_projected|qwen2.5-7b-inst|agate_alpha_qwen_g0_v3|odeedit_agate_alpha_pair_v3") ;;
   *)
     echo "track/model/run/job identity is outside the locked pair" >&2
     exit 2

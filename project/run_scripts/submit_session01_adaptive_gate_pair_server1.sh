@@ -19,6 +19,8 @@ readonly RED_GATE="${REPO_ROOT}/audits/global/2026-08-01-session01-adaptive-gate
 readonly RED_GATE_VERDICT='- 최종 판정: `PASS` — locked adaptive-gate MEMIT/Alpha pair 각각 1회에만 유효'
 readonly REPAIR_GATE="${REPO_ROOT}/audits/global/2026-08-01-session01-adaptive-gate-lineage-label-repair-preflight.md"
 readonly REPAIR_GATE_VERDICT='- 최종 판정: `PASS` — zero-outcome lineage-label repair v2 pair에만 유효'
+readonly COMMIT_GATE="${REPO_ROOT}/audits/global/2026-08-01-session01-adaptive-gate-commit-envelope-repair-preflight.md"
+readonly COMMIT_GATE_VERDICT='- 최종 판정: `PASS` — zero-outcome adaptive commit-envelope repair v3 pair에만 유효'
 readonly LOG_ROOT="${REPO_ROOT}/local/logs/slurm/session01_motivation"
 readonly OUTPUT_ROOT="${REPO_ROOT}/local/results/raw/session01_motivation"
 readonly STATE_ROOT="${REPO_ROOT}/local/state/slurm-submissions/session01_motivation"
@@ -30,16 +32,16 @@ readonly STATE_ROOT="${REPO_ROOT}/local/state/slurm-submissions/session01_motiva
 readonly TRACK="$1"
 case "${TRACK}" in
   memit)
-    readonly JOB_NAME="odeedit_agate_memit_pair_v2"
-    readonly LLAMA_RUN="agate_memit_llama_g0_v2"
-    readonly QWEN_RUN="agate_memit_qwen_g0_v2"
-    readonly PAIR_MARKER="${STATE_ROOT}/agate_memit_pair_v2.submitted"
+    readonly JOB_NAME="odeedit_agate_memit_pair_v3"
+    readonly LLAMA_RUN="agate_memit_llama_g0_v3"
+    readonly QWEN_RUN="agate_memit_qwen_g0_v3"
+    readonly PAIR_MARKER="${STATE_ROOT}/agate_memit_pair_v3.submitted"
     ;;
   alphaedit_projected)
-    readonly JOB_NAME="odeedit_agate_alpha_pair_v2"
-    readonly LLAMA_RUN="agate_alpha_llama_g0_v2"
-    readonly QWEN_RUN="agate_alpha_qwen_g0_v2"
-    readonly PAIR_MARKER="${STATE_ROOT}/agate_alpha_pair_v2.submitted"
+    readonly JOB_NAME="odeedit_agate_alpha_pair_v3"
+    readonly LLAMA_RUN="agate_alpha_llama_g0_v3"
+    readonly QWEN_RUN="agate_alpha_qwen_g0_v3"
+    readonly PAIR_MARKER="${STATE_ROOT}/agate_alpha_pair_v3.submitted"
     ;;
   *)
     echo "unknown adaptive-gate track" >&2
@@ -53,6 +55,7 @@ esac
 [[ -f "${SBATCH_FILE}" && ! -L "${SBATCH_FILE}" && -r "${SBATCH_FILE}" ]] || exit 2
 [[ -f "${RED_GATE}" && ! -L "${RED_GATE}" && -r "${RED_GATE}" ]] || exit 2
 [[ -f "${REPAIR_GATE}" && ! -L "${REPAIR_GATE}" && -r "${REPAIR_GATE}" ]] || exit 2
+[[ -f "${COMMIT_GATE}" && ! -L "${COMMIT_GATE}" && -r "${COMMIT_GATE}" ]] || exit 2
 
 cd "${REPO_ROOT}"
 [[ "$("${GIT_BIN}" rev-parse --show-toplevel)" == "${REPO_ROOT}" ]] || exit 2
@@ -72,6 +75,7 @@ cd "${REPO_ROOT}"
   plans/global/2026-08-01-session01-motivation-closure-spec.md \
   audits/global/2026-08-01-session01-adaptive-gate-execution-preflight.md \
   audits/global/2026-08-01-session01-adaptive-gate-lineage-label-repair-preflight.md \
+  audits/global/2026-08-01-session01-adaptive-gate-commit-envelope-repair-preflight.md \
   messages/inbox/server1.md \
   >/dev/null
 [[ -z "$("${GIT_BIN}" status --porcelain --untracked-files=normal)" ]] || {
@@ -98,6 +102,14 @@ cd "${REPO_ROOT}"
   echo "adaptive-gate repair verdict is ambiguous" >&2
   exit 2
 }
+[[ "$("${GREP_BIN}" -Fxc -- "${COMMIT_GATE_VERDICT}" "${COMMIT_GATE}" || true)" == "1" ]] || {
+  echo "adaptive-gate exact commit-repair verdict is unavailable" >&2
+  exit 2
+}
+[[ "$("${GREP_BIN}" -Ec -- '^- 최종 판정:' "${COMMIT_GATE}" || true)" == "1" ]] || {
+  echo "adaptive-gate commit-repair verdict is ambiguous" >&2
+  exit 2
+}
 [[ ! -e "${OUTPUT_ROOT}/${LLAMA_RUN}" && ! -L "${OUTPUT_ROOT}/${LLAMA_RUN}" ]] || exit 2
 [[ ! -e "${OUTPUT_ROOT}/${QWEN_RUN}" && ! -L "${OUTPUT_ROOT}/${QWEN_RUN}" ]] || exit 2
 [[ ! -e "${PAIR_MARKER}" && ! -L "${PAIR_MARKER}" ]] || {
@@ -110,29 +122,31 @@ cd "${REPO_ROOT}"
 }
 
 if [[ "${TRACK}" == "memit" ]]; then
-  readonly ORIGINAL_MARKER="${STATE_ROOT}/agate_memit_pair_v1.submitted"
-  [[ -f "${ORIGINAL_MARKER}/job-id" && ! -L "${ORIGINAL_MARKER}" \
-    && ! -L "${ORIGINAL_MARKER}/job-id" ]] || exit 2
-  original_job_id="$(<"${ORIGINAL_MARKER}/job-id")"
-  [[ "${original_job_id}" =~ ^[0-9]+$ ]] || exit 2
-  original_state=""
-  read -r original_state < <(
-    "${SACCT_BIN}" -n -X -j "${original_job_id}" --format=State --noheader
-  )
-  [[ "${original_state}" == "FAILED" ]] || {
-    echo "v2 repair requires exact original FAILED state" >&2
-    exit 2
-  }
-  for outcome in \
-    "${OUTPUT_ROOT}/agate_memit_llama_g0_v1/outcomes.jsonl" \
-    "${OUTPUT_ROOT}/agate_memit_qwen_g0_v1/outcomes.jsonl"; do
-    [[ -f "${outcome}" && ! -L "${outcome}" && ! -s "${outcome}" ]] || {
-      echo "v2 repair requires zero original scientific outcomes" >&2
+  for failed_version in v1 v2; do
+    failed_marker="${STATE_ROOT}/agate_memit_pair_${failed_version}.submitted"
+    [[ -f "${failed_marker}/job-id" && ! -L "${failed_marker}" \
+      && ! -L "${failed_marker}/job-id" ]] || exit 2
+    failed_job_id="$(<"${failed_marker}/job-id")"
+    [[ "${failed_job_id}" =~ ^[0-9]+$ ]] || exit 2
+    failed_state=""
+    read -r failed_state < <(
+      "${SACCT_BIN}" -n -X -j "${failed_job_id}" --format=State --noheader
+    )
+    [[ "${failed_state}" == "FAILED" ]] || {
+      echo "v3 repair requires both earlier jobs in exact FAILED state" >&2
       exit 2
     }
+    for outcome in \
+      "${OUTPUT_ROOT}/agate_memit_llama_g0_${failed_version}/outcomes.jsonl" \
+      "${OUTPUT_ROOT}/agate_memit_qwen_g0_${failed_version}/outcomes.jsonl"; do
+      [[ -f "${outcome}" && ! -L "${outcome}" && ! -s "${outcome}" ]] || {
+        echo "v3 repair requires zero earlier scientific outcomes" >&2
+        exit 2
+      }
+    done
   done
 elif [[ "${TRACK}" == "alphaedit_projected" ]]; then
-  readonly MEMIT_MARKER="${STATE_ROOT}/agate_memit_pair_v2.submitted"
+  readonly MEMIT_MARKER="${STATE_ROOT}/agate_memit_pair_v3.submitted"
   [[ -f "${MEMIT_MARKER}/job-id" && ! -L "${MEMIT_MARKER}" \
     && ! -L "${MEMIT_MARKER}/job-id" ]] || {
     echo "Alpha pair requires completed MEMIT pair marker" >&2
@@ -149,8 +163,8 @@ elif [[ "${TRACK}" == "alphaedit_projected" ]]; then
     exit 4
   }
   for summary in \
-    "${OUTPUT_ROOT}/agate_memit_llama_g0_v2/summary.json" \
-    "${OUTPUT_ROOT}/agate_memit_qwen_g0_v2/summary.json"; do
+    "${OUTPUT_ROOT}/agate_memit_llama_g0_v3/summary.json" \
+    "${OUTPUT_ROOT}/agate_memit_qwen_g0_v3/summary.json"; do
     [[ -f "${summary}" && ! -L "${summary}" ]] || exit 2
     [[ "$("${GREP_BIN}" -o -- '"all_pass":true' "${summary}" | wc -l)" == "1" ]] || {
       echo "Alpha pair requires technical-valid MEMIT summaries" >&2
