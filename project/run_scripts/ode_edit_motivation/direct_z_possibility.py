@@ -122,11 +122,11 @@ DIRECTZ_HOP_FRACTION = 0.25
 DIRECTZ_PROBE_FRACTION = 1.0 / 64.0
 DIRECTZ_BOOTSTRAP_SEED = 20260801
 DIRECTZ_BOOTSTRAP_RESAMPLES = 4000
-DIRECTZ_JOB_NAME = "odeedit_dzf_pair_v1"
+DIRECTZ_JOB_NAME = "odeedit_dzf_pair_v2"
 DIRECTZ_RUN_IDS = MappingProxyType(
     {
-        "llama3-8b-inst": "dzf_llama_p0_v1",
-        "qwen2.5-7b-inst": "dzf_qwen_p0_v1",
+        "llama3-8b-inst": "dzf_llama_p0_v2",
+        "qwen2.5-7b-inst": "dzf_qwen_p0_v2",
     }
 )
 
@@ -865,7 +865,6 @@ def _run_event(
             runtime.tokenizer,
             (request,),
             hparams,
-            contexts,
             contexts,
             model_id=runtime.spec.snapshot_name,
             direct_z=direct_z,

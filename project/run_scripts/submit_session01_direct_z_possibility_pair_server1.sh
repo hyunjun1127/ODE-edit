@@ -19,16 +19,16 @@ readonly CHILD_FILE="${REPO_ROOT}/project/run_scripts/session01_direct_z_possibi
 readonly SUBMIT_FILE="${REPO_ROOT}/project/run_scripts/submit_session01_direct_z_possibility_pair_server1.sh"
 readonly RUNNER="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/direct_z_possibility.py"
 readonly SPEC="${REPO_ROOT}/plans/global/2026-08-01-session01-direct-z-possibility-spec.md"
-readonly PREFLIGHT="${REPO_ROOT}/audits/global/2026-08-01-session01-direct-z-possibility-preflight.md"
+readonly PREFLIGHT="${REPO_ROOT}/audits/global/2026-08-01-session01-direct-z-possibility-preflight-v2.md"
 readonly SESSION_ENV="${REPO_ROOT}/servers/local/session-boundaries/direct-z-019fbb9a.env"
-readonly PREFLIGHT_VERDICT='- 최종 판정: `PASS` — user-authorized direct-z possibility pair 1회에만 유효'
+readonly PREFLIGHT_VERDICT='- 최종 판정: `PASS` — zero-outcome API repair v2 pair 1회에만 유효'
 readonly LOG_ROOT="${REPO_ROOT}/local/logs/slurm/session01_motivation"
 readonly OUTPUT_ROOT="${REPO_ROOT}/local/results/raw/session01_motivation"
 readonly STATE_ROOT="${REPO_ROOT}/local/state/slurm-submissions/session01_motivation"
-readonly LLAMA_RUN="dzf_llama_p0_v1"
-readonly QWEN_RUN="dzf_qwen_p0_v1"
-readonly PAIR_MARKER="${STATE_ROOT}/dzf_pair_v1.submitted"
-readonly JOB_NAME="odeedit_dzf_pair_v1"
+readonly LLAMA_RUN="dzf_llama_p0_v2"
+readonly QWEN_RUN="dzf_qwen_p0_v2"
+readonly PAIR_MARKER="${STATE_ROOT}/dzf_pair_v2.submitted"
+readonly JOB_NAME="odeedit_dzf_pair_v2"
 
 [[ "$#" -eq 0 ]] || {
   echo "direct-z possibility pair helper takes no arguments" >&2

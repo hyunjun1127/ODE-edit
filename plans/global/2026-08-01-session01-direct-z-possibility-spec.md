@@ -103,8 +103,13 @@ result is still a completed diagnostic.
 
 ## Reports and minimal audit
 
-The runner writes ignored raw/scalar artifacts under
-`local/results/raw/session01_motivation/dzf_*_p0_v1`. A deterministic CPU
+The authoritative zero-outcome API-repair run writes ignored raw/scalar
+artifacts under `local/results/raw/session01_motivation/dzf_*_p0_v2`. The v1
+directories are retained read-only as technical failure provenance: job
+`15739` reached the ordered-proposal call with zero feature/action/outcome
+rows, then failed on an extra positional `contexts` argument and cancelled its
+sibling. No scientific constant, case, arm, budget, metric, or gate changed in
+v2. A deterministic CPU
 analyzer writes one compact projection per model. After each model is terminal,
 a separate agent sees only this spec, that model's manifest/summary/analyzer
 projection, and its own Slurm metadata, then writes its model report. A final

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Direct-z possibility diagnostic; Llama/Qwen start together and fail fast.
-#SBATCH --job-name=odeedit_dzf_pair_v1
+#SBATCH --job-name=odeedit_dzf_pair_v2
 #SBATCH --partition=gpu
 #SBATCH --nodelist=devbox
 #SBATCH --nodes=1
@@ -25,7 +25,7 @@ readonly SRUN_BIN="/usr/bin/srun"
   echo "direct-z possibility pair wrapper takes no arguments" >&2
   exit 2
 }
-[[ "${SLURM_JOB_NAME:-}" == "odeedit_dzf_pair_v1" ]] || exit 2
+[[ "${SLURM_JOB_NAME:-}" == "odeedit_dzf_pair_v2" ]] || exit 2
 [[ "${SLURMD_NODENAME:-}" == "devbox" ]] || exit 2
 [[ "${SLURM_NTASKS:-}" == "2" && "${SLURM_CPUS_PER_TASK:-}" == "8" ]] || exit 2
 [[ -f "${RUNTIME}" && ! -L "${RUNTIME}" && -r "${RUNTIME}" ]] || exit 2
@@ -33,11 +33,11 @@ readonly SRUN_BIN="/usr/bin/srun"
 
 "${SRUN_BIN}" --exclusive --exact --nodes=1 --ntasks=1 --cpus-per-task=8 \
   --gres=gpu:1 --mem=65000M \
-  "${BASH_BIN}" "${RUNTIME}" llama3-8b-inst dzf_llama_p0_v1 &
+  "${BASH_BIN}" "${RUNTIME}" llama3-8b-inst dzf_llama_p0_v2 &
 llama_pid="$!"
 "${SRUN_BIN}" --exclusive --exact --nodes=1 --ntasks=1 --cpus-per-task=8 \
   --gres=gpu:1 --mem=65000M \
-  "${BASH_BIN}" "${RUNTIME}" qwen2.5-7b-inst dzf_qwen_p0_v1 &
+  "${BASH_BIN}" "${RUNTIME}" qwen2.5-7b-inst dzf_qwen_p0_v2 &
 qwen_pid="$!"
 
 terminate_and_reap() {

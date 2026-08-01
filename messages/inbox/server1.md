@@ -1009,3 +1009,18 @@ Motivation 진단이다.
 - cap 4와 기존 2 GPU + 신규 2 GPU 병행은 GH preflight `PASS`로 전달되었다.
   GH는 direct-z 파일/job을 조작하지 않고 direct-z task도 adaptive/Alpha
   파일/job을 조작하지 않는다.
+
+## Direct-z zero-outcome API repair v2
+
+- v1 job `15739`는 첫 case ordered-proposal 호출의 extra positional
+  `contexts`로 `TypeError`가 발생했고 pair fail-fast 종료됐다. 두 run의
+  feature/action/outcome은 모두 0건이며 scientific 결과가 아니다.
+- v1 raw/log/marker는 read-only로 보존한다. v2는
+  `dzf_{llama,qwen}_p0_v2`, `odeedit_dzf_pair_v2`,
+  `dzf_pair_v2.submitted`만 새로 사용한다.
+- 허용 repair는 extra argument 제거와 run/job/output identity의 v2 전환,
+  cross-module signature bind regression뿐이다. model/case/arm/direct-z/
+  BF K=4/z-cone/budget/metric/bootstrap/lenient gate는 변경하지 않는다.
+- 별도 failure-report agent가 v1 technical report를 작성한다. exact v2
+  preflight, full CPU regression, clean pushed main, cap 4가 다시 확인될 때
+  user의 원래 experiment-completion 명령 범위에서 v2 pair 1회 재제출한다.

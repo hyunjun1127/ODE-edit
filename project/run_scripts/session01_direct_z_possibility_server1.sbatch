@@ -84,8 +84,8 @@ require_tracked_clean_file() {
 readonly MODEL_ALIAS="$1"
 readonly RUN_ID="$2"
 case "${MODEL_ALIAS}|${RUN_ID}|${SLURM_JOB_NAME:-}" in
-  "llama3-8b-inst|dzf_llama_p0_v1|odeedit_dzf_pair_v1") ;;
-  "qwen2.5-7b-inst|dzf_qwen_p0_v1|odeedit_dzf_pair_v1") ;;
+  "llama3-8b-inst|dzf_llama_p0_v2|odeedit_dzf_pair_v2") ;;
+  "qwen2.5-7b-inst|dzf_qwen_p0_v2|odeedit_dzf_pair_v2") ;;
   *)
     echo "model/run/job identity is outside the locked direct-z possibility pair" >&2
     exit 2
