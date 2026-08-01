@@ -872,7 +872,8 @@ Motivation 진단이다.
 - 금지 사항:
   EasyEdit source/runtime/data/cache/projector write·download·recompute,
   native AlphaEdit 전체 재현이라고 과장, case/model/layer/K/hop/probe/margin
-  retune, new-case outcome에 따른 policy 변경, partial-case rescue, raw Git
+  retune, model alias별 method branch/threshold/성공규칙, new-case outcome에
+  따른 policy 변경, partial-case rescue, raw Git
   유입, credential/private connection 기록, 다른 repo/session/job 조작
 - 예상 산출물:
   track/model별 exact 8 event, 8 feature/action/receipt/analysis row, 56 final

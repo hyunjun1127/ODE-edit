@@ -141,23 +141,37 @@ case 평균, paired bootstrap 95% CI(`seed=20260803`, 4,000 resamples)를
 다음은 방향 일치 여부를 보는 Motivation gate이며 paper-level 유의성 기준이
 아니다.
 
-1. Llama 개선:
-   `mean(G4-A4) > 1e-4` 또는
-   `mean(abs(A4-native)-abs(G4-native)) > 1e-4`.
-2. Qwen 보존:
-   `mean(G4-B4) > 1e-4`이고 `mean(G4-A4) >= -0.10`.
-3. architecture-adaptive 선택:
-   MEMIT에서 Qwen refresh rate가 Llama보다 `>=0.15` 높거나,
-   Llama refresh rate `<=0.50`와 Qwen refresh rate `>=0.50`를 동시에 만족.
-4. AlphaEdit projector transfer:
-   두 model pooled `mean(G4-B4) > 1e-4` 또는 두 model 모두
-   `mean(G4-C4) > 1e-4`. 단, 어느 model도 `mean(G4-B4) < -0.25`이면
-   transfer-positive로 부르지 않는다.
+2026-08-01 실행 중 첫 outcome 전 사용자 지시를 반영해 model별 성공 규칙을
+두지 않는다. 두 model은 같은 code path와 exact 동일 hyperparameter
+(`K`, hop/probe fraction, layer, score 식, margin)를 사용해야 하며 model
+alias에 따른 method branch나 threshold는 금지한다. 동일 함수가 서로 다른
+state/probe를 입력받아 다른 `refresh/fixed` 선택을 내리는 것은 허용되는
+data-dependent 출력이지 별도 method가 아니다.
 
-1--3을 만족하면 MEMIT Motivation은 `lenient-pass`, 4를 만족하면
+1. 동일-method gate:
+   두 manifest의 controller constant/config가 exact 동일하고 model별
+   override가 없어야 한다.
+2. model 공통 broad benefit:
+   **각 model 모두** 아래 중 하나 이상을 만족해야 한다.
+   `mean(G4-A4) > 1e-4`, `mean(G4-B4) > 1e-4`, 또는
+   `mean(abs(A4-native)-abs(G4-native)) > 1e-4`.
+3. model 공통 non-collapse:
+   각 model에서 `mean(G4-max(A4,B4)) >= -0.10`이어야 한다. 이 식의
+   `max`는 case별 outcome 선택이 아니라 사후 진단용 case별 상한 비교이며
+   operational policy에는 들어가지 않는다.
+4. mechanism evidence:
+   refresh 선택률과 step별 선택은 model별로 보고하되 서로 달라야 한다는
+   조건을 성공 gate로 사용하지 않는다.
+5. AlphaEdit projector transfer:
+   exact 같은 controller로 **각 model 모두** `mean(G4-B4) > 1e-4` 또는
+   `mean(G4-C4) > 1e-4` 중 하나를 만족하고, model별
+   `mean(G4-max(A4,B4)) >= -0.10`이어야 한다.
+
+1--3을 만족하면 MEMIT Motivation은 `lenient-pass`, 1과 5를 만족하면
 AlphaEdit transfer는 `lenient-pass`다. 둘 다 통과하면 이번 Motivation을
 positive closure하고 다음 baseline/benchmark 세션으로 넘긴다. 일부만
-통과하면 살아남은 claim만 좁혀 `partial-pivot`한다.
+통과하면 살아남은 claim만 좁혀 `partial-pivot`한다. 한 model만을 위한
+threshold/policy rescue는 허용하지 않는다.
 
 ## kill 및 pivot 조건
 

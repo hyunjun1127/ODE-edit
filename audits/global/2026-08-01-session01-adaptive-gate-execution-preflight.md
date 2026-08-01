@@ -29,6 +29,9 @@ boundary만 점검한다.
 - K=4, 각 hop `D/4`, probe `D/64`, first hop exact common
 - G는 동일 current G state에서 refreshed/fixed candidate를 함께 평가하고
   outcome을 보기 전에 2% relative margin으로 선택
+- Llama/Qwen은 exact 같은 controller code/config를 사용하고 model alias별
+  method branch·threshold·튜닝을 금지한다. state에 따른 선택 출력 차이만
+  허용한다.
 - A/B/C 및 no-op/full/split4 final controls 고정
 - MEMIT 뒤 Alpha pair를 순차 제출; 각 pair 안의 Llama/Qwen은 동시 시작
 - Alpha track은 pinned EasyEdit projector를 `B@P`로 합성한
