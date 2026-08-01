@@ -11,6 +11,13 @@ baseline sweep이나 paper claim 확정이 아니라, 직전 `qstep4`에서 드�
 Llama/Qwen 차이를 outcome-free controller로 설명·개선하고 같은 원리가
 AlphaEdit projector를 합성한 actuator에도 남는지 확인한다.
 
+> **Post-MEMIT interpretation amendment (2026-08-01 20:32 KST):** MEMIT
+> 결과에서 central-probe selector `G`가 pair failure로 kill된 뒤에도 실행 arm과
+> technical contract는 그대로 유지한다. Alpha scientific gate만 outcome 0건
+> 시점에 `plans/global/2026-08-01-session01-alpha-post-memit-interpretation-lock.md`의
+> 공통 `A4-B4` gate로 교체하며, 아래 원래 `G` gate는 historical pre-MEMIT
+> contract 및 전 arm 공개 기준으로만 보존한다.
+
 ## 네 범주의 출처
 
 - proposal에서 온 내용:
