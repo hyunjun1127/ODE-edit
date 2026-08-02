@@ -49,10 +49,14 @@ _QUARTER_STEP_LABELS = frozenset(
     }
 )
 _ADAPTIVE_STEP_LABELS = tuple(f"capacity_round_{index}" for index in range(1, 5))
+_ADAPTIVE_STEP_SCALE_TOLERANCE = 1e-5
 
 
 def _is_adaptive_step(label: str, scale: float) -> bool:
-    return label in _ADAPTIVE_STEP_LABELS and 0.0 < scale <= 0.25
+    return (
+        label in _ADAPTIVE_STEP_LABELS
+        and 0.0 < scale <= 0.25 + _ADAPTIVE_STEP_SCALE_TOLERANCE
+    )
 
 
 def _full_sha256(name: str, value: Any) -> str:
@@ -660,7 +664,9 @@ class FrozenTargetLineage:
         ``step_scale`` is the observed C-distance divided by the edit's native
         C-distance.  The runner owns that metric check; this lineage binds the
         exact proposal bytes and descendant hashes without pretending every
-        accepted trust-region step consumed the full ``D/4`` envelope.
+        accepted trust-region step consumed the full ``D/4`` envelope.  A
+        ``1e-5`` scale tolerance covers the QP solver's already-bounded numeric
+        trust-region residual without changing or rounding the applied action.
         """
 
         scale = _finite_scale(step_scale)

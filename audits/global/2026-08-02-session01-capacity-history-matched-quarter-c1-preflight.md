@@ -2,7 +2,7 @@
 
 - 날짜: 2026-08-02
 - 방법명: **ODE-Edit**
-- 대상 job: `odeedit_capacity_history_pair_c1_v2`
+- 대상 job: `odeedit_capacity_history_pair_c1_v3`
 - 상태: pre-push 필수 검증 통과
 
 ## 감사 범위
@@ -30,7 +30,7 @@ clean pushed Git, fresh output namespace.
 - [x] exact-top1 diagnostic-only, native-reference terminal
 - [x] retry failure fail-closed; unmatched early stop 금지
 - [x] Llama/Qwen 및 MEMIT/Alpha-history 동일 policy/run contract
-- [x] capacity + frozen-target-lineage unit suite `34/34` 통과
+- [x] capacity + frozen-target-lineage unit suite `35/35` 통과
 - [x] shell syntax, session boundary, resource-cap, diff whitespace 검사 통과
 - [x] fresh c1 output/marker와 no active same-name job 확인
 - [x] server1 cap GPU `4`, memory `260000M` 허용 확인
@@ -58,5 +58,14 @@ evidence로 사용하지 않는다. 다른 세 worker는 pair wrapper가 취소�
 수정은 lineage label envelope를 `capacity_round_1..4`로 확장하고 toy lineage test도
 실제 네 scale을 bind하도록 바꾼 것뿐이다. Fresh run/job namespace를 c1_v2로 올려
 failed c1_v1 artifact를 덮어쓰지 않는다.
+
+Job `15843`의 c1_v2는 label count 수정 뒤에도 같은 gate에서 종료했다. 이때
+`capacity_round_1..4`는 이미 허용되므로 남은 조건은 `step_scale <= 0.25`의 exact
+float 비교였다. QP solution contract는 C-distance에 절대 `1e-7` numeric tolerance를
+허용하고, Llama MEMIT의 native distance `0.014959...`에서는 ratio 기준 최대 약
+`6.7e-6`가 된다. Lineage만 zero tolerance여서 이미 QP가 허용한 roundoff를
+거절했다. Applied proposal은 바꾸거나 반올림하지 않고 lineage identity check에만
+`1e-5` scale tolerance를 추가했다. `0.250005` 허용, `0.25002` 거부,
+`capacity_round_5` 거부 unit test를 추가했고 fresh c1_v3 namespace를 사용한다.
 
 - 최종 판정: `PASS` — clean pushed main에서 c1 4-GPU pair 1회 제출에만 유효

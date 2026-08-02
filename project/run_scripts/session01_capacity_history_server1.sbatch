@@ -72,28 +72,28 @@ readonly FAMILY="$2"
 readonly MODEL_ALIAS="$3"
 [[ "${PHASE}" == "controller" || "${PHASE}" == "evaluator" ]] || exit 2
 [[ "${FAMILY}" == "memit" || "${FAMILY}" == "alpha_history" ]] || exit 2
-[[ "${SLURM_JOB_NAME:-}" == "odeedit_capacity_history_pair_c1_v2" ]] || exit 2
+[[ "${SLURM_JOB_NAME:-}" == "odeedit_capacity_history_pair_c1_v3" ]] || exit 2
 
 case "${MODEL_ALIAS}" in
   llama3-8b-inst)
-    readonly MEMIT_NATIVE_CONTROLLER="caphist_memit_native_llama_c1_v2"
-    readonly MEMIT_QP_CONTROLLER="caphist_memit_qp_llama_c1_v2"
-    readonly ALPHA_NATIVE_CONTROLLER="caphist_alpha_native_llama_c1_v2"
-    readonly ALPHA_QP_CONTROLLER="caphist_alpha_qp_llama_c1_v2"
-    readonly MEMIT_NATIVE_EVALUATOR="caphist_eval_memit_native_llama_c1_v2"
-    readonly MEMIT_QP_EVALUATOR="caphist_eval_memit_qp_llama_c1_v2"
-    readonly ALPHA_NATIVE_EVALUATOR="caphist_eval_alpha_native_llama_c1_v2"
-    readonly ALPHA_QP_EVALUATOR="caphist_eval_alpha_qp_llama_c1_v2"
+    readonly MEMIT_NATIVE_CONTROLLER="caphist_memit_native_llama_c1_v3"
+    readonly MEMIT_QP_CONTROLLER="caphist_memit_qp_llama_c1_v3"
+    readonly ALPHA_NATIVE_CONTROLLER="caphist_alpha_native_llama_c1_v3"
+    readonly ALPHA_QP_CONTROLLER="caphist_alpha_qp_llama_c1_v3"
+    readonly MEMIT_NATIVE_EVALUATOR="caphist_eval_memit_native_llama_c1_v3"
+    readonly MEMIT_QP_EVALUATOR="caphist_eval_memit_qp_llama_c1_v3"
+    readonly ALPHA_NATIVE_EVALUATOR="caphist_eval_alpha_native_llama_c1_v3"
+    readonly ALPHA_QP_EVALUATOR="caphist_eval_alpha_qp_llama_c1_v3"
     ;;
   qwen2.5-7b-inst)
-    readonly MEMIT_NATIVE_CONTROLLER="caphist_memit_native_qwen_c1_v2"
-    readonly MEMIT_QP_CONTROLLER="caphist_memit_qp_qwen_c1_v2"
-    readonly ALPHA_NATIVE_CONTROLLER="caphist_alpha_native_qwen_c1_v2"
-    readonly ALPHA_QP_CONTROLLER="caphist_alpha_qp_qwen_c1_v2"
-    readonly MEMIT_NATIVE_EVALUATOR="caphist_eval_memit_native_qwen_c1_v2"
-    readonly MEMIT_QP_EVALUATOR="caphist_eval_memit_qp_qwen_c1_v2"
-    readonly ALPHA_NATIVE_EVALUATOR="caphist_eval_alpha_native_qwen_c1_v2"
-    readonly ALPHA_QP_EVALUATOR="caphist_eval_alpha_qp_qwen_c1_v2"
+    readonly MEMIT_NATIVE_CONTROLLER="caphist_memit_native_qwen_c1_v3"
+    readonly MEMIT_QP_CONTROLLER="caphist_memit_qp_qwen_c1_v3"
+    readonly ALPHA_NATIVE_CONTROLLER="caphist_alpha_native_qwen_c1_v3"
+    readonly ALPHA_QP_CONTROLLER="caphist_alpha_qp_qwen_c1_v3"
+    readonly MEMIT_NATIVE_EVALUATOR="caphist_eval_memit_native_qwen_c1_v3"
+    readonly MEMIT_QP_EVALUATOR="caphist_eval_memit_qp_qwen_c1_v3"
+    readonly ALPHA_NATIVE_EVALUATOR="caphist_eval_alpha_native_qwen_c1_v3"
+    readonly ALPHA_QP_EVALUATOR="caphist_eval_alpha_qp_qwen_c1_v3"
     ;;
   *) exit 2 ;;
 esac

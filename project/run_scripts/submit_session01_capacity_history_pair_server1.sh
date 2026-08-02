@@ -20,8 +20,8 @@ readonly RED_GATE_VERDICT='- 최종 판정: `PASS` — clean pushed main에서 c
 readonly LOG_ROOT="${REPO_ROOT}/local/logs/slurm/session01_motivation"
 readonly OUTPUT_ROOT="${REPO_ROOT}/local/results/raw/session01_motivation"
 readonly STATE_ROOT="${REPO_ROOT}/local/state/slurm-submissions/session01_motivation"
-readonly PAIR_MARKER="${STATE_ROOT}/caphist_pair_c1_v2.submitted"
-readonly JOB_NAME="odeedit_capacity_history_pair_c1_v2"
+readonly PAIR_MARKER="${STATE_ROOT}/caphist_pair_c1_v3.submitted"
+readonly JOB_NAME="odeedit_capacity_history_pair_c1_v3"
 
 [[ "$#" -eq 0 ]] || exit 2
 [[ -x "${GIT_BIN}" && -x "${GREP_BIN}" && -x "${INSTALL_BIN}" \
@@ -67,15 +67,15 @@ cd "${REPO_ROOT}"
 [[ "$("${GREP_BIN}" -Ec -- '^- 최종 판정:' "${RED_GATE}" || true)" == "1" ]] || exit 2
 
 for run_name in \
-  caphist_memit_native_llama_c1_v2 caphist_memit_native_qwen_c1_v2 \
-  caphist_memit_qp_llama_c1_v2 caphist_memit_qp_qwen_c1_v2 \
-  caphist_alpha_native_llama_c1_v2 caphist_alpha_native_qwen_c1_v2 \
-  caphist_alpha_qp_llama_c1_v2 caphist_alpha_qp_qwen_c1_v2 \
-  caphist_eval_memit_native_llama_c1_v2 caphist_eval_memit_native_qwen_c1_v2 \
-  caphist_eval_memit_qp_llama_c1_v2 caphist_eval_memit_qp_qwen_c1_v2 \
-  caphist_eval_alpha_native_llama_c1_v2 caphist_eval_alpha_native_qwen_c1_v2 \
-  caphist_eval_alpha_qp_llama_c1_v2 caphist_eval_alpha_qp_qwen_c1_v2 \
-  caphist_combined_llama_c1_v2 caphist_combined_qwen_c1_v2 caphist_pair_c1_v2; do
+  caphist_memit_native_llama_c1_v3 caphist_memit_native_qwen_c1_v3 \
+  caphist_memit_qp_llama_c1_v3 caphist_memit_qp_qwen_c1_v3 \
+  caphist_alpha_native_llama_c1_v3 caphist_alpha_native_qwen_c1_v3 \
+  caphist_alpha_qp_llama_c1_v3 caphist_alpha_qp_qwen_c1_v3 \
+  caphist_eval_memit_native_llama_c1_v3 caphist_eval_memit_native_qwen_c1_v3 \
+  caphist_eval_memit_qp_llama_c1_v3 caphist_eval_memit_qp_qwen_c1_v3 \
+  caphist_eval_alpha_native_llama_c1_v3 caphist_eval_alpha_native_qwen_c1_v3 \
+  caphist_eval_alpha_qp_llama_c1_v3 caphist_eval_alpha_qp_qwen_c1_v3 \
+  caphist_combined_llama_c1_v3 caphist_combined_qwen_c1_v3 caphist_pair_c1_v3; do
   [[ ! -e "${OUTPUT_ROOT}/${run_name}" && ! -L "${OUTPUT_ROOT}/${run_name}" ]] || exit 2
 done
 [[ ! -e "${PAIR_MARKER}" && ! -L "${PAIR_MARKER}" ]] || exit 2

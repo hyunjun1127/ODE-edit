@@ -116,10 +116,10 @@ general method superiority, deployable preservation guarantee는 열지 않는�
 
 ## 실행 envelope
 
-- job: `odeedit_capacity_history_pair_c1_v2`
+- job: `odeedit_capacity_history_pair_c1_v3`
 - resource: GPU `4`, CPU `32`, memory `260000M`, server1
 - four simultaneous 1-GPU workers: Llama/Qwen × MEMIT/Alpha-history
 - controller phase 후 evaluator phase, 이어 model analysis와 pair synthesis
-- output: `local/results/raw/session01_motivation/caphist_*_c1_v2/`
+- output: `local/results/raw/session01_motivation/caphist_*_c1_v3/`
 - log: `local/logs/slurm/session01_motivation/`
 - Git에는 code/test/spec/audit/small summary만 남기고 raw artifact는 `local/`에 둔다.

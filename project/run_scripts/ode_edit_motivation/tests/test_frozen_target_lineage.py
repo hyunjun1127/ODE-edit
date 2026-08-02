@@ -11,6 +11,7 @@ from project.run_scripts.ode_edit_motivation.contracts import (
 from project.run_scripts.ode_edit_motivation.direct_z import FrozenDirectZ
 from project.run_scripts.ode_edit_motivation.frozen_target_lineage import (
     FrozenTargetLineage,
+    _is_adaptive_step,
 )
 from project.run_scripts.ode_edit_motivation.hooks import (
     TemporaryLowRankApplication,
@@ -306,7 +307,7 @@ class FrozenTargetLineageTests(unittest.TestCase):
     def test_adaptive_hops_bind_actual_scale_and_reject_mixing(self):
         lineage = self.lineage()
         current = self.origin
-        scales = (0.2, 0.125, 0.05, 0.25)
+        scales = (0.2, 0.125, 0.05, 0.25 + 5e-6)
         with ExitStack() as stack:
             for index, scale in enumerate(scales, start=1):
                 factors = tuple(
@@ -364,6 +365,11 @@ class FrozenTargetLineageTests(unittest.TestCase):
                     application=applied,
                     label="refreshed_step_2",
                 )
+
+    def test_adaptive_scale_tolerance_is_numeric_only(self):
+        self.assertTrue(_is_adaptive_step("capacity_round_4", 0.25 + 5e-6))
+        self.assertFalse(_is_adaptive_step("capacity_round_4", 0.25 + 2e-5))
+        self.assertFalse(_is_adaptive_step("capacity_round_5", 0.25))
 
     def make_wrong_direction(self):
         factors = tuple(
