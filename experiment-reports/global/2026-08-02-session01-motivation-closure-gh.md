@@ -2,7 +2,14 @@
 
 날짜: 2026-08-02
 
-상태: **Motivation closed — atomic possibility only; c1 sequential controller cross-model negative; Method Session 진입 blocked**
+상태: **Motivation reopened — c1 low-update verdict superseded; exact-distance c2 pending**
+
+> **2026-08-02 사용자 지시/GH 정정:** c1은 BF layer share와 global update 크기를
+> 분리하지 않아 Llama update를 native C-distance의 약 67--69%만 적용했다. 따라서
+> c1의 cross-model negative와 이 문서의 기존 final closure는 scientific verdict로
+> 사용하지 않는다. 현재 canonical next action은
+> `plans/global/2026-08-02-session01-capacity-share-exact-quarter-c2-spec.md`의
+> `D/4 × 4` matched-distance diagnostic이다. 아래 내용은 c2 이전의 역사적 기록이다.
 
 ## 결론 먼저
 
@@ -175,7 +182,7 @@ compute frontier를 개선하지 못하면 ODE paper story는 유지할 수 없�
 
 ## 최종 판정
 
-**Motivation final closure.** State-dependent relinearization의 atomic possibility는
-남지만 실제 constrained controller c1이 Llama/Qwen 공통 gate를 실패했다. 현재
-sequential ODE-Edit controller는 closed-negative이며, 추가 Motivation retune이나
-Method/Lifelong 확대를 진행하지 않는다.
+기존 `Motivation final closure`는 c1 magnitude confound 확인으로 **superseded**다.
+Motivation은 exact-distance c2에 한해 다시 열며, c2 전에는 direction refresh,
+capacity share, sequential ODE-Edit 어느 것에도 negative/positive 최종 판정을 내리지
+않는다. Method/Lifelong 확대는 계속 금지한다.

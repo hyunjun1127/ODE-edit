@@ -256,7 +256,7 @@ def _verify_history_chain(branch: str, actions: Sequence[ControllerActionEvidenc
 def _verify_native_reference_contract(
     *, branch: str, feature: Mapping[str, Any], result: Mapping[str, Any]
 ) -> None:
-    """Reject the c0 under-edit contract and verify the c1 terminal semantics."""
+    """Verify the c2 fixed-distance contract and its native reference metadata."""
 
     reference = _mapping(feature.get("native_reference"), "native_reference")
     try:
@@ -272,9 +272,10 @@ def _verify_native_reference_contract(
         or native - origin <= tolerance
         or type(reference.get("matched")) is not bool
         or type(reference.get("budget_exhausted")) is not bool
+        or type(reference.get("fixed_distance_budget_completed")) is not bool
         or type(reference.get("ordered_endpoint_first_hit")) is not bool
     ):
-        raise CapacityHistoryEvaluationError("native reference contract differs from c1")
+        raise CapacityHistoryEvaluationError("native reference contract differs from c2")
     matched = bool(reference["matched"])
     budget_exhausted = bool(reference["budget_exhausted"])
     accepted_rounds = int(result.get("accepted_round_count", 0))
@@ -295,6 +296,7 @@ def _verify_native_reference_contract(
             or accepted_rounds != 1
             or not matched
             or budget_exhausted
+            or reference.get("fixed_distance_budget_completed") is not False
             or not math.isclose(endpoint, native, rel_tol=0.0, abs_tol=1e-8)
             or not math.isclose(
                 float(feature.get("accepted_path_distance")),
@@ -311,14 +313,52 @@ def _verify_native_reference_contract(
         for item in diagnostics
         if _mapping(item, "round_diagnostics[]").get("accepted") is True
     ]
-    if len(accepted) != accepted_rounds or not (1 <= accepted_rounds <= MAX_ACCEPTED_ROUNDS):
-        raise CapacityHistoryEvaluationError("QP accepted rounds differ from K=4 contract")
+    native_distance = float(feature.get("native_c_distance"))
+    path_distance = float(feature.get("accepted_path_distance"))
+    if (
+        len(accepted) != MAX_ACCEPTED_ROUNDS
+        or accepted_rounds != MAX_ACCEPTED_ROUNDS
+        or reference.get("fixed_distance_budget_completed") is not True
+        or not math.isclose(path_distance, native_distance, rel_tol=2e-5, abs_tol=2e-5)
+    ):
+        raise CapacityHistoryEvaluationError("QP path differs from four exact quarter hops")
+    hop_distance = native_distance / MAX_ACCEPTED_ROUNDS
     for diagnostic in accepted:
         requested = float(diagnostic.get("requested_gain"))
         remaining = float(diagnostic.get("remaining_reference_gain_before"))
+        remaining_rounds = int(diagnostic.get("remaining_rounds_before"))
+        maximum = float(diagnostic.get("maximum_predicted_gain"))
+        coefficients = diagnostic.get("coefficients")
+        if not isinstance(coefficients, list) or len(coefficients) != len(LAYERS):
+            raise CapacityHistoryEvaluationError("QP exact-hop coefficients are incomplete")
+        coefficient_norm = math.sqrt(
+            math.fsum(float(value) * float(value) for value in coefficients)
+        )
+        expected_request = (
+            remaining / remaining_rounds
+            if remaining > NATIVE_REFERENCE_ABS_TOL
+            else maximum
+        )
         if (
-            not math.isclose(requested, remaining, rel_tol=0.0, abs_tol=1e-10)
+            remaining_rounds != MAX_ACCEPTED_ROUNDS - int(diagnostic.get("round_index")) + 1
+            or not math.isclose(requested, expected_request, rel_tol=0.0, abs_tol=1e-10)
             or float(diagnostic.get("native_reference_utility")) != native
+            or not math.isclose(
+                float(diagnostic.get("trust_fraction")),
+                1.0 / MAX_ACCEPTED_ROUNDS,
+                rel_tol=0.0,
+                abs_tol=1e-12,
+            )
+            or not math.isclose(coefficient_norm, hop_distance, rel_tol=2e-5, abs_tol=2e-5)
+            or not math.isclose(
+                float(diagnostic.get("coefficient_norm")),
+                hop_distance,
+                rel_tol=2e-5,
+                abs_tol=2e-5,
+            )
+            or not math.isclose(
+                float(diagnostic.get("share_l2_norm")), 1.0, rel_tol=2e-5, abs_tol=2e-5
+            )
             or diagnostic.get("native_reference_reached")
             != (
                 float(diagnostic.get("utility_before"))
@@ -326,12 +366,9 @@ def _verify_native_reference_contract(
                 >= native - tolerance
             )
         ):
-            raise CapacityHistoryEvaluationError("QP requested a fractional native gap")
-    if matched:
-        if budget_exhausted:
-            raise CapacityHistoryEvaluationError("matched QP endpoint is marked exhausted")
-    elif not budget_exhausted or accepted_rounds != MAX_ACCEPTED_ROUNDS:
-        raise CapacityHistoryEvaluationError("unmatched QP endpoint stopped before K=4")
+            raise CapacityHistoryEvaluationError("QP exact-quarter allocation contract differs")
+    if budget_exhausted is matched:
+        raise CapacityHistoryEvaluationError("QP matched/exhausted metadata is inconsistent")
 
 
 def _verify_controller(
@@ -532,6 +569,28 @@ def _verify_controller(
             or len(action["per_hop_c_energy"]) != len(manifests)
         ):
             raise CapacityHistoryEvaluationError(f"{run_id}: proposal lineage/order differs")
+        native_distance = float(feature.get("native_c_distance"))
+        expected_hop = (
+            native_distance / MAX_ACCEPTED_ROUNDS if is_qp_branch(branch) else native_distance
+        )
+        if (
+            not math.isclose(
+                float(result.get("accepted_path_distance")),
+                float(feature.get("accepted_path_distance")),
+                rel_tol=2e-5,
+                abs_tol=2e-5,
+            )
+            or any(
+                not math.isclose(
+                    float(energy),
+                    expected_hop * expected_hop,
+                    rel_tol=2e-5,
+                    abs_tol=2e-5,
+                )
+                for energy in action["per_hop_c_energy"]
+            )
+        ):
+            raise CapacityHistoryEvaluationError(f"{run_id}: proposal C-distance budget differs")
         receipt_path = _safe_local_child(
             run_directory / "action_receipts", str(result.get("receipt_name"))
         )

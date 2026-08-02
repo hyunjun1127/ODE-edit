@@ -157,8 +157,33 @@ class CapacityHistoryEvaluatorTests(unittest.TestCase):
         self.assertEqual(result["capacity_reroute_round_count"], 1)
         self.assertTrue(result["capacity_barrier_exact"])
 
-    def test_c1_reference_rejects_fractional_or_early_unmatched_qp(self) -> None:
+    def test_c2_reference_requires_four_exact_quarter_hops(self) -> None:
+        diagnostics = []
+        for round_index in range(1, 5):
+            utility_before = -3.0 + round_index
+            rewrite_gain = 1.1 if round_index == 4 else 1.0
+            diagnostics.append(
+                {
+                    "round_index": round_index,
+                    "accepted": True,
+                    "utility_before": utility_before,
+                    "native_reference_utility": 2.0,
+                    "remaining_reference_gain_before": 2.0 - utility_before,
+                    "remaining_rounds_before": 5 - round_index,
+                    "maximum_predicted_gain": 3.0,
+                    "requested_gain": (2.0 - utility_before) / (5 - round_index),
+                    "predicted_gain": 1.0,
+                    "rewrite_gain": rewrite_gain,
+                    "native_reference_reached": round_index == 4,
+                    "trust_fraction": 0.25,
+                    "coefficient_norm": 1.0,
+                    "share_l2_norm": 1.0,
+                    "coefficients": [1.0, 0.0, 0.0, 0.0, 0.0],
+                }
+            )
         feature = {
+            "native_c_distance": 4.0,
+            "accepted_path_distance": 4.0,
             "native_reference": {
                 "origin_utility": -2.0,
                 "ordered_endpoint_utility": 2.0,
@@ -167,21 +192,12 @@ class CapacityHistoryEvaluatorTests(unittest.TestCase):
                 "matched": True,
                 "abs_tolerance": 1e-4,
                 "budget_exhausted": False,
+                "fixed_distance_budget_completed": True,
             },
-            "round_diagnostics": [
-                {
-                    "accepted": True,
-                    "utility_before": -2.0,
-                    "native_reference_utility": 2.0,
-                    "remaining_reference_gain_before": 4.0,
-                    "requested_gain": 4.0,
-                    "rewrite_gain": 4.1,
-                    "native_reference_reached": True,
-                }
-            ],
+            "round_diagnostics": diagnostics,
         }
         result = {
-            "accepted_round_count": 1,
+            "accepted_round_count": 4,
             "native_reference_utility": 2.0,
             "endpoint_utility": 2.1,
             "native_reference_reached": True,
@@ -192,38 +208,13 @@ class CapacityHistoryEvaluatorTests(unittest.TestCase):
         broken = {
             **feature,
             "round_diagnostics": [
-                {**feature["round_diagnostics"][0], "requested_gain": 3.0}
+                {**feature["round_diagnostics"][0], "coefficient_norm": 0.5},
+                *feature["round_diagnostics"][1:],
             ],
         }
-        with self.assertRaisesRegex(Exception, "fractional native gap"):
+        with self.assertRaisesRegex(Exception, "exact-quarter allocation"):
             _verify_native_reference_contract(
                 branch=BRANCHES[1], feature=broken, result=result
-            )
-
-        unmatched = {
-            **feature,
-            "native_reference": {
-                **feature["native_reference"],
-                "controller_endpoint_utility": 1.0,
-                "matched": False,
-                "budget_exhausted": False,
-            },
-            "round_diagnostics": [
-                {
-                    **feature["round_diagnostics"][0],
-                    "rewrite_gain": 3.0,
-                    "native_reference_reached": False,
-                }
-            ],
-        }
-        unmatched_result = {
-            **result,
-            "endpoint_utility": 1.0,
-            "native_reference_reached": False,
-        }
-        with self.assertRaisesRegex(Exception, "stopped before K=4"):
-            _verify_native_reference_contract(
-                branch=BRANCHES[1], feature=unmatched, result=unmatched_result
             )
 
     def test_merge_resequences_four_isolated_branch_streams(self) -> None:

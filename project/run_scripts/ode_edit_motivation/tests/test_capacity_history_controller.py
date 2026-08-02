@@ -94,11 +94,16 @@ class CapacityHistoryControllerTests(unittest.TestCase):
         self.assertEqual(policy["seed"], 41)
         self.assertEqual(policy["max_accepted_rounds"], 4)
         self.assertEqual(policy["initial_trust_fraction"], 0.25)
-        self.assertEqual(policy["retry_shrink"], 0.5)
+        self.assertEqual(policy["retry_shrink"], 1.0)
         self.assertEqual(
-            policy["progress_request"],
-            "remaining-ordered-native-rewrite-utility-gap",
+            policy["allocation_progress_request"],
+            "remaining-ordered-native-rewrite-utility-gap-divided-by-remaining-rounds",
         )
+        self.assertEqual(
+            policy["global_step"],
+            "exact-native-C-distance-quarter-independent-of-layer-share",
+        )
+        self.assertEqual(policy["terminal"], "fixed-four-exact-quarter-hops")
         self.assertEqual(policy["first_hit"], "diagnostic-only-never-terminal")
         self.assertNotIn("requested_progress_fraction", policy)
         self.assertNotIn("nfe", set(_keys(policy)))

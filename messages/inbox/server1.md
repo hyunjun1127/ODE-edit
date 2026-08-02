@@ -1258,3 +1258,64 @@ Motivation 진단이다.
 - 영향 범위: server1 4-GPU pair 한 건과 위 ignored local path만 사용.
 - 후속 보고: startup 연속 확인, 이후 30분 monitor, 모델별 Terra analysis agent
   시도, pair synthesis/post-run audit와 no-peer broadcast exception.
+
+---
+
+# C2 추가 instruction — `session01-capacity-share-exact-quarter-c2-v1`
+
+## 목적과 배경
+
+c1은 layer별 BF coefficient를 absolute write magnitude로 직접 적용하여 layer share와
+global step을 결합했다. Llama에서는 overload가 0인데도 path가 native의 약
+67--69%로 줄어 efficacy 비교가 confounded됐다. C2는 layer coefficient를 상대 share로
+L2-normalize한 뒤 매 round global `C-distance=D/4`를 별도 적용하여 네 hop 총 `D`를
+정확히 맞춘다. 이는 c1 scientific negative의 구현 confound를 판정하는 Motivation
+원인분리 실험이다.
+
+## 실행 instruction envelope
+
+- 대상: server1 GH session `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`, required/confirmed
+  `Sol Ultra`, CWD `/mnt/raid5/janghj/ODE-edit`, repository
+  `hyunjun1127/ODE-edit`. 별도 SH session은 미지정이며 다른 session/repo 실행 금지.
+- 허용 write path:
+  `local/results/raw/session01_motivation/caphist_*_c2_v1/`,
+  `local/logs/slurm/session01_motivation/`,
+  `local/state/slurm-submissions/session01_motivation/caphist_pair_c2_v1.submitted/`,
+  `runs/`, `experiment-reports/global/`, `audits/global/`,
+  `messages/server-heads/server1/`의 compact metadata/report.
+- Slurm 제출 허용 여부: c2 preflight exact `PASS`, clean pushed main, session/resource/
+  output collision gate 뒤 GH one-shot helper 1회만 `allowed`. Partial/model별 retry는
+  `not allowed`.
+- GPU cap / memory: server1 project GPU cap 4; parent GPU 4 / CPU 32 / `260000M`,
+  child별 GPU 1 / CPU 8 / `65000M`. Overflow면 submit하지 않는다.
+- red-team gate: exact `D/4 × 4`, applied share L2=1, non-overloaded full envelope,
+  true-overload-only hard cap, Llama/Qwen byte-identical policy, evaluator firewall,
+  direct-z-once, lineage/replay, EasyEdit/precomputed read-only를 모두 통과해야 한다.
+  `warn`은 claim caveat 기록 후 GH만 허용하며 `block`은 중단한다.
+- artifact broadcast 의무: active peer SH/clone이 없으므로 no-peer exception을
+  completion report에 기록한다. 임의 SSH/rsync와 `--delete`는 금지한다.
+- 완료 보고 경로:
+  `experiment-reports/global/2026-08-02-session01-caphist-{llama,qwen}-c2-v1-gh.md`,
+  `experiment-reports/global/2026-08-02-session01-caphist-pair-c2-v1-synthesis.md`,
+  `audits/global/2026-08-02-session01-capacity-share-exact-quarter-c2-postrun.md`,
+  `messages/server-heads/server1/2026-08-02.md`, compact `runs/` metadata.
+- 금지 사항: EasyEdit source 수정, covariance/projector/Wikipedia artifact 재계산,
+  online download, model별 K/threshold/share/rescue, evaluation field의 controller 유입,
+  raw prompt/logit/generation/weight/full log/credential Git 기록, direct-z 임시 session
+  monitoring 또는 artifact 결합.
+- 예상 산출물: Llama/Qwen × MEMIT/Alpha의 8 controller + 8 evaluator, 32
+  checkpoints, model analysis 2개, pair analysis 1개, 모델별 별도 analysis agent
+  report와 GH synthesis.
+- 중단 조건: session/CWD/repo/job/run/resource mismatch, dirty/unpushed Git,
+  output/marker collision, worker nonzero, exact hop/path/share/cap violation,
+  read-only/firewall/lineage/hash 실패.
+
+## GH 직접 실행 예외 기록
+
+- 사유: server1 별도 SH 부재 및 사용자의 빠른 재구현·Llama/Qwen 동시 실험 지시.
+- 명령: `project/run_scripts/submit_session01_capacity_history_pair_server1.sh`.
+- 영향 범위: server1 4 GPU pair 1건과 위 ignored local path.
+- 모니터링: 초기 pipeline은 연속 확인하고 이후 30분 단위로 terminal까지 확인한다.
+- subagent boundary: 분석 agent는 runtime metadata가 `Terra Ultra`로 검증된 경우에만
+  해당 model report/code를 읽으며, 결과 수신 즉시 종료한다. 검증 불가면 BLOCK으로
+  기록하고 GH가 독립 agent review로 가장하지 않는다.

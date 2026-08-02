@@ -45,8 +45,9 @@ from .capacity_history_analysis import (
 )
 from .capacity_qp import (
     build_capacity_layer_terms,
-    build_capacity_qp_proposal,
+    build_capacity_proposal_from_coefficients,
     capacity_state_by_layer,
+    exact_distance_capacity_coefficients,
     solve_capacity_qp,
 )
 from .contracts import (
@@ -127,33 +128,33 @@ from .trajectory import MATCHED_C_ABS_TOL, MATCHED_C_REL_TOL
 CONTROLLER_SCHEMA = "ode-edit-capacity-history-controller/v1"
 CONTROLLER_STREAM_SCHEMA = "ode-edit-capacity-history-controller-stream/v1"
 CONTROLLER_RECEIPT_SCHEMA = "ode-edit-capacity-history-controller-receipt/v1"
-CONTROLLER_JOB_NAME = "odeedit_capacity_history_pair_c1_v3"
+CONTROLLER_JOB_NAME = "odeedit_capacity_history_pair_c2_v1"
 RUN_SEED = 41
 RANK_START = 144
 RANK_STOP = 148
-POLICY_ID = "capacity-qp-history-k4-native-progress-v2"
+POLICY_ID = "capacity-share-history-exact-quarter-k4-v3"
 MAX_ACCEPTED_ROUNDS = 4
 INITIAL_TRUST_FRACTION = 0.25
-RETRY_SHRINK = 0.5
+RETRY_SHRINK = 1.0
 MIN_TRUST_RATIO = 0.05
 NATIVE_REFERENCE_ABS_TOL = 1e-4
 APPLICATION_MODES = {branch: "easyedit_exact" for branch in BRANCHES}
 RUN_IDS = {
     BRANCH_MEMIT_NATIVE: {
-        "llama3-8b-inst": "caphist_memit_native_llama_c1_v3",
-        "qwen2.5-7b-inst": "caphist_memit_native_qwen_c1_v3",
+        "llama3-8b-inst": "caphist_memit_native_llama_c2_v1",
+        "qwen2.5-7b-inst": "caphist_memit_native_qwen_c2_v1",
     },
     BRANCH_MEMIT_QP: {
-        "llama3-8b-inst": "caphist_memit_qp_llama_c1_v3",
-        "qwen2.5-7b-inst": "caphist_memit_qp_qwen_c1_v3",
+        "llama3-8b-inst": "caphist_memit_qp_llama_c2_v1",
+        "qwen2.5-7b-inst": "caphist_memit_qp_qwen_c2_v1",
     },
     BRANCH_ALPHA_NATIVE: {
-        "llama3-8b-inst": "caphist_alpha_native_llama_c1_v3",
-        "qwen2.5-7b-inst": "caphist_alpha_native_qwen_c1_v3",
+        "llama3-8b-inst": "caphist_alpha_native_llama_c2_v1",
+        "qwen2.5-7b-inst": "caphist_alpha_native_qwen_c2_v1",
     },
     BRANCH_ALPHA_QP: {
-        "llama3-8b-inst": "caphist_alpha_qp_llama_c1_v3",
-        "qwen2.5-7b-inst": "caphist_alpha_qp_qwen_c1_v3",
+        "llama3-8b-inst": "caphist_alpha_qp_llama_c2_v1",
+        "qwen2.5-7b-inst": "caphist_alpha_qp_qwen_c2_v1",
     },
 }
 
@@ -203,12 +204,17 @@ def policy_parameters() -> dict[str, Any]:
         "probe_fraction": QSTEP_PROBE_FRACTION,
         "minimum_trust_ratio": MIN_TRUST_RATIO,
         "native_reference_abs_tolerance": NATIVE_REFERENCE_ABS_TOL,
-        "progress_request": "remaining-ordered-native-rewrite-utility-gap",
-        "terminal": "ordered-native-rewrite-utility-matched-after-accepted-round",
+        "allocation_progress_request": (
+            "remaining-ordered-native-rewrite-utility-gap-divided-by-remaining-rounds"
+        ),
+        "global_step": "exact-native-C-distance-quarter-independent-of-layer-share",
+        "terminal": "fixed-four-exact-quarter-hops",
         "first_hit": "diagnostic-only-never-terminal",
-        "rejection": "positive-rewrite-gain-and-trust-ratio-else-one-shrunk-retry",
-        "retry_failure": "fail-closed-without-scientific-endpoint",
+        "rejection": "no-scientific-shrink; trust-ratio-recorded-only",
+        "retry_failure": "not-applicable-fixed-distance-diagnostic",
         "nominal_native_distance_budget": 1.0,
+        "layer_share": "capacity-QP-relative-allocation-L2-normalized-before-write",
+        "barrier_scope": "hard-cap-truly-overloaded-layers-only",
         "history_append_policy": "post-accepted-edit-once-history-fixed-within-edit",
         "capacity_normalizer": "fixed-W0-layer-weight-C-energy",
         "evaluation_fields_available": False,
@@ -727,10 +733,7 @@ def _build_edit_action(
                 utility=before_utility,
                 reference=native_reference_utility,
             )
-            if remaining_reference_gain <= NATIVE_REFERENCE_ABS_TOL:
-                matched_native_reference = True
-                endpoint_utility = before_utility
-                break
+            remaining_rounds = MAX_ACCEPTED_ROUNDS - round_index + 1
             accepted: tuple[
                 MemitFactorProposal,
                 SnapshotManifest,
@@ -742,8 +745,7 @@ def _build_edit_action(
                 dict[str, Any],
             ] | None = None
             for attempt_index, trust_fraction in enumerate(
-                (INITIAL_TRUST_FRACTION, INITIAL_TRUST_FRACTION * RETRY_SHRINK),
-                start=1,
+                (INITIAL_TRUST_FRACTION,), start=1
             ):
                 trust_distance = native_distance * trust_fraction
                 terms = build_capacity_layer_terms(
@@ -763,32 +765,47 @@ def _build_edit_action(
                     requested_progress=cap_upper,
                     trust_distance=trust_distance,
                 )
+                allocation_request = remaining_reference_gain / remaining_rounds
+                if allocation_request <= NATIVE_REFERENCE_ABS_TOL:
+                    allocation_request = maximum.constrained_progress
                 solution = solve_capacity_qp(
                     terms,
-                    requested_progress=remaining_reference_gain,
+                    requested_progress=allocation_request,
                     trust_distance=trust_distance,
                 )
                 if solution.predicted_progress <= 1e-12:
                     raise ContractError("capacity QP has no positive rewrite direction")
-                proposal = build_capacity_qp_proposal(
+                applied_coefficients = exact_distance_capacity_coefficients(
+                    terms,
+                    solution.coefficients,
+                    target_distance=trust_distance,
+                )
+                applied_norm = math.sqrt(
+                    math.fsum(value * value for value in applied_coefficients)
+                )
+                applied_predicted_gain = math.fsum(
+                    term.slope * value
+                    for term, value in zip(terms, applied_coefficients, strict=True)
+                )
+                if applied_predicted_gain <= 1e-12:
+                    raise ContractError("exact-hop capacity share has no positive rewrite direction")
+                proposal = build_capacity_proposal_from_coefficients(
                     synchronous=synchronous,
                     unit_actions=unit_actions,
                     terms=terms,
-                    solution=solution,
+                    coefficients=applied_coefficients,
                     solver_suffix=f"t{edit_index}-r{round_index}-a{attempt_index}",
                 )
-                if proposal is None:
-                    raise ContractError("capacity QP produced an empty action")
                 observed_energy = proposal_c_energy(
                     proposal, covariance_moments, layer_by_weight
                 )
                 if not math.isclose(
                     observed_energy,
-                    solution.coefficient_norm * solution.coefficient_norm,
+                    trust_distance * trust_distance,
                     rel_tol=MATCHED_C_REL_TOL,
                     abs_tol=MATCHED_C_ABS_TOL,
                 ):
-                    raise ContractError("capacity QP proposal C-energy differs from coefficients")
+                    raise ContractError("capacity share proposal is not an exact quarter hop")
                 with TemporaryExactMemitApplication(runtime.model, proposal) as application:
                     after_utility, first_hit = _rewrite_state(runtime, request, contexts)
                     child = _capture_source_snapshot(
@@ -800,23 +817,24 @@ def _build_edit_action(
                         provenance_id=bindings.provenance.manifest_id,
                     )
                     rewrite_gain = after_utility - before_utility
+                    if not math.isfinite(rewrite_gain):
+                        raise ContractError("exact-hop rewrite gain is not finite")
                     reference_reached = native_reference_reached(
                         utility=after_utility,
                         reference=native_reference_utility,
                     )
-                    accepted_flag, trust_ratio = accept_round(
+                    trust_gate_pass, trust_ratio = accept_round(
                         rewrite_gain=rewrite_gain,
-                        predicted_gain=solution.predicted_progress,
+                        predicted_gain=applied_predicted_gain,
                     )
-                    next_lineage = None
-                    if accepted_flag:
-                        next_lineage = lineage.derive_adaptive_step(
-                            parent_snapshot=current_snapshot,
-                            child_snapshot=child,
-                            application=application,
-                            step_scale=solution.coefficient_norm / native_distance,
-                            label=f"capacity_round_{round_index}",
-                        )
+                    accepted_flag = True
+                    next_lineage = lineage.derive_adaptive_step(
+                        parent_snapshot=current_snapshot,
+                        child_snapshot=child,
+                        application=application,
+                        step_scale=trust_distance / native_distance,
+                        label=f"capacity_round_{round_index}",
+                    )
                 diagnostic = {
                     "round_index": round_index,
                     "attempt_index": attempt_index,
@@ -824,16 +842,23 @@ def _build_edit_action(
                     "utility_before": before_utility,
                     "native_reference_utility": native_reference_utility,
                     "remaining_reference_gain_before": remaining_reference_gain,
+                    "remaining_rounds_before": remaining_rounds,
                     "maximum_predicted_gain": maximum.constrained_progress,
-                    "requested_gain": solution.requested_progress,
-                    "predicted_gain": solution.predicted_progress,
+                    "requested_gain": allocation_request,
+                    "predicted_gain": applied_predicted_gain,
                     "rewrite_gain": rewrite_gain,
                     "trust_ratio": trust_ratio,
+                    "trust_gate_pass": trust_gate_pass,
                     "accepted": accepted_flag,
-                    "coefficient_norm": solution.coefficient_norm,
-                    "progress_slack": solution.progress_slack,
+                    "coefficient_norm": applied_norm,
+                    "share_l2_norm": applied_norm / trust_distance,
+                    "progress_slack": max(0.0, allocation_request - applied_predicted_gain),
                     "feasible_without_slack": solution.feasible_without_slack,
-                    "coefficients": list(solution.coefficients),
+                    "allocation_coefficient_norm": solution.coefficient_norm,
+                    "allocation_predicted_gain": solution.predicted_progress,
+                    "allocation_progress_slack": solution.progress_slack,
+                    "allocation_coefficients": list(solution.coefficients),
+                    "coefficients": list(applied_coefficients),
                     "capacity_terms": [term.to_dict() for term in terms],
                     "capacity_before": capacity_state_by_layer(
                         cumulative_factors=cumulative_factors,
@@ -853,26 +878,26 @@ def _build_edit_action(
                         proposal,
                         child,
                         next_lineage,
-                        solution.coefficient_norm,
+                        applied_norm,
                         first_hit,
                         after_utility,
                         reference_reached,
                         diagnostic,
                     )
                     break
-                rejected_round_count += 1
             if accepted is None:
-                raise ContractError("capacity QP rejected both trust attempts")
+                raise ContractError("capacity share exact hop was not committed")
             (
                 proposal,
                 child,
                 lineage,
                 distance,
-                first_hit_reached,
+                round_first_hit_reached,
                 endpoint_utility,
                 matched_native_reference,
                 _diagnostic,
             ) = accepted
+            first_hit_reached = first_hit_reached or round_first_hit_reached
             apply_proposal_in_disposable_process(
                 runtime.model,
                 proposal,
@@ -898,11 +923,19 @@ def _build_edit_action(
             cumulative_factors.extend(proposal.factors)
             accepted_path_distance += distance
             current_snapshot = child
-            if matched_native_reference:
-                break
 
     if not proposals or len(proposals) != len(descendants):
         raise ContractError("capacity/history edit has no accepted endpoint")
+    if is_qp_branch(branch) and (
+        len(proposals) != MAX_ACCEPTED_ROUNDS
+        or not math.isclose(
+            accepted_path_distance,
+            native_distance,
+            rel_tol=MATCHED_C_REL_TOL,
+            abs_tol=MATCHED_C_ABS_TOL,
+        )
+    ):
+        raise ContractError("capacity share path did not consume four exact quarter hops")
     history_append = None
     if adapter is not None:
         history_append = adapter.append_current_post_edit_keys(edit_id=request.case_id)
@@ -961,6 +994,16 @@ def _build_edit_action(
                 is_qp_branch(branch)
                 and not matched_native_reference
                 and len(proposals) == MAX_ACCEPTED_ROUNDS
+            ),
+            "fixed_distance_budget_completed": bool(
+                is_qp_branch(branch)
+                and len(proposals) == MAX_ACCEPTED_ROUNDS
+                and math.isclose(
+                    accepted_path_distance,
+                    native_distance,
+                    rel_tol=MATCHED_C_REL_TOL,
+                    abs_tol=MATCHED_C_ABS_TOL,
+                )
             ),
         },
         "proposal_artifacts": _proposal_artifact_metadata(artifact_paths),

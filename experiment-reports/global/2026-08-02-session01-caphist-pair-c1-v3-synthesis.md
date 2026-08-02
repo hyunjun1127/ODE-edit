@@ -5,9 +5,17 @@
 - 모델: `llama3-8b-inst`, `qwen2.5-7b-inst`
 - policy: `capacity-qp-history-k4-native-progress-v2`
 - technical verdict: **pass**
-- scientific verdict: **`CAPACITY_HISTORY_HARM_SIGNAL`**
-- Motivation status: **current constrained sequential controller closed-negative**
+- scientific verdict: **`SUPERSEDED_IMPLEMENTATION_CONFOUNDED_LOW_UPDATE`**
+- Motivation status: **reopened for exact-distance c2 diagnostic**
 - claim boundary: same-policy 4-edit diagnostic only
+
+> **2026-08-02 GH 정정:** c1은 layer별 상대 share와 global update magnitude를 같은
+> coefficient로 묶었고, full requested progress가 infeasible할 때 더 작은 feasible
+> target을 scientific endpoint로 허용했다. Llama는 두 family 모두 feasible round가
+> `0/16`, overloaded observation이 0인데도 realized path가 native의 약 67--69%였다.
+> 따라서 아래의 원래 `HARM_SIGNAL`/closed-negative 해석은 보존된 당시 판정이지만 현재
+> method kill evidence로는 무효다. 수치와 raw artifact는 변경하지 않으며, corrected
+> 판정은 exact `D/4 × 4` c2에서만 내린다.
 
 ## 결론 먼저
 
@@ -160,6 +168,8 @@ cross-model 실패”는 서로 다른 claim boundary다.
 
 ## 최종 판정
 
-**Motivation은 현재 sequential method에 대해 closed-negative다.** 방향 재계산과
-capacity trade-off의 atomic possibility는 남지만, 사용자 조건인 Llama/Qwen 공통
-작동을 만족하지 못했다. 추가 Motivation rescue 없이 현재 controller를 종료한다.
+원래 판정은 **closed-negative**였으나, 위 GH 정정에 따라
+`SUPERSEDED_IMPLEMENTATION_CONFOUNDED_LOW_UPDATE`로 대체한다. c1은 current
+absolute-cap controller가 update를 줄인다는 증거로만 보존하며, BF layer share나
+direction refresh의 scientific negative로 사용하지 않는다. Motivation 최종 판정은
+exact-distance c2 결과까지 보류한다.

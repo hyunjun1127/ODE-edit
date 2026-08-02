@@ -6,8 +6,10 @@ import torch
 from project.run_scripts.ode_edit_motivation.capacity_qp import (
     CapacityLayerTerms,
     build_capacity_layer_terms,
+    build_capacity_proposal_from_coefficients,
     build_capacity_qp_proposal,
     capacity_state_by_layer,
+    exact_distance_capacity_coefficients,
     solve_capacity_qp,
 )
 from project.run_scripts.ode_edit_motivation.contracts import (
@@ -146,6 +148,66 @@ class CapacityQPTests(unittest.TestCase):
         self.assertEqual(solution.coefficients[0], 0.0)
         self.assertAlmostEqual(solution.coefficients[1], 0.5, places=7)
         self.assertAlmostEqual(solution.predicted_progress, 0.5, places=7)
+
+    def test_non_overloaded_layers_keep_full_hop_envelope(self) -> None:
+        terms = build_capacity_layer_terms(
+            cumulative_factors=(),
+            unit_actions=self.actions,
+            slopes={"layer_1": 2.0, "layer_2": 1.0},
+            covariance_by_layer=self.covariances,
+            layer_by_weight=self.layer_by_weight,
+            w0_denominators=self.denominators,
+            trust_distance=0.25,
+        )
+        self.assertTrue(all(not term.overloaded for term in terms))
+        self.assertTrue(all(term.coefficient_cap == 0.25 for term in terms))
+
+    def test_qp_share_is_rescaled_to_exact_distance_without_breaking_caps(self) -> None:
+        terms = (
+            CapacityLayerTerms(
+                layer=1,
+                action_id="layer_1",
+                weight_name="layer1.weight",
+                slope=2.0,
+                psi_before=0.0,
+                linear=0.0,
+                quadratic=1.0,
+                barrier=0.25,
+                coefficient_cap=0.5,
+                overloaded=False,
+            ),
+            CapacityLayerTerms(
+                layer=2,
+                action_id="layer_2",
+                weight_name="layer2.weight",
+                slope=1.0,
+                psi_before=0.0,
+                linear=0.0,
+                quadratic=1.0,
+                barrier=0.25,
+                coefficient_cap=0.5,
+                overloaded=False,
+            ),
+        )
+        coefficients = exact_distance_capacity_coefficients(
+            terms, (0.1, 0.05), target_distance=0.5
+        )
+        self.assertAlmostEqual(
+            math.sqrt(sum(value * value for value in coefficients)), 0.5, places=8
+        )
+        self.assertAlmostEqual(coefficients[0] / coefficients[1], 2.0, places=7)
+        proposal = build_capacity_proposal_from_coefficients(
+            synchronous=_proposal(
+                self.actions[0].proposal.factors[0],
+                self.actions[1].proposal.factors[0],
+                suffix="sync-exact",
+            ),
+            unit_actions=self.actions,
+            terms=terms,
+            coefficients=coefficients,
+            solver_suffix="exact",
+        )
+        self.assertEqual(len(proposal.factors), 2)
 
     def test_solver_obeys_progress_box_and_l2_trust_constraints(self) -> None:
         terms = (

@@ -298,18 +298,29 @@ def build_capacity_layer_terms(
         linear = float(item["linear"])
         quadratic = float(item["quadratic"])
         overloaded = psi > common_frontier + 1e-15
-        # An overloaded layer may reduce its load, but cannot finish this step
-        # with a larger load than it started with.
-        barrier = max(psi, common_frontier)
-        cap = min(
-            distance,
-            _positive_barrier_root(
-                psi=psi,
-                linear=linear,
-                quadratic=quadratic,
-                barrier=barrier,
-            ),
-        )
+        if overloaded:
+            # A genuinely overloaded layer may reduce its load, but cannot
+            # finish this step with a larger load than it started with.
+            barrier = psi
+            cap = min(
+                distance,
+                _positive_barrier_root(
+                    psi=psi,
+                    linear=linear,
+                    quadratic=quadratic,
+                    barrier=barrier,
+                ),
+            )
+        else:
+            # The common frontier detects overload; it is not a global
+            # magnitude throttle.  Non-overloaded layers retain the complete
+            # hop envelope.  A convex quadratic reaches its maximum on
+            # [0, distance] at an endpoint, so this barrier is exact.
+            cap = distance
+            barrier = max(
+                psi,
+                psi + linear * distance + quadratic * distance * distance,
+            )
         terms.append(
             CapacityLayerTerms(
                 layer=int(item["layer"]),
@@ -510,6 +521,101 @@ def build_capacity_qp_proposal(
     )
 
 
+def exact_distance_capacity_coefficients(
+    terms: Sequence[CapacityLayerTerms],
+    coefficients: Sequence[float],
+    *,
+    target_distance: float,
+) -> tuple[float, ...]:
+    """Convert absolute QP coefficients into a box-feasible relative share.
+
+    The QP determines *which layers write*.  This helper independently fixes
+    *how much the joint update writes* by radially expanding that allocation to
+    an exact C-distance.  Per-layer caps are preserved.  Failure to reach the
+    requested distance is exposed as a contract error instead of silently
+    returning an under-sized scientific endpoint.
+    """
+
+    distance = _finite("target_distance", target_distance)
+    values = tuple(_finite("coefficient", value) for value in coefficients)
+    if distance <= 0.0 or len(terms) != len(values):
+        raise CapacityQPError("exact-distance allocation inputs are invalid")
+    if any(value < 0.0 for value in values):
+        raise CapacityQPError("exact-distance allocation is negative")
+    if not any(value > 0.0 for value in values):
+        raise CapacityQPError("exact-distance allocation has no positive share")
+
+    reachable = math.sqrt(
+        math.fsum(
+            term.coefficient_cap * term.coefficient_cap
+            for term, value in zip(terms, values, strict=True)
+            if value > 0.0
+        )
+    )
+    if reachable + PROGRESS_TOLERANCE < distance:
+        raise CapacityQPError("QP share support cannot fill the exact hop distance")
+
+    def radial(multiplier: float) -> tuple[float, ...]:
+        return tuple(
+            min(term.coefficient_cap, value * multiplier)
+            for term, value in zip(terms, values, strict=True)
+        )
+
+    low = 0.0
+    high = 1.0
+    while math.sqrt(math.fsum(value * value for value in radial(high))) < distance:
+        high *= 2.0
+        if not math.isfinite(high):
+            raise CapacityQPError("exact-distance radial scale overflowed")
+    for _ in range(DUAL_ITERATIONS):
+        middle = (low + high) / 2.0
+        norm = math.sqrt(math.fsum(value * value for value in radial(middle)))
+        if norm < distance:
+            low = middle
+        else:
+            high = middle
+    result = radial(high)
+    norm = math.sqrt(math.fsum(value * value for value in result))
+    if not math.isclose(norm, distance, rel_tol=1e-8, abs_tol=1e-10):
+        raise CapacityQPError("exact-distance allocation missed its hop distance")
+    return result
+
+
+def build_capacity_proposal_from_coefficients(
+    *,
+    synchronous: MemitFactorProposal,
+    unit_actions: Sequence[ActionDirection],
+    terms: Sequence[CapacityLayerTerms],
+    coefficients: Sequence[float],
+    solver_suffix: str,
+) -> MemitFactorProposal:
+    """Build a simultaneous low-rank proposal from explicit layer distances."""
+
+    values = tuple(float(value) for value in coefficients)
+    if len(unit_actions) != len(terms) or len(terms) != len(values):
+        raise CapacityQPError("capacity proposal inputs differ in length")
+    factors: list[LowRankFactor] = []
+    for action, term, coefficient in zip(unit_actions, terms, values, strict=True):
+        action.proposal.assert_same_entry_snapshot(synchronous)
+        if action.action_id != term.action_id or len(action.proposal.factors) != 1:
+            raise CapacityQPError("capacity action/term identity differs")
+        factor = action.proposal.factors[0]
+        if factor.weight_name != term.weight_name:
+            raise CapacityQPError("capacity factor/term weight differs")
+        term.next_psi(coefficient)
+        if coefficient > 0.0:
+            factors.append(factor.scaled(coefficient))
+    if not factors:
+        raise CapacityQPError("capacity coefficient proposal is empty")
+    return MemitFactorProposal(
+        snapshot=synchronous.snapshot,
+        factors=tuple(factors),
+        semantics=synchronous.semantics,
+        solver_name=f"{synchronous.solver_name}/capacity-share/{solver_suffix}",
+        residual_denominator=synchronous.residual_denominator,
+    )
+
+
 def capacity_state_by_layer(
     *,
     cumulative_factors: Sequence[LowRankFactor],
@@ -540,7 +646,9 @@ __all__ = [
     "CapacityQPError",
     "CapacityQPSolution",
     "build_capacity_layer_terms",
+    "build_capacity_proposal_from_coefficients",
     "build_capacity_qp_proposal",
     "capacity_state_by_layer",
+    "exact_distance_capacity_coefficients",
     "solve_capacity_qp",
 ]
