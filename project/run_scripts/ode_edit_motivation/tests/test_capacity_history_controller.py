@@ -15,6 +15,7 @@ from project.run_scripts.ode_edit_motivation.capacity_history_controller import 
     is_alpha_branch,
     is_qp_branch,
     policy_parameters,
+    sanitized_traceback_frames,
 )
 
 
@@ -29,6 +30,18 @@ def _keys(value):
 
 
 class CapacityHistoryControllerTests(unittest.TestCase):
+    def test_sanitized_traceback_contains_code_location_not_message(self) -> None:
+        try:
+            raise RuntimeError("raw prompt must not persist")
+        except RuntimeError as exc:
+            frames = sanitized_traceback_frames(exc)
+        self.assertTrue(frames)
+        self.assertEqual(
+            set(frames[-1]),
+            {"source", "function", "line"},
+        )
+        self.assertNotIn("raw prompt", repr(frames))
+
     def test_branch_family_and_qp_axes_are_exact(self) -> None:
         self.assertFalse(is_alpha_branch(BRANCH_MEMIT_NATIVE))
         self.assertFalse(is_alpha_branch(BRANCH_MEMIT_QP))

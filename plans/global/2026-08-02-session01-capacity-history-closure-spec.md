@@ -143,7 +143,7 @@ CI exclusion이나 lifelong effect size는 요구하지 않는다. 불리한 축
 
 ## 실행·자원
 
-- parent job: `odeedit_capacity_history_pair_v1`.
+- parent recovery job: `odeedit_capacity_history_pair_v2`.
 - server1: 4 GPU, 32 CPU, 260000M, 12시간.
 - controller phase: model × family 네 worker를 동시에 시작하고 worker당 native와
   QP controller를 순서대로 실행한다.
@@ -160,3 +160,17 @@ CI exclusion이나 lifelong effect size는 요구하지 않는다. 불리한 축
 - Alpha history partial/duplicate append 또는 edit count mismatch.
 - QP non-finite/empty first action, exact replay mismatch, child nonzero.
 - 한 model/family만 별도 재제출해야 하는 상황. Partial rescue는 하지 않는다.
+
+## Job 15813 technical-recovery lock
+
+- Original `c0_v1` job `15813`은 Qwen MEMIT worker가 exit code 2를 반환해
+  parent fail-fast가 나머지 세 worker를 종료했으며 evaluator phase에 진입하지
+  못했다. Partial artifact는 scientific evidence로 사용하지 않는다.
+- Recovery는 model/family 네 worker를 다시 동시에 시작하는 full pair 한 번만
+  허용한다. Case, order, model, branch, QP objective, policy hash, history semantics,
+  metric, gate와 resource request는 바꾸지 않는다.
+- `c0_v1` raw와 log는 삭제·덮어쓰기·resume하지 않는다. Recovery output과 marker는
+  모두 `c0_v2`이며 job name은 `odeedit_capacity_history_pair_v2`다.
+- Recovery-only 변경은 exception text를 저장하지 않는 sanitized code-location
+  traceback과 worker별 local log 분리다. 이는 controller action이나 evaluation
+  estimand를 바꾸지 않는다.

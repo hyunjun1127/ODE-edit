@@ -1183,6 +1183,43 @@ Motivation 진단이다.
   dirty/unpushed Git, output/marker collision, session/cap mismatch, child nonzero,
   history/hash/barrier/firewall/finite metric 실패 또는 partial rescue 필요.
 
+### Job 15813 failure와 `c0_v2` full-pair recovery
+
+- 목적과 배경:
+  `15813`은 scientific gate 이전의 controller technical failure다. Slurm accounting상
+  Qwen MEMIT step `15813.2`가 exit `2:0`으로 먼저 실패했고 parent가 Llama MEMIT,
+  Llama Alpha-history, Qwen Alpha-history sibling을 종료했다. QP/evaluator terminal
+  evidence가 없으므로 v1 partial output은 분석하지 않는다.
+- 허용 write path:
+  `local/results/raw/session01_motivation/caphist_*_c0_v2/`,
+  `local/logs/slurm/session01_motivation/`,
+  `local/state/slurm-submissions/session01_motivation/caphist_pair_c0_v2.submitted/`만
+  새로 쓴다. `c0_v1`은 read-only incident evidence로 보존한다.
+- Slurm 제출 허용 여부:
+  clean pushed main, updated preflight exact PASS, output/marker/resource/session check 뒤
+  `odeedit_capacity_history_pair_v2` full pair 1회만 allowed. Single-model/family retry,
+  partial resume, v1 overwrite는 not allowed.
+- GPU cap:
+  server1 cap 4; parent 4 GPU/32 CPU/260000M, worker당 1 GPU/8 CPU/65000M을 유지한다.
+  네 model×family worker를 동시에 시작한다.
+- red-team gate 통과 조건:
+  v1과 동일한 policy/config/evaluator firewall/precomputed-only/NFE-free gate에 더해,
+  worker별 local log와 exception-message-free sanitized traceback path가 있어야 한다.
+- artifact broadcast 의무:
+  active peer가 없어 no-peer exception. 임의 SSH/rsync 금지.
+- 완료 보고 경로:
+  `audits/global/2026-08-02-session01-capacity-history-job15813-failure-recovery.md`,
+  model별 report, pair synthesis, postrun audit와 server1 completion report.
+- 금지 사항:
+  Case/order/model/policy/QP/history/metric/gate 변경, EasyEdit write, precomputed artifact
+  재계산, raw Git commit, model-specific rescue, direct-z temporary-session artifact 접촉.
+- 예상 산출물:
+  v2 model×branch controller/evaluator terminal summaries, model analysis 두 개, pair
+  analysis와 worker-isolated diagnostic logs.
+- 중단 조건:
+  동일 technical failure, policy/hash drift, output collision, child nonzero, resource cap,
+  firewall/history/state/precomputed invariant 위반.
+
 ### GH 직접 one-shot 제출 예외
 
 - 사유: server1에 별도 SH가 없고 사용자가 빠른 두 모델 동시 실행을 직접 지시함.

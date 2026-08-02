@@ -2,7 +2,7 @@
 
 - 날짜: 2026-08-02
 - 작성: GH 최소 필수 red preflight
-- 대상: `odeedit_capacity_history_pair_v1`
+- 대상: `odeedit_capacity_history_pair_v2` (`15813` technical recovery)
 - claim boundary: same-policy 4-edit Motivation signal only
 
 ## 확인 결과
@@ -22,9 +22,9 @@
 - `PASS`: Llama/Qwen policy/config hash가 공통이고 model별 rescue branch가 없다.
 - `PASS`: 새 compact schema와 gate에 NFE field가 없으며 wall time과 proposal/
   accept/reject count만 보조 compute metadata로 둔다.
-- `PASS`: targeted regression `40 passed, 2 subtests`, evaluator 추가 regression
-  `21 passed`; Python compile 통과.
-- `PASS`: 전체 Motivation regression `321 passed, 230 subtests`; 세 launcher의
+- `PASS`: recovery targeted regression `19 passed`; Python import와 sanitized
+  traceback regression 통과.
+- `PASS`: 전체 Motivation regression `322 tests` exit 0; 세 launcher의
   `bash -n`과 `git diff --check` 통과.
 - `PASS`: session boundary는
   `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2 / Sol Ultra / server1 / ODE-edit`로
@@ -43,5 +43,11 @@
   해석한다.
 - active peer SH/clone이 없으므로 artifact broadcast는 no-peer exception으로
   기록한다. 임의 SSH/rsync는 하지 않는다.
+- Original job `15813`은 Qwen MEMIT step `15813.2`가 `2:0`으로 먼저 실패했고,
+  `.0/.1/.3`은 parent fail-fast에 의해 signal 9로 취소됐다. Evaluator는 시작되지
+  않았고 partial controller artifact는 evidence에서 제외했다.
+- v2는 scientific contract를 그대로 유지하고 failed `c0_v1`을 보존한 채 새
+  `c0_v2` output/marker만 쓴다. Worker별 stdout/stderr와 sanitized source/function/
+  line traceback을 추가해 같은 failure가 반복돼도 raw prompt 없이 원인을 식별한다.
 
 - 최종 판정: `PASS` — clean pushed main과 submission wrapper 재검증 후 locked 4-GPU pair 1회 제출에만 유효

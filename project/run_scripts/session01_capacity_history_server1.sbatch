@@ -19,6 +19,7 @@ readonly ALPHA_HISTORY="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/alp
 readonly ALPHA_FACTORS="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/alphaedit_factors.py"
 readonly ALPHA_ADAPTER="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/alphaedit_proposal_adapter.py"
 readonly SPEC="${REPO_ROOT}/plans/global/2026-08-02-session01-capacity-history-closure-spec.md"
+readonly RECOVERY_AUDIT="${REPO_ROOT}/audits/global/2026-08-02-session01-capacity-history-job15813-failure-recovery.md"
 readonly GIT_BIN="/usr/bin/git"
 readonly UV_BIN="/usr/local/bin/uv"
 
@@ -70,28 +71,28 @@ readonly FAMILY="$2"
 readonly MODEL_ALIAS="$3"
 [[ "${PHASE}" == "controller" || "${PHASE}" == "evaluator" ]] || exit 2
 [[ "${FAMILY}" == "memit" || "${FAMILY}" == "alpha_history" ]] || exit 2
-[[ "${SLURM_JOB_NAME:-}" == "odeedit_capacity_history_pair_v1" ]] || exit 2
+[[ "${SLURM_JOB_NAME:-}" == "odeedit_capacity_history_pair_v2" ]] || exit 2
 
 case "${MODEL_ALIAS}" in
   llama3-8b-inst)
-    readonly MEMIT_NATIVE_CONTROLLER="caphist_memit_native_llama_c0_v1"
-    readonly MEMIT_QP_CONTROLLER="caphist_memit_qp_llama_c0_v1"
-    readonly ALPHA_NATIVE_CONTROLLER="caphist_alpha_native_llama_c0_v1"
-    readonly ALPHA_QP_CONTROLLER="caphist_alpha_qp_llama_c0_v1"
-    readonly MEMIT_NATIVE_EVALUATOR="caphist_eval_memit_native_llama_c0_v1"
-    readonly MEMIT_QP_EVALUATOR="caphist_eval_memit_qp_llama_c0_v1"
-    readonly ALPHA_NATIVE_EVALUATOR="caphist_eval_alpha_native_llama_c0_v1"
-    readonly ALPHA_QP_EVALUATOR="caphist_eval_alpha_qp_llama_c0_v1"
+    readonly MEMIT_NATIVE_CONTROLLER="caphist_memit_native_llama_c0_v2"
+    readonly MEMIT_QP_CONTROLLER="caphist_memit_qp_llama_c0_v2"
+    readonly ALPHA_NATIVE_CONTROLLER="caphist_alpha_native_llama_c0_v2"
+    readonly ALPHA_QP_CONTROLLER="caphist_alpha_qp_llama_c0_v2"
+    readonly MEMIT_NATIVE_EVALUATOR="caphist_eval_memit_native_llama_c0_v2"
+    readonly MEMIT_QP_EVALUATOR="caphist_eval_memit_qp_llama_c0_v2"
+    readonly ALPHA_NATIVE_EVALUATOR="caphist_eval_alpha_native_llama_c0_v2"
+    readonly ALPHA_QP_EVALUATOR="caphist_eval_alpha_qp_llama_c0_v2"
     ;;
   qwen2.5-7b-inst)
-    readonly MEMIT_NATIVE_CONTROLLER="caphist_memit_native_qwen_c0_v1"
-    readonly MEMIT_QP_CONTROLLER="caphist_memit_qp_qwen_c0_v1"
-    readonly ALPHA_NATIVE_CONTROLLER="caphist_alpha_native_qwen_c0_v1"
-    readonly ALPHA_QP_CONTROLLER="caphist_alpha_qp_qwen_c0_v1"
-    readonly MEMIT_NATIVE_EVALUATOR="caphist_eval_memit_native_qwen_c0_v1"
-    readonly MEMIT_QP_EVALUATOR="caphist_eval_memit_qp_qwen_c0_v1"
-    readonly ALPHA_NATIVE_EVALUATOR="caphist_eval_alpha_native_qwen_c0_v1"
-    readonly ALPHA_QP_EVALUATOR="caphist_eval_alpha_qp_qwen_c0_v1"
+    readonly MEMIT_NATIVE_CONTROLLER="caphist_memit_native_qwen_c0_v2"
+    readonly MEMIT_QP_CONTROLLER="caphist_memit_qp_qwen_c0_v2"
+    readonly ALPHA_NATIVE_CONTROLLER="caphist_alpha_native_qwen_c0_v2"
+    readonly ALPHA_QP_CONTROLLER="caphist_alpha_qp_qwen_c0_v2"
+    readonly MEMIT_NATIVE_EVALUATOR="caphist_eval_memit_native_qwen_c0_v2"
+    readonly MEMIT_QP_EVALUATOR="caphist_eval_memit_qp_qwen_c0_v2"
+    readonly ALPHA_NATIVE_EVALUATOR="caphist_eval_alpha_native_qwen_c0_v2"
+    readonly ALPHA_QP_EVALUATOR="caphist_eval_alpha_qp_qwen_c0_v2"
     ;;
   *) exit 2 ;;
 esac
@@ -158,6 +159,7 @@ for tracked_path in \
   "${ALPHA_FACTORS}" "${ALPHA_ADAPTER}" "${SPEC}"; do
   require_tracked_clean_file "${tracked_path}"
 done
+require_tracked_clean_file "${RECOVERY_AUDIT}"
 
 readonly OUTPUT_ROOT="${REPO_ROOT}/local/results/raw/session01_motivation"
 mkdir -p "${OUTPUT_ROOT}"

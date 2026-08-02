@@ -16,12 +16,13 @@ readonly SQUEUE_BIN="/usr/bin/squeue"
 readonly SBATCH_FILE="${REPO_ROOT}/project/run_scripts/session01_capacity_history_pair_server1.sbatch"
 readonly CHILD_FILE="${REPO_ROOT}/project/run_scripts/session01_capacity_history_server1.sbatch"
 readonly RED_GATE="${REPO_ROOT}/audits/global/2026-08-02-session01-capacity-history-execution-preflight.md"
+readonly RECOVERY_AUDIT="${REPO_ROOT}/audits/global/2026-08-02-session01-capacity-history-job15813-failure-recovery.md"
 readonly RED_GATE_VERDICT='- 최종 판정: `PASS` — clean pushed main과 submission wrapper 재검증 후 locked 4-GPU pair 1회 제출에만 유효'
 readonly LOG_ROOT="${REPO_ROOT}/local/logs/slurm/session01_motivation"
 readonly OUTPUT_ROOT="${REPO_ROOT}/local/results/raw/session01_motivation"
 readonly STATE_ROOT="${REPO_ROOT}/local/state/slurm-submissions/session01_motivation"
-readonly PAIR_MARKER="${STATE_ROOT}/caphist_pair_c0_v1.submitted"
-readonly JOB_NAME="odeedit_capacity_history_pair_v1"
+readonly PAIR_MARKER="${STATE_ROOT}/caphist_pair_c0_v2.submitted"
+readonly JOB_NAME="odeedit_capacity_history_pair_v2"
 
 [[ "$#" -eq 0 ]] || exit 2
 [[ -x "${GIT_BIN}" && -x "${GREP_BIN}" && -x "${INSTALL_BIN}" \
@@ -30,6 +31,7 @@ readonly JOB_NAME="odeedit_capacity_history_pair_v1"
 [[ -f "${SBATCH_FILE}" && ! -L "${SBATCH_FILE}" && -r "${SBATCH_FILE}" ]] || exit 2
 [[ -f "${CHILD_FILE}" && ! -L "${CHILD_FILE}" && -x "${CHILD_FILE}" ]] || exit 2
 [[ -f "${RED_GATE}" && ! -L "${RED_GATE}" && -r "${RED_GATE}" ]] || exit 2
+[[ -f "${RECOVERY_AUDIT}" && ! -L "${RECOVERY_AUDIT}" && -r "${RECOVERY_AUDIT}" ]] || exit 2
 
 cd "${REPO_ROOT}"
 [[ "$("${GIT_BIN}" rev-parse --show-toplevel)" == "${REPO_ROOT}" ]] || exit 2
@@ -52,6 +54,7 @@ cd "${REPO_ROOT}"
   project/run_scripts/ode_edit_motivation/alphaedit_proposal_adapter.py \
   plans/global/2026-08-02-session01-capacity-history-closure-spec.md \
   audits/global/2026-08-02-session01-capacity-history-execution-preflight.md \
+  audits/global/2026-08-02-session01-capacity-history-job15813-failure-recovery.md \
   messages/inbox/server1.md \
   >/dev/null
 [[ -z "$("${GIT_BIN}" status --porcelain --untracked-files=normal)" ]] || {
@@ -66,15 +69,15 @@ cd "${REPO_ROOT}"
 [[ "$("${GREP_BIN}" -Ec -- '^- 최종 판정:' "${RED_GATE}" || true)" == "1" ]] || exit 2
 
 for run_name in \
-  caphist_memit_native_llama_c0_v1 caphist_memit_native_qwen_c0_v1 \
-  caphist_memit_qp_llama_c0_v1 caphist_memit_qp_qwen_c0_v1 \
-  caphist_alpha_native_llama_c0_v1 caphist_alpha_native_qwen_c0_v1 \
-  caphist_alpha_qp_llama_c0_v1 caphist_alpha_qp_qwen_c0_v1 \
-  caphist_eval_memit_native_llama_c0_v1 caphist_eval_memit_native_qwen_c0_v1 \
-  caphist_eval_memit_qp_llama_c0_v1 caphist_eval_memit_qp_qwen_c0_v1 \
-  caphist_eval_alpha_native_llama_c0_v1 caphist_eval_alpha_native_qwen_c0_v1 \
-  caphist_eval_alpha_qp_llama_c0_v1 caphist_eval_alpha_qp_qwen_c0_v1 \
-  caphist_combined_llama_c0_v1 caphist_combined_qwen_c0_v1 caphist_pair_c0_v1; do
+  caphist_memit_native_llama_c0_v2 caphist_memit_native_qwen_c0_v2 \
+  caphist_memit_qp_llama_c0_v2 caphist_memit_qp_qwen_c0_v2 \
+  caphist_alpha_native_llama_c0_v2 caphist_alpha_native_qwen_c0_v2 \
+  caphist_alpha_qp_llama_c0_v2 caphist_alpha_qp_qwen_c0_v2 \
+  caphist_eval_memit_native_llama_c0_v2 caphist_eval_memit_native_qwen_c0_v2 \
+  caphist_eval_memit_qp_llama_c0_v2 caphist_eval_memit_qp_qwen_c0_v2 \
+  caphist_eval_alpha_native_llama_c0_v2 caphist_eval_alpha_native_qwen_c0_v2 \
+  caphist_eval_alpha_qp_llama_c0_v2 caphist_eval_alpha_qp_qwen_c0_v2 \
+  caphist_combined_llama_c0_v2 caphist_combined_qwen_c0_v2 caphist_pair_c0_v2; do
   [[ ! -e "${OUTPUT_ROOT}/${run_name}" && ! -L "${OUTPUT_ROOT}/${run_name}" ]] || exit 2
 done
 [[ ! -e "${PAIR_MARKER}" && ! -L "${PAIR_MARKER}" ]] || exit 2

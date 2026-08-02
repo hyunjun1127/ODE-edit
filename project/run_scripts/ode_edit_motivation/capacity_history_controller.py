@@ -127,7 +127,7 @@ from .trajectory import MATCHED_C_ABS_TOL, MATCHED_C_REL_TOL
 CONTROLLER_SCHEMA = "ode-edit-capacity-history-controller/v1"
 CONTROLLER_STREAM_SCHEMA = "ode-edit-capacity-history-controller-stream/v1"
 CONTROLLER_RECEIPT_SCHEMA = "ode-edit-capacity-history-controller-receipt/v1"
-CONTROLLER_JOB_NAME = "odeedit_capacity_history_pair_v1"
+CONTROLLER_JOB_NAME = "odeedit_capacity_history_pair_v2"
 RUN_SEED = 41
 RANK_START = 144
 RANK_STOP = 148
@@ -140,22 +140,43 @@ MIN_TRUST_RATIO = 0.05
 APPLICATION_MODES = {branch: "easyedit_exact" for branch in BRANCHES}
 RUN_IDS = {
     BRANCH_MEMIT_NATIVE: {
-        "llama3-8b-inst": "caphist_memit_native_llama_c0_v1",
-        "qwen2.5-7b-inst": "caphist_memit_native_qwen_c0_v1",
+        "llama3-8b-inst": "caphist_memit_native_llama_c0_v2",
+        "qwen2.5-7b-inst": "caphist_memit_native_qwen_c0_v2",
     },
     BRANCH_MEMIT_QP: {
-        "llama3-8b-inst": "caphist_memit_qp_llama_c0_v1",
-        "qwen2.5-7b-inst": "caphist_memit_qp_qwen_c0_v1",
+        "llama3-8b-inst": "caphist_memit_qp_llama_c0_v2",
+        "qwen2.5-7b-inst": "caphist_memit_qp_qwen_c0_v2",
     },
     BRANCH_ALPHA_NATIVE: {
-        "llama3-8b-inst": "caphist_alpha_native_llama_c0_v1",
-        "qwen2.5-7b-inst": "caphist_alpha_native_qwen_c0_v1",
+        "llama3-8b-inst": "caphist_alpha_native_llama_c0_v2",
+        "qwen2.5-7b-inst": "caphist_alpha_native_qwen_c0_v2",
     },
     BRANCH_ALPHA_QP: {
-        "llama3-8b-inst": "caphist_alpha_qp_llama_c0_v1",
-        "qwen2.5-7b-inst": "caphist_alpha_qp_qwen_c0_v1",
+        "llama3-8b-inst": "caphist_alpha_qp_llama_c0_v2",
+        "qwen2.5-7b-inst": "caphist_alpha_qp_qwen_c0_v2",
     },
 }
+
+
+def sanitized_traceback_frames(exc: BaseException) -> list[dict[str, Any]]:
+    """Return code locations without persisting exception text or runtime data."""
+
+    repository_root = Path(__file__).resolve().parents[3]
+    frames: list[dict[str, Any]] = []
+    for frame, line_number in traceback.walk_tb(exc.__traceback__):
+        source = Path(frame.f_code.co_filename)
+        try:
+            source_label = str(source.resolve().relative_to(repository_root))
+        except (OSError, ValueError):
+            source_label = source.name
+        frames.append(
+            {
+                "source": source_label,
+                "function": frame.f_code.co_name,
+                "line": int(line_number),
+            }
+        )
+    return frames
 
 
 def is_alpha_branch(branch: str) -> bool:
@@ -1077,20 +1098,24 @@ def run_capacity_history_controller(
                         projector_bank=projector_bank,
                     )
                 except Exception as exc:
+                    failure_frames = sanitized_traceback_frames(exc)
                     print(
-                        f"CAPACITY_HISTORY_CONTROLLER_TRACEBACK_BEGIN type={type(exc).__name__}",
+                        canonical_json(
+                            {
+                                "event": "capacity_history_controller_failure",
+                                "error_type": type(exc).__name__,
+                                "message_persisted": False,
+                                "traceback_frames": failure_frames,
+                            }
+                        ),
                         file=sys.stderr,
                     )
-                    for frame, line_number in traceback.walk_tb(exc.__traceback__):
-                        print(
-                            f'  File "{frame.f_code.co_filename}", line {line_number}, in {frame.f_code.co_name}',
-                            file=sys.stderr,
-                        )
-                    print("CAPACITY_HISTORY_CONTROLLER_TRACEBACK_END", file=sys.stderr)
                     result = {
                         "case_id": request.case_id,
                         "edit_index": edit_index,
                         "failure_type": type(exc).__name__,
+                        "failure_message_persisted": False,
+                        "failure_frames": failure_frames,
                         "pass": False,
                     }
                     failure_type = type(exc).__name__
@@ -1183,12 +1208,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             output_root=args.output_root,
         )
     except Exception as exc:
+        failure_frames = sanitized_traceback_frames(exc)
         print(
             json.dumps(
                 {
                     "status": "aborted",
                     "error_type": type(exc).__name__,
                     "raw_exception_persisted": False,
+                    "traceback_frames": failure_frames,
                 },
                 sort_keys=True,
             )
