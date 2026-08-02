@@ -187,3 +187,22 @@ CI exclusion이나 lifelong effect size는 요구하지 않는다. 불리한 축
   `expected_action_ids`를 추가하고 capacity caller가 exact five layer IDs를 넘기는
   것이다. 기존 quarter-step six-action default와 QP layer-only policy는 그대로다.
 - v3도 네 model×family worker를 동시에 시작하는 full pair 한 번만 허용한다.
+
+## Job 15819 evaluator-only recovery lock
+
+- v3 controller 8개는 모두 terminal/pass였으나, 실행 중 GH의 docs-only commit으로
+  repository HEAD가 `9900a51`에서 바뀌어 evaluator가 첫 evaluation row decode 전에
+  Git identity mismatch로 fail-closed했다.
+- `9900a51`과 current HEAD의 capacity/history scientific code가 byte-identical이고
+  evaluator output이 0개임을 확인한 경우에만 controller 재실행 없이 evaluator-only
+  recovery를 허용한다.
+- Recovery는 detached clean `9900a51` evaluator를 사용하고 두 모델×두 family를
+  4 GPU에서 동시에 시작한다. Controller action, case/order, policy, history,
+  metric, gate, run ID는 변경하지 않는다.
+- `9900a51` evaluator의 local-path boundary 때문에 controller 8개는 detached
+  worktree의 ignored `local/`로 exact-copy하며, symlink 부재와 recursive byte
+  equality를 시작 전 검증한다. evaluator 결과는 표준 main-repo `local/`로
+  exact-copy·재검증한 뒤 merge/analyze한다.
+- 세부 근거와 중단 조건은
+  `audits/global/2026-08-02-session01-capacity-history-job15819-evaluator-recovery.md`를
+  canonical source로 삼는다.
