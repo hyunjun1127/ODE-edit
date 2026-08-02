@@ -11,6 +11,7 @@ readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly OUTPUT_ROOT="${LOCKED_ROOT}/local/results/raw/session01_motivation"
 readonly EXPECTED_SESSION_ID="019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2"
 readonly SESSION_CHECK="${REPO_ROOT}/scripts/check-session-boundary.sh"
+readonly RECOVERY_ENTRYPOINT="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/capacity_history_evaluator_recovery.py"
 readonly UV_BIN="/usr/local/bin/uv"
 readonly GIT_BIN="/usr/bin/git"
 
@@ -25,6 +26,7 @@ readonly MODEL_ALIAS="$2"
 [[ -n "${SLURM_STEP_ID:-}" && "${SLURM_STEP_ID}" != "batch" ]] || exit 2
 [[ -n "${CUDA_VISIBLE_DEVICES:-}" && "${CUDA_VISIBLE_DEVICES}" != *,* ]] || exit 2
 [[ -x "${UV_BIN}" && -x "${GIT_BIN}" && -x "${SESSION_CHECK}" ]] || exit 2
+[[ -f "${RECOVERY_ENTRYPOINT}" && ! -L "${RECOVERY_ENTRYPOINT}" ]] || exit 2
 [[ -d "${LOCKED_ROOT}" && ! -L "${LOCKED_ROOT}" ]] || exit 2
 [[ "$("${GIT_BIN}" -C "${LOCKED_ROOT}" rev-parse HEAD)" == "${LOCKED_COMMIT}" ]] || exit 2
 [[ -z "$("${GIT_BIN}" -C "${LOCKED_ROOT}" status --porcelain --untracked-files=no)" ]] || exit 2
@@ -83,7 +85,7 @@ run_evaluator() {
       --project "${EASYEDIT_ROOT}" \
       --frozen \
       --no-sync \
-      python -m project.run_scripts.ode_edit_motivation.capacity_history_evaluator run \
+      python "${RECOVERY_ENTRYPOINT}" run \
       --easyedit-root "${EASYEDIT_ROOT}" \
       --branch "${branch}" \
       --model "${MODEL_ALIAS}" \

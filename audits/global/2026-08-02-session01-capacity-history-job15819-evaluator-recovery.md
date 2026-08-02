@@ -65,3 +65,31 @@ GH 운영 오류다.
 - 양쪽 tree의 symlink는 0개이고 `diff -qr --no-dereference`는 8/8 pass했다.
 - 잠긴 commit의 `verify_all_controllers()`는 Llama/Qwen 각각 네 branch 모두
   `all_pass=true`로 검증했다. 이 preflight는 model/evaluation row를 load하지 않았다.
+
+## Job 15823 immediate failure와 두 번째 technical repair
+
+- Job `15823`은 네 evaluator worker를 동시에 시작했으나 53초에 fail-fast 종료했다.
+- Llama MEMIT/Alpha worker는 evaluation fields와 W0 baseline forward를 수행한 뒤,
+  edit replay 전에 evaluator manifest sanitizer에서
+  `MV0Error: forbidden artifact field: evaluation`로 실패했다.
+- 원인은 `evaluator_policy_parameters()`의 안전한 protocol metadata key
+  `evaluation`이 raw outcome 차단용 exact forbidden key와 충돌한 것이다. Metric 값,
+  manifest, checkpoint, summary는 기록되지 않았고 Llama의 빈 output directory 두
+  개만 생겼다. Qwen worker는 sibling fail-fast로 취소됐다.
+- 결과 수치를 관찰하거나 policy/case/gate/model을 바꿀 정보는 없었다. 세 Terra Ultra
+  RCA/red/repro agent는 runtime metadata를 검증하지 못해 파일을 읽지 않고 종료했다.
+- 두 번째 recovery는 sanitizer를 완화하지 않는다. ODE-Edit-side tracked entrypoint가
+  locked evaluator의 policy metadata key만 `evaluation`에서 `metric_protocol`로
+  바꾸고, 원래 protocol value는 byte-for-byte 보존한다.
+- Entry point SHA-256, locked evaluator SHA-256, locked commit, `metadata_only=true`,
+  `sanitizer_relaxation=false`, `controller_action_rerun=false`를 policy parameters에
+  포함하므로 evaluator `policy_parameters_sha256`에도 귀속된다.
+- 빈 directory는 `local/failed/session01_motivation/job15823/`로 보존 이동한 뒤 같은
+  locked `c0_v3` evaluator identity만 다시 사용한다. Controller는 재실행하지 않는다.
+- 제출 전 entrypoint SHA-256은
+  `5ae85c4e1cca282a96dad6cda8f4a68e0c718adba55ac0bf6eb2c532527b6ea8`, locked
+  evaluator SHA-256은
+  `fa6f6240774621178c80c6b394c16480d520a4d94a9933871020b3c39edf1b72`다.
+- Recovery/evaluator/analysis/controller unit test 16/16과 locked-import entrypoint
+  `--help` preflight가 통과했고,
+  빈 Llama directory 두 개는 위 failure path로 보존 이동했다.

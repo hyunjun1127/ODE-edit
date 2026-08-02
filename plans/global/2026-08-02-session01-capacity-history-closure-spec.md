@@ -206,3 +206,15 @@ CI exclusion이나 lifelong effect size는 요구하지 않는다. 불리한 축
 - 세부 근거와 중단 조건은
   `audits/global/2026-08-02-session01-capacity-history-job15819-evaluator-recovery.md`를
   canonical source로 삼는다.
+
+## Job 15823 metadata sanitizer repair lock
+
+- evaluator-only recovery는 edit replay 전에 protocol metadata key `evaluation`이
+  inherited raw-outcome forbidden key와 충돌해 종료됐다. Metric artifact는 0개다.
+- 두 번째 recovery는 locked evaluator와 sanitizer를 수정하지 않고, tracked
+  ODE-Edit entrypoint에서 해당 metadata key만 `metric_protocol`로 rename한다.
+  원래 value, controller action, model, case/order, metric, gate는 바꾸지 않는다.
+- Entry point와 locked evaluator hash, locked commit, metadata-only/no-relaxation/
+  no-controller-rerun 표식은 evaluator policy hash 안에 기록한다.
+- Job 15823의 빈 output directory는 ignored failure path에 보존하며 scientific
+  evidence로 사용하지 않는다.

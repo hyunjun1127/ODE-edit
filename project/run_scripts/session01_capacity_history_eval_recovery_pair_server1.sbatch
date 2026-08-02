@@ -23,6 +23,7 @@ readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly SOURCE_OUTPUT_ROOT="${REPO_ROOT}/local/results/raw/session01_motivation"
 readonly LOCKED_OUTPUT_ROOT="${LOCKED_ROOT}/local/results/raw/session01_motivation"
 readonly CHILD="${REPO_ROOT}/project/run_scripts/session01_capacity_history_eval_recovery_server1.sbatch"
+readonly RECOVERY_ENTRYPOINT="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/capacity_history_evaluator_recovery.py"
 readonly LLAMA_COMBINED="${SOURCE_OUTPUT_ROOT}/caphist_combined_llama_c0_v3"
 readonly QWEN_COMBINED="${SOURCE_OUTPUT_ROOT}/caphist_combined_qwen_c0_v3"
 readonly PAIR_DIRECTORY="${SOURCE_OUTPUT_ROOT}/caphist_pair_c0_v3"
@@ -69,6 +70,7 @@ readonly -a EVALUATOR_RUNS=(
 [[ "${SLURMD_NODENAME:-}" == "devbox" ]] || exit 2
 [[ "${SLURM_NTASKS:-}" == "4" && "${SLURM_CPUS_PER_TASK:-}" == "8" ]] || exit 2
 [[ -x "${CHILD}" && ! -L "${CHILD}" && -x "${SRUN_BIN}" && -x "${UV_BIN}" && -x "${GIT_BIN}" ]] || exit 2
+[[ -f "${RECOVERY_ENTRYPOINT}" && ! -L "${RECOVERY_ENTRYPOINT}" ]] || exit 2
 [[ -d "${LOCKED_ROOT}" && ! -L "${LOCKED_ROOT}" ]] || exit 2
 [[ "$("${GIT_BIN}" -C "${LOCKED_ROOT}" rev-parse HEAD)" == "${LOCKED_COMMIT}" ]] || exit 2
 [[ -z "$("${GIT_BIN}" -C "${LOCKED_ROOT}" status --porcelain --untracked-files=no)" ]] || exit 2
