@@ -93,3 +93,14 @@ GH 운영 오류다.
 - Recovery/evaluator/analysis/controller unit test 16/16과 locked-import entrypoint
   `--help` preflight가 통과했고,
   빈 Llama directory 두 개는 위 failure path로 보존 이동했다.
+
+## Terminal recovery 결과
+
+- 두 번째 evaluator-only recovery job `15824`는 `COMPLETED 0:0`, elapsed
+  `00:06:42`다.
+- evaluator 8개가 각각 4 checkpoints와 `all_pass=true`로 끝났고 model/pair
+  analyzer까지 생성됐다.
+- Pair scientific verdict는 `CAPACITY_HISTORY_HARM_SIGNAL`이다. 세부 metric,
+  integrity와 claim boundary는
+  `experiment-reports/global/2026-08-02-session01-caphist-pair-c0-v3-synthesis.md`와
+  `audits/global/2026-08-02-session01-capacity-history-c0-v3-postrun.md`를 따른다.

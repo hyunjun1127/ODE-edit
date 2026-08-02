@@ -13,11 +13,14 @@ from project.run_scripts.ode_edit_motivation.capacity_history_analysis import (
 from project.run_scripts.ode_edit_motivation.contracts import ContractError
 from project.run_scripts.ode_edit_motivation.capacity_history_controller import (
     MIN_TRUST_RATIO,
+    NATIVE_REFERENCE_ABS_TOL,
     accept_round,
     capacity_probe_action_ids,
     is_alpha_branch,
     is_qp_branch,
+    native_reference_reached,
     policy_parameters,
+    requested_native_progress,
     sanitized_traceback_frames,
 )
 
@@ -89,10 +92,38 @@ class CapacityHistoryControllerTests(unittest.TestCase):
     def test_policy_is_model_common_and_contains_no_nfe_field(self) -> None:
         policy = policy_parameters()
         self.assertEqual(policy["seed"], 41)
-        self.assertEqual(policy["max_accepted_rounds"], 3)
+        self.assertEqual(policy["max_accepted_rounds"], 4)
         self.assertEqual(policy["initial_trust_fraction"], 0.25)
         self.assertEqual(policy["retry_shrink"], 0.5)
+        self.assertEqual(
+            policy["progress_request"],
+            "remaining-ordered-native-rewrite-utility-gap",
+        )
+        self.assertEqual(policy["first_hit"], "diagnostic-only-never-terminal")
+        self.assertNotIn("requested_progress_fraction", policy)
         self.assertNotIn("nfe", set(_keys(policy)))
+
+    def test_native_reference_uses_full_remaining_gap_and_not_top1(self) -> None:
+        self.assertAlmostEqual(
+            requested_native_progress(utility=-3.0, reference=2.5),
+            5.5,
+        )
+        self.assertEqual(
+            requested_native_progress(utility=3.0, reference=2.5),
+            0.0,
+        )
+        self.assertTrue(
+            native_reference_reached(
+                utility=2.5 - NATIVE_REFERENCE_ABS_TOL,
+                reference=2.5,
+            )
+        )
+        self.assertFalse(
+            native_reference_reached(
+                utility=2.5 - 2.0 * NATIVE_REFERENCE_ABS_TOL,
+                reference=2.5,
+            )
+        )
 
 
 if __name__ == "__main__":

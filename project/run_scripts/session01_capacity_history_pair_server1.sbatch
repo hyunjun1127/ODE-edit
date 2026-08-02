@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Four-GPU pair: Llama/Qwen and MEMIT/Alpha-history workers start together.
-#SBATCH --job-name=odeedit_capacity_history_pair_v3
+#SBATCH --job-name=odeedit_capacity_history_pair_c1_v1
 #SBATCH --partition=gpu
 #SBATCH --nodelist=devbox
 #SBATCH --nodes=1
@@ -22,13 +22,13 @@ readonly SRUN_BIN="/usr/bin/srun"
 readonly UV_BIN="/usr/local/bin/uv"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly OUTPUT_ROOT="${REPO_ROOT}/local/results/raw/session01_motivation"
-readonly LLAMA_COMBINED="${OUTPUT_ROOT}/caphist_combined_llama_c0_v3"
-readonly QWEN_COMBINED="${OUTPUT_ROOT}/caphist_combined_qwen_c0_v3"
-readonly PAIR_DIRECTORY="${OUTPUT_ROOT}/caphist_pair_c0_v3"
+readonly LLAMA_COMBINED="${OUTPUT_ROOT}/caphist_combined_llama_c1_v1"
+readonly QWEN_COMBINED="${OUTPUT_ROOT}/caphist_combined_qwen_c1_v1"
+readonly PAIR_DIRECTORY="${OUTPUT_ROOT}/caphist_pair_c1_v1"
 readonly WORKER_LOG_ROOT="${REPO_ROOT}/local/logs/slurm/session01_motivation/workers-${SLURM_JOB_ID}"
 
 [[ "$#" -eq 0 ]] || exit 2
-[[ "${SLURM_JOB_NAME:-}" == "odeedit_capacity_history_pair_v3" ]] || exit 2
+[[ "${SLURM_JOB_NAME:-}" == "odeedit_capacity_history_pair_c1_v1" ]] || exit 2
 [[ "${SLURMD_NODENAME:-}" == "devbox" ]] || exit 2
 [[ "${SLURM_NTASKS:-}" == "4" && "${SLURM_CPUS_PER_TASK:-}" == "8" ]] || exit 2
 [[ -x "${RUNTIME}" && ! -L "${RUNTIME}" ]] || exit 2
@@ -143,26 +143,26 @@ mkdir "${LLAMA_COMBINED}" "${QWEN_COMBINED}" "${PAIR_DIRECTORY}"
 chmod 700 "${LLAMA_COMBINED}" "${QWEN_COMBINED}" "${PAIR_DIRECTORY}"
 
 run_python -m project.run_scripts.ode_edit_motivation.capacity_history_evaluator merge \
-  --memit-native "${OUTPUT_ROOT}/caphist_eval_memit_native_llama_c0_v3/checkpoints.jsonl" \
-  --memit-qp "${OUTPUT_ROOT}/caphist_eval_memit_qp_llama_c0_v3/checkpoints.jsonl" \
-  --alpha-native "${OUTPUT_ROOT}/caphist_eval_alpha_native_llama_c0_v3/checkpoints.jsonl" \
-  --alpha-qp "${OUTPUT_ROOT}/caphist_eval_alpha_qp_llama_c0_v3/checkpoints.jsonl" \
+  --memit-native "${OUTPUT_ROOT}/caphist_eval_memit_native_llama_c1_v1/checkpoints.jsonl" \
+  --memit-qp "${OUTPUT_ROOT}/caphist_eval_memit_qp_llama_c1_v1/checkpoints.jsonl" \
+  --alpha-native "${OUTPUT_ROOT}/caphist_eval_alpha_native_llama_c1_v1/checkpoints.jsonl" \
+  --alpha-qp "${OUTPUT_ROOT}/caphist_eval_alpha_qp_llama_c1_v1/checkpoints.jsonl" \
   --output "${LLAMA_COMBINED}/checkpoints.jsonl" \
   --model llama3-8b-inst \
-  --run-id caphist_combined_llama_c0_v3
+  --run-id caphist_combined_llama_c1_v1
 run_python -m project.run_scripts.ode_edit_motivation.capacity_history_analysis model \
   --checkpoints "${LLAMA_COMBINED}/checkpoints.jsonl" \
   --model llama3-8b-inst \
   --output-json "${LLAMA_COMBINED}/analysis.json"
 
 run_python -m project.run_scripts.ode_edit_motivation.capacity_history_evaluator merge \
-  --memit-native "${OUTPUT_ROOT}/caphist_eval_memit_native_qwen_c0_v3/checkpoints.jsonl" \
-  --memit-qp "${OUTPUT_ROOT}/caphist_eval_memit_qp_qwen_c0_v3/checkpoints.jsonl" \
-  --alpha-native "${OUTPUT_ROOT}/caphist_eval_alpha_native_qwen_c0_v3/checkpoints.jsonl" \
-  --alpha-qp "${OUTPUT_ROOT}/caphist_eval_alpha_qp_qwen_c0_v3/checkpoints.jsonl" \
+  --memit-native "${OUTPUT_ROOT}/caphist_eval_memit_native_qwen_c1_v1/checkpoints.jsonl" \
+  --memit-qp "${OUTPUT_ROOT}/caphist_eval_memit_qp_qwen_c1_v1/checkpoints.jsonl" \
+  --alpha-native "${OUTPUT_ROOT}/caphist_eval_alpha_native_qwen_c1_v1/checkpoints.jsonl" \
+  --alpha-qp "${OUTPUT_ROOT}/caphist_eval_alpha_qp_qwen_c1_v1/checkpoints.jsonl" \
   --output "${QWEN_COMBINED}/checkpoints.jsonl" \
   --model qwen2.5-7b-inst \
-  --run-id caphist_combined_qwen_c0_v3
+  --run-id caphist_combined_qwen_c1_v1
 run_python -m project.run_scripts.ode_edit_motivation.capacity_history_analysis model \
   --checkpoints "${QWEN_COMBINED}/checkpoints.jsonl" \
   --model qwen2.5-7b-inst \

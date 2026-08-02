@@ -36,6 +36,8 @@ from .capacity_history_controller import (
     CONTROLLER_RECEIPT_SCHEMA,
     CONTROLLER_SCHEMA,
     CONTROLLER_STREAM_SCHEMA,
+    MAX_ACCEPTED_ROUNDS,
+    NATIVE_REFERENCE_ABS_TOL,
     POLICY_ID,
     RUN_IDS as CONTROLLER_RUN_IDS,
     RUN_SEED,
@@ -131,7 +133,7 @@ class ControllerEvidence:
 def evaluator_policy_parameters() -> dict[str, Any]:
     return {
         "controller": policy_parameters(),
-        "evaluation": {
+        "metric_protocol": {
             "prompts_per_edit": PROMPTS_PER_EDIT,
             "kl_direction": "KL(W0||Wt)",
             "branch_order": list(BRANCHES),
@@ -249,6 +251,87 @@ def _verify_history_chain(branch: str, actions: Sequence[ControllerActionEvidenc
             "history_edit_count"
         ) != 0:
             raise CapacityHistoryEvaluationError("MEMIT branch contains Alpha history state")
+
+
+def _verify_native_reference_contract(
+    *, branch: str, feature: Mapping[str, Any], result: Mapping[str, Any]
+) -> None:
+    """Reject the c0 under-edit contract and verify the c1 terminal semantics."""
+
+    reference = _mapping(feature.get("native_reference"), "native_reference")
+    try:
+        origin = float(reference["origin_utility"])
+        native = float(reference["ordered_endpoint_utility"])
+        endpoint = float(reference["controller_endpoint_utility"])
+        tolerance = float(reference["abs_tolerance"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise CapacityHistoryEvaluationError("native reference scalars are incomplete") from exc
+    if (
+        any(not math.isfinite(value) for value in (origin, native, endpoint, tolerance))
+        or tolerance != NATIVE_REFERENCE_ABS_TOL
+        or native - origin <= tolerance
+        or type(reference.get("matched")) is not bool
+        or type(reference.get("budget_exhausted")) is not bool
+        or type(reference.get("ordered_endpoint_first_hit")) is not bool
+    ):
+        raise CapacityHistoryEvaluationError("native reference contract differs from c1")
+    matched = bool(reference["matched"])
+    budget_exhausted = bool(reference["budget_exhausted"])
+    accepted_rounds = int(result.get("accepted_round_count", 0))
+    if (
+        result.get("native_reference_utility") != native
+        or result.get("endpoint_utility") != endpoint
+        or result.get("native_reference_reached") is not matched
+        or matched != (endpoint >= native - tolerance)
+    ):
+        raise CapacityHistoryEvaluationError("native reference result differs from feature")
+
+    diagnostics = feature.get("round_diagnostics")
+    if not isinstance(diagnostics, list):
+        raise CapacityHistoryEvaluationError("native reference diagnostics are absent")
+    if not is_qp_branch(branch):
+        if (
+            diagnostics
+            or accepted_rounds != 1
+            or not matched
+            or budget_exhausted
+            or not math.isclose(endpoint, native, rel_tol=0.0, abs_tol=1e-8)
+            or not math.isclose(
+                float(feature.get("accepted_path_distance")),
+                float(feature.get("native_c_distance")),
+                rel_tol=2e-5,
+                abs_tol=2e-5,
+            )
+        ):
+            raise CapacityHistoryEvaluationError("native branch reference contract differs")
+        return
+
+    accepted = [
+        _mapping(item, "round_diagnostics[]")
+        for item in diagnostics
+        if _mapping(item, "round_diagnostics[]").get("accepted") is True
+    ]
+    if len(accepted) != accepted_rounds or not (1 <= accepted_rounds <= MAX_ACCEPTED_ROUNDS):
+        raise CapacityHistoryEvaluationError("QP accepted rounds differ from K=4 contract")
+    for diagnostic in accepted:
+        requested = float(diagnostic.get("requested_gain"))
+        remaining = float(diagnostic.get("remaining_reference_gain_before"))
+        if (
+            not math.isclose(requested, remaining, rel_tol=0.0, abs_tol=1e-10)
+            or float(diagnostic.get("native_reference_utility")) != native
+            or diagnostic.get("native_reference_reached")
+            != (
+                float(diagnostic.get("utility_before"))
+                + float(diagnostic.get("rewrite_gain"))
+                >= native - tolerance
+            )
+        ):
+            raise CapacityHistoryEvaluationError("QP requested a fractional native gap")
+    if matched:
+        if budget_exhausted:
+            raise CapacityHistoryEvaluationError("matched QP endpoint is marked exhausted")
+    elif not budget_exhausted or accepted_rounds != MAX_ACCEPTED_ROUNDS:
+        raise CapacityHistoryEvaluationError("unmatched QP endpoint stopped before K=4")
 
 
 def _verify_controller(
@@ -397,6 +480,11 @@ def _verify_controller(
             != action.get("commitment_hash")
         ):
             raise CapacityHistoryEvaluationError(f"{run_id}: action {edit_index} commitment differs")
+        _verify_native_reference_contract(
+            branch=branch,
+            feature=feature,
+            result=result,
+        )
         target = _mapping(feature.get("target_identity"), "feature.target_identity")
         if target.get("direct_z_compute_count") != 1 or result.get("direct_z_compute_count") != 1:
             raise CapacityHistoryEvaluationError(f"{run_id}: direct-z count differs")

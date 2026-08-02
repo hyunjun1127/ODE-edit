@@ -22,11 +22,15 @@ from project.run_scripts.ode_edit_motivation.capacity_history_evaluator import (
     _execution_envelope,
     _routing_diagnostic,
     _verify_history_chain,
+    _verify_native_reference_contract,
     evaluator_policy_parameters,
     merge_checkpoint_streams,
     run_capacity_history_evaluator,
 )
-from project.run_scripts.ode_edit_motivation.mv0_fidelity import SanitizedJsonlWriter
+from project.run_scripts.ode_edit_motivation.mv0_fidelity import (
+    SanitizedJsonlWriter,
+    _safe_payload,
+)
 
 
 def _nested_keys(value: object) -> set[str]:
@@ -52,7 +56,10 @@ class CapacityHistoryEvaluatorTests(unittest.TestCase):
         )
 
     def test_policy_and_compact_schema_have_no_nfe_key(self) -> None:
-        self.assertNotIn("nfe", _nested_keys(evaluator_policy_parameters()))
+        parameters = evaluator_policy_parameters()
+        self.assertNotIn("nfe", _nested_keys(parameters))
+        self.assertNotIn("evaluation", parameters)
+        _safe_payload(parameters)
         self.assertNotIn("nfe", {key.lower() for key in CONTRACT_KEYS})
 
     def test_evaluator_identity_is_model_branch_and_controller_locked(self) -> None:
@@ -149,6 +156,75 @@ class CapacityHistoryEvaluatorTests(unittest.TestCase):
         self.assertEqual(result["suppressed_overloaded_observations"], 1)
         self.assertEqual(result["capacity_reroute_round_count"], 1)
         self.assertTrue(result["capacity_barrier_exact"])
+
+    def test_c1_reference_rejects_fractional_or_early_unmatched_qp(self) -> None:
+        feature = {
+            "native_reference": {
+                "origin_utility": -2.0,
+                "ordered_endpoint_utility": 2.0,
+                "ordered_endpoint_first_hit": True,
+                "controller_endpoint_utility": 2.1,
+                "matched": True,
+                "abs_tolerance": 1e-4,
+                "budget_exhausted": False,
+            },
+            "round_diagnostics": [
+                {
+                    "accepted": True,
+                    "utility_before": -2.0,
+                    "native_reference_utility": 2.0,
+                    "remaining_reference_gain_before": 4.0,
+                    "requested_gain": 4.0,
+                    "rewrite_gain": 4.1,
+                    "native_reference_reached": True,
+                }
+            ],
+        }
+        result = {
+            "accepted_round_count": 1,
+            "native_reference_utility": 2.0,
+            "endpoint_utility": 2.1,
+            "native_reference_reached": True,
+        }
+        _verify_native_reference_contract(
+            branch=BRANCHES[1], feature=feature, result=result
+        )
+        broken = {
+            **feature,
+            "round_diagnostics": [
+                {**feature["round_diagnostics"][0], "requested_gain": 3.0}
+            ],
+        }
+        with self.assertRaisesRegex(Exception, "fractional native gap"):
+            _verify_native_reference_contract(
+                branch=BRANCHES[1], feature=broken, result=result
+            )
+
+        unmatched = {
+            **feature,
+            "native_reference": {
+                **feature["native_reference"],
+                "controller_endpoint_utility": 1.0,
+                "matched": False,
+                "budget_exhausted": False,
+            },
+            "round_diagnostics": [
+                {
+                    **feature["round_diagnostics"][0],
+                    "rewrite_gain": 3.0,
+                    "native_reference_reached": False,
+                }
+            ],
+        }
+        unmatched_result = {
+            **result,
+            "endpoint_utility": 1.0,
+            "native_reference_reached": False,
+        }
+        with self.assertRaisesRegex(Exception, "stopped before K=4"):
+            _verify_native_reference_contract(
+                branch=BRANCHES[1], feature=unmatched, result=unmatched_result
+            )
 
     def test_merge_resequences_four_isolated_branch_streams(self) -> None:
         contract = {"same": True}

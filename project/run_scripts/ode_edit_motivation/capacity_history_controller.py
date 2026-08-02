@@ -127,33 +127,33 @@ from .trajectory import MATCHED_C_ABS_TOL, MATCHED_C_REL_TOL
 CONTROLLER_SCHEMA = "ode-edit-capacity-history-controller/v1"
 CONTROLLER_STREAM_SCHEMA = "ode-edit-capacity-history-controller-stream/v1"
 CONTROLLER_RECEIPT_SCHEMA = "ode-edit-capacity-history-controller-receipt/v1"
-CONTROLLER_JOB_NAME = "odeedit_capacity_history_pair_v3"
+CONTROLLER_JOB_NAME = "odeedit_capacity_history_pair_c1_v1"
 RUN_SEED = 41
 RANK_START = 144
 RANK_STOP = 148
-POLICY_ID = "capacity-qp-history-k3-trust-d4-v1"
-MAX_ACCEPTED_ROUNDS = 3
+POLICY_ID = "capacity-qp-history-k4-native-progress-v2"
+MAX_ACCEPTED_ROUNDS = 4
 INITIAL_TRUST_FRACTION = 0.25
 RETRY_SHRINK = 0.5
-REQUESTED_PROGRESS_FRACTION = 0.75
 MIN_TRUST_RATIO = 0.05
+NATIVE_REFERENCE_ABS_TOL = 1e-4
 APPLICATION_MODES = {branch: "easyedit_exact" for branch in BRANCHES}
 RUN_IDS = {
     BRANCH_MEMIT_NATIVE: {
-        "llama3-8b-inst": "caphist_memit_native_llama_c0_v3",
-        "qwen2.5-7b-inst": "caphist_memit_native_qwen_c0_v3",
+        "llama3-8b-inst": "caphist_memit_native_llama_c1_v1",
+        "qwen2.5-7b-inst": "caphist_memit_native_qwen_c1_v1",
     },
     BRANCH_MEMIT_QP: {
-        "llama3-8b-inst": "caphist_memit_qp_llama_c0_v3",
-        "qwen2.5-7b-inst": "caphist_memit_qp_qwen_c0_v3",
+        "llama3-8b-inst": "caphist_memit_qp_llama_c1_v1",
+        "qwen2.5-7b-inst": "caphist_memit_qp_qwen_c1_v1",
     },
     BRANCH_ALPHA_NATIVE: {
-        "llama3-8b-inst": "caphist_alpha_native_llama_c0_v3",
-        "qwen2.5-7b-inst": "caphist_alpha_native_qwen_c0_v3",
+        "llama3-8b-inst": "caphist_alpha_native_llama_c1_v1",
+        "qwen2.5-7b-inst": "caphist_alpha_native_qwen_c1_v1",
     },
     BRANCH_ALPHA_QP: {
-        "llama3-8b-inst": "caphist_alpha_qp_llama_c0_v3",
-        "qwen2.5-7b-inst": "caphist_alpha_qp_qwen_c0_v3",
+        "llama3-8b-inst": "caphist_alpha_qp_llama_c1_v1",
+        "qwen2.5-7b-inst": "caphist_alpha_qp_qwen_c1_v1",
     },
 }
 
@@ -201,11 +201,14 @@ def policy_parameters() -> dict[str, Any]:
         "initial_trust_fraction": INITIAL_TRUST_FRACTION,
         "retry_shrink": RETRY_SHRINK,
         "probe_fraction": QSTEP_PROBE_FRACTION,
-        "requested_progress_fraction": REQUESTED_PROGRESS_FRACTION,
         "minimum_trust_ratio": MIN_TRUST_RATIO,
-        "first_hit": "exact-top1-rewrite-after-at-least-one-accepted-round",
+        "native_reference_abs_tolerance": NATIVE_REFERENCE_ABS_TOL,
+        "progress_request": "remaining-ordered-native-rewrite-utility-gap",
+        "terminal": "ordered-native-rewrite-utility-matched-after-accepted-round",
+        "first_hit": "diagnostic-only-never-terminal",
         "rejection": "positive-rewrite-gain-and-trust-ratio-else-one-shrunk-retry",
-        "retry_failure": "stop-at-last-accepted-endpoint-else-fail-closed",
+        "retry_failure": "fail-closed-without-scientific-endpoint",
+        "nominal_native_distance_budget": 1.0,
         "history_append_policy": "post-accepted-edit-once-history-fixed-within-edit",
         "capacity_normalizer": "fixed-W0-layer-weight-C-energy",
         "evaluation_fields_available": False,
@@ -221,6 +224,26 @@ def accept_round(*, rewrite_gain: float, predicted_gain: float) -> tuple[bool, f
         return False, float("-inf")
     ratio = actual / predicted
     return bool(actual > 0.0 and ratio >= MIN_TRUST_RATIO), ratio
+
+
+def native_reference_reached(*, utility: float, reference: float) -> bool:
+    """Return whether the controller has matched its rewrite-only native endpoint."""
+
+    observed = float(utility)
+    target = float(reference)
+    if not math.isfinite(observed) or not math.isfinite(target):
+        raise ContractError("native rewrite reference must be finite")
+    return observed >= target - NATIVE_REFERENCE_ABS_TOL
+
+
+def requested_native_progress(*, utility: float, reference: float) -> float:
+    """Request the entire remaining native utility gap, never a fixed fraction."""
+
+    observed = float(utility)
+    target = float(reference)
+    if not math.isfinite(observed) or not math.isfinite(target):
+        raise ContractError("native rewrite progress inputs must be finite")
+    return max(0.0, target - observed)
 
 
 def capacity_probe_action_ids(actions: Sequence[Any]) -> tuple[str, ...]:
@@ -609,17 +632,9 @@ def _build_edit_action(
     if not math.isfinite(native_distance) or native_distance <= 0.0:
         raise ContractError("capacity/history native C-distance is invalid")
 
-    proposals: list[MemitFactorProposal] = []
-    descendants: list[SnapshotManifest] = []
-    round_diagnostics: list[dict[str, Any]] = []
-    proposal_build_count = 1
-    rejected_round_count = 0
-    first_hit_reached = False
-    accepted_path_distance = 0.0
-
-    if not is_qp_branch(branch):
-        _before_utility, _ = _rewrite_state(runtime, request, contexts)
-        child, _after_utility, first_hit_reached = _temporary_descendant(
+    origin_utility, _origin_first_hit = _rewrite_state(runtime, request, contexts)
+    native_child, native_reference_utility, native_reference_first_hit = (
+        _temporary_descendant(
             runtime=runtime,
             proposal=ordered,
             request=request,
@@ -628,9 +643,30 @@ def _build_edit_action(
             weight_names=weight_names,
             provenance_id=bindings.provenance.manifest_id,
         )
+    )
+    if requested_native_progress(
+        utility=origin_utility,
+        reference=native_reference_utility,
+    ) <= NATIVE_REFERENCE_ABS_TOL:
+        raise ContractError("ordered native endpoint has no positive rewrite reference gap")
+
+    proposals: list[MemitFactorProposal] = []
+    descendants: list[SnapshotManifest] = []
+    round_diagnostics: list[dict[str, Any]] = []
+    proposal_build_count = 1
+    rejected_round_count = 0
+    first_hit_reached = False
+    accepted_path_distance = 0.0
+    endpoint_utility = origin_utility
+    matched_native_reference = False
+
+    if not is_qp_branch(branch):
         proposals.append(ordered)
-        descendants.append(child)
+        descendants.append(native_child)
         accepted_path_distance = native_distance
+        endpoint_utility = native_reference_utility
+        first_hit_reached = native_reference_first_hit
+        matched_native_reference = True
         apply_proposal_in_disposable_process(
             runtime.model,
             ordered,
@@ -644,7 +680,7 @@ def _build_edit_action(
             weight_names=weight_names,
             provenance_id=bindings.provenance.manifest_id,
         )
-        if observed.state_id != child.state_id:
+        if observed.state_id != native_child.state_id:
             raise ContractError("native permanent endpoint differs from temporary descendant")
         cumulative_factors.extend(ordered.factors)
     else:
@@ -687,10 +723,20 @@ def _build_edit_action(
                 expected_action_ids=probe_action_ids,
             )
             before_utility, _ = _rewrite_state(runtime, request, contexts)
+            remaining_reference_gain = requested_native_progress(
+                utility=before_utility,
+                reference=native_reference_utility,
+            )
+            if remaining_reference_gain <= NATIVE_REFERENCE_ABS_TOL:
+                matched_native_reference = True
+                endpoint_utility = before_utility
+                break
             accepted: tuple[
                 MemitFactorProposal,
                 SnapshotManifest,
                 FrozenTargetLineage,
+                float,
+                bool,
                 float,
                 bool,
                 dict[str, Any],
@@ -717,14 +763,13 @@ def _build_edit_action(
                     requested_progress=cap_upper,
                     trust_distance=trust_distance,
                 )
-                requested = REQUESTED_PROGRESS_FRACTION * maximum.constrained_progress
-                if requested <= 1e-12:
-                    raise ContractError("capacity QP has no positive rewrite direction")
                 solution = solve_capacity_qp(
                     terms,
-                    requested_progress=requested,
+                    requested_progress=remaining_reference_gain,
                     trust_distance=trust_distance,
                 )
+                if solution.predicted_progress <= 1e-12:
+                    raise ContractError("capacity QP has no positive rewrite direction")
                 proposal = build_capacity_qp_proposal(
                     synchronous=synchronous,
                     unit_actions=unit_actions,
@@ -755,6 +800,10 @@ def _build_edit_action(
                         provenance_id=bindings.provenance.manifest_id,
                     )
                     rewrite_gain = after_utility - before_utility
+                    reference_reached = native_reference_reached(
+                        utility=after_utility,
+                        reference=native_reference_utility,
+                    )
                     accepted_flag, trust_ratio = accept_round(
                         rewrite_gain=rewrite_gain,
                         predicted_gain=solution.predicted_progress,
@@ -772,6 +821,10 @@ def _build_edit_action(
                     "round_index": round_index,
                     "attempt_index": attempt_index,
                     "trust_fraction": trust_fraction,
+                    "utility_before": before_utility,
+                    "native_reference_utility": native_reference_utility,
+                    "remaining_reference_gain_before": remaining_reference_gain,
+                    "maximum_predicted_gain": maximum.constrained_progress,
                     "requested_gain": solution.requested_progress,
                     "predicted_gain": solution.predicted_progress,
                     "rewrite_gain": rewrite_gain,
@@ -790,6 +843,7 @@ def _build_edit_action(
                     ),
                     "proposal_direction_sha256": proposal_direction_hash(proposal),
                     "first_hit_reached": first_hit,
+                    "native_reference_reached": reference_reached,
                 }
                 round_diagnostics.append(diagnostic)
                 if accepted_flag:
@@ -801,15 +855,24 @@ def _build_edit_action(
                         next_lineage,
                         solution.coefficient_norm,
                         first_hit,
+                        after_utility,
+                        reference_reached,
                         diagnostic,
                     )
                     break
                 rejected_round_count += 1
             if accepted is None:
-                if not proposals:
-                    raise ContractError("capacity QP rejected both first-round attempts")
-                break
-            proposal, child, lineage, distance, first_hit_reached, _diagnostic = accepted
+                raise ContractError("capacity QP rejected both trust attempts")
+            (
+                proposal,
+                child,
+                lineage,
+                distance,
+                first_hit_reached,
+                endpoint_utility,
+                matched_native_reference,
+                _diagnostic,
+            ) = accepted
             apply_proposal_in_disposable_process(
                 runtime.model,
                 proposal,
@@ -835,7 +898,7 @@ def _build_edit_action(
             cumulative_factors.extend(proposal.factors)
             accepted_path_distance += distance
             current_snapshot = child
-            if first_hit_reached:
+            if matched_native_reference:
                 break
 
     if not proposals or len(proposals) != len(descendants):
@@ -887,6 +950,19 @@ def _build_edit_action(
         "native_c_distance": native_distance,
         "probe_c_distance": native_distance * QSTEP_PROBE_FRACTION,
         "accepted_path_distance": accepted_path_distance,
+        "native_reference": {
+            "origin_utility": origin_utility,
+            "ordered_endpoint_utility": native_reference_utility,
+            "ordered_endpoint_first_hit": native_reference_first_hit,
+            "controller_endpoint_utility": endpoint_utility,
+            "matched": matched_native_reference,
+            "abs_tolerance": NATIVE_REFERENCE_ABS_TOL,
+            "budget_exhausted": bool(
+                is_qp_branch(branch)
+                and not matched_native_reference
+                and len(proposals) == MAX_ACCEPTED_ROUNDS
+            ),
+        },
         "proposal_artifacts": _proposal_artifact_metadata(artifact_paths),
         "round_diagnostics": round_diagnostics,
         "history_before": history_before,
@@ -946,6 +1022,9 @@ def _build_edit_action(
         "rejected_round_count": rejected_round_count,
         "accepted_path_distance": accepted_path_distance,
         "first_hit_reached": first_hit_reached,
+        "native_reference_utility": native_reference_utility,
+        "endpoint_utility": endpoint_utility,
+        "native_reference_reached": matched_native_reference,
         "terminal_state_id": descendants[-1].state_id,
         "history_edit_count": history_bank.edit_count if history_bank is not None else 0,
         "controller_only": True,
