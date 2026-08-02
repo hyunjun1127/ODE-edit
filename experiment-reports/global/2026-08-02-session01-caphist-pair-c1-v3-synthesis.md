@@ -6,7 +6,7 @@
 - policy: `capacity-qp-history-k4-native-progress-v2`
 - technical verdict: **pass**
 - scientific verdict: **`SUPERSEDED_IMPLEMENTATION_CONFOUNDED_LOW_UPDATE`**
-- Motivation status: **reopened for exact-distance c2 diagnostic**
+- Motivation status: **historical/superseded; final resolution in c3 magnitude-only control**
 - claim boundary: same-policy 4-edit diagnostic only
 
 > **2026-08-02 GH 정정:** c1은 layer별 상대 share와 global update magnitude를 같은
@@ -16,6 +16,10 @@
 > 따라서 아래의 원래 `HARM_SIGNAL`/closed-negative 해석은 보존된 당시 판정이지만 현재
 > method kill evidence로는 무효다. 수치와 raw artifact는 변경하지 않으며, corrected
 > 판정은 exact `D/4 × 4` c2에서만 내린다.
+
+> **c3 최종 resolution:** c1 BF share를 유지하고 magnitude만 분리한 c3가 네
+> model×family cell 모두 c1보다 회복했다. Canonical final verdict는
+> `experiment-reports/global/2026-08-02-session01-caphist-pair-c3-v1-synthesis.md`다.
 
 ## 결론 먼저
 

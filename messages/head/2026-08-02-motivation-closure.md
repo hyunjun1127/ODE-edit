@@ -1,5 +1,11 @@
 # Global Head — Session 01 Motivation closure
 
+> **c3 최종 supersession:** job `15891`의 BF-share magnitude-only control이 네
+> model×family cell 모두 c1 current efficacy와 retention을 개선했다. Motivation은
+> `CLOSED_DIRECTIONAL_POSITIVE; STRONG_METHOD_GATE_FAIL`로 닫혔다. Canonical completion은
+> `messages/head/2026-08-02-bf-share-magnitude-control-c3-completion.md`다. 아래 내용은
+> c3 전 historical closure다.
+
 - GH session: `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`
 - primary profile: `Sol Ultra` confirmed active
 - server: `server1`; server-head 미등록

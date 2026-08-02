@@ -6,10 +6,15 @@
 - policy: `capacity-share-history-exact-quarter-k4-v3`
 - technical verdict: **pass**
 - diagnostic verdict: **`LOW_UPDATE_CONFOUND_CONFIRMED_ON_LLAMA; CROSS_MODEL_CAUSE_BUNDLED`**
-- Motivation status: **open for one magnitude-only BF-share control**
+- Motivation status: **resolved by c3; Motivation closed directional-positive**
 - claim boundary: same-policy 4-edit implementation diagnostic only
 
 ## 결론
+
+> **c3 최종 resolution:** c1 BF share를 보존한 magnitude-only c3가 네 cell 모두
+> c1보다 회복해 low-update implementation cause를 cross-model로 확인했다. Final
+> verdict는
+> `experiment-reports/global/2026-08-02-session01-caphist-pair-c3-v1-synthesis.md`다.
 
 사용자 판단의 핵심은 맞았다. c1에서 실제 update가 낮게 들어간 것은 단순 수치상의
 작은 차이가 아니라 Llama efficacy를 크게 무너뜨린 구현 confound였다. Exact

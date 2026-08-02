@@ -1374,3 +1374,14 @@ hard constraint가 아니라 allocation-only임을 명시한다.
 - 명령: `project/run_scripts/submit_session01_capacity_history_pair_server1.sh`.
 - 영향 범위: server1 4-GPU c3 pair 1건과 위 ignored local path.
 - 모니터링: 초기 pipeline 연속 확인 후 30분 단위 terminal 확인.
+
+## C3 terminal / SH no-action
+
+- job `15891`: `COMPLETED 0:0`, elapsed `01:29:01`.
+- controller/evaluator 16/16 및 checkpoint 32/32 technical pass.
+- 최종 Motivation:
+  `CLOSED_DIRECTIONAL_POSITIVE; STRONG_METHOD_GATE_FAIL`.
+- 이 instruction은 소진됐다. C3 재제출, partial retry, 추가 Motivation retune은
+  `not allowed`; future SH action 없음.
+- canonical completion:
+  `messages/head/2026-08-02-bf-share-magnitude-control-c3-completion.md`.

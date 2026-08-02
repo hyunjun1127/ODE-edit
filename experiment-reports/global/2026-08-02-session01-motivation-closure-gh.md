@@ -1,17 +1,52 @@
-# Session 01 Motivation — ODE-Edit final GH closure (c1 supersession)
+# Session 01 Motivation — ODE-Edit final GH closure (c3)
 
 날짜: 2026-08-02
 
-상태: **Motivation reopened — c1 low-update verdict superseded; exact-distance c2 pending**
+상태: **Motivation closed — directional-positive implementation signal; strong method gate fail**
 
-> **2026-08-02 사용자 지시/GH 정정:** c1은 BF layer share와 global update 크기를
-> 분리하지 않아 Llama update를 native C-distance의 약 67--69%만 적용했다. 따라서
-> c1의 cross-model negative와 이 문서의 기존 final closure는 scientific verdict로
-> 사용하지 않는다. 현재 canonical next action은
-> `plans/global/2026-08-02-session01-capacity-share-exact-quarter-c2-spec.md`의
-> `D/4 × 4` matched-distance diagnostic이다. 아래 내용은 c2 이전의 역사적 기록이다.
+> **2026-08-02 c3 최종 supersession:** c1 BF relative layer allocation을 그대로
+> 만들고 global update norm만 exact `D/4 × 4`로 분리한 c3에서 Llama/Qwen과
+> MEMIT/Alpha 네 cell이 모두 c1보다 회복했다. 따라서 c1 under-update는 cross-model
+> implementation cause로 확인됐다. Canonical report는
+> `experiment-reports/global/2026-08-02-session01-caphist-pair-c3-v1-synthesis.md`다.
 
-## 결론 먼저
+## 현재 최종 결정
+
+- technical: job `15891`, controller/evaluator `16/16`, checkpoint `32/32`, pair pass.
+- c1→c3 current recovery: Llama MEMIT `+3.671027`, Llama Alpha `+1.931406`,
+  Qwen MEMIT `+0.146274`, Qwen Alpha `+0.525536`.
+- c3 native 대비 current: `-0.361365/-0.563717/-0.251563/+0.555242`.
+- capacity, layer-Gini, max-layer-share reduction은 네 cell 공통이다.
+- lenient cross-model implementation/directional gate: **pass**.
+- strict native non-collapse/method gate: **fail**; old analyzer passing family `[]`.
+
+Motivation은 `CLOSED_DIRECTIONAL_POSITIVE; STRONG_METHOD_GATE_FAIL`로 닫는다. 이는
+state refresh + BF relative share + independent global step이 다음 Method Session으로
+갈 최소 신호가 있다는 뜻이다. Native superiority, broad preservation, hard capacity
+barrier, lifelong, compute efficiency는 확립되지 않았다. Motivation 안의 추가
+K/share/threshold/model-specific retune은 금지한다.
+
+## 현재 가설 판정
+
+| 가설 | c3 이후 판정 |
+|---|---|
+| H1 layer utility/share heterogeneity | relative BF share 가능성 survive; uniform 대비 우위는 미확립 |
+| H2 state non-stationarity | atomic/local signal survive |
+| H3 capacity concentration | capacity/concentration reduction 네 cell 공통 |
+| H4 capacity-aware routing benefit | directional signal survive; native superiority는 fail |
+| H5 long-horizon preservation | 4-edit retention은 c1보다 회복하나 native 대비 mixed; open |
+
+다음은 unit-norm share QP, negative-trust rollback/first-hit, applied full-step capacity
+constraint를 두 모델 공통으로 설계하는 Method Session이다. Strong pilot를 통과하기 전
+large/lifelong 제출은 금지한다.
+
+## 아래 본문의 역사적 경계
+
+아래 내용은 c3 전의 Motivation ladder와 당시 closure를 보존한 역사적 기록이다.
+현재 판정과 충돌하는 closed-negative, c2-pending, 추가 Motivation 불가 문장은 c3에
+의해 superseded됐으며 현재 decision으로 사용하지 않는다.
+
+## 결론 먼저 — historical pre-c3 record
 
 ODE-Edit의 **current-state direction relinearization**은 atomic/local possibility
 signal을 남겼다. 이후 full remaining-native-progress, trust ratio, rollback,
@@ -182,7 +217,7 @@ compute frontier를 개선하지 못하면 ODE paper story는 유지할 수 없�
 
 ## 최종 판정
 
-기존 `Motivation final closure`는 c1 magnitude confound 확인으로 **superseded**다.
-Motivation은 exact-distance c2에 한해 다시 열며, c2 전에는 direction refresh,
-capacity share, sequential ODE-Edit 어느 것에도 negative/positive 최종 판정을 내리지
-않는다. Method/Lifelong 확대는 계속 금지한다.
+기존 c1 closed-negative와 c2 bundled-share verdict는 c3에 의해 **superseded**다.
+현재 최종 판정은 `CLOSED_DIRECTIONAL_POSITIVE; STRONG_METHOD_GATE_FAIL`이다. Low-update
+implementation cause는 cross-model로 확인됐고 Motivation은 종료한다. Method/Lifelong
+확대는 common strong pilot gate 전까지 계속 금지한다.

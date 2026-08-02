@@ -2,7 +2,7 @@
 
 - 날짜: 2026-08-02
 - 방법명: **ODE-Edit**
-- 상태: implementation/test 완료, 제출 전
+- 상태: completed — job `15891`, Motivation closure에 반영
 - 모델: `llama3-8b-inst`, `qwen2.5-7b-inst`
 - editor family: MEMIT, canonical-history AlphaEdit
 - 공통 policy: `bf-common-frontier-share-radial-exact-quarter-k4-v1`
