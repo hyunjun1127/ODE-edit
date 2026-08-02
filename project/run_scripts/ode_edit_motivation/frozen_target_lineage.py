@@ -34,6 +34,7 @@ from .hooks import TemporaryLowRankApplication, tensor_sha256
 
 FROZEN_TARGET_LINEAGE_SCHEMA = "ode-edit-frozen-target-lineage/v1"
 QUARTER_STEP_LINEAGE_SCHEMA = "ode-edit-quarter-step-target-lineage/v1"
+ADAPTIVE_STEP_LINEAGE_SCHEMA = "ode-edit-adaptive-step-target-lineage/v1"
 _ALLOWED_HOPS = {
     ("h0_sham", 0.0),
     ("partial_joint", 0.5),
@@ -47,6 +48,11 @@ _QUARTER_STEP_LABELS = frozenset(
         *(f"native_step_{index}" for index in range(1, 5)),
     }
 )
+_ADAPTIVE_STEP_LABELS = tuple(f"capacity_round_{index}" for index in range(1, 4))
+
+
+def _is_adaptive_step(label: str, scale: float) -> bool:
+    return label in _ADAPTIVE_STEP_LABELS and 0.0 < scale <= 0.25
 
 
 def _full_sha256(name: str, value: Any) -> str:
@@ -141,8 +147,10 @@ class TargetLineageHop:
 
     def __post_init__(self) -> None:
         scale = _finite_scale(self.step_scale)
-        if (self.label, scale) not in _ALLOWED_HOPS and not (
-            self.label in _QUARTER_STEP_LABELS and scale == 0.25
+        if (
+            (self.label, scale) not in _ALLOWED_HOPS
+            and not (self.label in _QUARTER_STEP_LABELS and scale == 0.25)
+            and not _is_adaptive_step(self.label, scale)
         ):
             raise ContractError("target-lineage hop is outside the fixed MV-2 envelope")
         for field_name in (
@@ -173,7 +181,7 @@ class TargetLineageHop:
         )
         if scale == 0.0 and self.child_state_id != self.parent_state_id:
             raise ContractError("h=0 lineage must preserve exact state identity")
-        if scale in (0.25, 0.5) and self.child_state_id == self.parent_state_id:
+        if scale > 0.0 and self.child_state_id == self.parent_state_id:
             raise ContractError("positive-step lineage must reach a distinct descendant state")
         object.__setattr__(self, "step_scale", scale)
         object.__setattr__(self, "child_parameter_hashes", normalized)
@@ -201,7 +209,9 @@ class FrozenTargetLineage:
 
     The original MV-2 envelope remains exactly zero or one ``h=1/2`` hop.  The
     independent quarter-step envelope permits exactly chained ``h=1/4`` hops,
-    up to four.  Mixing the two envelopes is rejected.
+    up to four.  The capacity controller has a separate envelope of up to
+    three accepted positive hops, each no larger than ``h=1/4``.  Mixing
+    envelopes is rejected.
     """
 
     model_id: str
@@ -281,7 +291,13 @@ class FrozenTargetLineage:
                 for hop in hops
             )
         )
-        if hops and not (legacy_envelope or quarter_envelope):
+        adaptive_envelope = bool(
+            1 <= len(hops) <= len(_ADAPTIVE_STEP_LABELS)
+            and tuple(hop.label for hop in hops)
+            == _ADAPTIVE_STEP_LABELS[: len(hops)]
+            and all(_is_adaptive_step(hop.label, hop.step_scale) for hop in hops)
+        )
+        if hops and not (legacy_envelope or quarter_envelope or adaptive_envelope):
             raise ContractError("frozen-target lineage mixes or exceeds its fixed envelope")
         if hops:
             hop = hops[0]
@@ -372,6 +388,7 @@ class FrozenTargetLineage:
 
         legacy_step = (label, step_scale) in _ALLOWED_HOPS
         quarter_step = label in _QUARTER_STEP_LABELS and step_scale == 0.25
+        adaptive_step = _is_adaptive_step(label, step_scale)
         if legacy_step and self.hops:
             raise ContractError("MV-2 lineage cannot be extended beyond one hop")
         if quarter_step and (
@@ -382,7 +399,16 @@ class FrozenTargetLineage:
             )
         ):
             raise ContractError("quarter-step lineage cannot exceed or mix four hops")
-        if not (legacy_step or quarter_step):
+        if adaptive_step and (
+            len(self.hops) >= len(_ADAPTIVE_STEP_LABELS)
+            or label != _ADAPTIVE_STEP_LABELS[len(self.hops)]
+            or any(
+                not _is_adaptive_step(hop.label, hop.step_scale)
+                for hop in self.hops
+            )
+        ):
+            raise ContractError("adaptive lineage cannot exceed, reorder, or mix three hops")
+        if not (legacy_step or quarter_step or adaptive_step):
             raise ContractError("lineage step is outside its fixed envelope")
         if (
             parent_snapshot.snapshot_id != self.terminal_snapshot_id
@@ -620,6 +646,66 @@ class FrozenTargetLineage:
             observed_child_parameter_hashes=observed,
         )
 
+    def derive_adaptive_step(
+        self,
+        *,
+        parent_snapshot: SnapshotManifest,
+        child_snapshot: SnapshotManifest,
+        application: TemporaryLowRankApplication,
+        step_scale: float,
+        label: str,
+    ) -> "FrozenTargetLineage":
+        """Bind one accepted capacity-controller transition.
+
+        ``step_scale`` is the observed C-distance divided by the edit's native
+        C-distance.  The runner owns that metric check; this lineage binds the
+        exact proposal bytes and descendant hashes without pretending every
+        accepted trust-region step consumed the full ``D/4`` envelope.
+        """
+
+        scale = _finite_scale(step_scale)
+        if not _is_adaptive_step(label, scale):
+            raise ContractError("adaptive-step lineage label/scale is outside the lock")
+        if not isinstance(application, TemporaryLowRankApplication):
+            raise ContractError("adaptive-step lineage requires canonical application")
+        if application.scale != 1.0:
+            raise ContractError("adaptive proposal must be pre-scaled and applied at one")
+        proposal = application.proposal
+        if not isinstance(proposal, MemitFactorProposal):
+            raise ContractError("adaptive-step lineage requires MemitFactorProposal")
+        if (
+            proposal.snapshot.state_id != parent_snapshot.state_id
+            or proposal.snapshot.model_id != parent_snapshot.model_id
+            or proposal.snapshot.context_id != parent_snapshot.context_id
+            or proposal.snapshot.request_ids != parent_snapshot.request_ids
+            or proposal.snapshot.hparams_sha256 != parent_snapshot.hparams_sha256
+            or _parameter_hashes(proposal.snapshot) != _parameter_hashes(parent_snapshot)
+        ):
+            raise ContractError("adaptive proposal does not start at its lineage parent")
+        factor_names = tuple(factor.weight_name for factor in proposal.factors)
+        parent_hashes = _parameter_hashes(parent_snapshot)
+        if (
+            not factor_names
+            or len(set(factor_names)) != len(factor_names)
+            or not set(factor_names).issubset(parent_hashes)
+            or any(
+                factor.expected_weight_sha256 != parent_hashes[factor.weight_name]
+                for factor in proposal.factors
+            )
+        ):
+            raise ContractError("adaptive factors are outside the lineage parent")
+        observed = application.applied_hashes
+        if set(observed) != set(factor_names):
+            raise ContractError("adaptive application receipt is incomplete")
+        return self._derive_verified(
+            parent_snapshot=parent_snapshot,
+            child_snapshot=child_snapshot,
+            action_hash=proposal_direction_hash(proposal),
+            step_scale=scale,
+            label=label,
+            observed_child_parameter_hashes=observed,
+        )
+
     def assert_target_tokens(self, target_token_ids: torch.Tensor) -> None:
         digest, shape, dtype = _token_identity(target_token_ids)
         if (
@@ -684,9 +770,17 @@ class FrozenTargetLineage:
                 for hop in self.hops
             )
         )
+        adaptive_envelope = bool(
+            self.hops
+            and tuple(hop.label for hop in self.hops)
+            == _ADAPTIVE_STEP_LABELS[: len(self.hops)]
+            and all(_is_adaptive_step(hop.label, hop.step_scale) for hop in self.hops)
+        )
         payload: dict[str, Any] = {
             "schema_version": (
-                QUARTER_STEP_LINEAGE_SCHEMA
+                ADAPTIVE_STEP_LINEAGE_SCHEMA
+                if adaptive_envelope
+                else QUARTER_STEP_LINEAGE_SCHEMA
                 if quarter_envelope
                 else FROZEN_TARGET_LINEAGE_SCHEMA
             ),

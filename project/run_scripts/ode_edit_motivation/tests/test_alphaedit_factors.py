@@ -8,9 +8,11 @@ from project.run_scripts.ode_edit_motivation.alphaedit_factors import (
     alphaedit_factor_right_leak,
     alphaedit_proposal_kind,
     compare_low_rank_proposals,
+    make_historical_alphaedit_proposal,
     make_isolated_alphaedit_proposal,
     make_posthoc_alphaedit_proposal,
     make_unprojected_isolated_alphaedit_proposal,
+    solve_historical_alphaedit_factor,
     solve_isolated_alphaedit_factor,
     solve_unprojected_isolated_alphaedit_factor,
 )
@@ -107,6 +109,82 @@ class IsolatedAlphaEditFactorTests(unittest.TestCase):
         self.assertTrue(transposed.native_update_transposed)
         torch.testing.assert_close(direct.left @ direct.right.T, native)
         torch.testing.assert_close(transposed.left @ transposed.right.T, native.T)
+
+    def test_historical_low_rank_factor_matches_dense_cache_c_solve(self) -> None:
+        history = torch.tensor(
+            [[0.2, -0.5, 0.1], [0.7, 0.4, -0.2], [-0.3, 0.6, 0.8]],
+            dtype=torch.float64,
+        )
+        projected_keys = self.projector @ self.keys
+        cache_c = history @ history.T
+        system = (
+            self.projector @ (self.keys @ self.keys.T + cache_c)
+            + self.l2 * torch.eye(3, dtype=torch.float64)
+        )
+        native = torch.linalg.solve(
+            system,
+            projected_keys @ self.residuals.T,
+        )
+        factor = solve_historical_alphaedit_factor(
+            keys=self.keys,
+            residuals=self.residuals,
+            projector=self.projector,
+            history_keys=history,
+            l2=self.l2,
+            weight_name="layer.weight",
+            weight_shape=tuple(native.T.shape),
+            expected_weight_sha256="e" * 64,
+        )
+        torch.testing.assert_close(
+            factor.left @ factor.right.T,
+            native.T,
+            rtol=1e-12,
+            atol=1e-12,
+        )
+
+    def test_empty_history_reduces_exactly_to_isolated_solve(self) -> None:
+        isolated = solve_isolated_alphaedit_factor(
+            keys=self.keys,
+            residuals=self.residuals,
+            projector=self.projector,
+            l2=self.l2,
+            weight_name="layer.weight",
+            weight_shape=(4, 3),
+            expected_weight_sha256="e" * 64,
+        )
+        historical = solve_historical_alphaedit_factor(
+            keys=self.keys,
+            residuals=self.residuals,
+            projector=self.projector,
+            history_keys=torch.empty((3, 0), dtype=torch.float64),
+            l2=self.l2,
+            weight_name="layer.weight",
+            weight_shape=(4, 3),
+            expected_weight_sha256="e" * 64,
+        )
+        torch.testing.assert_close(
+            historical.left @ historical.right.T,
+            isolated.left @ isolated.right.T,
+            rtol=1e-12,
+            atol=1e-12,
+        )
+
+    def test_historical_proposal_has_distinct_provenance_kind(self) -> None:
+        snapshot = _snapshot(weight_shape=(4, 3))
+        proposal = make_historical_alphaedit_proposal(
+            snapshot=snapshot,
+            keys=self.keys,
+            residuals=self.residuals,
+            projector=self.projector,
+            history_keys=torch.empty((3, 0), dtype=torch.float64),
+            l2=self.l2,
+            weight_name="layer.weight",
+            solver_suffix="unit",
+        )
+        self.assertEqual(
+            alphaedit_proposal_kind(proposal),
+            AlphaEditProposalKind.GENUINE_HISTORICAL,
+        )
 
     def test_same_alpha_base_posthoc_bp_and_genuine_solve_are_distinct(self) -> None:
         native = self._native_dense_update()

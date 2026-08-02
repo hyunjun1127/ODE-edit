@@ -1,7 +1,8 @@
-"""Low-rank, first-edit AlphaEdit algebra for direct-z diagnostics.
+"""Low-rank isolated and historical AlphaEdit algebra for ODE-Edit hooks.
 
-This module implements only the isolated ``cache_c = 0`` AlphaEdit solve used
-for an atomic edit.  It is deliberately separate from
+The isolated path implements ``cache_c = 0`` for atomic diagnostics.  The
+historical path represents canonical ``cache_c = H H.T`` through key columns
+``H`` and never materializes the dense cache.  Both are deliberately separate from
 ``projector_adapter.project_proposal``: post-hoc ``B @ P`` changes the right
 factor of an already computed proposal, whereas genuine AlphaEdit puts ``P``
 *inside* its normal equation.  The two paths must remain distinguishable in
@@ -53,6 +54,11 @@ UNPROJECTED_ISOLATED_ALPHAEDIT_SOLVER_PREFIX = (
 )
 """Solver tag for the same isolated Alpha algebra with ``P = I``."""
 
+GENUINE_HISTORICAL_ALPHAEDIT_SOLVER_PREFIX = (
+    "alphaedit-genuine-historical-lowrank-woodbury-v1"
+)
+"""Solver tag for canonical ``P @ (K K.T + cache_c)`` with low-rank history."""
+
 POSTHOC_ALPHAEDIT_PROJECTOR_TOKEN = "/alphaedit-projector/"
 """Existing :mod:`projector_adapter` tag for a post-hoc ``B @ P`` proposal."""
 
@@ -61,6 +67,7 @@ class AlphaEditProposalKind(str, Enum):
     """Provenance category; genuine and post-hoc paths are not interchangeable."""
 
     GENUINE_ISOLATED_FIRST_EDIT = "genuine-isolated-first-edit"
+    GENUINE_HISTORICAL = "genuine-historical"
     UNPROJECTED_ISOLATED_FIRST_EDIT = "unprojected-isolated-first-edit"
     POSTHOC_RIGHT_PROJECTED = "posthoc-right-projected"
     UNKNOWN = "unknown"
@@ -223,6 +230,8 @@ def alphaedit_proposal_kind(proposal: MemitFactorProposal) -> AlphaEditProposalK
     # so this discriminator must take the explicit transformation tag first.
     if POSTHOC_ALPHAEDIT_PROJECTOR_TOKEN in proposal.solver_name:
         return AlphaEditProposalKind.POSTHOC_RIGHT_PROJECTED
+    if proposal.solver_name.startswith(GENUINE_HISTORICAL_ALPHAEDIT_SOLVER_PREFIX):
+        return AlphaEditProposalKind.GENUINE_HISTORICAL
     if proposal.solver_name.startswith(GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX):
         return AlphaEditProposalKind.GENUINE_ISOLATED_FIRST_EDIT
     if proposal.solver_name.startswith(UNPROJECTED_ISOLATED_ALPHAEDIT_SOLVER_PREFIX):
@@ -353,6 +362,81 @@ def solve_isolated_alphaedit_factor(
     )
 
 
+def solve_historical_alphaedit_factor(
+    *,
+    keys: torch.Tensor,
+    residuals: torch.Tensor,
+    projector: torch.Tensor,
+    history_keys: torch.Tensor,
+    l2: float,
+    weight_name: str,
+    weight_shape: Sequence[int],
+    expected_weight_sha256: str,
+) -> LowRankFactor:
+    """Factor canonical AlphaEdit with ``cache_c = H @ H.T``.
+
+    For ``G=[K,H]`` and ``U=P@G``, Woodbury gives
+    ``(lambda I + U G.T)^-1 P K = U (lambda I + G.T U)^-1 E_K``.
+    Only the current-key columns selected by ``E_K`` multiply the residual.
+    An empty ``H`` is valid and exactly reduces to the isolated first edit.
+    """
+
+    if not isinstance(weight_name, str) or not weight_name.strip():
+        raise AlphaEditFactorError("weight_name must not be empty")
+    expected_weight_sha256 = _validate_sha256(
+        expected_weight_sha256,
+        name="expected_weight_sha256",
+    )
+    shape = _validate_weight_shape(weight_shape)
+    lambda_value = _validate_l2(l2)
+    for name, value in (
+        ("keys", keys),
+        ("residuals", residuals),
+        ("projector", projector),
+        ("history_keys", history_keys),
+    ):
+        _require_finite_matrix(value, name=name)
+    if len({keys.device, residuals.device, projector.device, history_keys.device}) != 1:
+        raise AlphaEditFactorError("historical AlphaEdit tensors must share one device")
+    if keys.shape[1] == 0 or residuals.shape[1] != keys.shape[1]:
+        raise AlphaEditFactorError("current keys and residuals must share non-zero rank")
+    if projector.shape[0] != projector.shape[1] or projector.shape[0] != keys.shape[0]:
+        raise AlphaEditFactorError("historical projector/key dimensions differ")
+    if history_keys.shape[0] != keys.shape[0]:
+        raise AlphaEditFactorError("historical key width differs from current keys")
+
+    work_dtype = _working_dtype(keys, residuals, projector, history_keys)
+    with torch.no_grad():
+        k = keys.detach().to(dtype=work_dtype)
+        resid = residuals.detach().to(dtype=work_dtype)
+        p = projector.detach().to(dtype=work_dtype)
+        history = history_keys.detach().to(dtype=work_dtype)
+        combined = torch.cat((k, history), dim=1)
+        projected = p @ combined
+        small_system = combined.transpose(0, 1) @ projected
+        small_system.diagonal().add_(lambda_value)
+        if not bool(torch.isfinite(small_system).all()):
+            raise AlphaEditFactorError("historical AlphaEdit system is non-finite")
+        try:
+            adjusted_all = torch.linalg.solve(
+                small_system.transpose(0, 1),
+                projected.transpose(0, 1),
+            ).transpose(0, 1)
+        except RuntimeError as exc:
+            raise AlphaEditFactorError("historical AlphaEdit system is singular") from exc
+        adjusted_current = adjusted_all[:, : k.shape[1]]
+        if not bool(torch.isfinite(adjusted_current).all()):
+            raise AlphaEditFactorError("historical AlphaEdit adjusted keys are non-finite")
+
+    return orient_easyedit_factor(
+        adjusted_current,
+        resid,
+        weight_name=weight_name,
+        weight_shape=shape,
+        expected_weight_sha256=expected_weight_sha256,
+    )
+
+
 def solve_unprojected_isolated_alphaedit_factor(
     *,
     keys: torch.Tensor,
@@ -424,6 +508,50 @@ def make_isolated_alphaedit_proposal(
         semantics=semantics,
         solver_name=(
             f"{GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX}/"
+            f"{solver_suffix.strip()}"
+        ),
+        residual_denominator=residual_denominator,
+    )
+
+
+def make_historical_alphaedit_proposal(
+    *,
+    snapshot: SnapshotManifest,
+    keys: torch.Tensor,
+    residuals: torch.Tensor,
+    projector: torch.Tensor,
+    history_keys: torch.Tensor,
+    l2: float,
+    weight_name: str,
+    solver_suffix: str,
+    semantics: ProposalSemantics = ProposalSemantics.SYNCHRONOUS_FROZEN_SNAPSHOT,
+    residual_denominator: int | None = 1,
+) -> MemitFactorProposal:
+    """Return one identity-bound canonical history-aware AlphaEdit proposal."""
+
+    if not isinstance(snapshot, SnapshotManifest):
+        raise AlphaEditFactorError("snapshot must be a SnapshotManifest")
+    if not isinstance(solver_suffix, str) or not solver_suffix.strip():
+        raise AlphaEditFactorError("solver_suffix must not be empty")
+    if not isinstance(weight_name, str) or not weight_name.strip():
+        raise AlphaEditFactorError("weight_name must not be empty")
+    record = snapshot.parameter(weight_name)
+    factor = solve_historical_alphaedit_factor(
+        keys=keys,
+        residuals=residuals,
+        projector=projector,
+        history_keys=history_keys,
+        l2=l2,
+        weight_name=weight_name,
+        weight_shape=record.shape,
+        expected_weight_sha256=record.sha256,
+    )
+    return MemitFactorProposal(
+        snapshot=snapshot,
+        factors=(factor,),
+        semantics=semantics,
+        solver_name=(
+            f"{GENUINE_HISTORICAL_ALPHAEDIT_SOLVER_PREFIX}/"
             f"{solver_suffix.strip()}"
         ),
         residual_denominator=residual_denominator,

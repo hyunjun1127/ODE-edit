@@ -1129,3 +1129,64 @@ Motivation 진단이다.
   `experiment-reports/global/2026-08-02-session01-motivation-closure-gh.md`,
   `audits/global/2026-08-02-session01-microseq-pair.postrun.md`,
   `messages/head/2026-08-02-motivation-closure.md`
+
+## Capacity/history Motivation closure — `session01-caphist-c0-v1`
+
+### 목적과 배경
+
+- 기존 full-distance always-refresh harm 뒤, cumulative C-load가 많이 찬 layer의
+  추가 write를 줄이는 capacity-aware QP와 canonical AlphaEdit history를 함께
+  검증한다.
+- 정확한 contract는
+  `plans/global/2026-08-02-session01-capacity-history-closure-spec.md`다.
+
+### SH instruction envelope
+
+- 허용 write path:
+  `local/results/raw/session01_motivation/caphist_*_c0_v1/`,
+  `local/logs/slurm/session01_motivation/`,
+  `local/state/slurm-submissions/session01_motivation/caphist_pair_c0_v1.submitted/`
+  및 compact report/audit/run metadata만 허용한다.
+- Slurm 제출 허용 여부:
+  preflight exact `PASS`, clean pushed main, session/resource/output collision 확인 뒤
+  `odeedit_capacity_history_pair_v1` 1회만 `allowed`. Model/family partial retry는
+  `not allowed`다.
+- GPU cap:
+  server1 project cap 4; parent `4 GPU / 32 CPU / 260000M / 12:00:00`, worker
+  `1 GPU / 8 CPU / 65000M`. Llama/Qwen과 MEMIT/Alpha family controller를 네
+  worker로 동시에 시작한다.
+- red-team gate 통과 조건:
+  cumulative cross-term/barrier QP, same-model policy, canonical post-edit history
+  append, 네-controller-before-evaluation firewall, exact state/artifact replay,
+  precomputed covariance/projector only, NFE-free schema, finite metric과 resource
+  cap이 모두 통과해야 한다.
+- artifact broadcast 의무:
+  현재 다른 active SH/clone이 없어 no-peer exception. 임의 SSH/rsync 금지이며,
+  peer 활성화 뒤 protocol helper만 사용한다.
+- 완료 보고 경로:
+  `messages/server-heads/server1/2026-08-02.md`,
+  `experiment-reports/global/2026-08-02-session01-caphist-*-c0-v1*.md`,
+  `audits/global/2026-08-02-session01-capacity-history-pair.postrun.md`.
+- Codex session boundary:
+  primary GH/SH session `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`, `Sol Ultra`,
+  CWD `/mnt/raid5/janghj/ODE-edit`, repository `hyunjun1127/ODE-edit`. 분석
+  subagent는 runtime metadata가 확인된 `Terra Ultra`만 허용하며 결과 수신 즉시
+  종료한다.
+- 금지 사항:
+  EasyEdit source/runtime/data/cache/projector 수정, covariance/projector/Wikipedia
+  재계산·download, model별 QP/gate/threshold 변경, evaluation field의 controller
+  유입, raw prompt/token/logit/weight Git commit, 다른 repo/session/job 조작.
+- 예상 산출물:
+  model별 4 branches × 4 committed actions/checkpoints, canonical history chain,
+  model analysis 두 개, pair common-axis verdict, compact Korean reports.
+- 중단 조건:
+  dirty/unpushed Git, output/marker collision, session/cap mismatch, child nonzero,
+  history/hash/barrier/firewall/finite metric 실패 또는 partial rescue 필요.
+
+### GH 직접 one-shot 제출 예외
+
+- 사유: server1에 별도 SH가 없고 사용자가 빠른 두 모델 동시 실행을 직접 지시함.
+- 명령: `project/run_scripts/submit_session01_capacity_history_pair_server1.sh`.
+- 영향 범위: server1 4-GPU pair 한 건과 위 ignored local path만 사용.
+- 후속 보고: startup 연속 확인, 이후 30분 monitor, 모델별 Terra analysis agent
+  시도, pair synthesis/post-run audit와 no-peer broadcast exception.

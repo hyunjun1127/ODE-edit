@@ -1,9 +1,10 @@
-"""ODE-side proposal adapter for pinned isolated-first-edit AlphaEdit geometry.
+"""ODE-side proposal adapter for pinned isolated or historical AlphaEdit geometry.
 
 The adapter reuses the verified EasyEdit activation/key extraction bridge but
 never imports or invokes AlphaEdit's mutating entrypoint.  Projectors are read
-from :class:`AlphaEditProjectorBank`, ``cache_c`` is exactly zero for every
-atomic case, and no state is accumulated across cases.
+from :class:`AlphaEditProjectorBank`.  An optional branch-local
+:class:`AlphaEditHistoryBank` reproduces canonical ``cache_c`` through low-rank
+post-edit key columns without touching EasyEdit globals.
 """
 
 from __future__ import annotations
@@ -16,15 +17,18 @@ from typing import Any, Mapping, Sequence
 import torch
 
 from .alphaedit_factors import (
+    GENUINE_HISTORICAL_ALPHAEDIT_SOLVER_PREFIX,
     GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX,
     POSTHOC_ALPHAEDIT_PROJECTOR_TOKEN,
     UNPROJECTED_ISOLATED_ALPHAEDIT_SOLVER_PREFIX,
     AlphaEditRightLeak,
     alphaedit_factor_right_leak,
+    make_historical_alphaedit_proposal,
     make_isolated_alphaedit_proposal,
     make_posthoc_alphaedit_proposal,
     make_unprojected_isolated_alphaedit_proposal,
 )
+from .alphaedit_history import AlphaEditHistoryAppend, AlphaEditHistoryBank
 from .alphaedit_reference import AlphaEditSolverConfig
 from .contracts import (
     ContractError,
@@ -69,6 +73,7 @@ class AlphaProposalBuild:
                 raise ContractError("Alpha proposal solve residual failed its tolerance")
         if self.construction not in {
             "genuine-p-inside-solve",
+            "genuine-p-inside-solve-history",
             "posthoc-unprojected-alpha-base-at-p",
         }:
             raise ContractError("unknown Alpha proposal construction")
@@ -336,6 +341,8 @@ def _solve_residual_ratio(
     projected_keys: torch.Tensor,
     factor: LowRankFactor,
     l2: float,
+    history_keys: torch.Tensor | None = None,
+    projected_history_keys: torch.Tensor | None = None,
 ) -> float:
     adjusted = _factor_adjusted_keys(factor).to(
         device=keys.device,
@@ -343,7 +350,30 @@ def _solve_residual_ratio(
     )
     k = keys.detach().to(dtype=torch.float32)
     u = projected_keys.detach().to(dtype=torch.float32)
-    residual = l2 * adjusted + u @ (k.transpose(0, 1) @ adjusted) - u
+    if (history_keys is None) != (projected_history_keys is None):
+        raise ContractError("AlphaEdit residual history inputs must be paired")
+    if history_keys is None:
+        combined = k
+        projected_combined = u
+    else:
+        history = history_keys.detach().to(device=keys.device, dtype=torch.float32)
+        projected_history = projected_history_keys.detach().to(
+            device=keys.device,
+            dtype=torch.float32,
+        )
+        if (
+            history.ndim != 2
+            or projected_history.shape != history.shape
+            or history.shape[0] != k.shape[0]
+        ):
+            raise ContractError("AlphaEdit residual history shape is invalid")
+        combined = torch.cat((k, history), dim=1)
+        projected_combined = torch.cat((u, projected_history), dim=1)
+    residual = (
+        l2 * adjusted
+        + projected_combined @ (combined.transpose(0, 1) @ adjusted)
+        - u
+    )
     denominator = torch.linalg.vector_norm(u)
     if not bool(torch.isfinite(residual).all()) or not bool(torch.isfinite(denominator)):
         raise ContractError("AlphaEdit linear-system residual is non-finite")
@@ -374,6 +404,7 @@ class AlphaEditProposalAdapter:
         direct_z: FrozenDirectZ,
         target_token_ids: torch.Tensor,
         provenance_id: str,
+        history_bank: AlphaEditHistoryBank | None = None,
     ) -> None:
         if not isinstance(bridge, EasyEditBridge):
             raise ContractError("Alpha adapter requires the verified EasyEdit bridge")
@@ -383,6 +414,11 @@ class AlphaEditProposalAdapter:
             raise ContractError("Alpha adapter requires a pinned projector bank")
         if not isinstance(request, EditRequest) or not isinstance(direct_z, FrozenDirectZ):
             raise ContractError("Alpha adapter request/target type is invalid")
+        if history_bank is not None and (
+            not isinstance(history_bank, AlphaEditHistoryBank)
+            or history_bank.layers != config.layers
+        ):
+            raise ContractError("Alpha adapter history bank differs from configured layers")
         self.bridge = bridge
         self.config = config
         self.projector_bank = projector_bank
@@ -395,6 +431,7 @@ class AlphaEditProposalAdapter:
         self.direct_z = direct_z
         self.target_token_ids = target_token_ids.detach().cpu().contiguous().clone()
         self.provenance_id = provenance_id
+        self.history_bank = history_bank
         self.weight_names = tuple(
             f"{config.rewrite_module_tmp.format(layer)}.weight"
             for layer in config.layers
@@ -520,6 +557,32 @@ class AlphaEditProposalAdapter:
                     residual_denominator=denominator,
                 )
                 projected_keys = projector @ keys.to(dtype=torch.float32)
+                history_keys = None
+                projected_history_keys = None
+            elif construction == "genuine-p-inside-solve-history":
+                history_bank = getattr(self, "history_bank", None)
+                if not isinstance(history_bank, AlphaEditHistoryBank):
+                    raise ContractError("historical Alpha construction requires a history bank")
+                history_keys = history_bank.matrix(
+                    layer,
+                    width=int(keys.shape[0]),
+                    device=keys.device,
+                    dtype=torch.float32,
+                )
+                proposal = make_historical_alphaedit_proposal(
+                    snapshot=snapshot,
+                    keys=keys,
+                    residuals=residual,
+                    projector=projector,
+                    history_keys=history_keys,
+                    l2=self.config.l2,
+                    weight_name=weight_name,
+                    solver_suffix=suffix,
+                    semantics=ProposalSemantics.SYNCHRONOUS_FROZEN_SNAPSHOT,
+                    residual_denominator=denominator,
+                )
+                projected_keys = projector @ keys.to(dtype=torch.float32)
+                projected_history_keys = projector @ history_keys
             elif construction == "posthoc-unprojected-alpha-base-at-p":
                 base = make_unprojected_isolated_alphaedit_proposal(
                     snapshot=snapshot,
@@ -537,6 +600,8 @@ class AlphaEditProposalAdapter:
                     solver_suffix=suffix,
                 )
                 projected_keys = keys.to(dtype=torch.float32)
+                history_keys = None
+                projected_history_keys = None
             else:
                 raise ContractError("unknown Alpha layer construction")
             solve_residual = _solve_residual_ratio(
@@ -544,6 +609,8 @@ class AlphaEditProposalAdapter:
                 projected_keys=projected_keys,
                 factor=(base if construction.startswith("posthoc") else proposal).factors[0],
                 l2=self.config.l2,
+                history_keys=history_keys,
+                projected_history_keys=projected_history_keys,
             )
         finally:
             del projector
@@ -583,13 +650,16 @@ class AlphaEditProposalAdapter:
                 )
             )
             residuals[layer] = residual
-        prefix = (
-            GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX
-            if construction == "genuine-p-inside-solve"
-            else UNPROJECTED_ISOLATED_ALPHAEDIT_SOLVER_PREFIX
-            + POSTHOC_ALPHAEDIT_PROJECTOR_TOKEN
-            + "unprojected-alpha-base"
-        )
+        if construction == "genuine-p-inside-solve":
+            prefix = GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX
+        elif construction == "genuine-p-inside-solve-history":
+            prefix = GENUINE_HISTORICAL_ALPHAEDIT_SOLVER_PREFIX
+        else:
+            prefix = (
+                UNPROJECTED_ISOLATED_ALPHAEDIT_SOLVER_PREFIX
+                + POSTHOC_ALPHAEDIT_PROJECTOR_TOKEN
+                + "unprojected-alpha-base"
+            )
         proposal = _combine_layer_factors(
             snapshot=snapshot,
             factors=factors,
@@ -662,6 +732,8 @@ class AlphaEditProposalAdapter:
                 raise ContractError("ordered Alpha proposal did not restore W0")
         if construction == "genuine-p-inside-solve":
             prefix = GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX
+        elif construction == "genuine-p-inside-solve-history":
+            prefix = GENUINE_HISTORICAL_ALPHAEDIT_SOLVER_PREFIX
         elif construction == "posthoc-unprojected-alpha-base-at-p":
             prefix = (
                 UNPROJECTED_ISOLATED_ALPHAEDIT_SOLVER_PREFIX
@@ -715,11 +787,31 @@ class AlphaEditProposalAdapter:
             or not covariance_caches
         ):
             raise ContractError("quarter-step Alpha adapter call differs from its lock")
+        construction = (
+            "genuine-p-inside-solve-history"
+            if isinstance(getattr(self, "history_bank", None), AlphaEditHistoryBank)
+            else "genuine-p-inside-solve"
+        )
         return self.propose_synchronous(
             frozen_target_lineage=frozen_target_lineage,
-            construction="genuine-p-inside-solve",
+            construction=construction,
             solver_suffix=f"refreshed-call-{len(self._last_builds) + 1}",
         ).proposal
+
+    def append_current_post_edit_keys(self, *, edit_id: str) -> AlphaEditHistoryAppend:
+        """Append current-model keys once after the caller commits an accepted edit."""
+
+        history_bank = getattr(self, "history_bank", None)
+        if not isinstance(history_bank, AlphaEditHistoryBank):
+            raise ContractError("Alpha adapter has no historical cache")
+        keys_by_layer = {
+            layer: self._keys(layer).detach().cpu().float().contiguous()
+            for layer in self.config.layers
+        }
+        return history_bank.append_post_edit_keys(
+            edit_id=edit_id,
+            keys_by_layer=keys_by_layer,
+        )
 
     def proposal_right_leak(self, proposal: MemitFactorProposal) -> AlphaProposalLeak:
         if not isinstance(proposal, MemitFactorProposal):

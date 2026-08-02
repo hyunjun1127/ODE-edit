@@ -303,6 +303,68 @@ class FrozenTargetLineageTests(unittest.TestCase):
             with self.assertRaises(ContractError):
                 lineage.derive_h0(snapshot=current)
 
+    def test_adaptive_hops_bind_actual_scale_and_reject_mixing(self):
+        lineage = self.lineage()
+        current = self.origin
+        scales = (0.2, 0.125, 0.05)
+        with ExitStack() as stack:
+            for index, scale in enumerate(scales, start=1):
+                factors = tuple(
+                    LowRankFactor(
+                        weight_name=factor.weight_name,
+                        left=factor.left,
+                        right=scale * factor.right,
+                        expected_weight_sha256=current.parameter(
+                            factor.weight_name
+                        ).sha256,
+                        native_update_transposed=factor.native_update_transposed,
+                    )
+                    for factor in self.proposal.factors
+                )
+                proposal = MemitFactorProposal(
+                    snapshot=current,
+                    factors=factors,
+                    semantics=ProposalSemantics.SYNCHRONOUS_FROZEN_SNAPSHOT,
+                    solver_name=f"capacity-{index}",
+                    residual_denominator=2,
+                )
+                applied = stack.enter_context(
+                    TemporaryLowRankApplication(self.model, proposal)
+                )
+                child = capture_snapshot(
+                    self.model,
+                    model_id="toy",
+                    requests=(self.request,),
+                    context_id=self.contexts.manifest_id,
+                    hparams=self.hparams,
+                    weight_names=self.names,
+                    provenance_ids=("b" * 64,),
+                )
+                lineage = lineage.derive_adaptive_step(
+                    parent_snapshot=current,
+                    child_snapshot=child,
+                    application=applied,
+                    step_scale=scale,
+                    label=f"capacity_round_{index}",
+                )
+                current = child
+            payload = lineage.to_dict()
+            self.assertEqual(
+                payload["schema_version"],
+                "ode-edit-adaptive-step-target-lineage/v1",
+            )
+            self.assertEqual(
+                [hop["step_scale"] for hop in payload["hops"]],
+                list(scales),
+            )
+            with self.assertRaises(ContractError):
+                lineage.derive_quarter_step(
+                    parent_snapshot=current,
+                    child_snapshot=current,
+                    application=applied,
+                    label="refreshed_step_2",
+                )
+
     def make_wrong_direction(self):
         factors = tuple(
             LowRankFactor(

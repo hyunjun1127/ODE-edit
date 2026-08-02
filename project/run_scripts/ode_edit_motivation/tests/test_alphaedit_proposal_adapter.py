@@ -9,6 +9,9 @@ import torch
 from project.run_scripts.ode_edit_motivation.alphaedit_proposal_adapter import (
     AlphaEditProposalAdapter,
 )
+from project.run_scripts.ode_edit_motivation.alphaedit_history import (
+    AlphaEditHistoryBank,
+)
 from project.run_scripts.ode_edit_motivation.contracts import (
     ContractError,
     EditRequest,
@@ -95,6 +98,85 @@ def _install_one_layer_stub(
 
 
 class AlphaEditProposalAdapterTests(unittest.TestCase):
+    def test_append_current_post_edit_keys_updates_every_layer_once(self) -> None:
+        adapter = object.__new__(AlphaEditProposalAdapter)
+        adapter.config = SimpleNamespace(layers=(0, 1))
+        adapter.history_bank = AlphaEditHistoryBank((0, 1))
+        observed = {
+            0: torch.tensor([[1.0, 2.0], [3.0, 4.0]]),
+            1: torch.tensor([[5.0], [6.0]]),
+        }
+
+        def keys(self, layer: int) -> torch.Tensor:
+            return observed[layer].clone()
+
+        adapter._keys = types.MethodType(keys, adapter)
+        record = adapter.append_current_post_edit_keys(edit_id="edit-1")
+
+        self.assertEqual(record.edit_id, "edit-1")
+        self.assertEqual(adapter.history_bank.edit_count, 1)
+        torch.testing.assert_close(
+            adapter.history_bank.matrix(
+                0,
+                width=2,
+                device="cpu",
+                dtype=torch.float32,
+            ),
+            observed[0],
+        )
+        torch.testing.assert_close(
+            adapter.history_bank.matrix(
+                1,
+                width=2,
+                device="cpu",
+                dtype=torch.float32,
+            ),
+            observed[1],
+        )
+        with self.assertRaises(ContractError):
+            adapter.append_current_post_edit_keys(edit_id="edit-1")
+        self.assertEqual(adapter.history_bank.edit_count, 1)
+
+    def test_quarter_step_compatibility_selects_historical_construction(self) -> None:
+        adapter = object.__new__(AlphaEditProposalAdapter)
+        adapter.model = object()
+        adapter.tokenizer = object()
+        adapter.request = object()
+        adapter.hparams = object()
+        adapter.contexts = object()
+        adapter.direct_z = object()
+        adapter.model_id = "toy"
+        adapter.history_bank = AlphaEditHistoryBank((0, 1))
+        adapter._last_builds = []
+        observed: dict[str, object] = {}
+        sentinel = object()
+
+        def propose_synchronous(self, **kwargs):
+            observed.update(kwargs)
+            return SimpleNamespace(proposal=sentinel)
+
+        adapter.propose_synchronous = types.MethodType(propose_synchronous, adapter)
+        lineage = object()
+        result = AlphaEditProposalAdapter.propose_synchronous_memit_factors(
+            adapter,
+            adapter.model,
+            adapter.tokenizer,
+            (adapter.request,),
+            adapter.hparams,
+            adapter.contexts,
+            adapter.direct_z,
+            (object(),),
+            model_id="toy",
+            frozen_target_lineage=lineage,
+        )
+
+        self.assertIs(result, sentinel)
+        self.assertIs(observed["frozen_target_lineage"], lineage)
+        self.assertEqual(
+            observed["construction"],
+            "genuine-p-inside-solve-history",
+        )
+
     def test_ordered_construction_measures_descendant_and_restores_w0(self) -> None:
         model = _Toy()
         request = EditRequest(
