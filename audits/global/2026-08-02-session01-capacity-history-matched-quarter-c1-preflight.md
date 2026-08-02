@@ -2,7 +2,7 @@
 
 - 날짜: 2026-08-02
 - 방법명: **ODE-Edit**
-- 대상 job: `odeedit_capacity_history_pair_c1_v1`
+- 대상 job: `odeedit_capacity_history_pair_c1_v2`
 - 상태: pre-push 필수 검증 통과
 
 ## 감사 범위
@@ -30,7 +30,7 @@ clean pushed Git, fresh output namespace.
 - [x] exact-top1 diagnostic-only, native-reference terminal
 - [x] retry failure fail-closed; unmatched early stop 금지
 - [x] Llama/Qwen 및 MEMIT/Alpha-history 동일 policy/run contract
-- [x] `test_capacity*.py` unit suite `26/26` 통과
+- [x] capacity + frozen-target-lineage unit suite `34/34` 통과
 - [x] shell syntax, session boundary, resource-cap, diff whitespace 검사 통과
 - [x] fresh c1 output/marker와 no active same-name job 확인
 - [x] server1 cap GPU `4`, memory `260000M` 허용 확인
@@ -45,5 +45,18 @@ identity를 다시 요구하므로 commit/push 뒤 한 번 더 실행한다.
 
 Terra Ultra runtime metadata를 확인할 수 없었던 세 격리 agent는 지정 파일을 읽지 않고
 `BLOCK` 종료했다. 독립 review로 세지 않으며 GH가 필수 검증을 직접 수행한다.
+
+## Job 15842 startup recovery
+
+최초 c1_v1 job `15842`는 네 native controller를 모두 `4/4 all_pass`로 끝낸 뒤,
+Llama MEMIT QP 첫 edit의 네 번째 adaptive hop을 lineage에 bind하는 과정에서
+`ContractError`로 fail-fast했다. Controller는 `K=4`로 수정됐지만 shared
+`_ADAPTIVE_STEP_LABELS`가 여전히 `capacity_round_1..3`만 허용한 것이 원인이다.
+QP feature/action/receipt는 0개였고 evaluator는 시작하지 않았으므로 scientific
+evidence로 사용하지 않는다. 다른 세 worker는 pair wrapper가 취소했다.
+
+수정은 lineage label envelope를 `capacity_round_1..4`로 확장하고 toy lineage test도
+실제 네 scale을 bind하도록 바꾼 것뿐이다. Fresh run/job namespace를 c1_v2로 올려
+failed c1_v1 artifact를 덮어쓰지 않는다.
 
 - 최종 판정: `PASS` — clean pushed main에서 c1 4-GPU pair 1회 제출에만 유효

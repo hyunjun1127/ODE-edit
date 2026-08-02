@@ -48,7 +48,7 @@ _QUARTER_STEP_LABELS = frozenset(
         *(f"native_step_{index}" for index in range(1, 5)),
     }
 )
-_ADAPTIVE_STEP_LABELS = tuple(f"capacity_round_{index}" for index in range(1, 4))
+_ADAPTIVE_STEP_LABELS = tuple(f"capacity_round_{index}" for index in range(1, 5))
 
 
 def _is_adaptive_step(label: str, scale: float) -> bool:
@@ -407,7 +407,7 @@ class FrozenTargetLineage:
                 for hop in self.hops
             )
         ):
-            raise ContractError("adaptive lineage cannot exceed, reorder, or mix three hops")
+            raise ContractError("adaptive lineage cannot exceed, reorder, or mix four hops")
         if not (legacy_step or quarter_step or adaptive_step):
             raise ContractError("lineage step is outside its fixed envelope")
         if (

@@ -306,7 +306,7 @@ class FrozenTargetLineageTests(unittest.TestCase):
     def test_adaptive_hops_bind_actual_scale_and_reject_mixing(self):
         lineage = self.lineage()
         current = self.origin
-        scales = (0.2, 0.125, 0.05)
+        scales = (0.2, 0.125, 0.05, 0.25)
         with ExitStack() as stack:
             for index, scale in enumerate(scales, start=1):
                 factors = tuple(

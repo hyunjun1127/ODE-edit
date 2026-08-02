@@ -127,7 +127,7 @@ from .trajectory import MATCHED_C_ABS_TOL, MATCHED_C_REL_TOL
 CONTROLLER_SCHEMA = "ode-edit-capacity-history-controller/v1"
 CONTROLLER_STREAM_SCHEMA = "ode-edit-capacity-history-controller-stream/v1"
 CONTROLLER_RECEIPT_SCHEMA = "ode-edit-capacity-history-controller-receipt/v1"
-CONTROLLER_JOB_NAME = "odeedit_capacity_history_pair_c1_v1"
+CONTROLLER_JOB_NAME = "odeedit_capacity_history_pair_c1_v2"
 RUN_SEED = 41
 RANK_START = 144
 RANK_STOP = 148
@@ -140,20 +140,20 @@ NATIVE_REFERENCE_ABS_TOL = 1e-4
 APPLICATION_MODES = {branch: "easyedit_exact" for branch in BRANCHES}
 RUN_IDS = {
     BRANCH_MEMIT_NATIVE: {
-        "llama3-8b-inst": "caphist_memit_native_llama_c1_v1",
-        "qwen2.5-7b-inst": "caphist_memit_native_qwen_c1_v1",
+        "llama3-8b-inst": "caphist_memit_native_llama_c1_v2",
+        "qwen2.5-7b-inst": "caphist_memit_native_qwen_c1_v2",
     },
     BRANCH_MEMIT_QP: {
-        "llama3-8b-inst": "caphist_memit_qp_llama_c1_v1",
-        "qwen2.5-7b-inst": "caphist_memit_qp_qwen_c1_v1",
+        "llama3-8b-inst": "caphist_memit_qp_llama_c1_v2",
+        "qwen2.5-7b-inst": "caphist_memit_qp_qwen_c1_v2",
     },
     BRANCH_ALPHA_NATIVE: {
-        "llama3-8b-inst": "caphist_alpha_native_llama_c1_v1",
-        "qwen2.5-7b-inst": "caphist_alpha_native_qwen_c1_v1",
+        "llama3-8b-inst": "caphist_alpha_native_llama_c1_v2",
+        "qwen2.5-7b-inst": "caphist_alpha_native_qwen_c1_v2",
     },
     BRANCH_ALPHA_QP: {
-        "llama3-8b-inst": "caphist_alpha_qp_llama_c1_v1",
-        "qwen2.5-7b-inst": "caphist_alpha_qp_qwen_c1_v1",
+        "llama3-8b-inst": "caphist_alpha_qp_llama_c1_v2",
+        "qwen2.5-7b-inst": "caphist_alpha_qp_qwen_c1_v2",
     },
 }
 
