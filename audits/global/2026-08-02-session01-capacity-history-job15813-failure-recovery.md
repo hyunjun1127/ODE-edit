@@ -1,8 +1,8 @@
-# Session 01 capacity/history — Job 15813 failure 및 recovery 판정
+# Session 01 capacity/history — Jobs 15813/15817 failure 및 recovery 판정
 
 - 날짜: 2026-08-02
-- 범위: `odeedit_capacity_history_pair_v1`, Slurm job `15813`
-- 판정: **technical failure; scientific result 없음; full-pair v2 recovery 1회 허용**
+- 범위: Slurm jobs `15813` (`c0_v1`), `15817` (`c0_v2`)
+- 판정: **technical failures; scientific result 없음; five-layer contract repair 뒤 full-pair v3 1회 허용**
 
 ## Repo/protocol에서 확인한 사실
 
@@ -41,6 +41,34 @@
 - Recovery도 Llama/Qwen과 두 family를 동시에 시작하는 full 4-GPU pair다. Partial
   model/family replay는 금지한다.
 
+## Job 15817의 exact RCA
+
+- `15817`은 2026-08-02 13:59:21--14:09:21 KST에 실행됐고 parent는
+  `FAILED 1:0`이다. Step `.0` Llama MEMIT worker가 `1:0`으로 실패했고 `.1/.2/.3`은
+  fail-fast에 의해 signal 9로 취소됐다.
+- Llama MEMIT native 4-edit summary는 pass한 뒤 `memit_capacity_qp` 첫 edit에서
+  action 0/receipt 0으로 abort했다. Evaluator는 시작되지 않았다.
+- Sanitized traceback은
+  `capacity_history_controller._build_edit_action:668` →
+  `quarter_step_refresh._proposal_panel:390` →
+  `trajectory.build_central_probe_panel:274`를 고정한다.
+- Line 274는 observed action IDs와 expected action IDs가 다를 때만 발생한다.
+  Caller는 `build_unit_c_actions(... )[:-1]`로 five layer actions를 만들었지만,
+  `_proposal_panel`은 quarter-step용 `PROBE_ACTIONS` six actions(layer five + uniform)를
+  hard-coded expected set으로 넘겼다.
+- 따라서 오류는 numerical QP, capacity coefficient, trust ratio, model efficacy 또는
+  Alpha history를 실행하기 전의 integration contract mismatch다.
+
+## v3 최소 repair
+
+- `_proposal_panel`에 optional `expected_action_ids`를 추가하되 default는 기존 six
+  `PROBE_ACTIONS`로 유지한다.
+- Capacity caller만 observed five-layer sequence를 검증하고 exact five IDs를 넘긴다.
+- Uniform probe를 capacity QP에 추가하지 않으며 QP objective, action set, policy hash,
+  model/case/history/metric/gate를 변경하지 않는다.
+- Failed v1/v2 raw와 marker는 삭제·덮어쓰기·resume하지 않는다. v3만 새 namespace를
+  사용하며 네 worker를 동시에 다시 시작한다.
+
 ## Agent 경계
 
 - Terra Ultra RCA/QP/Slurm reviewer 세 개를 시도했으나 모두 runtime metadata를
@@ -54,4 +82,4 @@
 - 동일 failure가 반복되면 v2 artifact와 worker-isolated traceback으로 exact RCA를
   먼저 닫고 scientific rescue나 partial retry를 하지 않는다.
 
-- 최종 판정: `PASS_TECHNICAL_RECOVERY_ONLY`
+- 최종 판정: `PASS_V3_TECHNICAL_RECOVERY_ONLY`

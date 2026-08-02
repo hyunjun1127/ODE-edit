@@ -2,7 +2,7 @@
 
 - 날짜: 2026-08-02
 - 작성: GH 최소 필수 red preflight
-- 대상: `odeedit_capacity_history_pair_v2` (`15813` technical recovery)
+- 대상: `odeedit_capacity_history_pair_v3` (`15813`, `15817` technical recovery)
 - claim boundary: same-policy 4-edit Motivation signal only
 
 ## 확인 결과
@@ -22,9 +22,9 @@
 - `PASS`: Llama/Qwen policy/config hash가 공통이고 model별 rescue branch가 없다.
 - `PASS`: 새 compact schema와 gate에 NFE field가 없으며 wall time과 proposal/
   accept/reject count만 보조 compute metadata로 둔다.
-- `PASS`: recovery targeted regression `19 passed`; Python import와 sanitized
-  traceback regression 통과.
-- `PASS`: 전체 Motivation regression `322 tests` exit 0; 세 launcher의
+- `PASS`: recovery targeted regression `24 passed`; Python import, exact
+  five-layer probe contract와 sanitized traceback regression 통과.
+- `PASS`: 전체 Motivation regression `323 tests` exit 0; 세 launcher의
   `bash -n`과 `git diff --check` 통과.
 - `PASS`: session boundary는
   `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2 / Sol Ultra / server1 / ODE-edit`로
@@ -49,5 +49,12 @@
 - v2는 scientific contract를 그대로 유지하고 failed `c0_v1`을 보존한 채 새
   `c0_v2` output/marker만 쓴다. Worker별 stdout/stderr와 sanitized source/function/
   line traceback을 추가해 같은 failure가 반복돼도 raw prompt 없이 원인을 식별한다.
+- Job `15817`의 isolated traceback은 Llama MEMIT-QP 첫 edit에서
+  `build_central_probe_panel:274` action-order mismatch를 확정했다. Capacity caller는
+  five layer actions만 의도적으로 사용했지만 helper의 six-action quarter-step
+  default를 override하지 않았다.
+- v3 patch는 helper 기본값을 보존하고 capacity call에 exact five-layer expected IDs를
+  명시한다. Uniform probe 추가, QP objective/threshold, case/model/history/metric 변경은
+  없다. v1/v2 artifact는 모두 read-only 보존하고 v3 namespace만 새로 쓴다.
 
 - 최종 판정: `PASS` — clean pushed main과 submission wrapper 재검증 후 locked 4-GPU pair 1회 제출에만 유효

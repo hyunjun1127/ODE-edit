@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import math
 import unittest
+from types import SimpleNamespace
 
 from project.run_scripts.ode_edit_motivation.capacity_history_analysis import (
     BRANCH_ALPHA_NATIVE,
@@ -9,9 +10,11 @@ from project.run_scripts.ode_edit_motivation.capacity_history_analysis import (
     BRANCH_MEMIT_NATIVE,
     BRANCH_MEMIT_QP,
 )
+from project.run_scripts.ode_edit_motivation.contracts import ContractError
 from project.run_scripts.ode_edit_motivation.capacity_history_controller import (
     MIN_TRUST_RATIO,
     accept_round,
+    capacity_probe_action_ids,
     is_alpha_branch,
     is_qp_branch,
     policy_parameters,
@@ -30,6 +33,20 @@ def _keys(value):
 
 
 class CapacityHistoryControllerTests(unittest.TestCase):
+    def test_capacity_probe_contract_is_five_layers_without_uniform(self) -> None:
+        actions = tuple(
+            SimpleNamespace(action_id=f"layer_{layer}")
+            for layer in range(4, 9)
+        )
+        self.assertEqual(
+            capacity_probe_action_ids(actions),
+            ("layer_4", "layer_5", "layer_6", "layer_7", "layer_8"),
+        )
+        with self.assertRaisesRegex(ContractError, "unit-action order"):
+            capacity_probe_action_ids(
+                (*actions, SimpleNamespace(action_id="uniform"))
+            )
+
     def test_sanitized_traceback_contains_code_location_not_message(self) -> None:
         try:
             raise RuntimeError("raw prompt must not persist")

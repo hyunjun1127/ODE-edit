@@ -1220,6 +1220,37 @@ Motivation 진단이다.
   동일 technical failure, policy/hash drift, output collision, child nonzero, resource cap,
   firewall/history/state/precomputed invariant 위반.
 
+### Job 15817 failure와 `c0_v3` full-pair recovery
+
+- 목적과 배경:
+  v2 sanitized traceback으로 Llama MEMIT-QP 첫 probe의 action-order integration bug를
+  확정했다. Capacity는 layer 4--8의 five actions만 사용하는데 quarter-step helper의
+  six-action default를 override하지 않았다. Probe/QP solve 전 technical failure다.
+- 허용 write path:
+  `local/results/raw/session01_motivation/caphist_*_c0_v3/`, worker/parent local log,
+  `local/state/slurm-submissions/session01_motivation/caphist_pair_c0_v3.submitted/`만.
+  v1/v2는 incident evidence로 read-only 보존한다.
+- Slurm 제출 허용 여부:
+  exact five-layer contract regression, 전체 suite, clean pushed main, collision/session/
+  resource gate 뒤 `odeedit_capacity_history_pair_v3` full pair 1회만 allowed.
+- GPU cap:
+  이전과 동일한 server1 4 GPU/32 CPU/260000M, worker당 1 GPU/8 CPU/65000M.
+- red-team gate 통과 조건:
+  Capacity call이 exact `layer_4..layer_8`를 expected IDs로 넘기고 quarter-step의
+  six-action default가 유지돼야 한다. Scientific policy/hash/history/evaluator gate는
+  v1과 동일해야 한다.
+- artifact broadcast/완료 보고:
+  no-peer exception 유지. v3 model reports, pair synthesis, postrun audit와 server1
+  completion에 기록한다.
+- 금지 사항:
+  Uniform arm을 capacity QP에 추가, case/model/policy/threshold/metric 변경, partial
+  retry/resume, EasyEdit 또는 precomputed artifact write, v1/v2 overwrite.
+- 예상 산출물:
+  v3의 8 controller summaries, 8 evaluator summaries, model analysis 2개, pair analysis.
+- 중단 조건:
+  동일 action-order 오류, 새로운 child nonzero, contract/hash/resource/firewall/history
+  failure 또는 model-specific rescue 필요.
+
 ### GH 직접 one-shot 제출 예외
 
 - 사유: server1에 별도 SH가 없고 사용자가 빠른 두 모델 동시 실행을 직접 지시함.

@@ -127,7 +127,7 @@ from .trajectory import MATCHED_C_ABS_TOL, MATCHED_C_REL_TOL
 CONTROLLER_SCHEMA = "ode-edit-capacity-history-controller/v1"
 CONTROLLER_STREAM_SCHEMA = "ode-edit-capacity-history-controller-stream/v1"
 CONTROLLER_RECEIPT_SCHEMA = "ode-edit-capacity-history-controller-receipt/v1"
-CONTROLLER_JOB_NAME = "odeedit_capacity_history_pair_v2"
+CONTROLLER_JOB_NAME = "odeedit_capacity_history_pair_v3"
 RUN_SEED = 41
 RANK_START = 144
 RANK_STOP = 148
@@ -140,20 +140,20 @@ MIN_TRUST_RATIO = 0.05
 APPLICATION_MODES = {branch: "easyedit_exact" for branch in BRANCHES}
 RUN_IDS = {
     BRANCH_MEMIT_NATIVE: {
-        "llama3-8b-inst": "caphist_memit_native_llama_c0_v2",
-        "qwen2.5-7b-inst": "caphist_memit_native_qwen_c0_v2",
+        "llama3-8b-inst": "caphist_memit_native_llama_c0_v3",
+        "qwen2.5-7b-inst": "caphist_memit_native_qwen_c0_v3",
     },
     BRANCH_MEMIT_QP: {
-        "llama3-8b-inst": "caphist_memit_qp_llama_c0_v2",
-        "qwen2.5-7b-inst": "caphist_memit_qp_qwen_c0_v2",
+        "llama3-8b-inst": "caphist_memit_qp_llama_c0_v3",
+        "qwen2.5-7b-inst": "caphist_memit_qp_qwen_c0_v3",
     },
     BRANCH_ALPHA_NATIVE: {
-        "llama3-8b-inst": "caphist_alpha_native_llama_c0_v2",
-        "qwen2.5-7b-inst": "caphist_alpha_native_qwen_c0_v2",
+        "llama3-8b-inst": "caphist_alpha_native_llama_c0_v3",
+        "qwen2.5-7b-inst": "caphist_alpha_native_qwen_c0_v3",
     },
     BRANCH_ALPHA_QP: {
-        "llama3-8b-inst": "caphist_alpha_qp_llama_c0_v2",
-        "qwen2.5-7b-inst": "caphist_alpha_qp_qwen_c0_v2",
+        "llama3-8b-inst": "caphist_alpha_qp_llama_c0_v3",
+        "qwen2.5-7b-inst": "caphist_alpha_qp_qwen_c0_v3",
     },
 }
 
@@ -221,6 +221,16 @@ def accept_round(*, rewrite_gain: float, predicted_gain: float) -> tuple[bool, f
         return False, float("-inf")
     ratio = actual / predicted
     return bool(actual > 0.0 and ratio >= MIN_TRUST_RATIO), ratio
+
+
+def capacity_probe_action_ids(actions: Sequence[Any]) -> tuple[str, ...]:
+    """Bind the QP probe to its five layer actuators, excluding uniform."""
+
+    observed = tuple(str(action.action_id) for action in actions)
+    expected = tuple(f"layer_{layer}" for layer in LAYERS)
+    if observed != expected:
+        raise ContractError("capacity QP unit-action order differs")
+    return expected
 
 
 @dataclass(frozen=True, slots=True)
@@ -657,10 +667,7 @@ def _build_edit_action(
             unit_actions = build_unit_c_actions(
                 synchronous, covariance_moments, layer_by_weight
             )[:-1]
-            if tuple(action.action_id for action in unit_actions) != tuple(
-                f"layer_{layer}" for layer in LAYERS
-            ):
-                raise ContractError("capacity QP unit-action order differs")
+            probe_action_ids = capacity_probe_action_ids(unit_actions)
             state_hashes = _weight_hashes(runtime.model, weight_names)
             state_identity = _state_identity(runtime)
             cpu_rng = torch.get_rng_state().clone()
@@ -677,6 +684,7 @@ def _build_edit_action(
                 cpu_rng=cpu_rng,
                 cuda_rng=cuda_rng,
                 panel_label=f"capacity-t{edit_index}-round-{round_index}",
+                expected_action_ids=probe_action_ids,
             )
             before_utility, _ = _rewrite_state(runtime, request, contexts)
             accepted: tuple[

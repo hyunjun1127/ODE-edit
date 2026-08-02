@@ -368,6 +368,7 @@ def _proposal_panel(
     cpu_rng: torch.Tensor,
     cuda_rng: torch.Tensor,
     panel_label: str,
+    expected_action_ids: Sequence[str] = PROBE_ACTIONS,
 ) -> Any:
     def evaluate(action: ActionDirection, signed_distance: float) -> Any:
         return _evaluate_branch(
@@ -391,7 +392,7 @@ def _proposal_panel(
         actions,
         epsilon=epsilon,
         evaluate=evaluate,
-        expected_action_ids=PROBE_ACTIONS,
+        expected_action_ids=expected_action_ids,
     )
 
 

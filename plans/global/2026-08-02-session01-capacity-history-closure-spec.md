@@ -143,7 +143,7 @@ CI exclusion이나 lifelong effect size는 요구하지 않는다. 불리한 축
 
 ## 실행·자원
 
-- parent recovery job: `odeedit_capacity_history_pair_v2`.
+- parent recovery job: `odeedit_capacity_history_pair_v3`.
 - server1: 4 GPU, 32 CPU, 260000M, 12시간.
 - controller phase: model × family 네 worker를 동시에 시작하고 worker당 native와
   QP controller를 순서대로 실행한다.
@@ -174,3 +174,16 @@ CI exclusion이나 lifelong effect size는 요구하지 않는다. 불리한 축
 - Recovery-only 변경은 exception text를 저장하지 않는 sanitized code-location
   traceback과 worker별 local log 분리다. 이는 controller action이나 evaluation
   estimand를 바꾸지 않는다.
+
+## Job 15817 probe-contract repair lock
+
+- `c0_v2` job `15817`은 Llama MEMIT native가 끝난 뒤 첫 capacity-QP probe에서
+  terminal `ContractError`를 냈다. Five layer-only actions를 넘긴 capacity path가
+  quarter-step helper의 six-action default(layer five + uniform)를 명시적으로
+  override하지 않은 integration mismatch다.
+- Failure는 probe evaluation과 QP solve 전에 발생했으므로 scientific signal이
+  아니다. v2 partial output도 evidence에서 제외하고 보존한다.
+- v3의 유일한 scientific-code repair는 `_proposal_panel`에 optional
+  `expected_action_ids`를 추가하고 capacity caller가 exact five layer IDs를 넘기는
+  것이다. 기존 quarter-step six-action default와 QP layer-only policy는 그대로다.
+- v3도 네 model×family worker를 동시에 시작하는 full pair 한 번만 허용한다.
