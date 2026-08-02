@@ -2,11 +2,11 @@
 
 - 날짜: 2026-08-02
 - 방법명: **ODE-Edit**
-- 문서 상태: **GH design draft — review/design only; 실행·Slurm 제출 없음**
+- 문서 상태: **GH final design v2 — independent Terra review blocked; 실행·Slurm 제출 없음**
 - 현재 결론: direct-z atomic 가능성은 제한적으로 양성이지만, direction refresh와
   layer-share refresh의 개별 기여는 아직 식별되지 않았다. Motivation의 마지막
-  실험은 이 두 축만 분리하며, capacity-QP·Alpha history·long-horizon 평가는
-  Method Session으로 넘긴다.
+  direct-z 실험은 이 두 축만 분리한다. Capacity-QP·canonical Alpha history는 이미
+  별도 contract로 제출됐으며, long-horizon 평가는 Method Session으로 넘긴다.
 
 ## 범위와 agent 검토 상태
 
@@ -20,6 +20,19 @@ Terra Ultra 격리 agent 세 개를 시도했으나, 세 agent 모두 runtime me
 
 이번 문서는 실험을 구상하는 데까지만 권한을 사용한다. 코드 구현, EasyEdit
 수정, artifact 생성, Slurm 제출, GPU 예약, 기존 raw 결과 변경은 하지 않는다.
+
+2026-08-02 재검토에서도 semantics, metric/fairness, closure-design 관점의 격리
+subagent 세 개를 새로 시작했지만 모두 같은 runtime-metadata gate에서 무열람
+종료했다. 따라서 agent 수를 독립 검토 수로 세지 않는다. GH는 canonical final
+synthesis, 모델별·pair report, compact cross-track analysis, locked spec, 실제
+ODE-Edit-side controller code를 다시 대조했고 아래 수치와 판정이 바뀔 근거는
+찾지 못했다.
+
+별도 계약으로 이미 제출된 capacity/history pair job `15813`은 이 direct-z
+재검토보다 앞서 시작된 독립 실행이다. 그 job의 partial 또는 terminal 결과를 이
+문서의 direct-z evidence에 합치지 않으며, 이번 지시로 새 direct-z job을 제출하거나
+기존 job을 조작하지 않는다. Capacity/history 결과는 자기 contract와 report에서만
+판정한다.
 
 ## 네 범주
 
@@ -186,11 +199,13 @@ teacher-forced 결과를 새 direct-z 결과처럼 재사용하지 않는다.
 
 ### Common-shadow-state 2x2
 
-먼저 기존 locked runner의 두 endpoint를 그대로 재현하는 `R-native`와 `R-BF`
-sentinel을 둔다. Sentinel은 기존 report와 code path가 바뀌지 않았는지만 확인하며,
-아래 factorial effect에 합치거나 sample 수로 세지 않는다. 기존 casewise scalar와
-arm/proposal/target hash가 preregistered tolerance 안에서 맞지 않으면 2x2를
-해석하지 않고 technical fail로 종료한다.
+기존 endpoint를 전부 다시 평가하는 `R-native`/`R-BF` scientific replay는 하지
+않는다. 이미 terminal인 동일 8-case 결과를 재실행하면 계산만 늘고 새 표본이나 새
+estimand가 생기지 않기 때문이다. 대신 각 case에서 새 factorial을 만들 때 어차피
+필요한 W0 target, reference C-budget, initial `B0`, `v0`의 hash를 기존 replay-lock과
+대조하는 **zero-extra-arm compatibility sentinel**을 둔다. 이 identity가 하나라도
+다르면 2x2를 해석하지 않고 technical fail로 종료한다. 기존 endpoint scalar를 새
+sample로 세거나 새 gate에 합치지 않는다.
 
 Static `B0, v0` path가 만든 동일 shadow state `W_s`에서 아래 네 temporary
 counterfactual hop을 평가하고 매번 exact rollback한다. 각 cell이 자기 rollout로
@@ -252,21 +267,27 @@ paraphrase/heldout outcome은 모든 cell specification과 hash가 commit된 뒤
 1. **Technical pass:** 두 모델 동일 policy/config hash, direct-z recompute 0,
    precomputed covariance/projector only, exact rollback, finite metric, outcome
    firewall가 모두 통과해야 한다.
-2. **Locked reproduction sentinel:** `R-native`와 `R-BF`가 기존 locked
-   casewise result/hash를 재현해야 한다. 이는 technical gate이며 새 과학 signal이
-   아니다.
+2. **Locked compatibility sentinel:** 각 case의 target/W0/reference-C/initial
+   `B0`/`v0` identity가 기존 replay-lock과 일치해야 한다. 기존 endpoint outcome을
+   다시 평가하지 않으며 새 과학 signal로 세지 않는다.
 3. **Local bundled contrast:** common-shadow `A-C`의 direct-z residual과 rewrite
    output-NLL을 보고한다. 기존 Alpha 양성 결과와 같은 방향이면 mechanism의
    local 재현으로 보되, 원래 `BF-native` contrast의 exact reproduction이라고 부르지
    않는다.
-4. **Direction survives in one family:** `E_dir`의 direct-z residual과 rewrite
-   output-NLL이 Llama와 Qwen 각각 mean `>0`, positive cases `>=5/8`이어야 한다.
-5. **Actuator-generic claim:** 위 조건을 MEMIT과 genuine Alpha가 모두 통과할 때만
-   허용한다. Alpha만 통과하면 `Alpha-geometry-conditioned`, MEMIT만 통과하면
-   `MEMIT-conditioned`로 제한한다.
+4. **Direction survives in one family:** 실제 edit utility에 가까운 rewrite
+   output-NLL `E_dir`이 Llama와 Qwen 각각 mean `>0`, positive cases `>=5/8`이고,
+   direct-z residual `E_dir` mean이 각 모델에서 `>=-0.10`이어야 한다. Direct-z는
+   기존 결과에서 edit improvement의 필요조건도 충분조건도 아니었으므로 두 축을
+   모두 양수로 강제하지 않는다. 다만 direct-z residual도 mean `>0`, positive
+   cases `>=5/8`이면 더 강한 `direct-z-aligned direction signal`로 별도 표기한다.
+5. **Actuator-generic claim:** 위 rewrite-primary 조건을 MEMIT과 genuine Alpha가
+   모두 통과할 때만 허용한다. Alpha만 통과하면 `Alpha-geometry-conditioned`,
+   MEMIT만 통과하면 `MEMIT-conditioned`로 제한한다. Direct-z-only 양성인데 rewrite
+   output-NLL이 음수이면 representation mechanism만 남기고 Method 진입 근거로
+   사용하지 않는다.
 6. **Static-routing pivot:** direction gate는 실패하지만 `E_share`가 두 모델에서
-   같은 기준을 통과하면 ODE relinearization을 kill하고 layer-share routing만
-   남긴다.
+   같은 rewrite-primary/non-collapse 기준을 통과하면 ODE relinearization을 kill하고
+   layer-share routing만 남긴다.
 7. **Preservation boundary:** Loc-like axis가 음수이면 atomic mechanism만 남기고
    preservation/sequential claim은 계속 kill한다. Loc 양성도 lifelong 근거로
    확대하지 않는다.
@@ -277,7 +298,7 @@ paraphrase/heldout outcome은 모든 cell specification과 hash가 commit된 뒤
 
 | 결과 | Motivation 종료 판정 | 다음 단계 |
 |---|---|---|
-| `R` sentinel 실패 또는 local `A-C` sign 미재현 | Motivation negative | 종료; factor 해석·rescue 금지 |
+| compatibility sentinel 실패 또는 local `A-C`가 rewrite에서 붕괴 | Motivation negative | 종료; factor 해석·rescue 금지 |
 | Direction이 두 family·두 model에서 생존 | partial-positive, actuator-generic atomic mechanism | 별도 Method Session에서만 constrained controller 검정 |
 | Alpha에서만 두 model 생존 | partial-positive, Alpha-conditioned atomic mechanism | MEMIT-general claim 제거 |
 | MEMIT에서만 두 model 생존 | partial-positive, MEMIT-conditioned atomic mechanism | Alpha/null-space general claim 제거 |
@@ -287,20 +308,21 @@ paraphrase/heldout outcome은 모든 cell specification과 hash가 commit된 뒤
 어느 결과가 나오더라도 Motivation에서 case 수 확대, `K` sweep, threshold 변경,
 모델별 branch, 16--32 edit rescue를 하지 않는다.
 
-표의 첫 행에서 말하는 재현은 locked `R` sentinel의 technical reproduction과
-common-shadow `A-C`의 local sign을 모두 만족한다는 뜻이다. 둘을 같은 estimand로
-합치지 않는다. 이 한 번 뒤에는 결과가 양성이든 음성이든 **atomic Motivation을
-terminal하게 닫는다**. Canonical Alpha history, capacity-QP와 4-edit retention은
-살아남은 mechanism을 method로 만들지 판단하는 별도 Session이며 Motivation을
-재개하는 구제 실험으로 쓰지 않는다.
+표의 첫 행은 replay-lock compatibility와 common-shadow `A-C` utility를 뜻하며,
+기존 endpoint outcome의 재현을 새 estimand로 요구하지 않는다. 이 한 번 뒤에는
+결과가 양성이든 음성이든 **atomic Motivation을 terminal하게 닫는다**. Canonical
+Alpha history, capacity-QP와 4-edit retention은 별도 contract에서 판정하며 이
+factorial의 sample이나 rescue 근거로 합치지 않는다.
 
 ## 선택하지 않은 실험과 이유
 
 - **Capacity-QP + first-hit + trust-ratio:** 기존 always-refresh harm를 고치기 위한
-  실제 Method 구현이다. Motivation의 마지막 causal question보다 범위가 크다.
+  별도 controller 질문이다. Job `15813`의 독립 contract에서 이미 다루므로 이
+  direct-z factorial에 arm이나 sample로 추가하지 않는다.
 - **Canonical Alpha history sequential panel:** Alpha의 소수-edit 및 history 효과를
-  평가하는 데 필요하지만 atomic direct-z de-bundling과 다른 질문이다. Method
-  Session에서 history-on native Alpha와 history-on ODE-Alpha를 paired 비교한다.
+  평가하는 데 필요하지만 atomic direct-z de-bundling과 다른 질문이다. Job
+  `15813`에서 history-on native Alpha와 history-on ODE-Alpha를 paired 비교하며,
+  그 결과는 자기 report에서만 판정한다.
 - **Lifelong/100+ edit:** 현재 atomic `n=8/model` 및 4-edit harm evidence에서 바로
   확장할 근거가 없다.
 - **Absolute Alpha-vs-MEMIT superiority gate:** Alpha의 small-edit 출발점 차이와
