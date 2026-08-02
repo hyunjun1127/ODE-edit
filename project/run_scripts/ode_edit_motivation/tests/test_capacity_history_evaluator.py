@@ -146,6 +146,7 @@ class CapacityHistoryEvaluatorTests(unittest.TestCase):
                     {
                         "accepted": True,
                         "coefficients": coefficients,
+                        "allocation_coefficients": coefficients,
                         "capacity_terms": terms,
                     }
                 ]
@@ -157,7 +158,7 @@ class CapacityHistoryEvaluatorTests(unittest.TestCase):
         self.assertEqual(result["capacity_reroute_round_count"], 1)
         self.assertTrue(result["capacity_barrier_exact"])
 
-    def test_c2_reference_requires_four_exact_quarter_hops(self) -> None:
+    def test_c3_reference_requires_exact_hops_and_radial_c1_share(self) -> None:
         diagnostics = []
         for round_index in range(1, 5):
             utility_before = -3.0 + round_index
@@ -171,13 +172,18 @@ class CapacityHistoryEvaluatorTests(unittest.TestCase):
                     "remaining_reference_gain_before": 2.0 - utility_before,
                     "remaining_rounds_before": 5 - round_index,
                     "maximum_predicted_gain": 3.0,
-                    "requested_gain": (2.0 - utility_before) / (5 - round_index),
+                    "requested_gain": 2.0 - utility_before,
                     "predicted_gain": 1.0,
                     "rewrite_gain": rewrite_gain,
                     "native_reference_reached": round_index == 4,
                     "trust_fraction": 0.25,
                     "coefficient_norm": 1.0,
                     "share_l2_norm": 1.0,
+                    "allocation_coefficient_norm": 0.5,
+                    "allocation_coefficients": [0.5, 0.0, 0.0, 0.0, 0.0],
+                    "allocation_barrier_policy": "common-frontier-all-layers",
+                    "applied_cap_enforced": False,
+                    "radial_scale": 2.0,
                     "coefficients": [1.0, 0.0, 0.0, 0.0, 0.0],
                 }
             )
@@ -212,7 +218,7 @@ class CapacityHistoryEvaluatorTests(unittest.TestCase):
                 *feature["round_diagnostics"][1:],
             ],
         }
-        with self.assertRaisesRegex(Exception, "exact-quarter allocation"):
+        with self.assertRaisesRegex(Exception, "BF-share exact-quarter"):
             _verify_native_reference_contract(
                 branch=BRANCHES[1], feature=broken, result=result
             )

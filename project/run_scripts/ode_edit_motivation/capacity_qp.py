@@ -32,6 +32,12 @@ DUAL_ITERATIONS = 96
 PROGRESS_TOLERANCE = 1e-9
 VELOCITY_REGULARIZER = 1e-12
 BARRIER_HEADROOM_STEPS = 2.0
+OVERLOAD_ONLY_BARRIER_POLICY = "overload-only"
+COMMON_FRONTIER_BARRIER_POLICY = "common-frontier-all-layers"
+BARRIER_POLICIES = {
+    OVERLOAD_ONLY_BARRIER_POLICY,
+    COMMON_FRONTIER_BARRIER_POLICY,
+}
 
 
 class CapacityQPError(ContractError):
@@ -234,11 +240,12 @@ def build_capacity_layer_terms(
     layer_by_weight: Mapping[str, int],
     w0_denominators: Mapping[int, float],
     trust_distance: float,
+    barrier_policy: str = OVERLOAD_ONLY_BARRIER_POLICY,
 ) -> tuple[CapacityLayerTerms, ...]:
     """Build exact layer polynomials and a common normalized-load frontier."""
 
     distance = _finite("trust_distance", trust_distance)
-    if distance <= 0.0 or not unit_actions:
+    if distance <= 0.0 or not unit_actions or barrier_policy not in BARRIER_POLICIES:
         raise CapacityQPError("capacity terms require actions and positive trust distance")
     cumulative_by_weight: dict[str, list[LowRankFactor]] = {}
     for factor in cumulative_factors:
@@ -298,7 +305,22 @@ def build_capacity_layer_terms(
         linear = float(item["linear"])
         quadratic = float(item["quadratic"])
         overloaded = psi > common_frontier + 1e-15
-        if overloaded:
+        if barrier_policy == COMMON_FRONTIER_BARRIER_POLICY:
+            # Historical c1 BF allocation contract: the common frontier is a
+            # box constraint for every layer.  In c3 this box defines only the
+            # relative share generator; the applied global magnitude is
+            # normalized independently downstream.
+            barrier = max(psi, common_frontier)
+            cap = min(
+                distance,
+                _positive_barrier_root(
+                    psi=psi,
+                    linear=linear,
+                    quadratic=quadratic,
+                    barrier=barrier,
+                ),
+            )
+        elif overloaded:
             # A genuinely overloaded layer may reduce its load, but cannot
             # finish this step with a larger load than it started with.
             barrier = psi
@@ -581,6 +603,33 @@ def exact_distance_capacity_coefficients(
     return result
 
 
+def exact_distance_relative_coefficients(
+    coefficients: Sequence[float], *, target_distance: float
+) -> tuple[float, ...]:
+    """Radially normalize a BF allocation without changing its layer share.
+
+    Unlike :func:`exact_distance_capacity_coefficients`, this magnitude-only
+    diagnostic deliberately does not clip against the allocation QP's box
+    caps.  Those caps produced the historical c1 relative weighting; treating
+    them again as absolute write caps would reproduce the under-update bug.
+    Zero support and every non-zero coefficient ratio are preserved exactly.
+    """
+
+    distance = _finite("target_distance", target_distance)
+    values = tuple(_finite("coefficient", value) for value in coefficients)
+    if distance <= 0.0 or not values or any(value < 0.0 for value in values):
+        raise CapacityQPError("relative exact-distance inputs are invalid")
+    norm = math.sqrt(math.fsum(value * value for value in values))
+    if norm <= PROGRESS_TOLERANCE:
+        raise CapacityQPError("relative allocation has no positive share")
+    scale = distance / norm
+    result = tuple(value * scale for value in values)
+    result_norm = math.sqrt(math.fsum(value * value for value in result))
+    if not math.isclose(result_norm, distance, rel_tol=1e-12, abs_tol=1e-12):
+        raise CapacityQPError("relative allocation missed its exact distance")
+    return result
+
+
 def build_capacity_proposal_from_coefficients(
     *,
     synchronous: MemitFactorProposal,
@@ -616,6 +665,50 @@ def build_capacity_proposal_from_coefficients(
     )
 
 
+def build_capacity_relative_share_proposal(
+    *,
+    synchronous: MemitFactorProposal,
+    unit_actions: Sequence[ActionDirection],
+    terms: Sequence[CapacityLayerTerms],
+    coefficients: Sequence[float],
+    solver_suffix: str,
+) -> MemitFactorProposal:
+    """Build an exact-magnitude proposal from an allocation-only BF share.
+
+    The allocation terms and their caps are still identity-checked, but the
+    applied coefficients are intentionally not evaluated against those caps.
+    This is only for the c1-share magnitude-control diagnostic and must not be
+    interpreted as a deployable hard-barrier controller.
+    """
+
+    values = tuple(_finite("coefficient", value) for value in coefficients)
+    if (
+        len(unit_actions) != len(terms)
+        or len(terms) != len(values)
+        or any(value < 0.0 for value in values)
+    ):
+        raise CapacityQPError("relative share proposal inputs differ")
+    factors: list[LowRankFactor] = []
+    for action, term, coefficient in zip(unit_actions, terms, values, strict=True):
+        action.proposal.assert_same_entry_snapshot(synchronous)
+        if action.action_id != term.action_id or len(action.proposal.factors) != 1:
+            raise CapacityQPError("relative share action/term identity differs")
+        factor = action.proposal.factors[0]
+        if factor.weight_name != term.weight_name:
+            raise CapacityQPError("relative share factor/term weight differs")
+        if coefficient > 0.0:
+            factors.append(factor.scaled(coefficient))
+    if not factors:
+        raise CapacityQPError("relative share proposal is empty")
+    return MemitFactorProposal(
+        snapshot=synchronous.snapshot,
+        factors=tuple(factors),
+        semantics=synchronous.semantics,
+        solver_name=f"{synchronous.solver_name}/capacity-relative-share/{solver_suffix}",
+        residual_denominator=synchronous.residual_denominator,
+    )
+
+
 def capacity_state_by_layer(
     *,
     cumulative_factors: Sequence[LowRankFactor],
@@ -641,14 +734,19 @@ def capacity_state_by_layer(
 
 __all__ = [
     "BARRIER_HEADROOM_STEPS",
+    "BARRIER_POLICIES",
     "CAPACITY_QP_SCHEMA",
+    "COMMON_FRONTIER_BARRIER_POLICY",
     "CapacityLayerTerms",
     "CapacityQPError",
     "CapacityQPSolution",
+    "OVERLOAD_ONLY_BARRIER_POLICY",
     "build_capacity_layer_terms",
     "build_capacity_proposal_from_coefficients",
+    "build_capacity_relative_share_proposal",
     "build_capacity_qp_proposal",
     "capacity_state_by_layer",
     "exact_distance_capacity_coefficients",
+    "exact_distance_relative_coefficients",
     "solve_capacity_qp",
 ]

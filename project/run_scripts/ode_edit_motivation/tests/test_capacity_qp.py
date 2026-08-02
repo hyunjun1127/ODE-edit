@@ -4,12 +4,15 @@ import unittest
 import torch
 
 from project.run_scripts.ode_edit_motivation.capacity_qp import (
+    COMMON_FRONTIER_BARRIER_POLICY,
     CapacityLayerTerms,
     build_capacity_layer_terms,
     build_capacity_proposal_from_coefficients,
+    build_capacity_relative_share_proposal,
     build_capacity_qp_proposal,
     capacity_state_by_layer,
     exact_distance_capacity_coefficients,
+    exact_distance_relative_coefficients,
     solve_capacity_qp,
 )
 from project.run_scripts.ode_edit_motivation.contracts import (
@@ -162,6 +165,21 @@ class CapacityQPTests(unittest.TestCase):
         self.assertTrue(all(not term.overloaded for term in terms))
         self.assertTrue(all(term.coefficient_cap == 0.25 for term in terms))
 
+    def test_common_frontier_policy_reproduces_c1_all_layer_caps(self) -> None:
+        terms = build_capacity_layer_terms(
+            cumulative_factors=(),
+            unit_actions=self.actions,
+            slopes={"layer_1": 2.0, "layer_2": 1.0},
+            covariance_by_layer=self.covariances,
+            layer_by_weight=self.layer_by_weight,
+            w0_denominators={1: 1.0, 2: 100.0},
+            trust_distance=0.25,
+            barrier_policy=COMMON_FRONTIER_BARRIER_POLICY,
+        )
+        self.assertTrue(all(not term.overloaded for term in terms))
+        self.assertLess(terms[0].coefficient_cap, 0.25)
+        self.assertEqual(terms[1].coefficient_cap, 0.25)
+
     def test_qp_share_is_rescaled_to_exact_distance_without_breaking_caps(self) -> None:
         terms = (
             CapacityLayerTerms(
@@ -206,6 +224,54 @@ class CapacityQPTests(unittest.TestCase):
             terms=terms,
             coefficients=coefficients,
             solver_suffix="exact",
+        )
+        self.assertEqual(len(proposal.factors), 2)
+
+    def test_relative_share_normalization_preserves_c1_ratios_beyond_caps(self) -> None:
+        terms = (
+            CapacityLayerTerms(
+                layer=1,
+                action_id="layer_1",
+                weight_name="layer1.weight",
+                slope=2.0,
+                psi_before=0.0,
+                linear=0.0,
+                quadratic=1.0,
+                barrier=0.01,
+                coefficient_cap=0.1,
+                overloaded=False,
+            ),
+            CapacityLayerTerms(
+                layer=2,
+                action_id="layer_2",
+                weight_name="layer2.weight",
+                slope=1.0,
+                psi_before=0.0,
+                linear=0.0,
+                quadratic=1.0,
+                barrier=0.0025,
+                coefficient_cap=0.05,
+                overloaded=False,
+            ),
+        )
+        coefficients = exact_distance_relative_coefficients(
+            (0.1, 0.05), target_distance=0.5
+        )
+        self.assertAlmostEqual(
+            math.sqrt(sum(value * value for value in coefficients)), 0.5, places=12
+        )
+        self.assertAlmostEqual(coefficients[0] / coefficients[1], 2.0, places=12)
+        self.assertGreater(coefficients[0], terms[0].coefficient_cap)
+        proposal = build_capacity_relative_share_proposal(
+            synchronous=_proposal(
+                self.actions[0].proposal.factors[0],
+                self.actions[1].proposal.factors[0],
+                suffix="sync-relative",
+            ),
+            unit_actions=self.actions,
+            terms=terms,
+            coefficients=coefficients,
+            solver_suffix="relative",
         )
         self.assertEqual(len(proposal.factors), 2)
 

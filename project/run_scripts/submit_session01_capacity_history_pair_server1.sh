@@ -15,13 +15,13 @@ readonly SBATCH_BIN="/usr/bin/sbatch"
 readonly SQUEUE_BIN="/usr/bin/squeue"
 readonly SBATCH_FILE="${REPO_ROOT}/project/run_scripts/session01_capacity_history_pair_server1.sbatch"
 readonly CHILD_FILE="${REPO_ROOT}/project/run_scripts/session01_capacity_history_server1.sbatch"
-readonly RED_GATE="${REPO_ROOT}/audits/global/2026-08-02-session01-capacity-share-exact-quarter-c2-preflight.md"
-readonly RED_GATE_VERDICT='- 최종 판정: `PASS` — clean pushed main에서 c2 exact-quarter 4-GPU pair 1회 제출에만 유효'
+readonly RED_GATE="${REPO_ROOT}/audits/global/2026-08-02-session01-bf-share-magnitude-control-c3-preflight.md"
+readonly RED_GATE_VERDICT='- 최종 판정: `PASS` — clean pushed main에서 c3 BF-share magnitude-control 4-GPU pair 1회 제출에만 유효'
 readonly LOG_ROOT="${REPO_ROOT}/local/logs/slurm/session01_motivation"
 readonly OUTPUT_ROOT="${REPO_ROOT}/local/results/raw/session01_motivation"
 readonly STATE_ROOT="${REPO_ROOT}/local/state/slurm-submissions/session01_motivation"
-readonly PAIR_MARKER="${STATE_ROOT}/caphist_pair_c2_v1.submitted"
-readonly JOB_NAME="odeedit_capacity_history_pair_c2_v1"
+readonly PAIR_MARKER="${STATE_ROOT}/caphist_pair_c3_v1.submitted"
+readonly JOB_NAME="odeedit_capacity_history_pair_c3_v1"
 
 [[ "$#" -eq 0 ]] || exit 2
 [[ -x "${GIT_BIN}" && -x "${GREP_BIN}" && -x "${INSTALL_BIN}" \
@@ -51,8 +51,8 @@ cd "${REPO_ROOT}"
   project/run_scripts/ode_edit_motivation/alphaedit_history.py \
   project/run_scripts/ode_edit_motivation/alphaedit_factors.py \
   project/run_scripts/ode_edit_motivation/alphaedit_proposal_adapter.py \
-  plans/global/2026-08-02-session01-capacity-share-exact-quarter-c2-spec.md \
-  audits/global/2026-08-02-session01-capacity-share-exact-quarter-c2-preflight.md \
+  plans/global/2026-08-02-session01-bf-share-magnitude-control-c3-spec.md \
+  audits/global/2026-08-02-session01-bf-share-magnitude-control-c3-preflight.md \
   messages/inbox/server1.md \
   >/dev/null
 [[ -z "$("${GIT_BIN}" status --porcelain --untracked-files=normal)" ]] || {
@@ -67,15 +67,15 @@ cd "${REPO_ROOT}"
 [[ "$("${GREP_BIN}" -Ec -- '^- 최종 판정:' "${RED_GATE}" || true)" == "1" ]] || exit 2
 
 for run_name in \
-  caphist_memit_native_llama_c2_v1 caphist_memit_native_qwen_c2_v1 \
-  caphist_memit_qp_llama_c2_v1 caphist_memit_qp_qwen_c2_v1 \
-  caphist_alpha_native_llama_c2_v1 caphist_alpha_native_qwen_c2_v1 \
-  caphist_alpha_qp_llama_c2_v1 caphist_alpha_qp_qwen_c2_v1 \
-  caphist_eval_memit_native_llama_c2_v1 caphist_eval_memit_native_qwen_c2_v1 \
-  caphist_eval_memit_qp_llama_c2_v1 caphist_eval_memit_qp_qwen_c2_v1 \
-  caphist_eval_alpha_native_llama_c2_v1 caphist_eval_alpha_native_qwen_c2_v1 \
-  caphist_eval_alpha_qp_llama_c2_v1 caphist_eval_alpha_qp_qwen_c2_v1 \
-  caphist_combined_llama_c2_v1 caphist_combined_qwen_c2_v1 caphist_pair_c2_v1; do
+  caphist_memit_native_llama_c3_v1 caphist_memit_native_qwen_c3_v1 \
+  caphist_memit_qp_llama_c3_v1 caphist_memit_qp_qwen_c3_v1 \
+  caphist_alpha_native_llama_c3_v1 caphist_alpha_native_qwen_c3_v1 \
+  caphist_alpha_qp_llama_c3_v1 caphist_alpha_qp_qwen_c3_v1 \
+  caphist_eval_memit_native_llama_c3_v1 caphist_eval_memit_native_qwen_c3_v1 \
+  caphist_eval_memit_qp_llama_c3_v1 caphist_eval_memit_qp_qwen_c3_v1 \
+  caphist_eval_alpha_native_llama_c3_v1 caphist_eval_alpha_native_qwen_c3_v1 \
+  caphist_eval_alpha_qp_llama_c3_v1 caphist_eval_alpha_qp_qwen_c3_v1 \
+  caphist_combined_llama_c3_v1 caphist_combined_qwen_c3_v1 caphist_pair_c3_v1; do
   [[ ! -e "${OUTPUT_ROOT}/${run_name}" && ! -L "${OUTPUT_ROOT}/${run_name}" ]] || exit 2
 done
 [[ ! -e "${PAIR_MARKER}" && ! -L "${PAIR_MARKER}" ]] || exit 2

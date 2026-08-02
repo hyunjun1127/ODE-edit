@@ -19,8 +19,8 @@ readonly TARGET_LINEAGE="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/fr
 readonly ALPHA_HISTORY="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/alphaedit_history.py"
 readonly ALPHA_FACTORS="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/alphaedit_factors.py"
 readonly ALPHA_ADAPTER="${REPO_ROOT}/project/run_scripts/ode_edit_motivation/alphaedit_proposal_adapter.py"
-readonly SPEC="${REPO_ROOT}/plans/global/2026-08-02-session01-capacity-share-exact-quarter-c2-spec.md"
-readonly RED_GATE="${REPO_ROOT}/audits/global/2026-08-02-session01-capacity-share-exact-quarter-c2-preflight.md"
+readonly SPEC="${REPO_ROOT}/plans/global/2026-08-02-session01-bf-share-magnitude-control-c3-spec.md"
+readonly RED_GATE="${REPO_ROOT}/audits/global/2026-08-02-session01-bf-share-magnitude-control-c3-preflight.md"
 readonly GIT_BIN="/usr/bin/git"
 readonly UV_BIN="/usr/local/bin/uv"
 
@@ -72,28 +72,28 @@ readonly FAMILY="$2"
 readonly MODEL_ALIAS="$3"
 [[ "${PHASE}" == "controller" || "${PHASE}" == "evaluator" ]] || exit 2
 [[ "${FAMILY}" == "memit" || "${FAMILY}" == "alpha_history" ]] || exit 2
-[[ "${SLURM_JOB_NAME:-}" == "odeedit_capacity_history_pair_c2_v1" ]] || exit 2
+[[ "${SLURM_JOB_NAME:-}" == "odeedit_capacity_history_pair_c3_v1" ]] || exit 2
 
 case "${MODEL_ALIAS}" in
   llama3-8b-inst)
-    readonly MEMIT_NATIVE_CONTROLLER="caphist_memit_native_llama_c2_v1"
-    readonly MEMIT_QP_CONTROLLER="caphist_memit_qp_llama_c2_v1"
-    readonly ALPHA_NATIVE_CONTROLLER="caphist_alpha_native_llama_c2_v1"
-    readonly ALPHA_QP_CONTROLLER="caphist_alpha_qp_llama_c2_v1"
-    readonly MEMIT_NATIVE_EVALUATOR="caphist_eval_memit_native_llama_c2_v1"
-    readonly MEMIT_QP_EVALUATOR="caphist_eval_memit_qp_llama_c2_v1"
-    readonly ALPHA_NATIVE_EVALUATOR="caphist_eval_alpha_native_llama_c2_v1"
-    readonly ALPHA_QP_EVALUATOR="caphist_eval_alpha_qp_llama_c2_v1"
+    readonly MEMIT_NATIVE_CONTROLLER="caphist_memit_native_llama_c3_v1"
+    readonly MEMIT_QP_CONTROLLER="caphist_memit_qp_llama_c3_v1"
+    readonly ALPHA_NATIVE_CONTROLLER="caphist_alpha_native_llama_c3_v1"
+    readonly ALPHA_QP_CONTROLLER="caphist_alpha_qp_llama_c3_v1"
+    readonly MEMIT_NATIVE_EVALUATOR="caphist_eval_memit_native_llama_c3_v1"
+    readonly MEMIT_QP_EVALUATOR="caphist_eval_memit_qp_llama_c3_v1"
+    readonly ALPHA_NATIVE_EVALUATOR="caphist_eval_alpha_native_llama_c3_v1"
+    readonly ALPHA_QP_EVALUATOR="caphist_eval_alpha_qp_llama_c3_v1"
     ;;
   qwen2.5-7b-inst)
-    readonly MEMIT_NATIVE_CONTROLLER="caphist_memit_native_qwen_c2_v1"
-    readonly MEMIT_QP_CONTROLLER="caphist_memit_qp_qwen_c2_v1"
-    readonly ALPHA_NATIVE_CONTROLLER="caphist_alpha_native_qwen_c2_v1"
-    readonly ALPHA_QP_CONTROLLER="caphist_alpha_qp_qwen_c2_v1"
-    readonly MEMIT_NATIVE_EVALUATOR="caphist_eval_memit_native_qwen_c2_v1"
-    readonly MEMIT_QP_EVALUATOR="caphist_eval_memit_qp_qwen_c2_v1"
-    readonly ALPHA_NATIVE_EVALUATOR="caphist_eval_alpha_native_qwen_c2_v1"
-    readonly ALPHA_QP_EVALUATOR="caphist_eval_alpha_qp_qwen_c2_v1"
+    readonly MEMIT_NATIVE_CONTROLLER="caphist_memit_native_qwen_c3_v1"
+    readonly MEMIT_QP_CONTROLLER="caphist_memit_qp_qwen_c3_v1"
+    readonly ALPHA_NATIVE_CONTROLLER="caphist_alpha_native_qwen_c3_v1"
+    readonly ALPHA_QP_CONTROLLER="caphist_alpha_qp_qwen_c3_v1"
+    readonly MEMIT_NATIVE_EVALUATOR="caphist_eval_memit_native_qwen_c3_v1"
+    readonly MEMIT_QP_EVALUATOR="caphist_eval_memit_qp_qwen_c3_v1"
+    readonly ALPHA_NATIVE_EVALUATOR="caphist_eval_alpha_native_qwen_c3_v1"
+    readonly ALPHA_QP_EVALUATOR="caphist_eval_alpha_qp_qwen_c3_v1"
     ;;
   *) exit 2 ;;
 esac

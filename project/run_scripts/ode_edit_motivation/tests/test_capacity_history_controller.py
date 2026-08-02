@@ -97,7 +97,7 @@ class CapacityHistoryControllerTests(unittest.TestCase):
         self.assertEqual(policy["retry_shrink"], 1.0)
         self.assertEqual(
             policy["allocation_progress_request"],
-            "remaining-ordered-native-rewrite-utility-gap-divided-by-remaining-rounds",
+            "full-remaining-ordered-native-rewrite-utility-gap-c1-compatible",
         )
         self.assertEqual(
             policy["global_step"],
@@ -105,6 +105,10 @@ class CapacityHistoryControllerTests(unittest.TestCase):
         )
         self.assertEqual(policy["terminal"], "fixed-four-exact-quarter-hops")
         self.assertEqual(policy["first_hit"], "diagnostic-only-never-terminal")
+        self.assertEqual(
+            policy["allocation_barrier_policy"], "common-frontier-all-layers"
+        )
+        self.assertIs(policy["applied_cap_enforced"], False)
         self.assertNotIn("requested_progress_fraction", policy)
         self.assertNotIn("nfe", set(_keys(policy)))
 

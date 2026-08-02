@@ -44,10 +44,11 @@ from .capacity_history_analysis import (
     CHAIN_LENGTH,
 )
 from .capacity_qp import (
+    COMMON_FRONTIER_BARRIER_POLICY,
     build_capacity_layer_terms,
-    build_capacity_proposal_from_coefficients,
+    build_capacity_relative_share_proposal,
     capacity_state_by_layer,
-    exact_distance_capacity_coefficients,
+    exact_distance_relative_coefficients,
     solve_capacity_qp,
 )
 from .contracts import (
@@ -128,11 +129,11 @@ from .trajectory import MATCHED_C_ABS_TOL, MATCHED_C_REL_TOL
 CONTROLLER_SCHEMA = "ode-edit-capacity-history-controller/v1"
 CONTROLLER_STREAM_SCHEMA = "ode-edit-capacity-history-controller-stream/v1"
 CONTROLLER_RECEIPT_SCHEMA = "ode-edit-capacity-history-controller-receipt/v1"
-CONTROLLER_JOB_NAME = "odeedit_capacity_history_pair_c2_v1"
+CONTROLLER_JOB_NAME = "odeedit_capacity_history_pair_c3_v1"
 RUN_SEED = 41
 RANK_START = 144
 RANK_STOP = 148
-POLICY_ID = "capacity-share-history-exact-quarter-k4-v3"
+POLICY_ID = "bf-common-frontier-share-radial-exact-quarter-k4-v1"
 MAX_ACCEPTED_ROUNDS = 4
 INITIAL_TRUST_FRACTION = 0.25
 RETRY_SHRINK = 1.0
@@ -141,20 +142,20 @@ NATIVE_REFERENCE_ABS_TOL = 1e-4
 APPLICATION_MODES = {branch: "easyedit_exact" for branch in BRANCHES}
 RUN_IDS = {
     BRANCH_MEMIT_NATIVE: {
-        "llama3-8b-inst": "caphist_memit_native_llama_c2_v1",
-        "qwen2.5-7b-inst": "caphist_memit_native_qwen_c2_v1",
+        "llama3-8b-inst": "caphist_memit_native_llama_c3_v1",
+        "qwen2.5-7b-inst": "caphist_memit_native_qwen_c3_v1",
     },
     BRANCH_MEMIT_QP: {
-        "llama3-8b-inst": "caphist_memit_qp_llama_c2_v1",
-        "qwen2.5-7b-inst": "caphist_memit_qp_qwen_c2_v1",
+        "llama3-8b-inst": "caphist_memit_qp_llama_c3_v1",
+        "qwen2.5-7b-inst": "caphist_memit_qp_qwen_c3_v1",
     },
     BRANCH_ALPHA_NATIVE: {
-        "llama3-8b-inst": "caphist_alpha_native_llama_c2_v1",
-        "qwen2.5-7b-inst": "caphist_alpha_native_qwen_c2_v1",
+        "llama3-8b-inst": "caphist_alpha_native_llama_c3_v1",
+        "qwen2.5-7b-inst": "caphist_alpha_native_qwen_c3_v1",
     },
     BRANCH_ALPHA_QP: {
-        "llama3-8b-inst": "caphist_alpha_qp_llama_c2_v1",
-        "qwen2.5-7b-inst": "caphist_alpha_qp_qwen_c2_v1",
+        "llama3-8b-inst": "caphist_alpha_qp_llama_c3_v1",
+        "qwen2.5-7b-inst": "caphist_alpha_qp_qwen_c3_v1",
     },
 }
 
@@ -205,7 +206,7 @@ def policy_parameters() -> dict[str, Any]:
         "minimum_trust_ratio": MIN_TRUST_RATIO,
         "native_reference_abs_tolerance": NATIVE_REFERENCE_ABS_TOL,
         "allocation_progress_request": (
-            "remaining-ordered-native-rewrite-utility-gap-divided-by-remaining-rounds"
+            "full-remaining-ordered-native-rewrite-utility-gap-c1-compatible"
         ),
         "global_step": "exact-native-C-distance-quarter-independent-of-layer-share",
         "terminal": "fixed-four-exact-quarter-hops",
@@ -213,8 +214,15 @@ def policy_parameters() -> dict[str, Any]:
         "rejection": "no-scientific-shrink; trust-ratio-recorded-only",
         "retry_failure": "not-applicable-fixed-distance-diagnostic",
         "nominal_native_distance_budget": 1.0,
-        "layer_share": "capacity-QP-relative-allocation-L2-normalized-before-write",
-        "barrier_scope": "hard-cap-truly-overloaded-layers-only",
+        "layer_share": (
+            "c1-common-frontier-QP-coefficients-radially-normalized-without-cap-clipping"
+        ),
+        "barrier_scope": (
+            "common-frontier-caps-generate-relative-share-only;"
+            "applied-hard-cap-claim-false"
+        ),
+        "allocation_barrier_policy": COMMON_FRONTIER_BARRIER_POLICY,
+        "applied_cap_enforced": False,
         "history_append_policy": "post-accepted-edit-once-history-fixed-within-edit",
         "capacity_normalizer": "fixed-W0-layer-weight-C-energy",
         "evaluation_fields_available": False,
@@ -756,6 +764,7 @@ def _build_edit_action(
                     layer_by_weight=layer_by_weight,
                     w0_denominators=w0_denominators,
                     trust_distance=trust_distance,
+                    barrier_policy=COMMON_FRONTIER_BARRIER_POLICY,
                 )
                 cap_upper = math.fsum(
                     term.slope * term.coefficient_cap for term in terms
@@ -765,7 +774,7 @@ def _build_edit_action(
                     requested_progress=cap_upper,
                     trust_distance=trust_distance,
                 )
-                allocation_request = remaining_reference_gain / remaining_rounds
+                allocation_request = remaining_reference_gain
                 if allocation_request <= NATIVE_REFERENCE_ABS_TOL:
                     allocation_request = maximum.constrained_progress
                 solution = solve_capacity_qp(
@@ -775,8 +784,7 @@ def _build_edit_action(
                 )
                 if solution.predicted_progress <= 1e-12:
                     raise ContractError("capacity QP has no positive rewrite direction")
-                applied_coefficients = exact_distance_capacity_coefficients(
-                    terms,
+                applied_coefficients = exact_distance_relative_coefficients(
                     solution.coefficients,
                     target_distance=trust_distance,
                 )
@@ -789,7 +797,7 @@ def _build_edit_action(
                 )
                 if applied_predicted_gain <= 1e-12:
                     raise ContractError("exact-hop capacity share has no positive rewrite direction")
-                proposal = build_capacity_proposal_from_coefficients(
+                proposal = build_capacity_relative_share_proposal(
                     synchronous=synchronous,
                     unit_actions=unit_actions,
                     terms=terms,
@@ -805,7 +813,7 @@ def _build_edit_action(
                     rel_tol=MATCHED_C_REL_TOL,
                     abs_tol=MATCHED_C_ABS_TOL,
                 ):
-                    raise ContractError("capacity share proposal is not an exact quarter hop")
+                    raise ContractError("BF relative-share proposal is not an exact quarter hop")
                 with TemporaryExactMemitApplication(runtime.model, proposal) as application:
                     after_utility, first_hit = _rewrite_state(runtime, request, contexts)
                     child = _capture_source_snapshot(
@@ -858,6 +866,9 @@ def _build_edit_action(
                     "allocation_predicted_gain": solution.predicted_progress,
                     "allocation_progress_slack": solution.progress_slack,
                     "allocation_coefficients": list(solution.coefficients),
+                    "allocation_barrier_policy": COMMON_FRONTIER_BARRIER_POLICY,
+                    "applied_cap_enforced": False,
+                    "radial_scale": applied_norm / solution.coefficient_norm,
                     "coefficients": list(applied_coefficients),
                     "capacity_terms": [term.to_dict() for term in terms],
                     "capacity_before": capacity_state_by_layer(
@@ -886,7 +897,7 @@ def _build_edit_action(
                     )
                     break
             if accepted is None:
-                raise ContractError("capacity share exact hop was not committed")
+                raise ContractError("BF relative-share exact hop was not committed")
             (
                 proposal,
                 child,
@@ -935,7 +946,7 @@ def _build_edit_action(
             abs_tol=MATCHED_C_ABS_TOL,
         )
     ):
-        raise ContractError("capacity share path did not consume four exact quarter hops")
+        raise ContractError("BF relative-share path did not consume four exact quarter hops")
     history_append = None
     if adapter is not None:
         history_append = adapter.append_current_post_edit_keys(edit_id=request.case_id)

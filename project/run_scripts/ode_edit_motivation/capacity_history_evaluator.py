@@ -22,6 +22,7 @@ from typing import Any, Callable, Mapping, Sequence
 import torch
 
 from .capacity_geometry import compute_w0_denominators
+from .capacity_qp import COMMON_FRONTIER_BARRIER_POLICY
 from .capacity_history_analysis import (
     BRANCH_ALPHA_NATIVE,
     BRANCH_ALPHA_QP,
@@ -256,7 +257,7 @@ def _verify_history_chain(branch: str, actions: Sequence[ControllerActionEvidenc
 def _verify_native_reference_contract(
     *, branch: str, feature: Mapping[str, Any], result: Mapping[str, Any]
 ) -> None:
-    """Verify the c2 fixed-distance contract and its native reference metadata."""
+    """Verify the c3 BF-share magnitude-control contract."""
 
     reference = _mapping(feature.get("native_reference"), "native_reference")
     try:
@@ -275,7 +276,7 @@ def _verify_native_reference_contract(
         or type(reference.get("fixed_distance_budget_completed")) is not bool
         or type(reference.get("ordered_endpoint_first_hit")) is not bool
     ):
-        raise CapacityHistoryEvaluationError("native reference contract differs from c2")
+        raise CapacityHistoryEvaluationError("native reference contract differs from c3")
     matched = bool(reference["matched"])
     budget_exhausted = bool(reference["budget_exhausted"])
     accepted_rounds = int(result.get("accepted_round_count", 0))
@@ -329,13 +330,27 @@ def _verify_native_reference_contract(
         remaining_rounds = int(diagnostic.get("remaining_rounds_before"))
         maximum = float(diagnostic.get("maximum_predicted_gain"))
         coefficients = diagnostic.get("coefficients")
-        if not isinstance(coefficients, list) or len(coefficients) != len(LAYERS):
-            raise CapacityHistoryEvaluationError("QP exact-hop coefficients are incomplete")
+        allocation_coefficients = diagnostic.get("allocation_coefficients")
+        if (
+            not isinstance(coefficients, list)
+            or not isinstance(allocation_coefficients, list)
+            or len(coefficients) != len(LAYERS)
+            or len(allocation_coefficients) != len(LAYERS)
+        ):
+            raise CapacityHistoryEvaluationError("BF exact-hop coefficients are incomplete")
         coefficient_norm = math.sqrt(
             math.fsum(float(value) * float(value) for value in coefficients)
         )
+        allocation_norm = math.sqrt(
+            math.fsum(
+                float(value) * float(value) for value in allocation_coefficients
+            )
+        )
+        if allocation_norm <= 0.0:
+            raise CapacityHistoryEvaluationError("BF allocation has no relative share")
+        radial_scale = hop_distance / allocation_norm
         expected_request = (
-            remaining / remaining_rounds
+            remaining
             if remaining > NATIVE_REFERENCE_ABS_TOL
             else maximum
         )
@@ -359,6 +374,32 @@ def _verify_native_reference_contract(
             or not math.isclose(
                 float(diagnostic.get("share_l2_norm")), 1.0, rel_tol=2e-5, abs_tol=2e-5
             )
+            or not math.isclose(
+                float(diagnostic.get("allocation_coefficient_norm")),
+                allocation_norm,
+                rel_tol=2e-5,
+                abs_tol=2e-5,
+            )
+            or not math.isclose(
+                float(diagnostic.get("radial_scale")),
+                radial_scale,
+                rel_tol=2e-5,
+                abs_tol=2e-5,
+            )
+            or any(
+                not math.isclose(
+                    float(applied),
+                    float(allocation) * radial_scale,
+                    rel_tol=2e-5,
+                    abs_tol=2e-5,
+                )
+                for applied, allocation in zip(
+                    coefficients, allocation_coefficients, strict=True
+                )
+            )
+            or diagnostic.get("allocation_barrier_policy")
+            != COMMON_FRONTIER_BARRIER_POLICY
+            or diagnostic.get("applied_cap_enforced") is not False
             or diagnostic.get("native_reference_reached")
             != (
                 float(diagnostic.get("utility_before"))
@@ -366,7 +407,7 @@ def _verify_native_reference_contract(
                 >= native - tolerance
             )
         ):
-            raise CapacityHistoryEvaluationError("QP exact-quarter allocation contract differs")
+            raise CapacityHistoryEvaluationError("BF-share exact-quarter contract differs")
     if budget_exhausted is matched:
         raise CapacityHistoryEvaluationError("QP matched/exhausted metadata is inconsistent")
 
@@ -689,7 +730,7 @@ def verify_all_controllers(
 def _routing_diagnostic(
     *, branch: str, feature: Mapping[str, Any], accepted_round_count: int
 ) -> dict[str, int | float | bool]:
-    """Verify accepted QP actions obey every cumulative-capacity barrier."""
+    """Verify the c1-compatible allocation QP, share identity, and zero support."""
 
     raw = feature.get("round_diagnostics")
     if not isinstance(raw, list):
@@ -719,35 +760,45 @@ def _routing_diagnostic(
     max_violation = 0.0
     for diagnostic in accepted:
         coefficients = diagnostic.get("coefficients")
+        allocation_coefficients = diagnostic.get("allocation_coefficients")
         terms = diagnostic.get("capacity_terms")
         if (
             not isinstance(coefficients, list)
+            or not isinstance(allocation_coefficients, list)
             or not isinstance(terms, list)
             or len(coefficients) != len(LAYERS)
+            or len(allocation_coefficients) != len(LAYERS)
             or len(terms) != len(LAYERS)
         ):
             raise CapacityHistoryEvaluationError("accepted routing vector differs from layers")
         round_suppressed = 0
         other_positive = False
-        for coefficient_raw, term_raw in zip(coefficients, terms, strict=True):
+        for coefficient_raw, allocation_raw, term_raw in zip(
+            coefficients, allocation_coefficients, terms, strict=True
+        ):
             coefficient = float(coefficient_raw)
+            allocation = float(allocation_raw)
             term = _mapping(term_raw, "capacity_terms[]")
             psi = float(term["psi_before"])
             linear = float(term["linear"])
             quadratic = float(term["quadratic"])
             barrier = float(term["barrier"])
             cap = float(term["coefficient_cap"])
-            values = (coefficient, psi, linear, quadratic, barrier, cap)
-            if any(not math.isfinite(value) for value in values) or coefficient < 0.0:
+            values = (coefficient, allocation, psi, linear, quadratic, barrier, cap)
+            if (
+                any(not math.isfinite(value) for value in values)
+                or coefficient < 0.0
+                or allocation < 0.0
+            ):
                 raise CapacityHistoryEvaluationError("routing diagnostic contains invalid scalar")
-            if coefficient > cap + 1e-8:
-                raise CapacityHistoryEvaluationError("routing coefficient exceeds layer cap")
-            violation = psi + linear * coefficient + quadratic * coefficient**2 - barrier
+            if allocation > cap + 1e-8:
+                raise CapacityHistoryEvaluationError("allocation coefficient exceeds layer cap")
+            violation = psi + linear * allocation + quadratic * allocation**2 - barrier
             max_violation = max(max_violation, violation)
             positive_overload = term.get("overloaded") is True and linear >= 0.0
             if positive_overload:
                 overloaded += 1
-                if coefficient <= 1e-12 and cap <= 1e-12:
+                if allocation <= 1e-12 and coefficient <= 1e-12 and cap <= 1e-12:
                     suppressed += 1
                     round_suppressed += 1
             elif coefficient > 1e-12:

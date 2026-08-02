@@ -1319,3 +1319,58 @@ L2-normalize한 뒤 매 round global `C-distance=D/4`를 별도 적용하여 네
 - subagent boundary: 분석 agent는 runtime metadata가 `Terra Ultra`로 검증된 경우에만
   해당 model report/code를 읽으며, 결과 수신 즉시 종료한다. 검증 불가면 BLOCK으로
   기록하고 GH가 독립 agent review로 가장하지 않는다.
+
+---
+
+# C3 추가 instruction — `session01-bf-share-magnitude-control-c3-v1`
+
+## 목적과 배경
+
+c2는 c1 low-update를 보정하면서 layer cap/share policy까지 함께 바꿨다. C3는 c1의
+common-frontier BF allocation coefficient 비율과 zero support를 유지하고, 전체
+joint C-distance만 exact `D/4 × 4`로 맞춰 magnitude 원인을 분리한다. Applied cap은
+hard constraint가 아니라 allocation-only임을 명시한다.
+
+## 실행 instruction envelope
+
+- 목적과 배경: c1 BF layer weighting을 고정한 update magnitude-only control로
+  implementation cause를 Llama/Qwen 공통으로 판별하고 Motivation을 닫는다.
+- 허용 write path:
+  `local/results/raw/session01_motivation/caphist_*_c3_v1/`,
+  `local/logs/slurm/session01_motivation/`,
+  `local/state/slurm-submissions/session01_motivation/caphist_pair_c3_v1.submitted/`,
+  compact `experiment-reports/global/`, `audits/global/`, `messages/head/`만.
+- Slurm 제출 허용 여부: c3 preflight exact PASS, clean pushed main, fresh output/marker,
+  session/resource gate 뒤 GH one-shot helper 1회만 `allowed`; partial retry는 금지.
+- GPU cap: server1 project cap 4; parent GPU 4 / CPU 32 / `260000M`, child별 GPU 1 /
+  CPU 8 / `65000M`.
+- red-team gate 통과 조건: c1 allocation QP identity, applied/allocation radial
+  proportionality, exact `D/4 × 4`, same-model policy, controller/evaluator firewall,
+  direct-z-once, lineage/replay, EasyEdit/precomputed read-only가 모두 PASS.
+- artifact broadcast 의무: active peer SH/clone이 없으면 no-peer exception을 completion에
+  기록한다. 임의 SSH/rsync 및 `--delete` 금지.
+- 완료 보고 경로:
+  `experiment-reports/global/2026-08-02-session01-caphist-{llama,qwen}-c3-v1-gh.md`,
+  `experiment-reports/global/2026-08-02-session01-caphist-pair-c3-v1-synthesis.md`,
+  `audits/global/2026-08-02-session01-bf-share-magnitude-control-c3-postrun.md`,
+  `messages/head/2026-08-02-bf-share-magnitude-control-c3-completion.md`.
+- 금지 사항: EasyEdit/source/cache/data/projector 수정, covariance/projector/Wikipedia
+  재계산·download, model별 share/K/threshold/rescue, applied hard-barrier claim,
+  evaluation field controller 유입, raw artifact/log/credential Git 기록, direct-z 임시
+  session 모니터링·artifact 결합.
+- 예상 산출물: 8 controller, 8 evaluator, 32 checkpoints, model analysis 2개, pair
+  analysis 1개, 모델별 별도 Terra Ultra analysis 시도와 GH final synthesis.
+- 중단 조건: session/CWD/repo/job/run/resource mismatch, dirty/unpushed Git,
+  output/marker collision, worker nonzero, exact hop/share/radial identity,
+  firewall/lineage/hash/read-only 실패.
+- Codex session boundary: server1 GH session
+  `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`, confirmed `Sol Ultra`, CWD
+  `/mnt/raid5/janghj/ODE-edit`, repository `hyunjun1127/ODE-edit`. Subagent는 runtime
+  metadata가 확인된 `Terra Ultra`만 관련 code/report를 읽고 결과 직후 종료한다.
+
+## GH 직접 실행 예외
+
+- 사유: 별도 server1 SH 부재 및 사용자 time-critical 동시 실행 승인.
+- 명령: `project/run_scripts/submit_session01_capacity_history_pair_server1.sh`.
+- 영향 범위: server1 4-GPU c3 pair 1건과 위 ignored local path.
+- 모니터링: 초기 pipeline 연속 확인 후 30분 단위 terminal 확인.
