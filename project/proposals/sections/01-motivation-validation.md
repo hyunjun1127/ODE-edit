@@ -1,8 +1,29 @@
 # Session 01 — Motivation Validation: 최종 연구 판정
 
-- 최종 갱신: 2026-07-31
-- 상태: **closed — `motivation_not_supported_cross_model`; `NO MV3`; no retune**
+- 최종 갱신: 2026-08-02
+- 상태: **closed — atomic possibility only; c1 `CAPACITY_HISTORY_HARM_SIGNAL`; no model-specific rescue**
 - 현재 방법명: `ODE-Edit` (원 handoff의 `BF-ODE-Edit`은 원문 보존)
+
+## 2026-08-02 c1 supersession
+
+사용자 지시로 기존 MV-2 이후 atomic/direct-z와 constrained capacity/history
+diagnostic을 추가 수행했다. c0의 fixed fractional progress와 weak terminal은 구현
+오류로 판정해 폐기했고, c1 `capacity-qp-history-k4-native-progress-v2`로 다시
+구현·실행했다.
+
+- controller/evaluator 16개가 technical pass했다.
+- QP-minus-native current utility는 Llama MEMIT `-4.032392`, Llama Alpha-history
+  `-2.495123`, Qwen MEMIT `-0.397837`, Qwen Alpha-history `+0.029707`이다.
+- pair passing family는 `[]`, verdict는 `CAPACITY_HISTORY_HARM_SIGNAL`이다.
+- atomic/local relinearization possibility는 보존하지만 현재 fixed-`K=4`
+  sequential controller와 method-superiority claim은 kill한다.
+- 모델별 rescue, threshold/K/case retune, lifelong 확대는 열지 않는다.
+
+Canonical c1 근거는
+[`matched-quarter c1 spec`](../../../plans/global/2026-08-02-session01-capacity-history-matched-quarter-c1-spec.md)과
+[`c1 pair synthesis`](../../../experiment-reports/global/2026-08-02-session01-caphist-pair-c1-v3-synthesis.md)다.
+아래 2026-07-31 evidence chain은 초기 판정의 역사적 기록이며, 현재 최종 상태는 이
+supersession을 따른다.
 
 ## 출발 가설과 proposal의 지위
 

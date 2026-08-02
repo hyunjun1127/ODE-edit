@@ -1,22 +1,39 @@
-# Session 01 Motivation — ODE-Edit final GH closure
+# Session 01 Motivation — ODE-Edit final GH closure (c1 supersession)
 
 날짜: 2026-08-02
 
-상태: **Motivation closed — atomic mechanism survives; current sequential skeleton killed; Method Session 조건부 진입 가능**
+상태: **Motivation closed — atomic possibility only; c1 sequential controller cross-model negative; Method Session 진입 blocked**
 
 ## 결론 먼저
 
-ODE-Edit의 핵심 아이디어인 **current-state direction relinearization**은 MEMIT과
-AlphaEdit-projected actuator, Llama/Qwen 양쪽에서 같은 방향의 작은 atomic
-signal을 보였다. 그러나 이를 efficacy control 없이 `K=4`, 매 hop `D/4`로 항상
-적용한 4-edit sequential skeleton은 양 모델의 current utility와 retention을
-악화시켰다.
+ODE-Edit의 **current-state direction relinearization**은 atomic/local possibility
+signal을 남겼다. 이후 full remaining-native-progress, trust ratio, rollback,
+capacity QP와 canonical Alpha history를 포함한 c1 controller까지 구현해 두 모델에서
+같은 policy로 재실험했다. 구현은 기술적으로 통과했고 c0보다 크게 회복됐지만,
+Llama의 MEMIT/Alpha와 Qwen MEMIT이 current non-collapse를 실패했다.
 
-따라서 Motivation은 성능 우위로 닫히지 않는다. 대신 다음 두 결론으로 닫는다.
+따라서 Motivation은 다음 두 결론으로 최종 종료한다.
 
-1. state-dependent path와 낮은-capacity realization을 탐색할 근거는 살아 있다.
-2. first-hit, accept/reject, trust ratio, rewrite-utility constraint와 capacity routing
-   없이 방향만 재계산하는 구현은 kill한다.
+1. state-dependent path의 atomic possibility는 보존한다.
+2. 현재 fixed-`K=4` constrained sequential controller와 그 method-superiority claim은
+   cross-model negative로 kill한다. 추가 Motivation rescue는 열지 않는다.
+
+## 2026-08-02 c1 최종 supersession
+
+- canonical c1 report:
+  `experiment-reports/global/2026-08-02-session01-caphist-pair-c1-v3-synthesis.md`.
+- technical: controller/evaluator `16/16` terminal/pass, pair technical pass.
+- QP-minus-native current utility: Llama MEMIT `-4.032392`, Llama Alpha
+  `-2.495123`, Qwen MEMIT `-0.397837`, Qwen Alpha `+0.029707`.
+- passing family: `[]`; pair verdict `CAPACITY_HISTORY_HARM_SIGNAL`.
+- c0 fixed-fraction/weak-terminal 결과는 superseded지만, c1은 유효한 과학적 음성
+  evidence다.
+- Direct-z 별도 session의 atomic/local positive boundary는 이 sequential verdict와
+  합치지 않는다.
+
+아래 본문은 c1 이전 motivation ladder와 full-controller 진입 조건의 역사적 기록이다.
+위 supersession과 충돌하는 “Method Session 조건부 진입” 문장은 더 이상 현재 판정이
+아니다.
 
 ## 네 범주
 
@@ -158,7 +175,7 @@ compute frontier를 개선하지 못하면 ODE paper story는 유지할 수 없�
 
 ## 최종 판정
 
-**Motivation partial-positive closure.** State-dependent relinearization과
-capacity/utility trade-off는 살아남았지만 현재 sequential skeleton은 kill됐다.
-다음은 추가 rescue diagnostic이 아니라 실제 constrained controller를 구현하는
-Method Session이어야 한다.
+**Motivation final closure.** State-dependent relinearization의 atomic possibility는
+남지만 실제 constrained controller c1이 Llama/Qwen 공통 gate를 실패했다. 현재
+sequential ODE-Edit controller는 closed-negative이며, 추가 Motivation retune이나
+Method/Lifelong 확대를 진행하지 않는다.

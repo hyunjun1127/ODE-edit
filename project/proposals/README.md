@@ -18,10 +18,12 @@ next-session criterion, server-head instruction envelope를 `PROTOCOL.md`에 따
 ## 현재 rationale section
 
 - [`sections/01-motivation-validation.md`](sections/01-motivation-validation.md):
-  Session 01의 mechanism chain과 최종 `NO MV3` 판정
+  Session 01의 mechanism chain, 2026-07-31 판정과 2026-08-02 c1 supersession
 - [`sections/02-related-work-and-novelty-boundary.md`](sections/02-related-work-and-novelty-boundary.md):
   layer allocation, sequential regularization, ODE prior와 baseline/novelty 경계
 
-Session 01은 `motivation_not_supported_cross_model`로 종료됐다. 후속
-fixed-direction coefficient, static allocation 또는 architecture-specific
-track은 기존 ODE-Edit 성공의 다음 단계가 아니라 새 proposal로 시작해야 한다.
+Session 01은 c1에서 `CAPACITY_HISTORY_HARM_SIGNAL`, passing family `[]`로 최종
+종료됐다. Atomic/local possibility는 보존하지만 현재 sequential controller는
+cross-model negative다. 후속 fixed-direction coefficient, exact-length control,
+static allocation 또는 architecture-specific track은 기존 ODE-Edit 성공의 자동
+다음 단계가 아니라 새 proposal로 시작해야 한다.
