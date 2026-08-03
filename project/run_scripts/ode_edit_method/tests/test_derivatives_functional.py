@@ -100,7 +100,7 @@ class DirectionalDerivativeTests(unittest.TestCase):
             )
             self.assertEqual(value.progress_slope, max(0.0, -value.event_derivative))
         snapshot = metrics.finalize().to_dict()
-        self.assertEqual(snapshot["counters"]["N_field"], 1)
+        self.assertEqual(snapshot["counters"]["N_model_fwd"], 0)
         self.assertEqual(snapshot["counters"]["N_bw"], 1)
 
     def test_actuator_hook_matches_dense_oracle_without_target_grad(self) -> None:
@@ -129,9 +129,9 @@ class DirectionalDerivativeTests(unittest.TestCase):
             self.directions,
             instrumentation=metrics,
         ) as hook:
-            with metrics.state_forward():
+            with metrics.state_forward("field"):
                 first = _loss(self.model, self.inputs)
-            with metrics.state_forward():
+            with metrics.state_forward("field"):
                 second = _loss(self.model, self.inputs * 0.5)
             with mock.patch("torch.autograd.grad", wraps=original_grad) as grad_mock:
                 observed = hook.compute(first + second)
@@ -157,8 +157,8 @@ class DirectionalDerivativeTests(unittest.TestCase):
             self.assertEqual(parameter._version, version)
             self.assertFalse(parameter.requires_grad)
         counters = metrics.finalize().to_dict()["counters"]
-        self.assertEqual(counters["N_state_fwd"], 2)
-        self.assertEqual(counters["N_field"], 1)
+        self.assertEqual(counters["N_model_fwd"], 2)
+        self.assertEqual(counters["N_field_state_fwd"], 2)
         self.assertEqual(counters["N_bw"], 1)
 
 
@@ -233,12 +233,19 @@ class FunctionalTrialTests(unittest.TestCase):
         for name, parameter in self.model.named_parameters():
             self.assertEqual(parameter.data_ptr(), pointers[name])
 
-    def test_accepted_write_failure_restores_all_weights_exactly(self) -> None:
+    def test_outer_checkpoint_restores_mid_commit_failure_exactly(self) -> None:
         before = {
             name: parameter.detach().clone()
             for name, parameter in self.model.named_parameters()
         }
         from project.run_scripts.ode_edit_method import hooks as hook_module
+        from project.run_scripts.ode_edit_method.hooks import TorchCheckpoint
+
+        checkpoint = TorchCheckpoint.capture(
+            self.model,
+            tuple(direction.weight_name for direction in self.directions),
+        )
+        before_rng = torch.get_rng_state().clone()
 
         real_apply = hook_module._apply_factor_update_
         calls = 0
@@ -255,8 +262,12 @@ class FunctionalTrialTests(unittest.TestCase):
         ):
             with self.assertRaisesRegex(RuntimeError, "injected accepted-write failure"):
                 apply_accepted_factors(self.model, self.directions, (0.2, 0.3))
+        # No per-accepted-step backup: the first layer was partially committed.
+        self.assertFalse(torch.equal(self.model.first.weight, before["first.weight"]))
+        checkpoint.restore(self.model)
         for name, parameter in self.model.named_parameters():
             self.assertTrue(torch.equal(parameter, before[name]))
+        self.assertTrue(torch.equal(torch.get_rng_state(), before_rng))
 
     def test_functional_trial_restores_rng_and_detects_weight_mutation(self) -> None:
         before_rng = torch.get_rng_state().clone()

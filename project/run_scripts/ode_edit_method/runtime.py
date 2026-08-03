@@ -129,20 +129,26 @@ class FiveArmRunner:
             raise MethodContractError("backend layers differ from Omega geometry")
         if not isinstance(request, ControllerRequest):
             raise MethodContractError("runner accepts only a rewrite-only ControllerRequest")
-        if arm is Arm.NATIVE_MEMIT:
-            return self._run_native(edit_id, request, backend, instrumentation)
-        if arm is Arm.SCALAR_FIRST_HIT:
-            return self._run_scalar(edit_id, request, backend, instrumentation)
-        if arm in {
-            Arm.STATIC_SYNCHRONOUS,
-            Arm.ONE_REFRESH,
-            Arm.ORDERED_ADAPTIVE,
-            Arm.FULL_ODE_EDIT,
-        }:
-            return self._run_adaptive(
-                arm, edit_id, request, backend, instrumentation
-            )
-        raise MethodContractError(f"unsupported arm: {arm}")
+        if instrumentation is not None:
+            instrumentation.start_controller()
+        try:
+            if arm is Arm.NATIVE_MEMIT:
+                return self._run_native(edit_id, request, backend, instrumentation)
+            if arm is Arm.SCALAR_FIRST_HIT:
+                return self._run_scalar(edit_id, request, backend, instrumentation)
+            if arm in {
+                Arm.STATIC_SYNCHRONOUS,
+                Arm.ONE_REFRESH,
+                Arm.ORDERED_ADAPTIVE,
+                Arm.FULL_ODE_EDIT,
+            }:
+                return self._run_adaptive(
+                    arm, edit_id, request, backend, instrumentation
+                )
+            raise MethodContractError(f"unsupported arm: {arm}")
+        finally:
+            if instrumentation is not None:
+                instrumentation.stop_controller()
 
     def _run_native(
         self,
@@ -151,13 +157,32 @@ class FiveArmRunner:
         backend: MethodBackend,
         instrumentation: EditInstrumentation | None,
     ) -> ArmRunResult:
-        entry = backend.checkpoint()
+        entry = self._checkpoint(backend, instrumentation)
         frozen_omega = self.omega.frozen_for_edit(edit_id)
         del frozen_omega  # Native does not route, but freezes the same edit ledger.
         target = _DirectZOnce(backend, request, instrumentation)
         try:
             before = self._event(backend, request, instrumentation)
-            batch = backend.build_native_terminal(target.get())
+            if before.is_hit(self.config.event_tolerance):
+                if instrumentation is not None:
+                    instrumentation.mark_first_hit()
+                terminal_energy = self._terminal_energy(
+                    backend, entry, instrumentation
+                )
+                self.omega.append_terminal(edit_id, terminal_energy)
+                return ArmRunResult(
+                    arm=Arm.NATIVE_MEMIT,
+                    edit_id=edit_id,
+                    status="event_hit",
+                    direct_z_compute_count=0,
+                    terminal_state_id=backend.current_state_id(),
+                    omega_appended=True,
+                    steps=(),
+                )
+            batch = self._build_native(
+                lambda: backend.build_native_terminal(target.get()),
+                instrumentation,
+            )
             if batch.semantics is not ProposalSemantics.NATIVE_ORDERED_TERMINAL:
                 raise MethodContractError("native backend returned non-native semantics")
             _assert_batch_current(backend, batch)
@@ -170,7 +195,7 @@ class FiveArmRunner:
             after = self._event(backend, request, instrumentation)
             if after.is_hit(self.config.event_tolerance) and instrumentation is not None:
                 instrumentation.mark_first_hit()
-            terminal_energy = backend.terminal_net_energy(entry)
+            terminal_energy = self._terminal_energy(backend, entry, instrumentation)
             step = StepRecord(
                 arm=Arm.NATIVE_MEMIT,
                 position=0,
@@ -208,7 +233,7 @@ class FiveArmRunner:
             self.omega.append_terminal(edit_id, terminal_energy)
             return result
         except BaseException:
-            backend.restore(entry)
+            self._restore(backend, entry, instrumentation)
             raise
 
     def _run_scalar(
@@ -218,21 +243,22 @@ class FiveArmRunner:
         backend: MethodBackend,
         instrumentation: EditInstrumentation | None,
     ) -> ArmRunResult:
-        entry = backend.checkpoint()
+        entry = self._checkpoint(backend, instrumentation)
         self.omega.frozen_for_edit(edit_id)
         target = _DirectZOnce(backend, request, instrumentation)
         try:
-            target.get()
             entry_event = self._event(backend, request, instrumentation)
             if entry_event.is_hit(self.config.event_tolerance):
                 if instrumentation is not None:
                     instrumentation.mark_first_hit()
-                terminal_energy = backend.terminal_net_energy(entry)
+                terminal_energy = self._terminal_energy(
+                    backend, entry, instrumentation
+                )
                 result = ArmRunResult(
                     arm=Arm.SCALAR_FIRST_HIT,
                     edit_id=edit_id,
                     status="event_hit",
-                    direct_z_compute_count=target.compute_count,
+                    direct_z_compute_count=0,
                     terminal_state_id=backend.current_state_id(),
                     omega_appended=True,
                     steps=(),
@@ -241,7 +267,10 @@ class FiveArmRunner:
                 )
                 self.omega.append_terminal(edit_id, terminal_energy)
                 return result
-            batch = backend.build_native_terminal(target.get())
+            batch = self._build_native(
+                lambda: backend.build_native_terminal(target.get()),
+                instrumentation,
+            )
             if batch.semantics is not ProposalSemantics.NATIVE_ORDERED_TERMINAL:
                 raise MethodContractError("scalar arm did not freeze native terminal writes")
             _assert_batch_current(backend, batch)
@@ -266,7 +295,7 @@ class FiveArmRunner:
 
             search = ScalarFirstHitSearch(self.config).run(probe)
             if not search.hit or search.alpha is None:
-                backend.restore(entry)
+                self._restore(backend, entry, instrumentation)
                 return ArmRunResult(
                     arm=Arm.SCALAR_FIRST_HIT,
                     edit_id=edit_id,
@@ -292,7 +321,7 @@ class FiveArmRunner:
                 raise MethodContractError("scalar selected alpha did not reproduce first hit")
             if instrumentation is not None:
                 instrumentation.mark_first_hit()
-            terminal_energy = backend.terminal_net_energy(entry)
+            terminal_energy = self._terminal_energy(backend, entry, instrumentation)
             step = StepRecord(
                 arm=Arm.SCALAR_FIRST_HIT,
                 position=0,
@@ -323,7 +352,7 @@ class FiveArmRunner:
             self.omega.append_terminal(edit_id, terminal_energy)
             return result
         except BaseException:
-            backend.restore(entry)
+            self._restore(backend, entry, instrumentation)
             raise
 
     def _run_adaptive(
@@ -334,7 +363,7 @@ class FiveArmRunner:
         backend: MethodBackend,
         instrumentation: EditInstrumentation | None,
     ) -> ArmRunResult:
-        entry = backend.checkpoint()
+        entry = self._checkpoint(backend, instrumentation)
         frozen_omega = self.omega.frozen_for_edit(edit_id)
         target = _DirectZOnce(backend, request, instrumentation)
         radius = self.config.h0
@@ -349,8 +378,8 @@ class FiveArmRunner:
         static_share: tuple[float, ...] | None = None
         retry_field: tuple[EventReading, ProposalBatch, int | None, str] | None = None
 
+        target_value: Any = None
         try:
-            target_value = target.get()
             while accepted_count < accepted_cap:
                 if retry_field is not None:
                     before, batch, layer, retry_state_id = retry_field
@@ -364,7 +393,9 @@ class FiveArmRunner:
                     if before.is_hit(self.config.event_tolerance):
                         if instrumentation is not None:
                             instrumentation.mark_first_hit()
-                        terminal_energy = backend.terminal_net_energy(entry)
+                        terminal_energy = self._terminal_energy(
+                            backend, entry, instrumentation
+                        )
                         result = ArmRunResult(
                             arm=arm,
                             edit_id=edit_id,
@@ -376,6 +407,9 @@ class FiveArmRunner:
                         )
                         self.omega.append_terminal(edit_id, terminal_energy)
                         return result
+
+                    if target_value is None:
+                        target_value = target.get()
 
                     layer = None
                     if arm in {Arm.FULL_ODE_EDIT, Arm.ONE_REFRESH}:
@@ -469,7 +503,7 @@ class FiveArmRunner:
                         rejections = 0
                         retry_field = None
                         if zero_slope_streak >= len(layers):
-                            backend.restore(entry)
+                            self._restore(backend, entry, instrumentation)
                             return ArmRunResult(
                                 arm=arm,
                                 edit_id=edit_id,
@@ -481,7 +515,7 @@ class FiveArmRunner:
                                 failure_type="no_positive_slope",
                             )
                         continue
-                    backend.restore(entry)
+                    self._restore(backend, entry, instrumentation)
                     return ArmRunResult(
                         arm=arm,
                         edit_id=edit_id,
@@ -558,7 +592,9 @@ class FiveArmRunner:
                     if verdict.hit:
                         if instrumentation is not None:
                             instrumentation.mark_first_hit()
-                        terminal_energy = backend.terminal_net_energy(entry)
+                        terminal_energy = self._terminal_energy(
+                            backend, entry, instrumentation
+                        )
                         result = ArmRunResult(
                             arm=arm,
                             edit_id=edit_id,
@@ -581,7 +617,7 @@ class FiveArmRunner:
                         backend.current_state_id(),
                     )
                     if rejections >= self.config.max_rejections_per_state:
-                        backend.restore(entry)
+                        self._restore(backend, entry, instrumentation)
                         return ArmRunResult(
                             arm=arm,
                             edit_id=edit_id,
@@ -593,7 +629,7 @@ class FiveArmRunner:
                             failure_type="trust_rejection_limit",
                         )
 
-            backend.restore(entry)
+            self._restore(backend, entry, instrumentation)
             return ArmRunResult(
                 arm=arm,
                 edit_id=edit_id,
@@ -613,7 +649,7 @@ class FiveArmRunner:
                 ),
             )
         except BaseException:
-            backend.restore(entry)
+            self._restore(backend, entry, instrumentation)
             raise
 
     @staticmethod
@@ -629,10 +665,20 @@ class FiveArmRunner:
             if instrumentation is not None
             else nullcontext()
         )
-        with timer:
+        forward_scope = (
+            instrumentation.model_forward_scope("event")
+            if instrumentation is not None
+            else nullcontext()
+        )
+        with timer, forward_scope:
             reading = backend.event(request)
-        if instrumentation is not None and reading.nfe:
-            instrumentation.increment("N_state_fwd", reading.nfe)
+        if (
+            instrumentation is not None
+            and not instrumentation.tracks_model_forwards
+            and reading.nfe
+        ):
+            for _ in range(reading.nfe):
+                instrumentation.record_model_forward("event")
         return reading
 
     @staticmethod
@@ -648,9 +694,25 @@ class FiveArmRunner:
         with timer:
             batch = build()
         if instrumentation is not None:
-            instrumentation.increment("N_field")
+            instrumentation.increment("N_proposal_build")
             instrumentation.increment("N_bw")
-            instrumentation.increment("N_state_fwd")
+        return batch
+
+    @staticmethod
+    def _build_native(
+        build: Any,
+        instrumentation: EditInstrumentation | None,
+    ) -> ProposalBatch:
+        timer = (
+            instrumentation.component("native_proposal")
+            if instrumentation is not None
+            else nullcontext()
+        )
+        with timer:
+            batch = build()
+        if instrumentation is not None:
+            instrumentation.increment("N_proposal_build")
+            instrumentation.increment("N_native_sweep")
         return batch
 
     @staticmethod
@@ -670,3 +732,44 @@ class FiveArmRunner:
         if instrumentation is not None:
             instrumentation.increment("N_write")
         return applied
+
+    @staticmethod
+    def _checkpoint(
+        backend: MethodBackend,
+        instrumentation: EditInstrumentation | None,
+    ) -> BackendCheckpoint:
+        timer = (
+            instrumentation.component("entry_checkpoint")
+            if instrumentation is not None
+            else nullcontext()
+        )
+        with timer:
+            return backend.checkpoint()
+
+    @staticmethod
+    def _restore(
+        backend: MethodBackend,
+        checkpoint: BackendCheckpoint,
+        instrumentation: EditInstrumentation | None,
+    ) -> None:
+        timer = (
+            instrumentation.component("restore")
+            if instrumentation is not None
+            else nullcontext()
+        )
+        with timer:
+            backend.restore(checkpoint)
+
+    @staticmethod
+    def _terminal_energy(
+        backend: MethodBackend,
+        checkpoint: BackendCheckpoint,
+        instrumentation: EditInstrumentation | None,
+    ) -> Mapping[int, float]:
+        timer = (
+            instrumentation.component("terminal_geometry")
+            if instrumentation is not None
+            else nullcontext()
+        )
+        with timer:
+            return backend.terminal_net_energy(checkpoint)

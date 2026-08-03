@@ -276,11 +276,12 @@ def apply_accepted_factors(
     native_exact: bool = False,
     row_block: int = 64,
 ) -> tuple[float, ...]:
-    """Persist one accepted coefficient vector with exact failure cleanup.
+    """Persist one accepted coefficient vector inside an outer transaction.
 
-    Rejected trials never call this function.  The only dense snapshots here
-    are CPU cleanup backups for the accepted transaction; no trial model-copy
-    or full dense adaptive update is materialized on the accelerator.
+    This function deliberately takes no per-step dense backup.  Its caller
+    must hold the single edit-entry :class:`TorchCheckpoint` and restore that
+    checkpoint if any layer update raises.  Rejected trials never call this
+    function, and accepted updates remain row-blocked.
     """
 
     locked = tuple(directions)
@@ -307,29 +308,17 @@ def apply_accepted_factors(
         ):
             raise MethodContractError("accepted-write factor/weight shapes differ")
     pointers = tuple(parameter.data_ptr() for parameter in parameters)
-    backups = tuple(parameter.detach().to(device="cpu", copy=True) for parameter in parameters)
-    try:
-        with torch.no_grad():
-            for parameter, direction, coefficient in zip(
-                parameters, locked, applied, strict=True
-            ):
-                _apply_factor_update_(
-                    parameter,
-                    direction,
-                    coefficient,
-                    native_exact=native_exact,
-                    row_block=row_block,
-                )
-    except BaseException:
-        with torch.no_grad():
-            for parameter, backup in zip(parameters, backups, strict=True):
-                parameter.copy_(backup.to(device=parameter.device, dtype=parameter.dtype))
-        if any(
-            not torch.equal(parameter.detach().cpu(), backup)
-            for parameter, backup in zip(parameters, backups, strict=True)
+    with torch.no_grad():
+        for parameter, direction, coefficient in zip(
+            parameters, locked, applied, strict=True
         ):
-            raise RollbackError("accepted-write cleanup was not exact")
-        raise
+            _apply_factor_update_(
+                parameter,
+                direction,
+                coefficient,
+                native_exact=native_exact,
+                row_block=row_block,
+            )
     if any(
         parameter.data_ptr() != pointer
         for parameter, pointer in zip(parameters, pointers, strict=True)
