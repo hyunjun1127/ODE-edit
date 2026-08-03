@@ -20,7 +20,7 @@ from .contracts import (
     ProposalBatch,
     ProposalSemantics,
 )
-from .functional_trial import QuantizedRowBlockFunctionalTrial
+from .functional_trial import QuantizedFullLinearFunctionalTrial
 from .hooks import FactorDirection, TorchFactorTrial, apply_accepted_factors
 
 
@@ -162,8 +162,8 @@ def functional_trial_for_batch(
     model: torch.nn.Module,
     batch: ProposalBatch,
     coefficients: Sequence[float],
-) -> QuantizedRowBlockFunctionalTrial:
-    """Construct the common simple-T trial for adaptive finite candidates."""
+) -> QuantizedFullLinearFunctionalTrial:
+    """Construct the common full-linear simple-T adaptive finite trial."""
 
     directions = tuple(proposal.payload for proposal in batch.proposals)
     if any(not isinstance(direction, FactorDirection) for direction in directions):
@@ -176,7 +176,7 @@ def functional_trial_for_batch(
         raise MethodContractError(
             "simple-T production trial accepts adaptive proposal semantics only"
         )
-    return QuantizedRowBlockFunctionalTrial(
+    return QuantizedFullLinearFunctionalTrial(
         model,
         directions,
         coefficients,

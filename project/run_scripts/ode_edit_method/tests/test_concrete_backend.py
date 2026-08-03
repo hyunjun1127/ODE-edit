@@ -23,7 +23,7 @@ from project.run_scripts.ode_edit_method.contracts import (
 )
 from project.run_scripts.ode_edit_method.easyedit_backend import EasyEditMemitBackend
 from project.run_scripts.ode_edit_method.functional_trial import (
-    QuantizedRowBlockFunctionalTrial,
+    QuantizedFullLinearFunctionalTrial,
 )
 from project.run_scripts.ode_edit_method.hooks import FactorDirection
 from project.run_scripts.ode_edit_method.instrumentation import EditInstrumentation
@@ -101,7 +101,7 @@ def _backend(alias: str, root: str) -> EasyEditMemitBackend:
 
 
 class ConcreteBackendTests(unittest.TestCase):
-    def test_adaptive_trial_uses_simple_quantized_rowblock_backend(self) -> None:
+    def test_adaptive_trial_uses_quantized_full_linear_backend(self) -> None:
         with tempfile.TemporaryDirectory() as root:
             backend = _backend("llama3-8b-inst", root)
             state = backend.current_state_id()
@@ -130,7 +130,7 @@ class ConcreteBackendTests(unittest.TestCase):
                         semantics=semantics,
                     )
                     trial = backend.trial(adaptive, (0.25,))
-                    self.assertIs(type(trial), QuantizedRowBlockFunctionalTrial)
+                    self.assertIs(type(trial), QuantizedFullLinearFunctionalTrial)
                     self.assertEqual(trial.row_block, 64)
                     with trial:
                         pass

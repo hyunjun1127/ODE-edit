@@ -52,7 +52,7 @@ from .derivatives import (
 )
 from .dense_memit import TransientDenseMemitSolver
 from .events import ControllerRequest, measure_differentiable_event, measure_event
-from .functional_trial import QuantizedRowBlockFunctionalTrial
+from .functional_trial import QuantizedFullLinearFunctionalTrial
 from .hooks import TorchCheckpoint, terminal_net_c_energy
 from .instrumentation import EditInstrumentation
 from .memit_adapter import (
@@ -672,7 +672,7 @@ class EasyEditMemitBackend:
 
     def trial(
         self, batch: ProposalBatch, coefficients: Sequence[float]
-    ) -> QuantizedRowBlockFunctionalTrial:
+    ) -> QuantizedFullLinearFunctionalTrial:
         if batch.snapshot_id != self.current_state_id():
             raise MethodContractError("functional trial proposal is stale")
         return functional_trial_for_batch(self.model, batch, coefficients)

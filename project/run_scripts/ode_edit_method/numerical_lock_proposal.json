@@ -1,10 +1,10 @@
 {
-  "schema_version": "ode-edit-compute-aware-numerical-lock-proposal/v6",
+  "schema_version": "ode-edit-compute-aware-numerical-lock-proposal/v7",
   "status": "OUTCOME_FREE_PROPOSAL_PENDING_GH_APPROVAL",
-  "instruction_id": "ODEEDIT-S02-TWO-FORWARD-EVENT-V6-IMPL-V1",
-  "parent_instruction_id": "ODEEDIT-S02-P0-ORIGINAL-DTYPE-SIMPLE-T-V5-PAIR-V1",
-  "revision_id": "ODEEDIT-S02-TWO-FORWARD-EVENT-V6-IMPL-V1",
-  "canonical_main_commit": "96b314b18585470275d20c586b46e63ac9574c57",
+  "instruction_id": "ODEEDIT-S02-FULL-LINEAR-T-V7-IMPL-V1",
+  "parent_instruction_id": "ODEEDIT-S02-P0-TWO-FORWARD-V6-PAIR-V1",
+  "revision_id": "ODEEDIT-S02-FULL-LINEAR-T-V7-IMPL-V1",
+  "canonical_main_commit": "4a82979828aed6b1b35e1ba3ea7309b5430c81c4",
   "canonical_spec": {
     "path": "plans/global/2026-08-03-session02-compute-aware-main-table-spec.md",
     "sha256": "8ee7f5557f298bb67c1e85ed6de1aaa6a285b7b8d28ecd4dcbe1973bdf85531d"
@@ -222,12 +222,16 @@
     "support_sign_epsilon": 1e-10
   },
   "trial_backend": {
-    "selected_common_backend": "quantized-rowblock-commit-emulator",
+    "selected_common_backend": "quantized-full-linear-commit-emulator",
     "selection_policy": "simple-T-every-adaptive-candidate",
     "two_tier_pretrial": false,
     "row_block": 64,
+    "accepted_update_assembly": "fp32-factor-product-coefficient-rowblock64-parameter-cast-add",
+    "production_full_linear_calls_per_target_invocation": 1,
+    "prior_rowblock_output_emulator": "diagnostic-and-reference-only",
     "continuous_low_rank_overlay": "reference-and-diagnostic-only",
-    "dense_weight_copy_for_trial": false,
+    "full_base_weight_clone_for_trial": false,
+    "all_layer_full_effective_copies": false,
     "target_weight_mutation_for_trial": false,
     "per_trial_checkpoint": false,
     "cached_trial_graph": "UNSUPPORTED_FAIL_CLOSED",
@@ -236,14 +240,42 @@
     "functional_vs_committed_atol": 0.00005,
     "functional_vs_committed_rtol": 0.005,
     "same_coefficient_required": true,
-    "unchanged_trial_state_guard": "storage-pointer-version-shape-dtype-device-without-dense-rehash"
+    "unchanged_trial_state_guard": "storage-pointer-version-shape-dtype-device-without-dense-rehash",
+    "t_c_failure_diagnostic": "numeric-phi-abs-rel-and-locked-tolerances-only",
+    "temporary_memory": {
+      "full_parameter_dtype_effective_weight_temporary": true,
+      "simultaneous_target_layers": 1,
+      "full_fp32_delta": false,
+      "fp32_update_max_elements": "row_block*input_width",
+      "shape_derived_not_observed_gpu_peak": true,
+      "models": {
+        "llama3-8b-inst": {
+          "largest_target": "down_proj",
+          "effective_weight_shape": [4096, 14336],
+          "effective_weight_bytes": 117440512,
+          "effective_weight_mib": 112.0,
+          "fp32_update_max_shape": [64, 14336],
+          "fp32_update_max_bytes": 3670016,
+          "fp32_update_max_mib": 3.5
+        },
+        "qwen2.5-7b-inst": {
+          "largest_target": "down_proj",
+          "effective_weight_shape": [3584, 18944],
+          "effective_weight_bytes": 135790592,
+          "effective_weight_mib": 129.5,
+          "fp32_update_max_shape": [64, 18944],
+          "fp32_update_max_bytes": 4849664,
+          "fp32_update_max_mib": 4.625
+        }
+      }
+    }
   },
   "concrete_backend": {
     "class": "project.run_scripts.ode_edit_method.easyedit_backend.EasyEditMemitBackend",
     "common_model_code_path": true,
     "easyedit_access": "verified-read-only-bridge",
     "direct_z": "once-at-entry-and-byte-frozen",
-    "accepted_state_mode": "quantized-rowblock-trial-then-commit-then-dedicated-rebuild",
+    "accepted_state_mode": "quantized-full-linear-trial-then-rowblock-commit-then-dedicated-rebuild",
     "descendant_authorization": "outer-transaction-exact-target-weight-state-hash-chain",
     "cached_trial_graph": "UNSUPPORTED_FAIL_CLOSED"
   },
@@ -275,7 +307,7 @@
     "runner": "project/run_scripts/session02_compute_aware_p0.py",
     "sbatch_template": "project/run_scripts/session02_compute_aware_p0.sbatch",
     "method_loader": "load_fixed_model_checkpoint_original",
-    "retry_output_root_template": "local/results/session02-p0-original-dtype-simple-t-v1-{model_alias}-{proposal_prefix}",
+    "retry_output_root_template": "local/results/session02-p0-original-dtype-full-linear-t-v1-{model_alias}-{proposal_prefix}",
     "runner_requires_execute_flag": true,
     "runner_can_submit_slurm": false,
     "paired_model_submission_required_by_future_envelope": true
@@ -462,9 +494,10 @@
     "p0_forecast_gpu_hours_per_model": "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0",
     "p1_forecast_gpu_hours_per_model": "HOLD_UNTIL_CHECKPOINT_ORIGINAL_BF16_P0",
     "gpu_peak_reserved_gib_forecast": "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0",
-    "simple_t_cpu_microfixture_median_ratio": 3.855567094593102,
-    "simple_t_extra_mac_ratio": 96.0,
-    "simple_t_microfixture_is_model_scale_forecast": false,
+    "prior_rowblock_t_cpu_microfixture_median_ratio": 3.855567094593102,
+    "prior_rowblock_t_extra_mac_ratio": 96.0,
+    "prior_rowblock_t_microfixture_is_model_scale_forecast": false,
+    "full_linear_t_model_scale_cost": "UNMEASURED_IN_P0",
     "p0_n_z_per_model_per_repetition": 4,
     "p0_profiler_repetitions_including_warmup": 4,
     "p0_profile_n_z_upper_bound_per_model": 16,
@@ -508,7 +541,7 @@
     "p0_profile_n_write_upper_bound_per_model": 60,
     "p1_n_write_upper_bound_per_model": 60,
     "counter_bound_basis": "conservative separable caps; Native one ordered proposal/write, Static<=6 accepted, One-refresh<=2 accepted, Full<=6 accepted, unchanged-state rejects reuse fields; each event measurement uses exactly two separate top-level teacher-forced forwards; each five-layer synchronous field has at most one current-z forward, five key forwards, and two differentiable-event forwards; the single P0 warmup scalar hard-reference gate adds two reference-gate forwards and one reference backward outside N_field_state_fwd/N_bw; N_trial is logical and never added to N_model_fwd; all actual EasyEdit internal forwards are counted by a top-level model hook",
-    "forecast_basis": "structural counter caps only; original-BF16 GPU time and memory must be measured in P0; legacy-float32 failure resources and the simple-T CPU microfixture are not model-scale forecasts"
+    "forecast_basis": "structural counter caps only; original-BF16 GPU time and memory must be measured in P0; legacy-float32 failure resources and the prior row-block T CPU microfixture are not model-scale forecasts; v7 full-linear T cost is unmeasured"
   },
   "execution_boundary": {
     "hf_hub_offline": true,

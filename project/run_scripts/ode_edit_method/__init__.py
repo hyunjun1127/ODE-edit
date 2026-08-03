@@ -26,6 +26,7 @@ from .derivatives import (
 )
 from .functional_trial import (
     LowRankFunctionalTrial,
+    QuantizedFullLinearFunctionalTrial,
     QuantizedRowBlockFunctionalTrial,
 )
 from .hooks import apply_accepted_factors
@@ -55,6 +56,7 @@ __all__ = [
     "InstrumentationSnapshot",
     "LayerProposal",
     "LowRankFunctionalTrial",
+    "QuantizedFullLinearFunctionalTrial",
     "QuantizedRowBlockFunctionalTrial",
     "FiveArmRunner",
     "MethodBackend",

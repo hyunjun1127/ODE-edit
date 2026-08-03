@@ -494,6 +494,49 @@ class RuntimeInvariantTests(unittest.TestCase):
         self.assertEqual(backend.weights, [0.0, 0.0])
         self.assertEqual(omega.receipts, ())
 
+    def test_t_c_failure_reports_only_safe_numeric_diagnostics(self) -> None:
+        class _CommitMismatchBackend(_ToyBackend):
+            def event(self, request: ControllerRequest) -> EventReading:
+                reading = super().event(request)
+                if self.write_calls == 0:
+                    return reading
+                return EventReading(
+                    hard_phi=reading.hard_phi + 0.125,
+                    smooth_phi=reading.smooth_phi + 0.25,
+                    context_margins=tuple(
+                        margin - 0.125 for margin in reading.context_margins
+                    ),
+                    nfe=reading.nfe,
+                )
+
+        backend = _CommitMismatchBackend()
+        omega = OmegaLedger({0: 1.0, 1: 1.0})
+        with self.assertRaises(MethodContractError) as captured:
+            FiveArmRunner(_test_config(), omega).run(
+                Arm.STATIC_SYNCHRONOUS,
+                edit_id="safe-t-c-diagnostic",
+                request=_request(),
+                backend=backend,
+            )
+        message = str(captured.exception)
+        for field in (
+            "trial_hard_phi=",
+            "committed_hard_phi=",
+            "hard_abs=",
+            "hard_rel=",
+            "trial_smooth_phi=",
+            "committed_smooth_phi=",
+            "smooth_abs=",
+            "smooth_rel=",
+            "atol=",
+            "rtol=",
+        ):
+            self.assertIn(field, message)
+        for forbidden in ("subject", "new object", "old object", "{} is"):
+            self.assertNotIn(forbidden, message)
+        self.assertEqual(backend.weights, [0.0, 0.0])
+        self.assertEqual(omega.receipts, ())
+
     def test_one_refresh_and_ordered_caps_count_accepted_transitions(self) -> None:
         one_backend = _ToyBackend(goal=10.0)
         one = FiveArmRunner(

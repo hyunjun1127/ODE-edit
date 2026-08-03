@@ -18,7 +18,9 @@ from project.run_scripts.ode_edit_method.derivatives import (
 )
 from project.run_scripts.ode_edit_method.functional_trial import (
     LowRankFunctionalTrial,
+    QuantizedFullLinearFunctionalTrial,
     QuantizedRowBlockFunctionalTrial,
+    _assemble_quantized_effective_weight,
 )
 from project.run_scripts.ode_edit_method.hooks import FactorDirection
 from project.run_scripts.ode_edit_method.hooks import apply_accepted_factors
@@ -49,6 +51,16 @@ class BfloatNonlinearStressNetwork(torch.nn.Module):
         super().__init__()
         self.first = torch.nn.Linear(5, 7, bias=True)
         self.second = torch.nn.Linear(7, 3, bias=True)
+
+    def forward(self, value: torch.Tensor) -> torch.Tensor:
+        return self.second(torch.nn.functional.silu(self.first(value)))
+
+
+class BfloatMultiBlockStressNetwork(torch.nn.Module):
+    def __init__(self) -> None:
+        super().__init__()
+        self.first = torch.nn.Linear(5, 130, bias=True)
+        self.second = torch.nn.Linear(130, 11, bias=True)
 
     def forward(self, value: torch.Tensor) -> torch.Tensor:
         return self.second(torch.nn.functional.silu(self.first(value)))
@@ -127,6 +139,25 @@ def _stress_directions(
             * factor_scale,
             right=torch.randn(7, 2, generator=generator, dtype=torch.float64)
             * factor_scale,
+        ),
+    )
+
+
+def _multiblock_directions(
+    generator: torch.Generator,
+) -> tuple[FactorDirection, ...]:
+    return (
+        FactorDirection(
+            layer=0,
+            weight_name="first.weight",
+            left=torch.randn(130, 2, generator=generator),
+            right=torch.randn(5, 2, generator=generator),
+        ),
+        FactorDirection(
+            layer=1,
+            weight_name="second.weight",
+            left=torch.randn(11, 2, generator=generator),
+            right=torch.randn(130, 2, generator=generator),
         ),
     )
 
@@ -755,6 +786,278 @@ class FunctionalTrialTests(unittest.TestCase):
         self.assertTrue(torch.equal(trial_output, model(inputs).detach()))
         self.assertEqual(contract["max_effective_weight_elements"], 64 * 5)
         self.assertEqual(contract["max_output_block_elements"], 4 * 64)
+
+    def test_full_linear_trial_exact_bytes_single_call_and_temporary_bound(self) -> None:
+        generator = torch.Generator().manual_seed(211)
+        model = BfloatMultiBlockStressNetwork().to(torch.bfloat16)
+        with torch.no_grad():
+            for parameter in model.parameters():
+                parameter.copy_(
+                    torch.randn(
+                        parameter.shape,
+                        generator=generator,
+                        dtype=torch.float32,
+                    ).to(torch.bfloat16)
+                    * 0.19
+                )
+                parameter.requires_grad_(False)
+        inputs = torch.randn(4, 5, generator=generator).to(torch.bfloat16)
+        directions = _multiblock_directions(generator)
+        coefficients = (0.375, 0.625)
+
+        committed_model = copy.deepcopy(model)
+        apply_accepted_factors(
+            committed_model,
+            directions,
+            coefficients,
+            row_block=64,
+        )
+        for direction, coefficient in zip(
+            directions,
+            coefficients,
+            strict=True,
+        ):
+            weight = dict(model.named_parameters())[direction.weight_name]
+            expected = dict(committed_model.named_parameters())[direction.weight_name]
+            effective, max_update, blocks = _assemble_quantized_effective_weight(
+                weight,
+                direction,
+                coefficient,
+                row_block=64,
+            )
+            self.assertEqual(effective.dtype, weight.dtype)
+            self.assertTrue(
+                torch.equal(
+                    effective.contiguous().view(torch.uint8),
+                    expected.detach().contiguous().view(torch.uint8),
+                )
+            )
+            self.assertLessEqual(max_update, 64 * int(weight.shape[1]))
+            self.assertEqual(blocks, (int(weight.shape[0]) + 63) // 64)
+            del effective
+
+        baseline = model(inputs).detach()
+        with QuantizedFullLinearFunctionalTrial(
+            model,
+            directions,
+            (0.0, 0.0),
+            row_block=64,
+        ):
+            self.assertTrue(torch.equal(model(inputs).detach(), baseline))
+
+        parameters = tuple(model.parameters())
+        pointers = tuple(parameter.data_ptr() for parameter in parameters)
+        versions = tuple(parameter._version for parameter in parameters)
+        requires_grad = tuple(parameter.requires_grad for parameter in parameters)
+        before_rng = torch.get_rng_state().clone()
+        with QuantizedFullLinearFunctionalTrial(
+            model,
+            directions,
+            coefficients,
+            row_block=64,
+        ) as trial:
+            trial_output = model(inputs).detach()
+            contract = trial.temporary_shape_contract
+            _ = torch.rand(3)
+        self.assertTrue(torch.equal(torch.get_rng_state(), before_rng))
+        self.assertEqual(contract["full_linear_calls"], len(directions))
+        self.assertEqual(contract["full_linear_output_widths"], (130, 11))
+        self.assertEqual(contract["max_assembly_row_blocks"], 3)
+        self.assertEqual(contract["max_simultaneous_full_effective_weights"], 1)
+        self.assertEqual(contract["retained_full_effective_weights"], 0)
+        target_elements = tuple(
+            dict(model.named_parameters())[direction.weight_name].numel()
+            for direction in directions
+        )
+        self.assertEqual(
+            contract["max_effective_weight_elements"],
+            max(target_elements),
+        )
+        self.assertLess(
+            contract["max_effective_weight_elements"],
+            sum(target_elements),
+        )
+        self.assertLessEqual(
+            contract["max_fp32_update_elements"],
+            64 * max(direction.right.shape[0] for direction in directions),
+        )
+        for parameter, pointer, version, flag in zip(
+            parameters,
+            pointers,
+            versions,
+            requires_grad,
+            strict=True,
+        ):
+            self.assertEqual(parameter.data_ptr(), pointer)
+            self.assertEqual(parameter._version, version)
+            self.assertIsNone(parameter.grad)
+            self.assertEqual(parameter.requires_grad, flag)
+
+        apply_accepted_factors(model, directions, coefficients, row_block=64)
+        self.assertTrue(torch.equal(trial_output, model(inputs).detach()))
+        source = inspect.getsource(QuantizedFullLinearFunctionalTrial)
+        assembly_source = inspect.getsource(_assemble_quantized_effective_weight)
+        self.assertEqual(source.count("F.linear("), 1)
+        self.assertIn("left_compute[start:end] @ right_compute_t", assembly_source)
+        self.assertNotIn("left_compute @ right_compute_t", assembly_source)
+        self.assertIn("torch.empty_like(detached_weight)", assembly_source)
+        self.assertNotIn("llama3-8b-inst", source)
+        self.assertNotIn("qwen2.5-7b-inst", source)
+
+    def test_full_linear_trial_exception_cleanup_and_rowblock_independence(self) -> None:
+        parameters = tuple(self.model.parameters())
+        pointers = tuple(parameter.data_ptr() for parameter in parameters)
+        versions = tuple(parameter._version for parameter in parameters)
+        before_rng = torch.get_rng_state().clone()
+        baseline = self.model(self.inputs).detach()
+        with mock.patch.object(
+            QuantizedRowBlockFunctionalTrial,
+            "_hook",
+            side_effect=AssertionError("old row-block emulator invoked"),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "injected full-linear failure"):
+                with QuantizedFullLinearFunctionalTrial(
+                    self.model,
+                    self.directions,
+                    (0.2, 0.3),
+                    row_block=64,
+                ) as trial:
+                    _ = self.model(self.inputs)
+                    self.assertEqual(
+                        trial.temporary_shape_contract[
+                            "retained_full_effective_weights"
+                        ],
+                        0,
+                    )
+                    _ = torch.rand(4)
+                    raise RuntimeError("injected full-linear failure")
+        self.assertTrue(torch.equal(torch.get_rng_state(), before_rng))
+        self.assertTrue(torch.equal(self.model(self.inputs).detach(), baseline))
+        for parameter, pointer, version in zip(
+            parameters,
+            pointers,
+            versions,
+            strict=True,
+        ):
+            self.assertEqual(parameter.data_ptr(), pointer)
+            self.assertEqual(parameter._version, version)
+            self.assertIsNone(parameter.grad)
+
+        self.model.first.weight.grad = torch.zeros_like(self.model.first.weight)
+        with self.assertRaisesRegex(MethodContractError, r"\.grad must be None"):
+            with QuantizedFullLinearFunctionalTrial(
+                self.model,
+                self.directions,
+                (0.2, 0.3),
+            ):
+                pass
+
+    def test_full_linear_float64_oracle_matches_committed_full_linear(self) -> None:
+        coefficients = (0.35, 0.6)
+        with QuantizedFullLinearFunctionalTrial(
+            self.model,
+            self.directions,
+            coefficients,
+            row_block=64,
+        ):
+            trial_output = self.model(self.inputs).detach()
+        apply_accepted_factors(
+            self.model,
+            self.directions,
+            coefficients,
+            row_block=64,
+        )
+        self.assertTrue(torch.equal(trial_output, self.model(self.inputs).detach()))
+
+    def test_full_linear_seeded_bfloat16_nonlinear_rank2_t_c_stress(self) -> None:
+        seeds = (17, 37, 59, 83)
+        scales = (0.25, 1.0, 4.0)
+        coefficients = (0.125, 0.5, 1.0)
+        comparisons = 0
+        output_passes = 0
+        event_passes = 0
+        max_output_abs = 0.0
+        max_event_abs = 0.0
+        for seed in seeds:
+            for scale in scales:
+                for coefficient in coefficients:
+                    with self.subTest(
+                        seed=seed,
+                        scale=scale,
+                        coefficient=coefficient,
+                    ):
+                        generator = torch.Generator().manual_seed(seed)
+                        model = BfloatNonlinearStressNetwork().to(torch.bfloat16)
+                        with torch.no_grad():
+                            for parameter in model.parameters():
+                                parameter.copy_(
+                                    torch.randn(
+                                        parameter.shape,
+                                        generator=generator,
+                                        dtype=torch.float32,
+                                    ).to(torch.bfloat16)
+                                    * 0.37
+                                )
+                                parameter.requires_grad_(False)
+                        inputs = (
+                            torch.randn(
+                                3,
+                                5,
+                                generator=generator,
+                                dtype=torch.float32,
+                            )
+                            * 0.41
+                            + 0.07
+                        ).to(torch.bfloat16)
+                        directions = _stress_directions(generator, scale)
+                        with QuantizedFullLinearFunctionalTrial(
+                            model,
+                            directions,
+                            (coefficient, coefficient),
+                            row_block=64,
+                        ):
+                            trial_output = _combined_stress_output(model, inputs).detach()
+                            trial_event = _combined_stress_event(model, inputs).detach()
+                        apply_accepted_factors(
+                            model,
+                            directions,
+                            (coefficient, coefficient),
+                            row_block=64,
+                        )
+                        committed_output = _combined_stress_output(model, inputs).detach()
+                        committed_event = _combined_stress_event(model, inputs).detach()
+                        output_error = float(
+                            (trial_output.float() - committed_output.float())
+                            .abs()
+                            .max()
+                        )
+                        event_error = float(
+                            (trial_event.float() - committed_event.float()).abs()
+                        )
+                        max_output_abs = max(max_output_abs, output_error)
+                        max_event_abs = max(max_event_abs, event_error)
+                        output_passes += int(
+                            torch.allclose(
+                                trial_output.float(),
+                                committed_output.float(),
+                                atol=5e-5,
+                                rtol=5e-3,
+                            )
+                        )
+                        event_passes += int(
+                            torch.allclose(
+                                trial_event.float(),
+                                committed_event.float(),
+                                atol=5e-5,
+                                rtol=5e-3,
+                            )
+                        )
+                        comparisons += 1
+        self.assertEqual(comparisons, 36)
+        self.assertEqual(output_passes, comparisons)
+        self.assertEqual(event_passes, comparisons)
+        self.assertEqual(max_output_abs, 0.0)
+        self.assertEqual(max_event_abs, 0.0)
 
     def test_seeded_bfloat16_nonlinear_rank2_t_c_stress(self) -> None:
         seeds = (17, 37, 59, 83)

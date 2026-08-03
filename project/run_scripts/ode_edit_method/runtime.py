@@ -114,6 +114,37 @@ def _assert_batch_current(backend: MethodBackend, batch: ProposalBatch) -> None:
         )
 
 
+def _relative_discrepancy(left: float, right: float) -> float:
+    absolute = abs(left - right)
+    denominator = max(abs(left), abs(right))
+    return 0.0 if denominator == 0.0 else absolute / denominator
+
+
+def _functional_commit_mismatch_message(
+    trial: EventReading,
+    committed: EventReading,
+    *,
+    atol: float,
+    rtol: float,
+) -> str:
+    """Render only numeric T/C diagnostics; never include request payloads."""
+
+    hard_abs = abs(trial.hard_phi - committed.hard_phi)
+    smooth_abs = abs(trial.smooth_phi - committed.smooth_phi)
+    return (
+        "functional trial event differs from committed write: "
+        f"trial_hard_phi={trial.hard_phi:.17g}, "
+        f"committed_hard_phi={committed.hard_phi:.17g}, "
+        f"hard_abs={hard_abs:.17g}, "
+        f"hard_rel={_relative_discrepancy(trial.hard_phi, committed.hard_phi):.17g}, "
+        f"trial_smooth_phi={trial.smooth_phi:.17g}, "
+        f"committed_smooth_phi={committed.smooth_phi:.17g}, "
+        f"smooth_abs={smooth_abs:.17g}, "
+        f"smooth_rel={_relative_discrepancy(trial.smooth_phi, committed.smooth_phi):.17g}, "
+        f"atol={atol:.17g}, rtol={rtol:.17g}"
+    )
+
+
 class FiveArmRunner:
     def __init__(self, config: ControllerConfig, omega: OmegaLedger) -> None:
         self.config = config
@@ -636,7 +667,12 @@ class FiveArmRunner:
                         )
                     ):
                         raise MethodContractError(
-                            "functional trial event differs from committed write"
+                            _functional_commit_mismatch_message(
+                                after,
+                                committed_event,
+                                atol=self.config.functional_commit_atol,
+                                rtol=self.config.functional_commit_rtol,
+                            )
                         )
                     after = committed_event
                 steps.append(

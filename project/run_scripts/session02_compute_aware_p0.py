@@ -252,7 +252,7 @@ def run(args: argparse.Namespace) -> int:
         != EVENT_MODEL_FORWARD_CALLS
         or event_backend_lock.get("conditional_fallback") is not False
     ):
-        raise RuntimeError("runtime event backend differs from the v6 lock")
+        raise RuntimeError("runtime event backend differs from the v7 lock")
     event_backend_identity = {
         "selected_mode": EVENT_BACKEND_MODE,
         "actual_model_calls_per_event": EVENT_MODEL_FORWARD_CALLS,

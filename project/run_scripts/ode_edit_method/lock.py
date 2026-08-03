@@ -1,4 +1,4 @@
-"""Strict loader and dry-plan projection for the outcome-free v6 proposal."""
+"""Strict loader and dry-plan projection for the outcome-free v7 proposal."""
 
 from __future__ import annotations
 
@@ -14,10 +14,11 @@ from .events import EVENT_BACKEND_MODE, EVENT_MODEL_FORWARD_CALLS
 
 LOCK_PATH = Path(__file__).with_name("numerical_lock_proposal.json")
 MODEL_ALIASES = ("llama3-8b-inst", "qwen2.5-7b-inst")
-LOCK_SCHEMA = "ode-edit-compute-aware-numerical-lock-proposal/v6"
-LOCK_INSTRUCTION = "ODEEDIT-S02-TWO-FORWARD-EVENT-V6-IMPL-V1"
-LOCK_PARENT = "ODEEDIT-S02-P0-ORIGINAL-DTYPE-SIMPLE-T-V5-PAIR-V1"
-LOCK_BASE_COMMIT = "96b314b18585470275d20c586b46e63ac9574c57"
+LOCK_SCHEMA = "ode-edit-compute-aware-numerical-lock-proposal/v7"
+LOCK_INSTRUCTION = "ODEEDIT-S02-FULL-LINEAR-T-V7-IMPL-V1"
+LOCK_PARENT = "ODEEDIT-S02-P0-TWO-FORWARD-V6-PAIR-V1"
+LOCK_BASE_COMMIT = "4a82979828aed6b1b35e1ba3ea7309b5430c81c4"
+FINITE_TRIAL_BACKEND = "quantized-full-linear-commit-emulator"
 CONTEXT_LOCKS: Mapping[str, Mapping[str, Any]] = {
     "llama3-8b-inst": {
         "source": "llama3-8b-inst:fresh-seed-17",
@@ -163,7 +164,7 @@ def validate_lock(payload: Any) -> None:
         or root.get("parent_instruction_id") != LOCK_PARENT
         or root.get("canonical_main_commit") != LOCK_BASE_COMMIT
     ):
-        raise MethodContractError("v6 instruction/provenance identity differs")
+        raise MethodContractError("v7 instruction/provenance identity differs")
 
     dtype_contract = _mapping("dtype_contract", root.get("dtype_contract"))
     if (
@@ -209,7 +210,7 @@ def validate_lock(payload: Any) -> None:
         expected_context = CONTEXT_LOCKS[alias]
         if context != expected_context:
             raise MethodContractError(
-                f"{alias} original-BF16 context provenance differs from v6"
+                f"{alias} original-BF16 context provenance differs from v7"
             )
         context_ids.add(str(context["manifest_id"]))
         if (
@@ -273,33 +274,69 @@ def validate_lock(payload: Any) -> None:
     ):
         raise MethodContractError("read-only artifact policy enables a forbidden write")
     trial = _mapping("trial_backend", root.get("trial_backend"))
+    temporary = _mapping("temporary_memory", trial.get("temporary_memory"))
+    expected_temporary = {
+        "full_parameter_dtype_effective_weight_temporary": True,
+        "simultaneous_target_layers": 1,
+        "full_fp32_delta": False,
+        "fp32_update_max_elements": "row_block*input_width",
+        "shape_derived_not_observed_gpu_peak": True,
+        "models": {
+            "llama3-8b-inst": {
+                "largest_target": "down_proj",
+                "effective_weight_shape": [4096, 14336],
+                "effective_weight_bytes": 117440512,
+                "effective_weight_mib": 112.0,
+                "fp32_update_max_shape": [64, 14336],
+                "fp32_update_max_bytes": 3670016,
+                "fp32_update_max_mib": 3.5,
+            },
+            "qwen2.5-7b-inst": {
+                "largest_target": "down_proj",
+                "effective_weight_shape": [3584, 18944],
+                "effective_weight_bytes": 135790592,
+                "effective_weight_mib": 129.5,
+                "fp32_update_max_shape": [64, 18944],
+                "fp32_update_max_bytes": 4849664,
+                "fp32_update_max_mib": 4.625,
+            },
+        },
+    }
     if (
         trial.get("cached_trial_graph") != "UNSUPPORTED_FAIL_CLOSED"
         or trial.get("cached_mode_scientific_arm") is not False
-        or trial.get("selected_common_backend")
-        != "quantized-rowblock-commit-emulator"
+        or trial.get("selected_common_backend") != FINITE_TRIAL_BACKEND
         or trial.get("selection_policy") != "simple-T-every-adaptive-candidate"
         or trial.get("two_tier_pretrial") is not False
         or trial.get("row_block") != 64
+        or trial.get("accepted_update_assembly")
+        != "fp32-factor-product-coefficient-rowblock64-parameter-cast-add"
+        or trial.get("production_full_linear_calls_per_target_invocation") != 1
+        or trial.get("prior_rowblock_output_emulator")
+        != "diagnostic-and-reference-only"
         or trial.get("continuous_low_rank_overlay")
         != "reference-and-diagnostic-only"
-        or trial.get("dense_weight_copy_for_trial") is not False
+        or trial.get("full_base_weight_clone_for_trial") is not False
+        or trial.get("all_layer_full_effective_copies") is not False
         or trial.get("target_weight_mutation_for_trial") is not False
         or trial.get("per_trial_checkpoint") is not False
         or trial.get("unchanged_trial_state_guard")
         != "storage-pointer-version-shape-dtype-device-without-dense-rehash"
+        or trial.get("t_c_failure_diagnostic")
+        != "numeric-phi-abs-rel-and-locked-tolerances-only"
+        or temporary != expected_temporary
     ):
-        raise MethodContractError("current MEMIT trial backend is not locked simple-T")
+        raise MethodContractError("current MEMIT trial backend is not locked full-linear T")
     concrete = _mapping("concrete_backend", root.get("concrete_backend"))
     execution = _mapping("execution_path", root.get("execution_path"))
     if (
         concrete.get("common_model_code_path") is not True
         or concrete.get("easyedit_access") != "verified-read-only-bridge"
         or concrete.get("accepted_state_mode")
-        != "quantized-rowblock-trial-then-commit-then-dedicated-rebuild"
+        != "quantized-full-linear-trial-then-rowblock-commit-then-dedicated-rebuild"
         or execution.get("method_loader") != "load_fixed_model_checkpoint_original"
         or execution.get("retry_output_root_template")
-        != "local/results/session02-p0-original-dtype-simple-t-v1-{model_alias}-{proposal_prefix}"
+        != "local/results/session02-p0-original-dtype-full-linear-t-v1-{model_alias}-{proposal_prefix}"
         or execution.get("runner_can_submit_slurm") is not False
         or execution.get("runner_requires_execute_flag") is not True
     ):
@@ -426,13 +463,15 @@ def validate_lock(payload: Any) -> None:
         != "HOLD_UNTIL_CHECKPOINT_ORIGINAL_BF16_P0"
         or resources.get("gpu_peak_reserved_gib_forecast")
         != "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0"
-        or resources.get("simple_t_cpu_microfixture_median_ratio")
+        or resources.get("prior_rowblock_t_cpu_microfixture_median_ratio")
         != 3.855567094593102
-        or resources.get("simple_t_extra_mac_ratio") != 96.0
-        or resources.get("simple_t_microfixture_is_model_scale_forecast") is not False
+        or resources.get("prior_rowblock_t_extra_mac_ratio") != 96.0
+        or resources.get("prior_rowblock_t_microfixture_is_model_scale_forecast")
+        is not False
+        or resources.get("full_linear_t_model_scale_cost") != "UNMEASURED_IN_P0"
     ):
         raise MethodContractError("dry proposal grants submission or exceeds GPU cap")
-    v6_counter_bounds = {
+    v7_counter_bounds = {
         "p0_n_event_fwd_upper_bound_per_model_per_repetition": 150,
         "p0_profile_n_event_fwd_upper_bound_per_model": 600,
         "p1_n_event_fwd_upper_bound_per_model": 600,
@@ -444,8 +483,8 @@ def validate_lock(payload: Any) -> None:
         "p1_n_reference_gate_fwd_upper_bound_per_model": 0,
         "p1_n_reference_gate_bw_upper_bound_per_model": 0,
     }
-    if any(resources.get(name) != value for name, value in v6_counter_bounds.items()):
-        raise MethodContractError("v6 two-forward counter bounds differ")
+    if any(resources.get(name) != value for name, value in v7_counter_bounds.items()):
+        raise MethodContractError("v7 two-forward counter bounds differ")
     boundary = _mapping("execution_boundary", root.get("execution_boundary"))
     if (
         boundary.get("gpu_now") != 0
@@ -488,7 +527,7 @@ def dry_plan(payload: Mapping[str, Any], stage: str) -> dict[str, Any]:
                 "order_sha256": canonical_hash(list(cases)),
                 "arms": list(stage_lock["arms"]),
                 "backend": payload["trial_backend"]["selected_common_backend"],
-                "trial_backend": "quantized-rowblock-commit-emulator",
+                "trial_backend": FINITE_TRIAL_BACKEND,
                 "event_backend": EVENT_BACKEND_MODE,
                 "event_nfe": EVENT_MODEL_FORWARD_CALLS,
                 "dtype_policy": dtype_contract["method_dtype_policy"],
@@ -577,7 +616,7 @@ def dry_plan(payload: Mapping[str, Any], stage: str) -> dict[str, Any]:
             "fixed-artifact-hash-and-size",
             "model-revision-present-in-offline-cache",
             "checkpoint-original-bfloat16-config-and-parameter-set",
-            "simple-quantized-rowblock-T-runtime-primary",
+            "quantized-full-linear-T-runtime-primary",
             "fresh-context-manifest-id-match-before-action",
             "staged-agent-access-check",
         ],

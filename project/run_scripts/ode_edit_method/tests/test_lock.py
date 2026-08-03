@@ -20,6 +20,7 @@ from project.run_scripts.ode_edit_method.lock import (
 from project.run_scripts.ode_edit_method.memit_adapter import (
     functional_trial_for_batch,
 )
+from project.run_scripts.ode_edit_method import runtime as runtime_module
 from project.run_scripts.ode_edit_method.runtime import FiveArmRunner
 from project.run_scripts import session02_compute_aware_p0 as executable_module
 from project.run_scripts.session02_compute_aware_p01 import build_parser
@@ -38,15 +39,15 @@ class NumericalLockTests(unittest.TestCase):
     def test_common_controller_and_exact_case_order_are_locked(self) -> None:
         self.assertEqual(
             self.lock["schema_version"],
-            "ode-edit-compute-aware-numerical-lock-proposal/v6",
+            "ode-edit-compute-aware-numerical-lock-proposal/v7",
         )
         self.assertEqual(
             self.lock["instruction_id"],
-            "ODEEDIT-S02-TWO-FORWARD-EVENT-V6-IMPL-V1",
+            "ODEEDIT-S02-FULL-LINEAR-T-V7-IMPL-V1",
         )
         self.assertEqual(
             self.lock["parent_instruction_id"],
-            "ODEEDIT-S02-P0-ORIGINAL-DTYPE-SIMPLE-T-V5-PAIR-V1",
+            "ODEEDIT-S02-P0-TWO-FORWARD-V6-PAIR-V1",
         )
         config = controller_config(self.lock)
         self.assertEqual(config.s_max, 6)
@@ -61,7 +62,7 @@ class NumericalLockTests(unittest.TestCase):
         )
         self.assertEqual(
             self.lock["trial_backend"]["selected_common_backend"],
-            "quantized-rowblock-commit-emulator",
+            "quantized-full-linear-commit-emulator",
         )
         self.assertEqual(self.lock["trial_backend"]["row_block"], 64)
         self.assertFalse(self.lock["trial_backend"]["two_tier_pretrial"])
@@ -109,7 +110,7 @@ class NumericalLockTests(unittest.TestCase):
                 )
                 self.assertEqual(
                     {job["trial_backend"] for job in plan["jobs"]},
-                    {"quantized-rowblock-commit-emulator"},
+                    {"quantized-full-linear-commit-emulator"},
                 )
                 self.assertEqual(
                     {job["event_backend"] for job in plan["jobs"]},
@@ -119,7 +120,7 @@ class NumericalLockTests(unittest.TestCase):
                 for job in plan["jobs"]:
                     output_root = job["executable_command"][-2]
                     self.assertIn(
-                        "session02-p0-original-dtype-simple-t-v1-",
+                        "session02-p0-original-dtype-full-linear-t-v1-",
                         output_root,
                     )
                     self.assertNotIn("session02-p0-tech-v1", output_root)
@@ -176,7 +177,7 @@ class NumericalLockTests(unittest.TestCase):
 
         mutations = [
             lambda value: value.__setitem__(
-                "schema_version", "ode-edit-compute-aware-numerical-lock-proposal/v5"
+                "schema_version", "ode-edit-compute-aware-numerical-lock-proposal/v6"
             ),
             lambda value: value["models"]["llama3-8b-inst"][
                 "context_manifest"
@@ -252,6 +253,15 @@ class NumericalLockTests(unittest.TestCase):
             lambda value: value["trial_backend"].__setitem__(
                 "two_tier_pretrial", True
             ),
+            lambda value: value["trial_backend"]["temporary_memory"].__setitem__(
+                "full_fp32_delta", True
+            ),
+            lambda value: value["trial_backend"]["temporary_memory"].__setitem__(
+                "simultaneous_target_layers", 2
+            ),
+            lambda value: value["trial_backend"]["temporary_memory"]["models"][
+                "qwen2.5-7b-inst"
+            ].__setitem__("effective_weight_bytes", 1),
         ):
             candidate = copy.deepcopy(self.lock)
             mutate(candidate)
@@ -345,8 +355,30 @@ class NumericalLockTests(unittest.TestCase):
         )
         self.assertFalse(
             self.lock["resource_forecast"][
-                "simple_t_microfixture_is_model_scale_forecast"
+                "prior_rowblock_t_microfixture_is_model_scale_forecast"
             ]
+        )
+        temporary = self.lock["trial_backend"]["temporary_memory"]
+        self.assertTrue(
+            temporary["full_parameter_dtype_effective_weight_temporary"]
+        )
+        self.assertEqual(temporary["simultaneous_target_layers"], 1)
+        self.assertFalse(temporary["full_fp32_delta"])
+        self.assertEqual(
+            temporary["models"]["llama3-8b-inst"]["effective_weight_bytes"],
+            117440512,
+        )
+        self.assertEqual(
+            temporary["models"]["llama3-8b-inst"]["fp32_update_max_bytes"],
+            3670016,
+        )
+        self.assertEqual(
+            temporary["models"]["qwen2.5-7b-inst"]["effective_weight_bytes"],
+            135790592,
+        )
+        self.assertEqual(
+            temporary["models"]["qwen2.5-7b-inst"]["fp32_update_max_bytes"],
+            4849664,
         )
 
     def test_runner_and_adaptive_trial_source_guards(self) -> None:
@@ -361,15 +393,17 @@ class NumericalLockTests(unittest.TestCase):
         self.assertNotIn("score_combined_teacher_batches", calls)
 
         adapter_source = inspect.getsource(functional_trial_for_batch)
-        self.assertIn("QuantizedRowBlockFunctionalTrial", adapter_source)
+        self.assertIn("QuantizedFullLinearFunctionalTrial", adapter_source)
         self.assertIn("SIMPLE_T_ROW_BLOCK", adapter_source)
+        self.assertNotIn("QuantizedRowBlockFunctionalTrial", adapter_source)
         self.assertNotIn("LowRankFunctionalTrial", adapter_source)
 
         adaptive_source = inspect.getsource(FiveArmRunner._run_adaptive)
         self.assertIn('instrumentation.component("trial")', adaptive_source)
+        self.assertIn("_functional_commit_mismatch_message", adaptive_source)
         self.assertIn(
             "functional trial event differs from committed write",
-            adaptive_source,
+            inspect.getsource(runtime_module._functional_commit_mismatch_message),
         )
 
     def test_lock_rejects_ambiguous_event_tolerance_type(self) -> None:
