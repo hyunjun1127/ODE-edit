@@ -215,6 +215,7 @@ def assess_trial(
     after: EventReading,
     predicted_progress: float,
     trust_radius: float,
+    trust_radius_cap: float,
     config: ControllerConfig,
 ) -> TrustVerdict:
     predicted = finite("predicted progress", predicted_progress)
@@ -237,7 +238,10 @@ def assess_trial(
     if not accepted:
         next_radius = radius * config.gamma_down
     elif ratio >= config.eta_expand:
-        next_radius = min(config.h_max, radius * config.gamma_up)
+        cap = finite("trust radius cap", trust_radius_cap)
+        if cap <= 0.0 or radius > cap + config.qp_trust_tolerance:
+            raise MethodContractError("trust radius/cap relation is invalid")
+        next_radius = min(cap, radius * config.gamma_up)
     else:
         next_radius = radius
     return TrustVerdict(

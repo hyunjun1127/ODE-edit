@@ -33,6 +33,8 @@ from .cached_graph import (
     CachedAcceptedTrialSequence,
     assess_cached_graph_feasibility,
 )
+from .easyedit_backend import EasyEditMemitBackend
+from .preflight import PreparedConcreteEnvironment
 
 __all__ = [
     "ARM_ORDER",
@@ -43,6 +45,7 @@ __all__ = [
     "CachedAcceptedTrialSequence",
     "DirectionalField",
     "EditInstrumentation",
+    "EasyEditMemitBackend",
     "EventReading",
     "InstrumentationSnapshot",
     "LayerProposal",
@@ -53,6 +56,7 @@ __all__ = [
     "OmegaLedger",
     "ProposalBatch",
     "ProposalSemantics",
+    "PreparedConcreteEnvironment",
     "ScalarFirstHitSearch",
     "RejectedRetryCache",
     "all_layer_directional_derivatives",

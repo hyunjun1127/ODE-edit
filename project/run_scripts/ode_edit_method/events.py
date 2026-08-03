@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from contextlib import nullcontext
 from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
@@ -48,7 +49,9 @@ class ControllerRequest:
                 target_old=str(rewrite["target_true"]["str"]),
             )
         except (KeyError, TypeError) as exc:
-            raise MethodContractError("CounterFact row lacks the controller rewrite schema") from exc
+            raise MethodContractError(
+                "CounterFact row lacks the controller rewrite schema"
+            ) from exc
 
 
 class InformationFirewall:
@@ -138,6 +141,7 @@ class TeacherBatch:
     attention_mask: torch.Tensor
     target_ids: torch.Tensor
     input_lengths: tuple[int, ...]
+    pad_token_id: int
 
     def __post_init__(self) -> None:
         if (
@@ -146,8 +150,27 @@ class TeacherBatch:
             or self.target_ids.ndim != 1
             or self.target_ids.numel() <= 0
             or len(self.input_lengths) != self.input_ids.shape[0]
+            or isinstance(self.pad_token_id, bool)
+            or not isinstance(self.pad_token_id, int)
+            or self.pad_token_id < 0
         ):
             raise MethodContractError("teacher-forced batch shapes are invalid")
+
+
+@dataclass(frozen=True, slots=True)
+class DifferentiableEvent:
+    """One combined event forward plus its grad-enabled smooth scalar."""
+
+    reading: EventReading
+    smooth_phi: torch.Tensor
+    target_new_log_likelihoods: tuple[float, ...]
+    target_old_log_likelihoods: tuple[float, ...]
+
+    def __post_init__(self) -> None:
+        if self.smooth_phi.ndim != 0 or not self.smooth_phi.requires_grad:
+            raise MethodContractError("differentiable event scalar has no gradient graph")
+        if self.reading.nfe != 1:
+            raise MethodContractError("combined differentiable event must use one forward")
 
 
 def _target_ids(tokenizer: Any, target_text: str) -> tuple[int, ...]:
@@ -209,27 +232,125 @@ def build_teacher_batch(
         attention_mask=attention_mask,
         target_ids=torch.tensor(target, dtype=torch.long),
         input_lengths=tuple(len(row) for row in rows),
+        pad_token_id=pad,
     )
 
 
-def score_teacher_batch(model: torch.nn.Module, batch: TeacherBatch) -> tuple[float, ...]:
+def _selected_log_likelihoods(
+    logits: torch.Tensor,
+    batch: TeacherBatch,
+    *,
+    row_offset: int = 0,
+) -> torch.Tensor:
+    target_count = int(batch.target_ids.numel())
+    rows: list[torch.Tensor] = []
+    for row_index, length in enumerate(batch.input_lengths):
+        start = length - target_count
+        rows.append(logits[row_offset + row_index, start:length, :])
+    selected = torch.stack(rows, dim=0)
+    targets = batch.target_ids.to(logits.device).expand(selected.shape[0], -1)
+    log_probs = torch.log_softmax(selected, dim=-1)
+    token_log_probs = torch.gather(log_probs, 2, targets.unsqueeze(-1)).squeeze(-1)
+    # Mean over each object's own token count is the canonical normalization.
+    return token_log_probs.mean(dim=1)
+
+
+def score_teacher_batch_tensor(
+    model: torch.nn.Module,
+    batch: TeacherBatch,
+    *,
+    differentiable: bool,
+) -> torch.Tensor:
     device = next(model.parameters()).device
-    with torch.inference_mode():
+    grad_context = nullcontext() if differentiable else torch.inference_mode()
+    with grad_context:
         logits = model(
             input_ids=batch.input_ids.to(device),
             attention_mask=batch.attention_mask.to(device),
         ).logits.float()
-        target_count = int(batch.target_ids.numel())
-        rows: list[torch.Tensor] = []
-        for row_index, length in enumerate(batch.input_lengths):
-            start = length - target_count
-            rows.append(logits[row_index, start:length, :])
-        selected = torch.stack(rows, dim=0)
-        targets = batch.target_ids.to(device).expand(selected.shape[0], -1)
-        log_probs = torch.log_softmax(selected, dim=-1)
-        token_log_probs = torch.gather(log_probs, 2, targets.unsqueeze(-1)).squeeze(-1)
-        # Mean over the object tokens is the canonical length normalization.
-        return tuple(float(value) for value in token_log_probs.mean(dim=1).cpu())
+        return _selected_log_likelihoods(logits, batch)
+
+
+def score_teacher_batch(model: torch.nn.Module, batch: TeacherBatch) -> tuple[float, ...]:
+    values = score_teacher_batch_tensor(model, batch, differentiable=False)
+    return tuple(float(value) for value in values.cpu())
+
+
+def score_combined_teacher_batches(
+    model: torch.nn.Module,
+    batches: Sequence[TeacherBatch],
+    *,
+    differentiable: bool,
+) -> tuple[torch.Tensor, ...]:
+    """Score target-specific panels in one right-padded model invocation."""
+
+    locked = tuple(batches)
+    if not locked:
+        raise MethodContractError("combined teacher scorer has no panels")
+    pad_values = {batch.pad_token_id for batch in locked}
+    if len(pad_values) != 1:
+        raise MethodContractError("combined teacher panels use different pad IDs")
+    pad = next(iter(pad_values))
+    width = max(int(batch.input_ids.shape[1]) for batch in locked)
+    rows = sum(int(batch.input_ids.shape[0]) for batch in locked)
+    input_ids = torch.full((rows, width), pad, dtype=torch.long)
+    attention_mask = torch.zeros_like(input_ids)
+    offset = 0
+    for batch in locked:
+        count, batch_width = batch.input_ids.shape
+        input_ids[offset : offset + count, :batch_width] = batch.input_ids
+        attention_mask[offset : offset + count, :batch_width] = batch.attention_mask
+        offset += int(count)
+    device = next(model.parameters()).device
+    grad_context = nullcontext() if differentiable else torch.inference_mode()
+    with grad_context:
+        logits = model(
+            input_ids=input_ids.to(device),
+            attention_mask=attention_mask.to(device),
+        ).logits.float()
+        results: list[torch.Tensor] = []
+        offset = 0
+        for batch in locked:
+            results.append(_selected_log_likelihoods(logits, batch, row_offset=offset))
+            offset += int(batch.input_ids.shape[0])
+    return tuple(results)
+
+
+def differentiable_event_from_log_likelihoods(
+    target_new: torch.Tensor,
+    target_old: torch.Tensor,
+    *,
+    tau: float,
+) -> DifferentiableEvent:
+    if (
+        target_new.ndim != 1
+        or target_old.shape != target_new.shape
+        or target_new.numel() <= 0
+    ):
+        raise MethodContractError("differentiable event panels differ")
+    temperature = float(tau)
+    if not math.isfinite(temperature) or temperature <= 0.0:
+        raise MethodContractError("event smooth temperature must be positive")
+    margins = target_new - target_old
+    deficits = -margins
+    smooth = temperature * (
+        torch.logsumexp(deficits / temperature, dim=0)
+        - math.log(int(deficits.numel()))
+    )
+    new_values = tuple(float(value) for value in target_new.detach().cpu())
+    old_values = tuple(float(value) for value in target_old.detach().cpu())
+    reading = event_from_log_likelihoods(
+        new_values,
+        old_values,
+        tau=temperature,
+        nfe=1,
+    )
+    return DifferentiableEvent(
+        reading=reading,
+        smooth_phi=smooth,
+        target_new_log_likelihoods=new_values,
+        target_old_log_likelihoods=old_values,
+    )
 
 
 def event_from_log_likelihoods(
@@ -272,9 +393,38 @@ def measure_event(
     tau: float,
 ) -> EventReading:
     contexts = build_allowed_contexts(request, context_templates)
-    new = score_teacher_batch(model, build_teacher_batch(tokenizer, contexts, request.target_new))
-    old = score_teacher_batch(model, build_teacher_batch(tokenizer, contexts, request.target_old))
-    return event_from_log_likelihoods(new, old, tau=tau, nfe=2)
+    new_batch = build_teacher_batch(tokenizer, contexts, request.target_new)
+    old_batch = build_teacher_batch(tokenizer, contexts, request.target_old)
+    new, old = score_combined_teacher_batches(
+        model,
+        (new_batch, old_batch),
+        differentiable=False,
+    )
+    return event_from_log_likelihoods(
+        tuple(float(value) for value in new.cpu()),
+        tuple(float(value) for value in old.cpu()),
+        tau=tau,
+        nfe=1,
+    )
+
+
+def measure_differentiable_event(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    request: ControllerRequest,
+    context_templates: Sequence[Sequence[str]],
+    *,
+    tau: float,
+) -> DifferentiableEvent:
+    contexts = build_allowed_contexts(request, context_templates)
+    new_batch = build_teacher_batch(tokenizer, contexts, request.target_new)
+    old_batch = build_teacher_batch(tokenizer, contexts, request.target_old)
+    new, old = score_combined_teacher_batches(
+        model,
+        (new_batch, old_batch),
+        differentiable=True,
+    )
+    return differentiable_event_from_log_likelihoods(new, old, tau=tau)
 
 
 def context_manifest_payload(
@@ -284,6 +434,8 @@ def context_manifest_payload(
 ) -> dict[str, Any]:
     contexts = build_allowed_contexts(request, context_templates)
     policy = TokenizationPolicy()
+    new_ids = _target_ids(tokenizer, request.target_new)
+    old_ids = _target_ids(tokenizer, request.target_old)
     return {
         "context_templates": [list(group) for group in context_templates],
         "context_template_hash": canonical_hash(
@@ -294,4 +446,14 @@ def context_manifest_payload(
         "tokenization_policy_id": policy.policy_id,
         "tokenizer_class": type(tokenizer).__name__,
         "tokenizer_name_or_path": str(getattr(tokenizer, "name_or_path", "unavailable")),
+        "target_suffix_identity": {
+            "new": {
+                "token_count": len(new_ids),
+                "token_ids_sha256": canonical_hash(list(new_ids)),
+            },
+            "old": {
+                "token_count": len(old_ids),
+                "token_ids_sha256": canonical_hash(list(old_ids)),
+            },
+        },
     }

@@ -7,6 +7,7 @@ evaluation prompt or held-out outcome as a controller input.
 
 from __future__ import annotations
 
+import math
 from contextlib import nullcontext
 from dataclasses import dataclass
 from typing import Any, ContextManager, Mapping, Protocol, Sequence
@@ -66,6 +67,8 @@ class MethodBackend(Protocol):
     def build_coordinate(self, frozen_target: Any, layer: int) -> ProposalBatch: ...
 
     def rebind_frozen(self, entry_batch: ProposalBatch) -> ProposalBatch: ...
+
+    def entry_synchronous_distance(self) -> float: ...
 
     def trial(
         self, batch: ProposalBatch, coefficients: Sequence[float]
@@ -179,8 +182,9 @@ class FiveArmRunner:
                     omega_appended=True,
                     steps=(),
                 )
+            target_value = target.get()
             batch = self._build_native(
-                lambda: backend.build_native_terminal(target.get()),
+                lambda: backend.build_native_terminal(target_value),
                 instrumentation,
             )
             if batch.semantics is not ProposalSemantics.NATIVE_ORDERED_TERMINAL:
@@ -190,6 +194,8 @@ class FiveArmRunner:
             applied = self._commit(
                 backend, batch, coefficients, instrumentation
             )
+            if instrumentation is not None:
+                instrumentation.increment("K_acc")
             if applied != coefficients:
                 raise MethodContractError("native applied coefficients changed")
             after = self._event(backend, request, instrumentation)
@@ -267,8 +273,9 @@ class FiveArmRunner:
                 )
                 self.omega.append_terminal(edit_id, terminal_energy)
                 return result
+            target_value = target.get()
             batch = self._build_native(
-                lambda: backend.build_native_terminal(target.get()),
+                lambda: backend.build_native_terminal(target_value),
                 instrumentation,
             )
             if batch.semantics is not ProposalSemantics.NATIVE_ORDERED_TERMINAL:
@@ -279,18 +286,29 @@ class FiveArmRunner:
                 if alpha == 0.0:
                     return entry_event.hard_phi
                 coefficients = tuple(alpha for _ in batch.proposals)
+                state_before_trial_id = backend.current_state_id()
                 if instrumentation is not None:
                     instrumentation.increment("N_trial")
-                with backend.trial(batch, coefficients) as trial:
+                trial_timer = (
+                    instrumentation.component("trial")
+                    if instrumentation is not None
+                    else nullcontext()
+                )
+                with trial_timer, backend.trial(batch, coefficients) as trial:
                     if tuple(trial.applied_coefficients) != coefficients:
                         raise MethodContractError("scalar trial alpha changed")
                     reading = self._event(
                         backend,
                         request,
                         instrumentation,
-                        component="trial",
+                        component=None,
                     )
-                backend.assert_checkpoint(entry)
+                # Functional trials already guard storage/version/RNG.  The
+                # state-id check is deliberately copy-free; exact dense entry
+                # hashing on every scalar probe would hide a full-weight read
+                # outside the trial timer.
+                if backend.current_state_id() != state_before_trial_id:
+                    raise MethodContractError("scalar trial changed model state")
                 return reading.hard_phi
 
             search = ScalarFirstHitSearch(self.config).run(probe)
@@ -314,6 +332,8 @@ class FiveArmRunner:
             applied = self._commit(
                 backend, batch, coefficients, instrumentation
             )
+            if instrumentation is not None:
+                instrumentation.increment("K_acc")
             if applied != coefficients:
                 raise MethodContractError("scalar applied alpha changed")
             after = self._event(backend, request, instrumentation)
@@ -366,7 +386,8 @@ class FiveArmRunner:
         entry = self._checkpoint(backend, instrumentation)
         frozen_omega = self.omega.frozen_for_edit(edit_id)
         target = _DirectZOnce(backend, request, instrumentation)
-        radius = self.config.h0
+        radius: float | None = None
+        radius_cap: float | None = None
         steps: list[StepRecord] = []
         layers = tuple(backend.layers)
         accepted_count = 0
@@ -377,6 +398,7 @@ class FiveArmRunner:
         static_entry: ProposalBatch | None = None
         static_share: tuple[float, ...] | None = None
         retry_field: tuple[EventReading, ProposalBatch, int | None, str] | None = None
+        cached_current_event: EventReading | None = None
 
         target_value: Any = None
         try:
@@ -389,7 +411,11 @@ class FiveArmRunner:
                         )
                     _assert_batch_current(backend, batch)
                 else:
-                    before = self._event(backend, request, instrumentation)
+                    if cached_current_event is None:
+                        before = self._event(backend, request, instrumentation)
+                    else:
+                        before = cached_current_event
+                        cached_current_event = None
                     if before.is_hit(self.config.event_tolerance):
                         if instrumentation is not None:
                             instrumentation.mark_first_hit()
@@ -456,6 +482,26 @@ class FiveArmRunner:
                             )
                     _assert_batch_current(backend, batch)
 
+                if radius is None:
+                    scale_timer = (
+                        instrumentation.component("trust_scale")
+                        if instrumentation is not None
+                        else nullcontext()
+                    )
+                    with scale_timer:
+                        d_sync_entry = float(backend.entry_synchronous_distance())
+                    if (
+                        not math.isfinite(d_sync_entry)
+                        or d_sync_entry <= self.config.trust_denominator_epsilon
+                    ):
+                        raise MethodContractError(
+                            "entry synchronous C-distance is degenerate"
+                        )
+                    radius = self.config.h0_fraction * d_sync_entry
+                    radius_cap = self.config.h_max_fraction * d_sync_entry
+
+                assert radius_cap is not None
+
                 qp_timer = (
                     instrumentation.component("qp")
                     if instrumentation is not None
@@ -514,6 +560,7 @@ class FiveArmRunner:
                                 steps=tuple(steps),
                                 failure_type="no_positive_slope",
                             )
+                        cached_current_event = before
                         continue
                     self._restore(backend, entry, instrumentation)
                     return ArmRunResult(
@@ -533,18 +580,24 @@ class FiveArmRunner:
                 state_before_trial_id = backend.current_state_id()
                 if instrumentation is not None:
                     instrumentation.increment("N_trial")
-                with backend.trial(batch, solution.coefficients) as trial:
+                trial_timer = (
+                    instrumentation.component("trial")
+                    if instrumentation is not None
+                    else nullcontext()
+                )
+                with trial_timer, backend.trial(batch, solution.coefficients) as trial:
                     after = self._event(
                         backend,
                         request,
                         instrumentation,
-                        component="trial",
+                        component=None,
                     )
                     verdict = assess_trial(
                         before=before,
                         after=after,
                         predicted_progress=solution.predicted_progress,
                         trust_radius=radius,
+                        trust_radius_cap=radius_cap,
                         config=self.config,
                     )
                     applied = tuple(trial.applied_coefficients)
@@ -563,6 +616,29 @@ class FiveArmRunner:
                         raise MethodContractError("accepted write coefficients changed")
                     if instrumentation is not None:
                         instrumentation.increment("K_acc")
+                    committed_event = self._event(
+                        backend,
+                        request,
+                        instrumentation,
+                    )
+                    if not (
+                        math.isclose(
+                            committed_event.hard_phi,
+                            after.hard_phi,
+                            abs_tol=self.config.functional_commit_atol,
+                            rel_tol=self.config.functional_commit_rtol,
+                        )
+                        and math.isclose(
+                            committed_event.smooth_phi,
+                            after.smooth_phi,
+                            abs_tol=self.config.functional_commit_atol,
+                            rel_tol=self.config.functional_commit_rtol,
+                        )
+                    ):
+                        raise MethodContractError(
+                            "functional trial event differs from committed write"
+                        )
+                    after = committed_event
                 steps.append(
                     StepRecord(
                         arm=arm,
@@ -589,7 +665,10 @@ class FiveArmRunner:
                     zero_slope_streak = 0
                     if arm is Arm.ORDERED_ADAPTIVE:
                         coordinate_cursor += 1
-                    if verdict.hit:
+                    committed_hit = after.is_hit(self.config.event_tolerance)
+                    if not committed_hit:
+                        cached_current_event = after
+                    if committed_hit:
                         if instrumentation is not None:
                             instrumentation.mark_first_hit()
                         terminal_energy = self._terminal_energy(
@@ -658,11 +737,11 @@ class FiveArmRunner:
         request: ControllerRequest,
         instrumentation: EditInstrumentation | None,
         *,
-        component: str = "event",
+        component: str | None = "event",
     ) -> EventReading:
         timer = (
             instrumentation.component(component)
-            if instrumentation is not None
+            if instrumentation is not None and component is not None
             else nullcontext()
         )
         forward_scope = (
@@ -686,16 +765,13 @@ class FiveArmRunner:
         build: Any,
         instrumentation: EditInstrumentation | None,
     ) -> ProposalBatch:
-        timer = (
-            instrumentation.component("field")
-            if instrumentation is not None
-            else nullcontext()
-        )
-        with timer:
-            batch = build()
+        # The concrete backend records non-overlapping proposal, state-forward,
+        # and hook-backward components.  This wrapper owns only logical build
+        # counters so those component timers are never nested/double-counted.
+        batch = build()
         if instrumentation is not None:
+            instrumentation.increment("N_field")
             instrumentation.increment("N_proposal_build")
-            instrumentation.increment("N_bw")
         return batch
 
     @staticmethod

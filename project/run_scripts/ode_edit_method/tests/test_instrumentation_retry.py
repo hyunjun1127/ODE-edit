@@ -3,6 +3,8 @@ from __future__ import annotations
 import time
 import unittest
 
+import torch
+
 from project.run_scripts.ode_edit_method.contracts import (
     EventReading,
     LayerProposal,
@@ -50,6 +52,7 @@ class InstrumentationTests(unittest.TestCase):
             "N_model_fwd",
             "N_event_fwd",
             "N_field_state_fwd",
+            "N_field",
             "N_proposal_build",
             "N_native_sweep",
             "N_bw",
@@ -92,6 +95,22 @@ class InstrumentationTests(unittest.TestCase):
             with self.assertRaises(MethodContractError):
                 with metrics.component("field"):
                     pass
+
+    def test_top_level_model_hook_classifies_without_trial_double_count(self) -> None:
+        model = torch.nn.Linear(2, 2)
+        metrics = EditInstrumentation("edit-forward-hook")
+        metrics.attach_model(model)
+        with metrics.model_forward_scope("event"):
+            _ = model(torch.ones(1, 2))
+        with metrics.model_forward_scope("field"):
+            _ = model(torch.ones(1, 2))
+        metrics.increment("N_trial")
+        metrics.detach_model()
+        counters = metrics.finalize().to_dict()["counters"]
+        self.assertEqual(counters["N_model_fwd"], 2)
+        self.assertEqual(counters["N_event_fwd"], 1)
+        self.assertEqual(counters["N_field_state_fwd"], 1)
+        self.assertEqual(counters["N_trial"], 1)
 
 
 class RetryReuseTests(unittest.TestCase):
@@ -155,6 +174,7 @@ class RetryReuseTests(unittest.TestCase):
 
         snapshot = metrics.finalize().to_dict()
         self.assertEqual(snapshot["counters"]["N_proposal_build"], 1)
+        self.assertEqual(snapshot["counters"]["N_field"], 1)
         self.assertEqual(snapshot["counters"]["N_reject"], 1)
 
     def test_rollback_state_mismatch_invalidates_cache(self) -> None:

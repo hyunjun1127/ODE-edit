@@ -179,8 +179,8 @@ class ControllerConfig:
     """One model-independent controller policy shared by both model aliases."""
 
     tau: float
-    h0: float
-    h_max: float
+    h0_fraction: float
+    h_max_fraction: float
     kappa: float
     beta: float
     eta_reject: float
@@ -202,12 +202,14 @@ class ControllerConfig:
     scalar_bisection_tolerance: float
     scalar_bisection_iterations: int
     scalar_nonmonotonic_tolerance: float
+    functional_commit_atol: float
+    functional_commit_rtol: float
 
     def __post_init__(self) -> None:
         positive = (
             "tau",
-            "h0",
-            "h_max",
+            "h0_fraction",
+            "h_max_fraction",
             "kappa",
             "beta",
             "gamma_down",
@@ -221,6 +223,8 @@ class ControllerConfig:
             "trust_denominator_epsilon",
             "load_denominator_epsilon",
             "scalar_bisection_tolerance",
+            "functional_commit_atol",
+            "functional_commit_rtol",
         )
         for name in positive:
             value = finite(name, getattr(self, name))
@@ -236,8 +240,8 @@ class ControllerConfig:
             raise MethodContractError("beta must leave strict trust-region interior")
         if not 0.0 < self.gamma_down < 1.0 or self.gamma_up <= 1.0:
             raise MethodContractError("trust contraction/expansion factors are invalid")
-        if self.h0 > self.h_max:
-            raise MethodContractError("initial trust radius exceeds its common cap")
+        if self.h0_fraction > self.h_max_fraction:
+            raise MethodContractError("initial trust fraction exceeds its common cap")
         if self.eta_expand < self.eta_reject:
             raise MethodContractError("eta_expand precedes eta_reject")
         for name in (

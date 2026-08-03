@@ -13,6 +13,9 @@ from project.run_scripts.ode_edit_method.lock import (
     validate_lock,
 )
 from project.run_scripts.session02_compute_aware_p01 import build_parser
+from project.run_scripts.session02_compute_aware_p0 import (
+    build_parser as build_executable_parser,
+)
 
 
 class NumericalLockTests(unittest.TestCase):
@@ -34,6 +37,8 @@ class NumericalLockTests(unittest.TestCase):
             self.lock["trial_backend"]["cached_trial_graph"],
             "UNSUPPORTED_FAIL_CLOSED",
         )
+        self.assertEqual(config.h0_fraction, 0.25)
+        self.assertEqual(config.h_max_fraction, 0.5)
 
     def test_p01_plan_is_paired_fail_closed_and_within_cap(self) -> None:
         for stage, expected_cases in (("p0", 1), ("p1", 4)):
@@ -49,6 +54,13 @@ class NumericalLockTests(unittest.TestCase):
             self.assertEqual({len(job["case_ids"]) for job in plan["jobs"]}, {expected_cases})
             self.assertEqual(len({tuple(job["arms"]) for job in plan["jobs"]}), 1)
             self.assertEqual(len({job["backend"] for job in plan["jobs"]}), 1)
+            if stage == "p0":
+                self.assertTrue(
+                    all("--execute" in job["executable_command"] for job in plan["jobs"])
+                )
+                self.assertTrue(
+                    all(job["submission_authorized"] is False for job in plan["jobs"])
+                )
 
     def test_launcher_requires_explicit_dry_run(self) -> None:
         parser = build_parser()
@@ -57,6 +69,28 @@ class NumericalLockTests(unittest.TestCase):
                 parser.parse_args(["--stage", "p0"])
         parsed = parser.parse_args(["--stage", "p0", "--dry-run"])
         self.assertTrue(parsed.dry_run)
+
+        executable = build_executable_parser()
+        with redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit):
+                executable.parse_args(
+                    [
+                        "--model-alias",
+                        "llama3-8b-inst",
+                        "--output-root",
+                        "local/results/session02-test",
+                    ]
+                )
+        parsed_execute = executable.parse_args(
+            [
+                "--model-alias",
+                "llama3-8b-inst",
+                "--output-root",
+                "local/results/session02-test",
+                "--execute",
+            ]
+        )
+        self.assertTrue(parsed_execute.execute)
 
     def test_lock_rejects_outcomes_cached_mode_and_per_model_policy(self) -> None:
         for mutate in (
@@ -92,10 +126,49 @@ class NumericalLockTests(unittest.TestCase):
         self.assertEqual(forecast["p0_n_field_upper_bound_per_model"], 9)
         self.assertEqual(forecast["p1_n_field_upper_bound_per_model"], 36)
         self.assertEqual(
-            forecast["p0_n_trial_upper_bound_per_model_per_repetition"], 71
+            forecast["p0_n_trial_upper_bound_per_model_per_repetition"], 56
         )
-        self.assertEqual(forecast["p0_profile_n_trial_upper_bound_per_model"], 284)
-        self.assertEqual(forecast["p1_n_trial_upper_bound_per_model"], 284)
+        self.assertEqual(forecast["p0_profile_n_trial_upper_bound_per_model"], 224)
+        self.assertEqual(forecast["p1_n_trial_upper_bound_per_model"], 224)
+        self.assertEqual(
+            forecast["p0_profile_n_field_state_fwd_upper_bound_per_model"],
+            257,
+        )
+        self.assertEqual(
+            forecast["p1_n_field_state_fwd_upper_bound_per_model"],
+            252,
+        )
+        self.assertNotIn("N_state_fwd", required)
+        self.assertIn("N_model_fwd", required)
+        controller_fields = set(
+            self.lock["artifact_schema"]["controller_step_required_fields"]
+        )
+        self.assertTrue(
+            {
+                "model",
+                "case_id",
+                "arm",
+                "order_sha256",
+                "seed",
+                "commit",
+                "hashes",
+                "status",
+                "result",
+                "event",
+                "Omega",
+            }
+            <= controller_fields
+        )
+        self.assertEqual(
+            self.lock["trial_backend"]["unchanged_trial_state_guard"],
+            "storage-pointer-version-shape-dtype-device-without-dense-rehash",
+        )
+
+    def test_lock_rejects_ambiguous_event_tolerance_type(self) -> None:
+        candidate = copy.deepcopy(self.lock)
+        candidate["event_backend"]["p0_two_forward_atol"] = None
+        with self.assertRaises(MethodContractError):
+            validate_lock(candidate)
 
 
 if __name__ == "__main__":

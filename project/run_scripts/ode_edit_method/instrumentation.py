@@ -9,6 +9,7 @@ record explicit calls through :meth:`record_model_forward`.
 
 from __future__ import annotations
 
+import math
 import time
 from contextlib import contextmanager
 from dataclasses import dataclass
@@ -23,6 +24,7 @@ COUNTER_NAMES = (
     "N_model_fwd",
     "N_event_fwd",
     "N_field_state_fwd",
+    "N_field",
     "N_proposal_build",
     "N_native_sweep",
     "N_bw",
@@ -45,6 +47,7 @@ COMPONENT_NAMES = (
     "trust_scale",
     "event",
     "field",
+    "backward_hook",
     "qp",
     "trial",
     "commit_write",
@@ -56,6 +59,7 @@ _FORBIDDEN_AFTER_HIT = frozenset(
         "N_model_fwd",
         "N_event_fwd",
         "N_field_state_fwd",
+        "N_field",
         "N_proposal_build",
         "N_native_sweep",
         "N_bw",
@@ -66,22 +70,6 @@ _FORBIDDEN_AFTER_HIT = frozenset(
         "N_z",
     }
 )
-_CONTROLLER_COMPONENTS = frozenset(
-    {
-        "entry_checkpoint",
-        "restore",
-        "terminal_geometry",
-        "direct_z",
-        "native_proposal",
-        "proposal",
-        "trust_scale",
-        "event",
-        "field",
-        "qp",
-        "trial",
-        "commit_write",
-    }
-)
 _FORBIDDEN_COMPONENTS_AFTER_HIT = frozenset(
     {
         "direct_z",
@@ -89,6 +77,7 @@ _FORBIDDEN_COMPONENTS_AFTER_HIT = frozenset(
         "proposal",
         "trust_scale",
         "field",
+        "backward_hook",
         "qp",
         "trial",
         "commit_write",
@@ -161,6 +150,8 @@ class EditInstrumentation:
         self._model_hook: torch.utils.hooks.RemovableHandle | None = None
         self._controller_started: float | None = None
         self._controller_wall_seconds = 0.0
+        self._controller_gpu_start: torch.cuda.Event | None = None
+        self._controller_gpu_end: torch.cuda.Event | None = None
         self._gpu_device: torch.device | None = None
         if gpu_timing:
             if not torch.cuda.is_available():
@@ -194,12 +185,31 @@ class EditInstrumentation:
         if self._controller_started is not None:
             raise MethodContractError("controller wall timer is already active")
         self._controller_started = time.perf_counter()
+        if self._gpu_device is not None:
+            self._controller_gpu_start = torch.cuda.Event(enable_timing=True)
+            self._controller_gpu_end = torch.cuda.Event(enable_timing=True)
+            with torch.cuda.device(self._gpu_device):
+                self._controller_gpu_start.record()
 
     def stop_controller(self) -> None:
         if self._controller_started is None:
             raise MethodContractError("controller wall timer is not active")
         self._controller_wall_seconds += time.perf_counter() - self._controller_started
+        if self._gpu_device is not None:
+            assert self._controller_gpu_end is not None
+            with torch.cuda.device(self._gpu_device):
+                self._controller_gpu_end.record()
         self._controller_started = None
+
+    def add_wall_seconds(self, component: str, seconds: float) -> None:
+        """Attach a pre-measured run-level component such as setup amortization."""
+
+        value = float(seconds)
+        if component not in self._cpu_seconds or not math.isfinite(value) or value < 0.0:
+            raise MethodContractError("external wall component is invalid")
+        if self._finalized or component in self._active_components:
+            raise MethodContractError("cannot attach wall time to active/final recorder")
+        self._cpu_seconds[component] += value
 
     @contextmanager
     def component(self, name: str) -> Iterator[None]:
@@ -305,9 +315,13 @@ class EditInstrumentation:
                 self._gpu_seconds[name] += float(start.elapsed_time(end)) / 1000.0
             peak_allocated = int(torch.cuda.max_memory_allocated(self._gpu_device))
             peak_reserved = int(torch.cuda.max_memory_reserved(self._gpu_device))
-        controller_gpu_seconds = sum(
-            self._gpu_seconds[name] for name in _CONTROLLER_COMPONENTS
-        )
+        controller_gpu_seconds = 0.0
+        if self._gpu_device is not None:
+            assert self._controller_gpu_start is not None
+            assert self._controller_gpu_end is not None
+            controller_gpu_seconds = float(
+                self._controller_gpu_start.elapsed_time(self._controller_gpu_end)
+            ) / 1000.0
         evaluation_gpu_seconds = self._gpu_seconds["evaluation"]
         setup_wall_seconds = self._cpu_seconds["context_setup"]
         self._finalized = True

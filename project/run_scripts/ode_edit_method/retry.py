@@ -51,6 +51,7 @@ class RejectedRetryCache:
         with instrumentation.component("field"):
             event, batch = build()
         instrumentation.increment("N_proposal_build")
+        instrumentation.increment("N_field")
         if batch.snapshot_id != current_state_id:
             raise MethodContractError("built field differs from current retry state")
         self.state_id = current_state_id

@@ -103,7 +103,7 @@ def all_layer_directional_derivatives(
             "target weights require directional_gradient_scope before the forward"
         )
     timer = (
-        instrumentation.component("field")
+        instrumentation.component("backward_hook")
         if instrumentation is not None
         else nullcontext()
     )
@@ -304,7 +304,7 @@ class ActuatorDirectionalHook:
                 raise MethodContractError("target actuator was not called by the state forward")
             records.extend((direction, record) for record in observed)
         timer = (
-            self.instrumentation.component("field")
+            self.instrumentation.component("backward_hook")
             if self.instrumentation is not None
             else nullcontext()
         )
