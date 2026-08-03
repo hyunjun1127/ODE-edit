@@ -38,15 +38,15 @@ class NumericalLockTests(unittest.TestCase):
     def test_common_controller_and_exact_case_order_are_locked(self) -> None:
         self.assertEqual(
             self.lock["schema_version"],
-            "ode-edit-compute-aware-numerical-lock-proposal/v5",
+            "ode-edit-compute-aware-numerical-lock-proposal/v6",
         )
         self.assertEqual(
             self.lock["instruction_id"],
-            "ODEEDIT-S02-BF16-CONTEXT-LOCK-V5-PREP-V1",
+            "ODEEDIT-S02-TWO-FORWARD-EVENT-V6-IMPL-V1",
         )
         self.assertEqual(
             self.lock["parent_instruction_id"],
-            "ODEEDIT-S02-BF16-CONTEXT-LOCK-PROBE-PAIR-V1",
+            "ODEEDIT-S02-P0-ORIGINAL-DTYPE-SIMPLE-T-V5-PAIR-V1",
         )
         config = controller_config(self.lock)
         self.assertEqual(config.s_max, 6)
@@ -111,6 +111,11 @@ class NumericalLockTests(unittest.TestCase):
                     {job["trial_backend"] for job in plan["jobs"]},
                     {"quantized-rowblock-commit-emulator"},
                 )
+                self.assertEqual(
+                    {job["event_backend"] for job in plan["jobs"]},
+                    {"two-separate-teacher-forced-forwards"},
+                )
+                self.assertEqual({job["event_nfe"] for job in plan["jobs"]}, {2})
                 for job in plan["jobs"]:
                     output_root = job["executable_command"][-2]
                     self.assertIn(
@@ -171,7 +176,7 @@ class NumericalLockTests(unittest.TestCase):
 
         mutations = [
             lambda value: value.__setitem__(
-                "schema_version", "ode-edit-compute-aware-numerical-lock-proposal/v4"
+                "schema_version", "ode-edit-compute-aware-numerical-lock-proposal/v5"
             ),
             lambda value: value["models"]["llama3-8b-inst"][
                 "context_manifest"
@@ -272,23 +277,48 @@ class NumericalLockTests(unittest.TestCase):
         self.assertEqual(forecast["p0_n_field_upper_bound_per_model"], 9)
         self.assertEqual(forecast["p1_n_field_upper_bound_per_model"], 36)
         self.assertEqual(
+            forecast["p0_n_event_fwd_upper_bound_per_model_per_repetition"],
+            150,
+        )
+        self.assertEqual(
+            forecast["p0_profile_n_event_fwd_upper_bound_per_model"],
+            600,
+        )
+        self.assertEqual(forecast["p1_n_event_fwd_upper_bound_per_model"], 600)
+        self.assertEqual(
+            forecast["p0_n_field_state_fwd_upper_bound_per_model_per_repetition"],
+            72,
+        )
+        self.assertEqual(
             forecast["p0_n_trial_upper_bound_per_model_per_repetition"], 56
         )
         self.assertEqual(forecast["p0_profile_n_trial_upper_bound_per_model"], 224)
         self.assertEqual(forecast["p1_n_trial_upper_bound_per_model"], 224)
         self.assertEqual(
             forecast["p0_profile_n_field_state_fwd_upper_bound_per_model"],
-            257,
+            288,
         )
         self.assertEqual(
             forecast["p1_n_field_state_fwd_upper_bound_per_model"],
-            252,
+            288,
+        )
+        self.assertEqual(
+            forecast["p0_profile_n_reference_gate_fwd_upper_bound_per_model"],
+            2,
+        )
+        self.assertEqual(
+            forecast["p0_profile_n_reference_gate_bw_upper_bound_per_model"],
+            1,
         )
         self.assertNotIn("N_state_fwd", required)
         self.assertIn("N_model_fwd", required)
         controller_fields = set(
             self.lock["artifact_schema"]["controller_step_required_fields"]
         )
+        manifest_policy_fields = set(
+            self.lock["artifact_schema"]["manifest_policy_required_fields"]
+        )
+        self.assertTrue({"event_backend", "event_nfe"} <= manifest_policy_fields)
         self.assertTrue(
             {
                 "model",
@@ -328,6 +358,7 @@ class NumericalLockTests(unittest.TestCase):
         }
         self.assertIn("load_fixed_model_checkpoint_original", calls)
         self.assertNotIn("load_fixed_model", calls)
+        self.assertNotIn("score_combined_teacher_batches", calls)
 
         adapter_source = inspect.getsource(functional_trial_for_batch)
         self.assertIn("QuantizedRowBlockFunctionalTrial", adapter_source)
@@ -346,6 +377,17 @@ class NumericalLockTests(unittest.TestCase):
         candidate["event_backend"]["p0_two_forward_atol"] = None
         with self.assertRaises(MethodContractError):
             validate_lock(candidate)
+
+        for field, value in (
+            ("old_new_forward", "one-right-padded-combined-batch"),
+            ("actual_model_calls_per_event", 1),
+            ("conditional_fallback", True),
+        ):
+            with self.subTest(field=field):
+                candidate = copy.deepcopy(self.lock)
+                candidate["event_backend"][field] = value
+                with self.assertRaises(MethodContractError):
+                    validate_lock(candidate)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-"""Strict loader and dry-plan projection for the outcome-free v5 proposal."""
+"""Strict loader and dry-plan projection for the outcome-free v6 proposal."""
 
 from __future__ import annotations
 
@@ -9,14 +9,15 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from .contracts import Arm, ControllerConfig, MethodContractError, canonical_hash
+from .events import EVENT_BACKEND_MODE, EVENT_MODEL_FORWARD_CALLS
 
 
 LOCK_PATH = Path(__file__).with_name("numerical_lock_proposal.json")
 MODEL_ALIASES = ("llama3-8b-inst", "qwen2.5-7b-inst")
-LOCK_SCHEMA = "ode-edit-compute-aware-numerical-lock-proposal/v5"
-LOCK_INSTRUCTION = "ODEEDIT-S02-BF16-CONTEXT-LOCK-V5-PREP-V1"
-LOCK_PARENT = "ODEEDIT-S02-BF16-CONTEXT-LOCK-PROBE-PAIR-V1"
-LOCK_BASE_COMMIT = "26a8ffe9b7077e9b9707c5b92f5704c5fb6386e7"
+LOCK_SCHEMA = "ode-edit-compute-aware-numerical-lock-proposal/v6"
+LOCK_INSTRUCTION = "ODEEDIT-S02-TWO-FORWARD-EVENT-V6-IMPL-V1"
+LOCK_PARENT = "ODEEDIT-S02-P0-ORIGINAL-DTYPE-SIMPLE-T-V5-PAIR-V1"
+LOCK_BASE_COMMIT = "96b314b18585470275d20c586b46e63ac9574c57"
 CONTEXT_LOCKS: Mapping[str, Mapping[str, Any]] = {
     "llama3-8b-inst": {
         "source": "llama3-8b-inst:fresh-seed-17",
@@ -162,7 +163,7 @@ def validate_lock(payload: Any) -> None:
         or root.get("parent_instruction_id") != LOCK_PARENT
         or root.get("canonical_main_commit") != LOCK_BASE_COMMIT
     ):
-        raise MethodContractError("v5 instruction/provenance identity differs")
+        raise MethodContractError("v6 instruction/provenance identity differs")
 
     dtype_contract = _mapping("dtype_contract", root.get("dtype_contract"))
     if (
@@ -208,7 +209,7 @@ def validate_lock(payload: Any) -> None:
         expected_context = CONTEXT_LOCKS[alias]
         if context != expected_context:
             raise MethodContractError(
-                f"{alias} original-BF16 context provenance differs from v5"
+                f"{alias} original-BF16 context provenance differs from v6"
             )
         context_ids.add(str(context["manifest_id"]))
         if (
@@ -317,11 +318,16 @@ def validate_lock(payload: Any) -> None:
         raise MethodContractError("terminal net geometry trigger differs")
     event_backend = _mapping("event_backend", root.get("event_backend"))
     if (
-        event_backend.get("old_new_forward")
-        != "one-right-padded-combined-batch"
+        event_backend.get("old_new_forward") != EVENT_BACKEND_MODE
+        or event_backend.get("actual_model_calls_per_event")
+        != EVENT_MODEL_FORWARD_CALLS
+        or event_backend.get("differentiable_autograd_calls_per_field") != 1
         or event_backend.get("individual_object_length_normalization") is not True
+        or event_backend.get("combined_scorer_runtime_role")
+        != "diagnostic-reference-only"
+        or event_backend.get("conditional_fallback") is not False
     ):
-        raise MethodContractError("combined event backend lock differs")
+        raise MethodContractError("two-forward event backend lock differs")
     _positive_float("event_backend.p0_two_forward_atol", event_backend.get("p0_two_forward_atol"))
     _positive_float("event_backend.p0_two_forward_rtol", event_backend.get("p0_two_forward_rtol"))
 
@@ -381,6 +387,8 @@ def validate_lock(payload: Any) -> None:
         or not isinstance(manifest_policy_fields, list)
         or not {
             "trial_backend",
+            "event_backend",
+            "event_nfe",
             "dtype_policy",
             "checkpoint_original_dtype",
             "observed_parameter_dtype",
@@ -424,6 +432,20 @@ def validate_lock(payload: Any) -> None:
         or resources.get("simple_t_microfixture_is_model_scale_forecast") is not False
     ):
         raise MethodContractError("dry proposal grants submission or exceeds GPU cap")
+    v6_counter_bounds = {
+        "p0_n_event_fwd_upper_bound_per_model_per_repetition": 150,
+        "p0_profile_n_event_fwd_upper_bound_per_model": 600,
+        "p1_n_event_fwd_upper_bound_per_model": 600,
+        "p0_n_field_state_fwd_upper_bound_per_model_per_repetition": 72,
+        "p0_profile_n_field_state_fwd_upper_bound_per_model": 288,
+        "p1_n_field_state_fwd_upper_bound_per_model": 288,
+        "p0_profile_n_reference_gate_fwd_upper_bound_per_model": 2,
+        "p0_profile_n_reference_gate_bw_upper_bound_per_model": 1,
+        "p1_n_reference_gate_fwd_upper_bound_per_model": 0,
+        "p1_n_reference_gate_bw_upper_bound_per_model": 0,
+    }
+    if any(resources.get(name) != value for name, value in v6_counter_bounds.items()):
+        raise MethodContractError("v6 two-forward counter bounds differ")
     boundary = _mapping("execution_boundary", root.get("execution_boundary"))
     if (
         boundary.get("gpu_now") != 0
@@ -467,6 +489,8 @@ def dry_plan(payload: Mapping[str, Any], stage: str) -> dict[str, Any]:
                 "arms": list(stage_lock["arms"]),
                 "backend": payload["trial_backend"]["selected_common_backend"],
                 "trial_backend": "quantized-rowblock-commit-emulator",
+                "event_backend": EVENT_BACKEND_MODE,
+                "event_nfe": EVENT_MODEL_FORWARD_CALLS,
                 "dtype_policy": dtype_contract["method_dtype_policy"],
                 "checkpoint_original_dtype": model["checkpoint_original_dtype"],
                 "observed_parameter_dtype_required": dtype_contract[
@@ -515,6 +539,12 @@ def dry_plan(payload: Mapping[str, Any], stage: str) -> dict[str, Any]:
                         f"{prefix}_n_native_sweep_upper_bound_per_model"
                     ],
                     "N_bw": resources[f"{prefix}_n_bw_upper_bound_per_model"],
+                    "N_reference_gate_fwd": resources[
+                        f"{prefix}_n_reference_gate_fwd_upper_bound_per_model"
+                    ],
+                    "N_reference_gate_bw": resources[
+                        f"{prefix}_n_reference_gate_bw_upper_bound_per_model"
+                    ],
                     "K_acc": resources[
                         f"{prefix}_k_acc_upper_bound_per_model"
                     ],

@@ -1,10 +1,10 @@
 {
-  "schema_version": "ode-edit-compute-aware-numerical-lock-proposal/v5",
+  "schema_version": "ode-edit-compute-aware-numerical-lock-proposal/v6",
   "status": "OUTCOME_FREE_PROPOSAL_PENDING_GH_APPROVAL",
-  "instruction_id": "ODEEDIT-S02-BF16-CONTEXT-LOCK-V5-PREP-V1",
-  "parent_instruction_id": "ODEEDIT-S02-BF16-CONTEXT-LOCK-PROBE-PAIR-V1",
-  "revision_id": "ODEEDIT-S02-BF16-CONTEXT-LOCK-V5-PREP-V1",
-  "canonical_main_commit": "26a8ffe9b7077e9b9707c5b92f5704c5fb6386e7",
+  "instruction_id": "ODEEDIT-S02-TWO-FORWARD-EVENT-V6-IMPL-V1",
+  "parent_instruction_id": "ODEEDIT-S02-P0-ORIGINAL-DTYPE-SIMPLE-T-V5-PAIR-V1",
+  "revision_id": "ODEEDIT-S02-TWO-FORWARD-EVENT-V6-IMPL-V1",
+  "canonical_main_commit": "96b314b18585470275d20c586b46e63ac9574c57",
   "canonical_spec": {
     "path": "plans/global/2026-08-03-session02-compute-aware-main-table-spec.md",
     "sha256": "8ee7f5557f298bb67c1e85ed6de1aaa6a285b7b8d28ecd4dcbe1973bdf85531d"
@@ -248,13 +248,17 @@
     "cached_trial_graph": "UNSUPPORTED_FAIL_CLOSED"
   },
   "event_backend": {
-    "old_new_forward": "one-right-padded-combined-batch",
+    "old_new_forward": "two-separate-teacher-forced-forwards",
+    "actual_model_calls_per_event": 2,
+    "differentiable_autograd_calls_per_field": 1,
     "individual_object_length_normalization": true,
+    "combined_scorer_runtime_role": "diagnostic-reference-only",
+    "conditional_fallback": false,
     "cpu_fixture_two_forward_atol": 1e-10,
     "cpu_fixture_two_forward_rtol": 1e-10,
     "p0_two_forward_atol": 0.00005,
     "p0_two_forward_rtol": 0.005,
-    "concrete_failure_action": "P0_TECHNICAL_HOLD_AND_RECORD_TWO_ACTUAL_CALLS"
+    "prior_combined_p0_v5_result": "FAILED_BOTH_MODELS_TECHNICAL_ONLY"
   },
   "transaction": {
     "edit_entry_checkpoint_count": 1,
@@ -386,6 +390,8 @@
       "controller",
       "arms",
       "trial_backend",
+      "event_backend",
+      "event_nfe",
       "dtype_policy",
       "checkpoint_original_dtype",
       "observed_parameter_dtype"
@@ -484,12 +490,16 @@
     "p0_n_reject_upper_bound_per_model_per_repetition": 56,
     "p0_profile_n_reject_upper_bound_per_model": 224,
     "p1_n_reject_upper_bound_per_model": 224,
-    "p0_n_event_fwd_upper_bound_per_model_per_repetition": 75,
-    "p0_profile_n_event_fwd_upper_bound_per_model": 300,
-    "p1_n_event_fwd_upper_bound_per_model": 300,
-    "p0_n_field_state_fwd_upper_bound_per_model_per_repetition": 68,
-    "p0_profile_n_field_state_fwd_upper_bound_per_model": 257,
-    "p1_n_field_state_fwd_upper_bound_per_model": 252,
+    "p0_n_event_fwd_upper_bound_per_model_per_repetition": 150,
+    "p0_profile_n_event_fwd_upper_bound_per_model": 600,
+    "p1_n_event_fwd_upper_bound_per_model": 600,
+    "p0_n_field_state_fwd_upper_bound_per_model_per_repetition": 72,
+    "p0_profile_n_field_state_fwd_upper_bound_per_model": 288,
+    "p1_n_field_state_fwd_upper_bound_per_model": 288,
+    "p0_profile_n_reference_gate_fwd_upper_bound_per_model": 2,
+    "p0_profile_n_reference_gate_bw_upper_bound_per_model": 1,
+    "p1_n_reference_gate_fwd_upper_bound_per_model": 0,
+    "p1_n_reference_gate_bw_upper_bound_per_model": 0,
     "n_model_fwd_upper_bound": "MEASURE_ACTUAL_TOP_LEVEL_CALLS_IN_P0; NO_UNIT_COST_PROXY",
     "p0_n_eval_upper_bound_per_model_per_repetition": 0,
     "p0_profile_n_eval_upper_bound_per_model": 0,
@@ -497,7 +507,7 @@
     "p0_n_write_upper_bound_per_model_per_repetition": 15,
     "p0_profile_n_write_upper_bound_per_model": 60,
     "p1_n_write_upper_bound_per_model": 60,
-    "counter_bound_basis": "conservative separable caps; Native one ordered proposal/write, Static<=6 accepted, One-refresh<=2 accepted, Full<=6 accepted, unchanged-state rejects reuse fields; each five-layer synchronous field has at most one current-z forward, five key forwards, and one differentiable-event forward, while the single P0 warmup hook gate adds five finite-difference field forwards; N_trial is logical and never added to N_model_fwd; all actual EasyEdit internal forwards are counted by a top-level model hook",
+    "counter_bound_basis": "conservative separable caps; Native one ordered proposal/write, Static<=6 accepted, One-refresh<=2 accepted, Full<=6 accepted, unchanged-state rejects reuse fields; each event measurement uses exactly two separate top-level teacher-forced forwards; each five-layer synchronous field has at most one current-z forward, five key forwards, and two differentiable-event forwards; the single P0 warmup scalar hard-reference gate adds two reference-gate forwards and one reference backward outside N_field_state_fwd/N_bw; N_trial is logical and never added to N_model_fwd; all actual EasyEdit internal forwards are counted by a top-level model hook",
     "forecast_basis": "structural counter caps only; original-BF16 GPU time and memory must be measured in P0; legacy-float32 failure resources and the simple-T CPU microfixture are not model-scale forecasts"
   },
   "execution_boundary": {

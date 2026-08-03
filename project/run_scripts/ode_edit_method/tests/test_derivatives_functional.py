@@ -209,6 +209,9 @@ class DirectionalDerivativeTests(unittest.TestCase):
                 first = _loss(self.model, self.inputs)
             with metrics.state_forward("field"):
                 second = _loss(self.model, self.inputs * 0.5)
+            self.assertTrue(
+                all(len(records) == 2 for records in hook._records.values())
+            )
             with mock.patch("torch.autograd.grad", wraps=original_grad) as grad_mock:
                 observed = hook.compute(first + second)
                 self.assertEqual(grad_mock.call_count, 1)
@@ -241,24 +244,36 @@ class DirectionalDerivativeTests(unittest.TestCase):
         for parameter in self.model.parameters():
             parameter.requires_grad_(False)
         with directional_gradient_scope(self.model, self.directions):
-            dense_event = _loss(self.model, self.inputs)
+            dense_event = _loss(self.model, self.inputs) + _loss(
+                self.model, self.inputs * 0.5
+            )
             dense = all_layer_directional_derivatives(
                 dense_event,
                 self.model,
                 self.directions,
             )
         with ActuatorDirectionalHook(self.model, self.directions) as hook:
-            hook_event = _loss(self.model, self.inputs)
+            hook_event = _loss(self.model, self.inputs) + _loss(
+                self.model, self.inputs * 0.5
+            )
+            self.assertTrue(
+                all(len(records) == 2 for records in hook._records.values())
+            )
             primary = hook.compute(hook_event)
         metrics = EditInstrumentation("scalar-gate-reference")
+        original_grad = torch.autograd.grad
         with ScalarGateDirectionalReference(
             self.model,
             self.directions,
             instrumentation=metrics,
         ) as reference:
             with metrics.state_forward("reference_gate"):
-                scalar_event = _loss(self.model, self.inputs)
-            scalar = reference.compute(scalar_event)
+                scalar_first = _loss(self.model, self.inputs)
+            with metrics.state_forward("reference_gate"):
+                scalar_second = _loss(self.model, self.inputs * 0.5)
+            with mock.patch("torch.autograd.grad", wraps=original_grad) as grad_mock:
+                scalar = reference.compute(scalar_first + scalar_second)
+                self.assertEqual(grad_mock.call_count, 1)
         rows = assert_scalar_gate_matches_hook(
             primary,
             scalar,
@@ -275,8 +290,8 @@ class DirectionalDerivativeTests(unittest.TestCase):
                 delta=5e-5,
             )
         counters = metrics.finalize().to_dict()["counters"]
-        self.assertEqual(counters["N_model_fwd"], 1)
-        self.assertEqual(counters["N_reference_gate_fwd"], 1)
+        self.assertEqual(counters["N_model_fwd"], 2)
+        self.assertEqual(counters["N_reference_gate_fwd"], 2)
         self.assertEqual(counters["N_reference_gate_bw"], 1)
         self.assertEqual(counters["N_bw"], 0)
 

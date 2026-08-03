@@ -12,6 +12,10 @@ import torch
 from .contracts import EventReading, MethodContractError, canonical_hash
 
 
+EVENT_BACKEND_MODE = "two-separate-teacher-forced-forwards"
+EVENT_MODEL_FORWARD_CALLS = 2
+
+
 @dataclass(frozen=True, slots=True)
 class ControllerRequest:
     """The complete request visible before a controller action is frozen."""
@@ -159,7 +163,7 @@ class TeacherBatch:
 
 @dataclass(frozen=True, slots=True)
 class DifferentiableEvent:
-    """One combined event forward plus its grad-enabled smooth scalar."""
+    """Two-forward event reading plus its joint grad-enabled smooth scalar."""
 
     reading: EventReading
     smooth_phi: torch.Tensor
@@ -169,8 +173,10 @@ class DifferentiableEvent:
     def __post_init__(self) -> None:
         if self.smooth_phi.ndim != 0 or not self.smooth_phi.requires_grad:
             raise MethodContractError("differentiable event scalar has no gradient graph")
-        if self.reading.nfe != 1:
-            raise MethodContractError("combined differentiable event must use one forward")
+        if self.reading.nfe != EVENT_MODEL_FORWARD_CALLS:
+            raise MethodContractError(
+                "differentiable event must use two separate teacher forwards"
+            )
 
 
 def _target_ids(tokenizer: Any, target_text: str) -> tuple[int, ...]:
@@ -343,7 +349,7 @@ def differentiable_event_from_log_likelihoods(
         new_values,
         old_values,
         tau=temperature,
-        nfe=1,
+        nfe=EVENT_MODEL_FORWARD_CALLS,
     )
     return DifferentiableEvent(
         reading=reading,
@@ -395,16 +401,13 @@ def measure_event(
     contexts = build_allowed_contexts(request, context_templates)
     new_batch = build_teacher_batch(tokenizer, contexts, request.target_new)
     old_batch = build_teacher_batch(tokenizer, contexts, request.target_old)
-    new, old = score_combined_teacher_batches(
-        model,
-        (new_batch, old_batch),
-        differentiable=False,
-    )
+    new = score_teacher_batch_tensor(model, new_batch, differentiable=False)
+    old = score_teacher_batch_tensor(model, old_batch, differentiable=False)
     return event_from_log_likelihoods(
         tuple(float(value) for value in new.cpu()),
         tuple(float(value) for value in old.cpu()),
         tau=tau,
-        nfe=1,
+        nfe=EVENT_MODEL_FORWARD_CALLS,
     )
 
 
@@ -419,11 +422,11 @@ def measure_differentiable_event(
     contexts = build_allowed_contexts(request, context_templates)
     new_batch = build_teacher_batch(tokenizer, contexts, request.target_new)
     old_batch = build_teacher_batch(tokenizer, contexts, request.target_old)
-    new, old = score_combined_teacher_batches(
-        model,
-        (new_batch, old_batch),
-        differentiable=True,
-    )
+    # These are separate top-level forwards by definition.  Their two graphs
+    # meet only in the common smooth event scalar, allowing actuator records
+    # from both panels to be consumed by one all-layer autograd call.
+    new = score_teacher_batch_tensor(model, new_batch, differentiable=True)
+    old = score_teacher_batch_tensor(model, old_batch, differentiable=True)
     return differentiable_event_from_log_likelihoods(new, old, tau=tau)
 
 

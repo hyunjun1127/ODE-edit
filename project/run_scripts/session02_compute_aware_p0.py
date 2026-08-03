@@ -37,10 +37,8 @@ from project.run_scripts.ode_edit_method.contracts import Arm, canonical_hash
 from project.run_scripts.ode_edit_method.controller import OmegaLedger
 from project.run_scripts.ode_edit_method.easyedit_backend import EasyEditMemitBackend
 from project.run_scripts.ode_edit_method.events import (
-    build_allowed_contexts,
-    build_teacher_batch,
-    score_combined_teacher_batches,
-    score_teacher_batch,
+    EVENT_BACKEND_MODE,
+    EVENT_MODEL_FORWARD_CALLS,
 )
 from project.run_scripts.ode_edit_method.hooks import TorchCheckpoint, base_weight_c_energy
 from project.run_scripts.ode_edit_method.instrumentation import EditInstrumentation
@@ -247,45 +245,21 @@ def run(args: argparse.Namespace) -> int:
         expected_model_lock=model_lock,
         seed=seed,
     )
-    event_batch_gates = []
     event_backend_lock = lock["event_backend"]
-    for request in requests:
-        contexts = build_allowed_contexts(request, prepared.contexts.templates)
-        new_batch = build_teacher_batch(runtime.tokenizer, contexts, request.target_new)
-        old_batch = build_teacher_batch(runtime.tokenizer, contexts, request.target_old)
-        new_reference = score_teacher_batch(runtime.model, new_batch)
-        old_reference = score_teacher_batch(runtime.model, old_batch)
-        combined_new, combined_old = score_combined_teacher_batches(
-            runtime.model,
-            (new_batch, old_batch),
-            differentiable=False,
-        )
-        reference_new_tensor = torch.tensor(
-            new_reference, device=combined_new.device, dtype=combined_new.dtype
-        )
-        reference_old_tensor = torch.tensor(
-            old_reference, device=combined_old.device, dtype=combined_old.dtype
-        )
-        atol = float(event_backend_lock["p0_two_forward_atol"])
-        rtol = float(event_backend_lock["p0_two_forward_rtol"])
-        if not (
-            torch.allclose(combined_new, reference_new_tensor, atol=atol, rtol=rtol)
-            and torch.allclose(combined_old, reference_old_tensor, atol=atol, rtol=rtol)
-        ):
-            raise RuntimeError("combined event differs from two-forward P0 reference")
-        event_batch_gates.append(
-            {
-                "case_id": request.case_id,
-                "new_max_abs": float(
-                    torch.max(torch.abs(combined_new - reference_new_tensor)).cpu()
-                ),
-                "old_max_abs": float(
-                    torch.max(torch.abs(combined_old - reference_old_tensor)).cpu()
-                ),
-                "atol": atol,
-                "rtol": rtol,
-            }
-        )
+    if (
+        event_backend_lock.get("old_new_forward") != EVENT_BACKEND_MODE
+        or event_backend_lock.get("actual_model_calls_per_event")
+        != EVENT_MODEL_FORWARD_CALLS
+        or event_backend_lock.get("conditional_fallback") is not False
+    ):
+        raise RuntimeError("runtime event backend differs from the v6 lock")
+    event_backend_identity = {
+        "selected_mode": EVENT_BACKEND_MODE,
+        "actual_model_calls_per_event": EVENT_MODEL_FORWARD_CALLS,
+        "reading_nfe": EVENT_MODEL_FORWARD_CALLS,
+        "combined_scorer_runtime_primary": False,
+        "conditional_fallback": False,
+    }
     config = controller_config(lock)
     weight_by_layer = {
         layer: f"{prepared.hparams.rewrite_module_tmp.format(layer)}.weight"
@@ -364,6 +338,8 @@ def run(args: argparse.Namespace) -> int:
             "controller": config.to_dict(),
             "arms": [arm.value for arm in P0_ARMS],
             "trial_backend": lock["trial_backend"]["selected_common_backend"],
+            "event_backend": EVENT_BACKEND_MODE,
+            "event_nfe": EVENT_MODEL_FORWARD_CALLS,
             "dtype_policy": runtime_metadata["dtype_policy"],
             "checkpoint_original_dtype": runtime_metadata[
                 "checkpoint_original_dtype"
@@ -378,7 +354,7 @@ def run(args: argparse.Namespace) -> int:
         },
         "setup_wall_seconds": setup_wall_seconds,
         "model_load_wall_seconds_excluded": model_load_wall_seconds,
-        "event_batch_identity": event_batch_gates,
+        "event_backend_identity": event_backend_identity,
         "warmup_repetitions": warmups,
         "recorded_repetitions": recorded,
         "expected_run_count": total_runs,
@@ -641,7 +617,7 @@ def run(args: argparse.Namespace) -> int:
         ],
         "terminal_geometry_fractions": terminal_geometry_fractions,
         "hook_reference_gates": hook_reference_gates,
-        "event_batch_identity": event_batch_gates,
+        "event_backend_identity": event_backend_identity,
         "terminal_integrity_wall_seconds": terminal_integrity_wall_seconds,
         "p1_low_rank_terminal_geometry_required": any(
             row["wall_fraction"] > 0.1 or row["gpu_fraction"] > 0.1
