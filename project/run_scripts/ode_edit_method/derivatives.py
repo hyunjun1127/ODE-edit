@@ -380,3 +380,266 @@ class ActuatorDirectionalHook:
         if violations:
             raise MethodContractError("actuator hook mutation: " + "; ".join(violations))
         return False
+
+
+class ScalarGateDirectionalReference:
+    """Independent low-rank functional-graph derivative oracle.
+
+    Each layer owns one float32 scalar ``alpha``.  The forward hook reproduces
+    the functional-trial arithmetic at ``alpha=0``: factors and factorized
+    matmuls use the hidden dtype, the delta and alpha are cast to the module
+    output dtype, and the zero delta is added to that output.  One
+    ``torch.autograd.grad`` call then obtains all ``dPhi/dalpha`` values.
+
+    This path never differentiates a target weight and shares neither captured
+    activation gradients nor the contraction implementation used by
+    :class:`ActuatorDirectionalHook`.
+    """
+
+    def __init__(
+        self,
+        model: torch.nn.Module,
+        directions: Sequence[FactorDirection],
+        *,
+        instrumentation: EditInstrumentation | None = None,
+    ) -> None:
+        self.model = model
+        self.directions = tuple(directions)
+        if not self.directions:
+            raise MethodContractError("scalar-gate reference has no directions")
+        names = tuple(direction.weight_name for direction in self.directions)
+        layers = tuple(direction.layer for direction in self.directions)
+        if len(set(names)) != len(names) or len(set(layers)) != len(layers):
+            raise MethodContractError("scalar-gate weights or layers repeat")
+        if layers != tuple(sorted(layers)):
+            raise MethodContractError("scalar-gate layers must be ascending")
+        self.instrumentation = instrumentation
+        self._handles: list[torch.utils.hooks.RemovableHandle] = []
+        self._parameters: tuple[torch.nn.Parameter, ...] = ()
+        self._requires_grad: tuple[bool, ...] = ()
+        self._pointers: tuple[int, ...] = ()
+        self._versions: tuple[int, ...] = ()
+        self._alphas: tuple[torch.Tensor, ...] = ()
+        self._active = False
+        self._computed = False
+
+    @staticmethod
+    def _hook(direction: FactorDirection, alpha: torch.Tensor) -> Any:
+        def apply(
+            module: torch.nn.Module,
+            inputs: tuple[Any, ...],
+            output: Any,
+        ) -> torch.Tensor:
+            if not inputs or not isinstance(inputs[0], torch.Tensor):
+                raise MethodContractError("scalar-gate module has no tensor input")
+            if not isinstance(output, torch.Tensor):
+                raise MethodContractError("scalar-gate module has non-tensor output")
+            hidden = inputs[0]
+            left = direction.left.to(device=hidden.device, dtype=hidden.dtype)
+            right = direction.right.to(device=hidden.device, dtype=hidden.dtype)
+            if hidden.shape[-1] != right.shape[0] or output.shape[-1] != left.shape[0]:
+                raise MethodContractError("scalar-gate activation/factor shapes differ")
+            delta = (hidden @ right) @ left.transpose(0, 1)
+            output_delta = delta.to(dtype=output.dtype)
+            output_alpha = alpha.to(device=output.device, dtype=output.dtype)
+            gated = output + output_delta * output_alpha
+            if gated.dtype != output.dtype or not torch.equal(
+                gated.detach(), output.detach()
+            ):
+                raise MethodContractError(
+                    "scalar-gate alpha=0 changed module output identity"
+                )
+            return gated
+
+        return apply
+
+    def __enter__(self) -> "ScalarGateDirectionalReference":
+        if self._active:
+            raise RuntimeError("scalar-gate reference is already active")
+        parameters = tuple(
+            resolve_parameter(self.model, direction.weight_name)
+            for direction in self.directions
+        )
+        if any(parameter.grad is not None for parameter in parameters):
+            raise MethodContractError("target weight .grad must be None before scalar gate")
+        self._parameters = parameters
+        self._requires_grad = tuple(parameter.requires_grad for parameter in parameters)
+        self._pointers = tuple(parameter.data_ptr() for parameter in parameters)
+        self._versions = tuple(parameter._version for parameter in parameters)
+        self._alphas = tuple(
+            torch.zeros(
+                (),
+                device=parameter.device,
+                dtype=torch.float32,
+                requires_grad=True,
+            )
+            for parameter in parameters
+        )
+        try:
+            for parameter in parameters:
+                parameter.requires_grad_(False)
+            for direction, alpha in zip(
+                self.directions, self._alphas, strict=True
+            ):
+                module = _weight_module(self.model, direction.weight_name)
+                self._handles.append(
+                    module.register_forward_hook(self._hook(direction, alpha))
+                )
+        except BaseException:
+            for handle in reversed(self._handles):
+                handle.remove()
+            self._handles.clear()
+            for parameter, flag in zip(
+                parameters, self._requires_grad, strict=True
+            ):
+                parameter.requires_grad_(flag)
+            self._alphas = ()
+            raise
+        self._active = True
+        return self
+
+    def compute(
+        self,
+        smooth_event: torch.Tensor,
+        *,
+        retain_graph: bool = False,
+    ) -> DirectionalField:
+        if not self._active or self._computed:
+            raise MethodContractError("scalar-gate compute requires one active capture")
+        if smooth_event.ndim != 0 or not smooth_event.requires_grad:
+            raise MethodContractError("smooth rewrite event must be a grad-enabled scalar")
+        timer = (
+            self.instrumentation.component("reference_gate")
+            if self.instrumentation is not None
+            else nullcontext()
+        )
+        with timer:
+            gradients = torch.autograd.grad(
+                smooth_event,
+                self._alphas,
+                retain_graph=retain_graph,
+                create_graph=False,
+                allow_unused=False,
+            )
+        if self.instrumentation is not None:
+            self.instrumentation.increment("N_reference_gate_bw")
+        values = []
+        for direction, gradient in zip(self.directions, gradients, strict=True):
+            derivative = float(gradient.detach().cpu())
+            if not math.isfinite(derivative):
+                raise MethodContractError("scalar-gate derivative is non-finite")
+            values.append(
+                DirectionalDerivative(
+                    layer=direction.layer,
+                    direction_id=direction.direction_id,
+                    event_derivative=derivative,
+                    progress_slope=max(0.0, -derivative),
+                )
+            )
+        payload = [
+            {
+                "layer": value.layer,
+                "direction_id": value.direction_id,
+                "event_derivative": value.event_derivative,
+                "progress_slope": value.progress_slope,
+            }
+            for value in values
+        ]
+        self._computed = True
+        return DirectionalField(
+            values=tuple(values),
+            backward_calls=1,
+            backend="scalar-gate-functional-graph-reference-only",
+            field_id=canonical_hash(payload),
+        )
+
+    def __exit__(self, exc_type: Any, exc: BaseException | None, traceback: Any) -> bool:
+        for handle in reversed(self._handles):
+            handle.remove()
+        self._handles.clear()
+        violations: list[str] = []
+        for parameter, flag, pointer, version, direction in zip(
+            self._parameters,
+            self._requires_grad,
+            self._pointers,
+            self._versions,
+            self.directions,
+            strict=True,
+        ):
+            if parameter.grad is not None:
+                violations.append(f"{direction.weight_name}: materialized .grad")
+            if parameter.data_ptr() != pointer:
+                violations.append(f"{direction.weight_name}: storage pointer changed")
+            if parameter._version != version:
+                violations.append(f"{direction.weight_name}: parameter version changed")
+            if parameter.requires_grad is not False:
+                violations.append(f"{direction.weight_name}: requires_grad changed")
+            parameter.requires_grad_(flag)
+        if any(alpha.grad is not None for alpha in self._alphas):
+            violations.append("scalar alpha .grad was materialized")
+        self._parameters = ()
+        self._requires_grad = ()
+        self._pointers = ()
+        self._versions = ()
+        self._alphas = ()
+        self._active = False
+        if violations:
+            raise MethodContractError(
+                "scalar-gate reference mutation: " + "; ".join(violations)
+            )
+        return False
+
+
+def assert_scalar_gate_matches_hook(
+    primary: DirectionalField,
+    reference: DirectionalField,
+    *,
+    abs_tol: float,
+    rel_tol: float,
+) -> tuple[dict[str, float | int | str], ...]:
+    """Fail closed when independent A/B directional paths disagree."""
+
+    if (
+        not math.isfinite(abs_tol)
+        or not math.isfinite(rel_tol)
+        or abs_tol <= 0.0
+        or rel_tol <= 0.0
+    ):
+        raise MethodContractError("scalar-gate identity tolerances are invalid")
+    if len(primary.values) != len(reference.values):
+        raise MethodContractError("scalar-gate field cardinality differs")
+    rows = []
+    for hook_value, gate_value in zip(
+        primary.values, reference.values, strict=True
+    ):
+        if (
+            hook_value.layer != gate_value.layer
+            or hook_value.direction_id != gate_value.direction_id
+        ):
+            raise MethodContractError("scalar-gate field identity differs")
+        absolute_error = abs(
+            hook_value.event_derivative - gate_value.event_derivative
+        )
+        if not math.isclose(
+            hook_value.event_derivative,
+            gate_value.event_derivative,
+            abs_tol=abs_tol,
+            rel_tol=rel_tol,
+        ):
+            raise MethodContractError(
+                "actuator hook differs from scalar-gate hard reference: "
+                f"layer={hook_value.layer} "
+                f"hook={hook_value.event_derivative:.17g} "
+                f"scalar_gate={gate_value.event_derivative:.17g} "
+                f"abs_error={absolute_error:.17g}"
+            )
+        rows.append(
+            {
+                "layer": hook_value.layer,
+                "direction_id": hook_value.direction_id,
+                "hook_derivative": hook_value.event_derivative,
+                "scalar_gate_derivative": gate_value.event_derivative,
+                "absolute_error": absolute_error,
+            }
+        )
+    return tuple(rows)

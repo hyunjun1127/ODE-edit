@@ -178,17 +178,23 @@ class ConcreteBackendTests(unittest.TestCase):
             backend.restore(checkpoint)
             backend.assert_checkpoint(checkpoint)
 
-    def test_verified_covariance_tensor_is_cached_and_mutation_guarded(self) -> None:
+    def test_verified_covariance_source_is_transient_and_mutation_guarded(self) -> None:
         with tempfile.TemporaryDirectory() as root:
             backend = _backend("llama3-8b-inst", root)
-            first = backend._covariance_for_solve(0, torch.device("cpu"))
-            second = backend._covariance_for_solve(0, torch.device("cpu"))
-            self.assertIs(first, second)
-            self.assertIsNot(first, backend.covariance_by_layer[0])
+            source = backend.covariance_by_layer[0]
+            pointer = source.data_ptr()
+            version = source._version
+            first = backend._covariance_source_for_solve(0)
+            second = backend._covariance_source_for_solve(0)
+            self.assertIs(first, source)
+            self.assertIs(second, source)
+            self.assertEqual(source.data_ptr(), pointer)
+            self.assertEqual(source._version, version)
+            self.assertFalse(hasattr(backend, "_solve_covariance_by_layer"))
             with torch.no_grad():
                 backend.covariance_by_layer[0].add_(1.0)
             with self.assertRaisesRegex(MethodContractError, "changed in memory"):
-                backend._covariance_for_solve(0, torch.device("cpu"))
+                backend._covariance_source_for_solve(0)
 
     def test_native_preflight_reuse_is_scoped_and_restored(self) -> None:
         from project.run_scripts.ode_edit_method import easyedit_backend as module

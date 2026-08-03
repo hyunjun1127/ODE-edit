@@ -56,6 +56,8 @@ class InstrumentationTests(unittest.TestCase):
             "N_proposal_build",
             "N_native_sweep",
             "N_bw",
+            "N_reference_gate_fwd",
+            "N_reference_gate_bw",
             "N_trial",
             "N_write",
             "K_acc",
@@ -104,12 +106,15 @@ class InstrumentationTests(unittest.TestCase):
             _ = model(torch.ones(1, 2))
         with metrics.model_forward_scope("field"):
             _ = model(torch.ones(1, 2))
+        with metrics.model_forward_scope("reference_gate"):
+            _ = model(torch.ones(1, 2))
         metrics.increment("N_trial")
         metrics.detach_model()
         counters = metrics.finalize().to_dict()["counters"]
-        self.assertEqual(counters["N_model_fwd"], 2)
+        self.assertEqual(counters["N_model_fwd"], 3)
         self.assertEqual(counters["N_event_fwd"], 1)
         self.assertEqual(counters["N_field_state_fwd"], 1)
+        self.assertEqual(counters["N_reference_gate_fwd"], 1)
         self.assertEqual(counters["N_trial"], 1)
 
 

@@ -28,6 +28,8 @@ COUNTER_NAMES = (
     "N_proposal_build",
     "N_native_sweep",
     "N_bw",
+    "N_reference_gate_fwd",
+    "N_reference_gate_bw",
     "N_trial",
     "N_reject",
     "N_eval",
@@ -48,6 +50,7 @@ COMPONENT_NAMES = (
     "event",
     "field",
     "backward_hook",
+    "reference_gate",
     "qp",
     "trial",
     "commit_write",
@@ -63,6 +66,8 @@ _FORBIDDEN_AFTER_HIT = frozenset(
         "N_proposal_build",
         "N_native_sweep",
         "N_bw",
+        "N_reference_gate_fwd",
+        "N_reference_gate_bw",
         "N_trial",
         "N_reject",
         "N_write",
@@ -78,6 +83,7 @@ _FORBIDDEN_COMPONENTS_AFTER_HIT = frozenset(
         "trust_scale",
         "field",
         "backward_hook",
+        "reference_gate",
         "qp",
         "trial",
         "commit_write",
@@ -86,6 +92,7 @@ _FORBIDDEN_COMPONENTS_AFTER_HIT = frozenset(
 _FORWARD_CATEGORIES = {
     "event": "N_event_fwd",
     "field": "N_field_state_fwd",
+    "reference_gate": "N_reference_gate_fwd",
 }
 
 
@@ -304,7 +311,9 @@ class EditInstrumentation:
             raise MethodContractError("cannot finalize active timers")
         if self._model_hook is not None:
             raise MethodContractError("detach full-model counter before finalize")
-        categorized = self._counters["N_event_fwd"] + self._counters["N_field_state_fwd"]
+        categorized = sum(
+            self._counters[counter] for counter in _FORWARD_CATEGORIES.values()
+        )
         if categorized > self._counters["N_model_fwd"]:
             raise MethodContractError("categorized forwards exceed actual model forwards")
         peak_allocated = 0
