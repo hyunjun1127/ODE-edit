@@ -1,0 +1,360 @@
+{
+  "schema_version": "ode-edit-compute-aware-numerical-lock-proposal/v2",
+  "status": "OUTCOME_FREE_PROPOSAL_PENDING_GH_APPROVAL",
+  "instruction_id": "ODEEDIT-S02-FAST-MAIN-IMPL-PREP-V1",
+  "revision_id": "ODEEDIT-S02-COMPUTE-AWARE-IMPL-PREP-V2",
+  "canonical_main_commit": "67bcf9b8cb89e9e8c544ad1c94c92d639dcd2229",
+  "canonical_spec": {
+    "path": "plans/global/2026-08-03-session02-compute-aware-main-table-spec.md",
+    "sha256": "35c7a0ef8c25d3a339f9cb41a816e4b6b9702341a989822812ebaed0fe7902a0"
+  },
+  "outcome_count_at_proposal": 0,
+  "execution_seed": 17,
+  "selection": {
+    "dataset_relative_path": "data/counterfact/counterfact.json",
+    "dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+    "dataset_size_bytes": 45108470,
+    "dataset_row_count": 21919,
+    "selection_seed": "ode-edit-session02-fast-main-cases-v1",
+    "selection_algorithm": "rank-all-lexical-case-ids-by-sha256(seed+NUL+case_id); take-first-4",
+    "canonical_case_ids": [
+      "2022",
+      "12498",
+      "20964",
+      "768"
+    ],
+    "canonical_order_sha256": "e7746f38ba36f8d36815b4e58084ad408be6cb64f77d04661c6bc4ca688e08f7",
+    "request_ids": [
+      "9f8379da67c8c754397efddcf5af0d665592632779f4cb3b125efa5502361fde",
+      "d702692bdeb74d3eca8919bc43762a6a1e5a342eea7c54d9847aa273cb1ee8a0",
+      "f99a26f2c02aafe8447b6d4679d18890b1ebe6bbbb419d126072d06ccf7a08e8",
+      "04aded96e888d92e5b3ab79b9329a43cd29e8fe6560ef3f86a38670d0091ea3a"
+    ],
+    "request_order_sha256": "bffe1b3655ae73223f9901f8e5d31af86779740a2682db142a0bf1415a66c57c",
+    "p0_profiler_case_ids": [
+      "2022"
+    ],
+    "p1_case_ids": [
+      "2022",
+      "12498",
+      "20964",
+      "768"
+    ]
+  },
+  "models": {
+    "llama3-8b-inst": {
+      "repository_id": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "tokenizer_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "hparams_relative_path": "hparams/MEMIT/llama3-8b.yaml",
+      "hparams_sha256": "2b81838b49b1a5e0e4ef41f229216fda473200093fcbed6bd040f07a70d43818",
+      "hparams_size_bytes": 631,
+      "context_manifest": {
+        "source": "llama3-8b-inst:fresh-seed-17",
+        "manifest_id": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
+        "group_sizes": [1, 5]
+      }
+    },
+    "qwen2.5-7b-inst": {
+      "repository_id": "Qwen/Qwen2.5-7B-Instruct",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "tokenizer_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "hparams_relative_path": "hparams/MEMIT/qwen2.5-7b.yaml",
+      "hparams_sha256": "fccad05cf749c710ba0ce58ae24203f0bb90d9bf488966a5184dacd489a0311b",
+      "hparams_size_bytes": 639,
+      "context_manifest": {
+        "source": "qwen2.5-7b-inst:fresh-seed-17",
+        "manifest_id": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
+        "group_sizes": [1, 5]
+      }
+    }
+  },
+  "read_only_artifacts": {
+    "identity_source": "project/run_scripts/ode_edit_motivation/manifests.py:FIXED_FILE_IDENTITIES",
+    "required_policy": "hash-and-size-preflight; open-existing-only",
+    "covariance_recompute_or_download": false,
+    "projector_recompute_or_download": false,
+    "wikipedia_statistics_recompute_or_download": false,
+    "easyedit_write": false
+  },
+  "context_generation": {
+    "runtime_seed": 17,
+    "base_template": "{}",
+    "generation_prefixes": ["The", "Therefore", "Because", "I", "You"],
+    "generated_per_prefix": 1,
+    "max_output_tokens": 10,
+    "fresh_generation_required": true,
+    "pre_action_manifest_id_must_match": true,
+    "raw_templates_git_persisted": false
+  },
+  "tokenization": {
+    "target_prefix_rule": "single-leading-space-if-absent",
+    "target_add_special_tokens": false,
+    "full_context_object_add_special_tokens": true,
+    "padding_side": "right",
+    "object_token_normalization": "mean-log-likelihood-per-object-token",
+    "bos_unk_rule": "drop-one-leading-bos-or-unk-from-target",
+    "empty_object": "fail-closed",
+    "one_token_object": "allowed",
+    "suffix_identity_required": true
+  },
+  "event": {
+    "hard_event": "max_context(mean_ll_old-minus-mean_ll_new)",
+    "first_hit_rule": "hard_event<=event_tolerance",
+    "event_tolerance": 0.000001,
+    "smooth_surrogate": "tau*log(mean(exp((old_minus_new)/tau)))",
+    "tau": 0.1,
+    "hard_worsening_tolerance": 0.000001,
+    "controller_contexts": "frozen-canonical-direct-z-rewrite-contexts-only",
+    "evaluation_before_action_freeze": false
+  },
+  "controller": {
+    "h0": 0.25,
+    "kappa": 1.0,
+    "beta": 0.8,
+    "eta_reject": 0.1,
+    "eta_expand": 0.75,
+    "gamma_down": 0.5,
+    "gamma_up": 1.5,
+    "radius_upper_cap": 0.25,
+    "s_max": 6,
+    "one_refresh_accepted_cap": 2,
+    "max_rejections_per_state": 4,
+    "slope_support_epsilon": 1e-10,
+    "progress_epsilon": 1e-10,
+    "qp_equality_tolerance": 1e-8,
+    "qp_trust_tolerance": 1e-8,
+    "trust_denominator_epsilon": 1e-12,
+    "unit_c_norm_epsilon": 1e-12,
+    "unit_c_identity_atol": 0.00002,
+    "unit_c_identity_rtol": 0.00002,
+    "load_denominator_epsilon": 1e-12,
+    "qp_internal_dtype": "float64",
+    "qp_trust_dual_bisection_iterations": 128,
+    "post_qp_rescale": false,
+    "signed_capacity_hard_barrier": false,
+    "model_specific_policy": false
+  },
+  "scalar_first_hit": {
+    "alpha_grid": [
+      0.0,
+      0.0625,
+      0.125,
+      0.1875,
+      0.25,
+      0.3125,
+      0.375,
+      0.4375,
+      0.5,
+      0.5625,
+      0.625,
+      0.6875,
+      0.75,
+      0.8125,
+      0.875,
+      0.9375,
+      1.0
+    ],
+    "first_hit_bracket_only": true,
+    "bisection_tolerance": 0.00006103515625,
+    "bisection_iterations": 14,
+    "nonmonotonic_tolerance": 0.000001,
+    "alpha_above_one_allowed": false
+  },
+  "derivative_backend": {
+    "primary": "activation-actuator-hook",
+    "dense_target_gradient": "reference-only",
+    "per_layer_backward_allowed_in_primary": false,
+    "target_weight_grad_materialization_allowed": false,
+    "cpu_dense_reference_atol": 1e-10,
+    "p0_scalar_gate_atol": 0.00005,
+    "p0_scalar_gate_rtol": 0.005,
+    "support_sign_epsilon": 1e-10
+  },
+  "trial_backend": {
+    "selected_common_backend": "no-grad-trial-then-accepted-commit-then-dedicated-state-rebuild",
+    "dense_weight_copy_for_trial": false,
+    "cached_trial_graph": "UNSUPPORTED_FAIL_CLOSED",
+    "cached_infeasibility_reason": "current-MEMIT-proposal-hashes-committed-dense-weights-and-runs-under-no-grad",
+    "cached_mode_scientific_arm": false,
+    "functional_vs_committed_atol": 0.00005,
+    "functional_vs_committed_rtol": 0.005,
+    "same_coefficient_required": true
+  },
+  "compute_accounting": {
+    "required_counters": [
+      "N_z",
+      "N_state_fwd",
+      "N_field",
+      "N_bw",
+      "K_acc",
+      "N_trial",
+      "N_reject",
+      "N_eval",
+      "N_write"
+    ],
+    "n_z_per_outer_edit": 1,
+    "n_bw_equals_n_field": true,
+    "per_layer_backward": 0,
+    "reject_field_rebuild": 0,
+    "dense_trial_weight_copy": 0,
+    "post_first_hit_z_field_trial_write": 0,
+    "evaluation_excluded_from_controller_gpu_seconds": true,
+    "full_native_compute_gate": {
+      "green_max_inclusive": 3.0,
+      "yellow_max_inclusive": 4.0,
+      "above_yellow_action": "P3_HOLD"
+    }
+  },
+  "timing": {
+    "clock": "torch.cuda.Event",
+    "cuda_synchronize_before_after_timed_region": true,
+    "p0_warmup_repetitions": 1,
+    "p0_recorded_repetitions": 3,
+    "p0_aggregation": "median",
+    "each_repetition_isolated_entry_checkpoint": true,
+    "each_repetition_n_z": 1,
+    "reset_peak_memory_before_repetition": true,
+    "editor_start": "immediately-before-direct-z",
+    "editor_stop": "after-terminal-commit-or-explicit-failure-cleanup",
+    "model_load_excluded": true,
+    "context_generation_excluded": true,
+    "evaluation_excluded": true,
+    "p1_canonical_repetitions": 1
+  },
+  "stages": {
+    "p0": {
+      "cases": 1,
+      "orders": 1,
+      "arms": ["native-memit", "static-synchronous", "one-refresh", "full-ode-edit"],
+      "scientific_comparison": false
+    },
+    "p1": {
+      "cases": 4,
+      "orders": 1,
+      "arms": ["native-memit", "static-synchronous", "one-refresh", "full-ode-edit"]
+    },
+    "p2": {
+      "cases": 10,
+      "orders": 2,
+      "arms": ["native-memit", "scalar-first-hit", "static-synchronous", "ordered-adaptive", "full-ode-edit"]
+    },
+    "p3": {
+      "cases": 100,
+      "orders": 2,
+      "arms": ["native-memit", "scalar-first-hit", "static-synchronous", "full-ode-edit"]
+    }
+  },
+  "artifact_schema": {
+    "schema_version": "ode-edit-session02-compute-aware-artifacts/v1",
+    "required_files": [
+      "manifest.json",
+      "controller_steps.jsonl",
+      "compute.jsonl",
+      "evaluation.jsonl",
+      "summary.json",
+      "terminal_manifest.json"
+    ],
+    "manifest_required_sections": [
+      "instruction",
+      "git",
+      "model",
+      "selection",
+      "contexts",
+      "policy",
+      "offline",
+      "artifact_firewall"
+    ],
+    "controller_step_required_fields": [
+      "case_id",
+      "arm",
+      "state_id",
+      "field_id",
+      "proposal_ids",
+      "solver_coefficients",
+      "applied_coefficients",
+      "accepted",
+      "first_hit",
+      "failure_type"
+    ],
+    "compute_required_fields": [
+      "case_id",
+      "arm",
+      "N_z",
+      "N_state_fwd",
+      "N_field",
+      "N_bw",
+      "K_acc",
+      "N_trial",
+      "N_reject",
+      "N_eval",
+      "N_write",
+      "component_gpu_seconds",
+      "controller_gpu_seconds",
+      "evaluation_gpu_seconds",
+      "gpu_seconds_per_edit",
+      "peak_memory_allocated_bytes",
+      "peak_memory_reserved_bytes"
+    ],
+    "evaluation_after_action_freeze_only": true,
+    "raw_prompt_target_context_persisted": false,
+    "terminal_hashes_required": true,
+    "git_forbidden_payloads": ["raw-log", "generation", "checkpoint", "model-weight", "dataset"]
+  },
+  "resource_forecast": {
+    "submission_authorized": false,
+    "same_batch_models": true,
+    "jobs_per_stage": 2,
+    "gpus_per_job": 1,
+    "concurrent_project_gpus": 2,
+    "project_gpu_cap": 4,
+    "cpus_per_job": 8,
+    "host_memory_mib_per_job": 65000,
+    "host_memory_cap_mib_per_gpu": 198117,
+    "p0_wall_limit": "04:00:00",
+    "p1_wall_limit": "16:00:00",
+    "p0_forecast_gpu_hours_per_model": [0.5, 2.0],
+    "p1_forecast_gpu_hours_per_model": [3.0, 10.0],
+    "gpu_peak_reserved_gib_forecast": [42.0, 48.0],
+    "p0_n_z_per_model_per_repetition": 4,
+    "p0_profiler_repetitions_including_warmup": 4,
+    "p0_profile_n_z_upper_bound_per_model": 16,
+    "p1_n_z_per_model": 16,
+    "p0_n_field_upper_bound_per_model": 9,
+    "p0_profile_n_field_upper_bound_per_model": 36,
+    "p1_n_field_upper_bound_per_model": 36,
+    "p0_n_bw_upper_bound_per_model_per_repetition": 9,
+    "p0_profile_n_bw_upper_bound_per_model": 36,
+    "p1_n_bw_upper_bound_per_model": 36,
+    "p0_k_acc_upper_bound_per_model_per_repetition": 14,
+    "p0_profile_k_acc_upper_bound_per_model": 56,
+    "p1_k_acc_upper_bound_per_model": 56,
+    "p0_n_trial_upper_bound_per_model_per_repetition": 71,
+    "p0_profile_n_trial_upper_bound_per_model": 284,
+    "p1_n_trial_upper_bound_per_model": 284,
+    "p0_n_reject_upper_bound_per_model_per_repetition": 56,
+    "p0_profile_n_reject_upper_bound_per_model": 224,
+    "p1_n_reject_upper_bound_per_model": 224,
+    "p0_n_state_fwd_upper_bound_per_model_per_repetition": 181,
+    "p0_profile_n_state_fwd_upper_bound_per_model": 724,
+    "p1_n_state_fwd_upper_bound_per_model": 724,
+    "p0_n_eval_upper_bound_per_model_per_repetition": 4,
+    "p0_profile_n_eval_upper_bound_per_model": 16,
+    "p1_n_eval_upper_bound_per_model": 16,
+    "p0_n_write_upper_bound_per_model_per_repetition": 15,
+    "p0_profile_n_write_upper_bound_per_model": 60,
+    "p1_n_write_upper_bound_per_model": 60,
+    "counter_bound_basis": "conservative separable caps; per case Native<=1 trial/1 write, Static<=6 accepted, One-refresh<=2 accepted, Full<=6 accepted, each adaptive state<=4 rejects; N_state_fwd additionally assumes two event forwards plus one separate field forward and therefore does not claim fusion savings",
+    "forecast_basis": "structural caps plus prior one-case native and fixed-four-hop resource records; not a Session-02 outcome"
+  },
+  "execution_boundary": {
+    "hf_hub_offline": true,
+    "transformers_offline": true,
+    "easyedit_write": false,
+    "precomputed_recompute_or_download": false,
+    "gpu_now": 0,
+    "slurm_now": false,
+    "push": false,
+    "terra_subagent_audit": "TERRA_SUBAGENT_AUDIT_PENDING_RUNTIME_MISMATCH"
+  }
+}

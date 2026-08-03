@@ -23,8 +23,11 @@ from .derivatives import (
     directional_gradient_scope,
 )
 from .functional_trial import LowRankFunctionalTrial
+from .hooks import apply_accepted_factors
 from .instrumentation import EditInstrumentation, InstrumentationSnapshot
+from .lock import controller_config, dry_plan, load_lock
 from .retry import RejectedRetryCache
+from .runtime import FiveArmRunner, MethodBackend
 from .cached_graph import (
     MEMIT_PROPOSAL_CAPABILITIES,
     CachedAcceptedTrialSequence,
@@ -44,6 +47,8 @@ __all__ = [
     "InstrumentationSnapshot",
     "LayerProposal",
     "LowRankFunctionalTrial",
+    "FiveArmRunner",
+    "MethodBackend",
     "MEMIT_PROPOSAL_CAPABILITIES",
     "OmegaLedger",
     "ProposalBatch",
@@ -51,7 +56,11 @@ __all__ = [
     "ScalarFirstHitSearch",
     "RejectedRetryCache",
     "all_layer_directional_derivatives",
+    "apply_accepted_factors",
     "assess_cached_graph_feasibility",
     "directional_gradient_scope",
+    "controller_config",
+    "dry_plan",
+    "load_lock",
     "solve_progress_qp",
 ]

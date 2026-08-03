@@ -54,7 +54,7 @@ _FORBIDDEN_AFTER_HIT = frozenset(
     }
 )
 _CONTROLLER_COMPONENTS = frozenset(
-    {"direct_z", "field", "qp", "trial", "commit_write"}
+    {"direct_z", "field", "qp", "trial", "event", "commit_write"}
 )
 
 
@@ -64,6 +64,8 @@ class InstrumentationSnapshot:
     counters: tuple[tuple[str, int], ...]
     cpu_seconds: tuple[tuple[str, float], ...]
     gpu_seconds: tuple[tuple[str, float], ...]
+    controller_gpu_seconds: float
+    evaluation_gpu_seconds: float
     gpu_seconds_per_edit: float
     peak_memory_allocated_bytes: int
     peak_memory_reserved_bytes: int
@@ -77,6 +79,8 @@ class InstrumentationSnapshot:
             "counters": dict(self.counters),
             "component_cpu_seconds": dict(self.cpu_seconds),
             "component_gpu_seconds": dict(self.gpu_seconds),
+            "controller_gpu_seconds": self.controller_gpu_seconds,
+            "evaluation_gpu_seconds": self.evaluation_gpu_seconds,
             "gpu_seconds_per_edit": self.gpu_seconds_per_edit,
             "peak_memory_allocated_bytes": self.peak_memory_allocated_bytes,
             "peak_memory_reserved_bytes": self.peak_memory_reserved_bytes,
@@ -192,6 +196,10 @@ class EditInstrumentation:
                 self._gpu_seconds[name] += float(start.elapsed_time(end)) / 1000.0
             peak_allocated = int(torch.cuda.max_memory_allocated(self._gpu_device))
             peak_reserved = int(torch.cuda.max_memory_reserved(self._gpu_device))
+        controller_gpu_seconds = sum(
+            self._gpu_seconds[name] for name in _CONTROLLER_COMPONENTS
+        )
+        evaluation_gpu_seconds = self._gpu_seconds["evaluation"]
         self._finalized = True
         payload = {
             "schema_version": "ode-edit-compute-accounting/v1",
@@ -199,7 +207,9 @@ class EditInstrumentation:
             "counters": self._counters,
             "component_cpu_seconds": self._cpu_seconds,
             "component_gpu_seconds": self._gpu_seconds,
-            "gpu_seconds_per_edit": sum(self._gpu_seconds.values()),
+            "controller_gpu_seconds": controller_gpu_seconds,
+            "evaluation_gpu_seconds": evaluation_gpu_seconds,
+            "gpu_seconds_per_edit": controller_gpu_seconds,
             "peak_memory_allocated_bytes": peak_allocated,
             "peak_memory_reserved_bytes": peak_reserved,
             "first_hit": self._first_hit,
@@ -213,7 +223,9 @@ class EditInstrumentation:
             gpu_seconds=tuple(
                 (name, self._gpu_seconds[name]) for name in COMPONENT_NAMES
             ),
-            gpu_seconds_per_edit=sum(self._gpu_seconds.values()),
+            controller_gpu_seconds=controller_gpu_seconds,
+            evaluation_gpu_seconds=evaluation_gpu_seconds,
+            gpu_seconds_per_edit=controller_gpu_seconds,
             peak_memory_allocated_bytes=peak_allocated,
             peak_memory_reserved_bytes=peak_reserved,
             first_hit=self._first_hit,

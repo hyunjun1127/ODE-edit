@@ -71,6 +71,8 @@ class InstrumentationTests(unittest.TestCase):
         self.assertEqual(payload["counters"]["N_eval"], 1)
         self.assertGreater(payload["component_cpu_seconds"]["direct_z"], 0.0)
         self.assertEqual(payload["gpu_seconds_per_edit"], 0.0)
+        self.assertEqual(payload["controller_gpu_seconds"], 0.0)
+        self.assertEqual(payload["evaluation_gpu_seconds"], 0.0)
         self.assertEqual(payload["peak_memory_allocated_bytes"], 0)
         with self.assertRaises(MethodContractError):
             metrics.finalize()

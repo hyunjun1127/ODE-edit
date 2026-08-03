@@ -71,6 +71,7 @@ class TorchCheckpoint:
     backups: dict[str, torch.Tensor] = field(repr=False)
     parameter_hashes: tuple[tuple[str, str], ...]
     cpu_rng: torch.Tensor = field(repr=False)
+    cuda_rng: dict[torch.device, torch.Tensor] = field(repr=False)
 
     @property
     def state_id(self) -> str:
@@ -87,11 +88,20 @@ class TorchCheckpoint:
             name: resolve_parameter(model, name).detach().clone() for name in names
         }
         hashes = tuple((name, tensor_sha256(backups[name])) for name in names)
+        cuda_devices = {
+            resolve_parameter(model, name).device
+            for name in names
+            if resolve_parameter(model, name).device.type == "cuda"
+        }
         return cls(
             weight_names=names,
             backups=backups,
             parameter_hashes=hashes,
             cpu_rng=torch.get_rng_state().clone(),
+            cuda_rng={
+                device: torch.cuda.get_rng_state(device).clone()
+                for device in cuda_devices
+            },
         )
 
     def restore(self, model: torch.nn.Module) -> None:
@@ -99,6 +109,8 @@ class TorchCheckpoint:
             for name in self.weight_names:
                 resolve_parameter(model, name).copy_(self.backups[name])
         torch.set_rng_state(self.cpu_rng)
+        for device, state in self.cuda_rng.items():
+            torch.cuda.set_rng_state(state, device)
         self.assert_exact(model, include_rng=True)
 
     def assert_exact(self, model: torch.nn.Module, *, include_rng: bool) -> None:
@@ -110,6 +122,10 @@ class TorchCheckpoint:
                 mismatches.append(f"{name}: expected {expected[name]}, got {actual}")
         if include_rng and not torch.equal(torch.get_rng_state(), self.cpu_rng):
             mismatches.append("CPU RNG state differs")
+        if include_rng:
+            for device, state in self.cuda_rng.items():
+                if not torch.equal(torch.cuda.get_rng_state(device), state):
+                    mismatches.append(f"CUDA RNG state differs on {device}")
         if mismatches:
             raise RollbackError("checkpoint mismatch: " + "; ".join(mismatches))
 
@@ -132,7 +148,7 @@ def guarded_proposal_build(
 
 
 class TorchFactorTrial:
-    """Apply exact controller coefficients and roll back unless committed."""
+    """Mutable dense-checkpoint trial retained as a CPU/reference oracle only."""
 
     def __init__(
         self,
@@ -180,7 +196,8 @@ class TorchFactorTrial:
                         dense = left @ right.transpose(0, 1)
                     if tuple(dense.shape) != tuple(parameter.shape):
                         raise MethodContractError(
-                            f"factor update {tuple(dense.shape)} differs from {tuple(parameter.shape)}"
+                            "factor update "
+                            f"{tuple(dense.shape)} differs from {tuple(parameter.shape)}"
                         )
                     # Native/scalar freeze EasyEdit's terminal *net write*,
                     # including its float32 cast, before alpha is applied.
@@ -214,6 +231,113 @@ class TorchFactorTrial:
             self.checkpoint.restore(self.model)
         self._active = False
         return False
+
+
+def _apply_factor_update_(
+    parameter: torch.nn.Parameter,
+    direction: FactorDirection,
+    coefficient: float,
+    *,
+    native_exact: bool,
+    row_block: int,
+) -> None:
+    """Apply one accepted update without constructing a full adaptive delta."""
+
+    left = direction.left.to(parameter.device)
+    right = direction.right.to(parameter.device)
+    if tuple(parameter.shape) != (left.shape[0], right.shape[0]):
+        raise MethodContractError("accepted-write factor/weight shapes differ")
+    if native_exact:
+        dense = (
+            (right @ left.transpose(0, 1)).transpose(0, 1)
+            if direction.native_update_transposed
+            else left @ right.transpose(0, 1)
+        )
+        parameter.add_((dense.float() * coefficient).to(parameter.dtype))
+        return
+    # MEMIT factors/models use <=float32 precision.  Preserve the existing
+    # float32 product/cast order there, while allowing float64 CPU identity
+    # fixtures to remain a tight mathematical oracle.
+    compute_dtype = torch.float64 if parameter.dtype is torch.float64 else torch.float32
+    left_compute = left.to(dtype=compute_dtype)
+    right_compute_t = right.to(dtype=compute_dtype).transpose(0, 1)
+    for start in range(0, int(parameter.shape[0]), row_block):
+        update = (
+            left_compute[start : start + row_block] @ right_compute_t
+        ) * coefficient
+        parameter[start : start + row_block].add_(update.to(parameter.dtype))
+
+
+def apply_accepted_factors(
+    model: torch.nn.Module,
+    directions: Sequence[FactorDirection],
+    coefficients: Sequence[float],
+    *,
+    native_exact: bool = False,
+    row_block: int = 64,
+) -> tuple[float, ...]:
+    """Persist one accepted coefficient vector with exact failure cleanup.
+
+    Rejected trials never call this function.  The only dense snapshots here
+    are CPU cleanup backups for the accepted transaction; no trial model-copy
+    or full dense adaptive update is materialized on the accelerator.
+    """
+
+    locked = tuple(directions)
+    applied = tuple(float(value) for value in coefficients)
+    if (
+        not locked
+        or len(locked) != len(applied)
+        or any(not math.isfinite(value) or value < 0.0 for value in applied)
+        or isinstance(row_block, bool)
+        or not isinstance(row_block, int)
+        or row_block <= 0
+    ):
+        raise MethodContractError("accepted-write directions/coefficients are invalid")
+    names = tuple(direction.weight_name for direction in locked)
+    if len(names) != len(set(names)):
+        raise MethodContractError("accepted write weights repeat")
+    parameters = tuple(resolve_parameter(model, name) for name in names)
+    if any(parameter.grad is not None for parameter in parameters):
+        raise MethodContractError("accepted-write target weight .grad must be None")
+    for parameter, direction in zip(parameters, locked, strict=True):
+        if tuple(parameter.shape) != (
+            direction.left.shape[0],
+            direction.right.shape[0],
+        ):
+            raise MethodContractError("accepted-write factor/weight shapes differ")
+    pointers = tuple(parameter.data_ptr() for parameter in parameters)
+    backups = tuple(parameter.detach().to(device="cpu", copy=True) for parameter in parameters)
+    try:
+        with torch.no_grad():
+            for parameter, direction, coefficient in zip(
+                parameters, locked, applied, strict=True
+            ):
+                _apply_factor_update_(
+                    parameter,
+                    direction,
+                    coefficient,
+                    native_exact=native_exact,
+                    row_block=row_block,
+                )
+    except BaseException:
+        with torch.no_grad():
+            for parameter, backup in zip(parameters, backups, strict=True):
+                parameter.copy_(backup.to(device=parameter.device, dtype=parameter.dtype))
+        if any(
+            not torch.equal(parameter.detach().cpu(), backup)
+            for parameter, backup in zip(parameters, backups, strict=True)
+        ):
+            raise RollbackError("accepted-write cleanup was not exact")
+        raise
+    if any(
+        parameter.data_ptr() != pointer
+        for parameter, pointer in zip(parameters, pointers, strict=True)
+    ):
+        raise MethodContractError("accepted write replaced parameter storage")
+    if any(parameter.grad is not None for parameter in parameters):
+        raise MethodContractError("accepted write materialized target weight .grad")
+    return applied
 
 
 def terminal_net_c_energy(
