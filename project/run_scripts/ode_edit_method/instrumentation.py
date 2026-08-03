@@ -1,8 +1,10 @@
-"""Outcome-independent compute accounting for one outer edit.
+"""Outcome-independent, non-overlapping compute accounting for one outer edit.
 
-The counters in this module describe work performed by the method runtime;
-they do not contain scientific outcomes.  GPU timing is opt-in so CPU unit
-tests never initialize CUDA.
+``N_trial`` counts logical low-rank trials and is intentionally independent of
+full-model forwards.  ``N_model_fwd`` is the actual number of top-level model
+calls; the event/field counters classify a subset of those calls.  Attaching
+the recorder to a model is therefore the production path.  CPU fixtures may
+record explicit calls through :meth:`record_model_forward`.
 """
 
 from __future__ import annotations
@@ -18,44 +20,84 @@ from .contracts import MethodContractError, canonical_hash
 
 
 COUNTER_NAMES = (
-    "N_z",
-    "N_state_fwd",
-    "N_field",
+    "N_model_fwd",
+    "N_event_fwd",
+    "N_field_state_fwd",
+    "N_proposal_build",
+    "N_native_sweep",
     "N_bw",
-    "K_acc",
     "N_trial",
     "N_reject",
     "N_eval",
     "N_write",
+    "K_acc",
+    "N_z",
 )
 
 COMPONENT_NAMES = (
+    "context_setup",
+    "entry_checkpoint",
+    "restore",
+    "terminal_geometry",
     "direct_z",
+    "native_proposal",
+    "proposal",
+    "trust_scale",
+    "event",
     "field",
     "qp",
     "trial",
-    "event",
     "commit_write",
     "evaluation",
 )
 
-# A first hit freezes controller work.  Outcome evaluation is deliberately
-# separate and may run only after the information firewall opens.
 _FORBIDDEN_AFTER_HIT = frozenset(
     {
-        "N_z",
-        "N_state_fwd",
-        "N_field",
+        "N_model_fwd",
+        "N_event_fwd",
+        "N_field_state_fwd",
+        "N_proposal_build",
+        "N_native_sweep",
         "N_bw",
-        "K_acc",
         "N_trial",
         "N_reject",
         "N_write",
+        "K_acc",
+        "N_z",
     }
 )
 _CONTROLLER_COMPONENTS = frozenset(
-    {"direct_z", "field", "qp", "trial", "event", "commit_write"}
+    {
+        "entry_checkpoint",
+        "restore",
+        "terminal_geometry",
+        "direct_z",
+        "native_proposal",
+        "proposal",
+        "trust_scale",
+        "event",
+        "field",
+        "qp",
+        "trial",
+        "commit_write",
+    }
 )
+_FORBIDDEN_COMPONENTS_AFTER_HIT = frozenset(
+    {
+        "direct_z",
+        "native_proposal",
+        "proposal",
+        "trust_scale",
+        "field",
+        "qp",
+        "trial",
+        "commit_write",
+    }
+)
+_FORWARD_CATEGORIES = {
+    "event": "N_event_fwd",
+    "field": "N_field_state_fwd",
+}
 
 
 @dataclass(frozen=True, slots=True)
@@ -64,9 +106,12 @@ class InstrumentationSnapshot:
     counters: tuple[tuple[str, int], ...]
     cpu_seconds: tuple[tuple[str, float], ...]
     gpu_seconds: tuple[tuple[str, float], ...]
+    controller_wall_seconds: float
+    setup_wall_seconds: float
+    editor_only_seconds_per_edit: float
+    setup_amortized_seconds_per_edit: float
     controller_gpu_seconds: float
     evaluation_gpu_seconds: float
-    gpu_seconds_per_edit: float
     peak_memory_allocated_bytes: int
     peak_memory_reserved_bytes: int
     first_hit: bool
@@ -74,14 +119,17 @@ class InstrumentationSnapshot:
 
     def to_dict(self) -> dict[str, Any]:
         return {
-            "schema_version": "ode-edit-compute-accounting/v1",
+            "schema_version": "ode-edit-compute-accounting/v2",
             "edit_id": self.edit_id,
             "counters": dict(self.counters),
-            "component_cpu_seconds": dict(self.cpu_seconds),
+            "component_wall_seconds": dict(self.cpu_seconds),
             "component_gpu_seconds": dict(self.gpu_seconds),
+            "controller_wall_seconds": self.controller_wall_seconds,
+            "setup_wall_seconds": self.setup_wall_seconds,
+            "editor_only_seconds_per_edit": self.editor_only_seconds_per_edit,
+            "setup_amortized_seconds_per_edit": self.setup_amortized_seconds_per_edit,
             "controller_gpu_seconds": self.controller_gpu_seconds,
             "evaluation_gpu_seconds": self.evaluation_gpu_seconds,
-            "gpu_seconds_per_edit": self.gpu_seconds_per_edit,
             "peak_memory_allocated_bytes": self.peak_memory_allocated_bytes,
             "peak_memory_reserved_bytes": self.peak_memory_reserved_bytes,
             "first_hit": self.first_hit,
@@ -105,12 +153,14 @@ class EditInstrumentation:
         self._counters = {name: 0 for name in COUNTER_NAMES}
         self._cpu_seconds = {name: 0.0 for name in COMPONENT_NAMES}
         self._gpu_seconds = {name: 0.0 for name in COMPONENT_NAMES}
-        self._gpu_event_pairs: list[
-            tuple[str, torch.cuda.Event, torch.cuda.Event]
-        ] = []
+        self._gpu_event_pairs: list[tuple[str, torch.cuda.Event, torch.cuda.Event]] = []
         self._first_hit = False
         self._finalized = False
         self._active_components: set[str] = set()
+        self._forward_categories: list[str | None] = []
+        self._model_hook: torch.utils.hooks.RemovableHandle | None = None
+        self._controller_started: float | None = None
+        self._controller_wall_seconds = 0.0
         self._gpu_device: torch.device | None = None
         if gpu_timing:
             if not torch.cuda.is_available():
@@ -125,6 +175,10 @@ class EditInstrumentation:
     def first_hit(self) -> bool:
         return self._first_hit
 
+    @property
+    def tracks_model_forwards(self) -> bool:
+        return self._model_hook is not None
+
     def increment(self, name: str, amount: int = 1) -> None:
         if self._finalized:
             raise MethodContractError("instrumentation is already finalized")
@@ -136,6 +190,17 @@ class EditInstrumentation:
             raise MethodContractError(f"controller work {name} attempted after first hit")
         self._counters[name] += amount
 
+    def start_controller(self) -> None:
+        if self._controller_started is not None:
+            raise MethodContractError("controller wall timer is already active")
+        self._controller_started = time.perf_counter()
+
+    def stop_controller(self) -> None:
+        if self._controller_started is None:
+            raise MethodContractError("controller wall timer is not active")
+        self._controller_wall_seconds += time.perf_counter() - self._controller_started
+        self._controller_started = None
+
     @contextmanager
     def component(self, name: str) -> Iterator[None]:
         if self._finalized:
@@ -144,7 +209,7 @@ class EditInstrumentation:
             raise MethodContractError(f"unknown timed component: {name}")
         if name in self._active_components:
             raise MethodContractError(f"timed component is recursively active: {name}")
-        if self._first_hit and name in _CONTROLLER_COMPONENTS:
+        if self._first_hit and name in _FORBIDDEN_COMPONENTS_AFTER_HIT:
             raise MethodContractError(f"controller component {name} started after first hit")
         self._active_components.add(name)
         cpu_start = time.perf_counter()
@@ -166,6 +231,53 @@ class EditInstrumentation:
             self._cpu_seconds[name] += time.perf_counter() - cpu_start
             self._active_components.remove(name)
 
+    @contextmanager
+    def model_forward_scope(self, category: str | None) -> Iterator[None]:
+        if category is not None and category not in _FORWARD_CATEGORIES:
+            raise MethodContractError(f"unknown model-forward category: {category}")
+        self._forward_categories.append(category)
+        try:
+            yield
+        finally:
+            self._forward_categories.pop()
+
+    def record_model_forward(self, category: str | None = None) -> None:
+        selected = category if category is not None else (
+            self._forward_categories[-1] if self._forward_categories else None
+        )
+        self.increment("N_model_fwd")
+        if selected is not None:
+            self.increment(_FORWARD_CATEGORIES[selected])
+
+    @contextmanager
+    def state_forward(self, category: str = "field") -> Iterator[None]:
+        """CPU-fixture helper for one explicit full-model call.
+
+        Production code attaches the top-level model hook instead.  This
+        helper does not time the surrounding operation; callers use a
+        component timer separately when required.
+        """
+
+        self.record_model_forward(category)
+        yield
+
+    def attach_model(self, model: torch.nn.Module) -> None:
+        """Count actual top-level model calls until :meth:`detach_model`."""
+
+        if self._model_hook is not None:
+            raise MethodContractError("full-model forward hook is already attached")
+
+        def count(_module: torch.nn.Module, _inputs: Any) -> None:
+            self.record_model_forward()
+
+        self._model_hook = model.register_forward_pre_hook(count)
+
+    def detach_model(self) -> None:
+        if self._model_hook is None:
+            raise MethodContractError("full-model forward hook is not attached")
+        self._model_hook.remove()
+        self._model_hook = None
+
     def mark_first_hit(self) -> None:
         if self._finalized:
             raise MethodContractError("instrumentation is already finalized")
@@ -175,19 +287,16 @@ class EditInstrumentation:
             raise MethodContractError("first hit cannot freeze active components")
         self._first_hit = True
 
-    @contextmanager
-    def state_forward(self, component: str = "event") -> Iterator[None]:
-        """Count and time one full-model state forward."""
-
-        self.increment("N_state_fwd")
-        with self.component(component):
-            yield
-
     def finalize(self) -> InstrumentationSnapshot:
         if self._finalized:
             raise MethodContractError("instrumentation may finalize only once")
-        if self._active_components:
-            raise MethodContractError("cannot finalize active component timers")
+        if self._active_components or self._controller_started is not None:
+            raise MethodContractError("cannot finalize active timers")
+        if self._model_hook is not None:
+            raise MethodContractError("detach full-model counter before finalize")
+        categorized = self._counters["N_event_fwd"] + self._counters["N_field_state_fwd"]
+        if categorized > self._counters["N_model_fwd"]:
+            raise MethodContractError("categorized forwards exceed actual model forwards")
         peak_allocated = 0
         peak_reserved = 0
         if self._gpu_device is not None:
@@ -200,16 +309,21 @@ class EditInstrumentation:
             self._gpu_seconds[name] for name in _CONTROLLER_COMPONENTS
         )
         evaluation_gpu_seconds = self._gpu_seconds["evaluation"]
+        setup_wall_seconds = self._cpu_seconds["context_setup"]
         self._finalized = True
         payload = {
-            "schema_version": "ode-edit-compute-accounting/v1",
+            "schema_version": "ode-edit-compute-accounting/v2",
             "edit_id": self.edit_id,
             "counters": self._counters,
-            "component_cpu_seconds": self._cpu_seconds,
+            "component_wall_seconds": self._cpu_seconds,
             "component_gpu_seconds": self._gpu_seconds,
+            "controller_wall_seconds": self._controller_wall_seconds,
+            "setup_wall_seconds": setup_wall_seconds,
+            "editor_only_seconds_per_edit": self._controller_wall_seconds,
+            "setup_amortized_seconds_per_edit": self._controller_wall_seconds
+            + setup_wall_seconds,
             "controller_gpu_seconds": controller_gpu_seconds,
             "evaluation_gpu_seconds": evaluation_gpu_seconds,
-            "gpu_seconds_per_edit": controller_gpu_seconds,
             "peak_memory_allocated_bytes": peak_allocated,
             "peak_memory_reserved_bytes": peak_reserved,
             "first_hit": self._first_hit,
@@ -217,15 +331,15 @@ class EditInstrumentation:
         return InstrumentationSnapshot(
             edit_id=self.edit_id,
             counters=tuple((name, self._counters[name]) for name in COUNTER_NAMES),
-            cpu_seconds=tuple(
-                (name, self._cpu_seconds[name]) for name in COMPONENT_NAMES
-            ),
-            gpu_seconds=tuple(
-                (name, self._gpu_seconds[name]) for name in COMPONENT_NAMES
-            ),
+            cpu_seconds=tuple((name, self._cpu_seconds[name]) for name in COMPONENT_NAMES),
+            gpu_seconds=tuple((name, self._gpu_seconds[name]) for name in COMPONENT_NAMES),
+            controller_wall_seconds=self._controller_wall_seconds,
+            setup_wall_seconds=setup_wall_seconds,
+            editor_only_seconds_per_edit=self._controller_wall_seconds,
+            setup_amortized_seconds_per_edit=self._controller_wall_seconds
+            + setup_wall_seconds,
             controller_gpu_seconds=controller_gpu_seconds,
             evaluation_gpu_seconds=evaluation_gpu_seconds,
-            gpu_seconds_per_edit=controller_gpu_seconds,
             peak_memory_allocated_bytes=peak_allocated,
             peak_memory_reserved_bytes=peak_reserved,
             first_hit=self._first_hit,

@@ -394,8 +394,15 @@ class ArmRunResult:
     scalar_nonmonotonic: bool | None = None
 
     def __post_init__(self) -> None:
-        if self.direct_z_compute_count != 1:
-            raise MethodContractError("direct-z must be computed exactly once per arm/edit")
+        entry_hit = (
+            self.status == "event_hit"
+            and not self.steps
+            and self.direct_z_compute_count == 0
+        )
+        if self.direct_z_compute_count != 1 and not entry_hit:
+            raise MethodContractError(
+                "direct-z must be computed once, except for a rewrite event hit at entry"
+            )
         if not self.edit_id or not self.status or not self.terminal_state_id:
             raise MethodContractError("arm result identity is incomplete")
 

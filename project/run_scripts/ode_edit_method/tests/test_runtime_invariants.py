@@ -334,7 +334,8 @@ class RuntimeInvariantTests(unittest.TestCase):
             backend=backend,
         )
         self.assertEqual(result.status, "event_hit")
-        self.assertEqual(backend.direct_z_calls, 1)
+        self.assertEqual(result.direct_z_compute_count, 0)
+        self.assertEqual(backend.direct_z_calls, 0)
         self.assertEqual(backend.field_calls, 0)
         self.assertEqual(backend.trial_calls, 0)
         self.assertEqual(backend.write_calls, 0)
@@ -355,8 +356,10 @@ class RuntimeInvariantTests(unittest.TestCase):
         observed = metrics.finalize().to_dict()
         counters = observed["counters"]
         self.assertEqual(counters["N_z"], 1)
-        self.assertEqual(counters["N_state_fwd"], 4)
-        self.assertEqual(counters["N_field"], 1)
+        self.assertEqual(counters["N_model_fwd"], 3)
+        self.assertEqual(counters["N_event_fwd"], 3)
+        self.assertEqual(counters["N_field_state_fwd"], 0)
+        self.assertEqual(counters["N_proposal_build"], 1)
         self.assertEqual(counters["N_bw"], 1)
         self.assertEqual(counters["K_acc"], 1)
         self.assertEqual(counters["N_trial"], 2)

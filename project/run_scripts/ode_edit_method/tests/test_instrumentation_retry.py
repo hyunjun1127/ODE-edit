@@ -38,7 +38,7 @@ class InstrumentationTests(unittest.TestCase):
         with metrics.component("direct_z"):
             time.sleep(0.001)
         metrics.increment("N_z")
-        metrics.increment("N_field")
+        metrics.increment("N_proposal_build")
         metrics.increment("N_bw")
         metrics.increment("N_trial")
         metrics.increment("K_acc")
@@ -47,8 +47,11 @@ class InstrumentationTests(unittest.TestCase):
 
         for counter in (
             "N_z",
-            "N_state_fwd",
-            "N_field",
+            "N_model_fwd",
+            "N_event_fwd",
+            "N_field_state_fwd",
+            "N_proposal_build",
+            "N_native_sweep",
             "N_bw",
             "N_trial",
             "N_write",
@@ -66,11 +69,12 @@ class InstrumentationTests(unittest.TestCase):
             metrics.increment("N_eval")
         snapshot = metrics.finalize()
         payload = snapshot.to_dict()
-        self.assertEqual(payload["schema_version"], "ode-edit-compute-accounting/v1")
+        self.assertEqual(payload["schema_version"], "ode-edit-compute-accounting/v2")
         self.assertEqual(payload["counters"]["N_z"], 1)
         self.assertEqual(payload["counters"]["N_eval"], 1)
-        self.assertGreater(payload["component_cpu_seconds"]["direct_z"], 0.0)
-        self.assertEqual(payload["gpu_seconds_per_edit"], 0.0)
+        self.assertGreater(payload["component_wall_seconds"]["direct_z"], 0.0)
+        self.assertEqual(payload["editor_only_seconds_per_edit"], 0.0)
+        self.assertEqual(payload["setup_amortized_seconds_per_edit"], 0.0)
         self.assertEqual(payload["controller_gpu_seconds"], 0.0)
         self.assertEqual(payload["evaluation_gpu_seconds"], 0.0)
         self.assertEqual(payload["peak_memory_allocated_bytes"], 0)
@@ -150,7 +154,7 @@ class RetryReuseTests(unittest.TestCase):
         cache.assert_exact_rollback("state-a", metrics)
 
         snapshot = metrics.finalize().to_dict()
-        self.assertEqual(snapshot["counters"]["N_field"], 1)
+        self.assertEqual(snapshot["counters"]["N_proposal_build"], 1)
         self.assertEqual(snapshot["counters"]["N_reject"], 1)
 
     def test_rollback_state_mismatch_invalidates_cache(self) -> None:

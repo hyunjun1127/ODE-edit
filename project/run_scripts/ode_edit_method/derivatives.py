@@ -129,7 +129,6 @@ def all_layer_directional_derivatives(
                 )
             )
     if instrumentation is not None:
-        instrumentation.increment("N_field")
         instrumentation.increment("N_bw")
     payload = [
         {
@@ -328,7 +327,6 @@ class ActuatorDirectionalHook:
                 )
                 totals[direction.layer] += float(contribution.detach().cpu())
         if self.instrumentation is not None:
-            self.instrumentation.increment("N_field")
             self.instrumentation.increment("N_bw")
         values = tuple(
             DirectionalDerivative(
