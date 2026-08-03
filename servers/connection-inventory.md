@@ -1,6 +1,6 @@
 # 서버 접속 인벤토리
 
-- 갱신 시각: 2026-07-30
+- 갱신 시각: 2026-08-03
 - 작성 agent: head-server1-gh (global-head)
 - 목적: agent 간 SSH/rsync 계획 수립을 위한 redacted 접속 인벤토리 공유
 
@@ -10,16 +10,16 @@
 
 ## 서버 목록
 
-server1에는 GH clone만 초기화되어 있고, server-head는 아직 배정되지 않았다.
-따라서 server1은 `pending-onboarding`이며 Slurm 제출, 원격 preflight,
-artifact broadcast 또는 실행 inbox를 발행하지 않는다. server4는 physical host로
-등록됐지만 이 repo clone/SH가 없는 `registered-pending-clone` 상태다. server2–3는
-future target이다.
+server1에는 GH와 canonical SH1 session이 배정됐지만 동일 root clone의 GH local
+boundary 때문에 SH1 onboarding은 HOLD다. server2에는 canonical SH2 session과 repo clone이
+확인됐지만 local session boundary, method runtime과 heartbeat가 아직 없어 onboarding HOLD다.
+server4는 physical host로 등록됐지만 이 repo clone/SH가 없는
+`registered-pending-clone` 상태이며 server3는 future target이다.
 
 | Repository server name | Raw connection detail location | 상태/용도 |
 | --- | --- | --- |
-| `server1` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | pending-onboarding / GH clone: `/mnt/raid5/janghj/ODE-edit` / session ID는 `servers/active/server1.md` |
-| `server2` | `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | future target / clone 전 / Codex session 미지정 |
+| `server1` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | GH active / SH1 assigned-onboarding-hold / clone: `/mnt/raid5/janghj/ODE-edit` |
+| `server2` | `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | SH2 assigned-onboarding-hold / clone: `/mnt/raid5/janghj/ODE-edit` |
 | `server3` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | future target / clone 전 / Codex session 미지정 |
 | `server4` | `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | registered-pending-clone / GPU cap 3, memory cap 65984 MiB per GPU / Codex session 미지정 |
 
@@ -33,18 +33,20 @@ session ID를 채우거나 대체 대상으로 사용하지 않는다.
 | 서버 | 역할 | Codex session ID | Required/confirmed model | Repository CWD | 상태 |
 | --- | --- | --- | --- | --- | --- |
 | `server1` | global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active / 현재 GH session |
-| `server1` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/mnt/raid5/janghj/ODE-edit` | SH 미배정; GH와 별도 session 필요 |
-| `server2` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/mnt/raid5/janghj/ODE-edit` | future target / clone 전 |
+| `server1` | server-head (SH1) | `019fc5e0-eb7e-78a3-9436-93885621b8dc` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assigned / onboarding HOLD; canonical SH1 |
+| `server1` | delegated implementation session | `019fc63e-5217-7250-9c22-c5b2ec4248f0` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | task-local grandfathered execution only; **not canonical SH1**; GPU/Slurm/push HOLD |
+| `server2` | server-head (SH2) | `019fc5ec-f85b-7770-a73a-1d19be1cd491` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assigned / onboarding HOLD; canonical SH2 |
 | `server3` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | future target / clone 전 |
 | `server4` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | registered-pending-clone |
 
-새 SH를 등록할 때 GH는 이 table, `servers/active/<server>.md`, 그리고 해당
+Canonical SH를 등록할 때 GH는 이 table, `servers/active/<server>.md`, 그리고 해당
 clone의 ignored `servers/local/session-boundary.env`에 **동일한** session ID,
 confirmed `Sol Ultra` primary model profile, CWD, repository identity를 기록한다.
 실제 instruction은 그 ID와 model profile을 envelope에 넣고
 `scripts/check-session-boundary.sh <session-id>`를 먼저 실행한다.
 
-서버를 등록할 때는 `servers/templates/server-onboarding.md`를 바탕으로
+Task-local delegated session은 canonical SH assignment를 대체하지 않으며, 해당 envelope와
+전용 worktree에만 권한이 있다. 서버를 등록할 때는 `servers/templates/server-onboarding.md`를 바탕으로
 `servers/active/<server>.md`를 만들고, 해당 server-head의 heartbeat와
 red-team onboarding audit이 `pass` 또는 명시적 `waived`가 된 뒤에만 task를
 배정한다.
@@ -75,8 +77,8 @@ alias를 사용한다. tracked 문서와 메시지에는 repository server name,
 repo path, relative `local/` path만 기록한다.
 
 일반 project artifact는 source server가
-`scripts/rsync-artifact-broadcast.sh`로 broadcast한다. 단, 현재 server1만
-등록 중이고 peer clone이 없으므로 artifact broadcast는 금지한다. 각 future
+`scripts/rsync-artifact-broadcast.sh`로 broadcast한다. 단, server1/server2 모두 SH
+onboarding과 peer rsync verification이 끝나지 않았으므로 artifact broadcast는 금지한다. 각
 server에는 local-only `rsync-targets.tsv`의 해당 repo path에 clone을 만든 뒤,
 onboarding audit와 active 등록을 마쳐야 한다. `--delete`, private inventory,
 SSH material, credential, 민감 경로, repo-external 경로는 별도 user approval
