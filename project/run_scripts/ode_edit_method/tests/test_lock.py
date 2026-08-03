@@ -502,6 +502,15 @@ class NumericalLockTests(unittest.TestCase):
         self.assertIn('"pre_edit_state_id": pre_edit_state_id', request_body)
         self.assertIn('"post_edit_state_id": post_edit_state_id', request_body)
         self.assertIn(
+            "backend.sequential_target_weight_state_id()", request_body
+        )
+        self.assertIn(
+            '"pre_edit_target_weight_state_id": (', request_body
+        )
+        self.assertIn(
+            '"post_edit_target_weight_state_id": (', request_body
+        )
+        self.assertIn(
             '"arm_isolation_restore_exact": arm_isolation_restore_exact',
             request_body,
         )

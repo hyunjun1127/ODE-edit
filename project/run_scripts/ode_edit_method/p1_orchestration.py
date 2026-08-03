@@ -14,6 +14,7 @@ class _OpenEdit:
     order_position: int
     case_id: str
     pre_edit_state_id: str
+    pre_edit_target_weight_state_id: str
     omega_before: tuple[tuple[int, float], ...]
     history_length_before: int
     cache_identity: str
@@ -39,7 +40,7 @@ class P1SequentialArmGuard:
         self._end_restore_count = 0
         self._next_position = 0
         self._open: _OpenEdit | None = None
-        self._previous_post_state_id: str | None = None
+        self._previous_post_target_weight_state_id: str | None = None
         self._previous_omega_after: tuple[tuple[int, float], ...] | None = None
         self._previous_history_length = 0
         self._cache_identities: set[str] = set()
@@ -66,6 +67,7 @@ class P1SequentialArmGuard:
         order_position: int,
         case_id: str,
         pre_edit_state_id: str,
+        pre_edit_target_weight_state_id: str,
         omega_before: Mapping[int, float],
         history_length_before: int,
         cache_identity: str,
@@ -78,7 +80,11 @@ class P1SequentialArmGuard:
             raise MethodContractError("P1 order position is non-canonical")
         if str(case_id) != self.case_ids[order_position]:
             raise MethodContractError("P1 case differs at canonical order position")
-        if not pre_edit_state_id or not cache_identity:
+        if (
+            not pre_edit_state_id
+            or not pre_edit_target_weight_state_id
+            or not cache_identity
+        ):
             raise MethodContractError("P1 sequential state/cache identity is empty")
         if cache_identity in self._cache_identities:
             raise MethodContractError("P1 direct-z cache identity was reused")
@@ -87,8 +93,13 @@ class P1SequentialArmGuard:
             if history_length_before != 0 or any(load != 0.0 for _layer, load in locked_omega):
                 raise MethodContractError("P1 arm did not start with independent zero Omega")
         else:
-            if pre_edit_state_id != self._previous_post_state_id:
-                raise MethodContractError("P1 retained endpoint did not feed the next edit")
+            if (
+                pre_edit_target_weight_state_id
+                != self._previous_post_target_weight_state_id
+            ):
+                raise MethodContractError(
+                    "P1 retained target-weight endpoint did not feed the next edit"
+                )
             if (
                 locked_omega != self._previous_omega_after
                 or history_length_before != self._previous_history_length
@@ -99,6 +110,7 @@ class P1SequentialArmGuard:
             order_position=order_position,
             case_id=str(case_id),
             pre_edit_state_id=pre_edit_state_id,
+            pre_edit_target_weight_state_id=pre_edit_target_weight_state_id,
             omega_before=locked_omega,
             history_length_before=int(history_length_before),
             cache_identity=cache_identity,
@@ -109,6 +121,7 @@ class P1SequentialArmGuard:
         *,
         result: ArmRunResult,
         post_edit_state_id: str,
+        post_edit_target_weight_state_id: str,
         omega_after: Mapping[int, float],
         history_length_after: int,
     ) -> None:
@@ -118,6 +131,7 @@ class P1SequentialArmGuard:
         if (
             result.arm is not self.arm
             or not post_edit_state_id
+            or not post_edit_target_weight_state_id
             or result.terminal_state_id != post_edit_state_id
         ):
             raise MethodContractError("P1 edit result arm/state identity differs")
@@ -141,9 +155,11 @@ class P1SequentialArmGuard:
                 history_length_after != current.history_length_before
                 or locked_after != current.omega_before
                 or post_edit_state_id != current.pre_edit_state_id
+                or post_edit_target_weight_state_id
+                != current.pre_edit_target_weight_state_id
             ):
                 raise MethodContractError(
-                    "P1 failed edit did not locally rollback state/Omega"
+                    "P1 failed edit did not locally rollback request/target-weight state/Omega"
                 )
         if result.direct_z_compute_count not in {0, 1}:
             raise MethodContractError("P1 direct-z count escaped once/edit contract")
@@ -158,6 +174,12 @@ class P1SequentialArmGuard:
                 "case_id": current.case_id,
                 "pre_edit_state_id": current.pre_edit_state_id,
                 "post_edit_state_id": post_edit_state_id,
+                "pre_edit_target_weight_state_id": (
+                    current.pre_edit_target_weight_state_id
+                ),
+                "post_edit_target_weight_state_id": (
+                    post_edit_target_weight_state_id
+                ),
                 "history_length_before": current.history_length_before,
                 "history_length_after": history_length_after,
                 "terminal_appended": result.omega_appended,
@@ -165,7 +187,9 @@ class P1SequentialArmGuard:
                 "cache_identity": current.cache_identity,
             }
         )
-        self._previous_post_state_id = post_edit_state_id
+        self._previous_post_target_weight_state_id = (
+            post_edit_target_weight_state_id
+        )
         self._previous_omega_after = locked_after
         self._previous_history_length = int(history_length_after)
         self._next_position += 1

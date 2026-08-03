@@ -44,6 +44,7 @@ from .contracts import (
     EventReading,
     MethodContractError,
     ProposalBatch,
+    canonical_hash,
 )
 from .derivatives import (
     ActuatorDirectionalHook,
@@ -330,6 +331,28 @@ class EasyEditMemitBackend:
     def current_state_id(self) -> str:
         self._assert_parameter_guard()
         return self._current_snapshot.state_id
+
+    def sequential_target_weight_state_id(self) -> str:
+        """Return a request-independent identity for P1 target-weight chaining.
+
+        The current snapshot already owns exact target-parameter hashes.  This
+        projection deliberately excludes request and provenance identities and
+        performs no tensor hashing, copying, forward, or checkpoint capture.
+        """
+
+        self._assert_parameter_guard()
+        snapshot = self._current_snapshot
+        return canonical_hash(
+            {
+                "schema_version": "ode-edit-sequential-target-weight-state/v1",
+                "model_id": snapshot.model_id,
+                "context_id": snapshot.context_id,
+                "hparams_sha256": snapshot.hparams_sha256,
+                "parameters": [
+                    record.to_dict() for record in snapshot.parameters
+                ],
+            }
+        )
 
     def checkpoint(self) -> EasyEditBackendCheckpoint:
         self._assert_parameter_guard()

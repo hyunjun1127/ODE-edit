@@ -250,16 +250,18 @@ class MechanismDiagnosticsTests(unittest.TestCase):
         guard.begin_edit(
             order_position=0,
             case_id=cases[0],
-            pre_edit_state_id="W0",
+            pre_edit_state_id="request-0-W0",
+            pre_edit_target_weight_state_id="target-W0",
             omega_before={0: 0.0, 1: 0.0},
             history_length_before=0,
             cache_identity="full/position-0.pt",
         )
         guard.finish_edit(
             result=self._stream_result(
-                edit_id="e0", terminal="W1", appended=True
+                edit_id="e0", terminal="request-0-W1", appended=True
             ),
-            post_edit_state_id="W1",
+            post_edit_state_id="request-0-W1",
+            post_edit_target_weight_state_id="target-W1",
             omega_after={0: 0.1, 1: 0.2},
             history_length_after=1,
         )
@@ -267,16 +269,18 @@ class MechanismDiagnosticsTests(unittest.TestCase):
         guard.begin_edit(
             order_position=1,
             case_id=cases[1],
-            pre_edit_state_id="W1",
+            pre_edit_state_id="request-1-W1",
+            pre_edit_target_weight_state_id="target-W1",
             omega_before={0: 0.1, 1: 0.2},
             history_length_before=1,
             cache_identity="full/position-1.pt",
         )
         guard.finish_edit(
             result=self._stream_result(
-                edit_id="e1", terminal="W1", appended=False
+                edit_id="e1", terminal="request-1-W1", appended=False
             ),
-            post_edit_state_id="W1",
+            post_edit_state_id="request-1-W1",
+            post_edit_target_weight_state_id="target-W1",
             omega_after={0: 0.1, 1: 0.2},
             history_length_after=1,
         )
@@ -284,16 +288,18 @@ class MechanismDiagnosticsTests(unittest.TestCase):
         guard.begin_edit(
             order_position=2,
             case_id=cases[2],
-            pre_edit_state_id="W1",
+            pre_edit_state_id="request-2-W1",
+            pre_edit_target_weight_state_id="target-W1",
             omega_before={0: 0.1, 1: 0.2},
             history_length_before=1,
             cache_identity="full/position-2.pt",
         )
         guard.finish_edit(
             result=self._stream_result(
-                edit_id="e2", terminal="W2", appended=True
+                edit_id="e2", terminal="request-2-W2", appended=True
             ),
-            post_edit_state_id="W2",
+            post_edit_state_id="request-2-W2",
+            post_edit_target_weight_state_id="target-W2",
             omega_after={0: 0.4, 1: 0.3},
             history_length_after=2,
         )
@@ -301,16 +307,18 @@ class MechanismDiagnosticsTests(unittest.TestCase):
         guard.begin_edit(
             order_position=3,
             case_id=cases[3],
-            pre_edit_state_id="W2",
+            pre_edit_state_id="request-3-W2",
+            pre_edit_target_weight_state_id="target-W2",
             omega_before={0: 0.4, 1: 0.3},
             history_length_before=2,
             cache_identity="full/position-3.pt",
         )
         guard.finish_edit(
             result=self._stream_result(
-                edit_id="e3", terminal="W2", appended=True, direct_z=0
+                edit_id="e3", terminal="request-3-W2", appended=True, direct_z=0
             ),
-            post_edit_state_id="W2",
+            post_edit_state_id="request-3-W2",
+            post_edit_target_weight_state_id="target-W2",
             omega_after={0: 0.4, 1: 0.3},
             history_length_after=3,
         )
@@ -322,9 +330,24 @@ class MechanismDiagnosticsTests(unittest.TestCase):
         self.assertEqual(summary["direct_z_compute_counts"], [1, 1, 1, 0])
         self.assertEqual(summary["cache_identity_count"], 4)
         self.assertFalse(summary["p1_cross_arm_h0_over_D_native_computed"])
-        self.assertEqual(summary["rows"][1]["pre_edit_state_id"], "W1")
-        self.assertEqual(summary["rows"][1]["post_edit_state_id"], "W1")
-        self.assertEqual(summary["rows"][2]["pre_edit_state_id"], "W1")
+        self.assertEqual(
+            summary["rows"][1]["pre_edit_state_id"], "request-1-W1"
+        )
+        self.assertEqual(
+            summary["rows"][1]["post_edit_state_id"], "request-1-W1"
+        )
+        self.assertNotEqual(
+            summary["rows"][0]["post_edit_state_id"],
+            summary["rows"][1]["pre_edit_state_id"],
+        )
+        self.assertEqual(
+            summary["rows"][0]["post_edit_target_weight_state_id"],
+            summary["rows"][1]["pre_edit_target_weight_state_id"],
+        )
+        self.assertEqual(
+            summary["rows"][1]["post_edit_target_weight_state_id"],
+            summary["rows"][2]["pre_edit_target_weight_state_id"],
+        )
         self.assertEqual(
             [row["order_position"] for row in summary["rows"]], [0, 1, 2, 3]
         )
@@ -334,7 +357,8 @@ class MechanismDiagnosticsTests(unittest.TestCase):
         independent.begin_edit(
             order_position=0,
             case_id=cases[0],
-            pre_edit_state_id="W0",
+            pre_edit_state_id="other-request-W0",
+            pre_edit_target_weight_state_id="target-W0",
             omega_before={0: 0.0, 1: 0.0},
             history_length_before=0,
             cache_identity="other-arm/position-0.pt",
@@ -345,28 +369,65 @@ class MechanismDiagnosticsTests(unittest.TestCase):
         broken.begin_edit(
             order_position=0,
             case_id=cases[0],
-            pre_edit_state_id="W0",
+            pre_edit_state_id="broken-request-0-W0",
+            pre_edit_target_weight_state_id="target-W0",
             omega_before={0: 0.0, 1: 0.0},
             history_length_before=0,
             cache_identity="broken/position-0.pt",
         )
         broken.finish_edit(
             result=self._stream_result(
-                edit_id="broken-e0", terminal="W1", appended=True
+                edit_id="broken-e0", terminal="broken-request-0-W1", appended=True
             ),
-            post_edit_state_id="W1",
+            post_edit_state_id="broken-request-0-W1",
+            post_edit_target_weight_state_id="target-W1",
             omega_after={0: 0.1, 1: 0.2},
             history_length_after=1,
         )
-        with self.assertRaisesRegex(MethodContractError, "retained endpoint"):
+        with self.assertRaisesRegex(MethodContractError, "target-weight endpoint"):
             broken.begin_edit(
                 order_position=1,
                 case_id=cases[1],
-                pre_edit_state_id="W0",
+                pre_edit_state_id="broken-request-1-W1",
+                pre_edit_target_weight_state_id="discontinuous-target",
                 omega_before={0: 0.1, 1: 0.2},
                 history_length_before=1,
                 cache_identity="broken/position-1.pt",
             )
+
+    def test_p1_failed_edit_requires_both_identity_domains_to_rollback(self) -> None:
+        cases = ("2022", "12498", "20964", "768")
+        for label, post_request, post_target in (
+            ("request", "request-0-mutated", "target-W0"),
+            ("target", "request-0-W0", "target-mutated"),
+        ):
+            with self.subTest(identity_domain=label):
+                guard = P1SequentialArmGuard(Arm.FULL_ODE_EDIT, cases)
+                guard.note_arm_start_restore()
+                guard.begin_edit(
+                    order_position=0,
+                    case_id=cases[0],
+                    pre_edit_state_id="request-0-W0",
+                    pre_edit_target_weight_state_id="target-W0",
+                    omega_before={0: 0.0, 1: 0.0},
+                    history_length_before=0,
+                    cache_identity=f"rollback-{label}/position-0.pt",
+                )
+                with self.assertRaisesRegex(
+                    MethodContractError,
+                    "rollback request/target-weight state/Omega",
+                ):
+                    guard.finish_edit(
+                        result=self._stream_result(
+                            edit_id=f"rollback-{label}",
+                            terminal=post_request,
+                            appended=False,
+                        ),
+                        post_edit_state_id=post_request,
+                        post_edit_target_weight_state_id=post_target,
+                        omega_after={0: 0.0, 1: 0.0},
+                        history_length_after=0,
+                    )
 
 
 if __name__ == "__main__":

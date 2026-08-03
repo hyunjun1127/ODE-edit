@@ -362,10 +362,16 @@ def run(args: argparse.Namespace) -> int:
                         record_mechanism=arm in P1_ADAPTIVE_MECHANISM_ARMS,
                     )
                 pre_edit_state_id = backend.current_state_id()
+                pre_edit_target_weight_state_id = (
+                    backend.sequential_target_weight_state_id()
+                )
                 stream_guard.begin_edit(
                     order_position=order_position,
                     case_id=request.case_id,
                     pre_edit_state_id=pre_edit_state_id,
+                    pre_edit_target_weight_state_id=(
+                        pre_edit_target_weight_state_id
+                    ),
                     omega_before=omega_before,
                     history_length_before=receipt_count_before,
                     cache_identity=str(cache_path.relative_to(output_root)),
@@ -385,6 +391,9 @@ def run(args: argparse.Namespace) -> int:
                 finally:
                     metrics.detach_model()
                 post_edit_state_id = backend.current_state_id()
+                post_edit_target_weight_state_id = (
+                    backend.sequential_target_weight_state_id()
+                )
                 omega_after = ledger.state()
                 receipt_count_after = len(ledger.receipts)
                 if result.omega_appended != (
@@ -392,8 +401,22 @@ def run(args: argparse.Namespace) -> int:
                 ):
                     raise RuntimeError("P1 Omega append/result identity differs")
                 failure_rollback_required = not result.omega_appended
-                failure_rollback_exact = (
+                failure_request_state_rollback_exact = (
                     post_edit_state_id == pre_edit_state_id
+                    if failure_rollback_required
+                    else None
+                )
+                failure_target_weight_state_rollback_exact = (
+                    post_edit_target_weight_state_id
+                    == pre_edit_target_weight_state_id
+                    if failure_rollback_required
+                    else None
+                )
+                failure_rollback_exact = (
+                    (
+                        failure_request_state_rollback_exact is True
+                        and failure_target_weight_state_rollback_exact is True
+                    )
                     if failure_rollback_required
                     else None
                 )
@@ -409,6 +432,9 @@ def run(args: argparse.Namespace) -> int:
                 stream_guard.finish_edit(
                     result=result,
                     post_edit_state_id=post_edit_state_id,
+                    post_edit_target_weight_state_id=(
+                        post_edit_target_weight_state_id
+                    ),
                     omega_after=omega_after,
                     history_length_after=receipt_count_after,
                 )
@@ -450,6 +476,12 @@ def run(args: argparse.Namespace) -> int:
                     "repetition": 0,
                     "pre_edit_state_id": pre_edit_state_id,
                     "post_edit_state_id": post_edit_state_id,
+                    "pre_edit_target_weight_state_id": (
+                        pre_edit_target_weight_state_id
+                    ),
+                    "post_edit_target_weight_state_id": (
+                        post_edit_target_weight_state_id
+                    ),
                     "commit": git_head,
                     "hashes": {
                         "proposal_id": proposal_id,
@@ -494,6 +526,12 @@ def run(args: argparse.Namespace) -> int:
                         ),
                         "failure_rollback_required": failure_rollback_required,
                         "failure_rollback_exact": failure_rollback_exact,
+                        "failure_request_state_rollback_exact": (
+                            failure_request_state_rollback_exact
+                        ),
+                        "failure_target_weight_state_rollback_exact": (
+                            failure_target_weight_state_rollback_exact
+                        ),
                         "successful_terminal_endpoint_exact": (
                             successful_terminal_endpoint_exact
                         ),
@@ -515,6 +553,11 @@ def run(args: argparse.Namespace) -> int:
         stream_terminal_state_id = (
             pending[-1]["common"]["post_edit_state_id"] if pending else None
         )
+        stream_terminal_target_weight_state_id = (
+            pending[-1]["common"]["post_edit_target_weight_state_id"]
+            if pending
+            else None
+        )
         baseline.restore(runtime.model)
         baseline.assert_exact(runtime.model, include_rng=True)
         arm_isolation_restore_exact = True
@@ -527,6 +570,9 @@ def run(args: argparse.Namespace) -> int:
                 "Omega_terminal": ledger.state(),
                 "stream_terminal_state_id_before_arm_isolation": (
                     stream_terminal_state_id
+                ),
+                "stream_terminal_target_weight_state_id_before_arm_isolation": (
+                    stream_terminal_target_weight_state_id
                 ),
                 "arm_isolation_restore_exact": arm_isolation_restore_exact,
             }
@@ -556,6 +602,12 @@ def run(args: argparse.Namespace) -> int:
                 "order_position": common["order_position"],
                 "pre_edit_state_id": common["pre_edit_state_id"],
                 "post_edit_state_id": common["post_edit_state_id"],
+                "pre_edit_target_weight_state_id": common[
+                    "pre_edit_target_weight_state_id"
+                ],
+                "post_edit_target_weight_state_id": common[
+                    "post_edit_target_weight_state_id"
+                ],
                 "Omega_before": bundle["omega_before"],
                 "Omega_after": bundle["omega_after"],
                 "history_length_before": bundle["receipt_count_before"],
@@ -580,6 +632,12 @@ def run(args: argparse.Namespace) -> int:
                         "failure_rollback_required"
                     ],
                     "failure_rollback_exact": bundle["failure_rollback_exact"],
+                    "failure_request_state_rollback_exact": bundle[
+                        "failure_request_state_rollback_exact"
+                    ],
+                    "failure_target_weight_state_rollback_exact": bundle[
+                        "failure_target_weight_state_rollback_exact"
+                    ],
                     "successful_terminal_endpoint_exact": bundle[
                         "successful_terminal_endpoint_exact"
                     ],
