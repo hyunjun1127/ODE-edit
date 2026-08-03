@@ -194,8 +194,9 @@ class QuantizedRowBlockFunctionalTrial:
     block with :func:`torch.nn.functional.linear`.  No full effective weight or
     dense update is materialized and the target parameter is never mutated.
 
-    This primitive is intentionally not wired into the scientific runtime yet.
-    The controller integration policy remains a separate, GH-owned decision.
+    This primitive is wired as simple-T for adaptive finite candidates in the
+    Session 02 technical/method runtime.  That wiring is not itself evidence of
+    scientific superiority.
     """
 
     def __init__(
