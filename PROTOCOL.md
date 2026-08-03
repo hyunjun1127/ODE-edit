@@ -40,7 +40,11 @@ snippet은 원문 그대로 남길 수 있다.
 - `server-head`: per-server coordinator. A `head-serverN` agent can update its
   server plan notes, propose tasks, inspect local resources, and coordinate
   local workers/subagents. The server-head is responsible for integrating
-  subagent outputs and deciding what gets committed.
+  subagent outputs and deciding what gets committed. An explicit global-head
+  instruction envelope may also delegate experiment implementation under
+  `project/run_scripts/` on a dedicated non-main branch; the envelope must name
+  the exact write scope, and global-head approval is still required before
+  push, merge, or scientific submission.
 - `worker`: execution agent. Claims approved tasks, runs jobs, monitors logs,
   and reports results.
 - `subagent`: local helper owned by a server head or worker. Subagents should
@@ -94,7 +98,7 @@ Role access matrix:
 | Role | Primary parent | May own/write | Must not directly write |
 | --- | --- | --- | --- |
 | `global-head` | user | `plans/global/`, `tasks/pending/`, `messages/head/`, `messages/inbox/<server>.md`, `transfers/approvals/`, `servers/active/`, `servers/retired/`, `control/`, `project/proposals/` or `proposals/`, `experiment-reports/global/`, protocol/template updates | server-local raw output, another role's unreviewed execution results, unapproved transfer execution |
-| `server-head` | global-head | `plans/updates/<server>/`, `tasks/proposed/<server>/`, `messages/server-heads/<server>/`, `agents/<server>/`, `audits/servers/<server>/`, `experiment-reports/servers/<server>/`, `transfers/requests/`, approved `transfers/verifications/`, own `servers/active/<server>.md` updates | `plans/global/`, `tasks/pending/`, `messages/head/`, `messages/inbox/`, `transfers/approvals/`, other server-owned files |
+| `server-head` | global-head | `plans/updates/<server>/`, `tasks/proposed/<server>/`, `messages/server-heads/<server>/`, `agents/<server>/`, `audits/servers/<server>/`, `experiment-reports/servers/<server>/`, `transfers/requests/`, approved `transfers/verifications/`, own `servers/active/<server>.md` updates; explicit GH envelope 아래 dedicated non-main branch의 `project/run_scripts/` | `plans/global/`, `tasks/pending/`, `messages/head/`, `messages/inbox/`, `transfers/approvals/`, other server-owned files, envelope 밖 source path |
 | `worker` | server-head | its claimed `tasks/running/<task>.<agent>.*`, matching `tasks/done/` or `tasks/failed/`, `runs/<run_id>/...<agent>.*`, `agents/<server>/<agent>.json`, assigned report/audit evidence under its server | creating tasks, editing canonical plans, approving transfers, changing server lifecycle, editing other agents' task/run files |
 | `blue-team subagent` | server-head or worker | local scratch, draft plan/run/report material for parent review | direct Git push, final report promotion, task approval, transfer approval, red-team waiver |
 | `red-team subagent` | server-head or worker | local scratch and audit drafts for parent review | direct Git push, modifying blue-team artifacts instead of reporting issues, waiving its own blocker |
@@ -112,6 +116,13 @@ Actions that require escalation:
 - waive red-team `warn` or `block`: `global-head`, with reason in `audits/`
 - register or retire a server: `global-head` with user/server-owner context
 - modify `control/sync-paused`: `global-head`
+
+Delegated `project/run_scripts/` writes are an implementation boundary, not a
+standing scientific approval. The server-head must retain the direct GH
+instruction ID in its server report, work only on a dedicated non-main branch,
+and stop if the required change leaves the named path. The server-head may
+commit reviewed source and tests locally, but may not push, merge, or submit a
+scientific job until the global-head sends the corresponding approval.
 
 Helper scripts are intentionally narrow. `claim-task.sh` and `finish-task.sh`
 are for `worker` agents. `heartbeat.sh` and `sync-agent.sh` are for

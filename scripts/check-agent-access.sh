@@ -71,6 +71,17 @@ is_server_head_allowed() {
     servers/active/"${agent_hostname}".md)
       return 0
       ;;
+    project/run_scripts/*)
+      branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
+      case "${branch}" in
+        ""|main|master)
+          return 1
+          ;;
+        *)
+          return 0
+          ;;
+      esac
+      ;;
   esac
 
   return 1
