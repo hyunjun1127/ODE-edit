@@ -32,10 +32,13 @@ Session 01의 최종 판정은
 C3는 BF relative share와 global magnitude의 분리가 필요함을 Llama/Qwen과
 MEMIT/Alpha에 걸쳐 확인했지만, deployable method superiority를 확립하지 않았다.
 
-Motivation 내부 추가 rescue/retune은 닫혔다. Method Session의 fast primary track은
+Motivation 내부 추가 rescue/retune은 닫혔다. Method Session의 primary track은
 model-common monotone-load controller, adaptive trust/rollback, first-hit, Scalar/Static/
-Ordered baseline과 ODE necessity 비교에 한해 열린다. Signed-capacity hard barrier와
-AlphaEdit은 첫 MEMIT main table 뒤 ablation/extension으로 미룬다. Strong pilot 전
-large/lifelong execution, model-specific rescue, preservation/capability guarantee는
-허용하지 않는다. 최종 decision report는
+Ordered baseline과 ODE necessity 비교에 한해 열린다. Accepted round 수는 사전 평균값이
+아니라 trajectory statistic이며, performance와 `N_field`/GPU time frontier를 co-primary로
+판정한다. Canonical 실행 spec은
+[`Session 02 compute-aware main-table spec`](../../plans/global/2026-08-03-session02-compute-aware-main-table-spec.md)이다.
+Signed-capacity hard barrier와 AlphaEdit은 첫 MEMIT main table 뒤 ablation/extension으로
+미룬다. Strong pilot 전 large/lifelong execution, model-specific rescue,
+preservation/capability guarantee는 허용하지 않는다. 최종 Motivation decision report는
 [`2026-08-03 Session 01 closure`](../../experiment-reports/global/2026-08-03-session01-motivation-final-closure-and-method-handoff.md)다.

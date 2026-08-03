@@ -3,9 +3,9 @@
 - 초안 개시: **2026-08-03 12:04 KST**
 - 정식 개시: **2026-08-03 14:20 KST**, 사용자 canonical objective 반영
 - 방법명: **`ODE-Edit`** (`BF`는 방법명이 아니라 layer-synchronous execution 원칙)
-- 상태: **`FORMAL_METHOD_DESIGN_OPEN; EXECUTION_HOLD_PENDING_LOCKED_SPEC_AND_SH_ONBOARDING`**
-- fast primary execution spec:
-  [`../../../plans/global/2026-08-03-session02-fast-main-table-spec.md`](../../../plans/global/2026-08-03-session02-fast-main-table-spec.md)
+- 상태: **`FORMAL_METHOD_DESIGN_OPEN; COMPUTE_AWARE_STRUCTURAL_LOCK; NUMERICAL_LOCK_AND_SLURM_HOLD`**
+- primary execution spec:
+  [`../../../plans/global/2026-08-03-session02-compute-aware-main-table-spec.md`](../../../plans/global/2026-08-03-session02-compute-aware-main-table-spec.md)
 - inherited Motivation verdict: **`CLOSED_DIRECTIONAL_POSITIVE; STRONG_METHOD_GATE_FAIL`**
 - 대상 모델: `llama3-8b-inst`, `qwen2.5-7b-inst`
 - actuator family: MEMIT, canonical projector/history AlphaEdit
@@ -575,28 +575,45 @@ direct-z fidelity를 mechanism diagnostic으로 보고하며 main success gate�
 
 ## 15. Complexity와 fallback
 
-보고할 compute는 다음을 포함한다.
+Accepted macro-round 수에 평균 목표를 두지 않는다. Trajectory length는 semantic
+first-hit, trust accuracy와 state nonlinearity가 만든 결과 변수다. Initial common safety
+cap은 `S_max=6`이며, 결과를 보지 않고 잠근 resolution condition 아래에서만 두 모델
+공통 `S_max=8` check를 열 수 있다.
 
-- direct-z optimization count/time
-- proposal build/NFE per trial
-- accepted/rejected round 수
-- QP time
-- evaluation을 제외한 controller wall time
-- total GPU-hours와 peak memory
-- first-hit이 제거한 proposal/write 수
+Compute unit은 다음처럼 분리한다.
 
-평균 accepted macro-round 목표는 proposal의 `1.5--2`, hard maximum은 별도
-preregister한다. No-positive-slope, repeated trust rejection, \(S_{\max}\) 도달,
-native/scalar event failure를 서로 다른 failure type으로 기록한다. Fallback은 scientific
-arm을 숨기지 않도록 별도 결과로 센다.
+- `N_z`: direct-z optimization count/time
+- `N_state_fwd`: trial과 별도로 실행한 current-state forward count
+- `N_field`: accepted-state same-snapshot field rebuild count
+- `N_bw`: rewrite backward count
+- `K_acc`: accepted parameter transition count
+- `N_trial`, `N_reject`: trial forward와 reject count
+- `N_eval`: controller freeze 뒤 evaluation forward count
+- QP/commit time, controller GPU sec/edit, total GPU-hours와 peak memory
+
+필수 효율 불변식은 direct-z once/edit, per-layer backward 0, target-weight dense gradient
+materialization 0, reject field rebuild 0, dense
+trial weight copy 0, first-hit 뒤 추가 work 0이다. 한 rewrite backward의 low-rank actuator
+hook으로 모든 layer directional derivative를 계산하고, reject는 unchanged field에서 trust
+radius만 줄여 QP와 trial을 다시 실행한다.
+
+Target weights를 직접 `torch.autograd.grad`의 inputs로 넘기는 구현은 numerical reference
+oracle에만 사용한다. P0 profiler는 `no_grad_trial`과 accepted `cached_trial_graph` reuse를 numerical equivalence,
+GPU time과 peak memory로 비교해 두 모델 공통 backend 하나를 lock한다. Scientific outcome을
+보고 backend를 고르지 않는다.
+
+No-positive-slope, repeated trust rejection, `resolution_cap_unresolved`, native/scalar event
+failure를 서로 다른 failure type으로 기록한다. Fallback은 scientific arm을 숨기지 않도록
+별도 결과로 센다.
 
 ## 16. Fast main-table progression gate
 
-### MT — Technical identity
+### P0/P1 — fused component profiler와 resolution identity
 
-Deterministic contract test 뒤 두 모델×MEMIT fresh 1--2 edits만 실행한다. Native와 Full
-path를 실제 GPU에서 확인하고, 나머지 baseline은 동일 artifact schema/unit contract를
-통과해야 한다.
+Deterministic contract test 뒤 두 모델×MEMIT fresh 4 edits×한 locked order에서 Native,
+Static, One-refresh, Full만 실행한다. 첫 1 case/model은 backend/component profiler 전용이며
+scientific 우열을 판정하지 않는다. One-refresh는 최대 2 accepted transitions, Full은
+initial common `S_max=6`을 허용한다. Scalar와 Ordered는 unit/schema contract만 통과한다.
 
 - post-QP rescale 0; applied coefficient와 solver output exact
 - active-slope support와 progress-equality residual이 tolerance 안
@@ -605,10 +622,12 @@ path를 실제 GPU에서 확인하고, 나머지 baseline은 동일 artifact sch
 - direct-z once/edit, same-snapshot proposal, information firewall pass
 - first-hit 이후 proposal/write 0
 - \(\Omega\) outer-terminal single append
+- per-layer backward, reject field rebuild와 dense trial copy 0
+- hook directional derivative numerical identity
 - 동일 common policy on both models
 - EasyEdit와 precomputed covariance read-only
 
-하나라도 실패하면 outcome을 해석하지 않고 기술 수리 후 MT만 반복한다.
+하나라도 실패하면 outcome을 해석하지 않고 기술 수리 후 P0/P1만 반복한다.
 
 ### MI — 10-edit ODE identity table
 
@@ -617,32 +636,39 @@ path를 실제 GPU에서 확인하고, 나머지 baseline은 동일 artifact sch
 - Native, Scalar first-hit, Static synchronous, Ordered adaptive, Full ODE-Edit
 - 동일 request/order/event/controller threshold와 evaluation code
 - proposal drift, ranking turnover, allocation drift, ordered non-commutativity panel
-- NFE/edit와 wall time/edit 포함
+- `N_field`, trial/reject, GPU sec/edit와 peak memory 포함
 
 100-edit open을 위한 lenient gate는 다음이다.
 
 1. Full의 current acquisition이 Native 대비 common locked tolerance 안에서 non-collapse
 2. `Full - Scalar`와 `Full - Static`의 prior-retention AUC 방향이 두 모델 어느 쪽에서도
    material하게 음수가 아니고 pooled paired direction은 strict positive
-3. `Full - Ordered`가 두 모델 공통으로 material하게 열세가 아님
-4. proposal/ranking/allocation drift가 numerical noise를 넘음
-5. 평균 proposal refresh가 `<=2`이거나 추가 NFE를 정당화하는 retention frontier signal
+3. proposal/ranking/allocation drift가 numerical noise를 넘음
+4. Full이 Static 또는 One-refresh에 retention과 compute 양쪽에서 strictly dominated되지 않음
+5. `Full/Native GPU-sec`가 `<=3x`이면 green, `(3x,4x]`이면 positive frontier gain을
+   요구하고 efficiency claim을 보류, `>4x`이면 100-edit expansion HOLD
+6. 대부분 `K_acc<=2`이고 Full과 Static/One-refresh가 같다면 ODE를 단순화
 
 두 모델 중 하나만 살리는 threshold, event, step, sign 또는 fallback은 금지한다.
-Full이 Scalar/Static보다 두 모델 공통으로 열세면 ODE를 kill한다. Full과 Static이
-사실상 같으면 static routing, Full과 Ordered가 같으면 joint synchronous claim 제거,
-Full과 Scalar가 같으면 scalar early-stop으로 각각 pivot한다.
+Full이 Scalar/Static보다 두 모델 공통으로 열세면 ODE를 kill한다. `K_acc>=3`이 자주
+필요하지만 frontier gain이 없으면 state dependence는 유용하지 않다고 판정한다. Full과
+Static이 사실상 같으면 static routing, Full과 Ordered가 같으면 joint synchronous claim
+제거, Full과 Scalar가 같으면 scalar early-stop으로 각각 pivot한다.
 
 Exact tolerance, trust threshold, scalar search, \(S_{\max}\), order와 case ID는 결과를
 보기 전 execution spec에 고정한다.
 
-### MS — 100-edit first main table
+### P3 — 100-edit first main table
 
-MI gate 통과 뒤 동일 두 모델×MEMIT×다섯 arm×두 locked order로 바로 확장한다. 첫 main
-table의 canonical column은 다음이다.
+P2 gate 통과 뒤 동일 두 모델×MEMIT×두 locked order에서 Native, Scalar, Static, Full 네
+arm으로 바로 확장한다. Ordered는 P2 mechanism ablation으로 남겨 이전 5-arm main matrix
+대비 arm compute를 20% 줄인다. Performance와 compute를 co-primary table로 분리한다.
 
-| Method | Current rewrite ↑ | Prior-retention AUC ↑ | Final prior retention ↑ | Paraphrase ↑ | Neighborhood ↑ | Max-layer \(\Omega\) load ↓ | NFE/edit ↓ | Time/edit ↓ |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Method | Current rewrite ↑ | Prior-retention AUC ↑ | Final prior retention ↑ | Paraphrase ↑ | Neighborhood ↑ |
+|---|---:|---:|---:|---:|---:|
+
+| Method | GPU sec/edit ↓ | Total/Native ↓ | State F/edit ↓ | N_field/edit ↓ | Trial F/edit ↓ | Median K | P90 K | Pr(K>=3) | Reject/edit ↓ | Peak GiB ↓ |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 
 Checkpoint별 lightweight fixed downstream proxy와 perplexity는 보조 표로 두고 full
 downstream suite는 미룬다. \(\Psi\), direct-z fidelity, Gini와 endpoint displacement는
@@ -650,8 +676,8 @@ mechanism diagnostic이며 main success를 대신하지 않는다.
 
 Main success는 current acquisition non-collapse, Scalar/Static 대비 prior-retention
 AUC와 final retention의 두 모델 공통 개선 방향, paraphrase/neighborhood non-worsening,
-감당 가능한 NFE/time을 함께 요구한다. \(\Omega\) concentration 감소가 retention과
-정렬되지 않으면 load geometry claim을 kill하거나 재정의한다.
+그리고 non-dominated compute frontier를 함께 요구한다. \(\Omega\) concentration 감소가
+retention과 정렬되지 않으면 load geometry claim을 kill하거나 재정의한다.
 
 ### MA — AlphaEdit extension
 

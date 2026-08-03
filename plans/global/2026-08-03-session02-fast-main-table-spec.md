@@ -2,16 +2,17 @@
 
 - 작성: **2026-08-03 KST**
 - GH: `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`
-- 상태: **`STRUCTURAL_LOCK; IMPLEMENTATION_PREP_ALLOWED_AFTER_SH1_ACK; SLURM_HOLD`**
+- 상태: **`SUPERSEDED_BY_COMPUTE_AWARE_V2; DO_NOT_EXECUTE`**
 - primary method: **ODE-Edit**
 - primary actuator: **MEMIT only**
 - models: `Llama3-8B-Instruct`, `Qwen2.5-7B-Instruct`
 - source review SHA-256:
   `5ab23b222cc64c523f62a5769d58aca4fb4f049f5a6b66b7df7c288e0df4fa7c`
 
-이 문서는 첫 main table을 가장 빨리 얻기 위한 Session 02 primary execution 방향이다.
-이전 broad plan과 충돌하면 이 structural lock과
-`project/proposals/sections/04-method-design.md`의 최신 수식을 우선한다.
+이 문서는 초기 fast-track 설계 기록이다. 계산량을 co-primary objective로 올린 뒤
+[`2026-08-03-session02-compute-aware-main-table-spec.md`](2026-08-03-session02-compute-aware-main-table-spec.md)가
+primary execution spec으로 대체했다. 이 문서의 평균 refresh 목표, 별도 screen 생략,
+5-arm 100-edit matrix 또는 execution gate를 실행에 사용하지 않는다.
 
 ## 1. 판정
 

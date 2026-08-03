@@ -545,8 +545,9 @@ AlphaEdit은 small scale에서 projection 자유도 제한 때문에 MEMIT보다
 > 시점에 필요하다고 본 완성형 safeguard 목록을 보존한다. 이후 fast-main-table review는
 > C3의 capacity–retention 불일치를 근거로 signed (Psi) hard barrier를 primary에서
 > 내리고, outer-edit terminal net-write (Omega) soft routing을 먼저 검증하도록
-> 순서를 바꿨다. 최신 실행 source는
-> [`2026-08-03-session02-fast-main-table-spec.md`](../../plans/global/2026-08-03-session02-fast-main-table-spec.md)다.
+> 순서를 바꿨다. 후속 compute review는 평균 accepted round 목표를 제거하고 field-cost를
+> co-primary로 올렸다. 최신 실행 source는
+> [`2026-08-03-session02-compute-aware-main-table-spec.md`](../../plans/global/2026-08-03-session02-compute-aware-main-table-spec.md)다.
 
 다음 Method section은
 [`../../project/proposals/sections/04-method-design.md`](../../project/proposals/sections/04-method-design.md)에서 연다.

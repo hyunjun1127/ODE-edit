@@ -3,8 +3,8 @@
 - 개시: **2026-08-03 14:26 KST**
 - GH: `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`
 - 상태: **`DESIGN_REFERENCE; PRIMARY_EXECUTION_SUPERSEDED`**
-- primary fast execution:
-  [`2026-08-03-session02-fast-main-table-spec.md`](2026-08-03-session02-fast-main-table-spec.md)
+- primary compute-aware execution:
+  [`2026-08-03-session02-compute-aware-main-table-spec.md`](2026-08-03-session02-compute-aware-main-table-spec.md)
 - 실행 owner: SH1 primary implementation/run, SH2 independent reproduction
 - 방법명: **ODE-Edit**
 - 모델: `Llama3-8B-Instruct`, `Qwen2.5-7B-Instruct`
@@ -15,10 +15,11 @@
 share–magnitude implementation 원인을 상속하되, ODE-Edit의 기술적 정체성, dynamic
 feedback 필요성, capacity geometry의 functional relevance를 순서대로 검증한다.
 
-> **Supersession note:** 첨부 method-direction review를 반영해 첫 main table은
-> MEMIT-only five-arm 10→100 edit fast track으로 축소했다. 아래의 두-family/7-arm/MI-S
-> 내용은 broad design reference이며 actionable instruction이 아니다. 충돌 시 위 fast
-> execution spec을 우선한다.
+> **Supersession note:** 첨부 method-direction 및 compute review를 반영해 첫 main
+> table은 MEMIT-first compute-aware progression으로 축소했다. 평균 accepted round 목표는
+> 삭제했고, P0/P1 profiler 뒤 10-edit five-arm identity와 100-edit four-arm table로 간다.
+> 아래의 두-family/7-arm/MI-S 내용은 broad design reference이며 actionable instruction이
+> 아니다. 충돌 시 위 compute-aware execution spec을 우선한다.
 
 ## 1. 네 범주
 
@@ -222,8 +223,8 @@ acquisition/retention collapse가 없는 것이다. 두 모델 중 하나만 살
 4. matched rewrite event에서 cumulative capacity와 max-layer concentration 감소
 5. first-hit이 accepted distance 또는 NFE 감소
 6. non-stationarity와 direct-z fidelity panel 완결
-7. 평균 accepted macro-round가 목표 compute ceiling 안이거나 추가 compute를
-   정당화하는 명확한 frontier gain
+7. accepted macro-round distribution을 관측값으로 보고하고, 추가 `N_field`/GPU time을
+   정당화하는 명확한 non-dominated frontier gain
 
 Small pilot이므로 formal superiority significance를 요구하지 않는다. 다만 반대 방향을
 “sample이 작다”는 이유로 양성으로 바꾸지 않는다.
