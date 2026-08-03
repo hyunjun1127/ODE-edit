@@ -46,7 +46,8 @@ from .cached_graph import (
     CachedAcceptedTrialSequence,
     assess_cached_graph_feasibility,
 )
-from .easyedit_backend import EasyEditMemitBackend
+from .easyedit_backend import EasyEditMemitBackend, OracleMeanEasyEditBackend
+from .oracle_event import OracleMeanEventTarget
 from .preflight import PreparedConcreteEnvironment
 
 __all__ = [
@@ -59,6 +60,7 @@ __all__ = [
     "DirectionalField",
     "EditInstrumentation",
     "EasyEditMemitBackend",
+    "OracleMeanEasyEditBackend",
     "EventReading",
     "InstrumentationSnapshot",
     "LayerProposal",
@@ -70,6 +72,7 @@ __all__ = [
     "MethodBackend",
     "MEMIT_PROPOSAL_CAPABILITIES",
     "OmegaLedger",
+    "OracleMeanEventTarget",
     "ProposalBatch",
     "ProposalSemantics",
     "P1SequentialArmGuard",

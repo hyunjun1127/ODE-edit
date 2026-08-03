@@ -106,6 +106,28 @@ class _DirectZOnce:
         return self.value
 
 
+def _prepare_event_target_if_required(
+    backend: MethodBackend,
+    target: _DirectZOnce,
+) -> Any:
+    """Prepare an edit-local event target before the first event, if required.
+
+    Legacy backends deliberately have no ``prepare_event_target`` method and
+    retain the original lazy direct-z/entry-hit behavior.  The oracle-mean V2
+    backend implements the method, so direct-z is computed exactly once before
+    its entry target and no N_z=0 path is representable for that backend.
+    """
+
+    prepare = getattr(backend, "prepare_event_target", None)
+    if prepare is None:
+        return None
+    if not callable(prepare):
+        raise MethodContractError("backend event-target preparer is not callable")
+    frozen_target = target.get()
+    prepare(frozen_target)
+    return frozen_target
+
+
 def _assert_batch_current(backend: MethodBackend, batch: ProposalBatch) -> None:
     current = backend.current_state_id()
     if batch.snapshot_id != current:
@@ -196,6 +218,7 @@ class FiveArmRunner:
         del frozen_omega  # Native does not route, but freezes the same edit ledger.
         target = _DirectZOnce(backend, request, instrumentation)
         try:
+            target_value = _prepare_event_target_if_required(backend, target)
             before = self._event(backend, request, instrumentation)
             if before.is_hit(self.config.event_tolerance):
                 if instrumentation is not None:
@@ -208,12 +231,13 @@ class FiveArmRunner:
                     arm=Arm.NATIVE_MEMIT,
                     edit_id=edit_id,
                     status="event_hit",
-                    direct_z_compute_count=0,
+                    direct_z_compute_count=target.compute_count,
                     terminal_state_id=backend.current_state_id(),
                     omega_appended=True,
                     steps=(),
                 )
-            target_value = target.get()
+            if target_value is None:
+                target_value = target.get()
             batch = self._build_native(
                 lambda: backend.build_native_terminal(target_value),
                 instrumentation,
@@ -284,6 +308,7 @@ class FiveArmRunner:
         self.omega.frozen_for_edit(edit_id)
         target = _DirectZOnce(backend, request, instrumentation)
         try:
+            target_value = _prepare_event_target_if_required(backend, target)
             entry_event = self._event(backend, request, instrumentation)
             if entry_event.is_hit(self.config.event_tolerance):
                 if instrumentation is not None:
@@ -295,7 +320,7 @@ class FiveArmRunner:
                     arm=Arm.SCALAR_FIRST_HIT,
                     edit_id=edit_id,
                     status="event_hit",
-                    direct_z_compute_count=0,
+                    direct_z_compute_count=target.compute_count,
                     terminal_state_id=backend.current_state_id(),
                     omega_appended=True,
                     steps=(),
@@ -304,7 +329,8 @@ class FiveArmRunner:
                 )
                 self.omega.append_terminal(edit_id, terminal_energy)
                 return result
-            target_value = target.get()
+            if target_value is None:
+                target_value = target.get()
             batch = self._build_native(
                 lambda: backend.build_native_terminal(target_value),
                 instrumentation,
@@ -433,6 +459,7 @@ class FiveArmRunner:
 
         target_value: Any = None
         try:
+            target_value = _prepare_event_target_if_required(backend, target)
             while accepted_count < accepted_cap:
                 if retry_field is not None:
                     before, batch, layer, retry_state_id = retry_field
