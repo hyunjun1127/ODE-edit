@@ -22,6 +22,7 @@
 | automatic retry discipline | pass | retry/source/parameter 변경 0건 |
 | artifact preservation | provisional pass | SH1이 cleanup 없이 보존했다고 보고; hash report pending |
 | artifact broadcast | pending | active peer readiness와 exact path/hash 확인 뒤 broadcast 또는 예외 기록 필요 |
+| original checkpoint dtype | block | retained runtime은 FP32, pinned checkpoint tensors는 BF16 |
 
 ## Red-team 공격 점검
 
@@ -38,6 +39,8 @@
 - **Model rescue:** Qwen에만 다른 solver/dtype/layer set을 쓰거나 Llama에만 다른 tolerance를
   쓰는 순간 method-common gate가 실패한다.
 - **Scientific overclaim:** 이 pair는 ODE vector field나 allocation 가설의 반증도 지지도 아니다.
+- **Runtime provenance:** legacy Motivation float32 loader의 결과를 original-BF16 결과로
+  재명명하면 안 된다. Revised method P0는 새 dtype identity와 proposal lineage를 가져야 한다.
 
 ## Agent/runtime audit
 
@@ -60,5 +63,6 @@ model-result interpretation은 여전히 pending이고, 이번 zero-outcome tech
 ## 최종 red 판정
 
 `block`은 연구 kill이 아니라 현재 implementation과 execution progression에 대한 block이다.
-두 독립 root cause가 outcome-free CPU/synthetic evidence로 닫히고 GH가 diff와 revised hard gate를
-승인하기 전까지 P0 retry, P1, scientific arm과 main table 제출을 허용하지 않는다.
+두 독립 root cause와 original-checkpoint dtype mismatch가 outcome-free CPU/synthetic evidence로
+닫히고 GH가 diff와 revised hard gate를 승인하기 전까지 P0 retry, P1, scientific arm과 main
+table 제출을 허용하지 않는다.

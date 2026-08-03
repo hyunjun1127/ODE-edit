@@ -44,16 +44,21 @@ synchronous-system 조립 중 GPU OOM, Llama는 Full arm의 hook-reference ident
 - Llama stderr에는 per-layer hook/finite-difference 수치가 없고, 두 실행 모두 compute,
   controller, evaluation JSONL과 terminal manifest가 완성되지 않았다.
 - evaluation/generation은 실행되지 않았고 scientific outcome은 `0`건이다.
+- 두 retained manifest는 runtime dtype을 `torch.float32`로 기록했다. 이후 local pinned
+  snapshot을 확인한 결과 두 checkpoint의 config와 모든 safetensors tensor는 BF16이다.
+  따라서 이 pair는 original-checkpoint dtype 실행이 아니라 legacy Motivation loader의
+  forced-FP32 실행이다.
 
 ### GH 추정
 
-- Qwen 실패는 dense system 자체의 수학이나 solver가 아니라, 같은 크기의 dense temporary가
-  동시에 살아 있는 조립식 때문에 peak memory가 높아졌을 가능성이 크다. 이는 아직 SH의
-  alias/lifetime test 전 추정이다.
-- Llama 실패는 기존 float64 CPU oracle에서 hook contraction이 dense reference와 일치했다는
-  사실과, BF16 output에 `1e-3` 크기의 one-sided perturbation을 넣었다는 구현을 함께 보면
-  fixed finite difference의 representability/quantization 문제일 가능성이 있다. 실제 mismatch
-  행이 남아 있지 않으므로 hook 구현이 옳다고 확정할 수는 없다.
+- Qwen 실패는 forced-FP32 model residency와 같은 크기의 dense temporary가 동시에 살아 있는
+  조립식이 함께 만든 peak-memory 문제일 가능성이 크다. 원본 BF16 retry 전에는 두 요인의
+  인과 비중을 분리할 수 없다.
+- Llama 실패도 legacy-FP32 runtime에서 발생했다. 이후 BF16 synthetic fixture에서 fixed
+  `1e-3` one-sided finite difference의 false-fail 가능성은 확인했지만, 이를 legacy-FP32
+  failure의 직접 원인으로 소급할 수 없다. 실제 per-layer mismatch 행이 남아 있지 않으므로
+  그 실행의 exact numerical cause는 미확정이다. Revised original-BF16 P0는 one-sided FD 대신
+  independent scalar-gate hard reference로 다시 판정해야 한다.
 - 두 blocker 모두 controller의 과학적 정의를 바꾸지 않고 고칠 가능성이 있지만, common-code
   identity를 다시 검증하기 전에는 paired retry를 열 수 없다.
 
@@ -117,11 +122,16 @@ Retry가 열리더라도 동일 case `2022`, seed `17`, 동일 arm/repetition의
 pair**만 다시 수행한다. 한 모델만 살리는 설정, 성공한 partial arm 재사용, scientific
 evaluation 추가는 허용하지 않는다.
 
+Retry는 기존 proposal/output lineage를 재사용하지 않는다. Checkpoint-original BF16 loader와
+`A/B/T/C` contract가 포함된 새 outcome-free proposal ID 및 새 output root를 사용한다. 상세
+dtype 경계는
+[`../../plans/global/2026-08-03-session02-original-checkpoint-dtype-addendum.md`](../../plans/global/2026-08-03-session02-original-checkpoint-dtype-addendum.md)를 따른다.
+
 ## Claim boundary
 
-이번 실행으로 확인된 것은 두 모델 모두 offline load와 초기 event batching까지 도달했다는 것,
-그리고 현재 P0 구현에 model-scale blocker 두 개가 있다는 것뿐이다. ODE-Edit의 correctness,
-compute 감소, preservation, MEMIT 대비 우위, 두 모델 공통 작동은 확인되지 않았다.
+이번 실행으로 확인된 것은 legacy-FP32로 load된 두 모델이 초기 event batching까지 도달했고,
+해당 구현에 model-scale blocker 두 개가 있었다는 것뿐이다. Original-BF16 ODE-Edit의
+correctness, compute 감소, preservation, MEMIT 대비 우위, 두 모델 공통 작동은 확인되지 않았다.
 
 Raw logs와 partial artifacts는 server1 ignored `local/` 아래에 보존 중이라고 SH1이 보고했다.
 정확한 hash와 ordinary artifact broadcast 또는 예외는 SH1 terminal failure report에서 닫아야
