@@ -29,7 +29,11 @@ def _module_for_weight(model: torch.nn.Module, weight_name: str) -> torch.nn.Mod
 
 
 class LowRankFunctionalTrial:
-    """Evaluate ``W + sum y_l L_l R_l^T`` without mutating or copying W.
+    """Continuous-overlay reference retained for tests and diagnostics only.
+
+    Evaluate ``W + sum y_l L_l R_l^T`` without mutating or copying W.  This
+    arithmetic is not the production finite-trial backend because it does not
+    reproduce parameter-dtype accepted-write quantization.
 
     This context is intentionally read-only.  An accepted coefficient must be
     handed to a separate exact write transaction; calling ``commit`` here is a

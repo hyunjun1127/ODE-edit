@@ -27,7 +27,8 @@ if str(_REPO_IMPORT_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_IMPORT_ROOT))
 
 from project.run_scripts.ode_edit_motivation.gpu_runtime import (
-    load_fixed_model,
+    CHECKPOINT_ORIGINAL_DTYPE_POLICY,
+    load_fixed_model_checkpoint_original,
     offline_environment,
     seed_runtime,
 )
@@ -224,8 +225,20 @@ def run(args: argparse.Namespace) -> int:
         raise RuntimeError("selected rewrite request identities differ from the lock")
     model_load_start = time.perf_counter()
     with offline_environment():
-        runtime = load_fixed_model(args.model_alias)
+        runtime = load_fixed_model_checkpoint_original(args.model_alias)
     model_load_wall_seconds = time.perf_counter() - model_load_start
+    runtime_metadata = runtime.metadata()
+    if runtime_metadata.get("dtype_policy") != CHECKPOINT_ORIGINAL_DTYPE_POLICY:
+        raise RuntimeError("method runtime did not use checkpoint-original dtype policy")
+    if runtime_metadata.get("checkpoint_original_dtype") != "torch.bfloat16":
+        raise RuntimeError("pinned checkpoint original dtype is not bfloat16")
+    if runtime_metadata.get("observed_parameter_dtype") != "torch.bfloat16":
+        raise RuntimeError("loaded method parameter dtype is not bfloat16")
+    _require_fields(
+        runtime_metadata,
+        lock["artifact_schema"]["manifest_model_required_fields"],
+        label="P0 model runtime metadata",
+    )
     prepared = prepare_concrete_environment(
         easyedit_root,
         runtime=runtime,
@@ -303,7 +316,7 @@ def run(args: argparse.Namespace) -> int:
     recorded_runs = recorded * len(P0_ARMS) * len(requests)
     setup_share = setup_wall_seconds / max(1, recorded_runs)
     manifest = {
-        "schema_version": "ode-edit-session02-p0-manifest/v2",
+        "schema_version": "ode-edit-session02-p0-manifest/v3",
         "status": "RUNNING_TECHNICAL_ONLY",
         "instruction": {
             "instruction_id": lock["instruction_id"],
@@ -312,7 +325,7 @@ def run(args: argparse.Namespace) -> int:
         "instruction_id": lock["instruction_id"],
         "revision_id": lock["revision_id"],
         "git": {"commit": git_head, "proposal_id": proposal_id},
-        "model": runtime.metadata(),
+        "model": runtime_metadata,
         "selection": {
             "case_ids": list(case_ids),
             "order_sha256": canonical_hash(list(case_ids)),
@@ -351,6 +364,13 @@ def run(args: argparse.Namespace) -> int:
             "controller": config.to_dict(),
             "arms": [arm.value for arm in P0_ARMS],
             "trial_backend": lock["trial_backend"]["selected_common_backend"],
+            "dtype_policy": runtime_metadata["dtype_policy"],
+            "checkpoint_original_dtype": runtime_metadata[
+                "checkpoint_original_dtype"
+            ],
+            "observed_parameter_dtype": runtime_metadata[
+                "observed_parameter_dtype"
+            ],
         },
         "artifact_firewall": {
             "raw_prompt_target_context_persisted": False,
@@ -367,6 +387,11 @@ def run(args: argparse.Namespace) -> int:
         manifest,
         lock["artifact_schema"]["manifest_required_sections"],
         label="P0 manifest",
+    )
+    _require_fields(
+        manifest["policy"],
+        lock["artifact_schema"]["manifest_policy_required_fields"],
+        label="P0 manifest policy",
     )
     _json_write(output_root / "manifest.json", manifest)
 

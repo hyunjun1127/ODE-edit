@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import ast
 import copy
 from contextlib import redirect_stderr
 import io
+import inspect
 import unittest
 
 from project.run_scripts.ode_edit_method.contracts import MethodContractError
@@ -12,6 +14,11 @@ from project.run_scripts.ode_edit_method.lock import (
     load_lock,
     validate_lock,
 )
+from project.run_scripts.ode_edit_method.memit_adapter import (
+    functional_trial_for_batch,
+)
+from project.run_scripts.ode_edit_method.runtime import FiveArmRunner
+from project.run_scripts import session02_compute_aware_p0 as executable_module
 from project.run_scripts.session02_compute_aware_p01 import build_parser
 from project.run_scripts.session02_compute_aware_p0 import (
     build_parser as build_executable_parser,
@@ -37,6 +44,20 @@ class NumericalLockTests(unittest.TestCase):
             self.lock["trial_backend"]["cached_trial_graph"],
             "UNSUPPORTED_FAIL_CLOSED",
         )
+        self.assertEqual(
+            self.lock["trial_backend"]["selected_common_backend"],
+            "quantized-rowblock-commit-emulator",
+        )
+        self.assertEqual(self.lock["trial_backend"]["row_block"], 64)
+        self.assertFalse(self.lock["trial_backend"]["two_tier_pretrial"])
+        self.assertEqual(
+            self.lock["dtype_contract"]["method_dtype_policy"],
+            "checkpoint-original",
+        )
+        self.assertEqual(
+            self.lock["dtype_contract"]["checkpoint_original_dtype"],
+            "torch.bfloat16",
+        )
         self.assertEqual(config.h0_fraction, 0.25)
         self.assertEqual(config.h_max_fraction, 0.5)
 
@@ -61,6 +82,25 @@ class NumericalLockTests(unittest.TestCase):
                 self.assertTrue(
                     all(job["submission_authorized"] is False for job in plan["jobs"])
                 )
+                self.assertEqual(
+                    {job["dtype_policy"] for job in plan["jobs"]},
+                    {"checkpoint-original"},
+                )
+                self.assertEqual(
+                    {job["checkpoint_original_dtype"] for job in plan["jobs"]},
+                    {"torch.bfloat16"},
+                )
+                self.assertEqual(
+                    {job["trial_backend"] for job in plan["jobs"]},
+                    {"quantized-rowblock-commit-emulator"},
+                )
+                for job in plan["jobs"]:
+                    output_root = job["executable_command"][-2]
+                    self.assertIn(
+                        "session02-p0-original-dtype-simple-t-v1-",
+                        output_root,
+                    )
+                    self.assertNotIn("session02-p0-tech-v1", output_root)
 
     def test_launcher_requires_explicit_dry_run(self) -> None:
         parser = build_parser()
@@ -100,6 +140,12 @@ class NumericalLockTests(unittest.TestCase):
             ),
             lambda value: value["controller"].__setitem__(
                 "model_specific_policy", True
+            ),
+            lambda value: value["dtype_contract"].__setitem__(
+                "method_dtype_policy", "legacy-motivation-float32"
+            ),
+            lambda value: value["trial_backend"].__setitem__(
+                "two_tier_pretrial", True
             ),
         ):
             candidate = copy.deepcopy(self.lock)
@@ -162,6 +208,37 @@ class NumericalLockTests(unittest.TestCase):
         self.assertEqual(
             self.lock["trial_backend"]["unchanged_trial_state_guard"],
             "storage-pointer-version-shape-dtype-device-without-dense-rehash",
+        )
+        self.assertEqual(
+            self.lock["resource_forecast"]["p0_forecast_gpu_hours_per_model"],
+            "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0",
+        )
+        self.assertFalse(
+            self.lock["resource_forecast"][
+                "simple_t_microfixture_is_model_scale_forecast"
+            ]
+        )
+
+    def test_runner_and_adaptive_trial_source_guards(self) -> None:
+        runner_source = inspect.getsource(executable_module)
+        calls = {
+            node.func.id
+            for node in ast.walk(ast.parse(runner_source))
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+        }
+        self.assertIn("load_fixed_model_checkpoint_original", calls)
+        self.assertNotIn("load_fixed_model", calls)
+
+        adapter_source = inspect.getsource(functional_trial_for_batch)
+        self.assertIn("QuantizedRowBlockFunctionalTrial", adapter_source)
+        self.assertIn("SIMPLE_T_ROW_BLOCK", adapter_source)
+        self.assertNotIn("LowRankFunctionalTrial", adapter_source)
+
+        adaptive_source = inspect.getsource(FiveArmRunner._run_adaptive)
+        self.assertIn('instrumentation.component("trial")', adaptive_source)
+        self.assertIn(
+            "functional trial event differs from committed write",
+            adaptive_source,
         )
 
     def test_lock_rejects_ambiguous_event_tolerance_type(self) -> None:

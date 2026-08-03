@@ -22,6 +22,9 @@ from project.run_scripts.ode_edit_method.contracts import (
     ProposalSemantics,
 )
 from project.run_scripts.ode_edit_method.easyedit_backend import EasyEditMemitBackend
+from project.run_scripts.ode_edit_method.functional_trial import (
+    QuantizedRowBlockFunctionalTrial,
+)
 from project.run_scripts.ode_edit_method.hooks import FactorDirection
 from project.run_scripts.ode_edit_method.instrumentation import EditInstrumentation
 from project.run_scripts.ode_edit_method.events import ControllerRequest
@@ -98,6 +101,49 @@ def _backend(alias: str, root: str) -> EasyEditMemitBackend:
 
 
 class ConcreteBackendTests(unittest.TestCase):
+    def test_adaptive_trial_uses_simple_quantized_rowblock_backend(self) -> None:
+        with tempfile.TemporaryDirectory() as root:
+            backend = _backend("llama3-8b-inst", root)
+            state = backend.current_state_id()
+            direction = FactorDirection(
+                layer=0,
+                weight_name="blocks.0.weight",
+                left=torch.tensor([[0.2], [-0.4]], dtype=torch.float64),
+                right=torch.tensor([[0.3], [0.1], [-0.2]], dtype=torch.float64),
+            )
+            proposal = LayerProposal(
+                layer=0,
+                state_id=state,
+                direction_id=direction.direction_id,
+                payload=direction,
+            )
+            for semantics in (
+                ProposalSemantics.CURRENT_SAME_SNAPSHOT,
+                ProposalSemantics.ENTRY_FROZEN_REBOUND,
+                ProposalSemantics.CURRENT_COORDINATE,
+            ):
+                with self.subTest(semantics=semantics.value):
+                    adaptive = ProposalBatch(
+                        snapshot_id=state,
+                        proposals=(proposal,),
+                        slopes=(1.0,),
+                        semantics=semantics,
+                    )
+                    trial = backend.trial(adaptive, (0.25,))
+                    self.assertIs(type(trial), QuantizedRowBlockFunctionalTrial)
+                    self.assertEqual(trial.row_block, 64)
+                    with trial:
+                        pass
+
+            native = ProposalBatch(
+                snapshot_id=state,
+                proposals=(proposal,),
+                slopes=(1.0,),
+                semantics=ProposalSemantics.NATIVE_ORDERED_TERMINAL,
+            )
+            with self.assertRaisesRegex(MethodContractError, "adaptive proposal"):
+                backend.trial(native, (0.25,))
+
     def test_static_lock_identities_bind_to_verified_manifest(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
