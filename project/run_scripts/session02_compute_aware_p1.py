@@ -92,6 +92,26 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _checkpoint_original_runtime_metadata(runtime: Any) -> dict[str, Any]:
+    """Expose and validate the loader's already-checked config dtype."""
+
+    metadata = dict(runtime.metadata())
+    config = getattr(runtime.model, "config", None)
+    metadata["config_torch_dtype"] = str(
+        getattr(config, "torch_dtype", None)
+    )
+    if metadata.get("dtype_policy") != CHECKPOINT_ORIGINAL_DTYPE_POLICY:
+        raise RuntimeError("P1 runtime did not preserve checkpoint dtype")
+    for field in (
+        "checkpoint_original_dtype",
+        "observed_parameter_dtype",
+        "config_torch_dtype",
+    ):
+        if metadata.get(field) != "torch.bfloat16":
+            raise RuntimeError(f"P1 runtime {field} is not torch.bfloat16")
+    return metadata
+
+
 def _terminal_geometry(
     ledger: OmegaLedger, receipt_count_before: int
 ) -> Mapping[str, Any] | None:
@@ -175,16 +195,7 @@ def run(args: argparse.Namespace) -> int:
     with offline_environment():
         runtime = load_fixed_model_checkpoint_original(args.model_alias)
     model_load_wall_seconds = time.perf_counter() - model_load_start
-    runtime_metadata = runtime.metadata()
-    if runtime_metadata.get("dtype_policy") != CHECKPOINT_ORIGINAL_DTYPE_POLICY:
-        raise RuntimeError("P1 runtime did not preserve checkpoint dtype")
-    for field in (
-        "checkpoint_original_dtype",
-        "observed_parameter_dtype",
-        "config_torch_dtype",
-    ):
-        if runtime_metadata.get(field) != "torch.bfloat16":
-            raise RuntimeError(f"P1 runtime {field} is not torch.bfloat16")
+    runtime_metadata = _checkpoint_original_runtime_metadata(runtime)
     _require_fields(
         runtime_metadata,
         lock["artifact_schema"]["manifest_model_required_fields"],

@@ -6,6 +6,7 @@ from contextlib import redirect_stderr
 import io
 import inspect
 import unittest
+from types import SimpleNamespace
 
 from project.run_scripts.ode_edit_method.contracts import (
     MethodContractError,
@@ -511,6 +512,45 @@ class NumericalLockTests(unittest.TestCase):
         self.assertTrue(p1_stage["sequential_model_state"])
         self.assertTrue(p1_stage["cumulative_omega_per_arm"])
         self.assertFalse(p1_stage["fresh_w0_atomic_edits"])
+
+    def test_p1_runtime_metadata_records_and_validates_actual_config_dtype(self) -> None:
+        torch = p1_executable_module.torch
+        base_metadata = {
+            "dtype_policy": "checkpoint-original",
+            "checkpoint_original_dtype": "torch.bfloat16",
+            "observed_parameter_dtype": "torch.bfloat16",
+        }
+
+        def runtime(*, config_dtype: object = torch.bfloat16, **updates: object):
+            metadata = {**base_metadata, **updates}
+            return SimpleNamespace(
+                model=SimpleNamespace(
+                    config=SimpleNamespace(torch_dtype=config_dtype)
+                ),
+                metadata=lambda: dict(metadata),
+            )
+
+        observed = p1_executable_module._checkpoint_original_runtime_metadata(
+            runtime(config_torch_dtype="stale-metadata-must-not-win")
+        )
+        self.assertEqual(observed["config_torch_dtype"], "torch.bfloat16")
+
+        for field in ("checkpoint_original_dtype", "observed_parameter_dtype"):
+            with self.subTest(field=field):
+                with self.assertRaisesRegex(RuntimeError, field):
+                    p1_executable_module._checkpoint_original_runtime_metadata(
+                        runtime(**{field: "torch.float32"})
+                    )
+        with self.assertRaisesRegex(RuntimeError, "config_torch_dtype"):
+            p1_executable_module._checkpoint_original_runtime_metadata(
+                runtime(config_dtype=torch.float32)
+            )
+        missing_config_dtype = runtime()
+        missing_config_dtype.model.config = SimpleNamespace()
+        with self.assertRaisesRegex(RuntimeError, "config_torch_dtype"):
+            p1_executable_module._checkpoint_original_runtime_metadata(
+                missing_config_dtype
+            )
 
 
 if __name__ == "__main__":
