@@ -86,9 +86,9 @@ P1_ARMS = (
     Arm.STATIC_SYNCHRONOUS,
     Arm.FULL_ODE_EDIT,
 )
-EXECUTION_TOKEN = "oracle-mean-event-v2-p1-after-p0-pass"
-P1_OUTPUT_PREFIX = "session02-oracle-mean-event-p1-v1"
-LEGACY_OUTPUT_PREFIX = "session02-oracle-mean-event-legacy-rca-v1"
+EXECUTION_TOKEN = "oracle-mean-event-v2-r1-p1-after-p0-pass"
+P1_OUTPUT_PREFIX = "session02-oracle-mean-event-p1-r1"
+LEGACY_OUTPUT_PREFIX = "session02-oracle-mean-event-p1-r1-legacy-rca"
 
 
 def build_parser() -> argparse.ArgumentParser:

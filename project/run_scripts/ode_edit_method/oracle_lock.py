@@ -54,6 +54,12 @@ def load_oracle_lock(path: str | Path = ORACLE_LOCK_PATH) -> dict[str, Any]:
         payload.get("schema_version")
         != "ode-edit-oracle-mean-event-development-lock/v2"
         or payload.get("status") != "TECHNICAL_P0P1_EXECUTION_LOCK"
+        or payload.get("instruction_id")
+        != "ODEEDIT-S02-ORACLE-MEAN-EVENT-V2-R1-P0P1"
+        or payload.get("parent_instruction_id")
+        != "ODEEDIT-S02-ORACLE-MEAN-EVENT-V2-P0P1"
+        or payload.get("revision_id")
+        != "R1_EXACT_ZERO_ACCOUNTING_FIREWALL"
         or event.get("mode") != ORACLE_MEAN_EVENT_MODE
         or event.get("rho") != ORACLE_REALIZATION_FRACTION
         or event.get("oracle_model_forwards_per_edit")
@@ -80,6 +86,9 @@ def load_oracle_lock(path: str | Path = ORACLE_LOCK_PATH) -> dict[str, Any]:
         or boundary.get("submission_authorized") is not False
         or boundary.get("retry_authorized") is not False
         or boundary.get("scientific_outcome_count") != 0
+        or boundary.get("p0_token") != "oracle-mean-event-v2-r1-p0"
+        or boundary.get("p1_token")
+        != "oracle-mean-event-v2-r1-p1-after-p0-pass"
     ):
         raise MethodContractError("oracle development lock differs from V2")
     epsilon = event.get("oracle_validity_epsilon")

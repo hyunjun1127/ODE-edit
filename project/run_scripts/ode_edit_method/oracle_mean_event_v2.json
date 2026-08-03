@@ -1,7 +1,9 @@
 {
   "schema_version": "ode-edit-oracle-mean-event-development-lock/v2",
   "status": "TECHNICAL_P0P1_EXECUTION_LOCK",
-  "instruction_id": "ODEEDIT-S02-ORACLE-MEAN-EVENT-V2-P0P1",
+  "instruction_id": "ODEEDIT-S02-ORACLE-MEAN-EVENT-V2-R1-P0P1",
+  "parent_instruction_id": "ODEEDIT-S02-ORACLE-MEAN-EVENT-V2-P0P1",
+  "revision_id": "R1_EXACT_ZERO_ACCOUNTING_FIREWALL",
   "base_main": "755e9cd733316673899b1d77849d857d63e68dc1",
   "base_proposal_id": "83eec5068acec673f7d9d0788e57ce0e9873a55785f7a6932026a4a2420c330b",
   "base_lock_sha256": "95376c554f01e00c9c5d71e99dfa3cbb5339a7534db8a62a9a05bc69c0be1bbb",
@@ -59,8 +61,8 @@
   "execution_boundary": {
     "submission_authorized": false,
     "retry_authorized": false,
-    "p0_token": "oracle-mean-event-v2-p0",
-    "p1_token": "oracle-mean-event-v2-p1-after-p0-pass",
+    "p0_token": "oracle-mean-event-v2-r1-p0",
+    "p1_token": "oracle-mean-event-v2-r1-p1-after-p0-pass",
     "scientific_outcome_count": 0
   }
 }

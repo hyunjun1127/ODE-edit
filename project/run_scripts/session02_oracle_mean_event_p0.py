@@ -78,8 +78,8 @@ P0_ARMS = (
     Arm.STATIC_SYNCHRONOUS,
     Arm.FULL_ODE_EDIT,
 )
-EXECUTION_TOKEN = "oracle-mean-event-v2-p0"
-OUTPUT_PREFIX = "session02-oracle-mean-event-p0-v1"
+EXECUTION_TOKEN = "oracle-mean-event-v2-r1-p0"
+OUTPUT_PREFIX = "session02-oracle-mean-event-p0-r1"
 
 
 def build_parser() -> argparse.ArgumentParser:

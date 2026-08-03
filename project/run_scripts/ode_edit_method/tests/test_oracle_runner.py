@@ -21,6 +21,11 @@ REPO = Path(__file__).resolve().parents[4]
 class OracleDevelopmentLockTests(unittest.TestCase):
     def test_lock_and_pair_dry_plans_are_common_and_non_authorizing(self) -> None:
         lock = load_oracle_lock()
+        self.assertEqual(
+            lock["instruction_id"],
+            "ODEEDIT-S02-ORACLE-MEAN-EVENT-V2-R1-P0P1",
+        )
+        self.assertEqual(lock["revision_id"], "R1_EXACT_ZERO_ACCOUNTING_FIREWALL")
         self.assertEqual(lock["event"]["rho"], 0.5)
         self.assertEqual(lock["event"]["context_weights"], "uniform")
         self.assertFalse(lock["event"]["per_context_decision"])
@@ -38,6 +43,12 @@ class OracleDevelopmentLockTests(unittest.TestCase):
             )
         self.assertNotEqual(
             p0["jobs"][0]["output_root"], p1["jobs"][0]["output_root"]
+        )
+        self.assertTrue(
+            all("oracle-mean-event-p0-r1" in row["output_root"] for row in p0["jobs"])
+        )
+        self.assertTrue(
+            all("oracle-mean-event-p1-r1" in row["output_root"] for row in p1["jobs"])
         )
 
     def test_mutated_policy_fails_closed(self) -> None:

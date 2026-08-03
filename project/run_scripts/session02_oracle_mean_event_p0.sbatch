@@ -6,13 +6,13 @@
 #SBATCH --gres=gpu:1
 #SBATCH --mem=65000M
 #SBATCH --time=04:00:00
-#SBATCH --output=local/logs/session02-oracle-mean-event-%x-%j.out
-#SBATCH --error=local/logs/session02-oracle-mean-event-%x-%j.err
+#SBATCH --output=local/logs/session02-oracle-mean-event-p0-r1-%x-%j.out
+#SBATCH --error=local/logs/session02-oracle-mean-event-p0-r1-%x-%j.err
 
 set -euo pipefail
 
 : "${ODEEDIT_ORACLE_MEAN_P0_SUBMISSION_AUTHORIZED:?separate GH P0 authority required}"
-test "${ODEEDIT_ORACLE_MEAN_P0_SUBMISSION_AUTHORIZED}" = "oracle-mean-event-v2-p0"
+test "${ODEEDIT_ORACLE_MEAN_P0_SUBMISSION_AUTHORIZED}" = "oracle-mean-event-v2-r1-p0"
 : "${MODEL_ALIAS:?set one canonical model alias}"
 : "${OUTPUT_ROOT:?set the exact dry-plan output root}"
 : "${SLURM_SUBMIT_DIR:?Slurm submission directory is required}"

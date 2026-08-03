@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import inspect
+import math
 import unittest
 from types import SimpleNamespace
 
@@ -16,6 +17,7 @@ from project.run_scripts.ode_edit_method.event_strength import (
     build_event_strength_trace,
 )
 from project.run_scripts.ode_edit_method.events import event_from_log_likelihoods
+from project.run_scripts.ode_edit_method.instrumentation import EditInstrumentation
 
 
 TAU = 0.1
@@ -170,6 +172,63 @@ class AbsoluteEventTraceTests(unittest.TestCase):
             "qwen2",
         ):
             self.assertNotIn(forbidden, source)
+
+
+class PathAwareRawFirewallTests(unittest.TestCase):
+    def test_actual_compute_snapshot_zero_accounting_is_allowed(self) -> None:
+        snapshot = EditInstrumentation("firewall-snapshot").finalize().to_dict()
+        self.assertEqual(snapshot["component_wall_seconds"]["evaluation"], 0.0)
+        self.assertEqual(snapshot["component_gpu_seconds"]["evaluation"], 0.0)
+        assert_raw_free({"schema_version": "p0-compute", **snapshot})
+        assert_raw_free({"p1_compute_row": snapshot})
+
+    def test_exact_zero_accounting_leaf_paths_are_allowed(self) -> None:
+        for parent in ("component_wall_seconds", "component_gpu_seconds"):
+            for value in (0, 0.0):
+                with self.subTest(parent=parent, value=value):
+                    assert_raw_free({parent: {"evaluation": value}})
+                    assert_raw_free({"row": {parent: {"evaluation": value}}})
+
+    def test_zero_accounting_rejects_invalid_values(self) -> None:
+        invalid = (True, 1, -1.0, "0", [], {}, math.nan, math.inf, -math.inf)
+        for parent in ("component_wall_seconds", "component_gpu_seconds"):
+            for value in invalid:
+                with self.subTest(parent=parent, value=repr(value)):
+                    with self.assertRaises(MethodContractError):
+                        assert_raw_free({parent: {"evaluation": value}})
+
+    def test_evaluation_outside_exact_accounting_paths_fails_closed(self) -> None:
+        forbidden = (
+            {"evaluation": 0.0},
+            {"other": {"evaluation": 0.0}},
+            {"component_wall_seconds": {"payload": {"evaluation": 0.0}}},
+            {"component_gpu_seconds": {"evaluation": {"value": 0.0}}},
+            {"component_wall_seconds": [{"evaluation": 0.0}]},
+        )
+        for payload in forbidden:
+            with self.subTest(payload=payload):
+                with self.assertRaises(MethodContractError):
+                    assert_raw_free(payload)
+
+    def test_generation_and_other_raw_fields_remain_forbidden_everywhere(self) -> None:
+        for key in (
+            "generation",
+            "prompt",
+            "subject",
+            "target_new",
+            "target_old",
+            "raw_context",
+            "context_templates",
+            "templates",
+        ):
+            for payload in (
+                {key: 0.0},
+                {"component_wall_seconds": {key: 0.0}},
+                {"row": [{key: "secret"}]},
+            ):
+                with self.subTest(key=key, payload=payload):
+                    with self.assertRaises(MethodContractError):
+                        assert_raw_free(payload)
 
 
 if __name__ == "__main__":

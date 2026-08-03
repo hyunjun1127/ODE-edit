@@ -31,20 +31,45 @@ _FORBIDDEN_RAW_KEYS = frozenset(
         "generation",
     }
 )
+_ZERO_EVALUATION_ACCOUNTING_PARENTS = frozenset(
+    {"component_wall_seconds", "component_gpu_seconds"}
+)
 
 
 def assert_raw_free(value: Any, label: str = "event-strength payload") -> None:
+    """Reject raw fields, except the two exact zero-only accounting leaves."""
+
+    _assert_raw_free(value, label=label, path=())
+
+
+def _assert_raw_free(value: Any, *, label: str, path: tuple[str, ...]) -> None:
     if isinstance(value, Mapping):
-        forbidden = _FORBIDDEN_RAW_KEYS.intersection(value)
-        if forbidden:
-            raise MethodContractError(
-                f"{label} contains forbidden raw fields: {sorted(forbidden)}"
-            )
-        for child in value.values():
-            assert_raw_free(child, label)
+        for key, child in value.items():
+            child_path = path + (str(key),)
+            if key in _FORBIDDEN_RAW_KEYS:
+                is_zero_accounting_leaf = (
+                    key == "evaluation"
+                    and len(child_path) >= 2
+                    and child_path[-2] in _ZERO_EVALUATION_ACCOUNTING_PARENTS
+                )
+                if not is_zero_accounting_leaf:
+                    raise MethodContractError(
+                        f"{label} contains forbidden raw fields: {[key]}"
+                    )
+                if (
+                    isinstance(child, bool)
+                    or not isinstance(child, (int, float))
+                    or not math.isfinite(float(child))
+                    or float(child) != 0.0
+                ):
+                    raise MethodContractError(
+                        f"{label} contains invalid zero-only evaluation accounting"
+                    )
+                continue
+            _assert_raw_free(child, label=label, path=child_path)
     elif isinstance(value, (list, tuple)):
         for child in value:
-            assert_raw_free(child, label)
+            _assert_raw_free(child, label=label, path=path + ("[]",))
 
 
 def event_reading_from_history(row: Mapping[str, Any]) -> EventReading:
