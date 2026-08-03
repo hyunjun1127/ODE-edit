@@ -7,6 +7,8 @@
   `028f712d9e69cc5a5fe8ee1fea620562931b8afa0b618b7527e11fa0b1913eba`
 - revised execution spec:
   [`../../plans/global/2026-08-03-session02-compute-aware-main-table-spec.md`](../../plans/global/2026-08-03-session02-compute-aware-main-table-spec.md)
+- post-implementation GH review:
+  [`2026-08-03-session02-sh1-numerical-lock-gh-review-v1.md`](2026-08-03-session02-sh1-numerical-lock-gh-review-v1.md)
 
 ## 결론
 
@@ -64,3 +66,7 @@ overhead나 `S_max`의 직접 근거가 아니다. `cheap RHS`, `short/event ter
 현재 열린 것은 compute-aware implementation hypothesis와 실행 설계뿐이다. ODE-Edit이
 Native보다 빠르다거나, 3--6 refresh가 필요하다거나, retention--compute frontier를
 개선한다는 claim은 아직 열리지 않았다.
+
+2026-08-03 SH1 head `8275f653` 검토 뒤에도 이 경계는 유지한다. Concrete model backend,
+executable runner, fair Native/Full timing과 geometry-normalized trust radius가 아직 revision
+중이므로 numerical lock과 GPU/Slurm 권한은 열리지 않았다.
