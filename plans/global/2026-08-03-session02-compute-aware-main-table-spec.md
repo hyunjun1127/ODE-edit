@@ -1,8 +1,8 @@
-# Session 02 — Compute-aware Main Table Structural Lock v2
+# Session 02 — Compute-aware Main Table Structural Lock v3
 
 - 작성: **2026-08-03 KST**
 - GH: `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`
-- 상태: **`PRIMARY_STRUCTURAL_LOCK; INVARIANT_IMPLEMENTATION_ALLOWED; NUMERICAL_LOCK_AND_SLURM_HOLD`**
+- 상태: **`PRIMARY_STRUCTURAL_LOCK; NUMERICAL_LOCK_REVISION_REQUIRED; GPU_SLURM_HOLD`**
 - method: **ODE-Edit**
 - actuator: **MEMIT first**
 - models: `Llama3-8B-Instruct`, `Qwen2.5-7B-Instruct`
@@ -11,6 +11,11 @@
 
 이 문서는 첫 main table의 primary execution spec이다. 이전
 `2026-08-03-session02-fast-main-table-spec.md`와 충돌하면 이 문서를 우선한다.
+
+2026-08-03 SH1 head `8275f653` 검토 뒤 추가된 v3가 v2의 counter, timer,
+trust-radius 조항보다 우선한다. 해당 head는 reusable invariant skeleton과 35개 CPU test를
+제공했지만 실제 model-scale backend와 executable runner는 아직 제공하지 않았으므로 numerical
+lock과 GPU 실행 권한을 부여하지 않는다.
 
 ## 1. GH 판정
 
@@ -48,28 +53,45 @@ Static 또는 One-refresh가 같은 기능을 더 싸게 만들면 ODE를 단순
 
 ## 3. Canonical compute accounting
 
+Counter는 실제 model call과 논리적 controller action을 섞지 않는다.
+
 - `N_z`: direct-z optimization count
-- `N_state_fwd`: trial과 별도로 실행한 current-state forward count
-- `N_field`: accepted-state actuator field build count
+- `N_model_fwd`: evaluation을 제외한 실제 full-model forward invocation count
+- `N_event_fwd`: `N_model_fwd` 중 rewrite event 측정에 사용한 invocation count
+- `N_field_state_fwd`: `N_model_fwd` 중 current-state field 구축에 사용한 invocation count
+- `N_field`: accepted-state joint field build count
+- `N_proposal_build`: native, scalar, synchronous, coordinate를 포함한 proposal-build count
+- `N_native_sweep`: ordered native terminal sweep count
 - `N_bw`: rewrite backward count
 - `K_acc`: accepted parameter transition count
-- `N_trial`: accepted와 rejected trial forward count
+- `N_trial`: accepted와 rejected functional trial의 논리적 시도 수
 - `N_reject`: rejected trial count
-- `N_eval`: controller freeze 뒤 evaluation forward count
+- `N_write`: committed write transaction count
+- `N_eval`: controller freeze 뒤 evaluation invocation count
 
-Controller 비용은 다음처럼 분리한다.
+`N_trial`은 forward count가 아니다. Trial에서 수행한 event forward는 `N_trial`과
+`N_event_fwd`에 각각 기록하되 비용식에서 두 번 더하지 않는다. 과거 `N_state_fwd`는 이 정의와
+중복되므로 폐기하거나 위 counter들의 합으로만 파생한다.
+
+공식 비용은 counter에 평균 단가를 곱해 추정하지 않고 동기화된 component timer의 합으로
+계산한다.
 
 \[
-C_{edit}=C_z
-+N_{state\_fwd}C_{state\_fwd}
-+N_{field}(C_{proposal}+C_{bw\_hook})
-+N_{trial}C_{trial}
-+C_{QP}+C_{commit}.
+C_{editor}=C_z+C_{checkpoint}+C_{event}+C_{proposal}+C_{bw\_hook}
++C_{QP}+C_{trial}+C_{commit}+C_{restore}+C_{terminal\_geometry}.
 \]
 
-`N_eval`과 downstream evaluator 비용은 controller cost와 별도 보고한다.
-`GPU sec/edit`와 `Full/Native` ratio는 direct-z를 포함하고 `N_eval`을 제외한 end-to-end
-editor time으로 계산한다.
+`controller_gpu_seconds`와 `controller_wall_seconds`를 모두 보고한다. Native와 Scalar의
+ordered terminal proposal, entry checkpoint/restore, terminal net geometry도 이 합에서 빠질 수
+없다. Context-template 생성이나 model warm-up 같은 run-level setup은 별도 계측하고
+
+\[
+C_{amortized/edit}=C_{editor}+C_{setup}/N_{edits}
+\]
+
+를 함께 보고한다. `N_eval`과 downstream evaluator 비용은 controller cost와 별도다.
+`Full/Native` ratio는 direct-z를 포함한 동일 범위의 editor time으로 계산하며 GPU time과 wall
+time을 둘 다 제시한다.
 
 필수 불변식은 다음이다.
 
@@ -77,7 +99,8 @@ editor time으로 계산한다.
 - per-layer backward `=0`
 - field rebuild on reject `=0`
 - dense weight copy for trial `=0`
-- first-hit 뒤 field/trial/write `=0`
+- accepted step마다 full target weight CPU backup `=0`
+- first-hit 뒤 z/proposal/field/trial/write `=0` (Native 포함)
 - QP coefficient와 actual functional write coefficient 일치
 
 ## 4. Efficient field/trial implementation
@@ -104,6 +127,25 @@ W_lx \mapsto W_lx+y_lU_l(V_l^\top x).
 \]
 
 Reject이면 branch를 폐기하고 같은 field에서 `h`만 줄여 QP와 trial을 다시 실행한다.
+
+Accepted write의 failure safety는 edit-entry checkpoint 하나와 outer transaction이 담당한다.
+매 accepted round마다 모든 target weight를 CPU로 복제하는 구현은 계산량 계약을 위반한다.
+Injected mid-commit failure에서 weight, RNG와 controller state가 entry와 exact identity여야 하며
+checkpoint/restore 시간은 숨기지 않는다.
+
+### Event batching
+
+Old/new teacher-forced score는 가능한 경우 하나의 padded combined batch forward에서 계산하고
+target별 length normalization은 유지한다. Combined 결과는 two-forward reference와 locked
+tolerance 안에서 같아야 한다. Concrete backend 제약으로 불가능하면 두 invocation을
+`N_model_fwd`와 `N_event_fwd`에 그대로 기록하고 P0 technical HOLD로 보고한다.
+
+### Terminal geometry
+
+Capacity는 micro-step energy 합이 아니라 entry-to-terminal **net write**의 C-energy다. 이
+계산도 controller timer에 포함한다. P0 exact dense reference가 controller cost의 10%를 넘으면
+P1 전에 accumulated low-rank cross-term evaluator를 구현하고 dense reference identity를
+통과시킨다.
 
 ### Accepted-trial graph reuse
 
@@ -160,6 +202,10 @@ cap failure를 숨기지 않는다. 이 조건은 retention outcome을 보지 �
 P0/P1 산출물은 component time, peak memory, hook identity, field/retry invariant,
 `K_acc`와 proposal/allocation drift다.
 
+P0를 열기 전에 toy backend가 아닌 ODE-edit-side concrete EasyEdit/MEMIT backend,
+differentiable smooth event, local executable runner와 fail-closed sbatch template이 있어야 한다.
+Dry-plan renderer만으로는 P0 실행 준비를 통과하지 않는다.
+
 ### P2 — 10-edit ODE/compute identity
 
 | Model | Edits | Orders | Arms |
@@ -191,11 +237,12 @@ AlphaEdit, 1K+, RK4/Heun, hard signed barrier는 P3 뒤에만 연다.
 
 ### Compute/trajectory table
 
-| Method | GPU sec/edit ↓ | Total/Native ↓ | State F/edit ↓ | N_field/edit ↓ | Trial F/edit ↓ | Median K | P90 K | Pr(K>=3) | Reject/edit ↓ | Peak GiB ↓ |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Method | GPU sec/edit ↓ | Wall sec/edit ↓ | Total/Native ↓ | Model F/edit ↓ | Proposal/edit ↓ | N_field/edit ↓ | Trial/edit ↓ | Median K | P90 K | Pr(K>=3) | Reject/edit ↓ | Peak GiB ↓ |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 
-Component profiler에는 `C_z`, state forward, proposal solve, hook backward, QP, trial,
-retry, commit 시간을 따로 둔다. Evaluation time은 섞지 않는다.
+Component profiler에는 setup, `C_z`, checkpoint, event forward, state forward, native/synchronous
+proposal solve, hook backward, QP, trial, retry, commit, restore와 terminal geometry를 따로 둔다.
+Evaluation time은 섞지 않는다.
 
 Mechanism panel에는 field C-cosine, efficiency ranking turnover, active support turnover,
 allocation cosine, first-hit round, Omega/max-load/Gini를 둔다. 100-edit에서는 edit age별
@@ -250,6 +297,18 @@ P0 profiler 뒤에는 prelocked technical selection rule로 backend만 고른다
 trust, cap, case 또는 order를 performance outcome에 맞춰 바꾸지 않는다. Canonical P1은
 selected common backend로 네 case를 다시 실행한다.
 
+Trust radius는 절대 `h_0=h_max=0.25`로 두지 않는다. Entry의 raw synchronous joint proposal을
+unit-C normalization하기 전에 측정한 `D_sync_entry`를 공통 reference로 하여
+
+\[
+h_0=\tfrac14D_{sync,entry},\qquad h_{max}=\tfrac12D_{sync,entry}
+\]
+
+로 정한다. 이는 native distance를 terminal budget으로 강제하는 규칙이 아니라 초기
+trust-radius의 단위 보정이다. `D_sync_entry<=denominator_epsilon`이면 fail-close한다. P0에서는
+같은 entry의 Native arm으로 `h_0/D_native`를 진단하고, 한 모델이라도 `[1/8,1/2]` 밖이면 P1
+lock을 HOLD한다. 모델별 radius rescue는 금지한다.
+
 ## 11. Execution boundary
 
 - EasyEdit source는 read-only; ODE-edit-side hook만 사용
@@ -258,5 +317,8 @@ selected common backend로 네 case를 다시 실행한다.
 - SH1이 implementation/P0/P1/P2/P3를 실행하고 SH2는 locked-source reproduction 담당
 - server1 cap 4 GPU, `198117 MiB/GPU`; 각 제출은 별도 envelope 필요
 - Llama와 Qwen은 같은 batch로 제출
+- 현재 revision envelope의 GPU cap은 0이며 Slurm 제출은 금지다. Concrete backend, fair
+  accounting, revised lock과 CPU/dry gates를 GH가 다시 승인한 뒤에만 별도 P0 submit envelope를
+  발행한다.
 - 결과별 별도 Terra Ultra analysis report 요구 유지; runtime mismatch면 claim promotion HOLD
 - 현재 Slurm은 numerical lock과 GH submit envelope 전까지 HOLD
