@@ -24,7 +24,10 @@ from .derivatives import (
     assert_scalar_gate_matches_hook,
     directional_gradient_scope,
 )
-from .functional_trial import LowRankFunctionalTrial
+from .functional_trial import (
+    LowRankFunctionalTrial,
+    QuantizedRowBlockFunctionalTrial,
+)
 from .hooks import apply_accepted_factors
 from .instrumentation import EditInstrumentation, InstrumentationSnapshot
 from .lock import controller_config, dry_plan, load_lock
@@ -52,6 +55,7 @@ __all__ = [
     "InstrumentationSnapshot",
     "LayerProposal",
     "LowRankFunctionalTrial",
+    "QuantizedRowBlockFunctionalTrial",
     "FiveArmRunner",
     "MethodBackend",
     "MEMIT_PROPOSAL_CAPABILITIES",

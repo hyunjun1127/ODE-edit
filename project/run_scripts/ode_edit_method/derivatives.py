@@ -172,7 +172,12 @@ def _activation_low_rank_contraction(
     grad_output: torch.Tensor,
     direction: FactorDirection,
 ) -> torch.Tensor:
-    """Compute ``<g, x (U V^T)^T>`` without dense ``B`` or ``grad_W``."""
+    """Contract the canonical direct output-space continuous tangent.
+
+    Actual BF16/FP16 model activations use a float32 tangent.  A float64
+    tangent is retained only for the CPU correctness oracle.  This creates an
+    output-panel temporary, never a dense target-weight tensor or gradient.
+    """
 
     if module_input.shape[:-1] != grad_output.shape[:-1]:
         raise MethodContractError("actuator hook input/gradient panels differ")
@@ -181,15 +186,22 @@ def _activation_low_rank_contraction(
         if module_input.dtype is torch.float64 or grad_output.dtype is torch.float64
         else torch.float32
     )
-    x = module_input.reshape(-1, module_input.shape[-1]).to(dtype=compute_dtype)
-    g = grad_output.reshape(-1, grad_output.shape[-1]).to(dtype=compute_dtype)
-    left = direction.left.to(device=g.device, dtype=compute_dtype)
-    right = direction.right.to(device=x.device, dtype=compute_dtype)
-    if x.shape[1] != right.shape[0] or g.shape[1] != left.shape[0]:
+    tangent_input = module_input.reshape(-1, module_input.shape[-1]).to(
+        dtype=compute_dtype
+    )
+    tangent_gradient = grad_output.reshape(-1, grad_output.shape[-1]).to(
+        dtype=compute_dtype
+    )
+    left = direction.left.to(device=tangent_gradient.device, dtype=compute_dtype)
+    right = direction.right.to(device=tangent_input.device, dtype=compute_dtype)
+    if (
+        tangent_input.shape[1] != right.shape[0]
+        or tangent_gradient.shape[1] != left.shape[0]
+    ):
         raise MethodContractError("actuator hook activation/factor geometry differs")
-    # For B = U V^T and a linear module y = x W^T,
-    # dPhi/dalpha = sum_rows (g U) * (x V).
-    return torch.sum((g @ left) * (x @ right))
+    projected_input = tangent_input @ right
+    output_delta = projected_input @ left.transpose(0, 1)
+    return torch.sum(tangent_gradient * output_delta)
 
 
 class ActuatorDirectionalHook:
@@ -386,9 +398,10 @@ class ScalarGateDirectionalReference:
     """Independent low-rank functional-graph derivative oracle.
 
     Each layer owns one float32 scalar ``alpha``.  The forward hook reproduces
-    the functional-trial arithmetic at ``alpha=0``: factors and factorized
-    matmuls use the hidden dtype, the delta and alpha are cast to the module
-    output dtype, and the zero delta is added to that output.  One
+    the canonical continuous tangent at ``alpha=0``: activations and factors
+    use float32 for BF16/FP16 models (float64 only in the CPU oracle), alpha is
+    multiplied before one final output-dtype cast, and the zero delta is added
+    to the module output.  One
     ``torch.autograd.grad`` call then obtains all ``dPhi/dalpha`` values.
 
     This path never differentiates a target weight and shares neither captured
@@ -435,14 +448,19 @@ class ScalarGateDirectionalReference:
             if not isinstance(output, torch.Tensor):
                 raise MethodContractError("scalar-gate module has non-tensor output")
             hidden = inputs[0]
-            left = direction.left.to(device=hidden.device, dtype=hidden.dtype)
-            right = direction.right.to(device=hidden.device, dtype=hidden.dtype)
+            tangent_dtype = (
+                torch.float64
+                if hidden.dtype is torch.float64 or output.dtype is torch.float64
+                else torch.float32
+            )
+            tangent_input = hidden.to(dtype=tangent_dtype)
+            left = direction.left.to(device=hidden.device, dtype=tangent_dtype)
+            right = direction.right.to(device=hidden.device, dtype=tangent_dtype)
             if hidden.shape[-1] != right.shape[0] or output.shape[-1] != left.shape[0]:
                 raise MethodContractError("scalar-gate activation/factor shapes differ")
-            delta = (hidden @ right) @ left.transpose(0, 1)
-            output_delta = delta.to(dtype=output.dtype)
-            output_alpha = alpha.to(device=output.device, dtype=output.dtype)
-            gated = output + output_delta * output_alpha
+            output_delta = (tangent_input @ right) @ left.transpose(0, 1)
+            tangent_alpha = alpha.to(device=output.device, dtype=tangent_dtype)
+            gated = output + (tangent_alpha * output_delta).to(dtype=output.dtype)
             if gated.dtype != output.dtype or not torch.equal(
                 gated.detach(), output.detach()
             ):
