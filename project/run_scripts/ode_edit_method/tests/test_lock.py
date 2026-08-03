@@ -7,7 +7,10 @@ import io
 import inspect
 import unittest
 
-from project.run_scripts.ode_edit_method.contracts import MethodContractError
+from project.run_scripts.ode_edit_method.contracts import (
+    MethodContractError,
+    canonical_hash,
+)
 from project.run_scripts.ode_edit_method.lock import (
     controller_config,
     dry_plan,
@@ -33,6 +36,18 @@ class NumericalLockTests(unittest.TestCase):
         cls.lock = loaded
 
     def test_common_controller_and_exact_case_order_are_locked(self) -> None:
+        self.assertEqual(
+            self.lock["schema_version"],
+            "ode-edit-compute-aware-numerical-lock-proposal/v5",
+        )
+        self.assertEqual(
+            self.lock["instruction_id"],
+            "ODEEDIT-S02-BF16-CONTEXT-LOCK-V5-PREP-V1",
+        )
+        self.assertEqual(
+            self.lock["parent_instruction_id"],
+            "ODEEDIT-S02-BF16-CONTEXT-LOCK-PROBE-PAIR-V1",
+        )
         config = controller_config(self.lock)
         self.assertEqual(config.s_max, 6)
         self.assertEqual(
@@ -62,8 +77,10 @@ class NumericalLockTests(unittest.TestCase):
         self.assertEqual(config.h_max_fraction, 0.5)
 
     def test_p01_plan_is_paired_fail_closed_and_within_cap(self) -> None:
+        expected_proposal_id = canonical_hash(self.lock)
         for stage, expected_cases in (("p0", 1), ("p1", 4)):
             plan = dry_plan(self.lock, stage)
+            self.assertEqual(plan["proposal_id"], expected_proposal_id)
             self.assertEqual(plan["status"], "DRY_RUN_ONLY; NO_GPU; NO_SLURM")
             self.assertTrue(plan["same_submission_batch_required"])
             self.assertEqual(plan["aggregate_gpus"], 2)
@@ -101,6 +118,89 @@ class NumericalLockTests(unittest.TestCase):
                         output_root,
                     )
                     self.assertNotIn("session02-p0-tech-v1", output_root)
+                    self.assertTrue(output_root.endswith(expected_proposal_id[:8]))
+
+    def test_v5_context_provenance_is_exact_and_raw_free(self) -> None:
+        expected = {
+            "llama3-8b-inst": {
+                "manifest_id": "22c26dc11fb13acd51d5bdc483e4b9dd46fa40029fe10b167bff1a1642f7e686",
+                "templates_sha256": "0a2069beafc60e170251103028fde716a160a60a8048bb000a649cf26c233bb0",
+                "terminal_manifest_sha256": "d37bc471629449100e369e3aec2e9508ea32d29ffeb530e2a7eb07ea6c19c94e",
+                "raw_context_manifest_sha256": "f1f428a0cd8ed5c512179d971a01f40c8b3ba0dfea7269d7ec16e24559953991",
+                "legacy_id": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
+            },
+            "qwen2.5-7b-inst": {
+                "manifest_id": "5b7144416638fb3deec1f12f204a401e06edd1293aa2fe4a22f9080f3e8bd41b",
+                "templates_sha256": "ff84e360b7a4a413275da818862c7c4431ac21c7fbeaf26e4d2296278f9a4bf9",
+                "terminal_manifest_sha256": "bd7e169c2c3abe255e11563220deb558f7c30c1e22713d8be030a760c7c9d79d",
+                "raw_context_manifest_sha256": "6bd9ba263f4774b65fce31c965c27344625402ee1f19f4129542fd5e08132084",
+                "legacy_id": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
+            },
+        }
+        validate_lock(self.lock)
+        for alias, identities in expected.items():
+            context = self.lock["models"][alias]["context_manifest"]
+            self.assertEqual(context["manifest_id"], identities["manifest_id"])
+            self.assertEqual(
+                context["templates_sha256"], identities["templates_sha256"]
+            )
+            self.assertEqual(
+                context["terminal_manifest_sha256"],
+                identities["terminal_manifest_sha256"],
+            )
+            self.assertEqual(
+                context["raw_context_manifest_sha256"],
+                identities["raw_context_manifest_sha256"],
+            )
+            self.assertEqual(context["group_sizes"], [1, 5])
+            self.assertEqual(context["generation_dtype_policy"], "checkpoint-original")
+            self.assertEqual(context["repeat_count"], 2)
+            self.assertTrue(context["exact_match"])
+            legacy = context["legacy_provenance"]
+            self.assertEqual(legacy["manifest_id"], identities["legacy_id"])
+            self.assertFalse(legacy["method_evidence"])
+            self.assertFalse(
+                {"templates", "raw_path", "credentials"} & set(context)
+            )
+
+    def test_v5_context_provenance_mutations_fail_closed(self) -> None:
+        legacy_ids = {
+            "llama3-8b-inst": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
+            "qwen2.5-7b-inst": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
+        }
+
+        mutations = [
+            lambda value: value.__setitem__(
+                "schema_version", "ode-edit-compute-aware-numerical-lock-proposal/v4"
+            ),
+            lambda value: value["models"]["llama3-8b-inst"][
+                "context_manifest"
+            ].__setitem__("manifest_id", legacy_ids["llama3-8b-inst"]),
+            lambda value: value["models"]["qwen2.5-7b-inst"][
+                "context_manifest"
+            ].__setitem__("manifest_id", legacy_ids["qwen2.5-7b-inst"]),
+            lambda value: value["models"]["llama3-8b-inst"][
+                "context_manifest"
+            ].__setitem__("repeat_count", 1),
+            lambda value: value["models"]["llama3-8b-inst"][
+                "context_manifest"
+            ].__setitem__("exact_match", False),
+            lambda value: value["models"]["qwen2.5-7b-inst"][
+                "context_manifest"
+            ].__setitem__("generation_dtype_policy", "legacy-motivation-float32"),
+            lambda value: value["models"]["qwen2.5-7b-inst"][
+                "context_manifest"
+            ].__setitem__("templates_sha256", "0" * 64),
+            lambda value: value["models"]["llama3-8b-inst"][
+                "context_manifest"
+            ]["legacy_provenance"].__setitem__("method_evidence", True),
+        ]
+        for mutate in mutations:
+            with self.subTest(mutate=mutate):
+                candidate = copy.deepcopy(self.lock)
+                mutate(candidate)
+                with self.assertRaises(MethodContractError):
+                    validate_lock(candidate)
 
     def test_launcher_requires_explicit_dry_run(self) -> None:
         parser = build_parser()

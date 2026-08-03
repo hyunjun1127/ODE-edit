@@ -1,10 +1,10 @@
 {
-  "schema_version": "ode-edit-compute-aware-numerical-lock-proposal/v4",
+  "schema_version": "ode-edit-compute-aware-numerical-lock-proposal/v5",
   "status": "OUTCOME_FREE_PROPOSAL_PENDING_GH_APPROVAL",
-  "instruction_id": "ODEEDIT-S02-P0-ORIGINAL-DTYPE-AND-SIMPLE-T-V1",
-  "parent_instruction_id": "ODEEDIT-S02-P0-QUANTIZED-ROWBLOCK-TRIAL-PROTOTYPE-V1",
-  "revision_id": "ODEEDIT-S02-P0-ORIGINAL-DTYPE-AND-SIMPLE-T-V1",
-  "canonical_main_commit": "f8a613bd2e8b739dc6972576e298733fbbe13151",
+  "instruction_id": "ODEEDIT-S02-BF16-CONTEXT-LOCK-V5-PREP-V1",
+  "parent_instruction_id": "ODEEDIT-S02-BF16-CONTEXT-LOCK-PROBE-PAIR-V1",
+  "revision_id": "ODEEDIT-S02-BF16-CONTEXT-LOCK-V5-PREP-V1",
+  "canonical_main_commit": "26a8ffe9b7077e9b9707c5b92f5704c5fb6386e7",
   "canonical_spec": {
     "path": "plans/global/2026-08-03-session02-compute-aware-main-table-spec.md",
     "sha256": "8ee7f5557f298bb67c1e85ed6de1aaa6a285b7b8d28ecd4dcbe1973bdf85531d"
@@ -68,8 +68,20 @@
       "safetensors_total_tensors": 291,
       "context_manifest": {
         "source": "llama3-8b-inst:fresh-seed-17",
-        "manifest_id": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
-        "group_sizes": [1, 5]
+        "manifest_id": "22c26dc11fb13acd51d5bdc483e4b9dd46fa40029fe10b167bff1a1642f7e686",
+        "group_sizes": [1, 5],
+        "generation_dtype_policy": "checkpoint-original",
+        "templates_sha256": "0a2069beafc60e170251103028fde716a160a60a8048bb000a649cf26c233bb0",
+        "repeat_count": 2,
+        "exact_match": true,
+        "probe_execution_head": "37a713233b95614d2743a12abc4d1036daed95f0",
+        "terminal_manifest_sha256": "d37bc471629449100e369e3aec2e9508ea32d29ffeb530e2a7eb07ea6c19c94e",
+        "raw_context_manifest_sha256": "f1f428a0cd8ed5c512179d971a01f40c8b3ba0dfea7269d7ec16e24559953991",
+        "legacy_provenance": {
+          "generation_dtype_policy": "legacy-motivation-float32",
+          "manifest_id": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
+          "method_evidence": false
+        }
       }
     },
     "qwen2.5-7b-inst": {
@@ -85,8 +97,20 @@
       "safetensors_total_tensors": 339,
       "context_manifest": {
         "source": "qwen2.5-7b-inst:fresh-seed-17",
-        "manifest_id": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
-        "group_sizes": [1, 5]
+        "manifest_id": "5b7144416638fb3deec1f12f204a401e06edd1293aa2fe4a22f9080f3e8bd41b",
+        "group_sizes": [1, 5],
+        "generation_dtype_policy": "checkpoint-original",
+        "templates_sha256": "ff84e360b7a4a413275da818862c7c4431ac21c7fbeaf26e4d2296278f9a4bf9",
+        "repeat_count": 2,
+        "exact_match": true,
+        "probe_execution_head": "37a713233b95614d2743a12abc4d1036daed95f0",
+        "terminal_manifest_sha256": "bd7e169c2c3abe255e11563220deb558f7c30c1e22713d8be030a760c7c9d79d",
+        "raw_context_manifest_sha256": "6bd9ba263f4774b65fce31c965c27344625402ee1f19f4129542fd5e08132084",
+        "legacy_provenance": {
+          "generation_dtype_policy": "legacy-motivation-float32",
+          "manifest_id": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
+          "method_evidence": false
+        }
       }
     }
   },

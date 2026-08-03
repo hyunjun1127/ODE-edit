@@ -1,4 +1,4 @@
-"""Strict loader and dry-plan projection for the outcome-free v4 proposal."""
+"""Strict loader and dry-plan projection for the outcome-free v5 proposal."""
 
 from __future__ import annotations
 
@@ -13,6 +13,46 @@ from .contracts import Arm, ControllerConfig, MethodContractError, canonical_has
 
 LOCK_PATH = Path(__file__).with_name("numerical_lock_proposal.json")
 MODEL_ALIASES = ("llama3-8b-inst", "qwen2.5-7b-inst")
+LOCK_SCHEMA = "ode-edit-compute-aware-numerical-lock-proposal/v5"
+LOCK_INSTRUCTION = "ODEEDIT-S02-BF16-CONTEXT-LOCK-V5-PREP-V1"
+LOCK_PARENT = "ODEEDIT-S02-BF16-CONTEXT-LOCK-PROBE-PAIR-V1"
+LOCK_BASE_COMMIT = "26a8ffe9b7077e9b9707c5b92f5704c5fb6386e7"
+CONTEXT_LOCKS: Mapping[str, Mapping[str, Any]] = {
+    "llama3-8b-inst": {
+        "source": "llama3-8b-inst:fresh-seed-17",
+        "manifest_id": "22c26dc11fb13acd51d5bdc483e4b9dd46fa40029fe10b167bff1a1642f7e686",
+        "group_sizes": [1, 5],
+        "generation_dtype_policy": "checkpoint-original",
+        "templates_sha256": "0a2069beafc60e170251103028fde716a160a60a8048bb000a649cf26c233bb0",
+        "repeat_count": 2,
+        "exact_match": True,
+        "probe_execution_head": "37a713233b95614d2743a12abc4d1036daed95f0",
+        "terminal_manifest_sha256": "d37bc471629449100e369e3aec2e9508ea32d29ffeb530e2a7eb07ea6c19c94e",
+        "raw_context_manifest_sha256": "f1f428a0cd8ed5c512179d971a01f40c8b3ba0dfea7269d7ec16e24559953991",
+        "legacy_provenance": {
+            "generation_dtype_policy": "legacy-motivation-float32",
+            "manifest_id": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
+            "method_evidence": False,
+        },
+    },
+    "qwen2.5-7b-inst": {
+        "source": "qwen2.5-7b-inst:fresh-seed-17",
+        "manifest_id": "5b7144416638fb3deec1f12f204a401e06edd1293aa2fe4a22f9080f3e8bd41b",
+        "group_sizes": [1, 5],
+        "generation_dtype_policy": "checkpoint-original",
+        "templates_sha256": "ff84e360b7a4a413275da818862c7c4431ac21c7fbeaf26e4d2296278f9a4bf9",
+        "repeat_count": 2,
+        "exact_match": True,
+        "probe_execution_head": "37a713233b95614d2743a12abc4d1036daed95f0",
+        "terminal_manifest_sha256": "bd7e169c2c3abe255e11563220deb558f7c30c1e22713d8be030a760c7c9d79d",
+        "raw_context_manifest_sha256": "6bd9ba263f4774b65fce31c965c27344625402ee1f19f4129542fd5e08132084",
+        "legacy_provenance": {
+            "generation_dtype_policy": "legacy-motivation-float32",
+            "manifest_id": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
+            "method_evidence": False,
+        },
+    },
+}
 P01_ARMS = (
     Arm.NATIVE_MEMIT,
     Arm.STATIC_SYNCHRONOUS,
@@ -108,7 +148,7 @@ def controller_config(payload: Mapping[str, Any]) -> ControllerConfig:
 
 def validate_lock(payload: Any) -> None:
     root = _mapping("root", payload)
-    if root.get("schema_version") != "ode-edit-compute-aware-numerical-lock-proposal/v4":
+    if root.get("schema_version") != LOCK_SCHEMA:
         raise MethodContractError("unknown numerical lock proposal schema")
     if root.get("status") != "OUTCOME_FREE_PROPOSAL_PENDING_GH_APPROVAL":
         raise MethodContractError("numerical lock is not an outcome-free proposal")
@@ -116,6 +156,13 @@ def validate_lock(payload: Any) -> None:
         raise MethodContractError("numerical lock proposal observed an outcome")
     if root.get("execution_seed") != 17:
         raise MethodContractError("common execution seed differs")
+    if (
+        root.get("instruction_id") != LOCK_INSTRUCTION
+        or root.get("revision_id") != LOCK_INSTRUCTION
+        or root.get("parent_instruction_id") != LOCK_PARENT
+        or root.get("canonical_main_commit") != LOCK_BASE_COMMIT
+    ):
+        raise MethodContractError("v5 instruction/provenance identity differs")
 
     dtype_contract = _mapping("dtype_contract", root.get("dtype_contract"))
     if (
@@ -154,18 +201,16 @@ def validate_lock(payload: Any) -> None:
     models = _mapping("models", root.get("models"))
     if tuple(models) != MODEL_ALIASES:
         raise MethodContractError("lock model aliases/order differ")
-    context_ids = {
-        _mapping("context_manifest", _mapping(alias, models[alias])["context_manifest"])[
-            "manifest_id"
-        ]
-        for alias in MODEL_ALIASES
-    }
-    if len(context_ids) != 2 or any(
-        not isinstance(value, str) or len(value) != 64 for value in context_ids
-    ):
-        raise MethodContractError("model context manifests are incomplete")
+    context_ids: set[str] = set()
     for alias in MODEL_ALIASES:
         model = _mapping(alias, models[alias])
+        context = _mapping("context_manifest", model.get("context_manifest"))
+        expected_context = CONTEXT_LOCKS[alias]
+        if context != expected_context:
+            raise MethodContractError(
+                f"{alias} original-BF16 context provenance differs from v5"
+            )
+        context_ids.add(str(context["manifest_id"]))
         if (
             not isinstance(model.get("revision"), str)
             or len(model["revision"]) != 40
@@ -181,6 +226,8 @@ def validate_lock(payload: Any) -> None:
             or model["safetensors_total_tensors"] <= 0
         ):
             raise MethodContractError("model revision/hparams pin is incomplete")
+    if len(context_ids) != len(MODEL_ALIASES):
+        raise MethodContractError("model context manifest IDs must be distinct")
 
     config = controller_config(root)
     if config.s_max != 6:
