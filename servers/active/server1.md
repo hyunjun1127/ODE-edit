@@ -13,7 +13,7 @@
 | 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
 | --- | --- | --- | --- | --- |
 | global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active |
-| server-head (SH1) | `019fc5e0-eb7e-78a3-9436-93885621b8dc` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assigned / HOLD: shared GH clone boundary |
+| server-head (SH1) | `019fc5e0-eb7e-78a3-9436-93885621b8dc` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assignment ACK / HOLD: shared GH clone boundary |
 
 현재 instruction `ODEEDIT-S02-NUMLOCK-REVISION-V1`을 수행 중인
 `019fc63e-5217-7250-9c22-c5b2ec4248f0`은

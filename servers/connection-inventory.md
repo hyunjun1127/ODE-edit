@@ -33,9 +33,9 @@ session ID를 채우거나 대체 대상으로 사용하지 않는다.
 | 서버 | 역할 | Codex session ID | Required/confirmed model | Repository CWD | 상태 |
 | --- | --- | --- | --- | --- | --- |
 | `server1` | global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active / 현재 GH session |
-| `server1` | server-head (SH1) | `019fc5e0-eb7e-78a3-9436-93885621b8dc` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assigned / onboarding HOLD; canonical SH1 |
+| `server1` | server-head (SH1) | `019fc5e0-eb7e-78a3-9436-93885621b8dc` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assignment ACK / onboarding HOLD; canonical SH1 |
 | `server1` | delegated implementation session | `019fc63e-5217-7250-9c22-c5b2ec4248f0` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | task-local grandfathered execution only; **not canonical SH1**; GPU/Slurm/push HOLD |
-| `server2` | server-head (SH2) | `019fc5ec-f85b-7770-a73a-1d19be1cd491` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assigned / onboarding HOLD; canonical SH2 |
+| `server2` | server-head (SH2) | `019fc5ec-f85b-7770-a73a-1d19be1cd491` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assignment ACK / onboarding HOLD; canonical SH2 |
 | `server3` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | future target / clone 전 |
 | `server4` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | registered-pending-clone |
 

@@ -9,12 +9,13 @@
 | 역할 | Codex session ID | 상태 |
 | --- | --- | --- |
 | GH | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | active |
-| SH1 / server1 | `019fc5e0-eb7e-78a3-9436-93885621b8dc` | assigned / onboarding HOLD |
-| SH2 / server2 | `019fc5ec-f85b-7770-a73a-1d19be1cd491` | assigned / onboarding HOLD |
+| SH1 / server1 | `019fc5e0-eb7e-78a3-9436-93885621b8dc` | assignment ACK / onboarding HOLD |
+| SH2 / server2 | `019fc5ec-f85b-7770-a73a-1d19be1cd491` | assignment ACK / onboarding HOLD |
 
 Tracked common registry와 `servers/active/server1.md`, `servers/active/server2.md`를 위
 assignment로 맞췄다. Assignment는 즉시 Slurm/Git 실행 권한을 뜻하지 않는다. 각 SH는 자기
 clone의 local session boundary, Git role identity, heartbeat와 onboarding audit를 통과해야 한다.
+두 canonical SH session 모두 direct assignment ACK를 회신했다.
 
 ## Temporary implementation session 경계
 

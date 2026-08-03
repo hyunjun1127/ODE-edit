@@ -12,7 +12,7 @@
 
 | 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
 | --- | --- | --- | --- | --- |
-| server-head (SH2) | `019fc5ec-f85b-7770-a73a-1d19be1cd491` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assigned / onboarding HOLD |
+| server-head (SH2) | `019fc5ec-f85b-7770-a73a-1d19be1cd491` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assignment ACK / onboarding HOLD |
 
 ## 접근과 권한
 
