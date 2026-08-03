@@ -191,12 +191,12 @@ Strong method gate가 실패한 사실은 그대로 유지한다.
 
 ## 9. Method handoff
 
-> **2026-08-03 fast-track amendment:** 이후 method-direction review에서 signed
+> **2026-08-03 compute-aware amendment:** 이후 method-direction/compute review에서 signed
 > base-relative capacity 감소가 past-edit retention을 뜻하지 않는다는 C3 경계를
 > 반영했다. 첫 MEMIT 10/100-edit track은 completed outer-edit terminal net write로
 > 정의한 monotone load (Omega)를 soft routing cost로 사용하고 hard barrier는 후속
 > ablation으로 미룬다. Canonical 실행 방향은
-> [`Session 02 fast main-table spec`](../../../plans/global/2026-08-03-session02-fast-main-table-spec.md)을
+> [`Session 02 compute-aware main-table spec`](../../../plans/global/2026-08-03-session02-compute-aware-main-table-spec.md)을
 > 따른다.
 
 다음 research section은 [`04-method-design.md`](04-method-design.md)다. Method는 다음을
