@@ -98,7 +98,7 @@ class OracleRunnerSourceTests(unittest.TestCase):
         self.assertIn("excluded_from_v2_compute", p1_source)
         self.assertIn("legacy_r2_trajectories", p1_source)
 
-    def test_stage_roots_are_distinct_and_absent_at_cpu_gate(self) -> None:
+    def test_stage_roots_are_distinct_and_remain_v2_provenance(self) -> None:
         lock = load_oracle_lock()
         proposal = lock["proposal_id"]
         paths = []
@@ -111,7 +111,16 @@ class OracleRunnerSourceTests(unittest.TestCase):
                 )
             )
         self.assertEqual(len(paths), len(set(paths)))
-        self.assertTrue(all(not path.exists() for path in paths))
+        # These roots were required to be absent only before the authorized V2
+        # submissions.  Complete/partial terminal provenance is now retained
+        # read-only, so the durable regression is that the six V2 paths remain
+        # distinct and cannot be mistaken for a V3 output root.
+        self.assertTrue(
+            all("session02-oracle-mean-event-" in str(path) for path in paths)
+        )
+        self.assertTrue(
+            all("oracle-absolute-mean-margin-v3" not in str(path) for path in paths)
+        )
 
 
 if __name__ == "__main__":

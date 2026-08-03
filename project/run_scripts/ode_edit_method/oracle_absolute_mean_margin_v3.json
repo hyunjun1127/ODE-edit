@@ -1,0 +1,82 @@
+{
+  "schema_version": "ode-edit-oracle-absolute-mean-margin-development-lock/v3",
+  "status": "TECHNICAL_V3_P0P1_EXECUTION_LOCK",
+  "instruction_id": "ODEEDIT-S02-ORACLE-ABSOLUTE-MEAN-MARGIN-V3-P0P1",
+  "parent_instruction_id": "ODEEDIT-S02-ORACLE-MEAN-EVENT-V2-R1-P0P1",
+  "revision_id": "V3_ZERO_MEAN_MARGIN_ORACLE_ABSOLUTE_FLOOR",
+  "implementation_base": "fcd5e93bf4d25d9efff7eb5912c67fdcd40146df",
+  "base_proposal_id": "83eec5068acec673f7d9d0788e57ce0e9873a55785f7a6932026a4a2420c330b",
+  "base_lock_sha256": "95376c554f01e00c9c5d71e99dfa3cbb5339a7534db8a62a9a05bc69c0be1bbb",
+  "v2_provenance": {
+    "proposal_id": "78937c0a5fa3c3e92ae20a4089bba6e6e4f6a5c910dcf31f2abb17789d804639",
+    "lock_sha256": "ff75022dbfca79e11c121d64dbed4f9ad6dcf45154f17b30845e706681046715",
+    "reused_as_runtime_fallback": false
+  },
+  "event": {
+    "mode": "direct-z-oracle-absolute-new-uniform-mean-margin-v3",
+    "rho": 0.5,
+    "required_mean_margin": 0.0,
+    "oracle_validity_epsilon": 0.000001,
+    "context_weights": "uniform",
+    "calibration_total_model_forwards": 4,
+    "entry_ordinary_model_forwards": 2,
+    "oracle_extra_model_forwards": 2,
+    "oracle_backward_count": 0,
+    "ordinary_model_forwards_per_event": 2,
+    "smooth_objective_count": 2,
+    "decision_objectives": ["negative-uniform-mean-margin", "absolute-new-likelihood-deficit"],
+    "oracle_margin_role": "validity-and-diagnostic-only",
+    "q_margin_decision": false,
+    "q_new_decision_floor": 0.5,
+    "per_context_decision": false,
+    "legacy_event_role": "shadow-diagnostic-only",
+    "conditional_fallback": false,
+    "native_nll_equality_used": false,
+    "direct_z_before_entry_event": true,
+    "entry_hit_n_z_zero_allowed": false
+  },
+  "selection": {
+    "seed": 17,
+    "p0_case_ids": ["2022"],
+    "p1_case_ids": ["2022", "12498", "20964", "768"],
+    "arms": ["native-memit", "static-synchronous", "full-ode-edit"],
+    "p0_repetitions": 1,
+    "p1_repetitions": 1,
+    "execution_axis": "arm-outer-sequential-edit-inner"
+  },
+  "runtime": {
+    "models": ["llama3-8b-inst", "qwen2.5-7b-inst"],
+    "dtype_policy": "checkpoint-original",
+    "observed_parameter_dtype": "torch.bfloat16",
+    "trial_backend": "quantized-full-linear-commit-emulator",
+    "event_teacher_backend": "two-separate-teacher-forced-forwards",
+    "model_specific_policy": false,
+    "evaluation": false,
+    "generation": false
+  },
+  "legacy_diagnostic_provenance": {
+    "legacy_replay_executed": false,
+    "existing_legacy_diagnostic_only": true,
+    "llama_complete_terminal_manifest_sha256": "154791d93b4af12a27d6e2b2c470e098c2035655b9cbb04899b63490f59933db",
+    "qwen_partial_tree_sha256": "7f245bb23d306a52dfbcfcee7f818deeaecbdd38e326e6c196a4615ea300b71a",
+    "merged_into_v3_timing_or_results": false,
+    "known_qwen_v2_counter_gate": "cross-arm-direct-z-forward-subtraction-final-cleanup-item"
+  },
+  "resources": {
+    "server1_project_gpu_cap": 3,
+    "gpu_per_job": 1,
+    "cpu_per_job": 8,
+    "host_memory_mib_per_job": 65000,
+    "p0_time": "04:00:00",
+    "p1_time": "08:00:00",
+    "pair_gpu": 2
+  },
+  "execution_boundary": {
+    "submission_authorized": false,
+    "retry_authorized": false,
+    "p0_token": "oracle-absolute-mean-margin-v3-p0",
+    "p1_token": "oracle-absolute-mean-margin-v3-p1-after-p0-pass",
+    "automatic_p1_condition": "both-p0-terminal-technical-pass",
+    "scientific_outcome_count": 0
+  }
+}

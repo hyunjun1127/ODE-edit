@@ -77,6 +77,13 @@ from .oracle_event import (
     measure_differentiable_oracle_mean_event,
     measure_oracle_mean_event,
 )
+from .oracle_absolute_event import (
+    OracleAbsoluteMeanMarginCalibration,
+    OracleAbsoluteMeanMarginTarget,
+    calibrate_oracle_absolute_mean_margin_target,
+    measure_differentiable_oracle_absolute_mean_margin_event,
+    measure_oracle_absolute_mean_margin_event,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -848,6 +855,88 @@ class OracleMeanEasyEditBackend(EasyEditMemitBackend):
 
     def _measure_differentiable_event(self) -> DifferentiableEvent:
         return measure_differentiable_oracle_mean_event(
+            self.model,
+            self.tokenizer,
+            self.request,
+            self.contexts.templates,
+            target=self._require_oracle_target(),
+            tau=self.tau,
+        )
+
+
+class OracleAbsoluteMeanMarginEasyEditBackend(OracleMeanEasyEditBackend):
+    """V3 backend with a zero mean-margin floor and oracle absolute floor."""
+
+    def prepare_event_target(self, frozen_target: Any) -> None:
+        target = self._assert_frozen_target(frozen_target)
+        if self._oracle_calibration is not None:
+            raise MethodContractError("V3 oracle target was calibrated more than once")
+        if (
+            self._entry_snapshot is None
+            or self.current_state_id() != self._entry_snapshot.state_id
+        ):
+            raise MethodContractError("V3 oracle target is not calibrated at edit entry")
+        with self.instrumentation.component("event"):
+            calibration = calibrate_oracle_absolute_mean_margin_target(
+                self.model,
+                self.tokenizer,
+                self.request,
+                self.contexts.templates,
+                direct_z=target,
+                bindings=self.bindings,
+                hparams=self.hparams,
+                tau=self.tau,
+                epsilon=self.oracle_epsilon,
+                entry_forward_scope=self.instrumentation.model_forward_scope("event"),
+                oracle_forward_scope=self.instrumentation.model_forward_scope(None),
+            )
+        self._oracle_calibration = calibration
+        self._oracle_target = calibration.target
+        self._cached_oracle_entry = calibration.entry_reading
+        self._record_event("oracle", calibration.oracle_shadow_reading)
+
+    @property
+    def oracle_calibration(
+        self,
+    ) -> OracleAbsoluteMeanMarginCalibration | None:
+        calibration = self._oracle_calibration
+        if calibration is None:
+            return None
+        if not isinstance(calibration, OracleAbsoluteMeanMarginCalibration):
+            raise MethodContractError("V3 oracle calibration type differs")
+        return calibration
+
+    @property
+    def oracle_target(self) -> OracleAbsoluteMeanMarginTarget | None:
+        target = self._oracle_target
+        if target is None:
+            return None
+        if not isinstance(target, OracleAbsoluteMeanMarginTarget):
+            raise MethodContractError("V3 oracle target type differs")
+        return target
+
+    def _require_oracle_target(self) -> OracleAbsoluteMeanMarginTarget:
+        target = self.oracle_target
+        if target is None:
+            raise MethodContractError("V3 oracle event target is not calibrated")
+        return target
+
+    def _measure_event(self, request: ControllerRequest) -> EventReading:
+        if self._cached_oracle_entry is not None:
+            reading = self._cached_oracle_entry
+            self._cached_oracle_entry = None
+            return reading
+        return measure_oracle_absolute_mean_margin_event(
+            self.model,
+            self.tokenizer,
+            request,
+            self.contexts.templates,
+            target=self._require_oracle_target(),
+            tau=self.tau,
+        )
+
+    def _measure_differentiable_event(self) -> DifferentiableEvent:
+        return measure_differentiable_oracle_absolute_mean_margin_event(
             self.model,
             self.tokenizer,
             self.request,

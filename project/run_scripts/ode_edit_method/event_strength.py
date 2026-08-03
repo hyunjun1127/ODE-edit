@@ -12,7 +12,17 @@ import math
 from typing import Any, Mapping, Sequence
 
 from .contracts import Arm, EventReading, MethodContractError
+from .oracle_absolute_event import (
+    ORACLE_ABSOLUTE_MEAN_MARGIN_EVENT_MODE,
+    OracleAbsoluteMeanMarginTarget,
+)
 from .oracle_event import ORACLE_MEAN_EVENT_MODE, OracleMeanEventTarget
+
+
+OracleTarget = OracleMeanEventTarget | OracleAbsoluteMeanMarginTarget
+_ORACLE_EVENT_MODES = frozenset(
+    {ORACLE_MEAN_EVENT_MODE, ORACLE_ABSOLUTE_MEAN_MARGIN_EVENT_MODE}
+)
 
 
 _SUPPORTED_TRACE_ARMS = frozenset(
@@ -100,7 +110,7 @@ def absolute_event_metrics(
     *,
     tau: float,
     denominator_epsilon: float,
-    oracle_target: OracleMeanEventTarget | None = None,
+    oracle_target: OracleTarget | None = None,
 ) -> dict[str, Any]:
     """Derive means and entry-anchored strength from existing likelihoods."""
 
@@ -141,7 +151,7 @@ def absolute_event_metrics(
         - math.log(count)
     )
     if oracle_target is None:
-        if reading.event_mode == ORACLE_MEAN_EVENT_MODE:
+        if reading.event_mode in _ORACLE_EVENT_MODES:
             raise MethodContractError("oracle event metrics require their edit target")
         if not math.isclose(
             hard, reading.hard_phi, rel_tol=1e-12, abs_tol=1e-12
@@ -152,7 +162,12 @@ def absolute_event_metrics(
         ):
             raise MethodContractError("legacy event smooth phi is not recomputable")
     else:
-        if reading.event_mode != ORACLE_MEAN_EVENT_MODE:
+        expected_mode = (
+            ORACLE_ABSOLUTE_MEAN_MARGIN_EVENT_MODE
+            if isinstance(oracle_target, OracleAbsoluteMeanMarginTarget)
+            else ORACLE_MEAN_EVENT_MODE
+        )
+        if reading.event_mode != expected_mode:
             raise MethodContractError("oracle target received a non-oracle event")
         if oracle_target.context_count != count:
             raise MethodContractError("oracle target context count differs")
@@ -255,7 +270,7 @@ def _observation(
     accepted: bool | None,
     tau: float,
     denominator_epsilon: float,
-    oracle_target: OracleMeanEventTarget | None,
+    oracle_target: OracleTarget | None,
 ) -> dict[str, Any]:
     return {
         "role": role,
@@ -293,7 +308,7 @@ def build_event_strength_trace(
     tau: float,
     denominator_epsilon: float,
     event_tolerance: float,
-    oracle_target: OracleMeanEventTarget | None = None,
+    oracle_target: OracleTarget | None = None,
 ) -> dict[str, Any]:
     """Map existing decision reads to entry/trial/commit/terminal roles.
 
