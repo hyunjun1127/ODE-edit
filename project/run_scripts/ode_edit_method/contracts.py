@@ -411,10 +411,36 @@ class StepRecord:
     smooth_phi_before: float
     smooth_phi_after: float
     trust_ratio: float
+    radius: float | None = None
+    radius_cap: float | None = None
+    requested_progress: float | None = None
+    predicted_progress: float | None = None
+    coefficient_l2: float | None = None
+    retry_index: int | None = None
+    retry_scale: float | None = None
 
     def __post_init__(self) -> None:
         if self.solver_coefficients != self.applied_coefficients:
             raise MethodContractError("applied coefficients differ from controller output")
+        for name in (
+            "radius",
+            "radius_cap",
+            "requested_progress",
+            "predicted_progress",
+            "coefficient_l2",
+            "retry_scale",
+        ):
+            value = getattr(self, name)
+            if value is not None and finite(name, value) < 0.0:
+                raise MethodContractError(f"{name} must be non-negative")
+        if self.retry_scale is not None and not 0.0 < self.retry_scale <= 1.0:
+            raise MethodContractError("retry scale must lie in (0, 1]")
+        if self.retry_index is not None and (
+            isinstance(self.retry_index, bool)
+            or not isinstance(self.retry_index, int)
+            or self.retry_index < 0
+        ):
+            raise MethodContractError("retry index must be a non-negative integer")
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -432,6 +458,13 @@ class StepRecord:
             "smooth_phi_before": self.smooth_phi_before,
             "smooth_phi_after": self.smooth_phi_after,
             "trust_ratio": self.trust_ratio,
+            "radius": self.radius,
+            "radius_cap": self.radius_cap,
+            "requested_progress": self.requested_progress,
+            "predicted_progress": self.predicted_progress,
+            "coefficient_l2": self.coefficient_l2,
+            "retry_index": self.retry_index,
+            "retry_scale": self.retry_scale,
         }
 
 

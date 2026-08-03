@@ -109,7 +109,7 @@ class OracleAbsoluteV3RunnerSourceTests(unittest.TestCase):
         self.assertIn('"legacy_replay_executed": False', source)
         self.assertIn('"existing_legacy_diagnostic_only": True', source)
 
-    def test_new_roots_are_distinct_and_absent(self) -> None:
+    def test_v3_roots_are_distinct_and_terminal_if_already_executed(self) -> None:
         lock = load_oracle_absolute_lock()
         proposal = lock["proposal_id"]
         roots = []
@@ -121,7 +121,13 @@ class OracleAbsoluteV3RunnerSourceTests(unittest.TestCase):
                 )
             )
         self.assertEqual(len(roots), len(set(roots)))
-        self.assertTrue(all(not root.exists() for root in roots))
+        for root in roots:
+            if not root.exists():
+                continue
+            terminal = json.loads(
+                (root / "terminal_manifest.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(terminal["status"], "COMPLETE")
 
 
 if __name__ == "__main__":

@@ -168,9 +168,16 @@ def _functional_commit_mismatch_message(
 
 
 class FiveArmRunner:
-    def __init__(self, config: ControllerConfig, omega: OmegaLedger) -> None:
+    def __init__(
+        self,
+        config: ControllerConfig,
+        omega: OmegaLedger,
+        *,
+        scale_rejected_progress: bool = False,
+    ) -> None:
         self.config = config
         self.omega = omega
+        self.scale_rejected_progress = bool(scale_rejected_progress)
 
     def run(
         self,
@@ -455,6 +462,7 @@ class FiveArmRunner:
         static_entry: ProposalBatch | None = None
         static_share: tuple[float, ...] | None = None
         retry_field: tuple[EventReading, ProposalBatch, int | None, str] | None = None
+        rejected_candidate: tuple[str, float, tuple[float, ...]] | None = None
         cached_current_event: EventReading | None = None
 
         target_value: Any = None
@@ -559,6 +567,12 @@ class FiveArmRunner:
                     radius_cap = self.config.h_max_fraction * d_sync_entry
 
                 assert radius_cap is not None
+                retry_index = rejections if retry_field is not None else 0
+                retry_scale = (
+                    self.config.gamma_down**retry_index
+                    if self.scale_rejected_progress
+                    else 1.0
+                )
 
                 qp_timer = (
                     instrumentation.component("qp")
@@ -574,6 +588,7 @@ class FiveArmRunner:
                             hard_phi=before.hard_phi,
                             trust_radius=radius,
                             config=self.config,
+                            progress_scale=retry_scale,
                         )
                     else:
                         solution = solve_progress_qp(
@@ -590,6 +605,7 @@ class FiveArmRunner:
                             hard_phi=before.hard_phi,
                             trust_radius=radius,
                             config=self.config,
+                            progress_scale=retry_scale,
                         )
                         if (
                             arm is Arm.STATIC_SYNCHRONOUS
@@ -599,6 +615,29 @@ class FiveArmRunner:
                                 solution.coefficients,
                                 self.config.progress_epsilon,
                             )
+
+                if self.scale_rejected_progress and retry_index > 0:
+                    if rejected_candidate is None:
+                        raise MethodContractError(
+                            "unchanged-state retry lacks its rejected candidate"
+                        )
+                    rejected_state, rejected_progress, rejected_coefficients = (
+                        rejected_candidate
+                    )
+                    if rejected_state != backend.current_state_id():
+                        raise MethodContractError(
+                            "unchanged-state retry candidate state differs"
+                        )
+                    if (
+                        solution.coefficient_norm > self.config.progress_epsilon
+                        and (
+                            solution.requested_progress == rejected_progress
+                            or solution.coefficients == rejected_coefficients
+                        )
+                    ):
+                        raise MethodContractError(
+                            "unchanged-state rejection retry replayed its QP candidate"
+                        )
 
                 if solution.predicted_progress <= self.config.progress_epsilon:
                     if arm is Arm.ORDERED_ADAPTIVE:
@@ -718,12 +757,20 @@ class FiveArmRunner:
                         smooth_phi_before=before.smooth_phi,
                         smooth_phi_after=after.smooth_phi,
                         trust_ratio=verdict.ratio,
+                        radius=radius,
+                        radius_cap=radius_cap,
+                        requested_progress=solution.requested_progress,
+                        predicted_progress=solution.predicted_progress,
+                        coefficient_l2=solution.coefficient_norm,
+                        retry_index=retry_index,
+                        retry_scale=retry_scale,
                     )
                 )
                 radius = verdict.next_radius
                 if verdict.accepted:
                     rejections = 0
                     retry_field = None
+                    rejected_candidate = None
                     accepted_count += 1
                     zero_slope_streak = 0
                     if arm is Arm.ORDERED_ADAPTIVE:
@@ -757,6 +804,11 @@ class FiveArmRunner:
                         batch,
                         layer,
                         backend.current_state_id(),
+                    )
+                    rejected_candidate = (
+                        backend.current_state_id(),
+                        solution.requested_progress,
+                        solution.coefficients,
                     )
                     if rejections >= self.config.max_rejections_per_state:
                         self._restore(backend, entry, instrumentation)

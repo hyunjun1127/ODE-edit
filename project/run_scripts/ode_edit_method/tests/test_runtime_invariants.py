@@ -3,6 +3,7 @@ from __future__ import annotations
 from contextlib import AbstractContextManager
 from dataclasses import dataclass
 import unittest
+from unittest import mock
 
 from project.run_scripts.ode_edit_method.contracts import (
     Arm,
@@ -18,6 +19,7 @@ from project.run_scripts.ode_edit_method.controller import OmegaLedger
 from project.run_scripts.ode_edit_method.events import ControllerRequest
 from project.run_scripts.ode_edit_method.instrumentation import EditInstrumentation
 from project.run_scripts.ode_edit_method.runtime import FiveArmRunner
+from project.run_scripts.ode_edit_method import runtime as runtime_module
 
 
 def _test_config() -> ControllerConfig:
@@ -264,6 +266,71 @@ class RuntimeInvariantTests(unittest.TestCase):
         self.assertEqual(sum(not step.accepted for step in result.steps), 1)
         self.assertEqual(result.steps[0].snapshot_id, result.steps[1].snapshot_id)
         self.assertEqual(result.steps[0].direction_ids, result.steps[1].direction_ids)
+
+    def test_v4_rejected_retry_scales_progress_without_rebuilding_field(self) -> None:
+        backend = _ToyBackend(reject_first_trial=True)
+        metrics = EditInstrumentation("v4-retry-scale")
+        result = FiveArmRunner(
+            _test_config(),
+            OmegaLedger({0: 1.0, 1: 1.0}),
+            scale_rejected_progress=True,
+        ).run(
+            Arm.FULL_ODE_EDIT,
+            edit_id="v4-retry-scale",
+            request=_request(),
+            backend=backend,
+            instrumentation=metrics,
+        )
+        self.assertEqual(result.status, "event_hit")
+        self.assertEqual(backend.field_calls, 2)
+        self.assertEqual(backend.trial_calls, 3)
+        first, retry = result.steps[:2]
+        self.assertFalse(first.accepted)
+        self.assertTrue(retry.accepted)
+        self.assertEqual(first.snapshot_id, retry.snapshot_id)
+        self.assertEqual(first.direction_ids, retry.direction_ids)
+        self.assertEqual((first.retry_index, retry.retry_index), (0, 1))
+        self.assertEqual((first.retry_scale, retry.retry_scale), (1.0, 0.5))
+        self.assertEqual(retry.radius, 0.5 * first.radius)
+        self.assertEqual(retry.radius_cap, first.radius_cap)
+        self.assertEqual(retry.requested_progress, 0.5 * first.requested_progress)
+        self.assertEqual(retry.predicted_progress, retry.requested_progress)
+        self.assertLess(retry.coefficient_l2, first.coefficient_l2)
+        self.assertNotEqual(retry.solver_coefficients, first.solver_coefficients)
+        counters = metrics.finalize().to_dict()["counters"]
+        self.assertEqual(counters["N_field"], 2)
+        self.assertEqual(counters["N_proposal_build"], 2)
+        self.assertEqual(counters["N_trial"], 3)
+        self.assertEqual(counters["N_reject"], 1)
+        self.assertEqual(counters["N_bw"], 0)
+
+    def test_v4_rejected_retry_replayed_candidate_fails_closed(self) -> None:
+        backend = _ToyBackend(reject_first_trial=True)
+        original = runtime_module.solve_progress_qp
+
+        def ignore_retry_scale(**kwargs):
+            kwargs["progress_scale"] = 1.0
+            return original(**kwargs)
+
+        with mock.patch.object(
+            runtime_module, "solve_progress_qp", side_effect=ignore_retry_scale
+        ):
+            with self.assertRaisesRegex(
+                MethodContractError, "replayed its QP candidate"
+            ):
+                FiveArmRunner(
+                    _test_config(),
+                    OmegaLedger({0: 1.0, 1: 1.0}),
+                    scale_rejected_progress=True,
+                ).run(
+                    Arm.FULL_ODE_EDIT,
+                    edit_id="v4-retry-replay-negative",
+                    request=_request(),
+                    backend=backend,
+                )
+        self.assertEqual(backend.field_calls, 1)
+        self.assertEqual(backend.trial_calls, 1)
+        self.assertEqual(backend.weights, [0.0, 0.0])
 
     def test_static_freezes_entry_field_while_full_refreshes_current_state(self) -> None:
         static_backend = _ToyBackend(goal=3.0)
