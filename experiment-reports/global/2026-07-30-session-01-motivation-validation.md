@@ -1,22 +1,56 @@
 # Session 01 — Motivation Validation: Global Evidence Index
 
 - 최초 작성: 2026-07-30
-- 최종 갱신: 2026-07-31
+- 최종 갱신: 2026-08-03 12:04 KST
 - 작성 주체: global-head
-- 상태: **closed — `NO MV3`, no retune, no further Slurm**
+- 상태: **`CLOSED_DIRECTIONAL_POSITIVE; STRONG_METHOD_GATE_FAIL`**
+- terminal experiment: C3 BF-share magnitude-only cause isolation
 - proposal:
   `project/proposals/sections/01-motivation-validation.md`
-- final report:
-  `experiment-reports/global/2026-07-31-session-01-motivation-final.md`
+- canonical final closure:
+  `experiment-reports/global/2026-08-03-session01-motivation-final-closure-and-method-handoff.md`
+- canonical final causal report:
+  `experiment-reports/global/2026-08-02-session01-caphist-pair-c3-v1-synthesis.md`
+- next section:
+  `project/proposals/sections/04-method-design.md`
 
 ## 최종 질문과 답
 
-same-snapshot allocation signal은 두 고정 모델에서 재현됐지만,
-partial update 뒤 proposal **direction**을 refresh하는 ODE/relinearization
-advantage는 재현되지 않았다. Qwen은 양의 신호였고 Llama는 primary와 total
-모두 일관되게 음수였다. 사전등록 pair rule의 최종 판정은 `NO MV3`다.
+초기 MV-2에서 same-snapshot allocation signal은 두 모델에 재현됐지만 direction
+refresh의 부호가 모델 사이에서 달라 당시 `NO MV3`로 닫혔다. 후속 atomic/direct-z,
+microseq, capacity/history C1--C3 ladder에서 BF share와 actual global magnitude를
+분리했다. C3는 네 model×family cell과 15/16 edit에서 C1보다 회복했고
+capacity/max-share/Gini 감소가 공통으로 남았다.
 
-## Curated evidence
+따라서 implementation/directional Motivation gate는 통과한다. 그러나 strict native
+non-collapse, retention, applied hard barrier, ODE necessity와 lifelong superiority는
+통과하지 않았다. Motivation은 추가 retune 없이 종료하고 Method common strong pilot만
+연다.
+
+## Terminal C3 evidence
+
+- technical: job `15891`, controller/evaluator `16/16`, checkpoint `32/32`, QP
+  `16` edits/`64` hops
+- C3−C1 current recovery:
+  Llama MEMIT `+3.671027`, Llama Alpha `+1.931406`, Qwen MEMIT `+0.146274`,
+  Qwen Alpha `+0.525536`
+- C3 native 대비 current:
+  `-0.361365/-0.563717/-0.251563/+0.555242`
+- final prior retention:
+  `-0.292871/-0.782910/-0.295380/-0.014337`; retention AUC 네 cell 모두 음수
+- strict floor `-0.10`: Qwen Alpha만 pass; pair passing family `[]`
+- capacity/max-share/Gini reduction: 네 cell 공통
+- applied cap exceed `140/320`, radial max `35.927×`, negative trust `1/64`
+- controller compute: native 대비 `4.80--6.93×`
+
+Canonical evidence:
+
+- `experiment-reports/global/2026-08-03-session01-motivation-final-closure-and-method-handoff.md`
+- `experiment-reports/global/2026-08-02-session01-caphist-pair-c3-v1-synthesis.md`
+- `audits/global/2026-08-02-session01-bf-share-magnitude-control-c3-postrun.md`
+- `plans/global/2026-08-02-session01-bf-share-magnitude-control-c3-spec.md`
+
+## Historical curated evidence
 
 ### MV-0 — implementation fidelity
 
@@ -84,7 +118,7 @@ architecture-conditional, common coefficient pivot, static kill이 모두
 - Git에는 analyzer/test, compact JSON, Korean report, audit와 재현 지침만
   남겼다. Credential·private SSH material은 기록하지 않았다.
 
-## 네 범주와 종료 결정
+## Historical MV-2 네 범주와 당시 종료 결정
 
 | 범주 | 기록 |
 | --- | --- |
@@ -95,3 +129,16 @@ architecture-conditional, common coefficient pivot, static kill이 모두
 
 추가 MV-3, MV-4, retune, threshold 변경, rescue fold 또는 외부 method claim은
 이 evidence chain에서 허용하지 않는다.
+
+## 2026-08-03 current decision
+
+| 범주 | 현재 기록 |
+|---|---|
+| Proposal에서 온 내용 | fixed direct-z 아래에서 current residual/key/proposal과 BF velocity를 재계산해 여러 parameter endpoint 중 낮은 cumulative-capacity path를 찾는 가설이다. |
+| Repo/protocol에서 확인한 사실 | C3 magnitude separation이 C1을 네 cell 모두 회복했지만 final prior retention/AUC는 네 cell 모두 native보다 낮고 applied hard barrier도 없었다. |
+| 해석 | BF share–magnitude 분리와 state-refreshed trajectory의 방향성은 survive한다. ODE necessity와 strong method superiority는 open이다. |
+| 다음 결정 | Motivation retune은 종료한다. `project/proposals/sections/04-method-design.md`의 model-common strong pilot만 열고 통과 전 large/lifelong을 금지한다. |
+
+최종 상태는 `CLOSED_DIRECTIONAL_POSITIVE; STRONG_METHOD_GATE_FAIL`이다. 위 MV-0--MV-2
+본문은 historical evidence이며 현재 판정과 충돌할 때 C3 terminal evidence와
+2026-08-03 final closure를 따른다.

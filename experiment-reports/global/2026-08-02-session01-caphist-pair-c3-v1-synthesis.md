@@ -13,8 +13,9 @@
 
 사용자의 판단이 맞았다. BF layer weight를 다르게 주면서 그 QP coefficient를 실제
 update magnitude로도 사용한 것이 c1 성능 악화의 주요 구현 원인이었다. c1 BF share를
-그대로 만들고 joint norm만 exact `D/4`로 맞춘 c3에서 current efficacy가 네
-model×family cell 모두 c1보다 회복했다.
+생성하는 allocation algorithm을 복원하고 joint norm만 exact `D/4`로 맞춘 c3에서
+current efficacy가 네 model×family cell 모두 c1보다 회복했다. 첫 edit/첫 round
+coefficient는 c1과 exact-identical하지만, 후속 share는 달라진 state에서 재계산된다.
 
 | Model | Family | c1 current | c2 current | c3 current | c3-c1 | c3 prior retention |
 |---|---|---:|---:|---:|---:|---:|
@@ -55,7 +56,7 @@ ODE-Edit superiority, preservation guarantee, lifelong claim은 열지 않는다
 - c1 negative의 대부분은 scientific direction failure가 아니라 BF share/global
   magnitude 결합이었다.
 - c3가 c2보다 네 cell 모두 좋으므로 c2의 overload-only cap/share 변경은 현재 panel에서
-  도움이 되지 않았다. c1 BF relative share를 보존한 것이 더 낫다.
+  도움이 되지 않았다. c1 BF relative share-generation rule을 보존한 것이 더 낫다.
 - 남은 Llama gap과 Qwen MEMIT trust failure는 method-stage safeguard와 objective가
   아직 필요함을 뜻한다.
 

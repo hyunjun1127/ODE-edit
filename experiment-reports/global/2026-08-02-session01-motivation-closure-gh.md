@@ -4,11 +4,19 @@
 
 상태: **Motivation closed — directional-positive implementation signal; strong method gate fail**
 
-> **2026-08-02 c3 최종 supersession:** c1 BF relative layer allocation을 그대로
-> 만들고 global update norm만 exact `D/4 × 4`로 분리한 c3에서 Llama/Qwen과
+> **2026-08-03 final decision supersession:** 이 문서는 C3까지의 historical ladder와
+> 당시 GH closure를 보존한다. 현재 canonical Motivation 종결, direct-z/ODE 해석과
+> Method handoff는
+> [`2026-08-03-session01-motivation-final-closure-and-method-handoff.md`](2026-08-03-session01-motivation-final-closure-and-method-handoff.md)를
+> 따른다. 상세 수치의 source-of-truth는 C3 pair synthesis와 post-run audit이다.
+
+> **2026-08-02 c3 최종 supersession:** c1 BF relative allocation algorithm을 복원하고
+> global update norm을 exact `D/4 × 4`로 분리한 c3에서 Llama/Qwen과
 > MEMIT/Alpha 네 cell이 모두 c1보다 회복했다. 따라서 c1 under-update는 cross-model
 > implementation cause로 확인됐다. Canonical report는
 > `experiment-reports/global/2026-08-02-session01-caphist-pair-c3-v1-synthesis.md`다.
+> 첫 edit/첫 round coefficient만 c1과 exact-identical이며, 후속 share는 달라진 current
+> state에서 다시 계산된다.
 
 ## 현재 최종 결정
 
@@ -34,7 +42,7 @@ K/share/threshold/model-specific retune은 금지한다.
 | H2 state non-stationarity | atomic/local signal survive |
 | H3 capacity concentration | capacity/concentration reduction 네 cell 공통 |
 | H4 capacity-aware routing benefit | directional signal survive; native superiority는 fail |
-| H5 long-horizon preservation | 4-edit retention은 c1보다 회복하나 native 대비 mixed; open |
+| H5 long-horizon preservation | 4-edit retention은 c1보다 회복했지만 final prior retention/AUC는 네 cell 모두 native보다 낮음; open |
 
 다음은 unit-norm share QP, negative-trust rollback/first-hit, applied full-step capacity
 constraint를 두 모델 공통으로 설계하는 Method Session이다. Strong pilot를 통과하기 전

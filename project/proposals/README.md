@@ -18,12 +18,24 @@ next-session criterion, server-head instruction envelope를 `PROTOCOL.md`에 따
 ## 현재 rationale section
 
 - [`sections/01-motivation-validation.md`](sections/01-motivation-validation.md):
-  Session 01의 mechanism chain, 2026-07-31 판정과 2026-08-02 c1 supersession
+  Session 01 mechanism chain과 C3 최종 Motivation closure
 - [`sections/02-related-work-and-novelty-boundary.md`](sections/02-related-work-and-novelty-boundary.md):
   layer allocation, sequential regularization, ODE prior와 baseline/novelty 경계
+- [`sections/03-direct-z-review-and-motivation-closure-design.md`](sections/03-direct-z-review-and-motivation-closure-design.md):
+  direct-z atomic/de-bundling의 historical design과 별도 scope
+- [`sections/04-method-design.md`](sections/04-method-design.md):
+  constrained layer-synchronous ODE-Edit controller와 common strong pilot 진입 계약
 
-Session 01은 c1에서 `CAPACITY_HISTORY_HARM_SIGNAL`, passing family `[]`로 최종
-종료됐다. Atomic/local possibility는 보존하지만 현재 sequential controller는
-cross-model negative다. 후속 fixed-direction coefficient, exact-length control,
-static allocation 또는 architecture-specific track은 기존 ODE-Edit 성공의 자동
-다음 단계가 아니라 새 proposal로 시작해야 한다.
+Session 01의 최종 판정은
+**`CLOSED_DIRECTIONAL_POSITIVE; STRONG_METHOD_GATE_FAIL`**이다. C1의
+`CAPACITY_HISTORY_HARM_SIGNAL`과 C2 bundled-share verdict는 C3에 의해 supersede됐다.
+C3는 BF relative share와 global magnitude의 분리가 필요함을 Llama/Qwen과
+MEMIT/Alpha에 걸쳐 확인했지만, deployable method superiority를 확립하지 않았다.
+
+Motivation 내부 추가 rescue/retune은 닫혔다. Method Session의 fast primary track은
+model-common monotone-load controller, adaptive trust/rollback, first-hit, Scalar/Static/
+Ordered baseline과 ODE necessity 비교에 한해 열린다. Signed-capacity hard barrier와
+AlphaEdit은 첫 MEMIT main table 뒤 ablation/extension으로 미룬다. Strong pilot 전
+large/lifelong execution, model-specific rescue, preservation/capability guarantee는
+허용하지 않는다. 최종 decision report는
+[`2026-08-03 Session 01 closure`](../../experiment-reports/global/2026-08-03-session01-motivation-final-closure-and-method-handoff.md)다.
