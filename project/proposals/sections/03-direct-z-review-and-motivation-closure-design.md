@@ -1,5 +1,11 @@
 # Direct-z 다각도 검토와 Motivation 최종 종료 실험 설계
 
+> **2026-08-03 cross-track status:** 별도 capacity/history track은 C3까지 완료되어
+> Motivation을 `CLOSED_DIRECTIONAL_POSITIVE; STRONG_METHOD_GATE_FAIL`로 닫았다.
+> 해당 결과는 이 문서의 direct-z 2×2 factorial을 실행하거나 해소한 것이 아니다. 이
+> 문서는 atomic de-bundling의 historical design으로 보존하며 current Method entry는
+> [`04-method-design.md`](04-method-design.md)를 따른다.
+
 - 날짜: 2026-08-02
 - 방법명: **ODE-Edit**
 - 문서 상태: **GH final design v3 — independent Terra review blocked; 실행·Slurm 제출 없음**
@@ -94,12 +100,14 @@ evidence에 합치지 않으며, 이번 지시로 새 direct-z job을 제출하�
 
 ### 사용자 확인 필요
 
-- 이 turn에서는 사용자가 “실험 구상만”을 지시했으므로 실행 권한은 없다.
-- 아래 설계를 실제로 구현·제출하려면 별도 실행 지시가 필요하다.
-- Repo의 `project/proposals/sections/01-motivation-validation.md`는 2026-07-31의
-  `closed-negative / NO MV3` 상태를 유지하지만, 2026-08-02 terminal report는
-  `atomic mechanism survives / sequential skeleton killed`로 갱신돼 있다. 실행 전
-  canonical proposal narrative를 최신 terminal evidence에 맞춰 정합화해야 한다.
+- 이 문서 작성 당시 사용자는 “실험 구상만”을 지시했으므로 이 2×2 factorial은 실행되지
+  않았다. 이후 capacity/history C3가 별도 track에서 Motivation을 종결했지만 이
+  factorial의 estimand를 소급해 해소하지 않는다.
+- Current canonical proposal narrative는
+  [`01-motivation-validation.md`](01-motivation-validation.md)와
+  [`04-method-design.md`](04-method-design.md)다.
+- 이 historical 2×2를 향후 실행하려면 Method identity ablation과 중복되지 않는지 먼저
+  검토하고 별도 사용자 실행 지시와 preregistration을 받아야 한다.
 
 ### GH red-team 정정
 

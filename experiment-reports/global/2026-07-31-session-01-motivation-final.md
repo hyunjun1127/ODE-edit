@@ -1,5 +1,13 @@
 # Session 01 Motivation Validation — GH 최종 보고서
 
+> **Historical report — superseded by C3.** 이 문서는 2026-07-31 `NO MV3`
+> decision을 보존하며 현재 Session 01 verdict가 아니다. 현재 canonical 상태는
+> `CLOSED_DIRECTIONAL_POSITIVE; STRONG_METHOD_GATE_FAIL`이다. 최신 종결은
+> [`2026-08-03-session01-motivation-final-closure-and-method-handoff.md`](2026-08-03-session01-motivation-final-closure-and-method-handoff.md),
+> 최종 causal evidence는
+> [`2026-08-02-session01-caphist-pair-c3-v1-synthesis.md`](2026-08-02-session01-caphist-pair-c3-v1-synthesis.md)를
+> 따른다.
+
 - 보고일: 2026-07-31
 - repo/method name: `ODE-Edit`
 - 최종 판정: **Motivation not supported cross-model**

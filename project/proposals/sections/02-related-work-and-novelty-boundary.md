@@ -1,9 +1,10 @@
 # ODE-Edit 관련 연구와 novelty 경계
 
 - 작성일: 2026-07-30
-- 최종 갱신: 2026-07-31
+- 최종 갱신: 2026-08-03
 - 문서 성격: Motivation Validation을 위한 proposal-side related-work audit
-- claim 상태: `motivation_not_supported_cross_model`; novelty claim 미승격
+- claim 상태: `motivation_directional_positive_strong_method_gate_fail`;
+  novelty/superiority claim 미승격
 - 조사 원칙: 논문 본문, 학회 페이지, 저자 공개 저장소 등 primary source를
   우선하며, 공개 구현의 존재와 이 repo에서의 재현 완료를 구분한다.
 
@@ -18,14 +19,19 @@ ODE-Edit의 방어 가능한 연구 질문은 “ODE를 처음 적용한 model e
 > 배분한 뒤, 부분 동시 적용 후 모든 proposal을 다시 계산하는
 > layer-synchronous state-dependent routing.
 
-이 문장도 최초성 claim이 아니라 검증할 연구 공백이었다. Session 01에서
-same-snapshot allocation signal은 관측됐지만 refreshed-direction 효과가
-Llama와 Qwen에서 반대 부호였고 pair gate가 `NO MV3`로 닫혔다. 따라서 현재
-이 조합은 **방어 가능한 contribution이 아니라 반증된 cross-model
-motivation**이다. 상세 수치와 first-match 판정은
-[`Session 01 GH 최종 보고서`](../../../experiment-reports/global/2026-07-31-session-01-motivation-final.md)와
-[`MV-2 pair red audit`](../../../audits/global/2026-07-31-mv2refresh-pair-v2.postrun.md)에
-분리해 기록했다.
+이 문장도 최초성 claim이 아니라 검증할 연구 공백이다. 초기 MV-2에서
+refreshed-direction 효과가 Llama와 Qwen에서 반대 부호였고 당시 pair gate는
+`NO MV3`로 닫혔다. 이후 direct-z/atomic, micro-sequential, capacity/history C1--C3
+ladder를 통해 원인을 분리했다. C3는 same-snapshot/current-state proposal과 C1-compatible
+BF relative share를 global magnitude와 분리할 때 네 model×family cell에 공통
+directional signal이 남는다는 것을 보였다.
+
+따라서 이 좁은 조합은 더 이상 “반증된 cross-model motivation”은 아니지만 아직
+방어 가능한 contribution도 아니다. ODE necessity, applied capacity safety, native
+superiority와 long-horizon benefit은 Method Session에서 검증해야 한다. 최신 decision은
+[`Session 01 최종 closure`](../../../experiment-reports/global/2026-08-03-session01-motivation-final-closure-and-method-handoff.md)와
+[`C3 pair synthesis`](../../../experiment-reports/global/2026-08-02-session01-caphist-pair-c3-v1-synthesis.md)에
+분리해 기록했다. 2026-07-31 보고서와 MV-2 audit은 당시 historical evidence로 보존한다.
 
 특히
 [WilKE](https://arxiv.org/abs/2402.10987),
@@ -168,9 +174,9 @@ layer 사이에서 비교하는 **marginal update budget/proxy**로 한정한다
 이 중 핵심 항목이 실패하면 `state-dependent iterative controller` 또는
 `static capacity-aware routing`으로 이름과 claim을 낮춘다.
 
-## Session 01 baseline tier
+## Method identity baseline tier
 
-### Motivation 내부 필수
+### Common strong pilot 내부 필수
 
 아래는 모두 동일 direct-z, request, context, covariance, pre-state에서 갈라지는
 paired branch다.
@@ -189,7 +195,7 @@ paired branch다.
 `WilKE-style proxy`는 WilKE reproduction이 아니다. 실제 WilKE와 NSE를 비교하려면
 각 논문의 target construction, selector, 반복 규칙을 별도 구현·감사해야 한다.
 
-### Motivation 생존 후
+### Strong pilot 생존 후
 
 - B0/B1 분리: native AlphaEdit, canonical history-aware AlphaEdit, EMMET, PMET
 - pinned external baseline: MPES+norm constraint, NAS, WilKE, NSE, BetaEdit
@@ -228,14 +234,19 @@ paired branch다.
 
 ## Motivation 최종 판정에 미치는 영향
 
-관련 연구가 Session 01을 kill한 것은 아니다. 사전등록된 MV-2
-refreshed-direction primary가 cross-model로 재현되지 않아 empirical gate가
-연구를 닫았다. 이 결과와 선행연구를 함께 적용하면 다음만 허용된다.
+관련 연구가 Session 01을 kill하거나 살린 것은 아니다. 초기 MV-2에서는
+refreshed-direction primary가 cross-model로 재현되지 않았지만, 후속 C3에서 BF
+share/global magnitude confound를 분리하자 model-common directional signal이 남았다.
+이 전체 결과와 선행연구를 함께 적용하면 다음만 허용된다.
 
-> 두 고정 모델에서 same-snapshot allocation signal은 관측됐으나,
-> all-proposal direction refresh의 효과는 architecture-dependent였고
-> cross-model ODE/relinearization motivation은 지지되지 않았다.
+> 두 고정 모델과 MEMIT/Alpha actuator에서 current-state proposal과 BF relative
+> layer routing을 independent global step과 결합할 방향성은 살아 있다. 그러나 static
+> routing 대비 ODE의 필요성, applied capacity safety, native efficacy–retention–compute
+> frontier와 long-horizon benefit은 아직 확립되지 않았다.
 
-따라서 MV-3/MV-4, 외부 baseline 이식, long-horizon benchmark를 진행하지
-않는다. fixed-direction dynamic coefficient 또는 static allocation을
-연구하려면 ODE contribution의 후속이 아니라 새 proposal로 시작해야 한다.
+따라서 Motivation 내부 MV-3/MV-4 rescue나 model-specific retune은 더 진행하지 않는다.
+다음 단계는 [`04-method-design.md`](04-method-design.md)의 common strong pilot이며,
+dynamic refreshed BF와 best static/frozen controller를 matched condition에서 직접
+비교해야 한다. 이 gate 전 외부 baseline 대규모 이식과 long-horizon benchmark는 열지
+않는다. Dynamic이 static과 동등하면 ODE contribution을 제거하고 static
+capacity-aware routing으로 claim을 낮춘다.
