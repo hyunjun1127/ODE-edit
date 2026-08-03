@@ -7,13 +7,13 @@
 - 사용 목적: ODE-Edit repository bootstrap 및 Session 01 Motivation 실행 host
 - 예상 사용 기간: 사용자 확인 필요
 - 담당 global-head: head-server1-gh
-- 담당 server-head: 미지정
-- global-head 승인: `active-local-gh-exception`; server-head onboarding은 pending
+- 담당 server-head: `head-server1-sh1`
+- global-head 승인: `active-local-gh-exception`; SH1 dedicated worktree/direct envelope authorized
 
 | 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
 | --- | --- | --- | --- | --- |
 | global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active |
-| server-head | 미지정 | `Sol Ultra` / 미지정 | `/mnt/raid5/janghj/ODE-edit` | pending assignment |
+| server-head | `019fc63e-5217-7250-9c22-c5b2ec4248f0` | `Sol Ultra` / `Sol Ultra` (runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | implementation prep complete; GH numerical-lock/submit instruction pending |
 
 ## 접근과 권한
 
@@ -37,6 +37,10 @@ secret은 절대 기록하지 않는다.
 - `agent.id`: `head-server1-gh`
 - `agent.role`: `global-head`
 - `agent.hostname`: `server1`
+- SH1 dedicated worktree effective identity: `agent.id=head-server1-sh1`,
+  `agent.role=server-head`, `agent.hostname=server1`; common local GH identity는 미수정
+- SH1 branch: `codex/odeeditsh1`; implementation checkpoint:
+  `9792597f2f43d6482468ebf2d79a82fbcb253b9b`
 - heartbeat 경로: `agents/server1/head-server1-gh.json`
 - sync 설정: GitHub remote와 main bootstrap push 완료; GH가 설치 여부를 결정
 
@@ -71,16 +75,16 @@ GH/SH session은 이 record를 갱신하고, 기존 session ID를 재사용하�
 
 ## Subagent 준비
 
-- Blue team 준비 상태: server-head 배정 후 필요
-- Red team 준비 상태: server-head 배정 후 필요
+- SH1 primary 준비 상태: compute-aware implementation prep 완료
+- Terra Ultra subagent audit: `TERRA_SUBAGENT_AUDIT_PENDING_RUNTIME_MISMATCH`
 - red-team onboarding audit 경로:
   `audits/servers/server1/session01-motivation-onboarding.preflight.md`
 
 ## 판정
 
-- 상태: `active-local-gh`; server-head는 미배정
+- 상태: `active-local-gh-sh1`; SH1은 GH numerical-lock/별도 submit envelope 대기
 - 완료: repository/remote/session/resource boundary, EasyEdit runtime,
   pinned dataset/cache, Slurm pair 실행과 Session 01 Motivation closure
-- 남은 작업: local SSH/rsync dry-run, server-head 배정, remote peer clone 뒤
-  artifact broadcast 검증, red-team onboarding audit
+- 남은 작업: local SSH/rsync dry-run, remote peer clone 뒤 artifact broadcast 검증,
+  GH numerical-lock/submit 승인, Terra Ultra result-analysis runtime 확인
 - 다음 담당자: global-head 및 사용자
