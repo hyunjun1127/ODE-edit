@@ -106,6 +106,28 @@ class _DirectZOnce:
         return self.value
 
 
+def _prepare_event_target_if_required(
+    backend: MethodBackend,
+    target: _DirectZOnce,
+) -> Any:
+    """Prepare an edit-local event target before the first event, if required.
+
+    Legacy backends deliberately have no ``prepare_event_target`` method and
+    retain the original lazy direct-z/entry-hit behavior.  The oracle-mean V2
+    backend implements the method, so direct-z is computed exactly once before
+    its entry target and no N_z=0 path is representable for that backend.
+    """
+
+    prepare = getattr(backend, "prepare_event_target", None)
+    if prepare is None:
+        return None
+    if not callable(prepare):
+        raise MethodContractError("backend event-target preparer is not callable")
+    frozen_target = target.get()
+    prepare(frozen_target)
+    return frozen_target
+
+
 def _assert_batch_current(backend: MethodBackend, batch: ProposalBatch) -> None:
     current = backend.current_state_id()
     if batch.snapshot_id != current:
@@ -146,9 +168,16 @@ def _functional_commit_mismatch_message(
 
 
 class FiveArmRunner:
-    def __init__(self, config: ControllerConfig, omega: OmegaLedger) -> None:
+    def __init__(
+        self,
+        config: ControllerConfig,
+        omega: OmegaLedger,
+        *,
+        scale_rejected_progress: bool = False,
+    ) -> None:
         self.config = config
         self.omega = omega
+        self.scale_rejected_progress = bool(scale_rejected_progress)
 
     def run(
         self,
@@ -196,6 +225,7 @@ class FiveArmRunner:
         del frozen_omega  # Native does not route, but freezes the same edit ledger.
         target = _DirectZOnce(backend, request, instrumentation)
         try:
+            target_value = _prepare_event_target_if_required(backend, target)
             before = self._event(backend, request, instrumentation)
             if before.is_hit(self.config.event_tolerance):
                 if instrumentation is not None:
@@ -208,12 +238,13 @@ class FiveArmRunner:
                     arm=Arm.NATIVE_MEMIT,
                     edit_id=edit_id,
                     status="event_hit",
-                    direct_z_compute_count=0,
+                    direct_z_compute_count=target.compute_count,
                     terminal_state_id=backend.current_state_id(),
                     omega_appended=True,
                     steps=(),
                 )
-            target_value = target.get()
+            if target_value is None:
+                target_value = target.get()
             batch = self._build_native(
                 lambda: backend.build_native_terminal(target_value),
                 instrumentation,
@@ -284,6 +315,7 @@ class FiveArmRunner:
         self.omega.frozen_for_edit(edit_id)
         target = _DirectZOnce(backend, request, instrumentation)
         try:
+            target_value = _prepare_event_target_if_required(backend, target)
             entry_event = self._event(backend, request, instrumentation)
             if entry_event.is_hit(self.config.event_tolerance):
                 if instrumentation is not None:
@@ -295,7 +327,7 @@ class FiveArmRunner:
                     arm=Arm.SCALAR_FIRST_HIT,
                     edit_id=edit_id,
                     status="event_hit",
-                    direct_z_compute_count=0,
+                    direct_z_compute_count=target.compute_count,
                     terminal_state_id=backend.current_state_id(),
                     omega_appended=True,
                     steps=(),
@@ -304,7 +336,8 @@ class FiveArmRunner:
                 )
                 self.omega.append_terminal(edit_id, terminal_energy)
                 return result
-            target_value = target.get()
+            if target_value is None:
+                target_value = target.get()
             batch = self._build_native(
                 lambda: backend.build_native_terminal(target_value),
                 instrumentation,
@@ -429,10 +462,12 @@ class FiveArmRunner:
         static_entry: ProposalBatch | None = None
         static_share: tuple[float, ...] | None = None
         retry_field: tuple[EventReading, ProposalBatch, int | None, str] | None = None
+        rejected_candidate: tuple[str, float, tuple[float, ...]] | None = None
         cached_current_event: EventReading | None = None
 
         target_value: Any = None
         try:
+            target_value = _prepare_event_target_if_required(backend, target)
             while accepted_count < accepted_cap:
                 if retry_field is not None:
                     before, batch, layer, retry_state_id = retry_field
@@ -532,6 +567,12 @@ class FiveArmRunner:
                     radius_cap = self.config.h_max_fraction * d_sync_entry
 
                 assert radius_cap is not None
+                retry_index = rejections if retry_field is not None else 0
+                retry_scale = (
+                    self.config.gamma_down**retry_index
+                    if self.scale_rejected_progress
+                    else 1.0
+                )
 
                 qp_timer = (
                     instrumentation.component("qp")
@@ -547,6 +588,7 @@ class FiveArmRunner:
                             hard_phi=before.hard_phi,
                             trust_radius=radius,
                             config=self.config,
+                            progress_scale=retry_scale,
                         )
                     else:
                         solution = solve_progress_qp(
@@ -563,6 +605,7 @@ class FiveArmRunner:
                             hard_phi=before.hard_phi,
                             trust_radius=radius,
                             config=self.config,
+                            progress_scale=retry_scale,
                         )
                         if (
                             arm is Arm.STATIC_SYNCHRONOUS
@@ -572,6 +615,29 @@ class FiveArmRunner:
                                 solution.coefficients,
                                 self.config.progress_epsilon,
                             )
+
+                if self.scale_rejected_progress and retry_index > 0:
+                    if rejected_candidate is None:
+                        raise MethodContractError(
+                            "unchanged-state retry lacks its rejected candidate"
+                        )
+                    rejected_state, rejected_progress, rejected_coefficients = (
+                        rejected_candidate
+                    )
+                    if rejected_state != backend.current_state_id():
+                        raise MethodContractError(
+                            "unchanged-state retry candidate state differs"
+                        )
+                    if (
+                        solution.coefficient_norm > self.config.progress_epsilon
+                        and (
+                            solution.requested_progress == rejected_progress
+                            or solution.coefficients == rejected_coefficients
+                        )
+                    ):
+                        raise MethodContractError(
+                            "unchanged-state rejection retry replayed its QP candidate"
+                        )
 
                 if solution.predicted_progress <= self.config.progress_epsilon:
                     if arm is Arm.ORDERED_ADAPTIVE:
@@ -691,12 +757,20 @@ class FiveArmRunner:
                         smooth_phi_before=before.smooth_phi,
                         smooth_phi_after=after.smooth_phi,
                         trust_ratio=verdict.ratio,
+                        radius=radius,
+                        radius_cap=radius_cap,
+                        requested_progress=solution.requested_progress,
+                        predicted_progress=solution.predicted_progress,
+                        coefficient_l2=solution.coefficient_norm,
+                        retry_index=retry_index,
+                        retry_scale=retry_scale,
                     )
                 )
                 radius = verdict.next_radius
                 if verdict.accepted:
                     rejections = 0
                     retry_field = None
+                    rejected_candidate = None
                     accepted_count += 1
                     zero_slope_streak = 0
                     if arm is Arm.ORDERED_ADAPTIVE:
@@ -730,6 +804,11 @@ class FiveArmRunner:
                         batch,
                         layer,
                         backend.current_state_id(),
+                    )
+                    rejected_candidate = (
+                        backend.current_state_id(),
+                        solution.requested_progress,
+                        solution.coefficients,
                     )
                     if rejections >= self.config.max_rejections_per_state:
                         self._restore(backend, entry, instrumentation)

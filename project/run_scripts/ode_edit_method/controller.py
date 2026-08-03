@@ -47,6 +47,7 @@ def solve_progress_qp(
     hard_phi: float,
     trust_radius: float,
     config: ControllerConfig,
+    progress_scale: float = 1.0,
 ) -> QPSolution:
     """Solve the exact diagonal minimum-Omega progress-equality QP.
 
@@ -68,6 +69,9 @@ def solve_progress_qp(
     radius = finite("trust radius", trust_radius)
     if radius <= 0.0:
         raise MethodContractError("trust radius must be positive")
+    scale = finite("progress scale", progress_scale)
+    if not 0.0 < scale <= 1.0:
+        raise MethodContractError("progress scale must lie in (0, 1]")
     costs: list[float] = []
     for layer in locked_layers:
         try:
@@ -81,7 +85,7 @@ def solve_progress_qp(
     slope_norm = math.sqrt(math.fsum(value * value for value in locked_slopes))
     maximum = radius * slope_norm
     deficit = max(0.0, finite("hard event", hard_phi))
-    requested = min(config.kappa * deficit, config.beta * maximum)
+    requested = scale * min(config.kappa * deficit, config.beta * maximum)
     if requested <= config.progress_epsilon or slope_norm <= config.slope_epsilon:
         coefficients = tuple(0.0 for _ in locked_layers)
         return QPSolution(
@@ -154,6 +158,7 @@ def static_coefficients(
     hard_phi: float,
     trust_radius: float,
     config: ControllerConfig,
+    progress_scale: float = 1.0,
 ) -> QPSolution:
     """Change only the global magnitude of a frozen entry direction/share."""
 
@@ -174,8 +179,11 @@ def static_coefficients(
         slope * value for slope, value in zip(slopes, share, strict=True)
     )
     radius = finite("trust radius", trust_radius)
+    scale = finite("progress scale", progress_scale)
+    if not 0.0 < scale <= 1.0:
+        raise MethodContractError("progress scale must lie in (0, 1]")
     maximum = radius * projected_slope
-    requested = min(
+    requested = scale * min(
         config.kappa * max(0.0, finite("hard event", hard_phi)),
         config.beta * maximum,
     )

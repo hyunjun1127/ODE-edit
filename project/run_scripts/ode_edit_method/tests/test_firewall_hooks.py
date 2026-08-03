@@ -82,6 +82,8 @@ class InformationFirewallTests(unittest.TestCase):
             tau=0.2,
         )
         self.assertEqual(reading.context_margins, (1.0, -0.5))
+        self.assertEqual(reading.target_new_log_likelihoods, (-1.0, -3.0))
+        self.assertEqual(reading.target_old_log_likelihoods, (-2.0, -2.5))
         self.assertAlmostEqual(reading.hard_phi, 0.5)
         self.assertEqual(normalize_object_text("Paris"), " Paris")
         self.assertEqual(normalize_object_text(" Paris"), " Paris")
@@ -190,6 +192,14 @@ class InformationFirewallTests(unittest.TestCase):
                 )
             metrics.detach_model()
             self.assertEqual(measured, expected)
+            self.assertEqual(
+                measured.target_new_log_likelihoods,
+                tuple(float(value) for value in new_reference),
+            )
+            self.assertEqual(
+                measured.target_old_log_likelihoods,
+                tuple(float(value) for value in old_reference),
+            )
             self.assertEqual(measured.nfe, EVENT_MODEL_FORWARD_CALLS)
             self.assertEqual(model.calls, 2)
             counters = metrics.finalize().to_dict()["counters"]

@@ -387,6 +387,8 @@ def event_from_log_likelihoods(
         smooth_phi=smooth,
         context_margins=margins,
         nfe=nfe,
+        target_new_log_likelihoods=new,
+        target_old_log_likelihoods=old,
     )
 
 

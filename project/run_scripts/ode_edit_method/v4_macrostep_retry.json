@@ -1,0 +1,85 @@
+{
+  "schema_version": "ode-edit-v4-macrostep-retry-development-lock/v1",
+  "status": "TECHNICAL_V4_FULL_ONLY_P1_EXECUTION_LOCK",
+  "instruction_id": "ODEEDIT-S02-V4-MACROSTEP-RETRY-P1-PAIR-V1",
+  "parent_instruction_id": "ODEEDIT-S02-ORACLE-ABSOLUTE-MEAN-MARGIN-V3-P0P1",
+  "implementation_base": "55556881ac593e1300c3cff90753f17731f3df93",
+  "v3_frozen": {
+    "proposal_id": "bc8fc256737d4e82b83f1937633ca94709d59e51969612611e20981aa70c4c23",
+    "lock_sha256": "cd4ffeb2310e1d261cea0457cd683293e53cf92b136b6d6eb01cd5c4af579882",
+    "event_canonical_sha256": "a963fef57899ba6865d3d7f9734f7de9e641682f618ee387066f527ff241332d",
+    "rho": 0.5,
+    "required_mean_margin": 0.0,
+    "q_new_floor": 0.5,
+    "q_margin_decision": false,
+    "per_context_decision": false,
+    "native_nll_equality_used": false
+  },
+  "controller_overrides": {
+    "h0_fraction": 0.5,
+    "h_max_fraction": 1.0,
+    "kappa": 1.25
+  },
+  "retry_policy": {
+    "enabled": true,
+    "same_state_field_reuse": true,
+    "progress_retry_scale": "gamma_down**retry_index",
+    "radius_contraction_preserved": true,
+    "candidate_replay_fail_closed": true,
+    "extra_field_or_backward": false
+  },
+  "unchanged_controller": {
+    "beta": 0.8,
+    "gamma_down": 0.5,
+    "gamma_up": 1.5,
+    "eta_reject": 0.1,
+    "eta_expand": 0.75,
+    "s_max": 6,
+    "max_rejections_per_state": 4
+  },
+  "selection": {
+    "models": [
+      "llama3-8b-inst",
+      "qwen2.5-7b-inst"
+    ],
+    "case_ids": [
+      "2022",
+      "12498",
+      "20964",
+      "768"
+    ],
+    "seed": 17,
+    "arms": [
+      "full-ode-edit"
+    ],
+    "execution_axis": "full-arm-sequential-edit-inner",
+    "dtype_policy": "checkpoint-original",
+    "model_specific_policy": false,
+    "evaluation": false,
+    "generation": false
+  },
+  "v3_native_baselines": {
+    "llama3-8b-inst": {
+      "root": "local/results/session02-oracle-absolute-mean-margin-v3-p1-llama3-8b-inst-bc8fc256",
+      "terminal_manifest_sha256": "a02568fe4ea4c41cdb6a1cadb2f56a775ccca891dfdbbd17c23613f3db4f3a75"
+    },
+    "qwen2.5-7b-inst": {
+      "root": "local/results/session02-oracle-absolute-mean-margin-v3-p1-qwen2.5-7b-inst-bc8fc256",
+      "terminal_manifest_sha256": "29fae415b6f285083ebe3a82750ffa538865f611e7e1c2e1e1b2d3e9f0ee3269"
+    }
+  },
+  "resources": {
+    "server1_project_gpu_cap": 3,
+    "gpu_per_job": 1,
+    "cpu_per_job": 8,
+    "host_memory_mib_per_job": 65000,
+    "time": "08:00:00",
+    "pair_gpu": 2
+  },
+  "execution_boundary": {
+    "submission_authorized": false,
+    "retry_authorized": false,
+    "token": "v4-macrostep-retry-p1-full-only",
+    "scientific_outcome_count": 0
+  }
+}

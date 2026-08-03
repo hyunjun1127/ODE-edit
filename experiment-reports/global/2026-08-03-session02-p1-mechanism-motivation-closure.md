@@ -1,5 +1,9 @@
 # Session 02 P1 mechanism diagnostic 및 Motivation closure
 
+> **후속 canonical 판정:** 이 문서는 V4 이전 controller의 historical diagnostic이다.
+> Event/controller 재설계 뒤의 최종 Motivation 판정은
+> `experiment-reports/global/2026-08-04-session02-v4-motivation-closure.md`를 따른다.
+
 - 최종 갱신: **2026-08-03 23:28 KST**
 - 방법명: **ODE-Edit**
 - 모델: `llama3-8b-inst`, `qwen2.5-7b-inst`

@@ -52,7 +52,12 @@ from .derivatives import (
     assert_scalar_gate_matches_hook,
 )
 from .dense_memit import TransientDenseMemitSolver
-from .events import ControllerRequest, measure_differentiable_event, measure_event
+from .events import (
+    ControllerRequest,
+    DifferentiableEvent,
+    measure_differentiable_event,
+    measure_event,
+)
 from .functional_trial import QuantizedFullLinearFunctionalTrial
 from .hooks import TorchCheckpoint, terminal_net_c_energy
 from .instrumentation import EditInstrumentation
@@ -65,6 +70,20 @@ from .memit_adapter import (
 )
 from .mechanism import capture_field_mechanism
 from .preflight import CovarianceRuntimeContract
+from .oracle_event import (
+    OracleCalibration,
+    OracleMeanEventTarget,
+    calibrate_oracle_mean_target,
+    measure_differentiable_oracle_mean_event,
+    measure_oracle_mean_event,
+)
+from .oracle_absolute_event import (
+    OracleAbsoluteMeanMarginCalibration,
+    OracleAbsoluteMeanMarginTarget,
+    calibrate_oracle_absolute_mean_margin_target,
+    measure_differentiable_oracle_absolute_mean_margin_event,
+    measure_oracle_absolute_mean_margin_event,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -272,6 +291,14 @@ class EasyEditMemitBackend:
                 "hard_phi": reading.hard_phi,
                 "smooth_phi": reading.smooth_phi,
                 "context_margins": list(reading.context_margins),
+                "target_new_log_likelihoods": list(
+                    reading.target_new_log_likelihoods
+                ),
+                "target_old_log_likelihoods": list(
+                    reading.target_old_log_likelihoods
+                ),
+                "event_mode": reading.event_mode,
+                "decision_deficits": list(reading.decision_deficits),
                 "nfe": reading.nfe,
             }
         )
@@ -414,16 +441,28 @@ class EasyEditMemitBackend:
             raise MethodContractError("proposal state is outside the outer transaction")
         return target
 
-    def event(self, request: ControllerRequest) -> EventReading:
-        if request != self.request:
-            raise MethodContractError("event request differs from backend edit")
-        reading = measure_event(
+    def _measure_event(self, request: ControllerRequest) -> EventReading:
+        return measure_event(
             self.model,
             self.tokenizer,
             request,
             self.contexts.templates,
             tau=self.tau,
         )
+
+    def _measure_differentiable_event(self) -> DifferentiableEvent:
+        return measure_differentiable_event(
+            self.model,
+            self.tokenizer,
+            self.request,
+            self.contexts.templates,
+            tau=self.tau,
+        )
+
+    def event(self, request: ControllerRequest) -> EventReading:
+        if request != self.request:
+            raise MethodContractError("event request differs from backend edit")
+        reading = self._measure_event(request)
         self._record_event("event", reading)
         return reading
 
@@ -635,13 +674,7 @@ class EasyEditMemitBackend:
                 self.instrumentation.component("field"),
                 self.instrumentation.model_forward_scope("field"),
             ):
-                event = measure_differentiable_event(
-                    self.model,
-                    self.tokenizer,
-                    self.request,
-                    self.contexts.templates,
-                    tau=self.tau,
-                )
+                event = self._measure_differentiable_event()
             field = hook.compute(event.smooth_phi)
         self._record_event("field", event.reading)
         if (
@@ -657,13 +690,7 @@ class EasyEditMemitBackend:
                     self.instrumentation.component("reference_gate"),
                     self.instrumentation.model_forward_scope("reference_gate"),
                 ):
-                    reference_event = measure_differentiable_event(
-                        self.model,
-                        self.tokenizer,
-                        self.request,
-                        self.contexts.templates,
-                        tau=self.tau,
-                    )
+                    reference_event = self._measure_differentiable_event()
                 reference_field = reference.compute(reference_event.smooth_phi)
             rows = assert_scalar_gate_matches_hook(
                 field,
@@ -749,4 +776,171 @@ class EasyEditMemitBackend:
             entry_checkpoint.weights,
             self.covariance_by_layer,
             self.weight_by_layer,
+        )
+
+
+class OracleMeanEasyEditBackend(EasyEditMemitBackend):
+    """MEMIT backend whose primary event is the direct-z oracle mean target.
+
+    The base backend remains the byte/semantic-compatible legacy path used by
+    the R2 replay.  This subclass alone opts into eager direct-z calibration.
+    """
+
+    def __init__(self, *, oracle_epsilon: float, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        self.oracle_epsilon = float(oracle_epsilon)
+        if not math.isfinite(self.oracle_epsilon) or self.oracle_epsilon <= 0.0:
+            raise MethodContractError("oracle validity epsilon is invalid")
+        self._oracle_calibration: OracleCalibration | None = None
+        self._oracle_target: OracleMeanEventTarget | None = None
+        self._cached_oracle_entry: EventReading | None = None
+
+    @property
+    def oracle_calibration(self) -> OracleCalibration | None:
+        return self._oracle_calibration
+
+    @property
+    def oracle_target(self) -> OracleMeanEventTarget | None:
+        return self._oracle_target
+
+    def prepare_event_target(self, frozen_target: Any) -> None:
+        target = self._assert_frozen_target(frozen_target)
+        if self._oracle_calibration is not None:
+            raise MethodContractError("oracle target was calibrated more than once")
+        if (
+            self._entry_snapshot is None
+            or self.current_state_id() != self._entry_snapshot.state_id
+        ):
+            raise MethodContractError("oracle target is not calibrated at edit entry")
+        with self.instrumentation.component("event"):
+            calibration = calibrate_oracle_mean_target(
+                self.model,
+                self.tokenizer,
+                self.request,
+                self.contexts.templates,
+                direct_z=target,
+                bindings=self.bindings,
+                hparams=self.hparams,
+                tau=self.tau,
+                epsilon=self.oracle_epsilon,
+                entry_forward_scope=self.instrumentation.model_forward_scope("event"),
+                # Oracle forwards are additional model calls, not ordinary
+                # event evaluations.  Their exact count is retained by the
+                # calibration record while N_model_fwd still observes them.
+                oracle_forward_scope=self.instrumentation.model_forward_scope(None),
+            )
+        self._oracle_calibration = calibration
+        self._oracle_target = calibration.target
+        self._cached_oracle_entry = calibration.entry_reading
+        self._record_event("oracle", calibration.oracle_shadow_reading)
+
+    def _require_oracle_target(self) -> OracleMeanEventTarget:
+        if self._oracle_target is None:
+            raise MethodContractError("oracle event target is not calibrated")
+        return self._oracle_target
+
+    def _measure_event(self, request: ControllerRequest) -> EventReading:
+        if self._cached_oracle_entry is not None:
+            reading = self._cached_oracle_entry
+            self._cached_oracle_entry = None
+            return reading
+        return measure_oracle_mean_event(
+            self.model,
+            self.tokenizer,
+            request,
+            self.contexts.templates,
+            target=self._require_oracle_target(),
+            tau=self.tau,
+        )
+
+    def _measure_differentiable_event(self) -> DifferentiableEvent:
+        return measure_differentiable_oracle_mean_event(
+            self.model,
+            self.tokenizer,
+            self.request,
+            self.contexts.templates,
+            target=self._require_oracle_target(),
+            tau=self.tau,
+        )
+
+
+class OracleAbsoluteMeanMarginEasyEditBackend(OracleMeanEasyEditBackend):
+    """V3 backend with a zero mean-margin floor and oracle absolute floor."""
+
+    def prepare_event_target(self, frozen_target: Any) -> None:
+        target = self._assert_frozen_target(frozen_target)
+        if self._oracle_calibration is not None:
+            raise MethodContractError("V3 oracle target was calibrated more than once")
+        if (
+            self._entry_snapshot is None
+            or self.current_state_id() != self._entry_snapshot.state_id
+        ):
+            raise MethodContractError("V3 oracle target is not calibrated at edit entry")
+        with self.instrumentation.component("event"):
+            calibration = calibrate_oracle_absolute_mean_margin_target(
+                self.model,
+                self.tokenizer,
+                self.request,
+                self.contexts.templates,
+                direct_z=target,
+                bindings=self.bindings,
+                hparams=self.hparams,
+                tau=self.tau,
+                epsilon=self.oracle_epsilon,
+                entry_forward_scope=self.instrumentation.model_forward_scope("event"),
+                oracle_forward_scope=self.instrumentation.model_forward_scope(None),
+            )
+        self._oracle_calibration = calibration
+        self._oracle_target = calibration.target
+        self._cached_oracle_entry = calibration.entry_reading
+        self._record_event("oracle", calibration.oracle_shadow_reading)
+
+    @property
+    def oracle_calibration(
+        self,
+    ) -> OracleAbsoluteMeanMarginCalibration | None:
+        calibration = self._oracle_calibration
+        if calibration is None:
+            return None
+        if not isinstance(calibration, OracleAbsoluteMeanMarginCalibration):
+            raise MethodContractError("V3 oracle calibration type differs")
+        return calibration
+
+    @property
+    def oracle_target(self) -> OracleAbsoluteMeanMarginTarget | None:
+        target = self._oracle_target
+        if target is None:
+            return None
+        if not isinstance(target, OracleAbsoluteMeanMarginTarget):
+            raise MethodContractError("V3 oracle target type differs")
+        return target
+
+    def _require_oracle_target(self) -> OracleAbsoluteMeanMarginTarget:
+        target = self.oracle_target
+        if target is None:
+            raise MethodContractError("V3 oracle event target is not calibrated")
+        return target
+
+    def _measure_event(self, request: ControllerRequest) -> EventReading:
+        if self._cached_oracle_entry is not None:
+            reading = self._cached_oracle_entry
+            self._cached_oracle_entry = None
+            return reading
+        return measure_oracle_absolute_mean_margin_event(
+            self.model,
+            self.tokenizer,
+            request,
+            self.contexts.templates,
+            target=self._require_oracle_target(),
+            tau=self.tau,
+        )
+
+    def _measure_differentiable_event(self) -> DifferentiableEvent:
+        return measure_differentiable_oracle_absolute_mean_margin_event(
+            self.model,
+            self.tokenizer,
+            self.request,
+            self.contexts.templates,
+            target=self._require_oracle_target(),
+            tau=self.tau,
         )

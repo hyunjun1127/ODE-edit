@@ -157,18 +157,69 @@ class EventReading:
     smooth_phi: float
     context_margins: tuple[float, ...]
     nfe: int = 0
+    # Absolute teacher-forced likelihoods are produced by the same two
+    # forwards that define ``context_margins``.  Legacy mode retains them as
+    # diagnostics; oracle-mean mode aggregates them into the two locked
+    # decision deficits without exposing any raw context text.
+    target_new_log_likelihoods: tuple[float, ...] = ()
+    target_old_log_likelihoods: tuple[float, ...] = ()
+    event_mode: str = "legacy-worst-context-margin-shadow"
+    decision_deficits: tuple[float, ...] = ()
 
     def __post_init__(self) -> None:
         hard = finite("hard event", self.hard_phi)
         smooth = finite("smooth event", self.smooth_phi)
         margins = tuple(finite("context margin", value) for value in self.context_margins)
+        target_new = tuple(
+            finite("target-new log likelihood", value)
+            for value in self.target_new_log_likelihoods
+        )
+        target_old = tuple(
+            finite("target-old log likelihood", value)
+            for value in self.target_old_log_likelihoods
+        )
+        deficits = tuple(
+            finite("decision deficit", value) for value in self.decision_deficits
+        )
         if not margins:
             raise MethodContractError("event requires at least one allowed context")
+        if bool(target_new) != bool(target_old):
+            raise MethodContractError("event absolute likelihood panels are incomplete")
+        if target_new:
+            if len(target_new) != len(margins) or len(target_old) != len(margins):
+                raise MethodContractError(
+                    "event absolute likelihood panels are misaligned"
+                )
+            for new_value, old_value, margin in zip(
+                target_new, target_old, margins, strict=True
+            ):
+                if not math.isclose(
+                    new_value - old_value,
+                    margin,
+                    rel_tol=1e-12,
+                    abs_tol=1e-12,
+                ):
+                    raise MethodContractError(
+                        "event margin differs from its absolute likelihoods"
+                    )
         if isinstance(self.nfe, bool) or not isinstance(self.nfe, int) or self.nfe < 0:
             raise MethodContractError("event NFE must be a non-negative integer")
+        if not isinstance(self.event_mode, str) or not self.event_mode:
+            raise MethodContractError("event mode is empty")
+        if deficits and not math.isclose(
+            hard, max(deficits), rel_tol=1e-12, abs_tol=1e-12
+        ):
+            raise MethodContractError("hard event differs from decision deficits")
         object.__setattr__(self, "hard_phi", hard)
         object.__setattr__(self, "smooth_phi", smooth)
         object.__setattr__(self, "context_margins", margins)
+        object.__setattr__(self, "target_new_log_likelihoods", target_new)
+        object.__setattr__(self, "target_old_log_likelihoods", target_old)
+        object.__setattr__(self, "decision_deficits", deficits)
+
+    @property
+    def has_absolute_likelihoods(self) -> bool:
+        return bool(self.target_new_log_likelihoods)
 
     def is_hit(self, tolerance: float) -> bool:
         return self.hard_phi <= finite("event tolerance", tolerance)
@@ -360,10 +411,36 @@ class StepRecord:
     smooth_phi_before: float
     smooth_phi_after: float
     trust_ratio: float
+    radius: float | None = None
+    radius_cap: float | None = None
+    requested_progress: float | None = None
+    predicted_progress: float | None = None
+    coefficient_l2: float | None = None
+    retry_index: int | None = None
+    retry_scale: float | None = None
 
     def __post_init__(self) -> None:
         if self.solver_coefficients != self.applied_coefficients:
             raise MethodContractError("applied coefficients differ from controller output")
+        for name in (
+            "radius",
+            "radius_cap",
+            "requested_progress",
+            "predicted_progress",
+            "coefficient_l2",
+            "retry_scale",
+        ):
+            value = getattr(self, name)
+            if value is not None and finite(name, value) < 0.0:
+                raise MethodContractError(f"{name} must be non-negative")
+        if self.retry_scale is not None and not 0.0 < self.retry_scale <= 1.0:
+            raise MethodContractError("retry scale must lie in (0, 1]")
+        if self.retry_index is not None and (
+            isinstance(self.retry_index, bool)
+            or not isinstance(self.retry_index, int)
+            or self.retry_index < 0
+        ):
+            raise MethodContractError("retry index must be a non-negative integer")
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -381,6 +458,13 @@ class StepRecord:
             "smooth_phi_before": self.smooth_phi_before,
             "smooth_phi_after": self.smooth_phi_after,
             "trust_ratio": self.trust_ratio,
+            "radius": self.radius,
+            "radius_cap": self.radius_cap,
+            "requested_progress": self.requested_progress,
+            "predicted_progress": self.predicted_progress,
+            "coefficient_l2": self.coefficient_l2,
+            "retry_index": self.retry_index,
+            "retry_scale": self.retry_scale,
         }
 
 

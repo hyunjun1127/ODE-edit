@@ -1,0 +1,68 @@
+{
+  "schema_version": "ode-edit-oracle-mean-event-development-lock/v2",
+  "status": "TECHNICAL_P0P1_EXECUTION_LOCK",
+  "instruction_id": "ODEEDIT-S02-ORACLE-MEAN-EVENT-V2-R1-P0P1",
+  "parent_instruction_id": "ODEEDIT-S02-ORACLE-MEAN-EVENT-V2-P0P1",
+  "revision_id": "R1_EXACT_ZERO_ACCOUNTING_FIREWALL",
+  "base_main": "755e9cd733316673899b1d77849d857d63e68dc1",
+  "base_proposal_id": "83eec5068acec673f7d9d0788e57ce0e9873a55785f7a6932026a4a2420c330b",
+  "base_lock_sha256": "95376c554f01e00c9c5d71e99dfa3cbb5339a7534db8a62a9a05bc69c0be1bbb",
+  "event": {
+    "mode": "direct-z-oracle-uniform-mean-two-constraint",
+    "rho": 0.5,
+    "oracle_validity_epsilon": 0.000001,
+    "context_weights": "uniform",
+    "oracle_model_forwards_per_edit": 2,
+    "ordinary_model_forwards_per_event": 2,
+    "smooth_objective_count": 2,
+    "per_context_decision": false,
+    "legacy_event_role": "shadow-diagnostic-only",
+    "conditional_fallback": false,
+    "native_nll_equality_used": false,
+    "direct_z_before_entry_event": true,
+    "entry_hit_n_z_zero_allowed": false
+  },
+  "selection": {
+    "seed": 17,
+    "p0_case_ids": ["2022"],
+    "p1_case_ids": ["2022", "12498", "20964", "768"],
+    "arms": ["native-memit", "static-synchronous", "full-ode-edit"],
+    "p0_repetitions": 1,
+    "p1_repetitions": 1,
+    "execution_axis": "arm-outer-sequential-edit-inner"
+  },
+  "runtime": {
+    "models": ["llama3-8b-inst", "qwen2.5-7b-inst"],
+    "dtype_policy": "checkpoint-original",
+    "observed_parameter_dtype": "torch.bfloat16",
+    "trial_backend": "quantized-full-linear-commit-emulator",
+    "event_teacher_backend": "two-separate-teacher-forced-forwards",
+    "model_specific_policy": false,
+    "evaluation": false,
+    "generation": false
+  },
+  "legacy_r2": {
+    "execution_head": "e285c96d704a04287f65d1c51539ebbb81451d28",
+    "llama_terminal_manifest_sha256": "19d7619400dd4387f69b05192046297b5331ee5d4e581486ab9544eeafc0da6f",
+    "qwen_terminal_manifest_sha256": "c830799669a6d7a537cb6b4893f8e2d580f307f5bf445bae68c51885cbb9c381",
+    "arms": ["native-memit", "full-ode-edit"],
+    "direct_z_recomputed": false,
+    "excluded_from_v2_compute": true
+  },
+  "resources": {
+    "server1_project_gpu_cap": 3,
+    "gpu_per_job": 1,
+    "cpu_per_job": 8,
+    "host_memory_mib_per_job": 65000,
+    "p0_time": "04:00:00",
+    "p1_time": "08:00:00",
+    "pair_gpu": 2
+  },
+  "execution_boundary": {
+    "submission_authorized": false,
+    "retry_authorized": false,
+    "p0_token": "oracle-mean-event-v2-r1-p0",
+    "p1_token": "oracle-mean-event-v2-r1-p1-after-p0-pass",
+    "scientific_outcome_count": 0
+  }
+}
