@@ -47,6 +47,7 @@ class Arm(str, Enum):
     NATIVE_MEMIT = "native-memit"
     SCALAR_FIRST_HIT = "scalar-first-hit"
     STATIC_SYNCHRONOUS = "static-synchronous"
+    ONE_REFRESH = "one-refresh"
     ORDERED_ADAPTIVE = "ordered-adaptive"
     FULL_ODE_EDIT = "full-ode-edit"
 
@@ -55,6 +56,7 @@ ARM_ORDER = (
     Arm.NATIVE_MEMIT,
     Arm.SCALAR_FIRST_HIT,
     Arm.STATIC_SYNCHRONOUS,
+    Arm.ONE_REFRESH,
     Arm.ORDERED_ADAPTIVE,
     Arm.FULL_ODE_EDIT,
 )
@@ -178,19 +180,24 @@ class ControllerConfig:
 
     tau: float
     h0: float
+    h_max: float
     kappa: float
     beta: float
     eta_reject: float
     eta_expand: float
     gamma_down: float
     gamma_up: float
-    smax_cycles: int
+    s_max: int
     max_rejections_per_state: int
     slope_epsilon: float
     progress_epsilon: float
     qp_equality_tolerance: float
+    qp_trust_tolerance: float
+    qp_bisection_iterations: int
     event_tolerance: float
+    hard_worsening_tolerance: float
     trust_denominator_epsilon: float
+    load_denominator_epsilon: float
     scalar_grid: tuple[float, ...]
     scalar_bisection_tolerance: float
     scalar_bisection_iterations: int
@@ -200,6 +207,7 @@ class ControllerConfig:
         positive = (
             "tau",
             "h0",
+            "h_max",
             "kappa",
             "beta",
             "gamma_down",
@@ -207,8 +215,11 @@ class ControllerConfig:
             "slope_epsilon",
             "progress_epsilon",
             "qp_equality_tolerance",
+            "qp_trust_tolerance",
             "event_tolerance",
+            "hard_worsening_tolerance",
             "trust_denominator_epsilon",
+            "load_denominator_epsilon",
             "scalar_bisection_tolerance",
         )
         for name in positive:
@@ -225,11 +236,14 @@ class ControllerConfig:
             raise MethodContractError("beta must leave strict trust-region interior")
         if not 0.0 < self.gamma_down < 1.0 or self.gamma_up <= 1.0:
             raise MethodContractError("trust contraction/expansion factors are invalid")
+        if self.h0 > self.h_max:
+            raise MethodContractError("initial trust radius exceeds its common cap")
         if self.eta_expand < self.eta_reject:
             raise MethodContractError("eta_expand precedes eta_reject")
         for name in (
-            "smax_cycles",
+            "s_max",
             "max_rejections_per_state",
+            "qp_bisection_iterations",
             "scalar_bisection_iterations",
         ):
             value = getattr(self, name)

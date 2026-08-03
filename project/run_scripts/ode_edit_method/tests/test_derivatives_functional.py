@@ -14,6 +14,7 @@ from project.run_scripts.ode_edit_method.derivatives import (
 )
 from project.run_scripts.ode_edit_method.functional_trial import LowRankFunctionalTrial
 from project.run_scripts.ode_edit_method.hooks import FactorDirection
+from project.run_scripts.ode_edit_method.hooks import apply_accepted_factors
 from project.run_scripts.ode_edit_method.instrumentation import EditInstrumentation
 
 
@@ -210,6 +211,72 @@ class FunctionalTrialTests(unittest.TestCase):
             ) as trial:
                 trial.commit()
         self.assertTrue(torch.equal(self.model(self.inputs), baseline))
+
+    def test_read_only_trial_then_exact_accepted_write_matches(self) -> None:
+        coefficients = (0.35, 0.6)
+        pointers = {
+            name: parameter.data_ptr()
+            for name, parameter in self.model.named_parameters()
+        }
+        with LowRankFunctionalTrial(
+            self.model, self.directions, coefficients
+        ):
+            trial_output = self.model(self.inputs).detach()
+        applied = apply_accepted_factors(
+            self.model, self.directions, coefficients, row_block=2
+        )
+        committed_output = self.model(self.inputs).detach()
+        self.assertEqual(applied, coefficients)
+        self.assertTrue(
+            torch.allclose(trial_output, committed_output, atol=1e-12, rtol=1e-12)
+        )
+        for name, parameter in self.model.named_parameters():
+            self.assertEqual(parameter.data_ptr(), pointers[name])
+
+    def test_accepted_write_failure_restores_all_weights_exactly(self) -> None:
+        before = {
+            name: parameter.detach().clone()
+            for name, parameter in self.model.named_parameters()
+        }
+        from project.run_scripts.ode_edit_method import hooks as hook_module
+
+        real_apply = hook_module._apply_factor_update_
+        calls = 0
+
+        def fail_second(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                raise RuntimeError("injected accepted-write failure")
+            return real_apply(*args, **kwargs)
+
+        with mock.patch.object(
+            hook_module, "_apply_factor_update_", side_effect=fail_second
+        ):
+            with self.assertRaisesRegex(RuntimeError, "injected accepted-write failure"):
+                apply_accepted_factors(self.model, self.directions, (0.2, 0.3))
+        for name, parameter in self.model.named_parameters():
+            self.assertTrue(torch.equal(parameter, before[name]))
+
+    def test_functional_trial_restores_rng_and_detects_weight_mutation(self) -> None:
+        before_rng = torch.get_rng_state().clone()
+        with LowRankFunctionalTrial(self.model, self.directions, (0.2, 0.3)):
+            _ = torch.rand(4)
+            _ = self.model(self.inputs)
+        self.assertTrue(torch.equal(torch.get_rng_state(), before_rng))
+
+        with self.assertRaisesRegex(MethodContractError, "parameter version changed"):
+            with LowRankFunctionalTrial(self.model, self.directions, (0.2, 0.3)):
+                with torch.no_grad():
+                    self.model.first.weight.add_(1.0)
+
+    def test_trial_and_accepted_write_reject_materialized_target_grad(self) -> None:
+        self.model.first.weight.grad = torch.zeros_like(self.model.first.weight)
+        with self.assertRaisesRegex(MethodContractError, r"\.grad must be None"):
+            with LowRankFunctionalTrial(self.model, self.directions, (0.2, 0.3)):
+                pass
+        with self.assertRaisesRegex(MethodContractError, r"\.grad must be None"):
+            apply_accepted_factors(self.model, self.directions, (0.2, 0.3))
 
 
 if __name__ == "__main__":

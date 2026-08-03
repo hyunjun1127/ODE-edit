@@ -17,9 +17,6 @@ from .contracts import (
 )
 
 
-QP_BISECTION_ITERATIONS = 128
-
-
 def _qp_coefficients(
     slopes: Sequence[float],
     costs: Sequence[float],
@@ -78,7 +75,7 @@ def solve_progress_qp(
             denominator = finite("D", denominators[layer])
         except KeyError as exc:
             raise MethodContractError("QP geometry mapping is incomplete") from exc
-        if load < 0.0 or denominator <= 0.0:
+        if load < 0.0 or denominator <= config.load_denominator_epsilon:
             raise MethodContractError("Omega/D geometry is invalid")
         costs.append((1.0 + load) / denominator)
     slope_norm = math.sqrt(math.fsum(value * value for value in locked_slopes))
@@ -112,7 +109,7 @@ def solve_progress_qp(
             high *= 2.0
             if not math.isfinite(high):
                 raise MethodContractError("QP trust dual overflowed")
-        for _ in range(QP_BISECTION_ITERATIONS):
+        for _ in range(config.qp_bisection_iterations):
             middle = (low + high) / 2.0
             candidate = _qp_coefficients(locked_slopes, costs, requested, middle)
             if math.sqrt(math.fsum(value * value for value in candidate)) > radius:
@@ -128,7 +125,7 @@ def solve_progress_qp(
         for slope, coefficient in zip(locked_slopes, coefficients, strict=True)
     )
     residual = abs(predicted - requested)
-    if norm > radius + config.qp_equality_tolerance:
+    if norm > radius + config.qp_trust_tolerance:
         raise MethodContractError("QP output exceeds trust radius")
     if residual > config.qp_equality_tolerance:
         raise MethodContractError("QP output violates progress equality")
@@ -189,7 +186,7 @@ def static_coefficients(
         for slope, coefficient in zip(slopes, coefficients, strict=True)
     )
     residual = abs(predicted - requested)
-    if residual > config.qp_equality_tolerance or magnitude > radius + config.qp_equality_tolerance:
+    if residual > config.qp_equality_tolerance or magnitude > radius + config.qp_trust_tolerance:
         raise MethodContractError("static magnitude violates common progress/trust")
     return QPSolution(
         layers=locked_layers,
@@ -224,7 +221,9 @@ def assess_trial(
     radius = finite("trust radius", trust_radius)
     actual = before.smooth_phi - after.smooth_phi
     ratio = actual / (predicted + config.trust_denominator_epsilon)
-    hard_worsened = after.hard_phi > before.hard_phi + config.event_tolerance
+    hard_worsened = (
+        after.hard_phi > before.hard_phi + config.hard_worsening_tolerance
+    )
     if predicted <= config.progress_epsilon:
         accepted, reason = False, "no-predicted-progress"
     elif actual <= 0.0:
@@ -238,7 +237,7 @@ def assess_trial(
     if not accepted:
         next_radius = radius * config.gamma_down
     elif ratio >= config.eta_expand:
-        next_radius = min(config.h0, radius * config.gamma_up)
+        next_radius = min(config.h_max, radius * config.gamma_up)
     else:
         next_radius = radius
     return TrustVerdict(

@@ -58,6 +58,11 @@ class LowRankFunctionalTrial:
         if len(names) != len(set(names)):
             raise MethodContractError("functional trial weights repeat")
         self._handles: list[torch.utils.hooks.RemovableHandle] = []
+        self._parameters: tuple[torch.nn.Parameter, ...] = ()
+        self._pointers: tuple[int, ...] = ()
+        self._versions: tuple[int, ...] = ()
+        self._cpu_rng: torch.Tensor | None = None
+        self._cuda_rng: dict[torch.device, torch.Tensor] = {}
         self._active = False
 
     @staticmethod
@@ -88,6 +93,25 @@ class LowRankFunctionalTrial:
         if self._active:
             raise RuntimeError("functional trial is already active")
         try:
+            parameters = tuple(
+                resolve_parameter(self.model, direction.weight_name)
+                for direction in self.directions
+            )
+            if any(parameter.grad is not None for parameter in parameters):
+                raise MethodContractError("functional trial target weight .grad must be None")
+            self._parameters = parameters
+            self._pointers = tuple(parameter.data_ptr() for parameter in parameters)
+            self._versions = tuple(parameter._version for parameter in parameters)
+            self._cpu_rng = torch.get_rng_state().clone()
+            cuda_devices = {
+                parameter.device
+                for parameter in parameters
+                if parameter.device.type == "cuda"
+            }
+            self._cuda_rng = {
+                device: torch.cuda.get_rng_state(device).clone()
+                for device in cuda_devices
+            }
             for direction, coefficient in zip(
                 self.directions, self.applied_coefficients, strict=True
             ):
@@ -118,5 +142,28 @@ class LowRankFunctionalTrial:
         for handle in reversed(self._handles):
             handle.remove()
         self._handles.clear()
+        violations = []
+        for parameter, pointer, version, direction in zip(
+            self._parameters,
+            self._pointers,
+            self._versions,
+            self.directions,
+            strict=True,
+        ):
+            if parameter.data_ptr() != pointer:
+                violations.append(f"{direction.weight_name}: storage pointer changed")
+            if parameter._version != version:
+                violations.append(f"{direction.weight_name}: parameter version changed")
+        if self._cpu_rng is not None:
+            torch.set_rng_state(self._cpu_rng)
+        for device, state in self._cuda_rng.items():
+            torch.cuda.set_rng_state(state, device)
+        self._parameters = ()
+        self._pointers = ()
+        self._versions = ()
+        self._cpu_rng = None
+        self._cuda_rng = {}
         self._active = False
+        if violations:
+            raise MethodContractError("functional trial mutation: " + "; ".join(violations))
         return False
