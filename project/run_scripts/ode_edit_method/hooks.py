@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import random
 from dataclasses import dataclass, field
 from typing import Any, Callable, Mapping, Sequence
 
@@ -72,6 +73,8 @@ class TorchCheckpoint:
     parameter_hashes: tuple[tuple[str, str], ...]
     cpu_rng: torch.Tensor = field(repr=False)
     cuda_rng: dict[torch.device, torch.Tensor] = field(repr=False)
+    python_rng: object = field(repr=False)
+    numpy_rng: Any | None = field(repr=False)
 
     @property
     def state_id(self) -> str:
@@ -79,20 +82,35 @@ class TorchCheckpoint:
 
     @classmethod
     def capture(
-        cls, model: torch.nn.Module, weight_names: Sequence[str]
+        cls,
+        model: torch.nn.Module,
+        weight_names: Sequence[str],
+        *,
+        backup_device: torch.device | str | None = None,
     ) -> "TorchCheckpoint":
         names = tuple(weight_names)
         if not names or len(names) != len(set(names)):
             raise MethodContractError("checkpoint weight names must be non-empty and unique")
-        backups = {
-            name: resolve_parameter(model, name).detach().clone() for name in names
-        }
+        destination = None if backup_device is None else torch.device(backup_device)
+        backups = {}
+        for name in names:
+            parameter = resolve_parameter(model, name).detach()
+            if destination is None or destination == parameter.device:
+                backups[name] = parameter.clone()
+            else:
+                backups[name] = parameter.to(device=destination, copy=True)
         hashes = tuple((name, tensor_sha256(backups[name])) for name in names)
         cuda_devices = {
             resolve_parameter(model, name).device
             for name in names
             if resolve_parameter(model, name).device.type == "cuda"
         }
+        try:
+            import numpy as np
+        except ImportError:
+            numpy_rng = None
+        else:
+            numpy_rng = np.random.get_state()
         return cls(
             weight_names=names,
             backups=backups,
@@ -102,6 +120,8 @@ class TorchCheckpoint:
                 device: torch.cuda.get_rng_state(device).clone()
                 for device in cuda_devices
             },
+            python_rng=random.getstate(),
+            numpy_rng=numpy_rng,
         )
 
     def restore(self, model: torch.nn.Module) -> None:
@@ -111,6 +131,13 @@ class TorchCheckpoint:
         torch.set_rng_state(self.cpu_rng)
         for device, state in self.cuda_rng.items():
             torch.cuda.set_rng_state(state, device)
+        random.setstate(self.python_rng)  # type: ignore[arg-type]
+        if self.numpy_rng is not None:
+            try:
+                import numpy as np
+            except ImportError as exc:
+                raise RollbackError("NumPy disappeared before RNG restore") from exc
+            np.random.set_state(self.numpy_rng)
         self.assert_exact(model, include_rng=True)
 
     def assert_exact(self, model: torch.nn.Module, *, include_rng: bool) -> None:
@@ -126,6 +153,22 @@ class TorchCheckpoint:
             for device, state in self.cuda_rng.items():
                 if not torch.equal(torch.cuda.get_rng_state(device), state):
                     mismatches.append(f"CUDA RNG state differs on {device}")
+        if include_rng and random.getstate() != self.python_rng:
+            mismatches.append("Python RNG state differs")
+        if include_rng and self.numpy_rng is not None:
+            try:
+                import numpy as np
+            except ImportError:
+                mismatches.append("NumPy RNG runtime is unavailable")
+            else:
+                observed = np.random.get_state()
+                expected = self.numpy_rng
+                if (
+                    observed[0] != expected[0]
+                    or not np.array_equal(observed[1], expected[1])
+                    or observed[2:] != expected[2:]
+                ):
+                    mismatches.append("NumPy RNG state differs")
         if mismatches:
             raise RollbackError("checkpoint mismatch: " + "; ".join(mismatches))
 
@@ -367,4 +410,44 @@ def terminal_net_c_energy(
         if not math.isfinite(value) or value < -1e-12:
             raise MethodContractError("terminal net-write C energy is invalid")
         result[int(layer)] = max(0.0, value)
+    return result
+
+
+def base_weight_c_energy(
+    model: torch.nn.Module,
+    covariance_by_layer: Mapping[int, torch.Tensor],
+    weight_by_layer: Mapping[int, str],
+    *,
+    denominator_epsilon: float,
+    row_block: int = 64,
+) -> dict[int, float]:
+    """Measure the fixed base-weight C geometry without a dense copy."""
+
+    epsilon = float(denominator_epsilon)
+    if not math.isfinite(epsilon) or epsilon <= 0.0:
+        raise MethodContractError("base geometry epsilon must be positive")
+    result: dict[int, float] = {}
+    for layer in sorted(weight_by_layer):
+        try:
+            weight = resolve_parameter(model, weight_by_layer[layer]).detach()
+            covariance = covariance_by_layer[layer]
+        except KeyError as exc:
+            raise MethodContractError("base geometry mapping is incomplete") from exc
+        if (
+            weight.ndim != 2
+            or covariance.ndim != 2
+            or covariance.shape[0] != covariance.shape[1]
+            or weight.shape[1] != covariance.shape[0]
+        ):
+            raise MethodContractError("base weight/covariance geometry differs")
+        metric = covariance.detach().to(device=weight.device, dtype=torch.float32)
+        total = torch.zeros((), device=weight.device, dtype=torch.float64)
+        with torch.inference_mode():
+            for start in range(0, int(weight.shape[0]), row_block):
+                block = weight[start : start + row_block].float()
+                total += torch.sum(block.double() * (block @ metric).double())
+        value = float(total.cpu()) + epsilon
+        if not math.isfinite(value) or value <= epsilon:
+            raise MethodContractError("base weight C energy is degenerate")
+        result[int(layer)] = value
     return result

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import random
 import unittest
 from unittest import mock
 
@@ -246,6 +247,9 @@ class FunctionalTrialTests(unittest.TestCase):
             tuple(direction.weight_name for direction in self.directions),
         )
         before_rng = torch.get_rng_state().clone()
+        before_python_rng = random.getstate()
+        import numpy as np
+        before_numpy_rng = np.random.get_state()
 
         real_apply = hook_module._apply_factor_update_
         calls = 0
@@ -264,10 +268,17 @@ class FunctionalTrialTests(unittest.TestCase):
                 apply_accepted_factors(self.model, self.directions, (0.2, 0.3))
         # No per-accepted-step backup: the first layer was partially committed.
         self.assertFalse(torch.equal(self.model.first.weight, before["first.weight"]))
+        _ = random.random()
+        _ = np.random.random()
         checkpoint.restore(self.model)
         for name, parameter in self.model.named_parameters():
             self.assertTrue(torch.equal(parameter, before[name]))
         self.assertTrue(torch.equal(torch.get_rng_state(), before_rng))
+        self.assertEqual(random.getstate(), before_python_rng)
+        observed_numpy_rng = np.random.get_state()
+        self.assertEqual(observed_numpy_rng[0], before_numpy_rng[0])
+        self.assertTrue(np.array_equal(observed_numpy_rng[1], before_numpy_rng[1]))
+        self.assertEqual(observed_numpy_rng[2:], before_numpy_rng[2:])
 
     def test_functional_trial_restores_rng_and_detects_weight_mutation(self) -> None:
         before_rng = torch.get_rng_state().clone()

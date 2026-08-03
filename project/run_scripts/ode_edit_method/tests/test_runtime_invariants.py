@@ -25,8 +25,8 @@ def _test_config() -> ControllerConfig:
 
     return ControllerConfig(
         tau=0.1,
-        h0=2.0,
-        h_max=2.0,
+        h0_fraction=0.25,
+        h_max_fraction=0.25,
         kappa=1.0,
         beta=0.8,
         eta_reject=0.1,
@@ -48,6 +48,8 @@ def _test_config() -> ControllerConfig:
         scalar_bisection_tolerance=1e-6,
         scalar_bisection_iterations=8,
         scalar_nonmonotonic_tolerance=1e-9,
+        functional_commit_atol=1e-12,
+        functional_commit_rtol=1e-12,
     )
 
 
@@ -98,7 +100,13 @@ class _Trial(AbstractContextManager["_Trial"]):
 class _ToyBackend:
     layers = (0, 1)
 
-    def __init__(self, *, goal: float = 1.0, reject_first_trial: bool = False) -> None:
+    def __init__(
+        self,
+        *,
+        goal: float = 1.0,
+        reject_first_trial: bool = False,
+        synchronous_distance: float = 8.0,
+    ) -> None:
         self.weights = [0.0, 0.0]
         self.goal = goal
         self.reject_first_trial = reject_first_trial
@@ -107,7 +115,10 @@ class _ToyBackend:
         self.field_calls = 0
         self.trial_calls = 0
         self.write_calls = 0
+        self.exact_checkpoint_assertions = 0
         self.virtual_delta: dict[int, float] = {}
+        self.synchronous_distance = synchronous_distance
+        self.scale_calls = 0
 
     def current_state_id(self) -> str:
         return canonical_hash(self.weights)
@@ -119,6 +130,7 @@ class _ToyBackend:
         self.weights[:] = checkpoint.weights
 
     def assert_checkpoint(self, checkpoint: _Checkpoint) -> None:
+        self.exact_checkpoint_assertions += 1
         if tuple(self.weights) != checkpoint.weights:
             raise AssertionError("toy checkpoint differs")
 
@@ -181,6 +193,10 @@ class _ToyBackend:
     def rebind_frozen(self, entry_batch: ProposalBatch) -> ProposalBatch:
         return entry_batch.rebind_frozen(self.current_state_id())
 
+    def entry_synchronous_distance(self) -> float:
+        self.scale_calls += 1
+        return self.synchronous_distance
+
     def trial(self, batch: ProposalBatch, coefficients) -> _Trial:
         return _Trial(self, batch, tuple(coefficients))
 
@@ -206,7 +222,10 @@ class RuntimeInvariantTests(unittest.TestCase):
             ).run(
                 Arm.FULL_ODE_EDIT,
                 edit_id="edit-firewall",
-                request={"rewrite": "only", "paraphrase_prompts": ["forbidden"]},  # type: ignore[arg-type]
+                request={
+                    "rewrite": "only",
+                    "paraphrase_prompts": ["forbidden"],
+                },  # type: ignore[arg-type]
                 backend=_ToyBackend(),
             )
 
@@ -225,7 +244,7 @@ class RuntimeInvariantTests(unittest.TestCase):
         self.assertEqual(backend.field_calls, 1)
         self.assertEqual(backend.trial_calls, 1)
         self.assertEqual(backend.write_calls, 1)
-        self.assertEqual(backend.event_calls, 2)
+        self.assertEqual(backend.event_calls, 3)
         self.assertEqual(len(result.steps), 1)
         self.assertEqual(len(omega.receipts), 1)
 
@@ -322,23 +341,26 @@ class RuntimeInvariantTests(unittest.TestCase):
         self.assertEqual(scalar.steps[0].direction_ids, native.steps[0].direction_ids)
         self.assertEqual(scalar_backend.field_calls, 1)
         self.assertEqual(scalar_backend.write_calls, 1)
+        self.assertEqual(scalar_backend.exact_checkpoint_assertions, 0)
 
-    def test_entry_first_hit_performs_no_field_trial_or_write(self) -> None:
-        backend = _ToyBackend(goal=0.0)
-        result = FiveArmRunner(
-            _test_config(), OmegaLedger({0: 1.0, 1: 1.0})
-        ).run(
-            Arm.FULL_ODE_EDIT,
-            edit_id="edit-entry-hit",
-            request=_request(),
-            backend=backend,
-        )
-        self.assertEqual(result.status, "event_hit")
-        self.assertEqual(result.direct_z_compute_count, 0)
-        self.assertEqual(backend.direct_z_calls, 0)
-        self.assertEqual(backend.field_calls, 0)
-        self.assertEqual(backend.trial_calls, 0)
-        self.assertEqual(backend.write_calls, 0)
+    def test_entry_first_hit_freezes_every_arm_including_native(self) -> None:
+        for arm in Arm:
+            with self.subTest(arm=arm.value):
+                backend = _ToyBackend(goal=0.0)
+                result = FiveArmRunner(
+                    _test_config(), OmegaLedger({0: 1.0, 1: 1.0})
+                ).run(
+                    arm,
+                    edit_id=f"edit-entry-hit-{arm.value}",
+                    request=_request(),
+                    backend=backend,
+                )
+                self.assertEqual(result.status, "event_hit")
+                self.assertEqual(result.direct_z_compute_count, 0)
+                self.assertEqual(backend.direct_z_calls, 0)
+                self.assertEqual(backend.field_calls, 0)
+                self.assertEqual(backend.trial_calls, 0)
+                self.assertEqual(backend.write_calls, 0)
 
     def test_runtime_compute_accounting_and_reject_reuse(self) -> None:
         backend = _ToyBackend(reject_first_trial=True)
@@ -356,16 +378,103 @@ class RuntimeInvariantTests(unittest.TestCase):
         observed = metrics.finalize().to_dict()
         counters = observed["counters"]
         self.assertEqual(counters["N_z"], 1)
-        self.assertEqual(counters["N_model_fwd"], 3)
-        self.assertEqual(counters["N_event_fwd"], 3)
+        self.assertEqual(counters["N_model_fwd"], 4)
+        self.assertEqual(counters["N_event_fwd"], 4)
         self.assertEqual(counters["N_field_state_fwd"], 0)
+        self.assertEqual(counters["N_field"], 1)
         self.assertEqual(counters["N_proposal_build"], 1)
-        self.assertEqual(counters["N_bw"], 1)
+        self.assertEqual(counters["N_bw"], 0)
         self.assertEqual(counters["K_acc"], 1)
         self.assertEqual(counters["N_trial"], 2)
         self.assertEqual(counters["N_reject"], 1)
         self.assertEqual(counters["N_write"], 1)
         self.assertTrue(observed["first_hit"])
+        self.assertGreater(observed["controller_wall_seconds"], 0.0)
+        self.assertGreater(
+            observed["component_wall_seconds"]["entry_checkpoint"], 0.0
+        )
+
+    def test_native_cost_includes_terminal_proposal_and_entry_hit_freeze(self) -> None:
+        backend = _ToyBackend(goal=1.0)
+        metrics = EditInstrumentation("native-accounting")
+        result = FiveArmRunner(
+            _test_config(), OmegaLedger({0: 1.0, 1: 1.0})
+        ).run(
+            Arm.NATIVE_MEMIT,
+            edit_id="native-accounting",
+            request=_request(),
+            backend=backend,
+            instrumentation=metrics,
+        )
+        self.assertEqual(result.status, "event_hit")
+        payload = metrics.finalize().to_dict()
+        counters = payload["counters"]
+        self.assertEqual(counters["N_z"], 1)
+        self.assertEqual(counters["N_proposal_build"], 1)
+        self.assertEqual(counters["N_native_sweep"], 1)
+        self.assertEqual(counters["N_trial"], 0)
+        self.assertEqual(counters["N_write"], 1)
+        self.assertEqual(counters["K_acc"], 1)
+        for component in (
+            "entry_checkpoint",
+            "direct_z",
+            "native_proposal",
+            "event",
+            "commit_write",
+            "terminal_geometry",
+        ):
+            self.assertGreater(payload["component_wall_seconds"][component], 0.0)
+
+        entry_backend = _ToyBackend(goal=0.0)
+        entry_metrics = EditInstrumentation("native-entry-hit-accounting")
+        FiveArmRunner(
+            _test_config(), OmegaLedger({0: 1.0, 1: 1.0})
+        ).run(
+            Arm.NATIVE_MEMIT,
+            edit_id="native-entry-hit-accounting",
+            request=_request(),
+            backend=entry_backend,
+            instrumentation=entry_metrics,
+        )
+        entry = entry_metrics.finalize().to_dict()["counters"]
+        for name in (
+            "N_z",
+            "N_proposal_build",
+            "N_native_sweep",
+            "N_field",
+            "N_bw",
+            "N_trial",
+            "N_write",
+            "K_acc",
+        ):
+            self.assertEqual(entry[name], 0)
+
+    def test_entry_synchronous_distance_scales_common_trust_radius_once(self) -> None:
+        small_backend = _ToyBackend(goal=10.0, synchronous_distance=4.0)
+        small = FiveArmRunner(
+            _test_config(), OmegaLedger({0: 1.0, 1: 1.0})
+        ).run(
+            Arm.FULL_ODE_EDIT,
+            edit_id="trust-scale-small",
+            request=_request(),
+            backend=small_backend,
+        )
+        large_backend = _ToyBackend(goal=10.0, synchronous_distance=8.0)
+        large = FiveArmRunner(
+            _test_config(), OmegaLedger({0: 1.0, 1: 1.0})
+        ).run(
+            Arm.FULL_ODE_EDIT,
+            edit_id="trust-scale-large",
+            request=_request(),
+            backend=large_backend,
+        )
+        self.assertEqual(small_backend.scale_calls, 1)
+        self.assertEqual(large_backend.scale_calls, 1)
+        self.assertAlmostEqual(
+            large.steps[0].solver_coefficients[0],
+            2.0 * small.steps[0].solver_coefficients[0],
+            places=12,
+        )
 
     def test_failure_after_accepted_write_restores_entry_before_omega_append(self) -> None:
         class _TerminalFailureBackend(_ToyBackend):

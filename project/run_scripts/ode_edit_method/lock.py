@@ -1,8 +1,10 @@
-"""Strict loader and dry-plan projection for the outcome-free v2 proposal."""
+"""Strict loader and dry-plan projection for the outcome-free v3 proposal."""
 
 from __future__ import annotations
 
+import hashlib
 import json
+import math
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -25,6 +27,16 @@ def _mapping(name: str, value: Any) -> Mapping[str, Any]:
     return value
 
 
+def _positive_float(name: str, value: Any) -> float:
+    try:
+        number = float(value)
+    except (TypeError, ValueError) as exc:
+        raise MethodContractError(f"lock value {name} is not numeric") from exc
+    if not math.isfinite(number) or number <= 0.0:
+        raise MethodContractError(f"lock value {name} must be positive")
+    return number
+
+
 def load_lock(path: str | Path = LOCK_PATH) -> dict[str, Any]:
     source = Path(path).resolve(strict=True)
     try:
@@ -32,6 +44,19 @@ def load_lock(path: str | Path = LOCK_PATH) -> dict[str, Any]:
     except (OSError, json.JSONDecodeError) as exc:
         raise MethodContractError("numerical lock proposal is unreadable") from exc
     validate_lock(payload)
+    specification = _mapping("canonical_spec", payload.get("canonical_spec"))
+    relative = specification.get("path")
+    expected_sha = specification.get("sha256")
+    if not isinstance(relative, str) or not isinstance(expected_sha, str):
+        raise MethodContractError("canonical spec identity is incomplete")
+    repo = Path(__file__).resolve().parents[3]
+    spec_path = (repo / relative).resolve(strict=True)
+    try:
+        spec_path.relative_to(repo)
+    except ValueError as exc:
+        raise MethodContractError("canonical spec escaped repository") from exc
+    if hashlib.sha256(spec_path.read_bytes()).hexdigest() != expected_sha:
+        raise MethodContractError("canonical spec bytes differ from numerical lock")
     result = dict(payload)
     result["proposal_id"] = canonical_hash(payload)
     return result
@@ -44,8 +69,10 @@ def controller_config(payload: Mapping[str, Any]) -> ControllerConfig:
     return ControllerConfig.from_mapping(
         {
             "tau": event["tau"],
-            "h0": controller["h0"],
-            "h_max": controller["radius_upper_cap"],
+            "h0_fraction": controller.get("h0_fraction", controller.get("h0")),
+            "h_max_fraction": controller.get(
+                "h_max_fraction", controller.get("radius_upper_cap")
+            ),
             "kappa": controller["kappa"],
             "beta": controller["beta"],
             "eta_reject": controller["eta_reject"],
@@ -69,13 +96,19 @@ def controller_config(payload: Mapping[str, Any]) -> ControllerConfig:
             "scalar_bisection_tolerance": scalar["bisection_tolerance"],
             "scalar_bisection_iterations": scalar["bisection_iterations"],
             "scalar_nonmonotonic_tolerance": scalar["nonmonotonic_tolerance"],
+            "functional_commit_atol": payload["trial_backend"][
+                "functional_vs_committed_atol"
+            ],
+            "functional_commit_rtol": payload["trial_backend"][
+                "functional_vs_committed_rtol"
+            ],
         }
     )
 
 
 def validate_lock(payload: Any) -> None:
     root = _mapping("root", payload)
-    if root.get("schema_version") != "ode-edit-compute-aware-numerical-lock-proposal/v2":
+    if root.get("schema_version") != "ode-edit-compute-aware-numerical-lock-proposal/v3":
         raise MethodContractError("unknown numerical lock proposal schema")
     if root.get("status") != "OUTCOME_FREE_PROPOSAL_PENDING_GH_APPROVAL":
         raise MethodContractError("numerical lock is not an outcome-free proposal")
@@ -132,6 +165,15 @@ def validate_lock(payload: Any) -> None:
     if config.s_max != 6:
         raise MethodContractError("initial common S_max is not six")
     controller = _mapping("controller", root["controller"])
+    if (
+        controller.get("h0_fraction") != 0.25
+        or controller.get("h_max_fraction") != 0.5
+        or controller.get("trust_scale_reference")
+        != "raw-synchronous-joint-C-distance-before-unit-normalization"
+        or "h0" in controller
+        or "radius_upper_cap" in controller
+    ):
+        raise MethodContractError("entry-relative trust scale differs from v3")
     if controller.get("one_refresh_accepted_cap") != 2:
         raise MethodContractError("One-refresh accepted cap is not two")
     if controller.get("model_specific_policy") is not False:
@@ -147,6 +189,7 @@ def validate_lock(payload: Any) -> None:
         derivative.get("primary") != "activation-actuator-hook"
         or derivative.get("dense_target_gradient") != "reference-only"
         or derivative.get("target_weight_grad_materialization_allowed") is not False
+        or derivative.get("p0_finite_difference_epsilon") != 0.001
     ):
         raise MethodContractError("primary derivative backend violates the compute lock")
     artifacts = _mapping("read_only_artifacts", root.get("read_only_artifacts"))
@@ -165,8 +208,93 @@ def validate_lock(payload: Any) -> None:
         trial.get("cached_trial_graph") != "UNSUPPORTED_FAIL_CLOSED"
         or trial.get("cached_mode_scientific_arm") is not False
         or not str(trial.get("selected_common_backend", "")).startswith("no-grad-trial")
+        or trial.get("unchanged_trial_state_guard")
+        != "storage-pointer-version-shape-dtype-device-without-dense-rehash"
     ):
         raise MethodContractError("current MEMIT trial backend is not fail-closed no-grad")
+    concrete = _mapping("concrete_backend", root.get("concrete_backend"))
+    execution = _mapping("execution_path", root.get("execution_path"))
+    if (
+        concrete.get("common_model_code_path") is not True
+        or concrete.get("easyedit_access") != "verified-read-only-bridge"
+        or execution.get("runner_can_submit_slurm") is not False
+        or execution.get("runner_requires_execute_flag") is not True
+    ):
+        raise MethodContractError("concrete backend/executable boundary differs")
+    transaction = _mapping("transaction", root.get("transaction"))
+    if (
+        transaction.get("edit_entry_checkpoint_count") != 1
+        or transaction.get("per_accepted_full_cpu_weight_backup") != 0
+    ):
+        raise MethodContractError("outer transaction still permits per-step backup")
+    terminal = _mapping("terminal_geometry", root.get("terminal_geometry"))
+    if (
+        terminal.get("micro_step_energy_sum_allowed") is not False
+        or terminal.get("p1_low_rank_cross_term_trigger_fraction") != 0.1
+    ):
+        raise MethodContractError("terminal net geometry trigger differs")
+    event_backend = _mapping("event_backend", root.get("event_backend"))
+    if (
+        event_backend.get("old_new_forward")
+        != "one-right-padded-combined-batch"
+        or event_backend.get("individual_object_length_normalization") is not True
+    ):
+        raise MethodContractError("combined event backend lock differs")
+    _positive_float("event_backend.p0_two_forward_atol", event_backend.get("p0_two_forward_atol"))
+    _positive_float("event_backend.p0_two_forward_rtol", event_backend.get("p0_two_forward_rtol"))
+
+    compute = _mapping("compute_accounting", root.get("compute_accounting"))
+    required_counters = [
+        "N_z",
+        "N_model_fwd",
+        "N_event_fwd",
+        "N_field_state_fwd",
+        "N_field",
+        "N_proposal_build",
+        "N_native_sweep",
+        "N_bw",
+        "K_acc",
+        "N_trial",
+        "N_reject",
+        "N_eval",
+        "N_write",
+    ]
+    if compute.get("required_counters") != required_counters:
+        raise MethodContractError("fair compute counters differ from canonical order")
+    if "N_state_fwd" in compute.get("required_counters", []):
+        raise MethodContractError("ambiguous N_state_fwd remains enabled")
+
+    artifact_schema = _mapping("artifact_schema", root.get("artifact_schema"))
+    controller_fields = artifact_schema.get("controller_step_required_fields")
+    compute_fields = artifact_schema.get("compute_required_fields")
+    required_record_fields = {
+        "model",
+        "case_id",
+        "arm",
+        "order_sha256",
+        "seed",
+        "commit",
+        "hashes",
+        "status",
+    }
+    if (
+        not isinstance(controller_fields, list)
+        or not (
+            required_record_fields | {"result", "event", "Omega"}
+        )
+        <= set(controller_fields)
+        or not isinstance(compute_fields, list)
+        or not (required_record_fields | {"counters"}) <= set(compute_fields)
+        or not set(required_counters) <= set(compute_fields)
+    ):
+        raise MethodContractError("artifact records do not expose the locked P0 schema")
+
+    timing = _mapping("timing", root.get("timing"))
+    if (
+        timing.get("each_non_entry_hit_repetition_n_z") != 1
+        or "each_repetition_n_z" in timing
+    ):
+        raise MethodContractError("P0 direct-z timing rule ignores entry-hit freeze")
 
     stages = _mapping("stages", root.get("stages"))
     expected = [arm.value for arm in P01_ARMS]
@@ -220,17 +348,42 @@ def dry_plan(payload: Mapping[str, Any], stage: str) -> dict[str, Any]:
                 "host_memory_mib": resources["host_memory_mib_per_job"],
                 "wall_limit": resources[f"{stage}_wall_limit"],
                 "submission_authorized": False,
+                "executable_command": [
+                    "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+                    "-B",
+                    "project/run_scripts/session02_compute_aware_p0.py",
+                    "--model-alias",
+                    alias,
+                    "--output-root",
+                    f"local/results/session02-p0-{alias}",
+                    "--execute",
+                ] if stage == "p0" else None,
+                "sbatch_template": (
+                    "project/run_scripts/session02_compute_aware_p0.sbatch"
+                    if stage == "p0"
+                    else None
+                ),
                 "forecast_upper": {
                     "N_z": resources[
                         "p0_profile_n_z_upper_bound_per_model"
                         if stage == "p0"
                         else "p1_n_z_per_model"
                     ],
-                    "N_state_fwd": resources[
-                        f"{prefix}_n_state_fwd_upper_bound_per_model"
+                    "N_model_fwd": resources["n_model_fwd_upper_bound"],
+                    "N_event_fwd": resources[
+                        f"{prefix}_n_event_fwd_upper_bound_per_model"
+                    ],
+                    "N_field_state_fwd": resources[
+                        f"{prefix}_n_field_state_fwd_upper_bound_per_model"
                     ],
                     "N_field": resources[
                         f"{prefix}_n_field_upper_bound_per_model"
+                    ],
+                    "N_proposal_build": resources[
+                        f"{prefix}_n_proposal_build_upper_bound_per_model"
+                    ],
+                    "N_native_sweep": resources[
+                        f"{prefix}_n_native_sweep_upper_bound_per_model"
                     ],
                     "N_bw": resources[f"{prefix}_n_bw_upper_bound_per_model"],
                     "K_acc": resources[

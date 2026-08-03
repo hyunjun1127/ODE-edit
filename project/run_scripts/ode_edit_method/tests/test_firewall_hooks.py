@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import unittest
+from types import SimpleNamespace
 
 import torch
 
@@ -12,7 +13,14 @@ from project.run_scripts.ode_edit_method.events import (
     ControllerRequest,
     InformationFirewall,
     event_from_log_likelihoods,
+    build_allowed_contexts,
+    build_teacher_batch,
+    measure_differentiable_event,
+    measure_event,
     normalize_object_text,
+    score_combined_teacher_batches,
+    score_teacher_batch,
+    context_manifest_payload,
 )
 from project.run_scripts.ode_edit_method.hooks import (
     FactorDirection,
@@ -76,6 +84,93 @@ class InformationFirewallTests(unittest.TestCase):
             "sign_rule",
         ):
             self.assertNotIn(forbidden, fields)
+
+    def test_combined_old_new_batch_matches_two_forward_reference(self) -> None:
+        class _Tokenizer:
+            padding_side = "right"
+            pad_token_id = 0
+            bos_token_id = 1
+            unk_token_id = 2
+            name_or_path = "cpu-fixture"
+
+            def __init__(self) -> None:
+                self._ids: dict[str, int] = {}
+
+            def encode(self, text: str, *, add_special_tokens: bool) -> list[int]:
+                values = []
+                if add_special_tokens:
+                    values.append(self.bos_token_id)
+                for token in text.split():
+                    if token not in self._ids:
+                        self._ids[token] = len(self._ids) + 3
+                    values.append(self._ids[token])
+                return values
+
+        class _Model(torch.nn.Module):
+            def __init__(self) -> None:
+                super().__init__()
+                self.embedding = torch.nn.Embedding(64, 7)
+                self.output = torch.nn.Linear(7, 64, bias=False)
+                self.calls = 0
+
+            def forward(self, *, input_ids, attention_mask):
+                del attention_mask
+                self.calls += 1
+                return SimpleNamespace(logits=self.output(self.embedding(input_ids)))
+
+        torch.manual_seed(23)
+        tokenizer = _Tokenizer()
+        model = _Model().double()
+        request = ControllerRequest(
+            case_id="batch-fixture",
+            prompt="{} works at",
+            subject="Ada",
+            target_new="New York City",
+            target_old="London",
+        )
+        templates = (("{}",), ("Because {}", "Today {}"))
+        contexts = build_allowed_contexts(request, templates)
+        new_batch = build_teacher_batch(tokenizer, contexts, request.target_new)
+        old_batch = build_teacher_batch(tokenizer, contexts, request.target_old)
+        new_reference = score_teacher_batch(model, new_batch)
+        old_reference = score_teacher_batch(model, old_batch)
+        self.assertEqual(model.calls, 2)
+        combined_new, combined_old = score_combined_teacher_batches(
+            model,
+            (new_batch, old_batch),
+            differentiable=False,
+        )
+        self.assertEqual(model.calls, 3)
+        self.assertTrue(
+            torch.allclose(
+                combined_new,
+                torch.tensor(new_reference, dtype=combined_new.dtype),
+                atol=1e-12,
+                rtol=1e-12,
+            )
+        )
+        self.assertTrue(
+            torch.allclose(
+                combined_old,
+                torch.tensor(old_reference, dtype=combined_old.dtype),
+                atol=1e-12,
+                rtol=1e-12,
+            )
+        )
+        measured = measure_event(model, tokenizer, request, templates, tau=0.1)
+        self.assertEqual(measured.nfe, 1)
+        self.assertEqual(model.calls, 4)
+        differentiable = measure_differentiable_event(
+            model, tokenizer, request, templates, tau=0.1
+        )
+        self.assertEqual(differentiable.reading.nfe, 1)
+        self.assertTrue(differentiable.smooth_phi.requires_grad)
+        self.assertEqual(model.calls, 5)
+        manifest = context_manifest_payload(request, templates, tokenizer)
+        self.assertEqual(
+            manifest["target_suffix_identity"]["new"]["token_count"], 3
+        )
+        self.assertNotIn(request.target_new, repr(manifest))
 
 
 class TrialRollbackTests(unittest.TestCase):
