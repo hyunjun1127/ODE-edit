@@ -259,17 +259,19 @@ claim을 열지 않는다.
 
 ## 10. SH 역할과 HOLD instruction envelope
 
-아래는 onboarding blocker가 해소된 뒤 보낼 실행 envelope의 초안이다. 현재는
-`Slurm submission: not allowed`이며 구현도 시작하지 않는다.
+아래 SH1 implementation envelope는 실행 중이며 SH2는 onboarding HOLD다. 현재
+`Slurm submission: not allowed`다.
 
 ### SH1 / server1
 
 - **목적과 배경:** reusable ODE-Edit-side hook, controller, contract test와 MT primary
   run 구현
-- **target session:** `019fc5e0-eb7e-78a3-9436-93885621b8dc`, Sol Ultra,
-  repository `hyunjun1127/ODE-edit`
-- **필수 선행:** GH와 분리된 dedicated worktree/CWD, SH1 session boundary, server-head
-  registry, clean task base, cap 4 재-ACK
+- **target session:** `019fc63e-5217-7250-9c22-c5b2ec4248f0`, Sol Ultra,
+  repository `hyunjun1127/ODE-edit`, worktree
+  `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit`
+- **확인 완료:** GH와 분리된 dedicated worktree/CWD, SH1 session/role boundary,
+  server-head registry, clean task base
+- **Slurm 전 필수:** GH numerical lock 승인, red preflight, cap 4 재-ACK
 - **허용 write path 초안:** `project/run_scripts/ode_edit_method/`,
   matching `project/run_scripts/session02_*`, `plans/updates/server1/`,
   `audits/servers/server1/`, `experiment-reports/servers/server1/`, `runs/`,

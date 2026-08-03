@@ -10,15 +10,15 @@
 
 ## 서버 목록
 
-server1에는 GH와 canonical SH1 session이 배정됐지만 동일 root clone의 GH local
-boundary 때문에 SH1 onboarding은 HOLD다. server2에는 canonical SH2 session과 repo clone이
+server1의 canonical SH1은 GH root clone과 분리된 dedicated worktree에서 현재 method
+revision을 수행 중이며 GPU/Slurm/push는 HOLD다. server2에는 canonical SH2 session과 repo clone이
 확인됐지만 local session boundary, method runtime과 heartbeat가 아직 없어 onboarding HOLD다.
 server4는 physical host로 등록됐지만 이 repo clone/SH가 없는
 `registered-pending-clone` 상태이며 server3는 future target이다.
 
 | Repository server name | Raw connection detail location | 상태/용도 |
 | --- | --- | --- |
-| `server1` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | GH active / SH1 assigned-onboarding-hold / clone: `/mnt/raid5/janghj/ODE-edit` |
+| `server1` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | GH active on root clone / SH1 active on dedicated worktree; GPU/Slurm HOLD |
 | `server2` | `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | SH2 assigned-onboarding-hold / clone: `/mnt/raid5/janghj/ODE-edit` |
 | `server3` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | future target / clone 전 / Codex session 미지정 |
 | `server4` | `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | registered-pending-clone / GPU cap 3, memory cap 65984 MiB per GPU / Codex session 미지정 |
@@ -33,8 +33,7 @@ session ID를 채우거나 대체 대상으로 사용하지 않는다.
 | 서버 | 역할 | Codex session ID | Required/confirmed model | Repository CWD | 상태 |
 | --- | --- | --- | --- | --- | --- |
 | `server1` | global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active / 현재 GH session |
-| `server1` | server-head (SH1) | `019fc5e0-eb7e-78a3-9436-93885621b8dc` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assignment ACK / onboarding HOLD; canonical SH1 |
-| `server1` | delegated implementation session | `019fc63e-5217-7250-9c22-c5b2ec4248f0` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | task-local grandfathered execution only; **not canonical SH1**; GPU/Slurm/push HOLD |
+| `server1` | server-head (SH1) | `019fc63e-5217-7250-9c22-c5b2ec4248f0` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | active canonical SH1; current revision; GPU/Slurm/push HOLD |
 | `server2` | server-head (SH2) | `019fc5ec-f85b-7770-a73a-1d19be1cd491` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assignment ACK / onboarding HOLD; canonical SH2 |
 | `server3` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | future target / clone 전 |
 | `server4` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | registered-pending-clone |

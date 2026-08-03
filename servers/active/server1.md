@@ -8,18 +8,16 @@
 - 예상 사용 기간: 사용자 확인 필요
 - 담당 global-head: head-server1-gh
 - 담당 server-head: head-server1-sh1 (canonical SH1 session assigned)
-- global-head 승인: `active-local-gh-exception`; SH1은 `assigned-onboarding-hold`
+- global-head 승인: `active-local-gh-exception`; SH1은 dedicated worktree에서 active
 
 | 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
 | --- | --- | --- | --- | --- |
 | global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active |
-| server-head (SH1) | `019fc5e0-eb7e-78a3-9436-93885621b8dc` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assignment ACK / HOLD: shared GH clone boundary |
+| server-head (SH1) | `019fc63e-5217-7250-9c22-c5b2ec4248f0` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | active canonical SH1; GPU/Slurm/push HOLD |
 
-현재 instruction `ODEEDIT-S02-NUMLOCK-REVISION-V1`을 수행 중인
-`019fc63e-5217-7250-9c22-c5b2ec4248f0`은
-`/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit`의 task-local delegated
-implementation session이다. 진행 중 변경을 clean checkpoint로 닫는 범위만 grandfathered
-허용되며 canonical SH1을 대체하거나 새 task, GPU, Slurm, push 권한을 갖지 않는다.
+사용자 정정에 따라 이전 assignment `019fc5e0-eb7e-78a3-9436-93885621b8dc`는
+superseded되었으며 server1 SH authority가 없다. 현재 SH1은 instruction
+`ODEEDIT-S02-NUMLOCK-REVISION-V1`을 수행한다.
 
 ## 접근과 권한
 
@@ -44,9 +42,13 @@ secret은 절대 기록하지 않는다.
 - root clone의 현재 `agent.role`: `global-head`
 - root clone의 현재 `agent.hostname`: `server1`
 - GH heartbeat 경로: `agents/server1/head-server1-gh.json`
-- SH1 예정 heartbeat 경로: `agents/server1/head-server1-sh1.json` (SH1 작성 전까지 pending)
-- SH1은 GH root clone의 local session boundary를 덮어쓰지 않는다. 전용 clone/worktree와
-  SH1 local boundary가 준비되기 전 shell/Git/Slurm 실행은 HOLD다.
+- SH1 worktree: `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit`
+- SH1 branch: `codex/odeeditsh1`
+- SH1 effective identity: `agent.id=head-server1-sh1`, `agent.role=server-head`,
+  `agent.hostname=server1`
+- SH1 session/role boundary: PASS
+- SH1 heartbeat 경로: `agents/server1/head-server1-sh1.json` (tracked heartbeat는 pending)
+- SH1은 GH root clone의 local session boundary를 덮어쓰지 않는다.
 - sync 설정: GitHub remote와 main bootstrap push 완료; GH가 설치 여부를 결정
 
 ## Codex Session Boundary
@@ -87,9 +89,10 @@ GH/SH session은 이 record를 갱신하고, 기존 session ID를 재사용하�
 
 ## 판정
 
-- 상태: `active-local-gh`; canonical SH1 assigned / onboarding HOLD
+- 상태: `active-local-gh`; canonical SH1 active on dedicated worktree;
+  numerical-lock revision 중, GPU/Slurm/push HOLD
 - 완료: repository/remote/session/resource boundary, EasyEdit runtime,
   pinned dataset/cache, Slurm pair 실행과 Session 01 Motivation closure
-- 남은 작업: SH1 전용 clone/worktree local boundary, heartbeat, local SSH/rsync dry-run,
-  peer artifact broadcast 검증, red-team onboarding audit
+- 남은 작업: current numerical-lock revision, heartbeat, local SSH/rsync dry-run,
+  peer artifact broadcast 검증, red-team execution preflight
 - 다음 담당자: canonical SH1과 global-head
