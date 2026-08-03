@@ -13,11 +13,11 @@
 | 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
 | --- | --- | --- | --- | --- |
 | global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active |
-| server-head (SH1) | `019fc63e-5217-7250-9c22-c5b2ec4248f0` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | active canonical SH1; GPU/Slurm/push HOLD |
+| server-head (SH1) | `019fc63e-5217-7250-9c22-c5b2ec4248f0` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | active canonical SH1; Session 02 P1 terminal; GPU/Slurm/push HOLD |
 
 사용자 정정에 따라 이전 assignment `019fc5e0-eb7e-78a3-9436-93885621b8dc`는
 superseded되었으며 server1 SH authority가 없다. 현재 SH1은 instruction
-`ODEEDIT-S02-NUMLOCK-REVISION-V1`을 수행한다.
+`ODEEDIT-S02-P1-SMAX8-AFFECTED-CONT-LLAMA-V1`까지 완료하고 다음 GH envelope를 기다린다.
 
 ## 접근과 권한
 
@@ -43,7 +43,7 @@ secret은 절대 기록하지 않는다.
 - root clone의 현재 `agent.hostname`: `server1`
 - GH heartbeat 경로: `agents/server1/head-server1-gh.json`
 - SH1 worktree: `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit`
-- SH1 branch: `codex/odeeditsh1`
+- SH1 branch: `codex/odeeditsh1-bf16-context-lock-v5-prep-v1`
 - SH1 effective identity: `agent.id=head-server1-sh1`, `agent.role=server-head`,
   `agent.hostname=server1`
 - SH1 session/role boundary: PASS
@@ -70,9 +70,10 @@ GH/SH session은 이 record를 갱신하고, 기존 session ID를 재사용하�
 ## Slurm/Resource
 
 - partition: local-only Slurm query로 확인 필요
-- GPU cap: 동시 최대 `4` GPU (`servers/local/gpu-caps.tsv`); 2026-08-01
-  사용자가 direct-z possibility pair를 기존 2-GPU job과 병행하도록 명시적으로
-  증액 승인
+- GPU cap: 동시 최대 `3` GPU (`servers/local/gpu-caps.tsv`); 2026-08-03
+  사용자 지시로 기존 임시 `4` GPU 증액을 종료하고 `3` GPU로 복원했다. 이 변경은
+  즉시 적용되며, 변경 시점의 Session 02 P1 R2 pair는 합계 `2/3` GPU이므로 계속
+  실행하되 추가 제출은 별도 envelope와 잔여 cap 검사를 요구한다.
 - GPU memory request cap: GPU 1개당 최대 `198117 MiB`
 - CPU: task별 명시 필요
 - time limit: task별 명시 필요
@@ -89,10 +90,10 @@ GH/SH session은 이 record를 갱신하고, 기존 session ID를 재사용하�
 
 ## 판정
 
-- 상태: `active-local-gh`; canonical SH1 active on dedicated worktree;
-  numerical-lock revision 중, GPU/Slurm/push HOLD
+- 상태: `active-local-gh`; canonical SH1 active on dedicated worktree; Session 02 P1 R2와
+  prelocked `S_max=8` continuation 완료, GPU/Slurm/push HOLD
 - 완료: repository/remote/session/resource boundary, EasyEdit runtime,
   pinned dataset/cache, Slurm pair 실행과 Session 01 Motivation closure
-- 남은 작업: current numerical-lock revision, heartbeat, local SSH/rsync dry-run,
-  peer artifact broadcast 검증, red-team execution preflight
+- 남은 작업: GH final integration, common-controller redesign, heartbeat, local SSH/rsync
+  dry-run, peer artifact broadcast 검증, red-team execution preflight
 - 다음 담당자: canonical SH1과 global-head

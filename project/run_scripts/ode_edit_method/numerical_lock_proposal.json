@@ -1,15 +1,16 @@
 {
-  "schema_version": "ode-edit-compute-aware-numerical-lock-proposal/v4",
-  "status": "OUTCOME_FREE_PROPOSAL_PENDING_GH_APPROVAL",
-  "instruction_id": "ODEEDIT-S02-P0-ORIGINAL-DTYPE-AND-SIMPLE-T-V1",
-  "parent_instruction_id": "ODEEDIT-S02-P0-QUANTIZED-ROWBLOCK-TRIAL-PROTOTYPE-V1",
-  "revision_id": "ODEEDIT-S02-P0-ORIGINAL-DTYPE-AND-SIMPLE-T-V1",
-  "canonical_main_commit": "f8a613bd2e8b739dc6972576e298733fbbe13151",
+  "schema_version": "ode-edit-compute-aware-numerical-lock-proposal/v8",
+  "status": "TECHNICALLY_CALIBRATED_P1_EXECUTION_LOCK_PENDING_GH_APPROVAL",
+  "instruction_id": "ODEEDIT-S02-P1-FOUR-CASE-RUNNER-IMPL-V1",
+  "parent_instruction_id": "ODEEDIT-S02-P0-FULL-LINEAR-T-V7-PAIR-V1",
+  "revision_id": "ODEEDIT-S02-P1-FOUR-CASE-RUNNER-IMPL-V1-A8",
+  "canonical_main_commit": "422c3e8894ec9ca87517e794d749a098db22c7a6",
   "canonical_spec": {
     "path": "plans/global/2026-08-03-session02-compute-aware-main-table-spec.md",
     "sha256": "8ee7f5557f298bb67c1e85ed6de1aaa6a285b7b8d28ecd4dcbe1973bdf85531d"
   },
   "outcome_count_at_proposal": 0,
+  "scientific_outcome_count": 0,
   "execution_seed": 17,
   "dtype_contract": {
     "method_loader": "project.run_scripts.ode_edit_motivation.gpu_runtime.load_fixed_model_checkpoint_original",
@@ -68,8 +69,20 @@
       "safetensors_total_tensors": 291,
       "context_manifest": {
         "source": "llama3-8b-inst:fresh-seed-17",
-        "manifest_id": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
-        "group_sizes": [1, 5]
+        "manifest_id": "22c26dc11fb13acd51d5bdc483e4b9dd46fa40029fe10b167bff1a1642f7e686",
+        "group_sizes": [1, 5],
+        "generation_dtype_policy": "checkpoint-original",
+        "templates_sha256": "0a2069beafc60e170251103028fde716a160a60a8048bb000a649cf26c233bb0",
+        "repeat_count": 2,
+        "exact_match": true,
+        "probe_execution_head": "37a713233b95614d2743a12abc4d1036daed95f0",
+        "terminal_manifest_sha256": "d37bc471629449100e369e3aec2e9508ea32d29ffeb530e2a7eb07ea6c19c94e",
+        "raw_context_manifest_sha256": "f1f428a0cd8ed5c512179d971a01f40c8b3ba0dfea7269d7ec16e24559953991",
+        "legacy_provenance": {
+          "generation_dtype_policy": "legacy-motivation-float32",
+          "manifest_id": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
+          "method_evidence": false
+        }
       }
     },
     "qwen2.5-7b-inst": {
@@ -85,8 +98,20 @@
       "safetensors_total_tensors": 339,
       "context_manifest": {
         "source": "qwen2.5-7b-inst:fresh-seed-17",
-        "manifest_id": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
-        "group_sizes": [1, 5]
+        "manifest_id": "5b7144416638fb3deec1f12f204a401e06edd1293aa2fe4a22f9080f3e8bd41b",
+        "group_sizes": [1, 5],
+        "generation_dtype_policy": "checkpoint-original",
+        "templates_sha256": "ff84e360b7a4a413275da818862c7c4431ac21c7fbeaf26e4d2296278f9a4bf9",
+        "repeat_count": 2,
+        "exact_match": true,
+        "probe_execution_head": "37a713233b95614d2743a12abc4d1036daed95f0",
+        "terminal_manifest_sha256": "bd7e169c2c3abe255e11563220deb558f7c30c1e22713d8be030a760c7c9d79d",
+        "raw_context_manifest_sha256": "6bd9ba263f4774b65fce31c965c27344625402ee1f19f4129542fd5e08132084",
+        "legacy_provenance": {
+          "generation_dtype_policy": "legacy-motivation-float32",
+          "manifest_id": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
+          "method_evidence": false
+        }
       }
     }
   },
@@ -198,12 +223,16 @@
     "support_sign_epsilon": 1e-10
   },
   "trial_backend": {
-    "selected_common_backend": "quantized-rowblock-commit-emulator",
+    "selected_common_backend": "quantized-full-linear-commit-emulator",
     "selection_policy": "simple-T-every-adaptive-candidate",
     "two_tier_pretrial": false,
     "row_block": 64,
+    "accepted_update_assembly": "fp32-factor-product-coefficient-rowblock64-parameter-cast-add",
+    "production_full_linear_calls_per_target_invocation": 1,
+    "prior_rowblock_output_emulator": "diagnostic-and-reference-only",
     "continuous_low_rank_overlay": "reference-and-diagnostic-only",
-    "dense_weight_copy_for_trial": false,
+    "full_base_weight_clone_for_trial": false,
+    "all_layer_full_effective_copies": false,
     "target_weight_mutation_for_trial": false,
     "per_trial_checkpoint": false,
     "cached_trial_graph": "UNSUPPORTED_FAIL_CLOSED",
@@ -212,25 +241,57 @@
     "functional_vs_committed_atol": 0.00005,
     "functional_vs_committed_rtol": 0.005,
     "same_coefficient_required": true,
-    "unchanged_trial_state_guard": "storage-pointer-version-shape-dtype-device-without-dense-rehash"
+    "unchanged_trial_state_guard": "storage-pointer-version-shape-dtype-device-without-dense-rehash",
+    "t_c_failure_diagnostic": "numeric-phi-abs-rel-and-locked-tolerances-only",
+    "temporary_memory": {
+      "full_parameter_dtype_effective_weight_temporary": true,
+      "simultaneous_target_layers": 1,
+      "full_fp32_delta": false,
+      "fp32_update_max_elements": "row_block*input_width",
+      "shape_derived_not_observed_gpu_peak": true,
+      "models": {
+        "llama3-8b-inst": {
+          "largest_target": "down_proj",
+          "effective_weight_shape": [4096, 14336],
+          "effective_weight_bytes": 117440512,
+          "effective_weight_mib": 112.0,
+          "fp32_update_max_shape": [64, 14336],
+          "fp32_update_max_bytes": 3670016,
+          "fp32_update_max_mib": 3.5
+        },
+        "qwen2.5-7b-inst": {
+          "largest_target": "down_proj",
+          "effective_weight_shape": [3584, 18944],
+          "effective_weight_bytes": 135790592,
+          "effective_weight_mib": 129.5,
+          "fp32_update_max_shape": [64, 18944],
+          "fp32_update_max_bytes": 4849664,
+          "fp32_update_max_mib": 4.625
+        }
+      }
+    }
   },
   "concrete_backend": {
     "class": "project.run_scripts.ode_edit_method.easyedit_backend.EasyEditMemitBackend",
     "common_model_code_path": true,
     "easyedit_access": "verified-read-only-bridge",
     "direct_z": "once-at-entry-and-byte-frozen",
-    "accepted_state_mode": "quantized-rowblock-trial-then-commit-then-dedicated-rebuild",
+    "accepted_state_mode": "quantized-full-linear-trial-then-rowblock-commit-then-dedicated-rebuild",
     "descendant_authorization": "outer-transaction-exact-target-weight-state-hash-chain",
     "cached_trial_graph": "UNSUPPORTED_FAIL_CLOSED"
   },
   "event_backend": {
-    "old_new_forward": "one-right-padded-combined-batch",
+    "old_new_forward": "two-separate-teacher-forced-forwards",
+    "actual_model_calls_per_event": 2,
+    "differentiable_autograd_calls_per_field": 1,
     "individual_object_length_normalization": true,
+    "combined_scorer_runtime_role": "diagnostic-reference-only",
+    "conditional_fallback": false,
     "cpu_fixture_two_forward_atol": 1e-10,
     "cpu_fixture_two_forward_rtol": 1e-10,
     "p0_two_forward_atol": 0.00005,
     "p0_two_forward_rtol": 0.005,
-    "concrete_failure_action": "P0_TECHNICAL_HOLD_AND_RECORD_TWO_ACTUAL_CALLS"
+    "prior_combined_p0_v5_result": "FAILED_BOTH_MODELS_TECHNICAL_ONLY"
   },
   "transaction": {
     "edit_entry_checkpoint_count": 1,
@@ -247,7 +308,10 @@
     "runner": "project/run_scripts/session02_compute_aware_p0.py",
     "sbatch_template": "project/run_scripts/session02_compute_aware_p0.sbatch",
     "method_loader": "load_fixed_model_checkpoint_original",
-    "retry_output_root_template": "local/results/session02-p0-original-dtype-simple-t-v1-{model_alias}-{proposal_prefix}",
+    "retry_output_root_template": "local/results/session02-p0-original-dtype-full-linear-t-v1-{model_alias}-{proposal_prefix}",
+    "p1_runner": "project/run_scripts/session02_compute_aware_p1.py",
+    "p1_sbatch_template": "project/run_scripts/session02_compute_aware_p1.sbatch",
+    "p1_output_root_template": "local/results/session02-p1-four-case-mechanism-v1-{model_alias}-{proposal_prefix}",
     "runner_requires_execute_flag": true,
     "runner_can_submit_slurm": false,
     "paired_model_submission_required_by_future_envelope": true
@@ -310,7 +374,14 @@
     "p1": {
       "cases": 4,
       "orders": 1,
-      "arms": ["native-memit", "static-synchronous", "one-refresh", "full-ode-edit"]
+      "arms": ["native-memit", "static-synchronous", "one-refresh", "full-ode-edit"],
+      "execution_axis": "arm-outer-canonical-edit-order-inner",
+      "sequential_model_state": true,
+      "cumulative_omega_per_arm": true,
+      "baseline_restore_per_arm": 1,
+      "fresh_w0_atomic_edits": false,
+      "scientific_comparison": false,
+      "evaluation_or_generation": false
     },
     "p2": {
       "cases": 10,
@@ -323,8 +394,48 @@
       "arms": ["native-memit", "scalar-first-hit", "static-synchronous", "full-ode-edit"]
     }
   },
+  "p1_promotion": {
+    "strict_radius_interval": [0.125, 0.5],
+    "strict_p0_observations": {
+      "llama3-8b-inst": {
+        "h0_over_D_native": 0.1168234445,
+        "strict_result": "WARNING_BELOW_LOWER_BOUND"
+      },
+      "qwen2.5-7b-inst": {
+        "h0_over_D_native": 0.1693000407,
+        "strict_result": "PASS"
+      }
+    },
+    "gh_lenient_motivation_promotion": true,
+    "lenient_override_scope": "P1_ENTRY_ONLY_NOT_P0_SCIENTIFIC_SUCCESS",
+    "common_formula_unchanged": true,
+    "current_stage_model_specific_hparams": false,
+    "model_specific_rescue": false,
+    "future_model_specific_calibration_requires_separate_approval": true,
+    "scientific_success_claim": false
+  },
+  "mechanism_diagnostics": {
+    "arms": ["one-refresh", "full-ode-edit"],
+    "source": "existing-controller-steps-and-cheap-field-identities",
+    "additional_model_forwards": 0,
+    "direction_id_transition_rate": true,
+    "normalized_layer_efficiency_and_ranking_drift": true,
+    "allocation_coefficient_cosine": true,
+    "support_turnover": true,
+    "start_end_hard_and_smooth_phi": true,
+    "accepted_step_progress": true,
+    "normalized_progress": true,
+    "progress_per_controller_gpu_second": true,
+    "rollback_inferred_from_omega": false,
+    "failure_rollback_success_endpoint_arm_isolation_separate": true,
+    "exact_c_geometry_cosine": "DEFERRED_AUTHORITATIVE_COMPUTE_TIMER_AND_PEAK_SEPARATION",
+    "c_geometry_required_to_execute": false,
+    "controller_compute_contaminated_by_c_diagnostic": false,
+    "dense_delta_or_full_model_copy": false,
+    "p1_cross_arm_case_radius_ratio": false
+  },
   "artifact_schema": {
-    "schema_version": "ode-edit-session02-compute-aware-artifacts/v3",
+    "schema_version": "ode-edit-session02-compute-aware-artifacts/v4",
     "required_files": [
       "manifest.json",
       "controller_steps.jsonl",
@@ -341,6 +452,27 @@
       "contexts",
       "policy",
       "offline",
+      "artifact_firewall"
+    ],
+    "p1_required_files": [
+      "manifest.json",
+      "controller_steps.jsonl",
+      "compute.jsonl",
+      "mechanism.jsonl",
+      "evaluation.jsonl",
+      "summary.json",
+      "terminal_manifest.json"
+    ],
+    "p1_manifest_required_sections": [
+      "instruction",
+      "git",
+      "model",
+      "selection",
+      "contexts",
+      "policy",
+      "offline",
+      "p1_promotion",
+      "mechanism_contract",
       "artifact_firewall"
     ],
     "manifest_model_required_fields": [
@@ -362,6 +494,8 @@
       "controller",
       "arms",
       "trial_backend",
+      "event_backend",
+      "event_nfe",
       "dtype_policy",
       "checkpoint_original_dtype",
       "observed_parameter_dtype"
@@ -378,6 +512,26 @@
       "result",
       "event",
       "Omega"
+    ],
+    "p1_controller_required_fields": [
+      "model",
+      "case_id",
+      "arm",
+      "order_sha256",
+      "seed",
+      "repetition",
+      "commit",
+      "hashes",
+      "status",
+      "order_position",
+      "pre_edit_state_id",
+      "post_edit_state_id",
+      "result",
+      "event",
+      "Omega",
+      "sequential_state",
+      "radius_provenance",
+      "integrity"
     ],
     "compute_required_fields": [
       "model",
@@ -412,6 +566,67 @@
       "peak_memory_allocated_bytes",
       "peak_memory_reserved_bytes"
     ],
+    "p1_compute_required_fields": [
+      "model",
+      "case_id",
+      "arm",
+      "order_sha256",
+      "seed",
+      "repetition",
+      "commit",
+      "hashes",
+      "status",
+      "order_position",
+      "pre_edit_state_id",
+      "post_edit_state_id",
+      "counters",
+      "N_z",
+      "N_model_fwd",
+      "N_event_fwd",
+      "N_field_state_fwd",
+      "N_field",
+      "N_proposal_build",
+      "N_native_sweep",
+      "N_bw",
+      "K_acc",
+      "N_trial",
+      "N_reject",
+      "N_eval",
+      "N_write",
+      "component_gpu_seconds",
+      "component_wall_seconds",
+      "controller_gpu_seconds",
+      "controller_wall_seconds",
+      "evaluation_gpu_seconds",
+      "editor_only_seconds_per_edit",
+      "setup_amortized_seconds_per_edit",
+      "peak_memory_allocated_bytes",
+      "peak_memory_reserved_bytes",
+      "D_native",
+      "D_sync_entry",
+      "terminal_geometry",
+      "terminal_geometry_wall_fraction",
+      "terminal_geometry_gpu_fraction",
+      "sequential_state",
+      "radius_provenance"
+    ],
+    "p1_mechanism_required_fields": [
+      "model",
+      "case_id",
+      "arm",
+      "order_sha256",
+      "seed",
+      "repetition",
+      "commit",
+      "hashes",
+      "status",
+      "order_position",
+      "pre_edit_state_id",
+      "post_edit_state_id",
+      "mechanism",
+      "sequential_state",
+      "radius_provenance"
+    ],
     "evaluation_after_action_freeze_only": true,
     "raw_prompt_target_context_persisted": false,
     "terminal_hashes_required": true,
@@ -429,12 +644,13 @@
     "host_memory_cap_mib_per_gpu": 198117,
     "p0_wall_limit": "04:00:00",
     "p1_wall_limit": "16:00:00",
-    "p0_forecast_gpu_hours_per_model": "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0",
-    "p1_forecast_gpu_hours_per_model": "HOLD_UNTIL_CHECKPOINT_ORIGINAL_BF16_P0",
-    "gpu_peak_reserved_gib_forecast": "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0",
-    "simple_t_cpu_microfixture_median_ratio": 3.855567094593102,
-    "simple_t_extra_mac_ratio": 96.0,
-    "simple_t_microfixture_is_model_scale_forecast": false,
+    "p0_forecast_gpu_hours_per_model": "OBSERVED_V7_TECHNICAL_REFERENCE_ONLY",
+    "p1_forecast_gpu_hours_per_model": "CASE_DEPENDENT_USE_P0_V7_TECHNICAL_REFERENCE_ONLY",
+    "gpu_peak_reserved_gib_forecast": "P0_V7_OBSERVED_LLAMA_23.628906_QWEN_28.927734_GIB_REFERENCE_ONLY",
+    "prior_rowblock_t_cpu_microfixture_median_ratio": 3.855567094593102,
+    "prior_rowblock_t_extra_mac_ratio": 96.0,
+    "prior_rowblock_t_microfixture_is_model_scale_forecast": false,
+    "full_linear_t_model_scale_cost": "P0_V7_OBSERVED_FULL_NATIVE_3_TO_4X_YELLOW",
     "p0_n_z_per_model_per_repetition": 4,
     "p0_profiler_repetitions_including_warmup": 4,
     "p0_profile_n_z_upper_bound_per_model": 16,
@@ -460,21 +676,25 @@
     "p0_n_reject_upper_bound_per_model_per_repetition": 56,
     "p0_profile_n_reject_upper_bound_per_model": 224,
     "p1_n_reject_upper_bound_per_model": 224,
-    "p0_n_event_fwd_upper_bound_per_model_per_repetition": 75,
-    "p0_profile_n_event_fwd_upper_bound_per_model": 300,
-    "p1_n_event_fwd_upper_bound_per_model": 300,
-    "p0_n_field_state_fwd_upper_bound_per_model_per_repetition": 68,
-    "p0_profile_n_field_state_fwd_upper_bound_per_model": 257,
-    "p1_n_field_state_fwd_upper_bound_per_model": 252,
-    "n_model_fwd_upper_bound": "MEASURE_ACTUAL_TOP_LEVEL_CALLS_IN_P0; NO_UNIT_COST_PROXY",
+    "p0_n_event_fwd_upper_bound_per_model_per_repetition": 150,
+    "p0_profile_n_event_fwd_upper_bound_per_model": 600,
+    "p1_n_event_fwd_upper_bound_per_model": 600,
+    "p0_n_field_state_fwd_upper_bound_per_model_per_repetition": 72,
+    "p0_profile_n_field_state_fwd_upper_bound_per_model": 288,
+    "p1_n_field_state_fwd_upper_bound_per_model": 288,
+    "p0_profile_n_reference_gate_fwd_upper_bound_per_model": 2,
+    "p0_profile_n_reference_gate_bw_upper_bound_per_model": 1,
+    "p1_n_reference_gate_fwd_upper_bound_per_model": 0,
+    "p1_n_reference_gate_bw_upper_bound_per_model": 0,
+    "n_model_fwd_upper_bound": "MEASURE_ACTUAL_TOP_LEVEL_CALLS_PER_EDIT; NO_UNIT_COST_PROXY",
     "p0_n_eval_upper_bound_per_model_per_repetition": 0,
     "p0_profile_n_eval_upper_bound_per_model": 0,
-    "p1_n_eval_upper_bound_per_model": 16,
+    "p1_n_eval_upper_bound_per_model": 0,
     "p0_n_write_upper_bound_per_model_per_repetition": 15,
     "p0_profile_n_write_upper_bound_per_model": 60,
     "p1_n_write_upper_bound_per_model": 60,
-    "counter_bound_basis": "conservative separable caps; Native one ordered proposal/write, Static<=6 accepted, One-refresh<=2 accepted, Full<=6 accepted, unchanged-state rejects reuse fields; each five-layer synchronous field has at most one current-z forward, five key forwards, and one differentiable-event forward, while the single P0 warmup hook gate adds five finite-difference field forwards; N_trial is logical and never added to N_model_fwd; all actual EasyEdit internal forwards are counted by a top-level model hook",
-    "forecast_basis": "structural counter caps only; original-BF16 GPU time and memory must be measured in P0; legacy-float32 failure resources and the simple-T CPU microfixture are not model-scale forecasts"
+    "counter_bound_basis": "conservative separable caps; Native one ordered proposal/write, Static<=6 accepted, One-refresh<=2 accepted, Full<=6 accepted, unchanged-state rejects reuse fields; each event measurement uses exactly two separate top-level teacher-forced forwards; each five-layer synchronous field has at most one current-z forward, five key forwards, and two differentiable-event forwards; the single P0 warmup scalar hard-reference gate adds two reference-gate forwards and one reference backward outside N_field_state_fwd/N_bw; N_trial is logical and never added to N_model_fwd; all actual EasyEdit internal forwards are counted by a top-level model hook",
+    "forecast_basis": "structural P1 counter caps plus P0 V7 original-BF16 technical timing/memory references; four-case cost remains case-dependent; no scientific metric or model-specific rescue"
   },
   "execution_boundary": {
     "hf_hub_offline": true,

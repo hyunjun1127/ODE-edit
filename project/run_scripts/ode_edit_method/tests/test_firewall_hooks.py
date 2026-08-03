@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import inspect
 import unittest
 from types import SimpleNamespace
+from unittest import mock
 
 import torch
 
@@ -9,8 +11,18 @@ from project.run_scripts.ode_edit_method.contracts import (
     ControllerConfig,
     MethodContractError,
 )
+from project.run_scripts.ode_edit_method import events as event_module
+from project.run_scripts.ode_edit_method.derivatives import (
+    ActuatorDirectionalHook,
+    ScalarGateDirectionalReference,
+    all_layer_directional_derivatives,
+    assert_scalar_gate_matches_hook,
+    directional_gradient_scope,
+)
 from project.run_scripts.ode_edit_method.events import (
     ControllerRequest,
+    EVENT_BACKEND_MODE,
+    EVENT_MODEL_FORWARD_CALLS,
     InformationFirewall,
     event_from_log_likelihoods,
     build_allowed_contexts,
@@ -28,6 +40,7 @@ from project.run_scripts.ode_edit_method.hooks import (
     TorchFactorTrial,
     terminal_net_c_energy,
 )
+from project.run_scripts.ode_edit_method.instrumentation import EditInstrumentation
 
 
 class InformationFirewallTests(unittest.TestCase):
@@ -85,7 +98,7 @@ class InformationFirewallTests(unittest.TestCase):
         ):
             self.assertNotIn(forbidden, fields)
 
-    def test_combined_old_new_batch_matches_two_forward_reference(self) -> None:
+    def test_two_forward_event_is_exact_and_combined_primitive_is_not_primary(self) -> None:
         class _Tokenizer:
             padding_side = "right"
             pad_token_id = 0
@@ -157,20 +170,210 @@ class InformationFirewallTests(unittest.TestCase):
                 rtol=1e-12,
             )
         )
-        measured = measure_event(model, tokenizer, request, templates, tau=0.1)
-        self.assertEqual(measured.nfe, 1)
-        self.assertEqual(model.calls, 4)
-        differentiable = measure_differentiable_event(
-            model, tokenizer, request, templates, tau=0.1
+        expected = event_from_log_likelihoods(
+            new_reference,
+            old_reference,
+            tau=0.1,
+            nfe=EVENT_MODEL_FORWARD_CALLS,
         )
-        self.assertEqual(differentiable.reading.nfe, 1)
+        with mock.patch.object(
+            event_module,
+            "score_combined_teacher_batches",
+            side_effect=AssertionError("combined scorer entered selected runtime"),
+        ):
+            model.calls = 0
+            metrics = EditInstrumentation("two-forward-event")
+            metrics.attach_model(model)
+            with metrics.model_forward_scope("event"):
+                measured = measure_event(
+                    model, tokenizer, request, templates, tau=0.1
+                )
+            metrics.detach_model()
+            self.assertEqual(measured, expected)
+            self.assertEqual(measured.nfe, EVENT_MODEL_FORWARD_CALLS)
+            self.assertEqual(model.calls, 2)
+            counters = metrics.finalize().to_dict()["counters"]
+            self.assertEqual(counters["N_model_fwd"], 2)
+            self.assertEqual(counters["N_event_fwd"], 2)
+
+            model.calls = 0
+            differentiable_metrics = EditInstrumentation("two-forward-field")
+            differentiable_metrics.attach_model(model)
+            with differentiable_metrics.model_forward_scope("field"):
+                differentiable = measure_differentiable_event(
+                    model, tokenizer, request, templates, tau=0.1
+                )
+            differentiable_metrics.detach_model()
+        self.assertEqual(
+            differentiable.reading.nfe,
+            EVENT_MODEL_FORWARD_CALLS,
+        )
         self.assertTrue(differentiable.smooth_phi.requires_grad)
-        self.assertEqual(model.calls, 5)
+        self.assertEqual(differentiable.reading, expected)
+        self.assertEqual(model.calls, 2)
+        differentiable_counters = differentiable_metrics.finalize().to_dict()[
+            "counters"
+        ]
+        self.assertEqual(differentiable_counters["N_model_fwd"], 2)
+        self.assertEqual(differentiable_counters["N_field_state_fwd"], 2)
+        self.assertEqual(EVENT_BACKEND_MODE, "two-separate-teacher-forced-forwards")
+        selected_source = inspect.getsource(measure_event) + inspect.getsource(
+            measure_differentiable_event
+        )
+        self.assertNotIn("score_combined_teacher_batches", selected_source)
+        self.assertNotIn("model_alias", selected_source)
+        self.assertNotIn("llama3-8b-inst", selected_source)
+        self.assertNotIn("qwen2.5-7b-inst", selected_source)
         manifest = context_manifest_payload(request, templates, tokenizer)
         self.assertEqual(
             manifest["target_suffix_identity"]["new"]["token_count"], 3
         )
         self.assertNotIn(request.target_new, repr(manifest))
+
+    def test_two_forward_event_records_aggregate_into_one_all_layer_backward(self) -> None:
+        class _Tokenizer:
+            padding_side = "right"
+            pad_token_id = 0
+            bos_token_id = 1
+            unk_token_id = 2
+            name_or_path = "two-forward-hook-fixture"
+
+            def __init__(self) -> None:
+                self._ids: dict[str, int] = {}
+
+            def encode(self, text: str, *, add_special_tokens: bool) -> list[int]:
+                values = [self.bos_token_id] if add_special_tokens else []
+                for token in text.split():
+                    if token not in self._ids:
+                        self._ids[token] = len(self._ids) + 3
+                    values.append(self._ids[token])
+                return values
+
+        class _Model(torch.nn.Module):
+            def __init__(self) -> None:
+                super().__init__()
+                self.embedding = torch.nn.Embedding(32, 4)
+                self.first = torch.nn.Linear(4, 5, bias=True)
+                self.second = torch.nn.Linear(5, 32, bias=False)
+
+            def forward(self, *, input_ids, attention_mask):
+                del attention_mask
+                hidden = torch.tanh(self.first(self.embedding(input_ids)))
+                return SimpleNamespace(logits=self.second(hidden))
+
+        torch.manual_seed(41)
+        tokenizer = _Tokenizer()
+        model = _Model().double()
+        for parameter in model.parameters():
+            parameter.requires_grad_(False)
+        generator = torch.Generator().manual_seed(43)
+        directions = (
+            FactorDirection(
+                layer=0,
+                weight_name="first.weight",
+                left=torch.randn(5, 2, generator=generator, dtype=torch.float64),
+                right=torch.randn(4, 2, generator=generator, dtype=torch.float64),
+            ),
+            FactorDirection(
+                layer=1,
+                weight_name="second.weight",
+                left=torch.randn(32, 2, generator=generator, dtype=torch.float64),
+                right=torch.randn(5, 2, generator=generator, dtype=torch.float64),
+            ),
+        )
+        request = ControllerRequest(
+            case_id="two-forward-hook",
+            prompt="{} works at",
+            subject="Ada",
+            target_new="New York City",
+            target_old="London",
+        )
+        templates = (("{}",), ("Because {}", "Today {}"))
+        targets = tuple(
+            dict(model.named_parameters())[direction.weight_name]
+            for direction in directions
+        )
+        pointers = tuple(parameter.data_ptr() for parameter in targets)
+        versions = tuple(parameter._version for parameter in targets)
+        rng_state = torch.get_rng_state().clone()
+
+        with directional_gradient_scope(model, directions):
+            dense_event = measure_differentiable_event(
+                model, tokenizer, request, templates, tau=0.1
+            )
+            dense = all_layer_directional_derivatives(
+                dense_event.smooth_phi,
+                model,
+                directions,
+            )
+
+        original_grad = torch.autograd.grad
+        primary_metrics = EditInstrumentation("two-forward-hook-primary")
+        primary_metrics.attach_model(model)
+        with ActuatorDirectionalHook(
+            model,
+            directions,
+            instrumentation=primary_metrics,
+        ) as hook:
+            with primary_metrics.model_forward_scope("field"):
+                primary_event = measure_differentiable_event(
+                    model, tokenizer, request, templates, tau=0.1
+                )
+            self.assertTrue(
+                all(len(records) == 2 for records in hook._records.values())
+            )
+            with mock.patch("torch.autograd.grad", wraps=original_grad) as grad_mock:
+                primary = hook.compute(primary_event.smooth_phi)
+                self.assertEqual(grad_mock.call_count, 1)
+        primary_metrics.detach_model()
+
+        scalar_metrics = EditInstrumentation("two-forward-hook-scalar")
+        scalar_metrics.attach_model(model)
+        with ScalarGateDirectionalReference(
+            model,
+            directions,
+            instrumentation=scalar_metrics,
+        ) as reference:
+            with scalar_metrics.model_forward_scope("reference_gate"):
+                scalar_event = measure_differentiable_event(
+                    model, tokenizer, request, templates, tau=0.1
+                )
+            with mock.patch("torch.autograd.grad", wraps=original_grad) as grad_mock:
+                scalar = reference.compute(scalar_event.smooth_phi)
+                self.assertEqual(grad_mock.call_count, 1)
+        scalar_metrics.detach_model()
+
+        assert_scalar_gate_matches_hook(
+            primary,
+            scalar,
+            abs_tol=5e-5,
+            rel_tol=5e-3,
+        )
+        for dense_value, primary_value in zip(
+            dense.values, primary.values, strict=True
+        ):
+            self.assertAlmostEqual(
+                dense_value.event_derivative,
+                primary_value.event_derivative,
+                delta=1e-10,
+            )
+        primary_counters = primary_metrics.finalize().to_dict()["counters"]
+        self.assertEqual(primary_counters["N_model_fwd"], 2)
+        self.assertEqual(primary_counters["N_field_state_fwd"], 2)
+        self.assertEqual(primary_counters["N_bw"], 1)
+        scalar_counters = scalar_metrics.finalize().to_dict()["counters"]
+        self.assertEqual(scalar_counters["N_model_fwd"], 2)
+        self.assertEqual(scalar_counters["N_reference_gate_fwd"], 2)
+        self.assertEqual(scalar_counters["N_reference_gate_bw"], 1)
+        self.assertEqual(scalar_counters["N_bw"], 0)
+        self.assertTrue(torch.equal(torch.get_rng_state(), rng_state))
+        for parameter, pointer, version in zip(
+            targets, pointers, versions, strict=True
+        ):
+            self.assertIsNone(parameter.grad)
+            self.assertEqual(parameter.data_ptr(), pointer)
+            self.assertEqual(parameter._version, version)
+            self.assertFalse(parameter.requires_grad)
 
 
 class TrialRollbackTests(unittest.TestCase):

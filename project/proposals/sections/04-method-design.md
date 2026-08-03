@@ -714,3 +714,25 @@ Method가 올바르게 구현되면 열 수 있는 local claim은 제한적이�
 > monotone outer-edit load를 함께 고려해 실제 적용할 layer coefficient를 직접 선택하고,
 > baseline-defined update budget을 소비하는 대신 rewrite goal을 처음 만족하는 상태에서
 > 종료한다.
+
+## 19. Session 02 P1 post-run gate
+
+2026-08-03 original-BF16 4-edit sequential P1에서 ODE-Edit의 technical path와
+state-dependent field refresh는 두 모델 모두 terminal integrity를 통과했다. Full의
+연속 field 사이 direction-ID transition mean은 Llama/Qwen 모두 `1.0`이었다. Qwen
+case `2022`의 동일 entry-state comparison에서는 Full이 Native와 함께 first-hit하면서
+total C-distance를 `14.59%`, total C-energy를 `27.05%` 낮췄다.
+
+그러나 현재 공통 controller는 Llama에서 Full first-hit `0/4`였고, 세 affected case를
+`S_max=8`까지 연장해도 round 7–8 first-hit은 `0/3`이었다. 따라서 이 결과는
+`MOTIVATION_MECHANISM_CONDITIONAL_PASS`이지만 현재 controller의 main-table promotion은
+`NO_GO`다. 공통 `S_max`는 `6`으로 유지하고 추가 round-count tuning을 중단한다.
+
+다음 method revision은 original BF16, fixed direct-z, common two-forward event,
+first-hit과 두 모델 공통 정책을 유지하면서 progress normalization, capacity marginal
+cost와 trust/allocation coupling을 재설계해야 한다. Model-specific rescue 없이 작은
+sealed panel에서 양 모델 non-collapse와 capacity frontier를 다시 확인하기 전에는
+10/100-edit, AlphaEdit 또는 lifelong scale을 열지 않는다.
+
+Canonical result와 claim boundary는
+[`../../../experiment-reports/global/2026-08-03-session02-p1-mechanism-motivation-closure.md`](../../../experiment-reports/global/2026-08-03-session02-p1-mechanism-motivation-closure.md)에 있다.

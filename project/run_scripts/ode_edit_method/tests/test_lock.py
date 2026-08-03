@@ -6,8 +6,12 @@ from contextlib import redirect_stderr
 import io
 import inspect
 import unittest
+from types import SimpleNamespace
 
-from project.run_scripts.ode_edit_method.contracts import MethodContractError
+from project.run_scripts.ode_edit_method.contracts import (
+    MethodContractError,
+    canonical_hash,
+)
 from project.run_scripts.ode_edit_method.lock import (
     controller_config,
     dry_plan,
@@ -17,11 +21,16 @@ from project.run_scripts.ode_edit_method.lock import (
 from project.run_scripts.ode_edit_method.memit_adapter import (
     functional_trial_for_batch,
 )
+from project.run_scripts.ode_edit_method import runtime as runtime_module
 from project.run_scripts.ode_edit_method.runtime import FiveArmRunner
 from project.run_scripts import session02_compute_aware_p0 as executable_module
+from project.run_scripts import session02_compute_aware_p1 as p1_executable_module
 from project.run_scripts.session02_compute_aware_p01 import build_parser
 from project.run_scripts.session02_compute_aware_p0 import (
     build_parser as build_executable_parser,
+)
+from project.run_scripts.session02_compute_aware_p1 import (
+    build_parser as build_p1_executable_parser,
 )
 
 
@@ -33,6 +42,18 @@ class NumericalLockTests(unittest.TestCase):
         cls.lock = loaded
 
     def test_common_controller_and_exact_case_order_are_locked(self) -> None:
+        self.assertEqual(
+            self.lock["schema_version"],
+            "ode-edit-compute-aware-numerical-lock-proposal/v8",
+        )
+        self.assertEqual(
+            self.lock["instruction_id"],
+            "ODEEDIT-S02-P1-FOUR-CASE-RUNNER-IMPL-V1",
+        )
+        self.assertEqual(
+            self.lock["parent_instruction_id"],
+            "ODEEDIT-S02-P0-FULL-LINEAR-T-V7-PAIR-V1",
+        )
         config = controller_config(self.lock)
         self.assertEqual(config.s_max, 6)
         self.assertEqual(
@@ -46,7 +67,7 @@ class NumericalLockTests(unittest.TestCase):
         )
         self.assertEqual(
             self.lock["trial_backend"]["selected_common_backend"],
-            "quantized-rowblock-commit-emulator",
+            "quantized-full-linear-commit-emulator",
         )
         self.assertEqual(self.lock["trial_backend"]["row_block"], 64)
         self.assertFalse(self.lock["trial_backend"]["two_tier_pretrial"])
@@ -60,10 +81,24 @@ class NumericalLockTests(unittest.TestCase):
         )
         self.assertEqual(config.h0_fraction, 0.25)
         self.assertEqual(config.h_max_fraction, 0.5)
+        self.assertEqual(
+            self.lock["status"],
+            "TECHNICALLY_CALIBRATED_P1_EXECUTION_LOCK_PENDING_GH_APPROVAL",
+        )
+        self.assertEqual(self.lock["scientific_outcome_count"], 0)
+        promotion = self.lock["p1_promotion"]
+        self.assertFalse(promotion["scientific_success_claim"])
+        self.assertFalse(promotion["current_stage_model_specific_hparams"])
+        self.assertFalse(promotion["model_specific_rescue"])
+        self.assertTrue(
+            promotion["future_model_specific_calibration_requires_separate_approval"]
+        )
 
     def test_p01_plan_is_paired_fail_closed_and_within_cap(self) -> None:
+        expected_proposal_id = canonical_hash(self.lock)
         for stage, expected_cases in (("p0", 1), ("p1", 4)):
             plan = dry_plan(self.lock, stage)
+            self.assertEqual(plan["proposal_id"], expected_proposal_id)
             self.assertEqual(plan["status"], "DRY_RUN_ONLY; NO_GPU; NO_SLURM")
             self.assertTrue(plan["same_submission_batch_required"])
             self.assertEqual(plan["aggregate_gpus"], 2)
@@ -75,32 +110,129 @@ class NumericalLockTests(unittest.TestCase):
             self.assertEqual({len(job["case_ids"]) for job in plan["jobs"]}, {expected_cases})
             self.assertEqual(len({tuple(job["arms"]) for job in plan["jobs"]}), 1)
             self.assertEqual(len({job["backend"] for job in plan["jobs"]}), 1)
-            if stage == "p0":
-                self.assertTrue(
-                    all("--execute" in job["executable_command"] for job in plan["jobs"])
-                )
-                self.assertTrue(
-                    all(job["submission_authorized"] is False for job in plan["jobs"])
-                )
-                self.assertEqual(
-                    {job["dtype_policy"] for job in plan["jobs"]},
-                    {"checkpoint-original"},
-                )
-                self.assertEqual(
-                    {job["checkpoint_original_dtype"] for job in plan["jobs"]},
-                    {"torch.bfloat16"},
-                )
-                self.assertEqual(
-                    {job["trial_backend"] for job in plan["jobs"]},
-                    {"quantized-rowblock-commit-emulator"},
-                )
-                for job in plan["jobs"]:
-                    output_root = job["executable_command"][-2]
+            self.assertTrue(
+                all("--execute" in job["executable_command"] for job in plan["jobs"])
+            )
+            self.assertTrue(
+                all(job["submission_authorized"] is False for job in plan["jobs"])
+            )
+            self.assertEqual(
+                {job["dtype_policy"] for job in plan["jobs"]},
+                {"checkpoint-original"},
+            )
+            self.assertEqual(
+                {job["checkpoint_original_dtype"] for job in plan["jobs"]},
+                {"torch.bfloat16"},
+            )
+            self.assertEqual(
+                {job["trial_backend"] for job in plan["jobs"]},
+                {"quantized-full-linear-commit-emulator"},
+            )
+            self.assertEqual(
+                {job["event_backend"] for job in plan["jobs"]},
+                {"two-separate-teacher-forced-forwards"},
+            )
+            self.assertEqual({job["event_nfe"] for job in plan["jobs"]}, {2})
+            for job in plan["jobs"]:
+                output_root = job["executable_command"][-2]
+                if stage == "p0":
                     self.assertIn(
-                        "session02-p0-original-dtype-simple-t-v1-",
+                        "session02-p0-original-dtype-full-linear-t-v1-",
                         output_root,
                     )
                     self.assertNotIn("session02-p0-tech-v1", output_root)
+                else:
+                    self.assertIn(
+                        "session02-p1-four-case-mechanism-v1-", output_root
+                    )
+                    self.assertEqual(job["forecast_upper"]["N_eval"], 0)
+                    self.assertEqual(
+                        job["sbatch_template"],
+                        "project/run_scripts/session02_compute_aware_p1.sbatch",
+                    )
+                self.assertTrue(output_root.endswith(expected_proposal_id[:8]))
+
+    def test_v5_context_provenance_is_exact_and_raw_free(self) -> None:
+        expected = {
+            "llama3-8b-inst": {
+                "manifest_id": "22c26dc11fb13acd51d5bdc483e4b9dd46fa40029fe10b167bff1a1642f7e686",
+                "templates_sha256": "0a2069beafc60e170251103028fde716a160a60a8048bb000a649cf26c233bb0",
+                "terminal_manifest_sha256": "d37bc471629449100e369e3aec2e9508ea32d29ffeb530e2a7eb07ea6c19c94e",
+                "raw_context_manifest_sha256": "f1f428a0cd8ed5c512179d971a01f40c8b3ba0dfea7269d7ec16e24559953991",
+                "legacy_id": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
+            },
+            "qwen2.5-7b-inst": {
+                "manifest_id": "5b7144416638fb3deec1f12f204a401e06edd1293aa2fe4a22f9080f3e8bd41b",
+                "templates_sha256": "ff84e360b7a4a413275da818862c7c4431ac21c7fbeaf26e4d2296278f9a4bf9",
+                "terminal_manifest_sha256": "bd7e169c2c3abe255e11563220deb558f7c30c1e22713d8be030a760c7c9d79d",
+                "raw_context_manifest_sha256": "6bd9ba263f4774b65fce31c965c27344625402ee1f19f4129542fd5e08132084",
+                "legacy_id": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
+            },
+        }
+        validate_lock(self.lock)
+        for alias, identities in expected.items():
+            context = self.lock["models"][alias]["context_manifest"]
+            self.assertEqual(context["manifest_id"], identities["manifest_id"])
+            self.assertEqual(
+                context["templates_sha256"], identities["templates_sha256"]
+            )
+            self.assertEqual(
+                context["terminal_manifest_sha256"],
+                identities["terminal_manifest_sha256"],
+            )
+            self.assertEqual(
+                context["raw_context_manifest_sha256"],
+                identities["raw_context_manifest_sha256"],
+            )
+            self.assertEqual(context["group_sizes"], [1, 5])
+            self.assertEqual(context["generation_dtype_policy"], "checkpoint-original")
+            self.assertEqual(context["repeat_count"], 2)
+            self.assertTrue(context["exact_match"])
+            legacy = context["legacy_provenance"]
+            self.assertEqual(legacy["manifest_id"], identities["legacy_id"])
+            self.assertFalse(legacy["method_evidence"])
+            self.assertFalse(
+                {"templates", "raw_path", "credentials"} & set(context)
+            )
+
+    def test_v5_context_provenance_mutations_fail_closed(self) -> None:
+        legacy_ids = {
+            "llama3-8b-inst": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
+            "qwen2.5-7b-inst": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
+        }
+
+        mutations = [
+            lambda value: value.__setitem__(
+                "schema_version", "ode-edit-compute-aware-numerical-lock-proposal/v7"
+            ),
+            lambda value: value["models"]["llama3-8b-inst"][
+                "context_manifest"
+            ].__setitem__("manifest_id", legacy_ids["llama3-8b-inst"]),
+            lambda value: value["models"]["qwen2.5-7b-inst"][
+                "context_manifest"
+            ].__setitem__("manifest_id", legacy_ids["qwen2.5-7b-inst"]),
+            lambda value: value["models"]["llama3-8b-inst"][
+                "context_manifest"
+            ].__setitem__("repeat_count", 1),
+            lambda value: value["models"]["llama3-8b-inst"][
+                "context_manifest"
+            ].__setitem__("exact_match", False),
+            lambda value: value["models"]["qwen2.5-7b-inst"][
+                "context_manifest"
+            ].__setitem__("generation_dtype_policy", "legacy-motivation-float32"),
+            lambda value: value["models"]["qwen2.5-7b-inst"][
+                "context_manifest"
+            ].__setitem__("templates_sha256", "0" * 64),
+            lambda value: value["models"]["llama3-8b-inst"][
+                "context_manifest"
+            ]["legacy_provenance"].__setitem__("method_evidence", True),
+        ]
+        for mutate in mutations:
+            with self.subTest(mutate=mutate):
+                candidate = copy.deepcopy(self.lock)
+                mutate(candidate)
+                with self.assertRaises(MethodContractError):
+                    validate_lock(candidate)
 
     def test_launcher_requires_explicit_dry_run(self) -> None:
         parser = build_parser()
@@ -132,9 +264,35 @@ class NumericalLockTests(unittest.TestCase):
         )
         self.assertTrue(parsed_execute.execute)
 
+        p1_executable = build_p1_executable_parser()
+        with redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit):
+                p1_executable.parse_args(
+                    [
+                        "--model-alias",
+                        "qwen2.5-7b-inst",
+                        "--output-root",
+                        "local/results/session02-test-p1",
+                    ]
+                )
+        parsed_p1 = p1_executable.parse_args(
+            [
+                "--model-alias",
+                "qwen2.5-7b-inst",
+                "--output-root",
+                "local/results/session02-test-p1",
+                "--execute",
+            ]
+        )
+        self.assertTrue(parsed_p1.execute)
+
     def test_lock_rejects_outcomes_cached_mode_and_per_model_policy(self) -> None:
         for mutate in (
             lambda value: value.__setitem__("outcome_count_at_proposal", 1),
+            lambda value: value.__setitem__("scientific_outcome_count", 1),
+            lambda value: value.__setitem__(
+                "status", "OUTCOME_FREE_PROPOSAL_PENDING_GH_APPROVAL"
+            ),
             lambda value: value["trial_backend"].__setitem__(
                 "cached_trial_graph", "SUPPORTED"
             ),
@@ -147,6 +305,15 @@ class NumericalLockTests(unittest.TestCase):
             lambda value: value["trial_backend"].__setitem__(
                 "two_tier_pretrial", True
             ),
+            lambda value: value["trial_backend"]["temporary_memory"].__setitem__(
+                "full_fp32_delta", True
+            ),
+            lambda value: value["trial_backend"]["temporary_memory"].__setitem__(
+                "simultaneous_target_layers", 2
+            ),
+            lambda value: value["trial_backend"]["temporary_memory"]["models"][
+                "qwen2.5-7b-inst"
+            ].__setitem__("effective_weight_bytes", 1),
         ):
             candidate = copy.deepcopy(self.lock)
             mutate(candidate)
@@ -172,23 +339,48 @@ class NumericalLockTests(unittest.TestCase):
         self.assertEqual(forecast["p0_n_field_upper_bound_per_model"], 9)
         self.assertEqual(forecast["p1_n_field_upper_bound_per_model"], 36)
         self.assertEqual(
+            forecast["p0_n_event_fwd_upper_bound_per_model_per_repetition"],
+            150,
+        )
+        self.assertEqual(
+            forecast["p0_profile_n_event_fwd_upper_bound_per_model"],
+            600,
+        )
+        self.assertEqual(forecast["p1_n_event_fwd_upper_bound_per_model"], 600)
+        self.assertEqual(
+            forecast["p0_n_field_state_fwd_upper_bound_per_model_per_repetition"],
+            72,
+        )
+        self.assertEqual(
             forecast["p0_n_trial_upper_bound_per_model_per_repetition"], 56
         )
         self.assertEqual(forecast["p0_profile_n_trial_upper_bound_per_model"], 224)
         self.assertEqual(forecast["p1_n_trial_upper_bound_per_model"], 224)
         self.assertEqual(
             forecast["p0_profile_n_field_state_fwd_upper_bound_per_model"],
-            257,
+            288,
         )
         self.assertEqual(
             forecast["p1_n_field_state_fwd_upper_bound_per_model"],
-            252,
+            288,
+        )
+        self.assertEqual(
+            forecast["p0_profile_n_reference_gate_fwd_upper_bound_per_model"],
+            2,
+        )
+        self.assertEqual(
+            forecast["p0_profile_n_reference_gate_bw_upper_bound_per_model"],
+            1,
         )
         self.assertNotIn("N_state_fwd", required)
         self.assertIn("N_model_fwd", required)
         controller_fields = set(
             self.lock["artifact_schema"]["controller_step_required_fields"]
         )
+        manifest_policy_fields = set(
+            self.lock["artifact_schema"]["manifest_policy_required_fields"]
+        )
+        self.assertTrue({"event_backend", "event_nfe"} <= manifest_policy_fields)
         self.assertTrue(
             {
                 "model",
@@ -211,12 +403,34 @@ class NumericalLockTests(unittest.TestCase):
         )
         self.assertEqual(
             self.lock["resource_forecast"]["p0_forecast_gpu_hours_per_model"],
-            "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0",
+            "OBSERVED_V7_TECHNICAL_REFERENCE_ONLY",
         )
         self.assertFalse(
             self.lock["resource_forecast"][
-                "simple_t_microfixture_is_model_scale_forecast"
+                "prior_rowblock_t_microfixture_is_model_scale_forecast"
             ]
+        )
+        temporary = self.lock["trial_backend"]["temporary_memory"]
+        self.assertTrue(
+            temporary["full_parameter_dtype_effective_weight_temporary"]
+        )
+        self.assertEqual(temporary["simultaneous_target_layers"], 1)
+        self.assertFalse(temporary["full_fp32_delta"])
+        self.assertEqual(
+            temporary["models"]["llama3-8b-inst"]["effective_weight_bytes"],
+            117440512,
+        )
+        self.assertEqual(
+            temporary["models"]["llama3-8b-inst"]["fp32_update_max_bytes"],
+            3670016,
+        )
+        self.assertEqual(
+            temporary["models"]["qwen2.5-7b-inst"]["effective_weight_bytes"],
+            135790592,
+        )
+        self.assertEqual(
+            temporary["models"]["qwen2.5-7b-inst"]["fp32_update_max_bytes"],
+            4849664,
         )
 
     def test_runner_and_adaptive_trial_source_guards(self) -> None:
@@ -228,17 +442,32 @@ class NumericalLockTests(unittest.TestCase):
         }
         self.assertIn("load_fixed_model_checkpoint_original", calls)
         self.assertNotIn("load_fixed_model", calls)
+        self.assertNotIn("score_combined_teacher_batches", calls)
+
+        p1_runner_source = inspect.getsource(p1_executable_module)
+        p1_calls = {
+            node.func.id
+            for node in ast.walk(ast.parse(p1_runner_source))
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+        }
+        self.assertIn("load_fixed_model_checkpoint_original", p1_calls)
+        self.assertNotIn("load_fixed_model", p1_calls)
+        self.assertNotIn("score_combined_teacher_batches", p1_calls)
+        self.assertNotIn("def _radius_diagnostic", p1_runner_source)
+        self.assertIn('"p1_cross_arm_case_ratio_computed": False', p1_runner_source)
 
         adapter_source = inspect.getsource(functional_trial_for_batch)
-        self.assertIn("QuantizedRowBlockFunctionalTrial", adapter_source)
+        self.assertIn("QuantizedFullLinearFunctionalTrial", adapter_source)
         self.assertIn("SIMPLE_T_ROW_BLOCK", adapter_source)
+        self.assertNotIn("QuantizedRowBlockFunctionalTrial", adapter_source)
         self.assertNotIn("LowRankFunctionalTrial", adapter_source)
 
         adaptive_source = inspect.getsource(FiveArmRunner._run_adaptive)
         self.assertIn('instrumentation.component("trial")', adaptive_source)
+        self.assertIn("_functional_commit_mismatch_message", adaptive_source)
         self.assertIn(
             "functional trial event differs from committed write",
-            adaptive_source,
+            inspect.getsource(runtime_module._functional_commit_mismatch_message),
         )
 
     def test_lock_rejects_ambiguous_event_tolerance_type(self) -> None:
@@ -246,6 +475,91 @@ class NumericalLockTests(unittest.TestCase):
         candidate["event_backend"]["p0_two_forward_atol"] = None
         with self.assertRaises(MethodContractError):
             validate_lock(candidate)
+
+        for field, value in (
+            ("old_new_forward", "one-right-padded-combined-batch"),
+            ("actual_model_calls_per_event", 1),
+            ("conditional_fallback", True),
+        ):
+            with self.subTest(field=field):
+                candidate = copy.deepcopy(self.lock)
+                candidate["event_backend"][field] = value
+                with self.assertRaises(MethodContractError):
+                    validate_lock(candidate)
+
+    def test_p1_runner_is_one_sequential_stream_per_arm(self) -> None:
+        source = inspect.getsource(p1_executable_module)
+        arm_loop = "for arm in P1_ARMS:"
+        request_loop = "for order_position, request in enumerate(requests):"
+        self.assertLess(source.index(arm_loop), source.index(request_loop))
+        between = source[source.index(arm_loop) : source.index(request_loop)]
+        self.assertIn("ledger = OmegaLedger(denominators)", between)
+        request_body = source[source.index(request_loop) :]
+        self.assertNotIn("ledger = OmegaLedger(denominators)", request_body)
+        self.assertIn("omega_before = ledger.state()", request_body)
+        self.assertIn("omega_after = ledger.state()", request_body)
+        self.assertIn('"order_position": order_position', request_body)
+        self.assertIn('"pre_edit_state_id": pre_edit_state_id', request_body)
+        self.assertIn('"post_edit_state_id": post_edit_state_id', request_body)
+        self.assertIn(
+            "backend.sequential_target_weight_state_id()", request_body
+        )
+        self.assertIn(
+            '"pre_edit_target_weight_state_id": (', request_body
+        )
+        self.assertIn(
+            '"post_edit_target_weight_state_id": (', request_body
+        )
+        self.assertIn(
+            '"arm_isolation_restore_exact": arm_isolation_restore_exact',
+            request_body,
+        )
+        p1_stage = self.lock["stages"]["p1"]
+        self.assertEqual(
+            p1_stage["execution_axis"], "arm-outer-canonical-edit-order-inner"
+        )
+        self.assertTrue(p1_stage["sequential_model_state"])
+        self.assertTrue(p1_stage["cumulative_omega_per_arm"])
+        self.assertFalse(p1_stage["fresh_w0_atomic_edits"])
+
+    def test_p1_runtime_metadata_records_and_validates_actual_config_dtype(self) -> None:
+        torch = p1_executable_module.torch
+        base_metadata = {
+            "dtype_policy": "checkpoint-original",
+            "checkpoint_original_dtype": "torch.bfloat16",
+            "observed_parameter_dtype": "torch.bfloat16",
+        }
+
+        def runtime(*, config_dtype: object = torch.bfloat16, **updates: object):
+            metadata = {**base_metadata, **updates}
+            return SimpleNamespace(
+                model=SimpleNamespace(
+                    config=SimpleNamespace(torch_dtype=config_dtype)
+                ),
+                metadata=lambda: dict(metadata),
+            )
+
+        observed = p1_executable_module._checkpoint_original_runtime_metadata(
+            runtime(config_torch_dtype="stale-metadata-must-not-win")
+        )
+        self.assertEqual(observed["config_torch_dtype"], "torch.bfloat16")
+
+        for field in ("checkpoint_original_dtype", "observed_parameter_dtype"):
+            with self.subTest(field=field):
+                with self.assertRaisesRegex(RuntimeError, field):
+                    p1_executable_module._checkpoint_original_runtime_metadata(
+                        runtime(**{field: "torch.float32"})
+                    )
+        with self.assertRaisesRegex(RuntimeError, "config_torch_dtype"):
+            p1_executable_module._checkpoint_original_runtime_metadata(
+                runtime(config_dtype=torch.float32)
+            )
+        missing_config_dtype = runtime()
+        missing_config_dtype.model.config = SimpleNamespace()
+        with self.assertRaisesRegex(RuntimeError, "config_torch_dtype"):
+            p1_executable_module._checkpoint_original_runtime_metadata(
+                missing_config_dtype
+            )
 
 
 if __name__ == "__main__":

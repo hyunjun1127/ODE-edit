@@ -4,6 +4,7 @@ import hashlib
 import random
 import tempfile
 import unittest
+from dataclasses import replace
 from pathlib import Path
 from types import SimpleNamespace
 from unittest import mock
@@ -11,6 +12,7 @@ from unittest import mock
 import numpy as np
 import torch
 
+from project.run_scripts.ode_edit_method import easyedit_backend as backend_module
 from project.run_scripts.ode_edit_motivation.contracts import (
     FileRecord,
     ProvenanceManifest,
@@ -23,7 +25,7 @@ from project.run_scripts.ode_edit_method.contracts import (
 )
 from project.run_scripts.ode_edit_method.easyedit_backend import EasyEditMemitBackend
 from project.run_scripts.ode_edit_method.functional_trial import (
-    QuantizedRowBlockFunctionalTrial,
+    QuantizedFullLinearFunctionalTrial,
 )
 from project.run_scripts.ode_edit_method.hooks import FactorDirection
 from project.run_scripts.ode_edit_method.instrumentation import EditInstrumentation
@@ -101,7 +103,7 @@ def _backend(alias: str, root: str) -> EasyEditMemitBackend:
 
 
 class ConcreteBackendTests(unittest.TestCase):
-    def test_adaptive_trial_uses_simple_quantized_rowblock_backend(self) -> None:
+    def test_adaptive_trial_uses_quantized_full_linear_backend(self) -> None:
         with tempfile.TemporaryDirectory() as root:
             backend = _backend("llama3-8b-inst", root)
             state = backend.current_state_id()
@@ -130,7 +132,7 @@ class ConcreteBackendTests(unittest.TestCase):
                         semantics=semantics,
                     )
                     trial = backend.trial(adaptive, (0.25,))
-                    self.assertIs(type(trial), QuantizedRowBlockFunctionalTrial)
+                    self.assertIs(type(trial), QuantizedFullLinearFunctionalTrial)
                     self.assertEqual(trial.row_block, 64)
                     with trial:
                         pass
@@ -223,6 +225,91 @@ class ConcreteBackendTests(unittest.TestCase):
                 backend.current_state_id()
             backend.restore(checkpoint)
             backend.assert_checkpoint(checkpoint)
+
+    def test_sequential_target_weight_identity_reuses_snapshot_records_only(self) -> None:
+        with tempfile.TemporaryDirectory() as root:
+            backend = _backend("llama3-8b-inst", root)
+            original = backend._current_snapshot
+            request_state_first = backend.current_state_id()
+            target_state_first = backend.sequential_target_weight_state_id()
+
+            backend._current_snapshot = replace(
+                original, request_ids=("different-outer-edit-request",)
+            )
+            request_state_second = backend.current_state_id()
+            target_state_second = backend.sequential_target_weight_state_id()
+            self.assertNotEqual(request_state_first, request_state_second)
+            self.assertEqual(target_state_first, target_state_second)
+
+            backend._current_snapshot = replace(
+                backend._current_snapshot,
+                provenance_ids=("different-file-provenance",),
+            )
+            self.assertEqual(
+                target_state_second,
+                backend.sequential_target_weight_state_id(),
+            )
+
+            parameters = list(backend._current_snapshot.parameters)
+            replacement_hash = (
+                "f" * 64 if parameters[0].sha256 != "f" * 64 else "e" * 64
+            )
+            parameters[0] = replace(parameters[0], sha256=replacement_hash)
+            backend._current_snapshot = replace(
+                backend._current_snapshot,
+                parameters=tuple(parameters),
+            )
+            self.assertNotEqual(
+                target_state_second,
+                backend.sequential_target_weight_state_id(),
+            )
+
+            backend._current_snapshot = original
+            with (
+                mock.patch.object(
+                    backend_module,
+                    "capture_snapshot",
+                    side_effect=AssertionError("sequential identity recaptured snapshot"),
+                ) as capture,
+                mock.patch.object(
+                    backend_module,
+                    "tensor_sha256",
+                    side_effect=AssertionError("sequential identity rehashed tensor"),
+                ) as tensor_hash,
+                mock.patch.object(
+                    backend_module.TorchCheckpoint,
+                    "capture",
+                    side_effect=AssertionError("sequential identity copied parameters"),
+                ) as checkpoint_capture,
+                mock.patch.object(
+                    backend.model,
+                    "forward",
+                    side_effect=AssertionError("sequential identity ran model forward"),
+                ) as model_forward,
+                mock.patch.object(
+                    torch.Tensor,
+                    "clone",
+                    side_effect=AssertionError("sequential identity cloned a tensor"),
+                ) as tensor_clone,
+                mock.patch.object(
+                    torch.Tensor,
+                    "cpu",
+                    side_effect=AssertionError("sequential identity copied to CPU"),
+                ) as tensor_cpu,
+            ):
+                self.assertEqual(
+                    backend.sequential_target_weight_state_id(),
+                    target_state_first,
+                )
+            for guarded_call in (
+                capture,
+                tensor_hash,
+                checkpoint_capture,
+                model_forward,
+                tensor_clone,
+                tensor_cpu,
+            ):
+                guarded_call.assert_not_called()
 
     def test_verified_covariance_source_is_transient_and_mutation_guarded(self) -> None:
         with tempfile.TemporaryDirectory() as root:
