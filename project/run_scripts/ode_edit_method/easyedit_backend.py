@@ -62,6 +62,7 @@ from .memit_adapter import (
     native_terminal_batch,
     synchronous_unit_batch,
 )
+from .mechanism import capture_field_mechanism
 from .preflight import CovarianceRuntimeContract
 
 
@@ -123,6 +124,7 @@ class EasyEditMemitBackend:
         finite_difference_gate_epsilon: float | None = None,
         finite_difference_gate_atol: float = 0.0,
         finite_difference_gate_rtol: float = 0.0,
+        record_mechanism: bool = False,
     ) -> None:
         if runtime.spec.alias not in {"llama3-8b-inst", "qwen2.5-7b-inst"}:
             raise MethodContractError("concrete backend received a non-canonical model")
@@ -171,6 +173,9 @@ class EasyEditMemitBackend:
         )
         self.finite_difference_gate_atol = float(finite_difference_gate_atol)
         self.finite_difference_gate_rtol = float(finite_difference_gate_rtol)
+        if not isinstance(record_mechanism, bool):
+            raise MethodContractError("mechanism recording flag must be boolean")
+        self.record_mechanism = record_mechanism
         if self.finite_difference_gate_epsilon is not None and (
             not math.isfinite(self.finite_difference_gate_epsilon)
             or self.finite_difference_gate_epsilon <= 0.0
@@ -203,6 +208,8 @@ class EasyEditMemitBackend:
         self._native_distance: float | None = None
         self._event_history: list[dict[str, Any]] = []
         self._hook_reference_gate: tuple[Mapping[str, Any], ...] | None = None
+        self._mechanism_field_history: list[dict[str, Any]] = []
+        self._mechanism_previous_directions: Mapping[int, str] | None = None
 
     def _covariance_source_for_solve(self, layer: int) -> torch.Tensor:
         """Return the guarded CPU source; the solver owns the device copy."""
@@ -252,6 +259,10 @@ class EasyEditMemitBackend:
     @property
     def hook_reference_gate(self) -> tuple[Mapping[str, Any], ...] | None:
         return self._hook_reference_gate
+
+    @property
+    def mechanism_field_history(self) -> tuple[Mapping[str, Any], ...]:
+        return tuple(dict(value) for value in self._mechanism_field_history)
 
     def _record_event(self, source: str, reading: EventReading) -> None:
         self._event_history.append(
@@ -649,7 +660,20 @@ class EasyEditMemitBackend:
                 for row in rows
             )
         slopes = tuple(field.slopes_by_layer[layer] for layer in batch.layers)
-        return replace(batch, slopes=slopes)
+        result = replace(batch, slopes=slopes)
+        if self.record_mechanism:
+            # Only cheap scalar/identity metadata is captured in the method
+            # timer.  Exact C contractions are deliberately deferred so P1
+            # controller timing and peak memory remain authoritative.
+            record, directions_by_layer = capture_field_mechanism(
+                result,
+                self._mechanism_previous_directions,
+                normalization_epsilon=self.unit_c_norm_epsilon,
+            )
+            record["field_index"] = len(self._mechanism_field_history)
+            self._mechanism_field_history.append(record)
+            self._mechanism_previous_directions = directions_by_layer
+        return result
 
     def build_coordinate(self, frozen_target: Any, layer: int) -> ProposalBatch:
         return coordinate_batch(self.build_synchronous(frozen_target), layer)

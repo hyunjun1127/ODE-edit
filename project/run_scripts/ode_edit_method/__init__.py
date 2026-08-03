@@ -32,6 +32,13 @@ from .functional_trial import (
 from .hooks import apply_accepted_factors
 from .instrumentation import EditInstrumentation, InstrumentationSnapshot
 from .lock import controller_config, dry_plan, load_lock
+from .mechanism import (
+    MECHANISM_SCHEMA,
+    capture_field_mechanism,
+    summarize_mechanism,
+    trajectory_summary,
+)
+from .p1_orchestration import P1SequentialArmGuard
 from .retry import RejectedRetryCache
 from .runtime import FiveArmRunner, MethodBackend
 from .cached_graph import (
@@ -55,6 +62,7 @@ __all__ = [
     "EventReading",
     "InstrumentationSnapshot",
     "LayerProposal",
+    "MECHANISM_SCHEMA",
     "LowRankFunctionalTrial",
     "QuantizedFullLinearFunctionalTrial",
     "QuantizedRowBlockFunctionalTrial",
@@ -64,6 +72,7 @@ __all__ = [
     "OmegaLedger",
     "ProposalBatch",
     "ProposalSemantics",
+    "P1SequentialArmGuard",
     "PreparedConcreteEnvironment",
     "ScalarFirstHitSearch",
     "ScalarGateDirectionalReference",
@@ -74,7 +83,10 @@ __all__ = [
     "assess_cached_graph_feasibility",
     "directional_gradient_scope",
     "controller_config",
+    "capture_field_mechanism",
     "dry_plan",
     "load_lock",
     "solve_progress_qp",
+    "summarize_mechanism",
+    "trajectory_summary",
 ]

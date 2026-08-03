@@ -1,4 +1,8 @@
-"""Strict loader and dry-plan projection for the outcome-free v7 proposal."""
+"""Strict technically calibrated P1 lock and no-submit plan projection.
+
+The lock preserves observed P0 engineering calibration while containing zero
+scientific efficacy outcomes or success claims.
+"""
 
 from __future__ import annotations
 
@@ -14,10 +18,11 @@ from .events import EVENT_BACKEND_MODE, EVENT_MODEL_FORWARD_CALLS
 
 LOCK_PATH = Path(__file__).with_name("numerical_lock_proposal.json")
 MODEL_ALIASES = ("llama3-8b-inst", "qwen2.5-7b-inst")
-LOCK_SCHEMA = "ode-edit-compute-aware-numerical-lock-proposal/v7"
-LOCK_INSTRUCTION = "ODEEDIT-S02-FULL-LINEAR-T-V7-IMPL-V1"
-LOCK_PARENT = "ODEEDIT-S02-P0-TWO-FORWARD-V6-PAIR-V1"
-LOCK_BASE_COMMIT = "4a82979828aed6b1b35e1ba3ea7309b5430c81c4"
+LOCK_SCHEMA = "ode-edit-compute-aware-numerical-lock-proposal/v8"
+LOCK_INSTRUCTION = "ODEEDIT-S02-P1-FOUR-CASE-RUNNER-IMPL-V1"
+LOCK_REVISION = "ODEEDIT-S02-P1-FOUR-CASE-RUNNER-IMPL-V1-A8"
+LOCK_PARENT = "ODEEDIT-S02-P0-FULL-LINEAR-T-V7-PAIR-V1"
+LOCK_BASE_COMMIT = "422c3e8894ec9ca87517e794d749a098db22c7a6"
 FINITE_TRIAL_BACKEND = "quantized-full-linear-commit-emulator"
 CONTEXT_LOCKS: Mapping[str, Mapping[str, Any]] = {
     "llama3-8b-inst": {
@@ -152,19 +157,25 @@ def validate_lock(payload: Any) -> None:
     root = _mapping("root", payload)
     if root.get("schema_version") != LOCK_SCHEMA:
         raise MethodContractError("unknown numerical lock proposal schema")
-    if root.get("status") != "OUTCOME_FREE_PROPOSAL_PENDING_GH_APPROVAL":
-        raise MethodContractError("numerical lock is not an outcome-free proposal")
-    if root.get("outcome_count_at_proposal") != 0:
-        raise MethodContractError("numerical lock proposal observed an outcome")
+    if (
+        root.get("status")
+        != "TECHNICALLY_CALIBRATED_P1_EXECUTION_LOCK_PENDING_GH_APPROVAL"
+    ):
+        raise MethodContractError("P1 technical execution lock status differs")
+    if (
+        root.get("outcome_count_at_proposal") != 0
+        or root.get("scientific_outcome_count") != 0
+    ):
+        raise MethodContractError("P1 lock contains a scientific outcome")
     if root.get("execution_seed") != 17:
         raise MethodContractError("common execution seed differs")
     if (
         root.get("instruction_id") != LOCK_INSTRUCTION
-        or root.get("revision_id") != LOCK_INSTRUCTION
+        or root.get("revision_id") != LOCK_REVISION
         or root.get("parent_instruction_id") != LOCK_PARENT
         or root.get("canonical_main_commit") != LOCK_BASE_COMMIT
     ):
-        raise MethodContractError("v7 instruction/provenance identity differs")
+        raise MethodContractError("P1 instruction/provenance identity differs")
 
     dtype_contract = _mapping("dtype_contract", root.get("dtype_contract"))
     if (
@@ -210,7 +221,7 @@ def validate_lock(payload: Any) -> None:
         expected_context = CONTEXT_LOCKS[alias]
         if context != expected_context:
             raise MethodContractError(
-                f"{alias} original-BF16 context provenance differs from v7"
+                f"{alias} original-BF16 context provenance differs from V7"
             )
         context_ids.add(str(context["manifest_id"]))
         if (
@@ -337,6 +348,12 @@ def validate_lock(payload: Any) -> None:
         or execution.get("method_loader") != "load_fixed_model_checkpoint_original"
         or execution.get("retry_output_root_template")
         != "local/results/session02-p0-original-dtype-full-linear-t-v1-{model_alias}-{proposal_prefix}"
+        or execution.get("p1_runner")
+        != "project/run_scripts/session02_compute_aware_p1.py"
+        or execution.get("p1_sbatch_template")
+        != "project/run_scripts/session02_compute_aware_p1.sbatch"
+        or execution.get("p1_output_root_template")
+        != "local/results/session02-p1-four-case-mechanism-v1-{model_alias}-{proposal_prefix}"
         or execution.get("runner_can_submit_slurm") is not False
         or execution.get("runner_requires_execute_flag") is not True
     ):
@@ -394,6 +411,11 @@ def validate_lock(payload: Any) -> None:
     compute_fields = artifact_schema.get("compute_required_fields")
     manifest_model_fields = artifact_schema.get("manifest_model_required_fields")
     manifest_policy_fields = artifact_schema.get("manifest_policy_required_fields")
+    p1_files = artifact_schema.get("p1_required_files")
+    p1_manifest_sections = artifact_schema.get("p1_manifest_required_sections")
+    p1_controller_fields = artifact_schema.get("p1_controller_required_fields")
+    p1_compute_fields = artifact_schema.get("p1_compute_required_fields")
+    p1_mechanism_fields = artifact_schema.get("p1_mechanism_required_fields")
     required_record_fields = {
         "model",
         "case_id",
@@ -431,8 +453,81 @@ def validate_lock(payload: Any) -> None:
             "observed_parameter_dtype",
         }
         <= set(manifest_policy_fields)
+        or p1_files
+        != [
+            "manifest.json",
+            "controller_steps.jsonl",
+            "compute.jsonl",
+            "mechanism.jsonl",
+            "evaluation.jsonl",
+            "summary.json",
+            "terminal_manifest.json",
+        ]
+        or not isinstance(p1_manifest_sections, list)
+        or not {
+            "instruction",
+            "git",
+            "model",
+            "selection",
+            "contexts",
+            "policy",
+            "offline",
+            "p1_promotion",
+            "mechanism_contract",
+            "artifact_firewall",
+        }
+        <= set(p1_manifest_sections)
+        or not isinstance(p1_controller_fields, list)
+        or not (
+            required_record_fields
+            | {
+                "repetition",
+                "order_position",
+                "pre_edit_state_id",
+                "post_edit_state_id",
+                "result",
+                "event",
+                "Omega",
+                "sequential_state",
+                "radius_provenance",
+                "integrity",
+            }
+        )
+        <= set(p1_controller_fields)
+        or not isinstance(p1_compute_fields, list)
+        or not (
+            required_record_fields
+            | {
+                "repetition",
+                "order_position",
+                "pre_edit_state_id",
+                "post_edit_state_id",
+                "counters",
+                "D_native",
+                "D_sync_entry",
+                "terminal_geometry",
+                "sequential_state",
+                "radius_provenance",
+            }
+            | set(required_counters)
+        )
+        <= set(p1_compute_fields)
+        or not isinstance(p1_mechanism_fields, list)
+        or not (
+            required_record_fields
+            | {
+                "repetition",
+                "order_position",
+                "pre_edit_state_id",
+                "post_edit_state_id",
+                "mechanism",
+                "sequential_state",
+                "radius_provenance",
+            }
+        )
+        <= set(p1_mechanism_fields)
     ):
-        raise MethodContractError("artifact records do not expose the locked P0 schema")
+        raise MethodContractError("artifact records do not expose the locked P0/P1 schema")
 
     timing = _mapping("timing", root.get("timing"))
     if (
@@ -446,10 +541,71 @@ def validate_lock(payload: Any) -> None:
     for stage in ("p0", "p1"):
         if _mapping(stage, stages.get(stage)).get("arms") != expected:
             raise MethodContractError(f"{stage} arms differ from the compute-aware lock")
+    if (
+        _mapping("p1", stages["p1"]).get("cases") != 4
+        or _mapping("p1", stages["p1"]).get("orders") != 1
+        or timing.get("p1_canonical_repetitions") != 1
+        or _mapping("p1", stages["p1"]).get("execution_axis")
+        != "arm-outer-canonical-edit-order-inner"
+        or _mapping("p1", stages["p1"]).get("sequential_model_state") is not True
+        or _mapping("p1", stages["p1"]).get("cumulative_omega_per_arm") is not True
+        or _mapping("p1", stages["p1"]).get("baseline_restore_per_arm") != 1
+        or _mapping("p1", stages["p1"]).get("fresh_w0_atomic_edits") is not False
+        or _mapping("p1", stages["p1"]).get("scientific_comparison") is not False
+        or _mapping("p1", stages["p1"]).get("evaluation_or_generation") is not False
+    ):
+        raise MethodContractError("P1 case/order/repetition identity differs")
     if _mapping("p3", stages.get("p3")).get("arms", []).count(
         Arm.ORDERED_ADAPTIVE.value
     ):
         raise MethodContractError("Ordered adaptive leaked into P3")
+
+    promotion = _mapping("p1_promotion", root.get("p1_promotion"))
+    expected_promotion = {
+        "strict_radius_interval": [0.125, 0.5],
+        "strict_p0_observations": {
+            "llama3-8b-inst": {
+                "h0_over_D_native": 0.1168234445,
+                "strict_result": "WARNING_BELOW_LOWER_BOUND",
+            },
+            "qwen2.5-7b-inst": {
+                "h0_over_D_native": 0.1693000407,
+                "strict_result": "PASS",
+            },
+        },
+        "gh_lenient_motivation_promotion": True,
+        "lenient_override_scope": "P1_ENTRY_ONLY_NOT_P0_SCIENTIFIC_SUCCESS",
+        "common_formula_unchanged": True,
+        "current_stage_model_specific_hparams": False,
+        "model_specific_rescue": False,
+        "future_model_specific_calibration_requires_separate_approval": True,
+        "scientific_success_claim": False,
+    }
+    if dict(promotion) != expected_promotion:
+        raise MethodContractError("P1 strict/lenient promotion provenance differs")
+    mechanism = _mapping("mechanism_diagnostics", root.get("mechanism_diagnostics"))
+    expected_mechanism = {
+        "arms": [Arm.ONE_REFRESH.value, Arm.FULL_ODE_EDIT.value],
+        "source": "existing-controller-steps-and-cheap-field-identities",
+        "additional_model_forwards": 0,
+        "direction_id_transition_rate": True,
+        "normalized_layer_efficiency_and_ranking_drift": True,
+        "allocation_coefficient_cosine": True,
+        "support_turnover": True,
+        "start_end_hard_and_smooth_phi": True,
+        "accepted_step_progress": True,
+        "normalized_progress": True,
+        "progress_per_controller_gpu_second": True,
+        "rollback_inferred_from_omega": False,
+        "failure_rollback_success_endpoint_arm_isolation_separate": True,
+        "exact_c_geometry_cosine": "DEFERRED_AUTHORITATIVE_COMPUTE_TIMER_AND_PEAK_SEPARATION",
+        "c_geometry_required_to_execute": False,
+        "controller_compute_contaminated_by_c_diagnostic": False,
+        "dense_delta_or_full_model_copy": False,
+        "p1_cross_arm_case_radius_ratio": False,
+    }
+    if dict(mechanism) != expected_mechanism:
+        raise MethodContractError("P1 mechanism diagnostic contract differs")
 
     resources = _mapping("resource_forecast", root.get("resource_forecast"))
     if (
@@ -458,20 +614,22 @@ def validate_lock(payload: Any) -> None:
         or resources.get("host_memory_mib_per_job", 1)
         > resources.get("host_memory_cap_mib_per_gpu", 0)
         or resources.get("p0_forecast_gpu_hours_per_model")
-        != "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0"
+        != "OBSERVED_V7_TECHNICAL_REFERENCE_ONLY"
         or resources.get("p1_forecast_gpu_hours_per_model")
-        != "HOLD_UNTIL_CHECKPOINT_ORIGINAL_BF16_P0"
+        != "CASE_DEPENDENT_USE_P0_V7_TECHNICAL_REFERENCE_ONLY"
         or resources.get("gpu_peak_reserved_gib_forecast")
-        != "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0"
+        != "P0_V7_OBSERVED_LLAMA_23.628906_QWEN_28.927734_GIB_REFERENCE_ONLY"
         or resources.get("prior_rowblock_t_cpu_microfixture_median_ratio")
         != 3.855567094593102
         or resources.get("prior_rowblock_t_extra_mac_ratio") != 96.0
         or resources.get("prior_rowblock_t_microfixture_is_model_scale_forecast")
         is not False
-        or resources.get("full_linear_t_model_scale_cost") != "UNMEASURED_IN_P0"
+        or resources.get("full_linear_t_model_scale_cost")
+        != "P0_V7_OBSERVED_FULL_NATIVE_3_TO_4X_YELLOW"
+        or resources.get("p1_n_eval_upper_bound_per_model") != 0
     ):
         raise MethodContractError("dry proposal grants submission or exceeds GPU cap")
-    v7_counter_bounds = {
+    v8_counter_bounds = {
         "p0_n_event_fwd_upper_bound_per_model_per_repetition": 150,
         "p0_profile_n_event_fwd_upper_bound_per_model": 600,
         "p1_n_event_fwd_upper_bound_per_model": 600,
@@ -483,8 +641,8 @@ def validate_lock(payload: Any) -> None:
         "p1_n_reference_gate_fwd_upper_bound_per_model": 0,
         "p1_n_reference_gate_bw_upper_bound_per_model": 0,
     }
-    if any(resources.get(name) != value for name, value in v7_counter_bounds.items()):
-        raise MethodContractError("v7 two-forward counter bounds differ")
+    if any(resources.get(name) != value for name, value in v8_counter_bounds.items()):
+        raise MethodContractError("P1 two-forward counter bounds differ")
     boundary = _mapping("execution_boundary", root.get("execution_boundary"))
     if (
         boundary.get("gpu_now") != 0
@@ -512,7 +670,10 @@ def dry_plan(payload: Mapping[str, Any], stage: str) -> dict[str, Any]:
     for alias in MODEL_ALIASES:
         model = _mapping(alias, payload["models"][alias])
         prefix = "p0_profile" if stage == "p0" else "p1"
-        output_root = str(execution["retry_output_root_template"]).format(
+        root_key = (
+            "retry_output_root_template" if stage == "p0" else "p1_output_root_template"
+        )
+        output_root = str(execution[root_key]).format(
             model_alias=alias,
             proposal_prefix=proposal_id[:8],
         )
@@ -543,18 +704,16 @@ def dry_plan(payload: Mapping[str, Any], stage: str) -> dict[str, Any]:
                 "executable_command": [
                     "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
                     "-B",
-                    "project/run_scripts/session02_compute_aware_p0.py",
+                    execution["runner" if stage == "p0" else "p1_runner"],
                     "--model-alias",
                     alias,
                     "--output-root",
                     output_root,
                     "--execute",
-                ] if stage == "p0" else None,
-                "sbatch_template": (
-                    "project/run_scripts/session02_compute_aware_p0.sbatch"
-                    if stage == "p0"
-                    else None
-                ),
+                ],
+                "sbatch_template": execution[
+                    "sbatch_template" if stage == "p0" else "p1_sbatch_template"
+                ],
                 "forecast_upper": {
                     "N_z": resources[
                         "p0_profile_n_z_upper_bound_per_model"
@@ -603,7 +762,7 @@ def dry_plan(payload: Mapping[str, Any], stage: str) -> dict[str, Any]:
             }
         )
     return {
-        "schema_version": "ode-edit-session02-dry-plan/v2",
+        "schema_version": "ode-edit-session02-dry-plan/v3",
         "status": "DRY_RUN_ONLY; NO_GPU; NO_SLURM",
         "stage": stage,
         "proposal_id": proposal_id,

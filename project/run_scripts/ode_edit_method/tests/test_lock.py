@@ -23,9 +23,13 @@ from project.run_scripts.ode_edit_method.memit_adapter import (
 from project.run_scripts.ode_edit_method import runtime as runtime_module
 from project.run_scripts.ode_edit_method.runtime import FiveArmRunner
 from project.run_scripts import session02_compute_aware_p0 as executable_module
+from project.run_scripts import session02_compute_aware_p1 as p1_executable_module
 from project.run_scripts.session02_compute_aware_p01 import build_parser
 from project.run_scripts.session02_compute_aware_p0 import (
     build_parser as build_executable_parser,
+)
+from project.run_scripts.session02_compute_aware_p1 import (
+    build_parser as build_p1_executable_parser,
 )
 
 
@@ -39,15 +43,15 @@ class NumericalLockTests(unittest.TestCase):
     def test_common_controller_and_exact_case_order_are_locked(self) -> None:
         self.assertEqual(
             self.lock["schema_version"],
-            "ode-edit-compute-aware-numerical-lock-proposal/v7",
+            "ode-edit-compute-aware-numerical-lock-proposal/v8",
         )
         self.assertEqual(
             self.lock["instruction_id"],
-            "ODEEDIT-S02-FULL-LINEAR-T-V7-IMPL-V1",
+            "ODEEDIT-S02-P1-FOUR-CASE-RUNNER-IMPL-V1",
         )
         self.assertEqual(
             self.lock["parent_instruction_id"],
-            "ODEEDIT-S02-P0-TWO-FORWARD-V6-PAIR-V1",
+            "ODEEDIT-S02-P0-FULL-LINEAR-T-V7-PAIR-V1",
         )
         config = controller_config(self.lock)
         self.assertEqual(config.s_max, 6)
@@ -76,6 +80,18 @@ class NumericalLockTests(unittest.TestCase):
         )
         self.assertEqual(config.h0_fraction, 0.25)
         self.assertEqual(config.h_max_fraction, 0.5)
+        self.assertEqual(
+            self.lock["status"],
+            "TECHNICALLY_CALIBRATED_P1_EXECUTION_LOCK_PENDING_GH_APPROVAL",
+        )
+        self.assertEqual(self.lock["scientific_outcome_count"], 0)
+        promotion = self.lock["p1_promotion"]
+        self.assertFalse(promotion["scientific_success_claim"])
+        self.assertFalse(promotion["current_stage_model_specific_hparams"])
+        self.assertFalse(promotion["model_specific_rescue"])
+        self.assertTrue(
+            promotion["future_model_specific_calibration_requires_separate_approval"]
+        )
 
     def test_p01_plan_is_paired_fail_closed_and_within_cap(self) -> None:
         expected_proposal_id = canonical_hash(self.lock)
@@ -93,38 +109,47 @@ class NumericalLockTests(unittest.TestCase):
             self.assertEqual({len(job["case_ids"]) for job in plan["jobs"]}, {expected_cases})
             self.assertEqual(len({tuple(job["arms"]) for job in plan["jobs"]}), 1)
             self.assertEqual(len({job["backend"] for job in plan["jobs"]}), 1)
-            if stage == "p0":
-                self.assertTrue(
-                    all("--execute" in job["executable_command"] for job in plan["jobs"])
-                )
-                self.assertTrue(
-                    all(job["submission_authorized"] is False for job in plan["jobs"])
-                )
-                self.assertEqual(
-                    {job["dtype_policy"] for job in plan["jobs"]},
-                    {"checkpoint-original"},
-                )
-                self.assertEqual(
-                    {job["checkpoint_original_dtype"] for job in plan["jobs"]},
-                    {"torch.bfloat16"},
-                )
-                self.assertEqual(
-                    {job["trial_backend"] for job in plan["jobs"]},
-                    {"quantized-full-linear-commit-emulator"},
-                )
-                self.assertEqual(
-                    {job["event_backend"] for job in plan["jobs"]},
-                    {"two-separate-teacher-forced-forwards"},
-                )
-                self.assertEqual({job["event_nfe"] for job in plan["jobs"]}, {2})
-                for job in plan["jobs"]:
-                    output_root = job["executable_command"][-2]
+            self.assertTrue(
+                all("--execute" in job["executable_command"] for job in plan["jobs"])
+            )
+            self.assertTrue(
+                all(job["submission_authorized"] is False for job in plan["jobs"])
+            )
+            self.assertEqual(
+                {job["dtype_policy"] for job in plan["jobs"]},
+                {"checkpoint-original"},
+            )
+            self.assertEqual(
+                {job["checkpoint_original_dtype"] for job in plan["jobs"]},
+                {"torch.bfloat16"},
+            )
+            self.assertEqual(
+                {job["trial_backend"] for job in plan["jobs"]},
+                {"quantized-full-linear-commit-emulator"},
+            )
+            self.assertEqual(
+                {job["event_backend"] for job in plan["jobs"]},
+                {"two-separate-teacher-forced-forwards"},
+            )
+            self.assertEqual({job["event_nfe"] for job in plan["jobs"]}, {2})
+            for job in plan["jobs"]:
+                output_root = job["executable_command"][-2]
+                if stage == "p0":
                     self.assertIn(
                         "session02-p0-original-dtype-full-linear-t-v1-",
                         output_root,
                     )
                     self.assertNotIn("session02-p0-tech-v1", output_root)
-                    self.assertTrue(output_root.endswith(expected_proposal_id[:8]))
+                else:
+                    self.assertIn(
+                        "session02-p1-four-case-mechanism-v1-", output_root
+                    )
+                    self.assertEqual(job["forecast_upper"]["N_eval"], 0)
+                    self.assertEqual(
+                        job["sbatch_template"],
+                        "project/run_scripts/session02_compute_aware_p1.sbatch",
+                    )
+                self.assertTrue(output_root.endswith(expected_proposal_id[:8]))
 
     def test_v5_context_provenance_is_exact_and_raw_free(self) -> None:
         expected = {
@@ -177,7 +202,7 @@ class NumericalLockTests(unittest.TestCase):
 
         mutations = [
             lambda value: value.__setitem__(
-                "schema_version", "ode-edit-compute-aware-numerical-lock-proposal/v6"
+                "schema_version", "ode-edit-compute-aware-numerical-lock-proposal/v7"
             ),
             lambda value: value["models"]["llama3-8b-inst"][
                 "context_manifest"
@@ -238,9 +263,35 @@ class NumericalLockTests(unittest.TestCase):
         )
         self.assertTrue(parsed_execute.execute)
 
+        p1_executable = build_p1_executable_parser()
+        with redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit):
+                p1_executable.parse_args(
+                    [
+                        "--model-alias",
+                        "qwen2.5-7b-inst",
+                        "--output-root",
+                        "local/results/session02-test-p1",
+                    ]
+                )
+        parsed_p1 = p1_executable.parse_args(
+            [
+                "--model-alias",
+                "qwen2.5-7b-inst",
+                "--output-root",
+                "local/results/session02-test-p1",
+                "--execute",
+            ]
+        )
+        self.assertTrue(parsed_p1.execute)
+
     def test_lock_rejects_outcomes_cached_mode_and_per_model_policy(self) -> None:
         for mutate in (
             lambda value: value.__setitem__("outcome_count_at_proposal", 1),
+            lambda value: value.__setitem__("scientific_outcome_count", 1),
+            lambda value: value.__setitem__(
+                "status", "OUTCOME_FREE_PROPOSAL_PENDING_GH_APPROVAL"
+            ),
             lambda value: value["trial_backend"].__setitem__(
                 "cached_trial_graph", "SUPPORTED"
             ),
@@ -351,7 +402,7 @@ class NumericalLockTests(unittest.TestCase):
         )
         self.assertEqual(
             self.lock["resource_forecast"]["p0_forecast_gpu_hours_per_model"],
-            "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0",
+            "OBSERVED_V7_TECHNICAL_REFERENCE_ONLY",
         )
         self.assertFalse(
             self.lock["resource_forecast"][
@@ -392,6 +443,18 @@ class NumericalLockTests(unittest.TestCase):
         self.assertNotIn("load_fixed_model", calls)
         self.assertNotIn("score_combined_teacher_batches", calls)
 
+        p1_runner_source = inspect.getsource(p1_executable_module)
+        p1_calls = {
+            node.func.id
+            for node in ast.walk(ast.parse(p1_runner_source))
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+        }
+        self.assertIn("load_fixed_model_checkpoint_original", p1_calls)
+        self.assertNotIn("load_fixed_model", p1_calls)
+        self.assertNotIn("score_combined_teacher_batches", p1_calls)
+        self.assertNotIn("def _radius_diagnostic", p1_runner_source)
+        self.assertIn('"p1_cross_arm_case_ratio_computed": False', p1_runner_source)
+
         adapter_source = inspect.getsource(functional_trial_for_batch)
         self.assertIn("QuantizedFullLinearFunctionalTrial", adapter_source)
         self.assertIn("SIMPLE_T_ROW_BLOCK", adapter_source)
@@ -422,6 +485,32 @@ class NumericalLockTests(unittest.TestCase):
                 candidate["event_backend"][field] = value
                 with self.assertRaises(MethodContractError):
                     validate_lock(candidate)
+
+    def test_p1_runner_is_one_sequential_stream_per_arm(self) -> None:
+        source = inspect.getsource(p1_executable_module)
+        arm_loop = "for arm in P1_ARMS:"
+        request_loop = "for order_position, request in enumerate(requests):"
+        self.assertLess(source.index(arm_loop), source.index(request_loop))
+        between = source[source.index(arm_loop) : source.index(request_loop)]
+        self.assertIn("ledger = OmegaLedger(denominators)", between)
+        request_body = source[source.index(request_loop) :]
+        self.assertNotIn("ledger = OmegaLedger(denominators)", request_body)
+        self.assertIn("omega_before = ledger.state()", request_body)
+        self.assertIn("omega_after = ledger.state()", request_body)
+        self.assertIn('"order_position": order_position', request_body)
+        self.assertIn('"pre_edit_state_id": pre_edit_state_id', request_body)
+        self.assertIn('"post_edit_state_id": post_edit_state_id', request_body)
+        self.assertIn(
+            '"arm_isolation_restore_exact": arm_isolation_restore_exact',
+            request_body,
+        )
+        p1_stage = self.lock["stages"]["p1"]
+        self.assertEqual(
+            p1_stage["execution_axis"], "arm-outer-canonical-edit-order-inner"
+        )
+        self.assertTrue(p1_stage["sequential_model_state"])
+        self.assertTrue(p1_stage["cumulative_omega_per_arm"])
+        self.assertFalse(p1_stage["fresh_w0_atomic_edits"])
 
 
 if __name__ == "__main__":
