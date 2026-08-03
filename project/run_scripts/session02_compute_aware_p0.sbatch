@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=odeedit-s02-p0
+#SBATCH --job-name=odeedit-s02-p0-original-dtype
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -11,6 +11,11 @@
 
 set -euo pipefail
 
+# Template preparation is not submission authority. A future GH execution
+# envelope must supply this token explicitly; the current CPU-only envelope
+# intentionally leaves it unset.
+: "${ODEEDIT_P0_SUBMISSION_AUTHORIZED:?separate GH P0 execution envelope required}"
+test "${ODEEDIT_P0_SUBMISSION_AUTHORIZED}" = "checkpoint-original-simple-t"
 : "${MODEL_ALIAS:?set MODEL_ALIAS to llama3-8b-inst or qwen2.5-7b-inst}"
 : "${OUTPUT_ROOT:?set OUTPUT_ROOT under local/results/session02-*}"
 : "${SLURM_SUBMIT_DIR:?Slurm must preserve the approved submission directory}"

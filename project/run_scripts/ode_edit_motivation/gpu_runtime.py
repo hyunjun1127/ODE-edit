@@ -1,8 +1,9 @@
 """Offline, one-GPU loader for the two fixed Motivation snapshots.
 
 MV-0 is a fidelity gate against EasyEdit's canonical BaseEditor behavior, so
-the primary runtime is float32.  A lower-precision sensitivity must be a
-separate, explicitly approved experiment rather than a silent loader change.
+its legacy runtime remains forced float32.  Session 02 method experiments use
+a separate explicit entry point that preserves the pinned checkpoint dtype;
+the two provenance policies must never be silently conflated.
 """
 
 from __future__ import annotations
@@ -39,6 +40,10 @@ EXPECTED_RUNTIME: Mapping[str, str] = {
     "accelerate": "1.13.0",
 }
 
+LEGACY_MOTIVATION_DTYPE_POLICY = "legacy-motivation-float32"
+CHECKPOINT_ORIGINAL_DTYPE_POLICY = "checkpoint-original"
+PINNED_CHECKPOINT_DTYPE = torch.bfloat16
+
 
 class GpuRuntimeError(RuntimeError):
     """The fixed offline GPU runtime contract is unavailable."""
@@ -73,13 +78,19 @@ class FixedModelRuntime:
     observed_model_commit: str
     observed_tokenizer_commit: str
     tokenizer_policy: str
+    dtype_policy: str = LEGACY_MOTIVATION_DTYPE_POLICY
+    checkpoint_original_dtype: torch.dtype = PINNED_CHECKPOINT_DTYPE
 
     def metadata(self) -> dict[str, Any]:
+        observed_dtype = _single_floating_parameter_dtype(self.model)
         return {
             "model_alias": self.spec.alias,
             "repository_id": self.spec.repository_id,
             "revision": self.spec.revision,
-            "dtype": "torch.float32",
+            "dtype": str(observed_dtype),
+            "observed_parameter_dtype": str(observed_dtype),
+            "checkpoint_original_dtype": str(self.checkpoint_original_dtype),
+            "dtype_policy": self.dtype_policy,
             "device": "cuda:0",
             "gpu": self.gpu.to_dict(),
             "observed_model_commit": self.observed_model_commit,
@@ -259,6 +270,9 @@ def _validate_loaded_model(
     model: torch.nn.Module,
     spec: FixedModelSpec,
     cached_commit: str,
+    *,
+    expected_parameter_dtype: torch.dtype,
+    expected_config_dtype: torch.dtype | None,
 ) -> str:
     observed = _observed_model_commit(model)
     if observed is not None and observed != spec.revision:
@@ -266,25 +280,66 @@ def _validate_loaded_model(
             f"loaded model commit {observed} does not match {spec.revision}"
         )
     wrong_devices: list[str] = []
-    wrong_dtypes: list[str] = []
     for name, parameter in model.named_parameters():
         if parameter.device.type != "cuda" or parameter.device.index not in (None, 0):
             wrong_devices.append(f"{name}:{parameter.device}")
-        if parameter.is_floating_point() and parameter.dtype != torch.float32:
-            wrong_dtypes.append(f"{name}:{parameter.dtype}")
-        if len(wrong_devices) >= 3 and len(wrong_dtypes) >= 3:
+        if len(wrong_devices) >= 3:
             break
     if wrong_devices:
         raise GpuRuntimeError(
             "model parameters are not confined to cuda:0: " + ", ".join(wrong_devices[:3])
         )
-    if wrong_dtypes:
-        raise GpuRuntimeError(
-            "model floating parameters are not float32: " + ", ".join(wrong_dtypes[:3])
-        )
+    _validate_model_dtype_contract(
+        model,
+        expected_parameter_dtype=expected_parameter_dtype,
+        expected_config_dtype=expected_config_dtype,
+    )
     if getattr(getattr(model, "config", None), "use_cache", None) is not False:
         raise GpuRuntimeError("model.config.use_cache must be False for BaseEditor parity")
     return observed or cached_commit
+
+
+def _floating_parameter_dtypes(model: torch.nn.Module) -> frozenset[torch.dtype]:
+    dtypes = {
+        parameter.dtype
+        for parameter in model.parameters()
+        if parameter.is_floating_point()
+    }
+    if not dtypes:
+        raise GpuRuntimeError("loaded model has no floating parameters")
+    return frozenset(dtypes)
+
+
+def _single_floating_parameter_dtype(model: torch.nn.Module) -> torch.dtype:
+    dtypes = _floating_parameter_dtypes(model)
+    if len(dtypes) != 1:
+        observed = ", ".join(sorted(str(dtype) for dtype in dtypes))
+        raise GpuRuntimeError(f"model floating parameter dtypes are mixed: {observed}")
+    return next(iter(dtypes))
+
+
+def _validate_model_dtype_contract(
+    model: torch.nn.Module,
+    *,
+    expected_parameter_dtype: torch.dtype,
+    expected_config_dtype: torch.dtype | None,
+) -> torch.dtype:
+    """Validate a common, alias-independent loaded dtype contract."""
+
+    observed = _single_floating_parameter_dtype(model)
+    if observed is not expected_parameter_dtype:
+        raise GpuRuntimeError(
+            "model floating parameter dtype differs: "
+            f"expected {expected_parameter_dtype}, observed {observed}"
+        )
+    if expected_config_dtype is not None:
+        config_dtype = getattr(getattr(model, "config", None), "torch_dtype", None)
+        if config_dtype is not expected_config_dtype:
+            raise GpuRuntimeError(
+                "model.config.torch_dtype differs: "
+                f"expected {expected_config_dtype}, observed {config_dtype}"
+            )
+    return observed
 
 
 def _validate_loaded_tokenizer(
@@ -332,7 +387,62 @@ def load_fixed_model(
     cached_file_fn: Any | None = None,
     cuda_api: Any = torch.cuda,
 ) -> FixedModelRuntime:
-    """Load one exact local revision in float32, with no network fallback."""
+    """Load the legacy Motivation runtime in forced float32.
+
+    This entry point is intentionally preserved for MV-0/BaseEditor fidelity.
+    Session 02 method experiments must use
+    :func:`load_fixed_model_checkpoint_original` instead.
+    """
+
+    return _load_fixed_model_with_dtype_policy(
+        alias,
+        model_dtype_kwargs={"torch_dtype": torch.float32},
+        expected_parameter_dtype=torch.float32,
+        expected_config_dtype=None,
+        dtype_policy=LEGACY_MOTIVATION_DTYPE_POLICY,
+        auto_model_class=auto_model_class,
+        auto_tokenizer_class=auto_tokenizer_class,
+        cached_file_fn=cached_file_fn,
+        cuda_api=cuda_api,
+    )
+
+
+def load_fixed_model_checkpoint_original(
+    alias: str,
+    *,
+    auto_model_class: Any | None = None,
+    auto_tokenizer_class: Any | None = None,
+    cached_file_fn: Any | None = None,
+    cuda_api: Any = torch.cuda,
+) -> FixedModelRuntime:
+    """Load one pinned model in its checkpoint-original BF16 dtype."""
+
+    return _load_fixed_model_with_dtype_policy(
+        alias,
+        model_dtype_kwargs={"dtype": "auto"},
+        expected_parameter_dtype=PINNED_CHECKPOINT_DTYPE,
+        expected_config_dtype=PINNED_CHECKPOINT_DTYPE,
+        dtype_policy=CHECKPOINT_ORIGINAL_DTYPE_POLICY,
+        auto_model_class=auto_model_class,
+        auto_tokenizer_class=auto_tokenizer_class,
+        cached_file_fn=cached_file_fn,
+        cuda_api=cuda_api,
+    )
+
+
+def _load_fixed_model_with_dtype_policy(
+    alias: str,
+    *,
+    model_dtype_kwargs: Mapping[str, Any],
+    expected_parameter_dtype: torch.dtype,
+    expected_config_dtype: torch.dtype | None,
+    dtype_policy: str,
+    auto_model_class: Any | None,
+    auto_tokenizer_class: Any | None,
+    cached_file_fn: Any | None,
+    cuda_api: Any,
+) -> FixedModelRuntime:
+    """Shared offline loader; callers must select one explicit dtype policy."""
 
     spec = fixed_model_spec(alias)
     assert_fixed_runtime()
@@ -362,14 +472,20 @@ def load_fixed_model(
         )
         model = auto_model_class.from_pretrained(
             **common,
-            torch_dtype=torch.float32,
+            **dict(model_dtype_kwargs),
             device_map={"": "cuda:0"},
             low_cpu_mem_usage=True,
         )
     model.eval()
     model.requires_grad_(False)
     model.config.use_cache = False
-    model_commit = _validate_loaded_model(model, spec, model_cached_commit)
+    model_commit = _validate_loaded_model(
+        model,
+        spec,
+        model_cached_commit,
+        expected_parameter_dtype=expected_parameter_dtype,
+        expected_config_dtype=expected_config_dtype,
+    )
     tokenizer_commit, tokenizer_policy = _validate_loaded_tokenizer(
         tokenizer, spec, tokenizer_cached_commit
     )
@@ -381,6 +497,8 @@ def load_fixed_model(
         observed_model_commit=model_commit,
         observed_tokenizer_commit=tokenizer_commit,
         tokenizer_policy=tokenizer_policy,
+        dtype_policy=dtype_policy,
+        checkpoint_original_dtype=PINNED_CHECKPOINT_DTYPE,
     )
 
 

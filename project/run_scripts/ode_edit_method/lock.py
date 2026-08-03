@@ -1,4 +1,4 @@
-"""Strict loader and dry-plan projection for the outcome-free v3 proposal."""
+"""Strict loader and dry-plan projection for the outcome-free v4 proposal."""
 
 from __future__ import annotations
 
@@ -108,7 +108,7 @@ def controller_config(payload: Mapping[str, Any]) -> ControllerConfig:
 
 def validate_lock(payload: Any) -> None:
     root = _mapping("root", payload)
-    if root.get("schema_version") != "ode-edit-compute-aware-numerical-lock-proposal/v3":
+    if root.get("schema_version") != "ode-edit-compute-aware-numerical-lock-proposal/v4":
         raise MethodContractError("unknown numerical lock proposal schema")
     if root.get("status") != "OUTCOME_FREE_PROPOSAL_PENDING_GH_APPROVAL":
         raise MethodContractError("numerical lock is not an outcome-free proposal")
@@ -116,6 +116,21 @@ def validate_lock(payload: Any) -> None:
         raise MethodContractError("numerical lock proposal observed an outcome")
     if root.get("execution_seed") != 17:
         raise MethodContractError("common execution seed differs")
+
+    dtype_contract = _mapping("dtype_contract", root.get("dtype_contract"))
+    if (
+        dtype_contract.get("method_dtype_policy") != "checkpoint-original"
+        or dtype_contract.get("checkpoint_original_dtype") != "torch.bfloat16"
+        or dtype_contract.get("observed_parameter_dtype_required")
+        != "torch.bfloat16"
+        or dtype_contract.get("config_torch_dtype_required") != "torch.bfloat16"
+        or dtype_contract.get("mixed_floating_parameter_dtype") != "FAIL_CLOSED"
+        or dtype_contract.get("legacy_dtype_policy")
+        != "legacy-motivation-float32"
+        or dtype_contract.get("legacy_p0_is_original_dtype_evidence") is not False
+        or dtype_contract.get("model_specific_dtype_rescue") is not False
+    ):
+        raise MethodContractError("checkpoint-original dtype contract differs")
 
     selection = _mapping("selection", root.get("selection"))
     case_ids = selection.get("canonical_case_ids")
@@ -158,6 +173,12 @@ def validate_lock(payload: Any) -> None:
             or len(model["hparams_sha256"]) != 64
             or not isinstance(model.get("hparams_size_bytes"), int)
             or model["hparams_size_bytes"] <= 0
+            or model.get("checkpoint_original_dtype") != "torch.bfloat16"
+            or model.get("config_torch_dtype") != "torch.bfloat16"
+            or model.get("safetensors_bfloat16_tensors")
+            != model.get("safetensors_total_tensors")
+            or not isinstance(model.get("safetensors_total_tensors"), int)
+            or model["safetensors_total_tensors"] <= 0
         ):
             raise MethodContractError("model revision/hparams pin is incomplete")
 
@@ -207,16 +228,30 @@ def validate_lock(payload: Any) -> None:
     if (
         trial.get("cached_trial_graph") != "UNSUPPORTED_FAIL_CLOSED"
         or trial.get("cached_mode_scientific_arm") is not False
-        or not str(trial.get("selected_common_backend", "")).startswith("no-grad-trial")
+        or trial.get("selected_common_backend")
+        != "quantized-rowblock-commit-emulator"
+        or trial.get("selection_policy") != "simple-T-every-adaptive-candidate"
+        or trial.get("two_tier_pretrial") is not False
+        or trial.get("row_block") != 64
+        or trial.get("continuous_low_rank_overlay")
+        != "reference-and-diagnostic-only"
+        or trial.get("dense_weight_copy_for_trial") is not False
+        or trial.get("target_weight_mutation_for_trial") is not False
+        or trial.get("per_trial_checkpoint") is not False
         or trial.get("unchanged_trial_state_guard")
         != "storage-pointer-version-shape-dtype-device-without-dense-rehash"
     ):
-        raise MethodContractError("current MEMIT trial backend is not fail-closed no-grad")
+        raise MethodContractError("current MEMIT trial backend is not locked simple-T")
     concrete = _mapping("concrete_backend", root.get("concrete_backend"))
     execution = _mapping("execution_path", root.get("execution_path"))
     if (
         concrete.get("common_model_code_path") is not True
         or concrete.get("easyedit_access") != "verified-read-only-bridge"
+        or concrete.get("accepted_state_mode")
+        != "quantized-rowblock-trial-then-commit-then-dedicated-rebuild"
+        or execution.get("method_loader") != "load_fixed_model_checkpoint_original"
+        or execution.get("retry_output_root_template")
+        != "local/results/session02-p0-original-dtype-simple-t-v1-{model_alias}-{proposal_prefix}"
         or execution.get("runner_can_submit_slurm") is not False
         or execution.get("runner_requires_execute_flag") is not True
     ):
@@ -267,6 +302,8 @@ def validate_lock(payload: Any) -> None:
     artifact_schema = _mapping("artifact_schema", root.get("artifact_schema"))
     controller_fields = artifact_schema.get("controller_step_required_fields")
     compute_fields = artifact_schema.get("compute_required_fields")
+    manifest_model_fields = artifact_schema.get("manifest_model_required_fields")
+    manifest_policy_fields = artifact_schema.get("manifest_policy_required_fields")
     required_record_fields = {
         "model",
         "case_id",
@@ -286,6 +323,22 @@ def validate_lock(payload: Any) -> None:
         or not isinstance(compute_fields, list)
         or not (required_record_fields | {"counters"}) <= set(compute_fields)
         or not set(required_counters) <= set(compute_fields)
+        or not isinstance(manifest_model_fields, list)
+        or not {
+            "dtype",
+            "observed_parameter_dtype",
+            "checkpoint_original_dtype",
+            "dtype_policy",
+        }
+        <= set(manifest_model_fields)
+        or not isinstance(manifest_policy_fields, list)
+        or not {
+            "trial_backend",
+            "dtype_policy",
+            "checkpoint_original_dtype",
+            "observed_parameter_dtype",
+        }
+        <= set(manifest_policy_fields)
     ):
         raise MethodContractError("artifact records do not expose the locked P0 schema")
 
@@ -312,10 +365,26 @@ def validate_lock(payload: Any) -> None:
         or resources.get("concurrent_project_gpus", 99) > resources.get("project_gpu_cap", 0)
         or resources.get("host_memory_mib_per_job", 1)
         > resources.get("host_memory_cap_mib_per_gpu", 0)
+        or resources.get("p0_forecast_gpu_hours_per_model")
+        != "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0"
+        or resources.get("p1_forecast_gpu_hours_per_model")
+        != "HOLD_UNTIL_CHECKPOINT_ORIGINAL_BF16_P0"
+        or resources.get("gpu_peak_reserved_gib_forecast")
+        != "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0"
+        or resources.get("simple_t_cpu_microfixture_median_ratio")
+        != 3.855567094593102
+        or resources.get("simple_t_extra_mac_ratio") != 96.0
+        or resources.get("simple_t_microfixture_is_model_scale_forecast") is not False
     ):
         raise MethodContractError("dry proposal grants submission or exceeds GPU cap")
     boundary = _mapping("execution_boundary", root.get("execution_boundary"))
-    if boundary.get("gpu_now") != 0 or boundary.get("slurm_now") is not False:
+    if (
+        boundary.get("gpu_now") != 0
+        or boundary.get("slurm_now") is not False
+        or boundary.get("checkpoint_original_dtype_required") != "torch.bfloat16"
+        or boundary.get("legacy_float32_results_are_original_dtype_evidence")
+        is not False
+    ):
         raise MethodContractError("implementation prep unexpectedly enables GPU/Slurm")
 
 
@@ -328,10 +397,17 @@ def dry_plan(payload: Mapping[str, Any], stage: str) -> dict[str, Any]:
     stage_lock = _mapping(stage, stages[stage])
     cases = selection["p0_profiler_case_ids" if stage == "p0" else "p1_case_ids"]
     resources = _mapping("resource_forecast", payload["resource_forecast"])
+    execution = _mapping("execution_path", payload["execution_path"])
+    dtype_contract = _mapping("dtype_contract", payload["dtype_contract"])
+    proposal_id = canonical_hash(payload)
     jobs = []
     for alias in MODEL_ALIASES:
         model = _mapping(alias, payload["models"][alias])
         prefix = "p0_profile" if stage == "p0" else "p1"
+        output_root = str(execution["retry_output_root_template"]).format(
+            model_alias=alias,
+            proposal_prefix=proposal_id[:8],
+        )
         jobs.append(
             {
                 "model": alias,
@@ -343,6 +419,12 @@ def dry_plan(payload: Mapping[str, Any], stage: str) -> dict[str, Any]:
                 "order_sha256": canonical_hash(list(cases)),
                 "arms": list(stage_lock["arms"]),
                 "backend": payload["trial_backend"]["selected_common_backend"],
+                "trial_backend": "quantized-rowblock-commit-emulator",
+                "dtype_policy": dtype_contract["method_dtype_policy"],
+                "checkpoint_original_dtype": model["checkpoint_original_dtype"],
+                "observed_parameter_dtype_required": dtype_contract[
+                    "observed_parameter_dtype_required"
+                ],
                 "gpus": resources["gpus_per_job"],
                 "cpus": resources["cpus_per_job"],
                 "host_memory_mib": resources["host_memory_mib_per_job"],
@@ -355,7 +437,7 @@ def dry_plan(payload: Mapping[str, Any], stage: str) -> dict[str, Any]:
                     "--model-alias",
                     alias,
                     "--output-root",
-                    f"local/results/session02-p0-{alias}",
+                    output_root,
                     "--execute",
                 ] if stage == "p0" else None,
                 "sbatch_template": (
@@ -405,10 +487,10 @@ def dry_plan(payload: Mapping[str, Any], stage: str) -> dict[str, Any]:
             }
         )
     return {
-        "schema_version": "ode-edit-session02-dry-plan/v1",
+        "schema_version": "ode-edit-session02-dry-plan/v2",
         "status": "DRY_RUN_ONLY; NO_GPU; NO_SLURM",
         "stage": stage,
-        "proposal_id": canonical_hash(payload),
+        "proposal_id": proposal_id,
         "same_submission_batch_required": True,
         "required_environment": {
             "HF_HUB_OFFLINE": "1",
@@ -417,6 +499,8 @@ def dry_plan(payload: Mapping[str, Any], stage: str) -> dict[str, Any]:
         "required_preflight": [
             "fixed-artifact-hash-and-size",
             "model-revision-present-in-offline-cache",
+            "checkpoint-original-bfloat16-config-and-parameter-set",
+            "simple-quantized-rowblock-T-runtime-primary",
             "fresh-context-manifest-id-match-before-action",
             "staged-agent-access-check",
         ],

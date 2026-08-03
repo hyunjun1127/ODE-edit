@@ -20,8 +20,11 @@ from .contracts import (
     ProposalBatch,
     ProposalSemantics,
 )
-from .functional_trial import LowRankFunctionalTrial
+from .functional_trial import QuantizedRowBlockFunctionalTrial
 from .hooks import FactorDirection, TorchFactorTrial, apply_accepted_factors
+
+
+SIMPLE_T_ROW_BLOCK = 64
 
 
 def native_terminal_batch(
@@ -159,13 +162,26 @@ def functional_trial_for_batch(
     model: torch.nn.Module,
     batch: ProposalBatch,
     coefficients: Sequence[float],
-) -> LowRankFunctionalTrial:
-    """Construct the primary dense-copy-free read-only trial."""
+) -> QuantizedRowBlockFunctionalTrial:
+    """Construct the common simple-T trial for adaptive finite candidates."""
 
     directions = tuple(proposal.payload for proposal in batch.proposals)
     if any(not isinstance(direction, FactorDirection) for direction in directions):
         raise MethodContractError("MEMIT proposal payload is not a FactorDirection")
-    return LowRankFunctionalTrial(model, directions, coefficients)
+    if batch.semantics not in {
+        ProposalSemantics.CURRENT_SAME_SNAPSHOT,
+        ProposalSemantics.ENTRY_FROZEN_REBOUND,
+        ProposalSemantics.CURRENT_COORDINATE,
+    }:
+        raise MethodContractError(
+            "simple-T production trial accepts adaptive proposal semantics only"
+        )
+    return QuantizedRowBlockFunctionalTrial(
+        model,
+        directions,
+        coefficients,
+        row_block=SIMPLE_T_ROW_BLOCK,
+    )
 
 
 def commit_batch(

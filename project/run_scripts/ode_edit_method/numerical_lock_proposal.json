@@ -1,9 +1,9 @@
 {
-  "schema_version": "ode-edit-compute-aware-numerical-lock-proposal/v3",
+  "schema_version": "ode-edit-compute-aware-numerical-lock-proposal/v4",
   "status": "OUTCOME_FREE_PROPOSAL_PENDING_GH_APPROVAL",
-  "instruction_id": "ODEEDIT-S02-NUMLOCK-REVISION-V1",
-  "parent_instruction_id": "ODEEDIT-S02-FAST-MAIN-IMPL-PREP-V1",
-  "revision_id": "ODEEDIT-S02-NUMLOCK-REVISION-V1",
+  "instruction_id": "ODEEDIT-S02-P0-ORIGINAL-DTYPE-AND-SIMPLE-T-V1",
+  "parent_instruction_id": "ODEEDIT-S02-P0-QUANTIZED-ROWBLOCK-TRIAL-PROTOTYPE-V1",
+  "revision_id": "ODEEDIT-S02-P0-ORIGINAL-DTYPE-AND-SIMPLE-T-V1",
   "canonical_main_commit": "f8a613bd2e8b739dc6972576e298733fbbe13151",
   "canonical_spec": {
     "path": "plans/global/2026-08-03-session02-compute-aware-main-table-spec.md",
@@ -11,6 +11,18 @@
   },
   "outcome_count_at_proposal": 0,
   "execution_seed": 17,
+  "dtype_contract": {
+    "method_loader": "project.run_scripts.ode_edit_motivation.gpu_runtime.load_fixed_model_checkpoint_original",
+    "method_dtype_policy": "checkpoint-original",
+    "checkpoint_original_dtype": "torch.bfloat16",
+    "observed_parameter_dtype_required": "torch.bfloat16",
+    "config_torch_dtype_required": "torch.bfloat16",
+    "mixed_floating_parameter_dtype": "FAIL_CLOSED",
+    "legacy_loader": "project.run_scripts.ode_edit_motivation.gpu_runtime.load_fixed_model",
+    "legacy_dtype_policy": "legacy-motivation-float32",
+    "legacy_p0_is_original_dtype_evidence": false,
+    "model_specific_dtype_rescue": false
+  },
   "selection": {
     "dataset_relative_path": "data/counterfact/counterfact.json",
     "dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
@@ -50,6 +62,10 @@
       "hparams_relative_path": "hparams/MEMIT/llama3-8b.yaml",
       "hparams_sha256": "2b81838b49b1a5e0e4ef41f229216fda473200093fcbed6bd040f07a70d43818",
       "hparams_size_bytes": 631,
+      "checkpoint_original_dtype": "torch.bfloat16",
+      "config_torch_dtype": "torch.bfloat16",
+      "safetensors_bfloat16_tensors": 291,
+      "safetensors_total_tensors": 291,
       "context_manifest": {
         "source": "llama3-8b-inst:fresh-seed-17",
         "manifest_id": "3020b3f5cea62e6cfbd173f0c99a4348cecf7e84425bb087720ced7f395482e5",
@@ -63,6 +79,10 @@
       "hparams_relative_path": "hparams/MEMIT/qwen2.5-7b.yaml",
       "hparams_sha256": "fccad05cf749c710ba0ce58ae24203f0bb90d9bf488966a5184dacd489a0311b",
       "hparams_size_bytes": 639,
+      "checkpoint_original_dtype": "torch.bfloat16",
+      "config_torch_dtype": "torch.bfloat16",
+      "safetensors_bfloat16_tensors": 339,
+      "safetensors_total_tensors": 339,
       "context_manifest": {
         "source": "qwen2.5-7b-inst:fresh-seed-17",
         "manifest_id": "e0c5f61d874334a2cab26f82fb3594d9ab88c9e5816be390274a0bb5e98c93bd",
@@ -178,8 +198,14 @@
     "support_sign_epsilon": 1e-10
   },
   "trial_backend": {
-    "selected_common_backend": "no-grad-trial-then-accepted-commit-then-dedicated-state-rebuild",
+    "selected_common_backend": "quantized-rowblock-commit-emulator",
+    "selection_policy": "simple-T-every-adaptive-candidate",
+    "two_tier_pretrial": false,
+    "row_block": 64,
+    "continuous_low_rank_overlay": "reference-and-diagnostic-only",
     "dense_weight_copy_for_trial": false,
+    "target_weight_mutation_for_trial": false,
+    "per_trial_checkpoint": false,
     "cached_trial_graph": "UNSUPPORTED_FAIL_CLOSED",
     "cached_infeasibility_reason": "current-MEMIT-proposal-hashes-committed-dense-weights-and-runs-under-no-grad",
     "cached_mode_scientific_arm": false,
@@ -193,7 +219,7 @@
     "common_model_code_path": true,
     "easyedit_access": "verified-read-only-bridge",
     "direct_z": "once-at-entry-and-byte-frozen",
-    "accepted_state_mode": "no-grad-trial-then-commit-then-dedicated-rebuild",
+    "accepted_state_mode": "quantized-rowblock-trial-then-commit-then-dedicated-rebuild",
     "descendant_authorization": "outer-transaction-exact-target-weight-state-hash-chain",
     "cached_trial_graph": "UNSUPPORTED_FAIL_CLOSED"
   },
@@ -220,6 +246,8 @@
   "execution_path": {
     "runner": "project/run_scripts/session02_compute_aware_p0.py",
     "sbatch_template": "project/run_scripts/session02_compute_aware_p0.sbatch",
+    "method_loader": "load_fixed_model_checkpoint_original",
+    "retry_output_root_template": "local/results/session02-p0-original-dtype-simple-t-v1-{model_alias}-{proposal_prefix}",
     "runner_requires_execute_flag": true,
     "runner_can_submit_slurm": false,
     "paired_model_submission_required_by_future_envelope": true
@@ -296,7 +324,7 @@
     }
   },
   "artifact_schema": {
-    "schema_version": "ode-edit-session02-compute-aware-artifacts/v2",
+    "schema_version": "ode-edit-session02-compute-aware-artifacts/v3",
     "required_files": [
       "manifest.json",
       "controller_steps.jsonl",
@@ -314,6 +342,29 @@
       "policy",
       "offline",
       "artifact_firewall"
+    ],
+    "manifest_model_required_fields": [
+      "model_alias",
+      "repository_id",
+      "revision",
+      "dtype",
+      "observed_parameter_dtype",
+      "checkpoint_original_dtype",
+      "dtype_policy",
+      "device",
+      "observed_model_commit",
+      "observed_tokenizer_commit",
+      "model_config_use_cache",
+      "tokenizer_policy",
+      "offline"
+    ],
+    "manifest_policy_required_fields": [
+      "controller",
+      "arms",
+      "trial_backend",
+      "dtype_policy",
+      "checkpoint_original_dtype",
+      "observed_parameter_dtype"
     ],
     "controller_step_required_fields": [
       "model",
@@ -378,9 +429,12 @@
     "host_memory_cap_mib_per_gpu": 198117,
     "p0_wall_limit": "04:00:00",
     "p1_wall_limit": "16:00:00",
-    "p0_forecast_gpu_hours_per_model": [0.5, 2.0],
-    "p1_forecast_gpu_hours_per_model": [3.0, 10.0],
-    "gpu_peak_reserved_gib_forecast": [42.0, 48.0],
+    "p0_forecast_gpu_hours_per_model": "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0",
+    "p1_forecast_gpu_hours_per_model": "HOLD_UNTIL_CHECKPOINT_ORIGINAL_BF16_P0",
+    "gpu_peak_reserved_gib_forecast": "UNMEASURED_CHECKPOINT_ORIGINAL_BF16_P0",
+    "simple_t_cpu_microfixture_median_ratio": 3.855567094593102,
+    "simple_t_extra_mac_ratio": 96.0,
+    "simple_t_microfixture_is_model_scale_forecast": false,
     "p0_n_z_per_model_per_repetition": 4,
     "p0_profiler_repetitions_including_warmup": 4,
     "p0_profile_n_z_upper_bound_per_model": 16,
@@ -420,13 +474,15 @@
     "p0_profile_n_write_upper_bound_per_model": 60,
     "p1_n_write_upper_bound_per_model": 60,
     "counter_bound_basis": "conservative separable caps; Native one ordered proposal/write, Static<=6 accepted, One-refresh<=2 accepted, Full<=6 accepted, unchanged-state rejects reuse fields; each five-layer synchronous field has at most one current-z forward, five key forwards, and one differentiable-event forward, while the single P0 warmup hook gate adds five finite-difference field forwards; N_trial is logical and never added to N_model_fwd; all actual EasyEdit internal forwards are counted by a top-level model hook",
-    "forecast_basis": "structural caps plus prior one-case native and fixed-four-hop resource records; not a Session-02 outcome"
+    "forecast_basis": "structural counter caps only; original-BF16 GPU time and memory must be measured in P0; legacy-float32 failure resources and the simple-T CPU microfixture are not model-scale forecasts"
   },
   "execution_boundary": {
     "hf_hub_offline": true,
     "transformers_offline": true,
     "easyedit_write": false,
     "precomputed_recompute_or_download": false,
+    "checkpoint_original_dtype_required": "torch.bfloat16",
+    "legacy_float32_results_are_original_dtype_evidence": false,
     "gpu_now": 0,
     "slurm_now": false,
     "push": false,
