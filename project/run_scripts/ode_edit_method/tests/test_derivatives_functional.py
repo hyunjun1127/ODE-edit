@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import inspect
 import random
 import unittest
 from unittest import mock
@@ -10,7 +11,9 @@ import torch
 from project.run_scripts.ode_edit_method.contracts import MethodContractError
 from project.run_scripts.ode_edit_method.derivatives import (
     ActuatorDirectionalHook,
+    ScalarGateDirectionalReference,
     all_layer_directional_derivatives,
+    assert_scalar_gate_matches_hook,
     directional_gradient_scope,
 )
 from project.run_scripts.ode_edit_method.functional_trial import LowRankFunctionalTrial
@@ -27,6 +30,15 @@ class TinyNetwork(torch.nn.Module):
 
     def forward(self, value: torch.Tensor) -> torch.Tensor:
         return self.second(torch.tanh(self.first(value)))
+
+
+class TinyBfloatLinear(torch.nn.Module):
+    def __init__(self, input_size: int, output_size: int) -> None:
+        super().__init__()
+        self.linear = torch.nn.Linear(input_size, output_size, bias=False)
+
+    def forward(self, value: torch.Tensor) -> torch.Tensor:
+        return self.linear(value)
 
 
 def _directions() -> tuple[FactorDirection, ...]:
@@ -161,6 +173,136 @@ class DirectionalDerivativeTests(unittest.TestCase):
         self.assertEqual(counters["N_model_fwd"], 2)
         self.assertEqual(counters["N_field_state_fwd"], 2)
         self.assertEqual(counters["N_bw"], 1)
+
+    def test_scalar_gate_matches_dense_oracle_and_primary_hook(self) -> None:
+        for parameter in self.model.parameters():
+            parameter.requires_grad_(False)
+        with directional_gradient_scope(self.model, self.directions):
+            dense_event = _loss(self.model, self.inputs)
+            dense = all_layer_directional_derivatives(
+                dense_event,
+                self.model,
+                self.directions,
+            )
+        with ActuatorDirectionalHook(self.model, self.directions) as hook:
+            hook_event = _loss(self.model, self.inputs)
+            primary = hook.compute(hook_event)
+        metrics = EditInstrumentation("scalar-gate-reference")
+        with ScalarGateDirectionalReference(
+            self.model,
+            self.directions,
+            instrumentation=metrics,
+        ) as reference:
+            with metrics.state_forward("reference_gate"):
+                scalar_event = _loss(self.model, self.inputs)
+            scalar = reference.compute(scalar_event)
+        rows = assert_scalar_gate_matches_hook(
+            primary,
+            scalar,
+            abs_tol=5e-5,
+            rel_tol=5e-3,
+        )
+        self.assertEqual(len(rows), len(self.directions))
+        for dense_value, scalar_value in zip(
+            dense.values, scalar.values, strict=True
+        ):
+            self.assertAlmostEqual(
+                dense_value.event_derivative,
+                scalar_value.event_derivative,
+                delta=5e-5,
+            )
+        counters = metrics.finalize().to_dict()["counters"]
+        self.assertEqual(counters["N_model_fwd"], 1)
+        self.assertEqual(counters["N_reference_gate_fwd"], 1)
+        self.assertEqual(counters["N_reference_gate_bw"], 1)
+        self.assertEqual(counters["N_bw"], 0)
+
+    def test_scalar_gate_negative_control_catches_primary_sign_error(self) -> None:
+        from project.run_scripts.ode_edit_method import derivatives as module
+
+        for parameter in self.model.parameters():
+            parameter.requires_grad_(False)
+        with ScalarGateDirectionalReference(self.model, self.directions) as reference:
+            scalar_event = _loss(self.model, self.inputs)
+            scalar = reference.compute(scalar_event)
+        original = module._activation_low_rank_contraction
+
+        def wrong_sign(*args, **kwargs):
+            return -original(*args, **kwargs)
+
+        with mock.patch.object(
+            module,
+            "_activation_low_rank_contraction",
+            side_effect=wrong_sign,
+        ):
+            with ActuatorDirectionalHook(self.model, self.directions) as hook:
+                hook_event = _loss(self.model, self.inputs)
+                corrupted = hook.compute(hook_event)
+        with self.assertRaisesRegex(MethodContractError, "scalar-gate hard reference"):
+            assert_scalar_gate_matches_hook(
+                corrupted,
+                scalar,
+                abs_tol=5e-5,
+                rel_tol=5e-3,
+            )
+
+    def test_scalar_gate_exception_cleanup_and_model_independent_schema(self) -> None:
+        for parameter in self.model.parameters():
+            parameter.requires_grad_(False)
+        parameters = tuple(self.model.parameters())
+        pointers = tuple(parameter.data_ptr() for parameter in parameters)
+        versions = tuple(parameter._version for parameter in parameters)
+        baseline = self.model(self.inputs).detach().clone()
+        with self.assertRaisesRegex(RuntimeError, "injected scalar-gate failure"):
+            with ScalarGateDirectionalReference(self.model, self.directions):
+                _ = self.model(self.inputs)
+                raise RuntimeError("injected scalar-gate failure")
+        self.assertTrue(torch.equal(self.model(self.inputs), baseline))
+        for parameter, pointer, version in zip(
+            parameters, pointers, versions, strict=True
+        ):
+            self.assertIsNone(parameter.grad)
+            self.assertEqual(parameter.data_ptr(), pointer)
+            self.assertEqual(parameter._version, version)
+            self.assertFalse(parameter.requires_grad)
+        source = inspect.getsource(ScalarGateDirectionalReference)
+        self.assertNotIn("llama3-8b-inst", source)
+        self.assertNotIn("qwen2.5-7b-inst", source)
+
+    def test_bfloat16_fixed_small_fd_can_false_fail_while_a_b_agree(self) -> None:
+        model = TinyBfloatLinear(1, 1).to(dtype=torch.bfloat16)
+        with torch.no_grad():
+            model.linear.weight.fill_(1.0)
+        model.linear.weight.requires_grad_(False)
+        inputs = torch.ones((1, 1), dtype=torch.bfloat16)
+        direction = FactorDirection(
+            layer=0,
+            weight_name="linear.weight",
+            left=torch.tensor([[0.125]], dtype=torch.float64),
+            right=torch.tensor([[1.0]], dtype=torch.float64),
+        )
+        with ActuatorDirectionalHook(model, (direction,)) as hook:
+            primary_event = model(inputs).sum()
+            primary = hook.compute(primary_event)
+        with ScalarGateDirectionalReference(model, (direction,)) as reference:
+            scalar_event = model(inputs).sum()
+            scalar = reference.compute(scalar_event)
+        assert_scalar_gate_matches_hook(
+            primary,
+            scalar,
+            abs_tol=5e-5,
+            rel_tol=5e-3,
+        )
+
+        baseline = float(model(inputs).float().sum())
+        epsilon = 1e-3
+        with LowRankFunctionalTrial(model, (direction,), (epsilon,)):
+            shifted = float(model(inputs).float().sum())
+        finite_difference = (shifted - baseline) / epsilon
+        derivative = primary.values[0].event_derivative
+        self.assertEqual(finite_difference, 0.0)
+        self.assertEqual(derivative, 0.125)
+        self.assertGreater(abs(derivative - finite_difference), 5e-5)
 
 
 class FunctionalTrialTests(unittest.TestCase):
@@ -299,6 +441,41 @@ class FunctionalTrialTests(unittest.TestCase):
                 pass
         with self.assertRaisesRegex(MethodContractError, r"\.grad must be None"):
             apply_accepted_factors(self.model, self.directions, (0.2, 0.3))
+
+    def test_bfloat16_nontrivial_functional_and_commit_paths_match_separately(self) -> None:
+        model = TinyBfloatLinear(2, 2).to(dtype=torch.bfloat16)
+        with torch.no_grad():
+            model.linear.weight.copy_(
+                torch.tensor(
+                    [[1.0, 0.5], [-0.25, 0.75]], dtype=torch.bfloat16
+                )
+            )
+        model.linear.weight.requires_grad_(False)
+        inputs = torch.tensor(
+            [[1.0, -0.5], [0.25, 0.75]], dtype=torch.bfloat16
+        )
+        direction = FactorDirection(
+            layer=0,
+            weight_name="linear.weight",
+            left=torch.tensor([[0.5], [-0.25]], dtype=torch.float64),
+            right=torch.tensor([[0.25], [0.5]], dtype=torch.float64),
+        )
+        coefficient = 0.5
+        pointer = model.linear.weight.data_ptr()
+        with LowRankFunctionalTrial(model, (direction,), (coefficient,)):
+            functional = model(inputs).detach().clone()
+        applied = apply_accepted_factors(
+            model,
+            (direction,),
+            (coefficient,),
+            row_block=1,
+        )
+        committed = model(inputs).detach()
+        self.assertEqual(applied, (coefficient,))
+        self.assertTrue(torch.equal(functional, committed))
+        self.assertEqual(model.linear.weight.data_ptr(), pointer)
+        self.assertIsNone(model.linear.weight.grad)
+        self.assertFalse(model.linear.weight.requires_grad)
 
 
 if __name__ == "__main__":

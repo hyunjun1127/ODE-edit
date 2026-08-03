@@ -19,7 +19,9 @@ from .controller import OmegaLedger, ScalarFirstHitSearch, solve_progress_qp
 from .derivatives import (
     ActuatorDirectionalHook,
     DirectionalField,
+    ScalarGateDirectionalReference,
     all_layer_directional_derivatives,
+    assert_scalar_gate_matches_hook,
     directional_gradient_scope,
 )
 from .functional_trial import LowRankFunctionalTrial
@@ -58,8 +60,10 @@ __all__ = [
     "ProposalSemantics",
     "PreparedConcreteEnvironment",
     "ScalarFirstHitSearch",
+    "ScalarGateDirectionalReference",
     "RejectedRetryCache",
     "all_layer_directional_derivatives",
+    "assert_scalar_gate_matches_hook",
     "apply_accepted_factors",
     "assess_cached_graph_feasibility",
     "directional_gradient_scope",

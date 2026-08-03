@@ -25,7 +25,6 @@ from project.run_scripts.ode_edit_motivation.contracts import (
     SnapshotManifest,
     orient_easyedit_factor,
 )
-from project.run_scripts.ode_edit_motivation.diagnostic_math import NativeMemitSolver
 from project.run_scripts.ode_edit_motivation.direct_z import FrozenDirectZ
 from project.run_scripts.ode_edit_motivation.easyedit_bridge import (
     CovarianceCacheSpec,
@@ -45,9 +44,13 @@ from .contracts import (
     EventReading,
     MethodContractError,
     ProposalBatch,
-    ProposalSemantics,
 )
-from .derivatives import ActuatorDirectionalHook
+from .derivatives import (
+    ActuatorDirectionalHook,
+    ScalarGateDirectionalReference,
+    assert_scalar_gate_matches_hook,
+)
+from .dense_memit import TransientDenseMemitSolver
 from .events import ControllerRequest, measure_differentiable_event, measure_event
 from .functional_trial import LowRankFunctionalTrial
 from .hooks import TorchCheckpoint, terminal_net_c_energy
@@ -154,7 +157,6 @@ class EasyEditMemitBackend:
             )
             for layer, value in self.covariance_by_layer.items()
         }
-        self._solve_covariance_by_layer: dict[int, torch.Tensor] = {}
         self.direct_z_cache_root = Path(direct_z_cache_root).resolve()
         self.direct_z_cache_path = Path(direct_z_cache_path).resolve()
         self.tau = float(tau)
@@ -202,12 +204,8 @@ class EasyEditMemitBackend:
         self._event_history: list[dict[str, Any]] = []
         self._hook_reference_gate: tuple[Mapping[str, Any], ...] | None = None
 
-    def _covariance_for_solve(
-        self,
-        layer: int,
-        device: torch.device,
-    ) -> torch.Tensor:
-        """Reuse one setup-verified moment tensor without re-reading its file."""
+    def _covariance_source_for_solve(self, layer: int) -> torch.Tensor:
+        """Return the guarded CPU source; the solver owns the device copy."""
 
         try:
             source = self.covariance_by_layer[layer]
@@ -224,13 +222,9 @@ class EasyEditMemitBackend:
             or str(source.device) != source_device
         ):
             raise MethodContractError("verified covariance tensor changed in memory")
-        cached = self._solve_covariance_by_layer.get(layer)
-        if cached is None:
-            cached = source.detach().to(device=device, dtype=torch.float32, copy=True)
-            self._solve_covariance_by_layer[layer] = cached
-        elif cached.device != device:
-            raise MethodContractError("model device changed after covariance caching")
-        return cached
+        if source.device.type != "cpu":
+            raise MethodContractError("verified covariance source must remain on CPU")
+        return source
 
     @property
     def layers(self) -> tuple[int, ...]:
@@ -502,7 +496,7 @@ class EasyEditMemitBackend:
         )
         raw_request = self.motivation_request.to_easyedit()
         denominator = len(layers)
-        solver = NativeMemitSolver()
+        solver = TransientDenseMemitSolver()
         factors = []
         with (
             torch.no_grad(),
@@ -543,9 +537,9 @@ class EasyEditMemitBackend:
                 # The moments were full-hash verified and loaded once during
                 # setup.  Reusing this guarded tensor avoids forcing EasyEdit
                 # to decompress the same multi-GiB files on every refresh.
-                covariance = self._covariance_for_solve(layer, keys.device)
+                covariance = self._covariance_source_for_solve(layer)
                 adjusted_keys = solver.adjusted_keys(
-                    covariance.double(),
+                    covariance,
                     keys.double(),
                     self.hparams.mom2_update_weight,
                 )
@@ -568,7 +562,7 @@ class EasyEditMemitBackend:
             snapshot=snapshot,
             factors=tuple(factors),
             semantics=MotivationProposalSemantics.SYNCHRONOUS_FROZEN_SNAPSHOT,
-            solver_name="ode-edit/read-only-synchronous-native-memit",
+            solver_name="ode-edit/read-only-synchronous-transient-dense-memit",
             residual_denominator=denominator,
         )
 
@@ -620,52 +614,40 @@ class EasyEditMemitBackend:
             self.finite_difference_gate_epsilon is not None
             and self._hook_reference_gate is None
         ):
-            epsilon = self.finite_difference_gate_epsilon
-            rows = []
-            for item, derivative in zip(
-                batch.proposals, field.values, strict=True
-            ):
-                single = ProposalBatch(
-                    snapshot_id=batch.snapshot_id,
-                    proposals=(item,),
-                    slopes=(0.0,),
-                    semantics=ProposalSemantics.CURRENT_COORDINATE,
-                )
-                with functional_trial_for_batch(
-                    self.model, single, (epsilon,)
+            with ScalarGateDirectionalReference(
+                self.model,
+                directions,
+                instrumentation=self.instrumentation,
+            ) as reference:
+                with (
+                    self.instrumentation.component("reference_gate"),
+                    self.instrumentation.model_forward_scope("reference_gate"),
                 ):
-                    with (
-                        self.instrumentation.component("field"),
-                        self.instrumentation.model_forward_scope("field"),
-                    ):
-                        shifted = measure_event(
-                            self.model,
-                            self.tokenizer,
-                            self.request,
-                            self.contexts.templates,
-                            tau=self.tau,
-                        )
-                finite_difference = (
-                    shifted.smooth_phi - event.reading.smooth_phi
-                ) / epsilon
-                if not math.isclose(
-                    finite_difference,
-                    derivative.event_derivative,
-                    abs_tol=self.finite_difference_gate_atol,
-                    rel_tol=self.finite_difference_gate_rtol,
-                ):
-                    raise MethodContractError(
-                        "actuator hook differs from P0 scalar finite difference"
+                    reference_event = measure_differentiable_event(
+                        self.model,
+                        self.tokenizer,
+                        self.request,
+                        self.contexts.templates,
+                        tau=self.tau,
                     )
-                rows.append(
-                    {
-                        "layer": item.layer,
-                        "hook_derivative": derivative.event_derivative,
-                        "finite_difference": finite_difference,
-                        "epsilon": epsilon,
-                    }
-                )
-            self._hook_reference_gate = tuple(rows)
+                reference_field = reference.compute(reference_event.smooth_phi)
+            rows = assert_scalar_gate_matches_hook(
+                field,
+                reference_field,
+                abs_tol=self.finite_difference_gate_atol,
+                rel_tol=self.finite_difference_gate_rtol,
+            )
+            self._hook_reference_gate = tuple(
+                {
+                    **row,
+                    "hard_reference": "scalar-gate-functional-graph",
+                    "legacy_one_sided_fd_epsilon": (
+                        self.finite_difference_gate_epsilon
+                    ),
+                    "legacy_one_sided_fd_role": "diagnostic-disabled",
+                }
+                for row in rows
+            )
         slopes = tuple(field.slopes_by_layer[layer] for layer in batch.layers)
         return replace(batch, slopes=slopes)
 
