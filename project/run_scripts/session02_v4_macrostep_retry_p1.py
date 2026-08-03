@@ -72,8 +72,8 @@ from project.run_scripts.session02_compute_aware_p1 import (
 
 
 V4_ARM = Arm.FULL_ODE_EDIT
-EXECUTION_TOKEN = "v4-macrostep-retry-p1-full-only"
-OUTPUT_PREFIX = "session02-v4-macrostep-retry-p1"
+EXECUTION_TOKEN = "v4-macrostep-retry-p1-full-only-r1"
+OUTPUT_PREFIX = "session02-v4-macrostep-retry-p1-r1"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -203,6 +203,40 @@ def _load_v3_native_baseline(
     ):
         raise RuntimeError("V3 Native baseline rows differ")
     return native
+
+
+def _calibration_accounting(payload: Any) -> dict[str, int]:
+    """Validate canonical serialized oracle-calibration accounting."""
+
+    if not isinstance(payload, Mapping):
+        raise RuntimeError("V4 oracle calibration metadata is not a mapping")
+    values: dict[str, int] = {}
+    for key in ("entry_forward_count", "oracle_forward_count", "extra_backward"):
+        if key not in payload:
+            raise RuntimeError(f"V4 oracle calibration metadata is missing {key}")
+        value = payload[key]
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(float(value))
+            or float(value) != int(value)
+        ):
+            raise RuntimeError(f"V4 oracle calibration metadata {key} is invalid")
+        values[key] = int(value)
+    accounting = {
+        "calibration_total_model_forwards": (
+            values["entry_forward_count"] + values["oracle_forward_count"]
+        ),
+        "oracle_extra_model_forwards": values["oracle_forward_count"],
+        "oracle_backward_count": values["extra_backward"],
+    }
+    if accounting != {
+        "calibration_total_model_forwards": 4,
+        "oracle_extra_model_forwards": 2,
+        "oracle_backward_count": 0,
+    }:
+        raise RuntimeError("V4 oracle calibration accounting differs")
+    return accounting
 
 
 def _retry_diagnostics(result: Any, config: Any, n_field: int) -> dict[str, Any]:
@@ -505,12 +539,11 @@ def run(args: argparse.Namespace) -> int:
             target = backend.oracle_target
             if calibration is None or target is None:
                 raise RuntimeError("V4 oracle calibration is absent")
+            calibration_metadata = calibration.to_dict()
+            calibration_accounting = _calibration_accounting(calibration_metadata)
             if (
                 result.direct_z_compute_count != 1
                 or counters["N_z"] != 1
-                or calibration.oracle_forward_count != 2
-                or calibration.entry_forward_count != 2
-                or calibration.extra_backward != 0
                 or counters["N_event_fwd"] % 2
                 or counters["N_eval"] != 0
                 or counters["N_bw"] != counters["N_field"]
@@ -559,7 +592,8 @@ def run(args: argparse.Namespace) -> int:
                     "field_history": backend.mechanism_field_history,
                     "layers": backend.layers,
                     "target": target,
-                    "calibration": calibration,
+                    "calibration_metadata": calibration_metadata,
+                    "calibration_accounting": calibration_accounting,
                     "trace": trace,
                     "omega_before": omega_before,
                     "omega_after": omega_after,
@@ -637,7 +671,7 @@ def run(args: argparse.Namespace) -> int:
             **common,
             "result": result.to_dict(),
             "event_history": list(bundle["event_history"]),
-            "oracle_calibration": bundle["calibration"].to_dict(),
+            "oracle_calibration": bundle["calibration_metadata"],
             "retry_diagnostics": bundle["retry_diagnostics"],
             "Omega": {
                 "before": bundle["omega_before"],
@@ -660,12 +694,7 @@ def run(args: argparse.Namespace) -> int:
             **common,
             **snapshot,
             **counters,
-            "calibration_total_model_forwards": (
-                bundle["calibration"].entry_forward_count
-                + bundle["calibration"].oracle_forward_count
-            ),
-            "oracle_extra_model_forwards": bundle["calibration"].oracle_forward_count,
-            "oracle_backward_count": 0,
+            **bundle["calibration_accounting"],
             "terminal_geometry": bundle["terminal_geometry"],
             "D_native_raw_proposal": bundle["native_raw_distance"],
             "D_sync_entry": bundle["d_sync_entry"],

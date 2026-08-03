@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=odeedit-s02-v4-p1
+#SBATCH --job-name=odeedit-s02-v4-p1-r1
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
 #SBATCH --mem=65000M
 #SBATCH --time=08:00:00
-#SBATCH --output=local/logs/session02-v4-macrostep-retry-p1-%x-%j.out
-#SBATCH --error=local/logs/session02-v4-macrostep-retry-p1-%x-%j.err
+#SBATCH --output=local/logs/session02-v4-macrostep-retry-p1-r1-%x-%j.out
+#SBATCH --error=local/logs/session02-v4-macrostep-retry-p1-r1-%x-%j.err
 
 set -euo pipefail
 
 : "${ODEEDIT_V4_MACROSTEP_P1_SUBMISSION_AUTHORIZED:?GH V4 authority required}"
-test "${ODEEDIT_V4_MACROSTEP_P1_SUBMISSION_AUTHORIZED}" = "v4-macrostep-retry-p1-full-only"
+test "${ODEEDIT_V4_MACROSTEP_P1_SUBMISSION_AUTHORIZED}" = "v4-macrostep-retry-p1-full-only-r1"
 : "${MODEL_ALIAS:?set one canonical model alias}"
 : "${OUTPUT_ROOT:?set the exact dry-plan output root}"
 : "${SLURM_SUBMIT_DIR:?Slurm submission directory is required}"

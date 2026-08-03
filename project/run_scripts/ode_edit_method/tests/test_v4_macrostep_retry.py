@@ -9,6 +9,7 @@ import unittest
 
 from project.run_scripts.ode_edit_method.contracts import (
     Arm,
+    EventReading,
     MethodContractError,
     StepRecord,
 )
@@ -16,12 +17,17 @@ from project.run_scripts.ode_edit_method.lock import load_lock
 from project.run_scripts.ode_edit_method.oracle_absolute_lock import (
     load_oracle_absolute_lock,
 )
+from project.run_scripts.ode_edit_method.oracle_absolute_event import (
+    OracleAbsoluteMeanMarginCalibration,
+    OracleAbsoluteMeanMarginTarget,
+)
 from project.run_scripts.ode_edit_method.v4_macrostep_retry import (
     V4_MACROSTEP_LOCK_PATH,
     load_v4_macrostep_lock,
     v4_controller_config,
 )
 from project.run_scripts.session02_v4_macrostep_retry_p1 import (
+    _calibration_accounting,
     _load_v3_native_baseline,
     _retry_diagnostics,
     dry_plan,
@@ -65,6 +71,53 @@ def _step(
 
 
 class V4MacrostepRetryTests(unittest.TestCase):
+    def test_real_calibration_shape_uses_serialized_backward_accounting(self) -> None:
+        target = OracleAbsoluteMeanMarginTarget.calibrate(
+            entry_new=(-2.0,),
+            entry_old=(-1.0,),
+            oracle_new=(-0.5,),
+            oracle_old=(-1.5,),
+            epsilon=1e-6,
+        )
+        entry = EventReading(1.0, 1.0, (-1.0,), nfe=2)
+        oracle = EventReading(-1.0, -1.0, (1.0,), nfe=2)
+        calibration = OracleAbsoluteMeanMarginCalibration(
+            target=target,
+            entry_reading=entry,
+            oracle_shadow_reading=oracle,
+            entry_forward_count=2,
+            oracle_forward_count=2,
+            hook_call_count=2,
+            layer_name="layer",
+            lookup_positions=(0,),
+            h0_dtype="torch.float32",
+            delta_dtype="torch.float32",
+            delta_l2=1.0,
+            parameter_guard_exact=True,
+            rng_guard_exact=True,
+        )
+        self.assertFalse(hasattr(calibration, "extra_backward"))
+        metadata = calibration.to_dict()
+        self.assertEqual(
+            _calibration_accounting(metadata),
+            {
+                "calibration_total_model_forwards": 4,
+                "oracle_extra_model_forwards": 2,
+                "oracle_backward_count": 0,
+            },
+        )
+
+        missing = dict(metadata)
+        missing.pop("extra_backward")
+        invalid_rows = (missing,) + tuple(
+            {**metadata, "extra_backward": value}
+            for value in (1, "0", True, float("nan"))
+        )
+        for row in invalid_rows:
+            with self.subTest(extra_backward=row.get("extra_backward", "missing")):
+                with self.assertRaises(RuntimeError):
+                    _calibration_accounting(row)
+
     def test_lock_changes_only_three_controller_constants(self) -> None:
         base = load_lock()
         base.pop("proposal_id")
