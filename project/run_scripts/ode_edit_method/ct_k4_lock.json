@@ -1,0 +1,119 @@
+{
+  "schema_version": "ode-edit-session03-ct-k4-lock/v1",
+  "status": "PRELOCKED_BEFORE_P0_EXECUTION",
+  "instruction_id": "ODEEDIT-S03-CT-K4-ATTRIBUTION-P0P1-V1",
+  "base_main_commit": "2471f41258c126b3f6ef882ce21b3e9f482b792b",
+  "scientific_outcome_count_at_lock": 0,
+  "base_method": {
+    "proposal_id": "83eec5068acec673f7d9d0788e57ce0e9873a55785f7a6932026a4a2420c330b",
+    "lock_sha256": "95376c554f01e00c9c5d71e99dfa3cbb5339a7534db8a62a9a05bc69c0be1bbb",
+    "v3_event_proposal_id": "bc8fc256737d4e82b83f1937633ca94709d59e51969612611e20981aa70c4c23",
+    "v3_event_lock_sha256": "cd4ffeb2310e1d261cea0457cd683293e53cf92b136b6d6eb01cd5c4af579882"
+  },
+  "models": [
+    "llama3-8b-inst",
+    "qwen2.5-7b-inst"
+  ],
+  "policy": {
+    "dtype": "checkpoint-original-torch.bfloat16",
+    "seed": 17,
+    "T": 1.0,
+    "K": 4,
+    "lambda": [
+      0.25,
+      0.3333333333333333,
+      0.5,
+      1.0
+    ],
+    "cumulative_frozen_targets": [
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "subdivision_limit_p0": 2,
+    "direct_z_compute_per_case_model": 1,
+    "direct_z_shared_across_arms": true,
+    "raw_residual_denominator": "len(edit_layers)",
+    "corrector": "editor-native-diagonal-cost/full-progress/nonnegative/raw-radius",
+    "zero_slope_completion": "raw-c",
+    "post_qp_rescale": false,
+    "primary_early_stop": false,
+    "early_stop_ablation": "v3-first-hit-only",
+    "model_specific_policy": false
+  },
+  "arms": [
+    "native-memit",
+    "bf-oneshot-full",
+    "bf-frozen-ct-k4",
+    "ode-refresh-ct-k4",
+    "ode-refresh-ct-k4-es"
+  ],
+  "selection": {
+    "dataset_relative_path": "data/counterfact/counterfact.json",
+    "dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+    "dataset_size_bytes": 45108470,
+    "dataset_row_count": 21919,
+    "excluded_prior_case_ids": [
+      "2022",
+      "12498",
+      "20964",
+      "768"
+    ],
+    "selection_algorithm": "sha256(ODEEDIT-S03-FRESH-V1|case_id)-ascending; dataset-valid; both-fixed-tokenizers-nonempty-target; first-4",
+    "p0_case_ids": [
+      "2022"
+    ],
+    "p0_request_ids": [
+      "9f8379da67c8c754397efddcf5af0d665592632779f4cb3b125efa5502361fde"
+    ],
+    "p1_case_ids": [
+      "17503",
+      "1534",
+      "14652",
+      "9774"
+    ],
+    "p1_order_sha256": "176c84c20276226c26104921e1c44ae5e97c26e537c9f6e51ab85975252316be",
+    "p1_request_ids": [
+      "d759e232f629d5117b7c1e6c5a2cce1fefe801f40cf6453124fcec972240108c",
+      "6eaf0bb2640abbf771da39bfb0456f90890537d91e3fce9547361a92f76d2adf",
+      "2ddb4621bf2fab940422619c8fbd1770e8c06adbc1f37e8972285e656316c69d",
+      "489200e3d52a6ad97a26b11c2894b3afeff14d1a8d6ab2daf1ca4e4b59848a9c"
+    ],
+    "p1_request_order_sha256": "a57468e7ee87bfef09221e275480c7d0726c69fb4022a29420d6ba9215ac49b3",
+    "rank_sha256": [
+      "0002a3a6a6cc966bd8c4bffc17cd84da39fdf3575ddc76d9573b4cec99eeb3e7",
+      "0002cad2b25fa57601ba2d6e23483722084c45b1b5184c09760941899037ae5e",
+      "0003dbf7724704e9b3c616b0c635ec46d4042e6e2c2729745ddb9ff0c9367391",
+      "0006e0e9c1ea0510c7a6bf5d2ed29418be35595940b70295225c2f7a85fa2535"
+    ],
+    "target_token_counts": {
+      "llama3-8b-inst": [1, 1, 1, 1],
+      "qwen2.5-7b-inst": [1, 1, 1, 1]
+    },
+    "tokenizer_revisions": {
+      "llama3-8b-inst": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "qwen2.5-7b-inst": "a09a35458c702b33eeacc393d103063234e8bc28"
+    }
+  },
+  "evaluation": {
+    "p0_enabled": false,
+    "p1_enabled": true,
+    "action_freeze_required": true,
+    "efficacy": "EasyEdit-compatible teacher-forced token accuracy",
+    "generalization": "CounterFact paraphrase teacher-forced token accuracy",
+    "locality": "CounterFact neighborhood pre/post token agreement and target-true accuracy",
+    "generation": false,
+    "controller_access": false
+  },
+  "resources": {
+    "server1_project_gpu_cap": 3,
+    "gpu_per_job": 1,
+    "cpu_per_job": 8,
+    "host_memory_mib_per_job": 65000,
+    "pair_gpu": 2,
+    "p0_time": "04:00:00",
+    "p1_time": "12:00:00",
+    "submission_authorized": false
+  }
+}

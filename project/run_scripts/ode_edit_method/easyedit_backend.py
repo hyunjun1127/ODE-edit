@@ -44,6 +44,7 @@ from .contracts import (
     EventReading,
     MethodContractError,
     ProposalBatch,
+    ProposalSemantics,
     canonical_hash,
 )
 from .derivatives import (
@@ -59,14 +60,18 @@ from .events import (
     measure_event,
 )
 from .functional_trial import QuantizedFullLinearFunctionalTrial
-from .hooks import TorchCheckpoint, terminal_net_c_energy
+from .hooks import (
+    TorchCheckpoint,
+    set_cumulative_factors_from_checkpoint,
+    terminal_net_c_energy,
+)
 from .instrumentation import EditInstrumentation
 from .memit_adapter import (
     commit_batch,
     coordinate_batch,
     functional_trial_for_batch,
     native_terminal_batch,
-    synchronous_unit_batch,
+    synchronous_normalization,
 )
 from .mechanism import capture_field_mechanism
 from .preflight import CovarianceRuntimeContract
@@ -230,6 +235,7 @@ class EasyEditMemitBackend:
         self._hook_reference_gate: tuple[Mapping[str, Any], ...] | None = None
         self._mechanism_field_history: list[dict[str, Any]] = []
         self._mechanism_previous_directions: Mapping[int, str] | None = None
+        self._last_transport_raw_coefficients: tuple[float, ...] | None = None
 
     def _covariance_source_for_solve(self, layer: int) -> torch.Tensor:
         """Return the guarded CPU source; the solver owns the device copy."""
@@ -431,6 +437,20 @@ class EasyEditMemitBackend:
         self._direct_z_tensor_sha256 = tensor_sha256(result.values)
         return result
 
+    def attach_shared_direct_z(self, target: FrozenDirectZ) -> None:
+        """Attach the case-level W0 direct-z without another computation."""
+
+        if self._direct_z is not None or not isinstance(target, FrozenDirectZ):
+            raise MethodContractError("shared direct-z attachment differs")
+        if target.source_state_id != self.current_state_id():
+            raise MethodContractError("shared direct-z source state differs")
+        ProvenanceManifest(label="shared frozen direct-z", files=(target.artifact,)).assert_current()
+        observed = tensor_sha256(target.values)
+        if observed != target.tensor_sha256:
+            raise MethodContractError("shared direct-z tensor bytes differ")
+        self._direct_z = target
+        self._direct_z_tensor_sha256 = observed
+
     def _assert_frozen_target(self, target: Any) -> FrozenDirectZ:
         if target is not self._direct_z or not isinstance(target, FrozenDirectZ):
             raise MethodContractError("backend proposal did not receive its frozen direct-z")
@@ -440,6 +460,30 @@ class EasyEditMemitBackend:
         if self.current_state_id() not in self._authorized_states:
             raise MethodContractError("proposal state is outside the outer transaction")
         return target
+
+    def direct_z_residual_norm(self, frozen_target: Any) -> float:
+        """Measure the current rewrite-lookup residual without changing state."""
+
+        target = self._assert_frozen_target(frozen_target)
+        raw_request = self.motivation_request.to_easyedit()
+        with torch.no_grad(), _preserve_model_runtime_state(self.model):
+            current_z = self.bindings.compute_z.get_module_input_output_at_words(
+                self.model,
+                self.tokenizer,
+                self._layers[-1],
+                context_templates=[raw_request["prompt"]],
+                words=[raw_request["subject"]],
+                module_template=self.hparams.layer_module_tmp,
+                fact_token_strategy=self.hparams.fact_token,
+                track="out",
+            ).T
+            target_on_device = target.values.to(device=current_z.device)
+            residual = target_on_device - current_z.to(dtype=target_on_device.dtype)
+            value = float(torch.linalg.vector_norm(residual.float()).cpu())
+        self._assert_parameter_guard()
+        if not math.isfinite(value) or value < 0.0:
+            raise MethodContractError("direct-z residual norm is invalid")
+        return value
 
     def _measure_event(self, request: ControllerRequest) -> EventReading:
         return measure_event(
@@ -649,7 +693,9 @@ class EasyEditMemitBackend:
             return proposal
         return self._descendant_synchronous_proposal(target)
 
-    def build_synchronous(self, frozen_target: Any) -> ProposalBatch:
+    def _build_synchronous_transport(
+        self, frozen_target: Any
+    ) -> tuple[ProposalBatch, tuple[float, ...]]:
         target = self._assert_frozen_target(frozen_target)
         with (
             self.instrumentation.component("proposal"),
@@ -657,7 +703,7 @@ class EasyEditMemitBackend:
         ):
             raw = self._raw_synchronous(target)
             zero_slopes = {layer: 0.0 for layer in self._layers}
-            batch = synchronous_unit_batch(
+            normalization = synchronous_normalization(
                 raw,
                 self.covariance_by_layer,
                 self.layer_by_weight,
@@ -666,6 +712,7 @@ class EasyEditMemitBackend:
                 unit_c_identity_atol=self.unit_c_identity_atol,
                 unit_c_identity_rtol=self.unit_c_identity_rtol,
             )
+            batch = normalization.batch
         directions = tuple(item.payload for item in batch.proposals)
         with ActuatorDirectionalHook(
             self.model, directions, instrumentation=self.instrumentation
@@ -723,7 +770,19 @@ class EasyEditMemitBackend:
             record["field_index"] = len(self._mechanism_field_history)
             self._mechanism_field_history.append(record)
             self._mechanism_previous_directions = directions_by_layer
-        return result
+        self._last_transport_raw_coefficients = normalization.raw_coefficients
+        return result, normalization.raw_coefficients
+
+    def build_synchronous(self, frozen_target: Any) -> ProposalBatch:
+        batch, _raw_coefficients = self._build_synchronous_transport(frozen_target)
+        return batch
+
+    def build_transport_field(
+        self, frozen_target: Any
+    ) -> tuple[ProposalBatch, tuple[float, ...]]:
+        """Build one current same-snapshot field and its raw C coefficients."""
+
+        return self._build_synchronous_transport(frozen_target)
 
     def build_coordinate(self, frozen_target: Any, layer: int) -> ProposalBatch:
         return coordinate_batch(self.build_synchronous(frozen_target), layer)
@@ -761,6 +820,47 @@ class EasyEditMemitBackend:
         child = self._capture_snapshot()
         if child.state_id == parent:
             raise MethodContractError("positive accepted write preserved state identity")
+        self._current_snapshot = child
+        self._parameter_guard = self._capture_parameter_guard()
+        self._authorized_states.add(child.state_id)
+        return applied
+
+    def commit_frozen_cumulative(
+        self,
+        entry_checkpoint: EasyEditBackendCheckpoint,
+        batch: ProposalBatch,
+        full_coefficients: Sequence[float],
+        cumulative_fraction: float,
+    ) -> tuple[float, ...]:
+        """Commit an entry-relative frozen target and authorize its snapshot."""
+
+        if not isinstance(entry_checkpoint, EasyEditBackendCheckpoint):
+            raise MethodContractError("frozen cumulative checkpoint type differs")
+        if self._entry_snapshot is None or (
+            entry_checkpoint.snapshot.state_id != self._entry_snapshot.state_id
+        ):
+            raise MethodContractError("frozen cumulative entry state differs")
+        if batch.snapshot_id != entry_checkpoint.snapshot.state_id:
+            raise MethodContractError("frozen cumulative batch is not entry-scoped")
+        batch_weights = tuple(item.payload.weight_name for item in batch.proposals)
+        if (
+            len(batch_weights) != len(set(batch_weights))
+            or set(batch_weights) != set(entry_checkpoint.weights.weight_names)
+        ):
+            raise MethodContractError("frozen cumulative batch weight set differs")
+        if batch.semantics not in {
+            ProposalSemantics.CURRENT_SAME_SNAPSHOT,
+            ProposalSemantics.ENTRY_FROZEN_REBOUND,
+        }:
+            raise MethodContractError("frozen cumulative proposal semantics differ")
+        applied = set_cumulative_factors_from_checkpoint(
+            self.model,
+            entry_checkpoint.weights,
+            tuple(item.payload for item in batch.proposals),
+            full_coefficients,
+            cumulative_fraction,
+        )
+        child = self._capture_snapshot()
         self._current_snapshot = child
         self._parameter_guard = self._capture_parameter_guard()
         self._authorized_states.add(child.state_id)

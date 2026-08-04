@@ -372,6 +372,83 @@ def apply_accepted_factors(
     return applied
 
 
+def set_cumulative_factors_from_checkpoint(
+    model: torch.nn.Module,
+    entry: TorchCheckpoint,
+    directions: Sequence[FactorDirection],
+    full_coefficients: Sequence[float],
+    cumulative_fraction: float,
+    *,
+    row_block: int = 64,
+) -> tuple[float, ...]:
+    """Set ``W0 + quantize(fraction * full_update)`` block by block.
+
+    Frozen CT uses entry-relative cumulative targets instead of repeatedly
+    adding quarter writes.  At fraction one this reproduces the one-shot
+    adaptive accepted writer byte-for-byte while avoiding rounding drift.
+    """
+
+    locked = tuple(directions)
+    full = tuple(float(value) for value in full_coefficients)
+    fraction = float(cumulative_fraction)
+    if (
+        not locked
+        or len(locked) != len(full)
+        or len({direction.weight_name for direction in locked}) != len(locked)
+        or set(direction.weight_name for direction in locked)
+        != set(entry.weight_names)
+        or any(not math.isfinite(value) or value < 0.0 for value in full)
+        or not math.isfinite(fraction)
+        or not 0.0 <= fraction <= 1.0
+        or isinstance(row_block, bool)
+        or not isinstance(row_block, int)
+        or row_block <= 0
+    ):
+        raise MethodContractError("frozen cumulative write contract differs")
+    applied = tuple(fraction * value for value in full)
+    parameters = tuple(
+        resolve_parameter(model, direction.weight_name) for direction in locked
+    )
+    pointers = tuple(parameter.data_ptr() for parameter in parameters)
+    if any(parameter.grad is not None for parameter in parameters):
+        raise MethodContractError("frozen cumulative target weight .grad must be None")
+    with torch.no_grad():
+        for parameter, direction, coefficient in zip(
+            parameters, locked, applied, strict=True
+        ):
+            if tuple(parameter.shape) != (
+                direction.left.shape[0],
+                direction.right.shape[0],
+            ):
+                raise MethodContractError("frozen cumulative factor geometry differs")
+            base = entry.backups[direction.weight_name]
+            compute_dtype = (
+                torch.float64 if parameter.dtype is torch.float64 else torch.float32
+            )
+            left = direction.left.detach().to(
+                device=parameter.device, dtype=compute_dtype
+            )
+            right_t = direction.right.detach().to(
+                device=parameter.device, dtype=compute_dtype
+            ).transpose(0, 1)
+            for start in range(0, int(parameter.shape[0]), row_block):
+                end = min(start + row_block, int(parameter.shape[0]))
+                update = (left[start:end] @ right_t) * coefficient
+                base_block = base[start:end].to(
+                    device=parameter.device, dtype=parameter.dtype
+                )
+                parameter[start:end].copy_(base_block + update.to(parameter.dtype))
+                del update, base_block
+    if any(
+        parameter.data_ptr() != pointer
+        for parameter, pointer in zip(parameters, pointers, strict=True)
+    ):
+        raise MethodContractError("frozen cumulative write replaced parameter storage")
+    if any(parameter.grad is not None for parameter in parameters):
+        raise MethodContractError("frozen cumulative write materialized .grad")
+    return applied
+
+
 def terminal_net_c_energy(
     model: torch.nn.Module,
     entry: TorchCheckpoint,

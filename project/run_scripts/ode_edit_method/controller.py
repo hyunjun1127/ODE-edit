@@ -38,6 +38,140 @@ def _qp_coefficients(
     )
 
 
+@dataclass(frozen=True, slots=True)
+class FullTransportSolution:
+    """Capacity-aware coefficient vector for one full synchronous residual."""
+
+    qp: QPSolution
+    raw_coefficients: tuple[float, ...]
+    full_progress: float
+    zero_slope_raw_completion: bool
+
+
+def solve_full_transport_qp(
+    *,
+    layers: Sequence[int],
+    slopes: Sequence[float],
+    raw_coefficients: Sequence[float],
+    omega: Mapping[int, float],
+    denominators: Mapping[int, float],
+    config: ControllerConfig,
+) -> FullTransportSolution:
+    """Transport the raw synchronous progress under its own C-radius.
+
+    The raw coefficient vector is always a feasibility witness.  The QP may
+    redistribute that progress across unit-C directions, but it may neither
+    exceed the raw Euclidean radius nor be radially rescaled afterward.
+    """
+
+    locked_layers = tuple(int(layer) for layer in layers)
+    locked_slopes = tuple(
+        0.0 if finite("slope", value) <= config.slope_epsilon else float(value)
+        for value in slopes
+    )
+    raw = tuple(finite("raw coefficient", value) for value in raw_coefficients)
+    if (
+        not locked_layers
+        or len(locked_layers) != len(locked_slopes)
+        or len(raw) != len(locked_layers)
+        or len(set(locked_layers)) != len(locked_layers)
+        or any(value < 0.0 for value in raw)
+    ):
+        raise MethodContractError("full-transport geometry differs")
+    radius = math.sqrt(math.fsum(value * value for value in raw))
+    if radius <= config.progress_epsilon:
+        raise MethodContractError("raw synchronous transport is degenerate")
+    costs: list[float] = []
+    for layer in locked_layers:
+        try:
+            load = finite("Omega", omega[layer])
+            denominator = finite("D", denominators[layer])
+        except KeyError as exc:
+            raise MethodContractError("full-transport geometry mapping is incomplete") from exc
+        if load < 0.0 or denominator <= config.load_denominator_epsilon:
+            raise MethodContractError("full-transport Omega/D geometry is invalid")
+        costs.append((1.0 + load) / denominator)
+    full_progress = math.fsum(
+        slope * coefficient
+        for slope, coefficient in zip(locked_slopes, raw, strict=True)
+    )
+    maximum = radius * math.sqrt(
+        math.fsum(value * value for value in locked_slopes)
+    )
+    if full_progress <= config.progress_epsilon:
+        objective = math.fsum(
+            cost * coefficient * coefficient
+            for cost, coefficient in zip(costs, raw, strict=True)
+        )
+        qp = QPSolution(
+            layers=locked_layers,
+            coefficients=raw,
+            requested_progress=full_progress,
+            predicted_progress=full_progress,
+            maximum_progress=maximum,
+            coefficient_norm=radius,
+            equality_residual=0.0,
+            objective=objective,
+            trust_dual=0.0,
+        )
+        return FullTransportSolution(qp, raw, full_progress, True)
+
+    coefficients = _qp_coefficients(locked_slopes, costs, full_progress, 0.0)
+    norm = math.sqrt(math.fsum(value * value for value in coefficients))
+    trust_dual = 0.0
+    if norm > radius:
+        low, high = 0.0, 1.0
+        while math.sqrt(
+            math.fsum(
+                value * value
+                for value in _qp_coefficients(
+                    locked_slopes, costs, full_progress, high
+                )
+            )
+        ) > radius:
+            high *= 2.0
+            if not math.isfinite(high):
+                raise MethodContractError("full-transport trust dual overflowed")
+        for _ in range(config.qp_bisection_iterations):
+            middle = (low + high) / 2.0
+            candidate = _qp_coefficients(
+                locked_slopes, costs, full_progress, middle
+            )
+            if math.sqrt(math.fsum(value * value for value in candidate)) > radius:
+                low = middle
+            else:
+                high = middle
+        trust_dual = high
+        coefficients = _qp_coefficients(
+            locked_slopes, costs, full_progress, trust_dual
+        )
+        norm = math.sqrt(math.fsum(value * value for value in coefficients))
+    predicted = math.fsum(
+        slope * coefficient
+        for slope, coefficient in zip(locked_slopes, coefficients, strict=True)
+    )
+    residual = abs(predicted - full_progress)
+    if norm > radius + config.qp_trust_tolerance:
+        raise MethodContractError("full-transport QP exceeds raw C-radius")
+    if residual > config.qp_equality_tolerance:
+        raise MethodContractError("full-transport QP violates progress equality")
+    qp = QPSolution(
+        layers=locked_layers,
+        coefficients=coefficients,
+        requested_progress=full_progress,
+        predicted_progress=predicted,
+        maximum_progress=maximum,
+        coefficient_norm=norm,
+        equality_residual=residual,
+        objective=math.fsum(
+            cost * coefficient * coefficient
+            for cost, coefficient in zip(costs, coefficients, strict=True)
+        ),
+        trust_dual=trust_dual,
+    )
+    return FullTransportSolution(qp, raw, full_progress, False)
+
+
 def solve_progress_qp(
     *,
     layers: Sequence[int],

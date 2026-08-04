@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from dataclasses import replace
 import math
 from typing import Mapping, Sequence
@@ -25,6 +26,27 @@ from .hooks import FactorDirection, TorchFactorTrial, apply_accepted_factors
 
 
 SIMPLE_T_ROW_BLOCK = 64
+
+
+@dataclass(frozen=True, slots=True)
+class SynchronousNormalization:
+    """Unit-C field plus the coefficients that reconstruct its raw factors."""
+
+    batch: ProposalBatch
+    raw_coefficients: tuple[float, ...]
+    raw_direction_ids: tuple[str, ...]
+
+    def __post_init__(self) -> None:
+        if (
+            self.batch.semantics is not ProposalSemantics.CURRENT_SAME_SNAPSHOT
+            or len(self.raw_coefficients) != len(self.batch.proposals)
+            or len(self.raw_direction_ids) != len(self.batch.proposals)
+            or any(
+                not math.isfinite(value) or value <= 0.0
+                for value in self.raw_coefficients
+            )
+        ):
+            raise MethodContractError("synchronous normalization contract differs")
 
 
 def native_terminal_batch(
@@ -67,6 +89,29 @@ def synchronous_unit_batch(
     unit_c_identity_atol: float,
     unit_c_identity_rtol: float,
 ) -> ProposalBatch:
+    return synchronous_normalization(
+        proposal,
+        covariance_by_layer,
+        layer_by_weight,
+        slopes_by_layer,
+        unit_c_norm_epsilon=unit_c_norm_epsilon,
+        unit_c_identity_atol=unit_c_identity_atol,
+        unit_c_identity_rtol=unit_c_identity_rtol,
+    ).batch
+
+
+def synchronous_normalization(
+    proposal: MemitFactorProposal,
+    covariance_by_layer: Mapping[int, torch.Tensor],
+    layer_by_weight: Mapping[str, int],
+    slopes_by_layer: Mapping[int, float],
+    *,
+    unit_c_norm_epsilon: float,
+    unit_c_identity_atol: float,
+    unit_c_identity_rtol: float,
+) -> SynchronousNormalization:
+    """Normalize raw factors once and retain their exact positive C scales."""
+
     if not proposal.is_synchronous:
         raise MethodContractError("full/static proposals must be same-snapshot synchronous")
     tolerances = (
@@ -76,8 +121,7 @@ def synchronous_unit_batch(
     )
     if any(not math.isfinite(value) or value <= 0.0 for value in tolerances):
         raise MethodContractError("unit-C tolerances must be finite and positive")
-    items = []
-    slopes = []
+    rows: list[tuple[int, LayerProposal, float, float, str]] = []
     for factor in proposal.factors:
         single = replace(
             proposal,
@@ -87,7 +131,17 @@ def synchronous_unit_batch(
         energy = float(proposal_c_energy(single, covariance_by_layer, layer_by_weight))
         if not math.isfinite(energy) or energy <= unit_c_norm_epsilon:
             raise MethodContractError("synchronous direction has near-zero C norm")
-        unit = factor.scaled(1.0 / math.sqrt(energy))
+        raw_coefficient = math.sqrt(energy)
+        unit = factor.scaled(1.0 / raw_coefficient)
+        if not torch.allclose(
+            unit.left * raw_coefficient,
+            factor.left,
+            atol=unit_c_identity_atol,
+            rtol=unit_c_identity_rtol,
+        ) or not torch.equal(unit.right, factor.right):
+            raise MethodContractError(
+                "unit-C coefficient does not reconstruct the raw factor"
+            )
         unit_proposal = replace(
             proposal,
             factors=(unit,),
@@ -105,24 +159,36 @@ def synchronous_unit_batch(
             raise MethodContractError("synchronous direction is not unit C-normalized")
         layer = int(layer_by_weight[factor.weight_name])
         direction = FactorDirection.from_low_rank_factor(layer, unit)
-        items.append(
-            LayerProposal(
-                layer=layer,
-                state_id=proposal.entry_snapshot_id,
-                direction_id=direction.direction_id,
-                payload=direction,
-            )
-        )
         try:
-            slopes.append(max(0.0, float(slopes_by_layer[layer])))
+            slope = max(0.0, float(slopes_by_layer[layer]))
         except KeyError as exc:
             raise MethodContractError("synchronous slope mapping is incomplete") from exc
-    order = sorted(range(len(items)), key=lambda index: items[index].layer)
-    return ProposalBatch(
+        raw_direction = FactorDirection.from_low_rank_factor(layer, factor)
+        rows.append(
+            (
+                layer,
+                LayerProposal(
+                    layer=layer,
+                    state_id=proposal.entry_snapshot_id,
+                    direction_id=direction.direction_id,
+                    payload=direction,
+                ),
+                slope,
+                raw_coefficient,
+                raw_direction.direction_id,
+            )
+        )
+    rows.sort(key=lambda row: row[0])
+    batch = ProposalBatch(
         snapshot_id=proposal.entry_snapshot_id,
-        proposals=tuple(items[index] for index in order),
-        slopes=tuple(slopes[index] for index in order),
+        proposals=tuple(row[1] for row in rows),
+        slopes=tuple(row[2] for row in rows),
         semantics=ProposalSemantics.CURRENT_SAME_SNAPSHOT,
+    )
+    return SynchronousNormalization(
+        batch=batch,
+        raw_coefficients=tuple(row[3] for row in rows),
+        raw_direction_ids=tuple(row[4] for row in rows),
     )
 
 
