@@ -11,12 +11,58 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError
 from project.run_scripts.ode_bf.p0_runtime import (
     StageRecorder,
     _atomic_write_once,
+    classify_four_path_diagnostic,
     expected_result_name,
     write_failure_once,
 )
 
 
 class P0RuntimeReceiptTests(unittest.TestCase):
+    def test_four_path_classification_is_predeclared_and_fail_closed(self) -> None:
+        common = {
+            "source_inputs_identical": True,
+            "all_finite": True,
+            "all_certificates_pass": True,
+            "benchmark_bits_exact": True,
+            "decisions_exact": True,
+            "strict_wb_virtual_commit_exact": True,
+            "rollback_and_restore_exact": True,
+            "boundary_touched": False,
+            "parity_established": True,
+        }
+        self.assertEqual(
+            classify_four_path_diagnostic(
+                all_endpoint_bytes_exact=True,
+                **common,
+            ),
+            "BYTE_EXACT",
+        )
+        self.assertEqual(
+            classify_four_path_diagnostic(
+                all_endpoint_bytes_exact=False,
+                **common,
+            ),
+            "NUMERIC_PATH_DIVERGENCE_CANDIDATE",
+        )
+        ambiguous = dict(common)
+        ambiguous["boundary_touched"] = True
+        self.assertEqual(
+            classify_four_path_diagnostic(
+                all_endpoint_bytes_exact=False,
+                **ambiguous,
+            ),
+            "NUMERICALLY_AMBIGUOUS",
+        )
+        non_equivalent = dict(common)
+        non_equivalent["benchmark_bits_exact"] = False
+        self.assertEqual(
+            classify_four_path_diagnostic(
+                all_endpoint_bytes_exact=False,
+                **non_equivalent,
+            ),
+            "NON_EQUIVALENT",
+        )
+
     def test_stage_receipts_are_create_once_and_rng_neutral(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

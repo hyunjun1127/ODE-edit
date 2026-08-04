@@ -15,7 +15,10 @@ from project.run_scripts.ode_bf.accounting import ComputeLedger
 from project.run_scripts.ode_bf.alpha_backend import (
     ALPHA_SOLVE_DTYPE,
     ALPHA_SOLVE_REFERENCE,
+    FOUR_PATH_ORDER,
     _normalize_requests,
+    bf16_comparison_receipt,
+    build_four_path_layer_diagnostic,
     canonical_alpha_fp32_solve,
     capture_native_and_wb_joint_endpoint,
     validate_joint_alpha_solve_geometry,
@@ -426,11 +429,236 @@ class CanonicalAlphaSolveTests(unittest.TestCase):
             )
 
 
+class FourPathDiagnosticTests(unittest.TestCase):
+    @staticmethod
+    def _four_path_fixture(
+        seed: int,
+        *,
+        regularization: float = 1.0,
+    ) -> tuple[
+        torch.Tensor,
+        torch.Tensor,
+        torch.Tensor,
+        torch.Tensor,
+        object,
+    ]:
+        generator = torch.Generator().manual_seed(seed)
+        dimension, output_dimension = 12, 3
+        projector = torch.eye(dimension, dtype=torch.float32)
+        projector += 0.03 * torch.randn(
+            (dimension, dimension),
+            generator=generator,
+            dtype=torch.float32,
+        )
+        keys = torch.randn(
+            (dimension, 10),
+            generator=generator,
+            dtype=torch.float32,
+        )
+        residual = torch.randn(
+            (output_dimension, 10),
+            generator=generator,
+            dtype=torch.float32,
+        )
+        dense = canonical_alpha_fp32_solve(
+            projector,
+            keys,
+            torch.zeros_like(projector),
+            residual,
+            layer=4,
+            regularization=regularization,
+            solve_device="cpu",
+            residual_tolerance=1.0e-5,
+        )
+        entry = torch.zeros(
+            (output_dimension, dimension),
+            dtype=torch.bfloat16,
+        )
+        return projector, keys, residual, entry, dense
+
+    def test_rank10_four_paths_and_legitimate_bf16_midpoint_divergence(self) -> None:
+        projector, keys, residual, entry, dense = self._four_path_fixture(60)
+        guarded = (projector, keys, residual, entry, dense.update)
+        pointers = tuple(value.data_ptr() for value in guarded)
+        versions = tuple(value._version for value in guarded)
+        rng = torch.get_rng_state().clone()
+        result = build_four_path_layer_diagnostic(
+            layer=4,
+            weight_name="layer4.weight",
+            entry_weight=entry,
+            native_matched_update=dense.update.T.contiguous(),
+            projector=projector,
+            joint_keys=keys,
+            residual=residual,
+            regularization=1.0,
+            projector_sha256="a" * 64,
+            request_order_sha256="b" * 64,
+            residual_tolerance=1.0e-5,
+            native_receipt=dense.receipt,
+            row_block=2,
+        )
+        self.assertEqual(tuple(result.candidates), FOUR_PATH_ORDER)
+        self.assertEqual(tuple(result.factors), ("D32", "W32", "W64"))
+        self.assertEqual(
+            {receipt.joint_rank for receipt in result.receipt.path_receipts},
+            {10},
+        )
+        n32_d32 = next(
+            item
+            for item in result.receipt.adjacent_comparisons
+            if item.reference_path == "N32" and item.candidate_path == "D32"
+        )
+        self.assertFalse(n32_d32.byte_exact)
+        self.assertEqual(n32_d32.mismatch_count, 1)
+        self.assertGreaterEqual(n32_d32.ordered_ulp_max, 1)
+        self.assertEqual(result.receipt.first_adjacent_byte_boundary, "N32_vs_D32")
+        self.assertTrue(
+            all(item.certificate_passed for item in result.receipt.path_receipts)
+        )
+        self.assertEqual(
+            {item.source_identity_sha256 for item in result.receipt.path_receipts},
+            {result.receipt.source_identity_sha256},
+        )
+        self.assertEqual(tuple(value.data_ptr() for value in guarded), pointers)
+        self.assertEqual(tuple(value._version for value in guarded), versions)
+        self.assertTrue(torch.equal(torch.get_rng_state(), rng))
+        gram = keys @ keys.T
+        system = projector @ gram + torch.eye(projector.shape[0])
+        projected = projector @ keys
+        small = torch.eye(10) + keys.T @ projected
+        correction = torch.linalg.solve(small, keys.T @ projected)
+        wrong_sign_q = projected + projected @ correction
+        wrong_sign_residual = torch.linalg.norm(system @ wrong_sign_q - projected)
+        correct_receipt = next(
+            item for item in result.receipt.path_receipts if item.path == "W32"
+        )
+        self.assertGreater(float(wrong_sign_residual), 1.0)
+        self.assertLess(correct_receipt.normalized_backward_residual, 1.0e-5)
+
+    def test_joint_column_permutation_preserves_endpoints_and_rekeys_sources(self) -> None:
+        projector, keys, residual, entry, dense = self._four_path_fixture(101)
+        first = build_four_path_layer_diagnostic(
+            layer=4,
+            weight_name="layer4.weight",
+            entry_weight=entry,
+            native_matched_update=dense.update.T.contiguous(),
+            projector=projector,
+            joint_keys=keys,
+            residual=residual,
+            regularization=1.0,
+            projector_sha256="a" * 64,
+            request_order_sha256="b" * 64,
+            residual_tolerance=1.0e-5,
+            native_receipt=dense.receipt,
+            row_block=2,
+        )
+        permutation = torch.tensor((9, 2, 5, 7, 1, 3, 8, 0, 6, 4))
+        permuted_keys = keys[:, permutation]
+        permuted_residual = residual[:, permutation]
+        permuted_dense = canonical_alpha_fp32_solve(
+            projector,
+            permuted_keys,
+            torch.zeros_like(projector),
+            permuted_residual,
+            layer=4,
+            regularization=1.0,
+            solve_device="cpu",
+            residual_tolerance=1.0e-5,
+        )
+        second = build_four_path_layer_diagnostic(
+            layer=4,
+            weight_name="layer4.weight",
+            entry_weight=entry,
+            native_matched_update=permuted_dense.update.T.contiguous(),
+            projector=projector,
+            joint_keys=permuted_keys,
+            residual=permuted_residual,
+            regularization=1.0,
+            projector_sha256="a" * 64,
+            request_order_sha256="c" * 64,
+            residual_tolerance=1.0e-5,
+            native_receipt=permuted_dense.receipt,
+            row_block=2,
+        )
+        for path in FOUR_PATH_ORDER:
+            self.assertTrue(torch.equal(first.candidates[path], second.candidates[path]))
+        self.assertNotEqual(
+            first.receipt.source_identity_sha256,
+            second.receipt.source_identity_sha256,
+        )
+
+    def test_bf16_ulp_receipt_and_residual_fail_close(self) -> None:
+        reference = torch.tensor([[0.0, 1.0, -1.0]], dtype=torch.bfloat16)
+        candidate = reference.clone()
+        candidate[0, 1] = torch.nextafter(
+            reference[0, 1],
+            torch.tensor(float("inf"), dtype=torch.bfloat16),
+        )
+        receipt = bf16_comparison_receipt(
+            reference,
+            candidate,
+            reference_path="N32",
+            candidate_path="D32",
+        )
+        self.assertEqual(receipt.mismatch_count, 1)
+        self.assertEqual(receipt.ordered_ulp_max, 1)
+        projector, keys, residual, _, _ = self._four_path_fixture(103)
+        with self.assertRaisesRegex(ODEBFContractError, "certificate"):
+            canonical_alpha_fp32_solve(
+                projector,
+                keys,
+                torch.zeros_like(projector),
+                residual,
+                layer=4,
+                regularization=1.0,
+                solve_device="cpu",
+                residual_tolerance=1.0e-20,
+            )
+
+    def test_deliberately_ill_conditioned_w32_residual_is_not_hidden(self) -> None:
+        generator = torch.Generator().manual_seed(404)
+        projector = torch.eye(12, dtype=torch.float32)
+        keys = torch.randn((12, 10), generator=generator, dtype=torch.float32)
+        keys[:, -1] = keys[:, 0] + 1.0e-3 * torch.randn(
+            (12,), generator=generator, dtype=torch.float32
+        )
+        residual = torch.randn((3, 10), generator=generator, dtype=torch.float32)
+        dense = canonical_alpha_fp32_solve(
+            projector,
+            keys,
+            torch.zeros_like(projector),
+            residual,
+            layer=4,
+            regularization=1.0e-5,
+            solve_device="cpu",
+            residual_tolerance=1.0e-4,
+        )
+        result = build_four_path_layer_diagnostic(
+            layer=4,
+            weight_name="layer4.weight",
+            entry_weight=torch.zeros((3, 12), dtype=torch.bfloat16),
+            native_matched_update=dense.update.T.contiguous(),
+            projector=projector,
+            joint_keys=keys,
+            residual=residual,
+            regularization=1.0e-5,
+            projector_sha256="a" * 64,
+            request_order_sha256="b" * 64,
+            residual_tolerance=1.0e-4,
+            native_receipt=dense.receipt,
+            row_block=2,
+        )
+        receipts = {item.path: item for item in result.receipt.path_receipts}
+        self.assertGreater(receipts["W32"].condition_estimate, 1.0e6)
+        self.assertFalse(receipts["W32"].certificate_passed)
+        self.assertTrue(receipts["W64"].certificate_passed)
+        self.assertGreater(receipts["W32"].normalized_backward_residual, 1.0e-4)
+
 class P0ReceiptTests(unittest.TestCase):
     def test_result_namespace_and_outcome_sealing(self) -> None:
         self.assertEqual(
             expected_result_name("llama3-8b-inst"),
-            "s04-p0-native-wb-b10-r1-llama3-8b-inst-23fe5621",
+            "s04-p0-dense-wb-equiv-r2-llama3-8b-inst-23fe5621",
         )
         scores = tuple(CounterFactRequestScore(0.1, 0.2) for _ in range(10))
         receipt = ModelEvaluationReceipt(

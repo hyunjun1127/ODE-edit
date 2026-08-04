@@ -4,10 +4,13 @@ from __future__ import annotations
 
 import contextlib
 import copy
+import hashlib
 import io
 import math
 import random
 import threading
+import time
+from itertools import combinations_with_replacement
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping, Sequence
@@ -33,6 +36,8 @@ from .woodbury import (
 ALPHA_SOLVE_DTYPE = torch.float32
 ALPHA_SOLVE_REFERENCE = "Native AlphaEdit original-BF16 canonical-FP32-solve"
 ALPHA_SOLVE_CONDITION_MAX_DIMENSION = 256
+FOUR_PATH_ORDER = ("N32", "D32", "W32", "W64")
+FOUR_PATH_REFERENCE = "ODE-BF dense/Woodbury association diagnostic R2"
 
 
 @dataclass(frozen=True, slots=True)
@@ -62,6 +67,77 @@ class AlphaDenseSolveReceipt:
     condition_kind: str
     finite: bool
     passed: bool
+    wall_seconds: float
+    gpu_seconds: float
+
+
+@dataclass(frozen=True, slots=True)
+class BF16ComparisonReceipt:
+    reference_path: str
+    candidate_path: str
+    byte_exact: bool
+    mismatch_count: int
+    element_count: int
+    mismatch_fraction: float
+    ordered_ulp_max: int
+    ordered_ulp_p50: float
+    ordered_ulp_p95: float
+    ordered_ulp_p99: float
+    percentile_population: str
+    ordered_ulp_histogram: tuple[tuple[str, int], ...]
+    max_abs_difference: float
+
+
+@dataclass(frozen=True, slots=True)
+class FourPathSolveReceipt:
+    layer: int
+    path: str
+    reference: str
+    source_identity_sha256: str
+    source_hashes: tuple[tuple[str, str], ...]
+    source_shapes: tuple[tuple[str, tuple[int, ...]], ...]
+    source_dtypes: tuple[tuple[str, str], ...]
+    solve_shape: tuple[int, int]
+    update_shape: tuple[int, int]
+    solve_dtype: str
+    assembler_dtype: str
+    solve_device_class: str
+    joint_rank: int
+    residual_rhs_kind: str
+    normalized_backward_residual: float
+    system_norm_estimate: float
+    system_norm_kind: str
+    condition_estimate: float
+    condition_kind: str
+    factor_relative_error_to_d32: float | None
+    update_relative_error_to_d32: float
+    endpoint_relative_to_n32_edit_error: float
+    finite: bool
+    certificate_passed: bool
+    wall_seconds: float
+    gpu_seconds: float
+    allocated_bytes_after: int
+
+
+@dataclass(frozen=True, slots=True)
+class FourPathLayerReceipt:
+    layer: int
+    weight_name_sha256: str
+    request_order_sha256: str
+    source_identity_sha256: str
+    path_receipts: tuple[FourPathSolveReceipt, ...]
+    comparisons_to_n32: tuple[BF16ComparisonReceipt, ...]
+    pairwise_comparisons: tuple[BF16ComparisonReceipt, ...]
+    adjacent_comparisons: tuple[BF16ComparisonReceipt, ...]
+    first_adjacent_byte_boundary: str | None
+
+
+@dataclass(slots=True)
+class FourPathLayerResult:
+    candidates: dict[str, torch.Tensor]
+    factors: dict[str, tuple[WaypointFactor, ...]]
+    receipt: FourPathLayerReceipt
+    w64_certificate: WoodburyCertificate
 
 
 @dataclass(frozen=True, slots=True)
@@ -211,10 +287,25 @@ def canonical_alpha_fp32_solve(
     ):
         raise ODEBFContractError("Alpha solve operands remain mixed after normalization")
 
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+        start_event = torch.cuda.Event(enable_timing=True)
+        end_event = torch.cuda.Event(enable_timing=True)
+        start_event.record()
+    else:
+        start_event = end_event = None
+    wall_started = time.perf_counter()
+
     # Keep the exact pinned source multiplication and addition order.
     a32 = p32 @ (k32 @ k32.T + c32) + lambda32 * identity32
     b32 = p32 @ k32 @ r32.T
     update32 = torch.linalg.solve(a32, b32)
+    gpu_seconds = 0.0
+    if start_event is not None and end_event is not None:
+        end_event.record()
+        torch.cuda.synchronize(device)
+        gpu_seconds = float(start_event.elapsed_time(end_event)) / 1000.0
+    wall_seconds = time.perf_counter() - wall_started
     if (
         update32.shape != geometry.output_shape
         or update32.dtype is not ALPHA_SOLVE_DTYPE
@@ -276,10 +367,595 @@ def canonical_alpha_fp32_solve(
         condition_kind,
         finite,
         passed,
+        wall_seconds,
+        gpu_seconds,
     )
     if not passed:
         raise ODEBFContractError("Alpha dense solve certificate failed")
     return AlphaDenseSolveResult(update32, receipt)
+
+
+def _zero_tensor_sha256(shape: Sequence[int], dtype: torch.dtype) -> str:
+    if dtype is not torch.float32:
+        raise ODEBFContractError("zero covariance hash dtype differs")
+    element_count = math.prod(int(value) for value in shape)
+    if element_count < 0:
+        raise ODEBFContractError("zero covariance hash shape differs")
+    remaining = element_count * torch.empty((), dtype=dtype).element_size()
+    block = b"\x00" * (1024 * 1024)
+    digest = hashlib.sha256()
+    while remaining:
+        length = min(remaining, len(block))
+        digest.update(block[:length])
+        remaining -= length
+    return digest.hexdigest()
+
+
+def _ordered_bf16(tensor: torch.Tensor) -> torch.Tensor:
+    if tensor.dtype is not torch.bfloat16:
+        raise ODEBFContractError("ordered ULP input is not BF16")
+    bits = tensor.detach().to(device="cpu").contiguous().view(torch.int16)
+    unsigned = torch.bitwise_and(bits.to(dtype=torch.int32), 0xFFFF)
+    negative = torch.bitwise_and(unsigned, 0x8000) != 0
+    magnitude = torch.bitwise_and(unsigned, 0x7FFF)
+    return torch.where(negative, 0x8000 - magnitude, 0x8000 + unsigned)
+
+
+def bf16_comparison_receipt(
+    reference: torch.Tensor,
+    candidate: torch.Tensor,
+    *,
+    reference_path: str,
+    candidate_path: str,
+) -> BF16ComparisonReceipt:
+    if (
+        reference.dtype is not torch.bfloat16
+        or candidate.dtype is not torch.bfloat16
+        or tuple(reference.shape) != tuple(candidate.shape)
+    ):
+        raise ODEBFContractError("BF16 endpoint comparison geometry differs")
+    reference_cpu = reference.detach().to(device="cpu").contiguous()
+    candidate_cpu = candidate.detach().to(device="cpu").contiguous()
+    ulp = torch.abs(_ordered_bf16(reference_cpu) - _ordered_bf16(candidate_cpu)).view(-1)
+    mismatch = ulp != 0
+    mismatch_count = int(mismatch.sum().item())
+    element_count = int(ulp.numel())
+    differing = ulp[mismatch]
+    if differing.numel():
+        percentiles = torch.quantile(
+            differing.to(dtype=torch.float64),
+            torch.tensor((0.50, 0.95, 0.99), dtype=torch.float64),
+            interpolation="nearest",
+        )
+        p50, p95, p99 = (float(value) for value in percentiles)
+        ulp_max = int(differing.max().item())
+    else:
+        p50 = p95 = p99 = 0.0
+        ulp_max = 0
+    histogram = (
+        ("0", int((ulp == 0).sum().item())),
+        ("1", int((ulp == 1).sum().item())),
+        ("2", int((ulp == 2).sum().item())),
+        ("3-4", int(((ulp >= 3) & (ulp <= 4)).sum().item())),
+        ("5-8", int(((ulp >= 5) & (ulp <= 8)).sum().item())),
+        ("9-16", int(((ulp >= 9) & (ulp <= 16)).sum().item())),
+        ("17+", int((ulp >= 17).sum().item())),
+    )
+    max_abs = float(
+        torch.max(
+            torch.abs(reference_cpu.to(dtype=torch.float32) - candidate_cpu.to(dtype=torch.float32))
+        ).item()
+    ) if element_count else 0.0
+    return BF16ComparisonReceipt(
+        reference_path,
+        candidate_path,
+        mismatch_count == 0,
+        mismatch_count,
+        element_count,
+        0.0 if element_count == 0 else mismatch_count / element_count,
+        ulp_max,
+        p50,
+        p95,
+        p99,
+        "mismatching-elements",
+        histogram,
+        max_abs,
+    )
+
+
+def _spectral_norm_power_estimate(matrix: torch.Tensor, *, iterations: int = 6) -> float:
+    if matrix.ndim != 2 or matrix.shape[0] != matrix.shape[1] or iterations <= 0:
+        raise ODEBFContractError("spectral norm estimate contract differs")
+    dimension = matrix.shape[0]
+    vector = torch.linspace(
+        1.0,
+        2.0,
+        dimension,
+        dtype=matrix.dtype,
+        device=matrix.device,
+    ).reshape(-1, 1)
+    vector = vector / torch.linalg.vector_norm(vector)
+    for _ in range(iterations):
+        forward = matrix @ vector
+        adjoint = matrix.T @ forward
+        norm = torch.linalg.vector_norm(adjoint)
+        if not torch.isfinite(norm) or float(norm) == 0.0:
+            raise ODEBFContractError("spectral norm power iteration failed")
+        vector = adjoint / norm
+    estimate = float(torch.linalg.vector_norm(matrix @ vector).item())
+    if not math.isfinite(estimate) or estimate <= 0.0:
+        raise ODEBFContractError("spectral norm estimate is invalid")
+    return estimate
+
+
+def _normalized_backward_residual(
+    matrix: torch.Tensor,
+    solution: torch.Tensor,
+    rhs: torch.Tensor,
+    *,
+    system_norm_estimate: float,
+) -> float:
+    numerator = torch.linalg.norm(matrix @ solution - rhs)
+    denominator = (
+        system_norm_estimate * torch.linalg.norm(solution)
+        + torch.linalg.norm(rhs)
+    )
+    value = float(
+        numerator
+        / torch.clamp(
+            denominator,
+            min=torch.finfo(solution.dtype).tiny,
+        )
+    )
+    return value
+
+
+def _timed_call(device: torch.device, function: Any) -> tuple[Any, float, float]:
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+        started_event = torch.cuda.Event(enable_timing=True)
+        finished_event = torch.cuda.Event(enable_timing=True)
+        started_event.record()
+    else:
+        started_event = finished_event = None
+    started = time.perf_counter()
+    result = function()
+    if started_event is not None and finished_event is not None:
+        finished_event.record()
+        torch.cuda.synchronize(device)
+        gpu_seconds = float(started_event.elapsed_time(finished_event)) / 1000.0
+    else:
+        gpu_seconds = 0.0
+    return result, time.perf_counter() - started, gpu_seconds
+
+
+def build_four_path_layer_diagnostic(
+    *,
+    layer: int,
+    weight_name: str,
+    entry_weight: torch.Tensor,
+    native_matched_update: torch.Tensor,
+    projector: torch.Tensor,
+    joint_keys: torch.Tensor,
+    residual: torch.Tensor,
+    regularization: float,
+    projector_sha256: str,
+    request_order_sha256: str,
+    residual_tolerance: float,
+    native_receipt: AlphaDenseSolveReceipt,
+    row_block: int = 64,
+) -> FourPathLayerResult:
+    """Construct N32/D32/W32/W64 from one immutable P0 layer identity."""
+
+    if entry_weight.dtype is not torch.bfloat16 or entry_weight.ndim != 2:
+        raise ODEBFContractError("four-path entry weight is not a BF16 matrix")
+    if native_matched_update.shape != entry_weight.shape:
+        raise ODEBFContractError("four-path Native update orientation differs")
+    geometry = validate_joint_alpha_solve_geometry(
+        projector.shape,
+        joint_keys.shape,
+        projector.shape,
+        residual.shape,
+    )
+    if tuple(entry_weight.shape) != (
+        geometry.residual_shape[0],
+        geometry.projector_shape[0],
+    ):
+        raise ODEBFContractError("four-path weight/source geometry differs")
+    if native_receipt.geometry != geometry or not native_receipt.passed:
+        raise ODEBFContractError("four-path Native dense receipt differs")
+    tolerance = float(residual_tolerance)
+    if not math.isfinite(tolerance) or tolerance <= 0.0:
+        raise ODEBFContractError("four-path residual tolerance differs")
+    lam = float(regularization)
+    if not math.isfinite(lam) or lam <= 0.0:
+        raise ODEBFContractError("four-path regularization differs")
+
+    guarded = (entry_weight, native_matched_update, projector, joint_keys, residual)
+    pointers = tuple(value.data_ptr() for value in guarded)
+    versions = tuple(value._version for value in guarded)
+    gradients = tuple(
+        None
+        if value.grad is None
+        else (value.grad.data_ptr(), value.grad._version, tensor_sha256(value.grad))
+        for value in guarded
+    )
+    requires_grad = tuple(value.requires_grad for value in guarded)
+    cpu_rng = torch.get_rng_state().clone()
+    cuda_rng = (
+        torch.cuda.get_rng_state(entry_weight.device).clone()
+        if entry_weight.device.type == "cuda"
+        else None
+    )
+    device = entry_weight.device
+    p32 = projector.detach().to(device=device, dtype=torch.float32).contiguous()
+    k32 = joint_keys.detach().to(device=device, dtype=torch.float32).contiguous()
+    r32 = residual.detach().to(device=device, dtype=torch.float32).contiguous()
+    lambda32 = torch.tensor(lam, dtype=torch.float32, device=device)
+    source_hashes = (
+        ("W0", tensor_sha256(entry_weight)),
+        ("P", tensor_sha256(projector)),
+        ("K", tensor_sha256(joint_keys)),
+        ("C", _zero_tensor_sha256(projector.shape, torch.float32)),
+        ("R", tensor_sha256(residual)),
+        ("lambda", tensor_sha256(lambda32)),
+    )
+    source_shapes = (
+        ("W0", tuple(int(value) for value in entry_weight.shape)),
+        ("P", tuple(int(value) for value in projector.shape)),
+        ("K", tuple(int(value) for value in joint_keys.shape)),
+        ("C", tuple(int(value) for value in projector.shape)),
+        ("R", tuple(int(value) for value in residual.shape)),
+        ("lambda", ()),
+    )
+    source_dtypes = (
+        ("W0", str(entry_weight.dtype)),
+        ("P", str(projector.dtype)),
+        ("K", str(joint_keys.dtype)),
+        ("C", str(torch.float32)),
+        ("R", str(residual.dtype)),
+        ("lambda", str(torch.float32)),
+    )
+    source_identity = canonical_hash(
+        {
+            "layer": int(layer),
+            "request_order_sha256": request_order_sha256,
+            "source_hashes": source_hashes,
+            "source_shapes": source_shapes,
+            "source_dtypes": source_dtypes,
+        }
+    )
+
+    gram32 = k32 @ k32.T
+    # P0 C is exact zero.  Scalar zero addition retains the pinned source
+    # expression order without retaining another dense zero matrix.
+    gram_plus_c32 = gram32 + torch.zeros((), dtype=torch.float32, device=device)
+    identity32 = torch.eye(geometry.projector_shape[0], dtype=torch.float32, device=device)
+    a32 = p32 @ gram_plus_c32 + lambda32 * identity32
+    g32 = p32 @ k32
+    system_norm = _spectral_norm_power_estimate(a32)
+    small32 = lambda32 * torch.eye(BATCH_SIZE, dtype=torch.float32, device=device) + k32.T @ g32
+    condition_estimate = float(torch.linalg.cond(small32.detach().to(device="cpu", dtype=torch.float64)))
+    if not math.isfinite(condition_estimate):
+        raise ODEBFContractError("four-path condition estimate is non-finite")
+    joint_rank = int(torch.linalg.matrix_rank(k32).item())
+
+    q_d32, d_wall, d_gpu = _timed_call(
+        device,
+        lambda: torch.linalg.solve(a32, g32),
+    )
+
+    def solve_w32() -> torch.Tensor:
+        rhs32 = k32.T @ g32
+        solution32, info32 = torch.linalg.solve_ex(small32, rhs32)
+        if int(info32.max().item()) != 0:
+            raise ODEBFContractError("W32 small-system LU failed")
+        return (g32 - g32 @ solution32) / lambda32
+
+    q_w32, w32_wall, w32_gpu = _timed_call(device, solve_w32)
+    w64, w64_wall, w64_gpu = _timed_call(
+        device,
+        lambda: solve_alpha_woodbury(
+            p32,
+            k32,
+            history_keys=None,
+            regularization=lam,
+            projector_certificate=ProjectorCertificate(
+                projector_sha256,
+                1.0,
+                1.0,
+                "artifact-unverified",
+                1.0e-10,
+            ),
+            residual_tolerance=tolerance,
+        ),
+    )
+    q_w64 = w64.q
+    if (
+        q_d32.shape != (geometry.projector_shape[0], BATCH_SIZE)
+        or q_w32.shape != q_d32.shape
+        or q_w64.shape != q_d32.shape
+    ):
+        raise ODEBFContractError("four-path thin solve geometry differs")
+
+    n_update = native_matched_update.detach().to(device=device, dtype=torch.float32).T.contiguous()
+    d_update = q_d32 @ r32.T
+    w32_update = q_w32 @ r32.T
+    w64_update = q_w64 @ r32.to(dtype=torch.float64).T
+    if tuple(n_update.shape) != geometry.output_shape:
+        raise ODEBFContractError("four-path Native solve orientation differs")
+
+    factors = {
+        "D32": (
+            WaypointFactor(weight_name, layer, 0, 0, 0, 1.0, r32.detach(), q_d32.detach()),
+        ),
+        "W32": (
+            WaypointFactor(weight_name, layer, 0, 0, 0, 1.0, r32.detach(), q_w32.detach()),
+        ),
+        "W64": (
+            WaypointFactor(
+                weight_name,
+                layer,
+                0,
+                0,
+                0,
+                1.0,
+                r32.detach(),
+                q_w64.detach().to(dtype=torch.float32),
+            ),
+        ),
+    }
+    native_candidate = (
+        entry_weight.detach().to(dtype=torch.float32)
+        + native_matched_update.detach().to(device=device, dtype=torch.float32)
+    ).to(dtype=torch.bfloat16)
+    candidates: dict[str, torch.Tensor] = {"N32": native_candidate.detach().to(device="cpu")}
+    for path in ("D32", "W32", "W64"):
+        candidate, _ = assemble_effective_bf16(entry_weight, factors[path], row_block=row_block)
+        candidates[path] = candidate.detach().to(device="cpu")
+        del candidate
+
+    b_wide32 = g32 @ r32.T
+    residuals = {
+        "N32": _normalized_backward_residual(
+            a32,
+            n_update,
+            b_wide32,
+            system_norm_estimate=system_norm,
+        ),
+        "D32": _normalized_backward_residual(
+            a32,
+            q_d32,
+            g32,
+            system_norm_estimate=system_norm,
+        ),
+        "W32": _normalized_backward_residual(
+            a32,
+            q_w32,
+            g32,
+            system_norm_estimate=system_norm,
+        ),
+    }
+    w64_action = lam * q_w64 + g32.to(dtype=torch.float64) @ (
+        k32.to(dtype=torch.float64).T @ q_w64
+    )
+    w64_denominator = system_norm * torch.linalg.norm(q_w64) + torch.linalg.norm(
+        g32.to(dtype=torch.float64)
+    )
+    residuals["W64"] = float(
+        torch.linalg.norm(w64_action - g32.to(dtype=torch.float64))
+        / torch.clamp(w64_denominator, min=torch.finfo(torch.float64).tiny)
+    )
+
+    d_factor_norm = max(float(torch.linalg.norm(q_d32)), torch.finfo(torch.float32).eps)
+    d_update_norm = max(float(torch.linalg.norm(d_update)), torch.finfo(torch.float32).eps)
+    factor_errors: dict[str, float | None] = {
+        "N32": None,
+        "D32": 0.0,
+        "W32": float(torch.linalg.norm(q_w32 - q_d32)) / d_factor_norm,
+        "W64": float(torch.linalg.norm(q_w64 - q_d32.to(dtype=torch.float64))) / d_factor_norm,
+    }
+    update_errors = {
+        "N32": float(torch.linalg.norm(n_update - d_update)) / d_update_norm,
+        "D32": 0.0,
+        "W32": float(torch.linalg.norm(w32_update - d_update)) / d_update_norm,
+        "W64": float(
+            torch.linalg.norm(w64_update - d_update.to(dtype=torch.float64))
+        ) / d_update_norm,
+    }
+    timings = {
+        "N32": (native_receipt.wall_seconds, native_receipt.gpu_seconds),
+        "D32": (d_wall, d_gpu),
+        "W32": (w32_wall, w32_gpu),
+        "W64": (w64_wall, w64_gpu),
+    }
+    solve_shapes = {
+        "N32": tuple(int(value) for value in n_update.shape),
+        "D32": tuple(int(value) for value in q_d32.shape),
+        "W32": tuple(int(value) for value in q_w32.shape),
+        "W64": tuple(int(value) for value in q_w64.shape),
+    }
+    solve_dtypes = {
+        "N32": str(torch.float32),
+        "D32": str(torch.float32),
+        "W32": str(torch.float32),
+        "W64": str(torch.float64),
+    }
+    rhs_kinds = {
+        "N32": "wide_rhs_G_Rt",
+        "D32": "thin_rhs_G",
+        "W32": "thin_rhs_G",
+        "W64": "thin_rhs_G",
+    }
+    path_receipts: list[FourPathSolveReceipt] = []
+    n32_edit_norm = max(
+        float(
+            torch.linalg.norm(
+                candidates["N32"].to(dtype=torch.float32)
+                - entry_weight.detach().to(device="cpu", dtype=torch.float32)
+            )
+        ),
+        torch.finfo(torch.float32).eps,
+    )
+    for path in FOUR_PATH_ORDER:
+        finite = bool(
+            math.isfinite(residuals[path])
+            and math.isfinite(update_errors[path])
+            and (
+                factor_errors[path] is None
+                or math.isfinite(float(factor_errors[path]))
+            )
+            and torch.isfinite(candidates[path].to(dtype=torch.float32)).all()
+        )
+        certificate_passed = finite and residuals[path] <= tolerance
+        if path == "N32":
+            certificate_passed = certificate_passed and native_receipt.passed
+        if path == "W64":
+            certificate_passed = certificate_passed and w64.certificate.passed
+        path_receipts.append(
+            FourPathSolveReceipt(
+                int(layer),
+                path,
+                FOUR_PATH_REFERENCE,
+                source_identity,
+                source_hashes,
+                source_shapes,
+                source_dtypes,
+                solve_shapes[path],
+                tuple(int(value) for value in entry_weight.shape),
+                solve_dtypes[path],
+                str(torch.float32),
+                device.type,
+                joint_rank,
+                rhs_kinds[path],
+                residuals[path],
+                system_norm,
+                "deterministic-A2-power-iteration-6",
+                w64.certificate.small_condition if path == "W64" else condition_estimate,
+                "low-rank-small-system-proxy",
+                factor_errors[path],
+                update_errors[path],
+                float(
+                    torch.linalg.norm(
+                        candidates[path].to(dtype=torch.float32)
+                        - candidates["N32"].to(dtype=torch.float32)
+                    )
+                ) / n32_edit_norm,
+                finite,
+                certificate_passed,
+                timings[path][0],
+                timings[path][1],
+                int(torch.cuda.memory_allocated(device)) if device.type == "cuda" else 0,
+            )
+        )
+
+    comparison_map: dict[tuple[str, str], BF16ComparisonReceipt] = {}
+    comparisons_to_n32_list: list[BF16ComparisonReceipt] = []
+    for path in FOUR_PATH_ORDER:
+        comparison = bf16_comparison_receipt(
+            candidates["N32"],
+            candidates[path],
+            reference_path="N32",
+            candidate_path=path,
+        )
+        comparison_map[("N32", path)] = comparison
+        comparisons_to_n32_list.append(comparison)
+    comparisons_to_n32 = tuple(comparisons_to_n32_list)
+    pairwise_list: list[BF16ComparisonReceipt] = []
+    for left, right in combinations_with_replacement(FOUR_PATH_ORDER, 2):
+        comparison = comparison_map.get((left, right))
+        if comparison is None:
+            if left == right:
+                element_count = int(candidates[left].numel())
+                comparison = BF16ComparisonReceipt(
+                    left,
+                    right,
+                    True,
+                    0,
+                    element_count,
+                    0.0,
+                    0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    "mismatching-elements",
+                    (
+                        ("0", element_count),
+                        ("1", 0),
+                        ("2", 0),
+                        ("3-4", 0),
+                        ("5-8", 0),
+                        ("9-16", 0),
+                        ("17+", 0),
+                    ),
+                    0.0,
+                )
+            else:
+                comparison = bf16_comparison_receipt(
+                    candidates[left],
+                    candidates[right],
+                    reference_path=left,
+                    candidate_path=right,
+                )
+            comparison_map[(left, right)] = comparison
+        pairwise_list.append(comparison)
+    pairwise = tuple(pairwise_list)
+    adjacent_pairs = (("N32", "D32"), ("D32", "W32"), ("W32", "W64"))
+    adjacent = tuple(comparison_map[(left, right)] for left, right in adjacent_pairs)
+    first_boundary = next(
+        (
+            f"{receipt.reference_path}_vs_{receipt.candidate_path}"
+            for receipt in adjacent
+            if not receipt.byte_exact
+        ),
+        None,
+    )
+    if (
+        tuple(value.data_ptr() for value in guarded) != pointers
+        or tuple(value._version for value in guarded) != versions
+        or tuple(
+            None
+            if value.grad is None
+            else (value.grad.data_ptr(), value.grad._version, tensor_sha256(value.grad))
+            for value in guarded
+        ) != gradients
+        or tuple(value.requires_grad for value in guarded) != requires_grad
+        or not torch.equal(torch.get_rng_state(), cpu_rng)
+        or (
+            cuda_rng is not None
+            and not torch.equal(torch.cuda.get_rng_state(device), cuda_rng)
+        )
+    ):
+        raise ODEBFContractError("four-path construction mutated input or RNG state")
+    layer_receipt = FourPathLayerReceipt(
+        int(layer),
+        hashlib.sha256(weight_name.encode("utf-8")).hexdigest(),
+        request_order_sha256,
+        source_identity,
+        tuple(path_receipts),
+        comparisons_to_n32,
+        pairwise,
+        adjacent,
+        first_boundary,
+    )
+    cpu_factors = {
+        path: tuple(
+            WaypointFactor(
+                factor.weight_name,
+                factor.layer,
+                factor.correction_cycle,
+                factor.step_in_cycle,
+                factor.factor_ordinal,
+                factor.theta,
+                factor.left.detach().to(device="cpu", dtype=torch.float32),
+                factor.right.detach().to(device="cpu", dtype=torch.float32),
+                factor.joint_batch,
+            )
+            for factor in values
+        )
+        for path, values in factors.items()
+    }
+    return FourPathLayerResult(candidates, cpu_factors, layer_receipt, w64.certificate)
 
 
 def seed_all(seed: int) -> None:
@@ -395,6 +1071,9 @@ class CapturedNativeWBEndpoint:
     native_candidates: dict[str, torch.Tensor]
     wb_candidates: dict[str, torch.Tensor]
     wb_factors: dict[str, tuple[WaypointFactor, ...]]
+    path_candidates: dict[str, dict[str, torch.Tensor]]
+    path_factors: dict[str, dict[str, tuple[WaypointFactor, ...]]]
+    four_path_layer_receipts: tuple[FourPathLayerReceipt, ...]
     entry_weights: dict[str, torch.Tensor]
     entry_sha256: dict[str, str]
     direct_z_sha256: tuple[str, ...]
@@ -713,12 +1392,16 @@ def capture_native_and_wb_joint_endpoint(
     )
 
     zs = torch.stack(direct_z, dim=1)
-    native_candidates: dict[str, torch.Tensor] = {}
-    wb_candidates: dict[str, torch.Tensor] = {}
-    wb_factors: dict[str, tuple[WaypointFactor, ...]] = {}
+    path_candidates: dict[str, dict[str, torch.Tensor]] = {
+        path: {} for path in FOUR_PATH_ORDER
+    }
+    path_factors: dict[str, dict[str, tuple[WaypointFactor, ...]]] = {
+        path: {} for path in FOUR_PATH_ORDER if path != "N32"
+    }
     key_hashes: list[tuple[int, str]] = []
     certificates: list[tuple[int, WoodburyCertificate]] = []
     factor_receipts: list[LayerFactorReceipt] = []
+    four_path_receipts: list[FourPathLayerReceipt] = []
     try:
         for layer_index, layer in enumerate(normalized_layers):
             layer_keys = key_by_layer[layer].T
@@ -736,77 +1419,45 @@ def capture_native_and_wb_joint_endpoint(
                 raise ODEBFContractError("AlphaEdit projector/key shape differs")
             if not torch.isfinite(p_layer).all():
                 raise ODEBFContractError("AlphaEdit projector contains non-finite values")
-            p_device = p_layer.to(device=parameter.device)
-            keys_device = layer_keys.to(device=parameter.device, dtype=p_device.dtype)
-            residual_device = residual.to(device=parameter.device, dtype=p_device.dtype)
-            wb = solve_alpha_woodbury(
-                p_device,
-                keys_device,
-                history_keys=None,
-                regularization=float(hparams.L2),
-                projector_certificate=ProjectorCertificate(
-                    projector_sha256,
-                    1.0,
-                    1.0,
-                    "artifact-unverified",
-                    1.0e-10,
-                ),
-                residual_tolerance=model_residual_tolerance,
-            )
-            factor = WaypointFactor(
-                weight_name,
-                layer,
-                0,
-                0,
-                0,
-                1.0,
-                residual_device.detach(),
-                wb.q.detach(),
-            )
-            wb_candidate, _ = assemble_effective_bf16(
-                parameter,
-                (factor,),
-                row_block=64,
-            )
             delta = alpha_main.upd_matrix_match_shape(
-                native_deltas[weight_name].to(device=parameter.device),
+                native_deltas[weight_name],
                 parameter.shape,
             )
-            native_candidate = (
-                parameter.detach().to(dtype=torch.float32)
-                + delta.to(dtype=torch.float32)
-            ).to(dtype=torch.bfloat16)
+            layer_result = build_four_path_layer_diagnostic(
+                layer=layer,
+                weight_name=weight_name,
+                entry_weight=parameter,
+                native_matched_update=delta,
+                projector=p_layer,
+                joint_keys=layer_keys,
+                residual=residual,
+                regularization=float(hparams.L2),
+                projector_sha256=projector_sha256,
+                request_order_sha256=request_order_sha256,
+                residual_tolerance=model_residual_tolerance,
+                native_receipt=dense_solve_receipts[layer_index],
+                row_block=64,
+            )
             del native_deltas[weight_name]
-            if not torch.equal(native_candidate, wb_candidate):
-                raise ODEBFContractError("Native AlphaEdit/WB BF16 parameter bytes differ")
-            numerical_rank = int(torch.linalg.matrix_rank(keys_device.float()))
+            numerical_rank = int(torch.linalg.matrix_rank(layer_keys.float()))
             factor_receipts.append(
                 LayerFactorReceipt(
                     layer,
-                    tuple(int(value) for value in keys_device.shape),
-                    tuple(int(value) for value in residual_device.shape),
+                    tuple(int(value) for value in layer_keys.shape),
+                    tuple(int(value) for value in residual.shape),
                     numerical_rank,
-                    str(keys_device.dtype),
-                    keys_device.device.type,
+                    str(torch.float32),
+                    parameter.device.type,
                 )
             )
             key_hashes.append((layer, tensor_sha256(layer_keys)))
-            certificates.append((layer, wb.certificate))
-            native_candidates[weight_name] = native_candidate.detach().to(device="cpu")
-            wb_candidates[weight_name] = wb_candidate.detach().to(device="cpu")
-            wb_factors[weight_name] = (
-                WaypointFactor(
-                    weight_name,
-                    layer,
-                    0,
-                    0,
-                    0,
-                    1.0,
-                    residual.detach().to(device="cpu", dtype=torch.float64),
-                    wb.q.detach().to(device="cpu", dtype=torch.float64),
-                ),
-            )
-            del p_device, keys_device, residual_device, wb_candidate, native_candidate, delta
+            certificates.append((layer, layer_result.w64_certificate))
+            four_path_receipts.append(layer_result.receipt)
+            for path in FOUR_PATH_ORDER:
+                path_candidates[path][weight_name] = layer_result.candidates[path]
+                if path != "N32":
+                    path_factors[path][weight_name] = layer_result.factors[path]
+            del layer_result, delta
             torch.cuda.empty_cache()
     finally:
         native_deltas.clear()
@@ -832,9 +1483,12 @@ def capture_native_and_wb_joint_endpoint(
         request_order_sha256,
     )
     return CapturedNativeWBEndpoint(
-        native_candidates,
-        wb_candidates,
-        wb_factors,
+        path_candidates["N32"],
+        path_candidates["W32"],
+        path_factors["W32"],
+        path_candidates,
+        path_factors,
+        tuple(four_path_receipts),
         entry_weights,
         entry_sha256,
         tuple(tensor_sha256(value) for value in direct_z),

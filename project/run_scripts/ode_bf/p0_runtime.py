@@ -6,13 +6,14 @@ import argparse
 import contextlib
 import hashlib
 import json
+import math
 import os
 import resource
 import subprocess
 import threading
 import time
 import traceback
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Iterator, Mapping
 
@@ -22,6 +23,7 @@ from .accounting import ComputeLedger
 from .alpha_backend import (
     ALPHA_SOLVE_DTYPE,
     ALPHA_SOLVE_REFERENCE,
+    FOUR_PATH_ORDER,
     capture_native_and_wb_joint_endpoint,
     fresh_contexts_twice,
     load_original_bf16,
@@ -29,13 +31,15 @@ from .alpha_backend import (
 )
 from .artifacts import ODEBFArtifactGuard, load_rooted_json, sha256_file
 from .contracts import MODEL_ALIASES, ODEBFContractError, canonical_hash
+from . import evaluator as evaluator_module
 from .evaluator import ModelEvaluationReceipt, evaluate_counterfact_rewrite_batch
+from . import functional as functional_module
 from .functional import CumulativeBF16FunctionalTrial, tensor_sha256
 from .selection import load_sealed_joint_requests, verify_p0_b10_seal
 from .transaction import AtomicBatchTransaction
 
 
-INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-P0-ALPHA-SOLVE-DTYPE-R1-V1"
+INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-DENSE-WB-EQUIV-DIAG-R2-V1"
 SCIENTIFIC_LOCK_INSTRUCTION_ID = (
     "ODEEDIT-S04-ODE-BF-V1P1-EXACT-FIRST-HIT-CPU-P0-V1-A3"
 )
@@ -47,7 +51,7 @@ SEED = 41
 def expected_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P0 result alias is not locked")
-    return f"s04-p0-native-wb-b10-r1-{alias}-{NUMERICAL_LOCK_PREFIX}"
+    return f"s04-p0-dense-wb-equiv-r2-{alias}-{NUMERICAL_LOCK_PREFIX}"
 
 
 def _atomic_write_once(path: Path, value: Mapping[str, Any]) -> str:
@@ -185,6 +189,224 @@ def _evaluation_payload(receipt: ModelEvaluationReceipt) -> dict[str, Any]:
         "processed_token_count": receipt.processed_token_count,
         "generation_call_count": receipt.generation_call_count,
     }
+
+
+@dataclass(slots=True)
+class DiagnosticEvaluation:
+    receipt: ModelEvaluationReceipt
+    target_logits: tuple[torch.Tensor, ...]
+
+
+@contextlib.contextmanager
+def _capture_virtual_endpoint_hashes() -> Iterator[dict[str, set[str]]]:
+    observed: dict[str, set[str]] = {}
+    original_assembler = functional_module.assemble_effective_bf16
+
+    def capture(*args: Any, **kwargs: Any) -> Any:
+        effective, stats = original_assembler(*args, **kwargs)
+        observed.setdefault(stats.weight_name, set()).add(
+            stats.effective_bf16_sha256
+        )
+        return effective, stats
+
+    functional_module.assemble_effective_bf16 = capture
+    try:
+        yield observed
+    finally:
+        functional_module.assemble_effective_bf16 = original_assembler
+
+
+def _evaluate_with_raw_free_capture(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: list[dict[str, Any]],
+    *,
+    alias: str,
+) -> DiagnosticEvaluation:
+    captured: list[torch.Tensor] = []
+    call_count = 0
+    original_hash = evaluator_module._hash_tensor_sequence
+
+    def capture_hash(tensors: Any) -> str:
+        nonlocal call_count
+        call_count += 1
+        captured.extend(
+            tensor.detach().to(device="cpu", dtype=torch.float32).contiguous()
+            for tensor in tensors
+        )
+        return original_hash(tensors)
+
+    evaluator_module._hash_tensor_sequence = capture_hash
+    try:
+        receipt = evaluate_counterfact_rewrite_batch(
+            model,
+            tokenizer,
+            requests,
+            model_alias=alias,
+        )
+    finally:
+        evaluator_module._hash_tensor_sequence = original_hash
+    if call_count != 1 or not captured:
+        raise ODEBFContractError("canonical evaluator diagnostic logit capture differs")
+    return DiagnosticEvaluation(receipt, tuple(captured))
+
+
+def _finite_summary(values: torch.Tensor) -> dict[str, float | int]:
+    flat = values.detach().to(device="cpu", dtype=torch.float64).reshape(-1)
+    if flat.numel() == 0 or not torch.isfinite(flat).all():
+        raise ODEBFContractError("continuous diagnostic summary is empty or non-finite")
+    absolute = torch.abs(flat)
+    quantiles = torch.quantile(
+        absolute,
+        torch.tensor((0.50, 0.95, 0.99), dtype=torch.float64),
+        interpolation="nearest",
+    )
+    return {
+        "count": int(flat.numel()),
+        "signed_min": float(flat.min().item()),
+        "signed_max": float(flat.max().item()),
+        "signed_mean": float(flat.mean().item()),
+        "absolute_mean": float(absolute.mean().item()),
+        "absolute_rms": float(torch.sqrt(torch.mean(flat * flat)).item()),
+        "absolute_max": float(absolute.max().item()),
+        "absolute_p50": float(quantiles[0].item()),
+        "absolute_p95": float(quantiles[1].item()),
+        "absolute_p99": float(quantiles[2].item()),
+    }
+
+
+def _functional_difference_summary(
+    reference: DiagnosticEvaluation,
+    candidate: DiagnosticEvaluation,
+) -> dict[str, Any]:
+    if len(reference.target_logits) != len(candidate.target_logits):
+        raise ODEBFContractError("canonical evaluator logit slice count differs")
+    logit_differences: list[torch.Tensor] = []
+    for reference_tensor, candidate_tensor in zip(
+        reference.target_logits,
+        candidate.target_logits,
+        strict=True,
+    ):
+        if reference_tensor.shape != candidate_tensor.shape:
+            raise ODEBFContractError("canonical evaluator logit slice shape differs")
+        logit_differences.append(candidate_tensor - reference_tensor)
+    logits = _finite_summary(torch.cat([value.reshape(-1) for value in logit_differences]))
+    reference_scores = reference.receipt.counterfact_scores
+    candidate_scores = candidate.receipt.counterfact_scores
+    if reference_scores is None or candidate_scores is None:
+        raise ODEBFContractError("P0 CounterFact score receipt is absent")
+    if len(reference_scores) != len(candidate_scores):
+        raise ODEBFContractError("P0 CounterFact score count differs")
+    new_diff = torch.tensor(
+        [
+            candidate_score.target_new_nll - reference_score.target_new_nll
+            for reference_score, candidate_score in zip(
+                reference_scores,
+                candidate_scores,
+                strict=True,
+            )
+        ],
+        dtype=torch.float64,
+    )
+    old_diff = torch.tensor(
+        [
+            candidate_score.target_true_nll - reference_score.target_true_nll
+            for reference_score, candidate_score in zip(
+                reference_scores,
+                candidate_scores,
+                strict=True,
+            )
+        ],
+        dtype=torch.float64,
+    )
+    margin_diff = old_diff - new_diff
+    return {
+        "target_full_vocabulary_logit_difference": logits,
+        "target_new_nll_difference": _finite_summary(new_diff),
+        "target_true_nll_difference": _finite_summary(old_diff),
+        "success_margin_difference": _finite_summary(margin_diff),
+    }
+
+
+def _technical_decision_payload(
+    evaluation: ModelEvaluationReceipt,
+    *,
+    certificates_pass: bool,
+) -> dict[str, Any]:
+    value = {
+        "benchmark_adapter_event_sha256": canonical_hash(
+            evaluation.batch_success.raw_free_payload()
+        ),
+        "historical_decision": "not-applicable-empty-history-technical-p0",
+        "pretrained_decision": "not-accessed-outcome-free-technical-p0",
+        "trust_decision": bool(certificates_pass),
+        "request_order_sha256": evaluation.request_order_sha256,
+    }
+    return {**value, "decision_vector_sha256": canonical_hash(value)}
+
+
+def classify_four_path_diagnostic(
+    *,
+    all_endpoint_bytes_exact: bool,
+    source_inputs_identical: bool,
+    all_finite: bool,
+    all_certificates_pass: bool,
+    benchmark_bits_exact: bool,
+    decisions_exact: bool,
+    strict_wb_virtual_commit_exact: bool,
+    rollback_and_restore_exact: bool,
+    boundary_touched: bool,
+    parity_established: bool,
+) -> str:
+    if (
+        not source_inputs_identical
+        or not all_finite
+        or not all_certificates_pass
+        or not benchmark_bits_exact
+        or not decisions_exact
+        or not strict_wb_virtual_commit_exact
+        or not rollback_and_restore_exact
+    ):
+        return "NON_EQUIVALENT"
+    if boundary_touched or not parity_established:
+        return "NUMERICALLY_AMBIGUOUS"
+    if all_endpoint_bytes_exact:
+        return "BYTE_EXACT"
+    return "NUMERIC_PATH_DIVERGENCE_CANDIDATE"
+
+
+def _comparison_matrix(layer_receipts: Any) -> dict[str, dict[str, Any]]:
+    matrix: dict[str, dict[str, Any]] = {}
+    for left_index, left in enumerate(FOUR_PATH_ORDER):
+        matrix[left] = {}
+        for right_index, right in enumerate(FOUR_PATH_ORDER):
+            canonical_left, canonical_right = (
+                (left, right) if left_index <= right_index else (right, left)
+            )
+            receipts = []
+            for layer in layer_receipts:
+                match = next(
+                    item
+                    for item in layer.pairwise_comparisons
+                    if item.reference_path == canonical_left
+                    and item.candidate_path == canonical_right
+                )
+                receipts.append(match)
+            mismatch_count = sum(item.mismatch_count for item in receipts)
+            element_count = sum(item.element_count for item in receipts)
+            matrix[left][right] = {
+                "byte_exact": mismatch_count == 0,
+                "mismatch_count": mismatch_count,
+                "element_count": element_count,
+                "mismatch_fraction": (
+                    0.0 if element_count == 0 else mismatch_count / element_count
+                ),
+                "ordered_ulp_max": max(item.ordered_ulp_max for item in receipts),
+                "max_abs_difference": max(
+                    item.max_abs_difference for item in receipts
+                ),
+            }
+    return matrix
 
 
 def _restore_entry(
@@ -390,121 +612,109 @@ def run_p0(
             name: dict(model.named_parameters())[name]
             for name in sorted(captured.entry_weights)
         }
+        construction_matrix = _comparison_matrix(captured.four_path_layer_receipts)
+        stages.record(
+            "post_four_path_construction",
+            {
+                "path_order": list(FOUR_PATH_ORDER),
+                "layers": [
+                    asdict(item) for item in captured.four_path_layer_receipts
+                ],
+                "comparison_matrix": construction_matrix,
+                "receipt_precedes_cross_solver_equality_assert": True,
+            },
+        )
+
         with timers.measure("q0_virtual_evaluation"):
             virtual_trial = CumulativeBF16FunctionalTrial(
                 model,
                 captured.wb_factors,
                 row_block=64,
             )
-            with virtual_trial:
-                virtual_receipt = evaluate_counterfact_rewrite_batch(
-                    model,
-                    tokenizer,
-                    requests,
-                    model_alias=alias,
-                )
+            with _capture_virtual_endpoint_hashes() as virtual_hash_sets:
+                with virtual_trial:
+                    virtual_evaluation = _evaluate_with_raw_free_capture(
+                        model,
+                        tokenizer,
+                        requests,
+                        alias=alias,
+                    )
+        virtual_receipt = virtual_evaluation.receipt
+        virtual_hashes = {
+            name: tuple(sorted(values))
+            for name, values in sorted(virtual_hash_sets.items())
+        }
         ledger.increment("trial")
         _account_evaluation(ledger, virtual_receipt)
         stages.record(
             "post_q0_virtual",
             {
+                "path": "W32",
                 "max_live_effective_weights": virtual_trial.max_live_effective_weights,
                 "maximum_fp32_block_elements": virtual_trial.max_fp32_block_elements,
+                "replacement_linear_calls": virtual_trial.replacement_linear_calls,
+                "effective_weight_sha256": virtual_hashes,
                 "evaluation": _evaluation_payload(virtual_receipt),
             },
         )
 
-        native_holder: list[ModelEvaluationReceipt] = []
-        native_transaction = AtomicBatchTransaction(
-            touched,
-            transaction_id="native-alphaedit-b10",
-            mutation_lock=mutation_lock,
-        )
-        for name in sorted(touched):
-            native_transaction.stage(name, captured.native_candidates[name])
-
-        def verify_native() -> bool:
-            receipt = evaluate_counterfact_rewrite_batch(
-                model,
-                tokenizer,
-                requests,
-                model_alias=alias,
+        path_evaluations: dict[str, DiagnosticEvaluation] = {}
+        path_parameter_sha256: dict[str, dict[str, str]] = {}
+        path_runtime: dict[str, dict[str, Any]] = {}
+        for path in FOUR_PATH_ORDER:
+            holder: list[DiagnosticEvaluation] = []
+            candidates = captured.path_candidates[path]
+            transaction = AtomicBatchTransaction(
+                touched,
+                transaction_id=f"four-path-{path.casefold()}-b10",
+                mutation_lock=mutation_lock,
             )
-            native_holder.append(receipt)
-            return all(
-                tensor_sha256(touched[name])
-                == tensor_sha256(captured.native_candidates[name])
-                for name in touched
+            for name in sorted(touched):
+                transaction.stage(name, candidates[name])
+
+            def verify_path() -> bool:
+                evaluation = _evaluate_with_raw_free_capture(
+                    model,
+                    tokenizer,
+                    requests,
+                    alias=alias,
+                )
+                holder.append(evaluation)
+                return all(
+                    tensor_sha256(touched[name])
+                    == tensor_sha256(candidates[name])
+                    for name in touched
+                )
+
+            before_counters = dict(ledger.counters)
+            component = f"four_path_{path.casefold()}_atomic_commit_and_verify"
+            with timers.measure(component):
+                commit = transaction.commit(post_commit_verify=verify_path)
+            if len(holder) != 1:
+                raise ODEBFContractError("four-path evaluator invocation count differs")
+            evaluation = holder[0]
+            ledger.increment("commit", commit.commit_count)
+            _account_evaluation(ledger, evaluation.receipt)
+            path_evaluations[path] = evaluation
+            path_parameter_sha256[path] = dict(commit.parameter_sha256)
+            path_runtime[path] = {
+                "commit_count": commit.commit_count,
+                "wall_seconds": ledger.component_wall_seconds[component],
+                "gpu_seconds": ledger.component_gpu_seconds[component],
+                "counter_delta": {
+                    name: ledger.counters[name] - before_counters[name]
+                    for name in sorted(ledger.counters)
+                },
+                "allocated_bytes_after": int(torch.cuda.memory_allocated(0)),
+                "reserved_bytes_after": int(torch.cuda.memory_reserved(0)),
+                "peak_allocated_bytes": int(torch.cuda.max_memory_allocated(0)),
+                "peak_reserved_bytes": int(torch.cuda.max_memory_reserved(0)),
+            }
+            _restore_entry(
+                touched,
+                captured.entry_weights,
+                mutation_lock=mutation_lock,
             )
-
-        with timers.measure("native_atomic_commit_and_verify"):
-            native_commit = native_transaction.commit(post_commit_verify=verify_native)
-        native_receipt = native_holder[0]
-        ledger.increment("commit", native_commit.commit_count)
-        _account_evaluation(ledger, native_receipt)
-        native_parameter_sha = dict(native_commit.parameter_sha256)
-        _restore_entry(touched, captured.entry_weights, mutation_lock=mutation_lock)
-        stages.record(
-            "post_native_writer",
-            {
-                "commit_count": native_commit.commit_count,
-                "parameter_sha256": native_parameter_sha,
-                "evaluation": _evaluation_payload(native_receipt),
-                "w0_restored": True,
-            },
-        )
-
-        wb_holder: list[ModelEvaluationReceipt] = []
-        wb_transaction = AtomicBatchTransaction(
-            touched,
-            transaction_id="native-alphaedit-wb-b10",
-            mutation_lock=mutation_lock,
-        )
-        for name in sorted(touched):
-            wb_transaction.stage(name, captured.wb_candidates[name])
-
-        def verify_wb() -> bool:
-            receipt = evaluate_counterfact_rewrite_batch(
-                model,
-                tokenizer,
-                requests,
-                model_alias=alias,
-            )
-            wb_holder.append(receipt)
-            return all(
-                tensor_sha256(touched[name])
-                == tensor_sha256(captured.wb_candidates[name])
-                for name in touched
-            )
-
-        with timers.measure("wb_atomic_commit_and_verify"):
-            wb_commit = wb_transaction.commit(post_commit_verify=verify_wb)
-        wb_receipt = wb_holder[0]
-        ledger.increment("commit", wb_commit.commit_count)
-        _account_evaluation(ledger, wb_receipt)
-        wb_parameter_sha = dict(wb_commit.parameter_sha256)
-        identity = {
-            "native_wb_parameter_bytes_exact": native_parameter_sha == wb_parameter_sha,
-            "native_wb_logits_exact": (
-                native_receipt.target_full_vocabulary_logits_sha256
-                == wb_receipt.target_full_vocabulary_logits_sha256
-            ),
-            "native_wb_event_exact": (
-                native_receipt.batch_success.raw_free_payload()
-                == wb_receipt.batch_success.raw_free_payload()
-            ),
-            "virtual_wb_logits_exact": (
-                virtual_receipt.target_full_vocabulary_logits_sha256
-                == wb_receipt.target_full_vocabulary_logits_sha256
-            ),
-            "virtual_wb_event_exact": (
-                virtual_receipt.batch_success.raw_free_payload()
-                == wb_receipt.batch_success.raw_free_payload()
-            ),
-        }
-        if not all(identity.values()):
-            raise ODEBFContractError("Native/WB/virtual technical identity failed")
-        _restore_entry(touched, captured.entry_weights, mutation_lock=mutation_lock)
 
         with timers.measure("fault_injection_rollback"):
             fault_points = _fault_rollback_gate(
@@ -514,18 +724,204 @@ def run_p0(
                 mutation_lock=mutation_lock,
                 ledger=ledger,
             )
+        final_w0_restored = all(
+            tensor_sha256(touched[name]) == captured.entry_sha256[name]
+            for name in touched
+        )
+
+        layer_path_receipts = [
+            path_receipt
+            for layer_receipt in captured.four_path_layer_receipts
+            for path_receipt in layer_receipt.path_receipts
+        ]
+        source_inputs_identical = all(
+            len({item.source_identity_sha256 for item in layer.path_receipts}) == 1
+            and all(
+                item.receipt.request_order_sha256
+                == captured.initialization.request_order_sha256
+                for item in path_evaluations.values()
+            )
+            for layer in captured.four_path_layer_receipts
+        )
+        all_finite = all(item.finite for item in layer_path_receipts)
+        all_certificates_pass = all(
+            item.certificate_passed for item in layer_path_receipts
+        )
+        reference_event = path_evaluations["N32"].receipt.batch_success.raw_free_payload()
+        benchmark_bits_exact = all(
+            item.receipt.batch_success.raw_free_payload() == reference_event
+            for item in path_evaluations.values()
+        )
+        request_and_span_parity = all(
+            item.receipt.request_order_sha256
+            == path_evaluations["N32"].receipt.request_order_sha256
+            and item.receipt.target_span_lengths
+            == path_evaluations["N32"].receipt.target_span_lengths
+            for item in path_evaluations.values()
+        )
+        path_certificate_pass = {
+            path: all(
+                item.certificate_passed
+                for item in layer_path_receipts
+                if item.path == path
+            )
+            for path in FOUR_PATH_ORDER
+        }
+        decisions = {
+            path: _technical_decision_payload(
+                path_evaluations[path].receipt,
+                certificates_pass=path_certificate_pass[path],
+            )
+            for path in FOUR_PATH_ORDER
+        }
+        decisions_exact = len(
+            {value["decision_vector_sha256"] for value in decisions.values()}
+        ) == 1
+        expected_w32_hashes = {
+            name: tensor_sha256(candidate)
+            for name, candidate in captured.path_candidates["W32"].items()
+        }
+        virtual_wb_parameter_bytes_exact = (
+            set(virtual_hashes) == set(expected_w32_hashes)
+            and all(
+                virtual_hashes[name] == (expected_w32_hashes[name],)
+                for name in expected_w32_hashes
+            )
+        )
+        virtual_wb_logits_exact = (
+            virtual_receipt.target_full_vocabulary_logits_sha256
+            == path_evaluations["W32"].receipt.target_full_vocabulary_logits_sha256
+        )
+        virtual_wb_event_exact = (
+            virtual_receipt.batch_success.raw_free_payload()
+            == path_evaluations["W32"].receipt.batch_success.raw_free_payload()
+        )
+        strict_wb_virtual_commit_exact = (
+            virtual_wb_parameter_bytes_exact
+            and virtual_wb_logits_exact
+            and virtual_wb_event_exact
+            and all(
+                path_parameter_sha256["W32"][name] == expected_w32_hashes[name]
+                for name in expected_w32_hashes
+            )
+        )
+        boundary_touched = any(
+            score.target_new_nll == score.target_true_nll
+            for item in path_evaluations.values()
+            for score in (item.receipt.counterfact_scores or ())
+        )
+        all_endpoint_bytes_exact = all(
+            item.byte_exact
+            for layer in captured.four_path_layer_receipts
+            for item in layer.comparisons_to_n32
+        )
+        classification = classify_four_path_diagnostic(
+            all_endpoint_bytes_exact=all_endpoint_bytes_exact,
+            source_inputs_identical=source_inputs_identical,
+            all_finite=all_finite,
+            all_certificates_pass=all_certificates_pass,
+            benchmark_bits_exact=benchmark_bits_exact,
+            decisions_exact=decisions_exact,
+            strict_wb_virtual_commit_exact=strict_wb_virtual_commit_exact,
+            rollback_and_restore_exact=final_w0_restored and len(fault_points) == 3,
+            boundary_touched=boundary_touched,
+            parity_established=request_and_span_parity,
+        )
+        first_boundary = next(
+            (
+                {
+                    "boundary": f"{left}_vs_{right}",
+                    "layer": layer.layer,
+                }
+                for left, right in (
+                    ("N32", "D32"),
+                    ("D32", "W32"),
+                    ("W32", "W64"),
+                )
+                for layer in captured.four_path_layer_receipts
+                for item in layer.adjacent_comparisons
+                if item.reference_path == left
+                and item.candidate_path == right
+                and not item.byte_exact
+            ),
+            None,
+        )
+        functional_differences = {
+            path: _functional_difference_summary(
+                path_evaluations["N32"],
+                path_evaluations[path],
+            )
+            for path in FOUR_PATH_ORDER
+        }
+        diagnostic = {
+            "schema": "ode-edit-s04-ode-bf-four-path-diagnostic/v1",
+            "instruction_id": INSTRUCTION_ID,
+            "alias": alias,
+            "classification": classification,
+            "promotion_authorized": False,
+            "path_order": list(FOUR_PATH_ORDER),
+            "source_inputs_identical": source_inputs_identical,
+            "all_finite": all_finite,
+            "all_certificates_pass": all_certificates_pass,
+            "benchmark_bits_exact": benchmark_bits_exact,
+            "request_and_span_parity": request_and_span_parity,
+            "decision_parity": decisions_exact,
+            "boundary_touched": boundary_touched,
+            "strict_wb_virtual_commit": {
+                "parameter_bytes_exact": virtual_wb_parameter_bytes_exact,
+                "logits_exact": virtual_wb_logits_exact,
+                "event_exact": virtual_wb_event_exact,
+            },
+            "rollback_and_restore_exact": final_w0_restored
+            and len(fault_points) == 3,
+            "comparison_matrix": construction_matrix,
+            "first_separating_boundary": first_boundary,
+            "layers": [asdict(item) for item in captured.four_path_layer_receipts],
+            "functional_differences_to_n32": functional_differences,
+            "evaluations": {
+                path: _evaluation_payload(item.receipt)
+                for path, item in path_evaluations.items()
+            },
+            "committed_parameter_sha256": path_parameter_sha256,
+            "decisions": decisions,
+            "path_runtime": path_runtime,
+            "fault_after_writes": list(fault_points),
+            "scientific_outcome_count": 0,
+            "heldout_generalization_access_count": 0,
+            "heldout_locality_access_count": 0,
+            "persistent_endpoint_commit_count": 0,
+            "history_append_count": 0,
+        }
+        diagnostic_sha256 = _atomic_write_once(
+            raw_root / "four_path_diagnostic.json",
+            diagnostic,
+        )
+        identity = {
+            "classification": classification,
+            "cross_solver_parameter_bytes_exact": all_endpoint_bytes_exact,
+            "cross_solver_benchmark_bits_exact": benchmark_bits_exact,
+            "cross_solver_decision_parity": decisions_exact,
+            "virtual_wb_parameter_bytes_exact": virtual_wb_parameter_bytes_exact,
+            "virtual_wb_logits_exact": virtual_wb_logits_exact,
+            "virtual_wb_event_exact": virtual_wb_event_exact,
+            "all_layer_rollback_exact": len(fault_points) == 3,
+            "final_w0_restored": final_w0_restored,
+        }
         stages.record(
             "post_identity_verdict",
             {
                 "identity": identity,
+                "diagnostic_sha256": diagnostic_sha256,
+                "first_separating_boundary": first_boundary,
                 "fault_after_writes": list(fault_points),
-                "all_layer_rollback_exact": True,
-                "final_w0_restored": all(
-                    tensor_sha256(touched[name]) == captured.entry_sha256[name]
-                    for name in touched
-                ),
+                "all_layer_rollback_exact": len(fault_points) == 3,
+                "final_w0_restored": final_w0_restored,
             },
         )
+        if classification in {"NON_EQUIVALENT", "NUMERICALLY_AMBIGUOUS"}:
+            raise ODEBFContractError(
+                "four-path diagnostic classification failed closed"
+            )
 
         ledger.counters["effective_bf16_weight_peak_live"] = max(
             ledger.counters["effective_bf16_weight_peak_live"],
@@ -539,9 +935,11 @@ def run_p0(
         guard.assert_unchanged()
         elapsed = time.time() - started
         terminal = {
-            "schema": "ode-edit-s04-ode-bf-p0-terminal/v1",
+            "schema": "ode-edit-s04-ode-bf-p0-four-path-terminal/v1",
             "instruction_id": INSTRUCTION_ID,
-            "status": "PASS",
+            "status": "PASS_DIAGNOSTIC_NO_PROMOTION",
+            "classification": classification,
+            "promotion_authorized": False,
             "alias": alias,
             "source_head": source_head,
             "edit_batch_size": 10,
@@ -549,8 +947,7 @@ def run_p0(
             "k_resolution": 8,
             "correction_cycles": 1,
             "model_p0_mode": (
-                "q0-native-alphaedit-original-bf16-canonical-fp32-solve"
-                "-versus-native-alphaedit-wb-identity"
+                "b10-four-path-N32-D32-W32-W64-functional-equivalence-diagnostic"
             ),
             "scientific_lock_instruction_id": SCIENTIFIC_LOCK_INSTRUCTION_ID,
             "alpha_solve": {
@@ -562,8 +959,19 @@ def run_p0(
             },
             "fixed_k_controller_contract_cpu_gate": True,
             "identity": identity,
-            "native_evaluation": _evaluation_payload(native_receipt),
-            "wb_evaluation": _evaluation_payload(wb_receipt),
+            "four_path_diagnostic_sha256": diagnostic_sha256,
+            "first_separating_boundary": first_boundary,
+            "comparison_matrix": construction_matrix,
+            "path_evaluations": {
+                path: _evaluation_payload(item.receipt)
+                for path, item in path_evaluations.items()
+            },
+            "committed_parameter_sha256": path_parameter_sha256,
+            "functional_differences_to_n32": functional_differences,
+            "path_runtime": path_runtime,
+            "four_path_layer_receipts": [
+                asdict(item) for item in captured.four_path_layer_receipts
+            ],
             "initialization": {
                 **asdict(captured.initialization),
                 "factors": [asdict(item) for item in captured.initialization.factors],
@@ -588,6 +996,8 @@ def run_p0(
             "compute": ledger.raw_free_payload(),
             "elapsed_seconds": elapsed,
             "scientific_outcome_count": 0,
+            "persistent_endpoint_commit_count": 0,
+            "history_append_count": 0,
             "heldout_paraphrase_access_count": 0,
             "heldout_locality_access_count": 0,
             "heldout_generation_access_count": 0,
@@ -597,10 +1007,15 @@ def run_p0(
         }
         terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
         summary = {
-            "schema": "ode-edit-s04-ode-bf-p0-summary/v1",
-            "status": "PASS",
+            "schema": "ode-edit-s04-ode-bf-p0-four-path-summary/v1",
+            "status": "PASS_DIAGNOSTIC_NO_PROMOTION",
+            "classification": classification,
+            "promotion_authorized": False,
             "alias": alias,
             "terminal_sha256": terminal_sha,
+            "four_path_diagnostic_sha256": diagnostic_sha256,
+            "first_separating_boundary": first_boundary,
+            "comparison_matrix": construction_matrix,
             "identity": identity,
             "peak_allocated_bytes": ledger.peak_allocated_bytes,
             "peak_reserved_bytes": ledger.peak_reserved_bytes,
@@ -610,8 +1025,10 @@ def run_p0(
         }
         summary_sha = _atomic_write_once(destination / "summary.json", summary)
         manifest = {
-            "schema": "ode-edit-s04-ode-bf-p0-manifest/v1",
-            "status": "PASS",
+            "schema": "ode-edit-s04-ode-bf-p0-four-path-manifest/v1",
+            "status": "PASS_DIAGNOSTIC_NO_PROMOTION",
+            "classification": classification,
+            "promotion_authorized": False,
             "alias": alias,
             "source_head": source_head,
             "edit_batch_size": 10,

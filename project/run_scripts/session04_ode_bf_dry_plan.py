@@ -13,14 +13,14 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from project.run_scripts.ode_bf.contracts import MODEL_ALIASES
+from project.run_scripts.ode_bf.contracts import MODEL_ALIASES, ODEBFContractError
 from project.run_scripts.ode_bf.p0_runtime import expected_result_name
-from project.run_scripts.ode_bf.resource import forecast_p0_b10_memory
+from project.run_scripts.ode_bf.resource import MODEL_GEOMETRY, forecast_p0_b10_memory
 
 
 JOB_NAMES = {
-    "llama3-8b-inst": "odebf_s04_p0r1_llama",
-    "qwen2.5-7b-inst": "odebf_s04_p0r1_qwen",
+    "llama3-8b-inst": "odebf_s04_p0r2_llama",
+    "qwen2.5-7b-inst": "odebf_s04_p0r2_qwen",
 }
 PACKAGE_ROOT = Path(__file__).resolve().parent / "ode_bf"
 
@@ -32,19 +32,21 @@ def build_plan(
 ) -> dict[str, object]:
     artifact = PACKAGE_ROOT / "locks/p0_artifact_lock.json"
     base = repository_root / "project/run_scripts/ode_alloc/p0_artifact_lock_r1.json"
-    return {
-        "schema": "ode-edit-s04-ode-bf-p0-dry-plan/v1",
-        "instruction_id": "ODEEDIT-S04-ODE-BF-P0-ALPHA-SOLVE-DTYPE-R1-V1",
-        "source_head": source_head,
-        "edit_batch_size": 10,
-        "joint_editor_invocations_per_job": 1,
-        "k_resolution": 8,
-        "correction_cycles": 1,
-        "model_load": False,
-        "gpu_use": False,
-        "slurm_submit": False,
-        "retry_or_resubmit": False,
-        "jobs": [
+    jobs = []
+    for alias in MODEL_ALIASES:
+        forecast = forecast_p0_b10_memory(artifact, base, alias)
+        out_features, in_features, layer_count = MODEL_GEOMETRY[alias]
+        # The earlier forecast already includes Native and one WB candidate.
+        # R2 retains D32 and W64 as two additional host BF16 candidates and a
+        # fixed 512 MiB raw-free evaluator/receipt reserve.
+        additional_host_mib = (
+            2 * layer_count * out_features * in_features * 2
+            + (1024 * 1024 - 1)
+        ) // (1024 * 1024) + 512
+        r2_host_peak_mib = forecast.forecast_host_peak_mib + additional_host_mib
+        if r2_host_peak_mib > 65_000:
+            raise ODEBFContractError("R2 four-path host memory forecast exceeds request")
+        jobs.append(
             {
                 "alias": alias,
                 "job_name": JOB_NAMES[alias],
@@ -54,14 +56,27 @@ def build_plan(
                 "memory_mib": 65_000,
                 "time": "04:00:00",
                 "node": "server2",
-                "memory_forecast": forecast_p0_b10_memory(
-                    artifact,
-                    base,
-                    alias,
-                ).raw_free_payload(),
+                "memory_forecast": forecast.raw_free_payload(),
+                "r2_additional_host_mib": additional_host_mib,
+                "r2_forecast_host_peak_mib": r2_host_peak_mib,
             }
-            for alias in MODEL_ALIASES
-        ],
+        )
+    return {
+        "schema": "ode-edit-s04-ode-bf-p0-dry-plan/v1",
+        "instruction_id": "ODEEDIT-S04-ODE-BF-DENSE-WB-EQUIV-DIAG-R2-V1",
+        "source_head": source_head,
+        "edit_batch_size": 10,
+        "joint_editor_invocations_per_job": 1,
+        "k_resolution": 8,
+        "correction_cycles": 1,
+        "model_load": False,
+        "gpu_use": False,
+        "slurm_submit": False,
+        "retry_or_resubmit": False,
+        "diagnostic_paths": ["N32", "D32", "W32", "W64"],
+        "cross_solver_byte_gate": "diagnostic-only",
+        "strict_byte_gates": ["W32-virtual-vs-commit", "rollback-vs-W0", "final-W0-restore"],
+        "jobs": jobs,
     }
 
 

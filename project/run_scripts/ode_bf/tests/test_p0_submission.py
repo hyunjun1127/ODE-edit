@@ -20,8 +20,8 @@ class P0SubmissionTests(unittest.TestCase):
         self.assertEqual(
             JOB_NAMES,
             {
-                "llama3-8b-inst": "odebf_s04_p0r1_llama",
-                "qwen2.5-7b-inst": "odebf_s04_p0r1_qwen",
+                "llama3-8b-inst": "odebf_s04_p0r2_llama",
+                "qwen2.5-7b-inst": "odebf_s04_p0r2_qwen",
             },
         )
         first = json.dumps(
@@ -40,6 +40,10 @@ class P0SubmissionTests(unittest.TestCase):
         self.assertTrue(all(job["memory_mib"] == 65000 for job in plan["jobs"]))
         self.assertTrue(all(job["gpu"] == 1 and job["cpu"] == 8 for job in plan["jobs"]))
         self.assertTrue(all(job["memory_forecast"]["edit_batch_size"] == 10 for job in plan["jobs"]))
+        self.assertEqual(plan["diagnostic_paths"], ["N32", "D32", "W32", "W64"])
+        self.assertTrue(
+            all(job["r2_forecast_host_peak_mib"] <= 65000 for job in plan["jobs"])
+        )
 
     def test_sbatch_locks_one_gpu_server2_and_no_array(self) -> None:
         sbatch = (
@@ -56,7 +60,7 @@ class P0SubmissionTests(unittest.TestCase):
             self.assertIn(directive, sbatch)
         self.assertNotIn("#SBATCH --array", sbatch)
         self.assertIn(
-            '"${RUN_TOKEN}" == "alpha-fp32-solve-r1-b10"',
+            '"${RUN_TOKEN}" == "dense-wb-equiv-r2-b10"',
             sbatch,
         )
         self.assertIn('--run-token "${RUN_TOKEN}"', sbatch)
@@ -74,7 +78,14 @@ class P0SubmissionTests(unittest.TestCase):
         )
         self.assertEqual(
             submit_module.BASE_HEAD,
-            "70f13c57b252cc0b9b845c7a461b0bc967352762",
+            "a3ace1187ab4d40743290cdd15dec806ebaa882c",
+        )
+        self.assertEqual(
+            submit_module._r1_immutability_gate(),
+            (
+                submit_module.R1_RESULT_IMMUTABILITY_SHA256,
+                submit_module.R1_LOG_STATE_IMMUTABILITY_SHA256,
+            ),
         )
 
     def test_entrypoint_success_and_systemexit_are_not_false_holds(self) -> None:
