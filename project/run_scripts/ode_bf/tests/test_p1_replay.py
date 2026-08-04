@@ -7,8 +7,11 @@ import unittest
 import torch
 
 from project.run_scripts.ode_bf.contracts import canonical_hash
+from project.run_scripts.ode_bf.barriers import functional_replay_risk
 from project.run_scripts.ode_bf.p1_replay import (
     Theta0TeacherCache,
+    build_outer_entry_pretrained_cache,
+    build_theta0_teacher_cache,
     capture_pretrained_entry_kl,
     evaluate_functional_replay_pair,
     evaluate_next_token_log_probs,
@@ -77,7 +80,7 @@ class _Model(torch.nn.Module):
         return types.SimpleNamespace(logits=logits.to(torch.bfloat16))
 
 
-def _requests() -> tuple[dict[str, object], ...]:
+def _requests(count: int = 10) -> tuple[dict[str, object], ...]:
     return tuple(
         {
             "request_sha256": hashlib.sha256(f"p-{index}".encode()).hexdigest(),
@@ -86,7 +89,7 @@ def _requests() -> tuple[dict[str, object], ...]:
             "target_new": "target",
             "target_true": "old",
         }
-        for index in range(10)
+        for index in range(count)
     )
 
 
@@ -145,6 +148,92 @@ class P1ReplayTests(unittest.TestCase):
         self.assertEqual(pair.pretrained.item_count, 10)
         self.assertEqual(pair.pretrained.signed_mean_damage, 0.0)
         self.assertEqual(pair.pretrained_trial_receipt.generation_call_count, 0)
+
+    def test_fixed_outer_entry_cache_catches_cumulative_drift(self) -> None:
+        model = _Model()
+        tokenizer = _Tokenizer()
+        population = _requests(160)
+        pointer = model.scale.data_ptr()
+        version = model.scale._version
+        rng = torch.get_rng_state().clone()
+        theta0 = build_theta0_teacher_cache(
+            model,
+            tokenizer,
+            population,
+            chunk_size=10,
+        )
+        with torch.no_grad():
+            model.scale.fill_(0.75)
+        outer_version = model.scale._version
+        cache = build_outer_entry_pretrained_cache(
+            model,
+            tokenizer,
+            population,
+            theta0,
+            outer_entry_snapshot_sha256="a" * 64,
+        )
+        self.assertEqual(model.scale.data_ptr(), pointer)
+        self.assertEqual(model.scale._version, outer_version)
+        self.assertTrue(torch.equal(torch.get_rng_state(), rng))
+        identities = tuple(str(item["request_sha256"]) for item in population[:10])
+        fixed_entry, fixed_receipt, baseline = cache.select(identities)
+        self.assertEqual(baseline.baseline_kind, "outer_entry")
+        self.assertEqual(baseline.outer_entry_snapshot_sha256, "a" * 64)
+        self.assertEqual(baseline.entry_kl_identity_sha256, fixed_receipt.value_sha256)
+
+        with torch.no_grad():
+            model.scale.fill_(1.25)
+        trial_kl, _ = capture_pretrained_entry_kl(
+            model,
+            tokenizer,
+            population[:10],
+            theta0,
+        )
+        fixed_risk = functional_replay_risk(
+            barrier="pretrained-theta0-teacher",
+            entry_values=fixed_entry.tolist(),
+            trial_values=trial_kl.tolist(),
+            sample_sha256=identities,
+            budget=1.0,
+            smooth_max_temperature=1.0e-2,
+        )
+        moving_risk = functional_replay_risk(
+            barrier="pretrained-theta0-teacher",
+            entry_values=trial_kl.tolist(),
+            trial_values=trial_kl.tolist(),
+            sample_sha256=identities,
+            budget=1.0,
+            smooth_max_temperature=1.0e-2,
+        )
+        repeated, repeated_receipt, repeated_baseline = cache.select(identities)
+        self.assertGreater(fixed_risk.mean_positive_damage, 0.0)
+        self.assertEqual(moving_risk.mean_positive_damage, 0.0)
+        self.assertTrue(torch.equal(repeated, fixed_entry))
+        self.assertEqual(repeated_receipt, fixed_receipt)
+        self.assertEqual(repeated_baseline, baseline)
+        self.assertEqual(model.scale.data_ptr(), pointer)
+        self.assertGreaterEqual(model.scale._version, outer_version)
+        self.assertGreater(model.scale._version, version)
+        self.assertTrue(torch.equal(torch.get_rng_state(), rng))
+
+    def test_fixed_outer_entry_cache_selection_fails_closed(self) -> None:
+        model = _Model()
+        tokenizer = _Tokenizer()
+        population = _requests(160)
+        theta0 = build_theta0_teacher_cache(model, tokenizer, population)
+        cache = build_outer_entry_pretrained_cache(
+            model,
+            tokenizer,
+            population,
+            theta0,
+            outer_entry_snapshot_sha256="b" * 64,
+        )
+        identities = tuple(str(item["request_sha256"]) for item in population[:10])
+        with self.assertRaisesRegex(Exception, "selection differs"):
+            cache.select(identities[:-1] + (identities[0],))
+        cache.entry_kl_by_request[identities[0]].add_(1.0)
+        with self.assertRaisesRegex(Exception, "value mutated"):
+            cache.select(identities)
 
 
 if __name__ == "__main__":

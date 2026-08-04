@@ -170,6 +170,114 @@ class Theta0TeacherCache:
         return torch.stack([self.log_probs_by_request[item] for item in order])
 
 
+@dataclass(frozen=True, slots=True)
+class FixedEntryPretrainedBaselineReceipt:
+    baseline_kind: str
+    outer_entry_snapshot_sha256: str
+    anchor_population_sha256: str
+    sample_order_sha256: str
+    entry_kl_identity_sha256: str
+    cache_receipt_sha256: str
+    item_count: int
+
+    def __post_init__(self) -> None:
+        if self.baseline_kind != "outer_entry":
+            raise ODEBFContractError("functional P baseline kind differs")
+        for value in (
+            self.outer_entry_snapshot_sha256,
+            self.anchor_population_sha256,
+            self.sample_order_sha256,
+            self.entry_kl_identity_sha256,
+            self.cache_receipt_sha256,
+        ):
+            if len(value) != 64:
+                raise ODEBFContractError("functional P baseline digest differs")
+        if self.item_count != 10:
+            raise ODEBFContractError("functional P baseline sample count differs")
+
+
+@dataclass(slots=True)
+class OuterEntryPretrainedCache:
+    request_order: tuple[str, ...]
+    entry_kl_by_request: dict[str, torch.Tensor]
+    entry_kl_sha256_by_request: dict[str, str]
+    outer_entry_snapshot_sha256: str
+    population_sha256: str
+    receipt_sha256: str
+    model_forward_count: int
+    processed_token_count: int
+
+    def __post_init__(self) -> None:
+        if (
+            len(self.request_order) != 160
+            or len(set(self.request_order)) != 160
+            or set(self.entry_kl_by_request) != set(self.request_order)
+            or set(self.entry_kl_sha256_by_request) != set(self.request_order)
+        ):
+            raise ODEBFContractError("outer-entry P cache population differs")
+        for value in (
+            self.outer_entry_snapshot_sha256,
+            self.population_sha256,
+            self.receipt_sha256,
+        ):
+            if len(value) != 64:
+                raise ODEBFContractError("outer-entry P cache digest differs")
+        if self.population_sha256 != canonical_hash(list(self.request_order)):
+            raise ODEBFContractError("outer-entry P cache order differs")
+        if self.model_forward_count != 16 or self.processed_token_count <= 0:
+            raise ODEBFContractError("outer-entry P cache accounting differs")
+
+    def select(
+        self,
+        identities: Sequence[str],
+    ) -> tuple[
+        torch.Tensor,
+        VectorEvaluationReceipt,
+        FixedEntryPretrainedBaselineReceipt,
+    ]:
+        order = tuple(identities)
+        if (
+            len(order) != 10
+            or len(set(order)) != 10
+            or any(item not in self.entry_kl_by_request for item in order)
+        ):
+            raise ODEBFContractError("outer-entry P cache selection differs")
+        for item in order:
+            value = self.entry_kl_by_request[item]
+            if (
+                value.shape != ()
+                or value.dtype is not torch.float64
+                or not torch.isfinite(value)
+                or tensor_sha256(value) != self.entry_kl_sha256_by_request[item]
+            ):
+                raise ODEBFContractError("outer-entry P cache value mutated")
+        values = torch.stack(
+            [self.entry_kl_by_request[item].clone() for item in order]
+        ).contiguous()
+        order_sha256 = _request_order(
+            tuple({"request_sha256": item} for item in order)
+        )
+        value_sha256 = tensor_sha256(values)
+        evaluation = VectorEvaluationReceipt(
+            order_sha256,
+            value_sha256,
+            len(order),
+            0,
+            0,
+            0,
+        )
+        baseline = FixedEntryPretrainedBaselineReceipt(
+            "outer_entry",
+            self.outer_entry_snapshot_sha256,
+            self.population_sha256,
+            order_sha256,
+            value_sha256,
+            self.receipt_sha256,
+            len(order),
+        )
+        return values, evaluation, baseline
+
+
 def build_theta0_teacher_cache(
     model: torch.nn.Module,
     tokenizer: Any,
@@ -353,4 +461,78 @@ def capture_pretrained_entry_kl(
         receipt.model_forward_count,
         receipt.processed_token_count,
         0,
+    )
+
+
+def build_outer_entry_pretrained_cache(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    population_requests: Sequence[Mapping[str, Any]],
+    theta0_cache: Theta0TeacherCache,
+    *,
+    outer_entry_snapshot_sha256: str,
+    chunk_size: int = 10,
+) -> OuterEntryPretrainedCache:
+    """Capture scalar theta0 KL once at the immutable outer-batch entry."""
+
+    population = _validate_canonical_requests(
+        population_requests,
+        allow_empty=False,
+    )
+    order = tuple(str(item["request_sha256"]) for item in population)
+    if (
+        len(population) != 160
+        or chunk_size != 10
+        or order != theta0_cache.request_order
+        or len(outer_entry_snapshot_sha256) != 64
+    ):
+        raise ODEBFContractError("outer-entry P cache build contract differs")
+    values_by_request: dict[str, torch.Tensor] = {}
+    hashes_by_request: dict[str, str] = {}
+    chunk_receipts: list[dict[str, Any]] = []
+    forwards = 0
+    tokens = 0
+    for start in range(0, len(population), chunk_size):
+        chunk = population[start : start + chunk_size]
+        values, receipt = capture_pretrained_entry_kl(
+            model,
+            tokenizer,
+            chunk,
+            theta0_cache,
+        )
+        if values.shape != (chunk_size,) or values.dtype is not torch.float64:
+            raise ODEBFContractError("outer-entry P cache chunk geometry differs")
+        for index, request in enumerate(chunk):
+            identity = str(request["request_sha256"])
+            scalar = values[index].detach().to(device="cpu", dtype=torch.float64).clone()
+            values_by_request[identity] = scalar
+            hashes_by_request[identity] = tensor_sha256(scalar)
+        forwards += receipt.model_forward_count
+        tokens += receipt.processed_token_count
+        chunk_receipts.append(
+            {
+                "sample_order_sha256": receipt.request_order_sha256,
+                "entry_kl_identity_sha256": receipt.value_sha256,
+                "item_count": receipt.item_count,
+            }
+        )
+    population_sha256 = canonical_hash(list(order))
+    cache_receipt_sha256 = canonical_hash(
+        {
+            "schema": "ode-edit-s04-ode-bf-fixed-entry-p-cache/v1",
+            "baseline_kind": "outer_entry",
+            "outer_entry_snapshot_sha256": outer_entry_snapshot_sha256,
+            "anchor_population_sha256": population_sha256,
+            "chunks": chunk_receipts,
+        }
+    )
+    return OuterEntryPretrainedCache(
+        order,
+        values_by_request,
+        hashes_by_request,
+        outer_entry_snapshot_sha256,
+        population_sha256,
+        cache_receipt_sha256,
+        forwards,
+        tokens,
     )

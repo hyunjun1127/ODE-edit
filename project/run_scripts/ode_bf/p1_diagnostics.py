@@ -14,10 +14,17 @@ from .contracts import FIXED_K, ODEBFContractError
 
 
 DIAGNOSTIC_INSTRUCTION_ID = (
-    "ODEEDIT-S04-ODE-BF-P1R2-TERMINAL-COMPONENT-DIAG-V1"
+    "ODEEDIT-S04-ODE-BF-P-FIXED-ENTRY-ARM-LOCAL-P1R3-V1"
 )
 TRIALS_PER_SLOT = 3
 _SHA256 = re.compile(r"[0-9a-f]{64}")
+_ARM_LOCAL_STATUS = {
+    "structural_h": "STRUCTURAL_H_INFEASIBLE",
+    "structural_p": "STRUCTURAL_P_INFEASIBLE",
+    "trust": "TRUST_INFEASIBLE",
+    "terminal_h": "TERMINAL_H_INFEASIBLE",
+    "terminal_p": "TERMINAL_P_INFEASIBLE",
+}
 _FORBIDDEN_KEY_FRAGMENTS = (
     "prompt",
     "subject",
@@ -169,11 +176,12 @@ class P1DiagnosticRecorder:
         "first_false_component",
         "selector",
         "slot_receipt_sha256",
+        "arm_local_infeasibility",
     }
 
     def __init__(self, root: Path, *, arm: str) -> None:
-        if arm != "F_G":
-            raise ODEBFContractError("terminal diagnostic is locked to F_G")
+        if arm not in ("F_G", "F_BF", "R_BF"):
+            raise ODEBFContractError("terminal diagnostic arm differs")
         if root.exists() or root.is_symlink():
             raise FileExistsError("diagnostic receipt root is create-once")
         root.mkdir(mode=0o700, parents=True)
@@ -200,7 +208,7 @@ class P1DiagnosticRecorder:
         if expected_ordinal != slot_index * TRIALS_PER_SLOT + trial_ordinal:
             raise ODEBFContractError("diagnostic trials are not a contiguous prefix")
         value = {
-            "schema": "ode-edit-s04-ode-bf-p1r2diag-trial/v1",
+            "schema": "ode-edit-s04-ode-bf-p1r3diag-trial/v1",
             "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
             "arm": self.arm,
             "slot_index": slot_index,
@@ -230,7 +238,7 @@ class P1DiagnosticRecorder:
         ]:
             raise ODEBFContractError("diagnostic slot trial links differ")
         value = {
-            "schema": "ode-edit-s04-ode-bf-p1r2diag-slot/v1",
+            "schema": "ode-edit-s04-ode-bf-p1r3diag-slot/v1",
             "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
             "arm": self.arm,
             "slot_index": slot_index,
@@ -256,8 +264,19 @@ class P1DiagnosticRecorder:
         observed_first = first_false_terminal_component(payload["boolean_inputs"])
         if payload["first_false_component"] != observed_first:
             raise ODEBFContractError("terminal first-false ordering differs")
+        arm_local = payload["arm_local_infeasibility"]
+        if observed_first is None:
+            if arm_local is not None:
+                raise ODEBFContractError("passing terminal has infeasibility payload")
+        elif (
+            not isinstance(arm_local, Mapping)
+            or arm_local.get("status") != _ARM_LOCAL_STATUS[observed_first]
+            or arm_local.get("first_false_component") != observed_first
+            or arm_local.get("component_vector") != payload["boolean_inputs"]
+        ):
+            raise ODEBFContractError("arm-local terminal classification differs")
         value = {
-            "schema": "ode-edit-s04-ode-bf-p1r2diag-terminal-components/v1",
+            "schema": "ode-edit-s04-ode-bf-p1r3diag-terminal-components/v1",
             "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
             "arm": self.arm,
             **dict(payload),
@@ -298,7 +317,7 @@ def diagnostic_receipt_links(raw_root: Path) -> dict[str, str]:
     if diagnostic_root.exists():
         if diagnostic_root.is_symlink() or not diagnostic_root.is_dir():
             raise ODEBFContractError("diagnostic receipt root identity differs")
-        paths.extend(sorted(diagnostic_root.glob("*.json")))
+        paths.extend(sorted(diagnostic_root.rglob("*.json")))
     result: dict[str, str] = {}
     for path in paths:
         if path.is_symlink() or not path.is_file():

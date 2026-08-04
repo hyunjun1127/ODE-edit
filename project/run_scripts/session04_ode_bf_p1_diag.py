@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed entry for the P1R2 terminal-component diagnostic lane."""
+"""Fail-closed entry for the fixed-entry, arm-local P1R3 diagnostic."""
 
 from __future__ import annotations
 
@@ -19,6 +19,7 @@ from project.run_scripts.ode_bf.p1_runtime import (
     run_p1,
     write_p1_failure_once,
 )
+from project.run_scripts.ode_bf.p1_diagnostics import DIAGNOSTIC_INSTRUCTION_ID
 
 
 RUN_TOKEN = DIAGNOSTIC_RESULT_TOKEN
@@ -50,6 +51,7 @@ def main(argv: list[str] | None = None) -> int:
             args.output_root,
             exc,
             repo_root=REPO_ROOT,
+            instruction_id=DIAGNOSTIC_INSTRUCTION_ID,
         )
         print(
             json.dumps(

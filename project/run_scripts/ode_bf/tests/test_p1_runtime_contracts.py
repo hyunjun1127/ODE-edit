@@ -99,6 +99,42 @@ def _history_keys(batch: int) -> dict[int, torch.Tensor]:
 
 
 class SequentialPanelIntegrationTests(unittest.TestCase):
+    def test_arm_local_infeasibility_preserves_entry_and_history(self) -> None:
+        parameters = {
+            f"layers.{layer}.weight": torch.nn.Parameter(
+                torch.full((12, 11), float(layer), dtype=torch.bfloat16),
+                requires_grad=False,
+            )
+            for layer in range(4, 9)
+        }
+        receipt, values = snapshot_touched_weights(P1Arm.F_G, 0, parameters)
+        state = ArmRuntimeState(
+            P1Arm.F_G,
+            P1HistoryLedger(layer_order=range(4, 9), maximum_records=40),
+            ComputeLedger(),
+            receipt,
+            values,
+        )
+        before = state.history.snapshot().digest
+        entry_hashes = {name: tensor_sha256(value) for name, value in parameters.items()}
+        payload = {
+            "status": "TERMINAL_P_INFEASIBLE",
+            "persistent_endpoint_commit_count": 0,
+            "history_append_count": 0,
+        }
+        _assert_arm_batch_transition(
+            state,
+            payload,
+            sequential_batch=0,
+            history_before_sha256=before,
+        )
+        restore_arm_snapshot(parameters, values, receipt)
+        self.assertEqual(state.history.snapshot().digest, before)
+        self.assertEqual(
+            {name: tensor_sha256(value) for name, value in parameters.items()},
+            entry_hashes,
+        )
+
     def test_four_isolated_arms_retain_four_joint_b10_transactions(self) -> None:
         torch.manual_seed(4200)
         parameters = {

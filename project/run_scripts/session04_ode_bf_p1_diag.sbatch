@@ -21,10 +21,10 @@ readonly RUN_TOKEN="${4:-}"
 
 case "${MODEL_ALIAS}" in
   llama3-8b-inst|qwen2.5-7b-inst) ;;
-  *) echo "invalid locked ODE-BF P1 diagnostic alias" >&2; exit 2 ;;
+  *) echo "invalid locked ODE-BF P1R3 diagnostic alias" >&2; exit 2 ;;
 esac
-[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "p1r2-terminal-component-diag-v1" ]] || {
-  echo "missing locked ODE-BF P1 diagnostic invocation" >&2
+[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "p1r3-fixed-entry-arm-local-diag-v1" ]] || {
+  echo "missing locked ODE-BF P1R3 diagnostic invocation" >&2
   exit 2
 }
 [[ "$(pwd -P)" == "${REPO_ROOT}" ]] || {
@@ -57,7 +57,7 @@ export HF_DATASETS_OFFLINE=1
 export TOKENIZERS_PARALLELISM=false
 export PYTHONHASHSEED=41
 export PYTHONDONTWRITEBYTECODE=1
-export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p1diag"
+export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p1r3diag"
 export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 
 exec /usr/local/bin/uv run --offline \

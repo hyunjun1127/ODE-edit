@@ -88,10 +88,12 @@ from .p1_evaluator import (
     pair_primary_native_floor,
 )
 from .p1_replay import (
+    FixedEntryPretrainedBaselineReceipt,
     FunctionalReplayPair,
+    OuterEntryPretrainedCache,
     Theta0TeacherCache,
+    build_outer_entry_pretrained_cache,
     build_theta0_teacher_cache,
-    capture_pretrained_entry_kl,
     evaluate_functional_replay_pair,
     evaluate_next_token_log_probs,
     evaluate_target_new_nlls,
@@ -126,8 +128,16 @@ from .transaction import AtomicBatchTransaction
 INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-TRUST-RATIO-MEAN-P-P1R2-V1"
 EXPECTED_BASE = "e753972da50a5d6fa9789ef2e9083c9b0549c3d0"
 RESULT_TOKEN = "seqb10-native-floor-p1r2-v2"
-DIAGNOSTIC_RESULT_TOKEN = "p1r2-terminal-component-diag-v1"
+DIAGNOSTIC_RESULT_TOKEN = "p1r3-fixed-entry-arm-local-diag-v1"
 SEQUENTIAL_BATCHES = 4
+
+ARM_LOCAL_INFEASIBILITY_STATUS = {
+    "structural_h": "STRUCTURAL_H_INFEASIBLE",
+    "structural_p": "STRUCTURAL_P_INFEASIBLE",
+    "trust": "TRUST_INFEASIBLE",
+    "terminal_h": "TERMINAL_H_INFEASIBLE",
+    "terminal_p": "TERMINAL_P_INFEASIBLE",
+}
 
 
 def expected_p1_result_name(alias: str) -> str:
@@ -140,6 +150,12 @@ def expected_p1_diagnostic_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 diagnostic result alias differs")
     return f"s04-p1r2-terminal-component-diag-{alias}-v1"
+
+
+def expected_p1r3_diagnostic_result_name(alias: str) -> str:
+    if alias not in MODEL_ALIASES:
+        raise ODEBFContractError("P1R3 diagnostic result alias differs")
+    return f"s04-p1r3-fixed-entry-arm-local-{alias}-v1"
 
 
 def _atomic_write_once(path: Path, value: Mapping[str, Any]) -> str:
@@ -266,6 +282,7 @@ class ReplayEntryState:
     history_entry_sha256: str
     pretrained_entry_sha256: str
     schedule_sha256: str
+    pretrained_baseline: FixedEntryPretrainedBaselineReceipt
 
 
 @dataclass(frozen=True, slots=True)
@@ -318,6 +335,17 @@ def _assert_arm_batch_transition(
             or snapshot.digest != history_before_sha256
         ):
             raise ODEBFStateError("P1 failed R_BF floor mutated persistent arm state")
+        return
+    if status in set(ARM_LOCAL_INFEASIBILITY_STATUS.values()):
+        if (
+            state.snapshot_receipt.sequential_batch_completed != sequential_batch
+            or snapshot.digest != history_before_sha256
+            or payload.get("persistent_endpoint_commit_count") != 0
+            or payload.get("history_append_count") != 0
+        ):
+            raise ODEBFStateError(
+                "P1 arm-local infeasibility mutated persistent arm state"
+            )
         return
     raise ODEBFStateError("P1 arm batch ended without a canonical transition status")
 
@@ -534,8 +562,12 @@ def _diagnostic_success_payload(receipt: BatchSuccessReceipt) -> dict[str, Any]:
     }
 
 
-def _diagnostic_risk_payload(receipt: Any) -> dict[str, Any]:
-    return {
+def _diagnostic_risk_payload(
+    receipt: Any,
+    *,
+    baseline: FixedEntryPretrainedBaselineReceipt | None = None,
+) -> dict[str, Any]:
+    payload = {
         "decision_rule": receipt.decision_rule,
         "sample_count": receipt.item_count,
         "mean_positive_damage": receipt.mean_positive_damage,
@@ -546,6 +578,13 @@ def _diagnostic_risk_payload(receipt: Any) -> dict[str, Any]:
         "raw_pass": receipt.passed,
         "sample_order_sha256": receipt.sample_order_sha256,
     }
+    if baseline is not None:
+        if baseline.sample_order_sha256 != receipt.sample_order_sha256:
+            raise ODEBFContractError(
+                "functional P risk/baseline sample identity differs"
+            )
+        payload["baseline"] = asdict(baseline)
+    return payload
 
 
 def _diagnostic_structural_payload(
@@ -600,6 +639,56 @@ def _diagnostic_unmaterialized_trust(*, passed: bool) -> dict[str, Any]:
         "raw_pass": passed,
         "value_available": False,
     }
+
+
+def _terminal_component_vector(
+    feasibility: FeasibilityVerdict,
+) -> dict[str, bool]:
+    if not feasibility.authoritative_bf16:
+        raise ODEBFContractError(
+            "authoritative BF16 failure cannot become arm-local infeasibility"
+        )
+    return {
+        "structural_h": feasibility.structural_h,
+        "structural_p": feasibility.structural_p,
+        "trust": feasibility.trust,
+        "terminal_h": feasibility.functional_h,
+        "terminal_p": feasibility.functional_p,
+    }
+
+
+def _arm_local_infeasibility(
+    feasibility: FeasibilityVerdict,
+) -> dict[str, Any] | None:
+    components = _terminal_component_vector(feasibility)
+    failed = tuple(name for name, passed in components.items() if not passed)
+    if not failed:
+        return None
+    first = failed[0]
+    return {
+        "status": ARM_LOCAL_INFEASIBILITY_STATUS[first],
+        "first_false_component": first,
+        "failed_components": list(failed),
+        "component_vector": components,
+        "technical_failure": False,
+        "persistent_endpoint_commit_count": 0,
+        "history_append_count": 0,
+    }
+
+
+def _entry_parameter_snapshot_sha256(
+    model: torch.nn.Module,
+    entry_sha256: Mapping[str, str],
+) -> str:
+    parameters = dict(model.named_parameters())
+    if set(entry_sha256) - set(parameters):
+        raise ODEBFContractError("outer-entry parameter set differs")
+    observed = {
+        name: tensor_sha256(parameters[name]) for name in sorted(entry_sha256)
+    }
+    if observed != dict(sorted(entry_sha256.items())):
+        raise ODEBFStateError("outer-entry parameter snapshot differs")
+    return canonical_hash(observed)
 
 
 def _diagnostic_proposal_sha256(
@@ -669,7 +758,7 @@ def _replay_entry(
     request_by_sha256: Mapping[str, Mapping[str, Any]],
     population_by_sha256: Mapping[str, Mapping[str, Any]],
     schedule: StatelessReplaySchedule,
-    theta0_cache: Theta0TeacherCache,
+    outer_entry_p_cache: OuterEntryPretrainedCache,
 ) -> ReplayEntryState:
     history_records = arm_state.history.rotating_records(
         sequential_batch=sequential_batch,
@@ -695,12 +784,9 @@ def _replay_entry(
             history_requests,
             model_alias=alias,
         )
-        pretrained_entry, pretrained_receipt = capture_pretrained_entry_kl(
-            model,
-            tokenizer,
-            pretrained_requests,
-            theta0_cache,
-        )
+    pretrained_entry, pretrained_receipt, pretrained_baseline = (
+        outer_entry_p_cache.select(replay_batch.item_sha256)
+    )
     return ReplayEntryState(
         history_requests,
         history_entry,
@@ -709,6 +795,7 @@ def _replay_entry(
         history_receipt.value_sha256,
         pretrained_receipt.value_sha256,
         replay_batch.schedule_digest,
+        pretrained_baseline,
     )
 
 
@@ -737,6 +824,13 @@ def _functional_trial(
         pretrained_budget=lock.functional_p_budget_nats,
         smoothmax_temperature=lock.smoothmax_temperature,
     )
+    if (
+        pair.pretrained_entry_receipt.request_order_sha256
+        != entry.pretrained_baseline.sample_order_sha256
+        or pair.pretrained_entry_receipt.value_sha256
+        != entry.pretrained_baseline.entry_kl_identity_sha256
+    ):
+        raise ODEBFContractError("functional P fixed-entry identity differs")
     ledger.increment("functional_h_replay")
     ledger.increment("functional_p_replay")
     return pair
@@ -753,7 +847,7 @@ def _terminal_replay_entry(
     request_by_sha256: Mapping[str, Mapping[str, Any]],
     population_by_sha256: Mapping[str, Mapping[str, Any]],
     schedule: StatelessReplaySchedule,
-    theta0_cache: Theta0TeacherCache,
+    outer_entry_p_cache: OuterEntryPretrainedCache,
 ) -> ReplayEntryState:
     history_records = arm_state.history.snapshot().active_records
     history_requests = tuple(
@@ -775,11 +869,8 @@ def _terminal_replay_entry(
         history_requests,
         model_alias=alias,
     )
-    pretrained_entry, pretrained_receipt = capture_pretrained_entry_kl(
-        model,
-        tokenizer,
-        pretrained_requests,
-        theta0_cache,
+    pretrained_entry, pretrained_receipt, pretrained_baseline = (
+        outer_entry_p_cache.select(replay_batch.item_sha256)
     )
     return ReplayEntryState(
         history_requests,
@@ -789,6 +880,7 @@ def _terminal_replay_entry(
         history_receipt.value_sha256,
         pretrained_receipt.value_sha256,
         replay_batch.schedule_digest,
+        pretrained_baseline,
     )
 
 
@@ -801,6 +893,7 @@ def _report_only_p_diagnostic(
     population_by_sha256: Mapping[str, Mapping[str, Any]],
     schedule: StatelessReplaySchedule,
     theta0_cache: Theta0TeacherCache,
+    outer_entry_p_cache: OuterEntryPretrainedCache,
     lock: P1ControllerLock,
     ledger: ComputeLedger,
 ) -> dict[str, Any]:
@@ -812,8 +905,8 @@ def _report_only_p_diagnostic(
         replay_batch_id=0,
     )
     requests = tuple(population_by_sha256[item] for item in batch.item_sha256)
-    entry_kl, entry_receipt = capture_pretrained_entry_kl(
-        model, tokenizer, requests, theta0_cache
+    entry_kl, entry_receipt, baseline = outer_entry_p_cache.select(
+        batch.item_sha256
     )
     with _virtual_context(model, factors):
         observed, observed_receipt = evaluate_next_token_log_probs(
@@ -833,6 +926,7 @@ def _report_only_p_diagnostic(
         "lineage": SampleLineage.REPORT_ONLY.value,
         "schedule_sha256": batch.schedule_digest,
         "entry_value_sha256": entry_receipt.value_sha256,
+        "baseline": asdict(baseline),
         "trial_value_sha256": tensor_sha256(trial_kl),
         "observed_log_prob_sha256": observed_receipt.value_sha256,
         "risk": asdict(risk),
@@ -1206,9 +1300,7 @@ def _run_nonnative_rollout(
         raise ODEBFContractError("P1 non-Native rollout arm differs")
     if (diagnostic_recorder is None) != (not diagnostic_stop_at_terminal):
         raise ODEBFContractError("P1 diagnostic recorder/stop contract differs")
-    if diagnostic_recorder is not None and (
-        arm is not P1Arm.F_G or sequential_batch != 0
-    ):
+    if diagnostic_recorder is not None and sequential_batch != 0:
         raise ODEBFContractError("P1 terminal diagnostic scope differs")
     layers = tuple(int(layer) for layer in hparams.layers)
     if arm is P1Arm.F_G:
@@ -1255,6 +1347,29 @@ def _run_nonnative_rollout(
     rollout_counter_before = dict(arm_state.ledger.counters)
     rollout_wall_started = time.perf_counter()
     timer = ComponentTimer(arm_state.ledger)
+
+    outer_entry_snapshot_sha256 = _entry_parameter_snapshot_sha256(
+        model,
+        capture.entry_sha256,
+    )
+    outer_population = tuple(
+        population_by_sha256[item] for item in theta0_cache.request_order
+    )
+    with timer.measure("functional_p_outer_entry_cache"):
+        outer_entry_p_cache = build_outer_entry_pretrained_cache(
+            model,
+            tokenizer,
+            outer_population,
+            theta0_cache,
+            outer_entry_snapshot_sha256=outer_entry_snapshot_sha256,
+        )
+    if (
+        _entry_parameter_snapshot_sha256(model, capture.entry_sha256)
+        != outer_entry_snapshot_sha256
+        or outer_entry_p_cache.population_sha256
+        != theta0_cache.population_sha256
+    ):
+        raise ODEBFStateError("functional P outer-entry cache mutated entry state")
 
     current_factors: dict[str, tuple[WaypointFactor, ...]] = {}
     accepted_by_layer: dict[int, list[AcceptedLayerContribution]] = {
@@ -1426,7 +1541,7 @@ def _run_nonnative_rollout(
                 request_by_sha256=request_by_sha256,
                 population_by_sha256=population_by_sha256,
                 schedule=schedule,
-                theta0_cache=theta0_cache,
+                outer_entry_p_cache=outer_entry_p_cache,
             )
         trial_payloads: list[dict[str, Any]] = []
         diagnostic_trial_hashes: list[str] = []
@@ -1544,6 +1659,9 @@ def _run_nonnative_rollout(
                     ),
                     "historical": asdict(functional.historical),
                     "pretrained": asdict(functional.pretrained),
+                    "pretrained_baseline": asdict(
+                        replay_entry.pretrained_baseline
+                    ),
                     "feasibility": asdict(feasibility),
                     "accepted": verdict.accepted,
                     "first_rejecting_gate": verdict.first_rejecting_gate,
@@ -1618,7 +1736,8 @@ def _run_nonnative_rollout(
                                 functional.historical
                             ),
                             "functional_p": _diagnostic_risk_payload(
-                                functional.pretrained
+                                functional.pretrained,
+                                baseline=replay_entry.pretrained_baseline,
                             ),
                             "authoritative_bf16_pass": (
                                 verdict.authoritative_bf16_pass
@@ -1805,7 +1924,7 @@ def _run_nonnative_rollout(
             request_by_sha256=request_by_sha256,
             population_by_sha256=population_by_sha256,
             schedule=schedule,
-            theta0_cache=theta0_cache,
+            outer_entry_p_cache=outer_entry_p_cache,
         )
         terminal_replay = _functional_trial(
             model,
@@ -1850,7 +1969,8 @@ def _run_nonnative_rollout(
                     terminal_replay.historical
                 ),
                 "terminal_p": _diagnostic_risk_payload(
-                    terminal_replay.pretrained
+                    terminal_replay.pretrained,
+                    baseline=terminal_entry.pretrained_baseline,
                 ),
                 "boolean_inputs": boolean_inputs,
                 "first_false_component": first_false_terminal_component(
@@ -1880,23 +2000,43 @@ def _run_nonnative_rollout(
                     "rejected_slots": selection.rejected_slots,
                 },
                 "slot_receipt_sha256": diagnostic_recorder.slot_hashes,
+                "arm_local_infeasibility": _arm_local_infeasibility(
+                    terminal_feasibility
+                ),
             }
         )
-    if not terminal_feasibility.all_pass:
-        raise ODEBFContractError("P1 all-history/terminal-P verifier failed")
+    arm_local_infeasibility = _arm_local_infeasibility(terminal_feasibility)
     if diagnostic_stop_at_terminal:
         if diagnostic_terminal_sha256 is None:
             raise ODEBFStateError("P1 diagnostic terminal receipt is absent")
+        status = (
+            "DIAGNOSTIC_TERMINAL_BOUNDARY_PASS_NO_COMMIT"
+            if arm_local_infeasibility is None
+            else str(arm_local_infeasibility["status"])
+        )
         return (
             {
-                "schema": "ode-edit-s04-ode-bf-p1r2diag-arm-boundary/v1",
+                "schema": "ode-edit-s04-ode-bf-p1r3diag-arm-boundary/v1",
                 "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
-                "status": "DIAGNOSTIC_TERMINAL_BOUNDARY_PASS_NO_COMMIT",
+                "status": status,
                 "alias": alias,
                 "arm": arm.value,
                 "sequential_batch": sequential_batch,
                 "request_order_sha256": capture.request_order_sha256,
                 "joint_rank": BATCH_SIZE,
+                "n32_same_entry": capture.raw_free_payload(),
+                "field_sha256": matched_bundle.field.identity_sha256,
+                "raw_velocity_sha256": matched_bundle.raw.velocity_sha256,
+                "shared_source_compute": {
+                    "actual_owner": matched_bundle.source_arm.value,
+                    "normalized_counter_delta": (
+                        matched_bundle.source_compute_delta
+                    ),
+                    "actual_owner_wall_seconds": (
+                        matched_bundle.source_wall_seconds
+                    ),
+                },
+                "waypoints": waypoint_payloads,
                 "executed_slots": FIXED_K,
                 "trial_receipt_sha256": diagnostic_recorder.trial_hashes,
                 "slot_receipt_sha256": diagnostic_recorder.slot_hashes,
@@ -1904,12 +2044,97 @@ def _run_nonnative_rollout(
                     diagnostic_terminal_sha256
                 ),
                 "selection": asdict(selection),
+                "terminal_component_vector": _terminal_component_vector(
+                    terminal_feasibility
+                ),
+                "arm_local_infeasibility": arm_local_infeasibility,
+                "pretrained_outer_entry_cache": {
+                    "baseline_kind": "outer_entry",
+                    "outer_entry_snapshot_sha256": (
+                        outer_entry_p_cache.outer_entry_snapshot_sha256
+                    ),
+                    "anchor_population_sha256": (
+                        outer_entry_p_cache.population_sha256
+                    ),
+                    "cache_receipt_sha256": (
+                        outer_entry_p_cache.receipt_sha256
+                    ),
+                    "model_forward_count": (
+                        outer_entry_p_cache.model_forward_count
+                    ),
+                    "processed_token_count": (
+                        outer_entry_p_cache.processed_token_count
+                    ),
+                },
                 "persistent_endpoint_commit_count": 0,
                 "history_append_count": 0,
                 "heldout_access_count": 0,
                 "scientific_outcome_count": 0,
+                "rollout_compute_delta": {
+                    name: arm_state.ledger.counters[name]
+                    - rollout_counter_before[name]
+                    for name in sorted(arm_state.ledger.counters)
+                },
+                "rollout_wall_seconds": time.perf_counter()
+                - rollout_wall_started,
             },
-            matched_bundle,
+            matched_bundle if arm is P1Arm.F_G else None,
+            False,
+        )
+
+    if arm_local_infeasibility is not None:
+        return (
+            {
+                "schema": "ode-edit-s04-ode-bf-p1r3-arm-local-infeasible/v1",
+                "instruction_id": INSTRUCTION_ID,
+                "status": arm_local_infeasibility["status"],
+                "alias": alias,
+                "arm": arm.value,
+                "sequential_batch": sequential_batch,
+                "cumulative_edits": sequential_batch * BATCH_SIZE,
+                "request_order_sha256": capture.request_order_sha256,
+                "joint_rank": BATCH_SIZE,
+                "n32_same_entry": capture.raw_free_payload(),
+                "field_sha256": matched_bundle.field.identity_sha256,
+                "raw_velocity_sha256": matched_bundle.raw.velocity_sha256,
+                "shared_source_compute": {
+                    "actual_owner": matched_bundle.source_arm.value,
+                    "normalized_counter_delta": (
+                        matched_bundle.source_compute_delta
+                    ),
+                    "actual_owner_wall_seconds": (
+                        matched_bundle.source_wall_seconds
+                    ),
+                },
+                "waypoints": waypoint_payloads,
+                "selection": asdict(selection),
+                "terminal_replay": {
+                    "historical": asdict(terminal_replay.historical),
+                    "pretrained": asdict(terminal_replay.pretrained),
+                    "pretrained_baseline": asdict(
+                        terminal_entry.pretrained_baseline
+                    ),
+                    "identity_sha256": (
+                        terminal_replay.functional_identity_sha256
+                    ),
+                },
+                "terminal_component_vector": _terminal_component_vector(
+                    terminal_feasibility
+                ),
+                "arm_local_infeasibility": arm_local_infeasibility,
+                "persistent_endpoint_commit_count": 0,
+                "history_append_count": 0,
+                "heldout_access_count": 0,
+                "scientific_outcome_count": 0,
+                "rollout_compute_delta": {
+                    name: arm_state.ledger.counters[name]
+                    - rollout_counter_before[name]
+                    for name in sorted(arm_state.ledger.counters)
+                },
+                "rollout_wall_seconds": time.perf_counter()
+                - rollout_wall_started,
+            },
+            matched_bundle if arm is P1Arm.F_G else None,
             False,
         )
 
@@ -1995,6 +2220,7 @@ def _run_nonnative_rollout(
             population_by_sha256=population_by_sha256,
             schedule=schedule,
             theta0_cache=theta0_cache,
+            outer_entry_p_cache=outer_entry_p_cache,
             lock=lock,
             ledger=arm_state.ledger,
         )
@@ -2028,7 +2254,20 @@ def _run_nonnative_rollout(
         "terminal_replay": {
             "historical": asdict(terminal_replay.historical),
             "pretrained": asdict(terminal_replay.pretrained),
+            "pretrained_baseline": asdict(
+                terminal_entry.pretrained_baseline
+            ),
             "identity_sha256": terminal_replay.functional_identity_sha256,
+        },
+        "pretrained_outer_entry_cache": {
+            "baseline_kind": "outer_entry",
+            "outer_entry_snapshot_sha256": (
+                outer_entry_p_cache.outer_entry_snapshot_sha256
+            ),
+            "anchor_population_sha256": outer_entry_p_cache.population_sha256,
+            "cache_receipt_sha256": outer_entry_p_cache.receipt_sha256,
+            "model_forward_count": outer_entry_p_cache.model_forward_count,
+            "processed_token_count": outer_entry_p_cache.processed_token_count,
         },
         "native_primary": _primary_payload(native_primary),
         "ours_primary": _primary_payload(ours_primary),
@@ -2490,7 +2729,21 @@ def _trajectory_summary(
     for arm in P1_ARM_ORDER:
         batches = tuple(batches_by_arm.get(arm, ()))
         points: list[dict[str, Any]] = []
+        arm_local: list[dict[str, Any]] = []
         for batch in batches:
+            if batch.get("status") in set(
+                ARM_LOCAL_INFEASIBILITY_STATUS.values()
+            ):
+                arm_local.append(
+                    {
+                        "sequential_batch": batch["sequential_batch"],
+                        "status": batch["status"],
+                        "terminal_component_vector": batch[
+                            "terminal_component_vector"
+                        ],
+                    }
+                )
+                continue
             primary = batch["primary"] if arm is P1Arm.N32_NATIVE else batch["ours_primary"]
             metrics = primary["metrics"]
             if arm is P1Arm.N32_NATIVE:
@@ -2537,7 +2790,11 @@ def _trajectory_summary(
                 else sum((values[index] + values[index + 1]) / 2.0 for index in range(len(values) - 1))
             )
             curves[metric] = {"values": values, "slope_per_b10": slope, "trapezoid_auc": auc}
-        result[arm.value] = {"points": points, "curves": curves}
+        result[arm.value] = {
+            "points": points,
+            "curves": curves,
+            "arm_local_infeasibility": arm_local,
+        }
     return result
 
 
@@ -2587,14 +2844,15 @@ def _run_terminal_component_diagnostic(
     cuda_runtime_receipt: Mapping[str, Any],
     job_ledger: ComputeLedger,
 ) -> dict[str, Any]:
-    """Execute the frozen B10-1 N32/F_G path and stop at terminal components."""
+    """Run N32 plus every non-Native B10-1 arm without persistent mutation."""
 
     requests = tuple(stream_batches[0])
     w0_state = _diagnostic_parameter_state(touched)
     native_state = arm_states[P1Arm.N32_NATIVE]
-    generic_state = arm_states[P1Arm.F_G]
     n32_receipt_sha256: str | None = None
-    f_g_receipt_sha256: str | None = None
+    boundary_receipt_sha256: dict[str, str] = {}
+    terminal_component_sha256: dict[str, str] = {}
+    arm_status: dict[str, str] = {}
     final_w0_restored = False
     try:
         restore_arm_snapshot(
@@ -2658,7 +2916,7 @@ def _run_terminal_component_diagnostic(
         n32_receipt_sha256 = _atomic_write_once(
             raw_root / "diagnostic-N32_NATIVE.json",
             {
-                "schema": "ode-edit-s04-ode-bf-p1r2diag-native/v1",
+                "schema": "ode-edit-s04-ode-bf-p1r3diag-native/v1",
                 "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
                 "status": "VIRTUAL_ONLY_NO_COMMIT",
                 "alias": alias,
@@ -2685,102 +2943,144 @@ def _run_terminal_component_diagnostic(
         )
         del native_capture
 
-        restore_arm_snapshot(
-            touched, generic_state.snapshot_values, generic_state.snapshot_receipt
-        )
-        generic_history_before = generic_state.history.snapshot().digest
-        generic_sampler_before = schedule.state_digest
-        generic_parameter_before = _diagnostic_parameter_state(touched)
-        generic_counter = ModelForwardCounter(model, generic_state.ledger)
-        try:
-            with ComponentTimer(generic_state.ledger).measure(
-                "diagnostic_same_entry_f_g_capture"
-            ):
-                generic_capture = capture_p1_native_entry(
+        matched_bundle: FrozenMatchedBundle | None = None
+        payload_by_arm: dict[P1Arm, dict[str, Any]] = {}
+        for arm in (P1Arm.F_G, P1Arm.F_BF, P1Arm.R_BF):
+            state = arm_states[arm]
+            restore_arm_snapshot(
+                touched,
+                state.snapshot_values,
+                state.snapshot_receipt,
+            )
+            history_before = state.history.snapshot().digest
+            sampler_before = schedule.state_digest
+            parameter_before = _diagnostic_parameter_state(touched)
+            counter = ModelForwardCounter(model, state.ledger)
+            try:
+                with ComponentTimer(state.ledger).measure(
+                    f"diagnostic_same_entry_{arm.value.lower()}_capture"
+                ):
+                    capture = capture_p1_native_entry(
+                        model,
+                        tokenizer,
+                        requests,
+                        hparams,
+                        projector,
+                        contexts,
+                        history_keys_by_layer=_history_keys(
+                            state.history,
+                            tuple(int(layer) for layer in hparams.layers),
+                            risk=False,
+                        ),
+                        mutation_lock=mutation_lock,
+                        ledger=state.ledger,
+                        residual_tolerance=controller_lock.residual_tolerance,
+                    )
+                if capture.request_order_sha256 != stream[
+                    "batch_ordered_request_digest_v1"
+                ][0]:
+                    raise ODEBFContractError(
+                        "P1 diagnostic non-Native capture/seal digest differs"
+                    )
+                recorder = P1DiagnosticRecorder(
+                    raw_root / "diagnostics" / f"arm-{arm.value}",
+                    arm=arm.value,
+                )
+                incoming = matched_bundle if arm is P1Arm.F_BF else None
+                payload, returned_bundle, _ = _run_nonnative_rollout(
                     model,
                     tokenizer,
                     requests,
-                    hparams,
-                    projector,
-                    contexts,
-                    history_keys_by_layer=_history_keys(
-                        generic_state.history,
-                        tuple(int(layer) for layer in hparams.layers),
-                        risk=False,
-                    ),
+                    alias=alias,
+                    sequential_batch=0,
+                    arm_state=state,
+                    capture=capture,
+                    matched_bundle=incoming,
+                    hparams=hparams,
+                    projector=projector,
+                    contexts=contexts,
+                    covariance_registry=covariance_registry,
+                    projector_sha256=projector_sha256,
+                    lock=controller_lock,
+                    request_by_sha256=request_by_sha256,
+                    collision_by_request=collision_by_request,
+                    population_by_sha256=population_by_sha256,
+                    schedule=schedule,
+                    theta0_cache=theta0_cache,
+                    dataset_path=dataset_path,
                     mutation_lock=mutation_lock,
-                    ledger=generic_state.ledger,
-                    residual_tolerance=controller_lock.residual_tolerance,
+                    diagnostic_recorder=recorder,
+                    diagnostic_stop_at_terminal=True,
                 )
-            if generic_capture.request_order_sha256 != stream[
-                "batch_ordered_request_digest_v1"
-            ][0]:
-                raise ODEBFContractError(
-                    "P1 diagnostic F_G capture/seal digest differs"
+                if arm is P1Arm.F_G:
+                    if returned_bundle is None:
+                        raise ODEBFStateError(
+                            "P1 diagnostic F_G matched bundle is absent"
+                        )
+                    matched_bundle = returned_bundle
+                elif returned_bundle is not None:
+                    raise ODEBFStateError(
+                        "P1 diagnostic non-F_G exported matched bundle"
+                    )
+            finally:
+                counter.close()
+            parameter_after = _diagnostic_parameter_state(touched)
+            history_after = state.history.snapshot().digest
+            sampler_after = schedule.state_digest
+            if (
+                parameter_before != parameter_after
+                or parameter_after != w0_state
+                or history_before != history_after
+                or sampler_before != sampler_after
+            ):
+                raise ODEBFStateError(
+                    "P1 diagnostic arm mutated state/history/sampler"
                 )
-            recorder = P1DiagnosticRecorder(
-                raw_root / "diagnostics", arm=P1Arm.F_G.value
+            payload.update(
+                {
+                    "parameter_before_sha256": parameter_before,
+                    "parameter_after_sha256": parameter_after,
+                    "history_before_sha256": history_before,
+                    "history_after_sha256": history_after,
+                    "sampler_before_sha256": sampler_before,
+                    "sampler_after_sha256": sampler_after,
+                    "compute": state.ledger.raw_free_payload(),
+                }
             )
-            f_g_payload, returned_bundle, _ = _run_nonnative_rollout(
-                model,
-                tokenizer,
-                requests,
-                alias=alias,
-                sequential_batch=0,
-                arm_state=generic_state,
-                capture=generic_capture,
-                matched_bundle=None,
-                hparams=hparams,
-                projector=projector,
-                contexts=contexts,
-                covariance_registry=covariance_registry,
-                projector_sha256=projector_sha256,
-                lock=controller_lock,
-                request_by_sha256=request_by_sha256,
-                collision_by_request=collision_by_request,
-                population_by_sha256=population_by_sha256,
-                schedule=schedule,
-                theta0_cache=theta0_cache,
-                dataset_path=dataset_path,
-                mutation_lock=mutation_lock,
-                diagnostic_recorder=recorder,
-                diagnostic_stop_at_terminal=True,
+            boundary_sha256 = _atomic_write_once(
+                raw_root / f"diagnostic-{arm.value}-boundary.json",
+                payload,
             )
-            del returned_bundle
-        finally:
-            generic_counter.close()
-        generic_parameter_after = _diagnostic_parameter_state(touched)
-        generic_history_after = generic_state.history.snapshot().digest
-        generic_sampler_after = schedule.state_digest
-        if (
-            generic_parameter_before != generic_parameter_after
-            or generic_parameter_after != w0_state
-            or generic_history_before != generic_history_after
-            or generic_sampler_before != generic_sampler_after
-        ):
-            raise ODEBFStateError(
-                "P1 diagnostic F_G path mutated state/history/sampler"
+            if recorder.terminal_hash is None:
+                raise ODEBFStateError(
+                    "P1 diagnostic arm terminal component receipt is absent"
+                )
+            boundary_receipt_sha256[arm.value] = boundary_sha256
+            terminal_component_sha256[arm.value] = recorder.terminal_hash
+            arm_status[arm.value] = str(payload["status"])
+            payload["receipt_sha256"] = boundary_sha256
+            payload_by_arm[arm] = payload
+            stages.record(
+                f"post_{arm.value.lower()}_terminal_component_diagnostic",
+                {
+                    "arm": arm.value,
+                    "status": payload["status"],
+                    "boundary_receipt_sha256": boundary_sha256,
+                    "terminal_component_receipt_sha256": (
+                        recorder.terminal_hash
+                    ),
+                    "trial_receipt_count": len(recorder.trial_hashes),
+                    "slot_receipt_count": len(recorder.slot_hashes),
+                },
             )
-        f_g_payload["parameter_before_sha256"] = generic_parameter_before
-        f_g_payload["parameter_after_sha256"] = generic_parameter_after
-        f_g_payload["history_before_sha256"] = generic_history_before
-        f_g_payload["history_after_sha256"] = generic_history_after
-        f_g_payload["sampler_before_sha256"] = generic_sampler_before
-        f_g_payload["sampler_after_sha256"] = generic_sampler_after
-        f_g_payload["compute"] = generic_state.ledger.raw_free_payload()
-        f_g_receipt_sha256 = _atomic_write_once(
-            raw_root / "diagnostic-F_G-boundary.json", f_g_payload
+        if matched_bundle is None:
+            raise ODEBFStateError("P1 diagnostic matched bundle was not retained")
+        matched_gate = _assert_matched_frozen_pair(
+            payload_by_arm[P1Arm.F_G],
+            payload_by_arm[P1Arm.F_BF],
         )
-        stages.record(
-            "post_terminal_component_diagnostic",
-            {
-                "n32_receipt_sha256": n32_receipt_sha256,
-                "f_g_receipt_sha256": f_g_receipt_sha256,
-                "terminal_component_receipt_sha256": recorder.terminal_hash,
-                "trial_receipt_count": len(recorder.trial_hashes),
-                "slot_receipt_count": len(recorder.slot_hashes),
-            },
-        )
+        stages.record("post_all_arm_terminal_diagnostic", matched_gate)
+        del matched_bundle
     finally:
         restore_arm_snapshot(
             touched,
@@ -2799,20 +3099,28 @@ def _run_terminal_component_diagnostic(
             raise ODEBFStateError("P1 diagnostic appended persistent history")
         artifact_guard.assert_unchanged()
 
-    if n32_receipt_sha256 is None or f_g_receipt_sha256 is None:
+    if n32_receipt_sha256 is None or set(boundary_receipt_sha256) != {
+        P1Arm.F_G.value,
+        P1Arm.F_BF.value,
+        P1Arm.R_BF.value,
+    }:
         raise ODEBFStateError("P1 diagnostic terminal receipts are incomplete")
     _observed_memory(job_ledger)
     terminal = {
-        "schema": "ode-edit-s04-ode-bf-p1r2diag-terminal/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r3diag-terminal/v1",
         "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
-        "status": "DIAGNOSTIC_TERMINAL_BOUNDARY_PASS_NO_COMMIT",
+        "status": "DIAGNOSTIC_ALL_ARMS_COMPLETE_NO_COMMIT",
         "alias": alias,
         "source_head": source_head,
         "edit_batch_size": BATCH_SIZE,
         "sequential_batch_count": 1,
-        "arms": [P1Arm.N32_NATIVE.value, P1Arm.F_G.value],
+        "arms": [arm.value for arm in P1_ARM_ORDER],
         "n32_receipt_sha256": n32_receipt_sha256,
-        "f_g_receipt_sha256": f_g_receipt_sha256,
+        "arm_boundary_receipt_sha256": boundary_receipt_sha256,
+        "terminal_component_receipt_sha256": terminal_component_sha256,
+        "arm_status": arm_status,
+        "causal_diagnostic_only": True,
+        "scientific_promotion_authorized": False,
         "diagnostic_receipt_sha256": diagnostic_receipt_links(raw_root),
         "controller_identity_sha256": controller_lock.identity(),
         "numerical_lock_sha256": numerical_sha256,
@@ -2831,14 +3139,15 @@ def _run_terminal_component_diagnostic(
     }
     terminal_sha256 = _atomic_write_once(destination / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s04-ode-bf-p1r2diag-manifest/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r3diag-manifest/v1",
         "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
         "status": terminal["status"],
         "alias": alias,
         "source_head": source_head,
         "terminal_sha256": terminal_sha256,
         "n32_receipt_sha256": n32_receipt_sha256,
-        "f_g_receipt_sha256": f_g_receipt_sha256,
+        "arm_boundary_receipt_sha256": boundary_receipt_sha256,
+        "terminal_component_receipt_sha256": terminal_component_sha256,
         "retry_count": 0,
     }
     manifest_sha256 = _atomic_write_once(destination / "manifest.json", manifest)
@@ -2865,7 +3174,7 @@ def run_p1(
     expected_parent = (repo_root / "local" / "odebf" / "results").resolve(strict=False)
     destination = output_root.resolve(strict=False)
     expected_name = (
-        expected_p1_diagnostic_result_name(alias)
+        expected_p1r3_diagnostic_result_name(alias)
         if diagnostic_mode
         else expected_p1_result_name(alias)
     )
@@ -3089,12 +3398,16 @@ def run_p1(
     stop_reason: str | None = None
     first_batch_started = time.perf_counter()
     completed_sequential_batches = 0
+    trajectory_active = True
 
     try:
         for sequential_batch, requests in enumerate(stream_batches):
+            if not trajectory_active:
+                continue
             matched_bundle: FrozenMatchedBundle | None = None
             payload_by_arm: dict[P1Arm, dict[str, Any]] = {}
             rbf_floor_stop = False
+            arm_local_statuses: list[tuple[P1Arm, str]] = []
             for arm in P1_ARM_ORDER:
                 state = arm_states[arm]
                 restore_arm_snapshot(touched, state.snapshot_values, state.snapshot_receipt)
@@ -3182,6 +3495,17 @@ def run_p1(
                     if state.history.snapshot().digest != before_history:
                         raise ODEBFStateError("failed R_BF floor mutated history")
                     rbf_floor_stop = True
+                elif payload.get("status") in set(
+                    ARM_LOCAL_INFEASIBILITY_STATUS.values()
+                ):
+                    restore_arm_snapshot(
+                        touched,
+                        state.snapshot_values,
+                        state.snapshot_receipt,
+                    )
+                    arm_local_statuses.append(
+                        (arm, str(payload["status"]))
+                    )
                 else:
                     receipt, values = snapshot_touched_weights(
                         arm, sequential_batch + 1, touched
@@ -3220,14 +3544,24 @@ def run_p1(
                         for arm in P1_ARM_ORDER
                     },
                     "matched_frozen_gate": matched_gate,
-                    "r_bf_primary_floor_pass": payload_by_arm[P1Arm.R_BF][
+                    "r_bf_primary_floor_pass": payload_by_arm[P1Arm.R_BF].get(
                         "primary_floor_pass"
-                    ],
+                    ),
                     "r_bf_hard_floor_stop": rbf_floor_stop,
+                    "arm_local_infeasibility": {
+                        arm.value: status for arm, status in arm_local_statuses
+                    },
                 },
             )
             completed_sequential_batches = sequential_batch + 1
-            if sequential_batch == 0:
+            if arm_local_statuses:
+                terminal_status = "ARM_LOCAL_INFEASIBLE"
+                stop_reason = ",".join(
+                    f"{arm.value}:{status}"
+                    for arm, status in arm_local_statuses
+                )
+                trajectory_active = False
+            elif sequential_batch == 0:
                 elapsed_first = time.perf_counter() - first_batch_started
                 peak_reserved = max(
                     state.ledger.peak_reserved_bytes for state in arm_states.values()
@@ -3391,6 +3725,7 @@ def write_p1_failure_once(
     exc: BaseException,
     *,
     repo_root: Path,
+    instruction_id: str = INSTRUCTION_ID,
 ) -> tuple[str, dict[str, Any]]:
     output_root.mkdir(mode=0o700, parents=True, exist_ok=True)
     raw = output_root / "raw"
@@ -3401,8 +3736,12 @@ def write_p1_failure_once(
         last_stage = json.loads(stage_files[-1].read_text(encoding="utf-8"))["stage"]
     diagnostic_links = diagnostic_receipt_links(raw)
     failure = {
-        "schema": "ode-edit-s04-ode-bf-p1r2-failure/v2",
-        "instruction_id": INSTRUCTION_ID,
+        "schema": (
+            "ode-edit-s04-ode-bf-p1r3diag-failure/v1"
+            if instruction_id == DIAGNOSTIC_INSTRUCTION_ID
+            else "ode-edit-s04-ode-bf-p1r2-failure/v2"
+        ),
+        "instruction_id": instruction_id,
         "status": "FAIL_CLOSED_NO_RETRY",
         "last_completed_stage": last_stage,
         "diagnostic_receipt_sha256": diagnostic_links,

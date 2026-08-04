@@ -12,12 +12,15 @@ from pathlib import Path
 from unittest import mock
 
 from project.run_scripts.ode_bf.contracts import FIXED_K, ODEBFContractError
+from project.run_scripts.ode_bf.first_hit import FeasibilityVerdict
 from project.run_scripts.ode_bf.p1_diagnostics import (
     P1DiagnosticRecorder,
     diagnostic_receipt_links,
     first_false_terminal_component,
 )
 from project.run_scripts.ode_bf.p1_runtime import (
+    _arm_local_infeasibility,
+    _replay_entry,
     _run_nonnative_rollout,
     _run_terminal_component_diagnostic,
     write_p1_failure_once,
@@ -57,7 +60,7 @@ class DiagnosticFixture:
 
     @staticmethod
     def risk(label: str, *, passed: bool = True) -> dict[str, object]:
-        return {
+        payload: dict[str, object] = {
             "decision_rule": (
                 "mean-and-smooth-max"
                 if label == "h"
@@ -72,6 +75,17 @@ class DiagnosticFixture:
             "raw_pass": passed,
             "sample_order_sha256": _digest(f"sample-{label}"),
         }
+        if label == "p":
+            payload["baseline"] = {
+                "baseline_kind": "outer_entry",
+                "outer_entry_snapshot_sha256": _digest("outer-entry"),
+                "anchor_population_sha256": _digest("population"),
+                "sample_order_sha256": _digest("sample-p"),
+                "entry_kl_identity_sha256": _digest("entry-kl"),
+                "cache_receipt_sha256": _digest("cache"),
+                "item_count": 10,
+            }
+        return payload
 
     @classmethod
     def trial(
@@ -209,10 +223,55 @@ class DiagnosticFixture:
                 "rejected_slots": 8,
             },
             "slot_receipt_sha256": recorder.slot_hashes,
+            "arm_local_infeasibility": _arm_local_infeasibility(
+                FeasibilityVerdict(
+                    inputs["structural_h"],
+                    inputs["structural_p"],
+                    inputs["trust"],
+                    inputs["terminal_h"],
+                    inputs["terminal_p"],
+                    True,
+                )
+            ),
         }
 
 
 class P1TerminalDiagnosticTests(unittest.TestCase):
+    def test_all_nonnative_arms_publish_independent_terminal_results(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            raw = Path(directory) / "raw"
+            observed: dict[str, str | None] = {}
+            false_by_arm = {
+                "F_G": ("terminal_p",),
+                "F_BF": (),
+                "R_BF": ("structural_p",),
+            }
+            for arm in ("F_G", "F_BF", "R_BF"):
+                recorder = P1DiagnosticRecorder(
+                    raw / "diagnostics" / f"arm-{arm}",
+                    arm=arm,
+                )
+                DiagnosticFixture.populate_k8(recorder)
+                recorder.write_terminal(
+                    DiagnosticFixture.terminal(
+                        recorder,
+                        false_components=false_by_arm[arm],
+                    )
+                )
+                observed[arm] = json.loads(
+                    (
+                        raw
+                        / "diagnostics"
+                        / f"arm-{arm}"
+                        / f"arm-{arm}-terminal-components.json"
+                    ).read_text()
+                )["first_false_component"]
+            self.assertEqual(
+                observed,
+                {"F_G": "terminal_p", "F_BF": None, "R_BF": "structural_p"},
+            )
+            self.assertEqual(len(diagnostic_receipt_links(raw)), 99)
+
     def test_actual_k8_failure_fixture_retains_24_trials_and_8_slots(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             raw = Path(directory) / "raw"
@@ -246,6 +305,18 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
             with self.subTest(name=name):
                 inputs = {item: item != name for item in names}
                 self.assertEqual(first_false_terminal_component(inputs), name)
+                classified = _arm_local_infeasibility(
+                    FeasibilityVerdict(
+                        inputs["structural_h"],
+                        inputs["structural_p"],
+                        inputs["trust"],
+                        inputs["terminal_h"],
+                        inputs["terminal_p"],
+                        True,
+                    )
+                )
+                self.assertIsNotNone(classified)
+                self.assertEqual(classified["first_false_component"], name)
         inputs = {item: item not in ("structural_p", "terminal_h") for item in names}
         self.assertEqual(first_false_terminal_component(inputs), "structural_p")
         self.assertIsNone(first_false_terminal_component({item: True for item in names}))
@@ -361,7 +432,6 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
             "p1_backend.py": "a5208ba7ab9ee31c0606420bf5b5b301f23947bb6e58e4d4f86f6e655f1743eb",
             "p1_controller.py": "1015f02a81921abec1208bf892339266af4f415077dbbf7c050b6b5f581d8b3b",
             "p1_evaluator.py": "a574b7566b4fc5ee1ff76fdcd19feb829d5eec8b7158b2f91542344c416b0381",
-            "p1_replay.py": "b626b6441c30d5e9575d86bfc48c8d122edd1541cc6f2ab1d9d343fc786c461a",
             "p1_state.py": "700aa763361748cb1b089d5d0d228832ac405b9fdbb1bdf281e6beeaf174e9a8",
             "transaction.py": "95540b9e2df393b8aa0d59973a3a553272b64495b682e11829977d956966db7d",
         }
@@ -370,28 +440,41 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
             self.assertEqual(observed, digest, name)
 
         source = inspect.getsource(_run_nonnative_rollout)
-        self.assertLess(source.index("write_terminal("), source.index(
-            'if not terminal_feasibility.all_pass:'
-        ))
         self.assertLess(source.index("if diagnostic_stop_at_terminal:"), source.index(
             'measure("selected_endpoint_rewrite_verdict")'
         ))
         self.assertIn("rho_accept=lock.rho_accept", source)
         self.assertIn("functional.pretrained.passed", source)
-        self.assertIn('raise ODEBFContractError("P1 all-history/terminal-P verifier failed")', source)
+        self.assertIn("_arm_local_infeasibility(terminal_feasibility)", source)
+        self.assertNotIn("P1 all-history/terminal-P verifier failed", source)
+        replay_entry = inspect.getsource(_replay_entry)
+        self.assertIn("outer_entry_p_cache.select", replay_entry)
+        self.assertNotIn("capture_pretrained_entry_kl", replay_entry)
+        self.assertLess(
+            replay_entry.index("with _virtual_context(model, factors):"),
+            replay_entry.index("outer_entry_p_cache.select"),
+        )
+        self.assertIn(
+            '"baseline_kind": "outer_entry"',
+            source,
+        )
 
         diagnostic = inspect.getsource(_run_terminal_component_diagnostic)
         self.assertNotIn("_run_native_batch", diagnostic)
         self.assertNotIn("load_counterfact_cases_after_freeze", diagnostic)
         self.assertNotIn("transaction.commit", diagnostic)
         self.assertIn("diagnostic_stop_at_terminal=True", diagnostic)
+        self.assertIn("P1Arm.F_BF", diagnostic)
+        self.assertIn("P1Arm.R_BF", diagnostic)
+        self.assertLess(diagnostic.index("P1Arm.F_G"), diagnostic.index("P1Arm.F_BF"))
+        self.assertLess(diagnostic.index("P1Arm.F_BF"), diagnostic.index("P1Arm.R_BF"))
 
-    def test_dry_plan_is_b10_1_n32_f_g_only_and_resource_locked(self) -> None:
+    def test_dry_plan_is_b10_1_all_arm_diagnostic_and_resource_locked(self) -> None:
         self.assertEqual(
             JOB_NAMES,
             {
-                "llama3-8b-inst": "odebf_s04_p1r2diag_llama",
-                "qwen2.5-7b-inst": "odebf_s04_p1r2diag_qwen",
+                "llama3-8b-inst": "odebf_s04_p1r3diag_llama",
+                "qwen2.5-7b-inst": "odebf_s04_p1r3diag_qwen",
             },
         )
         first = build_plan("a" * 40)
@@ -399,7 +482,11 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual(first["edit_batch_size"], 10)
         self.assertEqual(first["sequential_batch_count"], 1)
-        self.assertEqual(first["arms"], ["N32_NATIVE", "F_G"])
+        self.assertEqual(
+            first["arms"], ["N32_NATIVE", "F_G", "F_BF", "R_BF"]
+        )
+        self.assertEqual(first["functional_p_baseline_kind"], "outer_entry")
+        self.assertTrue(first["arm_local_infeasibility"])
         self.assertEqual(first["k_resolution"], 8)
         self.assertEqual(first["trials_per_slot"], 3)
         self.assertEqual(first["history_append_count"], 0)
@@ -409,14 +496,43 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
             self.assertEqual(job["time"], "04:00:00")
 
     def test_submit_scope_and_existing_p1r2_immutability(self) -> None:
-        self.assertEqual(len(submit_diag.ALLOWED_CHANGED_PATHS), 8)
-        self.assertEqual(len(submit_diag._p1r2_immutability_gate()), 8)
+        self.assertEqual(len(submit_diag.ALLOWED_CHANGED_PATHS), 11)
+        self.assertEqual(len(submit_diag._p1r2_immutability_gate()), 16)
         frozen = submit_diag._frozen_semantics_gate()
         self.assertEqual(len(frozen), 12)
         self.assertEqual(
             frozen["project/run_scripts/ode_bf/locks/numerical_lock_p1r2.json"],
             "0cdb4ff528f0eddea7b40b9d36a103fa372dca8433da8a0a2cf36f77ad2fa903",
         )
+
+    def test_runtime_firewall_allows_only_preserved_cuda_helper(self) -> None:
+        self.assertEqual(
+            len(submit_diag._assert_p1_runtime_ast_firewall()),
+            64,
+        )
+        valid = (
+            "from project.run_scripts.ode_alloc.p1_runtime import (\n"
+            "    _prepare_p1_cuda_runtime as "
+            "_prepare_preserved_one_device_cuda_runtime,\n"
+            ")\n"
+        )
+        invalid_alias = valid.replace(
+            "_prepare_p1_cuda_runtime",
+            "unexpected_helper",
+            1,
+        )
+        invalid_foreign = (
+            "from project.run_scripts.ode_alloc.p1_evaluator import forbidden\n"
+        )
+        for source, message in (
+            (invalid_alias, "CUDA helper import contract"),
+            (invalid_foreign, "forbidden foreign/session import"),
+        ):
+            with self.subTest(message=message), tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "runtime.py"
+                path.write_text(source, encoding="utf-8")
+                with self.assertRaisesRegex(ODEBFContractError, message):
+                    submit_diag._assert_p1_runtime_ast_firewall(path)
 
     def test_sbatch_is_server2_one_gpu_four_hour_offline_and_diag_only(self) -> None:
         path = Path(__file__).resolve().parents[2] / "session04_ode_bf_p1_diag.sbatch"
