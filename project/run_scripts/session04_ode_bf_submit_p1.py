@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import ast
 import hashlib
 import json
 import os
@@ -46,8 +47,10 @@ from project.run_scripts.session04_ode_bf_p1_dry_plan import JOB_NAMES
 
 SESSION_ID = "019fc5ec-f85b-7770-a73a-1d19be1cd491"
 BRANCH = "codex/odeeditsh2-ode-bf-v1"
-BASE_HEAD = "a5b7a60237c85432cbded8487ff04602cf4094e6"
-INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-SEQUENTIAL-B10-NATIVE-FLOOR-P1-V1"
+BASE_HEAD = "0a03f85c867c701002cf52ba5f14aaee835ca09f"
+INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-P1-CUDA-PREFLIGHT-R1-V1"
+SCIENTIFIC_INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-SEQUENTIAL-B10-NATIVE-FLOOR-P1-V1"
+SCIENTIFIC_BASE_HEAD = "a5b7a60237c85432cbded8487ff04602cf4094e6"
 PACKAGE_ROOT = REPO_ROOT / "project/run_scripts/ode_bf"
 LOCK_ROOT = PACKAGE_ROOT / "locks"
 SBATCH = REPO_ROOT / "project/run_scripts/session04_ode_bf_p1.sbatch"
@@ -81,26 +84,39 @@ R4_FILE_SHA256 = {
     "local/odebf/state/s04-p0-w64-receipt-field-r4-40421f3f.submission-receipt.json": "77d5ba7a2a478ad08ce17a8ac48c1e9eedb6ddcdec7e4a04dbaba1d0c9fac9df",
 }
 
+P1_R0_RESULT_SHA256 = {
+    "s04-p1-seqb10-native-floor-llama3-8b-inst-v1": (
+        "6122f08579ba1f5fb2f634f1eac859781594a5d5dd199e388e42d1449977b246"
+    ),
+    "s04-p1-seqb10-native-floor-qwen2.5-7b-inst-v1": (
+        "6122f08579ba1f5fb2f634f1eac859781594a5d5dd199e388e42d1449977b246"
+    ),
+}
+P1_R0_FILE_SHA256 = {
+    "local/odebf/logs/odebf_s04_p1_seqb10_llama-16633.err": (
+        "e8cb4e7db7245280f7e120c0921bd4d3d6dbe7e054ef9903557819d6a43b7d65"
+    ),
+    "local/odebf/logs/odebf_s04_p1_seqb10_llama-16633.out": (
+        "2e5292000e3663a5260a3b7f57557ca1da7780de833f6acdc26930241ce3cf9c"
+    ),
+    "local/odebf/logs/odebf_s04_p1_seqb10_qwen-16634.err": (
+        "60265ee2bfbec352d1c424aea8bc9ec7857d36f94dfce9310daaea6ae8070385"
+    ),
+    "local/odebf/logs/odebf_s04_p1_seqb10_qwen-16634.out": (
+        "2e5292000e3663a5260a3b7f57557ca1da7780de833f6acdc26930241ce3cf9c"
+    ),
+    "local/odebf/state/s04-p1-seqb10-native-floor-v1.submission-intent.json": (
+        "081cca0534cd5c0b8e622f139eee2563a7618df39292eb19d657e6f78b5b8464"
+    ),
+    "local/odebf/state/s04-p1-seqb10-native-floor-v1.submission-receipt.json": (
+        "975c8b11b17883040ae7f9194feb3152ffd137f3b705660388c37f3ca6668721"
+    ),
+}
+
 P1_ALLOWED_CHANGED_PATHS = {
-    "project/run_scripts/ode_bf/locks/numerical_lock_p1.json",
-    "project/run_scripts/ode_bf/locks/p1_p_population_seal.json",
-    "project/run_scripts/ode_bf/locks/p1_seqb10_stream_seal.json",
     "project/run_scripts/ode_bf/locks/source_manifest_p1.json",
-    "project/run_scripts/ode_bf/p1_backend.py",
-    "project/run_scripts/ode_bf/p1_controller.py",
-    "project/run_scripts/ode_bf/p1_evaluator.py",
-    "project/run_scripts/ode_bf/p1_replay.py",
     "project/run_scripts/ode_bf/p1_runtime.py",
-    "project/run_scripts/ode_bf/p1_selection.py",
-    "project/run_scripts/ode_bf/p1_state.py",
-    "project/run_scripts/ode_bf/resource.py",
-    "project/run_scripts/ode_bf/sampling.py",
-    "project/run_scripts/ode_bf/tests/test_p1_backend_controller.py",
-    "project/run_scripts/ode_bf/tests/test_p1_evaluator.py",
-    "project/run_scripts/ode_bf/tests/test_p1_replay.py",
     "project/run_scripts/ode_bf/tests/test_p1_runtime_contracts.py",
-    "project/run_scripts/ode_bf/tests/test_p1_selection.py",
-    "project/run_scripts/ode_bf/tests/test_p1_state.py",
     "project/run_scripts/ode_bf/tests/test_p1_submission.py",
     "project/run_scripts/session04_ode_bf_p1.py",
     "project/run_scripts/session04_ode_bf_p1.sbatch",
@@ -162,10 +178,103 @@ def _r4_immutability_gate() -> dict[str, str]:
     return observed
 
 
+def _p1_r0_immutability_gate() -> dict[str, str]:
+    observed: dict[str, str] = {}
+    result_parent = REPO_ROOT / "local/odebf/results"
+    for name, expected in P1_R0_RESULT_SHA256.items():
+        root = result_parent / name
+        if root.is_symlink() or not root.is_dir():
+            raise ODEBFContractError("P1 R0 result root identity differs")
+        digest, count = sha256_regular_tree(root)
+        if digest != expected or count != 2:
+            raise ODEBFContractError("P1 R0 result root immutability differs")
+        observed[name] = digest
+    for relative, expected in P1_R0_FILE_SHA256.items():
+        path = REPO_ROOT / relative
+        if path.is_symlink() or not path.is_file() or sha256_file(path) != expected:
+            raise ODEBFContractError("P1 R0 log/state immutability differs")
+        observed[relative] = expected
+    return observed
+
+
+def _cuda_preflight_source_gate() -> str:
+    path = PACKAGE_ROOT / "p1_runtime.py"
+    source = path.read_text(encoding="utf-8")
+    tree = ast.parse(source, filename=str(path))
+    reset_calls = [
+        node
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Attribute)
+        and node.func.attr == "reset_peak_memory_stats"
+    ]
+    if reset_calls:
+        raise ODEBFContractError("ODE-BF P1 retains a direct CUDA peak reset")
+    allowed_import_count = 0
+    forbidden_fragments = (
+        "session03",
+        "ode_alloc.p1_evaluator",
+        "knowledge-revision",
+        "knowledge_revision",
+    )
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom):
+            module = (node.module or "").lower()
+            if module == "project.run_scripts.ode_alloc.p1_runtime":
+                if (
+                    len(node.names) != 1
+                    or node.names[0].name != "_prepare_p1_cuda_runtime"
+                    or node.names[0].asname
+                    != "_prepare_preserved_one_device_cuda_runtime"
+                ):
+                    raise ODEBFContractError("P1 CUDA helper import scope differs")
+                allowed_import_count += 1
+            elif "ode_alloc.p1_runtime" in module or any(
+                fragment in module for fragment in forbidden_fragments
+            ):
+                raise ODEBFContractError("forbidden P1 foreign/session import found")
+        elif isinstance(node, ast.Import):
+            names = [alias.name.lower() for alias in node.names]
+            if any(
+                "ode_alloc.p1_runtime" in name
+                or any(fragment in name for fragment in forbidden_fragments)
+                for name in names
+            ):
+                raise ODEBFContractError("forbidden P1 foreign/session import found")
+        if (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and node.func.attr == "generate"
+        ):
+            raise ODEBFContractError("model.generate is forbidden in ODE-BF P1")
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            lowered = node.value.lower()
+            if (
+                ("/" in lowered or "\\" in lowered or "." in lowered)
+                and ("session03" in lowered or "knowledge-revision" in lowered)
+            ):
+                raise ODEBFContractError("forbidden P1 foreign/session string found")
+    if allowed_import_count != 1:
+        raise ODEBFContractError("P1 preserved CUDA helper import count differs")
+    required_import = (
+        "_prepare_p1_cuda_runtime as _prepare_preserved_one_device_cuda_runtime"
+    )
+    run_start = source.index("def run_p1(")
+    run_source = source[run_start:]
+    positions = (
+        run_source.index("_initialize_p1_cuda_runtime(stages)"),
+        run_source.index("seed_all(COMMON_SEED)"),
+        run_source.index('measure("model_load")'),
+    )
+    if required_import not in source or positions != tuple(sorted(positions)):
+        raise ODEBFContractError("P1 preserved CUDA preflight source order differs")
+    return hashlib.sha256(source.encode("utf-8")).hexdigest()
+
+
 def _source_manifest_gate() -> str:
     value, raw_sha = load_rooted_json(
         SOURCE_MANIFEST,
-        expected_schema="ode-edit-s04-ode-bf-p1-source-manifest/v1",
+        expected_schema="ode-edit-s04-ode-bf-p1r1-source-manifest/v1",
     )
     entries = value.get("entries")
     if (
@@ -249,8 +358,8 @@ def _lock_and_seal_gate() -> dict[str, str]:
         expected_schema="ode-edit-s04-ode-bf-p1-numerical-lock/v1",
     )
     if (
-        numerical["instruction_id"] != INSTRUCTION_ID
-        or numerical["expected_base"] != BASE_HEAD
+        numerical["instruction_id"] != SCIENTIFIC_INSTRUCTION_ID
+        or numerical["expected_base"] != SCIENTIFIC_BASE_HEAD
         or numerical["edit_batch_size"] != 10
         or numerical["sequential_batch_count"] != 4
         or numerical["logical_edits_per_model"] != 40
@@ -275,18 +384,22 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
     _run(["scripts/check-session-boundary.sh", SESSION_ID])
     _run(["scripts/check-agent-access.sh", "--all-changed"])
     lock_gate = _lock_and_seal_gate()
+    cuda_source_sha256 = _cuda_preflight_source_gate()
     r0 = preserved_p0._r0_immutability_gate()
     r1 = preserved_p0._r1_immutability_gate()
     r2 = preserved_p0._r2_immutability_gate()
     r3 = preserved_p0._r3_immutability_gate()
     r4 = _r4_immutability_gate()
+    p1_r0 = _p1_r0_immutability_gate()
     for relative, expected in preserved_p0.PRESERVED_REPAIR_SHA256.items():
         if sha256_file(REPO_ROOT / relative) != expected:
             raise ODEBFContractError("preserved CUDA repair byte identity differs")
 
     scientific = [path for path in PACKAGE_ROOT.glob("*.py") if path.name != "__init__.py"]
+    cuda_runtime_path = PACKAGE_ROOT / "p1_runtime.py"
     assert_ast_firewall(
-        scientific + [REPO_ROOT / "project/run_scripts/session04_ode_bf_p1.py"]
+        [path for path in scientific if path != cuda_runtime_path]
+        + [REPO_ROOT / "project/run_scripts/session04_ode_bf_p1.py"]
     )
     assert_no_alias_specific_controller_branch(
         [
@@ -389,11 +502,13 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
         "preserved_repair_test_count": int(repair_count.group(1)),
         "source_manifest_sha256": _source_manifest_gate(),
         "lock_gate": lock_gate,
+        "cuda_preflight_source_sha256": cuda_source_sha256,
         "r0_immutability_sha256": r0,
         "r1_immutability_sha256": r1,
         "r2_immutability_sha256": r2,
         "r3_immutability_sha256": r3,
         "r4_immutability": r4,
+        "p1_r0_immutability": p1_r0,
         "dry_plan_sha256": hashlib.sha256(dry_first.encode("utf-8")).hexdigest(),
         "artifacts": artifacts,
         "memory_forecasts": forecasts,
@@ -416,8 +531,8 @@ def _output_gate() -> dict[str, Path]:
     for job_name in JOB_NAMES.values():
         if list(log_parent.glob(f"{job_name}-*")):
             raise ODEBFContractError("P1 log namespace already exists")
-    intent = state_parent / "s04-p1-seqb10-native-floor-v1.submission-intent.json"
-    receipt = state_parent / "s04-p1-seqb10-native-floor-v1.submission-receipt.json"
+    intent = state_parent / "s04-p1r1-seqb10-native-floor-v1.submission-intent.json"
+    receipt = state_parent / "s04-p1r1-seqb10-native-floor-v1.submission-receipt.json"
     if intent.exists() or intent.is_symlink() or receipt.exists() or receipt.is_symlink():
         raise ODEBFContractError("P1 pair was already attempted")
     roots["__intent__"] = intent
@@ -462,6 +577,7 @@ def main() -> int:
     gate = _cpu_static_gate(source_head)
     paths = _output_gate()
     _r4_immutability_gate()
+    _p1_r0_immutability_gate()
     before = preserved_p0._scheduler_jobs()
     if any(record.job_name in JOB_NAMES.values() for record in before):
         raise ODEBFContractError("P1 scheduler job name already exists")
@@ -469,8 +585,10 @@ def main() -> int:
     if 2 * 65_000 > 2 * MEMORY_CAP_MIB_PER_GPU:
         raise ODEBFContractError("P1 pair host-memory request exceeds server2 cap")
     intent = {
-        "schema": "ode-edit-s04-ode-bf-p1-submission-intent/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r1-submission-intent/v1",
         "instruction_id": INSTRUCTION_ID,
+        "scientific_instruction_id": SCIENTIFIC_INSTRUCTION_ID,
+        "authorized_repair_attempt": "R1",
         "source_head": source_head,
         "jobs": JOB_NAMES,
         "results": {
@@ -511,8 +629,10 @@ def main() -> int:
             ).hexdigest(),
         }
     receipt = {
-        "schema": "ode-edit-s04-ode-bf-p1-submission-receipt/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r1-submission-receipt/v1",
         "instruction_id": INSTRUCTION_ID,
+        "scientific_instruction_id": SCIENTIFIC_INSTRUCTION_ID,
+        "authorized_repair_attempt": "R1",
         "status": "SUBMITTED_PAIR" if failure is None else "PARTIAL_OR_FAILED_NO_RETRY",
         "source_head": source_head,
         "intent_sha256": intent_sha,

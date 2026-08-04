@@ -4,17 +4,21 @@ import hashlib
 import inspect
 import tempfile
 import threading
+import types
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import torch
 
+from project.run_scripts.ode_alloc import p1_runtime as preserved_cuda_runtime
 from project.run_scripts.ode_bf.accounting import ComputeLedger
 from project.run_scripts.ode_bf.contracts import BATCH_SIZE, FIXED_K, ODEBFContractError
 from project.run_scripts.ode_bf.functional import WaypointFactor, assemble_effective_bf16, tensor_sha256
 from project.run_scripts.ode_bf.p1_runtime import (
     ArmRuntimeState,
     P1StageRecorder,
+    _initialize_p1_cuda_runtime,
     _assert_arm_batch_transition,
     _assert_matched_frozen_pair,
     _run_native_batch,
@@ -360,6 +364,145 @@ class RuntimeSourceAndReceiptTests(unittest.TestCase):
         self.assertEqual(
             forecasts[0].runtime_reserved_hold_limit_mib,
             forecasts[1].runtime_reserved_hold_limit_mib,
+        )
+
+
+class PreservedCudaPreflightIntegrationTests(unittest.TestCase):
+    @staticmethod
+    def _probe(device_type: str = "cuda", elements: int = 1) -> object:
+        return types.SimpleNamespace(
+            device=types.SimpleNamespace(type=device_type),
+            numel=lambda: elements,
+        )
+
+    def test_old_failure_hash_and_preserved_positive_call_order(self) -> None:
+        self.assertEqual(
+            hashlib.sha256("Invalid device argument ".encode("utf-8")).hexdigest(),
+            "a1b5fe8d749ee4a07519a5365fdd547fc0586398d7bbb916646d49e214c4730d",
+        )
+        calls: list[str] = []
+        reset_devices: list[int] = []
+
+        def record_reset(device: int) -> None:
+            calls.append("reset")
+            reset_devices.append(device)
+
+        with (
+            mock.patch.object(torch.cuda, "is_available", return_value=True),
+            mock.patch.object(torch.cuda, "device_count", return_value=1),
+            mock.patch.object(
+                torch.cuda, "set_device", side_effect=lambda _: calls.append("set")
+            ),
+            mock.patch.object(torch.cuda, "init", side_effect=lambda: calls.append("init")),
+            mock.patch.object(torch.cuda, "current_device", return_value=0),
+            mock.patch.object(torch, "empty", return_value=self._probe()),
+            mock.patch.object(
+                torch.cuda, "synchronize", side_effect=lambda _: calls.append("sync")
+            ),
+            mock.patch.object(
+                torch.cuda, "empty_cache", side_effect=lambda: calls.append("empty")
+            ),
+            mock.patch.object(
+                torch.cuda,
+                "reset_peak_memory_stats",
+                side_effect=record_reset,
+            ),
+        ):
+            receipt = preserved_cuda_runtime._prepare_p1_cuda_runtime()
+        self.assertEqual(calls, ["set", "init", "sync", "empty", "reset"])
+        self.assertEqual(receipt["current_device_index"], 0)
+        self.assertEqual(reset_devices, [receipt["current_device_index"]])
+        self.assertEqual(receipt["visible_gpu_count"], 1)
+        self.assertEqual(receipt["allocator_probe_elements"], 1)
+
+    def test_negative_unavailable_count_and_invalid_current_device(self) -> None:
+        with mock.patch.object(torch.cuda, "is_available", return_value=False):
+            with self.assertRaisesRegex(Exception, "torch-visible CUDA"):
+                preserved_cuda_runtime._prepare_p1_cuda_runtime()
+        for count in (0, 2):
+            with self.subTest(count=count), mock.patch.object(
+                torch.cuda, "is_available", return_value=True
+            ), mock.patch.object(torch.cuda, "device_count", return_value=count):
+                with self.assertRaisesRegex(Exception, "device count differs"):
+                    preserved_cuda_runtime._prepare_p1_cuda_runtime()
+        with (
+            mock.patch.object(torch.cuda, "is_available", return_value=True),
+            mock.patch.object(torch.cuda, "device_count", return_value=1),
+            mock.patch.object(torch.cuda, "set_device"),
+            mock.patch.object(torch.cuda, "init"),
+            mock.patch.object(torch.cuda, "current_device", return_value=1),
+        ):
+            with self.assertRaisesRegex(Exception, "current CUDA device differs"):
+                preserved_cuda_runtime._prepare_p1_cuda_runtime()
+
+    def test_negative_probe_and_cleanup_fail_closed_before_reset(self) -> None:
+        reset = mock.Mock()
+        with (
+            mock.patch.object(torch.cuda, "is_available", return_value=True),
+            mock.patch.object(torch.cuda, "device_count", return_value=1),
+            mock.patch.object(torch.cuda, "set_device"),
+            mock.patch.object(torch.cuda, "init"),
+            mock.patch.object(torch.cuda, "current_device", return_value=0),
+            mock.patch.object(torch, "empty", return_value=self._probe("cpu")),
+            mock.patch.object(torch.cuda, "reset_peak_memory_stats", reset),
+        ):
+            with self.assertRaisesRegex(Exception, "allocator probe differs"):
+                preserved_cuda_runtime._prepare_p1_cuda_runtime()
+        reset.assert_not_called()
+
+        reset = mock.Mock()
+        with (
+            mock.patch.object(torch.cuda, "is_available", return_value=True),
+            mock.patch.object(torch.cuda, "device_count", return_value=1),
+            mock.patch.object(torch.cuda, "set_device"),
+            mock.patch.object(torch.cuda, "init"),
+            mock.patch.object(torch.cuda, "current_device", return_value=0),
+            mock.patch.object(torch, "empty", return_value=self._probe()),
+            mock.patch.object(
+                torch.cuda, "synchronize", side_effect=RuntimeError("cleanup failure")
+            ),
+            mock.patch.object(torch.cuda, "reset_peak_memory_stats", reset),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "cleanup failure"):
+                preserved_cuda_runtime._prepare_p1_cuda_runtime()
+        reset.assert_not_called()
+
+    def test_actual_p1_pre_model_stage_uses_preserved_receipt(self) -> None:
+        preserved_receipt = {
+            "torch_cuda_available": True,
+            "visible_gpu_count": 1,
+            "current_device_index": 0,
+            "allocator_probe_elements": 1,
+        }
+        with tempfile.TemporaryDirectory() as directory, mock.patch(
+            "project.run_scripts.ode_bf.p1_runtime."
+            "_prepare_preserved_one_device_cuda_runtime",
+            return_value=preserved_receipt,
+        ) as preflight, mock.patch.object(torch.cuda, "current_device", return_value=0):
+            recorder = P1StageRecorder(Path(directory))
+            observed = _initialize_p1_cuda_runtime(recorder)
+            preflight.assert_called_once_with()
+            self.assertEqual(recorder.last_stage, "post_cuda_preflight")
+            self.assertTrue(observed["device_identity_stable"])
+            receipt_path = Path(directory) / "stage-001-post_cuda_preflight.json"
+            self.assertTrue(receipt_path.is_file())
+            self.assertNotIn("physical", receipt_path.read_text(encoding="utf-8"))
+
+    def test_p1_runtime_has_no_direct_peak_reset_and_orders_preflight_first(self) -> None:
+        source = inspect.getsource(__import__(
+            "project.run_scripts.ode_bf.p1_runtime", fromlist=["run_p1"]
+        ))
+        self.assertNotIn("reset_peak_memory_stats", source)
+        run_source = inspect.getsource(__import__(
+            "project.run_scripts.ode_bf.p1_runtime", fromlist=["run_p1"]
+        ).run_p1)
+        self.assertLess(
+            run_source.index("_initialize_p1_cuda_runtime(stages)"),
+            run_source.index("seed_all(COMMON_SEED)"),
+        )
+        self.assertLess(
+            run_source.index("seed_all(COMMON_SEED)"),
+            run_source.index('measure("model_load")'),
         )
 
 

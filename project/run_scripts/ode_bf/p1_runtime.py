@@ -19,6 +19,10 @@ from typing import Any, Iterator, Mapping, Sequence
 import numpy as np
 import torch
 
+from project.run_scripts.ode_alloc.p1_runtime import (
+    _prepare_p1_cuda_runtime as _prepare_preserved_one_device_cuda_runtime,
+)
+
 from .accounting import ComputeLedger
 from .alpha_backend import fresh_contexts_twice, load_original_bf16, seed_all
 from .artifacts import ODEBFArtifactGuard, load_rooted_json, sha256_file
@@ -113,14 +117,14 @@ from .transaction import AtomicBatchTransaction
 
 INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-SEQUENTIAL-B10-NATIVE-FLOOR-P1-V1"
 EXPECTED_BASE = "a5b7a60237c85432cbded8487ff04602cf4094e6"
-RESULT_TOKEN = "seqb10-native-floor-p1-v1"
+RESULT_TOKEN = "seqb10-native-floor-p1r1-v1"
 SEQUENTIAL_BATCHES = 4
 
 
 def expected_p1_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 result alias differs")
-    return f"s04-p1-seqb10-native-floor-{alias}-v1"
+    return f"s04-p1r1-seqb10-native-floor-{alias}-v1"
 
 
 def _atomic_write_once(path: Path, value: Mapping[str, Any]) -> str:
@@ -164,6 +168,29 @@ class P1StageRecorder:
         )
         self.last_stage = stage
         return digest
+
+
+def _initialize_p1_cuda_runtime(stages: P1StageRecorder) -> dict[str, Any]:
+    """Reuse the preserved one-visible-device preflight before model CUDA work."""
+
+    receipt = _prepare_preserved_one_device_cuda_runtime()
+    current_device = int(torch.cuda.current_device())
+    validated_device = int(receipt["current_device_index"])
+    if current_device != validated_device:
+        raise ODEBFContractError("P1 CUDA device identity changed after preflight")
+    payload = {
+        "provider": (
+            "project.run_scripts.ode_alloc.p1_runtime."
+            "_prepare_p1_cuda_runtime"
+        ),
+        "torch_cuda_available": bool(receipt["torch_cuda_available"]),
+        "visible_gpu_count": int(receipt["visible_gpu_count"]),
+        "current_device_index": validated_device,
+        "allocator_probe_elements": int(receipt["allocator_probe_elements"]),
+        "device_identity_stable": True,
+    }
+    stages.record("post_cuda_preflight", payload)
+    return payload
 
 
 class ComponentTimer:
@@ -2153,8 +2180,8 @@ def run_p1(
         },
     )
 
+    cuda_runtime_receipt = _initialize_p1_cuda_runtime(stages)
     seed_all(COMMON_SEED)
-    torch.cuda.reset_peak_memory_stats(0)
     job_ledger = ComputeLedger()
     load_timer = ComponentTimer(job_ledger)
     with load_timer.measure("model_load"):
@@ -2472,6 +2499,7 @@ def run_p1(
         "artifact_receipt": asdict(artifact_receipt),
         "theta0_teacher_receipt_sha256": theta0_cache.receipt_sha256,
         "context_sha256": context_sha256,
+        "cuda_preflight": cuda_runtime_receipt,
         "job_initialization_compute": job_ledger.raw_free_payload(),
         "arm_compute": {
             arm.value: arm_states[arm].ledger.raw_free_payload()

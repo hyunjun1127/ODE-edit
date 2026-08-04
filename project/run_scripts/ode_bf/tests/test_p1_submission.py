@@ -19,8 +19,8 @@ class P1SubmissionTests(unittest.TestCase):
         self.assertEqual(
             JOB_NAMES,
             {
-                "llama3-8b-inst": "odebf_s04_p1_seqb10_llama",
-                "qwen2.5-7b-inst": "odebf_s04_p1_seqb10_qwen",
+                "llama3-8b-inst": "odebf_s04_p1r1_seqb10_llama",
+                "qwen2.5-7b-inst": "odebf_s04_p1r1_seqb10_qwen",
             },
         )
         first = json.dumps(
@@ -39,11 +39,17 @@ class P1SubmissionTests(unittest.TestCase):
         self.assertEqual(plan["sequential_batch_count"], 4)
         self.assertEqual(plan["logical_edits_per_arm"], 40)
         self.assertEqual(plan["arms"], ["N32_NATIVE", "F_G", "F_BF", "R_BF"])
+        self.assertEqual(plan["authorized_repair_attempt"], "R1")
+        self.assertEqual(
+            plan["instruction_id"],
+            "ODEEDIT-S04-ODE-BF-P1-CUDA-PREFLIGHT-R1-V1",
+        )
         self.assertEqual(len(plan["jobs"]), 2)
         for job in plan["jobs"]:
             self.assertEqual((job["gpu"], job["cpu"]), (1, 8))
             self.assertEqual(job["memory_mib"], 65_000)
             self.assertEqual(job["time"], "24:00:00")
+            self.assertTrue(job["result_name"].startswith("s04-p1r1-seqb10-"))
             self.assertLessEqual(job["memory_forecast"]["forecast_gpu_peak_mib"], 65_000)
             self.assertLessEqual(job["memory_forecast"]["forecast_host_peak_mib"], 65_000)
 
@@ -61,12 +67,12 @@ class P1SubmissionTests(unittest.TestCase):
         ):
             self.assertIn(directive, sbatch)
         self.assertNotIn("#SBATCH --array", sbatch)
-        self.assertIn('"${RUN_TOKEN}" == "seqb10-native-floor-p1-v1"', sbatch)
+        self.assertIn('"${RUN_TOKEN}" == "seqb10-native-floor-p1r1-v1"', sbatch)
         self.assertIn("export HF_HUB_OFFLINE=1", sbatch)
         self.assertIn("export TRANSFORMERS_OFFLINE=1", sbatch)
         self.assertIn('--run-token "${RUN_TOKEN}"', sbatch)
 
-    def test_lock_seal_cross_identity_and_r4_immutability(self) -> None:
+    def test_lock_seal_cross_identity_and_old_attempt_immutability(self) -> None:
         lock_gate = submit_module._lock_and_seal_gate()
         self.assertEqual(
             lock_gate["stream_root_digest"],
@@ -77,9 +83,10 @@ class P1SubmissionTests(unittest.TestCase):
             "144b432293eea78775a74da5faf9fc837ca301b33a7e5e0c2b8088cde4721120",
         )
         self.assertEqual(len(submit_module._r4_immutability_gate()), 8)
+        self.assertEqual(len(submit_module._p1_r0_immutability_gate()), 8)
 
     def test_allowed_checkpoint_scope_is_exact_and_excludes_foreign_namespaces(self) -> None:
-        self.assertEqual(len(submit_module.P1_ALLOWED_CHANGED_PATHS), 24)
+        self.assertEqual(len(submit_module.P1_ALLOWED_CHANGED_PATHS), 8)
         self.assertTrue(
             all(
                 path.startswith("project/run_scripts/ode_bf/")
@@ -93,6 +100,9 @@ class P1SubmissionTests(unittest.TestCase):
                 for path in submit_module.P1_ALLOWED_CHANGED_PATHS
             )
         )
+
+    def test_cuda_preflight_source_gate_has_no_direct_reset(self) -> None:
+        self.assertEqual(len(submit_module._cuda_preflight_source_gate()), 64)
 
     def test_entrypoint_success_systemexit_and_sanitized_exception(self) -> None:
         stderr = io.StringIO()
