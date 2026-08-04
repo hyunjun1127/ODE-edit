@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import inspect
 import tempfile
 import threading
 import types
@@ -16,6 +17,14 @@ from project.run_scripts.ode_bf.alpha_backend import (
     ALPHA_SOLVE_DTYPE,
     ALPHA_SOLVE_REFERENCE,
     FOUR_PATH_ORDER,
+    W64_ASSEMBLER_REFERENCE,
+    W64_CAST_DTYPE,
+    W64_ENDPOINT_DTYPE,
+    W64_PRIMARY_PATH,
+    W64_PRIMARY_REFERENCE,
+    W64_REDUCED_BACKEND,
+    W64_REDUCED_DTYPE,
+    _blockwise_fp64_update_relative_error,
     _normalize_requests,
     bf16_comparison_receipt,
     build_four_path_layer_diagnostic,
@@ -170,6 +179,10 @@ class AlphaJointCaptureTests(unittest.TestCase):
         self.assertEqual(counters, {"z": 10, "keys": 5, "io": 5})
         self.assertEqual(captured.initialization.direct_z_initializations, 10)
         self.assertEqual(captured.initialization.shared_key_computes, 5)
+        self.assertEqual(W64_PRIMARY_PATH, "W64")
+        self.assertEqual(W64_PRIMARY_REFERENCE, "Native AlphaEdit-WB-mixed64-v1")
+        self.assertIs(captured.wb_candidates, captured.path_candidates["W64"])
+        self.assertIs(captured.wb_factors, captured.path_factors["W64"])
         self.assertTrue(
             all(
                 torch.equal(captured.native_candidates[name], captured.wb_candidates[name])
@@ -519,6 +532,10 @@ class FourPathDiagnosticTests(unittest.TestCase):
             {item.source_identity_sha256 for item in result.receipt.path_receipts},
             {result.receipt.source_identity_sha256},
         )
+        self.assertEqual(
+            {name for name, _ in result.receipt.path_receipts[0].source_hashes},
+            {"W0", "P", "K", "C", "R", "lambda", "I"},
+        )
         self.assertEqual(tuple(value.data_ptr() for value in guarded), pointers)
         self.assertEqual(tuple(value._version for value in guarded), versions)
         self.assertTrue(torch.equal(torch.get_rng_state(), rng))
@@ -631,7 +648,7 @@ class FourPathDiagnosticTests(unittest.TestCase):
             layer=4,
             regularization=1.0e-5,
             solve_device="cpu",
-            residual_tolerance=1.0e-4,
+            residual_tolerance=1.0e-5,
         )
         result = build_four_path_layer_diagnostic(
             layer=4,
@@ -644,7 +661,7 @@ class FourPathDiagnosticTests(unittest.TestCase):
             regularization=1.0e-5,
             projector_sha256="a" * 64,
             request_order_sha256="b" * 64,
-            residual_tolerance=1.0e-4,
+            residual_tolerance=1.0e-5,
             native_receipt=dense.receipt,
             row_block=2,
         )
@@ -652,13 +669,72 @@ class FourPathDiagnosticTests(unittest.TestCase):
         self.assertGreater(receipts["W32"].condition_estimate, 1.0e6)
         self.assertFalse(receipts["W32"].certificate_passed)
         self.assertTrue(receipts["W64"].certificate_passed)
-        self.assertGreater(receipts["W32"].normalized_backward_residual, 1.0e-4)
+        self.assertGreater(receipts["W32"].normalized_backward_residual, 1.0e-5)
+
+    def test_common_mixed64_policy_has_five_layer_eta_receipts_for_both_aliases(self) -> None:
+        for alias_index, alias in enumerate(("llama3-8b-inst", "qwen2.5-7b-inst")):
+            for layer_offset in range(5):
+                projector, keys, residual, entry, dense = self._four_path_fixture(
+                    700 + 10 * alias_index + layer_offset
+                )
+                result = build_four_path_layer_diagnostic(
+                    layer=layer_offset,
+                    weight_name=f"layer{layer_offset}.weight",
+                    entry_weight=entry,
+                    native_matched_update=dense.update.T.contiguous(),
+                    projector=projector,
+                    joint_keys=keys,
+                    residual=residual,
+                    regularization=1.0,
+                    projector_sha256="a" * 64,
+                    request_order_sha256="b" * 64,
+                    residual_tolerance=1.0e-5,
+                    native_receipt=dense.receipt,
+                    row_block=2,
+                )
+                w64 = next(
+                    item for item in result.receipt.path_receipts if item.path == "W64"
+                )
+                self.assertEqual(w64.joint_rank, 10, alias)
+                self.assertLessEqual(w64.normalized_backward_residual, 1.0e-5, alias)
+                self.assertTrue(w64.certificate_passed, alias)
+
+    def test_mixed64_update_error_is_blockwise_and_preserves_precision_boundary(self) -> None:
+        generator = torch.Generator().manual_seed(505)
+        q64 = torch.randn((37, 10), generator=generator, dtype=torch.float64)
+        residual32 = torch.randn((13, 10), generator=generator, dtype=torch.float32)
+        reference32 = (q64.float() @ residual32.T).contiguous()
+        observed = _blockwise_fp64_update_relative_error(
+            q64,
+            residual32,
+            reference32,
+            reference_norm=float(torch.linalg.norm(reference32)),
+            row_block=7,
+        )
+        oracle = float(
+            torch.linalg.norm(q64 @ residual32.double().T - reference32.double())
+            / torch.linalg.norm(reference32)
+        )
+        self.assertAlmostEqual(observed, oracle, places=15)
+        self.assertIs(W64_REDUCED_DTYPE, torch.float64)
+        self.assertIs(W64_CAST_DTYPE, torch.float32)
+        self.assertIs(W64_ENDPOINT_DTYPE, torch.bfloat16)
+        production_source = inspect.getsource(build_four_path_layer_diagnostic)
+        self.assertNotIn("w64_update =", production_source)
+        self.assertIn("_blockwise_fp64_update_relative_error", production_source)
+        self.assertEqual(
+            W64_ASSEMBLER_REFERENCE,
+            "project.run_scripts.ode_bf.functional.assemble_effective_bf16",
+        )
+        self.assertIn("general-projector", W64_REDUCED_BACKEND)
+        self.assertNotIn("llama3-8b-inst", production_source)
+        self.assertNotIn("qwen2.5-7b-inst", production_source)
 
 class P0ReceiptTests(unittest.TestCase):
     def test_result_namespace_and_outcome_sealing(self) -> None:
         self.assertEqual(
             expected_result_name("llama3-8b-inst"),
-            "s04-p0-dense-wb-equiv-r2-llama3-8b-inst-23fe5621",
+            "s04-p0-w64-canonical-receipt-r3-llama3-8b-inst-40421f3f",
         )
         scores = tuple(CounterFactRequestScore(0.1, 0.2) for _ in range(10))
         receipt = ModelEvaluationReceipt(

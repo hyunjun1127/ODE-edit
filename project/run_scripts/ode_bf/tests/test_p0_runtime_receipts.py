@@ -12,12 +12,52 @@ from project.run_scripts.ode_bf.p0_runtime import (
     StageRecorder,
     _atomic_write_once,
     classify_four_path_diagnostic,
+    classify_w64_technical_candidate,
     expected_result_name,
     write_failure_once,
 )
 
 
 class P0RuntimeReceiptTests(unittest.TestCase):
+    def test_w64_candidate_ignores_w32_diagnostic_failure_without_fallback(self) -> None:
+        common = {
+            "source_inputs_identical": True,
+            "required_paths_finite": True,
+            "required_certificates_pass": True,
+            "n32_w64_benchmark_bits_exact": True,
+            "n32_w64_decisions_exact": True,
+            "strict_w64_virtual_commit_exact": True,
+            "rollback_and_restore_exact": True,
+            "boundary_touched": False,
+            "request_and_span_parity": True,
+        }
+        self.assertEqual(
+            classify_w64_technical_candidate(**common),
+            "W64_TECHNICAL_CANDIDATE_NO_NATIVE_EQUIVALENCE_CLAIM",
+        )
+        for gate in (
+            "source_inputs_identical",
+            "required_paths_finite",
+            "required_certificates_pass",
+            "n32_w64_benchmark_bits_exact",
+            "n32_w64_decisions_exact",
+            "strict_w64_virtual_commit_exact",
+            "rollback_and_restore_exact",
+            "request_and_span_parity",
+        ):
+            failed = dict(common)
+            failed[gate] = False
+            self.assertEqual(
+                classify_w64_technical_candidate(**failed),
+                "W64_TECHNICAL_HARD_GATE_FAIL",
+            )
+        touched = dict(common)
+        touched["boundary_touched"] = True
+        self.assertEqual(
+            classify_w64_technical_candidate(**touched),
+            "W64_TECHNICAL_HARD_GATE_FAIL",
+        )
+
     def test_four_path_classification_is_predeclared_and_fail_closed(self) -> None:
         common = {
             "source_inputs_identical": True,

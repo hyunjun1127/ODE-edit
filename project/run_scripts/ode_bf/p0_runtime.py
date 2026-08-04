@@ -24,6 +24,13 @@ from .alpha_backend import (
     ALPHA_SOLVE_DTYPE,
     ALPHA_SOLVE_REFERENCE,
     FOUR_PATH_ORDER,
+    W64_ASSEMBLER_REFERENCE,
+    W64_CAST_DTYPE,
+    W64_ENDPOINT_DTYPE,
+    W64_PRIMARY_PATH,
+    W64_PRIMARY_REFERENCE,
+    W64_REDUCED_BACKEND,
+    W64_REDUCED_DTYPE,
     capture_native_and_wb_joint_endpoint,
     fresh_contexts_twice,
     load_original_bf16,
@@ -35,15 +42,16 @@ from . import evaluator as evaluator_module
 from .evaluator import ModelEvaluationReceipt, evaluate_counterfact_rewrite_batch
 from . import functional as functional_module
 from .functional import CumulativeBF16FunctionalTrial, tensor_sha256
+from .request_digest import ORDERED_REQUEST_DIGEST_SCHEMA, ordered_request_digest_v1
 from .selection import load_sealed_joint_requests, verify_p0_b10_seal
 from .transaction import AtomicBatchTransaction
 
 
-INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-DENSE-WB-EQUIV-DIAG-R2-V1"
+INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-W64-CANONICAL-RECEIPT-P0-R3-V1"
 SCIENTIFIC_LOCK_INSTRUCTION_ID = (
     "ODEEDIT-S04-ODE-BF-V1P1-EXACT-FIRST-HIT-CPU-P0-V1-A3"
 )
-NUMERICAL_LOCK_SHA256 = "23fe5621612f715c52ef70f94a10ae7eaba759b4ac209e0e0f3e09c81ea9feef"
+NUMERICAL_LOCK_SHA256 = "40421f3f8ef0e47df842268bb68b9c9548398e27e0a9afecb125ab1b6f853fa1"
 NUMERICAL_LOCK_PREFIX = NUMERICAL_LOCK_SHA256[:8]
 SEED = 41
 
@@ -51,7 +59,7 @@ SEED = 41
 def expected_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P0 result alias is not locked")
-    return f"s04-p0-dense-wb-equiv-r2-{alias}-{NUMERICAL_LOCK_PREFIX}"
+    return f"s04-p0-w64-canonical-receipt-r3-{alias}-{NUMERICAL_LOCK_PREFIX}"
 
 
 def _atomic_write_once(path: Path, value: Mapping[str, Any]) -> str:
@@ -375,6 +383,35 @@ def classify_four_path_diagnostic(
     return "NUMERIC_PATH_DIVERGENCE_CANDIDATE"
 
 
+def classify_w64_technical_candidate(
+    *,
+    source_inputs_identical: bool,
+    required_paths_finite: bool,
+    required_certificates_pass: bool,
+    n32_w64_benchmark_bits_exact: bool,
+    n32_w64_decisions_exact: bool,
+    strict_w64_virtual_commit_exact: bool,
+    rollback_and_restore_exact: bool,
+    boundary_touched: bool,
+    request_and_span_parity: bool,
+) -> str:
+    """Classify only the prospective W64 path; W32 is diagnostic-only."""
+
+    if (
+        not source_inputs_identical
+        or not required_paths_finite
+        or not required_certificates_pass
+        or not n32_w64_benchmark_bits_exact
+        or not n32_w64_decisions_exact
+        or not strict_w64_virtual_commit_exact
+        or not rollback_and_restore_exact
+        or boundary_touched
+        or not request_and_span_parity
+    ):
+        return "W64_TECHNICAL_HARD_GATE_FAIL"
+    return "W64_TECHNICAL_CANDIDATE_NO_NATIVE_EQUIVALENCE_CLAIM"
+
+
 def _comparison_matrix(layer_receipts: Any) -> dict[str, dict[str, Any]]:
     matrix: dict[str, dict[str, Any]] = {}
     for left_index, left in enumerate(FOUR_PATH_ORDER):
@@ -497,7 +534,7 @@ def run_p0(
     started = time.time()
 
     lock_root = repo_root / "project" / "run_scripts" / "ode_bf" / "locks"
-    numerical_path = lock_root / "numerical_lock_p0.json"
+    numerical_path = lock_root / "numerical_lock_p0_r3.json"
     artifact_path = lock_root / "p0_artifact_lock.json"
     seal_path = lock_root / "p0_b10_seal.json"
     sampling_path = lock_root / "p0_cpu_sampling_seal.json"
@@ -516,6 +553,18 @@ def run_p0(
             or numerical["edit_batch_size"] != 10
             or numerical["rollout"]["k_resolution"] != 8
             or numerical["rollout"]["correction_cycles"] != 1
+            or numerical["prospective_technical_path"]["name"]
+            != W64_PRIMARY_REFERENCE
+            or numerical["prospective_technical_path"]["primary_path"]
+            != W64_PRIMARY_PATH
+            or numerical["prospective_technical_path"]["reduced_backend"]
+            != W64_REDUCED_BACKEND
+            or numerical["prospective_technical_path"]["assembler"]
+            != W64_ASSEMBLER_REFERENCE
+            or numerical["prospective_technical_path"]["w32_fallback"] is not False
+            or numerical["ordered_request_digest"]["schema_version"]
+            != ORDERED_REQUEST_DIGEST_SCHEMA
+            or numerical["ordered_request_digest"]["request_count"] != 10
         ):
             raise ODEBFContractError("P0 numerical lock semantics differ")
         seal_value = json.loads(seal_path.read_text(encoding="utf-8"))
@@ -527,6 +576,9 @@ def run_p0(
         if sampling["p1_decision_eligible"] is not False:
             raise ODEBFContractError("technical CPU sampling seal became P1 eligible")
         requests = load_sealed_joint_requests(guard.base_guard.dataset, seal)
+        sealed_request_order_sha256 = ordered_request_digest_v1(
+            [request["request_sha256"] for request in requests]
+        )
     stages.record(
         "post_artifact_preflight",
         {
@@ -534,6 +586,8 @@ def run_p0(
             "numerical_lock_sha256": NUMERICAL_LOCK_SHA256,
             "seal_root_digest": seal["root_digest"],
             "request_count": len(requests),
+            "request_digest_schema": ORDERED_REQUEST_DIGEST_SCHEMA,
+            "request_order_sha256": sealed_request_order_sha256,
         },
     )
 
@@ -592,6 +646,8 @@ def run_p0(
                     numerical["woodbury"]["model_residual_tolerance_proposal"]
                 ),
             )
+        if captured.initialization.request_order_sha256 != sealed_request_order_sha256:
+            raise ODEBFContractError("initialization request digest differs from sealed B10")
         stages.record(
             "post_joint_factor_contract",
             {
@@ -604,6 +660,28 @@ def run_p0(
                 ],
                 "solve_reference": ALPHA_SOLVE_REFERENCE,
                 "solve_dtype": str(ALPHA_SOLVE_DTYPE),
+                "request_digest": {
+                    "schema_version": ORDERED_REQUEST_DIGEST_SCHEMA,
+                    "sha256": captured.initialization.request_order_sha256,
+                },
+                "prospective_path": {
+                    "name": W64_PRIMARY_REFERENCE,
+                    "path": W64_PRIMARY_PATH,
+                    "input_boundary_dtype": str(ALPHA_SOLVE_DTYPE),
+                    "reduced_dtype": str(W64_REDUCED_DTYPE),
+                    "cast_dtype": str(W64_CAST_DTYPE),
+                    "endpoint_dtype": str(W64_ENDPOINT_DTYPE),
+                    "reduced_backend": W64_REDUCED_BACKEND,
+                    "assembler": W64_ASSEMBLER_REFERENCE,
+                    "solve_device_classes": sorted(
+                        {
+                            item.device_class
+                            for layer in captured.four_path_layer_receipts
+                            for item in layer.path_receipts
+                        }
+                    ),
+                    "w32_fallback": False,
+                },
                 "target_backward_count": captured.target_backward_count,
             },
         )
@@ -625,7 +703,7 @@ def run_p0(
             },
         )
 
-        with timers.measure("q0_virtual_evaluation"):
+        with timers.measure("w64_virtual_evaluation"):
             virtual_trial = CumulativeBF16FunctionalTrial(
                 model,
                 captured.wb_factors,
@@ -647,9 +725,10 @@ def run_p0(
         ledger.increment("trial")
         _account_evaluation(ledger, virtual_receipt)
         stages.record(
-            "post_q0_virtual",
+            "post_w64_virtual",
             {
-                "path": "W32",
+                "path": W64_PRIMARY_PATH,
+                "method": W64_PRIMARY_REFERENCE,
                 "max_live_effective_weights": virtual_trial.max_live_effective_weights,
                 "maximum_fp32_block_elements": virtual_trial.max_fp32_block_elements,
                 "replacement_linear_calls": virtual_trial.replacement_linear_calls,
@@ -728,31 +807,72 @@ def run_p0(
             tensor_sha256(touched[name]) == captured.entry_sha256[name]
             for name in touched
         )
+        rollback_and_restore_exact = (
+            final_w0_restored and fault_points == (0, 2, 4)
+        )
 
         layer_path_receipts = [
             path_receipt
             for layer_receipt in captured.four_path_layer_receipts
             for path_receipt in layer_receipt.path_receipts
         ]
-        source_inputs_identical = all(
-            len({item.source_identity_sha256 for item in layer.path_receipts}) == 1
+        layer_inventory_exact = (
+            len(captured.four_path_layer_receipts) == 5
+            and len(captured.initialization.factors) == 5
+            and len({item.layer for item in captured.four_path_layer_receipts}) == 5
             and all(
-                item.receipt.request_order_sha256
-                == captured.initialization.request_order_sha256
-                for item in path_evaluations.values()
+                tuple(item.path for item in layer.path_receipts)
+                == FOUR_PATH_ORDER
+                for layer in captured.four_path_layer_receipts
             )
+        )
+        joint_rank_exact = all(
+            item.joint_rank == 10 for item in layer_path_receipts
+        )
+        device_identity_exact = all(
+            len({item.device_class for item in layer.path_receipts}) == 1
+            and {item.device_class for item in layer.path_receipts} == {"cuda"}
             for layer in captured.four_path_layer_receipts
         )
+        source_inputs_identical = (
+            layer_inventory_exact
+            and joint_rank_exact
+            and device_identity_exact
+            and captured.initialization.request_order_sha256
+            == sealed_request_order_sha256
+            and all(
+                len({item.source_identity_sha256 for item in layer.path_receipts})
+                == 1
+                and all(
+                    item.receipt.request_order_sha256
+                    == captured.initialization.request_order_sha256
+                    for item in path_evaluations.values()
+                )
+                for layer in captured.four_path_layer_receipts
+            )
+        )
         all_finite = all(item.finite for item in layer_path_receipts)
-        all_certificates_pass = all(
-            item.certificate_passed for item in layer_path_receipts
+        required_paths = ("N32", "D32", W64_PRIMARY_PATH)
+        required_paths_finite = all(
+            item.finite
+            for item in layer_path_receipts
+            if item.path in required_paths
         )
         reference_event = path_evaluations["N32"].receipt.batch_success.raw_free_payload()
-        benchmark_bits_exact = all(
+        all_path_benchmark_bits_exact = all(
             item.receipt.batch_success.raw_free_payload() == reference_event
             for item in path_evaluations.values()
         )
-        request_and_span_parity = all(
+        n32_w64_benchmark_bits_exact = (
+            path_evaluations[W64_PRIMARY_PATH].receipt.batch_success.raw_free_payload()
+            == reference_event
+        )
+        canonical_request_digest_exact = all(
+            item.receipt.request_order_sha256
+            == captured.initialization.request_order_sha256
+            for item in path_evaluations.values()
+        )
+        request_and_span_parity = canonical_request_digest_exact and all(
             item.receipt.request_order_sha256
             == path_evaluations["N32"].receipt.request_order_sha256
             and item.receipt.target_span_lengths
@@ -767,6 +887,9 @@ def run_p0(
             )
             for path in FOUR_PATH_ORDER
         }
+        required_certificates_pass = all(
+            path_certificate_pass[path] for path in required_paths
+        )
         decisions = {
             path: _technical_decision_payload(
                 path_evaluations[path].receipt,
@@ -777,37 +900,43 @@ def run_p0(
         decisions_exact = len(
             {value["decision_vector_sha256"] for value in decisions.values()}
         ) == 1
-        expected_w32_hashes = {
+        n32_w64_decisions_exact = (
+            decisions["N32"]["decision_vector_sha256"]
+            == decisions[W64_PRIMARY_PATH]["decision_vector_sha256"]
+        )
+        expected_w64_hashes = {
             name: tensor_sha256(candidate)
-            for name, candidate in captured.path_candidates["W32"].items()
+            for name, candidate in captured.path_candidates[W64_PRIMARY_PATH].items()
         }
-        virtual_wb_parameter_bytes_exact = (
-            set(virtual_hashes) == set(expected_w32_hashes)
+        virtual_w64_parameter_bytes_exact = (
+            set(virtual_hashes) == set(expected_w64_hashes)
             and all(
-                virtual_hashes[name] == (expected_w32_hashes[name],)
-                for name in expected_w32_hashes
+                virtual_hashes[name] == (expected_w64_hashes[name],)
+                for name in expected_w64_hashes
             )
         )
-        virtual_wb_logits_exact = (
+        virtual_w64_logits_exact = (
             virtual_receipt.target_full_vocabulary_logits_sha256
-            == path_evaluations["W32"].receipt.target_full_vocabulary_logits_sha256
+            == path_evaluations[W64_PRIMARY_PATH].receipt.target_full_vocabulary_logits_sha256
         )
-        virtual_wb_event_exact = (
+        virtual_w64_event_exact = (
             virtual_receipt.batch_success.raw_free_payload()
-            == path_evaluations["W32"].receipt.batch_success.raw_free_payload()
+            == path_evaluations[W64_PRIMARY_PATH].receipt.batch_success.raw_free_payload()
         )
-        strict_wb_virtual_commit_exact = (
-            virtual_wb_parameter_bytes_exact
-            and virtual_wb_logits_exact
-            and virtual_wb_event_exact
+        strict_w64_virtual_commit_exact = (
+            virtual_w64_parameter_bytes_exact
+            and virtual_w64_logits_exact
+            and virtual_w64_event_exact
             and all(
-                path_parameter_sha256["W32"][name] == expected_w32_hashes[name]
-                for name in expected_w32_hashes
+                path_parameter_sha256[W64_PRIMARY_PATH][name]
+                == expected_w64_hashes[name]
+                for name in expected_w64_hashes
             )
         )
         boundary_touched = any(
             score.target_new_nll == score.target_true_nll
-            for item in path_evaluations.values()
+            for path in ("N32", W64_PRIMARY_PATH)
+            for item in (path_evaluations[path],)
             for score in (item.receipt.counterfact_scores or ())
         )
         all_endpoint_bytes_exact = all(
@@ -815,17 +944,16 @@ def run_p0(
             for layer in captured.four_path_layer_receipts
             for item in layer.comparisons_to_n32
         )
-        classification = classify_four_path_diagnostic(
-            all_endpoint_bytes_exact=all_endpoint_bytes_exact,
+        classification = classify_w64_technical_candidate(
             source_inputs_identical=source_inputs_identical,
-            all_finite=all_finite,
-            all_certificates_pass=all_certificates_pass,
-            benchmark_bits_exact=benchmark_bits_exact,
-            decisions_exact=decisions_exact,
-            strict_wb_virtual_commit_exact=strict_wb_virtual_commit_exact,
-            rollback_and_restore_exact=final_w0_restored and len(fault_points) == 3,
+            required_paths_finite=required_paths_finite,
+            required_certificates_pass=required_certificates_pass,
+            n32_w64_benchmark_bits_exact=n32_w64_benchmark_bits_exact,
+            n32_w64_decisions_exact=n32_w64_decisions_exact,
+            strict_w64_virtual_commit_exact=strict_w64_virtual_commit_exact,
+            rollback_and_restore_exact=rollback_and_restore_exact,
             boundary_touched=boundary_touched,
-            parity_established=request_and_span_parity,
+            request_and_span_parity=request_and_span_parity,
         )
         first_boundary = next(
             (
@@ -854,26 +982,55 @@ def run_p0(
             for path in FOUR_PATH_ORDER
         }
         diagnostic = {
-            "schema": "ode-edit-s04-ode-bf-four-path-diagnostic/v1",
+            "schema": "ode-edit-s04-ode-bf-w64-canonical-receipt/v1",
             "instruction_id": INSTRUCTION_ID,
             "alias": alias,
             "classification": classification,
             "promotion_authorized": False,
+            "native_equivalence_claim_authorized": False,
+            "prospective_path": W64_PRIMARY_PATH,
+            "prospective_method": W64_PRIMARY_REFERENCE,
+            "w32_policy": "diagnostic-only-no-fallback",
             "path_order": list(FOUR_PATH_ORDER),
             "source_inputs_identical": source_inputs_identical,
+            "layer_inventory_exact": layer_inventory_exact,
+            "joint_rank_exact": joint_rank_exact,
+            "device_identity_exact": device_identity_exact,
             "all_finite": all_finite,
-            "all_certificates_pass": all_certificates_pass,
-            "benchmark_bits_exact": benchmark_bits_exact,
+            "required_paths_finite": required_paths_finite,
+            "required_certificates_pass": required_certificates_pass,
+            "path_certificate_pass": path_certificate_pass,
+            "w32_diagnostic_certificate_pass": path_certificate_pass["W32"],
+            "all_path_benchmark_bits_exact": all_path_benchmark_bits_exact,
+            "n32_w64_benchmark_bits_exact": n32_w64_benchmark_bits_exact,
+            "canonical_request_digest_exact": canonical_request_digest_exact,
             "request_and_span_parity": request_and_span_parity,
-            "decision_parity": decisions_exact,
+            "all_path_decision_parity": decisions_exact,
+            "n32_w64_decision_parity": n32_w64_decisions_exact,
             "boundary_touched": boundary_touched,
-            "strict_wb_virtual_commit": {
-                "parameter_bytes_exact": virtual_wb_parameter_bytes_exact,
-                "logits_exact": virtual_wb_logits_exact,
-                "event_exact": virtual_wb_event_exact,
+            "strict_w64_virtual_commit": {
+                "executed": True,
+                "parameter_bytes_exact": virtual_w64_parameter_bytes_exact,
+                "logits_exact": virtual_w64_logits_exact,
+                "event_exact": virtual_w64_event_exact,
             },
-            "rollback_and_restore_exact": final_w0_restored
-            and len(fault_points) == 3,
+            "precision_contract": {
+                "input_boundary_dtype": str(ALPHA_SOLVE_DTYPE),
+                "reduced_dtype": str(W64_REDUCED_DTYPE),
+                "cast_dtype": str(W64_CAST_DTYPE),
+                "endpoint_dtype": str(W64_ENDPOINT_DTYPE),
+                "cast_count": 1,
+                "reduced_backend": W64_REDUCED_BACKEND,
+                "solve_device_classes": sorted(
+                    {item.device_class for item in layer_path_receipts}
+                ),
+                "assembler": W64_ASSEMBLER_REFERENCE,
+                "dense_fp64_full_delta_live": 0,
+                "w32_fallback_count": 0,
+            },
+            "request_digest_schema": ORDERED_REQUEST_DIGEST_SCHEMA,
+            "request_digest_sha256": captured.initialization.request_order_sha256,
+            "rollback_and_restore_exact": rollback_and_restore_exact,
             "comparison_matrix": construction_matrix,
             "first_separating_boundary": first_boundary,
             "layers": [asdict(item) for item in captured.four_path_layer_receipts],
@@ -899,12 +1056,15 @@ def run_p0(
         identity = {
             "classification": classification,
             "cross_solver_parameter_bytes_exact": all_endpoint_bytes_exact,
-            "cross_solver_benchmark_bits_exact": benchmark_bits_exact,
-            "cross_solver_decision_parity": decisions_exact,
-            "virtual_wb_parameter_bytes_exact": virtual_wb_parameter_bytes_exact,
-            "virtual_wb_logits_exact": virtual_wb_logits_exact,
-            "virtual_wb_event_exact": virtual_wb_event_exact,
-            "all_layer_rollback_exact": len(fault_points) == 3,
+            "n32_w64_benchmark_bits_exact": n32_w64_benchmark_bits_exact,
+            "n32_w64_decision_parity": n32_w64_decisions_exact,
+            "canonical_request_digest_exact": canonical_request_digest_exact,
+            "virtual_w64_parameter_bytes_exact": virtual_w64_parameter_bytes_exact,
+            "virtual_w64_logits_exact": virtual_w64_logits_exact,
+            "virtual_w64_event_exact": virtual_w64_event_exact,
+            "w32_diagnostic_certificate_pass": path_certificate_pass["W32"],
+            "w32_fallback_count": 0,
+            "all_layer_rollback_exact": rollback_and_restore_exact,
             "final_w0_restored": final_w0_restored,
         }
         stages.record(
@@ -914,13 +1074,13 @@ def run_p0(
                 "diagnostic_sha256": diagnostic_sha256,
                 "first_separating_boundary": first_boundary,
                 "fault_after_writes": list(fault_points),
-                "all_layer_rollback_exact": len(fault_points) == 3,
+                "all_layer_rollback_exact": rollback_and_restore_exact,
                 "final_w0_restored": final_w0_restored,
             },
         )
-        if classification in {"NON_EQUIVALENT", "NUMERICALLY_AMBIGUOUS"}:
+        if classification == "W64_TECHNICAL_HARD_GATE_FAIL":
             raise ODEBFContractError(
-                "four-path diagnostic classification failed closed"
+                "W64 canonical technical candidate failed closed"
             )
 
         ledger.counters["effective_bf16_weight_peak_live"] = max(
@@ -935,11 +1095,12 @@ def run_p0(
         guard.assert_unchanged()
         elapsed = time.time() - started
         terminal = {
-            "schema": "ode-edit-s04-ode-bf-p0-four-path-terminal/v1",
+            "schema": "ode-edit-s04-ode-bf-p0-w64-canonical-terminal/v1",
             "instruction_id": INSTRUCTION_ID,
-            "status": "PASS_DIAGNOSTIC_NO_PROMOTION",
+            "status": "PASS_W64_TECHNICAL_CANDIDATE_NO_NATIVE_EQUIVALENCE_CLAIM",
             "classification": classification,
             "promotion_authorized": False,
+            "native_equivalence_claim_authorized": False,
             "alias": alias,
             "source_head": source_head,
             "edit_batch_size": 10,
@@ -947,8 +1108,11 @@ def run_p0(
             "k_resolution": 8,
             "correction_cycles": 1,
             "model_p0_mode": (
-                "b10-four-path-N32-D32-W32-W64-functional-equivalence-diagnostic"
+                "b10-N32-reference-W64-mixed64-canonical-receipt-with-W32-diagnostic"
             ),
+            "prospective_method": W64_PRIMARY_REFERENCE,
+            "prospective_path": W64_PRIMARY_PATH,
+            "w32_policy": "diagnostic-only-no-fallback",
             "scientific_lock_instruction_id": SCIENTIFIC_LOCK_INSTRUCTION_ID,
             "alpha_solve": {
                 "reference": ALPHA_SOLVE_REFERENCE,
@@ -958,6 +1122,11 @@ def run_p0(
                 ],
             },
             "fixed_k_controller_contract_cpu_gate": True,
+            "precision_contract": diagnostic["precision_contract"],
+            "request_digest": {
+                "schema_version": ORDERED_REQUEST_DIGEST_SCHEMA,
+                "sha256": captured.initialization.request_order_sha256,
+            },
             "identity": identity,
             "four_path_diagnostic_sha256": diagnostic_sha256,
             "first_separating_boundary": first_boundary,
@@ -1007,8 +1176,8 @@ def run_p0(
         }
         terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
         summary = {
-            "schema": "ode-edit-s04-ode-bf-p0-four-path-summary/v1",
-            "status": "PASS_DIAGNOSTIC_NO_PROMOTION",
+            "schema": "ode-edit-s04-ode-bf-p0-w64-canonical-summary/v1",
+            "status": "PASS_W64_TECHNICAL_CANDIDATE_NO_NATIVE_EQUIVALENCE_CLAIM",
             "classification": classification,
             "promotion_authorized": False,
             "alias": alias,
@@ -1025,8 +1194,8 @@ def run_p0(
         }
         summary_sha = _atomic_write_once(destination / "summary.json", summary)
         manifest = {
-            "schema": "ode-edit-s04-ode-bf-p0-four-path-manifest/v1",
-            "status": "PASS_DIAGNOSTIC_NO_PROMOTION",
+            "schema": "ode-edit-s04-ode-bf-p0-w64-canonical-manifest/v1",
+            "status": "PASS_W64_TECHNICAL_CANDIDATE_NO_NATIVE_EQUIVALENCE_CLAIM",
             "classification": classification,
             "promotion_authorized": False,
             "alias": alias,

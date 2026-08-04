@@ -43,8 +43,8 @@ from project.run_scripts.session04_ode_bf_p0 import RUN_TOKEN
 
 SESSION_ID = "019fc5ec-f85b-7770-a73a-1d19be1cd491"
 BRANCH = "codex/odeeditsh2-ode-bf-v1"
-BASE_HEAD = "a3ace1187ab4d40743290cdd15dec806ebaa882c"
-INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-DENSE-WB-EQUIV-DIAG-R2-V1"
+BASE_HEAD = "c5608439d5da43c9c0651a67342501abc5315a9a"
+INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-W64-CANONICAL-RECEIPT-P0-R3-V1"
 PACKAGE_ROOT = REPO_ROOT / "project/run_scripts/ode_bf"
 LOCK_ROOT = PACKAGE_ROOT / "locks"
 SBATCH = REPO_ROOT / "project/run_scripts/session04_ode_bf_p0.sbatch"
@@ -55,6 +55,7 @@ BASE_ARTIFACT_LOCK = REPO_ROOT / "project/run_scripts/ode_alloc/p0_artifact_lock
 LOCK_SHA256 = {
     "p0_artifact_lock.json": "623482b05c670b703eebc65493779e863021509f0c0855d5fafb75c0b7b24910",
     "numerical_lock_p0.json": "23fe5621612f715c52ef70f94a10ae7eaba759b4ac209e0e0f3e09c81ea9feef",
+    "numerical_lock_p0_r3.json": "40421f3f8ef0e47df842268bb68b9c9548398e27e0a9afecb125ab1b6f853fa1",
     "p0_b10_seal.json": "7f34b2f6206f5f4f113037d22fbd93ed494ce81638d45b6c1b879beeed9447d7",
     "p0_cpu_sampling_seal.json": "7c1eb44bc6ba01cde6794d3c53767abf850862c620494f6a8c9502876b3f3fc9",
 }
@@ -83,13 +84,18 @@ R0_STATE_NAMES = (
     "s04-p0-native-wb-b10-23fe5621.submission-intent.json",
     "s04-p0-native-wb-b10-23fe5621.submission-receipt.json",
 )
-R2_ALLOWED_CHANGED_PATHS = {
+R3_ALLOWED_CHANGED_PATHS = {
     "project/run_scripts/ode_bf/alpha_backend.py",
+    "project/run_scripts/ode_bf/evaluator.py",
+    "project/run_scripts/ode_bf/locks/numerical_lock_p0_r3.json",
     "project/run_scripts/ode_bf/locks/source_manifest.json",
     "project/run_scripts/ode_bf/p0_runtime.py",
+    "project/run_scripts/ode_bf/request_digest.py",
     "project/run_scripts/ode_bf/tests/test_alpha_p0_contracts.py",
+    "project/run_scripts/ode_bf/tests/test_functional_transaction.py",
     "project/run_scripts/ode_bf/tests/test_p0_runtime_receipts.py",
     "project/run_scripts/ode_bf/tests/test_p0_submission.py",
+    "project/run_scripts/ode_bf/tests/test_request_digest.py",
     "project/run_scripts/session04_ode_bf_dry_plan.py",
     "project/run_scripts/session04_ode_bf_p0.py",
     "project/run_scripts/session04_ode_bf_p0.sbatch",
@@ -118,6 +124,27 @@ R1_LOG_NAMES = (
 R1_STATE_NAMES = (
     "s04-p0-native-wb-b10-r1-23fe5621.submission-intent.json",
     "s04-p0-native-wb-b10-r1-23fe5621.submission-receipt.json",
+)
+R2_RESULT_NAMES = (
+    "s04-p0-dense-wb-equiv-r2-llama3-8b-inst-23fe5621",
+    "s04-p0-dense-wb-equiv-r2-qwen2.5-7b-inst-23fe5621",
+)
+R2_PER_ROOT_SHA256 = {
+    R2_RESULT_NAMES[0]: "6ccb0c5ba7ce5e276757795f63d1597d51180803b96bbe6f272e51cc0dd0a88e",
+    R2_RESULT_NAMES[1]: "a35c5e2f361d43101107449c7b62c71859d14f1d5b3a2019f8339bb48be088f4",
+}
+R2_LOG_STATE_IMMUTABILITY_SHA256 = (
+    "bbf505e6458ab85e635b80d915649bfce7d06790457fa44ce9fdb918d42115fa"
+)
+R2_LOG_NAMES = (
+    "odebf_s04_p0r2_llama-16532.err",
+    "odebf_s04_p0r2_llama-16532.out",
+    "odebf_s04_p0r2_qwen-16533.err",
+    "odebf_s04_p0r2_qwen-16533.out",
+)
+R2_STATE_NAMES = (
+    "s04-p0-dense-wb-equiv-r2-23fe5621.submission-intent.json",
+    "s04-p0-dense-wb-equiv-r2-23fe5621.submission-receipt.json",
 )
 
 
@@ -219,6 +246,30 @@ def _r1_immutability_gate() -> tuple[str, str]:
     return result_digest, log_state_digest
 
 
+def _r2_immutability_gate() -> tuple[dict[str, str], str]:
+    result_parent = REPO_ROOT / "local/odebf/results"
+    observed_roots: dict[str, str] = {}
+    for name in R2_RESULT_NAMES:
+        root = result_parent / name
+        if root.is_symlink() or not root.is_dir():
+            raise ODEBFContractError("R2 result root identity differs")
+        tree_sha256, tree_file_count = sha256_regular_tree(root)
+        if tree_file_count != 10 or tree_sha256 != R2_PER_ROOT_SHA256[name]:
+            raise ODEBFContractError("R2 per-root immutability digest differs")
+        observed_roots[name] = tree_sha256
+
+    log_state_paths = [
+        *(REPO_ROOT / "local/odebf/logs" / name for name in R2_LOG_NAMES),
+        *(REPO_ROOT / "local/odebf/state" / name for name in R2_STATE_NAMES),
+    ]
+    if len(log_state_paths) != 6 or len(set(log_state_paths)) != 6:
+        raise ODEBFContractError("R2 log/state immutable inventory differs")
+    log_state_digest = _fold_immutable_paths(log_state_paths)
+    if log_state_digest != R2_LOG_STATE_IMMUTABILITY_SHA256:
+        raise ODEBFContractError("R2 log/state immutability digest differs")
+    return observed_roots, log_state_digest
+
+
 def _source_manifest_gate() -> str:
     value, raw_sha = load_rooted_json(
         SOURCE_MANIFEST,
@@ -229,7 +280,7 @@ def _source_manifest_gate() -> str:
         value.get("instruction_id") != INSTRUCTION_ID
         or value.get("expected_base") != BASE_HEAD
     ):
-        raise ODEBFContractError("ODE-BF R2 source manifest provenance differs")
+        raise ODEBFContractError("ODE-BF R3 source manifest provenance differs")
     if not isinstance(entries, list) or not entries:
         raise ODEBFContractError("ODE-BF source manifest is empty")
     locked = {
@@ -282,8 +333,8 @@ def _source_gate() -> str:
     changed = set(
         _run(["git", "diff", "--name-only", f"{BASE_HEAD}..{head}"]).stdout.splitlines()
     )
-    if not changed or not changed.issubset(R2_ALLOWED_CHANGED_PATHS):
-        raise ODEBFContractError("R2 checkpoint changed a non-approved path")
+    if not changed or not changed.issubset(R3_ALLOWED_CHANGED_PATHS):
+        raise ODEBFContractError("R3 checkpoint changed a non-approved path")
     if any("session03" in path.casefold() or "knowledge-revision" in path.casefold() for path in changed):
         raise ODEBFContractError("checkpoint overlaps a foreign namespace")
     for relative, expected in PRESERVED_REPAIR_SHA256.items():
@@ -299,11 +350,12 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
     _run(["scripts/check-agent-access.sh", "--all-changed"])
     r0_immutability_sha256 = _r0_immutability_gate()
     r1_result_sha256, r1_log_state_sha256 = _r1_immutability_gate()
+    r2_per_root_sha256, r2_log_state_sha256 = _r2_immutability_gate()
     for name, expected in LOCK_SHA256.items():
         if sha256_file(LOCK_ROOT / name) != expected:
             raise ODEBFContractError("ODE-BF reviewed lock digest differs")
     numerical, numerical_sha = load_rooted_json(
-        LOCK_ROOT / "numerical_lock_p0.json",
+        LOCK_ROOT / "numerical_lock_p0_r3.json",
         expected_schema="ode-edit-s04-ode-bf-p0-numerical-lock/v1",
     )
     if (
@@ -311,8 +363,11 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
         or numerical["rollout"]["k_resolution"] != 8
         or numerical["rollout"]["correction_cycles"] != 1
         or numerical["p0"]["direct_z_initializations"] != 10
+        or numerical["prospective_technical_path"]["primary_path"] != "W64"
+        or numerical["prospective_technical_path"]["w32_fallback"] is not False
+        or numerical["ordered_request_digest"]["request_count"] != 10
     ):
-        raise ODEBFContractError("ODE-BF numerical B10/K8 lock differs")
+        raise ODEBFContractError("ODE-BF R3 numerical B10/K8/W64 lock differs")
 
     scientific = [
         path
@@ -390,12 +445,14 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
     dry_value = json.loads(dry_first)
     if (
         dry_value.get("diagnostic_paths") != ["N32", "D32", "W32", "W64"]
+        or dry_value.get("prospective_technical_path") != "W64"
+        or dry_value.get("w32_fallback") is not False
         or any(
-            int(job["r2_forecast_host_peak_mib"]) > 65_000
+            int(job["r3_forecast_host_peak_mib"]) > 65_000
             for job in dry_value.get("jobs", [])
         )
     ):
-        raise ODEBFContractError("ODE-BF R2 four-path dry resource contract differs")
+        raise ODEBFContractError("ODE-BF R3 W64 dry resource contract differs")
 
     artifact_receipts: dict[str, Any] = {}
     forecasts: dict[str, Any] = {}
@@ -423,6 +480,8 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
         "r0_immutability_sha256": r0_immutability_sha256,
         "r1_result_immutability_sha256": r1_result_sha256,
         "r1_log_state_immutability_sha256": r1_log_state_sha256,
+        "r2_per_root_immutability_sha256": r2_per_root_sha256,
+        "r2_log_state_immutability_sha256": r2_log_state_sha256,
         "dry_plan_sha256": hashlib.sha256(dry_first.encode("utf-8")).hexdigest(),
         "artifacts": artifact_receipts,
         "memory_forecasts": forecasts,
@@ -497,8 +556,8 @@ def _output_gate() -> dict[str, Path]:
     for job_name in JOB_NAMES.values():
         if list(log_parent.glob(f"{job_name}-*")):
             raise ODEBFContractError("ODE-BF P0 log namespace already exists")
-    intent = state_parent / "s04-p0-dense-wb-equiv-r2-23fe5621.submission-intent.json"
-    receipt = state_parent / "s04-p0-dense-wb-equiv-r2-23fe5621.submission-receipt.json"
+    intent = state_parent / "s04-p0-w64-canonical-receipt-r3-40421f3f.submission-intent.json"
+    receipt = state_parent / "s04-p0-w64-canonical-receipt-r3-40421f3f.submission-receipt.json"
     if intent.exists() or intent.is_symlink() or receipt.exists() or receipt.is_symlink():
         raise ODEBFContractError("ODE-BF P0 pair was already attempted")
     roots["__intent__"] = intent
@@ -544,6 +603,7 @@ def main() -> int:
     paths = _output_gate()
     _r0_immutability_gate()
     _r1_immutability_gate()
+    _r2_immutability_gate()
     before = _scheduler_jobs()
     if any(record.job_name in JOB_NAMES.values() for record in before):
         raise ODEBFContractError("ODE-BF P0 scheduler job name already exists")

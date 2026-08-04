@@ -129,6 +129,79 @@ class CumulativeFunctionalTests(unittest.TestCase):
             manual = manual + torch.tensor(factor.theta, dtype=torch.float32) * update
         self.assertTrue(torch.equal(ordered, manual.to(torch.bfloat16)))
 
+    def test_mixed64_w64_virtual_and_committed_bytes_logits_event_are_exact(self) -> None:
+        parameters = dict(self.model.named_parameters())
+        factors: dict[str, tuple[WaypointFactor, ...]] = {}
+        candidates: dict[str, torch.Tensor] = {}
+        candidate_hashes: dict[str, str] = {}
+        for index, (name, shape) in enumerate(self.shapes.items()):
+            reduced64 = _factor(
+                name,
+                self.layers[name],
+                shape,
+                seed=140 + index,
+            )
+            # Production W64 casts exactly once before the FP32/BF16 assembler.
+            mixed64 = WaypointFactor(
+                name,
+                self.layers[name],
+                0,
+                0,
+                0,
+                1.0,
+                reduced64.left.float(),
+                reduced64.right.float(),
+            )
+            factors[name] = (mixed64,)
+            candidate, stats = assemble_effective_bf16(
+                parameters[name],
+                factors[name],
+                row_block=3,
+            )
+            candidates[name] = candidate
+            candidate_hashes[name] = stats.effective_bf16_sha256
+
+        pointers = {name: parameter.data_ptr() for name, parameter in parameters.items()}
+        versions = {name: parameter._version for name, parameter in parameters.items()}
+        rng = torch.get_rng_state().clone()
+        trial = CumulativeBF16FunctionalTrial(self.model, factors, row_block=3)
+        with trial:
+            virtual_logits = self.model(self.inputs)
+            virtual_event = tuple(
+                int(value)
+                for value in torch.argmax(virtual_logits.float(), dim=-1).tolist()
+            )
+        self.assertTrue(torch.equal(torch.get_rng_state(), rng))
+        for name, parameter in parameters.items():
+            self.assertEqual(parameter.data_ptr(), pointers[name])
+            self.assertEqual(parameter._version, versions[name])
+            self.assertIsNone(parameter.grad)
+
+        transaction = AtomicBatchTransaction(
+            parameters,
+            transaction_id="mixed64-w64-commit",
+            mutation_lock=threading.RLock(),
+        )
+        for name, candidate in candidates.items():
+            transaction.stage(name, candidate)
+        committed: list[torch.Tensor] = []
+
+        def verify() -> bool:
+            logits = self.model(self.inputs)
+            committed.append(logits.detach().clone())
+            event = tuple(
+                int(value)
+                for value in torch.argmax(logits.float(), dim=-1).tolist()
+            )
+            return torch.equal(logits, virtual_logits) and event == virtual_event
+
+        receipt = transaction.commit(post_commit_verify=verify)
+        self.assertEqual(receipt.commit_count, 1)
+        self.assertEqual(len(committed), 1)
+        self.assertTrue(torch.equal(committed[0], virtual_logits))
+        self.assertEqual(dict(receipt.parameter_sha256), candidate_hashes)
+        self.assertEqual(trial.max_live_effective_weights, 1)
+
     def test_dense_native_and_exact_woodbury_endpoint_quantize_identically(self) -> None:
         native_model = copy.deepcopy(self.model)
         wb_model = copy.deepcopy(self.model)
@@ -212,6 +285,39 @@ class AtomicBatchTransactionTests(unittest.TestCase):
             for name, parameter in self.parameters.items():
                 self.assertTrue(torch.equal(parameter, original[name]))
                 self.assertEqual(parameter.data_ptr(), pointers[name])
+
+    def test_exact_five_layer_fault_points_zero_two_four_restore_all_bytes(self) -> None:
+        parameters = {
+            f"layer{index}.weight": torch.nn.Parameter(
+                torch.full((3, 4), float(index), dtype=torch.bfloat16),
+                requires_grad=False,
+            )
+            for index in range(5)
+        }
+        entry = {
+            name: parameter.detach().clone()
+            for name, parameter in parameters.items()
+        }
+        pointers = {name: parameter.data_ptr() for name, parameter in parameters.items()}
+        rng = torch.get_rng_state().clone()
+        for point in (0, 2, 4):
+            transaction = AtomicBatchTransaction(
+                parameters,
+                transaction_id=f"five-layer-fault-{point}",
+                mutation_lock=threading.RLock(),
+            )
+            for name, parameter in parameters.items():
+                transaction.stage(name, parameter.detach().clone() + 1)
+            with self.assertRaisesRegex(RuntimeError, "injected"):
+                transaction.commit(
+                    post_commit_verify=lambda: True,
+                    fault_after_writes=point,
+                )
+            for name, parameter in parameters.items():
+                self.assertTrue(torch.equal(parameter, entry[name]))
+                self.assertEqual(parameter.data_ptr(), pointers[name])
+                self.assertIsNone(parameter.grad)
+            self.assertTrue(torch.equal(torch.get_rng_state(), rng))
 
     def test_postcommit_allten_failure_rolls_back_and_success_commits_once(self) -> None:
         original = {name: parameter.detach().clone() for name, parameter in self.parameters.items()}

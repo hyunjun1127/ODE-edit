@@ -26,6 +26,7 @@ from .accounting import (
 from .artifacts import ODEBFArtifactGuard
 from .contracts import BATCH_SIZE, ODEBFContractError, canonical_hash
 from .functional import WaypointFactor, assemble_effective_bf16, tensor_sha256
+from .request_digest import ordered_request_digest_v1
 from .woodbury import (
     ProjectorCertificate,
     WoodburyCertificate,
@@ -37,7 +38,19 @@ ALPHA_SOLVE_DTYPE = torch.float32
 ALPHA_SOLVE_REFERENCE = "Native AlphaEdit original-BF16 canonical-FP32-solve"
 ALPHA_SOLVE_CONDITION_MAX_DIMENSION = 256
 FOUR_PATH_ORDER = ("N32", "D32", "W32", "W64")
-FOUR_PATH_REFERENCE = "ODE-BF dense/Woodbury association diagnostic R2"
+FOUR_PATH_REFERENCE = "ODE-BF W64 canonical receipt diagnostic R3"
+W64_PRIMARY_PATH = "W64"
+W64_PRIMARY_REFERENCE = "Native AlphaEdit-WB-mixed64-v1"
+W64_REDUCED_DTYPE = torch.float64
+W64_CAST_DTYPE = torch.float32
+W64_ENDPOINT_DTYPE = torch.bfloat16
+W64_REDUCED_BACKEND = (
+    "solve_alpha_woodbury/general-projector-nonsymmetric-lu-deterministic-qr-fallback"
+)
+W64_ASSEMBLER_REFERENCE = (
+    "project.run_scripts.ode_bf.functional.assemble_effective_bf16"
+)
+W64_DIAGNOSTIC_ROW_BLOCK = 1024
 
 
 @dataclass(frozen=True, slots=True)
@@ -510,6 +523,50 @@ def _normalized_backward_residual(
     return value
 
 
+def _blockwise_fp64_update_relative_error(
+    candidate_q: torch.Tensor,
+    residual: torch.Tensor,
+    reference_update: torch.Tensor,
+    *,
+    reference_norm: float,
+    row_block: int = W64_DIAGNOSTIC_ROW_BLOCK,
+) -> float:
+    """Compare a mixed64 product without materializing a full FP64 delta."""
+
+    if (
+        candidate_q.dtype is not torch.float64
+        or candidate_q.ndim != 2
+        or residual.ndim != 2
+        or reference_update.ndim != 2
+        or candidate_q.shape[1] != residual.shape[1]
+        or tuple(reference_update.shape)
+        != (candidate_q.shape[0], residual.shape[0])
+        or isinstance(row_block, bool)
+        or not isinstance(row_block, int)
+        or row_block <= 0
+        or not math.isfinite(reference_norm)
+        or reference_norm <= 0.0
+    ):
+        raise ODEBFContractError("mixed64 blockwise update diagnostic contract differs")
+    residual64 = residual.detach().to(
+        device=candidate_q.device,
+        dtype=torch.float64,
+    )
+    squared_error = torch.zeros((), dtype=torch.float64, device=candidate_q.device)
+    for start in range(0, candidate_q.shape[0], row_block):
+        end = min(start + row_block, candidate_q.shape[0])
+        candidate_block = candidate_q[start:end] @ residual64.T
+        reference_block = reference_update[start:end].to(dtype=torch.float64)
+        difference = candidate_block - reference_block
+        squared_error = squared_error + torch.sum(difference * difference)
+        del candidate_block, reference_block, difference
+    value = float(torch.sqrt(squared_error).item()) / reference_norm
+    del residual64, squared_error
+    if not math.isfinite(value):
+        raise ODEBFContractError("mixed64 blockwise update diagnostic is non-finite")
+    return value
+
+
 def _timed_call(device: torch.device, function: Any) -> tuple[Any, float, float]:
     if device.type == "cuda":
         torch.cuda.synchronize(device)
@@ -592,6 +649,11 @@ def build_four_path_layer_diagnostic(
     k32 = joint_keys.detach().to(device=device, dtype=torch.float32).contiguous()
     r32 = residual.detach().to(device=device, dtype=torch.float32).contiguous()
     lambda32 = torch.tensor(lam, dtype=torch.float32, device=device)
+    identity32 = torch.eye(
+        geometry.projector_shape[0],
+        dtype=torch.float32,
+        device=device,
+    )
     source_hashes = (
         ("W0", tensor_sha256(entry_weight)),
         ("P", tensor_sha256(projector)),
@@ -599,6 +661,7 @@ def build_four_path_layer_diagnostic(
         ("C", _zero_tensor_sha256(projector.shape, torch.float32)),
         ("R", tensor_sha256(residual)),
         ("lambda", tensor_sha256(lambda32)),
+        ("I", tensor_sha256(identity32)),
     )
     source_shapes = (
         ("W0", tuple(int(value) for value in entry_weight.shape)),
@@ -607,6 +670,7 @@ def build_four_path_layer_diagnostic(
         ("C", tuple(int(value) for value in projector.shape)),
         ("R", tuple(int(value) for value in residual.shape)),
         ("lambda", ()),
+        ("I", tuple(int(value) for value in identity32.shape)),
     )
     source_dtypes = (
         ("W0", str(entry_weight.dtype)),
@@ -615,6 +679,7 @@ def build_four_path_layer_diagnostic(
         ("C", str(torch.float32)),
         ("R", str(residual.dtype)),
         ("lambda", str(torch.float32)),
+        ("I", str(identity32.dtype)),
     )
     source_identity = canonical_hash(
         {
@@ -623,6 +688,10 @@ def build_four_path_layer_diagnostic(
             "source_hashes": source_hashes,
             "source_shapes": source_shapes,
             "source_dtypes": source_dtypes,
+            "solve_device_class": device.type,
+            "assembler": W64_ASSEMBLER_REFERENCE,
+            "assembler_accumulator_dtype": str(torch.float32),
+            "endpoint_dtype": str(torch.bfloat16),
         }
     )
 
@@ -630,7 +699,6 @@ def build_four_path_layer_diagnostic(
     # P0 C is exact zero.  Scalar zero addition retains the pinned source
     # expression order without retaining another dense zero matrix.
     gram_plus_c32 = gram32 + torch.zeros((), dtype=torch.float32, device=device)
-    identity32 = torch.eye(geometry.projector_shape[0], dtype=torch.float32, device=device)
     a32 = p32 @ gram_plus_c32 + lambda32 * identity32
     g32 = p32 @ k32
     system_norm = _spectral_norm_power_estimate(a32)
@@ -681,7 +749,7 @@ def build_four_path_layer_diagnostic(
     n_update = native_matched_update.detach().to(device=device, dtype=torch.float32).T.contiguous()
     d_update = q_d32 @ r32.T
     w32_update = q_w32 @ r32.T
-    w64_update = q_w64 @ r32.to(dtype=torch.float64).T
+    q_w64_for_assembler = q_w64.detach().to(dtype=W64_CAST_DTYPE)
     if tuple(n_update.shape) != geometry.output_shape:
         raise ODEBFContractError("four-path Native solve orientation differs")
 
@@ -701,7 +769,7 @@ def build_four_path_layer_diagnostic(
                 0,
                 1.0,
                 r32.detach(),
-                q_w64.detach().to(dtype=torch.float32),
+                q_w64_for_assembler,
             ),
         ),
     }
@@ -759,9 +827,12 @@ def build_four_path_layer_diagnostic(
         "N32": float(torch.linalg.norm(n_update - d_update)) / d_update_norm,
         "D32": 0.0,
         "W32": float(torch.linalg.norm(w32_update - d_update)) / d_update_norm,
-        "W64": float(
-            torch.linalg.norm(w64_update - d_update.to(dtype=torch.float64))
-        ) / d_update_norm,
+        "W64": _blockwise_fp64_update_relative_error(
+            q_w64,
+            r32,
+            d_update,
+            reference_norm=d_update_norm,
+        ),
     }
     timings = {
         "N32": (native_receipt.wall_seconds, native_receipt.gpu_seconds),
@@ -1221,7 +1292,7 @@ def capture_native_and_wb_joint_endpoint(
     from easyeditor.util import nethook
 
     normalized = _normalize_requests(requests)
-    request_order_sha256 = canonical_hash(
+    request_order_sha256 = ordered_request_digest_v1(
         [request["request_sha256"] for request in normalized]
     )
     weights = {
@@ -1484,8 +1555,8 @@ def capture_native_and_wb_joint_endpoint(
     )
     return CapturedNativeWBEndpoint(
         path_candidates["N32"],
-        path_candidates["W32"],
-        path_factors["W32"],
+        path_candidates[W64_PRIMARY_PATH],
+        path_factors[W64_PRIMARY_PATH],
         path_candidates,
         path_factors,
         tuple(four_path_receipts),

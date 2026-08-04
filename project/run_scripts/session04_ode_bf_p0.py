@@ -17,7 +17,7 @@ from project.run_scripts.ode_bf.contracts import MODEL_ALIASES
 from project.run_scripts.ode_bf.p0_runtime import run_p0, write_failure_once
 
 
-RUN_TOKEN = "dense-wb-equiv-r2-b10"
+RUN_TOKEN = "w64-canonical-receipt-r3-b10"
 
 
 def _parser() -> argparse.ArgumentParser:

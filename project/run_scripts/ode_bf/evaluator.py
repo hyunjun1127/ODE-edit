@@ -18,6 +18,7 @@ from .benchmark import (
 )
 from .contracts import BATCH_SIZE, MODEL_ALIASES, ODEBFContractError
 from .firewall import evaluator_request_hash
+from .request_digest import ordered_request_digest_v1
 
 
 def _hash_tensor_sequence(tensors: Sequence[torch.Tensor]) -> str:
@@ -203,7 +204,9 @@ def evaluate_counterfact_rewrite_batch(
             attention = encoded.get("attention_mask")
             processed_tokens += int(attention.sum()) if attention is not None else int(encoded["input_ids"].numel())
             del logits, encoded
-    request_order = hashlib.sha256("".join(str(request["request_sha256"]) for request in batch).encode("ascii")).hexdigest()
+    request_order = ordered_request_digest_v1(
+        [request["request_sha256"] for request in batch]
+    )
     return ModelEvaluationReceipt(
         counterfact_batch_receipt(scores),
         _hash_tensor_sequence(logit_slices),
@@ -262,7 +265,9 @@ def evaluate_zsre_rewrite_batch(
             span_lengths.append(len(target_tokens))
             processed_tokens += int(encoded["attention_mask"].sum())
             del logits, gathered, encoded, correct_ids
-    request_order = hashlib.sha256("".join(str(request["request_sha256"]) for request in batch).encode("ascii")).hexdigest()
+    request_order = ordered_request_digest_v1(
+        [request["request_sha256"] for request in batch]
+    )
     return ModelEvaluationReceipt(
         zsre_batch_receipt(position_bits),
         _hash_tensor_sequence(logit_slices),
