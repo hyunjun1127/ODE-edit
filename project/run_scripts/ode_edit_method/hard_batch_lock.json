@@ -1,0 +1,114 @@
+{
+  "schema_version": "ode-edit-session03-hard-b10-k20-lock/v1",
+  "status": "PRELOCKED_BEFORE_GENUINE_B10_P0_EXECUTION",
+  "instruction_id": "ODEEDIT-S03-HARD-B10-K20-CYCLE-ATTRIBUTION-P0P1-V1",
+  "implementation_base_commit": "43f0fe5fa717db9bbb56ead845f328bc0aa015f1",
+  "scientific_outcome_count_at_panel_seal": 0,
+  "base_method": {
+    "proposal_id": "83eec5068acec673f7d9d0788e57ce0e9873a55785f7a6932026a4a2420c330b",
+    "lock_sha256": "95376c554f01e00c9c5d71e99dfa3cbb5339a7534db8a62a9a05bc69c0be1bbb",
+    "v3_event_proposal_id": "bc8fc256737d4e82b83f1937633ca94709d59e51969612611e20981aa70c4c23",
+    "v3_event_lock_sha256": "cd4ffeb2310e1d261cea0457cd683293e53cf92b136b6d6eb01cd5c4af579882",
+    "ct_k4_source_sha256": "ec8f5bf06479173e368c5be82c197b861dff753ecaa730c7f6b9243669ae1d0a",
+    "ct_k10_source_sha256": "d3f27205ea8304f64b12a2366909dac431a0282b9c238e97ffe80fb9f0573d0a",
+    "corrected_token_evaluator_sha256": "d4a32b9488db8fe1bbb8303faf7306857c476b75cce19d8f75b8ed98514d7811"
+  },
+  "models": [
+    "llama3-8b-inst",
+    "qwen2.5-7b-inst"
+  ],
+  "policy": {
+    "dtype": "checkpoint-original-torch.bfloat16",
+    "seed": 17,
+    "edit_batch_size": 10,
+    "one_joint_backend_transaction": true,
+    "singleton_decomposition": false,
+    "direct_z_receipts": 10,
+    "direct_z_compute_per_request": 1,
+    "direct_z_shared_across_arms": true,
+    "arms": [
+      "native-memit-b10",
+      "refresh-k10-t1",
+      "refresh-k20-t1-resolution",
+      "refresh-2xk10-t2-correction"
+    ],
+    "K10": 10,
+    "K20": 20,
+    "T1": 1.0,
+    "T2": 2.0,
+    "lambda_k10": [0.1, 0.1111111111111111, 0.125, 0.14285714285714285, 0.16666666666666666, 0.2, 0.25, 0.3333333333333333, 0.5, 1.0],
+    "lambda_k20": [0.05, 0.05263157894736842, 0.05555555555555555, 0.058823529411764705, 0.0625, 0.06666666666666667, 0.07142857142857142, 0.07692307692307693, 0.08333333333333333, 0.09090909090909091, 0.1, 0.1111111111111111, 0.125, 0.14285714285714285, 0.16666666666666666, 0.2, 0.25, 0.3333333333333333, 0.5, 1.0],
+    "corrector": "editor-native-diagonal-cost/full-progress/nonnegative/raw-radius",
+    "zero_slope_completion": "raw-c",
+    "post_qp_rescale": false,
+    "online_early_stop": false,
+    "earliest_exact_hit_snapshot_selected_after_fixed_budget": true,
+    "stagnation_epsilon": 1e-08,
+    "stagnation_rule": "cycle residual reduction <= epsilon and no exact-success-count gain",
+    "model_specific_policy": false
+  },
+  "selection": {
+    "dataset_relative_path": "data/counterfact/counterfact.json",
+    "dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+    "dataset_size_bytes": 45108470,
+    "dataset_row_count": 21919,
+    "salt": "odeedit-s03-hard-b10-k20-cycle-attribution-v1",
+    "excluded_prior_case_ids": ["768", "1534", "2022", "5613", "6578", "9774", "11042", "12498", "13856", "14652", "16451", "16884", "17503", "20964", "21126", "21135", "21154"],
+    "exclusion_digest": "177f94582c8ebbbd38ce227718418a2c6c2168fd60886f4b128c88e30a0b9b2a",
+    "selection_algorithm": "sha256(salt|canonical-request-id)-ascending; exclusions; exclude entire duplicate normalized subject+template group; dataset-valid; both pinned tokenizers nonempty target; first-9",
+    "diagnostic_known_case_id": "16884",
+    "diagnostic_known_case_population_evidence": false,
+    "fresh_case_ids": ["17700", "3221", "17206", "7369", "2949", "7748", "19535", "11395", "14420"],
+    "fresh_rank_sha256": ["0001509bfd9a318a427db25c1c6cdaa5b7d1a450344c4d65d86d7a185352e4db", "0003d461682dcfa9d44fc560b12cc8273c5c1baf2a574e56128718aa75435cf7", "00057bca4166f7d3f0a39a8131a9dc3b78f252e96ad69eb0741c74a0084da35a", "0007cac550e96c8bc1b87f07f659cd3b71a3983608ba3ae708152e2314830da3", "00087d9bc8384e8de466037bb69f6f7ea6ef7f4acd5b7261b34b2284ef30e0a2", "000e3afa314c16a4e623ad74fc20c26dca7d5ed8988ab3c3a200bca577e4f3d7", "000e49d0271f6afb46e7488d24950d5472fa8c88d1c913af8fd9dad92e14e73f", "0013280a109f9de6a0294b3a7e36409f61b7748b26ef47caee800ddbbfed9588", "001421d1bebd66e0ec9d83312a5702addbf016ba63408ccf792102849da22667"],
+    "batch_case_ids": ["16884", "17700", "3221", "17206", "7369", "2949", "7748", "19535", "11395", "14420"],
+    "batch_order_sha256": "20969d1d6a07e9618abc6c7a3c52d9fef9b0b4798dacfcaaf79cd25b569331ed",
+    "batch_request_ids": ["6b591e695d5b3c34e51007610482e26714a894aa9bae0d7443437ca364603c80", "fadb96799daa7d85df44e2afe3f64ec1987ab24f20ca9627c663afa9215a1de8", "59f4eb9df558bee02ca884b0167abed05ba6e767224f19b315573807bc236e73", "68eddfa3bf6305f1e80795c3b795b99696b34ad05389279bad0c8d06e2467d56", "9a21b7f45784b48c8fb8b2f04e4f24a69dc300e8ec1358e01dbffecbf4476ccc", "5926e8b45cca01a48309d7f7cafa83d158db3903c55189a8609fd9c24a7bf47b", "2d0207a924e420293b8f089095cec161e3c065025ff76c458c5ae1ac156cc31d", "04d94903502872b094fc15f60992b50a0b3a89efcd7c2379484cba24e4d05b74", "7e649dd60fc36a2db1f073367a853262c708b65f486ce28356ac7c191db4ac0e", "22c4272a2a9af2f64336d27144579ca121e230c0fc58601537505009e67d5650"],
+    "batch_request_order_sha256": "13e587ff41f3a0266efd4af7e0c54320abcf6e6004aa6668ba76f77a44f51ced",
+    "target_token_counts_without_special_tokens": {
+      "llama3-8b-inst": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      "qwen2.5-7b-inst": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    },
+    "tokenizer_revisions": {
+      "llama3-8b-inst": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "qwen2.5-7b-inst": "a09a35458c702b33eeacc393d103063234e8bc28"
+    }
+  },
+  "benchmark": {
+    "name": "pinned-alphaedit-counterfact-length-normalized-suffix-nll",
+    "evaluator_source_sha256": "f2de63e6cc68871cb042f614193294a433c4b76622dd410de515df8cb73416b8",
+    "aggregator_source_sha256": "9791812222b151952c16cacf28daf3e8be9645e37321e0aa84be6ab5e24a66f8",
+    "zsre_future_parity_source_sha256": "bf5b0c79d65b54df6ea1478798dece18cbe48f3b6bb3015e3740a9ba43877e57",
+    "efficacy_success": "target_new_mean_suffix_nll < target_true_mean_suffix_nll",
+    "generalization_success": "target_new_mean_suffix_nll < target_true_mean_suffix_nll",
+    "locality_success": "target_true_mean_suffix_nll < target_new_mean_suffix_nll",
+    "exact_joint_hit_count": 10,
+    "native_floor_margin_counts": {
+      "efficacy": 0,
+      "generalization": 0,
+      "locality": 0
+    },
+    "generation": false,
+    "controller_heldout_access": false
+  },
+  "memory_forecast": {
+    "gpu_total_bytes": 51527024640,
+    "llama_conservative_peak_gib": 40.50,
+    "qwen_conservative_peak_gib": 43.71,
+    "llama_headroom_gib": 7.49,
+    "qwen_headroom_gib": 4.27,
+    "joint_context_count": 60,
+    "max_context_tokens": 24,
+    "rank": 10,
+    "batch_split_allowed": false
+  },
+  "resources": {
+    "server1_project_gpu_cap": 3,
+    "gpu_per_job": 1,
+    "cpu_per_job": 8,
+    "host_memory_mib_per_job": 65000,
+    "pair_gpu": 2,
+    "p0_time": "08:00:00",
+    "p1_time_max": "24:00:00",
+    "submission_authorized": false
+  }
+}

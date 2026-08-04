@@ -136,6 +136,7 @@ class EasyEditMemitBackend:
         hparams: Any,
         contexts: Any,
         request: ControllerRequest,
+        requests: Sequence[ControllerRequest] | None = None,
         covariance_specs: Sequence[CovarianceCacheSpec],
         covariance_contract: CovarianceRuntimeContract,
         covariance_by_layer: Mapping[int, torch.Tensor],
@@ -160,15 +161,28 @@ class EasyEditMemitBackend:
         self.bindings = bridge.load()
         self.hparams = hparams
         self.contexts = contexts
+        locked_requests = (request,) if requests is None else tuple(requests)
+        if (
+            not locked_requests
+            or any(not isinstance(item, ControllerRequest) for item in locked_requests)
+            or locked_requests[0] != request
+            or len({item.case_id for item in locked_requests}) != len(locked_requests)
+        ):
+            raise MethodContractError("backend request panel is invalid")
         self.request = request
-        self.motivation_request = EditRequest.from_mapping(
-            {
-                "case_id": request.case_id,
-                "prompt": request.prompt,
-                "subject": request.subject,
-                "target_new": request.target_new,
-            }
+        self.requests = locked_requests
+        self.motivation_requests = tuple(
+            EditRequest.from_mapping(
+                {
+                    "case_id": item.case_id,
+                    "prompt": item.prompt,
+                    "subject": item.subject,
+                    "target_new": item.target_new,
+                }
+            )
+            for item in locked_requests
         )
+        self.motivation_request = self.motivation_requests[0]
         self.covariance_specs = tuple(covariance_specs)
         self.covariance_contract = covariance_contract
         self.covariance_by_layer = {
@@ -313,7 +327,7 @@ class EasyEditMemitBackend:
         return capture_snapshot(
             self.model,
             model_id=self.runtime.spec.snapshot_name,
-            requests=(self.motivation_request,),
+            requests=self.motivation_requests,
             context_id=self.contexts.manifest_id,
             hparams=self.hparams,
             weight_names=tuple(self.weight_by_layer.values()),
@@ -402,6 +416,21 @@ class EasyEditMemitBackend:
             raise MethodContractError("backend outer edit did not start at its entry state")
         return checkpoint
 
+    def capture_current_checkpoint(self) -> EasyEditBackendCheckpoint:
+        """Capture an authorized endpoint without changing the entry contract."""
+
+        self._assert_parameter_guard()
+        if self._current_snapshot.state_id not in self._authorized_states:
+            raise MethodContractError("endpoint checkpoint state is not authorized")
+        return EasyEditBackendCheckpoint(
+            weights=TorchCheckpoint.capture(
+                self.model,
+                tuple(self.weight_by_layer.values()),
+                backup_device="cpu",
+            ),
+            snapshot=self._current_snapshot,
+        )
+
     def restore(self, checkpoint: EasyEditBackendCheckpoint) -> None:
         if not isinstance(checkpoint, EasyEditBackendCheckpoint):
             raise MethodContractError("backend restore checkpoint type differs")
@@ -416,14 +445,27 @@ class EasyEditMemitBackend:
             raise MethodContractError("backend differs from guarded checkpoint")
 
     def compute_direct_z(self, request: ControllerRequest) -> FrozenDirectZ:
-        if request != self.request:
+        if len(self.requests) != 1 or request != self.request:
             raise MethodContractError("direct-z request differs from backend edit")
+        return self._compute_direct_z_panel()
+
+    def compute_joint_direct_z(
+        self, requests: Sequence[ControllerRequest]
+    ) -> FrozenDirectZ:
+        """Compute one ordered direct-z matrix for a genuine joint request panel."""
+
+        locked = tuple(requests)
+        if len(locked) <= 1 or locked != self.requests:
+            raise MethodContractError("joint direct-z request panel differs")
+        return self._compute_direct_z_panel()
+
+    def _compute_direct_z_panel(self) -> FrozenDirectZ:
         if self._direct_z is not None:
             raise MethodContractError("direct-z backend was invoked more than once")
         result = self.bridge.load_or_compute_direct_z(
             self.model,
             self.tokenizer,
-            (self.motivation_request,),
+            self.motivation_requests,
             self.hparams,
             self.contexts,
             model_id=self.runtime.spec.snapshot_name,
@@ -436,6 +478,31 @@ class EasyEditMemitBackend:
         self._direct_z = result
         self._direct_z_tensor_sha256 = tensor_sha256(result.values)
         return result
+
+    @property
+    def joint_direct_z_receipts(self) -> tuple[Mapping[str, Any], ...]:
+        """Return raw-free per-request column receipts without recomputation."""
+
+        if self._direct_z is None:
+            raise MethodContractError("joint direct-z receipts precede computation")
+        if len(self.requests) != self._direct_z.values.shape[1]:
+            raise MethodContractError("joint direct-z receipt count differs")
+        return tuple(
+            {
+                "column_index": index,
+                "case_id": request.case_id,
+                "request_id": motivation.request_id,
+                "tensor_sha256": tensor_sha256(
+                    self._direct_z.values[:, index : index + 1].contiguous()
+                ),
+                "source_state_id": self._direct_z.source_state_id,
+                "artifact_sha256": self._direct_z.artifact.sha256,
+                "artifact_size": self._direct_z.artifact.size,
+            }
+            for index, (request, motivation) in enumerate(
+                zip(self.requests, self.motivation_requests, strict=True)
+            )
+        )
 
     def attach_shared_direct_z(self, target: FrozenDirectZ) -> None:
         """Attach the case-level W0 direct-z without another computation."""
@@ -464,26 +531,40 @@ class EasyEditMemitBackend:
     def direct_z_residual_norm(self, frozen_target: Any) -> float:
         """Measure the current rewrite-lookup residual without changing state."""
 
+        values = self.direct_z_residual_norms(frozen_target)
+        return math.sqrt(math.fsum(value * value for value in values))
+
+    def direct_z_residual_norms(self, frozen_target: Any) -> tuple[float, ...]:
+        """Measure one direct-z residual norm per request in the joint panel."""
+
         target = self._assert_frozen_target(frozen_target)
-        raw_request = self.motivation_request.to_easyedit()
+        raw_requests = [item.to_easyedit() for item in self.motivation_requests]
         with torch.no_grad(), _preserve_model_runtime_state(self.model):
             current_z = self.bindings.compute_z.get_module_input_output_at_words(
                 self.model,
                 self.tokenizer,
                 self._layers[-1],
-                context_templates=[raw_request["prompt"]],
-                words=[raw_request["subject"]],
+                context_templates=[item["prompt"] for item in raw_requests],
+                words=[item["subject"] for item in raw_requests],
                 module_template=self.hparams.layer_module_tmp,
                 fact_token_strategy=self.hparams.fact_token,
                 track="out",
             ).T
             target_on_device = target.values.to(device=current_z.device)
             residual = target_on_device - current_z.to(dtype=target_on_device.dtype)
-            value = float(torch.linalg.vector_norm(residual.float()).cpu())
+            values = tuple(
+                float(value)
+                for value in torch.linalg.vector_norm(
+                    residual.float(), dim=0
+                ).cpu()
+            )
         self._assert_parameter_guard()
-        if not math.isfinite(value) or value < 0.0:
+        if (
+            len(values) != len(self.requests)
+            or any(not math.isfinite(value) or value < 0.0 for value in values)
+        ):
             raise MethodContractError("direct-z residual norm is invalid")
-        return value
+        return values
 
     def _measure_event(self, request: ControllerRequest) -> EventReading:
         return measure_event(
@@ -557,7 +638,7 @@ class EasyEditMemitBackend:
             proposal = self.bridge.propose_ordered_memit_factors(
                 self.model,
                 self.tokenizer,
-                (self.motivation_request,),
+                self.motivation_requests,
                 self.hparams,
                 self.contexts,
                 model_id=self.runtime.spec.snapshot_name,
@@ -611,7 +692,7 @@ class EasyEditMemitBackend:
                 )
             ),
         )
-        raw_request = self.motivation_request.to_easyedit()
+        raw_requests = [item.to_easyedit() for item in self.motivation_requests]
         denominator = len(layers)
         solver = TransientDenseMemitSolver()
         factors = []
@@ -625,8 +706,8 @@ class EasyEditMemitBackend:
                 self.model,
                 self.tokenizer,
                 layers[-1],
-                context_templates=[raw_request["prompt"]],
-                words=[raw_request["subject"]],
+                context_templates=[item["prompt"] for item in raw_requests],
+                words=[item["subject"] for item in raw_requests],
                 module_template=self.hparams.layer_module_tmp,
                 fact_token_strategy=self.hparams.fact_token,
                 track="out",
@@ -639,7 +720,7 @@ class EasyEditMemitBackend:
                 keys = self.bindings.compute_ks.compute_ks(
                     self.model,
                     self.tokenizer,
-                    [raw_request],
+                    raw_requests,
                     self.hparams,
                     layer,
                     self.contexts.to_easyedit(),

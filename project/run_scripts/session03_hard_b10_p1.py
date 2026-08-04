@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+"""Session 03 genuine-B10 diagnostic P1 entry point."""
+
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+_REPO_IMPORT_ROOT = Path(__file__).resolve().parents[2]
+if str(_REPO_IMPORT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_IMPORT_ROOT))
+
+from project.run_scripts.session03_hard_b10_common import build_parser, run
+
+
+if __name__ == "__main__":
+    raise SystemExit(run(build_parser("p1").parse_args()))

@@ -22,6 +22,9 @@ from .contracts import MethodContractError, canonical_hash
 
 COUNTER_NAMES = (
     "N_model_fwd",
+    "N_benchmark_fwd",
+    "N_benchmark_tokens",
+    "N_direct_z_residual_fwd",
     "N_event_fwd",
     "N_field_state_fwd",
     "N_field",
@@ -55,11 +58,16 @@ COMPONENT_NAMES = (
     "trial",
     "commit_write",
     "evaluation",
+    "benchmark",
+    "residual_diagnostic",
 )
 
 _FORBIDDEN_AFTER_HIT = frozenset(
     {
         "N_model_fwd",
+        "N_benchmark_fwd",
+        "N_benchmark_tokens",
+        "N_direct_z_residual_fwd",
         "N_event_fwd",
         "N_field_state_fwd",
         "N_field",
@@ -87,12 +95,16 @@ _FORBIDDEN_COMPONENTS_AFTER_HIT = frozenset(
         "qp",
         "trial",
         "commit_write",
+        "benchmark",
+        "residual_diagnostic",
     }
 )
 _FORWARD_CATEGORIES = {
     "event": "N_event_fwd",
     "field": "N_field_state_fwd",
     "reference_gate": "N_reference_gate_fwd",
+    "benchmark": "N_benchmark_fwd",
+    "residual": "N_direct_z_residual_fwd",
 }
 
 
