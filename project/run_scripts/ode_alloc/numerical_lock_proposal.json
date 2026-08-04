@@ -1,0 +1,112 @@
+{
+  "schema_version": "ode-alloc-s04-numerical-lock-proposal/v1",
+  "status": "pending-gh-approval-no-scientific-execution",
+  "proposal_scope": "common-policy-both-model-aliases",
+  "model_aliases": [
+    "llama3-8b-inst",
+    "qwen2.5-7b-inst"
+  ],
+  "execution_boundary": {
+    "gpu_now": 0,
+    "model_load_now": false,
+    "slurm_submit_now": false,
+    "easyedit_write": false,
+    "download_or_recompute": false
+  },
+  "allocation_gauge": {
+    "basis_energy_epsilon": 1e-24,
+    "energy_dtype": "float64-factor-gram",
+    "max_abs_centered_q": 20.0,
+    "q_chart": "arithmetic-zero-mean",
+    "ratio": "exp(q_l)/sqrt(sum_j(w_j*exp(2*q_j)))",
+    "zero_or_near_zero_policy": "exclude-fail-closed-no-epsilon-prior",
+    "c_energy_role": "predeclared-robustness-ablation-only"
+  },
+  "rewrite_gate": {
+    "rho": 0.5,
+    "denominator_epsilon": 1e-08,
+    "mean_margin_threshold": 0.0,
+    "worst_context_role": "diagnostic-only"
+  },
+  "barriers": {
+    "historical_teacher": "current-teacher",
+    "pretrained_anchor_teacher": "theta0-teacher",
+    "historical_fixed_damage_scale_nats": 0.001,
+    "pretrained_fixed_damage_scale_nats": 0.001,
+    "smooth_max_temperature_nats": 0.01,
+    "aggregate": "equal-weight-smooth-max-plus-mean",
+    "p1_history_size_max": 3,
+    "tail_risk_estimator": "deferred",
+    "scale_rationale": "fixed absolute per-token natural-log unit; never native-damage-plus-tiny"
+  },
+  "solver": {
+    "fixed_k": 8,
+    "max_trials_per_step": 3,
+    "backtracking_factors": [
+      1.0,
+      0.5,
+      0.25
+    ],
+    "cbf_kappa": 1.0,
+    "cbf_slack_penalty": 100.0,
+    "cpu_fixture_max_constraints": 8,
+    "production_qp_backend": "pending-gh-lock",
+    "fixed_grid_horizon": 1.0,
+    "early_stop": false,
+    "endpoint_policy": "best-exact-feasible-after-full-budget-else-native"
+  },
+  "transaction": {
+    "gradient_path": "fp32-factor-overlay-not-verdict-eligible",
+    "verdict_path": "one-layer-at-a-time-quantized-bf16-full-linear",
+    "commit": "staged-all-layer-validation-one-logical-transaction",
+    "rollback": "all-touched-layer-byte-exact-under-exclusive-model-lock"
+  },
+  "compute_contract": {
+    "required_counters": [
+      "model_forward_calls",
+      "processed_tokens",
+      "backward_calls",
+      "constraint_vjp_calls",
+      "constraint_jvp_calls",
+      "quantized_trial_calls",
+      "rejected_trials",
+      "qp_calls",
+      "qp_cpu_seconds",
+      "controller_wall_seconds",
+      "gpu_seconds",
+      "peak_memory_bytes",
+      "commit_count"
+    ],
+    "judgments": [
+      "matched-call",
+      "cost-normalized"
+    ]
+  },
+  "future_resource_forecast": {
+    "server": "server2",
+    "project_gpu_cap": 3,
+    "memory_cap_mib_per_gpu": 66017,
+    "p0_model_pair": {
+      "concurrent_jobs": 2,
+      "gpu_per_job": 1,
+      "cpu_per_job": 8,
+      "memory_mib_per_job": 65000,
+      "walltime_per_job": "04:00:00",
+      "case_count_per_model": 1,
+      "purpose": "technical-identity-memory-timing-only"
+    },
+    "p1_model_pair": {
+      "concurrent_jobs": 2,
+      "gpu_per_job": 1,
+      "cpu_per_job": 8,
+      "memory_mib_per_job": 65000,
+      "walltime_per_job": "12:00:00",
+      "sequential_edit_count_per_model": 4,
+      "arms": [
+        "native",
+        "generic-adaptive",
+        "ode-alloc"
+      ]
+    }
+  }
+}
