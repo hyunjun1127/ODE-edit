@@ -17,30 +17,66 @@ def quantized_effective_weight(
     base_weight: torch.Tensor,
     pair: FactorPair,
     ratio: float,
+    *,
+    row_block: int = 64,
 ) -> torch.Tensor:
     """Materialize one effective BF16 layer, never a retained dense FP32 delta."""
+
+    effective, _ = _quantized_effective_weight_with_stats(
+        base_weight,
+        pair,
+        ratio,
+        row_block=row_block,
+    )
+    return effective
+
+
+def _quantized_effective_weight_with_stats(
+    base_weight: torch.Tensor,
+    pair: FactorPair,
+    ratio: float,
+    *,
+    row_block: int,
+) -> tuple[torch.Tensor, int]:
 
     coefficient = float(ratio)
     if not math.isfinite(coefficient) or coefficient <= 0.0:
         raise ODEAllocContractError("allocation ratio must be finite and positive")
     if base_weight.dtype is not torch.bfloat16 or base_weight.ndim != 2:
         raise ODEAllocContractError("verdict base weight must be a BF16 matrix")
+    if isinstance(row_block, bool) or not isinstance(row_block, int) or row_block <= 0:
+        raise ODEAllocContractError("verdict row block must be a positive integer")
     if tuple(base_weight.shape) != (pair.left.shape[0], pair.right.shape[0]):
         raise ODEAllocContractError("verdict factor and weight shapes differ")
     with torch.no_grad():
-        # This is the sole dense FP32 temporary: the effective weight itself.
-        # addmm_ avoids materializing a separate full-rank delta tensor.
-        effective_fp32 = base_weight.detach().to(dtype=torch.float32)
-        effective_fp32.addmm_(
-            pair.left.detach().to(device=base_weight.device, dtype=torch.float32),
-            pair.right.detach()
-            .to(device=base_weight.device, dtype=torch.float32)
-            .transpose(0, 1),
-            alpha=coefficient,
-        )
-        effective_bf16 = effective_fp32.to(dtype=torch.bfloat16)
-        del effective_fp32
-    return effective_bf16
+        # EasyEdit's one-request Native product is computed as key @ value.T
+        # in factor dtype, transposed to weight orientation, cast to FP32, and
+        # then added into the BF16 parameter.  Row blocks preserve that operand
+        # order while preventing a full dense FP32 delta from ever existing.
+        left = pair.left.detach().to(device=base_weight.device, dtype=torch.float64)
+        right = pair.right.detach().to(device=base_weight.device, dtype=torch.float64)
+        right_t = right
+        effective_bf16 = torch.empty_like(base_weight)
+        max_update_elements = 0
+        for start in range(0, int(base_weight.shape[0]), row_block):
+            end = min(start + row_block, int(base_weight.shape[0]))
+            native_order_update = (
+                right_t @ left[start:end].transpose(0, 1)
+            ).transpose(0, 1)
+            update_fp32 = native_order_update.to(dtype=torch.float32)
+            max_update_elements = max(max_update_elements, update_fp32.numel())
+            effective_bf16[start:end].copy_(
+                base_weight.detach()[start:end]
+                + torch.as_tensor(
+                    coefficient,
+                    device=base_weight.device,
+                    dtype=torch.float32,
+                )
+                * update_fp32
+            )
+            del native_order_update, update_fp32
+        del left, right, right_t
+    return effective_bf16, max_update_elements
 
 
 class QuantizedBF16FunctionalTrial(AbstractContextManager["QuantizedBF16FunctionalTrial"]):
@@ -51,12 +87,17 @@ class QuantizedBF16FunctionalTrial(AbstractContextManager["QuantizedBF16Function
         model: torch.nn.Module,
         factors_by_weight: Mapping[str, FactorPair],
         ratios_by_layer: Mapping[int, float],
+        *,
+        row_block: int = 64,
     ) -> None:
         if not factors_by_weight:
             raise ODEAllocContractError("BF16 trial basis is empty")
         self.model = model
         self.factors_by_weight = dict(factors_by_weight)
         self.ratios_by_layer = dict(ratios_by_layer)
+        self.row_block = row_block
+        if isinstance(row_block, bool) or not isinstance(row_block, int) or row_block <= 0:
+            raise ODEAllocContractError("BF16 trial row block must be positive integer")
         if {pair.layer for pair in self.factors_by_weight.values()} != set(self.ratios_by_layer):
             raise ODEAllocContractError("BF16 trial ratios and factor layers differ")
         self._handles: list[torch.utils.hooks.RemovableHandle] = []
@@ -65,6 +106,8 @@ class QuantizedBF16FunctionalTrial(AbstractContextManager["QuantizedBF16Function
         self._cuda_rng: dict[torch.device, torch.Tensor] = {}
         self._active_effective_weights = 0
         self.max_live_effective_weights = 0
+        self.max_fp32_delta_block_elements = 0
+        self.replacement_linear_calls = 0
 
     @staticmethod
     def _module_and_parameter(
@@ -100,9 +143,21 @@ class QuantizedBF16FunctionalTrial(AbstractContextManager["QuantizedBF16Function
                 self.max_live_effective_weights, self._active_effective_weights
             )
             try:
-                effective = quantized_effective_weight(module.weight, pair, ratio)
+                effective, max_update_elements = (
+                    _quantized_effective_weight_with_stats(
+                        module.weight,
+                        pair,
+                        ratio,
+                        row_block=self.row_block,
+                    )
+                )
+                self.max_fp32_delta_block_elements = max(
+                    self.max_fp32_delta_block_elements,
+                    max_update_elements,
+                )
                 with torch.no_grad():
                     result = F.linear(hidden, effective, module.bias)
+                self.replacement_linear_calls += 1
                 del effective
                 return result
             finally:
@@ -305,7 +360,9 @@ def independent_native_weight_cpu_fixture(
     if base_weight.device.type != "cpu" or base_weight.numel() > 4096:
         raise ODEAllocContractError("dense Native oracle is restricted to tiny CPU fixtures")
     with torch.no_grad():
-        dense_delta = pair.left.float() @ pair.right.float().transpose(0, 1)
-        result = (base_weight.float() + dense_delta).to(torch.bfloat16)
+        native_product = pair.right.double() @ pair.left.double().transpose(0, 1)
+        dense_delta = native_product.transpose(0, 1).float()
+        result = (base_weight + dense_delta).to(torch.bfloat16)
+        del native_product
         del dense_delta
     return result

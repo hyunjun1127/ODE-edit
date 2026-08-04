@@ -76,6 +76,7 @@ class FunctionalTransactionTests(unittest.TestCase):
             self.model,
             self.factors,
             {layer: float(ratio) for layer, ratio in reading.ratio_by_layer().items()},
+            row_block=1,
         )
         with trial:
             virtual_output = self.model(self.inputs)
@@ -85,6 +86,11 @@ class FunctionalTransactionTests(unittest.TestCase):
         native_event = torch.log_softmax(native_output.float(), dim=-1)
         self.assertTrue(torch.equal(virtual_event, native_event))
         self.assertEqual(trial.max_live_effective_weights, 1)
+        self.assertEqual(trial.replacement_linear_calls, 2)
+        self.assertLess(
+            trial.max_fp32_delta_block_elements,
+            max(parameter.numel() for parameter in original_parameters.values()),
+        )
         self.assertTrue(torch.equal(torch.get_rng_state(), rng))
         for name, parameter in original_parameters.items():
             self.assertEqual(parameter.data_ptr(), pointers[name])
@@ -130,6 +136,9 @@ class FunctionalTransactionTests(unittest.TestCase):
         transaction = AtomicLayerTransaction(parameters, mutation_lock=lock)
         for name, candidate in candidates.items():
             transaction.stage(name, candidate)
+        self.assertTrue(
+            all(value.device.type == "cpu" for value in transaction._staged.values())
+        )
         receipt = transaction.commit(ledger=ledger)
         self.assertEqual(receipt.commit_count, 1)
         self.assertEqual(ledger.commit_count, 1)

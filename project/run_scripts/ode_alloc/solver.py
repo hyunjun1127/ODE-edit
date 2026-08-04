@@ -13,6 +13,9 @@ from .accounting import ComputeLedger
 from .contracts import ODEAllocContractError, SolverBudget, finite, positive
 
 
+AGGREGATED_CONSTRAINT_LABELS = frozenset({"E", "H", "P"})
+
+
 @dataclass(frozen=True, slots=True)
 class ConstraintLinearization:
     """Rows encode A v + kappa*h >= -slack in the q tangent space."""
@@ -20,12 +23,23 @@ class ConstraintLinearization:
     matrix: torch.Tensor
     barrier_values: torch.Tensor
     kappa: float
+    labels: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if self.matrix.ndim != 2 or self.barrier_values.ndim != 1:
             raise ODEAllocContractError("constraint linearization ranks are invalid")
         if self.matrix.shape[0] != self.barrier_values.shape[0]:
             raise ODEAllocContractError("constraint rows and values differ")
+        if len(self.labels) != self.matrix.shape[0]:
+            raise ODEAllocContractError("aggregated constraint labels and rows differ")
+        if (
+            len(set(self.labels)) != len(self.labels)
+            or not set(self.labels).issubset(AGGREGATED_CONSTRAINT_LABELS)
+            or len(self.labels) > 3
+        ):
+            raise ODEAllocContractError(
+                "constraints must be unique aggregated E/H/P rows"
+            )
         if self.matrix.dtype != torch.float64 or self.barrier_values.dtype != torch.float64:
             raise ODEAllocContractError("constraint linearization must use float64")
         if self.matrix.device.type != "cpu" or self.barrier_values.device.type != "cpu":
@@ -47,6 +61,18 @@ class ProjectionResult:
     velocity: torch.Tensor
     slack: torch.Tensor
     qp_cpu_seconds: float
+    subset_diagnostics: tuple["ActiveSetDiagnostic", ...] = ()
+    max_constraint_residual: float = 0.0
+
+
+@dataclass(frozen=True, slots=True)
+class ActiveSetDiagnostic:
+    active_labels: tuple[str, ...]
+    linear_solve_residual: float
+    stationarity_residual: float
+    sign_valid: bool
+    kkt_valid: bool
+    objective: float
 
 
 class VelocityProjector(Protocol):
@@ -75,29 +101,46 @@ class GenericProjector:
                 + linearization.kappa * linearization.barrier_values
             )
         )
-        return ProjectionResult(nominal.clone(), slack, 0.0)
+        violation = (
+            float(torch.max(torch.relu(-(
+                linearization.matrix @ nominal
+                + linearization.kappa * linearization.barrier_values
+                + slack
+            ))))
+            if slack.numel()
+            else 0.0
+        )
+        return ProjectionResult(
+            nominal.clone(),
+            slack,
+            0.0,
+            max_constraint_residual=violation,
+        )
 
 
 class CBFProjector:
-    """Exact active-set solution of a small soft CBF-QP CPU fixture.
+    """Deterministic production E/H/P soft CBF-QP active-set enumerator.
 
     Eliminating nonnegative slack yields a convex squared-hinge problem.  The
-    active sets are enumerated so this preparation has no external QP solver
-    dependency.  Production-sized constraint counts require a separately
-    locked backend.
+    all at most 2^3 active sets are enumerated in float64 with explicit linear
+    solve, stationarity, sign, and terminal inequality residual checks.  No
+    external solver or per-item constraint is representable.
     """
 
     name = "soft-cbf-qp-active-set"
 
-    def __init__(self, *, slack_penalty: float, max_constraints: int = 8) -> None:
-        self.slack_penalty = positive("CBF slack penalty", slack_penalty)
-        if (
-            isinstance(max_constraints, bool)
-            or not isinstance(max_constraints, int)
-            or max_constraints <= 0
-        ):
-            raise ODEAllocContractError("maximum QP constraints must be positive integer")
-        self.max_constraints = max_constraints
+    def __init__(
+        self,
+        *,
+        slack_penalty_weight: float,
+        residual_tolerance: float = 1.0e-10,
+    ) -> None:
+        self.slack_penalty_weight = positive(
+            "CBF slack penalty weight", slack_penalty_weight
+        )
+        self.residual_tolerance = positive(
+            "CBF residual tolerance", residual_tolerance
+        )
 
     def project(
         self,
@@ -112,8 +155,8 @@ class CBFProjector:
         if not torch.isfinite(nominal).all() or abs(float(nominal.sum())) > 1.0e-12:
             raise ODEAllocContractError("nominal velocity leaves the zero-mean tangent")
         count = linearization.matrix.shape[0]
-        if count > self.max_constraints:
-            raise ODEAllocContractError("CBF active-set fixture constraint cap exceeded")
+        if count > 3:
+            raise ODEAllocContractError("production CBF constraint cap exceeded")
         if count == 0:
             return ProjectionResult(
                 nominal.clone(),
@@ -123,44 +166,109 @@ class CBFProjector:
         matrix = linearization.matrix
         offset = linearization.kappa * linearization.barrier_values
         identity = torch.eye(nominal.numel(), dtype=torch.float64)
-        candidates: list[tuple[float, torch.Tensor, torch.Tensor]] = []
-        tolerance = 1.0e-10
+        candidates: list[
+            tuple[float, tuple[float, ...], torch.Tensor, torch.Tensor]
+        ] = []
+        diagnostics: list[ActiveSetDiagnostic] = []
+        tolerance = self.residual_tolerance
         for mask in itertools.product((False, True), repeat=count):
             active_indices = [index for index, active in enumerate(mask) if active]
             if active_indices:
                 active_matrix = matrix[active_indices]
                 active_offset = offset[active_indices]
-                system = identity + self.slack_penalty * (
+                system = identity + self.slack_penalty_weight * (
                     active_matrix.transpose(0, 1) @ active_matrix
                 )
-                rhs = nominal - self.slack_penalty * (
+                rhs = nominal - self.slack_penalty_weight * (
                     active_matrix.transpose(0, 1) @ active_offset
                 )
                 try:
                     velocity = torch.linalg.solve(system, rhs)
-                except RuntimeError:
-                    continue
+                except RuntimeError as exc:
+                    raise ODEAllocContractError(
+                        "CBF active-set float64 solve failed"
+                    ) from exc
             else:
+                system = identity
+                rhs = nominal
                 velocity = nominal.clone()
             residual = matrix @ velocity + offset
-            consistent = all(
+            sign_valid = all(
                 float(residual[index]) <= tolerance if active else float(residual[index]) >= -tolerance
                 for index, active in enumerate(mask)
             )
-            if not consistent:
-                continue
+            linear_solve_residual = float(
+                torch.linalg.vector_norm(system @ velocity - rhs, ord=float("inf"))
+            )
+            stationarity = velocity - nominal
+            if active_indices:
+                stationarity = stationarity + self.slack_penalty_weight * (
+                    active_matrix.transpose(0, 1)
+                    @ (active_matrix @ velocity + active_offset)
+                )
+            stationarity_residual = float(
+                torch.linalg.vector_norm(stationarity, ord=float("inf"))
+            )
             slack = torch.relu(-residual)
-            objective = 0.5 * torch.sum((velocity - nominal).square()) + 0.5 * self.slack_penalty * torch.sum(slack.square())
-            candidates.append((float(objective), velocity, slack))
+            objective = 0.5 * torch.sum((velocity - nominal).square()) + 0.5 * self.slack_penalty_weight * torch.sum(slack.square())
+            objective_value = float(objective)
+            kkt_valid = (
+                linear_solve_residual <= tolerance
+                and stationarity_residual <= tolerance
+            )
+            diagnostics.append(
+                ActiveSetDiagnostic(
+                    active_labels=tuple(
+                        linearization.labels[index]
+                        for index, active in enumerate(mask)
+                        if active
+                    ),
+                    linear_solve_residual=linear_solve_residual,
+                    stationarity_residual=stationarity_residual,
+                    sign_valid=sign_valid,
+                    kkt_valid=kkt_valid,
+                    objective=objective_value,
+                )
+            )
+            if sign_valid and kkt_valid:
+                candidates.append(
+                    (
+                        objective_value,
+                        tuple(float(value) for value in velocity),
+                        velocity,
+                        slack,
+                    )
+                )
+        if len(diagnostics) != 2**count:
+            raise ODEAllocContractError("CBF did not enumerate every active subset")
         if not candidates:
             raise ODEAllocContractError("CBF active-set solve found no consistent region")
-        _, velocity, slack = min(candidates, key=lambda item: item[0])
+        _, _, velocity, slack = min(candidates, key=lambda item: (item[0], item[1]))
         velocity = velocity - velocity.mean()
         slack = torch.relu(-(matrix @ velocity + offset))
+        inequality_violation = (
+            float(torch.max(torch.relu(-(matrix @ velocity + offset + slack))))
+            if slack.numel()
+            else 0.0
+        )
+        slack_identity_residual = (
+            float(torch.max(torch.abs(slack - torch.relu(-(matrix @ velocity + offset)))))
+            if slack.numel()
+            else 0.0
+        )
+        max_constraint_residual = max(
+            inequality_violation,
+            slack_identity_residual,
+            abs(float(velocity.mean())),
+        )
+        if max_constraint_residual > tolerance:
+            raise ODEAllocContractError("CBF terminal residual exceeds R1 tolerance")
         return ProjectionResult(
             velocity=velocity,
             slack=slack,
             qp_cpu_seconds=time.perf_counter() - start,
+            subset_diagnostics=tuple(diagnostics),
+            max_constraint_residual=max_constraint_residual,
         )
 
 

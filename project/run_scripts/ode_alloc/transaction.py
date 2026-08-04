@@ -42,13 +42,15 @@ class AtomicLayerTransaction:
             parameter.dtype is not torch.bfloat16
             or candidate_bf16.dtype is not torch.bfloat16
             or parameter.shape != candidate_bf16.shape
-            or parameter.device != candidate_bf16.device
             or parameter.grad is not None
         ):
             raise ODEAllocContractError("transaction staged tensor contract differs")
-        if not torch.isfinite(candidate_bf16.float()).all():
+        if not torch.isfinite(candidate_bf16).all():
             raise ODEAllocContractError("transaction staged tensor is non-finite")
-        self._staged[name] = candidate_bf16.detach().clone()
+        # All-layer atomicity needs all candidates staged, but the model-side
+        # contract permits only one effective BF16 target weight live at once.
+        # Store the validated candidates on CPU and stream one layer per write.
+        self._staged[name] = candidate_bf16.detach().to(device="cpu").clone()
 
     def validate_complete(self) -> None:
         if set(self._staged) != set(self.parameters):
@@ -71,7 +73,8 @@ class AtomicLayerTransaction:
         with self.mutation_lock:
             pointers = {name: self.parameters[name].data_ptr() for name in names}
             snapshots = {
-                name: self.parameters[name].detach().clone() for name in names
+                name: self.parameters[name].detach().to(device="cpu").clone()
+                for name in names
             }
             writes = 0
             try:
@@ -89,7 +92,9 @@ class AtomicLayerTransaction:
                         self.parameters[name].copy_(snapshots[name])
                 if any(
                     self.parameters[name].data_ptr() != pointers[name]
-                    or not torch.equal(self.parameters[name], snapshots[name])
+                    or not torch.equal(
+                        self.parameters[name].detach().to(device="cpu"), snapshots[name]
+                    )
                     for name in names
                 ):
                     raise ODEAllocContractError("transaction rollback was not byte exact")

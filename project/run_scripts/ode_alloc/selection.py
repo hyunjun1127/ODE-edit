@@ -203,6 +203,45 @@ def load_request_identities(dataset_path: str | Path) -> tuple[RequestIdentity, 
     return identities
 
 
+def load_projected_request(
+    dataset_path: str | Path,
+    *,
+    case_id: int,
+    expected_request_hash: str,
+) -> dict[str, Any]:
+    """Load only one approved rewrite surface; evaluation fields stay undecoded."""
+
+    if isinstance(case_id, bool) or not isinstance(case_id, int) or case_id < 0:
+        raise ODEAllocContractError("approved P0 case identity is invalid")
+    if not isinstance(expected_request_hash, str) or len(expected_request_hash) != 64:
+        raise ODEAllocContractError("approved P0 request hash is invalid")
+    source = Path(dataset_path).resolve(strict=True)
+    selected: bytes | None = None
+    for blob in _iter_top_level_objects(source):
+        matches = _CASE_ID.findall(blob)
+        if len(matches) == 1 and int(matches[0]) == case_id:
+            if selected is not None:
+                raise ODEAllocContractError("approved P0 case repeats")
+            selected = blob
+    if selected is None:
+        raise ODEAllocContractError("approved P0 case is absent")
+    identity = project_request_identity(selected)
+    if identity.request_hash != expected_request_hash:
+        raise ODEAllocContractError("approved P0 request hash differs")
+    try:
+        rewrite = json.loads(_extract_object_after_key(selected, b"requested_rewrite"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ODEAllocContractError("approved P0 rewrite is invalid JSON") from exc
+    return {
+        "case_id": case_id,
+        "prompt": _text(rewrite["prompt"], "prompt"),
+        "relation_id": _text(rewrite["relation_id"], "relation"),
+        "subject": _text(rewrite["subject"], "subject"),
+        "target_new": _text(rewrite["target_new"]["str"], "new target"),
+        "target_old": _text(rewrite["target_true"]["str"], "old target"),
+    }
+
+
 def _safe_tracked_paths(repo: Path) -> tuple[Path, ...]:
     result = subprocess.run(
         ["git", "ls-files", "-z", "--", "*.json", "*.py"],

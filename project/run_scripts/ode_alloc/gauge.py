@@ -10,6 +10,14 @@ import torch
 from .contracts import ODEAllocContractError, finite, positive
 
 
+class BasisEligibilityError(ODEAllocContractError):
+    code = "INELIGIBLE_BASIS_ENERGY"
+
+
+class QDomainError(ODEAllocContractError):
+    code = "Q_CAP_HIT"
+
+
 @dataclass(frozen=True, slots=True)
 class FactorPair:
     layer: int
@@ -71,6 +79,7 @@ class FixedEnergyGauge:
         *,
         basis_energy_epsilon: float,
         max_abs_centered_q: float,
+        quantized_zero_by_layer: Mapping[int, bool] | None = None,
     ) -> None:
         self.basis_energy_epsilon = positive(
             "basis energy epsilon", basis_energy_epsilon
@@ -85,17 +94,36 @@ class FixedEnergyGauge:
             if layer != pair.layer:
                 raise ODEAllocContractError("factor mapping and embedded layer differ")
             observed.append((layer, factor_gram_energy(pair)))
-        self.excluded_layers = tuple(
-            layer for layer, energy in observed if energy <= self.basis_energy_epsilon
+        zero_attestation = dict(quantized_zero_by_layer or {})
+        exact_zero_layers = tuple(layer for layer, energy in observed if energy == 0.0)
+        if set(zero_attestation) - set(exact_zero_layers):
+            raise BasisEligibilityError(
+                "INELIGIBLE_BASIS_ENERGY: zero attestation names a nonzero layer"
+            )
+        for layer in exact_zero_layers:
+            if zero_attestation.get(layer) is not True:
+                raise BasisEligibilityError(
+                    "INELIGIBLE_BASIS_ENERGY: exact-zero Gram layer lacks exact "
+                    "quantized Native zero attestation"
+                )
+        near_zero_layers = tuple(
+            layer
+            for layer, energy in observed
+            if 0.0 < energy <= self.basis_energy_epsilon
         )
+        if near_zero_layers:
+            raise BasisEligibilityError(
+                "INELIGIBLE_BASIS_ENERGY: positive near-zero factor-Gram energy"
+            )
+        self.excluded_layers = exact_zero_layers
         active = tuple(
             (layer, energy)
             for layer, energy in observed
             if energy > self.basis_energy_epsilon
         )
         if len(active) < 2:
-            raise ODEAllocContractError(
-                "fixed-energy gauge has no nontrivial allocation subspace"
+            raise BasisEligibilityError(
+                "INELIGIBLE_BASIS_ENERGY: fewer than two active layers"
             )
         self.layers = tuple(layer for layer, _ in active)
         self.energies = torch.tensor(
@@ -128,7 +156,7 @@ class FixedEnergyGauge:
             raise ODEAllocContractError("q must be finite")
         centered = q - q.mean()
         if float(torch.max(torch.abs(centered)).detach().cpu()) > self.max_abs_centered_q:
-            raise ODEAllocContractError("centered q exceeds the fixed numerical domain")
+            raise QDomainError("Q_CAP_HIT: centered q exceeds the fixed numerical domain")
         weights = self.weights.to(device=device)
         energies = self.energies.to(device=device)
         # sum(w)=1 gives the equivalent denominator.  expm1 makes q=0 yield

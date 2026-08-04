@@ -1,25 +1,36 @@
 {
-  "schema_version": "ode-alloc-s04-numerical-lock-proposal/v1",
-  "status": "pending-gh-approval-no-scientific-execution",
+  "schema_version": "ode-alloc-s04-numerical-lock-r1/v1",
+  "status": "gh-approved-p0-technical-pair-only",
+  "instruction_id": "ODEEDIT-S04-ODE-ALLOC-P0-LOCK-R1-PAIR-V1",
+  "parent_checkpoint": "281f4e63611f519995d9b8499895c68a4126002c",
   "proposal_scope": "common-policy-both-model-aliases",
+  "execution_seed": 41,
   "model_aliases": [
     "llama3-8b-inst",
     "qwen2.5-7b-inst"
   ],
   "execution_boundary": {
-    "gpu_now": 0,
-    "model_load_now": false,
-    "slurm_submit_now": false,
+    "dry_plan_gpu": 0,
+    "dry_plan_model_load": false,
+    "p0_pair_submit": "conditional-after-all-gates-exact-once",
+    "p0_pair_gpu_total": 2,
+    "p1_submit": false,
+    "retry_or_resubmit": false,
     "easyedit_write": false,
     "download_or_recompute": false
   },
   "allocation_gauge": {
     "basis_energy_epsilon": 1e-24,
     "energy_dtype": "float64-factor-gram",
-    "max_abs_centered_q": 20.0,
+    "max_abs_centered_q": 1.3862943611198906,
+    "q_cap_semantics": "record-Q_CAP_HIT-and-reject-no-clamp-no-rescue",
     "q_chart": "arithmetic-zero-mean",
+    "per_step_projection": "arithmetic-zero-mean",
     "ratio": "exp(q_l)/sqrt(sum_j(w_j*exp(2*q_j)))",
-    "zero_or_near_zero_policy": "exclude-fail-closed-no-epsilon-prior",
+    "exact_zero_policy": "inactive-only-if-quantized-native-effective-delta-is-exact-zero",
+    "positive_near_zero_policy": "INELIGIBLE_BASIS_ENERGY-for-0<e_l<=1e-24",
+    "minimum_active_layers": 2,
+    "epsilon_prior": false,
     "c_energy_role": "predeclared-robustness-ablation-only"
   },
   "rewrite_gate": {
@@ -48,9 +59,21 @@
       0.25
     ],
     "cbf_kappa": 1.0,
-    "cbf_slack_penalty": 100.0,
-    "cpu_fixture_max_constraints": 8,
-    "production_qp_backend": "pending-gh-lock",
+    "cbf_slack_penalty_weight": 100.0,
+    "aggregated_constraint_labels": [
+      "E",
+      "H",
+      "P"
+    ],
+    "per_item_constraints": false,
+    "production_max_constraints": 3,
+    "production_qp_backend": "float64-deterministic-active-set-enumerator",
+    "active_subset_count_at_max": 8,
+    "slack_elimination": "analytic-squared-hinge",
+    "linear_solve_residual_tolerance": 1e-10,
+    "stationarity_residual_tolerance": 1e-10,
+    "sign_residual_tolerance": 1e-10,
+    "constraint_residual_tolerance": 1e-10,
     "fixed_grid_horizon": 1.0,
     "early_stop": false,
     "endpoint_policy": "best-exact-feasible-after-full-budget-else-native"
@@ -60,6 +83,20 @@
     "verdict_path": "one-layer-at-a-time-quantized-bf16-full-linear",
     "commit": "staged-all-layer-validation-one-logical-transaction",
     "rollback": "all-touched-layer-byte-exact-under-exclusive-model-lock"
+  },
+  "p0_identity_lock": {
+    "case_id": 21135,
+    "request_sha256": "f5626d5c210c4c014af57cb5ed89529f9408ae9e2ad1fab255467713591e2722",
+    "seal_root_digest": "1b45cd567d5ef1a8c52bf0a5a6f8b715270f620cbbdc9949bbf7094f87ef8cab",
+    "checkpoint_dtype": "torch.bfloat16",
+    "context_policy": "fresh-original-bf16-generation-twice-exact-match",
+    "q_path": "q-zero-only",
+    "teacher_logits_atol": 0.0,
+    "teacher_logits_rtol": 0.0,
+    "mean_margin_atol": 0.0,
+    "oracle_ratio_atol": 0.0,
+    "event_atol": 0.0,
+    "scientific_outcome_count": 0
   },
   "compute_contract": {
     "required_counters": [

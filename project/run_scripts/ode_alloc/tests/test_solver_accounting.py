@@ -43,8 +43,9 @@ class SolverAccountingTests(unittest.TestCase):
             matrix=torch.tensor([[1.0, -1.0]], dtype=torch.float64),
             barrier_values=torch.tensor([0.0], dtype=torch.float64),
             kappa=1.0,
+            labels=("E",),
         )
-        result = CBFProjector(slack_penalty=100.0).project(
+        result = CBFProjector(slack_penalty_weight=100.0).project(
             nominal, linearization
         )
         residual = linearization.matrix @ result.velocity
@@ -52,6 +53,8 @@ class SolverAccountingTests(unittest.TestCase):
         self.assertAlmostEqual(float(result.velocity.mean()), 0.0, places=14)
         self.assertGreater(result.qp_cpu_seconds, 0.0)
         self.assertLess(float(torch.linalg.vector_norm(result.velocity - nominal)), 2.0)
+        self.assertEqual(len(result.subset_diagnostics), 2)
+        self.assertLessEqual(result.max_constraint_residual, 1.0e-10)
 
     def _run(self, projector):
         ledger = ComputeLedger()
@@ -97,7 +100,9 @@ class SolverAccountingTests(unittest.TestCase):
 
     def test_generic_and_ode_exhaust_identical_call_budget(self) -> None:
         generic_endpoint, generic = self._run(GenericProjector())
-        ode_endpoint, ode = self._run(CBFProjector(slack_penalty=100.0))
+        ode_endpoint, ode = self._run(
+            CBFProjector(slack_penalty_weight=100.0)
+        )
         self.assertEqual(generic_endpoint.completed_steps, self.budget.fixed_k)
         self.assertEqual(ode_endpoint.completed_steps, self.budget.fixed_k)
         self.assertEqual(
@@ -153,6 +158,82 @@ class SolverAccountingTests(unittest.TestCase):
         source = inspect.getsource(solver_module).casefold()
         for alias in MODEL_ALIASES:
             self.assertNotIn(alias, source)
+
+    def test_three_aggregated_constraints_enumerate_all_subsets_and_permute(self) -> None:
+        matrix = torch.tensor(
+            [
+                [1.0, -1.0, 0.0, 0.0],
+                [0.0, 1.0, -1.0, 0.0],
+                [0.0, 0.0, 1.0, -1.0],
+            ],
+            dtype=torch.float64,
+        )
+        barrier = torch.tensor([-0.05, 0.02, -0.03], dtype=torch.float64)
+        nominal = torch.tensor([-0.3, 0.1, 0.4, -0.2], dtype=torch.float64)
+        projector = CBFProjector(
+            slack_penalty_weight=100.0,
+            residual_tolerance=1.0e-10,
+        )
+        baseline = projector.project(
+            nominal,
+            ConstraintLinearization(matrix, barrier, 1.0, ("E", "H", "P")),
+        )
+        self.assertEqual(len(baseline.subset_diagnostics), 8)
+        for diagnostic in baseline.subset_diagnostics:
+            self.assertLessEqual(diagnostic.linear_solve_residual, 1.0e-10)
+            self.assertLessEqual(diagnostic.stationarity_residual, 1.0e-10)
+            self.assertTrue(diagnostic.kkt_valid)
+        permutation = (2, 0, 1)
+        permuted = projector.project(
+            nominal,
+            ConstraintLinearization(
+                matrix[list(permutation)],
+                barrier[list(permutation)],
+                1.0,
+                tuple(("E", "H", "P")[index] for index in permutation),
+            ),
+        )
+        self.assertTrue(
+            torch.allclose(
+                baseline.velocity,
+                permuted.velocity,
+                rtol=0.0,
+                atol=1.0e-12,
+            )
+        )
+        self.assertTrue(
+            torch.allclose(
+                baseline.slack[list(permutation)],
+                permuted.slack,
+                rtol=0.0,
+                atol=1.0e-12,
+            )
+        )
+        self.assertGreater(float(baseline.slack.max()), 0.0)
+
+    def test_per_item_or_more_than_three_constraints_are_unrepresentable(self) -> None:
+        with self.assertRaises(ODEAllocContractError):
+            ConstraintLinearization(
+                torch.tensor([[1.0, -1.0]], dtype=torch.float64),
+                torch.tensor([0.0], dtype=torch.float64),
+                1.0,
+                ("H-item-0",),
+            )
+        with self.assertRaises(ODEAllocContractError):
+            ConstraintLinearization(
+                torch.tensor(
+                    [
+                        [1.0, -1.0],
+                        [1.0, -1.0],
+                        [1.0, -1.0],
+                        [1.0, -1.0],
+                    ],
+                    dtype=torch.float64,
+                ),
+                torch.zeros(4, dtype=torch.float64),
+                1.0,
+                ("E", "H", "P", "E"),
+            )
 
 
 if __name__ == "__main__":

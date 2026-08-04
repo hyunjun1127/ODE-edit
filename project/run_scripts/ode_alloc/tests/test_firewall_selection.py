@@ -11,6 +11,7 @@ from project.run_scripts.ode_alloc.contracts import ODEAllocContractError
 from project.run_scripts.ode_alloc.firewall import (
     assert_dry_launcher_ast,
     assert_inner_payload_schema,
+    assert_p0_runtime_firewall_ast,
 )
 from project.run_scripts.ode_alloc.selection import (
     EXPLICIT_EXCLUSIONS,
@@ -18,6 +19,7 @@ from project.run_scripts.ode_alloc.selection import (
     build_seal_candidate,
     load_and_verify_seal_candidate,
     project_request_identity,
+    load_projected_request,
     scan_tracked_prior_case_ids,
     write_canonical_json,
 )
@@ -66,6 +68,23 @@ class FirewallSelectionTests(unittest.TestCase):
         self.assertEqual(identity.case_id, 42)
         self.assertEqual(len(identity.request_hash), 64)
 
+    def test_p0_loader_returns_only_approved_rewrite_fields(self) -> None:
+        row = _row(42)
+        identity = project_request_identity(json.dumps(row).encode("utf-8"))
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "rows.json"
+            source.write_text(json.dumps([row]), encoding="utf-8")
+            request = load_projected_request(
+                source,
+                case_id=42,
+                expected_request_hash=identity.request_hash,
+            )
+        self.assertEqual(
+            set(request),
+            {"case_id", "prompt", "relation_id", "subject", "target_new", "target_old"},
+        )
+        self.assertNotIn("paraphrase", json.dumps(request))
+
     def test_ast_firewall_is_fail_closed(self) -> None:
         launcher = Path(__file__).resolve().parents[2] / "session04_ode_alloc_dry_plan.py"
         assert_dry_launcher_ast(launcher)
@@ -81,6 +100,16 @@ class FirewallSelectionTests(unittest.TestCase):
                 bad.write_text(source, encoding="utf-8")
                 with self.assertRaises(ODEAllocContractError):
                     assert_dry_launcher_ast(bad)
+
+    def test_p0_runtime_firewall_allows_runtime_but_rejects_heldout_keys(self) -> None:
+        runtime = Path(__file__).resolve().parents[1] / "p0_runtime.py"
+        launcher = Path(__file__).resolve().parents[2] / "session04_ode_alloc_p0.py"
+        assert_p0_runtime_firewall_ast([runtime, launcher])
+        with tempfile.TemporaryDirectory() as directory:
+            bad = Path(directory) / "bad.py"
+            bad.write_text("secret = 'paraphrase_prompts'\n", encoding="utf-8")
+            with self.assertRaises(ODEAllocContractError):
+                assert_p0_runtime_firewall_ast([bad])
 
     def test_deterministic_split_excludes_prior_and_never_reads_session03_path(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

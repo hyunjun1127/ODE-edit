@@ -11,8 +11,10 @@ from project.run_scripts.ode_alloc.contracts import (
     reject_global_strength_fields,
 )
 from project.run_scripts.ode_alloc.gauge import (
+    BasisEligibilityError,
     FactorPair,
     FixedEnergyGauge,
+    QDomainError,
     factor_gram_energy,
 )
 
@@ -44,7 +46,8 @@ class GaugeContractTests(unittest.TestCase):
         self.gauge = FixedEnergyGauge(
             self.pairs,
             basis_energy_epsilon=1.0e-24,
-            max_abs_centered_q=20.0,
+            max_abs_centered_q=1.3862943611198906,
+            quantized_zero_by_layer={7: True},
         )
 
     def test_factor_gram_matches_dense_fixture(self) -> None:
@@ -75,7 +78,8 @@ class GaugeContractTests(unittest.TestCase):
         permuted_gauge = FixedEnergyGauge(
             {6: self.pairs[6], 4: self.pairs[4], 7: self.pairs[7], 5: self.pairs[5]},
             basis_energy_epsilon=1.0e-24,
-            max_abs_centered_q=20.0,
+            max_abs_centered_q=1.3862943611198906,
+            quantized_zero_by_layer={7: True},
         )
         permuted = permuted_gauge.evaluate({6: q[6], 5: q[5], 4: q[4]})
         self.assertTrue(torch.allclose(base.ratios, shifted.ratios, atol=2.0e-15, rtol=2.0e-15))
@@ -100,12 +104,38 @@ class GaugeContractTests(unittest.TestCase):
             reject_global_strength_fields({"global_scale": 1.1})
 
     def test_degenerate_basis_fails_closed(self) -> None:
-        with self.assertRaises(ODEAllocContractError):
+        with self.assertRaises(BasisEligibilityError) as observed:
             FixedEnergyGauge(
                 {4: self.pairs[4], 7: self.pairs[7]},
                 basis_energy_epsilon=factor_gram_energy(self.pairs[4]) * 0.9,
-                max_abs_centered_q=20.0,
+                max_abs_centered_q=1.3862943611198906,
+                quantized_zero_by_layer={7: True},
             )
+        self.assertEqual(observed.exception.code, "INELIGIBLE_BASIS_ENERGY")
+
+    def test_positive_near_zero_and_unattested_exact_zero_are_ineligible(self) -> None:
+        near = FactorPair(
+            8,
+            torch.tensor([[1.0e-7]], dtype=torch.float64),
+            torch.tensor([[1.0e-7]], dtype=torch.float64),
+        )
+        with self.assertRaises(BasisEligibilityError):
+            FixedEnergyGauge(
+                {4: self.pairs[4], 5: self.pairs[5], 8: near},
+                basis_energy_epsilon=1.0e-24,
+                max_abs_centered_q=1.3862943611198906,
+            )
+        with self.assertRaises(BasisEligibilityError):
+            FixedEnergyGauge(
+                self.pairs,
+                basis_energy_epsilon=1.0e-24,
+                max_abs_centered_q=1.3862943611198906,
+            )
+
+    def test_q_cap_hit_is_explicit_and_not_clamped(self) -> None:
+        with self.assertRaises(QDomainError) as observed:
+            self.gauge.evaluate({4: -2.0, 5: 0.0, 6: 2.0})
+        self.assertEqual(observed.exception.code, "Q_CAP_HIT")
 
     def test_both_aliases_share_one_policy(self) -> None:
         policy = {"rho": 0.5, "fixed_k": 8}

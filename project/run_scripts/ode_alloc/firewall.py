@@ -26,6 +26,14 @@ _FORBIDDEN_RUNTIME_IMPORTS = (
     "datasets",
     "easyeditor",
 )
+_HELDOUT_ROW_KEYS = frozenset(
+    {
+        "paraphrase_prompts",
+        "neighborhood_prompts",
+        "generation_prompts",
+        "attribute_prompts",
+    }
+)
 
 
 def assert_inner_payload_schema(payload: Mapping[str, Any]) -> None:
@@ -79,4 +87,28 @@ def assert_dry_launcher_ast(path: str | Path) -> None:
     if violations:
         raise ODEAllocContractError(
             "dry launcher crosses the held-out/runtime firewall: " + ",".join(violations)
+        )
+
+
+def assert_p0_runtime_firewall_ast(paths: list[str | Path]) -> None:
+    """P0 may import model runtime, but never evaluation row keys or foreign sessions."""
+
+    violations: list[str] = []
+    for value in paths:
+        source_path = Path(value).resolve(strict=True)
+        tree = ast.parse(source_path.read_text(encoding="utf-8"), filename=str(source_path))
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Constant) and isinstance(node.value, str):
+                lowered = node.value.casefold()
+                if lowered in _HELDOUT_ROW_KEYS or "session03" in lowered or "session_03" in lowered:
+                    violations.append(f"forbidden-runtime-string:{source_path.name}:{node.lineno}")
+            elif isinstance(node, ast.Import):
+                if any(alias.name.casefold() == "datasets" for alias in node.names):
+                    violations.append(f"dataset-import:{source_path.name}:{node.lineno}")
+            elif isinstance(node, ast.ImportFrom):
+                if (node.module or "").casefold().split(".")[0] == "datasets":
+                    violations.append(f"dataset-import:{source_path.name}:{node.lineno}")
+    if violations:
+        raise ODEAllocContractError(
+            "P0 runtime crosses the held-out/session firewall: " + ",".join(violations)
         )

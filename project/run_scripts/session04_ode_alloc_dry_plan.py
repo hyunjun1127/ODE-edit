@@ -39,15 +39,18 @@ DEFAULT_DATASET = Path("/mnt/raid5/janghj/EasyEdit/data/counterfact/counterfact.
 
 def _load_lock(path: Path) -> dict[str, Any]:
     value = json.loads(path.resolve(strict=True).read_text(encoding="utf-8"))
-    if value.get("status") != "pending-gh-approval-no-scientific-execution":
-        raise RuntimeError("numerical proposal is not pending the required approval")
+    if value.get("status") != "gh-approved-p0-technical-pair-only":
+        raise RuntimeError("numerical R1 lock lacks exact P0 technical approval")
     boundary = value["execution_boundary"]
     if (
-        boundary.get("gpu_now") != 0
-        or boundary.get("model_load_now") is not False
-        or boundary.get("slurm_submit_now") is not False
+        boundary.get("dry_plan_gpu") != 0
+        or boundary.get("dry_plan_model_load") is not False
+        or boundary.get("p0_pair_submit")
+        != "conditional-after-all-gates-exact-once"
+        or boundary.get("p1_submit") is not False
+        or boundary.get("retry_or_resubmit") is not False
     ):
-        raise RuntimeError("dry lock grants execution authority")
+        raise RuntimeError("dry/P0 execution boundary differs from R1")
     if tuple(value.get("model_aliases", ())) != MODEL_ALIASES:
         raise RuntimeError("dry lock model aliases differ")
     reject_global_strength_fields(value)
