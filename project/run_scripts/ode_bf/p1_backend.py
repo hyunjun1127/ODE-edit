@@ -40,6 +40,25 @@ from .woodbury import ProjectorCertificate, WoodburyCertificate, solve_alpha_woo
 
 P1_NATIVE_REFERENCE = "N32 canonical source-order original-BF16 AlphaEdit"
 P1_DYNAMIC_REFERENCE = "Native AlphaEdit-WB-mixed64-v1 full-residual field"
+FULL_CURRENT_RESIDUAL_DEFINITION = "full_current"
+FULL_CURRENT_RESIDUAL_DIVISOR = 1
+
+
+def full_current_residual(
+    target_state: torch.Tensor,
+    current_z: torch.Tensor,
+) -> torch.Tensor:
+    """Return the unshared current residual for one non-Native layer arm."""
+
+    if target_state.shape != current_z.shape or target_state.ndim != 2:
+        raise ODEBFContractError("full-current residual geometry differs")
+    residual = (
+        target_state.detach().to(device="cpu", dtype=torch.float32)
+        - current_z.detach().to(device="cpu", dtype=torch.float32)
+    ).contiguous()
+    if not torch.isfinite(residual).all():
+        raise ODEBFContractError("full-current residual is non-finite")
+    return residual
 
 
 @dataclass(slots=True)
@@ -632,6 +651,8 @@ class P1LayerField:
     key: torch.Tensor
     projected_key: torch.Tensor
     residual: torch.Tensor
+    residual_definition: str
+    residual_divisor: int
     q: torch.Tensor
     factor: WaypointFactor
     factor_frobenius_sq: float
@@ -640,6 +661,53 @@ class P1LayerField:
     covariance_receipt: CovarianceActionReceipt
     woodbury_certificate: WoodburyCertificate
     history_action: torch.Tensor
+
+    def __post_init__(self) -> None:
+        if (
+            self.residual_definition != FULL_CURRENT_RESIDUAL_DEFINITION
+            or isinstance(self.residual_divisor, bool)
+            or not isinstance(self.residual_divisor, int)
+            or self.residual_divisor != FULL_CURRENT_RESIDUAL_DIVISOR
+        ):
+            raise ODEBFContractError("non-Native residual policy differs")
+        if (
+            self.factor.weight_name != self.weight_name
+            or self.factor.layer != self.layer
+            or not torch.equal(self.factor.left, self.residual)
+            or not torch.equal(self.factor.right, self.q)
+        ):
+            raise ODEBFContractError("non-Native B_l=R_l Q_l^T identity differs")
+
+    def factor_identity(self) -> str:
+        return canonical_hash(
+            {
+                "weight_name_sha256": hashlib.sha256(
+                    self.factor.weight_name.encode("utf-8")
+                ).hexdigest(),
+                "layer": self.factor.layer,
+                "correction_cycle": self.factor.correction_cycle,
+                "step_in_cycle": self.factor.step_in_cycle,
+                "factor_ordinal": self.factor.factor_ordinal,
+                "theta": self.factor.theta,
+                "left_sha256": tensor_sha256(self.factor.left),
+                "right_sha256": tensor_sha256(self.factor.right),
+                "joint_batch": self.factor.joint_batch,
+            }
+        )
+
+    def arm_identity(self) -> str:
+        return canonical_hash(
+            {
+                "layer": self.layer,
+                "key_sha256": tensor_sha256(self.key),
+                "projected_key_sha256": tensor_sha256(self.projected_key),
+                "residual_definition": self.residual_definition,
+                "residual_divisor": self.residual_divisor,
+                "current_residual_sha256": tensor_sha256(self.residual),
+                "q_sha256": tensor_sha256(self.q),
+                "factor_sha256": self.factor_identity(),
+            }
+        )
 
     def raw_free_payload(self) -> dict[str, Any]:
         return {
@@ -650,8 +718,16 @@ class P1LayerField:
             "projected_key_sha256": tensor_sha256(self.projected_key),
             "residual_shape": list(self.residual.shape),
             "residual_sha256": tensor_sha256(self.residual),
+            "residual_definition": self.residual_definition,
+            "residual_divisor": self.residual_divisor,
+            "current_residual_sha256": tensor_sha256(self.residual),
+            "current_residual_frobenius_norm": float(
+                torch.linalg.norm(self.residual.double())
+            ),
             "q_shape": list(self.q.shape),
             "q_sha256": tensor_sha256(self.q),
+            "factor_sha256": self.factor_identity(),
+            "layer_arm_sha256": self.arm_identity(),
             "factor_frobenius_sq": self.factor_frobenius_sq,
             "covariance": asdict(self.covariance_receipt),
             "woodbury": asdict(self.woodbury_certificate),
@@ -750,11 +826,9 @@ def build_p1_dynamic_field(
         )[1].T.detach().to(device="cpu", dtype=torch.float32)
         if current_z.shape != target_state.shape:
             raise ODEBFContractError("P1 target/current-z geometry differs")
-        full_residual = target_state.detach().to(device="cpu", dtype=torch.float32) - current_z
-        if not torch.isfinite(full_residual).all():
-            raise ODEBFContractError("P1 dynamic residual is non-finite")
+        full_residual = full_current_residual(target_state, current_z)
         for layer_index, layer in enumerate(layers):
-            residual = full_residual / float(len(layers) - layer_index)
+            residual = full_residual.clone()
             key = alpha_main.compute_ks(
                 model,
                 tokenizer,
@@ -829,6 +903,8 @@ def build_p1_dynamic_field(
                     key,
                     projected,
                     residual.clone(),
+                    FULL_CURRENT_RESIDUAL_DEFINITION,
+                    FULL_CURRENT_RESIDUAL_DIVISOR,
                     q,
                     factor,
                     frobenius_sq,
@@ -907,11 +983,7 @@ def build_p1_frozen_field_from_capture(
         )
         if current_z.shape != target_state.shape:
             raise ODEBFContractError("entry-frozen target/current-z geometry differs")
-        residual = (
-            target_state.detach().to(device="cpu", dtype=torch.float32) - current_z
-        ) / float(len(layers) - layer_index)
-        if not torch.isfinite(residual).all():
-            raise ODEBFContractError("entry-frozen residual is non-finite")
+        residual = full_current_residual(target_state, current_z)
         history = history_solve[layer]
         risk = history_risk[layer]
         if history.shape[0] == 0:
@@ -979,6 +1051,8 @@ def build_p1_frozen_field_from_capture(
                 key,
                 projected,
                 residual,
+                FULL_CURRENT_RESIDUAL_DEFINITION,
+                FULL_CURRENT_RESIDUAL_DIVISOR,
                 q,
                 factor,
                 frobenius_sq,

@@ -1,4 +1,4 @@
-"""Raw-free, crash-durable observability receipts for the P1R2 terminal boundary."""
+"""Raw-free receipts for the P1R4 full-residual arm diagnostic."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from .contracts import FIXED_K, ODEBFContractError
 
 
 DIAGNOSTIC_INSTRUCTION_ID = (
-    "ODEEDIT-S04-ODE-BF-P-FIXED-ENTRY-ARM-LOCAL-P1R3-V1"
+    "ODEEDIT-S04-ODE-BF-FULL-RESIDUAL-ARMS-P1R4-V1"
 )
 TRIALS_PER_SLOT = 3
 _SHA256 = re.compile(r"[0-9a-f]{64}")
@@ -208,7 +208,7 @@ class P1DiagnosticRecorder:
         if expected_ordinal != slot_index * TRIALS_PER_SLOT + trial_ordinal:
             raise ODEBFContractError("diagnostic trials are not a contiguous prefix")
         value = {
-            "schema": "ode-edit-s04-ode-bf-p1r3diag-trial/v1",
+            "schema": "ode-edit-s04-ode-bf-p1r4diag-trial/v1",
             "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
             "arm": self.arm,
             "slot_index": slot_index,
@@ -238,7 +238,7 @@ class P1DiagnosticRecorder:
         ]:
             raise ODEBFContractError("diagnostic slot trial links differ")
         value = {
-            "schema": "ode-edit-s04-ode-bf-p1r3diag-slot/v1",
+            "schema": "ode-edit-s04-ode-bf-p1r4diag-slot/v1",
             "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
             "arm": self.arm,
             "slot_index": slot_index,
@@ -276,7 +276,7 @@ class P1DiagnosticRecorder:
         ):
             raise ODEBFContractError("arm-local terminal classification differs")
         value = {
-            "schema": "ode-edit-s04-ode-bf-p1r3diag-terminal-components/v1",
+            "schema": "ode-edit-s04-ode-bf-p1r4diag-terminal-components/v1",
             "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
             "arm": self.arm,
             **dict(payload),

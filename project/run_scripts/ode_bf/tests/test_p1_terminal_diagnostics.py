@@ -424,12 +424,11 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
             with self.assertRaises(ODEBFContractError):
                 recorder.write_trial(slot_index=0, trial_ordinal=0, payload=payload)
 
-    def test_scientific_files_and_decision_order_remain_frozen(self) -> None:
+    def test_non_residual_scientific_files_and_decision_order_remain_frozen(self) -> None:
         root = Path(__file__).resolve().parents[1]
         expected = {
             "routing.py": "9218a0a0e25098b85658640a6d280d40bdafcd80d9d824f96122d0c19b1809ff",
             "barriers.py": "b3d59cf7db3c3cc00e318115228777518ce6731c4797ec589a298319ce18c9f9",
-            "p1_backend.py": "a5208ba7ab9ee31c0606420bf5b5b301f23947bb6e58e4d4f86f6e655f1743eb",
             "p1_controller.py": "1015f02a81921abec1208bf892339266af4f415077dbbf7c050b6b5f581d8b3b",
             "p1_evaluator.py": "a574b7566b4fc5ee1ff76fdcd19feb829d5eec8b7158b2f91542344c416b0381",
             "p1_state.py": "700aa763361748cb1b089d5d0d228832ac405b9fdbb1bdf281e6beeaf174e9a8",
@@ -458,6 +457,8 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
             '"baseline_kind": "outer_entry"',
             source,
         )
+        self.assertIn("field_receipts_by_sha256", source)
+        self.assertIn("active_bundle.field.raw_free_payload()", source)
 
         diagnostic = inspect.getsource(_run_terminal_component_diagnostic)
         self.assertNotIn("_run_native_batch", diagnostic)
@@ -473,8 +474,8 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
         self.assertEqual(
             JOB_NAMES,
             {
-                "llama3-8b-inst": "odebf_s04_p1r3diag_llama",
-                "qwen2.5-7b-inst": "odebf_s04_p1r3diag_qwen",
+                "llama3-8b-inst": "odebf_s04_p1r4full_llama",
+                "qwen2.5-7b-inst": "odebf_s04_p1r4full_qwen",
             },
         )
         first = build_plan("a" * 40)
@@ -486,6 +487,8 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
             first["arms"], ["N32_NATIVE", "F_G", "F_BF", "R_BF"]
         )
         self.assertEqual(first["functional_p_baseline_kind"], "outer_entry")
+        self.assertEqual(first["residual_definition"], "full_current")
+        self.assertEqual(first["residual_divisor"], 1)
         self.assertTrue(first["arm_local_infeasibility"])
         self.assertEqual(first["k_resolution"], 8)
         self.assertEqual(first["trials_per_slot"], 3)
@@ -495,9 +498,10 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
             self.assertEqual(job["memory_mib"], 65_000)
             self.assertEqual(job["time"], "04:00:00")
 
-    def test_submit_scope_and_existing_p1r2_immutability(self) -> None:
-        self.assertEqual(len(submit_diag.ALLOWED_CHANGED_PATHS), 11)
+    def test_submit_scope_and_existing_p1r2_p1r3_immutability(self) -> None:
+        self.assertEqual(len(submit_diag.ALLOWED_CHANGED_PATHS), 10)
         self.assertEqual(len(submit_diag._p1r2_immutability_gate()), 16)
+        self.assertEqual(len(submit_diag._p1r3_immutability_gate()), 8)
         frozen = submit_diag._frozen_semantics_gate()
         self.assertEqual(len(frozen), 12)
         self.assertEqual(

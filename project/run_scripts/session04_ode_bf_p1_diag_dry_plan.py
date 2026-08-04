@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic no-model plan for the P1R3 fixed-entry diagnostic pair."""
+"""Deterministic no-model plan for the P1R4 full-residual diagnostic pair."""
 
 from __future__ import annotations
 
@@ -15,14 +15,14 @@ if str(REPO_ROOT) not in sys.path:
 
 from project.run_scripts.ode_bf.contracts import MODEL_ALIASES
 from project.run_scripts.ode_bf.p1_runtime import (
-    expected_p1r3_diagnostic_result_name,
+    expected_p1r4_diagnostic_result_name,
 )
 from project.run_scripts.ode_bf.resource import forecast_p1_b10_memory
 
 
 JOB_NAMES = {
-    "llama3-8b-inst": "odebf_s04_p1r3diag_llama",
-    "qwen2.5-7b-inst": "odebf_s04_p1r3diag_qwen",
+    "llama3-8b-inst": "odebf_s04_p1r4full_llama",
+    "qwen2.5-7b-inst": "odebf_s04_p1r4full_qwen",
 }
 PACKAGE_ROOT = Path(__file__).resolve().parent / "ode_bf"
 
@@ -41,7 +41,7 @@ def build_plan(
             {
                 "alias": alias,
                 "job_name": JOB_NAMES[alias],
-                "result_name": expected_p1r3_diagnostic_result_name(alias),
+                "result_name": expected_p1r4_diagnostic_result_name(alias),
                 "gpu": 1,
                 "cpu": 8,
                 "memory_mib": 65_000,
@@ -52,11 +52,11 @@ def build_plan(
             }
         )
     return {
-        "schema": "ode-edit-s04-ode-bf-p1r3diag-dry-plan/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r4diag-dry-plan/v1",
         "instruction_id": (
-            "ODEEDIT-S04-ODE-BF-P-FIXED-ENTRY-ARM-LOCAL-P1R3-V1"
+            "ODEEDIT-S04-ODE-BF-FULL-RESIDUAL-ARMS-P1R4-V1"
         ),
-        "authorized_attempt": "DISTINCT_B10_1_FIXED_ENTRY_ARM_LOCAL_DIAG",
+        "authorized_attempt": "DISTINCT_B10_1_FULL_RESIDUAL_ARM_DIAG",
         "source_head": source_head,
         "benchmark": "CounterFact",
         "scientific_sample_reused_for_diagnostic": True,
@@ -64,6 +64,8 @@ def build_plan(
         "sequential_batch_count": 1,
         "arms": ["N32_NATIVE", "F_G", "F_BF", "R_BF"],
         "functional_p_baseline_kind": "outer_entry",
+        "residual_definition": "full_current",
+        "residual_divisor": 1,
         "arm_local_infeasibility": True,
         "causal_diagnostic_only": True,
         "scientific_promotion_authorized": False,

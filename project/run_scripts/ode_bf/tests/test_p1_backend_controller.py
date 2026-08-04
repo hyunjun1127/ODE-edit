@@ -14,10 +14,13 @@ from project.run_scripts.ode_bf.functional import WaypointFactor, tensor_sha256
 from project.run_scripts.ode_bf.p1_backend import (
     CandidateBF16FunctionalTrial,
     CovarianceActionReceipt,
+    FULL_CURRENT_RESIDUAL_DEFINITION,
+    FULL_CURRENT_RESIDUAL_DIVISOR,
     P1DynamicField,
     P1LayerField,
     PinnedCovarianceRegistry,
     SignedProgressReceipt,
+    full_current_residual,
 )
 from project.run_scripts.ode_bf.p1_controller import (
     AcceptedLayerContribution,
@@ -140,6 +143,8 @@ def _field() -> tuple[P1DynamicField, SignedProgressReceipt]:
                 right,
                 right,
                 left,
+                FULL_CURRENT_RESIDUAL_DEFINITION,
+                FULL_CURRENT_RESIDUAL_DIVISOR,
                 right,
                 factor,
                 float(torch.sum((left.T @ left) * (right.T @ right))),
@@ -173,6 +178,73 @@ def _field() -> tuple[P1DynamicField, SignedProgressReceipt]:
 
 
 class MatchedRoutingTests(unittest.TestCase):
+    def test_full_current_residual_changes_only_legacy_preshare_scaling(self) -> None:
+        generator = torch.Generator().manual_seed(4103)
+        target = torch.randn((12, 10), generator=generator, dtype=torch.float32)
+        current = torch.randn((12, 10), generator=generator, dtype=torch.float32)
+        key = torch.randn((11, 10), generator=generator, dtype=torch.float32)
+        q = torch.randn((11, 10), generator=generator, dtype=torch.float32)
+        source_identity = {
+            "target": tensor_sha256(target),
+            "current": tensor_sha256(current),
+            "key": tensor_sha256(key),
+            "q": tensor_sha256(q),
+        }
+        full = full_current_residual(target, current)
+        for layer_index, legacy_divisor in enumerate((5, 4, 3, 2, 1)):
+            with self.subTest(layer_index=layer_index):
+                legacy = full / float(legacy_divisor)
+                observed = full_current_residual(target, current)
+                self.assertTrue(torch.equal(observed, full))
+                self.assertTrue(
+                    torch.allclose(
+                        legacy * float(legacy_divisor),
+                        observed,
+                        rtol=1.0e-7,
+                        atol=1.0e-7,
+                    )
+                )
+                if legacy_divisor > 1:
+                    self.assertFalse(torch.equal(legacy, observed))
+        self.assertEqual(
+            {
+                "target": tensor_sha256(target),
+                "current": tensor_sha256(current),
+                "key": tensor_sha256(key),
+                "q": tensor_sha256(q),
+            },
+            source_identity,
+        )
+
+    def test_full_residual_receipt_locks_divisor_q_factor_and_arm_identity(self) -> None:
+        field, _ = _field()
+        for layer in field.layers:
+            payload = layer.raw_free_payload()
+            self.assertEqual(
+                payload["residual_definition"], FULL_CURRENT_RESIDUAL_DEFINITION
+            )
+            self.assertEqual(
+                payload["residual_divisor"], FULL_CURRENT_RESIDUAL_DIVISOR
+            )
+            self.assertEqual(
+                payload["current_residual_sha256"], tensor_sha256(layer.residual)
+            )
+            self.assertEqual(payload["q_sha256"], tensor_sha256(layer.q))
+            self.assertEqual(payload["factor_sha256"], layer.factor_identity())
+            self.assertEqual(payload["layer_arm_sha256"], layer.arm_identity())
+            self.assertGreater(payload["current_residual_frobenius_norm"], 0.0)
+
+    def test_authorized_field_builders_have_no_remaining_layer_divisor(self) -> None:
+        from project.run_scripts.ode_bf.p1_backend import (
+            build_p1_dynamic_field,
+            build_p1_frozen_field_from_capture,
+        )
+
+        for builder in (build_p1_dynamic_field, build_p1_frozen_field_from_capture):
+            source = inspect.getsource(builder)
+            self.assertIn("full_current_residual(", source)
+            self.assertNotIn("len(layers) - layer_index", source)
+
     def test_controller_lock_includes_common_trust_ratio_without_alias_branch(self) -> None:
         lock = P1ControllerLock()
         self.assertEqual(lock.minimum_progress, 1.0e-8)

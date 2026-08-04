@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed entry for the fixed-entry, arm-local P1R3 diagnostic."""
+"""Fail-closed entry for the full-residual P1R4 arm diagnostic."""
 
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ RUN_TOKEN = DIAGNOSTIC_RESULT_TOKEN
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="session04-ode-bf-p1-terminal-diag", allow_abbrev=False
+        prog="session04-ode-bf-p1r4-full-residual-diag", allow_abbrev=False
     )
     parser.add_argument("--model", required=True, choices=MODEL_ALIASES)
     parser.add_argument("--output-root", required=True, type=Path)

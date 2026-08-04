@@ -128,7 +128,7 @@ from .transaction import AtomicBatchTransaction
 INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-TRUST-RATIO-MEAN-P-P1R2-V1"
 EXPECTED_BASE = "e753972da50a5d6fa9789ef2e9083c9b0549c3d0"
 RESULT_TOKEN = "seqb10-native-floor-p1r2-v2"
-DIAGNOSTIC_RESULT_TOKEN = "p1r3-fixed-entry-arm-local-diag-v1"
+DIAGNOSTIC_RESULT_TOKEN = "p1r4-full-residual-arms-diag-v1"
 SEQUENTIAL_BATCHES = 4
 
 ARM_LOCAL_INFEASIBILITY_STATUS = {
@@ -152,10 +152,10 @@ def expected_p1_diagnostic_result_name(alias: str) -> str:
     return f"s04-p1r2-terminal-component-diag-{alias}-v1"
 
 
-def expected_p1r3_diagnostic_result_name(alias: str) -> str:
+def expected_p1r4_diagnostic_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
-        raise ODEBFContractError("P1R3 diagnostic result alias differs")
-    return f"s04-p1r3-fixed-entry-arm-local-{alias}-v1"
+        raise ODEBFContractError("P1R4 diagnostic result alias differs")
+    return f"s04-p1r4-full-residual-arms-{alias}-v1"
 
 
 def _atomic_write_once(path: Path, value: Mapping[str, Any]) -> str:
@@ -1379,6 +1379,9 @@ def _run_nonnative_rollout(
     native_target = torch.stack(capture.direct_z, dim=1).to(dtype=torch.float32)
     target_base = capture.current_z_by_layer[layers[-1]].clone()
     active_bundle = matched_bundle
+    field_receipts_by_sha256: dict[str, dict[str, Any]] = {
+        active_bundle.field.identity_sha256: active_bundle.field.raw_free_payload()
+    }
     refresh_pending = False
     selector = FixedK8P1Selector()
     snapshots: dict[int, dict[str, tuple[WaypointFactor, ...]]] = {0: {}}
@@ -1487,6 +1490,9 @@ def _run_nonnative_rollout(
                 },
                 time.perf_counter() - refresh_started,
             )
+            field_receipts_by_sha256[
+                active_bundle.field.identity_sha256
+            ] = active_bundle.field.raw_free_payload()
             refresh_pending = False
 
         history_action_by_layer = _arm_history_actions(
@@ -2016,7 +2022,7 @@ def _run_nonnative_rollout(
         )
         return (
             {
-                "schema": "ode-edit-s04-ode-bf-p1r3diag-arm-boundary/v1",
+                "schema": "ode-edit-s04-ode-bf-p1r4diag-arm-boundary/v1",
                 "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
                 "status": status,
                 "alias": alias,
@@ -2026,6 +2032,7 @@ def _run_nonnative_rollout(
                 "joint_rank": BATCH_SIZE,
                 "n32_same_entry": capture.raw_free_payload(),
                 "field_sha256": matched_bundle.field.identity_sha256,
+                "field_receipts_by_sha256": field_receipts_by_sha256,
                 "raw_velocity_sha256": matched_bundle.raw.velocity_sha256,
                 "shared_source_compute": {
                     "actual_owner": matched_bundle.source_arm.value,
@@ -2916,7 +2923,7 @@ def _run_terminal_component_diagnostic(
         n32_receipt_sha256 = _atomic_write_once(
             raw_root / "diagnostic-N32_NATIVE.json",
             {
-                "schema": "ode-edit-s04-ode-bf-p1r3diag-native/v1",
+                "schema": "ode-edit-s04-ode-bf-p1r4diag-native/v1",
                 "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
                 "status": "VIRTUAL_ONLY_NO_COMMIT",
                 "alias": alias,
@@ -3107,7 +3114,7 @@ def _run_terminal_component_diagnostic(
         raise ODEBFStateError("P1 diagnostic terminal receipts are incomplete")
     _observed_memory(job_ledger)
     terminal = {
-        "schema": "ode-edit-s04-ode-bf-p1r3diag-terminal/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r4diag-terminal/v1",
         "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
         "status": "DIAGNOSTIC_ALL_ARMS_COMPLETE_NO_COMMIT",
         "alias": alias,
@@ -3139,7 +3146,7 @@ def _run_terminal_component_diagnostic(
     }
     terminal_sha256 = _atomic_write_once(destination / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s04-ode-bf-p1r3diag-manifest/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r4diag-manifest/v1",
         "instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
         "status": terminal["status"],
         "alias": alias,
@@ -3174,7 +3181,7 @@ def run_p1(
     expected_parent = (repo_root / "local" / "odebf" / "results").resolve(strict=False)
     destination = output_root.resolve(strict=False)
     expected_name = (
-        expected_p1r3_diagnostic_result_name(alias)
+        expected_p1r4_diagnostic_result_name(alias)
         if diagnostic_mode
         else expected_p1_result_name(alias)
     )
@@ -3737,7 +3744,7 @@ def write_p1_failure_once(
     diagnostic_links = diagnostic_receipt_links(raw)
     failure = {
         "schema": (
-            "ode-edit-s04-ode-bf-p1r3diag-failure/v1"
+            "ode-edit-s04-ode-bf-p1r4diag-failure/v1"
             if instruction_id == DIAGNOSTIC_INSTRUCTION_ID
             else "ode-edit-s04-ode-bf-p1r2-failure/v2"
         ),
