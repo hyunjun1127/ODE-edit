@@ -5,9 +5,11 @@ from pathlib import Path
 
 from project.run_scripts.session04_ode_alloc_submit_p0_r1 import (
     APPROVED_NUMERICAL_DIFF_PATHS,
+    CANONICAL_NODE,
     JOB_NAMES,
     _changed_json_paths,
     _gpu_count,
+    _node_local_gpu_totals,
 )
 
 
@@ -17,6 +19,25 @@ class P0SubmissionContractTests(unittest.TestCase):
         self.assertEqual(_gpu_count("gres/gpu:a6000:2(S:0-1)"), 2)
         self.assertEqual(_gpu_count("gpu=1"), 1)
         self.assertIsNone(_gpu_count("N/A"))
+        local, cluster = _node_local_gpu_totals(
+            [
+                {
+                    "gpus": 1,
+                    "nodes": ("devbox",),
+                    "pending_unconstrained": False,
+                },
+                {
+                    "gpus": 2,
+                    "nodes": (CANONICAL_NODE,),
+                    "pending_unconstrained": False,
+                },
+            ]
+        )
+        self.assertEqual((local, cluster), (2, 3))
+        conservative, _ = _node_local_gpu_totals(
+            [{"gpus": 1, "nodes": (), "pending_unconstrained": True}]
+        )
+        self.assertEqual(conservative, 1)
 
     def test_exact_pair_names_and_resources_are_locked(self) -> None:
         self.assertEqual(
@@ -33,6 +54,7 @@ class P0SubmissionContractTests(unittest.TestCase):
         for directive in (
             "#SBATCH --cpus-per-task=8",
             "#SBATCH --gres=gpu:1",
+            "#SBATCH --nodelist=server2",
             "#SBATCH --mem=65000M",
             "#SBATCH --time=04:00:00",
             "#SBATCH --export=NONE",

@@ -45,6 +45,10 @@ JOB_NAMES = {
     "qwen2.5-7b-inst": "odealloc_s04_p0_qwen",
 }
 GPU_CAP = 3
+CANONICAL_NODE = "server2"
+R1_SOURCE_CHECKPOINT = "6f9feba21d717a55b350d16ec82b7ac6216872e4"
+PAIR_HOST_MEMORY_MIB = 130000
+MEMORY_CAP_MIB_PER_GPU = 66017
 APPROVED_NUMERICAL_DIFF_PATHS = frozenset(
     {
         "allocation_gauge.epsilon_prior",
@@ -114,8 +118,13 @@ def _write_once(path: Path, value: dict[str, Any]) -> str:
 def _source_gate() -> str:
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
-    if parent != EXPECTED_BASE or head == EXPECTED_BASE:
-        raise ODEAllocContractError("R1 P0 checkpoint ancestry differs")
+    grandparent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
+    if (
+        parent != R1_SOURCE_CHECKPOINT
+        or grandparent != EXPECTED_BASE
+        or head in {EXPECTED_BASE, R1_SOURCE_CHECKPOINT}
+    ):
+        raise ODEAllocContractError("R1/A1 P0 checkpoint ancestry differs")
     tracked = _run(["git", "status", "--porcelain", "--untracked-files=no"]).stdout
     if tracked:
         raise ODEAllocContractError("tracked P0 source is not frozen clean")
@@ -137,6 +146,15 @@ def _source_gate() -> str:
     forbidden = ("session03", "session_03", "knowledge-revision")
     if any(any(token in path.casefold() for token in forbidden) for path in changed):
         raise ODEAllocContractError("R1 checkpoint overlaps a foreign namespace")
+    amendment_paths = _run(
+        ["git", "diff", "--name-only", f"{R1_SOURCE_CHECKPOINT}..{head}"]
+    ).stdout.splitlines()
+    if set(amendment_paths) != {
+        "project/run_scripts/ode_alloc/tests/test_p0_submission_contracts.py",
+        "project/run_scripts/session04_ode_alloc_p0_r1.sbatch",
+        "project/run_scripts/session04_ode_alloc_submit_p0_r1.py",
+    }:
+        raise ODEAllocContractError("A1 checkpoint exceeds resource helper/test/template")
     _run(["git", "diff", "--check", f"{EXPECTED_BASE}..{head}"])
     return head
 
@@ -269,17 +287,68 @@ def _gpu_count(tres: str) -> int | None:
     return None
 
 
+def _node_local_gpu_totals(records: list[dict[str, Any]]) -> tuple[int, int]:
+    cluster = sum(int(record["gpus"]) for record in records)
+    local = sum(
+        int(record["gpus"])
+        for record in records
+        if CANONICAL_NODE in record["nodes"]
+        or record.get("pending_unconstrained") is True
+    )
+    return local, cluster
+
+
+def _expand_nodes(expression: str) -> tuple[str, ...]:
+    if not expression or expression in {"(null)", "N/A"}:
+        return ()
+    result = _run(["scontrol", "show", "hostnames", expression])
+    nodes = tuple(line.strip() for line in result.stdout.splitlines() if line.strip())
+    if not nodes:
+        raise ODEAllocContractError("Slurm node expression did not expand")
+    return nodes
+
+
+def _node_capacity_gate() -> dict[str, Any]:
+    if PAIR_HOST_MEMORY_MIB > 2 * MEMORY_CAP_MIB_PER_GPU:
+        raise ODEAllocContractError("pair host-memory request exceeds the fixed cap")
+    rows = _run(
+        ["sinfo", "-N", "-h", "-n", CANONICAL_NODE, "-o", "%N|%T|%G|%m"]
+    ).stdout.splitlines()
+    if len(rows) != 1:
+        raise ODEAllocContractError("canonical Slurm node inventory differs")
+    fields = rows[0].split("|", 3)
+    if len(fields) != 4 or fields[0] != CANONICAL_NODE:
+        raise ODEAllocContractError("canonical Slurm node metadata differs")
+    node, state, gres, memory = fields
+    capacity_gpus = _gpu_count(gres)
+    if (
+        state.casefold().split("+", 1)[0] in {"down", "drain", "drained", "fail", "failing"}
+        or capacity_gpus is None
+        or capacity_gpus < 2
+        or not memory.isdigit()
+        or int(memory) < PAIR_HOST_MEMORY_MIB
+    ):
+        raise ODEAllocContractError("canonical Slurm node lacks pair capacity")
+    return {
+        "node": node,
+        "state": state,
+        "gres_gpus": capacity_gpus,
+        "node_memory_mib": int(memory),
+        "pair_memory_mib": PAIR_HOST_MEMORY_MIB,
+        "pair_memory_cap_mib": 2 * MEMORY_CAP_MIB_PER_GPU,
+    }
+
+
 def _scheduler_gate() -> dict[str, Any]:
     queue = _run(
-        ["squeue", "-h", "-u", os.environ.get("USER", "janghj"), "-t", "RUNNING,PENDING", "-o", "%i|%j|%T|%b|%R"]
+        ["squeue", "-h", "-u", os.environ.get("USER", "janghj"), "-t", "RUNNING,PENDING", "-o", "%i|%j|%T|%b|%N"]
     ).stdout.splitlines()
-    active = 0
-    records = []
+    records: list[dict[str, Any]] = []
     for line in queue:
         fields = line.split("|", 4)
         if len(fields) != 5:
             raise ODEAllocContractError("Slurm queue schema differs")
-        job_id, name, state, tres, node = fields
+        job_id, name, state, tres, node_expression = fields
         if name in JOB_NAMES.values():
             raise ODEAllocContractError("exact P0 job name already exists")
         if not (name.startswith("odeedit_") or name.startswith("odealloc_")):
@@ -287,11 +356,42 @@ def _scheduler_gate() -> dict[str, Any]:
         count = _gpu_count(tres)
         if count is None:
             raise ODEAllocContractError("project Slurm job GPU request is unparseable")
-        active += count
-        records.append({"job_id": job_id, "name": name, "state": state, "gpus": count, "node": node})
-    if active + 2 > GPU_CAP:
-        raise ODEAllocContractError("project GPU cap would be exceeded")
-    return {"active_project_gpus": active, "requested_gpus": 2, "cap": GPU_CAP, "records": records}
+        nodes = _expand_nodes(node_expression)
+        pending_unconstrained = False
+        if state.casefold() == "pending" and not nodes:
+            job_record = _run(["scontrol", "show", "job", job_id, "--oneliner"]).stdout
+            match = re.search(r"(?:^|\s)ReqNodeList=([^\s]+)", job_record)
+            if match is None:
+                raise ODEAllocContractError("pending project job lacks ReqNodeList metadata")
+            requested = match.group(1)
+            if requested == "(null)":
+                pending_unconstrained = True
+            else:
+                nodes = _expand_nodes(requested)
+        if state.casefold() == "running" and not nodes:
+            raise ODEAllocContractError("running project job lacks allocated node metadata")
+        records.append(
+            {
+                "job_id": job_id,
+                "name": name,
+                "state": state,
+                "gpus": count,
+                "nodes": nodes,
+                "pending_unconstrained": pending_unconstrained,
+            }
+        )
+    node_local, cluster = _node_local_gpu_totals(records)
+    if node_local + 2 > GPU_CAP:
+        raise ODEAllocContractError("server2-local project GPU cap would be exceeded")
+    return {
+        "canonical_node": CANONICAL_NODE,
+        "server2_active_pending_project_gpus": node_local,
+        "cluster_project_gpus_diagnostic_only": cluster,
+        "requested_server2_gpus": 2,
+        "cap": GPU_CAP,
+        "records": records,
+        "node_capacity": _node_capacity_gate(),
+    }
 
 
 def _namespace_gate(numerical_sha: str) -> tuple[dict[str, Path], dict[str, tuple[Path, Path]]]:
@@ -328,8 +428,11 @@ def main() -> int:
     roots, log_paths = _namespace_gate(numerical_sha)
     first_cap = _scheduler_gate()
     second_cap = _scheduler_gate()
-    if first_cap["active_project_gpus"] != second_cap["active_project_gpus"]:
-        raise ODEAllocContractError("project GPU allocation changed during pre-submit gate")
+    if (
+        first_cap["server2_active_pending_project_gpus"]
+        != second_cap["server2_active_pending_project_gpus"]
+    ):
+        raise ODEAllocContractError("server2-local GPU allocation changed during pre-submit gate")
 
     state = REPO_ROOT / "local" / "odealloc" / "state"
     marker = state / f"s04-p0-native-identity-r1-{numerical_sha[:8]}.submission-intent.json"
