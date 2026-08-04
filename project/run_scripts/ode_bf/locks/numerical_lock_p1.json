@@ -1,0 +1,90 @@
+{
+  "arms": [
+    "N32_NATIVE",
+    "F_G",
+    "F_BF",
+    "R_BF"
+  ],
+  "benchmark": "counterfact",
+  "common_seed": 41,
+  "controller": {
+    "backtracking": [
+      1.0,
+      0.5,
+      0.25
+    ],
+    "capacity_epsilon": 1e-12,
+    "correction_cycles": 1,
+    "eta": 0.125,
+    "functional_h_budget_nats": 0.001,
+    "functional_p_budget_nats": 0.001,
+    "k_resolution": 8,
+    "layer_velocity_cap": 1.0,
+    "minimum_progress": 1e-08,
+    "nominal_t": 1.0,
+    "progress_fraction": 0.25,
+    "smoothmax_temperature": 0.01,
+    "structural_h_increment_fraction": 0.5,
+    "structural_p_increment_fraction": 0.5,
+    "target_bootstrap_fraction": 0.125,
+    "target_trust_fraction": 0.125,
+    "write_trust_fraction": 1.0
+  },
+  "controller_identity_sha256": "04af3f7033c3f8b99694f550a389971e655757778a40d871fb72bdd26e0327c0",
+  "edit_batch_size": 10,
+  "endpoint": {
+    "joint_exact_success_count": 10,
+    "no_exact_policy": "select-feasible-fixed-K8-terminal",
+    "online_early_stop": false,
+    "post_commit_all_ten_reverify": true
+  },
+  "expected_base": "a5b7a60237c85432cbded8487ff04602cf4094e6",
+  "generation_call_count": 0,
+  "heldout_controller_access_count": 0,
+  "instruction_id": "ODEEDIT-S04-ODE-BF-SEQUENTIAL-B10-NATIVE-FLOOR-P1-V1",
+  "logical_edits_per_model": 40,
+  "model_alias_specific_controller_branches": 0,
+  "native_floor": {
+    "integer_count_loss_margin": 0,
+    "metrics": [
+      "efficacy",
+      "generalization",
+      "locality-preservation",
+      "previous-retention"
+    ],
+    "noncompensatory": true,
+    "pairwise_loss_review": true
+  },
+  "p_population_root_digest": "144b432293eea78775a74da5faf9fc837ca301b33a7e5e0c2b8088cde4721120",
+  "resource_hold": {
+    "forecast_after_batch": 1,
+    "process_rss_mib_strict_less_than": 48000,
+    "reserve_fraction": 0.1,
+    "reserved_gpu_mib_strict_less_than": 52000,
+    "wall_limit_seconds": 86400
+  },
+  "retry_count": 0,
+  "root_digest": "36c917d42bf918853b419a61e698f2aa79a56e6df5538e6f5c7e750de6a2b891",
+  "sampling": {
+    "controller_seed": 4101,
+    "cvar_decision_enabled": false,
+    "history_terminal_max": 30,
+    "history_waypoint_count": 10,
+    "report_only_seed": 4103,
+    "sample_count": 10,
+    "terminal_confirmation_seed": 4102
+  },
+  "schema_version": "ode-edit-s04-ode-bf-p1-numerical-lock/v1",
+  "sequential_batch_count": 4,
+  "status": "SEALED_BEFORE_MODEL_ACTION",
+  "stream_root_digest": "c57bca3fea781be34394e40d27530a032ccff539e7b637010669676c5300ae25",
+  "w64": {
+    "cast_dtype": "torch.float32",
+    "dense_fp64_full_delta_live": 0,
+    "endpoint_dtype": "torch.bfloat16",
+    "reduced_dtype": "torch.float64",
+    "reference": "Native AlphaEdit-WB-mixed64-v1",
+    "residual_tolerance": 1e-05,
+    "w32_fallback": false
+  }
+}

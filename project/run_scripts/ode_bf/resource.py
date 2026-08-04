@@ -26,6 +26,11 @@ MODEL_GEOMETRY = {
     "qwen2.5-7b-inst": (3_584, 18_944, 5),
 }
 
+MODEL_VOCABULARY_SIZE = {
+    "llama3-8b-inst": 128_256,
+    "qwen2.5-7b-inst": 152_064,
+}
+
 
 def _mib(byte_count: int) -> int:
     if isinstance(byte_count, bool) or not isinstance(byte_count, int) or byte_count < 0:
@@ -176,6 +181,108 @@ def forecast_p0_b10_memory(
         host_limit_mib=GPU_MEMORY_REQUEST_MIB,
         one_live_effective_bf16_weight=True,
         dense_full_history_matrix=False,
+    )
+
+
+@dataclass(frozen=True, slots=True)
+class P1MemoryForecast:
+    alias: str
+    edit_batch_size: int
+    sequential_batch_count: int
+    arm_count: int
+    base_p0_gpu_peak_mib: int
+    base_p0_host_peak_mib: int
+    persistent_arm_snapshots_host_mib: int
+    theta0_teacher_cache_host_mib: int
+    all_arm_history_keys_host_mib: int
+    evaluator_state_host_reserve_mib: int
+    refreshed_field_overlap_gpu_mib: int
+    replay_logits_gpu_mib: int
+    forecast_gpu_peak_mib: int
+    forecast_host_peak_mib: int
+    allocation_limit_mib: int
+    runtime_reserved_hold_limit_mib: int
+    runtime_rss_hold_limit_mib: int
+    one_live_effective_bf16_weight: bool
+    dense_fp64_full_delta: bool
+
+    def __post_init__(self) -> None:
+        if self.alias not in MODEL_ALIASES:
+            raise ODEBFContractError("P1 memory forecast alias differs")
+        if (
+            self.edit_batch_size != BATCH_SIZE
+            or self.sequential_batch_count != 4
+            or self.arm_count != 4
+        ):
+            raise ODEBFContractError("P1 memory forecast panel geometry differs")
+        if not self.one_live_effective_bf16_weight or self.dense_fp64_full_delta:
+            raise ODEBFContractError("P1 memory forecast permits forbidden materialization")
+        if (
+            self.forecast_gpu_peak_mib > self.allocation_limit_mib
+            or self.forecast_host_peak_mib > self.allocation_limit_mib
+        ):
+            raise ODEBFContractError("P1 forecast exceeds the one-job allocation")
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        return asdict(self)
+
+    def identity(self) -> str:
+        return canonical_hash(self.raw_free_payload())
+
+
+def forecast_p1_b10_memory(
+    artifact_lock_path: Path,
+    base_model_lock_path: Path,
+    alias: str,
+) -> P1MemoryForecast:
+    """Outcome-free upper bound for four arms and four retained B10 states."""
+
+    base = forecast_p0_b10_memory(artifact_lock_path, base_model_lock_path, alias)
+    out_features, in_features, layer_count = MODEL_GEOMETRY[alias]
+    vocabulary = MODEL_VOCABULARY_SIZE[alias]
+    touched_bf16_bytes = layer_count * out_features * in_features * 2
+    arm_snapshots = 4 * touched_bf16_bytes
+    theta0_cache = 160 * vocabulary * 4
+    # Four arm-local ledgers retain solve and risk key views for at most 40
+    # requests/layer. Keys are FP32; no dense historical covariance is stored.
+    history_keys = 4 * 2 * layer_count * in_features * 40 * 4
+    # A refreshed field may briefly overlap its predecessor, but consists only
+    # of rank-10 FP32 arms and certificates. Full effective weights stay one-at-a-time.
+    refreshed_overlap = 2 * layer_count * BATCH_SIZE * (in_features + out_features) * 4
+    replay_logits = BATCH_SIZE * vocabulary * 4
+    evaluator_state_reserve_mib = 1_024
+    gpu_peak = (
+        base.forecast_gpu_peak_mib
+        + _mib(refreshed_overlap)
+        + _mib(replay_logits)
+    )
+    host_peak = (
+        base.forecast_host_peak_mib
+        + _mib(arm_snapshots)
+        + _mib(theta0_cache)
+        + _mib(history_keys)
+        + evaluator_state_reserve_mib
+    )
+    return P1MemoryForecast(
+        alias,
+        BATCH_SIZE,
+        4,
+        4,
+        base.forecast_gpu_peak_mib,
+        base.forecast_host_peak_mib,
+        _mib(arm_snapshots),
+        _mib(theta0_cache),
+        _mib(history_keys),
+        evaluator_state_reserve_mib,
+        _mib(refreshed_overlap),
+        _mib(replay_logits),
+        gpu_peak,
+        host_peak,
+        GPU_MEMORY_REQUEST_MIB,
+        52_000,
+        48_000,
+        True,
+        False,
     )
 
 

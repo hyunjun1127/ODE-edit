@@ -276,3 +276,50 @@ def load_cpu_sampling_seal(path: str) -> SamplingSeal:
             )
         )
     return SamplingSeal(value["population_sha256"], items, tuple(lineages))
+
+
+def load_p1_sampling_seal(
+    population_path: str | Path,
+    *,
+    stream_path: str | Path,
+) -> SamplingSeal:
+    """Load the sealed 160-item P1 population without opening prompt fields."""
+
+    from .p1_selection import (
+        verify_p1_population_seal,
+        verify_p1_stream_seal,
+    )
+
+    stream_value = json.loads(Path(stream_path).read_text(encoding="utf-8"))
+    stream = verify_p1_stream_seal(stream_value)
+    population_value = json.loads(Path(population_path).read_text(encoding="utf-8"))
+    value = verify_p1_population_seal(population_value, stream=stream)
+    items = tuple(
+        PopulationItem(
+            str(item["request_sha256"]),
+            str(item["stratum"]),
+            str(value["source_class"]),
+        )
+        for item in value["items"]
+    )
+    by_identity = {item.item_sha256: item for item in items}
+    lineages: list[LineageSeal] = []
+    for lineage in SampleLineage:
+        spec = value["lineages"].get(lineage.value)
+        if not isinstance(spec, Mapping):
+            raise ODEBFContractError("P1 sampling lineage is absent")
+        allowed = tuple(str(item) for item in spec["allowed_item_sha256"])
+        strata = tuple(
+            sorted({by_identity[identity].stratum for identity in allowed})
+        )
+        lineages.append(
+            LineageSeal(
+                lineage,
+                str(value["population_sha256"]),
+                int(spec["seed"]),
+                int(spec["sample_count"]),
+                allowed,
+                strata,
+            )
+        )
+    return SamplingSeal(str(value["population_sha256"]), items, tuple(lineages))
