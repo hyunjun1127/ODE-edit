@@ -20,8 +20,8 @@ class P0SubmissionTests(unittest.TestCase):
         self.assertEqual(
             JOB_NAMES,
             {
-                "llama3-8b-inst": "odebf_s04_p0_llama",
-                "qwen2.5-7b-inst": "odebf_s04_p0_qwen",
+                "llama3-8b-inst": "odebf_s04_p0r1_llama",
+                "qwen2.5-7b-inst": "odebf_s04_p0r1_qwen",
             },
         )
         first = json.dumps(
@@ -55,7 +55,10 @@ class P0SubmissionTests(unittest.TestCase):
         ):
             self.assertIn(directive, sbatch)
         self.assertNotIn("#SBATCH --array", sbatch)
-        self.assertIn('"${RUN_TOKEN}" == "v1p1-b10"', sbatch)
+        self.assertIn(
+            '"${RUN_TOKEN}" == "alpha-fp32-solve-r1-b10"',
+            sbatch,
+        )
         self.assertIn('--run-token "${RUN_TOKEN}"', sbatch)
         self.assertIn("PYTHONDONTWRITEBYTECODE=1", sbatch)
 
@@ -63,6 +66,16 @@ class P0SubmissionTests(unittest.TestCase):
         self.assertEqual(len(submit_module.PRESERVED_REPAIR_SHA256), 6)
         for relative, expected in submit_module.PRESERVED_REPAIR_SHA256.items():
             self.assertEqual(sha256_file(REPO_ROOT / relative), expected)
+
+    def test_r0_roots_logs_and_receipts_are_immutable(self) -> None:
+        self.assertEqual(
+            submit_module._r0_immutability_gate(),
+            submit_module.R0_IMMUTABILITY_SHA256,
+        )
+        self.assertEqual(
+            submit_module.BASE_HEAD,
+            "70f13c57b252cc0b9b845c7a461b0bc967352762",
+        )
 
     def test_entrypoint_success_and_systemexit_are_not_false_holds(self) -> None:
         stdout = io.StringIO()

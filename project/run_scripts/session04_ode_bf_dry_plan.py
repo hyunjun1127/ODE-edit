@@ -19,8 +19,8 @@ from project.run_scripts.ode_bf.resource import forecast_p0_b10_memory
 
 
 JOB_NAMES = {
-    "llama3-8b-inst": "odebf_s04_p0_llama",
-    "qwen2.5-7b-inst": "odebf_s04_p0_qwen",
+    "llama3-8b-inst": "odebf_s04_p0r1_llama",
+    "qwen2.5-7b-inst": "odebf_s04_p0r1_qwen",
 }
 PACKAGE_ROOT = Path(__file__).resolve().parent / "ode_bf"
 
@@ -34,7 +34,7 @@ def build_plan(
     base = repository_root / "project/run_scripts/ode_alloc/p0_artifact_lock_r1.json"
     return {
         "schema": "ode-edit-s04-ode-bf-p0-dry-plan/v1",
-        "instruction_id": "ODEEDIT-S04-ODE-BF-V1P1-EXACT-FIRST-HIT-CPU-P0-V1-A3",
+        "instruction_id": "ODEEDIT-S04-ODE-BF-P0-ALPHA-SOLVE-DTYPE-R1-V1",
         "source_head": source_head,
         "edit_batch_size": 10,
         "joint_editor_invocations_per_job": 1,

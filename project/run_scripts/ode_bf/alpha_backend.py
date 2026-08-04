@@ -5,6 +5,7 @@ from __future__ import annotations
 import contextlib
 import copy
 import io
+import math
 import random
 import threading
 from dataclasses import dataclass
@@ -27,6 +28,258 @@ from .woodbury import (
     WoodburyCertificate,
     solve_alpha_woodbury,
 )
+
+
+ALPHA_SOLVE_DTYPE = torch.float32
+ALPHA_SOLVE_REFERENCE = "Native AlphaEdit original-BF16 canonical-FP32-solve"
+ALPHA_SOLVE_CONDITION_MAX_DIMENSION = 256
+
+
+@dataclass(frozen=True, slots=True)
+class AlphaSolveGeometry:
+    projector_shape: tuple[int, int]
+    key_shape: tuple[int, int]
+    covariance_shape: tuple[int, int]
+    residual_shape: tuple[int, int]
+    output_shape: tuple[int, int]
+
+
+@dataclass(frozen=True, slots=True)
+class AlphaDenseSolveReceipt:
+    layer: int
+    reference: str
+    solve_dtype: str
+    solve_device_class: str
+    geometry: AlphaSolveGeometry
+    input_dtypes: tuple[str, str, str, str]
+    input_device_classes: tuple[str, str, str, str]
+    normalized_dtypes: tuple[str, str, str, str, str, str]
+    normalized_device_classes: tuple[str, str, str, str, str, str]
+    normalized_storage_reused: tuple[bool, bool, bool, bool]
+    joint_key_rank: int
+    relative_residual: float
+    condition_estimate: float | None
+    condition_kind: str
+    finite: bool
+    passed: bool
+
+
+@dataclass(frozen=True, slots=True)
+class AlphaDenseSolveResult:
+    update: torch.Tensor
+    receipt: AlphaDenseSolveReceipt
+
+
+def validate_joint_alpha_solve_geometry(
+    projector_shape: Sequence[int],
+    key_shape: Sequence[int],
+    covariance_shape: Sequence[int],
+    residual_shape: Sequence[int],
+) -> AlphaSolveGeometry:
+    p_shape = tuple(int(value) for value in projector_shape)
+    k_shape = tuple(int(value) for value in key_shape)
+    c_shape = tuple(int(value) for value in covariance_shape)
+    r_shape = tuple(int(value) for value in residual_shape)
+    if len(p_shape) != 2 or p_shape[0] <= 0 or p_shape[0] != p_shape[1]:
+        raise ODEBFContractError("Alpha solve projector geometry is not square")
+    dimension = p_shape[0]
+    if k_shape != (dimension, BATCH_SIZE):
+        raise ODEBFContractError("Alpha solve keys are not one genuine joint B10")
+    if c_shape != p_shape:
+        raise ODEBFContractError("Alpha solve covariance geometry differs")
+    if len(r_shape) != 2 or r_shape[0] <= 0 or r_shape[1] != BATCH_SIZE:
+        raise ODEBFContractError("Alpha solve residual is not one genuine joint B10")
+    return AlphaSolveGeometry(
+        p_shape,
+        k_shape,
+        c_shape,
+        r_shape,
+        (dimension, r_shape[0]),
+    )
+
+
+def _normalize_solve_tensor(
+    name: str,
+    value: torch.Tensor,
+    *,
+    solve_device: torch.device,
+) -> tuple[torch.Tensor, bool]:
+    if (
+        not isinstance(value, torch.Tensor)
+        or not value.is_floating_point()
+        or value.device.type not in ("cpu", "cuda")
+    ):
+        raise ODEBFContractError(f"Alpha solve {name} tensor contract differs")
+    if not torch.isfinite(value).all():
+        raise ODEBFContractError(f"Alpha solve {name} contains non-finite values")
+    expected_reuse = (
+        value.device == solve_device
+        and value.dtype is ALPHA_SOLVE_DTYPE
+        and value.is_contiguous()
+    )
+    normalized = (
+        value.detach()
+        .to(device=solve_device, dtype=ALPHA_SOLVE_DTYPE)
+        .contiguous()
+    )
+    observed_reuse = normalized.data_ptr() == value.data_ptr()
+    if observed_reuse != expected_reuse:
+        raise ODEBFContractError(f"Alpha solve {name} copy contract differs")
+    if (
+        normalized.dtype is not ALPHA_SOLVE_DTYPE
+        or normalized.device != solve_device
+        or not normalized.is_contiguous()
+    ):
+        raise ODEBFContractError(f"Alpha solve {name} normalization failed")
+    return normalized, observed_reuse
+
+
+def canonical_alpha_fp32_solve(
+    projector: torch.Tensor,
+    joint_keys: torch.Tensor,
+    covariance: torch.Tensor,
+    residual: torch.Tensor,
+    *,
+    layer: int,
+    regularization: float | torch.Tensor,
+    solve_device: torch.device | str,
+    residual_tolerance: float,
+    condition_max_dimension: int = ALPHA_SOLVE_CONDITION_MAX_DIMENSION,
+) -> AlphaDenseSolveResult:
+    """Apply the pinned AlphaEdit source-order equation at an explicit FP32 boundary."""
+
+    device = torch.device(solve_device)
+    if device.type not in ("cpu", "cuda"):
+        raise ODEBFContractError("Alpha solve device class is unsupported")
+    if (
+        isinstance(condition_max_dimension, bool)
+        or not isinstance(condition_max_dimension, int)
+        or condition_max_dimension < 0
+    ):
+        raise ODEBFContractError("Alpha solve condition dimension lock is invalid")
+    tolerance = float(residual_tolerance)
+    if not math.isfinite(tolerance) or tolerance <= 0.0:
+        raise ODEBFContractError("Alpha solve residual tolerance is invalid")
+
+    tensors = (projector, joint_keys, covariance, residual)
+    input_versions = tuple(value._version for value in tensors)
+    input_pointers = tuple(value.data_ptr() for value in tensors)
+    input_requires_grad = tuple(value.requires_grad for value in tensors)
+    geometry = validate_joint_alpha_solve_geometry(
+        projector.shape,
+        joint_keys.shape,
+        covariance.shape,
+        residual.shape,
+    )
+    input_dtypes = tuple(str(value.dtype) for value in tensors)
+    input_devices = tuple(value.device.type for value in tensors)
+
+    p32, p_reused = _normalize_solve_tensor(
+        "projector", projector, solve_device=device
+    )
+    k32, k_reused = _normalize_solve_tensor(
+        "joint keys", joint_keys, solve_device=device
+    )
+    c32, c_reused = _normalize_solve_tensor(
+        "covariance", covariance, solve_device=device
+    )
+    r32, r_reused = _normalize_solve_tensor(
+        "residual", residual, solve_device=device
+    )
+    if isinstance(regularization, torch.Tensor):
+        if regularization.numel() != 1 or not regularization.is_floating_point():
+            raise ODEBFContractError("Alpha solve regularization tensor differs")
+        regularization_value = float(regularization.detach().to(device="cpu"))
+    else:
+        regularization_value = float(regularization)
+    if not math.isfinite(regularization_value) or regularization_value <= 0.0:
+        raise ODEBFContractError("Alpha solve regularization is not positive finite")
+    lambda32 = torch.tensor(
+        regularization_value,
+        dtype=ALPHA_SOLVE_DTYPE,
+        device=device,
+    )
+    identity32 = torch.eye(
+        geometry.projector_shape[0],
+        dtype=ALPHA_SOLVE_DTYPE,
+        device=device,
+    )
+    normalized = (p32, k32, c32, r32, lambda32, identity32)
+    if (
+        {value.dtype for value in normalized} != {ALPHA_SOLVE_DTYPE}
+        or {value.device for value in normalized} != {device}
+    ):
+        raise ODEBFContractError("Alpha solve operands remain mixed after normalization")
+
+    # Keep the exact pinned source multiplication and addition order.
+    a32 = p32 @ (k32 @ k32.T + c32) + lambda32 * identity32
+    b32 = p32 @ k32 @ r32.T
+    update32 = torch.linalg.solve(a32, b32)
+    if (
+        update32.shape != geometry.output_shape
+        or update32.dtype is not ALPHA_SOLVE_DTYPE
+        or update32.device != device
+    ):
+        raise ODEBFContractError("Alpha solve output contract differs")
+    relative_residual = float(
+        torch.linalg.norm(a32 @ update32 - b32)
+        / torch.clamp(
+            torch.linalg.norm(a32) * torch.linalg.norm(update32)
+            + torch.linalg.norm(b32),
+            min=torch.finfo(ALPHA_SOLVE_DTYPE).tiny,
+        )
+    )
+    condition_estimate: float | None = None
+    condition_kind = "omitted-large-production-system"
+    if geometry.projector_shape[0] <= condition_max_dimension:
+        condition_estimate = float(
+            torch.linalg.cond(
+                a32.detach().to(device="cpu", dtype=torch.float64)
+            )
+        )
+        condition_kind = "float64-exact-small-fixture"
+    key_rank = int(torch.linalg.matrix_rank(k32).item())
+    finite = bool(
+        torch.isfinite(update32).all()
+        and math.isfinite(relative_residual)
+        and (
+            condition_estimate is None
+            or math.isfinite(condition_estimate)
+        )
+    )
+    passed = (
+        finite
+        and key_rank > 1
+        and relative_residual <= tolerance
+    )
+
+    if (
+        tuple(value._version for value in tensors) != input_versions
+        or tuple(value.data_ptr() for value in tensors) != input_pointers
+        or tuple(value.requires_grad for value in tensors) != input_requires_grad
+    ):
+        raise ODEBFContractError("Alpha solve mutated or rebound an input operand")
+    receipt = AlphaDenseSolveReceipt(
+        int(layer),
+        ALPHA_SOLVE_REFERENCE,
+        str(ALPHA_SOLVE_DTYPE),
+        device.type,
+        geometry,
+        input_dtypes,  # type: ignore[arg-type]
+        input_devices,  # type: ignore[arg-type]
+        tuple(str(value.dtype) for value in normalized),  # type: ignore[arg-type]
+        tuple(value.device.type for value in normalized),  # type: ignore[arg-type]
+        (p_reused, k_reused, c_reused, r_reused),
+        key_rank,
+        relative_residual,
+        condition_estimate,
+        condition_kind,
+        finite,
+        passed,
+    )
+    if not passed:
+        raise ODEBFContractError("Alpha dense solve certificate failed")
+    return AlphaDenseSolveResult(update32, receipt)
 
 
 def seed_all(seed: int) -> None:
@@ -146,9 +399,130 @@ class CapturedNativeWBEndpoint:
     entry_sha256: dict[str, str]
     direct_z_sha256: tuple[str, ...]
     key_sha256_by_layer: tuple[tuple[int, str], ...]
+    dense_solve_receipts: tuple[AlphaDenseSolveReceipt, ...]
     woodbury_certificates: tuple[tuple[int, WoodburyCertificate], ...]
     initialization: JointInitializationReceipt
     target_backward_count: int
+
+
+def _execute_alphaedit_canonical_fp32_solve(
+    alpha_main: Any,
+    model: Any,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    hparams: Any,
+    contexts: Sequence[Sequence[str]],
+    weights: Mapping[str, torch.nn.Parameter],
+    *,
+    residual_tolerance: float,
+) -> tuple[dict[str, torch.Tensor], tuple[AlphaDenseSolveReceipt, ...]]:
+    """Adapter-local reproduction of the pinned source loop with one FP32 solve boundary."""
+
+    if any(parameter.dtype is not torch.bfloat16 for parameter in weights.values()):
+        raise ODEBFContractError("canonical Alpha solve requires original BF16 weights")
+    resolved_contexts = alpha_main.get_context_templates(model, tokenizer)
+    if canonical_hash(resolved_contexts) != canonical_hash(list(contexts)):
+        raise ODEBFContractError("canonical Alpha solve context identity differs")
+    normalized = copy.deepcopy(list(requests))
+    entry = {name: parameter.detach().clone() for name, parameter in weights.items()}
+    deltas: dict[str, torch.Tensor] = {}
+    receipts: list[AlphaDenseSolveReceipt] = []
+    z_layer = int(hparams.layers[-1])
+    try:
+        direct_z = [
+            alpha_main.compute_z(
+                model,
+                tokenizer,
+                request,
+                hparams,
+                z_layer,
+                resolved_contexts,
+            )
+            for request in normalized
+        ]
+        if len(direct_z) != BATCH_SIZE:
+            raise ODEBFContractError("canonical Alpha solve direct-z count differs")
+        zs = torch.stack([value.detach() for value in direct_z], dim=1)
+        for layer_index, layer in enumerate(hparams.layers):
+            layer_keys = alpha_main.compute_ks(
+                model,
+                tokenizer,
+                normalized,
+                hparams,
+                layer,
+                resolved_contexts,
+            ).T
+            current_z = alpha_main.get_module_input_output_at_words(
+                model,
+                tokenizer,
+                z_layer,
+                context_templates=[request["prompt"] for request in normalized],
+                words=[request["subject"] for request in normalized],
+                module_template=hparams.layer_module_tmp,
+                fact_token_strategy=hparams.fact_token,
+            )[1].T
+            targets = zs - current_z
+            if targets.shape[1] != BATCH_SIZE:
+                raise ODEBFContractError("canonical Alpha residual is not joint B10")
+            repeat_factor = layer_keys.shape[1] // targets.shape[1]
+            if repeat_factor != 1:
+                raise ODEBFContractError("canonical Alpha joint B10 was repeated or decomposed")
+            residual = targets.repeat_interleave(repeat_factor, dim=1)
+            residual = residual / (len(hparams.layers) - layer_index)
+            weight_name = f"{hparams.rewrite_module_tmp.format(layer)}.weight"
+            parameter = weights[weight_name]
+            solved = canonical_alpha_fp32_solve(
+                alpha_main.P[layer_index],
+                layer_keys,
+                alpha_main.cache_c[layer_index],
+                residual,
+                layer=int(layer),
+                regularization=hparams.L2,
+                solve_device=parameter.device,
+                residual_tolerance=residual_tolerance,
+            )
+            receipts.append(solved.receipt)
+            update = alpha_main.upd_matrix_match_shape(
+                solved.update,
+                parameter.shape,
+            )
+            with torch.no_grad():
+                parameter[...] = parameter + update.float()
+            if parameter.dtype is not torch.bfloat16:
+                raise ODEBFContractError("canonical Alpha solve changed model dtype")
+            deltas[weight_name] = update.detach().to(device="cpu")
+            del layer_keys, current_z, targets, residual, update, solved
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+
+        # Preserve the pinned post-solve cache-update order, but explicitly
+        # normalize the genuine joint keys to the FP32 cache contract.
+        for layer_index, layer in enumerate(hparams.layers):
+            layer_keys = alpha_main.compute_ks(
+                model,
+                tokenizer,
+                normalized,
+                hparams,
+                layer,
+                resolved_contexts,
+            ).T
+            keys32 = layer_keys.detach().to(
+                device="cpu",
+                dtype=ALPHA_SOLVE_DTYPE,
+            )
+            if keys32.shape[1] != BATCH_SIZE:
+                raise ODEBFContractError("canonical Alpha cache update is not joint B10")
+            alpha_main.cache_c[layer_index] += keys32 @ keys32.T
+            del layer_keys, keys32
+    finally:
+        with torch.no_grad():
+            for name, parameter in weights.items():
+                parameter.copy_(entry[name])
+        if any(parameter.dtype is not torch.bfloat16 for parameter in weights.values()):
+            raise ODEBFContractError("canonical Alpha solve did not preserve BF16 weights")
+    if len(receipts) != len(hparams.layers):
+        raise ODEBFContractError("canonical Alpha solve receipt count differs")
+    return deltas, tuple(receipts)
 
 
 def capture_native_and_wb_joint_endpoint(
@@ -196,10 +570,10 @@ def capture_native_and_wb_joint_endpoint(
     ):
         raise ODEBFContractError("pinned AlphaEdit projector tensor contract differs")
 
-    # Run the pinned EasyEdit implementation once as the independent Native
-    # endpoint.  Wrappers observe its genuine joint call and memoize the second
-    # cache-update key request so there is one underlying shared key compute per
-    # layer.  Every patched global is restored before returning.
+    # Reproduce the pinned source loop in the ODE-BF adapter as the independent
+    # Native endpoint. Wrappers observe its genuine joint call and memoize the
+    # second cache-update key request so there is one underlying shared key
+    # compute per layer. Every patched global is restored before returning.
     direct_z: list[torch.Tensor] = []
     key_by_layer: dict[int, torch.Tensor] = {}
     current_z_by_layer: dict[int, torch.Tensor] = {}
@@ -267,6 +641,7 @@ def capture_native_and_wb_joint_endpoint(
         return value
 
     native_deltas: dict[str, torch.Tensor]
+    dense_solve_receipts: tuple[AlphaDenseSolveReceipt, ...]
     history_dimension = projector.shape[1]
     try:
         alpha_main.P = projector
@@ -286,12 +661,15 @@ def capture_native_and_wb_joint_endpoint(
         with mutation_lock, contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(
             io.StringIO()
         ):
-            native_deltas = alpha_main.execute_AlphaEdit(
+            native_deltas, dense_solve_receipts = _execute_alphaedit_canonical_fp32_solve(
+                alpha_main,
                 model,
                 tokenizer,
                 normalized,
                 hparams,
-                cache_template=None,
+                contexts,
+                weights,
+                residual_tolerance=model_residual_tolerance,
             )
     finally:
         torch.autograd.backward = original_backward
@@ -317,6 +695,17 @@ def capture_native_and_wb_joint_endpoint(
         raise ODEBFContractError("Native AlphaEdit residual capture differs")
     if set(native_deltas) != set(weights):
         raise ODEBFContractError("Native AlphaEdit touched parameter set differs")
+    if (
+        len(dense_solve_receipts) != len(normalized_layers)
+        or any(
+            receipt.reference != ALPHA_SOLVE_REFERENCE
+            or receipt.solve_dtype != str(ALPHA_SOLVE_DTYPE)
+            or receipt.joint_key_rank <= 1
+            or not receipt.passed
+            for receipt in dense_solve_receipts
+        )
+    ):
+        raise ODEBFContractError("canonical Alpha dense solve receipt differs")
     ledger.increment("native_baseline_dense_delta_peak_live", len(native_deltas))
     ledger.increment(
         "native_baseline_dense_delta_bytes_peak",
@@ -450,6 +839,7 @@ def capture_native_and_wb_joint_endpoint(
         entry_sha256,
         tuple(tensor_sha256(value) for value in direct_z),
         tuple(key_hashes),
+        dense_solve_receipts,
         tuple(certificates),
         initialization,
         target_backward_count,

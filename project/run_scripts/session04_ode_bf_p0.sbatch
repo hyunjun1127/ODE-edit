@@ -23,7 +23,7 @@ case "${MODEL_ALIAS}" in
   llama3-8b-inst|qwen2.5-7b-inst) ;;
   *) echo "invalid locked ODE-BF P0 alias" >&2; exit 2 ;;
 esac
-[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "v1p1-b10" ]] || {
+[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "alpha-fp32-solve-r1-b10" ]] || {
   echo "missing locked ODE-BF P0 invocation" >&2
   exit 2
 }

@@ -20,6 +20,8 @@ import torch
 
 from .accounting import ComputeLedger
 from .alpha_backend import (
+    ALPHA_SOLVE_DTYPE,
+    ALPHA_SOLVE_REFERENCE,
     capture_native_and_wb_joint_endpoint,
     fresh_contexts_twice,
     load_original_bf16,
@@ -33,7 +35,10 @@ from .selection import load_sealed_joint_requests, verify_p0_b10_seal
 from .transaction import AtomicBatchTransaction
 
 
-INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-V1P1-EXACT-FIRST-HIT-CPU-P0-V1-A3"
+INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-P0-ALPHA-SOLVE-DTYPE-R1-V1"
+SCIENTIFIC_LOCK_INSTRUCTION_ID = (
+    "ODEEDIT-S04-ODE-BF-V1P1-EXACT-FIRST-HIT-CPU-P0-V1-A3"
+)
 NUMERICAL_LOCK_SHA256 = "23fe5621612f715c52ef70f94a10ae7eaba759b4ac209e0e0f3e09c81ea9feef"
 NUMERICAL_LOCK_PREFIX = NUMERICAL_LOCK_SHA256[:8]
 SEED = 41
@@ -42,7 +47,7 @@ SEED = 41
 def expected_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P0 result alias is not locked")
-    return f"s04-p0-native-wb-b10-{alias}-{NUMERICAL_LOCK_PREFIX}"
+    return f"s04-p0-native-wb-b10-r1-{alias}-{NUMERICAL_LOCK_PREFIX}"
 
 
 def _atomic_write_once(path: Path, value: Mapping[str, Any]) -> str:
@@ -284,7 +289,7 @@ def run_p0(
             expected_schema="ode-edit-s04-ode-bf-p0-numerical-lock/v1",
         )
         if (
-            numerical["instruction_id"] != INSTRUCTION_ID
+            numerical["instruction_id"] != SCIENTIFIC_LOCK_INSTRUCTION_ID
             or numerical["execution_seed"] != SEED
             or numerical["edit_batch_size"] != 10
             or numerical["rollout"]["k_resolution"] != 8
@@ -372,6 +377,11 @@ def run_p0(
                 "direct_z_sha256": list(captured.direct_z_sha256),
                 "key_sha256_by_layer": [list(item) for item in captured.key_sha256_by_layer],
                 "factor_shapes": [asdict(item) for item in captured.initialization.factors],
+                "canonical_dense_solve": [
+                    asdict(item) for item in captured.dense_solve_receipts
+                ],
+                "solve_reference": ALPHA_SOLVE_REFERENCE,
+                "solve_dtype": str(ALPHA_SOLVE_DTYPE),
                 "target_backward_count": captured.target_backward_count,
             },
         )
@@ -538,7 +548,18 @@ def run_p0(
             "joint_editor_invocations": 1,
             "k_resolution": 8,
             "correction_cycles": 1,
-            "model_p0_mode": "q0-native-alphaedit-versus-native-alphaedit-wb-identity",
+            "model_p0_mode": (
+                "q0-native-alphaedit-original-bf16-canonical-fp32-solve"
+                "-versus-native-alphaedit-wb-identity"
+            ),
+            "scientific_lock_instruction_id": SCIENTIFIC_LOCK_INSTRUCTION_ID,
+            "alpha_solve": {
+                "reference": ALPHA_SOLVE_REFERENCE,
+                "dtype": str(ALPHA_SOLVE_DTYPE),
+                "receipts": [
+                    asdict(item) for item in captured.dense_solve_receipts
+                ],
+            },
             "fixed_k_controller_contract_cpu_gate": True,
             "identity": identity,
             "native_evaluation": _evaluation_payload(native_receipt),

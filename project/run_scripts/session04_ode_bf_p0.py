@@ -17,7 +17,7 @@ from project.run_scripts.ode_bf.contracts import MODEL_ALIASES
 from project.run_scripts.ode_bf.p0_runtime import run_p0, write_failure_once
 
 
-RUN_TOKEN = "v1p1-b10"
+RUN_TOKEN = "alpha-fp32-solve-r1-b10"
 
 
 def _parser() -> argparse.ArgumentParser:
