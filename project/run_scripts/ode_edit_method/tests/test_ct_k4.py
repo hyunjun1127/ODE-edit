@@ -52,6 +52,8 @@ from project.run_scripts.ode_edit_method.instrumentation import EditInstrumentat
 from project.run_scripts.ode_edit_method.contracts import EventReading
 from project.run_scripts.session03_ct_k4_common import (
     _evaluation_firewall_metadata,
+    _PostActionEvaluationInstrumentation,
+    _PostActionForwardCounter,
     _require_session03_output_root,
     dry_plan,
     expected_output_root,
@@ -526,7 +528,7 @@ class CTK4Tests(unittest.TestCase):
             )
             if stage == "p0":
                 self.assertTrue(
-                    all("session03-ct-k4-p0-r2-" in job["output_root"] for job in plan["jobs"])
+                    all("session03-ct-k4-p0-r3-" in job["output_root"] for job in plan["jobs"])
                 )
         source = inspect.getsource(run_session03)
         self.assertNotIn("if args.model_alias", source)
@@ -621,6 +623,85 @@ class CTK4Tests(unittest.TestCase):
         self.assertTrue(all(observed.values()))
         for name, keys in observed.items():
             self.assertFalse(forbidden & keys, (name, forbidden & keys))
+
+    def test_es_freezes_controller_but_post_action_is_separately_counted(self) -> None:
+        request = ControllerRequest("1", "{} is", "Ada", "Paris", "London")
+        backend = _ToyTransportBackend()
+        metrics = EditInstrumentation("toy-es-post-action")
+        model = _TwoLinear(torch.float64).eval()
+        probe = torch.tensor([[0.2, -0.3]], dtype=torch.float64)
+        metrics.attach_model(model)
+        result = run_ct_arm(
+            CTArm.ODE_REFRESH_CT_K4_ES,
+            request=request,
+            backend=backend,
+            frozen_target=object(),
+            denominators={0: 1.0, 1: 1.0},
+            config=self.config,
+            instrumentation=metrics,
+        )
+        metrics.detach_model()
+        self.assertEqual(result.first_hit_step, 1)
+        self.assertFalse(metrics.tracks_model_forwards)
+        frozen_controller = {
+            name: metrics._counters[name]
+            for name in (
+                "N_model_fwd",
+                "N_field",
+                "N_bw",
+                "N_trial",
+                "N_write",
+                "N_z",
+            )
+        }
+
+        post_action = _PostActionForwardCounter(model)
+        with post_action:
+            with post_action.scope("terminal_residual"):
+                model(probe)
+            adapter = _PostActionEvaluationInstrumentation(metrics, post_action)
+            adapter.increment("N_eval")
+            with adapter.component("evaluation"):
+                model(probe)
+        post = post_action.finalize()
+        snapshot = metrics.finalize().to_dict()
+        self.assertTrue(snapshot["first_hit"])
+        self.assertEqual(snapshot["counters"]["N_model_fwd"], 0)
+        self.assertEqual(snapshot["counters"]["N_field"], 1)
+        self.assertEqual(snapshot["counters"]["N_eval"], 1)
+        self.assertEqual(
+            {name: snapshot["counters"][name] for name in frozen_controller},
+            frozen_controller,
+        )
+        self.assertEqual(post["N_post_action_model_fwd"], 2)
+        self.assertEqual(
+            post["post_action_model_fwd_scope_counts"],
+            {"terminal_residual": 1, "endpoint_metrics": 1},
+        )
+        self.assertEqual(snapshot["component_wall_seconds"]["evaluation"], 0.0)
+        assert_raw_free({"compute": snapshot, **post})
+
+    def test_post_action_hook_exception_cleanup_preserves_model_state(self) -> None:
+        torch.manual_seed(91)
+        model = _TwoLinear(torch.float64).eval()
+        probe = torch.tensor([[0.17, -0.29]], dtype=torch.float64)
+        parameter = model.layers[0].weight
+        pointer = parameter.data_ptr()
+        version = parameter._version
+        requires_grad = parameter.requires_grad
+        rng = torch.get_rng_state().clone()
+        counter = _PostActionForwardCounter(model)
+        with self.assertRaisesRegex(RuntimeError, "injected"):
+            with counter:
+                with counter.scope("terminal_residual"):
+                    model(probe)
+                    raise RuntimeError("injected post-action failure")
+        self.assertFalse(counter.attached)
+        self.assertEqual(parameter.data_ptr(), pointer)
+        self.assertEqual(parameter._version, version)
+        self.assertEqual(parameter.requires_grad, requires_grad)
+        self.assertIsNone(parameter.grad)
+        self.assertTrue(torch.equal(torch.get_rng_state(), rng))
 
 
 if __name__ == "__main__":

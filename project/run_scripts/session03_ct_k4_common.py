@@ -8,8 +8,9 @@ import math
 import os
 import sys
 import time
+from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any, Iterator, Mapping, Sequence
 
 import torch
 
@@ -74,7 +75,7 @@ EXECUTION_TOKENS = {
     "p1": "session03-ct-k4-p1-after-p0-pass-v1",
 }
 OUTPUT_PREFIXES = {
-    "p0": "session03-ct-k4-p0-r2",
+    "p0": "session03-ct-k4-p0-r3",
     "p1": "session03-ct-k4-p1",
 }
 
@@ -163,6 +164,125 @@ def _evaluation_firewall_metadata(stage: str) -> dict[str, bool]:
         "controller_access": False,
         "action_freeze_required": True,
     }
+
+
+class _PostActionForwardCounter:
+    """Count post-controller top-level forwards without touching controller totals."""
+
+    _SCOPES = ("terminal_residual", "endpoint_metrics")
+
+    def __init__(
+        self,
+        model: torch.nn.Module,
+        *,
+        gpu_device: torch.device | str | None = None,
+    ) -> None:
+        self._model = model
+        self._counts = {name: 0 for name in self._SCOPES}
+        self._wall_seconds = {name: 0.0 for name in self._SCOPES}
+        self._gpu_seconds = {name: 0.0 for name in self._SCOPES}
+        self._gpu_events: list[
+            tuple[str, torch.cuda.Event, torch.cuda.Event]
+        ] = []
+        self._active_scope: str | None = None
+        self._handle: torch.utils.hooks.RemovableHandle | None = None
+        self._finalized = False
+        self._gpu_device: torch.device | None = None
+        if gpu_device is not None:
+            resolved = torch.device(gpu_device)
+            if resolved.type != "cuda" or not torch.cuda.is_available():
+                raise MethodContractError("post-action GPU timing device is unavailable")
+            self._gpu_device = resolved
+
+    @property
+    def attached(self) -> bool:
+        return self._handle is not None
+
+    def __enter__(self) -> "_PostActionForwardCounter":
+        if self._handle is not None or self._finalized:
+            raise MethodContractError("post-action counter lifecycle differs")
+
+        def count(_module: torch.nn.Module, _inputs: Any) -> None:
+            if self._active_scope is None:
+                raise MethodContractError("unscoped post-action model forward")
+            self._counts[self._active_scope] += 1
+
+        self._handle = self._model.register_forward_pre_hook(count)
+        return self
+
+    def __exit__(self, exc_type: Any, exc: Any, traceback: Any) -> bool:
+        if self._handle is not None:
+            self._handle.remove()
+            self._handle = None
+        return False
+
+    @contextmanager
+    def scope(self, name: str) -> Iterator[None]:
+        if name not in self._counts or self._handle is None or self._finalized:
+            raise MethodContractError("post-action forward scope is invalid")
+        if self._active_scope is not None:
+            raise MethodContractError("post-action forward scopes cannot nest")
+        self._active_scope = name
+        start = time.perf_counter()
+        gpu_start: torch.cuda.Event | None = None
+        gpu_end: torch.cuda.Event | None = None
+        if self._gpu_device is not None:
+            gpu_start = torch.cuda.Event(enable_timing=True)
+            gpu_end = torch.cuda.Event(enable_timing=True)
+            with torch.cuda.device(self._gpu_device):
+                gpu_start.record()
+        try:
+            yield
+        finally:
+            if self._gpu_device is not None:
+                assert gpu_start is not None and gpu_end is not None
+                with torch.cuda.device(self._gpu_device):
+                    gpu_end.record()
+                self._gpu_events.append((name, gpu_start, gpu_end))
+            self._wall_seconds[name] += time.perf_counter() - start
+            self._active_scope = None
+
+    def finalize(self) -> dict[str, Any]:
+        if self._handle is not None or self._active_scope is not None or self._finalized:
+            raise MethodContractError("post-action counter finalized while active")
+        if self._gpu_device is not None:
+            torch.cuda.synchronize(self._gpu_device)
+            for name, start, end in self._gpu_events:
+                self._gpu_seconds[name] += float(start.elapsed_time(end)) / 1000.0
+        self._finalized = True
+        return {
+            "N_post_action_model_fwd": sum(self._counts.values()),
+            "post_action_model_fwd_scope_counts": dict(self._counts),
+            "post_action_model_fwd_provenance": (
+                "top-level-forward-pre-hook-after-controller-detach"
+            ),
+            "post_action_wall_seconds_by_scope": dict(self._wall_seconds),
+            "post_action_gpu_seconds_by_scope": dict(self._gpu_seconds),
+        }
+
+
+class _PostActionEvaluationInstrumentation:
+    """Keep logical N_eval while routing endpoint work outside controller timing."""
+
+    def __init__(
+        self,
+        controller: EditInstrumentation,
+        post_action: _PostActionForwardCounter,
+    ) -> None:
+        self._controller = controller
+        self._post_action = post_action
+
+    def increment(self, name: str, amount: int = 1) -> None:
+        if name != "N_eval":
+            raise MethodContractError("post-action evaluator counter differs")
+        self._controller.increment(name, amount)
+
+    @contextmanager
+    def component(self, name: str) -> Iterator[None]:
+        if name != "evaluation":
+            raise MethodContractError("post-action evaluator component differs")
+        with self._post_action.scope("endpoint_metrics"):
+            yield
 
 
 def build_parser(stage: str) -> argparse.ArgumentParser:
@@ -490,6 +610,7 @@ def run(args: argparse.Namespace) -> int:
                     finite_reference_gate=(stage == "p0" and arm is CTArm.ODE_REFRESH_CT_K4),
                 )
                 metrics.attach_model(runtime.model)
+                post_action_payload: Mapping[str, Any] | None = None
                 try:
                     if shared_target is None:
                         with metrics.component("direct_z"):
@@ -513,40 +634,54 @@ def run(args: argparse.Namespace) -> int:
                         config=config,
                         instrumentation=metrics,
                     )
-                    firewall = make_firewall(
-                        request,
-                        private_evaluation.get(request.case_id),
+                    metrics.detach_model()
+                    if metrics.tracks_model_forwards:
+                        raise RuntimeError("controller model-forward hook remained attached")
+                    post_action = _PostActionForwardCounter(
+                        runtime.model, gpu_device="cuda:0"
                     )
-                    action_hash = firewall.freeze_action(
-                        {
-                            "arm": arm.value,
-                            "case_id": request.case_id,
-                            "terminal_state_id": result.terminal_state_id,
-                            "step_count": len(result.steps),
-                        }
-                    )
-                    with metrics.component("terminal_geometry"):
-                        terminal_residual = backend.direct_z_residual_norm(shared_target)
-                    endpoint_hashes = _parameter_hashes(
-                        runtime.model, tuple(weight_by_layer.values())
-                    )
-                    evaluation_row = None
-                    if stage == "p1":
-                        endpoint = TorchCheckpoint.capture(
-                            runtime.model,
-                            tuple(weight_by_layer.values()),
-                            backup_device="cpu",
+                    with post_action:
+                        firewall = make_firewall(
+                            request,
+                            private_evaluation.get(request.case_id),
                         )
-                        evaluation_row = evaluate_frozen_endpoint(
-                            runtime=runtime,
-                            hparams=prepared.hparams,
-                            request=request,
-                            firewall=firewall,
-                            baseline_checkpoint=baseline,
-                            endpoint_checkpoint=endpoint,
-                            instrumentation=metrics,
+                        action_hash = firewall.freeze_action(
+                            {
+                                "arm": arm.value,
+                                "case_id": request.case_id,
+                                "terminal_state_id": result.terminal_state_id,
+                                "step_count": len(result.steps),
+                            }
                         )
-                        endpoint.assert_exact(runtime.model, include_rng=True)
+                        with post_action.scope("terminal_residual"):
+                            terminal_residual = backend.direct_z_residual_norm(
+                                shared_target
+                            )
+                        endpoint_hashes = _parameter_hashes(
+                            runtime.model, tuple(weight_by_layer.values())
+                        )
+                        evaluation_row = None
+                        if stage == "p1":
+                            endpoint = TorchCheckpoint.capture(
+                                runtime.model,
+                                tuple(weight_by_layer.values()),
+                                backup_device="cpu",
+                            )
+                            evaluation_row = evaluate_frozen_endpoint(
+                                runtime=runtime,
+                                hparams=prepared.hparams,
+                                request=request,
+                                firewall=firewall,
+                                baseline_checkpoint=baseline,
+                                endpoint_checkpoint=endpoint,
+                                instrumentation=(
+                                    _PostActionEvaluationInstrumentation(
+                                        metrics, post_action
+                                    )
+                                ),
+                            )
+                            endpoint.assert_exact(runtime.model, include_rng=True)
+                    post_action_payload = post_action.finalize()
                     if arm is CTArm.BF_ONESHOT_FULL:
                         one_shot_hashes = dict(endpoint_hashes)
                         one_shot_event = result.terminal_event
@@ -572,7 +707,10 @@ def run(args: argparse.Namespace) -> int:
                     ) / target.new_denominator
                     q_margin = terminal_mean_margin / target.oracle_mean_margin
                 finally:
-                    metrics.detach_model()
+                    if metrics.tracks_model_forwards:
+                        metrics.detach_model()
+                if post_action_payload is None:
+                    raise RuntimeError("post-action accounting is absent")
                 snapshot = metrics.finalize().to_dict()
                 counters = snapshot["counters"]
                 if counters["N_eval"] != (0 if stage == "p0" else 5):
@@ -621,6 +759,7 @@ def run(args: argparse.Namespace) -> int:
                     "arm": arm.value,
                     **snapshot,
                     **counters,
+                    **post_action_payload,
                 }
                 mechanism_row = {
                     "model": args.model_alias,
