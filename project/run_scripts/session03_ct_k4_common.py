@@ -9,8 +9,9 @@ import os
 import sys
 import time
 from contextlib import contextmanager
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterator, Mapping, Sequence
+from typing import Any, Callable, Iterator, Mapping, Sequence
 
 import torch
 
@@ -80,10 +81,60 @@ OUTPUT_PREFIXES = {
 }
 
 
-def expected_output_root(stage: str, model_alias: str, proposal_id: str) -> Path:
+@dataclass(frozen=True, slots=True)
+class Session03CTSpec:
+    """Experiment-local arm and lock wiring for the shared CT runner."""
+
+    slug: str
+    lock_path: Path
+    load_lock: Callable[[str | Path], dict[str, Any]]
+    arm_order: tuple[Any, ...]
+    run_arm: Callable[..., Any]
+    assert_shared_direct_z: Callable[..., None]
+    native_arm: Any
+    one_shot_arm: Any
+    frozen_arm: Any
+    finite_reference_arm: Any
+    field_build_counts: Mapping[Any, int]
+    field_build_max_counts: Mapping[Any, int]
+    first_step_nonzero_arms: frozenset[Any]
+    authorization_env_prefix: str
+    execution_tokens: Mapping[str, str]
+    output_prefixes: Mapping[str, str]
+
+
+CT_K4_SPEC = Session03CTSpec(
+    slug="ct-k4",
+    lock_path=CT_K4_LOCK_PATH,
+    load_lock=load_ct_k4_lock,
+    arm_order=tuple(CT_ARM_ORDER),
+    run_arm=run_ct_arm,
+    assert_shared_direct_z=assert_shared_direct_z_identities,
+    native_arm=CTArm.NATIVE_MEMIT,
+    one_shot_arm=CTArm.BF_ONESHOT_FULL,
+    frozen_arm=CTArm.BF_FROZEN_CT_K4,
+    finite_reference_arm=CTArm.ODE_REFRESH_CT_K4,
+    field_build_counts={
+        CTArm.BF_FROZEN_CT_K4: 1,
+        CTArm.ODE_REFRESH_CT_K4: 4,
+    },
+    field_build_max_counts={CTArm.ODE_REFRESH_CT_K4_ES: 4},
+    first_step_nonzero_arms=frozenset(),
+    authorization_env_prefix="ODEEDIT_SESSION03_CT_K4",
+    execution_tokens=EXECUTION_TOKENS,
+    output_prefixes=OUTPUT_PREFIXES,
+)
+
+
+def expected_output_root(
+    stage: str,
+    model_alias: str,
+    proposal_id: str,
+    spec: Session03CTSpec = CT_K4_SPEC,
+) -> Path:
     return Path(
         "local/results/"
-        f"{OUTPUT_PREFIXES[stage]}-{model_alias}-{proposal_id[:8]}"
+        f"{spec.output_prefixes[stage]}-{model_alias}-{proposal_id[:8]}"
     )
 
 
@@ -126,21 +177,25 @@ def _require_session03_output_root(
     return expected
 
 
-def dry_plan(lock: Mapping[str, Any], stage: str) -> dict[str, Any]:
+def dry_plan(
+    lock: Mapping[str, Any],
+    stage: str,
+    spec: Session03CTSpec = CT_K4_SPEC,
+) -> dict[str, Any]:
     resources = lock["resources"]
     return {
-        "schema_version": f"ode-edit-session03-ct-k4-{stage}-dry-plan/v1",
+        "schema_version": f"ode-edit-session03-{spec.slug}-{stage}-dry-plan/v1",
         "submission_authorized": False,
         "proposal_id": lock["proposal_id"],
         "lock_sha256": lock["lock_sha256"],
         "stage": stage,
         "case_ids": list(lock["selection"][f"{stage}_case_ids"]),
-        "arms": [arm.value for arm in CT_ARM_ORDER],
+        "arms": [arm.value for arm in spec.arm_order],
         "jobs": [
             {
                 "model_alias": alias,
                 "output_root": str(
-                    expected_output_root(stage, alias, lock["proposal_id"])
+                    expected_output_root(stage, alias, lock["proposal_id"], spec)
                 ),
                 "resources": {
                     "gpu": resources["gpu_per_job"],
@@ -285,14 +340,16 @@ class _PostActionEvaluationInstrumentation:
             yield
 
 
-def build_parser(stage: str) -> argparse.ArgumentParser:
+def build_parser(
+    stage: str, spec: Session03CTSpec = CT_K4_SPEC
+) -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument(
         "--model-alias",
         required=True,
         choices=("llama3-8b-inst", "qwen2.5-7b-inst"),
     )
-    parser.add_argument("--lock", type=Path, default=CT_K4_LOCK_PATH)
+    parser.add_argument("--lock", type=Path, default=spec.lock_path)
     parser.add_argument("--base-lock", type=Path, default=LOCK_PATH)
     parser.add_argument("--v3-lock", type=Path, default=ORACLE_ABSOLUTE_LOCK_PATH)
     parser.add_argument("--easyedit-root", type=Path, default=EASYEDIT_ROOT)
@@ -378,7 +435,9 @@ def _cosine(left: Sequence[float], right: Sequence[float]) -> float | None:
     return numerator / (left_norm * right_norm)
 
 
-def _mechanism(result: Any, backend: Any) -> dict[str, Any]:
+def _mechanism(
+    result: Any, backend: Any, *, schema_slug: str = "ct-k4"
+) -> dict[str, Any]:
     steps = result.steps
     transitions = []
     allocation_cosines = []
@@ -413,7 +472,7 @@ def _mechanism(result: Any, backend: Any) -> dict[str, Any]:
             0.0 if not union else len(before_support ^ after_support) / len(union)
         )
     return {
-        "schema_version": "ode-edit-session03-ct-k4-mechanism/v1",
+        "schema_version": f"ode-edit-session03-{schema_slug}-mechanism/v1",
         "direction_id_transition_rate": (
             None if not transitions else sum(transitions) / len(transitions)
         ),
@@ -435,12 +494,59 @@ def _total_energy(energy: Mapping[int, float]) -> float:
     return value
 
 
+def _assert_frozen_endpoint_identity(
+    *,
+    one_shot_hashes: Mapping[str, str] | None,
+    frozen_hashes: Mapping[str, str],
+    one_shot_event: Any,
+    frozen_event: Any,
+    one_shot_energy: Mapping[int, float] | None,
+    frozen_energy: Mapping[int, float],
+    one_shot_evaluation: Mapping[str, Any] | None,
+    frozen_evaluation: Mapping[str, Any] | None,
+    atol: float,
+    rtol: float,
+) -> None:
+    """Lock the frozen cumulative endpoint to its one-shot BF reference."""
+
+    if one_shot_hashes is None or dict(frozen_hashes) != dict(one_shot_hashes):
+        raise RuntimeError("BF frozen endpoint bytes differ from one-shot")
+    assert_event_identity(one_shot_event, frozen_event, atol=atol, rtol=rtol)
+    if one_shot_energy is None or dict(frozen_energy) != dict(one_shot_energy):
+        raise RuntimeError("BF frozen terminal C-energy differs from one-shot")
+    if frozen_evaluation != one_shot_evaluation:
+        raise RuntimeError("BF frozen endpoint evaluation differs from one-shot")
+
+
+def _assert_case_direct_z_accounting(
+    spec: Session03CTSpec,
+    source_identity: Mapping[str, Any],
+    arm_identities: Mapping[Any, Mapping[str, Any]],
+    n_z_by_arm: Mapping[Any, int],
+) -> None:
+    """Derive, rather than assume, the one-compute shared direct-z contract."""
+
+    if not spec.arm_order or spec.arm_order[0] is not spec.native_arm:
+        raise RuntimeError("native arm must own the case/model direct-z compute")
+    expected_counts = {
+        arm: 1 if arm is spec.native_arm else 0 for arm in spec.arm_order
+    }
+    if dict(n_z_by_arm) != expected_counts:
+        raise RuntimeError("case/model direct-z counter distribution differs")
+    spec.assert_shared_direct_z(
+        source_identity,
+        arm_identities,
+        global_n_z=sum(n_z_by_arm.values()),
+    )
+
+
 def _validate_source_locks(
     lock_path: Path,
     base_lock_path: Path,
     v3_lock_path: Path,
+    spec: Session03CTSpec = CT_K4_SPEC,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
-    lock = load_ct_k4_lock(lock_path)
+    lock = spec.load_lock(lock_path)
     base = load_lock(base_lock_path)
     v3 = load_oracle_absolute_lock(v3_lock_path)
     pinned = lock["base_method"]
@@ -454,7 +560,9 @@ def _validate_source_locks(
     return lock, base, v3
 
 
-def run(args: argparse.Namespace) -> int:
+def run(
+    args: argparse.Namespace, spec: Session03CTSpec = CT_K4_SPEC
+) -> int:
     stage = str(args.stage)
     if stage not in {"p0", "p1"}:
         raise RuntimeError("unknown CT-K4 stage")
@@ -466,10 +574,12 @@ def run(args: argparse.Namespace) -> int:
     base_lock_path = args.base_lock.resolve(strict=True)
     v3_lock_path = args.v3_lock.resolve(strict=True)
     lock, base_lock, _v3_lock = _validate_source_locks(
-        lock_path, base_lock_path, v3_lock_path
+        lock_path, base_lock_path, v3_lock_path, spec
     )
-    plan = dry_plan(lock, stage)
-    expected_relative = expected_output_root(stage, args.model_alias, lock["proposal_id"])
+    plan = dry_plan(lock, stage, spec)
+    expected_relative = expected_output_root(
+        stage, args.model_alias, lock["proposal_id"], spec
+    )
     expected = (repo / expected_relative).resolve()
     candidate = args.output_root if args.output_root.is_absolute() else repo / args.output_root
     if candidate.resolve() != expected:
@@ -477,8 +587,8 @@ def run(args: argparse.Namespace) -> int:
     if args.dry_run:
         print(json.dumps(plan, allow_nan=False, sort_keys=True))
         return 0
-    token_name = f"ODEEDIT_SESSION03_CT_K4_{stage.upper()}_AUTHORIZED"
-    if os.environ.get(token_name) != EXECUTION_TOKENS[stage]:
+    token_name = f"{spec.authorization_env_prefix}_{stage.upper()}_AUTHORIZED"
+    if os.environ.get(token_name) != spec.execution_tokens[stage]:
         raise RuntimeError("separate CT-K4 stage execution authority is required")
     for key in ("HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE"):
         if os.environ.get(key) != "1":
@@ -545,7 +655,7 @@ def run(args: argparse.Namespace) -> int:
     )
     setup_seconds = time.perf_counter() - setup_start - model_load_seconds
     manifest = {
-        "schema_version": f"ode-edit-session03-ct-k4-{stage}-manifest/v1",
+        "schema_version": f"ode-edit-session03-{spec.slug}-{stage}-manifest/v1",
         "status": "RUNNING",
         "instruction_id": lock["instruction_id"],
         "git": {
@@ -557,7 +667,7 @@ def run(args: argparse.Namespace) -> int:
         "selection": {
             "case_ids": list(case_ids),
             "request_ids": list(expected_request_ids),
-            "arms": [arm.value for arm in CT_ARM_ORDER],
+            "arms": [arm.value for arm in spec.arm_order],
             "seed": seed,
             "cases_independent_atomic_reset": True,
         },
@@ -584,10 +694,13 @@ def run(args: argparse.Namespace) -> int:
             shared_source_identity: Mapping[str, Any] | None = None
             shared_entry_residual: float | None = None
             direct_identities: dict[CTArm, Mapping[str, Any]] = {}
+            direct_z_counts: dict[CTArm, int] = {}
             one_shot_hashes: Mapping[str, str] | None = None
             one_shot_event = None
+            one_shot_energy: Mapping[int, float] | None = None
+            one_shot_evaluation: Mapping[str, Any] | None = None
             case_rows: list[dict[str, Any]] = []
-            for arm in CT_ARM_ORDER:
+            for arm in spec.arm_order:
                 baseline.restore(runtime.model)
                 baseline.assert_exact(runtime.model, include_rng=True)
                 metrics = EditInstrumentation(
@@ -606,8 +719,10 @@ def run(args: argparse.Namespace) -> int:
                     config=config,
                     base_lock=base_lock,
                     metrics=metrics,
-                    record_mechanism=arm not in {CTArm.NATIVE_MEMIT},
-                    finite_reference_gate=(stage == "p0" and arm is CTArm.ODE_REFRESH_CT_K4),
+                    record_mechanism=arm is not spec.native_arm,
+                    finite_reference_gate=(
+                        stage == "p0" and arm is spec.finite_reference_arm
+                    ),
                 )
                 metrics.attach_model(runtime.model)
                 post_action_payload: Mapping[str, Any] | None = None
@@ -625,7 +740,7 @@ def run(args: argparse.Namespace) -> int:
                         backend.attach_shared_direct_z(shared_target)
                     identity = dict(backend.direct_z_identity or {})
                     direct_identities[arm] = identity
-                    result = run_ct_arm(
+                    result = spec.run_arm(
                         arm,
                         request=request,
                         backend=backend,
@@ -682,19 +797,39 @@ def run(args: argparse.Namespace) -> int:
                             )
                             endpoint.assert_exact(runtime.model, include_rng=True)
                     post_action_payload = post_action.finalize()
-                    if arm is CTArm.BF_ONESHOT_FULL:
+                    first_step_nonzero = bool(
+                        result.steps
+                        and result.steps[0].source_state_id
+                        != result.steps[0].terminal_state_id
+                    )
+                    if (
+                        arm in spec.first_step_nonzero_arms
+                        and not first_step_nonzero
+                    ):
+                        raise RuntimeError(
+                            "fixed-horizon first step preserved target-weight state"
+                        )
+                    if arm is spec.one_shot_arm:
                         one_shot_hashes = dict(endpoint_hashes)
                         one_shot_event = result.terminal_event
-                    elif arm is CTArm.BF_FROZEN_CT_K4:
-                        if one_shot_hashes is None or endpoint_hashes != one_shot_hashes:
-                            raise RuntimeError("BF frozen K4 endpoint bytes differ from one-shot")
-                        assert_event_identity(
-                            one_shot_event,
-                            result.terminal_event,
+                        one_shot_energy = dict(result.terminal_net_energy)
+                        one_shot_evaluation = evaluation_row
+                    elif arm is spec.frozen_arm:
+                        _assert_frozen_endpoint_identity(
+                            one_shot_hashes=one_shot_hashes,
+                            frozen_hashes=endpoint_hashes,
+                            one_shot_event=one_shot_event,
+                            frozen_event=result.terminal_event,
+                            one_shot_energy=one_shot_energy,
+                            frozen_energy=result.terminal_net_energy,
+                            one_shot_evaluation=one_shot_evaluation,
+                            frozen_evaluation=evaluation_row,
                             atol=config.functional_commit_atol,
                             rtol=config.functional_commit_rtol,
                         )
-                    mechanism = _mechanism(result, backend)
+                    mechanism = _mechanism(
+                        result, backend, schema_slug=spec.slug
+                    )
                     target = backend.oracle_target
                     terminal_mean_new = math.fsum(
                         result.terminal_event.target_new_log_likelihoods
@@ -713,16 +848,17 @@ def run(args: argparse.Namespace) -> int:
                     raise RuntimeError("post-action accounting is absent")
                 snapshot = metrics.finalize().to_dict()
                 counters = snapshot["counters"]
+                direct_z_counts[arm] = counters["N_z"]
                 if counters["N_eval"] != (0 if stage == "p0" else 5):
                     raise RuntimeError("CT-K4 evaluation counter differs")
-                if arm is CTArm.BF_FROZEN_CT_K4 and counters["N_field"] != 1:
-                    raise RuntimeError("frozen K4 field count differs")
-                if arm is CTArm.ODE_REFRESH_CT_K4 and counters["N_field"] != 4:
-                    raise RuntimeError("primary refresh field count differs")
-                if arm is CTArm.ODE_REFRESH_CT_K4_ES and counters["N_field"] > 4:
-                    raise RuntimeError("early-stop refresh field count differs")
-                if arm not in {CTArm.NATIVE_MEMIT} and counters["N_bw"] != counters["N_field"]:
-                    raise RuntimeError("CT-K4 one-backward field count differs")
+                expected_fields = spec.field_build_counts.get(arm)
+                if expected_fields is not None and counters["N_field"] != expected_fields:
+                    raise RuntimeError("fixed-horizon field count differs")
+                maximum_fields = spec.field_build_max_counts.get(arm)
+                if maximum_fields is not None and counters["N_field"] > maximum_fields:
+                    raise RuntimeError("fixed-horizon field count exceeds cap")
+                if arm is not spec.native_arm and counters["N_bw"] != counters["N_field"]:
+                    raise RuntimeError("fixed-horizon one-backward field count differs")
                 record = {
                     "model": args.model_alias,
                     "stage": stage,
@@ -751,8 +887,12 @@ def run(args: argparse.Namespace) -> int:
                         else list(backend.hook_reference_gate)
                     ),
                 }
+                if spec.first_step_nonzero_arms:
+                    record["first_step_target_weight_state_change_nonzero"] = (
+                        first_step_nonzero
+                    )
                 compute_row = {
-                    "schema_version": "ode-edit-session03-ct-k4-compute/v1",
+                    "schema_version": f"ode-edit-session03-{spec.slug}-compute/v1",
                     "model": args.model_alias,
                     "stage": stage,
                     "case_id": request.case_id,
@@ -802,16 +942,23 @@ def run(args: argparse.Namespace) -> int:
                     "peak_memory_reserved_bytes": snapshot["peak_memory_reserved_bytes"],
                     "evaluation_metrics": evaluation_row,
                 }
+                if spec.first_step_nonzero_arms:
+                    case_row["first_step_target_weight_state_change_nonzero"] = (
+                        first_step_nonzero
+                    )
                 case_rows.append(case_row)
                 summaries.append(case_row)
                 baseline.restore(runtime.model)
                 baseline.assert_exact(runtime.model, include_rng=True)
             assert shared_source_identity is not None
-            assert_shared_direct_z_identities(
-                shared_source_identity, direct_identities, global_n_z=1
+            _assert_case_direct_z_accounting(
+                spec,
+                shared_source_identity,
+                direct_identities,
+                direct_z_counts,
             )
             by_arm = {row["arm"]: row for row in case_rows}
-            native = by_arm[CTArm.NATIVE_MEMIT.value]
+            native = by_arm[spec.native_arm.value]
             for row in case_rows:
                 row["c_energy_ratio_to_native"] = (
                     None
@@ -842,7 +989,7 @@ def run(args: argparse.Namespace) -> int:
             "locality_pre_post_token_agreement",
             "neighborhood_target_true_token_accuracy",
         )
-        for arm in CT_ARM_ORDER:
+        for arm in spec.arm_order:
             rows = [row for row in summaries if row["arm"] == arm.value]
             successful = [
                 row
@@ -875,7 +1022,7 @@ def run(args: argparse.Namespace) -> int:
                 ),
             }
     summary = {
-        "schema_version": f"ode-edit-session03-ct-k4-{stage}-summary/v1",
+        "schema_version": f"ode-edit-session03-{spec.slug}-{stage}-summary/v1",
         "status": "COMPLETE_TECHNICAL_PASS",
         "model": args.model_alias,
         "stage": stage,
@@ -902,7 +1049,7 @@ def run(args: argparse.Namespace) -> int:
     _json_write(
         output_root / "terminal_manifest.json",
         {
-            "schema_version": "ode-edit-session03-ct-k4-terminal/v1",
+            "schema_version": f"ode-edit-session03-{spec.slug}-terminal/v1",
             "status": "COMPLETE",
             "files": {
                 str(path.relative_to(output_root)): {

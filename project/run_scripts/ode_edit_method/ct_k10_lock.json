@@ -1,0 +1,93 @@
+{
+  "schema_version": "ode-edit-session03-ct-k10-lock/v1",
+  "status": "PRELOCKED_BEFORE_K10_P0_EXECUTION",
+  "instruction_id": "ODEEDIT-S03-CT-K10-FIXED-HORIZON-CONFIRM-P0P1-V1",
+  "implementation_base_commit": "c99eaea45d2153cbbd18bac66bcc0fda439c098c",
+  "p0_outcome_count_at_panel_seal": 0,
+  "base_method": {
+    "proposal_id": "83eec5068acec673f7d9d0788e57ce0e9873a55785f7a6932026a4a2420c330b",
+    "lock_sha256": "95376c554f01e00c9c5d71e99dfa3cbb5339a7534db8a62a9a05bc69c0be1bbb",
+    "v3_event_proposal_id": "bc8fc256737d4e82b83f1937633ca94709d59e51969612611e20981aa70c4c23",
+    "v3_event_lock_sha256": "cd4ffeb2310e1d261cea0457cd683293e53cf92b136b6d6eb01cd5c4af579882",
+    "ct_k4_proposal_id": "59a9a388dfdb7e68d912aae2d8fa6c3975659dab67f88b83a3f276405728933a",
+    "ct_k4_lock_sha256": "96a59cecfbcf01b7fc8f2f832bd98165aa912e1a786750dbd03ade7f008dfb87",
+    "ct_k4_source_sha256": "ec8f5bf06479173e368c5be82c197b861dff753ecaa730c7f6b9243669ae1d0a",
+    "corrected_evaluator_source_sha256": "d4a32b9488db8fe1bbb8303faf7306857c476b75cce19d8f75b8ed98514d7811"
+  },
+  "models": [
+    "llama3-8b-inst",
+    "qwen2.5-7b-inst"
+  ],
+  "policy": {
+    "dtype": "checkpoint-original-torch.bfloat16",
+    "seed": 17,
+    "T": 1.0,
+    "K4": 4,
+    "K10": 10,
+    "lambda_k4": [0.25, 0.3333333333333333, 0.5, 1.0],
+    "lambda_k10": [0.1, 0.1111111111111111, 0.125, 0.14285714285714285, 0.16666666666666666, 0.2, 0.25, 0.3333333333333333, 0.5, 1.0],
+    "cumulative_frozen_targets_k10": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+    "direct_z_compute_per_case_model": 1,
+    "direct_z_shared_across_arms": true,
+    "corrector": "editor-native-diagonal-cost/full-progress/nonnegative/raw-radius",
+    "zero_slope_completion": "raw-c",
+    "post_qp_rescale": false,
+    "first_hit_observe_only": true,
+    "early_stop_arm": false,
+    "model_specific_policy": false
+  },
+  "arms": [
+    "native-memit",
+    "bf-oneshot-full",
+    "bf-frozen-ct-k10",
+    "ode-refresh-ct-k4",
+    "ode-refresh-ct-k10"
+  ],
+  "selection": {
+    "dataset_relative_path": "data/counterfact/counterfact.json",
+    "dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+    "dataset_size_bytes": 45108470,
+    "dataset_row_count": 21919,
+    "salt": "odeedit-s03-ct-k10-confirm-v1",
+    "excluded_prior_case_ids": ["2022", "12498", "20964", "768", "17503", "1534", "14652", "9774", "21135", "6578", "5613", "13856", "16451"],
+    "duplicate_group_normalization": "unicode-casefold; collapse-whitespace; tuple(subject,prompt-template); exclude-entire-group-if-count-not-one",
+    "selection_algorithm": "sha256(salt|canonical-request-id)-ascending; excluded-prior; unique-normalized-subject-template-group; dataset-valid; both-fixed-tokenizers-nonempty-target; first-4",
+    "eligible_row_count": 21376,
+    "duplicate_group_excluded_row_count": 530,
+    "p0_case_ids": ["2022"],
+    "p0_request_ids": ["9f8379da67c8c754397efddcf5af0d665592632779f4cb3b125efa5502361fde"],
+    "p1_case_ids": ["21154", "11042", "16884", "21126"],
+    "p1_order_sha256": "2ae231501c41c27364d39890b7cd45bec87a0f2bf94f4af071d3ebcfc66b881c",
+    "p1_request_ids": ["38453fbc4a239a6bb0aa9f3c45a327d1c08ba6fad5d81efd5f49ac099495856d", "6e6c46fa6821a11a3a19595404398018877cd3df9909e2e93f1a7677480b0065", "6b591e695d5b3c34e51007610482e26714a894aa9bae0d7443437ca364603c80", "431c89cb031b38bd89da3ad4708c94bc4931f2237d45fecffdee119a4b11e248"],
+    "p1_request_order_sha256": "6e5cf9812a3818810c665bc58362faf2858a5814f5c10413bd419e7f30329917",
+    "rank_sha256": ["000130ce96f4ced2ea7946a7c3053a3701fcdbea0aea43ff8f6a5f74baf96f35", "0001ab9e1589b28462ffdefb29f75be09c899758331b553fb295bb20b323f671", "0008fd16677db8feb2abc423e93b5baba78a2821a200f2fe053b056b0f1f838e", "000958c1e567441c582c0e30eceda6ed91ad410ed41b803ef40c035fd5fa522b"],
+    "target_token_counts": {
+      "llama3-8b-inst": [1, 1, 1, 1],
+      "qwen2.5-7b-inst": [1, 1, 1, 1]
+    },
+    "tokenizer_revisions": {
+      "llama3-8b-inst": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "qwen2.5-7b-inst": "a09a35458c702b33eeacc393d103063234e8bc28"
+    }
+  },
+  "evaluation": {
+    "p0_enabled": false,
+    "p1_enabled": true,
+    "action_freeze_required": true,
+    "efficacy": "canonical-subject-formatted teacher-forced token accuracy",
+    "generalization": "CounterFact paraphrase teacher-forced token accuracy",
+    "locality": "CounterFact neighborhood pre/post token agreement and target-true accuracy",
+    "generation": false,
+    "controller_access": false
+  },
+  "resources": {
+    "server1_project_gpu_cap": 3,
+    "gpu_per_job": 1,
+    "cpu_per_job": 8,
+    "host_memory_mib_per_job": 65000,
+    "pair_gpu": 2,
+    "p0_time": "06:00:00",
+    "p1_time": "12:00:00",
+    "submission_authorized": false
+  }
+}
