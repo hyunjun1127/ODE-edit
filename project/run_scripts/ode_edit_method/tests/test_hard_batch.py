@@ -5,6 +5,7 @@ import json
 import math
 import tempfile
 import unittest
+from copy import deepcopy
 from pathlib import Path
 from types import MethodType, SimpleNamespace
 from unittest import mock
@@ -46,6 +47,10 @@ from project.run_scripts.ode_edit_method.hard_batch_lock import (
     HARD_BATCH_LOCK_PATH,
     load_hard_batch_lock,
 )
+from project.run_scripts.ode_edit_method.hard_batch_gpu_resource_r1 import (
+    load_gpu_resource_lock,
+)
+from project.run_scripts.ode_edit_method.gpu_resource import inspect_gpu_resource
 from project.run_scripts.ode_edit_method.hooks import (
     FactorDirection,
     TorchCheckpoint,
@@ -121,6 +126,47 @@ class _SourceModel(torch.nn.Module):
 class _FailingSourceModel(_SourceModel):
     def forward(self, input_ids: torch.Tensor, **_kwargs):
         raise RuntimeError("injected evaluator failure")
+
+
+class _FakeCuda:
+    def __init__(self) -> None:
+        self.available = True
+        self.count = 1
+        self.index = 0
+        self.properties = SimpleNamespace(
+            name="NVIDIA RTX A6000",
+            uuid="GPU-2087c567-ec90-0aa2-09c5-c5174daec87a",
+            total_memory=50899386368,
+        )
+        self.capability = (8, 6)
+        self.capacity_total = 50899386368 - 256 * 1024**2
+        self.reserved = 16 * 1024**3
+        self.allocated = 15 * 1024**3
+        self.free = self.capacity_total - self.reserved
+
+    def is_available(self):
+        return self.available
+
+    def device_count(self):
+        return self.count
+
+    def current_device(self):
+        return self.index
+
+    def get_device_properties(self, _index):
+        return self.properties
+
+    def get_device_capability(self, _index):
+        return self.capability
+
+    def mem_get_info(self, _index):
+        return self.free, self.capacity_total
+
+    def memory_allocated(self, _index):
+        return self.allocated
+
+    def memory_reserved(self, _index):
+        return self.reserved
 
 
 def _source_reference(
@@ -400,6 +446,83 @@ class HardBatchTests(unittest.TestCase):
             },
             "hard-B10 focused schema",
         )
+
+    def test_gpu_resource_separates_identity_inventory_and_capacity(self) -> None:
+        lock = load_gpu_resource_lock()
+        for alias in ("llama3-8b-inst", "qwen2.5-7b-inst"):
+            cuda = _FakeCuda()
+            receipt = inspect_gpu_resource(
+                cuda, model_alias=alias, resource_lock=lock
+            )
+            self.assertNotEqual(
+                receipt.cuda_device_property_total_bytes,
+                lock["physical_inventory_total_bytes"],
+            )
+            self.assertNotEqual(
+                receipt.cuda_mem_get_info_total_bytes,
+                receipt.cuda_device_property_total_bytes,
+            )
+            self.assertGreaterEqual(
+                receipt.reusable_capacity_bytes,
+                receipt.required_capacity_bytes,
+            )
+            self.assertEqual(receipt.safety_reserve_bytes, 2 * 1024**3)
+
+    def test_gpu_resource_fails_wrong_identity_units_and_capacity(self) -> None:
+        lock = load_gpu_resource_lock()
+
+        cuda = _FakeCuda()
+        cuda.properties.uuid = "GPU-00000000-0000-0000-0000-000000000000"
+        with self.assertRaisesRegex(MethodContractError, "identity"):
+            inspect_gpu_resource(cuda, model_alias="llama3-8b-inst", resource_lock=lock)
+
+        for attribute, value, pattern in (
+            ("count", 2, "count"),
+            ("index", 1, "index"),
+        ):
+            cuda = _FakeCuda()
+            setattr(cuda, attribute, value)
+            with self.assertRaisesRegex(MethodContractError, pattern):
+                inspect_gpu_resource(
+                    cuda, model_alias="llama3-8b-inst", resource_lock=lock
+                )
+
+        wrong_units = deepcopy(lock)
+        wrong_units["physical_inventory_total_bytes"] = 49140
+        with self.assertRaisesRegex(MethodContractError, "identity"):
+            inspect_gpu_resource(
+                _FakeCuda(),
+                model_alias="llama3-8b-inst",
+                resource_lock=wrong_units,
+            )
+
+        qwen_required = (
+            lock["conservative_peak_forecast_bytes"]["qwen2.5-7b-inst"]
+            + lock["safety_reserve_bytes"]
+        )
+        cuda = _FakeCuda()
+        cuda.capacity_total = qwen_required - 1
+        cuda.reserved = 16 * 1024**3
+        cuda.free = cuda.capacity_total - cuda.reserved
+        with self.assertRaisesRegex(MethodContractError, "below"):
+            inspect_gpu_resource(
+                cuda, model_alias="qwen2.5-7b-inst", resource_lock=lock
+            )
+
+        cuda = _FakeCuda()
+        cuda.free = qwen_required - cuda.reserved - 1
+        with self.assertRaisesRegex(MethodContractError, "below"):
+            inspect_gpu_resource(
+                cuda, model_alias="qwen2.5-7b-inst", resource_lock=lock
+            )
+
+        for invalid in (0, float("inf"), True):
+            cuda = _FakeCuda()
+            cuda.free = invalid
+            with self.assertRaises(MethodContractError):
+                inspect_gpu_resource(
+                    cuda, model_alias="llama3-8b-inst", resource_lock=lock
+                )
 
     def test_joint_geometry_rejects_singleton_factor_decomposition(self) -> None:
         requests = _requests()

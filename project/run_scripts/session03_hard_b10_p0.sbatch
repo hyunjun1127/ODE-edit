@@ -6,8 +6,8 @@
 #SBATCH --gres=gpu:1
 #SBATCH --time=08:00:00
 #SBATCH --nodelist=devbox
-#SBATCH --output=local/logs/session03-hard-b10-p0-%x-%j.out
-#SBATCH --error=local/logs/session03-hard-b10-p0-%x-%j.err
+#SBATCH --output=local/logs/session03-hard-b10-p0-r1-%x-%j.out
+#SBATCH --error=local/logs/session03-hard-b10-p0-r1-%x-%j.err
 set -euo pipefail
 : "${MODEL_ALIAS:?MODEL_ALIAS is required}"
 : "${OUTPUT_ROOT:?OUTPUT_ROOT is required}"

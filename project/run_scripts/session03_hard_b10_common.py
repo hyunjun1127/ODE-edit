@@ -50,6 +50,11 @@ from project.run_scripts.ode_edit_method.hard_batch_lock import (
     HARD_BATCH_LOCK_PATH,
     load_hard_batch_lock,
 )
+from project.run_scripts.ode_edit_method.hard_batch_gpu_resource_r1 import (
+    GPU_RESOURCE_LOCK_PATH,
+    load_gpu_resource_lock,
+)
+from project.run_scripts.ode_edit_method.gpu_resource import inspect_gpu_resource
 from project.run_scripts.ode_edit_method.hooks import TorchCheckpoint, base_weight_c_energy
 from project.run_scripts.ode_edit_method.instrumentation import EditInstrumentation
 from project.run_scripts.ode_edit_method.lock import LOCK_PATH, controller_config, load_lock
@@ -79,11 +84,11 @@ from project.run_scripts.session03_ct_k4_common import (
 
 
 AUTHORIZATION_TOKENS = {
-    "p0": "session03-hard-b10-k20-p0-v1",
+    "p0": "session03-hard-b10-k20-p0-r1-v1",
     "p1": "session03-hard-b10-k20-p1-v1",
 }
 OUTPUT_PREFIXES = {
-    "p0": "session03-hard-b10-k20-p0",
+    "p0": "session03-hard-b10-k20-p0-r1",
     "p1": "session03-hard-b10-k20-p1",
 }
 
@@ -97,10 +102,17 @@ def expected_output_root(stage: str, model_alias: str, proposal_id: str) -> Path
     )
 
 
-def dry_plan(lock: Mapping[str, Any], stage: str) -> dict[str, Any]:
+def dry_plan(
+    lock: Mapping[str, Any],
+    stage: str,
+    resource_lock: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
     if stage not in {"p0", "p1"}:
         raise MethodContractError("hard-B10 dry stage differs")
     resources = lock["resources"]
+    gpu_resource = (
+        load_gpu_resource_lock() if resource_lock is None else resource_lock
+    )
     requested_time = (
         resources["p0_time"] if stage == "p0" else resources["p1_time_max"]
     )
@@ -109,6 +121,8 @@ def dry_plan(lock: Mapping[str, Any], stage: str) -> dict[str, Any]:
         "submission_authorized": False,
         "proposal_id": lock["proposal_id"],
         "lock_sha256": lock["lock_sha256"],
+        "gpu_resource_proposal_id": gpu_resource["proposal_id"],
+        "gpu_resource_lock_sha256": gpu_resource["lock_sha256"],
         "stage": stage,
         "batch_case_ids": list(BATCH_CASE_IDS),
         "edit_batch_size": JOINT_BATCH_SIZE,
@@ -143,6 +157,9 @@ def build_parser(stage: str) -> argparse.ArgumentParser:
         choices=("llama3-8b-inst", "qwen2.5-7b-inst"),
     )
     parser.add_argument("--lock", type=Path, default=HARD_BATCH_LOCK_PATH)
+    parser.add_argument(
+        "--gpu-resource-lock", type=Path, default=GPU_RESOURCE_LOCK_PATH
+    )
     parser.add_argument("--base-lock", type=Path, default=LOCK_PATH)
     parser.add_argument("--v3-lock", type=Path, default=ORACLE_ABSOLUTE_LOCK_PATH)
     parser.add_argument("--easyedit-root", type=Path, default=EASYEDIT_ROOT)
@@ -169,15 +186,21 @@ def _request_ids(requests: Sequence[Any]) -> tuple[str, ...]:
 
 
 def _validate_source_locks(
-    hard_path: Path, base_path: Path, v3_path: Path
-) -> tuple[dict[str, Any], dict[str, Any]]:
+    hard_path: Path,
+    resource_path: Path,
+    base_path: Path,
+    v3_path: Path,
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     hard = load_hard_batch_lock(hard_path)
+    gpu_resource = load_gpu_resource_lock(resource_path)
     base = load_lock(base_path)
     v3 = load_oracle_absolute_lock(v3_path)
     pinned = hard["base_method"]
     directory = HARD_BATCH_LOCK_PATH.parent
     if (
-        base["proposal_id"] != pinned["proposal_id"]
+        gpu_resource["scientific_proposal_id"] != hard["proposal_id"]
+        or gpu_resource["scientific_lock_sha256"] != hard["lock_sha256"]
+        or base["proposal_id"] != pinned["proposal_id"]
         or _file_sha256(base_path) != pinned["lock_sha256"]
         or v3["proposal_id"] != pinned["v3_event_proposal_id"]
         or _file_sha256(v3_path) != pinned["v3_event_lock_sha256"]
@@ -189,7 +212,7 @@ def _validate_source_locks(
         != pinned["corrected_token_evaluator_sha256"]
     ):
         raise MethodContractError("hard-B10 pinned method source differs")
-    return hard, base
+    return hard, gpu_resource, base
 
 
 def _backend(
@@ -356,12 +379,13 @@ def run(args: argparse.Namespace) -> int:
     easyedit_root = args.easyedit_root.resolve(strict=True)
     if easyedit_root != EASYEDIT_ROOT.resolve(strict=True):
         raise RuntimeError("hard-B10 EasyEdit root differs")
-    hard, base_lock = _validate_source_locks(
+    hard, gpu_resource_lock, base_lock = _validate_source_locks(
         args.lock.resolve(strict=True),
+        args.gpu_resource_lock.resolve(strict=True),
         args.base_lock.resolve(strict=True),
         args.v3_lock.resolve(strict=True),
     )
-    plan = dry_plan(hard, stage)
+    plan = dry_plan(hard, stage, gpu_resource_lock)
     expected_relative = expected_output_root(
         stage, args.model_alias, hard["proposal_id"]
     )
@@ -421,8 +445,22 @@ def run(args: argparse.Namespace) -> int:
         runtime = load_fixed_model_checkpoint_original(args.model_alias)
     model_load_seconds = time.perf_counter() - model_load_start
     runtime_metadata = _checkpoint_original_runtime_metadata(runtime)
-    if runtime.gpu.total_memory != hard["memory_forecast"]["gpu_total_bytes"]:
-        raise RuntimeError("hard-B10 GPU memory identity differs")
+    gpu_resource_receipt = inspect_gpu_resource(
+        torch.cuda,
+        model_alias=args.model_alias,
+        resource_lock=gpu_resource_lock,
+    )
+    if (
+        runtime.gpu.visible_device_count
+        != gpu_resource_receipt.visible_device_count
+        or runtime.gpu.index != gpu_resource_receipt.visible_index
+        or runtime.gpu.name != gpu_resource_receipt.name
+        or runtime.gpu.capability != gpu_resource_receipt.capability
+        or runtime.gpu.total_memory
+        != gpu_resource_receipt.cuda_device_property_total_bytes
+    ):
+        raise RuntimeError("hard-B10 runtime GPU receipt differs")
+    runtime_metadata["gpu_resource_receipt"] = gpu_resource_receipt.to_dict()
     prepared = prepare_concrete_environment(
         easyedit_root,
         runtime=runtime,
@@ -455,10 +493,13 @@ def run(args: argparse.Namespace) -> int:
         "schema_version": f"ode-edit-session03-hard-b10-{stage}-manifest/v1",
         "status": "RUNNING",
         "instruction_id": hard["instruction_id"],
+        "technical_repair_instruction_id": gpu_resource_lock["instruction_id"],
         "git": {
             "commit": _git_head(repo),
             "proposal_id": hard["proposal_id"],
             "lock_sha256": hard["lock_sha256"],
+            "gpu_resource_proposal_id": gpu_resource_lock["proposal_id"],
+            "gpu_resource_lock_sha256": gpu_resource_lock["lock_sha256"],
         },
         "model": runtime_metadata,
         "batch": {
