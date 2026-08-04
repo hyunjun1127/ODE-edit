@@ -6,6 +6,7 @@ import json
 import tempfile
 import textwrap
 import unittest
+from unittest import mock
 from pathlib import Path
 import inspect
 from types import SimpleNamespace
@@ -148,6 +149,7 @@ class _ToyTokenBatch(dict):
 
 class _ToyTokenizer:
     pad_token_id = 0
+    bos_token_id = 1
 
     def __init__(self) -> None:
         self.padding_side = "right"
@@ -156,8 +158,9 @@ class _ToyTokenizer:
     def _token_id(word: str) -> int:
         return 3 + sum(word.encode("utf-8")) % 53
 
-    def encode(self, text: str, **_kwargs):
-        return [1, *(self._token_id(word) for word in text.split())]
+    def encode(self, text: str, *, add_special_tokens: bool = True, **_kwargs):
+        values = [self._token_id(word) for word in text.split()]
+        return [1, *values] if add_special_tokens else values
 
     def apply_chat_template(
         self,
@@ -213,6 +216,16 @@ class _ToyConfig:
 
     def to_dict(self):
         return {"torch_dtype": self.torch_dtype, "use_cache": self.use_cache}
+
+
+class _BoundaryMergingToyTokenizer(_ToyTokenizer):
+    def encode(self, text: str, *, add_special_tokens: bool = True, **kwargs):
+        values = super().encode(
+            text, add_special_tokens=add_special_tokens, **kwargs
+        )
+        if text.startswith("merge ") and text.endswith(" answer"):
+            values[-1] += 1
+        return values
 
 
 class _ToyCausalLM(torch.nn.Module):
@@ -758,6 +771,19 @@ class CTK4Tests(unittest.TestCase):
         self.assertEqual(predicted, reference)
         self.assertEqual([len(row) for row in predicted], [1, 1])
 
+    def test_local_teacher_forced_fails_closed_on_nonadditive_target_suffix(self) -> None:
+        tokenizer = _BoundaryMergingToyTokenizer()
+        model = _ToyCausalLM(tokenizer).eval()
+        hparams = SimpleNamespace(max_length=1, use_chat_template=False)
+        with self.assertRaisesRegex(MethodContractError, "target suffix"):
+            teacher_forced_token_accuracy(
+                model,
+                tokenizer,
+                hparams,
+                ("merge",),
+                ("answer",),
+            )
+
     def test_local_teacher_forced_restores_padding_on_exception(self) -> None:
         tokenizer = _ToyTokenizer()
         model = _ToyCausalLM(tokenizer, fail=True).eval()
@@ -835,6 +861,19 @@ class CTK4Tests(unittest.TestCase):
         post = post_action.finalize()
         snapshot = metrics.finalize().to_dict()
         self.assertFalse(result["generation_executed"])
+        self.assertEqual(
+            result["schema_version"], "ode-edit-session03-ct-k4-eval/v2"
+        )
+        self.assertTrue(result["canonical_efficacy_context_token_identity"])
+        self.assertTrue(result["normalized_target_suffix_identity"])
+        self.assertFalse(
+            result["metric_policy"]["literal_rewrite_template_allowed"]
+        )
+        self.assertEqual(
+            result["metric_policy_id"],
+            ct_k4_evaluation.EVALUATION_METRIC_POLICY_ID,
+        )
+        assert_raw_free(result)
         self.assertEqual(snapshot["counters"]["N_eval"], 5)
         self.assertEqual(snapshot["counters"]["N_model_fwd"], 0)
         self.assertEqual(post["N_post_action_model_fwd"], 6)
@@ -842,6 +881,54 @@ class CTK4Tests(unittest.TestCase):
             post["post_action_model_fwd_scope_counts"],
             {"terminal_residual": 1, "endpoint_metrics": 5},
         )
+
+    def test_frozen_endpoint_formats_only_efficacy_prompt(self) -> None:
+        tokenizer = _ToyTokenizer()
+        model = _ToyCausalLM(tokenizer).eval()
+        runtime = SimpleNamespace(model=model, tokenizer=tokenizer)
+        hparams = SimpleNamespace(max_length=2, use_chat_template=False)
+        request = ControllerRequest("1", "{} lives", "Ada", "Paris", "London")
+        private = {
+            "paraphrase_prompts": ("Ada resides", "Ada is located"),
+            "neighborhood_prompts": ("Grace lives", "Turing lived"),
+            "target_true": "London",
+        }
+        firewall = make_firewall(request, private)
+        firewall.freeze_action({"terminal_state_id": "a" * 64})
+        baseline = TorchCheckpoint.capture(model, ("anchor",), backup_device="cpu")
+        endpoint = TorchCheckpoint.capture(model, ("anchor",), backup_device="cpu")
+        metrics = EditInstrumentation("toy-formatted-efficacy")
+        calls = []
+
+        def fake_accuracy(_model, _tokenizer, _hparams, prompts, targets, *, locality):
+            calls.append((tuple(prompts), tuple(targets), locality))
+            if locality:
+                return [[7] for _ in prompts]
+            return [1.0 for _ in prompts]
+
+        with mock.patch.object(
+            ct_k4_evaluation,
+            "teacher_forced_token_accuracy",
+            side_effect=fake_accuracy,
+        ):
+            result = evaluate_frozen_endpoint(
+                runtime=runtime,
+                hparams=hparams,
+                request=request,
+                firewall=firewall,
+                baseline_checkpoint=baseline,
+                endpoint_checkpoint=endpoint,
+                instrumentation=metrics,
+            )
+        self.assertEqual(calls[0][0], (request.prompt.format(request.subject),))
+        self.assertNotEqual(calls[0][0], (request.prompt,))
+        self.assertEqual(calls[1][0], private["paraphrase_prompts"])
+        self.assertEqual(calls[2][0], private["neighborhood_prompts"])
+        self.assertEqual(calls[3][0], private["neighborhood_prompts"])
+        self.assertEqual(calls[4][0], private["neighborhood_prompts"])
+        self.assertTrue(result["canonical_efficacy_context_token_identity"])
+        self.assertTrue(result["normalized_target_suffix_identity"])
+        self.assertEqual(len(calls), 5)
 
     def test_paired_dry_plans_are_common_and_non_authorizing(self) -> None:
         lock = load_ct_k4_lock()
@@ -867,7 +954,7 @@ class CTK4Tests(unittest.TestCase):
                 )
             else:
                 self.assertTrue(
-                    all("session03-ct-k4-p1-r1-" in job["output_root"] for job in plan["jobs"])
+                    all("session03-ct-k4-p1-r2-" in job["output_root"] for job in plan["jobs"])
                 )
         source = inspect.getsource(run_session03)
         self.assertNotIn("if args.model_alias", source)

@@ -17,7 +17,24 @@ from project.run_scripts.ode_edit_motivation.manifests import (
 )
 
 from .contracts import MethodContractError, canonical_hash
-from .events import ControllerRequest, InformationFirewall
+from .events import (
+    ControllerRequest,
+    InformationFirewall,
+    build_allowed_contexts,
+    normalize_object_text,
+)
+
+
+EVALUATION_SCHEMA_VERSION = "ode-edit-session03-ct-k4-eval/v2"
+EVALUATION_METRIC_POLICY = {
+    "schema_version": "ode-edit-session03-ct-k4-eval-policy/v2",
+    "efficacy_context": "controller-direct-subject-formatted",
+    "literal_rewrite_template_allowed": False,
+    "target_span": "normalized-target-exact-suffix-derived-start",
+    "generalization_inputs": "counterfact-paraphrases-byte-preserved",
+    "locality_inputs": "counterfact-neighborhoods-byte-preserved",
+}
+EVALUATION_METRIC_POLICY_ID = canonical_hash(EVALUATION_METRIC_POLICY)
 
 
 def load_evaluation_payloads(
@@ -80,6 +97,58 @@ def _mean(values: Sequence[float]) -> float:
     if not locked or any(not math.isfinite(value) for value in locked):
         raise MethodContractError("evaluation metric panel is invalid")
     return math.fsum(locked) / len(locked)
+
+
+def _normalized_target_ids(tokenizer: Any, target: str) -> tuple[int, ...]:
+    values = tuple(
+        int(value)
+        for value in tokenizer.encode(
+            normalize_object_text(target),
+            add_special_tokens=False,
+        )
+    )
+    bos = getattr(tokenizer, "bos_token_id", None)
+    unk = getattr(tokenizer, "unk_token_id", None)
+    if values and values[0] in {bos, unk}:
+        values = values[1:]
+    if not values:
+        raise MethodContractError("evaluation normalized target tokenization is empty")
+    return values
+
+
+def _canonical_efficacy_prompt(
+    tokenizer: Any,
+    request: ControllerRequest,
+) -> tuple[str, str]:
+    """Bind endpoint efficacy to the controller's direct rendered context."""
+
+    formatted = request.prompt.format(request.subject)
+    controller_direct = build_allowed_contexts(request, (("{}",),))[0]
+    if (
+        formatted != controller_direct
+        or formatted == request.prompt
+        or "{}" in formatted
+    ):
+        raise MethodContractError("efficacy prompt is not the canonical rendered context")
+    formatted_ids = tuple(
+        int(value)
+        for value in tokenizer.encode(formatted, add_special_tokens=True)
+    )
+    controller_ids = tuple(
+        int(value)
+        for value in tokenizer.encode(controller_direct, add_special_tokens=True)
+    )
+    literal_ids = tuple(
+        int(value)
+        for value in tokenizer.encode(request.prompt, add_special_tokens=True)
+    )
+    if (
+        not formatted_ids
+        or formatted_ids != controller_ids
+        or literal_ids == formatted_ids
+    ):
+        raise MethodContractError("efficacy prompt token identity differs")
+    return formatted, canonical_hash(list(formatted_ids))
 
 
 def _token_agreement(before: Sequence[Sequence[int]], after: Sequence[Sequence[int]]) -> float:
@@ -209,6 +278,9 @@ def teacher_forced_token_accuracy(
         prompt + " " + target
         for prompt, target in zip(rendered_prompts, target_rows, strict=True)
     )
+    normalized_target_ids = tuple(
+        _normalized_target_ids(tokenizer, target) for target in target_rows
+    )
     encoded_lengths = tuple(len(tokenizer.encode(value)) for value in combined)
     if not encoded_lengths or any(length <= 0 for length in encoded_lengths):
         raise MethodContractError("evaluation encoded sequence is empty")
@@ -238,35 +310,50 @@ def teacher_forced_token_accuracy(
             max_length=max_length,
             return_tensors="pt",
         )
-        prompt_tokens = tokenizer(
-            list(rendered_prompts),
-            padding=True,
-            truncation=True,
-            max_length=max_length,
-            return_tensors="pt",
-        )
-        if not isinstance(prompt_tokens, Mapping):
-            raise MethodContractError("evaluation prompt tokenization differs")
-        prompt_input_ids = prompt_tokens.get("input_ids")
-        if not isinstance(prompt_input_ids, torch.Tensor) or prompt_input_ids.ndim != 2:
-            raise MethodContractError("evaluation prompt tokenization differs")
+        if not isinstance(combined_tokens, Mapping):
+            raise MethodContractError("evaluation combined tokenization differs")
+        combined_input_ids = combined_tokens.get("input_ids")
+        combined_attention_mask = combined_tokens.get("attention_mask")
+        if (
+            not isinstance(combined_input_ids, torch.Tensor)
+            or combined_input_ids.ndim != 2
+            or not isinstance(combined_attention_mask, torch.Tensor)
+            or combined_attention_mask.shape != combined_input_ids.shape
+        ):
+            raise MethodContractError("evaluation combined tokenization differs")
         pad_token_id = getattr(tokenizer, "pad_token_id", None)
         if not isinstance(pad_token_id, int):
             raise MethodContractError("evaluation pad token differs")
+        width = int(combined_input_ids.shape[1])
+        starts: list[int] = []
+        for row_index, target_ids in enumerate(normalized_target_ids):
+            mask = combined_attention_mask[row_index]
+            nonpad = int(mask.sum().item())
+            padding = width - nonpad
+            if (
+                nonpad <= len(target_ids)
+                or padding < 0
+                or bool(mask[:padding].any())
+                or not bool(mask[padding:].all())
+            ):
+                raise MethodContractError("evaluation left-padding layout differs")
+            end = padding + nonpad
+            start = end - len(target_ids)
+            suffix = tuple(
+                int(value)
+                for value in combined_input_ids[row_index, start:end]
+            )
+            if suffix != target_ids:
+                raise MethodContractError(
+                    "evaluation combined sequence target suffix differs"
+                )
+            starts.append(start)
         device_batch = _move_batch_to_device(combined_tokens, _model_device(model))
         input_ids = device_batch.get("input_ids")
         if not isinstance(input_ids, torch.Tensor) or input_ids.ndim != 2:
             raise MethodContractError("evaluation combined tokenization differs")
         if input_ids.shape[0] != len(prompt_rows):
             raise MethodContractError("evaluation batch size differs")
-        prompt_lengths = (prompt_input_ids != pad_token_id).sum(dim=1).tolist()
-        combined_pad_lengths = (input_ids == pad_token_id).sum(dim=1).tolist()
-        starts = tuple(
-            int(padding) + int(prompt_length)
-            for padding, prompt_length in zip(
-                combined_pad_lengths, prompt_lengths, strict=True
-            )
-        )
         with torch.no_grad():
             outputs = model(**device_batch)
             logits = outputs if isinstance(outputs, torch.Tensor) else outputs.logits
@@ -325,6 +412,9 @@ def evaluate_frozen_endpoint(
         target_true = str(private["target_true"])
     except (KeyError, TypeError) as exc:
         raise MethodContractError("opened evaluation payload differs") from exc
+    efficacy_prompt, efficacy_context_token_hash = _canonical_efficacy_prompt(
+        runtime.tokenizer, request
+    )
     def accuracy(prompts: Sequence[str], target: str, *, locality: bool) -> Any:
         instrumentation.increment("N_eval")
         return teacher_forced_token_accuracy(
@@ -340,7 +430,7 @@ def evaluate_frozen_endpoint(
         endpoint_checkpoint.restore(runtime.model)
         efficacy = tuple(
             float(value)
-            for value in accuracy((request.prompt,), request.target_new, locality=False)
+            for value in accuracy((efficacy_prompt,), request.target_new, locality=False)
         )
         generalization = tuple(
             float(value)
@@ -359,13 +449,20 @@ def evaluate_frozen_endpoint(
         )
         endpoint_checkpoint.restore(runtime.model)
     result = {
-        "schema_version": "ode-edit-session03-ct-k4-eval/v1",
+        "schema_version": EVALUATION_SCHEMA_VERSION,
         "case_id": request.case_id,
+        "metric_policy_id": EVALUATION_METRIC_POLICY_ID,
+        "metric_policy": dict(EVALUATION_METRIC_POLICY),
+        "canonical_efficacy_context_token_hash": efficacy_context_token_hash,
+        "canonical_efficacy_context_token_identity": True,
+        "normalized_target_suffix_identity": True,
         "payload_hash": canonical_hash(
             {
                 "case_id": request.case_id,
                 "paraphrase_count": len(paraphrases),
                 "neighborhood_count": len(neighborhoods),
+                "metric_policy_id": EVALUATION_METRIC_POLICY_ID,
+                "canonical_efficacy_context_token_hash": efficacy_context_token_hash,
                 "request_id": EditRequest.from_mapping(
                     {
                         "case_id": request.case_id,

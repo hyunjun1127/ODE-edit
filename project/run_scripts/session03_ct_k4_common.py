@@ -72,11 +72,11 @@ from project.run_scripts.session02_compute_aware_p1 import (
 
 EXECUTION_TOKENS = {
     "p0": "session03-ct-k4-p0-v1",
-    "p1": "session03-ct-k4-p1-r1-v1",
+    "p1": "session03-ct-k4-p1-r2-v1",
 }
 OUTPUT_PREFIXES = {
     "p0": "session03-ct-k4-p0-r3",
-    "p1": "session03-ct-k4-p1-r1",
+    "p1": "session03-ct-k4-p1-r2",
 }
 
 
