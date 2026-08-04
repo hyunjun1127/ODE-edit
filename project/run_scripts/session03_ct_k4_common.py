@@ -63,7 +63,6 @@ from project.run_scripts.session02_compute_aware_p0 import (
     _git_head,
     _json_write,
     _jsonl_append,
-    _require_output_root,
 )
 from project.run_scripts.session02_compute_aware_p1 import (
     _checkpoint_original_runtime_metadata,
@@ -75,7 +74,7 @@ EXECUTION_TOKENS = {
     "p1": "session03-ct-k4-p1-after-p0-pass-v1",
 }
 OUTPUT_PREFIXES = {
-    "p0": "session03-ct-k4-p0",
+    "p0": "session03-ct-k4-p0-r1",
     "p1": "session03-ct-k4-p1",
 }
 
@@ -85,6 +84,45 @@ def expected_output_root(stage: str, model_alias: str, proposal_id: str) -> Path
         "local/results/"
         f"{OUTPUT_PREFIXES[stage]}-{model_alias}-{proposal_id[:8]}"
     )
+
+
+def _require_session03_output_root(
+    repo: Path,
+    candidate: Path,
+    expected_relative: Path,
+) -> Path:
+    """Create exactly one sealed Session 03 result root without following links."""
+
+    repo_root = repo.resolve(strict=True)
+    if (
+        expected_relative.is_absolute()
+        or expected_relative.parent != Path("local/results")
+        or not expected_relative.name.startswith("session03-")
+    ):
+        raise ValueError("invalid Session 03 expected output root")
+    expected = repo_root / expected_relative
+    candidate_absolute = Path(os.path.abspath(os.fspath(candidate)))
+    if candidate_absolute != expected:
+        raise ValueError("Session 03 output root differs from exact expected path")
+
+    parent = repo_root
+    for component in ("local", "results"):
+        parent = parent / component
+        if os.path.lexists(parent):
+            if parent.is_symlink() or not parent.is_dir():
+                raise ValueError("Session 03 output parent is not a real directory")
+        else:
+            parent.mkdir(mode=0o755, exist_ok=False)
+    if parent.resolve(strict=True) != repo_root / "local" / "results":
+        raise ValueError("Session 03 output parent escaped repository")
+    if expected.parent != parent or expected.name != expected_relative.name:
+        raise ValueError("Session 03 output basename differs")
+    if os.path.lexists(expected):
+        raise FileExistsError(f"Session 03 output root already exists: {expected}")
+    expected.mkdir(mode=0o755, parents=False, exist_ok=False)
+    if expected.is_symlink() or expected.resolve(strict=True) != expected:
+        raise ValueError("Session 03 output root is not a sealed directory")
+    return expected
 
 
 def dry_plan(lock: Mapping[str, Any], stage: str) -> dict[str, Any]:
@@ -303,7 +341,8 @@ def run(args: argparse.Namespace) -> int:
         lock_path, base_lock_path, v3_lock_path
     )
     plan = dry_plan(lock, stage)
-    expected = (repo / expected_output_root(stage, args.model_alias, lock["proposal_id"])).resolve()
+    expected_relative = expected_output_root(stage, args.model_alias, lock["proposal_id"])
+    expected = (repo / expected_relative).resolve()
     candidate = args.output_root if args.output_root.is_absolute() else repo / args.output_root
     if candidate.resolve() != expected:
         raise RuntimeError("CT-K4 output root differs from dry plan")
@@ -319,7 +358,9 @@ def run(args: argparse.Namespace) -> int:
     if not torch.cuda.is_available() or torch.cuda.device_count() != 1:
         raise RuntimeError("CT-K4 requires exactly one visible GPU")
 
-    output_root = _require_output_root(repo, candidate)
+    output_root = _require_session03_output_root(
+        repo, candidate, expected_relative
+    )
     for name in (
         "controller_steps.jsonl",
         "compute.jsonl",

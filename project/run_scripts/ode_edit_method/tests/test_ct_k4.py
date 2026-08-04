@@ -47,7 +47,12 @@ from project.run_scripts.ode_edit_method.ct_k4_evaluation import (
 from project.run_scripts.ode_edit_method.events import ControllerRequest
 from project.run_scripts.ode_edit_method.instrumentation import EditInstrumentation
 from project.run_scripts.ode_edit_method.contracts import EventReading
-from project.run_scripts.session03_ct_k4_common import dry_plan, run as run_session03
+from project.run_scripts.session03_ct_k4_common import (
+    _require_session03_output_root,
+    dry_plan,
+    expected_output_root,
+    run as run_session03,
+)
 from project.run_scripts.ode_edit_method.hooks import (
     FactorDirection,
     TorchCheckpoint,
@@ -515,9 +520,60 @@ class CTK4Tests(unittest.TestCase):
             self.assertTrue(
                 all(lock["proposal_id"][:8] in job["output_root"] for job in plan["jobs"])
             )
+            if stage == "p0":
+                self.assertTrue(
+                    all("session03-ct-k4-p0-r1-" in job["output_root"] for job in plan["jobs"])
+                )
         source = inspect.getsource(run_session03)
         self.assertNotIn("if args.model_alias", source)
         self.assertNotIn("elif args.model_alias", source)
+
+    def test_session03_output_root_is_exact_create_once_and_symlink_safe(self) -> None:
+        proposal = "a" * 64
+        for stage in ("p0", "p1"):
+            with self.subTest(stage=stage), tempfile.TemporaryDirectory() as directory:
+                repo = Path(directory).resolve()
+                relative = expected_output_root(stage, "llama3-8b-inst", proposal)
+                expected = repo / relative
+                created = _require_session03_output_root(repo, expected, relative)
+                self.assertEqual(created, expected)
+                self.assertTrue(created.is_dir())
+                with self.assertRaises(FileExistsError):
+                    _require_session03_output_root(repo, expected, relative)
+
+        with tempfile.TemporaryDirectory() as directory:
+            repo = Path(directory).resolve()
+            relative = expected_output_root("p0", "llama3-8b-inst", proposal)
+            with self.assertRaises(ValueError):
+                _require_session03_output_root(
+                    repo,
+                    repo / "local/results/wrong-basename",
+                    relative,
+                )
+            with self.assertRaises(ValueError):
+                _require_session03_output_root(
+                    repo,
+                    repo.parent / "escaped-session03-root",
+                    Path("../escaped-session03-root"),
+                )
+
+        with tempfile.TemporaryDirectory() as directory:
+            repo = Path(directory).resolve()
+            target = repo / "real-results"
+            target.mkdir()
+            (repo / "local").mkdir()
+            (repo / "local/results").symlink_to(target, target_is_directory=True)
+            relative = expected_output_root("p0", "llama3-8b-inst", proposal)
+            with self.assertRaises(ValueError):
+                _require_session03_output_root(repo, repo / relative, relative)
+
+        with tempfile.TemporaryDirectory() as directory:
+            repo = Path(directory).resolve()
+            relative = expected_output_root("p0", "llama3-8b-inst", proposal)
+            (repo / "local/results").mkdir(parents=True)
+            (repo / relative).symlink_to(repo / "missing-target")
+            with self.assertRaises(FileExistsError):
+                _require_session03_output_root(repo, repo / relative, relative)
 
 
 if __name__ == "__main__":
