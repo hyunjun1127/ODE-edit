@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import math
 from dataclasses import dataclass
 from enum import Enum
 from typing import Callable, Sequence
@@ -181,6 +182,7 @@ class RawVelocity:
     values: np.ndarray
     problem_identity: str
     velocity_identity: str
+    maximum_feasible_progress: float
     certificate: SolverCertificate
 
 
@@ -425,7 +427,13 @@ def solve_raw_velocity(
         "maximum_progress": maximum_certificate.signed_progress,
         "requested_progress": problem.requested_progress,
     }
-    return RawVelocity(values, problem.identity(), canonical_hash(payload), certificate)
+    return RawVelocity(
+        values,
+        problem.identity(),
+        canonical_hash(payload),
+        maximum_progress,
+        certificate,
+    )
 
 
 def project_bf_velocity(
@@ -504,7 +512,11 @@ class CoupledField:
 @dataclass(frozen=True, slots=True)
 class BacktrackingVerdict:
     beta: float
+    raw_predicted_progress: float | None
+    predicted_beta_progress: float | None
     actual_signed_progress: float
+    trust_ratio: float | None
+    progress_pass: bool
     structural_h_pass: bool
     structural_p_pass: bool
     trust_pass: bool
@@ -516,7 +528,7 @@ class BacktrackingVerdict:
     def accepted(self) -> bool:
         return all(
             (
-                self.actual_signed_progress >= 0.0,
+                self.progress_pass,
                 self.structural_h_pass,
                 self.structural_p_pass,
                 self.trust_pass,
@@ -525,6 +537,19 @@ class BacktrackingVerdict:
                 self.authoritative_bf16_pass,
             )
         )
+
+    @property
+    def first_rejecting_gate(self) -> str | None:
+        hierarchy = (
+            ("progress", self.progress_pass),
+            ("structural_h", self.structural_h_pass),
+            ("structural_p", self.structural_p_pass),
+            ("trust", self.trust_pass),
+            ("functional_h", self.functional_h_pass),
+            ("functional_p", self.functional_p_pass),
+            ("authoritative_bf16", self.authoritative_bf16_pass),
+        )
+        return next((name for name, passed in hierarchy if not passed), None)
 
 
 def verify_backtracked_candidate(
@@ -536,25 +561,83 @@ def verify_backtracked_candidate(
     functional_h_pass: bool,
     functional_p_pass: bool,
     authoritative_bf16_pass: bool,
-    tolerance: float = 1.0e-8,
+    minimum_progress: float = 1.0e-8,
+    rho_accept: float = 0.1,
+    certificate_tolerance: float = 1.0e-8,
 ) -> BacktrackingVerdict:
     scale = finite("backtracking beta", beta)
     if scale <= 0.0 or scale > 1.0:
         raise ODEBFContractError("backtracking beta is outside (0,1]")
-    candidate = scale * np.asarray(velocity, dtype=np.float64)
+    candidate_velocity = np.asarray(velocity, dtype=np.float64)
+    if candidate_velocity.ndim != 1 or candidate_velocity.shape != problem.signed_progress.shape:
+        raise ODEBFContractError("backtracking velocity dimension differs")
+    candidate = scale * candidate_velocity
     actual = finite("actual signed progress", actual_signed_progress)
-    historical_pass = problem.historical.value(candidate) <= problem.historical.budget + tolerance
-    pretrained_pass = problem.pretrained.value(candidate) <= problem.pretrained.budget + tolerance
-    trust_pass = float(candidate @ problem.trust_metric @ candidate) <= problem.trust_radius**2 + tolerance
-    # Backtracking may not silently underwrite the prelocked progress target.
-    progress_pass = actual + tolerance >= problem.requested_progress
+    epsilon = positive("minimum progress", minimum_progress)
+    threshold = positive("trust-ratio acceptance threshold", rho_accept)
+    certificate_epsilon = finite(
+        "backtracking certificate tolerance", certificate_tolerance
+    )
+    if certificate_epsilon < 0.0:
+        raise ODEBFContractError("backtracking certificate tolerance is negative")
+    if threshold > 1.0:
+        raise ODEBFContractError("trust-ratio acceptance threshold exceeds one")
+    prediction_finite = bool(np.isfinite(candidate_velocity).all())
+    raw_prediction: float | None = None
+    predicted_beta: float | None = None
+    trust_ratio: float | None = None
+    if prediction_finite:
+        observed_raw = float(problem.signed_progress @ candidate_velocity)
+        prediction_finite = math.isfinite(observed_raw)
+        if prediction_finite:
+            raw_prediction = observed_raw
+            predicted_beta = scale * max(observed_raw, 0.0)
+            if observed_raw > 0.0:
+                candidate_prediction = float(problem.signed_progress @ candidate)
+                if not math.isclose(
+                    candidate_prediction,
+                    predicted_beta,
+                    rel_tol=1.0e-12,
+                    abs_tol=1.0e-15,
+                ):
+                    raise ODEBFContractError("beta-scaled predicted progress differs")
+            if predicted_beta > 0.0 and math.isfinite(predicted_beta):
+                trust_ratio = actual / max(predicted_beta, epsilon)
+    progress_pass = bool(
+        predicted_beta is not None
+        and predicted_beta > 0.0
+        and trust_ratio is not None
+        and math.isfinite(trust_ratio)
+        and actual >= epsilon
+        and trust_ratio >= threshold
+    )
+    candidate_finite = bool(np.isfinite(candidate).all())
+    historical_pass = bool(
+        candidate_finite
+        and problem.historical.value(candidate)
+        <= problem.historical.budget + certificate_epsilon
+    )
+    pretrained_pass = bool(
+        candidate_finite
+        and problem.pretrained.value(candidate)
+        <= problem.pretrained.budget + certificate_epsilon
+    )
+    trust_pass = bool(
+        candidate_finite
+        and float(candidate @ problem.trust_metric @ candidate)
+        <= problem.trust_radius**2 + certificate_epsilon
+    )
     return BacktrackingVerdict(
         scale,
+        raw_prediction,
+        predicted_beta,
         actual,
-        historical_pass and progress_pass,
-        pretrained_pass and progress_pass,
-        trust_pass and progress_pass,
-        bool(functional_h_pass) and progress_pass,
-        bool(functional_p_pass) and progress_pass,
-        bool(authoritative_bf16_pass) and progress_pass,
+        trust_ratio,
+        progress_pass,
+        historical_pass,
+        pretrained_pass,
+        trust_pass,
+        bool(functional_h_pass),
+        bool(functional_p_pass),
+        bool(authoritative_bf16_pass),
     )

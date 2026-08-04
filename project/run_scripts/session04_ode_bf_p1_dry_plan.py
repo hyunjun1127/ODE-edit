@@ -19,8 +19,8 @@ from project.run_scripts.ode_bf.resource import forecast_p1_b10_memory
 
 
 JOB_NAMES = {
-    "llama3-8b-inst": "odebf_s04_p1r1_seqb10_llama",
-    "qwen2.5-7b-inst": "odebf_s04_p1r1_seqb10_qwen",
+    "llama3-8b-inst": "odebf_s04_p1r2_seqb10_llama",
+    "qwen2.5-7b-inst": "odebf_s04_p1r2_seqb10_qwen",
 }
 PACKAGE_ROOT = Path(__file__).resolve().parent / "ode_bf"
 
@@ -50,12 +50,9 @@ def build_plan(
             }
         )
     return {
-        "schema": "ode-edit-s04-ode-bf-p1r1-dry-plan/v1",
-        "instruction_id": "ODEEDIT-S04-ODE-BF-P1-CUDA-PREFLIGHT-R1-V1",
-        "scientific_instruction_id": (
-            "ODEEDIT-S04-ODE-BF-SEQUENTIAL-B10-NATIVE-FLOOR-P1-V1"
-        ),
-        "authorized_repair_attempt": "R1",
+        "schema": "ode-edit-s04-ode-bf-p1r2-dry-plan/v2",
+        "instruction_id": "ODEEDIT-S04-ODE-BF-TRUST-RATIO-MEAN-P-P1R2-V1",
+        "authorized_attempt": "FRESH_P1R2_V2",
         "source_head": source_head,
         "benchmark": "CounterFact",
         "edit_batch_size": 10,

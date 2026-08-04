@@ -192,30 +192,89 @@ class RoutingTests(unittest.TestCase):
         assert permuted_projected.values is not None
         self.assertTrue(np.allclose(projected.values, permuted_projected.values[inverse], rtol=1e-6, atol=1e-7))
 
-    def test_backtracking_rechecks_actual_progress_and_all_barriers(self) -> None:
+    def test_backtracking_uses_beta_scaled_prediction_and_trust_ratio(self) -> None:
         problem = _problem()
         raw = solve_raw_velocity(problem)
-        rejected = verify_backtracked_candidate(
+        raw_prediction = float(problem.signed_progress @ raw.values)
+        verdicts = [
+            verify_backtracked_candidate(
+                problem,
+                raw.values,
+                beta=beta,
+                actual_signed_progress=beta * raw_prediction * 0.2,
+                functional_h_pass=True,
+                functional_p_pass=True,
+                authoritative_bf16_pass=True,
+            )
+            for beta in (1.0, 0.5, 0.25)
+        ]
+        self.assertEqual(
+            [item.predicted_beta_progress for item in verdicts],
+            [raw_prediction, 0.5 * raw_prediction, 0.25 * raw_prediction],
+        )
+        self.assertTrue(all(item.progress_pass for item in verdicts))
+        self.assertTrue(all(abs((item.trust_ratio or 0.0) - 0.2) < 1.0e-12 for item in verdicts))
+        self.assertLess(
+            verdicts[-1].actual_signed_progress,
+            problem.requested_progress,
+        )
+
+        low_ratio = verify_backtracked_candidate(
             problem,
             raw.values,
             beta=0.5,
-            actual_signed_progress=0.3,
+            actual_signed_progress=0.5 * raw_prediction * 0.05,
             functional_h_pass=True,
             functional_p_pass=True,
             authoritative_bf16_pass=True,
         )
-        self.assertFalse(rejected.accepted)
-        accepted = verify_backtracked_candidate(
+        self.assertFalse(low_ratio.progress_pass)
+        self.assertEqual(low_ratio.first_rejecting_gate, "progress")
+
+    def test_backtracking_rejects_nonpositive_or_nonfinite_prediction(self) -> None:
+        problem = _problem()
+        raw = solve_raw_velocity(problem)
+        common = {
+            "beta": 0.5,
+            "actual_signed_progress": 0.1,
+            "functional_h_pass": True,
+            "functional_p_pass": True,
+            "authoritative_bf16_pass": True,
+        }
+        negative = verify_backtracked_candidate(problem, -np.abs(raw.values), **common)
+        zero = verify_backtracked_candidate(problem, np.zeros_like(raw.values), **common)
+        nonfinite_values = raw.values.copy()
+        nonfinite_values[0] = np.nan
+        nonfinite = verify_backtracked_candidate(problem, nonfinite_values, **common)
+        for verdict in (negative, zero, nonfinite):
+            self.assertFalse(verdict.progress_pass)
+            self.assertFalse(verdict.accepted)
+            self.assertEqual(verdict.first_rejecting_gate, "progress")
+        self.assertEqual(negative.predicted_beta_progress, 0.0)
+        self.assertEqual(zero.predicted_beta_progress, 0.0)
+        self.assertIsNone(nonfinite.predicted_beta_progress)
+
+    def test_acceptance_hierarchy_reports_first_independent_rejecting_gate(self) -> None:
+        problem = _problem()
+        raw = solve_raw_velocity(problem)
+        projected = project_bf_velocity(problem, raw)
+        assert projected.values is not None
+        predicted = float(problem.signed_progress @ projected.values)
+        verdict = verify_backtracked_candidate(
             problem,
-            raw.values,
+            projected.values,
             beta=1.0,
-            actual_signed_progress=0.6,
+            actual_signed_progress=0.2 * predicted,
             functional_h_pass=True,
-            functional_p_pass=True,
+            functional_p_pass=False,
             authoritative_bf16_pass=True,
         )
-        # Raw Generic velocity can still violate structural H/P; no silent pass.
-        self.assertEqual(accepted.accepted, problem.historical.value(raw.values) <= problem.historical.budget)
+        self.assertTrue(verdict.progress_pass)
+        self.assertTrue(verdict.structural_h_pass)
+        self.assertTrue(verdict.structural_p_pass)
+        self.assertTrue(verdict.trust_pass)
+        self.assertEqual(verdict.first_rejecting_gate, "functional_p")
+        self.assertFalse(verdict.accepted)
 
     def test_coupled_field_uses_one_beta_and_target_backward_receipt(self) -> None:
         field = CoupledField(

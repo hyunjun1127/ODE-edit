@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import inspect
 import tempfile
 import unittest
 from pathlib import Path
@@ -172,6 +173,13 @@ def _field() -> tuple[P1DynamicField, SignedProgressReceipt]:
 
 
 class MatchedRoutingTests(unittest.TestCase):
+    def test_controller_lock_includes_common_trust_ratio_without_alias_branch(self) -> None:
+        lock = P1ControllerLock()
+        self.assertEqual(lock.minimum_progress, 1.0e-8)
+        self.assertEqual(lock.rho_accept, 0.1)
+        self.assertEqual(lock.backtracking, (1.0, 0.5, 0.25))
+        self.assertIn("rho_accept", inspect.getsource(P1ControllerLock.identity))
+
     def test_shared_raw_velocity_is_unchanged_by_arm_local_projection(self) -> None:
         field, signed = _field()
         lock = P1ControllerLock()
@@ -182,6 +190,10 @@ class MatchedRoutingTests(unittest.TestCase):
             field, signed, accepted_by_layer=empty, committed_load_by_layer=load, lock=lock
         )
         raw = solve_matched_raw_velocity(source)
+        self.assertGreaterEqual(
+            raw.maximum_feasible_progress,
+            source.problem.requested_progress,
+        )
         accepted = {}
         for ordinal, item in enumerate(field.layers):
             tiny = WaypointFactor(

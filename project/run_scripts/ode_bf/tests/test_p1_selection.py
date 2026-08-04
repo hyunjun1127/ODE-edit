@@ -9,11 +9,15 @@ from pathlib import Path
 from project.run_scripts.ode_bf.contracts import BATCH_SIZE, ODEBFContractError
 from project.run_scripts.ode_bf.p1_selection import (
     EXPECTED_BASE,
+    P1R2_EXPECTED_BASE,
+    P1R2_P_POPULATION_SALT,
+    P1R2_STREAM_SALT,
     P_POPULATION_COUNT,
     P_POPULATION_SALT,
     STREAM_REQUEST_COUNT,
     STREAM_SALT,
     build_p1_seals,
+    build_p1r2_seals,
     load_p1_population_requests,
     load_p1_stream_batches,
     scan_prior_tracked_seals,
@@ -162,6 +166,90 @@ class P1SealTests(unittest.TestCase):
         collision["root_digest"] = canonical_hash(collision)
         with self.assertRaisesRegex(ODEBFContractError, "collides"):
             verify_p1_population_seal(collision, stream=self.stream)
+
+
+class P1R2FreshSealTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        if not DATASET.is_file():
+            raise unittest.SkipTest("pinned CounterFact dataset is unavailable")
+        cls.stream = _load("p1r2_seqb10_stream_seal.json")
+        cls.population = _load("p1r2_p_population_seal.json")
+        cls.old_stream = _load("p1_seqb10_stream_seal.json")
+        cls.old_population = _load("p1_p_population_seal.json")
+
+    def test_exact_fresh_seals_rebuild_from_p1r1_base(self) -> None:
+        rebuilt_stream, rebuilt_population = build_p1r2_seals(
+            DATASET,
+            REPO,
+            base_commit=P1R2_EXPECTED_BASE,
+        )
+        self.assertEqual(rebuilt_stream, self.stream)
+        self.assertEqual(rebuilt_population, self.population)
+        self.assertEqual(self.stream["salt"], P1R2_STREAM_SALT)
+        self.assertEqual(self.population["salt"], P1R2_P_POPULATION_SALT)
+        self.assertEqual(
+            self.stream["prior_selection_scan"]["base_commit"],
+            P1R2_EXPECTED_BASE,
+        )
+        self.assertEqual(
+            self.stream["development_exclusion"]["development_outcomes_read"],
+            0,
+        )
+        self.assertEqual(
+            self.stream["development_exclusion"]["local_result_paths_read"],
+            0,
+        )
+
+    def test_fresh_stream_population_exclude_all_p1r1_roles_and_collisions(self) -> None:
+        fresh_stream = verify_p1_stream_seal(self.stream)
+        fresh_population = verify_p1_population_seal(
+            self.population,
+            stream=fresh_stream,
+        )
+        old_items = tuple(
+            (*self.old_stream["requests"], *self.old_population["items"])
+        )
+        old_requests = {item["request_sha256"] for item in old_items}
+        old_cases = {item["case_id"] for item in old_items}
+        old_collisions = {item["collision_sha256"] for item in old_items}
+        fresh_items = tuple(
+            (*fresh_stream["requests"], *fresh_population["items"])
+        )
+        self.assertTrue(
+            old_requests.isdisjoint(item["request_sha256"] for item in fresh_items)
+        )
+        self.assertTrue(old_cases.isdisjoint(item["case_id"] for item in fresh_items))
+        self.assertTrue(
+            old_collisions.isdisjoint(item["collision_sha256"] for item in fresh_items)
+        )
+
+    def test_fresh_joint_batches_and_common_random_schedule_load(self) -> None:
+        batches = load_p1_stream_batches(DATASET, self.stream)
+        population = load_p1_population_requests(
+            DATASET,
+            self.population,
+            stream=self.stream,
+        )
+        self.assertEqual(tuple(map(len, batches)), (10, 10, 10, 10))
+        self.assertEqual(len(population), 160)
+        schedule = StatelessReplaySchedule(
+            load_p1_sampling_seal(
+                LOCKS / "p1r2_p_population_seal.json",
+                stream_path=LOCKS / "p1r2_seqb10_stream_seal.json",
+            )
+        )
+        values = {
+            arm: schedule.batch(
+                SampleLineage.CONTROLLER,
+                outer_batch_index=2,
+                correction_cycle=0,
+                waypoint=5,
+                replay_batch_id=0,
+            )
+            for arm in ("F_G", "F_BF", "R_BF")
+        }
+        assert_cross_arm_common_random_numbers(values)
 
 
 if __name__ == "__main__":

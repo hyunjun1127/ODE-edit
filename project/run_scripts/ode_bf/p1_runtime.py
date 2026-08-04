@@ -5,6 +5,7 @@ from __future__ import annotations
 import contextlib
 import hashlib
 import json
+import math
 import os
 import resource
 import subprocess
@@ -48,6 +49,7 @@ from .functional import (
 from .p0_runtime import ModelForwardCounter
 from .p1_backend import (
     CandidateBF16FunctionalTrial,
+    ControllerMarginReceipt,
     P1DynamicField,
     P1NativeCapture,
     PinnedCovarianceRegistry,
@@ -115,16 +117,16 @@ from .sampling import SampleLineage, StatelessReplaySchedule, load_p1_sampling_s
 from .transaction import AtomicBatchTransaction
 
 
-INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-SEQUENTIAL-B10-NATIVE-FLOOR-P1-V1"
-EXPECTED_BASE = "a5b7a60237c85432cbded8487ff04602cf4094e6"
-RESULT_TOKEN = "seqb10-native-floor-p1r1-v1"
+INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-TRUST-RATIO-MEAN-P-P1R2-V1"
+EXPECTED_BASE = "e753972da50a5d6fa9789ef2e9083c9b0549c3d0"
+RESULT_TOKEN = "seqb10-native-floor-p1r2-v2"
 SEQUENTIAL_BATCHES = 4
 
 
 def expected_p1_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 result alias differs")
-    return f"s04-p1r1-seqb10-native-floor-{alias}-v1"
+    return f"s04-p1r2-seqb10-native-floor-{alias}-v2"
 
 
 def _atomic_write_once(path: Path, value: Mapping[str, Any]) -> str:
@@ -160,7 +162,7 @@ class P1StageRecorder:
         digest = _atomic_write_once(
             self.root / f"stage-{self.sequence:03d}-{stage}.json",
             {
-                "schema": "ode-edit-s04-ode-bf-p1-stage/v1",
+                "schema": "ode-edit-s04-ode-bf-p1r2-stage/v2",
                 "sequence": self.sequence,
                 "stage": stage,
                 "payload": dict(payload),
@@ -505,6 +507,52 @@ def _arm_history_actions(
 
 def _success_payload(receipt: BatchSuccessReceipt) -> dict[str, Any]:
     return receipt.raw_free_payload()
+
+
+@dataclass(frozen=True, slots=True)
+class ControllerProgressTelemetry:
+    actual_signed_progress: float
+    per_request_signed_progress: tuple[float, ...]
+    per_request_signed_progress_sha256: str
+    per_request_improved_bits: tuple[int, ...]
+    per_request_harm_bits: tuple[int, ...]
+
+
+def _controller_progress_telemetry(
+    entry: ControllerMarginReceipt,
+    trial: ControllerMarginReceipt,
+) -> ControllerProgressTelemetry:
+    if (
+        entry.request_order_sha256 != trial.request_order_sha256
+        or len(entry.per_request_values) != BATCH_SIZE
+        or len(trial.per_request_values) != BATCH_SIZE
+    ):
+        raise ODEBFContractError("P1 controller progress request geometry differs")
+    per_request = tuple(
+        before - after
+        for before, after in zip(
+            entry.per_request_values,
+            trial.per_request_values,
+            strict=True,
+        )
+    )
+    actual = entry.value - trial.value
+    if not all(math.isfinite(value) for value in (*per_request, actual)):
+        raise ODEBFContractError("P1 controller progress is non-finite")
+    if not math.isclose(
+        sum(per_request) / BATCH_SIZE,
+        actual,
+        rel_tol=1.0e-7,
+        abs_tol=1.0e-8,
+    ):
+        raise ODEBFContractError("P1 aggregate/per-request signed progress differs")
+    return ControllerProgressTelemetry(
+        actual,
+        per_request,
+        canonical_hash({"float64_by_ordinal": per_request}),
+        tuple(int(value > 0.0) for value in per_request),
+        tuple(int(value < 0.0) for value in per_request),
+    )
 
 
 def _replay_entry(
@@ -980,6 +1028,7 @@ def _routing_problem_for_stage(
             "raw_velocity_sha256": bundle.raw.velocity_sha256,
             "projection_status": "NOT_APPLIED_GENERIC",
             "projection_distance": 0.0,
+            "maximum_feasible_progress": bundle.raw.maximum_feasible_progress,
         }
     elif arm is P1Arm.F_BF:
         projected = project_shared_raw_velocity(
@@ -1283,7 +1332,11 @@ def _run_nonnative_rollout(
                     requests,
                     cumulative_factors_by_weight=candidate_factors,
                 )
-            actual_progress = current_margin.value - margin.value
+            progress_telemetry = _controller_progress_telemetry(
+                current_margin,
+                margin,
+            )
+            actual_progress = progress_telemetry.actual_signed_progress
             with timer.measure("functional_trial_replay"):
                 functional = _functional_trial(
                     model,
@@ -1313,6 +1366,8 @@ def _run_nonnative_rollout(
                     functional_h_pass=functional.historical.passed,
                     functional_p_pass=functional.pretrained.passed,
                     authoritative_bf16_pass=True,
+                    minimum_progress=lock.minimum_progress,
+                    rho_accept=lock.rho_accept,
                 )
             feasibility = FeasibilityVerdict(
                 verdict.structural_h_pass,
@@ -1329,14 +1384,43 @@ def _run_nonnative_rollout(
                     "candidate_sha256": _factor_state(
                         capture.entry_sha256, candidate_factors
                     ),
+                    "raw_predicted_progress": verdict.raw_predicted_progress,
+                    "predicted_beta_progress": verdict.predicted_beta_progress,
                     "actual_signed_progress": actual_progress,
+                    "trust_ratio": verdict.trust_ratio,
+                    "progress_pass": verdict.progress_pass,
                     "requested_progress": problem.requested_progress,
+                    "maximum_feasible_progress": (
+                        projection.get(
+                            "maximum_feasible_progress",
+                            active_bundle.raw.maximum_feasible_progress,
+                        )
+                    ),
+                    "per_request_signed_progress": list(
+                        progress_telemetry.per_request_signed_progress
+                    ),
+                    "per_request_signed_progress_sha256": (
+                        progress_telemetry.per_request_signed_progress_sha256
+                    ),
+                    "per_request_improved_bits": list(
+                        progress_telemetry.per_request_improved_bits
+                    ),
+                    "per_request_harm_bits": list(
+                        progress_telemetry.per_request_harm_bits
+                    ),
                     "margin_entry_sha256": current_margin.value_sha256,
                     "margin_trial_sha256": margin.value_sha256,
+                    "margin_entry_per_request_sha256": (
+                        current_margin.per_request_value_sha256
+                    ),
+                    "margin_trial_per_request_sha256": (
+                        margin.per_request_value_sha256
+                    ),
                     "historical": asdict(functional.historical),
                     "pretrained": asdict(functional.pretrained),
                     "feasibility": asdict(feasibility),
                     "accepted": verdict.accepted,
+                    "first_rejecting_gate": verdict.first_rejecting_gate,
                     "success": _success_payload(evaluation.batch_success),
                     "functional_identity_sha256": functional.functional_identity_sha256,
                 }
@@ -1548,7 +1632,7 @@ def _run_nonnative_rollout(
     hard_floor_stop = arm is P1Arm.R_BF and not primary_floor_pass
 
     batch_payload: dict[str, Any] = {
-        "schema": "ode-edit-s04-ode-bf-p1-arm-batch/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r2-arm-batch/v2",
         "instruction_id": INSTRUCTION_ID,
         "alias": alias,
         "arm": arm.value,
@@ -1912,7 +1996,7 @@ def _run_native_batch(
     history = history_box["payload"]
     total_load = sum(load_increment.values())
     return {
-        "schema": "ode-edit-s04-ode-bf-p1-arm-batch/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r2-arm-batch/v2",
         "instruction_id": INSTRUCTION_ID,
         "alias": alias,
         "arm": arm_state.arm.value,
@@ -2118,16 +2202,16 @@ def run_p1(
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
-        (locks / "p1_seqb10_stream_seal.json").read_text(encoding="utf-8")
+        (locks / "p1r2_seqb10_stream_seal.json").read_text(encoding="utf-8")
     )
     stream = verify_p1_stream_seal(stream_value)
     population_value = json.loads(
-        (locks / "p1_p_population_seal.json").read_text(encoding="utf-8")
+        (locks / "p1r2_p_population_seal.json").read_text(encoding="utf-8")
     )
     population = verify_p1_population_seal(population_value, stream=stream)
     numerical, numerical_sha256 = load_rooted_json(
-        locks / "numerical_lock_p1.json",
-        expected_schema="ode-edit-s04-ode-bf-p1-numerical-lock/v1",
+        locks / "numerical_lock_p1r2.json",
+        expected_schema="ode-edit-s04-ode-bf-p1r2-numerical-lock/v2",
     )
     controller_lock = P1ControllerLock()
     if (
@@ -2147,8 +2231,8 @@ def run_p1(
         dataset, population, stream=stream
     )
     sampling_seal = load_p1_sampling_seal(
-        locks / "p1_p_population_seal.json",
-        stream_path=locks / "p1_seqb10_stream_seal.json",
+        locks / "p1r2_p_population_seal.json",
+        stream_path=locks / "p1r2_seqb10_stream_seal.json",
     )
     schedule = StatelessReplaySchedule(sampling_seal)
     request_by_sha256 = {
@@ -2196,7 +2280,7 @@ def run_p1(
         _atomic_write_once(
             raw_root / "context_templates.json",
             {
-                "schema": "ode-edit-s04-ode-bf-p1-raw-contexts/v1",
+                "schema": "ode-edit-s04-ode-bf-p1r2-raw-contexts/v2",
                 "contexts": contexts,
             },
         )
@@ -2473,7 +2557,7 @@ def run_p1(
     trajectories = _trajectory_summary(batches_by_arm)
     elapsed = time.time() - started
     terminal = {
-        "schema": "ode-edit-s04-ode-bf-p1-terminal/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r2-terminal/v2",
         "instruction_id": INSTRUCTION_ID,
         "status": terminal_status,
         "claim_scope": "SHORT_SEQUENTIAL_MOTIVATION_ONLY",
@@ -2523,7 +2607,7 @@ def run_p1(
     }
     terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
     summary = {
-        "schema": "ode-edit-s04-ode-bf-p1-summary/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r2-summary/v2",
         "status": terminal_status,
         "alias": alias,
         "terminal_sha256": terminal_sha,
@@ -2540,7 +2624,7 @@ def run_p1(
     }
     summary_sha = _atomic_write_once(destination / "summary.json", summary)
     manifest = {
-        "schema": "ode-edit-s04-ode-bf-p1-manifest/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r2-manifest/v2",
         "status": terminal_status,
         "alias": alias,
         "source_head": source_head,
@@ -2595,7 +2679,7 @@ def write_p1_failure_once(
     if stage_files:
         last_stage = json.loads(stage_files[-1].read_text(encoding="utf-8"))["stage"]
     failure = {
-        "schema": "ode-edit-s04-ode-bf-p1-failure/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r2-failure/v2",
         "instruction_id": INSTRUCTION_ID,
         "status": "FAIL_CLOSED_NO_RETRY",
         "last_completed_stage": last_stage,

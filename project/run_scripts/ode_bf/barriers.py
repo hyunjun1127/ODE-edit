@@ -14,6 +14,7 @@ from .contracts import ODEBFContractError, canonical_hash, finite, nonnegative, 
 @dataclass(frozen=True, slots=True)
 class ReplayRiskReceipt:
     barrier: str
+    decision_rule: str
     item_count: int
     mean_positive_damage: float
     smooth_max_positive_damage: float
@@ -28,6 +29,13 @@ class ReplayRiskReceipt:
     def __post_init__(self) -> None:
         if self.barrier not in ("historical-current-teacher", "pretrained-theta0-teacher"):
             raise ODEBFContractError("functional replay barrier identity differs")
+        expected_rule = (
+            "mean-and-smooth-max"
+            if self.barrier == "historical-current-teacher"
+            else "uniform-mean-positive-part"
+        )
+        if self.decision_rule != expected_rule:
+            raise ODEBFContractError("functional replay decision rule differs")
         if self.item_count < 0:
             raise ODEBFContractError("functional replay item count is invalid")
         for name in (
@@ -86,13 +94,17 @@ def functional_replay_risk(
     cvar = None
     if positive_part.size >= 8 and tail_count >= 2:
         cvar = float(np.sort(positive_part)[-tail_count:].mean())
-    passed = (
-        mean_positive <= locked_budget
-        and smooth <= locked_budget
-        and raw_max <= locked_budget
-    )
+    if barrier == "historical-current-teacher":
+        decision_rule = "mean-and-smooth-max"
+        passed = mean_positive <= locked_budget and smooth <= locked_budget
+    elif barrier == "pretrained-theta0-teacher":
+        decision_rule = "uniform-mean-positive-part"
+        passed = mean_positive <= locked_budget
+    else:
+        raise ODEBFContractError("functional replay barrier identity differs")
     return ReplayRiskReceipt(
         barrier,
+        decision_rule,
         int(positive_part.size),
         mean_positive,
         smooth,
@@ -137,6 +149,8 @@ class FunctionalHPVerdict:
             {
                 "historical": self.historical.sample_order_sha256,
                 "pretrained": self.pretrained.sample_order_sha256,
+                "historical_decision_rule": self.historical.decision_rule,
+                "pretrained_decision_rule": self.pretrained.decision_rule,
                 "historical_pass": self.historical.passed,
                 "pretrained_pass": self.pretrained.passed,
                 "structural_h_pass": self.structural_h_pass,

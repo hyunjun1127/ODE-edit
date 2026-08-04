@@ -15,12 +15,14 @@ from project.run_scripts.ode_alloc import p1_runtime as preserved_cuda_runtime
 from project.run_scripts.ode_bf.accounting import ComputeLedger
 from project.run_scripts.ode_bf.contracts import BATCH_SIZE, FIXED_K, ODEBFContractError
 from project.run_scripts.ode_bf.functional import WaypointFactor, assemble_effective_bf16, tensor_sha256
+from project.run_scripts.ode_bf.p1_backend import ControllerMarginReceipt
 from project.run_scripts.ode_bf.p1_runtime import (
     ArmRuntimeState,
     P1StageRecorder,
     _initialize_p1_cuda_runtime,
     _assert_arm_batch_transition,
     _assert_matched_frozen_pair,
+    _controller_progress_telemetry,
     _run_native_batch,
     _run_nonnative_rollout,
 )
@@ -254,6 +256,39 @@ class SequentialPanelIntegrationTests(unittest.TestCase):
 
 
 class RuntimeSourceAndReceiptTests(unittest.TestCase):
+    @staticmethod
+    def _margin_receipt(
+        values: tuple[float, ...],
+        *,
+        order: str = "a" * 64,
+    ) -> ControllerMarginReceipt:
+        return ControllerMarginReceipt(
+            value=sum(values) / len(values),
+            value_sha256=_digest(f"mean-{values}"),
+            per_request_values=values,
+            per_request_value_sha256=_digest(f"values-{values}"),
+            request_order_sha256=order,
+            model_forward_count=BATCH_SIZE,
+            processed_token_count=100,
+            generation_call_count=0,
+        )
+
+    def test_per_request_progress_harm_telemetry_is_ordered_and_fail_closed(self) -> None:
+        entry = self._margin_receipt((1.0,) * BATCH_SIZE)
+        trial = self._margin_receipt((0.9,) * 9 + (1.2,))
+        receipt = _controller_progress_telemetry(entry, trial)
+        self.assertAlmostEqual(receipt.actual_signed_progress, 0.07)
+        self.assertEqual(receipt.per_request_improved_bits, (1,) * 9 + (0,))
+        self.assertEqual(receipt.per_request_harm_bits, (0,) * 9 + (1,))
+        self.assertEqual(len(receipt.per_request_signed_progress_sha256), 64)
+
+        reordered = self._margin_receipt(
+            (0.9,) * 9 + (1.2,),
+            order="b" * 64,
+        )
+        with self.assertRaisesRegex(ODEBFContractError, "geometry"):
+            _controller_progress_telemetry(entry, reordered)
+
     @staticmethod
     def _matched_payload(projector: str) -> dict[str, object]:
         waypoints: list[dict[str, object]] = [

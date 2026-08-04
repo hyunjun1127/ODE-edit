@@ -29,6 +29,7 @@ class P1ControllerLock:
     nominal_t: float = 1.0
     progress_fraction: float = 0.25
     minimum_progress: float = 1.0e-8
+    rho_accept: float = 0.1
     structural_h_increment_fraction: float = 0.50
     structural_p_increment_fraction: float = 0.50
     write_trust_fraction: float = 1.0
@@ -50,6 +51,7 @@ class P1ControllerLock:
         for name in (
             "progress_fraction",
             "minimum_progress",
+            "rho_accept",
             "structural_h_increment_fraction",
             "structural_p_increment_fraction",
             "write_trust_fraction",
@@ -67,6 +69,8 @@ class P1ControllerLock:
                 raise ODEBFContractError(f"P1 controller {name} differs")
         if self.progress_fraction > 1.0 or self.target_bootstrap_fraction > 1.0:
             raise ODEBFContractError("P1 progress/bootstrap fraction exceeds one")
+        if self.rho_accept > 1.0:
+            raise ODEBFContractError("P1 trust-ratio acceptance threshold exceeds one")
 
     @property
     def eta(self) -> float:
@@ -80,6 +84,11 @@ class P1ControllerLock:
                 "eta": self.eta,
                 "progress_fraction": self.progress_fraction,
                 "minimum_progress": self.minimum_progress,
+                "rho_accept": self.rho_accept,
+                "progress_acceptance": (
+                    "actual>=minimum_progress-and-actual/"
+                    "max(beta*max(aTy,0),minimum_progress)>=rho_accept"
+                ),
                 "structural_h_increment_fraction": self.structural_h_increment_fraction,
                 "structural_p_increment_fraction": self.structural_p_increment_fraction,
                 "write_trust_fraction": self.write_trust_fraction,
@@ -160,6 +169,7 @@ class MatchedRawVelocity:
     geometry_sha256: str
     velocity_sha256: str
     source_problem_sha256: str
+    maximum_feasible_progress: float
     certificate: object
 
 
@@ -396,6 +406,7 @@ def solve_matched_raw_velocity(build: P1RoutingBuild) -> MatchedRawVelocity:
         build.geometry.identity_sha256,
         velocity_sha,
         solved.problem_identity,
+        solved.maximum_feasible_progress,
         solved.certificate,
     )
 
@@ -410,6 +421,7 @@ def project_matched_bf_velocity(
         raw.values.copy(),
         build.problem.identity(),
         raw.velocity_sha256,
+        raw.maximum_feasible_progress,
         raw.certificate,  # type: ignore[arg-type]
     )
     result = project_bf_velocity(build.problem, rebound)
@@ -445,6 +457,7 @@ def project_shared_raw_velocity(
         raw.values.copy(),
         problem.identity(),
         raw.velocity_sha256,
+        raw.maximum_feasible_progress,
         raw.certificate,  # type: ignore[arg-type]
     )
     result = project_bf_velocity(problem, rebound)

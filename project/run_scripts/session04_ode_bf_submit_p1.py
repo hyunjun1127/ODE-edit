@@ -47,21 +47,21 @@ from project.run_scripts.session04_ode_bf_p1_dry_plan import JOB_NAMES
 
 SESSION_ID = "019fc5ec-f85b-7770-a73a-1d19be1cd491"
 BRANCH = "codex/odeeditsh2-ode-bf-v1"
-BASE_HEAD = "0a03f85c867c701002cf52ba5f14aaee835ca09f"
-INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-P1-CUDA-PREFLIGHT-R1-V1"
-SCIENTIFIC_INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-SEQUENTIAL-B10-NATIVE-FLOOR-P1-V1"
-SCIENTIFIC_BASE_HEAD = "a5b7a60237c85432cbded8487ff04602cf4094e6"
+BASE_HEAD = "e753972da50a5d6fa9789ef2e9083c9b0549c3d0"
+INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-TRUST-RATIO-MEAN-P-P1R2-V1"
+SCIENTIFIC_INSTRUCTION_ID = INSTRUCTION_ID
+SCIENTIFIC_BASE_HEAD = BASE_HEAD
 PACKAGE_ROOT = REPO_ROOT / "project/run_scripts/ode_bf"
 LOCK_ROOT = PACKAGE_ROOT / "locks"
 SBATCH = REPO_ROOT / "project/run_scripts/session04_ode_bf_p1.sbatch"
 DRY_PLAN = REPO_ROOT / "project/run_scripts/session04_ode_bf_p1_dry_plan.py"
-SOURCE_MANIFEST = LOCK_ROOT / "source_manifest_p1.json"
+SOURCE_MANIFEST = LOCK_ROOT / "source_manifest_p1r2.json"
 ARTIFACT_LOCK = LOCK_ROOT / "p0_artifact_lock.json"
 BASE_ARTIFACT_LOCK = REPO_ROOT / "project/run_scripts/ode_alloc/p0_artifact_lock_r1.json"
 P1_LOCK_SHA256 = {
-    "numerical_lock_p1.json": "6b38b7aceab1794711e1de34b98cf7b90e8d85ffd4904db511ed2d0db47a5141",
-    "p1_seqb10_stream_seal.json": "3bbde260348cfba109cadf891af4d350697511977f0ada4721b7009a8e4fa860",
-    "p1_p_population_seal.json": "5b93d67f8b78ac32ac1ba6831a8bb494c15795b9c114a7861f83e077143de337",
+    "numerical_lock_p1r2.json": "0cdb4ff528f0eddea7b40b9d36a103fa372dca8433da8a0a2cf36f77ad2fa903",
+    "p1r2_seqb10_stream_seal.json": "689dcfbf95b074a946088a31b626f2b64082401a1b525e326ab1e8c46b8a488f",
+    "p1r2_p_population_seal.json": "6b36d234d676afb7cb22c70b042f0319bb8687cb12ed4e2f45ce98002979a96f",
 }
 PRESERVED_LOCK_SHA256 = {
     "p0_artifact_lock.json": "623482b05c670b703eebc65493779e863021509f0c0855d5fafb75c0b7b24910",
@@ -113,11 +113,52 @@ P1_R0_FILE_SHA256 = {
     ),
 }
 
+P1_R1_RESULT_SHA256 = {
+    "s04-p1r1-seqb10-native-floor-llama3-8b-inst-v1": (
+        "6015561d0803f25149bade061fe2e9010577f81a30fa5a42d1b198cce9f06d23"
+    ),
+    "s04-p1r1-seqb10-native-floor-qwen2.5-7b-inst-v1": (
+        "6c598b687ca3918cfdf6bf5e4f69fd5c7666c9df19c45813a99373436b48ed44"
+    ),
+}
+P1_R1_FILE_SHA256 = {
+    "local/odebf/logs/odebf_s04_p1r1_seqb10_llama-16641.err": (
+        "7bcdbf07dbdb4e46e3a277e5939fea5eaf42870ebfaca8c350bcb3aed307f5dd"
+    ),
+    "local/odebf/logs/odebf_s04_p1r1_seqb10_llama-16641.out": (
+        "ff218c641536df961ed37b6a88ac2a02ae20ac1b125ace3adb41721c3b03c285"
+    ),
+    "local/odebf/logs/odebf_s04_p1r1_seqb10_qwen-16642.err": (
+        "513aaa629c9ea92be9c141042eb9a08625110c6993f9a6df4f39fa9bf0f0da3e"
+    ),
+    "local/odebf/logs/odebf_s04_p1r1_seqb10_qwen-16642.out": (
+        "423b49a183651c2ae0b7e2c8743048c39afdd1a5261e5f99f55d11a1afa77fa2"
+    ),
+    "local/odebf/state/s04-p1r1-seqb10-native-floor-v1.submission-intent.json": (
+        "89ae7068b4672f41738665ba476b7b53a93fa03ea9c2fcb365334532d76d0a05"
+    ),
+    "local/odebf/state/s04-p1r1-seqb10-native-floor-v1.submission-receipt.json": (
+        "cb0ecd7f935429206594ed83f26f8f7f134e4cacc99252b487c1052ea54f0237"
+    ),
+}
+
 P1_ALLOWED_CHANGED_PATHS = {
-    "project/run_scripts/ode_bf/locks/source_manifest_p1.json",
+    "project/run_scripts/ode_bf/barriers.py",
+    "project/run_scripts/ode_bf/locks/numerical_lock_p1r2.json",
+    "project/run_scripts/ode_bf/locks/p1r2_p_population_seal.json",
+    "project/run_scripts/ode_bf/locks/p1r2_seqb10_stream_seal.json",
+    "project/run_scripts/ode_bf/locks/source_manifest_p1r2.json",
+    "project/run_scripts/ode_bf/p1_backend.py",
+    "project/run_scripts/ode_bf/p1_controller.py",
     "project/run_scripts/ode_bf/p1_runtime.py",
+    "project/run_scripts/ode_bf/p1_selection.py",
+    "project/run_scripts/ode_bf/routing.py",
+    "project/run_scripts/ode_bf/tests/test_barrier_attribution.py",
+    "project/run_scripts/ode_bf/tests/test_p1_backend_controller.py",
     "project/run_scripts/ode_bf/tests/test_p1_runtime_contracts.py",
+    "project/run_scripts/ode_bf/tests/test_p1_selection.py",
     "project/run_scripts/ode_bf/tests/test_p1_submission.py",
+    "project/run_scripts/ode_bf/tests/test_woodbury_routing.py",
     "project/run_scripts/session04_ode_bf_p1.py",
     "project/run_scripts/session04_ode_bf_p1.sbatch",
     "project/run_scripts/session04_ode_bf_p1_dry_plan.py",
@@ -193,6 +234,25 @@ def _p1_r0_immutability_gate() -> dict[str, str]:
         path = REPO_ROOT / relative
         if path.is_symlink() or not path.is_file() or sha256_file(path) != expected:
             raise ODEBFContractError("P1 R0 log/state immutability differs")
+        observed[relative] = expected
+    return observed
+
+
+def _p1_r1_immutability_gate() -> dict[str, str]:
+    observed: dict[str, str] = {}
+    result_parent = REPO_ROOT / "local/odebf/results"
+    for name, expected in P1_R1_RESULT_SHA256.items():
+        root = result_parent / name
+        if root.is_symlink() or not root.is_dir():
+            raise ODEBFContractError("P1 R1 result root identity differs")
+        digest, count = sha256_regular_tree(root)
+        if digest != expected or count != 13:
+            raise ODEBFContractError("P1 R1 result root immutability differs")
+        observed[name] = digest
+    for relative, expected in P1_R1_FILE_SHA256.items():
+        path = REPO_ROOT / relative
+        if path.is_symlink() or not path.is_file() or sha256_file(path) != expected:
+            raise ODEBFContractError("P1 R1 log/state immutability differs")
         observed[relative] = expected
     return observed
 
@@ -274,7 +334,7 @@ def _cuda_preflight_source_gate() -> str:
 def _source_manifest_gate() -> str:
     value, raw_sha = load_rooted_json(
         SOURCE_MANIFEST,
-        expected_schema="ode-edit-s04-ode-bf-p1r1-source-manifest/v1",
+        expected_schema="ode-edit-s04-ode-bf-p1r2-source-manifest/v2",
     )
     entries = value.get("entries")
     if (
@@ -298,7 +358,7 @@ def _source_manifest_gate() -> str:
             path.startswith("project/run_scripts/ode_bf/")
             or path.startswith("project/run_scripts/session04_ode_bf_")
         )
-        and path != "project/run_scripts/ode_bf/locks/source_manifest_p1.json"
+        and path != "project/run_scripts/ode_bf/locks/source_manifest_p1r2.json"
     }
     if set(locked) != expected_paths:
         raise ODEBFContractError("P1 source manifest path set differs")
@@ -346,16 +406,16 @@ def _lock_and_seal_gate() -> dict[str, str]:
         if sha256_file(LOCK_ROOT / name) != expected:
             raise ODEBFContractError("P1 reviewed lock/seal digest differs")
     stream_value = json.loads(
-        (LOCK_ROOT / "p1_seqb10_stream_seal.json").read_text(encoding="utf-8")
+        (LOCK_ROOT / "p1r2_seqb10_stream_seal.json").read_text(encoding="utf-8")
     )
     stream = verify_p1_stream_seal(stream_value)
     population_value = json.loads(
-        (LOCK_ROOT / "p1_p_population_seal.json").read_text(encoding="utf-8")
+        (LOCK_ROOT / "p1r2_p_population_seal.json").read_text(encoding="utf-8")
     )
     population = verify_p1_population_seal(population_value, stream=stream)
     numerical, numerical_sha = load_rooted_json(
-        LOCK_ROOT / "numerical_lock_p1.json",
-        expected_schema="ode-edit-s04-ode-bf-p1-numerical-lock/v1",
+        LOCK_ROOT / "numerical_lock_p1r2.json",
+        expected_schema="ode-edit-s04-ode-bf-p1r2-numerical-lock/v2",
     )
     if (
         numerical["instruction_id"] != SCIENTIFIC_INSTRUCTION_ID
@@ -365,6 +425,12 @@ def _lock_and_seal_gate() -> dict[str, str]:
         or numerical["logical_edits_per_model"] != 40
         or numerical["arms"] != ["N32_NATIVE", "F_G", "F_BF", "R_BF"]
         or numerical["controller_identity_sha256"] != P1ControllerLock().identity()
+        or numerical["controller"].get("rho_accept") != 0.1
+        or numerical["controller"].get("minimum_progress") != 1.0e-8
+        or numerical["controller"].get("functional_p_decision")
+        != "uniform-mean-samplewise-positive-incremental-theta0-kl"
+        or numerical["controller"].get("functional_p_rawmax_role")
+        != "diagnostic-only"
         or numerical["stream_root_digest"] != stream["root_digest"]
         or numerical["p_population_root_digest"] != population["root_digest"]
     ):
@@ -391,6 +457,7 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
     r3 = preserved_p0._r3_immutability_gate()
     r4 = _r4_immutability_gate()
     p1_r0 = _p1_r0_immutability_gate()
+    p1_r1 = _p1_r1_immutability_gate()
     for relative, expected in preserved_p0.PRESERVED_REPAIR_SHA256.items():
         if sha256_file(REPO_ROOT / relative) != expected:
             raise ODEBFContractError("preserved CUDA repair byte identity differs")
@@ -509,6 +576,7 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
         "r3_immutability_sha256": r3,
         "r4_immutability": r4,
         "p1_r0_immutability": p1_r0,
+        "p1_r1_immutability": p1_r1,
         "dry_plan_sha256": hashlib.sha256(dry_first.encode("utf-8")).hexdigest(),
         "artifacts": artifacts,
         "memory_forecasts": forecasts,
@@ -531,8 +599,8 @@ def _output_gate() -> dict[str, Path]:
     for job_name in JOB_NAMES.values():
         if list(log_parent.glob(f"{job_name}-*")):
             raise ODEBFContractError("P1 log namespace already exists")
-    intent = state_parent / "s04-p1r1-seqb10-native-floor-v1.submission-intent.json"
-    receipt = state_parent / "s04-p1r1-seqb10-native-floor-v1.submission-receipt.json"
+    intent = state_parent / "s04-p1r2-seqb10-native-floor-v2.submission-intent.json"
+    receipt = state_parent / "s04-p1r2-seqb10-native-floor-v2.submission-receipt.json"
     if intent.exists() or intent.is_symlink() or receipt.exists() or receipt.is_symlink():
         raise ODEBFContractError("P1 pair was already attempted")
     roots["__intent__"] = intent
@@ -578,6 +646,7 @@ def main() -> int:
     paths = _output_gate()
     _r4_immutability_gate()
     _p1_r0_immutability_gate()
+    _p1_r1_immutability_gate()
     before = preserved_p0._scheduler_jobs()
     if any(record.job_name in JOB_NAMES.values() for record in before):
         raise ODEBFContractError("P1 scheduler job name already exists")
@@ -585,10 +654,10 @@ def main() -> int:
     if 2 * 65_000 > 2 * MEMORY_CAP_MIB_PER_GPU:
         raise ODEBFContractError("P1 pair host-memory request exceeds server2 cap")
     intent = {
-        "schema": "ode-edit-s04-ode-bf-p1r1-submission-intent/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r2-submission-intent/v2",
         "instruction_id": INSTRUCTION_ID,
         "scientific_instruction_id": SCIENTIFIC_INSTRUCTION_ID,
-        "authorized_repair_attempt": "R1",
+        "authorized_attempt": "FRESH_P1R2_V2",
         "source_head": source_head,
         "jobs": JOB_NAMES,
         "results": {
@@ -629,10 +698,10 @@ def main() -> int:
             ).hexdigest(),
         }
     receipt = {
-        "schema": "ode-edit-s04-ode-bf-p1r1-submission-receipt/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r2-submission-receipt/v2",
         "instruction_id": INSTRUCTION_ID,
         "scientific_instruction_id": SCIENTIFIC_INSTRUCTION_ID,
-        "authorized_repair_attempt": "R1",
+        "authorized_attempt": "FRESH_P1R2_V2",
         "status": "SUBMITTED_PAIR" if failure is None else "PARTIAL_OR_FAILED_NO_RETRY",
         "source_head": source_head,
         "intent_sha256": intent_sha,

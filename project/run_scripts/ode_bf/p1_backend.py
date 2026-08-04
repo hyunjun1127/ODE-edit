@@ -1139,7 +1139,7 @@ def _controller_margin_loss(
     model: torch.nn.Module,
     tokenizer: Any,
     requests: Sequence[Mapping[str, Any]],
-) -> tuple[torch.Tensor, int]:
+) -> tuple[torch.Tensor, torch.Tensor, int]:
     device = next(model.parameters()).device
     llama = "llama" in str(getattr(model.config, "_name_or_path", "")).casefold()
     losses: list[torch.Tensor] = []
@@ -1175,13 +1175,16 @@ def _controller_margin_loss(
         losses.append(choice_losses[0] - choice_losses[1])
         attention = encoded.get("attention_mask")
         processed += int(attention.sum()) if attention is not None else int(encoded["input_ids"].numel())
-    return torch.stack(losses).mean(), processed
+    per_request = torch.stack(losses)
+    return per_request.mean(), per_request, processed
 
 
 @dataclass(frozen=True, slots=True)
 class ControllerMarginReceipt:
     value: float
     value_sha256: str
+    per_request_values: tuple[float, ...]
+    per_request_value_sha256: str
     request_order_sha256: str
     model_forward_count: int
     processed_token_count: int
@@ -1201,10 +1204,28 @@ def evaluate_controller_margin(
         for parameter in model.parameters()
     )
     with _virtual_context(model, cumulative_factors_by_weight), torch.no_grad():
-        value, processed = _controller_margin_loss(model, tokenizer, normalized)
-    observed = float(value.detach().to(device="cpu", dtype=torch.float64))
-    if not math.isfinite(observed):
+        value, per_request, processed = _controller_margin_loss(
+            model, tokenizer, normalized
+        )
+    observed_model_mean = float(value.detach().to(device="cpu", dtype=torch.float64))
+    observed_per_request = tuple(
+        float(item)
+        for item in per_request.detach().to(device="cpu", dtype=torch.float64)
+    )
+    if (
+        not math.isfinite(observed_model_mean)
+        or len(observed_per_request) != BATCH_SIZE
+        or not all(math.isfinite(item) for item in observed_per_request)
+    ):
         raise ODEBFContractError("P1 controller margin is non-finite")
+    observed = math.fsum(observed_per_request) / BATCH_SIZE
+    if not math.isclose(
+        observed,
+        observed_model_mean,
+        rel_tol=1.0e-6,
+        abs_tol=1.0e-7,
+    ):
+        raise ODEBFContractError("P1 controller uniform mean differs")
     if tuple(
         (parameter.data_ptr(), parameter._version, parameter.grad)
         for parameter in model.parameters()
@@ -1213,6 +1234,8 @@ def evaluate_controller_margin(
     return ControllerMarginReceipt(
         observed,
         canonical_hash({"float64": observed}),
+        observed_per_request,
+        canonical_hash({"float64_by_ordinal": observed_per_request}),
         ordered_request_digest_v1(
             [str(item["request_sha256"]) for item in normalized]
         ),
@@ -1252,7 +1275,7 @@ def signed_progress_gradient(
     )
     with _virtual_context(model, cumulative_factors_by_weight):
         with _CoefficientOverlay(model, field.layers, coefficients):
-            loss, processed = _controller_margin_loss(model, tokenizer, requests)
+            loss, _, processed = _controller_margin_loss(model, tokenizer, requests)
             gradient = torch.autograd.grad(loss, coefficients, retain_graph=False)[0]
     raw = -gradient.detach().to(device="cpu", dtype=torch.float64)
     progress = tuple(float(value) for value in raw)
@@ -1317,7 +1340,7 @@ def write_aware_target_velocity(
             target_state_variable=target,
             current_z=field.current_z,
         ):
-            loss, processed = _controller_margin_loss(model, tokenizer, requests)
+            loss, _, processed = _controller_margin_loss(model, tokenizer, requests)
             gradient = torch.autograd.grad(loss, target, retain_graph=False)[0]
     raw_velocity = -gradient.detach().to(device="cpu", dtype=torch.float32)
     gradient_norm = float(torch.linalg.norm(raw_velocity))

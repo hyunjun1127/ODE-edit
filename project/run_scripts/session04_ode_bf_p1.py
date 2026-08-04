@@ -17,7 +17,7 @@ from project.run_scripts.ode_bf.contracts import MODEL_ALIASES
 from project.run_scripts.ode_bf.p1_runtime import run_p1, write_p1_failure_once
 
 
-RUN_TOKEN = "seqb10-native-floor-p1r1-v1"
+RUN_TOKEN = "seqb10-native-floor-p1r2-v2"
 
 
 def _parser() -> argparse.ArgumentParser:

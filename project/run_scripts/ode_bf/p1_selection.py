@@ -33,6 +33,15 @@ STREAM_SALT = "odebf-s04-p1-seqb10-v1"
 P_POPULATION_SALT = "odebf-s04-p1-p-anchor-v1"
 STREAM_SCHEMA = "ode-edit-s04-ode-bf-p1-seqb10-seal/v1"
 P_POPULATION_SCHEMA = "ode-edit-s04-ode-bf-p1-p-population-seal/v1"
+P1_INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-SEQUENTIAL-B10-NATIVE-FLOOR-P1-V1"
+P1R2_EXPECTED_BASE = "e753972da50a5d6fa9789ef2e9083c9b0549c3d0"
+P1R2_STREAM_SALT = "odebf-s04-p1r2-seqb10-v2"
+P1R2_P_POPULATION_SALT = "odebf-s04-p1r2-p-anchor-v2"
+P1R2_STREAM_SCHEMA = "ode-edit-s04-ode-bf-p1r2-seqb10-seal/v2"
+P1R2_P_POPULATION_SCHEMA = (
+    "ode-edit-s04-ode-bf-p1r2-p-population-seal/v2"
+)
+P1R2_INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-TRUST-RATIO-MEAN-P-P1R2-V1"
 STREAM_REQUEST_COUNT = 40
 SEQUENTIAL_BATCH_COUNT = 4
 P_POPULATION_COUNT = 160
@@ -69,6 +78,37 @@ class PriorSelectionScan:
     source_count: int
     sources_digest: str
     base_commit: str
+
+
+@dataclass(frozen=True, slots=True)
+class P1SealPolicy:
+    expected_base: str
+    stream_salt: str
+    p_population_salt: str
+    stream_schema: str
+    p_population_schema: str
+    instruction_id: str
+    prior_development_exclusion: bool
+
+
+P1_SEAL_POLICY = P1SealPolicy(
+    EXPECTED_BASE,
+    STREAM_SALT,
+    P_POPULATION_SALT,
+    STREAM_SCHEMA,
+    P_POPULATION_SCHEMA,
+    P1_INSTRUCTION_ID,
+    False,
+)
+P1R2_SEAL_POLICY = P1SealPolicy(
+    P1R2_EXPECTED_BASE,
+    P1R2_STREAM_SALT,
+    P1R2_P_POPULATION_SALT,
+    P1R2_STREAM_SCHEMA,
+    P1R2_P_POPULATION_SCHEMA,
+    P1R2_INSTRUCTION_ID,
+    True,
+)
 
 
 def _normalize(value: str) -> str:
@@ -347,21 +387,104 @@ def _source_payload(dataset: Path, row_count: int) -> dict[str, Any]:
     }
 
 
-def build_p1_seals(
+def _prior_development_exclusion(
+    repo: Path,
+    base_commit: str,
+) -> tuple[dict[str, Any], frozenset[int], frozenset[str], frozenset[str]]:
+    relative_paths = (
+        "project/run_scripts/ode_bf/locks/p1_seqb10_stream_seal.json",
+        "project/run_scripts/ode_bf/locks/p1_p_population_seal.json",
+    )
+    values: list[dict[str, Any]] = []
+    records: list[dict[str, Any]] = []
+    for relative in relative_paths:
+        blob = _tracked_blob(repo, base_commit, relative)
+        try:
+            value = json.loads(blob)
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise ODEBFContractError("P1R2 development seal is invalid") from exc
+        root = value.pop("root_digest", None)
+        if root != canonical_hash(value):
+            raise ODEBFContractError("P1R2 development seal root differs")
+        value["root_digest"] = root
+        values.append(value)
+        records.append(
+            {
+                "path": relative,
+                "blob_sha256": hashlib.sha256(blob).hexdigest(),
+                "root_digest": root,
+            }
+        )
+    stream, population = values
+    stream_items = stream.get("requests")
+    population_items = population.get("items")
+    if (
+        not isinstance(stream_items, list)
+        or len(stream_items) != STREAM_REQUEST_COUNT
+        or not isinstance(population_items, list)
+        or len(population_items) != P_POPULATION_COUNT
+    ):
+        raise ODEBFContractError("P1R2 development exclusion inventory differs")
+    combined = tuple((*stream_items, *population_items))
+    case_ids = frozenset(int(item["case_id"]) for item in combined)
+    request_ids = frozenset(str(item["request_sha256"]) for item in combined)
+    collision_ids = frozenset(str(item["collision_sha256"]) for item in combined)
+    if (
+        len(case_ids) != STREAM_REQUEST_COUNT + P_POPULATION_COUNT
+        or len(request_ids) != STREAM_REQUEST_COUNT + P_POPULATION_COUNT
+        or len(collision_ids) != STREAM_REQUEST_COUNT + P_POPULATION_COUNT
+    ):
+        raise ODEBFContractError("P1R2 development roles are not fully distinct")
+    payload = {
+        "source_commit": base_commit,
+        "tracked_source_count": len(records),
+        "tracked_sources_digest": canonical_hash(records),
+        "prior_stream_count": STREAM_REQUEST_COUNT,
+        "prior_population_count": P_POPULATION_COUNT,
+        "combined_case_digest": canonical_hash(sorted(case_ids)),
+        "combined_request_digest": canonical_hash(sorted(request_ids)),
+        "combined_collision_digest": canonical_hash(sorted(collision_ids)),
+        "local_result_paths_read": 0,
+        "development_outcomes_read": 0,
+    }
+    return payload, case_ids, request_ids, collision_ids
+
+
+def _build_p1_seals(
     dataset_path: str | Path,
     repo_root: str | Path,
     *,
-    base_commit: str = EXPECTED_BASE,
+    policy: P1SealPolicy,
+    base_commit: str,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     dataset = Path(dataset_path).resolve(strict=True)
+    repo = Path(repo_root).resolve(strict=True)
+    if base_commit != policy.expected_base:
+        raise ODEBFContractError("P1 selection policy/base differs")
     identities = load_p1_request_identities(dataset)
-    prior = scan_prior_tracked_seals(repo_root, base_commit=base_commit)
+    prior = scan_prior_tracked_seals(repo, base_commit=base_commit)
+    development_payload: dict[str, Any] | None = None
+    if policy.prior_development_exclusion:
+        (
+            development_payload,
+            development_cases,
+            development_requests,
+            development_collisions,
+        ) = _prior_development_exclusion(repo, base_commit)
+        if not development_cases.issubset(prior.case_ids) or not development_requests.issubset(
+            prior.request_sha256
+        ):
+            raise ODEBFContractError("P1R2 prior scan omits development identities")
+    else:
+        development_collisions = frozenset()
     eligible, excluded_count, exclusion_digest = _eligible(identities, prior)
+    if any(item.collision_sha256 in development_collisions for item in eligible):
+        raise ODEBFContractError("P1R2 eligible pool retains a development collision")
     if len(eligible) < STREAM_REQUEST_COUNT + P_POPULATION_COUNT:
         raise ODEBFContractError("insufficient disjoint P1 stream/calibration population")
 
     stream_selected = tuple(
-        sorted(eligible, key=lambda item: _rank(STREAM_SALT, item))[:STREAM_REQUEST_COUNT]
+        sorted(eligible, key=lambda item: _rank(policy.stream_salt, item))[:STREAM_REQUEST_COUNT]
     )
     stream_ids = {item.request_sha256 for item in stream_selected}
     stream_collisions = {item.collision_sha256 for item in stream_selected}
@@ -372,7 +495,7 @@ def build_p1_seals(
         and item.collision_sha256 not in stream_collisions
     )
     population_selected = tuple(
-        sorted(remaining, key=lambda item: _rank(P_POPULATION_SALT, item))[:P_POPULATION_COUNT]
+        sorted(remaining, key=lambda item: _rank(policy.p_population_salt, item))[:P_POPULATION_COUNT]
     )
     if len(population_selected) != P_POPULATION_COUNT:
         raise ODEBFContractError("P1 functional P population is incomplete")
@@ -414,10 +537,10 @@ def build_p1_seals(
         ]
         batch_digests.append(ordered_request_digest_v1(ordered))
     stream: dict[str, Any] = {
-        "schema_version": STREAM_SCHEMA,
-        "instruction_id": "ODEEDIT-S04-ODE-BF-SEQUENTIAL-B10-NATIVE-FLOOR-P1-V1",
+        "schema_version": policy.stream_schema,
+        "instruction_id": policy.instruction_id,
         "status": "sealed-before-model-action",
-        "salt": STREAM_SALT,
+        "salt": policy.stream_salt,
         "benchmark": "counterfact",
         "edit_batch_size": BATCH_SIZE,
         "sequential_batch_count": SEQUENTIAL_BATCH_COUNT,
@@ -445,6 +568,8 @@ def build_p1_seals(
             for alias in MODEL_ALIASES
         },
     }
+    if development_payload is not None:
+        stream["development_exclusion"] = development_payload
     stream["root_digest"] = canonical_hash(stream)
 
     population_records = [
@@ -471,10 +596,10 @@ def build_p1_seals(
         for name, start, end, seed in P_LINEAGE_LAYOUT
     }
     population: dict[str, Any] = {
-        "schema_version": P_POPULATION_SCHEMA,
-        "instruction_id": "ODEEDIT-S04-ODE-BF-SEQUENTIAL-B10-NATIVE-FLOOR-P1-V1",
+        "schema_version": policy.p_population_schema,
+        "instruction_id": policy.instruction_id,
         "status": "sealed-before-model-action",
-        "salt": P_POPULATION_SALT,
+        "salt": policy.p_population_salt,
         "source": source,
         "source_class": "counterfact-canonical-calibration",
         "population_count": P_POPULATION_COUNT,
@@ -497,8 +622,38 @@ def build_p1_seals(
         "heldout_neighborhood_items": 0,
         "generation_items": 0,
     }
+    if development_payload is not None:
+        population["development_exclusion"] = development_payload
     population["root_digest"] = canonical_hash(population)
     return stream, population
+
+
+def build_p1_seals(
+    dataset_path: str | Path,
+    repo_root: str | Path,
+    *,
+    base_commit: str = EXPECTED_BASE,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    return _build_p1_seals(
+        dataset_path,
+        repo_root,
+        policy=P1_SEAL_POLICY,
+        base_commit=base_commit,
+    )
+
+
+def build_p1r2_seals(
+    dataset_path: str | Path,
+    repo_root: str | Path,
+    *,
+    base_commit: str = P1R2_EXPECTED_BASE,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    return _build_p1_seals(
+        dataset_path,
+        repo_root,
+        policy=P1R2_SEAL_POLICY,
+        base_commit=base_commit,
+    )
 
 
 def _verify_rooted(value: Mapping[str, Any], schema: str) -> dict[str, Any]:
@@ -512,10 +667,28 @@ def _verify_rooted(value: Mapping[str, Any], schema: str) -> dict[str, Any]:
     return payload
 
 
+def _stream_policy(value: Mapping[str, Any]) -> P1SealPolicy:
+    schema = value.get("schema_version")
+    for policy in (P1_SEAL_POLICY, P1R2_SEAL_POLICY):
+        if schema == policy.stream_schema:
+            return policy
+    raise ODEBFContractError("P1 stream schema differs")
+
+
+def _population_policy(value: Mapping[str, Any]) -> P1SealPolicy:
+    schema = value.get("schema_version")
+    for policy in (P1_SEAL_POLICY, P1R2_SEAL_POLICY):
+        if schema == policy.p_population_schema:
+            return policy
+    raise ODEBFContractError("P1 P-population schema differs")
+
+
 def verify_p1_stream_seal(value: Mapping[str, Any]) -> dict[str, Any]:
-    payload = _verify_rooted(value, STREAM_SCHEMA)
+    policy = _stream_policy(value)
+    payload = _verify_rooted(value, policy.stream_schema)
     if (
-        payload.get("salt") != STREAM_SALT
+        payload.get("salt") != policy.stream_salt
+        or payload.get("instruction_id") != policy.instruction_id
         or payload.get("edit_batch_size") != BATCH_SIZE
         or payload.get("sequential_batch_count") != SEQUENTIAL_BATCH_COUNT
         or payload.get("logical_edit_count") != STREAM_REQUEST_COUNT
@@ -544,6 +717,18 @@ def verify_p1_stream_seal(value: Mapping[str, Any]) -> dict[str, Any]:
         )
     if payload.get("batch_ordered_request_digest_v1") != expected_batches:
         raise ODEBFContractError("P1 stream batch digest differs")
+    development = payload.get("development_exclusion")
+    if policy.prior_development_exclusion:
+        if (
+            not isinstance(development, Mapping)
+            or development.get("prior_stream_count") != STREAM_REQUEST_COUNT
+            or development.get("prior_population_count") != P_POPULATION_COUNT
+            or development.get("local_result_paths_read") != 0
+            or development.get("development_outcomes_read") != 0
+        ):
+            raise ODEBFContractError("P1R2 development exclusion differs")
+    elif development is not None:
+        raise ODEBFContractError("P1 V1 unexpectedly has development exclusions")
     return payload
 
 
@@ -552,10 +737,14 @@ def verify_p1_population_seal(
     *,
     stream: Mapping[str, Any],
 ) -> dict[str, Any]:
-    payload = _verify_rooted(value, P_POPULATION_SCHEMA)
+    policy = _population_policy(value)
+    payload = _verify_rooted(value, policy.p_population_schema)
     stream_value = verify_p1_stream_seal(stream)
+    if _stream_policy(stream_value) != policy:
+        raise ODEBFContractError("P1 stream/population revisions differ")
     if (
-        payload.get("salt") != P_POPULATION_SALT
+        payload.get("salt") != policy.p_population_salt
+        or payload.get("instruction_id") != policy.instruction_id
         or payload.get("population_count") != P_POPULATION_COUNT
         or payload.get("sample_count") != P_SAMPLE_COUNT
         or payload.get("stream_root_digest") != stream_value["root_digest"]
@@ -592,6 +781,10 @@ def verify_p1_population_seal(
         pools.append(set(expected))
     if any(pools[left].intersection(pools[right]) for left in range(3) for right in range(left + 1, 3)):
         raise ODEBFContractError("P1 P-population lineages overlap")
+    if payload.get("development_exclusion") != stream_value.get(
+        "development_exclusion"
+    ):
+        raise ODEBFContractError("P1 stream/population development exclusions differ")
     return payload
 
 

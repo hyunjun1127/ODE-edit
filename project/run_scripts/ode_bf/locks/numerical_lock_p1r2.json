@@ -1,0 +1,105 @@
+{
+  "schema_version": "ode-edit-s04-ode-bf-p1r2-numerical-lock/v2",
+  "instruction_id": "ODEEDIT-S04-ODE-BF-TRUST-RATIO-MEAN-P-P1R2-V1",
+  "expected_base": "e753972da50a5d6fa9789ef2e9083c9b0549c3d0",
+  "status": "SEALED_BEFORE_MODEL_ACTION",
+  "benchmark": "counterfact",
+  "common_seed": 41,
+  "edit_batch_size": 10,
+  "sequential_batch_count": 4,
+  "logical_edits_per_model": 40,
+  "arms": [
+    "N32_NATIVE",
+    "F_G",
+    "F_BF",
+    "R_BF"
+  ],
+  "controller": {
+    "k_resolution": 8,
+    "correction_cycles": 1,
+    "nominal_t": 1.0,
+    "eta": 0.125,
+    "progress_fraction": 0.25,
+    "minimum_progress": 1e-08,
+    "rho_accept": 0.1,
+    "progress_acceptance": {
+      "predicted_beta": "beta*max(a_transpose_y,0)",
+      "actual": "canonical_current_loss-minus-trial_loss",
+      "ratio": "actual/max(predicted_beta,minimum_progress)",
+      "pass": "predicted_beta>0-and-finite-and-actual>=minimum_progress-and-ratio>=rho_accept",
+      "requested_progress_is_diagnostic_after_solver": true,
+      "maximum_feasible_progress_is_diagnostic_after_solver": true,
+      "unscaled_requested_progress_is_not_a_trial_gate": true
+    },
+    "structural_h_increment_fraction": 0.5,
+    "structural_p_increment_fraction": 0.5,
+    "write_trust_fraction": 1.0,
+    "layer_velocity_cap": 1.0,
+    "capacity_epsilon": 1e-12,
+    "functional_h_budget_nats": 0.001,
+    "functional_h_decision": "uniform-mean-plus-smooth-max",
+    "functional_p_budget_nats": 0.001,
+    "functional_p_decision": "uniform-mean-samplewise-positive-incremental-theta0-kl",
+    "functional_p_smoothmax_role": "diagnostic-only",
+    "functional_p_rawmax_role": "diagnostic-only",
+    "smoothmax_temperature": 0.01,
+    "target_bootstrap_fraction": 0.125,
+    "target_trust_fraction": 0.125,
+    "backtracking": [
+      1.0,
+      0.5,
+      0.25
+    ]
+  },
+  "controller_identity_sha256": "c3e348423c6850a33255c962e3d43a97b5571c2bf80a86c451fd893b2b471c3b",
+  "stream_root_digest": "a3e2fbf27e94c3ace4e048027abf1f08f215715388dacc3cf85bb452e8e89157",
+  "p_population_root_digest": "49f3b2674d5fc649e8e17982769a8be7efde70e92b68791b550100fef627ee4b",
+  "development_exclusion_digest": "02112fd0dbeb1c75a46c0de9624c5c4cf3d0bee5e7684d845eaacec61c3209c1",
+  "endpoint": {
+    "joint_exact_success_count": 10,
+    "online_early_stop": false,
+    "no_exact_policy": "select-feasible-fixed-K8-terminal",
+    "post_commit_all_ten_reverify": true
+  },
+  "native_floor": {
+    "metrics": [
+      "efficacy",
+      "generalization",
+      "locality-preservation",
+      "previous-retention"
+    ],
+    "integer_count_loss_margin": 0,
+    "noncompensatory": true,
+    "pairwise_loss_review": true
+  },
+  "sampling": {
+    "sample_count": 10,
+    "controller_seed": 4101,
+    "terminal_confirmation_seed": 4102,
+    "report_only_seed": 4103,
+    "history_waypoint_count": 10,
+    "history_terminal_max": 30,
+    "cvar_decision_enabled": false
+  },
+  "w64": {
+    "reference": "Native AlphaEdit-WB-mixed64-v1",
+    "reduced_dtype": "torch.float64",
+    "cast_dtype": "torch.float32",
+    "endpoint_dtype": "torch.bfloat16",
+    "residual_tolerance": 1e-05,
+    "w32_fallback": false,
+    "dense_fp64_full_delta_live": 0
+  },
+  "resource_hold": {
+    "forecast_after_batch": 1,
+    "reserved_gpu_mib_strict_less_than": 52000,
+    "process_rss_mib_strict_less_than": 48000,
+    "wall_limit_seconds": 86400,
+    "reserve_fraction": 0.1
+  },
+  "model_alias_specific_controller_branches": 0,
+  "heldout_controller_access_count": 0,
+  "generation_call_count": 0,
+  "retry_count": 0,
+  "root_digest": "61e9a3cad58cdc3d432798cce39a28d06d2c336ad4eab6a2c616993e56a286d4"
+}
