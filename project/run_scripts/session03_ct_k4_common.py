@@ -74,7 +74,7 @@ EXECUTION_TOKENS = {
     "p1": "session03-ct-k4-p1-after-p0-pass-v1",
 }
 OUTPUT_PREFIXES = {
-    "p0": "session03-ct-k4-p0-r1",
+    "p0": "session03-ct-k4-p0-r2",
     "p1": "session03-ct-k4-p1",
 }
 
@@ -154,6 +154,14 @@ def dry_plan(lock: Mapping[str, Any], stage: str) -> dict[str, Any]:
         "server1_project_gpu_cap": resources["server1_project_gpu_cap"],
         "p1_evaluation_enabled": stage == "p1",
         "automatic_p1_condition": "both-p0-terminal-technical-pass",
+    }
+
+
+def _evaluation_firewall_metadata(stage: str) -> dict[str, bool]:
+    return {
+        "enabled": stage == "p1",
+        "controller_access": False,
+        "action_freeze_required": True,
     }
 
 
@@ -439,12 +447,7 @@ def run(args: argparse.Namespace) -> int:
         "easyedit_source_manifest_id": prepared.bridge.load().provenance.manifest_id,
         "trial_backend": base_lock["trial_backend"]["selected_common_backend"],
         "event_backend": "direct-z-oracle-absolute-new-uniform-mean-margin-v3",
-        "evaluation_firewall": {
-            "enabled": stage == "p1",
-            "controller_access": False,
-            "action_freeze_required": True,
-            "generation": False,
-        },
+        "evaluation_firewall": _evaluation_firewall_metadata(stage),
         "setup_wall_seconds": setup_seconds,
         "model_load_wall_seconds_excluded": model_load_seconds,
         "server1_project_gpu_cap": 3,

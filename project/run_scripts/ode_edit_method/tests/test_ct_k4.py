@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import ast
 import math
 import json
 import tempfile
+import textwrap
 import unittest
 from pathlib import Path
 import inspect
@@ -45,9 +47,11 @@ from project.run_scripts.ode_edit_method.ct_k4_evaluation import (
     make_firewall,
 )
 from project.run_scripts.ode_edit_method.events import ControllerRequest
+from project.run_scripts.ode_edit_method.event_strength import assert_raw_free
 from project.run_scripts.ode_edit_method.instrumentation import EditInstrumentation
 from project.run_scripts.ode_edit_method.contracts import EventReading
 from project.run_scripts.session03_ct_k4_common import (
+    _evaluation_firewall_metadata,
     _require_session03_output_root,
     dry_plan,
     expected_output_root,
@@ -522,7 +526,7 @@ class CTK4Tests(unittest.TestCase):
             )
             if stage == "p0":
                 self.assertTrue(
-                    all("session03-ct-k4-p0-r1-" in job["output_root"] for job in plan["jobs"])
+                    all("session03-ct-k4-p0-r2-" in job["output_root"] for job in plan["jobs"])
                 )
         source = inspect.getsource(run_session03)
         self.assertNotIn("if args.model_alias", source)
@@ -574,6 +578,49 @@ class CTK4Tests(unittest.TestCase):
             (repo / relative).symlink_to(repo / "missing-target")
             with self.assertRaises(FileExistsError):
                 _require_session03_output_root(repo, repo / relative, relative)
+
+    def test_tracked_session03_schemas_are_raw_free_before_model_load(self) -> None:
+        forbidden = {
+            "prompt",
+            "subject",
+            "target_new",
+            "target_old",
+            "raw_context",
+            "context_templates",
+            "templates",
+            "evaluation",
+            "generation",
+        }
+        for stage in ("p0", "p1"):
+            skeleton = {
+                "schema_version": f"ode-edit-session03-ct-k4-{stage}-manifest/v1",
+                "evaluation_firewall": _evaluation_firewall_metadata(stage),
+            }
+            assert_raw_free(skeleton)
+
+        tree = ast.parse(textwrap.dedent(inspect.getsource(run_session03)))
+        tracked_names = {"manifest", "record", "summary"}
+        observed: dict[str, set[str]] = {name: set() for name in tracked_names}
+
+        def collect_keys(node: ast.AST) -> set[str]:
+            return {
+                key.value
+                for item in ast.walk(node)
+                if isinstance(item, ast.Dict)
+                for key in item.keys
+                if isinstance(key, ast.Constant) and isinstance(key.value, str)
+            }
+
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Assign):
+                continue
+            for target in node.targets:
+                if isinstance(target, ast.Name) and target.id in tracked_names:
+                    observed[target.id].update(collect_keys(node.value))
+        self.assertEqual(set(observed), tracked_names)
+        self.assertTrue(all(observed.values()))
+        for name, keys in observed.items():
+            self.assertFalse(forbidden & keys, (name, forbidden & keys))
 
 
 if __name__ == "__main__":
