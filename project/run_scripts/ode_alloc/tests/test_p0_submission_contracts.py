@@ -49,8 +49,8 @@ class P0SubmissionContractTests(unittest.TestCase):
         self.assertEqual(
             JOB_NAMES,
             {
-                "llama3-8b-inst": "odealloc_s04_p0r2_llama",
-                "qwen2.5-7b-inst": "odealloc_s04_p0r2_qwen",
+                "llama3-8b-inst": "odealloc_s04_p0r3_llama",
+                "qwen2.5-7b-inst": "odealloc_s04_p0r3_qwen",
             },
         )
         sbatch = (
@@ -68,6 +68,7 @@ class P0SubmissionContractTests(unittest.TestCase):
             self.assertIn(directive, sbatch)
         self.assertNotIn("#SBATCH --array", sbatch)
         self.assertIn('--run-token "${RUN_TOKEN}"', sbatch)
+        self.assertIn('"${RUN_TOKEN}" == "r3"', sbatch)
 
     def test_numerical_diff_contract_is_path_exact(self) -> None:
         self.assertEqual(

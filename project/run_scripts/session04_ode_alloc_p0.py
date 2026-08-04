@@ -17,7 +17,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from project.run_scripts.ode_alloc.contracts import MODEL_ALIASES
 from project.run_scripts.ode_alloc.p0_runtime import (
-    R2_RUN_TOKEN,
+    R3_RUN_TOKEN,
     run_p0,
     write_diagnostic_failure_once,
     write_failure_once,
@@ -33,7 +33,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--model", required=True, choices=MODEL_ALIASES)
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--run-token", required=True, choices=(R2_RUN_TOKEN,))
+    parser.add_argument("--run-token", required=True, choices=(R3_RUN_TOKEN,))
     parser.add_argument(
         "--numerical-lock",
         type=Path,

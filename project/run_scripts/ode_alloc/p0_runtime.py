@@ -42,14 +42,14 @@ from .transaction import AtomicLayerTransaction
 
 
 INSTRUCTION_ID = "ODEEDIT-S04-ODE-ALLOC-P0-LOCK-R1-PAIR-V1"
-DIAGNOSTIC_INSTRUCTION_ID = "ODEEDIT-S04-ODE-ALLOC-P0-RUNTIME-DIAG-R2-PAIR-V1"
+DIAGNOSTIC_INSTRUCTION_ID = "ODEEDIT-S04-ODE-ALLOC-TENSOR-HASH-R3-P0-PAIR-V1"
 SESSION_ID = "019fc5ec-f85b-7770-a73a-1d19be1cd491"
 EXPECTED_BASE = "281f4e63611f519995d9b8499895c68a4126002c"
 CASE_ID = 21135
 REQUEST_SHA256 = "f5626d5c210c4c014af57cb5ed89529f9408ae9e2ad1fab255467713591e2722"
 SEAL_ROOT = "1b45cd567d5ef1a8c52bf0a5a6f8b715270f620cbbdc9949bbf7094f87ef8cab"
 SEED = 41
-R2_RUN_TOKEN = "r2"
+R3_RUN_TOKEN = "r3"
 DIAGNOSTIC_STAGES = (
     "post_execute_memit",
     "post_factor_hash",
@@ -74,7 +74,13 @@ def _hash_bytes(*parts: bytes) -> str:
 
 
 def tensor_sha256(tensor: torch.Tensor, *, row_block: int = 64) -> str:
-    """Hash a tensor without retaining a dense CPU copy."""
+    """Hash dtype, shape, then C-order logical bytes without numeric conversion.
+
+    Each bounded row chunk is detached, made contiguous, copied to CPU, and
+    flattened before its uint8 view.  The byte view therefore preserves the
+    tensor dtype's native byte representation while avoiding multidimensional
+    last-axis view restrictions.
+    """
 
     value = tensor.detach()
     digest = hashlib.sha256()
@@ -90,7 +96,9 @@ def tensor_sha256(tensor: torch.Tensor, *, row_block: int = 64) -> str:
             for start in range(0, value.shape[0], row_block)
         )
     for chunk in chunks:
-        raw = chunk.contiguous().to(device="cpu").view(torch.uint8).numpy().tobytes()
+        cpu_contiguous = chunk.contiguous().to(device="cpu")
+        logical_1d = cpu_contiguous.reshape(-1)
+        raw = logical_1d.view(torch.uint8).numpy().tobytes(order="C")
         digest.update(raw)
     return digest.hexdigest()
 
@@ -112,7 +120,7 @@ def expected_result_name(alias: str, numerical_lock_sha256: str, run_token: str)
     if (
         alias not in MODEL_ALIASES
         or len(numerical_lock_sha256) != 64
-        or run_token != R2_RUN_TOKEN
+        or run_token != R3_RUN_TOKEN
     ):
         raise ODEAllocContractError("P0 result identity is invalid")
     return f"s04-p0-native-identity-{run_token}-{alias}-{numerical_lock_sha256[:8]}"
@@ -185,7 +193,7 @@ def _tensor_structure(tensor: torch.Tensor) -> dict[str, Any]:
 
 
 class DiagnosticStageRecorder:
-    """Ordered, create-once, raw-free stage receipts for the R2 rerun."""
+    """Ordered, create-once, raw-free stage receipts for the technical rerun."""
 
     def __init__(self, raw_root: Path) -> None:
         self.root = raw_root / "diagnostic"
@@ -195,6 +203,7 @@ class DiagnosticStageRecorder:
         self.root.mkdir(mode=0o700)
         self.stages_root.mkdir(mode=0o700)
         self._completed: list[tuple[str, str]] = []
+        self.wall_seconds = 0.0
 
     @property
     def last_completed_stage(self) -> str | None:
@@ -209,13 +218,26 @@ class DiagnosticStageRecorder:
             "ordinal": ordinal,
             "stage": stage,
         }
-        digest = _atomic_diagnostic_write_once(
-            self.stages_root / f"{ordinal:02d}-{stage}.json", payload
-        )
+        started = time.perf_counter()
+        try:
+            digest = _atomic_diagnostic_write_once(
+                self.stages_root / f"{ordinal:02d}-{stage}.json", payload
+            )
+        finally:
+            self.wall_seconds += time.perf_counter() - started
         self._completed.append((stage, digest))
         return digest
 
     def write_structure_once(
+        self, factors: Mapping[str, tuple[torch.Tensor, torch.Tensor]]
+    ) -> str:
+        started = time.perf_counter()
+        try:
+            return self._write_structure_once(factors)
+        finally:
+            self.wall_seconds += time.perf_counter() - started
+
+    def _write_structure_once(
         self, factors: Mapping[str, tuple[torch.Tensor, torch.Tensor]]
     ) -> str:
         rows: list[dict[str, Any]] = []
@@ -874,6 +896,7 @@ def run_p0(
             capture_box["memit_main"] = result[5]
             return result[0]
 
+        diagnostic_wall_before_capture = diagnostics.wall_seconds
         with timers.measure("native_factor_capture_once"):
             deltas = oneshot.capture_from("native_factors", build_factors, factors_sha256)
             diagnostics.complete("post_factor_hash")
@@ -893,6 +916,10 @@ def run_p0(
                 lambda value: canonical_hash(value),
             )
             frozen_receipt = oneshot.seal()
+        diagnostic_capture_wall = diagnostics.wall_seconds - diagnostic_wall_before_capture
+        if not 0.0 <= diagnostic_capture_wall <= timers.wall["native_factor_capture_once"]:
+            raise ODEAllocContractError("diagnostic timing exclusion differs")
+        timers.wall["native_factor_capture_once"] -= diagnostic_capture_wall
         post_factor_hashes = {name: tensor_sha256(parameter) for name, parameter in touched.items()}
         if post_factor_hashes != entry_weight_hashes:
             raise ODEAllocContractError("execute_memit did not restore W0 byte exactly")
@@ -1076,7 +1103,7 @@ def run_p0(
         ledger.add_seconds("gpu_seconds", sum(timers.gpu.values()))
         diagnostics.complete("post_identity_verdict")
         manifest: dict[str, Any] = {
-            "schema_version": "ode-alloc-s04-p0-native-identity-r2/v1",
+            "schema_version": "ode-alloc-s04-p0-native-identity-r3/v1",
             "status": "PASS_TECHNICAL_IDENTITY_ONLY",
             "instruction_id": INSTRUCTION_ID,
             "diagnostic_instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
@@ -1130,6 +1157,8 @@ def run_p0(
                 "last_completed_stage": diagnostics.last_completed_stage,
                 "stage_receipt_root_sha256": diagnostics.receipt_root_sha256(),
                 "factor_structure_sha256": capture_box["factor_structure_sha256"],
+                "instrumentation_wall_seconds": diagnostics.wall_seconds,
+                "excluded_from_scientific_compute": True,
             },
             "gauge": {
                 "layers": list(gauge.layers),
@@ -1200,7 +1229,7 @@ def run_p0(
         manifest["manifest_id"] = canonical_hash(manifest)
         manifest_sha = _canonical_write_once(destination / "manifest.json", manifest)
         summary = {
-            "schema_version": "ode-alloc-s04-p0-terminal-summary-r2/v1",
+            "schema_version": "ode-alloc-s04-p0-terminal-summary-r3/v1",
             "status": manifest["status"],
             "model_alias": alias,
             "source_head": source_head,
@@ -1219,7 +1248,7 @@ def run_p0(
         summary["summary_id"] = canonical_hash(summary)
         summary_sha = _canonical_write_once(destination / "summary.json", summary)
         terminal = {
-            "schema_version": "ode-alloc-s04-p0-terminal-receipt-r2/v1",
+            "schema_version": "ode-alloc-s04-p0-terminal-receipt-r3/v1",
             "status": "PASS",
             "model_alias": alias,
             "manifest_sha256": manifest_sha,
