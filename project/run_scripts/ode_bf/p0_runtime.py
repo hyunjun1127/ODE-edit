@@ -23,7 +23,10 @@ from .accounting import ComputeLedger
 from .alpha_backend import (
     ALPHA_SOLVE_DTYPE,
     ALPHA_SOLVE_REFERENCE,
+    CapturedNativeWBEndpoint,
     FOUR_PATH_ORDER,
+    FourPathLayerReceipt,
+    FourPathSolveReceipt,
     W64_ASSEMBLER_REFERENCE,
     W64_CAST_DTYPE,
     W64_ENDPOINT_DTYPE,
@@ -47,7 +50,7 @@ from .selection import load_sealed_joint_requests, verify_p0_b10_seal
 from .transaction import AtomicBatchTransaction
 
 
-INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-W64-CANONICAL-RECEIPT-P0-R3-V1"
+INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-W64-RECEIPT-FIELD-R4-V1"
 SCIENTIFIC_LOCK_INSTRUCTION_ID = (
     "ODEEDIT-S04-ODE-BF-V1P1-EXACT-FIRST-HIT-CPU-P0-V1-A3"
 )
@@ -59,7 +62,7 @@ SEED = 41
 def expected_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P0 result alias is not locked")
-    return f"s04-p0-w64-canonical-receipt-r3-{alias}-{NUMERICAL_LOCK_PREFIX}"
+    return f"s04-p0-w64-receipt-field-r4-{alias}-{NUMERICAL_LOCK_PREFIX}"
 
 
 def _atomic_write_once(path: Path, value: Mapping[str, Any]) -> str:
@@ -412,6 +415,69 @@ def classify_w64_technical_candidate(
     return "W64_TECHNICAL_CANDIDATE_NO_NATIVE_EQUIVALENCE_CLAIM"
 
 
+def _four_path_solve_receipts(
+    layer_receipts: tuple[FourPathLayerReceipt, ...],
+) -> tuple[FourPathSolveReceipt, ...]:
+    receipts = tuple(
+        receipt
+        for layer in layer_receipts
+        for receipt in layer.path_receipts
+    )
+    if not receipts or any(
+        not isinstance(receipt, FourPathSolveReceipt) for receipt in receipts
+    ):
+        raise ODEBFContractError("four-path solve receipt schema differs")
+    return receipts
+
+
+def _four_path_solve_device_classes(
+    layer_receipts: tuple[FourPathLayerReceipt, ...],
+) -> list[str]:
+    return sorted(
+        {
+            receipt.solve_device_class
+            for receipt in _four_path_solve_receipts(layer_receipts)
+        }
+    )
+
+
+def _post_joint_factor_contract_payload(
+    captured: CapturedNativeWBEndpoint,
+) -> dict[str, Any]:
+    if not isinstance(captured, CapturedNativeWBEndpoint):
+        raise ODEBFContractError("captured Alpha endpoint schema differs")
+    return {
+        "direct_z_count": captured.initialization.direct_z_initializations,
+        "direct_z_sha256": list(captured.direct_z_sha256),
+        "key_sha256_by_layer": [list(item) for item in captured.key_sha256_by_layer],
+        "factor_shapes": [asdict(item) for item in captured.initialization.factors],
+        "canonical_dense_solve": [
+            asdict(item) for item in captured.dense_solve_receipts
+        ],
+        "solve_reference": ALPHA_SOLVE_REFERENCE,
+        "solve_dtype": str(ALPHA_SOLVE_DTYPE),
+        "request_digest": {
+            "schema_version": ORDERED_REQUEST_DIGEST_SCHEMA,
+            "sha256": captured.initialization.request_order_sha256,
+        },
+        "prospective_path": {
+            "name": W64_PRIMARY_REFERENCE,
+            "path": W64_PRIMARY_PATH,
+            "input_boundary_dtype": str(ALPHA_SOLVE_DTYPE),
+            "reduced_dtype": str(W64_REDUCED_DTYPE),
+            "cast_dtype": str(W64_CAST_DTYPE),
+            "endpoint_dtype": str(W64_ENDPOINT_DTYPE),
+            "reduced_backend": W64_REDUCED_BACKEND,
+            "assembler": W64_ASSEMBLER_REFERENCE,
+            "solve_device_classes": _four_path_solve_device_classes(
+                captured.four_path_layer_receipts
+            ),
+            "w32_fallback": False,
+        },
+        "target_backward_count": captured.target_backward_count,
+    }
+
+
 def _comparison_matrix(layer_receipts: Any) -> dict[str, dict[str, Any]]:
     matrix: dict[str, dict[str, Any]] = {}
     for left_index, left in enumerate(FOUR_PATH_ORDER):
@@ -650,40 +716,7 @@ def run_p0(
             raise ODEBFContractError("initialization request digest differs from sealed B10")
         stages.record(
             "post_joint_factor_contract",
-            {
-                "direct_z_count": captured.initialization.direct_z_initializations,
-                "direct_z_sha256": list(captured.direct_z_sha256),
-                "key_sha256_by_layer": [list(item) for item in captured.key_sha256_by_layer],
-                "factor_shapes": [asdict(item) for item in captured.initialization.factors],
-                "canonical_dense_solve": [
-                    asdict(item) for item in captured.dense_solve_receipts
-                ],
-                "solve_reference": ALPHA_SOLVE_REFERENCE,
-                "solve_dtype": str(ALPHA_SOLVE_DTYPE),
-                "request_digest": {
-                    "schema_version": ORDERED_REQUEST_DIGEST_SCHEMA,
-                    "sha256": captured.initialization.request_order_sha256,
-                },
-                "prospective_path": {
-                    "name": W64_PRIMARY_REFERENCE,
-                    "path": W64_PRIMARY_PATH,
-                    "input_boundary_dtype": str(ALPHA_SOLVE_DTYPE),
-                    "reduced_dtype": str(W64_REDUCED_DTYPE),
-                    "cast_dtype": str(W64_CAST_DTYPE),
-                    "endpoint_dtype": str(W64_ENDPOINT_DTYPE),
-                    "reduced_backend": W64_REDUCED_BACKEND,
-                    "assembler": W64_ASSEMBLER_REFERENCE,
-                    "solve_device_classes": sorted(
-                        {
-                            item.device_class
-                            for layer in captured.four_path_layer_receipts
-                            for item in layer.path_receipts
-                        }
-                    ),
-                    "w32_fallback": False,
-                },
-                "target_backward_count": captured.target_backward_count,
-            },
+            _post_joint_factor_contract_payload(captured),
         )
 
         touched = {
@@ -830,8 +863,7 @@ def run_p0(
             item.joint_rank == 10 for item in layer_path_receipts
         )
         device_identity_exact = all(
-            len({item.device_class for item in layer.path_receipts}) == 1
-            and {item.device_class for item in layer.path_receipts} == {"cuda"}
+            _four_path_solve_device_classes((layer,)) == ["cuda"]
             for layer in captured.four_path_layer_receipts
         )
         source_inputs_identical = (
@@ -1021,8 +1053,8 @@ def run_p0(
                 "endpoint_dtype": str(W64_ENDPOINT_DTYPE),
                 "cast_count": 1,
                 "reduced_backend": W64_REDUCED_BACKEND,
-                "solve_device_classes": sorted(
-                    {item.device_class for item in layer_path_receipts}
+                "solve_device_classes": _four_path_solve_device_classes(
+                    captured.four_path_layer_receipts
                 ),
                 "assembler": W64_ASSEMBLER_REFERENCE,
                 "dense_fp64_full_delta_live": 0,

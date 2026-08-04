@@ -20,8 +20,8 @@ class P0SubmissionTests(unittest.TestCase):
         self.assertEqual(
             JOB_NAMES,
             {
-                "llama3-8b-inst": "odebf_s04_p0r3_llama",
-                "qwen2.5-7b-inst": "odebf_s04_p0r3_qwen",
+                "llama3-8b-inst": "odebf_s04_p0r4_llama",
+                "qwen2.5-7b-inst": "odebf_s04_p0r4_qwen",
             },
         )
         first = json.dumps(
@@ -42,7 +42,7 @@ class P0SubmissionTests(unittest.TestCase):
         self.assertTrue(all(job["memory_forecast"]["edit_batch_size"] == 10 for job in plan["jobs"]))
         self.assertEqual(plan["diagnostic_paths"], ["N32", "D32", "W32", "W64"])
         self.assertTrue(
-            all(job["r3_forecast_host_peak_mib"] <= 65000 for job in plan["jobs"])
+            all(job["r4_forecast_host_peak_mib"] <= 65000 for job in plan["jobs"])
         )
         self.assertEqual(plan["prospective_technical_path"], "W64")
         self.assertFalse(plan["w32_fallback"])
@@ -63,7 +63,7 @@ class P0SubmissionTests(unittest.TestCase):
             self.assertIn(directive, sbatch)
         self.assertNotIn("#SBATCH --array", sbatch)
         self.assertIn(
-            '"${RUN_TOKEN}" == "w64-canonical-receipt-r3-b10"',
+            '"${RUN_TOKEN}" == "w64-receipt-field-r4-b10"',
             sbatch,
         )
         self.assertIn('--run-token "${RUN_TOKEN}"', sbatch)
@@ -92,14 +92,14 @@ class P0SubmissionTests(unittest.TestCase):
         self.assertEqual(prospective["prospective_technical_path"]["primary_path"], "W64")
         self.assertFalse(prospective["prospective_technical_path"]["w32_fallback"])
 
-    def test_r0_r1_r2_roots_logs_and_receipts_are_immutable(self) -> None:
+    def test_r0_through_r3_roots_logs_and_receipts_are_immutable(self) -> None:
         self.assertEqual(
             submit_module._r0_immutability_gate(),
             submit_module.R0_IMMUTABILITY_SHA256,
         )
         self.assertEqual(
             submit_module.BASE_HEAD,
-            "c5608439d5da43c9c0651a67342501abc5315a9a",
+            "81ed70588b8ed7ebc3816a3b097531f35a89f094",
         )
         self.assertEqual(
             submit_module._r2_immutability_gate(),
@@ -113,6 +113,13 @@ class P0SubmissionTests(unittest.TestCase):
             (
                 submit_module.R1_RESULT_IMMUTABILITY_SHA256,
                 submit_module.R1_LOG_STATE_IMMUTABILITY_SHA256,
+            ),
+        )
+        self.assertEqual(
+            submit_module._r3_immutability_gate(),
+            (
+                submit_module.R3_PER_ROOT_SHA256,
+                submit_module.R3_LOG_STATE_IMMUTABILITY_SHA256,
             ),
         )
 

@@ -734,7 +734,7 @@ class P0ReceiptTests(unittest.TestCase):
     def test_result_namespace_and_outcome_sealing(self) -> None:
         self.assertEqual(
             expected_result_name("llama3-8b-inst"),
-            "s04-p0-w64-canonical-receipt-r3-llama3-8b-inst-40421f3f",
+            "s04-p0-w64-receipt-field-r4-llama3-8b-inst-40421f3f",
         )
         scores = tuple(CounterFactRequestScore(0.1, 0.2) for _ in range(10))
         receipt = ModelEvaluationReceipt(
