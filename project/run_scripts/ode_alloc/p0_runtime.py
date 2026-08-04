@@ -42,12 +42,27 @@ from .transaction import AtomicLayerTransaction
 
 
 INSTRUCTION_ID = "ODEEDIT-S04-ODE-ALLOC-P0-LOCK-R1-PAIR-V1"
+DIAGNOSTIC_INSTRUCTION_ID = "ODEEDIT-S04-ODE-ALLOC-P0-RUNTIME-DIAG-R2-PAIR-V1"
 SESSION_ID = "019fc5ec-f85b-7770-a73a-1d19be1cd491"
 EXPECTED_BASE = "281f4e63611f519995d9b8499895c68a4126002c"
 CASE_ID = 21135
 REQUEST_SHA256 = "f5626d5c210c4c014af57cb5ed89529f9408ae9e2ad1fab255467713591e2722"
 SEAL_ROOT = "1b45cd567d5ef1a8c52bf0a5a6f8b715270f620cbbdc9949bbf7094f87ef8cab"
 SEED = 41
+R2_RUN_TOKEN = "r2"
+DIAGNOSTIC_STAGES = (
+    "post_execute_memit",
+    "post_factor_hash",
+    "post_factor_contract",
+    "pre_direct_z_score",
+    "post_direct_z_score",
+    "pre_native_writer",
+    "post_native_writer",
+    "pre_q0_functional",
+    "post_q0_functional",
+    "post_q0_commit",
+    "post_identity_verdict",
+)
 
 
 def _hash_bytes(*parts: bytes) -> str:
@@ -93,10 +108,14 @@ def factors_sha256(value: Mapping[str, tuple[torch.Tensor, torch.Tensor]]) -> st
     return canonical_hash(records)
 
 
-def expected_result_name(alias: str, numerical_lock_sha256: str) -> str:
-    if alias not in MODEL_ALIASES or len(numerical_lock_sha256) != 64:
+def expected_result_name(alias: str, numerical_lock_sha256: str, run_token: str) -> str:
+    if (
+        alias not in MODEL_ALIASES
+        or len(numerical_lock_sha256) != 64
+        or run_token != R2_RUN_TOKEN
+    ):
         raise ODEAllocContractError("P0 result identity is invalid")
-    return f"s04-p0-native-identity-r1-{alias}-{numerical_lock_sha256[:8]}"
+    return f"s04-p0-native-identity-{run_token}-{alias}-{numerical_lock_sha256[:8]}"
 
 
 def _seed_all(seed: int) -> None:
@@ -122,6 +141,210 @@ def _canonical_write_once(path: Path, value: Mapping[str, Any]) -> str:
             path.unlink()
         raise
     return hashlib.sha256(encoded).hexdigest()
+
+
+def _atomic_diagnostic_write_once(path: Path, value: Mapping[str, Any]) -> str:
+    """Publish a complete diagnostic receipt atomically without replacement."""
+
+    if path.exists() or path.is_symlink():
+        raise FileExistsError("P0 diagnostic metadata is create-once")
+    encoded = (canonical_json(value) + "\n").encode("utf-8")
+    temporary = path.with_name(
+        f".{path.name}.tmp-{os.getpid()}-{threading.get_ident()}"
+    )
+    descriptor = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    linked = False
+    try:
+        with os.fdopen(descriptor, "wb") as handle:
+            handle.write(encoded)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.link(temporary, path)
+        linked = True
+    finally:
+        with contextlib.suppress(FileNotFoundError):
+            temporary.unlink()
+    if not linked:
+        raise ODEAllocContractError("P0 diagnostic receipt was not published")
+    directory = os.open(path.parent, os.O_RDONLY | getattr(os, "O_DIRECTORY", 0))
+    try:
+        os.fsync(directory)
+    finally:
+        os.close(directory)
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _tensor_structure(tensor: torch.Tensor) -> dict[str, Any]:
+    return {
+        "shape": list(tensor.shape),
+        "dtype": str(tensor.dtype),
+        "device_class": tensor.device.type,
+        "finite": bool(torch.isfinite(tensor).all().item()),
+        "sha256": tensor_sha256(tensor),
+    }
+
+
+class DiagnosticStageRecorder:
+    """Ordered, create-once, raw-free stage receipts for the R2 rerun."""
+
+    def __init__(self, raw_root: Path) -> None:
+        self.root = raw_root / "diagnostic"
+        self.stages_root = self.root / "stages"
+        if self.root.exists() or self.root.is_symlink():
+            raise FileExistsError("P0 diagnostic root is create-once")
+        self.root.mkdir(mode=0o700)
+        self.stages_root.mkdir(mode=0o700)
+        self._completed: list[tuple[str, str]] = []
+
+    @property
+    def last_completed_stage(self) -> str | None:
+        return self._completed[-1][0] if self._completed else None
+
+    def complete(self, stage: str) -> str:
+        ordinal = len(self._completed)
+        if ordinal >= len(DIAGNOSTIC_STAGES) or stage != DIAGNOSTIC_STAGES[ordinal]:
+            raise ODEAllocContractError("P0 diagnostic stage order differs")
+        payload = {
+            "schema_version": "ode-alloc-s04-p0-diagnostic-stage-r2/v1",
+            "ordinal": ordinal,
+            "stage": stage,
+        }
+        digest = _atomic_diagnostic_write_once(
+            self.stages_root / f"{ordinal:02d}-{stage}.json", payload
+        )
+        self._completed.append((stage, digest))
+        return digest
+
+    def write_structure_once(
+        self, factors: Mapping[str, tuple[torch.Tensor, torch.Tensor]]
+    ) -> str:
+        rows: list[dict[str, Any]] = []
+        for ordinal, (_, (key, residual)) in enumerate(sorted(factors.items())):
+            rank = (
+                int(key.shape[1])
+                if key.ndim == 2
+                and residual.ndim == 2
+                and key.shape[1] == residual.shape[1]
+                else None
+            )
+            rows.append(
+                {
+                    "ordinal": ordinal,
+                    "rank": rank,
+                    "key": _tensor_structure(key),
+                    "residual": _tensor_structure(residual),
+                }
+            )
+        payload = {
+            "schema_version": "ode-alloc-s04-p0-factor-structure-r2/v1",
+            "layer_count": len(rows),
+            "mapping_keyset_sha256": canonical_hash(sorted(factors)),
+            "factors": rows,
+        }
+        return _atomic_diagnostic_write_once(self.root / "factor_structure.json", payload)
+
+    def receipt_root_sha256(self) -> str:
+        return canonical_hash(self._completed)
+
+
+def _completed_stage_summary(output_root: Path) -> tuple[str | None, str]:
+    stages_root = output_root / "raw" / "diagnostic" / "stages"
+    completed: list[tuple[str, str]] = []
+    observed_names = (
+        {path.name for path in stages_root.iterdir()}
+        if stages_root.is_dir() and not stages_root.is_symlink()
+        else set()
+    )
+    gap_seen = False
+    for ordinal, stage in enumerate(DIAGNOSTIC_STAGES):
+        path = stages_root / f"{ordinal:02d}-{stage}.json"
+        if not path.exists() and not path.is_symlink():
+            gap_seen = True
+            continue
+        if path.is_symlink() or gap_seen:
+            raise ODEAllocContractError("P0 diagnostic stage receipt set differs")
+        value = json.loads(path.read_text(encoding="utf-8"))
+        if value != {
+            "schema_version": "ode-alloc-s04-p0-diagnostic-stage-r2/v1",
+            "ordinal": ordinal,
+            "stage": stage,
+        }:
+            raise ODEAllocContractError("P0 diagnostic stage receipt content differs")
+        completed.append((stage, sha256_file(path)))
+    expected_names = {
+        f"{ordinal:02d}-{stage}.json" for ordinal, (stage, _) in enumerate(completed)
+    }
+    if observed_names != expected_names:
+        raise ODEAllocContractError("P0 diagnostic stage receipt namespace differs")
+    return (completed[-1][0] if completed else None, canonical_hash(completed))
+
+
+def _allowlisted_exception_frames(
+    exc: BaseException, *, repo_root: Path, easyedit_root: Path
+) -> list[dict[str, Any]]:
+    frames: list[dict[str, Any]] = []
+    traceback_cursor = exc.__traceback__
+    resolved_repo = repo_root.resolve(strict=True)
+    resolved_easyedit = easyedit_root.resolve(strict=True)
+    while traceback_cursor is not None:
+        code = traceback_cursor.tb_frame.f_code
+        source = Path(code.co_filename).resolve(strict=False)
+        recorded: str | None = None
+        with contextlib.suppress(ValueError):
+            relative = source.relative_to(resolved_repo)
+            if (
+                relative.parts[:3] == ("project", "run_scripts", "ode_alloc")
+                or relative == Path("project/run_scripts/session04_ode_alloc_p0.py")
+            ):
+                recorded = relative.as_posix()
+        if recorded is None:
+            with contextlib.suppress(ValueError):
+                relative = source.relative_to(resolved_easyedit)
+                if relative.parts[:3] == ("easyeditor", "models", "memit"):
+                    recorded = f"easyedit/{relative.as_posix()}"
+        if recorded is not None:
+            frames.append(
+                {
+                    "file": recorded,
+                    "function": code.co_name,
+                    "line": int(traceback_cursor.tb_lineno),
+                }
+            )
+        traceback_cursor = traceback_cursor.tb_next
+    return frames
+
+
+def write_diagnostic_failure_once(
+    output_root: Path,
+    exc: BaseException,
+    *,
+    repo_root: Path,
+    easyedit_root: Path,
+) -> str | None:
+    if not output_root.exists() or not output_root.is_dir():
+        return None
+    destination = output_root / "diagnostic_failure.json"
+    if destination.exists() or destination.is_symlink():
+        return None
+    last_stage, stage_root_sha256 = _completed_stage_summary(output_root)
+    structure = output_root / "raw" / "diagnostic" / "factor_structure.json"
+    payload = {
+        "schema_version": "ode-alloc-s04-p0-diagnostic-failure-r2/v1",
+        "status": "FAIL_CLOSED_NO_RETRY",
+        "diagnostic_instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
+        "last_completed_stage": last_stage,
+        "stage_receipt_root_sha256": stage_root_sha256,
+        "factor_structure_sha256": (
+            sha256_file(structure) if structure.exists() and not structure.is_symlink() else None
+        ),
+        "exception_type": type(exc).__name__,
+        "exception_message_sha256": hashlib.sha256(str(exc).encode("utf-8")).hexdigest(),
+        "allowlisted_frames": _allowlisted_exception_frames(
+            exc, repo_root=repo_root, easyedit_root=easyedit_root
+        ),
+        "scientific_outcome_count": 0,
+    }
+    return _atomic_diagnostic_write_once(destination, payload)
 
 
 @dataclass(frozen=True, slots=True)
@@ -557,6 +780,7 @@ def run_p0(
     numerical_lock_path: Path,
     artifact_lock_path: Path,
     seal_path: Path,
+    run_token: str,
 ) -> dict[str, Any]:
     started = time.time()
     if alias not in MODEL_ALIASES:
@@ -574,7 +798,7 @@ def run_p0(
         or lock_value["p0_identity_lock"].get("seal_root_digest") != SEAL_ROOT
     ):
         raise ODEAllocContractError("numerical P0 lock differs")
-    expected_name = expected_result_name(alias, numerical_lock_sha)
+    expected_name = expected_result_name(alias, numerical_lock_sha, run_token)
     results_parent = (repo_root / "local" / "odealloc" / "results").resolve(strict=True)
     destination = output_root.resolve(strict=False)
     if destination.parent != results_parent or destination.name != expected_name:
@@ -584,6 +808,7 @@ def run_p0(
     destination.mkdir(mode=0o700)
     raw_root = destination / "raw"
     raw_root.mkdir(mode=0o700)
+    diagnostics = DiagnosticStageRecorder(raw_root)
 
     ledger = ComputeLedger()
     timers = ComponentTimer()
@@ -638,6 +863,10 @@ def run_p0(
             result = _capture_native_factors(
                 model, tokenizer, request, hparams, guard, ledger
             )
+            diagnostics.complete("post_execute_memit")
+            capture_box["factor_structure_sha256"] = diagnostics.write_structure_once(
+                result[0]
+            )
             capture_box["direct_z"] = result[1]
             capture_box["keys"] = result[2]
             capture_box["covariance"] = result[3]
@@ -647,6 +876,7 @@ def run_p0(
 
         with timers.measure("native_factor_capture_once"):
             deltas = oneshot.capture_from("native_factors", build_factors, factors_sha256)
+            diagnostics.complete("post_factor_hash")
             direct_z = oneshot.capture_from(
                 "direct_z", lambda: capture_box["direct_z"], tensor_sha256
             )
@@ -671,9 +901,11 @@ def run_p0(
         for layer, name in zip(hparams.layers, weight_names, strict=True):
             key_matrix, residual = deltas[name]
             factors_by_weight[name] = FactorPair(layer, residual, key_matrix)
+        diagnostics.complete("post_factor_contract")
         del keys, covariance
 
         z_module = hparams.layer_module_tmp.format(hparams.layers[-1])
+        diagnostics.complete("pre_direct_z_score")
         with timers.measure("direct_z_teacher_scoring"):
             direct_z_panel = score_panel(
                 model,
@@ -684,6 +916,7 @@ def run_p0(
                 z_module_name=z_module,
                 fact_token=hparams.fact_token,
             )
+        diagnostics.complete("post_direct_z_score")
 
         memit_main = capture_box["memit_main"]
         original_execute = memit_main.execute_memit
@@ -697,6 +930,7 @@ def run_p0(
                 raise ODEAllocContractError("Native factor replay repeated")
             return deltas
 
+        diagnostics.complete("pre_native_writer")
         with timers.measure("independent_easyedit_native_writer"):
             memit_main.execute_memit = replay_once
             try:
@@ -711,6 +945,7 @@ def run_p0(
                 )
             finally:
                 memit_main.execute_memit = original_execute
+        diagnostics.complete("post_native_writer")
         if replay_calls != 1 or set(w0_snapshots) != set(weight_names):
             raise ODEAllocContractError("independent Native writer receipt differs")
         native_weight_hashes = {name: tensor_sha256(touched[name]) for name in weight_names}
@@ -758,6 +993,7 @@ def run_p0(
         }
         ratios = {layer: float(value) for layer, value in gauge_reading.ratio_by_layer().items()}
 
+        diagnostics.complete("pre_q0_functional")
         ledger.increment("quantized_trial_calls")
         trial = QuantizedBF16FunctionalTrial(
             model, active_factors, ratios, row_block=64
@@ -779,6 +1015,7 @@ def run_p0(
             or trial.max_fp32_delta_block_elements >= max_full_weight_elements
         ):
             raise ODEAllocContractError("quantized verdict retained a dense FP32 delta")
+        diagnostics.complete("post_q0_functional")
 
         faulting = AtomicLayerTransaction(touched, mutation_lock=mutation_lock)
         for name, pair in factors_by_weight.items():
@@ -811,6 +1048,7 @@ def run_p0(
             committed_event = _event(committed_panel, entry_panel, direct_z_panel, gate_config)
         if committed_panel != virtual_panel or committed_event != virtual_event:
             raise ODEAllocContractError("q=0 transactional output/event differs from virtual")
+        diagnostics.complete("post_q0_commit")
 
         cleanup = AtomicLayerTransaction(touched, mutation_lock=mutation_lock)
         for name in weight_names:
@@ -836,10 +1074,13 @@ def run_p0(
         ledger.observe_peak_memory(allocated_peak)
         ledger.add_seconds("controller_wall_seconds", sum(timers.wall.values()))
         ledger.add_seconds("gpu_seconds", sum(timers.gpu.values()))
+        diagnostics.complete("post_identity_verdict")
         manifest: dict[str, Any] = {
-            "schema_version": "ode-alloc-s04-p0-native-identity-r1/v1",
+            "schema_version": "ode-alloc-s04-p0-native-identity-r2/v1",
             "status": "PASS_TECHNICAL_IDENTITY_ONLY",
             "instruction_id": INSTRUCTION_ID,
+            "diagnostic_instruction_id": DIAGNOSTIC_INSTRUCTION_ID,
+            "run_token": run_token,
             "session_id": SESSION_ID,
             "source_head": source_head,
             "expected_parent": EXPECTED_BASE,
@@ -884,6 +1125,11 @@ def run_p0(
                 "capture_counts": dict(frozen_receipt.capture_counts),
                 "underlying_counts": capture_box["counts"],
                 "native_replay_writer_calls": replay_calls,
+            },
+            "diagnostic": {
+                "last_completed_stage": diagnostics.last_completed_stage,
+                "stage_receipt_root_sha256": diagnostics.receipt_root_sha256(),
+                "factor_structure_sha256": capture_box["factor_structure_sha256"],
             },
             "gauge": {
                 "layers": list(gauge.layers),
@@ -954,7 +1200,7 @@ def run_p0(
         manifest["manifest_id"] = canonical_hash(manifest)
         manifest_sha = _canonical_write_once(destination / "manifest.json", manifest)
         summary = {
-            "schema_version": "ode-alloc-s04-p0-terminal-summary-r1/v1",
+            "schema_version": "ode-alloc-s04-p0-terminal-summary-r2/v1",
             "status": manifest["status"],
             "model_alias": alias,
             "source_head": source_head,
@@ -973,7 +1219,7 @@ def run_p0(
         summary["summary_id"] = canonical_hash(summary)
         summary_sha = _canonical_write_once(destination / "summary.json", summary)
         terminal = {
-            "schema_version": "ode-alloc-s04-p0-terminal-receipt-r1/v1",
+            "schema_version": "ode-alloc-s04-p0-terminal-receipt-r2/v1",
             "status": "PASS",
             "model_alias": alias,
             "manifest_sha256": manifest_sha,

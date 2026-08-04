@@ -1,8 +1,13 @@
 from __future__ import annotations
 
+import contextlib
+import io
+import json
 import unittest
+from unittest import mock
 from pathlib import Path
 
+from project.run_scripts import session04_ode_alloc_submit_p0_r1 as submit_module
 from project.run_scripts.session04_ode_alloc_submit_p0_r1 import (
     APPROVED_NUMERICAL_DIFF_PATHS,
     CANONICAL_NODE,
@@ -10,6 +15,7 @@ from project.run_scripts.session04_ode_alloc_submit_p0_r1 import (
     _changed_json_paths,
     _gpu_count,
     _node_local_gpu_totals,
+    _entrypoint,
 )
 
 
@@ -43,8 +49,8 @@ class P0SubmissionContractTests(unittest.TestCase):
         self.assertEqual(
             JOB_NAMES,
             {
-                "llama3-8b-inst": "odealloc_s04_p0_llama",
-                "qwen2.5-7b-inst": "odealloc_s04_p0_qwen",
+                "llama3-8b-inst": "odealloc_s04_p0r2_llama",
+                "qwen2.5-7b-inst": "odealloc_s04_p0r2_qwen",
             },
         )
         sbatch = (
@@ -61,6 +67,7 @@ class P0SubmissionContractTests(unittest.TestCase):
         ):
             self.assertIn(directive, sbatch)
         self.assertNotIn("#SBATCH --array", sbatch)
+        self.assertIn('--run-token "${RUN_TOKEN}"', sbatch)
 
     def test_numerical_diff_contract_is_path_exact(self) -> None:
         self.assertEqual(
@@ -68,6 +75,44 @@ class P0SubmissionContractTests(unittest.TestCase):
             {"solver.fixed_k"},
         )
         self.assertNotIn("solver.fixed_k", APPROVED_NUMERICAL_DIFF_PATHS)
+
+    def test_entrypoint_success_does_not_emit_false_hold(self) -> None:
+        stdout = io.StringIO()
+        stderr = io.StringIO()
+
+        def successful_main() -> int:
+            print('{"status":"SUBMITTED_PAIR"}')
+            return 0
+
+        with mock.patch.object(submit_module, "main", side_effect=successful_main):
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                with self.assertRaises(SystemExit) as caught:
+                    _entrypoint()
+        self.assertEqual(caught.exception.code, 0)
+        self.assertEqual(stdout.getvalue().strip(), '{"status":"SUBMITTED_PAIR"}')
+        self.assertNotIn("PRE_SUBMIT_HOLD", stderr.getvalue())
+
+    def test_entrypoint_exception_emits_hold_and_reraises(self) -> None:
+        stderr = io.StringIO()
+        with mock.patch.object(
+            submit_module, "main", side_effect=RuntimeError("opaque failure")
+        ):
+            with contextlib.redirect_stderr(stderr):
+                with self.assertRaises(RuntimeError):
+                    _entrypoint()
+        value = json.loads(stderr.getvalue())
+        self.assertEqual(value["status"], "PRE_SUBMIT_HOLD")
+        self.assertEqual(value["error_type"], "RuntimeError")
+        self.assertNotIn("opaque failure", stderr.getvalue())
+
+    def test_entrypoint_system_exit_is_not_classified_as_hold(self) -> None:
+        stderr = io.StringIO()
+        with mock.patch.object(submit_module, "main", side_effect=SystemExit(7)):
+            with contextlib.redirect_stderr(stderr):
+                with self.assertRaises(SystemExit) as caught:
+                    _entrypoint()
+        self.assertEqual(caught.exception.code, 7)
+        self.assertEqual(stderr.getvalue(), "")
 
 
 if __name__ == "__main__":

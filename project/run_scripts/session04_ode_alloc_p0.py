@@ -16,10 +16,16 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from project.run_scripts.ode_alloc.contracts import MODEL_ALIASES
-from project.run_scripts.ode_alloc.p0_runtime import run_p0, write_failure_once
+from project.run_scripts.ode_alloc.p0_runtime import (
+    R2_RUN_TOKEN,
+    run_p0,
+    write_diagnostic_failure_once,
+    write_failure_once,
+)
 
 
 PACKAGE_ROOT = REPO_ROOT / "project" / "run_scripts" / "ode_alloc"
+EASYEDIT_ROOT = Path("/mnt/raid5/janghj/EasyEdit")
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -27,6 +33,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--model", required=True, choices=MODEL_ALIASES)
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
+    parser.add_argument("--run-token", required=True, choices=(R2_RUN_TOKEN,))
     parser.add_argument(
         "--numerical-lock",
         type=Path,
@@ -59,8 +66,25 @@ def main(argv: list[str] | None = None) -> int:
             numerical_lock_path=args.numerical_lock,
             artifact_lock_path=args.artifact_lock,
             seal_path=args.seal,
+            run_token=args.run_token,
         )
     except BaseException as exc:
+        diagnostic_sha = None
+        diagnostic_error = None
+        try:
+            diagnostic_sha = write_diagnostic_failure_once(
+                args.output_root,
+                exc,
+                repo_root=REPO_ROOT,
+                easyedit_root=EASYEDIT_ROOT,
+            )
+        except Exception as diagnostic_exc:
+            diagnostic_error = {
+                "error_type": type(diagnostic_exc).__name__,
+                "error_sha256": hashlib.sha256(
+                    str(diagnostic_exc).encode("utf-8")
+                ).hexdigest(),
+            }
         failure_sha = write_failure_once(args.output_root, exc)
         print(
             json.dumps(
@@ -70,6 +94,8 @@ def main(argv: list[str] | None = None) -> int:
                     "error_type": type(exc).__name__,
                     "error_sha256": hashlib.sha256(str(exc).encode("utf-8")).hexdigest(),
                     "failure_receipt_sha256": failure_sha,
+                    "diagnostic_failure_receipt_sha256": diagnostic_sha,
+                    "diagnostic_capture_error": diagnostic_error,
                 },
                 sort_keys=True,
                 separators=(",", ":"),

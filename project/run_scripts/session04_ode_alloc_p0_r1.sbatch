@@ -16,12 +16,13 @@ readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly MODEL_ALIAS="${1:-}"
 readonly OUTPUT_ROOT="${2:-}"
 readonly SOURCE_HEAD="${3:-}"
+readonly RUN_TOKEN="${4:-}"
 
 case "${MODEL_ALIAS}" in
   llama3-8b-inst|qwen2.5-7b-inst) ;;
   *) echo "invalid locked P0 model alias" >&2; exit 2 ;;
 esac
-[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" ]] || {
+[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "r2" ]] || {
   echo "missing locked P0 invocation" >&2
   exit 2
 }
@@ -57,4 +58,5 @@ exec /usr/local/bin/uv run --offline \
   python -m project.run_scripts.session04_ode_alloc_p0 \
   --model "${MODEL_ALIAS}" \
   --output-root "${OUTPUT_ROOT}" \
-  --source-head "${SOURCE_HEAD}"
+  --source-head "${SOURCE_HEAD}" \
+  --run-token "${RUN_TOKEN}"
