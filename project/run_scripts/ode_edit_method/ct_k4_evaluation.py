@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+import copy
 import json
 import math
 from pathlib import Path
 from typing import Any, Mapping, Sequence
+
+import torch
 
 from project.run_scripts.ode_edit_motivation.contracts import EditRequest
 from project.run_scripts.ode_edit_motivation.manifests import (
@@ -93,6 +96,214 @@ def _token_agreement(before: Sequence[Sequence[int]], after: Sequence[Sequence[i
     return _mean(scores)
 
 
+def _model_device(model: torch.nn.Module) -> torch.device:
+    parameter = next(model.parameters(), None)
+    if parameter is not None:
+        return parameter.device
+    raw = getattr(model, "device", torch.device("cpu"))
+    return torch.device(raw)
+
+
+def _move_batch_to_device(batch: Any, device: torch.device) -> Mapping[str, Any]:
+    if hasattr(batch, "to"):
+        moved = batch.to(device)
+    elif isinstance(batch, Mapping):
+        moved = {
+            key: value.to(device) if isinstance(value, torch.Tensor) else value
+            for key, value in batch.items()
+        }
+    else:
+        raise MethodContractError("evaluation tokenizer batch differs")
+    if not isinstance(moved, Mapping):
+        raise MethodContractError("evaluation tokenizer batch differs")
+    return moved
+
+
+def _config_snapshot(model: torch.nn.Module) -> Any:
+    config = getattr(model, "config", None)
+    if config is None:
+        return None
+    if hasattr(config, "to_dict"):
+        return copy.deepcopy(config.to_dict())
+    if hasattr(config, "__dict__"):
+        return copy.deepcopy(vars(config))
+    return copy.deepcopy(config)
+
+
+def _parameter_guards(model: torch.nn.Module) -> tuple[tuple[Any, ...], ...]:
+    return tuple(
+        (
+            name,
+            parameter.data_ptr(),
+            parameter._version,
+            parameter.requires_grad,
+            parameter.grad,
+        )
+        for name, parameter in model.named_parameters()
+    )
+
+
+def _assert_evaluation_invariants(
+    model: torch.nn.Module,
+    *,
+    parameter_guards: tuple[tuple[Any, ...], ...],
+    config_snapshot: Any,
+    cpu_rng: torch.Tensor,
+    cuda_rng: tuple[torch.Tensor, ...],
+) -> None:
+    current = _parameter_guards(model)
+    if len(current) != len(parameter_guards):
+        raise MethodContractError("evaluation model parameter set changed")
+    for before, after in zip(parameter_guards, current, strict=True):
+        if before[:4] != after[:4] or before[4] is not after[4]:
+            raise MethodContractError("evaluation model parameter state changed")
+    if _config_snapshot(model) != config_snapshot:
+        raise MethodContractError("evaluation model config changed")
+    if not torch.equal(torch.get_rng_state(), cpu_rng):
+        raise MethodContractError("evaluation CPU RNG changed")
+    if cuda_rng:
+        current_cuda_rng = tuple(torch.cuda.get_rng_state_all())
+        if len(current_cuda_rng) != len(cuda_rng) or any(
+            not torch.equal(before, after)
+            for before, after in zip(cuda_rng, current_cuda_rng, strict=True)
+        ):
+            raise MethodContractError("evaluation CUDA RNG changed")
+
+
+def teacher_forced_token_accuracy(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    hparams: Any,
+    prompts: Sequence[str] | str,
+    targets: Sequence[str] | str,
+    *,
+    locality: bool = False,
+) -> list[float] | list[list[int]]:
+    """EasyEdit-compatible next-token scoring without importing its evaluator."""
+
+    prompt_rows = (prompts,) if isinstance(prompts, str) else tuple(prompts)
+    target_rows = (targets,) if isinstance(targets, str) else tuple(targets)
+    if (
+        not prompt_rows
+        or len(prompt_rows) != len(target_rows)
+        or any(not isinstance(value, str) or not value for value in prompt_rows)
+        or any(not isinstance(value, str) or not value.strip() for value in target_rows)
+    ):
+        raise MethodContractError("evaluation prompt/target panel differs")
+    rendered_prompts: tuple[str, ...] = prompt_rows
+    if not locality and bool(getattr(hparams, "use_chat_template", False)):
+        rendered = tokenizer.apply_chat_template(
+            [[{"role": "user", "content": prompt}] for prompt in prompt_rows],
+            add_generation_prompt=True,
+            tokenize=False,
+        )
+        if isinstance(rendered, str):
+            rendered = [rendered]
+        rendered_prompts = tuple(rendered)
+        if len(rendered_prompts) != len(prompt_rows) or any(
+            not isinstance(value, str) or not value for value in rendered_prompts
+        ):
+            raise MethodContractError("evaluation chat template output differs")
+
+    combined = tuple(
+        prompt + " " + target
+        for prompt, target in zip(rendered_prompts, target_rows, strict=True)
+    )
+    encoded_lengths = tuple(len(tokenizer.encode(value)) for value in combined)
+    if not encoded_lengths or any(length <= 0 for length in encoded_lengths):
+        raise MethodContractError("evaluation encoded sequence is empty")
+    try:
+        configured_max_length = int(hparams.max_length)
+    except (AttributeError, TypeError, ValueError) as exc:
+        raise MethodContractError("evaluation max length differs") from exc
+    max_length = max(configured_max_length, max(encoded_lengths) + 1)
+    if max_length <= 1:
+        raise MethodContractError("evaluation max length differs")
+
+    parameter_guards = _parameter_guards(model)
+    config_snapshot = _config_snapshot(model)
+    cpu_rng = torch.get_rng_state().clone()
+    cuda_rng = (
+        tuple(state.clone() for state in torch.cuda.get_rng_state_all())
+        if torch.cuda.is_available()
+        else ()
+    )
+    original_padding_side = tokenizer.padding_side
+    try:
+        tokenizer.padding_side = "left"
+        combined_tokens = tokenizer(
+            list(combined),
+            padding=True,
+            truncation=True,
+            max_length=max_length,
+            return_tensors="pt",
+        )
+        prompt_tokens = tokenizer(
+            list(rendered_prompts),
+            padding=True,
+            truncation=True,
+            max_length=max_length,
+            return_tensors="pt",
+        )
+        if not isinstance(prompt_tokens, Mapping):
+            raise MethodContractError("evaluation prompt tokenization differs")
+        prompt_input_ids = prompt_tokens.get("input_ids")
+        if not isinstance(prompt_input_ids, torch.Tensor) or prompt_input_ids.ndim != 2:
+            raise MethodContractError("evaluation prompt tokenization differs")
+        pad_token_id = getattr(tokenizer, "pad_token_id", None)
+        if not isinstance(pad_token_id, int):
+            raise MethodContractError("evaluation pad token differs")
+        device_batch = _move_batch_to_device(combined_tokens, _model_device(model))
+        input_ids = device_batch.get("input_ids")
+        if not isinstance(input_ids, torch.Tensor) or input_ids.ndim != 2:
+            raise MethodContractError("evaluation combined tokenization differs")
+        if input_ids.shape[0] != len(prompt_rows):
+            raise MethodContractError("evaluation batch size differs")
+        prompt_lengths = (prompt_input_ids != pad_token_id).sum(dim=1).tolist()
+        combined_pad_lengths = (input_ids == pad_token_id).sum(dim=1).tolist()
+        starts = tuple(
+            int(padding) + int(prompt_length)
+            for padding, prompt_length in zip(
+                combined_pad_lengths, prompt_lengths, strict=True
+            )
+        )
+        with torch.no_grad():
+            outputs = model(**device_batch)
+            logits = outputs if isinstance(outputs, torch.Tensor) else outputs.logits
+            if (
+                not isinstance(logits, torch.Tensor)
+                or logits.ndim != 3
+                or logits.shape[:2] != input_ids.shape
+            ):
+                raise MethodContractError("evaluation model logits differ")
+            predictions = torch.argmax(logits, dim=-1).detach().cpu()
+            labels = input_ids.detach().cpu()
+        token_predictions: list[list[int]] = []
+        token_accuracies: list[float] = []
+        sequence_length = int(labels.shape[1])
+        for row_index, start in enumerate(starts):
+            if start < 1 or start >= sequence_length:
+                raise MethodContractError("evaluation target span is empty")
+            predicted = predictions[row_index, start - 1 : -1]
+            expected = labels[row_index, start:]
+            if predicted.numel() == 0 or predicted.shape != expected.shape:
+                raise MethodContractError("evaluation target alignment differs")
+            token_predictions.append([int(value) for value in predicted.tolist()])
+            token_accuracies.append(
+                float((predicted == expected).to(torch.float64).mean().item())
+            )
+    finally:
+        tokenizer.padding_side = original_padding_side
+        _assert_evaluation_invariants(
+            model,
+            parameter_guards=parameter_guards,
+            config_snapshot=config_snapshot,
+            cpu_rng=cpu_rng,
+            cuda_rng=cuda_rng,
+        )
+    return token_predictions if locality else token_accuracies
+
+
 def evaluate_frozen_endpoint(
     *,
     runtime: Any,
@@ -114,18 +325,14 @@ def evaluate_frozen_endpoint(
         target_true = str(private["target_true"])
     except (KeyError, TypeError) as exc:
         raise MethodContractError("opened evaluation payload differs") from exc
-    # Import only after action freeze.  This is a read-only EasyEdit evaluator.
-    from easyeditor.evaluate.evaluate_utils import test_prediction_acc
-
     def accuracy(prompts: Sequence[str], target: str, *, locality: bool) -> Any:
         instrumentation.increment("N_eval")
-        return test_prediction_acc(
+        return teacher_forced_token_accuracy(
             runtime.model,
             runtime.tokenizer,
             hparams,
-            list(prompts),
-            [target for _ in prompts],
-            0,
+            tuple(prompts),
+            tuple(target for _ in prompts),
             locality=locality,
         )
 

@@ -10,8 +10,11 @@ from pathlib import Path
 import inspect
 from types import SimpleNamespace
 from contextlib import AbstractContextManager
+from typing import Any
 
 import torch
+
+import project.run_scripts.ode_edit_method.ct_k4_evaluation as ct_k4_evaluation
 
 from project.run_scripts.ode_edit_motivation.contracts import (
     LowRankFactor,
@@ -44,7 +47,9 @@ from project.run_scripts.ode_edit_method.easyedit_backend import (
 )
 from project.run_scripts.ode_edit_method.ct_k4_evaluation import (
     _token_agreement,
+    evaluate_frozen_endpoint,
     make_firewall,
+    teacher_forced_token_accuracy,
 )
 from project.run_scripts.ode_edit_method.events import ControllerRequest
 from project.run_scripts.ode_edit_method.event_strength import assert_raw_free
@@ -129,6 +134,182 @@ class _TwoLinear(torch.nn.Module):
 
     def forward(self, value: torch.Tensor) -> torch.Tensor:
         return self.layers[0](value)
+
+
+class _ToyTokenBatch(dict):
+    def to(self, device: torch.device | str):
+        return _ToyTokenBatch(
+            {
+                key: value.to(device) if isinstance(value, torch.Tensor) else value
+                for key, value in self.items()
+            }
+        )
+
+
+class _ToyTokenizer:
+    pad_token_id = 0
+
+    def __init__(self) -> None:
+        self.padding_side = "right"
+
+    @staticmethod
+    def _token_id(word: str) -> int:
+        return 3 + sum(word.encode("utf-8")) % 53
+
+    def encode(self, text: str, **_kwargs):
+        return [1, *(self._token_id(word) for word in text.split())]
+
+    def apply_chat_template(
+        self,
+        conversations,
+        *,
+        add_generation_prompt: bool,
+        tokenize: bool,
+    ):
+        if not add_generation_prompt or tokenize:
+            raise AssertionError("toy chat-template contract differs")
+        return [
+            f"[USER] {conversation[0]['content']} [ASSISTANT]"
+            for conversation in conversations
+        ]
+
+    def __call__(
+        self,
+        texts,
+        *,
+        padding: bool,
+        truncation: bool,
+        max_length: int,
+        return_tensors: str,
+    ):
+        if isinstance(texts, str):
+            texts = [texts]
+        if not padding or not truncation or return_tensors != "pt":
+            raise AssertionError("toy tokenizer invocation differs")
+        rows = [self.encode(text)[:max_length] for text in texts]
+        width = max(len(row) for row in rows)
+        padded = []
+        masks = []
+        for row in rows:
+            count = width - len(row)
+            if self.padding_side == "left":
+                padded.append([self.pad_token_id] * count + row)
+                masks.append([0] * count + [1] * len(row))
+            else:
+                padded.append(row + [self.pad_token_id] * count)
+                masks.append([1] * len(row) + [0] * count)
+        return _ToyTokenBatch(
+            {
+                "input_ids": torch.tensor(padded, dtype=torch.long),
+                "attention_mask": torch.tensor(masks, dtype=torch.long),
+            }
+        )
+
+
+class _ToyConfig:
+    def __init__(self) -> None:
+        self.torch_dtype = "torch.float64"
+        self.use_cache = False
+
+    def to_dict(self):
+        return {"torch_dtype": self.torch_dtype, "use_cache": self.use_cache}
+
+
+class _ToyCausalLM(torch.nn.Module):
+    def __init__(self, tokenizer: _ToyTokenizer, *, fail: bool = False) -> None:
+        super().__init__()
+        self.anchor = torch.nn.Parameter(torch.tensor(0.0, dtype=torch.float64))
+        self.config = _ToyConfig()
+        self._wrong_token_id = tokenizer._token_id("wrong")
+        self._fail = fail
+
+    def forward(self, input_ids: torch.Tensor, **_kwargs):
+        if self._fail:
+            raise RuntimeError("injected evaluator failure")
+        vocabulary = 64
+        chosen = torch.zeros_like(input_ids)
+        chosen[:, :-1] = input_ids[:, 1:]
+        chosen[:, -1] = 2
+        chosen = torch.where(
+            chosen == self._wrong_token_id,
+            torch.full_like(chosen, 2),
+            chosen,
+        )
+        logits = torch.full(
+            (*input_ids.shape, vocabulary),
+            -10.0,
+            dtype=self.anchor.dtype,
+            device=input_ids.device,
+        )
+        logits.scatter_(2, chosen.unsqueeze(-1), 10.0)
+        logits = logits + self.anchor * 0.0
+        return SimpleNamespace(logits=logits)
+
+
+def _locked_teacher_forced_reference(
+    model: torch.nn.Module,
+    tokenizer: _ToyTokenizer,
+    hparams: Any,
+    prompts: tuple[str, ...],
+    targets: tuple[str, ...],
+    *,
+    locality: bool,
+):
+    rendered = prompts
+    if not locality and bool(getattr(hparams, "use_chat_template", False)):
+        rendered = tuple(
+            tokenizer.apply_chat_template(
+                [[{"role": "user", "content": prompt}] for prompt in prompts],
+                add_generation_prompt=True,
+                tokenize=False,
+            )
+        )
+    combined = tuple(
+        prompt + " " + target
+        for prompt, target in zip(rendered, targets, strict=True)
+    )
+    max_length = max(
+        int(hparams.max_length), max(len(tokenizer.encode(row)) for row in combined) + 1
+    )
+    original = tokenizer.padding_side
+    try:
+        tokenizer.padding_side = "left"
+        combined_batch = tokenizer(
+            list(combined),
+            padding=True,
+            truncation=True,
+            max_length=max_length,
+            return_tensors="pt",
+        )
+        prompt_batch = tokenizer(
+            list(rendered),
+            padding=True,
+            truncation=True,
+            max_length=max_length,
+            return_tensors="pt",
+        )
+        with torch.no_grad():
+            predicted = model(**combined_batch).logits.argmax(dim=-1)
+        values = []
+        for index in range(len(prompts)):
+            prompt_count = int(
+                (prompt_batch["input_ids"][index] != tokenizer.pad_token_id).sum()
+            )
+            padding_count = int(
+                (combined_batch["input_ids"][index] == tokenizer.pad_token_id).sum()
+            )
+            start = padding_count + prompt_count
+            answer = predicted[index, start - 1 : -1].tolist()
+            label = combined_batch["input_ids"][index, start:].tolist()
+            values.append(
+                answer
+                if locality
+                else sum(left == right for left, right in zip(answer, label, strict=True))
+                / len(label)
+            )
+        return values
+    finally:
+        tokenizer.padding_side = original
 
 
 class _ToyTrial(AbstractContextManager):
@@ -508,6 +689,160 @@ class CTK4Tests(unittest.TestCase):
         ):
             self.assertNotIn(forbidden, controller_source)
 
+    def test_local_teacher_forced_evaluator_matches_locked_reference(self) -> None:
+        for use_chat_template in (False, True):
+            for prompts, targets in (
+                (("short",), ("correct",)),
+                (("short", "a much longer prompt"), ("correct", "wrong")),
+            ):
+                for locality in (False, True):
+                    with self.subTest(
+                        use_chat_template=use_chat_template,
+                        batch=len(prompts),
+                        locality=locality,
+                    ):
+                        tokenizer = _ToyTokenizer()
+                        model = _ToyCausalLM(tokenizer).eval()
+                        hparams = SimpleNamespace(
+                            max_length=2,
+                            use_chat_template=use_chat_template,
+                        )
+                        pointer = model.anchor.data_ptr()
+                        version = model.anchor._version
+                        rng = torch.get_rng_state().clone()
+                        actual = teacher_forced_token_accuracy(
+                            model,
+                            tokenizer,
+                            hparams,
+                            prompts,
+                            targets,
+                            locality=locality,
+                        )
+                        reference = _locked_teacher_forced_reference(
+                            model,
+                            tokenizer,
+                            hparams,
+                            prompts,
+                            targets,
+                            locality=locality,
+                        )
+                        self.assertEqual(actual, reference)
+                        self.assertEqual(tokenizer.padding_side, "right")
+                        self.assertEqual(model.anchor.data_ptr(), pointer)
+                        self.assertEqual(model.anchor._version, version)
+                        self.assertIsNone(model.anchor.grad)
+                        self.assertTrue(torch.equal(torch.get_rng_state(), rng))
+
+    def test_local_teacher_forced_left_padding_and_one_token_target(self) -> None:
+        tokenizer = _ToyTokenizer()
+        model = _ToyCausalLM(tokenizer).eval()
+        hparams = SimpleNamespace(max_length=1, use_chat_template=False)
+        prompts = ("one", "one two three four")
+        targets = ("answer", "answer")
+        predicted = teacher_forced_token_accuracy(
+            model,
+            tokenizer,
+            hparams,
+            prompts,
+            targets,
+            locality=True,
+        )
+        reference = _locked_teacher_forced_reference(
+            model,
+            tokenizer,
+            hparams,
+            prompts,
+            targets,
+            locality=True,
+        )
+        self.assertEqual(predicted, reference)
+        self.assertEqual([len(row) for row in predicted], [1, 1])
+
+    def test_local_teacher_forced_restores_padding_on_exception(self) -> None:
+        tokenizer = _ToyTokenizer()
+        model = _ToyCausalLM(tokenizer, fail=True).eval()
+        hparams = SimpleNamespace(max_length=8, use_chat_template=False)
+        with self.assertRaisesRegex(RuntimeError, "injected evaluator failure"):
+            teacher_forced_token_accuracy(
+                model,
+                tokenizer,
+                hparams,
+                ("short",),
+                ("answer",),
+            )
+        self.assertEqual(tokenizer.padding_side, "right")
+        self.assertIsNone(model.anchor.grad)
+
+    def test_local_evaluator_has_no_easyedit_evaluator_import_or_generation(self) -> None:
+        source = inspect.getsource(ct_k4_evaluation)
+        self.assertNotIn("easyeditor.evaluate", source)
+        tree = ast.parse(source)
+        imported = {
+            node.module
+            for node in ast.walk(tree)
+            if isinstance(node, ast.ImportFrom) and node.module is not None
+        }
+        imported.update(
+            alias.name
+            for node in ast.walk(tree)
+            if isinstance(node, ast.Import)
+            for alias in node.names
+        )
+        self.assertFalse(any(name.startswith("easyeditor") for name in imported))
+        self.assertFalse(
+            any(
+                isinstance(node, ast.Call)
+                and isinstance(node.func, ast.Attribute)
+                and node.func.attr == "generate"
+                for node in ast.walk(tree)
+            )
+        )
+
+    def test_frozen_endpoint_uses_five_post_action_forwards(self) -> None:
+        tokenizer = _ToyTokenizer()
+        model = _ToyCausalLM(tokenizer).eval()
+        runtime = SimpleNamespace(model=model, tokenizer=tokenizer)
+        hparams = SimpleNamespace(max_length=2, use_chat_template=True)
+        request = ControllerRequest("1", "{} lives", "Ada", "Paris", "London")
+        firewall = make_firewall(
+            request,
+            {
+                "paraphrase_prompts": ("Ada resides", "Ada is located"),
+                "neighborhood_prompts": ("Grace lives", "Turing lived"),
+                "target_true": "London",
+            },
+        )
+        firewall.freeze_action({"terminal_state_id": "a" * 64})
+        baseline = TorchCheckpoint.capture(model, ("anchor",), backup_device="cpu")
+        endpoint = TorchCheckpoint.capture(model, ("anchor",), backup_device="cpu")
+        metrics = EditInstrumentation("toy-local-evaluator")
+        post_action = _PostActionForwardCounter(model)
+        with post_action:
+            with post_action.scope("terminal_residual"):
+                model(input_ids=torch.tensor([[1, 2]], dtype=torch.long))
+            result = evaluate_frozen_endpoint(
+                runtime=runtime,
+                hparams=hparams,
+                request=request,
+                firewall=firewall,
+                baseline_checkpoint=baseline,
+                endpoint_checkpoint=endpoint,
+                instrumentation=_PostActionEvaluationInstrumentation(
+                    metrics, post_action
+                ),
+            )
+        endpoint.assert_exact(model, include_rng=True)
+        post = post_action.finalize()
+        snapshot = metrics.finalize().to_dict()
+        self.assertFalse(result["generation_executed"])
+        self.assertEqual(snapshot["counters"]["N_eval"], 5)
+        self.assertEqual(snapshot["counters"]["N_model_fwd"], 0)
+        self.assertEqual(post["N_post_action_model_fwd"], 6)
+        self.assertEqual(
+            post["post_action_model_fwd_scope_counts"],
+            {"terminal_residual": 1, "endpoint_metrics": 5},
+        )
+
     def test_paired_dry_plans_are_common_and_non_authorizing(self) -> None:
         lock = load_ct_k4_lock()
         for stage, expected_cases in (
@@ -529,6 +864,10 @@ class CTK4Tests(unittest.TestCase):
             if stage == "p0":
                 self.assertTrue(
                     all("session03-ct-k4-p0-r3-" in job["output_root"] for job in plan["jobs"])
+                )
+            else:
+                self.assertTrue(
+                    all("session03-ct-k4-p1-r1-" in job["output_root"] for job in plan["jobs"])
                 )
         source = inspect.getsource(run_session03)
         self.assertNotIn("if args.model_alias", source)
