@@ -27,8 +27,6 @@ from project.run_scripts.ode_alloc.contracts import (
 )
 from project.run_scripts.ode_alloc.p0_artifacts import P0ArtifactGuard, sha256_file
 from project.run_scripts.ode_alloc.p1_contracts import (
-    EXPECTED_BASE,
-    P1_INSTRUCTION_ID,
     P1_RUN_TOKEN,
     SESSION_ID,
     P1Policy,
@@ -44,7 +42,11 @@ from project.run_scripts.ode_alloc.p1_firewall import (
 from project.run_scripts.ode_alloc.p1_runtime import (
     ARTIFACT_LOCK_SHA256,
     NUMERICAL_LOCK_SHA256,
+    P1_EXECUTION_TOKEN,
+    P1_REPAIR_EXPECTED_BASE,
+    P1_REPAIR_INSTRUCTION_ID,
     SEAL_FILE_SHA256,
+    expected_p1r1_result_name,
 )
 from project.run_scripts.ode_alloc.selection import (
     assert_seal_source_current,
@@ -60,8 +62,8 @@ DRY_PLAN = REPO_ROOT / "project" / "run_scripts" / "session04_ode_alloc_p1_dry_p
 ENTRY = REPO_ROOT / "project" / "run_scripts" / "session04_ode_alloc_p1.py"
 SBATCH = REPO_ROOT / "project" / "run_scripts" / "session04_ode_alloc_p1.sbatch"
 JOB_NAMES = {
-    "llama3-8b-inst": "odealloc_s04_p1_llama",
-    "qwen2.5-7b-inst": "odealloc_s04_p1_qwen",
+    "llama3-8b-inst": "odealloc_s04_p1r1_llama",
+    "qwen2.5-7b-inst": "odealloc_s04_p1r1_qwen",
 }
 CANONICAL_NODE = "server2"
 GPU_CAP = 3
@@ -69,21 +71,22 @@ MEMORY_CAP_MIB_PER_GPU = 66017
 PAIR_HOST_MEMORY_MIB = 130000
 P1_CHANGED_PATHS = frozenset(
     {
-        "project/run_scripts/ode_alloc/p1_contracts.py",
-        "project/run_scripts/ode_alloc/p1_evaluator.py",
-        "project/run_scripts/ode_alloc/p1_firewall.py",
         "project/run_scripts/ode_alloc/p1_runtime.py",
-        "project/run_scripts/ode_alloc/p1_scoring.py",
-        "project/run_scripts/ode_alloc/tests/test_p1_contracts.py",
-        "project/run_scripts/ode_alloc/tests/test_p1_evaluator.py",
         "project/run_scripts/ode_alloc/tests/test_p1_runtime_contracts.py",
         "project/run_scripts/ode_alloc/tests/test_p1_submission_contracts.py",
         "project/run_scripts/session04_ode_alloc_p1.py",
         "project/run_scripts/session04_ode_alloc_p1.sbatch",
-        "project/run_scripts/session04_ode_alloc_p1_dry_plan.py",
         "project/run_scripts/session04_ode_alloc_submit_p1.py",
     }
 )
+P1_FROZEN_SOURCE_FILES = {
+    "project/run_scripts/ode_alloc/p1_contracts.py": "61a55e680aa9fc41c058407ad28ccc8d614207526fee79f1bd0df22413c12e06",
+    "project/run_scripts/ode_alloc/p1_evaluator.py": "e3f4b8923d6f298b6f0f07a797705757cc14ff443e208371371b549a79aba86f",
+    "project/run_scripts/ode_alloc/p1_firewall.py": "9038fc146062ebb9dee07cf9083b00e2938f22ff5a02033b9013248d2f5ea30c",
+    "project/run_scripts/ode_alloc/p1_scoring.py": "1ec74ed521301ccf0a1b8627dbe3726949cbd8d82dc2dc2a28297ea33b9c3ca4",
+}
+P1_R0_RUNTIME_SHA256 = "d6e271946c999d3226568c997be7783f90ce017a7f475b120bbc6b520265fa43"
+P1_R1_RUNTIME_SHA256 = "b0a742ea3193ae7ea4ffc5dfaf02aaf3be22c42970c24f58c4deba6c126a3595"
 P0_TERMINAL_FILES = {
     "local/odealloc/results/s04-p0-native-identity-r3-llama3-8b-inst-905a3bbc/manifest.json": "049dae5b7c23640a0fa1e6050bcc5574ead5207f459cbe69a6f7e623ccee2139",
     "local/odealloc/results/s04-p0-native-identity-r3-llama3-8b-inst-905a3bbc/summary.json": "3e34201e8ecdd29c2fee0f81553ca1d1ce97494b351599ee8969f948bfc15632",
@@ -91,6 +94,16 @@ P0_TERMINAL_FILES = {
     "local/odealloc/results/s04-p0-native-identity-r3-qwen2.5-7b-inst-905a3bbc/manifest.json": "4012cc844d83241476ae8babcc14bc62368639410ede6ba6d8ef2bf6be97ad0b",
     "local/odealloc/results/s04-p0-native-identity-r3-qwen2.5-7b-inst-905a3bbc/summary.json": "5fea51e35d876cb8f7418881032106b517bf547875242161cd50da17028b3e40",
     "local/odealloc/results/s04-p0-native-identity-r3-qwen2.5-7b-inst-905a3bbc/terminal.json": "b9fdc550ea60a65a3c7365182439fc27216907c4b5521575c822db75a37884ab",
+}
+P1_R0_IMMUTABLE_FILES = {
+    "local/odealloc/results/s04-p1-matched-llama3-8b-inst-905a3bbc/failure.json": "ac9833d1174f9eb88d024c0754656f064502b837cbeca09972747c2a61eff66e",
+    "local/odealloc/results/s04-p1-matched-qwen2.5-7b-inst-905a3bbc/failure.json": "ac9833d1174f9eb88d024c0754656f064502b837cbeca09972747c2a61eff66e",
+    "local/odealloc/logs/s04-p1-matched-llama3-8b-inst-905a3bbc-16359.out": "2e5292000e3663a5260a3b7f57557ca1da7780de833f6acdc26930241ce3cf9c",
+    "local/odealloc/logs/s04-p1-matched-llama3-8b-inst-905a3bbc-16359.err": "60553d126f67a4828e58224ee6fdf757c50514e3ae257bab5b1910fb48ecd860",
+    "local/odealloc/logs/s04-p1-matched-qwen2.5-7b-inst-905a3bbc-16360.out": "2e5292000e3663a5260a3b7f57557ca1da7780de833f6acdc26930241ce3cf9c",
+    "local/odealloc/logs/s04-p1-matched-qwen2.5-7b-inst-905a3bbc-16360.err": "c8b465de88a32ad6b41d30f892f9b6f2b22eaedd20fd21f7e87b038a2781d213",
+    "local/odealloc/state/s04-p1-matched-905a3bbc.submission-intent.json": "c0be4684656e5c750154e5b794149a977175919c70d4d85ebb885deb0bab71bf",
+    "local/odealloc/state/s04-p1-matched-905a3bbc.submission-receipt.json": "9577b89d649a61488150a69061c2b156536ab2b09c2bd5cabdf9ec7f59b8f257",
 }
 
 
@@ -133,8 +146,8 @@ def _canonical_write_once(path: Path, payload: dict[str, Any]) -> str:
 def _source_gate() -> str:
     head = _run(("git", "rev-parse", "HEAD")).stdout.strip()
     parent = _run(("git", "rev-parse", "HEAD^")).stdout.strip()
-    if parent != EXPECTED_BASE or head == EXPECTED_BASE:
-        raise ODEAllocContractError("P1 checkpoint ancestry differs")
+    if parent != P1_REPAIR_EXPECTED_BASE or head == P1_REPAIR_EXPECTED_BASE:
+        raise ODEAllocContractError("P1R1 checkpoint ancestry differs")
     if _run(("git", "status", "--porcelain", "--untracked-files=no")).stdout:
         raise ODEAllocContractError("tracked P1 source is not frozen clean")
     untracked = _run(("git", "ls-files", "--others", "--exclude-standard")).stdout.splitlines()
@@ -144,18 +157,33 @@ def _source_gate() -> str:
     ):
         raise ODEAllocContractError("foreign untracked path overlaps P1 worktree")
     changed = set(
-        _run(("git", "diff", "--name-only", f"{EXPECTED_BASE}..{head}"))
+        _run(("git", "diff", "--name-only", f"{P1_REPAIR_EXPECTED_BASE}..{head}"))
         .stdout.splitlines()
     )
     if changed != P1_CHANGED_PATHS:
-        raise ODEAllocContractError("P1 checkpoint differs from exact allowed paths")
+        raise ODEAllocContractError("P1R1 checkpoint differs from exact allowed paths")
     if any(
         token in path.casefold()
         for path in changed
         for token in ("session03", "session_03", "knowledge-revision")
     ):
         raise ODEAllocContractError("P1 checkpoint overlaps a foreign namespace")
-    _run(("git", "diff", "--check", f"{EXPECTED_BASE}..{head}"))
+    _run(("git", "diff", "--check", f"{P1_REPAIR_EXPECTED_BASE}..{head}"))
+    for relative, expected in sorted(P1_FROZEN_SOURCE_FILES.items()):
+        if sha256_file(REPO_ROOT / relative) != expected:
+            raise ODEAllocContractError("P1 scientific source digest differs")
+    runtime = PACKAGE_ROOT / "p1_runtime.py"
+    if sha256_file(runtime) != P1_R1_RUNTIME_SHA256:
+        raise ODEAllocContractError("P1R1 approved runtime plumbing digest differs")
+    base_runtime = _run(
+        (
+            "git",
+            "show",
+            f"{P1_REPAIR_EXPECTED_BASE}:project/run_scripts/ode_alloc/p1_runtime.py",
+        )
+    ).stdout
+    if hashlib.sha256(base_runtime.encode("utf-8")).hexdigest() != P1_R0_RUNTIME_SHA256:
+        raise ODEAllocContractError("P1 pre-repair runtime digest differs")
     return head
 
 
@@ -165,6 +193,31 @@ def _p0_terminal_immutability_gate() -> str:
         if not path.is_file() or path.is_symlink() or sha256_file(path) != expected:
             raise ODEAllocContractError("P0 terminal artifact digest differs")
     return canonical_hash(P0_TERMINAL_FILES)
+
+
+def _p1_r0_immutability_gate() -> str:
+    for relative, expected in sorted(P1_R0_IMMUTABLE_FILES.items()):
+        path = REPO_ROOT / relative
+        if not path.is_file() or path.is_symlink() or sha256_file(path) != expected:
+            raise ODEAllocContractError("P1 R0 failure artifact digest differs")
+    for alias in MODEL_ALIASES:
+        root = (
+            REPO_ROOT
+            / "local"
+            / "odealloc"
+            / "results"
+            / expected_p1_result_name(alias, NUMERICAL_LOCK_SHA256, P1_RUN_TOKEN)
+        )
+        observed = tuple(
+            sorted(
+                str(path.relative_to(root))
+                for path in root.rglob("*")
+                if path.is_file()
+            )
+        )
+        if observed != ("failure.json",):
+            raise ODEAllocContractError("P1 R0 failure root contents differ")
+    return canonical_hash(P1_R0_IMMUTABLE_FILES)
 
 
 def _cpu_static_gate(source_head: str) -> dict[str, Any]:
@@ -207,7 +260,7 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
         )
     )
     match = re.search(r"Ran ([0-9]+) tests?", tests.stderr)
-    if match is None or int(match.group(1)) < 52 or "\nOK\n" not in tests.stderr:
+    if match is None or int(match.group(1)) < 78 or "\nOK\n" not in tests.stderr:
         raise ODEAllocContractError("P1 warnings-as-errors CPU suite differs")
     first = _run(
         (
@@ -242,6 +295,7 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
         "policy_id": policy.policy_id,
         "budget_id": policy.solver_budget.identity(),
         "p0_terminal_immutability_sha256": _p0_terminal_immutability_gate(),
+        "p1_r0_immutability_sha256": _p1_r0_immutability_gate(),
         "artifacts": artifacts,
     }
 
@@ -375,12 +429,14 @@ def _namespace_gate() -> tuple[dict[str, Path], dict[str, tuple[Path, Path]]]:
         if path.is_symlink():
             raise ODEAllocContractError("P1 local namespace contains a symlink")
         path.mkdir(mode=0o700, parents=True, exist_ok=True)
-    if glob.glob(str(logs / "s04-p1-matched-*")):
-        raise ODEAllocContractError("P1 log namespace already exists")
+    if glob.glob(str(logs / "s04-p1r1-matched-*")):
+        raise ODEAllocContractError("P1R1 log namespace already exists")
     roots: dict[str, Path] = {}
     paths: dict[str, tuple[Path, Path]] = {}
     for alias in MODEL_ALIASES:
-        name = expected_p1_result_name(alias, NUMERICAL_LOCK_SHA256, P1_RUN_TOKEN)
+        name = expected_p1r1_result_name(
+            alias, NUMERICAL_LOCK_SHA256, P1_EXECUTION_TOKEN
+        )
         root = results / name
         if root.exists() or root.is_symlink():
             raise ODEAllocContractError("P1 result namespace already exists")
@@ -403,11 +459,12 @@ def main() -> int:
     ):
         raise ODEAllocContractError("server2 P1 GPU allocation changed before submit")
     state = REPO_ROOT / "local" / "odealloc" / "state"
-    intent = state / f"s04-p1-matched-{NUMERICAL_LOCK_SHA256[:8]}.submission-intent.json"
+    intent = state / f"s04-p1r1-matched-{NUMERICAL_LOCK_SHA256[:8]}.submission-intent.json"
     intent_payload = {
-        "schema_version": "ode-alloc-s04-p1-submission-intent/v1",
-        "instruction_id": P1_INSTRUCTION_ID,
+        "schema_version": "ode-alloc-s04-p1r1-submission-intent/v1",
+        "instruction_id": P1_REPAIR_INSTRUCTION_ID,
         "run_token": P1_RUN_TOKEN,
+        "execution_token": P1_EXECUTION_TOKEN,
         "session_id": SESSION_ID,
         "source_head": source_head,
         "numerical_lock_sha256": NUMERICAL_LOCK_SHA256,
@@ -438,6 +495,7 @@ def main() -> int:
             str(roots[alias]),
             source_head,
             P1_RUN_TOKEN,
+            P1_EXECUTION_TOKEN,
         )
         result = _run(command, check=False)
         job_id = result.stdout.strip().split(";", 1)[0] if result.returncode == 0 else ""
@@ -451,11 +509,12 @@ def main() -> int:
         }
         if job_id:
             jobs[alias] = job_id
-    receipt = state / f"s04-p1-matched-{NUMERICAL_LOCK_SHA256[:8]}.submission-receipt.json"
+    receipt = state / f"s04-p1r1-matched-{NUMERICAL_LOCK_SHA256[:8]}.submission-receipt.json"
     receipt_payload = {
-        "schema_version": "ode-alloc-s04-p1-submission-receipt/v1",
-        "instruction_id": P1_INSTRUCTION_ID,
+        "schema_version": "ode-alloc-s04-p1r1-submission-receipt/v1",
+        "instruction_id": P1_REPAIR_INSTRUCTION_ID,
         "run_token": P1_RUN_TOKEN,
+        "execution_token": P1_EXECUTION_TOKEN,
         "source_head": source_head,
         "intent_sha256": intent_sha,
         "attempts": attempts,
@@ -468,6 +527,8 @@ def main() -> int:
     result = {
         "status": "SUBMITTED_PAIR",
         "source_head": source_head,
+        "instruction_id": P1_REPAIR_INSTRUCTION_ID,
+        "execution_token": P1_EXECUTION_TOKEN,
         "jobs": jobs,
         "roots": {alias: str(path) for alias, path in roots.items()},
         "numerical_lock_sha256": NUMERICAL_LOCK_SHA256,

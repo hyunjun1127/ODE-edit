@@ -17,7 +17,11 @@ if str(REPO_ROOT) not in sys.path:
 
 from project.run_scripts.ode_alloc.contracts import MODEL_ALIASES
 from project.run_scripts.ode_alloc.p1_contracts import P1_RUN_TOKEN
-from project.run_scripts.ode_alloc.p1_runtime import run_p1, write_p1_failure_once
+from project.run_scripts.ode_alloc.p1_runtime import (
+    P1_EXECUTION_TOKEN,
+    run_p1,
+    write_p1_failure_once,
+)
 
 
 PACKAGE_ROOT = REPO_ROOT / "project" / "run_scripts" / "ode_alloc"
@@ -29,6 +33,9 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--run-token", required=True, choices=(P1_RUN_TOKEN,))
+    parser.add_argument(
+        "--execution-token", required=True, choices=(P1_EXECUTION_TOKEN,)
+    )
     parser.add_argument(
         "--numerical-lock",
         type=Path,
@@ -62,6 +69,7 @@ def main(argv: list[str] | None = None) -> int:
             artifact_lock_path=args.artifact_lock,
             seal_path=args.seal,
             run_token=args.run_token,
+            execution_token=args.execution_token,
         )
     except BaseException as exc:
         failure_sha = write_p1_failure_once(args.output_root, exc)

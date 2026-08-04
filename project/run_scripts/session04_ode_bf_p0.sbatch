@@ -5,10 +5,11 @@
 #SBATCH --gres=gpu:1
 #SBATCH --nodelist=server2
 #SBATCH --mem=65000M
-#SBATCH --time=12:00:00
+#SBATCH --time=04:00:00
 #SBATCH --export=NONE
 
 set -euo pipefail
+umask 077
 
 readonly REPO_ROOT="/mnt/raid5/janghj/.codex/worktrees/odeeditsh2/ODE-edit"
 readonly EXPECTED_SESSION="019fc5ec-f85b-7770-a73a-1d19be1cd491"
@@ -17,31 +18,34 @@ readonly MODEL_ALIAS="${1:-}"
 readonly OUTPUT_ROOT="${2:-}"
 readonly SOURCE_HEAD="${3:-}"
 readonly RUN_TOKEN="${4:-}"
-readonly EXECUTION_TOKEN="${5:-}"
 
 case "${MODEL_ALIAS}" in
   llama3-8b-inst|qwen2.5-7b-inst) ;;
-  *) echo "invalid locked P1 model alias" >&2; exit 2 ;;
+  *) echo "invalid locked ODE-BF P0 alias" >&2; exit 2 ;;
 esac
-[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "p1v1" && "${EXECUTION_TOKEN}" == "p1r1v1" ]] || {
-  echo "missing locked P1 invocation" >&2
+[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "v1p1-b10" ]] || {
+  echo "missing locked ODE-BF P0 invocation" >&2
   exit 2
 }
 [[ "$(pwd -P)" == "${REPO_ROOT}" ]] || {
-  echo "P1 repository CWD boundary differs" >&2
+  echo "ODE-BF P0 repository CWD boundary differs" >&2
   exit 2
 }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || {
-  echo "P1 source freeze differs" >&2
+  echo "ODE-BF P0 source freeze differs" >&2
+  exit 2
+}
+[[ -z "$(git status --porcelain --untracked-files=no)" ]] || {
+  echo "ODE-BF P0 tracked source is not clean" >&2
   exit 2
 }
 scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
-[[ -x /usr/local/bin/uv && -x /usr/bin/srun && -x "${EASYEDIT_ROOT}/.venv/bin/python" ]] || {
+[[ -x /usr/local/bin/uv && -x "${EASYEDIT_ROOT}/.venv/bin/python" ]] || {
   echo "fixed offline runtime is unavailable" >&2
   exit 2
 }
 [[ "${CUDA_VISIBLE_DEVICES:-}" != "" && "${CUDA_VISIBLE_DEVICES}" != *,* ]] || {
-  echo "P1 allocation must expose exactly one GPU" >&2
+  echo "ODE-BF P0 allocation must expose exactly one GPU" >&2
   exit 2
 }
 
@@ -52,14 +56,14 @@ export TRANSFORMERS_OFFLINE=1
 export HF_DATASETS_OFFLINE=1
 export TOKENIZERS_PARALLELISM=false
 export PYTHONHASHSEED=41
+export PYTHONDONTWRITEBYTECODE=1
+export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib"
 export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 
-exec /usr/bin/srun --unbuffered --ntasks=1 --cpus-per-task=8 --gres=gpu:1 \
-  /usr/local/bin/uv run --offline \
+exec /usr/local/bin/uv run --offline \
   --project "${EASYEDIT_ROOT}" --frozen --no-sync \
-  python -m project.run_scripts.session04_ode_alloc_p1 \
+  python -m project.run_scripts.session04_ode_bf_p0 \
   --model "${MODEL_ALIAS}" \
   --output-root "${OUTPUT_ROOT}" \
   --source-head "${SOURCE_HEAD}" \
-  --run-token "${RUN_TOKEN}" \
-  --execution-token "${EXECUTION_TOKEN}"
+  --run-token "${RUN_TOKEN}"

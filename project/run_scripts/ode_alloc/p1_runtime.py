@@ -100,6 +100,51 @@ from .transaction import AtomicLayerTransaction
 NUMERICAL_LOCK_SHA256 = "905a3bbccfb71a5b780586cde49503bde88df92bf8af378d8b88a85b4245f37d"
 ARTIFACT_LOCK_SHA256 = "6c327c563e0e805eb73a09cf3a577dea3771bc44127748fe64aba70a803292d2"
 SEAL_FILE_SHA256 = "48e8c96acee8e95ffc2b82689c314b4b9f84c8a6979431c8bf03f8987e2b549e"
+P1_REPAIR_INSTRUCTION_ID = "ODEEDIT-S04-ODE-ALLOC-P1-PREMODEL-R1-PAIR-V1"
+P1_EXECUTION_TOKEN = "p1r1v1"
+P1_REPAIR_EXPECTED_BASE = "4ab7e920c5c71f96780a0cca25246d771972173f"
+
+
+def expected_p1r1_result_name(
+    alias: str, numerical_lock_sha256: str, execution_token: str
+) -> str:
+    """Return the distinct create-once namespace for the approved P1R1 repair."""
+
+    if execution_token != P1_EXECUTION_TOKEN:
+        raise ODEAllocContractError("P1 execution token differs")
+    original = expected_p1_result_name(alias, numerical_lock_sha256, P1_RUN_TOKEN)
+    prefix = "s04-p1-matched-"
+    if not original.startswith(prefix):
+        raise ODEAllocContractError("P1 canonical result namespace differs")
+    return "s04-p1r1-matched-" + original[len(prefix) :]
+
+
+def _prepare_p1_cuda_runtime() -> dict[str, int | bool]:
+    """Initialize and verify exactly one CUDA device before allocator accounting."""
+
+    if not torch.cuda.is_available():
+        raise ODEAllocContractError("P1 torch-visible CUDA device is unavailable")
+    visible_count = int(torch.cuda.device_count())
+    if visible_count != 1:
+        raise ODEAllocContractError("P1 torch-visible CUDA device count differs")
+    torch.cuda.set_device(0)
+    torch.cuda.init()
+    current_device = int(torch.cuda.current_device())
+    if current_device != 0:
+        raise ODEAllocContractError("P1 current CUDA device differs")
+    probe = torch.empty((1,), dtype=torch.uint8, device="cuda:0")
+    if probe.device.type != "cuda" or probe.numel() != 1:
+        raise ODEAllocContractError("P1 CUDA allocator probe differs")
+    del probe
+    torch.cuda.synchronize(0)
+    torch.cuda.empty_cache()
+    torch.cuda.reset_peak_memory_stats(0)
+    return {
+        "torch_cuda_available": True,
+        "visible_gpu_count": visible_count,
+        "current_device_index": current_device,
+        "allocator_probe_elements": 1,
+    }
 
 
 @contextlib.contextmanager
@@ -1335,6 +1380,7 @@ def run_p1(
     artifact_lock_path: Path,
     seal_path: Path,
     run_token: str,
+    execution_token: str,
 ) -> dict[str, Any]:
     started = time.time()
     if alias not in MODEL_ALIASES:
@@ -1353,7 +1399,9 @@ def run_p1(
         raise ODEAllocContractError("P1 lock/seal file digest differs")
     lock = _strict_json(numerical_lock_path)
     policy = P1Policy.from_lock(lock)
-    expected_name = expected_p1_result_name(alias, NUMERICAL_LOCK_SHA256, run_token)
+    expected_name = expected_p1r1_result_name(
+        alias, NUMERICAL_LOCK_SHA256, execution_token
+    )
     destination = output_root.resolve(strict=False)
     allowed_parent = (repo_root / "local" / "odealloc" / "results").resolve(strict=True)
     if (
@@ -1392,7 +1440,8 @@ def run_p1(
         for item in anchor_approved
     )
     _seed_all(SEED)
-    torch.cuda.reset_peak_memory_stats(0)
+    cuda_preflight = _prepare_p1_cuda_runtime()
+    progress.complete("cuda-runtime-ready", **cuda_preflight)
     setup_timers = ComponentTimer()
     with setup_timers.measure("model_load"):
         model, tokenizer, hparams = _load_original_bf16(guard)
@@ -1508,11 +1557,14 @@ def run_p1(
             "schema_version": "ode-alloc-s04-p1-matched-pair/v1",
             "status": "PASS_MOTIVATION_SCALE_TERMINAL_ONLY",
             "instruction_id": P1_INSTRUCTION_ID,
+            "repair_instruction_id": P1_REPAIR_INSTRUCTION_ID,
             "session_id": SESSION_ID,
             "run_token": run_token,
+            "execution_token": execution_token,
             "execution_seed": SEED,
             "source_head": source_head,
             "expected_parent": EXPECTED_BASE,
+            "repair_expected_parent": P1_REPAIR_EXPECTED_BASE,
             "model_alias": alias,
             "model": {
                 "config_dtype": str(model.config.dtype),

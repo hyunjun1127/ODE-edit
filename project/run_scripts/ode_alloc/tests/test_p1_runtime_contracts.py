@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import contextlib
+import hashlib
 import io
 import inspect
 import json
@@ -10,6 +11,7 @@ import threading
 import types
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import torch
 
@@ -27,11 +29,14 @@ from project.run_scripts.ode_alloc.p1_firewall import (
     assert_projector_is_only_adaptive_arm_branch,
 )
 from project.run_scripts.ode_alloc.p1_runtime import (
+    P1_EXECUTION_TOKEN,
     ProgressRecorder,
     RecordingProjector,
+    _prepare_p1_cuda_runtime,
     _discard_easyedit_console_output,
     _preservation_specs,
     _projector_for_arm,
+    expected_p1r1_result_name,
 )
 from project.run_scripts.ode_alloc.p1_contracts import (
     HistoryRequest,
@@ -57,6 +62,81 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class P1RuntimeContractTests(unittest.TestCase):
+    def test_r1_result_namespace_is_distinct_and_create_once_token_locked(self) -> None:
+        digest = "a" * 64
+        self.assertEqual(
+            expected_p1r1_result_name(
+                "llama3-8b-inst", digest, P1_EXECUTION_TOKEN
+            ),
+            "s04-p1r1-matched-llama3-8b-inst-aaaaaaaa",
+        )
+        with self.assertRaises(Exception):
+            expected_p1r1_result_name("llama3-8b-inst", digest, "retry")
+
+    def test_cuda_preflight_initializes_one_device_before_peak_reset(self) -> None:
+        calls: list[str] = []
+        probe = types.SimpleNamespace(
+            device=types.SimpleNamespace(type="cuda"),
+            numel=lambda: 1,
+        )
+        before_rng = torch.random.get_rng_state().clone()
+        with (
+            mock.patch.object(torch.cuda, "is_available", return_value=True),
+            mock.patch.object(torch.cuda, "device_count", return_value=1),
+            mock.patch.object(
+                torch.cuda, "set_device", side_effect=lambda _: calls.append("set")
+            ),
+            mock.patch.object(
+                torch.cuda, "init", side_effect=lambda: calls.append("init")
+            ),
+            mock.patch.object(torch.cuda, "current_device", return_value=0),
+            mock.patch.object(torch, "empty", return_value=probe),
+            mock.patch.object(
+                torch.cuda, "synchronize", side_effect=lambda _: calls.append("sync")
+            ),
+            mock.patch.object(
+                torch.cuda, "empty_cache", side_effect=lambda: calls.append("empty")
+            ),
+            mock.patch.object(
+                torch.cuda,
+                "reset_peak_memory_stats",
+                side_effect=lambda _: calls.append("reset"),
+            ),
+        ):
+            receipt = _prepare_p1_cuda_runtime()
+        self.assertEqual(calls, ["set", "init", "sync", "empty", "reset"])
+        self.assertEqual(
+            receipt,
+            {
+                "torch_cuda_available": True,
+                "visible_gpu_count": 1,
+                "current_device_index": 0,
+                "allocator_probe_elements": 1,
+            },
+        )
+        self.assertTrue(torch.equal(before_rng, torch.random.get_rng_state()))
+
+    def test_cuda_preflight_blocks_old_invalid_device_reset_path(self) -> None:
+        with (
+            mock.patch.object(torch.cuda, "is_available", return_value=False),
+            mock.patch.object(torch.cuda, "reset_peak_memory_stats") as reset,
+        ):
+            with self.assertRaisesRegex(Exception, "torch-visible CUDA"):
+                _prepare_p1_cuda_runtime()
+            reset.assert_not_called()
+        self.assertEqual(
+            hashlib.sha256("Invalid device argument ".encode("utf-8")).hexdigest(),
+            "a1b5fe8d749ee4a07519a5365fdd547fc0586398d7bbb916646d49e214c4730d",
+        )
+
+    def test_cuda_preflight_rejects_zero_or_multiple_devices(self) -> None:
+        for count in (0, 2):
+            with self.subTest(count=count), mock.patch.object(
+                torch.cuda, "is_available", return_value=True
+            ), mock.patch.object(torch.cuda, "device_count", return_value=count):
+                with self.assertRaisesRegex(Exception, "device count differs"):
+                    _prepare_p1_cuda_runtime()
+
     def test_concrete_gradient_callback_emits_three_finite_tangent_rows(self) -> None:
         class Tokenizer:
             bos_token_id = 1

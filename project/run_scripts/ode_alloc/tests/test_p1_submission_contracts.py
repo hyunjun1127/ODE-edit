@@ -9,6 +9,12 @@ import project.run_scripts.session04_ode_alloc_submit_p1 as submit
 from project.run_scripts.ode_alloc.contracts import MODEL_ALIASES
 from project.run_scripts.ode_alloc.p0_artifacts import ArtifactReceipt
 from project.run_scripts.ode_alloc.p1_contracts import P1_RUN_TOKEN
+from project.run_scripts.ode_alloc.p1_runtime import (
+    NUMERICAL_LOCK_SHA256,
+    P1_EXECUTION_TOKEN,
+    P1_REPAIR_EXPECTED_BASE,
+    expected_p1r1_result_name,
+)
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -19,8 +25,8 @@ class P1SubmissionContractTests(unittest.TestCase):
         self.assertEqual(
             submit.JOB_NAMES,
             {
-                "llama3-8b-inst": "odealloc_s04_p1_llama",
-                "qwen2.5-7b-inst": "odealloc_s04_p1_qwen",
+                "llama3-8b-inst": "odealloc_s04_p1r1_llama",
+                "qwen2.5-7b-inst": "odealloc_s04_p1r1_qwen",
             },
         )
         sbatch = (ROOT / "session04_ode_alloc_p1.sbatch").read_text(encoding="utf-8")
@@ -34,10 +40,20 @@ class P1SubmissionContractTests(unittest.TestCase):
             self.assertIn(directive, sbatch)
         self.assertNotIn("#SBATCH --array", sbatch)
         self.assertIn('"${RUN_TOKEN}" == "p1v1"', sbatch)
+        self.assertIn('"${EXECUTION_TOKEN}" == "p1r1v1"', sbatch)
+        self.assertIn("exec /usr/bin/srun --unbuffered", sbatch)
         self.assertEqual(P1_RUN_TOKEN, "p1v1")
+        self.assertEqual(P1_EXECUTION_TOKEN, "p1r1v1")
+        self.assertEqual(P1_REPAIR_EXPECTED_BASE, submit.P1_REPAIR_EXPECTED_BASE)
+        self.assertEqual(
+            expected_p1r1_result_name(
+                "qwen2.5-7b-inst", NUMERICAL_LOCK_SHA256, P1_EXECUTION_TOKEN
+            ),
+            "s04-p1r1-matched-qwen2.5-7b-inst-905a3bbc",
+        )
 
     def test_changed_paths_are_exact_and_foreign_free(self) -> None:
-        self.assertEqual(len(submit.P1_CHANGED_PATHS), 13)
+        self.assertEqual(len(submit.P1_CHANGED_PATHS), 6)
         self.assertTrue(
             all(
                 path.startswith("project/run_scripts/ode_alloc/")
@@ -49,6 +65,19 @@ class P1SubmissionContractTests(unittest.TestCase):
             any("session03" in path or "knowledge-revision" in path for path in submit.P1_CHANGED_PATHS)
         )
         self.assertEqual(len(submit.P0_TERMINAL_FILES), 6)
+        self.assertEqual(len(submit.P1_R0_IMMUTABLE_FILES), 8)
+        self.assertEqual(len(submit.P1_FROZEN_SOURCE_FILES), 4)
+        self.assertEqual(
+            submit.P1_R0_RUNTIME_SHA256,
+            "d6e271946c999d3226568c997be7783f90ce017a7f475b120bbc6b520265fa43",
+        )
+
+    def test_repair_source_gate_locks_runtime_and_exact_parent(self) -> None:
+        source = Path(submit.__file__).read_text(encoding="utf-8")
+        self.assertIn("parent != P1_REPAIR_EXPECTED_BASE", source)
+        self.assertIn("changed != P1_CHANGED_PATHS", source)
+        self.assertIn("sha256_file(runtime) != P1_R1_RUNTIME_SHA256", source)
+        self.assertNotEqual(submit.P1_R1_RUNTIME_SHA256, "RUNTIME_SHA256_TO_LOCK")
 
     def test_pinned_artifact_receipt_uses_canonical_field_contract(self) -> None:
         fields = set(ArtifactReceipt.__dataclass_fields__)

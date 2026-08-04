@@ -1,0 +1,76 @@
+{
+  "schema_version": "ode-edit-s04-ode-bf-p0-artifact-lock/v1",
+  "instruction_id": "ODEEDIT-S04-ODE-BF-V1P1-EXACT-FIRST-HIT-CPU-P0-V1-A3",
+  "easyedit_root": "/mnt/raid5/janghj/EasyEdit",
+  "easyedit_git_head": "3488a66ee988d83ee7891a8abbbe6bcb24a77daf",
+  "alphaedit_evaluator_root": "/mnt/raid5/janghj/00.KE/00.Experiment/00.EAIR_parametric/AlphaEdit",
+  "hf_hub_cache": "/mnt/raid5/janghj/.cache/huggingface/hub",
+  "base_model_artifact_lock": {
+    "path": "project/run_scripts/ode_alloc/p0_artifact_lock_r1.json",
+    "sha256": "6c327c563e0e805eb73a09cf3a577dea3771bc44127748fe64aba70a803292d2"
+  },
+  "proposal": {
+    "commit": "aac2f7525384b29b67db387b3624ce3a762ff6ad",
+    "blob": "d7d59943fbda7294a10bcb6f795d4902df7db02a",
+    "sha256": "9524b58d5bd33c6175958162277cc7c7209c2e304b12aaac2133e91a9d9c4ced",
+    "lines": 2145,
+    "bytes": 54038
+  },
+  "easyedit_alpha_sources": {
+    "easyeditor/models/alphaedit/AlphaEdit_main.py": "a3a459abc4e05f4b3ccaf424a8950245c491686e943fdcaa52b296343e7458b1",
+    "easyeditor/models/alphaedit/compute_ks.py": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba",
+    "easyeditor/models/alphaedit/compute_z.py": "e12140c66b467759f3fb0061ec844f79147221e0649f0d0a5f9657225ff12c95",
+    "easyeditor/models/alphaedit/AlphaEdit_hparams.py": "703776fdfd095d0834483705311b7e103b898c9cf18c66388d5b4b06e8aeeac2",
+    "easyeditor/models/rome/layer_stats.py": "10c5f6204697a090671d3810f7fd60e781c44b7537e47a9625c07e542ff87cc4",
+    "easyeditor/util/generate.py": "13d28184bd215ea7d51bef091fcd3624271d93f4c3df32fdbf2e97cc15581b45",
+    "easyeditor/util/nethook.py": "2026b36c3a17cd6da0c6e80c79d32d5d80f835e7eb7904d298c0abaa098ecf66"
+  },
+  "benchmark_evaluator_sources": {
+    "experiments/py/eval_utils_counterfact.py": "25c3f49039e7bacb58de6d9ab8139f6f24f21532434a08690e9ec71ea939e145",
+    "experiments/py/eval_utils_zsre.py": "4370a3b2c7eff88bfeffd6412be485c0195bae794f7c7a6d39b9dd9e01299d97",
+    "experiments/summarize.py": "64f009b2fb648627a956b95abd801838d86edf04c8e1888d90ade0ec07b745c0"
+  },
+  "locks": {
+    "project/run_scripts/ode_bf/locks/numerical_lock_p0.json": "23fe5621612f715c52ef70f94a10ae7eaba759b4ac209e0e0f3e09c81ea9feef",
+    "project/run_scripts/ode_bf/locks/p0_b10_seal.json": "7f34b2f6206f5f4f113037d22fbd93ed494ce81638d45b6c1b879beeed9447d7",
+    "project/run_scripts/ode_bf/locks/p0_cpu_sampling_seal.json": "7c1eb44bc6ba01cde6794d3c53767abf850862c620494f6a8c9502876b3f3fc9"
+  },
+  "models": {
+    "llama3-8b-inst": {
+      "native_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "repo_cache": "models--meta-llama--Meta-Llama-3-8B-Instruct",
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "hparams_path": "hparams/AlphaEdit/llama3-8b.yaml",
+      "hparams_sha256": "d403e1875e62096b089be5343d33896510e454b0cdd2b256618ab53de6609ef8",
+      "projector_path": "examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+      "projector_size": 4110419877,
+      "projector_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+      "layers": [4, 5, 6, 7, 8],
+      "parameter_dtype": "torch.bfloat16"
+    },
+    "qwen2.5-7b-inst": {
+      "native_name": "Qwen/Qwen2.5-7B-Instruct",
+      "repo_cache": "models--Qwen--Qwen2.5-7B-Instruct",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "hparams_path": "hparams/AlphaEdit/qwen2.5-7b.yaml",
+      "hparams_sha256": "82d04976c4ab65e67c537ac3bd1b04d42c8f7527e2a749bdefcce63e43b995c3",
+      "projector_path": "examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+      "projector_size": 7177504758,
+      "projector_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+      "layers": [4, 5, 6, 7, 8],
+      "parameter_dtype": "torch.bfloat16"
+    }
+  },
+  "held_ode_alloc_local": {
+    "relative_path": "local/odealloc",
+    "file_count": 72,
+    "tree_sha256": "53077149b7023f60a320ef629122a150848cc5c7998c021b1b28a496d5eaef6b"
+  },
+  "offline": {
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "download_count": 0,
+    "recompute_count": 0
+  },
+  "root_digest": "f35cf6b1a13bf9fdf3d4c7e59fd3b9325ab00ca59f2663a32e52ffc246578e8c"
+}
