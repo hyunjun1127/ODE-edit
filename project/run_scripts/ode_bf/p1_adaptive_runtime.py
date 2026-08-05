@@ -95,6 +95,7 @@ from .p1_stepwise import (
     evaluate_counterfact_stepwise_primary,
 )
 from .routing import (
+    PreservationConstraintPolicy,
     RoutingProblem,
     RoutingStatus,
     SolverCertificate,
@@ -210,6 +211,100 @@ def functional_p_decision_receipt(
     )
 
 
+def _preservation_decision_payload_from_observed(
+    policy: PreservationConstraintPolicy | str,
+    observed: Mapping[str, bool],
+    functional_p: FunctionalPDecisionReceipt,
+) -> dict[str, Any]:
+    try:
+        selected = PreservationConstraintPolicy(policy)
+    except (TypeError, ValueError) as exc:
+        raise ODEBFContractError("preservation decision policy differs") from exc
+    expected_names = (
+        "structural_h", "structural_p", "trust", "functional_h",
+    )
+    if tuple(observed) != expected_names or any(
+        not isinstance(observed[name], bool) for name in expected_names
+    ):
+        raise ODEBFContractError("preservation observation payload differs")
+    observed_payload = {
+        **dict(observed),
+        "functional_p": bool(functional_p.observed_pass_at_locked_budget),
+    }
+    if selected is PreservationConstraintPolicy.OBSERVATION_ONLY:
+        decision = {name: True for name in observed_payload}
+        influence = {name: 0 for name in observed_payload}
+    else:
+        decision = {
+            **{
+                name: observed_payload[name]
+                for name in observed_payload
+                if name != "functional_p"
+            },
+            "functional_p": functional_p.decision_pass,
+        }
+        influence = {
+            **{
+                name: 1
+                for name in observed_payload
+                if name != "functional_p"
+            },
+            "functional_p": functional_p.decision_influence_count,
+        }
+    payload = {
+        "policy": selected.value,
+        "observed_pass": observed_payload,
+        "decision_pass": decision,
+        "decision_influence_count": influence,
+        "all_decision_pass": all(decision.values()),
+        "observation_only": (
+            selected is PreservationConstraintPolicy.OBSERVATION_ONLY
+        ),
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
+
+
+def preservation_decision_payload(
+    policy: PreservationConstraintPolicy | str,
+    verdict: Any,
+    functional_p: FunctionalPDecisionReceipt,
+) -> dict[str, Any]:
+    """Separate observed preservation facts from their decision influence."""
+
+    return _preservation_decision_payload_from_observed(
+        policy,
+        {
+            "structural_h": bool(verdict.structural_h_pass),
+            "structural_p": bool(verdict.structural_p_pass),
+            "trust": bool(verdict.trust_pass),
+            "functional_h": bool(verdict.functional_h_pass),
+        },
+        functional_p,
+    )
+
+
+def candidate_gate_decision(
+    verdict: Any,
+    preservation: Mapping[str, Any],
+) -> tuple[bool, str | None]:
+    """Keep technical progress/BF16 gates active around preservation ablations."""
+
+    decision = preservation.get("decision_pass")
+    if not isinstance(decision, Mapping) or tuple(decision) != (
+        "structural_h", "structural_p", "trust", "functional_h", "functional_p",
+    ):
+        raise ODEBFContractError("preservation decision gate payload differs")
+    if not verdict.progress_pass:
+        return False, "progress"
+    for name in decision:
+        if decision[name] is not True:
+            return False, name
+    if not verdict.authoritative_bf16_pass:
+        return False, "authoritative_bf16"
+    return True, None
+
+
 @dataclass(frozen=True, slots=True)
 class AdaptivePanelSpec:
     label: str
@@ -217,6 +312,9 @@ class AdaptivePanelSpec:
     routing_objective: RoutingObjective
     functional_p_decision: FunctionalPDecisionPolicy = (
         FunctionalPDecisionPolicy.PCTRL
+    )
+    preservation_constraints: PreservationConstraintPolicy = (
+        PreservationConstraintPolicy.LOCKED
     )
 
     def __post_init__(self) -> None:
@@ -232,6 +330,17 @@ class AdaptivePanelSpec:
                 "adaptive panel functional-P policy differs"
             ) from exc
         object.__setattr__(self, "functional_p_decision", selected_functional_p)
+        try:
+            selected_preservation = PreservationConstraintPolicy(
+                self.preservation_constraints
+            )
+        except (TypeError, ValueError) as exc:
+            raise ODEBFContractError(
+                "adaptive panel preservation policy differs"
+            ) from exc
+        object.__setattr__(
+            self, "preservation_constraints", selected_preservation
+        )
 
     @property
     def legacy_key(self) -> AdaptiveVariant | str:
@@ -240,6 +349,8 @@ class AdaptivePanelSpec:
             if self.label == self.clock_variant.value
             and self.routing_objective is RoutingObjective.MARGIN
             and self.functional_p_decision is FunctionalPDecisionPolicy.PCTRL
+            and self.preservation_constraints
+            is PreservationConstraintPolicy.LOCKED
             else self.label
         )
 
@@ -746,6 +857,7 @@ class VariantRollout:
     variant_label: str = ""
     routing_objective: str = RoutingObjective.MARGIN.value
     functional_p_decision: str = FunctionalPDecisionPolicy.PCTRL.value
+    preservation_constraints: str = PreservationConstraintPolicy.LOCKED.value
 
 
 def _risk_payload(receipt: Any) -> dict[str, Any]:
@@ -841,8 +953,17 @@ def _build_active_field(
     native_target: torch.Tensor,
     target_base: torch.Tensor,
     routing_objective: RoutingObjective | str = RoutingObjective.MARGIN,
+    preservation_policy: PreservationConstraintPolicy | str = (
+        PreservationConstraintPolicy.LOCKED
+    ),
 ) -> ActiveField:
     selected_objective = select_locked_routing_objective(routing_objective)
+    try:
+        selected_preservation = PreservationConstraintPolicy(
+            preservation_policy
+        )
+    except (TypeError, ValueError) as exc:
+        raise ODEBFContractError("adaptive preservation policy differs") from exc
     layers = tuple(int(layer) for layer in hparams.layers)
     policy = _residual_policy(variant)
     started = time.perf_counter()
@@ -907,6 +1028,7 @@ def _build_active_field(
     )
     raw = solve_matched_raw_velocity(
         source,
+        preservation_policy=selected_preservation,
         certificate_observer=raw_observer,
     )
     ledger.increment("qp_solve", 2)
@@ -929,6 +1051,7 @@ def _build_active_field(
     projection = project_matched_bf_velocity(
         barrier,
         raw,
+        preservation_policy=selected_preservation,
         certificate_observer=bf_observer,
     )
     ledger.increment("qp_solve", 2)
@@ -952,6 +1075,24 @@ def _build_active_field(
             "raw_certificate": asdict(raw.certificate),
             "projection_status": projection.status.value,
             "projection_certificate": asdict(projection.certificate),
+            "preservation_constraint_policy": selected_preservation.value,
+            "preservation_solver_decision_influence_count": {
+                "structural_h": (
+                    1
+                    if selected_preservation is PreservationConstraintPolicy.LOCKED
+                    else 0
+                ),
+                "structural_p": (
+                    1
+                    if selected_preservation is PreservationConstraintPolicy.LOCKED
+                    else 0
+                ),
+                "trust": (
+                    1
+                    if selected_preservation is PreservationConstraintPolicy.LOCKED
+                    else 0
+                ),
+            },
             "field_build_wall_seconds": time.perf_counter() - started,
             "field_build_counter_delta": {
                 name: ledger.counters[name] - counter_before[name]
@@ -1034,6 +1175,24 @@ def _build_active_field(
         "bf_certificate": asdict(projection.certificate),
         "projection_distance": projection.projection_distance,
         "routing_problem_sha256": barrier.problem.identity(),
+        "preservation_constraint_policy": selected_preservation.value,
+        "preservation_solver_decision_influence_count": {
+            "structural_h": (
+                1
+                if selected_preservation is PreservationConstraintPolicy.LOCKED
+                else 0
+            ),
+            "structural_p": (
+                1
+                if selected_preservation is PreservationConstraintPolicy.LOCKED
+                else 0
+            ),
+            "trust": (
+                1
+                if selected_preservation is PreservationConstraintPolicy.LOCKED
+                else 0
+            ),
+        },
         "target_velocity": asdict(target_receipt),
         "field_build_wall_seconds": time.perf_counter() - started,
         "field_build_counter_delta": {
@@ -1346,6 +1505,9 @@ def _run_trial(
     functional_p_policy: FunctionalPDecisionPolicy | str = (
         FunctionalPDecisionPolicy.PCTRL
     ),
+    preservation_policy: PreservationConstraintPolicy | str = (
+        PreservationConstraintPolicy.LOCKED
+    ),
 ) -> TrialOutcome:
     from .p1_runtime import _controller_progress_telemetry
 
@@ -1442,13 +1604,22 @@ def _run_trial(
         minimum_progress=lock.minimum_progress,
         rho_accept=lock.rho_accept,
     )
+    preservation_decision = preservation_decision_payload(
+        preservation_policy,
+        verdict,
+        functional_p_decision,
+    )
+    preservation_pass = preservation_decision["decision_pass"]
     feasibility = FeasibilityVerdict(
-        verdict.structural_h_pass,
-        verdict.structural_p_pass,
-        verdict.trust_pass,
-        functional.historical.passed,
-        functional_p_decision.decision_pass,
+        preservation_pass["structural_h"],
+        preservation_pass["structural_p"],
+        preservation_pass["trust"],
+        preservation_pass["functional_h"],
+        preservation_pass["functional_p"],
         True,
+    )
+    gate_accepted, first_rejecting_component = candidate_gate_decision(
+        verdict, preservation_decision
     )
     applied_velocity = beta_alias * np.asarray(
         active.bf_velocity.velocity, dtype=np.float64
@@ -1557,6 +1728,9 @@ def _run_trial(
         "functional_p_decision_influence_count": (
             functional_p_decision.decision_influence_count
         ),
+        "preservation_decision_influence_count": dict(
+            preservation_decision["decision_influence_count"]
+        ),
     }
     if (
         selected_objective is not RoutingObjective.MARGIN
@@ -1631,11 +1805,12 @@ def _run_trial(
         "delta_tau_trial": fraction_payload(delta_tau),
         "beta_diagnostic_alias": beta_alias,
         "remainder": remainder,
-        "gate_accepted": verdict.accepted,
-        "first_rejecting_component": verdict.first_rejecting_gate,
+        "gate_accepted": gate_accepted,
+        "first_rejecting_component": first_rejecting_component,
         "progress": progress_payload,
         "structural_functional": structural,
         "functional_p_decision": functional_p_decision.raw_free_payload(),
+        "preservation_decision": preservation_decision,
         "official_success": evaluation.batch_success.raw_free_payload(),
         "canonical_rewrite": canonical_rewrite,
         "canonical_rewrite_sha256": canonical_hash(canonical_rewrite),
@@ -1674,7 +1849,7 @@ def _run_trial(
         )
     receipt_sha256 = recorder.trial(trial_payload)
     return TrialOutcome(
-        verdict.accepted,
+        gate_accepted,
         candidate_factors,
         increment,
         target_trial,
@@ -1689,7 +1864,10 @@ def _run_trial(
         snapshot_sha256,
         receipt_sha256,
         verdict.trust_ratio,
-        functional_p_decision.raw_free_payload(),
+        {
+            **functional_p_decision.raw_free_payload(),
+            "preservation_decision": preservation_decision,
+        },
     )
 
 
@@ -1842,6 +2020,9 @@ def _terminal_confirm_snapshots(
     functional_p_policy: FunctionalPDecisionPolicy | str = (
         FunctionalPDecisionPolicy.PCTRL
     ),
+    preservation_policy: PreservationConstraintPolicy | str = (
+        PreservationConstraintPolicy.LOCKED
+    ),
 ) -> list[dict[str, Any]]:
     if not snapshots:
         return []
@@ -1876,12 +2057,27 @@ def _terminal_confirm_snapshots(
             functional_p_policy,
             terminal_p_observation,
         )
+        terminal_preservation = _preservation_decision_payload_from_observed(
+            preservation_policy,
+            {
+                "structural_h": bool(
+                    snapshot.structural_payload["historical"]["passed"]
+                ),
+                "structural_p": bool(
+                    snapshot.structural_payload["pretrained"]["passed"]
+                ),
+                "trust": bool(snapshot.structural_payload["trust"]["passed"]),
+                "functional_h": bool(pair.historical.passed),
+            },
+            terminal_p_decision,
+        )
+        terminal_pass = terminal_preservation["decision_pass"]
         feasibility = FeasibilityVerdict(
-            snapshot.feasibility.structural_h,
-            snapshot.feasibility.structural_p,
-            snapshot.feasibility.trust,
-            pair.historical.passed,
-            terminal_p_decision.decision_pass,
+            terminal_pass["structural_h"],
+            terminal_pass["structural_p"],
+            terminal_pass["trust"],
+            terminal_pass["functional_h"],
+            terminal_pass["functional_p"],
             True,
         )
         exact = bool(
@@ -1897,6 +2093,7 @@ def _terminal_confirm_snapshots(
             "online_feasibility": asdict(snapshot.feasibility),
             "terminal_feasibility": asdict(feasibility),
             "functional_p_decision": terminal_p_decision.raw_free_payload(),
+            "preservation_decision": terminal_preservation,
             "terminal_h": _risk_payload(pair.historical),
             "terminal_p": terminal_p_observation,
             "outer_entry_baseline": {
@@ -1954,6 +2151,9 @@ def _run_variant(
     functional_p_policy: FunctionalPDecisionPolicy | str = (
         FunctionalPDecisionPolicy.PCTRL
     ),
+    preservation_policy: PreservationConstraintPolicy | str = (
+        PreservationConstraintPolicy.LOCKED
+    ),
 ) -> VariantRollout:
     """Run one isolated R_BF-controller variant without persistent mutation."""
 
@@ -1965,6 +2165,12 @@ def _run_variant(
         )
     except (TypeError, ValueError) as exc:
         raise ODEBFContractError("adaptive functional-P policy differs") from exc
+    try:
+        selected_preservation_policy = PreservationConstraintPolicy(
+            preservation_policy
+        )
+    except (TypeError, ValueError) as exc:
+        raise ODEBFContractError("adaptive preservation policy differs") from exc
     selected_label = variant.value if variant_label is None else variant_label
     if recorder.variant_label != selected_label or recorder.variant is not variant:
         raise ODEBFContractError("adaptive recorder/panel variant differs")
@@ -2039,6 +2245,7 @@ def _run_variant(
             native_target=native_target,
             target_base=target_base,
             routing_objective=selected_objective,
+            preservation_policy=selected_preservation_policy,
         )
         field_build_count = 1
         initial_layer_routing = dict(active.layer_routing_payload)
@@ -2102,6 +2309,7 @@ def _run_variant(
                     contexts=contexts,
                     routing_objective=selected_objective,
                     functional_p_policy=selected_functional_p_policy,
+                    preservation_policy=selected_preservation_policy,
                 )
                 trial_receipts.append(outcome.receipt_sha256)
                 trial_outcomes.append(outcome)
@@ -2179,6 +2387,7 @@ def _run_variant(
                         native_target=native_target,
                         target_base=target_base,
                         routing_objective=selected_objective,
+                        preservation_policy=selected_preservation_policy,
                     )
                     field_build_count += 1
                 except ODEBFContractError as exc:
@@ -2246,6 +2455,7 @@ def _run_variant(
                 contexts=contexts,
                 routing_objective=selected_objective,
                 functional_p_policy=selected_functional_p_policy,
+                preservation_policy=selected_preservation_policy,
             )
             n_trial = clock.n_trial
             if outcome.gate_accepted:
@@ -2325,6 +2535,7 @@ def _run_variant(
                         native_target=native_target,
                         target_base=target_base,
                         routing_objective=selected_objective,
+                        preservation_policy=selected_preservation_policy,
                     )
                     field_build_count += 1
                 except ODEBFContractError as exc:
@@ -2363,6 +2574,7 @@ def _run_variant(
         recorder=recorder,
         trajectory_complete=trajectory_complete,
         functional_p_policy=selected_functional_p_policy,
+        preservation_policy=selected_preservation_policy,
     )
     if (
         _parameter_contract_sha256(touched) != entry_model_sha256
@@ -2453,6 +2665,18 @@ def _run_variant(
             if selected_functional_p_policy is FunctionalPDecisionPolicy.PCTRL
             else 0
         ),
+        "preservation_constraint_policy": selected_preservation_policy.value,
+        "preservation_decision_influence_count": {
+            name: (
+                n_trial
+                if selected_preservation_policy
+                is PreservationConstraintPolicy.LOCKED
+                else 0
+            )
+            for name in (
+                "structural_h", "structural_p", "trust", "functional_h"
+            )
+        },
     }
     if (
         selected_objective is not RoutingObjective.MARGIN
@@ -2497,6 +2721,7 @@ def _run_variant(
         selected_label,
         selected_objective.value,
         selected_functional_p_policy.value,
+        selected_preservation_policy.value,
     )
 
 
@@ -3152,6 +3377,9 @@ def run_adaptive_diagnostic(
             "functional_p_decision_by_label": {
                 item.label: item.functional_p_decision.value for item in specs
             },
+            "preservation_constraints_by_label": {
+                item.label: item.preservation_constraints.value for item in specs
+            },
             "scientific_promotion_authorized": False,
         },
     )
@@ -3219,6 +3447,7 @@ def run_adaptive_diagnostic(
                 routing_objective=spec.routing_objective,
                 variant_label=spec.label,
                 functional_p_policy=spec.functional_p_decision,
+                preservation_policy=spec.preservation_constraints,
             )
         finally:
             counter.close()
@@ -3325,6 +3554,23 @@ def run_adaptive_diagnostic(
             item.label: rollouts[item.legacy_key].n_trial
             if item.functional_p_decision is FunctionalPDecisionPolicy.PCTRL
             else 0
+            for item in specs
+        },
+        "preservation_constraints_by_label": {
+            item.label: item.preservation_constraints.value for item in specs
+        },
+        "preservation_decision_influence_count_by_label": {
+            item.label: {
+                name: (
+                    rollouts[item.legacy_key].n_trial
+                    if item.preservation_constraints
+                    is PreservationConstraintPolicy.LOCKED
+                    else 0
+                )
+                for name in (
+                    "structural_h", "structural_p", "trust", "functional_h"
+                )
+            }
             for item in specs
         },
         "n32_receipt_sha256": n32_sha256,

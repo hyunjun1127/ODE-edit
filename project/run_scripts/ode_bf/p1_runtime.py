@@ -3201,6 +3201,7 @@ def run_p1(
     adaptive_mode: bool = False,
     target_new_routing_mode: bool = False,
     functional_p_off_mode: bool = False,
+    preservation_all_off_mode: bool = False,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3213,10 +3214,17 @@ def run_p1(
             adaptive_mode,
             target_new_routing_mode,
             functional_p_off_mode,
+            preservation_all_off_mode,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if functional_p_off_mode:
+    if preservation_all_off_mode:
+        from .p1_preservation_all_off_panel import (
+            expected_preservation_all_off_result_name,
+        )
+
+        expected_name = expected_preservation_all_off_result_name(alias)
+    elif functional_p_off_mode:
         from .p1_functional_p_off_panel import (
             expected_functional_p_off_result_name,
         )
@@ -3254,7 +3262,8 @@ def run_p1(
         locks / "p0_artifact_lock.json",
         alias,
         require_held_ode_alloc=not target_new_routing_mode
-        and not functional_p_off_mode,
+        and not functional_p_off_mode
+        and not preservation_all_off_mode,
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
@@ -3350,6 +3359,25 @@ def run_p1(
         )
         numerical = functional_p_numerical
         numerical_sha256 = functional_p_numerical_sha256
+    if preservation_all_off_mode:
+        from .p1_preservation_all_off_panel import (
+            validate_preservation_all_off_lock,
+        )
+
+        alloff_numerical, alloff_numerical_sha256 = load_rooted_json(
+            locks / "numerical_lock_s05_preservation_alloff_fulltau.json",
+            expected_schema=(
+                "ode-edit-s05-preservation-alloff-fulltau-numerical-lock/v1"
+            ),
+        )
+        validate_preservation_all_off_lock(
+            alloff_numerical,
+            controller_identity_sha256=controller_lock.identity(),
+            stream_root_digest=stream["root_digest"],
+            population_root_digest=population["root_digest"],
+        )
+        numerical = alloff_numerical
+        numerical_sha256 = alloff_numerical_sha256
     dataset = artifact_guard.base_guard.dataset
     stream_batches = load_p1_stream_batches(dataset, stream)
     population_requests = load_p1_population_requests(
@@ -3482,11 +3510,36 @@ def run_p1(
             receipt,
             base_values,
         )
-    if adaptive_mode or target_new_routing_mode or functional_p_off_mode:
+    if (
+        adaptive_mode
+        or target_new_routing_mode
+        or functional_p_off_mode
+        or preservation_all_off_mode
+    ):
         from .p1_adaptive_runtime import run_adaptive_diagnostic
 
         target_kwargs: dict[str, Any] = {}
-        if functional_p_off_mode:
+        if preservation_all_off_mode:
+            from .p1_preservation_all_off_panel import (
+                PRESERVATION_ALL_OFF_INSTRUCTION_ID,
+                PRESERVATION_ALL_OFF_SCHEMA_NAMESPACE,
+                PRESERVATION_ALL_OFF_TERMINAL_STATUS,
+                preservation_all_off_panel_specs,
+                preservation_all_off_refinement,
+                preservation_all_off_terminal_metadata,
+            )
+
+            target_kwargs = {
+                "panel_specs": preservation_all_off_panel_specs(),
+                "panel_instruction_id": PRESERVATION_ALL_OFF_INSTRUCTION_ID,
+                "panel_schema_namespace": PRESERVATION_ALL_OFF_SCHEMA_NAMESPACE,
+                "panel_terminal_status": PRESERVATION_ALL_OFF_TERMINAL_STATUS,
+                "panel_refinement_builder": preservation_all_off_refinement,
+                "panel_terminal_metadata": (
+                    preservation_all_off_terminal_metadata()
+                ),
+            }
+        elif functional_p_off_mode:
             from .p1_functional_p_off_panel import (
                 FUNCTIONAL_P_OFF_INSTRUCTION_ID,
                 FUNCTIONAL_P_OFF_SCHEMA_NAMESPACE,

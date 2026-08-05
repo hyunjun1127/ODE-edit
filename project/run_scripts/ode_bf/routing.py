@@ -25,6 +25,19 @@ class RoutingStatus(str, Enum):
     PROGRESS_INFEASIBLE = "PROGRESS_INFEASIBLE"
 
 
+class PreservationConstraintPolicy(str, Enum):
+    """Whether preservation constraints participate in routing decisions.
+
+    ``OBSERVATION_ONLY`` leaves progress, non-negativity, layer caps, and all
+    numerical certificates active.  Only structural H/P and the write-trust
+    radius are removed from the routing feasible set; their values remain
+    available from the unchanged :class:`RoutingProblem` for diagnostics.
+    """
+
+    LOCKED = "LOCKED"
+    OBSERVATION_ONLY = "ALLOFF"
+
+
 @dataclass(frozen=True, slots=True)
 class QuadraticBarrier:
     label: str
@@ -205,6 +218,7 @@ def _constraint_functions(
     *,
     include_barriers: bool,
     requested_progress: float | None,
+    preservation_policy: PreservationConstraintPolicy,
 ) -> list[tuple[str, Callable[[np.ndarray], float], Callable[[np.ndarray], np.ndarray]]]:
     progress = problem.signed_progress[active_indices]
     trust = problem.trust_metric[np.ix_(active_indices, active_indices)]
@@ -217,14 +231,18 @@ def _constraint_functions(
                 lambda value, p=progress: p.copy(),
             )
         )
-    constraints.append(
-        (
-            "trust",
-            lambda value, matrix=trust, radius=problem.trust_radius: float(radius**2 - value @ matrix @ value),
-            lambda value, matrix=trust: -2.0 * matrix @ value,
+    if preservation_policy is PreservationConstraintPolicy.LOCKED:
+        constraints.append(
+            (
+                "trust",
+                lambda value, matrix=trust, radius=problem.trust_radius: float(radius**2 - value @ matrix @ value),
+                lambda value, matrix=trust: -2.0 * matrix @ value,
+            )
         )
-    )
-    if include_barriers:
+    if (
+        include_barriers
+        and preservation_policy is PreservationConstraintPolicy.LOCKED
+    ):
         for barrier in (problem.historical, problem.pretrained):
             linear = barrier.linear[active_indices]
             gram = barrier.gram[np.ix_(active_indices, active_indices)]
@@ -251,6 +269,7 @@ def _certificate(
     problem: RoutingProblem,
     active_indices: np.ndarray,
     include_barriers: bool,
+    preservation_policy: PreservationConstraintPolicy,
     primal_tolerance: float,
     kkt_tolerance: float,
 ) -> SolverCertificate:
@@ -290,8 +309,12 @@ def _certificate(
         complementarity = 0.0
     expanded = np.zeros(problem.signed_progress.size, dtype=np.float64)
     expanded[active_indices] = value
-    historical_value = problem.historical.value(expanded) if include_barriers else None
-    pretrained_value = problem.pretrained.value(expanded) if include_barriers else None
+    barriers_in_decision = bool(
+        include_barriers
+        and preservation_policy is PreservationConstraintPolicy.LOCKED
+    )
+    historical_value = problem.historical.value(expanded) if barriers_in_decision else None
+    pretrained_value = problem.pretrained.value(expanded) if barriers_in_decision else None
     trust_value = float(expanded @ problem.trust_metric @ expanded)
     success = bool(getattr(result, "success"))
     passed = (
@@ -326,6 +349,7 @@ def _solve(
     initial: np.ndarray | None,
     primal_tolerance: float,
     kkt_tolerance: float,
+    preservation_policy: PreservationConstraintPolicy,
     certificate_observer: CertificateObserver | None = None,
 ) -> tuple[np.ndarray, SolverCertificate]:
     active_indices = np.flatnonzero(problem.positive_direction_mask)
@@ -339,6 +363,7 @@ def _solve(
         active_indices,
         include_barriers=include_barriers,
         requested_progress=requested_progress,
+        preservation_policy=preservation_policy,
     )
     scipy_constraints = [
         {"type": "ineq", "fun": function, "jac": jacobian}
@@ -371,6 +396,7 @@ def _solve(
         problem=problem,
         active_indices=active_indices,
         include_barriers=include_barriers,
+        preservation_policy=preservation_policy,
         primal_tolerance=primal_tolerance,
         kkt_tolerance=kkt_tolerance,
     )
@@ -389,16 +415,26 @@ def _maximum_progress(
     include_barriers: bool,
     primal_tolerance: float,
     kkt_tolerance: float,
+    preservation_policy: PreservationConstraintPolicy,
     certificate_observer: CertificateObserver | None = None,
 ) -> tuple[np.ndarray, SolverCertificate]:
     return _solve(
         problem,
-        phase="maximum-progress-with-barriers" if include_barriers else "maximum-progress-raw",
+        phase=(
+            "maximum-progress-with-barriers"
+            if include_barriers
+            else "maximum-progress-raw"
+        ) + (
+            ""
+            if preservation_policy is PreservationConstraintPolicy.LOCKED
+            else "-preservation-observation-only"
+        ),
         include_barriers=include_barriers,
         requested_progress=None,
         initial=None,
         primal_tolerance=primal_tolerance,
         kkt_tolerance=kkt_tolerance,
+        preservation_policy=preservation_policy,
         certificate_observer=certificate_observer,
     )
 
@@ -408,6 +444,9 @@ def solve_raw_velocity(
     *,
     primal_tolerance: float = 1.0e-8,
     kkt_tolerance: float = 1.0e-5,
+    preservation_policy: PreservationConstraintPolicy = (
+        PreservationConstraintPolicy.LOCKED
+    ),
     certificate_observer: CertificateObserver | None = None,
 ) -> RawVelocity:
     maximum, maximum_certificate = _maximum_progress(
@@ -415,6 +454,7 @@ def solve_raw_velocity(
         include_barriers=False,
         primal_tolerance=primal_tolerance,
         kkt_tolerance=kkt_tolerance,
+        preservation_policy=preservation_policy,
         certificate_observer=certificate_observer,
     )
     maximum_progress = float(problem.signed_progress @ maximum)
@@ -424,12 +464,17 @@ def solve_raw_velocity(
     initial = maximum[problem.positive_direction_mask] * scale
     values, certificate = _solve(
         problem,
-        phase="minimum-capacity-raw",
+        phase="minimum-capacity-raw" + (
+            ""
+            if preservation_policy is PreservationConstraintPolicy.LOCKED
+            else "-preservation-observation-only"
+        ),
         include_barriers=False,
         requested_progress=problem.requested_progress,
         initial=initial,
         primal_tolerance=primal_tolerance,
         kkt_tolerance=kkt_tolerance,
+        preservation_policy=preservation_policy,
         certificate_observer=certificate_observer,
     )
     payload = {
@@ -438,6 +483,8 @@ def solve_raw_velocity(
         "maximum_progress": maximum_certificate.signed_progress,
         "requested_progress": problem.requested_progress,
     }
+    if preservation_policy is not PreservationConstraintPolicy.LOCKED:
+        payload["preservation_constraint_policy"] = preservation_policy.value
     return RawVelocity(
         values,
         problem.identity(),
@@ -453,6 +500,9 @@ def project_bf_velocity(
     *,
     primal_tolerance: float = 1.0e-8,
     kkt_tolerance: float = 1.0e-5,
+    preservation_policy: PreservationConstraintPolicy = (
+        PreservationConstraintPolicy.LOCKED
+    ),
     certificate_observer: CertificateObserver | None = None,
 ) -> BFProjectionResult:
     if raw_velocity.problem_identity != problem.identity():
@@ -462,6 +512,7 @@ def project_bf_velocity(
         include_barriers=True,
         primal_tolerance=primal_tolerance,
         kkt_tolerance=kkt_tolerance,
+        preservation_policy=preservation_policy,
         certificate_observer=certificate_observer,
     )
     maximum_progress = float(problem.signed_progress @ maximum)
@@ -479,12 +530,17 @@ def project_bf_velocity(
     )
     values, certificate = _solve(
         problem,
-        phase="minimum-capacity-cbf-projection",
+        phase="minimum-capacity-cbf-projection" + (
+            ""
+            if preservation_policy is PreservationConstraintPolicy.LOCKED
+            else "-preservation-observation-only"
+        ),
         include_barriers=True,
         requested_progress=problem.requested_progress,
         initial=initial,
         primal_tolerance=primal_tolerance,
         kkt_tolerance=kkt_tolerance,
+        preservation_policy=preservation_policy,
         certificate_observer=certificate_observer,
     )
     difference = values - raw_velocity.values

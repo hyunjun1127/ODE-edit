@@ -15,6 +15,7 @@ from .p1_backend import P1DynamicField, P1LayerField, SignedProgressReceipt
 from .routing import (
     BFProjectionResult,
     CertificateObserver,
+    PreservationConstraintPolicy,
     QuadraticBarrier,
     RawVelocity,
     RoutingProblem,
@@ -397,10 +398,14 @@ def build_p1_routing_problem(
 def solve_matched_raw_velocity(
     build: P1RoutingBuild,
     *,
+    preservation_policy: PreservationConstraintPolicy = (
+        PreservationConstraintPolicy.LOCKED
+    ),
     certificate_observer: CertificateObserver | None = None,
 ) -> MatchedRawVelocity:
     solved = solve_raw_velocity(
         build.problem,
+        preservation_policy=preservation_policy,
         certificate_observer=certificate_observer,
     )
     velocity_sha = canonical_hash(
@@ -423,6 +428,9 @@ def project_matched_bf_velocity(
     build: P1RoutingBuild,
     raw: MatchedRawVelocity,
     *,
+    preservation_policy: PreservationConstraintPolicy = (
+        PreservationConstraintPolicy.LOCKED
+    ),
     certificate_observer: CertificateObserver | None = None,
 ) -> BFProjectionResult:
     if raw.geometry_sha256 != build.geometry.identity_sha256:
@@ -437,6 +445,7 @@ def project_matched_bf_velocity(
     result = project_bf_velocity(
         build.problem,
         rebound,
+        preservation_policy=preservation_policy,
         certificate_observer=certificate_observer,
     )
     if result.raw_velocity_identity != raw.velocity_sha256:
