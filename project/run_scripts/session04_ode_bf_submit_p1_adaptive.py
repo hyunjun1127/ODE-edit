@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-shot submitter for the adaptive-tau P1R4 causal model pair."""
+"""One-shot submitter for the adaptive-tau P1R4 history-view R1 pair."""
 
 from __future__ import annotations
 
@@ -61,27 +61,23 @@ from project.run_scripts.session04_ode_bf_p1_adaptive_dry_plan import JOB_NAMES
 
 SESSION_ID = "019fc5ec-f85b-7770-a73a-1d19be1cd491"
 BRANCH = "codex/odeeditsh2-ode-bf-v1"
-BASE_HEAD = "40d7811313ff61077e28ef571af3d9286de2db2e"
+BASE_HEAD = "6bdf456f168ababb35b7b69eaf1ddc2ea4a229c0"
+SCIENTIFIC_LINEAGE_PARENT = "40d7811313ff61077e28ef571af3d9286de2db2e"
+REPAIR_INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-P1R4-HISTORY-VIEW-R1-V1"
 PACKAGE_ROOT = REPO_ROOT / "project/run_scripts/ode_bf"
 LOCK_ROOT = PACKAGE_ROOT / "locks"
 SBATCH = REPO_ROOT / "project/run_scripts/session04_ode_bf_p1_adaptive.sbatch"
 DRY_PLAN = REPO_ROOT / "project/run_scripts/session04_ode_bf_p1_adaptive_dry_plan.py"
-SOURCE_MANIFEST = LOCK_ROOT / "source_manifest_p1r4_adaptive.json"
+SOURCE_MANIFEST = LOCK_ROOT / "source_manifest_p1r4_adaptive_r1.json"
 ARTIFACT_LOCK = LOCK_ROOT / "p0_artifact_lock.json"
 BASE_ARTIFACT_LOCK = REPO_ROOT / "project/run_scripts/ode_alloc/p0_artifact_lock_r1.json"
 
 ALLOWED_CHANGED_PATHS = {
-    "project/run_scripts/ode_bf/locks/numerical_lock_p1r4_adaptive.json",
-    "project/run_scripts/ode_bf/locks/source_manifest_p1r4_adaptive.json",
-    "project/run_scripts/ode_bf/p1_adaptive.py",
+    "project/run_scripts/ode_bf/locks/source_manifest_p1r4_adaptive_r1.json",
     "project/run_scripts/ode_bf/p1_adaptive_runtime.py",
-    "project/run_scripts/ode_bf/p1_backend.py",
     "project/run_scripts/ode_bf/p1_runtime.py",
-    "project/run_scripts/ode_bf/p1_stepwise.py",
-    "project/run_scripts/ode_bf/resource.py",
     "project/run_scripts/ode_bf/tests/test_p1_adaptive_submission.py",
-    "project/run_scripts/ode_bf/tests/test_p1_adaptive_tau.py",
-    "project/run_scripts/ode_bf/tests/test_p1_stepwise.py",
+    "project/run_scripts/ode_bf/tests/test_p1_state.py",
     "project/run_scripts/session04_ode_bf_p1_adaptive.py",
     "project/run_scripts/session04_ode_bf_p1_adaptive.sbatch",
     "project/run_scripts/session04_ode_bf_p1_adaptive_dry_plan.py",
@@ -133,6 +129,35 @@ P1R4_FILE_SHA256 = {
     ),
     "local/odebf/logs/odebf_s04_p1r4full_qwen-16682.out": (
         "ca10cf8e3075793076a11c4ef559ac2e49b7c489d869c46337ab91ce61c478ce"
+    ),
+}
+
+FAILED_ADAPTIVE_RESULT_SHA256 = {
+    "s04-p1r4-adaptive-tau-llama3-8b-inst-v1": (
+        "11bec73eefd013eba74133f0be341a42b05da8f2028521973755969a95da97c7"
+    ),
+    "s04-p1r4-adaptive-tau-qwen2.5-7b-inst-v1": (
+        "ca06c2551118cd31b0a30832545d1ebc7da75fac172dd1523efd12b30f416ab5"
+    ),
+}
+FAILED_ADAPTIVE_FILE_SHA256 = {
+    "local/odebf/state/s04-p1r4-adaptive-tau-causal-v1.submission-intent.json": (
+        "4a7d8ce4e7699fa33aa825a24696de9b94734884c689365e298402bbbd0dedc1"
+    ),
+    "local/odebf/state/s04-p1r4-adaptive-tau-causal-v1.submission-receipt.json": (
+        "4fbe54bfa58d9b20a8d8216a179cf902a1936b29a2bb0737eeb28768a72b8b39"
+    ),
+    "local/odebf/logs/odebf_s04_p1r4adaptive_llama-16766.out": (
+        "2e5292000e3663a5260a3b7f57557ca1da7780de833f6acdc26930241ce3cf9c"
+    ),
+    "local/odebf/logs/odebf_s04_p1r4adaptive_llama-16766.err": (
+        "625949a9ef03ffb976a5e8fb038fff4eed2ef3483e2f4803a74d9c4226f5cfa1"
+    ),
+    "local/odebf/logs/odebf_s04_p1r4adaptive_qwen-16767.out": (
+        "2e5292000e3663a5260a3b7f57557ca1da7780de833f6acdc26930241ce3cf9c"
+    ),
+    "local/odebf/logs/odebf_s04_p1r4adaptive_qwen-16767.err": (
+        "730a603cea81e49a90ee9cd6652c9211cc2c186802be8fcfca977e400cb14302"
     ),
 }
 
@@ -190,6 +215,25 @@ def _p1r4_immutability_gate() -> dict[str, str]:
     return observed
 
 
+def _failed_adaptive_immutability_gate() -> dict[str, str]:
+    observed: dict[str, str] = {}
+    parent = REPO_ROOT / "local/odebf/results"
+    for name, expected in FAILED_ADAPTIVE_RESULT_SHA256.items():
+        root = parent / name
+        if root.is_symlink() or not root.is_dir():
+            raise ODEBFContractError("failed adaptive result root identity differs")
+        digest, count = sha256_regular_tree(root)
+        if digest != expected or count != 5:
+            raise ODEBFContractError("failed adaptive result immutability differs")
+        observed[name] = digest
+    for relative, expected in FAILED_ADAPTIVE_FILE_SHA256.items():
+        path = REPO_ROOT / relative
+        if path.is_symlink() or not path.is_file() or sha256_file(path) != expected:
+            raise ODEBFContractError("failed adaptive log/state immutability differs")
+        observed[relative] = expected
+    return observed
+
+
 def _base_frozen_gate() -> dict[str, str]:
     observed: dict[str, str] = {}
     for relative in FROZEN_PATHS:
@@ -206,11 +250,11 @@ def _base_frozen_gate() -> dict[str, str]:
 def _source_manifest_gate() -> str:
     value, raw_sha256 = load_rooted_json(
         SOURCE_MANIFEST,
-        expected_schema="ode-edit-s04-ode-bf-p1r4-adaptive-source-manifest/v1",
+        expected_schema="ode-edit-s04-ode-bf-p1r4-adaptive-r1-source-manifest/v1",
     )
     entries = value.get("entries")
     if (
-        value.get("instruction_id") != ADAPTIVE_INSTRUCTION_ID
+        value.get("instruction_id") != REPAIR_INSTRUCTION_ID
         or value.get("expected_parent") != BASE_HEAD
         or not isinstance(entries, list)
         or not entries
@@ -230,7 +274,8 @@ def _source_manifest_gate() -> str:
             path.startswith("project/run_scripts/ode_bf/")
             or path.startswith("project/run_scripts/session04_ode_bf_")
         )
-        and path != "project/run_scripts/ode_bf/locks/source_manifest_p1r4_adaptive.json"
+        and path
+        != "project/run_scripts/ode_bf/locks/source_manifest_p1r4_adaptive_r1.json"
     }
     if set(locked) != expected_paths:
         raise ODEBFContractError("adaptive source manifest path set differs")
@@ -318,6 +363,13 @@ def _adaptive_ast_firewall() -> str:
         raise ODEBFContractError("adaptive held-out loader preceded action freeze")
     if "K_total=20" in runtime or "eta=1/20" in runtime:
         raise ODEBFContractError("superseded simple-K20 semantics reappeared")
+    if (
+        ".solve_key_view" in runtime
+        or ".risk_key_view" in runtime
+        or "history.solve_keys" not in runtime
+        or "history.risk_keys" not in runtime
+    ):
+        raise ODEBFContractError("adaptive history view interface differs")
     assert_no_alias_specific_controller_branch(
         [
             PACKAGE_ROOT / "p1_adaptive.py",
@@ -366,7 +418,7 @@ def _lock_and_seal_gate() -> dict[str, Any]:
     resource_lock = numerical.get("resource", {})
     if (
         numerical.get("instruction_id") != ADAPTIVE_INSTRUCTION_ID
-        or numerical.get("accepted_lineage_parent") != BASE_HEAD
+        or numerical.get("accepted_lineage_parent") != SCIENTIFIC_LINEAGE_PARENT
         or numerical.get("controller_identity_sha256") != P1ControllerLock().identity()
         or numerical.get("variant_lock_sha256") != expected_locks
         or numerical.get("stream_root_digest") != stream["root_digest"]
@@ -413,6 +465,7 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
         "p1r2": preserved_diag._p1r2_immutability_gate(),
         "p1r3": preserved_diag._p1r3_immutability_gate(),
         "p1r4": _p1r4_immutability_gate(),
+        "failed_adaptive": _failed_adaptive_immutability_gate(),
     }
     preserved_p0._r0_immutability_gate()
     preserved_p0._r1_immutability_gate()
@@ -436,7 +489,7 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
         **os.environ,
         "PYTHONDONTWRITEBYTECODE": "1",
         "PYTHONPATH": f"{REPO_ROOT}:/mnt/raid5/janghj/EasyEdit",
-        "MPLCONFIGDIR": str(REPO_ROOT / "local/odebf/matplotlib-p1r4-adaptive-gate"),
+        "MPLCONFIGDIR": str(REPO_ROOT / "local/odebf/matplotlib-p1r4-adaptive-r1-gate"),
         "HF_HUB_OFFLINE": "1",
         "TRANSFORMERS_OFFLINE": "1",
     }
@@ -552,8 +605,8 @@ def _output_gate() -> dict[str, Path]:
     for job_name in JOB_NAMES.values():
         if list(log_parent.glob(f"{job_name}-*")):
             raise ODEBFContractError("adaptive log namespace exists")
-    intent = state_parent / "s04-p1r4-adaptive-tau-causal-v1.submission-intent.json"
-    receipt = state_parent / "s04-p1r4-adaptive-tau-causal-v1.submission-receipt.json"
+    intent = state_parent / "s04-p1r4-adaptive-tau-causal-r1-v1.submission-intent.json"
+    receipt = state_parent / "s04-p1r4-adaptive-tau-causal-r1-v1.submission-receipt.json"
     if intent.exists() or intent.is_symlink() or receipt.exists() or receipt.is_symlink():
         raise ODEBFContractError("adaptive pair was already attempted")
     roots["__intent__"] = intent
@@ -603,9 +656,10 @@ def main() -> int:
     if 2 * 65_000 > 2 * MEMORY_CAP_MIB_PER_GPU:
         raise ODEBFContractError("adaptive pair host memory exceeds server2 cap")
     intent = {
-        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-submission-intent/v1",
-        "instruction_id": ADAPTIVE_INSTRUCTION_ID,
-        "authorized_attempt": "REUSED_SEAL_ADAPTIVE_TAU_CAUSAL_PAIR",
+        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-r1-submission-intent/v1",
+        "instruction_id": REPAIR_INSTRUCTION_ID,
+        "scientific_instruction_id": ADAPTIVE_INSTRUCTION_ID,
+        "authorized_attempt": "HISTORY_VIEW_REPAIR_R1_CAUSAL_PAIR",
         "source_head": source_head,
         "jobs": JOB_NAMES,
         "results": {
@@ -646,9 +700,10 @@ def main() -> int:
             ).hexdigest(),
         }
     receipt = {
-        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-submission-receipt/v1",
-        "instruction_id": ADAPTIVE_INSTRUCTION_ID,
-        "authorized_attempt": "REUSED_SEAL_ADAPTIVE_TAU_CAUSAL_PAIR",
+        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-r1-submission-receipt/v1",
+        "instruction_id": REPAIR_INSTRUCTION_ID,
+        "scientific_instruction_id": ADAPTIVE_INSTRUCTION_ID,
+        "authorized_attempt": "HISTORY_VIEW_REPAIR_R1_CAUSAL_PAIR",
         "status": "SUBMITTED_PAIR" if failure is None else "PARTIAL_OR_FAILED_NO_RETRY",
         "source_head": source_head,
         "intent_sha256": intent_sha256,

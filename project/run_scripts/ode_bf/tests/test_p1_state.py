@@ -120,6 +120,89 @@ class P1EndpointTests(unittest.TestCase):
 
 
 class P1HistoryAndIsolationTests(unittest.TestCase):
+    def test_adaptive_history_views_use_actual_read_only_ledger(self) -> None:
+        from project.run_scripts.ode_bf import p1_adaptive_runtime as runtime
+
+        layers = (4, 5, 6, 7, 8)
+        ledger = P1HistoryLedger(layer_order=layers)
+        empty_snapshot = ledger.snapshot()
+        rng_before = torch.random.get_rng_state().clone()
+        empty_solve = runtime._history_keys(ledger, layers, risk=False)
+        empty_risk = runtime._history_keys(ledger, layers, risk=True)
+        self.assertEqual(tuple(empty_solve), layers)
+        self.assertEqual(tuple(empty_risk), layers)
+        for views in (empty_solve, empty_risk):
+            for value in views.values():
+                self.assertEqual(value.shape, (0, 0))
+                self.assertEqual(value.dtype, torch.float32)
+                self.assertEqual(value.device.type, "cpu")
+        self.assertEqual(ledger.snapshot().digest, empty_snapshot.digest)
+        self.assertTrue(torch.equal(torch.random.get_rng_state(), rng_before))
+
+        solve = _keys(0)
+        risk = {layer: value * 0.5 for layer, value in solve.items()}
+        prospective = ledger.prospective(
+            transaction_id="view-contract",
+            expected_version=0,
+            records=_records(0, 1),
+            solve_keys_by_layer=solve,
+            risk_keys_by_layer=risk,
+        )
+        ledger.finalize(
+            prospective,
+            post_commit_verified=True,
+            load_increment_by_layer={layer: 0.0 for layer in layers},
+        )
+        populated_snapshot = ledger.snapshot()
+        solve_views = runtime._history_keys(ledger, layers, risk=False)
+        risk_views = runtime._history_keys(ledger, layers, risk=True)
+        for layer in layers:
+            self.assertTrue(torch.equal(solve_views[layer], ledger.solve_keys(layer)))
+            self.assertTrue(torch.equal(risk_views[layer], ledger.risk_keys(layer)))
+            self.assertEqual(solve_views[layer].shape[1], 10)
+            self.assertEqual(risk_views[layer].shape[1], 10)
+        solve_views[4].add_(17.0)
+        risk_views[5].zero_()
+        self.assertEqual(ledger.snapshot().digest, populated_snapshot.digest)
+        self.assertFalse(torch.equal(solve_views[4], ledger.solve_keys(4)))
+        self.assertFalse(torch.equal(risk_views[5], ledger.risk_keys(5)))
+        self.assertTrue(torch.equal(torch.random.get_rng_state(), rng_before))
+
+        for wrong_layers in (
+            (5, 4, 6, 7, 8),
+            (4, 5, 6, 7),
+            (4, 5, 6, 7, 99),
+        ):
+            with self.assertRaisesRegex(ODEBFContractError, "layer order"):
+                runtime._history_keys(ledger, wrong_layers, risk=False)
+
+        wrong_field = type(
+            "Field",
+            (),
+            {
+                "layers": tuple(
+                    type("Layer", (), {"layer": layer})()
+                    for layer in reversed(layers)
+                )
+            },
+        )()
+        with self.assertRaisesRegex(ODEBFContractError, "field layer order"):
+            runtime._history_actions(wrong_field, ledger)
+
+    def test_history_view_rejects_wrong_joint_key_shape(self) -> None:
+        layers = (4, 5, 6, 7, 8)
+        ledger = P1HistoryLedger(layer_order=layers)
+        wrong = _keys(0)
+        wrong[6] = torch.zeros((wrong[6].shape[0], 9), dtype=torch.float32)
+        with self.assertRaisesRegex(ODEBFContractError, "rank10"):
+            ledger.prospective(
+                transaction_id="wrong-shape",
+                expected_version=0,
+                records=_records(0, 1),
+                solve_keys_by_layer=wrong,
+                risk_keys_by_layer=_keys(0),
+            )
+
     def test_actual_four_by_b10_history_chain_and_reject_fault_purity(self) -> None:
         ledger = P1HistoryLedger(layer_order=(4, 5, 6, 7, 8))
         for batch in range(4):

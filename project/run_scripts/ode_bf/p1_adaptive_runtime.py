@@ -89,11 +89,11 @@ from .routing import RoutingProblem, RoutingStatus, verify_backtracked_candidate
 from .sampling import StatelessReplaySchedule
 
 
-ADAPTIVE_RESULT_TOKEN = "p1r4-adaptive-tau-causal-v1"
+ADAPTIVE_RESULT_TOKEN = "p1r4-adaptive-tau-causal-r1-v1"
 
 
 def expected_adaptive_result_name(alias: str) -> str:
-    return f"s04-p1r4-adaptive-tau-{alias}-v1"
+    return f"s04-p1r4-adaptive-tau-r1-{alias}-v1"
 
 
 def _factor_map(
@@ -392,18 +392,19 @@ def _trust_payload(problem: RoutingProblem, velocity: np.ndarray) -> dict[str, A
 
 
 def _history_keys(history: P1HistoryLedger, layers: Sequence[int], *, risk: bool) -> dict[int, torch.Tensor]:
-    return {
-        int(layer): history.risk_key_view(int(layer))
-        if risk
-        else history.solve_key_view(int(layer))
-        for layer in layers
-    }
+    ordered_layers = tuple(int(layer) for layer in layers)
+    if ordered_layers != history.layer_order:
+        raise ODEBFContractError("adaptive history layer order differs")
+    view = history.risk_keys if risk else history.solve_keys
+    return {layer: view(layer) for layer in ordered_layers}
 
 
 def _history_actions(field: P1DynamicField, history: P1HistoryLedger) -> dict[int, torch.Tensor]:
+    if tuple(item.layer for item in field.layers) != history.layer_order:
+        raise ODEBFContractError("adaptive history field layer order differs")
     result: dict[int, torch.Tensor] = {}
     for item in field.layers:
-        keys = history.risk_key_view(item.layer)
+        keys = history.risk_keys(item.layer)
         result[item.layer] = (
             item.residual.to(dtype=torch.float64)
             @ (item.q.to(dtype=torch.float64).T @ keys.to(dtype=torch.float64))

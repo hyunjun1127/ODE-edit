@@ -50,6 +50,38 @@ class AdaptiveDryPlanTests(unittest.TestCase):
 
 
 class AdaptiveEntryAndSubmissionTests(unittest.TestCase):
+    def test_history_view_r1_namespaces_are_distinct(self) -> None:
+        self.assertEqual(
+            dry.JOB_NAMES,
+            {
+                "llama3-8b-inst": "odebf_s04_p1r4adaptive_r1_llama",
+                "qwen2.5-7b-inst": "odebf_s04_p1r4adaptive_r1_qwen",
+            },
+        )
+        for alias in MODEL_ALIASES:
+            self.assertEqual(
+                expected_p1r4_adaptive_result_name(alias),
+                f"s04-p1r4-adaptive-tau-r1-{alias}-v1",
+            )
+
+    def test_actual_history_api_reaches_adaptive_capture_boundary(self) -> None:
+        from project.run_scripts.ode_bf import p1_adaptive_runtime as runtime
+        from project.run_scripts.ode_bf.p1_state import P1HistoryLedger
+
+        layers = (4, 5, 6, 7, 8)
+        ledger = P1HistoryLedger(layer_order=layers)
+        captured = runtime._history_keys(ledger, layers, risk=False)
+        self.assertEqual(tuple(captured), layers)
+        self.assertTrue(all(value.shape == (0, 0) for value in captured.values()))
+        source = Path(runtime.__file__).read_text(encoding="utf-8")
+        self.assertNotIn(".solve_key_view", source)
+        self.assertNotIn(".risk_key_view", source)
+        self.assertIn("history.solve_keys", source)
+        self.assertIn("history.risk_keys", source)
+        capture_call = source.index("history_keys_by_layer=_history_keys(")
+        first_field = source.index("rollout = _run_variant(", capture_call)
+        self.assertLess(capture_call, first_field)
+
     def test_entry_parser_locks_alias_and_run_token(self) -> None:
         for alias in MODEL_ALIASES:
             args = entry._parser().parse_args(
@@ -120,7 +152,7 @@ class AdaptiveEntryAndSubmissionTests(unittest.TestCase):
                 submit._write_once(path, {"status": "OVERWRITE"})
 
     def test_changed_scope_is_exact_and_has_no_simple_k20_namespace(self) -> None:
-        self.assertEqual(len(submit.ALLOWED_CHANGED_PATHS), 15)
+        self.assertEqual(len(submit.ALLOWED_CHANGED_PATHS), 9)
         self.assertTrue(
             all(path.startswith("project/run_scripts/") for path in submit.ALLOWED_CHANGED_PATHS)
         )

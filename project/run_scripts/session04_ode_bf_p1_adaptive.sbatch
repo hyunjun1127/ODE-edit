@@ -21,22 +21,22 @@ readonly RUN_TOKEN="${4:-}"
 
 case "${MODEL_ALIAS}" in
   llama3-8b-inst|qwen2.5-7b-inst) ;;
-  *) echo "invalid locked ODE-BF adaptive P1R4 alias" >&2; exit 2 ;;
+  *) echo "invalid locked ODE-BF adaptive P1R4 R1 alias" >&2; exit 2 ;;
 esac
-[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "p1r4-adaptive-tau-causal-v1" ]] || {
-  echo "missing locked ODE-BF adaptive P1R4 invocation" >&2
+[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "p1r4-adaptive-tau-causal-r1-v1" ]] || {
+  echo "missing locked ODE-BF adaptive P1R4 R1 invocation" >&2
   exit 2
 }
 [[ "$(pwd -P)" == "${REPO_ROOT}" ]] || {
-  echo "ODE-BF adaptive P1R4 repository CWD boundary differs" >&2
+  echo "ODE-BF adaptive P1R4 R1 repository CWD boundary differs" >&2
   exit 2
 }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || {
-  echo "ODE-BF adaptive P1R4 source freeze differs" >&2
+  echo "ODE-BF adaptive P1R4 R1 source freeze differs" >&2
   exit 2
 }
 [[ -z "$(git status --porcelain --untracked-files=no)" ]] || {
-  echo "ODE-BF adaptive P1R4 tracked source is not clean" >&2
+  echo "ODE-BF adaptive P1R4 R1 tracked source is not clean" >&2
   exit 2
 }
 scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
@@ -45,7 +45,7 @@ scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
   exit 2
 }
 [[ "${CUDA_VISIBLE_DEVICES:-}" != "" && "${CUDA_VISIBLE_DEVICES}" != *,* ]] || {
-  echo "ODE-BF adaptive P1R4 allocation must expose exactly one GPU" >&2
+  echo "ODE-BF adaptive P1R4 R1 allocation must expose exactly one GPU" >&2
   exit 2
 }
 
@@ -56,7 +56,7 @@ export TRANSFORMERS_OFFLINE=1
 export TOKENIZERS_PARALLELISM=false
 export PYTHONHASHSEED=41
 export PYTHONDONTWRITEBYTECODE=1
-export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p1r4-adaptive"
+export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p1r4-adaptive-r1"
 export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 
 exec /usr/local/bin/uv run --offline \
