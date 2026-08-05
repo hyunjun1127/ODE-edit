@@ -3202,6 +3202,7 @@ def run_p1(
     target_new_routing_mode: bool = False,
     functional_p_off_mode: bool = False,
     preservation_all_off_mode: bool = False,
+    newnll_p_soft_hard_mode: bool = False,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3215,10 +3216,17 @@ def run_p1(
             target_new_routing_mode,
             functional_p_off_mode,
             preservation_all_off_mode,
+            newnll_p_soft_hard_mode,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if preservation_all_off_mode:
+    if newnll_p_soft_hard_mode:
+        from .p1_newnll_p_soft_hard_panel import (
+            expected_newnll_p_soft_hard_result_name,
+        )
+
+        expected_name = expected_newnll_p_soft_hard_result_name(alias)
+    elif preservation_all_off_mode:
         from .p1_preservation_all_off_panel import (
             expected_preservation_all_off_result_name,
         )
@@ -3263,7 +3271,8 @@ def run_p1(
         alias,
         require_held_ode_alloc=not target_new_routing_mode
         and not functional_p_off_mode
-        and not preservation_all_off_mode,
+        and not preservation_all_off_mode
+        and not newnll_p_soft_hard_mode,
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
@@ -3378,6 +3387,25 @@ def run_p1(
         )
         numerical = alloff_numerical
         numerical_sha256 = alloff_numerical_sha256
+    if newnll_p_soft_hard_mode:
+        from .p1_newnll_p_soft_hard_panel import (
+            validate_newnll_p_soft_hard_lock,
+        )
+
+        p_soft_numerical, p_soft_numerical_sha256 = load_rooted_json(
+            locks / "numerical_lock_s05_newnll_p_soft_hard.json",
+            expected_schema=(
+                "ode-edit-s05-newnll-p-soft-hard-p1r5-numerical-lock/v1"
+            ),
+        )
+        validate_newnll_p_soft_hard_lock(
+            p_soft_numerical,
+            controller_identity_sha256=controller_lock.identity(),
+            stream_root_digest=stream["root_digest"],
+            population_root_digest=population["root_digest"],
+        )
+        numerical = p_soft_numerical
+        numerical_sha256 = p_soft_numerical_sha256
     dataset = artifact_guard.base_guard.dataset
     stream_batches = load_p1_stream_batches(dataset, stream)
     population_requests = load_p1_population_requests(
@@ -3515,11 +3543,40 @@ def run_p1(
         or target_new_routing_mode
         or functional_p_off_mode
         or preservation_all_off_mode
+        or newnll_p_soft_hard_mode
     ):
         from .p1_adaptive_runtime import run_adaptive_diagnostic
 
         target_kwargs: dict[str, Any] = {}
-        if preservation_all_off_mode:
+        if newnll_p_soft_hard_mode:
+            from .p1_newnll_p_soft_hard_panel import (
+                NEWNLL_P_SOFT_HARD_INSTRUCTION_ID,
+                NEWNLL_P_SOFT_HARD_SCHEMA_NAMESPACE,
+                NEWNLL_P_SOFT_HARD_TERMINAL_STATUS,
+                newnll_p_soft_hard_panel_specs,
+                newnll_p_soft_hard_refinement,
+                newnll_p_soft_hard_terminal_metadata,
+                validate_pctrl_probe_control,
+            )
+
+            target_kwargs = {
+                "panel_specs": newnll_p_soft_hard_panel_specs(),
+                "panel_instruction_id": NEWNLL_P_SOFT_HARD_INSTRUCTION_ID,
+                "panel_schema_namespace": (
+                    NEWNLL_P_SOFT_HARD_SCHEMA_NAMESPACE
+                ),
+                "panel_terminal_status": (
+                    NEWNLL_P_SOFT_HARD_TERMINAL_STATUS
+                ),
+                "panel_refinement_builder": (
+                    newnll_p_soft_hard_refinement
+                ),
+                "rollout_validator": validate_pctrl_probe_control,
+                "panel_terminal_metadata": (
+                    newnll_p_soft_hard_terminal_metadata()
+                ),
+            }
+        elif preservation_all_off_mode:
             from .p1_preservation_all_off_panel import (
                 PRESERVATION_ALL_OFF_INSTRUCTION_ID,
                 PRESERVATION_ALL_OFF_SCHEMA_NAMESPACE,

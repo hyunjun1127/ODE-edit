@@ -27,6 +27,14 @@ from .contracts import BATCH_SIZE, ODEBFContractError, ODEBFStateError, canonica
 from .evaluator import ModelEvaluationReceipt
 from .first_hit import FeasibilityVerdict
 from .functional import CumulativeBF16FunctionalTrial, WaypointFactor, tensor_sha256
+from .functional_p_secant import (
+    FUNCTIONAL_P_BUDGET,
+    H_REF as FUNCTIONAL_P_PROBE_H_REF,
+    FunctionalPFieldPolicy,
+    PSoftHardResult,
+    build_functional_replay_secant,
+    solve_p_soft_hard,
+)
 from .layer_routing_telemetry import (
     LAYER_IDS as ROUTING_LAYER_IDS,
     build_layer_routing_telemetry,
@@ -316,6 +324,9 @@ class AdaptivePanelSpec:
     preservation_constraints: PreservationConstraintPolicy = (
         PreservationConstraintPolicy.LOCKED
     )
+    functional_p_field_policy: FunctionalPFieldPolicy = (
+        FunctionalPFieldPolicy.NONE
+    )
 
     def __post_init__(self) -> None:
         if not self.label or "/" in self.label or self.label in (".", ".."):
@@ -341,6 +352,17 @@ class AdaptivePanelSpec:
         object.__setattr__(
             self, "preservation_constraints", selected_preservation
         )
+        try:
+            selected_field_policy = FunctionalPFieldPolicy(
+                self.functional_p_field_policy
+            )
+        except (TypeError, ValueError) as exc:
+            raise ODEBFContractError(
+                "adaptive panel functional-P field policy differs"
+            ) from exc
+        object.__setattr__(
+            self, "functional_p_field_policy", selected_field_policy
+        )
 
     @property
     def legacy_key(self) -> AdaptiveVariant | str:
@@ -351,6 +373,7 @@ class AdaptivePanelSpec:
             and self.functional_p_decision is FunctionalPDecisionPolicy.PCTRL
             and self.preservation_constraints
             is PreservationConstraintPolicy.LOCKED
+            and self.functional_p_field_policy is FunctionalPFieldPolicy.NONE
             else self.label
         )
 
@@ -793,6 +816,7 @@ class ActiveField:
     target_velocity_receipt: Any
     receipt_sha256: str
     layer_routing_payload: dict[str, Any]
+    functional_p_field_payload: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(slots=True)
@@ -858,6 +882,7 @@ class VariantRollout:
     routing_objective: str = RoutingObjective.MARGIN.value
     functional_p_decision: str = FunctionalPDecisionPolicy.PCTRL.value
     preservation_constraints: str = PreservationConstraintPolicy.LOCKED.value
+    functional_p_field_policy: str = FunctionalPFieldPolicy.NONE.value
 
 
 def _risk_payload(receipt: Any) -> dict[str, Any]:
@@ -956,6 +981,14 @@ def _build_active_field(
     preservation_policy: PreservationConstraintPolicy | str = (
         PreservationConstraintPolicy.LOCKED
     ),
+    functional_p_field_policy: FunctionalPFieldPolicy | str = (
+        FunctionalPFieldPolicy.NONE
+    ),
+    functional_p_replay_entry: Any | None = None,
+    theta0_cache: Theta0TeacherCache | None = None,
+    alias: str | None = None,
+    touched: Mapping[str, torch.nn.Parameter] | None = None,
+    schedule: StatelessReplaySchedule | None = None,
 ) -> ActiveField:
     selected_objective = select_locked_routing_objective(routing_objective)
     try:
@@ -964,6 +997,14 @@ def _build_active_field(
         )
     except (TypeError, ValueError) as exc:
         raise ODEBFContractError("adaptive preservation policy differs") from exc
+    try:
+        selected_functional_p_field = FunctionalPFieldPolicy(
+            functional_p_field_policy
+        )
+    except (TypeError, ValueError) as exc:
+        raise ODEBFContractError(
+            "adaptive functional-P field policy differs"
+        ) from exc
     layers = tuple(int(layer) for layer in hparams.layers)
     policy = _residual_policy(variant)
     started = time.perf_counter()
@@ -1142,15 +1183,60 @@ def _build_active_field(
     raw_velocity = StepSizeIndependentVelocity.from_controller_values(
         field.identity_sha256, raw.values
     )
+    field_state_sha256 = _factor_state(
+        capture.entry_sha256,
+        factors,
+        target_state,
+    )
+    final_bf_values = np.asarray(projection.values, dtype=np.float64)
+    functional_p_field_payload: dict[str, Any] = {
+        "policy": selected_functional_p_field.value,
+        "probe_executed": False,
+        "field_decision_influence_count": 0,
+    }
+    if selected_functional_p_field is not FunctionalPFieldPolicy.NONE:
+        if (
+            functional_p_replay_entry is None
+            or theta0_cache is None
+            or alias is None
+            or touched is None
+            or schedule is None
+        ):
+            raise ODEBFContractError(
+                "functional-P field probe dependencies are absent"
+            )
+        final_bf_values, functional_p_field_payload = (
+            _functional_p_probe_and_transform(
+                model,
+                tokenizer,
+                alias=alias,
+                field=field,
+                accepted_index=accepted_index,
+                factors=factors,
+                target_state=target_state,
+                capture=capture,
+                problem=barrier.problem,
+                pre_soft_velocity=projection.values,
+                replay_entry=functional_p_replay_entry,
+                theta0_cache=theta0_cache,
+                lock=lock,
+                ledger=ledger,
+                touched=touched,
+                history=history,
+                schedule=schedule,
+                policy=selected_functional_p_field,
+                factor_state_sha256=field_state_sha256,
+            )
+        )
     bf_velocity = StepSizeIndependentVelocity.from_controller_values(
-        field.identity_sha256, projection.values
+        field.identity_sha256, final_bf_values
     )
     target_velocity, target_receipt = write_aware_target_velocity(
         model,
         tokenizer,
         requests,
         field,
-        projection.values,
+        final_bf_values,
         cumulative_factors_by_weight=factors,
         target_base=target_base,
         native_target=native_target,
@@ -1174,6 +1260,7 @@ def _build_active_field(
         "raw_certificate": asdict(raw.certificate),
         "bf_certificate": asdict(projection.certificate),
         "projection_distance": projection.projection_distance,
+        "functional_p_field": functional_p_field_payload,
         "routing_problem_sha256": barrier.problem.identity(),
         "preservation_constraint_policy": selected_preservation.value,
         "preservation_solver_decision_influence_count": {
@@ -1200,11 +1287,6 @@ def _build_active_field(
             for name in sorted(ledger.counters)
         },
     }
-    field_state_sha256 = _factor_state(
-        capture.entry_sha256,
-        factors,
-        target_state,
-    )
     payload["layer_routing"] = _field_layer_routing_payload(
         field=field,
         signed_progress=signed.signed_progress,
@@ -1252,6 +1334,7 @@ def _build_active_field(
         target_velocity_receipt=target_receipt,
         receipt_sha256=receipt_sha256,
         layer_routing_payload=dict(payload["layer_routing"]),
+        functional_p_field_payload=dict(functional_p_field_payload),
     )
 
 
@@ -1341,6 +1424,277 @@ def _functional_trial(
         lock=lock,
         ledger=ledger,
     )
+
+
+def _functional_p_probe_and_transform(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    field: P1DynamicField,
+    accepted_index: int,
+    factors: Mapping[str, Sequence[WaypointFactor]],
+    target_state: torch.Tensor,
+    capture: P1NativeCapture,
+    problem: RoutingProblem,
+    pre_soft_velocity: Sequence[float],
+    replay_entry: Any,
+    theta0_cache: Theta0TeacherCache,
+    lock: P1ControllerLock,
+    ledger: ComputeLedger,
+    touched: Mapping[str, torch.nn.Parameter],
+    history: P1HistoryLedger,
+    schedule: StatelessReplaySchedule,
+    policy: FunctionalPFieldPolicy,
+    factor_state_sha256: str,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    """Measure the cached one-sided BF16 secant and optionally rectify ``u``.
+
+    Baseline plus five basis probes share one sealed controller-P replay entry.
+    The helper is called exactly once per newly built field; adaptive retries
+    retain the resulting :class:`ActiveField` and therefore cannot re-probe.
+    """
+
+    if policy not in (
+        FunctionalPFieldPolicy.PROBE_ONLY,
+        FunctionalPFieldPolicy.SOFT_HARD,
+    ):
+        raise ODEBFContractError("functional-P probe policy differs")
+    if tuple(int(item.layer) for item in field.layers) != ROUTING_LAYER_IDS:
+        raise ODEBFContractError("functional-P probe layer order differs")
+    if not math.isclose(
+        float(lock.functional_p_budget_nats),
+        FUNCTIONAL_P_BUDGET,
+        rel_tol=0.0,
+        abs_tol=0.0,
+    ):
+        raise ODEBFContractError("functional-P probe budget differs")
+    before_model = _parameter_contract_sha256(touched)
+    before_history = history.snapshot().digest
+    before_sampler = schedule.state_digest
+    before_target = tensor_sha256(target_state)
+    before_factor_state = _factor_state(
+        capture.entry_sha256,
+        factors,
+        target_state,
+    )
+    if before_factor_state != factor_state_sha256:
+        raise ODEBFContractError("functional-P probe factor state differs")
+    counter_before = dict(ledger.counters)
+    wall_started = time.perf_counter()
+    gpu_start: torch.cuda.Event | None = None
+    gpu_end: torch.cuda.Event | None = None
+    if torch.cuda.is_available():
+        gpu_start = torch.cuda.Event(enable_timing=True)
+        gpu_end = torch.cuda.Event(enable_timing=True)
+        gpu_start.record()
+
+    baseline_pair = _functional_trial(
+        model,
+        tokenizer,
+        alias=alias,
+        entry=replay_entry,
+        theta0_cache=theta0_cache,
+        factors=factors,
+        lock=lock,
+        ledger=ledger,
+    )
+    baseline_risk = _risk_payload(baseline_pair.pretrained)
+    baseline_history_risk = _risk_payload(baseline_pair.historical)
+    expected_sample_order = replay_entry.pretrained_baseline.sample_order_sha256
+    if (
+        baseline_pair.pretrained.sample_order_sha256 != expected_sample_order
+        or baseline_pair.pretrained_entry_receipt.request_order_sha256
+        != expected_sample_order
+        or baseline_pair.pretrained_entry_receipt.value_sha256
+        != replay_entry.pretrained_baseline.entry_kl_identity_sha256
+        or baseline_pair.historical_entry_receipt.value_sha256
+        != replay_entry.history_entry_sha256
+    ):
+        raise ODEBFContractError(
+            "functional-P probe baseline/sample identity differs"
+        )
+    probe_pairs: list[Any] = []
+    probe_risks: list[dict[str, Any]] = []
+    probe_damage: list[float] = []
+    history_mean_probe: list[float] = []
+    history_smooth_probe: list[float] = []
+    dimension = len(field.layers)
+    for ordinal in range(dimension):
+        basis = [0.0] * dimension
+        basis[ordinal] = 1.0
+        basis_velocity = StepSizeIndependentVelocity.from_controller_values(
+            field.identity_sha256,
+            basis,
+        )
+        increment = adaptive_waypoint_factors(
+            field,
+            basis_velocity,
+            accepted_index=accepted_index,
+            delta_tau=H_REF,
+        )
+        probe_factors = _merge_factors(factors, increment)
+        observed = _functional_trial(
+            model,
+            tokenizer,
+            alias=alias,
+            entry=replay_entry,
+            theta0_cache=theta0_cache,
+            factors=probe_factors,
+            lock=lock,
+            ledger=ledger,
+        )
+        if (
+            observed.pretrained.sample_order_sha256 != expected_sample_order
+            or observed.pretrained_entry_receipt.request_order_sha256
+            != expected_sample_order
+            or observed.pretrained_entry_receipt.value_sha256
+            != replay_entry.pretrained_baseline.entry_kl_identity_sha256
+            or observed.historical.sample_order_sha256
+            != baseline_pair.historical.sample_order_sha256
+            or observed.historical_entry_receipt.value_sha256
+            != replay_entry.history_entry_sha256
+        ):
+            raise ODEBFContractError(
+                "functional-P probe endpoint/sample identity differs"
+            )
+        probe_pairs.append(observed)
+        probe_risks.append(_risk_payload(observed.pretrained))
+        probe_damage.append(float(observed.pretrained.mean_positive_damage))
+        history_mean_probe.append(
+            float(observed.historical.mean_positive_damage)
+        )
+        history_smooth_probe.append(
+            float(observed.historical.smooth_max_positive_damage)
+        )
+
+    if gpu_start is not None and gpu_end is not None:
+        gpu_end.record()
+        gpu_end.synchronize()
+        gpu_seconds = float(gpu_start.elapsed_time(gpu_end)) / 1000.0
+    else:
+        gpu_seconds = 0.0
+    wall_seconds = time.perf_counter() - wall_started
+    ledger.add_time(
+        "functional_p_secant_probe",
+        wall_seconds=wall_seconds,
+        gpu_seconds=gpu_seconds,
+    )
+    secant = build_functional_replay_secant(
+        pretrained_baseline_damage=float(
+            baseline_pair.pretrained.mean_positive_damage
+        ),
+        pretrained_probe_damage=probe_damage,
+        pretrained_sample_order_sha256=expected_sample_order,
+        pretrained_baseline_identity_sha256=canonical_hash(baseline_risk),
+        history_item_count=int(baseline_pair.historical.item_count),
+        history_sample_order_sha256=(
+            baseline_pair.historical.sample_order_sha256
+        ),
+        history_baseline_identity_sha256=(
+            replay_entry.history_entry_sha256
+        ),
+        historical_mean_baseline=float(
+            baseline_pair.historical.mean_positive_damage
+        ),
+        historical_mean_probe=history_mean_probe,
+        historical_smooth_baseline=float(
+            baseline_pair.historical.smooth_max_positive_damage
+        ),
+        historical_smooth_probe=history_smooth_probe,
+        factor_state_sha256=factor_state_sha256,
+    )
+    pre_soft = np.asarray(tuple(pre_soft_velocity), dtype=np.float64)
+    soft_result: PSoftHardResult | None = None
+    final = pre_soft.copy()
+    if policy is FunctionalPFieldPolicy.SOFT_HARD:
+        soft_result = solve_p_soft_hard(problem, pre_soft, secant)
+        final = np.asarray(soft_result.soft_velocity, dtype=np.float64)
+        ledger.increment("qp_solve", 2)
+        ledger.increment("qp_certificate", 2)
+
+    after_model = _parameter_contract_sha256(touched)
+    after_history = history.snapshot().digest
+    after_sampler = schedule.state_digest
+    after_target = tensor_sha256(target_state)
+    after_factor_state = _factor_state(
+        capture.entry_sha256,
+        factors,
+        target_state,
+    )
+    if (
+        after_model != before_model
+        or after_history != before_history
+        or after_sampler != before_sampler
+        or after_target != before_target
+        or after_factor_state != before_factor_state
+    ):
+        raise ODEBFStateError(
+            "functional-P probe mutated model/state/history/sampler/RNG"
+        )
+    counter_delta = {
+        name: int(ledger.counters[name] - counter_before[name])
+        for name in sorted(ledger.counters)
+    }
+    payload: dict[str, Any] = {
+        "policy": policy.value,
+        "probe_executed": True,
+        "field_decision_influence_count": (
+            1 if policy is FunctionalPFieldPolicy.SOFT_HARD else 0
+        ),
+        "teacher_contract": "fixed-outer-entry-pretrained-theta0",
+        "controller_p_sample_order_sha256": expected_sample_order,
+        "controller_p_baseline_identity_sha256": (
+            replay_entry.pretrained_baseline.entry_kl_identity_sha256
+        ),
+        "controller_p_schedule_sha256": replay_entry.schedule_sha256,
+        "factor_state_sha256": factor_state_sha256,
+        "layer_order": list(ROUTING_LAYER_IDS),
+        "baseline": baseline_risk,
+        "historical_baseline": baseline_history_risk,
+        "probe_endpoints": probe_risks,
+        "historical_probe_endpoints": [
+            _risk_payload(pair.historical) for pair in probe_pairs
+        ],
+        "probe_endpoint_identity_sha256": [
+            pair.pretrained_trial_receipt.value_sha256 for pair in probe_pairs
+        ],
+        "secant": secant.raw_free_payload(),
+        "generic_hp_soft_capable": True,
+        "historical_soft_active": secant.historical_soft_active,
+        "historical_soft_reason": (
+            "NONEMPTY_HISTORY"
+            if secant.historical_soft_active
+            else "EMPTY_HISTORY"
+        ),
+        "pre_soft_velocity": pre_soft.tolist(),
+        "selected_velocity": final.tolist(),
+        "soft_hard_result": (
+            None if soft_result is None else soft_result.raw_free_payload()
+        ),
+        "probe_cost": {
+            "baseline_evaluation_count": 1,
+            "actuator_probe_count": dimension,
+            "counter_delta": counter_delta,
+            "wall_seconds": wall_seconds,
+            "gpu_seconds": gpu_seconds,
+        },
+        "same_state_retry_cache": True,
+        "purity": {
+            "model_before_sha256": before_model,
+            "model_after_sha256": after_model,
+            "history_before_sha256": before_history,
+            "history_after_sha256": after_history,
+            "sampler_before_sha256": before_sampler,
+            "sampler_after_sha256": after_sampler,
+            "target_before_sha256": before_target,
+            "target_after_sha256": after_target,
+            "factor_state_before_sha256": before_factor_state,
+            "factor_state_after_sha256": after_factor_state,
+        },
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return final, payload
 
 
 def _capacity_payload(
@@ -1592,6 +1946,108 @@ def _run_trial(
         functional_p_policy,
         functional_p_observation,
     )
+    functional_p_probe_prediction: dict[str, Any] | None = None
+    if active.functional_p_field_payload.get("probe_executed") is True:
+        field_probe = active.functional_p_field_payload
+        if (
+            field_probe.get("controller_p_sample_order_sha256")
+            != functional_p_observation["sample_order_sha256"]
+        ):
+            raise ODEBFContractError(
+                "functional-P probe/candidate sample identity differs"
+            )
+        secant_payload = field_probe.get("secant")
+        if not isinstance(secant_payload, Mapping):
+            raise ODEBFContractError("functional-P trial secant payload differs")
+        signed_q = np.asarray(
+            secant_payload.get("signed_secant"), dtype=np.float64
+        )
+        velocity = np.asarray(active.bf_velocity.velocity, dtype=np.float64)
+        if (
+            signed_q.shape != velocity.shape
+            or not np.isfinite(signed_q).all()
+            or float(secant_payload.get("h_ref", 0.0))
+            != FUNCTIONAL_P_PROBE_H_REF
+        ):
+            raise ODEBFContractError("functional-P trial secant geometry differs")
+        baseline_damage = float(secant_payload["baseline_damage"])
+        predicted = baseline_damage + float(delta_tau) * float(
+            signed_q @ velocity
+        )
+        actual = float(functional_p_decision.observed_mean_positive_damage)
+        if not math.isfinite(predicted):
+            raise ODEBFContractError("functional-P candidate prediction is non-finite")
+        functional_p_probe_prediction = {
+            "probe_cache_identity_sha256": secant_payload[
+                "cache_identity_sha256"
+            ],
+            "controller_p_sample_order_sha256": functional_p_observation[
+                "sample_order_sha256"
+            ],
+            "baseline_damage": baseline_damage,
+            "signed_secant": signed_q.tolist(),
+            "delta_tau": float(delta_tau),
+            "q_dot_velocity": float(signed_q @ velocity),
+            "predicted_candidate_controller_p": predicted,
+            "actual_candidate_controller_p": actual,
+            "signed_prediction_residual": actual - predicted,
+            "predicted_pass_at_locked_budget": bool(
+                predicted <= FUNCTIONAL_P_BUDGET
+            ),
+            "actual_pass_at_locked_budget": bool(
+                functional_p_decision.observed_pass_at_locked_budget
+            ),
+            "decision_influence_count": 0,
+        }
+        history_item_count = int(secant_payload["history_item_count"])
+        signed_h_mean = np.asarray(
+            secant_payload["historical_mean_signed_secant"],
+            dtype=np.float64,
+        )
+        signed_h_smooth = np.asarray(
+            secant_payload["historical_smooth_signed_secant"],
+            dtype=np.float64,
+        )
+        if (
+            signed_h_mean.shape != velocity.shape
+            or signed_h_smooth.shape != velocity.shape
+        ):
+            raise ODEBFContractError(
+                "functional-H trial secant geometry differs"
+            )
+        predicted_h_mean = float(
+            secant_payload["historical_mean_baseline"]
+        ) + float(delta_tau) * float(signed_h_mean @ velocity)
+        predicted_h_smooth = float(
+            secant_payload["historical_smooth_baseline"]
+        ) + float(delta_tau) * float(signed_h_smooth @ velocity)
+        actual_h_mean = float(functional.historical.mean_positive_damage)
+        actual_h_smooth = float(
+            functional.historical.smooth_max_positive_damage
+        )
+        functional_p_probe_prediction["historical"] = {
+            "history_item_count": history_item_count,
+            "history_sample_order_sha256": (
+                secant_payload["history_sample_order_sha256"]
+            ),
+            "history_baseline_identity_sha256": (
+                secant_payload["history_baseline_identity_sha256"]
+            ),
+            "historical_soft_active": history_item_count > 0,
+            "reason": (
+                "NONEMPTY_HISTORY" if history_item_count > 0 else "EMPTY_HISTORY"
+            ),
+            "predicted_mean": predicted_h_mean,
+            "actual_mean": actual_h_mean,
+            "signed_mean_prediction_residual": actual_h_mean - predicted_h_mean,
+            "predicted_smoothmax": predicted_h_smooth,
+            "actual_smoothmax": actual_h_smooth,
+            "signed_smoothmax_prediction_residual": (
+                actual_h_smooth - predicted_h_smooth
+            ),
+            "actual_hard_gate_pass": bool(functional.historical.passed),
+            "decision_influence_count": 0,
+        }
     beta_alias = float(delta_tau / H_REF)
     verdict = verify_backtracked_candidate(
         active.problem,
@@ -1728,6 +2184,18 @@ def _run_trial(
         "functional_p_decision_influence_count": (
             functional_p_decision.decision_influence_count
         ),
+        "functional_p_field_policy": (
+            active.functional_p_field_payload.get(
+                "policy", FunctionalPFieldPolicy.NONE.value
+            )
+        ),
+        "functional_p_field_decision_influence_count": (
+            int(
+                active.functional_p_field_payload.get(
+                    "field_decision_influence_count", 0
+                )
+            )
+        ),
         "preservation_decision_influence_count": dict(
             preservation_decision["decision_influence_count"]
         ),
@@ -1810,6 +2278,7 @@ def _run_trial(
         "progress": progress_payload,
         "structural_functional": structural,
         "functional_p_decision": functional_p_decision.raw_free_payload(),
+        "functional_p_probe_prediction": functional_p_probe_prediction,
         "preservation_decision": preservation_decision,
         "official_success": evaluation.batch_success.raw_free_payload(),
         "canonical_rewrite": canonical_rewrite,
@@ -2154,6 +2623,9 @@ def _run_variant(
     preservation_policy: PreservationConstraintPolicy | str = (
         PreservationConstraintPolicy.LOCKED
     ),
+    functional_p_field_policy: FunctionalPFieldPolicy | str = (
+        FunctionalPFieldPolicy.NONE
+    ),
 ) -> VariantRollout:
     """Run one isolated R_BF-controller variant without persistent mutation."""
 
@@ -2171,6 +2643,22 @@ def _run_variant(
         )
     except (TypeError, ValueError) as exc:
         raise ODEBFContractError("adaptive preservation policy differs") from exc
+    try:
+        selected_functional_p_field_policy = FunctionalPFieldPolicy(
+            functional_p_field_policy
+        )
+    except (TypeError, ValueError) as exc:
+        raise ODEBFContractError(
+            "adaptive functional-P field policy differs"
+        ) from exc
+    if (
+        selected_functional_p_field_policy
+        is not FunctionalPFieldPolicy.NONE
+        and variant is not AdaptiveVariant.FR_A8
+    ):
+        raise ODEBFContractError(
+            "functional-P field probe requires the locked FR-A8 clock"
+        )
     selected_label = variant.value if variant_label is None else variant_label
     if recorder.variant_label != selected_label or recorder.variant is not variant:
         raise ODEBFContractError("adaptive recorder/panel variant differs")
@@ -2222,6 +2710,24 @@ def _run_variant(
     status = "ACTIVE"
     active: ActiveField | None = None
     initial_layer_routing: dict[str, Any] | None = None
+    replay_entry: Any | None = None
+    replay_field_sha256: str | None = None
+    if (
+        selected_functional_p_field_policy
+        is not FunctionalPFieldPolicy.NONE
+    ):
+        replay_entry = _controller_replay_entry(
+            model,
+            tokenizer,
+            alias=alias,
+            arm_state=arm_state,
+            sample_waypoint=1,
+            factors=current_factors,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            outer_entry_p_cache=outer_entry_p_cache,
+        )
     try:
         active = _build_active_field(
             model,
@@ -2246,9 +2752,19 @@ def _run_variant(
             target_base=target_base,
             routing_objective=selected_objective,
             preservation_policy=selected_preservation_policy,
+            functional_p_field_policy=(
+                selected_functional_p_field_policy
+            ),
+            functional_p_replay_entry=replay_entry,
+            theta0_cache=theta0_cache,
+            alias=alias,
+            touched=touched,
+            schedule=schedule,
         )
         field_build_count = 1
         initial_layer_routing = dict(active.layer_routing_payload)
+        if replay_entry is not None:
+            replay_field_sha256 = active.field.identity_sha256
     except ODEBFContractError as exc:
         if not _is_progress_infeasible(exc):
             raise
@@ -2401,8 +2917,6 @@ def _run_variant(
             status = "LEGACY_FIXED_S8_COMPLETE"
     else:
         clock = AdaptiveTauClock(variant_lock)
-        replay_entry: Any | None = None
-        replay_field_sha256: str | None = None
         while active is not None and clock.status == "ACTIVE" and not clock.complete:
             if replay_entry is None:
                 replay_entry = _controller_replay_entry(
@@ -2512,6 +3026,22 @@ def _run_variant(
             replay_entry = None
             replay_field_sha256 = None
             if not clock.complete:
+                if (
+                    selected_functional_p_field_policy
+                    is not FunctionalPFieldPolicy.NONE
+                ):
+                    replay_entry = _controller_replay_entry(
+                        model,
+                        tokenizer,
+                        alias=alias,
+                        arm_state=arm_state,
+                        sample_waypoint=len(snapshots) + 1,
+                        factors=current_factors,
+                        request_by_sha256=request_by_sha256,
+                        population_by_sha256=population_by_sha256,
+                        schedule=schedule,
+                        outer_entry_p_cache=outer_entry_p_cache,
+                    )
                 try:
                     active = _build_active_field(
                         model,
@@ -2536,8 +3066,18 @@ def _run_variant(
                         target_base=target_base,
                         routing_objective=selected_objective,
                         preservation_policy=selected_preservation_policy,
+                        functional_p_field_policy=(
+                            selected_functional_p_field_policy
+                        ),
+                        functional_p_replay_entry=replay_entry,
+                        theta0_cache=theta0_cache,
+                        alias=alias,
+                        touched=touched,
+                        schedule=schedule,
                     )
                     field_build_count += 1
+                    if replay_entry is not None:
+                        replay_field_sha256 = active.field.identity_sha256
                 except ODEBFContractError as exc:
                     if not _is_progress_infeasible(exc):
                         raise
@@ -2665,6 +3205,21 @@ def _run_variant(
             if selected_functional_p_policy is FunctionalPDecisionPolicy.PCTRL
             else 0
         ),
+        "functional_p_field_policy": (
+            selected_functional_p_field_policy.value
+        ),
+        "functional_p_field_decision_influence_count": (
+            field_build_count
+            if selected_functional_p_field_policy
+            is FunctionalPFieldPolicy.SOFT_HARD
+            else 0
+        ),
+        "functional_p_probe_field_count": (
+            field_build_count
+            if selected_functional_p_field_policy
+            is not FunctionalPFieldPolicy.NONE
+            else 0
+        ),
         "preservation_constraint_policy": selected_preservation_policy.value,
         "preservation_decision_influence_count": {
             name: (
@@ -2722,6 +3277,7 @@ def _run_variant(
         selected_objective.value,
         selected_functional_p_policy.value,
         selected_preservation_policy.value,
+        selected_functional_p_field_policy.value,
     )
 
 
@@ -3380,6 +3936,9 @@ def run_adaptive_diagnostic(
             "preservation_constraints_by_label": {
                 item.label: item.preservation_constraints.value for item in specs
             },
+            "functional_p_field_policy_by_label": {
+                item.label: item.functional_p_field_policy.value for item in specs
+            },
             "scientific_promotion_authorized": False,
         },
     )
@@ -3448,6 +4007,7 @@ def run_adaptive_diagnostic(
                 variant_label=spec.label,
                 functional_p_policy=spec.functional_p_decision,
                 preservation_policy=spec.preservation_constraints,
+                functional_p_field_policy=spec.functional_p_field_policy,
             )
         finally:
             counter.close()
@@ -3558,6 +4118,18 @@ def run_adaptive_diagnostic(
         },
         "preservation_constraints_by_label": {
             item.label: item.preservation_constraints.value for item in specs
+        },
+        "functional_p_field_policy_by_label": {
+            item.label: item.functional_p_field_policy.value for item in specs
+        },
+        "functional_p_field_decision_influence_count_by_label": {
+            item.label: (
+                rollouts[item.legacy_key].field_build_count
+                if item.functional_p_field_policy
+                is FunctionalPFieldPolicy.SOFT_HARD
+                else 0
+            )
+            for item in specs
         },
         "preservation_decision_influence_count_by_label": {
             item.label: {
