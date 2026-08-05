@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed R1 entry for the adaptive-tau P1R4 causal diagnostic."""
+"""Fail-closed R2 entry for the adaptive-tau P1R4 causal diagnostic."""
 
 from __future__ import annotations
 
@@ -19,12 +19,12 @@ from project.run_scripts.ode_bf.p1_adaptive_runtime import ADAPTIVE_RESULT_TOKEN
 from project.run_scripts.ode_bf.p1_runtime import run_p1, write_p1_failure_once
 
 
-REPAIR_INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-P1R4-HISTORY-VIEW-R1-V1"
+REPAIR_INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-P1R4-RISK-RECEIPT-R2-V1"
 
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="session04-ode-bf-p1r4-adaptive-tau-r1", allow_abbrev=False
+        prog="session04-ode-bf-p1r4-adaptive-tau-r2", allow_abbrev=False
     )
     parser.add_argument("--model", required=True, choices=MODEL_ALIASES)
     parser.add_argument("--output-root", required=True, type=Path)

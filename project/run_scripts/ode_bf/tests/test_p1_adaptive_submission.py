@@ -50,19 +50,46 @@ class AdaptiveDryPlanTests(unittest.TestCase):
 
 
 class AdaptiveEntryAndSubmissionTests(unittest.TestCase):
-    def test_history_view_r1_namespaces_are_distinct(self) -> None:
+    def test_technical_r2_namespaces_are_distinct(self) -> None:
         self.assertEqual(
             dry.JOB_NAMES,
             {
-                "llama3-8b-inst": "odebf_s04_p1r4adaptive_r1_llama",
-                "qwen2.5-7b-inst": "odebf_s04_p1r4adaptive_r1_qwen",
+                "llama3-8b-inst": "odebf_s04_p1r4adaptive_r2_llama",
+                "qwen2.5-7b-inst": "odebf_s04_p1r4adaptive_r2_qwen",
             },
         )
         for alias in MODEL_ALIASES:
             self.assertEqual(
                 expected_p1r4_adaptive_result_name(alias),
-                f"s04-p1r4-adaptive-tau-r1-{alias}-v1",
+                f"s04-p1r4-adaptive-tau-r2-{alias}-v1",
             )
+
+    def test_actual_replay_risk_receipt_serializes_item_count(self) -> None:
+        from project.run_scripts.ode_bf import p1_adaptive_runtime as runtime
+        from project.run_scripts.ode_bf.barriers import ReplayRiskReceipt
+
+        receipt = ReplayRiskReceipt(
+            "pretrained-theta0-teacher",
+            "uniform-mean-positive-part",
+            10,
+            1.0e-4,
+            2.0e-4,
+            3.0e-4,
+            -1.0e-5,
+            1.0e-3,
+            True,
+            None,
+            False,
+            "a" * 64,
+        )
+        payload = runtime._risk_payload(receipt)
+        self.assertEqual(payload["sample_count"], receipt.item_count)
+        self.assertEqual(payload["sample_order_sha256"], "a" * 64)
+        self.assertTrue(payload["passed"])
+        source = Path(runtime.__file__).read_text(encoding="utf-8")
+        risk_body = source[source.index("def _risk_payload"):source.index("def _structural_payload")]
+        self.assertIn("receipt.item_count", risk_body)
+        self.assertNotIn("receipt.sample_count", risk_body)
 
     def test_actual_history_api_reaches_adaptive_capture_boundary(self) -> None:
         from project.run_scripts.ode_bf import p1_adaptive_runtime as runtime
@@ -152,7 +179,7 @@ class AdaptiveEntryAndSubmissionTests(unittest.TestCase):
                 submit._write_once(path, {"status": "OVERWRITE"})
 
     def test_changed_scope_is_exact_and_has_no_simple_k20_namespace(self) -> None:
-        self.assertEqual(len(submit.ALLOWED_CHANGED_PATHS), 9)
+        self.assertEqual(len(submit.ALLOWED_CHANGED_PATHS), 8)
         self.assertTrue(
             all(path.startswith("project/run_scripts/") for path in submit.ALLOWED_CHANGED_PATHS)
         )

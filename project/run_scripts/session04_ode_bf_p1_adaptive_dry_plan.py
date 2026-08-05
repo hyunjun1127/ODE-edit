@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic no-model plan for the adaptive-tau P1R4 R1 causal pair."""
+"""Deterministic no-model plan for the adaptive-tau P1R4 R2 causal pair."""
 
 from __future__ import annotations
 
@@ -29,10 +29,10 @@ from project.run_scripts.ode_bf.resource import (
 
 
 JOB_NAMES = {
-    "llama3-8b-inst": "odebf_s04_p1r4adaptive_r1_llama",
-    "qwen2.5-7b-inst": "odebf_s04_p1r4adaptive_r1_qwen",
+    "llama3-8b-inst": "odebf_s04_p1r4adaptive_r2_llama",
+    "qwen2.5-7b-inst": "odebf_s04_p1r4adaptive_r2_qwen",
 }
-REPAIR_INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-P1R4-HISTORY-VIEW-R1-V1"
+REPAIR_INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-P1R4-RISK-RECEIPT-R2-V1"
 
 
 def build_plan(
@@ -68,10 +68,10 @@ def build_plan(
             }
         )
     return {
-        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-r1-dry-plan/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-r2-dry-plan/v1",
         "instruction_id": REPAIR_INSTRUCTION_ID,
         "scientific_instruction_id": ADAPTIVE_INSTRUCTION_ID,
-        "authorized_attempt": "HISTORY_VIEW_REPAIR_R1_CAUSAL_PAIR",
+        "authorized_attempt": "RISK_RECEIPT_REPAIR_R2_CAUSAL_PAIR",
         "source_head": source_head,
         "benchmark": "CounterFact",
         "scientific_sample_reused_for_causal_diagnostic": True,

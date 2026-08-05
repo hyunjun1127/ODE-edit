@@ -161,7 +161,7 @@ def expected_p1r4_diagnostic_result_name(alias: str) -> str:
 def expected_p1r4_adaptive_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1R4 adaptive result alias differs")
-    return f"s04-p1r4-adaptive-tau-r1-{alias}-v1"
+    return f"s04-p1r4-adaptive-tau-r2-{alias}-v1"
 
 
 def _atomic_write_once(path: Path, value: Mapping[str, Any]) -> str:

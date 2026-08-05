@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-shot submitter for the adaptive-tau P1R4 history-view R1 pair."""
+"""One-shot submitter for the adaptive-tau P1R4 risk-receipt R2 pair."""
 
 from __future__ import annotations
 
@@ -61,23 +61,22 @@ from project.run_scripts.session04_ode_bf_p1_adaptive_dry_plan import JOB_NAMES
 
 SESSION_ID = "019fc5ec-f85b-7770-a73a-1d19be1cd491"
 BRANCH = "codex/odeeditsh2-ode-bf-v1"
-BASE_HEAD = "6bdf456f168ababb35b7b69eaf1ddc2ea4a229c0"
+BASE_HEAD = "92743a947953399142a2698014845dd028e1cd20"
 SCIENTIFIC_LINEAGE_PARENT = "40d7811313ff61077e28ef571af3d9286de2db2e"
-REPAIR_INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-P1R4-HISTORY-VIEW-R1-V1"
+REPAIR_INSTRUCTION_ID = "ODEEDIT-S04-ODE-BF-P1R4-RISK-RECEIPT-R2-V1"
 PACKAGE_ROOT = REPO_ROOT / "project/run_scripts/ode_bf"
 LOCK_ROOT = PACKAGE_ROOT / "locks"
 SBATCH = REPO_ROOT / "project/run_scripts/session04_ode_bf_p1_adaptive.sbatch"
 DRY_PLAN = REPO_ROOT / "project/run_scripts/session04_ode_bf_p1_adaptive_dry_plan.py"
-SOURCE_MANIFEST = LOCK_ROOT / "source_manifest_p1r4_adaptive_r1.json"
+SOURCE_MANIFEST = LOCK_ROOT / "source_manifest_p1r4_adaptive_r2.json"
 ARTIFACT_LOCK = LOCK_ROOT / "p0_artifact_lock.json"
 BASE_ARTIFACT_LOCK = REPO_ROOT / "project/run_scripts/ode_alloc/p0_artifact_lock_r1.json"
 
 ALLOWED_CHANGED_PATHS = {
-    "project/run_scripts/ode_bf/locks/source_manifest_p1r4_adaptive_r1.json",
+    "project/run_scripts/ode_bf/locks/source_manifest_p1r4_adaptive_r2.json",
     "project/run_scripts/ode_bf/p1_adaptive_runtime.py",
     "project/run_scripts/ode_bf/p1_runtime.py",
     "project/run_scripts/ode_bf/tests/test_p1_adaptive_submission.py",
-    "project/run_scripts/ode_bf/tests/test_p1_state.py",
     "project/run_scripts/session04_ode_bf_p1_adaptive.py",
     "project/run_scripts/session04_ode_bf_p1_adaptive.sbatch",
     "project/run_scripts/session04_ode_bf_p1_adaptive_dry_plan.py",
@@ -161,6 +160,35 @@ FAILED_ADAPTIVE_FILE_SHA256 = {
     ),
 }
 
+FAILED_ADAPTIVE_R1_RESULT_SHA256 = {
+    "s04-p1r4-adaptive-tau-r1-llama3-8b-inst-v1": (
+        "b342b82cc0fe90659beedaa26322a415465cca0887bcb0db7eeb9e4fe5c098ff"
+    ),
+    "s04-p1r4-adaptive-tau-r1-qwen2.5-7b-inst-v1": (
+        "af4de2c39fd5fa3a371e5a8b4af290d56e9fb3b52af9cfc61bc941c46a19dce3"
+    ),
+}
+FAILED_ADAPTIVE_R1_FILE_SHA256 = {
+    "local/odebf/state/s04-p1r4-adaptive-tau-causal-r1-v1.submission-intent.json": (
+        "e6bbfb3246facf0e4d2fed92a5a3ef295fa34cbfaa9863882f1b96d8d0221700"
+    ),
+    "local/odebf/state/s04-p1r4-adaptive-tau-causal-r1-v1.submission-receipt.json": (
+        "a26f89b43330f17c8aff22cae0eec455d027dda3ff8514e8dda26d4562c08bdf"
+    ),
+    "local/odebf/logs/odebf_s04_p1r4adaptive_r1_llama-16778.out": (
+        "2e5292000e3663a5260a3b7f57557ca1da7780de833f6acdc26930241ce3cf9c"
+    ),
+    "local/odebf/logs/odebf_s04_p1r4adaptive_r1_llama-16778.err": (
+        "e6fd89843c2a3733244f2c25e8d89f28f0fb7e4931375d76dbaf5839ca728f63"
+    ),
+    "local/odebf/logs/odebf_s04_p1r4adaptive_r1_qwen-16779.out": (
+        "2e5292000e3663a5260a3b7f57557ca1da7780de833f6acdc26930241ce3cf9c"
+    ),
+    "local/odebf/logs/odebf_s04_p1r4adaptive_r1_qwen-16779.err": (
+        "d10ebe18bb4268138cc0fc01493ac3a8913f0ebc1d16605f3e133bcb4be69b3a"
+    ),
+}
+
 
 def _run(
     args: Sequence[str],
@@ -231,6 +259,19 @@ def _failed_adaptive_immutability_gate() -> dict[str, str]:
         if path.is_symlink() or not path.is_file() or sha256_file(path) != expected:
             raise ODEBFContractError("failed adaptive log/state immutability differs")
         observed[relative] = expected
+    for name, expected in FAILED_ADAPTIVE_R1_RESULT_SHA256.items():
+        root = parent / name
+        if root.is_symlink() or not root.is_dir():
+            raise ODEBFContractError("failed adaptive R1 result root identity differs")
+        digest, count = sha256_regular_tree(root)
+        if digest != expected or count != 8:
+            raise ODEBFContractError("failed adaptive R1 result immutability differs")
+        observed[name] = digest
+    for relative, expected in FAILED_ADAPTIVE_R1_FILE_SHA256.items():
+        path = REPO_ROOT / relative
+        if path.is_symlink() or not path.is_file() or sha256_file(path) != expected:
+            raise ODEBFContractError("failed adaptive R1 log/state immutability differs")
+        observed[relative] = expected
     return observed
 
 
@@ -250,7 +291,7 @@ def _base_frozen_gate() -> dict[str, str]:
 def _source_manifest_gate() -> str:
     value, raw_sha256 = load_rooted_json(
         SOURCE_MANIFEST,
-        expected_schema="ode-edit-s04-ode-bf-p1r4-adaptive-r1-source-manifest/v1",
+        expected_schema="ode-edit-s04-ode-bf-p1r4-adaptive-r2-source-manifest/v1",
     )
     entries = value.get("entries")
     if (
@@ -275,7 +316,7 @@ def _source_manifest_gate() -> str:
             or path.startswith("project/run_scripts/session04_ode_bf_")
         )
         and path
-        != "project/run_scripts/ode_bf/locks/source_manifest_p1r4_adaptive_r1.json"
+        != "project/run_scripts/ode_bf/locks/source_manifest_p1r4_adaptive_r2.json"
     }
     if set(locked) != expected_paths:
         raise ODEBFContractError("adaptive source manifest path set differs")
@@ -370,6 +411,8 @@ def _adaptive_ast_firewall() -> str:
         or "history.risk_keys" not in runtime
     ):
         raise ODEBFContractError("adaptive history view interface differs")
+    if "receipt.sample_count" in runtime or "receipt.item_count" not in runtime:
+        raise ODEBFContractError("adaptive replay-risk receipt interface differs")
     assert_no_alias_specific_controller_branch(
         [
             PACKAGE_ROOT / "p1_adaptive.py",
@@ -489,7 +532,7 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
         **os.environ,
         "PYTHONDONTWRITEBYTECODE": "1",
         "PYTHONPATH": f"{REPO_ROOT}:/mnt/raid5/janghj/EasyEdit",
-        "MPLCONFIGDIR": str(REPO_ROOT / "local/odebf/matplotlib-p1r4-adaptive-r1-gate"),
+        "MPLCONFIGDIR": str(REPO_ROOT / "local/odebf/matplotlib-p1r4-adaptive-r2-gate"),
         "HF_HUB_OFFLINE": "1",
         "TRANSFORMERS_OFFLINE": "1",
     }
@@ -605,8 +648,8 @@ def _output_gate() -> dict[str, Path]:
     for job_name in JOB_NAMES.values():
         if list(log_parent.glob(f"{job_name}-*")):
             raise ODEBFContractError("adaptive log namespace exists")
-    intent = state_parent / "s04-p1r4-adaptive-tau-causal-r1-v1.submission-intent.json"
-    receipt = state_parent / "s04-p1r4-adaptive-tau-causal-r1-v1.submission-receipt.json"
+    intent = state_parent / "s04-p1r4-adaptive-tau-causal-r2-v1.submission-intent.json"
+    receipt = state_parent / "s04-p1r4-adaptive-tau-causal-r2-v1.submission-receipt.json"
     if intent.exists() or intent.is_symlink() or receipt.exists() or receipt.is_symlink():
         raise ODEBFContractError("adaptive pair was already attempted")
     roots["__intent__"] = intent
@@ -656,10 +699,10 @@ def main() -> int:
     if 2 * 65_000 > 2 * MEMORY_CAP_MIB_PER_GPU:
         raise ODEBFContractError("adaptive pair host memory exceeds server2 cap")
     intent = {
-        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-r1-submission-intent/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-r2-submission-intent/v1",
         "instruction_id": REPAIR_INSTRUCTION_ID,
         "scientific_instruction_id": ADAPTIVE_INSTRUCTION_ID,
-        "authorized_attempt": "HISTORY_VIEW_REPAIR_R1_CAUSAL_PAIR",
+        "authorized_attempt": "RISK_RECEIPT_REPAIR_R2_CAUSAL_PAIR",
         "source_head": source_head,
         "jobs": JOB_NAMES,
         "results": {
@@ -700,10 +743,10 @@ def main() -> int:
             ).hexdigest(),
         }
     receipt = {
-        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-r1-submission-receipt/v1",
+        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-r2-submission-receipt/v1",
         "instruction_id": REPAIR_INSTRUCTION_ID,
         "scientific_instruction_id": ADAPTIVE_INSTRUCTION_ID,
-        "authorized_attempt": "HISTORY_VIEW_REPAIR_R1_CAUSAL_PAIR",
+        "authorized_attempt": "RISK_RECEIPT_REPAIR_R2_CAUSAL_PAIR",
         "status": "SUBMITTED_PAIR" if failure is None else "PARTIAL_OR_FAILED_NO_RETRY",
         "source_head": source_head,
         "intent_sha256": intent_sha256,

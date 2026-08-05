@@ -89,11 +89,11 @@ from .routing import RoutingProblem, RoutingStatus, verify_backtracked_candidate
 from .sampling import StatelessReplaySchedule
 
 
-ADAPTIVE_RESULT_TOKEN = "p1r4-adaptive-tau-causal-r1-v1"
+ADAPTIVE_RESULT_TOKEN = "p1r4-adaptive-tau-causal-r2-v1"
 
 
 def expected_adaptive_result_name(alias: str) -> str:
-    return f"s04-p1r4-adaptive-tau-r1-{alias}-v1"
+    return f"s04-p1r4-adaptive-tau-r2-{alias}-v1"
 
 
 def _factor_map(
@@ -355,7 +355,7 @@ class VariantRollout:
 def _risk_payload(receipt: Any) -> dict[str, Any]:
     return {
         "barrier": receipt.barrier,
-        "sample_count": receipt.sample_count,
+        "sample_count": receipt.item_count,
         "sample_order_sha256": receipt.sample_order_sha256,
         "budget": receipt.budget,
         "mean_positive_damage": receipt.mean_positive_damage,
