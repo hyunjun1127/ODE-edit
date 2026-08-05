@@ -257,8 +257,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/p1_newnll_p_soft_hard_panel.py",
-      "sha256": "7745305ee475f1581b92b97c8c406ef71d19a2b66a2e641fefc75f9067407950",
-      "size": 19988
+      "sha256": "4d0279da0e0dd58071613b271fa72c3ca41f27ba1d3ab0536f71da2e0f8f2fc9",
+      "size": 19944
     },
     {
       "path": "project/run_scripts/ode_bf/p1_preservation_all_off_panel.py",
@@ -382,8 +382,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_newnll_p_soft_hard_panel.py",
-      "sha256": "bbeac671ebb584340beb40eecee7774f42506f60bed4ba79fcbffb54b4a10457",
-      "size": 15167
+      "sha256": "7b267da5e32c18918f5aae0560091f793b3504ac3ff38061056ea0a13a267ab3",
+      "size": 16452
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_p0_runtime_receipts.py",
@@ -517,8 +517,8 @@
     },
     {
       "path": "project/run_scripts/session05_ode_bf_newnll_p_soft_hard_dry_plan.py",
-      "sha256": "6624b1371984af89784a73214d735e1a60dd9fb6714318ab93c0f354f81a564b",
-      "size": 4144
+      "sha256": "88de594f2b9a224b503ad5a95fd6147762d5c0069509dd1e56045f23661ebe6c",
+      "size": 4148
     },
     {
       "path": "project/run_scripts/session05_ode_bf_preservation_alloff_fulltau.py",
@@ -542,8 +542,8 @@
     },
     {
       "path": "project/run_scripts/session05_ode_bf_submit_newnll_p_soft_hard.py",
-      "sha256": "5f478f9c45513886e98f608dfac94b5fa995564b38d6656984134772f49e49b3",
-      "size": 12778
+      "sha256": "a22fe3b54f8c92582f8e6cb78665ad0e0bc9a522d3cf4569e92924f54216d823",
+      "size": 12784
     },
     {
       "path": "project/run_scripts/session05_ode_bf_submit_preservation_alloff_fulltau.py",
@@ -572,8 +572,8 @@
     }
   ],
   "execution_head_policy": "runtime-git-head",
-  "expected_parent": "c3d45eba301d3e449a03a21f7ce65b5aa70d07c2",
+  "expected_parent": "870d10d6f66fc79626f53e8f4c18cbad9e4c8f07",
   "instruction_id": "ODEEDIT-S05-ODE-BF-NEWNLL-P-SOFT-HARD-P1R5-V1",
-  "root_digest": "b76c395ff38d10284b5bde74b1b8320dcad2f9f32eb07150137cce0c2846b03c",
+  "root_digest": "fb300ea3445537404b5465084164cb2d5409f96b6d45c07549585eba25948acb",
   "schema_version": "ode-edit-s05-newnll-p-soft-hard-source-manifest/v1"
 }

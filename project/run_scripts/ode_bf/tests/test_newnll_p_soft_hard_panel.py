@@ -26,6 +26,7 @@ from project.run_scripts.ode_bf.p1_adaptive_runtime import (
 from project.run_scripts.ode_bf.p1_controller import P1ControllerLock
 from project.run_scripts.ode_bf.p1_newnll_p_soft_hard_panel import (
     NEWNLL_P_SOFT_HARD_PANEL_LABELS,
+    _field_common_projection,
     _local_p_model_diagnostic,
     expected_newnll_p_soft_hard_result_name,
     forecast_newnll_p_soft_hard_panel,
@@ -112,7 +113,7 @@ class NewNLLPSoftHardPanelTests(unittest.TestCase):
             self.assertLessEqual(forecast.conservative_host_peak_mib, 65_000)
         self.assertEqual(
             expected_newnll_p_soft_hard_result_name("llama3-8b-inst"),
-            "s05-newnll-p-soft-hard-p1r5-llama3-8b-inst-v1",
+            "s05-newnll-p-soft-hard-p1r5-llama3-8b-inst-v1-r1",
         )
         plan = dry.build_plan("c" * 40, repository_root=ROOT)
         self.assertEqual(plan["panel_labels"], list(NEWNLL_P_SOFT_HARD_PANEL_LABELS))
@@ -324,6 +325,35 @@ class NewNLLPSoftHardPanelTests(unittest.TestCase):
         self.assertEqual(payload["historical_soft_reason"], "EMPTY_HISTORY")
         self.assertEqual(payload["field_decision_influence_count"], 0)
         self.assertEqual(payload["probe_cost"]["actuator_probe_count"], 5)
+
+    def test_common_field_projection_excludes_policy_specific_field_hash(self) -> None:
+        common = {
+            "signed_slopes": [1.0, 2.0],
+            "raw_velocity": [0.25, 0.5],
+            "functional_p_field": {
+                "pre_soft_velocity": [0.25, 0.5],
+                "controller_p_sample_order_sha256": "a" * 64,
+                "controller_p_baseline_identity_sha256": "b" * 64,
+                "factor_state_sha256": "c" * 64,
+                "secant": {"cache_identity_sha256": "d" * 64},
+                "generic_hp_soft_capable": True,
+                "historical_soft_active": False,
+                "historical_soft_reason": "EMPTY_HISTORY",
+            },
+        }
+        control = {**copy.deepcopy(common), "field_sha256": "e" * 64}
+        soft = {**copy.deepcopy(common), "field_sha256": "f" * 64}
+        self.assertEqual(
+            _field_common_projection(control),
+            _field_common_projection(soft),
+        )
+        self.assertNotEqual(control["field_sha256"], soft["field_sha256"])
+        changed = copy.deepcopy(soft)
+        changed["raw_velocity"][0] = 0.125
+        self.assertNotEqual(
+            _field_common_projection(control),
+            _field_common_projection(changed),
+        )
 
     def test_local_p_model_hold_uses_only_accepted_trial_predictions(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

@@ -24,8 +24,8 @@ from project.run_scripts.ode_bf.p1_newnll_p_soft_hard_panel import (
 
 
 JOB_NAMES = {
-    "llama3-8b-inst": "odeedit_s05_psoftp1r5_llama",
-    "qwen2.5-7b-inst": "odeedit_s05_psoftp1r5_qwen",
+    "llama3-8b-inst": "odeedit_s05_psoftp1r5r1_llama",
+    "qwen2.5-7b-inst": "odeedit_s05_psoftp1r5r1_qwen",
 }
 
 

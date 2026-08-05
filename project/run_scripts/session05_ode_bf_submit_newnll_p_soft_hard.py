@@ -33,11 +33,11 @@ from project.run_scripts.ode_bf.resource import gpu_count_from_tres
 
 
 SESSION_ID = "019fc63e-5217-7250-9c22-c5b2ec4248f0"
-EXPECTED_PARENT = "c3d45eba301d3e449a03a21f7ce65b5aa70d07c2"
+EXPECTED_PARENT = "870d10d6f66fc79626f53e8f4c18cbad9e4c8f07"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-newnll-psoft-hard-p1r5-v1"
 SERVER1_PROJECT_GPU_CAP = 3
-AUTHORIZATION_TOKEN = "newnll-p-soft-hard-p1r5-v1"
-SUBMISSION_NAMESPACE = "s05-newnll-p-soft-hard-p1r5-v1"
+AUTHORIZATION_TOKEN = "newnll-p-soft-hard-p1r5-r1-v1"
+SUBMISSION_NAMESPACE = "s05-newnll-p-soft-hard-p1r5-r1-v1"
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_newnll_p_soft_hard.sbatch"
 SOURCE_MANIFEST = (
     REPO_ROOT

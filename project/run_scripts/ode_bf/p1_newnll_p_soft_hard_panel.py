@@ -95,7 +95,7 @@ def newnll_p_soft_hard_panel_specs() -> tuple[AdaptivePanelSpec, ...]:
 def expected_newnll_p_soft_hard_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P-soft result alias differs")
-    return f"s05-newnll-p-soft-hard-p1r5-{alias}-v1"
+    return f"s05-newnll-p-soft-hard-p1r5-{alias}-v1-r1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -224,7 +224,6 @@ def _read_receipts(rollout: VariantRollout, category: str) -> list[dict[str, Any
 def _field_common_projection(value: Mapping[str, Any]) -> dict[str, Any]:
     probe = value["functional_p_field"]
     return {
-        "field_sha256": value["field_sha256"],
         "signed_slopes": value["signed_slopes"],
         "raw_velocity": value["raw_velocity"],
         "pre_soft_velocity": probe["pre_soft_velocity"],
