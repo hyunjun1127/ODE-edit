@@ -13,10 +13,11 @@ import math
 import random
 import resource as system_resource
 import time
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
+from enum import Enum
 from fractions import Fraction
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
 import torch
@@ -110,16 +111,127 @@ def expected_adaptive_result_name(alias: str) -> str:
     return f"s04-p1r4-adaptive-tau-r2-{alias}-v1"
 
 
+class FunctionalPDecisionPolicy(str, Enum):
+    """Whether the observed functional-P bit participates in decisions."""
+
+    PCTRL = "PCTRL"
+    OBSERVATION_ONLY = "FPOFF"
+
+
+@dataclass(frozen=True, slots=True)
+class FunctionalPDecisionReceipt:
+    policy: FunctionalPDecisionPolicy
+    observation_sha256: str
+    observed_pass_at_locked_budget: bool
+    observed_mean_positive_damage: float
+    observed_slack_at_locked_budget: float
+    decision_pass: bool
+    decision_influence_count: int
+
+    def __post_init__(self) -> None:
+        if len(self.observation_sha256) != 64:
+            raise ODEBFContractError("functional-P observation identity differs")
+        if (
+            not math.isfinite(self.observed_mean_positive_damage)
+            or not math.isfinite(self.observed_slack_at_locked_budget)
+            or not math.isclose(
+                self.observed_slack_at_locked_budget,
+                1.0e-3 - self.observed_mean_positive_damage,
+                rel_tol=0.0,
+                abs_tol=1.0e-15,
+            )
+        ):
+            raise ODEBFContractError("functional-P observed damage differs")
+        expected_pass = (
+            self.observed_pass_at_locked_budget
+            if self.policy is FunctionalPDecisionPolicy.PCTRL
+            else True
+        )
+        expected_count = (
+            1 if self.policy is FunctionalPDecisionPolicy.PCTRL else 0
+        )
+        if (
+            self.decision_pass is not expected_pass
+            or self.decision_influence_count != expected_count
+        ):
+            raise ODEBFContractError("functional-P decision receipt differs")
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        return {
+            "policy": self.policy.value,
+            "observation_sha256": self.observation_sha256,
+            "observed_pass_at_locked_budget": self.observed_pass_at_locked_budget,
+            "observed_mean_positive_damage": self.observed_mean_positive_damage,
+            "observed_slack_at_locked_budget": self.observed_slack_at_locked_budget,
+            "decision_pass": self.decision_pass,
+            "decision_influence_count": self.decision_influence_count,
+            "observation_only": (
+                self.policy is FunctionalPDecisionPolicy.OBSERVATION_ONLY
+            ),
+        }
+
+
+def functional_p_decision_receipt(
+    policy: FunctionalPDecisionPolicy | str,
+    observation: Mapping[str, Any],
+) -> FunctionalPDecisionReceipt:
+    """Apply the locked PCTRL/FPOFF decision bit without changing observation."""
+
+    try:
+        selected = FunctionalPDecisionPolicy(policy)
+    except (TypeError, ValueError) as exc:
+        raise ODEBFContractError("functional-P decision policy differs") from exc
+    observed = observation.get("passed")
+    if not isinstance(observed, bool):
+        raise ODEBFContractError("functional-P observed pass bit differs")
+    budget = observation.get("budget")
+    if isinstance(budget, bool) or not isinstance(budget, (int, float)):
+        raise ODEBFContractError("functional-P observation budget differs")
+    if not math.isfinite(float(budget)) or float(budget) != 1.0e-3:
+        raise ODEBFContractError("functional-P observation budget differs")
+    damage = observation.get("mean_positive_damage")
+    if isinstance(damage, bool) or not isinstance(damage, (int, float)):
+        raise ODEBFContractError("functional-P observed damage differs")
+    observed_damage = float(damage)
+    if not math.isfinite(observed_damage):
+        raise ODEBFContractError("functional-P observed damage differs")
+    observation_sha256 = canonical_hash(dict(observation))
+    decision_pass = (
+        observed if selected is FunctionalPDecisionPolicy.PCTRL else True
+    )
+    return FunctionalPDecisionReceipt(
+        selected,
+        observation_sha256,
+        observed,
+        observed_damage,
+        float(budget) - observed_damage,
+        decision_pass,
+        1 if selected is FunctionalPDecisionPolicy.PCTRL else 0,
+    )
+
+
 @dataclass(frozen=True, slots=True)
 class AdaptivePanelSpec:
     label: str
     clock_variant: AdaptiveVariant
     routing_objective: RoutingObjective
+    functional_p_decision: FunctionalPDecisionPolicy = (
+        FunctionalPDecisionPolicy.PCTRL
+    )
 
     def __post_init__(self) -> None:
         if not self.label or "/" in self.label or self.label in (".", ".."):
             raise ODEBFContractError("adaptive panel label differs")
         select_locked_routing_objective(self.routing_objective)
+        try:
+            selected_functional_p = FunctionalPDecisionPolicy(
+                self.functional_p_decision
+            )
+        except (TypeError, ValueError) as exc:
+            raise ODEBFContractError(
+                "adaptive panel functional-P policy differs"
+            ) from exc
+        object.__setattr__(self, "functional_p_decision", selected_functional_p)
 
     @property
     def legacy_key(self) -> AdaptiveVariant | str:
@@ -127,6 +239,7 @@ class AdaptivePanelSpec:
             self.clock_variant
             if self.label == self.clock_variant.value
             and self.routing_objective is RoutingObjective.MARGIN
+            and self.functional_p_decision is FunctionalPDecisionPolicy.PCTRL
             else self.label
         )
 
@@ -588,6 +701,7 @@ class TrialOutcome:
     snapshot_sha256: str
     receipt_sha256: str
     trust_ratio: float | None
+    functional_p_decision: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(slots=True)
@@ -608,6 +722,7 @@ class AcceptedSnapshot:
     raw_velocity_sha256: str
     bf_velocity_sha256: str
     accepted_receipt_sha256: str
+    functional_p_decision: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(slots=True)
@@ -630,6 +745,7 @@ class VariantRollout:
     rollout_sha256: str
     variant_label: str = ""
     routing_objective: str = RoutingObjective.MARGIN.value
+    functional_p_decision: str = FunctionalPDecisionPolicy.PCTRL.value
 
 
 def _risk_payload(receipt: Any) -> dict[str, Any]:
@@ -1227,6 +1343,9 @@ def _run_trial(
     accepted_by_layer: Mapping[int, Sequence[AcceptedLayerContribution]],
     contexts: Sequence[Sequence[str]],
     routing_objective: RoutingObjective | str = RoutingObjective.MARGIN,
+    functional_p_policy: FunctionalPDecisionPolicy | str = (
+        FunctionalPDecisionPolicy.PCTRL
+    ),
 ) -> TrialOutcome:
     from .p1_runtime import _controller_progress_telemetry
 
@@ -1306,6 +1425,11 @@ def _run_trial(
         }
         for index, score in enumerate(evaluation.counterfact_scores)
     ]
+    functional_p_observation = _risk_payload(functional.pretrained)
+    functional_p_decision = functional_p_decision_receipt(
+        functional_p_policy,
+        functional_p_observation,
+    )
     beta_alias = float(delta_tau / H_REF)
     verdict = verify_backtracked_candidate(
         active.problem,
@@ -1313,7 +1437,7 @@ def _run_trial(
         beta=beta_alias,
         actual_signed_progress=progress.actual_signed_progress,
         functional_h_pass=functional.historical.passed,
-        functional_p_pass=functional.pretrained.passed,
+        functional_p_pass=functional_p_decision.decision_pass,
         authoritative_bf16_pass=True,
         minimum_progress=lock.minimum_progress,
         rho_accept=lock.rho_accept,
@@ -1323,7 +1447,7 @@ def _run_trial(
         verdict.structural_p_pass,
         verdict.trust_pass,
         functional.historical.passed,
-        functional.pretrained.passed,
+        functional_p_decision.decision_pass,
         True,
     )
     applied_velocity = beta_alias * np.asarray(
@@ -1338,7 +1462,7 @@ def _run_trial(
         ),
         "trust": _trust_payload(active.problem, applied_velocity),
         "functional_h": _risk_payload(functional.historical),
-        "functional_p": _risk_payload(functional.pretrained),
+        "functional_p": functional_p_observation,
     }
     target_trial = (
         current_target
@@ -1430,6 +1554,9 @@ def _run_trial(
         ),
         "per_request_improved_bits": list(progress.per_request_improved_bits),
         "per_request_harm_bits": list(progress.per_request_harm_bits),
+        "functional_p_decision_influence_count": (
+            functional_p_decision.decision_influence_count
+        ),
     }
     if (
         selected_objective is not RoutingObjective.MARGIN
@@ -1508,6 +1635,7 @@ def _run_trial(
         "first_rejecting_component": verdict.first_rejecting_gate,
         "progress": progress_payload,
         "structural_functional": structural,
+        "functional_p_decision": functional_p_decision.raw_free_payload(),
         "official_success": evaluation.batch_success.raw_free_payload(),
         "canonical_rewrite": canonical_rewrite,
         "canonical_rewrite_sha256": canonical_hash(canonical_rewrite),
@@ -1561,6 +1689,7 @@ def _run_trial(
         snapshot_sha256,
         receipt_sha256,
         verdict.trust_ratio,
+        functional_p_decision.raw_free_payload(),
     )
 
 
@@ -1641,6 +1770,7 @@ def _append_accepted_snapshot(
             "bf_velocity_sha256": active.bf_velocity.velocity_sha256,
             "official_success": outcome.evaluation.batch_success.raw_free_payload(),
             "online_feasibility": asdict(outcome.feasibility),
+            "functional_p_decision": dict(outcome.functional_p_decision),
             "structural_functional": dict(outcome.structural_payload),
             "target_state_sha256": tensor_sha256(outcome.target_trial),
             "capacity_sha256": outcome.capacity_payload["identity_sha256"],
@@ -1662,6 +1792,8 @@ def _append_accepted_snapshot(
                     outcome.evaluation.batch_success.raw_free_payload()
                 ),
                 "online_feasibility": asdict(outcome.feasibility),
+                "functional_p_decision": dict(outcome.functional_p_decision),
+                "structural_functional": dict(outcome.structural_payload),
                 "layer_routing": relabel_layer_routing_telemetry(
                     outcome.capacity_payload["layer_routing"],
                     stage="FIRST_HIT",
@@ -1687,6 +1819,7 @@ def _append_accepted_snapshot(
         active.raw_velocity.velocity_sha256,
         active.bf_velocity.velocity_sha256,
         accepted_sha256,
+        dict(outcome.functional_p_decision),
     )
 
 
@@ -1706,6 +1839,9 @@ def _terminal_confirm_snapshots(
     ledger: ComputeLedger,
     recorder: AdaptiveReceiptRecorder,
     trajectory_complete: bool,
+    functional_p_policy: FunctionalPDecisionPolicy | str = (
+        FunctionalPDecisionPolicy.PCTRL
+    ),
 ) -> list[dict[str, Any]]:
     if not snapshots:
         return []
@@ -1735,12 +1871,17 @@ def _terminal_confirm_snapshots(
             lock=lock,
             ledger=ledger,
         )
+        terminal_p_observation = _risk_payload(pair.pretrained)
+        terminal_p_decision = functional_p_decision_receipt(
+            functional_p_policy,
+            terminal_p_observation,
+        )
         feasibility = FeasibilityVerdict(
             snapshot.feasibility.structural_h,
             snapshot.feasibility.structural_p,
             snapshot.feasibility.trust,
             pair.historical.passed,
-            pair.pretrained.passed,
+            terminal_p_decision.decision_pass,
             True,
         )
         exact = bool(
@@ -1755,8 +1896,9 @@ def _terminal_confirm_snapshots(
             "official_success": snapshot.evaluation.batch_success.raw_free_payload(),
             "online_feasibility": asdict(snapshot.feasibility),
             "terminal_feasibility": asdict(feasibility),
+            "functional_p_decision": terminal_p_decision.raw_free_payload(),
             "terminal_h": _risk_payload(pair.historical),
-            "terminal_p": _risk_payload(pair.pretrained),
+            "terminal_p": terminal_p_observation,
             "outer_entry_baseline": {
                 "baseline_kind": "outer_entry",
                 "outer_entry_snapshot_sha256": (
@@ -1809,11 +1951,20 @@ def _run_variant(
     recorder: AdaptiveReceiptRecorder,
     routing_objective: RoutingObjective | str = RoutingObjective.MARGIN,
     variant_label: str | None = None,
+    functional_p_policy: FunctionalPDecisionPolicy | str = (
+        FunctionalPDecisionPolicy.PCTRL
+    ),
 ) -> VariantRollout:
     """Run one isolated R_BF-controller variant without persistent mutation."""
 
     variant_lock = adaptive_lock(variant)
     selected_objective = select_locked_routing_objective(routing_objective)
+    try:
+        selected_functional_p_policy = FunctionalPDecisionPolicy(
+            functional_p_policy
+        )
+    except (TypeError, ValueError) as exc:
+        raise ODEBFContractError("adaptive functional-P policy differs") from exc
     selected_label = variant.value if variant_label is None else variant_label
     if recorder.variant_label != selected_label or recorder.variant is not variant:
         raise ODEBFContractError("adaptive recorder/panel variant differs")
@@ -1950,6 +2101,7 @@ def _run_variant(
                     accepted_by_layer=accepted_by_layer,
                     contexts=contexts,
                     routing_objective=selected_objective,
+                    functional_p_policy=selected_functional_p_policy,
                 )
                 trial_receipts.append(outcome.receipt_sha256)
                 trial_outcomes.append(outcome)
@@ -2093,6 +2245,7 @@ def _run_variant(
                 accepted_by_layer=accepted_by_layer,
                 contexts=contexts,
                 routing_objective=selected_objective,
+                functional_p_policy=selected_functional_p_policy,
             )
             n_trial = clock.n_trial
             if outcome.gate_accepted:
@@ -2209,6 +2362,7 @@ def _run_variant(
         ledger=ledger,
         recorder=recorder,
         trajectory_complete=trajectory_complete,
+        functional_p_policy=selected_functional_p_policy,
     )
     if (
         _parameter_contract_sha256(touched) != entry_model_sha256
@@ -2293,6 +2447,12 @@ def _run_variant(
         "persistent_commit_count": 0,
         "history_append_count": 0,
         "heldout_access_count": 0,
+        "functional_p_decision_policy": selected_functional_p_policy.value,
+        "functional_p_decision_influence_count": (
+            n_trial
+            if selected_functional_p_policy is FunctionalPDecisionPolicy.PCTRL
+            else 0
+        ),
     }
     if (
         selected_objective is not RoutingObjective.MARGIN
@@ -2336,6 +2496,7 @@ def _run_variant(
         rollout_sha256,
         selected_label,
         selected_objective.value,
+        selected_functional_p_policy.value,
     )
 
 
@@ -2590,6 +2751,9 @@ def _postfreeze_stepwise_panel(
                         "terminal_components": confirmations.get(
                             snapshot.snapshot_sha256
                         ),
+                        "functional_p_decision": dict(
+                            snapshot.functional_p_decision
+                        ),
                         "routing": snapshot.routing_payload,
                         "capacity": snapshot.capacity_payload,
                         "compute": compute,
@@ -2840,6 +3004,20 @@ def run_adaptive_diagnostic(
     panel_instruction_id: str = ADAPTIVE_INSTRUCTION_ID,
     panel_schema_namespace: str = "ode-edit-s04-ode-bf-p1r4-adaptive",
     panel_terminal_status: str = "CAUSAL_DIAGNOSTIC_COMPLETE_NO_PROMOTION",
+    panel_refinement_builder: Callable[
+        [
+            P1NativeCapture,
+            Mapping[Any, VariantRollout],
+            Mapping[tuple[str, int], StepwisePrimaryReceipt],
+        ],
+        dict[str, Any],
+    ]
+    | None = None,
+    rollout_validator: Callable[
+        [str, AdaptivePanelSpec, VariantRollout], None
+    ]
+    | None = None,
+    panel_terminal_metadata: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Execute the single authorized reused-seal B10 causal diagnostic."""
 
@@ -2971,6 +3149,9 @@ def run_adaptive_diagnostic(
             "outer_entry_snapshot_sha256": outer_entry_snapshot_sha256,
             "outer_entry_p_cache_sha256": outer_entry_p_cache.receipt_sha256,
             "variants": [item.label for item in specs],
+            "functional_p_decision_by_label": {
+                item.label: item.functional_p_decision.value for item in specs
+            },
             "scientific_promotion_authorized": False,
         },
     )
@@ -3037,12 +3218,15 @@ def run_adaptive_diagnostic(
                 recorder=recorder,
                 routing_objective=spec.routing_objective,
                 variant_label=spec.label,
+                functional_p_policy=spec.functional_p_decision,
             )
         finally:
             counter.close()
         _observed_memory(arm_state.ledger)
         if arm_state.history.version != 0:
             raise ODEBFStateError("adaptive causal variant appended history")
+        if rollout_validator is not None:
+            rollout_validator(alias, spec, rollout)
         rollouts[spec.legacy_key] = rollout
         stages.record(
             f"post_adaptive_{spec.label.lower().replace('-', '_')}",
@@ -3082,11 +3266,12 @@ def run_adaptive_diagnostic(
     )
     if _parameter_contract_sha256(touched) != after_capture_contract:
         raise ODEBFStateError("adaptive post-freeze panel did not restore W0/RNG")
-    refinement = (
-        _target_new_panel_payload(capture, rollouts, step_receipts)
-        if custom_panel
-        else _refinement_payload(capture, rollouts, step_receipts)
-    )
+    if panel_refinement_builder is not None:
+        refinement = panel_refinement_builder(capture, rollouts, step_receipts)
+    elif custom_panel:
+        refinement = _target_new_panel_payload(capture, rollouts, step_receipts)
+    else:
+        refinement = _refinement_payload(capture, rollouts, step_receipts)
     stepwise_sha256 = write_once(
         raw_root / "stepwise" / "panel.json",
         {**panel, "refinement": refinement},
@@ -3133,6 +3318,15 @@ def run_adaptive_diagnostic(
             item.label: rollouts[item.legacy_key].termination_label
             for item in specs
         },
+        "functional_p_decision_by_label": {
+            item.label: item.functional_p_decision.value for item in specs
+        },
+        "functional_p_decision_influence_count_by_label": {
+            item.label: rollouts[item.legacy_key].n_trial
+            if item.functional_p_decision is FunctionalPDecisionPolicy.PCTRL
+            else 0
+            for item in specs
+        },
         "n32_receipt_sha256": n32_sha256,
         "stepwise_panel_sha256": stepwise_sha256,
         "refinement": refinement,
@@ -3154,7 +3348,9 @@ def run_adaptive_diagnostic(
     }
     if custom_panel:
         terminal.update(
-            {
+            dict(panel_terminal_metadata)
+            if panel_terminal_metadata is not None
+            else {
                 "routing_loss_change_only": True,
                 "routing_context_group_sizes": [1, 5],
                 "routing_context_count": 6,

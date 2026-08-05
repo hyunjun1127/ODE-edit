@@ -3200,15 +3200,29 @@ def run_p1(
     diagnostic_mode: bool = False,
     adaptive_mode: bool = False,
     target_new_routing_mode: bool = False,
+    functional_p_off_mode: bool = False,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
     _source_freeze(repo_root, source_head)
     expected_parent = (repo_root / "local" / "odebf" / "results").resolve(strict=False)
     destination = output_root.resolve(strict=False)
-    if sum((diagnostic_mode, adaptive_mode, target_new_routing_mode)) > 1:
+    if sum(
+        (
+            diagnostic_mode,
+            adaptive_mode,
+            target_new_routing_mode,
+            functional_p_off_mode,
+        )
+    ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if target_new_routing_mode:
+    if functional_p_off_mode:
+        from .p1_functional_p_off_panel import (
+            expected_functional_p_off_result_name,
+        )
+
+        expected_name = expected_functional_p_off_result_name(alias)
+    elif target_new_routing_mode:
         from .p1_target_new_panel import expected_target_new_result_name
 
         expected_name = expected_target_new_result_name(alias)
@@ -3239,7 +3253,8 @@ def run_p1(
         repo_root,
         locks / "p0_artifact_lock.json",
         alias,
-        require_held_ode_alloc=not target_new_routing_mode,
+        require_held_ode_alloc=not target_new_routing_mode
+        and not functional_p_off_mode,
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
@@ -3318,6 +3333,23 @@ def run_p1(
         )
         numerical = target_numerical
         numerical_sha256 = target_numerical_sha256
+    if functional_p_off_mode:
+        from .p1_functional_p_off_panel import validate_functional_p_off_lock
+
+        functional_p_numerical, functional_p_numerical_sha256 = load_rooted_json(
+            locks / "numerical_lock_s05_functional_p_off_fulltau.json",
+            expected_schema=(
+                "ode-edit-s05-functional-p-off-fulltau-numerical-lock/v1"
+            ),
+        )
+        validate_functional_p_off_lock(
+            functional_p_numerical,
+            controller_identity_sha256=controller_lock.identity(),
+            stream_root_digest=stream["root_digest"],
+            population_root_digest=population["root_digest"],
+        )
+        numerical = functional_p_numerical
+        numerical_sha256 = functional_p_numerical_sha256
     dataset = artifact_guard.base_guard.dataset
     stream_batches = load_p1_stream_batches(dataset, stream)
     population_requests = load_p1_population_requests(
@@ -3450,11 +3482,31 @@ def run_p1(
             receipt,
             base_values,
         )
-    if adaptive_mode or target_new_routing_mode:
+    if adaptive_mode or target_new_routing_mode or functional_p_off_mode:
         from .p1_adaptive_runtime import run_adaptive_diagnostic
 
         target_kwargs: dict[str, Any] = {}
-        if target_new_routing_mode:
+        if functional_p_off_mode:
+            from .p1_functional_p_off_panel import (
+                FUNCTIONAL_P_OFF_INSTRUCTION_ID,
+                FUNCTIONAL_P_OFF_SCHEMA_NAMESPACE,
+                FUNCTIONAL_P_OFF_TERMINAL_STATUS,
+                functional_p_off_panel_specs,
+                functional_p_off_refinement,
+                functional_p_off_terminal_metadata,
+                validate_r2_control_rollout,
+            )
+
+            target_kwargs = {
+                "panel_specs": functional_p_off_panel_specs(),
+                "panel_instruction_id": FUNCTIONAL_P_OFF_INSTRUCTION_ID,
+                "panel_schema_namespace": FUNCTIONAL_P_OFF_SCHEMA_NAMESPACE,
+                "panel_terminal_status": FUNCTIONAL_P_OFF_TERMINAL_STATUS,
+                "panel_refinement_builder": functional_p_off_refinement,
+                "rollout_validator": validate_r2_control_rollout,
+                "panel_terminal_metadata": functional_p_off_terminal_metadata(),
+            }
+        elif target_new_routing_mode:
             from .p1_target_new_panel import (
                 TARGET_NEW_INSTRUCTION_ID,
                 TARGET_NEW_SCHEMA_NAMESPACE,
