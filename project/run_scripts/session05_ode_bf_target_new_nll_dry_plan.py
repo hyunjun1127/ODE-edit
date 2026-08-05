@@ -24,8 +24,8 @@ from project.run_scripts.ode_bf.p1_target_new_panel import (
 
 
 JOB_NAMES = {
-    "llama3-8b-inst": "odebf_s05_newnll_llama",
-    "qwen2.5-7b-inst": "odebf_s05_newnll_qwen",
+    "llama3-8b-inst": "odebf_s05_newnll_r1_llama",
+    "qwen2.5-7b-inst": "odebf_s05_newnll_r1_qwen",
 }
 
 
@@ -55,8 +55,9 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
         )
     specs = target_new_panel_specs()
     return {
-        "schema": "ode-edit-s05-target-new-nll-routing-dry-plan/v1",
+        "schema": "ode-edit-s05-target-new-nll-routing-r1-dry-plan/v1",
         "instruction_id": TARGET_NEW_INSTRUCTION_ID,
+        "technical_attempt": "R1",
         "source_head": source_head,
         "benchmark": "CounterFact",
         "scientific_sample_reused_for_causal_diagnostic": True,

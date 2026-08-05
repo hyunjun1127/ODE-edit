@@ -18,7 +18,7 @@ from .target_new_nll import RoutingObjective
 
 TARGET_NEW_INSTRUCTION_ID = "ODEEDIT-S05-ODE-BF-TARGET-NEW-NLL-ROUTING-P1-V1"
 TARGET_NEW_SCHEMA_NAMESPACE = "ode-edit-s05-ode-bf-target-new-nll-routing"
-TARGET_NEW_RESULT_TOKEN = "target-new-nll-routing-causal-p1-v1"
+TARGET_NEW_RESULT_TOKEN = "target-new-nll-routing-causal-p1-r1-v1"
 TARGET_NEW_TERMINAL_STATUS = "TARGET_NEW_NLL_CAUSAL_DIAGNOSTIC_COMPLETE_NO_PROMOTION"
 SOURCE_HANDOFF_COMMIT = "18d13fbea2d5f58ef665f50fcc9fa255d01097e5"
 SOURCE_BUNDLE_SHA256 = "1393bdca2a30605152ae545291d5620a48e56e3b1b16cea2a04aaab5702e45c1"
@@ -52,7 +52,7 @@ def target_new_panel_specs() -> tuple[AdaptivePanelSpec, ...]:
 def expected_target_new_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("target-new routing result alias differs")
-    return f"s05-target-new-nll-routing-{alias}-v1"
+    return f"s05-target-new-nll-routing-r1-{alias}-v1"
 
 
 @dataclass(frozen=True, slots=True)

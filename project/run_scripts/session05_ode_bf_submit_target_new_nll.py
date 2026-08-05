@@ -36,9 +36,11 @@ from project.run_scripts.ode_bf.resource import (
 
 SESSION_ID = "019fc63e-5217-7250-9c22-c5b2ec4248f0"
 HANDOFF_BASE = "18d13fbea2d5f58ef665f50fcc9fa255d01097e5"
+TECHNICAL_REPAIR_PARENT = "751245a7e6199442cfb1fede9e97c8f058884ad4"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-target-new-nll-v1"
 SERVER1_GPU_CAP = 3
 AUTHORIZATION_TOKEN = "target-new-nll-routing-p1-v1"
+SUBMISSION_NAMESPACE = "s05-target-new-nll-routing-p1-r1-v1"
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_target_new_nll.sbatch"
 SOURCE_MANIFEST = (
     REPO_ROOT
@@ -232,7 +234,11 @@ def _pre_submit(source_head: str) -> dict[str, Any]:
     if _run(["git", "rev-parse", "HEAD"]).stdout.strip() != source_head:
         raise ODEBFContractError("S05 execution head differs")
     if (
-        _run(["git", "rev-parse", "HEAD^"]).stdout.strip() != HANDOFF_BASE
+        _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
+        != TECHNICAL_REPAIR_PARENT
+        or _run(["git", "rev-parse", f"{TECHNICAL_REPAIR_PARENT}^"])
+        .stdout.strip()
+        != HANDOFF_BASE
         or _run(["git", "branch", "--show-current"]).stdout.strip()
         != EXECUTION_BRANCH
     ):
@@ -333,29 +339,31 @@ def _submit_held_pair(
     """Accept both held jobs before releasing either one to execute."""
 
     jobs: dict[str, str] = {}
-    failure = state / "s05-target-new-nll-routing-p1-v1.submission-failure.json"
+    failure = state / f"{SUBMISSION_NAMESPACE}.submission-failure.json"
     try:
         for alias in MODEL_ALIASES:
             job_id = _submit_one(alias=alias, source_head=source_head)
             jobs[alias] = job_id
             _write_once(
                 state
-                / f"s05-target-new-nll-routing-p1-v1.{alias}.held-job.json",
+                / f"{SUBMISSION_NAMESPACE}.{alias}.held-job.json",
                 {
                     "schema": "ode-edit-s05-target-new-nll-held-job/v1",
                     "instruction_id": TARGET_NEW_INSTRUCTION_ID,
+                    "technical_attempt": "R1",
                     "source_head": source_head,
                     "alias": alias,
                     "job_id": job_id,
                     "scheduler_hold": True,
                 },
             )
-        receipt = state / "s05-target-new-nll-routing-p1-v1.submission-receipt.json"
+        receipt = state / f"{SUBMISSION_NAMESPACE}.submission-receipt.json"
         receipt_sha256 = _write_once(
             receipt,
             {
                 "schema": "ode-edit-s05-target-new-nll-submission-receipt/v1",
                 "instruction_id": TARGET_NEW_INSTRUCTION_ID,
+                "technical_attempt": "R1",
                 "source_head": source_head,
                 "intent_sha256": intent_sha256,
                 "jobs": jobs,
@@ -373,6 +381,7 @@ def _submit_held_pair(
             {
                 "schema": "ode-edit-s05-target-new-nll-submission-failure/v1",
                 "instruction_id": TARGET_NEW_INSTRUCTION_ID,
+                "technical_attempt": "R1",
                 "source_head": source_head,
                 "intent_sha256": intent_sha256,
                 "accepted_held_jobs": jobs,
@@ -391,12 +400,13 @@ def main() -> int:
     source_head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     preflight = _pre_submit(source_head)
     state = REPO_ROOT / "local/odebf/state"
-    intent = state / "s05-target-new-nll-routing-p1-v1.submission-intent.json"
+    intent = state / f"{SUBMISSION_NAMESPACE}.submission-intent.json"
     intent_sha256 = _write_once(
         intent,
         {
             "schema": "ode-edit-s05-target-new-nll-submission-intent/v1",
             "instruction_id": TARGET_NEW_INSTRUCTION_ID,
+            "technical_attempt": "R1",
             "source_head": source_head,
             "preflight": preflight,
         },

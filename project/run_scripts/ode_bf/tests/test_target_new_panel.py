@@ -571,7 +571,12 @@ class TargetNewPanelContractTests(unittest.TestCase):
                 ]
             )
             self.assertEqual(args.model, alias)
-            self.assertTrue(root.startswith("s05-target-new-nll-routing-"))
+            self.assertTrue(root.startswith("s05-target-new-nll-routing-r1-"))
+        sbatch = (
+            ROOT / "project/run_scripts/session05_ode_bf_target_new_nll.sbatch"
+        ).read_text(encoding="utf-8")
+        self.assertIn("#SBATCH --nodelist=devbox", sbatch)
+        self.assertNotIn("#SBATCH --nodelist=server1", sbatch)
 
     def test_s05_failure_schema_and_unowned_root_collision_are_fail_closed(self) -> None:
         failure_schema = (
@@ -664,7 +669,7 @@ class TargetNewPanelContractTests(unittest.TestCase):
             payload = json.loads(
                 (
                     Path(directory)
-                    / "s05-target-new-nll-routing-p1-v1.submission-receipt.json"
+                    / f"{submit.SUBMISSION_NAMESPACE}.submission-receipt.json"
                 ).read_text()
             )
             self.assertTrue(payload["pair_accepted_while_held"])
@@ -693,13 +698,13 @@ class TargetNewPanelContractTests(unittest.TestCase):
             self.assertFalse(
                 (
                     Path(directory)
-                    / "s05-target-new-nll-routing-p1-v1.submission-receipt.json"
+                    / f"{submit.SUBMISSION_NAMESPACE}.submission-receipt.json"
                 ).exists()
             )
             failure = json.loads(
                 (
                     Path(directory)
-                    / "s05-target-new-nll-routing-p1-v1.submission-failure.json"
+                    / f"{submit.SUBMISSION_NAMESPACE}.submission-failure.json"
                 ).read_text()
             )
             self.assertEqual(
