@@ -35,6 +35,11 @@ from .alpha_backend import (
 from .contracts import BATCH_SIZE, ODEBFContractError, canonical_hash
 from .functional import CumulativeBF16FunctionalTrial, WaypointFactor, tensor_sha256
 from .request_digest import ordered_request_digest_v1
+from .target_new_nll import (
+    RoutingObjective,
+    evaluate_routing_objective,
+    select_locked_routing_objective,
+)
 from .woodbury import ProjectorCertificate, WoodburyCertificate, solve_alpha_woodbury
 
 
@@ -1406,6 +1411,26 @@ class ControllerMarginReceipt:
     generation_call_count: int
 
 
+@dataclass(frozen=True, slots=True)
+class TargetNewNLLReceipt:
+    objective: str
+    value: float
+    value_sha256: str
+    per_request_values: tuple[float, ...]
+    per_request_value_sha256: str
+    request_order_sha256: str
+    suffix_token_counts: tuple[int, ...]
+    target_span_sha256: str
+    context_group_sizes: tuple[int, ...]
+    context_count: int
+    context_sha256: str
+    model_forward_count: int
+    processed_token_count: int
+    generation_call_count: int
+    target_old_access_count: int
+    receipt_sha256: str
+
+
 def evaluate_controller_margin(
     model: torch.nn.Module,
     tokenizer: Any,
@@ -1460,6 +1485,108 @@ def evaluate_controller_margin(
     )
 
 
+def evaluate_routing_progress(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    *,
+    cumulative_factors_by_weight: Mapping[str, Sequence[WaypointFactor]],
+    objective: RoutingObjective | str,
+    contexts: Sequence[Sequence[str]] | None = None,
+) -> ControllerMarginReceipt | TargetNewNLLReceipt:
+    """Evaluate the selected routing loss without changing margin control.
+
+    The historical MARGIN branch is the existing function byte-for-byte.  The
+    TARGET_NEW_NLL branch uses the request objects supplied to the gradient
+    path directly, so its field derivative and candidate progress share one
+    tokenizer/span contract and never access ``target_true``.
+    """
+
+    selected = select_locked_routing_objective(objective)
+    if selected is RoutingObjective.MARGIN:
+        return evaluate_controller_margin(
+            model,
+            tokenizer,
+            requests,
+            cumulative_factors_by_weight=cumulative_factors_by_weight,
+        )
+    parameter_state = tuple(
+        (parameter.data_ptr(), parameter._version, parameter.grad)
+        for parameter in model.parameters()
+    )
+    with _virtual_context(model, cumulative_factors_by_weight), torch.no_grad():
+        result = evaluate_routing_objective(
+            model,
+            tokenizer,
+            requests,
+            objective=selected,
+            contexts=contexts,
+        )
+    observed_per_request = tuple(
+        float(item)
+        for item in result.per_request_values.detach().to(
+            device="cpu", dtype=torch.float64
+        )
+    )
+    observed_model_mean = float(
+        result.loss.detach().to(device="cpu", dtype=torch.float64)
+    )
+    observed = math.fsum(observed_per_request) / BATCH_SIZE
+    if (
+        len(observed_per_request) != BATCH_SIZE
+        or not all(math.isfinite(item) for item in observed_per_request)
+        or not math.isfinite(observed_model_mean)
+        or not math.isclose(
+            observed,
+            observed_model_mean,
+            rel_tol=1.0e-6,
+            abs_tol=1.0e-7,
+        )
+        or result.target_true_suffix_token_counts != (None,) * BATCH_SIZE
+    ):
+        raise ODEBFContractError("target-new routing objective receipt differs")
+    if tuple(
+        (parameter.data_ptr(), parameter._version, parameter.grad)
+        for parameter in model.parameters()
+    ) != parameter_state:
+        raise ODEBFContractError("target-new routing objective mutated model state")
+    payload = {
+        "objective": selected.value,
+        "value_sha256": canonical_hash({"float64": observed}),
+        "per_request_value_sha256": canonical_hash(
+            {"float64_by_ordinal": observed_per_request}
+        ),
+        "request_order_sha256": result.request_order_sha256,
+        "suffix_token_counts": list(result.suffix_token_counts),
+        "target_span_sha256": result.target_span_sha256,
+        "context_group_sizes": list(result.context_group_sizes),
+        "context_count": result.context_count,
+        "context_sha256": result.context_sha256,
+        "model_forward_count": result.model_forward_count,
+        "processed_token_count": result.processed_token_count,
+        "generation_call_count": result.generation_call_count,
+        "target_old_access_count": 0,
+    }
+    return TargetNewNLLReceipt(
+        selected.value,
+        observed,
+        payload["value_sha256"],
+        observed_per_request,
+        payload["per_request_value_sha256"],
+        result.request_order_sha256,
+        result.suffix_token_counts,
+        result.target_span_sha256,
+        result.context_group_sizes,
+        result.context_count,
+        result.context_sha256,
+        result.model_forward_count,
+        result.processed_token_count,
+        result.generation_call_count,
+        0,
+        canonical_hash(payload),
+    )
+
+
 @dataclass(frozen=True, slots=True)
 class SignedProgressReceipt:
     field_sha256: str
@@ -1469,6 +1596,13 @@ class SignedProgressReceipt:
     model_forward_count: int
     processed_token_count: int
     fp32_gradient_only: bool
+    routing_objective: str = RoutingObjective.MARGIN.value
+    target_old_access_count: int = BATCH_SIZE
+    objective_receipt_sha256: str | None = None
+    routing_context_sha256: str | None = None
+    routing_context_count: int = 1
+    routing_context_group_sizes: tuple[int, ...] = (1,)
+    routing_backward_count: int = 1
 
 
 def signed_progress_gradient(
@@ -1479,7 +1613,10 @@ def signed_progress_gradient(
     *,
     cumulative_factors_by_weight: Mapping[str, Sequence[WaypointFactor]],
     ledger: ComputeLedger,
+    objective: RoutingObjective | str = RoutingObjective.MARGIN,
+    contexts: Sequence[Sequence[str]] | None = None,
 ) -> SignedProgressReceipt:
+    selected = select_locked_routing_objective(objective)
     device = next(model.parameters()).device
     coefficients = torch.zeros(
         len(field.layers), dtype=torch.float32, device=device, requires_grad=True
@@ -1490,8 +1627,57 @@ def signed_progress_gradient(
     )
     with _virtual_context(model, cumulative_factors_by_weight):
         with _CoefficientOverlay(model, field.layers, coefficients):
-            loss, _, processed = _controller_margin_loss(model, tokenizer, requests)
-            gradient = torch.autograd.grad(loss, coefficients, retain_graph=False)[0]
+            if selected is RoutingObjective.MARGIN:
+                loss, _, processed = _controller_margin_loss(
+                    model, tokenizer, requests
+                )
+                objective_receipt_sha256 = None
+                target_old_access_count = BATCH_SIZE
+            else:
+                objective_result = evaluate_routing_objective(
+                    model,
+                    tokenizer,
+                    requests,
+                    objective=selected,
+                    contexts=contexts,
+                    gradient_input=coefficients,
+                )
+                if (
+                    objective_result.input_gradient is None
+                    or objective_result.backward_count != BATCH_SIZE
+                ):
+                    raise ODEBFContractError(
+                        "target-new routing streamed gradient differs"
+                    )
+                loss = objective_result.loss
+                processed = objective_result.processed_token_count
+                target_old_access_count = 0
+                objective_receipt_sha256 = canonical_hash(
+                    {
+                        "objective": selected.value,
+                        "request_order_sha256": (
+                            objective_result.request_order_sha256
+                        ),
+                        "suffix_token_counts": list(
+                            objective_result.suffix_token_counts
+                        ),
+                        "target_span_sha256": (
+                            objective_result.target_span_sha256
+                        ),
+                        "context_group_sizes": list(
+                            objective_result.context_group_sizes
+                        ),
+                        "context_count": objective_result.context_count,
+                        "context_sha256": objective_result.context_sha256,
+                        "target_old_access_count": 0,
+                        "routing_backward_count": objective_result.backward_count,
+                    }
+                )
+                gradient = objective_result.input_gradient
+            if selected is RoutingObjective.MARGIN:
+                gradient = torch.autograd.grad(
+                    loss, coefficients, retain_graph=False
+                )[0]
     raw = -gradient.detach().to(device="cpu", dtype=torch.float64)
     progress = tuple(float(value) for value in raw)
     excluded = tuple(
@@ -1504,15 +1690,33 @@ def signed_progress_gradient(
         for parameter in model.parameters()
     ) != parameter_state:
         raise ODEBFContractError("P1 FP32 gradient overlay mutated model state")
-    ledger.increment("backward")
+    routing_backward_count = (
+        1
+        if selected is RoutingObjective.MARGIN
+        else objective_result.backward_count
+    )
+    ledger.increment("backward", routing_backward_count)
     return SignedProgressReceipt(
         field.identity_sha256,
         progress,
         excluded,
         tensor_sha256(gradient.detach()),
-        BATCH_SIZE,
+        BATCH_SIZE
+        if selected is RoutingObjective.MARGIN
+        else objective_result.model_forward_count,
         processed,
         True,
+        selected.value,
+        target_old_access_count,
+        objective_receipt_sha256,
+        None
+        if selected is RoutingObjective.MARGIN
+        else objective_result.context_sha256,
+        1 if selected is RoutingObjective.MARGIN else objective_result.context_count,
+        (1,)
+        if selected is RoutingObjective.MARGIN
+        else objective_result.context_group_sizes,
+        routing_backward_count,
     )
 
 

@@ -14,6 +14,7 @@ from .functional import WaypointFactor
 from .p1_backend import P1DynamicField, P1LayerField, SignedProgressReceipt
 from .routing import (
     BFProjectionResult,
+    CertificateObserver,
     QuadraticBarrier,
     RawVelocity,
     RoutingProblem,
@@ -393,8 +394,15 @@ def build_p1_routing_problem(
     )
 
 
-def solve_matched_raw_velocity(build: P1RoutingBuild) -> MatchedRawVelocity:
-    solved = solve_raw_velocity(build.problem)
+def solve_matched_raw_velocity(
+    build: P1RoutingBuild,
+    *,
+    certificate_observer: CertificateObserver | None = None,
+) -> MatchedRawVelocity:
+    solved = solve_raw_velocity(
+        build.problem,
+        certificate_observer=certificate_observer,
+    )
     velocity_sha = canonical_hash(
         {
             "geometry": build.geometry.identity_sha256,
@@ -414,6 +422,8 @@ def solve_matched_raw_velocity(build: P1RoutingBuild) -> MatchedRawVelocity:
 def project_matched_bf_velocity(
     build: P1RoutingBuild,
     raw: MatchedRawVelocity,
+    *,
+    certificate_observer: CertificateObserver | None = None,
 ) -> BFProjectionResult:
     if raw.geometry_sha256 != build.geometry.identity_sha256:
         raise ODEBFContractError("P1 BF projector received a different raw geometry")
@@ -424,7 +434,11 @@ def project_matched_bf_velocity(
         raw.maximum_feasible_progress,
         raw.certificate,  # type: ignore[arg-type]
     )
-    result = project_bf_velocity(build.problem, rebound)
+    result = project_bf_velocity(
+        build.problem,
+        rebound,
+        certificate_observer=certificate_observer,
+    )
     if result.raw_velocity_identity != raw.velocity_sha256:
         raise ODEBFContractError("P1 BF projector changed raw velocity identity")
     return result

@@ -214,7 +214,12 @@ class AdaptiveTauClock:
         return tuple(self._accepted_delta)
 
     def _stop(self, status: str) -> None:
-        if status not in ("COMPUTE_CAP_UNRESOLVED", "HORIZON_CAP_UNREACHED"):
+        if status not in (
+            "TRIAL_CAP_EXHAUSTED",
+            "ACCEPTED_STEP_OR_HORIZON_CAP_UNREACHED",
+            "SAME_STATE_RETRY_EXHAUSTED",
+            "MIN_DT_EXHAUSTED",
+        ):
             raise ODEBFContractError("adaptive stop status differs")
         self.status = status
 
@@ -224,10 +229,10 @@ class AdaptiveTauClock:
         if self.status != "ACTIVE" or self.complete:
             raise ODEBFStateError("adaptive clock cannot begin another trial")
         if self.n_trial >= self.lock.n_trial_cap:
-            self._stop("COMPUTE_CAP_UNRESOLVED")
+            self._stop("TRIAL_CAP_EXHAUSTED")
             raise ODEBFStateError("adaptive aggregate trial cap reached")
         if self.k_acc >= self.lock.k_acc_cap:
-            self._stop("HORIZON_CAP_UNREACHED")
+            self._stop("ACCEPTED_STEP_OR_HORIZON_CAP_UNREACHED")
             raise ODEBFStateError("adaptive accepted-step cap reached")
         remaining = self.lock.t_max - self.tau
         delta = min(self.delta_tau_proposed, remaining)
@@ -293,10 +298,10 @@ class AdaptiveTauClock:
         self.retry_index += 1
         next_delta = trial.delta_tau_trial * self.lock.gamma_down
         if self.retry_index > self.lock.same_state_additional_retry_cap:
-            self._stop("COMPUTE_CAP_UNRESOLVED")
+            self._stop("SAME_STATE_RETRY_EXHAUSTED")
             next_delta = trial.delta_tau_trial
         elif next_delta < self.lock.delta_tau_min:
-            self._stop("COMPUTE_CAP_UNRESOLVED")
+            self._stop("MIN_DT_EXHAUSTED")
             next_delta = trial.delta_tau_trial
         else:
             self.delta_tau_proposed = next_delta

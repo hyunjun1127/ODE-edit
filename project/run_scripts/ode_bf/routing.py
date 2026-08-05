@@ -177,6 +177,9 @@ class SolverCertificate:
     passed: bool
 
 
+CertificateObserver = Callable[[SolverCertificate], None]
+
+
 @dataclass(frozen=True, slots=True)
 class RawVelocity:
     values: np.ndarray
@@ -323,6 +326,7 @@ def _solve(
     initial: np.ndarray | None,
     primal_tolerance: float,
     kkt_tolerance: float,
+    certificate_observer: CertificateObserver | None = None,
 ) -> tuple[np.ndarray, SolverCertificate]:
     active_indices = np.flatnonzero(problem.positive_direction_mask)
     if active_indices.size == 0:
@@ -370,6 +374,8 @@ def _solve(
         primal_tolerance=primal_tolerance,
         kkt_tolerance=kkt_tolerance,
     )
+    if certificate_observer is not None:
+        certificate_observer(certificate)
     if not certificate.passed:
         raise ODEBFContractError("routing solver certificate failed")
     expanded = np.zeros(problem.signed_progress.size, dtype=np.float64)
@@ -383,6 +389,7 @@ def _maximum_progress(
     include_barriers: bool,
     primal_tolerance: float,
     kkt_tolerance: float,
+    certificate_observer: CertificateObserver | None = None,
 ) -> tuple[np.ndarray, SolverCertificate]:
     return _solve(
         problem,
@@ -392,6 +399,7 @@ def _maximum_progress(
         initial=None,
         primal_tolerance=primal_tolerance,
         kkt_tolerance=kkt_tolerance,
+        certificate_observer=certificate_observer,
     )
 
 
@@ -400,12 +408,14 @@ def solve_raw_velocity(
     *,
     primal_tolerance: float = 1.0e-8,
     kkt_tolerance: float = 1.0e-5,
+    certificate_observer: CertificateObserver | None = None,
 ) -> RawVelocity:
     maximum, maximum_certificate = _maximum_progress(
         problem,
         include_barriers=False,
         primal_tolerance=primal_tolerance,
         kkt_tolerance=kkt_tolerance,
+        certificate_observer=certificate_observer,
     )
     maximum_progress = float(problem.signed_progress @ maximum)
     if maximum_progress + primal_tolerance < problem.requested_progress:
@@ -420,6 +430,7 @@ def solve_raw_velocity(
         initial=initial,
         primal_tolerance=primal_tolerance,
         kkt_tolerance=kkt_tolerance,
+        certificate_observer=certificate_observer,
     )
     payload = {
         "problem": problem.identity(),
@@ -442,6 +453,7 @@ def project_bf_velocity(
     *,
     primal_tolerance: float = 1.0e-8,
     kkt_tolerance: float = 1.0e-5,
+    certificate_observer: CertificateObserver | None = None,
 ) -> BFProjectionResult:
     if raw_velocity.problem_identity != problem.identity():
         raise ODEBFContractError("BF projector did not receive the matched raw velocity")
@@ -450,6 +462,7 @@ def project_bf_velocity(
         include_barriers=True,
         primal_tolerance=primal_tolerance,
         kkt_tolerance=kkt_tolerance,
+        certificate_observer=certificate_observer,
     )
     maximum_progress = float(problem.signed_progress @ maximum)
     if maximum_progress + primal_tolerance < problem.minimum_progress or maximum_progress + primal_tolerance < problem.requested_progress:
@@ -472,6 +485,7 @@ def project_bf_velocity(
         initial=initial,
         primal_tolerance=primal_tolerance,
         kkt_tolerance=kkt_tolerance,
+        certificate_observer=certificate_observer,
     )
     difference = values - raw_velocity.values
     distance = float(np.sqrt(max(difference @ problem.capacity_metric @ difference, 0.0)))

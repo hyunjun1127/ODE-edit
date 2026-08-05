@@ -50,6 +50,7 @@ from .p0_runtime import ModelForwardCounter
 from .p1_backend import (
     CandidateBF16FunctionalTrial,
     ControllerMarginReceipt,
+    TargetNewNLLReceipt,
     P1DynamicField,
     P1NativeCapture,
     PinnedCovarianceRegistry,
@@ -138,6 +139,10 @@ ARM_LOCAL_INFEASIBILITY_STATUS = {
     "terminal_h": "TERMINAL_H_INFEASIBLE",
     "terminal_p": "TERMINAL_P_INFEASIBLE",
 }
+
+
+class P1OutputRootCollision(FileExistsError):
+    """An unowned create-once result root already exists."""
 
 
 def expected_p1_result_name(alias: str) -> str:
@@ -716,15 +721,28 @@ class ControllerProgressTelemetry:
 
 
 def _controller_progress_telemetry(
-    entry: ControllerMarginReceipt,
-    trial: ControllerMarginReceipt,
+    entry: ControllerMarginReceipt | TargetNewNLLReceipt,
+    trial: ControllerMarginReceipt | TargetNewNLLReceipt,
 ) -> ControllerProgressTelemetry:
+    entry_objective = getattr(entry, "objective", "MARGIN")
+    trial_objective = getattr(trial, "objective", "MARGIN")
     if (
-        entry.request_order_sha256 != trial.request_order_sha256
+        entry_objective != trial_objective
+        or entry.request_order_sha256 != trial.request_order_sha256
         or len(entry.per_request_values) != BATCH_SIZE
         or len(trial.per_request_values) != BATCH_SIZE
     ):
         raise ODEBFContractError("P1 controller progress request geometry differs")
+    if entry_objective == "TARGET_NEW_NLL" and (
+        not isinstance(entry, TargetNewNLLReceipt)
+        or not isinstance(trial, TargetNewNLLReceipt)
+        or entry.context_sha256 != trial.context_sha256
+        or entry.context_count != trial.context_count
+        or entry.context_group_sizes != trial.context_group_sizes
+        or entry.suffix_token_counts != trial.suffix_token_counts
+        or entry.target_span_sha256 != trial.target_span_sha256
+    ):
+        raise ODEBFContractError("P1 target-new routing context/span geometry differs")
     per_request = tuple(
         before - after
         for before, after in zip(
@@ -3181,26 +3199,35 @@ def run_p1(
     source_head: str,
     diagnostic_mode: bool = False,
     adaptive_mode: bool = False,
+    target_new_routing_mode: bool = False,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
     _source_freeze(repo_root, source_head)
     expected_parent = (repo_root / "local" / "odebf" / "results").resolve(strict=False)
     destination = output_root.resolve(strict=False)
-    if diagnostic_mode and adaptive_mode:
+    if sum((diagnostic_mode, adaptive_mode, target_new_routing_mode)) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    expected_name = (
-        expected_p1r4_adaptive_result_name(alias)
-        if adaptive_mode
-        else expected_p1r4_diagnostic_result_name(alias)
-        if diagnostic_mode
-        else expected_p1_result_name(alias)
-    )
+    if target_new_routing_mode:
+        from .p1_target_new_panel import expected_target_new_result_name
+
+        expected_name = expected_target_new_result_name(alias)
+    else:
+        expected_name = (
+            expected_p1r4_adaptive_result_name(alias)
+            if adaptive_mode
+            else expected_p1r4_diagnostic_result_name(alias)
+            if diagnostic_mode
+            else expected_p1_result_name(alias)
+        )
     if destination.parent != expected_parent or destination.name != expected_name:
         raise ODEBFContractError("P1 output namespace differs")
     if destination.exists() or destination.is_symlink():
-        raise FileExistsError("P1 result root is create-once")
-    destination.mkdir(mode=0o700, parents=True)
+        raise P1OutputRootCollision("P1 result root is create-once")
+    try:
+        destination.mkdir(mode=0o700, parents=True)
+    except FileExistsError as exc:
+        raise P1OutputRootCollision("P1 result root is create-once") from exc
     raw_root = destination / "raw"
     raw_root.mkdir(mode=0o700)
     stages = P1StageRecorder(raw_root)
@@ -3212,6 +3239,7 @@ def run_p1(
         repo_root,
         locks / "p0_artifact_lock.json",
         alias,
+        require_held_ode_alloc=not target_new_routing_mode,
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
@@ -3273,6 +3301,23 @@ def run_p1(
             raise ODEBFContractError("P1R4 adaptive numerical lock differs")
         numerical = adaptive_numerical
         numerical_sha256 = adaptive_numerical_sha256
+    if target_new_routing_mode:
+        from .p1_target_new_panel import validate_target_new_lock
+
+        target_numerical, target_numerical_sha256 = load_rooted_json(
+            locks / "numerical_lock_s05_target_new_nll.json",
+            expected_schema=(
+                "ode-edit-s05-ode-bf-target-new-nll-routing-numerical-lock/v1"
+            ),
+        )
+        validate_target_new_lock(
+            target_numerical,
+            controller_identity_sha256=controller_lock.identity(),
+            stream_root_digest=stream["root_digest"],
+            population_root_digest=population["root_digest"],
+        )
+        numerical = target_numerical
+        numerical_sha256 = target_numerical_sha256
     dataset = artifact_guard.base_guard.dataset
     stream_batches = load_p1_stream_batches(dataset, stream)
     population_requests = load_p1_population_requests(
@@ -3405,8 +3450,24 @@ def run_p1(
             receipt,
             base_values,
         )
-    if adaptive_mode:
+    if adaptive_mode or target_new_routing_mode:
         from .p1_adaptive_runtime import run_adaptive_diagnostic
+
+        target_kwargs: dict[str, Any] = {}
+        if target_new_routing_mode:
+            from .p1_target_new_panel import (
+                TARGET_NEW_INSTRUCTION_ID,
+                TARGET_NEW_SCHEMA_NAMESPACE,
+                TARGET_NEW_TERMINAL_STATUS,
+                target_new_panel_specs,
+            )
+
+            target_kwargs = {
+                "panel_specs": target_new_panel_specs(),
+                "panel_instruction_id": TARGET_NEW_INSTRUCTION_ID,
+                "panel_schema_namespace": TARGET_NEW_SCHEMA_NAMESPACE,
+                "panel_terminal_status": TARGET_NEW_TERMINAL_STATUS,
+            }
 
         return run_adaptive_diagnostic(
             model,
@@ -3440,6 +3501,7 @@ def run_p1(
             cuda_runtime_receipt=cuda_runtime_receipt,
             job_ledger=job_ledger,
             write_once=_atomic_write_once,
+            **target_kwargs,
         )
     if diagnostic_mode:
         return _run_terminal_component_diagnostic(
@@ -3796,8 +3858,10 @@ def _sanitized_failure(
             relative = Path(frame.filename).resolve().relative_to(repo_root).as_posix()
         except (ValueError, OSError):
             continue
-        if relative.startswith("project/run_scripts/ode_bf/") or relative.startswith(
-            "project/run_scripts/session04_ode_bf_"
+        if (
+            relative.startswith("project/run_scripts/ode_bf/")
+            or relative.startswith("project/run_scripts/session04_ode_bf_")
+            or relative.startswith("project/run_scripts/session05_ode_bf_")
         ):
             frames.append(
                 {"file": relative, "function": frame.name, "line": frame.lineno}
@@ -3815,6 +3879,7 @@ def write_p1_failure_once(
     *,
     repo_root: Path,
     instruction_id: str = INSTRUCTION_ID,
+    failure_schema: str | None = None,
 ) -> tuple[str, dict[str, Any]]:
     output_root.mkdir(mode=0o700, parents=True, exist_ok=True)
     raw = output_root / "raw"
@@ -3824,12 +3889,22 @@ def write_p1_failure_once(
     if stage_files:
         last_stage = json.loads(stage_files[-1].read_text(encoding="utf-8"))["stage"]
     diagnostic_links = diagnostic_receipt_links(raw)
-    failure = {
-        "schema": (
+    schema = failure_schema
+    if schema is None:
+        schema = (
             "ode-edit-s04-ode-bf-p1r4diag-failure/v1"
             if instruction_id == DIAGNOSTIC_INSTRUCTION_ID
             else "ode-edit-s04-ode-bf-p1r2-failure/v2"
-        ),
+        )
+    elif (
+        not isinstance(schema, str)
+        or not schema.startswith("ode-edit-")
+        or not schema.endswith("/v1")
+        or any(character.isspace() for character in schema)
+    ):
+        raise ODEBFContractError("P1 failure schema differs")
+    failure = {
+        "schema": schema,
         "instruction_id": instruction_id,
         "status": "FAIL_CLOSED_NO_RETRY",
         "last_completed_stage": last_stage,

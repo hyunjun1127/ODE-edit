@@ -105,10 +105,19 @@ class ODEBFArtifactReceipt:
     cpu_sampling_seal_sha256: str
     held_ode_alloc_tree_sha256: str
     held_ode_alloc_file_count: int
+    held_ode_alloc_verified: bool
+    held_ode_alloc_used: bool
 
 
 class ODEBFArtifactGuard:
-    def __init__(self, repo_root: Path, lock_path: Path, alias: str) -> None:
+    def __init__(
+        self,
+        repo_root: Path,
+        lock_path: Path,
+        alias: str,
+        *,
+        require_held_ode_alloc: bool = True,
+    ) -> None:
         if alias not in MODEL_ALIASES:
             raise ODEBFContractError("unknown ODE-BF model alias")
         self.repo_root = repo_root.resolve(strict=True)
@@ -122,6 +131,7 @@ class ODEBFArtifactGuard:
         self.evaluator_root = Path(self.value["alphaedit_evaluator_root"]).resolve(strict=True)
         self.hf_hub_cache = Path(self.value["hf_hub_cache"]).resolve(strict=True)
         self.spec: Mapping[str, Any] = self.value["models"][alias]
+        self.require_held_ode_alloc = bool(require_held_ode_alloc)
         self.hparams = _safe_relative(self.easyedit_root, self.spec["hparams_path"])
         self.projector = _safe_relative(self.easyedit_root, self.spec["projector_path"])
         base_relative = self.value["base_model_artifact_lock"]["path"]
@@ -219,14 +229,19 @@ class ODEBFArtifactGuard:
             raise ODEBFContractError("canonical ODE-BF proposal blob differs")
 
         held = self.value["held_ode_alloc_local"]
-        held_root = _safe_relative(self.repo_root, held["relative_path"])
-        held_digest, held_count = sha256_regular_tree(held_root)
-        if (
-            held_digest != held["tree_sha256"]
-            or held_count != held["file_count"]
-        ):
-            raise ODEBFContractError("held ODE-Alloc local artifact tree differs")
-        self._held_tree = (held_root, held_digest, held_count)
+        held_digest = str(held["tree_sha256"])
+        held_count = int(held["file_count"])
+        if self.require_held_ode_alloc:
+            held_root = _safe_relative(self.repo_root, held["relative_path"])
+            observed_digest, observed_count = sha256_regular_tree(held_root)
+            if (
+                observed_digest != held_digest
+                or observed_count != held_count
+            ):
+                raise ODEBFContractError(
+                    "held ODE-Alloc local artifact tree differs"
+                )
+            self._held_tree = (held_root, observed_digest, observed_count)
 
         return ODEBFArtifactReceipt(
             self.alias,
@@ -244,6 +259,8 @@ class ODEBFArtifactGuard:
             lock_digests["project/run_scripts/ode_bf/locks/p0_cpu_sampling_seal.json"],
             held_digest,
             held_count,
+            self.require_held_ode_alloc,
+            False,
         )
 
     def assert_unchanged(self) -> None:
@@ -253,8 +270,9 @@ class ODEBFArtifactGuard:
         for path, expected in self._fingerprints.items():
             if _fingerprint(path) != expected:
                 raise ODEBFContractError("locked ODE-BF artifact changed during execution")
-        if self._held_tree is None:
+        if self.require_held_ode_alloc and self._held_tree is None:
             raise ODEBFContractError("held ODE-Alloc artifact tree was not preflighted")
-        held_root, held_digest, held_count = self._held_tree
-        if sha256_regular_tree(held_root) != (held_digest, held_count):
-            raise ODEBFContractError("held ODE-Alloc local artifact tree changed")
+        if self._held_tree is not None:
+            held_root, held_digest, held_count = self._held_tree
+            if sha256_regular_tree(held_root) != (held_digest, held_count):
+                raise ODEBFContractError("held ODE-Alloc local artifact tree changed")

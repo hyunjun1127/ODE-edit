@@ -427,9 +427,9 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
     def test_non_residual_scientific_files_and_decision_order_remain_frozen(self) -> None:
         root = Path(__file__).resolve().parents[1]
         expected = {
-            "routing.py": "9218a0a0e25098b85658640a6d280d40bdafcd80d9d824f96122d0c19b1809ff",
+            "routing.py": "2048078be5eb6bb1998032747ddfd1fc9b6a4eb1bce945b1a34833cab1ce2976",
             "barriers.py": "b3d59cf7db3c3cc00e318115228777518ce6731c4797ec589a298319ce18c9f9",
-            "p1_controller.py": "1015f02a81921abec1208bf892339266af4f415077dbbf7c050b6b5f581d8b3b",
+            "p1_controller.py": "1ef404142e5d82739a4037ecea885a5f296276c4c76c9427bc0576ae667eb2d4",
             "p1_evaluator.py": "a574b7566b4fc5ee1ff76fdcd19feb829d5eec8b7158b2f91542344c416b0381",
             "p1_state.py": "700aa763361748cb1b089d5d0d228832ac405b9fdbb1bdf281e6beeaf174e9a8",
             "transaction.py": "95540b9e2df393b8aa0d59973a3a553272b64495b682e11829977d956966db7d",
@@ -437,6 +437,19 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
         for name, digest in expected.items():
             observed = hashlib.sha256((root / name).read_bytes()).hexdigest()
             self.assertEqual(observed, digest, name)
+
+        # S05 adds only an observation callback at the certificate boundary.
+        # The receipt is emitted before a failing certificate raises, while
+        # the solver result and all tolerances remain owned by routing.py.
+        from project.run_scripts.ode_bf import routing
+
+        solve_source = inspect.getsource(routing._solve)
+        self.assertLess(
+            solve_source.index("certificate_observer(certificate)"),
+            solve_source.index("if not certificate.passed:"),
+        )
+        self.assertIn("primal_tolerance=primal_tolerance", solve_source)
+        self.assertIn("kkt_tolerance=kkt_tolerance", solve_source)
 
         source = inspect.getsource(_run_nonnative_rollout)
         self.assertLess(source.index("if diagnostic_stop_at_terminal:"), source.index(

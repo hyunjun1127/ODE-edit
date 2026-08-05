@@ -26,6 +26,12 @@ from .contracts import BATCH_SIZE, ODEBFContractError, ODEBFStateError, canonica
 from .evaluator import ModelEvaluationReceipt
 from .first_hit import FeasibilityVerdict
 from .functional import CumulativeBF16FunctionalTrial, WaypointFactor, tensor_sha256
+from .layer_routing_telemetry import (
+    LAYER_IDS as ROUTING_LAYER_IDS,
+    build_layer_routing_telemetry,
+    relabel_layer_routing_telemetry,
+    summarize_layer_routing_trajectory,
+)
 from .p0_runtime import ModelForwardCounter
 from .p1_adaptive import (
     ADAPTIVE_INSTRUCTION_ID,
@@ -55,6 +61,7 @@ from .p1_backend import (
     build_p1_frozen_field_from_capture,
     capture_p1_native_entry,
     evaluate_controller_margin,
+    evaluate_routing_progress,
     signed_progress_gradient,
     write_aware_target_velocity,
 )
@@ -85,8 +92,14 @@ from .p1_stepwise import (
     compare_stepwise_primary,
     evaluate_counterfact_stepwise_primary,
 )
-from .routing import RoutingProblem, RoutingStatus, verify_backtracked_candidate
+from .routing import (
+    RoutingProblem,
+    RoutingStatus,
+    SolverCertificate,
+    verify_backtracked_candidate,
+)
 from .sampling import StatelessReplaySchedule
+from .target_new_nll import RoutingObjective, select_locked_routing_objective
 
 
 ADAPTIVE_RESULT_TOKEN = "p1r4-adaptive-tau-causal-r2-v1"
@@ -94,6 +107,38 @@ ADAPTIVE_RESULT_TOKEN = "p1r4-adaptive-tau-causal-r2-v1"
 
 def expected_adaptive_result_name(alias: str) -> str:
     return f"s04-p1r4-adaptive-tau-r2-{alias}-v1"
+
+
+@dataclass(frozen=True, slots=True)
+class AdaptivePanelSpec:
+    label: str
+    clock_variant: AdaptiveVariant
+    routing_objective: RoutingObjective
+
+    def __post_init__(self) -> None:
+        if not self.label or "/" in self.label or self.label in (".", ".."):
+            raise ODEBFContractError("adaptive panel label differs")
+        select_locked_routing_objective(self.routing_objective)
+
+    @property
+    def legacy_key(self) -> AdaptiveVariant | str:
+        return (
+            self.clock_variant
+            if self.label == self.clock_variant.value
+            and self.routing_objective is RoutingObjective.MARGIN
+            else self.label
+        )
+
+
+def _default_panel_specs() -> tuple[AdaptivePanelSpec, ...]:
+    return tuple(
+        AdaptivePanelSpec(
+            item.value,
+            item,
+            RoutingObjective.MARGIN,
+        )
+        for item in ADAPTIVE_VARIANTS
+    )
 
 
 def _factor_map(
@@ -196,7 +241,7 @@ def _rng_identity() -> str:
 
 
 def _parameter_contract(parameters: Mapping[str, torch.nn.Parameter]) -> dict[str, Any]:
-    return {
+    payload = {
         "weights": {
             name: {
                 "bytes_sha256": tensor_sha256(parameter),
@@ -211,6 +256,7 @@ def _parameter_contract(parameters: Mapping[str, torch.nn.Parameter]) -> dict[st
         },
         "rng_sha256": _rng_identity(),
     }
+    return payload
 
 
 def _parameter_contract_sha256(parameters: Mapping[str, torch.nn.Parameter]) -> str:
@@ -218,33 +264,62 @@ def _parameter_contract_sha256(parameters: Mapping[str, torch.nn.Parameter]) -> 
 
 
 class AdaptiveReceiptRecorder:
-    def __init__(self, root: Path, variant: AdaptiveVariant, write_once: Any) -> None:
-        self.root = root / "adaptive" / variant.value
+    def __init__(
+        self,
+        root: Path,
+        variant: AdaptiveVariant,
+        write_once: Any,
+        *,
+        variant_label: str | None = None,
+        instruction_id: str = ADAPTIVE_INSTRUCTION_ID,
+        receipt_schema: str = "ode-edit-s04-ode-bf-p1r4-adaptive-receipt/v1",
+    ) -> None:
+        label = variant.value if variant_label is None else variant_label
+        if not label or "/" in label or label in (".", ".."):
+            raise ODEBFContractError("adaptive receipt variant label differs")
+        self.root = root / "adaptive" / label
         self.variant = variant
+        self.variant_label = label
+        self.instruction_id = instruction_id
+        self.receipt_schema = receipt_schema
         self.write_once = write_once
         self.field_hashes: list[str] = []
+        self.solver_hashes: list[str] = []
         self.trial_hashes: list[str] = []
         self.transition_hashes: list[str] = []
         self.accepted_hashes: list[str] = []
+        self.first_hit_hashes: list[str] = []
         self.terminal_hashes: list[str] = []
+        self.observation_failures: list[dict[str, str]] = []
 
     def _write(self, category: str, ordinal: int, payload: Mapping[str, Any]) -> str:
         path = self.root / f"{category}-{ordinal:04d}.json"
+        envelope = {
+            "schema": self.receipt_schema,
+            "instruction_id": self.instruction_id,
+            "variant": self.variant_label,
+            "category": category,
+            "ordinal": ordinal,
+            **dict(payload),
+        }
+        if (
+            self.variant_label != self.variant.value
+            or self.instruction_id != ADAPTIVE_INSTRUCTION_ID
+        ):
+            envelope["clock_variant"] = self.variant.value
         return self.write_once(
             path,
-            {
-                "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-receipt/v1",
-                "instruction_id": ADAPTIVE_INSTRUCTION_ID,
-                "variant": self.variant.value,
-                "category": category,
-                "ordinal": ordinal,
-                **dict(payload),
-            },
+            envelope,
         )
 
     def field(self, payload: Mapping[str, Any]) -> str:
         digest = self._write("field", len(self.field_hashes), payload)
         self.field_hashes.append(digest)
+        return digest
+
+    def solver(self, payload: Mapping[str, Any]) -> str:
+        digest = self._write("solver", len(self.solver_hashes), payload)
+        self.solver_hashes.append(digest)
         return digest
 
     def trial(self, payload: Mapping[str, Any]) -> str:
@@ -264,6 +339,13 @@ class AdaptiveReceiptRecorder:
         self.accepted_hashes.append(digest)
         return digest
 
+    def first_hit(self, payload: Mapping[str, Any]) -> str:
+        digest = self._write(
+            "first-hit", len(self.first_hit_hashes), payload
+        )
+        self.first_hit_hashes.append(digest)
+        return digest
+
     def terminal(self, payload: Mapping[str, Any]) -> str:
         digest = self._write("terminal", len(self.terminal_hashes), payload)
         self.terminal_hashes.append(digest)
@@ -272,11 +354,204 @@ class AdaptiveReceiptRecorder:
     def links(self) -> dict[str, list[str]]:
         return {
             "field": list(self.field_hashes),
+            "solver": list(self.solver_hashes),
             "trial": list(self.trial_hashes),
             "transition": list(self.transition_hashes),
             "accepted": list(self.accepted_hashes),
+            "first_hit": list(self.first_hit_hashes),
             "terminal": list(self.terminal_hashes),
         }
+
+    def note_observation_failure(self, category: str, exc: BaseException) -> None:
+        self.observation_failures.append(
+            {
+                "category": category,
+                "exception_class": type(exc).__name__,
+                "exception_message_sha256": hashlib.sha256(
+                    str(exc).encode("utf-8")
+                ).hexdigest(),
+            }
+        )
+
+    def assert_observation_complete(self) -> None:
+        if self.observation_failures:
+            raise ODEBFContractError(
+                "adaptive observation-only receipt persistence failed"
+            )
+
+
+def _solver_observability_payload(
+    certificate: SolverCertificate,
+    *,
+    problem: RoutingProblem,
+    accepted_index: int,
+    solve_role: str,
+    routing_objective: RoutingObjective,
+) -> dict[str, Any]:
+    """Build an append-safe receipt before a solver certificate can raise."""
+
+    primal_tolerance = 1.0e-8
+    kkt_tolerance = 1.0e-5
+    numeric = (
+        certificate.maximum_primal_violation,
+        certificate.stationarity_residual,
+        certificate.complementarity_residual,
+        certificate.signed_progress,
+        certificate.trust_value,
+    )
+    finite_flag = all(math.isfinite(float(value)) for value in numeric)
+    if not finite_flag:
+        first_false = "finite"
+    elif not certificate.success:
+        first_false = "solver_success"
+    elif certificate.maximum_primal_violation > primal_tolerance:
+        first_false = "maximum_primal_violation"
+    elif certificate.stationarity_residual > kkt_tolerance:
+        first_false = "stationarity_residual"
+    elif certificate.complementarity_residual > kkt_tolerance:
+        first_false = "complementarity_residual"
+    else:
+        first_false = None
+    capacity_eigenvalues = np.linalg.eigvalsh(problem.capacity_metric)
+    trust_eigenvalues = np.linalg.eigvalsh(problem.trust_metric)
+    capacity_min = float(capacity_eigenvalues.min())
+    capacity_max = float(capacity_eigenvalues.max())
+    trust_min = float(trust_eigenvalues.min())
+    trust_max = float(trust_eigenvalues.max())
+
+    def condition(maximum: float, minimum: float) -> float | None:
+        value = maximum / minimum if minimum > 0.0 else math.inf
+        return float(value) if math.isfinite(value) else None
+
+    return {
+        "status": (
+            "SOLVER_CERTIFICATE_PASSED"
+            if certificate.passed
+            else "SOLVER_CERTIFICATE_FAILED"
+        ),
+        "accepted_index": accepted_index,
+        "solve_role": solve_role,
+        "routing_objective": routing_objective.value,
+        "problem_sha256": problem.identity(),
+        "certificate": asdict(certificate),
+        "thresholds": {
+            "primal": primal_tolerance,
+            "stationarity": kkt_tolerance,
+            "complementarity": kkt_tolerance,
+        },
+        "finite": finite_flag,
+        "first_false_component": first_false,
+        "conditioning": {
+            "dimension": int(problem.signed_progress.size),
+            "positive_direction_count": int(
+                np.count_nonzero(problem.positive_direction_mask)
+            ),
+            "capacity_min_eigenvalue": capacity_min,
+            "capacity_max_eigenvalue": capacity_max,
+            "capacity_condition_number": condition(capacity_max, capacity_min),
+            "trust_min_eigenvalue": trust_min,
+            "trust_max_eigenvalue": trust_max,
+            "trust_condition_number": condition(trust_max, trust_min),
+        },
+        "constraints": {
+            "requested_progress": problem.requested_progress,
+            "minimum_progress": problem.minimum_progress,
+            "trust_radius": problem.trust_radius,
+            "layer_cap_min": float(problem.layer_caps.min()),
+            "layer_cap_max": float(problem.layer_caps.max()),
+            "historical_entry_slack": (
+                problem.historical.budget - problem.historical.offset
+            ),
+            "pretrained_entry_slack": (
+                problem.pretrained.budget - problem.pretrained.offset
+            ),
+        },
+    }
+
+
+def _solver_certificate_observer(
+    *,
+    recorder: AdaptiveReceiptRecorder,
+    problem: RoutingProblem,
+    accepted_index: int,
+    solve_role: str,
+    routing_objective: RoutingObjective,
+) -> Any:
+    """Return a failure-isolated observer called before certificate raises."""
+
+    def observe(certificate: SolverCertificate) -> None:
+        try:
+            recorder.solver(
+                _solver_observability_payload(
+                    certificate,
+                    problem=problem,
+                    accepted_index=accepted_index,
+                    solve_role=solve_role,
+                    routing_objective=routing_objective,
+                )
+            )
+        except BaseException as exc:
+            recorder.note_observation_failure("solver", exc)
+
+    return observe
+
+
+def _field_layer_routing_payload(
+    *,
+    field: P1DynamicField,
+    signed_progress: Sequence[float],
+    problem: RoutingProblem,
+    raw_velocity: Sequence[float],
+    bf_velocity: Sequence[float],
+    raw_certificate: SolverCertificate,
+    bf_certificate: SolverCertificate,
+    state_sha256: str,
+    target_z_sha256: str,
+    factor_state_sha256: str,
+    step_index: int,
+) -> dict[str, Any]:
+    layers = tuple(int(item.layer) for item in field.layers)
+    if layers != ROUTING_LAYER_IDS:
+        raise ODEBFContractError("adaptive field telemetry layer order differs")
+    signed = np.asarray(signed_progress, dtype=np.float64)
+    raw = np.asarray(raw_velocity, dtype=np.float64)
+    bf = np.asarray(bf_velocity, dtype=np.float64)
+    caps = np.asarray(problem.layer_caps, dtype=np.float64)
+    zero = np.zeros(len(layers), dtype=np.float64)
+    payload = build_layer_routing_telemetry(
+        step_index=step_index,
+        stage="FIELD",
+        layer_ids=layers,
+        signed_efficiency=signed,
+        raw_velocity=raw,
+        bf_velocity=bf,
+        applied_coefficient=zero,
+        active_direction_mask=signed > 0.0,
+        raw_cap_bound_mask=np.isclose(raw, caps, rtol=0.0, atol=1.0e-12),
+        bf_cap_bound_mask=np.isclose(bf, caps, rtol=0.0, atol=1.0e-12),
+        raw_zero_bound_mask=np.isclose(raw, 0.0, rtol=0.0, atol=1.0e-12),
+        bf_zero_bound_mask=np.isclose(bf, 0.0, rtol=0.0, atol=1.0e-12),
+        predicted_progress_contribution=signed * bf,
+        prequantized_update_energy=zero,
+        realized_bf16_update_energy=zero,
+        cumulative_bf16_capacity=zero,
+        bf16_capacity_contribution=zero,
+        structural_h_contribution=zero,
+        structural_p_contribution=zero,
+        trust_contribution=zero,
+        field_sha256=field.identity_sha256,
+        state_sha256=state_sha256,
+        target_z_sha256=target_z_sha256,
+        factor_state_sha256=factor_state_sha256,
+        raw_solver_certificate_sha256=canonical_hash(asdict(raw_certificate)),
+        bf_solver_certificate_sha256=canonical_hash(asdict(bf_certificate)),
+        candidate_sha256=None,
+    )
+    payload["trial_dependent_vectors_defined"] = False
+    payload["identity_sha256"] = canonical_hash(
+        {key: value for key, value in payload.items() if key != "identity_sha256"}
+    )
+    return payload
 
 
 @dataclass(slots=True)
@@ -292,6 +567,7 @@ class ActiveField:
     target_velocity: torch.Tensor
     target_velocity_receipt: Any
     receipt_sha256: str
+    layer_routing_payload: dict[str, Any]
 
 
 @dataclass(slots=True)
@@ -337,6 +613,7 @@ class AcceptedSnapshot:
 class VariantRollout:
     variant: AdaptiveVariant
     status: str
+    termination_label: str
     residual_policy: str
     accepted_t: Fraction
     k_acc: int
@@ -350,6 +627,8 @@ class VariantRollout:
     entry_success: dict[str, Any]
     terminal_confirmation: list[dict[str, Any]]
     rollout_sha256: str
+    variant_label: str = ""
+    routing_objective: str = RoutingObjective.MARGIN.value
 
 
 def _risk_payload(receipt: Any) -> dict[str, Any]:
@@ -444,7 +723,9 @@ def _build_active_field(
     recorder: AdaptiveReceiptRecorder,
     native_target: torch.Tensor,
     target_base: torch.Tensor,
+    routing_objective: RoutingObjective | str = RoutingObjective.MARGIN,
 ) -> ActiveField:
+    selected_objective = select_locked_routing_objective(routing_objective)
     layers = tuple(int(layer) for layer in hparams.layers)
     policy = _residual_policy(variant)
     started = time.perf_counter()
@@ -490,6 +771,8 @@ def _build_active_field(
         field,
         cumulative_factors_by_weight=factors,
         ledger=ledger,
+        objective=selected_objective,
+        contexts=contexts if selected_objective is RoutingObjective.TARGET_NEW_NLL else None,
     )
     source = build_p1_routing_problem(
         field,
@@ -498,7 +781,17 @@ def _build_active_field(
         committed_load_by_layer=history.cumulative_load(),
         lock=lock,
     )
-    raw = solve_matched_raw_velocity(source)
+    raw_observer = _solver_certificate_observer(
+        recorder=recorder,
+        problem=source.problem,
+        accepted_index=accepted_index,
+        solve_role="RAW_ROUTING",
+        routing_objective=selected_objective,
+    )
+    raw = solve_matched_raw_velocity(
+        source,
+        certificate_observer=raw_observer,
+    )
     ledger.increment("qp_solve", 2)
     ledger.increment("qp_certificate", 2)
     barrier = build_p1_routing_problem(
@@ -509,33 +802,84 @@ def _build_active_field(
         lock=lock,
         current_history_action_by_layer=_history_actions(field, history),
     )
-    projection = project_matched_bf_velocity(barrier, raw)
+    bf_observer = _solver_certificate_observer(
+        recorder=recorder,
+        problem=barrier.problem,
+        accepted_index=accepted_index,
+        solve_role="BF_PROJECTION",
+        routing_objective=selected_objective,
+    )
+    projection = project_matched_bf_velocity(
+        barrier,
+        raw,
+        certificate_observer=bf_observer,
+    )
     ledger.increment("qp_solve", 2)
     ledger.increment("qp_certificate", 2)
     if projection.status is not RoutingStatus.FEASIBLE or projection.values is None:
-        recorder.field(
+        field_state_sha256 = _factor_state(
+            capture.entry_sha256,
+            factors,
+            target_state,
+        )
+        failure_payload = {
+            "accepted_index": accepted_index,
+            "status": "PROGRESS_INFEASIBLE",
+            "residual_policy": policy,
+            "field": field.raw_free_payload(),
+            "field_sha256": field.identity_sha256,
+            "signed_slopes": list(signed.signed_progress),
+            "signed_slopes_sha256": canonical_hash(list(signed.signed_progress)),
+            "raw_velocity": raw.values.tolist(),
+            "raw_velocity_sha256": raw.velocity_sha256,
+            "raw_certificate": asdict(raw.certificate),
+            "projection_status": projection.status.value,
+            "projection_certificate": asdict(projection.certificate),
+            "field_build_wall_seconds": time.perf_counter() - started,
+            "field_build_counter_delta": {
+                name: ledger.counters[name] - counter_before[name]
+                for name in sorted(ledger.counters)
+            },
+        }
+        failure_payload["layer_routing"] = _field_layer_routing_payload(
+            field=field,
+            signed_progress=signed.signed_progress,
+            problem=barrier.problem,
+            raw_velocity=raw.values,
+            bf_velocity=np.zeros(len(field.layers), dtype=np.float64),
+            raw_certificate=raw.certificate,
+            bf_certificate=projection.certificate,
+            state_sha256=field_state_sha256,
+            target_z_sha256=canonical_hash(list(capture.direct_z_sha256)),
+            factor_state_sha256=field_state_sha256,
+            step_index=accepted_index,
+        )
+        failure_payload["layer_routing"]["bf_velocity_defined"] = False
+        failure_payload["layer_routing"]["identity_sha256"] = canonical_hash(
             {
-                "accepted_index": accepted_index,
-                "status": "PROGRESS_INFEASIBLE",
-                "residual_policy": policy,
-                "field": field.raw_free_payload(),
-                "field_sha256": field.identity_sha256,
-                "signed_slopes": list(signed.signed_progress),
-                "signed_slopes_sha256": canonical_hash(
-                    list(signed.signed_progress)
-                ),
-                "raw_velocity": raw.values.tolist(),
-                "raw_velocity_sha256": raw.velocity_sha256,
-                "raw_certificate": asdict(raw.certificate),
-                "projection_status": projection.status.value,
-                "projection_certificate": asdict(projection.certificate),
-                "field_build_wall_seconds": time.perf_counter() - started,
-                "field_build_counter_delta": {
-                    name: ledger.counters[name] - counter_before[name]
-                    for name in sorted(ledger.counters)
-                },
+                key: value
+                for key, value in failure_payload["layer_routing"].items()
+                if key != "identity_sha256"
             }
         )
+        if (
+            selected_objective is not RoutingObjective.MARGIN
+            or recorder.variant_label != variant.value
+        ):
+            failure_payload.update(
+                {
+                    "routing_objective": selected_objective.value,
+                    "target_state_objective": "MARGIN_LOCKED",
+                    "target_old_access_count": signed.target_old_access_count,
+                    "routing_context_sha256": signed.routing_context_sha256,
+                    "routing_context_count": signed.routing_context_count,
+                    "routing_context_group_sizes": list(
+                        signed.routing_context_group_sizes
+                    ),
+                    "routing_backward_count": signed.routing_backward_count,
+                }
+            )
+        recorder.field(failure_payload)
         raise ODEBFContractError("PROGRESS_INFEASIBLE: adaptive BF field")
     raw_velocity = StepSizeIndependentVelocity.from_controller_values(
         field.identity_sha256, raw.values
@@ -580,19 +924,58 @@ def _build_active_field(
             for name in sorted(ledger.counters)
         },
     }
+    field_state_sha256 = _factor_state(
+        capture.entry_sha256,
+        factors,
+        target_state,
+    )
+    payload["layer_routing"] = _field_layer_routing_payload(
+        field=field,
+        signed_progress=signed.signed_progress,
+        problem=barrier.problem,
+        raw_velocity=raw_velocity.velocity,
+        bf_velocity=bf_velocity.velocity,
+        raw_certificate=raw.certificate,
+        bf_certificate=projection.certificate,
+        state_sha256=field_state_sha256,
+        target_z_sha256=canonical_hash(list(capture.direct_z_sha256)),
+        factor_state_sha256=field_state_sha256,
+        step_index=accepted_index,
+    )
+    if (
+        selected_objective is not RoutingObjective.MARGIN
+        or recorder.variant_label != variant.value
+    ):
+        payload.update(
+            {
+                "routing_objective": selected_objective.value,
+                "routing_objective_receipt_sha256": (
+                    signed.objective_receipt_sha256
+                ),
+                "routing_context_sha256": signed.routing_context_sha256,
+                "routing_context_count": signed.routing_context_count,
+                "routing_context_group_sizes": list(
+                    signed.routing_context_group_sizes
+                ),
+                "routing_backward_count": signed.routing_backward_count,
+                "target_old_access_count": signed.target_old_access_count,
+                "target_state_objective": "MARGIN_LOCKED",
+            }
+        )
     receipt_sha256 = recorder.field(payload)
     return ActiveField(
-        field,
-        signed,
-        barrier,
-        barrier.problem,
-        raw,
-        raw_velocity,
-        bf_velocity,
-        projection,
-        target_velocity,
-        target_receipt,
-        receipt_sha256,
+        field=field,
+        signed_progress=signed,
+        routing=barrier,
+        problem=barrier.problem,
+        raw=raw,
+        raw_velocity=raw_velocity,
+        bf_velocity=bf_velocity,
+        projection=projection,
+        target_velocity=target_velocity,
+        target_velocity_receipt=target_receipt,
+        receipt_sha256=receipt_sha256,
+        layer_routing_payload=dict(payload["layer_routing"]),
     )
 
 
@@ -697,6 +1080,14 @@ def _capacity_payload(
     signed_slopes: Sequence[float],
     p_self: Sequence[float],
     previous_bf_velocity: Sequence[float] | None,
+    field_problem: RoutingProblem,
+    raw_certificate: SolverCertificate,
+    bf_certificate: SolverCertificate,
+    step_index: int,
+    state_sha256: str,
+    target_z_sha256: str,
+    factor_state_sha256: str,
+    candidate_sha256: str,
 ) -> dict[str, Any]:
     layers: list[int] = []
     requested_frobenius: list[float] = []
@@ -728,6 +1119,55 @@ def _capacity_payload(
         actual_step.append(receipt.step_energy)
         cumulative.append(receipt.cumulative_energy)
         streaming_receipts[str(layer_field.layer)] = asdict(receipt)
+    layer_ids = tuple(layers)
+    if layer_ids != ROUTING_LAYER_IDS:
+        raise ODEBFContractError("adaptive telemetry layer order differs")
+    applied_array = np.asarray(applied, dtype=np.float64)
+    historical_contribution = (
+        2.0 * field_problem.historical.linear * applied_array
+        + applied_array * (field_problem.historical.gram @ applied_array)
+    )
+    pretrained_contribution = (
+        2.0 * field_problem.pretrained.linear * applied_array
+        + applied_array * (field_problem.pretrained.gram @ applied_array)
+    )
+    trust_contribution = applied_array * (
+        field_problem.trust_metric @ applied_array
+    )
+    raw_array = np.asarray(raw_velocity, dtype=np.float64)
+    bf_array = np.asarray(bf_velocity, dtype=np.float64)
+    caps = np.asarray(field_problem.layer_caps, dtype=np.float64)
+    layer_routing = build_layer_routing_telemetry(
+        step_index=step_index,
+        stage="TRIAL",
+        layer_ids=layer_ids,
+        signed_efficiency=signed_slopes,
+        raw_velocity=raw_velocity,
+        bf_velocity=bf_velocity,
+        applied_coefficient=applied,
+        active_direction_mask=np.asarray(signed_slopes, dtype=np.float64) > 0.0,
+        raw_cap_bound_mask=np.isclose(raw_array, caps, rtol=0.0, atol=1.0e-12),
+        bf_cap_bound_mask=np.isclose(bf_array, caps, rtol=0.0, atol=1.0e-12),
+        raw_zero_bound_mask=np.isclose(raw_array, 0.0, rtol=0.0, atol=1.0e-12),
+        bf_zero_bound_mask=np.isclose(bf_array, 0.0, rtol=0.0, atol=1.0e-12),
+        predicted_progress_contribution=(
+            np.asarray(signed_slopes, dtype=np.float64) * applied_array
+        ),
+        prequantized_update_energy=requested_frobenius,
+        realized_bf16_update_energy=actual_step,
+        cumulative_bf16_capacity=cumulative,
+        bf16_capacity_contribution=actual_step,
+        structural_h_contribution=historical_contribution,
+        structural_p_contribution=pretrained_contribution,
+        trust_contribution=trust_contribution,
+        field_sha256=field.identity_sha256,
+        state_sha256=state_sha256,
+        target_z_sha256=target_z_sha256,
+        factor_state_sha256=factor_state_sha256,
+        raw_solver_certificate_sha256=canonical_hash(asdict(raw_certificate)),
+        bf_solver_certificate_sha256=canonical_hash(asdict(bf_certificate)),
+        candidate_sha256=candidate_sha256,
+    )
     result = {
         "layers": layers,
         "raw_velocity": concentration_summary(raw_velocity),
@@ -746,6 +1186,7 @@ def _capacity_payload(
             else routing_change(previous_bf_velocity, bf_velocity)
         ),
         "streaming_receipts": streaming_receipts,
+        "layer_routing": layer_routing,
         "dense_fp64_full_delta_live": 0,
         "dense_fp32_full_delta_live": 0,
         "effective_bf16_weight_peak_live": 1,
@@ -783,9 +1224,12 @@ def _run_trial(
     schedule: StatelessReplaySchedule,
     previous_bf_velocity: Sequence[float] | None,
     accepted_by_layer: Mapping[int, Sequence[AcceptedLayerContribution]],
+    contexts: Sequence[Sequence[str]],
+    routing_objective: RoutingObjective | str = RoutingObjective.MARGIN,
 ) -> TrialOutcome:
     from .p1_runtime import _controller_progress_telemetry
 
+    selected_objective = select_locked_routing_objective(routing_objective)
     if delta_tau <= 0 or delta_tau > H_REF:
         raise ODEBFContractError("adaptive trial delta_tau differs")
     trial_wall_started = time.perf_counter()
@@ -809,11 +1253,22 @@ def _run_trial(
         delta_tau=delta_tau,
     )
     candidate_factors = _merge_factors(current_factors, increment)
-    candidate_margin = evaluate_controller_margin(
-        model,
-        tokenizer,
-        requests,
-        cumulative_factors_by_weight=candidate_factors,
+    candidate_margin = (
+        evaluate_controller_margin(
+            model,
+            tokenizer,
+            requests,
+            cumulative_factors_by_weight=candidate_factors,
+        )
+        if selected_objective is RoutingObjective.MARGIN
+        else evaluate_routing_progress(
+            model,
+            tokenizer,
+            requests,
+            cumulative_factors_by_weight=candidate_factors,
+            objective=selected_objective,
+            contexts=contexts,
+        )
     )
     progress = _controller_progress_telemetry(current_margin, candidate_margin)
     functional = _functional_trial(
@@ -904,6 +1359,14 @@ def _run_trial(
         signed_slopes=active.signed_progress.signed_progress,
         p_self=active.routing.pretrained_self_risk,
         previous_bf_velocity=previous_bf_velocity,
+        field_problem=active.problem,
+        raw_certificate=active.raw.certificate,
+        bf_certificate=active.projection.certificate,
+        step_index=n_trial,
+        state_sha256=before_model,
+        target_z_sha256=canonical_hash(list(capture.direct_z_sha256)),
+        factor_state_sha256=before_factors,
+        candidate_sha256=snapshot_sha256,
     )
     after_model = _parameter_contract_sha256(touched)
     after_history = history.snapshot().digest
@@ -967,6 +1430,36 @@ def _run_trial(
         "per_request_improved_bits": list(progress.per_request_improved_bits),
         "per_request_harm_bits": list(progress.per_request_harm_bits),
     }
+    if (
+        selected_objective is not RoutingObjective.MARGIN
+        or recorder.variant_label != variant.value
+    ):
+        progress_payload.update(
+            {
+                "routing_objective": selected_objective.value,
+                "target_state_objective": "MARGIN_LOCKED",
+                "predicted_delta": verdict.predicted_beta_progress,
+                "actual_delta": progress.actual_signed_progress,
+                "rho_for_routing_objective": verdict.trust_ratio,
+                "target_old_decision_influence_count": 0
+                if selected_objective is RoutingObjective.TARGET_NEW_NLL
+                else BATCH_SIZE,
+            }
+        )
+        if isinstance(candidate_margin, TargetNewNLLReceipt):
+            progress_payload.update(
+                {
+                    "routing_context_sha256": candidate_margin.context_sha256,
+                    "routing_context_count": candidate_margin.context_count,
+                    "routing_context_group_sizes": list(
+                        candidate_margin.context_group_sizes
+                    ),
+                    "target_span_sha256": candidate_margin.target_span_sha256,
+                    "suffix_token_counts": list(
+                        candidate_margin.suffix_token_counts
+                    ),
+                }
+            )
     routing_payload = {
         "field_sha256": active.field.identity_sha256,
         "field_receipt_sha256": active.receipt_sha256,
@@ -999,50 +1492,58 @@ def _run_trial(
         "target_trial_sha256": tensor_sha256(target_trial),
         "target_weight_shared_delta_tau": True,
     }
-    receipt_sha256 = recorder.trial(
-        {
-            "accepted_index_before": accepted_index,
-            "n_trial": n_trial,
-            "retry_index": retry_index,
-            "tau_before": fraction_payload(tau_before),
-            "tau_after_candidate": fraction_payload(tau_before + delta_tau),
-            "eta_h_ref": fraction_payload(H_REF),
-            "delta_tau_proposed": fraction_payload(delta_tau_proposed),
-            "delta_tau_trial": fraction_payload(delta_tau),
-            "beta_diagnostic_alias": beta_alias,
-            "remainder": remainder,
-            "gate_accepted": verdict.accepted,
-            "first_rejecting_component": verdict.first_rejecting_gate,
-            "progress": progress_payload,
-            "structural_functional": structural,
-            "official_success": evaluation.batch_success.raw_free_payload(),
-            "canonical_rewrite": canonical_rewrite,
-            "canonical_rewrite_sha256": canonical_hash(canonical_rewrite),
-            "snapshot_sha256": snapshot_sha256,
-            "routing": routing_payload,
-            "capacity": capacity,
-            "compute": {
-                "counter_delta": counter_delta,
-                "wall_seconds": trial_wall_seconds,
-                "gpu_seconds": trial_gpu_seconds,
-                "peak_allocated_bytes": allocated_bytes,
-                "peak_reserved_bytes": reserved_bytes,
-                "host_maxrss_kib": host_maxrss_kib,
-            },
-            "purity": {
-                "model_before_sha256": before_model,
-                "model_after_sha256": after_model,
-                "history_before_sha256": before_history,
-                "history_after_sha256": after_history,
-                "sampler_before_sha256": before_sampler,
-                "sampler_after_sha256": after_sampler,
-                "state_before_sha256": before_factors,
-                "state_after_sha256": before_factors,
-                "omega_before_sha256": before_omega,
-                "omega_after_sha256": before_omega,
-            },
-        }
-    )
+    trial_payload = {
+        "accepted_index_before": accepted_index,
+        "n_trial": n_trial,
+        "retry_index": retry_index,
+        "tau_before": fraction_payload(tau_before),
+        "tau_after_candidate": fraction_payload(tau_before + delta_tau),
+        "eta_h_ref": fraction_payload(H_REF),
+        "delta_tau_proposed": fraction_payload(delta_tau_proposed),
+        "delta_tau_trial": fraction_payload(delta_tau),
+        "beta_diagnostic_alias": beta_alias,
+        "remainder": remainder,
+        "gate_accepted": verdict.accepted,
+        "first_rejecting_component": verdict.first_rejecting_gate,
+        "progress": progress_payload,
+        "structural_functional": structural,
+        "official_success": evaluation.batch_success.raw_free_payload(),
+        "canonical_rewrite": canonical_rewrite,
+        "canonical_rewrite_sha256": canonical_hash(canonical_rewrite),
+        "snapshot_sha256": snapshot_sha256,
+        "routing": routing_payload,
+        "capacity": capacity,
+        "compute": {
+            "counter_delta": counter_delta,
+            "wall_seconds": trial_wall_seconds,
+            "gpu_seconds": trial_gpu_seconds,
+            "peak_allocated_bytes": allocated_bytes,
+            "peak_reserved_bytes": reserved_bytes,
+            "host_maxrss_kib": host_maxrss_kib,
+        },
+        "purity": {
+            "model_before_sha256": before_model,
+            "model_after_sha256": after_model,
+            "history_before_sha256": before_history,
+            "history_after_sha256": after_history,
+            "sampler_before_sha256": before_sampler,
+            "sampler_after_sha256": after_sampler,
+            "state_before_sha256": before_factors,
+            "state_after_sha256": before_factors,
+            "omega_before_sha256": before_omega,
+            "omega_after_sha256": before_omega,
+        },
+    }
+    if (
+        selected_objective is not RoutingObjective.MARGIN
+        or recorder.variant_label != variant.value
+    ):
+        trial_payload["canonical_rewrite_role"] = (
+            "DIAGNOSTIC_ONLY"
+            if selected_objective is RoutingObjective.TARGET_NEW_NLL
+            else "LOCKED_MARGIN_DIAGNOSTIC_AND_OFFICIAL_SUCCESS"
+        )
+    receipt_sha256 = recorder.trial(trial_payload)
     return TrialOutcome(
         verdict.accepted,
         candidate_factors,
@@ -1066,6 +1567,25 @@ def _is_progress_infeasible(exc: BaseException) -> bool:
     return isinstance(exc, ODEBFContractError) and str(exc).startswith(
         "PROGRESS_INFEASIBLE:"
     )
+
+
+def _termination_label(*, status: str, exact_hit: bool) -> str:
+    if exact_hit:
+        return "EXACT_HIT"
+    if status in (
+        "TRIAL_CAP_EXHAUSTED",
+        "ACCEPTED_STEP_OR_HORIZON_CAP_UNREACHED",
+        "SAME_STATE_RETRY_EXHAUSTED",
+        "MIN_DT_EXHAUSTED",
+    ):
+        return status
+    if status in (
+        "PROGRESS_INFEASIBLE",
+        "TAU_COMPLETE",
+        "LEGACY_FIXED_S8_COMPLETE",
+    ):
+        return "TERMINAL_INFEASIBLE"
+    raise ODEBFContractError("adaptive termination taxonomy differs")
 
 
 def _append_accepted_snapshot(
@@ -1095,14 +1615,18 @@ def _append_accepted_snapshot(
     ledger.record_accepted_step(
         accepted_dt=float(delta_tau), completed_k_total=accepted_index
     )
-    first_hit.append(
-        FirstHitRecord(
-            accepted_index,
-            tau_after,
-            outcome.snapshot_sha256,
-            outcome.evaluation.batch_success.numerator,
-            outcome.feasibility.all_pass,
-        )
+    hit_record = FirstHitRecord(
+        accepted_index,
+        tau_after,
+        outcome.snapshot_sha256,
+        outcome.evaluation.batch_success.numerator,
+        outcome.feasibility.all_pass,
+    )
+    first_hit.append(hit_record)
+    is_first_hit = first_hit.first_online is hit_record
+    accepted_layer_routing = relabel_layer_routing_telemetry(
+        outcome.capacity_payload["layer_routing"],
+        stage="ACCEPTED_TRANSITION",
     )
     accepted_sha256 = recorder.accepted(
         {
@@ -1116,13 +1640,35 @@ def _append_accepted_snapshot(
             "bf_velocity_sha256": active.bf_velocity.velocity_sha256,
             "official_success": outcome.evaluation.batch_success.raw_free_payload(),
             "online_feasibility": asdict(outcome.feasibility),
+            "structural_functional": dict(outcome.structural_payload),
             "target_state_sha256": tensor_sha256(outcome.target_trial),
             "capacity_sha256": outcome.capacity_payload["identity_sha256"],
+            "layer_routing": accepted_layer_routing,
+            "first_hit_observed": is_first_hit,
             "target_weight_shared_delta_tau": True,
             "history_append_count": 0,
             "persistent_commit_count": 0,
         }
     )
+    if is_first_hit:
+        recorder.first_hit(
+            {
+                "accepted_index": accepted_index,
+                "tau": fraction_payload(tau_after),
+                "snapshot_sha256": outcome.snapshot_sha256,
+                "accepted_receipt_sha256": accepted_sha256,
+                "official_success": (
+                    outcome.evaluation.batch_success.raw_free_payload()
+                ),
+                "online_feasibility": asdict(outcome.feasibility),
+                "layer_routing": relabel_layer_routing_telemetry(
+                    outcome.capacity_payload["layer_routing"],
+                    stage="FIRST_HIT",
+                ),
+                "observation_only": True,
+                "controller_dependency_count": 0,
+            }
+        )
     return AcceptedSnapshot(
         accepted_index,
         tau_after,
@@ -1177,7 +1723,7 @@ def _terminal_confirm_snapshots(
         outer_entry_p_cache=outer_entry_p_cache,
     )
     values: list[dict[str, Any]] = []
-    for snapshot in snapshots:
+    for ordinal, snapshot in enumerate(snapshots):
         pair = _functional_trial(
             model,
             tokenizer,
@@ -1224,6 +1770,14 @@ def _terminal_confirm_snapshots(
             },
             "terminal_confirmed_exact_hit": exact,
             "trajectory_complete_required": True,
+            "layer_routing": relabel_layer_routing_telemetry(
+                snapshot.capacity_payload["layer_routing"],
+                stage=(
+                    "FINAL_ENDPOINT"
+                    if ordinal == len(snapshots) - 1
+                    else "SHADOW_ENDPOINT"
+                ),
+            ),
         }
         payload["receipt_sha256"] = recorder.terminal(payload)
         values.append(payload)
@@ -1252,10 +1806,16 @@ def _run_variant(
     theta0_cache: Theta0TeacherCache,
     touched: Mapping[str, torch.nn.Parameter],
     recorder: AdaptiveReceiptRecorder,
+    routing_objective: RoutingObjective | str = RoutingObjective.MARGIN,
+    variant_label: str | None = None,
 ) -> VariantRollout:
     """Run one isolated R_BF-controller variant without persistent mutation."""
 
     variant_lock = adaptive_lock(variant)
+    selected_objective = select_locked_routing_objective(routing_objective)
+    selected_label = variant.value if variant_label is None else variant_label
+    if recorder.variant_label != selected_label or recorder.variant is not variant:
+        raise ODEBFContractError("adaptive recorder/panel variant differs")
     layers = tuple(int(layer) for layer in hparams.layers)
     history = arm_state.history
     ledger = arm_state.ledger
@@ -1271,11 +1831,22 @@ def _run_variant(
     }
     snapshots: list[AcceptedSnapshot] = []
     first_hit = FirstHitTracker()
-    current_margin = evaluate_controller_margin(
-        model,
-        tokenizer,
-        requests,
-        cumulative_factors_by_weight=current_factors,
+    current_margin = (
+        evaluate_controller_margin(
+            model,
+            tokenizer,
+            requests,
+            cumulative_factors_by_weight=current_factors,
+        )
+        if selected_objective is RoutingObjective.MARGIN
+        else evaluate_routing_progress(
+            model,
+            tokenizer,
+            requests,
+            cumulative_factors_by_weight=current_factors,
+            objective=selected_objective,
+            contexts=contexts,
+        )
     )
     entry_eval = _evaluate_rewrite(
         model,
@@ -1292,6 +1863,7 @@ def _run_variant(
     previous_bf_velocity: tuple[float, ...] | None = None
     status = "ACTIVE"
     active: ActiveField | None = None
+    initial_layer_routing: dict[str, Any] | None = None
     try:
         active = _build_active_field(
             model,
@@ -1314,8 +1886,10 @@ def _run_variant(
             recorder=recorder,
             native_target=native_target,
             target_base=target_base,
+            routing_objective=selected_objective,
         )
         field_build_count = 1
+        initial_layer_routing = dict(active.layer_routing_payload)
     except ODEBFContractError as exc:
         if not _is_progress_infeasible(exc):
             raise
@@ -1339,6 +1913,7 @@ def _run_variant(
                 outer_entry_p_cache=outer_entry_p_cache,
             )
             trial_receipts: list[str] = []
+            trial_outcomes: list[TrialOutcome] = []
             chosen: TrialOutcome | None = None
             chosen_delta: Fraction | None = None
             for trial_ordinal, beta in enumerate(lock.backtracking):
@@ -1372,8 +1947,11 @@ def _run_variant(
                     schedule=schedule,
                     previous_bf_velocity=previous_bf_velocity,
                     accepted_by_layer=accepted_by_layer,
+                    contexts=contexts,
+                    routing_objective=selected_objective,
                 )
                 trial_receipts.append(outcome.receipt_sha256)
+                trial_outcomes.append(outcome)
                 if not outcome.gate_accepted:
                     n_reject += 1
                 elif chosen is None:
@@ -1390,6 +1968,16 @@ def _run_variant(
                     "tau_before": fraction_payload(accepted_t),
                     "rejected_slot_state_unchanged": chosen is None,
                     "field_reused_after_reject": chosen is None,
+                    "layer_routing": relabel_layer_routing_telemetry(
+                        (chosen or trial_outcomes[-1]).capacity_payload[
+                            "layer_routing"
+                        ],
+                        stage=(
+                            "ACCEPTED_TRANSITION"
+                            if chosen is not None
+                            else "REJECTED_TRANSITION"
+                        ),
+                    ),
                 }
             )
             if chosen is None:
@@ -1437,6 +2025,7 @@ def _run_variant(
                         recorder=recorder,
                         native_target=native_target,
                         target_base=target_base,
+                        routing_objective=selected_objective,
                     )
                     field_build_count += 1
                 except ODEBFContractError as exc:
@@ -1501,6 +2090,8 @@ def _run_variant(
                 schedule=schedule,
                 previous_bf_velocity=previous_bf_velocity,
                 accepted_by_layer=accepted_by_layer,
+                contexts=contexts,
+                routing_objective=selected_objective,
             )
             n_trial = clock.n_trial
             if outcome.gate_accepted:
@@ -1511,6 +2102,14 @@ def _run_variant(
                 transition = clock.reject(trial=trial)
                 n_reject = clock.n_reject
                 ledger.increment("reject")
+            transition_layer_routing = relabel_layer_routing_telemetry(
+                outcome.capacity_payload["layer_routing"],
+                stage=(
+                    "ACCEPTED_TRANSITION"
+                    if outcome.gate_accepted
+                    else "REJECTED_TRANSITION"
+                ),
+            )
             transition_sha256 = recorder.transition(
                 {
                     "mode": "adaptive-pseudo-time",
@@ -1521,6 +2120,7 @@ def _run_variant(
                     "replay_field_sha256": replay_field_sha256,
                     "same_state_retry": not outcome.gate_accepted,
                     "trust_radius_fixed_on_reject": True,
+                    "layer_routing": transition_layer_routing,
                 }
             )
             if not outcome.gate_accepted:
@@ -1570,6 +2170,7 @@ def _run_variant(
                         recorder=recorder,
                         native_target=native_target,
                         target_base=target_base,
+                        routing_objective=selected_objective,
                     )
                     field_build_count += 1
                 except ODEBFContractError as exc:
@@ -1621,9 +2222,42 @@ def _run_variant(
     terminal_hits = [
         item for item in confirmations if item["terminal_confirmed_exact_hit"]
     ]
+    termination_label = _termination_label(
+        status=status,
+        exact_hit=bool(terminal_hits),
+    )
+    if initial_layer_routing is None:
+        layer_routing_trajectory: dict[str, Any] = {
+            "status": "NOT_AVAILABLE_NO_FEASIBLE_FIELD",
+            "observation_only": True,
+            "controller_dependency_count": 0,
+        }
+    else:
+        layer_routing_rows = [initial_layer_routing]
+        layer_routing_rows.extend(
+            relabel_layer_routing_telemetry(
+                snapshot.capacity_payload["layer_routing"],
+                stage="ACCEPTED_TRANSITION",
+            )
+            for snapshot in snapshots
+        )
+        first_hit_step_index = (
+            None
+            if first_hit.first_online is None
+            else int(
+                snapshots[
+                    first_hit.first_online.accepted_index - 1
+                ].capacity_payload["layer_routing"]["step_index"]
+            )
+        )
+        layer_routing_trajectory = summarize_layer_routing_trajectory(
+            layer_routing_rows,
+            first_hit_step_index=first_hit_step_index,
+        )
     rollout_payload = {
-        "variant": variant.value,
+        "variant": selected_label,
         "status": status,
+        "termination_label": termination_label,
         "residual_policy": _residual_policy(variant),
         "adaptive_lock_sha256": variant_lock.identity(),
         "accepted_t": fraction_payload(accepted_t),
@@ -1653,11 +2287,26 @@ def _run_variant(
             item.snapshot_sha256 for item in snapshots
         ],
         "receipt_links": recorder.links(),
+        "layer_routing_trajectory": layer_routing_trajectory,
         "compute": ledger.raw_free_payload(),
         "persistent_commit_count": 0,
         "history_append_count": 0,
         "heldout_access_count": 0,
     }
+    if (
+        selected_objective is not RoutingObjective.MARGIN
+        or selected_label != variant.value
+    ):
+        rollout_payload.update(
+            {
+                "clock_variant": variant.value,
+                "routing_objective": selected_objective.value,
+                "target_state_objective": "MARGIN_LOCKED",
+                "target_old_decision_influence_count": 0
+                if selected_objective is RoutingObjective.TARGET_NEW_NLL
+                else BATCH_SIZE,
+            }
+        )
     rollout_sha256 = canonical_hash(rollout_payload)
     recorder.terminal(
         {
@@ -1670,6 +2319,7 @@ def _run_variant(
     return VariantRollout(
         variant,
         status,
+        termination_label,
         _residual_policy(variant),
         accepted_t,
         len(snapshots),
@@ -1683,6 +2333,8 @@ def _run_variant(
         entry_eval.batch_success.raw_free_payload(),
         confirmations,
         rollout_sha256,
+        selected_label,
+        selected_objective.value,
     )
 
 
@@ -1767,28 +2419,31 @@ def _postfreeze_stepwise_panel(
     requests: Sequence[Mapping[str, Any]],
     dataset_path: Path,
     capture: P1NativeCapture,
-    rollouts: Mapping[AdaptiveVariant, VariantRollout],
+    rollouts: Mapping[Any, VariantRollout],
     raw_root: Path,
     write_once: Any,
     touched: Mapping[str, torch.nn.Parameter],
+    instruction_id: str = ADAPTIVE_INSTRUCTION_ID,
+    schema_namespace: str = "ode-edit-s04-ode-bf-p1r4-adaptive",
 ) -> tuple[dict[str, Any], dict[tuple[str, int], StepwisePrimaryReceipt]]:
     """Open held-out CounterFact surfaces only after every action is frozen."""
 
     freeze_payload = {
-        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-action-freeze/v1",
-        "instruction_id": ADAPTIVE_INSTRUCTION_ID,
+        "schema": f"{schema_namespace}-action-freeze/v1",
+        "instruction_id": instruction_id,
         "action_frozen_before_open": True,
         "request_order_sha256": capture.request_order_sha256,
         "rollouts": {
-            variant.value: {
+            rollout.variant_label or rollout.variant.value: {
                 "rollout_sha256": rollout.rollout_sha256,
                 "status": rollout.status,
+                "termination_label": rollout.termination_label,
                 "accepted_snapshot_sha256": [
                     item.snapshot_sha256 for item in rollout.snapshots
                 ],
                 "n_reject": rollout.n_reject,
             }
-            for variant, rollout in rollouts.items()
+            for rollout in rollouts.values()
         },
         "heldout_controller_access_count": 0,
         "model_generate_call_count": 0,
@@ -1840,7 +2495,7 @@ def _postfreeze_stepwise_panel(
         receipt_hashes["W0_NO_EDIT"] = write_once(
             raw_root / "stepwise" / "W0_NO_EDIT.json",
             {
-                "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-step-receipt/v1",
+                "schema": f"{schema_namespace}-step-receipt/v1",
                 "variant": "W0_NO_EDIT",
                 "snapshot_index": 0,
                 "snapshot_sha256": w0_snapshot_sha256,
@@ -1873,7 +2528,7 @@ def _postfreeze_stepwise_panel(
         receipt_hashes["N32_NATIVE"] = write_once(
             raw_root / "stepwise" / "N32_NATIVE.json",
             {
-                "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-step-receipt/v1",
+                "schema": f"{schema_namespace}-step-receipt/v1",
                 "variant": "N32_NATIVE",
                 "snapshot_index": 1,
                 "snapshot_sha256": native_snapshot_sha256,
@@ -1882,15 +2537,15 @@ def _postfreeze_stepwise_panel(
                 "compute": native_compute,
             },
         )
-        for variant in ADAPTIVE_VARIANTS:
-            rollout = rollouts[variant]
+        for rollout in rollouts.values():
+            variant_label = rollout.variant_label or rollout.variant.value
             confirmations = {
                 item["snapshot_sha256"]: item
                 for item in rollout.terminal_confirmation
             }
             for snapshot in rollout.snapshots:
                 freeze = StepwiseActionFreeze(
-                    variant=variant.value,
+                    variant=variant_label,
                     request_order_sha256=capture.request_order_sha256,
                     rollout_sha256=rollout.rollout_sha256,
                     snapshot_sha256=snapshot.snapshot_sha256,
@@ -1910,22 +2565,20 @@ def _postfreeze_stepwise_panel(
                     factors=snapshot.factors,
                 )
                 comparison = compare_stepwise_primary(w0, native, observed)
-                key = (variant.value, snapshot.accepted_index)
+                key = (variant_label, snapshot.accepted_index)
                 receipts[key] = observed
                 relative = (
                     Path("stepwise")
-                    / variant.value
+                    / variant_label
                     / f"accepted-{snapshot.accepted_index:04d}.json"
                 )
                 receipt_hashes[
-                    f"{variant.value}:{snapshot.accepted_index}"
+                    f"{variant_label}:{snapshot.accepted_index}"
                 ] = write_once(
                     raw_root / relative,
                     {
-                        "schema": (
-                            "ode-edit-s04-ode-bf-p1r4-adaptive-step-receipt/v1"
-                        ),
-                        "variant": variant.value,
+                        "schema": f"{schema_namespace}-step-receipt/v1",
+                        "variant": variant_label,
                         "accepted_index": snapshot.accepted_index,
                         "tau": fraction_payload(snapshot.tau),
                         "delta_tau": fraction_payload(snapshot.delta_tau),
@@ -1949,7 +2602,7 @@ def _postfreeze_stepwise_panel(
 
     _observed_memory(ledger)
     panel = {
-        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-stepwise-panel/v1",
+        "schema": f"{schema_namespace}-stepwise-panel/v1",
         "action_freeze_sha256": freeze_root_sha256,
         "request_order_sha256": capture.request_order_sha256,
         "receipt_sha256": dict(sorted(receipt_hashes.items())),
@@ -2060,6 +2713,95 @@ def _refinement_payload(
     }
 
 
+def _target_new_panel_contrast(
+    capture: P1NativeCapture,
+    rollouts: Mapping[Any, VariantRollout],
+    receipts: Mapping[tuple[str, int], StepwisePrimaryReceipt],
+    *,
+    left_label: str,
+    right_label: str,
+) -> dict[str, Any]:
+    left = rollouts[left_label]
+    right = rollouts[right_label]
+    if not left.snapshots or not right.snapshots:
+        return {
+            "status": "ENDPOINT_UNAVAILABLE",
+            "left": left_label,
+            "right": right_label,
+            "left_status": left.status,
+            "right_status": right.status,
+        }
+    left_snapshot = left.snapshots[-1]
+    right_snapshot = right.snapshots[-1]
+    distance_by_weight: dict[str, Any] = {}
+    squared = 0.0
+    maximum = 0.0
+    for name, entry in sorted(capture.entry_weights.items()):
+        receipt = streaming_bf16_endpoint_distance(
+            entry,
+            left_snapshot.factors.get(name, ()),
+            right_snapshot.factors.get(name, ()),
+            weight_name=name,
+        )
+        distance_by_weight[name] = asdict(receipt)
+        squared += receipt.frobenius_distance**2
+        maximum = max(maximum, receipt.maximum_absolute_distance)
+    left_primary = receipts[(left_label, left_snapshot.accepted_index)]
+    right_primary = receipts[(right_label, right_snapshot.accepted_index)]
+    return {
+        "status": "REPORTED_NO_PROMOTION",
+        "left": left_label,
+        "right": right_label,
+        "left_snapshot_sha256": left_snapshot.snapshot_sha256,
+        "right_snapshot_sha256": right_snapshot.snapshot_sha256,
+        "bf16_endpoint_frobenius_distance": math.sqrt(squared),
+        "bf16_endpoint_max_abs_distance": maximum,
+        "distance_by_weight": distance_by_weight,
+        "right_minus_left": compare_stepwise_primary(
+            left_primary, left_primary, right_primary
+        ),
+        "left_routing_objective": left.routing_objective,
+        "right_routing_objective": right.routing_objective,
+        "left_terminal_components": left.terminal_confirmation[-1],
+        "right_terminal_components": right.terminal_confirmation[-1],
+        "left_terminal_capacity": left_snapshot.capacity_payload,
+        "right_terminal_capacity": right_snapshot.capacity_payload,
+    }
+
+
+def _target_new_panel_payload(
+    capture: P1NativeCapture,
+    rollouts: Mapping[Any, VariantRollout],
+    receipts: Mapping[tuple[str, int], StepwisePrimaryReceipt],
+) -> dict[str, Any]:
+    required = (
+        "FR-A8-MARGIN",
+        "FR-A8-NEWNLL",
+    )
+    if tuple(rollouts) != required:
+        raise ODEBFContractError("target-new routing panel order differs")
+    return {
+        "schema": "ode-edit-s05-target-new-nll-routing-contrasts/v1",
+        "routing_loss_change_only": True,
+        "target_z_velocity_objective": "MARGIN_LOCKED",
+        "fr_a8_newnll_minus_margin": _target_new_panel_contrast(
+            capture,
+            rollouts,
+            receipts,
+            left_label="FR-A8-MARGIN",
+            right_label="FR-A8-NEWNLL",
+        ),
+        "fr_a16_newnll": {
+            "executed": False,
+            "forecast_seconds": 161920,
+            "allocation_seconds": 86400,
+            "exclusion_reason": "SIX_CONTEXT_A16_EXCEEDS_LOCKED_24H_ENVELOPE",
+            "outcome_metric_used": False,
+        },
+        "scientific_promotion_authorized": False,
+    }
+
+
 def run_adaptive_diagnostic(
     model: torch.nn.Module,
     tokenizer: Any,
@@ -2093,6 +2835,10 @@ def run_adaptive_diagnostic(
     cuda_runtime_receipt: Mapping[str, Any],
     job_ledger: ComputeLedger,
     write_once: Any,
+    panel_specs: Sequence[AdaptivePanelSpec] | None = None,
+    panel_instruction_id: str = ADAPTIVE_INSTRUCTION_ID,
+    panel_schema_namespace: str = "ode-edit-s04-ode-bf-p1r4-adaptive",
+    panel_terminal_status: str = "CAUSAL_DIAGNOSTIC_COMPLETE_NO_PROMOTION",
 ) -> dict[str, Any]:
     """Execute the single authorized reused-seal B10 causal diagnostic."""
 
@@ -2103,6 +2849,16 @@ def run_adaptive_diagnostic(
         _observed_memory,
     )
 
+    specs = _default_panel_specs() if panel_specs is None else tuple(panel_specs)
+    custom_panel = panel_specs is not None
+    if (
+        not specs
+        or len({item.label for item in specs}) != len(specs)
+        or not panel_instruction_id
+        or not panel_schema_namespace
+        or not panel_terminal_status
+    ):
+        raise ODEBFContractError("adaptive panel specification differs")
     if len(stream_batches) != 4 or len(stream_batches[0]) != BATCH_SIZE:
         raise ODEBFContractError("adaptive diagnostic reused stream differs")
     requests = tuple(stream_batches[0])
@@ -2163,8 +2919,8 @@ def run_adaptive_diagnostic(
     n32_sha256 = write_once(
         raw_root / "adaptive" / "N32_NATIVE-online.json",
         {
-            "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-native/v1",
-            "instruction_id": ADAPTIVE_INSTRUCTION_ID,
+            "schema": f"{panel_schema_namespace}-native/v1",
+            "instruction_id": panel_instruction_id,
             "status": "VIRTUAL_ONLY_NO_COMMIT",
             "alias": alias,
             "request_order_sha256": capture.request_order_sha256,
@@ -2208,18 +2964,20 @@ def run_adaptive_diagnostic(
     stages.record(
         "post_adaptive_common_capture",
         {
-            "instruction_id": ADAPTIVE_INSTRUCTION_ID,
+            "instruction_id": panel_instruction_id,
             "request_order_sha256": capture.request_order_sha256,
             "n32_receipt_sha256": n32_sha256,
             "outer_entry_snapshot_sha256": outer_entry_snapshot_sha256,
             "outer_entry_p_cache_sha256": outer_entry_p_cache.receipt_sha256,
-            "variants": [item.value for item in ADAPTIVE_VARIANTS],
+            "variants": [item.label for item in specs],
             "scientific_promotion_authorized": False,
         },
     )
 
-    rollouts: dict[AdaptiveVariant, VariantRollout] = {}
-    for variant in ADAPTIVE_VARIANTS:
+    rollouts: dict[Any, VariantRollout] = {}
+    recorders: list[AdaptiveReceiptRecorder] = []
+    for spec in specs:
+        variant = spec.clock_variant
         if _parameter_contract_sha256(touched) != after_capture_contract:
             raise ODEBFStateError("adaptive variant did not start from common W0")
         arm_receipt = ArmWeightSnapshot(
@@ -2228,7 +2986,7 @@ def run_adaptive_diagnostic(
             base_receipt.parameter_sha256,
             canonical_hash(
                 {
-                    "variant": variant.value,
+                    "variant": spec.label,
                     "batch": 0,
                     "weights": base_receipt.parameter_sha256,
                 }
@@ -2244,7 +3002,15 @@ def run_adaptive_diagnostic(
             arm_receipt,
             dict(base_values),
         )
-        recorder = AdaptiveReceiptRecorder(raw_root, variant, write_once)
+        recorder = AdaptiveReceiptRecorder(
+            raw_root,
+            variant,
+            write_once,
+            variant_label=spec.label,
+            instruction_id=panel_instruction_id,
+            receipt_schema=f"{panel_schema_namespace}-receipt/v1",
+        )
+        recorders.append(recorder)
         counter = ModelForwardCounter(model, arm_state.ledger)
         try:
             rollout = _run_variant(
@@ -2268,18 +3034,21 @@ def run_adaptive_diagnostic(
                 theta0_cache=theta0_cache,
                 touched=touched,
                 recorder=recorder,
+                routing_objective=spec.routing_objective,
+                variant_label=spec.label,
             )
         finally:
             counter.close()
         _observed_memory(arm_state.ledger)
         if arm_state.history.version != 0:
             raise ODEBFStateError("adaptive causal variant appended history")
-        rollouts[variant] = rollout
+        rollouts[spec.legacy_key] = rollout
         stages.record(
-            f"post_adaptive_{variant.value.lower().replace('-', '_')}",
+            f"post_adaptive_{spec.label.lower().replace('-', '_')}",
             {
-                "variant": variant.value,
+                "variant": spec.label,
                 "status": rollout.status,
+                "termination_label": rollout.termination_label,
                 "rollout_sha256": rollout.rollout_sha256,
                 "accepted_t": fraction_payload(rollout.accepted_t),
                 "k_acc": rollout.k_acc,
@@ -2307,10 +3076,16 @@ def run_adaptive_diagnostic(
         raw_root=raw_root,
         write_once=write_once,
         touched=touched,
+        instruction_id=panel_instruction_id,
+        schema_namespace=panel_schema_namespace,
     )
     if _parameter_contract_sha256(touched) != after_capture_contract:
         raise ODEBFStateError("adaptive post-freeze panel did not restore W0/RNG")
-    refinement = _refinement_payload(capture, rollouts, step_receipts)
+    refinement = (
+        _target_new_panel_payload(capture, rollouts, step_receipts)
+        if custom_panel
+        else _refinement_payload(capture, rollouts, step_receipts)
+    )
     stepwise_sha256 = write_once(
         raw_root / "stepwise" / "panel.json",
         {**panel, "refinement": refinement},
@@ -2323,7 +3098,9 @@ def run_adaptive_diagnostic(
             "unique_accepted_snapshot_count": panel[
                 "unique_accepted_snapshot_count"
             ],
-            "refinement_status": refinement["status"],
+            "refinement_status": refinement.get(
+                "status", "TARGET_NEW_ROUTING_CONTRASTS_RECORDED"
+            ),
             "generation_call_count": 0,
         },
     )
@@ -2333,21 +3110,27 @@ def run_adaptive_diagnostic(
     }
     if final_bytes != base_bytes:
         raise ODEBFStateError("adaptive diagnostic final W0 restore differs")
+    for recorder in recorders:
+        recorder.assert_observation_complete()
     _observed_memory(job_ledger)
     terminal = {
-        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-terminal/v1",
-        "instruction_id": ADAPTIVE_INSTRUCTION_ID,
-        "status": "CAUSAL_DIAGNOSTIC_COMPLETE_NO_PROMOTION",
+        "schema": f"{panel_schema_namespace}-terminal/v1",
+        "instruction_id": panel_instruction_id,
+        "status": panel_terminal_status,
         "alias": alias,
         "source_head": source_head,
         "edit_batch_size": BATCH_SIZE,
         "sequential_batch_count": 1,
-        "variants": [item.value for item in ADAPTIVE_VARIANTS],
+        "variants": [item.label for item in specs],
         "variant_rollout_sha256": {
-            item.value: rollouts[item].rollout_sha256 for item in ADAPTIVE_VARIANTS
+            item.label: rollouts[item.legacy_key].rollout_sha256 for item in specs
         },
         "variant_status": {
-            item.value: rollouts[item].status for item in ADAPTIVE_VARIANTS
+            item.label: rollouts[item.legacy_key].status for item in specs
+        },
+        "variant_termination_label": {
+            item.label: rollouts[item.legacy_key].termination_label
+            for item in specs
         },
         "n32_receipt_sha256": n32_sha256,
         "stepwise_panel_sha256": stepwise_sha256,
@@ -2367,14 +3150,43 @@ def run_adaptive_diagnostic(
         "heldout_controller_access_count": 0,
         "generation_call_count": 0,
         "retry_submission_count": 0,
-        "legacy_p1r3_and_full_residual_baseline_comparison": (
-            "REQUIRED_IN_TERMINAL_ANALYSIS_NO_RUNTIME_TUNING"
-        ),
     }
+    if custom_panel:
+        terminal.update(
+            {
+                "routing_loss_change_only": True,
+                "routing_context_group_sizes": [1, 5],
+                "routing_context_count": 6,
+                "routing_context_weighting": (
+                    "uniform-over-all-six-locked-rendered-contexts"
+                ),
+                "target_z_velocity_objective": "MARGIN_LOCKED",
+                "old_nll_decision_influence_count_newnll": 0,
+                "target_new_routing_contrasts": refinement,
+                "stepwise_layer_routing_telemetry": {
+                    "schema": (
+                        "ode-edit-stepwise-layer-routing-telemetry/v1"
+                    ),
+                    "trajectory_schema": (
+                        "ode-edit-stepwise-layer-routing-trajectory/v1"
+                    ),
+                    "candidate_layer_ids": list(ROUTING_LAYER_IDS),
+                    "variant_labels": [item.label for item in specs],
+                    "optional_a16_definition_uses_same_schema": True,
+                    "observation_only": True,
+                    "controller_dependency_count": 0,
+                    "diagnostic_severe_concentration_only": True,
+                },
+            }
+        )
+    else:
+        terminal["legacy_p1r3_and_full_residual_baseline_comparison"] = (
+            "REQUIRED_IN_TERMINAL_ANALYSIS_NO_RUNTIME_TUNING"
+        )
     terminal_sha256 = write_once(destination / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-manifest/v1",
-        "instruction_id": ADAPTIVE_INSTRUCTION_ID,
+        "schema": f"{panel_schema_namespace}-manifest/v1",
+        "instruction_id": panel_instruction_id,
         "status": terminal["status"],
         "alias": alias,
         "source_head": source_head,
@@ -2382,6 +3194,14 @@ def run_adaptive_diagnostic(
         "n32_receipt_sha256": n32_sha256,
         "stepwise_panel_sha256": stepwise_sha256,
         "variant_rollout_sha256": terminal["variant_rollout_sha256"],
+        "stepwise_layer_routing_telemetry_schema": (
+            "ode-edit-stepwise-layer-routing-telemetry/v1"
+            if custom_panel
+            else None
+        ),
+        "stepwise_layer_routing_candidate_layer_ids": (
+            list(ROUTING_LAYER_IDS) if custom_panel else None
+        ),
         "retry_submission_count": 0,
     }
     manifest_sha256 = write_once(destination / "manifest.json", manifest)
@@ -2391,5 +3211,6 @@ def run_adaptive_diagnostic(
         "terminal_sha256": terminal_sha256,
         "manifest_sha256": manifest_sha256,
         "variant_status": terminal["variant_status"],
+        "variant_termination_label": terminal["variant_termination_label"],
         "final_w0_restored": True,
     }

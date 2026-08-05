@@ -34,8 +34,12 @@ from project.run_scripts.ode_bf.p1_adaptive import (
 )
 from project.run_scripts.ode_bf.accounting import ComputeLedger
 from project.run_scripts.ode_bf.artifacts import load_rooted_json
-from project.run_scripts.ode_bf.contracts import canonical_hash
+from project.run_scripts.ode_bf.contracts import ODEBFStateError, canonical_hash
 from project.run_scripts.ode_bf.first_hit import FeasibilityVerdict
+from project.run_scripts.ode_bf.layer_routing_telemetry import (
+    LAYER_IDS,
+    build_layer_routing_telemetry,
+)
 from project.run_scripts.ode_bf.p1_backend import (
     FULL_CURRENT_RESIDUAL_DEFINITION,
     LEGACY_PRE_SHARED_RESIDUAL_DEFINITION,
@@ -50,6 +54,41 @@ from project.run_scripts.ode_bf.resource import (
     forecast_p1_adaptive_b10_memory,
     forecast_p1_adaptive_b10_time,
 )
+
+
+def _telemetry_row(step: int, stage: str) -> dict[str, object]:
+    ones = (1.0,) * len(LAYER_IDS)
+    zeros = (0.0,) * len(LAYER_IDS)
+    masks = (1,) * len(LAYER_IDS)
+    return build_layer_routing_telemetry(
+        step_index=step,
+        stage=stage,
+        layer_ids=LAYER_IDS,
+        signed_efficiency=ones,
+        raw_velocity=ones,
+        bf_velocity=ones,
+        applied_coefficient=zeros if stage == "FIELD" else ones,
+        active_direction_mask=masks,
+        raw_cap_bound_mask=(0,) * len(LAYER_IDS),
+        bf_cap_bound_mask=(0,) * len(LAYER_IDS),
+        raw_zero_bound_mask=(0,) * len(LAYER_IDS),
+        bf_zero_bound_mask=(0,) * len(LAYER_IDS),
+        predicted_progress_contribution=ones,
+        prequantized_update_energy=zeros if stage == "FIELD" else ones,
+        realized_bf16_update_energy=zeros if stage == "FIELD" else ones,
+        cumulative_bf16_capacity=zeros if stage == "FIELD" else ones,
+        bf16_capacity_contribution=zeros if stage == "FIELD" else ones,
+        structural_h_contribution=zeros,
+        structural_p_contribution=zeros,
+        trust_contribution=zeros,
+        field_sha256="a" * 64,
+        state_sha256="b" * 64,
+        target_z_sha256="c" * 64,
+        factor_state_sha256="d" * 64,
+        raw_solver_certificate_sha256="e" * 64,
+        bf_solver_certificate_sha256="f" * 64,
+        candidate_sha256=None if stage == "FIELD" else "1" * 64,
+    )
 
 
 class _Layer:
@@ -135,15 +174,37 @@ class AdaptiveClockTests(unittest.TestCase):
         self.assertTrue(clock.complete)
         self.assertEqual(sum(clock.accepted_delta, Fraction(0, 1)), 1)
 
-    def test_same_state_retry_cap_is_compute_unresolved(self) -> None:
+    def test_same_state_retry_cap_has_distinct_termination(self) -> None:
         clock = AdaptiveTauClock(adaptive_lock(AdaptiveVariant.FR_A8))
         for _ in range(5):
             trial = clock.begin_trial()
             clock.reject(trial=trial)
-        self.assertEqual(clock.status, "COMPUTE_CAP_UNRESOLVED")
+        self.assertEqual(clock.status, "SAME_STATE_RETRY_EXHAUSTED")
         self.assertEqual(clock.tau, 0)
         self.assertEqual(clock.k_acc, 0)
         self.assertEqual(clock.n_reject, 5)
+
+    def test_trial_horizon_and_minimum_step_exhaustion_are_not_conflated(self) -> None:
+        trial_cap = AdaptiveTauClock(adaptive_lock(AdaptiveVariant.FR_A8))
+        trial_cap.n_trial = trial_cap.lock.n_trial_cap
+        with self.assertRaisesRegex(ODEBFStateError, "trial cap"):
+            trial_cap.begin_trial()
+        self.assertEqual(trial_cap.status, "TRIAL_CAP_EXHAUSTED")
+
+        horizon = AdaptiveTauClock(adaptive_lock(AdaptiveVariant.FR_A8))
+        horizon.k_acc = horizon.lock.k_acc_cap
+        with self.assertRaisesRegex(ODEBFStateError, "accepted-step cap"):
+            horizon.begin_trial()
+        self.assertEqual(
+            horizon.status, "ACCEPTED_STEP_OR_HORIZON_CAP_UNREACHED"
+        )
+
+        minimum = AdaptiveTauClock(adaptive_lock(AdaptiveVariant.FR_A8))
+        object.__setattr__(minimum.lock, "same_state_additional_retry_cap", 100)
+        for _ in range(5):
+            trial = minimum.begin_trial()
+            minimum.reject(trial=trial)
+        self.assertEqual(minimum.status, "MIN_DT_EXHAUSTED")
 
 
 class AdaptiveFieldTests(unittest.TestCase):
@@ -328,6 +389,18 @@ class AdaptiveFirstHitAndRefinementTests(unittest.TestCase):
 
 
 class AdaptiveRuntimeStateMachineTests(unittest.TestCase):
+    def test_parameter_contract_retains_weight_and_rng_identity(self) -> None:
+        from project.run_scripts.ode_bf import p1_adaptive_runtime as runtime
+
+        model = torch.nn.Linear(2, 3, bias=False)
+        observed = runtime._parameter_contract({"linear.weight": model.weight})
+        self.assertEqual(tuple(observed), ("weights", "rng_sha256"))
+        self.assertEqual(
+            observed["weights"]["linear.weight"]["bytes_sha256"],
+            tensor_sha256(model.weight),
+        )
+        self.assertEqual(len(observed["rng_sha256"]), 64)
+
     def test_empty_omega_identity_is_stable_across_rejected_state(self) -> None:
         from project.run_scripts.ode_bf import p1_adaptive_runtime as runtime
 
@@ -407,6 +480,9 @@ class AdaptiveRuntimeStateMachineTests(unittest.TestCase):
                 field=field,
                 raw_velocity=velocity,
                 bf_velocity=velocity,
+                layer_routing_payload=_telemetry_row(
+                    accepted_index, "FIELD"
+                ),
             )
 
         calls = 0
@@ -448,17 +524,22 @@ class AdaptiveRuntimeStateMachineTests(unittest.TestCase):
                     "bf_velocity_sha256": active.bf_velocity.velocity_sha256,
                 },
                 {"rho": 0.5},
-                {"identity_sha256": f"{calls + 100:064x}"},
+                {
+                    "identity_sha256": f"{calls + 100:064x}",
+                    "layer_routing": _telemetry_row(calls, "TRIAL"),
+                },
                 f"{calls + 200:064x}",
                 f"{calls + 300:064x}",
                 0.5 if accepted else 0.0,
             )
 
         write_count = 0
+        written: list[dict[str, object]] = []
 
         def write_once(path, payload):
             nonlocal write_count
             write_count += 1
+            written.append(dict(payload))
             return canonical_hash(
                 {"path": Path(path).as_posix(), "ordinal": write_count, "payload": payload}
             )
@@ -510,6 +591,47 @@ class AdaptiveRuntimeStateMachineTests(unittest.TestCase):
         self.assertEqual(rollout.field_build_count, 16)
         self.assertEqual(arm_state.history.version, 0)
         self.assertEqual(tensor_sha256(model.weight), entry_sha)
+        transitions = [
+            item for item in written if item.get("category") == "transition"
+        ]
+        self.assertEqual(
+            transitions[0]["layer_routing"]["stage"],
+            "REJECTED_TRANSITION",
+        )
+        self.assertEqual(
+            transitions[1]["layer_routing"]["stage"],
+            "ACCEPTED_TRANSITION",
+        )
+        accepted = [item for item in written if item.get("category") == "accepted"]
+        self.assertEqual(len(accepted), 16)
+        self.assertTrue(accepted[0]["first_hit_observed"])
+        self.assertEqual(
+            accepted[0]["layer_routing"]["stage"],
+            "ACCEPTED_TRANSITION",
+        )
+        first_hits = [
+            item for item in written if item.get("category") == "first-hit"
+        ]
+        self.assertEqual(len(first_hits), 1)
+        self.assertEqual(first_hits[0]["layer_routing"]["stage"], "FIRST_HIT")
+        terminal = [item for item in written if item.get("category") == "terminal"]
+        self.assertIn(
+            "layer_routing_trajectory", terminal[-1]["rollout_summary"]
+        )
+
+    def test_runtime_receipts_wire_numeric_telemetry_without_decision_input(self) -> None:
+        from project.run_scripts.ode_bf import p1_adaptive_runtime as runtime
+
+        trial_source = inspect.getsource(runtime._run_trial)
+        field_source = inspect.getsource(runtime._build_active_field)
+        accepted_source = inspect.getsource(runtime._append_accepted_snapshot)
+        terminal_source = inspect.getsource(runtime._terminal_confirm_snapshots)
+        self.assertIn('"capacity": capacity', trial_source)
+        self.assertIn('payload["layer_routing"]', field_source)
+        self.assertIn("relabel_layer_routing_telemetry", accepted_source)
+        self.assertIn("relabel_layer_routing_telemetry", terminal_source)
+        for source in (trial_source, field_source, accepted_source, terminal_source):
+            self.assertNotIn("layer_routing_trajectory", source)
 
 
 if __name__ == "__main__":

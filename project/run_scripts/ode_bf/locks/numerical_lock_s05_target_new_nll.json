@@ -1,0 +1,122 @@
+{
+  "schema_version": "ode-edit-s05-ode-bf-target-new-nll-routing-numerical-lock/v1",
+  "instruction_id": "ODEEDIT-S05-ODE-BF-TARGET-NEW-NLL-ROUTING-P1-V1",
+  "source_handoff_commit": "18d13fbea2d5f58ef665f50fcc9fa255d01097e5",
+  "source_bundle_sha256": "1393bdca2a30605152ae545291d5620a48e56e3b1b16cea2a04aaab5702e45c1",
+  "source_manifest_sha256": "8aaf32cb5e697e28913f4053e23bced58d7ef0ea5bcd7c4b678a515b900a9dd3",
+  "source_receipt_sha256": "223094727bb29e8faac0d3118b0e452f7c039e21a472aafc7660151730ba91a7",
+  "status": "SEALED_REUSED_SAMPLE_CAUSAL_DIAGNOSTIC",
+  "benchmark": "counterfact",
+  "common_seed": 41,
+  "edit_batch_size": 10,
+  "sequential_batch_count": 1,
+  "scientific_sample_reused_for_causal_diagnostic": true,
+  "scientific_promotion_authorized": false,
+  "stream_root_digest": "a3e2fbf27e94c3ace4e048027abf1f08f215715388dacc3cf85bb452e8e89157",
+  "p_population_root_digest": "49f3b2674d5fc649e8e17982769a8be7efde70e92b68791b550100fef627ee4b",
+  "panel_labels": [
+    "FR-A8-MARGIN",
+    "FR-A8-NEWNLL"
+  ],
+  "routing_objective_by_label": {
+    "FR-A8-MARGIN": "MARGIN",
+    "FR-A8-NEWNLL": "TARGET_NEW_NLL"
+  },
+  "clock_variant_by_label": {
+    "FR-A8-MARGIN": "FR-A8",
+    "FR-A8-NEWNLL": "FR-A8"
+  },
+  "variant_lock_sha256": {
+    "FR-A8-MARGIN": "2f5dd23194474177c45e823092fc38ba6643aa0c5c437e3aaf45eb1bc2f434e8",
+    "FR-A8-NEWNLL": "2f5dd23194474177c45e823092fc38ba6643aa0c5c437e3aaf45eb1bc2f434e8"
+  },
+  "controller_identity_sha256": "c3e348423c6850a33255c962e3d43a97b5571c2bf80a86c451fd893b2b471c3b",
+  "routing_loss": {
+    "target_new_definition": "uniform-request-and-authorized-context-mean-of-per-suffix-token-mean-teacher-forced-nll",
+    "context_group_sizes": [1, 5],
+    "context_count": 6,
+    "context_weighting": "uniform-over-all-six-locked-rendered-contexts",
+    "signed_layer_efficiency": "negative-directional-derivative-of-target-new-nll",
+    "full_signed_vector_serialized": true,
+    "nonpositive_directions_excluded": true,
+    "predicted_delta": "delta_tau_times_a_transpose_v",
+    "actual_delta": "phi_new_state_minus_phi_new_trial",
+    "nll_old_routing_influence": 0,
+    "margin_live_control_unchanged": true,
+    "gradient_reduction": {
+      "streaming_unit": "one-request-six-context-mean",
+      "autograd_calls_per_field": 10,
+      "maximum_live_context_graphs": 6,
+      "fp32_gradient_accumulation": true,
+      "mathematical_objective_unchanged": true
+    }
+  },
+  "target_state_objective": "MARGIN_LOCKED",
+  "old_nll_decision_influence_count_newnll": 0,
+  "adaptive_pseudo_time": {
+    "t_max": 1.0,
+    "h_ref": 0.125,
+    "delta_tau_max_a8": 0.125,
+    "delta_tau_max_a16": 0.0625,
+    "delta_tau_min": 0.0078125,
+    "gamma_down": 0.5,
+    "gamma_up": 1.5,
+    "rho_accept": 0.1,
+    "rho_expand": 0.75,
+    "same_state_additional_retry_cap": 4,
+    "k_acc_cap_a8": 32,
+    "k_acc_cap_a16": 64,
+    "n_trial_cap": 128,
+    "reject_advances_tau": false,
+    "reject_refreshes_field": false,
+    "target_and_weight_share_delta_tau": true
+  },
+  "frozen_parent_lock": {
+    "path": "project/run_scripts/ode_bf/locks/numerical_lock_p1r2.json",
+    "sha256": "0cdb4ff528f0eddea7b40b9d36a103fa372dca8433da8a0a2cf36f77ad2fa903",
+    "functional_p_budget_nats": 0.001,
+    "minimum_progress": 1e-08,
+    "w64_residual_tolerance": 1e-05
+  },
+  "postfreeze_evaluation": {
+    "states": "W0-N32-and-every-unique-accepted-snapshot",
+    "teacher_forced_only": true,
+    "generation_call_count": 0,
+    "metrics": [
+      "efficacy",
+      "generalization",
+      "locality-preservation"
+    ],
+    "numeric_nll_new_old": true,
+    "paired_native_bits": true,
+    "old_degradation_only_success": true,
+    "controller_heldout_access_count": 0
+  },
+  "resource": {
+    "server1_gpu_cap": 3,
+    "gpu_per_job": 1,
+    "cpu_per_job": 8,
+    "memory_mib_per_job": 65000,
+    "time_limit_seconds": 86400,
+    "maximum_unique_accepted_snapshots": 64,
+    "maximum_factors_per_endpoint_layer": 32,
+    "maximum_retained_factors_per_layer": 64,
+    "routing_context_count": 6,
+    "routing_context_time_multiplier": 6,
+    "conservative_time_seconds": 80960,
+    "fr_a16_included": false,
+    "fr_a16_forecast_seconds": 161920,
+    "fr_a16_exclusion_reason": "SIX_CONTEXT_A16_EXCEEDS_LOCKED_24H_ENVELOPE",
+    "llama_forecast_identity": "25e12b466e6d26f3e2688c3de43de1400ad3019c07b25907b78590e78b6976c6",
+    "qwen_forecast_identity": "e33d412c103571fe057a58049ed1b204afca0f580412921719bda49a456cc62c",
+    "dense_fp64_full_delta_live": 0,
+    "dense_fp32_full_delta_live": 0,
+    "effective_bf16_target_weight_peak_live": 1
+  },
+  "fr_a16_same_envelope_forecast_pass": false,
+  "model_alias_specific_controller_branches": 0,
+  "persistent_endpoint_commit_count": 0,
+  "history_append_count": 0,
+  "retry_submission_count": 0,
+  "root_digest": "7690de4a4f7e7bc374bcedbeff5c4728b86aa31c508f734f14c31d704dcd5fd7"
+}
