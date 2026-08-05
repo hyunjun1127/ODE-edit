@@ -95,7 +95,7 @@ def newnll_p_soft_hard_panel_specs() -> tuple[AdaptivePanelSpec, ...]:
 def expected_newnll_p_soft_hard_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P-soft result alias differs")
-    return f"s05-newnll-p-soft-hard-p1r5-{alias}-v1-r1"
+    return f"s05-newnll-p-soft-hard-p1r5-{alias}-v1-r2"
 
 
 @dataclass(frozen=True, slots=True)
@@ -243,6 +243,23 @@ def _field_common_projection(value: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def _field_receipts_by_identity(
+    values: list[dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    receipts: dict[str, dict[str, Any]] = {}
+    for value in values:
+        identity = value.get("field_sha256")
+        if (
+            not isinstance(identity, str)
+            or len(identity) != 64
+            or any(character not in "0123456789abcdef" for character in identity)
+            or identity in receipts
+        ):
+            raise ODEBFContractError("P-soft field receipt identity differs")
+        receipts[identity] = value
+    return receipts
+
+
 def _matched_policy_prefix(
     left: VariantRollout,
     right: VariantRollout,
@@ -257,15 +274,23 @@ def _matched_policy_prefix(
         raise ODEBFContractError(
             "PCTRL/FPOFF initial field or probe differs"
         )
+    left_field_receipts = _field_receipts_by_identity(left_fields)
+    right_field_receipts = _field_receipts_by_identity(right_fields)
     left_trials = _read_receipts(left, "trial")
     right_trials = _read_receipts(right, "trial")
     common = min(len(left_trials), len(right_trials))
     divergence: int | None = None
     for index in range(common):
         ltrial, rtrial = left_trials[index], right_trials[index]
+        left_field = left_field_receipts.get(ltrial["routing"]["field_sha256"])
+        right_field = right_field_receipts.get(
+            rtrial["routing"]["field_sha256"]
+        )
+        if left_field is None or right_field is None:
+            raise ODEBFContractError("P-soft trial field receipt is absent")
         lcommon = {
             "snapshot_sha256": ltrial["snapshot_sha256"],
-            "field_sha256": ltrial["routing"]["field_sha256"],
+            "field_common_projection": _field_common_projection(left_field),
             "coefficient": ltrial["routing"]["coefficient"],
             "controller_p_observation": ltrial["functional_p_decision"][
                 "observation_sha256"
@@ -273,7 +298,7 @@ def _matched_policy_prefix(
         }
         rcommon = {
             "snapshot_sha256": rtrial["snapshot_sha256"],
-            "field_sha256": rtrial["routing"]["field_sha256"],
+            "field_common_projection": _field_common_projection(right_field),
             "coefficient": rtrial["routing"]["coefficient"],
             "controller_p_observation": rtrial["functional_p_decision"][
                 "observation_sha256"

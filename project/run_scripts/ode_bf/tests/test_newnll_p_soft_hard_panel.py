@@ -28,6 +28,7 @@ from project.run_scripts.ode_bf.p1_newnll_p_soft_hard_panel import (
     NEWNLL_P_SOFT_HARD_PANEL_LABELS,
     _field_common_projection,
     _local_p_model_diagnostic,
+    _matched_policy_prefix,
     expected_newnll_p_soft_hard_result_name,
     forecast_newnll_p_soft_hard_panel,
     newnll_p_soft_hard_panel_specs,
@@ -113,7 +114,7 @@ class NewNLLPSoftHardPanelTests(unittest.TestCase):
             self.assertLessEqual(forecast.conservative_host_peak_mib, 65_000)
         self.assertEqual(
             expected_newnll_p_soft_hard_result_name("llama3-8b-inst"),
-            "s05-newnll-p-soft-hard-p1r5-llama3-8b-inst-v1-r1",
+            "s05-newnll-p-soft-hard-p1r5-llama3-8b-inst-v1-r2",
         )
         plan = dry.build_plan("c" * 40, repository_root=ROOT)
         self.assertEqual(plan["panel_labels"], list(NEWNLL_P_SOFT_HARD_PANEL_LABELS))
@@ -354,6 +355,72 @@ class NewNLLPSoftHardPanelTests(unittest.TestCase):
             _field_common_projection(control),
             _field_common_projection(changed),
         )
+
+    def test_matched_prefix_compares_common_field_not_policy_hash(self) -> None:
+        def field(identity: str, raw_velocity: list[float]) -> dict[str, object]:
+            return {
+                "category": "field",
+                "field_sha256": identity,
+                "signed_slopes": [1.0, 2.0],
+                "raw_velocity": raw_velocity,
+                "functional_p_field": {
+                    "pre_soft_velocity": [0.25, 0.5],
+                    "controller_p_sample_order_sha256": "a" * 64,
+                    "controller_p_baseline_identity_sha256": "b" * 64,
+                    "factor_state_sha256": "c" * 64,
+                    "secant": {"cache_identity_sha256": "d" * 64},
+                    "generic_hp_soft_capable": True,
+                    "historical_soft_active": False,
+                    "historical_soft_reason": "EMPTY_HISTORY",
+                },
+            }
+
+        def trial(identity: str, accepted: bool) -> dict[str, object]:
+            return {
+                "category": "trial",
+                "snapshot_sha256": "1" * 64,
+                "routing": {
+                    "field_sha256": identity,
+                    "coefficient": [0.125, 0.25],
+                },
+                "functional_p_decision": {"observation_sha256": "2" * 64},
+                "gate_accepted": accepted,
+            }
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            left_root, right_root = root / "left", root / "right"
+            left_root.mkdir()
+            right_root.mkdir()
+            for target, value in (
+                (left_root / "field-0000.json", field("e" * 64, [0.25, 0.5])),
+                (right_root / "field-0000.json", field("f" * 64, [0.25, 0.5])),
+                (
+                    left_root / "field-0001.json",
+                    {"category": "field", "field_sha256": "3" * 64},
+                ),
+                (
+                    right_root / "field-0001.json",
+                    {"category": "field", "field_sha256": "4" * 64},
+                ),
+                (left_root / "trial-0000.json", trial("e" * 64, False)),
+                (right_root / "trial-0000.json", trial("f" * 64, True)),
+            ):
+                target.write_text(json.dumps(value), encoding="utf-8")
+            left = SimpleNamespace(recorder=SimpleNamespace(root=left_root))
+            right = SimpleNamespace(recorder=SimpleNamespace(root=right_root))
+            result = _matched_policy_prefix(left, right)
+            self.assertEqual(result["first_policy_caused_divergence_trial"], 0)
+            self.assertEqual(
+                result["common_candidate_count_through_policy_divergence"], 1
+            )
+            (right_root / "field-0000.json").write_text(
+                json.dumps(field("f" * 64, [0.125, 0.5])), encoding="utf-8"
+            )
+            with self.assertRaisesRegex(
+                ODEBFContractError, "initial field or probe differs"
+            ):
+                _matched_policy_prefix(left, right)
 
     def test_local_p_model_hold_uses_only_accepted_trial_predictions(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
