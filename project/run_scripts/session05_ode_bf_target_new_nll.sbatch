@@ -23,7 +23,7 @@ case "${MODEL_ALIAS}" in
   llama3-8b-inst|qwen2.5-7b-inst) ;;
   *) echo "invalid locked S05 ODE-BF alias" >&2; exit 2 ;;
 esac
-[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "target-new-nll-routing-causal-p1-r1-v1" ]] || {
+[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "target-new-nll-routing-causal-p1-r2-v1" ]] || {
   echo "missing locked S05 ODE-BF invocation" >&2
   exit 2
 }

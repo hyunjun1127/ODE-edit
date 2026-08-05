@@ -36,11 +36,11 @@ from project.run_scripts.ode_bf.resource import (
 
 SESSION_ID = "019fc63e-5217-7250-9c22-c5b2ec4248f0"
 HANDOFF_BASE = "18d13fbea2d5f58ef665f50fcc9fa255d01097e5"
-TECHNICAL_REPAIR_PARENT = "751245a7e6199442cfb1fede9e97c8f058884ad4"
+TECHNICAL_REPAIR_PARENT = "57b260d00dc9b818157041c0fe3352e46a7c98ff"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-target-new-nll-v1"
 SERVER1_GPU_CAP = 3
 AUTHORIZATION_TOKEN = "target-new-nll-routing-p1-v1"
-SUBMISSION_NAMESPACE = "s05-target-new-nll-routing-p1-r1-v1"
+SUBMISSION_NAMESPACE = "s05-target-new-nll-routing-p1-r2-v1"
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_target_new_nll.sbatch"
 SOURCE_MANIFEST = (
     REPO_ROOT
@@ -236,9 +236,17 @@ def _pre_submit(source_head: str) -> dict[str, Any]:
     if (
         _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
         != TECHNICAL_REPAIR_PARENT
-        or _run(["git", "rev-parse", f"{TECHNICAL_REPAIR_PARENT}^"])
-        .stdout.strip()
-        != HANDOFF_BASE
+        or _run(
+            [
+                "git",
+                "merge-base",
+                "--is-ancestor",
+                HANDOFF_BASE,
+                TECHNICAL_REPAIR_PARENT,
+            ],
+            check=False,
+        ).returncode
+        != 0
         or _run(["git", "branch", "--show-current"]).stdout.strip()
         != EXECUTION_BRANCH
     ):
@@ -350,7 +358,7 @@ def _submit_held_pair(
                 {
                     "schema": "ode-edit-s05-target-new-nll-held-job/v1",
                     "instruction_id": TARGET_NEW_INSTRUCTION_ID,
-                    "technical_attempt": "R1",
+                    "technical_attempt": "R2",
                     "source_head": source_head,
                     "alias": alias,
                     "job_id": job_id,
@@ -363,7 +371,7 @@ def _submit_held_pair(
             {
                 "schema": "ode-edit-s05-target-new-nll-submission-receipt/v1",
                 "instruction_id": TARGET_NEW_INSTRUCTION_ID,
-                "technical_attempt": "R1",
+                "technical_attempt": "R2",
                 "source_head": source_head,
                 "intent_sha256": intent_sha256,
                 "jobs": jobs,
@@ -381,7 +389,7 @@ def _submit_held_pair(
             {
                 "schema": "ode-edit-s05-target-new-nll-submission-failure/v1",
                 "instruction_id": TARGET_NEW_INSTRUCTION_ID,
-                "technical_attempt": "R1",
+                "technical_attempt": "R2",
                 "source_head": source_head,
                 "intent_sha256": intent_sha256,
                 "accepted_held_jobs": jobs,
@@ -406,7 +414,7 @@ def main() -> int:
         {
             "schema": "ode-edit-s05-target-new-nll-submission-intent/v1",
             "instruction_id": TARGET_NEW_INSTRUCTION_ID,
-            "technical_attempt": "R1",
+            "technical_attempt": "R2",
             "source_head": source_head,
             "preflight": preflight,
         },

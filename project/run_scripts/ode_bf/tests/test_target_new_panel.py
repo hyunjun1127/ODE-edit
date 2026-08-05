@@ -571,12 +571,23 @@ class TargetNewPanelContractTests(unittest.TestCase):
                 ]
             )
             self.assertEqual(args.model, alias)
-            self.assertTrue(root.startswith("s05-target-new-nll-routing-r1-"))
+            self.assertTrue(root.startswith("s05-target-new-nll-routing-r2-"))
         sbatch = (
             ROOT / "project/run_scripts/session05_ode_bf_target_new_nll.sbatch"
         ).read_text(encoding="utf-8")
         self.assertIn("#SBATCH --nodelist=devbox", sbatch)
         self.assertNotIn("#SBATCH --nodelist=server1", sbatch)
+
+    def test_target_new_receipt_type_is_resolved_at_trial_serialization(self) -> None:
+        self.assertIs(runtime.TargetNewNLLReceipt, TargetNewNLLReceipt)
+        source = inspect.getsource(runtime._run_trial)
+        self.assertIn("isinstance(candidate_margin, TargetNewNLLReceipt)", source)
+
+    def test_submitter_accepts_append_only_technical_repair_ancestry(self) -> None:
+        source = inspect.getsource(submit._pre_submit)
+        self.assertIn('"merge-base",', source)
+        self.assertIn('"--is-ancestor",', source)
+        self.assertNotIn('f"{TECHNICAL_REPAIR_PARENT}^"', source)
 
     def test_s05_failure_schema_and_unowned_root_collision_are_fail_closed(self) -> None:
         failure_schema = (

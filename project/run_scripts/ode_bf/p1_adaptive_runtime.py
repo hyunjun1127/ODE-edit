@@ -57,6 +57,7 @@ from .p1_backend import (
     P1DynamicField,
     P1NativeCapture,
     PinnedCovarianceRegistry,
+    TargetNewNLLReceipt,
     build_p1_dynamic_field,
     build_p1_frozen_field_from_capture,
     capture_p1_native_entry,
