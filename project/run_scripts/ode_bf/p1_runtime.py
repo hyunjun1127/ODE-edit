@@ -158,6 +158,12 @@ def expected_p1r4_diagnostic_result_name(alias: str) -> str:
     return f"s04-p1r4-full-residual-arms-{alias}-v1"
 
 
+def expected_p1r4_adaptive_result_name(alias: str) -> str:
+    if alias not in MODEL_ALIASES:
+        raise ODEBFContractError("P1R4 adaptive result alias differs")
+    return f"s04-p1r4-adaptive-tau-{alias}-v1"
+
+
 def _atomic_write_once(path: Path, value: Mapping[str, Any]) -> str:
     if path.exists() or path.is_symlink():
         raise FileExistsError("P1 receipt is create-once")
@@ -3174,14 +3180,19 @@ def run_p1(
     output_root: Path,
     source_head: str,
     diagnostic_mode: bool = False,
+    adaptive_mode: bool = False,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
     _source_freeze(repo_root, source_head)
     expected_parent = (repo_root / "local" / "odebf" / "results").resolve(strict=False)
     destination = output_root.resolve(strict=False)
+    if diagnostic_mode and adaptive_mode:
+        raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
     expected_name = (
-        expected_p1r4_diagnostic_result_name(alias)
+        expected_p1r4_adaptive_result_name(alias)
+        if adaptive_mode
+        else expected_p1r4_diagnostic_result_name(alias)
         if diagnostic_mode
         else expected_p1_result_name(alias)
     )
@@ -3227,6 +3238,41 @@ def run_p1(
         or numerical.get("arms") != [arm.value for arm in P1_ARM_ORDER]
     ):
         raise ODEBFContractError("P1 numerical/seal lock differs")
+    if adaptive_mode:
+        from .p1_adaptive import ADAPTIVE_INSTRUCTION_ID, ADAPTIVE_VARIANTS, adaptive_lock
+
+        adaptive_numerical, adaptive_numerical_sha256 = load_rooted_json(
+            locks / "numerical_lock_p1r4_adaptive.json",
+            expected_schema=(
+                "ode-edit-s04-ode-bf-p1r4-adaptive-numerical-lock/v1"
+            ),
+        )
+        expected_variant_locks = {
+            item.value: adaptive_lock(item).identity() for item in ADAPTIVE_VARIANTS
+        }
+        if (
+            adaptive_numerical.get("instruction_id")
+            != ADAPTIVE_INSTRUCTION_ID
+            or adaptive_numerical.get("accepted_lineage_parent")
+            != "40d7811313ff61077e28ef571af3d9286de2db2e"
+            or adaptive_numerical.get("edit_batch_size") != BATCH_SIZE
+            or adaptive_numerical.get("sequential_batch_count") != 1
+            or adaptive_numerical.get("variants")
+            != [item.value for item in ADAPTIVE_VARIANTS]
+            or adaptive_numerical.get("controller_identity_sha256")
+            != controller_lock.identity()
+            or adaptive_numerical.get("variant_lock_sha256")
+            != expected_variant_locks
+            or adaptive_numerical.get("stream_root_digest")
+            != stream["root_digest"]
+            or adaptive_numerical.get("p_population_root_digest")
+            != population["root_digest"]
+            or adaptive_numerical.get("scientific_promotion_authorized")
+            is not False
+        ):
+            raise ODEBFContractError("P1R4 adaptive numerical lock differs")
+        numerical = adaptive_numerical
+        numerical_sha256 = adaptive_numerical_sha256
     dataset = artifact_guard.base_guard.dataset
     stream_batches = load_p1_stream_batches(dataset, stream)
     population_requests = load_p1_population_requests(
@@ -3358,6 +3404,42 @@ def run_p1(
             ComputeLedger(),
             receipt,
             base_values,
+        )
+    if adaptive_mode:
+        from .p1_adaptive_runtime import run_adaptive_diagnostic
+
+        return run_adaptive_diagnostic(
+            model,
+            tokenizer,
+            alias=alias,
+            destination=destination,
+            raw_root=raw_root,
+            stages=stages,
+            source_head=source_head,
+            stream_batches=stream_batches,
+            stream=stream,
+            hparams=hparams,
+            projector=projector,
+            contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=artifact_guard.spec["projector_sha256"],
+            controller_lock=controller_lock,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            theta0_cache=theta0_cache,
+            dataset_path=dataset,
+            mutation_lock=mutation_lock,
+            touched=touched,
+            base_receipt=base_receipt,
+            base_values=base_values,
+            artifact_guard=artifact_guard,
+            artifact_receipt=artifact_receipt,
+            numerical_sha256=numerical_sha256,
+            context_sha256=context_sha256,
+            cuda_runtime_receipt=cuda_runtime_receipt,
+            job_ledger=job_ledger,
+            write_once=_atomic_write_once,
         )
     if diagnostic_mode:
         return _run_terminal_component_diagnostic(

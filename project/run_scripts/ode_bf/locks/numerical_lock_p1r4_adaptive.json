@@ -1,0 +1,173 @@
+{
+  "schema_version": "ode-edit-s04-ode-bf-p1r4-adaptive-numerical-lock/v1",
+  "instruction_id": "ODEEDIT-S04-ODE-BF-FULL-RESIDUAL-ADAPTIVE-TAU-P1R4-V1",
+  "envelope_expected_committed_base": "0d21dbc719106816991650db6e42f20c06a2e9cb",
+  "accepted_lineage_parent": "40d7811313ff61077e28ef571af3d9286de2db2e",
+  "status": "SEALED_BEFORE_MODEL_ACTION",
+  "benchmark": "counterfact",
+  "common_seed": 41,
+  "edit_batch_size": 10,
+  "sequential_batch_count": 1,
+  "scientific_sample_reused_for_causal_diagnostic": true,
+  "scientific_promotion_authorized": false,
+  "stream_root_digest": "a3e2fbf27e94c3ace4e048027abf1f08f215715388dacc3cf85bb452e8e89157",
+  "p_population_root_digest": "49f3b2674d5fc649e8e17982769a8be7efde70e92b68791b550100fef627ee4b",
+  "variants": [
+    "PS-S8",
+    "PS-A8",
+    "FR-A8",
+    "FR-A16"
+  ],
+  "common_controller": "R_BF",
+  "controller_identity_sha256": "c3e348423c6850a33255c962e3d43a97b5571c2bf80a86c451fd893b2b471c3b",
+  "variant_lock_sha256": {
+    "PS-S8": "335cd4d0eb3291a84713b14301361b3477d330e7f0d37f05965dc24fcd17f9e1",
+    "PS-A8": "3b34b1bde3d8e99caea88347d01a8a843b984f56b1be9639859434796bb0bb58",
+    "FR-A8": "2f5dd23194474177c45e823092fc38ba6643aa0c5c437e3aaf45eb1bc2f434e8",
+    "FR-A16": "cae71b94424699a4dc21c96dd72d4984a3c6d8f791d0eb405c6e77f39e73a616"
+  },
+  "pseudo_time": {
+    "t_max": 1.0,
+    "h_ref": 0.125,
+    "delta_tau_max_a8": 0.125,
+    "delta_tau_max_a16": 0.0625,
+    "delta_tau_min": 0.0078125,
+    "gamma_down": 0.5,
+    "gamma_up": 1.5,
+    "rho_accept": 0.1,
+    "rho_expand": 0.75,
+    "same_state_additional_retry_cap": 4,
+    "k_acc_cap_a8": 32,
+    "k_acc_cap_a16": 64,
+    "n_trial_cap": 128,
+    "final_subminimum_remainder_only": true,
+    "reject_advances_tau": false,
+    "reject_advances_accepted_index": false,
+    "reject_refreshes_field": false,
+    "reject_changes_trust_radius": false,
+    "target_and_weight_share_delta_tau": true,
+    "beta_role": "diagnostic-delta_tau-over-h_ref-only",
+    "cap_status": "COMPUTE_CAP_UNRESOLVED_OR_HORIZON_CAP_UNREACHED"
+  },
+  "legacy_control": {
+    "variant": "PS-S8",
+    "fixed_slots": 8,
+    "reject_consumes_slot": true,
+    "backtracking": [
+      1.0,
+      0.5,
+      0.25
+    ]
+  },
+  "field": {
+    "ps_residual_definition": "legacy_remaining_layer_pre_share",
+    "fr_residual_definition": "full_current",
+    "fr_divisor": 1,
+    "velocity_definition": "nominal_coefficient_over_h_ref",
+    "candidate_coefficient": "delta_tau_times_velocity",
+    "predicted_progress": "delta_tau_times_a_transpose_velocity",
+    "accepted_state_refresh_only": true,
+    "native_z_warm_start": true,
+    "target_velocity": "current-efficacy-only-frozen-policy"
+  },
+  "frozen_parent_lock": {
+    "path": "project/run_scripts/ode_bf/locks/numerical_lock_p1r2.json",
+    "sha256": "0cdb4ff528f0eddea7b40b9d36a103fa372dca8433da8a0a2cf36f77ad2fa903",
+    "functional_p_budget_nats": 0.001,
+    "functional_p_baseline": "fixed-outer-entry",
+    "structural_h_increment_fraction": 0.5,
+    "structural_p_increment_fraction": 0.5,
+    "write_trust_fraction": 1.0,
+    "minimum_progress": 1e-08,
+    "w64_residual_tolerance": 1e-05
+  },
+  "first_hit": {
+    "online_early_stop": false,
+    "requires_official_cf_10_of_10": true,
+    "requires_structural_and_functional_components": true,
+    "requires_terminal_confirmation": true,
+    "rejected_event_candidate_counts": false,
+    "immutable_first_snapshot": true,
+    "shadow_continues_to_t_max": true,
+    "incomplete_horizon_never_success": true
+  },
+  "postfreeze_evaluation": {
+    "states": "W0-N32-and-every-unique-accepted-snapshot",
+    "rejected_retry_aliases_prior_state": true,
+    "duplicate_rejected_evaluation_count": 0,
+    "teacher_forced_only": true,
+    "generation_call_count": 0,
+    "metrics": [
+      "efficacy",
+      "generalization",
+      "locality-preservation"
+    ],
+    "numeric_nll_new_old": true,
+    "paired_native_bits": true,
+    "old_degradation_only_success": true,
+    "r_new_denominator_epsilon": 1e-08,
+    "predeclared_quantiles": [
+      0.05,
+      0.25,
+      0.5,
+      0.75,
+      0.95
+    ],
+    "controller_heldout_access_count": 0
+  },
+  "routing_concentration": {
+    "layer_count": 5,
+    "raw_and_bf_vectors": true,
+    "metrics": [
+      "top1-share",
+      "top2-share",
+      "hhi",
+      "effective-layer-count",
+      "normalized-entropy",
+      "gini",
+      "depth-centroid",
+      "raw-to-bf-l1-cosine-jensen-shannon",
+      "stepwise-l1-cosine-support-turnover"
+    ],
+    "feedback_to_controller": false
+  },
+  "refinement": {
+    "cpu_steps": [
+      0.125,
+      0.0625,
+      0.03125
+    ],
+    "float64_euler_ratio_min": 1.6,
+    "float64_euler_ratio_max": 2.4,
+    "model_variants": [
+      "FR-A8",
+      "FR-A16"
+    ],
+    "model_h_1_over_32_authorized": false,
+    "promotion_use": false
+  },
+  "resource": {
+    "gpu_per_job": 1,
+    "cpu_per_job": 8,
+    "memory_mib_per_job": 65000,
+    "time_limit_seconds_max": 86400,
+    "server2_gpu_cap": 3,
+    "maximum_unique_adaptive_snapshots": 136,
+    "maximum_factors_per_endpoint_layer": 64,
+    "maximum_retained_factors_per_layer": 136,
+    "maximum_trials": 408,
+    "maximum_postfreeze_states": 138,
+    "time_forecast_seconds_with_10pct_reserve": 48489,
+    "time_forecast_identity_sha256": "a3519a22951f6d636f51d42cbf0348cb4fb24dd47bd473c38c8b6dcdda77d7e4",
+    "llama_memory_forecast_identity_sha256": "4b3a1c2d648d6bcaff597e64959d2196664540c635c3729545eb1c21d7f0ccd5",
+    "qwen_memory_forecast_identity_sha256": "49513c678f44e49891d1ced9ef19a4d12130389fb63733357d9e407256a469cc",
+    "dense_fp64_full_delta_live": 0,
+    "dense_fp32_full_delta_live": 0,
+    "effective_bf16_target_weight_peak_live": 1
+  },
+  "model_alias_specific_controller_branches": 0,
+  "persistent_endpoint_commit_count": 0,
+  "history_append_count": 0,
+  "retry_submission_count": 0,
+  "root_digest": "ee62c01771abd0fa16dca8c0d9ecfe6afbbead4de03f41bc65b062ff9c4fe782"
+}

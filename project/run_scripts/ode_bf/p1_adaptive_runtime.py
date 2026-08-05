@@ -1,0 +1,2394 @@
+"""Adaptive-pseudo-time B10 causal diagnostic runtime.
+
+All four live variants use the R_BF controller.  The only causal differences
+are the legacy/adaptive clock, residual pre-sharing/full-residual policy, and
+the declared maximum pseudo-time increment.  The module never commits a
+scientific endpoint or appends history.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import math
+import random
+import resource as system_resource
+import time
+from dataclasses import asdict, dataclass
+from fractions import Fraction
+from pathlib import Path
+from typing import Any, Mapping, Sequence
+
+import numpy as np
+import torch
+
+from .accounting import ComputeLedger
+from .contracts import BATCH_SIZE, ODEBFContractError, ODEBFStateError, canonical_hash
+from .evaluator import ModelEvaluationReceipt
+from .first_hit import FeasibilityVerdict
+from .functional import CumulativeBF16FunctionalTrial, WaypointFactor, tensor_sha256
+from .p0_runtime import ModelForwardCounter
+from .p1_adaptive import (
+    ADAPTIVE_INSTRUCTION_ID,
+    ADAPTIVE_VARIANTS,
+    H_REF,
+    AdaptiveTauClock,
+    AdaptiveVariant,
+    FirstHitRecord,
+    FirstHitTracker,
+    StepSizeIndependentVelocity,
+    adaptive_lock,
+    adaptive_waypoint_factors,
+    concentration_summary,
+    fraction_payload,
+    routing_change,
+    streaming_bf16_capacity,
+    streaming_bf16_endpoint_distance,
+)
+from .p1_backend import (
+    CandidateBF16FunctionalTrial,
+    FULL_CURRENT_RESIDUAL_DEFINITION,
+    LEGACY_PRE_SHARED_RESIDUAL_DEFINITION,
+    P1DynamicField,
+    P1NativeCapture,
+    PinnedCovarianceRegistry,
+    build_p1_dynamic_field,
+    build_p1_frozen_field_from_capture,
+    capture_p1_native_entry,
+    evaluate_controller_margin,
+    signed_progress_gradient,
+    write_aware_target_velocity,
+)
+from .p1_controller import (
+    AcceptedLayerContribution,
+    MatchedRawVelocity,
+    P1ControllerLock,
+    P1RoutingBuild,
+    build_p1_routing_problem,
+    project_matched_bf_velocity,
+    solve_matched_raw_velocity,
+)
+from .p1_evaluator import load_counterfact_cases_after_freeze
+from .p1_replay import (
+    OuterEntryPretrainedCache,
+    Theta0TeacherCache,
+    build_outer_entry_pretrained_cache,
+)
+from .p1_state import (
+    ArmWeightSnapshot,
+    P1Arm,
+    P1HistoryLedger,
+    restore_arm_snapshot,
+)
+from .p1_stepwise import (
+    StepwiseActionFreeze,
+    StepwisePrimaryReceipt,
+    compare_stepwise_primary,
+    evaluate_counterfact_stepwise_primary,
+)
+from .routing import RoutingProblem, RoutingStatus, verify_backtracked_candidate
+from .sampling import StatelessReplaySchedule
+
+
+ADAPTIVE_RESULT_TOKEN = "p1r4-adaptive-tau-causal-v1"
+
+
+def expected_adaptive_result_name(alias: str) -> str:
+    return f"s04-p1r4-adaptive-tau-{alias}-v1"
+
+
+def _factor_map(
+    values: Mapping[str, Sequence[WaypointFactor]],
+) -> dict[str, tuple[WaypointFactor, ...]]:
+    return {name: tuple(items) for name, items in values.items()}
+
+
+def _merge_factors(
+    base: Mapping[str, Sequence[WaypointFactor]],
+    increment: Mapping[str, WaypointFactor],
+) -> dict[str, tuple[WaypointFactor, ...]]:
+    result = _factor_map(base)
+    for name, factor in increment.items():
+        values = result.get(name, ()) + (factor,)
+        if len({item.order_key for item in values}) != len(values):
+            raise ODEBFContractError("adaptive cumulative factor order repeats")
+        result[name] = tuple(sorted(values, key=lambda item: item.order_key))
+    return result
+
+
+def _factor_state(
+    entry_sha256: Mapping[str, str],
+    factors: Mapping[str, Sequence[WaypointFactor]],
+    target_state: torch.Tensor,
+) -> str:
+    payload: dict[str, Any] = {
+        "entry": dict(sorted(entry_sha256.items())),
+        "target_state_sha256": tensor_sha256(target_state),
+        "factors": {},
+    }
+    for name, values in sorted(factors.items()):
+        payload["factors"][name] = [
+            {
+                "layer": item.layer,
+                "cycle": item.correction_cycle,
+                "step": item.step_in_cycle,
+                "ordinal": item.factor_ordinal,
+                "theta": item.theta,
+                "left": tensor_sha256(item.left),
+                "right": tensor_sha256(item.right),
+                "rank": item.left.shape[1],
+            }
+            for item in sorted(values, key=lambda value: value.order_key)
+        ]
+    return canonical_hash(payload)
+
+
+def _omega_state(
+    accepted_by_layer: Mapping[int, Sequence[AcceptedLayerContribution]],
+) -> str:
+    return canonical_hash(
+        {
+            str(layer): [
+                {
+                    "factor": {
+                        "order_key": list(item.factor.order_key),
+                        "theta": item.factor.theta,
+                        "left_sha256": tensor_sha256(item.factor.left),
+                        "right_sha256": tensor_sha256(item.factor.right),
+                    },
+                    "q_sha256": tensor_sha256(item.q),
+                    "residual_sha256": tensor_sha256(item.residual),
+                    "covariance_action_sha256": tensor_sha256(
+                        item.covariance_action
+                    ),
+                    "history_action_sha256": tensor_sha256(item.history_action),
+                    "factor_frobenius_sq": item.factor_frobenius_sq,
+                }
+                for item in values
+            ]
+            for layer, values in sorted(accepted_by_layer.items())
+        }
+    )
+
+
+def _rng_identity() -> str:
+    cuda = (
+        [tensor_sha256(value) for value in torch.cuda.get_rng_state_all()]
+        if torch.cuda.is_available()
+        else []
+    )
+    numpy_state = np.random.get_state()
+    return canonical_hash(
+        {
+            "python": hashlib.sha256(repr(random.getstate()).encode("utf-8")).hexdigest(),
+            "numpy": {
+                "kind": str(numpy_state[0]),
+                "keys_sha256": hashlib.sha256(
+                    np.asarray(numpy_state[1], dtype=np.uint32).tobytes()
+                ).hexdigest(),
+                "position": int(numpy_state[2]),
+                "has_gauss": int(numpy_state[3]),
+                "cached_gaussian": float(numpy_state[4]),
+            },
+            "torch_cpu": tensor_sha256(torch.get_rng_state()),
+            "torch_cuda": cuda,
+        }
+    )
+
+
+def _parameter_contract(parameters: Mapping[str, torch.nn.Parameter]) -> dict[str, Any]:
+    return {
+        "weights": {
+            name: {
+                "bytes_sha256": tensor_sha256(parameter),
+                "pointer": int(parameter.data_ptr()),
+                "version": int(parameter._version),
+                "requires_grad": bool(parameter.requires_grad),
+                "grad_sha256": (
+                    None if parameter.grad is None else tensor_sha256(parameter.grad)
+                ),
+            }
+            for name, parameter in sorted(parameters.items())
+        },
+        "rng_sha256": _rng_identity(),
+    }
+
+
+def _parameter_contract_sha256(parameters: Mapping[str, torch.nn.Parameter]) -> str:
+    return canonical_hash(_parameter_contract(parameters))
+
+
+class AdaptiveReceiptRecorder:
+    def __init__(self, root: Path, variant: AdaptiveVariant, write_once: Any) -> None:
+        self.root = root / "adaptive" / variant.value
+        self.variant = variant
+        self.write_once = write_once
+        self.field_hashes: list[str] = []
+        self.trial_hashes: list[str] = []
+        self.transition_hashes: list[str] = []
+        self.accepted_hashes: list[str] = []
+        self.terminal_hashes: list[str] = []
+
+    def _write(self, category: str, ordinal: int, payload: Mapping[str, Any]) -> str:
+        path = self.root / f"{category}-{ordinal:04d}.json"
+        return self.write_once(
+            path,
+            {
+                "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-receipt/v1",
+                "instruction_id": ADAPTIVE_INSTRUCTION_ID,
+                "variant": self.variant.value,
+                "category": category,
+                "ordinal": ordinal,
+                **dict(payload),
+            },
+        )
+
+    def field(self, payload: Mapping[str, Any]) -> str:
+        digest = self._write("field", len(self.field_hashes), payload)
+        self.field_hashes.append(digest)
+        return digest
+
+    def trial(self, payload: Mapping[str, Any]) -> str:
+        digest = self._write("trial", len(self.trial_hashes), payload)
+        self.trial_hashes.append(digest)
+        return digest
+
+    def transition(self, payload: Mapping[str, Any]) -> str:
+        digest = self._write(
+            "transition", len(self.transition_hashes), payload
+        )
+        self.transition_hashes.append(digest)
+        return digest
+
+    def accepted(self, payload: Mapping[str, Any]) -> str:
+        digest = self._write("accepted", len(self.accepted_hashes), payload)
+        self.accepted_hashes.append(digest)
+        return digest
+
+    def terminal(self, payload: Mapping[str, Any]) -> str:
+        digest = self._write("terminal", len(self.terminal_hashes), payload)
+        self.terminal_hashes.append(digest)
+        return digest
+
+    def links(self) -> dict[str, list[str]]:
+        return {
+            "field": list(self.field_hashes),
+            "trial": list(self.trial_hashes),
+            "transition": list(self.transition_hashes),
+            "accepted": list(self.accepted_hashes),
+            "terminal": list(self.terminal_hashes),
+        }
+
+
+@dataclass(slots=True)
+class ActiveField:
+    field: P1DynamicField
+    signed_progress: Any
+    routing: P1RoutingBuild
+    problem: RoutingProblem
+    raw: MatchedRawVelocity
+    raw_velocity: StepSizeIndependentVelocity
+    bf_velocity: StepSizeIndependentVelocity
+    projection: Any
+    target_velocity: torch.Tensor
+    target_velocity_receipt: Any
+    receipt_sha256: str
+
+
+@dataclass(slots=True)
+class TrialOutcome:
+    gate_accepted: bool
+    candidate_factors: dict[str, tuple[WaypointFactor, ...]]
+    increment: dict[str, WaypointFactor]
+    target_trial: torch.Tensor
+    evaluation: ModelEvaluationReceipt
+    margin: Any
+    feasibility: FeasibilityVerdict
+    functional: Any
+    structural_payload: dict[str, Any]
+    routing_payload: dict[str, Any]
+    progress_payload: dict[str, Any]
+    capacity_payload: dict[str, Any]
+    snapshot_sha256: str
+    receipt_sha256: str
+    trust_ratio: float | None
+
+
+@dataclass(slots=True)
+class AcceptedSnapshot:
+    accepted_index: int
+    tau: Fraction
+    delta_tau: Fraction
+    factors: dict[str, tuple[WaypointFactor, ...]]
+    target_state: torch.Tensor
+    snapshot_sha256: str
+    evaluation: ModelEvaluationReceipt
+    feasibility: FeasibilityVerdict
+    structural_payload: dict[str, Any]
+    routing_payload: dict[str, Any]
+    progress_payload: dict[str, Any]
+    capacity_payload: dict[str, Any]
+    field_sha256: str
+    raw_velocity_sha256: str
+    bf_velocity_sha256: str
+    accepted_receipt_sha256: str
+
+
+@dataclass(slots=True)
+class VariantRollout:
+    variant: AdaptiveVariant
+    status: str
+    residual_policy: str
+    accepted_t: Fraction
+    k_acc: int
+    n_trial: int
+    n_reject: int
+    field_build_count: int
+    snapshots: list[AcceptedSnapshot]
+    first_hit: FirstHitTracker
+    recorder: AdaptiveReceiptRecorder
+    ledger: ComputeLedger
+    entry_success: dict[str, Any]
+    terminal_confirmation: list[dict[str, Any]]
+    rollout_sha256: str
+
+
+def _risk_payload(receipt: Any) -> dict[str, Any]:
+    return {
+        "barrier": receipt.barrier,
+        "sample_count": receipt.sample_count,
+        "sample_order_sha256": receipt.sample_order_sha256,
+        "budget": receipt.budget,
+        "mean_positive_damage": receipt.mean_positive_damage,
+        "smooth_max_positive_damage": receipt.smooth_max_positive_damage,
+        "raw_max_positive_damage": receipt.raw_max_positive_damage,
+        "signed_mean_damage": receipt.signed_mean_damage,
+        "decision_rule": receipt.decision_rule,
+        "passed": receipt.passed,
+    }
+
+
+def _structural_payload(barrier: Any, velocity: np.ndarray) -> dict[str, Any]:
+    value = float(barrier.value(velocity))
+    return {
+        "value": value,
+        "budget": float(barrier.budget),
+        "slack": float(barrier.budget - value),
+        "passed": bool(value <= barrier.budget + 1.0e-8),
+        "approximation": barrier.approximation,
+    }
+
+
+def _trust_payload(problem: RoutingProblem, velocity: np.ndarray) -> dict[str, Any]:
+    value = float(velocity @ problem.trust_metric @ velocity)
+    radius_squared = float(problem.trust_radius**2)
+    return {
+        "value": value,
+        "radius": float(problem.trust_radius),
+        "radius_squared": radius_squared,
+        "slack": radius_squared - value,
+        "passed": bool(value <= radius_squared + 1.0e-8),
+        "role": "redundant-diagnostic",
+    }
+
+
+def _history_keys(history: P1HistoryLedger, layers: Sequence[int], *, risk: bool) -> dict[int, torch.Tensor]:
+    return {
+        int(layer): history.risk_key_view(int(layer))
+        if risk
+        else history.solve_key_view(int(layer))
+        for layer in layers
+    }
+
+
+def _history_actions(field: P1DynamicField, history: P1HistoryLedger) -> dict[int, torch.Tensor]:
+    result: dict[int, torch.Tensor] = {}
+    for item in field.layers:
+        keys = history.risk_key_view(item.layer)
+        result[item.layer] = (
+            item.residual.to(dtype=torch.float64)
+            @ (item.q.to(dtype=torch.float64).T @ keys.to(dtype=torch.float64))
+            if keys.shape[1]
+            else torch.empty((item.residual.shape[0], 0), dtype=torch.float64)
+        )
+    return result
+
+
+def _residual_policy(variant: AdaptiveVariant) -> str:
+    return (
+        LEGACY_PRE_SHARED_RESIDUAL_DEFINITION
+        if variant in (AdaptiveVariant.PS_S8, AdaptiveVariant.PS_A8)
+        else FULL_CURRENT_RESIDUAL_DEFINITION
+    )
+
+
+def _build_active_field(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    *,
+    variant: AdaptiveVariant,
+    accepted_index: int,
+    factors: Mapping[str, Sequence[WaypointFactor]],
+    target_state: torch.Tensor,
+    capture: P1NativeCapture,
+    hparams: Any,
+    projector: torch.Tensor,
+    contexts: Sequence[Sequence[str]],
+    covariance_registry: PinnedCovarianceRegistry,
+    projector_sha256: str,
+    lock: P1ControllerLock,
+    history: P1HistoryLedger,
+    accepted_by_layer: Mapping[int, Sequence[AcceptedLayerContribution]],
+    ledger: ComputeLedger,
+    recorder: AdaptiveReceiptRecorder,
+    native_target: torch.Tensor,
+    target_base: torch.Tensor,
+) -> ActiveField:
+    layers = tuple(int(layer) for layer in hparams.layers)
+    policy = _residual_policy(variant)
+    started = time.perf_counter()
+    counter_before = dict(ledger.counters)
+    if accepted_index == 0:
+        field = build_p1_frozen_field_from_capture(
+            model,
+            hparams,
+            projector,
+            capture,
+            target_state=target_state,
+            accepted_waypoint=0,
+            history_solve_keys_by_layer=_history_keys(history, layers, risk=False),
+            history_risk_keys_by_layer=_history_keys(history, layers, risk=True),
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            residual_tolerance=lock.residual_tolerance,
+            residual_policy=policy,
+        )
+    else:
+        field = build_p1_dynamic_field(
+            model,
+            tokenizer,
+            requests,
+            hparams,
+            projector,
+            contexts,
+            target_state=target_state,
+            accepted_waypoint=accepted_index,
+            cumulative_factors_by_weight=factors,
+            history_solve_keys_by_layer=_history_keys(history, layers, risk=False),
+            history_risk_keys_by_layer=_history_keys(history, layers, risk=True),
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            residual_tolerance=lock.residual_tolerance,
+            ledger=ledger,
+            residual_policy=policy,
+        )
+    signed = signed_progress_gradient(
+        model,
+        tokenizer,
+        requests,
+        field,
+        cumulative_factors_by_weight=factors,
+        ledger=ledger,
+    )
+    source = build_p1_routing_problem(
+        field,
+        signed,
+        accepted_by_layer=accepted_by_layer,
+        committed_load_by_layer=history.cumulative_load(),
+        lock=lock,
+    )
+    raw = solve_matched_raw_velocity(source)
+    ledger.increment("qp_solve", 2)
+    ledger.increment("qp_certificate", 2)
+    barrier = build_p1_routing_problem(
+        field,
+        signed,
+        accepted_by_layer=accepted_by_layer,
+        committed_load_by_layer=history.cumulative_load(),
+        lock=lock,
+        current_history_action_by_layer=_history_actions(field, history),
+    )
+    projection = project_matched_bf_velocity(barrier, raw)
+    ledger.increment("qp_solve", 2)
+    ledger.increment("qp_certificate", 2)
+    if projection.status is not RoutingStatus.FEASIBLE or projection.values is None:
+        recorder.field(
+            {
+                "accepted_index": accepted_index,
+                "status": "PROGRESS_INFEASIBLE",
+                "residual_policy": policy,
+                "field": field.raw_free_payload(),
+                "field_sha256": field.identity_sha256,
+                "signed_slopes": list(signed.signed_progress),
+                "signed_slopes_sha256": canonical_hash(
+                    list(signed.signed_progress)
+                ),
+                "raw_velocity": raw.values.tolist(),
+                "raw_velocity_sha256": raw.velocity_sha256,
+                "raw_certificate": asdict(raw.certificate),
+                "projection_status": projection.status.value,
+                "projection_certificate": asdict(projection.certificate),
+                "field_build_wall_seconds": time.perf_counter() - started,
+                "field_build_counter_delta": {
+                    name: ledger.counters[name] - counter_before[name]
+                    for name in sorted(ledger.counters)
+                },
+            }
+        )
+        raise ODEBFContractError("PROGRESS_INFEASIBLE: adaptive BF field")
+    raw_velocity = StepSizeIndependentVelocity.from_controller_values(
+        field.identity_sha256, raw.values
+    )
+    bf_velocity = StepSizeIndependentVelocity.from_controller_values(
+        field.identity_sha256, projection.values
+    )
+    target_velocity, target_receipt = write_aware_target_velocity(
+        model,
+        tokenizer,
+        requests,
+        field,
+        projection.values,
+        cumulative_factors_by_weight=factors,
+        target_base=target_base,
+        native_target=native_target,
+        trust_fraction=lock.target_trust_fraction,
+        ledger=ledger,
+    )
+    payload = {
+        "accepted_index": accepted_index,
+        "residual_policy": policy,
+        "field": field.raw_free_payload(),
+        "field_sha256": field.identity_sha256,
+        "signed_slopes": list(signed.signed_progress),
+        "signed_slopes_sha256": canonical_hash(list(signed.signed_progress)),
+        "excluded_nonpositive_layers": list(signed.excluded_nonpositive_layers),
+        "raw_velocity": list(raw_velocity.velocity),
+        "raw_velocity_sha256": raw_velocity.velocity_sha256,
+        "bf_velocity": list(bf_velocity.velocity),
+        "bf_velocity_sha256": bf_velocity.velocity_sha256,
+        "h_ref": fraction_payload(H_REF),
+        "raw_to_bf": routing_change(raw_velocity.velocity, bf_velocity.velocity),
+        "raw_certificate": asdict(raw.certificate),
+        "bf_certificate": asdict(projection.certificate),
+        "projection_distance": projection.projection_distance,
+        "routing_problem_sha256": barrier.problem.identity(),
+        "target_velocity": asdict(target_receipt),
+        "field_build_wall_seconds": time.perf_counter() - started,
+        "field_build_counter_delta": {
+            name: ledger.counters[name] - counter_before[name]
+            for name in sorted(ledger.counters)
+        },
+    }
+    receipt_sha256 = recorder.field(payload)
+    return ActiveField(
+        field,
+        signed,
+        barrier,
+        barrier.problem,
+        raw,
+        raw_velocity,
+        bf_velocity,
+        projection,
+        target_velocity,
+        target_receipt,
+        receipt_sha256,
+    )
+
+
+def _evaluate_rewrite(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    *,
+    alias: str,
+    factors: Mapping[str, Sequence[WaypointFactor]],
+    ledger: ComputeLedger,
+) -> ModelEvaluationReceipt:
+    from .evaluator import evaluate_counterfact_rewrite_batch
+
+    context = (
+        CumulativeBF16FunctionalTrial(model, factors, row_block=64)
+        if factors
+        else None
+    )
+    if context is None:
+        receipt = evaluate_counterfact_rewrite_batch(
+            model, tokenizer, requests, model_alias=alias
+        )
+    else:
+        with context:
+            receipt = evaluate_counterfact_rewrite_batch(
+                model, tokenizer, requests, model_alias=alias
+            )
+    ledger.increment("evaluator_forward", receipt.model_forward_count)
+    ledger.increment("evaluator_tokens", receipt.processed_token_count)
+    return receipt
+
+
+def _controller_replay_entry(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    arm_state: Any,
+    sample_waypoint: int,
+    factors: Mapping[str, Sequence[WaypointFactor]],
+    request_by_sha256: Mapping[str, Mapping[str, Any]],
+    population_by_sha256: Mapping[str, Mapping[str, Any]],
+    schedule: StatelessReplaySchedule,
+    outer_entry_p_cache: OuterEntryPretrainedCache,
+) -> Any:
+    # Reuse the frozen P1R3 helper with the real arm-local history/ledger.
+    # Adaptive retries retain ``sample_waypoint``; the legacy control advances
+    # it with its consumed slot, which is the named clock difference.
+    from .p1_runtime import _replay_entry
+
+    return _replay_entry(
+        model,
+        tokenizer,
+        alias=alias,
+        arm_state=arm_state,
+        sequential_batch=0,
+        waypoint=sample_waypoint,
+        factors=factors,
+        request_by_sha256=request_by_sha256,
+        population_by_sha256=population_by_sha256,
+        schedule=schedule,
+        outer_entry_p_cache=outer_entry_p_cache,
+    )
+
+
+def _functional_trial(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    entry: Any,
+    theta0_cache: Theta0TeacherCache,
+    factors: Mapping[str, Sequence[WaypointFactor]],
+    lock: P1ControllerLock,
+    ledger: ComputeLedger,
+) -> Any:
+    from .p1_runtime import _functional_trial as frozen_functional_trial
+
+    return frozen_functional_trial(
+        model,
+        tokenizer,
+        alias=alias,
+        entry=entry,
+        theta0_cache=theta0_cache,
+        factors=factors,
+        lock=lock,
+        ledger=ledger,
+    )
+
+
+def _capacity_payload(
+    capture: P1NativeCapture,
+    field: P1DynamicField,
+    previous: Mapping[str, Sequence[WaypointFactor]],
+    candidate: Mapping[str, Sequence[WaypointFactor]],
+    increment: Mapping[str, WaypointFactor],
+    *,
+    delta_tau: Fraction,
+    raw_velocity: Sequence[float],
+    bf_velocity: Sequence[float],
+    signed_slopes: Sequence[float],
+    p_self: Sequence[float],
+    previous_bf_velocity: Sequence[float] | None,
+) -> dict[str, Any]:
+    layers: list[int] = []
+    requested_frobenius: list[float] = []
+    c_energy: list[float] = []
+    actual_step: list[float] = []
+    cumulative: list[float] = []
+    applied = [float(delta_tau) * float(value) for value in bf_velocity]
+    raw_progress = [
+        float(slope) * float(value)
+        for slope, value in zip(signed_slopes, raw_velocity, strict=True)
+    ]
+    bf_progress = [
+        float(slope) * float(value)
+        for slope, value in zip(signed_slopes, bf_velocity, strict=True)
+    ]
+    streaming_receipts: dict[str, Any] = {}
+    for ordinal, layer_field in enumerate(field.layers):
+        name = layer_field.weight_name
+        theta = increment[name].theta
+        receipt = streaming_bf16_capacity(
+            capture.entry_weights[name],
+            previous.get(name, ()),
+            candidate[name],
+            weight_name=name,
+        )
+        layers.append(layer_field.layer)
+        requested_frobenius.append(theta**2 * layer_field.factor_frobenius_sq)
+        c_energy.append(theta**2 * float(p_self[ordinal]))
+        actual_step.append(receipt.step_energy)
+        cumulative.append(receipt.cumulative_energy)
+        streaming_receipts[str(layer_field.layer)] = asdict(receipt)
+    result = {
+        "layers": layers,
+        "raw_velocity": concentration_summary(raw_velocity),
+        "bf_velocity": concentration_summary(bf_velocity),
+        "applied_coefficient": concentration_summary(applied),
+        "raw_progress_contribution": concentration_summary(raw_progress),
+        "bf_progress_contribution": concentration_summary(bf_progress),
+        "requested_frobenius_energy": concentration_summary(requested_frobenius),
+        "c_energy": concentration_summary(c_energy),
+        "actual_bf16_step_energy": concentration_summary(actual_step),
+        "cumulative_bf16_capacity": concentration_summary(cumulative),
+        "raw_to_bf": routing_change(raw_velocity, bf_velocity),
+        "previous_to_current_bf": (
+            None
+            if previous_bf_velocity is None
+            else routing_change(previous_bf_velocity, bf_velocity)
+        ),
+        "streaming_receipts": streaming_receipts,
+        "dense_fp64_full_delta_live": 0,
+        "dense_fp32_full_delta_live": 0,
+        "effective_bf16_weight_peak_live": 1,
+    }
+    result["identity_sha256"] = canonical_hash(result)
+    return result
+
+
+def _run_trial(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    *,
+    alias: str,
+    variant: AdaptiveVariant,
+    accepted_index: int,
+    n_trial: int,
+    retry_index: int,
+    tau_before: Fraction,
+    delta_tau: Fraction,
+    delta_tau_proposed: Fraction,
+    remainder: bool,
+    active: ActiveField,
+    current_factors: Mapping[str, Sequence[WaypointFactor]],
+    current_target: torch.Tensor,
+    current_margin: Any,
+    replay_entry: Any,
+    theta0_cache: Theta0TeacherCache,
+    capture: P1NativeCapture,
+    lock: P1ControllerLock,
+    ledger: ComputeLedger,
+    recorder: AdaptiveReceiptRecorder,
+    touched: Mapping[str, torch.nn.Parameter],
+    history: P1HistoryLedger,
+    schedule: StatelessReplaySchedule,
+    previous_bf_velocity: Sequence[float] | None,
+    accepted_by_layer: Mapping[int, Sequence[AcceptedLayerContribution]],
+) -> TrialOutcome:
+    from .p1_runtime import _controller_progress_telemetry
+
+    if delta_tau <= 0 or delta_tau > H_REF:
+        raise ODEBFContractError("adaptive trial delta_tau differs")
+    trial_wall_started = time.perf_counter()
+    trial_gpu_start: torch.cuda.Event | None = None
+    trial_gpu_end: torch.cuda.Event | None = None
+    if torch.cuda.is_available():
+        trial_gpu_start = torch.cuda.Event(enable_timing=True)
+        trial_gpu_end = torch.cuda.Event(enable_timing=True)
+        trial_gpu_start.record()
+    counter_before = dict(ledger.counters)
+    before_model = _parameter_contract_sha256(touched)
+    before_history = history.snapshot().digest
+    before_sampler = schedule.state_digest
+    before_target = tensor_sha256(current_target)
+    before_factors = _factor_state(capture.entry_sha256, current_factors, current_target)
+    before_omega = _omega_state(accepted_by_layer)
+    increment = adaptive_waypoint_factors(
+        active.field,
+        active.bf_velocity,
+        accepted_index=accepted_index,
+        delta_tau=delta_tau,
+    )
+    candidate_factors = _merge_factors(current_factors, increment)
+    candidate_margin = evaluate_controller_margin(
+        model,
+        tokenizer,
+        requests,
+        cumulative_factors_by_weight=candidate_factors,
+    )
+    progress = _controller_progress_telemetry(current_margin, candidate_margin)
+    functional = _functional_trial(
+        model,
+        tokenizer,
+        alias=alias,
+        entry=replay_entry,
+        theta0_cache=theta0_cache,
+        factors=candidate_factors,
+        lock=lock,
+        ledger=ledger,
+    )
+    evaluation = _evaluate_rewrite(
+        model,
+        tokenizer,
+        requests,
+        alias=alias,
+        factors=candidate_factors,
+        ledger=ledger,
+    )
+    if evaluation.counterfact_scores is None or len(
+        evaluation.counterfact_scores
+    ) != BATCH_SIZE:
+        raise ODEBFContractError(
+            "adaptive CounterFact trial lacks canonical numeric scores"
+        )
+    canonical_rewrite = [
+        {
+            "request_index": index,
+            "nll_new": score.target_new_nll,
+            "nll_old": score.target_true_nll,
+            "margin": score.target_true_nll - score.target_new_nll,
+            "success": score.success_bit,
+        }
+        for index, score in enumerate(evaluation.counterfact_scores)
+    ]
+    beta_alias = float(delta_tau / H_REF)
+    verdict = verify_backtracked_candidate(
+        active.problem,
+        np.asarray(active.bf_velocity.velocity, dtype=np.float64),
+        beta=beta_alias,
+        actual_signed_progress=progress.actual_signed_progress,
+        functional_h_pass=functional.historical.passed,
+        functional_p_pass=functional.pretrained.passed,
+        authoritative_bf16_pass=True,
+        minimum_progress=lock.minimum_progress,
+        rho_accept=lock.rho_accept,
+    )
+    feasibility = FeasibilityVerdict(
+        verdict.structural_h_pass,
+        verdict.structural_p_pass,
+        verdict.trust_pass,
+        functional.historical.passed,
+        functional.pretrained.passed,
+        True,
+    )
+    applied_velocity = beta_alias * np.asarray(
+        active.bf_velocity.velocity, dtype=np.float64
+    )
+    structural = {
+        "historical": _structural_payload(
+            active.problem.historical, applied_velocity
+        ),
+        "pretrained": _structural_payload(
+            active.problem.pretrained, applied_velocity
+        ),
+        "trust": _trust_payload(active.problem, applied_velocity),
+        "functional_h": _risk_payload(functional.historical),
+        "functional_p": _risk_payload(functional.pretrained),
+    }
+    target_trial = (
+        current_target
+        + float(delta_tau)
+        * active.target_velocity.detach().to(device="cpu", dtype=torch.float32)
+    ).contiguous()
+    snapshot_sha256 = _factor_state(
+        capture.entry_sha256, candidate_factors, target_trial
+    )
+    capacity = _capacity_payload(
+        capture,
+        active.field,
+        current_factors,
+        candidate_factors,
+        increment,
+        delta_tau=delta_tau,
+        raw_velocity=active.raw_velocity.velocity,
+        bf_velocity=active.bf_velocity.velocity,
+        signed_slopes=active.signed_progress.signed_progress,
+        p_self=active.routing.pretrained_self_risk,
+        previous_bf_velocity=previous_bf_velocity,
+    )
+    after_model = _parameter_contract_sha256(touched)
+    after_history = history.snapshot().digest
+    after_sampler = schedule.state_digest
+    if (
+        after_model != before_model
+        or after_history != before_history
+        or after_sampler != before_sampler
+        or tensor_sha256(current_target) != before_target
+        or _factor_state(capture.entry_sha256, current_factors, current_target)
+        != before_factors
+        or _omega_state(accepted_by_layer) != before_omega
+    ):
+        raise ODEBFStateError(
+            "adaptive virtual trial mutated model/state/history/sampler/RNG"
+        )
+    ledger.increment("trial")
+    trial_gpu_seconds = 0.0
+    if trial_gpu_start is not None and trial_gpu_end is not None:
+        trial_gpu_end.record()
+        trial_gpu_end.synchronize()
+        trial_gpu_seconds = float(trial_gpu_start.elapsed_time(trial_gpu_end)) / 1000.0
+    trial_wall_seconds = time.perf_counter() - trial_wall_started
+    ledger.add_time(
+        "adaptive_trial_total",
+        wall_seconds=trial_wall_seconds,
+        gpu_seconds=trial_gpu_seconds,
+    )
+    allocated_bytes = (
+        int(torch.cuda.max_memory_allocated()) if torch.cuda.is_available() else 0
+    )
+    reserved_bytes = (
+        int(torch.cuda.max_memory_reserved()) if torch.cuda.is_available() else 0
+    )
+    host_maxrss_kib = int(
+        system_resource.getrusage(system_resource.RUSAGE_SELF).ru_maxrss
+    )
+    ledger.observe_memory(
+        allocated_bytes=allocated_bytes,
+        reserved_bytes=reserved_bytes,
+        maxrss_kib=host_maxrss_kib,
+    )
+    counter_delta = {
+        name: int(ledger.counters[name] - counter_before[name])
+        for name in sorted(ledger.counters)
+    }
+    progress_payload = {
+        "actual": progress.actual_signed_progress,
+        "predicted_beta": verdict.predicted_beta_progress,
+        "raw_predicted": verdict.raw_predicted_progress,
+        "rho": verdict.trust_ratio,
+        "progress_pass": verdict.progress_pass,
+        "minimum_progress": lock.minimum_progress,
+        "rho_accept": lock.rho_accept,
+        "requested_progress": active.problem.requested_progress,
+        "maximum_feasible_progress": active.projection.maximum_feasible_progress,
+        "per_request_signed_progress": list(progress.per_request_signed_progress),
+        "per_request_signed_progress_sha256": (
+            progress.per_request_signed_progress_sha256
+        ),
+        "per_request_improved_bits": list(progress.per_request_improved_bits),
+        "per_request_harm_bits": list(progress.per_request_harm_bits),
+    }
+    routing_payload = {
+        "field_sha256": active.field.identity_sha256,
+        "field_receipt_sha256": active.receipt_sha256,
+        "residual_policy": _residual_policy(variant),
+        "residual_divisors": [item.residual_divisor for item in active.field.layers],
+        "residual_norms": [
+            float(torch.linalg.norm(item.residual.double()))
+            for item in active.field.layers
+        ],
+        "raw_velocity": list(active.raw_velocity.velocity),
+        "raw_velocity_sha256": active.raw_velocity.velocity_sha256,
+        "bf_velocity": list(active.bf_velocity.velocity),
+        "bf_velocity_sha256": active.bf_velocity.velocity_sha256,
+        "coefficient": list(active.bf_velocity.applied(delta_tau)),
+        "coefficient_l2_norm": float(
+            np.linalg.norm(
+                np.asarray(active.bf_velocity.applied(delta_tau), dtype=np.float64)
+            )
+        ),
+        "velocity_l2_norm": float(
+            np.linalg.norm(
+                np.asarray(active.bf_velocity.velocity, dtype=np.float64)
+            )
+        ),
+        "velocity_layer_caps": active.problem.layer_caps.tolist(),
+        "scaled_candidate_layer_caps": (
+            float(delta_tau / H_REF) * active.problem.layer_caps
+        ).tolist(),
+        "target_velocity_sha256": active.target_velocity_receipt.velocity_sha256,
+        "target_trial_sha256": tensor_sha256(target_trial),
+        "target_weight_shared_delta_tau": True,
+    }
+    receipt_sha256 = recorder.trial(
+        {
+            "accepted_index_before": accepted_index,
+            "n_trial": n_trial,
+            "retry_index": retry_index,
+            "tau_before": fraction_payload(tau_before),
+            "tau_after_candidate": fraction_payload(tau_before + delta_tau),
+            "eta_h_ref": fraction_payload(H_REF),
+            "delta_tau_proposed": fraction_payload(delta_tau_proposed),
+            "delta_tau_trial": fraction_payload(delta_tau),
+            "beta_diagnostic_alias": beta_alias,
+            "remainder": remainder,
+            "gate_accepted": verdict.accepted,
+            "first_rejecting_component": verdict.first_rejecting_gate,
+            "progress": progress_payload,
+            "structural_functional": structural,
+            "official_success": evaluation.batch_success.raw_free_payload(),
+            "canonical_rewrite": canonical_rewrite,
+            "canonical_rewrite_sha256": canonical_hash(canonical_rewrite),
+            "snapshot_sha256": snapshot_sha256,
+            "routing": routing_payload,
+            "capacity": capacity,
+            "compute": {
+                "counter_delta": counter_delta,
+                "wall_seconds": trial_wall_seconds,
+                "gpu_seconds": trial_gpu_seconds,
+                "peak_allocated_bytes": allocated_bytes,
+                "peak_reserved_bytes": reserved_bytes,
+                "host_maxrss_kib": host_maxrss_kib,
+            },
+            "purity": {
+                "model_before_sha256": before_model,
+                "model_after_sha256": after_model,
+                "history_before_sha256": before_history,
+                "history_after_sha256": after_history,
+                "sampler_before_sha256": before_sampler,
+                "sampler_after_sha256": after_sampler,
+                "state_before_sha256": before_factors,
+                "state_after_sha256": before_factors,
+                "omega_before_sha256": before_omega,
+                "omega_after_sha256": before_omega,
+            },
+        }
+    )
+    return TrialOutcome(
+        verdict.accepted,
+        candidate_factors,
+        increment,
+        target_trial,
+        evaluation,
+        candidate_margin,
+        feasibility,
+        functional,
+        structural,
+        routing_payload,
+        progress_payload,
+        capacity,
+        snapshot_sha256,
+        receipt_sha256,
+        verdict.trust_ratio,
+    )
+
+
+def _is_progress_infeasible(exc: BaseException) -> bool:
+    return isinstance(exc, ODEBFContractError) and str(exc).startswith(
+        "PROGRESS_INFEASIBLE:"
+    )
+
+
+def _append_accepted_snapshot(
+    *,
+    outcome: TrialOutcome,
+    active: ActiveField,
+    accepted_index_before: int,
+    tau_after: Fraction,
+    delta_tau: Fraction,
+    transition_sha256: str,
+    accepted_by_layer: dict[int, list[AcceptedLayerContribution]],
+    ledger: ComputeLedger,
+    recorder: AdaptiveReceiptRecorder,
+    first_hit: FirstHitTracker,
+) -> AcceptedSnapshot:
+    """Advance only the transaction-local logical state after a passed trial."""
+
+    accepted_index = accepted_index_before + 1
+    for layer_field in active.field.layers:
+        accepted_by_layer[layer_field.layer].append(
+            AcceptedLayerContribution.from_field(
+                layer_field,
+                outcome.increment[layer_field.weight_name],
+                history_action=layer_field.history_action,
+            )
+        )
+    ledger.record_accepted_step(
+        accepted_dt=float(delta_tau), completed_k_total=accepted_index
+    )
+    first_hit.append(
+        FirstHitRecord(
+            accepted_index,
+            tau_after,
+            outcome.snapshot_sha256,
+            outcome.evaluation.batch_success.numerator,
+            outcome.feasibility.all_pass,
+        )
+    )
+    accepted_sha256 = recorder.accepted(
+        {
+            "accepted_index": accepted_index,
+            "tau_after": fraction_payload(tau_after),
+            "delta_tau": fraction_payload(delta_tau),
+            "transition_sha256": transition_sha256,
+            "snapshot_sha256": outcome.snapshot_sha256,
+            "field_sha256": active.field.identity_sha256,
+            "raw_velocity_sha256": active.raw_velocity.velocity_sha256,
+            "bf_velocity_sha256": active.bf_velocity.velocity_sha256,
+            "official_success": outcome.evaluation.batch_success.raw_free_payload(),
+            "online_feasibility": asdict(outcome.feasibility),
+            "target_state_sha256": tensor_sha256(outcome.target_trial),
+            "capacity_sha256": outcome.capacity_payload["identity_sha256"],
+            "target_weight_shared_delta_tau": True,
+            "history_append_count": 0,
+            "persistent_commit_count": 0,
+        }
+    )
+    return AcceptedSnapshot(
+        accepted_index,
+        tau_after,
+        delta_tau,
+        _factor_map(outcome.candidate_factors),
+        outcome.target_trial.detach().to(device="cpu", dtype=torch.float32).clone(),
+        outcome.snapshot_sha256,
+        outcome.evaluation,
+        outcome.feasibility,
+        dict(outcome.structural_payload),
+        dict(outcome.routing_payload),
+        dict(outcome.progress_payload),
+        dict(outcome.capacity_payload),
+        active.field.identity_sha256,
+        active.raw_velocity.velocity_sha256,
+        active.bf_velocity.velocity_sha256,
+        accepted_sha256,
+    )
+
+
+def _terminal_confirm_snapshots(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    arm_state: Any,
+    snapshots: Sequence[AcceptedSnapshot],
+    request_by_sha256: Mapping[str, Mapping[str, Any]],
+    population_by_sha256: Mapping[str, Mapping[str, Any]],
+    schedule: StatelessReplaySchedule,
+    outer_entry_p_cache: OuterEntryPretrainedCache,
+    theta0_cache: Theta0TeacherCache,
+    lock: P1ControllerLock,
+    ledger: ComputeLedger,
+    recorder: AdaptiveReceiptRecorder,
+    trajectory_complete: bool,
+) -> list[dict[str, Any]]:
+    if not snapshots:
+        return []
+    from .p1_runtime import _terminal_replay_entry
+
+    terminal_entry = _terminal_replay_entry(
+        model,
+        tokenizer,
+        alias=alias,
+        arm_state=arm_state,
+        sequential_batch=0,
+        selected_stage=len(snapshots),
+        request_by_sha256=request_by_sha256,
+        population_by_sha256=population_by_sha256,
+        schedule=schedule,
+        outer_entry_p_cache=outer_entry_p_cache,
+    )
+    values: list[dict[str, Any]] = []
+    for snapshot in snapshots:
+        pair = _functional_trial(
+            model,
+            tokenizer,
+            alias=alias,
+            entry=terminal_entry,
+            theta0_cache=theta0_cache,
+            factors=snapshot.factors,
+            lock=lock,
+            ledger=ledger,
+        )
+        feasibility = FeasibilityVerdict(
+            snapshot.feasibility.structural_h,
+            snapshot.feasibility.structural_p,
+            snapshot.feasibility.trust,
+            pair.historical.passed,
+            pair.pretrained.passed,
+            True,
+        )
+        exact = bool(
+            trajectory_complete
+            and snapshot.evaluation.batch_success.joint_exact_success
+            and feasibility.all_pass
+        )
+        payload = {
+            "accepted_index": snapshot.accepted_index,
+            "tau": fraction_payload(snapshot.tau),
+            "snapshot_sha256": snapshot.snapshot_sha256,
+            "official_success": snapshot.evaluation.batch_success.raw_free_payload(),
+            "online_feasibility": asdict(snapshot.feasibility),
+            "terminal_feasibility": asdict(feasibility),
+            "terminal_h": _risk_payload(pair.historical),
+            "terminal_p": _risk_payload(pair.pretrained),
+            "outer_entry_baseline": {
+                "baseline_kind": "outer_entry",
+                "outer_entry_snapshot_sha256": (
+                    terminal_entry.pretrained_baseline.outer_entry_snapshot_sha256
+                ),
+                "sample_order_sha256": (
+                    terminal_entry.pretrained_baseline.sample_order_sha256
+                ),
+                "entry_kl_identity_sha256": (
+                    terminal_entry.pretrained_baseline.entry_kl_identity_sha256
+                ),
+            },
+            "terminal_confirmed_exact_hit": exact,
+            "trajectory_complete_required": True,
+        }
+        payload["receipt_sha256"] = recorder.terminal(payload)
+        values.append(payload)
+    return values
+
+
+def _run_variant(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    *,
+    alias: str,
+    variant: AdaptiveVariant,
+    capture: P1NativeCapture,
+    hparams: Any,
+    projector: torch.Tensor,
+    contexts: Sequence[Sequence[str]],
+    covariance_registry: PinnedCovarianceRegistry,
+    projector_sha256: str,
+    lock: P1ControllerLock,
+    arm_state: Any,
+    request_by_sha256: Mapping[str, Mapping[str, Any]],
+    population_by_sha256: Mapping[str, Mapping[str, Any]],
+    schedule: StatelessReplaySchedule,
+    outer_entry_p_cache: OuterEntryPretrainedCache,
+    theta0_cache: Theta0TeacherCache,
+    touched: Mapping[str, torch.nn.Parameter],
+    recorder: AdaptiveReceiptRecorder,
+) -> VariantRollout:
+    """Run one isolated R_BF-controller variant without persistent mutation."""
+
+    variant_lock = adaptive_lock(variant)
+    layers = tuple(int(layer) for layer in hparams.layers)
+    history = arm_state.history
+    ledger = arm_state.ledger
+    entry_model_sha256 = _parameter_contract_sha256(touched)
+    entry_history_sha256 = history.snapshot().digest
+    entry_sampler_sha256 = schedule.state_digest
+    native_target = torch.stack(capture.direct_z, dim=1).to(dtype=torch.float32)
+    target_base = capture.entry_current_z_by_layer[layers[-1]].clone()
+    current_target = native_target.clone()
+    current_factors: dict[str, tuple[WaypointFactor, ...]] = {}
+    accepted_by_layer: dict[int, list[AcceptedLayerContribution]] = {
+        layer: [] for layer in layers
+    }
+    snapshots: list[AcceptedSnapshot] = []
+    first_hit = FirstHitTracker()
+    current_margin = evaluate_controller_margin(
+        model,
+        tokenizer,
+        requests,
+        cumulative_factors_by_weight=current_factors,
+    )
+    entry_eval = _evaluate_rewrite(
+        model,
+        tokenizer,
+        requests,
+        alias=alias,
+        factors=current_factors,
+        ledger=ledger,
+    )
+    field_build_count = 0
+    n_trial = 0
+    n_reject = 0
+    accepted_t = Fraction(0, 1)
+    previous_bf_velocity: tuple[float, ...] | None = None
+    status = "ACTIVE"
+    active: ActiveField | None = None
+    try:
+        active = _build_active_field(
+            model,
+            tokenizer,
+            requests,
+            variant=variant,
+            accepted_index=0,
+            factors=current_factors,
+            target_state=current_target,
+            capture=capture,
+            hparams=hparams,
+            projector=projector,
+            contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            lock=lock,
+            history=history,
+            accepted_by_layer=accepted_by_layer,
+            ledger=ledger,
+            recorder=recorder,
+            native_target=native_target,
+            target_base=target_base,
+        )
+        field_build_count = 1
+    except ODEBFContractError as exc:
+        if not _is_progress_infeasible(exc):
+            raise
+        status = "PROGRESS_INFEASIBLE"
+        field_build_count = len(recorder.field_hashes)
+
+    if variant is AdaptiveVariant.PS_S8:
+        for slot in range(variant_lock.legacy_slot_cap):
+            if active is None:
+                break
+            replay_entry = _controller_replay_entry(
+                model,
+                tokenizer,
+                alias=alias,
+                arm_state=arm_state,
+                sample_waypoint=slot + 1,
+                factors=current_factors,
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                outer_entry_p_cache=outer_entry_p_cache,
+            )
+            trial_receipts: list[str] = []
+            chosen: TrialOutcome | None = None
+            chosen_delta: Fraction | None = None
+            for trial_ordinal, beta in enumerate(lock.backtracking):
+                n_trial += 1
+                delta = H_REF * Fraction(str(beta))
+                outcome = _run_trial(
+                    model,
+                    tokenizer,
+                    requests,
+                    alias=alias,
+                    variant=variant,
+                    accepted_index=len(snapshots),
+                    n_trial=n_trial,
+                    retry_index=trial_ordinal,
+                    tau_before=accepted_t,
+                    delta_tau=delta,
+                    delta_tau_proposed=H_REF,
+                    remainder=False,
+                    active=active,
+                    current_factors=current_factors,
+                    current_target=current_target,
+                    current_margin=current_margin,
+                    replay_entry=replay_entry,
+                    theta0_cache=theta0_cache,
+                    capture=capture,
+                    lock=lock,
+                    ledger=ledger,
+                    recorder=recorder,
+                    touched=touched,
+                    history=history,
+                    schedule=schedule,
+                    previous_bf_velocity=previous_bf_velocity,
+                    accepted_by_layer=accepted_by_layer,
+                )
+                trial_receipts.append(outcome.receipt_sha256)
+                if not outcome.gate_accepted:
+                    n_reject += 1
+                elif chosen is None:
+                    chosen = outcome
+                    chosen_delta = delta
+            transition_sha256 = recorder.transition(
+                {
+                    "mode": "legacy-fixed-slot",
+                    "slot": slot,
+                    "slot_consumed": True,
+                    "trial_receipt_sha256": trial_receipts,
+                    "accepted": chosen is not None,
+                    "accepted_index_before": len(snapshots),
+                    "tau_before": fraction_payload(accepted_t),
+                    "rejected_slot_state_unchanged": chosen is None,
+                    "field_reused_after_reject": chosen is None,
+                }
+            )
+            if chosen is None:
+                ledger.increment("reject", len(lock.backtracking))
+                continue
+            assert chosen_delta is not None
+            accepted_t += chosen_delta
+            snapshot = _append_accepted_snapshot(
+                outcome=chosen,
+                active=active,
+                accepted_index_before=len(snapshots),
+                tau_after=accepted_t,
+                delta_tau=chosen_delta,
+                transition_sha256=transition_sha256,
+                accepted_by_layer=accepted_by_layer,
+                ledger=ledger,
+                recorder=recorder,
+                first_hit=first_hit,
+            )
+            snapshots.append(snapshot)
+            current_factors = _factor_map(chosen.candidate_factors)
+            current_target = chosen.target_trial.clone()
+            current_margin = chosen.margin
+            previous_bf_velocity = active.bf_velocity.velocity
+            if slot + 1 < variant_lock.legacy_slot_cap:
+                try:
+                    active = _build_active_field(
+                        model,
+                        tokenizer,
+                        requests,
+                        variant=variant,
+                        accepted_index=len(snapshots),
+                        factors=current_factors,
+                        target_state=current_target,
+                        capture=capture,
+                        hparams=hparams,
+                        projector=projector,
+                        contexts=contexts,
+                        covariance_registry=covariance_registry,
+                        projector_sha256=projector_sha256,
+                        lock=lock,
+                        history=history,
+                        accepted_by_layer=accepted_by_layer,
+                        ledger=ledger,
+                        recorder=recorder,
+                        native_target=native_target,
+                        target_base=target_base,
+                    )
+                    field_build_count += 1
+                except ODEBFContractError as exc:
+                    if not _is_progress_infeasible(exc):
+                        raise
+                    status = "PROGRESS_INFEASIBLE"
+                    field_build_count = len(recorder.field_hashes)
+                    active = None
+                    break
+        if status == "ACTIVE":
+            status = "LEGACY_FIXED_S8_COMPLETE"
+    else:
+        clock = AdaptiveTauClock(variant_lock)
+        replay_entry: Any | None = None
+        replay_field_sha256: str | None = None
+        while active is not None and clock.status == "ACTIVE" and not clock.complete:
+            if replay_entry is None:
+                replay_entry = _controller_replay_entry(
+                    model,
+                    tokenizer,
+                    alias=alias,
+                    arm_state=arm_state,
+                    sample_waypoint=len(snapshots) + 1,
+                    factors=current_factors,
+                    request_by_sha256=request_by_sha256,
+                    population_by_sha256=population_by_sha256,
+                    schedule=schedule,
+                    outer_entry_p_cache=outer_entry_p_cache,
+                )
+                replay_field_sha256 = active.field.identity_sha256
+            try:
+                trial = clock.begin_trial()
+            except ODEBFStateError:
+                if clock.status == "ACTIVE":
+                    raise
+                break
+            outcome = _run_trial(
+                model,
+                tokenizer,
+                requests,
+                alias=alias,
+                variant=variant,
+                accepted_index=len(snapshots),
+                n_trial=trial.n_trial,
+                retry_index=trial.retry_index,
+                tau_before=trial.tau_before,
+                delta_tau=trial.delta_tau_trial,
+                delta_tau_proposed=trial.delta_tau_proposed,
+                remainder=trial.remainder,
+                active=active,
+                current_factors=current_factors,
+                current_target=current_target,
+                current_margin=current_margin,
+                replay_entry=replay_entry,
+                theta0_cache=theta0_cache,
+                capture=capture,
+                lock=lock,
+                ledger=ledger,
+                recorder=recorder,
+                touched=touched,
+                history=history,
+                schedule=schedule,
+                previous_bf_velocity=previous_bf_velocity,
+                accepted_by_layer=accepted_by_layer,
+            )
+            n_trial = clock.n_trial
+            if outcome.gate_accepted:
+                if outcome.trust_ratio is None:
+                    raise ODEBFContractError("accepted adaptive trial lacks rho")
+                transition = clock.accept(trial=trial, rho=outcome.trust_ratio)
+            else:
+                transition = clock.reject(trial=trial)
+                n_reject = clock.n_reject
+                ledger.increment("reject")
+            transition_sha256 = recorder.transition(
+                {
+                    "mode": "adaptive-pseudo-time",
+                    "trial_receipt_sha256": outcome.receipt_sha256,
+                    "clock_trial": trial.raw_free_payload(),
+                    "clock_transition": transition.raw_free_payload(),
+                    "field_sha256": active.field.identity_sha256,
+                    "replay_field_sha256": replay_field_sha256,
+                    "same_state_retry": not outcome.gate_accepted,
+                    "trust_radius_fixed_on_reject": True,
+                }
+            )
+            if not outcome.gate_accepted:
+                if clock.status != "ACTIVE":
+                    break
+                continue
+            accepted_t = clock.tau
+            snapshot = _append_accepted_snapshot(
+                outcome=outcome,
+                active=active,
+                accepted_index_before=len(snapshots),
+                tau_after=clock.tau,
+                delta_tau=trial.delta_tau_trial,
+                transition_sha256=transition_sha256,
+                accepted_by_layer=accepted_by_layer,
+                ledger=ledger,
+                recorder=recorder,
+                first_hit=first_hit,
+            )
+            snapshots.append(snapshot)
+            current_factors = _factor_map(outcome.candidate_factors)
+            current_target = outcome.target_trial.clone()
+            current_margin = outcome.margin
+            previous_bf_velocity = active.bf_velocity.velocity
+            replay_entry = None
+            replay_field_sha256 = None
+            if not clock.complete:
+                try:
+                    active = _build_active_field(
+                        model,
+                        tokenizer,
+                        requests,
+                        variant=variant,
+                        accepted_index=len(snapshots),
+                        factors=current_factors,
+                        target_state=current_target,
+                        capture=capture,
+                        hparams=hparams,
+                        projector=projector,
+                        contexts=contexts,
+                        covariance_registry=covariance_registry,
+                        projector_sha256=projector_sha256,
+                        lock=lock,
+                        history=history,
+                        accepted_by_layer=accepted_by_layer,
+                        ledger=ledger,
+                        recorder=recorder,
+                        native_target=native_target,
+                        target_base=target_base,
+                    )
+                    field_build_count += 1
+                except ODEBFContractError as exc:
+                    if not _is_progress_infeasible(exc):
+                        raise
+                    status = "PROGRESS_INFEASIBLE"
+                    field_build_count = len(recorder.field_hashes)
+                    active = None
+                    break
+        if status == "ACTIVE":
+            status = clock.status
+        n_trial = clock.n_trial
+        n_reject = clock.n_reject
+        accepted_t = clock.tau
+
+    if ledger.completed_correction_cycles == 0:
+        ledger.finish_cycle(0)
+    trajectory_complete = (
+        status == "LEGACY_FIXED_S8_COMPLETE"
+        if variant is AdaptiveVariant.PS_S8
+        else status == "TAU_COMPLETE" and accepted_t == Fraction(1, 1)
+    )
+    confirmations = _terminal_confirm_snapshots(
+        model,
+        tokenizer,
+        alias=alias,
+        arm_state=arm_state,
+        snapshots=snapshots,
+        request_by_sha256=request_by_sha256,
+        population_by_sha256=population_by_sha256,
+        schedule=schedule,
+        outer_entry_p_cache=outer_entry_p_cache,
+        theta0_cache=theta0_cache,
+        lock=lock,
+        ledger=ledger,
+        recorder=recorder,
+        trajectory_complete=trajectory_complete,
+    )
+    if (
+        _parameter_contract_sha256(touched) != entry_model_sha256
+        or history.snapshot().digest != entry_history_sha256
+        or schedule.state_digest != entry_sampler_sha256
+    ):
+        raise ODEBFStateError(
+            "adaptive rollout mutated model/history/sampler/RNG"
+        )
+    if field_build_count != len(recorder.field_hashes):
+        raise ODEBFStateError("adaptive field receipt/build count differs")
+    terminal_hits = [
+        item for item in confirmations if item["terminal_confirmed_exact_hit"]
+    ]
+    rollout_payload = {
+        "variant": variant.value,
+        "status": status,
+        "residual_policy": _residual_policy(variant),
+        "adaptive_lock_sha256": variant_lock.identity(),
+        "accepted_t": fraction_payload(accepted_t),
+        "k_acc": len(snapshots),
+        "n_trial": n_trial,
+        "n_reject": n_reject,
+        "field_build_count": field_build_count,
+        "entry_success": entry_eval.batch_success.raw_free_payload(),
+        "online_first_hit": (
+            None
+            if first_hit.first_online is None
+            else {
+                **asdict(first_hit.first_online),
+                "tau": fraction_payload(first_hit.first_online.tau),
+            }
+        ),
+        "terminal_first_hit": (
+            None
+            if not terminal_hits
+            else {
+                "accepted_index": terminal_hits[0]["accepted_index"],
+                "tau": terminal_hits[0]["tau"],
+                "snapshot_sha256": terminal_hits[0]["snapshot_sha256"],
+            }
+        ),
+        "accepted_snapshot_sha256": [
+            item.snapshot_sha256 for item in snapshots
+        ],
+        "receipt_links": recorder.links(),
+        "compute": ledger.raw_free_payload(),
+        "persistent_commit_count": 0,
+        "history_append_count": 0,
+        "heldout_access_count": 0,
+    }
+    rollout_sha256 = canonical_hash(rollout_payload)
+    recorder.terminal(
+        {
+            "rollout_summary": rollout_payload,
+            "rollout_sha256": rollout_sha256,
+            "trajectory_complete": trajectory_complete,
+            "terminal_confirmation_count": len(confirmations),
+        }
+    )
+    return VariantRollout(
+        variant,
+        status,
+        _residual_policy(variant),
+        accepted_t,
+        len(snapshots),
+        n_trial,
+        n_reject,
+        field_build_count,
+        snapshots,
+        first_hit,
+        recorder,
+        ledger,
+        entry_eval.batch_success.raw_free_payload(),
+        confirmations,
+        rollout_sha256,
+    )
+
+
+def _evaluate_stepwise_state(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    cases: Sequence[Any],
+    *,
+    alias: str,
+    freeze: StepwiseActionFreeze,
+    ledger: ComputeLedger,
+    touched: Mapping[str, torch.nn.Parameter],
+    factors: Mapping[str, Sequence[WaypointFactor]] | None = None,
+    candidates: Mapping[str, torch.Tensor] | None = None,
+) -> tuple[StepwisePrimaryReceipt, dict[str, Any]]:
+    if factors and candidates:
+        raise ODEBFContractError("stepwise state has two virtual endpoint sources")
+    before = _parameter_contract_sha256(touched)
+    started = time.perf_counter()
+    liveness: dict[str, Any]
+    if candidates:
+        context = CandidateBF16FunctionalTrial(model, candidates)
+        with context:
+            receipt = evaluate_counterfact_stepwise_primary(
+                model, tokenizer, cases, model_alias=alias, freeze=freeze
+            )
+        liveness = {
+            "candidate_bf16_weight_peak_live": context.max_live_candidate_weights,
+            "effective_bf16_weight_peak_live": 0,
+            "maximum_fp32_block_elements": 0,
+        }
+    elif factors:
+        context = CumulativeBF16FunctionalTrial(model, factors, row_block=64)
+        with context:
+            receipt = evaluate_counterfact_stepwise_primary(
+                model, tokenizer, cases, model_alias=alias, freeze=freeze
+            )
+        liveness = {
+            "candidate_bf16_weight_peak_live": 0,
+            "effective_bf16_weight_peak_live": context.max_live_effective_weights,
+            "maximum_fp32_block_elements": context.max_fp32_block_elements,
+        }
+    else:
+        receipt = evaluate_counterfact_stepwise_primary(
+            model, tokenizer, cases, model_alias=alias, freeze=freeze
+        )
+        liveness = {
+            "candidate_bf16_weight_peak_live": 0,
+            "effective_bf16_weight_peak_live": 0,
+            "maximum_fp32_block_elements": 0,
+        }
+    wall = time.perf_counter() - started
+    after = _parameter_contract_sha256(touched)
+    if after != before:
+        raise ODEBFStateError(
+            "post-freeze evaluator mutated parameter/RNG contract"
+        )
+    if (
+        liveness["candidate_bf16_weight_peak_live"] > 1
+        or liveness["effective_bf16_weight_peak_live"] > 1
+    ):
+        raise ODEBFStateError("stepwise evaluator retained multiple target weights")
+    ledger.increment("evaluator_forward", receipt.primary.model_forward_count)
+    ledger.increment("evaluator_tokens", receipt.primary.processed_token_count)
+    ledger.add_time("postfreeze_primary", wall_seconds=wall)
+    return receipt, {
+        "parameter_rng_before_sha256": before,
+        "parameter_rng_after_sha256": after,
+        "wall_seconds": wall,
+        "model_forward_count": receipt.primary.model_forward_count,
+        "processed_token_count": receipt.primary.processed_token_count,
+        "generation_call_count": receipt.primary.generation_call_count,
+        **liveness,
+    }
+
+
+def _postfreeze_stepwise_panel(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    requests: Sequence[Mapping[str, Any]],
+    dataset_path: Path,
+    capture: P1NativeCapture,
+    rollouts: Mapping[AdaptiveVariant, VariantRollout],
+    raw_root: Path,
+    write_once: Any,
+    touched: Mapping[str, torch.nn.Parameter],
+) -> tuple[dict[str, Any], dict[tuple[str, int], StepwisePrimaryReceipt]]:
+    """Open held-out CounterFact surfaces only after every action is frozen."""
+
+    freeze_payload = {
+        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-action-freeze/v1",
+        "instruction_id": ADAPTIVE_INSTRUCTION_ID,
+        "action_frozen_before_open": True,
+        "request_order_sha256": capture.request_order_sha256,
+        "rollouts": {
+            variant.value: {
+                "rollout_sha256": rollout.rollout_sha256,
+                "status": rollout.status,
+                "accepted_snapshot_sha256": [
+                    item.snapshot_sha256 for item in rollout.snapshots
+                ],
+                "n_reject": rollout.n_reject,
+            }
+            for variant, rollout in rollouts.items()
+        },
+        "heldout_controller_access_count": 0,
+        "model_generate_call_count": 0,
+    }
+    freeze_root_sha256 = write_once(
+        raw_root / "stepwise" / "action-freeze.json", freeze_payload
+    )
+    w0_snapshot_sha256 = canonical_hash(
+        {"entry_weights": dict(sorted(capture.entry_sha256.items()))}
+    )
+    native_snapshot_sha256 = canonical_hash(
+        {
+            "native_candidates": {
+                name: tensor_sha256(value)
+                for name, value in sorted(capture.native_candidates.items())
+            }
+        }
+    )
+    w0_freeze = StepwiseActionFreeze(
+        variant="W0_NO_EDIT",
+        request_order_sha256=capture.request_order_sha256,
+        rollout_sha256=freeze_root_sha256,
+        snapshot_sha256=w0_snapshot_sha256,
+        snapshot_index=0,
+        accepted_snapshot_count=0,
+        rejected_retry_count=0,
+        trajectory_status="COMMON_W0_REFERENCE",
+    )
+    # The loader checks the action-frozen/request-order contract and opens only
+    # the ten sealed cases.  No held-out object exists before this line.
+    cases = load_counterfact_cases_after_freeze(
+        dataset_path, requests, w0_freeze
+    )
+    ledger = ComputeLedger()
+    counter = ModelForwardCounter(model, ledger)
+    receipts: dict[tuple[str, int], StepwisePrimaryReceipt] = {}
+    receipt_hashes: dict[str, str] = {}
+    try:
+        w0, w0_compute = _evaluate_stepwise_state(
+            model,
+            tokenizer,
+            cases,
+            alias=alias,
+            freeze=w0_freeze,
+            ledger=ledger,
+            touched=touched,
+        )
+        receipts[("W0_NO_EDIT", 0)] = w0
+        receipt_hashes["W0_NO_EDIT"] = write_once(
+            raw_root / "stepwise" / "W0_NO_EDIT.json",
+            {
+                "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-step-receipt/v1",
+                "variant": "W0_NO_EDIT",
+                "snapshot_index": 0,
+                "snapshot_sha256": w0_snapshot_sha256,
+                "freeze_sha256": w0_freeze.identity(),
+                "primary": w0.raw_free_payload(),
+                "compute": w0_compute,
+            },
+        )
+        native_freeze = StepwiseActionFreeze(
+            variant="N32_NATIVE",
+            request_order_sha256=capture.request_order_sha256,
+            rollout_sha256=freeze_root_sha256,
+            snapshot_sha256=native_snapshot_sha256,
+            snapshot_index=1,
+            accepted_snapshot_count=1,
+            rejected_retry_count=0,
+            trajectory_status="COMMON_N32_REFERENCE",
+        )
+        native, native_compute = _evaluate_stepwise_state(
+            model,
+            tokenizer,
+            cases,
+            alias=alias,
+            freeze=native_freeze,
+            ledger=ledger,
+            touched=touched,
+            candidates=capture.native_candidates,
+        )
+        receipts[("N32_NATIVE", 1)] = native
+        receipt_hashes["N32_NATIVE"] = write_once(
+            raw_root / "stepwise" / "N32_NATIVE.json",
+            {
+                "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-step-receipt/v1",
+                "variant": "N32_NATIVE",
+                "snapshot_index": 1,
+                "snapshot_sha256": native_snapshot_sha256,
+                "freeze_sha256": native_freeze.identity(),
+                "primary": native.raw_free_payload(),
+                "compute": native_compute,
+            },
+        )
+        for variant in ADAPTIVE_VARIANTS:
+            rollout = rollouts[variant]
+            confirmations = {
+                item["snapshot_sha256"]: item
+                for item in rollout.terminal_confirmation
+            }
+            for snapshot in rollout.snapshots:
+                freeze = StepwiseActionFreeze(
+                    variant=variant.value,
+                    request_order_sha256=capture.request_order_sha256,
+                    rollout_sha256=rollout.rollout_sha256,
+                    snapshot_sha256=snapshot.snapshot_sha256,
+                    snapshot_index=snapshot.accepted_index,
+                    accepted_snapshot_count=len(rollout.snapshots),
+                    rejected_retry_count=rollout.n_reject,
+                    trajectory_status=rollout.status,
+                )
+                observed, compute = _evaluate_stepwise_state(
+                    model,
+                    tokenizer,
+                    cases,
+                    alias=alias,
+                    freeze=freeze,
+                    ledger=ledger,
+                    touched=touched,
+                    factors=snapshot.factors,
+                )
+                comparison = compare_stepwise_primary(w0, native, observed)
+                key = (variant.value, snapshot.accepted_index)
+                receipts[key] = observed
+                relative = (
+                    Path("stepwise")
+                    / variant.value
+                    / f"accepted-{snapshot.accepted_index:04d}.json"
+                )
+                receipt_hashes[
+                    f"{variant.value}:{snapshot.accepted_index}"
+                ] = write_once(
+                    raw_root / relative,
+                    {
+                        "schema": (
+                            "ode-edit-s04-ode-bf-p1r4-adaptive-step-receipt/v1"
+                        ),
+                        "variant": variant.value,
+                        "accepted_index": snapshot.accepted_index,
+                        "tau": fraction_payload(snapshot.tau),
+                        "delta_tau": fraction_payload(snapshot.delta_tau),
+                        "snapshot_sha256": snapshot.snapshot_sha256,
+                        "freeze_sha256": freeze.identity(),
+                        "primary": observed.raw_free_payload(),
+                        "comparison_to_w0_native": comparison,
+                        "terminal_components": confirmations.get(
+                            snapshot.snapshot_sha256
+                        ),
+                        "routing": snapshot.routing_payload,
+                        "capacity": snapshot.capacity_payload,
+                        "compute": compute,
+                        "action_frozen_before_open": True,
+                        "controller_heldout_access_count": 0,
+                    },
+                )
+    finally:
+        counter.close()
+    from .p1_runtime import _observed_memory
+
+    _observed_memory(ledger)
+    panel = {
+        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-stepwise-panel/v1",
+        "action_freeze_sha256": freeze_root_sha256,
+        "request_order_sha256": capture.request_order_sha256,
+        "receipt_sha256": dict(sorted(receipt_hashes.items())),
+        "unique_accepted_snapshot_count": sum(
+            len(item.snapshots) for item in rollouts.values()
+        ),
+        "rejected_retry_alias_count": sum(
+            item.n_reject for item in rollouts.values()
+        ),
+        "rejected_retry_duplicate_evaluation_count": 0,
+        "heldout_controller_access_count": 0,
+        "action_frozen_before_open": True,
+        "generation_call_count": 0,
+        "evaluation_compute": ledger.raw_free_payload(),
+    }
+    panel["panel_sha256"] = canonical_hash(panel)
+    return panel, receipts
+
+
+def _refinement_payload(
+    capture: P1NativeCapture,
+    rollouts: Mapping[AdaptiveVariant, VariantRollout],
+    receipts: Mapping[tuple[str, int], StepwisePrimaryReceipt],
+) -> dict[str, Any]:
+    left = rollouts[AdaptiveVariant.FR_A8]
+    right = rollouts[AdaptiveVariant.FR_A16]
+    if (
+        not left.snapshots
+        or not right.snapshots
+        or left.accepted_t != Fraction(1, 1)
+        or right.accepted_t != Fraction(1, 1)
+    ):
+        return {
+            "status": "REFINEMENT_ENDPOINT_UNAVAILABLE",
+            "fr_a8_status": left.status,
+            "fr_a16_status": right.status,
+            "fr_a8_tau": fraction_payload(left.accepted_t),
+            "fr_a16_tau": fraction_payload(right.accepted_t),
+            "ode_claim": "HOLD_PILOT",
+        }
+    left_snapshot = left.snapshots[-1]
+    right_snapshot = right.snapshots[-1]
+    distance_by_weight: dict[str, Any] = {}
+    squared = 0.0
+    maximum = 0.0
+    for name, entry in sorted(capture.entry_weights.items()):
+        receipt = streaming_bf16_endpoint_distance(
+            entry,
+            left_snapshot.factors.get(name, ()),
+            right_snapshot.factors.get(name, ()),
+            weight_name=name,
+        )
+        distance_by_weight[name] = asdict(receipt)
+        squared += receipt.frobenius_distance**2
+        maximum = max(maximum, receipt.maximum_absolute_distance)
+    left_primary = receipts[
+        (AdaptiveVariant.FR_A8.value, left_snapshot.accepted_index)
+    ]
+    right_primary = receipts[
+        (AdaptiveVariant.FR_A16.value, right_snapshot.accepted_index)
+    ]
+    # Treat FR-A8 as both W0/reference only for direct FR-A16-minus-FR-A8
+    # paired/NLL diagnostics; the production W0/Native comparisons remain in
+    # each step receipt.
+    pairwise = compare_stepwise_primary(
+        left_primary, left_primary, right_primary
+    )
+    left_hit = next(
+        (
+            item
+            for item in left.terminal_confirmation
+            if item["terminal_confirmed_exact_hit"]
+        ),
+        None,
+    )
+    right_hit = next(
+        (
+            item
+            for item in right.terminal_confirmation
+            if item["terminal_confirmed_exact_hit"]
+        ),
+        None,
+    )
+    return {
+        "status": "REFINEMENT_REPORTED_NO_PROMOTION",
+        "fr_a8_snapshot_sha256": left_snapshot.snapshot_sha256,
+        "fr_a16_snapshot_sha256": right_snapshot.snapshot_sha256,
+        "bf16_endpoint_frobenius_distance": math.sqrt(squared),
+        "bf16_endpoint_max_abs_distance": maximum,
+        "distance_by_weight": distance_by_weight,
+        "fr_a16_minus_fr_a8": pairwise,
+        "first_terminal_hit_tau": {
+            "FR-A8": None if left_hit is None else left_hit["tau"],
+            "FR-A16": None if right_hit is None else right_hit["tau"],
+        },
+        "terminal_h_p_capacity": {
+            "FR-A8": {
+                "components": left.terminal_confirmation[-1],
+                "capacity": left_snapshot.capacity_payload,
+            },
+            "FR-A16": {
+                "components": right.terminal_confirmation[-1],
+                "capacity": right_snapshot.capacity_payload,
+            },
+        },
+        "material_stability_decision": "GH_REVIEW_REQUIRED",
+        "ode_claim": "HOLD_PILOT",
+    }
+
+
+def run_adaptive_diagnostic(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    destination: Path,
+    raw_root: Path,
+    stages: Any,
+    source_head: str,
+    stream_batches: Sequence[Sequence[Mapping[str, Any]]],
+    stream: Mapping[str, Any],
+    hparams: Any,
+    projector: torch.Tensor,
+    contexts: Sequence[Sequence[str]],
+    covariance_registry: PinnedCovarianceRegistry,
+    projector_sha256: str,
+    controller_lock: P1ControllerLock,
+    request_by_sha256: Mapping[str, Mapping[str, Any]],
+    population_by_sha256: Mapping[str, Mapping[str, Any]],
+    schedule: StatelessReplaySchedule,
+    theta0_cache: Theta0TeacherCache,
+    dataset_path: Path,
+    mutation_lock: Any,
+    touched: Mapping[str, torch.nn.Parameter],
+    base_receipt: ArmWeightSnapshot,
+    base_values: Mapping[str, torch.Tensor],
+    artifact_guard: Any,
+    artifact_receipt: Any,
+    numerical_sha256: str,
+    context_sha256: str,
+    cuda_runtime_receipt: Mapping[str, Any],
+    job_ledger: ComputeLedger,
+    write_once: Any,
+) -> dict[str, Any]:
+    """Execute the single authorized reused-seal B10 causal diagnostic."""
+
+    from .p1_runtime import (
+        ArmRuntimeState,
+        _entry_parameter_snapshot_sha256,
+        _evaluate_native_rewrite,
+        _observed_memory,
+    )
+
+    if len(stream_batches) != 4 or len(stream_batches[0]) != BATCH_SIZE:
+        raise ODEBFContractError("adaptive diagnostic reused stream differs")
+    requests = tuple(stream_batches[0])
+    if capture_order := stream.get("batch_ordered_request_digest_v1"):
+        if len(capture_order) != 4:
+            raise ODEBFContractError("adaptive reused stream digest count differs")
+    else:
+        raise ODEBFContractError("adaptive reused stream lacks ordered digests")
+    base_bytes = {
+        name: tensor_sha256(parameter) for name, parameter in sorted(touched.items())
+    }
+    if tuple(sorted(base_bytes.items())) != tuple(base_receipt.parameter_sha256):
+        raise ODEBFStateError("adaptive runtime did not start at W0 bytes")
+    native_history = P1HistoryLedger(
+        layer_order=tuple(int(layer) for layer in hparams.layers),
+        maximum_records=40,
+    )
+    native_ledger = ComputeLedger()
+    native_counter = ModelForwardCounter(model, native_ledger)
+    try:
+        capture = capture_p1_native_entry(
+            model,
+            tokenizer,
+            requests,
+            hparams,
+            projector,
+            contexts,
+            history_keys_by_layer=_history_keys(
+                native_history,
+                tuple(int(layer) for layer in hparams.layers),
+                risk=False,
+            ),
+            mutation_lock=mutation_lock,
+            ledger=native_ledger,
+            residual_tolerance=controller_lock.residual_tolerance,
+        )
+        if capture.request_order_sha256 != capture_order[0]:
+            raise ODEBFContractError(
+                "adaptive capture/reused seal request digest differs"
+            )
+        native_online = _evaluate_native_rewrite(
+            model,
+            tokenizer,
+            requests,
+            alias=alias,
+            candidates=capture.native_candidates,
+            ledger=native_ledger,
+        )
+    finally:
+        native_counter.close()
+    after_capture_contract = _parameter_contract_sha256(touched)
+    if {
+        name: tensor_sha256(parameter)
+        for name, parameter in sorted(touched.items())
+    } != base_bytes:
+        raise ODEBFStateError("adaptive N32 capture did not restore W0 bytes")
+    _observed_memory(native_ledger)
+    n32_sha256 = write_once(
+        raw_root / "adaptive" / "N32_NATIVE-online.json",
+        {
+            "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-native/v1",
+            "instruction_id": ADAPTIVE_INSTRUCTION_ID,
+            "status": "VIRTUAL_ONLY_NO_COMMIT",
+            "alias": alias,
+            "request_order_sha256": capture.request_order_sha256,
+            "joint_rank": BATCH_SIZE,
+            "capture": capture.raw_free_payload(),
+            "official_success": native_online.batch_success.raw_free_payload(),
+            "compute": native_ledger.raw_free_payload(),
+            "persistent_commit_count": 0,
+            "history_append_count": 0,
+            "heldout_access_count": 0,
+        },
+    )
+    outer_population = tuple(
+        population_by_sha256[item] for item in theta0_cache.request_order
+    )
+    outer_entry_snapshot_sha256 = _entry_parameter_snapshot_sha256(
+        model, capture.entry_sha256
+    )
+    outer_counter = ModelForwardCounter(model, job_ledger)
+    outer_started = time.perf_counter()
+    try:
+        outer_entry_p_cache = build_outer_entry_pretrained_cache(
+            model,
+            tokenizer,
+            outer_population,
+            theta0_cache,
+            outer_entry_snapshot_sha256=outer_entry_snapshot_sha256,
+        )
+    finally:
+        outer_counter.close()
+    job_ledger.add_time(
+        "adaptive_functional_p_outer_entry_cache",
+        wall_seconds=time.perf_counter() - outer_started,
+    )
+    if (
+        outer_entry_p_cache.population_sha256 != theta0_cache.population_sha256
+        or _entry_parameter_snapshot_sha256(model, capture.entry_sha256)
+        != outer_entry_snapshot_sha256
+    ):
+        raise ODEBFStateError("adaptive fixed outer-entry P cache differs")
+    stages.record(
+        "post_adaptive_common_capture",
+        {
+            "instruction_id": ADAPTIVE_INSTRUCTION_ID,
+            "request_order_sha256": capture.request_order_sha256,
+            "n32_receipt_sha256": n32_sha256,
+            "outer_entry_snapshot_sha256": outer_entry_snapshot_sha256,
+            "outer_entry_p_cache_sha256": outer_entry_p_cache.receipt_sha256,
+            "variants": [item.value for item in ADAPTIVE_VARIANTS],
+            "scientific_promotion_authorized": False,
+        },
+    )
+
+    rollouts: dict[AdaptiveVariant, VariantRollout] = {}
+    for variant in ADAPTIVE_VARIANTS:
+        if _parameter_contract_sha256(touched) != after_capture_contract:
+            raise ODEBFStateError("adaptive variant did not start from common W0")
+        arm_receipt = ArmWeightSnapshot(
+            P1Arm.R_BF,
+            0,
+            base_receipt.parameter_sha256,
+            canonical_hash(
+                {
+                    "variant": variant.value,
+                    "batch": 0,
+                    "weights": base_receipt.parameter_sha256,
+                }
+            ),
+        )
+        arm_state = ArmRuntimeState(
+            P1Arm.R_BF,
+            P1HistoryLedger(
+                layer_order=tuple(int(layer) for layer in hparams.layers),
+                maximum_records=40,
+            ),
+            ComputeLedger(),
+            arm_receipt,
+            dict(base_values),
+        )
+        recorder = AdaptiveReceiptRecorder(raw_root, variant, write_once)
+        counter = ModelForwardCounter(model, arm_state.ledger)
+        try:
+            rollout = _run_variant(
+                model,
+                tokenizer,
+                requests,
+                alias=alias,
+                variant=variant,
+                capture=capture,
+                hparams=hparams,
+                projector=projector,
+                contexts=contexts,
+                covariance_registry=covariance_registry,
+                projector_sha256=projector_sha256,
+                lock=controller_lock,
+                arm_state=arm_state,
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                outer_entry_p_cache=outer_entry_p_cache,
+                theta0_cache=theta0_cache,
+                touched=touched,
+                recorder=recorder,
+            )
+        finally:
+            counter.close()
+        _observed_memory(arm_state.ledger)
+        if arm_state.history.version != 0:
+            raise ODEBFStateError("adaptive causal variant appended history")
+        rollouts[variant] = rollout
+        stages.record(
+            f"post_adaptive_{variant.value.lower().replace('-', '_')}",
+            {
+                "variant": variant.value,
+                "status": rollout.status,
+                "rollout_sha256": rollout.rollout_sha256,
+                "accepted_t": fraction_payload(rollout.accepted_t),
+                "k_acc": rollout.k_acc,
+                "n_trial": rollout.n_trial,
+                "n_reject": rollout.n_reject,
+                "field_build_count": rollout.field_build_count,
+                "online_first_hit": (
+                    None
+                    if rollout.first_hit.first_online is None
+                    else rollout.first_hit.first_online.accepted_index
+                ),
+            },
+        )
+
+    if _parameter_contract_sha256(touched) != after_capture_contract:
+        raise ODEBFStateError("adaptive rollout panel did not preserve W0/RNG")
+    panel, step_receipts = _postfreeze_stepwise_panel(
+        model,
+        tokenizer,
+        alias=alias,
+        requests=requests,
+        dataset_path=dataset_path,
+        capture=capture,
+        rollouts=rollouts,
+        raw_root=raw_root,
+        write_once=write_once,
+        touched=touched,
+    )
+    if _parameter_contract_sha256(touched) != after_capture_contract:
+        raise ODEBFStateError("adaptive post-freeze panel did not restore W0/RNG")
+    refinement = _refinement_payload(capture, rollouts, step_receipts)
+    stepwise_sha256 = write_once(
+        raw_root / "stepwise" / "panel.json",
+        {**panel, "refinement": refinement},
+    )
+    stages.record(
+        "post_adaptive_stepwise_evaluation",
+        {
+            "action_frozen_before_open": True,
+            "stepwise_panel_sha256": stepwise_sha256,
+            "unique_accepted_snapshot_count": panel[
+                "unique_accepted_snapshot_count"
+            ],
+            "refinement_status": refinement["status"],
+            "generation_call_count": 0,
+        },
+    )
+    artifact_guard.assert_unchanged()
+    final_bytes = {
+        name: tensor_sha256(parameter) for name, parameter in sorted(touched.items())
+    }
+    if final_bytes != base_bytes:
+        raise ODEBFStateError("adaptive diagnostic final W0 restore differs")
+    _observed_memory(job_ledger)
+    terminal = {
+        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-terminal/v1",
+        "instruction_id": ADAPTIVE_INSTRUCTION_ID,
+        "status": "CAUSAL_DIAGNOSTIC_COMPLETE_NO_PROMOTION",
+        "alias": alias,
+        "source_head": source_head,
+        "edit_batch_size": BATCH_SIZE,
+        "sequential_batch_count": 1,
+        "variants": [item.value for item in ADAPTIVE_VARIANTS],
+        "variant_rollout_sha256": {
+            item.value: rollouts[item].rollout_sha256 for item in ADAPTIVE_VARIANTS
+        },
+        "variant_status": {
+            item.value: rollouts[item].status for item in ADAPTIVE_VARIANTS
+        },
+        "n32_receipt_sha256": n32_sha256,
+        "stepwise_panel_sha256": stepwise_sha256,
+        "refinement": refinement,
+        "scientific_sample_reused_for_causal_diagnostic": True,
+        "scientific_promotion_authorized": False,
+        "controller_identity_sha256": controller_lock.identity(),
+        "numerical_lock_sha256": numerical_sha256,
+        "stream_root_digest": stream["root_digest"],
+        "artifact_receipt": asdict(artifact_receipt),
+        "context_sha256": context_sha256,
+        "cuda_preflight": dict(cuda_runtime_receipt),
+        "job_compute": job_ledger.raw_free_payload(),
+        "final_w0_restored": True,
+        "persistent_endpoint_commit_count": 0,
+        "history_append_count": 0,
+        "heldout_controller_access_count": 0,
+        "generation_call_count": 0,
+        "retry_submission_count": 0,
+        "legacy_p1r3_and_full_residual_baseline_comparison": (
+            "REQUIRED_IN_TERMINAL_ANALYSIS_NO_RUNTIME_TUNING"
+        ),
+    }
+    terminal_sha256 = write_once(destination / "terminal.json", terminal)
+    manifest = {
+        "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-manifest/v1",
+        "instruction_id": ADAPTIVE_INSTRUCTION_ID,
+        "status": terminal["status"],
+        "alias": alias,
+        "source_head": source_head,
+        "terminal_sha256": terminal_sha256,
+        "n32_receipt_sha256": n32_sha256,
+        "stepwise_panel_sha256": stepwise_sha256,
+        "variant_rollout_sha256": terminal["variant_rollout_sha256"],
+        "retry_submission_count": 0,
+    }
+    manifest_sha256 = write_once(destination / "manifest.json", manifest)
+    return {
+        "status": terminal["status"],
+        "alias": alias,
+        "terminal_sha256": terminal_sha256,
+        "manifest_sha256": manifest_sha256,
+        "variant_status": terminal["variant_status"],
+        "final_w0_restored": True,
+    }

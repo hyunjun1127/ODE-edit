@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from .contracts import BATCH_SIZE, FIXED_K, MODEL_ALIASES, ODEBFContractError, canonical_hash
+from .p1_adaptive import N_TRIAL_CAP
 
 
 GPU_MEMORY_REQUEST_MIB = 65_000
@@ -282,6 +283,196 @@ def forecast_p1_b10_memory(
         52_000,
         48_000,
         True,
+        False,
+    )
+
+
+@dataclass(frozen=True, slots=True)
+class AdaptiveP1MemoryForecast:
+    alias: str
+    edit_batch_size: int
+    variant_count: int
+    maximum_unique_accepted_snapshots: int
+    maximum_factors_per_endpoint_layer: int
+    maximum_retained_factors_per_layer: int
+    base_p1_gpu_peak_mib: int
+    base_p1_host_peak_mib: int
+    cumulative_rank10_factor_host_mib: int
+    accepted_snapshot_metadata_host_mib: int
+    postfreeze_one_state_at_a_time: bool
+    forecast_gpu_peak_mib: int
+    forecast_host_peak_mib: int
+    allocation_limit_mib: int
+    one_live_effective_bf16_weight: bool
+    dense_fp64_full_delta: bool
+
+    def __post_init__(self) -> None:
+        if self.alias not in MODEL_ALIASES:
+            raise ODEBFContractError("adaptive P1 memory alias differs")
+        if (
+            self.edit_batch_size != BATCH_SIZE
+            or self.variant_count != 4
+            or self.maximum_unique_accepted_snapshots != 136
+            or self.maximum_factors_per_endpoint_layer != 64
+            or self.maximum_retained_factors_per_layer != 136
+        ):
+            raise ODEBFContractError("adaptive P1 memory geometry differs")
+        if (
+            not self.postfreeze_one_state_at_a_time
+            or not self.one_live_effective_bf16_weight
+            or self.dense_fp64_full_delta
+        ):
+            raise ODEBFContractError("adaptive P1 memory materialization differs")
+        if (
+            self.forecast_gpu_peak_mib > self.allocation_limit_mib
+            or self.forecast_host_peak_mib > self.allocation_limit_mib
+        ):
+            raise ODEBFContractError("adaptive P1 forecast exceeds allocation")
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        return asdict(self)
+
+    def identity(self) -> str:
+        return canonical_hash(self.raw_free_payload())
+
+
+def forecast_p1_adaptive_b10_memory(
+    artifact_lock_path: Path,
+    base_model_lock_path: Path,
+    alias: str,
+) -> AdaptiveP1MemoryForecast:
+    """Worst-case one-at-a-time memory bound for the four adaptive variants."""
+
+    base = forecast_p1_b10_memory(
+        artifact_lock_path, base_model_lock_path, alias
+    )
+    out_features, in_features, layer_count = MODEL_GEOMETRY[alias]
+    maximum_factors_per_endpoint = 64
+    maximum_retained_factors = 8 + 32 + 32 + 64
+    factor_bytes = (
+        layer_count
+        * maximum_retained_factors
+        * BATCH_SIZE
+        * (in_features + out_features)
+        * 4
+    )
+    # Snapshots retain immutable factor tuple references and hashes, not dense
+    # weights or copied factor tensors.  This broad reserve covers Python/JSON
+    # metadata for all 8+32+32+64 accepted states.
+    snapshot_metadata_mib = 256
+    host_peak = (
+        base.forecast_host_peak_mib
+        + _mib(factor_bytes)
+        + snapshot_metadata_mib
+    )
+    gpu_peak = base.forecast_gpu_peak_mib
+    return AdaptiveP1MemoryForecast(
+        alias,
+        BATCH_SIZE,
+        4,
+        136,
+        maximum_factors_per_endpoint,
+        maximum_retained_factors,
+        base.forecast_gpu_peak_mib,
+        base.forecast_host_peak_mib,
+        _mib(factor_bytes),
+        snapshot_metadata_mib,
+        True,
+        gpu_peak,
+        host_peak,
+        GPU_MEMORY_REQUEST_MIB,
+        True,
+        False,
+    )
+
+
+@dataclass(frozen=True, slots=True)
+class AdaptiveP1TimeForecast:
+    """Outcome-blind worst-case wall forecast for one model lane."""
+
+    maximum_trial_count: int
+    maximum_field_build_count: int
+    maximum_terminal_replay_count: int
+    maximum_postfreeze_state_count: int
+    seconds_per_trial_bound: int
+    seconds_per_field_build_bound: int
+    seconds_per_terminal_replay_bound: int
+    seconds_per_postfreeze_state_bound: int
+    fixed_initialization_and_cleanup_seconds: int
+    pre_reserve_seconds: int
+    reserve_fraction: float
+    forecast_seconds: int
+    allocation_seconds: int
+    immutable_runtime_calibration_max_seconds: int
+    outcome_metric_used: bool
+
+    def __post_init__(self) -> None:
+        if (
+            self.maximum_trial_count != 24 + 3 * N_TRIAL_CAP
+            or self.maximum_field_build_count != 8 + 32 + 32 + 64
+            or self.maximum_terminal_replay_count != 136
+            or self.maximum_postfreeze_state_count != 2 + 136
+            or self.reserve_fraction != 0.10
+            or self.immutable_runtime_calibration_max_seconds != 2931
+            or self.outcome_metric_used
+        ):
+            raise ODEBFContractError("adaptive P1 time geometry/provenance differs")
+        if self.forecast_seconds != math.ceil(
+            self.pre_reserve_seconds * (1.0 + self.reserve_fraction)
+        ):
+            raise ODEBFContractError("adaptive P1 time reserve arithmetic differs")
+        if self.forecast_seconds > self.allocation_seconds:
+            raise ODEBFContractError("adaptive P1 forecast exceeds 24-hour allocation")
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        return asdict(self)
+
+    def identity(self) -> str:
+        return canonical_hash(self.raw_free_payload())
+
+
+def forecast_p1_adaptive_b10_time() -> AdaptiveP1TimeForecast:
+    """Conservative structural bound, calibrated only by immutable job timing.
+
+    Jobs 16681/16682 establish a raw-free lane wall maximum of 2931 seconds.
+    Their scientific outcomes are not inputs.  Each trial/field/evaluation bound
+    below is at least twice the largest corresponding immutable wall component,
+    then an additional ten-percent whole-lane reserve is applied.
+    """
+
+    maximum_trials = 24 + 3 * N_TRIAL_CAP
+    maximum_fields = 8 + 32 + 32 + 64
+    maximum_terminal = 136
+    maximum_postfreeze = 2 + 136
+    seconds_per_trial = 60
+    seconds_per_field = 60
+    seconds_per_terminal = 10
+    seconds_per_postfreeze = 60
+    fixed_seconds = 1800
+    pre_reserve = (
+        maximum_trials * seconds_per_trial
+        + maximum_fields * seconds_per_field
+        + maximum_terminal * seconds_per_terminal
+        + maximum_postfreeze * seconds_per_postfreeze
+        + fixed_seconds
+    )
+    reserve = 0.10
+    forecast = math.ceil(pre_reserve * (1.0 + reserve))
+    return AdaptiveP1TimeForecast(
+        maximum_trials,
+        maximum_fields,
+        maximum_terminal,
+        maximum_postfreeze,
+        seconds_per_trial,
+        seconds_per_field,
+        seconds_per_terminal,
+        seconds_per_postfreeze,
+        fixed_seconds,
+        pre_reserve,
+        reserve,
+        forecast,
+        24 * 60 * 60,
+        2931,
         False,
     )
 

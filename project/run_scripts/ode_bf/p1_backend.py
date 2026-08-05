@@ -39,9 +39,10 @@ from .woodbury import ProjectorCertificate, WoodburyCertificate, solve_alpha_woo
 
 
 P1_NATIVE_REFERENCE = "N32 canonical source-order original-BF16 AlphaEdit"
-P1_DYNAMIC_REFERENCE = "Native AlphaEdit-WB-mixed64-v1 full-residual field"
+P1_DYNAMIC_REFERENCE = "Native AlphaEdit-WB-mixed64-v1 explicit-residual-policy field"
 FULL_CURRENT_RESIDUAL_DEFINITION = "full_current"
 FULL_CURRENT_RESIDUAL_DIVISOR = 1
+LEGACY_PRE_SHARED_RESIDUAL_DEFINITION = "legacy_remaining_layer_pre_share"
 
 
 def full_current_residual(
@@ -61,6 +62,47 @@ def full_current_residual(
     return residual
 
 
+def residual_for_policy(
+    target_state: torch.Tensor,
+    current_z: torch.Tensor,
+    *,
+    residual_policy: str,
+    remaining_layers: int,
+) -> tuple[torch.Tensor, int]:
+    """Apply one of the two explicitly attributed P1R4 residual policies."""
+
+    if residual_policy == FULL_CURRENT_RESIDUAL_DEFINITION:
+        if remaining_layers <= 0:
+            raise ODEBFContractError("full-current layer inventory differs")
+        return full_current_residual(target_state, current_z), 1
+    if residual_policy == LEGACY_PRE_SHARED_RESIDUAL_DEFINITION:
+        if (
+            isinstance(remaining_layers, bool)
+            or not isinstance(remaining_layers, int)
+            or remaining_layers <= 0
+        ):
+            raise ODEBFContractError("legacy residual divisor differs")
+        residual = (
+            full_current_residual(target_state, current_z) / float(remaining_layers)
+        ).contiguous()
+        if not torch.isfinite(residual).all():
+            raise ODEBFContractError("legacy pre-shared residual is non-finite")
+        return residual, remaining_layers
+    raise ODEBFContractError("non-Native residual policy is not attributed")
+
+
+def remaining_layer_count(layer_count: int, layer_index: int) -> int:
+    if (
+        isinstance(layer_count, bool)
+        or isinstance(layer_index, bool)
+        or layer_count <= 0
+        or layer_index < 0
+        or layer_index >= layer_count
+    ):
+        raise ODEBFContractError("legacy remaining-layer coordinate differs")
+    return layer_count - layer_index
+
+
 @dataclass(slots=True)
 class P1NativeCapture:
     native_candidates: dict[str, torch.Tensor]
@@ -69,6 +111,7 @@ class P1NativeCapture:
     direct_z: tuple[torch.Tensor, ...]
     direct_z_sha256: tuple[str, ...]
     native_keys_by_layer: dict[int, torch.Tensor]
+    entry_current_z_by_layer: dict[int, torch.Tensor]
     current_z_by_layer: dict[int, torch.Tensor]
     dense_solve_receipts: tuple[AlphaDenseSolveReceipt, ...]
     initialization: JointInitializationReceipt
@@ -91,6 +134,10 @@ class P1NativeCapture:
             "current_z_sha256": {
                 str(layer): tensor_sha256(value)
                 for layer, value in sorted(self.current_z_by_layer.items())
+            },
+            "entry_current_z_sha256": {
+                str(layer): tensor_sha256(value)
+                for layer, value in sorted(self.entry_current_z_by_layer.items())
             },
             "dense_solve_receipts": [asdict(item) for item in self.dense_solve_receipts],
             "initialization": asdict(self.initialization),
@@ -195,6 +242,7 @@ def capture_p1_native_entry(
     versions = {name: parameter._version for name, parameter in weights.items()}
     direct_z: list[torch.Tensor] = []
     keys: dict[int, torch.Tensor] = {}
+    entry_current_z_by_layer: dict[int, torch.Tensor] = {}
     current_z_by_layer: dict[int, torch.Tensor] = {}
     receipts: list[AlphaDenseSolveReceipt] = []
     candidates: dict[str, torch.Tensor] = {}
@@ -225,6 +273,25 @@ def capture_p1_native_entry(
             if len(direct_z) != BATCH_SIZE:
                 raise ODEBFContractError("P1 Native direct-z count differs")
             zs = torch.stack(direct_z, dim=1)
+            # Capture prospective layer activations once from the common W0
+            # entry before the canonical Native writer mutates any layer.  The
+            # pinned Native solve below still uses its source-order final-z
+            # activation at each sequential layer; these W0 values are solely
+            # the n=0 field source for the isolated adaptive variants.
+            for layer in layers:
+                entry_current_z = alpha_main.get_module_input_output_at_words(
+                    model,
+                    tokenizer,
+                    layer,
+                    context_templates=[request["prompt"] for request in normalized],
+                    words=[request["subject"] for request in normalized],
+                    module_template=hparams.layer_module_tmp,
+                    fact_token_strategy=hparams.fact_token,
+                )[1].T
+                entry_current_z_by_layer[layer] = entry_current_z.detach().to(
+                    device="cpu", dtype=torch.float32
+                )
+                del entry_current_z
             for layer_index, layer in enumerate(layers):
                 layer_keys = alpha_main.compute_ks(
                     model,
@@ -237,7 +304,7 @@ def capture_p1_native_entry(
                 if layer_keys.shape[1] != BATCH_SIZE:
                     raise ODEBFContractError("P1 Native key path is not joint B10")
                 keys[layer] = layer_keys.detach().to(device="cpu", dtype=torch.float32)
-                current_z = alpha_main.get_module_input_output_at_words(
+                native_current_z = alpha_main.get_module_input_output_at_words(
                     model,
                     tokenizer,
                     z_layer,
@@ -246,10 +313,13 @@ def capture_p1_native_entry(
                     module_template=hparams.layer_module_tmp,
                     fact_token_strategy=hparams.fact_token,
                 )[1].T
-                current_z_by_layer[layer] = current_z.detach().to(
+                current_z_by_layer[layer] = native_current_z.detach().to(
                     device="cpu", dtype=torch.float32
                 )
-                residual = (zs.to(device=current_z.device) - current_z) / (
+                # Canonical N32 keeps the pinned source-order final-z residual.
+                # The separately captured per-layer activation is only the
+                # prospective field source for the adaptive causal panel.
+                residual = (zs.to(device=native_current_z.device) - native_current_z) / (
                     len(layers) - layer_index
                 )
                 history_keys = history[layer]
@@ -286,7 +356,15 @@ def capture_p1_native_entry(
                 with torch.no_grad():
                     parameter.copy_(parameter + update.float())
                 candidates[weight_name] = parameter.detach().to(device="cpu").clone()
-                del layer_keys, current_z, residual, history_device, covariance, update, solved
+                del (
+                    layer_keys,
+                    native_current_z,
+                    residual,
+                    history_device,
+                    covariance,
+                    update,
+                    solved,
+                )
                 if torch.cuda.is_available():
                     torch.cuda.empty_cache()
     finally:
@@ -300,6 +378,7 @@ def capture_p1_native_entry(
         len(receipts) != len(layers)
         or len(candidates) != len(layers)
         or set(keys) != set(layers)
+        or set(entry_current_z_by_layer) != set(layers)
         or set(current_z_by_layer) != set(layers)
         or target_backward_count <= 0
     ):
@@ -349,6 +428,7 @@ def capture_p1_native_entry(
         tuple(direct_z),
         tuple(tensor_sha256(value) for value in direct_z),
         keys,
+        entry_current_z_by_layer,
         current_z_by_layer,
         tuple(receipts),
         initialization,
@@ -663,12 +743,17 @@ class P1LayerField:
     history_action: torch.Tensor
 
     def __post_init__(self) -> None:
-        if (
-            self.residual_definition != FULL_CURRENT_RESIDUAL_DEFINITION
-            or isinstance(self.residual_divisor, bool)
-            or not isinstance(self.residual_divisor, int)
-            or self.residual_divisor != FULL_CURRENT_RESIDUAL_DIVISOR
-        ):
+        valid_full = (
+            self.residual_definition == FULL_CURRENT_RESIDUAL_DEFINITION
+            and self.residual_divisor == FULL_CURRENT_RESIDUAL_DIVISOR
+        )
+        valid_legacy = (
+            self.residual_definition == LEGACY_PRE_SHARED_RESIDUAL_DEFINITION
+            and isinstance(self.residual_divisor, int)
+            and not isinstance(self.residual_divisor, bool)
+            and self.residual_divisor >= 1
+        )
+        if not (valid_full or valid_legacy):
             raise ODEBFContractError("non-Native residual policy differs")
         if (
             self.factor.weight_name != self.weight_name
@@ -792,6 +877,7 @@ def build_p1_dynamic_field(
     projector_sha256: str,
     residual_tolerance: float,
     ledger: ComputeLedger,
+    residual_policy: str = FULL_CURRENT_RESIDUAL_DEFINITION,
 ) -> P1DynamicField:
     """Rebuild all layer arms at one accepted virtual joint state."""
 
@@ -810,25 +896,52 @@ def build_p1_dynamic_field(
     resolved_contexts = alpha_main.get_context_templates(model, tokenizer)
     if canonical_hash(resolved_contexts) != canonical_hash(list(contexts)):
         raise ODEBFContractError("P1 dynamic field context identity differs")
-    z_layer = layers[-1]
     device = next(model.parameters()).device
     layer_fields: list[P1LayerField] = []
     processed_tokens = 0
+    current_z_by_layer: dict[int, torch.Tensor] = {}
     with _virtual_context(model, cumulative_factors_by_weight):
-        current_z = alpha_main.get_module_input_output_at_words(
-            model,
-            tokenizer,
-            z_layer,
-            context_templates=[item["prompt"] for item in normalized],
-            words=[item["subject"] for item in normalized],
-            module_template=hparams.layer_module_tmp,
-            fact_token_strategy=hparams.fact_token,
-        )[1].T.detach().to(device="cpu", dtype=torch.float32)
-        if current_z.shape != target_state.shape:
-            raise ODEBFContractError("P1 target/current-z geometry differs")
-        full_residual = full_current_residual(target_state, current_z)
+        shared_current_z: torch.Tensor | None = None
+        if residual_policy == LEGACY_PRE_SHARED_RESIDUAL_DEFINITION:
+            shared_current_z = alpha_main.get_module_input_output_at_words(
+                model,
+                tokenizer,
+                layers[-1],
+                context_templates=[item["prompt"] for item in normalized],
+                words=[item["subject"] for item in normalized],
+                module_template=hparams.layer_module_tmp,
+                fact_token_strategy=hparams.fact_token,
+            )[1].T.detach().to(device="cpu", dtype=torch.float32)
         for layer_index, layer in enumerate(layers):
-            residual = full_residual.clone()
+            current_z = (
+                shared_current_z
+                if shared_current_z is not None
+                else alpha_main.get_module_input_output_at_words(
+                    model,
+                    tokenizer,
+                    layer,
+                    context_templates=[item["prompt"] for item in normalized],
+                    words=[item["subject"] for item in normalized],
+                    module_template=hparams.layer_module_tmp,
+                    fact_token_strategy=hparams.fact_token,
+                )[1].T.detach().to(device="cpu", dtype=torch.float32)
+            )
+            if current_z is None or current_z.shape != target_state.shape:
+                raise ODEBFContractError("P1 target/current-z geometry differs")
+            current_z_by_layer[layer] = current_z.clone()
+            full_residual = full_current_residual(target_state, current_z)
+            if residual_policy == FULL_CURRENT_RESIDUAL_DEFINITION:
+                residual = full_residual.clone()
+                residual_divisor = FULL_CURRENT_RESIDUAL_DIVISOR
+            else:
+                residual, residual_divisor = residual_for_policy(
+                    target_state,
+                    current_z,
+                    residual_policy=residual_policy,
+                    remaining_layers=remaining_layer_count(
+                        len(layers), layer_index
+                    ),
+                )
             key = alpha_main.compute_ks(
                 model,
                 tokenizer,
@@ -903,8 +1016,8 @@ def build_p1_dynamic_field(
                     key,
                     projected,
                     residual.clone(),
-                    FULL_CURRENT_RESIDUAL_DEFINITION,
-                    FULL_CURRENT_RESIDUAL_DIVISOR,
+                    residual_policy,
+                    residual_divisor,
                     q,
                     factor,
                     frobenius_sq,
@@ -922,22 +1035,30 @@ def build_p1_dynamic_field(
         "accepted_waypoint": accepted_waypoint,
         "request_order_sha256": order,
         "target_state_sha256": tensor_sha256(target_state),
-        "current_z_sha256": tensor_sha256(current_z),
+        "current_z_by_layer": [
+            (layer, tensor_sha256(current_z_by_layer[layer])) for layer in layers
+        ],
         "layers": [item.raw_free_payload() for item in layer_fields],
         "history_version_columns": sorted(
             (layer, history_solve[layer].shape[1]) for layer in layers
         ),
         "reference": P1_DYNAMIC_REFERENCE,
+        "residual_policy": residual_policy,
         "assembler": W64_ASSEMBLER_REFERENCE,
     }
+    model_forward_count = (
+        1 + len(layers)
+        if residual_policy == LEGACY_PRE_SHARED_RESIDUAL_DEFINITION
+        else 2 * len(layers)
+    )
     return P1DynamicField(
         accepted_waypoint,
         order,
         target_state.detach().to(device="cpu", dtype=torch.float32).clone(),
-        current_z,
+        current_z_by_layer[layers[-1]],
         tuple(layer_fields),
         canonical_hash(payload),
-        1 + len(layers),
+        model_forward_count,
         processed_tokens,
     )
 
@@ -955,6 +1076,7 @@ def build_p1_frozen_field_from_capture(
     covariance_registry: PinnedCovarianceRegistry,
     projector_sha256: str,
     residual_tolerance: float,
+    residual_policy: str = FULL_CURRENT_RESIDUAL_DEFINITION,
 ) -> P1DynamicField:
     """Construct the entry-frozen W64 field from the exact N32 capture."""
 
@@ -963,9 +1085,11 @@ def build_p1_frozen_field_from_capture(
     layers = tuple(int(layer) for layer in hparams.layers)
     if accepted_waypoint != 0:
         raise ODEBFContractError("entry-frozen field must be created at waypoint zero")
-    if set(capture.native_keys_by_layer) != set(layers) or set(
-        capture.current_z_by_layer
-    ) != set(layers):
+    if (
+        set(capture.native_keys_by_layer) != set(layers)
+        or set(capture.current_z_by_layer) != set(layers)
+        or set(capture.entry_current_z_by_layer) != set(layers)
+    ):
         raise ODEBFContractError("entry-frozen capture layer inventory differs")
     history_solve = _validate_history_keys(history_solve_keys_by_layer, layers)
     history_risk = _validate_history_keys(history_risk_keys_by_layer, layers)
@@ -978,12 +1102,28 @@ def build_p1_frozen_field_from_capture(
         key = capture.native_keys_by_layer[layer].detach().to(
             device="cpu", dtype=torch.float32
         )
-        current_z = capture.current_z_by_layer[layer].detach().to(
+        current_z_source = (
+            capture.current_z_by_layer
+            if residual_policy == LEGACY_PRE_SHARED_RESIDUAL_DEFINITION
+            else capture.entry_current_z_by_layer
+        )
+        current_z = current_z_source[layer].detach().to(
             device="cpu", dtype=torch.float32
         )
         if current_z.shape != target_state.shape:
             raise ODEBFContractError("entry-frozen target/current-z geometry differs")
-        residual = full_current_residual(target_state, current_z)
+        if residual_policy == FULL_CURRENT_RESIDUAL_DEFINITION:
+            residual = full_current_residual(target_state, current_z)
+            residual_divisor = FULL_CURRENT_RESIDUAL_DIVISOR
+        else:
+            residual, residual_divisor = residual_for_policy(
+                target_state,
+                current_z,
+                residual_policy=residual_policy,
+                remaining_layers=remaining_layer_count(
+                    len(layers), layer_index
+                ),
+            )
         history = history_solve[layer]
         risk = history_risk[layer]
         if history.shape[0] == 0:
@@ -1051,8 +1191,8 @@ def build_p1_frozen_field_from_capture(
                 key,
                 projected,
                 residual,
-                FULL_CURRENT_RESIDUAL_DEFINITION,
-                FULL_CURRENT_RESIDUAL_DIVISOR,
+                residual_policy,
+                residual_divisor,
                 q,
                 factor,
                 frobenius_sq,
@@ -1078,6 +1218,7 @@ def build_p1_frozen_field_from_capture(
         ),
         "reference": P1_DYNAMIC_REFERENCE,
         "field_policy": "entry-frozen-from-canonical-N32-capture",
+        "residual_policy": residual_policy,
         "assembler": W64_ASSEMBLER_REFERENCE,
     }
     representative_z = capture.current_z_by_layer[layers[-1]].detach().to(
