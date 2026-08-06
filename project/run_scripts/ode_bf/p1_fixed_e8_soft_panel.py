@@ -8,6 +8,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Mapping
 
+from .artifacts import load_rooted_json
 from .contracts import MODEL_ALIASES, ODEBFContractError, canonical_hash
 from .fixed_e8_soft_routing import (
     FIXED_E8_GRID_COUNT,
@@ -33,7 +34,7 @@ FIXED_E8_INSTRUCTION_ID = (
     "ODEEDIT-S05-ODE-BF-COLD-FIXED-E8-STRUCTFUNC-SOFT-P1R7-V1"
 )
 FIXED_E8_PARENT_HEAD = "dfdfd703cc4b580cf2c11fb84946cefbb5f30bb7"
-FIXED_E8_RESULT_TOKEN = "cold-fixed-e8-structfunc-soft-p1r7-v1"
+FIXED_E8_RESULT_TOKEN = "cold-fixed-e8-structfunc-soft-p1r7-r1-v1"
 FIXED_E8_SCHEMA_NAMESPACE = "ode-edit-s05-cold-fixed-e8-structfunc-soft-p1r7"
 FIXED_E8_PANEL_LABELS = tuple(item.value for item in FixedE8Arm)
 FIXED_E8_CASE_SEAL_FILE = "p1r6_cold_cf_b10_seal.json"
@@ -45,7 +46,7 @@ FIXED_E8_FORECAST_SECONDS = 43_200
 def expected_fixed_e8_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("fixed E8 result alias differs")
-    return f"s05-cold-fixed-e8-soft-p1r7-{alias}-v1"
+    return f"s05-cold-fixed-e8-soft-p1r7-r1-{alias}-v1"
 
 
 def fixed_e8_schedule(base: SamplingSeal) -> StatelessReplaySchedule:
@@ -127,6 +128,18 @@ def verify_fixed_e8_case_provenance(
         raise ODEBFContractError("fixed E8 case provenance differs")
     payload["root_digest"] = observed_root
     return payload
+
+
+def load_fixed_e8_case_provenance(
+    path: Path, *, source_seal: Mapping[str, Any]
+) -> tuple[dict[str, Any], str]:
+    """Load the rooted artifact whose canonical schema field is ``schema``."""
+
+    value, raw_sha256 = load_rooted_json(path)
+    return (
+        verify_fixed_e8_case_provenance(value, source_seal=source_seal),
+        raw_sha256,
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -344,4 +357,5 @@ __all__ = [
     "validate_fixed_e8_runtime_gpu_capacity",
     "verify_cold_case_seal",
     "verify_fixed_e8_case_provenance",
+    "load_fixed_e8_case_provenance",
 ]

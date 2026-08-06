@@ -27,8 +27,8 @@ from project.run_scripts.ode_bf.p1_fixed_e8_soft_panel import (
 
 
 JOB_NAMES = {
-    "llama3-8b-inst": "odeedit_s05_p1r7_e8_llama",
-    "qwen2.5-7b-inst": "odeedit_s05_p1r7_e8_qwen",
+    "llama3-8b-inst": "odeedit_s05_p1r7r1_e8_llama",
+    "qwen2.5-7b-inst": "odeedit_s05_p1r7r1_e8_qwen",
 }
 
 

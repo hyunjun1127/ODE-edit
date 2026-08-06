@@ -4,6 +4,7 @@ import ast
 import inspect
 import json
 import os
+import tempfile
 import unittest
 from fractions import Fraction
 from pathlib import Path
@@ -16,7 +17,11 @@ import torch
 from project.run_scripts.ode_bf.accounting import ComputeLedger
 from project.run_scripts.ode_bf import cold_start_target
 from project.run_scripts.ode_bf import fixed_e8_runtime
-from project.run_scripts.ode_bf.contracts import ODEBFContractError, ODEBFStateError
+from project.run_scripts.ode_bf.contracts import (
+    ODEBFContractError,
+    ODEBFStateError,
+    canonical_hash,
+)
 from project.run_scripts.ode_bf.fixed_e8_soft_routing import (
     FIXED_E8_GRID_COUNT,
     FIXED_E8_H,
@@ -43,6 +48,7 @@ from project.run_scripts.ode_bf.p1_fixed_e8_soft_panel import (
     expected_fixed_e8_result_name,
     fixed_e8_schedule,
     forecast_fixed_e8_panel,
+    load_fixed_e8_case_provenance,
     validate_fixed_e8_lock,
     validate_fixed_e8_runtime_gpu_capacity,
     verify_fixed_e8_case_provenance,
@@ -562,7 +568,7 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             self.assertEqual(forecast.qp_backend_invocations_per_arm, 40)
             self.assertEqual(
                 expected_fixed_e8_result_name(alias),
-                f"s05-cold-fixed-e8-soft-p1r7-{alias}-v1",
+                f"s05-cold-fixed-e8-soft-p1r7-r1-{alias}-v1",
             )
             receipt = validate_fixed_e8_runtime_gpu_capacity(
                 forecast,
@@ -601,6 +607,42 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
         self.assertTrue(verified["ordered_seal_reused_exactly"])
         self.assertFalse(verified["fresh_selection_performed"])
 
+        with tempfile.TemporaryDirectory() as directory:
+            candidate = Path(directory) / "provenance.json"
+
+            def write_rooted(value: dict[str, object]) -> None:
+                payload = dict(value)
+                payload.pop("root_digest", None)
+                payload["root_digest"] = canonical_hash(payload)
+                candidate.write_text(
+                    json.dumps(payload, sort_keys=True, separators=(",", ":")),
+                    encoding="utf-8",
+                )
+
+            write_rooted(provenance)
+            loaded, _ = load_fixed_e8_case_provenance(
+                candidate, source_seal=source_case
+            )
+            self.assertEqual(loaded, verified)
+
+            schema_version_only = dict(provenance)
+            schema_version_only["schema_version"] = schema_version_only.pop(
+                "schema"
+            )
+            write_rooted(schema_version_only)
+            with self.assertRaisesRegex(ODEBFContractError, "provenance differs"):
+                load_fixed_e8_case_provenance(
+                    candidate, source_seal=source_case
+                )
+
+            mismatched = dict(provenance)
+            mismatched["schema"] = "ode-edit-wrong-schema/v1"
+            write_rooted(mismatched)
+            with self.assertRaisesRegex(ODEBFContractError, "provenance differs"):
+                load_fixed_e8_case_provenance(
+                    candidate, source_seal=source_case
+                )
+
         base_sampling = load_p1_sampling_seal(
             LOCKS / "p1r2_p_population_seal.json",
             stream_path=LOCKS / "p1r2_seqb10_stream_seal.json",
@@ -628,8 +670,6 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
         changed["hard_structural_p_budget_influence_count"] = 1
         body = dict(changed)
         body.pop("root_digest")
-        from project.run_scripts.ode_bf.contracts import canonical_hash
-
         changed["root_digest"] = canonical_hash(body)
         with self.assertRaisesRegex(ODEBFContractError, "numerical lock"):
             validate_fixed_e8_lock(
@@ -696,9 +736,12 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             output = {
                 ("git", "rev-parse", "HEAD"): child + "\n",
                 ("git", "rev-parse", "HEAD^"): (
+                    fixed_e8_submit.FIXED_E8_REPAIR_PARENT_HEAD + "\n"
+                ),
+                ("git", "rev-parse", "HEAD^^"): (
                     fixed_e8_submit.FIXED_E8_REVIEW_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^"): FIXED_E8_PARENT_HEAD + "\n",
+                ("git", "rev-parse", "HEAD^^^"): FIXED_E8_PARENT_HEAD + "\n",
                 ("git", "branch", "--show-current"): (
                     "codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1\n"
                 ),
@@ -737,6 +780,10 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
                 clear=True,
             ):
                 receipt = fixed_e8_submit._execution_provenance_gate(child)
+        self.assertEqual(
+            receipt["exact_repair_parent"],
+            fixed_e8_submit.FIXED_E8_REPAIR_PARENT_HEAD,
+        )
         self.assertEqual(
             receipt["exact_review_parent"],
             fixed_e8_submit.FIXED_E8_REVIEW_PARENT_HEAD,

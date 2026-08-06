@@ -37,10 +37,11 @@ from project.run_scripts.ode_bf.resource import gpu_count_from_tres
 
 SESSION_ID = "019fc63e-5217-7250-9c22-c5b2ec4248f0"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1"
+FIXED_E8_REPAIR_PARENT_HEAD = "1378bf1139213ca57ad50e9fb3035b802cf9805f"
 FIXED_E8_REVIEW_PARENT_HEAD = "7faa432b3264cae83355775a3fde2d7bbfc3bab2"
 SERVER1_PROJECT_GPU_CAP = 3
 APPROVAL_ENV = "ODEEDIT_S05_P1R7_RUN_APPROVAL"
-SUBMISSION_NAMESPACE = "s05-cold-fixed-e8-structfunc-soft-p1r7-v1"
+SUBMISSION_NAMESPACE = "s05-cold-fixed-e8-structfunc-soft-p1r7-r1-v1"
 SBATCH = (
     REPO_ROOT
     / "project/run_scripts/session05_ode_bf_fixed_e8_structfunc_soft.sbatch"
@@ -56,6 +57,26 @@ PRIOR_IMMUTABLE = {
     ),
     "s05-newnll-p-soft-hard-p1r5-qwen2.5-7b-inst-v1-r2/terminal.json": (
         "2bd1404e2211098f9a51e4e7c92abf8894da5a860b9709d30e1b9b2869b9abba"
+    ),
+    "s05-cold-fixed-e8-soft-p1r7-llama3-8b-inst-v1/failure.json": (
+        "c302b960d75523043ab7f4eb90ecc413a4a731307f75bbd85f90037e4d922ec6"
+    ),
+    "s05-cold-fixed-e8-soft-p1r7-qwen2.5-7b-inst-v1/failure.json": (
+        "c302b960d75523043ab7f4eb90ecc413a4a731307f75bbd85f90037e4d922ec6"
+    ),
+}
+PRIOR_LOG_IMMUTABLE = {
+    "odeedit_s05_p1r7_e8_llama-17105.out": (
+        "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec"
+    ),
+    "odeedit_s05_p1r7_e8_llama-17105.err": (
+        "0a624dd4e8d9795990848975ee5eba12d25539ac0a53f4ed3a93192c23f4ae73"
+    ),
+    "odeedit_s05_p1r7_e8_qwen-17106.out": (
+        "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec"
+    ),
+    "odeedit_s05_p1r7_e8_qwen-17106.err": (
+        "1ee71392cfa5c60a032cff6f0c7bbd15282adf28e1093bd1894f5d3ddfb0ad87"
     ),
 }
 
@@ -95,7 +116,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     approval = os.environ.get(APPROVAL_ENV)
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
-    scientific_parent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
+    review_parent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
+    scientific_parent = _run(["git", "rev-parse", "HEAD^^^"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(
         ["git", "status", "--porcelain", "--untracked-files=no"]
@@ -108,7 +130,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         raise ODEBFContractError("fixed E8 checkpoint approval is absent")
     if (
         head != source_head
-        or parent != FIXED_E8_REVIEW_PARENT_HEAD
+        or parent != FIXED_E8_REPAIR_PARENT_HEAD
+        or review_parent != FIXED_E8_REVIEW_PARENT_HEAD
         or scientific_parent != FIXED_E8_PARENT_HEAD
         or branch != EXECUTION_BRANCH
         or ancestor.returncode != 0
@@ -118,7 +141,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     return {
         "checkpoint_bound_approval": expected_approval,
         "execution_head": head,
-        "exact_review_parent": parent,
+        "exact_repair_parent": parent,
+        "exact_review_parent": review_parent,
         "exact_scientific_parent": scientific_parent,
         "scientific_parent_is_ancestor": True,
         "branch": branch,
@@ -137,6 +161,8 @@ def _source_manifest_gate(source_head: str) -> str:
     if (
         value.get("instruction_id") != FIXED_E8_INSTRUCTION_ID
         or value.get("expected_parent") != FIXED_E8_PARENT_HEAD
+        or value.get("execution_repair_parent")
+        != FIXED_E8_REPAIR_PARENT_HEAD
         or value.get("execution_review_parent")
         != FIXED_E8_REVIEW_PARENT_HEAD
         or value.get("execution_head_policy") != "runtime-git-head"
@@ -192,6 +218,11 @@ def _prior_immutability_gate() -> None:
         path = parent / relative
         if path.is_symlink() or not path.is_file() or sha256_file(path) != expected:
             raise ODEBFContractError("immutable S05 artifact differs")
+    log_parent = REPO_ROOT / "local/odebf/logs"
+    for relative, expected in PRIOR_LOG_IMMUTABLE.items():
+        path = log_parent / relative
+        if path.is_symlink() or not path.is_file() or sha256_file(path) != expected:
+            raise ODEBFContractError("immutable S05 log differs")
 
 
 def _scheduler_snapshot() -> list[dict[str, Any]]:

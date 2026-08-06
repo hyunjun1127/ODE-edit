@@ -3463,19 +3463,14 @@ def run_p1(
         if fixed_e8_soft_mode:
             from .p1_fixed_e8_soft_panel import (
                 fixed_e8_schedule,
+                load_fixed_e8_case_provenance,
                 validate_fixed_e8_lock,
-                verify_fixed_e8_case_provenance,
             )
 
             schedule = fixed_e8_schedule(sampling_seal)
-            case_provenance, _ = load_rooted_json(
+            case_provenance, _ = load_fixed_e8_case_provenance(
                 locks / "p1r7_fixed_e8_case_provenance.json",
-                expected_schema=(
-                    "ode-edit-s05-fixed-e8-p1r7-case-provenance/v1"
-                ),
-            )
-            verify_fixed_e8_case_provenance(
-                case_provenance, source_seal=cold_stream
+                source_seal=cold_stream,
             )
             fixed_e8_numerical, fixed_e8_numerical_sha256 = load_rooted_json(
                 locks / "numerical_lock_s05_fixed_e8_structfunc_soft.json",
