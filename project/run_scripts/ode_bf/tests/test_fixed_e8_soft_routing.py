@@ -570,21 +570,53 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             self.assertEqual(forecast.qp_backend_invocations_per_arm, 40)
             self.assertEqual(
                 expected_fixed_e8_result_name(alias),
-                f"s05-cold-fixed-e8-soft-p1r7-r3-{alias}-v1",
+                f"s05-cold-fixed-e8-soft-p1r7-r4-{alias}-v1",
             )
             receipt = validate_fixed_e8_runtime_gpu_capacity(
                 forecast,
-                physical_total_bytes=forecast.physical_total_bytes,
+                device_property_total_bytes=(
+                    forecast.allocatable_calibration_bytes
+                ),
                 allocatable_total_bytes=forecast.allocatable_calibration_bytes,
                 free_bytes=forecast.allocatable_calibration_bytes,
             )
             self.assertTrue(receipt["passed"])
+            self.assertEqual(
+                receipt["stable_device_total_bytes"],
+                forecast.allocatable_calibration_bytes,
+            )
+            self.assertEqual(
+                receipt["physical_inventory_total_bytes"],
+                forecast.physical_total_bytes,
+            )
             required = forecast.conservative_gpu_peak_mib * 1024 * 1024
             self.assertEqual(receipt["required_free_bytes"], required)
+            reserved_context = validate_fixed_e8_runtime_gpu_capacity(
+                forecast,
+                device_property_total_bytes=(
+                    forecast.allocatable_calibration_bytes
+                ),
+                allocatable_total_bytes=forecast.allocatable_calibration_bytes,
+                free_bytes=required,
+            )
+            self.assertTrue(reserved_context["passed"])
+            with self.assertRaisesRegex(ODEBFContractError, "device identity"):
+                validate_fixed_e8_runtime_gpu_capacity(
+                    forecast,
+                    device_property_total_bytes=(
+                        forecast.allocatable_calibration_bytes - 1
+                    ),
+                    allocatable_total_bytes=(
+                        forecast.allocatable_calibration_bytes - 1
+                    ),
+                    free_bytes=required,
+                )
             with self.assertRaisesRegex(ODEBFContractError, "insufficient"):
                 validate_fixed_e8_runtime_gpu_capacity(
                     forecast,
-                    physical_total_bytes=forecast.physical_total_bytes,
+                    device_property_total_bytes=(
+                        forecast.allocatable_calibration_bytes
+                    ),
                     allocatable_total_bytes=forecast.allocatable_calibration_bytes,
                     free_bytes=required - 1,
                 )
@@ -785,19 +817,22 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             output = {
                 ("git", "rev-parse", "HEAD"): child + "\n",
                 ("git", "rev-parse", "HEAD^"): (
+                    fixed_e8_submit.FIXED_E8_MEMORY_PARENT_HEAD + "\n"
+                ),
+                ("git", "rev-parse", "HEAD^^"): (
                     fixed_e8_submit.FIXED_E8_NUMERICAL_SCHEMA_PARENT_HEAD
                     + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^"): (
+                ("git", "rev-parse", "HEAD^^^"): (
                     fixed_e8_submit.FIXED_E8_LAUNCHER_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^"): (
+                ("git", "rev-parse", "HEAD^^^^"): (
                     fixed_e8_submit.FIXED_E8_REPAIR_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^"): (
                     fixed_e8_submit.FIXED_E8_REVIEW_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^"): FIXED_E8_PARENT_HEAD + "\n",
+                ("git", "rev-parse", "HEAD^^^^^^"): FIXED_E8_PARENT_HEAD + "\n",
                 ("git", "branch", "--show-current"): (
                     "codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1\n"
                 ),
@@ -836,6 +871,10 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
                 clear=True,
             ):
                 receipt = fixed_e8_submit._execution_provenance_gate(child)
+        self.assertEqual(
+            receipt["exact_memory_parent"],
+            fixed_e8_submit.FIXED_E8_MEMORY_PARENT_HEAD,
+        )
         self.assertEqual(
             receipt["exact_numerical_schema_parent"],
             fixed_e8_submit.FIXED_E8_NUMERICAL_SCHEMA_PARENT_HEAD,

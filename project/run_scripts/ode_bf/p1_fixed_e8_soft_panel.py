@@ -34,7 +34,7 @@ FIXED_E8_INSTRUCTION_ID = (
     "ODEEDIT-S05-ODE-BF-COLD-FIXED-E8-STRUCTFUNC-SOFT-P1R7-V1"
 )
 FIXED_E8_PARENT_HEAD = "dfdfd703cc4b580cf2c11fb84946cefbb5f30bb7"
-FIXED_E8_RESULT_TOKEN = "cold-fixed-e8-structfunc-soft-p1r7-r3-v1"
+FIXED_E8_RESULT_TOKEN = "cold-fixed-e8-structfunc-soft-p1r7-r4-v1"
 FIXED_E8_SCHEMA_NAMESPACE = "ode-edit-s05-cold-fixed-e8-structfunc-soft-p1r7"
 FIXED_E8_PANEL_LABELS = tuple(item.value for item in FixedE8Arm)
 FIXED_E8_CASE_SEAL_FILE = "p1r6_cold_cf_b10_seal.json"
@@ -46,7 +46,7 @@ FIXED_E8_FORECAST_SECONDS = 43_200
 def expected_fixed_e8_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("fixed E8 result alias differs")
-    return f"s05-cold-fixed-e8-soft-p1r7-r3-{alias}-v1"
+    return f"s05-cold-fixed-e8-soft-p1r7-r4-{alias}-v1"
 
 
 def fixed_e8_schedule(base: SamplingSeal) -> StatelessReplaySchedule:
@@ -260,16 +260,19 @@ def forecast_fixed_e8_panel(
 def validate_fixed_e8_runtime_gpu_capacity(
     forecast: FixedE8ResourceForecast,
     *,
-    physical_total_bytes: int,
+    device_property_total_bytes: int,
     allocatable_total_bytes: int,
     free_bytes: int,
 ) -> dict[str, Any]:
-    values = (physical_total_bytes, allocatable_total_bytes, free_bytes)
+    values = (device_property_total_bytes, allocatable_total_bytes, free_bytes)
     if any(isinstance(item, bool) or not isinstance(item, int) or item <= 0 for item in values):
         raise ODEBFContractError("fixed E8 GPU capacity receipt differs")
-    if physical_total_bytes != forecast.physical_total_bytes:
-        raise ODEBFContractError("fixed E8 stable GPU physical identity differs")
-    if allocatable_total_bytes > physical_total_bytes or free_bytes > allocatable_total_bytes:
+    if device_property_total_bytes != forecast.allocatable_calibration_bytes:
+        raise ODEBFContractError("fixed E8 stable GPU device identity differs")
+    if (
+        allocatable_total_bytes > device_property_total_bytes
+        or free_bytes > allocatable_total_bytes
+    ):
         raise ODEBFContractError("fixed E8 allocatable GPU capacity differs")
     # The conservative peak already includes the locked 8 GiB runtime reserve.
     # Do not charge that reserve a second time at the live-capacity gate.
@@ -278,7 +281,9 @@ def validate_fixed_e8_runtime_gpu_capacity(
         raise ODEBFContractError("fixed E8 runtime GPU capacity is insufficient")
     payload = {
         "stable_identity_api": "torch.cuda.get_device_properties.total_memory",
-        "physical_total_bytes": physical_total_bytes,
+        "stable_device_total_bytes": device_property_total_bytes,
+        "physical_inventory_total_bytes": forecast.physical_total_bytes,
+        "physical_inventory_role": "LOCKED_FORECAST_PROVENANCE_ONLY",
         "runtime_capacity_api": "torch.cuda.mem_get_info",
         "allocatable_total_bytes": allocatable_total_bytes,
         "free_bytes": free_bytes,

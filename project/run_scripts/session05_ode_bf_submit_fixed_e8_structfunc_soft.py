@@ -37,13 +37,14 @@ from project.run_scripts.ode_bf.resource import gpu_count_from_tres
 
 SESSION_ID = "019fc63e-5217-7250-9c22-c5b2ec4248f0"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1"
+FIXED_E8_MEMORY_PARENT_HEAD = "2073400884f774bfe9deafbbe9eacc9c7b187acf"
 FIXED_E8_NUMERICAL_SCHEMA_PARENT_HEAD = "2c5755a0c1769889306384aad7020a34052b2b53"
 FIXED_E8_LAUNCHER_PARENT_HEAD = "d418178b17c3e646cff4c85a82c3fd4495872d50"
 FIXED_E8_REPAIR_PARENT_HEAD = "1378bf1139213ca57ad50e9fb3035b802cf9805f"
 FIXED_E8_REVIEW_PARENT_HEAD = "7faa432b3264cae83355775a3fde2d7bbfc3bab2"
 SERVER1_PROJECT_GPU_CAP = 3
 APPROVAL_ENV = "ODEEDIT_S05_P1R7_RUN_APPROVAL"
-SUBMISSION_NAMESPACE = "s05-cold-fixed-e8-structfunc-soft-p1r7-r3-v1"
+SUBMISSION_NAMESPACE = "s05-cold-fixed-e8-structfunc-soft-p1r7-r4-v1"
 SBATCH = (
     REPO_ROOT
     / "project/run_scripts/session05_ode_bf_fixed_e8_structfunc_soft.sbatch"
@@ -71,6 +72,12 @@ PRIOR_IMMUTABLE = {
     ),
     "s05-cold-fixed-e8-soft-p1r7-r2-qwen2.5-7b-inst-v1/failure.json": (
         "8f3dc2ccf91d89570203eddecc06a1aa527ec9827589a03d528304494f141055"
+    ),
+    "s05-cold-fixed-e8-soft-p1r7-r3-llama3-8b-inst-v1/failure.json": (
+        "474063ac165c97b8c43c6b482504517c1d2e20d317e9a0da2b8c8be5d1713562"
+    ),
+    "s05-cold-fixed-e8-soft-p1r7-r3-qwen2.5-7b-inst-v1/failure.json": (
+        "474063ac165c97b8c43c6b482504517c1d2e20d317e9a0da2b8c8be5d1713562"
     ),
 }
 PRIOR_LOG_IMMUTABLE = {
@@ -110,6 +117,18 @@ PRIOR_LOG_IMMUTABLE = {
     "odeedit_s05_p1r7r2_e8_qwen-17110.err": (
         "d1bafcee6eda8341fb0e4596ce40581c83c74667aac1f92218056211915d9137"
     ),
+    "odeedit_s05_p1r7r3_e8_llama-17111.out": (
+        "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec"
+    ),
+    "odeedit_s05_p1r7r3_e8_llama-17111.err": (
+        "287d715add97b59c441020b8e5b21e29011e7d784797e1a8ea0b0e0f69d72cbf"
+    ),
+    "odeedit_s05_p1r7r3_e8_qwen-17112.out": (
+        "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec"
+    ),
+    "odeedit_s05_p1r7r3_e8_qwen-17112.err": (
+        "7ed9aac53ea613de08db6ecf3cc5704173ef3fdb02f1637ee03f2127e530242c"
+    ),
 }
 
 
@@ -148,10 +167,11 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     approval = os.environ.get(APPROVAL_ENV)
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
-    launcher_parent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
-    repair_parent = _run(["git", "rev-parse", "HEAD^^^"]).stdout.strip()
-    review_parent = _run(["git", "rev-parse", "HEAD^^^^"]).stdout.strip()
-    scientific_parent = _run(["git", "rev-parse", "HEAD^^^^^"]).stdout.strip()
+    numerical_schema_parent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
+    launcher_parent = _run(["git", "rev-parse", "HEAD^^^"]).stdout.strip()
+    repair_parent = _run(["git", "rev-parse", "HEAD^^^^"]).stdout.strip()
+    review_parent = _run(["git", "rev-parse", "HEAD^^^^^"]).stdout.strip()
+    scientific_parent = _run(["git", "rev-parse", "HEAD^^^^^^"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(
         ["git", "status", "--porcelain", "--untracked-files=no"]
@@ -164,7 +184,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         raise ODEBFContractError("fixed E8 checkpoint approval is absent")
     if (
         head != source_head
-        or parent != FIXED_E8_NUMERICAL_SCHEMA_PARENT_HEAD
+        or parent != FIXED_E8_MEMORY_PARENT_HEAD
+        or numerical_schema_parent != FIXED_E8_NUMERICAL_SCHEMA_PARENT_HEAD
         or launcher_parent != FIXED_E8_LAUNCHER_PARENT_HEAD
         or repair_parent != FIXED_E8_REPAIR_PARENT_HEAD
         or review_parent != FIXED_E8_REVIEW_PARENT_HEAD
@@ -177,7 +198,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     return {
         "checkpoint_bound_approval": expected_approval,
         "execution_head": head,
-        "exact_numerical_schema_parent": parent,
+        "exact_memory_parent": parent,
+        "exact_numerical_schema_parent": numerical_schema_parent,
         "exact_launcher_parent": launcher_parent,
         "exact_repair_parent": repair_parent,
         "exact_review_parent": review_parent,
@@ -199,6 +221,8 @@ def _source_manifest_gate(source_head: str) -> str:
     if (
         value.get("instruction_id") != FIXED_E8_INSTRUCTION_ID
         or value.get("expected_parent") != FIXED_E8_PARENT_HEAD
+        or value.get("execution_memory_parent")
+        != FIXED_E8_MEMORY_PARENT_HEAD
         or value.get("execution_numerical_schema_parent")
         != FIXED_E8_NUMERICAL_SCHEMA_PARENT_HEAD
         or value.get("execution_launcher_parent")

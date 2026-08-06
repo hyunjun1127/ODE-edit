@@ -3547,7 +3547,7 @@ def run_p1(
         free_bytes, allocatable_total_bytes = torch.cuda.mem_get_info(0)
         fixed_e8_capacity_receipt = validate_fixed_e8_runtime_gpu_capacity(
             fixed_e8_forecast,
-            physical_total_bytes=int(device_properties.total_memory),
+            device_property_total_bytes=int(device_properties.total_memory),
             allocatable_total_bytes=int(allocatable_total_bytes),
             free_bytes=int(free_bytes),
         )
