@@ -37,6 +37,7 @@ from project.run_scripts.ode_bf.resource import gpu_count_from_tres
 
 SESSION_ID = "019fc63e-5217-7250-9c22-c5b2ec4248f0"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-cold-structp-softp-noveto-p1r6-v1"
+EXECUTION_REPAIR_PARENT = "b17d809e73f1d6121b9aac7c53eade11ef15238c"
 SERVER1_PROJECT_GPU_CAP = 3
 APPROVAL_ENV = "ODEEDIT_S05_P1R6_RUN_APPROVAL"
 SUBMISSION_NAMESPACE = "s05-cold-structp-softp-noveto-p1r6-v1"
@@ -93,6 +94,7 @@ def _source_manifest_gate(source_head: str) -> str:
     if (
         value.get("instruction_id") != COLD_INSTRUCTION_ID
         or value.get("expected_parent") != COLD_PARENT_HEAD
+        or value.get("execution_repair_parent") != EXECUTION_REPAIR_PARENT
         or value.get("execution_head_policy") != "runtime-git-head"
         or not isinstance(entries, list)
         or not entries
@@ -186,18 +188,47 @@ def _host_memory_gate() -> int:
     return total_mib
 
 
-def _pre_submit(source_head: str) -> dict[str, Any]:
+def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
+    """Verify the exact scientific-base -> review -> repair chain."""
+
     expected_approval = f"{COLD_INSTRUCTION_ID}:{source_head}"
-    if os.environ.get(APPROVAL_ENV) != expected_approval:
+    approval = os.environ.get(APPROVAL_ENV)
+    head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
+    parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
+    scientific_parent = _run(
+        ["git", "rev-parse", f"{EXECUTION_REPAIR_PARENT}^"]
+    ).stdout.strip()
+    ancestor = _run(
+        ["git", "merge-base", "--is-ancestor", COLD_PARENT_HEAD, head],
+        check=False,
+    )
+    branch = _run(["git", "branch", "--show-current"]).stdout.strip()
+    dirty = _run(
+        ["git", "status", "--porcelain", "--untracked-files=no"]
+    ).stdout
+    if approval != expected_approval:
         raise ODEBFContractError("checkpoint-bound GH RUN_APPROVAL is absent")
     if (
-        _run(["git", "rev-parse", "HEAD"]).stdout.strip() != source_head
-        or _run(["git", "rev-parse", "HEAD^"]).stdout.strip() != COLD_PARENT_HEAD
-        or _run(["git", "branch", "--show-current"]).stdout.strip()
-        != EXECUTION_BRANCH
-        or _run(["git", "status", "--porcelain", "--untracked-files=no"]).stdout
+        head != source_head
+        or parent != EXECUTION_REPAIR_PARENT
+        or scientific_parent != COLD_PARENT_HEAD
+        or ancestor.returncode != 0
+        or branch != EXECUTION_BRANCH
+        or dirty
     ):
-        raise ODEBFContractError("cold execution boundary differs")
+        raise ODEBFContractError("cold execution provenance chain differs")
+    return {
+        "checkpoint_bound_approval": expected_approval,
+        "execution_head": head,
+        "execution_repair_parent": parent,
+        "scientific_parent": scientific_parent,
+        "scientific_parent_is_ancestor": True,
+        "tracked_tree_clean": True,
+    }
+
+
+def _pre_submit(source_head: str) -> dict[str, Any]:
+    execution_provenance = _execution_provenance_gate(source_head)
     _run(["scripts/check-session-boundary.sh", SESSION_ID])
     source_manifest_sha256 = _source_manifest_gate(source_head)
     _prior_immutability_gate()
@@ -236,6 +267,7 @@ def _pre_submit(source_head: str) -> dict[str, Any]:
         if list(log_parent.glob(f"{dry.JOB_NAMES[alias]}-*")):
             raise ODEBFContractError("cold log namespace collides")
     return {
+        "execution_provenance": execution_provenance,
         "source_manifest_sha256": source_manifest_sha256,
         "active_project_gpu": active_project_gpu,
         "server1_project_gpu_cap": SERVER1_PROJECT_GPU_CAP,

@@ -9,6 +9,7 @@ import unittest
 from collections import Counter
 from fractions import Fraction
 from pathlib import Path
+from types import SimpleNamespace
 from unittest import mock
 
 import torch
@@ -26,10 +27,18 @@ from project.run_scripts.ode_bf.contracts import (
     ODEBFStateError,
     canonical_hash,
 )
-from project.run_scripts.ode_bf.functional import tensor_sha256
+from project.run_scripts.ode_bf.functional import WaypointFactor, tensor_sha256
+from project.run_scripts.ode_bf.p1_backend import (
+    CovarianceActionReceipt,
+    FULL_CURRENT_RESIDUAL_DEFINITION,
+    FULL_CURRENT_RESIDUAL_DIVISOR,
+    P1DynamicField,
+    P1LayerField,
+)
 from project.run_scripts.ode_bf.p1_cold_structp_softp_noveto_panel import (
     COLD_CASE_SALT,
     COLD_PANEL_LABELS,
+    COLD_PARENT_HEAD,
     cold_schedule,
     expected_cold_result_name,
     forecast_cold_panel,
@@ -43,8 +52,14 @@ from project.run_scripts.ode_bf.p1_selection import (
     load_p1_request_identities,
     scan_prior_tracked_seals,
 )
+from project.run_scripts.ode_bf.p1_state import P1HistoryLedger
 from project.run_scripts.ode_bf.request_digest import ordered_request_digest_v1
 from project.run_scripts.ode_bf.sampling import load_p1_sampling_seal
+from project.run_scripts.ode_bf.woodbury import (
+    ProjectorCertificate,
+    WoodburyCertificate,
+    WoodburyMethod,
+)
 
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -63,6 +78,120 @@ class _OverlayModel(torch.nn.Module):
 
     def forward(self, value: torch.Tensor) -> torch.Tensor:
         return self.layer(value)
+
+
+def _cold_semantic_field(
+    *,
+    wall_seconds: float,
+    mutation: str | None = None,
+) -> tuple[P1DynamicField, dict[int, torch.Tensor], dict[int, torch.Tensor]]:
+    generator = torch.Generator().manual_seed(6101)
+    target = torch.randn((12, 10), generator=generator, dtype=torch.float32)
+    layers: list[P1LayerField] = []
+    projector = ProjectorCertificate(
+        "1" * 64,
+        1.0,
+        1.0,
+        "artifact-unverified",
+        1.0e-10,
+    )
+    certificate = WoodburyCertificate(
+        WoodburyMethod.GENERAL_LU,
+        projector,
+        10,
+        2.0,
+        1.0e-12,
+        1.0e-12,
+        True,
+        True,
+    )
+    for ordinal, layer in enumerate(cold.COLD_LAYER_ORDER):
+        residual = torch.randn((12, 10), generator=generator, dtype=torch.float32)
+        q = torch.randn((11, 10), generator=generator, dtype=torch.float32)
+        key = torch.randn((11, 10), generator=generator, dtype=torch.float32)
+        projected = torch.randn((11, 10), generator=generator, dtype=torch.float32)
+        action = 0.01 * q
+        gram = q.double().T @ action.double()
+        if layer == cold.COLD_LAYER_ORDER[0]:
+            if mutation == "residual":
+                residual = residual.clone()
+                residual[0, 0] += 1.0
+            elif mutation == "q":
+                q = q.clone()
+                q[0, 0] += 1.0
+                action = 0.01 * q
+                gram = q.double().T @ action.double()
+            elif mutation == "action":
+                action = action.clone()
+                action[0, 0] += 1.0
+            elif mutation == "gram":
+                gram = gram.clone()
+                gram[0, 0] += 1.0
+        factor = WaypointFactor(
+            f"layers.{layer}.weight",
+            layer,
+            0,
+            0,
+            ordinal,
+            1.0,
+            residual,
+            q,
+        )
+        receipt = CovarianceActionReceipt(
+            layer,
+            str(layer) * 64,
+            100,
+            (11, 11),
+            100000,
+            (11, 10),
+            tensor_sha256(q),
+            tensor_sha256(action),
+            tensor_sha256(gram),
+            True,
+            wall_seconds + ordinal,
+        )
+        layers.append(
+            P1LayerField(
+                layer,
+                factor.weight_name,
+                key,
+                projected,
+                residual,
+                FULL_CURRENT_RESIDUAL_DEFINITION,
+                FULL_CURRENT_RESIDUAL_DIVISOR,
+                q,
+                factor,
+                float(torch.sum((residual.T @ residual) * (q.T @ q))),
+                action,
+                gram,
+                receipt,
+                certificate,
+                torch.empty((12, 0), dtype=torch.float64),
+            )
+        )
+    if mutation == "target":
+        target = target.clone()
+        target[0, 0] += 1.0
+    request_order = "a" * 64 if mutation != "request" else "b" * 64
+    field = P1DynamicField(
+        0,
+        request_order,
+        target,
+        target - layers[-1].residual,
+        tuple(layers),
+        canonical_hash({"wall_seconds": wall_seconds, "mutation": mutation}),
+        10,
+        0,
+    )
+    solve = {
+        layer: torch.empty((0, 0), dtype=torch.float32)
+        for layer in cold.COLD_LAYER_ORDER
+    }
+    risk = {
+        layer: torch.empty((0, 0), dtype=torch.float32)
+        for layer in cold.COLD_LAYER_ORDER
+    }
+    return field, solve, risk
 
 
 def _call_names(function: object) -> set[str]:
@@ -95,6 +224,146 @@ class ColdTargetTests(unittest.TestCase):
             cold.ColdTargetMetric.from_z_base(
                 torch.zeros((4, 10), dtype=torch.float32), "a" * 64
             )
+
+    def test_cold_field_semantic_identity_excludes_only_covariance_wall(self) -> None:
+        first, solve, risk = _cold_semantic_field(wall_seconds=0.25)
+        repeated, repeated_solve, repeated_risk = _cold_semantic_field(
+            wall_seconds=9.5
+        )
+        first_receipt = cold.cold_field_semantic_receipt(
+            first,
+            history_solve_keys_by_layer=solve,
+            history_risk_keys_by_layer=risk,
+        )
+        repeated_receipt = cold.cold_field_semantic_receipt(
+            repeated,
+            history_solve_keys_by_layer=repeated_solve,
+            history_risk_keys_by_layer=repeated_risk,
+        )
+        self.assertNotEqual(first.identity_sha256, repeated.identity_sha256)
+        self.assertEqual(
+            first_receipt["semantic_identity_sha256"],
+            repeated_receipt["semantic_identity_sha256"],
+        )
+        self.assertNotEqual(
+            first_receipt["cost_telemetry"]["covariance_wall_seconds"],
+            repeated_receipt["cost_telemetry"]["covariance_wall_seconds"],
+        )
+        self.assertEqual(
+            tuple(
+                first_receipt["cost_telemetry"][
+                    "semantic_exclusion_allowlist"
+                ]
+            ),
+            cold.COLD_FIELD_SEMANTIC_EXCLUSION_ALLOWLIST,
+        )
+        source = inspect.getsource(cold.cold_field_semantic_receipt)
+        self.assertNotIn("startswith", source)
+        self.assertNotIn("endswith", source)
+
+        for mutation in ("action", "gram", "q", "residual", "request", "target"):
+            with self.subTest(mutation=mutation):
+                changed, changed_solve, changed_risk = _cold_semantic_field(
+                    wall_seconds=0.25,
+                    mutation=mutation,
+                )
+                changed_receipt = cold.cold_field_semantic_receipt(
+                    changed,
+                    history_solve_keys_by_layer=changed_solve,
+                    history_risk_keys_by_layer=changed_risk,
+                )
+                self.assertNotEqual(
+                    first_receipt["semantic_identity_sha256"],
+                    changed_receipt["semantic_identity_sha256"],
+                )
+
+    def test_repeated_entry_uses_semantic_field_and_pre_soft_contract(self) -> None:
+        readiness_field, solve, risk = _cold_semantic_field(wall_seconds=0.1)
+        no_soft_field, _, _ = _cold_semantic_field(wall_seconds=0.2)
+        soft_field, _, _ = _cold_semantic_field(wall_seconds=0.3)
+        readiness_receipt = cold.cold_field_semantic_receipt(
+            readiness_field,
+            history_solve_keys_by_layer=solve,
+            history_risk_keys_by_layer=risk,
+        )
+        readiness = cold.ColdFieldReadiness(
+            reached=True,
+            field_sha256=readiness_field.identity_sha256,
+            field_semantic_sha256=readiness_receipt[
+                "semantic_identity_sha256"
+            ],
+            field_semantic_receipt=readiness_receipt,
+            signed_progress=(1.0, 0.8, 0.6, 0.4, 0.2),
+            maximum_feasible_progress=1.0,
+            layer_joint_ranks=(10,) * 5,
+            nonzero_layer_count=5,
+            reason="READY",
+            identity_sha256="1" * 64,
+        )
+        history = P1HistoryLedger(
+            layer_order=cold.COLD_LAYER_ORDER,
+            maximum_records=40,
+        )
+
+        def active(field: P1DynamicField, bf: tuple[float, ...]) -> object:
+            return SimpleNamespace(
+                field=field,
+                raw=SimpleNamespace(values=(1.0, 0.8, 0.6, 0.4, 0.2)),
+                projection=SimpleNamespace(values=bf),
+                problem=SimpleNamespace(requested_progress=0.5),
+                signed_progress=SimpleNamespace(
+                    signed_progress=(1.0, 0.8, 0.6, 0.4, 0.2)
+                ),
+            )
+
+        shared_bf = (0.9, 0.7, 0.5, 0.3, 0.1)
+        contracts = {
+            cold.COLD_PANEL_LABELS[0]: cold.cold_entry_field_contract(
+                cold.COLD_PANEL_LABELS[0],
+                active(no_soft_field, shared_bf),  # type: ignore[arg-type]
+                history,
+            ),
+            cold.COLD_PANEL_LABELS[1]: cold.cold_entry_field_contract(
+                cold.COLD_PANEL_LABELS[1],
+                active(soft_field, shared_bf),  # type: ignore[arg-type]
+                history,
+            ),
+        }
+        common = cold.validate_cold_common_entry_contracts(
+            readiness, contracts
+        )
+        self.assertTrue(common["readiness_equals_no_soft_equals_soft"])
+        self.assertTrue(common["pre_soft_raw_bf_requested_progress_equal"])
+        self.assertNotEqual(
+            contracts[cold.COLD_PANEL_LABELS[0]].field_semantic_receipt[
+                "full_field_receipt_identity_sha256"
+            ],
+            contracts[cold.COLD_PANEL_LABELS[1]].field_semantic_receipt[
+                "full_field_receipt_identity_sha256"
+            ],
+        )
+        changed_contracts = dict(contracts)
+        changed_contracts[cold.COLD_PANEL_LABELS[1]] = (
+            cold.cold_entry_field_contract(
+                cold.COLD_PANEL_LABELS[1],
+                active(soft_field, (0.8, 0.7, 0.5, 0.3, 0.1)),  # type: ignore[arg-type]
+                history,
+            )
+        )
+        with self.assertRaisesRegex(ODEBFContractError, "pre-soft routing"):
+            cold.validate_cold_common_entry_contracts(
+                readiness, changed_contracts
+            )
+        variant_source = inspect.getsource(cold._run_cold_variant)
+        self.assertIn("field_semantic_sha256", variant_source)
+        self.assertLess(
+            variant_source.index("validate_cold_common_entry_contracts("),
+            variant_source.index("while active is not None"),
+        )
+        self.assertNotIn(
+            "active.field.identity_sha256 != bootstrap.readiness.field_sha256",
+            variant_source,
+        )
 
     def test_bootstrap_reject_is_pure_then_accepts_half_step_without_write(self) -> None:
         model = torch.nn.Linear(2, 2, bias=False)
@@ -150,14 +419,18 @@ class ColdTargetTests(unittest.TestCase):
             )
 
         ready = cold.ColdFieldReadiness(
-            True,
-            "4" * 64,
-            (1.0,) * 5,
-            1.0,
-            (2,) * 5,
-            5,
-            "READY",
-            "5" * 64,
+            reached=True,
+            field_sha256="4" * 64,
+            field_semantic_sha256="6" * 64,
+            field_semantic_receipt={
+                "semantic_identity_sha256": "6" * 64
+            },
+            signed_progress=(1.0,) * 5,
+            maximum_feasible_progress=1.0,
+            layer_joint_ranks=(2,) * 5,
+            nonzero_layer_count=5,
+            reason="READY",
+            identity_sha256="5" * 64,
         )
         requests = tuple({"request_sha256": f"{index:064x}"} for index in range(10))
         hparams = type(
@@ -562,6 +835,136 @@ class ColdTargetTests(unittest.TestCase):
         ):
             with self.assertRaisesRegex(ODEBFContractError, "RUN_APPROVAL"):
                 submit._pre_submit("c" * 40)
+
+    def test_execution_repair_chain_is_exact_and_checkpoint_bound(self) -> None:
+        execution_head = "c" * 40
+
+        def git_run(
+            *,
+            head: str = execution_head,
+            parent: str = submit.EXECUTION_REPAIR_PARENT,
+            scientific_parent: str = COLD_PARENT_HEAD,
+            ancestor_returncode: int = 0,
+            branch: str = submit.EXECUTION_BRANCH,
+            dirty: str = "",
+        ):
+            def run(args: object, *, check: bool = True) -> object:
+                command = tuple(args)  # type: ignore[arg-type]
+                values = {
+                    ("git", "rev-parse", "HEAD"): head,
+                    ("git", "rev-parse", "HEAD^"): parent,
+                    (
+                        "git",
+                        "rev-parse",
+                        f"{submit.EXECUTION_REPAIR_PARENT}^",
+                    ): scientific_parent,
+                    ("git", "branch", "--show-current"): branch,
+                    (
+                        "git",
+                        "status",
+                        "--porcelain",
+                        "--untracked-files=no",
+                    ): dirty,
+                }
+                if command[:3] == ("git", "merge-base", "--is-ancestor"):
+                    return SimpleNamespace(
+                        stdout="", returncode=ancestor_returncode
+                    )
+                if command not in values:
+                    raise AssertionError(command)
+                output = values[command]
+                if command[:2] != ("git", "status"):
+                    output += "\n"
+                return SimpleNamespace(stdout=output, returncode=0)
+
+            return run
+
+        approval = f"{cold.COLD_INSTRUCTION_ID}:{execution_head}"
+        with mock.patch.dict(
+            os.environ, {submit.APPROVAL_ENV: approval}, clear=False
+        ), mock.patch.object(submit, "_run", side_effect=git_run()):
+            receipt = submit._execution_provenance_gate(execution_head)
+        self.assertEqual(receipt["execution_head"], execution_head)
+        self.assertEqual(
+            receipt["execution_repair_parent"], submit.EXECUTION_REPAIR_PARENT
+        )
+        self.assertEqual(receipt["scientific_parent"], COLD_PARENT_HEAD)
+
+        failures = (
+            {
+                "name": "direct-b17",
+                "source_head": submit.EXECUTION_REPAIR_PARENT,
+                "run": git_run(
+                    head=submit.EXECUTION_REPAIR_PARENT,
+                    parent=COLD_PARENT_HEAD,
+                ),
+                "approval": (
+                    f"{cold.COLD_INSTRUCTION_ID}:"
+                    f"{submit.EXECUTION_REPAIR_PARENT}"
+                ),
+            },
+            {
+                "name": "wrong-parent",
+                "source_head": execution_head,
+                "run": git_run(parent="d" * 40),
+                "approval": approval,
+            },
+            {
+                "name": "skipped-b17",
+                "source_head": execution_head,
+                "run": git_run(parent=COLD_PARENT_HEAD),
+                "approval": approval,
+            },
+            {
+                "name": "amended-review",
+                "source_head": execution_head,
+                "run": git_run(scientific_parent="e" * 40),
+                "approval": approval,
+            },
+            {
+                "name": "rebased-chain",
+                "source_head": execution_head,
+                "run": git_run(ancestor_returncode=1),
+                "approval": approval,
+            },
+            {
+                "name": "wrong-approval-head",
+                "source_head": execution_head,
+                "run": git_run(),
+                "approval": f"{cold.COLD_INSTRUCTION_ID}:{'f' * 40}",
+            },
+            {
+                "name": "dirty-tracked-tree",
+                "source_head": execution_head,
+                "run": git_run(dirty=" M scientific.py"),
+                "approval": approval,
+            },
+        )
+        for failure in failures:
+            with self.subTest(name=failure["name"]), mock.patch.dict(
+                os.environ,
+                {submit.APPROVAL_ENV: failure["approval"]},
+                clear=False,
+            ), mock.patch.object(submit, "_run", side_effect=failure["run"]):
+                with self.assertRaises(ODEBFContractError):
+                    submit._execution_provenance_gate(failure["source_head"])
+
+        source_manifest = json.loads(
+            (
+                LOCKS / "source_manifest_s05_cold_structp_softp_noveto.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual(source_manifest["expected_parent"], COLD_PARENT_HEAD)
+        self.assertEqual(
+            source_manifest["execution_repair_parent"],
+            submit.EXECUTION_REPAIR_PARENT,
+        )
+        numerical = json.loads(
+            (
+                LOCKS / "numerical_lock_s05_cold_structp_softp_noveto.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual(numerical["parent_source_head"], COLD_PARENT_HEAD)
 
 
 if __name__ == "__main__":

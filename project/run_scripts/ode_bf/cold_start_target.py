@@ -10,6 +10,7 @@ have been frozen.
 
 from __future__ import annotations
 
+import hashlib
 import math
 import time
 from dataclasses import asdict, dataclass
@@ -21,6 +22,7 @@ import numpy as np
 import torch
 
 from .accounting import ComputeLedger
+from .alpha_backend import W64_ASSEMBLER_REFERENCE
 from .contracts import BATCH_SIZE, ODEBFContractError, ODEBFStateError, canonical_hash
 from .functional import WaypointFactor, tensor_sha256
 from .functional_p_secant import FunctionalPFieldPolicy
@@ -59,6 +61,8 @@ from .p1_adaptive_runtime import (
 )
 from .p1_backend import (
     FULL_CURRENT_RESIDUAL_DEFINITION,
+    FULL_CURRENT_RESIDUAL_DIVISOR,
+    P1_DYNAMIC_REFERENCE,
     P1DynamicField,
     PinnedCovarianceRegistry,
     _CoefficientOverlay,
@@ -98,6 +102,38 @@ COLD_BOOT_TRIAL_CAP = 32
 COLD_JOINT_TARGET_EPSILON = 1.0e-8
 COLD_RHO_ACCEPT = 0.1
 COLD_METRIC_TOLERANCE = 1.0e-6
+COLD_LAYER_ORDER = (4, 5, 6, 7, 8)
+COLD_FIELD_SEMANTIC_SCHEMA = "ode-edit-s05-cold-field-semantic-identity/v1"
+COLD_FIELD_SEMANTIC_EXCLUSION_ALLOWLIST = (
+    "layers[].covariance_receipt.wall_seconds",
+    "field.model_forward_count",
+    "field.processed_token_count",
+)
+COLD_COVARIANCE_RECEIPT_FIELDS = (
+    "layer",
+    "source_sha256",
+    "source_size",
+    "matrix_shape",
+    "sample_count",
+    "q_shape",
+    "q_sha256",
+    "action_sha256",
+    "gram_sha256",
+    "finite",
+    "wall_seconds",
+)
+COLD_COVARIANCE_SEMANTIC_FIELDS = (
+    "layer",
+    "source_sha256",
+    "source_size",
+    "matrix_shape",
+    "sample_count",
+    "q_shape",
+    "q_sha256",
+    "action_sha256",
+    "gram_sha256",
+    "finite",
+)
 
 
 def _unwrap_layer_output(output: Any) -> torch.Tensor:
@@ -473,16 +509,298 @@ def evaluate_cold_target_objective(
     )
 
 
+def _cold_tensor_semantic_payload(value: torch.Tensor) -> dict[str, Any]:
+    if not isinstance(value, torch.Tensor) or not torch.isfinite(value).all():
+        raise ODEBFContractError("cold semantic field tensor differs")
+    return {
+        "shape": list(value.shape),
+        "dtype": str(value.dtype),
+        "sha256": tensor_sha256(value),
+    }
+
+
+def _cold_covariance_semantic_payload(
+    receipt: Any,
+) -> tuple[dict[str, Any], float]:
+    payload = asdict(receipt)
+    if tuple(payload) != COLD_COVARIANCE_RECEIPT_FIELDS:
+        raise ODEBFContractError("cold covariance receipt schema differs")
+    wall = payload["wall_seconds"]
+    if (
+        isinstance(wall, bool)
+        or not isinstance(wall, (int, float))
+        or not math.isfinite(float(wall))
+        or float(wall) < 0.0
+    ):
+        raise ODEBFContractError("cold covariance cost telemetry differs")
+    return (
+        {name: payload[name] for name in COLD_COVARIANCE_SEMANTIC_FIELDS},
+        float(wall),
+    )
+
+
+def cold_field_semantic_receipt(
+    field: P1DynamicField,
+    *,
+    history_solve_keys_by_layer: Mapping[int, torch.Tensor],
+    history_risk_keys_by_layer: Mapping[int, torch.Tensor],
+) -> dict[str, Any]:
+    """Return an exact scientific field identity with cost telemetry separate.
+
+    The exclusion schema is intentionally closed.  In particular, this does
+    not recursively remove keys that happen to look like timing fields.
+    """
+
+    layers = tuple(int(item.layer) for item in field.layers)
+    if (
+        layers != COLD_LAYER_ORDER
+        or tuple(sorted(history_solve_keys_by_layer)) != COLD_LAYER_ORDER
+        or tuple(sorted(history_risk_keys_by_layer)) != COLD_LAYER_ORDER
+        or field.target_state.ndim != 2
+        or field.target_state.shape[1] != BATCH_SIZE
+    ):
+        raise ODEBFContractError("cold semantic field inventory differs")
+    semantic_layers: list[dict[str, Any]] = []
+    covariance_wall_seconds: list[dict[str, Any]] = []
+    for item in field.layers:
+        if (
+            item.residual_definition != FULL_CURRENT_RESIDUAL_DEFINITION
+            or item.residual_divisor != FULL_CURRENT_RESIDUAL_DIVISOR
+            or item.factor.weight_name != item.weight_name
+            or item.factor.layer != item.layer
+        ):
+            raise ODEBFContractError("cold semantic residual/factor policy differs")
+        covariance, wall = _cold_covariance_semantic_payload(
+            item.covariance_receipt
+        )
+        solve_history = history_solve_keys_by_layer[item.layer]
+        risk_history = history_risk_keys_by_layer[item.layer]
+        reconstructed_current_z = (
+            field.target_state.detach().to(device="cpu", dtype=torch.float32)
+            - item.residual.detach().to(device="cpu", dtype=torch.float32)
+        ).contiguous()
+        factor = item.factor
+        semantic_layers.append(
+            {
+                "layer": item.layer,
+                "weight_name_sha256": hashlib.sha256(
+                    item.weight_name.encode("utf-8")
+                ).hexdigest(),
+                "key": _cold_tensor_semantic_payload(item.key),
+                "projected_key": _cold_tensor_semantic_payload(
+                    item.projected_key
+                ),
+                "residual": _cold_tensor_semantic_payload(item.residual),
+                "residual_definition": item.residual_definition,
+                "residual_divisor": item.residual_divisor,
+                "current_z_reconstructed_from_full_residual": (
+                    _cold_tensor_semantic_payload(reconstructed_current_z)
+                ),
+                "q": _cold_tensor_semantic_payload(item.q),
+                "factor": {
+                    "identity_sha256": item.factor_identity(),
+                    "layer": factor.layer,
+                    "correction_cycle": factor.correction_cycle,
+                    "step_in_cycle": factor.step_in_cycle,
+                    "factor_ordinal": factor.factor_ordinal,
+                    "theta": factor.theta,
+                    "joint_batch": factor.joint_batch,
+                    "left": _cold_tensor_semantic_payload(factor.left),
+                    "right": _cold_tensor_semantic_payload(factor.right),
+                },
+                "factor_frobenius_sq": item.factor_frobenius_sq,
+                "covariance_receipt": covariance,
+                "covariance_action": _cold_tensor_semantic_payload(
+                    item.covariance_action
+                ),
+                "covariance_gram": _cold_tensor_semantic_payload(
+                    item.covariance_gram
+                ),
+                "woodbury_certificate": asdict(item.woodbury_certificate),
+                "history_solve_keys": _cold_tensor_semantic_payload(
+                    solve_history
+                ),
+                "history_risk_keys": _cold_tensor_semantic_payload(
+                    risk_history
+                ),
+                "history_action": _cold_tensor_semantic_payload(
+                    item.history_action
+                ),
+            }
+        )
+        covariance_wall_seconds.append(
+            {"layer": item.layer, "wall_seconds": wall}
+        )
+    scientific = {
+        "schema": COLD_FIELD_SEMANTIC_SCHEMA,
+        "reference": P1_DYNAMIC_REFERENCE,
+        "accepted_waypoint": field.accepted_waypoint,
+        "request_order_sha256": field.request_order_sha256,
+        "target_state": _cold_tensor_semantic_payload(field.target_state),
+        "terminal_layer_current_z": _cold_tensor_semantic_payload(
+            field.current_z
+        ),
+        "layer_order": list(layers),
+        "layers": semantic_layers,
+        "residual_policy": FULL_CURRENT_RESIDUAL_DEFINITION,
+        "assembler": {
+            "reference": W64_ASSEMBLER_REFERENCE,
+            "virtual_trial": (
+                "project.run_scripts.ode_bf.functional."
+                "CumulativeBF16FunctionalTrial"
+            ),
+            "row_block": 64,
+            "accumulator_dtype": str(torch.float32),
+            "endpoint_dtype": str(torch.bfloat16),
+        },
+    }
+    return {
+        "schema": f"{COLD_FIELD_SEMANTIC_SCHEMA}-receipt",
+        "semantic_identity_sha256": canonical_hash(scientific),
+        "full_field_receipt_identity_sha256": field.identity_sha256,
+        "scientific_content": scientific,
+        "cost_telemetry": {
+            "semantic_exclusion_allowlist": list(
+                COLD_FIELD_SEMANTIC_EXCLUSION_ALLOWLIST
+            ),
+            "covariance_wall_seconds": covariance_wall_seconds,
+            "model_forward_count": field.model_forward_count,
+            "processed_token_count": field.processed_token_count,
+        },
+    }
+
+
 @dataclass(frozen=True, slots=True)
 class ColdFieldReadiness:
     reached: bool
     field_sha256: str | None
+    field_semantic_sha256: str | None
+    field_semantic_receipt: dict[str, Any] | None
     signed_progress: tuple[float, ...]
     maximum_feasible_progress: float
     layer_joint_ranks: tuple[int, ...]
     nonzero_layer_count: int
     reason: str
     identity_sha256: str
+
+
+@dataclass(frozen=True, slots=True)
+class ColdEntryFieldContract:
+    label: str
+    field_semantic_receipt: dict[str, Any]
+    raw_velocity: tuple[float, ...]
+    pre_soft_bf_velocity: tuple[float, ...]
+    requested_progress: float
+    raw_velocity_sha256: str
+    pre_soft_bf_velocity_sha256: str
+    requested_progress_sha256: str
+    signed_progress_sha256: str
+    pre_treatment_identity_sha256: str
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        return {
+            "schema": "ode-edit-s05-cold-entry-field-contract/v1",
+            "label": self.label,
+            "field_semantic_receipt": dict(self.field_semantic_receipt),
+            "raw_velocity": list(self.raw_velocity),
+            "pre_soft_bf_velocity": list(self.pre_soft_bf_velocity),
+            "requested_progress": self.requested_progress,
+            "raw_velocity_sha256": self.raw_velocity_sha256,
+            "pre_soft_bf_velocity_sha256": self.pre_soft_bf_velocity_sha256,
+            "requested_progress_sha256": self.requested_progress_sha256,
+            "signed_progress_sha256": self.signed_progress_sha256,
+            "pre_treatment_identity_sha256": (
+                self.pre_treatment_identity_sha256
+            ),
+            "treatment_divergence_allowed_after": "SOFT_FIELD_TRANSFORM",
+        }
+
+
+def cold_entry_field_contract(
+    label: str,
+    active: ActiveField,
+    history: P1HistoryLedger,
+) -> ColdEntryFieldContract:
+    if label not in COLD_PANEL_LABELS:
+        raise ODEBFContractError("cold entry contract label differs")
+    solve_history = _history_keys(history, COLD_LAYER_ORDER, risk=False)
+    risk_history = _history_keys(history, COLD_LAYER_ORDER, risk=True)
+    semantic = cold_field_semantic_receipt(
+        active.field,
+        history_solve_keys_by_layer=solve_history,
+        history_risk_keys_by_layer=risk_history,
+    )
+    raw = tuple(float(value) for value in active.raw.values)
+    pre_soft = tuple(float(value) for value in active.projection.values)
+    requested = float(active.problem.requested_progress)
+    if (
+        len(raw) != len(COLD_LAYER_ORDER)
+        or len(pre_soft) != len(COLD_LAYER_ORDER)
+        or not all(math.isfinite(value) for value in (*raw, *pre_soft, requested))
+    ):
+        raise ODEBFContractError("cold entry pre-treatment values differ")
+    raw_sha = canonical_hash(list(raw))
+    pre_soft_sha = canonical_hash(list(pre_soft))
+    requested_sha = canonical_hash({"requested_progress": requested})
+    signed_sha = canonical_hash(list(active.signed_progress.signed_progress))
+    common = {
+        "field_semantic_sha256": semantic["semantic_identity_sha256"],
+        "raw_velocity_sha256": raw_sha,
+        "pre_soft_bf_velocity_sha256": pre_soft_sha,
+        "requested_progress_sha256": requested_sha,
+        "signed_progress_sha256": signed_sha,
+    }
+    return ColdEntryFieldContract(
+        label,
+        semantic,
+        raw,
+        pre_soft,
+        requested,
+        raw_sha,
+        pre_soft_sha,
+        requested_sha,
+        signed_sha,
+        canonical_hash(common),
+    )
+
+
+def validate_cold_common_entry_contracts(
+    readiness: ColdFieldReadiness,
+    contracts: Mapping[str, ColdEntryFieldContract],
+) -> dict[str, Any]:
+    if (
+        not readiness.reached
+        or readiness.field_semantic_sha256 is None
+        or tuple(contracts) != COLD_PANEL_LABELS
+    ):
+        raise ODEBFContractError("cold common entry inventory differs")
+    semantic = {
+        str(item.field_semantic_receipt["semantic_identity_sha256"])
+        for item in contracts.values()
+    }
+    semantic.add(readiness.field_semantic_sha256)
+    pre_treatment = {
+        item.pre_treatment_identity_sha256 for item in contracts.values()
+    }
+    if len(semantic) != 1:
+        raise ODEBFContractError("cold common entry semantic field differs")
+    if len(pre_treatment) != 1:
+        raise ODEBFContractError("cold common entry pre-soft routing differs")
+    payload = {
+        "schema": "ode-edit-s05-cold-common-entry-contract/v1",
+        "readiness_field_receipt_sha256": readiness.field_sha256,
+        "field_semantic_sha256": readiness.field_semantic_sha256,
+        "pre_treatment_identity_sha256": next(iter(pre_treatment)),
+        "contracts": {
+            label: contracts[label].raw_free_payload()
+            for label in COLD_PANEL_LABELS
+        },
+        "readiness_equals_no_soft_equals_soft": True,
+        "pre_soft_raw_bf_requested_progress_equal": True,
+        "divergence_allowed_only_after_soft_transform_or_descendants": True,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
 
 
 def evaluate_cold_field_readiness(
@@ -503,6 +821,8 @@ def evaluate_cold_field_readiness(
     """Check the predeclared rank/nonzero/positive/feasible bootstrap exit."""
 
     layers = tuple(int(layer) for layer in hparams.layers)
+    history_solve = _history_keys(history, layers, risk=False)
+    history_risk = _history_keys(history, layers, risk=True)
     try:
         field = build_p1_dynamic_field(
             model,
@@ -514,8 +834,8 @@ def evaluate_cold_field_readiness(
             target_state=target_state,
             accepted_waypoint=0,
             cumulative_factors_by_weight={},
-            history_solve_keys_by_layer=_history_keys(history, layers, risk=False),
-            history_risk_keys_by_layer=_history_keys(history, layers, risk=True),
+            history_solve_keys_by_layer=history_solve,
+            history_risk_keys_by_layer=history_risk,
             covariance_registry=covariance_registry,
             projector_sha256=projector_sha256,
             residual_tolerance=lock.residual_tolerance,
@@ -534,7 +854,23 @@ def evaluate_cold_field_readiness(
             "nonzero_layer_count": 0,
             "reason": "ZERO_OR_NONPOSITIVE_FULL_RESIDUAL_FIELD",
         }
-        return ColdFieldReadiness(False, None, (), 0.0, (), 0, payload["reason"], canonical_hash(payload))
+        return ColdFieldReadiness(
+            reached=False,
+            field_sha256=None,
+            field_semantic_sha256=None,
+            field_semantic_receipt=None,
+            signed_progress=(),
+            maximum_feasible_progress=0.0,
+            layer_joint_ranks=(),
+            nonzero_layer_count=0,
+            reason=payload["reason"],
+            identity_sha256=canonical_hash(payload),
+        )
+    semantic = cold_field_semantic_receipt(
+        field,
+        history_solve_keys_by_layer=history_solve,
+        history_risk_keys_by_layer=history_risk,
+    )
     ranks = tuple(
         min(
             int(torch.linalg.matrix_rank(item.residual.to(dtype=torch.float64))),
@@ -566,13 +902,26 @@ def evaluate_cold_field_readiness(
         payload = {
             "reached": False,
             "field_sha256": field.identity_sha256,
+            "field_semantic_sha256": semantic["semantic_identity_sha256"],
+            "field_semantic_receipt": semantic,
             "signed_progress": [],
             "maximum_feasible_progress": 0.0,
             "layer_joint_ranks": list(ranks),
             "nonzero_layer_count": nonzero,
             "reason": "NO_POSITIVE_TARGET_NEW_NLL_DIRECTION",
         }
-        return ColdFieldReadiness(False, field.identity_sha256, (), 0.0, ranks, nonzero, payload["reason"], canonical_hash(payload))
+        return ColdFieldReadiness(
+            reached=False,
+            field_sha256=field.identity_sha256,
+            field_semantic_sha256=semantic["semantic_identity_sha256"],
+            field_semantic_receipt=semantic,
+            signed_progress=(),
+            maximum_feasible_progress=0.0,
+            layer_joint_ranks=ranks,
+            nonzero_layer_count=nonzero,
+            reason=payload["reason"],
+            identity_sha256=canonical_hash(payload),
+        )
     source = build_p1_routing_problem(
         field,
         signed,
@@ -613,6 +962,8 @@ def evaluate_cold_field_readiness(
     payload = {
         "reached": reached,
         "field_sha256": field.identity_sha256,
+        "field_semantic_sha256": semantic["semantic_identity_sha256"],
+        "field_semantic_receipt": semantic,
         "signed_progress": list(signed.signed_progress),
         "maximum_feasible_progress": maximum,
         "layer_joint_ranks": list(ranks),
@@ -620,14 +971,16 @@ def evaluate_cold_field_readiness(
         "reason": reason,
     }
     return ColdFieldReadiness(
-        reached,
-        field.identity_sha256,
-        signed.signed_progress,
-        maximum,
-        ranks,
-        nonzero,
-        reason,
-        canonical_hash(payload),
+        reached=reached,
+        field_sha256=field.identity_sha256,
+        field_semantic_sha256=semantic["semantic_identity_sha256"],
+        field_semantic_receipt=semantic,
+        signed_progress=signed.signed_progress,
+        maximum_feasible_progress=maximum,
+        layer_joint_ranks=ranks,
+        nonzero_layer_count=nonzero,
+        reason=reason,
+        identity_sha256=canonical_hash(payload),
     )
 
 
@@ -724,6 +1077,8 @@ def run_cold_bootstrap(
     initial_readiness_payload = {
         "reached": False,
         "field_sha256": None,
+        "field_semantic_sha256": None,
+        "field_semantic_receipt": None,
         "signed_progress": [],
         "maximum_feasible_progress": 0.0,
         "layer_joint_ranks": [],
@@ -731,14 +1086,16 @@ def run_cold_bootstrap(
         "reason": "AWAITING_FIRST_ACCEPTED_BOOTSTRAP_STATE",
     }
     readiness = ColdFieldReadiness(
-        False,
-        None,
-        (),
-        0.0,
-        (),
-        0,
-        initial_readiness_payload["reason"],
-        canonical_hash(initial_readiness_payload),
+        reached=False,
+        field_sha256=None,
+        field_semantic_sha256=None,
+        field_semantic_receipt=None,
+        signed_progress=(),
+        maximum_feasible_progress=0.0,
+        layer_joint_ranks=(),
+        nonzero_layer_count=0,
+        reason=initial_readiness_payload["reason"],
+        identity_sha256=canonical_hash(initial_readiness_payload),
     )
     entry_objective = current_receipt.raw_free_payload()
     while not readiness.reached:
@@ -1106,7 +1463,8 @@ def _run_cold_variant(
     theta0_cache: Theta0TeacherCache,
     touched: Mapping[str, torch.nn.Parameter],
     recorder: AdaptiveReceiptRecorder,
-) -> VariantRollout:
+    expected_entry_contract: ColdEntryFieldContract | None = None,
+) -> tuple[VariantRollout, ColdEntryFieldContract]:
     if label not in COLD_PANEL_LABELS or field_policy not in (
         FunctionalPFieldPolicy.PROBE_ONLY,
         FunctionalPFieldPolicy.SOFT_HARD,
@@ -1234,8 +1592,27 @@ def _run_cold_variant(
         if not str(exc).startswith("PROGRESS_INFEASIBLE:"):
             raise
         status = "STRUCTURAL_STACK_PROGRESS_INFEASIBLE"
-    if active is not None and active.field.identity_sha256 != bootstrap.readiness.field_sha256:
-        raise ODEBFContractError("cold arms did not share bootstrap entry field")
+    if active is None:
+        raise ODEBFContractError("cold post-bootstrap entry field is unavailable")
+    entry_field_contract = cold_entry_field_contract(label, active, history)
+    if (
+        bootstrap.readiness.field_semantic_sha256 is None
+        or entry_field_contract.field_semantic_receipt[
+            "semantic_identity_sha256"
+        ]
+        != bootstrap.readiness.field_semantic_sha256
+    ):
+        raise ODEBFContractError(
+            "cold arm did not share bootstrap semantic entry field"
+        )
+    if expected_entry_contract is not None:
+        validate_cold_common_entry_contracts(
+            bootstrap.readiness,
+            {
+                COLD_PANEL_LABELS[0]: expected_entry_contract,
+                COLD_PANEL_LABELS[1]: entry_field_contract,
+            },
+        )
     while active is not None and clock.status == "ACTIVE" and not clock.complete:
         if active_target_identity is None:
             raise ODEBFStateError("cold active target identity is absent")
@@ -1415,28 +1792,31 @@ def _run_cold_variant(
             "trajectory_complete": trajectory_complete,
         }
     )
-    return VariantRollout(
-        variant,
-        status,
-        termination,
-        FULL_CURRENT_RESIDUAL_DEFINITION,
-        clock.tau,
-        len(snapshots),
-        clock.n_trial,
-        clock.n_reject,
-        len(recorder.field_hashes),
-        snapshots,
-        first_hit,
-        recorder,
-        ledger,
-        entry_eval.batch_success.raw_free_payload(),
-        confirmations,
-        rollout_sha,
-        label,
-        RoutingObjective.TARGET_NEW_NLL.value,
-        FunctionalPDecisionPolicy.OBSERVATION_ONLY.value,
-        PreservationConstraintPolicy.LOCKED.value,
-        field_policy.value,
+    return (
+        VariantRollout(
+            variant,
+            status,
+            termination,
+            FULL_CURRENT_RESIDUAL_DEFINITION,
+            clock.tau,
+            len(snapshots),
+            clock.n_trial,
+            clock.n_reject,
+            len(recorder.field_hashes),
+            snapshots,
+            first_hit,
+            recorder,
+            ledger,
+            entry_eval.batch_success.raw_free_payload(),
+            confirmations,
+            rollout_sha,
+            label,
+            RoutingObjective.TARGET_NEW_NLL.value,
+            FunctionalPDecisionPolicy.OBSERVATION_ONLY.value,
+            PreservationConstraintPolicy.LOCKED.value,
+            field_policy.value,
+        ),
+        entry_field_contract,
     )
 
 
@@ -1538,6 +1918,7 @@ def run_cold_diagnostic(
         (COLD_PANEL_LABELS[1], FunctionalPFieldPolicy.SOFT_HARD),
     )
     rollouts: dict[str, VariantRollout] = {}
+    entry_field_contracts: dict[str, ColdEntryFieldContract] = {}
     recorders: list[AdaptiveReceiptRecorder] = []
     for label, field_policy in specs:
         if _parameter_contract_sha256(touched) != base_contract:
@@ -1569,7 +1950,7 @@ def run_cold_diagnostic(
         recorders.append(recorder)
         counter = ModelForwardCounter(model, arm_state.ledger)
         try:
-            rollout = _run_cold_variant(
+            rollout, entry_field_contract = _run_cold_variant(
                 model,
                 tokenizer,
                 requests,
@@ -1592,6 +1973,9 @@ def run_cold_diagnostic(
                 theta0_cache=theta0_cache,
                 touched=touched,
                 recorder=recorder,
+                expected_entry_contract=entry_field_contracts.get(
+                    COLD_PANEL_LABELS[0]
+                ),
             )
         finally:
             counter.close()
@@ -1599,6 +1983,7 @@ def run_cold_diagnostic(
         if arm_state.history.version != 0:
             raise ODEBFStateError("cold arm appended history")
         rollouts[label] = rollout
+        entry_field_contracts[label] = entry_field_contract
         stages.record(
             f"post_{label.lower().replace('-', '_')}",
             {
@@ -1610,6 +1995,13 @@ def run_cold_diagnostic(
                 "rollout_sha256": rollout.rollout_sha256,
             },
         )
+    common_entry_contract = validate_cold_common_entry_contracts(
+        bootstrap.readiness, entry_field_contracts
+    )
+    common_entry_contract_sha = write_once(
+        raw_root / "cold" / "common-entry-contract.json",
+        common_entry_contract,
+    )
     if {name: tensor_sha256(value) for name, value in sorted(touched.items())} != base_bytes:
         raise ODEBFStateError("cold actions did not preserve W0")
     action_freeze = {
@@ -1617,6 +2009,13 @@ def run_cold_diagnostic(
         "instruction_id": COLD_INSTRUCTION_ID,
         "request_order_sha256": request_order,
         "bootstrap_sha256": bootstrap_sha,
+        "common_entry_contract_sha256": common_entry_contract_sha,
+        "common_entry_semantic_field_sha256": common_entry_contract[
+            "field_semantic_sha256"
+        ],
+        "common_entry_pre_treatment_identity_sha256": common_entry_contract[
+            "pre_treatment_identity_sha256"
+        ],
         "rollout_sha256": {label: value.rollout_sha256 for label, value in rollouts.items()},
         "cold_actions_frozen_before_native": True,
         "cold_native_or_direct_z_access_count": 0,
@@ -1724,6 +2123,10 @@ def run_cold_diagnostic(
         "request_order_sha256": request_order,
         "stream_root_digest": stream["root_digest"],
         "bootstrap_sha256": bootstrap_sha,
+        "common_entry_contract_sha256": common_entry_contract_sha,
+        "common_entry_semantic_field_sha256": common_entry_contract[
+            "field_semantic_sha256"
+        ],
         "action_freeze_sha256": action_freeze_sha,
         "n32_postfreeze_sha256": n32_sha,
         "stepwise_panel_sha256": stepwise_sha,
@@ -1765,6 +2168,7 @@ def run_cold_diagnostic(
             "source_head": source_head,
             "terminal_sha256": terminal_sha,
             "bootstrap_sha256": bootstrap_sha,
+            "common_entry_contract_sha256": common_entry_contract_sha,
             "action_freeze_sha256": action_freeze_sha,
             "n32_postfreeze_sha256": n32_sha,
             "stepwise_panel_sha256": stepwise_sha,
