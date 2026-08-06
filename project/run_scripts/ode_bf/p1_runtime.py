@@ -3204,6 +3204,7 @@ def run_p1(
     preservation_all_off_mode: bool = False,
     newnll_p_soft_hard_mode: bool = False,
     cold_structp_softp_noveto_mode: bool = False,
+    fixed_e8_soft_mode: bool = False,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3219,10 +3220,15 @@ def run_p1(
             preservation_all_off_mode,
             newnll_p_soft_hard_mode,
             cold_structp_softp_noveto_mode,
+            fixed_e8_soft_mode,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if cold_structp_softp_noveto_mode:
+    if fixed_e8_soft_mode:
+        from .p1_fixed_e8_soft_panel import expected_fixed_e8_result_name
+
+        expected_name = expected_fixed_e8_result_name(alias)
+    elif cold_structp_softp_noveto_mode:
         from .p1_cold_structp_softp_noveto_panel import (
             expected_cold_result_name,
         )
@@ -3281,7 +3287,8 @@ def run_p1(
         and not functional_p_off_mode
         and not preservation_all_off_mode
         and not newnll_p_soft_hard_mode
-        and not cold_structp_softp_noveto_mode,
+        and not cold_structp_softp_noveto_mode
+        and not fixed_e8_soft_mode,
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
@@ -3439,11 +3446,9 @@ def run_p1(
     }
     if set(request_by_sha256) != set(collision_by_request):
         raise ODEBFContractError("P1 stream request/collision map differs")
-    if cold_structp_softp_noveto_mode:
+    if cold_structp_softp_noveto_mode or fixed_e8_soft_mode:
         from .p1_cold_structp_softp_noveto_panel import (
-            cold_schedule,
             load_cold_requests,
-            validate_cold_lock,
             verify_cold_case_seal,
         )
 
@@ -3455,22 +3460,61 @@ def run_p1(
             )
         )
         cold_requests = load_cold_requests(dataset, cold_stream)
-        schedule = cold_schedule(sampling_seal)
-        cold_numerical, cold_numerical_sha256 = load_rooted_json(
-            locks / "numerical_lock_s05_cold_structp_softp_noveto.json",
-            expected_schema=(
-                "ode-edit-s05-cold-structp-softp-noveto-p1r6-lock/v1"
-            ),
-        )
-        validate_cold_lock(
-            cold_numerical,
-            controller_identity_sha256=controller_lock.identity(),
-            case_root_digest=cold_stream["root_digest"],
-            population_root_digest=population["root_digest"],
-            schedule=schedule,
-        )
-        numerical = cold_numerical
-        numerical_sha256 = cold_numerical_sha256
+        if fixed_e8_soft_mode:
+            from .p1_fixed_e8_soft_panel import (
+                fixed_e8_schedule,
+                validate_fixed_e8_lock,
+                verify_fixed_e8_case_provenance,
+            )
+
+            schedule = fixed_e8_schedule(sampling_seal)
+            case_provenance, _ = load_rooted_json(
+                locks / "p1r7_fixed_e8_case_provenance.json",
+                expected_schema=(
+                    "ode-edit-s05-fixed-e8-p1r7-case-provenance/v1"
+                ),
+            )
+            verify_fixed_e8_case_provenance(
+                case_provenance, source_seal=cold_stream
+            )
+            fixed_e8_numerical, fixed_e8_numerical_sha256 = load_rooted_json(
+                locks / "numerical_lock_s05_fixed_e8_structfunc_soft.json",
+                expected_schema=(
+                    "ode-edit-s05-cold-fixed-e8-structfunc-soft-p1r7-"
+                    "numerical-lock/v1"
+                ),
+            )
+            validate_fixed_e8_lock(
+                fixed_e8_numerical,
+                controller_identity_sha256=controller_lock.identity(),
+                case_root_digest=cold_stream["root_digest"],
+                population_root_digest=population["root_digest"],
+                schedule=schedule,
+            )
+            numerical = fixed_e8_numerical
+            numerical_sha256 = fixed_e8_numerical_sha256
+        else:
+            from .p1_cold_structp_softp_noveto_panel import (
+                cold_schedule,
+                validate_cold_lock,
+            )
+
+            schedule = cold_schedule(sampling_seal)
+            cold_numerical, cold_numerical_sha256 = load_rooted_json(
+                locks / "numerical_lock_s05_cold_structp_softp_noveto.json",
+                expected_schema=(
+                    "ode-edit-s05-cold-structp-softp-noveto-p1r6-lock/v1"
+                ),
+            )
+            validate_cold_lock(
+                cold_numerical,
+                controller_identity_sha256=controller_lock.identity(),
+                case_root_digest=cold_stream["root_digest"],
+                population_root_digest=population["root_digest"],
+                schedule=schedule,
+            )
+            numerical = cold_numerical
+            numerical_sha256 = cold_numerical_sha256
         stream = cold_stream
         stream_batches = (cold_requests,)
         request_by_sha256 = {
@@ -3498,7 +3542,33 @@ def run_p1(
     )
 
     cuda_runtime_receipt = _initialize_p1_cuda_runtime(stages)
-    if cold_structp_softp_noveto_mode:
+    if fixed_e8_soft_mode:
+        from .p1_fixed_e8_soft_panel import (
+            forecast_fixed_e8_panel,
+            validate_fixed_e8_runtime_gpu_capacity,
+        )
+
+        fixed_e8_forecast = forecast_fixed_e8_panel(
+            locks / "p0_artifact_lock.json",
+            repo_root / "project/run_scripts/ode_alloc/p0_artifact_lock_r1.json",
+            alias,
+        )
+        device_properties = torch.cuda.get_device_properties(0)
+        free_bytes, allocatable_total_bytes = torch.cuda.mem_get_info(0)
+        fixed_e8_capacity_receipt = validate_fixed_e8_runtime_gpu_capacity(
+            fixed_e8_forecast,
+            physical_total_bytes=int(device_properties.total_memory),
+            allocatable_total_bytes=int(allocatable_total_bytes),
+            free_bytes=int(free_bytes),
+        )
+        cuda_runtime_receipt = {
+            **cuda_runtime_receipt,
+            "fixed_e8_capacity": fixed_e8_capacity_receipt,
+        }
+        stages.record(
+            "post_fixed_e8_gpu_capacity", fixed_e8_capacity_receipt
+        )
+    elif cold_structp_softp_noveto_mode:
         from .p1_cold_structp_softp_noveto_panel import (
             forecast_cold_panel,
             validate_cold_runtime_gpu_capacity,
@@ -3621,7 +3691,44 @@ def run_p1(
         or preservation_all_off_mode
         or newnll_p_soft_hard_mode
         or cold_structp_softp_noveto_mode
+        or fixed_e8_soft_mode
     ):
+        if fixed_e8_soft_mode:
+            from .fixed_e8_runtime import run_fixed_e8_diagnostic
+
+            return run_fixed_e8_diagnostic(
+                model,
+                tokenizer,
+                alias=alias,
+                destination=destination,
+                raw_root=raw_root,
+                stages=stages,
+                source_head=source_head,
+                requests=stream_batches[0],
+                stream=stream,
+                hparams=hparams,
+                projector=projector,
+                contexts=contexts,
+                covariance_registry=covariance_registry,
+                projector_sha256=artifact_guard.spec["projector_sha256"],
+                controller_lock=controller_lock,
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                theta0_cache=theta0_cache,
+                dataset_path=dataset,
+                mutation_lock=mutation_lock,
+                touched=touched,
+                base_receipt=base_receipt,
+                base_values=base_values,
+                artifact_guard=artifact_guard,
+                artifact_receipt=artifact_receipt,
+                numerical_sha256=numerical_sha256,
+                context_sha256=context_sha256,
+                cuda_runtime_receipt=cuda_runtime_receipt,
+                job_ledger=job_ledger,
+                write_once=_atomic_write_once,
+            )
         if cold_structp_softp_noveto_mode:
             from .cold_start_target import run_cold_diagnostic
 
