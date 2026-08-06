@@ -7,6 +7,7 @@ import json
 import os
 import unittest
 from collections import Counter
+from dataclasses import asdict, replace
 from fractions import Fraction
 from pathlib import Path
 from types import SimpleNamespace
@@ -34,6 +35,7 @@ from project.run_scripts.ode_bf.p1_backend import (
     FULL_CURRENT_RESIDUAL_DIVISOR,
     P1DynamicField,
     P1LayerField,
+    _CoefficientOverlay,
 )
 from project.run_scripts.ode_bf.p1_cold_structp_softp_noveto_panel import (
     COLD_CASE_SALT,
@@ -78,6 +80,36 @@ class _OverlayModel(torch.nn.Module):
 
     def forward(self, value: torch.Tensor) -> torch.Tensor:
         return self.layer(value)
+
+
+class _ColdLayerOverlayModel(torch.nn.Module):
+    def __init__(self) -> None:
+        super().__init__()
+        self.layers = torch.nn.ModuleDict(
+            {
+                str(layer): torch.nn.Linear(11, 12, bias=False)
+                for layer in cold.COLD_LAYER_ORDER
+            }
+        )
+        with torch.no_grad():
+            for module in self.layers.values():
+                module.weight.zero_()
+
+
+def _cold_overlay_outputs(
+    model: _ColdLayerOverlayModel,
+    field: P1DynamicField,
+    target: torch.Tensor,
+    coefficients: torch.Tensor,
+    hidden_by_layer: dict[int, torch.Tensor],
+) -> dict[int, torch.Tensor]:
+    with cold._ColdLayerLocalTargetOverlay(
+        model, field, coefficients, target
+    ):
+        return {
+            layer: model.layers[str(layer)](hidden_by_layer[layer])
+            for layer in cold.COLD_LAYER_ORDER
+        }
 
 
 def _cold_semantic_field(
@@ -276,6 +308,190 @@ class ColdTargetTests(unittest.TestCase):
                     first_receipt["semantic_identity_sha256"],
                     changed_receipt["semantic_identity_sha256"],
                 )
+
+    def test_layer_local_target_overlay_uses_each_full_residual_at_anchor(self) -> None:
+        field, _, _ = _cold_semantic_field(wall_seconds=0.25)
+        model = _ColdLayerOverlayModel()
+        generator = torch.Generator().manual_seed(6301)
+        hidden = {
+            layer: torch.randn((3, 11), generator=generator)
+            for layer in cold.COLD_LAYER_ORDER
+        }
+        coefficients = torch.tensor(
+            (0.2, 0.3, 0.4, 0.5, 0.6), dtype=torch.float32
+        )
+        target = field.target_state.clone().requires_grad_(True)
+        outputs = _cold_overlay_outputs(
+            model, field, target, coefficients, hidden
+        )
+        self.assertGreater(
+            len({tensor_sha256(item.residual) for item in field.layers}), 1
+        )
+        for index, layer in enumerate(field.layers):
+            overlay = cold._ColdLayerLocalTargetOverlay(
+                model, field, coefficients, target
+            )
+            anchored = overlay._layer_left(index, torch.device("cpu"))
+            self.assertTrue(torch.equal(anchored, layer.residual))
+            expected = coefficients[index] * (
+                (hidden[layer.layer] @ layer.q) @ layer.residual.T
+            )
+            self.assertTrue(torch.equal(outputs[layer.layer], expected))
+
+        legacy_common_left = field.target_state - field.current_z
+        self.assertFalse(
+            torch.equal(field.layers[0].residual, legacy_common_left)
+        )
+        source = inspect.getsource(cold.write_aware_cold_target_velocity)
+        self.assertNotIn("field.current_z", source)
+        self.assertIn("_ColdLayerLocalTargetOverlay", source)
+
+    def test_layer_local_overlay_residual_isolation_and_autograd_parity(self) -> None:
+        field, _, _ = _cold_semantic_field(wall_seconds=0.25)
+        changed, _, _ = _cold_semantic_field(
+            wall_seconds=0.25, mutation="residual"
+        )
+        model = _ColdLayerOverlayModel()
+        generator = torch.Generator().manual_seed(6302)
+        hidden = {
+            layer: torch.randn((2, 11), generator=generator)
+            for layer in cold.COLD_LAYER_ORDER
+        }
+        coefficients = torch.tensor(
+            (0.7, 0.6, 0.5, 0.4, 0.3), dtype=torch.float32
+        )
+        target = field.target_state.clone().requires_grad_(True)
+        baseline = _cold_overlay_outputs(
+            model, field, target, coefficients, hidden
+        )
+        changed_outputs = _cold_overlay_outputs(
+            model,
+            changed,
+            changed.target_state.clone().requires_grad_(True),
+            coefficients,
+            hidden,
+        )
+        for index, layer in enumerate(cold.COLD_LAYER_ORDER):
+            if index == 0:
+                self.assertFalse(
+                    torch.equal(baseline[layer], changed_outputs[layer])
+                )
+            else:
+                self.assertTrue(
+                    torch.equal(baseline[layer], changed_outputs[layer])
+                )
+
+        parameter_state = tuple(
+            (item.data_ptr(), item._version, item.grad)
+            for item in model.parameters()
+        )
+        rng_state = torch.get_rng_state().clone()
+        objective = sum(item.float().sum() for item in baseline.values())
+        gradient = torch.autograd.grad(objective, target)[0]
+        epsilon = 1.0e-2
+        plus = field.target_state.clone()
+        minus = field.target_state.clone()
+        plus[0, 0] += epsilon
+        minus[0, 0] -= epsilon
+        plus_value = sum(
+            item.float().sum()
+            for item in _cold_overlay_outputs(
+                model,
+                field,
+                plus.requires_grad_(True),
+                coefficients,
+                hidden,
+            ).values()
+        )
+        minus_value = sum(
+            item.float().sum()
+            for item in _cold_overlay_outputs(
+                model,
+                field,
+                minus.requires_grad_(True),
+                coefficients,
+                hidden,
+            ).values()
+        )
+        finite_difference = float(
+            ((plus_value - minus_value) / (2 * epsilon)).detach()
+        )
+        self.assertAlmostEqual(
+            finite_difference,
+            float(gradient[0, 0]),
+            delta=max(1.0e-3, abs(float(gradient[0, 0])) * 2.0e-3),
+        )
+        self.assertTrue(torch.equal(torch.get_rng_state(), rng_state))
+        self.assertEqual(
+            parameter_state,
+            tuple(
+                (item.data_ptr(), item._version, item.grad)
+                for item in model.parameters()
+            ),
+        )
+        self.assertTrue(
+            all(not module._forward_hooks for module in model.layers.values())
+        )
+
+    def test_layer_local_overlay_inventory_retry_and_legacy_boundary(self) -> None:
+        field, _, _ = _cold_semantic_field(wall_seconds=0.25)
+        model = _ColdLayerOverlayModel()
+        coefficients = torch.ones(5, dtype=torch.float32)
+        target = field.target_state.clone().requires_grad_(True)
+        reversed_field = replace(field, layers=tuple(reversed(field.layers)))
+        with self.assertRaisesRegex(ODEBFContractError, "inventory"):
+            with cold._ColdLayerLocalTargetOverlay(
+                model, reversed_field, coefficients, target
+            ):
+                pass
+        with self.assertRaisesRegex(ODEBFContractError, "inventory"):
+            with cold._ColdLayerLocalTargetOverlay(
+                model,
+                field,
+                coefficients,
+                torch.zeros((1, 1), requires_grad=True),
+            ):
+                pass
+
+        velocity = torch.arange(120, dtype=torch.float64).view(12, 10) / 120
+        first = field.target_state.double() + float(Fraction(1, 8)) * velocity
+        retry = field.target_state.double() + float(Fraction(1, 16)) * velocity
+        torch.testing.assert_close(
+            retry - field.target_state.double(),
+            (first - field.target_state.double()) / 2,
+            rtol=0.0,
+            atol=5.0e-16,
+        )
+        receipt = cold.ColdTargetVelocityReceipt(
+            field.identity_sha256,
+            tensor_sha256(velocity),
+            "1" * 64,
+            (1.0,) * 10,
+            (1.0,) * 10,
+            10,
+            100,
+            0,
+            0,
+            True,
+            "R_l(z_s)+(z-z_s)",
+            "STEP_INDEPENDENT_FINITE_UNIT_FIELD_LOOKAHEAD",
+            False,
+            False,
+        )
+        self.assertFalse(asdict(receipt)["candidate_coupled"])
+        self.assertFalse(asdict(receipt)["retry_recomputes_target_velocity"])
+        variant_source = inspect.getsource(cold._run_cold_variant)
+        reject_start = variant_source.index("if not outcome.gate_accepted:")
+        accepted_start = variant_source.index("snapshot =", reject_start)
+        self.assertNotIn(
+            "build_active()", variant_source[reject_start:accepted_start]
+        )
+        self.assertEqual(
+            hashlib.sha256(
+                inspect.getsource(_CoefficientOverlay).encode("utf-8")
+            ).hexdigest(),
+            "1ddf61be61a06faaff2e461907e53560ea62f6f2d32db0f0cfea9d946c08e54b",
+        )
 
     def test_repeated_entry_uses_semantic_field_and_pre_soft_contract(self) -> None:
         readiness_field, solve, risk = _cold_semantic_field(wall_seconds=0.1)
@@ -843,6 +1059,9 @@ class ColdTargetTests(unittest.TestCase):
             *,
             head: str = execution_head,
             parent: str = submit.EXECUTION_REPAIR_PARENT,
+            deterministic_identity_parent: str = (
+                submit.DETERMINISTIC_IDENTITY_REPAIR_PARENT
+            ),
             scientific_parent: str = COLD_PARENT_HEAD,
             ancestor_returncode: int = 0,
             branch: str = submit.EXECUTION_BRANCH,
@@ -857,6 +1076,11 @@ class ColdTargetTests(unittest.TestCase):
                         "git",
                         "rev-parse",
                         f"{submit.EXECUTION_REPAIR_PARENT}^",
+                    ): deterministic_identity_parent,
+                    (
+                        "git",
+                        "rev-parse",
+                        f"{submit.DETERMINISTIC_IDENTITY_REPAIR_PARENT}^",
                     ): scientific_parent,
                     ("git", "branch", "--show-current"): branch,
                     (
@@ -888,6 +1112,10 @@ class ColdTargetTests(unittest.TestCase):
         self.assertEqual(
             receipt["execution_repair_parent"], submit.EXECUTION_REPAIR_PARENT
         )
+        self.assertEqual(
+            receipt["deterministic_identity_repair_parent"],
+            submit.DETERMINISTIC_IDENTITY_REPAIR_PARENT,
+        )
         self.assertEqual(receipt["scientific_parent"], COLD_PARENT_HEAD)
 
         failures = (
@@ -896,7 +1124,7 @@ class ColdTargetTests(unittest.TestCase):
                 "source_head": submit.EXECUTION_REPAIR_PARENT,
                 "run": git_run(
                     head=submit.EXECUTION_REPAIR_PARENT,
-                    parent=COLD_PARENT_HEAD,
+                    parent=submit.DETERMINISTIC_IDENTITY_REPAIR_PARENT,
                 ),
                 "approval": (
                     f"{cold.COLD_INSTRUCTION_ID}:"
@@ -910,15 +1138,23 @@ class ColdTargetTests(unittest.TestCase):
                 "approval": approval,
             },
             {
-                "name": "skipped-b17",
+                "name": "skipped-c7",
                 "source_head": execution_head,
-                "run": git_run(parent=COLD_PARENT_HEAD),
+                "run": git_run(
+                    parent=submit.DETERMINISTIC_IDENTITY_REPAIR_PARENT
+                ),
                 "approval": approval,
             },
             {
-                "name": "amended-review",
+                "name": "amended-c7",
                 "source_head": execution_head,
-                "run": git_run(scientific_parent="e" * 40),
+                "run": git_run(deterministic_identity_parent="e" * 40),
+                "approval": approval,
+            },
+            {
+                "name": "amended-b17",
+                "source_head": execution_head,
+                "run": git_run(scientific_parent="f" * 40),
                 "approval": approval,
             },
             {
@@ -958,6 +1194,10 @@ class ColdTargetTests(unittest.TestCase):
         self.assertEqual(
             source_manifest["execution_repair_parent"],
             submit.EXECUTION_REPAIR_PARENT,
+        )
+        self.assertEqual(
+            source_manifest["deterministic_identity_repair_parent"],
+            submit.DETERMINISTIC_IDENTITY_REPAIR_PARENT,
         )
         numerical = json.loads(
             (

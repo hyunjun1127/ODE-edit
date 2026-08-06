@@ -65,7 +65,6 @@ from .p1_backend import (
     P1_DYNAMIC_REFERENCE,
     P1DynamicField,
     PinnedCovarianceRegistry,
-    _CoefficientOverlay,
     _virtual_context,
     build_p1_dynamic_field,
     signed_progress_gradient,
@@ -1253,6 +1252,123 @@ class ColdTargetVelocityReceipt:
     processed_token_count: int
     target_old_access_count: int
     native_or_direct_z_access_count: int
+    layer_local_full_residual_target_overlay: bool
+    target_overlay_definition: str
+    target_velocity_step_semantics: str
+    candidate_coupled: bool
+    retry_recomputes_target_velocity: bool
+
+
+class _ColdLayerLocalTargetOverlay:
+    """Cold-only differentiable FR overlay at one accepted-state field."""
+
+    DEFINITION = "R_l(z_s)+(z-z_s)"
+    STEP_SEMANTICS = "STEP_INDEPENDENT_FINITE_UNIT_FIELD_LOOKAHEAD"
+
+    def __init__(
+        self,
+        model: torch.nn.Module,
+        field: P1DynamicField,
+        coefficients: torch.Tensor,
+        target_state_variable: torch.Tensor,
+    ) -> None:
+        self.model = model
+        self.field = field
+        self.coefficients = coefficients
+        self.target_state_variable = target_state_variable
+        self._handles: list[torch.utils.hooks.RemovableHandle] = []
+
+    def _layer_left(self, index: int, device: torch.device) -> torch.Tensor:
+        layer = self.field.layers[index]
+        anchor = self.field.target_state.to(device=device, dtype=torch.float32)
+        residual = layer.residual.to(device=device, dtype=torch.float32)
+        if (
+            residual.shape != anchor.shape
+            or self.target_state_variable.shape != anchor.shape
+        ):
+            raise ODEBFContractError("cold layer-local target overlay shape differs")
+        return residual + (
+            self.target_state_variable.to(device=device, dtype=torch.float32)
+            - anchor
+        )
+
+    def _hook(self, index: int):
+        layer = self.field.layers[index]
+
+        def apply(
+            module: torch.nn.Module,
+            inputs: tuple[Any, ...],
+            output: Any,
+        ) -> torch.Tensor:
+            if (
+                not inputs
+                or not isinstance(inputs[0], torch.Tensor)
+                or not isinstance(output, torch.Tensor)
+            ):
+                raise ODEBFContractError(
+                    "cold layer-local target overlay Linear contract differs"
+                )
+            hidden = inputs[0]
+            right = layer.q.to(device=hidden.device, dtype=torch.float32)
+            left = self._layer_left(index, hidden.device)
+            if (
+                hidden.shape[-1] != right.shape[0]
+                or right.shape[1] != left.shape[1]
+                or output.shape[-1] != left.shape[0]
+            ):
+                raise ODEBFContractError(
+                    "cold layer-local target overlay geometry differs"
+                )
+            perturbation = (hidden.float() @ right) @ left.T
+            result = output.float() + self.coefficients[index] * perturbation
+            return result.to(dtype=output.dtype)
+
+        return apply
+
+    def __enter__(self) -> "_ColdLayerLocalTargetOverlay":
+        layers = tuple(int(item.layer) for item in self.field.layers)
+        weight_names = tuple(item.weight_name for item in self.field.layers)
+        if (
+            layers != COLD_LAYER_ORDER
+            or len(set(weight_names)) != len(COLD_LAYER_ORDER)
+            or self.coefficients.ndim != 1
+            or self.coefficients.numel() != len(COLD_LAYER_ORDER)
+            or self.target_state_variable.shape != self.field.target_state.shape
+            or not self.target_state_variable.requires_grad
+        ):
+            raise ODEBFContractError("cold layer-local target overlay inventory differs")
+        try:
+            for index, layer in enumerate(self.field.layers):
+                if (
+                    layer.residual_definition
+                    != FULL_CURRENT_RESIDUAL_DEFINITION
+                    or layer.residual_divisor != FULL_CURRENT_RESIDUAL_DIVISOR
+                ):
+                    raise ODEBFContractError(
+                        "cold layer-local target overlay residual policy differs"
+                    )
+                module_name = layer.weight_name[: -len(".weight")]
+                module = self.model.get_submodule(module_name)
+                if type(module) is not torch.nn.Linear:
+                    raise ODEBFContractError(
+                        "cold layer-local target overlay target is not exact Linear"
+                    )
+                self._handles.append(
+                    module.register_forward_hook(self._hook(index))
+                )
+        except BaseException:
+            for handle in reversed(self._handles):
+                handle.remove()
+            self._handles.clear()
+            raise
+        return self
+
+    def __exit__(self, exc_type: Any, exc: BaseException | None, traceback: Any) -> bool:
+        del exc_type, exc, traceback
+        for handle in reversed(self._handles):
+            handle.remove()
+        self._handles.clear()
+        return False
 
 
 def write_aware_cold_target_velocity(
@@ -1279,12 +1395,11 @@ def write_aware_cold_target_velocity(
     flat = flat.detach().requires_grad_(True)
     target = flat.view(field.target_state.shape)
     with _virtual_context(model, cumulative_factors_by_weight):
-        with _CoefficientOverlay(
+        with _ColdLayerLocalTargetOverlay(
             model,
-            field.layers,
+            field,
             coefficient_tensor,
-            target_state_variable=target,
-            current_z=field.current_z,
+            target,
         ):
             result = evaluate_routing_objective(
                 model,
@@ -1313,6 +1428,11 @@ def write_aware_cold_target_velocity(
         result.processed_token_count,
         0,
         0,
+        True,
+        _ColdLayerLocalTargetOverlay.DEFINITION,
+        _ColdLayerLocalTargetOverlay.STEP_SEMANTICS,
+        False,
+        False,
     )
     return velocity, receipt
 

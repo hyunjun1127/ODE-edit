@@ -37,7 +37,10 @@ from project.run_scripts.ode_bf.resource import gpu_count_from_tres
 
 SESSION_ID = "019fc63e-5217-7250-9c22-c5b2ec4248f0"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-cold-structp-softp-noveto-p1r6-v1"
-EXECUTION_REPAIR_PARENT = "b17d809e73f1d6121b9aac7c53eade11ef15238c"
+EXECUTION_REPAIR_PARENT = "c7c99d7dbdf5e2f63769e7d502c9bd0e86e0ee91"
+DETERMINISTIC_IDENTITY_REPAIR_PARENT = (
+    "b17d809e73f1d6121b9aac7c53eade11ef15238c"
+)
 SERVER1_PROJECT_GPU_CAP = 3
 APPROVAL_ENV = "ODEEDIT_S05_P1R6_RUN_APPROVAL"
 SUBMISSION_NAMESPACE = "s05-cold-structp-softp-noveto-p1r6-v1"
@@ -95,6 +98,8 @@ def _source_manifest_gate(source_head: str) -> str:
         value.get("instruction_id") != COLD_INSTRUCTION_ID
         or value.get("expected_parent") != COLD_PARENT_HEAD
         or value.get("execution_repair_parent") != EXECUTION_REPAIR_PARENT
+        or value.get("deterministic_identity_repair_parent")
+        != DETERMINISTIC_IDENTITY_REPAIR_PARENT
         or value.get("execution_head_policy") != "runtime-git-head"
         or not isinstance(entries, list)
         or not entries
@@ -195,8 +200,11 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     approval = os.environ.get(APPROVAL_ENV)
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
-    scientific_parent = _run(
+    deterministic_identity_parent = _run(
         ["git", "rev-parse", f"{EXECUTION_REPAIR_PARENT}^"]
+    ).stdout.strip()
+    scientific_parent = _run(
+        ["git", "rev-parse", f"{DETERMINISTIC_IDENTITY_REPAIR_PARENT}^"]
     ).stdout.strip()
     ancestor = _run(
         ["git", "merge-base", "--is-ancestor", COLD_PARENT_HEAD, head],
@@ -211,6 +219,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     if (
         head != source_head
         or parent != EXECUTION_REPAIR_PARENT
+        or deterministic_identity_parent
+        != DETERMINISTIC_IDENTITY_REPAIR_PARENT
         or scientific_parent != COLD_PARENT_HEAD
         or ancestor.returncode != 0
         or branch != EXECUTION_BRANCH
@@ -221,6 +231,9 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         "checkpoint_bound_approval": expected_approval,
         "execution_head": head,
         "execution_repair_parent": parent,
+        "deterministic_identity_repair_parent": (
+            deterministic_identity_parent
+        ),
         "scientific_parent": scientific_parent,
         "scientific_parent_is_ancestor": True,
         "tracked_tree_clean": True,
