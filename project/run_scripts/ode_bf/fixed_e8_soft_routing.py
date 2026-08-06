@@ -38,6 +38,7 @@ FIXED_E8_PRIMAL_TOLERANCE = 1.0e-8
 FIXED_E8_KKT_TOLERANCE = 1.0e-5
 FIXED_E8_SOLVER_FTOL = 1.0e-12
 FIXED_E8_SOLVER_MAXITER = 1_000
+FIXED_E8_CERTIFICATE_CONTINUATION_LIMIT = 2
 
 FIXED_E8_METHOD_ID = "COLD-FR-E8-NEWNLL-STRUCTSOFT-FUNCSOFT-FULLTAU"
 FIXED_E8_TARGET_OVERLAY_DEFINITION = "R_l(z_k)+(z-z_k)"
@@ -349,8 +350,14 @@ class FixedE8Score:
 class FixedE8SolverCertificate:
     phase: str
     success: bool
+    optimizer_status: int
+    optimizer_message_sha256: str
+    optimizer_status_history: tuple[int, ...]
+    optimizer_message_sha256_history: tuple[str, ...]
+    finite: bool
     iterations: int
     optimizer_pass_count: int
+    certificate_continuation_count: int
     maximum_primal_violation: float
     stationarity_residual: float
     complementarity_residual: float
@@ -375,6 +382,14 @@ class FixedE8SolverCertificate:
                     else "NONE"
                 ),
                 "scientific_retry_count": 0,
+                "certificate_continuation_count": (
+                    self.certificate_continuation_count
+                ),
+                "certificate_continuation_role": (
+                    "SAME_QP_CERTIFICATE_RECOVERY"
+                    if self.certificate_continuation_count
+                    else "NONE"
+                ),
                 "field_rebuild_count": 0,
                 "candidate_evaluation_count": 0,
             }
@@ -560,13 +575,18 @@ def _certificate(
     requested_progress: float,
     xi: float | None,
     optimizer_pass_count: int,
+    certificate_continuation_count: int,
+    optimizer_status_history: Sequence[int],
+    optimizer_message_sha256_history: Sequence[str],
 ) -> FixedE8SolverCertificate:
     slacks: list[tuple[str, float]] = []
+    constraint_slacks: list[float] = []
     active_gradients: list[np.ndarray] = []
     active_slacks: list[float] = []
     for name, function, jacobian in constraints:
         slack = float(function(value))
         slacks.append((name, slack))
+        constraint_slacks.append(slack)
         if slack <= 10.0 * FIXED_E8_PRIMAL_TOLERANCE:
             active_gradients.append(np.asarray(jacobian(value), dtype=np.float64))
             active_slacks.append(slack)
@@ -607,17 +627,48 @@ def _certificate(
         None,
     )
     success = bool(getattr(result, "success", False))
+    optimizer_status = int(getattr(result, "status", -1))
+    optimizer_message_sha256 = canonical_hash(
+        {"optimizer_message": str(getattr(result, "message", ""))}
+    )
+    finite = bool(
+        np.all(np.isfinite(value))
+        and np.all(np.isfinite(objective_gradient))
+        and all(math.isfinite(slack) for slack in constraint_slacks)
+        and math.isfinite(maximum_violation)
+        and math.isfinite(stationarity)
+        and math.isfinite(complementarity)
+    )
     passed = bool(
-        success
+        finite
+        and success
         and maximum_violation <= FIXED_E8_PRIMAL_TOLERANCE
         and stationarity <= FIXED_E8_KKT_TOLERANCE
         and complementarity <= FIXED_E8_KKT_TOLERANCE
     )
+    if not finite:
+        first_false = "optimizer_finite"
+    elif not success:
+        first_false = "optimizer_success"
+    elif maximum_violation > FIXED_E8_PRIMAL_TOLERANCE:
+        first_false = first_false or "primal_feasibility"
+    elif stationarity > FIXED_E8_KKT_TOLERANCE:
+        first_false = "stationarity"
+    elif complementarity > FIXED_E8_KKT_TOLERANCE:
+        first_false = "complementarity"
     return FixedE8SolverCertificate(
         phase=phase,
         success=success,
+        optimizer_status=optimizer_status,
+        optimizer_message_sha256=optimizer_message_sha256,
+        optimizer_status_history=tuple(optimizer_status_history),
+        optimizer_message_sha256_history=tuple(
+            optimizer_message_sha256_history
+        ),
+        finite=finite,
         iterations=int(getattr(result, "nit", 0)),
         optimizer_pass_count=optimizer_pass_count,
+        certificate_continuation_count=certificate_continuation_count,
         maximum_primal_violation=maximum_violation,
         stationarity_residual=float(stationarity),
         complementarity_residual=float(complementarity),
@@ -657,40 +708,18 @@ def _solve_slsqp(
         {"type": "ineq", "fun": function, "jac": derivative}
         for _, function, derivative in constraints
     ]
-    result = minimize(
-        objective,
-        np.asarray(initial, dtype=np.float64),
-        jac=jacobian,
-        method="SLSQP",
-        bounds=tuple(
-            (float(left), float(right))
-            for left, right in zip(lower, upper, strict=True)
-        ),
-        constraints=scipy_constraints,
-        options={
-            "ftol": FIXED_E8_SOLVER_FTOL,
-            "maxiter": FIXED_E8_SOLVER_MAXITER,
-            "disp": False,
-        },
+    bounds = tuple(
+        (float(left), float(right))
+        for left, right in zip(lower, upper, strict=True)
     )
-    optimizer_pass_count = 1
-    if polish_once:
-        # The lexicographic stage-2 optimum can sit at the intersection of
-        # several quadratic xi-tie constraints.  Continue SLSQP once from its
-        # own converged point so the independently recomputed KKT certificate
-        # reaches the locked tolerance without relaxing that tolerance or any
-        # scientific constraint.  This is numerical polishing inside one QP,
-        # not an E8 trajectory retry or a new field/candidate evaluation.
-        first_iterations = int(getattr(result, "nit", 0))
-        result = minimize(
+
+    def run_backend(start: np.ndarray) -> Any:
+        return minimize(
             objective,
-            np.asarray(result.x, dtype=np.float64),
+            np.asarray(start, dtype=np.float64),
             jac=jacobian,
             method="SLSQP",
-            bounds=tuple(
-                (float(left), float(right))
-                for left, right in zip(lower, upper, strict=True)
-            ),
+            bounds=bounds,
             constraints=scipy_constraints,
             options={
                 "ftol": FIXED_E8_SOLVER_FTOL,
@@ -698,31 +727,77 @@ def _solve_slsqp(
                 "disp": False,
             },
         )
-        result.nit = first_iterations + int(getattr(result, "nit", 0))
-        optimizer_pass_count = 2
-    value = np.asarray(result.x, dtype=np.float64)
-    expanded = np.zeros(problem.signed_progress.size, dtype=np.float64)
-    expanded[active] = value[: active.size]
-    observed_xi = xi
-    if value.size != active.size:
-        if value.size != active.size + 1:
-            raise ODEBFContractError("fixed E8 solver auxiliary dimension differs")
-        observed_xi = float(value[active.size])
-    certificate = _certificate(
-        phase=phase,
-        result=result,
-        value=value,
-        objective_gradient=np.asarray(jacobian(value), dtype=np.float64),
-        constraints=constraints,
-        lower=lower,
-        upper=upper,
-        expanded_velocity=expanded,
-        problem=problem,
-        p_max=p_max,
-        requested_progress=requested_progress,
-        xi=observed_xi,
-        optimizer_pass_count=optimizer_pass_count,
-    )
+
+    results = [run_backend(np.asarray(initial, dtype=np.float64))]
+    backend_iterations = [int(getattr(results[-1], "nit", 0))]
+    if polish_once:
+        # The lexicographic stage-2 optimum can sit at the intersection of
+        # several quadratic xi-tie constraints.  Continue SLSQP once from its
+        # own converged point so the independently recomputed KKT certificate
+        # reaches the locked tolerance without relaxing that tolerance or any
+        # scientific constraint.  This is numerical polishing inside one QP,
+        # not an E8 trajectory retry or a new field/candidate evaluation.
+        results.append(run_backend(np.asarray(results[-1].x, dtype=np.float64)))
+        backend_iterations.append(int(getattr(results[-1], "nit", 0)))
+
+    certificate_continuation_count = 0
+    while True:
+        result = results[-1]
+        final_backend_iterations = int(getattr(result, "nit", 0))
+        result.nit = sum(backend_iterations)
+        value = np.asarray(result.x, dtype=np.float64)
+        expanded = np.zeros(problem.signed_progress.size, dtype=np.float64)
+        expanded[active] = value[: active.size]
+        observed_xi = xi
+        if value.size != active.size:
+            if value.size != active.size + 1:
+                raise ODEBFContractError(
+                    "fixed E8 solver auxiliary dimension differs"
+                )
+            observed_xi = float(value[active.size])
+        status_history = tuple(
+            int(getattr(item, "status", -1)) for item in results
+        )
+        message_history = tuple(
+            canonical_hash(
+                {"optimizer_message": str(getattr(item, "message", ""))}
+            )
+            for item in results
+        )
+        certificate = _certificate(
+            phase=phase,
+            result=result,
+            value=value,
+            objective_gradient=np.asarray(jacobian(value), dtype=np.float64),
+            constraints=constraints,
+            lower=lower,
+            upper=upper,
+            expanded_velocity=expanded,
+            problem=problem,
+            p_max=p_max,
+            requested_progress=requested_progress,
+            xi=observed_xi,
+            optimizer_pass_count=len(results),
+            certificate_continuation_count=(
+                certificate_continuation_count
+            ),
+            optimizer_status_history=status_history,
+            optimizer_message_sha256_history=message_history,
+        )
+        result.nit = final_backend_iterations
+        if (
+            certificate.passed
+            or certificate_continuation_count
+            >= FIXED_E8_CERTIFICATE_CONTINUATION_LIMIT
+        ):
+            break
+        # Continue the exact same numerical program from its last iterate.
+        # This performs no field rebuild, model call, candidate evaluation,
+        # clock advance, or scientific retry and preserves all locked
+        # objective, constraint, bound, and tolerance values.
+        results.append(run_backend(value))
+        backend_iterations.append(int(getattr(results[-1], "nit", 0)))
+        certificate_continuation_count += 1
     if not certificate.passed:
         if certificate_observer is not None:
             certificate_observer(certificate)
@@ -1331,7 +1406,11 @@ class FixedE8OperationCeiling:
     field_backward_batches_per_arm: int = 8
     target_backward_batches_per_arm: int = 8
     qp_solves_per_field: int = 4
-    qp_backend_invocations_per_field: int = 5
+    nominal_qp_backend_invocations_per_field: int = 5
+    certificate_continuations_per_qp: int = (
+        FIXED_E8_CERTIFICATE_CONTINUATION_LIMIT
+    )
+    qp_backend_invocation_failure_ceiling_per_field: int = 13
     scientific_retries_per_arm: int = 0
 
     def __post_init__(self) -> None:
@@ -1347,7 +1426,9 @@ class FixedE8OperationCeiling:
             or self.field_backward_batches_per_arm != 8
             or self.target_backward_batches_per_arm != 8
             or self.qp_solves_per_field != 4
-            or self.qp_backend_invocations_per_field != 5
+            or self.nominal_qp_backend_invocations_per_field != 5
+            or self.certificate_continuations_per_qp != 2
+            or self.qp_backend_invocation_failure_ceiling_per_field != 13
             or self.scientific_retries_per_arm != 0
         ):
             raise ODEBFContractError("fixed E8 operation ceiling differs")
@@ -1373,7 +1454,17 @@ class FixedE8OperationCeiling:
             "target_backward_batch_count": self.target_backward_batches_per_arm,
             "qp_solve_count": self.fields_per_arm * self.qp_solves_per_field,
             "qp_backend_invocation_count": (
-                self.fields_per_arm * self.qp_backend_invocations_per_field
+                self.fields_per_arm
+                * self.qp_backend_invocation_failure_ceiling_per_field
+            ),
+            "nominal_qp_backend_invocation_count": (
+                self.fields_per_arm
+                * self.nominal_qp_backend_invocations_per_field
+            ),
+            "certificate_continuation_invocation_ceiling_count": (
+                self.fields_per_arm
+                * self.qp_solves_per_field
+                * self.certificate_continuations_per_qp
             ),
             "stage2_numerical_polish_count": self.fields_per_arm,
             "scientific_retry_count": 0,
@@ -1384,6 +1475,10 @@ class FixedE8OperationCeiling:
                 key: value * self.arm_count for key, value in per_arm.items()
             },
             "matched_compute_schedule": True,
+            "field_probe_evaluator_schedule_matched": True,
+            "solver_backend_schedule_role": (
+                "NOMINAL_MATCHED_WITH_BOUNDED_SAME_QP_CERTIFICATE_RECOVERY"
+            ),
         }
 
 
@@ -1397,6 +1492,12 @@ def fixed_e8_semantic_receipt() -> dict[str, Any]:
         "kappa": FIXED_E8_KAPPA,
         "normalization_epsilon": FIXED_E8_NORMALIZATION_EPSILON,
         "xi_tie_tolerance": FIXED_E8_XI_TIE_TOLERANCE,
+        "certificate_continuation_limit_per_qp": (
+            FIXED_E8_CERTIFICATE_CONTINUATION_LIMIT
+        ),
+        "certificate_continuation_role": (
+            "SAME_QP_NUMERICAL_BACKEND_ONLY"
+        ),
         "structural_problem_coordinates": "already-h-and-h2-scaled",
         "structural_score": "positive(delta_risk)/max(epsilon,trace(gram))",
         "functional_score": (

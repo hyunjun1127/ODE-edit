@@ -46,9 +46,12 @@ FIXED_E8_ZERO_CAPACITY_PARENT_HEAD = "b35c7a84b9dc99f1472928f3632ab99d8f47725f"
 FIXED_E8_SOLVER_OBSERVABILITY_PARENT_HEAD = (
     "0f11f4875cdcedbdc8d3f791b983c0664f6a41cf"
 )
+FIXED_E8_CERTIFICATE_RECEIPT_PARENT_HEAD = (
+    "f23472963ac2dbb46282afd9c3a514bb75d59d5b"
+)
 SERVER1_PROJECT_GPU_CAP = 3
 APPROVAL_ENV = "ODEEDIT_S05_P1R7_RUN_APPROVAL"
-SUBMISSION_NAMESPACE = "s05-cold-fixed-e8-structfunc-soft-p1r7-r6-v1"
+SUBMISSION_NAMESPACE = "s05-cold-fixed-e8-structfunc-soft-p1r7-r7-v1"
 SBATCH = (
     REPO_ROOT
     / "project/run_scripts/session05_ode_bf_fixed_e8_structfunc_soft.sbatch"
@@ -94,6 +97,12 @@ PRIOR_IMMUTABLE = {
     ),
     "s05-cold-fixed-e8-soft-p1r7-r5-qwen2.5-7b-inst-v1/failure.json": (
         "5c0ac755b30a5a0bf93c08067b1d691ca0d2a346935b7a1f4c1eddf0de0b3dad"
+    ),
+    "s05-cold-fixed-e8-soft-p1r7-r6-llama3-8b-inst-v1/failure.json": (
+        "f2c2afd42a7fb124ea94015e93e83cce39bf36f1fc3696e7bed3c8af02b0e1da"
+    ),
+    "s05-cold-fixed-e8-soft-p1r7-r6-qwen2.5-7b-inst-v1/failure.json": (
+        "d750f84fc7c0b617abe717284201cad717329c8d28a947759dae74fda7d5dae7"
     ),
 }
 PRIOR_LOG_IMMUTABLE = {
@@ -169,6 +178,18 @@ PRIOR_LOG_IMMUTABLE = {
     "odeedit_s05_p1r7r5_e8_qwen-17116.err": (
         "b756ad75081e46b70e8c55b3239cc003492ca96fdd25783b8ceae30b5a97fe61"
     ),
+    "odeedit_s05_p1r7r6_e8_llama-17117.out": (
+        "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec"
+    ),
+    "odeedit_s05_p1r7r6_e8_llama-17117.err": (
+        "52cbd9b61aa6ab4095aec8719526fd9c40421624dbc1156081b736ff7ab826ed"
+    ),
+    "odeedit_s05_p1r7r6_e8_qwen-17118.out": (
+        "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec"
+    ),
+    "odeedit_s05_p1r7r6_e8_qwen-17118.err": (
+        "86dcb0175442ba3308ece806a60837ff7d0104dec66916ddb9c6daed8a1e2e7e"
+    ),
 }
 PRIOR_STATE_IMMUTABLE = {
     "s05-cold-fixed-e8-structfunc-soft-p1r7-r4-v1.intent.json": (
@@ -182,6 +203,12 @@ PRIOR_STATE_IMMUTABLE = {
     ),
     "s05-cold-fixed-e8-structfunc-soft-p1r7-r5-v1.submission-receipt.json": (
         "e83bb6b32a0c4f16d02ddf0b9430bc11ccd0a8f4b1a9c8716e210af05bbd704c"
+    ),
+    "s05-cold-fixed-e8-structfunc-soft-p1r7-r6-v1.intent.json": (
+        "2fc2e70e5b772ddb9a55b9a523c22fb32257b017a2d732b6868eccd114b36fa9"
+    ),
+    "s05-cold-fixed-e8-structfunc-soft-p1r7-r6-v1.submission-receipt.json": (
+        "c989c5788b37cf1ad7df6e94a37841a05a35eea96e1e7013917fddb2892023c5"
     ),
 }
 
@@ -220,19 +247,22 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     expected_approval = f"{FIXED_E8_INSTRUCTION_ID}:{source_head}"
     approval = os.environ.get(APPROVAL_ENV)
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
-    solver_observability_parent = _run(
+    certificate_receipt_parent = _run(
         ["git", "rev-parse", "HEAD^"]
     ).stdout.strip()
-    zero_capacity_parent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
-    memory_parent = _run(["git", "rev-parse", "HEAD^^^"]).stdout.strip()
-    numerical_schema_parent = _run(
-        ["git", "rev-parse", "HEAD^^^^"]
+    solver_observability_parent = _run(
+        ["git", "rev-parse", "HEAD^^"]
     ).stdout.strip()
-    launcher_parent = _run(["git", "rev-parse", "HEAD^^^^^"]).stdout.strip()
-    repair_parent = _run(["git", "rev-parse", "HEAD^^^^^^"]).stdout.strip()
-    review_parent = _run(["git", "rev-parse", "HEAD^^^^^^^"]).stdout.strip()
+    zero_capacity_parent = _run(["git", "rev-parse", "HEAD^^^"]).stdout.strip()
+    memory_parent = _run(["git", "rev-parse", "HEAD^^^^"]).stdout.strip()
+    numerical_schema_parent = _run(
+        ["git", "rev-parse", "HEAD^^^^^"]
+    ).stdout.strip()
+    launcher_parent = _run(["git", "rev-parse", "HEAD^^^^^^"]).stdout.strip()
+    repair_parent = _run(["git", "rev-parse", "HEAD^^^^^^^"]).stdout.strip()
+    review_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^"]).stdout.strip()
     scientific_parent = _run(
-        ["git", "rev-parse", "HEAD^^^^^^^^"]
+        ["git", "rev-parse", "HEAD^^^^^^^^^"]
     ).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(
@@ -246,6 +276,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         raise ODEBFContractError("fixed E8 checkpoint approval is absent")
     if (
         head != source_head
+        or certificate_receipt_parent
+        != FIXED_E8_CERTIFICATE_RECEIPT_PARENT_HEAD
         or solver_observability_parent
         != FIXED_E8_SOLVER_OBSERVABILITY_PARENT_HEAD
         or zero_capacity_parent != FIXED_E8_ZERO_CAPACITY_PARENT_HEAD
@@ -263,6 +295,7 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     return {
         "checkpoint_bound_approval": expected_approval,
         "execution_head": head,
+        "exact_certificate_receipt_parent": certificate_receipt_parent,
         "exact_solver_observability_parent": solver_observability_parent,
         "exact_zero_capacity_parent": zero_capacity_parent,
         "exact_memory_parent": memory_parent,
@@ -288,6 +321,8 @@ def _source_manifest_gate(source_head: str) -> str:
     if (
         value.get("instruction_id") != FIXED_E8_INSTRUCTION_ID
         or value.get("expected_parent") != FIXED_E8_PARENT_HEAD
+        or value.get("execution_certificate_receipt_parent")
+        != FIXED_E8_CERTIFICATE_RECEIPT_PARENT_HEAD
         or value.get("execution_solver_observability_parent")
         != FIXED_E8_SOLVER_OBSERVABILITY_PARENT_HEAD
         or value.get("execution_memory_parent")
