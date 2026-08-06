@@ -37,11 +37,12 @@ from project.run_scripts.ode_bf.resource import gpu_count_from_tres
 
 SESSION_ID = "019fc63e-5217-7250-9c22-c5b2ec4248f0"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1"
+FIXED_E8_LAUNCHER_PARENT_HEAD = "d418178b17c3e646cff4c85a82c3fd4495872d50"
 FIXED_E8_REPAIR_PARENT_HEAD = "1378bf1139213ca57ad50e9fb3035b802cf9805f"
 FIXED_E8_REVIEW_PARENT_HEAD = "7faa432b3264cae83355775a3fde2d7bbfc3bab2"
 SERVER1_PROJECT_GPU_CAP = 3
 APPROVAL_ENV = "ODEEDIT_S05_P1R7_RUN_APPROVAL"
-SUBMISSION_NAMESPACE = "s05-cold-fixed-e8-structfunc-soft-p1r7-r1-v1"
+SUBMISSION_NAMESPACE = "s05-cold-fixed-e8-structfunc-soft-p1r7-r2-v1"
 SBATCH = (
     REPO_ROOT
     / "project/run_scripts/session05_ode_bf_fixed_e8_structfunc_soft.sbatch"
@@ -77,6 +78,18 @@ PRIOR_LOG_IMMUTABLE = {
     ),
     "odeedit_s05_p1r7_e8_qwen-17106.err": (
         "1ee71392cfa5c60a032cff6f0c7bbd15282adf28e1093bd1894f5d3ddfb0ad87"
+    ),
+    "odeedit_s05_p1r7r1_e8_llama-17107.out": (
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ),
+    "odeedit_s05_p1r7r1_e8_llama-17107.err": (
+        "13b21d919fde3fa4c5de00303f547555a0f80750d1d772a841e33b13dd159626"
+    ),
+    "odeedit_s05_p1r7r1_e8_qwen-17108.out": (
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ),
+    "odeedit_s05_p1r7r1_e8_qwen-17108.err": (
+        "13b21d919fde3fa4c5de00303f547555a0f80750d1d772a841e33b13dd159626"
     ),
 }
 
@@ -116,8 +129,9 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     approval = os.environ.get(APPROVAL_ENV)
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
-    review_parent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
-    scientific_parent = _run(["git", "rev-parse", "HEAD^^^"]).stdout.strip()
+    repair_parent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
+    review_parent = _run(["git", "rev-parse", "HEAD^^^"]).stdout.strip()
+    scientific_parent = _run(["git", "rev-parse", "HEAD^^^^"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(
         ["git", "status", "--porcelain", "--untracked-files=no"]
@@ -130,7 +144,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         raise ODEBFContractError("fixed E8 checkpoint approval is absent")
     if (
         head != source_head
-        or parent != FIXED_E8_REPAIR_PARENT_HEAD
+        or parent != FIXED_E8_LAUNCHER_PARENT_HEAD
+        or repair_parent != FIXED_E8_REPAIR_PARENT_HEAD
         or review_parent != FIXED_E8_REVIEW_PARENT_HEAD
         or scientific_parent != FIXED_E8_PARENT_HEAD
         or branch != EXECUTION_BRANCH
@@ -141,7 +156,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     return {
         "checkpoint_bound_approval": expected_approval,
         "execution_head": head,
-        "exact_repair_parent": parent,
+        "exact_launcher_parent": parent,
+        "exact_repair_parent": repair_parent,
         "exact_review_parent": review_parent,
         "exact_scientific_parent": scientific_parent,
         "scientific_parent_is_ancestor": True,
@@ -161,6 +177,8 @@ def _source_manifest_gate(source_head: str) -> str:
     if (
         value.get("instruction_id") != FIXED_E8_INSTRUCTION_ID
         or value.get("expected_parent") != FIXED_E8_PARENT_HEAD
+        or value.get("execution_launcher_parent")
+        != FIXED_E8_LAUNCHER_PARENT_HEAD
         or value.get("execution_repair_parent")
         != FIXED_E8_REPAIR_PARENT_HEAD
         or value.get("execution_review_parent")

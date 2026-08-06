@@ -45,6 +45,7 @@ from project.run_scripts.ode_bf.p1_controller import P1ControllerLock
 from project.run_scripts.ode_bf.p1_fixed_e8_soft_panel import (
     FIXED_E8_INSTRUCTION_ID,
     FIXED_E8_PARENT_HEAD,
+    FIXED_E8_RESULT_TOKEN,
     expected_fixed_e8_result_name,
     fixed_e8_schedule,
     forecast_fixed_e8_panel,
@@ -568,7 +569,7 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             self.assertEqual(forecast.qp_backend_invocations_per_arm, 40)
             self.assertEqual(
                 expected_fixed_e8_result_name(alias),
-                f"s05-cold-fixed-e8-soft-p1r7-r1-{alias}-v1",
+                f"s05-cold-fixed-e8-soft-p1r7-r2-{alias}-v1",
             )
             receipt = validate_fixed_e8_runtime_gpu_capacity(
                 forecast,
@@ -736,12 +737,15 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             output = {
                 ("git", "rev-parse", "HEAD"): child + "\n",
                 ("git", "rev-parse", "HEAD^"): (
-                    fixed_e8_submit.FIXED_E8_REPAIR_PARENT_HEAD + "\n"
+                    fixed_e8_submit.FIXED_E8_LAUNCHER_PARENT_HEAD + "\n"
                 ),
                 ("git", "rev-parse", "HEAD^^"): (
+                    fixed_e8_submit.FIXED_E8_REPAIR_PARENT_HEAD + "\n"
+                ),
+                ("git", "rev-parse", "HEAD^^^"): (
                     fixed_e8_submit.FIXED_E8_REVIEW_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^"): FIXED_E8_PARENT_HEAD + "\n",
+                ("git", "rev-parse", "HEAD^^^^"): FIXED_E8_PARENT_HEAD + "\n",
                 ("git", "branch", "--show-current"): (
                     "codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1\n"
                 ),
@@ -781,6 +785,10 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             ):
                 receipt = fixed_e8_submit._execution_provenance_gate(child)
         self.assertEqual(
+            receipt["exact_launcher_parent"],
+            fixed_e8_submit.FIXED_E8_LAUNCHER_PARENT_HEAD,
+        )
+        self.assertEqual(
             receipt["exact_repair_parent"],
             fixed_e8_submit.FIXED_E8_REPAIR_PARENT_HEAD,
         )
@@ -808,6 +816,19 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             ):
                 with self.assertRaisesRegex(ODEBFContractError, "provenance"):
                     fixed_e8_submit._execution_provenance_gate(child)
+
+    def test_sbatch_invocation_token_matches_panel_contract(self) -> None:
+        source = (
+            ROOT
+            / "project/run_scripts/session05_ode_bf_fixed_e8_structfunc_soft.sbatch"
+        ).read_text(encoding="utf-8")
+        self.assertIn(
+            f'"${{RUN_TOKEN}}" == "{FIXED_E8_RESULT_TOKEN}"', source
+        )
+        self.assertNotIn(
+            '"${RUN_TOKEN}" == "cold-fixed-e8-structfunc-soft-p1r7-v1"',
+            source,
+        )
 
     def test_layer_local_fz_contract_is_retained_by_reference(self) -> None:
         source = inspect.getsource(cold_start_target._ColdLayerLocalTargetOverlay)
