@@ -14,7 +14,7 @@ import time
 from dataclasses import asdict, dataclass, field as dataclass_field
 from fractions import Fraction
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
 import torch
@@ -33,6 +33,7 @@ from .fixed_e8_soft_routing import (
     FixedE8GridPoint,
     FixedE8OperationCeiling,
     FixedE8RoutingResult,
+    FixedE8SolverCertificate,
     FixedE8SoftInventory,
     FixedE8StepMode,
     FunctionalBasisMetric,
@@ -391,6 +392,54 @@ class FixedE8ReceiptRecorder:
             "first_hit": list(self.first_hit_hashes),
             "terminal": list(self.terminal_hashes),
         }
+
+
+def _fixed_e8_solver_receipt_observer(
+    *,
+    recorder: FixedE8ReceiptRecorder,
+    step_index: int,
+    arm: FixedE8Arm,
+    field_sha256: str,
+    field_semantic_sha256: str,
+    problem_sha256: str,
+    functional_inventory_sha256: str,
+) -> tuple[
+    Callable[[FixedE8SolverCertificate], None],
+    list[FixedE8SolverCertificate],
+]:
+    """Persist every numerical certificate before its fail-close boundary."""
+
+    observed: list[FixedE8SolverCertificate] = []
+
+    def observe(certificate: FixedE8SolverCertificate) -> None:
+        sequence_index = len(observed)
+        observed.append(certificate)
+        recorder.solver(
+            {
+                "step_index": step_index,
+                "arm": arm.value,
+                "certificate_sequence_index": sequence_index,
+                "persistence_point": (
+                    "IMMEDIATE_AFTER_CERTIFICATE_BEFORE_FAIL_CLOSE"
+                ),
+                "status": (
+                    "SOLVER_CERTIFICATE_PASSED"
+                    if certificate.passed
+                    else "SOLVER_CERTIFICATE_FAILED"
+                ),
+                "field_sha256": field_sha256,
+                "field_semantic_sha256": field_semantic_sha256,
+                "problem_sha256": problem_sha256,
+                "functional_inventory_sha256": functional_inventory_sha256,
+                "routing_identity_status": "UNAVAILABLE_UNTIL_SOLVE_COMPLETES",
+                "certificate": certificate.raw_free_payload(),
+                "hard_h_p_budget_influence_count": 0,
+                "scientific_retry_count": 0,
+                "decision_influence_count": 0,
+            }
+        )
+
+    return observe, observed
 
 def fixed_e8_waypoint_factors(
     field: P1DynamicField,
@@ -940,7 +989,26 @@ def _build_fixed_field_with_metric(
         factor_state_sha256=factor_state,
         field_semantic_sha256=semantic_field["semantic_identity_sha256"],
     )
-    routing = solve_fixed_e8_routing(built.problem, inventory, arm=arm)
+    inventory_sha256 = inventory.raw_free_payload()["identity_sha256"]
+    certificate_observer, observed_certificates = (
+        _fixed_e8_solver_receipt_observer(
+            recorder=recorder,
+            step_index=step_index,
+            arm=arm,
+            field_sha256=field.identity_sha256,
+            field_semantic_sha256=semantic_field["semantic_identity_sha256"],
+            problem_sha256=built.problem.identity(),
+            functional_inventory_sha256=inventory_sha256,
+        )
+    )
+    routing = solve_fixed_e8_routing(
+        built.problem,
+        inventory,
+        arm=arm,
+        certificate_observer=certificate_observer,
+    )
+    if tuple(observed_certificates) != routing.certificates:
+        raise ODEBFStateError("fixed E8 solver receipt sequence differs")
     ledger.increment("qp_solve", len(routing.certificates))
     ledger.increment("qp_certificate", len(routing.certificates))
     if routing.mode is FixedE8StepMode.ZERO_WRITE_TARGET_RECOVERY:
@@ -1022,22 +1090,12 @@ def _build_fixed_field_with_metric(
         "functional_candidate_veto_influence_count": 0,
     }
     field_sha = recorder.field(field_payload)
-    for certificate in routing.certificates:
-        recorder.solver(
-            {
-                "step_index": step_index,
-                "arm": arm.value,
-                "routing_sha256": routing.identity_sha256,
-                "certificate": certificate.raw_free_payload(),
-                "hard_h_p_budget_influence_count": 0,
-            }
-        )
     receipt_payload = {
         "field_sha256": field.identity_sha256,
         "field_semantic_sha256": semantic_field["semantic_identity_sha256"],
         "signed_progress_sha256": canonical_hash(list(signed.signed_progress)),
         "problem_sha256": built.problem.identity(),
-        "functional_inventory_sha256": inventory.raw_free_payload()["identity_sha256"],
+        "functional_inventory_sha256": inventory_sha256,
         "routing_sha256": routing.identity_sha256,
         "target_velocity_sha256": str(target_receipt["velocity_sha256"]),
         "persisted_field_receipt_sha256": field_sha,

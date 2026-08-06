@@ -382,6 +382,9 @@ class FixedE8SolverCertificate:
         return payload
 
 
+FixedE8CertificateObserver = Callable[[FixedE8SolverCertificate], None]
+
+
 @dataclass(frozen=True, slots=True)
 class FixedE8RoutingResult:
     arm: FixedE8Arm
@@ -648,6 +651,7 @@ def _solve_slsqp(
     requested_progress: float,
     xi: float | None,
     polish_once: bool = False,
+    certificate_observer: FixedE8CertificateObserver | None = None,
 ) -> tuple[np.ndarray, FixedE8SolverCertificate]:
     scipy_constraints = [
         {"type": "ineq", "fun": function, "jac": derivative}
@@ -720,6 +724,8 @@ def _solve_slsqp(
         optimizer_pass_count=optimizer_pass_count,
     )
     if not certificate.passed:
+        if certificate_observer is not None:
+            certificate_observer(certificate)
         raise ODEBFContractError(
             f"fixed E8 {phase} solver certificate failed: "
             f"{certificate.raw_free_payload()}"
@@ -842,6 +848,8 @@ def _functional_score_constraint(
 def _maximum_progress(
     problem: RoutingProblem,
     active: np.ndarray,
+    *,
+    certificate_observer: FixedE8CertificateObserver | None = None,
 ) -> tuple[np.ndarray, float, FixedE8SolverCertificate]:
     progress = problem.signed_progress[active]
     caps = np.minimum(problem.layer_caps[active], 1.0)
@@ -860,6 +868,7 @@ def _maximum_progress(
         p_max=0.0,
         requested_progress=0.0,
         xi=None,
+        certificate_observer=certificate_observer,
     )
     expanded = np.zeros(problem.signed_progress.size, dtype=np.float64)
     expanded[active] = value
@@ -872,6 +881,8 @@ def _maximum_progress(
             "p_max": max(p_max, 0.0),
         }
     )
+    if certificate_observer is not None:
+        certificate_observer(certificate)
     return expanded, max(p_max, 0.0), certificate
 
 
@@ -880,6 +891,7 @@ def solve_fixed_e8_routing(
     inventory: FixedE8SoftInventory,
     *,
     arm: FixedE8Arm | str,
+    certificate_observer: FixedE8CertificateObserver | None = None,
 ) -> FixedE8RoutingResult:
     """Solve one fixed-grid E8 routing field.
 
@@ -898,7 +910,11 @@ def solve_fixed_e8_routing(
     mask = tuple(bool(item > 0.0) for item in problem.signed_progress)
     if active.size == 0:
         return _zero_write_result(problem, inventory, selected, signed, mask)
-    maximum, p_max, maximum_certificate = _maximum_progress(problem, active)
+    maximum, p_max, maximum_certificate = _maximum_progress(
+        problem,
+        active,
+        certificate_observer=certificate_observer,
+    )
     if p_max <= FIXED_E8_NORMALIZATION_EPSILON:
         return _zero_write_result(
             problem,
@@ -933,7 +949,10 @@ def solve_fixed_e8_routing(
         p_max=p_max,
         requested_progress=requested,
         xi=None,
+        certificate_observer=certificate_observer,
     )
+    if certificate_observer is not None:
+        certificate_observer(capacity_certificate)
     certificates.append(capacity_certificate)
     xi_index = active.size
     stage1_constraints: list[Constraint] = []
@@ -996,7 +1015,10 @@ def solve_fixed_e8_routing(
         p_max=p_max,
         requested_progress=requested,
         xi=initial_xi,
+        certificate_observer=certificate_observer,
     )
+    if certificate_observer is not None:
+        certificate_observer(stage1_certificate)
     xi_star = max(float(stage1_value[xi_index]), 0.0)
     certificates.append(stage1_certificate)
     stage2_constraints: list[Constraint] = list(technical)
@@ -1057,7 +1079,10 @@ def solve_fixed_e8_routing(
         requested_progress=requested,
         xi=xi_star,
         polish_once=True,
+        certificate_observer=certificate_observer,
     )
+    if certificate_observer is not None:
+        certificate_observer(stage2_certificate)
     certificates.append(stage2_certificate)
     pre_soft_velocity = neutral_expanded
     soft_velocity = _expand(

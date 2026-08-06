@@ -17,6 +17,7 @@ import torch
 from project.run_scripts.ode_bf.accounting import ComputeLedger
 from project.run_scripts.ode_bf import cold_start_target
 from project.run_scripts.ode_bf import fixed_e8_runtime
+from project.run_scripts.ode_bf import fixed_e8_soft_routing
 from project.run_scripts.ode_bf import p1_backend
 from project.run_scripts.ode_bf.contracts import (
     ODEBFContractError,
@@ -360,6 +361,103 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
         )
         self.assertTrue(zero_actual["static_operation_counts_are_maximum_ceiling"])
 
+    def test_solver_observer_is_decision_neutral_and_exactly_once(self) -> None:
+        expected = solve_fixed_e8_routing(
+            _problem(), _inventory(), arm=FixedE8Arm.SOFT
+        )
+        observed = []
+        actual = solve_fixed_e8_routing(
+            _problem(),
+            _inventory(),
+            arm=FixedE8Arm.SOFT,
+            certificate_observer=observed.append,
+        )
+        self.assertEqual(actual.identity_sha256, expected.identity_sha256)
+        self.assertEqual(actual.velocity, expected.velocity)
+        self.assertEqual(tuple(observed), actual.certificates)
+        self.assertEqual(
+            [item.phase for item in observed],
+            [
+                "maximum-technical-progress",
+                "neutral-minimum-capacity",
+                "soft-minimum-worst-normalized-score",
+                "soft-minimum-capacity-within-xi-tie",
+            ],
+        )
+
+    def test_failed_solver_certificate_is_persisted_before_raise(self) -> None:
+        captured: list[tuple[Path, dict[str, object]]] = []
+
+        def write_once(path: Path, payload: dict[str, object]) -> str:
+            captured.append((path, payload))
+            return canonical_hash(payload)
+
+        problem = _problem()
+        inventory = _inventory()
+        real_minimize = fixed_e8_soft_routing.minimize
+        call_count = 0
+
+        def fail_second_solve(*args: object, **kwargs: object) -> object:
+            nonlocal call_count
+            call_count += 1
+            if call_count == 1:
+                return real_minimize(*args, **kwargs)
+            return SimpleNamespace(
+                success=False,
+                nit=1,
+                x=np.asarray(args[1], dtype=np.float64),
+            )
+
+        with tempfile.TemporaryDirectory() as directory:
+            recorder = fixed_e8_runtime.FixedE8ReceiptRecorder(
+                Path(directory), FixedE8Arm.NEUTRAL, write_once
+            )
+            observer, observed = (
+                fixed_e8_runtime._fixed_e8_solver_receipt_observer(
+                    recorder=recorder,
+                    step_index=1,
+                    arm=FixedE8Arm.NEUTRAL,
+                    field_sha256="a" * 64,
+                    field_semantic_sha256="b" * 64,
+                    problem_sha256=problem.identity(),
+                    functional_inventory_sha256=(
+                        inventory.raw_free_payload()["identity_sha256"]
+                    ),
+                )
+            )
+            with mock.patch.object(
+                fixed_e8_soft_routing,
+                "minimize",
+                side_effect=fail_second_solve,
+            ):
+                with self.assertRaisesRegex(
+                    ODEBFContractError,
+                    "neutral-minimum-capacity solver certificate failed",
+                ):
+                    solve_fixed_e8_routing(
+                        problem,
+                        inventory,
+                        arm=FixedE8Arm.NEUTRAL,
+                        certificate_observer=observer,
+                    )
+
+        self.assertEqual(len(observed), 2)
+        self.assertTrue(observed[0].passed)
+        self.assertFalse(observed[1].passed)
+        self.assertEqual(len(captured), 2)
+        self.assertEqual(captured[0][1]["status"], "SOLVER_CERTIFICATE_PASSED")
+        self.assertEqual(captured[1][1]["status"], "SOLVER_CERTIFICATE_FAILED")
+        self.assertEqual(
+            captured[1][1]["persistence_point"],
+            "IMMEDIATE_AFTER_CERTIFICATE_BEFORE_FAIL_CLOSE",
+        )
+        failed = captured[1][1]["certificate"]
+        self.assertIsInstance(failed, dict)
+        self.assertEqual(failed["phase"], "neutral-minimum-capacity")
+        self.assertFalse(failed["success"])
+        self.assertFalse(failed["passed"])
+        _validate_raw_free(captured[1][1])
+
     def test_empty_history_is_inactive_and_adds_no_probe_endpoints(self) -> None:
         inventory = _inventory(history_item_count=0)
         payload = inventory.raw_free_payload()
@@ -651,7 +749,7 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             self.assertEqual(forecast.qp_backend_invocations_per_arm, 40)
             self.assertEqual(
                 expected_fixed_e8_result_name(alias),
-                f"s05-cold-fixed-e8-soft-p1r7-r5-{alias}-v1",
+                f"s05-cold-fixed-e8-soft-p1r7-r6-{alias}-v1",
             )
             receipt = validate_fixed_e8_runtime_gpu_capacity(
                 forecast,
@@ -898,25 +996,29 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             output = {
                 ("git", "rev-parse", "HEAD"): child + "\n",
                 ("git", "rev-parse", "HEAD^"): (
-                    fixed_e8_submit.FIXED_E8_ZERO_CAPACITY_PARENT_HEAD + "\n"
+                    fixed_e8_submit.FIXED_E8_SOLVER_OBSERVABILITY_PARENT_HEAD
+                    + "\n"
                 ),
                 ("git", "rev-parse", "HEAD^^"): (
-                    fixed_e8_submit.FIXED_E8_MEMORY_PARENT_HEAD + "\n"
+                    fixed_e8_submit.FIXED_E8_ZERO_CAPACITY_PARENT_HEAD + "\n"
                 ),
                 ("git", "rev-parse", "HEAD^^^"): (
+                    fixed_e8_submit.FIXED_E8_MEMORY_PARENT_HEAD + "\n"
+                ),
+                ("git", "rev-parse", "HEAD^^^^"): (
                     fixed_e8_submit.FIXED_E8_NUMERICAL_SCHEMA_PARENT_HEAD
                     + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^"): (
                     fixed_e8_submit.FIXED_E8_LAUNCHER_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_REPAIR_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_REVIEW_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^^"): FIXED_E8_PARENT_HEAD + "\n",
+                ("git", "rev-parse", "HEAD^^^^^^^^"): FIXED_E8_PARENT_HEAD + "\n",
                 ("git", "branch", "--show-current"): (
                     "codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1\n"
                 ),
@@ -955,6 +1057,10 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
                 clear=True,
             ):
                 receipt = fixed_e8_submit._execution_provenance_gate(child)
+        self.assertEqual(
+            receipt["exact_solver_observability_parent"],
+            fixed_e8_submit.FIXED_E8_SOLVER_OBSERVABILITY_PARENT_HEAD,
+        )
         self.assertEqual(
             receipt["exact_zero_capacity_parent"],
             fixed_e8_submit.FIXED_E8_ZERO_CAPACITY_PARENT_HEAD,
@@ -1010,6 +1116,10 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
         )
         self.assertNotIn(
             '"${RUN_TOKEN}" == "cold-fixed-e8-structfunc-soft-p1r7-v1"',
+            source,
+        )
+        self.assertNotIn(
+            '"${RUN_TOKEN}" == "cold-fixed-e8-structfunc-soft-p1r7-r5-v1"',
             source,
         )
 
