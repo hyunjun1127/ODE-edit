@@ -3463,8 +3463,8 @@ def run_p1(
         if fixed_e8_soft_mode:
             from .p1_fixed_e8_soft_panel import (
                 fixed_e8_schedule,
+                load_and_validate_fixed_e8_lock,
                 load_fixed_e8_case_provenance,
-                validate_fixed_e8_lock,
             )
 
             schedule = fixed_e8_schedule(sampling_seal)
@@ -3472,19 +3472,14 @@ def run_p1(
                 locks / "p1r7_fixed_e8_case_provenance.json",
                 source_seal=cold_stream,
             )
-            fixed_e8_numerical, fixed_e8_numerical_sha256 = load_rooted_json(
-                locks / "numerical_lock_s05_fixed_e8_structfunc_soft.json",
-                expected_schema=(
-                    "ode-edit-s05-cold-fixed-e8-structfunc-soft-p1r7-"
-                    "numerical-lock/v1"
-                ),
-            )
-            validate_fixed_e8_lock(
-                fixed_e8_numerical,
-                controller_identity_sha256=controller_lock.identity(),
-                case_root_digest=cold_stream["root_digest"],
-                population_root_digest=population["root_digest"],
-                schedule=schedule,
+            fixed_e8_numerical, fixed_e8_numerical_sha256 = (
+                load_and_validate_fixed_e8_lock(
+                    locks / "numerical_lock_s05_fixed_e8_structfunc_soft.json",
+                    controller_identity_sha256=controller_lock.identity(),
+                    case_root_digest=cold_stream["root_digest"],
+                    population_root_digest=population["root_digest"],
+                    schedule=schedule,
+                )
             )
             numerical = fixed_e8_numerical
             numerical_sha256 = fixed_e8_numerical_sha256
