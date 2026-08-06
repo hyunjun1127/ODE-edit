@@ -989,6 +989,13 @@ def _build_active_field(
     alias: str | None = None,
     touched: Mapping[str, torch.nn.Parameter] | None = None,
     schedule: StatelessReplaySchedule | None = None,
+    dynamic_entry: bool = False,
+    target_state_identity_sha256: str | None = None,
+    target_velocity_builder: Callable[
+        [P1DynamicField, Sequence[float]], tuple[torch.Tensor, Any]
+    ]
+    | None = None,
+    target_state_objective: str = "MARGIN_LOCKED",
 ) -> ActiveField:
     selected_objective = select_locked_routing_objective(routing_objective)
     try:
@@ -1007,9 +1014,25 @@ def _build_active_field(
         ) from exc
     layers = tuple(int(layer) for layer in hparams.layers)
     policy = _residual_policy(variant)
+    target_identity = (
+        canonical_hash(list(capture.direct_z_sha256))
+        if target_state_identity_sha256 is None
+        else target_state_identity_sha256
+    )
+    if not isinstance(target_identity, str) or len(target_identity) != 64:
+        raise ODEBFContractError("adaptive target-state identity differs")
+    target_state_objective_payload = {
+        "target_state_objective": "MARGIN_LOCKED"
+    }
+    if target_state_objective != "MARGIN_LOCKED":
+        if target_state_objective != "COLD_TARGET_NEW_NLL_G_UNIT":
+            raise ODEBFContractError("adaptive target-state objective differs")
+        target_state_objective_payload["target_state_objective"] = (
+            target_state_objective
+        )
     started = time.perf_counter()
     counter_before = dict(ledger.counters)
-    if accepted_index == 0:
+    if accepted_index == 0 and not dynamic_entry:
         field = build_p1_frozen_field_from_capture(
             model,
             hparams,
@@ -1149,7 +1172,7 @@ def _build_active_field(
             raw_certificate=raw.certificate,
             bf_certificate=projection.certificate,
             state_sha256=field_state_sha256,
-            target_z_sha256=canonical_hash(list(capture.direct_z_sha256)),
+            target_z_sha256=target_identity,
             factor_state_sha256=field_state_sha256,
             step_index=accepted_index,
         )
@@ -1168,7 +1191,7 @@ def _build_active_field(
             failure_payload.update(
                 {
                     "routing_objective": selected_objective.value,
-                    "target_state_objective": "MARGIN_LOCKED",
+                    **target_state_objective_payload,
                     "target_old_access_count": signed.target_old_access_count,
                     "routing_context_sha256": signed.routing_context_sha256,
                     "routing_context_count": signed.routing_context_count,
@@ -1231,18 +1254,23 @@ def _build_active_field(
     bf_velocity = StepSizeIndependentVelocity.from_controller_values(
         field.identity_sha256, final_bf_values
     )
-    target_velocity, target_receipt = write_aware_target_velocity(
-        model,
-        tokenizer,
-        requests,
-        field,
-        final_bf_values,
-        cumulative_factors_by_weight=factors,
-        target_base=target_base,
-        native_target=native_target,
-        trust_fraction=lock.target_trust_fraction,
-        ledger=ledger,
-    )
+    if target_velocity_builder is None:
+        target_velocity, target_receipt = write_aware_target_velocity(
+            model,
+            tokenizer,
+            requests,
+            field,
+            final_bf_values,
+            cumulative_factors_by_weight=factors,
+            target_base=target_base,
+            native_target=native_target,
+            trust_fraction=lock.target_trust_fraction,
+            ledger=ledger,
+        )
+    else:
+        target_velocity, target_receipt = target_velocity_builder(
+            field, final_bf_values
+        )
     payload = {
         "accepted_index": accepted_index,
         "residual_policy": policy,
@@ -1296,7 +1324,7 @@ def _build_active_field(
         raw_certificate=raw.certificate,
         bf_certificate=projection.certificate,
         state_sha256=field_state_sha256,
-        target_z_sha256=canonical_hash(list(capture.direct_z_sha256)),
+        target_z_sha256=target_identity,
         factor_state_sha256=field_state_sha256,
         step_index=accepted_index,
     )
@@ -1317,7 +1345,7 @@ def _build_active_field(
                 ),
                 "routing_backward_count": signed.routing_backward_count,
                 "target_old_access_count": signed.target_old_access_count,
-                "target_state_objective": "MARGIN_LOCKED",
+                **target_state_objective_payload,
             }
         )
     receipt_sha256 = recorder.field(payload)
@@ -1862,10 +1890,28 @@ def _run_trial(
     preservation_policy: PreservationConstraintPolicy | str = (
         PreservationConstraintPolicy.LOCKED
     ),
+    target_state_identity_sha256: str | None = None,
+    target_step_validator: Callable[
+        [torch.Tensor, torch.Tensor, Fraction, Fraction], Mapping[str, Any]
+    ]
+    | None = None,
+    target_state_objective: str = "MARGIN_LOCKED",
 ) -> TrialOutcome:
     from .p1_runtime import _controller_progress_telemetry
 
     selected_objective = select_locked_routing_objective(routing_objective)
+    if target_state_objective not in (
+        "MARGIN_LOCKED",
+        "COLD_TARGET_NEW_NLL_G_UNIT",
+    ):
+        raise ODEBFContractError("adaptive target-state objective differs")
+    if target_state_identity_sha256 is not None and (
+        not isinstance(target_state_identity_sha256, str)
+        or len(target_state_identity_sha256) != 64
+        or active.layer_routing_payload.get("target_z_sha256")
+        != target_state_identity_sha256
+    ):
+        raise ODEBFContractError("adaptive trial target-state identity differs")
     if delta_tau <= 0 or delta_tau > H_REF:
         raise ODEBFContractError("adaptive trial delta_tau differs")
     trial_wall_started = time.perf_counter()
@@ -1879,6 +1925,7 @@ def _run_trial(
     before_model = _parameter_contract_sha256(touched)
     before_history = history.snapshot().digest
     before_sampler = schedule.state_digest
+    before_rng = _rng_identity()
     before_target = tensor_sha256(current_target)
     before_factors = _factor_state(capture.entry_sha256, current_factors, current_target)
     before_omega = _omega_state(accepted_by_layer)
@@ -2096,6 +2143,18 @@ def _run_trial(
         + float(delta_tau)
         * active.target_velocity.detach().to(device="cpu", dtype=torch.float32)
     ).contiguous()
+    target_step_certificate = (
+        None
+        if target_step_validator is None
+        else dict(
+            target_step_validator(
+                current_target,
+                target_trial,
+                tau_before,
+                delta_tau,
+            )
+        )
+    )
     snapshot_sha256 = _factor_state(
         capture.entry_sha256, candidate_factors, target_trial
     )
@@ -2116,7 +2175,11 @@ def _run_trial(
         bf_certificate=active.projection.certificate,
         step_index=n_trial,
         state_sha256=before_model,
-        target_z_sha256=canonical_hash(list(capture.direct_z_sha256)),
+        target_z_sha256=(
+            canonical_hash(list(capture.direct_z_sha256))
+            if target_state_identity_sha256 is None
+            else target_state_identity_sha256
+        ),
         factor_state_sha256=before_factors,
         candidate_sha256=snapshot_sha256,
     )
@@ -2127,6 +2190,7 @@ def _run_trial(
         after_model != before_model
         or after_history != before_history
         or after_sampler != before_sampler
+        or _rng_identity() != before_rng
         or tensor_sha256(current_target) != before_target
         or _factor_state(capture.entry_sha256, current_factors, current_target)
         != before_factors
@@ -2207,7 +2271,7 @@ def _run_trial(
         progress_payload.update(
             {
                 "routing_objective": selected_objective.value,
-                "target_state_objective": "MARGIN_LOCKED",
+                "target_state_objective": target_state_objective,
                 "predicted_delta": verdict.predicted_beta_progress,
                 "actual_delta": progress.actual_signed_progress,
                 "rho_for_routing_objective": verdict.trust_ratio,
@@ -2262,6 +2326,8 @@ def _run_trial(
         "target_trial_sha256": tensor_sha256(target_trial),
         "target_weight_shared_delta_tau": True,
     }
+    if target_step_certificate is not None:
+        routing_payload["target_step_certificate"] = target_step_certificate
     trial_payload = {
         "accepted_index_before": accepted_index,
         "n_trial": n_trial,
@@ -2301,6 +2367,8 @@ def _run_trial(
             "history_after_sha256": after_history,
             "sampler_before_sha256": before_sampler,
             "sampler_after_sha256": after_sampler,
+            "rng_before_sha256": before_rng,
+            "rng_after_sha256": before_rng,
             "state_before_sha256": before_factors,
             "state_after_sha256": before_factors,
             "omega_before_sha256": before_omega,

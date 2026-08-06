@@ -3203,6 +3203,7 @@ def run_p1(
     functional_p_off_mode: bool = False,
     preservation_all_off_mode: bool = False,
     newnll_p_soft_hard_mode: bool = False,
+    cold_structp_softp_noveto_mode: bool = False,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3217,10 +3218,17 @@ def run_p1(
             functional_p_off_mode,
             preservation_all_off_mode,
             newnll_p_soft_hard_mode,
+            cold_structp_softp_noveto_mode,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if newnll_p_soft_hard_mode:
+    if cold_structp_softp_noveto_mode:
+        from .p1_cold_structp_softp_noveto_panel import (
+            expected_cold_result_name,
+        )
+
+        expected_name = expected_cold_result_name(alias)
+    elif newnll_p_soft_hard_mode:
         from .p1_newnll_p_soft_hard_panel import (
             expected_newnll_p_soft_hard_result_name,
         )
@@ -3272,7 +3280,8 @@ def run_p1(
         require_held_ode_alloc=not target_new_routing_mode
         and not functional_p_off_mode
         and not preservation_all_off_mode
-        and not newnll_p_soft_hard_mode,
+        and not newnll_p_soft_hard_mode
+        and not cold_structp_softp_noveto_mode,
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
@@ -3430,6 +3439,49 @@ def run_p1(
     }
     if set(request_by_sha256) != set(collision_by_request):
         raise ODEBFContractError("P1 stream request/collision map differs")
+    if cold_structp_softp_noveto_mode:
+        from .p1_cold_structp_softp_noveto_panel import (
+            cold_schedule,
+            load_cold_requests,
+            validate_cold_lock,
+            verify_cold_case_seal,
+        )
+
+        cold_stream = verify_cold_case_seal(
+            json.loads(
+                (locks / "p1r6_cold_cf_b10_seal.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+        )
+        cold_requests = load_cold_requests(dataset, cold_stream)
+        schedule = cold_schedule(sampling_seal)
+        cold_numerical, cold_numerical_sha256 = load_rooted_json(
+            locks / "numerical_lock_s05_cold_structp_softp_noveto.json",
+            expected_schema=(
+                "ode-edit-s05-cold-structp-softp-noveto-p1r6-lock/v1"
+            ),
+        )
+        validate_cold_lock(
+            cold_numerical,
+            controller_identity_sha256=controller_lock.identity(),
+            case_root_digest=cold_stream["root_digest"],
+            population_root_digest=population["root_digest"],
+            schedule=schedule,
+        )
+        numerical = cold_numerical
+        numerical_sha256 = cold_numerical_sha256
+        stream = cold_stream
+        stream_batches = (cold_requests,)
+        request_by_sha256 = {
+            str(item["request_sha256"]): item for item in cold_requests
+        }
+        collision_by_request = {
+            str(item["request_sha256"]): str(item["collision_sha256"])
+            for item in cold_stream["requests"]
+        }
+        if set(request_by_sha256) != set(collision_by_request):
+            raise ODEBFContractError("cold stream request/collision map differs")
     stages.record(
         "post_preflight",
         {
@@ -3446,6 +3498,30 @@ def run_p1(
     )
 
     cuda_runtime_receipt = _initialize_p1_cuda_runtime(stages)
+    if cold_structp_softp_noveto_mode:
+        from .p1_cold_structp_softp_noveto_panel import (
+            forecast_cold_panel,
+            validate_cold_runtime_gpu_capacity,
+        )
+
+        cold_forecast = forecast_cold_panel(
+            locks / "p0_artifact_lock.json",
+            repo_root / "project/run_scripts/ode_alloc/p0_artifact_lock_r1.json",
+            alias,
+        )
+        device_properties = torch.cuda.get_device_properties(0)
+        free_bytes, allocatable_total_bytes = torch.cuda.mem_get_info(0)
+        cold_capacity_receipt = validate_cold_runtime_gpu_capacity(
+            cold_forecast,
+            physical_total_bytes=int(device_properties.total_memory),
+            allocatable_total_bytes=int(allocatable_total_bytes),
+            free_bytes=int(free_bytes),
+        )
+        cuda_runtime_receipt = {
+            **cuda_runtime_receipt,
+            "cold_capacity": cold_capacity_receipt,
+        }
+        stages.record("post_cold_gpu_capacity", cold_capacity_receipt)
     seed_all(COMMON_SEED)
     job_ledger = ComputeLedger()
     load_timer = ComponentTimer(job_ledger)
@@ -3544,7 +3620,44 @@ def run_p1(
         or functional_p_off_mode
         or preservation_all_off_mode
         or newnll_p_soft_hard_mode
+        or cold_structp_softp_noveto_mode
     ):
+        if cold_structp_softp_noveto_mode:
+            from .cold_start_target import run_cold_diagnostic
+
+            return run_cold_diagnostic(
+                model,
+                tokenizer,
+                alias=alias,
+                destination=destination,
+                raw_root=raw_root,
+                stages=stages,
+                source_head=source_head,
+                requests=stream_batches[0],
+                stream=stream,
+                hparams=hparams,
+                projector=projector,
+                contexts=contexts,
+                covariance_registry=covariance_registry,
+                projector_sha256=artifact_guard.spec["projector_sha256"],
+                controller_lock=controller_lock,
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                theta0_cache=theta0_cache,
+                dataset_path=dataset,
+                mutation_lock=mutation_lock,
+                touched=touched,
+                base_receipt=base_receipt,
+                base_values=base_values,
+                artifact_guard=artifact_guard,
+                artifact_receipt=artifact_receipt,
+                numerical_sha256=numerical_sha256,
+                context_sha256=context_sha256,
+                cuda_runtime_receipt=cuda_runtime_receipt,
+                job_ledger=job_ledger,
+                write_once=_atomic_write_once,
+            )
         from .p1_adaptive_runtime import run_adaptive_diagnostic
 
         target_kwargs: dict[str, Any] = {}
