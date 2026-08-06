@@ -37,6 +37,7 @@ from project.run_scripts.ode_bf.resource import gpu_count_from_tres
 
 SESSION_ID = "019fc63e-5217-7250-9c22-c5b2ec4248f0"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1"
+FIXED_E8_REVIEW_PARENT_HEAD = "7faa432b3264cae83355775a3fde2d7bbfc3bab2"
 SERVER1_PROJECT_GPU_CAP = 3
 APPROVAL_ENV = "ODEEDIT_S05_P1R7_RUN_APPROVAL"
 SUBMISSION_NAMESPACE = "s05-cold-fixed-e8-structfunc-soft-p1r7-v1"
@@ -94,6 +95,7 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     approval = os.environ.get(APPROVAL_ENV)
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
+    scientific_parent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(
         ["git", "status", "--porcelain", "--untracked-files=no"]
@@ -106,7 +108,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         raise ODEBFContractError("fixed E8 checkpoint approval is absent")
     if (
         head != source_head
-        or parent != FIXED_E8_PARENT_HEAD
+        or parent != FIXED_E8_REVIEW_PARENT_HEAD
+        or scientific_parent != FIXED_E8_PARENT_HEAD
         or branch != EXECUTION_BRANCH
         or ancestor.returncode != 0
         or dirty
@@ -115,8 +118,9 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     return {
         "checkpoint_bound_approval": expected_approval,
         "execution_head": head,
-        "exact_parent": parent,
-        "parent_is_ancestor": True,
+        "exact_review_parent": parent,
+        "exact_scientific_parent": scientific_parent,
+        "scientific_parent_is_ancestor": True,
         "branch": branch,
         "tracked_tree_clean": True,
     }
@@ -133,6 +137,8 @@ def _source_manifest_gate(source_head: str) -> str:
     if (
         value.get("instruction_id") != FIXED_E8_INSTRUCTION_ID
         or value.get("expected_parent") != FIXED_E8_PARENT_HEAD
+        or value.get("execution_review_parent")
+        != FIXED_E8_REVIEW_PARENT_HEAD
         or value.get("execution_head_policy") != "runtime-git-head"
         or not isinstance(entries, list)
         or not entries

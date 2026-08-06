@@ -13,6 +13,7 @@ from unittest import mock
 import numpy as np
 import torch
 
+from project.run_scripts.ode_bf.accounting import ComputeLedger
 from project.run_scripts.ode_bf import cold_start_target
 from project.run_scripts.ode_bf import fixed_e8_runtime
 from project.run_scripts.ode_bf.contracts import ODEBFContractError, ODEBFStateError
@@ -194,6 +195,81 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
         self.assertEqual(result.velocity, (0.0,) * 5)
         self.assertEqual(result.applied_coefficient, (0.0,) * 5)
         self.assertEqual(result.p_max, 0.0)
+        payload = result.raw_free_payload()
+        self.assertFalse(payload["matched_solver_schedule"])
+        self.assertEqual(payload["actual_logical_qp_count"], 0)
+
+    def test_factual_failed_h_p_observation_does_not_block_grid(self) -> None:
+        observed = {
+            "historical": {"passed": True},
+            "pretrained": {"passed": False},
+            "trust": {"passed": True},
+            "functional_h": {"passed": True},
+            "functional_p": {"passed": False},
+        }
+        verdict, receipt = fixed_e8_runtime._fixed_e8_factual_online_feasibility(
+            observed, history_item_count=0
+        )
+        self.assertFalse(verdict.structural_p)
+        self.assertFalse(verdict.functional_p)
+        self.assertFalse(verdict.all_pass)
+        self.assertFalse(receipt["all_observed_components_pass"])
+        self.assertEqual(
+            receipt["components"]["structural_h"]["status"],
+            "INACTIVE_EMPTY_HISTORY",
+        )
+        self.assertEqual(receipt["clock_decision_influence_count"], 0)
+
+        ledger = ComputeLedger()
+        clock = FixedE8Clock()
+        point = clock.begin_field()
+        transition = fixed_e8_runtime._fixed_e8_advance_grid_transition(
+            ledger,
+            clock,
+            point,
+            scientific_observation={
+                "structural_p": False,
+                "functional_p": False,
+            },
+        )
+        self.assertEqual(clock.tau, Fraction(1, 8))
+        self.assertEqual(ledger.counters["trial"], 1)
+        self.assertEqual(transition["scientific_rejection_count"], 0)
+
+    def test_actual_normal_and_zero_write_solver_accounting(self) -> None:
+        normal = solve_fixed_e8_routing(
+            _problem(), _inventory(), arm=FixedE8Arm.SOFT
+        )
+        actual = fixed_e8_runtime._fixed_e8_solver_accounting(normal)
+        self.assertEqual(actual["actual_logical_qp_certificate_count"], 4)
+        self.assertEqual(actual["actual_optimizer_backend_invocation_count"], 5)
+        self.assertEqual(actual["actual_numerical_backend_continuation_count"], 1)
+        self.assertTrue(actual["solver_schedule_matches_static_maximum"])
+        stage2 = normal.certificates[-1].raw_free_payload()
+        self.assertEqual(stage2["numerical_backend_continuation_count"], 1)
+        self.assertEqual(
+            stage2["numerical_backend_continuation_role"],
+            "FIXED_NUMERICAL_BACKEND_CONTINUATION_SAME_QP",
+        )
+        self.assertEqual(stage2["scientific_retry_count"], 0)
+
+        zero = solve_fixed_e8_routing(
+            _problem(progress=(-0.4, 0.0, -0.2, -0.1, -0.01)),
+            _inventory(),
+            arm=FixedE8Arm.NEUTRAL,
+        )
+        zero_actual = fixed_e8_runtime._fixed_e8_solver_accounting(zero)
+        self.assertEqual(zero_actual["actual_logical_qp_certificate_count"], 0)
+        self.assertEqual(
+            zero_actual["actual_optimizer_backend_invocation_count"], 0
+        )
+        self.assertEqual(
+            zero_actual["actual_numerical_backend_continuation_count"], 0
+        )
+        self.assertFalse(
+            zero_actual["solver_schedule_matches_static_maximum"]
+        )
+        self.assertTrue(zero_actual["static_operation_counts_are_maximum_ceiling"])
 
     def test_empty_history_is_inactive_and_adds_no_probe_endpoints(self) -> None:
         inventory = _inventory(history_item_count=0)
@@ -429,7 +505,12 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             & called
         )
         self.assertNotIn("retry_index", attributes)
-        self.assertIn("advance", called)
+        self.assertIn("_fixed_e8_advance_grid_transition", called)
+        transition_source = inspect.getsource(
+            fixed_e8_runtime._fixed_e8_advance_grid_transition
+        )
+        self.assertIn("clock.advance", transition_source)
+        self.assertIn('ledger.increment("trial")', transition_source)
         source = inspect.getsource(fixed_e8_runtime)
         self.assertNotIn("_functional_p_probe_and_transform", source)
         self.assertNotIn("FUNCTIONAL_P_BUDGET", source)
@@ -607,12 +688,17 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
         # approval must fail before any state/root/scheduler write is reachable.
         calls: list[tuple[str, ...]] = []
 
+        child = "d" * 40
+
         def fake_run(args, *, check=True):
             del check
             calls.append(tuple(args))
             output = {
-                ("git", "rev-parse", "HEAD"): FIXED_E8_PARENT_HEAD + "\n",
-                ("git", "rev-parse", "HEAD^"): "c" * 40 + "\n",
+                ("git", "rev-parse", "HEAD"): child + "\n",
+                ("git", "rev-parse", "HEAD^"): (
+                    fixed_e8_submit.FIXED_E8_REVIEW_PARENT_HEAD + "\n"
+                ),
+                ("git", "rev-parse", "HEAD^^"): FIXED_E8_PARENT_HEAD + "\n",
                 ("git", "branch", "--show-current"): (
                     "codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1\n"
                 ),
@@ -627,7 +713,7 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
                     "merge-base",
                     "--is-ancestor",
                     FIXED_E8_PARENT_HEAD,
-                    FIXED_E8_PARENT_HEAD,
+                    child,
                 ): "",
             }[tuple(args)]
             return SimpleNamespace(stdout=output, stderr="", returncode=0)
@@ -636,9 +722,45 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             with mock.patch.dict(os.environ, {}, clear=True):
                 with self.assertRaisesRegex(ODEBFContractError, "approval"):
                     fixed_e8_submit._execution_provenance_gate(
-                        FIXED_E8_PARENT_HEAD
+                        child
                     )
         self.assertFalse(any(item and item[0] in {"sbatch", "scontrol"} for item in calls))
+
+        with mock.patch.object(fixed_e8_submit, "_run", side_effect=fake_run):
+            with mock.patch.dict(
+                os.environ,
+                {
+                    fixed_e8_submit.APPROVAL_ENV: (
+                        f"{FIXED_E8_INSTRUCTION_ID}:{child}"
+                    )
+                },
+                clear=True,
+            ):
+                receipt = fixed_e8_submit._execution_provenance_gate(child)
+        self.assertEqual(
+            receipt["exact_review_parent"],
+            fixed_e8_submit.FIXED_E8_REVIEW_PARENT_HEAD,
+        )
+        self.assertEqual(receipt["exact_scientific_parent"], FIXED_E8_PARENT_HEAD)
+
+        def wrong_parent(args, *, check=True):
+            result = fake_run(args, check=check)
+            if tuple(args) == ("git", "rev-parse", "HEAD^"):
+                return SimpleNamespace(stdout="e" * 40 + "\n", stderr="", returncode=0)
+            return result
+
+        with mock.patch.object(fixed_e8_submit, "_run", side_effect=wrong_parent):
+            with mock.patch.dict(
+                os.environ,
+                {
+                    fixed_e8_submit.APPROVAL_ENV: (
+                        f"{FIXED_E8_INSTRUCTION_ID}:{child}"
+                    )
+                },
+                clear=True,
+            ):
+                with self.assertRaisesRegex(ODEBFContractError, "provenance"):
+                    fixed_e8_submit._execution_provenance_gate(child)
 
     def test_layer_local_fz_contract_is_retained_by_reference(self) -> None:
         source = inspect.getsource(cold_start_target._ColdLayerLocalTargetOverlay)

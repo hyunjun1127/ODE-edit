@@ -364,7 +364,22 @@ class FixedE8SolverCertificate:
     passed: bool
 
     def raw_free_payload(self) -> dict[str, Any]:
-        return asdict(self)
+        payload = asdict(self)
+        continuation_count = max(self.optimizer_pass_count - 1, 0)
+        payload.update(
+            {
+                "numerical_backend_continuation_count": continuation_count,
+                "numerical_backend_continuation_role": (
+                    "FIXED_NUMERICAL_BACKEND_CONTINUATION_SAME_QP"
+                    if continuation_count
+                    else "NONE"
+                ),
+                "scientific_retry_count": 0,
+                "field_rebuild_count": 0,
+                "candidate_evaluation_count": 0,
+            }
+        )
+        return payload
 
 
 @dataclass(frozen=True, slots=True)
@@ -427,6 +442,18 @@ class FixedE8RoutingResult:
             raise ODEBFContractError("fixed E8 routing identity differs")
 
     def raw_free_payload(self) -> dict[str, Any]:
+        logical = len(self.certificates)
+        backend = sum(item.optimizer_pass_count for item in self.certificates)
+        continuation = sum(
+            max(item.optimizer_pass_count - 1, 0)
+            for item in self.certificates
+        )
+        maximum_schedule = bool(
+            self.mode is FixedE8StepMode.JOINT_WRITE
+            and logical == 4
+            and backend == 5
+            and continuation == 1
+        )
         return {
             "arm": self.arm.value,
             "mode": self.mode.value,
@@ -450,7 +477,16 @@ class FixedE8RoutingResult:
                 if self.arm is FixedE8Arm.NEUTRAL
                 else "JOINT_SOFT_LEXICOGRAPHIC"
             ),
-            "matched_solver_schedule": True,
+            "matched_solver_schedule": maximum_schedule,
+            "solver_schedule_kind": (
+                "FULL_LEXICOGRAPHIC_MAXIMUM_SCHEDULE"
+                if maximum_schedule
+                else "ZERO_WRITE_REDUCED_TECHNICAL_SCHEDULE"
+            ),
+            "actual_logical_qp_count": logical,
+            "actual_optimizer_backend_invocation_count": backend,
+            "actual_numerical_backend_continuation_count": continuation,
+            "static_operation_counts_are_maximum_ceiling": True,
             "soft_shadow_decision_influence_count": (
                 0 if self.arm is FixedE8Arm.NEUTRAL else 1
             ),
@@ -832,7 +868,7 @@ def _maximum_progress(
         raise ODEBFContractError("fixed E8 maximum progress differs")
     certificate = FixedE8SolverCertificate(
         **{
-            **certificate.raw_free_payload(),
+            **asdict(certificate),
             "p_max": max(p_max, 0.0),
         }
     )
@@ -1069,6 +1105,15 @@ def solve_fixed_e8_routing(
             else "JOINT_SOFT_LEXICOGRAPHIC"
         ),
         "matched_solver_schedule": True,
+        "solver_schedule_kind": "FULL_LEXICOGRAPHIC_MAXIMUM_SCHEDULE",
+        "actual_logical_qp_count": len(certificates),
+        "actual_optimizer_backend_invocation_count": sum(
+            item.optimizer_pass_count for item in certificates
+        ),
+        "actual_numerical_backend_continuation_count": sum(
+            max(item.optimizer_pass_count - 1, 0) for item in certificates
+        ),
+        "static_operation_counts_are_maximum_ceiling": True,
         "soft_shadow_decision_influence_count": (
             0 if selected is FixedE8Arm.NEUTRAL else 1
         ),
@@ -1129,7 +1174,16 @@ def _zero_write_result(
         "certificates": [item.raw_free_payload() for item in certificates],
         "target_only_recovery_consumes_grid_interval": True,
         "retry_count": 0,
-        "matched_solver_schedule": True,
+        "matched_solver_schedule": False,
+        "solver_schedule_kind": "ZERO_WRITE_REDUCED_TECHNICAL_SCHEDULE",
+        "actual_logical_qp_count": len(certificates),
+        "actual_optimizer_backend_invocation_count": sum(
+            item.optimizer_pass_count for item in certificates
+        ),
+        "actual_numerical_backend_continuation_count": sum(
+            max(item.optimizer_pass_count - 1, 0) for item in certificates
+        ),
+        "static_operation_counts_are_maximum_ceiling": True,
     }
     return FixedE8RoutingResult(
         arm,

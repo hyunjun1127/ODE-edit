@@ -30,6 +30,8 @@ from .fixed_e8_soft_routing import (
     FIXED_E8_METHOD_ID,
     FixedE8Arm,
     FixedE8Clock,
+    FixedE8GridPoint,
+    FixedE8OperationCeiling,
     FixedE8RoutingResult,
     FixedE8SoftInventory,
     FixedE8StepMode,
@@ -204,6 +206,124 @@ class FixedE8Rollout:
     functional_p_decision: str
     preservation_constraints: str
     functional_p_field_policy: str
+
+
+def _fixed_e8_solver_accounting(
+    routing: FixedE8RoutingResult,
+) -> dict[str, Any]:
+    logical = len(routing.certificates)
+    backend = sum(item.optimizer_pass_count for item in routing.certificates)
+    continuation = sum(
+        max(item.optimizer_pass_count - 1, 0)
+        for item in routing.certificates
+    )
+    if backend != logical + continuation:
+        raise ODEBFContractError("fixed E8 optimizer accounting differs")
+    maximum_schedule = bool(
+        routing.mode is FixedE8StepMode.JOINT_WRITE
+        and logical == 4
+        and backend == 5
+        and continuation == 1
+    )
+    return {
+        "actual_logical_qp_certificate_count": logical,
+        "actual_optimizer_backend_invocation_count": backend,
+        "actual_numerical_backend_continuation_count": continuation,
+        "numerical_backend_continuation_role": (
+            "FIXED_NUMERICAL_BACKEND_CONTINUATION_SAME_QP"
+            if continuation
+            else "NONE"
+        ),
+        "solver_schedule_matches_static_maximum": maximum_schedule,
+        "static_operation_counts_are_maximum_ceiling": True,
+        "scientific_retry_count": 0,
+    }
+
+
+def _fixed_e8_factual_online_feasibility(
+    structural_functional: Mapping[str, Any],
+    *,
+    history_item_count: int,
+) -> tuple[FeasibilityVerdict, dict[str, Any]]:
+    def observed(component: str, key: str = "passed") -> bool:
+        value = structural_functional.get(component)
+        if not isinstance(value, Mapping) or type(value.get(key)) is not bool:
+            raise ODEBFContractError(
+                f"fixed E8 factual {component} observation differs"
+            )
+        return bool(value[key])
+
+    verdict = FeasibilityVerdict(
+        observed("historical"),
+        observed("pretrained"),
+        observed("trust"),
+        observed("functional_h"),
+        observed("functional_p"),
+        True,
+    )
+    h_status = (
+        "ACTIVE_OBSERVATION_ONLY"
+        if history_item_count > 0
+        else "INACTIVE_EMPTY_HISTORY"
+    )
+    payload = {
+        "role": "OBSERVATION_ONLY",
+        "clock_decision_influence_count": 0,
+        "first_hit_decision_influence_count": 0,
+        "endpoint_decision_influence_count": 0,
+        "components": {
+            "structural_h": {
+                "passed": verdict.structural_h,
+                "status": h_status,
+                "decision_influence_count": 0,
+            },
+            "structural_p": {
+                "passed": verdict.structural_p,
+                "status": "ACTIVE_OBSERVATION_ONLY",
+                "decision_influence_count": 0,
+            },
+            "functional_h": {
+                "passed": verdict.functional_h,
+                "status": h_status,
+                "decision_influence_count": 0,
+            },
+            "functional_p": {
+                "passed": verdict.functional_p,
+                "status": "ACTIVE_OBSERVATION_ONLY",
+                "decision_influence_count": 0,
+            },
+            "write_trust": {
+                "passed": verdict.trust,
+                "status": "TECHNICAL_INTEGRATION_BOUND",
+                "decision_influence_count": 1,
+            },
+            "authoritative_bf16": {
+                "passed": verdict.authoritative_bf16,
+                "status": "TECHNICAL_FAIL_CLOSE_VERIFIED",
+                "decision_influence_count": 1,
+            },
+        },
+        "all_observed_components_pass": verdict.all_pass,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return verdict, payload
+
+
+def _fixed_e8_advance_grid_transition(
+    ledger: ComputeLedger,
+    clock: FixedE8Clock,
+    point: FixedE8GridPoint,
+    *,
+    scientific_observation: Mapping[str, Any],
+) -> dict[str, Any]:
+    before = ledger.counters["trial"]
+    ledger.increment("trial")
+    transition = clock.advance(
+        point, scientific_observation=scientific_observation
+    )
+    if ledger.counters["trial"] != before + 1:
+        raise ODEBFStateError("fixed E8 trajectory trial accounting differs")
+    return transition
 
 
 class FixedE8ReceiptRecorder:
@@ -1123,6 +1243,10 @@ def _run_fixed_variant(
     controller_candidate_functional_endpoint_count = 0
     field_backward_batch_count = 0
     target_backward_batch_count = 0
+    actual_logical_qp_certificate_count = 0
+    actual_optimizer_backend_invocation_count = 0
+    actual_numerical_backend_continuation_count = 0
+    zero_write_field_count = 0
     for step_index in range(FIXED_E8_GRID_COUNT):
         point = clock.begin_field()
         replay_entry = _controller_replay_entry(
@@ -1175,6 +1299,18 @@ def _run_fixed_variant(
             lookup_positions=lookup_positions,
             target_layer_name=target_layer_name,
         )
+        solver_accounting = _fixed_e8_solver_accounting(routing)
+        actual_logical_qp_certificate_count += int(
+            solver_accounting["actual_logical_qp_certificate_count"]
+        )
+        actual_optimizer_backend_invocation_count += int(
+            solver_accounting["actual_optimizer_backend_invocation_count"]
+        )
+        actual_numerical_backend_continuation_count += int(
+            solver_accounting["actual_numerical_backend_continuation_count"]
+        )
+        if routing.mode is FixedE8StepMode.ZERO_WRITE_TARGET_RECOVERY:
+            zero_write_field_count += 1
         if probe_payload["exact_basis_endpoint_count"] != 6:
             raise ODEBFContractError(
                 "fixed E8 functional basis operation count differs"
@@ -1264,6 +1400,22 @@ def _run_fixed_variant(
             @ built.problem.trust_metric
             @ np.asarray(routing.velocity)
         )
+        functional_h_observation = {
+            **_risk_payload(functional.historical),
+            "status": (
+                "ACTIVE_OBSERVATION_ONLY"
+                if inventory.history_item_count > 0
+                else "INACTIVE_EMPTY_HISTORY"
+            ),
+            "role": "OBSERVATION_ONLY",
+            "decision_influence_count": 0,
+        }
+        functional_p_observation = {
+            **_risk_payload(functional.pretrained),
+            "status": "ACTIVE_OBSERVATION_ONLY",
+            "role": "OBSERVATION_ONLY",
+            "decision_influence_count": 0,
+        }
         structural_payload = {
             "historical": {
                 "value": structural_h_value,
@@ -1273,6 +1425,7 @@ def _run_fixed_variant(
                 "passed": structural_h_value
                 <= built.problem.historical.budget + 1.0e-8,
                 "decision_influence_count": 0,
+                "role": "OBSERVATION_ONLY",
                 "status": (
                     "INACTIVE_EMPTY_HISTORY"
                     if inventory.history_item_count == 0
@@ -1287,6 +1440,7 @@ def _run_fixed_variant(
                 "passed": structural_p_value
                 <= built.problem.pretrained.budget + 1.0e-8,
                 "decision_influence_count": 0,
+                "role": "OBSERVATION_ONLY",
                 "status": "ACTIVE_SOFT_SCORE",
             },
             "trust": {
@@ -1297,10 +1451,19 @@ def _run_fixed_variant(
                 "role": "TECHNICAL_INTEGRATION_BOUND",
                 "decision_influence_count": 1,
             },
-            "functional_h": _risk_payload(functional.historical),
-            "functional_p": _risk_payload(functional.pretrained),
+            "functional_h": functional_h_observation,
+            "functional_p": functional_p_observation,
             "functional_candidate_veto_influence_count": 0,
         }
+        factual_feasibility, factual_feasibility_payload = (
+            _fixed_e8_factual_online_feasibility(
+                structural_payload,
+                history_item_count=inventory.history_item_count,
+            )
+        )
+        structural_payload["online_feasibility_observation"] = (
+            factual_feasibility_payload
+        )
         progress_payload = {
             "predicted": predicted_progress,
             "actual": actual_progress,
@@ -1321,6 +1484,7 @@ def _run_fixed_variant(
             "field_semantic_sha256": field_receipt.field_semantic_sha256,
             "routing": routing.raw_free_payload(),
             "functional_basis": inventory.raw_free_payload(),
+            "actual_solver_accounting": solver_accounting,
             "probe_receipt_sha256": probe_payload["identity_sha256"],
             "target_velocity": dict(target_velocity_receipt),
             "target_step_certificate": target_certificate,
@@ -1344,7 +1508,9 @@ def _run_fixed_variant(
             "mode": routing.mode.value,
         }
         trial_sha = recorder.trial(trial_payload)
-        transition = clock.advance(
+        transition = _fixed_e8_advance_grid_transition(
+            ledger,
+            clock,
             point,
             scientific_observation={
                 "actual_progress": actual_progress,
@@ -1383,7 +1549,7 @@ def _run_fixed_variant(
             point.tau_after,
             snapshot_sha,
             evaluation.batch_success.numerator,
-            True,
+            factual_feasibility.all_pass,
         )
         first_hit.append(hit)
         first_observed = first_hit.first_online is hit
@@ -1427,7 +1593,7 @@ def _run_fixed_variant(
                 target_trial.clone(),
                 snapshot_sha,
                 evaluation,
-                FeasibilityVerdict(True, True, True, True, True, True),
+                factual_feasibility,
                 structural_payload,
                 routing_payload,
                 progress_payload,
@@ -1455,6 +1621,11 @@ def _run_fixed_variant(
         or controller_candidate_functional_endpoint_count != 8
         or field_backward_batch_count != 8
         or target_backward_batch_count != 8
+        or ledger.counters["trial"] != FIXED_E8_GRID_COUNT
+        or ledger.counters["qp_solve"]
+        != actual_logical_qp_certificate_count
+        or ledger.counters["qp_certificate"]
+        != actual_logical_qp_certificate_count
     ):
         raise ODEBFStateError("fixed E8 terminal grid invariant differs")
     if ledger.completed_correction_cycles == 0:
@@ -1514,6 +1685,29 @@ def _run_fixed_variant(
                 terminal_confirmations
             ),
             "solver_receipt_count": len(recorder.solver_hashes),
+            "actual_logical_qp_certificate_count": (
+                actual_logical_qp_certificate_count
+            ),
+            "actual_optimizer_backend_invocation_count": (
+                actual_optimizer_backend_invocation_count
+            ),
+            "actual_numerical_backend_continuation_count": (
+                actual_numerical_backend_continuation_count
+            ),
+            "actual_trial_count": ledger.counters["trial"],
+            "actual_zero_write_field_count": zero_write_field_count,
+            "solver_schedule_matches_static_maximum": (
+                zero_write_field_count == 0
+                and actual_logical_qp_certificate_count
+                == FIXED_E8_GRID_COUNT * 4
+                and actual_optimizer_backend_invocation_count
+                == FIXED_E8_GRID_COUNT * 5
+                and actual_numerical_backend_continuation_count
+                == FIXED_E8_GRID_COUNT
+            ),
+            "static_operation_counts_semantics": "MAXIMUM_CEILING",
+            "static_operation_ceiling": FixedE8OperationCeiling()
+            .raw_free_payload()["per_arm"],
             "candidate_count": len(snapshots),
             "field_count": len(recorder.field_hashes),
         },
