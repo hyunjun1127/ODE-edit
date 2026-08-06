@@ -854,6 +854,21 @@ class P1DynamicField:
         }
 
 
+def _validate_dynamic_factor_capacity(
+    value: float, *, allow_zero_capacity: bool
+) -> float:
+    if not isinstance(allow_zero_capacity, bool):
+        raise ODEBFContractError("P1 zero-capacity policy is not boolean")
+    observed = float(value)
+    if (
+        not math.isfinite(observed)
+        or observed < 0.0
+        or (observed == 0.0 and not allow_zero_capacity)
+    ):
+        raise ODEBFContractError("P1 dynamic arm has nonpositive capacity")
+    return observed
+
+
 def _virtual_context(
     model: torch.nn.Module,
     factors: Mapping[str, Sequence[WaypointFactor]],
@@ -883,8 +898,12 @@ def build_p1_dynamic_field(
     residual_tolerance: float,
     ledger: ComputeLedger,
     residual_policy: str = FULL_CURRENT_RESIDUAL_DEFINITION,
+    allow_zero_capacity: bool = False,
 ) -> P1DynamicField:
     """Rebuild all layer arms at one accepted virtual joint state."""
+
+    if not isinstance(allow_zero_capacity, bool):
+        raise ODEBFContractError("P1 zero-capacity policy is not boolean")
 
     from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
     from easyeditor.util import nethook
@@ -991,9 +1010,10 @@ def build_p1_dynamic_field(
             )
             right_gram = q.T.to(dtype=torch.float64) @ q.to(dtype=torch.float64)
             left_gram = residual.T.to(dtype=torch.float64) @ residual.to(dtype=torch.float64)
-            frobenius_sq = float(torch.sum(left_gram * right_gram))
-            if not math.isfinite(frobenius_sq) or frobenius_sq <= 0.0:
-                raise ODEBFContractError("P1 dynamic arm has nonpositive capacity")
+            frobenius_sq = _validate_dynamic_factor_capacity(
+                float(torch.sum(left_gram * right_gram)),
+                allow_zero_capacity=allow_zero_capacity,
+            )
             history_action = (
                 residual.to(dtype=torch.float64)
                 @ (q.to(dtype=torch.float64).T @ risk.to(dtype=torch.float64))

@@ -17,6 +17,7 @@ import torch
 from project.run_scripts.ode_bf.accounting import ComputeLedger
 from project.run_scripts.ode_bf import cold_start_target
 from project.run_scripts.ode_bf import fixed_e8_runtime
+from project.run_scripts.ode_bf import p1_backend
 from project.run_scripts.ode_bf.contracts import (
     ODEBFContractError,
     ODEBFStateError,
@@ -154,6 +155,86 @@ class _ForbiddenObservation(dict[str, object]):
 
 
 class FixedE8SoftRoutingTests(unittest.TestCase):
+    def test_zero_capacity_is_fixed_e8_explicit_and_legacy_fail_closed(self) -> None:
+        signature = inspect.signature(p1_backend.build_p1_dynamic_field)
+        self.assertFalse(signature.parameters["allow_zero_capacity"].default)
+
+        self.assertEqual(
+            p1_backend._validate_dynamic_factor_capacity(
+                0.0, allow_zero_capacity=True
+            ),
+            0.0,
+        )
+        self.assertEqual(
+            p1_backend._validate_dynamic_factor_capacity(
+                1.0, allow_zero_capacity=False
+            ),
+            1.0,
+        )
+        for value, policy in (
+            (0.0, False),
+            (-1.0e-12, True),
+            (float("nan"), True),
+            (float("inf"), True),
+        ):
+            with self.subTest(value=value, policy=policy):
+                with self.assertRaises(ODEBFContractError):
+                    p1_backend._validate_dynamic_factor_capacity(
+                        value, allow_zero_capacity=policy
+                    )
+        with self.assertRaises(ODEBFContractError):
+            p1_backend._validate_dynamic_factor_capacity(
+                0.0, allow_zero_capacity=1  # type: ignore[arg-type]
+            )
+
+        backend_source = inspect.getsource(p1_backend.build_p1_dynamic_field)
+        self.assertIn("_validate_dynamic_factor_capacity", backend_source)
+
+        fixed_source = inspect.getsource(fixed_e8_runtime._build_fixed_field_with_metric)
+        tree = ast.parse(fixed_source)
+        calls = [
+            node
+            for node in ast.walk(tree)
+            if isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name)
+            and node.func.id == "build_p1_dynamic_field"
+        ]
+        self.assertEqual(len(calls), 1)
+        policy = next(
+            keyword.value
+            for keyword in calls[0].keywords
+            if keyword.arg == "allow_zero_capacity"
+        )
+        self.assertIsInstance(policy, ast.Constant)
+        self.assertIs(policy.value, True)
+
+        other_calls: list[ast.Call] = []
+        for name, value in vars(p1_backend).items():
+            if not inspect.isfunction(value) or name == "build_p1_dynamic_field":
+                continue
+            try:
+                source = inspect.getsource(value)
+            except (OSError, TypeError):
+                continue
+            for node in ast.walk(ast.parse(source)):
+                if (
+                    isinstance(node, ast.Call)
+                    and isinstance(node.func, ast.Name)
+                    and node.func.id == "build_p1_dynamic_field"
+                ):
+                    other_calls.append(node)
+        self.assertTrue(
+            all(
+                not any(
+                    keyword.arg == "allow_zero_capacity"
+                    and isinstance(keyword.value, ast.Constant)
+                    and keyword.value.value is True
+                    for keyword in call.keywords
+                )
+                for call in other_calls
+            )
+        )
+
     def test_clock_is_exact_eight_without_scientific_decision_path(self) -> None:
         clock = FixedE8Clock()
         receipts = []
@@ -570,7 +651,7 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             self.assertEqual(forecast.qp_backend_invocations_per_arm, 40)
             self.assertEqual(
                 expected_fixed_e8_result_name(alias),
-                f"s05-cold-fixed-e8-soft-p1r7-r4-{alias}-v1",
+                f"s05-cold-fixed-e8-soft-p1r7-r5-{alias}-v1",
             )
             receipt = validate_fixed_e8_runtime_gpu_capacity(
                 forecast,
@@ -817,22 +898,25 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             output = {
                 ("git", "rev-parse", "HEAD"): child + "\n",
                 ("git", "rev-parse", "HEAD^"): (
-                    fixed_e8_submit.FIXED_E8_MEMORY_PARENT_HEAD + "\n"
+                    fixed_e8_submit.FIXED_E8_ZERO_CAPACITY_PARENT_HEAD + "\n"
                 ),
                 ("git", "rev-parse", "HEAD^^"): (
+                    fixed_e8_submit.FIXED_E8_MEMORY_PARENT_HEAD + "\n"
+                ),
+                ("git", "rev-parse", "HEAD^^^"): (
                     fixed_e8_submit.FIXED_E8_NUMERICAL_SCHEMA_PARENT_HEAD
                     + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^"): (
+                ("git", "rev-parse", "HEAD^^^^"): (
                     fixed_e8_submit.FIXED_E8_LAUNCHER_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^"): (
                     fixed_e8_submit.FIXED_E8_REPAIR_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_REVIEW_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^"): FIXED_E8_PARENT_HEAD + "\n",
+                ("git", "rev-parse", "HEAD^^^^^^^"): FIXED_E8_PARENT_HEAD + "\n",
                 ("git", "branch", "--show-current"): (
                     "codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1\n"
                 ),
@@ -871,6 +955,10 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
                 clear=True,
             ):
                 receipt = fixed_e8_submit._execution_provenance_gate(child)
+        self.assertEqual(
+            receipt["exact_zero_capacity_parent"],
+            fixed_e8_submit.FIXED_E8_ZERO_CAPACITY_PARENT_HEAD,
+        )
         self.assertEqual(
             receipt["exact_memory_parent"],
             fixed_e8_submit.FIXED_E8_MEMORY_PARENT_HEAD,

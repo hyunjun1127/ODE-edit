@@ -896,6 +896,7 @@ def _build_fixed_field_with_metric(
         residual_tolerance=lock.residual_tolerance,
         ledger=ledger,
         residual_policy=FULL_CURRENT_RESIDUAL_DEFINITION,
+        allow_zero_capacity=True,
     )
     signed = _fixed_e8_signed_progress_gradient(
         model,
