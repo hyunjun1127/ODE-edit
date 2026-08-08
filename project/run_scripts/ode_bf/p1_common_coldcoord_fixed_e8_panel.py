@@ -32,7 +32,7 @@ from .sampling import LineageSeal, SamplingSeal, StatelessReplaySchedule
 
 
 COMMON_COLD_SCHEMA_NAMESPACE = "ode-edit-s05-common-coldcoord-fixed-e8-p1r10"
-COMMON_COLD_RESULT_TOKEN = "common-coldcoord-fixed-e8-p1r10-v1"
+COMMON_COLD_RESULT_TOKEN = "common-coldcoord-fixed-e8-p1r10-r1-v1"
 COMMON_COLD_PARENT_HEAD = "3711f371c16e360d809dd5f0b4b1a5271a870c26"
 COMMON_COLD_CASE_SEAL_FILE = "p1r10_common_coldcoord_cf_b10_seal.json"
 COMMON_COLD_NUMERICAL_LOCK_FILE = (
@@ -119,7 +119,7 @@ WARM_ALLOFF_ROOTS = {
 def expected_common_cold_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("common cold result alias differs")
-    return f"s05-common-coldcoord-fixed-e8-p1r10-{alias}-v1"
+    return f"s05-common-coldcoord-fixed-e8-p1r10-r1-{alias}-v1"
 
 
 def build_common_cold_case_seal(
@@ -435,13 +435,24 @@ def validate_common_cold_runtime_gpu_capacity(
     allocatable_total_bytes: int,
     free_bytes: int,
 ) -> dict[str, Any]:
+    values = (device_property_total_bytes, allocatable_total_bytes, free_bytes)
+    if any(
+        isinstance(value, bool) or not isinstance(value, int) or value <= 0
+        for value in values
+    ):
+        raise ODEBFContractError("common cold GPU capacity receipt differs")
+    # On this locked CUDA device torch.cuda.get_device_properties.total_memory
+    # reports the stable allocatable calibration, while the physical inventory
+    # total is a separate source/forecast provenance fact.  Comparing those two
+    # APIs byte-for-byte is a cross-semantics plumbing error.
+    if device_property_total_bytes != forecast.allocatable_calibration_bytes:
+        raise ODEBFContractError("common cold stable GPU device identity differs")
     if (
         not forecast.fits_envelope
-        or device_property_total_bytes != forecast.physical_total_bytes
         or allocatable_total_bytes > device_property_total_bytes
         or free_bytes > allocatable_total_bytes
     ):
-        raise ODEBFContractError("common cold GPU identity/capacity differs")
+        raise ODEBFContractError("common cold allocatable GPU capacity differs")
     required = forecast.conservative_gpu_peak_mib * 1024 * 1024
     if allocatable_total_bytes < required or free_bytes < required:
         raise ODEBFContractError("common cold runtime GPU capacity is insufficient")
@@ -449,10 +460,12 @@ def validate_common_cold_runtime_gpu_capacity(
         "stable_identity_api": "torch.cuda.get_device_properties.total_memory",
         "stable_device_total_bytes": device_property_total_bytes,
         "physical_inventory_total_bytes": forecast.physical_total_bytes,
+        "physical_inventory_role": "LOCKED_FORECAST_PROVENANCE_ONLY",
         "runtime_capacity_api": "torch.cuda.mem_get_info",
         "allocatable_total_bytes": allocatable_total_bytes,
         "free_bytes": free_bytes,
         "required_free_bytes": required,
+        "physical_and_allocatable_semantics_separate": True,
         "passed": True,
     }
     payload["identity_sha256"] = canonical_hash(payload)

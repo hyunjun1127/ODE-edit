@@ -29,6 +29,8 @@ from project.run_scripts.ode_bf.p1_common_coldcoord_fixed_e8_panel import (
     COMMON_COLD_CASE_SEAL_FILE,
     COMMON_COLD_NUMERICAL_LOCK_FILE,
     COMMON_COLD_PARENT_HEAD,
+    COMMON_COLD_RESULT_TOKEN,
+    expected_common_cold_result_name,
     forecast_common_cold_panel,
     load_and_validate_common_cold_lock,
     verify_common_cold_case_seal,
@@ -425,18 +427,67 @@ class CommonColdCoordinateTests(unittest.TestCase):
         )
         capacity = validate_common_cold_runtime_gpu_capacity(
             forecast,
-            device_property_total_bytes=forecast.physical_total_bytes,
+            device_property_total_bytes=forecast.allocatable_calibration_bytes,
             allocatable_total_bytes=forecast.allocatable_calibration_bytes,
             free_bytes=forecast.allocatable_calibration_bytes,
         )
         self.assertTrue(capacity["passed"])
-        with self.assertRaises(ODEBFContractError):
+        self.assertEqual(
+            capacity["stable_device_total_bytes"],
+            forecast.allocatable_calibration_bytes,
+        )
+        self.assertEqual(
+            capacity["physical_inventory_total_bytes"],
+            forecast.physical_total_bytes,
+        )
+        self.assertEqual(
+            capacity["physical_inventory_role"],
+            "LOCKED_FORECAST_PROVENANCE_ONLY",
+        )
+        self.assertTrue(capacity["physical_and_allocatable_semantics_separate"])
+        with self.assertRaisesRegex(
+            ODEBFContractError, "stable GPU device identity"
+        ):
+            validate_common_cold_runtime_gpu_capacity(
+                forecast,
+                device_property_total_bytes=forecast.physical_total_bytes,
+                allocatable_total_bytes=forecast.allocatable_calibration_bytes,
+                free_bytes=forecast.allocatable_calibration_bytes,
+            )
+        with self.assertRaisesRegex(
+            ODEBFContractError, "allocatable GPU capacity"
+        ):
+            validate_common_cold_runtime_gpu_capacity(
+                forecast,
+                device_property_total_bytes=forecast.allocatable_calibration_bytes,
+                allocatable_total_bytes=forecast.allocatable_calibration_bytes + 1,
+                free_bytes=forecast.allocatable_calibration_bytes,
+            )
+        with self.assertRaisesRegex(
+            ODEBFContractError, "allocatable GPU capacity"
+        ):
             validate_common_cold_runtime_gpu_capacity(
                 forecast,
                 device_property_total_bytes=forecast.allocatable_calibration_bytes,
                 allocatable_total_bytes=forecast.allocatable_calibration_bytes,
-                free_bytes=forecast.allocatable_calibration_bytes,
+                free_bytes=forecast.allocatable_calibration_bytes + 1,
             )
+        required = forecast.conservative_gpu_peak_mib * 1024 * 1024
+        with self.assertRaisesRegex(ODEBFContractError, "insufficient"):
+            validate_common_cold_runtime_gpu_capacity(
+                forecast,
+                device_property_total_bytes=forecast.allocatable_calibration_bytes,
+                allocatable_total_bytes=forecast.allocatable_calibration_bytes,
+                free_bytes=required - 1,
+            )
+        for malformed in (True, 0, -1, 1.5):
+            with self.assertRaisesRegex(ODEBFContractError, "receipt differs"):
+                validate_common_cold_runtime_gpu_capacity(
+                    forecast,
+                    device_property_total_bytes=malformed,  # type: ignore[arg-type]
+                    allocatable_total_bytes=forecast.allocatable_calibration_bytes,
+                    free_bytes=forecast.allocatable_calibration_bytes,
+                )
 
         signature = inspect.signature(p1_runtime.run_p1)
         self.assertFalse(signature.parameters["common_cold_fixed_e8_mode"].default)
@@ -567,13 +618,35 @@ class CommonColdCoordinateTests(unittest.TestCase):
         )
         self.assertFalse(first["unseen_or_fresh_sample_claim_authorized"])
         self.assertEqual(
+            COMMON_COLD_RESULT_TOKEN,
+            "common-coldcoord-fixed-e8-p1r10-r1-v1",
+        )
+        self.assertEqual(
+            expected_common_cold_result_name("llama3-8b-inst"),
+            "s05-common-coldcoord-fixed-e8-p1r10-r1-llama3-8b-inst-v1",
+        )
+        self.assertEqual(
+            common_dry.JOB_NAMES,
+            {
+                "llama3-8b-inst": "odeedit_s05_r10r1_llama",
+                "qwen2.5-7b-inst": "odeedit_s05_r10r1_qwen",
+            },
+        )
+        self.assertEqual(
             common_submit.EXECUTION_BRANCH,
             "codex/odeeditsh1-s05-common-coldcoord-fixed-e8-p1r10-v1",
+        )
+        self.assertEqual(
+            common_submit.EXECUTION_REPAIR_PARENT_HEAD,
+            "d60ddaf765f79f4f4f73c2dc455f8aef7521084e",
         )
         provenance_source = inspect.getsource(
             common_submit._execution_provenance_gate
         )
-        self.assertIn('parent != COMMON_COLD_PARENT_HEAD', provenance_source)
+        self.assertIn('parent != EXECUTION_REPAIR_PARENT_HEAD', provenance_source)
+        self.assertIn(
+            'scientific_parent != COMMON_COLD_PARENT_HEAD', provenance_source
+        )
         self.assertIn('head != source_head', provenance_source)
         self.assertIn('branch != EXECUTION_BRANCH', provenance_source)
         self.assertIn('or dirty', provenance_source)

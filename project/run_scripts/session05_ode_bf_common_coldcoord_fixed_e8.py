@@ -73,7 +73,9 @@ def main(argv: list[str] | None = None) -> int:
             exc,
             repo_root=REPO_ROOT,
             instruction_id=COMMON_COLD_INSTRUCTION_ID,
-            failure_schema="ode-edit-s05-common-coldcoord-fixed-e8-p1r10-failure/v1",
+            failure_schema=(
+                "ode-edit-s05-common-coldcoord-fixed-e8-p1r10-r1-failure/v1"
+            ),
         )
         print(
             json.dumps(

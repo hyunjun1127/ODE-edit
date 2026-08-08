@@ -23,7 +23,7 @@ case "${MODEL_ALIAS}" in
   llama3-8b-inst|qwen2.5-7b-inst) ;;
   *) echo "invalid locked S05 R10 alias" >&2; exit 2 ;;
 esac
-[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "common-coldcoord-fixed-e8-p1r10-v1" ]] || {
+[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "common-coldcoord-fixed-e8-p1r10-r1-v1" ]] || {
   echo "missing locked S05 R10 invocation" >&2
   exit 2
 }
