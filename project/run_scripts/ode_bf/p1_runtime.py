@@ -3205,6 +3205,7 @@ def run_p1(
     newnll_p_soft_hard_mode: bool = False,
     cold_structp_softp_noveto_mode: bool = False,
     fixed_e8_soft_mode: bool = False,
+    common_cold_fixed_e8_mode: bool = False,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3221,10 +3222,17 @@ def run_p1(
             newnll_p_soft_hard_mode,
             cold_structp_softp_noveto_mode,
             fixed_e8_soft_mode,
+            common_cold_fixed_e8_mode,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if fixed_e8_soft_mode:
+    if common_cold_fixed_e8_mode:
+        from .p1_common_coldcoord_fixed_e8_panel import (
+            expected_common_cold_result_name,
+        )
+
+        expected_name = expected_common_cold_result_name(alias)
+    elif fixed_e8_soft_mode:
         from .p1_fixed_e8_soft_panel import expected_fixed_e8_result_name
 
         expected_name = expected_fixed_e8_result_name(alias)
@@ -3288,7 +3296,8 @@ def run_p1(
         and not preservation_all_off_mode
         and not newnll_p_soft_hard_mode
         and not cold_structp_softp_noveto_mode
-        and not fixed_e8_soft_mode,
+        and not fixed_e8_soft_mode
+        and not common_cold_fixed_e8_mode,
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
@@ -3446,20 +3455,53 @@ def run_p1(
     }
     if set(request_by_sha256) != set(collision_by_request):
         raise ODEBFContractError("P1 stream request/collision map differs")
-    if cold_structp_softp_noveto_mode or fixed_e8_soft_mode:
+    if (
+        cold_structp_softp_noveto_mode
+        or fixed_e8_soft_mode
+        or common_cold_fixed_e8_mode
+    ):
         from .p1_cold_structp_softp_noveto_panel import (
             load_cold_requests,
             verify_cold_case_seal,
         )
 
-        cold_stream = verify_cold_case_seal(
-            json.loads(
-                (locks / "p1r6_cold_cf_b10_seal.json").read_text(
-                    encoding="utf-8"
+        if common_cold_fixed_e8_mode:
+            from .p1_common_coldcoord_fixed_e8_panel import (
+                common_cold_schedule,
+                load_and_validate_common_cold_lock,
+                load_common_cold_requests,
+                verify_common_cold_case_seal,
+            )
+
+            cold_stream = verify_common_cold_case_seal(
+                json.loads(
+                    (locks / "p1r10_common_coldcoord_cf_b10_seal.json").read_text(
+                        encoding="utf-8"
+                    )
                 )
             )
-        )
-        cold_requests = load_cold_requests(dataset, cold_stream)
+            cold_requests = load_common_cold_requests(dataset, cold_stream)
+            schedule = common_cold_schedule(sampling_seal)
+            common_numerical, common_numerical_sha256 = (
+                load_and_validate_common_cold_lock(
+                    locks / "numerical_lock_s05_common_coldcoord_fixed_e8.json",
+                    controller_identity_sha256=controller_lock.identity(),
+                    case_root_digest=cold_stream["root_digest"],
+                    population_root_digest=population["root_digest"],
+                    schedule=schedule,
+                )
+            )
+            numerical = common_numerical
+            numerical_sha256 = common_numerical_sha256
+        else:
+            cold_stream = verify_cold_case_seal(
+                json.loads(
+                    (locks / "p1r6_cold_cf_b10_seal.json").read_text(
+                        encoding="utf-8"
+                    )
+                )
+            )
+            cold_requests = load_cold_requests(dataset, cold_stream)
         if fixed_e8_soft_mode:
             from .p1_fixed_e8_soft_panel import (
                 fixed_e8_schedule,
@@ -3483,7 +3525,7 @@ def run_p1(
             )
             numerical = fixed_e8_numerical
             numerical_sha256 = fixed_e8_numerical_sha256
-        else:
+        elif not common_cold_fixed_e8_mode:
             from .p1_cold_structp_softp_noveto_panel import (
                 cold_schedule,
                 validate_cold_lock,
@@ -3532,7 +3574,31 @@ def run_p1(
     )
 
     cuda_runtime_receipt = _initialize_p1_cuda_runtime(stages)
-    if fixed_e8_soft_mode:
+    if common_cold_fixed_e8_mode:
+        from .p1_common_coldcoord_fixed_e8_panel import (
+            forecast_common_cold_panel,
+            validate_common_cold_runtime_gpu_capacity,
+        )
+
+        common_forecast = forecast_common_cold_panel(
+            locks / "p0_artifact_lock.json",
+            repo_root / "project/run_scripts/ode_alloc/p0_artifact_lock_r1.json",
+            alias,
+        )
+        device_properties = torch.cuda.get_device_properties(0)
+        free_bytes, allocatable_total_bytes = torch.cuda.mem_get_info(0)
+        common_capacity_receipt = validate_common_cold_runtime_gpu_capacity(
+            common_forecast,
+            device_property_total_bytes=int(device_properties.total_memory),
+            allocatable_total_bytes=int(allocatable_total_bytes),
+            free_bytes=int(free_bytes),
+        )
+        cuda_runtime_receipt = {
+            **cuda_runtime_receipt,
+            "common_cold_capacity": common_capacity_receipt,
+        }
+        stages.record("post_common_cold_gpu_capacity", common_capacity_receipt)
+    elif fixed_e8_soft_mode:
         from .p1_fixed_e8_soft_panel import (
             forecast_fixed_e8_panel,
             validate_fixed_e8_runtime_gpu_capacity,
@@ -3682,7 +3748,46 @@ def run_p1(
         or newnll_p_soft_hard_mode
         or cold_structp_softp_noveto_mode
         or fixed_e8_soft_mode
+        or common_cold_fixed_e8_mode
     ):
+        if common_cold_fixed_e8_mode:
+            from .common_coldcoord_fixed_e8_runtime import (
+                run_common_coldcoord_fixed_e8_diagnostic,
+            )
+
+            return run_common_coldcoord_fixed_e8_diagnostic(
+                model,
+                tokenizer,
+                alias=alias,
+                destination=destination,
+                raw_root=raw_root,
+                stages=stages,
+                source_head=source_head,
+                requests=cold_requests,
+                stream=cold_stream,
+                hparams=hparams,
+                projector=projector,
+                contexts=contexts,
+                covariance_registry=covariance_registry,
+                projector_sha256=artifact_guard.spec["projector_sha256"],
+                controller_lock=controller_lock,
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                theta0_cache=theta0_cache,
+                dataset_path=dataset,
+                mutation_lock=mutation_lock,
+                touched=touched,
+                base_receipt=base_receipt,
+                base_values=base_values,
+                artifact_guard=artifact_guard,
+                artifact_receipt=artifact_receipt,
+                numerical_sha256=numerical_sha256,
+                context_sha256=context_sha256,
+                cuda_runtime_receipt=cuda_runtime_receipt,
+                job_ledger=job_ledger,
+                write_once=_atomic_write_once,
+            )
         if fixed_e8_soft_mode:
             from .fixed_e8_runtime import run_fixed_e8_diagnostic
 

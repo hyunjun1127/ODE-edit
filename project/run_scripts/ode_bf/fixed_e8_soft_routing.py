@@ -83,6 +83,11 @@ class FixedE8StepMode(str, Enum):
     ZERO_WRITE_TARGET_RECOVERY = "ZERO_WRITE_TARGET_RECOVERY"
 
 
+class FixedE8Stage2FailurePolicy(str, Enum):
+    FAIL_CLOSED = "FAIL_CLOSED"
+    CERTIFIED_STAGE1_FALLBACK = "CERTIFIED_STAGE1_FALLBACK"
+
+
 @dataclass(frozen=True, slots=True)
 class FixedE8GridPoint:
     step_index: int
@@ -480,10 +485,21 @@ class FixedE8RoutingResult:
     diagnostic_shadow_certificates: tuple[FixedE8SolverCertificate, ...]
     soft_shadow_status: str
     identity_sha256: str
+    failed_authoritative_certificates: tuple[FixedE8SolverCertificate, ...] = ()
+    stage2_failure_policy: FixedE8Stage2FailurePolicy = (
+        FixedE8Stage2FailurePolicy.FAIL_CLOSED
+    )
+    selected_solution_source: str = "LEGACY_DEFAULT"
+    stage1_selection_fallback_count: int = 0
+    stage1_selection_receipt: Mapping[str, Any] | None = None
 
     @property
     def certificates(self) -> tuple[FixedE8SolverCertificate, ...]:
-        return self.authoritative_certificates + self.diagnostic_shadow_certificates
+        return (
+            self.authoritative_certificates
+            + self.failed_authoritative_certificates
+            + self.diagnostic_shadow_certificates
+        )
 
     def __post_init__(self) -> None:
         dimension = len(FIXED_E8_LAYER_ORDER)
@@ -531,13 +547,40 @@ class FixedE8RoutingResult:
             for item in self.diagnostic_shadow_certificates
         ):
             raise ODEBFContractError("fixed E8 certificate ownership differs")
+        if any(
+            item.authority_role != "AUTHORITATIVE" or item.passed
+            for item in self.failed_authoritative_certificates
+        ):
+            raise ODEBFContractError("fixed E8 failed certificate ownership differs")
         if self.soft_shadow_status not in (
             "AVAILABLE",
             "SOFT_SHADOW_NUMERIC_UNAVAILABLE",
             "AUTHORITATIVE_SOFT_NOT_SHADOW",
+            "AUTHORITATIVE_STAGE1_FALLBACK",
             "NOT_APPLICABLE_ZERO_WRITE",
         ):
             raise ODEBFContractError("fixed E8 soft shadow status differs")
+        if self.stage2_failure_policy is FixedE8Stage2FailurePolicy.FAIL_CLOSED:
+            if (
+                self.selected_solution_source != "LEGACY_DEFAULT"
+                or self.stage1_selection_fallback_count != 0
+                or self.stage1_selection_receipt is not None
+                or self.failed_authoritative_certificates
+            ):
+                raise ODEBFContractError("fixed E8 legacy stage2 policy differs")
+        else:
+            if self.arm is not FixedE8Arm.SOFT or self.selected_solution_source not in (
+                "CERTIFIED_STAGE2",
+                "CERTIFIED_STAGE1_FALLBACK",
+            ):
+                raise ODEBFContractError("fixed E8 stage2 selection source differs")
+            fallback = self.selected_solution_source == "CERTIFIED_STAGE1_FALLBACK"
+            if (
+                self.stage1_selection_fallback_count != int(fallback)
+                or (self.stage1_selection_receipt is None) != (not fallback)
+                or bool(self.failed_authoritative_certificates) != fallback
+            ):
+                raise ODEBFContractError("fixed E8 stage1 fallback receipt differs")
         if len(self.identity_sha256) != 64:
             raise ODEBFContractError("fixed E8 routing identity differs")
 
@@ -554,7 +597,7 @@ class FixedE8RoutingResult:
             and backend >= 4
             and backend <= 8
         )
-        return {
+        payload = {
             "arm": self.arm.value,
             "mode": self.mode.value,
             "layer_order": list(FIXED_E8_LAYER_ORDER),
@@ -600,6 +643,26 @@ class FixedE8RoutingResult:
             "soft_shadow_status": self.soft_shadow_status,
             "identity_sha256": self.identity_sha256,
         }
+        if self.stage2_failure_policy is not FixedE8Stage2FailurePolicy.FAIL_CLOSED:
+            payload.update(
+                {
+                    "stage2_failure_policy": self.stage2_failure_policy.value,
+                    "selected_solution_source": self.selected_solution_source,
+                    "stage1_selection_fallback_count": (
+                        self.stage1_selection_fallback_count
+                    ),
+                    "stage1_selection_receipt": (
+                        None
+                        if self.stage1_selection_receipt is None
+                        else dict(self.stage1_selection_receipt)
+                    ),
+                    "failed_authoritative_certificates": [
+                        item.raw_free_payload()
+                        for item in self.failed_authoritative_certificates
+                    ],
+                }
+            )
+        return payload
 
 
 @dataclass(frozen=True, slots=True)
@@ -1339,6 +1402,9 @@ def solve_fixed_e8_routing(
     *,
     arm: FixedE8Arm | str,
     certificate_observer: FixedE8CertificateObserver | None = None,
+    stage2_failure_policy: FixedE8Stage2FailurePolicy | str = (
+        FixedE8Stage2FailurePolicy.FAIL_CLOSED
+    ),
 ) -> FixedE8RoutingResult:
     """Solve one fixed-grid E8 routing field.
 
@@ -1349,6 +1415,13 @@ def solve_fixed_e8_routing(
     """
 
     selected = FixedE8Arm(arm)
+    selected_stage2_policy = FixedE8Stage2FailurePolicy(stage2_failure_policy)
+    if (
+        selected_stage2_policy
+        is FixedE8Stage2FailurePolicy.CERTIFIED_STAGE1_FALLBACK
+        and selected is not FixedE8Arm.SOFT
+    ):
+        raise ODEBFContractError("fixed E8 stage1 fallback is Soft-only")
     _validate_problem(problem)
     if inventory.field_sha256 == "0" * 64:
         raise ODEBFContractError("fixed E8 functional inventory field is absent")
@@ -1384,6 +1457,10 @@ def solve_fixed_e8_routing(
         maximum_certificate
     ]
     diagnostic_shadow_certificates: list[FixedE8SolverCertificate] = []
+    failed_authoritative_certificates: list[FixedE8SolverCertificate] = []
+    stage1_selection_receipt: dict[str, Any] | None = None
+    selected_solution_source = "LEGACY_DEFAULT"
+    stage1_selection_fallback_count = 0
     neutral_active, capacity_certificate = _solve_slsqp(
         phase="neutral-minimum-capacity",
         problem=problem,
@@ -1569,14 +1646,84 @@ def solve_fixed_e8_routing(
                 if selected is FixedE8Arm.SOFT
                 else "DIAGNOSTIC_SOFT_SHADOW"
             ),
-            fail_closed=selected is FixedE8Arm.SOFT,
+            fail_closed=(
+                selected is FixedE8Arm.SOFT
+                and selected_stage2_policy
+                is FixedE8Stage2FailurePolicy.FAIL_CLOSED
+            ),
             certificate_observer=certificate_observer,
         )
         if certificate_observer is not None:
             certificate_observer(stage2_certificate)
         if selected is FixedE8Arm.SOFT:
-            authoritative_certificates.append(stage2_certificate)
-            soft_shadow_status = "AUTHORITATIVE_SOFT_NOT_SHADOW"
+            if stage2_certificate.passed:
+                authoritative_certificates.append(stage2_certificate)
+                soft_shadow_status = "AUTHORITATIVE_SOFT_NOT_SHADOW"
+                if (
+                    selected_stage2_policy
+                    is FixedE8Stage2FailurePolicy.CERTIFIED_STAGE1_FALLBACK
+                ):
+                    selected_solution_source = "CERTIFIED_STAGE2"
+            else:
+                if (
+                    selected_stage2_policy
+                    is not FixedE8Stage2FailurePolicy.CERTIFIED_STAGE1_FALLBACK
+                ):
+                    raise ODEBFContractError(
+                        "fixed E8 uncertified stage2 escaped fail-close"
+                    )
+                reconstructed = reconstruct_fixed_e8_backend_certificate(
+                    stage1_certificate.backend_attempts[-1].raw_free_payload()
+                )
+                preserved_stage1 = np.asarray(
+                    stage1_value[:active.size], dtype=np.float64
+                ).copy()
+                preserved_sha = canonical_hash(preserved_stage1.tolist())
+                reconstructed_candidate = np.asarray(
+                    stage1_certificate.backend_attempts[-1].candidate_vector,
+                    dtype=np.float64,
+                )[:active.size]
+                if (
+                    not stage1_certificate.passed
+                    or not bool(reconstructed["passed"])
+                    or not np.array_equal(
+                        preserved_stage1, reconstructed_candidate
+                    )
+                ):
+                    raise ODEBFContractError(
+                        "fixed E8 certified stage1 selection reverify failed"
+                    )
+                soft_active = preserved_stage1
+                applied_sha = canonical_hash(soft_active.tolist())
+                if applied_sha != preserved_sha:
+                    raise ODEBFContractError(
+                        "fixed E8 stage1 fallback vector identity differs"
+                    )
+                failed_authoritative_certificates.append(stage2_certificate)
+                stage1_selection_fallback_count = 1
+                selected_solution_source = "CERTIFIED_STAGE1_FALLBACK"
+                soft_shadow_status = "AUTHORITATIVE_STAGE1_FALLBACK"
+                stage1_selection_receipt = {
+                    "selected_solution_source": selected_solution_source,
+                    "preserved_stage1_vector": preserved_stage1.tolist(),
+                    "preserved_stage1_vector_sha256": preserved_sha,
+                    "applied_vector_sha256": applied_sha,
+                    "stage1_certificate": stage1_certificate.raw_free_payload(),
+                    "stage1_reconstruction": reconstructed,
+                    "stage2_failure_component": (
+                        stage2_certificate.first_false_component
+                    ),
+                    "stage2_status": stage2_certificate.optimizer_status,
+                    "stage2_message_sha256": (
+                        stage2_certificate.optimizer_message_sha256
+                    ),
+                    "stage2_certificate": stage2_certificate.raw_free_payload(),
+                    "fallback_reason": "STAGE2_NUMERIC_CERTIFICATE_MISS",
+                    "fallback_count": 1,
+                }
+                stage1_selection_receipt["identity_sha256"] = canonical_hash(
+                    stage1_selection_receipt
+                )
         else:
             diagnostic_shadow_certificates.append(stage2_certificate)
             if stage2_certificate.passed:
@@ -1668,6 +1815,33 @@ def solve_fixed_e8_routing(
             0 if selected is FixedE8Arm.NEUTRAL else 1
         ),
     }
+    if selected_stage2_policy is not FixedE8Stage2FailurePolicy.FAIL_CLOSED:
+        all_certificates = (
+            *authoritative_certificates,
+            *failed_authoritative_certificates,
+            *diagnostic_shadow_certificates,
+        )
+        payload.update(
+            {
+                "stage2_failure_policy": selected_stage2_policy.value,
+                "selected_solution_source": selected_solution_source,
+                "stage1_selection_fallback_count": (
+                    stage1_selection_fallback_count
+                ),
+                "stage1_selection_receipt": stage1_selection_receipt,
+                "failed_authoritative_certificates": [
+                    item.raw_free_payload()
+                    for item in failed_authoritative_certificates
+                ],
+                "actual_logical_qp_count": len(all_certificates),
+                "actual_optimizer_backend_invocation_count": sum(
+                    item.optimizer_pass_count for item in all_certificates
+                ),
+                "actual_fallback_backend_invocation_count": sum(
+                    item.fallback_invocation_count for item in all_certificates
+                ),
+            }
+        )
     identity = canonical_hash(payload)
     return FixedE8RoutingResult(
         selected,
@@ -1687,6 +1861,11 @@ def solve_fixed_e8_routing(
         tuple(diagnostic_shadow_certificates),
         soft_shadow_status,
         identity,
+        tuple(failed_authoritative_certificates),
+        selected_stage2_policy,
+        selected_solution_source,
+        stage1_selection_fallback_count,
+        stage1_selection_receipt,
     )
 
 

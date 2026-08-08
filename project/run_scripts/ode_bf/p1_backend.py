@@ -48,6 +48,68 @@ P1_DYNAMIC_REFERENCE = "Native AlphaEdit-WB-mixed64-v1 explicit-residual-policy 
 FULL_CURRENT_RESIDUAL_DEFINITION = "full_current"
 FULL_CURRENT_RESIDUAL_DIVISOR = 1
 LEGACY_PRE_SHARED_RESIDUAL_DEFINITION = "legacy_remaining_layer_pre_share"
+SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1 = (
+    "SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1"
+)
+
+
+@dataclass(frozen=True, slots=True)
+class SharedTerminalResidualInput:
+    """Explicit request-wise terminal residual supplied by the cold controller.
+
+    The backend treats these tensors as immutable scientific inputs.  In
+    particular, this opt-in path never recaptures a writer-layer activation,
+    recomputes ``z-H_l``, or applies a remaining-layer divisor.
+    """
+
+    residual: torch.Tensor
+    terminal_current_z: torch.Tensor
+    request_order_sha256: str
+    policy_identity: str = SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1
+
+    def __post_init__(self) -> None:
+        tensors = (self.residual, self.terminal_current_z)
+        if (
+            self.policy_identity
+            != SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1
+            or len(self.request_order_sha256) != 64
+            or any(character not in "0123456789abcdef" for character in self.request_order_sha256)
+            or any(
+                not isinstance(value, torch.Tensor)
+                or value.ndim != 2
+                or value.shape[1] != BATCH_SIZE
+                or value.dtype != torch.float32
+                or value.device.type != "cpu"
+                or not value.is_contiguous()
+                or value.requires_grad
+                or not torch.isfinite(value).all()
+                for value in tensors
+            )
+            or self.residual.shape != self.terminal_current_z.shape
+        ):
+            raise ODEBFContractError("shared terminal residual input differs")
+
+    @property
+    def residual_sha256(self) -> str:
+        return tensor_sha256(self.residual)
+
+    @property
+    def terminal_current_z_sha256(self) -> str:
+        return tensor_sha256(self.terminal_current_z)
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        return {
+            "policy_identity": self.policy_identity,
+            "request_order_sha256": self.request_order_sha256,
+            "residual_shape": list(self.residual.shape),
+            "residual_dtype": str(self.residual.dtype),
+            "residual_device": self.residual.device.type,
+            "residual_sha256": self.residual_sha256,
+            "terminal_current_z_sha256": self.terminal_current_z_sha256,
+            "backend_recapture_count": 0,
+            "z_minus_h_layer_recompute_count": 0,
+            "remaining_layer_division_count": 0,
+        }
 
 
 def full_current_residual(
@@ -758,7 +820,12 @@ class P1LayerField:
             and not isinstance(self.residual_divisor, bool)
             and self.residual_divisor >= 1
         )
-        if not (valid_full or valid_legacy):
+        valid_shared_terminal = (
+            self.residual_definition
+            == SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1
+            and self.residual_divisor == FULL_CURRENT_RESIDUAL_DIVISOR
+        )
+        if not (valid_full or valid_legacy or valid_shared_terminal):
             raise ODEBFContractError("non-Native residual policy differs")
         if (
             self.factor.weight_name != self.weight_name
@@ -899,6 +966,7 @@ def build_p1_dynamic_field(
     ledger: ComputeLedger,
     residual_policy: str = FULL_CURRENT_RESIDUAL_DEFINITION,
     allow_zero_capacity: bool = False,
+    shared_terminal_residual: SharedTerminalResidualInput | None = None,
 ) -> P1DynamicField:
     """Rebuild all layer arms at one accepted virtual joint state."""
 
@@ -917,6 +985,20 @@ def build_p1_dynamic_field(
         raise ODEBFContractError("P1 target state is not [hidden,10]")
     if not torch.isfinite(target_state).all():
         raise ODEBFContractError("P1 target state contains non-finite values")
+    shared_policy = residual_policy == SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1
+    if shared_policy != (shared_terminal_residual is not None):
+        raise ODEBFContractError("shared terminal residual opt-in differs")
+    if shared_terminal_residual is not None:
+        if (
+            shared_terminal_residual.request_order_sha256 != order
+            or shared_terminal_residual.policy_identity != residual_policy
+            or shared_terminal_residual.residual.shape != target_state.shape
+            or shared_terminal_residual.terminal_current_z.shape != target_state.shape
+            or target_state.dtype != torch.float32
+            or target_state.device.type != "cpu"
+            or not target_state.is_contiguous()
+        ):
+            raise ODEBFContractError("shared terminal residual identity differs")
     resolved_contexts = alpha_main.get_context_templates(model, tokenizer)
     if canonical_hash(resolved_contexts) != canonical_hash(list(contexts)):
         raise ODEBFContractError("P1 dynamic field context identity differs")
@@ -936,6 +1018,8 @@ def build_p1_dynamic_field(
                 module_template=hparams.layer_module_tmp,
                 fact_token_strategy=hparams.fact_token,
             )[1].T.detach().to(device="cpu", dtype=torch.float32)
+        elif shared_terminal_residual is not None:
+            shared_current_z = shared_terminal_residual.terminal_current_z
         for layer_index, layer in enumerate(layers):
             current_z = (
                 shared_current_z
@@ -953,11 +1037,15 @@ def build_p1_dynamic_field(
             if current_z is None or current_z.shape != target_state.shape:
                 raise ODEBFContractError("P1 target/current-z geometry differs")
             current_z_by_layer[layer] = current_z.clone()
-            full_residual = full_current_residual(target_state, current_z)
+            if shared_terminal_residual is not None:
+                residual = shared_terminal_residual.residual.clone()
+                residual_divisor = FULL_CURRENT_RESIDUAL_DIVISOR
+            else:
+                full_residual = full_current_residual(target_state, current_z)
             if residual_policy == FULL_CURRENT_RESIDUAL_DEFINITION:
                 residual = full_residual.clone()
                 residual_divisor = FULL_CURRENT_RESIDUAL_DIVISOR
-            else:
+            elif shared_terminal_residual is None:
                 residual, residual_divisor = residual_for_policy(
                     target_state,
                     current_z,
@@ -1056,6 +1144,19 @@ def build_p1_dynamic_field(
             del p_device, k_device, history_device, solved, parameter
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
+    if shared_terminal_residual is not None:
+        residual_hashes = tuple(tensor_sha256(item.residual) for item in layer_fields)
+        key_hashes = tuple(tensor_sha256(item.key) for item in layer_fields)
+        q_hashes = tuple(tensor_sha256(item.q) for item in layer_fields)
+        weight_names = tuple(item.weight_name for item in layer_fields)
+        if (
+            len(set(residual_hashes)) != 1
+            or residual_hashes[0] != shared_terminal_residual.residual_sha256
+            or len(set(key_hashes)) != len(layers)
+            or len(set(q_hashes)) != len(layers)
+            or len(set(weight_names)) != len(layers)
+        ):
+            raise ODEBFContractError("shared terminal residual layer identity differs")
     payload = {
         "accepted_waypoint": accepted_waypoint,
         "request_order_sha256": order,
@@ -1071,10 +1172,18 @@ def build_p1_dynamic_field(
         "residual_policy": residual_policy,
         "assembler": W64_ASSEMBLER_REFERENCE,
     }
+    if shared_terminal_residual is not None:
+        payload["shared_terminal_residual"] = (
+            shared_terminal_residual.raw_free_payload()
+        )
     model_forward_count = (
         1 + len(layers)
         if residual_policy == LEGACY_PRE_SHARED_RESIDUAL_DEFINITION
-        else 2 * len(layers)
+        else (
+            len(layers)
+            if residual_policy == SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1
+            else 2 * len(layers)
+        )
     )
     return P1DynamicField(
         accepted_waypoint,
