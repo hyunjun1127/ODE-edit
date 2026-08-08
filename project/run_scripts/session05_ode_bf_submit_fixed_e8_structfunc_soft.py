@@ -27,6 +27,7 @@ from project.run_scripts.ode_bf.artifacts import (
 )
 from project.run_scripts.ode_bf.contracts import MODEL_ALIASES, ODEBFContractError
 from project.run_scripts.ode_bf.p1_fixed_e8_soft_panel import (
+    FIXED_E8_EXECUTION_PARENT_HEAD,
     FIXED_E8_INSTRUCTION_ID,
     FIXED_E8_PARENT_HEAD,
     FIXED_E8_RESULT_TOKEN,
@@ -50,8 +51,8 @@ FIXED_E8_CERTIFICATE_RECEIPT_PARENT_HEAD = (
     "f23472963ac2dbb46282afd9c3a514bb75d59d5b"
 )
 SERVER1_PROJECT_GPU_CAP = 3
-APPROVAL_ENV = "ODEEDIT_S05_P1R7_RUN_APPROVAL"
-SUBMISSION_NAMESPACE = "s05-cold-fixed-e8-structfunc-soft-p1r7-r7-v1"
+APPROVAL_ENV = "ODEEDIT_S05_FIXED_E8_R8_RUN_APPROVAL"
+SUBMISSION_NAMESPACE = "s05-fixed-e8-solver-isolation-cert-r8-v1"
 SBATCH = (
     REPO_ROOT
     / "project/run_scripts/session05_ode_bf_fixed_e8_structfunc_soft.sbatch"
@@ -103,6 +104,12 @@ PRIOR_IMMUTABLE = {
     ),
     "s05-cold-fixed-e8-soft-p1r7-r6-qwen2.5-7b-inst-v1/failure.json": (
         "d750f84fc7c0b617abe717284201cad717329c8d28a947759dae74fda7d5dae7"
+    ),
+    "s05-cold-fixed-e8-soft-p1r7-r7-llama3-8b-inst-v1/failure.json": (
+        "961ef579cd57a9c451ae33968316b2393b126465d661883eb76f7f26a22e009e"
+    ),
+    "s05-cold-fixed-e8-soft-p1r7-r7-qwen2.5-7b-inst-v1/failure.json": (
+        "4adb517da590db015d03b14e108a4733351be889389d27eb17f3eb35ea8760df"
     ),
 }
 PRIOR_LOG_IMMUTABLE = {
@@ -190,6 +197,18 @@ PRIOR_LOG_IMMUTABLE = {
     "odeedit_s05_p1r7r6_e8_qwen-17118.err": (
         "86dcb0175442ba3308ece806a60837ff7d0104dec66916ddb9c6daed8a1e2e7e"
     ),
+    "odeedit_s05_p1r7r7_e8_llama-17131.out": (
+        "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec"
+    ),
+    "odeedit_s05_p1r7r7_e8_llama-17131.err": (
+        "6932dfbbb98ba35be1f5b47a749e1abfd8094ddd5809c2526b671bd916b5edfe"
+    ),
+    "odeedit_s05_p1r7r7_e8_qwen-17132.out": (
+        "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec"
+    ),
+    "odeedit_s05_p1r7r7_e8_qwen-17132.err": (
+        "9ab72b15fea07549dd4c88967cc8a5b3bbe4725962f196a08151b9518387a087"
+    ),
 }
 PRIOR_STATE_IMMUTABLE = {
     "s05-cold-fixed-e8-structfunc-soft-p1r7-r4-v1.intent.json": (
@@ -209,6 +228,12 @@ PRIOR_STATE_IMMUTABLE = {
     ),
     "s05-cold-fixed-e8-structfunc-soft-p1r7-r6-v1.submission-receipt.json": (
         "c989c5788b37cf1ad7df6e94a37841a05a35eea96e1e7013917fddb2892023c5"
+    ),
+    "s05-cold-fixed-e8-structfunc-soft-p1r7-r7-v1.intent.json": (
+        "ab0d931b948e193ace8d4fb81b227ccc11f2efd816afbc3eb644c3c507eca28e"
+    ),
+    "s05-cold-fixed-e8-structfunc-soft-p1r7-r7-v1.submission-receipt.json": (
+        "93577cbaacc694c9a08e25f9e603190ea626c157e6c22cc501c04529d31d6a04"
     ),
 }
 
@@ -247,22 +272,25 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     expected_approval = f"{FIXED_E8_INSTRUCTION_ID}:{source_head}"
     approval = os.environ.get(APPROVAL_ENV)
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
-    certificate_receipt_parent = _run(
+    r8_execution_parent = _run(
         ["git", "rev-parse", "HEAD^"]
     ).stdout.strip()
-    solver_observability_parent = _run(
+    certificate_receipt_parent = _run(
         ["git", "rev-parse", "HEAD^^"]
     ).stdout.strip()
-    zero_capacity_parent = _run(["git", "rev-parse", "HEAD^^^"]).stdout.strip()
-    memory_parent = _run(["git", "rev-parse", "HEAD^^^^"]).stdout.strip()
-    numerical_schema_parent = _run(
-        ["git", "rev-parse", "HEAD^^^^^"]
+    solver_observability_parent = _run(
+        ["git", "rev-parse", "HEAD^^^"]
     ).stdout.strip()
-    launcher_parent = _run(["git", "rev-parse", "HEAD^^^^^^"]).stdout.strip()
-    repair_parent = _run(["git", "rev-parse", "HEAD^^^^^^^"]).stdout.strip()
-    review_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^"]).stdout.strip()
+    zero_capacity_parent = _run(["git", "rev-parse", "HEAD^^^^"]).stdout.strip()
+    memory_parent = _run(["git", "rev-parse", "HEAD^^^^^"]).stdout.strip()
+    numerical_schema_parent = _run(
+        ["git", "rev-parse", "HEAD^^^^^^"]
+    ).stdout.strip()
+    launcher_parent = _run(["git", "rev-parse", "HEAD^^^^^^^"]).stdout.strip()
+    repair_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^"]).stdout.strip()
+    review_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^^"]).stdout.strip()
     scientific_parent = _run(
-        ["git", "rev-parse", "HEAD^^^^^^^^^"]
+        ["git", "rev-parse", "HEAD^^^^^^^^^^"]
     ).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(
@@ -276,6 +304,7 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         raise ODEBFContractError("fixed E8 checkpoint approval is absent")
     if (
         head != source_head
+        or r8_execution_parent != FIXED_E8_EXECUTION_PARENT_HEAD
         or certificate_receipt_parent
         != FIXED_E8_CERTIFICATE_RECEIPT_PARENT_HEAD
         or solver_observability_parent
@@ -295,6 +324,7 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     return {
         "checkpoint_bound_approval": expected_approval,
         "execution_head": head,
+        "exact_r8_execution_parent": r8_execution_parent,
         "exact_certificate_receipt_parent": certificate_receipt_parent,
         "exact_solver_observability_parent": solver_observability_parent,
         "exact_zero_capacity_parent": zero_capacity_parent,
@@ -314,13 +344,14 @@ def _source_manifest_gate(source_head: str) -> str:
     value, raw_sha256 = load_rooted_json(
         SOURCE_MANIFEST,
         expected_schema=(
-            "ode-edit-s05-fixed-e8-structfunc-soft-source-manifest/v1"
+            "ode-edit-s05-fixed-e8-solver-isolation-cert-r8-source-manifest/v1"
         ),
     )
     entries = value.get("entries")
     if (
         value.get("instruction_id") != FIXED_E8_INSTRUCTION_ID
         or value.get("expected_parent") != FIXED_E8_PARENT_HEAD
+        or value.get("execution_r8_parent") != FIXED_E8_EXECUTION_PARENT_HEAD
         or value.get("execution_certificate_receipt_parent")
         != FIXED_E8_CERTIFICATE_RECEIPT_PARENT_HEAD
         or value.get("execution_solver_observability_parent")
@@ -536,7 +567,7 @@ def main() -> int:
     intent_sha256 = _write_once(
         args.state_root / f"{SUBMISSION_NAMESPACE}.intent.json",
         {
-            "schema": "ode-edit-s05-fixed-e8-submit-intent/v1",
+            "schema": "ode-edit-s05-fixed-e8-r8-submit-intent/v1",
             "instruction_id": FIXED_E8_INSTRUCTION_ID,
             "source_head": args.source_head,
             "preflight": preflight,
@@ -553,7 +584,7 @@ def main() -> int:
             args.state_root
             / f"{SUBMISSION_NAMESPACE}.submission-receipt.json",
             {
-                "schema": "ode-edit-s05-fixed-e8-submission-receipt/v1",
+                "schema": "ode-edit-s05-fixed-e8-r8-submission-receipt/v1",
                 "instruction_id": FIXED_E8_INSTRUCTION_ID,
                 "source_head": args.source_head,
                 "intent_sha256": intent_sha256,

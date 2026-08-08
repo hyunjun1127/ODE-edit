@@ -16,13 +16,14 @@ the velocity ``v``.  Multiplying them by ``h`` again is a unit error.
 from __future__ import annotations
 
 import math
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from enum import Enum
 from fractions import Fraction
 from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
-from scipy.optimize import minimize, nnls
+from scipy import __version__ as SCIPY_VERSION
+from scipy.optimize import Bounds, NonlinearConstraint, minimize, nnls
 
 from .contracts import ODEBFContractError, ODEBFStateError, canonical_hash
 from .routing import QuadraticBarrier, RoutingProblem
@@ -38,7 +39,32 @@ FIXED_E8_PRIMAL_TOLERANCE = 1.0e-8
 FIXED_E8_KKT_TOLERANCE = 1.0e-5
 FIXED_E8_SOLVER_FTOL = 1.0e-12
 FIXED_E8_SOLVER_MAXITER = 1_000
-FIXED_E8_CERTIFICATE_CONTINUATION_LIMIT = 2
+FIXED_E8_FALLBACK_LIMIT = 1
+FIXED_E8_PRIMARY_BACKEND = "scipy-slsqp-float64"
+FIXED_E8_FALLBACK_BACKEND = "scipy-trust-constr-float64"
+FIXED_E8_PRIMARY_OPTIONS = (
+    ("disp", False),
+    ("ftol", FIXED_E8_SOLVER_FTOL),
+    ("maxiter", FIXED_E8_SOLVER_MAXITER),
+)
+FIXED_E8_FALLBACK_OPTIONS = (
+    ("barrier_tol", FIXED_E8_SOLVER_FTOL),
+    ("gtol", FIXED_E8_SOLVER_FTOL),
+    ("maxiter", FIXED_E8_SOLVER_MAXITER),
+    ("verbose", 0),
+    ("xtol", FIXED_E8_SOLVER_FTOL),
+)
+
+
+def _fallback_receipt_options(
+    *, keep_feasible_from_seed: bool
+) -> tuple[tuple[str, Any], ...]:
+    return (
+        *FIXED_E8_FALLBACK_OPTIONS,
+        ("bound_feasible_padding", FIXED_E8_SOLVER_FTOL),
+        ("constraint_feasible_padding", FIXED_E8_SOLVER_FTOL),
+        ("keep_feasible_from_seed", keep_feasible_from_seed),
+    )
 
 FIXED_E8_METHOD_ID = "COLD-FR-E8-NEWNLL-STRUCTSOFT-FUNCSOFT-FULLTAU"
 FIXED_E8_TARGET_OVERLAY_DEFINITION = "R_l(z_k)+(z-z_k)"
@@ -347,8 +373,38 @@ class FixedE8Score:
 
 
 @dataclass(frozen=True, slots=True)
+class FixedE8BackendAttempt:
+    backend: str
+    backend_version: str
+    backend_options: tuple[tuple[str, Any], ...]
+    backend_options_sha256: str
+    success: bool
+    status: int
+    message_sha256: str
+    iterations: int
+    candidate_vector: tuple[float, ...]
+    objective_value: float
+    objective_gradient: tuple[float, ...]
+    ordered_constraint_names: tuple[str, ...]
+    ordered_constraint_slacks: tuple[float, ...]
+    ordered_constraint_gradients: tuple[tuple[float, ...], ...]
+    ordered_kkt_multipliers: tuple[float, ...]
+    maximum_primal_violation: float
+    stationarity_residual: float
+    complementarity_residual: float
+    finite: bool
+    first_false_component: str | None
+    passed: bool
+    reconstruction_sha256: str
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True, slots=True)
 class FixedE8SolverCertificate:
     phase: str
+    authority_role: str
     success: bool
     optimizer_status: int
     optimizer_message_sha256: str
@@ -357,7 +413,7 @@ class FixedE8SolverCertificate:
     finite: bool
     iterations: int
     optimizer_pass_count: int
-    certificate_continuation_count: int
+    fallback_invocation_count: int
     maximum_primal_violation: float
     stationarity_residual: float
     complementarity_residual: float
@@ -368,30 +424,31 @@ class FixedE8SolverCertificate:
     xi: float | None
     first_false_component: str | None
     active_constraints: tuple[str, ...]
+    backend_attempts: tuple[FixedE8BackendAttempt, ...]
+    selected_backend: str
+    independent_certificate_authority: bool
     passed: bool
 
     def raw_free_payload(self) -> dict[str, Any]:
         payload = asdict(self)
-        continuation_count = max(self.optimizer_pass_count - 1, 0)
+        fallback_count = self.fallback_invocation_count
         payload.update(
             {
-                "numerical_backend_continuation_count": continuation_count,
-                "numerical_backend_continuation_role": (
-                    "FIXED_NUMERICAL_BACKEND_CONTINUATION_SAME_QP"
-                    if continuation_count
+                "fallback_backend_invocation_count": fallback_count,
+                "fallback_backend_role": (
+                    "INDEPENDENT_SAME_QP_CERTIFICATE_RECOVERY"
+                    if fallback_count
                     else "NONE"
                 ),
                 "scientific_retry_count": 0,
-                "certificate_continuation_count": (
-                    self.certificate_continuation_count
-                ),
-                "certificate_continuation_role": (
-                    "SAME_QP_CERTIFICATE_RECOVERY"
-                    if self.certificate_continuation_count
-                    else "NONE"
-                ),
                 "field_rebuild_count": 0,
                 "candidate_evaluation_count": 0,
+                "backend_success_is_diagnostic_only": True,
+                "certificate_thresholds": {
+                    "primal": FIXED_E8_PRIMAL_TOLERANCE,
+                    "stationarity": FIXED_E8_KKT_TOLERANCE,
+                    "complementarity": FIXED_E8_KKT_TOLERANCE,
+                },
             }
         )
         return payload
@@ -415,8 +472,14 @@ class FixedE8RoutingResult:
     applied_coefficient: tuple[float, ...]
     scores: tuple[FixedE8Score, ...]
     xi_star: float | None
-    certificates: tuple[FixedE8SolverCertificate, ...]
+    authoritative_certificates: tuple[FixedE8SolverCertificate, ...]
+    diagnostic_shadow_certificates: tuple[FixedE8SolverCertificate, ...]
+    soft_shadow_status: str
     identity_sha256: str
+
+    @property
+    def certificates(self) -> tuple[FixedE8SolverCertificate, ...]:
+        return self.authoritative_certificates + self.diagnostic_shadow_certificates
 
     def __post_init__(self) -> None:
         dimension = len(FIXED_E8_LAYER_ORDER)
@@ -454,23 +517,38 @@ class FixedE8RoutingResult:
             atol=1.0e-14,
         ):
             raise ODEBFContractError("fixed E8 applied coefficient used h incorrectly")
-        if not all(item.passed for item in self.certificates):
+        if not all(item.passed for item in self.authoritative_certificates):
             raise ODEBFContractError("fixed E8 routing certificate failed")
+        if any(
+            item.authority_role != "AUTHORITATIVE"
+            for item in self.authoritative_certificates
+        ) or any(
+            item.authority_role != "DIAGNOSTIC_SOFT_SHADOW"
+            for item in self.diagnostic_shadow_certificates
+        ):
+            raise ODEBFContractError("fixed E8 certificate ownership differs")
+        if self.soft_shadow_status not in (
+            "AVAILABLE",
+            "SOFT_SHADOW_NUMERIC_UNAVAILABLE",
+            "AUTHORITATIVE_SOFT_NOT_SHADOW",
+            "NOT_APPLICABLE_ZERO_WRITE",
+        ):
+            raise ODEBFContractError("fixed E8 soft shadow status differs")
         if len(self.identity_sha256) != 64:
             raise ODEBFContractError("fixed E8 routing identity differs")
 
     def raw_free_payload(self) -> dict[str, Any]:
         logical = len(self.certificates)
         backend = sum(item.optimizer_pass_count for item in self.certificates)
-        continuation = sum(
-            max(item.optimizer_pass_count - 1, 0)
+        fallback = sum(
+            item.fallback_invocation_count
             for item in self.certificates
         )
         maximum_schedule = bool(
             self.mode is FixedE8StepMode.JOINT_WRITE
             and logical == 4
-            and backend == 5
-            and continuation == 1
+            and backend >= 4
+            and backend <= 8
         )
         return {
             "arm": self.arm.value,
@@ -503,21 +581,32 @@ class FixedE8RoutingResult:
             ),
             "actual_logical_qp_count": logical,
             "actual_optimizer_backend_invocation_count": backend,
-            "actual_numerical_backend_continuation_count": continuation,
+            "actual_fallback_backend_invocation_count": fallback,
             "static_operation_counts_are_maximum_ceiling": True,
             "soft_shadow_decision_influence_count": (
                 0 if self.arm is FixedE8Arm.NEUTRAL else 1
             ),
-            "certificates": [item.raw_free_payload() for item in self.certificates],
+            "authoritative_certificates": [
+                item.raw_free_payload() for item in self.authoritative_certificates
+            ],
+            "diagnostic_shadow_certificates": [
+                item.raw_free_payload()
+                for item in self.diagnostic_shadow_certificates
+            ],
+            "soft_shadow_status": self.soft_shadow_status,
             "identity_sha256": self.identity_sha256,
         }
 
 
-Constraint = tuple[
-    str,
-    Callable[[np.ndarray], float],
-    Callable[[np.ndarray], np.ndarray],
-]
+@dataclass(frozen=True, slots=True)
+class FixedE8Constraint:
+    name: str
+    function: Callable[[np.ndarray], float]
+    jacobian: Callable[[np.ndarray], np.ndarray]
+    hessian: Callable[[np.ndarray], np.ndarray]
+
+
+Constraint = FixedE8Constraint
 
 
 def _validate_problem(problem: RoutingProblem) -> None:
@@ -538,152 +627,252 @@ def _technical_constraints(
     progress = problem.signed_progress[active]
     trust = problem.trust_metric[np.ix_(active, active)]
     constraints: list[Constraint] = [
-        (
+        FixedE8Constraint(
             "technical_write_trust",
             lambda value, matrix=trust, radius=problem.trust_radius: float(
                 radius**2 - value @ matrix @ value
             ),
             lambda value, matrix=trust: -2.0 * matrix @ value,
+            lambda value, matrix=trust: -2.0 * matrix,
         )
     ]
     if requested_progress is not None:
         constraints.insert(
             0,
-            (
+            FixedE8Constraint(
                 "kappa_progress",
                 lambda value, a=progress, target=requested_progress: float(
                     a @ value - target
                 ),
                 lambda value, a=progress: a.copy(),
+                lambda value, dimension=active.size: np.zeros(
+                    (dimension, dimension), dtype=np.float64
+                ),
             ),
         )
     return constraints
 
 
-def _certificate(
+def _certificate_reconstruction_payload(
     *,
-    phase: str,
+    candidate_vector: Sequence[float],
+    objective_value: float,
+    objective_gradient: Sequence[float],
+    ordered_constraint_names: Sequence[str],
+    ordered_constraint_slacks: Sequence[float],
+    ordered_constraint_gradients: Sequence[Sequence[float]],
+    ordered_kkt_multipliers: Sequence[float],
+) -> dict[str, Any]:
+    return {
+        "candidate_vector": list(candidate_vector),
+        "objective_value": float(objective_value),
+        "objective_gradient": list(objective_gradient),
+        "ordered_constraint_names": list(ordered_constraint_names),
+        "ordered_constraint_slacks": list(ordered_constraint_slacks),
+        "ordered_constraint_gradients": [
+            list(item) for item in ordered_constraint_gradients
+        ],
+        "ordered_kkt_multipliers": list(ordered_kkt_multipliers),
+        "certificate_thresholds": {
+            "primal": FIXED_E8_PRIMAL_TOLERANCE,
+            "stationarity": FIXED_E8_KKT_TOLERANCE,
+            "complementarity": FIXED_E8_KKT_TOLERANCE,
+            "active_constraint_slack": 10.0 * FIXED_E8_PRIMAL_TOLERANCE,
+        },
+    }
+
+
+def reconstruct_fixed_e8_backend_certificate(
+    payload: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Recompute the independent certificate from a raw-free attempt receipt."""
+
+    candidate = np.asarray(payload.get("candidate_vector"), dtype=np.float64)
+    objective_value = float(payload.get("objective_value"))
+    gradient = np.asarray(payload.get("objective_gradient"), dtype=np.float64)
+    names = tuple(str(item) for item in payload.get("ordered_constraint_names", ()))
+    slacks = np.asarray(payload.get("ordered_constraint_slacks"), dtype=np.float64)
+    gradients = np.asarray(
+        payload.get("ordered_constraint_gradients"), dtype=np.float64
+    )
+    multipliers = np.asarray(
+        payload.get("ordered_kkt_multipliers"), dtype=np.float64
+    )
+    if (
+        candidate.ndim != 1
+        or gradient.shape != candidate.shape
+        or slacks.ndim != 1
+        or len(names) != slacks.size
+        or gradients.shape != (slacks.size, candidate.size)
+        or multipliers.shape != slacks.shape
+        or np.any(multipliers < -FIXED_E8_PRIMAL_TOLERANCE)
+    ):
+        raise ODEBFContractError("fixed E8 certificate reconstruction shape differs")
+    finite = bool(
+        math.isfinite(objective_value)
+        and np.all(np.isfinite(candidate))
+        and np.all(np.isfinite(gradient))
+        and np.all(np.isfinite(slacks))
+        and np.all(np.isfinite(gradients))
+        and np.all(np.isfinite(multipliers))
+    )
+    maximum_violation = float(max(0.0, -float(slacks.min(initial=0.0))))
+    stationarity = float(
+        np.linalg.norm(gradient - gradients.T @ multipliers)
+        / max(float(np.linalg.norm(gradient)), 1.0)
+    )
+    complementarity = float(
+        np.max(np.abs(multipliers * slacks), initial=0.0)
+    )
+    passed = bool(
+        finite
+        and maximum_violation <= FIXED_E8_PRIMAL_TOLERANCE
+        and stationarity <= FIXED_E8_KKT_TOLERANCE
+        and complementarity <= FIXED_E8_KKT_TOLERANCE
+    )
+    first_false: str | None = None
+    if not finite:
+        first_false = "optimizer_finite"
+    elif maximum_violation > FIXED_E8_PRIMAL_TOLERANCE:
+        first_false = next(
+            (
+                name
+                for name, slack in zip(names, slacks, strict=True)
+                if float(slack) < -FIXED_E8_PRIMAL_TOLERANCE
+            ),
+            "primal_feasibility",
+        )
+    elif stationarity > FIXED_E8_KKT_TOLERANCE:
+        first_false = "stationarity"
+    elif complementarity > FIXED_E8_KKT_TOLERANCE:
+        first_false = "complementarity"
+    reconstruction = _certificate_reconstruction_payload(
+        candidate_vector=candidate,
+        objective_value=objective_value,
+        objective_gradient=gradient,
+        ordered_constraint_names=names,
+        ordered_constraint_slacks=slacks,
+        ordered_constraint_gradients=gradients,
+        ordered_kkt_multipliers=multipliers,
+    )
+    derived = {
+        "finite": finite,
+        "maximum_primal_violation": maximum_violation,
+        "stationarity_residual": stationarity,
+        "complementarity_residual": complementarity,
+        "first_false_component": first_false,
+        "passed": passed,
+    }
+    return {
+        **derived,
+        "reconstruction_sha256": canonical_hash(
+            {"inputs": reconstruction, "derived": derived}
+        ),
+    }
+
+
+def _backend_attempt(
+    *,
     result: Any,
+    backend: str,
+    backend_options: tuple[tuple[str, Any], ...],
     value: np.ndarray,
+    objective_value: float,
     objective_gradient: np.ndarray,
     constraints: Sequence[Constraint],
     lower: np.ndarray,
     upper: np.ndarray,
-    expanded_velocity: np.ndarray,
-    problem: RoutingProblem,
-    p_max: float,
-    requested_progress: float,
-    xi: float | None,
-    optimizer_pass_count: int,
-    certificate_continuation_count: int,
-    optimizer_status_history: Sequence[int],
-    optimizer_message_sha256_history: Sequence[str],
-) -> FixedE8SolverCertificate:
-    slacks: list[tuple[str, float]] = []
-    constraint_slacks: list[float] = []
-    active_gradients: list[np.ndarray] = []
-    active_slacks: list[float] = []
-    for name, function, jacobian in constraints:
-        slack = float(function(value))
-        slacks.append((name, slack))
-        constraint_slacks.append(slack)
-        if slack <= 10.0 * FIXED_E8_PRIMAL_TOLERANCE:
-            active_gradients.append(np.asarray(jacobian(value), dtype=np.float64))
-            active_slacks.append(slack)
+) -> FixedE8BackendAttempt:
+    names: list[str] = []
+    slacks: list[float] = []
+    gradients: list[np.ndarray] = []
+    for constraint in constraints:
+        names.append(constraint.name)
+        slacks.append(float(constraint.function(value)))
+        gradients.append(
+            np.asarray(constraint.jacobian(value), dtype=np.float64)
+        )
     for index in range(value.size):
-        for name, slack, direction in (
-            (f"lower_{index}", float(value[index] - lower[index]), 1.0),
-            (f"upper_{index}", float(upper[index] - value[index]), -1.0),
-        ):
-            slacks.append((name, slack))
-            if slack <= 10.0 * FIXED_E8_PRIMAL_TOLERANCE:
-                basis = np.zeros_like(value)
-                basis[index] = direction
-                active_gradients.append(basis)
-                active_slacks.append(slack)
-    maximum_violation = max(
-        0.0, max((-slack for _, slack in slacks), default=0.0)
-    )
-    if active_gradients:
-        matrix = np.stack(active_gradients, axis=1)
-        multipliers, stationarity = nnls(matrix, objective_gradient)
-        stationarity /= max(float(np.linalg.norm(objective_gradient)), 1.0)
-        complementarity = max(
+        for name, bound, slack, direction in (
             (
-                abs(float(multiplier * slack))
-                for multiplier, slack in zip(
-                    multipliers, active_slacks, strict=True
-                )
+                f"lower_{index}",
+                float(lower[index]),
+                float(value[index] - lower[index]),
+                1.0,
             ),
-            default=0.0,
+            (
+                f"upper_{index}",
+                float(upper[index]),
+                float(upper[index] - value[index]),
+                -1.0,
+            ),
+        ):
+            if not math.isfinite(bound):
+                continue
+            names.append(name)
+            slacks.append(slack)
+            basis = np.zeros_like(value)
+            basis[index] = direction
+            gradients.append(basis)
+    slack_array = np.asarray(slacks, dtype=np.float64)
+    gradient_matrix = np.stack(gradients, axis=0)
+    active = slack_array <= 10.0 * FIXED_E8_PRIMAL_TOLERANCE
+    multipliers = np.zeros(slack_array.size, dtype=np.float64)
+    if (
+        np.any(active)
+        and np.all(np.isfinite(objective_gradient))
+        and np.all(np.isfinite(gradient_matrix[active]))
+    ):
+        active_multipliers, _ = nnls(
+            gradient_matrix[active].T, objective_gradient
         )
-    else:
-        stationarity = float(np.linalg.norm(objective_gradient)) / max(
-            float(np.linalg.norm(objective_gradient)), 1.0
-        )
-        complementarity = 0.0
-    first_false = next(
-        (name for name, slack in slacks if slack < -FIXED_E8_PRIMAL_TOLERANCE),
-        None,
-    )
+        multipliers[active] = active_multipliers
     success = bool(getattr(result, "success", False))
     optimizer_status = int(getattr(result, "status", -1))
     optimizer_message_sha256 = canonical_hash(
         {"optimizer_message": str(getattr(result, "message", ""))}
     )
-    finite = bool(
-        np.all(np.isfinite(value))
-        and np.all(np.isfinite(objective_gradient))
-        and all(math.isfinite(slack) for slack in constraint_slacks)
-        and math.isfinite(maximum_violation)
-        and math.isfinite(stationarity)
-        and math.isfinite(complementarity)
+    reconstruction_input = _certificate_reconstruction_payload(
+        candidate_vector=value,
+        objective_value=objective_value,
+        objective_gradient=objective_gradient,
+        ordered_constraint_names=names,
+        ordered_constraint_slacks=slack_array,
+        ordered_constraint_gradients=gradient_matrix,
+        ordered_kkt_multipliers=multipliers,
     )
-    passed = bool(
-        finite
-        and success
-        and maximum_violation <= FIXED_E8_PRIMAL_TOLERANCE
-        and stationarity <= FIXED_E8_KKT_TOLERANCE
-        and complementarity <= FIXED_E8_KKT_TOLERANCE
+    reconstructed = reconstruct_fixed_e8_backend_certificate(
+        reconstruction_input
     )
-    if not finite:
-        first_false = "optimizer_finite"
-    elif not success:
-        first_false = "optimizer_success"
-    elif maximum_violation > FIXED_E8_PRIMAL_TOLERANCE:
-        first_false = first_false or "primal_feasibility"
-    elif stationarity > FIXED_E8_KKT_TOLERANCE:
-        first_false = "stationarity"
-    elif complementarity > FIXED_E8_KKT_TOLERANCE:
-        first_false = "complementarity"
-    return FixedE8SolverCertificate(
-        phase=phase,
+    return FixedE8BackendAttempt(
+        backend=backend,
+        backend_version=SCIPY_VERSION,
+        backend_options=backend_options,
+        backend_options_sha256=canonical_hash(dict(backend_options)),
         success=success,
-        optimizer_status=optimizer_status,
-        optimizer_message_sha256=optimizer_message_sha256,
-        optimizer_status_history=tuple(optimizer_status_history),
-        optimizer_message_sha256_history=tuple(
-            optimizer_message_sha256_history
-        ),
-        finite=finite,
+        status=optimizer_status,
+        message_sha256=optimizer_message_sha256,
         iterations=int(getattr(result, "nit", 0)),
-        optimizer_pass_count=optimizer_pass_count,
-        certificate_continuation_count=certificate_continuation_count,
-        maximum_primal_violation=maximum_violation,
-        stationarity_residual=float(stationarity),
-        complementarity_residual=float(complementarity),
-        signed_progress=float(problem.signed_progress @ expanded_velocity),
-        trust_value=float(expanded_velocity @ problem.trust_metric @ expanded_velocity),
-        p_max=p_max,
-        requested_progress=requested_progress,
-        xi=xi,
-        first_false_component=first_false,
-        active_constraints=tuple(
-            name
-            for name, slack in slacks
-            if abs(slack) <= 10.0 * FIXED_E8_PRIMAL_TOLERANCE
+        candidate_vector=tuple(float(item) for item in value),
+        objective_value=float(objective_value),
+        objective_gradient=tuple(float(item) for item in objective_gradient),
+        ordered_constraint_names=tuple(names),
+        ordered_constraint_slacks=tuple(float(item) for item in slack_array),
+        ordered_constraint_gradients=tuple(
+            tuple(float(item) for item in row) for row in gradient_matrix
         ),
-        passed=passed,
+        ordered_kkt_multipliers=tuple(float(item) for item in multipliers),
+        maximum_primal_violation=float(
+            reconstructed["maximum_primal_violation"]
+        ),
+        stationarity_residual=float(reconstructed["stationarity_residual"]),
+        complementarity_residual=float(
+            reconstructed["complementarity_residual"]
+        ),
+        finite=bool(reconstructed["finite"]),
+        first_false_component=reconstructed["first_false_component"],
+        passed=bool(reconstructed["passed"]),
+        reconstruction_sha256=str(reconstructed["reconstruction_sha256"]),
     )
 
 
@@ -694,6 +883,7 @@ def _solve_slsqp(
     active: np.ndarray,
     objective: Callable[[np.ndarray], float],
     jacobian: Callable[[np.ndarray], np.ndarray],
+    hessian: Callable[[np.ndarray], np.ndarray],
     constraints: Sequence[Constraint],
     lower: np.ndarray,
     upper: np.ndarray,
@@ -701,19 +891,24 @@ def _solve_slsqp(
     p_max: float,
     requested_progress: float,
     xi: float | None,
-    polish_once: bool = False,
+    authority_role: str,
+    fail_closed: bool = True,
     certificate_observer: FixedE8CertificateObserver | None = None,
 ) -> tuple[np.ndarray, FixedE8SolverCertificate]:
     scipy_constraints = [
-        {"type": "ineq", "fun": function, "jac": derivative}
-        for _, function, derivative in constraints
+        {
+            "type": "ineq",
+            "fun": constraint.function,
+            "jac": constraint.jacobian,
+        }
+        for constraint in constraints
     ]
     bounds = tuple(
         (float(left), float(right))
         for left, right in zip(lower, upper, strict=True)
     )
 
-    def run_backend(start: np.ndarray) -> Any:
+    def run_primary(start: np.ndarray) -> Any:
         return minimize(
             objective,
             np.asarray(start, dtype=np.float64),
@@ -721,30 +916,10 @@ def _solve_slsqp(
             method="SLSQP",
             bounds=bounds,
             constraints=scipy_constraints,
-            options={
-                "ftol": FIXED_E8_SOLVER_FTOL,
-                "maxiter": FIXED_E8_SOLVER_MAXITER,
-                "disp": False,
-            },
+            options=dict(FIXED_E8_PRIMARY_OPTIONS),
         )
 
-    results = [run_backend(np.asarray(initial, dtype=np.float64))]
-    backend_iterations = [int(getattr(results[-1], "nit", 0))]
-    if polish_once:
-        # The lexicographic stage-2 optimum can sit at the intersection of
-        # several quadratic xi-tie constraints.  Continue SLSQP once from its
-        # own converged point so the independently recomputed KKT certificate
-        # reaches the locked tolerance without relaxing that tolerance or any
-        # scientific constraint.  This is numerical polishing inside one QP,
-        # not an E8 trajectory retry or a new field/candidate evaluation.
-        results.append(run_backend(np.asarray(results[-1].x, dtype=np.float64)))
-        backend_iterations.append(int(getattr(results[-1], "nit", 0)))
-
-    certificate_continuation_count = 0
-    while True:
-        result = results[-1]
-        final_backend_iterations = int(getattr(result, "nit", 0))
-        result.nit = sum(backend_iterations)
+    def candidate_parts(result: Any) -> tuple[np.ndarray, np.ndarray, float | None]:
         value = np.asarray(result.x, dtype=np.float64)
         expanded = np.zeros(problem.signed_progress.size, dtype=np.float64)
         expanded[active] = value[: active.size]
@@ -755,56 +930,147 @@ def _solve_slsqp(
                     "fixed E8 solver auxiliary dimension differs"
                 )
             observed_xi = float(value[active.size])
-        status_history = tuple(
-            int(getattr(item, "status", -1)) for item in results
-        )
-        message_history = tuple(
-            canonical_hash(
-                {"optimizer_message": str(getattr(item, "message", ""))}
-            )
-            for item in results
-        )
-        certificate = _certificate(
-            phase=phase,
-            result=result,
+        return value, expanded, observed_xi
+
+    primary_result = run_primary(np.asarray(initial, dtype=np.float64))
+    value, expanded, observed_xi = candidate_parts(primary_result)
+    attempts = [
+        _backend_attempt(
+            result=primary_result,
+            backend=FIXED_E8_PRIMARY_BACKEND,
+            backend_options=FIXED_E8_PRIMARY_OPTIONS,
             value=value,
+            objective_value=float(objective(value)),
             objective_gradient=np.asarray(jacobian(value), dtype=np.float64),
             constraints=constraints,
             lower=lower,
             upper=upper,
-            expanded_velocity=expanded,
-            problem=problem,
-            p_max=p_max,
-            requested_progress=requested_progress,
-            xi=observed_xi,
-            optimizer_pass_count=len(results),
-            certificate_continuation_count=(
-                certificate_continuation_count
+        )
+    ]
+    if not attempts[-1].passed and attempts[-1].finite:
+        trust_constraints = [
+            NonlinearConstraint(
+                lambda point: np.asarray(
+                    [item.function(point) for item in constraints],
+                    dtype=np.float64,
+                ),
+                np.full(
+                    len(constraints),
+                    -FIXED_E8_SOLVER_FTOL,
+                    dtype=np.float64,
+                ),
+                np.full(len(constraints), np.inf, dtype=np.float64),
+                jac=lambda point: np.stack(
+                    [item.jacobian(point) for item in constraints], axis=0
+                ),
+                hess=lambda point, multiplier: sum(
+                    (
+                        float(weight) * item.hessian(point)
+                        for weight, item in zip(
+                            np.asarray(multiplier).reshape(-1),
+                            constraints,
+                            strict=True,
+                        )
+                    ),
+                    np.zeros((value.size, value.size), dtype=np.float64),
+                ),
+                keep_feasible=True,
+            )
+        ]
+        fallback_keep_feasible = bool(
+            np.all(value >= lower - FIXED_E8_SOLVER_FTOL)
+            and np.all(value <= upper + FIXED_E8_SOLVER_FTOL)
+            and all(
+                item.function(value) >= -FIXED_E8_SOLVER_FTOL
+                for item in constraints
+            )
+        )
+        fallback_result = minimize(
+            objective,
+            value,
+            jac=jacobian,
+            hess=hessian,
+            method="trust-constr",
+            bounds=Bounds(
+                lower - FIXED_E8_SOLVER_FTOL,
+                upper + FIXED_E8_SOLVER_FTOL,
+                keep_feasible=fallback_keep_feasible,
             ),
-            optimizer_status_history=status_history,
-            optimizer_message_sha256_history=message_history,
+            constraints=[
+                NonlinearConstraint(
+                    item.fun,
+                    item.lb,
+                    item.ub,
+                    jac=item.jac,
+                    hess=item.hess,
+                    keep_feasible=fallback_keep_feasible,
+                )
+                for item in trust_constraints
+            ],
+            options=dict(FIXED_E8_FALLBACK_OPTIONS),
         )
-        result.nit = final_backend_iterations
-        if (
-            certificate.passed
-            or certificate_continuation_count
-            >= FIXED_E8_CERTIFICATE_CONTINUATION_LIMIT
-        ):
-            break
-        # Continue the exact same numerical program from its last iterate.
-        # This performs no field rebuild, model call, candidate evaluation,
-        # clock advance, or scientific retry and preserves all locked
-        # objective, constraint, bound, and tolerance values.
-        results.append(run_backend(value))
-        backend_iterations.append(int(getattr(results[-1], "nit", 0)))
-        certificate_continuation_count += 1
+        value, expanded, observed_xi = candidate_parts(fallback_result)
+        attempts.append(
+            _backend_attempt(
+                result=fallback_result,
+                backend=FIXED_E8_FALLBACK_BACKEND,
+                backend_options=_fallback_receipt_options(
+                    keep_feasible_from_seed=fallback_keep_feasible
+                ),
+                value=value,
+                objective_value=float(objective(value)),
+                objective_gradient=np.asarray(jacobian(value), dtype=np.float64),
+                constraints=constraints,
+                lower=lower,
+                upper=upper,
+            )
+        )
+    selected_attempt = attempts[-1]
+    certificate = FixedE8SolverCertificate(
+        phase=phase,
+        authority_role=authority_role,
+        success=selected_attempt.success,
+        optimizer_status=selected_attempt.status,
+        optimizer_message_sha256=selected_attempt.message_sha256,
+        optimizer_status_history=tuple(item.status for item in attempts),
+        optimizer_message_sha256_history=tuple(
+            item.message_sha256 for item in attempts
+        ),
+        finite=selected_attempt.finite,
+        iterations=sum(item.iterations for item in attempts),
+        optimizer_pass_count=len(attempts),
+        fallback_invocation_count=len(attempts) - 1,
+        maximum_primal_violation=selected_attempt.maximum_primal_violation,
+        stationarity_residual=selected_attempt.stationarity_residual,
+        complementarity_residual=selected_attempt.complementarity_residual,
+        signed_progress=float(problem.signed_progress @ expanded),
+        trust_value=float(expanded @ problem.trust_metric @ expanded),
+        p_max=p_max,
+        requested_progress=requested_progress,
+        xi=observed_xi,
+        first_false_component=selected_attempt.first_false_component,
+        active_constraints=tuple(
+            name
+            for name, slack in zip(
+                selected_attempt.ordered_constraint_names,
+                selected_attempt.ordered_constraint_slacks,
+                strict=True,
+            )
+            if abs(slack) <= 10.0 * FIXED_E8_PRIMAL_TOLERANCE
+        ),
+        backend_attempts=tuple(attempts),
+        selected_backend=selected_attempt.backend,
+        independent_certificate_authority=True,
+        passed=selected_attempt.passed,
+    )
     if not certificate.passed:
-        if certificate_observer is not None:
+        if fail_closed and certificate_observer is not None:
             certificate_observer(certificate)
-        raise ODEBFContractError(
-            f"fixed E8 {phase} solver certificate failed: "
-            f"{certificate.raw_free_payload()}"
-        )
+        if fail_closed:
+            raise ODEBFContractError(
+                f"fixed E8 {phase} NUMERIC_QP_UNCERTIFIED: "
+                f"{certificate.raw_free_payload()}"
+            )
     return value, certificate
 
 
@@ -893,7 +1159,13 @@ def _structural_score_constraint(
         result[xi_index] = 1.0
         return result
 
-    return label, slack, derivative
+    def hessian(value: np.ndarray) -> np.ndarray:
+        del value
+        result = np.zeros((active.size + 1, active.size + 1), dtype=np.float64)
+        result[: active.size, : active.size] = -2.0 * gram / normalization
+        return result
+
+    return FixedE8Constraint(label, slack, derivative, hessian)
 
 
 def _functional_score_constraint(
@@ -917,7 +1189,12 @@ def _functional_score_constraint(
         result[xi_index] = 1.0
         return result
 
-    return metric.label, slack, derivative
+    return FixedE8Constraint(
+        metric.label,
+        slack,
+        derivative,
+        lambda value: np.zeros((active.size + 1, active.size + 1), dtype=np.float64),
+    )
 
 
 def _maximum_progress(
@@ -936,6 +1213,9 @@ def _maximum_progress(
         active=active,
         objective=lambda item, a=progress: float(-a @ item),
         jacobian=lambda item, a=progress: -a.copy(),
+        hessian=lambda item, dimension=active.size: np.zeros(
+            (dimension, dimension), dtype=np.float64
+        ),
         constraints=constraints,
         lower=np.zeros(active.size, dtype=np.float64),
         upper=caps,
@@ -943,6 +1223,7 @@ def _maximum_progress(
         p_max=0.0,
         requested_progress=0.0,
         xi=None,
+        authority_role="AUTHORITATIVE",
         certificate_observer=certificate_observer,
     )
     expanded = np.zeros(problem.signed_progress.size, dtype=np.float64)
@@ -950,12 +1231,7 @@ def _maximum_progress(
     p_max = float(problem.signed_progress @ expanded)
     if not math.isfinite(p_max) or p_max < -FIXED_E8_PRIMAL_TOLERANCE:
         raise ODEBFContractError("fixed E8 maximum progress differs")
-    certificate = FixedE8SolverCertificate(
-        **{
-            **asdict(certificate),
-            "p_max": max(p_max, 0.0),
-        }
-    )
+    certificate = replace(certificate, p_max=max(p_max, 0.0))
     if certificate_observer is not None:
         certificate_observer(certificate)
     return expanded, max(p_max, 0.0), certificate
@@ -1008,7 +1284,10 @@ def solve_fixed_e8_routing(
     scale = requested / p_max
     initial_velocity = maximum[active] * scale
     metric = problem.capacity_metric[np.ix_(active, active)]
-    certificates: list[FixedE8SolverCertificate] = [maximum_certificate]
+    authoritative_certificates: list[FixedE8SolverCertificate] = [
+        maximum_certificate
+    ]
+    diagnostic_shadow_certificates: list[FixedE8SolverCertificate] = []
     neutral_active, capacity_certificate = _solve_slsqp(
         phase="neutral-minimum-capacity",
         problem=problem,
@@ -1017,6 +1296,7 @@ def solve_fixed_e8_routing(
             0.5 * value @ matrix @ value
         ),
         jacobian=lambda value, matrix=metric: matrix @ value,
+        hessian=lambda value, matrix=metric: matrix.copy(),
         constraints=technical,
         lower=np.zeros(active.size, dtype=np.float64),
         upper=caps,
@@ -1024,20 +1304,30 @@ def solve_fixed_e8_routing(
         p_max=p_max,
         requested_progress=requested,
         xi=None,
+        authority_role="AUTHORITATIVE",
         certificate_observer=certificate_observer,
     )
     if certificate_observer is not None:
         certificate_observer(capacity_certificate)
-    certificates.append(capacity_certificate)
+    authoritative_certificates.append(capacity_certificate)
     xi_index = active.size
     stage1_constraints: list[Constraint] = []
-    for name, function, derivative in technical:
+    for constraint in technical:
         stage1_constraints.append(
-            (
-                name,
-                lambda value, f=function: f(value[:active.size]),
-                lambda value, d=derivative: np.concatenate(
-                    (d(value[:active.size]), np.zeros(1, dtype=np.float64))
+            FixedE8Constraint(
+                constraint.name,
+                lambda value, item=constraint: item.function(
+                    value[:active.size]
+                ),
+                lambda value, item=constraint: np.concatenate(
+                    (
+                        item.jacobian(value[:active.size]),
+                        np.zeros(1, dtype=np.float64),
+                    )
+                ),
+                lambda value, item=constraint: np.pad(
+                    item.hessian(value[:active.size]),
+                    ((0, 1), (0, 1)),
                 ),
             )
         )
@@ -1083,6 +1373,9 @@ def solve_fixed_e8_routing(
         jacobian=lambda value: np.eye(
             1, value.size, xi_index, dtype=np.float64
         ).reshape(-1),
+        hessian=lambda value: np.zeros(
+            (value.size, value.size), dtype=np.float64
+        ),
         constraints=stage1_constraints,
         lower=np.concatenate((np.zeros(active.size), [0.0])),
         upper=np.concatenate((caps, [np.inf])),
@@ -1090,75 +1383,111 @@ def solve_fixed_e8_routing(
         p_max=p_max,
         requested_progress=requested,
         xi=initial_xi,
+        authority_role=(
+            "AUTHORITATIVE"
+            if selected is FixedE8Arm.SOFT
+            else "DIAGNOSTIC_SOFT_SHADOW"
+        ),
+        fail_closed=selected is FixedE8Arm.SOFT,
         certificate_observer=certificate_observer,
     )
     if certificate_observer is not None:
         certificate_observer(stage1_certificate)
-    xi_star = max(float(stage1_value[xi_index]), 0.0)
-    certificates.append(stage1_certificate)
-    stage2_constraints: list[Constraint] = list(technical)
-    xi_cap = xi_star + FIXED_E8_XI_TIE_TOLERANCE
+    if selected is FixedE8Arm.SOFT:
+        authoritative_certificates.append(stage1_certificate)
+    else:
+        diagnostic_shadow_certificates.append(stage1_certificate)
+    xi_star: float | None = None
+    soft_active = neutral_active.copy()
+    soft_shadow_status = "SOFT_SHADOW_NUMERIC_UNAVAILABLE"
+    if stage1_certificate.passed:
+        xi_star = max(float(stage1_value[xi_index]), 0.0)
+        stage2_constraints: list[Constraint] = list(technical)
+        xi_cap = xi_star + FIXED_E8_XI_TIE_TOLERANCE
 
-    def append_structural_cap(label: str, barrier: QuadraticBarrier) -> None:
-        linear = barrier.linear[active]
-        gram = barrier.gram[np.ix_(active, active)]
-        normalization = max(
-            FIXED_E8_NORMALIZATION_EPSILON,
-            float(np.trace(barrier.gram)),
-        )
-        stage2_constraints.append(
-            (
-                label,
-                lambda value, lin=linear, matrix=gram, scale=normalization: float(
-                    xi_cap
-                    - (2.0 * lin @ value + value @ matrix @ value) / scale
-                ),
-                lambda value, lin=linear, matrix=gram, scale=normalization: -(
-                    2.0 * lin + 2.0 * matrix @ value
-                )
-                / scale,
+        def append_structural_cap(label: str, barrier: QuadraticBarrier) -> None:
+            linear = barrier.linear[active]
+            gram = barrier.gram[np.ix_(active, active)]
+            normalization = max(
+                FIXED_E8_NORMALIZATION_EPSILON,
+                float(np.trace(barrier.gram)),
             )
-        )
+            stage2_constraints.append(
+                FixedE8Constraint(
+                    label,
+                    lambda value, lin=linear, matrix=gram, scale=normalization: float(
+                        xi_cap
+                        - (2.0 * lin @ value + value @ matrix @ value) / scale
+                    ),
+                    lambda value, lin=linear, matrix=gram, scale=normalization: -(
+                        2.0 * lin + 2.0 * matrix @ value
+                    )
+                    / scale,
+                    lambda value, matrix=gram, scale=normalization: -2.0
+                    * matrix
+                    / scale,
+                ),
+            )
 
-    if inventory.history_item_count > 0:
+        if inventory.history_item_count > 0:
+            append_structural_cap(
+                "xi_tie_structural_historical", problem.historical
+            )
         append_structural_cap(
-            "xi_tie_structural_historical", problem.historical
+            "xi_tie_structural_pretrained", problem.pretrained
         )
-    append_structural_cap("xi_tie_structural_pretrained", problem.pretrained)
-    for functional in inventory.active_metrics():
-        positive = functional.positive_increment[active]
-        normalization = functional.normalization
-        stage2_constraints.append(
-            (
-                f"xi_tie_{functional.label}",
-                lambda value, slope=positive, scale=normalization: float(
-                    xi_cap - slope @ value / scale
-                ),
-                lambda value, slope=positive, scale=normalization: -slope
-                / scale,
+        for functional in inventory.active_metrics():
+            positive = functional.positive_increment[active]
+            normalization = functional.normalization
+            stage2_constraints.append(
+                FixedE8Constraint(
+                    f"xi_tie_{functional.label}",
+                    lambda value, slope=positive, scale=normalization: float(
+                        xi_cap - slope @ value / scale
+                    ),
+                    lambda value, slope=positive, scale=normalization: -slope
+                    / scale,
+                    lambda value, dimension=active.size: np.zeros(
+                        (dimension, dimension), dtype=np.float64
+                    ),
+                )
             )
+        soft_active, stage2_certificate = _solve_slsqp(
+            phase="soft-minimum-capacity-within-xi-tie",
+            problem=problem,
+            active=active,
+            objective=lambda value, matrix=metric: float(
+                0.5 * value @ matrix @ value
+            ),
+            jacobian=lambda value, matrix=metric: matrix @ value,
+            hessian=lambda value, matrix=metric: matrix.copy(),
+            constraints=stage2_constraints,
+            lower=np.zeros(active.size, dtype=np.float64),
+            upper=caps,
+            initial=stage1_value[:active.size],
+            p_max=p_max,
+            requested_progress=requested,
+            xi=xi_star,
+            authority_role=(
+                "AUTHORITATIVE"
+                if selected is FixedE8Arm.SOFT
+                else "DIAGNOSTIC_SOFT_SHADOW"
+            ),
+            fail_closed=selected is FixedE8Arm.SOFT,
+            certificate_observer=certificate_observer,
         )
-    soft_active, stage2_certificate = _solve_slsqp(
-        phase="soft-minimum-capacity-within-xi-tie",
-        problem=problem,
-        active=active,
-        objective=lambda value, matrix=metric: float(
-            0.5 * value @ matrix @ value
-        ),
-        jacobian=lambda value, matrix=metric: matrix @ value,
-        constraints=stage2_constraints,
-        lower=np.zeros(active.size, dtype=np.float64),
-        upper=caps,
-        initial=stage1_value[:active.size],
-        p_max=p_max,
-        requested_progress=requested,
-        xi=xi_star,
-        polish_once=True,
-        certificate_observer=certificate_observer,
-    )
-    if certificate_observer is not None:
-        certificate_observer(stage2_certificate)
-    certificates.append(stage2_certificate)
+        if certificate_observer is not None:
+            certificate_observer(stage2_certificate)
+        if selected is FixedE8Arm.SOFT:
+            authoritative_certificates.append(stage2_certificate)
+            soft_shadow_status = "AUTHORITATIVE_SOFT_NOT_SHADOW"
+        else:
+            diagnostic_shadow_certificates.append(stage2_certificate)
+            if stage2_certificate.passed:
+                soft_shadow_status = "AVAILABLE"
+            else:
+                soft_active = neutral_active.copy()
+                soft_shadow_status = "SOFT_SHADOW_NUMERIC_UNAVAILABLE"
     pre_soft_velocity = neutral_expanded
     soft_velocity = _expand(
         active, soft_active, problem.signed_progress.size
@@ -1194,7 +1523,13 @@ def solve_fixed_e8_routing(
         "applied_coefficient": (float(FIXED_E8_H) * velocity).tolist(),
         "scores": [asdict(item) for item in scores],
         "xi_star": xi_star,
-        "certificates": [item.raw_free_payload() for item in certificates],
+        "authoritative_certificates": [
+            item.raw_free_payload() for item in authoritative_certificates
+        ],
+        "diagnostic_shadow_certificates": [
+            item.raw_free_payload() for item in diagnostic_shadow_certificates
+        ],
+        "soft_shadow_status": soft_shadow_status,
         "hard_structural_h_budget_influence_count": 0,
         "hard_structural_p_budget_influence_count": 0,
         "functional_candidate_veto_influence_count": 0,
@@ -1204,14 +1539,33 @@ def solve_fixed_e8_routing(
             if selected is FixedE8Arm.NEUTRAL
             else "JOINT_SOFT_LEXICOGRAPHIC"
         ),
-        "matched_solver_schedule": True,
-        "solver_schedule_kind": "FULL_LEXICOGRAPHIC_MAXIMUM_SCHEDULE",
-        "actual_logical_qp_count": len(certificates),
-        "actual_optimizer_backend_invocation_count": sum(
-            item.optimizer_pass_count for item in certificates
+        "matched_solver_schedule": (
+            len(authoritative_certificates)
+            + len(diagnostic_shadow_certificates)
+            == 4
         ),
-        "actual_numerical_backend_continuation_count": sum(
-            max(item.optimizer_pass_count - 1, 0) for item in certificates
+        "solver_schedule_kind": (
+            "FULL_LEXICOGRAPHIC_MAXIMUM_SCHEDULE"
+            if len(authoritative_certificates)
+            + len(diagnostic_shadow_certificates)
+            == 4
+            else "SOFT_SHADOW_NUMERIC_UNAVAILABLE_REDUCED_DIAGNOSTIC_SCHEDULE"
+        ),
+        "actual_logical_qp_count": len(authoritative_certificates)
+        + len(diagnostic_shadow_certificates),
+        "actual_optimizer_backend_invocation_count": sum(
+            item.optimizer_pass_count
+            for item in (
+                *authoritative_certificates,
+                *diagnostic_shadow_certificates,
+            )
+        ),
+        "actual_fallback_backend_invocation_count": sum(
+            item.fallback_invocation_count
+            for item in (
+                *authoritative_certificates,
+                *diagnostic_shadow_certificates,
+            )
         ),
         "static_operation_counts_are_maximum_ceiling": True,
         "soft_shadow_decision_influence_count": (
@@ -1233,7 +1587,9 @@ def solve_fixed_e8_routing(
         tuple(float(FIXED_E8_H) * float(item) for item in velocity),
         scores,
         xi_star,
-        tuple(certificates),
+        tuple(authoritative_certificates),
+        tuple(diagnostic_shadow_certificates),
+        soft_shadow_status,
         identity,
     )
 
@@ -1271,7 +1627,11 @@ def _zero_write_result(
         "applied_coefficient": zero.tolist(),
         "scores": [asdict(item) for item in scores],
         "xi_star": None,
-        "certificates": [item.raw_free_payload() for item in certificates],
+        "authoritative_certificates": [
+            item.raw_free_payload() for item in certificates
+        ],
+        "diagnostic_shadow_certificates": [],
+        "soft_shadow_status": "NOT_APPLICABLE_ZERO_WRITE",
         "target_only_recovery_consumes_grid_interval": True,
         "retry_count": 0,
         "matched_solver_schedule": False,
@@ -1280,8 +1640,8 @@ def _zero_write_result(
         "actual_optimizer_backend_invocation_count": sum(
             item.optimizer_pass_count for item in certificates
         ),
-        "actual_numerical_backend_continuation_count": sum(
-            max(item.optimizer_pass_count - 1, 0) for item in certificates
+        "actual_fallback_backend_invocation_count": sum(
+            item.fallback_invocation_count for item in certificates
         ),
         "static_operation_counts_are_maximum_ceiling": True,
     }
@@ -1300,6 +1660,8 @@ def _zero_write_result(
         scores,
         None,
         certificates,
+        (),
+        "NOT_APPLICABLE_ZERO_WRITE",
         canonical_hash(payload),
     )
 
@@ -1406,11 +1768,9 @@ class FixedE8OperationCeiling:
     field_backward_batches_per_arm: int = 8
     target_backward_batches_per_arm: int = 8
     qp_solves_per_field: int = 4
-    nominal_qp_backend_invocations_per_field: int = 5
-    certificate_continuations_per_qp: int = (
-        FIXED_E8_CERTIFICATE_CONTINUATION_LIMIT
-    )
-    qp_backend_invocation_failure_ceiling_per_field: int = 13
+    nominal_qp_backend_invocations_per_field: int = 4
+    fallback_invocations_per_qp: int = FIXED_E8_FALLBACK_LIMIT
+    qp_backend_invocation_failure_ceiling_per_field: int = 8
     scientific_retries_per_arm: int = 0
 
     def __post_init__(self) -> None:
@@ -1426,9 +1786,9 @@ class FixedE8OperationCeiling:
             or self.field_backward_batches_per_arm != 8
             or self.target_backward_batches_per_arm != 8
             or self.qp_solves_per_field != 4
-            or self.nominal_qp_backend_invocations_per_field != 5
-            or self.certificate_continuations_per_qp != 2
-            or self.qp_backend_invocation_failure_ceiling_per_field != 13
+            or self.nominal_qp_backend_invocations_per_field != 4
+            or self.fallback_invocations_per_qp != 1
+            or self.qp_backend_invocation_failure_ceiling_per_field != 8
             or self.scientific_retries_per_arm != 0
         ):
             raise ODEBFContractError("fixed E8 operation ceiling differs")
@@ -1461,12 +1821,12 @@ class FixedE8OperationCeiling:
                 self.fields_per_arm
                 * self.nominal_qp_backend_invocations_per_field
             ),
-            "certificate_continuation_invocation_ceiling_count": (
+            "fallback_backend_invocation_ceiling_count": (
                 self.fields_per_arm
                 * self.qp_solves_per_field
-                * self.certificate_continuations_per_qp
+                * self.fallback_invocations_per_qp
             ),
-            "stage2_numerical_polish_count": self.fields_per_arm,
+            "unconditional_stage2_polish_count": 0,
             "scientific_retry_count": 0,
         }
         return {
@@ -1474,10 +1834,10 @@ class FixedE8OperationCeiling:
             "two_arm": {
                 key: value * self.arm_count for key, value in per_arm.items()
             },
-            "matched_compute_schedule": True,
             "field_probe_evaluator_schedule_matched": True,
+            "solver_backend_schedule_matched_not_required": True,
             "solver_backend_schedule_role": (
-                "NOMINAL_MATCHED_WITH_BOUNDED_SAME_QP_CERTIFICATE_RECOVERY"
+                "PRIMARY_PLUS_AT_MOST_ONE_INDEPENDENT_SAME_QP_FALLBACK"
             ),
         }
 
@@ -1492,12 +1852,12 @@ def fixed_e8_semantic_receipt() -> dict[str, Any]:
         "kappa": FIXED_E8_KAPPA,
         "normalization_epsilon": FIXED_E8_NORMALIZATION_EPSILON,
         "xi_tie_tolerance": FIXED_E8_XI_TIE_TOLERANCE,
-        "certificate_continuation_limit_per_qp": (
-            FIXED_E8_CERTIFICATE_CONTINUATION_LIMIT
-        ),
-        "certificate_continuation_role": (
-            "SAME_QP_NUMERICAL_BACKEND_ONLY"
-        ),
+        "fallback_backend_limit_per_qp": FIXED_E8_FALLBACK_LIMIT,
+        "fallback_backend_role": "INDEPENDENT_SAME_QP_CERTIFICATE_RECOVERY",
+        "primary_backend": FIXED_E8_PRIMARY_BACKEND,
+        "fallback_backend": FIXED_E8_FALLBACK_BACKEND,
+        "backend_success_is_diagnostic_only": True,
+        "certificate_authority": "INDEPENDENT_FINITE_PRIMAL_STATIONARITY_COMPLEMENTARITY",
         "structural_problem_coordinates": "already-h-and-h2-scaled",
         "structural_score": "positive(delta_risk)/max(epsilon,trace(gram))",
         "functional_score": (

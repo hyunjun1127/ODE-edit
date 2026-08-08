@@ -76,7 +76,7 @@ def main(argv: list[str] | None = None) -> int:
             exc,
             repo_root=REPO_ROOT,
             instruction_id=FIXED_E8_INSTRUCTION_ID,
-            failure_schema="ode-edit-s05-fixed-e8-p1r7-failure/v1",
+            failure_schema="ode-edit-s05-fixed-e8-r8-failure/v1",
         )
         print(
             json.dumps(

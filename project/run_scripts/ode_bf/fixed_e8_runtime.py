@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import math
 import time
+import unicodedata
 from dataclasses import asdict, dataclass, field as dataclass_field
 from fractions import Fraction
 from pathlib import Path
@@ -82,6 +83,10 @@ from .p1_controller import (
     P1ControllerLock,
     _cumulative_structural_terms,
 )
+from .p1_fixed_e8_soft_panel import (
+    FIXED_E8_INSTRUCTION_ID,
+    FIXED_E8_SCHEMA_NAMESPACE,
+)
 from .p1_replay import (
     OuterEntryPretrainedCache,
     Theta0TeacherCache,
@@ -103,11 +108,110 @@ from .cold_start_target import (
 )
 
 
-FIXED_E8_INSTRUCTION_ID = (
-    "ODEEDIT-S05-ODE-BF-COLD-FIXED-E8-STRUCTFUNC-SOFT-P1R7-V1"
-)
-FIXED_E8_SCHEMA_NAMESPACE = "ode-edit-s05-cold-fixed-e8-structfunc-soft-p1r7"
 FIXED_E8_PANEL_LABELS = tuple(item.value for item in FixedE8Arm)
+
+
+def fixed_e8_context_degeneracy_audit(
+    tokenizer: Any,
+    contexts: Sequence[Sequence[str]],
+    *,
+    context_sha256: str,
+) -> dict[str, Any]:
+    """Raw-free, observation-only audit of the pre-action context inventory."""
+
+    if canonical_hash(contexts) != context_sha256 or not contexts:
+        raise ODEBFContractError("fixed E8 context audit identity differs")
+    rows: list[dict[str, Any]] = []
+    for group_index, group in enumerate(contexts):
+        if not isinstance(group, Sequence) or isinstance(group, (str, bytes)) or not group:
+            raise ODEBFContractError("fixed E8 context audit group differs")
+        for context_index, value in enumerate(group):
+            if not isinstance(value, str) or not value:
+                raise ODEBFContractError("fixed E8 context audit value differs")
+            token_ids = tuple(
+                int(item)
+                for item in tokenizer.encode(value, add_special_tokens=False)
+            )
+            if not token_ids:
+                raise ODEBFContractError("fixed E8 context audit tokenization is empty")
+            duplicate_run = 1
+            current_duplicate = 1
+            for left, right in zip(token_ids, token_ids[1:]):
+                current_duplicate = current_duplicate + 1 if left == right else 1
+                duplicate_run = max(duplicate_run, current_duplicate)
+            punctuation_run = 0
+            current_punctuation = 0
+            for character in value:
+                if unicodedata.category(character).startswith("P"):
+                    current_punctuation += 1
+                    punctuation_run = max(punctuation_run, current_punctuation)
+                else:
+                    current_punctuation = 0
+            rows.append(
+                {
+                    "group_index": group_index,
+                    "context_index": context_index,
+                    "context_sha256": canonical_hash({"context": value}),
+                    "character_length": len(value),
+                    "token_length": len(token_ids),
+                    "maximum_duplicate_token_run": duplicate_run,
+                    "maximum_punctuation_character_run": punctuation_run,
+                }
+            )
+    payload = {
+        "schema": "ode-edit-fixed-e8-context-degeneracy-audit/v1",
+        "context_generation_source": (
+            "EasyEdit.easyeditor.models.alphaedit.AlphaEdit_main.get_context_templates"
+        ),
+        "context_generation_seed": 17,
+        "context_generation_order": "GROUP_MAJOR_THEN_CONTEXT_INDEX",
+        "context_sha256": context_sha256,
+        "group_count": len(contexts),
+        "context_count": len(rows),
+        "rows": rows,
+        "policy": "OBSERVATION_ONLY_COMMON_BOTH_ALIASES",
+        "selection_regeneration_clip_rescue_count": 0,
+        "controller_decision_influence_count": 0,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
+
+
+def _functional_p_floor_telemetry(
+    *,
+    candidate_raw: float,
+    current_state_raw: float,
+    zero_write: bool,
+    zero_write_floor: float | None,
+) -> tuple[dict[str, Any], float | None]:
+    values = (candidate_raw, current_state_raw)
+    if any(not math.isfinite(float(item)) for item in values):
+        raise ODEBFContractError("fixed E8 functional-P floor telemetry differs")
+    floor = zero_write_floor
+    if zero_write and floor is None:
+        floor = float(current_state_raw)
+    corrected_signed = None if floor is None else float(candidate_raw - floor)
+    payload = {
+        "raw_functional_p": float(candidate_raw),
+        "repeated_current_state_raw_functional_p": float(current_state_raw),
+        "zero_write_floor": floor,
+        "zero_write_floor_observed": floor is not None,
+        "current_transition_is_zero_write": zero_write,
+        "zero_write_repeat_delta": (
+            float(candidate_raw - current_state_raw) if zero_write else None
+        ),
+        "floor_corrected_signed": corrected_signed,
+        "floor_corrected_positive": (
+            None if corrected_signed is None else max(corrected_signed, 0.0)
+        ),
+        "floor_definition": (
+            "FIRST_ZERO_WRITE_FIELD_CURRENT_STATE_FUNCTIONAL_P_MEAN_POSITIVE_DAMAGE"
+        ),
+        "routing_accept_clock_endpoint_influence_count": 0,
+        "legacy_one_e_minus_three_absolute_threshold_conclusion_count": 0,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload, floor
 
 
 @dataclass(slots=True)
@@ -213,28 +317,38 @@ def _fixed_e8_solver_accounting(
     routing: FixedE8RoutingResult,
 ) -> dict[str, Any]:
     logical = len(routing.certificates)
+    authoritative_logical = len(routing.authoritative_certificates)
+    diagnostic_shadow_logical = len(routing.diagnostic_shadow_certificates)
     backend = sum(item.optimizer_pass_count for item in routing.certificates)
-    continuation = sum(
-        max(item.optimizer_pass_count - 1, 0)
+    fallback = sum(
+        item.fallback_invocation_count
         for item in routing.certificates
     )
-    if backend != logical + continuation:
+    if backend != logical + fallback:
         raise ODEBFContractError("fixed E8 optimizer accounting differs")
     maximum_schedule = bool(
         routing.mode is FixedE8StepMode.JOINT_WRITE
         and logical == 4
-        and backend == 5
-        and continuation == 1
+        and authoritative_logical in (2, 4)
+        and diagnostic_shadow_logical in (0, 2)
+        and 4 <= backend <= 8
     )
     return {
         "actual_logical_qp_certificate_count": logical,
+        "actual_authoritative_logical_qp_certificate_count": (
+            authoritative_logical
+        ),
+        "actual_diagnostic_shadow_logical_qp_certificate_count": (
+            diagnostic_shadow_logical
+        ),
         "actual_optimizer_backend_invocation_count": backend,
-        "actual_numerical_backend_continuation_count": continuation,
-        "numerical_backend_continuation_role": (
-            "FIXED_NUMERICAL_BACKEND_CONTINUATION_SAME_QP"
-            if continuation
+        "actual_fallback_backend_invocation_count": fallback,
+        "fallback_backend_role": (
+            "INDEPENDENT_SAME_QP_CERTIFICATE_RECOVERY"
+            if fallback
             else "NONE"
         ),
+        "soft_shadow_status": routing.soft_shadow_status,
         "solver_schedule_matches_static_maximum": maximum_schedule,
         "static_operation_counts_are_maximum_ceiling": True,
         "scientific_retry_count": 0,
@@ -425,7 +539,12 @@ def _fixed_e8_solver_receipt_observer(
                 "status": (
                     "SOLVER_CERTIFICATE_PASSED"
                     if certificate.passed
-                    else "SOLVER_CERTIFICATE_FAILED"
+                    else (
+                        "SOFT_SHADOW_NUMERIC_UNAVAILABLE"
+                        if certificate.authority_role
+                        == "DIAGNOSTIC_SOFT_SHADOW"
+                        else "SOLVER_CERTIFICATE_FAILED"
+                    )
                 ),
                 "field_sha256": field_sha256,
                 "field_semantic_sha256": field_semantic_sha256,
@@ -435,7 +554,10 @@ def _fixed_e8_solver_receipt_observer(
                 "certificate": certificate.raw_free_payload(),
                 "hard_h_p_budget_influence_count": 0,
                 "scientific_retry_count": 0,
-                "decision_influence_count": 0,
+                "certificate_authority_role": certificate.authority_role,
+                "decision_influence_count": (
+                    1 if certificate.authority_role == "AUTHORITATIVE" else 0
+                ),
             }
         )
 
@@ -871,6 +993,10 @@ def _fixed_e8_functional_basis_probe(
             "ACTIVE" if active_h else "INACTIVE_EMPTY_HISTORY"
         ),
         "legacy_one_e_minus_three_hinge_access_count": 0,
+        "routing_functional_p_definition": (
+            "POSITIVE_PART_OF_PROBE_MINUS_CURRENT_FIELD_BASELINE"
+        ),
+        "functional_p_floor_correction_routing_influence_count": 0,
         "hard_functional_decision_influence_count": 0,
         "counter_delta": counter_delta,
         "wall_seconds": wall_seconds,
@@ -1303,9 +1429,12 @@ def _run_fixed_variant(
     field_backward_batch_count = 0
     target_backward_batch_count = 0
     actual_logical_qp_certificate_count = 0
+    actual_authoritative_logical_qp_certificate_count = 0
+    actual_diagnostic_shadow_logical_qp_certificate_count = 0
     actual_optimizer_backend_invocation_count = 0
-    actual_numerical_backend_continuation_count = 0
+    actual_fallback_backend_invocation_count = 0
     zero_write_field_count = 0
+    functional_p_zero_write_floor: float | None = None
     for step_index in range(FIXED_E8_GRID_COUNT):
         point = clock.begin_field()
         replay_entry = _controller_replay_entry(
@@ -1362,11 +1491,21 @@ def _run_fixed_variant(
         actual_logical_qp_certificate_count += int(
             solver_accounting["actual_logical_qp_certificate_count"]
         )
+        actual_authoritative_logical_qp_certificate_count += int(
+            solver_accounting[
+                "actual_authoritative_logical_qp_certificate_count"
+            ]
+        )
+        actual_diagnostic_shadow_logical_qp_certificate_count += int(
+            solver_accounting[
+                "actual_diagnostic_shadow_logical_qp_certificate_count"
+            ]
+        )
         actual_optimizer_backend_invocation_count += int(
             solver_accounting["actual_optimizer_backend_invocation_count"]
         )
-        actual_numerical_backend_continuation_count += int(
-            solver_accounting["actual_numerical_backend_continuation_count"]
+        actual_fallback_backend_invocation_count += int(
+            solver_accounting["actual_fallback_backend_invocation_count"]
         )
         if routing.mode is FixedE8StepMode.ZERO_WRITE_TARGET_RECOVERY:
             zero_write_field_count += 1
@@ -1419,6 +1558,21 @@ def _run_fixed_variant(
             ledger=ledger,
         )
         controller_candidate_functional_endpoint_count += 1
+        (
+            functional_p_floor_payload,
+            functional_p_zero_write_floor,
+        ) = _functional_p_floor_telemetry(
+            candidate_raw=float(functional.pretrained.mean_positive_damage),
+            current_state_raw=float(
+                probe_payload["baseline"]["functional_p"][
+                    "mean_positive_damage"
+                ]
+            ),
+            zero_write=(
+                routing.mode is FixedE8StepMode.ZERO_WRITE_TARGET_RECOVERY
+            ),
+            zero_write_floor=functional_p_zero_write_floor,
+        )
         evaluation = _evaluate_rewrite(
             model,
             tokenizer,
@@ -1471,6 +1625,7 @@ def _run_fixed_variant(
         }
         functional_p_observation = {
             **_risk_payload(functional.pretrained),
+            "floor_telemetry": functional_p_floor_payload,
             "status": "ACTIVE_OBSERVATION_ONLY",
             "role": "OBSERVATION_ONLY",
             "decision_influence_count": 0,
@@ -1747,22 +1902,28 @@ def _run_fixed_variant(
             "actual_logical_qp_certificate_count": (
                 actual_logical_qp_certificate_count
             ),
+            "actual_authoritative_logical_qp_certificate_count": (
+                actual_authoritative_logical_qp_certificate_count
+            ),
+            "actual_diagnostic_shadow_logical_qp_certificate_count": (
+                actual_diagnostic_shadow_logical_qp_certificate_count
+            ),
             "actual_optimizer_backend_invocation_count": (
                 actual_optimizer_backend_invocation_count
             ),
-            "actual_numerical_backend_continuation_count": (
-                actual_numerical_backend_continuation_count
+            "actual_fallback_backend_invocation_count": (
+                actual_fallback_backend_invocation_count
             ),
             "actual_trial_count": ledger.counters["trial"],
             "actual_zero_write_field_count": zero_write_field_count,
+            "functional_p_zero_write_floor": functional_p_zero_write_floor,
             "solver_schedule_matches_static_maximum": (
                 zero_write_field_count == 0
                 and actual_logical_qp_certificate_count
                 == FIXED_E8_GRID_COUNT * 4
                 and actual_optimizer_backend_invocation_count
-                == FIXED_E8_GRID_COUNT * 5
-                and actual_numerical_backend_continuation_count
-                == FIXED_E8_GRID_COUNT
+                == actual_logical_qp_certificate_count
+                + actual_fallback_backend_invocation_count
             ),
             "static_operation_counts_semantics": "MAXIMUM_CEILING",
             "static_operation_ceiling": FixedE8OperationCeiling()
@@ -1881,6 +2042,15 @@ def run_fixed_e8_diagnostic(
     )
     if request_order != stream["batch_ordered_request_digest_v1"][0]:
         raise ODEBFContractError("fixed E8 request/seal order differs")
+    context_audit = fixed_e8_context_degeneracy_audit(
+        tokenizer,
+        contexts,
+        context_sha256=context_sha256,
+    )
+    context_audit_sha = write_once(
+        raw_root / "fixed-e8" / "context-degeneracy-audit.json",
+        context_audit,
+    )
     base_bytes = {
         name: tensor_sha256(value) for name, value in sorted(touched.items())
     }
@@ -1889,6 +2059,12 @@ def run_fixed_e8_diagnostic(
         raise ODEBFStateError("fixed E8 diagnostic did not start from W0")
     z_base = capture_cold_z_base(model, tokenizer, requests, hparams)
     metric = ColdTargetMetric.from_z_base(z_base, request_order)
+    norm_squared = np.asarray(metric.norm_squared, dtype=np.float64)
+    if norm_squared.shape != (BATCH_SIZE,) or np.any(~np.isfinite(norm_squared)):
+        raise ODEBFContractError("fixed E8 z-base norm audit differs")
+    norm_quantiles = np.quantile(
+        norm_squared, (0.0, 0.25, 0.5, 0.75, 1.0), method="linear"
+    )
     lookup_positions = cold_lookup_positions(
         tokenizer,
         requests,
@@ -1901,6 +2077,17 @@ def run_fixed_e8_diagnostic(
         "request_order_sha256": request_order,
         "z_base_sha256": tensor_sha256(z_base),
         "metric": metric.raw_free_payload(),
+        "norm_squared_quantiles": {
+            "q0": float(norm_quantiles[0]),
+            "q25": float(norm_quantiles[1]),
+            "q50": float(norm_quantiles[2]),
+            "q75": float(norm_quantiles[3]),
+            "q100": float(norm_quantiles[4]),
+        },
+        "norm_squared_max_to_min_ratio": float(
+            norm_squared.max() / norm_squared.min()
+        ),
+        "norm_squared_outlier_policy": "OBSERVATION_ONLY_NO_CLIP_RESCUE",
         "native_or_direct_z_access_count": 0,
         "separate_bootstrap_clock_count": 0,
     }
@@ -1991,13 +2178,9 @@ def run_fixed_e8_diagnostic(
             "p_max": first_routing["p_max"],
             "requested_progress": first_routing["requested_progress"],
             "pre_soft_velocity": first_routing["pre_soft_velocity"],
-            "soft_shadow_velocity": first_routing["soft_velocity"],
             "functional_inventory_sha256": rollout.snapshots[0].routing_payload[
                 "functional_basis"
             ]["identity_sha256"],
-            "matched_solver_schedule": first_routing[
-                "matched_solver_schedule"
-            ],
         }
         stages.record(
             f"post_{arm.value.lower().replace('-', '_')}",
@@ -2020,6 +2203,7 @@ def run_fixed_e8_diagnostic(
         "instruction_id": FIXED_E8_INSTRUCTION_ID,
         "request_order_sha256": request_order,
         "z_base_sha256": z_base_sha,
+        "context_degeneracy_audit_sha256": context_audit_sha,
         "rollout_sha256": {
             label: rollout.rollout_sha256 for label, rollout in rollouts.items()
         },
@@ -2119,6 +2303,7 @@ def run_fixed_e8_diagnostic(
         "request_order_sha256": request_order,
         "stream_root_digest": stream["root_digest"],
         "z_base_sha256": z_base_sha,
+        "context_degeneracy_audit_sha256": context_audit_sha,
         "action_freeze_sha256": action_freeze_sha,
         "n32_postfreeze_sha256": n32_sha,
         "stepwise_panel_sha256": stepwise_sha,
