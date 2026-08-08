@@ -166,6 +166,68 @@ class CommonColdCoordinateTests(unittest.TestCase):
         )
         self.assertTrue(torch.equal(rng, torch.get_rng_state()))
 
+    def test_bf16_additive_assignment_is_exact_while_realized_delta_rounds(self) -> None:
+        model = _TerminalOverlayModel()
+        residual = torch.ones((3, 10), dtype=torch.float32)
+        positions = tuple(0 for _ in range(60))
+        before = torch.full((1, 1, 3), 256.0, dtype=torch.bfloat16)
+        expected = before + torch.ones_like(before)
+        overlay = common.RequestResidualActivationOverlay(
+            model, "target", residual, positions
+        )
+        outputs = []
+        with overlay:
+            for _ in range(60):
+                outputs.append(model(before.clone()).detach())
+        receipt = overlay.raw_free_payload()
+        self.assertTrue(all(torch.equal(value, expected) for value in outputs))
+        self.assertEqual(receipt["maximum_authoritative_assignment_error"], 0.0)
+        self.assertGreater(receipt["maximum_exact_delta_error"], 0.0)
+        self.assertEqual(receipt["realized_delta_error_decision_influence_count"], 0)
+
+        assignment_error, realized_error = (
+            common._authoritative_additive_assignment_errors(
+                before[0, 0],
+                torch.ones_like(before[0, 0]),
+                expected[0, 0],
+            )
+        )
+        self.assertEqual(assignment_error, 0.0)
+        self.assertGreater(realized_error, 0.0)
+        wrong = expected[0, 0].clone()
+        wrong[0] = wrong[0] + torch.tensor(4.0, dtype=torch.bfloat16)
+        wrong_assignment_error, _ = common._authoritative_additive_assignment_errors(
+            before[0, 0], torch.ones_like(before[0, 0]), wrong
+        )
+        self.assertGreater(wrong_assignment_error, 0.0)
+
+    def test_singleton_joint_capture_mismatch_is_observation_only(self) -> None:
+        joint = torch.arange(8, dtype=torch.float32).reshape(8, 1)
+        exact = runtime._singleton_joint_capture_comparison(joint.clone(), joint)
+        self.assertTrue(exact["exact_equal"])
+        self.assertEqual(exact["exact_mismatch_count"], 0)
+
+        singleton = joint.clone()
+        singleton[3, 0] += 0.125
+        observed = runtime._singleton_joint_capture_comparison(singleton, joint)
+        self.assertFalse(observed["exact_equal"])
+        self.assertEqual(observed["exact_mismatch_count"], 1)
+        self.assertEqual(observed["exact_mismatch_fraction"], 1 / 8)
+        self.assertEqual(
+            observed["status"],
+            "FINITE_BATCH_KERNEL_NUMERIC_DIFFERENCE_OBSERVED",
+        )
+        self.assertEqual(
+            observed["controller_selection_endpoint_influence_count"], 0
+        )
+        self.assertEqual(observed["tolerance_or_rescue_count"], 0)
+        with self.assertRaises(ODEBFContractError):
+            runtime._singleton_joint_capture_comparison(singleton, joint.double())
+        invalid = singleton.clone()
+        invalid[0, 0] = float("nan")
+        with self.assertRaises(ODEBFContractError):
+            runtime._singleton_joint_capture_comparison(invalid, joint)
+
     def test_shared_target_field_anchor_gradient_and_layer_isolation(self) -> None:
         field, _, _ = _shared_field()
         model = _ColdLayerOverlayModel()
@@ -596,6 +658,10 @@ class CommonColdCoordinateTests(unittest.TestCase):
         ordinal_source = inspect.getsource(runtime._prior_qwen_ordinal6_audit)
         self.assertNotIn("p1r6_cold_cf_b10_seal", ordinal_source)
         self.assertIn("prior_requests = tuple(requests)", ordinal_source)
+        self.assertNotIn(
+            "prior ordinal6 common capture identity failed", ordinal_source
+        )
+        self.assertIn("_singleton_joint_capture_comparison", ordinal_source)
         dispatch_source = inspect.getsource(p1_runtime.run_p1)
         self.assertIn("requests=cold_requests", dispatch_source)
         self.assertIn("stream=cold_stream", dispatch_source)
@@ -619,17 +685,17 @@ class CommonColdCoordinateTests(unittest.TestCase):
         self.assertFalse(first["unseen_or_fresh_sample_claim_authorized"])
         self.assertEqual(
             COMMON_COLD_RESULT_TOKEN,
-            "common-coldcoord-fixed-e8-p1r10-r1-v1",
+            "common-coldcoord-fixed-e8-p1r10-r2-v1",
         )
         self.assertEqual(
             expected_common_cold_result_name("llama3-8b-inst"),
-            "s05-common-coldcoord-fixed-e8-p1r10-r1-llama3-8b-inst-v1",
+            "s05-common-coldcoord-fixed-e8-p1r10-r2-llama3-8b-inst-v1",
         )
         self.assertEqual(
             common_dry.JOB_NAMES,
             {
-                "llama3-8b-inst": "odeedit_s05_r10r1_llama",
-                "qwen2.5-7b-inst": "odeedit_s05_r10r1_qwen",
+                "llama3-8b-inst": "odeedit_s05_r10r2_llama",
+                "qwen2.5-7b-inst": "odeedit_s05_r10r2_qwen",
             },
         )
         self.assertEqual(
@@ -638,12 +704,19 @@ class CommonColdCoordinateTests(unittest.TestCase):
         )
         self.assertEqual(
             common_submit.EXECUTION_REPAIR_PARENT_HEAD,
+            "abaa366c8d32918ecf96d4f433248b799703001b",
+        )
+        self.assertEqual(
+            common_submit.FIRST_REPAIR_PARENT_HEAD,
             "d60ddaf765f79f4f4f73c2dc455f8aef7521084e",
         )
         provenance_source = inspect.getsource(
             common_submit._execution_provenance_gate
         )
         self.assertIn('parent != EXECUTION_REPAIR_PARENT_HEAD', provenance_source)
+        self.assertIn(
+            'first_repair_parent != FIRST_REPAIR_PARENT_HEAD', provenance_source
+        )
         self.assertIn(
             'scientific_parent != COMMON_COLD_PARENT_HEAD', provenance_source
         )

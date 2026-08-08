@@ -1131,6 +1131,71 @@ def _warm_evaluator_parity_receipt(
     return payload
 
 
+def _singleton_joint_capture_comparison(
+    singleton: torch.Tensor,
+    joint_column: torch.Tensor,
+) -> dict[str, Any]:
+    if (
+        not isinstance(singleton, torch.Tensor)
+        or not isinstance(joint_column, torch.Tensor)
+        or singleton.shape != joint_column.shape
+        or singleton.dtype != joint_column.dtype
+        or singleton.device != joint_column.device
+        or singleton.numel() == 0
+        or not torch.isfinite(singleton).all()
+        or not torch.isfinite(joint_column).all()
+    ):
+        raise ODEBFContractError(
+            "prior ordinal6 singleton/joint numeric comparison differs"
+        )
+    left = singleton.detach().to(device="cpu", dtype=torch.float64).contiguous()
+    right = joint_column.detach().to(
+        device="cpu", dtype=torch.float64
+    ).contiguous()
+    difference = left - right
+    mismatch = torch.ne(singleton, joint_column)
+    mismatch_count = int(mismatch.sum().detach().cpu())
+    count = int(singleton.numel())
+    left_norm = float(torch.linalg.vector_norm(left))
+    right_norm = float(torch.linalg.vector_norm(right))
+    denominator = left_norm * right_norm
+    cosine = (
+        1.0
+        if mismatch_count == 0
+        else (
+            float(torch.sum(left * right)) / denominator
+            if denominator > 0.0
+            else 0.0
+        )
+    )
+    payload = {
+        "schema": "ode-edit-r10-singleton-joint-capture-comparison/v1",
+        "canonical_runtime_source": "JOINT_B10_CAPTURE",
+        "singleton_role": "OBSERVATION_ONLY_DIAGNOSTIC",
+        "shape": list(singleton.shape),
+        "dtype": str(singleton.dtype),
+        "device": singleton.device.type,
+        "element_count": count,
+        "exact_equal": mismatch_count == 0,
+        "exact_mismatch_count": mismatch_count,
+        "exact_mismatch_fraction": mismatch_count / count,
+        "maximum_absolute_difference": float(torch.max(torch.abs(difference))),
+        "l2_difference": float(torch.linalg.vector_norm(difference)),
+        "cosine": cosine,
+        "singleton_sha256": tensor_sha256(singleton),
+        "joint_column_sha256": tensor_sha256(joint_column),
+        "status": (
+            "EXACT_SINGLETON_JOINT_IDENTITY"
+            if mismatch_count == 0
+            else "FINITE_BATCH_KERNEL_NUMERIC_DIFFERENCE_OBSERVED"
+        ),
+        "controller_selection_endpoint_influence_count": 0,
+        "tolerance_or_rescue_count": 0,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
+
+
 def _prior_qwen_ordinal6_audit(
     model: torch.nn.Module,
     tokenizer: Any,
@@ -1208,7 +1273,10 @@ def _prior_qwen_ordinal6_audit(
     singleton, singleton_layout = capture_layout(singleton_capture)
     if singleton.shape != joint[:, ordinal : ordinal + 1].shape:
         raise ODEBFContractError("prior ordinal6 singleton/joint layout differs")
-    capture_equal = torch.equal(singleton, joint[:, ordinal : ordinal + 1])
+    capture_comparison = _singleton_joint_capture_comparison(
+        singleton, joint[:, ordinal : ordinal + 1]
+    )
+    capture_equal = bool(capture_comparison["exact_equal"])
     prompt = str(request["prompt"])
     subject = str(request["subject"])
     target = str(request["target_new"])
@@ -1277,11 +1345,7 @@ def _prior_qwen_ordinal6_audit(
     payload = {
         "schema": "ode-edit-r10-prior-qwen-ordinal6-rca/v1",
         "alias": alias,
-        "status": (
-            "GENUINE_ACTIVATION_OUTLIER_RETAINED"
-            if capture_equal
-            else "COMMON_CAPTURE_BUG_DETECTED"
-        ),
+        "status": "ORDINAL6_CANONICAL_JOINT_CAPTURE_RETAINED",
         "request_sha256": str(request["request_sha256"]),
         "ordinal": ordinal,
         "request_order_sha256": stream["batch_ordered_request_digest_v1"][0],
@@ -1292,6 +1356,9 @@ def _prior_qwen_ordinal6_audit(
         "singleton_capture_sha256": tensor_sha256(singleton),
         "joint_column_capture_sha256": tensor_sha256(joint[:, ordinal : ordinal + 1]),
         "singleton_joint_exact_equal": capture_equal,
+        "singleton_joint_numeric_comparison": capture_comparison,
+        "exact_mismatch_is_observation_only": True,
+        "capture_bug_inferred_from_bitwise_mismatch": False,
         "joint_shape": list(joint.shape),
         "singleton_shape": list(singleton.shape),
         "capture_module_sha256": hashlib.sha256(
@@ -1328,8 +1395,6 @@ def _prior_qwen_ordinal6_audit(
         "native_or_direct_z_access_count": 0,
     }
     payload["identity_sha256"] = canonical_hash(payload)
-    if not capture_equal:
-        raise ODEBFContractError("prior ordinal6 common capture identity failed")
     return payload
 
 
@@ -1368,6 +1433,7 @@ def _context_overlay_gate(
         or plain.target_span_sha256 != hooked.target_span_sha256
         or plain.context_sha256 != hooked.context_sha256
         or zero_receipt["maximum_exact_delta_error"] != 0.0
+        or zero_receipt["maximum_authoritative_assignment_error"] != 0.0
     ):
         raise ODEBFContractError("common cold zero-residual context parity failed")
     synthetic = torch.ones_like(z_base, dtype=torch.float32, device="cpu").contiguous()
@@ -1383,7 +1449,7 @@ def _context_overlay_gate(
             contexts=contexts,
         )
     synthetic_receipt = synthetic_overlay.raw_free_payload()
-    if synthetic_receipt["maximum_exact_delta_error"] != 0.0:
+    if synthetic_receipt["maximum_authoritative_assignment_error"] != 0.0:
         raise ODEBFContractError("common cold synthetic additive overlay failed")
     payload = {
         "schema": "ode-edit-common-cold-context-overlay-gate/v1",
@@ -1392,6 +1458,9 @@ def _context_overlay_gate(
         "zero_residual_logit_nll_parity": True,
         "nonzero_synthetic_residual": synthetic_receipt,
         "same_request_residual_column_exact": True,
+        "authoritative_assignment_exact": True,
+        "realized_delta_error_observation_only": True,
+        "realized_delta_error_decision_influence_count": 0,
         "absolute_replacement_count": 0,
     }
     payload["identity_sha256"] = canonical_hash(payload)

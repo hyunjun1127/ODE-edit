@@ -178,6 +178,40 @@ class CommonColdScaleMetric:
         }
 
 
+def _authoritative_additive_assignment_errors(
+    before: torch.Tensor,
+    residual: torch.Tensor,
+    assigned: torch.Tensor,
+) -> tuple[float, float]:
+    if (
+        not all(isinstance(value, torch.Tensor) for value in (before, residual, assigned))
+        or before.shape != residual.shape
+        or before.shape != assigned.shape
+        or before.dtype != residual.dtype
+        or before.dtype != assigned.dtype
+        or before.device != residual.device
+        or before.device != assigned.device
+        or before.numel() == 0
+        or not all(
+            bool(torch.isfinite(value).all())
+            for value in (before, residual, assigned)
+        )
+    ):
+        raise ODEBFContractError("common cold additive assignment receipt differs")
+    expected = before + residual
+    assignment_error = float(
+        torch.max(torch.abs(assigned.float() - expected.float())).detach().cpu()
+    )
+    realized_delta_error = float(
+        torch.max(
+            torch.abs((assigned - before).float() - residual.float())
+        ).detach().cpu()
+    )
+    if not math.isfinite(assignment_error) or not math.isfinite(realized_delta_error):
+        raise ODEBFContractError("common cold additive assignment is non-finite")
+    return assignment_error, realized_delta_error
+
+
 class RequestResidualActivationOverlay:
     """Add one request residual at the canonical terminal lookup site."""
 
@@ -207,6 +241,7 @@ class RequestResidualActivationOverlay:
         self.calls = 0
         self.request_ordinals: list[int] = []
         self.maximum_exact_delta_error = 0.0
+        self.maximum_authoritative_assignment_error = 0.0
         self._handle: Any = None
 
     def _hook(self, _module: torch.nn.Module, _inputs: Any, output: Any) -> Any:
@@ -226,21 +261,33 @@ class RequestResidualActivationOverlay:
             if position < 0 or position >= activation.shape[1]:
                 raise ODEBFContractError("common cold overlay lookup is out of range")
             before = activation[0, position, :]
-            patched[0, position, :] = before + residual
+            patched_expected = before + residual
+            patched[0, position, :] = patched_expected
+            assigned = patched[0, position, :]
             observed = patched[0, position, :] - before
         elif activation.shape[1] == 1:
             position = raw_position if raw_position >= 0 else activation.shape[0] + raw_position
             if position < 0 or position >= activation.shape[0]:
                 raise ODEBFContractError("common cold overlay lookup is out of range")
             before = activation[position, 0, :]
-            patched[position, 0, :] = before + residual
+            patched_expected = before + residual
+            patched[position, 0, :] = patched_expected
+            assigned = patched[position, 0, :]
             observed = patched[position, 0, :] - before
         else:
             raise ODEBFContractError("common cold overlay batch layout differs")
-        error = float(
-            torch.max(torch.abs(observed.float() - residual.float())).detach().cpu()
+        if not all(
+            bool(torch.isfinite(value).all())
+            for value in (before, residual, patched_expected, assigned, observed)
+        ):
+            raise ODEBFContractError("common cold overlay contains non-finite values")
+        assignment_error, error = _authoritative_additive_assignment_errors(
+            before, residual, assigned
         )
         self.maximum_exact_delta_error = max(self.maximum_exact_delta_error, error)
+        self.maximum_authoritative_assignment_error = max(
+            self.maximum_authoritative_assignment_error, assignment_error
+        )
         self.request_ordinals.append(request_index)
         self.calls += 1
         return _rewrap_layer_output(output, patched)
@@ -282,6 +329,12 @@ class RequestResidualActivationOverlay:
             "request_ordinal_sha256": canonical_hash(self.request_ordinals),
             "residual_sha256": tensor_sha256(self.residual),
             "maximum_exact_delta_error": self.maximum_exact_delta_error,
+            "realized_delta_error_role": "BF16_ROUNDING_OBSERVATION_ONLY",
+            "realized_delta_error_decision_influence_count": 0,
+            "authoritative_assignment_definition": "patched_expected=before+residual",
+            "maximum_authoritative_assignment_error": (
+                self.maximum_authoritative_assignment_error
+            ),
             "absolute_replacement_count": 0,
         }
         payload["identity_sha256"] = canonical_hash(payload)

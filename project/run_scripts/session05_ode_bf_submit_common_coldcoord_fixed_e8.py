@@ -45,10 +45,11 @@ from project.run_scripts.session05_ode_bf_submit_fixed_e8_structfunc_soft import
 
 SESSION_ID = "019fc63e-5217-7250-9c22-c5b2ec4248f0"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-common-coldcoord-fixed-e8-p1r10-v1"
-EXECUTION_REPAIR_PARENT_HEAD = "d60ddaf765f79f4f4f73c2dc455f8aef7521084e"
+EXECUTION_REPAIR_PARENT_HEAD = "abaa366c8d32918ecf96d4f433248b799703001b"
+FIRST_REPAIR_PARENT_HEAD = "d60ddaf765f79f4f4f73c2dc455f8aef7521084e"
 SERVER1_PROJECT_GPU_CAP = 3
-APPROVAL_ENV = "ODEEDIT_S05_COMMON_COLD_R10_R1_RUN_APPROVAL"
-SUBMISSION_NAMESPACE = "s05-common-coldcoord-fixed-e8-p1r10-r1-v1"
+APPROVAL_ENV = "ODEEDIT_S05_COMMON_COLD_R10_R2_RUN_APPROVAL"
+SUBMISSION_NAMESPACE = "s05-common-coldcoord-fixed-e8-p1r10-r2-v1"
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_common_coldcoord_fixed_e8.sbatch"
 SOURCE_MANIFEST = (
     REPO_ROOT
@@ -131,6 +132,44 @@ R10_FAILED_STATE = {
         "19a20233eb804b85a68b8f3b162d478286b7fc82c6506139fde7c17d7c32ddf4",
     ),
 }
+R10_R1_FAILED_ROOTS = {
+    "s05-common-coldcoord-fixed-e8-p1r10-r1-llama3-8b-inst-v1": (
+        11,
+        "0222a249ac5e30a4c62217096871e930d640f111c22f6781145ecdfdeb277c64",
+    ),
+    "s05-common-coldcoord-fixed-e8-p1r10-r1-qwen2.5-7b-inst-v1": (
+        6,
+        "5ff7cd1862a8bcaf5adfa0e026395b99eb8237247e2af3fefafd6ea0115ec7f0",
+    ),
+}
+R10_R1_FAILED_LOGS = {
+    "odeedit_s05_r10r1_llama-17748.out": (
+        113,
+        "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec",
+    ),
+    "odeedit_s05_r10r1_llama-17748.err": (
+        1189,
+        "5fd0df151bf20cfe81cd93aff7ae97d9b5b0bd9efce7844b4f1b96bf8db0b033",
+    ),
+    "odeedit_s05_r10r1_qwen-17749.out": (
+        113,
+        "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec",
+    ),
+    "odeedit_s05_r10r1_qwen-17749.err": (
+        1183,
+        "d0d640f2cf00700dd87b4680c02d84d2d04fb2d4453f0ef0411ea5225f0a2c82",
+    ),
+}
+R10_R1_FAILED_STATE = {
+    "s05-common-coldcoord-fixed-e8-p1r10-r1-v1.intent.json": (
+        5097,
+        "2edd8ed15afd261893cd05d8623fbfcb00316f7d2be34bb3a900c9f03bf27501",
+    ),
+    "s05-common-coldcoord-fixed-e8-p1r10-r1-v1.submission-receipt.json": (
+        425,
+        "eada3cf17fc6f4fb0c2475b2443147d1633ed038bda850c8838f0d9322980124",
+    ),
+}
 
 
 def _run(
@@ -193,7 +232,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     expected_approval = f"{COMMON_COLD_INSTRUCTION_ID}:{source_head}"
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
-    scientific_parent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
+    first_repair_parent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
+    scientific_parent = _run(["git", "rev-parse", "HEAD^^^"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(
         ["git", "status", "--porcelain", "--untracked-files=no"]
@@ -207,6 +247,7 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     if (
         head != source_head
         or parent != EXECUTION_REPAIR_PARENT_HEAD
+        or first_repair_parent != FIRST_REPAIR_PARENT_HEAD
         or scientific_parent != COMMON_COLD_PARENT_HEAD
         or branch != EXECUTION_BRANCH
         or ancestor.returncode != 0
@@ -217,6 +258,7 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         "checkpoint_bound_approval": expected_approval,
         "execution_head": head,
         "exact_execution_repair_parent": parent,
+        "exact_first_repair_parent": first_repair_parent,
         "exact_scientific_parent": scientific_parent,
         "scientific_parent_is_ancestor": True,
         "branch": branch,
@@ -236,6 +278,7 @@ def _source_manifest_gate(source_head: str) -> str:
         value.get("instruction_id") != COMMON_COLD_INSTRUCTION_ID
         or value.get("expected_parent") != COMMON_COLD_PARENT_HEAD
         or value.get("execution_repair_parent") != EXECUTION_REPAIR_PARENT_HEAD
+        or value.get("first_repair_parent") != FIRST_REPAIR_PARENT_HEAD
         or value.get("execution_branch") != EXECUTION_BRANCH
         or value.get("execution_head_policy") != "runtime-git-head"
         or not isinstance(entries, list)
@@ -297,6 +340,13 @@ def _prior_immutability_gate() -> None:
     for name, expected in R10_FAILED_LOGS.items():
         _exact_file(base / "logs" / name, expected)
     for name, expected in R10_FAILED_STATE.items():
+        _exact_file(base / "state" / name, expected)
+    for name, expected in R10_R1_FAILED_ROOTS.items():
+        if _tree_identity(base / "results" / name) != expected:
+            raise ODEBFContractError("R10 immutable R1 failed root differs")
+    for name, expected in R10_R1_FAILED_LOGS.items():
+        _exact_file(base / "logs" / name, expected)
+    for name, expected in R10_R1_FAILED_STATE.items():
         _exact_file(base / "state" / name, expected)
 
 
@@ -442,7 +492,7 @@ def main() -> int:
     intent_sha256 = _write_once(
         args.state_root / f"{SUBMISSION_NAMESPACE}.intent.json",
         {
-            "schema": "ode-edit-s05-common-coldcoord-fixed-e8-p1r10-r1-submit-intent/v1",
+            "schema": "ode-edit-s05-common-coldcoord-fixed-e8-p1r10-r2-submit-intent/v1",
             "instruction_id": COMMON_COLD_INSTRUCTION_ID,
             "source_head": args.source_head,
             "preflight": preflight,
@@ -459,7 +509,7 @@ def main() -> int:
             args.state_root / f"{SUBMISSION_NAMESPACE}.submission-receipt.json",
             {
                 "schema": (
-                    "ode-edit-s05-common-coldcoord-fixed-e8-p1r10-r1-"
+                    "ode-edit-s05-common-coldcoord-fixed-e8-p1r10-r2-"
                     "submission-receipt/v1"
                 ),
                 "instruction_id": COMMON_COLD_INSTRUCTION_ID,
