@@ -1,44 +1,53 @@
 # Project Proposals
 
-이 디렉터리는 user proposal과 GH research handoff를 보관한다. proposal은
-canonical research input이지만 final paper plan이나 검증된 claim이 아니다.
+이 디렉터리는 ODE-Edit의 현재 method proposal, 대안 mechanism, 역사적 원문과
+research rationale를 보관한다. Proposal은 검증할 연구 계약이지 완료된 paper claim이
+아니다.
 
-## Naming note
+## 현재 문서
 
-`00.proposal`은 수령 당시의 원문을 보존하므로 `BF-ODE-Edit` 표기를 포함한다.
-사용자 결정에 따라 이 repo의 현재 canonical 방법론 이름은 **ODE-Edit**이며,
-첫 진행 단위는 **Session 01 — Motivation Validation**이다. 원문 proposal의
-표기를 과거 handoff로 취급하고, 신규 plan, task, report, run script, session
-명명에서는 `ODE-Edit`만 사용한다.
+- [`ODE_BF_Dynamic_Layer_Proposal.md`](ODE_BF_Dynamic_Layer_Proposal.md):
+  cold target, fixed-E8, full-residual dynamic routing, soft H/P audit와
+  W64/BF16 transaction을 결합한 현재 primary proposal
+- [`00.ODE_Alloc_Proposal_Report.md`](00.ODE_Alloc_Proposal_Report.md):
+  model trajectory 대신 layer coefficient만 탐색하는 저비용 component/alternative track
+- [`00.proposal.md`](00.proposal.md):
+  최초 수령한 BF-ODE-Edit proposal 원문. 현재 method와 동일한 문서로 해석하지 않는다.
 
-GH는 proposal을 읽은 뒤 목적이 명확한 research session plan, kill criterion,
-next-session criterion, server-head instruction envelope를 `PROTOCOL.md`에 따라
-작성한다.
+## 현재 proposal의 상태
 
-## 현재 rationale section
+현재 primary design은 **ODE-BF Cold-FR-E8**이다.
+
+- `z_base` cold start와 target-new-NLL field
+- target-only bootstrap과 joint Euler clock의 분리
+- request별 shared terminal full residual
+- `K=8`, `h=1/8`, `tau=1` fixed rollout
+- Neutral/Soft routing과 observation-only first hit
+- H/P soft signal 및 raw audit; 임의 hard budget 미사용
+- W64 reduced solve, BF16-authoritative virtual transition과 terminal atomic commit
+
+이 설계 중 common cold-coordinate 수정은 아직 실행 검증 중이다. Warm ALLOFF의 강한
+완료 결과를 cold method의 결과로 재사용하지 않으며, same-seal Native/cold rerun과
+ordered sequential gate가 끝나기 전에는 lifelong 또는 formal barrier claim을 하지 않는다.
+
+## Rationale sections
 
 - [`sections/01-motivation-validation.md`](sections/01-motivation-validation.md):
-  Session 01 mechanism chain과 C3 최종 Motivation closure
+  초기 BF-share/magnitude motivation chain
 - [`sections/02-related-work-and-novelty-boundary.md`](sections/02-related-work-and-novelty-boundary.md):
-  layer allocation, sequential regularization, ODE prior와 baseline/novelty 경계
+  MetaKE, CAKE, EvoEdit, ODE prior와 novelty boundary
 - [`sections/03-direct-z-review-and-motivation-closure-design.md`](sections/03-direct-z-review-and-motivation-closure-design.md):
-  direct-z atomic/de-bundling의 historical design과 별도 scope
+  direct-z de-bundling과 역사적 설계
 - [`sections/04-method-design.md`](sections/04-method-design.md):
-  constrained layer-synchronous ODE-Edit controller와 common strong pilot 진입 계약
+  이전 constrained controller 설계. 최신 primary contract는 위 ODE-BF proposal과
+  실험 파이프라인 보고서를 함께 따른다.
 
-Session 01의 최종 판정은
-**`CLOSED_DIRECTIONAL_POSITIVE; STRONG_METHOD_GATE_FAIL`**이다. C1의
-`CAPACITY_HISTORY_HARM_SIGNAL`과 C2 bundled-share verdict는 C3에 의해 supersede됐다.
-C3는 BF relative share와 global magnitude의 분리가 필요함을 Llama/Qwen과
-MEMIT/Alpha에 걸쳐 확인했지만, deployable method superiority를 확립하지 않았다.
+## Evidence navigation
 
-Motivation 내부 추가 rescue/retune은 닫혔다. Method Session의 primary track은
-model-common monotone-load controller, adaptive trust/rollback, first-hit, Scalar/Static/
-Ordered baseline과 ODE necessity 비교에 한해 열린다. Accepted round 수는 사전 평균값이
-아니라 trajectory statistic이며, performance와 `N_field`/GPU time frontier를 co-primary로
-판정한다. Canonical 실행 spec은
-[`Session 02 compute-aware main-table spec`](../../plans/global/2026-08-03-session02-compute-aware-main-table-spec.md)이다.
-Signed-capacity hard barrier와 AlphaEdit은 첫 MEMIT main table 뒤 ablation/extension으로
-미룬다. Strong pilot 전 large/lifelong execution, model-specific rescue,
-preservation/capability guarantee는 허용하지 않는다. 최종 Motivation decision report는
-[`2026-08-03 Session 01 closure`](../../experiment-reports/global/2026-08-03-session01-motivation-final-closure-and-method-handoff.md)다.
+- [전체 ODE-BF 실험 파이프라인](../../experiment-reports/global/2026-08-08-ode-bf-experiment-pipeline.md)
+- [SH1/SH2 실험 리뷰](../../experiment-reports/global/2026-08-08-ode-bf-sh-experiment-review.md)
+- [Session 01 closure](../../experiment-reports/global/2026-08-03-session01-motivation-final-closure-and-method-handoff.md)
+
+새 experiment는 `PROTOCOL.md`의 firewall, common-policy, immutable receipt와 resource
+contract를 따라 preregister한다. Model-specific rescue, post-outcome case selection,
+held-out controller access와 raw artifact의 Git 반입은 허용하지 않는다.

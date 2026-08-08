@@ -1,62 +1,105 @@
 # ODE-Edit
 
-`ODE-Edit`는 sequential knowledge editing에서 layer-synchronous,
-capacity-aware edit flow의 motivation을 독립적으로 검증한 연구
-repository다. 이 저장소는 기존 프로젝트의 patch 공간이 아니며,
-`project/proposals/00.proposal`을 출발점으로 삼는다.
+`ODE-Edit`는 sequential knowledge editing을 한 번의 고정 weight jump가 아니라,
+현재 model state에서 target과 layer별 write direction을 다시 계산하는 edit
+trajectory로 다루는 연구 저장소다.
 
-Session 01 — Motivation Validation은 2026-08-02 C3 BF-share magnitude-only
-cause-isolation으로 종료됐다. C1의 severe harm은 BF relative routing 자체보다
-share와 global magnitude를 같은 raw coefficient에 결합한 under-write가 주요
-implementation cause였고, C3에서 Llama/Qwen×MEMIT/Alpha 네 cell이 모두 C1보다
-회복했다.
+현재 primary design은 **ODE-BF Cold-FR-E8**이다. 최신 proposal과 완료된 실험은
+다음 방향을 지지하지만, 아직 `ODE-BF Full`, formal CBF safety 또는 lifelong
+superiority를 확립하지 않았다.
 
-현재 판정은 **`CLOSED_DIRECTIONAL_POSITIVE; STRONG_METHOD_GATE_FAIL`**이다.
-State refresh + BF relative share + independent global step은 Method로 넘기지만,
-native superiority, broad preservation, applied hard capacity barrier, ODE necessity,
-lifelong robustness와 compute efficiency는 확립되지 않았다. Motivation 내부 retune은
-종료됐고 Method Session은 common-policy constrained controller 설계와 strong pilot에
-한해 열렸다.
+## 현재 방법 한눈에 보기
 
-## Canonical 경로
+```text
+W0의 z_base에서 cold start
+        ↓
+target-only bootstrap은 joint clock 밖에서 1회
+        ↓
+request별 shared terminal residual을
+6개 controller context와 5개 writer layer에 공통 적용
+        ↓
+K=8, h=1/8의 고정 Euler joint write로 tau=1까지 진행
+        ↓
+target-new NLL progress + Neutral/Soft layer routing
+        ↓
+W64 low-rank solve + BF16-authoritative virtual transaction
+        ↓
+terminal endpoint만 atomic commit 후보
+```
 
-- 운영 규칙: [`PROTOCOL.md`](PROTOCOL.md)
-- 원 proposal: [`project/proposals/00.proposal`](project/proposals/00.proposal)
-- Session 01 연구 근거: [`project/proposals/sections/01-motivation-validation.md`](project/proposals/sections/01-motivation-validation.md)
-- Session 01 최종 closure: [`experiment-reports/global/2026-08-03-session01-motivation-final-closure-and-method-handoff.md`](experiment-reports/global/2026-08-03-session01-motivation-final-closure-and-method-handoff.md)
-- Session 01 C3 실행 계약: [`plans/global/2026-08-02-session01-bf-share-magnitude-control-c3-spec.md`](plans/global/2026-08-02-session01-bf-share-magnitude-control-c3-spec.md)
-- Session 01 C3 causal synthesis: [`experiment-reports/global/2026-08-02-session01-caphist-pair-c3-v1-synthesis.md`](experiment-reports/global/2026-08-02-session01-caphist-pair-c3-v1-synthesis.md)
-- Session 01 global evidence index: [`experiment-reports/global/2026-07-30-session-01-motivation-validation.md`](experiment-reports/global/2026-07-30-session-01-motivation-validation.md)
-- Method Session 설계: [`project/proposals/sections/04-method-design.md`](project/proposals/sections/04-method-design.md)
-- related-work/novelty 경계: [`project/proposals/sections/02-related-work-and-novelty-boundary.md`](project/proposals/sections/02-related-work-and-novelty-boundary.md)
-- redacted 서버 인벤토리: [`servers/connection-inventory.md`](servers/connection-inventory.md)
-- server1 onboarding record: [`servers/active/server1.md`](servers/active/server1.md)
-- 실행·분석 스크립트: `project/run_scripts/`
-- raw artifact·dataset·checkpoint·full log·credential: ignored `local/`
-- session boundary: ignored `servers/local/session-boundary.env`
+핵심 설계 원칙은 다음과 같다.
 
-## 운영 요약
+- Native direct-z는 cold controller 초기값으로 사용하지 않는다.
+- 모든 writer layer에는 같은 request-specific full residual을 제공하고, routing이
+  실제 layer 분배를 결정한다.
+- first-hit은 기록하지만 fixed-E8 design-validation run을 조기 종료하지 않는다.
+- 임의의 historical/pretrained H/P budget은 scientific hard veto로 사용하지 않는다.
+  H/P는 soft routing signal 또는 raw audit observable이다.
+- 실제 model parameter와 persistent history는 inner trajectory에서 변경하지 않는다.
+- efficacy, generalization, locality, new/old NLL, layer concentration, realization
+  fidelity, capacity와 compute를 step별로 함께 기록한다.
 
-Git은 plan, instruction, audit, compact metadata, report를 위한 control
-plane이다. SSH/Slurm/rsync와 ignored `local/`은 execution plane이다.
-`messages/inbox/<server>.md`의 actionable instruction은 해당 server-head가
-sync 후 읽어 실행하며, Git message 자체가 실행기가 아니다. Session 01은
-사용자 지시와 recorded GH exception 아래 server1에서 완료됐다. C3 final closure 이후
-model-specific rescue나 추가 Motivation retune/job은 제출하지 않으며, 새 실행은 Method
-section의 common strong pilot을 별도 preregistration한 뒤에만 연다.
+현재 구현 중인 common cold-coordinate gate는 absolute target replacement와
+layer별 `z-H_l` residual을 제거하고, canonical terminal residual을 context와
+writer layer에 additive하게 공유한다. 이 gate의 결과가 나오기 전에는 해당 설계를
+완료된 scientific method로 취급하지 않는다.
 
-GPU cap과 host-memory request cap은 ignored `servers/local/gpu-caps.tsv`에
-있다. Slurm job은 `scripts/check-slurm-resource-cap.sh <server> <gpus>
-<mem_mb>`를 먼저 통과해야 한다. GH/SH primary Codex session은 `Sol Ultra`
-(`gpt-5.6-sol`, reasoning effort `ultra`)이며 delegated blue/red/analysis
-subagent만 `Terra Ultra` (`gpt-5.6-terra`, `ultra`)다. repo-local
-[`.codex/config.toml`](.codex/config.toml)과
-[`.codex/agents/default.toml`](.codex/agents/default.toml)이 이 split을
-고정한다. Primary session은 server record의 session ID, confirmed Sol
-profile, repository CWD, Git identity가 모두 일치할 때만 이 repo를
-조작한다. Actionable primary session은 먼저
-`scripts/check-session-boundary.sh <session_id>`를 통과해야 한다.
+## 현재 evidence
 
-원격 저장소와 실제 서버 접속 정보는 이 문서에 기록하지 않는다. raw IP,
-username, port, key, token, password와 private dataset secret은
-`servers/local/` 또는 `local/`의 ignored private path에만 둔다.
+### 확립된 기술 기반
+
+- Llama/Qwen genuine B10에서 W64 reduced solve certificate를 검증했다.
+- 동일 W64 virtual endpoint와 committed endpoint의 parameter bytes, logits와
+  event identity를 검증했다.
+- injected rollback과 최종 W0 restore가 exact였다.
+- Native dense와 W64는 BF16 byte-exact하지 않으므로 W64를 Native의 exact
+  replacement라고 부르지 않는다.
+
+### 가장 강한 완료 결과
+
+Warm target initialization을 사용한 no-budget `FR-A8-NEWNLL-ALLOFF`의 matched
+B10에서 두 모델 모두 `Eff 10/10`, `Gen 20/20`, `Loc 80/100`을 기록했다. 이
+결과는 hard H/P veto가 under-edit를 만들 수 있음을 보여주는 강한 causal reference지만,
+cold fixed-E8 최종 method의 성능 증거는 아니다.
+
+최신 완료 cold fixed-E8 R8에서 Llama Neutral은 `Eff 8/10`, `Gen 12/20`,
+`Loc 89/100`이었다. Qwen Neutral trajectory는 tau=1까지 완료했지만 Soft routing의
+수치 certificate failure가 post-freeze panel을 막아 paired endpoint 지표가 남지 않았다.
+따라서 common cold-coordinate 수정 후 same-seal 재실행이 현재 다음 gate다.
+
+Historical-H benefit은 아직 검증되지 않았다. 관련 B10-1 실험의 active history가
+비어 있었기 때문에 sequential claim은 ordered B10-2 이상에서 별도로 검증해야 한다.
+
+## Follow-up 읽기 순서
+
+1. [현재 ODE-BF proposal](project/proposals/ODE_BF_Dynamic_Layer_Proposal.md)
+2. [전체 실험 파이프라인과 실행 계보](experiment-reports/global/2026-08-08-ode-bf-experiment-pipeline.md)
+3. [SH1/SH2 실험 종합 리뷰](experiment-reports/global/2026-08-08-ode-bf-sh-experiment-review.md)
+4. [저비용 coefficient-space 대안 ODE-Alloc](project/proposals/00.ODE_Alloc_Proposal_Report.md)
+5. [초기 BF-ODE-Edit proposal 원문](project/proposals/00.proposal.md)
+6. [관련 연구와 novelty boundary](project/proposals/sections/02-related-work-and-novelty-boundary.md)
+7. [운영 규칙](PROTOCOL.md)
+
+## Repository map
+
+- `project/proposals/`: 현재 proposal, 역사적 원문, method/related-work sections
+- `project/run_scripts/ode_bf/`: ODE-BF runtime, routing, transaction, evaluator와 tests
+- `project/run_scripts/ode_alloc/`: coefficient-space ODE-Alloc component track
+- `experiment-reports/global/`: raw-free 실험 결과와 causal interpretation
+- `plans/global/`: preregistered experiment contract
+- `scripts/`: session/resource/static gate utilities
+- ignored `local/`: raw result, full log, dataset, checkpoint와 private runtime state
+
+## Git과 실행 경계
+
+Git은 proposal, source, lock, compact receipt와 report를 위한 control plane이다.
+Model/GPU/Slurm 실행과 raw artifact는 ignored execution plane에 둔다. Active experiment
+worktree의 미완성 source는 main에 섞지 않으며, 완료 checkpoint도 source/history가
+정리되고 필수 gate를 통과한 뒤에만 main으로 승격한다.
+
+현재 main documentation은 최신 proposal과 완료 evidence를 안내한다. 완료된 R8
+실험 source 계보와 진행 중인 common-coordinate R10은 별도 branch에서 보존하며,
+R10 terminal review 전에는 active 변경을 main으로 가져오지 않는다.
+
+원격 서버 접속 정보, raw IP, username, port, key, token, password와 private dataset
+secret은 저장소에 기록하지 않는다.
