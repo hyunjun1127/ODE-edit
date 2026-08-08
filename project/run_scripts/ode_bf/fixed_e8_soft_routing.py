@@ -382,7 +382,11 @@ class FixedE8BackendAttempt:
     status: int
     message_sha256: str
     iterations: int
+    raw_candidate_vector: tuple[float, ...]
     candidate_vector: tuple[float, ...]
+    bound_canonicalization_indices: tuple[int, ...]
+    bound_canonicalization_max_abs: float
+    bound_canonicalization_policy: str
     objective_value: float
     objective_gradient: tuple[float, ...]
     ordered_constraint_names: tuple[str, ...]
@@ -771,12 +775,59 @@ def reconstruct_fixed_e8_backend_certificate(
     }
 
 
+def _canonicalize_primal_tolerance_bound_drift(
+    value: np.ndarray,
+    lower: np.ndarray,
+    upper: np.ndarray,
+) -> tuple[np.ndarray, tuple[int, ...], float]:
+    """Snap only out-of-bound drift already covered by the primal tolerance.
+
+    Numerical backends may return a point infinitesimally outside an exact
+    bound while the independent certificate correctly accepts that point at
+    ``FIXED_E8_PRIMAL_TOLERANCE``.  Physical factor assembly requires the
+    canonical closed interval, so the solver/backend boundary normalizes only
+    those exterior coordinates and the independent certificate is rebuilt on
+    the normalized point.  Interior values are never rounded or clipped.
+    """
+
+    candidate = np.asarray(value, dtype=np.float64)
+    left = np.asarray(lower, dtype=np.float64)
+    right = np.asarray(upper, dtype=np.float64)
+    if (
+        candidate.ndim != 1
+        or candidate.shape != left.shape
+        or candidate.shape != right.shape
+    ):
+        raise ODEBFContractError("fixed E8 bound canonicalization shape differs")
+    canonical = candidate.copy()
+    changed: list[int] = []
+    maximum = 0.0
+    for index, observed in enumerate(candidate):
+        low = float(left[index])
+        high = float(right[index])
+        replacement: float | None = None
+        if math.isfinite(low) and observed < low:
+            if low - float(observed) <= FIXED_E8_PRIMAL_TOLERANCE:
+                replacement = low
+        elif math.isfinite(high) and observed > high:
+            if float(observed) - high <= FIXED_E8_PRIMAL_TOLERANCE:
+                replacement = high
+        if replacement is not None:
+            changed.append(index)
+            maximum = max(maximum, abs(float(observed) - replacement))
+            canonical[index] = replacement
+    return canonical, tuple(changed), maximum
+
+
 def _backend_attempt(
     *,
     result: Any,
     backend: str,
     backend_options: tuple[tuple[str, Any], ...],
+    raw_value: np.ndarray,
     value: np.ndarray,
+    bound_canonicalization_indices: tuple[int, ...],
+    bound_canonicalization_max_abs: float,
     objective_value: float,
     objective_gradient: np.ndarray,
     constraints: Sequence[Constraint],
@@ -853,7 +904,13 @@ def _backend_attempt(
         status=optimizer_status,
         message_sha256=optimizer_message_sha256,
         iterations=int(getattr(result, "nit", 0)),
+        raw_candidate_vector=tuple(float(item) for item in raw_value),
         candidate_vector=tuple(float(item) for item in value),
+        bound_canonicalization_indices=bound_canonicalization_indices,
+        bound_canonicalization_max_abs=float(bound_canonicalization_max_abs),
+        bound_canonicalization_policy=(
+            "EXTERIOR_ONLY_WITHIN_LOCKED_PRIMAL_TOLERANCE_THEN_RECERTIFY"
+        ),
         objective_value=float(objective_value),
         objective_gradient=tuple(float(item) for item in objective_gradient),
         ordered_constraint_names=tuple(names),
@@ -919,8 +976,20 @@ def _solve_slsqp(
             options=dict(FIXED_E8_PRIMARY_OPTIONS),
         )
 
-    def candidate_parts(result: Any) -> tuple[np.ndarray, np.ndarray, float | None]:
-        value = np.asarray(result.x, dtype=np.float64)
+    def candidate_parts(
+        result: Any,
+    ) -> tuple[
+        np.ndarray,
+        np.ndarray,
+        float | None,
+        np.ndarray,
+        tuple[int, ...],
+        float,
+    ]:
+        raw_value = np.asarray(result.x, dtype=np.float64)
+        value, canonicalized, maximum_adjustment = (
+            _canonicalize_primal_tolerance_bound_drift(raw_value, lower, upper)
+        )
         expanded = np.zeros(problem.signed_progress.size, dtype=np.float64)
         expanded[active] = value[: active.size]
         observed_xi = xi
@@ -930,16 +999,33 @@ def _solve_slsqp(
                     "fixed E8 solver auxiliary dimension differs"
                 )
             observed_xi = float(value[active.size])
-        return value, expanded, observed_xi
+        return (
+            value,
+            expanded,
+            observed_xi,
+            raw_value,
+            canonicalized,
+            maximum_adjustment,
+        )
 
     primary_result = run_primary(np.asarray(initial, dtype=np.float64))
-    value, expanded, observed_xi = candidate_parts(primary_result)
+    (
+        value,
+        expanded,
+        observed_xi,
+        raw_value,
+        canonicalized,
+        maximum_adjustment,
+    ) = candidate_parts(primary_result)
     attempts = [
         _backend_attempt(
             result=primary_result,
             backend=FIXED_E8_PRIMARY_BACKEND,
             backend_options=FIXED_E8_PRIMARY_OPTIONS,
+            raw_value=raw_value,
             value=value,
+            bound_canonicalization_indices=canonicalized,
+            bound_canonicalization_max_abs=maximum_adjustment,
             objective_value=float(objective(value)),
             objective_gradient=np.asarray(jacobian(value), dtype=np.float64),
             constraints=constraints,
@@ -1009,7 +1095,14 @@ def _solve_slsqp(
             ],
             options=dict(FIXED_E8_FALLBACK_OPTIONS),
         )
-        value, expanded, observed_xi = candidate_parts(fallback_result)
+        (
+            value,
+            expanded,
+            observed_xi,
+            raw_value,
+            canonicalized,
+            maximum_adjustment,
+        ) = candidate_parts(fallback_result)
         attempts.append(
             _backend_attempt(
                 result=fallback_result,
@@ -1017,7 +1110,10 @@ def _solve_slsqp(
                 backend_options=_fallback_receipt_options(
                     keep_feasible_from_seed=fallback_keep_feasible
                 ),
+                raw_value=raw_value,
                 value=value,
+                bound_canonicalization_indices=canonicalized,
+                bound_canonicalization_max_abs=maximum_adjustment,
                 objective_value=float(objective(value)),
                 objective_gradient=np.asarray(jacobian(value), dtype=np.float64),
                 constraints=constraints,

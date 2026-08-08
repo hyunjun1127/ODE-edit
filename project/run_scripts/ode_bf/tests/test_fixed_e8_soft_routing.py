@@ -577,6 +577,83 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
         with self.assertRaises((ODEBFContractError, ValueError)):
             reconstruct_fixed_e8_backend_certificate(nonfinite)
 
+    def test_certified_exterior_bound_drift_is_canonicalized_and_recertified(
+        self,
+    ) -> None:
+        raw = np.asarray(
+            (
+                1.000000000001,
+                -9.998888360985919e-13,
+                0.02830828323593021,
+                -9.987660078268279e-13,
+                0.47215772038177006,
+            ),
+            dtype=np.float64,
+        )
+        lower = np.zeros(5, dtype=np.float64)
+        upper = np.ones(5, dtype=np.float64)
+        canonical, indices, maximum = (
+            fixed_e8_soft_routing._canonicalize_primal_tolerance_bound_drift(
+                raw, lower, upper
+            )
+        )
+        np.testing.assert_array_equal(
+            canonical,
+            (1.0, 0.0, 0.02830828323593021, 0.0, 0.47215772038177006),
+        )
+        self.assertEqual(indices, (0, 1, 3))
+        self.assertGreater(maximum, 0.0)
+        self.assertLessEqual(maximum, fixed_e8_soft_routing.FIXED_E8_PRIMAL_TOLERANCE)
+
+        interior = np.asarray(
+            (1.0e-12, 0.25, 1.0 - 1.0e-12, 0.75, 0.5)
+        )
+        same, same_indices, same_maximum = (
+            fixed_e8_soft_routing._canonicalize_primal_tolerance_bound_drift(
+                interior, lower, upper
+            )
+        )
+        np.testing.assert_array_equal(same, interior)
+        self.assertEqual(same_indices, ())
+        self.assertEqual(same_maximum, 0.0)
+
+        outside = np.asarray(
+            (-2.0 * fixed_e8_soft_routing.FIXED_E8_PRIMAL_TOLERANCE, 0.5),
+            dtype=np.float64,
+        )
+        unsnapped, outside_indices, _ = (
+            fixed_e8_soft_routing._canonicalize_primal_tolerance_bound_drift(
+                outside, np.zeros(2), np.ones(2)
+            )
+        )
+        np.testing.assert_array_equal(unsnapped, outside)
+        self.assertEqual(outside_indices, ())
+
+        # This locked fixture exercises the real trust-constr continuation.  Its
+        # raw final coordinate is infinitesimally negative; the applied routing
+        # value is the exact closed-boundary representation and its independent
+        # certificate is rebuilt on that exact value.
+        recovered = solve_fixed_e8_routing(
+            _problem(), _inventory(history_item_count=3), arm=FixedE8Arm.SOFT
+        )
+        final = recovered.certificates[-1].backend_attempts[-1]
+        self.assertEqual(final.backend, "scipy-trust-constr-float64")
+        self.assertTrue(final.passed)
+        self.assertTrue(final.bound_canonicalization_indices)
+        self.assertLess(min(final.raw_candidate_vector), 0.0)
+        self.assertEqual(min(final.candidate_vector), 0.0)
+        self.assertTrue(all(0.0 <= value <= 1.0 for value in recovered.velocity))
+        field, _, _ = _cold_semantic_field(wall_seconds=0.25)
+        factors = fixed_e8_runtime.fixed_e8_waypoint_factors(
+            field, recovered.velocity, step_index=1
+        )
+        self.assertEqual(
+            tuple(factors), tuple(item.weight_name for item in field.layers)
+        )
+        rebuilt = reconstruct_fixed_e8_backend_certificate(final.raw_free_payload())
+        self.assertTrue(rebuilt["passed"])
+        self.assertEqual(rebuilt["reconstruction_sha256"], final.reconstruction_sha256)
+
     def test_neutral_soft_shadow_failure_is_isolated_and_soft_fail_closes(
         self,
     ) -> None:
