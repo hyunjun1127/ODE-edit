@@ -27,8 +27,8 @@ from project.run_scripts.ode_bf.p1_fixed_e8_soft_panel import (
 
 
 JOB_NAMES = {
-    "llama3-8b-inst": "odeedit_s05_e8r8r1_llama",
-    "qwen2.5-7b-inst": "odeedit_s05_e8r8r1_qwen",
+    "llama3-8b-inst": "odeedit_s05_e8r8r2_llama",
+    "qwen2.5-7b-inst": "odeedit_s05_e8r8r2_qwen",
 }
 
 
@@ -62,7 +62,7 @@ def build_plan(
             }
         )
     return {
-        "schema": "ode-edit-s05-fixed-e8-r8-r1-dry-plan/v1",
+        "schema": "ode-edit-s05-fixed-e8-r8-r2-dry-plan/v1",
         "instruction_id": FIXED_E8_INSTRUCTION_ID,
         "source_head": source_head,
         "benchmark": "CounterFact",

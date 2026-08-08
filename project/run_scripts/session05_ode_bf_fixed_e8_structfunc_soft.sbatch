@@ -11,7 +11,7 @@
 set -euo pipefail
 umask 077
 
-readonly REPO_ROOT="/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-target-new-nll-v1/ODE-edit"
+readonly REPO_ROOT="/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-fixed-e8-r8-bound-snap-r1/ODE-edit"
 readonly EXPECTED_SESSION="019fc63e-5217-7250-9c22-c5b2ec4248f0"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly MODEL_ALIAS="${1:-}"
@@ -23,7 +23,7 @@ case "${MODEL_ALIAS}" in
   llama3-8b-inst|qwen2.5-7b-inst) ;;
   *) echo "invalid locked S05 fixed-E8 alias" >&2; exit 2 ;;
 esac
-[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "fixed-e8-solver-isolation-cert-r8-r1-v1" ]] || {
+[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "fixed-e8-solver-isolation-cert-r8-r2-v1" ]] || {
   echo "missing locked S05 fixed-E8 invocation" >&2
   exit 2
 }
@@ -57,7 +57,7 @@ export HF_DATASETS_OFFLINE=1
 export TOKENIZERS_PARALLELISM=false
 export PYTHONHASHSEED=41
 export PYTHONDONTWRITEBYTECODE=1
-export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-s05-fixed-e8-r8-r1"
+export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-s05-fixed-e8-r8-r2"
 export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 
 exec /usr/local/bin/uv run --offline \

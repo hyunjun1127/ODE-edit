@@ -1121,7 +1121,7 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             self.assertEqual(forecast.qp_backend_invocations_per_arm, 64)
             self.assertEqual(
                 expected_fixed_e8_result_name(alias),
-                f"s05-fixed-e8-solver-isolation-cert-r8-r1-{alias}-v1",
+                f"s05-fixed-e8-solver-isolation-cert-r8-r2-{alias}-v1",
             )
             receipt = validate_fixed_e8_runtime_gpu_capacity(
                 forecast,
@@ -1374,41 +1374,47 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             output = {
                 ("git", "rev-parse", "HEAD"): child + "\n",
                 ("git", "rev-parse", "HEAD^"): (
-                    FIXED_E8_EXECUTION_PARENT_HEAD + "\n"
+                    fixed_e8_submit.FIXED_E8_BOUND_SNAP_PARENT_HEAD + "\n"
                 ),
                 ("git", "rev-parse", "HEAD^^"): (
-                    FIXED_E8_R8_SOLVER_PARENT_HEAD + "\n"
+                    fixed_e8_submit.FIXED_E8_R8_R1_EXECUTED_HEAD + "\n"
                 ),
                 ("git", "rev-parse", "HEAD^^^"): (
+                    FIXED_E8_EXECUTION_PARENT_HEAD + "\n"
+                ),
+                ("git", "rev-parse", "HEAD^^^^"): (
+                    FIXED_E8_R8_SOLVER_PARENT_HEAD + "\n"
+                ),
+                ("git", "rev-parse", "HEAD^^^^^"): (
                     fixed_e8_submit.FIXED_E8_CERTIFICATE_RECEIPT_PARENT_HEAD
                     + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_SOLVER_OBSERVABILITY_PARENT_HEAD
                     + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_ZERO_CAPACITY_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_MEMORY_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_NUMERICAL_SCHEMA_PARENT_HEAD
                     + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_LAUNCHER_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_REPAIR_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_REVIEW_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^^^^^^"): FIXED_E8_PARENT_HEAD + "\n",
+                ("git", "rev-parse", "HEAD^^^^^^^^^^^^^"): FIXED_E8_PARENT_HEAD + "\n",
                 ("git", "branch", "--show-current"): (
-                    "codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1\n"
+                    "codex/odeeditsh1-s05-fixed-e8-r8-bound-snap-r1\n"
                 ),
                 (
                     "git",
@@ -1445,6 +1451,14 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
                 clear=True,
             ):
                 receipt = fixed_e8_submit._execution_provenance_gate(child)
+        self.assertEqual(
+            receipt["exact_bound_snap_parent"],
+            fixed_e8_submit.FIXED_E8_BOUND_SNAP_PARENT_HEAD,
+        )
+        self.assertEqual(
+            receipt["exact_r8_r1_executed_head"],
+            fixed_e8_submit.FIXED_E8_R8_R1_EXECUTED_HEAD,
+        )
         self.assertEqual(
             receipt["exact_r8_execution_parent"],
             FIXED_E8_EXECUTION_PARENT_HEAD,
@@ -1505,6 +1519,20 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             ):
                 with self.assertRaisesRegex(ODEBFContractError, "provenance"):
                     fixed_e8_submit._execution_provenance_gate(child)
+
+    def test_prior_root_tree_identity_is_ordered_and_symlink_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "b").write_bytes(b"second\n")
+            (root / "a").write_bytes(b"first\n")
+            first = fixed_e8_submit._root_tree_identity(root)
+            self.assertEqual(first, fixed_e8_submit._root_tree_identity(root))
+            self.assertEqual(first[0], 2)
+            (root / "a").write_bytes(b"changed\n")
+            self.assertNotEqual(first, fixed_e8_submit._root_tree_identity(root))
+            (root / "link").symlink_to(root / "a")
+            with self.assertRaisesRegex(ODEBFContractError, "symlink"):
+                fixed_e8_submit._root_tree_identity(root)
 
     def test_sbatch_invocation_token_matches_panel_contract(self) -> None:
         source = (

@@ -38,7 +38,9 @@ from project.run_scripts.ode_bf.resource import gpu_count_from_tres
 
 
 SESSION_ID = "019fc63e-5217-7250-9c22-c5b2ec4248f0"
-EXECUTION_BRANCH = "codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1"
+EXECUTION_BRANCH = "codex/odeeditsh1-s05-fixed-e8-r8-bound-snap-r1"
+FIXED_E8_BOUND_SNAP_PARENT_HEAD = "242de6f74f0f76103284c00e5e13dcb11fec7774"
+FIXED_E8_R8_R1_EXECUTED_HEAD = "ba9fa97e2472b207237ef2d5e1d1a8cf46eeda62"
 FIXED_E8_MEMORY_PARENT_HEAD = "2073400884f774bfe9deafbbe9eacc9c7b187acf"
 FIXED_E8_NUMERICAL_SCHEMA_PARENT_HEAD = "2c5755a0c1769889306384aad7020a34052b2b53"
 FIXED_E8_LAUNCHER_PARENT_HEAD = "d418178b17c3e646cff4c85a82c3fd4495872d50"
@@ -53,7 +55,11 @@ FIXED_E8_CERTIFICATE_RECEIPT_PARENT_HEAD = (
 )
 SERVER1_PROJECT_GPU_CAP = 3
 APPROVAL_ENV = "ODEEDIT_S05_FIXED_E8_R8_RUN_APPROVAL"
-SUBMISSION_NAMESPACE = "s05-fixed-e8-solver-isolation-cert-r8-r1-v1"
+SUBMISSION_NAMESPACE = "s05-fixed-e8-solver-isolation-cert-r8-r2-v1"
+PRIOR_EXECUTION_REPO_ROOT = Path(
+    "/mnt/raid5/janghj/.codex/worktrees/"
+    "odeeditsh1-s05-target-new-nll-v1/ODE-edit"
+)
 SBATCH = (
     REPO_ROOT
     / "project/run_scripts/session05_ode_bf_fixed_e8_structfunc_soft.sbatch"
@@ -63,6 +69,16 @@ SOURCE_MANIFEST = (
     / "project/run_scripts/ode_bf/locks/"
     "source_manifest_s05_fixed_e8_structfunc_soft.json"
 )
+PRIOR_R8_R1_ROOT_IMMUTABLE = {
+    "s05-fixed-e8-solver-isolation-cert-r8-r1-llama3-8b-inst-v1": (
+        171,
+        "cef95e0fceede60a6218a4edadafef93a47e175edb9a68578b59a2edb6347971",
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-r1-qwen2.5-7b-inst-v1": (
+        87,
+        "14f0274b59ecb05c557e2f2092791adea293875d4e85a290fa0fe7948f8fc09c",
+    ),
+}
 PRIOR_IMMUTABLE = {
     "s05-fixed-e8-solver-isolation-cert-r8-llama3-8b-inst-v1/raw/context_templates.json": (
         "ea432a1ee287b4a0da021edebb3ce0d4e8c95e3f46dd074aa39f0de9f91a15be"
@@ -156,6 +172,18 @@ PRIOR_IMMUTABLE = {
     ),
 }
 PRIOR_LOG_IMMUTABLE = {
+    "odeedit_s05_e8r8r1_llama-17692.out": (
+        "7c441fdcfd50cb551a67412112078cf6d9956fa4de151c582b7fc7212c66ba67"
+    ),
+    "odeedit_s05_e8r8r1_llama-17692.err": (
+        "953ebc09676ea3cd7cd1ecad2dc18b3c99966c3bd4ce624bb601e0ddc35588cf"
+    ),
+    "odeedit_s05_e8r8r1_qwen-17693.out": (
+        "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec"
+    ),
+    "odeedit_s05_e8r8r1_qwen-17693.err": (
+        "885b68b8c6eb746c409b7f1e9f1bce07ec41ff0bd844388b7397b44b3961f08e"
+    ),
     "odeedit_s05_e8r8_llama-17690.out": (
         "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec"
     ),
@@ -333,28 +361,36 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     expected_approval = f"{FIXED_E8_INSTRUCTION_ID}:{source_head}"
     approval = os.environ.get(APPROVAL_ENV)
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
-    r8_execution_parent = _run(
+    bound_snap_parent = _run(
         ["git", "rev-parse", "HEAD^"]
     ).stdout.strip()
-    r8_solver_parent = _run(
+    r8_r1_executed_head = _run(
         ["git", "rev-parse", "HEAD^^"]
     ).stdout.strip()
-    certificate_receipt_parent = _run(
+    r8_execution_parent = _run(
         ["git", "rev-parse", "HEAD^^^"]
     ).stdout.strip()
-    solver_observability_parent = _run(
+    r8_solver_parent = _run(
         ["git", "rev-parse", "HEAD^^^^"]
     ).stdout.strip()
-    zero_capacity_parent = _run(["git", "rev-parse", "HEAD^^^^^"]).stdout.strip()
-    memory_parent = _run(["git", "rev-parse", "HEAD^^^^^^"]).stdout.strip()
-    numerical_schema_parent = _run(
+    certificate_receipt_parent = _run(
+        ["git", "rev-parse", "HEAD^^^^^"]
+    ).stdout.strip()
+    solver_observability_parent = _run(
+        ["git", "rev-parse", "HEAD^^^^^^"]
+    ).stdout.strip()
+    zero_capacity_parent = _run(
         ["git", "rev-parse", "HEAD^^^^^^^"]
     ).stdout.strip()
-    launcher_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^"]).stdout.strip()
-    repair_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^^"]).stdout.strip()
-    review_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^^^"]).stdout.strip()
+    memory_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^"]).stdout.strip()
+    numerical_schema_parent = _run(
+        ["git", "rev-parse", "HEAD^^^^^^^^^"]
+    ).stdout.strip()
+    launcher_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^^^"]).stdout.strip()
+    repair_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^^^^"]).stdout.strip()
+    review_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^^^^^"]).stdout.strip()
     scientific_parent = _run(
-        ["git", "rev-parse", "HEAD^^^^^^^^^^^"]
+        ["git", "rev-parse", "HEAD^^^^^^^^^^^^^"]
     ).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(
@@ -368,6 +404,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         raise ODEBFContractError("fixed E8 checkpoint approval is absent")
     if (
         head != source_head
+        or bound_snap_parent != FIXED_E8_BOUND_SNAP_PARENT_HEAD
+        or r8_r1_executed_head != FIXED_E8_R8_R1_EXECUTED_HEAD
         or r8_execution_parent != FIXED_E8_EXECUTION_PARENT_HEAD
         or r8_solver_parent != FIXED_E8_R8_SOLVER_PARENT_HEAD
         or certificate_receipt_parent
@@ -389,6 +427,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     return {
         "checkpoint_bound_approval": expected_approval,
         "execution_head": head,
+        "exact_bound_snap_parent": bound_snap_parent,
+        "exact_r8_r1_executed_head": r8_r1_executed_head,
         "exact_r8_execution_parent": r8_execution_parent,
         "exact_r8_solver_parent": r8_solver_parent,
         "exact_certificate_receipt_parent": certificate_receipt_parent,
@@ -417,6 +457,10 @@ def _source_manifest_gate(source_head: str) -> str:
     if (
         value.get("instruction_id") != FIXED_E8_INSTRUCTION_ID
         or value.get("expected_parent") != FIXED_E8_PARENT_HEAD
+        or value.get("execution_bound_snap_parent")
+        != FIXED_E8_BOUND_SNAP_PARENT_HEAD
+        or value.get("execution_r8_r1_executed_head")
+        != FIXED_E8_R8_R1_EXECUTED_HEAD
         or value.get("execution_r8_parent") != FIXED_E8_EXECUTION_PARENT_HEAD
         or value.get("execution_r8_solver_parent")
         != FIXED_E8_R8_SOLVER_PARENT_HEAD
@@ -483,18 +527,34 @@ def _source_manifest_gate(source_head: str) -> str:
     return raw_sha256
 
 
+def _root_tree_identity(path: Path) -> tuple[int, str]:
+    if path.is_symlink() or not path.is_dir():
+        raise ODEBFContractError("immutable S05 root differs")
+    files = sorted(item for item in path.rglob("*") if item.is_file())
+    if any(item.is_symlink() for item in path.rglob("*")):
+        raise ODEBFContractError("immutable S05 root contains a symlink")
+    digest = hashlib.sha256()
+    for item in files:
+        relative = item.relative_to(path).as_posix()
+        digest.update(f"{sha256_file(item)}  {relative}\n".encode("utf-8"))
+    return len(files), digest.hexdigest()
+
+
 def _prior_immutability_gate() -> None:
-    parent = REPO_ROOT / "local/odebf/results"
+    parent = PRIOR_EXECUTION_REPO_ROOT / "local/odebf/results"
     for relative, expected in PRIOR_IMMUTABLE.items():
         path = parent / relative
         if path.is_symlink() or not path.is_file() or sha256_file(path) != expected:
             raise ODEBFContractError("immutable S05 artifact differs")
-    log_parent = REPO_ROOT / "local/odebf/logs"
+    for relative, expected in PRIOR_R8_R1_ROOT_IMMUTABLE.items():
+        if _root_tree_identity(parent / relative) != expected:
+            raise ODEBFContractError("immutable S05 R8-R1 root differs")
+    log_parent = PRIOR_EXECUTION_REPO_ROOT / "local/odebf/logs"
     for relative, expected in PRIOR_LOG_IMMUTABLE.items():
         path = log_parent / relative
         if path.is_symlink() or not path.is_file() or sha256_file(path) != expected:
             raise ODEBFContractError("immutable S05 log differs")
-    state_parent = REPO_ROOT / "local/odebf/state"
+    state_parent = PRIOR_EXECUTION_REPO_ROOT / "local/odebf/state"
     for relative, expected in PRIOR_STATE_IMMUTABLE.items():
         path = state_parent / relative
         if path.is_symlink() or not path.is_file() or sha256_file(path) != expected:
@@ -635,12 +695,14 @@ def main() -> int:
     intent_sha256 = _write_once(
         args.state_root / f"{SUBMISSION_NAMESPACE}.intent.json",
         {
-            "schema": "ode-edit-s05-fixed-e8-r8-r1-submit-intent/v1",
+            "schema": "ode-edit-s05-fixed-e8-r8-r2-submit-intent/v1",
             "instruction_id": FIXED_E8_INSTRUCTION_ID,
             "source_head": args.source_head,
             "preflight": preflight,
             "pair_back_to_back": True,
             "pair_accepted_while_held": True,
+            "technical_repair_parent_jobs": [17692, 17693],
+            "technical_repair_scientific_change": False,
             "retry_or_resubmit_authorized": False,
         },
     )
@@ -652,12 +714,14 @@ def main() -> int:
             args.state_root
             / f"{SUBMISSION_NAMESPACE}.submission-receipt.json",
             {
-                "schema": "ode-edit-s05-fixed-e8-r8-r1-submission-receipt/v1",
+                "schema": "ode-edit-s05-fixed-e8-r8-r2-submission-receipt/v1",
                 "instruction_id": FIXED_E8_INSTRUCTION_ID,
                 "source_head": args.source_head,
                 "intent_sha256": intent_sha256,
                 "jobs": jobs,
                 "pair_accepted_while_held": True,
+                "technical_repair_parent_jobs": [17692, 17693],
+                "technical_repair_scientific_change": False,
                 "retry_or_resubmit_authorized": False,
             },
         )
