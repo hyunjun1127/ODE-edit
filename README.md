@@ -73,12 +73,13 @@ Historical-H benefit은 아직 검증되지 않았다. 관련 B10-1 실험의 ac
 ## Follow-up 읽기 순서
 
 1. [현재 ODE-BF proposal](project/proposals/ODE_BF_Dynamic_Layer_Proposal.md)
-2. [전체 실험 파이프라인과 실행 계보](experiment-reports/global/2026-08-08-ode-bf-experiment-pipeline.md)
-3. [SH1/SH2 실험 종합 리뷰](experiment-reports/global/2026-08-08-ode-bf-sh-experiment-review.md)
-4. [저비용 coefficient-space 대안 ODE-Alloc](project/proposals/00.ODE_Alloc_Proposal_Report.md)
-5. [초기 BF-ODE-Edit proposal 원문](project/proposals/00.proposal.md)
-6. [관련 연구와 novelty boundary](project/proposals/sections/02-related-work-and-novelty-boundary.md)
-7. [운영 규칙](PROTOCOL.md)
+2. [Main-table 승격과 계산량 절감 future work](plans/global/2026-08-08-ode-bf-main-table-and-compute-future-work.md)
+3. [전체 실험 파이프라인과 실행 계보](experiment-reports/global/2026-08-08-ode-bf-experiment-pipeline.md)
+4. [SH1/SH2 실험 종합 리뷰](experiment-reports/global/2026-08-08-ode-bf-sh-experiment-review.md)
+5. [저비용 coefficient-space 대안 ODE-Alloc](project/proposals/00.ODE_Alloc_Proposal_Report.md)
+6. [초기 BF-ODE-Edit proposal 원문](project/proposals/00.proposal.md)
+7. [관련 연구와 novelty boundary](project/proposals/sections/02-related-work-and-novelty-boundary.md)
+8. [운영 규칙](PROTOCOL.md)
 
 ## Repository map
 
