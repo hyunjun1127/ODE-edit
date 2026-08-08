@@ -74,7 +74,7 @@ def main(argv: list[str] | None = None) -> int:
             repo_root=REPO_ROOT,
             instruction_id=COMMON_COLD_INSTRUCTION_ID,
             failure_schema=(
-                "ode-edit-s05-common-coldcoord-fixed-e8-p1r10-r2-failure/v1"
+                "ode-edit-s05-common-coldcoord-fixed-e8-p1r10-r3-failure/v1"
             ),
         )
         print(

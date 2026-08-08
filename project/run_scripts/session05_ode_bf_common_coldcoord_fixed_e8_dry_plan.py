@@ -33,8 +33,8 @@ from project.run_scripts.ode_bf.sampling import load_p1_sampling_seal
 
 
 JOB_NAMES = {
-    "llama3-8b-inst": "odeedit_s05_r10r2_llama",
-    "qwen2.5-7b-inst": "odeedit_s05_r10r2_qwen",
+    "llama3-8b-inst": "odeedit_s05_r10r3_llama",
+    "qwen2.5-7b-inst": "odeedit_s05_r10r3_qwen",
 }
 
 
@@ -81,7 +81,7 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
             }
         )
     return {
-        "schema": "ode-edit-s05-common-coldcoord-fixed-e8-p1r10-r2-dry-plan/v1",
+        "schema": "ode-edit-s05-common-coldcoord-fixed-e8-p1r10-r3-dry-plan/v1",
         "instruction_id": COMMON_COLD_INSTRUCTION_ID,
         "source_head": source_head,
         "reused_warm_case_seal_root_digest": seal["root_digest"],

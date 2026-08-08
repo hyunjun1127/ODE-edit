@@ -647,6 +647,13 @@ class CommonColdCoordinateTests(unittest.TestCase):
         self.assertNotIn("capture_p1_native_entry", called)
         self.assertNotIn("native_target", called)
         run_source = inspect.getsource(runtime.run_common_coldcoord_fixed_e8_diagnostic)
+        self.assertTrue(callable(runtime.legacy.fixed_e8_context_degeneracy_audit))
+        self.assertIn(
+            "legacy.fixed_e8_context_degeneracy_audit", run_source
+        )
+        self.assertNotIn(
+            "legacy._fixed_e8_context_degeneracy_audit", run_source
+        )
         self.assertLess(
             run_source.index("_prior_qwen_ordinal6_audit"),
             run_source.index("z_base = capture_cold_z_base"),
@@ -685,17 +692,17 @@ class CommonColdCoordinateTests(unittest.TestCase):
         self.assertFalse(first["unseen_or_fresh_sample_claim_authorized"])
         self.assertEqual(
             COMMON_COLD_RESULT_TOKEN,
-            "common-coldcoord-fixed-e8-p1r10-r2-v1",
+            "common-coldcoord-fixed-e8-p1r10-r3-v1",
         )
         self.assertEqual(
             expected_common_cold_result_name("llama3-8b-inst"),
-            "s05-common-coldcoord-fixed-e8-p1r10-r2-llama3-8b-inst-v1",
+            "s05-common-coldcoord-fixed-e8-p1r10-r3-llama3-8b-inst-v1",
         )
         self.assertEqual(
             common_dry.JOB_NAMES,
             {
-                "llama3-8b-inst": "odeedit_s05_r10r2_llama",
-                "qwen2.5-7b-inst": "odeedit_s05_r10r2_qwen",
+                "llama3-8b-inst": "odeedit_s05_r10r3_llama",
+                "qwen2.5-7b-inst": "odeedit_s05_r10r3_qwen",
             },
         )
         self.assertEqual(
@@ -704,6 +711,10 @@ class CommonColdCoordinateTests(unittest.TestCase):
         )
         self.assertEqual(
             common_submit.EXECUTION_REPAIR_PARENT_HEAD,
+            "3e479b260f73c5ed520b10f7574a2074fe903c52",
+        )
+        self.assertEqual(
+            common_submit.SECOND_REPAIR_PARENT_HEAD,
             "abaa366c8d32918ecf96d4f433248b799703001b",
         )
         self.assertEqual(
@@ -714,6 +725,9 @@ class CommonColdCoordinateTests(unittest.TestCase):
             common_submit._execution_provenance_gate
         )
         self.assertIn('parent != EXECUTION_REPAIR_PARENT_HEAD', provenance_source)
+        self.assertIn(
+            'second_repair_parent != SECOND_REPAIR_PARENT_HEAD', provenance_source
+        )
         self.assertIn(
             'first_repair_parent != FIRST_REPAIR_PARENT_HEAD', provenance_source
         )

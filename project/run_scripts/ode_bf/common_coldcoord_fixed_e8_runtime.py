@@ -1618,7 +1618,7 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     finally:
         pre_action_counter.close()
     overlay_gate_sha = write_once(raw_root / "common-cold" / "context-overlay-gate.json", overlay_gate)
-    context_audit = legacy._fixed_e8_context_degeneracy_audit(
+    context_audit = legacy.fixed_e8_context_degeneracy_audit(
         tokenizer, contexts, context_sha256=context_sha256
     )
     context_audit_sha = write_once(
