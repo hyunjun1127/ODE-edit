@@ -4,6 +4,10 @@
 범위: SH2(Session 04) ODE-Alloc/ODE-BF 기술 검증부터 SH1(Session 05) fixed-E8 R8 pair terminal까지
 상태: 실험·기술 보고서. 논문 성능 주장을 승인하는 문서가 아님
 
+> **수식 표기:** Codex 앱과 GitHub를 포함한 Markdown renderer 간 호환성을 위해
+> display 수식은 `text` 코드 블록, inline 수식은 inline code로 표기한다. TeX
+> delimiter 렌더링에 의존하지 않는다.
+
 ---
 
 ## 0. 이 문서가 답하는 질문
@@ -168,13 +172,13 @@ case는 outcome을 보기 전에 고정했다.
 
 한 request의 rewrite efficacy bit는 length-normalized suffix NLL로 계산한다.
 
-\[
+```text
 e_i = \mathbf 1\left[
 \operatorname{NLL}_{\theta}(o_i^{new})
 <
 \operatorname{NLL}_{\theta}(o_i^{old})
 \right].
-\]
+```
 
 - efficacy: 10 requests × canonical rewrite prompt = `10` bits.
 - generalization: 10 requests × 2 paraphrase prompts = `20` bits.
@@ -208,11 +212,11 @@ flowchart LR
 
 ### 4.1 layer arm
 
-layer \(l\)의 low-rank write arm은 다음처럼 표현한다.
+layer `l`의 low-rank write arm은 다음처럼 표현한다.
 
-\[
+```text
 B_l = R_l Q_l^\top.
-\]
+```
 
 초기 구현은 Native AlphaEdit처럼 residual을 remaining layer 수로 미리 나눴다. full-residual pivot 이후에는 모든 layer가 같은 current full residual 후보를 받고, routing coefficient가 분배를 결정한다.
 
@@ -220,20 +224,20 @@ B_l = R_l Q_l^\top.
 
 누적 accepted update를 포함하면 H 또는 P의 structural risk는 공통적으로 다음 quadratic form이 된다.
 
-\[
+```text
 \mathcal R_j(v)
 = d_j + 2h g_j^\top v + h^2 v^\top M_j v,
 \qquad j\in\{H,P\}.
-\]
+```
 
 - H: 과거 성공 edit의 projected key에 현재 arm이 주는 변화.
-- P: pinned Wikipedia covariance \(C_l^0\)에서의 평균 local disturbance.
+- P: pinned Wikipedia covariance `C_l^0`에서의 평균 local disturbance.
 
-\[
+```text
 c_{P,l}
 =\operatorname{tr}(B_l C_l^0 B_l^\top)
 =\mathbb E_{k\sim\mathcal D_0}\|B_l k\|_2^2.
-\]
+```
 
 **FACT:** B10-1은 active history가 0이므로 H는 수학적으로 존재하지만 decision 관점에서는 vacuous였다.
 
@@ -241,7 +245,7 @@ c_{P,l}
 
 theta0 teacher에 대한 KL drift의 outer-entry incremental positive part를 사용했다. 이 값은 pretrained-distribution 변화의 raw observable이며, 별도 calibration 없이 곧바로 downstream damage와 동일시하지 않는다.
 
-\[
+```text
 D_P(W)
 =\frac1{|\mathcal B_P|}
 \sum_{x\in\mathcal B_P}
@@ -249,7 +253,7 @@ D_P(W)
 KL(p_{\theta_0}\|p_W)
 -KL(p_{\theta_0}\|p_{W_{entry}})
 \right]_+.
-\]
+```
 
 초기 구현의 waypoint baseline은 accepted virtual state에 따라 이동했지만 terminal은 outer-entry 기준이었다. 이것이 waypoint 통과 후 terminal P 실패를 만드는 불일치였다. P1R3에서 waypoint와 terminal 모두 fixed outer-entry로 고정했다.
 
@@ -257,7 +261,7 @@ KL(p_{\theta_0}\|p_W)
 
 초기 BF router는 다음 형태의 minimum-capacity solve였다.
 
-\[
+```text
 \begin{aligned}
 \min_{0\le y_l\le 1}\quad & \tfrac12 y^\top Qy\\
 \text{s.t.}\quad
@@ -266,7 +270,7 @@ KL(p_{\theta_0}\|p_W)
 &\mathcal R_P^{str}(y)\le B_P,\\
 &y^\top M_{trust}y\le h_{trust}^2.
 \end{aligned}
-\]
+```
 
 초기 budget은 각각 nominal self-risk 증가의 `0.5`를 허용하는 heuristic이었다. 관찰 기반 calibration이 아니었다.
 
@@ -276,20 +280,20 @@ KL(p_{\theta_0}\|p_W)
 
 Margin objective:
 
-\[
+```text
 \Phi_{margin}(W)
 =\frac1{10}\sum_i
 \left[
 NLL_W(o_i^{new})-NLL_W(o_i^{old})
 \right].
-\]
+```
 
 Target-new-only objective:
 
-\[
+```text
 \Phi_{new}(W)
 =\frac1{10}\sum_i NLL_W(o_i^{new}).
-\]
+```
 
 **FACT:** NEWNLL router에서 target-old는 routing gradient와 target-z velocity에 영향을 주지 않고, official CF success 계산에만 남는다.
 
@@ -297,9 +301,9 @@ Target-new-only objective:
 
 authoritative trial은 FP32 overlay 자체가 아니라 다음 BF16 effective weight다.
 
-\[
+```text
 W_l^{eff}=Q_{BF16}(W_{l,entry}+\Delta_l).
-\]
+```
 
 - 한 번에 target layer 한 개의 effective BF16 weight만 materialize.
 - dense FP32/FP64 full delta를 계속 보관하지 않음.
@@ -360,7 +364,7 @@ R3에서 확인한 계약:
 양 모델 모두:
 
 - genuine joint B10, rank 10, direct-z initialization 10.
-- W64 residual \(\eta\le10^{-5}\) PASS.
+- W64 residual `\eta\le10^{-5}` PASS.
 - W64 virtual vs committed parameter bytes/logits/event exact.
 - rollback write point `[0,2,4]` exact, final W0 restore exact.
 - W32 fallback 0.
@@ -387,7 +391,7 @@ pre-model CUDA reset 오류를 수리한 P1R1(16641/16642)은 B10-1에서 다음
 
 ### 6.2 rejection RCA
 
-초기 accept gate는 solver가 예측한 requested progress \(p\) 전체를 BF16 trial이 실현해야 했다.
+초기 accept gate는 solver가 예측한 requested progress `p` 전체를 BF16 trial이 실현해야 했다.
 
 **FACT:** 144/144 trial에서 actual progress는 양수였지만 `actual >= p`는 0/144였다.
 
@@ -404,12 +408,12 @@ Functional-P도 112/144 trial에서 raw-max budget을 넘었지만, P를 통과�
 
 P1R2는 acceptance를 다음처럼 바꿨다.
 
-\[
+```text
 \rho=\frac{\text{actual progress}}
 {\max(\text{predicted}_\beta,10^{-8})},
 \qquad
 \text{accept if actual}>10^{-8},\ \rho\ge0.1.
-\]
+```
 
 functional-P hard decision도 raw-max가 아니라 samplewise positive-part의 uniform mean `≤0.001`로 바꿨다.
 
@@ -447,15 +451,15 @@ P1R3(16677/16678)은 P baseline을 전체 trajectory에서 outer-entry로 고정
 
 이전 pre-share:
 
-\[
+```text
 R_l=\frac{z_s-z_l^{current}}{\#\text{remaining layers}}.
-\]
+```
 
 full residual:
 
-\[
+```text
 R_l=z_s-z_l^{current},\qquad \forall l.
-\]
+```
 
 각 layer가 같은 full residual candidate를 받고 routing이 allocation을 결정하도록 바꿨다.
 
@@ -472,16 +476,16 @@ Legacy full-residual pair(16681/16682)의 R_BF online efficacy:
 
 adaptive 설계는 다음을 분리하려 했다.
 
-\[
+```text
 \tau_{n+1}=\tau_n+\Delta\tau_n,
 \qquad
 W_{n+1}=W_n+\Delta\tau_n F_{BF}(W_n).
-\]
+```
 
-- reject는 \(\tau\)와 accepted index를 소비하지 않는다.
-- 같은 state/field에서 \(\Delta\tau\)만 줄여 retry한다.
+- reject는 `\tau`와 accepted index를 소비하지 않는다.
+- 같은 state/field에서 `\Delta\tau`만 줄여 retry한다.
 - accept 후에만 field를 refresh한다.
-- target-z와 weight가 같은 \(\Delta\tau\)를 사용한다.
+- target-z와 weight가 같은 `\Delta\tau`를 사용한다.
 
 변형:
 
@@ -528,7 +532,7 @@ Qwen은 initial PS-S8에서:
 
 warm displacement:
 
-| 모델 | \(\|z_{native}-z_{base}\|_F\) |
+| 모델 | `\|z_{native}-z_{base}\|_F` |
 |---|---:|
 | Llama | 15.46395 |
 | Qwen | 466.92258 |
@@ -648,25 +652,25 @@ warm start는 edit target을 빠르게 주지만:
 - Qwen처럼 Native displacement가 큰 모델에서 field scale을 크게 만든다.
 - Native direct-z 자체의 계산을 방법 비용에 포함시킨다.
 
-따라서 cold path는 \(z_0=z_{base}\)에서 시작하고 Native-z를 controller metric, radius, gradient, fallback에 넣지 않는다.
+따라서 cold path는 `z_0=z_{base}`에서 시작하고 Native-z를 controller metric, radius, gradient, fallback에 넣지 않는다.
 
 ### 9.2 cold bootstrap
 
 bootstrap objective는 genuine B10 target-new suffix NLL뿐이다.
 
-\[
+```text
 \Phi_{boot}(z)=\frac1{10}\sum_i NLL(o_i^{new};z).
-\]
+```
 
 metric:
 
-\[
+```text
 G_i=I/\|z_{base,i}\|_2^2,
 \qquad
 v_z=-G^{-1}\nabla_z\Phi/\|\nabla_z\Phi\|_{G^{-1}}.
-\]
+```
 
-- \(\lambda_z=0\).
+- `\lambda_z=0`.
 - boot clock와 joint clock을 분리.
 - target-only bootstrap state는 first-hit/endpoint로 세지 않음.
 - joint 진입 뒤 target-z와 weight는 같은 dt를 사용.
@@ -675,9 +679,9 @@ v_z=-G^{-1}\nabla_z\Phi/\|\nabla_z\Phi\|_{G^{-1}}.
 
 각 layer의 target overlay를 다음으로 고정했다.
 
-\[
+```text
 R_l(z_s)+(z-z_s).
-\]
+```
 
 terminal layer 하나의 `current_z`를 모든 layer에 재사용하던 coupling을 제거했다. five-layer distinct residual fixture, finite-difference/autograd parity, one-layer perturbation isolation을 통과했다.
 
@@ -701,9 +705,9 @@ method id:
 
 ### 10.1 고정 시간축
 
-\[
+```text
 K=8,\qquad h=1/8,\qquad \tau_k=k/8,\qquad \tau_8=1.
-\]
+```
 
 - adaptive retry/backtracking 없음.
 - scientific veto 없음.
@@ -722,12 +726,12 @@ K=8,\qquad h=1/8,\qquad \tau_k=k/8,\qquad \tau_8=1.
 
 ### 10.3 technical feasible set
 
-\[
+```text
 0\le v_l\le1,
 \qquad
 a^\top v\ge\kappa p_{max},
 \qquad \kappa=0.25.
-\]
+```
 
 write trust는 integration bound로 유지한다. 기존 heuristic H/P budget은 hard constraint에서 제거했다.
 
@@ -735,19 +739,19 @@ write trust는 integration bound로 유지한다. 기존 heuristic H/P budget은
 
 structural score 예:
 
-\[
+```text
 s_j(v)=
 \frac{
 [2h g_j^\top v+h^2v^\top M_jv]_+
 }{\max(\epsilon,\operatorname{tr}M_j)}.
-\]
+```
 
 functional basis로 얻은 layer별 positive slope도 정규화해 score로 사용한다.
 
 E8-SOFT는 lexicographic하게:
 
-1. active structural/functional score 중 최댓값 \(\xi\) 최소화.
-2. \(\xi\le\xi^*+10^{-8}\) 안에서 capacity 최소화.
+1. active structural/functional score 중 최댓값 `\xi` 최소화.
+2. `\xi\le\xi^*+10^{-8}` 안에서 capacity 최소화.
 
 ### 10.5 functional basis endpoint 48의 정확한 의미
 
@@ -758,10 +762,10 @@ E8-SOFT는 lexicographic하게:
 
 따라서:
 
-\[
+```text
 6\ \text{endpoints/field}\times8\ \text{fields}
 =48\ \text{endpoints/arm}.
-\]
+```
 
 중요한 해석:
 
@@ -811,7 +815,7 @@ per arm 고정 ceiling:
 
 - signed routing efficiency.
 - raw velocity, pre-soft BF velocity, soft velocity.
-- applied coefficient \(\theta=h v\).
+- applied coefficient `\theta=h v`.
 - predicted progress contribution.
 - structural H/P, trust contribution.
 - prequantized update energy와 realized BF16 energy.
