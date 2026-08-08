@@ -593,6 +593,125 @@ def fixed_e8_waypoint_factors(
     }
 
 
+def fixed_e8_target_write_coefficient_identity(
+    field: P1DynamicField,
+    routing: FixedE8RoutingResult,
+    increment: Mapping[str, WaypointFactor],
+    *,
+    target_probe_coefficients: Sequence[float],
+) -> dict[str, Any]:
+    """Prove that target probing and the BF16 trial use the same Euler write."""
+
+    layers = tuple(int(item.layer) for item in field.layers)
+    expected = tuple(float(item) for item in routing.applied_coefficient)
+    probe = tuple(float(item) for item in target_probe_coefficients)
+    physical = tuple(
+        float(increment[item.weight_name].theta) for item in field.layers
+    )
+    if (
+        layers != FIXED_E8_LAYER_ORDER
+        or tuple(increment) != tuple(item.weight_name for item in field.layers)
+        or len(expected) != len(FIXED_E8_LAYER_ORDER)
+        or len(probe) != len(expected)
+        or len(physical) != len(expected)
+        or any(not math.isfinite(item) for item in (*expected, *probe, *physical))
+    ):
+        raise ODEBFContractError("fixed E8 target/write coefficient inventory differs")
+    velocity = np.asarray(routing.velocity, dtype=np.float64)
+    expected_array = np.asarray(expected, dtype=np.float64)
+    if not np.allclose(
+        expected_array,
+        float(FIXED_E8_H) * velocity,
+        rtol=0.0,
+        atol=1.0e-14,
+    ):
+        raise ODEBFContractError("fixed E8 target/write h scaling differs")
+    if not np.array_equal(np.asarray(probe), expected_array) or not np.array_equal(
+        np.asarray(physical), expected_array
+    ):
+        raise ODEBFContractError("fixed E8 target probe differs from physical write")
+    payload = {
+        "schema": "ode-edit-fixed-e8-target-write-coefficient-identity/v1",
+        "layer_order": list(layers),
+        "h": float(FIXED_E8_H),
+        "velocity": list(routing.velocity),
+        "target_probe_coefficient": list(probe),
+        "physical_trial_coefficient": list(physical),
+        "target_probe_coefficient_sha256": canonical_hash(list(probe)),
+        "physical_trial_coefficient_sha256": canonical_hash(list(physical)),
+        "target_probe_equals_physical_trial": True,
+        "h_applied_exactly_once": True,
+        "target_probe_displacement_definition": "h*sum_l(v_l*B_l(z))",
+        "physical_write_displacement_definition": "h*sum_l(v_l*B_l)",
+        "controller_decision_influence_count": 0,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
+
+
+def fixed_e8_target_write_realization(
+    current_target: torch.Tensor,
+    candidate_target: torch.Tensor,
+    current_lookup: torch.Tensor,
+    candidate_lookup: torch.Tensor,
+) -> dict[str, Any]:
+    """Compare intended target motion with the realized no-hook lookup motion."""
+
+    values = (current_target, candidate_target, current_lookup, candidate_lookup)
+    if (
+        any(not isinstance(item, torch.Tensor) for item in values)
+        or any(item.ndim != 2 for item in values)
+        or any(tuple(item.shape) != tuple(current_target.shape) for item in values)
+        or current_target.shape[1] != BATCH_SIZE
+        or any(not bool(torch.isfinite(item).all()) for item in values)
+    ):
+        raise ODEBFContractError("fixed E8 target/write realization geometry differs")
+    intended = (
+        candidate_target.to(device="cpu", dtype=torch.float64)
+        - current_target.to(device="cpu", dtype=torch.float64)
+    ).contiguous()
+    realized = (
+        candidate_lookup.to(device="cpu", dtype=torch.float64)
+        - current_lookup.to(device="cpu", dtype=torch.float64)
+    ).contiguous()
+    residual = (intended - realized).contiguous()
+    intended_norm = torch.linalg.vector_norm(intended, dim=0)
+    realized_norm = torch.linalg.vector_norm(realized, dim=0)
+    residual_norm = torch.linalg.vector_norm(residual, dim=0)
+    epsilon = torch.finfo(torch.float64).eps
+    denominator = torch.clamp(intended_norm, min=epsilon)
+    cosine_denominator = intended_norm * realized_norm
+    cosine = torch.where(
+        cosine_denominator > epsilon,
+        torch.sum(intended * realized, dim=0) / cosine_denominator,
+        torch.zeros_like(cosine_denominator),
+    )
+    residual_ratio = residual_norm / denominator
+    norm_gain = realized_norm / denominator
+    numeric = (*intended_norm, *realized_norm, *residual_norm, *cosine, *residual_ratio, *norm_gain)
+    if any(not math.isfinite(float(item)) for item in numeric):
+        raise ODEBFContractError("fixed E8 target/write realization is non-finite")
+    payload = {
+        "schema": "ode-edit-fixed-e8-target-write-realization/v1",
+        "request_count": BATCH_SIZE,
+        "intended_delta_z_sha256": tensor_sha256(intended),
+        "realized_delta_z_sha256": tensor_sha256(realized),
+        "residual_delta_z_sha256": tensor_sha256(residual),
+        "intended_norm": [float(item) for item in intended_norm],
+        "realized_norm": [float(item) for item in realized_norm],
+        "residual_norm": [float(item) for item in residual_norm],
+        "residual_ratio": [float(item) for item in residual_ratio],
+        "cosine": [float(item) for item in cosine],
+        "norm_gain": [float(item) for item in norm_gain],
+        "zero_intended_count": int(torch.count_nonzero(intended_norm <= epsilon)),
+        "zero_realized_count": int(torch.count_nonzero(realized_norm <= epsilon)),
+        "candidate_lookup_without_intervention_hook": True,
+        "controller_decision_influence_count": 0,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
+
+
 def _fixed_e8_signed_progress_gradient(
     model: torch.nn.Module,
     tokenizer: Any,
@@ -1178,12 +1297,26 @@ def _build_fixed_field_with_metric(
             requests,
             contexts,
             field=field,
-            coefficients=routing.velocity,
+            coefficients=routing.applied_coefficient,
             cumulative_factors_by_weight=current_factors,
             metric=metric,
             ledger=ledger,
         )
         target_receipt = asdict(observed_target_receipt)
+    target_receipt = {
+        **dict(target_receipt),
+        "target_probe_coefficient": list(routing.applied_coefficient),
+        "target_probe_coefficient_sha256": canonical_hash(
+            list(routing.applied_coefficient)
+        ),
+        "target_probe_displacement_definition": "h*sum_l(v_l*B_l(z))",
+        "target_probe_h": float(FIXED_E8_H),
+        "target_probe_h_applied_exactly_once": True,
+        "physical_write_coefficient_expected_sha256": canonical_hash(
+            list(routing.applied_coefficient)
+        ),
+        "same_euler_candidate_target_write_contract": True,
+    }
     if (
         _parameter_contract_sha256(touched) != before
         or history.snapshot().digest != before_history
@@ -1428,6 +1561,7 @@ def _run_fixed_variant(
     controller_candidate_functional_endpoint_count = 0
     field_backward_batch_count = 0
     target_backward_batch_count = 0
+    target_write_realization_forward_count = 0
     actual_logical_qp_certificate_count = 0
     actual_authoritative_logical_qp_certificate_count = 0
     actual_diagnostic_shadow_logical_qp_certificate_count = 0
@@ -1519,6 +1653,14 @@ def _run_fixed_variant(
         increment = fixed_e8_waypoint_factors(
             field, routing.velocity, step_index=step_index
         )
+        target_write_identity = fixed_e8_target_write_coefficient_identity(
+            field,
+            routing,
+            increment,
+            target_probe_coefficients=target_velocity_receipt[
+                "target_probe_coefficient"
+            ],
+        )
         candidate_factors = (
             _factor_map(current_factors)
             if routing.mode is FixedE8StepMode.ZERO_WRITE_TARGET_RECOVERY
@@ -1532,6 +1674,43 @@ def _run_fixed_variant(
         target_certificate = cold_target_step_validator(metric, z_base)(
             current_target, target_trial, point.tau_before, FIXED_E8_H
         )
+        realization_before_model = _parameter_contract_sha256(touched)
+        realization_before_history = history.snapshot().digest
+        realization_before_sampler = schedule.state_digest
+        realization_before_rng = _rng_identity()
+        realization_forward_before = ledger.counters["model_forward"]
+        with _virtual_context(model, candidate_factors):
+            candidate_lookup = capture_cold_z_base(
+                model, tokenizer, requests, hparams
+            )
+        realization_forward_delta = (
+            ledger.counters["model_forward"] - realization_forward_before
+        )
+        if (
+            realization_forward_delta != 1
+            or _parameter_contract_sha256(touched) != realization_before_model
+            or history.snapshot().digest != realization_before_history
+            or schedule.state_digest != realization_before_sampler
+            or _rng_identity() != realization_before_rng
+        ):
+            raise ODEBFStateError(
+                "fixed E8 target/write realization mutated state or accounting"
+            )
+        target_write_realization_forward_count += realization_forward_delta
+        target_write_realization = {
+            **fixed_e8_target_write_realization(
+                current_target,
+                target_trial,
+                field.current_z,
+                candidate_lookup,
+            ),
+            "actual_model_forward_count": realization_forward_delta,
+            "current_lookup_sha256": tensor_sha256(field.current_z),
+            "candidate_lookup_sha256": tensor_sha256(candidate_lookup),
+            "target_write_coefficient_identity_sha256": (
+                target_write_identity["identity_sha256"]
+            ),
+        }
         candidate_objective = evaluate_routing_progress(
             model,
             tokenizer,
@@ -1702,6 +1881,8 @@ def _run_fixed_variant(
             "probe_receipt_sha256": probe_payload["identity_sha256"],
             "target_velocity": dict(target_velocity_receipt),
             "target_step_certificate": target_certificate,
+            "target_write_coefficient_identity": target_write_identity,
+            "target_write_realization": target_write_realization,
             "residual_policy": FULL_CURRENT_RESIDUAL_DEFINITION,
             "h": float(FIXED_E8_H),
             "theta_equals_h_times_v": True,
@@ -1835,6 +2016,7 @@ def _run_fixed_variant(
         or controller_candidate_functional_endpoint_count != 8
         or field_backward_batch_count != 8
         or target_backward_batch_count != 8
+        or target_write_realization_forward_count != 8
         or ledger.counters["trial"] != FIXED_E8_GRID_COUNT
         or ledger.counters["qp_solve"]
         != actual_logical_qp_certificate_count
@@ -1895,6 +2077,9 @@ def _run_fixed_variant(
             ),
             "field_backward_batch_count": field_backward_batch_count,
             "target_backward_batch_count": target_backward_batch_count,
+            "target_write_realization_forward_count": (
+                target_write_realization_forward_count
+            ),
             "terminal_audit_functional_endpoint_count": len(
                 terminal_confirmations
             ),

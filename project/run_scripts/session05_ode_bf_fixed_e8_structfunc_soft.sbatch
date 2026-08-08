@@ -23,7 +23,7 @@ case "${MODEL_ALIAS}" in
   llama3-8b-inst|qwen2.5-7b-inst) ;;
   *) echo "invalid locked S05 fixed-E8 alias" >&2; exit 2 ;;
 esac
-[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "fixed-e8-solver-isolation-cert-r8-v1" ]] || {
+[[ -n "${OUTPUT_ROOT}" && -n "${SOURCE_HEAD}" && "${RUN_TOKEN}" == "fixed-e8-solver-isolation-cert-r8-r1-v1" ]] || {
   echo "missing locked S05 fixed-E8 invocation" >&2
   exit 2
 }
@@ -57,7 +57,7 @@ export HF_DATASETS_OFFLINE=1
 export TOKENIZERS_PARALLELISM=false
 export PYTHONHASHSEED=41
 export PYTHONDONTWRITEBYTECODE=1
-export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-s05-fixed-e8-r8"
+export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-s05-fixed-e8-r8-r1"
 export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 
 exec /usr/local/bin/uv run --offline \

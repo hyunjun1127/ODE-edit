@@ -1767,6 +1767,7 @@ class FixedE8OperationCeiling:
     action_rewrite_evaluations_per_arm: int = 9
     field_backward_batches_per_arm: int = 8
     target_backward_batches_per_arm: int = 8
+    target_write_realization_forwards_per_arm: int = 8
     qp_solves_per_field: int = 4
     nominal_qp_backend_invocations_per_field: int = 4
     fallback_invocations_per_qp: int = FIXED_E8_FALLBACK_LIMIT
@@ -1785,6 +1786,7 @@ class FixedE8OperationCeiling:
             or self.action_rewrite_evaluations_per_arm != 9
             or self.field_backward_batches_per_arm != 8
             or self.target_backward_batches_per_arm != 8
+            or self.target_write_realization_forwards_per_arm != 8
             or self.qp_solves_per_field != 4
             or self.nominal_qp_backend_invocations_per_field != 4
             or self.fallback_invocations_per_qp != 1
@@ -1812,6 +1814,9 @@ class FixedE8OperationCeiling:
             ),
             "field_backward_batch_count": self.field_backward_batches_per_arm,
             "target_backward_batch_count": self.target_backward_batches_per_arm,
+            "target_write_realization_forward_count": (
+                self.target_write_realization_forwards_per_arm
+            ),
             "qp_solve_count": self.fields_per_arm * self.qp_solves_per_field,
             "qp_backend_invocation_count": (
                 self.fields_per_arm
@@ -1866,6 +1871,10 @@ def fixed_e8_semantic_receipt() -> dict[str, Any]:
         ),
         "target_overlay_definition": FIXED_E8_TARGET_OVERLAY_DEFINITION,
         "target_velocity_step_semantics": FIXED_E8_TARGET_STEP_SEMANTICS,
+        "target_probe_displacement_definition": "h*sum_l(v_l*B_l(z))",
+        "physical_write_displacement_definition": "h*sum_l(v_l*B_l)",
+        "target_probe_equals_physical_trial": True,
+        "h_applied_exactly_once_to_target_and_write": True,
         "candidate_coupled": False,
         "retry_recomputes_target_velocity": False,
         "adaptive_clock_access_count": 0,

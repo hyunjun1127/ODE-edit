@@ -30,6 +30,7 @@ from project.run_scripts.ode_bf.p1_fixed_e8_soft_panel import (
     FIXED_E8_EXECUTION_PARENT_HEAD,
     FIXED_E8_INSTRUCTION_ID,
     FIXED_E8_PARENT_HEAD,
+    FIXED_E8_R8_SOLVER_PARENT_HEAD,
     FIXED_E8_RESULT_TOKEN,
     expected_fixed_e8_result_name,
 )
@@ -52,7 +53,7 @@ FIXED_E8_CERTIFICATE_RECEIPT_PARENT_HEAD = (
 )
 SERVER1_PROJECT_GPU_CAP = 3
 APPROVAL_ENV = "ODEEDIT_S05_FIXED_E8_R8_RUN_APPROVAL"
-SUBMISSION_NAMESPACE = "s05-fixed-e8-solver-isolation-cert-r8-v1"
+SUBMISSION_NAMESPACE = "s05-fixed-e8-solver-isolation-cert-r8-r1-v1"
 SBATCH = (
     REPO_ROOT
     / "project/run_scripts/session05_ode_bf_fixed_e8_structfunc_soft.sbatch"
@@ -63,6 +64,48 @@ SOURCE_MANIFEST = (
     "source_manifest_s05_fixed_e8_structfunc_soft.json"
 )
 PRIOR_IMMUTABLE = {
+    "s05-fixed-e8-solver-isolation-cert-r8-llama3-8b-inst-v1/raw/context_templates.json": (
+        "ea432a1ee287b4a0da021edebb3ce0d4e8c95e3f46dd074aa39f0de9f91a15be"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-llama3-8b-inst-v1/raw/fixed-e8/context-degeneracy-audit.json": (
+        "43902dc6e242f19abfbd3efe2f55054aa7fb11752d18e8c1e19a1dcd3f15f485"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-llama3-8b-inst-v1/raw/fixed-e8/z-base.json": (
+        "7e52372fe51b6d5785325f9a1ecc7450fe8a185f652856c175fe697ceb2ba751"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-llama3-8b-inst-v1/raw/stage-001-post_preflight.json": (
+        "7d5f998dbf0e3e7550bd1fccac36e4d9a7d39b000df8232e00ac9c86eb030738"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-llama3-8b-inst-v1/raw/stage-002-post_cuda_preflight.json": (
+        "b1f2dbfbbf6f76487ed78a8bc6330e527c958d4160f7c99d875d6471f212742a"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-llama3-8b-inst-v1/raw/stage-003-post_fixed_e8_gpu_capacity.json": (
+        "2027c546811dad99658f62ac4a9580b50f71cc638275c29a29d4d86d8f318086"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-llama3-8b-inst-v1/raw/stage-004-post_model_context_teacher.json": (
+        "99eb23713f8bf508c55748ba2818a76015e57e4e3ba88b8ae43f5f839c3c8738"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-qwen2.5-7b-inst-v1/raw/context_templates.json": (
+        "4cf00360f916dfd9f957a88e5dd0e1700316a9514ba796f6b901508a918b7082"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-qwen2.5-7b-inst-v1/raw/fixed-e8/context-degeneracy-audit.json": (
+        "01d2bc8d28b1c153a118e1b29152a0dd4a0f66c658f8246f135d7535ac07e600"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-qwen2.5-7b-inst-v1/raw/fixed-e8/z-base.json": (
+        "1fff62e0f2e4edabbdedb4d9a9032d638c1c7743e93568bc1a185ac28858bde2"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-qwen2.5-7b-inst-v1/raw/stage-001-post_preflight.json": (
+        "7d5f998dbf0e3e7550bd1fccac36e4d9a7d39b000df8232e00ac9c86eb030738"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-qwen2.5-7b-inst-v1/raw/stage-002-post_cuda_preflight.json": (
+        "b1f2dbfbbf6f76487ed78a8bc6330e527c958d4160f7c99d875d6471f212742a"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-qwen2.5-7b-inst-v1/raw/stage-003-post_fixed_e8_gpu_capacity.json": (
+        "2695c4a4df7876336db42494994166ff79183c211c999dce24f642805e5025fe"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-qwen2.5-7b-inst-v1/raw/stage-004-post_model_context_teacher.json": (
+        "fb9651bfc607559dcdb8e85281dea2ea42d75f4921a1d5d1bb7a4359bf70232c"
+    ),
     "s05-newnll-p-soft-hard-p1r5-llama3-8b-inst-v1-r2/terminal.json": (
         "9b19aa025d27eaf54841ba7b0e99e3ef9ba778fc919dc34d524522a5ec920d88"
     ),
@@ -113,6 +156,18 @@ PRIOR_IMMUTABLE = {
     ),
 }
 PRIOR_LOG_IMMUTABLE = {
+    "odeedit_s05_e8r8_llama-17690.out": (
+        "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec"
+    ),
+    "odeedit_s05_e8r8_llama-17690.err": (
+        "378e10404b48cbabc8e74cb4e509083beda324ce9261f121a3415fde36d2d385"
+    ),
+    "odeedit_s05_e8r8_qwen-17691.out": (
+        "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec"
+    ),
+    "odeedit_s05_e8r8_qwen-17691.err": (
+        "426e96f1d02b119e2c0da56780f99ec1478e0815daa0937707b75c668f858785"
+    ),
     "odeedit_s05_p1r7_e8_llama-17105.out": (
         "1b1a59d4bedc52bd3f2e1ad5bda614c8309963de5967f30a04e98c22f6adfaec"
     ),
@@ -211,6 +266,12 @@ PRIOR_LOG_IMMUTABLE = {
     ),
 }
 PRIOR_STATE_IMMUTABLE = {
+    "s05-fixed-e8-solver-isolation-cert-r8-v1.intent.json": (
+        "a4d05228c2194d0c2455d36e7e9395c82999eea8304c7973db15b79ff3ecd555"
+    ),
+    "s05-fixed-e8-solver-isolation-cert-r8-v1.submission-receipt.json": (
+        "6f6a600d5526929ba07ea5df80fc925b3d69a46f8113a9c38ea4f6ce113b6734"
+    ),
     "s05-cold-fixed-e8-structfunc-soft-p1r7-r4-v1.intent.json": (
         "3a969108527e31e28a3fcd7d4837bde6103d2141e586070fdece5a9842432418"
     ),
@@ -275,22 +336,25 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     r8_execution_parent = _run(
         ["git", "rev-parse", "HEAD^"]
     ).stdout.strip()
-    certificate_receipt_parent = _run(
+    r8_solver_parent = _run(
         ["git", "rev-parse", "HEAD^^"]
     ).stdout.strip()
-    solver_observability_parent = _run(
+    certificate_receipt_parent = _run(
         ["git", "rev-parse", "HEAD^^^"]
     ).stdout.strip()
-    zero_capacity_parent = _run(["git", "rev-parse", "HEAD^^^^"]).stdout.strip()
-    memory_parent = _run(["git", "rev-parse", "HEAD^^^^^"]).stdout.strip()
-    numerical_schema_parent = _run(
-        ["git", "rev-parse", "HEAD^^^^^^"]
+    solver_observability_parent = _run(
+        ["git", "rev-parse", "HEAD^^^^"]
     ).stdout.strip()
-    launcher_parent = _run(["git", "rev-parse", "HEAD^^^^^^^"]).stdout.strip()
-    repair_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^"]).stdout.strip()
-    review_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^^"]).stdout.strip()
+    zero_capacity_parent = _run(["git", "rev-parse", "HEAD^^^^^"]).stdout.strip()
+    memory_parent = _run(["git", "rev-parse", "HEAD^^^^^^"]).stdout.strip()
+    numerical_schema_parent = _run(
+        ["git", "rev-parse", "HEAD^^^^^^^"]
+    ).stdout.strip()
+    launcher_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^"]).stdout.strip()
+    repair_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^^"]).stdout.strip()
+    review_parent = _run(["git", "rev-parse", "HEAD^^^^^^^^^^"]).stdout.strip()
     scientific_parent = _run(
-        ["git", "rev-parse", "HEAD^^^^^^^^^^"]
+        ["git", "rev-parse", "HEAD^^^^^^^^^^^"]
     ).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(
@@ -305,6 +369,7 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     if (
         head != source_head
         or r8_execution_parent != FIXED_E8_EXECUTION_PARENT_HEAD
+        or r8_solver_parent != FIXED_E8_R8_SOLVER_PARENT_HEAD
         or certificate_receipt_parent
         != FIXED_E8_CERTIFICATE_RECEIPT_PARENT_HEAD
         or solver_observability_parent
@@ -325,6 +390,7 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         "checkpoint_bound_approval": expected_approval,
         "execution_head": head,
         "exact_r8_execution_parent": r8_execution_parent,
+        "exact_r8_solver_parent": r8_solver_parent,
         "exact_certificate_receipt_parent": certificate_receipt_parent,
         "exact_solver_observability_parent": solver_observability_parent,
         "exact_zero_capacity_parent": zero_capacity_parent,
@@ -352,6 +418,8 @@ def _source_manifest_gate(source_head: str) -> str:
         value.get("instruction_id") != FIXED_E8_INSTRUCTION_ID
         or value.get("expected_parent") != FIXED_E8_PARENT_HEAD
         or value.get("execution_r8_parent") != FIXED_E8_EXECUTION_PARENT_HEAD
+        or value.get("execution_r8_solver_parent")
+        != FIXED_E8_R8_SOLVER_PARENT_HEAD
         or value.get("execution_certificate_receipt_parent")
         != FIXED_E8_CERTIFICATE_RECEIPT_PARENT_HEAD
         or value.get("execution_solver_observability_parent")
@@ -567,7 +635,7 @@ def main() -> int:
     intent_sha256 = _write_once(
         args.state_root / f"{SUBMISSION_NAMESPACE}.intent.json",
         {
-            "schema": "ode-edit-s05-fixed-e8-r8-submit-intent/v1",
+            "schema": "ode-edit-s05-fixed-e8-r8-r1-submit-intent/v1",
             "instruction_id": FIXED_E8_INSTRUCTION_ID,
             "source_head": args.source_head,
             "preflight": preflight,
@@ -584,7 +652,7 @@ def main() -> int:
             args.state_root
             / f"{SUBMISSION_NAMESPACE}.submission-receipt.json",
             {
-                "schema": "ode-edit-s05-fixed-e8-r8-submission-receipt/v1",
+                "schema": "ode-edit-s05-fixed-e8-r8-r1-submission-receipt/v1",
                 "instruction_id": FIXED_E8_INSTRUCTION_ID,
                 "source_head": args.source_head,
                 "intent_sha256": intent_sha256,

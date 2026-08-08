@@ -42,8 +42,9 @@ FIXED_E8_CASE_PROVENANCE_INSTRUCTION_ID = (
     "ODEEDIT-S05-ODE-BF-COLD-FIXED-E8-STRUCTFUNC-SOFT-P1R7-V1"
 )
 FIXED_E8_PARENT_HEAD = "dfdfd703cc4b580cf2c11fb84946cefbb5f30bb7"
-FIXED_E8_EXECUTION_PARENT_HEAD = "a90756b89e32edaa225aa4eb13c9f6e23b865339"
-FIXED_E8_RESULT_TOKEN = "fixed-e8-solver-isolation-cert-r8-v1"
+FIXED_E8_EXECUTION_PARENT_HEAD = "26f0d4a9bc60378850d017e0beee262e70ddee94"
+FIXED_E8_R8_SOLVER_PARENT_HEAD = "a90756b89e32edaa225aa4eb13c9f6e23b865339"
+FIXED_E8_RESULT_TOKEN = "fixed-e8-solver-isolation-cert-r8-r1-v1"
 FIXED_E8_SCHEMA_NAMESPACE = "ode-edit-s05-fixed-e8-solver-isolation-cert-r8"
 FIXED_E8_PANEL_LABELS = tuple(item.value for item in FixedE8Arm)
 FIXED_E8_CASE_SEAL_FILE = "p1r6_cold_cf_b10_seal.json"
@@ -55,7 +56,7 @@ FIXED_E8_FORECAST_SECONDS = 43_200
 def expected_fixed_e8_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("fixed E8 result alias differs")
-    return f"s05-fixed-e8-solver-isolation-cert-r8-{alias}-v1"
+    return f"s05-fixed-e8-solver-isolation-cert-r8-r1-{alias}-v1"
 
 
 def fixed_e8_schedule(base: SamplingSeal) -> StatelessReplaySchedule:
@@ -162,6 +163,7 @@ class FixedE8ResourceForecast:
     terminal_audit_functional_endpoints_per_arm: int
     field_backward_batches_per_arm: int
     target_backward_batches_per_arm: int
+    target_write_realization_forwards_per_arm: int
     qp_solves_per_arm: int
     qp_backend_invocations_per_arm: int
     action_rewrite_evaluations_per_arm: int
@@ -192,6 +194,7 @@ class FixedE8ResourceForecast:
             or self.terminal_audit_functional_endpoints_per_arm != 8
             or self.field_backward_batches_per_arm != 8
             or self.target_backward_batches_per_arm != 8
+            or self.target_write_realization_forwards_per_arm != 8
             or self.qp_solves_per_arm != 32
             or self.qp_backend_invocations_per_arm != 64
             or self.action_rewrite_evaluations_per_arm != 9
@@ -238,6 +241,7 @@ def forecast_fixed_e8_panel(
         8,
         8,
         48,
+        8,
         8,
         8,
         8,
@@ -321,6 +325,7 @@ def validate_fixed_e8_lock(
         "instruction_id": FIXED_E8_INSTRUCTION_ID,
         "scientific_parent_checkpoint": FIXED_E8_PARENT_HEAD,
         "execution_parent_checkpoint": FIXED_E8_EXECUTION_PARENT_HEAD,
+        "r8_solver_parent_checkpoint": FIXED_E8_R8_SOLVER_PARENT_HEAD,
         "method_id": FIXED_E8_METHOD_ID,
         "controller_geometry_identity_sha256": controller_identity_sha256,
         "case_root_digest": case_root_digest,
@@ -384,6 +389,7 @@ __all__ = [
     "FIXED_E8_CASE_PROVENANCE_FILE",
     "FIXED_E8_INSTRUCTION_ID",
     "FIXED_E8_EXECUTION_PARENT_HEAD",
+    "FIXED_E8_R8_SOLVER_PARENT_HEAD",
     "FIXED_E8_PANEL_LABELS",
     "FIXED_E8_PARENT_HEAD",
     "FIXED_E8_RESULT_TOKEN",

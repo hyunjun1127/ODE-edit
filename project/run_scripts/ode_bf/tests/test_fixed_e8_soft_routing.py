@@ -50,6 +50,7 @@ from project.run_scripts.ode_bf.p1_fixed_e8_soft_panel import (
     FIXED_E8_EXECUTION_PARENT_HEAD,
     FIXED_E8_INSTRUCTION_ID,
     FIXED_E8_PARENT_HEAD,
+    FIXED_E8_R8_SOLVER_PARENT_HEAD,
     FIXED_E8_RESULT_TOKEN,
     expected_fixed_e8_result_name,
     fixed_e8_schedule,
@@ -844,6 +845,10 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             ceiling["per_arm"]["terminal_audit_functional_endpoint_count"],
             8,
         )
+        self.assertEqual(
+            ceiling["per_arm"]["target_write_realization_forward_count"],
+            8,
+        )
         self.assertTrue(ceiling["field_probe_evaluator_schedule_matched"])
         self.assertTrue(ceiling["solver_backend_schedule_matched_not_required"])
 
@@ -882,6 +887,79 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             [factors[layer.weight_name].theta for layer in field.layers],
             [float(FIXED_E8_H) * item for item in velocity],
         )
+
+    def test_target_probe_and_physical_write_use_the_same_h_once(self) -> None:
+        field, _, _ = _cold_semantic_field(wall_seconds=0.25)
+        routing = solve_fixed_e8_routing(
+            _problem(), _inventory(), arm=FixedE8Arm.NEUTRAL
+        )
+        factors = fixed_e8_runtime.fixed_e8_waypoint_factors(
+            field, routing.velocity, step_index=0
+        )
+        receipt = fixed_e8_runtime.fixed_e8_target_write_coefficient_identity(
+            field,
+            routing,
+            factors,
+            target_probe_coefficients=routing.applied_coefficient,
+        )
+        self.assertTrue(receipt["target_probe_equals_physical_trial"])
+        self.assertTrue(receipt["h_applied_exactly_once"])
+        self.assertEqual(
+            receipt["target_probe_coefficient"],
+            [float(FIXED_E8_H) * value for value in routing.velocity],
+        )
+        bad = dict(factors)
+        first = field.layers[0]
+        bad[first.weight_name] = replace(
+            bad[first.weight_name], theta=bad[first.weight_name].theta * 2.0
+        )
+        with self.assertRaisesRegex(ODEBFContractError, "physical write"):
+            fixed_e8_runtime.fixed_e8_target_write_coefficient_identity(
+                field,
+                routing,
+                bad,
+                target_probe_coefficients=routing.applied_coefficient,
+            )
+
+    def test_target_write_realization_metrics_are_raw_free_and_aligned(self) -> None:
+        current_target = torch.zeros((3, 10), dtype=torch.float32)
+        intended = torch.arange(30, dtype=torch.float32).reshape(3, 10) / 100.0
+        intended[:, 0] = 0.0
+        current_lookup = torch.ones((3, 10), dtype=torch.float32)
+        candidate_lookup = current_lookup + 0.5 * intended
+        receipt = fixed_e8_runtime.fixed_e8_target_write_realization(
+            current_target,
+            current_target + intended,
+            current_lookup,
+            candidate_lookup,
+        )
+        self.assertEqual(receipt["norm_gain"][0], 0.0)
+        self.assertEqual(receipt["residual_ratio"][0], 0.0)
+        np.testing.assert_allclose(receipt["norm_gain"][1:], 0.5, atol=1.0e-7)
+        np.testing.assert_allclose(
+            receipt["residual_ratio"][1:], 0.5, atol=1.0e-7
+        )
+        np.testing.assert_allclose(receipt["cosine"][1:], 1.0, atol=1.0e-7)
+        self.assertEqual(receipt["zero_intended_count"], 1)
+        self.assertTrue(receipt["candidate_lookup_without_intervention_hook"])
+        self.assertEqual(receipt["controller_decision_influence_count"], 0)
+        _validate_raw_free(receipt)
+        with self.assertRaisesRegex(ODEBFContractError, "geometry"):
+            fixed_e8_runtime.fixed_e8_target_write_realization(
+                current_target,
+                current_target[:, :-1],
+                current_lookup,
+                candidate_lookup,
+            )
+
+    def test_runtime_target_velocity_consumes_applied_not_raw_coefficient(self) -> None:
+        source = inspect.getsource(fixed_e8_runtime._build_fixed_field_with_metric)
+        self.assertIn("coefficients=routing.applied_coefficient", source)
+        self.assertNotIn("coefficients=routing.velocity", source)
+        rollout_source = inspect.getsource(fixed_e8_runtime._run_fixed_variant)
+        self.assertIn("fixed_e8_target_write_coefficient_identity", rollout_source)
+        self.assertIn("fixed_e8_target_write_realization", rollout_source)
+        self.assertIn("capture_cold_z_base", rollout_source)
 
     def test_runtime_has_no_adaptive_or_rejection_control_reachability(self) -> None:
         tree = ast.parse(inspect.getsource(fixed_e8_runtime._run_fixed_variant))
@@ -959,11 +1037,14 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             )
             self.assertTrue(forecast.fits_envelope)
             self.assertEqual(forecast.functional_basis_endpoints_per_arm, 48)
+            self.assertEqual(
+                forecast.target_write_realization_forwards_per_arm, 8
+            )
             self.assertEqual(forecast.qp_solves_per_arm, 32)
             self.assertEqual(forecast.qp_backend_invocations_per_arm, 64)
             self.assertEqual(
                 expected_fixed_e8_result_name(alias),
-                f"s05-fixed-e8-solver-isolation-cert-r8-{alias}-v1",
+                f"s05-fixed-e8-solver-isolation-cert-r8-r1-{alias}-v1",
             )
             receipt = validate_fixed_e8_runtime_gpu_capacity(
                 forecast,
@@ -1219,33 +1300,36 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
                     FIXED_E8_EXECUTION_PARENT_HEAD + "\n"
                 ),
                 ("git", "rev-parse", "HEAD^^"): (
+                    FIXED_E8_R8_SOLVER_PARENT_HEAD + "\n"
+                ),
+                ("git", "rev-parse", "HEAD^^^"): (
                     fixed_e8_submit.FIXED_E8_CERTIFICATE_RECEIPT_PARENT_HEAD
                     + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^"): (
+                ("git", "rev-parse", "HEAD^^^^"): (
                     fixed_e8_submit.FIXED_E8_SOLVER_OBSERVABILITY_PARENT_HEAD
                     + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^"): (
                     fixed_e8_submit.FIXED_E8_ZERO_CAPACITY_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_MEMORY_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_NUMERICAL_SCHEMA_PARENT_HEAD
                     + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_LAUNCHER_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_REPAIR_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^^^^"): (
+                ("git", "rev-parse", "HEAD^^^^^^^^^^"): (
                     fixed_e8_submit.FIXED_E8_REVIEW_PARENT_HEAD + "\n"
                 ),
-                ("git", "rev-parse", "HEAD^^^^^^^^^^"): FIXED_E8_PARENT_HEAD + "\n",
+                ("git", "rev-parse", "HEAD^^^^^^^^^^^"): FIXED_E8_PARENT_HEAD + "\n",
                 ("git", "branch", "--show-current"): (
                     "codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1\n"
                 ),
@@ -1287,6 +1371,10 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
         self.assertEqual(
             receipt["exact_r8_execution_parent"],
             FIXED_E8_EXECUTION_PARENT_HEAD,
+        )
+        self.assertEqual(
+            receipt["exact_r8_solver_parent"],
+            FIXED_E8_R8_SOLVER_PARENT_HEAD,
         )
         self.assertEqual(
             receipt["exact_certificate_receipt_parent"],
