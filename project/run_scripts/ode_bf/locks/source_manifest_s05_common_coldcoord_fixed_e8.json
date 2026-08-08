@@ -44,13 +44,13 @@
     },
     {
       "path": "project/run_scripts/ode_bf/common_cold_coordinate.py",
-      "sha256": "ff0025ad96a13773d63befc55bbdf163c5d6ff3f4b701b511145067233150f30",
-      "size": 31244
+      "sha256": "57d4e2acd867b9aec75fe8544fc19ebff3d27daa0a475323770fec3fad91eebe",
+      "size": 31883
     },
     {
       "path": "project/run_scripts/ode_bf/common_coldcoord_fixed_e8_runtime.py",
-      "sha256": "a9b2889e82b4ce210df30dde5ba42431fed9b0c16efd61f65a2cf80235da8c93",
-      "size": 76606
+      "sha256": "2ca939d9f1b4f194a2f59b6f75f213ab9d5bec186cd17130e3317013e2df1ce8",
+      "size": 77351
     },
     {
       "path": "project/run_scripts/ode_bf/contracts.py",
@@ -74,8 +74,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/fixed_e8_runtime.py",
-      "sha256": "aef27f8551dbc66811aee8ace3ae3e08be7e6aa4114911591111afd063f866e5",
-      "size": 97611
+      "sha256": "c6797e4bcf92d9acb2eec35eff8fa905fc0cba1b42e2a269b30250bab66d55c1",
+      "size": 100972
     },
     {
       "path": "project/run_scripts/ode_bf/fixed_e8_soft_routing.py",
@@ -314,7 +314,7 @@
     },
     {
       "path": "project/run_scripts/ode_bf/p1_common_coldcoord_fixed_e8_panel.py",
-      "sha256": "ebadb0109b6a5916c810b3961520e0d77abc32e85b071ec81b632de94dfd8c83",
+      "sha256": "6e3f56e5e5d121cf21388c3ec3d4e0e9f8c48dfe143533983e9a2280c93cd495",
       "size": 23395
     },
     {
@@ -439,8 +439,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_common_cold_coordinate.py",
-      "sha256": "638a546ba7af192b4463fc78db7eb2087281be81a268b4272581c465f9acebfe",
-      "size": 32172
+      "sha256": "8a70649bf3add18a0f5d0ed074f9cf0293c460546b8e2dfbd4ad66bb83eb58da",
+      "size": 32833
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_evaluator_firewall.py",
@@ -449,8 +449,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_fixed_e8_soft_routing.py",
-      "sha256": "aa876a69d6934ce7ca4f76156957f838fd7f518dd428560158d67ce11726c8a2",
-      "size": 65520
+      "sha256": "6890a2f78936361ef00a676a656dfbe2046d847795dd1a5903100e0990a316ce",
+      "size": 68532
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_functional_p_off_panel.py",
@@ -594,35 +594,36 @@
     },
     {
       "path": "project/run_scripts/session05_ode_bf_common_coldcoord_fixed_e8.py",
-      "sha256": "51d7796a34aed01da77d4cf6a0fa2aac298cb7ece92cf789d26e3d438c3f1d45",
+      "sha256": "2c1ad6d9a7ac8ecb8e11e05489ba7fd261139b5759a34e7152ebb18a97d568b4",
       "size": 3370
     },
     {
       "path": "project/run_scripts/session05_ode_bf_common_coldcoord_fixed_e8.sbatch",
-      "sha256": "c7f8c60dddfc0d3a02ebd1ad118dbc8969e00f1326725bbbdf800148c9305d59",
+      "sha256": "13eb72c2179f0afabd37c485de9b0fe06698fdf7edd77d9698ee7400e522060f",
       "size": 2174
     },
     {
       "path": "project/run_scripts/session05_ode_bf_common_coldcoord_fixed_e8_dry_plan.py",
-      "sha256": "50f7eb5b99aabfc27088bed944b9b77ab79a07e8f147953b68560ebc7b8f02a5",
+      "sha256": "97904183c546ef0e9b34ea0ddd309ea0f9ff18d814aa205750bfac4586c34726",
       "size": 5952
     },
     {
       "path": "project/run_scripts/session05_ode_bf_submit_common_coldcoord_fixed_e8.py",
-      "sha256": "da3ec67977254f22daa31218593391f48988101cc367fc1635c4552df64f7826",
-      "size": 21853
+      "sha256": "e1314e8c7c120b65b9e37e1aa7144e96ded89564ce2057de64febbb12a42df4e",
+      "size": 23889
     }
   ],
   "entry_count": 122,
   "execution_branch": "codex/odeeditsh1-s05-common-coldcoord-fixed-e8-p1r10-v1",
   "execution_head_policy": "runtime-git-head",
-  "execution_repair_parent": "3e479b260f73c5ed520b10f7574a2074fe903c52",
+  "execution_repair_parent": "443467ea555687021790fff9f7495edf4507e2c8",
   "expected_parent": "3711f371c16e360d809dd5f0b4b1a5271a870c26",
   "first_repair_parent": "d60ddaf765f79f4f4f73c2dc455f8aef7521084e",
   "instruction_id": "ODEEDIT-S05-ODE-BF-COMMON-COLDCOORD-FIXED-E8-P1R10-V1",
   "numerical_lock_root_digest": "8d9da5691882db02adc4965d3fe0ac91a1f06f67fa3d7b302d22d729d1a62c9f",
   "panel_kind": "REUSED_WARMUP_SEAL_CAUSAL_REGRESSION",
-  "root_digest": "28760a1a087b71eff456a85985957f6c496906329449a2645090edf03c627391",
+  "root_digest": "ed5a248e6490e1954e2bf977341464a1df2ef49a4f3ddf394d9100e0cae9d249",
   "schema_version": "ode-edit-s05-common-coldcoord-fixed-e8-p1r10-source-manifest/v1",
-  "second_repair_parent": "abaa366c8d32918ecf96d4f433248b799703001b"
+  "second_repair_parent": "abaa366c8d32918ecf96d4f433248b799703001b",
+  "third_repair_parent": "3e479b260f73c5ed520b10f7574a2074fe903c52"
 }

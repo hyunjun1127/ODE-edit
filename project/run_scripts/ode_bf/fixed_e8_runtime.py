@@ -599,6 +599,10 @@ def fixed_e8_target_write_coefficient_identity(
     increment: Mapping[str, WaypointFactor],
     *,
     target_probe_coefficients: Sequence[float],
+    target_probe_effective_coefficients: Sequence[float] | None = None,
+    target_probe_effective_dtype: str | None = None,
+    target_probe_effective_device_type: str | None = None,
+    physical_write_effective_device_type: str | None = None,
 ) -> dict[str, Any]:
     """Prove that target probing and the BF16 trial use the same Euler write."""
 
@@ -608,6 +612,12 @@ def fixed_e8_target_write_coefficient_identity(
     physical = tuple(
         float(increment[item.weight_name].theta) for item in field.layers
     )
+    explicit_effective = target_probe_effective_coefficients is not None
+    explicit_metadata = (
+        target_probe_effective_dtype,
+        target_probe_effective_device_type,
+        physical_write_effective_device_type,
+    )
     if (
         layers != FIXED_E8_LAYER_ORDER
         or tuple(increment) != tuple(item.weight_name for item in field.layers)
@@ -615,8 +625,33 @@ def fixed_e8_target_write_coefficient_identity(
         or len(probe) != len(expected)
         or len(physical) != len(expected)
         or any(not math.isfinite(item) for item in (*expected, *probe, *physical))
+        or explicit_effective != all(item is not None for item in explicit_metadata)
     ):
         raise ODEBFContractError("fixed E8 target/write coefficient inventory differs")
+    if explicit_effective:
+        effective_input = tuple(
+            float(item) for item in target_probe_effective_coefficients
+        )
+        if (
+            len(effective_input) != len(expected)
+            or any(not math.isfinite(item) for item in effective_input)
+            or target_probe_effective_dtype != str(torch.float32)
+            or target_probe_effective_device_type not in {"cpu", "cuda"}
+            or physical_write_effective_device_type not in {"cpu", "cuda"}
+            or target_probe_effective_device_type
+            != physical_write_effective_device_type
+        ):
+            raise ODEBFContractError(
+                "fixed E8 target/write effective coefficient inventory differs"
+            )
+    else:
+        effective_input = tuple(
+            float(item)
+            for item in torch.tensor(probe, dtype=torch.float32).tolist()
+        )
+        target_probe_effective_dtype = str(torch.float32)
+        target_probe_effective_device_type = "NOT_RECORDED_LEGACY"
+        physical_write_effective_device_type = "NOT_RECORDED_LEGACY"
     velocity = np.asarray(routing.velocity, dtype=np.float64)
     expected_array = np.asarray(expected, dtype=np.float64)
     if not np.allclose(
@@ -630,6 +665,25 @@ def fixed_e8_target_write_coefficient_identity(
         np.asarray(physical), expected_array
     ):
         raise ODEBFContractError("fixed E8 target probe differs from physical write")
+    effective_expected = tuple(
+        float(item)
+        for item in torch.tensor(expected, dtype=torch.float32).tolist()
+    )
+    effective_physical = tuple(
+        float(item)
+        for item in torch.tensor(physical, dtype=torch.float32).tolist()
+    )
+    if (
+        effective_input != effective_expected
+        or effective_physical != effective_expected
+    ):
+        raise ODEBFContractError(
+            "fixed E8 effective target probe differs from physical write"
+        )
+    cast_delta = tuple(
+        effective_expected[index] - expected[index]
+        for index in range(len(expected))
+    )
     payload = {
         "schema": "ode-edit-fixed-e8-target-write-coefficient-identity/v1",
         "layer_order": list(layers),
@@ -637,9 +691,29 @@ def fixed_e8_target_write_coefficient_identity(
         "velocity": list(routing.velocity),
         "target_probe_coefficient": list(probe),
         "physical_trial_coefficient": list(physical),
+        "scientific_routing_coefficient": list(expected),
+        "scientific_routing_coefficient_sha256": canonical_hash(list(expected)),
+        "target_probe_effective_coefficient": list(effective_input),
+        "physical_trial_effective_coefficient": list(effective_physical),
+        "target_probe_effective_coefficient_sha256": canonical_hash(
+            list(effective_input)
+        ),
+        "physical_trial_effective_coefficient_sha256": canonical_hash(
+            list(effective_physical)
+        ),
+        "canonical_effective_coefficient_dtype": str(torch.float32),
+        "target_probe_effective_device_type": target_probe_effective_device_type,
+        "physical_write_effective_device_type": (
+            physical_write_effective_device_type
+        ),
+        "float64_to_float32_cast_delta": list(cast_delta),
+        "float64_to_float32_cast_max_abs": max(abs(item) for item in cast_delta),
+        "float64_to_float32_cast_decision_influence_count": 0,
+        "scientific_float64_provenance_preserved": True,
         "target_probe_coefficient_sha256": canonical_hash(list(probe)),
         "physical_trial_coefficient_sha256": canonical_hash(list(physical)),
         "target_probe_equals_physical_trial": True,
+        "target_probe_effective_equals_physical_trial": True,
         "h_applied_exactly_once": True,
         "target_probe_displacement_definition": "h*sum_l(v_l*B_l(z))",
         "physical_write_displacement_definition": "h*sum_l(v_l*B_l)",

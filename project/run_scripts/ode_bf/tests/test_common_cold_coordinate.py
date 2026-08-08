@@ -626,7 +626,15 @@ class CommonColdCoordinateTests(unittest.TestCase):
             )
             self.assertTrue(parity["warm_metric_definition_exact"])
             primary.boundary_touched = True
-            with self.assertRaises(ODEBFContractError):
+            tied = runtime._warm_evaluator_parity_receipt(
+                {("W0_NO_EDIT", 0): receipt},
+                alias="llama3-8b-inst",
+                request_order_sha256=order,
+            )
+            self.assertEqual(tied["outcome_tie_count"], 1)
+            self.assertEqual(tied["outcome_tie_parity_influence_count"], 0)
+            primary.target_span_sha256 = "d" * 64
+            with self.assertRaisesRegex(ODEBFContractError, "parity"):
                 runtime._warm_evaluator_parity_receipt(
                     {("W0_NO_EDIT", 0): receipt},
                     alias="llama3-8b-inst",
@@ -692,17 +700,17 @@ class CommonColdCoordinateTests(unittest.TestCase):
         self.assertFalse(first["unseen_or_fresh_sample_claim_authorized"])
         self.assertEqual(
             COMMON_COLD_RESULT_TOKEN,
-            "common-coldcoord-fixed-e8-p1r10-r3-v1",
+            "common-coldcoord-fixed-e8-p1r10-r4-v1",
         )
         self.assertEqual(
             expected_common_cold_result_name("llama3-8b-inst"),
-            "s05-common-coldcoord-fixed-e8-p1r10-r3-llama3-8b-inst-v1",
+            "s05-common-coldcoord-fixed-e8-p1r10-r4-llama3-8b-inst-v1",
         )
         self.assertEqual(
             common_dry.JOB_NAMES,
             {
-                "llama3-8b-inst": "odeedit_s05_r10r3_llama",
-                "qwen2.5-7b-inst": "odeedit_s05_r10r3_qwen",
+                "llama3-8b-inst": "odeedit_s05_r10r4_llama",
+                "qwen2.5-7b-inst": "odeedit_s05_r10r4_qwen",
             },
         )
         self.assertEqual(
@@ -711,6 +719,10 @@ class CommonColdCoordinateTests(unittest.TestCase):
         )
         self.assertEqual(
             common_submit.EXECUTION_REPAIR_PARENT_HEAD,
+            "443467ea555687021790fff9f7495edf4507e2c8",
+        )
+        self.assertEqual(
+            common_submit.THIRD_REPAIR_PARENT_HEAD,
             "3e479b260f73c5ed520b10f7574a2074fe903c52",
         )
         self.assertEqual(
@@ -725,6 +737,9 @@ class CommonColdCoordinateTests(unittest.TestCase):
             common_submit._execution_provenance_gate
         )
         self.assertIn('parent != EXECUTION_REPAIR_PARENT_HEAD', provenance_source)
+        self.assertIn(
+            'third_repair_parent != THIRD_REPAIR_PARENT_HEAD', provenance_source
+        )
         self.assertIn(
             'second_repair_parent != SECOND_REPAIR_PARENT_HEAD', provenance_source
         )

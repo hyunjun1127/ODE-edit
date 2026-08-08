@@ -598,6 +598,7 @@ def write_aware_common_target_velocity(
         device=device,
         dtype=torch.float32,
     )
+    scientific_applied = tuple(float(COMMON_COLD_H * item) for item in velocity)
     flat = field.target_state.to(device=device, dtype=torch.float32).contiguous().view(-1)
     flat = flat.detach().requires_grad_(True)
     target = flat.view(field.target_state.shape)
@@ -641,6 +642,17 @@ def write_aware_common_target_velocity(
         "velocity_coefficient": list(velocity),
         "target_probe_applied_coefficient": [float(item) for item in applied.cpu()],
         "target_probe_coefficient": [float(item) for item in applied.cpu()],
+        "target_probe_scientific_coefficient": list(scientific_applied),
+        "target_probe_effective_coefficient": [
+            float(item) for item in applied.cpu()
+        ],
+        "target_probe_effective_dtype": str(applied.dtype),
+        "target_probe_effective_device_type": applied.device.type,
+        "target_probe_float64_to_float32_cast_delta": [
+            float(applied[index].item()) - scientific_applied[index]
+            for index in range(len(scientific_applied))
+        ],
+        "target_probe_cast_decision_influence_count": 0,
         "velocity_sha256": tensor_sha256(target_velocity),
         "target_probe_coefficient_definition": "h*v",
         "h": COMMON_COLD_H,

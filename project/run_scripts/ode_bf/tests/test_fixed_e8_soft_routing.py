@@ -980,11 +980,73 @@ class FixedE8SoftRoutingTests(unittest.TestCase):
             target_probe_coefficients=routing.applied_coefficient,
         )
         self.assertTrue(receipt["target_probe_equals_physical_trial"])
+        self.assertTrue(receipt["target_probe_effective_equals_physical_trial"])
         self.assertTrue(receipt["h_applied_exactly_once"])
         self.assertEqual(
             receipt["target_probe_coefficient"],
             [float(FIXED_E8_H) * value for value in routing.velocity],
         )
+        expected_effective = torch.tensor(
+            routing.applied_coefficient, dtype=torch.float32
+        ).tolist()
+        self.assertEqual(
+            receipt["target_probe_effective_coefficient"], expected_effective
+        )
+        self.assertEqual(
+            receipt["physical_trial_effective_coefficient"], expected_effective
+        )
+        self.assertEqual(
+            receipt["float64_to_float32_cast_decision_influence_count"], 0
+        )
+        explicit = fixed_e8_runtime.fixed_e8_target_write_coefficient_identity(
+            field,
+            routing,
+            factors,
+            target_probe_coefficients=routing.applied_coefficient,
+            target_probe_effective_coefficients=expected_effective,
+            target_probe_effective_dtype="torch.float32",
+            target_probe_effective_device_type="cpu",
+            physical_write_effective_device_type="cpu",
+        )
+        self.assertTrue(explicit["scientific_float64_provenance_preserved"])
+        with self.assertRaisesRegex(ODEBFContractError, "effective coefficient"):
+            fixed_e8_runtime.fixed_e8_target_write_coefficient_identity(
+                field,
+                routing,
+                factors,
+                target_probe_coefficients=routing.applied_coefficient,
+                target_probe_effective_coefficients=expected_effective,
+                target_probe_effective_dtype="torch.float64",
+                target_probe_effective_device_type="cpu",
+                physical_write_effective_device_type="cpu",
+            )
+        with self.assertRaisesRegex(ODEBFContractError, "effective coefficient"):
+            fixed_e8_runtime.fixed_e8_target_write_coefficient_identity(
+                field,
+                routing,
+                factors,
+                target_probe_coefficients=routing.applied_coefficient,
+                target_probe_effective_coefficients=expected_effective,
+                target_probe_effective_dtype="torch.float32",
+                target_probe_effective_device_type="cuda",
+                physical_write_effective_device_type="cpu",
+            )
+        wrong_effective = list(expected_effective)
+        wrong_effective[0] = float(torch.nextafter(
+            torch.tensor(wrong_effective[0], dtype=torch.float32),
+            torch.tensor(float("inf"), dtype=torch.float32),
+        ))
+        with self.assertRaisesRegex(ODEBFContractError, "effective target probe"):
+            fixed_e8_runtime.fixed_e8_target_write_coefficient_identity(
+                field,
+                routing,
+                factors,
+                target_probe_coefficients=routing.applied_coefficient,
+                target_probe_effective_coefficients=wrong_effective,
+                target_probe_effective_dtype="torch.float32",
+                target_probe_effective_device_type="cpu",
+                physical_write_effective_device_type="cpu",
+            )
         bad = dict(factors)
         first = field.layers[0]
         bad[first.weight_name] = replace(

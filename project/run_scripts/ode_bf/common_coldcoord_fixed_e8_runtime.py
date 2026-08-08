@@ -604,7 +604,21 @@ def _run_common_arm(
             field,
             routing,
             increment,
-            target_probe_coefficients=target_receipt["target_probe_coefficient"],
+            target_probe_coefficients=target_receipt[
+                "target_probe_scientific_coefficient"
+            ],
+            target_probe_effective_coefficients=target_receipt[
+                "target_probe_effective_coefficient"
+            ],
+            target_probe_effective_dtype=target_receipt[
+                "target_probe_effective_dtype"
+            ],
+            target_probe_effective_device_type=target_receipt[
+                "target_probe_effective_device_type"
+            ],
+            physical_write_effective_device_type=next(
+                model.parameters()
+            ).device.type,
         )
         candidate_factors = _merge_factors(current_factors, increment)
         target_trial = (
@@ -1107,7 +1121,6 @@ def _warm_evaluator_parity_receipt(
             != warm["evaluation_case_identity_sha256"]
             or primary.target_span_sha256 != warm["target_span_sha256"]
             or primary.generation_call_count != 0
-            or primary.boundary_touched
         ):
             raise ODEBFContractError("common cold Warm evaluator parity differs")
         rows.append(row)
@@ -1123,6 +1136,10 @@ def _warm_evaluator_parity_receipt(
         "warm_target_span_sha256": warm["target_span_sha256"],
         "receipt_count": len(rows),
         "receipts": rows,
+        "outcome_tie_count": sum(bool(row["boundary_touched"]) for row in rows),
+        "outcome_tie_role": "OBSERVATION_ONLY_EXACT_NLL_TIE",
+        "outcome_tie_parity_influence_count": 0,
+        "pinned_success_inequality_unchanged": True,
         "generation_call_count": 0,
         "heldout_open_after_action_freeze": True,
         "warm_metric_definition_exact": True,

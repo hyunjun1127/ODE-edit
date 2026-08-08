@@ -32,7 +32,7 @@ from .sampling import LineageSeal, SamplingSeal, StatelessReplaySchedule
 
 
 COMMON_COLD_SCHEMA_NAMESPACE = "ode-edit-s05-common-coldcoord-fixed-e8-p1r10"
-COMMON_COLD_RESULT_TOKEN = "common-coldcoord-fixed-e8-p1r10-r3-v1"
+COMMON_COLD_RESULT_TOKEN = "common-coldcoord-fixed-e8-p1r10-r4-v1"
 COMMON_COLD_PARENT_HEAD = "3711f371c16e360d809dd5f0b4b1a5271a870c26"
 COMMON_COLD_CASE_SEAL_FILE = "p1r10_common_coldcoord_cf_b10_seal.json"
 COMMON_COLD_NUMERICAL_LOCK_FILE = (
@@ -119,7 +119,7 @@ WARM_ALLOFF_ROOTS = {
 def expected_common_cold_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("common cold result alias differs")
-    return f"s05-common-coldcoord-fixed-e8-p1r10-r3-{alias}-v1"
+    return f"s05-common-coldcoord-fixed-e8-p1r10-r4-{alias}-v1"
 
 
 def build_common_cold_case_seal(
