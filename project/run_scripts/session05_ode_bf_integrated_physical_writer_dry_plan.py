@@ -36,11 +36,11 @@ from project.run_scripts.ode_bf.p1_integrated_physical_writer_panel import (
 SESSION_ID = "019fe489-c968-75f3-9965-7cfbc26c0a99"
 GH_SESSION_ID = "019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-integrated-physical-writer-p1r14-v1"
-EXECUTION_PARENT = "f0f48f964750dbd11483ea327ae679c24c710fde"
+EXECUTION_PARENT = "186ded6c2f75cb77c8d777b776a423d8f422dd79"
 SERVER1_PROJECT_GPU_CAP = 4
-JOB_NAME = "odeedit_s05_p1r14_sh1_integrated_writer_llama_tech_r2"
+JOB_NAME = "odeedit_s05_p1r14_sh1_integrated_writer_llama_tech_r3"
 LLAMA_ALIAS = "llama3-8b-inst"
-RESULT_NAME = "s05-integrated-physical-writer-p1r14-llama3-8b-inst-tech-r2-v1"
+RESULT_NAME = "s05-integrated-physical-writer-p1r14-llama3-8b-inst-tech-r3-v1"
 
 
 def _valid_head(value: str) -> bool:

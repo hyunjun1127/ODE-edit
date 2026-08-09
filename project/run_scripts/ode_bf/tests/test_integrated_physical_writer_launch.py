@@ -3,6 +3,7 @@ from __future__ import annotations
 import ast
 import copy
 import json
+import os
 import subprocess
 import tempfile
 import unittest
@@ -100,15 +101,17 @@ class IntegratedPhysicalWriterLaunchTests(unittest.TestCase):
         self.assertIn("server1 P1R14 launcher is Llama-only", source)
         self.assertNotIn("llama3-8b-inst|qwen2.5-7b-inst", source)
 
-    def test_tech_r2_launcher_checkout_bindings_are_exact(self) -> None:
+    def test_tech_r3_launcher_checkout_bindings_are_exact(self) -> None:
         path = REPO_ROOT / "project/run_scripts/session05_ode_bf_integrated_physical_writer.sbatch"
         source = path.read_text(encoding="utf-8")
+        self.assertNotIn("BASH_SOURCE", source)
+        self.assertNotIn("readlink -f", source)
         self.assertIn(
-            'readonly SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"',
+            'readonly REPO_ROOT="$(cd "${SLURM_SUBMIT_DIR}" && pwd -P)"',
             source,
         )
         self.assertIn(
-            'readonly REPO_ROOT="$(cd "$(dirname "${SCRIPT_PATH}")/../.." && pwd -P)"',
+            '[[ -z "${SLURM_SUBMIT_DIR:-}" || "${SLURM_SUBMIT_DIR}" != /*',
             source,
         )
         self.assertNotIn("/.codex/worktrees/odeeditsh1-", source)
@@ -132,14 +135,18 @@ class IntegratedPhysicalWriterLaunchTests(unittest.TestCase):
             ).stdout.strip(),
             dry.EXECUTION_BRANCH,
         )
-        self.assertEqual(dry.JOB_NAME, "odeedit_s05_p1r14_sh1_integrated_writer_llama_tech_r2")
+        self.assertEqual(dry.JOB_NAME, "odeedit_s05_p1r14_sh1_integrated_writer_llama_tech_r3")
         self.assertEqual(
             dry.RESULT_NAME,
-            "s05-integrated-physical-writer-p1r14-llama3-8b-inst-tech-r2-v1",
+            "s05-integrated-physical-writer-p1r14-llama3-8b-inst-tech-r3-v1",
         )
-        self.assertIn("tech-r2", submit.SUBMISSION_NAMESPACE)
+        self.assertIn("tech-r3", submit.SUBMISSION_NAMESPACE)
+        self.assertLess(
+            source.index("P1R14_LAUNCHER_PROVENANCE_PASS_PRE_UV"),
+            source.index("[[ -x /usr/local/bin/uv"),
+        )
 
-    def test_tech_r2_execution_identity_rejects_old_path_and_wrong_chain(self) -> None:
+    def test_tech_r3_execution_identity_rejects_old_path_and_wrong_chain(self) -> None:
         valid = {
             "source_head": "a" * 40,
             "head": "a" * 40,
@@ -150,7 +157,7 @@ class IntegratedPhysicalWriterLaunchTests(unittest.TestCase):
         submit._assert_execution_identity(**valid)
         for key, value in (
             ("head", "b" * 40),
-            ("parent", "e6facd2d5dfae12d3c094b51981ad99951174109"),
+            ("parent", "f0f48f964750dbd11483ea327ae679c24c710fde"),
             ("branch", dry.EXECUTION_BRANCH + "-stale"),
             ("tracked_dirty", " M stale-launcher"),
         ):
@@ -158,6 +165,42 @@ class IntegratedPhysicalWriterLaunchTests(unittest.TestCase):
             broken[key] = value
             with self.subTest(key=key), self.assertRaises(ODEBFContractError):
                 submit._assert_execution_identity(**broken)
+
+    def test_tech_r3_submit_dir_absent_malformed_and_wrong_fail_pre_uv(self) -> None:
+        path = REPO_ROOT / "project/run_scripts/session05_ode_bf_integrated_physical_writer.sbatch"
+        arguments = [
+            str(path),
+            "llama3-8b-inst",
+            "/tmp/p1r14-launcher-probe-output-must-not-exist",
+            "a" * 40,
+            "integrated-physical-writer-p1r14-v1",
+            "P1R14_LAUNCHER_PROBE_NO_MODEL",
+        ]
+        base_environment = dict(os.environ)
+        base_environment.pop("SLURM_SUBMIT_DIR", None)
+        cases = (
+            (None, "P1R14 SLURM_SUBMIT_DIR differs"),
+            ("relative/path", "P1R14 SLURM_SUBMIT_DIR differs"),
+            ("/tmp", "P1R14 CWD differs"),
+        )
+        for submit_directory, expected in cases:
+            environment = dict(base_environment)
+            if submit_directory is not None:
+                environment["SLURM_SUBMIT_DIR"] = submit_directory
+            completed = subprocess.run(
+                arguments,
+                cwd=REPO_ROOT,
+                env=environment,
+                check=False,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            with self.subTest(submit_directory=submit_directory):
+                self.assertEqual(completed.returncode, 2)
+                self.assertEqual(completed.stdout, "")
+                self.assertEqual(completed.stderr.strip(), expected)
+                self.assertNotIn("uv", completed.stderr)
 
     def test_scheduler_counts_all_project_prefixes(self) -> None:
         rows = "\n".join(

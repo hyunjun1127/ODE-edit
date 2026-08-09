@@ -43,12 +43,12 @@ from project.run_scripts.ode_bf.p1_integrated_physical_writer_panel import (
 )
 
 
-PACKAGE_ID = "INTEGRATED_PHYSICAL_WRITER_P1R14_SH2_BUNDLE_A3_TECH_R2"
-PACKAGE_ARCHIVE = "integrated-physical-writer-p1r14-sh2-bundle-a3-tech-r2.tar"
+PACKAGE_ID = "INTEGRATED_PHYSICAL_WRITER_P1R14_SH2_BUNDLE_A3_TECH_R3"
+PACKAGE_ARCHIVE = "integrated-physical-writer-p1r14-sh2-bundle-a3-tech-r3.tar"
 PACKAGE_MANIFEST = "package-manifest.json"
 PACKAGE_RECEIPT = "handoff-receipt.json"
 PACKAGE_REF = "refs/heads/codex/odeeditsh1-s05-integrated-physical-writer-p1r14-v1"
-EXECUTION_PARENT = "f0f48f964750dbd11483ea327ae679c24c710fde"
+EXECUTION_PARENT = "186ded6c2f75cb77c8d777b776a423d8f422dd79"
 SESSION_ID = "019fe489-c968-75f3-9965-7cfbc26c0a99"
 SH2_RECIPIENT_SESSION = "019fe491-954b-70a0-8ba8-0588e9f8d741"
 LOCK_FILES = (

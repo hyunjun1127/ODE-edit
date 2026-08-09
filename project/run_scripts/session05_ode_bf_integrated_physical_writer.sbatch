@@ -11,18 +11,34 @@
 set -euo pipefail
 umask 077
 
-readonly SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
-readonly REPO_ROOT="$(cd "$(dirname "${SCRIPT_PATH}")/../.." && pwd -P)"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
-readonly EXPECTED_PARENT="f0f48f964750dbd11483ea327ae679c24c710fde"
+readonly EXPECTED_PARENT="186ded6c2f75cb77c8d777b776a423d8f422dd79"
 readonly EXPECTED_SESSION="019fe489-c968-75f3-9965-7cfbc26c0a99"
 readonly EXPECTED_BRANCH="codex/odeeditsh1-s05-integrated-physical-writer-p1r14-v1"
 readonly MODEL_ALIAS="${1:-}"
 readonly OUTPUT_ROOT="${2:-}"
 readonly SOURCE_HEAD="${3:-}"
 readonly RUN_TOKEN="${4:-}"
+readonly LAUNCH_MODE="${5:-RUN}"
 
-[[ "$#" -eq 4 ]] || { echo "locked P1R14 invocation requires four arguments" >&2; exit 2; }
+if [[ -z "${SLURM_SUBMIT_DIR:-}" || "${SLURM_SUBMIT_DIR}" != /* \
+  || ! -d "${SLURM_SUBMIT_DIR}" || -L "${SLURM_SUBMIT_DIR}" ]]; then
+  echo "P1R14 SLURM_SUBMIT_DIR differs" >&2
+  exit 2
+fi
+readonly REPO_ROOT="$(cd "${SLURM_SUBMIT_DIR}" && pwd -P)"
+
+if [[ "$#" -eq 4 ]]; then
+  [[ "${LAUNCH_MODE}" == "RUN" ]] || { echo "P1R14 launch mode differs" >&2; exit 2; }
+elif [[ "$#" -eq 5 ]]; then
+  [[ "${LAUNCH_MODE}" == "P1R14_LAUNCHER_PROBE_NO_MODEL" ]] || {
+    echo "P1R14 launcher probe mode differs" >&2
+    exit 2
+  }
+else
+  echo "locked P1R14 invocation requires four run arguments or one probe marker" >&2
+  exit 2
+fi
 [[ "${MODEL_ALIAS}" == "llama3-8b-inst" ]] || {
   echo "server1 P1R14 launcher is Llama-only" >&2
   exit 2
@@ -42,6 +58,14 @@ readonly RUN_TOKEN="${4:-}"
 [[ -z "$(git status --porcelain --untracked-files=no)" ]] || { echo "P1R14 tracked source dirty" >&2; exit 2; }
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R14 output root already exists" >&2; exit 2; }
 scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
+if [[ "${LAUNCH_MODE}" == "P1R14_LAUNCHER_PROBE_NO_MODEL" ]]; then
+  [[ -n "${SLURM_JOB_ID:-}" && -z "${SLURM_JOB_GPUS:-}" ]] || {
+    echo "P1R14 launcher probe allocation differs" >&2
+    exit 2
+  }
+  echo "P1R14_LAUNCHER_PROVENANCE_PASS_PRE_UV"
+  exit 0
+fi
 [[ -x /usr/local/bin/uv && -x "${EASYEDIT_ROOT}/.venv/bin/python" ]] || {
   echo "P1R14 offline runtime unavailable" >&2
   exit 2

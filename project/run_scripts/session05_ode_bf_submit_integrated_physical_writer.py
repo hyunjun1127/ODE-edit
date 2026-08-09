@@ -26,7 +26,7 @@ from project.run_scripts.ode_bf.p1_integrated_physical_writer_panel import (
 from project.run_scripts.ode_bf.resource import gpu_count_from_tres
 
 
-SUBMISSION_NAMESPACE = "s05-integrated-physical-writer-p1r14-a3-tech-r2-llama-v1"
+SUBMISSION_NAMESPACE = "s05-integrated-physical-writer-p1r14-a3-tech-r3-llama-v1"
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_integrated_physical_writer.sbatch"
 DEFAULT_STATE_ROOT = REPO_ROOT / "local/odebf/state"
 HOST_MEMORY_REQUEST_MIB = 65_000
@@ -138,7 +138,7 @@ def _provenance(
         tracked_dirty=dirty,
     )
     return {
-        "run_authority": "GH_TECH_R2_CHECKPOINT_BOUND_RUN_APPROVAL",
+        "run_authority": "GH_TECH_R3_CHECKPOINT_BOUND_RUN_APPROVAL",
         "local_package": dict(local_package),
         "sh2_package_acceptance": package_ack,
         "execution_head": head,
