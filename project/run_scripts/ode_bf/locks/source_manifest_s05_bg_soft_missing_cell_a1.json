@@ -55,8 +55,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/common_coldcoord_fixed_e8_runtime.py",
-      "sha256": "79e21b2e57716d06e6f441a0fc0283159a731aad220177d23fa8e16e1ba970b4",
-      "size": 140298
+      "sha256": "0e0beb0da2ff05dd79ff2e98f5a39216719b601ff69c138e6e0a2c46d6abf885",
+      "size": 142564
     },
     {
       "path": "project/run_scripts/ode_bf/contracts.py",
@@ -460,8 +460,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_bg_soft_missing_cell.py",
-      "sha256": "22e83654a7c4e48a6433b4d3c61fcf539d97c9dbc4babef5eb3e2e7b8a6e9c1f",
-      "size": 16957
+      "sha256": "1b06763efe2a4ad3cab4d1e6130de96519241779003e3f7b409ba092e49157ce",
+      "size": 20246
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_bg_soft_package.py",
@@ -666,6 +666,6 @@
   "panel_kind": "REUSED_R10_OUTCOME_SELECTED_SEAL_CAUSAL_DIAGNOSTIC",
   "reference_lock_file_sha256": "0f227472b92244861b48d9bd01561a3df282d0332ae03587f1c3897dbf2c5a5c",
   "reference_lock_root_digest": "ad3a4a125a097f7f2127ac6474ba1cab6b9f0a888619cc166bd31ca9ce88ee5f",
-  "root_digest": "d4fc75a65ef6cdddd61ab76c21b035d3fa7b9385728acd662ab77fbb881c6744",
+  "root_digest": "d4ef9328793e7be63c4cf6a96ad49050a3aa20e890527622b1c5a8668255bcbe",
   "schema_version": "ode-edit-s05-bg-soft-missing-cell-p1r12-a1-source-manifest/v1"
 }

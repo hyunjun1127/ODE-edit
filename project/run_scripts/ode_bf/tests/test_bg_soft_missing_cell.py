@@ -39,6 +39,7 @@ from project.run_scripts.ode_bf.p1_bg_soft_missing_cell_panel import (
     load_and_validate_bg_soft_reference_lock,
 )
 from project.run_scripts.ode_bf.p1_controller import P1ControllerLock
+from project.run_scripts.ode_bf.p1_backend import TargetNewNLLReceipt
 from project.run_scripts.ode_bf.sampling import load_p1_sampling_seal
 
 
@@ -183,7 +184,7 @@ class BgSoftMissingCellTests(unittest.TestCase):
             context_sha256="c" * 64,
             context_group_sizes=(1, 5),
             context_count=6,
-            model_forward_count=6,
+            model_forward_count=60,
             processed_token_count=321,
             generation_call_count=0,
         )
@@ -211,6 +212,81 @@ class BgSoftMissingCellTests(unittest.TestCase):
                 {key: value for key, value in payload.items() if key != "identity_sha256"}
             ),
         )
+
+    def test_six_context_objective_accepts_backend_receipt_and_fails_closed(self) -> None:
+        values = tuple(float(item) for item in range(10))
+        receipt = TargetNewNLLReceipt(
+            objective="TARGET_NEW_NLL",
+            value=4.5,
+            value_sha256="d" * 64,
+            per_request_values=values,
+            per_request_value_sha256="e" * 64,
+            request_order_sha256="a" * 64,
+            suffix_token_counts=(1,) * 10,
+            target_span_sha256="b" * 64,
+            context_group_sizes=(1, 5),
+            context_count=6,
+            context_sha256="c" * 64,
+            model_forward_count=60,
+            processed_token_count=321,
+            generation_call_count=0,
+            target_old_access_count=0,
+            receipt_sha256="f" * 64,
+        )
+        payload = runtime._routing_objective_raw_free_payload(
+            receipt,
+            role="TARGET_ASSISTED_RESIDUAL_OVERLAY_OBJECTIVE",
+            action_frozen_before_evaluation=False,
+        )
+        self.assertEqual(payload["per_request_target_new_nll"], list(values))
+        self.assertEqual(payload["mean_target_new_nll"], 4.5)
+        malformed = SimpleNamespace(
+            **{
+                field: getattr(receipt, field)
+                for field in receipt.__dataclass_fields__
+                if field != "per_request_values"
+            },
+            per_request_values=values[:-1],
+        )
+        with self.assertRaisesRegex(ODEBFContractError, "objective differs"):
+            runtime._routing_objective_raw_free_payload(
+                malformed,
+                role="TARGET_ASSISTED_RESIDUAL_OVERLAY_OBJECTIVE",
+                action_frozen_before_evaluation=False,
+            )
+        malformed_values = {
+            "nonfinite": (float("inf"),) + values[1:],
+            "malformed": list(values),
+        }
+        for label, bad_values in malformed_values.items():
+            with self.subTest(label=label), self.assertRaisesRegex(
+                ODEBFContractError, "objective"
+            ):
+                runtime._routing_objective_raw_free_payload(
+                    SimpleNamespace(
+                        **{
+                            field: getattr(receipt, field)
+                            for field in receipt.__dataclass_fields__
+                            if field != "per_request_values"
+                        },
+                        per_request_values=bad_values,
+                    ),
+                    role="TARGET_ASSISTED_RESIDUAL_OVERLAY_OBJECTIVE",
+                    action_frozen_before_evaluation=False,
+                )
+        with self.assertRaisesRegex(ODEBFContractError, "objective differs"):
+            runtime._routing_objective_raw_free_payload(
+                SimpleNamespace(
+                    **{
+                        field: getattr(receipt, field)
+                        for field in receipt.__dataclass_fields__
+                        if field != "request_order_sha256"
+                    },
+                    request_order_sha256="short",
+                ),
+                role="TARGET_ASSISTED_RESIDUAL_OVERLAY_OBJECTIVE",
+                action_frozen_before_evaluation=False,
+            )
 
     def test_zero_positive_partial_clock_preserves_prefix_without_advance(self) -> None:
         clock = FixedE8Clock()

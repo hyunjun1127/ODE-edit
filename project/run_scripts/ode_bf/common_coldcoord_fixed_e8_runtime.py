@@ -157,15 +157,73 @@ def _routing_objective_raw_free_payload(
 ) -> dict[str, Any]:
     """Serialize one six-context objective without request text or token IDs."""
 
-    values = result.per_request_values.detach().to(
-        device="cpu", dtype=torch.float64
+    raw_values = result.per_request_values
+    if isinstance(raw_values, torch.Tensor):
+        values = tuple(
+            float(item)
+            for item in raw_values.detach().to(
+                device="cpu", dtype=torch.float64
+            ).tolist()
+        )
+        raw_mean = result.loss
+        if not isinstance(raw_mean, torch.Tensor) or raw_mean.ndim != 0:
+            raise ODEBFContractError(
+                "six-context routing objective mean differs"
+            )
+        mean_target_new_nll = float(
+            raw_mean.detach().to(device="cpu", dtype=torch.float64)
+        )
+    elif isinstance(raw_values, tuple):
+        values = tuple(float(item) for item in raw_values)
+        raw_mean = result.value
+        if isinstance(raw_mean, bool) or not isinstance(raw_mean, (int, float)):
+            raise ODEBFContractError(
+                "six-context routing objective mean differs"
+            )
+        mean_target_new_nll = float(raw_mean)
+    else:
+        raise ODEBFContractError(
+            "six-context routing objective request values differ"
+        )
+    objective = result.objective
+    objective_name = (
+        objective.value
+        if isinstance(objective, RoutingObjective)
+        else objective
+        if type(objective) is str
+        else getattr(objective, "value", None)
     )
+    if (
+        objective_name != RoutingObjective.TARGET_NEW_NLL.value
+        or len(values) != BATCH_SIZE
+        or not all(math.isfinite(item) for item in values)
+        or not math.isfinite(mean_target_new_nll)
+        or not math.isclose(
+            mean_target_new_nll,
+            math.fsum(values) / BATCH_SIZE,
+            rel_tol=1.0e-6,
+            abs_tol=1.0e-7,
+        )
+        or not isinstance(result.request_order_sha256, str)
+        or len(result.request_order_sha256) != 64
+        or not isinstance(result.target_span_sha256, str)
+        or len(result.target_span_sha256) != 64
+        or not isinstance(result.context_sha256, str)
+        or len(result.context_sha256) != 64
+        or tuple(result.context_group_sizes) != (1, 5)
+        or result.context_count != 6
+        or result.model_forward_count != BATCH_SIZE * 6
+        or result.processed_token_count <= 0
+        or result.generation_call_count != 0
+        or getattr(result, "target_old_access_count", 0) != 0
+    ):
+        raise ODEBFContractError("six-context routing objective differs")
     payload = {
         "schema": "ode-edit-s05-bg-soft-six-context-objective/v1",
         "role": role,
-        "objective": result.objective.value,
-        "mean_target_new_nll": float(result.loss.detach().cpu()),
-        "per_request_target_new_nll": [float(item) for item in values.tolist()],
+        "objective": objective_name,
+        "mean_target_new_nll": mean_target_new_nll,
+        "per_request_target_new_nll": list(values),
         "request_order_sha256": result.request_order_sha256,
         "target_span_sha256": result.target_span_sha256,
         "context_sha256": result.context_sha256,
