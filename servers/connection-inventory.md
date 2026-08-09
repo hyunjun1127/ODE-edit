@@ -19,7 +19,7 @@ server4는 physical host로 등록됐지만 이 repo clone/SH가 없는
 
 | Repository server name | Raw connection detail location | 상태/용도 |
 | --- | --- | --- |
-| `server1` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | GH active on root clone / SH1 active on dedicated worktree; GPU cap 3, memory cap 198117 MiB per GPU |
+| `server1` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | GH active on root clone / SH1 active on dedicated worktree; GPU cap 4, memory cap 198117 MiB per GPU |
 | `server2` | `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | SH2 active / boundary PASS / ready for GH instruction / clone: `/mnt/raid5/janghj/ODE-edit` |
 | `server3` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | future target / clone 전 / Codex session 미지정 |
 | `server4` | `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | registered-pending-clone / GPU cap 3, memory cap 65984 MiB per GPU / Codex session 미지정 |

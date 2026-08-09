@@ -75,10 +75,10 @@ GH/SH session은 이 record를 갱신하고, 기존 session ID를 재사용하�
 ## Slurm/Resource
 
 - partition: local-only Slurm query로 확인 필요
-- GPU cap: 동시 최대 `3` GPU (`servers/local/gpu-caps.tsv`); 2026-08-03
-  사용자 지시로 기존 임시 `4` GPU 증액을 종료하고 `3` GPU로 복원했다. 이 변경은
-  즉시 적용되며, 변경 시점의 Session 02 P1 R2 pair는 합계 `2/3` GPU이므로 계속
-  실행하되 추가 제출은 별도 envelope와 잔여 cap 검사를 요구한다.
+- GPU cap: 동시 최대 `4` GPU (`servers/local/gpu-caps.tsv`); 2026-08-09
+  사용자 직접 지시로 AlphaEdit realization 실험의 병렬 실행을 위해 `4` GPU로
+  증액했다. 제출 직전에는 기존 project job을 포함한 실제 합계가 `4` 이하인지 다시
+  확인한다.
 - GPU memory request cap: GPU 1개당 최대 `198117 MiB`
 - CPU: task별 명시 필요
 - time limit: task별 명시 필요
