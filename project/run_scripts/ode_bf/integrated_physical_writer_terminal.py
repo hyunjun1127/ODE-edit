@@ -18,6 +18,7 @@ from typing import Any, Mapping, Sequence
 import numpy as np
 import torch
 
+from .analysis import PrimaryMetric
 from .accounting import ComputeLedger
 from .contracts import BATCH_SIZE, ODEBFContractError, ODEBFStateError, canonical_hash
 from .cold_start_target import capture_cold_z_base
@@ -501,16 +502,23 @@ def _paired_payload(native: IntegratedPrimaryEvaluation, ours: IntegratedPrimary
             "aggregator_source_sha256",
         )
     )
-    for metric in ("efficacy", "generalization", "locality"):
-        left = native.primary["metrics"][metric]
-        right = ours.primary["metrics"][metric]
+    evaluator_keys = tuple(metric.value for metric in PrimaryMetric)
+    for evaluation in (native, ours):
+        metrics = evaluation.primary.get("metrics")
+        if not isinstance(metrics, Mapping) or tuple(metrics) != evaluator_keys:
+            raise ODEBFContractError(
+                "integrated paired primary metric schema differs"
+            )
+    for metric in PrimaryMetric:
+        left = native.primary["metrics"][metric.value]
+        right = ours.primary["metrics"][metric.value]
         native_bits = tuple(tuple(item) for item in left["per_case_bits"])
         ours_bits = tuple(tuple(item) for item in right["per_case_bits"])
         if tuple(left["per_case_required"]) != tuple(right["per_case_required"]):
             raise ODEBFContractError("integrated paired primary denominator differs")
         wins = tuple(tuple(int(o == 1 and n == 0) for n, o in zip(nb, ob, strict=True)) for nb, ob in zip(native_bits, ours_bits, strict=True))
         losses = tuple(tuple(int(n == 1 and o == 0) for n, o in zip(nb, ob, strict=True)) for nb, ob in zip(native_bits, ours_bits, strict=True))
-        rows[metric] = {
+        rows[metric.value] = {
             "native_numerator": left["numerator"],
             "ours_numerator": right["numerator"],
             "denominator": left["denominator"],

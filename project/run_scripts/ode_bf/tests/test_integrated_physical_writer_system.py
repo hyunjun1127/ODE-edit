@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 import threading
 import tempfile
 import unittest
@@ -28,6 +29,7 @@ from project.run_scripts.ode_bf.integrated_physical_writer_runtime import (
 from project.run_scripts.ode_bf.integrated_physical_writer_terminal import (
     IntegratedHeldoutResidualOverlay,
     IntegratedPrimaryEvaluation,
+    _paired_payload,
     run_integrated_terminal_panel,
 )
 from project.run_scripts.ode_bf.integrated_physical_writer_experiment import (
@@ -321,7 +323,7 @@ class IntegratedPhysicalWriterSystemTests(unittest.TestCase):
                 "numerator": 0,
                 "denominator": 20,
             },
-            "locality": {
+            "locality-preservation": {
                 "per_case_bits": [[0] * 10 for _ in range(10)],
                 "per_case_required": [10] * 10,
                 "numerator": 0,
@@ -404,6 +406,21 @@ class IntegratedPhysicalWriterSystemTests(unittest.TestCase):
             panel.endpoint_transaction["transaction_commit_count"], 0
         )
         self.assertTrue(panel.endpoint_transaction["final_w0_restore_exact"])
+        self.assertEqual(
+            set(panel.paired_native_floor["metrics"]),
+            {"efficacy", "generalization", "locality-preservation"},
+        )
+        legacy_rows = dict(metric_rows)
+        legacy_rows["locality"] = legacy_rows.pop("locality-preservation")
+        legacy_primary = {**primary, "metrics": legacy_rows}
+        legacy_evaluation = IntegratedPrimaryEvaluation(
+            legacy_primary, {}, None, "0" * 64
+        )
+        with self.assertRaises(ODEBFContractError):
+            _paired_payload(legacy_evaluation, legacy_evaluation)
+        source = inspect.getsource(_paired_payload)
+        self.assertIn("for metric in PrimaryMetric", source)
+        self.assertNotIn('"locality"', source)
         for broken in (
             replace(freeze, accepted_transition_count=1),
             replace(freeze, attempted_field_count=0),
