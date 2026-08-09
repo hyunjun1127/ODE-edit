@@ -61,7 +61,8 @@ server2의 ODE-Edit command는 canonical session
 
 ## Slurm/Resource
 
-- GPU cap: 동시 최대 `3` GPU (`servers/local/gpu-caps.tsv`)
+- GPU cap: 동시 최대 `4` GPU (`servers/local/gpu-caps.tsv`); 2026-08-09
+  사용자 직접 승인으로 R13 병렬 실행부터 상향
 - GPU memory request cap: GPU 1개당 최대 `66017 MiB`
 - partition/CPU/time limit: SH2 local-only Slurm preflight에서 확인
 - submit policy: local session boundary, method runtime, heartbeat와 red-team onboarding
