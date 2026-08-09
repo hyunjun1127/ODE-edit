@@ -3436,6 +3436,9 @@ def _postfreeze_stepwise_panel(
     touched: Mapping[str, torch.nn.Parameter],
     instruction_id: str = ADAPTIVE_INSTRUCTION_ID,
     schema_namespace: str = "ode-edit-s04-ode-bf-p1r4-adaptive",
+    additional_candidate_baselines: Mapping[
+        str, Mapping[str, torch.Tensor]
+    ] | None = None,
 ) -> tuple[dict[str, Any], dict[tuple[str, int], StepwisePrimaryReceipt]]:
     """Open held-out CounterFact surfaces only after every action is frozen."""
 
@@ -3458,6 +3461,17 @@ def _postfreeze_stepwise_panel(
         },
         "heldout_controller_access_count": 0,
         "model_generate_call_count": 0,
+        "additional_candidate_baseline_sha256": {
+            label: canonical_hash(
+                {
+                    name: tensor_sha256(value)
+                    for name, value in sorted(candidates.items())
+                }
+            )
+            for label, candidates in sorted(
+                (additional_candidate_baselines or {}).items()
+            )
+        },
     }
     freeze_root_sha256 = write_once(
         raw_root / "stepwise" / "action-freeze.json", freeze_payload
@@ -3548,6 +3562,66 @@ def _postfreeze_stepwise_panel(
                 "compute": native_compute,
             },
         )
+        for label, candidates in sorted(
+            (additional_candidate_baselines or {}).items()
+        ):
+            if (
+                not label
+                or label in {"W0_NO_EDIT", "N32_NATIVE"}
+                or set(candidates) != set(capture.entry_sha256)
+                or any(value.dtype is not torch.bfloat16 for value in candidates.values())
+                or all(
+                    tensor_sha256(value) == capture.entry_sha256[name]
+                    for name, value in candidates.items()
+                )
+            ):
+                raise ODEBFContractError(
+                    "additional postfreeze candidate baseline differs"
+                )
+            candidate_sha256 = canonical_hash(
+                {
+                    name: tensor_sha256(value)
+                    for name, value in sorted(candidates.items())
+                }
+            )
+            candidate_freeze = StepwiseActionFreeze(
+                variant=label,
+                request_order_sha256=capture.request_order_sha256,
+                rollout_sha256=freeze_root_sha256,
+                snapshot_sha256=candidate_sha256,
+                snapshot_index=1,
+                accepted_snapshot_count=1,
+                rejected_retry_count=0,
+                trajectory_status="COMMON_POSTFREEZE_REFERENCE",
+            )
+            observed, compute = _evaluate_stepwise_state(
+                model,
+                tokenizer,
+                cases,
+                alias=alias,
+                freeze=candidate_freeze,
+                ledger=ledger,
+                touched=touched,
+                candidates=candidates,
+            )
+            receipts[(label, 1)] = observed
+            receipt_hashes[label] = write_once(
+                raw_root / "stepwise" / f"{label}.json",
+                {
+                    "schema": f"{schema_namespace}-step-receipt/v1",
+                    "variant": label,
+                    "snapshot_index": 1,
+                    "snapshot_sha256": candidate_sha256,
+                    "freeze_sha256": candidate_freeze.identity(),
+                    "primary": observed.raw_free_payload(),
+                    "comparison_to_w0_native": compare_stepwise_primary(
+                        w0, native, observed
+                    ),
+                    "compute": compute,
+                    "action_frozen_before_open": True,
+                    "controller_heldout_access_count": 0,
+                },
+            )
         for rollout in rollouts.values():
             variant_label = rollout.variant_label or rollout.variant.value
             confirmations = {

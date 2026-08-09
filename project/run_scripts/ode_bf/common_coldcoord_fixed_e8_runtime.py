@@ -37,12 +37,22 @@ from .common_cold_coordinate import (
     common_terminal_residual_input,
     write_aware_common_target_velocity,
 )
+from .canonical_alpha_posfield import (
+    AlphaActuator,
+    CANONICAL_ALPHA_POSFIELD_INSTRUCTION_ID,
+    CANONICAL_ALPHA_POSFIELD_SCHEMA_NAMESPACE,
+    CanonicalAlphaPostfreezeCapture,
+    CanonicalAlphaReceiptRecorder,
+    canonical_alpha_posfield_source_contract,
+    write_aware_canonical_ordered_target_velocity,
+)
 from .contracts import BATCH_SIZE, ODEBFContractError, ODEBFStateError, canonical_hash
 from .first_hit import FeasibilityVerdict
 from .fixed_e8_soft_routing import (
     FIXED_E8_GRID_COUNT,
     FIXED_E8_H,
     FIXED_E8_KAPPA,
+    FIXED_E8_NORMALIZATION_EPSILON,
     FixedE8Arm,
     FixedE8Clock,
     FixedE8Stage2FailurePolicy,
@@ -69,11 +79,13 @@ from .p1_adaptive_runtime import (
     _terminal_confirm_snapshots,
 )
 from .p1_backend import (
+    CANONICAL_ORDERED_ALPHA_REMAINING_RESIDUAL_V1,
     SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1,
     PinnedCovarianceRegistry,
     SignedProgressReceipt,
     _virtual_context,
     build_p1_dynamic_field,
+    build_p1_canonical_ordered_field,
     capture_p1_native_entry,
     evaluate_routing_progress,
 )
@@ -118,6 +130,51 @@ class CommonColdArm(str, Enum):
         )
 
 
+class ZeroPositiveDirection(ODEBFContractError):
+    """Typed arm-local terminal carrying the persisted failing-field receipt."""
+
+    def __init__(self, receipt: Mapping[str, Any]) -> None:
+        super().__init__("ZERO_POSITIVE_DIRECTION")
+        self.receipt = dict(receipt)
+
+
+def _r10_current_reproduction_gate(
+    rollout: Any,
+    expected: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Fail closed unless the R11 current control exactly reproduces R10."""
+
+    observed_fields = [
+        str(item.routing_payload["field_semantic_sha256"])
+        for item in rollout.snapshots
+    ]
+    observed_snapshots = [str(item.snapshot_sha256) for item in rollout.snapshots]
+    expected_fields = list(expected.get("field_semantic_sha256", ()))
+    expected_snapshots = list(expected.get("snapshot_sha256", ()))
+    if (
+        rollout.variant_label != AlphaActuator.CURRENT_SHARED_AE.value
+        or rollout.status != expected.get("terminal_status")
+        or len(rollout.snapshots) != expected.get("accepted_snapshot_count")
+        or observed_fields != expected_fields
+        or observed_snapshots != expected_snapshots
+    ):
+        raise ODEBFContractError("R11 current control R10 prefix differs")
+    payload = {
+        "schema": "ode-edit-r11-current-shared-r10-reproduction/v1",
+        "actuator": AlphaActuator.CURRENT_SHARED_AE.value,
+        "terminal_status": rollout.status,
+        "accepted_snapshot_count": len(rollout.snapshots),
+        "field_semantic_sha256": observed_fields,
+        "snapshot_sha256": observed_snapshots,
+        "source_terminal_sha256": expected["source_terminal_sha256"],
+        "source_manifest_sha256": expected["source_manifest_sha256"],
+        "semantic_prefix_exact": True,
+        "approved_observation_or_provenance_difference_only": True,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
+
+
 def _common_initial_contract(
     *,
     bootstrap_target: torch.Tensor,
@@ -125,14 +182,16 @@ def _common_initial_contract(
     field_receipt: legacy.FixedE8FieldReceipt,
     routing: Any,
     metric: CommonColdScaleMetric,
+    actuator: AlphaActuator = AlphaActuator.CURRENT_SHARED_AE,
 ) -> dict[str, Any]:
-    payload = {
-        "schema": "ode-edit-common-cold-initial-contract/v1",
+    payload: dict[str, Any] = {
+        "schema": (
+            "ode-edit-common-cold-initial-contract/v1"
+            if actuator is AlphaActuator.CURRENT_SHARED_AE
+            else "ode-edit-canonical-alpha-posfield-initial-contract/v1"
+        ),
         "bootstrap_target_sha256": tensor_sha256(bootstrap_target),
         "field_semantic_sha256": field_receipt.field_semantic_sha256,
-        "shared_terminal_residual_sha256": tensor_sha256(
-            field.layers[0].residual
-        ),
         "signed_slopes": [float(item) for item in routing.signed_slopes],
         "p_max": float(routing.p_max),
         "requested_progress": float(routing.requested_progress),
@@ -141,6 +200,25 @@ def _common_initial_contract(
         ],
         "target_velocity_scale_sha256": metric.identity_sha256,
     }
+    if actuator is AlphaActuator.CURRENT_SHARED_AE:
+        payload["shared_terminal_residual_sha256"] = tensor_sha256(
+            field.layers[0].residual
+        )
+    else:
+        payload.update(
+            {
+                "actuator": actuator.value,
+                "ordered_layer_residual_sha256": [
+                    tensor_sha256(item.residual) for item in field.layers
+                ],
+                "ordered_remaining_writer_divisor": [
+                    int(item.residual_divisor) for item in field.layers
+                ],
+                "proposal_shadow_sha256": field.construction_receipt[
+                    "identity_sha256"
+                ],
+            }
+        )
     payload["identity_sha256"] = canonical_hash(payload)
     return payload
 
@@ -148,6 +226,7 @@ def _common_initial_contract(
 def _common_field_semantic_receipt(
     field: Any,
     *,
+    actuator: AlphaActuator = AlphaActuator.CURRENT_SHARED_AE,
     solve_history: Mapping[int, torch.Tensor],
     risk_history: Mapping[int, torch.Tensor],
 ) -> dict[str, Any]:
@@ -159,9 +238,20 @@ def _common_field_semantic_receipt(
         hashlib.sha256(item.weight_name.encode("utf-8")).hexdigest()
         for item in field.layers
     )
+    residual_policy = (
+        SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1
+        if actuator is AlphaActuator.CURRENT_SHARED_AE
+        else CANONICAL_ORDERED_ALPHA_REMAINING_RESIDUAL_V1
+    )
+    residual_inventory_pass = (
+        len(set(residual_hashes)) == 1
+        if actuator is AlphaActuator.CURRENT_SHARED_AE
+        else tuple(item.residual_divisor for item in field.layers)
+        == tuple(range(len(layers), 0, -1))
+    )
     if (
         layers != COMMON_COLD_LAYER_ORDER
-        or len(set(residual_hashes)) != 1
+        or not residual_inventory_pass
         or len(set(key_hashes)) != len(layers)
         or len(set(q_hashes)) != len(layers)
         or len(set(weight_hashes)) != len(layers)
@@ -201,13 +291,17 @@ def _common_field_semantic_receipt(
         "request_order_sha256": field.request_order_sha256,
         "target_state_sha256": tensor_sha256(field.target_state),
         "terminal_current_z_sha256": tensor_sha256(field.current_z),
-        "residual_policy": SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1,
+        "residual_policy": residual_policy,
         "residual_hash_unique_count": len(set(residual_hashes)),
         "key_hash_unique_count": len(set(key_hashes)),
         "q_hash_unique_count": len(set(q_hashes)),
         "writer_identity_unique_count": len(set(weight_hashes)),
         "layers": semantic_layers,
     }
+    if field.construction_receipt is not None:
+        scientific["construction_receipt_sha256"] = field.construction_receipt[
+            "identity_sha256"
+        ]
     return {
         "schema": "ode-edit-common-cold-field-semantic-receipt/v1",
         "semantic_identity_sha256": canonical_hash(scientific),
@@ -279,6 +373,7 @@ def _build_common_field(
     *,
     alias: str,
     arm: CommonColdArm,
+    actuator: AlphaActuator = AlphaActuator.CURRENT_SHARED_AE,
     metric: CommonColdScaleMetric,
     step_index: int,
     current_factors: Mapping[str, Sequence[WaypointFactor]],
@@ -306,6 +401,10 @@ def _build_common_field(
     before_history = history.snapshot().digest
     before_sampler = schedule.state_digest
     before_rng = legacy._rng_identity()
+    before_omega = _omega_state(accepted_by_layer)
+    before_load = canonical_hash(history.cumulative_load())
+    before_target = tensor_sha256(current_target)
+    before_controller = lock.identity()
     solve_history = _history_keys(history, COMMON_COLD_LAYER_ORDER, risk=False)
     risk_history = _history_keys(history, COMMON_COLD_LAYER_ORDER, risk=True)
     residual_input = common_terminal_residual_input(
@@ -313,26 +412,45 @@ def _build_common_field(
             [str(item["request_sha256"]) for item in requests]
         )
     )
-    field = build_p1_dynamic_field(
-        model,
-        tokenizer,
-        requests,
-        hparams,
-        projector,
-        contexts,
-        target_state=current_target,
-        accepted_waypoint=step_index,
-        cumulative_factors_by_weight=current_factors,
-        history_solve_keys_by_layer=solve_history,
-        history_risk_keys_by_layer=risk_history,
-        covariance_registry=covariance_registry,
-        projector_sha256=projector_sha256,
-        residual_tolerance=lock.residual_tolerance,
-        ledger=ledger,
-        residual_policy=SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1,
-        allow_zero_capacity=False,
-        shared_terminal_residual=residual_input,
-    )
+    if actuator is AlphaActuator.CURRENT_SHARED_AE:
+        field = build_p1_dynamic_field(
+            model,
+            tokenizer,
+            requests,
+            hparams,
+            projector,
+            contexts,
+            target_state=current_target,
+            accepted_waypoint=step_index,
+            cumulative_factors_by_weight=current_factors,
+            history_solve_keys_by_layer=solve_history,
+            history_risk_keys_by_layer=risk_history,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            residual_tolerance=lock.residual_tolerance,
+            ledger=ledger,
+            residual_policy=SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1,
+            allow_zero_capacity=False,
+            shared_terminal_residual=residual_input,
+        )
+    else:
+        field = build_p1_canonical_ordered_field(
+            model,
+            tokenizer,
+            requests,
+            hparams,
+            projector,
+            contexts,
+            target_state=current_target,
+            accepted_waypoint=step_index,
+            cumulative_factors_by_weight=current_factors,
+            history_solve_keys_by_layer=solve_history,
+            history_risk_keys_by_layer=risk_history,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            residual_tolerance=lock.residual_tolerance,
+            ledger=ledger,
+        )
     signed, signed_overlay = _signed_progress_with_residual(
         model,
         tokenizer,
@@ -346,7 +464,10 @@ def _build_common_field(
         ledger=ledger,
     )
     semantic = _common_field_semantic_receipt(
-        field, solve_history=solve_history, risk_history=risk_history
+        field,
+        actuator=actuator,
+        solve_history=solve_history,
+        risk_history=risk_history,
     )
     built = legacy._build_fixed_e8_problem(
         field,
@@ -398,37 +519,182 @@ def _build_common_field(
     )
     if tuple(observed) != routing.certificates:
         raise ODEBFStateError("common cold solver receipt sequence differs")
-    if routing.mode is not FixedE8StepMode.JOINT_WRITE or routing.p_max <= 0.0:
-        raise ODEBFContractError("BOOTSTRAP_READINESS_FAILED: p_max is nonpositive")
     ledger.increment("qp_solve", len(routing.certificates))
     ledger.increment("qp_certificate", len(routing.certificates))
-    target_velocity, target_receipt = write_aware_common_target_velocity(
-        model,
-        tokenizer,
-        requests,
-        contexts,
-        target_layer_name=target_layer_name,
-        lookup_positions=lookup_positions,
-        field=field,
-        velocity_coefficients=routing.velocity,
-        cumulative_factors_by_weight=current_factors,
-        metric=metric,
-        ledger=ledger,
-    )
+    if routing.mode is FixedE8StepMode.ZERO_WRITE_TARGET_RECOVERY:
+        positive_mask = [float(value) > 0.0 for value in signed.signed_progress]
+        if routing.p_max > FIXED_E8_NORMALIZATION_EPSILON:
+            raise ODEBFStateError("zero-positive routing mode/p_max differs")
+        zero_positive_kind = (
+            "NO_POSITIVE_SIGNED_SLOPE"
+            if not any(positive_mask)
+            else "NO_TECHNICALLY_FEASIBLE_PROGRESS_ABOVE_LOCKED_EPSILON"
+        )
+        purity = {
+            "entry_model_sha256": before,
+            "exit_model_sha256": _parameter_contract_sha256(touched),
+            "entry_history_sha256": before_history,
+            "exit_history_sha256": history.snapshot().digest,
+            "entry_sampler_sha256": before_sampler,
+            "exit_sampler_sha256": schedule.state_digest,
+            "entry_rng_sha256": before_rng,
+            "exit_rng_sha256": legacy._rng_identity(),
+            "entry_omega_sha256": before_omega,
+            "exit_omega_sha256": _omega_state(accepted_by_layer),
+            "entry_load_sha256": before_load,
+            "exit_load_sha256": canonical_hash(history.cumulative_load()),
+            "entry_target_sha256": before_target,
+            "exit_target_sha256": tensor_sha256(current_target),
+            "entry_controller_sha256": before_controller,
+            "exit_controller_sha256": lock.identity(),
+        }
+        if not (
+            _parameter_contract_sha256(touched) == before
+            and history.snapshot().digest == before_history
+            and schedule.state_digest == before_sampler
+            and legacy._rng_identity() == before_rng
+            and _omega_state(accepted_by_layer) == before_omega
+            and canonical_hash(history.cumulative_load()) == before_load
+            and tensor_sha256(current_target) == before_target
+            and lock.identity() == before_controller
+        ):
+            raise ODEBFStateError("zero-positive field build mutated state")
+        purity["exact"] = True
+        failure_payload = {
+            "method": (
+                common_cold_source_contract()
+                if actuator is AlphaActuator.CURRENT_SHARED_AE
+                else canonical_alpha_posfield_source_contract()
+            ),
+            "actuator": actuator.value,
+            "arm": arm.value,
+            "step_index": step_index,
+            "terminal_boundary": "ZERO_POSITIVE_DIRECTION",
+            "field": field.raw_free_payload(),
+            "field_semantic": semantic,
+            (
+                "shared_terminal_residual_input"
+                if actuator is AlphaActuator.CURRENT_SHARED_AE
+                else "controller_terminal_residual_input"
+            ): residual_input.raw_free_payload(),
+            "signed_progress": asdict(signed),
+            "ordered_signed_slope_vector": [
+                float(value) for value in signed.signed_progress
+            ],
+            "positive_mask": positive_mask,
+            "positive_count": sum(positive_mask),
+            "zero_positive_kind": zero_positive_kind,
+            "p_max": float(routing.p_max),
+            "routing_mode": routing.mode.value,
+            "problem_receipt_sha256": built.identity_sha256,
+            "functional_basis": inventory.raw_free_payload(),
+            "probe_receipt": probe,
+            "routing": routing.raw_free_payload(),
+            "solver_accounting": legacy._fixed_e8_solver_accounting(routing),
+            "proposal_shadow_purity": purity,
+            "e8_transition_count": 0,
+            "tau_advance_count": 0,
+            "endpoint_capacity_influence_count": 0,
+            "scientific_commit_count": 0,
+            "no_rescue": True,
+        }
+        persisted = recorder.field(failure_payload)
+        raise ZeroPositiveDirection(
+            {
+                "field_sha256": field.identity_sha256,
+                "field_semantic_sha256": semantic["semantic_identity_sha256"],
+                "persisted_field_receipt_sha256": persisted,
+                "ordered_signed_slope_vector": failure_payload[
+                    "ordered_signed_slope_vector"
+                ],
+                "positive_mask": positive_mask,
+                "positive_count": sum(positive_mask),
+                "zero_positive_kind": zero_positive_kind,
+                "p_max": float(routing.p_max),
+                "mode": routing.mode.value,
+                "requested_progress": float(routing.requested_progress),
+                "pre_soft_velocity": [
+                    float(item) for item in routing.pre_soft_velocity
+                ],
+                "layer_residual_sha256": [
+                    tensor_sha256(item.residual) for item in field.layers
+                ],
+                "layer_residual_divisor": [
+                    int(item.residual_divisor) for item in field.layers
+                ],
+                "proposal_shadow_sha256": (
+                    None
+                    if field.construction_receipt is None
+                    else field.construction_receipt["identity_sha256"]
+                ),
+                "step_index": step_index,
+                "actuator": actuator.value,
+                "solver_accounting": failure_payload["solver_accounting"],
+                "stage1_selection_fallback_count": (
+                    routing.stage1_selection_fallback_count
+                ),
+            }
+        )
+    if routing.mode is not FixedE8StepMode.JOINT_WRITE or routing.p_max <= 0.0:
+        raise ODEBFStateError("positive routing result/mode differs")
+    if actuator is AlphaActuator.CURRENT_SHARED_AE:
+        target_velocity, target_receipt = write_aware_common_target_velocity(
+            model,
+            tokenizer,
+            requests,
+            contexts,
+            target_layer_name=target_layer_name,
+            lookup_positions=lookup_positions,
+            field=field,
+            velocity_coefficients=routing.velocity,
+            cumulative_factors_by_weight=current_factors,
+            metric=metric,
+            ledger=ledger,
+        )
+    else:
+        target_velocity, target_receipt = (
+            write_aware_canonical_ordered_target_velocity(
+                model,
+                tokenizer,
+                requests,
+                contexts,
+                target_layer_name=target_layer_name,
+                lookup_positions=lookup_positions,
+                field=field,
+                velocity_coefficients=routing.velocity,
+                cumulative_factors_by_weight=current_factors,
+                controller_terminal_residual=residual_input.residual,
+                metric=metric,
+                ledger=ledger,
+            )
+        )
     if (
         _parameter_contract_sha256(touched) != before
         or history.snapshot().digest != before_history
         or schedule.state_digest != before_sampler
         or legacy._rng_identity() != before_rng
+        or _omega_state(accepted_by_layer) != before_omega
+        or canonical_hash(history.cumulative_load()) != before_load
+        or tensor_sha256(current_target) != before_target
+        or lock.identity() != before_controller
     ):
         raise ODEBFStateError("common cold field build mutated state")
     field_payload = {
-        "method": common_cold_source_contract(),
+        "method": (
+            common_cold_source_contract()
+            if actuator is AlphaActuator.CURRENT_SHARED_AE
+            else canonical_alpha_posfield_source_contract()
+        ),
+        "actuator": actuator.value,
         "arm": arm.value,
         "step_index": step_index,
         "field": field.raw_free_payload(),
         "field_semantic": semantic,
-        "shared_terminal_residual_input": residual_input.raw_free_payload(),
+        (
+            "shared_terminal_residual_input"
+            if actuator is AlphaActuator.CURRENT_SHARED_AE
+            else "controller_terminal_residual_input"
+        ): residual_input.raw_free_payload(),
         "signed_progress": asdict(signed),
         "signed_progress_overlay": signed_overlay,
         "problem_receipt_sha256": built.identity_sha256,
@@ -439,6 +705,29 @@ def _build_common_field(
         "target_probe_and_write_h_equal": True,
         "h": float(FIXED_E8_H),
         "scientific_retry_count": 0,
+        "proposal_shadow_purity": {
+            "entry_model_sha256": before,
+            "exit_model_sha256": _parameter_contract_sha256(touched),
+            "entry_history_sha256": before_history,
+            "exit_history_sha256": history.snapshot().digest,
+            "entry_sampler_sha256": before_sampler,
+            "exit_sampler_sha256": schedule.state_digest,
+            "entry_rng_sha256": before_rng,
+            "exit_rng_sha256": legacy._rng_identity(),
+            "entry_omega_sha256": before_omega,
+            "exit_omega_sha256": _omega_state(accepted_by_layer),
+            "entry_load_sha256": before_load,
+            "exit_load_sha256": canonical_hash(history.cumulative_load()),
+            "entry_target_sha256": before_target,
+            "exit_target_sha256": tensor_sha256(current_target),
+            "entry_controller_sha256": before_controller,
+            "exit_controller_sha256": lock.identity(),
+            "exact": True,
+            "e8_transition_count": 0,
+            "tau_advance_count": 0,
+            "endpoint_capacity_influence_count": 0,
+            "scientific_commit_count": 0,
+        },
     }
     persisted = recorder.field(field_payload)
     receipt_payload = {
@@ -471,6 +760,7 @@ def _run_common_arm(
     *,
     alias: str,
     arm: CommonColdArm,
+    actuator: AlphaActuator = AlphaActuator.CURRENT_SHARED_AE,
     bootstrap_target: torch.Tensor,
     z_base: torch.Tensor,
     metric: CommonColdScaleMetric,
@@ -492,9 +782,11 @@ def _run_common_arm(
     touched: Mapping[str, torch.nn.Parameter],
     recorder: legacy.FixedE8ReceiptRecorder,
     stages: Any,
+    result_variant_label: str | None = None,
     expected_initial_contract: Mapping[str, Any] | None = None,
     initial_contract_sink: dict[str, Any] | None = None,
 ) -> tuple[legacy.FixedE8Rollout, dict[str, Any]]:
+    variant_label = arm.value if result_variant_label is None else result_variant_label
     clock = FixedE8Clock()
     history = arm_state.history
     ledger = arm_state.ledger
@@ -531,6 +823,182 @@ def _run_common_arm(
     first_hit = legacy.FixedE8HitTracker()
     total_qp = total_backend = total_solver_fallback = total_stage1_fallback = 0
     initial_contract: dict[str, Any] | None = None
+
+    def finish_zero_positive(
+        stop: ZeroPositiveDirection,
+    ) -> tuple[legacy.FixedE8Rollout, dict[str, Any]]:
+        nonlocal total_qp, total_backend, total_solver_fallback
+        nonlocal total_stage1_fallback, initial_contract
+        accounting = dict(stop.receipt["solver_accounting"])
+        total_qp += int(accounting["actual_logical_qp_certificate_count"])
+        total_backend += int(
+            accounting["actual_optimizer_backend_invocation_count"]
+        )
+        total_solver_fallback += int(
+            accounting["actual_fallback_backend_invocation_count"]
+        )
+        total_stage1_fallback += int(
+            stop.receipt["stage1_selection_fallback_count"]
+        )
+        if initial_contract is None:
+            initial_contract = {
+                "schema": (
+                    "ode-edit-common-cold-initial-contract/v1"
+                    if actuator is AlphaActuator.CURRENT_SHARED_AE
+                    else "ode-edit-canonical-alpha-posfield-initial-contract/v1"
+                ),
+                "bootstrap_target_sha256": tensor_sha256(bootstrap_target),
+                "field_semantic_sha256": stop.receipt[
+                    "field_semantic_sha256"
+                ],
+                "signed_slopes": list(stop.receipt["ordered_signed_slope_vector"]),
+                "p_max": float(stop.receipt["p_max"]),
+                "requested_progress": float(stop.receipt["requested_progress"]),
+                "pre_soft_velocity": list(stop.receipt["pre_soft_velocity"]),
+                "target_velocity_scale_sha256": metric.identity_sha256,
+            }
+            if actuator is AlphaActuator.CURRENT_SHARED_AE:
+                initial_contract["shared_terminal_residual_sha256"] = (
+                    stop.receipt["layer_residual_sha256"][0]
+                )
+            else:
+                initial_contract.update(
+                    {
+                        "actuator": actuator.value,
+                        "ordered_layer_residual_sha256": list(
+                            stop.receipt["layer_residual_sha256"]
+                        ),
+                        "ordered_remaining_writer_divisor": list(
+                            stop.receipt["layer_residual_divisor"]
+                        ),
+                        "proposal_shadow_sha256": stop.receipt[
+                            "proposal_shadow_sha256"
+                        ],
+                    }
+                )
+            initial_contract["identity_sha256"] = canonical_hash(initial_contract)
+            if initial_contract_sink is not None:
+                initial_contract_sink.clear()
+                initial_contract_sink.update(initial_contract)
+        if ledger.completed_correction_cycles == 0:
+            ledger.finish_cycle(0)
+        terminal_confirmations = _terminal_confirm_snapshots(
+            model,
+            tokenizer,
+            alias=alias,
+            arm_state=arm_state,
+            snapshots=snapshots,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            outer_entry_p_cache=outer_entry_p_cache,
+            theta0_cache=theta0_cache,
+            lock=lock,
+            ledger=ledger,
+            recorder=recorder,
+            trajectory_complete=False,
+            functional_p_policy=FunctionalPDecisionPolicy.OBSERVATION_ONLY,
+            preservation_policy=PreservationConstraintPolicy.OBSERVATION_ONLY,
+        )
+        expected_omega_equal = len(snapshots) == 0
+        if (
+            _parameter_contract_sha256(touched) != before_model
+            or history.snapshot().digest != before_history
+            or schedule.state_digest != before_sampler
+            or legacy._rng_identity() != before_rng
+            or history.version != 0
+            or ((_omega_state(accepted_by_layer) == entry_omega) != expected_omega_equal)
+        ):
+            raise ODEBFStateError("zero-positive rollout state/purity differs")
+        payload = {
+            "method": (
+                common_cold_source_contract()
+                if actuator is AlphaActuator.CURRENT_SHARED_AE
+                else canonical_alpha_posfield_source_contract()
+            ),
+            "variant": variant_label,
+            "routing_arm": arm.value,
+            "scale": metric.raw_free_payload(),
+            "status": "ZERO_POSITIVE_DIRECTION",
+            "termination_label": "ZERO_POSITIVE_DIRECTION",
+            "accepted_t": fraction_payload(clock.tau),
+            "k_acc": len(snapshots),
+            "n_trial": len(snapshots),
+            "n_reject": 0,
+            "field_build_count": clock.field_count,
+            "failing_field": dict(stop.receipt),
+            "operation_accounting": {
+                "actual_logical_qp_certificate_count": total_qp,
+                "actual_optimizer_backend_invocation_count": total_backend,
+                "actual_solver_backend_fallback_count": total_solver_fallback,
+                "actual_certified_stage1_selection_fallback_count": (
+                    total_stage1_fallback
+                ),
+                "candidate_count": len(snapshots),
+                "field_count": clock.field_count,
+            },
+            "clock": {
+                "schema": "ode-edit-fixed-e8-partial-clock/v1",
+                "grid_count": len(snapshots),
+                "field_count": clock.field_count,
+                "h": float(FIXED_E8_H),
+                "tau_final": float(clock.tau),
+                "target_tau": 1.0,
+                "scientific_retry_count": 0,
+                "scientific_rejection_count": 0,
+            },
+            "entry_success": entry_eval.batch_success.raw_free_payload(),
+            "online_first_hit": (
+                None
+                if first_hit.first_online is None
+                else {
+                    "accepted_index": first_hit.first_online.accepted_index,
+                    "tau": fraction_payload(first_hit.first_online.tau),
+                    "snapshot_sha256": first_hit.first_online.snapshot_sha256,
+                }
+            ),
+            "first_hit_observation_only": True,
+            "valid_prefix_preserved": True,
+            "no_rescue": True,
+            "scientific_retry_count": 0,
+            "scientific_rejection_count": 0,
+            "native_or_direct_z_cold_access_count": 0,
+            "receipt_links": recorder.links(),
+            "compute": ledger.raw_free_payload(),
+        }
+        payload["clock"]["identity_sha256"] = canonical_hash(payload["clock"])
+        rollout_sha = canonical_hash(payload)
+        recorder.terminal(
+            {"rollout_summary": payload, "rollout_sha256": rollout_sha}
+        )
+        return legacy.FixedE8Rollout(
+            arm,
+            "ZERO_POSITIVE_DIRECTION",
+            "ZERO_POSITIVE_DIRECTION",
+            (
+                SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1
+                if actuator is AlphaActuator.CURRENT_SHARED_AE
+                else CANONICAL_ORDERED_ALPHA_REMAINING_RESIDUAL_V1
+            ),
+            clock.tau,
+            len(snapshots),
+            len(snapshots),
+            0,
+            clock.field_count,
+            snapshots,
+            first_hit,
+            recorder,
+            ledger,
+            entry_eval.batch_success.raw_free_payload(),
+            terminal_confirmations,
+            rollout_sha,
+            variant_label,
+            RoutingObjective.TARGET_NEW_NLL.value,
+            "OBSERVATION_ONLY",
+            "STRUCTFUNC_SOFT_OR_NEUTRAL",
+            "BOUNDED_BASIS_SOFT",
+        ), dict(initial_contract)
+
     for step_index in range(FIXED_E8_GRID_COUNT):
         point = clock.begin_field()
         replay_entry = _controller_replay_entry(
@@ -545,35 +1013,39 @@ def _run_common_arm(
             schedule=schedule,
             outer_entry_p_cache=outer_entry_p_cache,
         )
-        field, signed, built, inventory, routing, target_velocity, target_receipt, field_receipt, probe = _build_common_field(
-            model,
-            tokenizer,
-            requests,
-            alias=alias,
-            arm=arm,
-            metric=metric,
-            step_index=step_index,
-            current_factors=current_factors,
-            current_target=current_target,
-            current_terminal=current_terminal,
-            capture=capture,
-            hparams=hparams,
-            projector=projector,
-            contexts=contexts,
-            covariance_registry=covariance_registry,
-            projector_sha256=projector_sha256,
-            lock=lock,
-            history=history,
-            accepted_by_layer=accepted_by_layer,
-            ledger=ledger,
-            replay_entry=replay_entry,
-            theta0_cache=theta0_cache,
-            touched=touched,
-            schedule=schedule,
-            recorder=recorder,
-            lookup_positions=lookup_positions,
-            target_layer_name=target_layer_name,
-        )
+        try:
+            field, signed, built, inventory, routing, target_velocity, target_receipt, field_receipt, probe = _build_common_field(
+                model,
+                tokenizer,
+                requests,
+                alias=alias,
+                arm=arm,
+                actuator=actuator,
+                metric=metric,
+                step_index=step_index,
+                current_factors=current_factors,
+                current_target=current_target,
+                current_terminal=current_terminal,
+                capture=capture,
+                hparams=hparams,
+                projector=projector,
+                contexts=contexts,
+                covariance_registry=covariance_registry,
+                projector_sha256=projector_sha256,
+                lock=lock,
+                history=history,
+                accepted_by_layer=accepted_by_layer,
+                ledger=ledger,
+                replay_entry=replay_entry,
+                theta0_cache=theta0_cache,
+                touched=touched,
+                schedule=schedule,
+                recorder=recorder,
+                lookup_positions=lookup_positions,
+                target_layer_name=target_layer_name,
+            )
+        except ZeroPositiveDirection as stop:
+            return finish_zero_positive(stop)
         solver_accounting = legacy._fixed_e8_solver_accounting(routing)
         total_qp += int(solver_accounting["actual_logical_qp_certificate_count"])
         total_backend += int(solver_accounting["actual_optimizer_backend_invocation_count"])
@@ -586,6 +1058,7 @@ def _run_common_arm(
                 field_receipt=field_receipt,
                 routing=routing,
                 metric=metric,
+                actuator=actuator,
             )
             if initial_contract_sink is not None:
                 initial_contract_sink.clear()
@@ -770,7 +1243,12 @@ def _run_common_arm(
             "scientific_rejection_count": 0,
         }
         routing_payload = {
-            "method": common_cold_source_contract(),
+            "method": (
+                common_cold_source_contract()
+                if actuator is AlphaActuator.CURRENT_SHARED_AE
+                else canonical_alpha_posfield_source_contract()
+            ),
+            "actuator": actuator.value,
             "scale": metric.raw_free_payload(),
             "field_receipt_sha256": field_receipt.identity_sha256,
             "field_sha256": field.identity_sha256,
@@ -930,8 +1408,13 @@ def _run_common_arm(
     ):
         raise ODEBFStateError("common cold rollout state/purity differs")
     rollout_payload = {
-        "method": common_cold_source_contract(),
-        "variant": arm.value,
+        "method": (
+            common_cold_source_contract()
+            if actuator is AlphaActuator.CURRENT_SHARED_AE
+            else canonical_alpha_posfield_source_contract()
+        ),
+        "variant": variant_label,
+        "routing_arm": arm.value,
         "scale": metric.raw_free_payload(),
         "status": "COMMON_COLD_FIXED_E8_TAU_COMPLETE",
         "accepted_t": fraction_payload(clock.tau),
@@ -971,7 +1454,11 @@ def _run_common_arm(
         arm,
         "COMMON_COLD_FIXED_E8_TAU_COMPLETE",
         "COMMON_COLD_FIXED_E8_TAU_COMPLETE",
-        SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1,
+        (
+            SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1
+            if actuator is AlphaActuator.CURRENT_SHARED_AE
+            else CANONICAL_ORDERED_ALPHA_REMAINING_RESIDUAL_V1
+        ),
         Fraction(1, 1),
         8,
         8,
@@ -984,7 +1471,7 @@ def _run_common_arm(
         entry_eval.batch_success.raw_free_payload(),
         terminal_confirmations,
         rollout_sha,
-        arm.value,
+        variant_label,
         RoutingObjective.TARGET_NEW_NLL.value,
         "OBSERVATION_ONLY",
         "STRUCTFUNC_SOFT_OR_NEUTRAL",
@@ -1517,10 +2004,30 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     cuda_runtime_receipt: Mapping[str, Any],
     job_ledger: ComputeLedger,
     write_once: Any,
+    alpha_actuator: AlphaActuator | str | None = None,
+    current_shared_r10_reproduction: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     from .p1_runtime import ArmRuntimeState, _entry_parameter_snapshot_sha256, _evaluate_native_rewrite, _observed_memory
 
-    del mutation_lock
+    selected_actuator = (
+        None if alpha_actuator is None else AlphaActuator(alpha_actuator)
+    )
+    r11_mode = selected_actuator is not None
+    if r11_mode and (
+        (selected_actuator is AlphaActuator.CURRENT_SHARED_AE)
+        != (current_shared_r10_reproduction is not None)
+    ):
+        raise ODEBFContractError("R11 current reproduction reference differs")
+    instruction_id = (
+        CANONICAL_ALPHA_POSFIELD_INSTRUCTION_ID
+        if r11_mode
+        else COMMON_COLD_INSTRUCTION_ID
+    )
+    schema_namespace = (
+        CANONICAL_ALPHA_POSFIELD_SCHEMA_NAMESPACE
+        if r11_mode
+        else COMMON_COLD_SCHEMA_NAMESPACE
+    )
     request_order = ordered_request_digest_v1([str(item["request_sha256"]) for item in requests])
     if len(requests) != BATCH_SIZE or request_order != stream["batch_ordered_request_digest_v1"][0]:
         raise ODEBFContractError("common cold request/seal order differs")
@@ -1642,9 +2149,14 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         raw_root / "common-cold" / "context-degeneracy-audit.json",
         context_audit,
     )
+    selected_scales = (
+        (CommonColdScale.ROBUST_SHARED,)
+        if r11_mode
+        else (CommonColdScale.ROBUST_SHARED, CommonColdScale.BATCH_GLOBAL)
+    )
     metrics = {
         scale: CommonColdScaleMetric.from_z_base(z_base, request_order, scale)
-        for scale in (CommonColdScale.ROBUST_SHARED, CommonColdScale.BATCH_GLOBAL)
+        for scale in selected_scales
     }
     bootstrap_counter = ModelForwardCounter(model, job_ledger)
     try:
@@ -1659,27 +2171,39 @@ def run_common_coldcoord_fixed_e8_diagnostic(
             metric=metrics[CommonColdScale.ROBUST_SHARED],
             ledger=job_ledger,
         )
-        bg_target, bg_bootstrap = common_cold_bootstrap(
-            model,
-            tokenizer,
-            requests,
-            contexts,
-            target_layer_name=target_layer_name,
-            lookup_positions=lookup_positions,
-            z_base=z_base,
-            metric=metrics[CommonColdScale.BATCH_GLOBAL],
-            ledger=job_ledger,
-        )
+        if r11_mode:
+            bg_target = None
+            bg_bootstrap = None
+        else:
+            bg_target, bg_bootstrap = common_cold_bootstrap(
+                model,
+                tokenizer,
+                requests,
+                contexts,
+                target_layer_name=target_layer_name,
+                lookup_positions=lookup_positions,
+                z_base=z_base,
+                metric=metrics[CommonColdScale.BATCH_GLOBAL],
+                ledger=job_ledger,
+            )
     finally:
         bootstrap_counter.close()
     rs_sha = write_once(raw_root / "common-cold" / "bootstrap-rs.json", rs_bootstrap)
-    bg_sha = write_once(raw_root / "common-cold" / "bootstrap-bg.json", bg_bootstrap)
+    bg_sha = (
+        None
+        if bg_bootstrap is None
+        else write_once(
+            raw_root / "common-cold" / "bootstrap-bg.json", bg_bootstrap
+        )
+    )
     stages.record("post_bootstrap_contract", {
         "pre_residual_exact_zero": True,
         "rs_bootstrap_sha256": rs_sha,
         "bg_bootstrap_sha256": bg_sha,
         "rs_joint_entry_target_sha256": tensor_sha256(rs_target),
-        "bg_joint_entry_target_sha256": tensor_sha256(bg_target),
+        "bg_joint_entry_target_sha256": (
+            None if bg_target is None else tensor_sha256(bg_target)
+        ),
         "tau_joint": 0.0,
     })
     outer_population = tuple(population_by_sha256[item] for item in theta0_cache.request_order)
@@ -1698,7 +2222,15 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     rollouts: dict[str, legacy.FixedE8Rollout] = {}
     failures: dict[str, dict[str, Any]] = {}
     initial_contracts: dict[str, dict[str, Any]] = {}
-    for arm in CommonColdArm:
+    arm_specs = (
+        ((CommonColdArm.RS_NEUTRAL, selected_actuator),)
+        if selected_actuator is not None
+        else tuple((arm, AlphaActuator.CURRENT_SHARED_AE) for arm in CommonColdArm)
+    )
+    for arm, actuator in arm_specs:
+        if actuator is None:
+            raise ODEBFStateError("canonical Alpha actuator is absent")
+        rollout_key = actuator.value if r11_mode else arm.value
         if _parameter_contract_sha256(touched) != base_contract:
             raise ODEBFStateError("common cold arm W0 entry differs")
         arm_state = ArmRuntimeState(
@@ -1708,7 +2240,11 @@ def run_common_coldcoord_fixed_e8_diagnostic(
             ArmWeightSnapshot(P1Arm.R_BF, 0, base_receipt.parameter_sha256, canonical_hash({"arm": arm.value, "weights": base_receipt.parameter_sha256})),
             dict(base_values),
         )
-        recorder = legacy.FixedE8ReceiptRecorder(raw_root, arm, write_once)
+        recorder = (
+            CanonicalAlphaReceiptRecorder(raw_root, actuator, write_once)
+            if r11_mode
+            else legacy.FixedE8ReceiptRecorder(raw_root, arm, write_once)
+        )
         counter = ModelForwardCounter(model, arm_state.ledger)
         initial_capture: dict[str, Any] = {}
         try:
@@ -1723,6 +2259,7 @@ def run_common_coldcoord_fixed_e8_diagnostic(
                 requests,
                 alias=alias,
                 arm=arm,
+                actuator=actuator,
                 bootstrap_target=(bg_target if arm is CommonColdArm.BG_NEUTRAL else rs_target),
                 z_base=z_base,
                 metric=metrics[arm.scale],
@@ -1744,67 +2281,177 @@ def run_common_coldcoord_fixed_e8_diagnostic(
                 touched=touched,
                 recorder=recorder,
                 stages=stages,
+                result_variant_label=(rollout_key if r11_mode else None),
                 expected_initial_contract=expected_initial,
                 initial_contract_sink=initial_capture,
             )
-            rollouts[arm.value] = rollout
-            initial_contracts[arm.value] = initial_contract
+            rollouts[rollout_key] = rollout
+            initial_contracts[rollout_key] = initial_contract
         except ODEBFContractError as exc:
             if initial_capture:
-                initial_contracts[arm.value] = dict(initial_capture)
-            failures[arm.value] = {
+                initial_contracts[rollout_key] = dict(initial_capture)
+            failures[rollout_key] = {
                 "status": "ARM_LOCAL_TECHNICAL_FAILURE",
                 "exception_type": type(exc).__name__,
                 "message_sha256": hashlib.sha256(str(exc).encode("utf-8")).hexdigest(),
                 "completed_snapshot_count": len(recorder.accepted_hashes),
                 "receipt_links": recorder.links(),
             }
-            write_once(raw_root / "common-cold" / f"failure-{arm.value}.json", failures[arm.value])
-            stages.record(f"post_{arm.value.lower().replace('-', '_')}_failure", failures[arm.value])
+            write_once(
+                raw_root / "common-cold" / f"failure-{rollout_key}.json",
+                failures[rollout_key],
+            )
+            stages.record(
+                f"post_{rollout_key.lower().replace('-', '_')}_failure",
+                failures[rollout_key],
+            )
         finally:
             counter.close()
             _observed_memory(arm_state.ledger)
         if _parameter_contract_sha256(touched) != base_contract:
             raise ODEBFStateError("common cold arm restore differs")
-    if CommonColdArm.RS_NEUTRAL.value in initial_contracts and CommonColdArm.RS_SOFT.value in initial_contracts:
+    if (
+        not r11_mode
+        and CommonColdArm.RS_NEUTRAL.value in initial_contracts
+        and CommonColdArm.RS_SOFT.value in initial_contracts
+    ):
         left = dict(initial_contracts[CommonColdArm.RS_NEUTRAL.value])
         right = dict(initial_contracts[CommonColdArm.RS_SOFT.value])
         if left != right:
             raise ODEBFContractError("RS Neutral/Soft initial bootstrap/field differs")
+    r10_reproduction_sha: str | None = None
+    if selected_actuator is AlphaActuator.CURRENT_SHARED_AE:
+        if selected_actuator.value not in rollouts:
+            raise ODEBFContractError("R11 current control did not produce a rollout")
+        reproduction = _r10_current_reproduction_gate(
+            rollouts[selected_actuator.value],
+            current_shared_r10_reproduction,
+        )
+        r10_reproduction_sha = write_once(
+            raw_root / "common-cold" / "current-shared-r10-reproduction.json",
+            reproduction,
+        )
     action_freeze = {
-        "schema": f"{COMMON_COLD_SCHEMA_NAMESPACE}-action-freeze/v1",
-        "instruction_id": COMMON_COLD_INSTRUCTION_ID,
+        "schema": f"{schema_namespace}-action-freeze/v1",
+        "instruction_id": instruction_id,
         "request_order_sha256": request_order,
         "rollout_sha256": {key: value.rollout_sha256 for key, value in rollouts.items()},
         "arm_failures": failures,
+        "current_shared_r10_reproduction_sha256": r10_reproduction_sha,
         "actions_frozen_before_native_and_heldout": True,
         "native_or_direct_z_cold_access_count": 0,
     }
     action_freeze_sha = write_once(raw_root / "common-cold" / "action-freeze.json", action_freeze)
     native_ledger = ComputeLedger()
     native_counter = ModelForwardCounter(model, native_ledger)
+    additional_candidate_baselines: dict[str, Mapping[str, torch.Tensor]] = {}
     try:
-        native_capture = capture_p1_native_entry(
+        if r11_mode:
+            from .alpha_backend import capture_native_and_wb_joint_endpoint
+
+            alpha_capture = capture_native_and_wb_joint_endpoint(
+                model,
+                tokenizer,
+                requests,
+                hparams,
+                artifact_guard.projector,
+                contexts,
+                projector_sha256=projector_sha256,
+                mutation_lock=mutation_lock,
+                ledger=native_ledger,
+                model_residual_tolerance=controller_lock.residual_tolerance,
+            )
+            native_capture = CanonicalAlphaPostfreezeCapture(
+                alpha_capture.native_candidates,
+                alpha_capture.entry_weights,
+                alpha_capture.entry_sha256,
+                alpha_capture.initialization.request_order_sha256,
+            )
+            additional_candidate_baselines["NATIVE_ALPHAEDIT_WB"] = (
+                alpha_capture.wb_candidates
+            )
+            native_capture_payload = {
+                "native": native_capture.raw_free_payload(),
+                "wb_candidate_sha256": {
+                    name: tensor_sha256(value)
+                    for name, value in sorted(alpha_capture.wb_candidates.items())
+                },
+                "wb_factor_sha256": {
+                    name: canonical_hash(
+                        [
+                            {
+                                "order": list(item.order_key),
+                                "theta": item.theta,
+                                "left": tensor_sha256(item.left),
+                                "right": tensor_sha256(item.right),
+                            }
+                            for item in values
+                        ]
+                    )
+                    for name, values in sorted(alpha_capture.wb_factors.items())
+                },
+                "dense_solve_receipts": [
+                    asdict(item) for item in alpha_capture.dense_solve_receipts
+                ],
+                "woodbury_certificates": [
+                    {"layer": layer, "certificate": asdict(certificate)}
+                    for layer, certificate in alpha_capture.woodbury_certificates
+                ],
+                "initialization": asdict(alpha_capture.initialization),
+                "direct_z_sha256": list(alpha_capture.direct_z_sha256),
+                "target_backward_count": alpha_capture.target_backward_count,
+                "opened_after_action_freeze": True,
+                "cold_controller_influence_count": 0,
+            }
+        else:
+            native_capture = capture_p1_native_entry(
+                model,
+                tokenizer,
+                requests,
+                hparams,
+                projector,
+                contexts,
+                history_keys_by_layer=_history_keys(
+                    P1HistoryLedger(
+                        layer_order=COMMON_COLD_LAYER_ORDER, maximum_records=40
+                    ),
+                    COMMON_COLD_LAYER_ORDER,
+                    risk=False,
+                ),
+                mutation_lock=__import__("threading").RLock(),
+                ledger=native_ledger,
+                residual_tolerance=controller_lock.residual_tolerance,
+            )
+            native_capture_payload = native_capture.raw_free_payload()
+        native_online = _evaluate_native_rewrite(
             model,
             tokenizer,
             requests,
-            hparams,
-            projector,
-            contexts,
-            history_keys_by_layer=_history_keys(P1HistoryLedger(layer_order=COMMON_COLD_LAYER_ORDER, maximum_records=40), COMMON_COLD_LAYER_ORDER, risk=False),
-            mutation_lock=__import__("threading").RLock(),
+            alias=alias,
+            candidates=native_capture.native_candidates,
             ledger=native_ledger,
-            residual_tolerance=controller_lock.residual_tolerance,
         )
-        native_online = _evaluate_native_rewrite(
-            model, tokenizer, requests, alias=alias, candidates=native_capture.native_candidates, ledger=native_ledger
+        wb_online = (
+            None
+            if not additional_candidate_baselines
+            else _evaluate_native_rewrite(
+                model,
+                tokenizer,
+                requests,
+                alias=alias,
+                candidates=additional_candidate_baselines["NATIVE_ALPHAEDIT_WB"],
+                ledger=native_ledger,
+            )
         )
     finally:
         native_counter.close()
     native_sha = write_once(raw_root / "common-cold" / "N32_NATIVE-postfreeze.json", {
         "action_freeze_sha256": action_freeze_sha,
-        "capture": native_capture.raw_free_payload(),
+        "capture": native_capture_payload,
         "official_success": native_online.batch_success.raw_free_payload(),
+        "alphaedit_wb_official_success": (
+            None if wb_online is None else wb_online.batch_success.raw_free_payload()
+        ),
         "compute": native_ledger.raw_free_payload(),
         "opened_after_action_freeze": True,
     })
@@ -1819,8 +2466,9 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         raw_root=raw_root,
         write_once=write_once,
         touched=touched,
-        instruction_id=COMMON_COLD_INSTRUCTION_ID,
-        schema_namespace=COMMON_COLD_SCHEMA_NAMESPACE,
+        instruction_id=instruction_id,
+        schema_namespace=schema_namespace,
+        additional_candidate_baselines=additional_candidate_baselines,
     )
     panel_sha = write_once(raw_root / "stepwise" / "common-cold-panel.json", panel)
     evaluator_parity = _warm_evaluator_parity_receipt(
@@ -1836,12 +2484,23 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     if {name: tensor_sha256(value) for name, value in sorted(touched.items())} != base_bytes:
         raise ODEBFStateError("common cold final W0 restore differs")
     terminal = {
-        "schema": f"{COMMON_COLD_SCHEMA_NAMESPACE}-terminal/v1",
-        "instruction_id": COMMON_COLD_INSTRUCTION_ID,
-        "status": "COMMON_COLD_FIXED_E8_DIAGNOSTIC_TERMINAL",
+        "schema": f"{schema_namespace}-terminal/v1",
+        "instruction_id": instruction_id,
+        "status": (
+            "CANONICAL_ALPHA_POSFIELD_DIAGNOSTIC_TERMINAL"
+            if r11_mode
+            else "COMMON_COLD_FIXED_E8_DIAGNOSTIC_TERMINAL"
+        ),
         "alias": alias,
         "source_head": source_head,
-        "method": common_cold_source_contract(),
+        "method": (
+            canonical_alpha_posfield_source_contract()
+            if r11_mode
+            else common_cold_source_contract()
+        ),
+        "alpha_actuator": (
+            None if selected_actuator is None else selected_actuator.value
+        ),
         "panel_kind": "REUSED_WARMUP_SEAL_CAUSAL_REGRESSION",
         "outcome_selection_bias": "BEST_COMPLETED_WARM_ALLOFF_PANEL_REUSE",
         "unseen_or_fresh_sample_claim_authorized": False,
@@ -1872,7 +2531,17 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         "n32_postfreeze_sha256": native_sha,
         "stepwise_panel_sha256": panel_sha,
         "reused_warm_evaluator_parity_sha256": evaluator_parity_sha,
-        "variant_status": {arm.value: (rollouts[arm.value].status if arm.value in rollouts else failures[arm.value]["status"]) for arm in CommonColdArm},
+        "current_shared_r10_reproduction_sha256": r10_reproduction_sha,
+        "variant_status": {
+            key: (
+                rollouts[key].status if key in rollouts else failures[key]["status"]
+            )
+            for key in (
+                [selected_actuator.value]
+                if selected_actuator is not None
+                else [arm.value for arm in CommonColdArm]
+            )
+        },
         "cold_native_or_direct_z_access_count": 0,
         "scientific_retry_count": 0,
         "scientific_rejection_count": 0,
@@ -1891,11 +2560,14 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     }
     terminal_sha = write_once(destination / "terminal.json", terminal)
     manifest_sha = write_once(destination / "manifest.json", {
-        "schema": f"{COMMON_COLD_SCHEMA_NAMESPACE}-manifest/v1",
-        "instruction_id": COMMON_COLD_INSTRUCTION_ID,
+        "schema": f"{schema_namespace}-manifest/v1",
+        "instruction_id": instruction_id,
         "status": terminal["status"],
         "alias": alias,
         "source_head": source_head,
+        "alpha_actuator": (
+            None if selected_actuator is None else selected_actuator.value
+        ),
         "terminal_sha256": terminal_sha,
         "stepwise_panel_sha256": panel_sha,
         "retry_submission_count": 0,

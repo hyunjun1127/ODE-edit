@@ -32,8 +32,13 @@ from .alpha_backend import (
     W64_PRIMARY_REFERENCE,
     canonical_alpha_fp32_solve,
 )
-from .contracts import BATCH_SIZE, ODEBFContractError, canonical_hash
-from .functional import CumulativeBF16FunctionalTrial, WaypointFactor, tensor_sha256
+from .contracts import BATCH_SIZE, ODEBFContractError, ODEBFStateError, canonical_hash
+from .functional import (
+    CumulativeBF16FunctionalTrial,
+    WaypointFactor,
+    assemble_effective_bf16,
+    tensor_sha256,
+)
 from .request_digest import ordered_request_digest_v1
 from .target_new_nll import (
     RoutingObjective,
@@ -50,6 +55,9 @@ FULL_CURRENT_RESIDUAL_DIVISOR = 1
 LEGACY_PRE_SHARED_RESIDUAL_DEFINITION = "legacy_remaining_layer_pre_share"
 SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1 = (
     "SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1"
+)
+CANONICAL_ORDERED_ALPHA_REMAINING_RESIDUAL_V1 = (
+    "CANONICAL_ORDERED_ALPHA_REMAINING_RESIDUAL_V1"
 )
 
 
@@ -825,7 +833,19 @@ class P1LayerField:
             == SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1
             and self.residual_divisor == FULL_CURRENT_RESIDUAL_DIVISOR
         )
-        if not (valid_full or valid_legacy or valid_shared_terminal):
+        valid_canonical_ordered = (
+            self.residual_definition
+            == CANONICAL_ORDERED_ALPHA_REMAINING_RESIDUAL_V1
+            and isinstance(self.residual_divisor, int)
+            and not isinstance(self.residual_divisor, bool)
+            and self.residual_divisor >= 1
+        )
+        if not (
+            valid_full
+            or valid_legacy
+            or valid_shared_terminal
+            or valid_canonical_ordered
+        ):
             raise ODEBFContractError("non-Native residual policy differs")
         if (
             self.factor.weight_name != self.weight_name
@@ -903,12 +923,13 @@ class P1DynamicField:
     identity_sha256: str
     model_forward_count: int
     processed_token_count: int
+    construction_receipt: Mapping[str, Any] | None = None
 
     def factors_by_weight(self) -> dict[str, tuple[WaypointFactor, ...]]:
         return {item.weight_name: (item.factor,) for item in self.layers}
 
     def raw_free_payload(self) -> dict[str, Any]:
-        return {
+        payload = {
             "reference": P1_DYNAMIC_REFERENCE,
             "accepted_waypoint": self.accepted_waypoint,
             "request_order_sha256": self.request_order_sha256,
@@ -919,6 +940,9 @@ class P1DynamicField:
             "model_forward_count": self.model_forward_count,
             "processed_token_count": self.processed_token_count,
         }
+        if self.construction_receipt is not None:
+            payload["construction_receipt"] = dict(self.construction_receipt)
+        return payload
 
 
 def _validate_dynamic_factor_capacity(
@@ -1194,6 +1218,432 @@ def build_p1_dynamic_field(
         canonical_hash(payload),
         model_forward_count,
         processed_tokens,
+    )
+
+
+def _ordered_shadow_factor_map(
+    base: Mapping[str, Sequence[WaypointFactor]],
+    shadow: Mapping[str, Sequence[WaypointFactor]],
+) -> dict[str, tuple[WaypointFactor, ...]]:
+    result = {name: tuple(values) for name, values in base.items()}
+    for name, values in shadow.items():
+        merged = result.get(name, ()) + tuple(values)
+        if len({item.order_key for item in merged}) != len(merged):
+            raise ODEBFContractError("canonical ordered shadow factor order repeats")
+        result[name] = tuple(sorted(merged, key=lambda item: item.order_key))
+    return result
+
+
+def _ordered_shadow_state_sha256(
+    factors: Mapping[str, Sequence[WaypointFactor]],
+) -> str:
+    return canonical_hash(
+        {
+            hashlib.sha256(name.encode("utf-8")).hexdigest(): [
+                {
+                    "order": list(item.order_key),
+                    "theta": item.theta,
+                    "left_sha256": tensor_sha256(item.left),
+                    "right_sha256": tensor_sha256(item.right),
+                }
+                for item in values
+            ]
+            for name, values in sorted(factors.items())
+        }
+    )
+
+
+def _ordered_effective_weight_sha256(
+    parameter: torch.nn.Parameter,
+    factors: Sequence[WaypointFactor],
+) -> str:
+    if not factors:
+        return tensor_sha256(parameter)
+    effective, _ = assemble_effective_bf16(parameter, factors, row_block=64)
+    try:
+        return tensor_sha256(effective)
+    finally:
+        del effective
+
+
+def _assert_canonical_ordered_shadow_purity(
+    *,
+    before_bytes: Mapping[str, str],
+    after_bytes: Mapping[str, str],
+    before_pointers: Mapping[str, int],
+    after_pointers: Mapping[str, int],
+    before_versions: Mapping[str, int],
+    after_versions: Mapping[str, int],
+    before_rng: str,
+    after_rng: str,
+    before_target: str,
+    after_target: str,
+) -> None:
+    if (
+        dict(after_bytes) != dict(before_bytes)
+        or dict(after_pointers) != dict(before_pointers)
+        or dict(after_versions) != dict(before_versions)
+        or after_rng != before_rng
+        or after_target != before_target
+    ):
+        raise ODEBFStateError("canonical ordered proposal shadow mutated entry state")
+
+
+def _torch_rng_sha256(parameters: Mapping[str, torch.nn.Parameter]) -> str:
+    devices = sorted(
+        {
+            parameter.device
+            for parameter in parameters.values()
+            if parameter.device.type == "cuda"
+        },
+        key=str,
+    )
+    return canonical_hash(
+        {
+            "cpu": tensor_sha256(torch.get_rng_state()),
+            "cuda": [
+                {"device": str(device), "sha256": tensor_sha256(torch.cuda.get_rng_state(device))}
+                for device in devices
+            ],
+        }
+    )
+
+
+def build_p1_canonical_ordered_field(
+    model: Any,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    hparams: Any,
+    projector: torch.Tensor,
+    contexts: Sequence[Sequence[str]],
+    *,
+    target_state: torch.Tensor,
+    accepted_waypoint: int,
+    cumulative_factors_by_weight: Mapping[str, Sequence[WaypointFactor]],
+    history_solve_keys_by_layer: Mapping[int, torch.Tensor],
+    history_risk_keys_by_layer: Mapping[int, torch.Tensor],
+    covariance_registry: PinnedCovarianceRegistry,
+    projector_sha256: str,
+    residual_tolerance: float,
+    ledger: ComputeLedger,
+) -> P1DynamicField:
+    """Build a pure canonical source-order Alpha-WB proposal shadow.
+
+    Each later layer observes the exact BF16 virtual state produced by the
+    preceding full-strength proposal factors.  The resulting five factors are
+    only a proposal basis; callers route and apply them atomically outside this
+    function.  No persistent parameter or controller state is mutated here.
+    """
+
+    del ledger
+    from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
+    from easyeditor.util import nethook
+
+    normalized = _normalize_requests(requests)
+    order = ordered_request_digest_v1(
+        [str(item["request_sha256"]) for item in normalized]
+    )
+    layers = tuple(int(layer) for layer in hparams.layers)
+    history_solve = _validate_history_keys(history_solve_keys_by_layer, layers)
+    history_risk = _validate_history_keys(history_risk_keys_by_layer, layers)
+    if (
+        target_state.ndim != 2
+        or target_state.shape[1] != BATCH_SIZE
+        or target_state.dtype != torch.float32
+        or target_state.device.type != "cpu"
+        or not target_state.is_contiguous()
+        or not torch.isfinite(target_state).all()
+    ):
+        raise ODEBFContractError("canonical ordered target state differs")
+    if (
+        layers != (4, 5, 6, 7, 8)
+        or not isinstance(projector, torch.Tensor)
+        or projector.ndim != 3
+        or projector.shape[0] != len(layers)
+        or projector.dtype is not torch.float32
+        or projector.device.type != "cpu"
+        or not projector.is_contiguous()
+        or not torch.isfinite(projector).all()
+    ):
+        raise ODEBFContractError("canonical ordered projector inventory differs")
+    resolved_contexts = alpha_main.get_context_templates(model, tokenizer)
+    if canonical_hash(resolved_contexts) != canonical_hash(list(contexts)):
+        raise ODEBFContractError("canonical ordered context identity differs")
+
+    weights = {
+        f"{hparams.rewrite_module_tmp.format(layer)}.weight": nethook.get_parameter(
+            model, f"{hparams.rewrite_module_tmp.format(layer)}.weight"
+        )
+        for layer in layers
+    }
+    if any(
+        parameter.dtype is not torch.bfloat16 or parameter.grad is not None
+        for parameter in weights.values()
+    ):
+        raise ODEBFContractError("canonical ordered parameter state differs")
+    before_bytes = {name: tensor_sha256(value) for name, value in weights.items()}
+    before_pointers = {name: value.data_ptr() for name, value in weights.items()}
+    before_versions = {name: value._version for name, value in weights.items()}
+    before_rng = _torch_rng_sha256(weights)
+    target_sha256 = tensor_sha256(target_state)
+    device = next(model.parameters()).device
+    shadow: dict[str, tuple[WaypointFactor, ...]] = {}
+    layer_fields: list[P1LayerField] = []
+    current_z_by_layer: dict[int, torch.Tensor] = {}
+    layer_receipts: list[dict[str, Any]] = []
+    effective_state_hashes = {
+        name: _ordered_effective_weight_sha256(
+            parameter, tuple(cumulative_factors_by_weight.get(name, ()))
+        )
+        for name, parameter in sorted(weights.items())
+    }
+
+    for layer_index, layer in enumerate(layers):
+        active = _ordered_shadow_factor_map(cumulative_factors_by_weight, shadow)
+        pre_shadow_state_sha256 = _ordered_shadow_state_sha256(active)
+        pre_shadow_effective_bf16_state_sha256 = canonical_hash(
+            effective_state_hashes
+        )
+        with _virtual_context(model, active):
+            key_gpu = alpha_main.compute_ks(
+                model,
+                tokenizer,
+                normalized,
+                hparams,
+                layer,
+                resolved_contexts,
+            ).T
+            current_z_gpu = alpha_main.get_module_input_output_at_words(
+                model,
+                tokenizer,
+                layers[-1],
+                context_templates=[item["prompt"] for item in normalized],
+                words=[item["subject"] for item in normalized],
+                module_template=hparams.layer_module_tmp,
+                fact_token_strategy=hparams.fact_token,
+            )[1].T
+        key = key_gpu.detach().to(device="cpu", dtype=torch.float32).contiguous()
+        current_z = (
+            current_z_gpu.detach().to(device="cpu", dtype=torch.float32).contiguous()
+        )
+        del key_gpu, current_z_gpu
+        if key.shape[1] != BATCH_SIZE or current_z.shape != target_state.shape:
+            raise ODEBFContractError("canonical ordered key/current-z geometry differs")
+        current_z_by_layer[layer] = current_z.clone()
+        divisor = remaining_layer_count(len(layers), layer_index)
+        residual = (
+            full_current_residual(target_state, current_z) / float(divisor)
+        ).contiguous()
+        if not torch.isfinite(residual).all():
+            raise ODEBFContractError("canonical ordered residual is non-finite")
+
+        history = history_solve[layer]
+        risk = history_risk[layer]
+        if history.shape[0] == 0:
+            history = torch.empty((key.shape[0], 0), dtype=torch.float32)
+        if risk.shape[0] == 0:
+            risk = torch.empty((key.shape[0], 0), dtype=torch.float32)
+        if history.shape[0] != key.shape[0] or risk.shape[0] != key.shape[0]:
+            raise ODEBFContractError("canonical ordered history/key dimension differs")
+        p_device = projector[layer_index].to(device=device, dtype=torch.float32)
+        k_device = key.to(device=device, dtype=torch.float32)
+        history_device = history.to(device=device, dtype=torch.float32)
+        solved = solve_alpha_woodbury(
+            p_device,
+            k_device,
+            history_keys=history_device,
+            regularization=float(hparams.L2),
+            projector_certificate=ProjectorCertificate(
+                projector_sha256,
+                1.0,
+                1.0,
+                "artifact-unverified",
+                1.0e-10,
+            ),
+            residual_tolerance=residual_tolerance,
+        )
+        if (
+            not solved.certificate.passed
+            or solved.certificate.alpha_linear_residual > residual_tolerance
+        ):
+            raise ODEBFContractError("canonical ordered W64 field certificate failed")
+        q = solved.q.detach().to(device="cpu", dtype=W64_CAST_DTYPE).contiguous()
+        projected = (p_device @ k_device).detach().to(
+            device="cpu", dtype=torch.float32
+        )
+        covariance_action, covariance_gram, covariance_receipt = (
+            covariance_registry.action(layer, q)
+        )
+        right_gram = q.T.to(dtype=torch.float64) @ q.to(dtype=torch.float64)
+        left_gram = residual.T.to(dtype=torch.float64) @ residual.to(dtype=torch.float64)
+        frobenius_sq = _validate_dynamic_factor_capacity(
+            float(torch.sum(left_gram * right_gram)), allow_zero_capacity=False
+        )
+        history_action = (
+            residual.to(dtype=torch.float64)
+            @ (q.to(dtype=torch.float64).T @ risk.to(dtype=torch.float64))
+            if risk.shape[1]
+            else torch.empty((residual.shape[0], 0), dtype=torch.float64)
+        )
+        weight_name = f"{hparams.rewrite_module_tmp.format(layer)}.weight"
+        parameter = weights[weight_name]
+        if tuple(parameter.shape) != (residual.shape[0], q.shape[0]):
+            raise ODEBFContractError("canonical ordered factor/parameter geometry differs")
+        factor = WaypointFactor(
+            weight_name,
+            layer,
+            accepted_waypoint + 1,
+            layer_index,
+            0,
+            1.0,
+            residual.clone(),
+            q.clone(),
+        )
+        field = P1LayerField(
+            layer,
+            weight_name,
+            key,
+            projected,
+            residual.clone(),
+            CANONICAL_ORDERED_ALPHA_REMAINING_RESIDUAL_V1,
+            divisor,
+            q,
+            factor,
+            frobenius_sq,
+            covariance_action,
+            covariance_gram,
+            covariance_receipt,
+            solved.certificate,
+            history_action,
+        )
+        layer_fields.append(field)
+        shadow[weight_name] = (factor,)
+        post_shadow_state_sha256 = _ordered_shadow_state_sha256(
+            _ordered_shadow_factor_map(cumulative_factors_by_weight, shadow)
+        )
+        effective_state_hashes[weight_name] = _ordered_effective_weight_sha256(
+            weights[weight_name],
+            _ordered_shadow_factor_map(cumulative_factors_by_weight, shadow)[
+                weight_name
+            ],
+        )
+        post_shadow_effective_bf16_state_sha256 = canonical_hash(
+            effective_state_hashes
+        )
+        layer_receipts.append(
+            {
+                "layer": layer,
+                "layer_ordinal": layer_index,
+                "pre_shadow_state_sha256": pre_shadow_state_sha256,
+                "pre_shadow_effective_bf16_state_sha256": (
+                    pre_shadow_effective_bf16_state_sha256
+                ),
+                "key_sha256": tensor_sha256(key),
+                "current_z_sha256": tensor_sha256(current_z),
+                "residual_sha256": tensor_sha256(residual),
+                "residual_divisor": divisor,
+                "full_shadow_coefficient": 1.0,
+                "full_shadow_update_sha256": canonical_hash(
+                    {
+                        "left": tensor_sha256(residual),
+                        "right": tensor_sha256(q),
+                        "coefficient": 1.0,
+                    }
+                ),
+                "full_shadow_effective_weight_sha256": effective_state_hashes[
+                    weight_name
+                ],
+                "post_layer_shadow_state_sha256": post_shadow_state_sha256,
+                "post_layer_shadow_effective_bf16_state_sha256": (
+                    post_shadow_effective_bf16_state_sha256
+                ),
+                "shadow_transition_count": 0,
+                "tau_influence_count": 0,
+                "endpoint_capacity_influence_count": 0,
+                "scientific_commit_count": 0,
+            }
+        )
+        del p_device, k_device, history_device, solved, parameter
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
+    after_bytes = {name: tensor_sha256(value) for name, value in weights.items()}
+    after_pointers = {name: value.data_ptr() for name, value in weights.items()}
+    after_versions = {name: value._version for name, value in weights.items()}
+    after_rng = _torch_rng_sha256(weights)
+    _assert_canonical_ordered_shadow_purity(
+        before_bytes=before_bytes,
+        after_bytes=after_bytes,
+        before_pointers=before_pointers,
+        after_pointers=after_pointers,
+        before_versions=before_versions,
+        after_versions=after_versions,
+        before_rng=before_rng,
+        after_rng=after_rng,
+        before_target=target_sha256,
+        after_target=tensor_sha256(target_state),
+    )
+
+    construction = {
+        "schema": "ode-edit-canonical-ordered-alpha-proposal-shadow/v1",
+        "policy_identity": CANONICAL_ORDERED_ALPHA_REMAINING_RESIDUAL_V1,
+        "proposal_semantics": "ORDERED_GAUSS_SEIDEL_FULL_SHADOW_THEN_ATOMIC_ROUTING",
+        "layer_order": list(layers),
+        "request_order_sha256": order,
+        "target_state_sha256": target_sha256,
+        "entry_parameter_bytes_sha256": canonical_hash(before_bytes),
+        "exit_parameter_bytes_sha256": canonical_hash(after_bytes),
+        "entry_pointer_sha256": canonical_hash(before_pointers),
+        "exit_pointer_sha256": canonical_hash(after_pointers),
+        "entry_version_sha256": canonical_hash(before_versions),
+        "exit_version_sha256": canonical_hash(after_versions),
+        "entry_torch_rng_sha256": before_rng,
+        "exit_torch_rng_sha256": after_rng,
+        "persistent_state_exact_restoration": True,
+        "full_shadow_factor_count": len(layer_receipts),
+        "shadow_state_hash_assembler_call_count": len(weights) + len(layer_receipts),
+        "e8_transition_count": 0,
+        "tau_advance_count": 0,
+        "endpoint_capacity_influence_count": 0,
+        "scientific_commit_count": 0,
+        "history_append_count": 0,
+        "native_or_direct_z_access_count": 0,
+        "native_or_direct_z_definition": (
+            "NATIVE_TARGET_OPTIMIZER_OR_COMPUTE_Z_ARTIFACT_ACCESS"
+        ),
+        "canonical_terminal_activation_capture_count": len(layer_receipts),
+        "canonical_terminal_activation_capture_role": (
+            "ORDERED_PROPOSAL_STATE_GEOMETRY_NOT_NATIVE_DIRECT_Z"
+        ),
+        "layers": layer_receipts,
+    }
+    construction["identity_sha256"] = canonical_hash(construction)
+    payload = {
+        "accepted_waypoint": accepted_waypoint,
+        "request_order_sha256": order,
+        "target_state_sha256": target_sha256,
+        "current_z_by_layer": [
+            (layer, tensor_sha256(current_z_by_layer[layer])) for layer in layers
+        ],
+        "layers": [item.raw_free_payload() for item in layer_fields],
+        "history_version_columns": sorted(
+            (layer, history_solve[layer].shape[1]) for layer in layers
+        ),
+        "reference": P1_DYNAMIC_REFERENCE,
+        "residual_policy": CANONICAL_ORDERED_ALPHA_REMAINING_RESIDUAL_V1,
+        "assembler": W64_ASSEMBLER_REFERENCE,
+        "construction_receipt_sha256": construction["identity_sha256"],
+    }
+    return P1DynamicField(
+        accepted_waypoint,
+        order,
+        target_state.clone(),
+        current_z_by_layer[layers[-1]],
+        tuple(layer_fields),
+        canonical_hash(payload),
+        2 * len(layers),
+        0,
+        construction,
     )
 
 

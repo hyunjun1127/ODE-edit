@@ -1,0 +1,73 @@
+{
+  "case_seal_root_digest": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+  "entries": [
+    {
+      "path": "project/run_scripts/ode_bf/canonical_alpha_posfield.py",
+      "sha256": "02287668f218c714dc4745569bfe3d0b566330520c2c5196a8b60713bb8966cf",
+      "size": 15326
+    },
+    {
+      "path": "project/run_scripts/ode_bf/common_coldcoord_fixed_e8_runtime.py",
+      "sha256": "fe35a8d7c3789c64aeba17a925de5efd655411b6d52a877df31b8c935d977c4f",
+      "size": 105384
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_canonical_alpha_posfield.json",
+      "sha256": "971d76101133466c7a8ae1a858976476a2c8ebcc348487e52753a9dfe209b854",
+      "size": 4604
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_adaptive_runtime.py",
+      "sha256": "33d0e5a409fc4e1b7c35d4a75e8a594874ee0771836618438ea4a409828667ce",
+      "size": 167212
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_backend.py",
+      "sha256": "203177b3360221d71c987f05572f16557e608d36b42def98c9785d70ea2221c7",
+      "size": 96363
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_canonical_alpha_posfield_panel.py",
+      "sha256": "c344ee3072b5bbd69f7488a2c70f2660a14816f33eec59ca32057f6754e4fe34",
+      "size": 8324
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "sha256": "a64b52eff131359fe8c6c815519de6411dc27acf4c7fd4870a7ff03c32df3e05",
+      "size": 177472
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_canonical_alpha_posfield.py",
+      "sha256": "3c060cf3701b5f8e5bc1fdd428655ad7758ede960d148ba035ecca3c177964f4",
+      "size": 17289
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_canonical_alpha_posfield.py",
+      "sha256": "f2f16f66010b5ca78c09cf419917270f7568ebfe64bb461c753bee8c444a1945",
+      "size": 3768
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_canonical_alpha_posfield.sbatch",
+      "sha256": "99870e3f73641adcb93cf34d17345ff45a5007c2bd70f8721e08c7ad2151b285",
+      "size": 2364
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_canonical_alpha_posfield_dry_plan.py",
+      "sha256": "dd8c0da663159abb385be6963730bab29687b6a60fc6849b7a1cbd5ff8f7a23e",
+      "size": 6380
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_submit_canonical_alpha_posfield.py",
+      "sha256": "35a95f5d7b8456472b2cfa9b477d6e22f1ab91a330fa59ab67b1231bd82f5fb0",
+      "size": 14021
+    }
+  ],
+  "execution_branch": "codex/odeeditsh1-s05-canonical-alpha-posfield-p1r11-v1",
+  "execution_head_policy": "runtime-git-head",
+  "expected_parent": "38592cd14eddbfd40cd063b1891c75588ddcb7fa",
+  "instruction_id": "ODEEDIT-S05-ODE-BF-CANONICAL-ALPHA-POSFIELD-P1R11-V1",
+  "numerical_lock_root_digest": "500525c392affd635b0925ef7a2f395c1b5f3e737d098f5768728aa1d9daca52",
+  "numerical_lock_sha256": "971d76101133466c7a8ae1a858976476a2c8ebcc348487e52753a9dfe209b854",
+  "root_digest": "f6773dc44074011f3925bd27c25a3696fa6ea3cf103692ca5ead87472aed1257",
+  "schema_version": "ode-edit-s05-canonical-alpha-posfield-p1r11-source-manifest/v1"
+}

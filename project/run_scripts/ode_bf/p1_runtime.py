@@ -3206,7 +3206,9 @@ def run_p1(
     cold_structp_softp_noveto_mode: bool = False,
     fixed_e8_soft_mode: bool = False,
     common_cold_fixed_e8_mode: bool = False,
+    canonical_alpha_posfield_actuator: str | None = None,
 ) -> dict[str, Any]:
+    canonical_alpha_reproduction: Mapping[str, Any] | None = None
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
     _source_freeze(repo_root, source_head)
@@ -3226,7 +3228,21 @@ def run_p1(
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if common_cold_fixed_e8_mode:
+    if canonical_alpha_posfield_actuator is not None and not common_cold_fixed_e8_mode:
+        raise ODEBFContractError("canonical Alpha actuator requires common cold mode")
+    if common_cold_fixed_e8_mode and canonical_alpha_posfield_actuator is not None:
+        from .p1_canonical_alpha_posfield_panel import (
+            expected_canonical_alpha_result_name,
+            parse_alpha_actuator,
+        )
+
+        canonical_alpha_posfield_actuator = parse_alpha_actuator(
+            canonical_alpha_posfield_actuator
+        ).value
+        expected_name = expected_canonical_alpha_result_name(
+            alias, canonical_alpha_posfield_actuator
+        )
+    elif common_cold_fixed_e8_mode:
         from .p1_common_coldcoord_fixed_e8_panel import (
             expected_common_cold_result_name,
         )
@@ -3493,6 +3509,31 @@ def run_p1(
             )
             numerical = common_numerical
             numerical_sha256 = common_numerical_sha256
+            if canonical_alpha_posfield_actuator is not None:
+                from .p1_canonical_alpha_posfield_panel import (
+                    CANONICAL_ALPHA_NUMERICAL_LOCK_FILE,
+                    load_and_validate_canonical_alpha_lock,
+                )
+
+                canonical_numerical, canonical_numerical_sha256 = (
+                    load_and_validate_canonical_alpha_lock(
+                        locks / CANONICAL_ALPHA_NUMERICAL_LOCK_FILE,
+                        controller_identity_sha256=controller_lock.identity(),
+                        case_root_digest=cold_stream["root_digest"],
+                        population_root_digest=population["root_digest"],
+                        schedule=schedule,
+                        actuator=canonical_alpha_posfield_actuator,
+                    )
+                )
+                numerical = canonical_numerical
+                numerical_sha256 = canonical_numerical_sha256
+                if (
+                    canonical_alpha_posfield_actuator
+                    == "CURRENT-SHARED-AE"
+                ):
+                    canonical_alpha_reproduction = canonical_numerical[
+                        "current_shared_r10_reproduction_by_alias"
+                    ][alias]
         else:
             cold_stream = verify_cold_case_seal(
                 json.loads(
@@ -3787,6 +3828,8 @@ def run_p1(
                 cuda_runtime_receipt=cuda_runtime_receipt,
                 job_ledger=job_ledger,
                 write_once=_atomic_write_once,
+                alpha_actuator=canonical_alpha_posfield_actuator,
+                current_shared_r10_reproduction=canonical_alpha_reproduction,
             )
         if fixed_e8_soft_mode:
             from .fixed_e8_runtime import run_fixed_e8_diagnostic

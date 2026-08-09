@@ -1,0 +1,80 @@
+{
+  "actuators": ["CURRENT-SHARED-AE", "CANONICAL-ORDERED-AE"],
+  "bootstrap_count": 1,
+  "bootstrap_h": 0.125,
+  "canonical_residual_policy": "CANONICAL_ORDERED_ALPHA_REMAINING_RESIDUAL_V1",
+  "canonical_shadow_e8_transition_count": 0,
+  "canonical_shadow_scientific_commit_count": 0,
+  "case_root_digest": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+  "case_seal_file": "p1r10_common_coldcoord_cf_b10_seal.json",
+  "controller_geometry_identity_sha256": "c3e348423c6850a33255c962e3d43a97b5571c2bf80a86c451fd893b2b471c3b",
+  "current_residual_policy": "SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1",
+  "current_shared_r10_reproduction_by_alias": {
+    "llama3-8b-inst": {
+      "accepted_snapshot_count": 8,
+      "field_semantic_sha256": [
+        "74421dfbb8342b7471c9667085edb7fcae1e3f1692b95d61d54a08d9d6efb4bd",
+        "06253fcd74cb1a677a20018fc6c838e49174f086eac6fa1a9afcd2298af809d8",
+        "c949575384a4abd33ef4ea6c1111da9a38004a0f002da4c33e4d4f3f2dd813a1",
+        "7b75e9a73d907b06eca0498f27796518fd88de594e89f9e1c2e7de5ed5d3f991",
+        "3ea2825e7c732e44eeacbccaacce8a1db341418cca90a32b7ae252bdb9b8210b",
+        "c13ae59faf5ff319ef11cb17704f0851193dee15d208feedb0402558bad17ec6",
+        "f4f14e95f580d0824ea21dfc3dc28cd802cdb5aff3c0fc2757ab15d196595482",
+        "4cac3b389c27b7b87bd365f15a7abc9d3ac0d76293e0ffa6c55b2364865137bd"
+      ],
+      "snapshot_sha256": [
+        "8f12da08c4af9d4067b4637b0591fdfee2398c84b388725c335ce4b56a2367a3",
+        "0baffb1e0e511fb59d5b4dd0d986e3561fea5ecd63a76ead951c28cda28613e6",
+        "32595207aad935515c4724013fdba0d9bd74d9cc8afee416428d5b1f9cd35ffa",
+        "8dc45377aa7806af6f1b895376a8f3fb1f9c0999d6db9841a4246c910d6dab8c",
+        "f3a5b58d326463168a46062c5a8aa6093fde802e063a15ba03ac61ce73d05bb7",
+        "47114e937a543e1e7315ad4978821339965215886dcbbb239ad28491f0ea545a",
+        "c2d12434fe6f22a6fa7c731710a5dfe916fe4be3e5b38695b2974978529a6ed2",
+        "837ac90c57e2a61ef2121c038ea9bcad8ef724fc925d35dd2af40c360908cc59"
+      ],
+      "source_manifest_sha256": "49ff1232255363a872a00105c66c15804ac14ef7a885d60e9ab4a867151ae4f1",
+      "source_terminal_sha256": "168ae6917ba1e35ca510e766c31a68ed5133b168d6d380eedc9355a6fa8ba786",
+      "terminal_status": "COMMON_COLD_FIXED_E8_TAU_COMPLETE"
+    },
+    "qwen2.5-7b-inst": {
+      "accepted_snapshot_count": 4,
+      "field_semantic_sha256": [
+        "626794c4d4cbe3114405c74b026e3bb9d47a162905830be371cc44c11125b299",
+        "162af82a68d13fe5b85807a524dfec685850656e825556fc8a8eb5df3e01eaad",
+        "b31161a709b199bcce8a9517ee7e2bda20d531babe4dec83da9da0863929df8d",
+        "d2c8adf7108e0cd20161e515d3d80ec633e07e34a300e804452bf4aa72c05e4b"
+      ],
+      "snapshot_sha256": [
+        "9c6fd425c4d452b8e2a005650cce5afeba6f1acc928712545e85fdb0c1220c8e",
+        "b83f13333926459152e55fe769c06f44ba610ecc214067c1db42e50265d508eb",
+        "e345bcca6380ffe60bcd99bb5d140b7bf5955a65192948ef194bb2b5315f5c81",
+        "bdc3558494809131c4e41ff183da4660c0502dd9f339ab554e95884770717984"
+      ],
+      "source_manifest_sha256": "a4ad0b8b78f5194f0fd396c133caa87bc197bbc6b9b253bd4d6bb5e070e1bdcf",
+      "source_terminal_sha256": "4aa110758c70038246b60214bf4153b35a9842b81eff5122cfb0a83760802489",
+      "terminal_status": "ZERO_POSITIVE_DIRECTION"
+    }
+  },
+  "first_hit_observation_only": true,
+  "hard_h_p_budget_influence_count": 0,
+  "instruction_id": "ODEEDIT-S05-ODE-BF-CANONICAL-ALPHA-POSFIELD-P1R11-V1",
+  "joint_grid_count": 8,
+  "joint_h": 0.125,
+  "joint_tau_target": 1.0,
+  "method_semantic_identity_sha256": "a68a8f13cce708672b80e22cf2239a0039ce554e9bf5c7ff63317b934d7b6861",
+  "native_or_direct_z_cold_access_count": 0,
+  "parent_checkpoint": "38592cd14eddbfd40cd063b1891c75588ddcb7fa",
+  "population_root_digest": "49f3b2674d5fc649e8e17982769a8be7efde70e92b68791b550100fef627ee4b",
+  "r10_numerical_lock_file": "numerical_lock_s05_common_coldcoord_fixed_e8.json",
+  "r10_numerical_lock_root": "8d9da5691882db02adc4965d3fe0ac91a1f06f67fa3d7b302d22d729d1a62c9f",
+  "r10_numerical_lock_sha256": "7e09a1e75542c32f240e8591cd58db15c735e3aeb68d3edb3c694ca06de848ea",
+  "root_digest": "500525c392affd635b0925ef7a2f395c1b5f3e737d098f5768728aa1d9daca52",
+  "routing_arm": "RS-NEUTRAL",
+  "scale": "ROBUST_SHARED_REQUEST_SCALE_V1",
+  "schedule_identity_sha256": "8640437a62adda285a0904f0556e7b152cecdd6fa2dcedc655320b7699cac8b6",
+  "schema": "ode-edit-s05-canonical-alpha-posfield-p1r11-numerical-lock/v1",
+  "scientific_promotion_authorized": false,
+  "scientific_rejection_count": 0,
+  "scientific_retry_count": 0,
+  "target_objective": "TARGET_NEW_NLL"
+}
