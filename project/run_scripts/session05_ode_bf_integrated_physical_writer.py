@@ -26,6 +26,8 @@ from project.run_scripts.ode_bf.integrated_physical_writer_experiment import (
 )
 from project.run_scripts.ode_bf.p1_integrated_physical_writer_panel import (
     P1R14_RESULT_TOKEN,
+    P1R14_RUN_ATTEMPT_ID,
+    validate_p1r14_attempt_output_namespace,
 )
 
 
@@ -73,6 +75,8 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--run-token", required=True, choices=(P1R14_RESULT_TOKEN,))
+    parser.add_argument("--run-attempt", required=True, choices=(P1R14_RUN_ATTEMPT_ID,))
+    parser.add_argument("--namespace-probe", action="store_true")
     return parser
 
 
@@ -95,11 +99,37 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 2
     try:
+        namespace = validate_p1r14_attempt_output_namespace(
+            repo_root=REPO_ROOT,
+            alias=args.model,
+            output_root=args.output_root,
+            run_attempt_id=args.run_attempt,
+        )
+        if args.namespace_probe:
+            print(
+                json.dumps(
+                    {
+                        "status": "P1R14_RUN_ATTEMPT_NAMESPACE_PASS_NO_MODEL",
+                        "instruction_id": INTEGRATED_PHYSICAL_WRITER_INSTRUCTION_ID,
+                        "model_alias": args.model,
+                        "namespace_identity_sha256": namespace["identity_sha256"],
+                        "result_name": namespace["result_name"],
+                        "model_load": False,
+                        "gpu_use": False,
+                        "result_root_creation": False,
+                    },
+                    sort_keys=True,
+                    separators=(",", ":"),
+                ),
+                flush=True,
+            )
+            return 0
         result = run_integrated_physical_writer_experiment(
             repo_root=REPO_ROOT,
             alias=args.model,
             output_root=args.output_root,
             source_head=args.source_head,
+            run_attempt_id=args.run_attempt,
         )
     except IntegratedOutputRootCollision as exc:
         print(

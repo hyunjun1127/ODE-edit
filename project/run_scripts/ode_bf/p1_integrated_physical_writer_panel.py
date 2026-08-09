@@ -31,6 +31,10 @@ P1R14_SCHEMA = "ode-edit-s05-integrated-physical-writer-p1r14/v1"
 P1R14_ARM_ID = INTEGRATED_PHYSICAL_WRITER_METHOD_ID
 P1R14_ARM_REGISTRY = (P1R14_ARM_ID,)
 P1R14_RESULT_TOKEN = "integrated-physical-writer-p1r14-v1"
+P1R14_RUN_ATTEMPT_ID = (
+    "ODEEDIT-S05-ODE-BF-INTEGRATED-PHYSICAL-WRITER-P1R14-V1-TECH-R4-NAMESPACE"
+)
+P1R14_RUN_ATTEMPT_SUFFIX = "tech-r4-v1"
 P1R14_EXCLUSION_FILE = "p1r14_historical_exclusion.json"
 P1R14_FRESH_SEAL_FILE = "p1r14_fresh_cf_b10_seal.json"
 P1R14_NUMERICAL_LOCK_FILE = "numerical_lock_s05_integrated_physical_writer.json"
@@ -102,9 +106,72 @@ class P1R14Forecast:
 
 
 def expected_p1r14_result_name(alias: str) -> str:
+    """Return the immutable method-level result name used by legacy provenance."""
+
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1R14 alias differs")
     return f"s05-integrated-physical-writer-p1r14-{alias}-v1"
+
+
+def expected_p1r14_attempt_result_name(alias: str) -> str:
+    """Return the exact create-once basename for the authorized TECH-R4 attempt."""
+
+    if alias not in MODEL_ALIASES:
+        raise ODEBFContractError("P1R14 attempt alias differs")
+    return (
+        f"s05-integrated-physical-writer-p1r14-{alias}-"
+        f"{P1R14_RUN_ATTEMPT_SUFFIX}"
+    )
+
+
+def validate_p1r14_attempt_output_namespace(
+    *,
+    repo_root: Path,
+    alias: str,
+    output_root: Path,
+    run_attempt_id: str,
+) -> dict[str, Any]:
+    """Validate one exact alias-specific attempt path without creating it."""
+
+    if run_attempt_id != P1R14_RUN_ATTEMPT_ID:
+        raise ODEBFContractError("P1R14 run-attempt identity differs")
+    expected_name = expected_p1r14_attempt_result_name(alias)
+    root_input = Path(repo_root)
+    if not root_input.is_absolute() or root_input.is_symlink():
+        raise ODEBFContractError("P1R14 repository namespace differs")
+    root = root_input.resolve(strict=True)
+    if root_input != root or not root.is_dir():
+        raise ODEBFContractError("P1R14 repository namespace differs")
+    parent = root / "local" / "odebf" / "results"
+    if (
+        parent.is_symlink()
+        or not parent.is_dir()
+        or parent.resolve(strict=True) != parent
+    ):
+        raise ODEBFContractError("P1R14 output parent namespace differs")
+    candidate = Path(output_root)
+    expected = parent / expected_name
+    if (
+        not candidate.is_absolute()
+        or candidate.is_symlink()
+        or candidate.parent != parent
+        or candidate.name != expected_name
+        or candidate != expected
+    ):
+        raise ODEBFContractError("P1R14 run-attempt output namespace differs")
+    payload = {
+        "schema": f"{P1R14_SCHEMA}-run-attempt-output-namespace",
+        "method_result_token": P1R14_RESULT_TOKEN,
+        "run_attempt_id": P1R14_RUN_ATTEMPT_ID,
+        "run_attempt_suffix": P1R14_RUN_ATTEMPT_SUFFIX,
+        "model_alias": alias,
+        "result_parent": "local/odebf/results",
+        "result_name": expected_name,
+        "decision_influence_count": 0,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    payload["result_root"] = str(expected)
+    return payload
 
 
 def p1r14_common_science_config() -> dict[str, Any]:
@@ -394,16 +461,20 @@ __all__ = [
     "P1R14_FRESH_SEAL_FILE",
     "P1R14_NUMERICAL_LOCK_FILE",
     "P1R14_RESULT_TOKEN",
+    "P1R14_RUN_ATTEMPT_ID",
+    "P1R14_RUN_ATTEMPT_SUFFIX",
     "P1R14_SCHEMA",
     "P1R14_SCIENTIFIC_SOURCE_PATHS",
     "P1R14_SESSION_SOURCE_PATHS",
     "P1R14_TEST_SOURCE_PATHS",
     "P1R14_SOURCE_MANIFEST_FILE",
     "expected_p1r14_result_name",
+    "expected_p1r14_attempt_result_name",
     "load_and_validate_p1r14_numerical_lock",
     "load_and_validate_p1r14_source_manifest",
     "load_and_validate_p1r14_seals",
     "p1r14_common_science_config",
     "p1r14_forecast",
     "validate_p1r14_source_closure",
+    "validate_p1r14_attempt_output_namespace",
 ]

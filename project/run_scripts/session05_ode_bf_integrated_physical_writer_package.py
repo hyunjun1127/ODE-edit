@@ -32,6 +32,7 @@ from project.run_scripts.ode_bf.p1_integrated_physical_writer_panel import (
     P1R14_EXCLUSION_FILE,
     P1R14_FRESH_SEAL_FILE,
     P1R14_NUMERICAL_LOCK_FILE,
+    P1R14_RUN_ATTEMPT_ID,
     P1R14_SOURCE_MANIFEST_FILE,
     P1R14_SCIENTIFIC_SOURCE_PATHS,
     P1R14_SESSION_SOURCE_PATHS,
@@ -43,12 +44,12 @@ from project.run_scripts.ode_bf.p1_integrated_physical_writer_panel import (
 )
 
 
-PACKAGE_ID = "INTEGRATED_PHYSICAL_WRITER_P1R14_SH2_BUNDLE_A3_TECH_R3"
-PACKAGE_ARCHIVE = "integrated-physical-writer-p1r14-sh2-bundle-a3-tech-r3.tar"
+PACKAGE_ID = "INTEGRATED_PHYSICAL_WRITER_P1R14_SH2_BUNDLE_A3_TECH_R4"
+PACKAGE_ARCHIVE = "integrated-physical-writer-p1r14-sh2-bundle-a3-tech-r4.tar"
 PACKAGE_MANIFEST = "package-manifest.json"
 PACKAGE_RECEIPT = "handoff-receipt.json"
 PACKAGE_REF = "refs/heads/codex/odeeditsh1-s05-integrated-physical-writer-p1r14-v1"
-EXECUTION_PARENT = "186ded6c2f75cb77c8d777b776a423d8f422dd79"
+EXECUTION_PARENT = "314ab399b0bbba25a4475d54473b22acc89a6167"
 SESSION_ID = "019fe489-c968-75f3-9965-7cfbc26c0a99"
 SH2_RECIPIENT_SESSION = "019fe491-954b-70a0-8ba8-0588e9f8d741"
 LOCK_FILES = (
@@ -736,6 +737,9 @@ def verify_package_manifest(
         or not isinstance(payload.get("source_head"), str)
         or len(str(payload.get("source_head"))) != 40
         or payload.get("exact_parent") != EXECUTION_PARENT
+        or payload.get("run_attempt_id") != P1R14_RUN_ATTEMPT_ID
+        or not isinstance(payload.get("run_attempt_namespace_root"), str)
+        or len(str(payload.get("run_attempt_namespace_root"))) != 64
         or payload.get("object_algorithm") != "GIT_BLOB_SHA1"
         or payload.get("source_tree_inventory_root") is None
         or payload.get("source_object_scan_root") is None
@@ -788,6 +792,9 @@ def create_package(source_head: str, output_parent: Path) -> dict[str, Any]:
         artifact_lock_root=artifact_lock_sha,
     )
     dry_plan = dry.build_plan(source_head, repository_root=REPO_ROOT)
+    run_attempt_namespace_root = canonical_hash(
+        dry_plan["run_attempt_namespaces"]
+    )
     if any(
         dry_plan.get(name) is not False
         for name in ("model_load", "gpu_use", "slurm_submit", "result_root_creation")
@@ -817,6 +824,9 @@ def create_package(source_head: str, output_parent: Path) -> dict[str, Any]:
             "instruction_id": INTEGRATED_PHYSICAL_WRITER_INSTRUCTION_ID,
             "amendment_ids": list(INTEGRATED_PHYSICAL_WRITER_AMENDMENT_IDS),
             "method_id": INTEGRATED_PHYSICAL_WRITER_METHOD_ID,
+            "run_attempt_id": P1R14_RUN_ATTEMPT_ID,
+            "run_attempt_namespaces": dry_plan["run_attempt_namespaces"],
+            "run_attempt_namespace_root": run_attempt_namespace_root,
             "source_head": source_head,
             "source_tree": bundle_proof["source_tree"],
             "exact_parent": EXECUTION_PARENT,
@@ -885,6 +895,8 @@ def create_package(source_head: str, output_parent: Path) -> dict[str, Any]:
             "source_head": source_head,
             "source_tree": bundle_proof["source_tree"],
             "exact_parent": EXECUTION_PARENT,
+            "run_attempt_id": P1R14_RUN_ATTEMPT_ID,
+            "run_attempt_namespace_root": run_attempt_namespace_root,
             "bundle_source_head": bundle_proof["source_head"],
             "bundle_source_tree": bundle_proof["source_tree"],
             "bundle_exact_parent": bundle_proof["exact_parent"],
@@ -930,6 +942,8 @@ def create_package(source_head: str, output_parent: Path) -> dict[str, Any]:
             "source_head": source_head,
             "source_tree": bundle_proof["source_tree"],
             "exact_parent": EXECUTION_PARENT,
+            "run_attempt_id": P1R14_RUN_ATTEMPT_ID,
+            "run_attempt_namespace_root": run_attempt_namespace_root,
             "recipient_session": SH2_RECIPIENT_SESSION,
             "provenance": provenance,
             "bundle_proof": bundle_proof,
@@ -976,6 +990,8 @@ def create_package(source_head: str, output_parent: Path) -> dict[str, Any]:
             "tracked_case_id_only_exception_count"
         ],
         "source_head": source_head,
+        "run_attempt_id": P1R14_RUN_ATTEMPT_ID,
+        "run_attempt_namespace_root": run_attempt_namespace_root,
         "model_gpu_slurm_result_root_action_count": 0,
     }
 
@@ -1022,6 +1038,9 @@ def verify_local_package(package_directory: Path, source_head: str) -> dict[str,
         or receipt.get("source_head") != source_head
         or receipt.get("source_tree") != manifest.get("source_tree")
         or receipt.get("exact_parent") != EXECUTION_PARENT
+        or receipt.get("run_attempt_id") != P1R14_RUN_ATTEMPT_ID
+        or receipt.get("run_attempt_namespace_root")
+        != manifest.get("run_attempt_namespace_root")
         or receipt.get("recipient_session") != SH2_RECIPIENT_SESSION
         or receipt.get("archive_sha256") != _sha256(files[PACKAGE_ARCHIVE])
         or receipt.get("manifest_sha256") != _sha256(files[PACKAGE_MANIFEST])
@@ -1077,6 +1096,11 @@ def verify_local_package(package_directory: Path, source_head: str) -> dict[str,
         contract.get("package_id") != PACKAGE_ID
         or contract.get("source_head") != source_head
         or contract.get("exact_parent") != EXECUTION_PARENT
+        or contract.get("run_attempt_id") != P1R14_RUN_ATTEMPT_ID
+        or canonical_hash(contract.get("run_attempt_namespaces"))
+        != contract.get("run_attempt_namespace_root")
+        or contract.get("run_attempt_namespace_root")
+        != manifest.get("run_attempt_namespace_root")
         or contract.get("recipient_session") != SH2_RECIPIENT_SESSION
         or contract.get("source_tree_inventory_root") != inventory["root_digest"]
         or contract.get("source_object_scan_root") != object_scan["root_digest"]
@@ -1138,6 +1162,9 @@ def verify_local_package(package_directory: Path, source_head: str) -> dict[str,
         "package_id": PACKAGE_ID,
         "source_head": source_head,
         "source_tree": manifest["source_tree"],
+        "run_attempt_id": P1R14_RUN_ATTEMPT_ID,
+        "run_attempt_namespace_root": contract["run_attempt_namespace_root"],
+        "run_attempt_namespaces": contract["run_attempt_namespaces"],
         "archive_sha256": _sha256(files[PACKAGE_ARCHIVE]),
         "manifest_sha256": _sha256(files[PACKAGE_MANIFEST]),
         "receipt_sha256": _sha256(files[PACKAGE_RECEIPT]),

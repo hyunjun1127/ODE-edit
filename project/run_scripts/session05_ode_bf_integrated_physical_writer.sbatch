@@ -12,14 +12,15 @@ set -euo pipefail
 umask 077
 
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
-readonly EXPECTED_PARENT="186ded6c2f75cb77c8d777b776a423d8f422dd79"
+readonly EXPECTED_PARENT="314ab399b0bbba25a4475d54473b22acc89a6167"
 readonly EXPECTED_SESSION="019fe489-c968-75f3-9965-7cfbc26c0a99"
 readonly EXPECTED_BRANCH="codex/odeeditsh1-s05-integrated-physical-writer-p1r14-v1"
 readonly MODEL_ALIAS="${1:-}"
 readonly OUTPUT_ROOT="${2:-}"
 readonly SOURCE_HEAD="${3:-}"
 readonly RUN_TOKEN="${4:-}"
-readonly LAUNCH_MODE="${5:-RUN}"
+readonly RUN_ATTEMPT_ID="${5:-}"
+readonly LAUNCH_MODE="${6:-RUN}"
 
 if [[ -z "${SLURM_SUBMIT_DIR:-}" || "${SLURM_SUBMIT_DIR}" != /* \
   || ! -d "${SLURM_SUBMIT_DIR}" || -L "${SLURM_SUBMIT_DIR}" ]]; then
@@ -28,22 +29,23 @@ if [[ -z "${SLURM_SUBMIT_DIR:-}" || "${SLURM_SUBMIT_DIR}" != /* \
 fi
 readonly REPO_ROOT="$(cd "${SLURM_SUBMIT_DIR}" && pwd -P)"
 
-if [[ "$#" -eq 4 ]]; then
+if [[ "$#" -eq 5 ]]; then
   [[ "${LAUNCH_MODE}" == "RUN" ]] || { echo "P1R14 launch mode differs" >&2; exit 2; }
-elif [[ "$#" -eq 5 ]]; then
+elif [[ "$#" -eq 6 ]]; then
   [[ "${LAUNCH_MODE}" == "P1R14_LAUNCHER_PROBE_NO_MODEL" ]] || {
     echo "P1R14 launcher probe mode differs" >&2
     exit 2
   }
 else
-  echo "locked P1R14 invocation requires four run arguments or one probe marker" >&2
+  echo "locked P1R14 invocation requires five run arguments or one probe marker" >&2
   exit 2
 fi
-[[ "${MODEL_ALIAS}" == "llama3-8b-inst" ]] || {
-  echo "server1 P1R14 launcher is Llama-only" >&2
+[[ "${MODEL_ALIAS}" == "llama3-8b-inst" || "${MODEL_ALIAS}" == "qwen2.5-7b-inst" ]] || {
+  echo "server1 P1R14 launcher alias differs" >&2
   exit 2
 }
-[[ -n "${OUTPUT_ROOT}" && "${RUN_TOKEN}" == "integrated-physical-writer-p1r14-v1" ]] || {
+[[ -n "${OUTPUT_ROOT}" && -n "${RUN_ATTEMPT_ID}" \
+  && "${RUN_TOKEN}" == "integrated-physical-writer-p1r14-v1" ]] || {
   echo "missing locked P1R14 invocation" >&2
   exit 2
 }
@@ -64,16 +66,17 @@ if [[ "${LAUNCH_MODE}" == "P1R14_LAUNCHER_PROBE_NO_MODEL" ]]; then
     exit 2
   }
   echo "P1R14_LAUNCHER_PROVENANCE_PASS_PRE_UV"
-  exit 0
 fi
 [[ -x /usr/local/bin/uv && -x "${EASYEDIT_ROOT}/.venv/bin/python" ]] || {
   echo "P1R14 offline runtime unavailable" >&2
   exit 2
 }
-[[ "${CUDA_VISIBLE_DEVICES:-}" != "" && "${CUDA_VISIBLE_DEVICES}" != *,* ]] || {
-  echo "P1R14 requires exactly one visible GPU" >&2
-  exit 2
-}
+if [[ "${LAUNCH_MODE}" == "RUN" ]]; then
+  [[ "${CUDA_VISIBLE_DEVICES:-}" != "" && "${CUDA_VISIBLE_DEVICES}" != *,* ]] || {
+    echo "P1R14 requires exactly one visible GPU" >&2
+    exit 2
+  }
+fi
 
 export HF_HOME="/mnt/raid5/janghj/.cache/huggingface"
 export HF_HUB_CACHE="/mnt/raid5/janghj/.cache/huggingface/hub"
@@ -86,9 +89,17 @@ export PYTHONDONTWRITEBYTECODE=1
 export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-s05-p1r14"
 export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 
+NAMESPACE_PROBE_ARGS=()
+if [[ "${LAUNCH_MODE}" == "P1R14_LAUNCHER_PROBE_NO_MODEL" ]]; then
+  NAMESPACE_PROBE_ARGS=(--namespace-probe)
+fi
+readonly -a NAMESPACE_PROBE_ARGS
+
 exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-sync \
   python -m project.run_scripts.session05_ode_bf_integrated_physical_writer \
   --model "${MODEL_ALIAS}" \
   --output-root "${OUTPUT_ROOT}" \
   --source-head "${SOURCE_HEAD}" \
-  --run-token "${RUN_TOKEN}"
+  --run-token "${RUN_TOKEN}" \
+  --run-attempt "${RUN_ATTEMPT_ID}" \
+  "${NAMESPACE_PROBE_ARGS[@]}"

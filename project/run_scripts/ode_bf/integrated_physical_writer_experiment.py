@@ -532,6 +532,7 @@ def run_integrated_physical_writer_experiment(
     alias: str,
     output_root: Path,
     source_head: str,
+    run_attempt_id: str,
 ) -> dict[str, Any]:
     """Execute the standalone one-arm P1R14 validation lifecycle."""
 
@@ -544,11 +545,11 @@ def run_integrated_physical_writer_experiment(
     from .p1_integrated_physical_writer_panel import (
         P1R14_NUMERICAL_LOCK_FILE,
         P1R14_SOURCE_MANIFEST_FILE,
-        expected_p1r14_result_name,
         load_and_validate_p1r14_numerical_lock,
         load_and_validate_p1r14_seals,
         load_and_validate_p1r14_source_manifest,
         p1r14_forecast,
+        validate_p1r14_attempt_output_namespace,
         validate_p1r14_source_closure,
     )
 
@@ -556,13 +557,13 @@ def run_integrated_physical_writer_experiment(
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("integrated experiment alias differs")
     _validate_source_freeze(root, source_head)
-    expected_parent = (root / "local" / "odebf" / "results").resolve(strict=False)
-    destination = output_root.resolve(strict=False)
-    if (
-        destination.parent != expected_parent
-        or destination.name != expected_p1r14_result_name(alias)
-    ):
-        raise ODEBFContractError("integrated output namespace differs")
+    namespace = validate_p1r14_attempt_output_namespace(
+        repo_root=root,
+        alias=alias,
+        output_root=output_root,
+        run_attempt_id=run_attempt_id,
+    )
+    destination = Path(namespace["result_root"])
     if destination.exists() or destination.is_symlink():
         raise IntegratedOutputRootCollision("integrated result root is create-once")
     try:
@@ -615,6 +616,11 @@ def run_integrated_physical_writer_experiment(
         "preflight",
         {
             "source_head": source_head,
+            "run_attempt_id": namespace["run_attempt_id"],
+            "run_attempt_result_name": namespace["result_name"],
+            "run_attempt_namespace_identity_sha256": namespace[
+                "identity_sha256"
+            ],
             "artifact_lock_sha256": artifact_receipt.lock_sha256,
             "source_manifest_sha256": source_manifest_sha,
             "source_manifest_root": source_manifest["root_digest"],

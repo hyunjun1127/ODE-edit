@@ -23,12 +23,15 @@ from project.run_scripts.ode_bf.integrated_physical_writer import (
 from project.run_scripts.ode_bf.p1_integrated_physical_writer_panel import (
     P1R14_NUMERICAL_LOCK_FILE,
     P1R14_RESULT_TOKEN,
+    P1R14_RUN_ATTEMPT_ID,
     P1R14_SOURCE_MANIFEST_FILE,
     load_and_validate_p1r14_numerical_lock,
     load_and_validate_p1r14_seals,
     load_and_validate_p1r14_source_manifest,
     p1r14_common_science_config,
     p1r14_forecast,
+    expected_p1r14_attempt_result_name,
+    validate_p1r14_attempt_output_namespace,
     validate_p1r14_source_closure,
 )
 
@@ -36,11 +39,13 @@ from project.run_scripts.ode_bf.p1_integrated_physical_writer_panel import (
 SESSION_ID = "019fe489-c968-75f3-9965-7cfbc26c0a99"
 GH_SESSION_ID = "019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-integrated-physical-writer-p1r14-v1"
-EXECUTION_PARENT = "186ded6c2f75cb77c8d777b776a423d8f422dd79"
+EXECUTION_PARENT = "314ab399b0bbba25a4475d54473b22acc89a6167"
 SERVER1_PROJECT_GPU_CAP = 4
-JOB_NAME = "odeedit_s05_p1r14_sh1_integrated_writer_llama_tech_r3"
+JOB_NAME = "odeedit_s05_p1r14_sh1_integrated_writer_llama_tech_r4"
 LLAMA_ALIAS = "llama3-8b-inst"
-RESULT_NAME = "s05-integrated-physical-writer-p1r14-llama3-8b-inst-tech-r3-v1"
+QWEN_ALIAS = "qwen2.5-7b-inst"
+RESULT_NAME = expected_p1r14_attempt_result_name(LLAMA_ALIAS)
+QWEN_RESULT_NAME = expected_p1r14_attempt_result_name(QWEN_ALIAS)
 
 
 def _valid_head(value: str) -> bool:
@@ -93,6 +98,22 @@ def build_plan(
     if not forecast.fits:
         raise ODEBFContractError("integrated dry-plan forecast differs")
     science = p1r14_common_science_config()
+    attempt_namespaces = {}
+    for alias in MODEL_ALIASES:
+        observed_namespace = validate_p1r14_attempt_output_namespace(
+            repo_root=root,
+            alias=alias,
+            output_root=(
+                root / "local" / "odebf" / "results"
+                / expected_p1r14_attempt_result_name(alias)
+            ),
+            run_attempt_id=P1R14_RUN_ATTEMPT_ID,
+        )
+        attempt_namespaces[alias] = {
+            key: value
+            for key, value in observed_namespace.items()
+            if key != "result_root"
+        }
     return {
         "schema": "ode-edit-s05-integrated-physical-writer-p1r14-dry-plan/v1",
         "instruction_id": INTEGRATED_PHYSICAL_WRITER_INSTRUCTION_ID,
@@ -104,6 +125,8 @@ def build_plan(
         "gh_session_id": GH_SESSION_ID,
         "science_config": science,
         "science_config_shared_across_aliases": True,
+        "run_attempt_id": P1R14_RUN_ATTEMPT_ID,
+        "run_attempt_namespaces": attempt_namespaces,
         "fresh_seal_root": seal["root_digest"],
         "historical_exclusion_root": exclusion["root_digest"],
         "request_order_sha256": seal["batch_ordered_request_digest_v1"],
@@ -122,6 +145,7 @@ def build_plan(
             "job_name": JOB_NAME,
             "result_name": RESULT_NAME,
             "run_token": P1R14_RESULT_TOKEN,
+            "run_attempt_id": P1R14_RUN_ATTEMPT_ID,
             "gpu": 1,
             "cpu": 8,
             "memory_mib": 65_000,
@@ -129,10 +153,12 @@ def build_plan(
             "held_then_atomic_release": True,
         },
         "server2_handoff": {
-            "alias": "qwen2.5-7b-inst",
+            "alias": QWEN_ALIAS,
             "package_acceptance_required": True,
             "same_source_head": source_head,
             "same_science_config_sha256": science["identity_sha256"],
+            "execution_owner": "SH1_SERVER1",
+            "model_gpu_slurm_result_root_action_count": 0,
         },
         "model_load": False,
         "gpu_use": False,

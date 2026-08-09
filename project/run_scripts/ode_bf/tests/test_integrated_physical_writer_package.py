@@ -11,6 +11,9 @@ from unittest import mock
 
 from project.run_scripts import session05_ode_bf_integrated_physical_writer_package as package
 from project.run_scripts.ode_bf.contracts import ODEBFContractError, canonical_hash
+from project.run_scripts.ode_bf.p1_integrated_physical_writer_panel import (
+    P1R14_RUN_ATTEMPT_ID,
+)
 
 
 class IntegratedPhysicalWriterPackageTests(unittest.TestCase):
@@ -44,6 +47,8 @@ class IntegratedPhysicalWriterPackageTests(unittest.TestCase):
             "source_head": "a" * 40,
             "source_tree": "b" * 40,
             "exact_parent": package.EXECUTION_PARENT,
+            "run_attempt_id": P1R14_RUN_ATTEMPT_ID,
+            "run_attempt_namespace_root": "9" * 64,
             "bundle_source_head": "a" * 40,
             "bundle_source_tree": "b" * 40,
             "bundle_exact_parent": package.EXECUTION_PARENT,
@@ -82,6 +87,12 @@ class IntegratedPhysicalWriterPackageTests(unittest.TestCase):
         manifest["root_digest"] = canonical_hash(manifest)
         observed = package.verify_package_manifest(manifest, archive)
         self.assertEqual(observed["root_digest"], manifest["root_digest"])
+        broken_namespace = copy.deepcopy(manifest)
+        broken_namespace["run_attempt_id"] = "stale"
+        broken_namespace.pop("root_digest")
+        broken_namespace["root_digest"] = canonical_hash(broken_namespace)
+        with self.assertRaises(ODEBFContractError):
+            package.verify_package_manifest(broken_namespace, archive)
         for missing in ("mode", "git_blob_oid"):
             broken = copy.deepcopy(manifest)
             broken["entries"][0].pop(missing)

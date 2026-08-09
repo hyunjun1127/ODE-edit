@@ -22,11 +22,13 @@ from project.run_scripts import session05_ode_bf_integrated_physical_writer_pack
 from project.run_scripts.ode_bf.contracts import ODEBFContractError, canonical_hash
 from project.run_scripts.ode_bf.p1_integrated_physical_writer_panel import (
     P1R14_RESULT_TOKEN,
+    P1R14_RUN_ATTEMPT_ID,
+    validate_p1r14_attempt_output_namespace,
 )
 from project.run_scripts.ode_bf.resource import gpu_count_from_tres
 
 
-SUBMISSION_NAMESPACE = "s05-integrated-physical-writer-p1r14-a3-tech-r3-llama-v1"
+SUBMISSION_NAMESPACE = "s05-integrated-physical-writer-p1r14-a3-tech-r4-llama-v1"
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_integrated_physical_writer.sbatch"
 DEFAULT_STATE_ROOT = REPO_ROOT / "local/odebf/state"
 HOST_MEMORY_REQUEST_MIB = 65_000
@@ -86,6 +88,10 @@ def _load_sh2_package_ack(
         "manifest_root": local_package["manifest_root"],
         "receipt_root": local_package["receipt_root"],
         "normalized_tree_digest": local_package["normalized_tree_digest"],
+        "run_attempt_id": local_package["run_attempt_id"],
+        "run_attempt_namespace_root": local_package[
+            "run_attempt_namespace_root"
+        ],
         "model_gpu_slurm_result_root_action_count": 0,
     }
     if any(value.get(key) != expected_value for key, expected_value in expected.items()):
@@ -138,7 +144,7 @@ def _provenance(
         tracked_dirty=dirty,
     )
     return {
-        "run_authority": "GH_TECH_R3_CHECKPOINT_BOUND_RUN_APPROVAL",
+        "run_authority": "GH_TECH_R4_CHECKPOINT_BOUND_RUN_APPROVAL_REQUIRED",
         "local_package": dict(local_package),
         "sh2_package_acceptance": package_ack,
         "execution_head": head,
@@ -233,6 +239,12 @@ def _namespace_gate(state_root: Path) -> dict[str, str]:
         if parent.exists() and (parent.is_symlink() or not parent.is_dir()):
             raise ODEBFContractError("integrated namespace parent differs")
     result = REPO_ROOT / "local/odebf/results" / dry.RESULT_NAME
+    namespace = validate_p1r14_attempt_output_namespace(
+        repo_root=REPO_ROOT,
+        alias=dry.LLAMA_ALIAS,
+        output_root=result,
+        run_attempt_id=P1R14_RUN_ATTEMPT_ID,
+    )
     intent = observed_state / f"{SUBMISSION_NAMESPACE}.intent.json"
     receipt = observed_state / f"{SUBMISSION_NAMESPACE}.submission-receipt.json"
     logs = REPO_ROOT / "local/odebf/logs"
@@ -244,7 +256,9 @@ def _namespace_gate(state_root: Path) -> dict[str, str]:
     ):
         raise ODEBFContractError("integrated create-once namespace collides")
     return {
-        "result_root": str(result),
+        "result_root": namespace["result_root"],
+        "run_attempt_id": P1R14_RUN_ATTEMPT_ID,
+        "namespace_identity_sha256": namespace["identity_sha256"],
         "state_root": str(observed_state),
         "log_root": str(logs),
     }
@@ -269,6 +283,9 @@ def _assert_package_plan_binding(
         or local_package.get("artifact_identities") != plan.get("artifacts")
         or local_package.get("numerical_lock_identities")
         != plan.get("numerical_locks")
+        or local_package.get("run_attempt_id") != plan.get("run_attempt_id")
+        or local_package.get("run_attempt_namespaces")
+        != plan.get("run_attempt_namespaces")
     ):
         raise ODEBFContractError("integrated package/dry-plan binding differs")
 
@@ -356,6 +373,7 @@ def main() -> int:
                 f"--error={logs / (dry.JOB_NAME + '-%j.err')}",
                 f"--chdir={REPO_ROOT}", str(SBATCH), dry.LLAMA_ALIAS,
                 str(result_root), args.source_head, P1R14_RESULT_TOKEN,
+                P1R14_RUN_ATTEMPT_ID,
             )
         )
         job_id = result.stdout.strip().split(";", 1)[0]
