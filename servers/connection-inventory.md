@@ -1,6 +1,6 @@
 # 서버 접속 인벤토리
 
-- 갱신 시각: 2026-08-09 12:36:25 KST
+- 갱신 시각: 2026-08-09 12:41:38 KST
 - 작성 agent: head-server1-gh (global-head)
 - 목적: agent 간 SSH/rsync 계획 수립을 위한 redacted 접속 인벤토리 공유
 
@@ -12,15 +12,15 @@
 
 server1의 새 canonical GH와 SH1은 이전 context를 인계받았고, 각 local session
 boundary와 repository identity를 확인했다. server2의 새 canonical SH2도 이전 context를
-인계받아 등록됐지만 local session boundary와 Git identity provisioning이 끝날 때까지
-execution HOLD다.
+인계받았으며 local session boundary와 Git identity까지 확인해 GH instruction을 받을
+준비가 됐다.
 server4는 physical host로 등록됐지만 이 repo clone/SH가 없는
 `registered-pending-clone` 상태이며 server3는 future target이다.
 
 | Repository server name | Raw connection detail location | 상태/용도 |
 | --- | --- | --- |
 | `server1` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | GH active on root clone / SH1 active on dedicated worktree; GPU cap 3, memory cap 198117 MiB per GPU |
-| `server2` | `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | SH2 assigned-onboarding-hold / clone: `/mnt/raid5/janghj/ODE-edit` |
+| `server2` | `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | SH2 active / boundary PASS / ready for GH instruction / clone: `/mnt/raid5/janghj/ODE-edit` |
 | `server3` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | future target / clone 전 / Codex session 미지정 |
 | `server4` | `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | registered-pending-clone / GPU cap 3, memory cap 65984 MiB per GPU / Codex session 미지정 |
 
@@ -35,7 +35,7 @@ session ID를 채우거나 대체 대상으로 사용하지 않는다.
 | --- | --- | --- | --- | --- | --- |
 | `server1` | global-head | `019fe491-16f4-7bd3-adf5-4b1eb4a57d1f` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active / 현재 GH session; prior context inherited |
 | `server1` | server-head (SH1) | `019fe489-c968-75f3-9965-7cfbc26c0a99` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | active canonical SH1; prior context inherited; boundary PASS; ready for GH instruction |
-| `server2` | server-head (SH2) | `019fe491-954b-70a0-8ba8-0588e9f8d741` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | registered canonical SH2; prior context inherited; local boundary provisioning pending; execution HOLD |
+| `server2` | server-head (SH2) | `019fe491-954b-70a0-8ba8-0588e9f8d741` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active canonical SH2; prior context inherited; boundary PASS; ready for GH instruction |
 | `server3` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | future target / clone 전 |
 | `server4` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | registered-pending-clone |
 
