@@ -1361,6 +1361,7 @@ def _maximum_progress(
     active: np.ndarray,
     *,
     certificate_observer: FixedE8CertificateObserver | None = None,
+    fail_closed: bool = True,
 ) -> tuple[np.ndarray, float, FixedE8SolverCertificate]:
     progress = problem.signed_progress[active]
     caps = np.minimum(problem.layer_caps[active], 1.0)
@@ -1383,6 +1384,7 @@ def _maximum_progress(
         requested_progress=0.0,
         xi=None,
         authority_role="AUTHORITATIVE",
+        fail_closed=fail_closed,
         certificate_observer=certificate_observer,
     )
     expanded = np.zeros(problem.signed_progress.size, dtype=np.float64)

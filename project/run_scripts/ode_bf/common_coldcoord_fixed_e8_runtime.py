@@ -106,8 +106,11 @@ from . import fixed_e8_runtime as legacy
 
 class CommonColdArm(str, Enum):
     RS_NEUTRAL = "RS-NEUTRAL"
+    RS_NEUTRAL_TARGET_HOLD = "RS-NEUTRAL-TARGET-HOLD"
     RS_SOFT = "RS-SOFT"
+    RS_SOFT_TARGET_HOLD = "RS-SOFT-TARGET-HOLD"
     BG_NEUTRAL = "BG-NEUTRAL"
+    BG_NEUTRAL_TARGET_HOLD = "BG-NEUTRAL-TARGET-HOLD"
     BG_SOFT = "BG-SOFT"
     BG_SOFT_TARGET_HOLD = "BG-SOFT-TARGET-HOLD"
 
@@ -118,6 +121,7 @@ class CommonColdArm(str, Enum):
             if self
             in (
                 CommonColdArm.BG_NEUTRAL,
+                CommonColdArm.BG_NEUTRAL_TARGET_HOLD,
                 CommonColdArm.BG_SOFT,
                 CommonColdArm.BG_SOFT_TARGET_HOLD,
             )
@@ -131,6 +135,7 @@ class CommonColdArm(str, Enum):
             if self
             in (
                 CommonColdArm.RS_SOFT,
+                CommonColdArm.RS_SOFT_TARGET_HOLD,
                 CommonColdArm.BG_SOFT,
                 CommonColdArm.BG_SOFT_TARGET_HOLD,
             )
@@ -139,7 +144,12 @@ class CommonColdArm(str, Enum):
 
     @property
     def target_hold(self) -> bool:
-        return self is CommonColdArm.BG_SOFT_TARGET_HOLD
+        return self in (
+            CommonColdArm.RS_NEUTRAL_TARGET_HOLD,
+            CommonColdArm.RS_SOFT_TARGET_HOLD,
+            CommonColdArm.BG_NEUTRAL_TARGET_HOLD,
+            CommonColdArm.BG_SOFT_TARGET_HOLD,
+        )
 
 
 R10_COMMON_COLD_ARMS = (
@@ -559,6 +569,7 @@ def _build_common_field(
     lookup_positions: Sequence[int],
     target_layer_name: str,
     typed_zero_positive: bool = False,
+    observability_contract: Mapping[str, Any] | None = None,
 ) -> tuple[
     Any,
     Any,
@@ -683,6 +694,7 @@ def _build_common_field(
             nohook_problem,
             nohook_active,
             certificate_observer=observe_nohook,
+            fail_closed=False,
         )
         if nohook_certificates != [nohook_certificate]:
             raise ODEBFStateError(
@@ -762,7 +774,39 @@ def _build_common_field(
                 nohook_certificate_payload
             ),
             "nohook_controller_decision_influence_count": 0,
+            "nohook_numerical_certificate_required": bool(
+                nohook_active.size
+            ),
+            "nohook_numerical_certificate_status": (
+                "NOT_APPLICABLE_NO_POSITIVE_DIRECTION"
+                if not nohook_active.size
+                else (
+                    "PASS"
+                    if nohook_certificate_payload is not None
+                    and nohook_certificate_payload["passed"]
+                    else "FAIL"
+                )
+            ),
+            "nohook_numerical_certificate_passed": (
+                None
+                if not nohook_active.size
+                else bool(
+                    nohook_certificate_payload is not None
+                    and nohook_certificate_payload["passed"]
+                )
+            ),
         }
+        if (
+            slope_comparison["nohook_numerical_certificate_required"]
+            and not slope_comparison[
+                "nohook_numerical_certificate_passed"
+            ]
+        ):
+            slope_comparison = {
+                **slope_comparison,
+                "classification": "NOHOOK_NUMERIC_UNAVAILABLE",
+                "classification_decision_influence_count": 0,
+            }
     zero_positive = bool(
         routing.mode is not FixedE8StepMode.JOINT_WRITE
         or routing.p_max <= 0.0
@@ -843,6 +887,13 @@ def _build_common_field(
             {
                 "nohook_signed_progress": asdict(nohook_signed),
                 "overlay_vs_nohook_signed_slopes": slope_comparison,
+            }
+        )
+    if observability_contract is not None:
+        field_payload.update(
+            {
+                "observability_contract": dict(observability_contract),
+                "observability_total_decision_influence_count": 0,
             }
         )
     persisted = recorder.field(field_payload)
@@ -1080,6 +1131,7 @@ def _run_common_arm(
     pair_initial_contract_sink: dict[str, Any] | None = None,
     typed_zero_positive: bool = False,
     record_six_context_objectives: bool = False,
+    observability_contract: Mapping[str, Any] | None = None,
 ) -> tuple[legacy.FixedE8Rollout, dict[str, Any]]:
     clock = FixedE8Clock()
     history = arm_state.history
@@ -1189,6 +1241,7 @@ def _run_common_arm(
             lookup_positions=lookup_positions,
             target_layer_name=target_layer_name,
             typed_zero_positive=typed_zero_positive,
+            observability_contract=observability_contract,
         )
         solver_accounting = legacy._fixed_e8_solver_accounting(routing)
         total_qp += int(solver_accounting["actual_logical_qp_certificate_count"])
@@ -1861,6 +1914,7 @@ def _run_common_arm(
             nohook_fallback=total_d1_nohook_fallback,
             ledger=ledger,
         )
+    if typed_zero_positive:
         operation_accounting.update(
             {
                 "actual_logical_qp_certificate_count": d1_accounting[
@@ -1941,6 +1995,13 @@ def _run_common_arm(
                     else "NO_SUCCESSFULLY_SELECTED_WRITE_FIELD"
                 ),
                 "valid_prefix_preserved": not trajectory_complete,
+            }
+        )
+    if observability_contract is not None:
+        rollout_payload.update(
+            {
+                "observability_contract": dict(observability_contract),
+                "observability_total_decision_influence_count": 0,
             }
         )
     rollout_sha = canonical_hash(rollout_payload)
@@ -2600,20 +2661,31 @@ def _postfreeze_bg_soft_prefix_panel(
     request_order_sha256: str,
     action_freeze_sha256: str,
     frozen_reference: Mapping[str, Any],
+    receipt_schema_prefix: str = "ode-edit-s05-bg-soft-missing-cell",
+    instruction_id: str = (
+        "ODEEDIT-S05-ODE-BF-BG-SOFT-MISSING-CELL-P1R12-V1"
+    ),
+    amendment_id: str = (
+        "ODEEDIT-S05-ODE-BF-BG-SOFT-MISSING-CELL-P1R12-V1-A1"
+    ),
+    output_token: str = "bg-soft",
+    observability_contract: Mapping[str, Any] | None = None,
+    bootstrap_targets: Mapping[str, torch.Tensor] | None = None,
+    controller_lookup_positions: Sequence[int] | None = None,
 ) -> dict[str, Any]:
     """Evaluate MAIN and TARGET-HOLD prefixes only after action freeze."""
 
     if not rollouts:
         raise ODEBFContractError("BG-Soft post-freeze rollouts are absent")
+    if bootstrap_targets is not None and controller_lookup_positions is None:
+        raise ODEBFContractError(
+            "universal D2 controller lookup positions are absent"
+        )
 
     freeze_payload = {
-        "schema": "ode-edit-s05-bg-soft-missing-cell-action-freeze/v1",
-        "instruction_id": (
-            "ODEEDIT-S05-ODE-BF-BG-SOFT-MISSING-CELL-P1R12-V1"
-        ),
-        "amendment_id": (
-            "ODEEDIT-S05-ODE-BF-BG-SOFT-MISSING-CELL-P1R12-V1-A1"
-        ),
+        "schema": f"{receipt_schema_prefix}-action-freeze/v1",
+        "instruction_id": instruction_id,
+        "amendment_id": amendment_id,
         "upstream_action_freeze_sha256": action_freeze_sha256,
         "action_frozen_before_open": True,
         "request_order_sha256": request_order_sha256,
@@ -2631,24 +2703,52 @@ def _postfreeze_bg_soft_prefix_panel(
         "model_generate_call_count": 0,
         "w0_native_bg_neutral_rerun_count": 0,
     }
+    if observability_contract is not None:
+        freeze_payload.update(
+            {
+                "observability_contract": dict(observability_contract),
+                "d1_d2_d3_observation_only": True,
+                "observability_total_decision_influence_count": 0,
+            }
+        )
     freeze_sha256 = write_once(
-        raw_root / "stepwise" / "bg-soft-action-freeze.json",
+        raw_root / "stepwise" / f"{output_token}-action-freeze.json",
         freeze_payload,
     )
     ledger = ComputeLedger()
     receipt_hashes: dict[str, dict[str, str]] = {}
-    first_rollout = next(
-        (item for item in rollouts.values() if item.snapshots), None
+    first_rollout = (
+        next(iter(rollouts.values()), None)
+        if bootstrap_targets is not None
+        else next((item for item in rollouts.values() if item.snapshots), None)
     )
     if first_rollout is not None:
-        first = first_rollout.snapshots[0]
+        first = (
+            first_rollout.snapshots[0]
+            if first_rollout.snapshots
+            else None
+        )
+        loader_snapshot_sha256 = (
+            first.snapshot_sha256
+            if first is not None
+            else canonical_hash(
+                {
+                    "variant": first_rollout.variant_label,
+                    "entry": 0,
+                    "action_freeze_sha256": action_freeze_sha256,
+                }
+            )
+        )
         loader_freeze = StepwiseActionFreeze(
             variant=first_rollout.variant_label,
             request_order_sha256=request_order_sha256,
             rollout_sha256=first_rollout.rollout_sha256,
-            snapshot_sha256=first.snapshot_sha256,
-            snapshot_index=first.accepted_index,
-            accepted_snapshot_count=len(first_rollout.snapshots),
+            snapshot_sha256=loader_snapshot_sha256,
+            snapshot_index=(0 if first is None else first.accepted_index),
+            accepted_snapshot_count=(
+                len(first_rollout.snapshots)
+                + (1 if bootstrap_targets is not None else 0)
+            ),
             rejected_retry_count=0,
             trajectory_status=first_rollout.status,
         )
@@ -2671,8 +2771,226 @@ def _postfreeze_bg_soft_prefix_panel(
         )
         counter = ModelForwardCounter(model, ledger)
         try:
+            if bootstrap_targets is not None:
+                for variant, rollout in sorted(rollouts.items()):
+                    if variant not in bootstrap_targets:
+                        raise ODEBFContractError(
+                            "universal D2 entry target is absent"
+                        )
+                    entry_target = bootstrap_targets[variant]
+                    entry_snapshot_sha256 = canonical_hash(
+                        {
+                            "variant": variant,
+                            "entry_index": 0,
+                            "bootstrap_target_sha256": tensor_sha256(
+                                entry_target
+                            ),
+                            "rollout_sha256": rollout.rollout_sha256,
+                            "action_freeze_sha256": action_freeze_sha256,
+                        }
+                    )
+                    freeze = StepwiseActionFreeze(
+                        variant=variant,
+                        request_order_sha256=request_order_sha256,
+                        rollout_sha256=rollout.rollout_sha256,
+                        snapshot_sha256=entry_snapshot_sha256,
+                        snapshot_index=0,
+                        accepted_snapshot_count=len(rollout.snapshots) + 1,
+                        rejected_retry_count=0,
+                        trajectory_status=rollout.status,
+                    )
+                    observed, compute = _evaluate_stepwise_state(
+                        model,
+                        tokenizer,
+                        cases,
+                        alias=alias,
+                        freeze=freeze,
+                        ledger=ledger,
+                        touched=touched,
+                    )
+                    before_oracle = _parameter_contract_sha256(touched)
+                    entry_terminal = capture_cold_z_base(
+                        model, tokenizer, requests, hparams
+                    )
+                    entry_residual = common_terminal_residual_input(
+                        entry_target,
+                        entry_terminal,
+                        request_order_sha256,
+                    )
+                    from .bg_soft_diagnostics import (
+                        HeldoutRequestResidualActivationOverlay,
+                    )
+
+                    z_oracle_overlay = (
+                        HeldoutRequestResidualActivationOverlay(
+                            model,
+                            target_layer_name,
+                            entry_residual.residual,
+                            heldout_lookup_positions,
+                            heldout_patched_rows,
+                        )
+                    )
+                    oracle_started = time.perf_counter()
+                    with z_oracle_overlay:
+                        z_oracle = evaluate_counterfact_stepwise_primary(
+                            model,
+                            tokenizer,
+                            cases,
+                            model_alias=alias,
+                            freeze=freeze,
+                        )
+                    oracle_wall = time.perf_counter() - oracle_started
+                    z_oracle_overlay_payload = (
+                        z_oracle_overlay.raw_free_payload()
+                    )
+                    after_oracle = _parameter_contract_sha256(touched)
+                    if before_oracle != after_oracle:
+                        raise ODEBFStateError(
+                            "universal D2 entry z-oracle mutated state"
+                        )
+                    left = observed.primary
+                    right = z_oracle.primary
+                    if (
+                        left.request_order_sha256
+                        != right.request_order_sha256
+                        or left.evaluation_case_identity_sha256
+                        != right.evaluation_case_identity_sha256
+                        or left.target_span_sha256
+                        != right.target_span_sha256
+                        or left.evaluator_source_sha256
+                        != right.evaluator_source_sha256
+                        or left.aggregator_source_sha256
+                        != right.aggregator_source_sha256
+                        or right.generation_call_count != 0
+                        or left.locality != right.locality
+                    ):
+                        raise ODEBFContractError(
+                            "universal D2 entry evaluator parity differs"
+                        )
+                    ledger.increment(
+                        "evaluator_forward", right.model_forward_count
+                    )
+                    ledger.increment(
+                        "evaluator_tokens", right.processed_token_count
+                    )
+                    ledger.add_time(
+                        "postfreeze_z_oracle", wall_seconds=oracle_wall
+                    )
+                    target_assisted, _ = _objective_with_residual(
+                        model,
+                        tokenizer,
+                        requests,
+                        factors={},
+                        contexts=contexts,
+                        target_layer_name=target_layer_name,
+                        lookup_positions=controller_lookup_positions,
+                        residual=entry_residual.residual,
+                    )
+                    weight_only = evaluate_routing_objective(
+                        model,
+                        tokenizer,
+                        requests,
+                        objective=RoutingObjective.TARGET_NEW_NLL,
+                        contexts=contexts,
+                    )
+                    target_assisted_payload = (
+                        _routing_objective_raw_free_payload(
+                            target_assisted,
+                            role=(
+                                "TARGET_ASSISTED_RESIDUAL_OVERLAY_OBJECTIVE"
+                            ),
+                            action_frozen_before_evaluation=True,
+                        )
+                    )
+                    weight_only_payload = (
+                        _routing_objective_raw_free_payload(
+                            weight_only,
+                            role="WEIGHT_ONLY_NO_RESIDUAL_HOOK_OBJECTIVE",
+                            action_frozen_before_evaluation=True,
+                        )
+                    )
+                    ledger.increment(
+                        "evaluator_forward",
+                        target_assisted.model_forward_count
+                        + weight_only.model_forward_count,
+                    )
+                    ledger.increment(
+                        "evaluator_tokens",
+                        target_assisted.processed_token_count
+                        + weight_only.processed_token_count,
+                    )
+                    entry_receipt = {
+                        "schema": (
+                            f"{receipt_schema_prefix}-step-receipt/v1"
+                        ),
+                        "variant": variant,
+                        "accepted_index": 0,
+                        "tau": fraction_payload(Fraction(0, 1)),
+                        "delta_tau": fraction_payload(Fraction(0, 1)),
+                        "snapshot_sha256": entry_snapshot_sha256,
+                        "freeze_sha256": freeze.identity(),
+                        "primary": observed.raw_free_payload(),
+                        "w_only_primary": observed.raw_free_payload(),
+                        "z_oracle_primary": z_oracle.raw_free_payload(),
+                        "z_oracle_additive_overlay": (
+                            z_oracle_overlay_payload
+                        ),
+                        "z_oracle_residual": (
+                            entry_residual.raw_free_payload()
+                        ),
+                        "heldout_additive_lookup_sha256": (
+                            heldout_lookup_sha256
+                        ),
+                        "z_oracle_semantics": (
+                            "REQUEST_SPECIFIC_ADDITIVE_TERMINAL_RESIDUAL_"
+                            "AT_HELDOUT_SUBJECT_LOOKUP"
+                        ),
+                        "absolute_z_replacement_count": 0,
+                        "z_oracle_locality_rows_unhooked_exact": True,
+                        "w_only_z_oracle_prompt_span_order_exact": True,
+                        "z_oracle_compute": {
+                            "wall_seconds": oracle_wall,
+                            "model_forward_count": (
+                                right.model_forward_count + 1
+                            ),
+                            "processed_token_count": (
+                                right.processed_token_count
+                            ),
+                            "terminal_recapture_forward_count": 1,
+                        },
+                        "target_assisted_six_context_objective": (
+                            target_assisted_payload
+                        ),
+                        "weight_only_six_context_objective": (
+                            weight_only_payload
+                        ),
+                        "progress_actual_semantics": (
+                            "RESIDUAL_OVERLAY_OBJECTIVE_NOT_WEIGHT_ONLY"
+                        ),
+                        "routing": None,
+                        "capacity": None,
+                        "compute": compute,
+                        "action_frozen_before_open": True,
+                        "controller_heldout_access_count": 0,
+                        "entry_snapshot": True,
+                    }
+                    if observability_contract is not None:
+                        entry_receipt["observability_contract"] = dict(
+                            observability_contract
+                        )
+                    receipt_hashes.setdefault(variant, {})["0"] = (
+                        write_once(
+                            raw_root
+                            / "stepwise"
+                            / variant
+                            / "accepted-0000.json",
+                            entry_receipt,
+                        )
+                    )
             for variant, rollout in sorted(rollouts.items()):
-                variant_hashes: dict[str, str] = {}
+                variant_hashes: dict[str, str] = dict(
+                    receipt_hashes.get(variant, {})
+                )
                 for snapshot in rollout.snapshots:
                     freeze = StepwiseActionFreeze(
                         variant=variant,
@@ -2680,7 +2998,10 @@ def _postfreeze_bg_soft_prefix_panel(
                         rollout_sha256=rollout.rollout_sha256,
                         snapshot_sha256=snapshot.snapshot_sha256,
                         snapshot_index=snapshot.accepted_index,
-                        accepted_snapshot_count=len(rollout.snapshots),
+                        accepted_snapshot_count=(
+                            len(rollout.snapshots)
+                            + (1 if bootstrap_targets is not None else 0)
+                        ),
                         rejected_retry_count=0,
                         trajectory_status=rollout.status,
                     )
@@ -2793,7 +3114,7 @@ def _postfreeze_bg_soft_prefix_panel(
                         raw_root / relative,
                         {
                         "schema": (
-                            "ode-edit-s05-bg-soft-missing-cell-step-receipt/v1"
+                            f"{receipt_schema_prefix}-step-receipt/v1"
                         ),
                         "variant": variant,
                         "accepted_index": snapshot.accepted_index,
@@ -2844,6 +3165,15 @@ def _postfreeze_bg_soft_prefix_panel(
                         "compute": compute,
                         "action_frozen_before_open": True,
                         "controller_heldout_access_count": 0,
+                        **(
+                            {
+                                "observability_contract": dict(
+                                    observability_contract
+                                )
+                            }
+                            if observability_contract is not None
+                            else {}
+                        ),
                         },
                     )
                 receipt_hashes[variant] = dict(
@@ -2855,7 +3185,7 @@ def _postfreeze_bg_soft_prefix_panel(
 
     _observed_memory(ledger)
     panel = {
-        "schema": "ode-edit-s05-bg-soft-missing-cell-stepwise-panel/v1",
+        "schema": f"{receipt_schema_prefix}-stepwise-panel/v1",
         "action_freeze_sha256": freeze_sha256,
         "request_order_sha256": request_order_sha256,
         "rollout_sha256": {
@@ -2881,6 +3211,20 @@ def _postfreeze_bg_soft_prefix_panel(
         "generation_call_count": 0,
         "evaluation_compute": ledger.raw_free_payload(),
     }
+    if observability_contract is not None:
+        panel.update(
+            {
+                "instruction_id": instruction_id,
+                "amendment_id": amendment_id,
+                "observability_contract": dict(observability_contract),
+                "d1_d2_d3_observation_only": True,
+                "observability_total_decision_influence_count": 0,
+                "evaluated_snapshot_count_including_entry_k0": {
+                    key: len(value.snapshots) + 1
+                    for key, value in sorted(rollouts.items())
+                },
+            }
+        )
     panel["panel_sha256"] = canonical_hash(panel)
     return panel
 
@@ -2921,6 +3265,10 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     bg_soft_missing_cell_mode: bool = False,
     bg_soft_reference_lock: Mapping[str, Any] | None = None,
     bg_soft_reference_lock_sha256: str | None = None,
+    universal_observability_cell: str | None = None,
+    universal_observability_lock: Mapping[str, Any] | None = None,
+    universal_observability_lock_sha256: str | None = None,
+    universal_frozen_r12_reference: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     from .p1_runtime import ArmRuntimeState, _entry_parameter_snapshot_sha256, _evaluate_native_rewrite, _observed_memory
 
@@ -2928,6 +3276,11 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     request_order = ordered_request_digest_v1([str(item["request_sha256"]) for item in requests])
     if len(requests) != BATCH_SIZE or request_order != stream["batch_ordered_request_digest_v1"][0]:
         raise ODEBFContractError("common cold request/seal order differs")
+    universal_observability_mode = universal_observability_cell is not None
+    if bg_soft_missing_cell_mode and universal_observability_mode:
+        raise ODEBFContractError(
+            "BG-Soft and universal observability modes are mutually exclusive"
+        )
     if bg_soft_missing_cell_mode:
         from .p1_bg_soft_missing_cell_panel import (
             BG_SOFT_AMENDMENT_ID,
@@ -2951,12 +3304,50 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         runtime_instruction_id = BG_SOFT_INSTRUCTION_ID
         runtime_amendment_id = BG_SOFT_AMENDMENT_ID
         runtime_schema_namespace = BG_SOFT_SCHEMA_NAMESPACE
+        observability_contract = None
+        universal_live_arms: tuple[CommonColdArm, ...] = ()
+    elif universal_observability_mode:
+        from .ode_bf_observability import (
+            paired_arm_ids,
+            universal_observability_contract_receipt,
+        )
+        from .p1_universal_observability_panel import (
+            UNIVERSAL_OBS_AMENDMENT_ID,
+            UNIVERSAL_OBS_INSTRUCTION_ID,
+            UNIVERSAL_OBS_SCHEMA_NAMESPACE,
+        )
+
+        if (
+            universal_observability_lock is None
+            or universal_observability_lock_sha256 is None
+            or universal_frozen_r12_reference is None
+        ):
+            raise ODEBFContractError(
+                "universal observability lock/reference is absent"
+            )
+        dynamic_id, hold_id = paired_arm_ids(universal_observability_cell)
+        universal_live_arms = (
+            CommonColdArm(dynamic_id),
+            CommonColdArm(hold_id),
+        )
+        observability_contract = universal_observability_contract_receipt(
+            instruction_id=UNIVERSAL_OBS_INSTRUCTION_ID,
+            amendment_id=UNIVERSAL_OBS_AMENDMENT_ID,
+            cell_id=universal_observability_cell,
+        )
+        expected_bg_initial = None
+        frozen_bg_reference = None
+        runtime_instruction_id = UNIVERSAL_OBS_INSTRUCTION_ID
+        runtime_amendment_id = UNIVERSAL_OBS_AMENDMENT_ID
+        runtime_schema_namespace = UNIVERSAL_OBS_SCHEMA_NAMESPACE
     else:
         expected_bg_initial = None
         frozen_bg_reference = None
         runtime_instruction_id = COMMON_COLD_INSTRUCTION_ID
         runtime_amendment_id = None
         runtime_schema_namespace = COMMON_COLD_SCHEMA_NAMESPACE
+        observability_contract = None
+        universal_live_arms = ()
     base_bytes = {name: tensor_sha256(value) for name, value in sorted(touched.items())}
     base_contract = _parameter_contract_sha256(touched)
     # The reused-Warm ordinal-6 RCA is completed before any target capture,
@@ -3081,7 +3472,11 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     }
     bootstrap_counter = ModelForwardCounter(model, job_ledger)
     try:
-        if bg_soft_missing_cell_mode:
+        if bg_soft_missing_cell_mode or (
+            universal_observability_mode
+            and universal_live_arms[0].scale
+            is CommonColdScale.BATCH_GLOBAL
+        ):
             rs_target = None
             rs_bootstrap = None
         else:
@@ -3096,17 +3491,25 @@ def run_common_coldcoord_fixed_e8_diagnostic(
                 metric=metrics[CommonColdScale.ROBUST_SHARED],
                 ledger=job_ledger,
             )
-        bg_target, bg_bootstrap = common_cold_bootstrap(
-            model,
-            tokenizer,
-            requests,
-            contexts,
-            target_layer_name=target_layer_name,
-            lookup_positions=lookup_positions,
-            z_base=z_base,
-            metric=metrics[CommonColdScale.BATCH_GLOBAL],
-            ledger=job_ledger,
-        )
+        if (
+            universal_observability_mode
+            and universal_live_arms[0].scale
+            is CommonColdScale.ROBUST_SHARED
+        ):
+            bg_target = None
+            bg_bootstrap = None
+        else:
+            bg_target, bg_bootstrap = common_cold_bootstrap(
+                model,
+                tokenizer,
+                requests,
+                contexts,
+                target_layer_name=target_layer_name,
+                lookup_positions=lookup_positions,
+                z_base=z_base,
+                metric=metrics[CommonColdScale.BATCH_GLOBAL],
+                ledger=job_ledger,
+            )
     finally:
         bootstrap_counter.close()
     rs_sha = (
@@ -3116,7 +3519,13 @@ def run_common_coldcoord_fixed_e8_diagnostic(
             raw_root / "common-cold" / "bootstrap-rs.json", rs_bootstrap
         )
     )
-    bg_sha = write_once(raw_root / "common-cold" / "bootstrap-bg.json", bg_bootstrap)
+    bg_sha = (
+        None
+        if bg_bootstrap is None
+        else write_once(
+            raw_root / "common-cold" / "bootstrap-bg.json", bg_bootstrap
+        )
+    )
     bootstrap_stage_payload = {
         "pre_residual_exact_zero": True,
         "rs_bootstrap_sha256": rs_sha,
@@ -3124,13 +3533,24 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         "rs_joint_entry_target_sha256": (
             None if rs_target is None else tensor_sha256(rs_target)
         ),
-        "bg_joint_entry_target_sha256": tensor_sha256(bg_target),
+        "bg_joint_entry_target_sha256": (
+            None if bg_target is None else tensor_sha256(bg_target)
+        ),
         "tau_joint": 0.0,
     }
     if bg_soft_missing_cell_mode:
         bootstrap_stage_payload[
             "bg_soft_reuses_frozen_bg_neutral_bootstrap_contract"
         ] = True
+    if universal_observability_mode:
+        bootstrap_stage_payload.update(
+            {
+                "observability_contract": observability_contract,
+                "live_cell": universal_observability_cell,
+                "bootstrap_count": 1,
+                "dynamic_hold_bootstrap_exact_shared": True,
+            }
+        )
     stages.record("post_bootstrap_contract", bootstrap_stage_payload)
     outer_population = tuple(population_by_sha256[item] for item in theta0_cache.request_order)
     outer_snapshot = _entry_parameter_snapshot_sha256(model, dict(base_receipt.parameter_sha256))
@@ -3150,7 +3570,9 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     initial_contracts: dict[str, dict[str, Any]] = {}
     pair_initial_contracts: dict[str, dict[str, Any]] = {}
     live_arms = (
-        (
+        universal_live_arms
+        if universal_observability_mode
+        else (
             CommonColdArm.BG_SOFT,
             CommonColdArm.BG_SOFT_TARGET_HOLD,
         )
@@ -3173,7 +3595,9 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         pair_initial_capture: dict[str, Any] = {}
         try:
             expected_initial = (
-                expected_bg_initial
+                initial_contracts.get(universal_live_arms[0].value)
+                if universal_observability_mode and arm.target_hold
+                else expected_bg_initial
                 if arm is CommonColdArm.BG_SOFT
                 else initial_contracts.get(CommonColdArm.BG_SOFT.value)
                 if arm is CommonColdArm.BG_SOFT_TARGET_HOLD
@@ -3216,9 +3640,22 @@ def run_common_coldcoord_fixed_e8_diagnostic(
                 initial_contract_sink=initial_capture,
                 pair_initial_contract_sink=(
                     pair_initial_capture if bg_soft_missing_cell_mode else None
+                    if not universal_observability_mode
+                    else pair_initial_capture
                 ),
-                typed_zero_positive=bg_soft_missing_cell_mode,
-                record_six_context_objectives=bg_soft_missing_cell_mode,
+                typed_zero_positive=(
+                    bg_soft_missing_cell_mode
+                    or universal_observability_mode
+                ),
+                record_six_context_objectives=(
+                    bg_soft_missing_cell_mode
+                    or universal_observability_mode
+                ),
+                observability_contract=(
+                    observability_contract
+                    if universal_observability_mode
+                    else None
+                ),
             )
             rollouts[arm.value] = rollout
             initial_contracts[arm.value] = initial_contract
@@ -3242,6 +3679,34 @@ def run_common_coldcoord_fixed_e8_diagnostic(
             }
             write_once(raw_root / "common-cold" / f"failure-{arm.value}.json", failures[arm.value])
             stages.record(f"post_{arm.value.lower().replace('-', '_')}_failure", failures[arm.value])
+        except ODEBFStateError as exc:
+            if not universal_observability_mode:
+                raise
+            if initial_capture:
+                initial_contracts[arm.value] = dict(initial_capture)
+            if pair_initial_capture:
+                pair_initial_contracts[arm.value] = dict(
+                    pair_initial_capture
+                )
+            failures[arm.value] = {
+                "status": "ARM_LOCAL_TECHNICAL_FAILURE",
+                "exception_type": type(exc).__name__,
+                "message_sha256": hashlib.sha256(
+                    str(exc).encode("utf-8")
+                ).hexdigest(),
+                "completed_snapshot_count": len(recorder.accepted_hashes),
+                "receipt_links": recorder.links(),
+            }
+            write_once(
+                raw_root
+                / "common-cold"
+                / f"failure-{arm.value}.json",
+                failures[arm.value],
+            )
+            stages.record(
+                f"post_{arm.value.lower().replace('-', '_')}_failure",
+                failures[arm.value],
+            )
         finally:
             counter.close()
             _observed_memory(arm_state.ledger)
@@ -3275,6 +3740,26 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         raise ODEBFContractError(
             "BG-Soft main/target-hold selected k0 contract differs"
         )
+    if universal_observability_mode:
+        dynamic_arm, hold_arm = universal_live_arms
+        if (
+            dynamic_arm.value in initial_contracts
+            and hold_arm.value in initial_contracts
+            and initial_contracts.get(dynamic_arm.value)
+            != initial_contracts.get(hold_arm.value)
+        ):
+            raise ODEBFContractError(
+                "universal dynamic/hold initial contract differs"
+            )
+        if (
+            dynamic_arm.value in pair_initial_contracts
+            and hold_arm.value in pair_initial_contracts
+            and pair_initial_contracts.get(dynamic_arm.value)
+            != pair_initial_contracts.get(hold_arm.value)
+        ):
+            raise ODEBFContractError(
+                "universal dynamic/hold selected k0 contract differs"
+            )
     action_freeze = {
         "schema": f"{runtime_schema_namespace}-action-freeze/v1",
         "instruction_id": runtime_instruction_id,
@@ -3291,7 +3776,209 @@ def run_common_coldcoord_fixed_e8_diagnostic(
                 "w0_native_bg_neutral_rerun_count": 0,
             }
         )
+    if universal_observability_mode:
+        action_freeze.update(
+            {
+                "amendment_id": runtime_amendment_id,
+                "observability_contract": observability_contract,
+                "live_cell": universal_observability_cell,
+                "d1_d2_d3_observation_only": True,
+                "observability_total_decision_influence_count": 0,
+            }
+        )
     action_freeze_sha = write_once(raw_root / "common-cold" / "action-freeze.json", action_freeze)
+    if universal_observability_mode:
+        universal_rollouts = {
+            arm.value: rollouts[arm.value]
+            for arm in universal_live_arms
+            if arm.value in rollouts
+        }
+        if not universal_rollouts:
+            raise ODEBFContractError(
+                "universal observability arms produced no evaluable prefix"
+            )
+        dynamic_arm, hold_arm = universal_live_arms
+        selected_bootstrap = (
+            bg_target
+            if dynamic_arm.scale is CommonColdScale.BATCH_GLOBAL
+            else rs_target
+        )
+        if selected_bootstrap is None:
+            raise ODEBFContractError(
+                "universal observability selected bootstrap is absent"
+            )
+        bootstrap_targets = {
+            key: selected_bootstrap for key in universal_rollouts
+        }
+        output_token = (
+            "universal-"
+            + str(universal_observability_cell).lower().replace("-", "_")
+        )
+        panel = _postfreeze_bg_soft_prefix_panel(
+            model,
+            tokenizer,
+            alias=alias,
+            requests=requests,
+            contexts=contexts,
+            hparams=hparams,
+            target_layer_name=target_layer_name,
+            dataset_path=dataset_path,
+            rollouts=universal_rollouts,
+            raw_root=raw_root,
+            write_once=write_once,
+            touched=touched,
+            request_order_sha256=request_order,
+            action_freeze_sha256=action_freeze_sha,
+            frozen_reference=universal_frozen_r12_reference,
+            receipt_schema_prefix=(
+                f"{runtime_schema_namespace}-observability"
+            ),
+            instruction_id=runtime_instruction_id,
+            amendment_id=str(runtime_amendment_id),
+            output_token=output_token,
+            observability_contract=observability_contract,
+            bootstrap_targets=bootstrap_targets,
+            controller_lookup_positions=lookup_positions,
+        )
+        panel_sha = write_once(
+            raw_root
+            / "stepwise"
+            / f"{output_token}-factorial-cell-panel.json",
+            panel,
+        )
+        artifact_guard.assert_unchanged()
+        if {
+            name: tensor_sha256(value)
+            for name, value in sorted(touched.items())
+        } != base_bytes:
+            raise ODEBFStateError(
+                "universal observability final W0 restore differs"
+            )
+        variant_status = {
+            arm.value: (
+                universal_rollouts[arm.value].status
+                if arm.value in universal_rollouts
+                else failures[arm.value]["status"]
+            )
+            for arm in universal_live_arms
+        }
+        terminal = {
+            "schema": f"{runtime_schema_namespace}-terminal/v1",
+            "instruction_id": runtime_instruction_id,
+            "amendment_id": runtime_amendment_id,
+            "status": (
+                "UNIVERSAL_OBSERVABILITY_FACTORIAL_CELL_TERMINAL"
+                if not failures
+                else (
+                    "UNIVERSAL_OBSERVABILITY_FACTORIAL_CELL_"
+                    "PARTIAL_TECHNICAL_TERMINAL"
+                )
+            ),
+            "alias": alias,
+            "source_head": source_head,
+            "parent_method": common_cold_source_contract(),
+            "live_cell": universal_observability_cell,
+            "live_arms": [arm.value for arm in universal_live_arms],
+            "factorial_shape": [2, 2, 2],
+            "factorial_axes": observability_contract["factorial_axes"],
+            "observability_contract": observability_contract,
+            "d1_d2_d3_observation_only": True,
+            "observability_total_decision_influence_count": 0,
+            "scale": dynamic_arm.scale.value,
+            "routing": dynamic_arm.routing_arm.value,
+            "target_dynamics": [
+                "DYNAMIC_TARGET",
+                "TARGET_HOLD",
+            ],
+            "panel_kind": (
+                "REUSED_R10_OUTCOME_SELECTED_SEAL_2X2X2_"
+                "MECHANISTIC_FACTORIAL"
+            ),
+            "scientific_promotion_authorized": False,
+            "request_order_sha256": request_order,
+            "stream_root_digest": stream["root_digest"],
+            "universal_numerical_lock_sha256": (
+                universal_observability_lock_sha256
+            ),
+            "universal_numerical_lock_root_digest": (
+                universal_observability_lock["root_digest"]
+            ),
+            "frozen_r12_reference": dict(
+                universal_frozen_r12_reference
+            ),
+            "initial_contract": {
+                key: value
+                for key, value in sorted(initial_contracts.items())
+                if key in {arm.value for arm in universal_live_arms}
+            },
+            "dynamic_target_hold_pair_initial_contract": (
+                pair_initial_contracts.get(dynamic_arm.value)
+            ),
+            "bootstrap_sha256": {
+                dynamic_arm.scale.value: (
+                    bg_sha
+                    if dynamic_arm.scale is CommonColdScale.BATCH_GLOBAL
+                    else rs_sha
+                )
+            },
+            "action_freeze_sha256": action_freeze_sha,
+            "stepwise_panel_sha256": panel_sha,
+            "variant_status": variant_status,
+            "arm_failures": failures,
+            "arm_failure_count": len(failures),
+            "completed_arm_count": len(universal_rollouts),
+            "all_live_arms_scientifically_evaluable": not failures,
+            "accepted_snapshot_count": {
+                arm.value: (
+                    len(universal_rollouts[arm.value].snapshots)
+                    if arm.value in universal_rollouts
+                    else 0
+                )
+                for arm in universal_live_arms
+            },
+            "postfreeze_entry_snapshot_count": len(universal_rollouts),
+            "cold_native_or_direct_z_access_count": 0,
+            "scientific_retry_count": 0,
+            "scientific_rejection_count": 0,
+            "hard_h_p_budget_influence_count": 0,
+            "first_hit_observation_only": True,
+            "w0_native_rerun_count": 0,
+            "numerical_lock_sha256": numerical_sha256,
+            "artifact_receipt": asdict(artifact_receipt),
+            "context_sha256": context_sha256,
+            "cuda_preflight": dict(cuda_runtime_receipt),
+            "job_compute": job_ledger.raw_free_payload(),
+            "final_w0_restored": True,
+            "persistent_endpoint_commit_count": 0,
+            "history_append_count": 0,
+            "heldout_controller_access_count": 0,
+        }
+        terminal_sha = write_once(destination / "terminal.json", terminal)
+        manifest_sha = write_once(
+            destination / "manifest.json",
+            {
+                "schema": f"{runtime_schema_namespace}-manifest/v1",
+                "instruction_id": runtime_instruction_id,
+                "amendment_id": runtime_amendment_id,
+                "status": terminal["status"],
+                "alias": alias,
+                "source_head": source_head,
+                "live_cell": universal_observability_cell,
+                "terminal_sha256": terminal_sha,
+                "stepwise_panel_sha256": panel_sha,
+                "observability_contract_identity_sha256": (
+                    observability_contract["identity_sha256"]
+                ),
+                "retry_submission_count": 0,
+            },
+        )
+        return {
+            "status": terminal["status"],
+            "alias": alias,
+            "terminal_sha256": terminal_sha,
+            "manifest_sha256": manifest_sha,
+            "final_w0_restored": True,
+        }
     if bg_soft_missing_cell_mode:
         bg_rollouts = {
             arm.value: rollouts[arm.value]
