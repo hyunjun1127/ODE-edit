@@ -10,7 +10,8 @@ from __future__ import annotations
 import hashlib
 import json
 import math
-from dataclasses import asdict
+import time
+from dataclasses import asdict, replace
 from enum import Enum
 from fractions import Fraction
 from pathlib import Path
@@ -47,6 +48,7 @@ from .fixed_e8_soft_routing import (
     FixedE8Clock,
     FixedE8Stage2FailurePolicy,
     FixedE8StepMode,
+    _maximum_progress,
     solve_fixed_e8_routing,
 )
 from .functional import WaypointFactor, tensor_sha256
@@ -56,6 +58,7 @@ from .p1_adaptive_runtime import (
     FunctionalPDecisionPolicy,
     _controller_replay_entry,
     _evaluate_rewrite,
+    _evaluate_stepwise_state,
     _factor_map,
     _factor_state,
     _functional_trial,
@@ -68,6 +71,7 @@ from .p1_adaptive_runtime import (
     _risk_payload,
     _terminal_confirm_snapshots,
 )
+from .p1_evaluator import load_counterfact_cases_after_freeze
 from .p1_backend import (
     SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1,
     PinnedCovarianceRegistry,
@@ -80,6 +84,10 @@ from .p1_backend import (
 from .p1_controller import AcceptedLayerContribution, P1ControllerLock
 from .p1_replay import OuterEntryPretrainedCache, Theta0TeacherCache, build_outer_entry_pretrained_cache
 from .p1_state import ArmWeightSnapshot, P1Arm, P1HistoryLedger
+from .p1_stepwise import (
+    StepwiseActionFreeze,
+    evaluate_counterfact_stepwise_primary,
+)
 from .p1_common_coldcoord_fixed_e8_panel import (
     COMMON_COLD_SCHEMA_NAMESPACE,
     WARM_ALLOFF_ROOTS,
@@ -100,12 +108,19 @@ class CommonColdArm(str, Enum):
     RS_NEUTRAL = "RS-NEUTRAL"
     RS_SOFT = "RS-SOFT"
     BG_NEUTRAL = "BG-NEUTRAL"
+    BG_SOFT = "BG-SOFT"
+    BG_SOFT_TARGET_HOLD = "BG-SOFT-TARGET-HOLD"
 
     @property
     def scale(self) -> CommonColdScale:
         return (
             CommonColdScale.BATCH_GLOBAL
-            if self is CommonColdArm.BG_NEUTRAL
+            if self
+            in (
+                CommonColdArm.BG_NEUTRAL,
+                CommonColdArm.BG_SOFT,
+                CommonColdArm.BG_SOFT_TARGET_HOLD,
+            )
             else CommonColdScale.ROBUST_SHARED
         )
 
@@ -113,9 +128,58 @@ class CommonColdArm(str, Enum):
     def routing_arm(self) -> FixedE8Arm:
         return (
             FixedE8Arm.SOFT
-            if self is CommonColdArm.RS_SOFT
+            if self
+            in (
+                CommonColdArm.RS_SOFT,
+                CommonColdArm.BG_SOFT,
+                CommonColdArm.BG_SOFT_TARGET_HOLD,
+            )
             else FixedE8Arm.NEUTRAL
         )
+
+    @property
+    def target_hold(self) -> bool:
+        return self is CommonColdArm.BG_SOFT_TARGET_HOLD
+
+
+R10_COMMON_COLD_ARMS = (
+    CommonColdArm.RS_NEUTRAL,
+    CommonColdArm.RS_SOFT,
+    CommonColdArm.BG_NEUTRAL,
+)
+
+
+def _routing_objective_raw_free_payload(
+    result: Any,
+    *,
+    role: str,
+    action_frozen_before_evaluation: bool,
+) -> dict[str, Any]:
+    """Serialize one six-context objective without request text or token IDs."""
+
+    values = result.per_request_values.detach().to(
+        device="cpu", dtype=torch.float64
+    )
+    payload = {
+        "schema": "ode-edit-s05-bg-soft-six-context-objective/v1",
+        "role": role,
+        "objective": result.objective.value,
+        "mean_target_new_nll": float(result.loss.detach().cpu()),
+        "per_request_target_new_nll": [float(item) for item in values.tolist()],
+        "request_order_sha256": result.request_order_sha256,
+        "target_span_sha256": result.target_span_sha256,
+        "context_sha256": result.context_sha256,
+        "context_group_sizes": list(result.context_group_sizes),
+        "context_count": result.context_count,
+        "model_forward_count": result.model_forward_count,
+        "processed_token_count": result.processed_token_count,
+        "generation_call_count": result.generation_call_count,
+        "target_old_access_count": 0,
+        "action_frozen_before_evaluation": action_frozen_before_evaluation,
+        "controller_decision_influence_count": 0,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
 
 
 def _common_initial_contract(
@@ -140,6 +204,141 @@ def _common_initial_contract(
             float(item) for item in routing.pre_soft_velocity
         ],
         "target_velocity_scale_sha256": metric.identity_sha256,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
+
+
+def _bg_soft_initial_contract(
+    *,
+    bootstrap_target: torch.Tensor,
+    field: Any,
+    field_receipt: legacy.FixedE8FieldReceipt,
+    routing: Any,
+    metric: CommonColdScaleMetric,
+    built: Any,
+    inventory: Any,
+    probe: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Freeze every common pre-Soft input against R10 BG-Neutral."""
+
+    base = _common_initial_contract(
+        bootstrap_target=bootstrap_target,
+        field=field,
+        field_receipt=field_receipt,
+        routing=routing,
+        metric=metric,
+    )
+    base.pop("identity_sha256")
+    required_probe_keys = (
+        "schema",
+        "field_semantic_sha256",
+        "factor_state_sha256",
+        "controller_p_sample_order_sha256",
+        "controller_p_baseline_identity_sha256",
+        "controller_p_schedule_sha256",
+        "inventory",
+        "baseline",
+        "probe_endpoints",
+        "exact_basis_endpoint_count",
+        "baseline_endpoint_count",
+        "layer_probe_endpoint_count",
+        "functional_h_additional_probe_endpoint_count",
+        "historical_soft_status",
+        "legacy_one_e_minus_three_hinge_access_count",
+        "routing_functional_p_definition",
+        "functional_p_floor_correction_routing_influence_count",
+        "hard_functional_decision_influence_count",
+        "counter_delta",
+    )
+    if any(key not in probe for key in required_probe_keys):
+        raise ODEBFContractError("BG-Soft functional probe schema differs")
+    functional_probe_semantic_sha256 = canonical_hash(
+        {key: probe[key] for key in required_probe_keys}
+    )
+    base.update(
+        {
+            "schema": "ode-edit-s05-bg-soft-initial-contract/v1",
+            "problem_sha256": built.problem.identity(),
+            "functional_inventory_sha256": inventory.raw_free_payload()[
+                "identity_sha256"
+            ],
+            "functional_probe_semantic_sha256": (
+                functional_probe_semantic_sha256
+            ),
+            "timing_bearing_field_and_probe_receipts_excluded": True,
+            "selected_routing_velocity_excluded_from_identity": True,
+            "first_allowed_semantic_difference": "SELECTED_ROUTING_VELOCITY",
+        }
+    )
+    base["identity_sha256"] = canonical_hash(base)
+    return base
+
+
+def _partial_fixed_e8_clock_receipt(clock: FixedE8Clock) -> dict[str, Any]:
+    payload = {
+        "schema": "ode-edit-fixed-e8-partial-clock/v1",
+        "grid_count": clock.step_index,
+        "field_count": clock.field_count,
+        "h": float(FIXED_E8_H),
+        "tau_final": float(clock.tau),
+        "scientific_retry_count": clock.scientific_retry_count,
+        "scientific_rejection_count": 0,
+        "adaptive_clock_access_count": 0,
+        "backtracking_count": 0,
+        "termination_label": "ZERO_POSITIVE_DIRECTION",
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
+
+
+def _bg_soft_d1_operation_accounting(
+    *,
+    routing_qp: int,
+    routing_backend: int,
+    nohook_qp: int,
+    nohook_backend: int,
+    nohook_fallback: int,
+    ledger: ComputeLedger,
+) -> dict[str, Any]:
+    """Reconcile D1 diagnostic QPs with the arm compute ledger."""
+
+    values = {
+        "routing_qp": routing_qp,
+        "routing_backend": routing_backend,
+        "nohook_qp": nohook_qp,
+        "nohook_backend": nohook_backend,
+        "nohook_fallback": nohook_fallback,
+    }
+    if any(
+        isinstance(value, bool) or not isinstance(value, int) or value < 0
+        for value in values.values()
+    ):
+        raise ODEBFContractError("BG-Soft D1 operation count differs")
+    all_qp = routing_qp + nohook_qp
+    if (
+        ledger.counters["qp_solve"] != all_qp
+        or ledger.counters["qp_certificate"] != all_qp
+    ):
+        raise ODEBFStateError("BG-Soft D1 QP accounting differs")
+    payload = {
+        "actual_routing_logical_qp_certificate_count": routing_qp,
+        "actual_d1_nohook_logical_qp_certificate_count": nohook_qp,
+        "actual_all_logical_qp_certificate_count": all_qp,
+        "actual_routing_optimizer_backend_invocation_count": (
+            routing_backend
+        ),
+        "actual_d1_nohook_optimizer_backend_invocation_count": (
+            nohook_backend
+        ),
+        "actual_all_optimizer_backend_invocation_count": (
+            routing_backend + nohook_backend
+        ),
+        "actual_d1_nohook_fallback_backend_invocation_count": (
+            nohook_fallback
+        ),
+        "d1_nohook_qp_role": "OBSERVATION_ONLY",
+        "d1_nohook_controller_decision_influence_count": 0,
     }
     payload["identity_sha256"] = canonical_hash(payload)
     return payload
@@ -301,7 +500,19 @@ def _build_common_field(
     recorder: legacy.FixedE8ReceiptRecorder,
     lookup_positions: Sequence[int],
     target_layer_name: str,
-) -> tuple[Any, Any, Any, Any, Any, torch.Tensor, Mapping[str, Any], Any, Mapping[str, Any]]:
+    typed_zero_positive: bool = False,
+) -> tuple[
+    Any,
+    Any,
+    Any,
+    Any,
+    Any,
+    torch.Tensor | None,
+    Mapping[str, Any] | None,
+    Any,
+    Mapping[str, Any],
+    Mapping[str, Any],
+]:
     before = _parameter_contract_sha256(touched)
     before_history = history.snapshot().digest
     before_sampler = schedule.state_digest
@@ -345,6 +556,19 @@ def _build_common_field(
         residual=residual_input.residual,
         ledger=ledger,
     )
+    nohook_signed = (
+        legacy._fixed_e8_signed_progress_gradient(
+            model,
+            tokenizer,
+            requests,
+            field,
+            cumulative_factors_by_weight=current_factors,
+            contexts=contexts,
+            ledger=ledger,
+        )
+        if typed_zero_positive
+        else None
+    )
     semantic = _common_field_semantic_receipt(
         field, solve_history=solve_history, risk_history=risk_history
     )
@@ -356,6 +580,65 @@ def _build_common_field(
         lock=lock,
         current_history_action_by_layer=_history_actions(field, history),
     )
+    nohook_values = (
+        np.asarray(nohook_signed.signed_progress, dtype=np.float64)
+        if nohook_signed is not None
+        else np.asarray([], dtype=np.float64)
+    )
+    nohook_active = np.flatnonzero(nohook_values > 0.0)
+    nohook_certificate_payload: Mapping[str, Any] | None
+    if nohook_signed is not None and nohook_active.size:
+        nohook_certificates: list[Any] = []
+
+        def observe_nohook(certificate: Any) -> None:
+            nohook_certificates.append(certificate)
+            recorder.solver(
+                {
+                    "step_index": step_index,
+                    "arm": arm.value,
+                    "certificate_sequence_index": len(nohook_certificates) - 1,
+                    "persistence_point": (
+                        "D1_NOHOOK_OBSERVATION_BEFORE_OVERLAY_POSITIVE_GUARD"
+                    ),
+                    "status": (
+                        "D1_NOHOOK_MAXIMUM_PROGRESS_CERTIFIED"
+                        if certificate.passed
+                        else "D1_NOHOOK_MAXIMUM_PROGRESS_UNCERTIFIED"
+                    ),
+                    "field_sha256": field.identity_sha256,
+                    "field_semantic_sha256": semantic[
+                        "semantic_identity_sha256"
+                    ],
+                    "problem_sha256": built.problem.identity(),
+                    "certificate": certificate.raw_free_payload(),
+                    "authority_role": "OBSERVATION_ONLY_D1_NOHOOK",
+                    "controller_decision_influence_count": 0,
+                    "scientific_retry_count": 0,
+                }
+            )
+
+        nohook_problem = replace(
+            built.problem,
+            signed_progress=nohook_values,
+        )
+        _, nohook_p_max, nohook_certificate = _maximum_progress(
+            nohook_problem,
+            nohook_active,
+            certificate_observer=observe_nohook,
+        )
+        if nohook_certificates != [nohook_certificate]:
+            raise ODEBFStateError(
+                "BG-Soft D1 nohook certificate sequence differs"
+            )
+        nohook_certificate_payload = nohook_certificate.raw_free_payload()
+        ledger.increment("qp_solve", 1)
+        ledger.increment("qp_certificate", 1)
+    elif nohook_signed is not None:
+        nohook_p_max = 0.0
+        nohook_certificate_payload = None
+    else:
+        nohook_p_max = None
+        nohook_certificate_payload = None
     factor_state = _factor_state(capture.entry_sha256, current_factors, current_target)
     inventory, probe = legacy._fixed_e8_functional_basis_probe(
         model,
@@ -392,29 +675,76 @@ def _build_common_field(
         certificate_observer=observer,
         stage2_failure_policy=(
             FixedE8Stage2FailurePolicy.CERTIFIED_STAGE1_FALLBACK
-            if arm is CommonColdArm.RS_SOFT
+            if arm.routing_arm is FixedE8Arm.SOFT
             else FixedE8Stage2FailurePolicy.FAIL_CLOSED
         ),
     )
     if tuple(observed) != routing.certificates:
         raise ODEBFStateError("common cold solver receipt sequence differs")
-    if routing.mode is not FixedE8StepMode.JOINT_WRITE or routing.p_max <= 0.0:
+    slope_comparison: Mapping[str, Any] | None = None
+    if nohook_signed is not None and nohook_p_max is not None:
+        from .bg_soft_diagnostics import signed_slope_comparison_receipt
+
+        slope_comparison = signed_slope_comparison_receipt(
+            signed.signed_progress,
+            nohook_signed.signed_progress,
+            overlay_p_max=float(routing.p_max),
+            no_hook_p_max=float(nohook_p_max),
+            layer_order=COMMON_COLD_LAYER_ORDER,
+        )
+        slope_comparison = {
+            **slope_comparison,
+            "overlay_signed_progress_receipt_sha256": (
+                signed.objective_receipt_sha256
+            ),
+            "nohook_signed_progress_receipt_sha256": (
+                nohook_signed.objective_receipt_sha256
+            ),
+            "nohook_maximum_progress_certificate": (
+                nohook_certificate_payload
+            ),
+            "nohook_controller_decision_influence_count": 0,
+        }
+    zero_positive = bool(
+        routing.mode is not FixedE8StepMode.JOINT_WRITE
+        or routing.p_max <= 0.0
+    )
+    if zero_positive and not typed_zero_positive:
         raise ODEBFContractError("BOOTSTRAP_READINESS_FAILED: p_max is nonpositive")
     ledger.increment("qp_solve", len(routing.certificates))
     ledger.increment("qp_certificate", len(routing.certificates))
-    target_velocity, target_receipt = write_aware_common_target_velocity(
-        model,
-        tokenizer,
-        requests,
-        contexts,
-        target_layer_name=target_layer_name,
-        lookup_positions=lookup_positions,
-        field=field,
-        velocity_coefficients=routing.velocity,
-        cumulative_factors_by_weight=current_factors,
-        metric=metric,
-        ledger=ledger,
-    )
+    if zero_positive:
+        target_velocity = None
+        target_receipt = {
+            "schema": "ode-edit-common-cold-target-velocity-not-computed/v1",
+            "status": "ZERO_POSITIVE_DIRECTION",
+            "velocity_sha256": canonical_hash(
+                {
+                    "status": "ZERO_POSITIVE_DIRECTION",
+                    "field_sha256": field.identity_sha256,
+                    "step_index": step_index,
+                }
+            ),
+            "model_forward_count": 0,
+            "target_backward_count": 0,
+            "candidate_count": 0,
+            "clock_advance_count": 0,
+            "decision": "PRESERVE_VALID_PREFIX_AND_TERMINATE_ARM",
+        }
+    else:
+        target_velocity, target_receipt = write_aware_common_target_velocity(
+            model,
+            tokenizer,
+            requests,
+            contexts,
+            target_layer_name=target_layer_name,
+            lookup_positions=lookup_positions,
+            field=field,
+            velocity_coefficients=routing.velocity,
+            cumulative_factors_by_weight=current_factors,
+            metric=metric,
+            ledger=ledger,
+        )
     if (
         _parameter_contract_sha256(touched) != before
         or history.snapshot().digest != before_history
@@ -440,6 +770,23 @@ def _build_common_field(
         "h": float(FIXED_E8_H),
         "scientific_retry_count": 0,
     }
+    if typed_zero_positive:
+        field_payload.update(
+            {
+                "typed_zero_positive_enabled": True,
+                "termination_candidate": (
+                    "ZERO_POSITIVE_DIRECTION" if zero_positive else None
+                ),
+                "field_persisted_before_positive_guard": True,
+            }
+        )
+    if typed_zero_positive and nohook_signed is not None and slope_comparison is not None:
+        field_payload.update(
+            {
+                "nohook_signed_progress": asdict(nohook_signed),
+                "overlay_vs_nohook_signed_slopes": slope_comparison,
+            }
+        )
     persisted = recorder.field(field_payload)
     receipt_payload = {
         "field_sha256": field.identity_sha256,
@@ -461,7 +808,185 @@ def _build_common_field(
         receipt_payload["target_velocity_sha256"],
         canonical_hash(receipt_payload),
     )
-    return field, signed, built, inventory, routing, target_velocity, target_receipt, field_receipt, probe
+    return (
+        field,
+        signed,
+        built,
+        inventory,
+        routing,
+        target_velocity,
+        target_receipt,
+        field_receipt,
+        probe,
+        slope_comparison,
+    )
+
+
+def _single_write_audit_point(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    *,
+    hparams: Any,
+    state: Mapping[str, Any],
+    touched: Mapping[str, torch.nn.Parameter],
+    history: P1HistoryLedger,
+    schedule: StatelessReplaySchedule,
+) -> dict[str, Any]:
+    """Measure one-layer and atomic BF16 lookup displacement, state-pure."""
+
+    from .bg_soft_diagnostics import single_write_audit_summary
+
+    field = state["field"]
+    increment = state["increment"]
+    source_factors = state["source_factors"]
+    source_terminal = state["source_terminal"]
+    intended_delta = state["intended_delta"]
+
+    def controller_signature() -> str:
+        factor_payload: dict[str, list[dict[str, Any]]] = {}
+        for weight_name, factors in sorted(source_factors.items()):
+            factor_payload[
+                hashlib.sha256(weight_name.encode("utf-8")).hexdigest()
+            ] = [
+                {
+                    "order_key": list(item.order_key),
+                    "theta": float(item.theta),
+                    "left_sha256": tensor_sha256(item.left),
+                    "right_sha256": tensor_sha256(item.right),
+                }
+                for item in factors
+            ]
+        increment_payload = [
+            {
+                "layer": int(layer.layer),
+                "theta": float(increment[layer.weight_name].theta),
+                "left_sha256": tensor_sha256(
+                    increment[layer.weight_name].left
+                ),
+                "right_sha256": tensor_sha256(
+                    increment[layer.weight_name].right
+                ),
+            }
+            for layer in field.layers
+        ]
+        return canonical_hash(
+            {
+                "field_sha256": field.identity_sha256,
+                "source_target_sha256": tensor_sha256(
+                    state["source_target"]
+                ),
+                "source_terminal_sha256": tensor_sha256(source_terminal),
+                "intended_delta_sha256": tensor_sha256(intended_delta),
+                "source_factors": factor_payload,
+                "selected_increment": increment_payload,
+            }
+        )
+
+    controller_before = controller_signature()
+    source_signature = (
+        _parameter_contract_sha256(touched),
+        history.snapshot().digest,
+        schedule.state_digest,
+        legacy._rng_identity(),
+        controller_before,
+    )
+    layer_deltas: list[torch.Tensor] = []
+    layer_receipts: list[dict[str, Any]] = []
+    for layer in field.layers:
+        factor = increment[layer.weight_name]
+        candidate = _merge_factors(
+            source_factors, {layer.weight_name: factor}
+        )
+        with _virtual_context(model, candidate):
+            endpoint = capture_cold_z_base(
+                model, tokenizer, requests, hparams
+            )
+        if source_signature != (
+            _parameter_contract_sha256(touched),
+            history.snapshot().digest,
+            schedule.state_digest,
+            legacy._rng_identity(),
+            controller_signature(),
+        ):
+            raise ODEBFStateError(
+                "BG-Soft single-write audit mutated source state"
+            )
+        delta = (endpoint - source_terminal).contiguous()
+        layer_deltas.append(delta)
+        layer_receipts.append(
+            {
+                "layer": int(layer.layer),
+                "weight_name_sha256": hashlib.sha256(
+                    layer.weight_name.encode("utf-8")
+                ).hexdigest(),
+                "coefficient": float(factor.theta),
+                "factor_left_sha256": tensor_sha256(factor.left),
+                "factor_right_sha256": tensor_sha256(factor.right),
+                "bf16_endpoint_sha256": tensor_sha256(endpoint),
+                "lookup_delta_sha256": tensor_sha256(delta),
+            }
+        )
+    all_candidate = _merge_factors(source_factors, increment)
+    with _virtual_context(model, all_candidate):
+        all_endpoint = capture_cold_z_base(model, tokenizer, requests, hparams)
+    if source_signature != (
+        _parameter_contract_sha256(touched),
+        history.snapshot().digest,
+        schedule.state_digest,
+        legacy._rng_identity(),
+        controller_signature(),
+    ):
+        raise ODEBFStateError(
+            "BG-Soft all-layer write audit mutated source state"
+        )
+    all_delta = (all_endpoint - source_terminal).contiguous()
+    if tensor_sha256(all_endpoint) != tensor_sha256(
+        state["online_candidate_terminal"]
+    ):
+        raise ODEBFStateError(
+            "BG-Soft all-layer audit endpoint differs from online candidate"
+        )
+    summary = single_write_audit_summary(
+        intended_delta,
+        tuple(layer_deltas),
+        all_delta,
+        layer_order=COMMON_COLD_LAYER_ORDER,
+    )
+    payload = {
+        "schema": "ode-edit-s05-bg-soft-single-write-audit/v1",
+        "arm": str(state["arm"]),
+        "audit_role": str(state["audit_role"]),
+        "source_step_index": int(state["step_index"]),
+        "source_field_sha256": field.identity_sha256,
+        "source_target_sha256": tensor_sha256(state["source_target"]),
+        "source_terminal_sha256": tensor_sha256(source_terminal),
+        "intended_delta_sha256": tensor_sha256(intended_delta),
+        "single_layer": layer_receipts,
+        "all_layer": {
+            "bf16_endpoint_sha256": tensor_sha256(all_endpoint),
+            "online_candidate_endpoint_sha256": tensor_sha256(
+                state["online_candidate_terminal"]
+            ),
+            "online_candidate_endpoint_exact": True,
+            "lookup_delta_sha256": tensor_sha256(all_delta),
+        },
+        "summary": summary,
+        "parameter_history_rng_controller_before_sha256": canonical_hash(
+            list(source_signature)
+        ),
+        "parameter_history_rng_controller_after_sha256": canonical_hash(
+            list(source_signature)
+        ),
+        "controller_state_sha256": controller_before,
+        "restoration_exact_after_every_probe": True,
+        "single_layer_probe_forward_count": len(COMMON_COLD_LAYER_ORDER),
+        "all_layer_probe_forward_count": 1,
+        "total_probe_forward_count": len(COMMON_COLD_LAYER_ORDER) + 1,
+        "controller_decision_influence_count": 0,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
 
 
 def _run_common_arm(
@@ -494,6 +1019,9 @@ def _run_common_arm(
     stages: Any,
     expected_initial_contract: Mapping[str, Any] | None = None,
     initial_contract_sink: dict[str, Any] | None = None,
+    pair_initial_contract_sink: dict[str, Any] | None = None,
+    typed_zero_positive: bool = False,
+    record_six_context_objectives: bool = False,
 ) -> tuple[legacy.FixedE8Rollout, dict[str, Any]]:
     clock = FixedE8Clock()
     history = arm_state.history
@@ -503,6 +1031,7 @@ def _run_common_arm(
     before_sampler = schedule.state_digest
     before_rng = legacy._rng_identity()
     current_target = bootstrap_target.clone()
+    entry_target_sha256 = tensor_sha256(current_target)
     current_terminal = z_base.clone()
     current_residual = common_terminal_residual_input(
         current_target,
@@ -524,13 +1053,30 @@ def _run_common_arm(
         lookup_positions=lookup_positions,
         residual=current_residual,
     )
+    entry_target_assisted = (
+        _routing_objective_raw_free_payload(
+            current_objective,
+            role="TARGET_ASSISTED_RESIDUAL_OVERLAY_OBJECTIVE",
+            action_frozen_before_evaluation=False,
+        )
+        if record_six_context_objectives
+        else None
+    )
     entry_eval = _evaluate_rewrite(
         model, tokenizer, requests, alias=alias, factors=current_factors, ledger=ledger
     )
     snapshots: list[legacy.FixedE8Snapshot] = []
     first_hit = legacy.FixedE8HitTracker()
     total_qp = total_backend = total_solver_fallback = total_stage1_fallback = 0
+    total_d1_nohook_qp = 0
+    total_d1_nohook_backend = 0
+    total_d1_nohook_fallback = 0
     initial_contract: dict[str, Any] | None = None
+    zero_positive_step: int | None = None
+    zero_positive_field_receipt: str | None = None
+    zero_positive_payload: dict[str, Any] | None = None
+    entry_audit_state: dict[str, Any] | None = None
+    boundary_audit_state: dict[str, Any] | None = None
     for step_index in range(FIXED_E8_GRID_COUNT):
         point = clock.begin_field()
         replay_entry = _controller_replay_entry(
@@ -545,7 +1091,18 @@ def _run_common_arm(
             schedule=schedule,
             outer_entry_p_cache=outer_entry_p_cache,
         )
-        field, signed, built, inventory, routing, target_velocity, target_receipt, field_receipt, probe = _build_common_field(
+        (
+            field,
+            signed,
+            built,
+            inventory,
+            routing,
+            target_velocity,
+            target_receipt,
+            field_receipt,
+            probe,
+            slope_comparison,
+        ) = _build_common_field(
             model,
             tokenizer,
             requests,
@@ -573,30 +1130,158 @@ def _run_common_arm(
             recorder=recorder,
             lookup_positions=lookup_positions,
             target_layer_name=target_layer_name,
+            typed_zero_positive=typed_zero_positive,
         )
         solver_accounting = legacy._fixed_e8_solver_accounting(routing)
         total_qp += int(solver_accounting["actual_logical_qp_certificate_count"])
         total_backend += int(solver_accounting["actual_optimizer_backend_invocation_count"])
         total_solver_fallback += int(solver_accounting["actual_fallback_backend_invocation_count"])
         total_stage1_fallback += routing.stage1_selection_fallback_count
+        if slope_comparison is not None:
+            nohook_certificate = slope_comparison.get(
+                "nohook_maximum_progress_certificate"
+            )
+            if nohook_certificate is not None:
+                total_d1_nohook_qp += 1
+                total_d1_nohook_backend += int(
+                    nohook_certificate["optimizer_pass_count"]
+                )
+                total_d1_nohook_fallback += int(
+                    nohook_certificate["fallback_invocation_count"]
+                )
         if step_index == 0:
-            initial_contract = _common_initial_contract(
-                bootstrap_target=bootstrap_target,
-                field=field,
-                field_receipt=field_receipt,
-                routing=routing,
-                metric=metric,
+            initial_contract = (
+                _bg_soft_initial_contract(
+                    bootstrap_target=bootstrap_target,
+                    field=field,
+                    field_receipt=field_receipt,
+                    routing=routing,
+                    metric=metric,
+                    built=built,
+                    inventory=inventory,
+                    probe=probe,
+                )
+                if typed_zero_positive
+                else _common_initial_contract(
+                    bootstrap_target=bootstrap_target,
+                    field=field,
+                    field_receipt=field_receipt,
+                    routing=routing,
+                    metric=metric,
+                )
             )
             if initial_contract_sink is not None:
                 initial_contract_sink.clear()
                 initial_contract_sink.update(initial_contract)
+            if pair_initial_contract_sink is not None:
+                if slope_comparison is None:
+                    raise ODEBFStateError(
+                        "BG-Soft initial D1 receipt is absent"
+                    )
+                pair_contract = {
+                    "schema": (
+                        "ode-edit-s05-bg-soft-main-target-hold-"
+                        "initial-contract/v1"
+                    ),
+                    "bootstrap_target_sha256": tensor_sha256(
+                        bootstrap_target
+                    ),
+                    "field_semantic_sha256": (
+                        field_receipt.field_semantic_sha256
+                    ),
+                    "problem_sha256": built.problem.identity(),
+                    "functional_inventory_sha256": (
+                        inventory.raw_free_payload()["identity_sha256"]
+                    ),
+                    "probe_semantic_sha256": initial_contract[
+                        "functional_probe_semantic_sha256"
+                    ],
+                    "overlay_vs_nohook_signed_slopes_sha256": (
+                        slope_comparison["identity_sha256"]
+                    ),
+                    "selected_velocity": [
+                        float(item) for item in routing.velocity
+                    ],
+                    "selected_velocity_sha256": canonical_hash(
+                        [float(item) for item in routing.velocity]
+                    ),
+                    "target_velocity_sha256": target_receipt[
+                        "velocity_sha256"
+                    ],
+                    "first_allowed_difference": (
+                        "MAIN_TARGET_ADVANCEMENT_AFTER_K1"
+                    ),
+                }
+                pair_contract["identity_sha256"] = canonical_hash(
+                    pair_contract
+                )
+                pair_initial_contract_sink.clear()
+                pair_initial_contract_sink.update(pair_contract)
             if (
                 expected_initial_contract is not None
                 and initial_contract != dict(expected_initial_contract)
             ):
                 raise ODEBFContractError(
-                    "RS Neutral/Soft common initial contract differs"
+                    "common cold pre-routing initial contract differs"
                 )
+        if target_velocity is None:
+            if not typed_zero_positive:
+                raise ODEBFStateError(
+                    "common cold zero-positive target velocity is absent"
+                )
+            zero_positive_step = step_index
+            if slope_comparison is None:
+                raise ODEBFStateError(
+                    "BG-Soft zero-positive D1 receipt is absent"
+                )
+            zero_positive_field_receipt = (
+                field_receipt.identity_sha256
+            )
+            zero_positive_payload = {
+                "status": "ZERO_POSITIVE_DIRECTION",
+                "step_index": step_index,
+                "tau": fraction_payload(clock.tau),
+                "field_sha256": field.identity_sha256,
+                "field_semantic_sha256": field_receipt.field_semantic_sha256,
+                "field_receipt_sha256": field_receipt.identity_sha256,
+                "ordered_signed_slopes": [
+                    float(item) for item in routing.signed_slopes
+                ],
+                "overlay_vs_nohook_signed_slopes": slope_comparison,
+                "classification": slope_comparison["classification"],
+                "positive_mask": [
+                    float(item) > 0.0 for item in routing.signed_slopes
+                ],
+                "positive_count": sum(
+                    float(item) > 0.0 for item in routing.signed_slopes
+                ),
+                "p_max": float(routing.p_max),
+                "mode": routing.mode.value,
+                "candidate_count": 0,
+                "clock_advance_count": 0,
+                "valid_prefix_snapshot_sha256": [
+                    item.snapshot_sha256 for item in snapshots
+                ],
+            }
+            zero_positive_payload["identity_sha256"] = canonical_hash(
+                zero_positive_payload
+            )
+            stages.record(
+                f"post_{arm.value.lower().replace('-', '_')}_zero_positive",
+                {
+                    "arm": arm.value,
+                    "step": step_index,
+                    "tau": float(clock.tau),
+                    "p_max": float(routing.p_max),
+                    "positive_count": sum(
+                        float(item) > 0.0 for item in routing.signed_slopes
+                    ),
+                    "field_receipt_sha256": field_receipt.identity_sha256,
+                    "candidate_count": 0,
+                    "clock_advance_count": 0,
+                },
+            )
+            break
         increment = legacy.fixed_e8_waypoint_factors(
             field, routing.velocity, step_index=step_index
         )
@@ -621,11 +1306,16 @@ def _run_common_arm(
             ).device.type,
         )
         candidate_factors = _merge_factors(current_factors, increment)
-        target_trial = (
+        proposed_target_trial = (
             current_target
             + float(FIXED_E8_H)
             * target_velocity.detach().to(device="cpu", dtype=torch.float32)
         ).contiguous()
+        target_trial = (
+            current_target.clone()
+            if arm.target_hold
+            else proposed_target_trial
+        )
         if not torch.isfinite(target_trial).all():
             raise ODEBFContractError("common cold target trial is non-finite")
         realization_before = (
@@ -769,6 +1459,13 @@ def _run_common_arm(
             "rho_below_point_one_observation_only": rho < 0.1,
             "scientific_rejection_count": 0,
         }
+        if typed_zero_positive:
+            progress_payload.update(
+                {
+                    "actual_definition": "RESIDUAL_OVERLAY_OBJECTIVE_PROGRESS",
+                    "actual_is_weight_only_progress": False,
+                }
+            )
         routing_payload = {
             "method": common_cold_source_contract(),
             "scale": metric.raw_free_payload(),
@@ -786,6 +1483,48 @@ def _run_common_arm(
             "h": float(FIXED_E8_H),
             "theta_equals_h_times_v": True,
         }
+        if typed_zero_positive:
+            routing_payload.update(
+                {
+                    "target_hold": {
+                        "active": arm.target_hold,
+                        "target_clock_advance_count": 0 if arm.target_hold else 1,
+                        "weight_clock_advance_count": 1,
+                        "proposed_target_trial_sha256": tensor_sha256(
+                            proposed_target_trial
+                        ),
+                        "applied_target_trial_sha256": tensor_sha256(
+                            target_trial
+                        ),
+                        "target_state_invariant": (
+                            tensor_sha256(target_trial) == entry_target_sha256
+                            if arm.target_hold
+                            else False
+                        ),
+                        "first_allowed_main_hold_difference": (
+                            "MAIN_TARGET_ADVANCEMENT_AFTER_K1"
+                        ),
+                    },
+                    "target_assisted_six_context_objective": (
+                        _routing_objective_raw_free_payload(
+                            candidate_objective,
+                            role="TARGET_ASSISTED_RESIDUAL_OVERLAY_OBJECTIVE",
+                            action_frozen_before_evaluation=False,
+                        )
+                        if record_six_context_objectives
+                        else None
+                    ),
+                    "weight_only_six_context_objective": (
+                        "DEFERRED_UNTIL_ACTION_FREEZE"
+                        if record_six_context_objectives
+                        else None
+                    ),
+                }
+            )
+            if slope_comparison is not None:
+                routing_payload["overlay_vs_nohook_signed_slopes"] = (
+                    slope_comparison
+                )
         trial_sha = recorder.trial(
             {
                 "step_index": step_index,
@@ -880,6 +1619,23 @@ def _run_common_arm(
                 },
             )
         )
+        if typed_zero_positive:
+            audit_state = {
+                "arm": arm.value,
+                "step_index": step_index,
+                "field": field,
+                "increment": dict(increment),
+                "source_factors": _factor_map(current_factors),
+                "source_target": current_target.clone(),
+                "source_terminal": current_terminal.clone(),
+                "online_candidate_terminal": candidate_terminal.clone(),
+                "intended_delta": (
+                    target_trial - current_target
+                ).contiguous(),
+            }
+            if entry_audit_state is None:
+                entry_audit_state = dict(audit_state)
+            boundary_audit_state = dict(audit_state)
         current_factors = _factor_map(candidate_factors)
         current_target = target_trial.clone()
         current_terminal = candidate_terminal.clone()
@@ -898,10 +1654,99 @@ def _run_common_arm(
                 "snapshot_sha256": snapshot_sha,
             },
         )
-    if len(snapshots) != 8 or clock.tau != Fraction(1, 1) or clock.field_count != 8:
-        raise ODEBFStateError("common cold terminal grid invariant differs")
+    trajectory_complete = zero_positive_step is None
+    if trajectory_complete:
+        if (
+            len(snapshots) != 8
+            or clock.tau != Fraction(1, 1)
+            or clock.field_count != 8
+        ):
+            raise ODEBFStateError("common cold terminal grid invariant differs")
+    elif (
+        zero_positive_payload is None
+        or zero_positive_field_receipt is None
+        or len(snapshots) != clock.step_index
+        or clock.field_count != len(snapshots) + 1
+    ):
+        raise ODEBFStateError("common cold partial grid invariant differs")
+    target_hold_clock: Mapping[str, Any] | None = None
+    if arm.target_hold:
+        target_hashes = [tensor_sha256(item.target_state) for item in snapshots]
+        if any(item != entry_target_sha256 for item in target_hashes):
+            raise ODEBFStateError("BG-Soft target-hold target state changed")
+        if trajectory_complete:
+            from .bg_soft_diagnostics import target_hold_clock_receipt
+
+            target_hold_clock = target_hold_clock_receipt(
+                bootstrap_target,
+                [item.target_state for item in snapshots],
+                weight_step_count=len(snapshots),
+                h=float(FIXED_E8_H),
+                tau_w=float(clock.tau),
+                target_advance_count=0,
+                scientific_retry_count=0,
+            )
+        else:
+            target_hold_clock = {
+                "schema": (
+                    "ode-edit-s05-bg-soft-target-hold-partial-clock/v1"
+                ),
+                "status": "TARGET_HOLD_PREFIX_PRESERVED",
+                "bootstrap_target_sha256": entry_target_sha256,
+                "target_sha256_by_weight_step": target_hashes,
+                "target_hash_invariant": True,
+                "weight_step_count": len(snapshots),
+                "weight_h": float(FIXED_E8_H),
+                "tau_W": float(clock.tau),
+                "target_advance_count": 0,
+                "scientific_retry_count": 0,
+                "termination_label": "ZERO_POSITIVE_DIRECTION",
+            }
+            target_hold_clock["identity_sha256"] = canonical_hash(
+                target_hold_clock
+            )
     if ledger.completed_correction_cycles == 0:
         ledger.finish_cycle(0)
+    single_write_audit_receipts: dict[str, str] = {}
+    if typed_zero_positive and entry_audit_state is not None:
+        entry_payload = _single_write_audit_point(
+            model,
+            tokenizer,
+            requests,
+            hparams=hparams,
+            state={**entry_audit_state, "audit_role": "ENTRY_FIELD_K0"},
+            touched=touched,
+            history=history,
+            schedule=schedule,
+        )
+        single_write_audit_receipts["entry"] = recorder.write_once(
+            recorder.root / "single-write-audit-entry.json",
+            entry_payload,
+        )
+    if typed_zero_positive and boundary_audit_state is not None:
+        boundary_payload = _single_write_audit_point(
+            model,
+            tokenizer,
+            requests,
+            hparams=hparams,
+            state={
+                **boundary_audit_state,
+                "audit_role": (
+                    "K7_SOURCE_FIELD_FOR_TAU1_COMPLETION"
+                    if trajectory_complete
+                    else "LAST_ACCEPTED_TRANSITION_SOURCE_BEFORE_COLLAPSE"
+                ),
+            },
+            touched=touched,
+            history=history,
+            schedule=schedule,
+        )
+        single_write_audit_receipts["boundary_or_final"] = (
+            recorder.write_once(
+                recorder.root / "single-write-audit-boundary.json",
+                boundary_payload,
+            )
+        )
     terminal_confirmations = _terminal_confirm_snapshots(
         model,
         tokenizer,
@@ -916,39 +1761,81 @@ def _run_common_arm(
         lock=lock,
         ledger=ledger,
         recorder=recorder,
-        trajectory_complete=True,
+        trajectory_complete=trajectory_complete,
         functional_p_policy=FunctionalPDecisionPolicy.OBSERVATION_ONLY,
         preservation_policy=PreservationConstraintPolicy.OBSERVATION_ONLY,
     )
+    omega_changed = _omega_state(accepted_by_layer) != entry_omega
     if (
         _parameter_contract_sha256(touched) != before_model
         or history.snapshot().digest != before_history
         or schedule.state_digest != before_sampler
         or legacy._rng_identity() != before_rng
         or history.version != 0
-        or _omega_state(accepted_by_layer) == entry_omega
+        or omega_changed != bool(snapshots)
     ):
         raise ODEBFStateError("common cold rollout state/purity differs")
+    status = (
+        "COMMON_COLD_FIXED_E8_TAU_COMPLETE"
+        if trajectory_complete
+        else "ZERO_POSITIVE_DIRECTION"
+    )
+    clock_payload = (
+        clock.terminal_receipt()
+        if trajectory_complete
+        else _partial_fixed_e8_clock_receipt(clock)
+    )
+    operation_accounting = {
+        "actual_logical_qp_certificate_count": total_qp,
+        "actual_optimizer_backend_invocation_count": total_backend,
+        "actual_solver_backend_fallback_count": total_solver_fallback,
+        "actual_certified_stage1_selection_fallback_count": total_stage1_fallback,
+        "functional_basis_endpoint_count": 6 * clock.field_count,
+        "candidate_count": len(snapshots),
+        "field_count": clock.field_count,
+    }
+    if typed_zero_positive:
+        d1_accounting = _bg_soft_d1_operation_accounting(
+            routing_qp=total_qp,
+            routing_backend=total_backend,
+            nohook_qp=total_d1_nohook_qp,
+            nohook_backend=total_d1_nohook_backend,
+            nohook_fallback=total_d1_nohook_fallback,
+            ledger=ledger,
+        )
+        operation_accounting.update(
+            {
+                "actual_logical_qp_certificate_count": d1_accounting[
+                    "actual_all_logical_qp_certificate_count"
+                ],
+                "actual_optimizer_backend_invocation_count": d1_accounting[
+                    "actual_all_optimizer_backend_invocation_count"
+                ],
+                "actual_solver_backend_fallback_count": (
+                    total_solver_fallback + total_d1_nohook_fallback
+                ),
+                "routing_only_logical_qp_certificate_count": total_qp,
+                "routing_only_optimizer_backend_invocation_count": (
+                    total_backend
+                ),
+                "routing_only_solver_backend_fallback_count": (
+                    total_solver_fallback
+                ),
+                "d1_observation_accounting": d1_accounting,
+            }
+        )
     rollout_payload = {
         "method": common_cold_source_contract(),
         "variant": arm.value,
         "scale": metric.raw_free_payload(),
-        "status": "COMMON_COLD_FIXED_E8_TAU_COMPLETE",
+        "status": status,
         "accepted_t": fraction_payload(clock.tau),
-        "k_acc": 8,
-        "n_trial": 8,
+        "k_acc": len(snapshots),
+        "n_trial": len(snapshots),
         "n_reject": 0,
-        "field_build_count": 8,
-        "operation_accounting": {
-            "actual_logical_qp_certificate_count": total_qp,
-            "actual_optimizer_backend_invocation_count": total_backend,
-            "actual_solver_backend_fallback_count": total_solver_fallback,
-            "actual_certified_stage1_selection_fallback_count": total_stage1_fallback,
-            "functional_basis_endpoint_count": 48,
-            "candidate_count": 8,
-            "field_count": 8,
-        },
-        "clock": clock.terminal_receipt(),
+        "field_build_count": clock.field_count,
+        "operation_accounting": operation_accounting,
+        "clock": clock_payload,
         "entry_success": entry_eval.batch_success.raw_free_payload(),
         "online_first_hit": None if first_hit.first_online is None else {
             "accepted_index": first_hit.first_online.accepted_index,
@@ -963,20 +1850,55 @@ def _run_common_arm(
         "receipt_links": recorder.links(),
         "compute": ledger.raw_free_payload(),
     }
+    if typed_zero_positive:
+        rollout_payload.update(
+            {
+                "termination_label": status,
+                "entry_target_assisted_six_context_objective": (
+                    entry_target_assisted
+                    if record_six_context_objectives
+                    else None
+                ),
+                "target_hold": {
+                    "active": arm.target_hold,
+                    "bootstrap_target_sha256": entry_target_sha256,
+                    "terminal_target_sha256": tensor_sha256(current_target),
+                    "target_hash_invariant": (
+                        tensor_sha256(current_target) == entry_target_sha256
+                        if arm.target_hold
+                        else False
+                    ),
+                    "target_clock_advance_count": (
+                        0 if arm.target_hold else len(snapshots)
+                    ),
+                    "weight_clock_advance_count": len(snapshots),
+                    "weight_tau": fraction_payload(clock.tau),
+                    "clock_receipt": target_hold_clock,
+                },
+                "zero_positive_direction": zero_positive_payload,
+                "single_write_audit_receipts": single_write_audit_receipts,
+                "single_write_audit_unavailable_reason": (
+                    None
+                    if single_write_audit_receipts
+                    else "NO_SUCCESSFULLY_SELECTED_WRITE_FIELD"
+                ),
+                "valid_prefix_preserved": not trajectory_complete,
+            }
+        )
     rollout_sha = canonical_hash(rollout_payload)
     recorder.terminal({"rollout_summary": rollout_payload, "rollout_sha256": rollout_sha})
     if initial_contract is None:
         raise ODEBFStateError("common cold initial contract is absent")
     return legacy.FixedE8Rollout(
         arm,
-        "COMMON_COLD_FIXED_E8_TAU_COMPLETE",
-        "COMMON_COLD_FIXED_E8_TAU_COMPLETE",
+        status,
+        status,
         SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1,
-        Fraction(1, 1),
-        8,
-        8,
+        clock.tau,
+        len(snapshots),
+        len(snapshots),
         0,
-        8,
+        clock.field_count,
         snapshots,
         first_hit,
         recorder,
@@ -1484,6 +2406,427 @@ def _context_overlay_gate(
     return payload
 
 
+def _heldout_additive_lookup_geometry(
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    cases: Sequence[Any],
+    *,
+    fact_token_strategy: str,
+) -> tuple[tuple[tuple[int, ...], ...], tuple[int, ...], dict[str, Any]]:
+    """Resolve held-out rewrite/paraphrase lookup rows without serializing text."""
+
+    from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
+
+    if len(requests) != BATCH_SIZE or len(cases) != BATCH_SIZE:
+        raise ODEBFContractError("BG-Soft heldout lookup B10 differs")
+    evaluation_padding_side = tokenizer.padding_side
+    if evaluation_padding_side not in ("left", "right"):
+        raise ODEBFContractError(
+            "BG-Soft heldout evaluator padding policy differs"
+        )
+    positions_by_request: list[tuple[int, ...]] = []
+    patched_rows: list[int] = []
+    geometry_rows: list[dict[str, Any]] = []
+    for request_index, (request, case) in enumerate(
+        zip(requests, cases, strict=True)
+    ):
+        if str(request["request_sha256"]) != case.request_sha256:
+            raise ODEBFContractError(
+                "BG-Soft heldout lookup request order differs"
+            )
+        subject = str(request["subject"])
+        prefixes = (case.rewrite_prompt,) + case.paraphrase_prompts
+        all_prefixes = prefixes + case.neighborhood_prompts
+        templates: list[str] = []
+        raw_positions: list[int] = []
+        prefix_lengths: list[int] = []
+        for prefix in prefixes:
+            if prefix.count(subject) != 1:
+                raise ODEBFContractError(
+                    "BG-Soft heldout subject surface is ambiguous"
+                )
+            template = prefix.replace(subject, "{}", 1)
+            templates.append(template)
+            raw_positions.append(
+                int(
+                    alpha_main.find_fact_lookup_idx(
+                        template,
+                        subject,
+                        tokenizer,
+                        fact_token_strategy,
+                        verbose=False,
+                    )
+                )
+            )
+            prefix_lengths.append(len(tokenizer(prefix)["input_ids"]))
+        rows = [
+            f"{prefix} {suffix}"
+            for prefix in all_prefixes
+            for suffix in (case.target_new, case.target_true)
+        ]
+        encoded = tokenizer(rows, padding=True, return_tensors="pt")
+        attention = encoded["attention_mask"]
+        row_positions: list[int] = []
+        for row_index in range(2 * len(prefixes)):
+            prefix_index = row_index // 2
+            pad_count = int(
+                attention.shape[1] - attention[row_index].sum()
+            )
+            left_pad = (
+                pad_count if evaluation_padding_side == "left" else 0
+            )
+            raw = raw_positions[prefix_index]
+            position = (
+                left_pad + prefix_lengths[prefix_index] - 1
+                if raw == -1
+                else left_pad + raw
+            )
+            if position < 0 or position >= int(attention.shape[1]):
+                raise ODEBFContractError(
+                    "BG-Soft heldout lookup position is out of range"
+                )
+            row_positions.append(position)
+        row_positions.extend(0 for _ in range(len(rows) - len(row_positions)))
+        positions_by_request.append(tuple(row_positions))
+        patched_rows.append(2 * len(prefixes))
+        geometry_rows.append(
+            {
+                "request_index": request_index,
+                "request_sha256": case.request_sha256,
+                "patched_prefix_count": len(prefixes),
+                "patched_row_count": 2 * len(prefixes),
+                "locality_nohook_row_count": 2
+                * len(case.neighborhood_prompts),
+                "row_position_sha256": canonical_hash(row_positions),
+                "template_sha256": canonical_hash(
+                    [
+                        hashlib.sha256(item.encode("utf-8")).hexdigest()
+                        for item in templates
+                    ]
+                ),
+            }
+        )
+    if tokenizer.padding_side != evaluation_padding_side:
+        raise ODEBFStateError(
+            "BG-Soft heldout lookup geometry mutated tokenizer padding"
+        )
+    payload = {
+        "schema": "ode-edit-s05-bg-soft-heldout-additive-lookup/v1",
+        "request_count": BATCH_SIZE,
+        "patched_rows_per_request": patched_rows,
+        "rows": geometry_rows,
+        "padding_side_during_geometry": evaluation_padding_side,
+        "padding_side_matches_evaluator": True,
+        "padding_side_unchanged": True,
+        "absolute_z_replacement_count": 0,
+        "heldout_controller_decision_influence_count": 0,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return tuple(positions_by_request), tuple(patched_rows), payload
+
+
+def _postfreeze_bg_soft_prefix_panel(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    requests: Sequence[Mapping[str, Any]],
+    contexts: Sequence[Sequence[str]],
+    hparams: Any,
+    target_layer_name: str,
+    dataset_path: Path,
+    rollouts: Mapping[str, legacy.FixedE8Rollout],
+    raw_root: Path,
+    write_once: Any,
+    touched: Mapping[str, torch.nn.Parameter],
+    request_order_sha256: str,
+    action_freeze_sha256: str,
+    frozen_reference: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Evaluate MAIN and TARGET-HOLD prefixes only after action freeze."""
+
+    if not rollouts:
+        raise ODEBFContractError("BG-Soft post-freeze rollouts are absent")
+
+    freeze_payload = {
+        "schema": "ode-edit-s05-bg-soft-missing-cell-action-freeze/v1",
+        "instruction_id": (
+            "ODEEDIT-S05-ODE-BF-BG-SOFT-MISSING-CELL-P1R12-V1"
+        ),
+        "amendment_id": (
+            "ODEEDIT-S05-ODE-BF-BG-SOFT-MISSING-CELL-P1R12-V1-A1"
+        ),
+        "upstream_action_freeze_sha256": action_freeze_sha256,
+        "action_frozen_before_open": True,
+        "request_order_sha256": request_order_sha256,
+        "rollouts": {
+            variant: {
+                "rollout_sha256": rollout.rollout_sha256,
+                "status": rollout.status,
+                "accepted_snapshot_sha256": [
+                    item.snapshot_sha256 for item in rollout.snapshots
+                ],
+            }
+            for variant, rollout in sorted(rollouts.items())
+        },
+        "heldout_controller_access_count": 0,
+        "model_generate_call_count": 0,
+        "w0_native_bg_neutral_rerun_count": 0,
+    }
+    freeze_sha256 = write_once(
+        raw_root / "stepwise" / "bg-soft-action-freeze.json",
+        freeze_payload,
+    )
+    ledger = ComputeLedger()
+    receipt_hashes: dict[str, dict[str, str]] = {}
+    first_rollout = next(
+        (item for item in rollouts.values() if item.snapshots), None
+    )
+    if first_rollout is not None:
+        first = first_rollout.snapshots[0]
+        loader_freeze = StepwiseActionFreeze(
+            variant=first_rollout.variant_label,
+            request_order_sha256=request_order_sha256,
+            rollout_sha256=first_rollout.rollout_sha256,
+            snapshot_sha256=first.snapshot_sha256,
+            snapshot_index=first.accepted_index,
+            accepted_snapshot_count=len(first_rollout.snapshots),
+            rejected_retry_count=0,
+            trajectory_status=first_rollout.status,
+        )
+        cases = load_counterfact_cases_after_freeze(
+            dataset_path, requests, loader_freeze
+        )
+        (
+            heldout_lookup_positions,
+            heldout_patched_rows,
+            heldout_lookup_receipt,
+        ) = _heldout_additive_lookup_geometry(
+            tokenizer,
+            requests,
+            cases,
+            fact_token_strategy=hparams.fact_token,
+        )
+        heldout_lookup_sha256 = write_once(
+            raw_root / "stepwise" / "heldout-additive-lookup.json",
+            heldout_lookup_receipt,
+        )
+        counter = ModelForwardCounter(model, ledger)
+        try:
+            for variant, rollout in sorted(rollouts.items()):
+                variant_hashes: dict[str, str] = {}
+                for snapshot in rollout.snapshots:
+                    freeze = StepwiseActionFreeze(
+                        variant=variant,
+                        request_order_sha256=request_order_sha256,
+                        rollout_sha256=rollout.rollout_sha256,
+                        snapshot_sha256=snapshot.snapshot_sha256,
+                        snapshot_index=snapshot.accepted_index,
+                        accepted_snapshot_count=len(rollout.snapshots),
+                        rejected_retry_count=0,
+                        trajectory_status=rollout.status,
+                    )
+                    observed, compute = _evaluate_stepwise_state(
+                        model,
+                        tokenizer,
+                        cases,
+                        alias=alias,
+                        freeze=freeze,
+                        ledger=ledger,
+                        touched=touched,
+                        factors=snapshot.factors,
+                    )
+                    before_oracle = _parameter_contract_sha256(touched)
+                    with _virtual_context(model, snapshot.factors):
+                        snapshot_terminal = capture_cold_z_base(
+                            model, tokenizer, requests, hparams
+                        )
+                    snapshot_residual = common_terminal_residual_input(
+                        snapshot.target_state,
+                        snapshot_terminal,
+                        request_order_sha256,
+                    )
+                    from .bg_soft_diagnostics import (
+                        HeldoutRequestResidualActivationOverlay,
+                    )
+
+                    z_oracle_overlay = (
+                        HeldoutRequestResidualActivationOverlay(
+                            model,
+                            target_layer_name,
+                            snapshot_residual.residual,
+                            heldout_lookup_positions,
+                            heldout_patched_rows,
+                        )
+                    )
+                    oracle_started = time.perf_counter()
+                    with _virtual_context(model, snapshot.factors):
+                        with z_oracle_overlay:
+                            z_oracle = evaluate_counterfact_stepwise_primary(
+                                model,
+                                tokenizer,
+                                cases,
+                                model_alias=alias,
+                                freeze=freeze,
+                            )
+                    oracle_wall = time.perf_counter() - oracle_started
+                    z_oracle_overlay_payload = (
+                        z_oracle_overlay.raw_free_payload()
+                    )
+                    after_oracle = _parameter_contract_sha256(touched)
+                    if before_oracle != after_oracle:
+                        raise ODEBFStateError(
+                            "BG-Soft z-oracle evaluator mutated state"
+                        )
+                    left = observed.primary
+                    right = z_oracle.primary
+                    if (
+                        left.request_order_sha256
+                        != right.request_order_sha256
+                        or left.evaluation_case_identity_sha256
+                        != right.evaluation_case_identity_sha256
+                        or left.target_span_sha256
+                        != right.target_span_sha256
+                        or left.evaluator_source_sha256
+                        != right.evaluator_source_sha256
+                        or left.aggregator_source_sha256
+                        != right.aggregator_source_sha256
+                        or right.generation_call_count != 0
+                        or left.locality != right.locality
+                    ):
+                        raise ODEBFContractError(
+                            "BG-Soft W-only/z-oracle evaluator parity differs"
+                        )
+                    ledger.increment(
+                        "evaluator_forward", right.model_forward_count
+                    )
+                    ledger.increment(
+                        "evaluator_tokens", right.processed_token_count
+                    )
+                    ledger.add_time(
+                        "postfreeze_z_oracle",
+                        wall_seconds=oracle_wall,
+                    )
+                    with _virtual_context(model, snapshot.factors):
+                        weight_only = evaluate_routing_objective(
+                            model,
+                            tokenizer,
+                            requests,
+                            objective=RoutingObjective.TARGET_NEW_NLL,
+                            contexts=contexts,
+                        )
+                    weight_only_payload = _routing_objective_raw_free_payload(
+                        weight_only,
+                        role="WEIGHT_ONLY_NO_RESIDUAL_HOOK_OBJECTIVE",
+                        action_frozen_before_evaluation=True,
+                    )
+                    ledger.increment(
+                        "evaluator_forward", weight_only.model_forward_count
+                    )
+                    ledger.increment(
+                        "evaluator_tokens", weight_only.processed_token_count
+                    )
+                    relative = (
+                        Path("stepwise")
+                        / variant
+                        / f"accepted-{snapshot.accepted_index:04d}.json"
+                    )
+                    variant_hashes[str(snapshot.accepted_index)] = write_once(
+                        raw_root / relative,
+                        {
+                        "schema": (
+                            "ode-edit-s05-bg-soft-missing-cell-step-receipt/v1"
+                        ),
+                        "variant": variant,
+                        "accepted_index": snapshot.accepted_index,
+                        "tau": fraction_payload(snapshot.tau),
+                        "delta_tau": fraction_payload(snapshot.delta_tau),
+                        "snapshot_sha256": snapshot.snapshot_sha256,
+                        "freeze_sha256": freeze.identity(),
+                        "primary": observed.raw_free_payload(),
+                        "w_only_primary": observed.raw_free_payload(),
+                        "z_oracle_primary": z_oracle.raw_free_payload(),
+                        "z_oracle_additive_overlay": (
+                            z_oracle_overlay_payload
+                        ),
+                        "z_oracle_residual": (
+                            snapshot_residual.raw_free_payload()
+                        ),
+                        "heldout_additive_lookup_sha256": (
+                            heldout_lookup_sha256
+                        ),
+                        "z_oracle_semantics": (
+                            "REQUEST_SPECIFIC_ADDITIVE_TERMINAL_RESIDUAL_"
+                            "AT_HELDOUT_SUBJECT_LOOKUP"
+                        ),
+                        "absolute_z_replacement_count": 0,
+                        "z_oracle_locality_rows_unhooked_exact": True,
+                        "w_only_z_oracle_prompt_span_order_exact": True,
+                        "z_oracle_compute": {
+                            "wall_seconds": oracle_wall,
+                            "model_forward_count": (
+                                right.model_forward_count + 1
+                            ),
+                            "processed_token_count": (
+                                right.processed_token_count
+                            ),
+                            "terminal_recapture_forward_count": 1,
+                        },
+                        "target_assisted_six_context_objective": (
+                            snapshot.routing_payload[
+                                "target_assisted_six_context_objective"
+                            ]
+                        ),
+                        "weight_only_six_context_objective": weight_only_payload,
+                        "progress_actual_semantics": (
+                            "RESIDUAL_OVERLAY_OBJECTIVE_NOT_WEIGHT_ONLY"
+                        ),
+                        "routing": snapshot.routing_payload,
+                        "capacity": snapshot.capacity_payload,
+                        "compute": compute,
+                        "action_frozen_before_open": True,
+                        "controller_heldout_access_count": 0,
+                        },
+                    )
+                receipt_hashes[variant] = dict(
+                    sorted(variant_hashes.items())
+                )
+        finally:
+            counter.close()
+    from .p1_runtime import _observed_memory
+
+    _observed_memory(ledger)
+    panel = {
+        "schema": "ode-edit-s05-bg-soft-missing-cell-stepwise-panel/v1",
+        "action_freeze_sha256": freeze_sha256,
+        "request_order_sha256": request_order_sha256,
+        "rollout_sha256": {
+            key: value.rollout_sha256
+            for key, value in sorted(rollouts.items())
+        },
+        "trajectory_status": {
+            key: value.status for key, value in sorted(rollouts.items())
+        },
+        "accepted_snapshot_count": {
+            key: len(value.snapshots)
+            for key, value in sorted(rollouts.items())
+        },
+        "receipt_sha256": dict(sorted(receipt_hashes.items())),
+        "frozen_r10_reference": dict(frozen_reference),
+        "w0_native_bg_neutral_rerun_count": 0,
+        "heldout_controller_access_count": 0,
+        "heldout_additive_lookup_sha256": (
+            heldout_lookup_sha256
+            if first_rollout is not None
+            else None
+        ),
+        "generation_call_count": 0,
+        "evaluation_compute": ledger.raw_free_payload(),
+    }
+    panel["panel_sha256"] = canonical_hash(panel)
+    return panel
+
+
 def run_common_coldcoord_fixed_e8_diagnostic(
     model: torch.nn.Module,
     tokenizer: Any,
@@ -1517,6 +2860,9 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     cuda_runtime_receipt: Mapping[str, Any],
     job_ledger: ComputeLedger,
     write_once: Any,
+    bg_soft_missing_cell_mode: bool = False,
+    bg_soft_reference_lock: Mapping[str, Any] | None = None,
+    bg_soft_reference_lock_sha256: str | None = None,
 ) -> dict[str, Any]:
     from .p1_runtime import ArmRuntimeState, _entry_parameter_snapshot_sha256, _evaluate_native_rewrite, _observed_memory
 
@@ -1524,6 +2870,35 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     request_order = ordered_request_digest_v1([str(item["request_sha256"]) for item in requests])
     if len(requests) != BATCH_SIZE or request_order != stream["batch_ordered_request_digest_v1"][0]:
         raise ODEBFContractError("common cold request/seal order differs")
+    if bg_soft_missing_cell_mode:
+        from .p1_bg_soft_missing_cell_panel import (
+            BG_SOFT_AMENDMENT_ID,
+            BG_SOFT_INSTRUCTION_ID,
+            BG_SOFT_SCHEMA_NAMESPACE,
+            bg_soft_frozen_reference,
+            bg_soft_initial_contract,
+        )
+
+        if (
+            bg_soft_reference_lock is None
+            or bg_soft_reference_lock_sha256 is None
+        ):
+            raise ODEBFContractError("BG-Soft reference lock is absent")
+        expected_bg_initial = bg_soft_initial_contract(
+            bg_soft_reference_lock, alias
+        )
+        frozen_bg_reference = bg_soft_frozen_reference(
+            bg_soft_reference_lock, alias
+        )
+        runtime_instruction_id = BG_SOFT_INSTRUCTION_ID
+        runtime_amendment_id = BG_SOFT_AMENDMENT_ID
+        runtime_schema_namespace = BG_SOFT_SCHEMA_NAMESPACE
+    else:
+        expected_bg_initial = None
+        frozen_bg_reference = None
+        runtime_instruction_id = COMMON_COLD_INSTRUCTION_ID
+        runtime_amendment_id = None
+        runtime_schema_namespace = COMMON_COLD_SCHEMA_NAMESPACE
     base_bytes = {name: tensor_sha256(value) for name, value in sorted(touched.items())}
     base_contract = _parameter_contract_sha256(touched)
     # The reused-Warm ordinal-6 RCA is completed before any target capture,
@@ -1648,17 +3023,21 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     }
     bootstrap_counter = ModelForwardCounter(model, job_ledger)
     try:
-        rs_target, rs_bootstrap = common_cold_bootstrap(
-            model,
-            tokenizer,
-            requests,
-            contexts,
-            target_layer_name=target_layer_name,
-            lookup_positions=lookup_positions,
-            z_base=z_base,
-            metric=metrics[CommonColdScale.ROBUST_SHARED],
-            ledger=job_ledger,
-        )
+        if bg_soft_missing_cell_mode:
+            rs_target = None
+            rs_bootstrap = None
+        else:
+            rs_target, rs_bootstrap = common_cold_bootstrap(
+                model,
+                tokenizer,
+                requests,
+                contexts,
+                target_layer_name=target_layer_name,
+                lookup_positions=lookup_positions,
+                z_base=z_base,
+                metric=metrics[CommonColdScale.ROBUST_SHARED],
+                ledger=job_ledger,
+            )
         bg_target, bg_bootstrap = common_cold_bootstrap(
             model,
             tokenizer,
@@ -1672,16 +3051,29 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         )
     finally:
         bootstrap_counter.close()
-    rs_sha = write_once(raw_root / "common-cold" / "bootstrap-rs.json", rs_bootstrap)
+    rs_sha = (
+        None
+        if rs_bootstrap is None
+        else write_once(
+            raw_root / "common-cold" / "bootstrap-rs.json", rs_bootstrap
+        )
+    )
     bg_sha = write_once(raw_root / "common-cold" / "bootstrap-bg.json", bg_bootstrap)
-    stages.record("post_bootstrap_contract", {
+    bootstrap_stage_payload = {
         "pre_residual_exact_zero": True,
         "rs_bootstrap_sha256": rs_sha,
         "bg_bootstrap_sha256": bg_sha,
-        "rs_joint_entry_target_sha256": tensor_sha256(rs_target),
+        "rs_joint_entry_target_sha256": (
+            None if rs_target is None else tensor_sha256(rs_target)
+        ),
         "bg_joint_entry_target_sha256": tensor_sha256(bg_target),
         "tau_joint": 0.0,
-    })
+    }
+    if bg_soft_missing_cell_mode:
+        bootstrap_stage_payload[
+            "bg_soft_reuses_frozen_bg_neutral_bootstrap_contract"
+        ] = True
+    stages.record("post_bootstrap_contract", bootstrap_stage_payload)
     outer_population = tuple(population_by_sha256[item] for item in theta0_cache.request_order)
     outer_snapshot = _entry_parameter_snapshot_sha256(model, dict(base_receipt.parameter_sha256))
     outer_counter = ModelForwardCounter(model, job_ledger)
@@ -1698,7 +3090,16 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     rollouts: dict[str, legacy.FixedE8Rollout] = {}
     failures: dict[str, dict[str, Any]] = {}
     initial_contracts: dict[str, dict[str, Any]] = {}
-    for arm in CommonColdArm:
+    pair_initial_contracts: dict[str, dict[str, Any]] = {}
+    live_arms = (
+        (
+            CommonColdArm.BG_SOFT,
+            CommonColdArm.BG_SOFT_TARGET_HOLD,
+        )
+        if bg_soft_missing_cell_mode
+        else R10_COMMON_COLD_ARMS
+    )
+    for arm in live_arms:
         if _parameter_contract_sha256(touched) != base_contract:
             raise ODEBFStateError("common cold arm W0 entry differs")
         arm_state = ArmRuntimeState(
@@ -1711,9 +3112,14 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         recorder = legacy.FixedE8ReceiptRecorder(raw_root, arm, write_once)
         counter = ModelForwardCounter(model, arm_state.ledger)
         initial_capture: dict[str, Any] = {}
+        pair_initial_capture: dict[str, Any] = {}
         try:
             expected_initial = (
-                initial_contracts.get(CommonColdArm.RS_NEUTRAL.value)
+                expected_bg_initial
+                if arm is CommonColdArm.BG_SOFT
+                else initial_contracts.get(CommonColdArm.BG_SOFT.value)
+                if arm is CommonColdArm.BG_SOFT_TARGET_HOLD
+                else initial_contracts.get(CommonColdArm.RS_NEUTRAL.value)
                 if arm is CommonColdArm.RS_SOFT
                 else None
             )
@@ -1723,7 +3129,11 @@ def run_common_coldcoord_fixed_e8_diagnostic(
                 requests,
                 alias=alias,
                 arm=arm,
-                bootstrap_target=(bg_target if arm is CommonColdArm.BG_NEUTRAL else rs_target),
+                bootstrap_target=(
+                    bg_target
+                    if arm.scale is CommonColdScale.BATCH_GLOBAL
+                    else rs_target
+                ),
                 z_base=z_base,
                 metric=metrics[arm.scale],
                 lookup_positions=lookup_positions,
@@ -1746,12 +3156,25 @@ def run_common_coldcoord_fixed_e8_diagnostic(
                 stages=stages,
                 expected_initial_contract=expected_initial,
                 initial_contract_sink=initial_capture,
+                pair_initial_contract_sink=(
+                    pair_initial_capture if bg_soft_missing_cell_mode else None
+                ),
+                typed_zero_positive=bg_soft_missing_cell_mode,
+                record_six_context_objectives=bg_soft_missing_cell_mode,
             )
             rollouts[arm.value] = rollout
             initial_contracts[arm.value] = initial_contract
+            if pair_initial_capture:
+                pair_initial_contracts[arm.value] = dict(
+                    pair_initial_capture
+                )
         except ODEBFContractError as exc:
             if initial_capture:
                 initial_contracts[arm.value] = dict(initial_capture)
+            if pair_initial_capture:
+                pair_initial_contracts[arm.value] = dict(
+                    pair_initial_capture
+                )
             failures[arm.value] = {
                 "status": "ARM_LOCAL_TECHNICAL_FAILURE",
                 "exception_type": type(exc).__name__,
@@ -1771,16 +3194,193 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         right = dict(initial_contracts[CommonColdArm.RS_SOFT.value])
         if left != right:
             raise ODEBFContractError("RS Neutral/Soft initial bootstrap/field differs")
+    if bg_soft_missing_cell_mode and (
+        initial_contracts.get(CommonColdArm.BG_SOFT.value)
+        != expected_bg_initial
+    ):
+        raise ODEBFContractError(
+            "BG-Neutral/BG-Soft frozen initial contract differs"
+        )
+    if bg_soft_missing_cell_mode and (
+        initial_contracts.get(CommonColdArm.BG_SOFT_TARGET_HOLD.value)
+        != initial_contracts.get(CommonColdArm.BG_SOFT.value)
+    ):
+        raise ODEBFContractError(
+            "BG-Soft main/target-hold initial contract differs"
+        )
+    if bg_soft_missing_cell_mode and (
+        pair_initial_contracts.get(CommonColdArm.BG_SOFT.value)
+        != pair_initial_contracts.get(
+            CommonColdArm.BG_SOFT_TARGET_HOLD.value
+        )
+    ):
+        raise ODEBFContractError(
+            "BG-Soft main/target-hold selected k0 contract differs"
+        )
     action_freeze = {
-        "schema": f"{COMMON_COLD_SCHEMA_NAMESPACE}-action-freeze/v1",
-        "instruction_id": COMMON_COLD_INSTRUCTION_ID,
+        "schema": f"{runtime_schema_namespace}-action-freeze/v1",
+        "instruction_id": runtime_instruction_id,
         "request_order_sha256": request_order,
         "rollout_sha256": {key: value.rollout_sha256 for key, value in rollouts.items()},
         "arm_failures": failures,
         "actions_frozen_before_native_and_heldout": True,
         "native_or_direct_z_cold_access_count": 0,
     }
+    if bg_soft_missing_cell_mode:
+        action_freeze.update(
+            {
+                "amendment_id": runtime_amendment_id,
+                "w0_native_bg_neutral_rerun_count": 0,
+            }
+        )
     action_freeze_sha = write_once(raw_root / "common-cold" / "action-freeze.json", action_freeze)
+    if bg_soft_missing_cell_mode:
+        bg_rollouts = {
+            arm.value: rollouts[arm.value]
+            for arm in (
+                CommonColdArm.BG_SOFT,
+                CommonColdArm.BG_SOFT_TARGET_HOLD,
+            )
+            if arm.value in rollouts
+        }
+        if not bg_rollouts or frozen_bg_reference is None:
+            raise ODEBFContractError(
+                "BG-Soft arms did not produce an action-frozen rollout"
+            )
+        panel = _postfreeze_bg_soft_prefix_panel(
+            model,
+            tokenizer,
+            alias=alias,
+            requests=requests,
+            contexts=contexts,
+            hparams=hparams,
+            target_layer_name=target_layer_name,
+            dataset_path=dataset_path,
+            rollouts=bg_rollouts,
+            raw_root=raw_root,
+            write_once=write_once,
+            touched=touched,
+            request_order_sha256=request_order,
+            action_freeze_sha256=action_freeze_sha,
+            frozen_reference=frozen_bg_reference,
+        )
+        panel_sha = write_once(
+            raw_root / "stepwise" / "bg-soft-missing-cell-panel.json",
+            panel,
+        )
+        artifact_guard.assert_unchanged()
+        if {
+            name: tensor_sha256(value) for name, value in sorted(touched.items())
+        } != base_bytes:
+            raise ODEBFStateError("BG-Soft final W0 restore differs")
+        pair_terminal_status = (
+            "BG_SOFT_MISSING_CELL_DIAGNOSTIC_TERMINAL"
+            if not failures
+            else "BG_SOFT_MISSING_CELL_DIAGNOSTIC_PARTIAL_TECHNICAL_TERMINAL"
+        )
+        variant_status = {
+            arm.value: (
+                bg_rollouts[arm.value].status
+                if arm.value in bg_rollouts
+                else failures[arm.value]["status"]
+            )
+            for arm in (
+                CommonColdArm.BG_SOFT,
+                CommonColdArm.BG_SOFT_TARGET_HOLD,
+            )
+        }
+        terminal = {
+            "schema": f"{runtime_schema_namespace}-terminal/v1",
+            "instruction_id": runtime_instruction_id,
+            "amendment_id": runtime_amendment_id,
+            "status": pair_terminal_status,
+            "alias": alias,
+            "source_head": source_head,
+            "parent_method": common_cold_source_contract(),
+            "live_arms": [
+                CommonColdArm.BG_SOFT.value,
+                CommonColdArm.BG_SOFT_TARGET_HOLD.value,
+            ],
+            "scale": CommonColdScale.BATCH_GLOBAL.value,
+            "routing": FixedE8Arm.SOFT.value,
+            "panel_kind": "REUSED_R10_OUTCOME_SELECTED_SEAL_CAUSAL_DIAGNOSTIC",
+            "scientific_promotion_authorized": False,
+            "request_order_sha256": request_order,
+            "stream_root_digest": stream["root_digest"],
+            "reference_lock_sha256": bg_soft_reference_lock_sha256,
+            "reference_lock_root_digest": bg_soft_reference_lock[
+                "root_digest"
+            ],
+            "frozen_r10_reference": frozen_bg_reference,
+            "initial_contract": {
+                key: value
+                for key, value in sorted(initial_contracts.items())
+                if key in (
+                    CommonColdArm.BG_SOFT.value,
+                    CommonColdArm.BG_SOFT_TARGET_HOLD.value,
+                )
+            },
+            "main_target_hold_pair_initial_contract": (
+                pair_initial_contracts.get(CommonColdArm.BG_SOFT.value)
+            ),
+            "bootstrap_sha256": {"BG": bg_sha},
+            "action_freeze_sha256": action_freeze_sha,
+            "stepwise_panel_sha256": panel_sha,
+            "variant_status": variant_status,
+            "arm_failures": failures,
+            "arm_failure_count": len(failures),
+            "completed_arm_count": len(bg_rollouts),
+            "all_live_arms_scientifically_evaluable": not failures,
+            "accepted_snapshot_count": {
+                arm.value: (
+                    len(bg_rollouts[arm.value].snapshots)
+                    if arm.value in bg_rollouts
+                    else 0
+                )
+                for arm in (
+                    CommonColdArm.BG_SOFT,
+                    CommonColdArm.BG_SOFT_TARGET_HOLD,
+                )
+            },
+            "cold_native_or_direct_z_access_count": 0,
+            "scientific_retry_count": 0,
+            "scientific_rejection_count": 0,
+            "hard_h_p_budget_influence_count": 0,
+            "first_hit_observation_only": True,
+            "w0_native_bg_neutral_rerun_count": 0,
+            "numerical_lock_sha256": numerical_sha256,
+            "artifact_receipt": asdict(artifact_receipt),
+            "context_sha256": context_sha256,
+            "cuda_preflight": dict(cuda_runtime_receipt),
+            "job_compute": job_ledger.raw_free_payload(),
+            "final_w0_restored": True,
+            "persistent_endpoint_commit_count": 0,
+            "history_append_count": 0,
+            "heldout_controller_access_count": 0,
+        }
+        terminal_sha = write_once(destination / "terminal.json", terminal)
+        manifest_sha = write_once(
+            destination / "manifest.json",
+            {
+                "schema": f"{runtime_schema_namespace}-manifest/v1",
+                "instruction_id": runtime_instruction_id,
+                "amendment_id": runtime_amendment_id,
+                "status": terminal["status"],
+                "alias": alias,
+                "source_head": source_head,
+                "terminal_sha256": terminal_sha,
+                "stepwise_panel_sha256": panel_sha,
+                "frozen_r10_reference": frozen_bg_reference,
+                "retry_submission_count": 0,
+            },
+        )
+        return {
+            "status": terminal["status"],
+            "alias": alias,
+            "terminal_sha256": terminal_sha,
+            "manifest_sha256": manifest_sha,
+            "final_w0_restored": True,
+        }
     native_ledger = ComputeLedger()
     native_counter = ModelForwardCounter(model, native_ledger)
     try:
@@ -1872,7 +3472,7 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         "n32_postfreeze_sha256": native_sha,
         "stepwise_panel_sha256": panel_sha,
         "reused_warm_evaluator_parity_sha256": evaluator_parity_sha,
-        "variant_status": {arm.value: (rollouts[arm.value].status if arm.value in rollouts else failures[arm.value]["status"]) for arm in CommonColdArm},
+        "variant_status": {arm.value: (rollouts[arm.value].status if arm.value in rollouts else failures[arm.value]["status"]) for arm in R10_COMMON_COLD_ARMS},
         "cold_native_or_direct_z_access_count": 0,
         "scientific_retry_count": 0,
         "scientific_rejection_count": 0,

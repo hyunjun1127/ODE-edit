@@ -3206,6 +3206,7 @@ def run_p1(
     cold_structp_softp_noveto_mode: bool = False,
     fixed_e8_soft_mode: bool = False,
     common_cold_fixed_e8_mode: bool = False,
+    bg_soft_missing_cell_mode: bool = False,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3223,10 +3224,17 @@ def run_p1(
             cold_structp_softp_noveto_mode,
             fixed_e8_soft_mode,
             common_cold_fixed_e8_mode,
+            bg_soft_missing_cell_mode,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if common_cold_fixed_e8_mode:
+    if bg_soft_missing_cell_mode:
+        from .p1_bg_soft_missing_cell_panel import (
+            expected_bg_soft_result_name,
+        )
+
+        expected_name = expected_bg_soft_result_name(alias)
+    elif common_cold_fixed_e8_mode:
         from .p1_common_coldcoord_fixed_e8_panel import (
             expected_common_cold_result_name,
         )
@@ -3297,7 +3305,8 @@ def run_p1(
         and not newnll_p_soft_hard_mode
         and not cold_structp_softp_noveto_mode
         and not fixed_e8_soft_mode
-        and not common_cold_fixed_e8_mode,
+        and not common_cold_fixed_e8_mode
+        and not bg_soft_missing_cell_mode,
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
@@ -3459,19 +3468,29 @@ def run_p1(
         cold_structp_softp_noveto_mode
         or fixed_e8_soft_mode
         or common_cold_fixed_e8_mode
+        or bg_soft_missing_cell_mode
     ):
         from .p1_cold_structp_softp_noveto_panel import (
             load_cold_requests,
             verify_cold_case_seal,
         )
 
-        if common_cold_fixed_e8_mode:
-            from .p1_common_coldcoord_fixed_e8_panel import (
-                common_cold_schedule,
-                load_and_validate_common_cold_lock,
-                load_common_cold_requests,
-                verify_common_cold_case_seal,
-            )
+        if common_cold_fixed_e8_mode or bg_soft_missing_cell_mode:
+            if bg_soft_missing_cell_mode:
+                from .p1_bg_soft_missing_cell_panel import (
+                    BG_SOFT_REFERENCE_LOCK_FILE,
+                    common_cold_schedule,
+                    load_and_validate_bg_soft_reference_lock,
+                    load_common_cold_requests,
+                    verify_common_cold_case_seal,
+                )
+            else:
+                from .p1_common_coldcoord_fixed_e8_panel import (
+                    common_cold_schedule,
+                    load_and_validate_common_cold_lock,
+                    load_common_cold_requests,
+                    verify_common_cold_case_seal,
+                )
 
             cold_stream = verify_common_cold_case_seal(
                 json.loads(
@@ -3482,17 +3501,29 @@ def run_p1(
             )
             cold_requests = load_common_cold_requests(dataset, cold_stream)
             schedule = common_cold_schedule(sampling_seal)
-            common_numerical, common_numerical_sha256 = (
-                load_and_validate_common_cold_lock(
-                    locks / "numerical_lock_s05_common_coldcoord_fixed_e8.json",
-                    controller_identity_sha256=controller_lock.identity(),
-                    case_root_digest=cold_stream["root_digest"],
-                    population_root_digest=population["root_digest"],
-                    schedule=schedule,
+            if bg_soft_missing_cell_mode:
+                bg_soft_reference_lock, bg_soft_reference_lock_sha256 = (
+                    load_and_validate_bg_soft_reference_lock(
+                        locks / BG_SOFT_REFERENCE_LOCK_FILE,
+                        controller_identity_sha256=controller_lock.identity(),
+                        case_root_digest=cold_stream["root_digest"],
+                        schedule=schedule,
+                    )
                 )
-            )
-            numerical = common_numerical
-            numerical_sha256 = common_numerical_sha256
+                numerical = bg_soft_reference_lock
+                numerical_sha256 = bg_soft_reference_lock_sha256
+            else:
+                common_numerical, common_numerical_sha256 = (
+                    load_and_validate_common_cold_lock(
+                        locks / "numerical_lock_s05_common_coldcoord_fixed_e8.json",
+                        controller_identity_sha256=controller_lock.identity(),
+                        case_root_digest=cold_stream["root_digest"],
+                        population_root_digest=population["root_digest"],
+                        schedule=schedule,
+                    )
+                )
+                numerical = common_numerical
+                numerical_sha256 = common_numerical_sha256
         else:
             cold_stream = verify_cold_case_seal(
                 json.loads(
@@ -3525,7 +3556,7 @@ def run_p1(
             )
             numerical = fixed_e8_numerical
             numerical_sha256 = fixed_e8_numerical_sha256
-        elif not common_cold_fixed_e8_mode:
+        elif not common_cold_fixed_e8_mode and not bg_soft_missing_cell_mode:
             from .p1_cold_structp_softp_noveto_panel import (
                 cold_schedule,
                 validate_cold_lock,
@@ -3574,11 +3605,17 @@ def run_p1(
     )
 
     cuda_runtime_receipt = _initialize_p1_cuda_runtime(stages)
-    if common_cold_fixed_e8_mode:
-        from .p1_common_coldcoord_fixed_e8_panel import (
-            forecast_common_cold_panel,
-            validate_common_cold_runtime_gpu_capacity,
-        )
+    if common_cold_fixed_e8_mode or bg_soft_missing_cell_mode:
+        if bg_soft_missing_cell_mode:
+            from .p1_bg_soft_missing_cell_panel import (
+                forecast_common_cold_panel,
+                validate_common_cold_runtime_gpu_capacity,
+            )
+        else:
+            from .p1_common_coldcoord_fixed_e8_panel import (
+                forecast_common_cold_panel,
+                validate_common_cold_runtime_gpu_capacity,
+            )
 
         common_forecast = forecast_common_cold_panel(
             locks / "p0_artifact_lock.json",
@@ -3749,8 +3786,9 @@ def run_p1(
         or cold_structp_softp_noveto_mode
         or fixed_e8_soft_mode
         or common_cold_fixed_e8_mode
+        or bg_soft_missing_cell_mode
     ):
-        if common_cold_fixed_e8_mode:
+        if common_cold_fixed_e8_mode or bg_soft_missing_cell_mode:
             from .common_coldcoord_fixed_e8_runtime import (
                 run_common_coldcoord_fixed_e8_diagnostic,
             )
@@ -3787,6 +3825,17 @@ def run_p1(
                 cuda_runtime_receipt=cuda_runtime_receipt,
                 job_ledger=job_ledger,
                 write_once=_atomic_write_once,
+                bg_soft_missing_cell_mode=bg_soft_missing_cell_mode,
+                bg_soft_reference_lock=(
+                    bg_soft_reference_lock
+                    if bg_soft_missing_cell_mode
+                    else None
+                ),
+                bg_soft_reference_lock_sha256=(
+                    bg_soft_reference_lock_sha256
+                    if bg_soft_missing_cell_mode
+                    else None
+                ),
             )
         if fixed_e8_soft_mode:
             from .fixed_e8_runtime import run_fixed_e8_diagnostic
