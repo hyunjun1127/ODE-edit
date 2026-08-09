@@ -26,8 +26,6 @@ from project.run_scripts.ode_bf.artifacts import (
 from project.run_scripts.ode_bf.contracts import ODEBFContractError
 from project.run_scripts.ode_bf.p1_bg_soft_missing_cell_panel import (
     BG_SOFT_AMENDMENT_ID,
-    BG_SOFT_EXECUTION_REPAIR_PARENT,
-    BG_SOFT_IMPLEMENTATION_PARENT,
     BG_SOFT_INSTRUCTION_ID,
     BG_SOFT_PARENT_HEAD,
     BG_SOFT_R10_CASE_ROOT,
@@ -45,6 +43,13 @@ from project.run_scripts.ode_bf.sampling import load_p1_sampling_seal
 
 SESSION_ID = "019fe489-c968-75f3-9965-7cfbc26c0a99"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-bg-soft-missing-cell-p1r12-v1"
+BG_SOFT_IMPLEMENTATION_PARENT = "8d0e8c80e3a100fccd4c295c3c3dbab5153602be"
+BG_SOFT_EXECUTION_REPAIR_PARENT = "1f58ea7b6732a67cbced132ee56056cd1f79cad3"
+BG_SOFT_PACKAGE_REPAIR_PARENT = "4a9c5d8edabf477a709dbe44b4ebdcfee968763b"
+BG_SOFT_PACKAGE_REPAIR_INSTRUCTION_ID = (
+    "ODEEDIT-S05-ODE-BF-BG-SOFT-MISSING-CELL-P1R12-V1-A1-R1"
+)
+BG_SOFT_PACKAGE_ID = "BGSOFT_R10_FROZEN_BUNDLE_A1_R1"
 LLAMA_ALIAS = "llama3-8b-inst"
 SERVER1_PROJECT_GPU_CAP = 4
 APPROVAL_ENV = "ODEEDIT_S05_BG_SOFT_MISSING_CELL_P1R12_RUN_APPROVAL"
@@ -108,8 +113,15 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     approval = os.environ.get(APPROVAL_ENV)
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
-    implementation_parent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
-    scientific_parent = _run(["git", "rev-parse", "HEAD^^^"]).stdout.strip()
+    execution_repair_parent = _run(
+        ["git", "rev-parse", "HEAD^^"]
+    ).stdout.strip()
+    implementation_parent = _run(
+        ["git", "rev-parse", "HEAD^^^"]
+    ).stdout.strip()
+    scientific_parent = _run(
+        ["git", "rev-parse", "HEAD^^^^"]
+    ).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(
         ["git", "status", "--porcelain", "--untracked-files=no"]
@@ -122,7 +134,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         raise ODEBFContractError("BG-Soft checkpoint-bound approval is absent")
     if (
         head != source_head
-        or parent != BG_SOFT_EXECUTION_REPAIR_PARENT
+        or parent != BG_SOFT_PACKAGE_REPAIR_PARENT
+        or execution_repair_parent != BG_SOFT_EXECUTION_REPAIR_PARENT
         or implementation_parent != BG_SOFT_IMPLEMENTATION_PARENT
         or scientific_parent != BG_SOFT_PARENT_HEAD
         or branch != EXECUTION_BRANCH
@@ -134,6 +147,7 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         "checkpoint_bound_approval": expected_approval,
         "execution_head": head,
         "exact_execution_parent": parent,
+        "exact_execution_repair_parent": execution_repair_parent,
         "exact_implementation_parent": implementation_parent,
         "exact_scientific_parent": scientific_parent,
         "scientific_parent_is_ancestor": True,
@@ -155,6 +169,10 @@ def _source_manifest_gate(source_head: str) -> str:
         or value.get("execution_repair_parent")
         != BG_SOFT_EXECUTION_REPAIR_PARENT
         or value.get("implementation_parent") != BG_SOFT_IMPLEMENTATION_PARENT
+        or value.get("package_repair_parent") != BG_SOFT_PACKAGE_REPAIR_PARENT
+        or value.get("package_repair_instruction_id")
+        != BG_SOFT_PACKAGE_REPAIR_INSTRUCTION_ID
+        or value.get("frozen_bundle_id") != BG_SOFT_PACKAGE_ID
         or value.get("execution_branch") != EXECUTION_BRANCH
         or value.get("execution_head_policy") != "runtime-git-head"
         or not isinstance(entries, list)
@@ -163,7 +181,15 @@ def _source_manifest_gate(source_head: str) -> str:
         raise ODEBFContractError("BG-Soft source manifest header differs")
     observed: list[str] = []
     for entry in entries:
-        if not isinstance(entry, Mapping) or not isinstance(entry.get("path"), str):
+        if (
+            not isinstance(entry, Mapping)
+            or not isinstance(entry.get("path"), str)
+            or not isinstance(entry.get("mode"), int)
+            or not isinstance(entry.get("object_id"), str)
+            or len(str(entry["object_id"])) != 40
+            or not isinstance(entry.get("role"), str)
+            or not entry["role"]
+        ):
             raise ODEBFContractError("BG-Soft source manifest entry differs")
         relative = str(entry["path"])
         path = REPO_ROOT / relative
@@ -174,6 +200,20 @@ def _source_manifest_gate(source_head: str) -> str:
             or sha256_file(path) != entry.get("sha256")
         ):
             raise ODEBFContractError("BG-Soft source manifest content differs")
+        tree_row = _run(
+            ["git", "ls-tree", source_head, "--", relative]
+        ).stdout.rstrip("\n")
+        if "\t" not in tree_row:
+            raise ODEBFContractError("BG-Soft source manifest object differs")
+        metadata, observed_path = tree_row.split("\t", 1)
+        mode, kind, object_id = metadata.split(" ", 2)
+        if (
+            observed_path != relative
+            or kind != "blob"
+            or int(mode, 8) != entry["mode"]
+            or object_id != entry["object_id"]
+        ):
+            raise ODEBFContractError("BG-Soft source manifest object differs")
         observed.append(relative)
     if observed != sorted(observed) or len(observed) != len(set(observed)):
         raise ODEBFContractError("BG-Soft source manifest ordering differs")

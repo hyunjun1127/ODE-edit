@@ -16,6 +16,7 @@ readonly EXPECTED_SESSION="019fe489-c968-75f3-9965-7cfbc26c0a99"
 readonly EXPECTED_SCIENTIFIC_PARENT="38592cd14eddbfd40cd063b1891c75588ddcb7fa"
 readonly EXPECTED_IMPLEMENTATION_PARENT="8d0e8c80e3a100fccd4c295c3c3dbab5153602be"
 readonly EXPECTED_EXECUTION_REPAIR_PARENT="1f58ea7b6732a67cbced132ee56056cd1f79cad3"
+readonly EXPECTED_PACKAGE_REPAIR_PARENT="4a9c5d8edabf477a709dbe44b4ebdcfee968763b"
 readonly EXECUTION_BRANCH="codex/odeeditsh1-s05-bg-soft-missing-cell-p1r12-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly MODEL_ALIAS="${1:-}"
@@ -38,15 +39,19 @@ readonly RUN_TOKEN="${4:-}"
 }
 [[ "$(pwd -P)" == "${REPO_ROOT}" ]] || { echo "R12 CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "R12 source differs" >&2; exit 2; }
-[[ "$(git rev-parse HEAD^)" == "${EXPECTED_EXECUTION_REPAIR_PARENT}" ]] || {
-  echo "R12 execution parent differs" >&2
+[[ "$(git rev-parse HEAD^)" == "${EXPECTED_PACKAGE_REPAIR_PARENT}" ]] || {
+  echo "R12 package repair parent differs" >&2
   exit 2
 }
-[[ "$(git rev-parse HEAD^^)" == "${EXPECTED_IMPLEMENTATION_PARENT}" ]] || {
+[[ "$(git rev-parse HEAD^^)" == "${EXPECTED_EXECUTION_REPAIR_PARENT}" ]] || {
+  echo "R12 execution repair parent differs" >&2
+  exit 2
+}
+[[ "$(git rev-parse HEAD^^^)" == "${EXPECTED_IMPLEMENTATION_PARENT}" ]] || {
   echo "R12 implementation parent differs" >&2
   exit 2
 }
-[[ "$(git rev-parse HEAD^^^)" == "${EXPECTED_SCIENTIFIC_PARENT}" ]] || {
+[[ "$(git rev-parse HEAD^^^^)" == "${EXPECTED_SCIENTIFIC_PARENT}" ]] || {
   echo "R12 scientific parent differs" >&2
   exit 2
 }
