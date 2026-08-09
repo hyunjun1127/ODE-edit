@@ -12,7 +12,12 @@
 
 | 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
 | --- | --- | --- | --- | --- |
-| server-head (SH2) | `019fc5ec-f85b-7770-a73a-1d19be1cd491` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assignment ACK / onboarding HOLD |
+| server-head (SH2) | `019fe491-954b-70a0-8ba8-0588e9f8d741` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | registered canonical SH2; prior context inherited; local boundary provisioning pending; execution HOLD |
+
+2026-08-09 사용자 직접 session 교체에 따라 이전 SH2
+`019fc5ec-f85b-7770-a73a-1d19be1cd491`은 superseded됐으며 새 command authority가 없다.
+새 SH2는 이전 대화와 artifact context를 인계받았고, local-only Git identity/session
+boundary provisioning을 마칠 때까지 실행 권한은 HOLD다.
 
 ## 접근과 권한
 
@@ -40,7 +45,7 @@ secret은 이 record에 기록하지 않는다.
 ## Codex Session Boundary
 
 server2의 ODE-Edit command는 canonical session
-`019fc5ec-f85b-7770-a73a-1d19be1cd491`, confirmed `Sol Ultra`, CWD
+`019fe491-954b-70a0-8ba8-0588e9f8d741`, confirmed `Sol Ultra`, CWD
 `/mnt/raid5/janghj/ODE-edit`, repository identity와 local Git identity가 모두 일치한
 뒤에만 실행한다. 다른 repo 또는 다른 server session은 대체할 수 없다.
 
@@ -69,8 +74,8 @@ server2의 ODE-Edit command는 canonical session
 
 ## 판정
 
-- 상태: `assigned-onboarding-hold`
-- 완료: canonical SH2 session 배정, repo/Slurm read-only 확인
-- blocker: local session boundary, Git identity, method runtime, heartbeat, red-team audit
+- 상태: `registered-context-inherited-hold`
+- 완료: 새 canonical SH2 session 등록, repo/context read-only 확인
+- blocker: 새 local session boundary, Git identity, method runtime, heartbeat, red-team audit
 - 현재 권한: direct ACK/HOLD 보고만 허용; Git write, Slurm, rsync, artifact 작업 금지
 - 다음 담당자: canonical SH2와 global-head

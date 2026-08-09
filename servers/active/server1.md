@@ -12,12 +12,17 @@
 
 | 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
 | --- | --- | --- | --- | --- |
-| global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active |
-| server-head (SH1) | `019fc63e-5217-7250-9c22-c5b2ec4248f0` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | active canonical SH1; Session 02 P1 terminal; GPU/Slurm/push HOLD |
+| global-head | `019fe491-16f4-7bd3-adf5-4b1eb4a57d1f` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active; prior context inherited |
+| server-head (SH1) | `019fe489-c968-75f3-9965-7cfbc26c0a99` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | active canonical SH1; prior context inherited; boundary PASS; ready for GH instruction |
 
 사용자 정정에 따라 이전 assignment `019fc5e0-eb7e-78a3-9436-93885621b8dc`는
 superseded되었으며 server1 SH authority가 없다. 현재 SH1은 instruction
 `ODEEDIT-S02-P1-SMAX8-AFFECTED-CONT-LLAMA-V1`까지 완료하고 다음 GH envelope를 기다린다.
+
+2026-08-09 사용자 직접 session 교체에 따라 이전 GH
+`019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`와 이전 SH1
+`019fc63e-5217-7250-9c22-c5b2ec4248f0`은 superseded됐으며 새 command authority가
+없다. 새 SH1은 이전 대화와 R10-R4 evidence context를 인계받아 hash 확인을 완료했다.
 
 ## 접근과 권한
 
@@ -43,10 +48,10 @@ secret은 절대 기록하지 않는다.
 - root clone의 현재 `agent.hostname`: `server1`
 - GH heartbeat 경로: `agents/server1/head-server1-gh.json`
 - SH1 worktree: `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit`
-- SH1 branch: `codex/odeeditsh1-bf16-context-lock-v5-prep-v1`
+- SH1 branch: `codex/odeeditsh1-ct-k4-v1`
 - SH1 effective identity: `agent.id=head-server1-sh1`, `agent.role=server-head`,
   `agent.hostname=server1`
-- SH1 session/role boundary: PASS
+- SH1 session/role boundary: PASS (`019fe489-c968-75f3-9965-7cfbc26c0a99`)
 - SH1 heartbeat 경로: `agents/server1/head-server1-sh1.json` (tracked heartbeat는 pending)
 - SH1은 GH root clone의 local session boundary를 덮어쓰지 않는다.
 - sync 설정: GitHub remote와 main bootstrap push 완료; GH가 설치 여부를 결정

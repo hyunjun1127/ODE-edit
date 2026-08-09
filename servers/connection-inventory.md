@@ -1,6 +1,6 @@
 # 서버 접속 인벤토리
 
-- 갱신 시각: 2026-08-03
+- 갱신 시각: 2026-08-09 12:36:25 KST
 - 작성 agent: head-server1-gh (global-head)
 - 목적: agent 간 SSH/rsync 계획 수립을 위한 redacted 접속 인벤토리 공유
 
@@ -10,9 +10,10 @@
 
 ## 서버 목록
 
-server1의 canonical SH1은 GH root clone과 분리된 dedicated worktree에서 Session 02 P1
-terminal execution을 완료했으며 GPU/Slurm/push는 HOLD다. server2에는 canonical SH2 session과 repo clone이
-확인됐지만 local session boundary, method runtime과 heartbeat가 아직 없어 onboarding HOLD다.
+server1의 새 canonical GH와 SH1은 이전 context를 인계받았고, 각 local session
+boundary와 repository identity를 확인했다. server2의 새 canonical SH2도 이전 context를
+인계받아 등록됐지만 local session boundary와 Git identity provisioning이 끝날 때까지
+execution HOLD다.
 server4는 physical host로 등록됐지만 이 repo clone/SH가 없는
 `registered-pending-clone` 상태이며 server3는 future target이다.
 
@@ -32,9 +33,9 @@ session ID를 채우거나 대체 대상으로 사용하지 않는다.
 
 | 서버 | 역할 | Codex session ID | Required/confirmed model | Repository CWD | 상태 |
 | --- | --- | --- | --- | --- | --- |
-| `server1` | global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active / 현재 GH session |
-| `server1` | server-head (SH1) | `019fc63e-5217-7250-9c22-c5b2ec4248f0` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | active canonical SH1; Session 02 P1 terminal; GPU/Slurm/push HOLD |
-| `server2` | server-head (SH2) | `019fc5ec-f85b-7770-a73a-1d19be1cd491` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assignment ACK / onboarding HOLD; canonical SH2 |
+| `server1` | global-head | `019fe491-16f4-7bd3-adf5-4b1eb4a57d1f` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active / 현재 GH session; prior context inherited |
+| `server1` | server-head (SH1) | `019fe489-c968-75f3-9965-7cfbc26c0a99` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | active canonical SH1; prior context inherited; boundary PASS; ready for GH instruction |
+| `server2` | server-head (SH2) | `019fe491-954b-70a0-8ba8-0588e9f8d741` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | registered canonical SH2; prior context inherited; local boundary provisioning pending; execution HOLD |
 | `server3` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | future target / clone 전 |
 | `server4` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | registered-pending-clone |
 
@@ -49,6 +50,12 @@ Task-local delegated session은 canonical SH assignment를 대체하지 않으�
 `servers/active/<server>.md`를 만들고, 해당 server-head의 heartbeat와
 red-team onboarding audit이 `pass` 또는 명시적 `waived`가 된 뒤에만 task를
 배정한다.
+
+2026-08-09 사용자 직접 교체로 이전 GH `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`,
+SH1 `019fc63e-5217-7250-9c22-c5b2ec4248f0`, SH2
+`019fc5ec-f85b-7770-a73a-1d19be1cd491`의 active authority는 종료됐다. 이전 ID가
+남아 있는 plan, report, audit, message와 execution lock은 당시 provenance이므로
+수정하지 않는다.
 
 ## Local Private Inventory
 
