@@ -100,6 +100,65 @@ class IntegratedPhysicalWriterLaunchTests(unittest.TestCase):
         self.assertIn("server1 P1R14 launcher is Llama-only", source)
         self.assertNotIn("llama3-8b-inst|qwen2.5-7b-inst", source)
 
+    def test_tech_r2_launcher_checkout_bindings_are_exact(self) -> None:
+        path = REPO_ROOT / "project/run_scripts/session05_ode_bf_integrated_physical_writer.sbatch"
+        source = path.read_text(encoding="utf-8")
+        self.assertIn(
+            'readonly SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"',
+            source,
+        )
+        self.assertIn(
+            'readonly REPO_ROOT="$(cd "$(dirname "${SCRIPT_PATH}")/../.." && pwd -P)"',
+            source,
+        )
+        self.assertNotIn("/.codex/worktrees/odeeditsh1-", source)
+        self.assertIn(f'readonly EXPECTED_PARENT="{dry.EXECUTION_PARENT}"', source)
+        self.assertIn(f'readonly EXPECTED_BRANCH="{dry.EXECUTION_BRANCH}"', source)
+        head_and_parent = subprocess.run(
+            ["git", "rev-parse", "HEAD", "HEAD^"],
+            cwd=REPO_ROOT,
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        ).stdout.splitlines()
+        self.assertIn(dry.EXECUTION_PARENT, head_and_parent)
+        self.assertEqual(
+            subprocess.run(
+                ["git", "branch", "--show-current"],
+                cwd=REPO_ROOT,
+                check=True,
+                text=True,
+                stdout=subprocess.PIPE,
+            ).stdout.strip(),
+            dry.EXECUTION_BRANCH,
+        )
+        self.assertEqual(dry.JOB_NAME, "odeedit_s05_p1r14_sh1_integrated_writer_llama_tech_r2")
+        self.assertEqual(
+            dry.RESULT_NAME,
+            "s05-integrated-physical-writer-p1r14-llama3-8b-inst-tech-r2-v1",
+        )
+        self.assertIn("tech-r2", submit.SUBMISSION_NAMESPACE)
+
+    def test_tech_r2_execution_identity_rejects_old_path_and_wrong_chain(self) -> None:
+        valid = {
+            "source_head": "a" * 40,
+            "head": "a" * 40,
+            "parent": dry.EXECUTION_PARENT,
+            "branch": dry.EXECUTION_BRANCH,
+            "tracked_dirty": "",
+        }
+        submit._assert_execution_identity(**valid)
+        for key, value in (
+            ("head", "b" * 40),
+            ("parent", "e6facd2d5dfae12d3c094b51981ad99951174109"),
+            ("branch", dry.EXECUTION_BRANCH + "-stale"),
+            ("tracked_dirty", " M stale-launcher"),
+        ):
+            broken = dict(valid)
+            broken[key] = value
+            with self.subTest(key=key), self.assertRaises(ODEBFContractError):
+                submit._assert_execution_identity(**broken)
+
     def test_scheduler_counts_all_project_prefixes(self) -> None:
         rows = "\n".join(
             (

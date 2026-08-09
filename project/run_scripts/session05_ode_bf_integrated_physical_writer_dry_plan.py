@@ -24,7 +24,6 @@ from project.run_scripts.ode_bf.p1_integrated_physical_writer_panel import (
     P1R14_NUMERICAL_LOCK_FILE,
     P1R14_RESULT_TOKEN,
     P1R14_SOURCE_MANIFEST_FILE,
-    expected_p1r14_result_name,
     load_and_validate_p1r14_numerical_lock,
     load_and_validate_p1r14_seals,
     load_and_validate_p1r14_source_manifest,
@@ -37,10 +36,11 @@ from project.run_scripts.ode_bf.p1_integrated_physical_writer_panel import (
 SESSION_ID = "019fe489-c968-75f3-9965-7cfbc26c0a99"
 GH_SESSION_ID = "019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-integrated-physical-writer-p1r14-v1"
-EXECUTION_PARENT = "e6facd2d5dfae12d3c094b51981ad99951174109"
+EXECUTION_PARENT = "f0f48f964750dbd11483ea327ae679c24c710fde"
 SERVER1_PROJECT_GPU_CAP = 4
-JOB_NAME = "odeedit_s05_p1r14_sh1_integrated_writer_llama"
+JOB_NAME = "odeedit_s05_p1r14_sh1_integrated_writer_llama_tech_r2"
 LLAMA_ALIAS = "llama3-8b-inst"
+RESULT_NAME = "s05-integrated-physical-writer-p1r14-llama3-8b-inst-tech-r2-v1"
 
 
 def _valid_head(value: str) -> bool:
@@ -120,7 +120,7 @@ def build_plan(
         "server1_submission": {
             "alias": LLAMA_ALIAS,
             "job_name": JOB_NAME,
-            "result_name": expected_p1r14_result_name(LLAMA_ALIAS),
+            "result_name": RESULT_NAME,
             "run_token": P1R14_RESULT_TOKEN,
             "gpu": 1,
             "cpu": 8,

@@ -22,12 +22,11 @@ from project.run_scripts import session05_ode_bf_integrated_physical_writer_pack
 from project.run_scripts.ode_bf.contracts import ODEBFContractError, canonical_hash
 from project.run_scripts.ode_bf.p1_integrated_physical_writer_panel import (
     P1R14_RESULT_TOKEN,
-    expected_p1r14_result_name,
 )
 from project.run_scripts.ode_bf.resource import gpu_count_from_tres
 
 
-SUBMISSION_NAMESPACE = "s05-integrated-physical-writer-p1r14-a3-llama-v1"
+SUBMISSION_NAMESPACE = "s05-integrated-physical-writer-p1r14-a3-tech-r2-llama-v1"
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_integrated_physical_writer.sbatch"
 DEFAULT_STATE_ROOT = REPO_ROOT / "local/odebf/state"
 HOST_MEMORY_REQUEST_MIB = 65_000
@@ -96,6 +95,25 @@ def _load_sh2_package_ack(
     return value
 
 
+def _assert_execution_identity(
+    *,
+    source_head: str,
+    head: str,
+    parent: str,
+    branch: str,
+    tracked_dirty: str,
+) -> None:
+    """Fail closed on any launcher checkout or exact-chain mismatch."""
+
+    if (
+        head != source_head
+        or parent != dry.EXECUTION_PARENT
+        or branch != dry.EXECUTION_BRANCH
+        or tracked_dirty
+    ):
+        raise ODEBFContractError("integrated checkpoint/package provenance differs")
+
+
 def _provenance(
     source_head: str,
     *,
@@ -112,15 +130,15 @@ def _provenance(
     parent = _run(("git", "rev-parse", "HEAD^")).stdout.strip()
     branch = _run(("git", "branch", "--show-current")).stdout.strip()
     dirty = _run(("git", "status", "--porcelain", "--untracked-files=no")).stdout
-    if (
-        head != source_head
-        or parent != dry.EXECUTION_PARENT
-        or branch != dry.EXECUTION_BRANCH
-        or dirty
-    ):
-        raise ODEBFContractError("integrated checkpoint/package provenance differs")
+    _assert_execution_identity(
+        source_head=source_head,
+        head=head,
+        parent=parent,
+        branch=branch,
+        tracked_dirty=dirty,
+    )
     return {
-        "run_authority": "GH_A3_AUTOSUBMIT_AFTER_PACKAGE_ACCEPTANCE",
+        "run_authority": "GH_TECH_R2_CHECKPOINT_BOUND_RUN_APPROVAL",
         "local_package": dict(local_package),
         "sh2_package_acceptance": package_ack,
         "execution_head": head,
@@ -214,7 +232,7 @@ def _namespace_gate(state_root: Path) -> dict[str, str]:
     ):
         if parent.exists() and (parent.is_symlink() or not parent.is_dir()):
             raise ODEBFContractError("integrated namespace parent differs")
-    result = REPO_ROOT / "local/odebf/results" / expected_p1r14_result_name(dry.LLAMA_ALIAS)
+    result = REPO_ROOT / "local/odebf/results" / dry.RESULT_NAME
     intent = observed_state / f"{SUBMISSION_NAMESPACE}.intent.json"
     receipt = observed_state / f"{SUBMISSION_NAMESPACE}.submission-receipt.json"
     logs = REPO_ROOT / "local/odebf/logs"
@@ -327,7 +345,7 @@ def main() -> int:
     )
     logs = REPO_ROOT / "local/odebf/logs"
     logs.mkdir(mode=0o700, parents=True, exist_ok=True)
-    result_root = REPO_ROOT / "local/odebf/results" / expected_p1r14_result_name(dry.LLAMA_ALIAS)
+    result_root = REPO_ROOT / "local/odebf/results" / dry.RESULT_NAME
     job_id: str | None = None
     try:
         result = _run(

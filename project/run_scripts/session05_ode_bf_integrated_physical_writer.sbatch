@@ -11,9 +11,10 @@
 set -euo pipefail
 umask 077
 
-readonly REPO_ROOT="/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-integrated-physical-writer-p1r14-v1"
+readonly SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
+readonly REPO_ROOT="$(cd "$(dirname "${SCRIPT_PATH}")/../.." && pwd -P)"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
-readonly EXPECTED_PARENT="e6facd2d5dfae12d3c094b51981ad99951174109"
+readonly EXPECTED_PARENT="f0f48f964750dbd11483ea327ae679c24c710fde"
 readonly EXPECTED_SESSION="019fe489-c968-75f3-9965-7cfbc26c0a99"
 readonly EXPECTED_BRANCH="codex/odeeditsh1-s05-integrated-physical-writer-p1r14-v1"
 readonly MODEL_ALIAS="${1:-}"
