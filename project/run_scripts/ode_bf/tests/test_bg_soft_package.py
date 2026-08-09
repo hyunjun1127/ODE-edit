@@ -129,7 +129,8 @@ class BgSoftPackageTests(unittest.TestCase):
         self.assertIn('"HEAD",', create_source)
         self.assertNotIn("str(path),\n            source_head,", create_source)
         self.assertIn("BG_SOFT_EXECUTION_REPAIR_PARENT", validate_source)
-        self.assertIn('["git", "rev-parse", "HEAD^^"]', validate_source)
+        self.assertIn("BG_SOFT_IMPLEMENTATION_PARENT", validate_source)
+        self.assertIn('["git", "rev-parse", "HEAD^^^"]', validate_source)
         self.assertIn("BG_SOFT_PARENT_HEAD", validate_source)
 
         child = "1" * 40
@@ -138,7 +139,10 @@ class BgSoftPackageTests(unittest.TestCase):
             ("git", "rev-parse", "HEAD^"): (
                 package.BG_SOFT_EXECUTION_REPAIR_PARENT + "\n"
             ),
-            ("git", "rev-parse", "HEAD^^"): package.BG_SOFT_PARENT_HEAD + "\n",
+            ("git", "rev-parse", "HEAD^^"): (
+                package.BG_SOFT_IMPLEMENTATION_PARENT + "\n"
+            ),
+            ("git", "rev-parse", "HEAD^^^"): package.BG_SOFT_PARENT_HEAD + "\n",
             ("git", "branch", "--show-current"): package.EXECUTION_BRANCH + "\n",
             (
                 "git",
@@ -166,7 +170,8 @@ class BgSoftPackageTests(unittest.TestCase):
 
         provenance_source = inspect.getsource(submit._execution_provenance_gate)
         self.assertIn("BG_SOFT_EXECUTION_REPAIR_PARENT", provenance_source)
-        self.assertIn('["git", "rev-parse", "HEAD^^"]', provenance_source)
+        self.assertIn("BG_SOFT_IMPLEMENTATION_PARENT", provenance_source)
+        self.assertIn('["git", "rev-parse", "HEAD^^^"]', provenance_source)
         sbatch = (
             package.REPO_ROOT
             / "project/run_scripts/session05_ode_bf_bg_soft_missing_cell.sbatch"
@@ -178,7 +183,32 @@ class BgSoftPackageTests(unittest.TestCase):
             sbatch,
         )
         self.assertIn('git rev-parse HEAD^^', sbatch)
+        self.assertIn('git rev-parse HEAD^^^', sbatch)
+        self.assertIn('EXPECTED_IMPLEMENTATION_PARENT', sbatch)
         self.assertIn('EXPECTED_SCIENTIFIC_PARENT', sbatch)
+
+    def test_lock_hash_index_excludes_raw_seals_but_binds_their_hashes(self) -> None:
+        self.assertIn(
+            "project/run_scripts/ode_bf/locks/p1r10_common_coldcoord_cf_b10_seal.json",
+            package.LOCK_RELATIVES,
+        )
+        self.assertNotIn(
+            "project/run_scripts/ode_bf/locks/p1r10_common_coldcoord_cf_b10_seal.json",
+            package.RAW_FREE_LOCK_RELATIVES,
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / package.LOCK_HASH_INDEX
+            value = package._create_lock_hash_index(path)
+            package.validate_raw_free_json(path)
+            self.assertEqual(value["entry_count"], len(package.LOCK_RELATIVES))
+            self.assertEqual(value["raw_id_or_content_count"], 0)
+            indexed = {item["path"]: item for item in value["entries"]}
+            seal = indexed[
+                "project/run_scripts/ode_bf/locks/"
+                "p1r10_common_coldcoord_cf_b10_seal.json"
+            ]
+            self.assertFalse(seal["content_included"])
+            self.assertEqual(len(seal["sha256"]), 64)
 
 
 if __name__ == "__main__":

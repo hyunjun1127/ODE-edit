@@ -14,7 +14,8 @@ umask 077
 readonly REPO_ROOT="/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-bg-soft-missing-cell-p1r12-v1/ODE-edit"
 readonly EXPECTED_SESSION="019fe489-c968-75f3-9965-7cfbc26c0a99"
 readonly EXPECTED_SCIENTIFIC_PARENT="38592cd14eddbfd40cd063b1891c75588ddcb7fa"
-readonly EXPECTED_EXECUTION_REPAIR_PARENT="8d0e8c80e3a100fccd4c295c3c3dbab5153602be"
+readonly EXPECTED_IMPLEMENTATION_PARENT="8d0e8c80e3a100fccd4c295c3c3dbab5153602be"
+readonly EXPECTED_EXECUTION_REPAIR_PARENT="1f58ea7b6732a67cbced132ee56056cd1f79cad3"
 readonly EXECUTION_BRANCH="codex/odeeditsh1-s05-bg-soft-missing-cell-p1r12-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly MODEL_ALIAS="${1:-}"
@@ -41,7 +42,11 @@ readonly RUN_TOKEN="${4:-}"
   echo "R12 execution parent differs" >&2
   exit 2
 }
-[[ "$(git rev-parse HEAD^^)" == "${EXPECTED_SCIENTIFIC_PARENT}" ]] || {
+[[ "$(git rev-parse HEAD^^)" == "${EXPECTED_IMPLEMENTATION_PARENT}" ]] || {
+  echo "R12 implementation parent differs" >&2
+  exit 2
+}
+[[ "$(git rev-parse HEAD^^^)" == "${EXPECTED_SCIENTIFIC_PARENT}" ]] || {
   echo "R12 scientific parent differs" >&2
   exit 2
 }
