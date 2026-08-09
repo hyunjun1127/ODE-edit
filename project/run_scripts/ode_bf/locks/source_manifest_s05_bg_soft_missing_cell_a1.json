@@ -325,8 +325,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/p1_bg_soft_missing_cell_panel.py",
-      "sha256": "fec6b943c54379573b265727a37c8a897ab6181f3d343185dbdd1b2de018f6a0",
-      "size": 6396
+      "sha256": "6502a138535d3e49ce639fa560a9cd33ea67a633cadae455713242817497f7fd",
+      "size": 6520
     },
     {
       "path": "project/run_scripts/ode_bf/p1_cold_structp_softp_noveto_panel.py",
@@ -465,8 +465,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_bg_soft_package.py",
-      "sha256": "b1b49907d126d050e750a442f838c66da86375c3f2ece9ef2f2255b7cfb08bc4",
-      "size": 4713
+      "sha256": "47582488c7ed5a270e60363b4c432c1d29cde605197ff714aa3995959eaff8de",
+      "size": 7333
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_cold_start_target.py",
@@ -635,28 +635,29 @@
     },
     {
       "path": "project/run_scripts/session05_ode_bf_bg_soft_missing_cell.sbatch",
-      "sha256": "ef29ff976c137b04ccf1c2026a8ae4dd4bc15e4d60534d7fa8c95c32dfb07699",
-      "size": 2958
+      "sha256": "b11120fb56a94c591977d8aa011c82bbe3dcf2ca8704989483283dbeaed5d1e8",
+      "size": 3208
     },
     {
       "path": "project/run_scripts/session05_ode_bf_bg_soft_missing_cell_dry_plan.py",
-      "sha256": "ed5abdb5366100199c3ccdc116e67d25da4570a89a08b8db00f2098deb868820",
-      "size": 6372
+      "sha256": "39a613ce3b620f30812889b2129e7eb3ad526f395c82950a14cc6a9b5cdfb596",
+      "size": 6477
     },
     {
       "path": "project/run_scripts/session05_ode_bf_bg_soft_missing_cell_package.py",
-      "sha256": "a94710cc88054f7777e4d381379fb71c1719a8dc1a42996a9fceff33d6b8a68c",
-      "size": 18763
+      "sha256": "ae18087deb6619750d5455d4e0e4496ac4f63b14893852f3337b0ce163ca27a8",
+      "size": 19275
     },
     {
       "path": "project/run_scripts/session05_ode_bf_submit_bg_soft_missing_cell.py",
-      "sha256": "52af465940ecd9aa92ad4727d39a7268f91fa8a5699ec98d3a22c29ba39d9b1a",
-      "size": 18192
+      "sha256": "4ca28248b49187644118e207725590081e7819acddb6b29c8078ad8553028225",
+      "size": 18514
     }
   ],
   "entry_count": 130,
   "execution_branch": "codex/odeeditsh1-s05-bg-soft-missing-cell-p1r12-v1",
   "execution_head_policy": "runtime-git-head",
+  "execution_repair_parent": "8d0e8c80e3a100fccd4c295c3c3dbab5153602be",
   "expected_parent": "38592cd14eddbfd40cd063b1891c75588ddcb7fa",
   "frozen_bundle_id": "BGSOFT_R10_FROZEN_BUNDLE_A1",
   "instruction_id": "ODEEDIT-S05-ODE-BF-BG-SOFT-MISSING-CELL-P1R12-V1",
@@ -664,6 +665,6 @@
   "panel_kind": "REUSED_R10_OUTCOME_SELECTED_SEAL_CAUSAL_DIAGNOSTIC",
   "reference_lock_file_sha256": "0f227472b92244861b48d9bd01561a3df282d0332ae03587f1c3897dbf2c5a5c",
   "reference_lock_root_digest": "ad3a4a125a097f7f2127ac6474ba1cab6b9f0a888619cc166bd31ca9ce88ee5f",
-  "root_digest": "913fd75819d2599d419a540ccb3fb292c25e3f746a556a23c1f00e255dab9490",
+  "root_digest": "96dad8d6d609f755863771b87baf5e44df2387e80a435b673b9f900eaefd6dee",
   "schema_version": "ode-edit-s05-bg-soft-missing-cell-p1r12-a1-source-manifest/v1"
 }

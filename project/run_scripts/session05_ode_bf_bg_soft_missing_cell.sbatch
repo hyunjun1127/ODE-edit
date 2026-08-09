@@ -13,7 +13,8 @@ umask 077
 
 readonly REPO_ROOT="/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-bg-soft-missing-cell-p1r12-v1/ODE-edit"
 readonly EXPECTED_SESSION="019fe489-c968-75f3-9965-7cfbc26c0a99"
-readonly EXPECTED_PARENT="38592cd14eddbfd40cd063b1891c75588ddcb7fa"
+readonly EXPECTED_SCIENTIFIC_PARENT="38592cd14eddbfd40cd063b1891c75588ddcb7fa"
+readonly EXPECTED_EXECUTION_REPAIR_PARENT="8d0e8c80e3a100fccd4c295c3c3dbab5153602be"
 readonly EXECUTION_BRANCH="codex/odeeditsh1-s05-bg-soft-missing-cell-p1r12-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly MODEL_ALIAS="${1:-}"
@@ -36,15 +37,19 @@ readonly RUN_TOKEN="${4:-}"
 }
 [[ "$(pwd -P)" == "${REPO_ROOT}" ]] || { echo "R12 CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "R12 source differs" >&2; exit 2; }
-[[ "$(git rev-parse HEAD^)" == "${EXPECTED_PARENT}" ]] || {
+[[ "$(git rev-parse HEAD^)" == "${EXPECTED_EXECUTION_REPAIR_PARENT}" ]] || {
   echo "R12 execution parent differs" >&2
+  exit 2
+}
+[[ "$(git rev-parse HEAD^^)" == "${EXPECTED_SCIENTIFIC_PARENT}" ]] || {
+  echo "R12 scientific parent differs" >&2
   exit 2
 }
 [[ "$(git branch --show-current)" == "${EXECUTION_BRANCH}" ]] || {
   echo "R12 execution branch differs" >&2
   exit 2
 }
-git merge-base --is-ancestor "${EXPECTED_PARENT}" "${SOURCE_HEAD}" || {
+git merge-base --is-ancestor "${EXPECTED_SCIENTIFIC_PARENT}" "${SOURCE_HEAD}" || {
   echo "R12 source is not rooted at the locked parent" >&2
   exit 2
 }

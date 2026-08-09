@@ -23,6 +23,7 @@ if str(REPO_ROOT) not in sys.path:
 from project.run_scripts.ode_bf.contracts import ODEBFContractError, canonical_hash
 from project.run_scripts.ode_bf.p1_bg_soft_missing_cell_panel import (
     BG_SOFT_AMENDMENT_ID,
+    BG_SOFT_EXECUTION_REPAIR_PARENT,
     BG_SOFT_INSTRUCTION_ID,
     BG_SOFT_PARENT_HEAD,
     BG_SOFT_REFERENCE_LOCK_FILE,
@@ -152,13 +153,15 @@ def _validate_source_head(source_head: str) -> None:
         raise ODEBFContractError("BG-Soft package source head differs")
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
+    scientific_parent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(
         ["git", "status", "--porcelain", "--untracked-files=no"]
     ).stdout
     if (
         head != source_head
-        or parent != BG_SOFT_PARENT_HEAD
+        or parent != BG_SOFT_EXECUTION_REPAIR_PARENT
+        or scientific_parent != BG_SOFT_PARENT_HEAD
         or branch != EXECUTION_BRANCH
         or dirty
     ):
@@ -293,7 +296,7 @@ def _create_thin_bundle(path: Path, source_head: str) -> dict[str, Any]:
             "bundle",
             "create",
             str(path),
-            source_head,
+            "HEAD",
             "^" + BG_SOFT_PARENT_HEAD,
         ]
     )
@@ -308,6 +311,7 @@ def _create_thin_bundle(path: Path, source_head: str) -> dict[str, Any]:
         "sha256": _sha256_file(path),
         "size": path.stat().st_size,
         "exact_scientific_parent_prerequisite": BG_SOFT_PARENT_HEAD,
+        "execution_repair_parent": BG_SOFT_EXECUTION_REPAIR_PARENT,
         "complete_history": False,
     }
 
@@ -400,6 +404,7 @@ def build_package_plan(source_head: str) -> dict[str, Any]:
         "package_id": PACKAGE_ID,
         "source_head": source_head,
         "exact_parent": BG_SOFT_PARENT_HEAD,
+        "execution_repair_parent": BG_SOFT_EXECUTION_REPAIR_PARENT,
         "source_manifest_sha256": source_manifest_sha256,
         "frozen_r10_reference_gate": frozen_reference,
         "raw_free_reference_file_count": len(references),
@@ -443,6 +448,7 @@ def create_package(source_head: str, output_parent: Path) -> dict[str, Any]:
         "package_name": package_name,
         "source_head": source_head,
         "exact_parent": BG_SOFT_PARENT_HEAD,
+        "execution_repair_parent": BG_SOFT_EXECUTION_REPAIR_PARENT,
         "bundle": bundle,
         "entries": entries,
         "entry_count": len(entries),
@@ -463,6 +469,7 @@ def create_package(source_head: str, output_parent: Path) -> dict[str, Any]:
         "package_name": package_name,
         "source_head": source_head,
         "exact_parent": BG_SOFT_PARENT_HEAD,
+        "execution_repair_parent": BG_SOFT_EXECUTION_REPAIR_PARENT,
         "archive": {
             "name": PACKAGE_ARCHIVE,
             "sha256": archive_sha256,
@@ -489,6 +496,7 @@ def create_package(source_head: str, output_parent: Path) -> dict[str, Any]:
         "package_directory": str(destination),
         "source_head": source_head,
         "exact_parent": BG_SOFT_PARENT_HEAD,
+        "execution_repair_parent": BG_SOFT_EXECUTION_REPAIR_PARENT,
         "archive_sha256": archive_sha256,
         "manifest_sha256": manifest_sha256,
         "receipt_sha256": receipt_sha256,

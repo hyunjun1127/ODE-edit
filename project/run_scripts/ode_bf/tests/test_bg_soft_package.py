@@ -5,6 +5,8 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest import mock
 
 from project.run_scripts import (
     session05_ode_bf_bg_soft_missing_cell_package as package,
@@ -120,6 +122,63 @@ class BgSoftPackageTests(unittest.TestCase):
         self.assertIn('"transport_executed_by_packager": False', source)
         self.assertIn('"transfer_executed": False', source)
         self.assertIn('"^" + BG_SOFT_PARENT_HEAD', source)
+
+    def test_bundle_uses_advertised_head_and_exact_repair_chain(self) -> None:
+        create_source = inspect.getsource(package._create_thin_bundle)
+        validate_source = inspect.getsource(package._validate_source_head)
+        self.assertIn('"HEAD",', create_source)
+        self.assertNotIn("str(path),\n            source_head,", create_source)
+        self.assertIn("BG_SOFT_EXECUTION_REPAIR_PARENT", validate_source)
+        self.assertIn('["git", "rev-parse", "HEAD^^"]', validate_source)
+        self.assertIn("BG_SOFT_PARENT_HEAD", validate_source)
+
+        child = "1" * 40
+        outputs = {
+            ("git", "rev-parse", "HEAD"): child + "\n",
+            ("git", "rev-parse", "HEAD^"): (
+                package.BG_SOFT_EXECUTION_REPAIR_PARENT + "\n"
+            ),
+            ("git", "rev-parse", "HEAD^^"): package.BG_SOFT_PARENT_HEAD + "\n",
+            ("git", "branch", "--show-current"): package.EXECUTION_BRANCH + "\n",
+            (
+                "git",
+                "status",
+                "--porcelain",
+                "--untracked-files=no",
+            ): "",
+        }
+
+        def run(args: list[str], *, check: bool = True) -> SimpleNamespace:
+            del check
+            return SimpleNamespace(stdout=outputs[tuple(args)])
+
+        with mock.patch.object(package, "_run", side_effect=run):
+            package._validate_source_head(child)
+        outputs[("git", "rev-parse", "HEAD^")] = package.BG_SOFT_PARENT_HEAD + "\n"
+        with mock.patch.object(package, "_run", side_effect=run):
+            with self.assertRaisesRegex(ODEBFContractError, "provenance"):
+                package._validate_source_head(child)
+
+    def test_submit_and_sbatch_fail_closed_on_exact_child_chain(self) -> None:
+        from project.run_scripts import (
+            session05_ode_bf_submit_bg_soft_missing_cell as submit,
+        )
+
+        provenance_source = inspect.getsource(submit._execution_provenance_gate)
+        self.assertIn("BG_SOFT_EXECUTION_REPAIR_PARENT", provenance_source)
+        self.assertIn('["git", "rev-parse", "HEAD^^"]', provenance_source)
+        sbatch = (
+            package.REPO_ROOT
+            / "project/run_scripts/session05_ode_bf_bg_soft_missing_cell.sbatch"
+        ).read_text(encoding="utf-8")
+        self.assertIn(
+            'EXPECTED_EXECUTION_REPAIR_PARENT="'
+            + package.BG_SOFT_EXECUTION_REPAIR_PARENT
+            + '"',
+            sbatch,
+        )
+        self.assertIn('git rev-parse HEAD^^', sbatch)
+        self.assertIn('EXPECTED_SCIENTIFIC_PARENT', sbatch)
 
 
 if __name__ == "__main__":

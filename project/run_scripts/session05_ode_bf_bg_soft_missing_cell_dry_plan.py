@@ -16,6 +16,7 @@ if str(REPO_ROOT) not in sys.path:
 from project.run_scripts.ode_bf.contracts import ODEBFContractError
 from project.run_scripts.ode_bf.p1_bg_soft_missing_cell_panel import (
     BG_SOFT_AMENDMENT_ID,
+    BG_SOFT_EXECUTION_REPAIR_PARENT,
     BG_SOFT_INSTRUCTION_ID,
     BG_SOFT_PARENT_HEAD,
     BG_SOFT_REFERENCE_LOCK_FILE,
@@ -90,6 +91,7 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
         "amendment_id": BG_SOFT_AMENDMENT_ID,
         "source_head": source_head,
         "expected_parent": BG_SOFT_PARENT_HEAD,
+        "execution_repair_parent": BG_SOFT_EXECUTION_REPAIR_PARENT,
         "source_manifest_path": (
             "project/run_scripts/ode_bf/locks/" + BG_SOFT_SOURCE_MANIFEST_FILE
         ),

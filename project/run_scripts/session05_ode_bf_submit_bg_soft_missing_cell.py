@@ -26,6 +26,7 @@ from project.run_scripts.ode_bf.artifacts import (
 from project.run_scripts.ode_bf.contracts import ODEBFContractError
 from project.run_scripts.ode_bf.p1_bg_soft_missing_cell_panel import (
     BG_SOFT_AMENDMENT_ID,
+    BG_SOFT_EXECUTION_REPAIR_PARENT,
     BG_SOFT_INSTRUCTION_ID,
     BG_SOFT_PARENT_HEAD,
     BG_SOFT_R10_CASE_ROOT,
@@ -106,6 +107,7 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
     approval = os.environ.get(APPROVAL_ENV)
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
+    scientific_parent = _run(["git", "rev-parse", "HEAD^^"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(
         ["git", "status", "--porcelain", "--untracked-files=no"]
@@ -118,7 +120,8 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         raise ODEBFContractError("BG-Soft checkpoint-bound approval is absent")
     if (
         head != source_head
-        or parent != BG_SOFT_PARENT_HEAD
+        or parent != BG_SOFT_EXECUTION_REPAIR_PARENT
+        or scientific_parent != BG_SOFT_PARENT_HEAD
         or branch != EXECUTION_BRANCH
         or ancestor.returncode != 0
         or dirty
@@ -128,6 +131,7 @@ def _execution_provenance_gate(source_head: str) -> dict[str, Any]:
         "checkpoint_bound_approval": expected_approval,
         "execution_head": head,
         "exact_execution_parent": parent,
+        "exact_scientific_parent": scientific_parent,
         "scientific_parent_is_ancestor": True,
         "branch": branch,
         "tracked_tree_clean": True,
@@ -144,6 +148,8 @@ def _source_manifest_gate(source_head: str) -> str:
         value.get("instruction_id") != BG_SOFT_INSTRUCTION_ID
         or value.get("amendment_id") != BG_SOFT_AMENDMENT_ID
         or value.get("expected_parent") != BG_SOFT_PARENT_HEAD
+        or value.get("execution_repair_parent")
+        != BG_SOFT_EXECUTION_REPAIR_PARENT
         or value.get("execution_branch") != EXECUTION_BRANCH
         or value.get("execution_head_policy") != "runtime-git-head"
         or not isinstance(entries, list)
