@@ -66,10 +66,15 @@ def _factor_identity(factors: Mapping[str, WaypointFactor]) -> str:
     return canonical_hash(
         {
             name: {
+                "weight_name": value.weight_name,
                 "layer": value.layer,
+                "correction_cycle": value.correction_cycle,
+                "step_in_cycle": value.step_in_cycle,
+                "factor_ordinal": value.factor_ordinal,
                 "theta": value.theta,
-                "residual_sha256": tensor_sha256(value.residual),
-                "q_sha256": tensor_sha256(value.q),
+                "left_sha256": tensor_sha256(value.left),
+                "right_sha256": tensor_sha256(value.right),
+                "joint_batch": value.joint_batch,
             }
             for name, value in sorted(factors.items())
         }

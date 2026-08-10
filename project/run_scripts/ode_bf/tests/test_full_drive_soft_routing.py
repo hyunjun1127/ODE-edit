@@ -19,6 +19,7 @@ from project.run_scripts.ode_bf.fixed_e8_soft_routing import (
     FixedE8SoftInventory,
     FunctionalBasisMetric,
 )
+from project.run_scripts.ode_bf.functional import WaypointFactor
 from project.run_scripts.ode_bf.full_drive_soft_routing import (
     FULL_DRIVE_LAMBDA_GRID,
     FullDriveArm,
@@ -393,11 +394,15 @@ class FullDriveSoftRoutingTests(unittest.TestCase):
             ordinal = velocity.index(1.0)
             layer = FIXED_E8_LAYER_ORDER[ordinal]
             return {
-                f"w{layer}": SimpleNamespace(
+                f"w{layer}.weight": WaypointFactor(
+                    weight_name=f"w{layer}.weight",
                     layer=layer,
+                    correction_cycle=0,
+                    step_in_cycle=step_index,
+                    factor_ordinal=ordinal,
                     theta=float(FIXED_E8_H),
-                    residual=torch.ones(1),
-                    q=torch.ones(1),
+                    left=torch.ones((2, 10), dtype=torch.float32),
+                    right=torch.ones((3, 10), dtype=torch.float32),
                 )
             }
 
@@ -454,6 +459,31 @@ class FullDriveSoftRoutingTests(unittest.TestCase):
         self.assertEqual(
             receipt.raw_free_payload()["residual_overlay_access_count"], 0
         )
+
+    def test_factor_identity_uses_real_waypoint_factor_schema(self) -> None:
+        factor = WaypointFactor(
+            weight_name="model.layers.4.weight",
+            layer=4,
+            correction_cycle=0,
+            step_in_cycle=0,
+            factor_ordinal=0,
+            theta=float(FIXED_E8_H),
+            left=torch.arange(20, dtype=torch.float32).reshape(2, 10),
+            right=torch.arange(30, dtype=torch.float32).reshape(3, 10),
+        )
+        observed = full_drive_physical_field._factor_identity(
+            {factor.weight_name: factor}
+        )
+        self.assertEqual(len(observed), 64)
+        with self.assertRaises(AttributeError):
+            full_drive_physical_field._factor_identity(
+                {factor.weight_name: SimpleNamespace(
+                    layer=4,
+                    theta=float(FIXED_E8_H),
+                    residual=factor.left,
+                    q=factor.right,
+                )}
+            )
 
 
 if __name__ == "__main__":

@@ -40,7 +40,7 @@ FULL_DRIVE_LAMBDA_LOCK_FILE = "p1r17_lambda_pareto_lock.json"
 FULL_DRIVE_MODEL_LAMBDA_LOCK_FILE = "p1r17_model_lambda_lock.json"
 FULL_DRIVE_NUMERICAL_LOCK_FILE = "numerical_lock_s05_p1r17_full_drive.json"
 FULL_DRIVE_SOURCE_MANIFEST_FILE = "source_manifest_s05_p1r17_full_drive.json"
-FULL_DRIVE_RESULT_TOKEN = "full-drive-soft-dynamic2x2-p1r17-v1"
+FULL_DRIVE_RESULT_TOKEN = "full-drive-soft-dynamic2x2-p1r17-tech-r1-v1"
 FULL_DRIVE_ALLOCATION_SECONDS = 86_340
 
 
@@ -80,7 +80,7 @@ def expected_full_drive_result_name(alias: str, cell: FullDriveCell | str) -> st
         raise ODEBFContractError("full-drive alias differs")
     return (
         "s05-p1r17-full-drive-"
-        f"{selected.value.lower().replace('-', '_')}-{alias}-v1"
+        f"{selected.value.lower().replace('-', '_')}-{alias}-tech-r1-v1"
     )
 
 
