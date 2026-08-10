@@ -1132,6 +1132,8 @@ def _run_common_arm(
     typed_zero_positive: bool = False,
     record_six_context_objectives: bool = False,
     observability_contract: Mapping[str, Any] | None = None,
+    full_drive_cell: str | None = None,
+    full_drive_lambda: float | None = None,
 ) -> tuple[legacy.FixedE8Rollout, dict[str, Any]]:
     clock = FixedE8Clock()
     history = arm_state.history
@@ -1187,6 +1189,7 @@ def _run_common_arm(
     zero_positive_payload: dict[str, Any] | None = None
     entry_audit_state: dict[str, Any] | None = None
     boundary_audit_state: dict[str, Any] | None = None
+    full_drive_weight_write_count = 0
     for step_index in range(FIXED_E8_GRID_COUNT):
         point = clock.begin_field()
         replay_entry = _controller_replay_entry(
@@ -1201,48 +1204,122 @@ def _run_common_arm(
             schedule=schedule,
             outer_entry_p_cache=outer_entry_p_cache,
         )
-        (
-            field,
-            signed,
-            built,
-            inventory,
-            routing,
-            target_velocity,
-            target_receipt,
-            field_receipt,
-            probe,
-            slope_comparison,
-        ) = _build_common_field(
-            model,
-            tokenizer,
-            requests,
-            alias=alias,
-            arm=arm,
-            metric=metric,
-            step_index=step_index,
-            current_factors=current_factors,
-            current_target=current_target,
-            current_terminal=current_terminal,
-            capture=capture,
-            hparams=hparams,
-            projector=projector,
-            contexts=contexts,
-            covariance_registry=covariance_registry,
-            projector_sha256=projector_sha256,
-            lock=lock,
-            history=history,
-            accepted_by_layer=accepted_by_layer,
-            ledger=ledger,
-            replay_entry=replay_entry,
-            theta0_cache=theta0_cache,
-            touched=touched,
-            schedule=schedule,
-            recorder=recorder,
-            lookup_positions=lookup_positions,
-            target_layer_name=target_layer_name,
-            typed_zero_positive=typed_zero_positive,
-            observability_contract=observability_contract,
-        )
+        if full_drive_cell is None:
+            (
+                field,
+                signed,
+                built,
+                inventory,
+                routing,
+                target_velocity,
+                target_receipt,
+                field_receipt,
+                probe,
+                slope_comparison,
+            ) = _build_common_field(
+                model,
+                tokenizer,
+                requests,
+                alias=alias,
+                arm=arm,
+                metric=metric,
+                step_index=step_index,
+                current_factors=current_factors,
+                current_target=current_target,
+                current_terminal=current_terminal,
+                capture=capture,
+                hparams=hparams,
+                projector=projector,
+                contexts=contexts,
+                covariance_registry=covariance_registry,
+                projector_sha256=projector_sha256,
+                lock=lock,
+                history=history,
+                accepted_by_layer=accepted_by_layer,
+                ledger=ledger,
+                replay_entry=replay_entry,
+                theta0_cache=theta0_cache,
+                touched=touched,
+                schedule=schedule,
+                recorder=recorder,
+                lookup_positions=lookup_positions,
+                target_layer_name=target_layer_name,
+                typed_zero_positive=typed_zero_positive,
+                observability_contract=observability_contract,
+            )
+        else:
+            if full_drive_lambda is None:
+                raise ODEBFContractError("full-drive lambda is absent")
+            from .full_drive_dynamic_runtime import build_full_drive_field
+            from .full_drive_physical_field import physical_slope_problem_adapter
+
+            bundle = build_full_drive_field(
+                model,
+                tokenizer,
+                requests,
+                alias=alias,
+                cell=full_drive_cell,
+                lambda_p=full_drive_lambda,
+                step_index=step_index,
+                current_factors=current_factors,
+                current_target=current_target,
+                current_terminal=current_terminal,
+                capture=capture,
+                hparams=hparams,
+                projector=projector,
+                contexts=contexts,
+                covariance_registry=covariance_registry,
+                projector_sha256=projector_sha256,
+                lock=lock,
+                history=history,
+                accepted_by_layer=accepted_by_layer,
+                ledger=ledger,
+                replay_entry=replay_entry,
+                theta0_cache=theta0_cache,
+                touched=touched,
+                schedule=schedule,
+                metric=metric,
+                lookup_positions=lookup_positions,
+                target_layer_name=target_layer_name,
+            )
+            field = bundle.field
+            signed = physical_slope_problem_adapter(bundle.physical_slope)
+            built = bundle.problem_receipt
+            inventory = bundle.inventory
+            routing = bundle.routing
+            target_velocity = bundle.target_velocity
+            target_receipt = bundle.target_velocity_receipt
+            probe = bundle.functional_probe
+            slope_comparison = None
+            persisted = recorder.field(bundle.raw_free_payload())
+            receipt_payload = {
+                "field_sha256": field.identity_sha256,
+                "field_semantic_sha256": bundle.field_semantic_receipt[
+                    "semantic_identity_sha256"
+                ],
+                "signed_progress_sha256": canonical_hash(
+                    list(signed.signed_progress)
+                ),
+                "problem_sha256": built.problem.identity(),
+                "functional_inventory_sha256": inventory.raw_free_payload()[
+                    "identity_sha256"
+                ],
+                "routing_sha256": routing.identity_sha256,
+                "target_velocity_sha256": target_receipt["velocity_sha256"],
+                "persisted_field_receipt_sha256": persisted,
+            }
+            field_receipt = legacy.FixedE8FieldReceipt(
+                receipt_payload["field_sha256"],
+                receipt_payload["field_semantic_sha256"],
+                receipt_payload["signed_progress_sha256"],
+                receipt_payload["problem_sha256"],
+                receipt_payload["functional_inventory_sha256"],
+                receipt_payload["routing_sha256"],
+                receipt_payload["target_velocity_sha256"],
+                canonical_hash(receipt_payload),
+            )
+            ledger.increment("qp_solve", len(routing.certificates))
+            ledger.increment("qp_certificate", len(routing.certificates))
         solver_accounting = legacy._fixed_e8_solver_accounting(routing)
         total_qp += int(solver_accounting["actual_logical_qp_certificate_count"])
         total_backend += int(solver_accounting["actual_optimizer_backend_invocation_count"])
@@ -1393,30 +1470,54 @@ def _run_common_arm(
                 },
             )
             break
-        increment = legacy.fixed_e8_waypoint_factors(
-            field, routing.velocity, step_index=step_index
+        full_drive_target_only = bool(
+            full_drive_cell is not None
+            and routing.mode.value == "TARGET_ONLY_PMAX_ZERO"
         )
-        target_write_identity = legacy.fixed_e8_target_write_coefficient_identity(
-            field,
-            routing,
-            increment,
-            target_probe_coefficients=target_receipt[
-                "target_probe_scientific_coefficient"
-            ],
-            target_probe_effective_coefficients=target_receipt[
-                "target_probe_effective_coefficient"
-            ],
-            target_probe_effective_dtype=target_receipt[
-                "target_probe_effective_dtype"
-            ],
-            target_probe_effective_device_type=target_receipt[
-                "target_probe_effective_device_type"
-            ],
-            physical_write_effective_device_type=next(
-                model.parameters()
-            ).device.type,
-        )
-        candidate_factors = _merge_factors(current_factors, increment)
+        if full_drive_target_only:
+            increment = {}
+            target_write_identity = {
+                "schema": "ode-edit-p1r17-target-only-write-identity/v1",
+                "status": "TARGET_ONLY_PMAX_ZERO",
+                "velocity": list(routing.velocity),
+                "weight_write_count": 0,
+                "h_applied_to_target_once": True,
+                "identity_sha256": canonical_hash(
+                    {
+                        "status": "TARGET_ONLY_PMAX_ZERO",
+                        "velocity": list(routing.velocity),
+                        "weight_write_count": 0,
+                    }
+                ),
+            }
+            candidate_factors = _factor_map(current_factors)
+        else:
+            increment = legacy.fixed_e8_waypoint_factors(
+                field, routing.velocity, step_index=step_index
+            )
+            target_write_identity = legacy.fixed_e8_target_write_coefficient_identity(
+                field,
+                routing,
+                increment,
+                target_probe_coefficients=target_receipt[
+                    "target_probe_scientific_coefficient"
+                ],
+                target_probe_effective_coefficients=target_receipt[
+                    "target_probe_effective_coefficient"
+                ],
+                target_probe_effective_dtype=target_receipt[
+                    "target_probe_effective_dtype"
+                ],
+                target_probe_effective_device_type=target_receipt[
+                    "target_probe_effective_device_type"
+                ],
+                physical_write_effective_device_type=next(
+                    model.parameters()
+                ).device.type,
+            )
+            candidate_factors = _merge_factors(current_factors, increment)
+            if full_drive_cell is not None:
+                full_drive_weight_write_count += 1
         proposed_target_trial = (
             current_target
             + float(FIXED_E8_H)
@@ -1490,20 +1591,32 @@ def _run_common_arm(
         )
         snapshot_sha = _factor_state(capture.entry_sha256, candidate_factors, target_trial)
         factor_state = _factor_state(capture.entry_sha256, current_factors, current_target)
-        capacity = legacy._fixed_capacity_payload(
-            capture,
-            field,
-            current_factors,
-            candidate_factors,
-            increment,
-            problem=built.problem,
-            routing=routing,
-            signed=signed,
-            step_index=step_index,
-            state_sha256=_parameter_contract_sha256(touched),
-            target_sha256=tensor_sha256(current_target),
-            factor_state_sha256=factor_state,
-            candidate_sha256=snapshot_sha,
+        capacity = (
+            {
+                "schema": "ode-edit-p1r17-target-only-capacity/v1",
+                "status": "ZERO_WEIGHT_WRITE",
+                "velocity": list(routing.velocity),
+                "cumulative_bf16_capacity": [0.0] * len(COMMON_COLD_LAYER_ORDER),
+                "identity_sha256": canonical_hash(
+                    {"status": "ZERO_WEIGHT_WRITE", "step": step_index}
+                ),
+            }
+            if full_drive_target_only
+            else legacy._fixed_capacity_payload(
+                capture,
+                field,
+                current_factors,
+                candidate_factors,
+                increment,
+                problem=built.problem,
+                routing=routing,
+                signed=signed,
+                step_index=step_index,
+                state_sha256=_parameter_contract_sha256(touched),
+                target_sha256=tensor_sha256(current_target),
+                factor_state_sha256=factor_state,
+                candidate_sha256=snapshot_sha,
+            )
         )
         structural_h_value = built.problem.historical.value(np.asarray(routing.velocity))
         structural_p_value = built.problem.pretrained.value(np.asarray(routing.velocity))
@@ -1662,14 +1775,15 @@ def _run_common_arm(
                 "scientific_observations_do_not_gate": True,
             }
         )
-        for layer in field.layers:
-            accepted_by_layer[layer.layer].append(
-                AcceptedLayerContribution.from_field(
-                    layer,
-                    increment[layer.weight_name],
-                    history_action=layer.history_action,
+        if not full_drive_target_only:
+            for layer in field.layers:
+                accepted_by_layer[layer.layer].append(
+                    AcceptedLayerContribution.from_field(
+                        layer,
+                        increment[layer.weight_name],
+                        history_action=layer.history_action,
+                    )
                 )
-            )
         ledger.record_accepted_step(accepted_dt=float(FIXED_E8_H), completed_k_total=step_index + 1)
         hit = legacy.FixedE8HitRecord(
             step_index + 1,
@@ -1883,7 +1997,12 @@ def _run_common_arm(
         or schedule.state_digest != before_sampler
         or legacy._rng_identity() != before_rng
         or history.version != 0
-        or omega_changed != bool(snapshots)
+        or omega_changed
+        != (
+            bool(snapshots)
+            if full_drive_cell is None
+            else bool(full_drive_weight_write_count)
+        )
     ):
         raise ODEBFStateError("common cold rollout state/purity differs")
     status = (
@@ -1962,6 +2081,18 @@ def _run_common_arm(
         "receipt_links": recorder.links(),
         "compute": ledger.raw_free_payload(),
     }
+    if full_drive_cell is not None:
+        rollout_payload.update(
+            {
+                "method_id": "FULL_STRENGTH_PHYSICAL_W_ONLY_SOFT_BF_DYNAMIC_V1",
+                "full_drive_cell": full_drive_cell,
+                "lambda_p": full_drive_lambda,
+                "joint_zero_write_count": len(snapshots)
+                - full_drive_weight_write_count,
+                "physical_weight_write_count": full_drive_weight_write_count,
+                "model_calibrated_lambda": True,
+            }
+        )
     if typed_zero_positive:
         rollout_payload.update(
             {
@@ -3269,6 +3400,8 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     universal_observability_lock: Mapping[str, Any] | None = None,
     universal_observability_lock_sha256: str | None = None,
     universal_frozen_r12_reference: Mapping[str, Any] | None = None,
+    full_drive_cell: str | None = None,
+    full_drive_lambda: float | None = None,
 ) -> dict[str, Any]:
     from .p1_runtime import ArmRuntimeState, _entry_parameter_snapshot_sha256, _evaluate_native_rewrite, _observed_memory
 
@@ -3277,11 +3410,37 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     if len(requests) != BATCH_SIZE or request_order != stream["batch_ordered_request_digest_v1"][0]:
         raise ODEBFContractError("common cold request/seal order differs")
     universal_observability_mode = universal_observability_cell is not None
-    if bg_soft_missing_cell_mode and universal_observability_mode:
+    full_drive_mode = full_drive_cell is not None
+    if sum((bg_soft_missing_cell_mode, universal_observability_mode, full_drive_mode)) > 1:
         raise ODEBFContractError(
-            "BG-Soft and universal observability modes are mutually exclusive"
+            "common cold specialized modes are mutually exclusive"
         )
-    if bg_soft_missing_cell_mode:
+    if full_drive_mode:
+        from .full_drive_dynamic_runtime import FullDriveCell
+        from .p1_full_drive_dynamic_panel import (
+            FULL_DRIVE_INSTRUCTION_ID,
+            FULL_DRIVE_SCHEMA_NAMESPACE,
+        )
+
+        selected_full_drive = FullDriveCell(full_drive_cell)
+        full_drive_arm = {
+            "RS-FULL-NOSOFT": CommonColdArm.RS_NEUTRAL,
+            "RS-FULL-SOFT": CommonColdArm.RS_SOFT,
+            "BG-FULL-NOSOFT": CommonColdArm.BG_NEUTRAL,
+            "BG-FULL-SOFT": CommonColdArm.BG_SOFT,
+        }[selected_full_drive.value]
+        if full_drive_lambda is None or full_drive_lambda < 0.0:
+            raise ODEBFContractError("full-drive model lambda differs")
+        expected_bg_initial = None
+        frozen_bg_reference = None
+        runtime_instruction_id = FULL_DRIVE_INSTRUCTION_ID
+        runtime_amendment_id = (
+            "ODEEDIT-S05-ODE-BF-FULLDRIVE-SOFT-DYNAMIC2X2-P1R17-V1-A6-MODEL-LAMBDA"
+        )
+        runtime_schema_namespace = FULL_DRIVE_SCHEMA_NAMESPACE
+        observability_contract = None
+        universal_live_arms = ()
+    elif bg_soft_missing_cell_mode:
         from .p1_bg_soft_missing_cell_panel import (
             BG_SOFT_AMENDMENT_ID,
             BG_SOFT_INSTRUCTION_ID,
@@ -3476,6 +3635,9 @@ def run_common_coldcoord_fixed_e8_diagnostic(
             universal_observability_mode
             and universal_live_arms[0].scale
             is CommonColdScale.BATCH_GLOBAL
+        ) or (
+            full_drive_mode
+            and full_drive_arm.scale is CommonColdScale.BATCH_GLOBAL
         ):
             rs_target = None
             rs_bootstrap = None
@@ -3495,6 +3657,9 @@ def run_common_coldcoord_fixed_e8_diagnostic(
             universal_observability_mode
             and universal_live_arms[0].scale
             is CommonColdScale.ROBUST_SHARED
+        ) or (
+            full_drive_mode
+            and full_drive_arm.scale is CommonColdScale.ROBUST_SHARED
         ):
             bg_target = None
             bg_bootstrap = None
@@ -3570,7 +3735,9 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     initial_contracts: dict[str, dict[str, Any]] = {}
     pair_initial_contracts: dict[str, dict[str, Any]] = {}
     live_arms = (
-        universal_live_arms
+        (full_drive_arm,)
+        if full_drive_mode
+        else universal_live_arms
         if universal_observability_mode
         else (
             CommonColdArm.BG_SOFT,
@@ -3656,6 +3823,8 @@ def run_common_coldcoord_fixed_e8_diagnostic(
                     if universal_observability_mode
                     else None
                 ),
+                full_drive_cell=full_drive_cell,
+                full_drive_lambda=full_drive_lambda,
             )
             rollouts[arm.value] = rollout
             initial_contracts[arm.value] = initial_contract

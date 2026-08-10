@@ -3208,6 +3208,7 @@ def run_p1(
     common_cold_fixed_e8_mode: bool = False,
     bg_soft_missing_cell_mode: bool = False,
     universal_observability_cell: str | None = None,
+    full_drive_cell: str | None = None,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3227,10 +3228,15 @@ def run_p1(
             common_cold_fixed_e8_mode,
             bg_soft_missing_cell_mode,
             universal_observability_cell is not None,
+            full_drive_cell is not None,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if universal_observability_cell is not None:
+    if full_drive_cell is not None:
+        from .p1_full_drive_dynamic_panel import expected_full_drive_result_name
+
+        expected_name = expected_full_drive_result_name(alias, full_drive_cell)
+    elif universal_observability_cell is not None:
         from .p1_universal_observability_panel import (
             expected_universal_observability_result_name,
         )
@@ -3317,7 +3323,8 @@ def run_p1(
         and not fixed_e8_soft_mode
         and not common_cold_fixed_e8_mode
         and not bg_soft_missing_cell_mode
-        and universal_observability_cell is None,
+        and universal_observability_cell is None
+        and full_drive_cell is None,
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
@@ -3481,6 +3488,7 @@ def run_p1(
         or common_cold_fixed_e8_mode
         or bg_soft_missing_cell_mode
         or universal_observability_cell is not None
+        or full_drive_cell is not None
     ):
         from .p1_cold_structp_softp_noveto_panel import (
             load_cold_requests,
@@ -3491,8 +3499,20 @@ def run_p1(
             common_cold_fixed_e8_mode
             or bg_soft_missing_cell_mode
             or universal_observability_cell is not None
+            or full_drive_cell is not None
         ):
-            if universal_observability_cell is not None:
+            if full_drive_cell is not None:
+                from .p1_common_coldcoord_fixed_e8_panel import (
+                    common_cold_schedule,
+                    load_and_validate_common_cold_lock,
+                    load_common_cold_requests,
+                    verify_common_cold_case_seal,
+                )
+                from .p1_full_drive_dynamic_panel import (
+                    FULL_DRIVE_MODEL_LAMBDA_LOCK_FILE,
+                    validate_model_lambda_lock,
+                )
+            elif universal_observability_cell is not None:
                 from .p1_universal_observability_panel import (
                     UNIVERSAL_OBS_LOCK_FILE,
                     common_cold_schedule,
@@ -3526,7 +3546,27 @@ def run_p1(
             )
             cold_requests = load_common_cold_requests(dataset, cold_stream)
             schedule = common_cold_schedule(sampling_seal)
-            if universal_observability_cell is not None:
+            if full_drive_cell is not None:
+                common_numerical, common_numerical_sha256 = (
+                    load_and_validate_common_cold_lock(
+                        locks / "numerical_lock_s05_common_coldcoord_fixed_e8.json",
+                        controller_identity_sha256=controller_lock.identity(),
+                        case_root_digest=cold_stream["root_digest"],
+                        population_root_digest=population["root_digest"],
+                        schedule=schedule,
+                    )
+                )
+                full_drive_lambda_lock, full_drive_lambda_lock_sha256 = (
+                    validate_model_lambda_lock(
+                        locks / FULL_DRIVE_MODEL_LAMBDA_LOCK_FILE
+                    )
+                )
+                full_drive_lambda = float(
+                    full_drive_lambda_lock["lambda_by_alias"][alias]
+                )
+                numerical = common_numerical
+                numerical_sha256 = common_numerical_sha256
+            elif universal_observability_cell is not None:
                 (
                     universal_observability_lock,
                     universal_observability_lock_sha256,
@@ -3609,6 +3649,7 @@ def run_p1(
             not common_cold_fixed_e8_mode
             and not bg_soft_missing_cell_mode
             and universal_observability_cell is None
+            and full_drive_cell is None
         ):
             from .p1_cold_structp_softp_noveto_panel import (
                 cold_schedule,
@@ -3662,6 +3703,7 @@ def run_p1(
         common_cold_fixed_e8_mode
         or bg_soft_missing_cell_mode
         or universal_observability_cell is not None
+        or full_drive_cell is not None
     ):
         if universal_observability_cell is not None:
             from .p1_universal_observability_panel import (
@@ -3854,11 +3896,13 @@ def run_p1(
         or common_cold_fixed_e8_mode
         or bg_soft_missing_cell_mode
         or universal_observability_cell is not None
+        or full_drive_cell is not None
     ):
         if (
             common_cold_fixed_e8_mode
             or bg_soft_missing_cell_mode
             or universal_observability_cell is not None
+            or full_drive_cell is not None
         ):
             from .common_coldcoord_fixed_e8_runtime import (
                 run_common_coldcoord_fixed_e8_diagnostic,
@@ -3924,6 +3968,10 @@ def run_p1(
                     universal_frozen_r12_reference
                     if universal_observability_cell is not None
                     else None
+                ),
+                full_drive_cell=full_drive_cell,
+                full_drive_lambda=(
+                    full_drive_lambda if full_drive_cell is not None else None
                 ),
             )
         if fixed_e8_soft_mode:
