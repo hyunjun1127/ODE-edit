@@ -556,6 +556,7 @@ class _TerminalLookupCapture(AbstractContextManager["_TerminalLookupCapture"]):
         model: torch.nn.Module,
         layer_name: str,
         lookup_positions: Sequence[int],
+        left_padding: Sequence[int] | None = None,
     ) -> None:
         positions = tuple(int(item) for item in lookup_positions)
         if len(positions) != BATCH_SIZE:
@@ -563,6 +564,12 @@ class _TerminalLookupCapture(AbstractContextManager["_TerminalLookupCapture"]):
         self.model = model
         self.layer_name = layer_name
         self.lookup_positions = positions
+        padding = (0,) * BATCH_SIZE if left_padding is None else tuple(
+            int(item) for item in left_padding
+        )
+        if len(padding) != BATCH_SIZE or any(item < 0 for item in padding):
+            raise ODEBFContractError("physical transport left padding differs")
+        self.left_padding = padding
         self.value: torch.Tensor | None = None
         self.calls = 0
         self._handle: torch.utils.hooks.RemovableHandle | None = None
@@ -583,7 +590,7 @@ class _TerminalLookupCapture(AbstractContextManager["_TerminalLookupCapture"]):
         selected: list[torch.Tensor] = []
         for row, raw_position in enumerate(self.lookup_positions):
             position = (
-                raw_position
+                raw_position + self.left_padding[row]
                 if raw_position >= 0
                 else activation.shape[1] + raw_position
             )
@@ -1427,6 +1434,7 @@ def build_integrated_physical_field_from_keys(
     covariance_registry: PinnedCovarianceRegistry,
     projector_sha256: str,
     residual_tolerance: float,
+    precomputed_residual: torch.Tensor | None = None,
 ) -> tuple[P1DynamicField, IntegratedFieldBuildReceipt]:
     """Build the five Alpha-WB factors without any additional model forward.
 
@@ -1458,8 +1466,18 @@ def build_integrated_physical_field_from_keys(
     current = terminal_current_z.detach().to(
         device="cpu", dtype=torch.float32
     ).contiguous()
+    if precomputed_residual is None:
+        residual = (target - current).contiguous()
+    else:
+        residual = precomputed_residual.detach().to(
+            device="cpu", dtype=torch.float32
+        ).contiguous()
+        if residual.shape != target.shape or not bool(torch.isfinite(residual).all()):
+            raise ODEBFContractError(
+                "integrated physical precomputed residual differs"
+            )
     shared = SharedTerminalResidualInput(
-        residual=(target - current).contiguous(),
+        residual=residual,
         terminal_current_z=current,
         request_order_sha256=request_order_sha256,
     )
@@ -1877,7 +1895,9 @@ def writer_edit_transport_vjp_microbatch(
             encoded, rows=BATCH_SIZE
         )
         terminal_capture = (
-            _TerminalLookupCapture(model, target_layer_name, positions)
+            _TerminalLookupCapture(
+                model, target_layer_name, positions, left_padding
+            )
             if context_ordinal == 0
             else None
         )

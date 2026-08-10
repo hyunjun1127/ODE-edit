@@ -337,7 +337,7 @@ class PhysicalWriterGroupLedger:
                 )
             if selected_role is PhysicalWriterForwardRole.TARGET_FACTOR and (
                 model_forward_calls <= 0
-                or physical_microbatch_graphs != 1
+                or physical_microbatch_graphs <= 0
                 or autograd_backend_invocations <= 0
                 or backward_calls <= 0
                 or processed_tokens <= 0
@@ -477,7 +477,13 @@ class PhysicalWriterGroupLedger:
         # Each microbatch is persisted as its own record, so its physical graph
         # count must be one.  The explicit sum catches hidden endpoint work.
         if observed != expected or any(
-            item.physical_microbatch_graphs != 1 for item in production
+            item.physical_microbatch_graphs != 1
+            for item in production
+            if item.role
+            in (
+                PhysicalWriterForwardRole.WRITER_VJP,
+                PhysicalWriterForwardRole.P_VJP,
+            )
         ):
             raise ODEBFContractError(
                 "PRECHECKPOINT_COMPUTE_CEILING_BLOCKED: online groups differ"
@@ -509,6 +515,14 @@ class PhysicalWriterGroupLedger:
             ),
             "model_forward_call_count": sum(
                 item.model_forward_calls for item in production
+            ),
+            "physical_graph_count": sum(
+                item.physical_microbatch_graphs for item in production
+            ),
+            "target_factor_physical_graph_count": sum(
+                item.physical_microbatch_graphs
+                for item in production
+                if item.role is PhysicalWriterForwardRole.TARGET_FACTOR
             ),
             "backward_call_count": sum(
                 item.backward_calls for item in production
