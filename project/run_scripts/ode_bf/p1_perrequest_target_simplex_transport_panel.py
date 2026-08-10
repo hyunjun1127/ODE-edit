@@ -38,7 +38,7 @@ P1R15_NUMERICAL_LOCK_FILE = (
 P1R15_SOURCE_MANIFEST_FILE = (
     "source_manifest_s05_perrequest_target_simplex_transport.json"
 )
-P1R15_STAGE_A_RESULT_TOKEN = "perrequest-simplex-transport-p1r15-a1-stage-a-v1"
+P1R15_STAGE_A_RESULT_TOKEN = "perrequest-simplex-transport-p1r15-a1-stage-a-tech-r1-v1"
 P1R15_STAGE_B_MATERIAL_COUNT = 0
 P1R15_P_ANCHOR_SEAL_FILE = "p1r14_fresh_cf_b10_seal.json"
 P1R15_P_ANCHOR_SEAL_ROOT = (
@@ -280,7 +280,7 @@ def load_and_validate_p1r15_source_manifest(
     )
     if (
         value.get("source_base")
-        != "6184857ef7171920e5193e7609f5fc1596bc67b0"
+        != "6116994a171daec92755d846cd49ba8aa279dd8c"
         or value.get("execution_head_binding") != "RUNTIME_EXACT_GIT_HEAD"
         or len(source_head) != 40
         or not isinstance(entries, list)

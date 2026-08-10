@@ -39,7 +39,7 @@ from project.run_scripts.ode_bf.p1_perrequest_target_simplex_transport_panel imp
 SESSION_ID = "019fe489-c968-75f3-9965-7cfbc26c0a99"
 GH_SESSION_ID = "019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-perrequest-target-simplex-transport-p1r15-v1"
-EXECUTION_PARENT = "6184857ef7171920e5193e7609f5fc1596bc67b0"
+EXECUTION_PARENT = "6116994a171daec92755d846cd49ba8aa279dd8c"
 SERVER1_PROJECT_GPU_CAP = 4
 LLAMA_ALIAS = "llama3-8b-inst"
 QWEN_ALIAS = "qwen2.5-7b-inst"

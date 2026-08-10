@@ -37,12 +37,12 @@ from project.run_scripts.ode_bf.p1_perrequest_target_simplex_transport_panel imp
 )
 
 
-PACKAGE_ID = "PERREQUEST_SIMPLEX_TRANSPORT_P1R15_STAGE_A_SH2_BUNDLE_A1"
+PACKAGE_ID = "PERREQUEST_SIMPLEX_TRANSPORT_P1R15_STAGE_A_SH2_BUNDLE_A1_TECH_R1"
 PACKAGE_ARCHIVE = "perrequest-simplex-transport-p1r15-stage-a-sh2-bundle-a1.tar"
 PACKAGE_MANIFEST = "package-manifest.json"
 PACKAGE_RECEIPT = "handoff-receipt.json"
 PACKAGE_REF = "refs/heads/codex/odeeditsh1-s05-perrequest-target-simplex-transport-p1r15-v1"
-EXECUTION_PARENT = "6184857ef7171920e5193e7609f5fc1596bc67b0"
+EXECUTION_PARENT = "6116994a171daec92755d846cd49ba8aa279dd8c"
 SH2_RECIPIENT_SESSION = "019fe491-954b-70a0-8ba8-0588e9f8d741"
 LOCK_FILES = (
     "p1r10_common_coldcoord_cf_b10_seal.json",

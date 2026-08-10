@@ -25,10 +25,16 @@ if [[ "${HF_HUB_OFFLINE:-}" != "1" || "${TRANSFORMERS_OFFLINE:-}" != "1" ]]; the
   echo "P1R15 offline environment differs" >&2
   exit 2
 fi
+EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
+if [[ ! -d "$EASYEDIT_ROOT/easyeditor" || -L "$EASYEDIT_ROOT/easyeditor" ]]; then
+  echo "P1R15 EasyEdit source path differs" >&2
+  exit 2
+fi
+export PYTHONPATH="$EASYEDIT_ROOT"
 observed_head="$(git rev-parse HEAD)"
 observed_parent="$(git rev-parse HEAD^)"
 observed_branch="$(git branch --show-current)"
-if [[ "$observed_head" != "$ODEBF_P1R15_SOURCE_HEAD" || "$observed_parent" != "6184857ef7171920e5193e7609f5fc1596bc67b0" || "$observed_branch" != "codex/odeeditsh1-s05-perrequest-target-simplex-transport-p1r15-v1" ]]; then
+if [[ "$observed_head" != "$ODEBF_P1R15_SOURCE_HEAD" || "$observed_parent" != "6116994a171daec92755d846cd49ba8aa279dd8c" || "$observed_branch" != "codex/odeeditsh1-s05-perrequest-target-simplex-transport-p1r15-v1" ]]; then
   echo "P1R15 source chain differs" >&2
   exit 2
 fi
@@ -42,4 +48,4 @@ exec uv run --offline --project /mnt/raid5/janghj/EasyEdit --frozen --no-sync \
   --model "$ODEBF_P1R15_MODEL_ALIAS" \
   --output-root "$ODEBF_P1R15_OUTPUT_ROOT" \
   --source-head "$ODEBF_P1R15_SOURCE_HEAD" \
-  --run-token perrequest-simplex-transport-p1r15-a1-stage-a-v1
+  --run-token perrequest-simplex-transport-p1r15-a1-stage-a-tech-r1-v1

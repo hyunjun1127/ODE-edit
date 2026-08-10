@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import inspect
 import json
+import os
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -71,7 +73,7 @@ class P1R15LaunchTests(unittest.TestCase):
                 "--source-head",
                 "1" * 40,
                 "--run-token",
-                "perrequest-simplex-transport-p1r15-a1-stage-a-v1",
+                "perrequest-simplex-transport-p1r15-a1-stage-a-tech-r1-v1",
                 "--namespace-probe",
             ]
         )
@@ -83,10 +85,44 @@ class P1R15LaunchTests(unittest.TestCase):
         subprocess.run(["bash", "-n", str(sbatch)], check=True)
         source = sbatch.read_text(encoding="utf-8")
         self.assertIn("SLURM_SUBMIT_DIR", source)
-        self.assertIn("6184857ef7171920e5193e7609f5fc1596bc67b0", source)
+        self.assertIn("6116994a171daec92755d846cd49ba8aa279dd8c", source)
         self.assertIn("--cpus-per-task=8", source)
         self.assertIn("--gres=gpu:1", source)
         self.assertIn("--mem=65000M", source)
+
+    def test_launcher_binds_exact_easyedit_source_path(self) -> None:
+        sbatch = self.repo / "project/run_scripts/session05_ode_bf_perrequest_simplex_transport.sbatch"
+        source = sbatch.read_text(encoding="utf-8")
+        expected_root = "/mnt/raid5/janghj/EasyEdit"
+        self.assertIn(f'EASYEDIT_ROOT="{expected_root}"', source)
+        self.assertIn('export PYTHONPATH="$EASYEDIT_ROOT"', source)
+        self.assertNotIn('PYTHONPATH="${PYTHONPATH', source)
+        probe = (
+            "import importlib.util, pathlib; "
+            "spec=importlib.util.find_spec('easyeditor'); "
+            "assert spec is not None and pathlib.Path(spec.origin).resolve().is_relative_to("
+            "pathlib.Path('/mnt/raid5/janghj/EasyEdit').resolve())"
+        )
+        positive_env = dict(os.environ)
+        positive_env["PYTHONPATH"] = expected_root
+        subprocess.run(
+            [sys.executable, "-c", probe],
+            cwd=self.repo,
+            env=positive_env,
+            check=True,
+        )
+        negative_env = dict(os.environ)
+        negative_env["PYTHONPATH"] = ""
+        negative = subprocess.run(
+            [sys.executable, "-c", probe],
+            cwd=self.repo,
+            env=negative_env,
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        self.assertNotEqual(negative.returncode, 0)
 
     def test_submit_requires_package_ack_and_held_release(self) -> None:
         source = inspect.getsource(submit.submit)

@@ -31,8 +31,8 @@ from project.run_scripts.ode_bf.resource import gpu_count_from_tres
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_perrequest_simplex_transport.sbatch"
 STATE_ROOT = REPO_ROOT / "local/odebf/state"
 LOG_ROOT = REPO_ROOT / "local/odebf/logs"
-SUBMISSION_NAMESPACE = "s05-p1r15-a1-stage-a-llama-v1"
-JOB_NAME = "odeedit_s05_p1r15_stage_a_llama"
+SUBMISSION_NAMESPACE = "s05-p1r15-a1-stage-a-llama-tech-r1-v1"
+JOB_NAME = "odeedit_s05_p1r15_stage_a_llama_tech_r1"
 PROJECT_JOB_PREFIXES = ("odeedit_", "odebf_", "odealloc_")
 
 
