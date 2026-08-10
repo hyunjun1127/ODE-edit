@@ -13,7 +13,7 @@ umask 077
 
 readonly REPO_ROOT="/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-full-drive-soft-dynamic-p1r17-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
-readonly EXPECTED_PARENT="e7febbefa859da0d4352799721246a609664da1c"
+readonly EXPECTED_PARENT="ac6dd1f6d32b6fad103175f9a7fa152daf2ca9c5"
 readonly EXPECTED_BRANCH="codex/odeeditsh1-s05-full-drive-soft-dynamic-p1r17-v1"
 readonly EXPECTED_SESSION="019fe489-c968-75f3-9965-7cfbc26c0a99"
 readonly MODEL_ALIAS="${1:-}"

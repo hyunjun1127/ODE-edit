@@ -4386,7 +4386,7 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         "n32_postfreeze_sha256": native_sha,
         "stepwise_panel_sha256": panel_sha,
         "reused_warm_evaluator_parity_sha256": evaluator_parity_sha,
-        "variant_status": {arm.value: (rollouts[arm.value].status if arm.value in rollouts else failures[arm.value]["status"]) for arm in R10_COMMON_COLD_ARMS},
+        "variant_status": {arm.value: (rollouts[arm.value].status if arm.value in rollouts else failures[arm.value]["status"]) for arm in live_arms},
         "cold_native_or_direct_z_access_count": 0,
         "scientific_retry_count": 0,
         "scientific_rejection_count": 0,

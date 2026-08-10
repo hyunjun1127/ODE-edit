@@ -13,6 +13,7 @@ import torch
 from project.run_scripts.ode_bf.accounting import ComputeLedger
 from project.run_scripts.ode_bf import full_drive_physical_field
 from project.run_scripts.ode_bf import full_drive_soft_routing
+from project.run_scripts.ode_bf import common_coldcoord_fixed_e8_runtime
 from project.run_scripts.ode_bf.fixed_e8_soft_routing import (
     FIXED_E8_H,
     FIXED_E8_LAYER_ORDER,
@@ -101,6 +102,19 @@ def _inventory() -> FixedE8SoftInventory:
 
 
 class FullDriveSoftRoutingTests(unittest.TestCase):
+    def test_terminal_variant_status_uses_exact_live_arm_registry(self) -> None:
+        source = inspect.getsource(
+            common_coldcoord_fixed_e8_runtime.run_common_coldcoord_fixed_e8_diagnostic
+        )
+        self.assertIn(
+            'for arm in live_arms},',
+            source,
+        )
+        self.assertNotIn(
+            'for arm in R10_COMMON_COLD_ARMS},',
+            source,
+        )
+
     def test_no_soft_is_exact_full_nominal_and_not_a_progress_floor(self) -> None:
         slopes = (0.50, 0.42, 0.30, 0.20, 0.10)
         result = solve_full_drive_routing(
