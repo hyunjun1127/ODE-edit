@@ -169,8 +169,6 @@ def measure_physical_edit_slopes(
         raise ODEBFContractError("physical edit endpoint is non-finite")
     model_forwards = sum(int(item.model_forward_count) for item in all_receipts)
     processed_tokens = sum(int(item.processed_token_count) for item in all_receipts)
-    ledger.increment("model_forward", model_forwards)
-    ledger.increment("processed_tokens", processed_tokens)
     if any(
         ledger.counters.get(name, 0) != counter_before.get(name, 0) + expected
         for name, expected in (

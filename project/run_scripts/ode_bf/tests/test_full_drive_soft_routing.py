@@ -376,6 +376,8 @@ class FullDriveSoftRoutingTests(unittest.TestCase):
 
         def observed() -> SimpleNamespace:
             value = next(values)
+            ledger.increment("model_forward", 60)
+            ledger.increment("processed_tokens", 600)
             return SimpleNamespace(
                 value=torch.tensor(value, dtype=torch.float64),
                 request_order_sha256="r" * 64,
