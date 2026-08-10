@@ -45,7 +45,9 @@ STRENGTH_PRESERVING_CELLS = (
     "BG-NEUTRAL",
     "BG-SOFT",
 )
-STRENGTH_PRESERVING_RESULT_TOKEN = "strength-preserving-router-p1r19-a2-v1"
+STRENGTH_PRESERVING_RESULT_TOKEN = (
+    "strength-preserving-router-p1r19-a2-tech-r1-v1"
+)
 STRENGTH_PRESERVING_FORECAST_SECONDS = 43_200
 STRENGTH_PRESERVING_ALLOCATION_SECONDS = 86_340
 
@@ -55,7 +57,7 @@ def expected_strength_preserving_result_name(alias: str, cell: str) -> str:
         raise ODEBFContractError("strength-preserving result identity differs")
     return (
         "s05-strength-preserving-router-p1r19-a2-"
-        f"{cell.lower().replace('-', '_')}-{alias}-v1"
+        f"{cell.lower().replace('-', '_')}-{alias}-tech-r1-v1"
     )
 
 

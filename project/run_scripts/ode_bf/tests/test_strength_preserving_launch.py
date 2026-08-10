@@ -37,6 +37,7 @@ class StrengthPreservingLaunchTests(unittest.TestCase):
         }
         self.assertEqual(len(names), 8)
         self.assertTrue(all("target-hold" not in item for item in names))
+        self.assertTrue(all("tech-r1" in item for item in names))
 
     def test_entry_dispatches_one_cell_only(self) -> None:
         with mock.patch.object(
@@ -55,7 +56,7 @@ class StrengthPreservingLaunchTests(unittest.TestCase):
                     "--source-head",
                     "a" * 40,
                     "--run-token",
-                    "strength-preserving-router-p1r19-a2-v1",
+                    "strength-preserving-router-p1r19-a2-tech-r1-v1",
                 ]
             )
         self.assertEqual(code, 0)
@@ -95,6 +96,8 @@ class StrengthPreservingLaunchTests(unittest.TestCase):
         self.assertNotIn("TARGET-HOLD", source)
         self.assertNotIn("retry", source.lower())
         self.assertIn('REPO_ROOT="${SLURM_SUBMIT_DIR:', source)
+        self.assertIn("#SBATCH --nodelist=server2", source)
+        self.assertNotIn("#SBATCH --nodelist=devbox", source)
 
     def test_lock_binds_a2_zero_compute_and_structural_p(self) -> None:
         locks = ROOT / "project/run_scripts/ode_bf/locks"

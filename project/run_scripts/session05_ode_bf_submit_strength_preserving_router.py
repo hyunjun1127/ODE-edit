@@ -22,9 +22,9 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError
 
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_strength_preserving_router.sbatch"
 STATE_ROOT = REPO_ROOT / "local/odebf/state"
-LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r19-strength-preserving-a2"
+LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r19-strength-preserving-a2-tech-r1"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
-NAMESPACE = "s05-strength-preserving-router-p1r19-a2-sh2-array-v1"
+NAMESPACE = "s05-strength-preserving-router-p1r19-a2-sh2-array-tech-r1-v1"
 
 
 def _run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -83,7 +83,7 @@ def submit(source_head: str) -> dict[str, object]:
             "--chdir",
             str(REPO_ROOT),
             "--job-name",
-            "odeedit_s05_p1r19_strength_router",
+            "odeedit_s05_p1r19_strength_router_tech_r1",
             "--output",
             str(LOG_ROOT / "%A_%a.out"),
             "--error",

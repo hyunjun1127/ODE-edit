@@ -3,7 +3,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
-#SBATCH --nodelist=devbox
+#SBATCH --nodelist=server2
 #SBATCH --mem=65000M
 #SBATCH --time=23:59:00
 #SBATCH --array=0-7%4
@@ -16,7 +16,7 @@ readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
 readonly EXPECTED_SESSION="019fe491-954b-70a0-8ba8-0588e9f8d741"
-readonly RUN_TOKEN="strength-preserving-router-p1r19-a2-v1"
+readonly RUN_TOKEN="strength-preserving-router-p1r19-a2-tech-r1-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 
 [[ "$#" -eq 2 ]] || { echo "P1R19 requires source and result parent" >&2; exit 2; }
@@ -38,7 +38,7 @@ readonly CELLS=(
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
 readonly CELL="${CELLS[${SLURM_ARRAY_TASK_ID}]}"
 readonly CELL_SLUG="${CELL,,}"
-readonly RESULT_NAME="s05-strength-preserving-router-p1r19-a2-${CELL_SLUG//-/_}-${MODEL}-v1"
+readonly RESULT_NAME="s05-strength-preserving-router-p1r19-a2-${CELL_SLUG//-/_}-${MODEL}-tech-r1-v1"
 readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULT_NAME}"
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R19 output exists" >&2; exit 2; }
 
