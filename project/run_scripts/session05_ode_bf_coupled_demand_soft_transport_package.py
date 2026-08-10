@@ -37,12 +37,12 @@ from project.run_scripts.ode_bf.p1_coupled_demand_soft_transport_panel import (
 )
 
 
-PACKAGE_ID = "COUPLED_DEMAND_SOFT_TRANSPORT_P1R16_STAGE_A_SH2_BUNDLE_A1"
-PACKAGE_ARCHIVE = "coupled-demand-soft-transport-p1r16-stage-a-sh2-bundle-a1.tar"
+PACKAGE_ID = "COUPLED_DEMAND_SOFT_TRANSPORT_P1R16_STAGE_A_SERVER1_BUNDLE_A2_TECH_R1"
+PACKAGE_ARCHIVE = "coupled-demand-soft-transport-p1r16-stage-a-server1-bundle-a2-tech-r1.tar"
 PACKAGE_MANIFEST = "package-manifest.json"
 PACKAGE_RECEIPT = "handoff-receipt.json"
 PACKAGE_REF = "refs/heads/codex/odeeditsh1-s05-coupled-demand-soft-transport-p1r16-v1"
-EXECUTION_PARENT = "0fdb2fc8afe497b4c09e58ac94f1a11b75f0d00f"
+EXECUTION_PARENT = "ce0d7c0a9ccb91a7d67209bf93cf6b6ac34cff48"
 SH2_RECIPIENT_SESSION = "019fe491-954b-70a0-8ba8-0588e9f8d741"
 LOCK_FILES = (
     "p1r10_common_coldcoord_cf_b10_seal.json",

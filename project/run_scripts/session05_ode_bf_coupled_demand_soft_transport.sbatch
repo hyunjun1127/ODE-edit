@@ -34,7 +34,7 @@ export PYTHONPATH="$EASYEDIT_ROOT"
 observed_head="$(git rev-parse HEAD)"
 observed_parent="$(git rev-parse HEAD^)"
 observed_branch="$(git branch --show-current)"
-if [[ "$observed_head" != "$ODEBF_P1R16_SOURCE_HEAD" || "$observed_parent" != "0fdb2fc8afe497b4c09e58ac94f1a11b75f0d00f" || "$observed_branch" != "codex/odeeditsh1-s05-coupled-demand-soft-transport-p1r16-v1" ]]; then
+if [[ "$observed_head" != "$ODEBF_P1R16_SOURCE_HEAD" || "$observed_parent" != "ce0d7c0a9ccb91a7d67209bf93cf6b6ac34cff48" || "$observed_branch" != "codex/odeeditsh1-s05-coupled-demand-soft-transport-p1r16-v1" ]]; then
   echo "P1R16 source chain differs" >&2
   exit 2
 fi

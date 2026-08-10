@@ -300,7 +300,7 @@ def load_and_validate_p1r16_source_manifest(
     )
     if (
         value.get("source_base")
-        != "0fdb2fc8afe497b4c09e58ac94f1a11b75f0d00f"
+        != "ce0d7c0a9ccb91a7d67209bf93cf6b6ac34cff48"
         or value.get("execution_head_binding") != "RUNTIME_EXACT_GIT_HEAD"
         or len(source_head) != 40
         or not isinstance(entries, list)

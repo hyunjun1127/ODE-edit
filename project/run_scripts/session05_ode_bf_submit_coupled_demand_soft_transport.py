@@ -31,10 +31,10 @@ from project.run_scripts.ode_bf.resource import gpu_count_from_tres
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_coupled_demand_soft_transport.sbatch"
 STATE_ROOT = REPO_ROOT / "local/odebf/state"
 LOG_ROOT = REPO_ROOT / "local/odebf/logs"
-SUBMISSION_NAMESPACE = "s05-p1r16-a1-stage-a-server1-pair-v1"
+SUBMISSION_NAMESPACE = "s05-p1r16-a1-stage-a-server1-pair-tech-r1-v1"
 JOB_NAMES = {
-    dry.LLAMA_ALIAS: "odeedit_s05_p1r16_stage_a_llama",
-    dry.QWEN_ALIAS: "odeedit_s05_p1r16_stage_a_qwen",
+    dry.LLAMA_ALIAS: "odeedit_s05_p1r16_stage_a_llama_tech_r1",
+    dry.QWEN_ALIAS: "odeedit_s05_p1r16_stage_a_qwen_tech_r1",
 }
 REQUIRED_NODE = "devbox"
 PROJECT_JOB_PREFIXES = ("odeedit_", "odebf_", "odealloc_")
@@ -225,12 +225,14 @@ def submit(
             raw = _run(
                 ("scontrol", "show", "job", "--oneliner", job_id)
             ).stdout.strip()
+            resolved_stdout = Path(str(stdout).replace("%j", job_id))
+            resolved_stderr = Path(str(stderr).replace("%j", job_id))
             if (
                 f"JobName={job_name}" not in raw
                 or f"WorkDir={REPO_ROOT}" not in raw
                 or f"ReqNodeList={REQUIRED_NODE}" not in raw
-                or f"StdOut={stdout}" not in raw
-                or f"StdErr={stderr}" not in raw
+                or f"StdOut={resolved_stdout}" not in raw
+                or f"StdErr={resolved_stderr}" not in raw
                 or "NumCPUs=8" not in raw
                 or "mem=65000M" not in raw
                 or "gres/gpu=1" not in raw
@@ -246,8 +248,10 @@ def submit(
                 ).hexdigest(),
                 "workdir": str(REPO_ROOT),
                 "required_node": REQUIRED_NODE,
-                "stdout": str(stdout),
-                "stderr": str(stderr),
+                "stdout_template": str(stdout),
+                "stderr_template": str(stderr),
+                "stdout": str(resolved_stdout),
+                "stderr": str(resolved_stderr),
                 "result_root": str(results[alias]),
                 "held_inspection_pass": True,
             }

@@ -85,7 +85,7 @@ class P1R16LaunchTests(unittest.TestCase):
         subprocess.run(["bash", "-n", str(sbatch)], check=True)
         source = sbatch.read_text(encoding="utf-8")
         self.assertIn("SLURM_SUBMIT_DIR", source)
-        self.assertIn("0fdb2fc8afe497b4c09e58ac94f1a11b75f0d00f", source)
+        self.assertIn("ce0d7c0a9ccb91a7d67209bf93cf6b6ac34cff48", source)
         self.assertIn("--cpus-per-task=8", source)
         self.assertIn("--gres=gpu:1", source)
         self.assertIn("--mem=65000M", source)
@@ -133,6 +133,15 @@ class P1R16LaunchTests(unittest.TestCase):
         self.assertIn("dry.LLAMA_ALIAS, dry.QWEN_ALIAS", source)
         self.assertIn('"--nodelist={REQUIRED_NODE}"', source)
         self.assertNotIn("retry", source.lower())
+
+    def test_held_inspector_resolves_slurm_job_tokens(self) -> None:
+        source = inspect.getsource(submit.submit)
+        self.assertIn('str(stdout).replace("%j", job_id)', source)
+        self.assertIn('str(stderr).replace("%j", job_id)', source)
+        self.assertIn('f"StdOut={resolved_stdout}"', source)
+        self.assertIn('f"StdErr={resolved_stderr}"', source)
+        self.assertNotIn('f"StdOut={stdout}"', source)
+        self.assertNotIn('f"StdErr={stderr}"', source)
 
     def test_source_closure_rejects_forbidden_runtime(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

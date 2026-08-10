@@ -39,7 +39,7 @@ from project.run_scripts.ode_bf.p1_coupled_demand_soft_transport_panel import (
 SESSION_ID = "019fe489-c968-75f3-9965-7cfbc26c0a99"
 GH_SESSION_ID = "019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
 EXECUTION_BRANCH = "codex/odeeditsh1-s05-coupled-demand-soft-transport-p1r16-v1"
-EXECUTION_PARENT = "0fdb2fc8afe497b4c09e58ac94f1a11b75f0d00f"
+EXECUTION_PARENT = "ce0d7c0a9ccb91a7d67209bf93cf6b6ac34cff48"
 SERVER1_PROJECT_GPU_CAP = 4
 LLAMA_ALIAS = "llama3-8b-inst"
 QWEN_ALIAS = "qwen2.5-7b-inst"
