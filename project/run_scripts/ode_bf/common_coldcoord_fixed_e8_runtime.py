@@ -96,6 +96,15 @@ from .request_digest import ordered_request_digest_v1
 from .routing import PreservationConstraintPolicy
 from .sampling import StatelessReplaySchedule
 from .target_new_nll import RoutingObjective, evaluate_routing_objective
+from .strength_preserving_routing import (
+    STRENGTH_COVERAGE_EPSILON,
+    STRENGTH_PRESERVING_AMENDMENT_ID,
+    STRENGTH_PRESERVING_INSTRUCTION_ID,
+    STRENGTH_PRESERVING_METHOD_ID,
+    route_independent_target_write_identity,
+    solve_strength_preserving_routing,
+    target_probe_requested_strength,
+)
 from .cold_start_target import (
     _unwrap_layer_output,
     cold_lookup_positions,
@@ -570,6 +579,7 @@ def _build_common_field(
     target_layer_name: str,
     typed_zero_positive: bool = False,
     observability_contract: Mapping[str, Any] | None = None,
+    strength_preserving: bool = False,
 ) -> tuple[
     Any,
     Any,
@@ -635,15 +645,18 @@ def _build_common_field(
             contexts=contexts,
             ledger=ledger,
         )
-        if typed_zero_positive
+        if typed_zero_positive or strength_preserving
         else None
     )
     semantic = _common_field_semantic_receipt(
         field, solve_history=solve_history, risk_history=risk_history
     )
+    authoritative_signed = nohook_signed if strength_preserving else signed
+    if authoritative_signed is None:
+        raise ODEBFStateError("strength-preserving nohook slope is absent")
     built = legacy._build_fixed_e8_problem(
         field,
-        signed,
+        authoritative_signed,
         accepted_by_layer=accepted_by_layer,
         committed_load_by_layer=history.cumulative_load(),
         lock=lock,
@@ -656,7 +669,10 @@ def _build_common_field(
     )
     nohook_active = np.flatnonzero(nohook_values > 0.0)
     nohook_certificate_payload: Mapping[str, Any] | None
-    if nohook_signed is not None and nohook_active.size:
+    if strength_preserving:
+        nohook_p_max = None
+        nohook_certificate_payload = None
+    elif nohook_signed is not None and nohook_active.size:
         nohook_certificates: list[Any] = []
 
         def observe_nohook(certificate: Any) -> None:
@@ -729,37 +745,127 @@ def _build_common_field(
         factor_state_sha256=factor_state,
         field_semantic_sha256=semantic["semantic_identity_sha256"],
     )
-    observer, observed = legacy._fixed_e8_solver_receipt_observer(
-        recorder=recorder,
-        step_index=step_index,
-        arm=arm,
-        field_sha256=field.identity_sha256,
-        field_semantic_sha256=semantic["semantic_identity_sha256"],
-        problem_sha256=built.problem.identity(),
-        functional_inventory_sha256=inventory.raw_free_payload()["identity_sha256"],
-    )
-    routing = solve_fixed_e8_routing(
-        built.problem,
-        inventory,
-        arm=arm.routing_arm,
-        certificate_observer=observer,
-        stage2_failure_policy=(
-            FixedE8Stage2FailurePolicy.CERTIFIED_STAGE1_FALLBACK
-            if arm.routing_arm is FixedE8Arm.SOFT
-            else FixedE8Stage2FailurePolicy.FAIL_CLOSED
-        ),
-    )
-    if tuple(observed) != routing.certificates:
-        raise ODEBFStateError("common cold solver receipt sequence differs")
+    target_demand_receipt: Mapping[str, Any] | None = None
+    if strength_preserving:
+        target_started = time.perf_counter()
+        target_velocity, target_receipt = write_aware_common_target_velocity(
+            model,
+            tokenizer,
+            requests,
+            contexts,
+            target_layer_name=target_layer_name,
+            lookup_positions=lookup_positions,
+            field=field,
+            velocity_coefficients=(0.0,) * len(COMMON_COLD_LAYER_ORDER),
+            cumulative_factors_by_weight=current_factors,
+            metric=metric,
+            ledger=ledger,
+        )
+        target_wall = time.perf_counter() - target_started
+        alpha_req, target_demand_receipt = target_probe_requested_strength(
+            target_receipt
+        )
+        router_counter_before = dict(ledger.counters)
+        solve_started = time.perf_counter()
+        routing = solve_strength_preserving_routing(
+            built.problem,
+            inventory,
+            arm=arm.routing_arm,
+            alpha_req=alpha_req,
+        )
+        solve_wall = time.perf_counter() - solve_started
+        router_counter_delta = {
+            key: int(ledger.counters[key] - router_counter_before.get(key, 0))
+            for key in sorted(ledger.counters)
+        }
+        forbidden_router_counter_delta = {
+            key: value
+            for key, value in router_counter_delta.items()
+            if value != 0
+        }
+        if forbidden_router_counter_delta:
+            raise ODEBFStateError(
+                "strength router added model/accounting work"
+            )
+        for sequence_index, certificate in enumerate(routing.certificates):
+            recorder.solver(
+                {
+                    "step_index": step_index,
+                    "arm": arm.value,
+                    "certificate_sequence_index": sequence_index,
+                    "persistence_point": "EXACT_STRENGTH_SOLVER_BEFORE_WRITE",
+                    "status": "SOLVER_CERTIFICATE_PASSED",
+                    "field_sha256": field.identity_sha256,
+                    "field_semantic_sha256": semantic[
+                        "semantic_identity_sha256"
+                    ],
+                    "problem_sha256": built.problem.identity(),
+                    "functional_inventory_sha256": inventory.raw_free_payload()[
+                        "identity_sha256"
+                    ],
+                    "certificate": certificate.raw_free_payload(),
+                    "authority_role": (
+                        "AUTHORITATIVE"
+                        if certificate in routing.authoritative_certificates
+                        else "DIAGNOSTIC_MATCHED_ARM"
+                    ),
+                    "scientific_retry_count": 0,
+                }
+            )
+        ledger.increment("qp_solve", len(routing.certificates))
+        ledger.increment("qp_certificate", len(routing.certificates))
+    else:
+        observer, observed = legacy._fixed_e8_solver_receipt_observer(
+            recorder=recorder,
+            step_index=step_index,
+            arm=arm,
+            field_sha256=field.identity_sha256,
+            field_semantic_sha256=semantic["semantic_identity_sha256"],
+            problem_sha256=built.problem.identity(),
+            functional_inventory_sha256=inventory.raw_free_payload()["identity_sha256"],
+        )
+        routing = solve_fixed_e8_routing(
+            built.problem,
+            inventory,
+            arm=arm.routing_arm,
+            certificate_observer=observer,
+            stage2_failure_policy=(
+                FixedE8Stage2FailurePolicy.CERTIFIED_STAGE1_FALLBACK
+                if arm.routing_arm is FixedE8Arm.SOFT
+                else FixedE8Stage2FailurePolicy.FAIL_CLOSED
+            ),
+        )
+        if tuple(observed) != routing.certificates:
+            raise ODEBFStateError("common cold solver receipt sequence differs")
+        target_wall = 0.0
+        solve_wall = 0.0
+        router_counter_delta = {}
     slope_comparison: Mapping[str, Any] | None = None
-    if nohook_signed is not None and nohook_p_max is not None:
+    if nohook_signed is not None and (
+        nohook_p_max is not None or strength_preserving
+    ):
         from .bg_soft_diagnostics import signed_slope_comparison_receipt
 
         slope_comparison = signed_slope_comparison_receipt(
             signed.signed_progress,
             nohook_signed.signed_progress,
-            overlay_p_max=float(routing.p_max),
-            no_hook_p_max=float(nohook_p_max),
+            overlay_p_max=(
+                float(FIXED_E8_H)
+                * float(
+                    np.maximum(
+                        np.asarray(signed.signed_progress, dtype=np.float64),
+                        0.0,
+                    )
+                    @ np.minimum(built.problem.layer_caps, 1.0)
+                )
+                if strength_preserving
+                else float(routing.p_max)
+            ),
+            no_hook_p_max=(
+                float(routing.alpha_max)
+                if strength_preserving
+                else float(nohook_p_max)
+            ),
             layer_order=COMMON_COLD_LAYER_ORDER,
         )
         slope_comparison = {
@@ -775,11 +881,13 @@ def _build_common_field(
             ),
             "nohook_controller_decision_influence_count": 0,
             "nohook_numerical_certificate_required": bool(
-                nohook_active.size
+                nohook_active.size and not strength_preserving
             ),
             "nohook_numerical_certificate_status": (
                 "NOT_APPLICABLE_NO_POSITIVE_DIRECTION"
                 if not nohook_active.size
+                else "AUTHORITATIVE_STRENGTH_CERTIFIED"
+                if strength_preserving
                 else (
                     "PASS"
                     if nohook_certificate_payload is not None
@@ -790,6 +898,8 @@ def _build_common_field(
             "nohook_numerical_certificate_passed": (
                 None
                 if not nohook_active.size
+                else True
+                if strength_preserving
                 else bool(
                     nohook_certificate_payload is not None
                     and nohook_certificate_payload["passed"]
@@ -808,13 +918,17 @@ def _build_common_field(
                 "classification_decision_influence_count": 0,
             }
     zero_positive = bool(
-        routing.mode is not FixedE8StepMode.JOINT_WRITE
-        or routing.p_max <= 0.0
+        not strength_preserving
+        and (
+            routing.mode is not FixedE8StepMode.JOINT_WRITE
+            or routing.p_max <= 0.0
+        )
     )
     if zero_positive and not typed_zero_positive:
         raise ODEBFContractError("BOOTSTRAP_READINESS_FAILED: p_max is nonpositive")
-    ledger.increment("qp_solve", len(routing.certificates))
-    ledger.increment("qp_certificate", len(routing.certificates))
+    if not strength_preserving:
+        ledger.increment("qp_solve", len(routing.certificates))
+        ledger.increment("qp_certificate", len(routing.certificates))
     if zero_positive:
         target_velocity = None
         target_receipt = {
@@ -833,7 +947,7 @@ def _build_common_field(
             "clock_advance_count": 0,
             "decision": "PRESERVE_VALID_PREFIX_AND_TERMINATE_ARM",
         }
-    else:
+    elif not strength_preserving:
         target_velocity, target_receipt = write_aware_common_target_velocity(
             model,
             tokenizer,
@@ -862,15 +976,36 @@ def _build_common_field(
         "field_semantic": semantic,
         "shared_terminal_residual_input": residual_input.raw_free_payload(),
         "signed_progress": asdict(signed),
+        "authoritative_physical_nohook_signed_progress": (
+            None if nohook_signed is None else asdict(nohook_signed)
+        ),
         "signed_progress_overlay": signed_overlay,
         "problem_receipt_sha256": built.identity_sha256,
         "functional_basis": inventory.raw_free_payload(),
         "probe_receipt": probe,
         "routing": routing.raw_free_payload(),
         "target_velocity": target_receipt,
+        "target_demand": target_demand_receipt,
         "target_probe_and_write_h_equal": True,
         "h": float(FIXED_E8_H),
         "scientific_retry_count": 0,
+        "strength_preserving": strength_preserving,
+        "router_added_counter_delta": router_counter_delta,
+        "router_added_model_forward_count": router_counter_delta.get(
+            "model_forward", 0
+        ),
+        "router_added_backward_count": router_counter_delta.get("backward", 0),
+        "router_added_target_backward_count": router_counter_delta.get(
+            "target_backward", 0
+        ),
+        "router_added_processed_token_count": router_counter_delta.get(
+            "processed_tokens", 0
+        ),
+        "phase_wall_seconds": {
+            "target_gradient_common_zero_probe": target_wall,
+            "detached_route_solve": solve_wall,
+            "functional_probe": float(probe.get("wall_seconds", 0.0)),
+        },
     }
     if typed_zero_positive:
         field_payload.update(
@@ -882,7 +1017,11 @@ def _build_common_field(
                 "field_persisted_before_positive_guard": True,
             }
         )
-    if typed_zero_positive and nohook_signed is not None and slope_comparison is not None:
+    if (
+        (typed_zero_positive or strength_preserving)
+        and nohook_signed is not None
+        and slope_comparison is not None
+    ):
         field_payload.update(
             {
                 "nohook_signed_progress": asdict(nohook_signed),
@@ -900,7 +1039,9 @@ def _build_common_field(
     receipt_payload = {
         "field_sha256": field.identity_sha256,
         "field_semantic_sha256": semantic["semantic_identity_sha256"],
-        "signed_progress_sha256": canonical_hash(list(signed.signed_progress)),
+        "signed_progress_sha256": canonical_hash(
+            list(authoritative_signed.signed_progress)
+        ),
         "problem_sha256": built.problem.identity(),
         "functional_inventory_sha256": inventory.raw_free_payload()["identity_sha256"],
         "routing_sha256": routing.identity_sha256,
@@ -919,7 +1060,7 @@ def _build_common_field(
     )
     return (
         field,
-        signed,
+        authoritative_signed,
         built,
         inventory,
         routing,
@@ -1132,6 +1273,7 @@ def _run_common_arm(
     typed_zero_positive: bool = False,
     record_six_context_objectives: bool = False,
     observability_contract: Mapping[str, Any] | None = None,
+    strength_preserving: bool = False,
 ) -> tuple[legacy.FixedE8Rollout, dict[str, Any]]:
     clock = FixedE8Clock()
     history = arm_state.history
@@ -1187,6 +1329,7 @@ def _run_common_arm(
     zero_positive_payload: dict[str, Any] | None = None
     entry_audit_state: dict[str, Any] | None = None
     boundary_audit_state: dict[str, Any] | None = None
+    authoritative_weight_write_count = 0
     for step_index in range(FIXED_E8_GRID_COUNT):
         point = clock.begin_field()
         replay_entry = _controller_replay_entry(
@@ -1201,6 +1344,7 @@ def _run_common_arm(
             schedule=schedule,
             outer_entry_p_cache=outer_entry_p_cache,
         )
+        field_wall_started = time.perf_counter()
         (
             field,
             signed,
@@ -1242,8 +1386,28 @@ def _run_common_arm(
             target_layer_name=target_layer_name,
             typed_zero_positive=typed_zero_positive,
             observability_contract=observability_contract,
+            strength_preserving=strength_preserving,
         )
-        solver_accounting = legacy._fixed_e8_solver_accounting(routing)
+        field_wall = time.perf_counter() - field_wall_started
+        if strength_preserving:
+            functional_basis_wall = float(probe.get("wall_seconds", 0.0))
+            ledger.add_time(
+                "p1r19_edit_core_field_target_route",
+                wall_seconds=max(field_wall - functional_basis_wall, 0.0),
+            )
+            ledger.add_time(
+                "p1r19_functional_probe",
+                wall_seconds=functional_basis_wall,
+            )
+        solver_accounting = (
+            {
+                "actual_logical_qp_certificate_count": len(routing.certificates),
+                "actual_optimizer_backend_invocation_count": len(routing.certificates),
+                "actual_fallback_backend_invocation_count": 0,
+            }
+            if strength_preserving
+            else legacy._fixed_e8_solver_accounting(routing)
+        )
         total_qp += int(solver_accounting["actual_logical_qp_certificate_count"])
         total_backend += int(solver_accounting["actual_optimizer_backend_invocation_count"])
         total_solver_fallback += int(solver_accounting["actual_fallback_backend_invocation_count"])
@@ -1396,27 +1560,46 @@ def _run_common_arm(
         increment = legacy.fixed_e8_waypoint_factors(
             field, routing.velocity, step_index=step_index
         )
-        target_write_identity = legacy.fixed_e8_target_write_coefficient_identity(
-            field,
-            routing,
-            increment,
-            target_probe_coefficients=target_receipt[
-                "target_probe_scientific_coefficient"
-            ],
-            target_probe_effective_coefficients=target_receipt[
-                "target_probe_effective_coefficient"
-            ],
-            target_probe_effective_dtype=target_receipt[
-                "target_probe_effective_dtype"
-            ],
-            target_probe_effective_device_type=target_receipt[
-                "target_probe_effective_device_type"
-            ],
-            physical_write_effective_device_type=next(
-                model.parameters()
-            ).device.type,
+        target_write_identity = (
+            route_independent_target_write_identity(
+                routing,
+                [
+                    increment[item.weight_name].theta
+                    for item in field.layers
+                ],
+                target_receipt,
+            )
+            if strength_preserving
+            else legacy.fixed_e8_target_write_coefficient_identity(
+                field,
+                routing,
+                increment,
+                target_probe_coefficients=target_receipt[
+                    "target_probe_scientific_coefficient"
+                ],
+                target_probe_effective_coefficients=target_receipt[
+                    "target_probe_effective_coefficient"
+                ],
+                target_probe_effective_dtype=target_receipt[
+                    "target_probe_effective_dtype"
+                ],
+                target_probe_effective_device_type=target_receipt[
+                    "target_probe_effective_device_type"
+                ],
+                physical_write_effective_device_type=next(
+                    model.parameters()
+                ).device.type,
+            )
         )
-        candidate_factors = _merge_factors(current_factors, increment)
+        target_only_zero_write = bool(
+            strength_preserving
+            and routing.alpha_apply == 0.0
+        )
+        candidate_factors = (
+            _factor_map(current_factors)
+            if target_only_zero_write
+            else _merge_factors(current_factors, increment)
+        )
         proposed_target_trial = (
             current_target
             + float(FIXED_E8_H)
@@ -1429,6 +1612,7 @@ def _run_common_arm(
         )
         if not torch.isfinite(target_trial).all():
             raise ODEBFContractError("common cold target trial is non-finite")
+        candidate_core_started = time.perf_counter()
         realization_before = (
             _parameter_contract_sha256(touched),
             history.snapshot().digest,
@@ -1455,21 +1639,58 @@ def _run_common_arm(
             candidate_terminal,
             field.request_order_sha256,
         ).residual
-        candidate_objective, candidate_overlay = _objective_with_residual(
-            model,
-            tokenizer,
-            requests,
-            factors=candidate_factors,
-            contexts=contexts,
-            target_layer_name=target_layer_name,
-            lookup_positions=lookup_positions,
-            residual=candidate_residual,
-        )
-        actual_progress = float(current_objective.value - candidate_objective.value)
+        if strength_preserving:
+            if signed.mean_objective_value is None:
+                raise ODEBFStateError(
+                    "strength physical W-only current objective is absent"
+                )
+            with _virtual_context(model, candidate_factors):
+                candidate_weight_objective = evaluate_routing_objective(
+                    model,
+                    tokenizer,
+                    requests,
+                    objective=RoutingObjective.TARGET_NEW_NLL,
+                    contexts=contexts,
+                )
+            candidate_objective = None
+            candidate_overlay = {
+                "status": "NOT_EVALUATED_P1R19_PHYSICAL_WONLY_AUTHORITY",
+                "controller_decision_influence_count": 0,
+            }
+            actual_progress = float(
+                signed.mean_objective_value
+                - float(candidate_weight_objective.loss.detach().cpu())
+            )
+        else:
+            candidate_objective, candidate_overlay = _objective_with_residual(
+                model,
+                tokenizer,
+                requests,
+                factors=candidate_factors,
+                contexts=contexts,
+                target_layer_name=target_layer_name,
+                lookup_positions=lookup_positions,
+                residual=candidate_residual,
+            )
+            candidate_weight_objective = None
+            actual_progress = float(
+                current_objective.value - candidate_objective.value
+            )
         predicted_progress = float(
             built.problem.signed_progress @ np.asarray(routing.velocity)
         )
-        rho = actual_progress / max(predicted_progress, lock.minimum_progress)
+        rho = actual_progress / max(
+            predicted_progress, STRENGTH_COVERAGE_EPSILON
+            if strength_preserving
+            else lock.minimum_progress,
+        )
+        candidate_core_wall = time.perf_counter() - candidate_core_started
+        if strength_preserving:
+            ledger.add_time(
+                "p1r19_edit_core_candidate_write_realization",
+                wall_seconds=candidate_core_wall,
+            )
+        functional_started = time.perf_counter()
         functional = _functional_trial(
             model,
             tokenizer,
@@ -1480,6 +1701,13 @@ def _run_common_arm(
             lock=lock,
             ledger=ledger,
         )
+        functional_trial_wall = time.perf_counter() - functional_started
+        if strength_preserving:
+            ledger.add_time(
+                "p1r19_functional_probe",
+                wall_seconds=functional_trial_wall,
+            )
+        online_eval_started = time.perf_counter()
         evaluation = _evaluate_rewrite(
             model,
             tokenizer,
@@ -1488,6 +1716,12 @@ def _run_common_arm(
             factors=candidate_factors,
             ledger=ledger,
         )
+        online_eval_wall = time.perf_counter() - online_eval_started
+        if strength_preserving:
+            ledger.add_time(
+                "p1r19_online_efficacy_observation",
+                wall_seconds=online_eval_wall,
+            )
         snapshot_sha = _factor_state(capture.entry_sha256, candidate_factors, target_trial)
         factor_state = _factor_state(capture.entry_sha256, current_factors, current_target)
         capacity = legacy._fixed_capacity_payload(
@@ -1531,8 +1765,12 @@ def _run_common_arm(
                 "value": trust_value,
                 "passed": trust_value <= built.problem.trust_radius**2 + 1.0e-8,
                 "radius_squared": built.problem.trust_radius**2,
-                "role": "TECHNICAL_INTEGRATION_BOUND",
-                "decision_influence_count": 1,
+                "role": (
+                    "OBSERVATION_ONLY_UNCALIBRATED"
+                    if strength_preserving
+                    else "TECHNICAL_INTEGRATION_BOUND"
+                ),
+                "decision_influence_count": 0 if strength_preserving else 1,
             },
             "functional_h": {
                 **_risk_payload(functional.historical),
@@ -1554,6 +1792,25 @@ def _run_common_arm(
             )
         )
         structural_payload["online_feasibility_observation"] = feasibility_payload
+        if strength_preserving:
+            structural_payload["online_feasibility_observation"]["components"][
+                "write_trust"
+            ].update(
+                {
+                    "status": "OBSERVATION_ONLY_UNCALIBRATED",
+                    "decision_influence_count": 0,
+                }
+            )
+            structural_payload.update(
+                {
+                    "hard_structural_h_budget_influence_count": 0,
+                    "hard_structural_p_budget_influence_count": 0,
+                    "hard_functional_h_budget_influence_count": 0,
+                    "hard_functional_p_budget_influence_count": 0,
+                    "trust_threshold_influence_count": 0,
+                    "functional_veto_count": 0,
+                }
+            )
         target_realization = legacy.fixed_e8_target_write_realization(
             current_target,
             target_trial,
@@ -1570,7 +1827,70 @@ def _run_common_arm(
             "rho_below_point_one_observation_only": rho < 0.1,
             "scientific_rejection_count": 0,
         }
-        if typed_zero_positive:
+        if strength_preserving:
+            q_values = np.asarray(
+                routing.contribution_share, dtype=np.float64
+            )
+            positive_q = np.maximum(q_values, 0.0)
+            q_total = float(positive_q.sum())
+            q_distribution = (
+                positive_q / q_total
+                if q_total > STRENGTH_COVERAGE_EPSILON
+                else np.zeros_like(positive_q)
+            )
+            nonzero_q = q_distribution[q_distribution > 0.0]
+            entropy = float(
+                -np.sum(nonzero_q * np.log(nonzero_q))
+                / math.log(len(COMMON_COLD_LAYER_ORDER))
+            ) if nonzero_q.size else 0.0
+            hhi = float(q_distribution @ q_distribution)
+            progress_payload.update(
+                {
+                    "actual_definition": "PHYSICAL_BF16_WONLY_TARGET_NEW_NLL_PROGRESS",
+                    "actual_is_weight_only_progress": True,
+                    "alpha_req": routing.alpha_req,
+                    "alpha_max": routing.alpha_max,
+                    "alpha_apply": routing.alpha_apply,
+                    "coverage": routing.coverage,
+                    "equality_residual": routing.equality_residual,
+                    "realization_ratio": actual_progress
+                    / (routing.alpha_apply + STRENGTH_COVERAGE_EPSILON),
+                    "predicted_actual_same_sign": (
+                        predicted_progress == 0.0
+                        or actual_progress == 0.0
+                        or math.copysign(1.0, predicted_progress)
+                        == math.copysign(1.0, actual_progress)
+                    ),
+                    "per_layer_predicted_progress": [
+                        float(slope * coefficient)
+                        for slope, coefficient in zip(
+                            routing.signed_slopes,
+                            routing.velocity,
+                            strict=True,
+                        )
+                    ],
+                    "contribution_share": q_values.tolist(),
+                    "contribution_share_sum": float(q_values.sum()),
+                    "top_layer": (
+                        int(COMMON_COLD_LAYER_ORDER[int(np.argmax(q_distribution))])
+                        if q_total > STRENGTH_COVERAGE_EPSILON
+                        else None
+                    ),
+                    "top_layer_share": float(q_distribution.max(initial=0.0)),
+                    "normalized_entropy": entropy,
+                    "hhi": hhi,
+                    "effective_layer_count": 0.0 if hhi == 0.0 else 1.0 / hhi,
+                    "active_layer_count": routing.active_layer_count,
+                    "equality_rank": routing.equality_rank,
+                    "feasible_allocation_dimension": routing.feasible_allocation_dimension,
+                    "selected_bound_fixed_count": routing.selected_bound_fixed_count,
+                    "neutral_soft_coefficient_distance": routing.neutral_soft_coefficient_distance,
+                    "routing_status": routing.status.value,
+                    "same_state_repair_count": 0,
+                    "candidate_replay_count": 0,
+                }
+            )
+        if typed_zero_positive and not strength_preserving:
             progress_payload.update(
                 {
                     "actual_definition": "RESIDUAL_OVERLAY_OBJECTIVE_PROGRESS",
@@ -1594,6 +1914,57 @@ def _run_common_arm(
             "h": float(FIXED_E8_H),
             "theta_equals_h_times_v": True,
         }
+        if strength_preserving:
+            routing_payload.update(
+                {
+                    "method_id": STRENGTH_PRESERVING_METHOD_ID,
+                    "instruction_id": STRENGTH_PRESERVING_INSTRUCTION_ID,
+                    "amendment_id": STRENGTH_PRESERVING_AMENDMENT_ID,
+                    "physical_weight_only_current_mean_target_new_nll": (
+                        signed.mean_objective_value
+                    ),
+                    "physical_weight_only_candidate_mean_target_new_nll": float(
+                        candidate_weight_objective.loss.detach().cpu()
+                    ),
+                    "physical_weight_only_objective_receipt": (
+                        _routing_objective_raw_free_payload(
+                            candidate_weight_objective,
+                            role="AUTHORITATIVE_PHYSICAL_BF16_WONLY_CANDIDATE",
+                            action_frozen_before_evaluation=False,
+                        )
+                    ),
+                    "router_added_compute": {
+                        "logical_forward_groups": 0,
+                        "model_forward_count": 0,
+                        "backward_count": 0,
+                        "target_backward_count": 0,
+                        "processed_token_count": 0,
+                    },
+                    "structural_p_layer_cost": {
+                        "ordered_layers": list(COMMON_COLD_LAYER_ORDER),
+                        "c_p": [
+                            float(item) for item in built.pretrained_self_risk
+                        ],
+                        "definition": "tr(B_l*C0_l*B_l^T)",
+                        "pinned_wikipedia_second_moment_only": True,
+                        "covariance_receipt_inventory_sha256": canonical_hash(
+                            [
+                                asdict(item.covariance_receipt)
+                                for item in field.layers
+                            ]
+                        ),
+                        "statistic_recompute_count": 0,
+                        "technical_feasible_set_influence_count": 0,
+                        "hard_threshold_influence_count": 0,
+                    },
+                    "progress_floor": 0.0,
+                    "kappa": 0.0,
+                    "requested_progress_legacy": None,
+                    "hard_h_p_budget_influence_count": 0,
+                    "functional_veto_count": 0,
+                    "retry_count": 0,
+                }
+            )
         if typed_zero_positive:
             routing_payload.update(
                 {
@@ -1662,14 +2033,16 @@ def _run_common_arm(
                 "scientific_observations_do_not_gate": True,
             }
         )
-        for layer in field.layers:
-            accepted_by_layer[layer.layer].append(
-                AcceptedLayerContribution.from_field(
-                    layer,
-                    increment[layer.weight_name],
-                    history_action=layer.history_action,
+        if not target_only_zero_write:
+            for layer in field.layers:
+                accepted_by_layer[layer.layer].append(
+                    AcceptedLayerContribution.from_field(
+                        layer,
+                        increment[layer.weight_name],
+                        history_action=layer.history_action,
+                    )
                 )
-            )
+            authoritative_weight_write_count += 1
         ledger.record_accepted_step(accepted_dt=float(FIXED_E8_H), completed_k_total=step_index + 1)
         hit = legacy.FixedE8HitRecord(
             step_index + 1,
@@ -1751,7 +2124,8 @@ def _run_common_arm(
         current_target = target_trial.clone()
         current_terminal = candidate_terminal.clone()
         current_residual = candidate_residual.clone()
-        current_objective = candidate_objective
+        if not strength_preserving:
+            current_objective = candidate_objective
         stages.record(
             f"post_{arm.value.lower().replace('-', '_')}_step_{step_index + 1}",
             {
@@ -1883,7 +2257,7 @@ def _run_common_arm(
         or schedule.state_digest != before_sampler
         or legacy._rng_identity() != before_rng
         or history.version != 0
-        or omega_changed != bool(snapshots)
+        or omega_changed != bool(authoritative_weight_write_count)
     ):
         raise ODEBFStateError("common cold rollout state/purity differs")
     status = (
@@ -1955,7 +2329,11 @@ def _run_common_arm(
             "snapshot_sha256": first_hit.first_online.snapshot_sha256,
         },
         "first_hit_observation_only": True,
-        "joint_zero_write_count": 0,
+        "joint_zero_write_count": len(snapshots) - authoritative_weight_write_count,
+        "authoritative_weight_write_count": authoritative_weight_write_count,
+        "target_only_transition_count": (
+            len(snapshots) - authoritative_weight_write_count
+        ),
         "scientific_retry_count": 0,
         "scientific_rejection_count": 0,
         "native_or_direct_z_cold_access_count": 0,
@@ -2672,6 +3050,9 @@ def _postfreeze_bg_soft_prefix_panel(
     observability_contract: Mapping[str, Any] | None = None,
     bootstrap_targets: Mapping[str, torch.Tensor] | None = None,
     controller_lookup_positions: Sequence[int] | None = None,
+    progress_actual_semantics: str = (
+        "RESIDUAL_OVERLAY_OBJECTIVE_NOT_WEIGHT_ONLY"
+    ),
 ) -> dict[str, Any]:
     """Evaluate MAIN and TARGET-HOLD prefixes only after action freeze."""
 
@@ -2964,9 +3345,7 @@ def _postfreeze_bg_soft_prefix_panel(
                         "weight_only_six_context_objective": (
                             weight_only_payload
                         ),
-                        "progress_actual_semantics": (
-                            "RESIDUAL_OVERLAY_OBJECTIVE_NOT_WEIGHT_ONLY"
-                        ),
+                        "progress_actual_semantics": progress_actual_semantics,
                         "routing": None,
                         "capacity": None,
                         "compute": compute,
@@ -3157,9 +3536,7 @@ def _postfreeze_bg_soft_prefix_panel(
                             ]
                         ),
                         "weight_only_six_context_objective": weight_only_payload,
-                        "progress_actual_semantics": (
-                            "RESIDUAL_OVERLAY_OBJECTIVE_NOT_WEIGHT_ONLY"
-                        ),
+                        "progress_actual_semantics": progress_actual_semantics,
                         "routing": snapshot.routing_payload,
                         "capacity": snapshot.capacity_payload,
                         "compute": compute,
@@ -3269,19 +3646,53 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     universal_observability_lock: Mapping[str, Any] | None = None,
     universal_observability_lock_sha256: str | None = None,
     universal_frozen_r12_reference: Mapping[str, Any] | None = None,
+    strength_preserving_cell: str | None = None,
+    strength_preserving_lock: Mapping[str, Any] | None = None,
+    strength_preserving_lock_sha256: str | None = None,
 ) -> dict[str, Any]:
     from .p1_runtime import ArmRuntimeState, _entry_parameter_snapshot_sha256, _evaluate_native_rewrite, _observed_memory
 
+    runtime_wall_started = time.perf_counter()
     del mutation_lock
     request_order = ordered_request_digest_v1([str(item["request_sha256"]) for item in requests])
     if len(requests) != BATCH_SIZE or request_order != stream["batch_ordered_request_digest_v1"][0]:
         raise ODEBFContractError("common cold request/seal order differs")
     universal_observability_mode = universal_observability_cell is not None
-    if bg_soft_missing_cell_mode and universal_observability_mode:
-        raise ODEBFContractError(
-            "BG-Soft and universal observability modes are mutually exclusive"
+    strength_preserving_mode = strength_preserving_cell is not None
+    if sum(
+        (
+            int(bg_soft_missing_cell_mode),
+            int(universal_observability_mode),
+            int(strength_preserving_mode),
         )
-    if bg_soft_missing_cell_mode:
+    ) > 1:
+        raise ODEBFContractError(
+            "common cold special modes are mutually exclusive"
+        )
+    if strength_preserving_mode:
+        from .p1_strength_preserving_router_panel import (
+            STRENGTH_PRESERVING_SCHEMA_NAMESPACE,
+            validate_strength_preserving_lock,
+        )
+
+        if (
+            strength_preserving_lock is None
+            or strength_preserving_lock_sha256 is None
+        ):
+            raise ODEBFContractError("strength-preserving lock is absent")
+        validate_strength_preserving_lock(strength_preserving_lock)
+        strength_live_arm = CommonColdArm(str(strength_preserving_cell))
+        if strength_live_arm.target_hold:
+            raise ODEBFContractError("strength-preserving Hold arm is forbidden")
+        strength_live_arms = (strength_live_arm,)
+        expected_bg_initial = None
+        frozen_bg_reference = None
+        runtime_instruction_id = STRENGTH_PRESERVING_INSTRUCTION_ID
+        runtime_amendment_id = STRENGTH_PRESERVING_AMENDMENT_ID
+        runtime_schema_namespace = STRENGTH_PRESERVING_SCHEMA_NAMESPACE
+        observability_contract = None
+        universal_live_arms = ()
+    elif bg_soft_missing_cell_mode:
         from .p1_bg_soft_missing_cell_panel import (
             BG_SOFT_AMENDMENT_ID,
             BG_SOFT_INSTRUCTION_ID,
@@ -3306,6 +3717,7 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         runtime_schema_namespace = BG_SOFT_SCHEMA_NAMESPACE
         observability_contract = None
         universal_live_arms: tuple[CommonColdArm, ...] = ()
+        strength_live_arms = ()
     elif universal_observability_mode:
         from .ode_bf_observability import (
             paired_arm_ids,
@@ -3340,6 +3752,7 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         runtime_instruction_id = UNIVERSAL_OBS_INSTRUCTION_ID
         runtime_amendment_id = UNIVERSAL_OBS_AMENDMENT_ID
         runtime_schema_namespace = UNIVERSAL_OBS_SCHEMA_NAMESPACE
+        strength_live_arms = ()
     else:
         expected_bg_initial = None
         frozen_bg_reference = None
@@ -3348,23 +3761,31 @@ def run_common_coldcoord_fixed_e8_diagnostic(
         runtime_schema_namespace = COMMON_COLD_SCHEMA_NAMESPACE
         observability_contract = None
         universal_live_arms = ()
+        strength_live_arms = ()
     base_bytes = {name: tensor_sha256(value) for name, value in sorted(touched.items())}
     base_contract = _parameter_contract_sha256(touched)
     # The reused-Warm ordinal-6 RCA is completed before any target capture,
     # bootstrap, or controller action in this run.
-    pre_action_counter = ModelForwardCounter(model, job_ledger)
-    try:
-        ordinal_audit = _prior_qwen_ordinal6_audit(
-            model,
-            tokenizer,
-            alias=alias,
-            requests=requests,
-            stream=stream,
-            contexts=contexts,
-            hparams=hparams,
-        )
-    finally:
-        pre_action_counter.close()
+    if strength_preserving_mode:
+        ordinal_audit = {
+            "status": "NOT_APPLICABLE_P1R19_R13_BASE",
+            "model_forward_count": 0,
+            "controller_decision_influence_count": 0,
+        }
+    else:
+        pre_action_counter = ModelForwardCounter(model, job_ledger)
+        try:
+            ordinal_audit = _prior_qwen_ordinal6_audit(
+                model,
+                tokenizer,
+                alias=alias,
+                requests=requests,
+                stream=stream,
+                contexts=contexts,
+                hparams=hparams,
+            )
+        finally:
+            pre_action_counter.close()
     ordinal_audit_sha = write_once(raw_root / "common-cold" / "prior-qwen-ordinal6-rca.json", ordinal_audit)
     stages.record(
         "post_prior_qwen_ordinal6_rca",
@@ -3472,7 +3893,10 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     }
     bootstrap_counter = ModelForwardCounter(model, job_ledger)
     try:
-        if bg_soft_missing_cell_mode or (
+        if (
+            strength_preserving_mode
+            and strength_live_arms[0].scale is CommonColdScale.BATCH_GLOBAL
+        ) or bg_soft_missing_cell_mode or (
             universal_observability_mode
             and universal_live_arms[0].scale
             is CommonColdScale.BATCH_GLOBAL
@@ -3492,6 +3916,9 @@ def run_common_coldcoord_fixed_e8_diagnostic(
                 ledger=job_ledger,
             )
         if (
+            strength_preserving_mode
+            and strength_live_arms[0].scale is CommonColdScale.ROBUST_SHARED
+        ) or (
             universal_observability_mode
             and universal_live_arms[0].scale
             is CommonColdScale.ROBUST_SHARED
@@ -3570,7 +3997,9 @@ def run_common_coldcoord_fixed_e8_diagnostic(
     initial_contracts: dict[str, dict[str, Any]] = {}
     pair_initial_contracts: dict[str, dict[str, Any]] = {}
     live_arms = (
-        universal_live_arms
+        strength_live_arms
+        if strength_preserving_mode
+        else universal_live_arms
         if universal_observability_mode
         else (
             CommonColdArm.BG_SOFT,
@@ -3646,6 +4075,7 @@ def run_common_coldcoord_fixed_e8_diagnostic(
                 typed_zero_positive=(
                     bg_soft_missing_cell_mode
                     or universal_observability_mode
+                    or strength_preserving_mode
                 ),
                 record_six_context_objectives=(
                     bg_soft_missing_cell_mode
@@ -3656,6 +4086,7 @@ def run_common_coldcoord_fixed_e8_diagnostic(
                     if universal_observability_mode
                     else None
                 ),
+                strength_preserving=strength_preserving_mode,
             )
             rollouts[arm.value] = rollout
             initial_contracts[arm.value] = initial_contract
@@ -3787,6 +4218,250 @@ def run_common_coldcoord_fixed_e8_diagnostic(
             }
         )
     action_freeze_sha = write_once(raw_root / "common-cold" / "action-freeze.json", action_freeze)
+    if strength_preserving_mode:
+        if len(live_arms) != 1:
+            raise ODEBFContractError(
+                "strength-preserving live trajectory count differs"
+            )
+        strength_arm = live_arms[0]
+        if strength_arm.value not in rollouts:
+            raise ODEBFContractError(
+                "strength-preserving trajectory produced no evaluable prefix"
+            )
+        native_ledger = ComputeLedger()
+        native_counter = ModelForwardCounter(model, native_ledger)
+        try:
+            native_edit_started = time.perf_counter()
+            native_capture = capture_p1_native_entry(
+                model,
+                tokenizer,
+                requests,
+                hparams,
+                projector,
+                contexts,
+                history_keys_by_layer=_history_keys(
+                    P1HistoryLedger(
+                        layer_order=COMMON_COLD_LAYER_ORDER,
+                        maximum_records=40,
+                    ),
+                    COMMON_COLD_LAYER_ORDER,
+                    risk=False,
+                ),
+                mutation_lock=__import__("threading").RLock(),
+                ledger=native_ledger,
+                residual_tolerance=controller_lock.residual_tolerance,
+            )
+            native_edit_wall = time.perf_counter() - native_edit_started
+            native_eval_started = time.perf_counter()
+            native_online = _evaluate_native_rewrite(
+                model,
+                tokenizer,
+                requests,
+                alias=alias,
+                candidates=native_capture.native_candidates,
+                ledger=native_ledger,
+            )
+            native_eval_wall = time.perf_counter() - native_eval_started
+        finally:
+            native_counter.close()
+        native_sha = write_once(
+            raw_root / "common-cold" / "N32_NATIVE-postfreeze.json",
+            {
+                "action_freeze_sha256": action_freeze_sha,
+                "capture": native_capture.raw_free_payload(),
+                "official_success": native_online.batch_success.raw_free_payload(),
+                "compute": native_ledger.raw_free_payload(),
+                "opened_after_action_freeze": True,
+            },
+        )
+        selected_bootstrap = (
+            bg_target
+            if strength_arm.scale is CommonColdScale.BATCH_GLOBAL
+            else rs_target
+        )
+        if selected_bootstrap is None:
+            raise ODEBFContractError(
+                "strength-preserving selected bootstrap is absent"
+            )
+        panel = _postfreeze_bg_soft_prefix_panel(
+            model,
+            tokenizer,
+            alias=alias,
+            requests=requests,
+            contexts=contexts,
+            hparams=hparams,
+            target_layer_name=target_layer_name,
+            dataset_path=dataset_path,
+            rollouts={strength_arm.value: rollouts[strength_arm.value]},
+            raw_root=raw_root,
+            write_once=write_once,
+            touched=touched,
+            request_order_sha256=request_order,
+            action_freeze_sha256=action_freeze_sha,
+            frozen_reference={
+                "base_checkpoint": strength_preserving_lock["base_checkpoint"],
+                "base_tree": strength_preserving_lock["base_tree"],
+                "stage_a_seal_root": strength_preserving_lock[
+                    "stage_a_seal_root"
+                ],
+                "request_order_sha256": strength_preserving_lock[
+                    "request_order_sha256"
+                ],
+            },
+            receipt_schema_prefix=runtime_schema_namespace,
+            instruction_id=STRENGTH_PRESERVING_INSTRUCTION_ID,
+            amendment_id=STRENGTH_PRESERVING_AMENDMENT_ID,
+            output_token="strength-preserving",
+            bootstrap_targets={strength_arm.value: selected_bootstrap},
+            controller_lookup_positions=lookup_positions,
+            progress_actual_semantics=(
+                "PHYSICAL_BF16_WONLY_TARGET_NEW_NLL_PROGRESS"
+            ),
+        )
+        panel_sha = write_once(
+            raw_root / "stepwise" / "strength-preserving-panel.json", panel
+        )
+        artifact_guard.assert_unchanged()
+        if {
+            name: tensor_sha256(value)
+            for name, value in sorted(touched.items())
+        } != base_bytes:
+            raise ODEBFStateError(
+                "strength-preserving final W0 restore differs"
+            )
+        rollout = rollouts[strength_arm.value]
+        rollout_compute = rollout.ledger.raw_free_payload()
+        rollout_components = rollout_compute["component_wall_seconds"]
+        edit_core_time = sum(
+            float(value)
+            for key, value in rollout_components.items()
+            if key.startswith("p1r19_edit_core_")
+        )
+        functional_probe_time = float(
+            rollout_components.get("p1r19_functional_probe", 0.0)
+        )
+        stepwise_compute = panel.get("evaluation_compute", {})
+        stepwise_eval_time = sum(
+            float(value)
+            for value in stepwise_compute.get(
+                "component_wall_seconds", {}
+            ).values()
+        )
+        job_compute = job_ledger.raw_free_payload()
+        artifact_model_load_time = float(
+            job_compute["component_wall_seconds"].get("model_load", 0.0)
+        )
+        common_runtime_time = time.perf_counter() - runtime_wall_started
+        accounted_total_wall_time = common_runtime_time + sum(
+            float(value)
+            for value in job_compute["component_wall_seconds"].values()
+        )
+        terminal = {
+            "schema": f"{runtime_schema_namespace}-terminal/v1",
+            "instruction_id": STRENGTH_PRESERVING_INSTRUCTION_ID,
+            "amendment_id": STRENGTH_PRESERVING_AMENDMENT_ID,
+            "status": "STRENGTH_PRESERVING_DYNAMIC_TERMINAL",
+            "alias": alias,
+            "source_head": source_head,
+            "method_id": STRENGTH_PRESERVING_METHOD_ID,
+            "parent_method": common_cold_source_contract(),
+            "live_cell": strength_arm.value,
+            "allocation": strength_arm.scale.value,
+            "routing": (
+                "STRENGTH_PRESERVING_SOFT"
+                if strength_arm.routing_arm is FixedE8Arm.SOFT
+                else "STRENGTH_PRESERVING_NEUTRAL"
+            ),
+            "target_dynamics": "DYNAMIC_TARGET",
+            "hold_arm_count": 0,
+            "request_order_sha256": request_order,
+            "stream_root_digest": stream["root_digest"],
+            "strength_preserving_lock_sha256": strength_preserving_lock_sha256,
+            "strength_preserving_lock_root_digest": strength_preserving_lock[
+                "root_digest"
+            ],
+            "initial_contract": initial_contracts[strength_arm.value],
+            "bootstrap_sha256": {
+                strength_arm.scale.value: (
+                    bg_sha
+                    if strength_arm.scale is CommonColdScale.BATCH_GLOBAL
+                    else rs_sha
+                )
+            },
+            "action_freeze_sha256": action_freeze_sha,
+            "n32_postfreeze_sha256": native_sha,
+            "stepwise_panel_sha256": panel_sha,
+            "accepted_snapshot_count": len(rollout.snapshots),
+            "accepted_update_count": rollout.k_acc,
+            "tau_final": float(rollout.accepted_t),
+            "field_build_count": rollout.field_build_count,
+            "scientific_retry_count": rollout.n_reject,
+            "backtracking_count": 0,
+            "first_hit_observation_only": True,
+            "progress_floor": 0.0,
+            "kappa": 0.0,
+            "requested_progress_legacy": None,
+            "hard_h_p_budget_influence_count": 0,
+            "functional_veto_count": 0,
+            "native_or_direct_z_controller_access_count": 0,
+            "router_added_model_forward_count": 0,
+            "router_added_backward_count": 0,
+            "router_added_target_backward_count": 0,
+            "router_added_processed_token_count": 0,
+            "timing_decomposition": {
+                "edit_core_time_seconds": edit_core_time,
+                "functional_probe_time_seconds": functional_probe_time,
+                "stepwise_eval_time_seconds": stepwise_eval_time,
+                "artifact_model_load_time_seconds": artifact_model_load_time,
+                "common_runtime_wall_time_seconds": common_runtime_time,
+                "accounted_total_wall_time_seconds": accounted_total_wall_time,
+                "scheduler_total_wall_time": "DEFERRED_TO_SACCT_TERMINAL",
+                "rollout_compute": rollout_compute,
+                "stepwise_eval_compute": stepwise_compute,
+                "artifact_model_load_compute": job_compute,
+                "native_reference": {
+                    "edit_core_time_seconds": native_edit_wall,
+                    "evaluation_time_seconds": native_eval_wall,
+                    "end_to_end_time_seconds": native_edit_wall
+                    + native_eval_wall,
+                    "compute": native_ledger.raw_free_payload(),
+                },
+            },
+            "native_overhead_reported_separately": True,
+            "numerical_lock_sha256": numerical_sha256,
+            "artifact_receipt": asdict(artifact_receipt),
+            "context_sha256": context_sha256,
+            "cuda_preflight": dict(cuda_runtime_receipt),
+            "job_compute": job_compute,
+            "final_w0_restored": True,
+            "persistent_endpoint_commit_count": 0,
+            "history_append_count": 0,
+            "heldout_controller_access_count": 0,
+            "scientific_promotion_authorized": False,
+        }
+        terminal_sha = write_once(destination / "terminal.json", terminal)
+        manifest_sha = write_once(
+            destination / "manifest.json",
+            {
+                "schema": f"{runtime_schema_namespace}-manifest/v1",
+                "instruction_id": STRENGTH_PRESERVING_INSTRUCTION_ID,
+                "amendment_id": STRENGTH_PRESERVING_AMENDMENT_ID,
+                "status": terminal["status"],
+                "alias": alias,
+                "source_head": source_head,
+                "live_cell": strength_arm.value,
+                "terminal_sha256": terminal_sha,
+                "stepwise_panel_sha256": panel_sha,
+                "retry_submission_count": 0,
+            },
+        )
+        return {
+            "status": terminal["status"],
+            "alias": alias,
+            "terminal_sha256": terminal_sha,
+            "manifest_sha256": manifest_sha,
+            "final_w0_restored": True,
+        }
     if universal_observability_mode:
         universal_rollouts = {
             arm.value: rollouts[arm.value]

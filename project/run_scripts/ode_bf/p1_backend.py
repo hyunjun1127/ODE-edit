@@ -1732,6 +1732,7 @@ class SignedProgressReceipt:
     routing_context_count: int = 1
     routing_context_group_sizes: tuple[int, ...] = (1,)
     routing_backward_count: int = 1
+    mean_objective_value: float | None = None
 
 
 def signed_progress_gradient(

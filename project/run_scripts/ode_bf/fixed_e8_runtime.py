@@ -850,6 +850,7 @@ def _fixed_e8_signed_progress_gradient(
         "target_old_access_count": 0,
         "routing_backward_count": observed.backward_count,
         "all_nonpositive_is_scientific_zero_write": True,
+        "mean_target_new_nll": float(observed.loss.detach().cpu()),
     }
     return SignedProgressReceipt(
         field.identity_sha256,
@@ -870,6 +871,7 @@ def _fixed_e8_signed_progress_gradient(
         observed.context_count,
         observed.context_group_sizes,
         observed.backward_count,
+        float(observed.loss.detach().cpu()),
     )
 
 

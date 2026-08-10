@@ -632,6 +632,20 @@ def write_aware_common_target_velocity(
         device="cpu", dtype=torch.float64
     )
     target_velocity, scale_receipt = metric.velocity(gradient)
+    applied_target_step64 = (
+        float(COMMON_COLD_H)
+        * target_velocity.detach().to(device="cpu", dtype=torch.float64)
+    )
+    target_new_nll_applied_step_reduction = float(
+        -torch.sum(gradient * applied_target_step64)
+    )
+    if (
+        not math.isfinite(target_new_nll_applied_step_reduction)
+        or target_new_nll_applied_step_reduction < 0.0
+    ):
+        raise ODEBFContractError(
+            "common target velocity applied-step reduction differs"
+        )
     ledger.increment("backward", result.backward_count)
     ledger.increment("target_backward", result.backward_count)
     payload = {
@@ -659,6 +673,14 @@ def write_aware_common_target_velocity(
         "h_application_count": 1,
         "scale_velocity": scale_receipt,
         "target_velocity_sha256": tensor_sha256(target_velocity),
+        "target_new_nll_applied_step_reduction": (
+            target_new_nll_applied_step_reduction
+        ),
+        "target_new_nll_applied_step_reduction_definition": (
+            "-dot(existing_target_gradient,h*model_facing_F_z)"
+        ),
+        "target_gradient_reuse_count": 1,
+        "additional_target_graph_count": 0,
         "target_backward_count": result.backward_count,
         "processed_token_count": result.processed_token_count,
         "terminal_additive_overlay": overlay_payload,

@@ -1,0 +1,35 @@
+{
+  "schema_version": "ode-edit-s05-strength-preserving-router-p1r19-a2-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-ODE-BF-STRENGTH-PRESERVING-ROUTER-P1R19-V1",
+  "amendment_ids": [
+    "ODEEDIT-S05-ODE-BF-STRENGTH-PRESERVING-ROUTER-P1R19-V1-A1",
+    "ODEEDIT-S05-ODE-BF-STRENGTH-PRESERVING-ROUTER-P1R19-V1-A2"
+  ],
+  "base_checkpoint": "e6facd2d5dfae12d3c094b51981ad99951174109",
+  "base_tree": "a9b40eba586d9f54c67f5968ecdd395471d5a531",
+  "execution_branch": "codex/odeeditsh2-s05-strength-preserving-router-p1r19-v1",
+  "execution_head_policy": "runtime-git-head",
+  "case_seal_root_digest": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+  "request_order_sha256": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b",
+  "numerical_lock_file_sha256": "6e41f429ffe80d21c7e6663cd4f78a12318bab3977c3ea8c5760d77692654b30",
+  "numerical_lock_root_digest": "1b0f7c5b9896e9cf688c5fc06ff0ef74cc2475584fa327dfc68fe17a5b27a7d9",
+  "scientific_promotion_authorized": false,
+  "entries": [
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "3c17709d7b417a34cf2a1151059a94248a187a9e", "path": "project/run_scripts/ode_bf/common_cold_coordinate.py", "role": "ODE_BF_RUNTIME_SOURCE", "sha256": "74dbda45618f1d54b82681190955a1e72ed0a823e3fb3a090a73db1cbc87cf2f", "size": 32714},
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "f716ebf17aea3ddfc8d6e42c15a3b3f7938ce1e2", "path": "project/run_scripts/ode_bf/common_coldcoord_fixed_e8_runtime.py", "role": "ODE_BF_RUNTIME_SOURCE", "sha256": "09ef7071bc3bb1258140ad5afda4570330b283ad51387362903ffe6c0f7227b5", "size": 200895},
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "2bf1d1cdc5a72f929d376008c5b831707db3daf1", "path": "project/run_scripts/ode_bf/fixed_e8_runtime.py", "role": "ODE_BF_RUNTIME_SOURCE", "sha256": "82f20c250e4a422768e101444aaa93fe07cca52647129c32fbca254d8a451402", "size": 101085},
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "0e6468abe28aa02ea7065cba117d9ec61d05c14f", "path": "project/run_scripts/ode_bf/p1_backend.py", "role": "ODE_BF_RUNTIME_SOURCE", "sha256": "ad8110fd56ae75b8cb03d1c757a73cad97d9d5a0fad8ff8f1edbf0bf167eb58a", "size": 78550},
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "a519fc072606be5dc512e6d2355da7e9a353e97f", "path": "project/run_scripts/ode_bf/p1_runtime.py", "role": "ODE_BF_RUNTIME_SOURCE", "sha256": "364f580fc3e8f5c04a6e81cc27553ba00816a1c48e6191d1318628c557f8f46d", "size": 184001},
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "da0b70501e30e61c48cc23ed8ecf60d6c9d7b23e", "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_strength_preserving_router.json", "role": "SCIENTIFIC_OR_SOURCE_LOCK", "sha256": "6e41f429ffe80d21c7e6663cd4f78a12318bab3977c3ea8c5760d77692654b30", "size": 1736},
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "0e69b30779b6210fe6f2e327115da2b6716e765d", "path": "project/run_scripts/ode_bf/p1_strength_preserving_router_panel.py", "role": "ODE_BF_RUNTIME_SOURCE", "sha256": "15bee25db8a2685fbbc1c28737d0f9f18f9f94b9888d426a6f203987b57aa234", "size": 5879},
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "32f10d377b2a868cb9899c635a210a38ea812d94", "path": "project/run_scripts/ode_bf/strength_preserving_routing.py", "role": "ODE_BF_RUNTIME_SOURCE", "sha256": "88145af115672f4de031dc46f039724c7d5f4180d8266a52dd79887739ec3a10", "size": 31453},
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "808d9e65d4438460547a5e0398bbfdf8cdeb1349", "path": "project/run_scripts/ode_bf/tests/test_strength_preserving_launch.py", "role": "FOCUSED_REGRESSION", "sha256": "301841b6a91dab4613cb8855d0e13ed22b8ba2ab2e542a9c64590e825737941e", "size": 5848},
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "42615d0401073b949344d2a9ac06da0560e2a5dd", "path": "project/run_scripts/ode_bf/tests/test_strength_preserving_routing.py", "role": "FOCUSED_REGRESSION", "sha256": "9dfe623fb783d3411463f85f29110fb2c7374ca9e7d4e8bb5a1c9436cbcfcc1d", "size": 13079},
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "a77bf6a2349bc0644414c5c2b6ebde4d6f903632", "path": "project/run_scripts/session05_ode_bf_strength_preserving_router.py", "role": "SESSION05_RUNTIME_OR_LAUNCHER", "sha256": "e9d7f2b802ac07062d983142f42e21609df478c1123bb87877853fe1b9656a07", "size": 3286},
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "429ab6079691540efb309ef67ad2724d4bb92906", "path": "project/run_scripts/session05_ode_bf_strength_preserving_router.sbatch", "role": "SESSION05_RUNTIME_OR_LAUNCHER", "sha256": "ab3128eb0e4668d032887f13e48e5c3942f9487f6c1631b6aadc78b9bf20ba6b", "size": 2597},
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "83404760a20e045ed4a0d7f807ae46433ab6fb02", "path": "project/run_scripts/session05_ode_bf_strength_preserving_router_dry_plan.py", "role": "SESSION05_RUNTIME_OR_LAUNCHER", "sha256": "95cac18072e347a4f35a5801e7880462bdac7747d6452356359832914ebc81b9", "size": 3540},
+    {"mode": 33188, "object_algorithm": "sha1", "object_id": "0b64d667ff7b9ba04406e49fe2652b3ab9a989de", "path": "project/run_scripts/session05_ode_bf_submit_strength_preserving_router.py", "role": "SESSION05_RUNTIME_OR_LAUNCHER", "sha256": "715eef8563a1160531714acb6ec06326d47188b5ed809d9008a8febeb26c902d", "size": 4763}
+  ],
+  "entry_count": 14,
+  "root_digest": "9c832036252f7c8455daa04b41c2989fe397aad631434e6b66a4f4dd5b211ab5"
+}
