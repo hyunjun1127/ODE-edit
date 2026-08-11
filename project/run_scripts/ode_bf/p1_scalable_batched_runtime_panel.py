@@ -91,7 +91,7 @@ def expected_p1r23_result_name(
         suffix = "calibration"
     else:
         raise ODEBFContractError("P1R23 result role differs")
-    return f"s05-p1r23-b{batch_size}-{alias}-{suffix}-v1"
+    return f"s05-p1r23-b{batch_size}-{alias}-{suffix}-tech-r1-v1"
 
 
 def validate_p1r23_lock(value: Mapping[str, Any]) -> None:

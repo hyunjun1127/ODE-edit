@@ -257,7 +257,9 @@ def build_scalable_objective_plan(
             request_rows[ordinal] = rows
             request_lengths.append(maximum_length)
         plan = build_streaming_batch_plan(
-            identities, request_lengths, request_microbatch_size
+            identities,
+            request_lengths,
+            microbatch_size=request_microbatch_size,
         )
         prepared_batches: list[ScalableObjectiveMicrobatch] = []
         processed_total = 0
@@ -770,7 +772,9 @@ def build_scalable_capture_plan(
             rows_by_request[ordinal] = rows
             lengths.append(maximum)
         streaming = build_streaming_batch_plan(
-            identities, lengths, request_microbatch_size
+            identities,
+            lengths,
+            microbatch_size=request_microbatch_size,
         )
         prepared: list[_CapturePreparedBatch] = []
         for microbatch in streaming.batches:
