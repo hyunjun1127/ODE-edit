@@ -113,7 +113,9 @@ def submit(source_head: str) -> dict[str, object]:
     return {**receipt, "submission_receipt_sha256": receipt_sha}
 
 
-def submit_tech_r2_missing_qwen(source_head: str) -> dict[str, object]:
+def submit_tech_r2_missing_qwen(
+    source_head: str, *, repair_scope: str = "bulk"
+) -> dict[str, object]:
     if (
         _run(["git", "rev-parse", "HEAD"]).stdout.strip() != source_head
         or _run(["git", "branch", "--show-current"]).stdout.strip() != BRANCH
@@ -124,26 +126,34 @@ def submit_tech_r2_missing_qwen(source_head: str) -> dict[str, object]:
     plan = dry.build_plan(
         source_head, attempt_namespace="tech-r2", include_alpha=False
     )
-    selected_indices = (4, 6, 7)
+    if repair_scope == "bulk":
+        selected_indices = (4, 6, 7)
+        expected_roles = (
+            ("qwen2.5-7b-inst", "BG-COMPUTE-FULL6-NOSOFT"),
+            ("qwen2.5-7b-inst", "RS-COMPUTE-FULL6-NOSOFT"),
+            ("qwen2.5-7b-inst", "RS-COMPUTE-FULL6-SOFT"),
+        )
+        failed_jobs = ("18782", "18784", "18777_7")
+        namespace = "s05-p1r23-full6-structural-historical-sh1-qwen-missing-tech-r2-r1-v1"
+    elif repair_scope == "task5":
+        selected_indices = (5,)
+        expected_roles = (("qwen2.5-7b-inst", "BG-COMPUTE-FULL6-SOFT"),)
+        failed_jobs = ("18783",)
+        namespace = "s05-p1r23-full6-structural-historical-sh1-qwen-task5-tech-r2-v1"
+    else:
+        raise ODEBFContractError("P1R23 Full-6 Historical TECH-R2 scope differs")
     selected = [job for job in plan["jobs"] if job["array_index"] in selected_indices]
-    expected_roles = (
-        ("qwen2.5-7b-inst", "BG-COMPUTE-FULL6-NOSOFT"),
-        ("qwen2.5-7b-inst", "RS-COMPUTE-FULL6-NOSOFT"),
-        ("qwen2.5-7b-inst", "RS-COMPUTE-FULL6-SOFT"),
-    )
     if tuple((job["alias"], job["method"]) for job in selected) != expected_roles:
         raise ODEBFContractError("P1R23 Full-6 Historical TECH-R2 role differs")
     result_roots = tuple(RESULT_PARENT / str(job["result_name"]) for job in selected)
     if any(root.exists() or root.is_symlink() for root in result_roots):
         raise ODEBFContractError("P1R23 Full-6 Historical result namespace exists")
 
-    namespace = "s05-p1r23-full6-structural-historical-sh1-qwen-missing-tech-r2-r1-v1"
     log_root = REPO_ROOT / "local/odebf/logs/p1r23-full6-structural-historical-tech-r2"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P1R23 Full-6 Historical submission namespace exists")
-    failed_jobs = ("18782", "18784", "18777_7")
     failed_states = {
         job: _run(["sacct", "-n", "-X", "-j", job, "-o", "State", "-P"]).stdout.strip()
         for job in failed_jobs
@@ -152,13 +162,14 @@ def submit_tech_r2_missing_qwen(source_head: str) -> dict[str, object]:
         raise ODEBFContractError("P1R23 Full-6 Historical failed ownership differs")
 
     active_original = len(
-        _run(["squeue", "-h", "-j", "18777", "-t", "RUNNING", "-o", "%i"])
+        _run(["squeue", "-h", "-j", "18777,18789", "-t", "RUNNING", "-o", "%i"])
         .stdout.splitlines()
     )
     replacement_throttle = min(len(selected_indices), 4 - active_original)
     if replacement_throttle <= 0:
         raise ODEBFContractError("P1R23 Full-6 Historical task GPU cap differs")
-    array_spec = f"4,6-7%{replacement_throttle}"
+    array_members = "4,6-7" if repair_scope == "bulk" else "5"
+    array_spec = f"{array_members}%{replacement_throttle}"
     log_root.mkdir(mode=0o700, parents=True, exist_ok=True)
     intent_sha = _write_once(
         intent_path,
@@ -226,10 +237,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--repair-missing-qwen", action="store_true")
+    parser.add_argument("--repair-task5", action="store_true")
     args = parser.parse_args()
+    if args.repair_missing_qwen and args.repair_task5:
+        parser.error("repair scopes are mutually exclusive")
     result = (
-        submit_tech_r2_missing_qwen(args.source_head)
+        submit_tech_r2_missing_qwen(args.source_head, repair_scope="bulk")
         if args.repair_missing_qwen
+        else submit_tech_r2_missing_qwen(args.source_head, repair_scope="task5")
+        if args.repair_task5
         else submit(args.source_head)
     )
     print(json.dumps(result, sort_keys=True, separators=(",", ":")))
