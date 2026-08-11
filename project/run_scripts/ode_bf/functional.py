@@ -30,6 +30,7 @@ class WaypointFactor:
     left: torch.Tensor
     right: torch.Tensor
     joint_batch: bool = True
+    global_batch_size: int | None = None
 
     def __post_init__(self) -> None:
         if not self.weight_name.endswith(".weight"):
@@ -47,10 +48,25 @@ class WaypointFactor:
         if self.left.ndim != 2 or self.right.ndim != 2 or self.left.shape[1] != self.right.shape[1]:
             raise ODEBFContractError("low-rank waypoint factor shapes differ")
         rank = self.left.shape[1]
-        if self.joint_batch and rank != BATCH_SIZE:
-            raise ODEBFContractError("integration waypoint factor rank axis must equal ten")
+        if self.joint_batch:
+            expected_rank = (
+                BATCH_SIZE
+                if self.global_batch_size is None
+                else self.global_batch_size
+            )
+            if (
+                isinstance(expected_rank, bool)
+                or not isinstance(expected_rank, int)
+                or expected_rank <= 0
+                or rank != expected_rank
+            ):
+                raise ODEBFContractError(
+                    "integration waypoint factor rank axis differs from global batch"
+                )
         if not self.joint_batch and rank != 1:
             raise ODEBFContractError("algebra-only smoke factor must have rank one")
+        if not self.joint_batch and self.global_batch_size is not None:
+            raise ODEBFContractError("algebra-only factor cannot bind a global batch")
         if self.left.dtype not in (torch.float32, torch.float64) or self.right.dtype not in (
             torch.float32,
             torch.float64,

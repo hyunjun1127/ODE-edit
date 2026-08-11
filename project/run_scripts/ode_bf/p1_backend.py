@@ -34,7 +34,10 @@ from .alpha_backend import (
 )
 from .contracts import BATCH_SIZE, ODEBFContractError, canonical_hash
 from .functional import CumulativeBF16FunctionalTrial, WaypointFactor, tensor_sha256
-from .request_digest import ordered_request_digest_v1
+from .request_digest import (
+    ordered_request_digest_scalable_v1,
+    ordered_request_digest_v1,
+)
 from .target_new_nll import (
     RoutingObjective,
     evaluate_routing_objective,
@@ -214,9 +217,18 @@ class P1NativeCapture:
         }
 
 
-def _normalize_requests(requests: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
-    if len(requests) != BATCH_SIZE:
-        raise ODEBFContractError("P1 Alpha backend requires one joint B10")
+def _normalize_requests(
+    requests: Sequence[Mapping[str, Any]],
+    *,
+    expected_batch_size: int = BATCH_SIZE,
+) -> list[dict[str, Any]]:
+    if (
+        isinstance(expected_batch_size, bool)
+        or not isinstance(expected_batch_size, int)
+        or expected_batch_size <= 0
+        or len(requests) != expected_batch_size
+    ):
+        raise ODEBFContractError("P1 Alpha backend joint batch size differs")
     normalized = copy.deepcopy(list(requests))
     identities: list[str] = []
     for request in normalized:
@@ -233,7 +245,7 @@ def _normalize_requests(requests: Sequence[Mapping[str, Any]]) -> list[dict[str,
                 raise ODEBFContractError("P1 Alpha subject is absent from prompt")
             prompt = prompt.replace(subject, "{}")
         request["prompt"] = prompt
-    if len(set(identities)) != BATCH_SIZE:
+    if len(set(identities)) != expected_batch_size:
         raise ODEBFContractError("P1 Alpha joint request identities repeat")
     return normalized
 
@@ -272,14 +284,17 @@ def capture_p1_native_entry(
     mutation_lock: threading.RLock,
     ledger: ComputeLedger,
     residual_tolerance: float,
+    expected_batch_size: int = BATCH_SIZE,
 ) -> P1NativeCapture:
     """Run one canonical joint-B10 N32 endpoint and restore its entry exactly."""
 
     from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
     from easyeditor.util import nethook
 
-    normalized = _normalize_requests(requests)
-    request_order = ordered_request_digest_v1(
+    normalized = _normalize_requests(
+        requests, expected_batch_size=expected_batch_size
+    )
+    request_order = ordered_request_digest_scalable_v1(
         [str(request["request_sha256"]) for request in normalized]
     )
     layers = tuple(int(layer) for layer in hparams.layers)
@@ -337,7 +352,7 @@ def capture_p1_native_entry(
                     model, tokenizer, request, hparams, z_layer, resolved_contexts
                 )
                 direct_z.append(value.detach().to(device="cpu", dtype=torch.float32))
-            if len(direct_z) != BATCH_SIZE:
+            if len(direct_z) != expected_batch_size:
                 raise ODEBFContractError("P1 Native direct-z count differs")
             zs = torch.stack(direct_z, dim=1)
             # Capture prospective layer activations once from the common W0
@@ -368,8 +383,8 @@ def capture_p1_native_entry(
                     layer,
                     resolved_contexts,
                 ).T
-                if layer_keys.shape[1] != BATCH_SIZE:
-                    raise ODEBFContractError("P1 Native key path is not joint B10")
+                if layer_keys.shape[1] != expected_batch_size:
+                    raise ODEBFContractError("P1 Native key path global batch differs")
                 keys[layer] = layer_keys.detach().to(device="cpu", dtype=torch.float32)
                 native_current_z = alpha_main.get_module_input_output_at_words(
                     model,
@@ -468,7 +483,7 @@ def capture_p1_native_entry(
             LayerFactorReceipt(
                 layer,
                 tuple(layer_keys.shape),
-                (residual_rows, BATCH_SIZE),
+                (residual_rows, expected_batch_size),
                 rank,
                 str(torch.float32),
                 weights[weight_name].device.type,
@@ -476,9 +491,9 @@ def capture_p1_native_entry(
         )
     initialization = JointInitializationReceipt(
         1,
-        BATCH_SIZE,
-        BATCH_SIZE,
-        BATCH_SIZE,
+        expected_batch_size,
+        expected_batch_size,
+        expected_batch_size,
         0,
         len(layers),
         0,
@@ -744,9 +759,17 @@ class PinnedCovarianceRegistry:
         q: torch.Tensor,
         *,
         row_block: int = 256,
+        expected_batch_size: int = BATCH_SIZE,
     ) -> tuple[torch.Tensor, torch.Tensor, CovarianceActionReceipt]:
         location, count, source_sha, source_size = self._metadata(layer)
-        if q.ndim != 2 or q.shape[1] != BATCH_SIZE or not torch.isfinite(q).all():
+        if (
+            isinstance(expected_batch_size, bool)
+            or not isinstance(expected_batch_size, int)
+            or expected_batch_size <= 0
+            or q.ndim != 2
+            or q.shape[1] != expected_batch_size
+            or not torch.isfinite(q).all()
+        ):
             raise ODEBFContractError("pretrained covariance action Q differs")
         if location.shape != (q.shape[0], q.shape[0]):
             raise ODEBFContractError("pretrained covariance/Q geometry differs")
@@ -849,6 +872,7 @@ class P1LayerField:
                 "left_sha256": tensor_sha256(self.factor.left),
                 "right_sha256": tensor_sha256(self.factor.right),
                 "joint_batch": self.factor.joint_batch,
+                "global_batch_size": self.factor.global_batch_size,
             }
         )
 
@@ -969,6 +993,7 @@ def build_p1_dynamic_field(
     shared_terminal_residual: SharedTerminalResidualInput | None = None,
     captured_keys_by_layer: Mapping[int, torch.Tensor] | None = None,
     allow_inner_empty_cache: bool = True,
+    expected_batch_size: int = BATCH_SIZE,
 ) -> P1DynamicField:
     """Rebuild all layer arms at one accepted virtual joint state."""
 
@@ -980,15 +1005,25 @@ def build_p1_dynamic_field(
     from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
     from easyeditor.util import nethook
 
-    normalized = _normalize_requests(requests)
-    order = ordered_request_digest_v1([str(item["request_sha256"]) for item in normalized])
+    normalized = _normalize_requests(
+        requests, expected_batch_size=expected_batch_size
+    )
+    order = ordered_request_digest_scalable_v1(
+        [str(item["request_sha256"]) for item in normalized]
+    )
     layers = tuple(int(layer) for layer in hparams.layers)
     if captured_keys_by_layer is not None and set(captured_keys_by_layer) != set(layers):
         raise ODEBFContractError("P1 captured key inventory differs")
     history_solve = _validate_history_keys(history_solve_keys_by_layer, layers)
     history_risk = _validate_history_keys(history_risk_keys_by_layer, layers)
-    if target_state.ndim != 2 or target_state.shape[1] != BATCH_SIZE:
-        raise ODEBFContractError("P1 target state is not [hidden,10]")
+    if (
+        isinstance(expected_batch_size, bool)
+        or not isinstance(expected_batch_size, int)
+        or expected_batch_size <= 0
+        or target_state.ndim != 2
+        or target_state.shape[1] != expected_batch_size
+    ):
+        raise ODEBFContractError("P1 target state global batch differs")
     if not torch.isfinite(target_state).all():
         raise ODEBFContractError("P1 target state contains non-finite values")
     shared_policy = residual_policy == SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1
@@ -1074,8 +1109,8 @@ def build_p1_dynamic_field(
                 .detach()
                 .to(device="cpu", dtype=torch.float32)
             )
-            if key.shape[1] != BATCH_SIZE:
-                raise ODEBFContractError("P1 dynamic key is not joint B10")
+            if key.shape[1] != expected_batch_size:
+                raise ODEBFContractError("P1 dynamic key global batch differs")
             history = history_solve[layer]
             if history.shape[0] == 0:
                 history = torch.empty((key.shape[0], 0), dtype=torch.float32)
@@ -1106,7 +1141,7 @@ def build_p1_dynamic_field(
             q = solved.q.detach().to(device="cpu", dtype=W64_CAST_DTYPE).contiguous()
             projected = (p_device @ k_device).detach().to(device="cpu", dtype=torch.float32)
             covariance_action, covariance_gram, covariance_receipt = covariance_registry.action(
-                layer, q
+                layer, q, expected_batch_size=expected_batch_size
             )
             right_gram = q.T.to(dtype=torch.float64) @ q.to(dtype=torch.float64)
             left_gram = residual.T.to(dtype=torch.float64) @ residual.to(dtype=torch.float64)
@@ -1133,6 +1168,7 @@ def build_p1_dynamic_field(
                 1.0,
                 residual.clone(),
                 q.clone(),
+                global_batch_size=expected_batch_size,
             )
             layer_fields.append(
                 P1LayerField(

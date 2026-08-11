@@ -592,6 +592,7 @@ def fixed_e8_waypoint_factors(
             float(FIXED_E8_H) * values[ordinal],
             layer.residual.clone(),
             layer.q.clone(),
+            global_batch_size=layer.factor.global_batch_size,
         )
         for ordinal, layer in enumerate(field.layers)
     }

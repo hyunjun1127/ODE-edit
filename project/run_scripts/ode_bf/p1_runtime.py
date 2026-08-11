@@ -3213,6 +3213,8 @@ def run_p1(
     strength_preserving_cell: str | None = None,
     atomic_runtime_optimization_mode: bool = False,
     atomic_runtime_conformance_mode: bool = False,
+    scalable_batched_role: str | None = None,
+    scalable_batched_batch_size: int | None = None,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3235,10 +3237,25 @@ def run_p1(
             strength_preserving_cell is not None,
             atomic_runtime_optimization_mode,
             atomic_runtime_conformance_mode,
+            scalable_batched_role is not None,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if atomic_runtime_conformance_mode:
+    if scalable_batched_role is not None:
+        from .p1_scalable_batched_runtime_panel import (
+            expected_p1r23_result_name,
+        )
+
+        if scalable_batched_batch_size is None:
+            raise ODEBFContractError("P1R23 batch size is absent")
+        expected_name = expected_p1r23_result_name(
+            alias,
+            batch_size=scalable_batched_batch_size,
+            role=scalable_batched_role,
+        )
+    elif scalable_batched_batch_size is not None:
+        raise ODEBFContractError("P1R23 role is absent")
+    elif atomic_runtime_conformance_mode:
         from .p1_atomic_runtime_optimization_panel import (
             expected_p1r22_conformance_result_name,
         )
@@ -3348,7 +3365,10 @@ def run_p1(
         and universal_observability_cell is None
         and strength_preserving_cell is None
         and not atomic_runtime_optimization_mode
-        and not atomic_runtime_conformance_mode,
+        and not atomic_runtime_conformance_mode
+        and scalable_batched_role is None,
+        # P1R23 owns a distinct atomic seal and never consumes the held
+        # sequential ODE-alloc artifact.
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
@@ -3515,6 +3535,7 @@ def run_p1(
         or strength_preserving_cell is not None
         or atomic_runtime_optimization_mode
         or atomic_runtime_conformance_mode
+        or scalable_batched_role is not None
     ):
         from .p1_cold_structp_softp_noveto_panel import (
             load_cold_requests,
@@ -3528,8 +3549,19 @@ def run_p1(
             or strength_preserving_cell is not None
             or atomic_runtime_optimization_mode
             or atomic_runtime_conformance_mode
+            or scalable_batched_role is not None
         ):
-            if atomic_runtime_optimization_mode or atomic_runtime_conformance_mode:
+            if scalable_batched_role is not None:
+                from .p1_common_coldcoord_fixed_e8_panel import (
+                    common_cold_schedule,
+                    load_common_cold_requests,
+                    verify_common_cold_case_seal,
+                )
+                from .p1_scalable_batched_runtime_panel import (
+                    P1R23_LOCK_FILE,
+                    load_and_validate_p1r23_lock,
+                )
+            elif atomic_runtime_optimization_mode or atomic_runtime_conformance_mode:
                 from .p1_common_coldcoord_fixed_e8_panel import (
                     common_cold_schedule,
                     load_common_cold_requests,
@@ -3583,7 +3615,61 @@ def run_p1(
             )
             cold_requests = load_common_cold_requests(dataset, cold_stream)
             schedule = common_cold_schedule(sampling_seal)
-            if atomic_runtime_optimization_mode or atomic_runtime_conformance_mode:
+            if scalable_batched_role is not None:
+                scalable_batched_lock, scalable_batched_lock_sha256 = (
+                    load_and_validate_p1r23_lock(locks / P1R23_LOCK_FILE)
+                )
+                if (
+                    scalable_batched_lock["b10"]["stage_a_seal_root"]
+                    != cold_stream["root_digest"]
+                    or scalable_batched_lock["b10"]["request_order_sha256"]
+                    != cold_stream["batch_ordered_request_digest_v1"][0]
+                ):
+                    raise ODEBFContractError("P1R23 B10 seal binding differs")
+                if scalable_batched_batch_size == 100:
+                    from .p1r23_b100_seal import (
+                        load_p1r23_b100_requests,
+                        verify_p1r23_b100_seal,
+                    )
+
+                    b100_seal = verify_p1r23_b100_seal(
+                        json.loads(
+                            (
+                                locks / "p1r23_b100_prefix_canonical90_seal.json"
+                            ).read_text(encoding="utf-8")
+                        )
+                    )
+                    cold_requests = load_p1r23_b100_requests(dataset, b100_seal)
+                    from .scalable_batched_runtime import (
+                        scalable_ordered_request_digest,
+                    )
+
+                    b100_order = scalable_ordered_request_digest(
+                        [str(item["request_sha256"]) for item in cold_requests]
+                    )
+                    if (
+                        b100_order
+                        != scalable_batched_lock["b100_selection"]
+                        ["atomic_request_order_sha256"]
+                    ):
+                        raise ODEBFContractError("P1R23 B100 atomic order differs")
+                    cold_stream = {
+                        "schema_version": "ode-edit-s05-p1r23-atomic-b100-stream/v1",
+                        "root_digest": b100_seal["root_digest"],
+                        "batch_ordered_request_digest_v1": [b100_order],
+                        "requests": [
+                            {
+                                "request_sha256": str(item["request_sha256"]),
+                                "collision_sha256": str(item["collision_sha256"]),
+                            }
+                            for item in cold_requests
+                        ],
+                    }
+                elif scalable_batched_batch_size != 10:
+                    raise ODEBFContractError("P1R23 batch size differs")
+                numerical = scalable_batched_lock
+                numerical_sha256 = scalable_batched_lock_sha256
+            elif atomic_runtime_optimization_mode or atomic_runtime_conformance_mode:
                 (
                     atomic_runtime_lock,
                     atomic_runtime_lock_sha256,
@@ -3697,6 +3783,7 @@ def run_p1(
             and strength_preserving_cell is None
             and not atomic_runtime_optimization_mode
             and not atomic_runtime_conformance_mode
+            and scalable_batched_role is None
         ):
             from .p1_cold_structp_softp_noveto_panel import (
                 cold_schedule,
@@ -3753,8 +3840,18 @@ def run_p1(
         or strength_preserving_cell is not None
         or atomic_runtime_optimization_mode
         or atomic_runtime_conformance_mode
+        or scalable_batched_role is not None
     ):
-        if atomic_runtime_optimization_mode or atomic_runtime_conformance_mode:
+        if scalable_batched_role is not None:
+            from .p1_common_coldcoord_fixed_e8_panel import (
+                validate_common_cold_runtime_gpu_capacity,
+            )
+            from .p1_scalable_batched_runtime_panel import (
+                forecast_p1r23_panel,
+            )
+
+            forecast_common_cold_panel = forecast_p1r23_panel
+        elif atomic_runtime_optimization_mode or atomic_runtime_conformance_mode:
             from .p1_common_coldcoord_fixed_e8_panel import (
                 validate_common_cold_runtime_gpu_capacity,
             )
@@ -3966,7 +4063,48 @@ def run_p1(
         or strength_preserving_cell is not None
         or atomic_runtime_optimization_mode
         or atomic_runtime_conformance_mode
+        or scalable_batched_role is not None
     ):
+        if scalable_batched_role is not None:
+            from .p1_scalable_batched_experiment import (
+                run_p1r23_scalable_batched,
+            )
+
+            return run_p1r23_scalable_batched(
+                model,
+                tokenizer,
+                alias=alias,
+                role=scalable_batched_role,
+                destination=destination,
+                raw_root=raw_root,
+                stages=stages,
+                source_head=source_head,
+                requests=cold_requests,
+                stream=cold_stream,
+                hparams=hparams,
+                projector=projector,
+                contexts=contexts,
+                covariance_registry=covariance_registry,
+                projector_sha256=artifact_guard.spec["projector_sha256"],
+                controller_lock=controller_lock,
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                theta0_cache=theta0_cache,
+                dataset_path=dataset,
+                mutation_lock=mutation_lock,
+                touched=touched,
+                base_receipt=base_receipt,
+                base_values=base_values,
+                job_ledger=job_ledger,
+                write_once=_atomic_write_once,
+                request_microbatch_size=int(
+                    scalable_batched_lock["microbatch_accumulation"]
+                    ["request_microbatch_size"][alias]
+                ),
+                numerical_lock=scalable_batched_lock,
+                numerical_lock_sha256=scalable_batched_lock_sha256,
+            )
         if atomic_runtime_optimization_mode or atomic_runtime_conformance_mode:
             from .p1_atomic_runtime_optimization import (
                 run_p1r22_atomic_optimization,

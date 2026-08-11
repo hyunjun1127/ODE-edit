@@ -1,0 +1,1461 @@
+"""End-to-end P1R23 scalable streaming ODE-BF and Native controls."""
+
+from __future__ import annotations
+
+from dataclasses import asdict
+import math
+from pathlib import Path
+import threading
+import time
+from typing import Any, Mapping, Sequence
+
+import numpy as np
+import torch
+
+from .accounting import ComputeLedger
+from .atomic_runtime_optimization import AcceptedPhysicalStateMaterializer
+from .contracts import ODEBFContractError, ODEBFStateError, canonical_hash
+from .fixed_e8_runtime import (
+    FixedE8EntryCapture,
+    _fixed_e8_functional_basis_probe,
+    fixed_e8_target_write_realization,
+    fixed_e8_waypoint_factors,
+)
+from .fixed_e8_soft_routing import FixedE8Arm
+from .functional import WaypointFactor, tensor_sha256
+from .p0_runtime import ModelForwardCounter
+from .p1_adaptive_runtime import (
+    _controller_replay_entry,
+    _factor_map,
+    _factor_state,
+    _functional_trial,
+    _merge_factors,
+    _parameter_contract_sha256,
+    _risk_payload,
+)
+from .p1_backend import PinnedCovarianceRegistry
+from .p1_controller import AcceptedLayerContribution, P1ControllerLock
+from .p1_evaluator import CounterFactEvaluationCase
+from .p1_replay import (
+    Theta0TeacherCache,
+    build_outer_entry_pretrained_cache,
+)
+from .p1_scalable_batched_runtime_panel import P1R23_ROUTING_ARMS
+from .p1_state import ArmWeightSnapshot, P1Arm, P1HistoryLedger
+from .sampling import StatelessReplaySchedule
+from .scalable_batched_evaluator import (
+    added_ninety_payload,
+    evaluate_scalable_primary,
+    load_scalable_cases_after_freeze,
+)
+from .scalable_batched_field import (
+    ScalableBatchGlobalMetric,
+    build_scalable_dynamic_field,
+    build_scalable_routing_problem,
+    scalable_physical_signed_progress,
+    target_update_from_existing_gradient,
+)
+from .scalable_batched_model import (
+    ScalableCapturePlan,
+    ScalableObjectivePlan,
+    build_scalable_capture_plan,
+    build_scalable_objective_plan,
+    capture_scalable_physical_state,
+    evaluate_scalable_target_new_objective,
+)
+from .scalable_batched_native import (
+    capture_optimized_native_k1,
+    materialize_native_candidates_once,
+    restore_native_entry,
+    run_official_native_apply,
+)
+from .scalable_batched_runtime import (
+    DynamicRefreshLedger,
+    P1R23_GRID_COUNT,
+    P1R23_H,
+    P1R23_INSTRUCTION_ID,
+    P1R23_LAYER_ORDER,
+    P1R23_METHOD_ID,
+    ScalableComputeLedger,
+    initial_target_from_capture,
+    scalable_ordered_request_digest,
+)
+from .strength_preserving_routing import (
+    STRENGTH_COVERAGE_EPSILON,
+    solve_strength_preserving_routing,
+)
+
+
+P1R23_SCHEMA = "ode-edit-s05-p1r23-scalable-batched-runtime"
+
+
+def _key_identity(keys: Mapping[int, torch.Tensor]) -> str:
+    return canonical_hash(
+        {
+            str(layer): tensor_sha256(keys[layer])
+            for layer in P1R23_LAYER_ORDER
+        }
+    )
+
+
+def _model_w0_contract(touched: Mapping[str, torch.nn.Parameter]) -> str:
+    return canonical_hash(
+        {
+            name: {
+                "sha256": tensor_sha256(value),
+                "pointer": int(value.data_ptr()),
+                "dtype": str(value.dtype),
+                "shape": list(value.shape),
+            }
+            for name, value in sorted(touched.items())
+        }
+    )
+
+
+def _phase_add_capture(
+    ledger: ScalableComputeLedger,
+    phase: str,
+    capture: Any,
+) -> None:
+    ledger.increment(
+        phase,
+        logical_forward_groups=1,
+        model_forward_calls=int(capture.physical_forward_count),
+        physical_microbatch_graphs=int(capture.physical_forward_count),
+        processed_tokens=int(capture.processed_token_count),
+        padded_tokens=int(capture.padded_token_count),
+        capture_forward_calls=int(capture.physical_forward_count),
+    )
+
+
+def _phase_add_objective(
+    ledger: ScalableComputeLedger,
+    phase: str,
+    result: Any,
+    *,
+    target: bool = False,
+    slope: bool = False,
+) -> None:
+    ledger.increment(
+        phase,
+        logical_forward_groups=1,
+        model_forward_calls=int(result.model_forward_count),
+        physical_microbatch_graphs=int(result.model_forward_count),
+        autograd_invocations=int(result.backward_count),
+        backward_calls=int(result.backward_count),
+        processed_tokens=int(result.processed_token_count),
+        padded_tokens=int(result.padded_token_count),
+        target_backward_calls=(int(result.backward_count) if target else 0),
+        slope_backward_calls=(int(result.backward_count) if slope else 0),
+    )
+
+
+def _terminal_functional_payload(value: Any) -> dict[str, Any]:
+    return {
+        "historical": _risk_payload(value.historical),
+        "pretrained": _risk_payload(value.pretrained),
+        "pretrained_receipt_sha256": value.pretrained_trial_receipt.value_sha256,
+        "historical_receipt_sha256": value.historical_trial_receipt.value_sha256,
+    }
+
+
+def _run_ode_arm(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    *,
+    alias: str,
+    arm: FixedE8Arm,
+    capture_plan: ScalableCapturePlan,
+    objective_plan: ScalableObjectivePlan,
+    hparams: Any,
+    projector: torch.Tensor,
+    contexts: Sequence[Sequence[str]],
+    covariance_registry: PinnedCovarianceRegistry,
+    projector_sha256: str,
+    controller_lock: P1ControllerLock,
+    arm_state: Any,
+    request_by_sha256: Mapping[str, Mapping[str, Any]],
+    population_by_sha256: Mapping[str, Mapping[str, Any]],
+    schedule: StatelessReplaySchedule,
+    outer_entry_p_cache: Any,
+    theta0_cache: Theta0TeacherCache,
+    touched: Mapping[str, torch.nn.Parameter],
+    base_receipt: ArmWeightSnapshot,
+    base_values: Mapping[str, torch.Tensor],
+    raw_root: Path,
+    write_once: Any,
+) -> dict[str, Any]:
+    if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
+        raise ODEBFContractError("P1R23 ODE routing arm differs")
+    request_count = len(requests)
+    if request_count not in (10, 100):
+        raise ODEBFContractError("P1R23 ODE request count differs")
+    arm_label = "BG-NEUTRAL" if arm is FixedE8Arm.NEUTRAL else "BG-SOFT"
+    history = arm_state.history
+    legacy_ledger = arm_state.ledger
+    compute = ScalableComputeLedger()
+    refresh = DynamicRefreshLedger()
+    entry_capture = FixedE8EntryCapture(
+        {name: value.detach().cpu().clone() for name, value in base_values.items()},
+        dict(base_receipt.parameter_sha256),
+    )
+    materializer = AcceptedPhysicalStateMaterializer(model, base_values)
+    accepted_by_layer: dict[int, list[AcceptedLayerContribution]] = {
+        layer: [] for layer in P1R23_LAYER_ORDER
+    }
+    current_factors: dict[str, tuple[WaypointFactor, ...]] = {
+        name: () for name in touched
+    }
+    started = time.perf_counter()
+    physical_started = time.perf_counter()
+    physical = capture_scalable_physical_state(model, capture_plan, hparams)
+    compute.add_wall("initial_physical_capture", time.perf_counter() - physical_started)
+    _phase_add_capture(compute, "initial_physical_capture", physical)
+    initial = initial_target_from_capture(physical)
+    metric = ScalableBatchGlobalMetric.from_z0(
+        initial.target_z, objective_plan.request_order_sha256
+    )
+    current_target = initial.target_z.clone()
+    current_terminal = initial.current_terminal_z.clone()
+    initial_w0 = _model_w0_contract(touched)
+    accepted: list[dict[str, Any]] = []
+    delayed: list[dict[str, Any]] = []
+    pending: dict[str, Any] | None = None
+    terminal_objective_count = 0
+    terminal_functional: dict[str, Any] | None = None
+    restored = False
+    counter = ModelForwardCounter(model, legacy_ledger)
+    try:
+        for step_index in range(P1R23_GRID_COUNT):
+            state_before = _parameter_contract_sha256(touched)
+            replay_entry = _controller_replay_entry(
+                model,
+                tokenizer,
+                alias=alias,
+                arm_state=arm_state,
+                sample_waypoint=step_index + 1,
+                factors={},
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                outer_entry_p_cache=outer_entry_p_cache,
+            )
+            target_started = time.perf_counter()
+            target_variable = (
+                current_target.detach()
+                .to(device=next(model.parameters()).device, dtype=torch.float32)
+                .clone()
+                .requires_grad_(True)
+            )
+            target_result = evaluate_scalable_target_new_objective(
+                model,
+                objective_plan,
+                target_state=target_variable,
+                current_terminal=current_terminal,
+                target_layer_name=hparams.layer_module_tmp.format(
+                    int(hparams.layers[-1])
+                ),
+            )
+            if target_result.target_gradient is None:
+                raise ODEBFContractError("P1R23 target gradient is absent")
+            target_next, target_velocity, alpha_req, target_receipt = (
+                target_update_from_existing_gradient(
+                    current_target,
+                    target_result.target_gradient,
+                    metric,
+                )
+            )
+            compute.add_wall("target_gradient", time.perf_counter() - target_started)
+            _phase_add_objective(
+                compute, "target_gradient", target_result, target=True
+            )
+            field_started = time.perf_counter()
+            field = build_scalable_dynamic_field(
+                model,
+                tokenizer,
+                requests,
+                hparams,
+                projector,
+                contexts,
+                target_state=target_next,
+                current_terminal=current_terminal,
+                captured_keys_by_layer=physical.keys_by_layer,
+                accepted_waypoint=step_index,
+                covariance_registry=covariance_registry,
+                projector_sha256=projector_sha256,
+                residual_tolerance=controller_lock.residual_tolerance,
+                ledger=legacy_ledger,
+            )
+            signed, slope_result = scalable_physical_signed_progress(
+                model, objective_plan, field
+            )
+            compute.add_wall("field_and_physical_slope", time.perf_counter() - field_started)
+            _phase_add_objective(
+                compute, "physical_slope", slope_result, slope=True
+            )
+            current_nll = float(slope_result.loss)
+            if pending is not None:
+                actual = float(pending["source_nll"] - current_nll)
+                item = {
+                    "transition_index": int(pending["step_index"]) + 1,
+                    "source_mean_target_new_nll": float(pending["source_nll"]),
+                    "next_field_mean_target_new_nll": current_nll,
+                    "actual": actual,
+                    "predicted": float(pending["predicted"]),
+                    "realization_ratio": actual
+                    / (float(pending["alpha_apply"]) + STRENGTH_COVERAGE_EPSILON),
+                    "completion": "NEXT_REFRESHED_FIELD_W_ONLY_NLL_REUSE",
+                    "candidate_objective_inner_count": 0,
+                }
+                item["identity_sha256"] = canonical_hash(item)
+                delayed.append(item)
+            problem_receipt = build_scalable_routing_problem(
+                field,
+                signed,
+                accepted_by_layer=accepted_by_layer,
+                committed_load_by_layer=history.cumulative_load(),
+                lock=controller_lock,
+            )
+            field_semantic = canonical_hash(
+                {
+                    "field_sha256": field.identity_sha256,
+                    "target_next_sha256": tensor_sha256(target_next),
+                    "physical_capture_sha256": physical.identity_sha256,
+                    "request_order_sha256": objective_plan.request_order_sha256,
+                }
+            )
+            functional_started = time.perf_counter()
+            inventory, functional_probe = _fixed_e8_functional_basis_probe(
+                model,
+                tokenizer,
+                alias=alias,
+                field=field,
+                step_index=step_index,
+                factors=current_factors,
+                target_state=target_next,
+                capture=entry_capture,
+                replay_entry=replay_entry,
+                theta0_cache=theta0_cache,
+                lock=controller_lock,
+                ledger=legacy_ledger,
+                touched=touched,
+                history=history,
+                schedule=schedule,
+                factor_state_sha256=_factor_state(
+                    entry_capture.entry_sha256, current_factors, target_next
+                ),
+                field_semantic_sha256=field_semantic,
+                trial_entry_weights=base_values,
+                physical_materialized=True,
+            )
+            if inventory.history_item_count != 0:
+                raise ODEBFStateError("P1R23 atomic replay-H inventory is active")
+            compute.add_wall("functional_preservation_basis", time.perf_counter() - functional_started)
+            route_started = time.perf_counter()
+            routing = solve_strength_preserving_routing(
+                problem_receipt.problem,
+                inventory,
+                arm=arm,
+                alpha_req=alpha_req,
+            )
+            compute.add_wall("routing_solve", time.perf_counter() - route_started)
+            increment = fixed_e8_waypoint_factors(
+                field, routing.velocity, step_index=step_index
+            )
+            candidate_factors = _merge_factors(current_factors, increment)
+            predicted = float(
+                problem_receipt.problem.signed_progress
+                @ np.asarray(routing.velocity, dtype=np.float64)
+            )
+            refresh.record(
+                step_index=step_index,
+                accepted_state_sha256=state_before,
+                target_sha256=tensor_sha256(target_next),
+                key_inventory_sha256=_key_identity(physical.keys_by_layer),
+                slope_sha256=canonical_hash(list(signed.signed_progress)),
+                field_sha256=field.identity_sha256,
+                field_invocation_index=step_index + 1,
+            )
+            materialize_started = time.perf_counter()
+            materialization = materializer.materialize(
+                candidate_factors, transition_index=step_index + 1
+            )
+            compute.add_wall("physical_materialization", time.perf_counter() - materialize_started)
+            compute.increment("physical_materialization", materialization_count=1)
+            next_capture_started = time.perf_counter()
+            next_physical = capture_scalable_physical_state(
+                model, capture_plan, hparams
+            )
+            compute.add_wall("accepted_state_refresh", time.perf_counter() - next_capture_started)
+            _phase_add_capture(compute, "accepted_state_refresh", next_physical)
+            progress: dict[str, Any] = {
+                "predicted": predicted,
+                "actual": None,
+                "completion": "DELAYED_TO_NEXT_REFRESHED_FIELD",
+                "alpha_req": routing.alpha_req,
+                "alpha_max": routing.alpha_max,
+                "alpha_apply": routing.alpha_apply,
+                "coverage": routing.coverage,
+                "equality_residual": routing.equality_residual,
+                "candidate_objective_inner_count": 0,
+            }
+            if step_index == P1R23_GRID_COUNT - 1:
+                terminal_started = time.perf_counter()
+                terminal_objective = evaluate_scalable_target_new_objective(
+                    model, objective_plan
+                )
+                terminal_objective_count += 1
+                compute.add_wall("terminal_objective", time.perf_counter() - terminal_started)
+                _phase_add_objective(compute, "terminal_objective", terminal_objective)
+                actual = current_nll - float(terminal_objective.loss)
+                progress.update(
+                    {
+                        "actual": actual,
+                        "completion": "TERMINAL_W_ONLY_OBJECTIVE_ONCE",
+                        "realization_ratio": actual
+                        / (routing.alpha_apply + STRENGTH_COVERAGE_EPSILON),
+                    }
+                )
+            target_realization = fixed_e8_target_write_realization(
+                current_target,
+                target_next,
+                current_terminal,
+                next_physical.terminal_z,
+            )
+            contribution = [
+                float(a * v)
+                for a, v in zip(
+                    problem_receipt.problem.signed_progress,
+                    routing.velocity,
+                    strict=True,
+                )
+            ]
+            payload = {
+                "schema": f"{P1R23_SCHEMA}-accepted-transition/v1",
+                "arm": arm_label,
+                "accepted_index": step_index + 1,
+                "tau_before": step_index * P1R23_H,
+                "tau_after": (step_index + 1) * P1R23_H,
+                "physical_capture_sha256": physical.identity_sha256,
+                "next_physical_capture_sha256": next_physical.identity_sha256,
+                "target_objective": target_result.raw_free_payload(),
+                "target_update": target_receipt,
+                "field_sha256": field.identity_sha256,
+                "physical_slope": asdict(signed),
+                "routing_problem_sha256": problem_receipt.problem.identity(),
+                "routing": routing.raw_free_payload(),
+                "functional_basis": inventory.raw_free_payload(),
+                "functional_probe_sha256": functional_probe["identity_sha256"],
+                "progress": progress,
+                "per_layer_applied_progress": contribution,
+                "structural_h": problem_receipt.problem.historical.value(
+                    np.asarray(routing.velocity)
+                ),
+                "structural_p": problem_receipt.problem.pretrained.value(
+                    np.asarray(routing.velocity)
+                ),
+                "target_write_realization": target_realization,
+                "materialization": materialization,
+                "authoritative_slope": "PHYSICAL_W_ONLY_NOHOOK",
+                "overlay_forward_backward_count": 0,
+                "inner_step_heldout_evaluation_count": 0,
+                "retry_backtracking_reject_count": 0,
+            }
+            payload["identity_sha256"] = canonical_hash(payload)
+            write_once(
+                raw_root
+                / "ode"
+                / arm_label.lower()
+                / f"accepted-k{step_index + 1}.json",
+                payload,
+            )
+            # P1R23 is one atomic joint edit.  Historical/replay H remains an
+            # empty structural shell and receives no accepted contribution.
+            if any(accepted_by_layer[layer] for layer in P1R23_LAYER_ORDER):
+                raise ODEBFStateError("P1R23 atomic H state is not empty")
+            accepted.append(payload)
+            pending = (
+                None
+                if step_index == P1R23_GRID_COUNT - 1
+                else {
+                    "step_index": step_index,
+                    "source_nll": current_nll,
+                    "predicted": predicted,
+                    "alpha_apply": routing.alpha_apply,
+                }
+            )
+            current_factors = _factor_map(candidate_factors)
+            current_target = target_next
+            current_terminal = next_physical.terminal_z.clone()
+            physical = next_physical
+            legacy_ledger.record_accepted_step(
+                accepted_dt=P1R23_H, completed_k_total=step_index + 1
+            )
+        if pending is not None or len(accepted) != 8 or len(delayed) != 7:
+            raise ODEBFStateError("P1R23 K8 delayed accounting differs")
+        terminal_replay = _controller_replay_entry(
+            model,
+            tokenizer,
+            alias=alias,
+            arm_state=arm_state,
+            sample_waypoint=8,
+            factors={},
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            outer_entry_p_cache=outer_entry_p_cache,
+        )
+        terminal_value = _functional_trial(
+            model,
+            tokenizer,
+            alias=alias,
+            entry=terminal_replay,
+            theta0_cache=theta0_cache,
+            factors={},
+            lock=controller_lock,
+            ledger=legacy_ledger,
+        )
+        terminal_functional = _terminal_functional_payload(terminal_value)
+        factors_for_endpoint = _factor_map(current_factors)
+        target_for_endpoint = current_target.clone()
+        physical_for_endpoint = physical
+        rollout_payload = {
+            "arm": arm_label,
+            "status": "SCALABLE_DYNAMIC_K8_COMPLETE",
+            "request_count": request_count,
+            "accepted_update_count": len(accepted),
+            "tau_final": 1.0,
+            "initial": initial.raw_free_payload(),
+            "metric": metric.raw_free_payload(),
+            "accepted_receipt_sha256": [
+                item["identity_sha256"] for item in accepted
+            ],
+            "delayed_progress": delayed,
+            "terminal_target_sha256": tensor_sha256(target_for_endpoint),
+            "terminal_physical_capture_sha256": physical_for_endpoint.identity_sha256,
+            "terminal_functional": terminal_functional,
+            "dynamic_refresh": refresh.finalize(),
+            "compute": compute.raw_free_payload(),
+            "legacy_compute": legacy_ledger.raw_free_payload(),
+            "terminal_objective_count": terminal_objective_count,
+            "edit_core_wall_seconds": time.perf_counter() - started,
+            "materializer": materializer.raw_free_payload(),
+            "initial_w0_sha256": initial_w0,
+        }
+        rollout_payload["identity_sha256"] = canonical_hash(rollout_payload)
+        return {
+            "public": rollout_payload,
+            "terminal_factors": factors_for_endpoint,
+            "terminal_target": target_for_endpoint,
+            "terminal_physical": physical_for_endpoint,
+        }
+    finally:
+        counter.close()
+        restore = materializer.restore()
+        restored = True
+        if _model_w0_contract(touched) != initial_w0:
+            raise ODEBFStateError("P1R23 ODE arm did not restore W0")
+        if not restored:
+            materializer.restore()
+
+
+def _evaluate_frozen_state(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    cases: Sequence[CounterFactEvaluationCase],
+    *,
+    alias: str,
+    freeze_payload: Mapping[str, Any],
+) -> tuple[dict[str, Any], float]:
+    started = time.perf_counter()
+    receipt = evaluate_scalable_primary(
+        model,
+        tokenizer,
+        cases,
+        model_alias=alias,
+        freeze_payload=freeze_payload,
+    )
+    elapsed = time.perf_counter() - started
+    return {
+        "receipt": receipt.raw_free_payload(),
+        "added_90": added_ninety_payload(receipt),
+        "wall_seconds": elapsed,
+    }, elapsed
+
+
+def _action_frozen_cases(
+    dataset_path: Path,
+    requests: Sequence[Mapping[str, Any]],
+    *,
+    arm: str,
+    selected_snapshot_sha256: str,
+    fixed_budget_slots_completed: int,
+) -> tuple[tuple[CounterFactEvaluationCase, ...], dict[str, Any]]:
+    return load_scalable_cases_after_freeze(
+        dataset_path,
+        requests,
+        arm=arm,
+        selected_snapshot_sha256=selected_snapshot_sha256,
+        fixed_budget_slots_completed=fixed_budget_slots_completed,
+    )
+
+
+def _run_ode_pair(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    destination: Path,
+    raw_root: Path,
+    source_head: str,
+    requests: Sequence[Mapping[str, Any]],
+    hparams: Any,
+    projector: torch.Tensor,
+    contexts: Sequence[Sequence[str]],
+    covariance_registry: PinnedCovarianceRegistry,
+    projector_sha256: str,
+    controller_lock: P1ControllerLock,
+    request_by_sha256: Mapping[str, Mapping[str, Any]],
+    population_by_sha256: Mapping[str, Mapping[str, Any]],
+    schedule: StatelessReplaySchedule,
+    theta0_cache: Theta0TeacherCache,
+    dataset_path: Path,
+    touched: Mapping[str, torch.nn.Parameter],
+    base_receipt: ArmWeightSnapshot,
+    base_values: Mapping[str, torch.Tensor],
+    job_ledger: ComputeLedger,
+    write_once: Any,
+    request_microbatch_size: int,
+) -> dict[str, Any]:
+    from .p1_runtime import ArmRuntimeState, _entry_parameter_snapshot_sha256
+
+    request_order = scalable_ordered_request_digest(
+        [str(item["request_sha256"]) for item in requests]
+    )
+    objective_plan = build_scalable_objective_plan(
+        model,
+        tokenizer,
+        requests,
+        contexts=contexts,
+        request_microbatch_size=request_microbatch_size,
+        fact_token_strategy=hparams.fact_token,
+    )
+    capture_plan = build_scalable_capture_plan(
+        tokenizer,
+        requests,
+        contexts=contexts,
+        request_microbatch_size=request_microbatch_size,
+        fact_token_strategy=hparams.fact_token,
+    )
+    write_once(raw_root / "plans" / "objective.json", objective_plan.raw_free_payload())
+    write_once(raw_root / "plans" / "capture.json", capture_plan.raw_free_payload())
+    outer_population = tuple(
+        population_by_sha256[item] for item in theta0_cache.request_order
+    )
+    outer_snapshot = _entry_parameter_snapshot_sha256(
+        model, dict(base_receipt.parameter_sha256)
+    )
+    counter = ModelForwardCounter(model, job_ledger)
+    try:
+        outer_cache = build_outer_entry_pretrained_cache(
+            model,
+            tokenizer,
+            outer_population,
+            theta0_cache,
+            outer_entry_snapshot_sha256=outer_snapshot,
+        )
+    finally:
+        counter.close()
+    w0_contract = _model_w0_contract(touched)
+    rollouts: dict[str, dict[str, Any]] = {}
+    for selected, label in (
+        (FixedE8Arm.NEUTRAL, "BG-NEUTRAL"),
+        (FixedE8Arm.SOFT, "BG-SOFT"),
+    ):
+        if _model_w0_contract(touched) != w0_contract:
+            raise ODEBFStateError("P1R23 paired arm W0 differs")
+        arm_state = ArmRuntimeState(
+            P1Arm.R_BF,
+            P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=40),
+            ComputeLedger(),
+            ArmWeightSnapshot(
+                P1Arm.R_BF,
+                0,
+                base_receipt.parameter_sha256,
+                canonical_hash({"arm": label, "weights": base_receipt.parameter_sha256}),
+            ),
+            dict(base_values),
+        )
+        rollouts[label] = _run_ode_arm(
+            model,
+            tokenizer,
+            requests,
+            alias=alias,
+            arm=selected,
+            capture_plan=capture_plan,
+            objective_plan=objective_plan,
+            hparams=hparams,
+            projector=projector,
+            contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            controller_lock=controller_lock,
+            arm_state=arm_state,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            outer_entry_p_cache=outer_cache,
+            theta0_cache=theta0_cache,
+            touched=touched,
+            base_receipt=base_receipt,
+            base_values=base_values,
+            raw_root=raw_root,
+            write_once=write_once,
+        )
+    left = rollouts["BG-NEUTRAL"]["public"]["initial"]
+    right = rollouts["BG-SOFT"]["public"]["initial"]
+    if left != right:
+        raise ODEBFContractError("P1R23 paired initial state differs")
+    action_freeze = {
+        "schema": f"{P1R23_SCHEMA}-paired-action-freeze/v1",
+        "request_order_sha256": request_order,
+        "rollout_sha256": {
+            label: rollouts[label]["public"]["identity_sha256"]
+            for label in P1R23_ROUTING_ARMS
+        },
+        "actions_frozen_before_heldout": True,
+        "inner_step_heldout_access_count": 0,
+        "atomic_joint_batch": True,
+        "persistent_history_append_count": 0,
+        "replay_h_decision_influence_count": 0,
+        "sequential_controller_influence_count": 0,
+    }
+    action_freeze["identity_sha256"] = canonical_hash(action_freeze)
+    action_sha = write_once(raw_root / "action-freeze.json", action_freeze)
+    cases, freeze = _action_frozen_cases(
+        dataset_path,
+        requests,
+        arm="P1R23-ODE-PAIR",
+        selected_snapshot_sha256=action_sha,
+        fixed_budget_slots_completed=8,
+    )
+    endpoints: dict[str, Any] = {}
+    w0, _ = _evaluate_frozen_state(
+        model, tokenizer, cases, alias=alias, freeze_payload=freeze
+    )
+    w0_sha = write_once(raw_root / "W0-endpoint.json", w0)
+    for label in P1R23_ROUTING_ARMS:
+        endpoint_materializer = AcceptedPhysicalStateMaterializer(model, base_values)
+        materialization = endpoint_materializer.materialize(
+            rollouts[label]["terminal_factors"], transition_index=8
+        )
+        endpoint, _ = _evaluate_frozen_state(
+            model, tokenizer, cases, alias=alias, freeze_payload=freeze
+        )
+        restore = endpoint_materializer.restore()
+        endpoint.update(
+            {
+                "endpoint_materialization": materialization,
+                "restore": restore,
+                "rollout_sha256": rollouts[label]["public"]["identity_sha256"],
+            }
+        )
+        endpoint["identity_sha256"] = canonical_hash(endpoint)
+        endpoints[label] = endpoint
+        write_once(raw_root / "endpoints" / f"{label.lower()}.json", endpoint)
+    terminal = {
+        "schema": f"{P1R23_SCHEMA}-ode-pair-terminal/v1",
+        "instruction_id": P1R23_INSTRUCTION_ID,
+        "method_id": P1R23_METHOD_ID,
+        "source_head": source_head,
+        "alias": alias,
+        "request_count": len(requests),
+        "request_order_sha256": request_order,
+        "request_microbatch_size": request_microbatch_size,
+        "objective_plan_sha256": objective_plan.identity_sha256,
+        "capture_plan_sha256": capture_plan.identity_sha256,
+        "rollouts": {label: rollouts[label]["public"] for label in P1R23_ROUTING_ARMS},
+        "W0_endpoint_sha256": w0_sha,
+        "W0_shared_by_neutral_soft": True,
+        "endpoints": endpoints,
+        "action_freeze_sha256": action_sha,
+        "official_endpoint_evaluation_count_per_state": 1,
+        "scientific_invalid_count": 0,
+        "estimand": "ATOMIC",
+        "persistent_commit_count": 0,
+        "persistent_history_append_count": 0,
+        "replay_h_decision_influence_count": 0,
+        "sequential_round_count": 0,
+        "p1r20_access_count": 0,
+    }
+    terminal["identity_sha256"] = canonical_hash(terminal)
+    terminal_sha = write_once(destination / "terminal.json", terminal)
+    manifest = {
+        "schema": f"{P1R23_SCHEMA}-manifest/v1",
+        "source_head": source_head,
+        "terminal_sha256": terminal_sha,
+        "request_count": len(requests),
+        "role": "ODE_BF_K8_PAIR",
+        "W0_restored": _model_w0_contract(touched) == w0_contract,
+        "estimand": "ATOMIC",
+    }
+    manifest["identity_sha256"] = canonical_hash(manifest)
+    manifest_sha = write_once(destination / "manifest.json", manifest)
+    return {
+        "status": "P1R23_ODE_PAIR_COMPLETE",
+        "terminal_sha256": terminal_sha,
+        "manifest_sha256": manifest_sha,
+    }
+
+
+def _run_native_role(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    role: str,
+    destination: Path,
+    raw_root: Path,
+    source_head: str,
+    requests: Sequence[Mapping[str, Any]],
+    hparams: Any,
+    projector: torch.Tensor,
+    contexts: Sequence[Sequence[str]],
+    dataset_path: Path,
+    touched: Mapping[str, torch.nn.Parameter],
+    base_values: Mapping[str, torch.Tensor],
+    request_microbatch_size: int,
+    mutation_lock: threading.RLock,
+    job_ledger: ComputeLedger,
+    write_once: Any,
+) -> dict[str, Any]:
+    entry = {name: value.detach().clone() for name, value in touched.items()}
+    w0_contract = _model_w0_contract(touched)
+    counter = ModelForwardCounter(model, job_ledger)
+    try:
+        if role == "OPTIMIZED_NATIVE_K1":
+            capture = capture_optimized_native_k1(
+                model,
+                tokenizer,
+                requests,
+                hparams,
+                projector,
+                contexts,
+                touched=touched,
+                request_microbatch_size=request_microbatch_size,
+                mutation_lock=mutation_lock,
+                ledger=job_ledger,
+            )
+            action = capture.raw_free_payload()
+            materialization = materialize_native_candidates_once(
+                touched, capture.candidates, capture.entry_sha256
+            )
+            edit_core = capture.edit_core_wall_seconds
+            originals = entry
+        elif role == "OFFICIAL_NATIVE":
+            action, originals = run_official_native_apply(
+                model,
+                tokenizer,
+                requests,
+                hparams,
+                touched=touched,
+            )
+            materialization = {
+                "schema": "ode-edit-s05-p1r23-official-native-materialization/v1",
+                "accepted_materialization_count": 1,
+                "parameter_sha256": {
+                    name: tensor_sha256(value) for name, value in touched.items()
+                },
+                "identity_sha256": canonical_hash(
+                    {name: tensor_sha256(value) for name, value in touched.items()}
+                ),
+            }
+            edit_core = float(action["edit_core_wall_seconds"])
+        else:
+            raise ODEBFContractError("P1R23 Native role differs")
+    finally:
+        counter.close()
+    action_freeze = {
+        "schema": f"{P1R23_SCHEMA}-native-action-freeze/v1",
+        "role": role,
+        "action_sha256": action["identity_sha256"],
+        "materialization_sha256": materialization["identity_sha256"],
+        "actions_frozen_before_heldout": True,
+        "atomic_joint_batch": True,
+        "persistent_history_append_count": 0,
+        "replay_h_decision_influence_count": 0,
+    }
+    action_freeze["identity_sha256"] = canonical_hash(action_freeze)
+    freeze_sha = write_once(raw_root / "action-freeze.json", action_freeze)
+    cases, freeze = _action_frozen_cases(
+        dataset_path,
+        requests,
+        arm=role,
+        selected_snapshot_sha256=freeze_sha,
+        fixed_budget_slots_completed=0,
+    )
+    endpoint, evaluator_time = _evaluate_frozen_state(
+        model, tokenizer, cases, alias=alias, freeze_payload=freeze
+    )
+    restore = restore_native_entry(touched, originals)
+    if _model_w0_contract(touched) != w0_contract:
+        raise ODEBFStateError("P1R23 Native role did not restore W0")
+    terminal = {
+        "schema": f"{P1R23_SCHEMA}-native-terminal/v1",
+        "instruction_id": P1R23_INSTRUCTION_ID,
+        "source_head": source_head,
+        "alias": alias,
+        "role": role,
+        "request_count": len(requests),
+        "request_microbatch_size": request_microbatch_size,
+        "action": action,
+        "materialization": materialization,
+        "endpoint": endpoint,
+        "restore": restore,
+        "edit_core_wall_seconds": edit_core,
+        "terminal_evaluator_wall_seconds": evaluator_time,
+        "compute": job_ledger.raw_free_payload(),
+        "method_semantic_delta_count": 0,
+        "estimand": "ATOMIC",
+        "persistent_commit_count": 0,
+        "persistent_history_append_count": 0,
+        "replay_h_decision_influence_count": 0,
+        "sequential_round_count": 0,
+        "p1r20_access_count": 0,
+    }
+    terminal["identity_sha256"] = canonical_hash(terminal)
+    terminal_sha = write_once(destination / "terminal.json", terminal)
+    manifest = {
+        "schema": f"{P1R23_SCHEMA}-manifest/v1",
+        "source_head": source_head,
+        "terminal_sha256": terminal_sha,
+        "request_count": len(requests),
+        "role": role,
+        "W0_restored": True,
+        "estimand": "ATOMIC",
+    }
+    manifest["identity_sha256"] = canonical_hash(manifest)
+    manifest_sha = write_once(destination / "manifest.json", manifest)
+    return {
+        "status": f"P1R23_{role}_COMPLETE",
+        "terminal_sha256": terminal_sha,
+        "manifest_sha256": manifest_sha,
+    }
+
+
+def _cosine_relative_l2(left: torch.Tensor, right: torch.Tensor) -> dict[str, float]:
+    a = left.detach().to(device="cpu", dtype=torch.float64).reshape(-1)
+    b = right.detach().to(device="cpu", dtype=torch.float64).reshape(-1)
+    if a.shape != b.shape or not torch.isfinite(a).all() or not torch.isfinite(b).all():
+        raise ODEBFContractError("P1R23 calibration tensor geometry differs")
+    a_norm = torch.linalg.vector_norm(a)
+    b_norm = torch.linalg.vector_norm(b)
+    if float(a_norm) == 0.0 or float(b_norm) == 0.0:
+        cosine = 1.0 if torch.equal(a, b) else 0.0
+    else:
+        cosine = float(torch.dot(a, b) / (a_norm * b_norm))
+    return {
+        "max_abs": float(torch.max(torch.abs(a - b))),
+        "relative_l2": float(
+            torch.linalg.vector_norm(a - b)
+            / torch.clamp(a_norm, min=torch.finfo(torch.float64).tiny)
+        ),
+        "cosine": cosine,
+    }
+
+
+def _run_calibration(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    destination: Path,
+    raw_root: Path,
+    source_head: str,
+    requests: Sequence[Mapping[str, Any]],
+    hparams: Any,
+    projector: torch.Tensor,
+    contexts: Sequence[Sequence[str]],
+    covariance_registry: PinnedCovarianceRegistry,
+    projector_sha256: str,
+    controller_lock: P1ControllerLock,
+    request_by_sha256: Mapping[str, Mapping[str, Any]],
+    population_by_sha256: Mapping[str, Mapping[str, Any]],
+    schedule: StatelessReplaySchedule,
+    theta0_cache: Theta0TeacherCache,
+    touched: Mapping[str, torch.nn.Parameter],
+    base_receipt: ArmWeightSnapshot,
+    base_values: Mapping[str, torch.Tensor],
+    job_ledger: ComputeLedger,
+    write_once: Any,
+) -> dict[str, Any]:
+    """Outcome-free W0/W1 batching calibration for m=1 and production m=2.
+
+    W1 is the single Neutral technical transition selected from each
+    partition's W0 field.  It is never evaluated on held-out prompts and is
+    restored before the next partition.
+    """
+
+    from .p1_runtime import ArmRuntimeState, _entry_parameter_snapshot_sha256
+
+    if len(requests) != 10:
+        raise ODEBFContractError("P1R23 calibration must use atomic B10")
+    outer_population = tuple(
+        population_by_sha256[item] for item in theta0_cache.request_order
+    )
+    outer_snapshot = _entry_parameter_snapshot_sha256(
+        model, dict(base_receipt.parameter_sha256)
+    )
+    counter = ModelForwardCounter(model, job_ledger)
+    try:
+        outer_cache = build_outer_entry_pretrained_cache(
+            model,
+            tokenizer,
+            outer_population,
+            theta0_cache,
+            outer_entry_snapshot_sha256=outer_snapshot,
+        )
+    finally:
+        counter.close()
+    w0_contract = _model_w0_contract(touched)
+    internal: dict[int, list[dict[str, Any]]] = {}
+    public: dict[str, Any] = {}
+
+    for microbatch_size in (1, 2):
+        if _model_w0_contract(touched) != w0_contract:
+            raise ODEBFStateError("P1R23 calibration W0 differs")
+        objective_plan = build_scalable_objective_plan(
+            model,
+            tokenizer,
+            requests,
+            contexts=contexts,
+            request_microbatch_size=microbatch_size,
+            fact_token_strategy=hparams.fact_token,
+        )
+        capture_plan = build_scalable_capture_plan(
+            tokenizer,
+            requests,
+            contexts=contexts,
+            request_microbatch_size=microbatch_size,
+            fact_token_strategy=hparams.fact_token,
+        )
+        arm_state = ArmRuntimeState(
+            P1Arm.R_BF,
+            P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=40),
+            ComputeLedger(),
+            ArmWeightSnapshot(
+                P1Arm.R_BF,
+                0,
+                base_receipt.parameter_sha256,
+                canonical_hash(
+                    {
+                        "role": "P1R23-CALIBRATION",
+                        "microbatch_size": microbatch_size,
+                        "weights": base_receipt.parameter_sha256,
+                    }
+                ),
+            ),
+            dict(base_values),
+        )
+        materializer = AcceptedPhysicalStateMaterializer(model, base_values)
+        entry_capture = FixedE8EntryCapture(
+            {name: value.detach().cpu().clone() for name, value in base_values.items()},
+            dict(base_receipt.parameter_sha256),
+        )
+        current_factors: dict[str, tuple[WaypointFactor, ...]] = {
+            name: () for name in touched
+        }
+        try:
+            physical = capture_scalable_physical_state(model, capture_plan, hparams)
+            initial = initial_target_from_capture(physical)
+            metric = ScalableBatchGlobalMetric.from_z0(
+                initial.target_z, objective_plan.request_order_sha256
+            )
+            states: list[dict[str, Any]] = []
+            target = initial.target_z.clone()
+            terminal = initial.current_terminal_z.clone()
+            for state_index in (0, 1):
+                replay_entry = _controller_replay_entry(
+                    model,
+                    tokenizer,
+                    alias=alias,
+                    arm_state=arm_state,
+                    sample_waypoint=state_index + 1,
+                    factors={},
+                    request_by_sha256=request_by_sha256,
+                    population_by_sha256=population_by_sha256,
+                    schedule=schedule,
+                    outer_entry_p_cache=outer_cache,
+                )
+                target_result = evaluate_scalable_target_new_objective(
+                    model,
+                    objective_plan,
+                    target_state=target.detach()
+                    .to(device=next(model.parameters()).device, dtype=torch.float32)
+                    .clone()
+                    .requires_grad_(True),
+                    current_terminal=terminal,
+                    target_layer_name=hparams.layer_module_tmp.format(
+                        int(hparams.layers[-1])
+                    ),
+                )
+                if target_result.target_gradient is None:
+                    raise ODEBFContractError("P1R23 calibration target gradient absent")
+                target_next, _velocity, alpha_req, target_receipt = (
+                    target_update_from_existing_gradient(
+                        target, target_result.target_gradient, metric
+                    )
+                )
+                field = build_scalable_dynamic_field(
+                    model,
+                    tokenizer,
+                    requests,
+                    hparams,
+                    projector,
+                    contexts,
+                    target_state=target_next,
+                    current_terminal=terminal,
+                    captured_keys_by_layer=physical.keys_by_layer,
+                    accepted_waypoint=state_index,
+                    covariance_registry=covariance_registry,
+                    projector_sha256=projector_sha256,
+                    residual_tolerance=controller_lock.residual_tolerance,
+                    ledger=arm_state.ledger,
+                )
+                signed, slope_result = scalable_physical_signed_progress(
+                    model, objective_plan, field
+                )
+                problem = build_scalable_routing_problem(
+                    field,
+                    signed,
+                    accepted_by_layer={layer: () for layer in P1R23_LAYER_ORDER},
+                    committed_load_by_layer={layer: 0.0 for layer in P1R23_LAYER_ORDER},
+                    lock=controller_lock,
+                )
+                field_semantic = canonical_hash(
+                    {
+                        "field_sha256": field.identity_sha256,
+                        "target_next_sha256": tensor_sha256(target_next),
+                        "physical_capture_sha256": physical.identity_sha256,
+                        "request_order_sha256": objective_plan.request_order_sha256,
+                    }
+                )
+                inventory, functional_probe = _fixed_e8_functional_basis_probe(
+                    model,
+                    tokenizer,
+                    alias=alias,
+                    field=field,
+                    step_index=state_index,
+                    factors=current_factors,
+                    target_state=target_next,
+                    capture=entry_capture,
+                    replay_entry=replay_entry,
+                    theta0_cache=theta0_cache,
+                    lock=controller_lock,
+                    ledger=arm_state.ledger,
+                    touched=touched,
+                    history=arm_state.history,
+                    schedule=schedule,
+                    factor_state_sha256=_factor_state(
+                        entry_capture.entry_sha256, current_factors, target_next
+                    ),
+                    field_semantic_sha256=field_semantic,
+                    trial_entry_weights=base_values,
+                    physical_materialized=True,
+                )
+                if inventory.history_item_count != 0:
+                    raise ODEBFStateError("P1R23 calibration replay-H is active")
+                neutral = solve_strength_preserving_routing(
+                    problem.problem,
+                    inventory,
+                    arm=FixedE8Arm.NEUTRAL,
+                    alpha_req=alpha_req,
+                )
+                soft = solve_strength_preserving_routing(
+                    problem.problem,
+                    inventory,
+                    arm=FixedE8Arm.SOFT,
+                    alpha_req=alpha_req,
+                )
+                slopes = tuple(float(item) for item in signed.signed_progress)
+                state_public = {
+                    "state_index": state_index,
+                    "mean_target_new_nll": float(slope_result.loss),
+                    "target_objective": target_result.raw_free_payload(),
+                    "target_update": target_receipt,
+                    "physical_capture_sha256": physical.identity_sha256,
+                    "terminal_sha256": tensor_sha256(physical.terminal_z),
+                    "key_inventory_sha256": _key_identity(physical.keys_by_layer),
+                    "field_sha256": field.identity_sha256,
+                    "signed_slopes": list(slopes),
+                    "slope_sign": [int(np.sign(item)) for item in slopes],
+                    "slope_rank_desc_stable": np.argsort(
+                        -np.asarray(slopes), kind="stable"
+                    ).tolist(),
+                    "neutral": neutral.raw_free_payload(),
+                    "soft": soft.raw_free_payload(),
+                    "functional_inventory": inventory.raw_free_payload(),
+                    "functional_probe_sha256": functional_probe["identity_sha256"],
+                    "atomic_history_item_count": 0,
+                }
+                state_public["identity_sha256"] = canonical_hash(state_public)
+                states.append(
+                    {
+                        "public": state_public,
+                        "gradient": target_result.target_gradient.detach().cpu().clone(),
+                        "terminal": physical.terminal_z.detach().cpu().clone(),
+                        "neutral_velocity": torch.tensor(neutral.velocity),
+                        "soft_velocity": torch.tensor(soft.velocity),
+                    }
+                )
+                if state_index == 0:
+                    increment = fixed_e8_waypoint_factors(
+                        field, neutral.velocity, step_index=0
+                    )
+                    current_factors = _merge_factors(current_factors, increment)
+                    materializer.materialize(current_factors, transition_index=1)
+                    physical = capture_scalable_physical_state(
+                        model, capture_plan, hparams
+                    )
+                    target = target_next
+                    terminal = physical.terminal_z.clone()
+            internal[microbatch_size] = states
+            public[str(microbatch_size)] = {
+                "objective_plan": objective_plan.raw_free_payload(),
+                "capture_plan": capture_plan.raw_free_payload(),
+                "initial_r0_nonzero_count": int(
+                    torch.count_nonzero(initial.residual).item()
+                ),
+                "states": [item["public"] for item in states],
+                "W1_is_single_neutral_technical_transition": True,
+                "heldout_evaluator_access_count": 0,
+                "persistent_history_append_count": 0,
+            }
+        finally:
+            materializer.restore()
+        if _model_w0_contract(touched) != w0_contract:
+            raise ODEBFStateError("P1R23 calibration did not restore W0")
+
+    comparisons: dict[str, Any] = {}
+    reference = internal[1]
+    for microbatch_size in (2,):
+        observed = internal[microbatch_size]
+        state_comparisons: list[dict[str, Any]] = []
+        for state_index in (0, 1):
+            left = reference[state_index]
+            right = observed[state_index]
+            left_public = left["public"]
+            right_public = right["public"]
+            state_comparisons.append(
+                {
+                    "state_index": state_index,
+                    "target_gradient": _cosine_relative_l2(
+                        left["gradient"], right["gradient"]
+                    ),
+                    "terminal_activation": _cosine_relative_l2(
+                        left["terminal"], right["terminal"]
+                    ),
+                    "objective_mean_abs": abs(
+                        float(left_public["mean_target_new_nll"])
+                        - float(right_public["mean_target_new_nll"])
+                    ),
+                    "slope_sign_exact": (
+                        left_public["slope_sign"] == right_public["slope_sign"]
+                    ),
+                    "slope_rank_exact": (
+                        left_public["slope_rank_desc_stable"]
+                        == right_public["slope_rank_desc_stable"]
+                    ),
+                    "neutral_velocity": _cosine_relative_l2(
+                        left["neutral_velocity"], right["neutral_velocity"]
+                    ),
+                    "soft_velocity": _cosine_relative_l2(
+                        left["soft_velocity"], right["soft_velocity"]
+                    ),
+                }
+            )
+        comparisons[f"m1_vs_m{microbatch_size}"] = state_comparisons
+
+    terminal = {
+        "schema": f"{P1R23_SCHEMA}-calibration-terminal/v1",
+        "instruction_id": P1R23_INSTRUCTION_ID,
+        "source_head": source_head,
+        "alias": alias,
+        "estimand": "ATOMIC_TECHNICAL_CALIBRATION",
+        "request_count": 10,
+        "microbatch_sizes": [1, 2],
+        "partitions": public,
+        "comparisons": comparisons,
+        "endpoint_outcome_tuning_access_count": 0,
+        "heldout_evaluator_access_count": 0,
+        "persistent_history_append_count": 0,
+        "replay_h_decision_influence_count": 0,
+        "W0_restored": _model_w0_contract(touched) == w0_contract,
+        "compute": job_ledger.raw_free_payload(),
+    }
+    terminal["identity_sha256"] = canonical_hash(terminal)
+    terminal_sha = write_once(destination / "terminal.json", terminal)
+    manifest = {
+        "schema": f"{P1R23_SCHEMA}-manifest/v1",
+        "source_head": source_head,
+        "terminal_sha256": terminal_sha,
+        "role": "CALIBRATION",
+        "request_count": 10,
+        "W0_restored": True,
+        "estimand": "ATOMIC",
+    }
+    manifest["identity_sha256"] = canonical_hash(manifest)
+    manifest_sha = write_once(destination / "manifest.json", manifest)
+    return {
+        "status": "P1R23_CALIBRATION_COMPLETE",
+        "terminal_sha256": terminal_sha,
+        "manifest_sha256": manifest_sha,
+    }
+
+
+def run_p1r23_scalable_batched(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    role: str,
+    destination: Path,
+    raw_root: Path,
+    stages: Any,
+    source_head: str,
+    requests: Sequence[Mapping[str, Any]],
+    stream: Mapping[str, Any],
+    hparams: Any,
+    projector: torch.Tensor,
+    contexts: Sequence[Sequence[str]],
+    covariance_registry: PinnedCovarianceRegistry,
+    projector_sha256: str,
+    controller_lock: P1ControllerLock,
+    request_by_sha256: Mapping[str, Mapping[str, Any]],
+    population_by_sha256: Mapping[str, Mapping[str, Any]],
+    schedule: StatelessReplaySchedule,
+    theta0_cache: Theta0TeacherCache,
+    dataset_path: Path,
+    mutation_lock: threading.RLock,
+    touched: Mapping[str, torch.nn.Parameter],
+    base_receipt: ArmWeightSnapshot,
+    base_values: Mapping[str, torch.Tensor],
+    job_ledger: ComputeLedger,
+    write_once: Any,
+    request_microbatch_size: int,
+    numerical_lock: Mapping[str, Any],
+    numerical_lock_sha256: str,
+) -> dict[str, Any]:
+    del stages
+    request_order = scalable_ordered_request_digest(
+        [str(item["request_sha256"]) for item in requests]
+    )
+    if (
+        len(requests) not in (10, 100)
+        or request_order != stream["batch_ordered_request_digest_v1"][0]
+        or numerical_lock["native_controls"]["optimized_native_target"]
+        != "SCIENTIFICALLY_IDENTICAL_DIRECT_Z_SOLVE"
+        or numerical_lock["atomic_only"]["result_label"] != "ATOMIC"
+        or numerical_lock["atomic_only"]["persistent_history_append_count"] != 0
+        or numerical_lock["atomic_only"]["replay_h_decision_influence_count"] != 0
+    ):
+        raise ODEBFContractError("P1R23 execution lock differs")
+    preflight = {
+        "schema": f"{P1R23_SCHEMA}-execution-preflight/v1",
+        "source_head": source_head,
+        "role": role,
+        "alias": alias,
+        "request_count": len(requests),
+        "request_order_sha256": request_order,
+        "stream_root_digest": stream["root_digest"],
+        "numerical_lock_sha256": numerical_lock_sha256,
+        "request_microbatch_size": request_microbatch_size,
+        "direct_z_role": role in ("OPTIMIZED_NATIVE_K1", "OFFICIAL_NATIVE"),
+        "one_gradient_role": role == "ODE_BF_K8_PAIR",
+        "estimand": "ATOMIC",
+        "joint_batch_application_count": 1,
+        "persistent_history_append_count": 0,
+        "replay_h_decision_influence_count": 0,
+        "sequential_controller_influence_count": 0,
+        "p1r20_access_count": 0,
+    }
+    preflight["identity_sha256"] = canonical_hash(preflight)
+    write_once(raw_root / "execution-preflight.json", preflight)
+    if role == "ODE_BF_K8_PAIR":
+        return _run_ode_pair(
+            model,
+            tokenizer,
+            alias=alias,
+            destination=destination,
+            raw_root=raw_root,
+            source_head=source_head,
+            requests=requests,
+            hparams=hparams,
+            projector=projector,
+            contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            controller_lock=controller_lock,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            theta0_cache=theta0_cache,
+            dataset_path=dataset_path,
+            touched=touched,
+            base_receipt=base_receipt,
+            base_values=base_values,
+            job_ledger=job_ledger,
+            write_once=write_once,
+            request_microbatch_size=request_microbatch_size,
+        )
+    if role == "CALIBRATION":
+        return _run_calibration(
+            model,
+            tokenizer,
+            alias=alias,
+            destination=destination,
+            raw_root=raw_root,
+            source_head=source_head,
+            requests=requests,
+            hparams=hparams,
+            projector=projector,
+            contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            controller_lock=controller_lock,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            theta0_cache=theta0_cache,
+            touched=touched,
+            base_receipt=base_receipt,
+            base_values=base_values,
+            job_ledger=job_ledger,
+            write_once=write_once,
+        )
+    if role in ("OPTIMIZED_NATIVE_K1", "OFFICIAL_NATIVE"):
+        return _run_native_role(
+            model,
+            tokenizer,
+            alias=alias,
+            role=role,
+            destination=destination,
+            raw_root=raw_root,
+            source_head=source_head,
+            requests=requests,
+            hparams=hparams,
+            projector=projector,
+            contexts=contexts,
+            dataset_path=dataset_path,
+            touched=touched,
+            base_values=base_values,
+            request_microbatch_size=request_microbatch_size,
+            mutation_lock=mutation_lock,
+            job_ledger=job_ledger,
+            write_once=write_once,
+        )
+    raise ODEBFContractError("P1R23 execution role differs")
+
+
+__all__ = ["run_p1r23_scalable_batched"]
