@@ -7,7 +7,11 @@
   "prior_technical_repair": "SET_EMPTY_SHELL_MAXIMUM_RECORDS_40_AND_DISTINCT_ODE_ONLY_ATTEMPT_NAMESPACE",
   "technical_defect": "STAGE2_RESTORATION_SEED_USED_STRICT_ZERO_INSTEAD_OF_FROZEN_ENERGY_CERTIFICATE",
   "technical_repair": "ALIGN_RESTORATION_ENERGY_PREDICATE_TO_EXISTING_1E12_CERTIFICATE_AND_DISTINCT_TASK4_ATTEMPT_NAMESPACE",
-  "failed_job": "18782",
+  "failed_jobs": [
+    "18782",
+    "18784",
+    "18777"
+  ],
   "accepted_compute_a1_scientific_checkpoint": "794885a48c09046b454b88eee7880e08c390902a",
   "accepted_compute_a1_execution_checkpoint": "f64d0c1221ac0eecc53a1fbb9685a9a23835af0e",
   "fresh_seal_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
@@ -252,11 +256,11 @@
     {
       "mode": 33216,
       "object_algorithm": "sha1",
-      "object_id": "703c0ba74080c22cb64916645460485084b2d791",
+      "object_id": "6c5222897f76233dadc56c48934739b1fbd7d40e",
       "path": "project/run_scripts/session05_ode_bf_submit_historical_h0_sequential.py",
       "role": "SESSION_RUNTIME_OR_LAUNCHER",
-      "sha256": "f57bb34302d9869f8fec00de4d7068a8666840fb363402abc0e074ca405d58cd",
-      "size": 11415
+      "sha256": "ab2b3ea9d18291664f755d790051d5ef6c73c987783cab10aa3f44b13f551749",
+      "size": 12443
     },
     {
       "mode": 33152,
@@ -288,6 +292,6 @@
   ],
   "entry_count": 30,
   "technical_launcher_parent_checkpoint": "1b8ab5659c922d36e324abe9f055f71b641129cc",
-  "initial_cap_aware_throttle": "3_ORIGINAL_ARRAY_PLUS_1_TASK4_REPLACEMENT_EQUALS_CAP4",
-  "root_digest": "d3392c3be0efb1f6c1df8ea48a8f58c34d2827e42d27f1d2e45938b70cdbbf86"
+  "initial_cap_aware_throttle": "POINT_IN_TIME_ORIGINAL_ACTIVE_PLUS_TECH_R2_REPLACEMENT_THROTTLE_EQUALS_CAP4",
+  "root_digest": "51dff4282f49e2c129871b1dd5b0707239db0b82f6eaff409af02eb351464825"
 }
