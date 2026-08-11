@@ -1,32 +1,33 @@
 {
   "schema_version": "ode-edit-s05-p1r23-compute-progress-simplex-source-manifest/v1",
   "instruction_id": "ODEEDIT-S05-P1R23-PROGRESS-SIMPLEX-BF-COMPUTE-A1",
-  "scientific_parent": "47941b0bdfc50f48515f86bdded97e3cc4938d65",
-  "scientific_checkpoint": "bc14d9ff5f038403c1fbf94310e8180bdc218078",
-  "scientific_tree": "2847d5d88a5d901209e340ad837fe64c5dea41ee",
+  "scientific_parent": "c9da7ebd0095fcba0a63cdf2a2e702ab16c2515e",
+  "scientific_checkpoint": "d7a5e566aeec5d8c7cdf38f2b547d041fc7a332c",
+  "scientific_tree": "d3e3c255186ca889cc1279fddc971f4b897ddb74",
   "parent_contract_sha256": "64c51538b3299a7426bc3477a5d96d8216b4c78f007771772bb34b435994508d",
   "compute_addendum_sha256": "d25a3181f8011ce04a56b3bdd6838201fe06d57289944d2d82b973d6f7940375",
   "numerical_lock_sha256": "15d770bf63b428e1d8f95c5848d70b45842676d4f9d5b7b26e153c4f9296eb88",
-  "entry_count": 14,
+  "entry_count": 15,
   "entries": [
     {"path":"project/run_scripts/ode_bf/compute_progress_simplex_runtime.py","mode":"100644","object_id":"50235a88e87f8a785d5f8a33fb2e18216bc41521","size":6317,"sha256":"180a9c01446c4621208ece0f3443dd53ee449420bb5756fd4641e1cbf031fe2f"},
     {"path":"project/run_scripts/ode_bf/locks/numerical_lock_s05_compute_progress_simplex.json","mode":"100644","object_id":"a3a03db296a81fab50f448837c89e4870e3c94b0","size":2679,"sha256":"15d770bf63b428e1d8f95c5848d70b45842676d4f9d5b7b26e153c4f9296eb88"},
     {"path":"project/run_scripts/ode_bf/p1_scalable_batched_experiment.py","mode":"100644","object_id":"82ccf56ee00d275550554bb38a94719fcffd7827","size":72967,"sha256":"b674b0f75c2b1bae9d9d46fe7a2add51bc4ceef33cf88f64cd53b65a83d0bca4"},
     {"path":"project/run_scripts/ode_bf/p1_scalable_batched_runtime_panel.py","mode":"100644","object_id":"47883cf631a89657dd3f91d6a9f422963f89602a","size":9246,"sha256":"b54e532011ca7b9f6e4e0053e755675e2ad3507d0e97f4684a00ac09ecf9bc38"},
-    {"path":"project/run_scripts/ode_bf/progress_simplex_routing.py","mode":"100644","object_id":"395cbe34e4cda7a5f70a75526d65fcf8407fc41b","size":37840,"sha256":"d40e97b21060c2e0472343243dce555c72397ed4c573774888f7e4a6fbb5ddfa"},
+    {"path":"project/run_scripts/ode_bf/progress_simplex_routing.py","mode":"100644","object_id":"357755b7a71b2d6cdd864cfb12b8568cb42ec463","size":43464,"sha256":"ebab0c54afc4ff23f9e165955306d3038c0bc88e104e67ccbdd221e629c10814"},
     {"path":"project/run_scripts/ode_bf/scalable_batched_field.py","mode":"100644","object_id":"7a9250cd81d3a8c96417cd69c1a5603ec8ece000","size":19066,"sha256":"dbff3308c9030871a309e45128b02d6361750ef7464d777cb4989751b75443e4"},
     {"path":"project/run_scripts/ode_bf/scalable_batched_model.py","mode":"100644","object_id":"360b0290c9a90d86bdde6c313171241c38b3a550","size":42742,"sha256":"e88f0e9ffa6a949caa8bf558c7fabae68bd52a12b81d3856a9b0feaef672d2c1"},
     {"path":"project/run_scripts/ode_bf/scalable_batched_runtime.py","mode":"100644","object_id":"ec226acca40845382a54c3f6e6392fc6adf27154","size":26837,"sha256":"df0c0fe71c7535e9cbd69f066ff3a5d9c6a658990aa1829865d4696de580b9df"},
     {"path":"project/run_scripts/ode_bf/target_new_nll.py","mode":"100644","object_id":"34f8646cd809ee9be9289a9ec6c953ab5f99e28c","size":52917,"sha256":"b36077503b175c149075104d0b14559abb2f492248ae197f6461b46640055327"},
-    {"path":"project/run_scripts/ode_bf/tests/test_compute_progress_simplex.py","mode":"100644","object_id":"a40549af16c14a7777c6d60238f6fe665cddff3f","size":5758,"sha256":"60aade9eedebbf6782a654f208c23df94f92744a5de0d607df8a36278ed6a477"},
+    {"path":"project/run_scripts/ode_bf/tests/test_compute_progress_simplex.py","mode":"100644","object_id":"18a5e004288dad4041e608c734abda0fa5b8d2db","size":8346,"sha256":"76647721b4ff4ab999e1929408108bfc1aff7304ad4e67e44a88926ebf1968ba"},
     {"path":"project/run_scripts/session05_ode_bf_compute_progress_simplex.py","mode":"100755","object_id":"cf080f7b58458fd93d4459da18e4729fbbe80949","size":3574,"sha256":"1024ff8f28523b44ebe96586b7a3e4d6b71a9bf0224cf0c6165e67c33fe82ff9"},
     {"path":"project/run_scripts/session05_ode_bf_compute_progress_simplex.sbatch","mode":"100755","object_id":"3c6f19556232dd2552544430789fc0b49f71efa4","size":2816,"sha256":"bb1a6a682df93547957cb8e4f51a2de985faa1a0109ae7ee709def7193ae48df"},
     {"path":"project/run_scripts/session05_ode_bf_compute_progress_simplex_dry_plan.py","mode":"100755","object_id":"798b0af86684253fc51ced50f254edc012b04d93","size":2849,"sha256":"51933eec61afa2c67be8ea0e01403abd140c50909cb0c497414db78bed0c9a6c"},
-    {"path":"project/run_scripts/session05_ode_bf_submit_compute_progress_simplex.py","mode":"100755","object_id":"5d9a6b115c24fc0a2be292d8bc5105fa0f483393","size":5083,"sha256":"9de744ee7f4f8bdb282d31ce05728237616756880dd3048264589f60d006666d"}
+    {"path":"project/run_scripts/session05_ode_bf_submit_compute_progress_simplex.py","mode":"100755","object_id":"5d9a6b115c24fc0a2be292d8bc5105fa0f483393","size":5083,"sha256":"9de744ee7f4f8bdb282d31ce05728237616756880dd3048264589f60d006666d"},
+    {"path":"project/run_scripts/session05_ode_bf_compute_progress_simplex_tech_r1.sbatch","mode":"100755","object_id":"68352b8856a9bd73bc5a76b0e417c2ab53d0b4e3","size":2511,"sha256":"35b2766c3e48b0d4f75aa8705d03757ef03f4b2ac14ca87d0345e1fcabc3e0fb"}
   ],
   "functional_probe_per_step_count": 0,
   "B100_access_count": 0,
   "P1R20_access_count": 0,
   "root_digest_convention": "sha256_canonical_json_without_root_digest",
-  "root_digest": "58f4c269e395af5e6c86a90f942d1e94a1d2da77e6b7fd1858c72bba47742a24"
+  "root_digest": "ac3d70bfbdf49441b4570214ef31b941072586d9eedd9f5b8cd377df67210473"
 }
