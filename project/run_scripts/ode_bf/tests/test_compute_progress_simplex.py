@@ -29,6 +29,7 @@ from project.run_scripts.ode_bf.scalable_batched_runtime import (
     build_token_budget_streaming_batch_plan,
 )
 from project.run_scripts.ode_bf.p1_scalable_batched_runtime_panel import (
+    P1R23_COMPUTE_A1_TECH_R2_ATTEMPT,
     expected_p1r23_result_name,
 )
 
@@ -190,6 +191,34 @@ class ComputeProgressSimplexTests(unittest.TestCase):
         self.assertEqual(len(names), 4)
         source = inspect.getsource(solve_progress_simplex_routing)
         self.assertNotIn("model(", source)
+
+    def test_attempt_namespace_is_exact_and_role_bound(self) -> None:
+        expected = expected_p1r23_result_name(
+            "llama3-8b-inst",
+            batch_size=10,
+            role="COMPUTE_PROGRESS_SIMPLEX_BG_PAIR",
+            attempt_namespace=P1R23_COMPUTE_A1_TECH_R2_ATTEMPT,
+        )
+        self.assertEqual(
+            expected,
+            "s05-p1r23-b10-llama3-8b-inst-compute-progress-simplex-"
+            "bg-neutral-soft-pair-compute-a1-tech-r2-v1",
+        )
+        for stale in ("compute-a1-v1", "compute-a1-tech-r1-v1", "tech-r2"):
+            with self.assertRaisesRegex(ODEBFContractError, "attempt namespace"):
+                expected_p1r23_result_name(
+                    "llama3-8b-inst",
+                    batch_size=10,
+                    role="COMPUTE_PROGRESS_SIMPLEX_BG_PAIR",
+                    attempt_namespace=stale,
+                )
+        with self.assertRaisesRegex(ODEBFContractError, "attempt namespace"):
+            expected_p1r23_result_name(
+                "qwen2.5-7b-inst",
+                batch_size=10,
+                role="PROGRESS_SIMPLEX_BG_PAIR",
+                attempt_namespace=P1R23_COMPUTE_A1_TECH_R2_ATTEMPT,
+            )
 
 
 if __name__ == "__main__":

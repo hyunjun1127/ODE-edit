@@ -3215,6 +3215,7 @@ def run_p1(
     atomic_runtime_conformance_mode: bool = False,
     scalable_batched_role: str | None = None,
     scalable_batched_batch_size: int | None = None,
+    scalable_batched_attempt_namespace: str | None = None,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3252,8 +3253,12 @@ def run_p1(
             alias,
             batch_size=scalable_batched_batch_size,
             role=scalable_batched_role,
+            attempt_namespace=scalable_batched_attempt_namespace,
         )
-    elif scalable_batched_batch_size is not None:
+    elif (
+        scalable_batched_batch_size is not None
+        or scalable_batched_attempt_namespace is not None
+    ):
         raise ODEBFContractError("P1R23 role is absent")
     elif atomic_runtime_conformance_mode:
         from .p1_atomic_runtime_optimization_panel import (

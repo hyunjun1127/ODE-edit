@@ -55,6 +55,7 @@ P1R23_EXECUTION_ROLES = (
 )
 P1R23_FORECAST_SECONDS = 86_000
 P1R23_ALLOCATION_SECONDS = 86_340
+P1R23_COMPUTE_A1_TECH_R2_ATTEMPT = "compute-a1-tech-r2-v1"
 
 
 def forecast_p1r23_panel(
@@ -97,6 +98,7 @@ def expected_p1r23_result_name(
     batch_size: int,
     role: str,
     routing_arm: str | None = None,
+    attempt_namespace: str | None = None,
 ) -> str:
     if alias not in MODEL_ALIASES or batch_size not in P1R23_BATCH_SIZES:
         raise ODEBFContractError("P1R23 result identity differs")
@@ -141,6 +143,14 @@ def expected_p1r23_result_name(
         if role.startswith("PROGRESS_SIMPLEX_")
         else "tech-r2-v1"
     )
+    if attempt_namespace is not None:
+        if (
+            attempt_namespace != P1R23_COMPUTE_A1_TECH_R2_ATTEMPT
+            or not role.startswith("COMPUTE_PROGRESS_SIMPLEX_")
+            or routing_arm is not None
+        ):
+            raise ODEBFContractError("P1R23 attempt namespace differs")
+        revision = attempt_namespace
     return f"s05-p1r23-b{batch_size}-{alias}-{suffix}-{revision}"
 
 

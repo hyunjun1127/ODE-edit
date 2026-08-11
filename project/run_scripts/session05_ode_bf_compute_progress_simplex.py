@@ -25,6 +25,9 @@ from project.run_scripts.ode_bf.p1_runtime import (
     run_p1,
     write_p1_failure_once,
 )
+from project.run_scripts.ode_bf.p1_scalable_batched_runtime_panel import (
+    P1R23_COMPUTE_A1_TECH_R2_ATTEMPT,
+)
 
 
 RUN_TOKEN = "p1r23-compute-progress-simplex-a1-v1"
@@ -54,6 +57,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
+    parser.add_argument(
+        "--attempt-namespace",
+        choices=(P1R23_COMPUTE_A1_TECH_R2_ATTEMPT,),
+    )
     args = parser.parse_args(argv)
     if len(args.source_head) != 40:
         return 2
@@ -66,6 +73,7 @@ def main(argv: list[str] | None = None) -> int:
             source_head=args.source_head,
             scalable_batched_role=args.role,
             scalable_batched_batch_size=10,
+            scalable_batched_attempt_namespace=args.attempt_namespace,
         )
         result = {**result, "compute_progress_simplex_lock_sha256": lock_sha}
     except P1OutputRootCollision as exc:
