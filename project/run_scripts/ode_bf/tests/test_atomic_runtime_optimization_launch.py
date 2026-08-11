@@ -117,8 +117,10 @@ class AtomicRuntimeOptimizationLaunchTests(unittest.TestCase):
         self.assertEqual(value["entry_count"], len(value["entries"]))
         self.assertEqual(
             value["expected_parent"],
-            "d604953a046b6af4da7386dd6c64c20fc848f625",
+            "47fb9b69f4825734c2c03c24fe241e6adc25c984",
         )
+        self.assertEqual(value["scientific_checkpoint"], value["expected_parent"])
+        self.assertEqual(value["technical_repair"], "TECH_R1_TERMINAL_CAPTURE_MODULE")
         self.assertEqual(
             value["execution_head_policy"],
             "RUNTIME_GIT_HEAD_BOUND_BY_SUBMISSION_RECEIPT",

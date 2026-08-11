@@ -22,9 +22,9 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError
 
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_atomic_runtime_conformance.sbatch"
 STATE_ROOT = REPO_ROOT / "local/odebf/state"
-LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r22-atomic-runtime-conformance"
+LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r22-atomic-runtime-conformance-tech-r1"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
-NAMESPACE = "s05-atomic-runtime-optimization-p1r22-c0c1-sh2-array-v1"
+NAMESPACE = "s05-atomic-runtime-optimization-p1r22-c0c1-sh2-array-tech-r1-v1"
 
 
 def _run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -71,7 +71,7 @@ def submit(source_head: str) -> dict[str, object]:
     if len(active) + 2 > 4:
         raise ODEBFContractError("P1R22 C0/C1 server2 janghj running GPU cap differs")
     result_names = tuple(
-        f"s05-atomic-runtime-optimization-p1r22-c0c1-{job['alias']}-v1"
+        f"s05-atomic-runtime-optimization-p1r22-c0c1-{job['alias']}-tech-r1-v1"
         for job in plan["jobs"]
     )
     if any((RESULT_PARENT / name).exists() for name in result_names):

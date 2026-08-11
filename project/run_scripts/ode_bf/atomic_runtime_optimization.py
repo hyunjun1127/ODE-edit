@@ -145,10 +145,14 @@ def capture_physical_state(
         next(model.parameters()).device
     )
     module_names = [hparams.rewrite_module_tmp.format(layer) for layer in layers]
+    terminal_module_name = hparams.layer_module_tmp.format(layers[-1])
+    trace_names = tuple(
+        dict.fromkeys((*module_names, terminal_module_name))
+    )
     with torch.no_grad():
         with nethook.TraceDict(
             model,
-            module_names,
+            trace_names,
             retain_input=True,
             retain_output=True,
             stop=True,
@@ -177,7 +181,7 @@ def capture_physical_state(
             .contiguous()
         )
     deepest = _select_rows(
-        _unwrap(traces[module_names[-1]].output), indices
+        _unwrap(traces[terminal_module_name].output), indices
     )
     canonical_rows = tuple(
         request_ordinal * rows_per_request
@@ -229,6 +233,8 @@ def capture_physical_state(
             (layer, tensor_sha256(keys_by_layer[layer])) for layer in layers
         ],
         "terminal_z_sha256": tensor_sha256(terminal_z),
+        "terminal_module_name_sha256": canonical_hash(terminal_module_name),
+        "writer_module_name_sha256": canonical_hash(module_names),
         "lookup_positions": [int(item[0]) for item in indices],
         "request_order_sha256": order,
         "model_state_sha256": canonical_hash(state_payload),
