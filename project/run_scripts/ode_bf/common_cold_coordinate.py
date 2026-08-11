@@ -26,7 +26,11 @@ from .p1_backend import (
     SharedTerminalResidualInput,
     _virtual_context,
 )
-from .target_new_nll import RoutingObjective, evaluate_routing_objective
+from .target_new_nll import (
+    RoutingObjective,
+    RoutingObjectiveBatchPlan,
+    evaluate_routing_objective,
+)
 from .cold_start_target import (
     _rewrap_layer_output,
     _rng_identity,
@@ -239,6 +243,7 @@ class RequestResidualActivationOverlay:
         self.lookup_positions = positions
         self.contexts_per_request = contexts_per_request
         self.calls = 0
+        self.backend_invocations = 0
         self.request_ordinals: list[int] = []
         self.maximum_exact_delta_error = 0.0
         self.maximum_authoritative_assignment_error = 0.0
@@ -248,48 +253,61 @@ class RequestResidualActivationOverlay:
         if self.calls >= len(self.lookup_positions):
             raise ODEBFContractError("common cold overlay received extra forward")
         activation = _unwrap_layer_output(output)
-        request_index = self.calls // self.contexts_per_request
-        raw_position = self.lookup_positions[self.calls]
-        residual = self.residual[:, request_index].to(
-            device=activation.device, dtype=activation.dtype
-        )
-        if activation.ndim != 3 or activation.shape[-1] != residual.numel():
+        if activation.ndim != 3 or activation.shape[-1] != self.residual.shape[0]:
             raise ODEBFContractError("common cold overlay layout differs")
         patched = activation.clone()
-        if activation.shape[0] == 1:
-            position = raw_position if raw_position >= 0 else activation.shape[1] + raw_position
+        if activation.shape[0] <= 0:
+            raise ODEBFContractError("common cold overlay batch is empty")
+        batch_rows = int(activation.shape[0])
+        if self.calls + batch_rows > len(self.lookup_positions):
+            raise ODEBFContractError("common cold overlay row count differs")
+        for row in range(batch_rows):
+            global_row = self.calls + row
+            request_index = global_row // self.contexts_per_request
+            raw_position = self.lookup_positions[global_row]
+            residual = self.residual[:, request_index].to(
+                device=activation.device, dtype=activation.dtype
+            )
+            position = (
+                raw_position
+                if raw_position >= 0
+                else activation.shape[1] + raw_position
+            )
             if position < 0 or position >= activation.shape[1]:
-                raise ODEBFContractError("common cold overlay lookup is out of range")
-            before = activation[0, position, :]
+                raise ODEBFContractError(
+                    "common cold overlay lookup is out of range"
+                )
+            before = activation[row, position, :]
             patched_expected = before + residual
-            patched[0, position, :] = patched_expected
-            assigned = patched[0, position, :]
-            observed = patched[0, position, :] - before
-        elif activation.shape[1] == 1:
-            position = raw_position if raw_position >= 0 else activation.shape[0] + raw_position
-            if position < 0 or position >= activation.shape[0]:
-                raise ODEBFContractError("common cold overlay lookup is out of range")
-            before = activation[position, 0, :]
-            patched_expected = before + residual
-            patched[position, 0, :] = patched_expected
-            assigned = patched[position, 0, :]
-            observed = patched[position, 0, :] - before
-        else:
-            raise ODEBFContractError("common cold overlay batch layout differs")
-        if not all(
-            bool(torch.isfinite(value).all())
-            for value in (before, residual, patched_expected, assigned, observed)
-        ):
-            raise ODEBFContractError("common cold overlay contains non-finite values")
-        assignment_error, error = _authoritative_additive_assignment_errors(
-            before, residual, assigned
-        )
-        self.maximum_exact_delta_error = max(self.maximum_exact_delta_error, error)
-        self.maximum_authoritative_assignment_error = max(
-            self.maximum_authoritative_assignment_error, assignment_error
-        )
-        self.request_ordinals.append(request_index)
-        self.calls += 1
+            patched[row, position, :] = patched_expected
+            assigned = patched[row, position, :]
+            observed = patched[row, position, :] - before
+            if not all(
+                bool(torch.isfinite(value).all())
+                for value in (
+                    before,
+                    residual,
+                    patched_expected,
+                    assigned,
+                    observed,
+                )
+            ):
+                raise ODEBFContractError(
+                    "common cold overlay contains non-finite values"
+                )
+            assignment_error, error = _authoritative_additive_assignment_errors(
+                before, residual, assigned
+            )
+            self.maximum_exact_delta_error = max(
+                self.maximum_exact_delta_error, error
+            )
+            self.maximum_authoritative_assignment_error = max(
+                self.maximum_authoritative_assignment_error,
+                assignment_error,
+            )
+            self.request_ordinals.append(request_index)
+        self.calls += batch_rows
+        self.backend_invocations += 1
         return _rewrap_layer_output(output, patched)
 
     def __enter__(self) -> "RequestResidualActivationOverlay":
@@ -326,6 +344,7 @@ class RequestResidualActivationOverlay:
             "request_count": BATCH_SIZE,
             "contexts_per_request": self.contexts_per_request,
             "hook_call_count": self.calls,
+            "hook_backend_invocation_count": self.backend_invocations,
             "request_ordinal_sha256": canonical_hash(self.request_ordinals),
             "residual_sha256": tensor_sha256(self.residual),
             "maximum_exact_delta_error": self.maximum_exact_delta_error,
@@ -584,6 +603,8 @@ def write_aware_common_target_velocity(
     cumulative_factors_by_weight: Mapping[str, Sequence[WaypointFactor]],
     metric: CommonColdScaleMetric,
     ledger: ComputeLedger,
+    request_microbatch_size: int = 1,
+    objective_batch_plan: RoutingObjectiveBatchPlan | None = None,
 ) -> tuple[torch.Tensor, dict[str, Any]]:
     """Compute F_z at the exact Euler weight probe ``h*v`` once."""
 
@@ -622,11 +643,18 @@ def write_aware_common_target_velocity(
                     objective=RoutingObjective.TARGET_NEW_NLL,
                     contexts=contexts,
                     gradient_input=flat,
+                    request_microbatch_size=request_microbatch_size,
+                    batch_plan=objective_batch_plan,
                 )
     overlay_payload = terminal_overlay.raw_free_payload()
     if _rng_identity() != before_rng:
         raise ODEBFStateError("common target velocity changed RNG")
-    if result.input_gradient is None or result.backward_count != BATCH_SIZE:
+    if (
+        result.input_gradient is None
+        or result.backward_count
+        != (BATCH_SIZE + request_microbatch_size - 1)
+        // request_microbatch_size
+    ):
         raise ODEBFContractError("common target velocity gradient differs")
     gradient = result.input_gradient.view(field.target_state.shape).to(
         device="cpu", dtype=torch.float64
@@ -682,6 +710,7 @@ def write_aware_common_target_velocity(
         "target_gradient_reuse_count": 1,
         "additional_target_graph_count": 0,
         "target_backward_count": result.backward_count,
+        "request_microbatch_size": request_microbatch_size,
         "processed_token_count": result.processed_token_count,
         "terminal_additive_overlay": overlay_payload,
         "target_overlay_definition": COMMON_COLD_TARGET_OVERLAY_DEFINITION,

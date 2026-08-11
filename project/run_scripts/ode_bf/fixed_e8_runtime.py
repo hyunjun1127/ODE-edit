@@ -96,7 +96,11 @@ from .p1_state import ArmWeightSnapshot, P1Arm, P1HistoryLedger
 from .request_digest import ordered_request_digest_v1
 from .routing import PreservationConstraintPolicy, QuadraticBarrier, RoutingProblem
 from .sampling import StatelessReplaySchedule
-from .target_new_nll import RoutingObjective, evaluate_routing_objective
+from .target_new_nll import (
+    RoutingObjective,
+    RoutingObjectiveBatchPlan,
+    evaluate_routing_objective,
+)
 from .cold_start_target import (
     ColdTargetMetric,
     cold_field_semantic_receipt,
@@ -795,6 +799,8 @@ def _fixed_e8_signed_progress_gradient(
     cumulative_factors_by_weight: Mapping[str, Sequence[WaypointFactor]],
     contexts: Sequence[Sequence[str]],
     ledger: ComputeLedger,
+    request_microbatch_size: int = 1,
+    objective_batch_plan: RoutingObjectiveBatchPlan | None = None,
 ) -> SignedProgressReceipt:
     """Target-new signed layer efficiency without all-nonpositive rejection."""
 
@@ -815,10 +821,13 @@ def _fixed_e8_signed_progress_gradient(
                 objective=RoutingObjective.TARGET_NEW_NLL,
                 contexts=contexts,
                 gradient_input=coefficients,
+                request_microbatch_size=request_microbatch_size,
+                batch_plan=objective_batch_plan,
             )
     if (
         observed.input_gradient is None
-        or observed.backward_count != BATCH_SIZE
+        or observed.backward_count
+        != (BATCH_SIZE + request_microbatch_size - 1) // request_microbatch_size
         or observed.target_true_suffix_token_counts != (None,) * BATCH_SIZE
     ):
         raise ODEBFContractError("fixed E8 target-new signed gradient differs")
@@ -996,6 +1005,8 @@ def _fixed_e8_functional_basis_probe(
     schedule: StatelessReplaySchedule,
     factor_state_sha256: str,
     field_semantic_sha256: str,
+    trial_entry_weights: Mapping[str, torch.Tensor] | None = None,
+    physical_materialized: bool = False,
 ) -> tuple[FixedE8SoftInventory, dict[str, Any]]:
     """Measure one baseline plus exactly five fixed-h basis endpoints.
 
@@ -1034,7 +1045,7 @@ def _fixed_e8_functional_basis_probe(
         alias=alias,
         entry=replay_entry,
         theta0_cache=theta0_cache,
-        factors=factors,
+        factors={} if physical_materialized else factors,
         lock=lock,
         ledger=ledger,
     )
@@ -1067,6 +1078,9 @@ def _fixed_e8_functional_basis_probe(
             factors=_merge_factors(factors, increment),
             lock=lock,
             ledger=ledger,
+            trial_entry_weights=(
+                trial_entry_weights if physical_materialized else None
+            ),
         )
         if (
             observed.pretrained.sample_order_sha256 != sample_order
@@ -1193,6 +1207,9 @@ def _fixed_e8_functional_basis_probe(
         ),
         "functional_p_floor_correction_routing_influence_count": 0,
         "hard_functional_decision_influence_count": 0,
+        "accepted_physical_state_materialized": physical_materialized,
+        "hot_hook_dense_assembly_count": 0 if physical_materialized else None,
+        "hot_hook_full_weight_hash_count": 0 if physical_materialized else None,
         "counter_delta": counter_delta,
         "wall_seconds": wall_seconds,
         "gpu_seconds": gpu_seconds,

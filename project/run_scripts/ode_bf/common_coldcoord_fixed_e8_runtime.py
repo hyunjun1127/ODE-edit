@@ -95,7 +95,11 @@ from .p1_common_coldcoord_fixed_e8_panel import (
 from .request_digest import ordered_request_digest_v1
 from .routing import PreservationConstraintPolicy
 from .sampling import StatelessReplaySchedule
-from .target_new_nll import RoutingObjective, evaluate_routing_objective
+from .target_new_nll import (
+    RoutingObjective,
+    RoutingObjectiveBatchPlan,
+    evaluate_routing_objective,
+)
 from .strength_preserving_routing import (
     STRENGTH_COVERAGE_EPSILON,
     STRENGTH_PRESERVING_AMENDMENT_ID,
@@ -580,6 +584,11 @@ def _build_common_field(
     typed_zero_positive: bool = False,
     observability_contract: Mapping[str, Any] | None = None,
     strength_preserving: bool = False,
+    atomic_runtime_optimized: bool = False,
+    physical_capture: Any | None = None,
+    trial_entry_weights: Mapping[str, torch.Tensor] | None = None,
+    request_microbatch_size: int = 1,
+    objective_batch_plan: RoutingObjectiveBatchPlan | None = None,
 ) -> tuple[
     Any,
     Any,
@@ -603,6 +612,13 @@ def _build_common_field(
             [str(item["request_sha256"]) for item in requests]
         )
     )
+    if atomic_runtime_optimized and (
+        not strength_preserving
+        or physical_capture is None
+        or trial_entry_weights is None
+    ):
+        raise ODEBFContractError("P1R22 optimized field contract differs")
+    model_factors = {} if atomic_runtime_optimized else current_factors
     field = build_p1_dynamic_field(
         model,
         tokenizer,
@@ -612,7 +628,7 @@ def _build_common_field(
         contexts,
         target_state=current_target,
         accepted_waypoint=step_index,
-        cumulative_factors_by_weight=current_factors,
+        cumulative_factors_by_weight=model_factors,
         history_solve_keys_by_layer=solve_history,
         history_risk_keys_by_layer=risk_history,
         covariance_registry=covariance_registry,
@@ -622,28 +638,55 @@ def _build_common_field(
         residual_policy=SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1,
         allow_zero_capacity=False,
         shared_terminal_residual=residual_input,
+        captured_keys_by_layer=(
+            physical_capture.keys_by_layer
+            if atomic_runtime_optimized
+            else None
+        ),
+        allow_inner_empty_cache=not atomic_runtime_optimized,
     )
-    signed, signed_overlay = _signed_progress_with_residual(
-        model,
-        tokenizer,
-        requests,
-        field,
-        factors=current_factors,
-        contexts=contexts,
-        target_layer_name=target_layer_name,
-        lookup_positions=lookup_positions,
-        residual=residual_input.residual,
-        ledger=ledger,
-    )
-    nohook_signed = (
-        legacy._fixed_e8_signed_progress_gradient(
+    if atomic_runtime_optimized:
+        signed = legacy._fixed_e8_signed_progress_gradient(
             model,
             tokenizer,
             requests,
             field,
-            cumulative_factors_by_weight=current_factors,
+            cumulative_factors_by_weight={},
             contexts=contexts,
             ledger=ledger,
+            request_microbatch_size=request_microbatch_size,
+            objective_batch_plan=objective_batch_plan,
+        )
+        signed_overlay = {
+            "status": "REMOVED_P1R22_PRODUCTION_PATH",
+            "model_forward_count": 0,
+            "backward_count": 0,
+            "decision_influence_count": 0,
+        }
+    else:
+        signed, signed_overlay = _signed_progress_with_residual(
+            model,
+            tokenizer,
+            requests,
+            field,
+            factors=current_factors,
+            contexts=contexts,
+            target_layer_name=target_layer_name,
+            lookup_positions=lookup_positions,
+            residual=residual_input.residual,
+            ledger=ledger,
+        )
+    nohook_signed = (
+        signed if atomic_runtime_optimized else legacy._fixed_e8_signed_progress_gradient(
+            model,
+            tokenizer,
+            requests,
+            field,
+            cumulative_factors_by_weight=model_factors,
+            contexts=contexts,
+            ledger=ledger,
+            request_microbatch_size=request_microbatch_size,
+            objective_batch_plan=objective_batch_plan,
         )
         if typed_zero_positive or strength_preserving
         else None
@@ -744,6 +787,8 @@ def _build_common_field(
         schedule=schedule,
         factor_state_sha256=factor_state,
         field_semantic_sha256=semantic["semantic_identity_sha256"],
+        trial_entry_weights=trial_entry_weights,
+        physical_materialized=atomic_runtime_optimized,
     )
     target_demand_receipt: Mapping[str, Any] | None = None
     if strength_preserving:
@@ -757,9 +802,11 @@ def _build_common_field(
             lookup_positions=lookup_positions,
             field=field,
             velocity_coefficients=(0.0,) * len(COMMON_COLD_LAYER_ORDER),
-            cumulative_factors_by_weight=current_factors,
+            cumulative_factors_by_weight=model_factors,
             metric=metric,
             ledger=ledger,
+            request_microbatch_size=request_microbatch_size,
+            objective_batch_plan=objective_batch_plan,
         )
         target_wall = time.perf_counter() - target_started
         alpha_req, target_demand_receipt = target_probe_requested_strength(
@@ -1006,6 +1053,15 @@ def _build_common_field(
             "detached_route_solve": solve_wall,
             "functional_probe": float(probe.get("wall_seconds", 0.0)),
         },
+        "atomic_runtime_optimized": atomic_runtime_optimized,
+        "overlay_slope_model_forward_count": (
+            0 if atomic_runtime_optimized else signed.model_forward_count
+        ),
+        "overlay_slope_backward_count": (
+            0 if atomic_runtime_optimized else signed.routing_backward_count
+        ),
+        "inner_field_empty_cache_count": 0 if atomic_runtime_optimized else None,
+        "request_microbatch_size": request_microbatch_size,
     }
     if typed_zero_positive:
         field_payload.update(

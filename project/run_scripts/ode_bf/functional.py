@@ -80,6 +80,7 @@ def assemble_effective_bf16(
     factors: Sequence[WaypointFactor],
     *,
     row_block: int,
+    compute_sha256: bool = True,
 ) -> tuple[torch.Tensor, AssemblyStats]:
     if entry_weight.dtype is not torch.bfloat16 or entry_weight.ndim != 2:
         raise ODEBFContractError("authoritative entry weight must be a BF16 matrix")
@@ -130,7 +131,7 @@ def assemble_effective_bf16(
         sum(factor.left.shape[1] for factor in ordered),
         maximum_block,
         0,
-        tensor_sha256(effective),
+        tensor_sha256(effective) if compute_sha256 else "NOT_COMPUTED",
     )
     return effective, stats
 
@@ -282,6 +283,124 @@ class CumulativeBF16FunctionalTrial(AbstractContextManager["CumulativeBF16Functi
         if violations:
             error = ODEBFContractError(
                 "BF16 cumulative trial mutated state: " + ",".join(violations)
+            )
+            if exc is not None:
+                raise error from exc
+            raise error
+        return False
+
+
+class CachedBF16FunctionalTrial(AbstractContextManager["CachedBF16FunctionalTrial"]):
+    """Entry-relative trial that assembles each effective weight once.
+
+    Unlike :class:`CumulativeBF16FunctionalTrial`, forward hooks only apply a
+    cached tensor.  This is the P1R22 fallback/diagnostic path for evaluations
+    that must inspect a cumulative candidate while the accepted physical state
+    is already materialized in the model.
+    """
+
+    verdict_eligible = True
+
+    def __init__(
+        self,
+        model: torch.nn.Module,
+        entry_weights: Mapping[str, torch.Tensor],
+        factors_by_weight: Mapping[str, Sequence[WaypointFactor]],
+        *,
+        row_block: int,
+    ) -> None:
+        if not factors_by_weight or set(entry_weights) != set(factors_by_weight):
+            raise ODEBFContractError("cached BF16 trial inventory differs")
+        self.model = model
+        self.entry_weights = dict(entry_weights)
+        self.factors_by_weight = {
+            name: tuple(factors) for name, factors in factors_by_weight.items()
+        }
+        self.row_block = row_block
+        self._handles: list[torch.utils.hooks.RemovableHandle] = []
+        self._parameters: list[tuple[str, torch.nn.Parameter, int, int, bool]] = []
+        self._effective: dict[str, torch.Tensor] = {}
+        self.dense_assembly_count = 0
+        self.full_weight_hash_count = 0
+        self.hot_hook_dense_assembly_count = 0
+        self.hot_hook_full_weight_hash_count = 0
+        self.replacement_linear_calls = 0
+
+    def _hook(self, name: str):
+        def apply(
+            module: torch.nn.Module,
+            inputs: tuple[Any, ...],
+            output: Any,
+        ) -> torch.Tensor:
+            del output
+            if not inputs or not isinstance(inputs[0], torch.Tensor):
+                raise ODEBFContractError("cached BF16 trial input differs")
+            hidden = inputs[0]
+            effective = self._effective[name]
+            if hidden.dtype is not torch.bfloat16 or effective.dtype is not torch.bfloat16:
+                raise ODEBFContractError("cached BF16 trial dtype differs")
+            self.replacement_linear_calls += 1
+            return torch_functional.linear(hidden, effective, module.bias)
+
+        return apply
+
+    def __enter__(self) -> "CachedBF16FunctionalTrial":
+        if self._handles:
+            raise ODEBFContractError("cached BF16 trial is already active")
+        try:
+            for name in sorted(self.factors_by_weight):
+                factors = self.factors_by_weight[name]
+                module, parameter = CumulativeBF16FunctionalTrial._resolve_linear(
+                    self.model, name
+                )
+                entry = self.entry_weights[name].detach().to(
+                    device=parameter.device,
+                    dtype=torch.bfloat16,
+                )
+                effective, _stats = assemble_effective_bf16(
+                    entry,
+                    factors,
+                    row_block=self.row_block,
+                    compute_sha256=False,
+                )
+                self._effective[name] = effective
+                self.dense_assembly_count += 1
+                self._parameters.append(
+                    (
+                        name,
+                        parameter,
+                        parameter.data_ptr(),
+                        parameter._version,
+                        parameter.requires_grad,
+                    )
+                )
+                self._handles.append(
+                    module.register_forward_hook(self._hook(name))
+                )
+        except BaseException:
+            self.__exit__(None, None, None)
+            raise
+        return self
+
+    def __exit__(self, exc_type: Any, exc: BaseException | None, traceback: Any) -> bool:
+        del exc_type, traceback
+        for handle in reversed(self._handles):
+            handle.remove()
+        self._handles.clear()
+        violations: list[str] = []
+        for name, parameter, pointer, version, requires_grad in self._parameters:
+            if (
+                parameter.data_ptr() != pointer
+                or parameter._version != version
+                or parameter.requires_grad != requires_grad
+                or parameter.grad is not None
+            ):
+                violations.append(name)
+        self._parameters.clear()
+        self._effective.clear()
+        if violations:
+            error = ODEBFContractError(
+                "cached BF16 trial mutated state: " + ",".join(violations)
             )
             if exc is not None:
                 raise error from exc

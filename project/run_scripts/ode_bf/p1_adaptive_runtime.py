@@ -1439,6 +1439,7 @@ def _functional_trial(
     factors: Mapping[str, Sequence[WaypointFactor]],
     lock: P1ControllerLock,
     ledger: ComputeLedger,
+    trial_entry_weights: Mapping[str, torch.Tensor] | None = None,
 ) -> Any:
     from .p1_runtime import _functional_trial as frozen_functional_trial
 
@@ -1451,6 +1452,7 @@ def _functional_trial(
         factors=factors,
         lock=lock,
         ledger=ledger,
+        trial_entry_weights=trial_entry_weights,
     )
 
 

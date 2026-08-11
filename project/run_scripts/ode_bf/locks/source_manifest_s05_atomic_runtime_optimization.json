@@ -1,0 +1,218 @@
+{
+  "schema_version": "ode-edit-s05-atomic-runtime-optimization-p1r22-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-ODE-BF-ATOMIC-RUNTIME-OPTIMIZATION-P1R22-V1",
+  "design_contract_sha256": "67ba83b498ce4773f3c7767c3759231063fc4b5eadbb184446de3b74c8b18473",
+  "scientific_base_checkpoint": "e6facd2d5dfae12d3c094b51981ad99951174109",
+  "p1r19_scientific_checkpoint": "657dafd40de50bb396fc9cfaf3862de1d07dd816",
+  "p1r19_execution_checkpoint": "d604953a046b6af4da7386dd6c64c20fc848f625",
+  "expected_parent": "d604953a046b6af4da7386dd6c64c20fc848f625",
+  "execution_branch": "codex/odeeditsh2-s05-atomic-runtime-optimization-p1r22-v1",
+  "execution_head_policy": "RUNTIME_GIT_HEAD_BOUND_BY_SUBMISSION_RECEIPT",
+  "stage_a_seal_root": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+  "request_order_sha256": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b",
+  "numerical_lock_file_sha256": "1735c40155f7b4db116a085679ecaa23f1406d95dd2113d4315e0526828336e0",
+  "numerical_lock_root_digest": "72272e6907744e2e9f675534827e49e79acd96f8322b8800459b104418eef139",
+  "cells": [
+    "BG-NEUTRAL",
+    "BG-SOFT"
+  ],
+  "models": [
+    "llama3-8b-inst",
+    "qwen2.5-7b-inst"
+  ],
+  "c0_c1_required_before_c2": true,
+  "scientific_promotion_authorized": false,
+  "entries": [
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "92f547ee65677b125455aa9bebbf1662b659b4d0",
+      "path": "project/run_scripts/ode_bf/atomic_runtime_optimization.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "7a430f9f7847f80679fd36e249c2eb19471829ef41e193410b74a2884717af5b",
+      "size": 15246
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "f68711cd2ad995118c0eafca127361f9cfa0d568",
+      "path": "project/run_scripts/ode_bf/common_cold_coordinate.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "0fde2d548f32f37ccc87f33509a1287e7becce6433858a16b19935d8bc45557e",
+      "size": 33398
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "5b0251c1b4b08fd45c45646a0d2e15dd462e2b21",
+      "path": "project/run_scripts/ode_bf/common_coldcoord_fixed_e8_runtime.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "7c7ade7826e64a792a40e758abd4e92539ef6937327a9fe50eaaaf948aa592b4",
+      "size": 203212
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "7ad99fa337f5f14117a0cffb23129e380606eb36",
+      "path": "project/run_scripts/ode_bf/fixed_e8_runtime.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "6dab6a543a8de455c9bae002a61f8b96feadd7167fdab1e7d7095d8787b4a7eb",
+      "size": 101907
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "1acdac09e9d88999dd8d3c67839464c5cc4cd905",
+      "path": "project/run_scripts/ode_bf/functional.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "10d898a1ad4ef4206d047eb8a79bc7791f716a0f9c86b117baaf7b817bd13bf3",
+      "size": 17587
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "88dc328aaf8a4ac674cfbb34550b73b602d007f5",
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_atomic_runtime_optimization.json",
+      "role": "SCIENTIFIC_OR_SOURCE_LOCK",
+      "sha256": "1735c40155f7b4db116a085679ecaa23f1406d95dd2113d4315e0526828336e0",
+      "size": 1675
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "27a9c9f0f3e04371826ea02285fae4f4f32670a7",
+      "path": "project/run_scripts/ode_bf/p1_adaptive_runtime.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "51e69515212b6887af04431f52f6453547a6f612e6091ac73ea2ba19bf685704",
+      "size": 164357
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "57d16c9b031267996402a09820814cfc025a911a",
+      "path": "project/run_scripts/ode_bf/p1_atomic_runtime_optimization.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "69ec98033679f3ba9fe5cb408db6d7789ea79811d15b1d189dee86b0b50adb4e",
+      "size": 54914
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "4da0f606c7e1aa534f610c4fe43818366113d32e",
+      "path": "project/run_scripts/ode_bf/p1_atomic_runtime_optimization_panel.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "fd5369af23fa246fcc6c9ffbb2cce60e7d9dd996cc424167a8107f5d5ffe782a",
+      "size": 5179
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "fb178c2e6a887b4da24600b8f19cabfd5265bc8b",
+      "path": "project/run_scripts/ode_bf/p1_backend.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "14ecb9562fbdca7d23cd4b8ac183257d7aac6ca8d24e7e36c355c6cae619a20f",
+      "size": 79200
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "957e668807de0ec3a6a0ac9ab3959b88323d64f2",
+      "path": "project/run_scripts/ode_bf/p1_replay.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "c7e2ea435da6bfecd0fe17fab3fd0148218f4d7c7d8ec53a74eb41c440c6d977",
+      "size": 21061
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "455e101e17a641e3787e366553d2f29f8af89821",
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "619bab8b89d177fedf846478acb30e712e285c5b448ab963d02be56dbf179f90",
+      "size": 188718
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "22a7d983e338ac6c93f26e8b0e2414e8700a4686",
+      "path": "project/run_scripts/ode_bf/target_new_nll.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "a2d2e68a6398323ded583103bdd6033083e5f7f3204fd43d34d14b66bc07df76",
+      "size": 52454
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "91666985b86eb781d0482bccfc9d875527284eb7",
+      "path": "project/run_scripts/ode_bf/tests/test_atomic_runtime_optimization.py",
+      "role": "FOCUSED_REGRESSION",
+      "sha256": "4d00cee7f7a6d4b7bc7bccb57cfc9c6e1e682399d821ac732f2aa8bdc5f80fce",
+      "size": 9335
+    },
+    {
+      "mode": 33188,
+      "object_algorithm": "sha1",
+      "object_id": "aba872568ccda41b6fab96ec1728bf76007ba51b",
+      "path": "project/run_scripts/ode_bf/tests/test_atomic_runtime_optimization_launch.py",
+      "role": "FOCUSED_REGRESSION",
+      "sha256": "3700c28facae71a3ba0c7b84828dd937f49574dfbbdb08aa9078ed4d7406a0d1",
+      "size": 6087
+    },
+    {
+      "mode": 33261,
+      "object_algorithm": "sha1",
+      "object_id": "34f528a6720ef69d082687971da7345495469aca",
+      "path": "project/run_scripts/session05_ode_bf_atomic_runtime_conformance.sbatch",
+      "role": "SESSION05_RUNTIME_OR_LAUNCHER",
+      "sha256": "31cbd62c5efd112099a9e74f330b322d0148a8eaeae1b86f9c52dcea488f141c",
+      "size": 2316
+    },
+    {
+      "mode": 33261,
+      "object_algorithm": "sha1",
+      "object_id": "b9861481b78bca0db62484a1d61de47883fe7767",
+      "path": "project/run_scripts/session05_ode_bf_atomic_runtime_optimization.py",
+      "role": "SESSION05_RUNTIME_OR_LAUNCHER",
+      "sha256": "b397890f123efef70cad7edc6342377f87cb2ee5a42949ab72aceb2ecc03e8ef",
+      "size": 3190
+    },
+    {
+      "mode": 33261,
+      "object_algorithm": "sha1",
+      "object_id": "6d4f41acd5300eee35b077050bfe37d9ffddbd9b",
+      "path": "project/run_scripts/session05_ode_bf_atomic_runtime_optimization.sbatch",
+      "role": "SESSION05_RUNTIME_OR_LAUNCHER",
+      "sha256": "4290db510d0f2acbadc44bdac340d05d3b3eface69649940e818da149b25c968",
+      "size": 2283
+    },
+    {
+      "mode": 33261,
+      "object_algorithm": "sha1",
+      "object_id": "54065d4474ff767c33255fbf2fdb9c25f714acb0",
+      "path": "project/run_scripts/session05_ode_bf_atomic_runtime_optimization_dry_plan.py",
+      "role": "SESSION05_RUNTIME_OR_LAUNCHER",
+      "sha256": "1a4c715a9c2d07e1d8b2725d0fd48cafb60835c82d299d4f5ae782d9f7b25b62",
+      "size": 3350
+    },
+    {
+      "mode": 33261,
+      "object_algorithm": "sha1",
+      "object_id": "79d1748d1b05c38d8779ce1e12adc6a815b8c10d",
+      "path": "project/run_scripts/session05_ode_bf_submit_atomic_runtime_conformance.py",
+      "role": "SESSION05_RUNTIME_OR_LAUNCHER",
+      "sha256": "cda3513a548e28a74af26667f79328ac96275f2fd4fe9f8da1c08777b9e1f79a",
+      "size": 5429
+    },
+    {
+      "mode": 33261,
+      "object_algorithm": "sha1",
+      "object_id": "c9e5becb8c79feefb2edafd838120cc2a73236bd",
+      "path": "project/run_scripts/session05_ode_bf_submit_atomic_runtime_optimization.py",
+      "role": "SESSION05_RUNTIME_OR_LAUNCHER",
+      "sha256": "92d060ab3dcbab43a0ecab883d66f5c2b9e17c1de72acc705965ef1122edf6e3",
+      "size": 5157
+    }
+  ],
+  "entry_count": 21,
+  "root_digest": "d271e22175238f35ae79e72444e72f181da1890ff897adfa175ab9f659b83094"
+}

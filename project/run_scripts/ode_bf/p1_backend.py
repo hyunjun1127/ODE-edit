@@ -967,10 +967,14 @@ def build_p1_dynamic_field(
     residual_policy: str = FULL_CURRENT_RESIDUAL_DEFINITION,
     allow_zero_capacity: bool = False,
     shared_terminal_residual: SharedTerminalResidualInput | None = None,
+    captured_keys_by_layer: Mapping[int, torch.Tensor] | None = None,
+    allow_inner_empty_cache: bool = True,
 ) -> P1DynamicField:
     """Rebuild all layer arms at one accepted virtual joint state."""
 
-    if not isinstance(allow_zero_capacity, bool):
+    if not isinstance(allow_zero_capacity, bool) or not isinstance(
+        allow_inner_empty_cache, bool
+    ):
         raise ODEBFContractError("P1 zero-capacity policy is not boolean")
 
     from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
@@ -979,6 +983,8 @@ def build_p1_dynamic_field(
     normalized = _normalize_requests(requests)
     order = ordered_request_digest_v1([str(item["request_sha256"]) for item in normalized])
     layers = tuple(int(layer) for layer in hparams.layers)
+    if captured_keys_by_layer is not None and set(captured_keys_by_layer) != set(layers):
+        raise ODEBFContractError("P1 captured key inventory differs")
     history_solve = _validate_history_keys(history_solve_keys_by_layer, layers)
     history_risk = _validate_history_keys(history_risk_keys_by_layer, layers)
     if target_state.ndim != 2 or target_state.shape[1] != BATCH_SIZE:
@@ -1054,14 +1060,20 @@ def build_p1_dynamic_field(
                         len(layers), layer_index
                     ),
                 )
-            key = alpha_main.compute_ks(
-                model,
-                tokenizer,
-                normalized,
-                hparams,
-                layer,
-                resolved_contexts,
-            ).T.detach().to(device="cpu", dtype=torch.float32)
+            key = (
+                alpha_main.compute_ks(
+                    model,
+                    tokenizer,
+                    normalized,
+                    hparams,
+                    layer,
+                    resolved_contexts,
+                ).T.detach().to(device="cpu", dtype=torch.float32)
+                if captured_keys_by_layer is None
+                else captured_keys_by_layer[layer]
+                .detach()
+                .to(device="cpu", dtype=torch.float32)
+            )
             if key.shape[1] != BATCH_SIZE:
                 raise ODEBFContractError("P1 dynamic key is not joint B10")
             history = history_solve[layer]
@@ -1142,7 +1154,7 @@ def build_p1_dynamic_field(
                 )
             )
             del p_device, k_device, history_device, solved, parameter
-            if torch.cuda.is_available():
+            if allow_inner_empty_cache and torch.cuda.is_available():
                 torch.cuda.empty_cache()
     if shared_terminal_residual is not None:
         residual_hashes = tuple(tensor_sha256(item.residual) for item in layer_fields)
@@ -1176,7 +1188,7 @@ def build_p1_dynamic_field(
         payload["shared_terminal_residual"] = (
             shared_terminal_residual.raw_free_payload()
         )
-    model_forward_count = (
+    model_forward_count = 0 if captured_keys_by_layer is not None else (
         1 + len(layers)
         if residual_policy == LEGACY_PRE_SHARED_RESIDUAL_DEFINITION
         else (

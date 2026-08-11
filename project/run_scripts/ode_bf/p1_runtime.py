@@ -833,6 +833,7 @@ def _functional_trial(
     factors: Mapping[str, Sequence[WaypointFactor]],
     lock: P1ControllerLock,
     ledger: ComputeLedger,
+    trial_entry_weights: Mapping[str, torch.Tensor] | None = None,
 ) -> FunctionalReplayPair:
     pair = evaluate_functional_replay_pair(
         model,
@@ -847,6 +848,7 @@ def _functional_trial(
         historical_budget=lock.functional_h_budget_nats,
         pretrained_budget=lock.functional_p_budget_nats,
         smoothmax_temperature=lock.smoothmax_temperature,
+        trial_entry_weights=trial_entry_weights,
     )
     if (
         pair.pretrained_entry_receipt.request_order_sha256
@@ -3209,6 +3211,8 @@ def run_p1(
     bg_soft_missing_cell_mode: bool = False,
     universal_observability_cell: str | None = None,
     strength_preserving_cell: str | None = None,
+    atomic_runtime_optimization_mode: bool = False,
+    atomic_runtime_conformance_mode: bool = False,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3229,10 +3233,24 @@ def run_p1(
             bg_soft_missing_cell_mode,
             universal_observability_cell is not None,
             strength_preserving_cell is not None,
+            atomic_runtime_optimization_mode,
+            atomic_runtime_conformance_mode,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if strength_preserving_cell is not None:
+    if atomic_runtime_conformance_mode:
+        from .p1_atomic_runtime_optimization_panel import (
+            expected_p1r22_conformance_result_name,
+        )
+
+        expected_name = expected_p1r22_conformance_result_name(alias)
+    elif atomic_runtime_optimization_mode:
+        from .p1_atomic_runtime_optimization_panel import (
+            expected_p1r22_result_name,
+        )
+
+        expected_name = expected_p1r22_result_name(alias)
+    elif strength_preserving_cell is not None:
         from .p1_strength_preserving_router_panel import (
             expected_strength_preserving_result_name,
         )
@@ -3328,7 +3346,9 @@ def run_p1(
         and not common_cold_fixed_e8_mode
         and not bg_soft_missing_cell_mode
         and universal_observability_cell is None
-        and strength_preserving_cell is None,
+        and strength_preserving_cell is None
+        and not atomic_runtime_optimization_mode
+        and not atomic_runtime_conformance_mode,
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
@@ -3493,6 +3513,8 @@ def run_p1(
         or bg_soft_missing_cell_mode
         or universal_observability_cell is not None
         or strength_preserving_cell is not None
+        or atomic_runtime_optimization_mode
+        or atomic_runtime_conformance_mode
     ):
         from .p1_cold_structp_softp_noveto_panel import (
             load_cold_requests,
@@ -3504,8 +3526,20 @@ def run_p1(
             or bg_soft_missing_cell_mode
             or universal_observability_cell is not None
             or strength_preserving_cell is not None
+            or atomic_runtime_optimization_mode
+            or atomic_runtime_conformance_mode
         ):
-            if strength_preserving_cell is not None:
+            if atomic_runtime_optimization_mode or atomic_runtime_conformance_mode:
+                from .p1_common_coldcoord_fixed_e8_panel import (
+                    common_cold_schedule,
+                    load_common_cold_requests,
+                    verify_common_cold_case_seal,
+                )
+                from .p1_atomic_runtime_optimization_panel import (
+                    P1R22_LOCK_FILE,
+                    load_and_validate_p1r22_lock,
+                )
+            elif strength_preserving_cell is not None:
                 from .p1_common_coldcoord_fixed_e8_panel import (
                     common_cold_schedule,
                     load_common_cold_requests,
@@ -3549,7 +3583,21 @@ def run_p1(
             )
             cold_requests = load_common_cold_requests(dataset, cold_stream)
             schedule = common_cold_schedule(sampling_seal)
-            if strength_preserving_cell is not None:
+            if atomic_runtime_optimization_mode or atomic_runtime_conformance_mode:
+                (
+                    atomic_runtime_lock,
+                    atomic_runtime_lock_sha256,
+                ) = load_and_validate_p1r22_lock(
+                    locks / P1R22_LOCK_FILE,
+                    case_root_digest=cold_stream["root_digest"],
+                    request_order_sha256=cold_stream[
+                        "batch_ordered_request_digest_v1"
+                    ][0],
+                    schedule=schedule,
+                )
+                numerical = atomic_runtime_lock
+                numerical_sha256 = atomic_runtime_lock_sha256
+            elif strength_preserving_cell is not None:
                 (
                     strength_preserving_lock,
                     strength_preserving_lock_sha256,
@@ -3647,6 +3695,8 @@ def run_p1(
             and not bg_soft_missing_cell_mode
             and universal_observability_cell is None
             and strength_preserving_cell is None
+            and not atomic_runtime_optimization_mode
+            and not atomic_runtime_conformance_mode
         ):
             from .p1_cold_structp_softp_noveto_panel import (
                 cold_schedule,
@@ -3701,8 +3751,19 @@ def run_p1(
         or bg_soft_missing_cell_mode
         or universal_observability_cell is not None
         or strength_preserving_cell is not None
+        or atomic_runtime_optimization_mode
+        or atomic_runtime_conformance_mode
     ):
-        if strength_preserving_cell is not None:
+        if atomic_runtime_optimization_mode or atomic_runtime_conformance_mode:
+            from .p1_common_coldcoord_fixed_e8_panel import (
+                validate_common_cold_runtime_gpu_capacity,
+            )
+            from .p1_atomic_runtime_optimization_panel import (
+                forecast_p1r22_panel,
+            )
+
+            forecast_common_cold_panel = forecast_p1r22_panel
+        elif strength_preserving_cell is not None:
             from .p1_common_coldcoord_fixed_e8_panel import (
                 validate_common_cold_runtime_gpu_capacity,
             )
@@ -3903,7 +3964,52 @@ def run_p1(
         or bg_soft_missing_cell_mode
         or universal_observability_cell is not None
         or strength_preserving_cell is not None
+        or atomic_runtime_optimization_mode
+        or atomic_runtime_conformance_mode
     ):
+        if atomic_runtime_optimization_mode or atomic_runtime_conformance_mode:
+            from .p1_atomic_runtime_optimization import (
+                run_p1r22_atomic_optimization,
+            )
+
+            return run_p1r22_atomic_optimization(
+                model,
+                tokenizer,
+                alias=alias,
+                destination=destination,
+                raw_root=raw_root,
+                stages=stages,
+                source_head=source_head,
+                requests=cold_requests,
+                stream=cold_stream,
+                hparams=hparams,
+                projector=projector,
+                contexts=contexts,
+                covariance_registry=covariance_registry,
+                projector_sha256=artifact_guard.spec["projector_sha256"],
+                controller_lock=controller_lock,
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                theta0_cache=theta0_cache,
+                dataset_path=dataset,
+                touched=touched,
+                base_receipt=base_receipt,
+                base_values=base_values,
+                artifact_guard=artifact_guard,
+                artifact_receipt=artifact_receipt,
+                numerical_sha256=numerical_sha256,
+                context_sha256=context_sha256,
+                cuda_runtime_receipt=cuda_runtime_receipt,
+                job_ledger=job_ledger,
+                write_once=_atomic_write_once,
+                request_microbatch_size=int(
+                    atomic_runtime_lock["request_microbatch_size"][alias]
+                ),
+                optimization_lock=atomic_runtime_lock,
+                optimization_lock_sha256=atomic_runtime_lock_sha256,
+                conformance_only=atomic_runtime_conformance_mode,
+            )
         if (
             common_cold_fixed_e8_mode
             or bg_soft_missing_cell_mode

@@ -12,7 +12,12 @@ import torch
 from .barriers import FunctionalHPVerdict, ReplayRiskReceipt, functional_replay_risk
 from .contracts import ODEBFContractError, canonical_hash
 from .evaluator import _EvaluationStateGuard, _is_llama, _model_device
-from .functional import CumulativeBF16FunctionalTrial, WaypointFactor, tensor_sha256
+from .functional import (
+    CachedBF16FunctionalTrial,
+    CumulativeBF16FunctionalTrial,
+    WaypointFactor,
+    tensor_sha256,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -358,6 +363,7 @@ def evaluate_functional_replay_pair(
     historical_budget: float,
     pretrained_budget: float,
     smoothmax_temperature: float,
+    trial_entry_weights: Mapping[str, torch.Tensor] | None = None,
 ) -> FunctionalReplayPair:
     history = _validate_canonical_requests(history_requests, allow_empty=True)
     pretrained = _validate_canonical_requests(pretrained_requests, allow_empty=False)
@@ -385,7 +391,16 @@ def evaluate_functional_replay_pair(
         0,
     )
     trial_context = (
-        CumulativeBF16FunctionalTrial(model, trial_factors_by_weight, row_block=64)
+        CachedBF16FunctionalTrial(
+            model,
+            trial_entry_weights,
+            trial_factors_by_weight,
+            row_block=64,
+        )
+        if trial_factors_by_weight and trial_entry_weights is not None
+        else CumulativeBF16FunctionalTrial(
+            model, trial_factors_by_weight, row_block=64
+        )
         if trial_factors_by_weight
         else nullcontext()
     )
