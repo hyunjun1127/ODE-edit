@@ -163,14 +163,25 @@ class ProgressSimplexRoutingResult:
     functional_veto_count: int
     retry_count: int
     backtracking_count: int
+    structural_only: bool
     identity_sha256: str
 
     def raw_free_payload(self) -> dict[str, Any]:
         payload = asdict(self)
+        if self.structural_only:
+            from .compute_progress_simplex_runtime import (
+                COMPUTE_PROGRESS_SIMPLEX_INSTRUCTION_ID,
+                COMPUTE_PROGRESS_SIMPLEX_METHOD_ID,
+            )
+            instruction_id = COMPUTE_PROGRESS_SIMPLEX_INSTRUCTION_ID
+            method_id = COMPUTE_PROGRESS_SIMPLEX_METHOD_ID
+        else:
+            instruction_id = PROGRESS_SIMPLEX_INSTRUCTION_ID
+            method_id = PROGRESS_SIMPLEX_METHOD_ID
         payload.update(
             {
-                "instruction_id": PROGRESS_SIMPLEX_INSTRUCTION_ID,
-                "method_id": PROGRESS_SIMPLEX_METHOD_ID,
+                "instruction_id": instruction_id,
+                "method_id": method_id,
                 "progress_definition": "q=sum(a_l for a_l>0), applied-step units",
                 "parameterization": "v_l=q*pi_l/a_l on active directions",
                 "authoritative_slope": "PHYSICAL_W_ONLY_NOHOOK_APPLIED_STEP",
@@ -180,6 +191,9 @@ class ProgressSimplexRoutingResult:
                 "target_probe_arm_dependent_influence_count": 0,
                 "overlay_authoritative_access_count": 0,
                 "transport_decision_influence_count": 0,
+                "functional_routing_influence_count": (
+                    0 if self.structural_only else 1
+                ),
                 "selected_pi_entropy_definition": "-sum(pi_l * log(pi_l)) over positive selected pi",
                 "selected_pi_top1_index_convention": "zero-based index in locked layer order [4,5,6,7,8]",
                 "selected_pi_top1_layer_id_convention": "physical transformer layer identifier",
@@ -194,9 +208,57 @@ class ProgressSimplexRoutingResult:
         return payload
 
 
+@dataclass(frozen=True, slots=True)
+class StructuralOnlyRoutingInventory:
+    """Zero-model-call inventory for the compute-aware router.
+
+    P1R23's exact router consumed functional endpoint probes at every field.
+    The compute addendum makes only the already-built structural pretrained
+    barrier and the fixed-rank historical barrier authoritative.  This small
+    receipt prevents a synthetic functional inventory from being mistaken for
+    an evaluated one.
+    """
+
+    history_item_count: int
+    controller_batch_sha256: str
+    field_sha256: str
+    historical_sketch_sha256: str
+
+    def __post_init__(self) -> None:
+        if (
+            self.history_item_count < 0
+            or any(
+                not isinstance(item, str) or len(item) != 64
+                for item in (
+                    self.controller_batch_sha256,
+                    self.field_sha256,
+                    self.historical_sketch_sha256,
+                )
+            )
+        ):
+            raise ODEBFContractError("compute-aware structural inventory differs")
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        payload = {
+            "schema": "ode-edit-s05-p1r23-compute-structural-inventory/v1",
+            "history_item_count": self.history_item_count,
+            "controller_batch_sha256": self.controller_batch_sha256,
+            "field_sha256": self.field_sha256,
+            "historical_sketch_sha256": self.historical_sketch_sha256,
+            "structural_pretrained_active": True,
+            "structural_historical_active": self.history_item_count > 0,
+            "functional_probe_count": 0,
+            "functional_routing_influence_count": 0,
+            "model_forward_count": 0,
+            "backward_count": 0,
+        }
+        payload["identity_sha256"] = canonical_hash(payload)
+        return payload
+
+
 def _risk_functions(
     problem: RoutingProblem,
-    inventory: FixedE8SoftInventory,
+    inventory: FixedE8SoftInventory | StructuralOnlyRoutingInventory,
 ) -> tuple[
     tuple[str, Callable[[np.ndarray], float], Callable[[np.ndarray], np.ndarray]],
     ...
@@ -231,29 +293,30 @@ def _risk_functions(
     if inventory.history_item_count > 0:
         structural("structural_historical", problem.historical)
     structural("structural_pretrained", problem.pretrained)
-    for metric in inventory.active_metrics():
-        positive = metric.positive_increment
-        normalization = metric.normalization
-        functions.append(
-            (
-                metric.label,
-                lambda value, slope=positive, scale=normalization: float(
-                    slope @ value / scale
-                ),
-                lambda value, slope=positive, scale=normalization: slope / scale,
+    if isinstance(inventory, FixedE8SoftInventory):
+        for metric in inventory.active_metrics():
+            positive = metric.positive_increment
+            normalization = metric.normalization
+            functions.append(
+                (
+                    metric.label,
+                    lambda value, slope=positive, scale=normalization: float(
+                        slope @ value / scale
+                    ),
+                    lambda value, slope=positive, scale=normalization: slope / scale,
+                )
             )
-        )
     return tuple(functions)
 
 
 def _score_inventory(
     problem: RoutingProblem,
-    inventory: FixedE8SoftInventory,
+    inventory: FixedE8SoftInventory | StructuralOnlyRoutingInventory,
     velocity: np.ndarray,
     *,
     influence_count: int,
 ) -> tuple[FixedE8Score, ...]:
-    return (
+    structural_scores = (
         structural_soft_score(
             problem.historical,
             velocity,
@@ -266,6 +329,11 @@ def _score_inventory(
             active=True,
             influence_count=influence_count,
         ),
+    )
+    if isinstance(inventory, StructuralOnlyRoutingInventory):
+        return structural_scores
+    return (
+        *structural_scores,
         *(
             functional_soft_score(metric, velocity, influence_count=influence_count)
             for metric in (
@@ -422,7 +490,7 @@ def _direct_neutral_certificate(
 
 def _solve_soft(
     problem: RoutingProblem,
-    inventory: FixedE8SoftInventory,
+    inventory: FixedE8SoftInventory | StructuralOnlyRoutingInventory,
     *,
     active: np.ndarray,
     slopes: np.ndarray,
@@ -567,7 +635,7 @@ def _solve_soft(
 
 def solve_progress_simplex_routing(
     problem: RoutingProblem,
-    inventory: FixedE8SoftInventory,
+    inventory: FixedE8SoftInventory | StructuralOnlyRoutingInventory,
     *,
     arm: FixedE8Arm | str,
     alpha_req: float,
@@ -726,12 +794,26 @@ def solve_progress_simplex_routing(
         if neutral_norm == 0.0 or soft_norm == 0.0
         else float(neutral_velocity @ soft_velocity / (neutral_norm * soft_norm))
     )
+    structural_only = isinstance(inventory, StructuralOnlyRoutingInventory)
+    if structural_only:
+        from .compute_progress_simplex_runtime import (
+            COMPUTE_PROGRESS_SIMPLEX_INSTRUCTION_ID,
+            COMPUTE_PROGRESS_SIMPLEX_METHOD_ID,
+        )
+        instruction_id = COMPUTE_PROGRESS_SIMPLEX_INSTRUCTION_ID
+        method_id = COMPUTE_PROGRESS_SIMPLEX_METHOD_ID
+    else:
+        instruction_id = PROGRESS_SIMPLEX_INSTRUCTION_ID
+        method_id = PROGRESS_SIMPLEX_METHOD_ID
     payload = {
-        "instruction_id": PROGRESS_SIMPLEX_INSTRUCTION_ID,
-        "method_id": PROGRESS_SIMPLEX_METHOD_ID,
+        "instruction_id": instruction_id,
+        "method_id": method_id,
         "arm": selected.value,
         "problem_sha256": problem.identity(),
-        "functional_inventory_sha256": inventory.raw_free_payload()["identity_sha256"],
+        "routing_inventory_sha256": inventory.raw_free_payload()["identity_sha256"],
+        "functional_routing_influence_count": (
+            0 if isinstance(inventory, StructuralOnlyRoutingInventory) else 1
+        ),
         "signed_slopes": slopes.tolist(),
         "active_direction_mask": [bool(item > 0.0) for item in slopes],
         "q": q,
@@ -823,6 +905,7 @@ def solve_progress_simplex_routing(
         functional_veto_count=0,
         retry_count=0,
         backtracking_count=0,
+        structural_only=structural_only,
         identity_sha256=identity,
     )
 
@@ -877,6 +960,7 @@ __all__ = [
     "SIMPLEX_ENERGY_RELATIVE_TOLERANCE",
     "SIMPLEX_PRIMAL_TOLERANCE",
     "SIMPLEX_XI_TIE_TOLERANCE",
+    "StructuralOnlyRoutingInventory",
     "progress_simplex_waypoint_factors",
     "solve_progress_simplex_routing",
 ]

@@ -97,6 +97,7 @@ class StreamingBatchPlan:
     inverse_order: tuple[int, ...]
     batches: tuple[StreamingMicrobatch, ...]
     identity_sha256: str
+    token_budget: int | None = None
 
     @property
     def physical_microbatch_count(self) -> int:
@@ -108,6 +109,12 @@ class StreamingBatchPlan:
             "request_count": self.request_count,
             "contexts_per_request": P1R23_CONTEXTS_PER_REQUEST,
             "microbatch_size": self.microbatch_size,
+            "token_budget": self.token_budget,
+            "partition_policy": (
+                "LENGTH_BUCKETED_TOKEN_BUDGET"
+                if self.token_budget is not None
+                else "FIXED_REQUEST_COUNT"
+            ),
             "physical_microbatch_count": self.physical_microbatch_count,
             "request_identity_vector_sha256": canonical_hash(
                 list(self.request_identity_sha256)
@@ -188,6 +195,86 @@ def build_streaming_batch_plan(
         tuple(inverse),
         tuple(batches),
         canonical_hash(payload),
+    )
+
+
+def build_token_budget_streaming_batch_plan(
+    request_identity_sha256: Sequence[str],
+    request_lengths: Sequence[int],
+    *,
+    token_budget: int,
+    contexts_per_request: int = P1R23_CONTEXTS_PER_REQUEST,
+) -> StreamingBatchPlan:
+    """Greedy deterministic length buckets bounded by padded token count."""
+
+    identities = tuple(str(item) for item in request_identity_sha256)
+    lengths = tuple(int(item) for item in request_lengths)
+    request_count = len(identities)
+    if (
+        request_count <= 0
+        or len(lengths) != request_count
+        or isinstance(token_budget, bool)
+        or token_budget <= 0
+        or contexts_per_request <= 0
+        or any(len(item) != 64 for item in identities)
+        or len(set(identities)) != request_count
+        or any(item <= 0 for item in lengths)
+        or max(lengths) * contexts_per_request > token_budget
+    ):
+        raise ODEBFContractError("P1R23 token-budget partition geometry differs")
+    order = tuple(sorted(range(request_count), key=lambda item: (lengths[item], item)))
+    inverse = [0] * request_count
+    for bucket_position, request_ordinal in enumerate(order):
+        inverse[request_ordinal] = bucket_position
+    groups: list[tuple[int, ...]] = []
+    current: list[int] = []
+    for ordinal in order:
+        candidate = (*current, ordinal)
+        padded = len(candidate) * contexts_per_request * max(lengths[item] for item in candidate)
+        if current and padded > token_budget:
+            groups.append(tuple(current))
+            current = [ordinal]
+        else:
+            current.append(ordinal)
+    if current:
+        groups.append(tuple(current))
+    batches = tuple(
+        StreamingMicrobatch(
+            index,
+            group,
+            tuple(identities[item] for item in group),
+            max(lengths[item] for item in group),
+        )
+        for index, group in enumerate(groups)
+    )
+    if any(
+        len(batch.request_ordinals)
+        * contexts_per_request
+        * batch.maximum_unpadded_length
+        > token_budget
+        for batch in batches
+    ):
+        raise ODEBFStateError("P1R23 token-budget plan exceeds its frozen budget")
+    payload = {
+        "request_count": request_count,
+        "token_budget": token_budget,
+        "contexts_per_request": contexts_per_request,
+        "request_identity_sha256": list(identities),
+        "request_lengths": list(lengths),
+        "bucket_order": list(order),
+        "inverse_order": inverse,
+        "batch_ordinals": [list(item.request_ordinals) for item in batches],
+    }
+    return StreamingBatchPlan(
+        request_count,
+        max(len(item.request_ordinals) for item in batches),
+        identities,
+        lengths,
+        order,
+        tuple(inverse),
+        batches,
+        canonical_hash(payload),
+        token_budget,
     )
 
 
@@ -612,6 +699,7 @@ __all__ = [
     "accumulate_streaming_capture",
     "aggregate_native_one_plus_five",
     "build_streaming_batch_plan",
+    "build_token_budget_streaming_batch_plan",
     "expected_streaming_gradient_counts",
     "initial_target_from_capture",
     "uniform_context_mean",
