@@ -21,7 +21,13 @@ from project.run_scripts.ode_bf.p1_historical_h0_sequential_panel import load_an
 ALIASES = ("llama3-8b-inst", "qwen2.5-7b-inst")
 
 
-def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[str, object]:
+def build_plan(
+    source_head: str,
+    *,
+    repository_root: Path = REPO_ROOT,
+    attempt_namespace: str | None = None,
+    include_alpha: bool = True,
+) -> dict[str, object]:
     locks = repository_root / "project/run_scripts/ode_bf/locks"
     seal = verify_historical_h0_fresh_seal(json.loads((locks / "p1r20_historical_h0_fresh_cf_b100_seal.json").read_text(encoding="utf-8")))
     numerical, numerical_sha = load_and_validate_historical_h0_lock(locks / "numerical_lock_s05_historical_h0_sequential.json")
@@ -30,8 +36,10 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
     jobs = []
     for alias in ALIASES:
         for method in METHODS:
-            jobs.append({"array_index": len(jobs), "alias": alias, "method": method, "result_name": expected_historical_h0_result_name(alias, method), "gpu": 1, "cpu": 8, "memory_mib": 65000, "time": "23:59:00"})
-    return {"schema": "ode-edit-s05-p1r23-full6-structural-historical-dry-plan/v1", "source_head": source_head, "fresh_seal_root": seal["root_digest"], "all_request_order_sha256": seal["all_request_order_sha256"], "numerical_lock_sha256": numerical_sha, "numerical_lock_root": numerical["root_digest"], "trajectory_count": 10, "ode_trajectory_count": 8, "model_level_alphaedit_count": 2, "array_max_concurrent_gpu": 4, "sequential_round_count": 10, "postcommit_cumulative_b10_evaluation_count_per_trajectory": 55, "jobs": jobs, "model_load": False, "gpu_use": False, "slurm_submit": False, "result_root_creation": False}
+            if method == "ALPHAEDIT" and not include_alpha:
+                continue
+            jobs.append({"array_index": len(jobs), "alias": alias, "method": method, "result_name": expected_historical_h0_result_name(alias, method, attempt_namespace=attempt_namespace), "gpu": 1, "cpu": 8, "memory_mib": 65000, "time": "23:59:00"})
+    return {"schema": "ode-edit-s05-p1r23-full6-structural-historical-dry-plan/v1", "source_head": source_head, "attempt_namespace": attempt_namespace, "fresh_seal_root": seal["root_digest"], "all_request_order_sha256": seal["all_request_order_sha256"], "numerical_lock_sha256": numerical_sha, "numerical_lock_root": numerical["root_digest"], "trajectory_count": len(jobs), "ode_trajectory_count": sum(job["method"] != "ALPHAEDIT" for job in jobs), "model_level_alphaedit_count": sum(job["method"] == "ALPHAEDIT" for job in jobs), "array_max_concurrent_gpu": 4, "sequential_round_count": 10, "postcommit_cumulative_b10_evaluation_count_per_trajectory": 55, "jobs": jobs, "model_load": False, "gpu_use": False, "slurm_submit": False, "result_root_creation": False}
 
 
 def main() -> int:

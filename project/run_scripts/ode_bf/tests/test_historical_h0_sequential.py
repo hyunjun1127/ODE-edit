@@ -103,6 +103,15 @@ class Full6StructuralHistoricalTest(unittest.TestCase):
         self.assertEqual(first["array_max_concurrent_gpu"], 4)
         self.assertEqual([job["method"] for job in first["jobs"][:5]], list(METHODS))
         self.assertEqual(len({job["result_name"] for job in first["jobs"]}), 10)
+        repair = dry.build_plan(
+            "1" * 40, attempt_namespace="tech-r1", include_alpha=False
+        )
+        self.assertEqual(repair["trajectory_count"], 8)
+        self.assertEqual(repair["ode_trajectory_count"], 8)
+        self.assertEqual(repair["model_level_alphaedit_count"], 0)
+        self.assertTrue(
+            all(job["result_name"].endswith("-tech-r1-v1") for job in repair["jobs"])
+        )
 
     def test_full_six_global_weighting_is_partition_invariant(self) -> None:
         per_request = (1.0, 2.0, 4.0, 8.0, 16.0)
@@ -154,6 +163,8 @@ class Full6StructuralHistoricalTest(unittest.TestCase):
         source = inspect.getsource(_run_ours_round)
         self.assertIn("historical_h_controller_input_count", source)
         self.assertIn("historical_h_decision_influence_count", source)
+        self.assertIn("maximum_records=40", source)
+        self.assertNotIn("maximum_records=10", source)
 
     def test_projected_key_h_barrier_matches_manual_quadratic(self) -> None:
         layers = (4, 5, 6, 7, 8)
@@ -234,9 +245,10 @@ class Full6StructuralHistoricalTest(unittest.TestCase):
         source = (
             ROOT / "project/run_scripts/session05_ode_bf_historical_h0_sequential.sbatch"
         ).read_text()
-        self.assertIn("#SBATCH --array=0-9%4", source)
+        self.assertIn("#SBATCH --array=0-7%4", source)
         self.assertIn("#SBATCH --nodelist=devbox", source)
         self.assertNotIn("MEMIT", source)
+        self.assertNotIn("ALPHAEDIT", source)
 
     def test_source_manifest_rehashes_every_member(self) -> None:
         path = LOCKS / "source_manifest_s05_historical_h0_sequential.json"

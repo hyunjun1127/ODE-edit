@@ -3217,6 +3217,7 @@ def run_p1(
     scalable_batched_batch_size: int | None = None,
     scalable_batched_attempt_namespace: str | None = None,
     historical_h0_method: str | None = None,
+    historical_h0_attempt_namespace: str | None = None,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3250,7 +3251,9 @@ def run_p1(
         )
 
         expected_name = expected_historical_h0_result_name(
-            alias, historical_h0_method
+            alias,
+            historical_h0_method,
+            attempt_namespace=historical_h0_attempt_namespace,
         )
     elif scalable_batched_role is not None:
         from .p1_scalable_batched_runtime_panel import (
@@ -3270,6 +3273,8 @@ def run_p1(
         or scalable_batched_attempt_namespace is not None
     ):
         raise ODEBFContractError("P1R23 role is absent")
+    elif historical_h0_attempt_namespace is not None:
+        raise ODEBFContractError("P1R23 Historical attempt namespace is orphaned")
     elif atomic_runtime_conformance_mode:
         from .p1_atomic_runtime_optimization_panel import (
             expected_p1r22_conformance_result_name,

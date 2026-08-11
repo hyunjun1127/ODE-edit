@@ -22,13 +22,13 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError, canonical_h
 
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_historical_h0_sequential.sbatch"
 STATE_ROOT = REPO_ROOT / "local/odebf/state"
-LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r23-full6-structural-historical"
+LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r23-full6-structural-historical-tech-r1"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
 SOURCE_MANIFEST = (
     REPO_ROOT
     / "project/run_scripts/ode_bf/locks/source_manifest_s05_historical_h0_sequential.json"
 )
-NAMESPACE = "s05-p1r23-full6-structural-historical-sh1-array-v1"
+NAMESPACE = "s05-p1r23-full6-structural-historical-sh1-array-tech-r1-v1"
 BRANCH = "codex/p1r23-compute-a1-historical"
 
 
@@ -76,7 +76,9 @@ def submit(source_head: str) -> dict[str, object]:
     if _run(["git", "rev-parse", "HEAD"]).stdout.strip() != source_head or _run(["git", "branch", "--show-current"]).stdout.strip() != BRANCH or _run(["git", "status", "--porcelain", "--untracked-files=no"]).stdout:
         raise ODEBFContractError("P1R23 Full-6 Historical execution source differs")
     source_manifest_sha, source_manifest_root = _verify_source_manifest()
-    plan = dry.build_plan(source_head)
+    plan = dry.build_plan(
+        source_head, attempt_namespace="tech-r1", include_alpha=False
+    )
     if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
         raise ODEBFContractError("P1R23 Full-6 Historical result namespace exists")
     intent_path = STATE_ROOT / f"{NAMESPACE}.intent.json"
@@ -84,8 +86,8 @@ def submit(source_head: str) -> dict[str, object]:
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P1R23 Full-6 Historical submission namespace exists")
     LOG_ROOT.mkdir(mode=0o700, parents=True, exist_ok=True)
-    intent_sha = _write_once(intent_path, {"schema": "ode-edit-s05-p1r23-full6-historical-intent/v1", "source_head": source_head, "source_manifest_sha256": source_manifest_sha, "source_manifest_root": source_manifest_root, "dry_plan": plan, "held_then_atomic_release": True, "array": "0-9%4"})
-    job_id = _run(["sbatch", "--hold", "--parsable", "--chdir", str(REPO_ROOT), "--job-name", "odeedit_s05_p1r23_full6_historical", "--output", str(LOG_ROOT / "%A_%a.out"), "--error", str(LOG_ROOT / "%A_%a.err"), str(SBATCH), source_head, str(RESULT_PARENT)]).stdout.strip().split(";", 1)[0]
+    intent_sha = _write_once(intent_path, {"schema": "ode-edit-s05-p1r23-full6-historical-tech-r1-intent/v1", "source_head": source_head, "source_manifest_sha256": source_manifest_sha, "source_manifest_root": source_manifest_root, "dry_plan": plan, "held_then_atomic_release": True, "array": "0-7%4", "replaces_failed_or_cancelled_ode_tasks_of_array": "18768", "alphaedit_jobs_preserved": ["18768_4", "18768_9"]})
+    job_id = _run(["sbatch", "--hold", "--parsable", "--chdir", str(REPO_ROOT), "--job-name", "odeedit_s05_p1r23_full6_historical_tech_r1", "--output", str(LOG_ROOT / "%A_%a.out"), "--error", str(LOG_ROOT / "%A_%a.err"), str(SBATCH), source_head, str(RESULT_PARENT)]).stdout.strip().split(";", 1)[0]
     if not job_id.isdigit():
         raise ODEBFContractError("P1R23 Full-6 Historical scheduler ID differs")
     observed = _run(["scontrol", "show", "job", "-o", job_id]).stdout.strip()
@@ -93,7 +95,7 @@ def submit(source_head: str) -> dict[str, object]:
     if not all(item in observed for item in required):
         _run(["scancel", job_id])
         raise ODEBFContractError("P1R23 Full-6 Historical held scheduler contract differs")
-    receipt = {"schema": "ode-edit-s05-p1r23-full6-historical-submission/v1", "source_head": source_head, "source_manifest_sha256": source_manifest_sha, "source_manifest_root": source_manifest_root, "job_id": job_id, "array": "0-9%4", "trajectory_count": 10, "ode_trajectory_count": 8, "model_level_alphaedit_count": 2, "max_concurrent_gpu": 4, "intent_sha256": intent_sha, "held_inspection_sha256": hashlib.sha256(observed.encode()).hexdigest(), "held_then_atomic_release": True}
+    receipt = {"schema": "ode-edit-s05-p1r23-full6-historical-tech-r1-submission/v1", "source_head": source_head, "source_manifest_sha256": source_manifest_sha, "source_manifest_root": source_manifest_root, "job_id": job_id, "array": "0-7%4", "trajectory_count": 8, "ode_trajectory_count": 8, "model_level_alphaedit_count": 0, "max_concurrent_gpu": 4, "intent_sha256": intent_sha, "held_inspection_sha256": hashlib.sha256(observed.encode()).hexdigest(), "held_then_atomic_release": True, "alphaedit_jobs_preserved": ["18768_4", "18768_9"]}
     receipt_sha = _write_once(receipt_path, receipt)
     _run(["scontrol", "release", job_id])
     return {**receipt, "submission_receipt_sha256": receipt_sha}

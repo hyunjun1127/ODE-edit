@@ -26,7 +26,7 @@ from project.run_scripts.ode_bf.p1_runtime import (
 )
 
 
-RUN_TOKEN = "p1r23-full6-structural-historical-a1-v1"
+RUN_TOKEN = "p1r23-full6-structural-historical-a1-tech-r1-v1"
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -36,6 +36,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
+    parser.add_argument("--attempt-namespace", required=True, choices=("tech-r1",))
     args = parser.parse_args(argv)
     try:
         result = run_p1(
@@ -44,6 +45,7 @@ def main(argv: list[str] | None = None) -> int:
             output_root=args.output_root,
             source_head=args.source_head,
             historical_h0_method=args.method,
+            historical_h0_attempt_namespace=args.attempt_namespace,
         )
     except P1OutputRootCollision as exc:
         print(json.dumps({"status": "FAIL_CLOSED_OUTPUT_ROOT_COLLISION", "instruction_id": INSTRUCTION_ID, "exception_message_sha256": hashlib.sha256(str(exc).encode()).hexdigest()}, sort_keys=True), file=sys.stderr)

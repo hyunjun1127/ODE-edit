@@ -76,13 +76,21 @@ EVALUATION_ROUNDS = (1, 5, 10)
 HISTORICAL_SKETCH_RANK = 100
 
 
-def expected_historical_h0_result_name(alias: str, method: str) -> str:
+def expected_historical_h0_result_name(
+    alias: str,
+    method: str,
+    *,
+    attempt_namespace: str | None = None,
+) -> str:
     if method not in METHODS:
         raise ODEBFContractError("Compute-A1 Historical method identity differs")
-    return (
+    if attempt_namespace not in (None, "tech-r1"):
+        raise ODEBFContractError("Compute-A1 Historical attempt namespace differs")
+    base = (
         "s05-p1r23-full6-structural-historical-"
-        f"{method.lower().replace('-', '_')}-{alias}-v1"
+        f"{method.lower().replace('-', '_')}-{alias}"
     )
+    return f"{base}-{'tech-r1-' if attempt_namespace else ''}v1"
 
 
 def _weight_values(parameters: Mapping[str, torch.nn.Parameter]) -> dict[str, torch.Tensor]:
@@ -398,7 +406,10 @@ def _run_ours_round(
     arm = FixedE8Arm.NEUTRAL if method.endswith("-NOSOFT") else FixedE8Arm.SOFT
     round_state = ArmRuntimeState(
         P1Arm.R_BF,
-        P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=10),
+        # Empty generic runtime shell.  P1HistoryLedger itself has a frozen
+        # four-B10 minimum capacity even though Historical routing uses the
+        # separate fixed-rank sketch below.
+        P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=40),
         ComputeLedger(),
         ArmWeightSnapshot(
             P1Arm.R_BF,
