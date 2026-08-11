@@ -1,4 +1,4 @@
-"""P1R20 ten-round historical-H0 sequential validation runtime.
+"""P1R23 Full-6 structural Historical sequential validation runtime.
 
 This is an additive production path.  It reuses the accepted P1R19 BG writer
 and strength-preserving router, but removes all inner-k held-out probes.  A
@@ -8,10 +8,7 @@ batch enters history only after that transaction verifies.
 
 from __future__ import annotations
 
-import contextlib
-import copy
 import hashlib
-import importlib
 import math
 import resource
 import time
@@ -23,33 +20,41 @@ import numpy as np
 import torch
 
 from .accounting import ComputeLedger
-from .common_cold_coordinate import (
-    CommonColdScale,
-    CommonColdScaleMetric,
-    common_cold_bootstrap,
-)
-from .common_coldcoord_fixed_e8_runtime import (
-    CommonColdArm,
-    _parameter_contract_sha256,
-    _run_common_arm,
-)
 from .contracts import BATCH_SIZE, ODEBFContractError, ODEBFStateError, canonical_hash
-from .cold_start_target import capture_cold_z_base, cold_lookup_positions
-from .fixed_e8_runtime import FixedE8EntryCapture, FixedE8ReceiptRecorder
+from .compute_progress_simplex_runtime import (
+    COMPUTE_TOKEN_BUDGET,
+    FixedRankHistoricalSketch,
+)
+from .fixed_e8_soft_routing import FixedE8Arm
 from .functional import tensor_sha256
 from .p0_runtime import ModelForwardCounter
 from .p1_backend import capture_p1_native_entry
 from .p1_evaluator import load_counterfact_cases_after_freeze
-from .p1_replay import evaluate_next_token_log_probs, samplewise_teacher_kl
+from .p1_replay import (
+    build_outer_entry_pretrained_cache,
+    evaluate_next_token_log_probs,
+    samplewise_teacher_kl,
+)
 from .p1_runtime import (
     ArmRuntimeState,
-    ComponentTimer,
     _assemble_candidates,
     _atomic_write_once,
+    _entry_parameter_snapshot_sha256,
     _finalize_prepared_history,
     _history_keys,
     _observed_memory,
     _prepare_history_batch,
+)
+from .p1_scalable_batched_experiment import _model_w0_contract, _run_ode_arm
+from .scalable_batched_model import (
+    build_scalable_capture_plan,
+    build_scalable_objective_plan,
+)
+from .scalable_batched_runtime import (
+    P1R23_GRID_COUNT,
+    P1R23_H,
+    P1R23_LAYER_ORDER,
+    scalable_ordered_request_digest,
 )
 from .p1_state import ArmWeightSnapshot, P1Arm, P1HistoryLedger
 from .p1_stepwise import StepwiseActionFreeze, evaluate_counterfact_stepwise_primary
@@ -57,17 +62,25 @@ from .request_digest import ordered_request_digest_v1
 from .transaction import AtomicBatchTransaction
 
 
-INSTRUCTION_ID = "ODEEDIT-S05-ODE-BF-HISTORICAL-H0-BG-SEQUENTIAL-P1R20-V1"
-METHODS = ("BG-NEUTRAL", "BG-SOFT-H", "MEMIT", "ALPHAEDIT")
+INSTRUCTION_ID = "ODEEDIT-S05-P1R23-FULL6-STRUCTURAL-HISTORICAL-V1-A1-FULL-MATRIX"
+METHODS = (
+    "BG-COMPUTE-FULL6-NOSOFT",
+    "BG-COMPUTE-FULL6-SOFT",
+    "RS-COMPUTE-FULL6-NOSOFT",
+    "RS-COMPUTE-FULL6-SOFT",
+    "ALPHAEDIT",
+)
 ROUND_COUNT = 10
 HISTORY_COUNTS = tuple(range(0, 100, 10))
+EVALUATION_ROUNDS = (1, 5, 10)
+HISTORICAL_SKETCH_RANK = 100
 
 
 def expected_historical_h0_result_name(alias: str, method: str) -> str:
     if method not in METHODS:
-        raise ODEBFContractError("P1R20 method identity differs")
+        raise ODEBFContractError("Compute-A1 Historical method identity differs")
     return (
-        "s05-p1r20-historical-h0-bg-sequential-"
+        "s05-p1r23-full6-structural-historical-"
         f"{method.lower().replace('-', '_')}-{alias}-v1"
     )
 
@@ -268,22 +281,6 @@ def _teacher_kl(
     }
 
 
-def _normalize_easyedit_requests(
-    requests: Sequence[Mapping[str, Any]],
-) -> list[dict[str, Any]]:
-    normalized = copy.deepcopy(list(requests))
-    for item in normalized:
-        target = str(item["target_new"])
-        item["target_new"] = target if target.startswith(" ") else " " + target
-        prompt = str(item["prompt"])
-        subject = str(item["subject"])
-        if "{}" not in prompt:
-            if subject not in prompt:
-                raise ODEBFContractError("P1R20 baseline subject is absent")
-            item["prompt"] = prompt.replace(subject, "{}")
-    return normalized
-
-
 def _run_alpha_round(
     model: torch.nn.Module,
     tokenizer: Any,
@@ -332,60 +329,6 @@ def _run_alpha_round(
     }, load
 
 
-def _run_memit_round(
-    model: torch.nn.Module,
-    tokenizer: Any,
-    requests: Sequence[Mapping[str, Any]],
-    *,
-    memit_hparams: Any,
-    touched: Mapping[str, torch.nn.Parameter],
-) -> tuple[dict[str, Any], dict[int, float]]:
-    from easyeditor.models.memit import memit_main
-    layer_stats_module = importlib.import_module("easyeditor.models.rome.layer_stats")
-
-    before_values = _weight_values(touched)
-    before_hashes = _weight_hashes(touched)
-    original_load_dataset = layer_stats_module.load_dataset
-
-    def forbid_dataset(*args: Any, **kwargs: Any) -> Any:
-        del args, kwargs
-        raise ODEBFContractError("P1R20 MEMIT cache miss requested dataset access")
-
-    started = time.perf_counter()
-    try:
-        layer_stats_module.load_dataset = forbid_dataset
-        with contextlib.redirect_stdout(__import__("io").StringIO()), contextlib.redirect_stderr(
-            __import__("io").StringIO()
-        ):
-            returned, originals = memit_main.apply_memit_to_model(
-                model,
-                tokenizer,
-                _normalize_easyedit_requests(requests),
-                memit_hparams,
-                copy=False,
-                return_orig_weights=True,
-                cache_template=None,
-            )
-    finally:
-        layer_stats_module.load_dataset = original_load_dataset
-    if returned is not model or set(originals) != set(touched):
-        raise ODEBFContractError("P1R20 MEMIT touched inventory differs")
-    if any(tensor_sha256(originals[name]) != before_hashes[name] for name in touched):
-        raise ODEBFContractError("P1R20 MEMIT entry snapshot differs")
-    after_hashes = _weight_hashes(touched)
-    if after_hashes == before_hashes:
-        raise ODEBFStateError("P1R20 MEMIT produced no physical write")
-    load = _layer_load(before_values, touched, memit_hparams)
-    return {
-        "backend": "PINNED_EASYEDIT_MEMIT_JOINT_B10",
-        "entry_parameter_sha256": before_hashes,
-        "endpoint_parameter_sha256": after_hashes,
-        "wall_seconds": time.perf_counter() - started,
-        "covariance_recompute_count": 0,
-        "retry_count": 0,
-    }, load
-
-
 def _run_ours_round(
     model: torch.nn.Module,
     tokenizer: Any,
@@ -409,132 +352,186 @@ def _run_ours_round(
     stages: Any,
     mutation_lock: Any,
     round_index: int,
+    historical_sketch: FixedRankHistoricalSketch,
+    trajectory_w0_values: Mapping[str, torch.Tensor],
+    committed_load_by_layer: Mapping[int, float],
+    outer_entry_p_cache: Any,
+    job_ledger: ComputeLedger,
+    request_microbatch_size: int = BATCH_SIZE,
 ) -> tuple[dict[str, Any], dict[int, float]]:
-    request_order = ordered_request_digest_v1(
+    request_order = scalable_ordered_request_digest(
         [str(item["request_sha256"]) for item in requests]
     )
     entry_values = _weight_values(touched)
     entry_hashes = _weight_hashes(touched)
-    z_base = capture_cold_z_base(model, tokenizer, requests, hparams)
-    lookup_positions = cold_lookup_positions(
-        tokenizer, requests, contexts, fact_token_strategy=hparams.fact_token
-    )
-    layer_name = hparams.layer_module_tmp.format(int(hparams.layers[-1]))
-    metric = CommonColdScaleMetric.from_z_base(
-        z_base, request_order, CommonColdScale.BATCH_GLOBAL
-    )
-    bootstrap_target, bootstrap = common_cold_bootstrap(
+    objective_plan = build_scalable_objective_plan(
         model,
         tokenizer,
         requests,
-        contexts,
-        target_layer_name=layer_name,
-        lookup_positions=lookup_positions,
-        z_base=z_base,
-        metric=metric,
-        ledger=state.ledger,
+        contexts=contexts,
+        request_microbatch_size=request_microbatch_size,
+        fact_token_strategy=hparams.fact_token,
+        token_budget=COMPUTE_TOKEN_BUDGET,
     )
-    arm = CommonColdArm.BG_NEUTRAL if method == "BG-NEUTRAL" else CommonColdArm.BG_SOFT
-    recorder = FixedE8ReceiptRecorder(raw_root / f"round-{round_index:02d}", arm, _atomic_write_once)
-    capture = FixedE8EntryCapture(entry_values, entry_hashes)
-    rollout, initial_contract = _run_common_arm(
+    capture_plan = build_scalable_capture_plan(
+        tokenizer,
+        requests,
+        contexts=contexts,
+        request_microbatch_size=request_microbatch_size,
+        fact_token_strategy=hparams.fact_token,
+        token_budget=COMPUTE_TOKEN_BUDGET,
+    )
+    round_root = raw_root / f"round-{round_index:02d}"
+    _atomic_write_once(
+        round_root / "plans" / "objective.json", objective_plan.raw_free_payload()
+    )
+    _atomic_write_once(
+        round_root / "plans" / "capture.json", capture_plan.raw_free_payload()
+    )
+    if (
+        objective_plan.context_ordinals != tuple(range(6))
+        or objective_plan.request_order_sha256 != request_order
+        or capture_plan.request_order_sha256 != request_order
+    ):
+        raise ODEBFContractError("Full-6 Historical plan identity differs")
+    allocation = "BG" if method.startswith("BG-") else "RS"
+    arm = FixedE8Arm.NEUTRAL if method.endswith("-NOSOFT") else FixedE8Arm.SOFT
+    round_state = ArmRuntimeState(
+        P1Arm.R_BF,
+        P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=10),
+        ComputeLedger(),
+        ArmWeightSnapshot(
+            P1Arm.R_BF,
+            0,
+            entry_hashes,
+            canonical_hash(
+                {"method": method, "round": round_index, "entry": entry_hashes}
+            ),
+        ),
+        dict(entry_values),
+    )
+    rollout = _run_ode_arm(
         model,
         tokenizer,
         requests,
         alias=alias,
         arm=arm,
-        bootstrap_target=bootstrap_target,
-        z_base=z_base,
-        metric=metric,
-        lookup_positions=lookup_positions,
-        target_layer_name=layer_name,
-        capture=capture,
+        allocation=allocation,
+        capture_plan=capture_plan,
+        objective_plan=objective_plan,
         hparams=hparams,
         projector=projector,
         contexts=contexts,
         covariance_registry=covariance_registry,
         projector_sha256=projector_sha256,
-        lock=controller_lock,
-        arm_state=state,
+        controller_lock=controller_lock,
+        arm_state=round_state,
         request_by_sha256=request_by_sha256,
         population_by_sha256=population_by_sha256,
         schedule=schedule,
-        outer_entry_p_cache=None,
+        outer_entry_p_cache=outer_entry_p_cache,
         theta0_cache=theta0_cache,
         touched=touched,
-        recorder=recorder,
-        stages=stages,
-        typed_zero_positive=False,
-        record_six_context_objectives=False,
-        strength_preserving=True,
-        sequential_lightweight=True,
+        base_receipt=round_state.snapshot_receipt,
+        base_values=entry_values,
+        raw_root=round_root,
+        write_once=_atomic_write_once,
+        progress_simplex=True,
+        compute_aware=True,
+        historical_sketch=historical_sketch,
+        trajectory_w0_values=trajectory_w0_values,
+        committed_load_by_layer=committed_load_by_layer,
+        terminal_functional_audit=round_index in EVALUATION_ROUNDS,
+        full_six_slope=True,
     )
-    if rollout.k_acc != 8 or float(rollout.accepted_t) != 1.0 or not rollout.snapshots:
-        raise ODEBFStateError("P1R20 Ours did not complete K8/tau1")
-    final = rollout.snapshots[-1]
-    candidates, assembly = _assemble_candidates(touched, entry_hashes, final.factors)
-    transaction = _commit_candidates(
-        touched,
-        candidates,
-        transaction_id=canonical_hash(
-            {
-                "method": method,
-                "round": round_index,
-                "rollout": rollout.rollout_sha256,
-            }
-        ),
-        mutation_lock=mutation_lock,
-    )
-    load = {
-        int(layer): float(value)
-        for layer, value in zip(
-            hparams.layers,
-            final.capacity_payload["cumulative_bf16_capacity"],
-            strict=True,
+    public = rollout["public"]
+    if (
+        public["status"] != "PROGRESS_SIMPLEX_DYNAMIC_K8_COMPLETE"
+        or len(public["accepted_receipt_sha256"]) != P1R23_GRID_COUNT
+        or public["tau_final"] != 1.0
+        or public["physical_slope_context_mode"] != "FULL_SIX_FIXED"
+        or any(
+            item["selected_context_ordinals"] != list(range(6))
+            for item in public["rotating_context_receipts"]
         )
-    }
-    stepwise = [
-        {
-            "accepted_index": item.accepted_index,
-            "tau": float(item.tau),
-            "routing": item.routing_payload["routing"],
-            "progress": item.progress_payload,
-            "capacity": item.capacity_payload,
-            "structural_functional": item.structural_payload,
-        }
-        for item in rollout.snapshots
-    ]
-    historical_influence = any(
-        any(
-            str(score.get("label")) == "structural_historical"
-            and int(score.get("influence_count", 0)) > 0
-            for score in item["routing"].get("scores", ())
-        )
-        for item in stepwise
+    ):
+        raise ODEBFStateError("Full-6 Historical K8 contract differs")
+    candidates, assembly = _assemble_candidates(
+        touched, entry_hashes, rollout["terminal_factors"]
     )
+    projected_keys: dict[int, np.ndarray] = {}
+    for layer_index, layer in enumerate(P1R23_LAYER_ORDER):
+        key = rollout["terminal_physical"].keys_by_layer[layer].to(
+            device="cpu", dtype=torch.float64
+        )
+        projected = projector[layer_index].detach().to(
+            device="cpu", dtype=torch.float64
+        ) @ key
+        projected_keys[layer] = projected.T.contiguous().numpy()
+    staged_h_sha = historical_sketch.stage(projected_keys, item_count=BATCH_SIZE)
+    try:
+        transaction = _commit_candidates(
+            touched,
+            candidates,
+            transaction_id=canonical_hash(
+                {
+                    "method": method,
+                    "round": round_index,
+                    "rollout": public["identity_sha256"],
+                }
+            ),
+            mutation_lock=mutation_lock,
+        )
+    except Exception:
+        historical_sketch.finalize(transaction_committed=False)
+        raise
+    historical_sketch.finalize(transaction_committed=True)
+    load = _layer_load(entry_values, touched, hparams)
+    for name, amount in round_state.ledger.counters.items():
+        job_ledger.increment(name, int(amount))
+    for name, amount in round_state.ledger.component_wall_seconds.items():
+        job_ledger.add_time(name, wall_seconds=float(amount))
+    job_ledger.observe_memory(
+        allocated_bytes=round_state.ledger.peak_allocated_bytes,
+        reserved_bytes=round_state.ledger.peak_reserved_bytes,
+        maxrss_kib=round_state.ledger.host_maxrss_kib,
+    )
+    historical_influence_count = int(public["historical_h_decision_influence_count"])
+    historical_input_count = int(public["historical_h_controller_input_count"])
+    historical_nondegenerate_count = int(public["historical_h_nondegenerate_count"])
     return {
-        "backend": "P1R19_BG_STRENGTH_PRESERVING_K8",
-        "variant": arm.value,
-        "bootstrap": bootstrap,
-        "initial_contract": initial_contract,
-        "rollout_sha256": rollout.rollout_sha256,
-        "rollout_status": rollout.status,
-        "accepted_k": rollout.k_acc,
-        "tau": float(rollout.accepted_t),
+        "backend": "P1R23_COMPUTE_PROGRESS_SIMPLEX_FULL6_K8",
+        "variant": method,
+        "rollout": public,
+        "rollout_sha256": public["identity_sha256"],
+        "rollout_status": public["status"],
+        "accepted_k": len(public["accepted_receipt_sha256"]),
+        "tau": float(public["tau_final"]),
         "transaction": transaction,
         "assembly": assembly,
-        "receipt_links": recorder.links(),
-        "stepwise": stepwise,
-        "historical_h_decision_influence": historical_influence,
+        "historical_sketch_stage_sha256": staged_h_sha,
+        "historical_sketch_after_commit": historical_sketch.raw_free_payload(),
+        "historical_h_controller_input_count": historical_input_count,
+        "historical_h_nondegenerate_count": historical_nondegenerate_count,
+        "historical_h_decision_influence_count": historical_influence_count,
+        "historical_h_decision_influence": historical_influence_count > 0,
         "historical_bf_classification": (
             "HISTORICAL_H_ACTIVE"
-            if historical_influence
+            if historical_influence_count > 0
+            else "HISTORICAL_H_NONDEGENERATE_NO_ALLOCATION_CHANGE"
+            if historical_nondegenerate_count > 0
             else "NON_HISTORICAL_BF"
-            if method == "BG-SOFT-H" and round_index >= 2
+            if method.endswith("-SOFT") and round_index >= 2
             else "NOT_REQUIRED_OR_EMPTY_HISTORY"
         ),
         "inner_k_heldout_evaluation_count": 0,
         "inner_k_functional_probe_count": 0,
+        "full_six_context_ordinals": list(range(6)),
+        "full_six_context_sha256": objective_plan.context_sha256,
+        "full_six_microbatch_partition": [
+            list(item.prepared.request_ordinals) for item in objective_plan.batches
+        ],
+        "functional_p_h_decision_influence_count": 0,
         "retry_count": 0,
     }, load
 
@@ -573,14 +570,11 @@ def run_historical_h0_sequential_trajectory(
     context_sha256: str,
     cuda_runtime_receipt: Mapping[str, Any],
     job_ledger: ComputeLedger,
-    memit_hparams: Any | None = None,
 ) -> dict[str, Any]:
     if method not in METHODS or len(stream_batches) != ROUND_COUNT:
         raise ODEBFContractError("P1R20 trajectory matrix/round count differs")
     if any(len(batch) != BATCH_SIZE for batch in stream_batches):
         raise ODEBFContractError("P1R20 stream is not ten B10 rounds")
-    if method == "MEMIT" and memit_hparams is None:
-        raise ODEBFContractError("P1R20 MEMIT hparams are absent")
     if stream.get("root_digest") is None or len(stream.get("requests", ())) != 100:
         raise ODEBFContractError("P1R20 fresh seal identity differs")
 
@@ -595,66 +589,102 @@ def run_historical_h0_sequential_trajectory(
         ArmWeightSnapshot(P1Arm.R_BF, 0, base_receipt.parameter_sha256, canonical_hash({"method": method, "w0": initial_hashes})),
         dict(base_values),
     )
-    w0_evaluations, w0_summary = _evaluate_batches(
-        model,
-        tokenizer,
-        alias=alias,
-        method=method,
-        round_index=0,
-        batches=stream_batches,
-        dataset_path=dataset_path,
-        state_sha256=canonical_hash(initial_hashes),
-        ledger=state.ledger,
+    is_ours = "-COMPUTE-FULL6-" in method
+    trajectory_w0_values = _weight_values(touched)
+    historical_sketch = (
+        FixedRankHistoricalSketch(
+            HISTORICAL_SKETCH_RANK,
+            {
+                int(layer): int(projector[index].shape[0])
+                for index, layer in enumerate(P1R23_LAYER_ORDER)
+            },
+        )
+        if is_ours
+        else None
     )
+    committed_load_by_layer = {int(layer): 0.0 for layer in P1R23_LAYER_ORDER}
+    outer_entry_p_cache = None
+    if is_ours:
+        outer_population = tuple(
+            population_by_sha256[item] for item in theta0_cache.request_order
+        )
+        outer_snapshot = _entry_parameter_snapshot_sha256(
+            model, dict(base_receipt.parameter_sha256)
+        )
+        outer_counter = ModelForwardCounter(model, state.ledger)
+        try:
+            outer_entry_p_cache = build_outer_entry_pretrained_cache(
+                model,
+                tokenizer,
+                outer_population,
+                theta0_cache,
+                outer_entry_snapshot_sha256=outer_snapshot,
+            )
+        finally:
+            outer_counter.close()
+    w0_payload = {
+        "schema": "ode-edit-s05-p1r23-full6-historical-w0/v1",
+        "status": "NOT_EVALUATED_55_POSTCOMMIT_B10_CONTRACT",
+        "method": method,
+        "history_count": 0,
+        "parameter_sha256": initial_hashes,
+        "model_forward_count": 0,
+        "evaluator_access_count": 0,
+    }
     w0_sha = _atomic_write_once(
         raw_root / "round-00-endpoint.json",
-        {
-            "schema": "ode-edit-s05-p1r20-round-endpoint/v1",
-            "method": method,
-            "round": 0,
-            "evaluation": w0_evaluations,
-            "summary": w0_summary,
-            "history_count": 0,
-            "action_frozen": True,
-        },
+        w0_payload,
     )
     round_hashes: list[str] = []
     round_summaries: list[dict[str, Any]] = []
-    first_edited_metrics: dict[int, dict[str, Any]] = {}
+    historical_nondegenerate_rounds: list[int] = []
+    historical_influence_rounds: list[int] = []
     for round_index, requests in enumerate(stream_batches, start=1):
-        if len(state.history.snapshot().active_records) != HISTORY_COUNTS[round_index - 1]:
+        history_count_at_entry = (
+            historical_sketch.history_item_count
+            if historical_sketch is not None
+            else len(state.history.snapshot().active_records)
+        )
+        if history_count_at_entry != HISTORY_COUNTS[round_index - 1]:
             raise ODEBFStateError("P1R20 round-entry history count differs")
         round_started = time.perf_counter()
         before_values = _weight_values(touched)
         before_hashes = _weight_hashes(touched)
         phase_entry = _ledger_snapshot(state.ledger)
-        counter = ModelForwardCounter(model, state.ledger)
-        try:
-            if method in ("BG-NEUTRAL", "BG-SOFT-H"):
-                edit, load = _run_ours_round(
-                    model,
-                    tokenizer,
-                    requests,
-                    alias=alias,
-                    method=method,
-                    hparams=hparams,
-                    projector=projector,
-                    contexts=contexts,
-                    covariance_registry=covariance_registry,
-                    projector_sha256=projector_sha256,
-                    controller_lock=controller_lock,
-                    state=state,
-                    request_by_sha256=request_by_sha256,
-                    population_by_sha256=population_by_sha256,
-                    schedule=schedule,
-                    theta0_cache=theta0_cache,
-                    touched=touched,
-                    raw_root=raw_root,
-                    stages=stages,
-                    mutation_lock=mutation_lock,
-                    round_index=round_index,
-                )
-            elif method == "ALPHAEDIT":
+        if is_ours:
+            if historical_sketch is None or outer_entry_p_cache is None:
+                raise ODEBFStateError("Full-6 Historical state is absent")
+            edit, load = _run_ours_round(
+                model,
+                tokenizer,
+                requests,
+                alias=alias,
+                method=method,
+                hparams=hparams,
+                projector=projector,
+                contexts=contexts,
+                covariance_registry=covariance_registry,
+                projector_sha256=projector_sha256,
+                controller_lock=controller_lock,
+                state=state,
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                theta0_cache=theta0_cache,
+                touched=touched,
+                raw_root=raw_root,
+                stages=stages,
+                mutation_lock=mutation_lock,
+                round_index=round_index,
+                historical_sketch=historical_sketch,
+                trajectory_w0_values=trajectory_w0_values,
+                committed_load_by_layer=committed_load_by_layer,
+                outer_entry_p_cache=outer_entry_p_cache,
+                job_ledger=state.ledger,
+            )
+        else:
+            counter = ModelForwardCounter(model, state.ledger)
+            try:
                 edit, load = _run_alpha_round(
                     model,
                     tokenizer,
@@ -668,16 +698,8 @@ def run_historical_h0_sequential_trajectory(
                     residual_tolerance=controller_lock.residual_tolerance,
                     round_index=round_index,
                 )
-            else:
-                edit, load = _run_memit_round(
-                    model,
-                    tokenizer,
-                    requests,
-                    memit_hparams=memit_hparams,
-                    touched=touched,
-                )
-        finally:
-            counter.close()
+            finally:
+                counter.close()
         phase_after_edit = _ledger_snapshot(state.ledger)
         after_hashes = _weight_hashes(touched)
         if after_hashes == before_hashes:
@@ -692,33 +714,65 @@ def run_historical_h0_sequential_trajectory(
                 "endpoint": after_hashes,
             }
         )
-        history_counter = ModelForwardCounter(model, state.ledger)
-        try:
-            prepared = _prepare_history_batch(
-                model,
-                tokenizer,
-                arm_state=state,
-                requests=requests,
-                collision_by_request=collision_by_request,
-                hparams=hparams,
-                projector=projector,
-                contexts=contexts,
-                terminal_event_sha256=terminal_event,
-                load_increment_by_layer=load,
-            )
-        finally:
-            history_counter.close()
-        history_receipt = _finalize_prepared_history(state, prepared)
-        history_receipt["load_increment_by_layer"] = {
-            str(layer): float(value) for layer, value in sorted(load.items())
-        }
-        history_receipt["cumulative_load_by_layer"] = {
-            str(layer): float(value)
-            for layer, value in sorted(state.history.cumulative_load().items())
-        }
-        if len(state.history.snapshot().active_records) != round_index * BATCH_SIZE:
+        if is_ours:
+            for layer, value in load.items():
+                committed_load_by_layer[int(layer)] += float(value)
+            history_receipt = {
+                "schema": "ode-edit-s05-p1r23-full6-fixed-rank-history-append/v1",
+                "append_call_count": 1,
+                "post_commit_verified": True,
+                "terminal_event_sha256": terminal_event,
+                "sketch": historical_sketch.raw_free_payload(),
+                "load_increment_by_layer": {
+                    str(layer): float(value)
+                    for layer, value in sorted(load.items())
+                },
+                "cumulative_load_by_layer": {
+                    str(layer): float(value)
+                    for layer, value in sorted(committed_load_by_layer.items())
+                },
+                "raw_history_replay_count": 0,
+                "duplicate_append_count": 0,
+            }
+            history_receipt["identity_sha256"] = canonical_hash(history_receipt)
+            history_count_after_commit = historical_sketch.history_item_count
+        else:
+            history_counter = ModelForwardCounter(model, state.ledger)
+            try:
+                prepared = _prepare_history_batch(
+                    model,
+                    tokenizer,
+                    arm_state=state,
+                    requests=requests,
+                    collision_by_request=collision_by_request,
+                    hparams=hparams,
+                    projector=projector,
+                    contexts=contexts,
+                    terminal_event_sha256=terminal_event,
+                    load_increment_by_layer=load,
+                )
+            finally:
+                history_counter.close()
+            history_receipt = _finalize_prepared_history(state, prepared)
+            history_receipt["load_increment_by_layer"] = {
+                str(layer): float(value) for layer, value in sorted(load.items())
+            }
+            history_receipt["cumulative_load_by_layer"] = {
+                str(layer): float(value)
+                for layer, value in sorted(state.history.cumulative_load().items())
+            }
+            history_count_after_commit = len(state.history.snapshot().active_records)
+        if history_count_after_commit != round_index * BATCH_SIZE:
             raise ODEBFStateError("P1R20 history append count differs")
         phase_after_history = _ledger_snapshot(state.ledger)
+
+        if method.endswith("-SOFT") and round_index >= 2:
+            if int(edit["historical_h_controller_input_count"]) != P1R23_GRID_COUNT:
+                raise ODEBFStateError("Historical H did not enter every K8 router input")
+            if int(edit["historical_h_nondegenerate_count"]) > 0:
+                historical_nondegenerate_rounds.append(round_index)
+            if int(edit["historical_h_decision_influence_count"]) > 0:
+                historical_influence_rounds.append(round_index)
 
         evaluated, evaluation_summary = _evaluate_batches(
             model,
@@ -731,27 +785,33 @@ def run_historical_h0_sequential_trajectory(
             state_sha256=canonical_hash(after_hashes),
             ledger=state.ledger,
         )
-        first_edited_metrics.setdefault(
-            round_index, evaluated[-1]["primary"]["metrics"]
-        )
         phase_after_historical_eval = _ledger_snapshot(state.ledger)
-        kl = _teacher_kl(
-            model,
-            tokenizer,
-            theta0_cache=theta0_cache,
-            population_by_sha256=population_by_sha256,
-            ledger=state.ledger,
+        kl = (
+            _teacher_kl(
+                model,
+                tokenizer,
+                theta0_cache=theta0_cache,
+                population_by_sha256=population_by_sha256,
+                ledger=state.ledger,
+            )
+            if round_index in EVALUATION_ROUNDS
+            else {
+                "status": "NOT_EVALUATED_OUTER_CHECKPOINT_SCHEDULE",
+                "model_forward_count": 0,
+                "processed_token_count": 0,
+                "decision_influence_count": 0,
+            }
         )
         phase_after_general_eval = _ledger_snapshot(state.ledger)
         elapsed = time.perf_counter() - round_started
         payload = {
-            "schema": "ode-edit-s05-p1r20-round-endpoint/v1",
+            "schema": "ode-edit-s05-p1r23-full6-structural-historical-round-endpoint/v1",
             "instruction_id": INSTRUCTION_ID,
             "alias": alias,
             "method": method,
             "round": round_index,
-            "history_count_at_entry": (round_index - 1) * BATCH_SIZE,
-            "history_count_after_commit": round_index * BATCH_SIZE,
+            "history_count_at_entry": history_count_at_entry,
+            "history_count_after_commit": history_count_after_commit,
             "edit": edit,
             "history": history_receipt,
             "evaluation": evaluated,
@@ -819,16 +879,23 @@ def run_historical_h0_sequential_trajectory(
             torch.cuda.empty_cache()
 
     terminal_weights = _weight_hashes(touched)
+    persistent_h_inactivity = bool(
+        method.endswith("-SOFT") and not historical_influence_rounds
+    )
     with torch.no_grad():
         for name, parameter in touched.items():
             parameter.copy_(base_values[name].to(device=parameter.device))
     restored = _weight_hashes(touched) == initial_hashes
     if not restored:
         raise ODEBFStateError("P1R20 terminal W0 restore differs")
+    if persistent_h_inactivity:
+        raise ODEBFStateError(
+            "P1R23 Full-6 Historical H remained allocation-inactive after t1"
+        )
     artifact_guard.assert_unchanged()
     _observed_memory(state.ledger)
     terminal = {
-        "schema": "ode-edit-s05-p1r20-terminal/v1",
+        "schema": "ode-edit-s05-p1r23-full6-structural-historical-terminal/v1",
         "instruction_id": INSTRUCTION_ID,
         "status": "HISTORICAL_H0_SEQUENTIAL_T10_COMPLETE",
         "alias": alias,
@@ -844,7 +911,21 @@ def run_historical_h0_sequential_trajectory(
         "final_w0_restored": restored,
         "persistent_commit_count": ROUND_COUNT,
         "history_append_count": ROUND_COUNT,
-        "history_final_count": len(state.history.snapshot().active_records),
+        "history_final_count": (
+            historical_sketch.history_item_count
+            if historical_sketch is not None
+            else len(state.history.snapshot().active_records)
+        ),
+        "historical_sketch": (
+            historical_sketch.raw_free_payload()
+            if historical_sketch is not None
+            else {"status": "BASELINE_NOT_APPLICABLE"}
+        ),
+        "historical_h_nondegenerate_rounds": historical_nondegenerate_rounds,
+        "historical_h_decision_influence_rounds": historical_influence_rounds,
+        "historical_h_persistent_inactivity": persistent_h_inactivity,
+        "postcommit_cumulative_b10_evaluation_count": sum(range(1, 11)),
+        "wide_locality_teacher_kl_checkpoint_rounds": list(EVALUATION_ROUNDS),
         "future_batch_controller_access_count": 0,
         "inner_k_heldout_evaluation_count": 0,
         "retry_count": 0,
@@ -861,7 +942,7 @@ def run_historical_h0_sequential_trajectory(
     }
     terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s05-p1r20-manifest/v1",
+        "schema": "ode-edit-s05-p1r23-full6-structural-historical-manifest/v1",
         "status": terminal["status"],
         "alias": alias,
         "method": method,
