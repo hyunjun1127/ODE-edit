@@ -143,7 +143,7 @@ def submit_tech_r2_missing_qwen(source_head: str) -> dict[str, object]:
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P1R23 Full-6 Historical submission namespace exists")
-    failed_jobs = ("18782", "18784", "18777")
+    failed_jobs = ("18782", "18784", "18777_7")
     failed_states = {
         job: _run(["sacct", "-n", "-X", "-j", job, "-o", "State", "-P"]).stdout.strip()
         for job in failed_jobs
