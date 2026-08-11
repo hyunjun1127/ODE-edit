@@ -233,7 +233,7 @@ def capture_physical_state(
     return PhysicalStateCapture(
         keys_by_layer,
         terminal_z,
-        tuple(int(item[0]) for item in indices),
+        indices,
         order,
         payload["model_state_sha256"],
         1,

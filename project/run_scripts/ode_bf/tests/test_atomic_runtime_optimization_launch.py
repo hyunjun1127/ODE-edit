@@ -84,9 +84,9 @@ class AtomicRuntimeOptimizationLaunchTests(unittest.TestCase):
         submitter = inspect.getsource(conformance_submit.submit)
         for alias in ("llama3-8b-inst", "qwen2.5-7b-inst"):
             expected = expected_p1r22_conformance_result_name(alias)
-            self.assertTrue(expected.endswith("-tech-r3-v1"))
-            self.assertIn("tech-r3-v1", sbatch)
-            self.assertIn("tech-r3-v1", submitter)
+            self.assertTrue(expected.endswith("-tech-r4-v1"))
+            self.assertIn("tech-r4-v1", sbatch)
+            self.assertIn("tech-r4-v1", submitter)
 
     def test_submitters_count_only_running_janghj_gpu_jobs(self) -> None:
         for module in (production_submit, conformance_submit):
@@ -132,7 +132,7 @@ class AtomicRuntimeOptimizationLaunchTests(unittest.TestCase):
         self.assertEqual(value["entry_count"], len(value["entries"]))
         self.assertEqual(
             value["expected_parent"],
-            "e7c5449724bb5566feeb0c8c5abcd85fbf5c6ebc",
+            "9dcf4b13a95ea52de3b7311953e0f433fbf6317c",
         )
         self.assertEqual(
             value["scientific_checkpoint"],
@@ -144,6 +144,7 @@ class AtomicRuntimeOptimizationLaunchTests(unittest.TestCase):
                 "TECH_R1_TERMINAL_CAPTURE_MODULE",
                 "TECH_R2_CONFORMANCE_NAMESPACE_BINDING",
                 "TECH_R3_CANONICAL_LOOKUP_PLAN_REUSE",
+                "TECH_R4_CANONICAL_LOOKUP_RETURN_TYPE",
             ],
         )
         self.assertEqual(

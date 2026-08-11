@@ -6,11 +6,12 @@
   "p1r19_scientific_checkpoint": "657dafd40de50bb396fc9cfaf3862de1d07dd816",
   "p1r19_execution_checkpoint": "d604953a046b6af4da7386dd6c64c20fc848f625",
   "scientific_checkpoint": "47fb9b69f4825734c2c03c24fe241e6adc25c984",
-  "expected_parent": "e7c5449724bb5566feeb0c8c5abcd85fbf5c6ebc",
+  "expected_parent": "9dcf4b13a95ea52de3b7311953e0f433fbf6317c",
   "technical_repair_chain": [
     "TECH_R1_TERMINAL_CAPTURE_MODULE",
     "TECH_R2_CONFORMANCE_NAMESPACE_BINDING",
-    "TECH_R3_CANONICAL_LOOKUP_PLAN_REUSE"
+    "TECH_R3_CANONICAL_LOOKUP_PLAN_REUSE",
+    "TECH_R4_CANONICAL_LOOKUP_RETURN_TYPE"
   ],
   "failed_conformance_attempts": [
     {
@@ -24,6 +25,10 @@
     {
       "job_id": "18592",
       "failure_sha256": "85303368be69d36dbf6b61e018348cf3d1f61def2c3d1d28784692e71309d8a8"
+    },
+    {
+      "job_id": "18595",
+      "failure_sha256": "360c8099a6a170cb5463f645e3a671078be13e64d9c372429e72cbf1d589133b"
     }
   ],
   "execution_branch": "codex/odeeditsh2-s05-atomic-runtime-optimization-p1r22-v1",
@@ -46,11 +51,11 @@
     {
       "mode": 33188,
       "object_algorithm": "sha1",
-      "object_id": "af802c6fa5e14b3e86062d6ca4a944999dabb404",
+      "object_id": "cbd8bb8d520f187b6ad6523030fdf5b21e04d540",
       "path": "project/run_scripts/ode_bf/atomic_runtime_optimization.py",
       "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "7a420ffcaafddd0eb8b3a792a118a73212690df01fd7cd43bcb170e0e623e79c",
-      "size": 15246
+      "sha256": "672f700f3f8fcaac230d4f5857b22d305786e776bc9474737b69b931f39d3cd0",
+      "size": 15214
     },
     {
       "mode": 33188,
@@ -118,10 +123,10 @@
     {
       "mode": 33188,
       "object_algorithm": "sha1",
-      "object_id": "a9e7b2190ad2109475d010b2f294a1210ccc5341",
+      "object_id": "37844d764d8492572dbc46820c51b255d2b0c701",
       "path": "project/run_scripts/ode_bf/p1_atomic_runtime_optimization_panel.py",
       "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "7dbeebacc19349e7cf7fb4e816ecfa65a6d94526c99aeac6d828f2392ae32f55",
+      "sha256": "40e1a251ce9301f3eb3ebe8f8ee1fa7f48fe30f51c32a5a243ab417fc3db44e2",
       "size": 5187
     },
     {
@@ -163,28 +168,28 @@
     {
       "mode": 33188,
       "object_algorithm": "sha1",
-      "object_id": "b82b1131fa6d5fa1b849bf2c27a6d9c540fd4333",
+      "object_id": "a495eeb445135633a55403bf114d321c7db6e3f7",
       "path": "project/run_scripts/ode_bf/tests/test_atomic_runtime_optimization.py",
       "role": "FOCUSED_REGRESSION",
-      "sha256": "62a0ab03f37ca4c935856d2beef1dced9faccacc4316e8e07d09fc2bf22390e4",
-      "size": 9717
+      "sha256": "c3d8c0fd39bb6372e9d5d57fed08456ba7d9cff9091610284ed9100c338fb03e",
+      "size": 9781
     },
     {
       "mode": 33188,
       "object_algorithm": "sha1",
-      "object_id": "e43a634bf90e7740b4bcdeea581e8a9d14e6bc13",
+      "object_id": "cdc102f56f91b303defd94b3af4dcb1f982c5211",
       "path": "project/run_scripts/ode_bf/tests/test_atomic_runtime_optimization_launch.py",
       "role": "FOCUSED_REGRESSION",
-      "sha256": "4bc03852b4768f7f8d837d4fe33308b5c8a5e34b67bf6f14c7704853be001879",
-      "size": 7219
+      "sha256": "06b7a46365834f850bc0f853269f989a8f7da293e1fff8bf293ea65861856753",
+      "size": 7275
     },
     {
       "mode": 33261,
       "object_algorithm": "sha1",
-      "object_id": "5c7a18306aabdf78c35cf81c3956a47cdc5ae626",
+      "object_id": "972c3c9ac761420d0e5d84b47c5d57c998fd10f3",
       "path": "project/run_scripts/session05_ode_bf_atomic_runtime_conformance.sbatch",
       "role": "SESSION05_RUNTIME_OR_LAUNCHER",
-      "sha256": "3fb99a3b9c6fcce12fed2024dd1ce2d3f78a7f0a0ab0e756d23f17f9cf2d2310",
+      "sha256": "53bff26feb1eee6241ca53bf03f160006a9c7f7b9676789bf6aacb82094a42d1",
       "size": 2324
     },
     {
@@ -217,10 +222,10 @@
     {
       "mode": 33261,
       "object_algorithm": "sha1",
-      "object_id": "37328373c62179b04d21f804d3f87ac44c82f90e",
+      "object_id": "75e61691f7f7d456fb13281cfdb2fd52ab3c404e",
       "path": "project/run_scripts/session05_ode_bf_submit_atomic_runtime_conformance.py",
       "role": "SESSION05_RUNTIME_OR_LAUNCHER",
-      "sha256": "35198d59630782fbd6057fcff302f791d4516328932202509ffbe6eb276243cd",
+      "sha256": "76ecd99536a15c0c518ccc58d2d2e7bca2ccc042067ba2a1647507ed145410a7",
       "size": 5453
     },
     {
@@ -234,5 +239,5 @@
     }
   ],
   "entry_count": 21,
-  "root_digest": "615e66743ca964019e927dc00b73c1477629790ed646cac2bf52e3dd5ab8e918"
+  "root_digest": "55ab2ae0b2d8890f416ab044da6700d1ce87706a42808ff87036359819f15c9a"
 }

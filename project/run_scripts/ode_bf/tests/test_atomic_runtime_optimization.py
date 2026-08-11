@@ -210,6 +210,7 @@ class AtomicRuntimeOptimizationTests(unittest.TestCase):
         self.assertNotIn("traces[module_names[-1]].output", source)
         self.assertIn("indices = tuple(int(item) for item in lookup_positions)", source)
         self.assertNotIn("repr_tools.get_words_idxs_in_templates", source)
+        self.assertNotIn("item[0] for item in indices", source)
         self.assertIn("physical_forward_count", source)
         self.assertNotIn("CumulativeBF16FunctionalTrial", source)
         self.assertNotIn("torch.cuda.empty_cache", source)

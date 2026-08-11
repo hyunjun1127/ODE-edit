@@ -37,7 +37,7 @@ def expected_p1r22_result_name(alias: str) -> str:
 def expected_p1r22_conformance_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1R22 conformance result alias differs")
-    return f"s05-atomic-runtime-optimization-p1r22-c0c1-{alias}-tech-r3-v1"
+    return f"s05-atomic-runtime-optimization-p1r22-c0c1-{alias}-tech-r4-v1"
 
 
 def forecast_p1r22_panel(
