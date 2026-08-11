@@ -6,10 +6,21 @@
   "p1r19_scientific_checkpoint": "657dafd40de50bb396fc9cfaf3862de1d07dd816",
   "p1r19_execution_checkpoint": "d604953a046b6af4da7386dd6c64c20fc848f625",
   "scientific_checkpoint": "47fb9b69f4825734c2c03c24fe241e6adc25c984",
-  "expected_parent": "47fb9b69f4825734c2c03c24fe241e6adc25c984",
-  "technical_repair": "TECH_R1_TERMINAL_CAPTURE_MODULE",
-  "failed_conformance_job": "18585",
-  "failed_conformance_failure_sha256": "85303368be69d36dbf6b61e018348cf3d1f61def2c3d1d28784692e71309d8a8",
+  "expected_parent": "b52756b8b651fd0628f4c951127db70c031b08e9",
+  "technical_repair_chain": [
+    "TECH_R1_TERMINAL_CAPTURE_MODULE",
+    "TECH_R2_CONFORMANCE_NAMESPACE_BINDING"
+  ],
+  "failed_conformance_attempts": [
+    {
+      "job_id": "18585",
+      "failure_sha256": "85303368be69d36dbf6b61e018348cf3d1f61def2c3d1d28784692e71309d8a8"
+    },
+    {
+      "job_id": "18589",
+      "failure_sha256": "982704c9b49bc9e52bba281ea85b3d04d213cb0c1ccdf7943596119274b1f956"
+    }
+  ],
   "execution_branch": "codex/odeeditsh2-s05-atomic-runtime-optimization-p1r22-v1",
   "execution_head_policy": "RUNTIME_GIT_HEAD_BOUND_BY_SUBMISSION_RECEIPT",
   "stage_a_seal_root": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
@@ -102,11 +113,11 @@
     {
       "mode": 33188,
       "object_algorithm": "sha1",
-      "object_id": "4da0f606c7e1aa534f610c4fe43818366113d32e",
+      "object_id": "ca6cf765a27f5a58f418224282be99439d8c1d7a",
       "path": "project/run_scripts/ode_bf/p1_atomic_runtime_optimization_panel.py",
       "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "fd5369af23fa246fcc6c9ffbb2cce60e7d9dd996cc424167a8107f5d5ffe782a",
-      "size": 5179
+      "sha256": "a43eae098fd56e6d647aee6940ee860993a2c6b4e22f86add4aad91f97fc19f2",
+      "size": 5187
     },
     {
       "mode": 33188,
@@ -156,19 +167,19 @@
     {
       "mode": 33188,
       "object_algorithm": "sha1",
-      "object_id": "d4cb1b5e5dd00829222df4c95583c3f84de25aae",
+      "object_id": "53415ac39da1d3434827e2b2bd4b6f7a7419a3a9",
       "path": "project/run_scripts/ode_bf/tests/test_atomic_runtime_optimization_launch.py",
       "role": "FOCUSED_REGRESSION",
-      "sha256": "e3c578634bf7cb6bb36b25307b658d103c25d20d935b31e0ebd3b57d21b58df7",
-      "size": 6257
+      "sha256": "d6e2bb2fe935e541cbbbd9ae12778f45d1edf8279bc0a16ade3a067bf8397326",
+      "size": 7164
     },
     {
       "mode": 33261,
       "object_algorithm": "sha1",
-      "object_id": "f3c7b664e5841af8b0efbda4cb5ee1b0d603f6e7",
+      "object_id": "9c4f6e3c07e2ec0a81a27b35273783e74f919abf",
       "path": "project/run_scripts/session05_ode_bf_atomic_runtime_conformance.sbatch",
       "role": "SESSION05_RUNTIME_OR_LAUNCHER",
-      "sha256": "5119063d97a93bc3853fe7b09bade974c641f380744964da915118d5be0525a4",
+      "sha256": "1dfaf1eead7420b20db067fd5f20234cc905167e88da3d7eee53dae404372d07",
       "size": 2324
     },
     {
@@ -201,10 +212,10 @@
     {
       "mode": 33261,
       "object_algorithm": "sha1",
-      "object_id": "1eb3a0562768187260181b67cd541c33d7b6dbeb",
+      "object_id": "1f6200f9b074d32de11ed5c4ecd7dd29e99d87dc",
       "path": "project/run_scripts/session05_ode_bf_submit_atomic_runtime_conformance.py",
       "role": "SESSION05_RUNTIME_OR_LAUNCHER",
-      "sha256": "a6e3780884a4b9b286753df34cf677679894ab69d33a31a4116c8f105bedfa96",
+      "sha256": "5e6c29d7becbe45e6cae9b4cccc5447128f6cf1e5387a9b48f6db05a7975d891",
       "size": 5453
     },
     {
@@ -218,5 +229,5 @@
     }
   ],
   "entry_count": 21,
-  "root_digest": "1dfeaf389387b52c4f204a1a337fbbae1602ba09e42229023026c302a68689db"
+  "root_digest": "69c8a3cb22ebbb936d9a0b40f6d90c94a669aa0466b23d3647c01ca1dc88b1bd"
 }

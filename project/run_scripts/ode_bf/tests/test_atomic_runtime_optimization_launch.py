@@ -16,6 +16,9 @@ from project.run_scripts import (
     session05_ode_bf_submit_atomic_runtime_optimization as production_submit,
 )
 from project.run_scripts.ode_bf import p1_atomic_runtime_optimization as runtime
+from project.run_scripts.ode_bf.p1_atomic_runtime_optimization_panel import (
+    expected_p1r22_conformance_result_name,
+)
 from project.run_scripts.ode_bf.p1_runtime import run_p1
 
 
@@ -73,6 +76,18 @@ class AtomicRuntimeOptimizationLaunchTests(unittest.TestCase):
             self.assertNotIn("retry", source.lower())
             self.assertNotIn("target-hold", source.lower())
 
+    def test_conformance_namespace_is_shared_by_panel_and_launcher(self) -> None:
+        sbatch = (
+            ROOT
+            / "project/run_scripts/session05_ode_bf_atomic_runtime_conformance.sbatch"
+        ).read_text(encoding="utf-8")
+        submitter = inspect.getsource(conformance_submit.submit)
+        for alias in ("llama3-8b-inst", "qwen2.5-7b-inst"):
+            expected = expected_p1r22_conformance_result_name(alias)
+            self.assertTrue(expected.endswith("-tech-r2-v1"))
+            self.assertIn("tech-r2-v1", sbatch)
+            self.assertIn("tech-r2-v1", submitter)
+
     def test_submitters_count_only_running_janghj_gpu_jobs(self) -> None:
         for module in (production_submit, conformance_submit):
             source = inspect.getsource(module._active_user_gpu_jobs)
@@ -117,10 +132,19 @@ class AtomicRuntimeOptimizationLaunchTests(unittest.TestCase):
         self.assertEqual(value["entry_count"], len(value["entries"]))
         self.assertEqual(
             value["expected_parent"],
+            "b52756b8b651fd0628f4c951127db70c031b08e9",
+        )
+        self.assertEqual(
+            value["scientific_checkpoint"],
             "47fb9b69f4825734c2c03c24fe241e6adc25c984",
         )
-        self.assertEqual(value["scientific_checkpoint"], value["expected_parent"])
-        self.assertEqual(value["technical_repair"], "TECH_R1_TERMINAL_CAPTURE_MODULE")
+        self.assertEqual(
+            value["technical_repair_chain"],
+            [
+                "TECH_R1_TERMINAL_CAPTURE_MODULE",
+                "TECH_R2_CONFORMANCE_NAMESPACE_BINDING",
+            ],
+        )
         self.assertEqual(
             value["execution_head_policy"],
             "RUNTIME_GIT_HEAD_BOUND_BY_SUBMISSION_RECEIPT",

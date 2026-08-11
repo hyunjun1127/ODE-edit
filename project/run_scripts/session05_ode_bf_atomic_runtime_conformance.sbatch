@@ -29,7 +29,7 @@ scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 
 readonly MODELS=(llama3-8b-inst qwen2.5-7b-inst)
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
-readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-atomic-runtime-optimization-p1r22-c0c1-${MODEL}-tech-r1-v1"
+readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-atomic-runtime-optimization-p1r22-c0c1-${MODEL}-tech-r2-v1"
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R22 C0/C1 output exists" >&2; exit 2; }
 
 export HF_HOME="/mnt/raid5/janghj/.cache/huggingface"
