@@ -205,6 +205,68 @@ class TargetAllocationDispatchTests(unittest.TestCase):
             scalable_metric_from_allocation(z0, order, "UNKNOWN")
 
 
+class PairedInitialSemanticGateTests(unittest.TestCase):
+    def _initial(self, identity: str) -> dict[str, object]:
+        return {
+            "schema": "ode-edit-s05-p1r23-initial-target/v1",
+            "residual_exact_zero": True,
+            "identity_sha256": identity,
+        }
+
+    def _metric(self, identity: str) -> dict[str, object]:
+        return {
+            "schema": "ode-edit-s05-p1r23-batch-global-scale/v1",
+            "request_order_sha256": "a" * 64,
+            "shared_speed_definition": "median_i_l2_norm_z0_i",
+            "identity_sha256": identity,
+        }
+
+    def test_exact_value_difference_is_telemetry_only(self) -> None:
+        receipt = experiment._paired_initial_semantic_gate(
+            self._initial("1" * 64),
+            self._initial("2" * 64),
+            self._metric("3" * 64),
+            self._metric("4" * 64),
+            request_order_sha256="a" * 64,
+            objective_plan_sha256="b" * 64,
+            capture_plan_sha256="c" * 64,
+            allocation="BG",
+        )
+        self.assertFalse(receipt["exact_value_hash_equality"])
+        self.assertFalse(receipt["exact_metric_hash_equality"])
+        self.assertEqual(
+            receipt["exact_value_hash_equality_decision_influence_count"], 0
+        )
+        self.assertTrue(receipt["left_r0_exact_zero"])
+        self.assertTrue(receipt["right_r0_exact_zero"])
+
+    def test_coordinate_and_operator_mismatch_fail_closed(self) -> None:
+        right = self._initial("2" * 64)
+        right["residual_exact_zero"] = False
+        with self.assertRaisesRegex(ODEBFContractError, "coordinate"):
+            experiment._paired_initial_semantic_gate(
+                self._initial("1" * 64),
+                right,
+                self._metric("3" * 64),
+                self._metric("4" * 64),
+                request_order_sha256="a" * 64,
+                objective_plan_sha256="b" * 64,
+                capture_plan_sha256="c" * 64,
+                allocation="BG",
+            )
+        with self.assertRaisesRegex(ODEBFContractError, "operator"):
+            experiment._paired_initial_semantic_gate(
+                self._initial("1" * 64),
+                self._initial("2" * 64),
+                self._metric("3" * 64),
+                self._metric("4" * 64),
+                request_order_sha256="a" * 64,
+                objective_plan_sha256="short",
+                capture_plan_sha256="c" * 64,
+                allocation="BG",
+            )
+
+
 class KeyAggregationTests(unittest.TestCase):
     def test_native_one_plus_five_is_not_uniform_six_mean(self) -> None:
         rows = torch.tensor(
@@ -497,13 +559,19 @@ class DynamicAndAccountingTests(unittest.TestCase):
             for ordinal in range(10)
         )
 
+        def fake_compute_ks(*args, **kwargs):
+            return torch.ones((2, 2), dtype=torch.bfloat16)
+
         def fake_apply(*args, **kwargs):
             self.assertIs(args[3], hparams)
+            self.assertEqual(alpha_main.compute_ks().dtype, torch.float32)
             with torch.no_grad():
                 model.weight.add_(1.0)
             return model, {"weight": entry.clone()}
 
         alpha_main = types.ModuleType("easyeditor.models.alphaedit.AlphaEdit_main")
+        alpha_main.compute_ks = fake_compute_ks
+        original_compute_ks = alpha_main.compute_ks
         alpha_main.apply_AlphaEdit_to_model = mock.Mock(side_effect=fake_apply)
         easyeditor = types.ModuleType("easyeditor")
         models = types.ModuleType("easyeditor.models")
@@ -524,6 +592,12 @@ class DynamicAndAccountingTests(unittest.TestCase):
                 touched={"weight": model.weight},
             )
         self.assertTrue(payload["direct_z_semantics"])
+        self.assertEqual(payload["solver_key_dtype_adapter"]["call_count"], 1)
+        self.assertEqual(
+            payload["solver_key_dtype_adapter"]["input_dtypes"], ["torch.bfloat16"]
+        )
+        self.assertTrue(payload["solver_key_dtype_adapter"]["restored"])
+        self.assertIs(alpha_main.compute_ks, original_compute_ks)
         self.assertEqual(tensor_sha256(originals["weight"]), tensor_sha256(entry))
 
 

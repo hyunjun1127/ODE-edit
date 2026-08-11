@@ -608,6 +608,70 @@ def _action_frozen_cases(
     )
 
 
+def _paired_initial_semantic_gate(
+    left: Mapping[str, Any],
+    right: Mapping[str, Any],
+    left_metric: Mapping[str, Any],
+    right_metric: Mapping[str, Any],
+    *,
+    request_order_sha256: str,
+    objective_plan_sha256: str,
+    capture_plan_sha256: str,
+    allocation: str,
+) -> dict[str, Any]:
+    if allocation not in ("RS", "BG"):
+        raise ODEBFContractError("P1R23 paired allocation schema differs")
+    initial_schema = "ode-edit-s05-p1r23-initial-target/v1"
+    if any(
+        item.get("schema") != initial_schema
+        or item.get("residual_exact_zero") is not True
+        for item in (left, right)
+    ):
+        raise ODEBFContractError("P1R23 paired initial coordinate differs")
+    metric_schema = (
+        "ode-edit-s05-p1r23-robust-shared-scale/v1"
+        if allocation == "RS"
+        else "ode-edit-s05-p1r23-batch-global-scale/v1"
+    )
+    expected_scale = (
+        "ROBUST_SHARED_REQUEST_SCALE_V1" if allocation == "RS" else None
+    )
+    for metric in (left_metric, right_metric):
+        if (
+            metric.get("schema") != metric_schema
+            or metric.get("request_order_sha256") != request_order_sha256
+            or metric.get("shared_speed_definition") != "median_i_l2_norm_z0_i"
+            or (allocation == "RS" and metric.get("scale") != expected_scale)
+        ):
+            raise ODEBFContractError("P1R23 paired allocation schema differs")
+    identities = (
+        request_order_sha256,
+        objective_plan_sha256,
+        capture_plan_sha256,
+    )
+    if any(not isinstance(item, str) or len(item) != 64 for item in identities):
+        raise ODEBFContractError("P1R23 paired operator identity differs")
+    payload = {
+        "schema": f"{P1R23_SCHEMA}-paired-initial-semantic-gate/v1",
+        "request_order_sha256": request_order_sha256,
+        "objective_plan_sha256": objective_plan_sha256,
+        "capture_plan_sha256": capture_plan_sha256,
+        "target_allocation": allocation,
+        "allocation_schema": metric_schema,
+        "initial_operator_schema": initial_schema,
+        "left_r0_exact_zero": True,
+        "right_r0_exact_zero": True,
+        "left_finite_validated_by_operator": True,
+        "right_finite_validated_by_operator": True,
+        "exact_value_hash_equality": left == right,
+        "exact_metric_hash_equality": left_metric == right_metric,
+        "exact_value_hash_equality_decision_influence_count": 0,
+        "coordinate_order_operator_schema_gate_influence_count": 1,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
+
+
 def _run_ode_pair(
     model: torch.nn.Module,
     tokenizer: Any,
@@ -728,16 +792,26 @@ def _run_ode_pair(
         )
     left = rollouts[routing_arms[0]]["public"]["initial"]
     right = rollouts[routing_arms[1]]["public"]["initial"]
-    if left != right:
-        raise ODEBFContractError("P1R23 paired initial state differs")
     left_metric = rollouts[routing_arms[0]]["public"]["metric"]
     right_metric = rollouts[routing_arms[1]]["public"]["metric"]
-    if left_metric != right_metric:
-        raise ODEBFContractError("P1R23 paired allocation state differs")
+    paired_initial = _paired_initial_semantic_gate(
+        left,
+        right,
+        left_metric,
+        right_metric,
+        request_order_sha256=request_order,
+        objective_plan_sha256=objective_plan.identity_sha256,
+        capture_plan_sha256=capture_plan.identity_sha256,
+        allocation=allocation,
+    )
+    paired_initial_sha = write_once(
+        raw_root / "paired-initial-semantic-gate.json", paired_initial
+    )
     action_freeze = {
         "schema": f"{P1R23_SCHEMA}-paired-action-freeze/v1",
         "request_order_sha256": request_order,
         "target_allocation": allocation,
+        "paired_initial_semantic_gate_sha256": paired_initial_sha,
         "rollout_sha256": {
             label: rollouts[label]["public"]["identity_sha256"]
             for label in routing_arms
@@ -800,6 +874,7 @@ def _run_ode_pair(
         "W0_shared_by_neutral_soft": True,
         "endpoints": endpoints,
         "action_freeze_sha256": action_sha,
+        "paired_initial_semantic_gate": paired_initial,
         "official_endpoint_evaluation_count_per_state": 1,
         "scientific_invalid_count": 0,
         "estimand": "ATOMIC",

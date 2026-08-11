@@ -48,12 +48,14 @@ class ScalableBatchedLaunchTests(unittest.TestCase):
         calibration = dry.build_plan("a" * 40, "calibration", repository_root=ROOT)
         b10 = dry.build_plan("a" * 40, "b10", repository_root=ROOT)
         rs_b10 = dry.build_plan("a" * 40, "rs-b10", repository_root=ROOT)
+        repair_b10 = dry.build_plan("a" * 40, "repair-b10", repository_root=ROOT)
         b100 = dry.build_plan("a" * 40, "b100", repository_root=ROOT)
         self.assertEqual(calibration["job_count"], 2)
         self.assertEqual(b10["job_count"], 6)
         self.assertEqual(rs_b10["job_count"], 2)
+        self.assertEqual(repair_b10["job_count"], 6)
         self.assertEqual(b100["job_count"], 8)
-        for value in (calibration, b10, rs_b10, b100):
+        for value in (calibration, b10, rs_b10, repair_b10, b100):
             self.assertEqual(value["estimand"], "ATOMIC")
             self.assertEqual(value["sequential_round_count"], 0)
             self.assertEqual(value["persistent_history_append_count"], 0)
@@ -67,6 +69,10 @@ class ScalableBatchedLaunchTests(unittest.TestCase):
         )
         self.assertTrue(
             all("rs-neutral-soft-pair" in item["result_name"] for item in rs_b10["jobs"])
+        )
+        self.assertEqual(
+            {item["role"] for item in repair_b10["jobs"]},
+            {"ODE_BF_K8_PAIR", "ODE_BF_K8_RS_PAIR", "OFFICIAL_NATIVE"},
         )
 
     def test_sbatch_has_server2_atomic_stage_and_no_static_split(self) -> None:

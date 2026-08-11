@@ -22,7 +22,7 @@ readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 [[ "$#" -eq 3 ]] || { echo "P1R23 requires source, result parent, and stage" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R23 CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P1R23 source differs" >&2; exit 2; }
-[[ "$(git branch --show-current)" == "codex/odeeditsh2-s05-scalable-batched-runtime-p1r23-a5-rs-v1" ]] || { echo "P1R23 branch differs" >&2; exit 2; }
+[[ "$(git branch --show-current)" == "codex/odeeditsh2-s05-scalable-batched-runtime-p1r23-tech-r2" ]] || { echo "P1R23 branch differs" >&2; exit 2; }
 [[ -z "$(git status --porcelain --untracked-files=no)" ]] || { echo "P1R23 tracked source dirty" >&2; exit 2; }
 scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 [[ "${CUDA_VISIBLE_DEVICES:-}" != "" && "${CUDA_VISIBLE_DEVICES}" != *,* ]] || { echo "P1R23 exactly one GPU required" >&2; exit 2; }
@@ -47,6 +47,17 @@ case "${STAGE}" in
   rs-b10)
     readonly MODELS=(llama3-8b-inst qwen2.5-7b-inst)
     readonly ROLES=(ODE_BF_K8_RS_PAIR ODE_BF_K8_RS_PAIR)
+    readonly BATCH_SIZE=10
+    ;;
+  repair-b10)
+    readonly MODELS=(
+      llama3-8b-inst llama3-8b-inst llama3-8b-inst
+      qwen2.5-7b-inst qwen2.5-7b-inst qwen2.5-7b-inst
+    )
+    readonly ROLES=(
+      ODE_BF_K8_PAIR ODE_BF_K8_RS_PAIR OFFICIAL_NATIVE
+      ODE_BF_K8_PAIR ODE_BF_K8_RS_PAIR OFFICIAL_NATIVE
+    )
     readonly BATCH_SIZE=10
     ;;
   b100)

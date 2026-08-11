@@ -11,6 +11,7 @@ from __future__ import annotations
 import contextlib
 import copy
 from dataclasses import dataclass
+import importlib
 import io
 import math
 import threading
@@ -23,6 +24,43 @@ from .accounting import ComputeLedger
 from .contracts import ODEBFContractError, ODEBFStateError, canonical_hash
 from .functional import tensor_sha256
 from .scalable_batched_runtime import scalable_ordered_request_digest
+
+
+@contextlib.contextmanager
+def _alphaedit_solver_key_dtype_adapter(alpha_module: Any | None = None) -> Any:
+    """Promote captured BF16 keys for AlphaEdit's pinned FP32 linear solve."""
+
+    if alpha_module is None:
+        alpha_module = importlib.import_module(
+            "easyeditor.models.alphaedit.AlphaEdit_main"
+        )
+
+    original = alpha_module.compute_ks
+    receipt: dict[str, Any] = {
+        "active": True,
+        "call_count": 0,
+        "input_dtypes": [],
+        "output_dtype": "torch.float32",
+        "value_transform": "dtype_promotion_only",
+    }
+
+    def promoted_compute_ks(*args: Any, **kwargs: Any) -> torch.Tensor:
+        keys = original(*args, **kwargs)
+        if not isinstance(keys, torch.Tensor) or not keys.is_floating_point():
+            raise ODEBFContractError("AlphaEdit solver keys are not a floating tensor")
+        if keys.dtype not in (torch.bfloat16, torch.float32):
+            raise ODEBFContractError("AlphaEdit solver key dtype differs")
+        receipt["call_count"] += 1
+        receipt["input_dtypes"].append(str(keys.dtype))
+        return keys.to(dtype=torch.float32)
+
+    alpha_module.compute_ks = promoted_compute_ks
+    try:
+        yield receipt
+    finally:
+        alpha_module.compute_ks = original
+        if alpha_module.compute_ks is not original:
+            raise ODEBFContractError("AlphaEdit solver key adapter restore differs")
 
 
 @dataclass(frozen=True, slots=True)
@@ -403,20 +441,29 @@ def run_official_native_apply(
     entry_sha = {name: tensor_sha256(value) for name, value in touched.items()}
     pointers = {name: int(value.data_ptr()) for name, value in touched.items()}
     request_copy = [copy.deepcopy(dict(item)) for item in requests]
+    original_compute_ks = alpha_main.compute_ks
     started = time.perf_counter()
-    with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
-        returned_model, originals = alpha_main.apply_AlphaEdit_to_model(
-            model,
-            tokenizer,
-            request_copy,
-            hparams,
-            copy=False,
-            return_orig_weights=True,
-            cache_template=None,
-            keep_original_weight=False,
-            reset_cache=True,
-        )
+    with _alphaedit_solver_key_dtype_adapter(alpha_main) as adapter_receipt:
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            returned_model, originals = alpha_main.apply_AlphaEdit_to_model(
+                model,
+                tokenizer,
+                request_copy,
+                hparams,
+                copy=False,
+                return_orig_weights=True,
+                cache_template=None,
+                keep_original_weight=False,
+                reset_cache=True,
+            )
     wall = time.perf_counter() - started
+    adapter_receipt = {
+        **adapter_receipt,
+        "restored": alpha_main.compute_ks is original_compute_ks,
+        "scope": "PINNED_OFFICIAL_ALPHAEDIT_APPLY_CALL_ONLY",
+    }
+    if adapter_receipt["call_count"] <= 0 or not adapter_receipt["restored"]:
+        raise ODEBFContractError("P1R23 Official Native solver key adapter differs")
     if returned_model is not model or set(originals) != set(touched):
         raise ODEBFContractError("P1R23 Official Native return contract differs")
     if any(int(touched[name].data_ptr()) != pointers[name] for name in touched):
@@ -435,6 +482,7 @@ def run_official_native_apply(
         ),
         "official_entrypoint": "easyeditor.models.alphaedit.AlphaEdit_main.apply_AlphaEdit_to_model",
         "direct_z_semantics": True,
+        "solver_key_dtype_adapter": adapter_receipt,
         "edit_core_wall_seconds": wall,
         "raw_stdout_stderr_serialized_count": 0,
     }
