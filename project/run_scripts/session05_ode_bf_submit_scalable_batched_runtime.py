@@ -23,7 +23,7 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_scalable_batched_runtime.sbatch"
 STATE_ROOT = REPO_ROOT / "local/odebf/state"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
-BRANCH = "codex/odeeditsh2-s05-scalable-batched-runtime-p1r23-v1"
+BRANCH = "codex/odeeditsh2-s05-scalable-batched-runtime-p1r23-a5-rs-v1"
 
 
 def _run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:

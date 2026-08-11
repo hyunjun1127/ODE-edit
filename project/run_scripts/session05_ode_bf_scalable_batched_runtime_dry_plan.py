@@ -25,7 +25,7 @@ from project.run_scripts.ode_bf.p1r23_b100_seal import (
 
 
 ALIASES = ("llama3-8b-inst", "qwen2.5-7b-inst")
-STAGES = ("calibration", "b10", "b100")
+STAGES = ("calibration", "b10", "rs-b10", "b100")
 
 
 def _roles(stage: str) -> tuple[int, tuple[str, ...]]:
@@ -33,8 +33,15 @@ def _roles(stage: str) -> tuple[int, tuple[str, ...]]:
         return 10, ("CALIBRATION",)
     if stage == "b10":
         return 10, ("ODE_BF_K8_PAIR", "OPTIMIZED_NATIVE_K1", "OFFICIAL_NATIVE")
+    if stage == "rs-b10":
+        return 10, ("ODE_BF_K8_RS_PAIR",)
     if stage == "b100":
-        return 100, ("ODE_BF_K8_PAIR", "OPTIMIZED_NATIVE_K1", "OFFICIAL_NATIVE")
+        return 100, (
+            "ODE_BF_K8_PAIR",
+            "ODE_BF_K8_RS_PAIR",
+            "OPTIMIZED_NATIVE_K1",
+            "OFFICIAL_NATIVE",
+        )
     raise ValueError("P1R23 dry stage differs")
 
 
@@ -101,8 +108,13 @@ def build_plan(
         "numerical_lock_root_digest": numerical["root_digest"],
         "b100": b100,
         "job_count": len(jobs),
-        "trajectory_count": 2 if stage == "calibration" else 4,
-        "native_control_count": 0 if stage == "calibration" else 4,
+        "trajectory_count": {
+            "calibration": 2,
+            "b10": 4,
+            "rs-b10": 4,
+            "b100": 8,
+        }[stage],
+        "native_control_count": 4 if stage in ("b10", "b100") else 0,
         "array_max_concurrent_gpu": min(4, len(jobs)),
         "persistent_history_append_count": 0,
         "sequential_round_count": 0,

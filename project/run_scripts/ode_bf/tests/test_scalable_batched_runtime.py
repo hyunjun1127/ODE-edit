@@ -49,7 +49,10 @@ from project.run_scripts.ode_bf.scalable_batched_native import (
     run_official_native_apply,
 )
 from project.run_scripts.ode_bf.scalable_batched_field import (
+    P1R23_TARGET_ALLOCATION_REGISTRY,
     ScalableBatchGlobalMetric,
+    ScalableRobustSharedMetric,
+    scalable_metric_from_allocation,
     scalable_terminal_residual,
     target_update_from_existing_gradient,
 )
@@ -99,6 +102,9 @@ class ScalableBatchPlanTests(unittest.TestCase):
         pair = expected_p1r23_result_name(
             "llama3-8b-inst", batch_size=10, role="ODE_BF_K8_PAIR"
         )
+        rs_pair = expected_p1r23_result_name(
+            "llama3-8b-inst", batch_size=10, role="ODE_BF_K8_RS_PAIR"
+        )
         optimized = expected_p1r23_result_name(
             "llama3-8b-inst", batch_size=10, role="OPTIMIZED_NATIVE_K1"
         )
@@ -108,7 +114,8 @@ class ScalableBatchPlanTests(unittest.TestCase):
         calibration = expected_p1r23_result_name(
             "llama3-8b-inst", batch_size=10, role="CALIBRATION"
         )
-        self.assertEqual(len({pair, optimized, official, calibration}), 4)
+        self.assertEqual(len({pair, rs_pair, optimized, official, calibration}), 5)
+        self.assertIn("rs-neutral-soft-pair", rs_pair)
         with self.assertRaisesRegex(ODEBFContractError, "one-arm"):
             expected_p1r23_result_name(
                 "llama3-8b-inst",
@@ -163,6 +170,39 @@ class GlobalObjectiveTests(unittest.TestCase):
         duplicate.add((0,), (1.0,))
         with self.assertRaisesRegex(ODEBFContractError, "duplicated"):
             duplicate.add((0,), (2.0,))
+
+
+class TargetAllocationDispatchTests(unittest.TestCase):
+    def test_rs_is_robust_shared_and_bg_path_is_unchanged(self) -> None:
+        z0 = torch.tensor([[3.0, 0.0, 8.0], [4.0, 5.0, 6.0]])
+        order = canonical_hash({"order": [0, 1, 2]})
+        rs = scalable_metric_from_allocation(z0, order, "RS")
+        bg = scalable_metric_from_allocation(z0, order, "BG")
+        direct_bg = ScalableBatchGlobalMetric.from_z0(z0, order)
+        self.assertIsInstance(rs, ScalableRobustSharedMetric)
+        self.assertIsInstance(bg, ScalableBatchGlobalMetric)
+        self.assertEqual(bg.raw_free_payload(), direct_bg.raw_free_payload())
+        self.assertEqual(
+            P1R23_TARGET_ALLOCATION_REGISTRY,
+            {
+                "RS": "ROBUST_SHARED_REQUEST_SCALE_V1",
+                "BG": "MATCHED_BATCH_GLOBAL_SCALE_V1",
+            },
+        )
+        gradient = torch.tensor([[3.0, 0.0, 5.0], [4.0, 2.0, 12.0]])
+        velocity, receipt = rs.velocity(gradient)
+        norms = torch.linalg.vector_norm(velocity.to(dtype=torch.float64), dim=0)
+        self.assertTrue(torch.allclose(norms, torch.full_like(norms, rs.shared_speed)))
+        self.assertEqual(receipt["allocation"], "PER_REQUEST_EQUAL_NONZERO_EUCLIDEAN_SPEED")
+
+    def test_pair_allocation_identity_and_unsupported_fail_closed(self) -> None:
+        z0 = torch.tensor([[3.0, 0.0], [4.0, 5.0]])
+        order = canonical_hash({"order": [0, 1]})
+        left = scalable_metric_from_allocation(z0, order, "RS")
+        right = scalable_metric_from_allocation(z0, order, "RS")
+        self.assertEqual(left.raw_free_payload(), right.raw_free_payload())
+        with self.assertRaisesRegex(ODEBFContractError, "allocation"):
+            scalable_metric_from_allocation(z0, order, "UNKNOWN")
 
 
 class KeyAggregationTests(unittest.TestCase):

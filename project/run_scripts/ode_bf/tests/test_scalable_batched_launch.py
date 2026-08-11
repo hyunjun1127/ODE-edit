@@ -47,11 +47,13 @@ class ScalableBatchedLaunchTests(unittest.TestCase):
     def test_dry_plans_are_atomic_and_have_exact_role_counts(self) -> None:
         calibration = dry.build_plan("a" * 40, "calibration", repository_root=ROOT)
         b10 = dry.build_plan("a" * 40, "b10", repository_root=ROOT)
+        rs_b10 = dry.build_plan("a" * 40, "rs-b10", repository_root=ROOT)
         b100 = dry.build_plan("a" * 40, "b100", repository_root=ROOT)
         self.assertEqual(calibration["job_count"], 2)
         self.assertEqual(b10["job_count"], 6)
-        self.assertEqual(b100["job_count"], 6)
-        for value in (calibration, b10, b100):
+        self.assertEqual(rs_b10["job_count"], 2)
+        self.assertEqual(b100["job_count"], 8)
+        for value in (calibration, b10, rs_b10, b100):
             self.assertEqual(value["estimand"], "ATOMIC")
             self.assertEqual(value["sequential_round_count"], 0)
             self.assertEqual(value["persistent_history_append_count"], 0)
@@ -59,6 +61,12 @@ class ScalableBatchedLaunchTests(unittest.TestCase):
         self.assertEqual(
             {item["role"] for item in b10["jobs"]},
             {"ODE_BF_K8_PAIR", "OPTIMIZED_NATIVE_K1", "OFFICIAL_NATIVE"},
+        )
+        self.assertEqual(
+            {item["role"] for item in rs_b10["jobs"]}, {"ODE_BF_K8_RS_PAIR"}
+        )
+        self.assertTrue(
+            all("rs-neutral-soft-pair" in item["result_name"] for item in rs_b10["jobs"])
         )
 
     def test_sbatch_has_server2_atomic_stage_and_no_static_split(self) -> None:
@@ -69,6 +77,7 @@ class ScalableBatchedLaunchTests(unittest.TestCase):
         self.assertIn("#SBATCH --nodelist=server2", source)
         self.assertIn('REPO_ROOT="${SLURM_SUBMIT_DIR:', source)
         self.assertIn("ODE_BF_K8_PAIR", source)
+        self.assertIn("ODE_BF_K8_RS_PAIR", source)
         self.assertNotIn("P1R20", source)
         self.assertNotIn("B10×10", source)
         self.assertNotIn("TARGET_HOLD", source)

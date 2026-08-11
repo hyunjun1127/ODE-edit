@@ -18,6 +18,7 @@ import torch
 from .accounting import ComputeLedger
 from .common_cold_coordinate import (
     COMMON_COLD_EPS,
+    CommonColdScale,
     SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1,
 )
 from .contracts import ODEBFContractError, canonical_hash
@@ -212,6 +213,122 @@ class ScalableBatchGlobalMetric:
         }
 
 
+@dataclass(frozen=True, slots=True)
+class ScalableRobustSharedMetric:
+    """Arbitrary-B form of the accepted P1R19 robust-shared allocation."""
+
+    shared_speed: float
+    z0_sha256: str
+    request_order_sha256: str
+    global_batch_size: int
+    per_request_z0_norm: tuple[float, ...]
+    identity_sha256: str
+
+    @classmethod
+    def from_z0(
+        cls, z0: torch.Tensor, request_order_sha256: str
+    ) -> "ScalableRobustSharedMetric":
+        if (
+            not isinstance(z0, torch.Tensor)
+            or z0.ndim != 2
+            or z0.shape[1] <= 0
+            or not torch.isfinite(z0).all()
+            or len(request_order_sha256) != 64
+        ):
+            raise ODEBFContractError("P1R23 RS metric entry differs")
+        value = z0.detach().to(device="cpu", dtype=torch.float64)
+        norms = torch.linalg.vector_norm(value, dim=0)
+        speed = float(torch.median(norms))
+        if not math.isfinite(speed) or speed <= COMMON_COLD_EPS:
+            raise ODEBFContractError("P1R23 RS metric is degenerate")
+        payload = {
+            "schema": "ode-edit-s05-p1r23-robust-shared-scale/v1",
+            "scale": CommonColdScale.ROBUST_SHARED.value,
+            "shared_speed": speed,
+            "shared_speed_definition": "median_i_l2_norm_z0_i",
+            "global_batch_size": z0.shape[1],
+            "z0_sha256": tensor_sha256(z0),
+            "request_order_sha256": request_order_sha256,
+            "per_request_z0_norm": [float(item) for item in norms],
+            "native_or_direct_z_access_count": 0,
+        }
+        return cls(
+            speed,
+            payload["z0_sha256"],
+            request_order_sha256,
+            z0.shape[1],
+            tuple(float(item) for item in norms),
+            canonical_hash(payload),
+        )
+
+    def velocity(
+        self, gradient: torch.Tensor
+    ) -> tuple[torch.Tensor, dict[str, Any]]:
+        if (
+            gradient.ndim != 2
+            or gradient.shape[1] != self.global_batch_size
+            or not torch.isfinite(gradient).all()
+        ):
+            raise ODEBFContractError("P1R23 target gradient geometry differs")
+        value = gradient.detach().to(device="cpu", dtype=torch.float64).contiguous()
+        per_request = torch.linalg.vector_norm(value, dim=0)
+        zero_mask = per_request <= COMMON_COLD_EPS
+        denominator = torch.clamp(per_request, min=COMMON_COLD_EPS)
+        velocity64 = -self.shared_speed * value / denominator.unsqueeze(0)
+        velocity64[:, zero_mask] = 0.0
+        velocity = velocity64.to(dtype=torch.float32).contiguous()
+        payload = {
+            "schema": "ode-edit-s05-p1r23-robust-shared-target-velocity/v1",
+            "metric_sha256": self.identity_sha256,
+            "scale": CommonColdScale.ROBUST_SHARED.value,
+            "global_batch_size": self.global_batch_size,
+            "gradient_sha256": tensor_sha256(value),
+            "gradient_norm_by_request": [float(item) for item in per_request],
+            "zero_gradient_by_request": [bool(item) for item in zero_mask],
+            "zero_gradient_count": int(zero_mask.sum()),
+            "velocity_sha256": tensor_sha256(velocity),
+            "velocity_norm_by_request": [
+                float(item) for item in torch.linalg.vector_norm(velocity64, dim=0)
+            ],
+            "velocity_frobenius_norm": float(torch.linalg.vector_norm(velocity64)),
+            "allocation": "PER_REQUEST_EQUAL_NONZERO_EUCLIDEAN_SPEED",
+            "clip_retry_rescue_count": 0,
+        }
+        payload["identity_sha256"] = canonical_hash(payload)
+        return velocity, payload
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        return {
+            "schema": "ode-edit-s05-p1r23-robust-shared-scale/v1",
+            "scale": CommonColdScale.ROBUST_SHARED.value,
+            "shared_speed": self.shared_speed,
+            "shared_speed_definition": "median_i_l2_norm_z0_i",
+            "global_batch_size": self.global_batch_size,
+            "z0_sha256": self.z0_sha256,
+            "request_order_sha256": self.request_order_sha256,
+            "per_request_z0_norm": list(self.per_request_z0_norm),
+            "identity_sha256": self.identity_sha256,
+        }
+
+
+P1R23_TARGET_ALLOCATION_REGISTRY = {
+    "RS": CommonColdScale.ROBUST_SHARED.value,
+    "BG": CommonColdScale.BATCH_GLOBAL.value,
+}
+
+
+def scalable_metric_from_allocation(
+    z0: torch.Tensor,
+    request_order_sha256: str,
+    allocation: str,
+) -> ScalableBatchGlobalMetric | ScalableRobustSharedMetric:
+    if allocation == "BG":
+        return ScalableBatchGlobalMetric.from_z0(z0, request_order_sha256)
+    if allocation == "RS":
+        return ScalableRobustSharedMetric.from_z0(z0, request_order_sha256)
+    raise ODEBFContractError("P1R23 target allocation differs")
+
+
 def target_update_from_existing_gradient(
     current_target: torch.Tensor,
     gradient: torch.Tensor,
@@ -379,10 +496,13 @@ def build_scalable_routing_problem(
 
 __all__ = [
     "ScalableBatchGlobalMetric",
+    "ScalableRobustSharedMetric",
+    "P1R23_TARGET_ALLOCATION_REGISTRY",
     "ScalableSharedTerminalResidual",
     "build_scalable_dynamic_field",
     "build_scalable_routing_problem",
     "scalable_physical_signed_progress",
+    "scalable_metric_from_allocation",
     "scalable_terminal_residual",
     "target_update_from_existing_gradient",
 ]

@@ -23,9 +23,12 @@ P1R23_LOCK_FILE = "numerical_lock_s05_scalable_batched_runtime.json"
 P1R23_B10_RESULT_TOKEN = "scalable-batched-runtime-p1r23-b10-v1"
 P1R23_B100_RESULT_TOKEN = "scalable-batched-runtime-p1r23-b100-v1"
 P1R23_BATCH_SIZES = (10, 100)
-P1R23_ROUTING_ARMS = ("BG-NEUTRAL", "BG-SOFT")
+P1R23_BG_ROUTING_ARMS = ("BG-NEUTRAL", "BG-SOFT")
+P1R23_RS_ROUTING_ARMS = ("RS-NEUTRAL", "RS-SOFT")
+P1R23_ROUTING_ARMS = P1R23_RS_ROUTING_ARMS + P1R23_BG_ROUTING_ARMS
 P1R23_EXECUTION_ROLES = (
     "ODE_BF_K8_PAIR",
+    "ODE_BF_K8_RS_PAIR",
     "OPTIMIZED_NATIVE_K1",
     "OFFICIAL_NATIVE",
     "CALIBRATION",
@@ -77,10 +80,14 @@ def expected_p1r23_result_name(
 ) -> str:
     if alias not in MODEL_ALIASES or batch_size not in P1R23_BATCH_SIZES:
         raise ODEBFContractError("P1R23 result identity differs")
-    if role == "ODE_BF_K8_PAIR":
+    if role in ("ODE_BF_K8_PAIR", "ODE_BF_K8_RS_PAIR"):
         if routing_arm is not None:
             raise ODEBFContractError("P1R23 paired ODE job forbids one-arm dispatch")
-        suffix = "ode-bf-k8-neutral-soft-pair"
+        suffix = (
+            "ode-bf-k8-neutral-soft-pair"
+            if role == "ODE_BF_K8_PAIR"
+            else "ode-bf-k8-rs-neutral-soft-pair"
+        )
     elif role in ("OPTIMIZED_NATIVE_K1", "OFFICIAL_NATIVE"):
         if routing_arm is not None:
             raise ODEBFContractError("P1R23 Native must not be arm-duplicated")
@@ -177,9 +184,11 @@ __all__ = [
     "P1R23_B100_RESULT_TOKEN",
     "P1R23_B10_RESULT_TOKEN",
     "P1R23_BATCH_SIZES",
+    "P1R23_BG_ROUTING_ARMS",
     "P1R23_EXECUTION_ROLES",
     "P1R23_LOCK_FILE",
     "P1R23_ROUTING_ARMS",
+    "P1R23_RS_ROUTING_ARMS",
     "P1R23_SCHEMA",
     "expected_p1r23_result_name",
     "forecast_p1r23_panel",

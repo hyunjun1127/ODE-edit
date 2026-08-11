@@ -40,7 +40,10 @@ from .p1_replay import (
     Theta0TeacherCache,
     build_outer_entry_pretrained_cache,
 )
-from .p1_scalable_batched_runtime_panel import P1R23_ROUTING_ARMS
+from .p1_scalable_batched_runtime_panel import (
+    P1R23_BG_ROUTING_ARMS,
+    P1R23_RS_ROUTING_ARMS,
+)
 from .p1_state import ArmWeightSnapshot, P1Arm, P1HistoryLedger
 from .sampling import StatelessReplaySchedule
 from .scalable_batched_evaluator import (
@@ -52,6 +55,7 @@ from .scalable_batched_field import (
     ScalableBatchGlobalMetric,
     build_scalable_dynamic_field,
     build_scalable_routing_problem,
+    scalable_metric_from_allocation,
     scalable_physical_signed_progress,
     target_update_from_existing_gradient,
 )
@@ -166,6 +170,7 @@ def _run_ode_arm(
     *,
     alias: str,
     arm: FixedE8Arm,
+    allocation: str,
     capture_plan: ScalableCapturePlan,
     objective_plan: ScalableObjectivePlan,
     hparams: Any,
@@ -191,7 +196,9 @@ def _run_ode_arm(
     request_count = len(requests)
     if request_count not in (10, 100):
         raise ODEBFContractError("P1R23 ODE request count differs")
-    arm_label = "BG-NEUTRAL" if arm is FixedE8Arm.NEUTRAL else "BG-SOFT"
+    if allocation not in ("RS", "BG"):
+        raise ODEBFContractError("P1R23 ODE target allocation differs")
+    arm_label = f"{allocation}-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
     history = arm_state.history
     legacy_ledger = arm_state.ledger
     compute = ScalableComputeLedger()
@@ -213,8 +220,8 @@ def _run_ode_arm(
     compute.add_wall("initial_physical_capture", time.perf_counter() - physical_started)
     _phase_add_capture(compute, "initial_physical_capture", physical)
     initial = initial_target_from_capture(physical)
-    metric = ScalableBatchGlobalMetric.from_z0(
-        initial.target_z, objective_plan.request_order_sha256
+    metric = scalable_metric_from_allocation(
+        initial.target_z, objective_plan.request_order_sha256, allocation
     )
     current_target = initial.target_z.clone()
     current_terminal = initial.current_terminal_z.clone()
@@ -627,6 +634,7 @@ def _run_ode_pair(
     job_ledger: ComputeLedger,
     write_once: Any,
     request_microbatch_size: int,
+    allocation: str,
 ) -> dict[str, Any]:
     from .p1_runtime import ArmRuntimeState, _entry_parameter_snapshot_sha256
 
@@ -668,10 +676,14 @@ def _run_ode_pair(
     finally:
         counter.close()
     w0_contract = _model_w0_contract(touched)
+    routing_arms = (
+        P1R23_BG_ROUTING_ARMS if allocation == "BG" else P1R23_RS_ROUTING_ARMS
+    )
+    if allocation not in ("RS", "BG"):
+        raise ODEBFContractError("P1R23 paired target allocation differs")
     rollouts: dict[str, dict[str, Any]] = {}
-    for selected, label in (
-        (FixedE8Arm.NEUTRAL, "BG-NEUTRAL"),
-        (FixedE8Arm.SOFT, "BG-SOFT"),
+    for selected, label in zip(
+        (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT), routing_arms, strict=True
     ):
         if _model_w0_contract(touched) != w0_contract:
             raise ODEBFStateError("P1R23 paired arm W0 differs")
@@ -693,6 +705,7 @@ def _run_ode_pair(
             requests,
             alias=alias,
             arm=selected,
+            allocation=allocation,
             capture_plan=capture_plan,
             objective_plan=objective_plan,
             hparams=hparams,
@@ -713,16 +726,21 @@ def _run_ode_pair(
             raw_root=raw_root,
             write_once=write_once,
         )
-    left = rollouts["BG-NEUTRAL"]["public"]["initial"]
-    right = rollouts["BG-SOFT"]["public"]["initial"]
+    left = rollouts[routing_arms[0]]["public"]["initial"]
+    right = rollouts[routing_arms[1]]["public"]["initial"]
     if left != right:
         raise ODEBFContractError("P1R23 paired initial state differs")
+    left_metric = rollouts[routing_arms[0]]["public"]["metric"]
+    right_metric = rollouts[routing_arms[1]]["public"]["metric"]
+    if left_metric != right_metric:
+        raise ODEBFContractError("P1R23 paired allocation state differs")
     action_freeze = {
         "schema": f"{P1R23_SCHEMA}-paired-action-freeze/v1",
         "request_order_sha256": request_order,
+        "target_allocation": allocation,
         "rollout_sha256": {
             label: rollouts[label]["public"]["identity_sha256"]
-            for label in P1R23_ROUTING_ARMS
+            for label in routing_arms
         },
         "actions_frozen_before_heldout": True,
         "inner_step_heldout_access_count": 0,
@@ -736,7 +754,7 @@ def _run_ode_pair(
     cases, freeze = _action_frozen_cases(
         dataset_path,
         requests,
-        arm="P1R23-ODE-PAIR",
+        arm=f"P1R23-{allocation}-ODE-PAIR",
         selected_snapshot_sha256=action_sha,
         fixed_budget_slots_completed=8,
     )
@@ -745,7 +763,7 @@ def _run_ode_pair(
         model, tokenizer, cases, alias=alias, freeze_payload=freeze
     )
     w0_sha = write_once(raw_root / "W0-endpoint.json", w0)
-    for label in P1R23_ROUTING_ARMS:
+    for label in routing_arms:
         endpoint_materializer = AcceptedPhysicalStateMaterializer(model, base_values)
         materialization = endpoint_materializer.materialize(
             rollouts[label]["terminal_factors"], transition_index=8
@@ -773,9 +791,11 @@ def _run_ode_pair(
         "request_count": len(requests),
         "request_order_sha256": request_order,
         "request_microbatch_size": request_microbatch_size,
+        "target_allocation": allocation,
+        "routing_arms": list(routing_arms),
         "objective_plan_sha256": objective_plan.identity_sha256,
         "capture_plan_sha256": capture_plan.identity_sha256,
-        "rollouts": {label: rollouts[label]["public"] for label in P1R23_ROUTING_ARMS},
+        "rollouts": {label: rollouts[label]["public"] for label in routing_arms},
         "W0_endpoint_sha256": w0_sha,
         "W0_shared_by_neutral_soft": True,
         "endpoints": endpoints,
@@ -796,7 +816,9 @@ def _run_ode_pair(
         "source_head": source_head,
         "terminal_sha256": terminal_sha,
         "request_count": len(requests),
-        "role": "ODE_BF_K8_PAIR",
+        "role": (
+            "ODE_BF_K8_PAIR" if allocation == "BG" else "ODE_BF_K8_RS_PAIR"
+        ),
         "W0_restored": _model_w0_contract(touched) == w0_contract,
         "estimand": "ATOMIC",
     }
@@ -1372,7 +1394,7 @@ def run_p1r23_scalable_batched(
         "numerical_lock_sha256": numerical_lock_sha256,
         "request_microbatch_size": request_microbatch_size,
         "direct_z_role": role in ("OPTIMIZED_NATIVE_K1", "OFFICIAL_NATIVE"),
-        "one_gradient_role": role == "ODE_BF_K8_PAIR",
+        "one_gradient_role": role in ("ODE_BF_K8_PAIR", "ODE_BF_K8_RS_PAIR"),
         "estimand": "ATOMIC",
         "joint_batch_application_count": 1,
         "persistent_history_append_count": 0,
@@ -1382,7 +1404,7 @@ def run_p1r23_scalable_batched(
     }
     preflight["identity_sha256"] = canonical_hash(preflight)
     write_once(raw_root / "execution-preflight.json", preflight)
-    if role == "ODE_BF_K8_PAIR":
+    if role in ("ODE_BF_K8_PAIR", "ODE_BF_K8_RS_PAIR"):
         return _run_ode_pair(
             model,
             tokenizer,
@@ -1408,6 +1430,7 @@ def run_p1r23_scalable_batched(
             job_ledger=job_ledger,
             write_once=write_once,
             request_microbatch_size=request_microbatch_size,
+            allocation="RS" if role == "ODE_BF_K8_RS_PAIR" else "BG",
         )
     if role == "CALIBRATION":
         return _run_calibration(
