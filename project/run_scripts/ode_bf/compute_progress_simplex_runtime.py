@@ -72,7 +72,9 @@ class FixedRankHistoricalSketch:
     width_by_layer: Mapping[int, int]
     _rows: dict[int, np.ndarray] = field(init=False, repr=False)
     _pending: dict[int, np.ndarray] | None = field(default=None, init=False, repr=False)
+    _pending_item_count: int = field(default=0, init=False, repr=False)
     commit_count: int = 0
+    history_item_count: int = 0
 
     def __post_init__(self) -> None:
         if isinstance(self.rank, bool) or self.rank <= 0 or not self.width_by_layer:
@@ -86,21 +88,44 @@ class FixedRankHistoricalSketch:
             for layer, width in sorted(checked.items())
         }
 
-    def stage(self, projected_keys: Mapping[int, np.ndarray]) -> str:
+    def stage(
+        self,
+        projected_keys: Mapping[int, np.ndarray],
+        *,
+        item_count: int | None = None,
+    ) -> str:
         if self._pending is not None or set(projected_keys) != set(self._rows):
             raise ODEBFStateError("fixed-rank H stage differs")
         pending: dict[int, np.ndarray] = {}
+        batch_sizes: set[int] = set()
         for layer, current in self._rows.items():
             incoming = np.asarray(projected_keys[layer], dtype=np.float64)
             if incoming.ndim != 2 or incoming.shape[1] != current.shape[1] or not np.isfinite(incoming).all():
                 raise ODEBFContractError("fixed-rank H projected key differs")
+            batch_sizes.add(int(incoming.shape[0]))
             joined = np.concatenate((current, incoming), axis=0)
             if joined.shape[0] > self.rank:
                 _u, singular, vt = np.linalg.svd(joined, full_matrices=False)
                 keep = min(self.rank, len(singular))
                 joined = singular[:keep, None] * vt[:keep, :]
             pending[layer] = joined
+        if not batch_sizes or min(batch_sizes) <= 0:
+            raise ODEBFContractError("fixed-rank H batch count differs")
+        if item_count is not None:
+            if (
+                isinstance(item_count, bool)
+                or item_count <= 0
+                or batch_sizes != {int(item_count)}
+            ):
+                raise ODEBFContractError("fixed-rank H item count differs")
+            pending_item_count = int(item_count)
+        else:
+            # Backward-compatible generic sketch use may stage a different
+            # number of basis rows per layer.  Sequential request accounting
+            # always supplies the explicit common logical item count above.
+            pending_item_count = max(batch_sizes)
         self._pending = pending
+        self._pending_item_count = pending_item_count
         return canonical_hash(
             {str(layer): value.tolist() for layer, value in sorted(pending.items())}
         )
@@ -111,13 +136,49 @@ class FixedRankHistoricalSketch:
         if transaction_committed:
             self._rows = self._pending
             self.commit_count += 1
+            self.history_item_count += self._pending_item_count
         self._pending = None
+        self._pending_item_count = 0
 
     def gram(self, layer: int) -> np.ndarray:
         if self._pending is not None:
             raise ODEBFStateError("fixed-rank H read during transaction")
         rows = self._rows[int(layer)]
         return rows.T @ rows
+
+    def action(
+        self, layer: int, residual: np.ndarray, q: np.ndarray
+    ) -> np.ndarray:
+        """Return ``B_l S_H^T`` without replaying historical prompts."""
+
+        if self._pending is not None:
+            raise ODEBFStateError("fixed-rank H read during transaction")
+        rows = self._rows[int(layer)]
+        left = np.asarray(residual, dtype=np.float64)
+        right = np.asarray(q, dtype=np.float64)
+        if (
+            left.ndim != 2
+            or right.ndim != 2
+            or left.shape[1] != right.shape[1]
+            or right.shape[0] != rows.shape[1]
+            or not np.isfinite(left).all()
+            or not np.isfinite(right).all()
+        ):
+            raise ODEBFContractError("fixed-rank H action geometry differs")
+        return left @ (right.T @ rows.T)
+
+    def weight_action(self, layer: int, weight_delta: np.ndarray) -> np.ndarray:
+        if self._pending is not None:
+            raise ODEBFStateError("fixed-rank H read during transaction")
+        rows = self._rows[int(layer)]
+        value = np.asarray(weight_delta, dtype=np.float64)
+        if (
+            value.ndim != 2
+            or value.shape[1] != rows.shape[1]
+            or not np.isfinite(value).all()
+        ):
+            raise ODEBFContractError("fixed-rank H weight action geometry differs")
+        return value @ rows.T
 
     def raw_free_payload(self) -> dict[str, Any]:
         if self._pending is not None:
@@ -126,6 +187,7 @@ class FixedRankHistoricalSketch:
             "schema": "ode-edit-s05-p1r23-fixed-rank-h-sketch/v1",
             "rank": self.rank,
             "commit_count": self.commit_count,
+            "history_item_count": self.history_item_count,
             "layers": {
                 str(layer): {
                     "row_count": int(rows.shape[0]),

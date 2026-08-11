@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""No-model dry plan for the eight P1R20 sequential trajectories."""
+"""No-model dry plan for ten Full-6 structural Historical trajectories."""
 
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
     for alias in ALIASES:
         for method in METHODS:
             jobs.append({"array_index": len(jobs), "alias": alias, "method": method, "result_name": expected_historical_h0_result_name(alias, method), "gpu": 1, "cpu": 8, "memory_mib": 65000, "time": "23:59:00"})
-    return {"schema": "ode-edit-s05-p1r20-dry-plan/v1", "source_head": source_head, "fresh_seal_root": seal["root_digest"], "all_request_order_sha256": seal["all_request_order_sha256"], "numerical_lock_sha256": numerical_sha, "numerical_lock_root": numerical["root_digest"], "trajectory_count": 8, "array_max_concurrent_gpu": 4, "sequential_round_count": 10, "jobs": jobs, "model_load": False, "gpu_use": False, "slurm_submit": False, "result_root_creation": False}
+    return {"schema": "ode-edit-s05-p1r23-full6-structural-historical-dry-plan/v1", "source_head": source_head, "fresh_seal_root": seal["root_digest"], "all_request_order_sha256": seal["all_request_order_sha256"], "numerical_lock_sha256": numerical_sha, "numerical_lock_root": numerical["root_digest"], "trajectory_count": 10, "ode_trajectory_count": 8, "model_level_alphaedit_count": 2, "array_max_concurrent_gpu": 4, "sequential_round_count": 10, "postcommit_cumulative_b10_evaluation_count_per_trajectory": 55, "jobs": jobs, "model_load": False, "gpu_use": False, "slurm_submit": False, "result_root_creation": False}
 
 
 def main() -> int:
