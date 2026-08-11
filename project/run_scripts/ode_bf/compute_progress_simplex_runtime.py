@@ -14,6 +14,7 @@ from typing import Any, Mapping, Sequence
 import numpy as np
 
 from .contracts import ODEBFContractError, ODEBFStateError, canonical_hash
+from .fixed_e8_soft_routing import FunctionalBasisMetric
 
 
 COMPUTE_PROGRESS_SIMPLEX_INSTRUCTION_ID = (
@@ -25,6 +26,62 @@ COMPUTE_PROGRESS_SIMPLEX_METHOD_ID = (
 COMPUTE_TOKEN_BUDGET = 7_200
 COMPUTE_FIELD_MODEL_FORWARD_CEILING = 24
 ROTATING_CONTEXT_SCHEDULE = ((0, 3), (1, 4), (2, 5))
+
+
+@dataclass(frozen=True, slots=True)
+class StructuralOnlyRoutingInventory:
+    """Compatibility inventory confined to the dormant Compute-A1 path."""
+
+    history_item_count: int
+    controller_batch_sha256: str
+    field_sha256: str
+    historical_sketch_sha256: str
+
+    def __post_init__(self) -> None:
+        if self.history_item_count < 0 or any(
+            not isinstance(item, str) or len(item) != 64
+            for item in (
+                self.controller_batch_sha256,
+                self.field_sha256,
+                self.historical_sketch_sha256,
+            )
+        ):
+            raise ODEBFContractError("compute-aware structural inventory differs")
+
+    @staticmethod
+    def _inactive(label: str) -> FunctionalBasisMetric:
+        return FunctionalBasisMetric(
+            label, 0.0, (0.0, 0.0, 0.0, 0.0, 0.0), False,
+            "INACTIVE_EMPTY_HISTORY",
+        )
+
+    @property
+    def functional_p(self) -> FunctionalBasisMetric:
+        return self._inactive("functional_p")
+
+    @property
+    def functional_h_mean(self) -> FunctionalBasisMetric:
+        return self._inactive("functional_h_mean")
+
+    @property
+    def functional_h_smoothmax(self) -> FunctionalBasisMetric:
+        return self._inactive("functional_h_smoothmax")
+
+    def active_metrics(self) -> tuple[FunctionalBasisMetric, ...]:
+        return ()
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        payload = {
+            "schema": "ode-edit-s05-p1r23-compute-structural-inventory/v1",
+            "history_item_count": self.history_item_count,
+            "controller_batch_sha256": self.controller_batch_sha256,
+            "field_sha256": self.field_sha256,
+            "historical_sketch_sha256": self.historical_sketch_sha256,
+            "functional_probe_count": 0,
+            "functional_routing_influence_count": 0,
+        }
+        payload["identity_sha256"] = canonical_hash(payload)
+        return payload
 
 
 def rotating_context_ordinals(step_index: int) -> tuple[int, int]:

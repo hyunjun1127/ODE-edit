@@ -1,10 +1,4 @@
-"""P1R23 Full-6 structural Historical sequential validation runtime.
-
-This is an additive production path.  It reuses the accepted P1R19 BG writer
-and strength-preserving router, but removes all inner-k held-out probes.  A
-round is action-frozen before its single weight transaction; the committed
-batch enters history only after that transaction verifies.
-"""
+"""Exact P1R23 Progress-Simplex sequential validation with History disabled."""
 
 from __future__ import annotations
 
@@ -62,25 +56,22 @@ from .request_digest import ordered_request_digest_v1
 from .transaction import AtomicBatchTransaction
 
 
-INSTRUCTION_ID = "ODEEDIT-S05-P1R23-FULL6-STRUCTURAL-HISTORICAL-V1-A1-FULL-MATRIX"
+INSTRUCTION_ID = "ODEEDIT-S05-P1R23-PROGRESS-SIMPLEX-SEQUENTIAL-NOH-V1"
 METHODS = (
-    "BG-COMPUTE-FULL6-NOSOFT",
-    "BG-COMPUTE-FULL6-SOFT",
-    "RS-COMPUTE-FULL6-NOSOFT",
-    "RS-COMPUTE-FULL6-SOFT",
-    "ALPHAEDIT",
+    "BG-PROGRESS-SIMPLEX-NEUTRAL",
+    "BG-PROGRESS-SIMPLEX-SOFT",
+    "RS-PROGRESS-SIMPLEX-NEUTRAL",
+    "RS-PROGRESS-SIMPLEX-SOFT",
 )
 ROUND_COUNT = 10
-HISTORY_COUNTS = tuple(range(0, 100, 10))
 EVALUATION_ROUNDS = (1, 5, 10)
-HISTORICAL_SKETCH_RANK = 100
 
 
 def expected_historical_h0_result_name(alias: str, method: str) -> str:
     if method not in METHODS:
         raise ODEBFContractError("Compute-A1 Historical method identity differs")
     return (
-        "s05-p1r23-full6-structural-historical-"
+        "s05-p1r23-progress-simplex-sequential-noh-"
         f"{method.lower().replace('-', '_')}-{alias}-v1"
     )
 
@@ -119,6 +110,29 @@ def _ledger_delta(before: Mapping[str, Any], after: Mapping[str, Any]) -> dict[s
             for key in sorted(set(before["gpu"]) | set(after["gpu"]))
         },
     }
+
+
+_HISTORY_OFF_ZERO_FIELDS = (
+    "router_visible_history_item_count",
+    "raw_historical_request_replay_count",
+    "projected_key_historical_sketch_construction_count",
+    "functional_h_controller_input_count",
+    "functional_h_decision_influence_count",
+    "functional_h_model_forward_count",
+    "structural_h_controller_input_count",
+    "structural_h_decision_influence_count",
+    "structural_h_model_forward_count",
+)
+
+
+def _validate_history_off_edit_receipt(edit: Mapping[str, Any]) -> None:
+    if (
+        edit.get("history_mode") != "OFF"
+        or edit.get("functional_h_status") != "INACTIVE_BY_HISTORY_MODE_OFF"
+        or edit.get("structural_h_status") != "INACTIVE_BY_HISTORY_MODE_OFF"
+        or any(int(edit.get(key, -1)) != 0 for key in _HISTORY_OFF_ZERO_FIELDS)
+    ):
+        raise ODEBFStateError("Sequential-NoH H firewall differs")
 
 
 def _layer_load(
@@ -352,9 +366,6 @@ def _run_ours_round(
     stages: Any,
     mutation_lock: Any,
     round_index: int,
-    historical_sketch: FixedRankHistoricalSketch,
-    trajectory_w0_values: Mapping[str, torch.Tensor],
-    committed_load_by_layer: Mapping[int, float],
     outer_entry_p_cache: Any,
     job_ledger: ComputeLedger,
     request_microbatch_size: int = BATCH_SIZE,
@@ -371,7 +382,6 @@ def _run_ours_round(
         contexts=contexts,
         request_microbatch_size=request_microbatch_size,
         fact_token_strategy=hparams.fact_token,
-        token_budget=COMPUTE_TOKEN_BUDGET,
     )
     capture_plan = build_scalable_capture_plan(
         tokenizer,
@@ -379,7 +389,6 @@ def _run_ours_round(
         contexts=contexts,
         request_microbatch_size=request_microbatch_size,
         fact_token_strategy=hparams.fact_token,
-        token_budget=COMPUTE_TOKEN_BUDGET,
     )
     round_root = raw_root / f"round-{round_index:02d}"
     _atomic_write_once(
@@ -393,12 +402,12 @@ def _run_ours_round(
         or objective_plan.request_order_sha256 != request_order
         or capture_plan.request_order_sha256 != request_order
     ):
-        raise ODEBFContractError("Full-6 Historical plan identity differs")
+        raise ODEBFContractError("Sequential-NoH full-six plan identity differs")
     allocation = "BG" if method.startswith("BG-") else "RS"
-    arm = FixedE8Arm.NEUTRAL if method.endswith("-NOSOFT") else FixedE8Arm.SOFT
+    arm = FixedE8Arm.NEUTRAL if method.endswith("-NEUTRAL") else FixedE8Arm.SOFT
     round_state = ArmRuntimeState(
         P1Arm.R_BF,
-        P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=10),
+        P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=40),
         ComputeLedger(),
         ArmWeightSnapshot(
             P1Arm.R_BF,
@@ -437,55 +446,34 @@ def _run_ours_round(
         raw_root=round_root,
         write_once=_atomic_write_once,
         progress_simplex=True,
-        compute_aware=True,
-        historical_sketch=historical_sketch,
-        trajectory_w0_values=trajectory_w0_values,
-        committed_load_by_layer=committed_load_by_layer,
         terminal_functional_audit=round_index in EVALUATION_ROUNDS,
         full_six_slope=True,
+        history_mode_off=True,
     )
     public = rollout["public"]
     if (
         public["status"] != "PROGRESS_SIMPLEX_DYNAMIC_K8_COMPLETE"
         or len(public["accepted_receipt_sha256"]) != P1R23_GRID_COUNT
         or public["tau_final"] != 1.0
-        or public["physical_slope_context_mode"] != "FULL_SIX_FIXED"
-        or any(
-            item["selected_context_ordinals"] != list(range(6))
-            for item in public["rotating_context_receipts"]
-        )
+        or public["historical_h_decision_influence_count"] != 0
+        or public["historical_h_controller_input_count"] != 0
     ):
-        raise ODEBFStateError("Full-6 Historical K8 contract differs")
+        raise ODEBFStateError("Progress-Simplex Sequential-NoH K8 contract differs")
     candidates, assembly = _assemble_candidates(
         touched, entry_hashes, rollout["terminal_factors"]
     )
-    projected_keys: dict[int, np.ndarray] = {}
-    for layer_index, layer in enumerate(P1R23_LAYER_ORDER):
-        key = rollout["terminal_physical"].keys_by_layer[layer].to(
-            device="cpu", dtype=torch.float64
-        )
-        projected = projector[layer_index].detach().to(
-            device="cpu", dtype=torch.float64
-        ) @ key
-        projected_keys[layer] = projected.T.contiguous().numpy()
-    staged_h_sha = historical_sketch.stage(projected_keys, item_count=BATCH_SIZE)
-    try:
-        transaction = _commit_candidates(
-            touched,
-            candidates,
-            transaction_id=canonical_hash(
-                {
-                    "method": method,
-                    "round": round_index,
-                    "rollout": public["identity_sha256"],
-                }
-            ),
-            mutation_lock=mutation_lock,
-        )
-    except Exception:
-        historical_sketch.finalize(transaction_committed=False)
-        raise
-    historical_sketch.finalize(transaction_committed=True)
+    transaction = _commit_candidates(
+        touched,
+        candidates,
+        transaction_id=canonical_hash(
+            {
+                "method": method,
+                "round": round_index,
+                "rollout": public["identity_sha256"],
+            }
+        ),
+        mutation_lock=mutation_lock,
+    )
     load = _layer_load(entry_values, touched, hparams)
     for name, amount in round_state.ledger.counters.items():
         job_ledger.increment(name, int(amount))
@@ -496,11 +484,8 @@ def _run_ours_round(
         reserved_bytes=round_state.ledger.peak_reserved_bytes,
         maxrss_kib=round_state.ledger.host_maxrss_kib,
     )
-    historical_influence_count = int(public["historical_h_decision_influence_count"])
-    historical_input_count = int(public["historical_h_controller_input_count"])
-    historical_nondegenerate_count = int(public["historical_h_nondegenerate_count"])
     return {
-        "backend": "P1R23_COMPUTE_PROGRESS_SIMPLEX_FULL6_K8",
+        "backend": "P1R23_EXACT_PROGRESS_SIMPLEX_FULL6_K8_HISTORY_OFF",
         "variant": method,
         "rollout": public,
         "rollout_sha256": public["identity_sha256"],
@@ -509,29 +494,27 @@ def _run_ours_round(
         "tau": float(public["tau_final"]),
         "transaction": transaction,
         "assembly": assembly,
-        "historical_sketch_stage_sha256": staged_h_sha,
-        "historical_sketch_after_commit": historical_sketch.raw_free_payload(),
-        "historical_h_controller_input_count": historical_input_count,
-        "historical_h_nondegenerate_count": historical_nondegenerate_count,
-        "historical_h_decision_influence_count": historical_influence_count,
-        "historical_h_decision_influence": historical_influence_count > 0,
-        "historical_bf_classification": (
-            "HISTORICAL_H_ACTIVE"
-            if historical_influence_count > 0
-            else "HISTORICAL_H_NONDEGENERATE_NO_ALLOCATION_CHANGE"
-            if historical_nondegenerate_count > 0
-            else "NON_HISTORICAL_BF"
-            if method.endswith("-SOFT") and round_index >= 2
-            else "NOT_REQUIRED_OR_EMPTY_HISTORY"
-        ),
+        "history_mode": "OFF",
+        "router_visible_history_item_count": 0,
+        "raw_historical_request_replay_count": 0,
+        "projected_key_historical_sketch_construction_count": 0,
+        "functional_h_status": "INACTIVE_BY_HISTORY_MODE_OFF",
+        "functional_h_controller_input_count": 0,
+        "functional_h_decision_influence_count": 0,
+        "functional_h_model_forward_count": 0,
+        "structural_h_status": "INACTIVE_BY_HISTORY_MODE_OFF",
+        "structural_h_controller_input_count": 0,
+        "structural_h_decision_influence_count": 0,
+        "structural_h_model_forward_count": 0,
         "inner_k_heldout_evaluation_count": 0,
-        "inner_k_functional_probe_count": 0,
+        "inner_k_functional_p_probe_endpoint_count": P1R23_GRID_COUNT * 6,
         "full_six_context_ordinals": list(range(6)),
         "full_six_context_sha256": objective_plan.context_sha256,
         "full_six_microbatch_partition": [
             list(item.prepared.request_ordinals) for item in objective_plan.batches
         ],
-        "functional_p_h_decision_influence_count": 0,
+        "functional_p_decision_influence_count": 1 if arm is FixedE8Arm.SOFT else 0,
+        "functional_h_decision_influence_count": 0,
         "retry_count": 0,
     }, load
 
@@ -589,20 +572,7 @@ def run_historical_h0_sequential_trajectory(
         ArmWeightSnapshot(P1Arm.R_BF, 0, base_receipt.parameter_sha256, canonical_hash({"method": method, "w0": initial_hashes})),
         dict(base_values),
     )
-    is_ours = "-COMPUTE-FULL6-" in method
-    trajectory_w0_values = _weight_values(touched)
-    historical_sketch = (
-        FixedRankHistoricalSketch(
-            HISTORICAL_SKETCH_RANK,
-            {
-                int(layer): int(projector[index].shape[0])
-                for index, layer in enumerate(P1R23_LAYER_ORDER)
-            },
-        )
-        if is_ours
-        else None
-    )
-    committed_load_by_layer = {int(layer): 0.0 for layer in P1R23_LAYER_ORDER}
+    is_ours = True
     outer_entry_p_cache = None
     if is_ours:
         outer_population = tuple(
@@ -640,20 +610,18 @@ def run_historical_h0_sequential_trajectory(
     historical_nondegenerate_rounds: list[int] = []
     historical_influence_rounds: list[int] = []
     for round_index, requests in enumerate(stream_batches, start=1):
-        history_count_at_entry = (
-            historical_sketch.history_item_count
-            if historical_sketch is not None
-            else len(state.history.snapshot().active_records)
-        )
-        if history_count_at_entry != HISTORY_COUNTS[round_index - 1]:
-            raise ODEBFStateError("P1R20 round-entry history count differs")
+        history_count_at_entry = len(state.history.snapshot().active_records)
+        if history_count_at_entry != 0:
+            raise ODEBFStateError("Sequential-NoH router history is not empty")
         round_started = time.perf_counter()
         before_values = _weight_values(touched)
         before_hashes = _weight_hashes(touched)
+        if round_index > 1 and before_hashes == initial_hashes:
+            raise ODEBFStateError("Sequential-NoH did not accumulate prior round weights")
         phase_entry = _ledger_snapshot(state.ledger)
         if is_ours:
-            if historical_sketch is None or outer_entry_p_cache is None:
-                raise ODEBFStateError("Full-6 Historical state is absent")
+            if outer_entry_p_cache is None:
+                raise ODEBFStateError("Sequential-NoH functional-P cache is absent")
             edit, load = _run_ours_round(
                 model,
                 tokenizer,
@@ -676,9 +644,6 @@ def run_historical_h0_sequential_trajectory(
                 stages=stages,
                 mutation_lock=mutation_lock,
                 round_index=round_index,
-                historical_sketch=historical_sketch,
-                trajectory_w0_values=trajectory_w0_values,
-                committed_load_by_layer=committed_load_by_layer,
                 outer_entry_p_cache=outer_entry_p_cache,
                 job_ledger=state.ledger,
             )
@@ -714,65 +679,23 @@ def run_historical_h0_sequential_trajectory(
                 "endpoint": after_hashes,
             }
         )
-        if is_ours:
-            for layer, value in load.items():
-                committed_load_by_layer[int(layer)] += float(value)
-            history_receipt = {
-                "schema": "ode-edit-s05-p1r23-full6-fixed-rank-history-append/v1",
-                "append_call_count": 1,
-                "post_commit_verified": True,
-                "terminal_event_sha256": terminal_event,
-                "sketch": historical_sketch.raw_free_payload(),
-                "load_increment_by_layer": {
-                    str(layer): float(value)
-                    for layer, value in sorted(load.items())
-                },
-                "cumulative_load_by_layer": {
-                    str(layer): float(value)
-                    for layer, value in sorted(committed_load_by_layer.items())
-                },
-                "raw_history_replay_count": 0,
-                "duplicate_append_count": 0,
-            }
-            history_receipt["identity_sha256"] = canonical_hash(history_receipt)
-            history_count_after_commit = historical_sketch.history_item_count
-        else:
-            history_counter = ModelForwardCounter(model, state.ledger)
-            try:
-                prepared = _prepare_history_batch(
-                    model,
-                    tokenizer,
-                    arm_state=state,
-                    requests=requests,
-                    collision_by_request=collision_by_request,
-                    hparams=hparams,
-                    projector=projector,
-                    contexts=contexts,
-                    terminal_event_sha256=terminal_event,
-                    load_increment_by_layer=load,
-                )
-            finally:
-                history_counter.close()
-            history_receipt = _finalize_prepared_history(state, prepared)
-            history_receipt["load_increment_by_layer"] = {
-                str(layer): float(value) for layer, value in sorted(load.items())
-            }
-            history_receipt["cumulative_load_by_layer"] = {
-                str(layer): float(value)
-                for layer, value in sorted(state.history.cumulative_load().items())
-            }
-            history_count_after_commit = len(state.history.snapshot().active_records)
-        if history_count_after_commit != round_index * BATCH_SIZE:
-            raise ODEBFStateError("P1R20 history append count differs")
+        history_receipt = {
+            "schema": "ode-edit-s05-p1r23-sequential-noh-history-off/v1",
+            "status": "INACTIVE_BY_HISTORY_MODE_OFF",
+            "append_call_count": 0,
+            "router_visible_history_item_count": 0,
+            "raw_historical_request_replay_count": 0,
+            "projected_key_sketch_construction_count": 0,
+            "functional_h_input_influence_cost_count": 0,
+            "structural_h_input_influence_cost_count": 0,
+            "terminal_event_sha256": terminal_event,
+        }
+        history_receipt["identity_sha256"] = canonical_hash(history_receipt)
+        history_count_after_commit = len(state.history.snapshot().active_records)
+        if history_count_after_commit != 0:
+            raise ODEBFStateError("Sequential-NoH appended router history")
         phase_after_history = _ledger_snapshot(state.ledger)
-
-        if method.endswith("-SOFT") and round_index >= 2:
-            if int(edit["historical_h_controller_input_count"]) != P1R23_GRID_COUNT:
-                raise ODEBFStateError("Historical H did not enter every K8 router input")
-            if int(edit["historical_h_nondegenerate_count"]) > 0:
-                historical_nondegenerate_rounds.append(round_index)
-            if int(edit["historical_h_decision_influence_count"]) > 0:
-                historical_influence_rounds.append(round_index)
+        _validate_history_off_edit_receipt(edit)
 
         evaluated, evaluation_summary = _evaluate_batches(
             model,
@@ -805,7 +728,7 @@ def run_historical_h0_sequential_trajectory(
         phase_after_general_eval = _ledger_snapshot(state.ledger)
         elapsed = time.perf_counter() - round_started
         payload = {
-            "schema": "ode-edit-s05-p1r23-full6-structural-historical-round-endpoint/v1",
+            "schema": "ode-edit-s05-p1r23-progress-simplex-sequential-noh-round-endpoint/v1",
             "instruction_id": INSTRUCTION_ID,
             "alias": alias,
             "method": method,
@@ -879,25 +802,19 @@ def run_historical_h0_sequential_trajectory(
             torch.cuda.empty_cache()
 
     terminal_weights = _weight_hashes(touched)
-    persistent_h_inactivity = bool(
-        method.endswith("-SOFT") and not historical_influence_rounds
-    )
+    persistent_h_inactivity = True
     with torch.no_grad():
         for name, parameter in touched.items():
             parameter.copy_(base_values[name].to(device=parameter.device))
     restored = _weight_hashes(touched) == initial_hashes
     if not restored:
         raise ODEBFStateError("P1R20 terminal W0 restore differs")
-    if persistent_h_inactivity:
-        raise ODEBFStateError(
-            "P1R23 Full-6 Historical H remained allocation-inactive after t1"
-        )
     artifact_guard.assert_unchanged()
     _observed_memory(state.ledger)
     terminal = {
-        "schema": "ode-edit-s05-p1r23-full6-structural-historical-terminal/v1",
+        "schema": "ode-edit-s05-p1r23-progress-simplex-sequential-noh-terminal/v1",
         "instruction_id": INSTRUCTION_ID,
-        "status": "HISTORICAL_H0_SEQUENTIAL_T10_COMPLETE",
+        "status": "PROGRESS_SIMPLEX_SEQUENTIAL_NOH_T10_COMPLETE",
         "alias": alias,
         "method": method,
         "source_head": source_head,
@@ -910,19 +827,16 @@ def run_historical_h0_sequential_trajectory(
         "terminal_edited_parameter_sha256": terminal_weights,
         "final_w0_restored": restored,
         "persistent_commit_count": ROUND_COUNT,
-        "history_append_count": ROUND_COUNT,
-        "history_final_count": (
-            historical_sketch.history_item_count
-            if historical_sketch is not None
-            else len(state.history.snapshot().active_records)
-        ),
-        "historical_sketch": (
-            historical_sketch.raw_free_payload()
-            if historical_sketch is not None
-            else {"status": "BASELINE_NOT_APPLICABLE"}
-        ),
-        "historical_h_nondegenerate_rounds": historical_nondegenerate_rounds,
-        "historical_h_decision_influence_rounds": historical_influence_rounds,
+        "history_mode": "OFF",
+        "history_append_count": 0,
+        "history_final_count": 0,
+        "historical_sketch": {"status": "INACTIVE_BY_HISTORY_MODE_OFF"},
+        "raw_historical_request_replay_count": 0,
+        "projected_key_historical_sketch_construction_count": 0,
+        "functional_h_input_influence_cost_count": 0,
+        "structural_h_input_influence_cost_count": 0,
+        "historical_h_nondegenerate_rounds": [],
+        "historical_h_decision_influence_rounds": [],
         "historical_h_persistent_inactivity": persistent_h_inactivity,
         "postcommit_cumulative_b10_evaluation_count": sum(range(1, 11)),
         "wide_locality_teacher_kl_checkpoint_rounds": list(EVALUATION_ROUNDS),
@@ -942,7 +856,7 @@ def run_historical_h0_sequential_trajectory(
     }
     terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s05-p1r23-full6-structural-historical-manifest/v1",
+        "schema": "ode-edit-s05-p1r23-progress-simplex-sequential-noh-manifest/v1",
         "status": terminal["status"],
         "alias": alias,
         "method": method,

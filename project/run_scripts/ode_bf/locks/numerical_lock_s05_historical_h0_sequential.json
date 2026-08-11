@@ -1,16 +1,16 @@
 {
-  "schema_version": "ode-edit-s05-p1r23-full6-structural-historical-lock/v1",
-  "instruction_id": "ODEEDIT-S05-P1R23-FULL6-STRUCTURAL-HISTORICAL-V1-A1-FULL-MATRIX",
-  "accepted_compute_a1_execution_checkpoint": "f64d0c1221ac0eecc53a1fbb9685a9a23835af0e",
-  "accepted_compute_a1_scientific_checkpoint": "794885a48c09046b454b88eee7880e08c390902a",
-  "accepted_compute_a1_numerical_lock_root": "504cd1931365750ea07cfb537335c9c923008122065d6dbe79d37b65223cc731",
+  "schema_version": "ode-edit-s05-p1r23-progress-simplex-sequential-noh-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R23-PROGRESS-SIMPLEX-SEQUENTIAL-NOH-V1",
+  "accepted_progress_simplex_execution_checkpoint": "a343d1f6967ef37763009b92d227ade85cd93de0",
+  "accepted_progress_simplex_scientific_checkpoint": "a343d1f6967ef37763009b92d227ade85cd93de0",
+  "accepted_progress_simplex_numerical_lock_root": "9ac7d598fa19d01d363459fe158f92da558839f9524795c6c361d5b32615f490",
   "fresh_seal_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
   "all_request_order_sha256": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
   "round_count": 10,
   "batch_size": 10,
   "request_count": 100,
   "models": ["llama3-8b-inst", "qwen2.5-7b-inst"],
-  "methods": ["BG-COMPUTE-FULL6-NOSOFT", "BG-COMPUTE-FULL6-SOFT", "RS-COMPUTE-FULL6-NOSOFT", "RS-COMPUTE-FULL6-SOFT", "ALPHAEDIT"],
+  "methods": ["BG-PROGRESS-SIMPLEX-NEUTRAL", "BG-PROGRESS-SIMPLEX-SOFT", "RS-PROGRESS-SIMPLEX-NEUTRAL", "RS-PROGRESS-SIMPLEX-SOFT"],
   "ours": {
     "grid_count": 8,
     "h": 0.125,
@@ -18,23 +18,23 @@
     "allocations": ["BG", "RS"],
     "target_context_ordinals": [0, 1, 2, 3, 4, 5],
     "physical_slope_context_ordinals": [0, 1, 2, 3, 4, 5],
-    "physical_slope_aggregation": "GLOBAL_REQUEST_NUMERATOR_DENOMINATOR_EXACT",
-    "nosoftroute": "PROGRESS_SIMPLEX_NEUTRAL_V_EQUALS_ONE",
-    "soft_cost": ["PINNED_STRUCTURAL_P", "FIXED_RANK_HISTORICAL_H"],
-    "functional_p_h_routing_influence": 0,
+    "physical_slope_aggregation": "EXACT_A343D1F_FULL_SIX",
+    "neutral_route": "PROGRESS_SIMPLEX_NEUTRAL_V_EQUALS_ONE",
+    "soft_cost": ["PINNED_STRUCTURAL_P", "EXACT_FUNCTIONAL_P"],
+    "functional_p_routing_influence": 1,
     "per_layer_upper_cap_count": 0,
     "retry_count": 0,
     "backtracking_count": 0,
     "early_stop_count": 0
   },
   "history": {
-    "round_entry_counts": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90],
-    "append_after_endpoint_commit": true,
-    "fixed_rank": 100,
-    "retains_all_committed_cases_in_pilot": true,
-    "soft_h_input_required_from_round": 2,
-    "persistent_inactivity_hard_failure": true,
-    "raw_prompt_replay_inside_k8_count": 0
+    "mode": "OFF",
+    "round_entry_counts": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "append_count": 0,
+    "raw_request_replay_count": 0,
+    "projected_key_sketch_count": 0,
+    "functional_h_influence_count": 0,
+    "structural_h_influence_count": 0
   },
   "evaluation": {
     "inner_k_heldout_count": 0,
@@ -44,11 +44,10 @@
     "generation_call_count": 0
   },
   "baseline": {
-    "methods": ["ALPHAEDIT"],
-    "one_per_model": true,
-    "alpha_bf16_key_fp32_adapter": "PINNED_CALLER_SCOPED",
+    "methods": ["ALPHAEDIT_REUSED_DESCRIPTIVE"],
+    "rerun_count": 0,
     "statistics_recompute_count": 0
   },
   "scientific_promotion_authorized": false,
-  "root_digest": "40543080713515c0c70131b221cbe2464326d689f992654a4ad22c9e3937f4de"
+  "root_digest": "34aab65e8574f85dec3caa4d7a99fddacd4149026f1237477f74d48a8ad67a42"
 }

@@ -100,7 +100,6 @@ from .progress_simplex_routing import (
     ProgressSimplexStatus,
     progress_simplex_waypoint_factors,
     solve_progress_simplex_routing,
-    StructuralOnlyRoutingInventory,
 )
 from .routing import QuadraticBarrier
 from .compute_progress_simplex_runtime import (
@@ -108,6 +107,7 @@ from .compute_progress_simplex_runtime import (
     COMPUTE_PROGRESS_SIMPLEX_METHOD_ID,
     COMPUTE_TOKEN_BUDGET,
     FixedRankHistoricalSketch,
+    StructuralOnlyRoutingInventory,
     empty_historical_sketch_receipt,
     rotating_context_ordinals,
     validate_field_forward_count,
@@ -281,6 +281,7 @@ def _run_ode_arm(
     committed_load_by_layer: Mapping[int, float] | None = None,
     terminal_functional_audit: bool = True,
     full_six_slope: bool = False,
+    history_mode_off: bool = False,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
@@ -291,8 +292,8 @@ def _run_ode_arm(
         raise ODEBFContractError("P1R23 ODE target allocation differs")
     if compute_aware and not progress_simplex:
         raise ODEBFContractError("compute-aware role requires progress simplex")
-    if full_six_slope and not compute_aware:
-        raise ODEBFContractError("full-six slope requires compute-aware role")
+    if full_six_slope and not progress_simplex:
+        raise ODEBFContractError("full-six slope requires progress simplex")
     if historical_sketch is not None and (
         not compute_aware or not full_six_slope or trajectory_w0_values is None
     ):
@@ -308,6 +309,8 @@ def _run_ode_arm(
         else f"{allocation}-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
     )
     history = arm_state.history
+    if history_mode_off and history.snapshot().active_records:
+        raise ODEBFStateError("Sequential-NoH entered with router history")
     legacy_ledger = arm_state.ledger
     compute = ScalableComputeLedger()
     refresh = DynamicRefreshLedger()
@@ -527,6 +530,12 @@ def _run_ode_arm(
                 )
             if historical_sketch is None and inventory.history_item_count != 0:
                 raise ODEBFStateError("P1R23 atomic replay-H inventory is active")
+            if history_mode_off and (
+                inventory.history_item_count != 0
+                or inventory.functional_h_mean.active
+                or inventory.functional_h_smoothmax.active
+            ):
+                raise ODEBFStateError("Sequential-NoH functional-H inventory is active")
             compute.add_wall("functional_preservation_basis", time.perf_counter() - functional_started)
             route_started = time.perf_counter()
             routing = (
@@ -746,6 +755,28 @@ def _run_ode_arm(
                 "routing": routing.raw_free_payload(),
                 "historical_allocation_counterfactual": historical_counterfactual,
                 "functional_basis": inventory.raw_free_payload(),
+                "history_mode": {
+                    "mode": "OFF" if history_mode_off else "DEFAULT",
+                    "router_visible_history_item_count": inventory.history_item_count,
+                    "functional_h_status": (
+                        "INACTIVE_BY_HISTORY_MODE_OFF"
+                        if history_mode_off
+                        else "ACTIVE"
+                        if inventory.history_item_count > 0
+                        else "INACTIVE_EMPTY_HISTORY"
+                    ),
+                    "structural_h_status": (
+                        "INACTIVE_BY_HISTORY_MODE_OFF"
+                        if history_mode_off
+                        else "ACTIVE"
+                        if inventory.history_item_count > 0
+                        else "INACTIVE_EMPTY_HISTORY"
+                    ),
+                    "raw_historical_request_replay_count": 0,
+                    "projected_key_historical_sketch_construction_count": 0,
+                    "functional_h_decision_influence_count": 0,
+                    "structural_h_decision_influence_count": 0,
+                },
                 "functional_probe_sha256": functional_probe["identity_sha256"],
                 "progress": progress,
                 "per_layer_applied_progress": contribution,
@@ -872,6 +903,11 @@ def _run_ode_arm(
             "historical_h_decision_influence_count": history_influence_count,
             "historical_h_controller_input_count": history_input_count,
             "historical_h_nondegenerate_count": history_nondegenerate_count,
+            "history_mode": "OFF" if history_mode_off else "DEFAULT",
+            "raw_historical_request_replay_count": 0 if history_mode_off else None,
+            "projected_key_historical_sketch_construction_count": (
+                0 if history_mode_off else None
+            ),
             "physical_slope_context_mode": (
                 "FULL_SIX_FIXED" if full_six_slope else "ROTATING_TWO_OF_SIX"
             ),
