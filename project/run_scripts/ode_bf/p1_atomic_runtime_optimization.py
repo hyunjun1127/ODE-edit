@@ -568,7 +568,9 @@ def _run_arm(
     accepted_by_layer: dict[int, list[AcceptedLayerContribution]] = {
         layer: [] for layer in common.COMMON_COLD_LAYER_ORDER
     }
-    physical = capture_physical_state(model, tokenizer, requests, hparams, contexts)
+    physical = capture_physical_state(
+        model, tokenizer, requests, hparams, contexts, lookup_positions
+    )
     if tensor_sha256(physical.terminal_z) != tensor_sha256(z_base):
         raise ODEBFContractError("P1R22 W0 state-capture parity differs")
     current_terminal = physical.terminal_z.clone()
@@ -742,7 +744,7 @@ def _run_arm(
                 transition_index=step_index + 1,
             )
             candidate_physical = capture_physical_state(
-                model, tokenizer, requests, hparams, contexts
+                model, tokenizer, requests, hparams, contexts, lookup_positions
             )
             if step_index in conformance_steps:
                 c0_receipts.append(

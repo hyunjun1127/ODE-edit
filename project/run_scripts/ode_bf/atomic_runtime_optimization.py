@@ -79,14 +79,12 @@ def _batch_axis_zero(value: torch.Tensor, rows: int) -> torch.Tensor:
 
 def _select_rows(
     value: torch.Tensor,
-    indices: Sequence[Sequence[int]],
+    indices: Sequence[int],
 ) -> torch.Tensor:
     value = _batch_axis_zero(value, len(indices))
     selected: list[torch.Tensor] = []
-    for row, positions in enumerate(indices):
-        if len(positions) != 1:
-            raise ODEBFContractError("P1R22 lookup multiplicity differs")
-        position = int(positions[0])
+    for row, observed_position in enumerate(indices):
+        position = int(observed_position)
         if position < 0:
             position += value.shape[1]
         if position < 0 or position >= value.shape[1]:
@@ -101,10 +99,10 @@ def capture_physical_state(
     requests: Sequence[Mapping[str, Any]],
     hparams: Any,
     contexts: Sequence[Sequence[str]],
+    lookup_positions: Sequence[int],
 ) -> PhysicalStateCapture:
     """Capture all writer keys and canonical terminal z in one partial pass."""
 
-    from easyeditor.models.rome import repr_tools
     from easyeditor.util import nethook
 
     batch = tuple(requests)
@@ -122,22 +120,13 @@ def capture_physical_state(
         for group in groups
         for context in group
     ]
-    words = [
-        str(request["subject"])
-        for request in batch
-        for group in groups
-        for _ in group
+    words = [str(request["subject"]) for request in batch for _ in range(6)]
+    indices = tuple(int(item) for item in lookup_positions)
+    if len(indices) != BATCH_SIZE * 6:
+        raise ODEBFContractError("P1R22 canonical lookup plan differs")
+    rendered = [
+        template.format(word) for template, word in zip(templates, words, strict=True)
     ]
-    subtoken = str(hparams.fact_token)
-    if not subtoken.startswith("subject_"):
-        raise ODEBFContractError("P1R22 fact-token strategy differs")
-    indices = repr_tools.get_words_idxs_in_templates(
-        tokenizer,
-        templates,
-        words,
-        subtoken[len("subject_") :],
-    )
-    rendered = [template.format(word) for template, word in zip(templates, words, strict=True)]
     original_padding = tokenizer.padding_side
     if original_padding not in ("left", "right"):
         raise ODEBFContractError("P1R22 source tokenizer padding differs")
@@ -235,7 +224,7 @@ def capture_physical_state(
         "terminal_z_sha256": tensor_sha256(terminal_z),
         "terminal_module_name_sha256": canonical_hash(terminal_module_name),
         "writer_module_name_sha256": canonical_hash(module_names),
-        "lookup_positions": [int(item[0]) for item in indices],
+        "lookup_positions": list(indices),
         "request_order_sha256": order,
         "model_state_sha256": canonical_hash(state_payload),
         "physical_forward_count": 1,
