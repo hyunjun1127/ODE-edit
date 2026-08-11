@@ -4136,20 +4136,10 @@ def run_p1(
         or historical_h0_method is not None
     ):
         if historical_h0_method is not None:
-            from easyeditor.models.memit.memit_hparams import MEMITHyperParams
             from .historical_h0_sequential_runtime import (
                 run_historical_h0_sequential_trajectory,
             )
 
-            memit_hparams = None
-            if historical_h0_method == "MEMIT":
-                memit_hparams = MEMITHyperParams.from_hparams(
-                    str(artifact_guard.base_guard.hparams)
-                )
-                memit_hparams.device = 0
-                memit_hparams.stats_dir = str(
-                    artifact_guard.easyedit_root / "examples" / "data" / "stats"
-                )
             return run_historical_h0_sequential_trajectory(
                 model,
                 tokenizer,
@@ -4183,7 +4173,6 @@ def run_p1(
                 context_sha256=context_sha256,
                 cuda_runtime_receipt=cuda_runtime_receipt,
                 job_ledger=job_ledger,
-                memit_hparams=memit_hparams,
             )
         if scalable_batched_role is not None:
             from .p1_scalable_batched_experiment import (

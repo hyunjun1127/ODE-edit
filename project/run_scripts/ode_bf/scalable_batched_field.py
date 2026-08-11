@@ -485,6 +485,7 @@ def build_scalable_routing_problem(
     accepted_by_layer: Mapping[int, Sequence[AcceptedLayerContribution]],
     committed_load_by_layer: Mapping[int, float],
     lock: P1ControllerLock,
+    current_history_action_by_layer: Mapping[int, torch.Tensor] | None = None,
 ) -> FixedE8ProblemReceipt:
     return _build_fixed_e8_problem(
         field,
@@ -492,9 +493,11 @@ def build_scalable_routing_problem(
         accepted_by_layer=accepted_by_layer,
         committed_load_by_layer=committed_load_by_layer,
         lock=lock,
-        current_history_action_by_layer={
-            item.layer: item.history_action for item in field.layers
-        },
+        current_history_action_by_layer=(
+            {item.layer: item.history_action for item in field.layers}
+            if current_history_action_by_layer is None
+            else current_history_action_by_layer
+        ),
     )
 
 

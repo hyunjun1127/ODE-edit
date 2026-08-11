@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict
+from dataclasses import asdict, replace
 import math
 from pathlib import Path
 import threading
@@ -102,10 +102,12 @@ from .progress_simplex_routing import (
     solve_progress_simplex_routing,
     StructuralOnlyRoutingInventory,
 )
+from .routing import QuadraticBarrier
 from .compute_progress_simplex_runtime import (
     COMPUTE_PROGRESS_SIMPLEX_INSTRUCTION_ID,
     COMPUTE_PROGRESS_SIMPLEX_METHOD_ID,
     COMPUTE_TOKEN_BUDGET,
+    FixedRankHistoricalSketch,
     empty_historical_sketch_receipt,
     rotating_context_ordinals,
     validate_field_forward_count,
@@ -185,6 +187,66 @@ def _terminal_functional_payload(value: Any) -> dict[str, Any]:
     }
 
 
+def _with_fixed_rank_historical_barrier(
+    problem_receipt: Any,
+    field: Any,
+    sketch: FixedRankHistoricalSketch,
+    *,
+    entry_values: Mapping[str, torch.Tensor],
+    trajectory_w0_values: Mapping[str, torch.Tensor],
+) -> Any:
+    """Bind the fixed-rank historical statistic to the current round state."""
+
+    if sketch.history_item_count <= 0:
+        return problem_receipt
+    offset = 0.0
+    linear: list[float] = []
+    diagonal: list[float] = []
+    for layer_field in field.layers:
+        name = layer_field.weight_name
+        delta = (
+            entry_values[name].detach().to(device="cpu", dtype=torch.float64)
+            - trajectory_w0_values[name]
+            .detach()
+            .to(device="cpu", dtype=torch.float64)
+        ).numpy()
+        baseline_action = sketch.weight_action(layer_field.layer, delta)
+        proposal_action = sketch.action(
+            layer_field.layer,
+            layer_field.residual.detach().to(device="cpu", dtype=torch.float64).numpy(),
+            layer_field.q.detach().to(device="cpu", dtype=torch.float64).numpy(),
+        )
+        offset += float(np.sum(baseline_action * baseline_action))
+        linear.append(float(P1R23_H * np.sum(baseline_action * proposal_action)))
+        diagonal.append(float(P1R23_H**2 * np.sum(proposal_action * proposal_action)))
+    barrier = QuadraticBarrier(
+        "historical",
+        offset,
+        np.asarray(linear, dtype=np.float64),
+        np.diag(np.asarray(diagonal, dtype=np.float64)),
+        offset,
+        "layer-local-diagonal",
+    )
+    problem = replace(problem_receipt.problem, historical=barrier)
+    return replace(
+        problem_receipt,
+        problem=problem,
+        historical_self_risk=tuple(
+            float(value / (P1R23_H**2)) for value in diagonal
+        ),
+        identity_sha256=canonical_hash(
+            {
+                "base_problem_receipt": problem_receipt.identity_sha256,
+                "problem_sha256": problem.identity(),
+                "historical_sketch_sha256": sketch.raw_free_payload()[
+                    "identity_sha256"
+                ],
+                "history_item_count": sketch.history_item_count,
+            }
+        ),
+    )
+
+
 def _run_ode_arm(
     model: torch.nn.Module,
     tokenizer: Any,
@@ -214,6 +276,11 @@ def _run_ode_arm(
     write_once: Any,
     progress_simplex: bool = False,
     compute_aware: bool = False,
+    historical_sketch: FixedRankHistoricalSketch | None = None,
+    trajectory_w0_values: Mapping[str, torch.Tensor] | None = None,
+    committed_load_by_layer: Mapping[int, float] | None = None,
+    terminal_functional_audit: bool = True,
+    full_six_slope: bool = False,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
@@ -224,6 +291,12 @@ def _run_ode_arm(
         raise ODEBFContractError("P1R23 ODE target allocation differs")
     if compute_aware and not progress_simplex:
         raise ODEBFContractError("compute-aware role requires progress simplex")
+    if full_six_slope and not compute_aware:
+        raise ODEBFContractError("full-six slope requires compute-aware role")
+    if historical_sketch is not None and (
+        not compute_aware or not full_six_slope or trajectory_w0_values is None
+    ):
+        raise ODEBFContractError("full-six compute-aware historical contract differs")
     arm_label = (
         f"{allocation}-COMPUTE-SIMPLEX-"
         f"{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
@@ -267,7 +340,14 @@ def _run_ode_arm(
     terminal_objective_count = 0
     terminal_functional: dict[str, Any] | None = None
     terminal_full_six_nll: float | None = None
-    empty_h = empty_historical_sketch_receipt(P1R23_LAYER_ORDER)
+    empty_h = (
+        empty_historical_sketch_receipt(P1R23_LAYER_ORDER)
+        if historical_sketch is None
+        else historical_sketch.raw_free_payload()
+    )
+    history_influence_count = 0
+    history_input_count = 0
+    history_nondegenerate_count = 0
     rotating_receipts: list[dict[str, Any]] = []
     restored = False
     counter = ModelForwardCounter(model, legacy_ledger)
@@ -337,7 +417,9 @@ def _run_ode_arm(
                 ledger=legacy_ledger,
             )
             slope_context_ordinals = (
-                rotating_context_ordinals(step_index)
+                tuple(range(6))
+                if full_six_slope
+                else rotating_context_ordinals(step_index)
                 if compute_aware
                 else tuple(range(6))
             )
@@ -345,7 +427,7 @@ def _run_ode_arm(
                 select_scalable_objective_contexts(
                     objective_plan, slope_context_ordinals
                 )
-                if compute_aware
+                if compute_aware and not full_six_slope
                 else objective_plan
             )
             signed, slope_result = scalable_physical_signed_progress(
@@ -375,9 +457,21 @@ def _run_ode_arm(
                 field,
                 signed,
                 accepted_by_layer=accepted_by_layer,
-                committed_load_by_layer=history.cumulative_load(),
+                committed_load_by_layer=(
+                    history.cumulative_load()
+                    if committed_load_by_layer is None
+                    else committed_load_by_layer
+                ),
                 lock=controller_lock,
             )
+            if historical_sketch is not None:
+                problem_receipt = _with_fixed_rank_historical_barrier(
+                    problem_receipt,
+                    field,
+                    historical_sketch,
+                    entry_values=base_values,
+                    trajectory_w0_values=trajectory_w0_values,
+                )
             field_semantic = canonical_hash(
                 {
                     "field_sha256": field.identity_sha256,
@@ -389,7 +483,11 @@ def _run_ode_arm(
             functional_started = time.perf_counter()
             if compute_aware:
                 inventory = StructuralOnlyRoutingInventory(
-                    0,
+                    (
+                        0
+                        if historical_sketch is None
+                        else historical_sketch.history_item_count
+                    ),
                     objective_plan.request_order_sha256,
                     field_semantic,
                     empty_h["identity_sha256"],
@@ -427,7 +525,7 @@ def _run_ode_arm(
                     trial_entry_weights=base_values,
                     physical_materialized=True,
                 )
-            if inventory.history_item_count != 0:
+            if historical_sketch is None and inventory.history_item_count != 0:
                 raise ODEBFStateError("P1R23 atomic replay-H inventory is active")
             compute.add_wall("functional_preservation_basis", time.perf_counter() - functional_started)
             route_started = time.perf_counter()
@@ -446,6 +544,78 @@ def _run_ode_arm(
                     alpha_req=alpha_req,
                 )
             )
+            historical_counterfactual: dict[str, Any] = {
+                "status": "NOT_APPLICABLE",
+                "allocation_linf": 0.0,
+                "decision_influence_count": 0,
+                "model_forward_count": 0,
+                "backward_count": 0,
+            }
+            if arm is FixedE8Arm.SOFT and inventory.history_item_count > 0:
+                history_input_count += 1
+                historical_barrier = problem_receipt.problem.historical
+                nondegenerate_h = bool(
+                    routing.feasible_allocation_dimension > 0
+                    and (
+                        abs(float(historical_barrier.offset)) > 1.0e-12
+                        or float(np.max(np.abs(historical_barrier.linear), initial=0.0))
+                        > 1.0e-12
+                        or float(np.max(np.abs(historical_barrier.gram), initial=0.0))
+                        > 1.0e-12
+                    )
+                )
+                history_nondegenerate_count += int(nondegenerate_h)
+                dimension = len(problem_receipt.problem.signed_progress)
+                inactive_h = QuadraticBarrier(
+                    "historical",
+                    0.0,
+                    np.zeros(dimension, dtype=np.float64),
+                    np.zeros((dimension, dimension), dtype=np.float64),
+                    0.0,
+                    "layer-local-diagonal",
+                )
+                p_only_problem = replace(
+                    problem_receipt.problem, historical=inactive_h
+                )
+                p_only_inventory = StructuralOnlyRoutingInventory(
+                    0,
+                    objective_plan.request_order_sha256,
+                    field_semantic,
+                    canonical_hash(
+                        {
+                            "status": "HISTORICAL_DISABLED_OBSERVATION_ONLY",
+                            "field": field_semantic,
+                        }
+                    ),
+                )
+                p_only = solve_progress_simplex_routing(
+                    p_only_problem,
+                    p_only_inventory,
+                    arm=FixedE8Arm.SOFT,
+                    alpha_req=alpha_req,
+                )
+                allocation_linf = float(
+                    np.max(
+                        np.abs(
+                            np.asarray(routing.velocity, dtype=np.float64)
+                            - np.asarray(p_only.velocity, dtype=np.float64)
+                        )
+                    )
+                )
+                influence = int(allocation_linf > 1.0e-8)
+                history_influence_count += influence
+                historical_counterfactual = {
+                    "status": "P_ONLY_OBSERVATION_ONLY_COUNTERFACTUAL",
+                    "allocation_linf": allocation_linf,
+                    "decision_influence_count": influence,
+                    "nondegenerate_h": nondegenerate_h,
+                    "selected_with_h_velocity": list(routing.velocity),
+                    "p_only_velocity": list(p_only.velocity),
+                    "p_only_routing_sha256": p_only.identity_sha256,
+                    "model_forward_count": 0,
+                    "backward_count": 0,
+                    "selected_route_influence_count": 0,
+                }
             compute.add_wall("routing_solve", time.perf_counter() - route_started)
             if (
                 progress_simplex
@@ -495,7 +665,20 @@ def _run_ode_arm(
             rotating_receipt = {
                 "step_index": step_index,
                 "selected_context_ordinals": list(slope_context_ordinals),
+                "context_mode": (
+                    "FULL_SIX_FIXED" if full_six_slope else "ROTATING_TWO_OF_SIX"
+                ),
+                "full_six_context_inventory_sha256": objective_plan.context_sha256,
+                "objective_plan_sha256": objective_plan.identity_sha256,
+                "slope_plan_sha256": slope_plan.identity_sha256,
+                "physical_microbatch_partition": [
+                    list(item.prepared.request_ordinals)
+                    for item in slope_plan.batches
+                ],
                 "rotating_mean_target_new_nll": float(slope_result.loss),
+                "full_six_physical_mean_target_new_nll": (
+                    float(slope_result.loss) if full_six_slope else None
+                ),
                 "full_target_mean_target_new_nll": float(target_result.loss),
                 "rotating_minus_full": float(slope_result.loss - target_result.loss),
                 "field_model_forward_count": field_forward_count,
@@ -561,6 +744,7 @@ def _run_ode_arm(
                 "physical_slope": asdict(signed),
                 "routing_problem_sha256": problem_receipt.problem.identity(),
                 "routing": routing.raw_free_payload(),
+                "historical_allocation_counterfactual": historical_counterfactual,
                 "functional_basis": inventory.raw_free_payload(),
                 "functional_probe_sha256": functional_probe["identity_sha256"],
                 "progress": progress,
@@ -589,6 +773,9 @@ def _run_ode_arm(
                 ),
                 "compute_aware": compute_aware,
                 "rotating_context": rotating_receipt,
+                "physical_slope_context_mode": (
+                    "FULL_SIX_FIXED" if full_six_slope else "ROTATING_TWO_OF_SIX"
+                ),
                 "early_stop": {
                     "status": "NOT_DEFINED",
                     "L_goal": None,
@@ -604,8 +791,8 @@ def _run_ode_arm(
                 / f"accepted-k{step_index + 1}.json",
                 payload,
             )
-            # P1R23 is one atomic joint edit.  Historical/replay H remains an
-            # empty structural shell and receives no accepted contribution.
+            # Current-batch keys enter the fixed-rank historical statistic only
+            # after this complete K8 endpoint is transactionally committed.
             if any(accepted_by_layer[layer] for layer in P1R23_LAYER_ORDER):
                 raise ODEBFStateError("P1R23 atomic H state is not empty")
             accepted.append(payload)
@@ -628,29 +815,37 @@ def _run_ode_arm(
             )
         if pending is not None or len(accepted) != 8 or len(delayed) != 7:
             raise ODEBFStateError("P1R23 K8 delayed accounting differs")
-        terminal_replay = _controller_replay_entry(
-            model,
-            tokenizer,
-            alias=alias,
-            arm_state=arm_state,
-            sample_waypoint=8,
-            factors={},
-            request_by_sha256=request_by_sha256,
-            population_by_sha256=population_by_sha256,
-            schedule=schedule,
-            outer_entry_p_cache=outer_entry_p_cache,
-        )
-        terminal_value = _functional_trial(
-            model,
-            tokenizer,
-            alias=alias,
-            entry=terminal_replay,
-            theta0_cache=theta0_cache,
-            factors={},
-            lock=controller_lock,
-            ledger=legacy_ledger,
-        )
-        terminal_functional = _terminal_functional_payload(terminal_value)
+        if terminal_functional_audit:
+            terminal_replay = _controller_replay_entry(
+                model,
+                tokenizer,
+                alias=alias,
+                arm_state=arm_state,
+                sample_waypoint=8,
+                factors={},
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                outer_entry_p_cache=outer_entry_p_cache,
+            )
+            terminal_value = _functional_trial(
+                model,
+                tokenizer,
+                alias=alias,
+                entry=terminal_replay,
+                theta0_cache=theta0_cache,
+                factors={},
+                lock=controller_lock,
+                ledger=legacy_ledger,
+            )
+            terminal_functional = _terminal_functional_payload(terminal_value)
+        else:
+            terminal_functional = {
+                "status": "NOT_EVALUATED_OUTER_CHECKPOINT_SCHEDULE",
+                "model_forward_count": 0,
+                "backward_count": 0,
+                "decision_influence_count": 0,
+            }
         factors_for_endpoint = _factor_map(current_factors)
         target_for_endpoint = current_target.clone()
         physical_for_endpoint = physical
@@ -673,6 +868,13 @@ def _run_ode_arm(
             "terminal_target_sha256": tensor_sha256(target_for_endpoint),
             "terminal_physical_capture_sha256": physical_for_endpoint.identity_sha256,
             "terminal_functional": terminal_functional,
+            "historical_sketch": empty_h,
+            "historical_h_decision_influence_count": history_influence_count,
+            "historical_h_controller_input_count": history_input_count,
+            "historical_h_nondegenerate_count": history_nondegenerate_count,
+            "physical_slope_context_mode": (
+                "FULL_SIX_FIXED" if full_six_slope else "ROTATING_TWO_OF_SIX"
+            ),
             "rotating_context_receipts": rotating_receipts,
             "terminal_full_six_context_mean_target_new_nll": terminal_full_six_nll,
             "early_stop_threshold_status": "NOT_DEFINED" if compute_aware else None,

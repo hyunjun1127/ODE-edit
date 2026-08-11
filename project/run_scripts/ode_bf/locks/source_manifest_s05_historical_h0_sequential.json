@@ -1,66 +1,130 @@
 {
-  "schema_version": "ode-edit-s05-historical-h0-bg-sequential-p1r20-source-manifest/v1",
-  "instruction_id": "ODEEDIT-S05-ODE-BF-HISTORICAL-H0-BG-SEQUENTIAL-P1R20-V1",
-  "scientific_parent": "657dafd40de50bb396fc9cfaf3862de1d07dd816",
-  "scientific_parent_tree": "028c49948665f9ebfbd2e713b9fd2b220c57bf49",
+  "schema_version": "ode-edit-s05-p1r23-full6-structural-historical-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R23-FULL6-STRUCTURAL-HISTORICAL-V1-A1-FULL-MATRIX",
+  "historical_implementation_parent": "bfff750fa360899ef11b1d16732274c1f68eee70",
+  "accepted_compute_a1_scientific_checkpoint": "794885a48c09046b454b88eee7880e08c390902a",
+  "accepted_compute_a1_execution_checkpoint": "f64d0c1221ac0eecc53a1fbb9685a9a23835af0e",
   "fresh_seal_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
-  "numerical_lock_root": "37b2c7067892b8865cd52817ec2ebdeb269b45c16c504f8e3479790018475b5a",
+  "numerical_lock_root": "40543080713515c0c70131b221cbe2464326d689f992654a4ad22c9e3937f4de",
   "execution_head_policy": "EXACT_CHILD_CHECKPOINT_AFTER_FOCUSED_GATES",
   "scientific_promotion_authorized": false,
   "entries": [
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "3c17709d7b417a34cf2a1151059a94248a187a9e",
-      "path": "project/run_scripts/ode_bf/common_cold_coordinate.py",
+      "object_id": "efe7fb8dcd7731cc5299c938fd009a890f6f7b75",
+      "path": "project/run_scripts/ode_bf/compute_progress_simplex_runtime.py",
       "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "74dbda45618f1d54b82681190955a1e72ed0a823e3fb3a090a73db1cbc87cf2f",
-      "size": 32714
+      "sha256": "230f240bf08fd1b39d3e831e39834af0cec3b3133605cc1a578c45e167255f23",
+      "size": 8895
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "84eb6e00a00d9f33e7c29466887316b58a47154d",
-      "path": "project/run_scripts/ode_bf/common_coldcoord_fixed_e8_runtime.py",
+      "object_id": "a885277b5d4df3cddd9f730993f5b4704ed5031c",
+      "path": "project/run_scripts/ode_bf/historical_h0_sequential_runtime.py",
       "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "0590ba7659f5ba337efc06f8b8ad69c102f518d680ab7dfbe145f7c112d4042f",
-      "size": 205763
+      "sha256": "d781a94c0404259b2cc558033671225e231e069dd9fbc149e0b49f637b94a61b",
+      "size": 37045
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "2bf1d1cdc5a72f929d376008c5b831707db3daf1",
-      "path": "project/run_scripts/ode_bf/fixed_e8_runtime.py",
+      "object_id": "0d365c3a6390757f4bfad7ddcd52f00598c41379",
+      "path": "project/run_scripts/ode_bf/historical_h0_sequential_selection.py",
       "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "82f20c250e4a422768e101444aaa93fe07cca52647129c32fbca254d8a451402",
-      "size": 101085
+      "sha256": "ff4267090bd185c063f567867bf7840f7cbf409201d24c1e82ea46fe6f2956c4",
+      "size": 11498
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "84b6761e04852a381c9e0abb71cc4a14b1e783c4",
-      "path": "project/run_scripts/ode_bf/strength_preserving_routing.py",
+      "object_id": "466c04dcba3f741e32f263ec79951d4f976926a9",
+      "path": "project/run_scripts/ode_bf/p1_historical_h0_sequential_panel.py",
       "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "d881622ab39ff0f450337b7b0699e0da08989f58bc5c6a7b66f769531312429b",
-      "size": 32359
+      "sha256": "7f4fe3d9b8849fd727c3adcac07916e47be8cf5545b07211acb15144b37353fd",
+      "size": 4114
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "4567154e6c46db6e804dd0a76f7b1f7c36e526f4",
+      "object_id": "13839a109ec73f37d27e510f0bd0cd495acaa00b",
       "path": "project/run_scripts/ode_bf/p1_runtime.py",
       "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "f7f3ecd0e8a5a484960e1ef62978895fe28772509b334f0d387beafce44d95e2",
-      "size": 188918
+      "sha256": "ff5982a9a2aadcd18349b72d492405dc437263b5baf100fb991e50c649da6f16",
+      "size": 199511
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "7be017237d6983ebd3330885c3ed8b5878f3cee0",
+      "object_id": "74e4ceb49d2499b212148a74795e6435b17acbc9",
+      "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "8fea1705e1a0edfda72ffbdcfdf859615f5236895148fa68e651f067e01996d0",
+      "size": 81874
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "b216b4e73f16036e5a752453c6cdb6ff4c67fd2b",
+      "path": "project/run_scripts/ode_bf/scalable_batched_field.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "786a64b8954e577fd5629a8298d88d2a51acbe74aad1a62e40029febf9a7c695",
+      "size": 19251
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "360b0290c9a90d86bdde6c313171241c38b3a550",
+      "path": "project/run_scripts/ode_bf/scalable_batched_model.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "e88f0e9ffa6a949caa8bf558c7fabae68bd52a12b81d3856a9b0feaef672d2c1",
+      "size": 42742
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "ec226acca40845382a54c3f6e6392fc6adf27154",
+      "path": "project/run_scripts/ode_bf/scalable_batched_runtime.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "df0c0fe71c7535e9cbd69f066ff3a5d9c6a658990aa1829865d4696de580b9df",
+      "size": 26837
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "c30a2399604257a1fb55d069ca1c99f424b67f93",
+      "path": "project/run_scripts/ode_bf/progress_simplex_routing.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "11f13db2826d4b977e8c1e962e8d2656555ce3fddafb2a589bb03a14eb1e2fd8",
+      "size": 43427
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "ae612328135434e0f15e0834009d5f7a8311482c",
+      "path": "project/run_scripts/ode_bf/fixed_e8_runtime.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "711ab6b640e659863bcff59df97a95c683d12a803fa1c2c0e85a9dafb92d9c60",
+      "size": 101969
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "fac266eef1b700d03bd0ab4a382dd887def3f6fb",
+      "path": "project/run_scripts/ode_bf/p1_controller.py",
+      "role": "ODE_BF_RUNTIME_SOURCE",
+      "sha256": "51e1460ef9f9ddb59eaf899b14936be98721a390bee7f82c82a1e18ba68e5c1e",
+      "size": 21080
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "81832f3607a8ba2aec2d435b5b582e0df92268f1",
       "path": "project/run_scripts/ode_bf/p1_backend.py",
       "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "5a943ca86a3b40a4497e97ee4650346be113007df8ef421da6c9963633910f4d",
-      "size": 78713
+      "sha256": "c5be9cf409b0fabd33c30c205ff9f3e188ef24400a7fff7e7f582baec62ebb82",
+      "size": 80530
     },
     {
       "mode": 33152,
@@ -83,11 +147,11 @@
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "1710289423c3441e1a6a573c8062acbc20fb7e59",
+      "object_id": "957e668807de0ec3a6a0ac9ab3959b88323d64f2",
       "path": "project/run_scripts/ode_bf/p1_replay.py",
       "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "112d8e7da9ce9eaddd0473204b4156c8904f98ef912849409b2b272783be1201",
-      "size": 20688
+      "sha256": "c7e2ea435da6bfecd0fe17fab3fd0148218f4d7c7d8ec53a74eb41c440c6d977",
+      "size": 21061
     },
     {
       "mode": 33152,
@@ -110,103 +174,112 @@
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "0d365c3a6390757f4bfad7ddcd52f00598c41379",
-      "path": "project/run_scripts/ode_bf/historical_h0_sequential_selection.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "ff4267090bd185c063f567867bf7840f7cbf409201d24c1e82ea46fe6f2956c4",
-      "size": 11498
-    },
-    {
-      "mode": 33152,
-      "object_algorithm": "sha1",
-      "object_id": "8c8488930105025fd7fe2dfe2ee10013c4e384ef",
-      "path": "project/run_scripts/ode_bf/historical_h0_sequential_runtime.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "43fe0cfae01a3cbfbd46bc9930a64f6a280ec8c906e13996f16d149e29402836",
-      "size": 32620
-    },
-    {
-      "mode": 33152,
-      "object_algorithm": "sha1",
-      "object_id": "42374389892976b83a4b745c0b43809bba4080d7",
-      "path": "project/run_scripts/ode_bf/p1_historical_h0_sequential_panel.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "173aff1377ee7ab45f4c873fbf7f369cbc7de854644beec36466dc6944e1c966",
-      "size": 3458
-    },
-    {
-      "mode": 33152,
-      "object_algorithm": "sha1",
       "object_id": "d7a7e467b811abea0378f6a72f41c0411c326794",
       "path": "project/run_scripts/ode_bf/locks/p1r20_historical_h0_fresh_cf_b100_seal.json",
-      "role": "FROZEN_LOCK_OR_SEAL",
+      "role": "SCIENTIFIC_OR_SOURCE_LOCK",
       "sha256": "01612c28f700d7281e7f4887189577305396a47715760c98997f97d2acfe596b",
       "size": 52138
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "ab79d6e2b17e29721ce6fc52350555e881ee1783",
+      "object_id": "201f19e4bcd0fd8eeeaeeb9ca36d4709e95653c4",
       "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_historical_h0_sequential.json",
-      "role": "FROZEN_LOCK_OR_SEAL",
-      "sha256": "9e5eba7ab1f51e8b837602242451da9ada681ec71964c7baee13dfa00b5237a1",
-      "size": 2104
+      "role": "SCIENTIFIC_OR_SOURCE_LOCK",
+      "sha256": "42541901998d05e8a44febd41dcade813706a792b13cdc60db4f75c375749f8b",
+      "size": 2357
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "da0b70501e30e61c48cc23ed8ecf60d6c9d7b23e",
-      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_strength_preserving_router.json",
-      "role": "FROZEN_LOCK_OR_SEAL",
-      "sha256": "6e41f429ffe80d21c7e6663cd4f78a12318bab3977c3ea8c5760d77692654b30",
-      "size": 1736
+      "object_id": "a3a03db296a81fab50f448837c89e4870e3c94b0",
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_compute_progress_simplex.json",
+      "role": "SCIENTIFIC_OR_SOURCE_LOCK",
+      "sha256": "15d770bf63b428e1d8f95c5848d70b45842676d4f9d5b7b26e153c4f9296eb88",
+      "size": 2679
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "06466b40569d8323be650e5858cdca0f2c5e5970",
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_progress_simplex_router.json",
+      "role": "SCIENTIFIC_OR_SOURCE_LOCK",
+      "sha256": "e07055eb247276039f9e5349b72ac151cf1c2ed906fc4271103da077bb4b20ca",
+      "size": 2652
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "04c7838b57d217c98d5922e4a053fabaf9fca4e9",
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_scalable_batched_runtime.json",
+      "role": "SCIENTIFIC_OR_SOURCE_LOCK",
+      "sha256": "b9a47600032ebeb6c24361be25e828d6dec0360134089bae44aa420e9dbfbdfd",
+      "size": 5600
     },
     {
       "mode": 33216,
       "object_algorithm": "sha1",
-      "object_id": "31dd1336388c1ea4f1c07c26372da50047cf6978",
+      "object_id": "f413752e752cdcf538cae7d7ba631beb0cc6a695",
       "path": "project/run_scripts/session05_ode_bf_historical_h0_sequential.py",
-      "role": "LAUNCHER_OR_DRY_PLAN",
-      "sha256": "32a18e2afb577c0563d8a3363aaf8f80e21ef063d31d97bb53bf1a5855bc3b6f",
-      "size": 2404
+      "role": "SESSION_RUNTIME_OR_LAUNCHER",
+      "sha256": "c692a5ec0b19362af0ab365154489f8ee308231ca0d7589adc8cd6857784c940",
+      "size": 2414
     },
     {
       "mode": 33216,
       "object_algorithm": "sha1",
-      "object_id": "50915a55cdffeeeffaf95eefac97c8aa3d783016",
+      "object_id": "309bf9741d0d9999c8febfd7a1f2a6fb2c89ec47",
       "path": "project/run_scripts/session05_ode_bf_historical_h0_sequential.sbatch",
-      "role": "LAUNCHER_OR_DRY_PLAN",
-      "sha256": "0fb492197d63547a9877369f63314f0838bb4095e0748286f578a2c502f7a207",
-      "size": 2579
+      "role": "SESSION_RUNTIME_OR_LAUNCHER",
+      "sha256": "d511f55d647c433d7fef5b682052e9ebedbaeceb68e61a708ba1ee5e391a302e",
+      "size": 2877
     },
     {
       "mode": 33216,
       "object_algorithm": "sha1",
-      "object_id": "dadc6225220c7820626c3a8749fa0b0b654bdbc0",
+      "object_id": "ace10449f19fd8e3d5612050b6bd8c86db4a82fe",
       "path": "project/run_scripts/session05_ode_bf_historical_h0_sequential_dry_plan.py",
-      "role": "LAUNCHER_OR_DRY_PLAN",
-      "sha256": "70e1867b45930e3d8806d1dc58e38a7ba8810fe27b28d81fd4820089275f0982",
-      "size": 2396
+      "role": "SESSION_RUNTIME_OR_LAUNCHER",
+      "sha256": "af14d007c8af1a1bfaae46c4a17da2ae519145528f9263149933cf13f2a1b559",
+      "size": 2557
     },
     {
       "mode": 33216,
       "object_algorithm": "sha1",
-      "object_id": "65015d8f8c30586d8fdef18b5e7ebd0a4627f791",
+      "object_id": "5440437d136a179f2a4c36169553acef7d2ac990",
       "path": "project/run_scripts/session05_ode_bf_submit_historical_h0_sequential.py",
-      "role": "LAUNCHER_OR_DRY_PLAN",
-      "sha256": "67768a96faf6d1bab673d1ed0674a87386537bcb4b3bc117559bf4bd80907d1e",
-      "size": 4161
+      "role": "SESSION_RUNTIME_OR_LAUNCHER",
+      "sha256": "1b794ed3ce6a1fb768bcae35c3b55ba5fd05a5ea77002b136b494b975f5feebf",
+      "size": 5987
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "389ab3b96fdd68b3ffe6063178d240f63d79f9f5",
+      "object_id": "122de967bf9e213e512e829f55c71405d231fccf",
       "path": "project/run_scripts/ode_bf/tests/test_historical_h0_sequential.py",
       "role": "FOCUSED_TEST",
-      "sha256": "6a9274d9724ff6ce01d2f983abe7b1fd02846d309574d5e7a1ee1593da337fa8",
-      "size": 6175
+      "sha256": "4921bbe58e55abc4fd0943ba933dffbd328fed763ab7c0f10f466fadaa2703cf",
+      "size": 10606
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "c0294d441a4dd9666b7bc1b654f572034b812652",
+      "path": "project/run_scripts/ode_bf/tests/test_compute_progress_simplex.py",
+      "role": "FOCUSED_TEST",
+      "sha256": "90c10f468bff35f36183e4bdfcde39ff32ce4fdeba2a698503be78040d4869d8",
+      "size": 11066
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "5c6e9a712a9b53794d767b2016e2df12463f16d3",
+      "path": "project/run_scripts/ode_bf/tests/test_progress_simplex_routing.py",
+      "role": "FOCUSED_TEST",
+      "sha256": "f93fe4e3934606893c6dbba555780a9a6174c596af2e9ce183e436ebe382622e",
+      "size": 7854
     }
   ],
-  "entry_count": 22,
-  "root_digest": "fdff1335e99693a5c673bee074164fedd41b35a4899bcbb562454cda1723da7e"
+  "entry_count": 30,
+  "root_digest": "d6abce700736f485621ff19303399fecd3cb8da34d6c52b0e49dd0b1dd46f5e7"
 }
