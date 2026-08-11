@@ -3215,6 +3215,8 @@ def run_p1(
     atomic_runtime_conformance_mode: bool = False,
     scalable_batched_role: str | None = None,
     scalable_batched_batch_size: int | None = None,
+    scalable_batched_attempt_namespace: str | None = None,
+    historical_h0_method: str | None = None,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3238,10 +3240,19 @@ def run_p1(
             atomic_runtime_optimization_mode,
             atomic_runtime_conformance_mode,
             scalable_batched_role is not None,
+            historical_h0_method is not None,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if scalable_batched_role is not None:
+    if historical_h0_method is not None:
+        from .historical_h0_sequential_runtime import (
+            expected_historical_h0_result_name,
+        )
+
+        expected_name = expected_historical_h0_result_name(
+            alias, historical_h0_method
+        )
+    elif scalable_batched_role is not None:
         from .p1_scalable_batched_runtime_panel import (
             expected_p1r23_result_name,
         )
@@ -3366,7 +3377,8 @@ def run_p1(
         and strength_preserving_cell is None
         and not atomic_runtime_optimization_mode
         and not atomic_runtime_conformance_mode
-        and scalable_batched_role is None,
+        and scalable_batched_role is None
+        and historical_h0_method is None,
         # P1R23 owns a distinct atomic seal and never consumes the held
         # sequential ODE-alloc artifact.
     )
@@ -3536,13 +3548,54 @@ def run_p1(
         or atomic_runtime_optimization_mode
         or atomic_runtime_conformance_mode
         or scalable_batched_role is not None
+        or historical_h0_method is not None
     ):
         from .p1_cold_structp_softp_noveto_panel import (
             load_cold_requests,
             verify_cold_case_seal,
         )
 
-        if (
+        if historical_h0_method is not None:
+            from .historical_h0_sequential_selection import (
+                load_historical_h0_batches,
+                verify_historical_h0_fresh_seal,
+            )
+            from .p1_common_coldcoord_fixed_e8_panel import common_cold_schedule
+
+            historical_stream = verify_historical_h0_fresh_seal(
+                json.loads(
+                    (
+                        locks
+                        / "p1r20_historical_h0_fresh_cf_b100_seal.json"
+                    ).read_text(encoding="utf-8")
+                )
+            )
+            stream_batches = load_historical_h0_batches(dataset, historical_stream)
+            schedule = common_cold_schedule(sampling_seal)
+            from .p1_historical_h0_sequential_panel import (
+                load_and_validate_historical_h0_lock,
+            )
+
+            numerical, numerical_sha256 = load_and_validate_historical_h0_lock(
+                locks / "numerical_lock_s05_historical_h0_sequential.json"
+            )
+            stream = historical_stream
+            request_by_sha256 = {
+                str(item["request_sha256"]): item
+                for batch in stream_batches
+                for item in batch
+            }
+            collision_by_request = {
+                str(item["request_sha256"]): str(item["collision_sha256"])
+                for item in stream["requests"]
+            }
+            if set(request_by_sha256) != set(collision_by_request):
+                raise ODEBFContractError(
+                    "P1R20 stream request/collision map differs"
+                )
+            cold_requests = tuple(stream_batches[0])
+            cold_stream = stream
+        elif (
             common_cold_fixed_e8_mode
             or bg_soft_missing_cell_mode
             or universal_observability_cell is not None
@@ -3784,6 +3837,7 @@ def run_p1(
             and not atomic_runtime_optimization_mode
             and not atomic_runtime_conformance_mode
             and scalable_batched_role is None
+            and historical_h0_method is None
         ):
             from .p1_cold_structp_softp_noveto_panel import (
                 cold_schedule,
@@ -3806,17 +3860,18 @@ def run_p1(
             )
             numerical = cold_numerical
             numerical_sha256 = cold_numerical_sha256
-        stream = cold_stream
-        stream_batches = (cold_requests,)
-        request_by_sha256 = {
-            str(item["request_sha256"]): item for item in cold_requests
-        }
-        collision_by_request = {
-            str(item["request_sha256"]): str(item["collision_sha256"])
-            for item in cold_stream["requests"]
-        }
-        if set(request_by_sha256) != set(collision_by_request):
-            raise ODEBFContractError("cold stream request/collision map differs")
+        if historical_h0_method is None:
+            stream = cold_stream
+            stream_batches = (cold_requests,)
+            request_by_sha256 = {
+                str(item["request_sha256"]): item for item in cold_requests
+            }
+            collision_by_request = {
+                str(item["request_sha256"]): str(item["collision_sha256"])
+                for item in cold_stream["requests"]
+            }
+            if set(request_by_sha256) != set(collision_by_request):
+                raise ODEBFContractError("cold stream request/collision map differs")
     stages.record(
         "post_preflight",
         {
@@ -3841,8 +3896,18 @@ def run_p1(
         or atomic_runtime_optimization_mode
         or atomic_runtime_conformance_mode
         or scalable_batched_role is not None
+        or historical_h0_method is not None
     ):
-        if scalable_batched_role is not None:
+        if historical_h0_method is not None:
+            from .p1_strength_preserving_router_panel import (
+                forecast_strength_preserving_panel,
+            )
+            from .p1_common_coldcoord_fixed_e8_panel import (
+                validate_common_cold_runtime_gpu_capacity,
+            )
+
+            forecast_common_cold_panel = forecast_strength_preserving_panel
+        elif scalable_batched_role is not None:
             from .p1_common_coldcoord_fixed_e8_panel import (
                 validate_common_cold_runtime_gpu_capacity,
             )
@@ -4064,7 +4129,58 @@ def run_p1(
         or atomic_runtime_optimization_mode
         or atomic_runtime_conformance_mode
         or scalable_batched_role is not None
+        or historical_h0_method is not None
     ):
+        if historical_h0_method is not None:
+            from easyeditor.models.memit.memit_hparams import MEMITHyperParams
+            from .historical_h0_sequential_runtime import (
+                run_historical_h0_sequential_trajectory,
+            )
+
+            memit_hparams = None
+            if historical_h0_method == "MEMIT":
+                memit_hparams = MEMITHyperParams.from_hparams(
+                    str(artifact_guard.base_guard.hparams)
+                )
+                memit_hparams.device = 0
+                memit_hparams.stats_dir = str(
+                    artifact_guard.easyedit_root / "examples" / "data" / "stats"
+                )
+            return run_historical_h0_sequential_trajectory(
+                model,
+                tokenizer,
+                alias=alias,
+                method=historical_h0_method,
+                destination=destination,
+                raw_root=raw_root,
+                stages=stages,
+                source_head=source_head,
+                stream_batches=stream_batches,
+                stream=stream,
+                hparams=hparams,
+                projector=projector,
+                contexts=contexts,
+                covariance_registry=covariance_registry,
+                projector_sha256=artifact_guard.spec["projector_sha256"],
+                controller_lock=controller_lock,
+                request_by_sha256=request_by_sha256,
+                collision_by_request=collision_by_request,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                theta0_cache=theta0_cache,
+                dataset_path=dataset,
+                mutation_lock=mutation_lock,
+                touched=touched,
+                base_receipt=base_receipt,
+                base_values=base_values,
+                artifact_guard=artifact_guard,
+                artifact_receipt=artifact_receipt,
+                numerical_sha256=numerical_sha256,
+                context_sha256=context_sha256,
+                cuda_runtime_receipt=cuda_runtime_receipt,
+                job_ledger=job_ledger,
+                memit_hparams=memit_hparams,
+            )
         if scalable_batched_role is not None:
             from .p1_scalable_batched_experiment import (
                 run_p1r23_scalable_batched,
