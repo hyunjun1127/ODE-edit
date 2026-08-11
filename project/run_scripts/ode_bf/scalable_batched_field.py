@@ -466,8 +466,12 @@ def scalable_physical_signed_progress(
         0,
         observed.identity_sha256,
         plan.context_sha256,
-        P1R23_CONTEXTS_PER_REQUEST,
-        (1, 5),
+        len(plan.context_ordinals),
+        (
+            (1, 5)
+            if plan.context_ordinals == tuple(range(P1R23_CONTEXTS_PER_REQUEST))
+            else (len(plan.context_ordinals),)
+        ),
         observed.backward_count,
         observed.loss,
     )

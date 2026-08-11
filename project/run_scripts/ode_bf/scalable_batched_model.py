@@ -28,6 +28,7 @@ from .scalable_batched_runtime import (
     StreamingPhysicalCapture,
     accumulate_streaming_capture,
     build_streaming_batch_plan,
+    build_token_budget_streaming_batch_plan,
 )
 from .target_new_nll import (
     RoutingObjective,
@@ -155,6 +156,7 @@ class ScalableObjectivePlan:
     length_bucket_request_order: tuple[int, ...]
     processed_token_count: int
     padded_token_count: int
+    context_ordinals: tuple[int, ...]
     identity_sha256: str
 
     def raw_free_payload(self) -> dict[str, Any]:
@@ -164,6 +166,7 @@ class ScalableObjectivePlan:
             "request_order_sha256": self.request_order_sha256,
             "context_sha256": self.context_sha256,
             "context_count": P1R23_CONTEXTS_PER_REQUEST,
+            "selected_context_ordinals": list(self.context_ordinals),
             "request_microbatch_size": self.request_microbatch_size,
             "llama": self.llama,
             "length_bucket_request_order": list(self.length_bucket_request_order),
@@ -195,6 +198,7 @@ def build_scalable_objective_plan(
     contexts: Sequence[Sequence[str]],
     request_microbatch_size: int,
     fact_token_strategy: str,
+    token_budget: int | None = None,
 ) -> ScalableObjectivePlan:
     """Tokenize the full B objective once and preserve global row ordinals."""
 
@@ -256,10 +260,18 @@ def build_scalable_objective_plan(
                 )
             request_rows[ordinal] = rows
             request_lengths.append(maximum_length)
-        plan = build_streaming_batch_plan(
-            identities,
-            request_lengths,
-            microbatch_size=request_microbatch_size,
+        plan = (
+            build_token_budget_streaming_batch_plan(
+                identities,
+                request_lengths,
+                token_budget=token_budget,
+            )
+            if token_budget is not None
+            else build_streaming_batch_plan(
+                identities,
+                request_lengths,
+                microbatch_size=request_microbatch_size,
+            )
         )
         prepared_batches: list[ScalableObjectiveMicrobatch] = []
         processed_total = 0
@@ -348,7 +360,8 @@ def build_scalable_objective_plan(
         "request_count": request_count,
         "request_order_sha256": request_order,
         "context_sha256": context_sha,
-        "request_microbatch_size": request_microbatch_size,
+        "request_microbatch_size": plan.microbatch_size,
+        "token_budget": plan.token_budget,
         "length_bucket_request_order": list(plan.bucket_order),
         "batch_request_ordinals": [
             list(item.request_ordinals) for item in prepared_batches
@@ -366,12 +379,117 @@ def build_scalable_objective_plan(
         identities,
         request_order,
         context_sha,
-        request_microbatch_size,
+        plan.microbatch_size,
         llama,
         tuple(prepared_batches),
         plan.bucket_order,
         processed_total,
         padded_total,
+        tuple(range(P1R23_CONTEXTS_PER_REQUEST)),
+        canonical_hash(payload),
+    )
+
+
+def select_scalable_objective_contexts(
+    plan: ScalableObjectivePlan,
+    context_ordinals: Sequence[int],
+) -> ScalableObjectivePlan:
+    """Create a zero-tokenization rotating-context view of a full-six plan."""
+
+    selected_contexts = tuple(int(item) for item in context_ordinals)
+    if (
+        plan.context_ordinals != tuple(range(P1R23_CONTEXTS_PER_REQUEST))
+        or not selected_contexts
+        or len(set(selected_contexts)) != len(selected_contexts)
+        or any(item < 0 or item >= P1R23_CONTEXTS_PER_REQUEST for item in selected_contexts)
+    ):
+        raise ODEBFContractError("P1R23 rotating context selection differs")
+    selected_batches: list[ScalableObjectiveMicrobatch] = []
+    processed_total = 0
+    padded_total = 0
+    for batch in plan.batches:
+        prepared = batch.prepared
+        indices = tuple(
+            index
+            for index, context in enumerate(prepared.row_context_ordinals)
+            if context in selected_contexts
+        )
+        expected_rows = len(prepared.request_ordinals) * len(selected_contexts)
+        if len(indices) != expected_rows:
+            raise ODEBFContractError("P1R23 rotating context coverage differs")
+        encoding = {
+            name: value[list(indices)].detach().to(device="cpu").contiguous().clone()
+            for name, value in prepared.encoding.items()
+        }
+        suffix_mask = torch.zeros_like(encoding["attention_mask"], dtype=torch.uint8)
+        row_prefix_lengths = tuple(prepared.row_prefix_lengths[index] for index in indices)
+        row_tokens = tuple(prepared.row_tokens[index] for index in indices)
+        _, left_padding = _left_padding_offsets(encoding, rows=len(indices))
+        for row, (prefix_length, tokens) in enumerate(
+            zip(row_prefix_lengths, row_tokens, strict=True)
+        ):
+            start = left_padding[row] + prefix_length
+            suffix_mask[row, start : start + len(tokens)] = 1
+        subset = _PreparedTargetNewBatch(
+            prepared.request_ordinals,
+            prepared.request_sha256,
+            tuple(prepared.row_request_ordinals[index] for index in indices),
+            tuple(prepared.row_request_sha256[index] for index in indices),
+            row_prefix_lengths,
+            row_tokens,
+            tuple(prepared.row_context_ordinals[index] for index in indices),
+            encoding,
+            _encoding_sha256(encoding),
+        )
+        processed = int(encoding["attention_mask"].sum().item())
+        padded = int(encoding["attention_mask"].numel())
+        processed_total += processed
+        padded_total += padded
+        padded_lookup = tuple(batch.padded_lookup_positions[index] for index in indices)
+        raw_lookup = tuple(batch.raw_lookup_positions[index] for index in indices)
+        selected_batches.append(
+            ScalableObjectiveMicrobatch(
+                subset,
+                padded_lookup,
+                raw_lookup,
+                _tensor_identity(encoding["input_ids"]),
+                _tensor_identity(encoding["attention_mask"]),
+                _tensor_identity(suffix_mask),
+                canonical_hash(
+                    {
+                        "parent_lookup_sha256": batch.lookup_sha256,
+                        "selected_context_ordinals": list(selected_contexts),
+                        "indices": list(indices),
+                    }
+                ),
+            )
+        )
+    payload = {
+        "schema": "ode-edit-s05-p1r23-compute-rotating-objective-plan/v1",
+        "parent_plan_sha256": plan.identity_sha256,
+        "request_order_sha256": plan.request_order_sha256,
+        "selected_context_ordinals": list(selected_contexts),
+        "encoding_sha256": [item.prepared.encoding_sha256 for item in selected_batches],
+        "processed_token_count": processed_total,
+        "padded_token_count": padded_total,
+    }
+    return ScalableObjectivePlan(
+        plan.request_count,
+        plan.request_sha256,
+        plan.request_order_sha256,
+        canonical_hash(
+            {
+                "parent_context_sha256": plan.context_sha256,
+                "selected_context_ordinals": list(selected_contexts),
+            }
+        ),
+        plan.request_microbatch_size,
+        plan.llama,
+        tuple(selected_batches),
+        plan.length_bucket_request_order,
+        processed_total,
+        padded_total,
+        selected_contexts,
         canonical_hash(payload),
     )
 
@@ -595,6 +713,7 @@ def evaluate_scalable_target_new_objective(
                 device=device,
                 llama=plan.llama,
                 context_sha256=plan.context_sha256,
+                expected_context_ordinals=plan.context_ordinals,
             )
             request_sum = torch.stack([item[1] for item in observed]).sum()
             if target_mode:
@@ -733,6 +852,7 @@ def build_scalable_capture_plan(
     contexts: Sequence[Sequence[str]],
     request_microbatch_size: int,
     fact_token_strategy: str,
+    token_budget: int | None = None,
 ) -> ScalableCapturePlan:
     batch, identities, request_order = _request_identities(requests)
     groups = tuple(tuple(group) for group in contexts)
@@ -771,10 +891,18 @@ def build_scalable_capture_plan(
                 maximum = max(maximum, len(ids))
             rows_by_request[ordinal] = rows
             lengths.append(maximum)
-        streaming = build_streaming_batch_plan(
-            identities,
-            lengths,
-            microbatch_size=request_microbatch_size,
+        streaming = (
+            build_token_budget_streaming_batch_plan(
+                identities,
+                lengths,
+                token_budget=token_budget,
+            )
+            if token_budget is not None
+            else build_streaming_batch_plan(
+                identities,
+                lengths,
+                microbatch_size=request_microbatch_size,
+            )
         )
         prepared: list[_CapturePreparedBatch] = []
         for microbatch in streaming.batches:
@@ -935,4 +1063,5 @@ __all__ = [
     "build_scalable_objective_plan",
     "capture_scalable_physical_state",
     "evaluate_scalable_target_new_objective",
+    "select_scalable_objective_contexts",
 ]

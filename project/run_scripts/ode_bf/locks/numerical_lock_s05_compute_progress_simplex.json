@@ -1,0 +1,69 @@
+{
+  "schema_version": "ode-edit-s05-p1r23-compute-progress-simplex-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R23-PROGRESS-SIMPLEX-BF-COMPUTE-A1",
+  "method_id": "P1R23_COMPUTE_AWARE_PROGRESS_SIMPLEX_STRUCTURAL_PH_V1",
+  "parent_scientific_checkpoint": "a343d1f6967ef37763009b92d227ade85cd93de0",
+  "parent_contract_sha256": "64c51538b3299a7426bc3477a5d96d8216b4c78f007771772bb34b435994508d",
+  "compute_addendum_sha256": "d25a3181f8011ce04a56b3bdd6838201fe06d57289944d2d82b973d6f7940375",
+  "layer_order": [4, 5, 6, 7, 8],
+  "scientific_grid": {
+    "K_max": 8,
+    "h": 0.125,
+    "tau_max": 1.0,
+    "retry_count": 0,
+    "backtracking_count": 0,
+    "static_field_reuse_count": 0,
+    "early_stop_threshold_status": "NOT_DEFINED",
+    "minimum_context_cycle_steps": 3
+  },
+  "routing": {
+    "q_definition": "sum_positive_applied_step_physical_slopes",
+    "coefficient_definition": "v_l=q*pi_l/a_l",
+    "neutral_velocity": 1.0,
+    "per_layer_upper_cap_count": 0,
+    "neutral_relative_energy_trust": true,
+    "soft_stage1": "minimize_normalized_max_structural_pretrained_P_and_fixed_rank_H",
+    "soft_stage2": "minimize_capacity_within_structural_risk_tie",
+    "functional_probe_per_step_count": 0,
+    "functional_routing_influence_count": 0,
+    "atomic_h_history_item_count": 0,
+    "atomic_h_decision_influence_count": 0
+  },
+  "physical_slope": {
+    "target_z_context_count": 6,
+    "routing_context_schedule": [[0, 3], [1, 4], [2, 5]],
+    "routing_context_count_per_step": 2,
+    "random_context_selection_count": 0,
+    "heldout_context_access_count": 0
+  },
+  "streaming": {
+    "policy": "LENGTH_BUCKETED_TOKEN_BUDGET",
+    "universal_token_budget": 7200,
+    "oom_retry_count": 0,
+    "global_request_weighting": "UNIFORM_EXACT_ONCE",
+    "selected_context_weighting": "UNIFORM_EXACT_ONCE",
+    "field_model_forward_ceiling": 24
+  },
+  "historical_api": {
+    "atomic_history_empty": true,
+    "fixed_rank_algorithm": "DETERMINISTIC_TRUNCATED_SVD",
+    "rank": "NOT_FROZEN_ATOMIC_PHASE",
+    "commit_after_successful_transaction_only": true,
+    "rollback_update_count": 0,
+    "raw_history_replay_inner_loop_count": 0
+  },
+  "execution": {
+    "batch_size": 10,
+    "models": ["llama3-8b-inst", "qwen2.5-7b-inst"],
+    "allocations": ["RS", "BG"],
+    "arms": ["COMPUTE_SIMPLEX_NEUTRAL", "COMPUTE_SIMPLEX_SOFT"],
+    "trajectory_count": 8,
+    "paired_job_count": 4,
+    "terminal_evaluation_only": true,
+    "native_rerun_count": 0,
+    "B100_access_count": 0,
+    "P1R20_access_count": 0
+  },
+  "root_digest_convention": "sha256_canonical_json_without_root_digest",
+  "root_digest": "504cd1931365750ea07cfb537335c9c923008122065d6dbe79d37b65223cc731"
+}
