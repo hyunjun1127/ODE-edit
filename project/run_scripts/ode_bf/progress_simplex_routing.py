@@ -505,6 +505,7 @@ def _restore_convex_feasibility(
     candidate: np.ndarray,
     feasible_seed: np.ndarray,
     inequality: Callable[[np.ndarray], np.ndarray],
+    inequality_tolerance: np.ndarray | None = None,
 ) -> Any:
     """Restore a finite convex-program candidate to its exact feasible set.
 
@@ -522,19 +523,41 @@ def _restore_convex_feasibility(
     seed = np.asarray(feasible_seed, dtype=np.float64)
     if raw.shape != seed.shape or not np.all(np.isfinite(raw)):
         raise ODEBFContractError("progress simplex feasibility restoration differs")
-    if not np.all(inequality(seed) >= 0.0):
+
+    seed_residual = np.asarray(inequality(seed), dtype=np.float64)
+    tolerance = (
+        np.zeros_like(seed_residual)
+        if inequality_tolerance is None
+        else np.asarray(inequality_tolerance, dtype=np.float64)
+    )
+    if (
+        tolerance.shape != seed_residual.shape
+        or not np.all(np.isfinite(tolerance))
+        or np.any(tolerance < 0.0)
+    ):
+        raise ODEBFContractError("progress simplex feasibility restoration differs")
+
+    def certified_feasible(value: np.ndarray) -> bool:
+        residual = np.asarray(inequality(value), dtype=np.float64)
+        return bool(
+            residual.shape == tolerance.shape
+            and np.all(np.isfinite(residual))
+            and np.all(residual + tolerance >= 0.0)
+        )
+
+    if not certified_feasible(seed):
         raise ODEBFContractError("progress simplex feasibility seed differs")
     low = 0.0
     high = 1.0
     for _ in range(128):
         midpoint = 0.5 * (low + high)
         value = (1.0 - midpoint) * raw + midpoint * seed
-        if np.all(inequality(value) >= 0.0):
+        if certified_feasible(value):
             high = midpoint
         else:
             low = midpoint
     restored = (1.0 - high) * raw + high * seed
-    if not np.all(inequality(restored) >= 0.0):
+    if not certified_feasible(restored):
         raise ODEBFContractError("progress simplex feasibility restoration failed")
     return SimpleNamespace(
         x=restored,
@@ -744,6 +767,10 @@ def _solve_soft(
             candidate=pi2,
             feasible_seed=pi1,
             inequality=stage2_inequality,
+            inequality_tolerance=np.asarray(
+                (SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE, *(0.0 for _ in risks)),
+                dtype=np.float64,
+            ),
         )
         pi2 = np.asarray(stage2.x, dtype=np.float64)
         cert2 = _certificate(

@@ -84,13 +84,13 @@ def expected_historical_h0_result_name(
 ) -> str:
     if method not in METHODS:
         raise ODEBFContractError("Compute-A1 Historical method identity differs")
-    if attempt_namespace not in (None, "tech-r1"):
+    if attempt_namespace not in (None, "tech-r1", "tech-r2"):
         raise ODEBFContractError("Compute-A1 Historical attempt namespace differs")
     base = (
         "s05-p1r23-full6-structural-historical-"
         f"{method.lower().replace('-', '_')}-{alias}"
     )
-    return f"{base}-{'tech-r1-' if attempt_namespace else ''}v1"
+    return f"{base}-{f'{attempt_namespace}-' if attempt_namespace else ''}v1"
 
 
 def _weight_values(parameters: Mapping[str, torch.nn.Parameter]) -> dict[str, torch.Tensor]:

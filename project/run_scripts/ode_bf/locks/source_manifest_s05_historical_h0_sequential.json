@@ -2,14 +2,17 @@
   "schema_version": "ode-edit-s05-p1r23-full6-structural-historical-source-manifest/v1",
   "instruction_id": "ODEEDIT-S05-P1R23-FULL6-STRUCTURAL-HISTORICAL-V1-A1-FULL-MATRIX",
   "historical_implementation_parent": "bfff750fa360899ef11b1d16732274c1f68eee70",
-  "technical_parent_checkpoint": "bfbb7ad9da6b8825852bbb7939ee2e7a1624e88a",
-  "technical_defect": "EMPTY_GENERIC_P1_HISTORY_LEDGER_BOUND_BELOW_FROZEN_MINIMUM",
-  "technical_repair": "SET_EMPTY_SHELL_MAXIMUM_RECORDS_40_AND_DISTINCT_ODE_ONLY_ATTEMPT_NAMESPACE",
+  "technical_parent_checkpoint": "1b8ab5659c922d36e324abe9f055f71b641129cc",
+  "prior_technical_defect": "EMPTY_GENERIC_P1_HISTORY_LEDGER_BOUND_BELOW_FROZEN_MINIMUM",
+  "prior_technical_repair": "SET_EMPTY_SHELL_MAXIMUM_RECORDS_40_AND_DISTINCT_ODE_ONLY_ATTEMPT_NAMESPACE",
+  "technical_defect": "STAGE2_RESTORATION_SEED_USED_STRICT_ZERO_INSTEAD_OF_FROZEN_ENERGY_CERTIFICATE",
+  "technical_repair": "ALIGN_RESTORATION_ENERGY_PREDICATE_TO_EXISTING_1E12_CERTIFICATE_AND_DISTINCT_TASK4_ATTEMPT_NAMESPACE",
+  "failed_job": "18782",
   "accepted_compute_a1_scientific_checkpoint": "794885a48c09046b454b88eee7880e08c390902a",
   "accepted_compute_a1_execution_checkpoint": "f64d0c1221ac0eecc53a1fbb9685a9a23835af0e",
   "fresh_seal_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
   "numerical_lock_root": "40543080713515c0c70131b221cbe2464326d689f992654a4ad22c9e3937f4de",
-  "execution_head_policy": "EXACT_TECH_R1_CHILD_CHECKPOINT_AFTER_FOCUSED_GATES",
+  "execution_head_policy": "EXACT_TECH_R2_CHILD_CHECKPOINT_AFTER_FOCUSED_GATES",
   "scientific_promotion_authorized": false,
   "entries": [
     {
@@ -24,11 +27,11 @@
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "25852dcd6a62ecc4c7f8638700d2e532d8121c4d",
+      "object_id": "c0366cd1a3c7e30673055070be6a06ac7857427e",
       "path": "project/run_scripts/ode_bf/historical_h0_sequential_runtime.py",
       "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "e0260fee426470df07a3fee4a47a15b40d37154fa3af65720b50c1febda8fbd4",
-      "size": 37498
+      "sha256": "eda4b52a2067eb8e01aa60bf99395031c572d966f25da521221a3e9745f48ba3",
+      "size": 37522
     },
     {
       "mode": 33152,
@@ -96,11 +99,11 @@
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "c30a2399604257a1fb55d069ca1c99f424b67f93",
+      "object_id": "bd7348f25aaf68d70059d54531c8719ee9617adb",
       "path": "project/run_scripts/ode_bf/progress_simplex_routing.py",
       "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "11f13db2826d4b977e8c1e962e8d2656555ce3fddafb2a589bb03a14eb1e2fd8",
-      "size": 43427
+      "sha256": "c7ee09e178de2abf9fc4d0445035c76208546f42dedd94928c7474ca8b5dd225",
+      "size": 44389
     },
     {
       "mode": 33152,
@@ -222,20 +225,20 @@
     {
       "mode": 33216,
       "object_algorithm": "sha1",
-      "object_id": "930b74a9ccafee19f34cfe2ba95318f1938db34a",
+      "object_id": "dcbd58669790e4a3b374163a63f3f6a41fed6eee",
       "path": "project/run_scripts/session05_ode_bf_historical_h0_sequential.py",
       "role": "SESSION_RUNTIME_OR_LAUNCHER",
-      "sha256": "f8452ca2ce048e3961ce0a2d12548d1694b8dc1203e5ce26374ef04e8663d88d",
-      "size": 2574
+      "sha256": "003efedf17e55f899671a585d85fc35e8b51fb2b1de7f0895c15fcedb4d26227",
+      "size": 2804
     },
     {
       "mode": 33216,
       "object_algorithm": "sha1",
-      "object_id": "d6a524283af3968712d57af75418cf25587dd0d7",
+      "object_id": "dd164adcb815f34faa81ef658706fe5c0b47d2f6",
       "path": "project/run_scripts/session05_ode_bf_historical_h0_sequential.sbatch",
       "role": "SESSION_RUNTIME_OR_LAUNCHER",
-      "sha256": "5d0b7c8f79a2d41b4ec9f7f99577b9a306016e395979d46a4b6063b4463460de",
-      "size": 2874
+      "sha256": "1502c15d763fd74db353bf02e439629e6ee73f013d19779b831ef870c95a88d9",
+      "size": 3147
     },
     {
       "mode": 33216,
@@ -249,29 +252,29 @@
     {
       "mode": 33216,
       "object_algorithm": "sha1",
-      "object_id": "e4a807f162e7f4dddabd8bf494edcf805f2b2ae2",
+      "object_id": "703c0ba74080c22cb64916645460485084b2d791",
       "path": "project/run_scripts/session05_ode_bf_submit_historical_h0_sequential.py",
       "role": "SESSION_RUNTIME_OR_LAUNCHER",
-      "sha256": "20363e09fdc21ea0ae003aef42ced8e46ba20dc44d60b61f2e0050e39cb94110",
-      "size": 6941
+      "sha256": "f57bb34302d9869f8fec00de4d7068a8666840fb363402abc0e074ca405d58cd",
+      "size": 11415
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "c4061a5099ecd88060efcb11d8fcd13fb856d3cb",
+      "object_id": "3c846e3c36a00476fa391c1f25e9c192ea98f265",
       "path": "project/run_scripts/ode_bf/tests/test_historical_h0_sequential.py",
       "role": "FOCUSED_TEST",
-      "sha256": "22b4ab3ba7dc64a9e0ec2a94ca9a91d795d51d6d5a6b5855af3819b0cbfc7920",
-      "size": 11177
+      "sha256": "e534c94efb9ac497e9c2de17a53b2d3d614133d5196a0d89b74efe57cd8f277e",
+      "size": 11477
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "c0294d441a4dd9666b7bc1b654f572034b812652",
+      "object_id": "92d564ada888572047403a622b984a82bed4380e",
       "path": "project/run_scripts/ode_bf/tests/test_compute_progress_simplex.py",
       "role": "FOCUSED_TEST",
-      "sha256": "90c10f468bff35f36183e4bdfcde39ff32ce4fdeba2a698503be78040d4869d8",
-      "size": 11066
+      "sha256": "f23f8cdc741d6855982fd1903b1cc8a2fde95def4c0ab3209083f8b8b4e1ddd4",
+      "size": 12365
     },
     {
       "mode": 33152,
@@ -284,7 +287,7 @@
     }
   ],
   "entry_count": 30,
-  "technical_launcher_parent_checkpoint": "b634219228710ff036c60b6289f049de2318d034",
-  "initial_cap_aware_throttle": "2_REPLACEMENT_PLUS_2_PRESERVED_ALPHA_EQUALS_CAP4",
-  "root_digest": "ed8fba81967b329c562b0842e3aaae3d577ecaae07ccc7e8290f4c184bbee3b9"
+  "technical_launcher_parent_checkpoint": "1b8ab5659c922d36e324abe9f055f71b641129cc",
+  "initial_cap_aware_throttle": "3_ORIGINAL_ARRAY_PLUS_1_TASK4_REPLACEMENT_EQUALS_CAP4",
+  "root_digest": "d3392c3be0efb1f6c1df8ea48a8f58c34d2827e42d27f1d2e45938b70cdbbf86"
 }

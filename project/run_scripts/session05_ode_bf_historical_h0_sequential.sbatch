@@ -15,11 +15,16 @@ umask 077
 readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
+readonly ATTEMPT_NAMESPACE="${3:-}"
 readonly EXPECTED_SESSION="019fe489-c968-75f3-9965-7cfbc26c0a99"
-readonly RUN_TOKEN="p1r23-full6-structural-historical-a1-tech-r1-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 
-[[ "$#" -eq 2 ]] || { echo "P1R23 Full-6 Historical requires source and result parent" >&2; exit 2; }
+[[ "$#" -eq 3 ]] || { echo "P1R23 Full-6 Historical requires source, result parent and attempt" >&2; exit 2; }
+case "${ATTEMPT_NAMESPACE}" in
+  tech-r1) readonly RUN_TOKEN="p1r23-full6-structural-historical-a1-tech-r1-v1" ;;
+  tech-r2) readonly RUN_TOKEN="p1r23-full6-structural-historical-a1-tech-r2-v1" ;;
+  *) echo "P1R23 Full-6 Historical attempt differs" >&2; exit 2 ;;
+esac
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R23 Full-6 Historical CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P1R23 Full-6 Historical source differs" >&2; exit 2; }
 [[ "$(git branch --show-current)" == "codex/p1r23-compute-a1-historical" ]] || { echo "P1R23 Full-6 Historical branch differs" >&2; exit 2; }
@@ -32,7 +37,7 @@ readonly METHODS=(BG-COMPUTE-FULL6-NOSOFT BG-COMPUTE-FULL6-SOFT RS-COMPUTE-FULL6
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
 readonly METHOD="${METHODS[${SLURM_ARRAY_TASK_ID}]}"
 readonly METHOD_SLUG="${METHOD,,}"
-readonly RESULT_NAME="s05-p1r23-full6-structural-historical-${METHOD_SLUG//-/_}-${MODEL}-tech-r1-v1"
+readonly RESULT_NAME="s05-p1r23-full6-structural-historical-${METHOD_SLUG//-/_}-${MODEL}-${ATTEMPT_NAMESPACE}-v1"
 readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULT_NAME}"
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R23 Full-6 Historical output exists" >&2; exit 2; }
 
@@ -51,4 +56,4 @@ exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-
   python -m project.run_scripts.session05_ode_bf_historical_h0_sequential \
   --model "${MODEL}" --method "${METHOD}" --output-root "${OUTPUT_ROOT}" \
   --source-head "${SOURCE_HEAD}" --run-token "${RUN_TOKEN}" \
-  --attempt-namespace tech-r1
+  --attempt-namespace "${ATTEMPT_NAMESPACE}"

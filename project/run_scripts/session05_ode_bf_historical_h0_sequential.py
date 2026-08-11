@@ -26,7 +26,10 @@ from project.run_scripts.ode_bf.p1_runtime import (
 )
 
 
-RUN_TOKEN = "p1r23-full6-structural-historical-a1-tech-r1-v1"
+RUN_TOKENS = {
+    "tech-r1": "p1r23-full6-structural-historical-a1-tech-r1-v1",
+    "tech-r2": "p1r23-full6-structural-historical-a1-tech-r2-v1",
+}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -35,9 +38,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--method", required=True, choices=METHODS)
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
-    parser.add_argument("--attempt-namespace", required=True, choices=("tech-r1",))
+    parser.add_argument("--run-token", required=True, choices=tuple(RUN_TOKENS.values()))
+    parser.add_argument("--attempt-namespace", required=True, choices=tuple(RUN_TOKENS))
     args = parser.parse_args(argv)
+    if RUN_TOKENS[args.attempt_namespace] != args.run_token:
+        parser.error("run token and attempt namespace differ")
     try:
         result = run_p1(
             repo_root=REPO_ROOT,

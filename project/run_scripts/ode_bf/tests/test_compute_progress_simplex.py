@@ -204,6 +204,35 @@ class ComputeProgressSimplexTests(unittest.TestCase):
                     alpha_req=1.5,
                 )
 
+    def test_restoration_uses_existing_energy_certificate_only(self) -> None:
+        candidate = np.asarray((1.0,), dtype=np.float64)
+        seed = np.asarray((0.0,), dtype=np.float64)
+
+        def energy_boundary(value: np.ndarray) -> np.ndarray:
+            return np.asarray((-5.0e-13 - 2.0e-12 * value[0], 1.0), dtype=np.float64)
+
+        restored = progress_simplex_routing._restore_convex_feasibility(
+            candidate=candidate,
+            feasible_seed=seed,
+            inequality=energy_boundary,
+            inequality_tolerance=np.asarray((1.0e-12, 0.0), dtype=np.float64),
+        )
+        residual = energy_boundary(np.asarray(restored.x, dtype=np.float64))
+        self.assertGreaterEqual(residual[0], -1.0e-12)
+        self.assertGreaterEqual(residual[1], 0.0)
+
+        def invalid_risk_seed(value: np.ndarray) -> np.ndarray:
+            del value
+            return np.asarray((0.0, -1.0e-15), dtype=np.float64)
+
+        with self.assertRaisesRegex(ODEBFContractError, "feasibility seed"):
+            progress_simplex_routing._restore_convex_feasibility(
+                candidate=candidate,
+                feasible_seed=seed,
+                inequality=invalid_risk_seed,
+                inequality_tolerance=np.asarray((1.0e-12, 0.0), dtype=np.float64),
+            )
+
     def test_lock_roles_and_static_compute_boundary(self) -> None:
         lock, _ = load_rooted_json(
             ROOT / "project/run_scripts/ode_bf/locks/numerical_lock_s05_compute_progress_simplex.json",
