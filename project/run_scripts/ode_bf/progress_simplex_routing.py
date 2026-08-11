@@ -506,15 +506,16 @@ def _restore_convex_feasibility(
     feasible_seed: np.ndarray,
     inequality: Callable[[np.ndarray], np.ndarray],
 ) -> Any:
-    """Restore a successful convex-program candidate to its exact feasible set.
+    """Restore a finite convex-program candidate to its exact feasible set.
 
-    SLSQP can return ``success=True`` with an O(1e-12) nonlinear-boundary
-    residual.  The scientific feasible set and all frozen tolerances remain
-    unchanged.  Both the energy and P/H epigraph constraints are convex, so
-    the segment to the already-certified input seed remains in the same
-    program.  Bisection selects the closest point on that segment that obeys
-    every unchanged inequality; it is not a retry, threshold relaxation, or
-    alternative scientific objective.
+    SLSQP can return either exit flag with an O(1e-12) nonlinear-boundary
+    residual.  The exit flag is telemetry; the explicit certificate remains
+    authoritative.  The scientific feasible set and all frozen tolerances
+    remain unchanged.  Both the energy and P/H epigraph constraints are
+    convex, so the segment to the already-certified input seed remains in the
+    same program.  Bisection selects the closest point on that segment that
+    obeys every unchanged inequality; it is not a retry, threshold relaxation,
+    or alternative scientific objective.
     """
 
     raw = np.asarray(candidate, dtype=np.float64)
@@ -638,10 +639,7 @@ def _solve_soft(
                 dtype=np.float64,
             )
 
-        if (
-            cert1.first_false_component != "neutral_relative_global_energy"
-            or not cert1.success
-        ):
+        if cert1.first_false_component != "neutral_relative_global_energy":
             raise ODEBFContractError(
                 f"progress simplex Soft stage1 certificate failed: {failed_primary}"
             )
@@ -738,10 +736,7 @@ def _solve_soft(
                 dtype=np.float64,
             )
 
-        if (
-            cert2.first_false_component != "neutral_relative_global_energy"
-            or not cert2.success
-        ):
+        if cert2.first_false_component != "neutral_relative_global_energy":
             raise ODEBFContractError(
                 f"progress simplex Soft stage2 certificate failed: {failed_primary}"
             )

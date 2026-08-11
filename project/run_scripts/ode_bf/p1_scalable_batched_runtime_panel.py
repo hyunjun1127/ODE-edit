@@ -56,6 +56,11 @@ P1R23_EXECUTION_ROLES = (
 P1R23_FORECAST_SECONDS = 86_000
 P1R23_ALLOCATION_SECONDS = 86_340
 P1R23_COMPUTE_A1_TECH_R2_ATTEMPT = "compute-a1-tech-r2-v1"
+P1R23_COMPUTE_A1_TECH_R3_ATTEMPT = "compute-a1-tech-r3-v1"
+P1R23_COMPUTE_A1_ATTEMPT_NAMESPACES = (
+    P1R23_COMPUTE_A1_TECH_R2_ATTEMPT,
+    P1R23_COMPUTE_A1_TECH_R3_ATTEMPT,
+)
 
 
 def forecast_p1r23_panel(
@@ -145,7 +150,7 @@ def expected_p1r23_result_name(
     )
     if attempt_namespace is not None:
         if (
-            attempt_namespace != P1R23_COMPUTE_A1_TECH_R2_ATTEMPT
+            attempt_namespace not in P1R23_COMPUTE_A1_ATTEMPT_NAMESPACES
             or not role.startswith("COMPUTE_PROGRESS_SIMPLEX_")
             or routing_arm is not None
         ):

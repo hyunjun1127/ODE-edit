@@ -26,7 +26,7 @@ from project.run_scripts.ode_bf.p1_runtime import (
     write_p1_failure_once,
 )
 from project.run_scripts.ode_bf.p1_scalable_batched_runtime_panel import (
-    P1R23_COMPUTE_A1_TECH_R2_ATTEMPT,
+    P1R23_COMPUTE_A1_ATTEMPT_NAMESPACES,
 )
 
 
@@ -59,7 +59,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
     parser.add_argument(
         "--attempt-namespace",
-        choices=(P1R23_COMPUTE_A1_TECH_R2_ATTEMPT,),
+        choices=P1R23_COMPUTE_A1_ATTEMPT_NAMESPACES,
     )
     args = parser.parse_args(argv)
     if len(args.source_head) != 40:

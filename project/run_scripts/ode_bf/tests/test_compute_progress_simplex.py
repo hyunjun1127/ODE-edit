@@ -30,6 +30,7 @@ from project.run_scripts.ode_bf.scalable_batched_runtime import (
 )
 from project.run_scripts.ode_bf.p1_scalable_batched_runtime_panel import (
     P1R23_COMPUTE_A1_TECH_R2_ATTEMPT,
+    P1R23_COMPUTE_A1_TECH_R3_ATTEMPT,
     expected_p1r23_result_name,
 )
 
@@ -157,6 +158,34 @@ class ComputeProgressSimplexTests(unittest.TestCase):
 
         real_minimize = progress_simplex_routing.minimize
 
+        def nonauthoritative_exit_flag(*args: object, **kwargs: object) -> object:
+            result = real_minimize(*args, **kwargs)
+            if kwargs.get("method") == "SLSQP":
+                result.success = False
+                result.status = 8
+                result.message = "positive directional derivative telemetry"
+            return result
+
+        with mock.patch.object(
+            progress_simplex_routing,
+            "minimize",
+            side_effect=nonauthoritative_exit_flag,
+        ):
+            flagged = solve_progress_simplex_routing(
+                self._boundary_problem(),
+                inventory,
+                arm=FixedE8Arm.SOFT,
+                alpha_req=1.5,
+            )
+        flagged_stage1 = flagged.certificates[1]
+        self.assertTrue(flagged_stage1.passed)
+        self.assertEqual(flagged_stage1.fallback_invocation_count, 1)
+        self.assertFalse(flagged_stage1.failed_primary_certificate["success"])
+        self.assertEqual(
+            flagged_stage1.failed_primary_certificate["first_false_component"],
+            "neutral_relative_global_energy",
+        )
+
         def malformed_primary(*args: object, **kwargs: object) -> object:
             result = real_minimize(*args, **kwargs)
             if kwargs.get("method") == "SLSQP":
@@ -219,6 +248,14 @@ class ComputeProgressSimplexTests(unittest.TestCase):
                 role="PROGRESS_SIMPLEX_BG_PAIR",
                 attempt_namespace=P1R23_COMPUTE_A1_TECH_R2_ATTEMPT,
             )
+        self.assertTrue(
+            expected_p1r23_result_name(
+                "llama3-8b-inst",
+                batch_size=10,
+                role="COMPUTE_PROGRESS_SIMPLEX_BG_PAIR",
+                attempt_namespace=P1R23_COMPUTE_A1_TECH_R3_ATTEMPT,
+            ).endswith("compute-a1-tech-r3-v1")
+        )
 
 
 if __name__ == "__main__":
