@@ -48,6 +48,8 @@ from .fixed_e8_soft_routing import (
     FixedE8Clock,
     FixedE8Stage2FailurePolicy,
     FixedE8StepMode,
+    FixedE8SoftInventory,
+    FunctionalBasisMetric,
     _maximum_progress,
     solve_fixed_e8_routing,
 )
@@ -580,6 +582,7 @@ def _build_common_field(
     typed_zero_positive: bool = False,
     observability_contract: Mapping[str, Any] | None = None,
     strength_preserving: bool = False,
+    sequential_lightweight: bool = False,
 ) -> tuple[
     Any,
     Any,
@@ -592,6 +595,10 @@ def _build_common_field(
     Mapping[str, Any],
     Mapping[str, Any],
 ]:
+    if sequential_lightweight and not strength_preserving:
+        raise ODEBFContractError(
+            "sequential lightweight field is restricted to strength-preserving routing"
+        )
     before = _parameter_contract_sha256(touched)
     before_history = history.snapshot().digest
     before_sampler = schedule.state_digest
@@ -726,25 +733,64 @@ def _build_common_field(
         nohook_p_max = None
         nohook_certificate_payload = None
     factor_state = _factor_state(capture.entry_sha256, current_factors, current_target)
-    inventory, probe = legacy._fixed_e8_functional_basis_probe(
-        model,
-        tokenizer,
-        alias=alias,
-        field=field,
-        step_index=step_index,
-        factors=current_factors,
-        target_state=current_target,
-        capture=capture,
-        replay_entry=replay_entry,
-        theta0_cache=theta0_cache,
-        lock=lock,
-        ledger=ledger,
-        touched=touched,
-        history=history,
-        schedule=schedule,
-        factor_state_sha256=factor_state,
-        field_semantic_sha256=semantic["semantic_identity_sha256"],
-    )
+    if sequential_lightweight:
+        history_count = len(history.snapshot().active_records)
+        zero_endpoints = (0.0,) * len(COMMON_COLD_LAYER_ORDER)
+        inactive_reason = None if history_count else "INACTIVE_EMPTY_HISTORY"
+        inventory = FixedE8SoftInventory(
+            FunctionalBasisMetric("functional_p", 0.0, zero_endpoints, True),
+            FunctionalBasisMetric(
+                "functional_h_mean",
+                0.0,
+                zero_endpoints,
+                history_count > 0,
+                inactive_reason,
+            ),
+            FunctionalBasisMetric(
+                "functional_h_smoothmax",
+                0.0,
+                zero_endpoints,
+                history_count > 0,
+                inactive_reason,
+            ),
+            history_count,
+            ordered_request_digest_v1(
+                [str(item["request_sha256"]) for item in requests]
+            ),
+            field.identity_sha256,
+        )
+        probe = {
+            "schema": "ode-edit-s05-p1r20-no-inner-functional-probe/v1",
+            "status": "REMOVED_BY_SEQUENTIAL_COMPUTE_CONTRACT",
+            "basis_endpoint_count": 0,
+            "model_forward_count": 0,
+            "backward_count": 0,
+            "history_item_count": history_count,
+            "field_semantic_sha256": semantic["semantic_identity_sha256"],
+            "controller_decision_influence_count": 0,
+            "wall_seconds": 0.0,
+        }
+        probe["identity_sha256"] = canonical_hash(probe)
+    else:
+        inventory, probe = legacy._fixed_e8_functional_basis_probe(
+            model,
+            tokenizer,
+            alias=alias,
+            field=field,
+            step_index=step_index,
+            factors=current_factors,
+            target_state=current_target,
+            capture=capture,
+            replay_entry=replay_entry,
+            theta0_cache=theta0_cache,
+            lock=lock,
+            ledger=ledger,
+            touched=touched,
+            history=history,
+            schedule=schedule,
+            factor_state_sha256=factor_state,
+            field_semantic_sha256=semantic["semantic_identity_sha256"],
+        )
     target_demand_receipt: Mapping[str, Any] | None = None
     if strength_preserving:
         target_started = time.perf_counter()
@@ -772,6 +818,7 @@ def _build_common_field(
             inventory,
             arm=arm.routing_arm,
             alpha_req=alpha_req,
+            structural_only=sequential_lightweight,
         )
         solve_wall = time.perf_counter() - solve_started
         router_counter_delta = {
@@ -1274,7 +1321,17 @@ def _run_common_arm(
     record_six_context_objectives: bool = False,
     observability_contract: Mapping[str, Any] | None = None,
     strength_preserving: bool = False,
+    sequential_lightweight: bool = False,
 ) -> tuple[legacy.FixedE8Rollout, dict[str, Any]]:
+    if sequential_lightweight and (
+        not strength_preserving
+        or typed_zero_positive
+        or record_six_context_objectives
+        or observability_contract is not None
+    ):
+        raise ODEBFContractError(
+            "sequential lightweight arm crossed its production-only boundary"
+        )
     clock = FixedE8Clock()
     history = arm_state.history
     ledger = arm_state.ledger
@@ -1314,8 +1371,26 @@ def _run_common_arm(
         if record_six_context_objectives
         else None
     )
-    entry_eval = _evaluate_rewrite(
-        model, tokenizer, requests, alias=alias, factors=current_factors, ledger=ledger
+    entry_eval = (
+        None
+        if sequential_lightweight
+        else _evaluate_rewrite(
+            model,
+            tokenizer,
+            requests,
+            alias=alias,
+            factors=current_factors,
+            ledger=ledger,
+        )
+    )
+    entry_success_payload: dict[str, Any] = (
+        {
+            "status": "NOT_EVALUATED_INNER_K_REMOVED",
+            "model_forward_count": 0,
+            "decision_influence_count": 0,
+        }
+        if entry_eval is None
+        else entry_eval.batch_success.raw_free_payload()
     )
     snapshots: list[legacy.FixedE8Snapshot] = []
     first_hit = legacy.FixedE8HitTracker()
@@ -1332,17 +1407,21 @@ def _run_common_arm(
     authoritative_weight_write_count = 0
     for step_index in range(FIXED_E8_GRID_COUNT):
         point = clock.begin_field()
-        replay_entry = _controller_replay_entry(
-            model,
-            tokenizer,
-            alias=alias,
-            arm_state=arm_state,
-            sample_waypoint=step_index + 1,
-            factors=current_factors,
-            request_by_sha256=request_by_sha256,
-            population_by_sha256=population_by_sha256,
-            schedule=schedule,
-            outer_entry_p_cache=outer_entry_p_cache,
+        replay_entry = (
+            None
+            if sequential_lightweight
+            else _controller_replay_entry(
+                model,
+                tokenizer,
+                alias=alias,
+                arm_state=arm_state,
+                sample_waypoint=step_index + 1,
+                factors=current_factors,
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                outer_entry_p_cache=outer_entry_p_cache,
+            )
         )
         field_wall_started = time.perf_counter()
         (
@@ -1387,6 +1466,7 @@ def _run_common_arm(
             typed_zero_positive=typed_zero_positive,
             observability_contract=observability_contract,
             strength_preserving=strength_preserving,
+            sequential_lightweight=sequential_lightweight,
         )
         field_wall = time.perf_counter() - field_wall_started
         if strength_preserving:
@@ -1690,38 +1770,50 @@ def _run_common_arm(
                 "p1r19_edit_core_candidate_write_realization",
                 wall_seconds=candidate_core_wall,
             )
-        functional_started = time.perf_counter()
-        functional = _functional_trial(
-            model,
-            tokenizer,
-            alias=alias,
-            entry=replay_entry,
-            theta0_cache=theta0_cache,
-            factors=candidate_factors,
-            lock=lock,
-            ledger=ledger,
-        )
-        functional_trial_wall = time.perf_counter() - functional_started
-        if strength_preserving:
-            ledger.add_time(
-                "p1r19_functional_probe",
-                wall_seconds=functional_trial_wall,
+        if sequential_lightweight:
+            functional = None
+            functional_trial_wall = 0.0
+            evaluation = None
+            online_eval_wall = 0.0
+            evaluation_payload: dict[str, Any] = {
+                "status": "NOT_EVALUATED_INNER_K_REMOVED",
+                "model_forward_count": 0,
+                "decision_influence_count": 0,
+            }
+        else:
+            functional_started = time.perf_counter()
+            functional = _functional_trial(
+                model,
+                tokenizer,
+                alias=alias,
+                entry=replay_entry,
+                theta0_cache=theta0_cache,
+                factors=candidate_factors,
+                lock=lock,
+                ledger=ledger,
             )
-        online_eval_started = time.perf_counter()
-        evaluation = _evaluate_rewrite(
-            model,
-            tokenizer,
-            requests,
-            alias=alias,
-            factors=candidate_factors,
-            ledger=ledger,
-        )
-        online_eval_wall = time.perf_counter() - online_eval_started
-        if strength_preserving:
-            ledger.add_time(
-                "p1r19_online_efficacy_observation",
-                wall_seconds=online_eval_wall,
+            functional_trial_wall = time.perf_counter() - functional_started
+            if strength_preserving:
+                ledger.add_time(
+                    "p1r19_functional_probe",
+                    wall_seconds=functional_trial_wall,
+                )
+            online_eval_started = time.perf_counter()
+            evaluation = _evaluate_rewrite(
+                model,
+                tokenizer,
+                requests,
+                alias=alias,
+                factors=candidate_factors,
+                ledger=ledger,
             )
+            online_eval_wall = time.perf_counter() - online_eval_started
+            evaluation_payload = evaluation.batch_success.raw_free_payload()
+            if strength_preserving:
+                ledger.add_time(
+                    "p1r19_online_efficacy_observation",
+                    wall_seconds=online_eval_wall,
+                )
         snapshot_sha = _factor_state(capture.entry_sha256, candidate_factors, target_trial)
         factor_state = _factor_state(capture.entry_sha256, current_factors, current_target)
         capacity = legacy._fixed_capacity_payload(
@@ -1773,13 +1865,31 @@ def _run_common_arm(
                 "decision_influence_count": 0 if strength_preserving else 1,
             },
             "functional_h": {
-                **_risk_payload(functional.historical),
+                **(
+                    _risk_payload(functional.historical)
+                    if functional is not None
+                    else {
+                        "status": "NOT_EVALUATED_INNER_K_REMOVED",
+                        "model_forward_count": 0,
+                        "passed": True,
+                        "value": None,
+                    }
+                ),
                 "status": "INACTIVE_EMPTY_HISTORY",
                 "role": "UNCALIBRATED_OBSERVATION_ONLY",
                 "decision_influence_count": 0,
             },
             "functional_p": {
-                **_risk_payload(functional.pretrained),
+                **(
+                    _risk_payload(functional.pretrained)
+                    if functional is not None
+                    else {
+                        "status": "NOT_EVALUATED_INNER_K_REMOVED",
+                        "model_forward_count": 0,
+                        "passed": True,
+                        "value": None,
+                    }
+                ),
                 "status": "ACTIVE_OBSERVATION_ONLY",
                 "role": "UNCALIBRATED_OBSERVATION_ONLY",
                 "decision_influence_count": 0,
@@ -2015,7 +2125,7 @@ def _run_common_arm(
                 "routing": routing_payload,
                 "progress": progress_payload,
                 "structural_functional": structural_payload,
-                "official_success": evaluation.batch_success.raw_free_payload(),
+                "official_success": evaluation_payload,
                 "snapshot_sha256": snapshot_sha,
                 "capacity_sha256": capacity["identity_sha256"],
                 "accepted": True,
@@ -2044,22 +2154,27 @@ def _run_common_arm(
                 )
             authoritative_weight_write_count += 1
         ledger.record_accepted_step(accepted_dt=float(FIXED_E8_H), completed_k_total=step_index + 1)
-        hit = legacy.FixedE8HitRecord(
-            step_index + 1,
-            point.tau_after,
-            snapshot_sha,
-            evaluation.batch_success.numerator,
-            feasibility.all_pass,
+        hit = (
+            None
+            if evaluation is None
+            else legacy.FixedE8HitRecord(
+                step_index + 1,
+                point.tau_after,
+                snapshot_sha,
+                evaluation.batch_success.numerator,
+                feasibility.all_pass,
+            )
         )
-        first_hit.append(hit)
-        first_observed = first_hit.first_online is hit
+        if hit is not None:
+            first_hit.append(hit)
+        first_observed = hit is not None and first_hit.first_online is hit
         accepted_sha = recorder.accepted(
             {
                 "accepted_index": step_index + 1,
                 "tau_after": fraction_payload(point.tau_after),
                 "transition_sha256": transition_sha,
                 "snapshot_sha256": snapshot_sha,
-                "official_success": evaluation.batch_success.raw_free_payload(),
+                "official_success": evaluation_payload,
                 "structural_functional": structural_payload,
                 "progress": progress_payload,
                 "routing": routing_payload,
@@ -2068,7 +2183,7 @@ def _run_common_arm(
                 "first_hit_decision_influence_count": 0,
             }
         )
-        if first_observed:
+        if first_observed and hit is not None:
             recorder.first_hit(
                 {
                     "accepted_index": step_index + 1,
@@ -2098,7 +2213,15 @@ def _run_common_arm(
                 accepted_sha,
                 {
                     "policy": "OBSERVATION_ONLY",
-                    "observation": _risk_payload(functional.pretrained),
+                    "observation": (
+                        _risk_payload(functional.pretrained)
+                        if functional is not None
+                        else {
+                            "status": "NOT_EVALUATED_INNER_K_REMOVED",
+                            "model_forward_count": 0,
+                            "decision_influence_count": 0,
+                        }
+                    ),
                     "decision_influence_count": 0,
                 },
             )
@@ -2132,7 +2255,11 @@ def _run_common_arm(
                 "arm": arm.value,
                 "step": step_index + 1,
                 "tau": float(point.tau_after),
-                "success_count": evaluation.batch_success.numerator,
+                "success_count": (
+                    None
+                    if evaluation is None
+                    else evaluation.batch_success.numerator
+                ),
                 "p_max": routing.p_max,
                 "selected_solution_source": routing.selected_solution_source,
                 "stage1_fallback_count": routing.stage1_selection_fallback_count,
@@ -2232,23 +2359,27 @@ def _run_common_arm(
                 boundary_payload,
             )
         )
-    terminal_confirmations = _terminal_confirm_snapshots(
-        model,
-        tokenizer,
-        alias=alias,
-        arm_state=arm_state,
-        snapshots=snapshots,
-        request_by_sha256=request_by_sha256,
-        population_by_sha256=population_by_sha256,
-        schedule=schedule,
-        outer_entry_p_cache=outer_entry_p_cache,
-        theta0_cache=theta0_cache,
-        lock=lock,
-        ledger=ledger,
-        recorder=recorder,
-        trajectory_complete=trajectory_complete,
-        functional_p_policy=FunctionalPDecisionPolicy.OBSERVATION_ONLY,
-        preservation_policy=PreservationConstraintPolicy.OBSERVATION_ONLY,
+    terminal_confirmations = (
+        []
+        if sequential_lightweight
+        else _terminal_confirm_snapshots(
+            model,
+            tokenizer,
+            alias=alias,
+            arm_state=arm_state,
+            snapshots=snapshots,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            outer_entry_p_cache=outer_entry_p_cache,
+            theta0_cache=theta0_cache,
+            lock=lock,
+            ledger=ledger,
+            recorder=recorder,
+            trajectory_complete=trajectory_complete,
+            functional_p_policy=FunctionalPDecisionPolicy.OBSERVATION_ONLY,
+            preservation_policy=PreservationConstraintPolicy.OBSERVATION_ONLY,
+        )
     )
     omega_changed = _omega_state(accepted_by_layer) != entry_omega
     if (
@@ -2256,7 +2387,6 @@ def _run_common_arm(
         or history.snapshot().digest != before_history
         or schedule.state_digest != before_sampler
         or legacy._rng_identity() != before_rng
-        or history.version != 0
         or omega_changed != bool(authoritative_weight_write_count)
     ):
         raise ODEBFStateError("common cold rollout state/purity differs")
@@ -2275,7 +2405,9 @@ def _run_common_arm(
         "actual_optimizer_backend_invocation_count": total_backend,
         "actual_solver_backend_fallback_count": total_solver_fallback,
         "actual_certified_stage1_selection_fallback_count": total_stage1_fallback,
-        "functional_basis_endpoint_count": 6 * clock.field_count,
+        "functional_basis_endpoint_count": (
+            0 if sequential_lightweight else 6 * clock.field_count
+        ),
         "candidate_count": len(snapshots),
         "field_count": clock.field_count,
     }
@@ -2322,7 +2454,7 @@ def _run_common_arm(
         "field_build_count": clock.field_count,
         "operation_accounting": operation_accounting,
         "clock": clock_payload,
-        "entry_success": entry_eval.batch_success.raw_free_payload(),
+        "entry_success": entry_success_payload,
         "online_first_hit": None if first_hit.first_online is None else {
             "accepted_index": first_hit.first_online.accepted_index,
             "tau": fraction_payload(first_hit.first_online.tau),
@@ -2400,7 +2532,7 @@ def _run_common_arm(
         first_hit,
         recorder,
         ledger,
-        entry_eval.batch_success.raw_free_payload(),
+        entry_success_payload,
         terminal_confirmations,
         rollout_sha,
         arm.value,
