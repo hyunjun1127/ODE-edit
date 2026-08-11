@@ -23,6 +23,7 @@ readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 case "${ATTEMPT_NAMESPACE}" in
   tech-r1) readonly RUN_TOKEN="p1r23-full6-structural-historical-a1-tech-r1-v1" ;;
   tech-r2) readonly RUN_TOKEN="p1r23-full6-structural-historical-a1-tech-r2-v1" ;;
+  tech-r3) readonly RUN_TOKEN="p1r23-full6-structural-historical-a1-tech-r3-v1" ;;
   *) echo "P1R23 Full-6 Historical attempt differs" >&2; exit 2 ;;
 esac
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R23 Full-6 Historical CWD differs" >&2; exit 2; }

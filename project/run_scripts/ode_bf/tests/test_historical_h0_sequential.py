@@ -119,6 +119,12 @@ class Full6StructuralHistoricalTest(unittest.TestCase):
         self.assertTrue(
             all(job["result_name"].endswith("-tech-r2-v1") for job in repair_r2["jobs"])
         )
+        repair_r3 = dry.build_plan(
+            "2" * 40, attempt_namespace="tech-r3", include_alpha=False
+        )
+        self.assertTrue(
+            all(job["result_name"].endswith("-tech-r3-v1") for job in repair_r3["jobs"])
+        )
 
     def test_full_six_global_weighting_is_partition_invariant(self) -> None:
         per_request = (1.0, 2.0, 4.0, 8.0, 16.0)

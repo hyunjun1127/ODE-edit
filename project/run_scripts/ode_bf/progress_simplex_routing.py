@@ -408,6 +408,27 @@ def _full_velocity(
     return value
 
 
+def _simplex_active_energy(
+    pi_active: np.ndarray,
+    active: np.ndarray,
+    slopes: np.ndarray,
+    q: float,
+    energy_metric: np.ndarray,
+) -> float:
+    """Evaluate the simplex energy in the solver's authoritative coordinate.
+
+    The optimizer and its restoration certificate operate on the active-layer
+    subspace.  Re-expanding zero inactive coordinates and invoking a second
+    full-matrix reduction is algebraically identical but can differ by one
+    floating-point bit at the frozen energy boundary.  Keeping one reduction
+    path changes no objective, feasible set, or tolerance.
+    """
+
+    velocity = q * pi_active / slopes[active]
+    active_energy = energy_metric[np.ix_(active, active)]
+    return float(velocity @ active_energy @ velocity)
+
+
 def _certificate(
     *,
     phase: str,
@@ -434,7 +455,9 @@ def _certificate(
     negative = max(float(-np.min(pi_active, initial=0.0)), 0.0)
     progress = float(slopes @ full)
     equality = abs(progress - q)
-    selected_energy = _energy(full, energy_metric)
+    selected_energy = _simplex_active_energy(
+        pi_active, active, slopes, q, energy_metric
+    )
     limit = _energy_limit(neutral_energy)
     energy_violation = max(selected_energy - limit, 0.0)
     ratio = _energy_ratio(selected_energy, neutral_energy)
@@ -592,7 +615,9 @@ def _solve_soft(
         return _full_velocity(pi_active, active, slopes, q)
 
     def energy_pi(pi_active: np.ndarray) -> float:
-        return float((transform * pi_active) @ active_energy @ (transform * pi_active))
+        return _simplex_active_energy(
+            pi_active, active, slopes, q, energy_metric
+        )
 
     def energy_grad(pi_active: np.ndarray) -> np.ndarray:
         velocity = transform * pi_active

@@ -233,19 +233,117 @@ def submit_tech_r2_missing_qwen(
     return {**receipt, "submission_receipt_sha256": receipt_sha}
 
 
+def submit_tech_r3_task7(source_head: str) -> dict[str, object]:
+    if (
+        _run(["git", "rev-parse", "HEAD"]).stdout.strip() != source_head
+        or _run(["git", "branch", "--show-current"]).stdout.strip() != BRANCH
+        or _run(["git", "status", "--porcelain", "--untracked-files=no"]).stdout
+    ):
+        raise ODEBFContractError("P1R23 Full-6 Historical execution source differs")
+    source_manifest_sha, source_manifest_root = _verify_source_manifest()
+    plan = dry.build_plan(
+        source_head, attempt_namespace="tech-r3", include_alpha=False
+    )
+    selected = [job for job in plan["jobs"] if job["array_index"] == 7]
+    if len(selected) != 1 or (
+        selected[0]["alias"], selected[0]["method"]
+    ) != ("qwen2.5-7b-inst", "RS-COMPUTE-FULL6-SOFT"):
+        raise ODEBFContractError("P1R23 Full-6 Historical TECH-R3 role differs")
+    result_root = RESULT_PARENT / str(selected[0]["result_name"])
+    if result_root.exists() or result_root.is_symlink():
+        raise ODEBFContractError("P1R23 Full-6 Historical result namespace exists")
+    failed_state = _run(
+        ["sacct", "-n", "-X", "-j", "18789_7", "-o", "State", "-P"]
+    ).stdout.strip()
+    if not failed_state.startswith("FAILED"):
+        raise ODEBFContractError("P1R23 Full-6 Historical failed ownership differs")
+    active_gpu = len(
+        _run(["squeue", "-h", "-j", "18789,18792", "-t", "RUNNING", "-o", "%i"])
+        .stdout.splitlines()
+    )
+    if active_gpu > 3:
+        raise ODEBFContractError("P1R23 Full-6 Historical task GPU cap differs")
+    namespace = "s05-p1r23-full6-structural-historical-sh1-qwen-task7-tech-r3-v1"
+    log_root = REPO_ROOT / "local/odebf/logs/p1r23-full6-structural-historical-tech-r3"
+    intent_path = STATE_ROOT / f"{namespace}.intent.json"
+    receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
+    if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
+        raise ODEBFContractError("P1R23 Full-6 Historical submission namespace exists")
+    log_root.mkdir(mode=0o700, parents=True, exist_ok=True)
+    intent_sha = _write_once(
+        intent_path,
+        {
+            "schema": "ode-edit-s05-p1r23-full6-historical-tech-r3-intent/v1",
+            "source_head": source_head,
+            "source_manifest_sha256": source_manifest_sha,
+            "source_manifest_root": source_manifest_root,
+            "failed_job": "18789_7",
+            "array_task": 7,
+            "selected_job": selected[0],
+            "result_root": str(result_root),
+            "active_gpu": active_gpu,
+            "replacement_gpu": 1,
+            "task_gpu_cap": 4,
+            "held_then_atomic_release": True,
+        },
+    )
+    job_id = _run(
+        [
+            "sbatch", "--hold", "--parsable", "--array", "7%1",
+            "--chdir", str(REPO_ROOT),
+            "--job-name", "odeedit_s05_p1r23_full6_historical_tech_r3_task7",
+            "--output", str(log_root / "%A_%a.out"),
+            "--error", str(log_root / "%A_%a.err"),
+            str(SBATCH), source_head, str(RESULT_PARENT), "tech-r3",
+        ]
+    ).stdout.strip().split(";", 1)[0]
+    if not job_id.isdigit():
+        raise ODEBFContractError("P1R23 Full-6 Historical scheduler ID differs")
+    observed = _run(["scontrol", "show", "job", "-o", job_id]).stdout.strip()
+    required = (
+        "JobState=PENDING", "Reason=JobHeldUser", "ArrayTaskThrottle=1",
+        "ReqNodeList=devbox", "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1",
+    )
+    if not all(item in observed for item in required):
+        _run(["scancel", job_id])
+        raise ODEBFContractError("P1R23 Full-6 Historical held scheduler contract differs")
+    receipt = {
+        "schema": "ode-edit-s05-p1r23-full6-historical-tech-r3-submission/v1",
+        "source_head": source_head,
+        "source_manifest_sha256": source_manifest_sha,
+        "source_manifest_root": source_manifest_root,
+        "job_id": job_id,
+        "array_task": 7,
+        "failed_job": "18789_7",
+        "result_root": str(result_root),
+        "active_gpu": active_gpu,
+        "replacement_gpu": 1,
+        "task_gpu_cap": 4,
+        "intent_sha256": intent_sha,
+        "held_inspection_sha256": hashlib.sha256(observed.encode()).hexdigest(),
+        "held_then_atomic_release": True,
+    }
+    receipt_sha = _write_once(receipt_path, receipt)
+    _run(["scontrol", "release", job_id])
+    return {**receipt, "submission_receipt_sha256": receipt_sha}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--repair-missing-qwen", action="store_true")
     parser.add_argument("--repair-task5", action="store_true")
+    parser.add_argument("--repair-task7-tech-r3", action="store_true")
     args = parser.parse_args()
-    if args.repair_missing_qwen and args.repair_task5:
+    if sum((args.repair_missing_qwen, args.repair_task5, args.repair_task7_tech_r3)) > 1:
         parser.error("repair scopes are mutually exclusive")
     result = (
         submit_tech_r2_missing_qwen(args.source_head, repair_scope="bulk")
         if args.repair_missing_qwen
         else submit_tech_r2_missing_qwen(args.source_head, repair_scope="task5")
         if args.repair_task5
+        else submit_tech_r3_task7(args.source_head)
+        if args.repair_task7_tech_r3
         else submit(args.source_head)
     )
     print(json.dumps(result, sort_keys=True, separators=(",", ":")))

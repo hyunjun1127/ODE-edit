@@ -84,7 +84,7 @@ def expected_historical_h0_result_name(
 ) -> str:
     if method not in METHODS:
         raise ODEBFContractError("Compute-A1 Historical method identity differs")
-    if attempt_namespace not in (None, "tech-r1", "tech-r2"):
+    if attempt_namespace not in (None, "tech-r1", "tech-r2", "tech-r3"):
         raise ODEBFContractError("Compute-A1 Historical attempt namespace differs")
     base = (
         "s05-p1r23-full6-structural-historical-"

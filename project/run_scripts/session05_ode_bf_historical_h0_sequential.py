@@ -29,6 +29,7 @@ from project.run_scripts.ode_bf.p1_runtime import (
 RUN_TOKENS = {
     "tech-r1": "p1r23-full6-structural-historical-a1-tech-r1-v1",
     "tech-r2": "p1r23-full6-structural-historical-a1-tech-r2-v1",
+    "tech-r3": "p1r23-full6-structural-historical-a1-tech-r3-v1",
 }
 
 

@@ -233,6 +233,38 @@ class ComputeProgressSimplexTests(unittest.TestCase):
                 inequality_tolerance=np.asarray((1.0e-12, 0.0), dtype=np.float64),
             )
 
+    def test_solver_and_certificate_share_active_energy_coordinate(self) -> None:
+        pi = np.asarray((0.6, 0.4), dtype=np.float64)
+        active = np.asarray((0, 2), dtype=np.int64)
+        slopes = np.asarray((0.5, -0.1, 0.25, 0.0, -0.2), dtype=np.float64)
+        metric = np.asarray(
+            (
+                (1.0, 0.2, 0.3, 0.0, 0.0),
+                (0.2, 1.1, 0.4, 0.0, 0.0),
+                (0.3, 0.4, 1.2, 0.0, 0.0),
+                (0.0, 0.0, 0.0, 1.3, 0.1),
+                (0.0, 0.0, 0.0, 0.1, 1.4),
+            ),
+            dtype=np.float64,
+        )
+        q = 0.75
+        expected = progress_simplex_routing._simplex_active_energy(
+            pi, active, slopes, q, metric
+        )
+        certificate = progress_simplex_routing._certificate(
+            phase="active-coordinate-fixture",
+            result=mock.Mock(success=True, status=0, message="fixture", nit=0),
+            pi_active=pi,
+            active=active,
+            slopes=slopes,
+            q=q,
+            energy_metric=metric,
+            neutral_energy=expected,
+            objective_gradient=np.zeros_like(pi),
+        )
+        self.assertEqual(certificate.energy_relative_ratio, 1.0)
+        self.assertEqual(certificate.energy_violation, 0.0)
+
     def test_lock_roles_and_static_compute_boundary(self) -> None:
         lock, _ = load_rooted_json(
             ROOT / "project/run_scripts/ode_bf/locks/numerical_lock_s05_compute_progress_simplex.json",
