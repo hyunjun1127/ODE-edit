@@ -914,6 +914,7 @@ def _score_prepared_target_new_batch(
     device: torch.device,
     llama: bool,
     context_sha256: str,
+    expected_context_ordinals: Sequence[int] = tuple(range(6)),
 ) -> tuple[list[tuple[int, torch.Tensor, int, str]], int]:
     encoding = {
         name: value.to(device=device, non_blocking=True)
@@ -925,7 +926,10 @@ def _score_prepared_target_new_batch(
     logits = model(**encoding).logits
     if not isinstance(logits, torch.Tensor):
         raise ODEBFContractError("routing objective cached logits differ")
-    scores: dict[int, list[_SuffixScore]] = {
+    expected_contexts = tuple(int(item) for item in expected_context_ordinals)
+    if not expected_contexts or len(set(expected_contexts)) != len(expected_contexts):
+        raise ODEBFContractError("routing objective selected contexts differ")
+    scores: dict[int, list[tuple[int, _SuffixScore]]] = {
         ordinal: [] for ordinal in prepared.request_ordinals
     }
     for row, (
@@ -945,7 +949,9 @@ def _score_prepared_target_new_batch(
         )
     ):
         scores[ordinal].append(
-            _score_suffix(
+            (
+                context_ordinal,
+                _score_suffix(
                 logits=logits,
                 input_ids=input_ids,
                 row=row,
@@ -958,18 +964,22 @@ def _score_prepared_target_new_batch(
                 context_ordinal=context_ordinal,
                 context_sha256=context_sha256,
                 target_label="target_new",
+                ),
             )
         )
     results: list[tuple[int, torch.Tensor, int, str]] = []
     for ordinal in prepared.request_ordinals:
         selected = scores[ordinal]
-        if len(selected) != 6 or len({item.token_count for item in selected}) != 1:
+        if (
+            tuple(item[0] for item in selected) != expected_contexts
+            or len({item[1].token_count for item in selected}) != 1
+        ):
             raise ODEBFContractError("routing objective cached suffix geometry differs")
         results.append(
             (
                 ordinal,
-                torch.stack([item.value for item in selected]).mean(),
-                selected[0].token_count,
+                torch.stack([item.value for _, item in selected]).mean(),
+                selected[0][1].token_count,
                 canonical_hash(
                     {
                         "schema": "ode-edit-s05-target-new-nll-request-span/v1",
@@ -982,7 +992,7 @@ def _score_prepared_target_new_batch(
                                     "target_true": None,
                                 }
                             )
-                            for context_ordinal, item in enumerate(selected)
+                            for context_ordinal, item in selected
                         ],
                     }
                 ),
