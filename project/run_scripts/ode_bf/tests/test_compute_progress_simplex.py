@@ -4,6 +4,7 @@ import inspect
 import json
 from pathlib import Path
 import unittest
+from unittest import mock
 
 import numpy as np
 
@@ -22,6 +23,7 @@ from project.run_scripts.ode_bf.progress_simplex_routing import (
     StructuralOnlyRoutingInventory,
     solve_progress_simplex_routing,
 )
+from project.run_scripts.ode_bf import progress_simplex_routing
 from project.run_scripts.ode_bf.routing import QuadraticBarrier, RoutingProblem
 from project.run_scripts.ode_bf.scalable_batched_runtime import (
     build_token_budget_streaming_batch_plan,
@@ -57,6 +59,28 @@ def _problem() -> RoutingProblem:
 
 
 class ComputeProgressSimplexTests(unittest.TestCase):
+    @staticmethod
+    def _boundary_problem() -> RoutingProblem:
+        zeros = np.zeros(5, dtype=np.float64)
+        return RoutingProblem(
+            np.asarray((0.5, 0.3, 0.2, 0.0, -0.1)),
+            np.diag((0.7, 0.9, 1.1, 1.3, 1.5)),
+            np.diag((0.5, 0.6, 0.7, 0.8, 0.9)),
+            1.0,
+            np.ones(5),
+            1.0e-6,
+            1.0e-8,
+            QuadraticBarrier("historical", 0.0, zeros, np.zeros((5, 5)), 1.0, "layer-local-diagonal"),
+            QuadraticBarrier(
+                "pretrained",
+                0.0,
+                np.asarray((2.0, 0.01, 0.01, 0.0, 0.0)),
+                np.diag((0.8, 0.01, 0.01, 0.01, 0.01)),
+                1.0,
+                "layer-local-diagonal",
+            ),
+        )
+
     def test_structural_only_soft_changes_allocation_without_functional_score(self) -> None:
         inventory = StructuralOnlyRoutingInventory(0, "a" * 64, "b" * 64, "c" * 64)
         neutral = solve_progress_simplex_routing(
@@ -109,6 +133,46 @@ class ComputeProgressSimplexTests(unittest.TestCase):
         self.assertEqual(sketch.commit_count, 1)
         self.assertLessEqual(sketch.raw_free_payload()["layers"]["4"]["row_count"], 2)
         self.assertEqual(empty_historical_sketch_receipt((4, 5, 6, 7, 8))["decision_influence_count"], 0)
+
+    def test_energy_boundary_recertifies_without_relaxing_frozen_contract(self) -> None:
+        inventory = StructuralOnlyRoutingInventory(0, "a" * 64, "b" * 64, "c" * 64)
+        routed = solve_progress_simplex_routing(
+            self._boundary_problem(), inventory, arm=FixedE8Arm.SOFT, alpha_req=1.5
+        )
+        stage1 = routed.certificates[1]
+        self.assertTrue(stage1.passed)
+        self.assertEqual(stage1.fallback_invocation_count, 1)
+        self.assertEqual(
+            stage1.backend,
+            "deterministic-convex-feasibility-restoration-float64",
+        )
+        self.assertEqual(
+            stage1.failed_primary_certificate["first_false_component"],
+            "neutral_relative_global_energy",
+        )
+        self.assertGreater(stage1.failed_primary_certificate["energy_violation"], 1.0e-12)
+        self.assertGreater(stage1.feasibility_restoration_linf, 0.0)
+        self.assertLessEqual(routed.soft_energy_ratio, 1.0 + 1.0e-8 + 1.0e-10)
+
+        real_minimize = progress_simplex_routing.minimize
+
+        def malformed_primary(*args: object, **kwargs: object) -> object:
+            result = real_minimize(*args, **kwargs)
+            if kwargs.get("method") == "SLSQP":
+                result.x = np.asarray(result.x, dtype=np.float64)
+                result.x[0] = -1.0
+            return result
+
+        with mock.patch.object(
+            progress_simplex_routing, "minimize", side_effect=malformed_primary
+        ):
+            with self.assertRaises(ODEBFContractError):
+                solve_progress_simplex_routing(
+                    self._boundary_problem(),
+                    inventory,
+                    arm=FixedE8Arm.SOFT,
+                    alpha_req=1.5,
+                )
 
     def test_lock_roles_and_static_compute_boundary(self) -> None:
         lock, _ = load_rooted_json(
