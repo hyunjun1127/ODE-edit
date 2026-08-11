@@ -267,7 +267,10 @@ def _validate_history_keys(
             raise ODEBFContractError("P1 Alpha solve history key values differ")
         result[layer] = value.detach().to(device="cpu", dtype=torch.float32).contiguous()
         column_counts.add(value.shape[1])
-    if len(column_counts) != 1 or next(iter(column_counts)) not in (0, 10, 20, 30):
+    if len(column_counts) != 1:
+        raise ODEBFContractError("P1 Alpha solve history columns differ by layer")
+    history_columns = next(iter(column_counts))
+    if history_columns < 0 or history_columns > 90 or history_columns % BATCH_SIZE:
         raise ODEBFContractError("P1 Alpha solve history is not a prior-B10 prefix")
     return result
 

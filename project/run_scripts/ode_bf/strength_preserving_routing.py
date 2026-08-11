@@ -290,6 +290,8 @@ def _capacity_value(problem: RoutingProblem, value: np.ndarray) -> float:
 def _risk_functions(
     problem: RoutingProblem,
     inventory: FixedE8SoftInventory,
+    *,
+    structural_only: bool = False,
 ) -> tuple[tuple[str, Callable[[np.ndarray], float], Callable[[np.ndarray], np.ndarray]], ...]:
     functions: list[
         tuple[str, Callable[[np.ndarray], float], Callable[[np.ndarray], np.ndarray]]
@@ -315,18 +317,19 @@ def _risk_functions(
     if inventory.history_item_count > 0:
         structural("structural_historical", problem.historical)
     structural("structural_pretrained", problem.pretrained)
-    for metric in inventory.active_metrics():
-        positive = metric.positive_increment
-        normalization = metric.normalization
-        functions.append(
-            (
-                metric.label,
-                lambda value, slope=positive, scale=normalization: float(
-                    slope @ value / scale
-                ),
-                lambda value, slope=positive, scale=normalization: slope / scale,
+    if not structural_only:
+        for metric in inventory.active_metrics():
+            positive = metric.positive_increment
+            normalization = metric.normalization
+            functions.append(
+                (
+                    metric.label,
+                    lambda value, slope=positive, scale=normalization: float(
+                        slope @ value / scale
+                    ),
+                    lambda value, slope=positive, scale=normalization: slope / scale,
+                )
             )
-        )
     return tuple(functions)
 
 
@@ -336,8 +339,9 @@ def _score_inventory(
     velocity: np.ndarray,
     *,
     influence_count: int,
+    structural_only: bool = False,
 ) -> tuple[FixedE8Score, ...]:
-    return (
+    structural = (
         structural_soft_score(
             problem.historical,
             velocity,
@@ -350,6 +354,11 @@ def _score_inventory(
             active=True,
             influence_count=influence_count,
         ),
+    )
+    if structural_only:
+        return structural
+    return (
+        *structural,
         *(
             functional_soft_score(
                 metric, velocity, influence_count=influence_count
@@ -503,10 +512,14 @@ def _solve_soft(
     active: np.ndarray,
     alpha: float,
     neutral: np.ndarray,
+    *,
+    structural_only: bool = False,
 ) -> tuple[np.ndarray, float, tuple[StrengthSolverCertificate, ...]]:
     slopes = problem.signed_progress[active]
     caps = np.minimum(problem.layer_caps[active], 1.0)
-    risks = _risk_functions(problem, inventory)
+    risks = _risk_functions(
+        problem, inventory, structural_only=structural_only
+    )
     initial_full = np.zeros(problem.signed_progress.size, dtype=np.float64)
     initial_full[active] = neutral
     initial_xi = max(0.0, *(risk(initial_full) for _, risk, _ in risks))
@@ -630,6 +643,7 @@ def solve_strength_preserving_routing(
     *,
     arm: FixedE8Arm | str,
     alpha_req: float,
+    structural_only: bool = False,
 ) -> StrengthPreservingRoutingResult:
     """Solve one exact matched-strength Neutral or Soft allocation."""
 
@@ -690,7 +704,12 @@ def solve_strength_preserving_routing(
             authoritative.append(neutral_certificate)
             try:
                 soft_active, xi_star, soft_certificates = _solve_soft(
-                    problem, inventory, active, alpha_apply, neutral_active
+                    problem,
+                    inventory,
+                    active,
+                    alpha_apply,
+                    neutral_active,
+                    structural_only=structural_only,
                 )
             except ODEBFContractError as exc:
                 # A detached Soft shadow is useful matched-allocation
@@ -707,7 +726,12 @@ def solve_strength_preserving_routing(
                 soft_shadow_status = "AVAILABLE"
         else:
             soft_active, xi_star, soft_certificates = _solve_soft(
-                problem, inventory, active, alpha_apply, neutral_active
+                problem,
+                inventory,
+                active,
+                alpha_apply,
+                neutral_active,
+                structural_only=structural_only,
             )
             soft_full[active] = soft_active
             diagnostic.append(neutral_certificate)
@@ -750,13 +774,18 @@ def solve_strength_preserving_routing(
     denominator = alpha_apply + STRENGTH_COVERAGE_EPSILON
     shares = slopes * selected_value / denominator
     neutral_scores = _score_inventory(
-        problem, inventory, neutral_full, influence_count=0
+        problem,
+        inventory,
+        neutral_full,
+        influence_count=0,
+        structural_only=structural_only,
     )
     soft_scores = _score_inventory(
         problem,
         inventory,
         soft_full,
         influence_count=1 if selected is FixedE8Arm.SOFT else 0,
+        structural_only=structural_only,
     )
     scores = neutral_scores if selected is FixedE8Arm.NEUTRAL else soft_scores
     risk_difference = tuple(
@@ -768,6 +797,11 @@ def solve_strength_preserving_routing(
         "arm": selected.value,
         "problem_sha256": problem.identity(),
         "functional_inventory_sha256": inventory.raw_free_payload()["identity_sha256"],
+        "soft_risk_basis": (
+            "STRUCTURAL_PRETRAINED_AND_HISTORICAL_ONLY"
+            if structural_only
+            else "P1R19_STRUCTURAL_AND_FUNCTIONAL"
+        ),
         "signed_slopes": slopes.tolist(),
         "active_direction_mask": [bool(item > 0.0) for item in slopes],
         "alpha_req": float(alpha_req),
