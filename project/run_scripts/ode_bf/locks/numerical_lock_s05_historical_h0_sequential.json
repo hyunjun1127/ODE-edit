@@ -1,28 +1,28 @@
 {
-  "schema_version": "ode-edit-s05-historical-h0-bg-sequential-p1r20-lock/v1",
-  "instruction_id": "ODEEDIT-S05-ODE-BF-HISTORICAL-H0-BG-SEQUENTIAL-P1R20-V1",
-  "scientific_checkpoint": "657dafd40de50bb396fc9cfaf3862de1d07dd816",
-  "scientific_tree": "028c49948665f9ebfbd2e713b9fd2b220c57bf49",
-  "launcher_only_provenance": "d604953a046b6af4da7386dd6c64c20fc848f625",
-  "accepted_p1r19_numerical_lock_root": "1b0f7c5b9896e9cf688c5fc06ff0ef74cc2475584fa327dfc68fe17a5b27a7d9",
-  "accepted_p1r19_method_id": "R13-DYNAMIC-PHYSICAL-WONLY-STRENGTH-PRESERVING-ROUTER-V1",
+  "schema_version": "ode-edit-s05-p1r23-full6-structural-historical-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R23-FULL6-STRUCTURAL-HISTORICAL-V1-A1-FULL-MATRIX",
+  "accepted_compute_a1_execution_checkpoint": "f64d0c1221ac0eecc53a1fbb9685a9a23835af0e",
+  "accepted_compute_a1_scientific_checkpoint": "794885a48c09046b454b88eee7880e08c390902a",
+  "accepted_compute_a1_numerical_lock_root": "504cd1931365750ea07cfb537335c9c923008122065d6dbe79d37b65223cc731",
   "fresh_seal_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
   "all_request_order_sha256": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
   "round_count": 10,
   "batch_size": 10,
   "request_count": 100,
   "models": ["llama3-8b-inst", "qwen2.5-7b-inst"],
-  "methods": ["BG-NEUTRAL", "BG-SOFT-H", "MEMIT", "ALPHAEDIT"],
+  "methods": ["BG-COMPUTE-FULL6-NOSOFT", "BG-COMPUTE-FULL6-SOFT", "RS-COMPUTE-FULL6-NOSOFT", "RS-COMPUTE-FULL6-SOFT", "ALPHAEDIT"],
   "ours": {
     "grid_count": 8,
     "h": 0.125,
     "tau_final": 1.0,
-    "allocation": "BG",
-    "dynamic_only": true,
-    "neutral_p_h_routing_influence": 0,
-    "soft_h_cost": ["PINNED_STRUCTURAL_P", "HISTORICAL_H"],
+    "allocations": ["BG", "RS"],
+    "target_context_ordinals": [0, 1, 2, 3, 4, 5],
+    "physical_slope_context_ordinals": [0, 1, 2, 3, 4, 5],
+    "physical_slope_aggregation": "GLOBAL_REQUEST_NUMERATOR_DENOMINATOR_EXACT",
+    "nosoftroute": "PROGRESS_SIMPLEX_NEUTRAL_V_EQUALS_ONE",
+    "soft_cost": ["PINNED_STRUCTURAL_P", "FIXED_RANK_HISTORICAL_H"],
     "functional_p_h_routing_influence": 0,
-    "strength_at_v_nominal_exact": true,
+    "per_layer_upper_cap_count": 0,
     "retry_count": 0,
     "backtracking_count": 0,
     "early_stop_count": 0
@@ -30,22 +30,25 @@
   "history": {
     "round_entry_counts": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90],
     "append_after_endpoint_commit": true,
-    "maximum_records": 100,
-    "soft_h_influence_required_from_round": 2
+    "fixed_rank": 100,
+    "retains_all_committed_cases_in_pilot": true,
+    "soft_h_input_required_from_round": 2,
+    "persistent_inactivity_hard_failure": true,
+    "raw_prompt_replay_inside_k8_count": 0
   },
   "evaluation": {
     "inner_k_heldout_count": 0,
-    "endpoint_rounds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "postcommit_cumulative_b10_evaluation_count": 55,
+    "teacher_kl_wide_locality_rounds": [1, 5, 10],
     "future_batch_controller_access_count": 0,
-    "generation_call_count": 0,
-    "downstream_status": "NOT_RECORDED_NO_PINNED_P1R19_DOWNSTREAM_EVALUATOR"
+    "generation_call_count": 0
   },
   "baseline": {
-    "fresh_sequential": true,
-    "joint_p1r18_reuse_count": 0,
+    "methods": ["ALPHAEDIT"],
+    "one_per_model": true,
     "alpha_bf16_key_fp32_adapter": "PINNED_CALLER_SCOPED",
     "statistics_recompute_count": 0
   },
   "scientific_promotion_authorized": false,
-  "root_digest": "37b2c7067892b8865cd52817ec2ebdeb269b45c16c504f8e3479790018475b5a"
+  "root_digest": "40543080713515c0c70131b221cbe2464326d689f992654a4ad22c9e3937f4de"
 }
