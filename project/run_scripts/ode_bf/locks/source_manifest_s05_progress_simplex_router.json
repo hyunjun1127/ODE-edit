@@ -1,0 +1,29 @@
+{
+  "schema_version": "ode-edit-s05-p1r23-progress-simplex-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R23-PROGRESS-SIMPLEX-BF-ROUTER-V1",
+  "scientific_base_checkpoint": "96b3b33bd566c6d1ad3ac15d4cc5c825dddd1e2f",
+  "scientific_checkpoint": "a343d1f6967ef37763009b92d227ade85cd93de0",
+  "scientific_tree": "c4123fa396280282f1ed940245a078f360a814fa",
+  "design_contract_sha256": "64c51538b3299a7426bc3477a5d96d8216b4c78f007771772bb34b435994508d",
+  "numerical_lock_sha256": "e07055eb247276039f9e5349b72ac151cf1c2ed906fc4271103da077bb4b20ca",
+  "stage": "ATOMIC_B10_ONLY",
+  "entry_count": 10,
+  "entries": [
+    {"path":"project/run_scripts/ode_bf/locks/numerical_lock_s05_progress_simplex_router.json","mode":"100644","object_id":"06466b40569d8323be650e5858cdca0f2c5e5970","size":2652,"sha256":"e07055eb247276039f9e5349b72ac151cf1c2ed906fc4271103da077bb4b20ca"},
+    {"path":"project/run_scripts/ode_bf/p1_scalable_batched_experiment.py","mode":"100644","object_id":"9b55e905d57f9863fbddd6dc1da18b21c7f945f5","size":66512,"sha256":"3ffdc698a3ea57fb3cb91988c392110bbf332f3150a8616d410faf32f9b6037f"},
+    {"path":"project/run_scripts/ode_bf/p1_scalable_batched_runtime_panel.py","mode":"100644","object_id":"ef4a92f5fd27b154329d28f519c165cb084f4caa","size":8383,"sha256":"3e2c8f4be557e0ffc5953b67406d8cc4fbb2dbdb58d5fa431ba7b377d3ca0154"},
+    {"path":"project/run_scripts/ode_bf/progress_simplex_routing.py","mode":"100644","object_id":"e1cc0a23d4d7a6a164fde469d70dcd1d6ce56aa1","size":34344,"sha256":"434790180d671e893193d5cd706fe2f8ed6c0f1e517600713e01e0465efaccc7"},
+    {"path":"project/run_scripts/ode_bf/tests/test_progress_simplex_launch.py","mode":"100644","object_id":"5cb7c2575604ba88cb12e1e08b8c15dc6f83b011","size":3068,"sha256":"c33968da58b7f361a4d71b803e38779d47b33bd80a7a63b9b2f5cd7d9d7762bf"},
+    {"path":"project/run_scripts/ode_bf/tests/test_progress_simplex_routing.py","mode":"100644","object_id":"5c6e9a712a9b53794d767b2016e2df12463f16d3","size":7854,"sha256":"f93fe4e3934606893c6dbba555780a9a6174c596af2e9ce183e436ebe382622e"},
+    {"path":"project/run_scripts/session05_ode_bf_progress_simplex_router.py","mode":"100755","object_id":"8cf9f72d7b61e53b00d288f2cee61f70a9b1ddfd","size":4329,"sha256":"6486ccbcaa7f2abf2341a1e806f8408c67962c697c375a61ae25ba239d2161f8"},
+    {"path":"project/run_scripts/session05_ode_bf_progress_simplex_router.sbatch","mode":"100755","object_id":"fb702c38bab12c05be06eb9aedb39ca388f3f267","size":2790,"sha256":"bd1e26840fc68118b7b4114ee80020aed1ba7fb783e957b1bb2519ee9e89dc99"},
+    {"path":"project/run_scripts/session05_ode_bf_progress_simplex_router_dry_plan.py","mode":"100755","object_id":"495e0cb0c8f7dce0bae08c5e99f4812781c6250d","size":3019,"sha256":"21c0ea72f39a556036ee71ce16043039239c75aaa013a90ba0a66cc2b1f8f15b"},
+    {"path":"project/run_scripts/session05_ode_bf_submit_progress_simplex_router.py","mode":"100755","object_id":"dc0b75ccc4d46e7746608ac5145dfdb01fbbfd0f","size":5468,"sha256":"0e044828c5f0a14f6f085a8d8f84f6ccd4c4d0c161bb01ca87ff61e4fda63e35"}
+  ],
+  "P1R22_access_count": 0,
+  "B100_access_count": 0,
+  "P1R20_access_count": 0,
+  "native_rerun_count": 0,
+  "root_digest_convention": "sha256_canonical_json_without_root_digest",
+  "root_digest": "27b19cbaeb595a28cd287ce05089f161d31322f8ef271c414dce6b5f37131a93"
+}

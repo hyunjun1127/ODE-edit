@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from pathlib import Path
+import subprocess
 import unittest
 
 from project.run_scripts.ode_bf.artifacts import load_rooted_json
@@ -68,6 +70,34 @@ class ProgressSimplexLaunchTests(unittest.TestCase):
         self.assertEqual(value["progress_simplex"]["per_layer_upper_cap_count"], 0)
         self.assertEqual(value["progress_simplex"]["postsolve_clip_count"], 0)
         self.assertEqual(value["global_trust"]["model_specific_budget_count"], 0)
+
+    def test_source_manifest_binds_exact_scientific_checkpoint_objects(self) -> None:
+        manifest, _ = load_rooted_json(
+            ROOT
+            / "project/run_scripts/ode_bf/locks/"
+            "source_manifest_s05_progress_simplex_router.json",
+            expected_schema="ode-edit-s05-p1r23-progress-simplex-source-manifest/v1",
+        )
+        head = manifest["scientific_checkpoint"]
+        self.assertEqual(len(manifest["entries"]), manifest["entry_count"])
+        for item in manifest["entries"]:
+            tree = subprocess.run(
+                ["git", "ls-tree", head, "--", item["path"]],
+                cwd=ROOT,
+                check=True,
+                text=True,
+                stdout=subprocess.PIPE,
+            ).stdout.strip().split(None, 3)
+            payload = subprocess.run(
+                ["git", "show", f"{head}:{item['path']}"],
+                cwd=ROOT,
+                check=True,
+                stdout=subprocess.PIPE,
+            ).stdout
+            self.assertEqual(tree[0], item["mode"])
+            self.assertEqual(tree[2], item["object_id"])
+            self.assertEqual(len(payload), item["size"])
+            self.assertEqual(hashlib.sha256(payload).hexdigest(), item["sha256"])
 
 
 if __name__ == "__main__":
