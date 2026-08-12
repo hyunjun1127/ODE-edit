@@ -7,6 +7,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import resource
 import subprocess
 import threading
@@ -3341,7 +3342,17 @@ def run_p1(
             if diagnostic_mode
             else expected_p1_result_name(alias)
         )
-    if destination.parent != expected_parent or destination.name != expected_name:
+    p1r28_technical_parent = (
+        atomic_strength_recovery_role
+        in ("P1R28_B1_RS_PAIR", "P1R28_B10_RS_PAIR")
+        and destination.parent.parent == expected_parent
+        and re.fullmatch(r"p1r28-tech-r[1-9][0-9]*", destination.parent.name)
+        is not None
+    )
+    if (
+        destination.parent != expected_parent
+        and not p1r28_technical_parent
+    ) or destination.name != expected_name:
         raise ODEBFContractError("P1 output namespace differs")
     if destination.exists() or destination.is_symlink():
         raise P1OutputRootCollision("P1 result root is create-once")

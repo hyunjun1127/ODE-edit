@@ -40,7 +40,7 @@ def _write_once(path: Path, value: dict[str, object]) -> str:
 
 
 def submit(source_head: str, phase: str, *, attempt: str = "v1") -> dict[str, object]:
-    if attempt not in ("v1", "tech-r1", "tech-r2"):
+    if attempt not in ("v1", "tech-r1", "tech-r2", "tech-r3"):
         raise ODEBFContractError("P1R28 submission attempt differs")
     if (
         source_head != _run(["git", "rev-parse", "HEAD"]).stdout.strip()
@@ -118,7 +118,7 @@ def main() -> int:
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--phase", required=True, choices=("smoke", "production"))
     parser.add_argument(
-        "--attempt", default="v1", choices=("v1", "tech-r1", "tech-r2")
+        "--attempt", default="v1", choices=("v1", "tech-r1", "tech-r2", "tech-r3")
     )
     args = parser.parse_args()
     print(json.dumps(submit(args.source_head, args.phase, attempt=args.attempt), sort_keys=True, separators=(",", ":")))

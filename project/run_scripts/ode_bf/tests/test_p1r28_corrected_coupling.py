@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import numpy as np
 import torch
@@ -240,6 +241,45 @@ class P1R28CorrectedCouplingTests(unittest.TestCase):
         self.assertNotIn("bisect(", controller.casefold())
         self.assertNotIn("callback", sbatch.casefold())
         self.assertIn("MODELS=(llama3-8b-inst qwen2.5-7b-inst)", sbatch)
+
+    def test_technical_result_parent_is_tightly_scoped_to_p1r28(self) -> None:
+        from project.run_scripts.ode_bf import p1_runtime
+
+        root = Path("/tmp/p1r28-namespace-fixture")
+        expected_parent = root / "local/odebf/results"
+        role = "P1R28_B1_RS_PAIR"
+        result_name = "fixture-result"
+
+        def expected_name(_alias: str, _role: str) -> str:
+            self.assertEqual(_role, role)
+            return result_name
+
+        with (
+            mock.patch.object(p1_runtime, "_source_freeze"),
+            mock.patch(
+                "project.run_scripts.ode_bf.p1r24_atomic_strength_panel.expected_p1r24_result_name",
+                side_effect=expected_name,
+            ),
+            mock.patch.object(Path, "exists", return_value=True),
+        ):
+            with self.assertRaises(p1_runtime.P1OutputRootCollision):
+                p1_runtime.run_p1(
+                    repo_root=root,
+                    alias="llama3-8b-inst",
+                    output_root=expected_parent / "p1r28-tech-r3" / result_name,
+                    source_head="f" * 40,
+                    atomic_strength_recovery_role=role,
+                )
+            with self.assertRaisesRegex(
+                p1_runtime.ODEBFContractError, "output namespace differs"
+            ):
+                p1_runtime.run_p1(
+                    repo_root=root,
+                    alias="llama3-8b-inst",
+                    output_root=expected_parent / "other-tech-r3" / result_name,
+                    source_head="f" * 40,
+                    atomic_strength_recovery_role=role,
+                )
 
 
 if __name__ == "__main__":
