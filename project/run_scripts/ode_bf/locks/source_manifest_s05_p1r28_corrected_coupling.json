@@ -1,0 +1,87 @@
+{
+  "base_checkpoint": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "entries": [
+    {
+      "mode": "100644",
+      "object_id": "f2f8d08f944d13a4548c8520541f90fd3523b3ca",
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r28_corrected_coupling.json",
+      "sha256": "93dcbe85e5736f8116bd3c6b7d58f11e05afecf55c6c45a211a91223e5b75476",
+      "size": 2142
+    },
+    {
+      "mode": "100644",
+      "object_id": "495cbd7b79ade4d4eebd953ebab5ff831951d8c3",
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "sha256": "1b0166554b7ca831e1718b451d661f35d6bb881ed61abbb404258db35f68956f",
+      "size": 197037
+    },
+    {
+      "mode": "100644",
+      "object_id": "a8f7bda9f7cdbdccf657e5d804174dc27f1cf933",
+      "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+      "sha256": "cf60e9842b74bec44bd7a09b8fb1013874a7188edffffc1c6afd6353822e1c39",
+      "size": 104257
+    },
+    {
+      "mode": "100644",
+      "object_id": "f4d59647e298e5ad08a2462803e83a948338da29",
+      "path": "project/run_scripts/ode_bf/p1r24_atomic_strength_panel.py",
+      "sha256": "c3c5bfcfc809e1b467e72e26fc4ac0cfd528cf21be1711eee9a87cbedb66f558",
+      "size": 1292
+    },
+    {
+      "mode": "100644",
+      "object_id": "da30f2cfc9eb280c0b08855e2ae5cf26a93d1caf",
+      "path": "project/run_scripts/ode_bf/p1r28_corrected_coupling.py",
+      "sha256": "10ecd6adf930358c9bef6823e6def23b921cf7d350bc8d4428bbd151503497fd",
+      "size": 24693
+    },
+    {
+      "mode": "100644",
+      "object_id": "24c28060ac5879402062616c86b6670aad451696",
+      "path": "project/run_scripts/ode_bf/scalable_batched_model.py",
+      "sha256": "1ebdb8c94371105eaa16c03fedda7f2ca1ec3856e0ded35331b5ef0694eabbc3",
+      "size": 37453
+    },
+    {
+      "mode": "100644",
+      "object_id": "986795c3c13346543e044ab4ea98ba29d78b1647",
+      "path": "project/run_scripts/ode_bf/tests/test_p1r28_corrected_coupling.py",
+      "sha256": "9ab8fbc0ed24bb072497775374805780ded33a1c95bf6b2555378f9165a8071b",
+      "size": 6949
+    },
+    {
+      "mode": "100644",
+      "object_id": "fbb201208f1b3fe222423ffdd2912034f4e8d615",
+      "path": "project/run_scripts/session05_ode_bf_p1r28_corrected_coupling.py",
+      "sha256": "c5422362db1086bae4f66f971659dbed7365420e089cfe1719815b120d39e07a",
+      "size": 4711
+    },
+    {
+      "mode": "100644",
+      "object_id": "e27a4f352ab565800112436b9491de94f7cecb68",
+      "path": "project/run_scripts/session05_ode_bf_p1r28_corrected_coupling.sbatch",
+      "sha256": "c8802f5807e62e3bbecf16ef1753ceabe1a0009ace36ffa2b8269446f072ae71",
+      "size": 2653
+    },
+    {
+      "mode": "100644",
+      "object_id": "fbd6e996b61156bc0aefbdf0429f4a2b274b6996",
+      "path": "project/run_scripts/session05_ode_bf_p1r28_corrected_coupling_dry_plan.py",
+      "sha256": "f506e304c037c6925b270408611dc67821c67529c09027cd9d3ecc5312ef2bd1",
+      "size": 3366
+    },
+    {
+      "mode": "100644",
+      "object_id": "2f33ec5af6645440c881470ed3983256b7ac7682",
+      "path": "project/run_scripts/session05_ode_bf_submit_p1r28_corrected_coupling.py",
+      "sha256": "2c75cd14a2ba644621f4d1ad5d89cf957dd87e0d81ccc63ed1371a4a5385c8b1",
+      "size": 5501
+    }
+  ],
+  "entry_count": 11,
+  "instruction_id": "ODEEDIT-S05-P1R28-P1R24-ANCHORED-CORRECTED-COUPLING-KILL-TEST-V1",
+  "root_digest": "c39496bff0f1454c47d84ce0835fef9da83acb2cc492a951fd3ce62a88c7da01",
+  "schema_version": "ode-edit-s05-p1r28-corrected-coupling-source-manifest/v1",
+  "source_checkpoint_without_manifest": "458bc5acd0b3fbe0b0e77ce683489e8cc74c3656"
+}
