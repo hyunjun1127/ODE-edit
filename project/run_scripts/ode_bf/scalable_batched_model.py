@@ -539,7 +539,9 @@ def evaluate_scalable_target_new_objective(
     if coefficient_mode and (
         coefficients is None
         or coefficients.ndim != 1
-        or coefficients.numel() != len(P1R23_LAYER_ORDER)
+        or coefficient_layers is None
+        or coefficients.numel() != len(coefficient_layers)
+        or coefficients.numel() == 0
         or not coefficients.requires_grad
         or not torch.isfinite(coefficients).all()
     ):

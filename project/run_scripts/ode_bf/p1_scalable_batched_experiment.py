@@ -111,6 +111,23 @@ from .p1r24_atomic_strength import (
     solve_p1r24_matched_routing,
     verify_p1r24_alphaedit_geometry,
 )
+from .p1r27_joint_wclf import (
+    AcceptedRealizationLedger,
+    P1R27_H,
+    P1R27_INSTRUCTION_ID,
+    P1R27_METHOD_ID,
+    P1R27RoutingStatus,
+    WriterCLFEntry,
+    WriterCLFStatus,
+    ZeroSeekingZEntry,
+    apply_z_writer_backpressure,
+    build_writer_clf_entry,
+    build_zero_seeking_z_entry,
+    build_zero_seeking_z_step,
+    p1r27_physical_slope_basis,
+    semantic_writer_action,
+    solve_semantic_first_routing,
+)
 
 
 P1R23_SCHEMA = "ode-edit-s05-p1r23-scalable-batched-runtime"
@@ -215,15 +232,22 @@ def _run_ode_arm(
     write_once: Any,
     progress_simplex: bool = False,
     p1r24: bool = False,
+    p1r27: bool = False,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
     request_count = len(requests)
-    if request_count not in ((1, 10) if p1r24 else (10, 100)):
+    if p1r24 and p1r27:
+        raise ODEBFContractError("P1R24/P1R27 modes are mutually exclusive")
+    atomic_target_geometry = p1r24 or p1r27
+    if request_count not in ((1, 10) if atomic_target_geometry else (10, 100)):
         raise ODEBFContractError("P1R23 ODE request count differs")
     if allocation not in ("RS", "BG"):
         raise ODEBFContractError("P1R23 ODE target allocation differs")
     arm_label = (
+        f"{allocation}-P1R27-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
+        if p1r27
+        else
         f"{allocation}-P1R24-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r24
         else
@@ -260,14 +284,16 @@ def _run_ode_arm(
     current_terminal = initial.current_terminal_z.clone()
     target_origin = current_target.clone()
     frozen_mask: tuple[bool, ...] = tuple(False for _ in range(request_count))
-    p1r24_target_lock = P1R24AliasTargetLock.for_alias(alias) if p1r24 else None
+    p1r24_target_lock = (
+        P1R24AliasTargetLock.for_alias(alias) if atomic_target_geometry else None
+    )
     p1r24_alpha_geometry = (
         verify_p1r24_alphaedit_geometry(
             hparams,
             p1r24_target_lock,
             easyedit_root=Path("/mnt/raid5/janghj/EasyEdit"),
         )
-        if p1r24 and p1r24_target_lock is not None
+        if atomic_target_geometry and p1r24_target_lock is not None
         else None
     )
     p1r24_kl_plan = (
@@ -278,11 +304,11 @@ def _run_ode_arm(
             request_microbatch_size=min(objective_plan.request_microbatch_size, request_count),
             fact_token_strategy=hparams.fact_token,
         )
-        if p1r24
+        if atomic_target_geometry
         else None
     )
     p1r24_kl_teacher: tuple[torch.Tensor, ...] | None = None
-    if p1r24:
+    if atomic_target_geometry:
         assert p1r24_kl_plan is not None
         teacher_result, p1r24_kl_teacher = evaluate_p1r24_kl(
             model, p1r24_kl_plan, teacher_log_probs=None
@@ -301,13 +327,16 @@ def _run_ode_arm(
     terminal_objective_count = 0
     terminal_functional: dict[str, Any] | None = None
     restored = False
+    p1r27_z_entry: ZeroSeekingZEntry | None = None
+    p1r27_writer_entry: WriterCLFEntry | None = None
+    p1r27_realization = AcceptedRealizationLedger()
     counter = ModelForwardCounter(model, legacy_ledger)
     try:
         for step_index in range(P1R23_GRID_COUNT):
             state_before = _parameter_contract_sha256(touched)
             replay_entry = (
                 None
-                if p1r24
+                if atomic_target_geometry
                 else _controller_replay_entry(
                     model,
                     tokenizer,
@@ -339,7 +368,49 @@ def _run_ode_arm(
             )
             if target_result.target_gradient is None:
                 raise ODEBFContractError("P1R23 target gradient is absent")
-            if p1r24:
+            if p1r27:
+                assert p1r24_kl_plan is not None and p1r24_kl_teacher is not None
+                assert p1r24_target_lock is not None
+                kl_result, _ = evaluate_p1r24_kl(
+                    model,
+                    p1r24_kl_plan,
+                    teacher_log_probs=p1r24_kl_teacher,
+                    target_state=target_variable,
+                    current_terminal=current_terminal,
+                    target_layer_name=hparams.layer_module_tmp.format(
+                        int(hparams.layers[-1])
+                    ),
+                )
+                if p1r27_z_entry is None:
+                    p1r27_z_entry = build_zero_seeking_z_entry(
+                        metric, target_result.target_gradient, allocation=allocation
+                    )
+                z_step = build_zero_seeking_z_step(
+                    current_target,
+                    target_origin,
+                    target_result,
+                    kl_result,
+                    p1r27_z_entry,
+                    p1r24_target_lock,
+                    step_index=step_index,
+                )
+                nominal_displacement = z_step.nominal_displacement
+                target_next = (current_target + nominal_displacement).contiguous()
+                target_velocity = nominal_displacement / P1R27_H
+                alpha_req = max(
+                    float(
+                        -torch.sum(
+                            target_result.target_gradient.double()
+                            * nominal_displacement.double()
+                        )
+                    ),
+                    0.0,
+                )
+                target_receipt = dict(z_step.receipt)
+                _phase_add_objective(
+                    compute, "target_kl_gradient", kl_result, target=True
+                )
+            elif p1r24:
                 assert p1r24_kl_plan is not None and p1r24_kl_teacher is not None
                 assert p1r24_target_lock is not None
                 kl_result, _ = evaluate_p1r24_kl(
@@ -380,29 +451,154 @@ def _run_ode_arm(
                 compute, "target_gradient", target_result, target=True
             )
             field_started = time.perf_counter()
-            field = build_scalable_dynamic_field(
-                model,
-                tokenizer,
-                requests,
-                hparams,
-                projector,
-                contexts,
-                target_state=(
-                    current_terminal + target_velocity
-                    if p1r24
-                    else target_next
-                ),
-                current_terminal=current_terminal,
-                captured_keys_by_layer=physical.keys_by_layer,
-                accepted_waypoint=step_index,
-                covariance_registry=covariance_registry,
-                projector_sha256=projector_sha256,
-                residual_tolerance=controller_lock.residual_tolerance,
-                ledger=legacy_ledger,
-            )
-            signed, slope_result = scalable_physical_signed_progress(
-                model, objective_plan, field
-            )
+            field_kwargs = {
+                "current_terminal": current_terminal,
+                "captured_keys_by_layer": physical.keys_by_layer,
+                "accepted_waypoint": step_index,
+                "covariance_registry": covariance_registry,
+                "projector_sha256": projector_sha256,
+                "residual_tolerance": controller_lock.residual_tolerance,
+                "ledger": legacy_ledger,
+            }
+            if p1r27:
+                lag = (current_target - current_terminal).contiguous()
+                semantic_field = build_scalable_dynamic_field(
+                    model,
+                    tokenizer,
+                    requests,
+                    hparams,
+                    projector,
+                    contexts,
+                    target_state=current_terminal + nominal_displacement / P1R27_H,
+                    **field_kwargs,
+                )
+                lag_nonzero = bool(
+                    float(torch.linalg.vector_norm(lag.double())) > 1.0e-12
+                )
+                lag_field = (
+                    build_scalable_dynamic_field(
+                        model,
+                        tokenizer,
+                        requests,
+                        hparams,
+                        projector,
+                        contexts,
+                        target_state=current_terminal + lag / P1R27_H,
+                        **field_kwargs,
+                    )
+                    if lag_nonzero
+                    else None
+                )
+                slope_basis = p1r27_physical_slope_basis(
+                    model, objective_plan, semantic_field, lag_field
+                )
+                beta = (
+                    0.0
+                    if p1r27_writer_entry is None
+                    else p1r27_writer_entry.beta_h
+                )
+                nominal_displacement_w = nominal_displacement + beta * lag
+                nominal_field = (
+                    semantic_field
+                    if not lag_nonzero or beta == 0.0
+                    else build_scalable_dynamic_field(
+                        model,
+                        tokenizer,
+                        requests,
+                        hparams,
+                        projector,
+                        contexts,
+                        target_state=(
+                            current_terminal
+                            + nominal_displacement_w / P1R27_H
+                        ),
+                        **field_kwargs,
+                    )
+                )
+                nominal_signed = slope_basis.combined(
+                    nominal_field, semantic_scale=1.0, lag_scale=beta
+                )
+                nominal_problem_receipt = build_scalable_routing_problem(
+                    nominal_field,
+                    nominal_signed,
+                    accepted_by_layer=accepted_by_layer,
+                    committed_load_by_layer=history.cumulative_load(),
+                    lock=controller_lock,
+                )
+                nominal_problem = p1r24_disable_historical(
+                    nominal_problem_receipt.problem
+                )
+                if p1r27_writer_entry is None:
+                    p1r27_writer_entry, semantic_action = build_writer_clf_entry(
+                        nominal_problem, v_w0=float(slope_basis.objective.loss)
+                    )
+                else:
+                    semantic_action = semantic_writer_action(
+                        nominal_problem, p1r27_writer_entry
+                    )
+                tracking = apply_z_writer_backpressure(
+                    nominal_displacement,
+                    target_result.target_gradient,
+                    lag,
+                    r_w=semantic_action.r_w,
+                    beta_h=p1r27_writer_entry.beta_h,
+                )
+                target_next = (
+                    current_target + tracking.selected_displacement
+                ).contiguous()
+                target_velocity = tracking.desired_writer_displacement / P1R27_H
+                if semantic_action.status is WriterCLFStatus.SEMANTIC_STALL:
+                    field = semantic_field
+                    signed = slope_basis.combined(
+                        field, semantic_scale=0.0, lag_scale=0.0
+                    )
+                else:
+                    field = build_scalable_dynamic_field(
+                        model,
+                        tokenizer,
+                        requests,
+                        hparams,
+                        projector,
+                        contexts,
+                        target_state=current_terminal + target_velocity,
+                        **field_kwargs,
+                    )
+                    signed = slope_basis.combined(
+                        field,
+                        semantic_scale=tracking.gamma_z,
+                        lag_scale=p1r27_writer_entry.beta_h,
+                    )
+                slope_result = slope_basis.objective
+                alpha_req = semantic_action.r_w
+                target_receipt.update({
+                    "selected_target_sha256": tensor_sha256(target_next),
+                    "writer_desired_velocity_sha256": tensor_sha256(
+                        target_velocity
+                    ),
+                    "slope_basis": slope_basis.raw_free_payload(),
+                    "writer_entry": p1r27_writer_entry.raw_free_payload(),
+                    "semantic_action": semantic_action.raw_free_payload(),
+                    "tracking": tracking.raw_free_payload(),
+                })
+                target_receipt["identity_sha256"] = canonical_hash(target_receipt)
+            else:
+                field = build_scalable_dynamic_field(
+                    model,
+                    tokenizer,
+                    requests,
+                    hparams,
+                    projector,
+                    contexts,
+                    target_state=(
+                        current_terminal + target_velocity
+                        if p1r24
+                        else target_next
+                    ),
+                    **field_kwargs,
+                )
+                signed, slope_result = scalable_physical_signed_progress(
+                    model, objective_plan, field
+                )
             compute.add_wall("field_and_physical_slope", time.perf_counter() - field_started)
             _phase_add_objective(
                 compute, "physical_slope", slope_result, slope=True
@@ -424,6 +620,14 @@ def _run_ode_arm(
                 }
                 item["identity_sha256"] = canonical_hash(item)
                 delayed.append(item)
+                if p1r27:
+                    p1r27_realization.complete(
+                        source_v_w=float(pending["source_nll"]),
+                        next_v_w=current_nll,
+                        requested_progress=float(pending["alpha_apply"]),
+                        predicted_progress=float(pending["predicted"]),
+                        transition_index=int(pending["step_index"]) + 1,
+                    )
             problem_receipt = build_scalable_routing_problem(
                 field,
                 signed,
@@ -433,7 +637,7 @@ def _run_ode_arm(
             )
             routing_problem = (
                 p1r24_disable_historical(problem_receipt.problem)
-                if p1r24
+                if atomic_target_geometry
                 else problem_receipt.problem
             )
             field_semantic = canonical_hash(
@@ -445,7 +649,7 @@ def _run_ode_arm(
                 }
             )
             functional_started = time.perf_counter()
-            if not p1r24:
+            if not atomic_target_geometry:
                 inventory, functional_probe = _fixed_e8_functional_basis_probe(
                 model,
                 tokenizer,
@@ -484,6 +688,15 @@ def _run_ode_arm(
             compute.add_wall("functional_preservation_basis", time.perf_counter() - functional_started)
             route_started = time.perf_counter()
             routing = (
+                solve_semantic_first_routing(
+                    routing_problem,
+                    p1r27_writer_entry,
+                    arm=arm,
+                    requested_progress=alpha_req,
+                    semantic_reference=semantic_action.coefficients,
+                )
+                if p1r27 and p1r27_writer_entry is not None
+                else
                 solve_p1r24_matched_routing(
                     routing_problem,
                     arm=arm,
@@ -508,7 +721,7 @@ def _run_ode_arm(
             compute.add_wall("routing_solve", time.perf_counter() - route_started)
             if (
                 progress_simplex
-                and not p1r24
+                and not atomic_target_geometry
                 and routing.status is ProgressSimplexStatus.NO_POSITIVE_DIRECTION
             ):
                 raise ODEBFStateError("NO_POSITIVE_DIRECTION")
@@ -517,19 +730,26 @@ def _run_ode_arm(
                 P1R24RoutingStatus.Q_NUMERICAL_DEGENERACY,
             ):
                 raise ODEBFStateError(routing.status.value)
+            if p1r27 and routing.status is P1R27RoutingStatus.WRITER_CLF_SEMANTIC_STALL:
+                if p1r27_writer_entry is None:
+                    raise ODEBFStateError("P1R27 writer entry is absent")
             increment = (
                 progress_simplex_waypoint_factors(
                     field, routing.velocity, step_index=step_index
                 )
-                if progress_simplex or p1r24
+                if progress_simplex or atomic_target_geometry
                 else fixed_e8_waypoint_factors(
                     field, routing.velocity, step_index=step_index
                 )
             )
             candidate_factors = _merge_factors(current_factors, increment)
-            predicted = float(
-                routing_problem.signed_progress
-                @ np.asarray(routing.velocity, dtype=np.float64)
+            predicted = (
+                float(routing.predicted_progress)
+                if p1r27
+                else float(
+                    routing_problem.signed_progress
+                    @ np.asarray(routing.velocity, dtype=np.float64)
+                )
             )
             refresh.record(
                 step_index=step_index,
@@ -589,10 +809,14 @@ def _run_ode_arm(
                 next_physical.terminal_z,
             )
             contribution = [
-                float(a * v)
-                for a, v in zip(
+                float(a * coefficient)
+                for a, coefficient in zip(
                     routing_problem.signed_progress,
-                    routing.velocity,
+                    (
+                        routing.coefficients
+                        if p1r27
+                        else routing.velocity
+                    ),
                     strict=True,
                 )
             ]
@@ -618,7 +842,7 @@ def _run_ode_arm(
                     step_index=step_index,
                     factor_list_hashes=factor_list_hashes,
                 )
-                if p1r24
+                if atomic_target_geometry
                 else None
             )
             payload = {
@@ -647,7 +871,7 @@ def _run_ode_arm(
                 "functional_probe_sha256": functional_probe["identity_sha256"],
                 "progress": progress,
                 "per_layer_applied_progress": contribution,
-                "structural_h": 0.0 if p1r24 else routing_problem.historical.value(
+                "structural_h": 0.0 if atomic_target_geometry else routing_problem.historical.value(
                     np.asarray(routing.velocity)
                 ),
                 "structural_p": routing_problem.pretrained.value(
@@ -661,7 +885,9 @@ def _run_ode_arm(
                 "inner_step_heldout_evaluation_count": 0,
                 "retry_backtracking_reject_count": 0,
                 "routing_method": (
-                    P1R24_METHOD_ID
+                    P1R27_METHOD_ID
+                    if p1r27
+                    else P1R24_METHOD_ID
                     if p1r24
                     else
                     PROGRESS_SIMPLEX_METHOD_ID
@@ -669,7 +895,7 @@ def _run_ode_arm(
                     else "P1R23_STRENGTH_PRESERVING"
                 ),
                 "progress_simplex_decision_influence_count": (
-                    1 if progress_simplex or p1r24 else 0
+                    1 if progress_simplex or atomic_target_geometry else 0
                 ),
                 "persistent_historical_ledger_count": 0,
                 "historical_h_decision_influence_count": 0,
@@ -682,7 +908,7 @@ def _run_ode_arm(
                 / f"accepted-k{step_index + 1}.json",
                 payload,
             )
-            if p1r24:
+            if atomic_target_geometry:
                 for layer in field.layers:
                     accepted_by_layer[layer.layer].append(
                         AcceptedLayerContribution.from_field(
@@ -704,6 +930,14 @@ def _run_ode_arm(
                     "alpha_apply": routing.alpha_apply,
                 }
             )
+            if p1r27 and progress["actual"] is not None:
+                p1r27_realization.complete(
+                    source_v_w=current_nll,
+                    next_v_w=float(progress["terminal_mean_target_new_nll"]),
+                    requested_progress=float(routing.requested_progress),
+                    predicted_progress=predicted,
+                    transition_index=step_index + 1,
+                )
             current_factors = _factor_map(candidate_factors)
             current_target = target_next
             current_terminal = next_physical.terminal_z.clone()
@@ -713,31 +947,38 @@ def _run_ode_arm(
             )
         if pending is not None or len(accepted) != 8 or len(delayed) != 7:
             raise ODEBFStateError("P1R23 K8 delayed accounting differs")
-        terminal_replay = _controller_replay_entry(
-            model,
-            tokenizer,
-            alias=alias,
-            arm_state=arm_state,
-            sample_waypoint=8,
-            factors={},
-            request_by_sha256=request_by_sha256,
-            population_by_sha256=population_by_sha256,
-            schedule=schedule,
-            outer_entry_p_cache=outer_entry_p_cache,
-        )
-        terminal_value = _functional_trial(
-            model,
-            tokenizer,
-            alias=alias,
-            entry=terminal_replay,
-            theta0_cache=theta0_cache,
-            factors={},
-            lock=controller_lock,
-            ledger=legacy_ledger,
-        )
-        terminal_functional = _terminal_functional_payload(terminal_value)
+        if p1r27 and request_count == 1:
+            terminal_functional = {
+                "status": "NOT_EVALUATED_B1_TECHNICAL_SMOKE",
+                "model_forward_count": 0,
+                "heldout_access_count": 0,
+            }
+        else:
+            terminal_replay = _controller_replay_entry(
+                model,
+                tokenizer,
+                alias=alias,
+                arm_state=arm_state,
+                sample_waypoint=8,
+                factors={},
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                outer_entry_p_cache=outer_entry_p_cache,
+            )
+            terminal_value = _functional_trial(
+                model,
+                tokenizer,
+                alias=alias,
+                entry=terminal_replay,
+                theta0_cache=theta0_cache,
+                factors={},
+                lock=controller_lock,
+                ledger=legacy_ledger,
+            )
+            terminal_functional = _terminal_functional_payload(terminal_value)
         terminal_oracle: dict[str, Any] | None = None
-        if p1r24:
+        if atomic_target_geometry:
             oracle_variable = (
                 current_target.detach()
                 .to(device=next(model.parameters()).device, dtype=torch.float32)
@@ -765,7 +1006,9 @@ def _run_ode_arm(
         rollout_payload = {
             "arm": arm_label,
             "status": (
-                "P1R24_ATOMIC_STRENGTH_RECOVERY_K8_COMPLETE"
+                "P1R27_JOINT_WCLF_K8_COMPLETE"
+                if p1r27
+                else "P1R24_ATOMIC_STRENGTH_RECOVERY_K8_COMPLETE"
                 if p1r24
                 else "PROGRESS_SIMPLEX_DYNAMIC_K8_COMPLETE"
                 if progress_simplex
@@ -786,8 +1029,16 @@ def _run_ode_arm(
             "terminal_z8_oracle": terminal_oracle,
             "terminal_cumulative_structural_p": (
                 accepted[-1]["cumulative_atomic_structural_p"]
-                if p1r24 and accepted
+                if atomic_target_geometry and accepted
                 else None
+            ),
+            "accepted_realization_ledger": (
+                p1r27_realization.raw_free_payload() if p1r27 else None
+            ),
+            "writer_entry": (
+                None
+                if p1r27_writer_entry is None
+                else p1r27_writer_entry.raw_free_payload()
             ),
             "dynamic_refresh": refresh.finalize(),
             "compute": compute.raw_free_payload(),
@@ -798,7 +1049,9 @@ def _run_ode_arm(
             "initial_w0_sha256": initial_w0,
             "alphaedit_target_geometry": p1r24_alpha_geometry,
             "instruction_id": (
-                P1R24_INSTRUCTION_ID
+                P1R27_INSTRUCTION_ID
+                if p1r27
+                else P1R24_INSTRUCTION_ID
                 if p1r24
                 else
                 PROGRESS_SIMPLEX_INSTRUCTION_ID
@@ -806,7 +1059,9 @@ def _run_ode_arm(
                 else P1R23_INSTRUCTION_ID
             ),
             "method_id": (
-                P1R24_METHOD_ID
+                P1R27_METHOD_ID
+                if p1r27
+                else P1R24_METHOD_ID
                 if p1r24
                 else
                 PROGRESS_SIMPLEX_METHOD_ID
@@ -965,6 +1220,7 @@ def _run_ode_pair(
     allocation: str,
     progress_simplex: bool = False,
     p1r24: bool = False,
+    p1r27: bool = False,
     neutral_only: bool = False,
 ) -> dict[str, Any]:
     from .p1_runtime import ArmRuntimeState, _entry_parameter_snapshot_sha256
@@ -996,19 +1252,27 @@ def _run_ode_pair(
     outer_snapshot = _entry_parameter_snapshot_sha256(
         model, dict(base_receipt.parameter_sha256)
     )
-    counter = ModelForwardCounter(model, job_ledger)
-    try:
-        outer_cache = build_outer_entry_pretrained_cache(
-            model,
-            tokenizer,
-            outer_population,
-            theta0_cache,
-            outer_entry_snapshot_sha256=outer_snapshot,
-        )
-    finally:
-        counter.close()
+    outer_cache = None
+    if not (p1r27 and len(requests) == 1):
+        counter = ModelForwardCounter(model, job_ledger)
+        try:
+            outer_cache = build_outer_entry_pretrained_cache(
+                model,
+                tokenizer,
+                outer_population,
+                theta0_cache,
+                outer_entry_snapshot_sha256=outer_snapshot,
+            )
+        finally:
+            counter.close()
     w0_contract = _model_w0_contract(touched)
     routing_arms = (
+        (
+            f"{allocation}-P1R27-NEUTRAL",
+            f"{allocation}-P1R27-SOFT",
+        )
+        if p1r27
+        else
         (
             f"{allocation}-P1R24-NEUTRAL",
             f"{allocation}-P1R24-SOFT",
@@ -1081,6 +1345,7 @@ def _run_ode_pair(
             write_once=write_once,
             progress_simplex=progress_simplex,
             p1r24=p1r24,
+            p1r27=p1r27,
         )
     left = rollouts[selected_labels[0]]["public"]["initial"]
     left_metric = rollouts[selected_labels[0]]["public"]["metric"]
@@ -1115,7 +1380,9 @@ def _run_ode_pair(
     action_freeze = {
         "schema": f"{P1R23_SCHEMA}-paired-action-freeze/v1",
         "instruction_id": (
-            P1R24_INSTRUCTION_ID
+            P1R27_INSTRUCTION_ID
+            if p1r27
+            else P1R24_INSTRUCTION_ID
             if p1r24
             else
             PROGRESS_SIMPLEX_INSTRUCTION_ID
@@ -1123,7 +1390,9 @@ def _run_ode_pair(
             else P1R23_INSTRUCTION_ID
         ),
         "method_id": (
-            P1R24_METHOD_ID
+            P1R27_METHOD_ID
+            if p1r27
+            else P1R24_METHOD_ID
             if p1r24
             else
             PROGRESS_SIMPLEX_METHOD_ID
@@ -1146,11 +1415,17 @@ def _run_ode_pair(
     }
     action_freeze["identity_sha256"] = canonical_hash(action_freeze)
     action_sha = write_once(raw_root / "action-freeze.json", action_freeze)
-    if neutral_only:
+    if neutral_only or (p1r27 and len(requests) == 1):
         terminal = {
-            "schema": "ode-edit-s05-p1r24-b1-smoke-terminal/v1",
-            "instruction_id": P1R24_INSTRUCTION_ID,
-            "method_id": P1R24_METHOD_ID,
+            "schema": (
+                "ode-edit-s05-p1r27-b1-smoke-terminal/v1"
+                if p1r27
+                else "ode-edit-s05-p1r24-b1-smoke-terminal/v1"
+            ),
+            "instruction_id": (
+                P1R27_INSTRUCTION_ID if p1r27 else P1R24_INSTRUCTION_ID
+            ),
+            "method_id": P1R27_METHOD_ID if p1r27 else P1R24_METHOD_ID,
             "source_head": source_head,
             "alias": alias,
             "request_count": 1,
@@ -1163,12 +1438,20 @@ def _run_ode_pair(
             "heldout_evaluator_access_count": 0,
             "persistent_history_append_count": 0,
             "W0_restored": _model_w0_contract(touched) == w0_contract,
-            "status": "P1R24_B1_TECHNICAL_SMOKE_COMPLETE",
+            "status": (
+                "P1R27_B1_TECHNICAL_SMOKE_COMPLETE"
+                if p1r27
+                else "P1R24_B1_TECHNICAL_SMOKE_COMPLETE"
+            ),
         }
         terminal["identity_sha256"] = canonical_hash(terminal)
         terminal_sha = write_once(destination / "terminal.json", terminal)
         manifest = {
-            "schema": "ode-edit-s05-p1r24-b1-smoke-manifest/v1",
+            "schema": (
+                "ode-edit-s05-p1r27-b1-smoke-manifest/v1"
+                if p1r27
+                else "ode-edit-s05-p1r24-b1-smoke-manifest/v1"
+            ),
             "source_head": source_head,
             "terminal_sha256": terminal_sha,
             "action_freeze_sha256": action_sha,
@@ -1186,7 +1469,9 @@ def _run_ode_pair(
         dataset_path,
         requests,
         arm=(
-            f"P1R24-{allocation}-ATOMIC-STRENGTH-RECOVERY-PAIR"
+            f"P1R27-{allocation}-JOINT-WCLF-PAIR"
+            if p1r27
+            else f"P1R24-{allocation}-ATOMIC-STRENGTH-RECOVERY-PAIR"
             if p1r24
             else f"P1R23-{allocation}-PROGRESS-SIMPLEX-PAIR"
             if progress_simplex
@@ -1222,7 +1507,9 @@ def _run_ode_pair(
     terminal = {
         "schema": f"{P1R23_SCHEMA}-ode-pair-terminal/v1",
         "instruction_id": (
-            P1R24_INSTRUCTION_ID
+            P1R27_INSTRUCTION_ID
+            if p1r27
+            else P1R24_INSTRUCTION_ID
             if p1r24
             else
             PROGRESS_SIMPLEX_INSTRUCTION_ID
@@ -1230,7 +1517,9 @@ def _run_ode_pair(
             else P1R23_INSTRUCTION_ID
         ),
         "method_id": (
-            P1R24_METHOD_ID
+            P1R27_METHOD_ID
+            if p1r27
+            else P1R24_METHOD_ID
             if p1r24
             else
             PROGRESS_SIMPLEX_METHOD_ID
@@ -1837,6 +2126,10 @@ def run_p1r23_scalable_batched(
 ) -> dict[str, Any]:
     del stages
     p1r24_role = role.startswith("P1R24_")
+    p1r27_role = role.startswith("P1R27_")
+    if p1r24_role and p1r27_role:
+        raise ODEBFContractError("P1R24/P1R27 role differs")
+    atomic_target_role = p1r24_role or p1r27_role
     progress_simplex_role = role.startswith("PROGRESS_SIMPLEX_")
     simplex_lock_sha256: str | None = None
     if progress_simplex_role:
@@ -1856,9 +2149,9 @@ def run_p1r23_scalable_batched(
         [str(item["request_sha256"]) for item in requests]
     )
     if (
-        len(requests) not in ((1, 10) if p1r24_role else (10, 100))
+        len(requests) not in ((1, 10) if atomic_target_role else (10, 100))
         or (
-            not p1r24_role
+            not atomic_target_role
             and request_order != stream["batch_ordered_request_digest_v1"][0]
         )
         or numerical_lock["native_controls"]["optimized_native_target"]
@@ -1888,6 +2181,10 @@ def run_p1r23_scalable_batched(
             "P1R24_B1_RS_NEUTRAL",
             "P1R24_B10_RS_PAIR",
             "P1R24_B10_BG_PAIR",
+            "P1R27_B1_RS_PAIR",
+            "P1R27_B1_BG_PAIR",
+            "P1R27_B10_RS_PAIR",
+            "P1R27_B10_BG_PAIR",
         ),
         "estimand": "ATOMIC",
         "joint_batch_application_count": 1,
@@ -1906,6 +2203,10 @@ def run_p1r23_scalable_batched(
         "P1R24_B1_RS_NEUTRAL",
         "P1R24_B10_RS_PAIR",
         "P1R24_B10_BG_PAIR",
+        "P1R27_B1_RS_PAIR",
+        "P1R27_B1_BG_PAIR",
+        "P1R27_B10_RS_PAIR",
+        "P1R27_B10_BG_PAIR",
     ):
         progress_simplex = progress_simplex_role
         return _run_ode_pair(
@@ -1940,11 +2241,14 @@ def run_p1r23_scalable_batched(
                     "PROGRESS_SIMPLEX_RS_PAIR",
                     "P1R24_B1_RS_NEUTRAL",
                     "P1R24_B10_RS_PAIR",
+                    "P1R27_B1_RS_PAIR",
+                    "P1R27_B10_RS_PAIR",
                 )
                 else "BG"
             ),
             progress_simplex=progress_simplex,
             p1r24=p1r24_role,
+            p1r27=p1r27_role,
             neutral_only=role == "P1R24_B1_RS_NEUTRAL",
         )
     if role == "CALIBRATION":

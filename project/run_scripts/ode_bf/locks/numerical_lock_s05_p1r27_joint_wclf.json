@@ -1,0 +1,62 @@
+{
+  "schema_version": "ode-edit-s05-p1r27-joint-wclf-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R27-JOINT-WCLF-ZTRACKING-SEMANTIC-PRESERVING-BF-V1",
+  "amendment_id": "ODEEDIT-S05-P1R27-JOINT-WCLF-ZTRACKING-SEMANTIC-PRESERVING-BF-V1-A1-WGEOM",
+  "method_id": "P1R27-JOINT-WCLF-ZTRACKING-SEMANTIC-FIRST-BF-V1",
+  "base_checkpoint": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "grid": {"K": 8, "h": 0.125, "tau_final": 1.0, "retry": 0, "backtracking": 0, "candidate_trial": 0},
+  "z_clf": {
+    "metric": "EUCLIDEAN",
+    "shared_speed": "median_i_l2_norm_z_base_i",
+    "rs_denominator": "max(norm_g_i_entry,norm_g_i_current,epsilon)",
+    "bg_denominator": "max(frobenius_g_entry,frobenius_g_current,epsilon)",
+    "regularizer_projection": "remove_target_new_nll_increasing_component_then_chi_gate",
+    "native_clamp_application_count": 1
+  },
+  "action_geometry": {
+    "coordinate": "c=h*v",
+    "entry_reference": "c_ref_l=h_on_entry_positive_slope_else_zero",
+    "metric": "G_num=RoutingProblem.trust_metric/h^2",
+    "metric_solver": "FP64_SYMMETRIC_CHOLESKY_NO_RIDGE_NO_PINV",
+    "energy_reference": "c_ref0^T_G_num0_c_ref0",
+    "energy_relative_tolerance": 1e-8,
+    "energy_absolute_tolerance": 1e-12,
+    "per_layer_cap_count": 0,
+    "active_mask": "CURRENT_STRICT_POSITIVE_SLOPE"
+  },
+  "writer_clf": {
+    "eta_w": "norm_G(c_ref0)/(norm_G(G_num0^-1*a0)+1e-12)",
+    "eta_frozen": true,
+    "r_w": "positive_part(a^T*c_sem)",
+    "kappa_w": "r_w0/(h*max(V_W0,1e-12))",
+    "beta_h": "-expm1(-kappa_w*h)",
+    "stage_order": ["minimum_semantic_slack", "minimum_cumulative_structural_p", "minimum_capacity_inside_p_tie"],
+    "historical_h_count": 0,
+    "functional_p_veto_count": 0,
+    "hard_p_h_budget_count": 0
+  },
+  "tracking": {
+    "gamma_z": "min(1,r_w/(r_z+1e-12))",
+    "desired_writer_displacement": "gamma_z*d_z0+beta_h*(z-y)",
+    "slope_basis": "semantic_and_lag_components_one_shared_full_six_vjp",
+    "additional_slope_backward_count": 0,
+    "remaining_steps_decision_influence_count": 0
+  },
+  "stall": {
+    "entry_epsilon": 1e-12,
+    "status": "WRITER_CLF_SEMANTIC_STALL",
+    "constant_grid_to_K8": true,
+    "technical_metric_failure": "NUMERICAL_ACTION_METRIC_INVALID"
+  },
+  "inputs": {
+    "seal_root": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+    "request_order": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b",
+    "allocations": ["RS", "BG"],
+    "aliases": ["llama3-8b-inst", "qwen2.5-7b-inst"]
+  },
+  "decision_influence_zero": ["absolute_0p05", "remaining_steps", "hard_p_h_budget", "functional_p_veto", "historical_h", "retry", "backtracking"],
+  "project_gpu_cap": 4,
+  "callback_job_count": 0,
+  "scientific_promotion": false,
+  "root_digest": "fd26df65b51faccd6e4cc06280398a9f0f5fc185cd6354c44c1dae7537e5b9c8"
+}

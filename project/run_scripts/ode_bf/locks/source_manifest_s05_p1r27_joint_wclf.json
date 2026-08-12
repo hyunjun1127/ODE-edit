@@ -1,0 +1,19 @@
+{
+  "schema_version": "ode-edit-s05-p1r27-joint-wclf-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R27-JOINT-WCLF-ZTRACKING-SEMANTIC-PRESERVING-BF-V1",
+  "base_checkpoint": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "entries": [
+    {"path":"project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r27_joint_wclf.json","size":2816,"sha256":"fbc7359c6904c8f1d988646a094f3a7a922e197135de565006c4e8f51964b806"},
+    {"path":"project/run_scripts/ode_bf/p1_runtime.py","size":198875,"sha256":"41d74ce48f247efecebd1eed244b4876772ad1889f8ec1acb57ef75c1c6bc8a3"},
+    {"path":"project/run_scripts/ode_bf/p1_scalable_batched_experiment.py","size":91126,"sha256":"29d0fb1ab69ec1bd7f3c003d915cbca7de4fc7b0dd6baf7194e2a1c237615d8e"},
+    {"path":"project/run_scripts/ode_bf/p1r27_joint_wclf.py","size":39428,"sha256":"a2847eff2684823f343f2ceb6b0b19df30b088bd0db519f0d2f7475440d94350"},
+    {"path":"project/run_scripts/ode_bf/p1r27_joint_wclf_panel.py","size":1155,"sha256":"6c5368cfbfbfe49a884f6e6298a262f06d1c82a13430c7c0ce9a7ce8fca03ced"},
+    {"path":"project/run_scripts/ode_bf/scalable_batched_model.py","size":37453,"sha256":"1ebdb8c94371105eaa16c03fedda7f2ca1ec3856e0ded35331b5ef0694eabbc3"},
+    {"path":"project/run_scripts/ode_bf/tests/test_p1r27_joint_wclf.py","size":10207,"sha256":"97755f54d2aaa09e69f6c3918e42908d0832e2030cf7be3fab2dd51b2f2dce85"},
+    {"path":"project/run_scripts/session05_ode_bf_p1r27_joint_wclf.py","size":4840,"sha256":"a62febecb99e5b4b88629108d12d276ec61285ca33bb003981f3de25905a9bab"},
+    {"path":"project/run_scripts/session05_ode_bf_p1r27_joint_wclf.sbatch","size":2846,"sha256":"488f7fa5658c3f0e6363867412020e62add6200d0e6a0ff432875914e1031d2d"},
+    {"path":"project/run_scripts/session05_ode_bf_p1r27_joint_wclf_dry_plan.py","size":2905,"sha256":"0bcc2792e51030ae53ac31137bc420233ccfd466584cb9897de535f54c4ecd58"},
+    {"path":"project/run_scripts/session05_ode_bf_submit_p1r27_joint_wclf.py","size":5500,"sha256":"2e911581a5a22df6e7dc636ea1b8353891ff7b268bce0435cb080d58600b3122"}
+  ],
+  "root_digest": "c92666adeb8665d92684e278b496181c81204218eccc2e9a6c2d065e864bb24c"
+}

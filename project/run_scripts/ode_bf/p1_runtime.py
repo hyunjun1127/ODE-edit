@@ -3216,6 +3216,7 @@ def run_p1(
     scalable_batched_role: str | None = None,
     scalable_batched_batch_size: int | None = None,
     atomic_strength_recovery_role: str | None = None,
+    joint_wclf_role: str | None = None,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3240,10 +3241,15 @@ def run_p1(
             atomic_runtime_conformance_mode,
             scalable_batched_role is not None,
             atomic_strength_recovery_role is not None,
+            joint_wclf_role is not None,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if atomic_strength_recovery_role is not None:
+    if joint_wclf_role is not None:
+        from .p1r27_joint_wclf_panel import expected_p1r27_result_name
+
+        expected_name = expected_p1r27_result_name(alias, joint_wclf_role)
+    elif atomic_strength_recovery_role is not None:
         from .p1r24_atomic_strength_panel import expected_p1r24_result_name
 
         expected_name = expected_p1r24_result_name(alias, atomic_strength_recovery_role)
@@ -3373,8 +3379,9 @@ def run_p1(
         and not atomic_runtime_optimization_mode
         and not atomic_runtime_conformance_mode
         and scalable_batched_role is None
-        and atomic_strength_recovery_role is None,
-        # P1R23/P1R24 own distinct atomic seals and never consume the held
+        and atomic_strength_recovery_role is None
+        and joint_wclf_role is None,
+        # P1R23/P1R24 own distinct atomic seals; P1R27 inherits that boundary.
         # sequential ODE-alloc artifact.
     )
     artifact_receipt = artifact_guard.preflight()
@@ -3544,6 +3551,7 @@ def run_p1(
         or atomic_runtime_conformance_mode
         or scalable_batched_role is not None
         or atomic_strength_recovery_role is not None
+        or joint_wclf_role is not None
     ):
         from .p1_cold_structp_softp_noveto_panel import (
             load_cold_requests,
@@ -3559,8 +3567,13 @@ def run_p1(
             or atomic_runtime_conformance_mode
             or scalable_batched_role is not None
             or atomic_strength_recovery_role is not None
+            or joint_wclf_role is not None
         ):
-            if scalable_batched_role is not None or atomic_strength_recovery_role is not None:
+            if (
+                scalable_batched_role is not None
+                or atomic_strength_recovery_role is not None
+                or joint_wclf_role is not None
+            ):
                 from .p1_common_coldcoord_fixed_e8_panel import (
                     common_cold_schedule,
                     load_common_cold_requests,
@@ -3624,7 +3637,11 @@ def run_p1(
             )
             cold_requests = load_common_cold_requests(dataset, cold_stream)
             schedule = common_cold_schedule(sampling_seal)
-            if scalable_batched_role is not None or atomic_strength_recovery_role is not None:
+            if (
+                scalable_batched_role is not None
+                or atomic_strength_recovery_role is not None
+                or joint_wclf_role is not None
+            ):
                 scalable_batched_lock, scalable_batched_lock_sha256 = (
                     load_and_validate_p1r23_lock(locks / P1R23_LOCK_FILE)
                 )
@@ -3635,7 +3652,28 @@ def run_p1(
                     != cold_stream["batch_ordered_request_digest_v1"][0]
                 ):
                     raise ODEBFContractError("P1R23 B10 seal binding differs")
-                if atomic_strength_recovery_role is not None:
+                if joint_wclf_role is not None:
+                    if joint_wclf_role in (
+                        "P1R27_B1_RS_PAIR",
+                        "P1R27_B1_BG_PAIR",
+                    ):
+                        cold_requests = tuple(cold_requests[:1])
+                        from .scalable_batched_runtime import scalable_ordered_request_digest
+
+                        b1_order = scalable_ordered_request_digest(
+                            [str(item["request_sha256"]) for item in cold_requests]
+                        )
+                        cold_stream = {
+                            **cold_stream,
+                            "batch_ordered_request_digest_v1": [b1_order],
+                            "requests": cold_stream["requests"][:1],
+                        }
+                    elif joint_wclf_role not in (
+                        "P1R27_B10_RS_PAIR",
+                        "P1R27_B10_BG_PAIR",
+                    ):
+                        raise ODEBFContractError("P1R27 role differs")
+                elif atomic_strength_recovery_role is not None:
                     if atomic_strength_recovery_role == "P1R24_B1_RS_NEUTRAL":
                         cold_requests = tuple(cold_requests[:1])
                         from .scalable_batched_runtime import scalable_ordered_request_digest
@@ -3812,6 +3850,7 @@ def run_p1(
             and not atomic_runtime_conformance_mode
             and scalable_batched_role is None
             and atomic_strength_recovery_role is None
+            and joint_wclf_role is None
         ):
             from .p1_cold_structp_softp_noveto_panel import (
                 cold_schedule,
@@ -3870,8 +3909,13 @@ def run_p1(
         or atomic_runtime_conformance_mode
         or scalable_batched_role is not None
         or atomic_strength_recovery_role is not None
+        or joint_wclf_role is not None
     ):
-        if scalable_batched_role is not None or atomic_strength_recovery_role is not None:
+        if (
+            scalable_batched_role is not None
+            or atomic_strength_recovery_role is not None
+            or joint_wclf_role is not None
+        ):
             from .p1_common_coldcoord_fixed_e8_panel import (
                 validate_common_cold_runtime_gpu_capacity,
             )
@@ -4094,8 +4138,13 @@ def run_p1(
         or atomic_runtime_conformance_mode
         or scalable_batched_role is not None
         or atomic_strength_recovery_role is not None
+        or joint_wclf_role is not None
     ):
-        if scalable_batched_role is not None or atomic_strength_recovery_role is not None:
+        if (
+            scalable_batched_role is not None
+            or atomic_strength_recovery_role is not None
+            or joint_wclf_role is not None
+        ):
             from .p1_scalable_batched_experiment import (
                 run_p1r23_scalable_batched,
             )
@@ -4105,7 +4154,9 @@ def run_p1(
                 tokenizer,
                 alias=alias,
                 role=(
-                    atomic_strength_recovery_role
+                    joint_wclf_role
+                    if joint_wclf_role is not None
+                    else atomic_strength_recovery_role
                     if atomic_strength_recovery_role is not None
                     else scalable_batched_role
                 ),
