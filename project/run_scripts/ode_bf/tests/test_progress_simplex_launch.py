@@ -68,7 +68,10 @@ class ProgressSimplexLaunchTests(unittest.TestCase):
             / "project/run_scripts/session05_ode_bf_submit_progress_simplex_router.py"
         ).read_text(encoding="utf-8")
         self.assertIn("#SBATCH --nodelist=devbox", script)
-        self.assertIn("p1r23-progress-simplex-original-b10-repro-v1", script)
+        self.assertIn('RUN_TOKEN="p1r23-progress-simplex-router-v1"', script)
+        self.assertNotIn(
+            'RUN_TOKEN="p1r23-progress-simplex-original-b10-repro-v1"', script
+        )
         self.assertIn("codex/p1r23-progress-simplex-original-b10-repro-v1", script)
         self.assertIn("ReqNodeList=devbox", submitter)
         self.assertIn("original-b10-repro", submitter)

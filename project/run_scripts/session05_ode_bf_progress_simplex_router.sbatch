@@ -15,7 +15,7 @@ readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
 readonly EXPECTED_SESSION="019fe489-c968-75f3-9965-7cfbc26c0a99"
-readonly RUN_TOKEN="p1r23-progress-simplex-original-b10-repro-v1"
+readonly RUN_TOKEN="p1r23-progress-simplex-router-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly EXPECTED_BRANCH="codex/p1r23-progress-simplex-original-b10-repro-v1"
 
