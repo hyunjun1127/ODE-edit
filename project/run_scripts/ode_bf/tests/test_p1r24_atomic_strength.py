@@ -86,7 +86,15 @@ class P1R24ContractTests(unittest.TestCase):
         self.assertEqual(step0.receipt["remaining_steps"], 8)
         self.assertEqual(step0.receipt["physical_h_application_count"], 1)
         self.assertEqual(step0.receipt["second_remaining_division_count"], 0)
-        self.assertLessEqual(step0.receipt["identity_max_abs_residual"], 1.0e-8)
+        self.assertEqual(step0.receipt["identity_max_abs_residual"], 0.0)
+        self.assertGreaterEqual(step0.receipt["analytic_to_model_cast_max_abs"], 0.0)
+        self.assertEqual(step0.required_displacement.dtype, torch.float32)
+        torch.testing.assert_close(
+            0.125 * step0.write_velocity,
+            step0.required_displacement,
+            rtol=0.0,
+            atol=0.0,
+        )
         lagged_terminal = step0.target_next - 0.75
         step7 = p1r24_target_step(step0.target_next, lagged_terminal, z0, nll, kl, metric, lock, step_index=7, frozen_mask=(False,))
         self.assertEqual(step7.receipt["remaining_steps"], 1)

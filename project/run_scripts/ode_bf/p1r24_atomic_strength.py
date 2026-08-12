@@ -413,8 +413,14 @@ def p1r24_target_step(
     lag = (current64 - current_terminal.detach().to(device="cpu", dtype=torch.float64)).contiguous()
     remaining = P1R24_K - step_index
     required = (displacement + lag / remaining).contiguous()
-    write_velocity = (required / P1R24_H).to(dtype=torch.float32).contiguous()
-    identity_residual = float(torch.max(torch.abs(P1R24_H * write_velocity.to(torch.float64) - required)))
+    required_model = required.to(dtype=torch.float32).contiguous()
+    write_velocity = (required_model / P1R24_H).contiguous()
+    identity_residual = float(
+        torch.max(torch.abs(P1R24_H * write_velocity - required_model))
+    )
+    analytic_to_model_cast_residual = float(
+        torch.max(torch.abs(required_model.to(torch.float64) - required))
+    )
     if identity_residual > P1R24_NUMERICAL_EPSILON:
         raise ODEBFContractError("P1R24 remaining-step identity differs")
     alpha_target_signed = float(-torch.sum(nll_gradient * displacement))
@@ -435,9 +441,11 @@ def p1r24_target_step(
         "clamp_ratio": clamp_ratio,
         "target_displacement_sha256": tensor_sha256(displacement),
         "write_lag_sha256": tensor_sha256(lag),
-        "required_displacement_sha256": tensor_sha256(required),
+        "required_displacement_sha256": tensor_sha256(required_model),
+        "analytic_required_displacement_sha256": tensor_sha256(required),
         "write_velocity_sha256": tensor_sha256(write_velocity),
         "identity_max_abs_residual": identity_residual,
+        "analytic_to_model_cast_max_abs": analytic_to_model_cast_residual,
         "alpha_target_signed": alpha_target_signed,
         "rho_write_signed": rho_signed,
         "rho_write": rho,
@@ -453,7 +461,7 @@ def p1r24_target_step(
     return P1R24TargetStep(
         target_next,
         displacement.to(dtype=torch.float32),
-        required.to(dtype=torch.float32),
+        required_model,
         write_velocity,
         nll_gradient.to(dtype=torch.float32),
         combined.to(dtype=torch.float32),

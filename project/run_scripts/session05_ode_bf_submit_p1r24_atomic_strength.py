@@ -47,27 +47,46 @@ def _active_gpu_jobs() -> int:
     return sum(1 for line in lines if "gpu" in line.casefold())
 
 
-def submit(source_head: str, phase: str) -> dict[str, object]:
+def submit(
+    source_head: str, phase: str, smoke_task_index: int | None = None
+) -> dict[str, object]:
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(["git", "status", "--porcelain", "--untracked-files=no"]).stdout
     if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("P1R24 execution source differs")
     plan = dry.build_plan(source_head, phase)
-    if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
+    if smoke_task_index is not None and (
+        phase != "smoke" or smoke_task_index not in (0, 1)
+    ):
+        raise ODEBFContractError("P1R24 focused smoke task differs")
+    selected_indices = (
+        [smoke_task_index]
+        if smoke_task_index is not None
+        else list(range(int(plan["job_count"])))
+    )
+    selected_jobs = [plan["jobs"][index] for index in selected_indices]
+    if any((RESULT_PARENT / str(job["result_name"])).exists() for job in selected_jobs):
         raise ODEBFContractError("P1R24 result namespace exists")
     active = _active_gpu_jobs()
-    new = int(plan["array_max_concurrent_gpu"])
+    new = 1 if smoke_task_index is not None else int(plan["array_max_concurrent_gpu"])
     if active + new > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R24 server1 project GPU cap differs")
-    namespace = f"s05-p1r24-{phase}-{source_head[:12]}-v1"
+    task_suffix = (
+        f"-task{smoke_task_index}" if smoke_task_index is not None else ""
+    )
+    namespace = f"s05-p1r24-{phase}{task_suffix}-{source_head[:12]}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P1R24 submission namespace exists")
     log_root = REPO_ROOT / f"local/odebf/logs/p1r24-{phase}-{source_head[:12]}"
     log_root.mkdir(mode=0o700, parents=True, exist_ok=True)
-    array = f"0-{int(plan['job_count']) - 1}%{new}"
+    array = (
+        str(smoke_task_index)
+        if smoke_task_index is not None
+        else f"0-{int(plan['job_count']) - 1}%{new}"
+    )
     intent = {
         "schema": "ode-edit-s05-p1r24-submission-intent/v1",
         "source_head": source_head,
@@ -77,6 +96,7 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
         "project_gpu_cap": PROJECT_GPU_CAP,
         "held_then_atomic_release": True,
         "array": array,
+        "selected_task_indices": selected_indices,
     }
     intent_sha = _write_once(intent_path, intent)
     submitted = _run([
@@ -101,8 +121,8 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
         "phase": phase,
         "job_id": job_id,
         "array": array,
-        "job_count": plan["job_count"],
-        "trajectory_count": plan["trajectory_count"],
+        "job_count": len(selected_jobs),
+        "trajectory_count": sum(int(job["trajectory_count"]) for job in selected_jobs),
         "max_concurrent_gpu": new,
         "project_gpu_cap": PROJECT_GPU_CAP,
         "intent_sha256": intent_sha,
@@ -118,8 +138,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--phase", required=True, choices=("smoke", "production"))
+    parser.add_argument("--smoke-task-index", type=int)
     args = parser.parse_args()
-    print(json.dumps(submit(args.source_head, args.phase), sort_keys=True, separators=(",", ":")))
+    print(
+        json.dumps(
+            submit(args.source_head, args.phase, args.smoke_task_index),
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+    )
     return 0
 
 
