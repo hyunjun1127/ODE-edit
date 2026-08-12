@@ -16,7 +16,7 @@ import zipfile
 from contextlib import AbstractContextManager, nullcontext
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
 import torch
@@ -831,6 +831,7 @@ class P1LayerField:
     covariance_receipt: CovarianceActionReceipt
     woodbury_certificate: WoodburyCertificate
     history_action: torch.Tensor
+    factor_capacity_observation: Mapping[str, Any] | None = None
 
     def __post_init__(self) -> None:
         valid_full = (
@@ -910,6 +911,7 @@ class P1LayerField:
             "factor_sha256": self.factor_identity(),
             "layer_arm_sha256": self.arm_identity(),
             "factor_frobenius_sq": self.factor_frobenius_sq,
+            "factor_capacity_observation": self.factor_capacity_observation,
             "covariance": asdict(self.covariance_receipt),
             "woodbury": asdict(self.woodbury_certificate),
             "history_action_shape": list(self.history_action.shape),
@@ -945,12 +947,88 @@ class P1DynamicField:
         }
 
 
+def observe_dynamic_factor_capacity(
+    residual: torch.Tensor,
+    q: torch.Tensor,
+    *,
+    layer: int,
+    request_order_sha256: str,
+    accepted_waypoint: int,
+) -> dict[str, Any]:
+    residual64 = residual.detach().to(device="cpu", dtype=torch.float64)
+    q64 = q.detach().to(device="cpu", dtype=torch.float64)
+    residual_gram = residual64.T @ residual64
+    q_gram = q64.T @ q64
+    value = float(torch.sum(residual_gram * q_gram))
+    finite_inputs = bool(
+        torch.isfinite(residual64).all() and torch.isfinite(q64).all()
+    )
+    finite_value = math.isfinite(value)
+    if not finite_inputs or not finite_value:
+        value_class = "NONFINITE"
+    elif value < 0.0:
+        value_class = "NEGATIVE"
+    elif value == 0.0:
+        value_class = "ZERO"
+    else:
+        value_class = "POSITIVE"
+
+    def eig_summary(value_gram: torch.Tensor) -> tuple[float | None, float | None]:
+        if not bool(torch.isfinite(value_gram).all()):
+            return None, None
+        eigenvalues = torch.linalg.eigvalsh(value_gram)
+        return float(eigenvalues.min()), float(eigenvalues.max())
+
+    residual_min, residual_max = eig_summary(residual_gram)
+    q_min, q_max = eig_summary(q_gram)
+    payload = {
+        "schema": "ode-edit-p1-dynamic-factor-capacity-observation/v1",
+        "layer": int(layer),
+        "accepted_waypoint": int(accepted_waypoint),
+        "request_order_sha256": request_order_sha256,
+        "factor_capacity": value if finite_value else None,
+        "factor_capacity_hex": value.hex() if finite_value else None,
+        "value_class": value_class,
+        "finite_inputs": finite_inputs,
+        "finite_value": finite_value,
+        "residual_frobenius_norm": float(torch.linalg.vector_norm(residual64))
+        if finite_inputs
+        else None,
+        "q_frobenius_norm": float(torch.linalg.vector_norm(q64))
+        if finite_inputs
+        else None,
+        "residual_gram_min_eigenvalue": residual_min,
+        "residual_gram_max_eigenvalue": residual_max,
+        "q_gram_min_eigenvalue": q_min,
+        "q_gram_max_eigenvalue": q_max,
+        "residual_sha256": tensor_sha256(residual),
+        "q_sha256": tensor_sha256(q),
+        "expected_formula": "trace((R^T R)*(Q^T Q))=||R Q^T||_F^2",
+        "coordinate_units": "raw-factor-frobenius-squared",
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
+
+
 def _validate_dynamic_factor_capacity(
-    value: float, *, allow_zero_capacity: bool
+    value: float,
+    *,
+    allow_zero_capacity: bool,
+    observation: Mapping[str, Any] | None = None,
 ) -> float:
     if not isinstance(allow_zero_capacity, bool):
         raise ODEBFContractError("P1 zero-capacity policy is not boolean")
     observed = float(value)
+    if observation is not None:
+        observed_value = observation.get("factor_capacity")
+        expected_class = observation.get("value_class")
+        if (
+            (math.isfinite(observed) and observed_value != observed)
+            or (observed > 0.0 and expected_class != "POSITIVE")
+            or (observed == 0.0 and expected_class != "ZERO")
+            or (not math.isfinite(observed) and expected_class != "NONFINITE")
+        ):
+            raise ODEBFContractError("P1 dynamic factor-capacity observation differs")
     if (
         not math.isfinite(observed)
         or observed < 0.0
@@ -990,6 +1068,7 @@ def build_p1_dynamic_field(
     ledger: ComputeLedger,
     residual_policy: str = FULL_CURRENT_RESIDUAL_DEFINITION,
     allow_zero_capacity: bool = False,
+    factor_capacity_observer: Callable[[Mapping[str, Any]], None] | None = None,
     shared_terminal_residual: SharedTerminalResidualInput | None = None,
     captured_keys_by_layer: Mapping[int, torch.Tensor] | None = None,
     allow_inner_empty_cache: bool = True,
@@ -1146,9 +1225,19 @@ def build_p1_dynamic_field(
             )
             right_gram = q.T.to(dtype=torch.float64) @ q.to(dtype=torch.float64)
             left_gram = residual.T.to(dtype=torch.float64) @ residual.to(dtype=torch.float64)
+            capacity_observation = observe_dynamic_factor_capacity(
+                residual,
+                q,
+                layer=layer,
+                request_order_sha256=order,
+                accepted_waypoint=accepted_waypoint,
+            )
+            if factor_capacity_observer is not None:
+                factor_capacity_observer(capacity_observation)
             frobenius_sq = _validate_dynamic_factor_capacity(
                 float(torch.sum(left_gram * right_gram)),
                 allow_zero_capacity=allow_zero_capacity,
+                observation=capacity_observation,
             )
             history_action = (
                 residual.to(dtype=torch.float64)
@@ -1188,6 +1277,7 @@ def build_p1_dynamic_field(
                     covariance_receipt,
                     solved.certificate,
                     history_action,
+                    capacity_observation,
                 )
             )
             del p_device, k_device, history_device, solved, parameter

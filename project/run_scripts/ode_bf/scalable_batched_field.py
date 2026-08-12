@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import math
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
 import torch
@@ -379,6 +379,8 @@ def build_scalable_dynamic_field(
     projector_sha256: str,
     residual_tolerance: float,
     ledger: ComputeLedger,
+    allow_zero_capacity: bool = False,
+    factor_capacity_observer: Callable[[Mapping[str, Any]], None] | None = None,
 ) -> P1DynamicField:
     request_count = len(requests)
     layers = tuple(int(item) for item in hparams.layers)
@@ -411,7 +413,8 @@ def build_scalable_dynamic_field(
         residual_tolerance=residual_tolerance,
         ledger=ledger,
         residual_policy=SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1,
-        allow_zero_capacity=False,
+        allow_zero_capacity=allow_zero_capacity,
+        factor_capacity_observer=factor_capacity_observer,
         shared_terminal_residual=residual,
         captured_keys_by_layer=captured_keys_by_layer,
         allow_inner_empty_cache=False,

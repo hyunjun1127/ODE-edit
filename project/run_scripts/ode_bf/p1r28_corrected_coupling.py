@@ -394,7 +394,7 @@ class AffineTrustDomain:
         if (
             not math.isfinite(self.write_trust_fraction)
             or self.write_trust_fraction <= 0.0
-            or np.any(values[0] <= 0.0)
+            or np.any(values[0] < 0.0)
             or np.any(values[2] < 0.0)
         ):
             raise ODEBFContractError("P1R28 trust geometry differs")
@@ -407,7 +407,7 @@ class AffineTrustDomain:
             + 2.0 * lag_scale * _vector(self.cross, label="trust cross")
             + lag_scale * lag_scale * _vector(self.lag, label="trust lag")
         )
-        if not np.all(np.isfinite(value)) or np.any(value <= 0.0):
+        if not np.all(np.isfinite(value)) or np.any(value < 0.0):
             raise ODEBFContractError("P1R28 trust metric is degenerate")
         return value
 
@@ -491,6 +491,37 @@ def largest_feasible_lag_scale(
 
     semantic = slopes.semantic.array
     lag = slopes.lag.array
+    semantic0 = _candidate(0.0, slopes, demand, domain)
+    if not np.any(semantic > 0.0):
+        payload = {
+            "schema": "ode-edit-s05-p1r28-largest-feasible-lag/v1",
+            "status": P1R28CouplingStatus.SEMANTIC_NO_POSITIVE_DIRECTION.value,
+            "lag_scale": 0.0,
+            "rho": semantic0.rho,
+            "r_max": semantic0.r_max,
+            "slopes": list(slopes.semantic.values),
+            "candidates": [asdict(semantic0)],
+            "reachability_definition": "pure semantic direction absent before tracking",
+            "solve": "lambda-zero-scientific-totality",
+            "tolerance_source": "SIMPLEX_PRIMAL_TOLERANCE",
+            "backend_call_count": 0,
+            "added_model_forward_count": 0,
+            "added_backward_count": 0,
+            "added_materialization_count": 0,
+        }
+        return CouplingSelection(
+            P1R28CouplingStatus.SEMANTIC_NO_POSITIVE_DIRECTION,
+            0.0,
+            semantic0.rho,
+            semantic0.r_max,
+            slopes.semantic.values,
+            (semantic0,),
+            0,
+            0,
+            0,
+            0,
+            canonical_hash(payload),
+        )
     points = {0.0, 1.0}
     for base, delta in zip(semantic, lag, strict=True):
         if delta != 0.0:
@@ -548,7 +579,6 @@ def largest_feasible_lag_scale(
         _candidate(point, slopes, demand, domain) for point in sorted(probes)
     )
     feasible = [item for item in candidates if item.feasible]
-    semantic0 = _candidate(0.0, slopes, demand, domain)
     full1 = _candidate(1.0, slopes, demand, domain)
     if semantic0.rho > P1R24_Q_EPSILON and semantic0.r_max <= P1R24_Q_EPSILON:
         status = P1R28CouplingStatus.SEMANTIC_NO_POSITIVE_DIRECTION
@@ -603,7 +633,7 @@ def semantic_only_coupling(
     domain: AffineTrustDomain,
 ) -> CouplingSelection:
     selected = _candidate(0.0, slopes, demand, domain)
-    if selected.rho > P1R24_Q_EPSILON and selected.r_max <= P1R24_Q_EPSILON:
+    if not np.any(slopes.semantic.array > 0.0):
         status = P1R28CouplingStatus.SEMANTIC_NO_POSITIVE_DIRECTION
     elif not selected.feasible:
         status = P1R28CouplingStatus.SEMANTIC_STALL

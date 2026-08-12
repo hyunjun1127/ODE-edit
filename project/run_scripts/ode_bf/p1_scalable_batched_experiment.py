@@ -410,6 +410,31 @@ def _run_ode_arm(
                 "residual_tolerance": controller_lock.residual_tolerance,
                 "ledger": legacy_ledger,
             }
+            if p1r28_mode is not None:
+                field_kwargs["allow_zero_capacity"] = True
+
+            def p1r28_capacity_observer(field_role: str):
+                if p1r28_mode is None:
+                    return None
+
+                def observe(value: Mapping[str, Any]) -> None:
+                    payload = {
+                        **value,
+                        "p1r28_mode": p1r28_mode,
+                        "field_role": field_role,
+                        "accepted_state_sha256": state_before,
+                        "target_step_sha256": target_receipt["identity_sha256"],
+                    }
+                    payload["identity_sha256"] = canonical_hash(payload)
+                    write_once(
+                        raw_root
+                        / "observability"
+                        / arm_label.lower()
+                        / f"k{step_index + 1}-{field_role}-layer{value['layer']}.json",
+                        payload,
+                    )
+
+                return observe
             coupling = None
             coupling_basis = None
             coordinate_receipt = None
@@ -431,6 +456,7 @@ def _run_ode_arm(
                     projector,
                     contexts,
                     target_state=current_terminal + semantic_velocity,
+                    factor_capacity_observer=p1r28_capacity_observer("semantic"),
                     **field_kwargs,
                 )
                 lag_nonzero = bool(
@@ -446,6 +472,7 @@ def _run_ode_arm(
                         projector,
                         contexts,
                         target_state=current_terminal + lag_velocity,
+                        factor_capacity_observer=p1r28_capacity_observer("lag"),
                         **field_kwargs,
                     )
                     if lag_nonzero
@@ -491,6 +518,7 @@ def _run_ode_arm(
                         projector,
                         contexts,
                         target_state=current_terminal + selected_velocity,
+                        factor_capacity_observer=p1r28_capacity_observer("selected"),
                         **field_kwargs,
                     )
                 )
