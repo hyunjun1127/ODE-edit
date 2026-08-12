@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Held-inspect-release submitter for four P1R23 progress-simplex pairs."""
+"""Held-inspect-release submitter for the original-B10 reproduction pairs."""
 
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_progress_simplex_router.sbatch"
 STATE_ROOT = REPO_ROOT / "local/odebf/state"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
-BRANCH = "codex/odeeditsh2-s05-p1r23-progress-simplex-router-v1"
+BRANCH = "codex/p1r23-progress-simplex-original-b10-repro-v1"
 
 
 def _run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -48,7 +48,7 @@ def _write_once(path: Path, value: dict[str, object]) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
-def _active_server2_user_gpu_jobs() -> int:
+def _active_reproduction_gpu_jobs() -> int:
     observed = _run(
         [
             "squeue",
@@ -56,7 +56,7 @@ def _active_server2_user_gpu_jobs() -> int:
             "-u",
             "janghj",
             "-w",
-            "server2",
+            "devbox",
             "-t",
             "RUNNING",
             "-o",
@@ -75,21 +75,23 @@ def submit(source_head: str) -> dict[str, object]:
     plan = dry.build_plan(source_head)
     if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
         raise ODEBFContractError("progress-simplex result namespace exists")
-    active = _active_server2_user_gpu_jobs()
+    active = _active_reproduction_gpu_jobs()
     if active + 4 > 4:
-        raise ODEBFContractError("progress-simplex server2 user GPU cap differs")
-    namespace = f"s05-p1r23-progress-simplex-{source_head[:12]}-v1"
+        raise ODEBFContractError("progress-simplex reproduction GPU cap differs")
+    namespace = f"s05-p1r23-progress-simplex-original-b10-repro-{source_head[:12]}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("progress-simplex submission namespace exists")
-    log_root = REPO_ROOT / f"local/odebf/logs/p1r23-progress-simplex-{source_head[:12]}"
+    log_root = REPO_ROOT / (
+        f"local/odebf/logs/p1r23-progress-simplex-original-b10-repro-{source_head[:12]}"
+    )
     log_root.mkdir(mode=0o700, parents=True, exist_ok=True)
     intent = {
-        "schema": "ode-edit-s05-p1r23-progress-simplex-intent/v1",
+        "schema": "ode-edit-s05-p1r23-progress-simplex-original-b10-repro-intent/v1",
         "source_head": source_head,
         "dry_plan": plan,
-        "active_server2_user_gpu_jobs": active,
+        "active_reproduction_gpu_jobs": active,
         "project_gpu_cap": 4,
         "held_then_atomic_release": True,
         "array": "0-3%4",
@@ -105,7 +107,7 @@ def submit(source_head: str) -> dict[str, object]:
             "--chdir",
             str(REPO_ROOT),
             "--job-name",
-            "odeedit_s05_p1r23_progress_simplex",
+            "odeedit_s05_p1r23_original_b10_repro",
             "--output",
             str(log_root / "%A_%a.out"),
             "--error",
@@ -123,12 +125,13 @@ def submit(source_head: str) -> dict[str, object]:
         "JobState=PENDING",
         "Reason=JobHeldUser",
         "ArrayTaskThrottle=4",
+        "ReqNodeList=devbox",
         "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1",
     )
     if not all(item in observed for item in required):
         raise ODEBFContractError("progress-simplex held scheduler contract differs")
     receipt = {
-        "schema": "ode-edit-s05-p1r23-progress-simplex-submission/v1",
+        "schema": "ode-edit-s05-p1r23-progress-simplex-original-b10-repro-submission/v1",
         "source_head": source_head,
         "job_id": job_id,
         "array": "0-3%4",

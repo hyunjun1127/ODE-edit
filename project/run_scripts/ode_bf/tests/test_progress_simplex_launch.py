@@ -59,6 +59,20 @@ class ProgressSimplexLaunchTests(unittest.TestCase):
         self.assertNotIn("OFFICIAL_NATIVE", script)
         self.assertNotIn("B100", script)
 
+    def test_original_b10_reproduction_launcher_is_server1_provenance_only(self) -> None:
+        script = (
+            ROOT / "project/run_scripts/session05_ode_bf_progress_simplex_router.sbatch"
+        ).read_text(encoding="utf-8")
+        submitter = (
+            ROOT
+            / "project/run_scripts/session05_ode_bf_submit_progress_simplex_router.py"
+        ).read_text(encoding="utf-8")
+        self.assertIn("#SBATCH --nodelist=devbox", script)
+        self.assertIn("p1r23-progress-simplex-original-b10-repro-v1", script)
+        self.assertIn("codex/p1r23-progress-simplex-original-b10-repro-v1", script)
+        self.assertIn("ReqNodeList=devbox", submitter)
+        self.assertIn("original-b10-repro", submitter)
+
     def test_lock_is_raw_json_and_has_no_outcome_tuning(self) -> None:
         path = (
             ROOT

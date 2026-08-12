@@ -3,7 +3,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
-#SBATCH --nodelist=server2
+#SBATCH --nodelist=devbox
 #SBATCH --mem=65000M
 #SBATCH --time=23:59:00
 #SBATCH --export=NONE
@@ -14,10 +14,10 @@ umask 077
 readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
-readonly EXPECTED_SESSION="019fe491-954b-70a0-8ba8-0588e9f8d741"
-readonly RUN_TOKEN="p1r23-progress-simplex-router-v1"
+readonly EXPECTED_SESSION="019fe489-c968-75f3-9965-7cfbc26c0a99"
+readonly RUN_TOKEN="p1r23-progress-simplex-original-b10-repro-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
-readonly EXPECTED_BRANCH="codex/odeeditsh2-s05-p1r23-progress-simplex-router-v1"
+readonly EXPECTED_BRANCH="codex/p1r23-progress-simplex-original-b10-repro-v1"
 
 [[ "$#" -eq 2 ]] || { echo "progress-simplex requires source and result parent" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "progress-simplex CWD differs" >&2; exit 2; }
@@ -53,7 +53,7 @@ export HF_DATASETS_OFFLINE=1
 export TOKENIZERS_PARALLELISM=false
 export PYTHONHASHSEED=41
 export PYTHONDONTWRITEBYTECODE=1
-export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p1r23-progress-simplex"
+export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p1r23-progress-simplex-original-b10-repro"
 export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 
 exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-sync \
