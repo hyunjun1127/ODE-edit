@@ -592,6 +592,7 @@ def _run_ode_arm(
                 accepted_by_layer=accepted_by_layer,
                 committed_load_by_layer=history.cumulative_load(),
                 lock=controller_lock,
+                allow_zero_action_totality=bool(p1r28_mode is not None and stalled),
             )
             routing_problem = (
                 p1r24_disable_historical(problem_receipt.problem)
@@ -767,6 +768,7 @@ def _run_ode_arm(
                 slope_sha256=canonical_hash(list(signed.signed_progress)),
                 field_sha256=field.identity_sha256,
                 field_invocation_index=step_index + 1,
+                constant_state_totality=bool(p1r28_mode is not None and stalled),
             )
             materialize_started = time.perf_counter()
             materialization = materializer.materialize(

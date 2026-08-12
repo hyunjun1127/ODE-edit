@@ -94,7 +94,12 @@ from .p1_replay import (
 )
 from .p1_state import ArmWeightSnapshot, P1Arm, P1HistoryLedger
 from .request_digest import ordered_request_digest_v1
-from .routing import PreservationConstraintPolicy, QuadraticBarrier, RoutingProblem
+from .routing import (
+    PreservationConstraintPolicy,
+    QuadraticBarrier,
+    RoutingProblem,
+    ZeroActionRoutingProblem,
+)
 from .sampling import StatelessReplaySchedule
 from .target_new_nll import (
     RoutingObjective,
@@ -898,6 +903,7 @@ def _build_fixed_e8_problem(
     committed_load_by_layer: Mapping[int, float],
     lock: P1ControllerLock,
     current_history_action_by_layer: Mapping[int, torch.Tensor],
+    allow_zero_action_totality: bool = False,
 ) -> FixedE8ProblemReceipt:
     """Build the P1 geometry while omitting legacy H/P decision budgets."""
 
@@ -944,7 +950,14 @@ def _build_fixed_e8_problem(
         np.asarray(p_self, dtype=np.float64).sum() * h**2
     )
     dummy = min(lock.minimum_progress, 1.0e-12)
-    problem = RoutingProblem(
+    zero_action = bool(
+        allow_zero_action_totality
+        and trust_radius == 0.0
+        and np.array_equal(raw_progress, np.zeros_like(raw_progress))
+        and np.array_equal(applied_energy, np.zeros_like(applied_energy))
+    )
+    problem_type = ZeroActionRoutingProblem if zero_action else RoutingProblem
+    problem = problem_type(
         applied_progress,
         np.diag(capacity),
         np.diag(applied_energy),
@@ -952,8 +965,8 @@ def _build_fixed_e8_problem(
         np.minimum(
             np.full(len(layers), lock.layer_velocity_cap, dtype=np.float64), 1.0
         ),
-        dummy,
-        dummy,
+        0.0 if zero_action else dummy,
+        0.0 if zero_action else dummy,
         QuadraticBarrier(
             "historical",
             float(h_offset),
@@ -979,6 +992,7 @@ def _build_fixed_e8_problem(
         "step_coordinates": "problem-linear=h*g;problem-gram=h^2*M",
         "h_applied_exactly_once": True,
         "legacy_structural_budget_influence_count": 0,
+        "zero_action_totality": zero_action,
         "historical_self_risk": list(h_self),
         "pretrained_self_risk": list(p_self),
         "temporary_load": list(temporary),

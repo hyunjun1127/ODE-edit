@@ -30,7 +30,7 @@ from .progress_simplex_routing import (
     SIMPLEX_PRIMAL_TOLERANCE,
     SIMPLEX_XI_TIE_TOLERANCE,
 )
-from .routing import QuadraticBarrier, RoutingProblem
+from .routing import QuadraticBarrier, RoutingProblem, ZeroActionRoutingProblem
 from .scalable_batched_field import ScalableBatchGlobalMetric, ScalableRobustSharedMetric
 from .scalable_batched_model import (
     OrdinalTargetActivationOverlay,
@@ -476,7 +476,12 @@ def p1r24_target_step(
 def p1r24_disable_historical(problem: RoutingProblem) -> RoutingProblem:
     dimension = problem.signed_progress.size
     zero = np.zeros(dimension, dtype=np.float64)
-    return RoutingProblem(
+    problem_type = (
+        ZeroActionRoutingProblem
+        if isinstance(problem, ZeroActionRoutingProblem)
+        else RoutingProblem
+    )
+    return problem_type(
         problem.signed_progress,
         problem.capacity_metric,
         problem.trust_metric,

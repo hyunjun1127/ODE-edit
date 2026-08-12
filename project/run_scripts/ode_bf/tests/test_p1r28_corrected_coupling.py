@@ -7,7 +7,7 @@ from unittest import mock
 import numpy as np
 import torch
 
-from project.run_scripts.ode_bf.contracts import ODEBFContractError
+from project.run_scripts.ode_bf.contracts import ODEBFContractError, ODEBFStateError
 from project.run_scripts.ode_bf.p1r28_corrected_coupling import (
     AffineTrustDomain,
     AffineVelocitySlope,
@@ -26,6 +26,17 @@ from project.run_scripts.ode_bf.p1_backend import (
     _validate_dynamic_factor_capacity,
     observe_dynamic_factor_capacity,
 )
+from project.run_scripts.ode_bf.p1r24_atomic_strength import (
+    P1R24RoutingStatus,
+    p1r24_disable_historical,
+    solve_p1r24_matched_routing,
+)
+from project.run_scripts.ode_bf.fixed_e8_soft_routing import FixedE8Arm
+from project.run_scripts.ode_bf.routing import (
+    QuadraticBarrier,
+    ZeroActionRoutingProblem,
+)
+from project.run_scripts.ode_bf.scalable_batched_runtime import DynamicRefreshLedger
 
 
 class P1R28CorrectedCouplingTests(unittest.TestCase):
@@ -224,6 +235,84 @@ class P1R28CorrectedCouplingTests(unittest.TestCase):
         )
         self.assertEqual(selected.lag_scale, 0.0)
 
+    def _zero_barrier(self, label: str) -> QuadraticBarrier:
+        zero = np.zeros(5, dtype=np.float64)
+        return QuadraticBarrier(
+            label, 0.0, zero, np.diag(zero), 0.0, "layer-local-diagonal"
+        )
+
+    def test_zero_action_problem_preserves_exact_zero_without_fake_radius(self) -> None:
+        zero = np.zeros(5, dtype=np.float64)
+        problem = ZeroActionRoutingProblem(
+            zero,
+            np.diag(np.full(5, 1.0e-12, dtype=np.float64)),
+            np.diag(zero),
+            0.0,
+            np.ones(5, dtype=np.float64),
+            0.0,
+            0.0,
+            self._zero_barrier("historical"),
+            self._zero_barrier("pretrained"),
+        )
+        disabled = p1r24_disable_historical(problem)
+        self.assertIsInstance(disabled, ZeroActionRoutingProblem)
+        routing = solve_p1r24_matched_routing(
+            disabled, arm=FixedE8Arm.NEUTRAL, rho_write=0.0
+        )
+        self.assertEqual(routing.status, P1R24RoutingStatus.SEMANTIC_NO_WRITE)
+        self.assertEqual(routing.velocity, (0.0,) * 5)
+        self.assertEqual(disabled.trust_radius, 0.0)
+        with self.assertRaisesRegex(ODEBFContractError, "nonzero action geometry"):
+            ZeroActionRoutingProblem(
+                np.array([1.0, 0.0, 0.0, 0.0, 0.0]),
+                np.diag(np.full(5, 1.0e-12, dtype=np.float64)),
+                np.diag(zero),
+                0.0,
+                np.ones(5, dtype=np.float64),
+                0.0,
+                0.0,
+                self._zero_barrier("historical"),
+                self._zero_barrier("pretrained"),
+            )
+
+    def test_dynamic_refresh_allows_only_explicit_constant_totality(self) -> None:
+        value = "a" * 64
+        ledger = DynamicRefreshLedger(expected_steps=2)
+        ledger.record(
+            step_index=0,
+            accepted_state_sha256=value,
+            target_sha256="b" * 64,
+            key_inventory_sha256="c" * 64,
+            slope_sha256="d" * 64,
+            field_sha256="e" * 64,
+            field_invocation_index=1,
+        )
+        with self.assertRaisesRegex(
+            ODEBFStateError, "accepted physical state did not advance"
+        ):
+            ledger.record(
+                step_index=1,
+                accepted_state_sha256=value,
+                target_sha256="b" * 64,
+                key_inventory_sha256="c" * 64,
+                slope_sha256="d" * 64,
+                field_sha256="e" * 64,
+                field_invocation_index=2,
+            )
+        ledger = DynamicRefreshLedger(expected_steps=2)
+        for step in range(2):
+            ledger.record(
+                step_index=step,
+                accepted_state_sha256=value,
+                target_sha256="b" * 64,
+                key_inventory_sha256="c" * 64,
+                slope_sha256="d" * 64,
+                field_sha256="e" * 64,
+                field_invocation_index=step + 1,
+                constant_state_totality=bool(step),
+            )
+        self.assertTrue(ledger.finalize()["records"][1]["constant_state_totality"])
+
     def test_runtime_source_closes_forbidden_paths(self) -> None:
         root = Path(__file__).resolve().parents[4]
         runtime = (root / "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py").read_text()
@@ -233,6 +322,7 @@ class P1R28CorrectedCouplingTests(unittest.TestCase):
         self.assertIn("stall_state_receipt", runtime)
         self.assertIn("p1r24-anchor-scale-comparison.json", runtime)
         self.assertIn("factor_capacity_observer", runtime)
+        self.assertIn("allow_zero_action_totality", runtime)
         self.assertIn("same_sample_p1r24_anchor_energy_ratio", runtime)
         self.assertIn("functional_p_inner_probe_count\": 0", runtime)
         self.assertIn("largest_feasible_lag_scale", runtime)

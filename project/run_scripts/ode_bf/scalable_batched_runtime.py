@@ -463,6 +463,7 @@ class DynamicRefreshLedger:
         slope_sha256: str,
         field_sha256: str,
         field_invocation_index: int,
+        constant_state_totality: bool = False,
     ) -> None:
         if step_index != len(self.records) or field_invocation_index != step_index + 1:
             raise ODEBFStateError("P1R23 field refresh sequence differs")
@@ -475,7 +476,12 @@ class DynamicRefreshLedger:
         )
         if any(not isinstance(item, str) or len(item) != 64 for item in values):
             raise ODEBFContractError("P1R23 field refresh identity differs")
-        if self.records and accepted_state_sha256 == self.records[-1]["accepted_state_sha256"]:
+        if (
+            self.records
+            and accepted_state_sha256
+            == self.records[-1]["accepted_state_sha256"]
+            and not constant_state_totality
+        ):
             raise ODEBFStateError("P1R23 accepted physical state did not advance")
         record = {
             "step_index": step_index,
@@ -485,6 +491,7 @@ class DynamicRefreshLedger:
             "key_inventory_sha256": key_inventory_sha256,
             "slope_sha256": slope_sha256,
             "field_sha256": field_sha256,
+            "constant_state_totality": constant_state_totality,
         }
         record["identity_sha256"] = canonical_hash(record)
         self.records.append(record)

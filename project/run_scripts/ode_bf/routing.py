@@ -174,6 +174,62 @@ class RoutingProblem:
 
 
 @dataclass(frozen=True, slots=True)
+class ZeroActionRoutingProblem(RoutingProblem):
+    """Exact zero-action geometry for a scientifically totalized transition.
+
+    This type deliberately does not relax :class:`RoutingProblem`: it accepts
+    only an exactly zero slope/trust/radius/request tuple.  It exists so a
+    controller that has already certified a semantic zero direction can
+    serialize and materialize the required zero action without inventing a
+    positive trust radius or capacity.
+    """
+
+    def __post_init__(self) -> None:
+        progress = np.asarray(self.signed_progress, dtype=np.float64)
+        capacity = np.asarray(self.capacity_metric, dtype=np.float64)
+        trust = np.asarray(self.trust_metric, dtype=np.float64)
+        caps = np.asarray(self.layer_caps, dtype=np.float64)
+        dimension = progress.size
+        if progress.ndim != 1 or dimension < 2:
+            raise ODEBFContractError("zero-action routing needs layer directions")
+        if capacity.shape != (dimension, dimension) or trust.shape != (
+            dimension,
+            dimension,
+        ):
+            raise ODEBFContractError("zero-action routing metric dimensions differ")
+        if caps.shape != (dimension,) or np.any(caps <= 0.0):
+            raise ODEBFContractError("zero-action routing layer caps are invalid")
+        if not all(
+            np.isfinite(item).all() for item in (progress, capacity, trust, caps)
+        ):
+            raise ODEBFContractError("zero-action routing contains non-finite values")
+        if (
+            not np.array_equal(progress, np.zeros_like(progress))
+            or not np.array_equal(trust, np.zeros_like(trust))
+            or float(self.trust_radius) != 0.0
+            or float(self.requested_progress) != 0.0
+            or float(self.minimum_progress) != 0.0
+        ):
+            raise ODEBFContractError("zero-action routing carries nonzero action geometry")
+        if not np.allclose(capacity, capacity.T, rtol=0.0, atol=1.0e-12):
+            raise ODEBFContractError("zero-action capacity metric is not symmetric")
+        if float(np.min(np.linalg.eigvalsh(capacity))) < 1.0e-12:
+            raise ODEBFContractError("zero-action capacity metric is not positive definite")
+        if (
+            self.historical.linear.size != dimension
+            or self.pretrained.linear.size != dimension
+        ):
+            raise ODEBFContractError("zero-action H/P dimensions differ")
+        object.__setattr__(self, "signed_progress", progress.copy())
+        object.__setattr__(self, "capacity_metric", capacity.copy())
+        object.__setattr__(self, "trust_metric", trust.copy())
+        object.__setattr__(self, "layer_caps", caps.copy())
+        object.__setattr__(self, "trust_radius", 0.0)
+        object.__setattr__(self, "requested_progress", 0.0)
+        object.__setattr__(self, "minimum_progress", 0.0)
+
+
+@dataclass(frozen=True, slots=True)
 class SolverCertificate:
     phase: str
     solver: str

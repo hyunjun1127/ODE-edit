@@ -484,6 +484,7 @@ def build_scalable_routing_problem(
     accepted_by_layer: Mapping[int, Sequence[AcceptedLayerContribution]],
     committed_load_by_layer: Mapping[int, float],
     lock: P1ControllerLock,
+    allow_zero_action_totality: bool = False,
 ) -> FixedE8ProblemReceipt:
     return _build_fixed_e8_problem(
         field,
@@ -494,6 +495,7 @@ def build_scalable_routing_problem(
         current_history_action_by_layer={
             item.layer: item.history_action for item in field.layers
         },
+        allow_zero_action_totality=allow_zero_action_totality,
     )
 
 
