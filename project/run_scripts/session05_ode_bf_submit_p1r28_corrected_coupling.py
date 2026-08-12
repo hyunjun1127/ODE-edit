@@ -49,7 +49,13 @@ def submit(source_head: str, phase: str, *, attempt: str = "v1") -> dict[str, ob
     ):
         raise ODEBFContractError("P1R28 execution source differs")
     plan = dry.build_plan(source_head, phase)
-    if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
+    attempt_result_parent = (
+        RESULT_PARENT if attempt == "v1" else RESULT_PARENT / f"p1r28-{attempt}"
+    )
+    if any(
+        (attempt_result_parent / str(job["result_name"])).exists()
+        for job in plan["jobs"]
+    ):
         raise ODEBFContractError("P1R28 result namespace exists")
     rows = _run(["squeue", "-h", "-u", "janghj", "-w", "devbox", "-t", "RUNNING", "-o", "%i|%j|%b"]).stdout.splitlines()
     active_rows = [row for row in rows if "gpu" in row.casefold() and "ode" in row.casefold()]
@@ -66,6 +72,7 @@ def submit(source_head: str, phase: str, *, attempt: str = "v1") -> dict[str, ob
     intent = {
         "schema": "ode-edit-s05-p1r28-submission-intent/v1",
         "source_head": source_head, "phase": phase, "attempt": attempt,
+        "result_parent": str(attempt_result_parent),
         "dry_plan": plan,
         "active_devbox_ode_gpu_jobs": active,
         "active_job_rows_sha256": hashlib.sha256("\n".join(active_rows).encode()).hexdigest(),
@@ -78,7 +85,7 @@ def submit(source_head: str, phase: str, *, attempt: str = "v1") -> dict[str, ob
         "--chdir", str(REPO_ROOT), "--nodelist", "devbox",
         "--job-name", f"odeedit_s05_p1r28_{phase}",
         "--output", str(log_root / "%A_%a.out"), "--error", str(log_root / "%A_%a.err"),
-        str(SBATCH), source_head, str(RESULT_PARENT), phase,
+        str(SBATCH), source_head, str(attempt_result_parent), phase,
     ])
     job_id = submitted.stdout.strip().split(";", 1)[0]
     if not job_id.isdigit():
@@ -91,6 +98,7 @@ def submit(source_head: str, phase: str, *, attempt: str = "v1") -> dict[str, ob
     receipt = {
         "schema": "ode-edit-s05-p1r28-submission/v1", "source_head": source_head,
         "phase": phase, "attempt": attempt, "job_id": job_id,
+        "result_parent": str(attempt_result_parent),
         "array": "0-1%2", "job_count": 2,
         "trajectory_count": plan["trajectory_count"],
         "corrected_trajectory_count": plan["corrected_trajectory_count"],
