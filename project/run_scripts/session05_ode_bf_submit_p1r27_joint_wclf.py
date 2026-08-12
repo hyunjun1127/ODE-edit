@@ -48,7 +48,9 @@ def _active_gpu_jobs() -> tuple[int, list[str]]:
     return len(active), active
 
 
-def submit(source_head: str, phase: str) -> dict[str, object]:
+def submit(source_head: str, phase: str, *, attempt: str = "original") -> dict[str, object]:
+    if attempt not in ("original", "tech-r1"):
+        raise ODEBFContractError("P1R27 submission attempt differs")
     if (
         source_head != _run(["git", "rev-parse", "HEAD"]).stdout.strip()
         or _run(["git", "branch", "--show-current"]).stdout.strip() != BRANCH
@@ -62,18 +64,19 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
     new = int(plan["array_max_concurrent_gpu"])
     if active + new > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R27 server1 project GPU cap differs")
-    namespace = f"s05-p1r27-{phase}-{source_head[:12]}-v1"
+    namespace = f"s05-p1r27-{phase}-{attempt}-{source_head[:12]}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P1R27 submission namespace exists")
-    log_root = REPO_ROOT / f"local/odebf/logs/p1r27-{phase}-{source_head[:12]}"
+    log_root = REPO_ROOT / f"local/odebf/logs/p1r27-{phase}-{attempt}-{source_head[:12]}"
     log_root.mkdir(mode=0o700, parents=True, exist_ok=True)
     array = "0-3%4"
     intent = {
         "schema": "ode-edit-s05-p1r27-submission-intent/v1",
         "source_head": source_head,
         "phase": phase,
+        "attempt": attempt,
         "dry_plan": plan,
         "active_devbox_ode_gpu_jobs": active,
         "active_job_rows_sha256": hashlib.sha256("\n".join(active_rows).encode()).hexdigest(),
@@ -103,6 +106,7 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
         "schema": "ode-edit-s05-p1r27-submission/v1",
         "source_head": source_head,
         "phase": phase,
+        "attempt": attempt,
         "job_id": job_id,
         "array": array,
         "job_count": 4,
@@ -123,8 +127,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--phase", required=True, choices=("smoke", "production"))
+    parser.add_argument("--attempt", choices=("original", "tech-r1"), default="original")
     args = parser.parse_args()
-    print(json.dumps(submit(args.source_head, args.phase), sort_keys=True, separators=(",", ":")))
+    print(json.dumps(submit(args.source_head, args.phase, attempt=args.attempt), sort_keys=True, separators=(",", ":")))
     return 0
 
 
