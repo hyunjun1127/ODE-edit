@@ -1,0 +1,32 @@
+{
+  "schema_version": "ode-edit-s05-p1r26-asdc-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R26-ABSOLUTE-SEMANTIC-DEFICIT-CONTROLLER-V1",
+  "scientific_base": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "source_checkpoint_before_manifest": "5d887c2215c3fd03ffcc8adcd0ae1be8f0aec453",
+  "entry_count": 22,
+  "entries": [
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r24_independent_b10x10.json", "size": 1552, "sha256": "f90dec83269696c18f10ed2232ba5785595ba980f2ec01872cc73c6fc46a1291"},
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r26_asdc.json", "size": 1842, "sha256": "566d4744b3066ed22238f76fc901effe672ada5753f5ec62e9056efea699d321"},
+    {"path": "project/run_scripts/ode_bf/locks/p1r24_independent_b10x10_stream_seal.json", "size": 52138, "sha256": "01612c28f700d7281e7f4887189577305396a47715760c98997f97d2acfe596b"},
+    {"path": "project/run_scripts/ode_bf/locks/source_manifest_s05_p1r24_independent_b10x10.json", "size": 2451, "sha256": "4c5880fb212d8c83c9b9bcc8e52fd4fc8088ff5717b28cca915da73dfb08f676"},
+    {"path": "project/run_scripts/ode_bf/p1_runtime.py", "size": 204024, "sha256": "ec0ca4555744bcfc0ad8fb66f1bdb34dd096d6d2baa62578cf64902f7e7843ec"},
+    {"path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py", "size": 80726, "sha256": "50cabb440572e692b21bc6c1c45899bbb3ae05663e87501df95d75c978bf3175"},
+    {"path": "project/run_scripts/ode_bf/p1r24_independent_b10x10_panel.py", "size": 2726, "sha256": "0c037ee6addbd24031970523a2c0a4665483b17bac6239cce725aac82f3b0f3e"},
+    {"path": "project/run_scripts/ode_bf/p1r24_independent_b10x10_runtime.py", "size": 18959, "sha256": "31930506c764ae3173d815dd5e2426282bd6890db38b6694719b81245e9e2091"},
+    {"path": "project/run_scripts/ode_bf/p1r24_independent_b10x10_selection.py", "size": 11498, "sha256": "ff4267090bd185c063f567867bf7840f7cbf409201d24c1e82ea46fe6f2956c4"},
+    {"path": "project/run_scripts/ode_bf/p1r26_asdc.py", "size": 15646, "sha256": "9f505438325bf5a135f560e6069a147c70e11fa6a0a830c8a287d8702cd824dd"},
+    {"path": "project/run_scripts/ode_bf/p1r26_asdc_panel.py", "size": 2517, "sha256": "a7a8d0a827e848617ef9aad91c5c67aa79ac219ee5a570fd19c3a896a4011923"},
+    {"path": "project/run_scripts/ode_bf/p1r26_independent_b10x10_runtime.py", "size": 7219, "sha256": "54eead477eff3e803260fca7a2e52340d51ae371680da486a69d551b2e21b5cb"},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r24_independent_b10x10.py", "size": 6790, "sha256": "b60341c6663078d80a0b9a245db82e0f88088fe5cb42e9e283228aafca6c47bb"},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r26_asdc.py", "size": 8091, "sha256": "82164f74c5b66b75bade121c1bbc6a7d4796866c757fe9249d3f7d6169c5264a"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r24_independent_b10x10.py", "size": 5922, "sha256": "d414fc7347b891631fe0b43ece05844b3f5f6f383d7dea6acb35d8e733a7f394"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r24_independent_b10x10.sbatch", "size": 2423, "sha256": "4b00b087f508f9691c6642b188dff2a9f95afc20b28608fd478ca709bc967847"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r24_independent_b10x10_dry_plan.py", "size": 2719, "sha256": "fcf12cf2191ed5c5500c1117dd77fe1e6bf21503c48766f168d220da593c2406"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r26_asdc.py", "size": 4592, "sha256": "a889eb08b4bbaba5876f6f4e7c2e6cd60fe03ff98f3fc3cb8121a4c56848824f"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r26_asdc.sbatch", "size": 2831, "sha256": "fe5f32235436ea4f1b3d1f56ca62fd874c30cf1aa8a9946994ad9c62c19abe59"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r26_asdc_dry_plan.py", "size": 3294, "sha256": "a4fc9b1081b5867713add1c807cc273e13f349499f0eaa7196cc637ec5a6bcc7"},
+    {"path": "project/run_scripts/session05_ode_bf_submit_p1r24_independent_b10x10.py", "size": 5566, "sha256": "281ba104201b2b6b8bec79dd3b06191aff94ce7adf49bc3d074a00805f772eee"},
+    {"path": "project/run_scripts/session05_ode_bf_submit_p1r26_asdc.py", "size": 6786, "sha256": "710fe927d0eac396a05efdb415bd1d5f3bc53b5aa1ff694343714f21bc262f59"}
+  ],
+  "root_digest": "486fdc505abb8027bed93522de4627cf881201390c81788533a39d4f96dd395c"
+}
