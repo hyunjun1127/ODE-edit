@@ -53,7 +53,7 @@ class P1R24IndependentB10x10Test(unittest.TestCase):
     def test_result_names_are_distinct(self) -> None:
         self.assertEqual(
             expected_result_name("llama3-8b-inst"),
-            "s05-p1r24-rs-soft-independent-b10x10-llama3-8b-inst-v1",
+            "s05-p1r24-rs-soft-independent-b10x10-llama3-8b-inst-tech-r1-v1",
         )
         self.assertNotEqual(
             expected_result_name("llama3-8b-inst"),
@@ -133,6 +133,16 @@ class P1R24IndependentB10x10Test(unittest.TestCase):
         self.assertIn("cross-case W0 state leak detected", source)
         self.assertIn("seed_all(COMMON_SEED)", source)
         self.assertIn('"cross_case_mutable_cache_count": 0', source)
+        self.assertNotIn("objective_plan.context_ordinals", source)
+        self.assertIn('objective_payload.get("context_count") != 6', source)
+        self.assertIn("capture_ordinals != list(range(6))", source)
+
+    def test_parent_objective_plan_has_no_context_ordinals_attribute(self) -> None:
+        from dataclasses import fields
+        from project.run_scripts.ode_bf.scalable_batched_model import ScalableObjectivePlan
+
+        names = {item.name for item in fields(ScalableObjectivePlan)}
+        self.assertNotIn("context_ordinals", names)
 
     def test_scientific_core_hashes_match_parent(self) -> None:
         from project.run_scripts.ode_bf.artifacts import sha256_file

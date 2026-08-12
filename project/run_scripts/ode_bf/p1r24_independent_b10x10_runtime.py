@@ -45,7 +45,7 @@ def expected_p1r24_independent_result_name(alias: str, method: str) -> str:
         raise ODEBFContractError("independent B10 method differs")
     return (
         "s05-p1r24-rs-soft-independent-b10x10-"
-        f"{alias}-v1"
+        f"{alias}-tech-r1-v1"
     )
 
 
@@ -198,8 +198,18 @@ def _run_ode_case(
         request_microbatch_size=request_microbatch_size,
         fact_token_strategy=hparams.fact_token,
     )
+    objective_payload = objective_plan.raw_free_payload()
+    capture_payload = capture_plan.raw_free_payload()
+    capture_ordinals = sorted(
+        {
+            int(ordinal)
+            for batch in capture_plan.batches
+            for ordinal in batch.row_context_ordinals
+        }
+    )
     if (
-        objective_plan.context_ordinals != tuple(range(6))
+        objective_payload.get("context_count") != 6
+        or capture_ordinals != list(range(6))
         or objective_plan.request_order_sha256 != request_order
         or capture_plan.request_order_sha256 != request_order
     ):
@@ -221,8 +231,8 @@ def _run_ode_case(
         )
     finally:
         counter.close()
-    _atomic_write_once(case_root / "raw" / "objective-plan.json", objective_plan.raw_free_payload())
-    _atomic_write_once(case_root / "raw" / "capture-plan.json", capture_plan.raw_free_payload())
+    _atomic_write_once(case_root / "raw" / "objective-plan.json", objective_payload)
+    _atomic_write_once(case_root / "raw" / "capture-plan.json", capture_payload)
     if method != "RS-P1R24-SOFT":
         raise ODEBFContractError("P1R24 independent method differs")
     allocation = "RS"
