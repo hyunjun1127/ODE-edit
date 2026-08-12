@@ -98,6 +98,19 @@ from .progress_simplex_routing import (
     progress_simplex_waypoint_factors,
     solve_progress_simplex_routing,
 )
+from .p1r24_atomic_strength import (
+    P1R24AliasTargetLock,
+    P1R24_INSTRUCTION_ID,
+    P1R24_METHOD_ID,
+    P1R24RoutingStatus,
+    build_p1r24_kl_plan,
+    evaluate_p1r24_kl,
+    p1r24_cumulative_p_receipt,
+    p1r24_disable_historical,
+    p1r24_target_step,
+    solve_p1r24_matched_routing,
+    verify_p1r24_alphaedit_geometry,
+)
 
 
 P1R23_SCHEMA = "ode-edit-s05-p1r23-scalable-batched-runtime"
@@ -201,15 +214,19 @@ def _run_ode_arm(
     raw_root: Path,
     write_once: Any,
     progress_simplex: bool = False,
+    p1r24: bool = False,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
     request_count = len(requests)
-    if request_count not in (10, 100):
+    if request_count not in ((1, 10) if p1r24 else (10, 100)):
         raise ODEBFContractError("P1R23 ODE request count differs")
     if allocation not in ("RS", "BG"):
         raise ODEBFContractError("P1R23 ODE target allocation differs")
     arm_label = (
+        f"{allocation}-P1R24-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
+        if p1r24
+        else
         f"{allocation}-SIMPLEX-"
         f"{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if progress_simplex
@@ -241,6 +258,42 @@ def _run_ode_arm(
     )
     current_target = initial.target_z.clone()
     current_terminal = initial.current_terminal_z.clone()
+    target_origin = current_target.clone()
+    frozen_mask: tuple[bool, ...] = tuple(False for _ in range(request_count))
+    p1r24_target_lock = P1R24AliasTargetLock.for_alias(alias) if p1r24 else None
+    p1r24_alpha_geometry = (
+        verify_p1r24_alphaedit_geometry(
+            hparams,
+            p1r24_target_lock,
+            easyedit_root=Path("/mnt/raid5/janghj/EasyEdit"),
+        )
+        if p1r24 and p1r24_target_lock is not None
+        else None
+    )
+    p1r24_kl_plan = (
+        build_p1r24_kl_plan(
+            tokenizer,
+            requests,
+            request_order_sha256=objective_plan.request_order_sha256,
+            request_microbatch_size=min(objective_plan.request_microbatch_size, request_count),
+            fact_token_strategy=hparams.fact_token,
+        )
+        if p1r24
+        else None
+    )
+    p1r24_kl_teacher: tuple[torch.Tensor, ...] | None = None
+    if p1r24:
+        assert p1r24_kl_plan is not None
+        teacher_result, p1r24_kl_teacher = evaluate_p1r24_kl(
+            model, p1r24_kl_plan, teacher_log_probs=None
+        )
+        compute.increment(
+            "outer_entry_kl_teacher",
+            logical_forward_groups=1,
+            model_forward_calls=teacher_result.model_forward_count,
+            physical_microbatch_graphs=teacher_result.model_forward_count,
+            processed_tokens=teacher_result.processed_token_count,
+        )
     initial_w0 = _model_w0_contract(touched)
     accepted: list[dict[str, Any]] = []
     delayed: list[dict[str, Any]] = []
@@ -252,17 +305,21 @@ def _run_ode_arm(
     try:
         for step_index in range(P1R23_GRID_COUNT):
             state_before = _parameter_contract_sha256(touched)
-            replay_entry = _controller_replay_entry(
-                model,
-                tokenizer,
-                alias=alias,
-                arm_state=arm_state,
-                sample_waypoint=step_index + 1,
-                factors={},
-                request_by_sha256=request_by_sha256,
-                population_by_sha256=population_by_sha256,
-                schedule=schedule,
-                outer_entry_p_cache=outer_entry_p_cache,
+            replay_entry = (
+                None
+                if p1r24
+                else _controller_replay_entry(
+                    model,
+                    tokenizer,
+                    alias=alias,
+                    arm_state=arm_state,
+                    sample_waypoint=step_index + 1,
+                    factors={},
+                    request_by_sha256=request_by_sha256,
+                    population_by_sha256=population_by_sha256,
+                    schedule=schedule,
+                    outer_entry_p_cache=outer_entry_p_cache,
+                )
             )
             target_started = time.perf_counter()
             target_variable = (
@@ -282,13 +339,42 @@ def _run_ode_arm(
             )
             if target_result.target_gradient is None:
                 raise ODEBFContractError("P1R23 target gradient is absent")
-            target_next, target_velocity, alpha_req, target_receipt = (
-                target_update_from_existing_gradient(
-                    current_target,
-                    target_result.target_gradient,
-                    metric,
+            if p1r24:
+                assert p1r24_kl_plan is not None and p1r24_kl_teacher is not None
+                assert p1r24_target_lock is not None
+                kl_result, _ = evaluate_p1r24_kl(
+                    model,
+                    p1r24_kl_plan,
+                    teacher_log_probs=p1r24_kl_teacher,
+                    target_state=target_variable,
+                    current_terminal=current_terminal,
+                    target_layer_name=hparams.layer_module_tmp.format(int(hparams.layers[-1])),
                 )
-            )
+                target_step = p1r24_target_step(
+                    current_target,
+                    current_terminal,
+                    target_origin,
+                    target_result,
+                    kl_result,
+                    metric,
+                    p1r24_target_lock,
+                    step_index=step_index,
+                    frozen_mask=frozen_mask,
+                )
+                target_next = target_step.target_next
+                target_velocity = target_step.write_velocity
+                alpha_req = target_step.rho_write
+                target_receipt = dict(target_step.receipt)
+                frozen_mask = target_step.frozen_mask
+                _phase_add_objective(compute, "target_kl_gradient", kl_result, target=True)
+            else:
+                target_next, target_velocity, alpha_req, target_receipt = (
+                    target_update_from_existing_gradient(
+                        current_target,
+                        target_result.target_gradient,
+                        metric,
+                    )
+                )
             compute.add_wall("target_gradient", time.perf_counter() - target_started)
             _phase_add_objective(
                 compute, "target_gradient", target_result, target=True
@@ -301,7 +387,11 @@ def _run_ode_arm(
                 hparams,
                 projector,
                 contexts,
-                target_state=target_next,
+                target_state=(
+                    current_terminal + target_velocity
+                    if p1r24
+                    else target_next
+                ),
                 current_terminal=current_terminal,
                 captured_keys_by_layer=physical.keys_by_layer,
                 accepted_waypoint=step_index,
@@ -330,6 +420,7 @@ def _run_ode_arm(
                     / (float(pending["alpha_apply"]) + STRENGTH_COVERAGE_EPSILON),
                     "completion": "NEXT_REFRESHED_FIELD_W_ONLY_NLL_REUSE",
                     "candidate_objective_inner_count": 0,
+                    "linearization_error": actual - float(pending["predicted"]),
                 }
                 item["identity_sha256"] = canonical_hash(item)
                 delayed.append(item)
@@ -340,6 +431,11 @@ def _run_ode_arm(
                 committed_load_by_layer=history.cumulative_load(),
                 lock=controller_lock,
             )
+            routing_problem = (
+                p1r24_disable_historical(problem_receipt.problem)
+                if p1r24
+                else problem_receipt.problem
+            )
             field_semantic = canonical_hash(
                 {
                     "field_sha256": field.identity_sha256,
@@ -349,7 +445,8 @@ def _run_ode_arm(
                 }
             )
             functional_started = time.perf_counter()
-            inventory, functional_probe = _fixed_e8_functional_basis_probe(
+            if not p1r24:
+                inventory, functional_probe = _fixed_e8_functional_basis_probe(
                 model,
                 tokenizer,
                 alias=alias,
@@ -371,12 +468,29 @@ def _run_ode_arm(
                 field_semantic_sha256=field_semantic,
                 trial_entry_weights=base_values,
                 physical_materialized=True,
-            )
-            if inventory.history_item_count != 0:
-                raise ODEBFStateError("P1R23 atomic replay-H inventory is active")
+                )
+                if inventory.history_item_count != 0:
+                    raise ODEBFStateError("P1R23 atomic replay-H inventory is active")
+            else:
+                inventory = None
+                functional_probe = {
+                    "status": "NOT_EVALUATED_INNER_P1R24",
+                    "model_forward_count": 0,
+                    "backward_count": 0,
+                    "identity_sha256": canonical_hash(
+                        {"step": step_index, "status": "NOT_EVALUATED_INNER_P1R24"}
+                    ),
+                }
             compute.add_wall("functional_preservation_basis", time.perf_counter() - functional_started)
             route_started = time.perf_counter()
             routing = (
+                solve_p1r24_matched_routing(
+                    routing_problem,
+                    arm=arm,
+                    rho_write=alpha_req,
+                )
+                if p1r24
+                else
                 solve_progress_simplex_routing(
                     problem_receipt.problem,
                     inventory,
@@ -394,21 +508,27 @@ def _run_ode_arm(
             compute.add_wall("routing_solve", time.perf_counter() - route_started)
             if (
                 progress_simplex
+                and not p1r24
                 and routing.status is ProgressSimplexStatus.NO_POSITIVE_DIRECTION
             ):
                 raise ODEBFStateError("NO_POSITIVE_DIRECTION")
+            if p1r24 and routing.status in (
+                P1R24RoutingStatus.NO_POSITIVE_DIRECTION,
+                P1R24RoutingStatus.Q_NUMERICAL_DEGENERACY,
+            ):
+                raise ODEBFStateError(routing.status.value)
             increment = (
                 progress_simplex_waypoint_factors(
                     field, routing.velocity, step_index=step_index
                 )
-                if progress_simplex
+                if progress_simplex or p1r24
                 else fixed_e8_waypoint_factors(
                     field, routing.velocity, step_index=step_index
                 )
             )
             candidate_factors = _merge_factors(current_factors, increment)
             predicted = float(
-                problem_receipt.problem.signed_progress
+                routing_problem.signed_progress
                 @ np.asarray(routing.velocity, dtype=np.float64)
             )
             refresh.record(
@@ -455,9 +575,11 @@ def _run_ode_arm(
                 progress.update(
                     {
                         "actual": actual,
+                        "terminal_mean_target_new_nll": float(terminal_objective.loss),
                         "completion": "TERMINAL_W_ONLY_OBJECTIVE_ONCE",
                         "realization_ratio": actual
                         / (routing.alpha_apply + STRENGTH_COVERAGE_EPSILON),
+                        "linearization_error": actual - predicted,
                     }
                 )
             target_realization = fixed_e8_target_write_realization(
@@ -469,11 +591,36 @@ def _run_ode_arm(
             contribution = [
                 float(a * v)
                 for a, v in zip(
-                    problem_receipt.problem.signed_progress,
+                    routing_problem.signed_progress,
                     routing.velocity,
                     strict=True,
                 )
             ]
+            factor_list_hashes = {
+                layer: canonical_hash(
+                    [
+                        {
+                            "weight_name": item.factor.weight_name,
+                            "order_key": list(item.factor.order_key),
+                            "theta": item.factor.theta,
+                            "left_sha256": tensor_sha256(item.factor.left),
+                            "right_sha256": tensor_sha256(item.factor.right),
+                        }
+                        for item in accepted_by_layer[layer]
+                    ]
+                )
+                for layer in P1R23_LAYER_ORDER
+            }
+            cumulative_p = (
+                p1r24_cumulative_p_receipt(
+                    routing_problem,
+                    routing.velocity,
+                    step_index=step_index,
+                    factor_list_hashes=factor_list_hashes,
+                )
+                if p1r24
+                else None
+            )
             payload = {
                 "schema": f"{P1R23_SCHEMA}-accepted-transition/v1",
                 "arm": arm_label,
@@ -486,18 +633,27 @@ def _run_ode_arm(
                 "target_update": target_receipt,
                 "field_sha256": field.identity_sha256,
                 "physical_slope": asdict(signed),
-                "routing_problem_sha256": problem_receipt.problem.identity(),
+                "routing_problem_sha256": routing_problem.identity(),
                 "routing": routing.raw_free_payload(),
-                "functional_basis": inventory.raw_free_payload(),
+                "functional_basis": (
+                    inventory.raw_free_payload()
+                    if inventory is not None
+                    else {
+                        "status": "NOT_EVALUATED_INNER_P1R24",
+                        "functional_p_layer_basis_count": 0,
+                        "functional_h_count": 0,
+                    }
+                ),
                 "functional_probe_sha256": functional_probe["identity_sha256"],
                 "progress": progress,
                 "per_layer_applied_progress": contribution,
-                "structural_h": problem_receipt.problem.historical.value(
+                "structural_h": 0.0 if p1r24 else routing_problem.historical.value(
                     np.asarray(routing.velocity)
                 ),
-                "structural_p": problem_receipt.problem.pretrained.value(
+                "structural_p": routing_problem.pretrained.value(
                     np.asarray(routing.velocity)
                 ),
+                "cumulative_atomic_structural_p": cumulative_p,
                 "target_write_realization": target_realization,
                 "materialization": materialization,
                 "authoritative_slope": "PHYSICAL_W_ONLY_NOHOOK",
@@ -505,13 +661,18 @@ def _run_ode_arm(
                 "inner_step_heldout_evaluation_count": 0,
                 "retry_backtracking_reject_count": 0,
                 "routing_method": (
+                    P1R24_METHOD_ID
+                    if p1r24
+                    else
                     PROGRESS_SIMPLEX_METHOD_ID
                     if progress_simplex
                     else "P1R23_STRENGTH_PRESERVING"
                 ),
                 "progress_simplex_decision_influence_count": (
-                    1 if progress_simplex else 0
+                    1 if progress_simplex or p1r24 else 0
                 ),
+                "persistent_historical_ledger_count": 0,
+                "historical_h_decision_influence_count": 0,
             }
             payload["identity_sha256"] = canonical_hash(payload)
             write_once(
@@ -521,9 +682,16 @@ def _run_ode_arm(
                 / f"accepted-k{step_index + 1}.json",
                 payload,
             )
-            # P1R23 is one atomic joint edit.  Historical/replay H remains an
-            # empty structural shell and receives no accepted contribution.
-            if any(accepted_by_layer[layer] for layer in P1R23_LAYER_ORDER):
+            if p1r24:
+                for layer in field.layers:
+                    accepted_by_layer[layer.layer].append(
+                        AcceptedLayerContribution.from_field(
+                            layer,
+                            increment[layer.weight_name],
+                            history_action=torch.zeros_like(layer.history_action),
+                        )
+                    )
+            elif any(accepted_by_layer[layer] for layer in P1R23_LAYER_ORDER):
                 raise ODEBFStateError("P1R23 atomic H state is not empty")
             accepted.append(payload)
             pending = (
@@ -568,13 +736,38 @@ def _run_ode_arm(
             ledger=legacy_ledger,
         )
         terminal_functional = _terminal_functional_payload(terminal_value)
+        terminal_oracle: dict[str, Any] | None = None
+        if p1r24:
+            oracle_variable = (
+                current_target.detach()
+                .to(device=next(model.parameters()).device, dtype=torch.float32)
+                .clone()
+                .requires_grad_(True)
+            )
+            oracle_result = evaluate_scalable_target_new_objective(
+                model,
+                objective_plan,
+                target_state=oracle_variable,
+                current_terminal=current_terminal,
+                target_layer_name=hparams.layer_module_tmp.format(int(hparams.layers[-1])),
+            )
+            _phase_add_objective(compute, "terminal_z8_oracle", oracle_result, target=True)
+            terminal_oracle = {
+                "target_new_nll": oracle_result.loss,
+                "per_request_values": list(oracle_result.per_request_values),
+                "receipt_sha256": oracle_result.identity_sha256,
+                "model_forward_count": oracle_result.model_forward_count,
+                "backward_count": oracle_result.backward_count,
+            }
         factors_for_endpoint = _factor_map(current_factors)
         target_for_endpoint = current_target.clone()
         physical_for_endpoint = physical
         rollout_payload = {
             "arm": arm_label,
             "status": (
-                "PROGRESS_SIMPLEX_DYNAMIC_K8_COMPLETE"
+                "P1R24_ATOMIC_STRENGTH_RECOVERY_K8_COMPLETE"
+                if p1r24
+                else "PROGRESS_SIMPLEX_DYNAMIC_K8_COMPLETE"
                 if progress_simplex
                 else "SCALABLE_DYNAMIC_K8_COMPLETE"
             ),
@@ -590,6 +783,12 @@ def _run_ode_arm(
             "terminal_target_sha256": tensor_sha256(target_for_endpoint),
             "terminal_physical_capture_sha256": physical_for_endpoint.identity_sha256,
             "terminal_functional": terminal_functional,
+            "terminal_z8_oracle": terminal_oracle,
+            "terminal_cumulative_structural_p": (
+                accepted[-1]["cumulative_atomic_structural_p"]
+                if p1r24 and accepted
+                else None
+            ),
             "dynamic_refresh": refresh.finalize(),
             "compute": compute.raw_free_payload(),
             "legacy_compute": legacy_ledger.raw_free_payload(),
@@ -597,12 +796,19 @@ def _run_ode_arm(
             "edit_core_wall_seconds": time.perf_counter() - started,
             "materializer": materializer.raw_free_payload(),
             "initial_w0_sha256": initial_w0,
+            "alphaedit_target_geometry": p1r24_alpha_geometry,
             "instruction_id": (
+                P1R24_INSTRUCTION_ID
+                if p1r24
+                else
                 PROGRESS_SIMPLEX_INSTRUCTION_ID
                 if progress_simplex
                 else P1R23_INSTRUCTION_ID
             ),
             "method_id": (
+                P1R24_METHOD_ID
+                if p1r24
+                else
                 PROGRESS_SIMPLEX_METHOD_ID
                 if progress_simplex
                 else P1R23_METHOD_ID
@@ -758,25 +964,28 @@ def _run_ode_pair(
     request_microbatch_size: int,
     allocation: str,
     progress_simplex: bool = False,
+    p1r24: bool = False,
+    neutral_only: bool = False,
 ) -> dict[str, Any]:
     from .p1_runtime import ArmRuntimeState, _entry_parameter_snapshot_sha256
 
     request_order = scalable_ordered_request_digest(
         [str(item["request_sha256"]) for item in requests]
     )
+    effective_microbatch_size = min(request_microbatch_size, len(requests))
     objective_plan = build_scalable_objective_plan(
         model,
         tokenizer,
         requests,
         contexts=contexts,
-        request_microbatch_size=request_microbatch_size,
+        request_microbatch_size=effective_microbatch_size,
         fact_token_strategy=hparams.fact_token,
     )
     capture_plan = build_scalable_capture_plan(
         tokenizer,
         requests,
         contexts=contexts,
-        request_microbatch_size=request_microbatch_size,
+        request_microbatch_size=effective_microbatch_size,
         fact_token_strategy=hparams.fact_token,
     )
     write_once(raw_root / "plans" / "objective.json", objective_plan.raw_free_payload())
@@ -801,6 +1010,12 @@ def _run_ode_pair(
     w0_contract = _model_w0_contract(touched)
     routing_arms = (
         (
+            f"{allocation}-P1R24-NEUTRAL",
+            f"{allocation}-P1R24-SOFT",
+        )
+        if p1r24
+        else
+        (
             P1R23_SIMPLEX_BG_ROUTING_ARMS
             if allocation == "BG"
             else P1R23_SIMPLEX_RS_ROUTING_ARMS
@@ -815,8 +1030,14 @@ def _run_ode_pair(
     if allocation not in ("RS", "BG"):
         raise ODEBFContractError("P1R23 paired target allocation differs")
     rollouts: dict[str, dict[str, Any]] = {}
+    selected_arms = (
+        (FixedE8Arm.NEUTRAL,)
+        if neutral_only
+        else (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT)
+    )
+    selected_labels = routing_arms[: len(selected_arms)]
     for selected, label in zip(
-        (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT), routing_arms, strict=True
+        selected_arms, selected_labels, strict=True
     ):
         if _model_w0_contract(touched) != w0_contract:
             raise ODEBFStateError("P1R23 paired arm W0 differs")
@@ -859,32 +1080,52 @@ def _run_ode_pair(
             raw_root=raw_root,
             write_once=write_once,
             progress_simplex=progress_simplex,
+            p1r24=p1r24,
         )
-    left = rollouts[routing_arms[0]]["public"]["initial"]
-    right = rollouts[routing_arms[1]]["public"]["initial"]
-    left_metric = rollouts[routing_arms[0]]["public"]["metric"]
-    right_metric = rollouts[routing_arms[1]]["public"]["metric"]
-    paired_initial = _paired_initial_semantic_gate(
-        left,
-        right,
-        left_metric,
-        right_metric,
-        request_order_sha256=request_order,
-        objective_plan_sha256=objective_plan.identity_sha256,
-        capture_plan_sha256=capture_plan.identity_sha256,
-        allocation=allocation,
+    left = rollouts[selected_labels[0]]["public"]["initial"]
+    left_metric = rollouts[selected_labels[0]]["public"]["metric"]
+    paired_initial = (
+        {
+            "schema": f"{P1R23_SCHEMA}-single-initial-semantic-gate/v1",
+            "request_order_sha256": request_order,
+            "objective_plan_sha256": objective_plan.identity_sha256,
+            "capture_plan_sha256": capture_plan.identity_sha256,
+            "target_allocation": allocation,
+            "initial": left,
+            "metric": left_metric,
+            "neutral_only_smoke": True,
+        }
+        if neutral_only
+        else _paired_initial_semantic_gate(
+            left,
+            rollouts[selected_labels[1]]["public"]["initial"],
+            left_metric,
+            rollouts[selected_labels[1]]["public"]["metric"],
+            request_order_sha256=request_order,
+            objective_plan_sha256=objective_plan.identity_sha256,
+            capture_plan_sha256=capture_plan.identity_sha256,
+            allocation=allocation,
+        )
     )
+    if "identity_sha256" not in paired_initial:
+        paired_initial["identity_sha256"] = canonical_hash(paired_initial)
     paired_initial_sha = write_once(
         raw_root / "paired-initial-semantic-gate.json", paired_initial
     )
     action_freeze = {
         "schema": f"{P1R23_SCHEMA}-paired-action-freeze/v1",
         "instruction_id": (
+            P1R24_INSTRUCTION_ID
+            if p1r24
+            else
             PROGRESS_SIMPLEX_INSTRUCTION_ID
             if progress_simplex
             else P1R23_INSTRUCTION_ID
         ),
         "method_id": (
+            P1R24_METHOD_ID
+            if p1r24
+            else
             PROGRESS_SIMPLEX_METHOD_ID
             if progress_simplex
             else P1R23_METHOD_ID
@@ -894,7 +1135,7 @@ def _run_ode_pair(
         "paired_initial_semantic_gate_sha256": paired_initial_sha,
         "rollout_sha256": {
             label: rollouts[label]["public"]["identity_sha256"]
-            for label in routing_arms
+            for label in selected_labels
         },
         "actions_frozen_before_heldout": True,
         "inner_step_heldout_access_count": 0,
@@ -905,11 +1146,49 @@ def _run_ode_pair(
     }
     action_freeze["identity_sha256"] = canonical_hash(action_freeze)
     action_sha = write_once(raw_root / "action-freeze.json", action_freeze)
+    if neutral_only:
+        terminal = {
+            "schema": "ode-edit-s05-p1r24-b1-smoke-terminal/v1",
+            "instruction_id": P1R24_INSTRUCTION_ID,
+            "method_id": P1R24_METHOD_ID,
+            "source_head": source_head,
+            "alias": alias,
+            "request_count": 1,
+            "request_order_sha256": request_order,
+            "target_allocation": allocation,
+            "routing_arms": list(selected_labels),
+            "rollouts": {label: rollouts[label]["public"] for label in selected_labels},
+            "action_freeze_sha256": action_sha,
+            "scientific_score_gate_influence_count": 0,
+            "heldout_evaluator_access_count": 0,
+            "persistent_history_append_count": 0,
+            "W0_restored": _model_w0_contract(touched) == w0_contract,
+            "status": "P1R24_B1_TECHNICAL_SMOKE_COMPLETE",
+        }
+        terminal["identity_sha256"] = canonical_hash(terminal)
+        terminal_sha = write_once(destination / "terminal.json", terminal)
+        manifest = {
+            "schema": "ode-edit-s05-p1r24-b1-smoke-manifest/v1",
+            "source_head": source_head,
+            "terminal_sha256": terminal_sha,
+            "action_freeze_sha256": action_sha,
+            "W0_restored": terminal["W0_restored"],
+            "status": terminal["status"],
+        }
+        manifest["identity_sha256"] = canonical_hash(manifest)
+        manifest_sha = write_once(destination / "manifest.json", manifest)
+        return {
+            "status": terminal["status"],
+            "terminal_sha256": terminal_sha,
+            "manifest_sha256": manifest_sha,
+        }
     cases, freeze = _action_frozen_cases(
         dataset_path,
         requests,
         arm=(
-            f"P1R23-{allocation}-PROGRESS-SIMPLEX-PAIR"
+            f"P1R24-{allocation}-ATOMIC-STRENGTH-RECOVERY-PAIR"
+            if p1r24
+            else f"P1R23-{allocation}-PROGRESS-SIMPLEX-PAIR"
             if progress_simplex
             else f"P1R23-{allocation}-ODE-PAIR"
         ),
@@ -921,7 +1200,7 @@ def _run_ode_pair(
         model, tokenizer, cases, alias=alias, freeze_payload=freeze
     )
     w0_sha = write_once(raw_root / "W0-endpoint.json", w0)
-    for label in routing_arms:
+    for label in selected_labels:
         endpoint_materializer = AcceptedPhysicalStateMaterializer(model, base_values)
         materialization = endpoint_materializer.materialize(
             rollouts[label]["terminal_factors"], transition_index=8
@@ -943,11 +1222,17 @@ def _run_ode_pair(
     terminal = {
         "schema": f"{P1R23_SCHEMA}-ode-pair-terminal/v1",
         "instruction_id": (
+            P1R24_INSTRUCTION_ID
+            if p1r24
+            else
             PROGRESS_SIMPLEX_INSTRUCTION_ID
             if progress_simplex
             else P1R23_INSTRUCTION_ID
         ),
         "method_id": (
+            P1R24_METHOD_ID
+            if p1r24
+            else
             PROGRESS_SIMPLEX_METHOD_ID
             if progress_simplex
             else P1R23_METHOD_ID
@@ -956,12 +1241,12 @@ def _run_ode_pair(
         "alias": alias,
         "request_count": len(requests),
         "request_order_sha256": request_order,
-        "request_microbatch_size": request_microbatch_size,
+        "request_microbatch_size": effective_microbatch_size,
         "target_allocation": allocation,
-        "routing_arms": list(routing_arms),
+        "routing_arms": list(selected_labels),
         "objective_plan_sha256": objective_plan.identity_sha256,
         "capture_plan_sha256": capture_plan.identity_sha256,
-        "rollouts": {label: rollouts[label]["public"] for label in routing_arms},
+        "rollouts": {label: rollouts[label]["public"] for label in selected_labels},
         "W0_endpoint_sha256": w0_sha,
         "W0_shared_by_neutral_soft": True,
         "endpoints": endpoints,
@@ -1551,6 +1836,7 @@ def run_p1r23_scalable_batched(
     numerical_lock_sha256: str,
 ) -> dict[str, Any]:
     del stages
+    p1r24_role = role.startswith("P1R24_")
     progress_simplex_role = role.startswith("PROGRESS_SIMPLEX_")
     simplex_lock_sha256: str | None = None
     if progress_simplex_role:
@@ -1570,8 +1856,11 @@ def run_p1r23_scalable_batched(
         [str(item["request_sha256"]) for item in requests]
     )
     if (
-        len(requests) not in (10, 100)
-        or request_order != stream["batch_ordered_request_digest_v1"][0]
+        len(requests) not in ((1, 10) if p1r24_role else (10, 100))
+        or (
+            not p1r24_role
+            and request_order != stream["batch_ordered_request_digest_v1"][0]
+        )
         or numerical_lock["native_controls"]["optimized_native_target"]
         != "SCIENTIFICALLY_IDENTICAL_DIRECT_Z_SOLVE"
         or numerical_lock["atomic_only"]["result_label"] != "ATOMIC"
@@ -1596,6 +1885,9 @@ def run_p1r23_scalable_batched(
             "ODE_BF_K8_RS_PAIR",
             "PROGRESS_SIMPLEX_BG_PAIR",
             "PROGRESS_SIMPLEX_RS_PAIR",
+            "P1R24_B1_RS_NEUTRAL",
+            "P1R24_B10_RS_PAIR",
+            "P1R24_B10_BG_PAIR",
         ),
         "estimand": "ATOMIC",
         "joint_batch_application_count": 1,
@@ -1611,6 +1903,9 @@ def run_p1r23_scalable_batched(
         "ODE_BF_K8_RS_PAIR",
         "PROGRESS_SIMPLEX_BG_PAIR",
         "PROGRESS_SIMPLEX_RS_PAIR",
+        "P1R24_B1_RS_NEUTRAL",
+        "P1R24_B10_RS_PAIR",
+        "P1R24_B10_BG_PAIR",
     ):
         progress_simplex = progress_simplex_role
         return _run_ode_pair(
@@ -1643,10 +1938,14 @@ def run_p1r23_scalable_batched(
                 if role in (
                     "ODE_BF_K8_RS_PAIR",
                     "PROGRESS_SIMPLEX_RS_PAIR",
+                    "P1R24_B1_RS_NEUTRAL",
+                    "P1R24_B10_RS_PAIR",
                 )
                 else "BG"
             ),
             progress_simplex=progress_simplex,
+            p1r24=p1r24_role,
+            neutral_only=role == "P1R24_B1_RS_NEUTRAL",
         )
     if role == "CALIBRATION":
         return _run_calibration(

@@ -1,0 +1,39 @@
+{
+  "schema_version": "ode-edit-s05-p1r24-atomic-strength-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R24-ATOMIC-STRENGTH-RECOVERY-V1",
+  "method_id": "P1R24-ALPHA-GEOMETRY-REMAINING-LAG-MATCHED-STRENGTH-ATOMIC-P-V1",
+  "base_checkpoint": "a343d1f6967ef37763009b92d227ade85cd93de0",
+  "grid": {"K": 8, "h": 0.125, "tau_final": 1.0, "retry": 0, "backtracking": 0, "early_stop": 0},
+  "target": {
+    "kl_prompt": "{} is a",
+    "kl_factor": 0.0625,
+    "freeze_threshold": 0.05,
+    "llama": {"decay": 0.5, "clamp": 0.75},
+    "qwen": {"decay": 0.001, "clamp": 4.0},
+    "componentwise_gradient_normalization_count": 0
+  },
+  "write_coordinate": {
+    "required": "d_k+e_k/(K-k)",
+    "field": "required/h",
+    "physical_h_application_count": 1,
+    "second_remaining_division_count": 0
+  },
+  "router": {
+    "strength": "rho_write=max(-dot(g_new,required),0)",
+    "equality": "a^T v=rho_write",
+    "neutral": "v=rho_write/q",
+    "per_layer_cap_count": 0,
+    "P_budget_veto_retry_count": 0
+  },
+  "atomic": {
+    "cumulative_structural_p": "offset+linear_cross+quadratic_self",
+    "persistent_historical_count": 0,
+    "inner_functional_probe_count": 0,
+    "terminal_evaluation_count": 1
+  },
+  "inputs": {
+    "seal_root": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+    "request_order": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b"
+  },
+  "root_digest": "647c18243298dd342a2c4f78669bf9a07e019fc08cddad836fd6c330b62dc850"
+}
