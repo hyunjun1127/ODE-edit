@@ -19,6 +19,7 @@ from project.run_scripts.ode_bf.p1r24_atomic_strength import (
 )
 from project.run_scripts.ode_bf.routing import QuadraticBarrier, RoutingProblem
 from project.run_scripts.ode_bf.scalable_batched_field import ScalableRobustSharedMetric
+from project.run_scripts.ode_bf.scalable_batched_runtime import scalable_ordered_request_digest
 
 
 class _Objective:
@@ -163,6 +164,12 @@ class P1R24ContractTests(unittest.TestCase):
         )]
         self.assertIn("and scalable_batched_role is None", guard)
         self.assertIn("and atomic_strength_recovery_role is None", guard)
+
+    def test_sealed_b1_smoke_digest_is_distinct_and_total(self) -> None:
+        value = "a" * 64
+        observed = scalable_ordered_request_digest((value,))
+        self.assertEqual(len(observed), 64)
+        self.assertNotEqual(observed, value)
 
 
 if __name__ == "__main__":

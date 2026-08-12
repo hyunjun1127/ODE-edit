@@ -24,6 +24,7 @@ SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p1r24_atomic_strength
 STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r24-atomic-strength-recovery"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
 BRANCH = "codex/p1r24-atomic-strength-recovery-v1"
+PROJECT_GPU_CAP = 3
 
 
 def _run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -57,7 +58,7 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
         raise ODEBFContractError("P1R24 result namespace exists")
     active = _active_gpu_jobs()
     new = int(plan["array_max_concurrent_gpu"])
-    if active + new > 4:
+    if active + new > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R24 server1 project GPU cap differs")
     namespace = f"s05-p1r24-{phase}-{source_head[:12]}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
@@ -73,7 +74,7 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
         "phase": phase,
         "dry_plan": plan,
         "active_devbox_gpu_jobs": active,
-        "project_gpu_cap": 4,
+        "project_gpu_cap": PROJECT_GPU_CAP,
         "held_then_atomic_release": True,
         "array": array,
     }
@@ -103,6 +104,7 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
         "job_count": plan["job_count"],
         "trajectory_count": plan["trajectory_count"],
         "max_concurrent_gpu": new,
+        "project_gpu_cap": PROJECT_GPU_CAP,
         "intent_sha256": intent_sha,
         "held_inspection_sha256": hashlib.sha256(observed.encode()).hexdigest(),
         "held_then_atomic_release": True,
