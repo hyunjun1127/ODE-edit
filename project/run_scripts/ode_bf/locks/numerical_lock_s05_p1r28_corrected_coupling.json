@@ -1,0 +1,62 @@
+{
+  "schema_version": "ode-edit-s05-p1r28-corrected-coupling-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R28-P1R24-ANCHORED-CORRECTED-COUPLING-KILL-TEST-V1",
+  "method_id": "P1R28-P1R24-ANCHORED-CORRECTED-COUPLING-V1",
+  "base_checkpoint": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "scope": {
+    "models": ["llama3-8b-inst", "qwen2.5-7b-inst"],
+    "allocation": "RS",
+    "routing": "NEUTRAL",
+    "arms": ["C1_SEMANTIC_ONLY", "C2_FEASIBILITY_BOUNDED_LAG"],
+    "K": 8,
+    "h": 0.125,
+    "retry": 0,
+    "backtracking": 0,
+    "inner_heldout": 0,
+    "inner_functional_p": 0
+  },
+  "coordinate": {
+    "raw_slope": "bar_a=dL/dtheta",
+    "velocity_slope": "a_v=h*bar_a",
+    "applied_coefficient": "theta=h*v",
+    "identity": "(h*bar_a)^T*v=bar_a^T*(h*v)",
+    "h_application_count": 1,
+    "second_h_division_count": 0,
+    "forbidden_contraction": "(h*bar_a)^T*theta"
+  },
+  "coupling": {
+    "C1": "d=Delta_z",
+    "C2": "d=Delta_z+lambda*(z-y)/(K-k)",
+    "lambda": "largest feasible in [0,1]",
+    "rho": "positive_part(-dot(g_z,d))",
+    "r_max": "cap-free nonnegative P1R24 trust ellipsoid maximum",
+    "root_solve": "piecewise-rational all polynomial roots then original-form certificate",
+    "lambda_grid_count": 0,
+    "added_model_forward_count": 0,
+    "added_backward_count": 0,
+    "added_materialization_count": 0
+  },
+  "inherited_tolerances": {
+    "simplex_primal": 1e-8,
+    "energy_relative": 1e-8,
+    "energy_absolute": 1e-12,
+    "q_epsilon": 1e-12,
+    "p1r24_numerical": 1e-8
+  },
+  "stall": {
+    "statuses": ["SEMANTIC_NO_POSITIVE_DIRECTION", "TRACKING_CONFLICT_RECTIFIED", "SEMANTIC_STALL", "TECHNICAL_FAIL"],
+    "final_stall_W_hold": true,
+    "final_stall_z_hold": true
+  },
+  "inputs": {
+    "seal_root": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+    "request_order": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b"
+  },
+  "resource": {
+    "project_gpu_cap": 4,
+    "actual_concurrent_gpu_limit": 2,
+    "callback_job_count": 0
+  },
+  "scientific_promotion": false,
+  "root_digest": "16f04807b80b0b644bc67b5a1c231f4683fcc50400294d8960722d23b60a9201"
+}

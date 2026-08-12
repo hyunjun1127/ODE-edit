@@ -13,6 +13,8 @@ P1R24_ROLES = (
     "P1R24_B1_RS_NEUTRAL",
     "P1R24_B10_RS_PAIR",
     "P1R24_B10_BG_PAIR",
+    "P1R28_B1_RS_PAIR",
+    "P1R28_B10_RS_PAIR",
 )
 
 
@@ -23,8 +25,11 @@ def expected_p1r24_result_name(alias: str, role: str) -> str:
         "P1R24_B1_RS_NEUTRAL": "b1-rs-neutral-smoke",
         "P1R24_B10_RS_PAIR": "b10-rs-neutral-soft-pair",
         "P1R24_B10_BG_PAIR": "b10-bg-neutral-soft-pair",
+        "P1R28_B1_RS_PAIR": "b1-rs-c1-c2-pair",
+        "P1R28_B10_RS_PAIR": "b10-rs-c1-c2-pair",
     }[role]
-    return f"s05-p1r24-{alias}-{suffix}-tech-r7-v1"
+    prefix = "p1r28" if role.startswith("P1R28_") else "p1r24"
+    return f"s05-{prefix}-{alias}-{suffix}-v1"
 
 
 def forecast_p1r24_panel(

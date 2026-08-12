@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import asdict
+import hashlib
+import json
 import math
 from pathlib import Path
 import threading
@@ -95,6 +97,7 @@ from .progress_simplex_routing import (
     PROGRESS_SIMPLEX_INSTRUCTION_ID,
     PROGRESS_SIMPLEX_METHOD_ID,
     ProgressSimplexStatus,
+    SIMPLEX_PRIMAL_TOLERANCE,
     progress_simplex_waypoint_factors,
     solve_progress_simplex_routing,
 )
@@ -110,6 +113,20 @@ from .p1r24_atomic_strength import (
     p1r24_target_step,
     solve_p1r24_matched_routing,
     verify_p1r24_alphaedit_geometry,
+)
+from .p1r28_corrected_coupling import (
+    P1R28CouplingStatus,
+    P1R28_INSTRUCTION_ID,
+    P1R28_METHOD_ID,
+    RawCoefficientSlope,
+    VelocityCoefficient,
+    affine_trust_domain_from_fields,
+    build_p1r24_matched_demand,
+    coordinate_identity_receipt,
+    largest_feasible_lag_scale,
+    physical_coupling_basis,
+    semantic_only_coupling,
+    stall_state_receipt,
 )
 
 
@@ -215,17 +232,21 @@ def _run_ode_arm(
     write_once: Any,
     progress_simplex: bool = False,
     p1r24: bool = False,
+    p1r28_mode: str | None = None,
 ) -> dict[str, Any]:
+    p1r24_like = p1r24 or p1r28_mode in ("C1", "C2")
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
     request_count = len(requests)
-    if request_count not in ((1, 10) if p1r24 else (10, 100)):
+    if request_count not in ((1, 10) if p1r24_like else (10, 100)):
         raise ODEBFContractError("P1R23 ODE request count differs")
     if allocation not in ("RS", "BG"):
         raise ODEBFContractError("P1R23 ODE target allocation differs")
     arm_label = (
         f"{allocation}-P1R24-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
-        if p1r24
+        if p1r24_like and p1r28_mode is None
+        else f"{allocation}-P1R28-{p1r28_mode}"
+        if p1r28_mode is not None
         else
         f"{allocation}-SIMPLEX-"
         f"{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
@@ -260,14 +281,14 @@ def _run_ode_arm(
     current_terminal = initial.current_terminal_z.clone()
     target_origin = current_target.clone()
     frozen_mask: tuple[bool, ...] = tuple(False for _ in range(request_count))
-    p1r24_target_lock = P1R24AliasTargetLock.for_alias(alias) if p1r24 else None
+    p1r24_target_lock = P1R24AliasTargetLock.for_alias(alias) if p1r24_like else None
     p1r24_alpha_geometry = (
         verify_p1r24_alphaedit_geometry(
             hparams,
             p1r24_target_lock,
             easyedit_root=Path("/mnt/raid5/janghj/EasyEdit"),
         )
-        if p1r24 and p1r24_target_lock is not None
+        if p1r24_like and p1r24_target_lock is not None
         else None
     )
     p1r24_kl_plan = (
@@ -278,11 +299,11 @@ def _run_ode_arm(
             request_microbatch_size=min(objective_plan.request_microbatch_size, request_count),
             fact_token_strategy=hparams.fact_token,
         )
-        if p1r24
+        if p1r24_like
         else None
     )
     p1r24_kl_teacher: tuple[torch.Tensor, ...] | None = None
-    if p1r24:
+    if p1r24_like:
         assert p1r24_kl_plan is not None
         teacher_result, p1r24_kl_teacher = evaluate_p1r24_kl(
             model, p1r24_kl_plan, teacher_log_probs=None
@@ -307,7 +328,7 @@ def _run_ode_arm(
             state_before = _parameter_contract_sha256(touched)
             replay_entry = (
                 None
-                if p1r24
+                if p1r24_like
                 else _controller_replay_entry(
                     model,
                     tokenizer,
@@ -339,7 +360,7 @@ def _run_ode_arm(
             )
             if target_result.target_gradient is None:
                 raise ODEBFContractError("P1R23 target gradient is absent")
-            if p1r24:
+            if p1r24_like:
                 assert p1r24_kl_plan is not None and p1r24_kl_teacher is not None
                 assert p1r24_target_lock is not None
                 kl_result, _ = evaluate_p1r24_kl(
@@ -380,29 +401,142 @@ def _run_ode_arm(
                 compute, "target_gradient", target_result, target=True
             )
             field_started = time.perf_counter()
-            field = build_scalable_dynamic_field(
-                model,
-                tokenizer,
-                requests,
-                hparams,
-                projector,
-                contexts,
-                target_state=(
-                    current_terminal + target_velocity
-                    if p1r24
-                    else target_next
-                ),
-                current_terminal=current_terminal,
-                captured_keys_by_layer=physical.keys_by_layer,
-                accepted_waypoint=step_index,
-                covariance_registry=covariance_registry,
-                projector_sha256=projector_sha256,
-                residual_tolerance=controller_lock.residual_tolerance,
-                ledger=legacy_ledger,
-            )
-            signed, slope_result = scalable_physical_signed_progress(
-                model, objective_plan, field
-            )
+            field_kwargs = {
+                "current_terminal": current_terminal,
+                "captured_keys_by_layer": physical.keys_by_layer,
+                "accepted_waypoint": step_index,
+                "covariance_registry": covariance_registry,
+                "projector_sha256": projector_sha256,
+                "residual_tolerance": controller_lock.residual_tolerance,
+                "ledger": legacy_ledger,
+            }
+            coupling = None
+            coupling_basis = None
+            coordinate_receipt = None
+            stalled = False
+            if p1r28_mode is not None:
+                assert p1r24_like
+                remaining = P1R23_GRID_COUNT - step_index
+                semantic_displacement = target_step.target_displacement
+                lag_displacement = (
+                    (current_target - current_terminal) / float(remaining)
+                ).contiguous()
+                semantic_velocity = semantic_displacement / P1R23_H
+                lag_velocity = lag_displacement / P1R23_H
+                semantic_field = build_scalable_dynamic_field(
+                    model,
+                    tokenizer,
+                    requests,
+                    hparams,
+                    projector,
+                    contexts,
+                    target_state=current_terminal + semantic_velocity,
+                    **field_kwargs,
+                )
+                lag_nonzero = bool(
+                    float(torch.linalg.vector_norm(lag_displacement.double()))
+                    > 1.0e-12
+                )
+                lag_field = (
+                    build_scalable_dynamic_field(
+                        model,
+                        tokenizer,
+                        requests,
+                        hparams,
+                        projector,
+                        contexts,
+                        target_state=current_terminal + lag_velocity,
+                        **field_kwargs,
+                    )
+                    if lag_nonzero
+                    else None
+                )
+                coupling_basis = physical_coupling_basis(
+                    model, objective_plan, semantic_field, lag_field
+                )
+                domain = affine_trust_domain_from_fields(
+                    semantic_field,
+                    lag_field,
+                    write_trust_fraction=controller_lock.write_trust_fraction,
+                )
+                demand = build_p1r24_matched_demand(
+                    target_step.nll_gradient.double().numpy(),
+                    semantic_displacement.double().numpy(),
+                    lag_displacement.double().numpy(),
+                )
+                coupling = (
+                    semantic_only_coupling(coupling_basis.velocity, demand, domain)
+                    if p1r28_mode == "C1"
+                    else largest_feasible_lag_scale(
+                        coupling_basis.velocity, demand, domain
+                    )
+                )
+                stalled = coupling.status in (
+                    P1R28CouplingStatus.SEMANTIC_NO_POSITIVE_DIRECTION,
+                    P1R28CouplingStatus.SEMANTIC_STALL,
+                )
+                selected_displacement = (
+                    semantic_displacement
+                    + coupling.lag_scale * lag_displacement
+                )
+                selected_velocity = selected_displacement / P1R23_H
+                field = (
+                    semantic_field
+                    if coupling.lag_scale == 0.0
+                    else build_scalable_dynamic_field(
+                        model,
+                        tokenizer,
+                        requests,
+                        hparams,
+                        projector,
+                        contexts,
+                        target_state=current_terminal + selected_velocity,
+                        **field_kwargs,
+                    )
+                )
+                signed = coupling_basis.signed_receipt(
+                    field, lag_scale=coupling.lag_scale
+                )
+                slope_result = coupling_basis.objective
+                alpha_req = 0.0 if stalled else coupling.rho
+                if stalled:
+                    target_next = current_target.clone()
+                target_receipt.update(
+                    {
+                        "p1r28_mode": p1r28_mode,
+                        "semantic_displacement_sha256": tensor_sha256(
+                            semantic_displacement
+                        ),
+                        "lag_displacement_sha256": tensor_sha256(
+                            lag_displacement
+                        ),
+                        "selected_displacement_sha256": tensor_sha256(
+                            selected_displacement
+                        ),
+                        "coupling_basis": coupling_basis.raw_free_payload(),
+                        "coupling": coupling.raw_free_payload(),
+                        "stall_holds_target": stalled,
+                    }
+                )
+                target_receipt["identity_sha256"] = canonical_hash(target_receipt)
+            else:
+                field = build_scalable_dynamic_field(
+                    model,
+                    tokenizer,
+                    requests,
+                    hparams,
+                    projector,
+                    contexts,
+                    target_state=(
+                        current_terminal + target_velocity
+                        if p1r24_like
+                        else target_next
+                    ),
+                    **field_kwargs,
+                )
+                signed, slope_result = scalable_physical_signed_progress(
+                    model, objective_plan, field
+                )
             compute.add_wall("field_and_physical_slope", time.perf_counter() - field_started)
             _phase_add_objective(
                 compute, "physical_slope", slope_result, slope=True
@@ -433,9 +567,55 @@ def _run_ode_arm(
             )
             routing_problem = (
                 p1r24_disable_historical(problem_receipt.problem)
-                if p1r24
+                if p1r24_like
                 else problem_receipt.problem
             )
+            trust_coordinate_receipt = None
+            if p1r28_mode is not None:
+                selected_trust = domain.diagonal(coupling.lag_scale)
+                selected_velocity_slope = coupling_basis.velocity.at(
+                    coupling.lag_scale
+                ).array
+                slope_residual = float(
+                    np.max(
+                        np.abs(
+                            routing_problem.signed_progress
+                            - selected_velocity_slope
+                        )
+                    )
+                )
+                trust_residual = float(
+                    np.max(
+                        np.abs(
+                            np.diag(routing_problem.trust_metric)
+                            - selected_trust
+                        )
+                    )
+                )
+                radius_residual = abs(
+                    routing_problem.trust_radius**2
+                    - domain.radius_squared(coupling.lag_scale)
+                )
+                trust_scale = max(
+                    float(np.max(np.abs(selected_trust))), 1.0
+                )
+                radius_scale = max(domain.radius_squared(coupling.lag_scale), 1.0)
+                if (
+                    slope_residual > 1.0e-8 * max(float(np.max(np.abs(selected_velocity_slope))), 1.0) + 1.0e-12
+                    or trust_residual > 1.0e-8 * trust_scale + 1.0e-12
+                    or radius_residual > 1.0e-8 * radius_scale + 1.0e-12
+                ):
+                    raise ODEBFContractError("P1R28 trust-coordinate identity differs")
+                trust_coordinate_receipt = {
+                    "velocity_trust_diagonal": selected_trust.tolist(),
+                    "routing_problem_trust_diagonal": np.diag(
+                        routing_problem.trust_metric
+                    ).tolist(),
+                    "maximum_diagonal_residual": trust_residual,
+                    "maximum_velocity_slope_residual": slope_residual,
+                    "radius_squared_residual": radius_residual,
+                    "per_layer_upper_cap_influence_count": 0,
+                }
             field_semantic = canonical_hash(
                 {
                     "field_sha256": field.identity_sha256,
@@ -445,7 +625,7 @@ def _run_ode_arm(
                 }
             )
             functional_started = time.perf_counter()
-            if not p1r24:
+            if not p1r24_like:
                 inventory, functional_probe = _fixed_e8_functional_basis_probe(
                 model,
                 tokenizer,
@@ -489,7 +669,7 @@ def _run_ode_arm(
                     arm=arm,
                     rho_write=alpha_req,
                 )
-                if p1r24
+                if p1r24_like
                 else
                 solve_progress_simplex_routing(
                     problem_receipt.problem,
@@ -508,11 +688,11 @@ def _run_ode_arm(
             compute.add_wall("routing_solve", time.perf_counter() - route_started)
             if (
                 progress_simplex
-                and not p1r24
+                and not p1r24_like
                 and routing.status is ProgressSimplexStatus.NO_POSITIVE_DIRECTION
             ):
                 raise ODEBFStateError("NO_POSITIVE_DIRECTION")
-            if p1r24 and routing.status in (
+            if p1r24_like and p1r28_mode is None and routing.status in (
                 P1R24RoutingStatus.NO_POSITIVE_DIRECTION,
                 P1R24RoutingStatus.Q_NUMERICAL_DEGENERACY,
             ):
@@ -521,7 +701,7 @@ def _run_ode_arm(
                 progress_simplex_waypoint_factors(
                     field, routing.velocity, step_index=step_index
                 )
-                if progress_simplex or p1r24
+                if progress_simplex or p1r24_like
                 else fixed_e8_waypoint_factors(
                     field, routing.velocity, step_index=step_index
                 )
@@ -531,6 +711,26 @@ def _run_ode_arm(
                 routing_problem.signed_progress
                 @ np.asarray(routing.velocity, dtype=np.float64)
             )
+            if p1r28_mode is not None:
+                assert coupling_basis is not None
+                raw_values = (
+                    coupling_basis.raw_semantic.values
+                    if coupling is None
+                    else tuple(
+                        semantic + coupling.lag_scale * lag
+                        for semantic, lag in zip(
+                            coupling_basis.raw_semantic.values,
+                            coupling_basis.raw_lag.values,
+                            strict=True,
+                        )
+                    )
+                )
+                coordinate_receipt = coordinate_identity_receipt(
+                    RawCoefficientSlope(raw_values),
+                    VelocityCoefficient(tuple(float(item) for item in routing.velocity)),
+                )
+                if abs(predicted - float(coordinate_receipt["velocity_slope_dot_velocity"])) > 1.0e-8:
+                    raise ODEBFContractError("P1R28 routing coordinate prediction differs")
             refresh.record(
                 step_index=step_index,
                 accepted_state_sha256=state_before,
@@ -552,6 +752,28 @@ def _run_ode_arm(
             )
             compute.add_wall("accepted_state_refresh", time.perf_counter() - next_capture_started)
             _phase_add_capture(compute, "accepted_state_refresh", next_physical)
+            stall_receipt = None
+            if p1r28_mode is not None and stalled:
+                stall_receipt = stall_state_receipt(
+                    w_before_sha256=state_before,
+                    w_after_sha256=_parameter_contract_sha256(touched),
+                    z_before_sha256=tensor_sha256(current_target),
+                    z_after_sha256=tensor_sha256(target_next),
+                )
+                if tensor_sha256(current_terminal) != tensor_sha256(
+                    next_physical.terminal_z
+                ):
+                    raise ODEBFContractError(
+                        "P1R28 stalled physical activation state changed"
+                    )
+                stall_receipt["physical_terminal_before_sha256"] = tensor_sha256(
+                    current_terminal
+                )
+                stall_receipt["physical_terminal_after_sha256"] = tensor_sha256(
+                    next_physical.terminal_z
+                )
+                stall_receipt["physical_terminal_held"] = True
+                stall_receipt["identity_sha256"] = canonical_hash(stall_receipt)
             progress: dict[str, Any] = {
                 "predicted": predicted,
                 "actual": None,
@@ -588,6 +810,59 @@ def _run_ode_arm(
                 current_terminal,
                 next_physical.terminal_z,
             )
+            p1r28_scale_realization = None
+            if p1r28_mode is not None:
+                applied = P1R23_H * np.asarray(
+                    routing.velocity, dtype=np.float64
+                )
+                intended_norm = float(
+                    torch.linalg.vector_norm(selected_displacement.double())
+                )
+                realized_norm = float(
+                    torch.linalg.vector_norm(
+                        (
+                            next_physical.terminal_z.double()
+                            - current_terminal.double()
+                        )
+                    )
+                )
+                bf16_step_energy = math.fsum(
+                    float(value)
+                    for value in materialization[
+                        "realized_bf16_step_energy"
+                    ].values()
+                )
+                p1r28_scale_realization = {
+                    "schema": "ode-edit-s05-p1r28-scale-realization/v1",
+                    "sum_hv": float(applied.sum()),
+                    "sum_hv_over_h": float(applied.sum() / P1R23_H),
+                    "sum_velocity": float(
+                        np.asarray(routing.velocity, dtype=np.float64).sum()
+                    ),
+                    "intended_target_displacement_norm": intended_norm,
+                    "realized_terminal_activation_displacement_norm": realized_norm,
+                    "realized_over_intended_gain": (
+                        realized_norm / intended_norm
+                        if intended_norm > 0.0
+                        else None
+                    ),
+                    "realized_bf16_step_energy": bf16_step_energy,
+                    "first_step": step_index == 0,
+                    "p1r24_anchor_energy_ratio": "DEFERRED_TO_PAIRED_ANCHOR_RECEIPT",
+                    "full_residual_per_layer_scale_replication_count": 0,
+                    "h_application_count": 1,
+                    "second_h_division_count": 0,
+                }
+                if abs(
+                    p1r28_scale_realization["sum_hv_over_h"]
+                    - p1r28_scale_realization["sum_velocity"]
+                ) > SIMPLEX_PRIMAL_TOLERANCE:
+                    raise ODEBFContractError(
+                        "P1R28 applied-coordinate scale identity differs"
+                    )
+                p1r28_scale_realization["identity_sha256"] = canonical_hash(
+                    p1r28_scale_realization
+                )
             contribution = [
                 float(a * v)
                 for a, v in zip(
@@ -618,7 +893,7 @@ def _run_ode_arm(
                     step_index=step_index,
                     factor_list_hashes=factor_list_hashes,
                 )
-                if p1r24
+                if p1r24_like
                 else None
             )
             payload = {
@@ -647,7 +922,7 @@ def _run_ode_arm(
                 "functional_probe_sha256": functional_probe["identity_sha256"],
                 "progress": progress,
                 "per_layer_applied_progress": contribution,
-                "structural_h": 0.0 if p1r24 else routing_problem.historical.value(
+                "structural_h": 0.0 if p1r24_like else routing_problem.historical.value(
                     np.asarray(routing.velocity)
                 ),
                 "structural_p": routing_problem.pretrained.value(
@@ -662,17 +937,26 @@ def _run_ode_arm(
                 "retry_backtracking_reject_count": 0,
                 "routing_method": (
                     P1R24_METHOD_ID
-                    if p1r24
+                    if p1r24_like and p1r28_mode is None
+                    else P1R28_METHOD_ID
+                    if p1r28_mode is not None
                     else
                     PROGRESS_SIMPLEX_METHOD_ID
                     if progress_simplex
                     else "P1R23_STRENGTH_PRESERVING"
                 ),
                 "progress_simplex_decision_influence_count": (
-                    1 if progress_simplex or p1r24 else 0
+                    1 if progress_simplex or p1r24_like else 0
                 ),
                 "persistent_historical_ledger_count": 0,
                 "historical_h_decision_influence_count": 0,
+                "p1r28_coordinate_identity": coordinate_receipt,
+                "p1r28_coupling": (
+                    None if coupling is None else coupling.raw_free_payload()
+                ),
+                "p1r28_trust_coordinate": trust_coordinate_receipt,
+                "p1r28_stall_state": stall_receipt,
+                "p1r28_scale_realization": p1r28_scale_realization,
             }
             payload["identity_sha256"] = canonical_hash(payload)
             write_once(
@@ -682,7 +966,7 @@ def _run_ode_arm(
                 / f"accepted-k{step_index + 1}.json",
                 payload,
             )
-            if p1r24:
+            if p1r24_like:
                 for layer in field.layers:
                     accepted_by_layer[layer.layer].append(
                         AcceptedLayerContribution.from_field(
@@ -713,31 +997,40 @@ def _run_ode_arm(
             )
         if pending is not None or len(accepted) != 8 or len(delayed) != 7:
             raise ODEBFStateError("P1R23 K8 delayed accounting differs")
-        terminal_replay = _controller_replay_entry(
-            model,
-            tokenizer,
-            alias=alias,
-            arm_state=arm_state,
-            sample_waypoint=8,
-            factors={},
-            request_by_sha256=request_by_sha256,
-            population_by_sha256=population_by_sha256,
-            schedule=schedule,
-            outer_entry_p_cache=outer_entry_p_cache,
-        )
-        terminal_value = _functional_trial(
-            model,
-            tokenizer,
-            alias=alias,
-            entry=terminal_replay,
-            theta0_cache=theta0_cache,
-            factors={},
-            lock=controller_lock,
-            ledger=legacy_ledger,
-        )
-        terminal_functional = _terminal_functional_payload(terminal_value)
+        if p1r28_mode is None:
+            terminal_replay = _controller_replay_entry(
+                model,
+                tokenizer,
+                alias=alias,
+                arm_state=arm_state,
+                sample_waypoint=8,
+                factors={},
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                outer_entry_p_cache=outer_entry_p_cache,
+            )
+            terminal_value = _functional_trial(
+                model,
+                tokenizer,
+                alias=alias,
+                entry=terminal_replay,
+                theta0_cache=theta0_cache,
+                factors={},
+                lock=controller_lock,
+                ledger=legacy_ledger,
+            )
+            terminal_functional = _terminal_functional_payload(terminal_value)
+        else:
+            terminal_functional = {
+                "status": "INACTIVE_P1R28",
+                "functional_p_inner_probe_count": 0,
+                "functional_h_count": 0,
+                "model_forward_count": 0,
+                "backward_count": 0,
+            }
         terminal_oracle: dict[str, Any] | None = None
-        if p1r24:
+        if p1r24_like:
             oracle_variable = (
                 current_target.detach()
                 .to(device=next(model.parameters()).device, dtype=torch.float32)
@@ -766,7 +1059,9 @@ def _run_ode_arm(
             "arm": arm_label,
             "status": (
                 "P1R24_ATOMIC_STRENGTH_RECOVERY_K8_COMPLETE"
-                if p1r24
+                if p1r24_like and p1r28_mode is None
+                else "P1R28_CORRECTED_COUPLING_K8_COMPLETE"
+                if p1r28_mode is not None
                 else "PROGRESS_SIMPLEX_DYNAMIC_K8_COMPLETE"
                 if progress_simplex
                 else "SCALABLE_DYNAMIC_K8_COMPLETE"
@@ -786,7 +1081,7 @@ def _run_ode_arm(
             "terminal_z8_oracle": terminal_oracle,
             "terminal_cumulative_structural_p": (
                 accepted[-1]["cumulative_atomic_structural_p"]
-                if p1r24 and accepted
+                if p1r24_like and accepted
                 else None
             ),
             "dynamic_refresh": refresh.finalize(),
@@ -799,7 +1094,9 @@ def _run_ode_arm(
             "alphaedit_target_geometry": p1r24_alpha_geometry,
             "instruction_id": (
                 P1R24_INSTRUCTION_ID
-                if p1r24
+                if p1r24_like and p1r28_mode is None
+                else P1R28_INSTRUCTION_ID
+                if p1r28_mode is not None
                 else
                 PROGRESS_SIMPLEX_INSTRUCTION_ID
                 if progress_simplex
@@ -807,7 +1104,9 @@ def _run_ode_arm(
             ),
             "method_id": (
                 P1R24_METHOD_ID
-                if p1r24
+                if p1r24_like and p1r28_mode is None
+                else P1R28_METHOD_ID
+                if p1r28_mode is not None
                 else
                 PROGRESS_SIMPLEX_METHOD_ID
                 if progress_simplex
@@ -966,6 +1265,8 @@ def _run_ode_pair(
     progress_simplex: bool = False,
     p1r24: bool = False,
     neutral_only: bool = False,
+    p1r28: bool = False,
+    mechanism_smoke: bool = False,
 ) -> dict[str, Any]:
     from .p1_runtime import ArmRuntimeState, _entry_parameter_snapshot_sha256
 
@@ -1009,6 +1310,9 @@ def _run_ode_pair(
         counter.close()
     w0_contract = _model_w0_contract(touched)
     routing_arms = (
+        ("RS-P1R28-C1", "RS-P1R28-C2")
+        if p1r28
+        else
         (
             f"{allocation}-P1R24-NEUTRAL",
             f"{allocation}-P1R24-SOFT",
@@ -1030,15 +1334,144 @@ def _run_ode_pair(
     if allocation not in ("RS", "BG"):
         raise ODEBFContractError("P1R23 paired target allocation differs")
     rollouts: dict[str, dict[str, Any]] = {}
+    anchor_rollout: dict[str, Any] | None = None
+    anchor_reference: dict[str, Any] | None = None
+    anchor_raw_arm_root: Path | None = None
+    if p1r28 and mechanism_smoke and alias == "llama3-8b-inst":
+        # The immutable Llama B1 anchor predates ce8c6c3, so source identity
+        # requires exactly one same-job P1R24 rerun.  Qwen's ce8c6c3 anchor is
+        # bound below without a duplicate model run.
+        anchor_label = "RS-P1R24-NEUTRAL"
+        anchor_state = ArmRuntimeState(
+            P1Arm.R_BF,
+            P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=40),
+            ComputeLedger(),
+            ArmWeightSnapshot(
+                P1Arm.R_BF,
+                0,
+                base_receipt.parameter_sha256,
+                canonical_hash({"arm": anchor_label, "weights": base_receipt.parameter_sha256}),
+            ),
+            dict(base_values),
+        )
+        anchor_rollout = _run_ode_arm(
+            model,
+            tokenizer,
+            requests,
+            alias=alias,
+            arm=FixedE8Arm.NEUTRAL,
+            allocation="RS",
+            capture_plan=capture_plan,
+            objective_plan=objective_plan,
+            hparams=hparams,
+            projector=projector,
+            contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            controller_lock=controller_lock,
+            arm_state=anchor_state,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            outer_entry_p_cache=outer_cache,
+            theta0_cache=theta0_cache,
+            touched=touched,
+            base_receipt=base_receipt,
+            base_values=base_values,
+            raw_root=raw_root,
+            write_once=write_once,
+            p1r24=True,
+        )
+        anchor_reference = {
+            "source": "SAME_JOB_EXACT_CE8C6C3_P1R24_RERUN",
+            "rollout": anchor_rollout["public"],
+            "model_run_count": 1,
+        }
+        anchor_raw_arm_root = raw_root / "ode" / anchor_label.lower()
+    elif p1r28 and mechanism_smoke:
+        reference_path = Path(
+            "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r24-atomic-strength-recovery-v1/"
+            "local/odebf/results/s05-p1r24-qwen2.5-7b-inst-b1-rs-neutral-smoke-tech-r7-v1/terminal.json"
+        )
+        if not reference_path.is_file() or reference_path.is_symlink():
+            raise ODEBFContractError("P1R28 immutable Qwen B1 anchor is absent")
+        reference_bytes = reference_path.read_bytes()
+        reference_value = json.loads(reference_bytes)
+        if (
+            reference_value.get("source_head")
+            != "ce8c6c36348752f1407f7d713d30e6b5c727379b"
+            or reference_value.get("alias") != alias
+            or reference_value.get("request_count") != 1
+            or reference_value.get("request_order_sha256") != request_order
+            or reference_value.get("instruction_id") != P1R24_INSTRUCTION_ID
+            or reference_value.get("method_id") != P1R24_METHOD_ID
+            or reference_value.get("target_allocation") != "RS"
+            or reference_value.get("W0_restored") is not True
+        ):
+            raise ODEBFContractError("P1R28 immutable Qwen B1 anchor identity differs")
+        anchor_reference = {
+            "source": "IMMUTABLE_EXACT_CE8C6C3_P1R24_REUSE",
+            "terminal_sha256": hashlib.sha256(reference_bytes).hexdigest(),
+            "request_order_sha256": reference_value["request_order_sha256"],
+            "rollout": reference_value["rollouts"]["RS-P1R24-NEUTRAL"],
+            "model_run_count": 0,
+        }
+        anchor_raw_arm_root = (
+            reference_path.parent / "raw" / "ode" / "rs-p1r24-neutral"
+        )
+    elif p1r28:
+        reference_path = Path(
+            "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r24-atomic-strength-recovery-v1/"
+            f"local/odebf/results/s05-p1r24-{alias}-b10-rs-neutral-soft-pair-tech-r7-v1/terminal.json"
+        )
+        if not reference_path.is_file() or reference_path.is_symlink():
+            raise ODEBFContractError("P1R28 immutable P1R24 B10 anchor is absent")
+        reference_bytes = reference_path.read_bytes()
+        reference_value = json.loads(reference_bytes)
+        reference_manifest_path = reference_path.with_name("manifest.json")
+        if not reference_manifest_path.is_file() or reference_manifest_path.is_symlink():
+            raise ODEBFContractError("P1R28 immutable P1R24 B10 manifest is absent")
+        reference_manifest_bytes = reference_manifest_path.read_bytes()
+        reference_manifest = json.loads(reference_manifest_bytes)
+        if (
+            reference_value.get("source_head")
+            != "ce8c6c36348752f1407f7d713d30e6b5c727379b"
+            or reference_value.get("alias") != alias
+            or reference_value.get("request_count") != 10
+            or reference_value.get("request_order_sha256") != request_order
+            or reference_value.get("instruction_id") != P1R24_INSTRUCTION_ID
+            or reference_value.get("method_id") != P1R24_METHOD_ID
+            or reference_value.get("target_allocation") != "RS"
+            or reference_manifest.get("source_head")
+            != "ce8c6c36348752f1407f7d713d30e6b5c727379b"
+            or reference_manifest.get("terminal_sha256")
+            != hashlib.sha256(reference_bytes).hexdigest()
+            or reference_manifest.get("W0_restored") is not True
+        ):
+            raise ODEBFContractError("P1R28 immutable P1R24 B10 anchor identity differs")
+        anchor_reference = {
+            "source": "IMMUTABLE_EXACT_CE8C6C3_P1R24_REUSE",
+            "terminal_sha256": hashlib.sha256(reference_bytes).hexdigest(),
+            "manifest_sha256": hashlib.sha256(reference_manifest_bytes).hexdigest(),
+            "request_order_sha256": reference_value["request_order_sha256"],
+            "rollout": reference_value["rollouts"]["RS-P1R24-NEUTRAL"],
+            "endpoint": reference_value["endpoints"]["RS-P1R24-NEUTRAL"],
+            "model_run_count": 0,
+        }
+        anchor_raw_arm_root = (
+            reference_path.parent / "raw" / "ode" / "rs-p1r24-neutral"
+        )
     selected_arms = (
         (FixedE8Arm.NEUTRAL,)
         if neutral_only
         else (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT)
     )
+    if p1r28:
+        selected_arms = (FixedE8Arm.NEUTRAL, FixedE8Arm.NEUTRAL)
     selected_labels = routing_arms[: len(selected_arms)]
-    for selected, label in zip(
+    for arm_ordinal, (selected, label) in enumerate(zip(
         selected_arms, selected_labels, strict=True
-    ):
+    )):
         if _model_w0_contract(touched) != w0_contract:
             raise ODEBFStateError("P1R23 paired arm W0 differs")
         arm_state = ArmRuntimeState(
@@ -1081,6 +1514,98 @@ def _run_ode_pair(
             write_once=write_once,
             progress_simplex=progress_simplex,
             p1r24=p1r24,
+            p1r28_mode=("C1", "C2")[arm_ordinal] if p1r28 else None,
+        )
+    anchor_scale_comparison = None
+    if p1r28:
+        if anchor_raw_arm_root is None or anchor_reference is None:
+            raise ODEBFContractError("P1R28 paired P1R24 anchor is absent")
+
+        def step_scale(path: Path) -> dict[str, Any]:
+            if not path.is_file() or path.is_symlink():
+                raise ODEBFContractError("P1R28 paired scale receipt is absent")
+            raw = path.read_bytes()
+            value = json.loads(raw)
+            energy = math.fsum(
+                float(item)
+                for item in value["materialization"][
+                    "realized_bf16_step_energy"
+                ].values()
+            )
+            realization = value["target_write_realization"]
+            return {
+                "receipt_sha256": hashlib.sha256(raw).hexdigest(),
+                "realized_bf16_step_energy": energy,
+                "maximum_realized_over_intended_gain": max(
+                    (float(item) for item in realization["norm_gain"]),
+                    default=0.0,
+                ),
+            }
+
+        anchor_steps = tuple(
+            step_scale(anchor_raw_arm_root / f"accepted-k{index}.json")
+            for index in range(1, P1R23_GRID_COUNT + 1)
+        )
+        arm_comparisons: dict[str, Any] = {}
+        for label in selected_labels:
+            selected_steps = tuple(
+                step_scale(
+                    raw_root / "ode" / label.lower() / f"accepted-k{index}.json"
+                )
+                for index in range(1, P1R23_GRID_COUNT + 1)
+            )
+            rows = []
+            for index, (selected_step, anchor_step) in enumerate(
+                zip(selected_steps, anchor_steps, strict=True), start=1
+            ):
+                reference_energy = float(
+                    anchor_step["realized_bf16_step_energy"]
+                )
+                rows.append(
+                    {
+                        "step_index": index - 1,
+                        "accepted_index": index,
+                        "selected_receipt_sha256": selected_step[
+                            "receipt_sha256"
+                        ],
+                        "anchor_receipt_sha256": anchor_step[
+                            "receipt_sha256"
+                        ],
+                        "selected_realized_bf16_step_energy": selected_step[
+                            "realized_bf16_step_energy"
+                        ],
+                        "anchor_realized_bf16_step_energy": reference_energy,
+                        "same_sample_p1r24_anchor_energy_ratio": (
+                            float(
+                                selected_step["realized_bf16_step_energy"]
+                            )
+                            / reference_energy
+                            if reference_energy > 0.0
+                            else None
+                        ),
+                        "selected_maximum_realized_over_intended_gain": selected_step[
+                            "maximum_realized_over_intended_gain"
+                        ],
+                        "anchor_maximum_realized_over_intended_gain": anchor_step[
+                            "maximum_realized_over_intended_gain"
+                        ],
+                    }
+                )
+            arm_comparisons[label] = rows
+        anchor_scale_comparison = {
+            "schema": "ode-edit-s05-p1r28-p1r24-anchor-scale-comparison/v1",
+            "anchor": anchor_reference,
+            "arms": arm_comparisons,
+            "step_count_per_arm": P1R23_GRID_COUNT,
+            "same_sample": True,
+            "new_threshold_count": 0,
+        }
+        anchor_scale_comparison["identity_sha256"] = canonical_hash(
+            anchor_scale_comparison
+        )
+        write_once(
+            raw_root / "p1r24-anchor-scale-comparison.json",
+            anchor_scale_comparison,
         )
     left = rollouts[selected_labels[0]]["public"]["initial"]
     left_metric = rollouts[selected_labels[0]]["public"]["metric"]
@@ -1115,7 +1640,9 @@ def _run_ode_pair(
     action_freeze = {
         "schema": f"{P1R23_SCHEMA}-paired-action-freeze/v1",
         "instruction_id": (
-            P1R24_INSTRUCTION_ID
+            P1R28_INSTRUCTION_ID
+            if p1r28
+            else P1R24_INSTRUCTION_ID
             if p1r24
             else
             PROGRESS_SIMPLEX_INSTRUCTION_ID
@@ -1123,7 +1650,9 @@ def _run_ode_pair(
             else P1R23_INSTRUCTION_ID
         ),
         "method_id": (
-            P1R24_METHOD_ID
+            P1R28_METHOD_ID
+            if p1r28
+            else P1R24_METHOD_ID
             if p1r24
             else
             PROGRESS_SIMPLEX_METHOD_ID
@@ -1146,11 +1675,15 @@ def _run_ode_pair(
     }
     action_freeze["identity_sha256"] = canonical_hash(action_freeze)
     action_sha = write_once(raw_root / "action-freeze.json", action_freeze)
-    if neutral_only:
+    if neutral_only or mechanism_smoke:
         terminal = {
-            "schema": "ode-edit-s05-p1r24-b1-smoke-terminal/v1",
-            "instruction_id": P1R24_INSTRUCTION_ID,
-            "method_id": P1R24_METHOD_ID,
+            "schema": (
+                "ode-edit-s05-p1r28-b1-mechanism-terminal/v1"
+                if p1r28
+                else "ode-edit-s05-p1r24-b1-smoke-terminal/v1"
+            ),
+            "instruction_id": P1R28_INSTRUCTION_ID if p1r28 else P1R24_INSTRUCTION_ID,
+            "method_id": P1R28_METHOD_ID if p1r28 else P1R24_METHOD_ID,
             "source_head": source_head,
             "alias": alias,
             "request_count": 1,
@@ -1158,17 +1691,27 @@ def _run_ode_pair(
             "target_allocation": allocation,
             "routing_arms": list(selected_labels),
             "rollouts": {label: rollouts[label]["public"] for label in selected_labels},
+            "p1r24_anchor": anchor_reference,
+            "p1r24_anchor_scale_comparison": anchor_scale_comparison,
             "action_freeze_sha256": action_sha,
             "scientific_score_gate_influence_count": 0,
             "heldout_evaluator_access_count": 0,
             "persistent_history_append_count": 0,
             "W0_restored": _model_w0_contract(touched) == w0_contract,
-            "status": "P1R24_B1_TECHNICAL_SMOKE_COMPLETE",
+            "status": (
+                "P1R28_B1_MECHANISM_COMPLETE"
+                if p1r28
+                else "P1R24_B1_TECHNICAL_SMOKE_COMPLETE"
+            ),
         }
         terminal["identity_sha256"] = canonical_hash(terminal)
         terminal_sha = write_once(destination / "terminal.json", terminal)
         manifest = {
-            "schema": "ode-edit-s05-p1r24-b1-smoke-manifest/v1",
+            "schema": (
+                "ode-edit-s05-p1r28-b1-mechanism-manifest/v1"
+                if p1r28
+                else "ode-edit-s05-p1r24-b1-smoke-manifest/v1"
+            ),
             "source_head": source_head,
             "terminal_sha256": terminal_sha,
             "action_freeze_sha256": action_sha,
@@ -1186,7 +1729,9 @@ def _run_ode_pair(
         dataset_path,
         requests,
         arm=(
-            f"P1R24-{allocation}-ATOMIC-STRENGTH-RECOVERY-PAIR"
+            "P1R28-RS-CORRECTED-COUPLING-PAIR"
+            if p1r28
+            else f"P1R24-{allocation}-ATOMIC-STRENGTH-RECOVERY-PAIR"
             if p1r24
             else f"P1R23-{allocation}-PROGRESS-SIMPLEX-PAIR"
             if progress_simplex
@@ -1220,9 +1765,15 @@ def _run_ode_pair(
         endpoints[label] = endpoint
         write_once(raw_root / "endpoints" / f"{label.lower()}.json", endpoint)
     terminal = {
-        "schema": f"{P1R23_SCHEMA}-ode-pair-terminal/v1",
+        "schema": (
+            "ode-edit-s05-p1r28-corrected-coupling-b10-terminal/v1"
+            if p1r28
+            else f"{P1R23_SCHEMA}-ode-pair-terminal/v1"
+        ),
         "instruction_id": (
-            P1R24_INSTRUCTION_ID
+            P1R28_INSTRUCTION_ID
+            if p1r28
+            else P1R24_INSTRUCTION_ID
             if p1r24
             else
             PROGRESS_SIMPLEX_INSTRUCTION_ID
@@ -1230,7 +1781,9 @@ def _run_ode_pair(
             else P1R23_INSTRUCTION_ID
         ),
         "method_id": (
-            P1R24_METHOD_ID
+            P1R28_METHOD_ID
+            if p1r28
+            else P1R24_METHOD_ID
             if p1r24
             else
             PROGRESS_SIMPLEX_METHOD_ID
@@ -1247,8 +1800,11 @@ def _run_ode_pair(
         "objective_plan_sha256": objective_plan.identity_sha256,
         "capture_plan_sha256": capture_plan.identity_sha256,
         "rollouts": {label: rollouts[label]["public"] for label in selected_labels},
+        "p1r24_anchor": anchor_reference,
+        "p1r24_anchor_scale_comparison": anchor_scale_comparison,
         "W0_endpoint_sha256": w0_sha,
-        "W0_shared_by_neutral_soft": True,
+        "W0_shared_by_paired_arms": True,
+        "W0_restored": _model_w0_contract(touched) == w0_contract,
         "endpoints": endpoints,
         "action_freeze_sha256": action_sha,
         "paired_initial_semantic_gate": paired_initial,
@@ -1264,12 +1820,18 @@ def _run_ode_pair(
     terminal["identity_sha256"] = canonical_hash(terminal)
     terminal_sha = write_once(destination / "terminal.json", terminal)
     manifest = {
-        "schema": f"{P1R23_SCHEMA}-manifest/v1",
+        "schema": (
+            "ode-edit-s05-p1r28-corrected-coupling-b10-manifest/v1"
+            if p1r28
+            else f"{P1R23_SCHEMA}-manifest/v1"
+        ),
         "source_head": source_head,
         "terminal_sha256": terminal_sha,
         "request_count": len(requests),
         "role": (
-            (
+            "P1R28_B10_RS_PAIR"
+            if p1r28
+            else (
                 "PROGRESS_SIMPLEX_BG_PAIR"
                 if allocation == "BG"
                 else "PROGRESS_SIMPLEX_RS_PAIR"
@@ -1288,7 +1850,9 @@ def _run_ode_pair(
     manifest_sha = write_once(destination / "manifest.json", manifest)
     return {
         "status": (
-            "P1R23_PROGRESS_SIMPLEX_PAIR_COMPLETE"
+            "P1R28_B10_CORRECTED_COUPLING_COMPLETE"
+            if p1r28
+            else "P1R23_PROGRESS_SIMPLEX_PAIR_COMPLETE"
             if progress_simplex
             else "P1R23_ODE_PAIR_COMPLETE"
         ),
@@ -1836,7 +2400,8 @@ def run_p1r23_scalable_batched(
     numerical_lock_sha256: str,
 ) -> dict[str, Any]:
     del stages
-    p1r24_role = role.startswith("P1R24_")
+    p1r28_role = role.startswith("P1R28_")
+    p1r24_role = role.startswith("P1R24_") or p1r28_role
     progress_simplex_role = role.startswith("PROGRESS_SIMPLEX_")
     simplex_lock_sha256: str | None = None
     if progress_simplex_role:
@@ -1888,6 +2453,8 @@ def run_p1r23_scalable_batched(
             "P1R24_B1_RS_NEUTRAL",
             "P1R24_B10_RS_PAIR",
             "P1R24_B10_BG_PAIR",
+            "P1R28_B1_RS_PAIR",
+            "P1R28_B10_RS_PAIR",
         ),
         "estimand": "ATOMIC",
         "joint_batch_application_count": 1,
@@ -1906,6 +2473,8 @@ def run_p1r23_scalable_batched(
         "P1R24_B1_RS_NEUTRAL",
         "P1R24_B10_RS_PAIR",
         "P1R24_B10_BG_PAIR",
+        "P1R28_B1_RS_PAIR",
+        "P1R28_B10_RS_PAIR",
     ):
         progress_simplex = progress_simplex_role
         return _run_ode_pair(
@@ -1940,12 +2509,16 @@ def run_p1r23_scalable_batched(
                     "PROGRESS_SIMPLEX_RS_PAIR",
                     "P1R24_B1_RS_NEUTRAL",
                     "P1R24_B10_RS_PAIR",
+                    "P1R28_B1_RS_PAIR",
+                    "P1R28_B10_RS_PAIR",
                 )
                 else "BG"
             ),
             progress_simplex=progress_simplex,
             p1r24=p1r24_role,
             neutral_only=role == "P1R24_B1_RS_NEUTRAL",
+            p1r28=p1r28_role,
+            mechanism_smoke=role == "P1R28_B1_RS_PAIR",
         )
     if role == "CALIBRATION":
         return _run_calibration(
