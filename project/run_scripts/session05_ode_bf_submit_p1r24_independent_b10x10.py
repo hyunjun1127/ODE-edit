@@ -24,7 +24,7 @@ SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p1r24_independent_b10
 STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r24-rs-soft-independent-b10x10"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
 LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r24-rs-soft-independent-b10x10"
-BRANCH = "codex/p1r24-rs-soft-independent-b10x10-v1"
+BRANCH = "codex/p1r24-rs-soft-independent-b10x10-tech-r1"
 PROJECT_GPU_CAP = 3
 
 
@@ -53,7 +53,7 @@ def submit(source_head: str) -> dict[str, object]:
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(["git", "status", "--porcelain", "--untracked-files=no"]).stdout
-    if source_head != head or parent != "ce8c6c36348752f1407f7d713d30e6b5c727379b" or branch != BRANCH or dirty:
+    if source_head != head or parent != "cdd646830eb6e4b3649792f31473e60a1b9685f8" or branch != BRANCH or dirty:
         raise ODEBFContractError("P1R24 independent execution source differs")
     plan = dry.build_plan(source_head)
     if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
