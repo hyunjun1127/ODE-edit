@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""No-model dry plan for ten Full-6 structural Historical trajectories."""
+"""No-model dry plan for ten long-lived independent B10x10 jobs."""
 
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
     for alias in ALIASES:
         for method in METHODS:
             jobs.append({"array_index": len(jobs), "alias": alias, "method": method, "result_name": expected_historical_h0_result_name(alias, method), "gpu": 1, "cpu": 8, "memory_mib": 65000, "time": "23:59:00"})
-    return {"schema": "ode-edit-s05-p1r23-full6-structural-historical-dry-plan/v1", "source_head": source_head, "fresh_seal_root": seal["root_digest"], "all_request_order_sha256": seal["all_request_order_sha256"], "numerical_lock_sha256": numerical_sha, "numerical_lock_root": numerical["root_digest"], "trajectory_count": 10, "ode_trajectory_count": 8, "model_level_alphaedit_count": 2, "array_max_concurrent_gpu": 4, "sequential_round_count": 10, "postcommit_cumulative_b10_evaluation_count_per_trajectory": 55, "jobs": jobs, "model_load": False, "gpu_use": False, "slurm_submit": False, "result_root_creation": False}
+    return {"schema": "ode-edit-s05-p1r23-progress-simplex-independent-b10x10-dry-plan/v1", "source_head": source_head, "fresh_seal_root": seal["root_digest"], "all_request_order_sha256": seal["all_request_order_sha256"], "numerical_lock_sha256": numerical_sha, "numerical_lock_root": numerical["root_digest"], "job_count": 10, "ode_job_count": 8, "official_alphaedit_job_count": 2, "independent_atomic_b10_case_count": 100, "sequential_round_count": 0, "history_mode": "OFF", "array_max_concurrent_gpu": 4, "jobs": jobs, "model_load": False, "gpu_use": False, "slurm_submit": False, "result_root_creation": False}
 
 
 def main() -> int:

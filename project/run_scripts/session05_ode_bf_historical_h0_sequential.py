@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed entry point for one P1R23 Full-6 Historical trajectory."""
+"""Fail-closed entry for one ten-case independent whole-B10 job."""
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ from project.run_scripts.ode_bf.p1_runtime import (
 )
 
 
-RUN_TOKEN = "p1r23-full6-structural-historical-a1-v1"
+RUN_TOKEN = "p1r23-progress-simplex-independent-b10x10-v1"
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -54,7 +54,7 @@ def main(argv: list[str] | None = None) -> int:
             exc,
             repo_root=REPO_ROOT,
             instruction_id=INSTRUCTION_ID,
-            failure_schema="ode-edit-s05-p1r23-full6-structural-historical-failure/v1",
+            failure_schema="ode-edit-s05-p1r23-independent-b10x10-job-failure/v1",
         )
         print(json.dumps({"status": "FAIL_CLOSED", "model": args.model, "method": args.method, "exception_class": failure["exception_class"], "exception_message_sha256": failure["exception_message_sha256"], "failure_sha256": failure_sha}, sort_keys=True), file=sys.stderr)
         return 1

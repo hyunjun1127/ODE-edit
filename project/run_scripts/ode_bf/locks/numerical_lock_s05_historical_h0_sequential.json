@@ -1,54 +1,41 @@
 {
-  "schema_version": "ode-edit-s05-p1r23-full6-structural-historical-lock/v1",
-  "instruction_id": "ODEEDIT-S05-P1R23-FULL6-STRUCTURAL-HISTORICAL-V1-A1-FULL-MATRIX",
-  "accepted_compute_a1_execution_checkpoint": "f64d0c1221ac0eecc53a1fbb9685a9a23835af0e",
-  "accepted_compute_a1_scientific_checkpoint": "794885a48c09046b454b88eee7880e08c390902a",
-  "accepted_compute_a1_numerical_lock_root": "504cd1931365750ea07cfb537335c9c923008122065d6dbe79d37b65223cc731",
+  "schema_version": "ode-edit-s05-p1r23-progress-simplex-independent-b10x10-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R23-PROGRESS-SIMPLEX-INDEPENDENT-B10X10-V1",
+  "accepted_progress_simplex_scientific_checkpoint": "a343d1f6967ef37763009b92d227ade85cd93de0",
   "fresh_seal_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
   "all_request_order_sha256": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
-  "round_count": 10,
+  "case_count": 10,
   "batch_size": 10,
   "request_count": 100,
   "models": ["llama3-8b-inst", "qwen2.5-7b-inst"],
-  "methods": ["BG-COMPUTE-FULL6-NOSOFT", "BG-COMPUTE-FULL6-SOFT", "RS-COMPUTE-FULL6-NOSOFT", "RS-COMPUTE-FULL6-SOFT", "ALPHAEDIT"],
-  "ours": {
+  "methods": ["BG-PROGRESS-SIMPLEX-NEUTRAL", "BG-PROGRESS-SIMPLEX-SOFT", "RS-PROGRESS-SIMPLEX-NEUTRAL", "RS-PROGRESS-SIMPLEX-SOFT", "OFFICIAL-ALPHAEDIT"],
+  "atomic": {
+    "cardinality": "TEN_INDEPENDENT_WHOLE_B10",
     "grid_count": 8,
     "h": 0.125,
     "tau_final": 1.0,
-    "allocations": ["BG", "RS"],
-    "target_context_ordinals": [0, 1, 2, 3, 4, 5],
-    "physical_slope_context_ordinals": [0, 1, 2, 3, 4, 5],
-    "physical_slope_aggregation": "GLOBAL_REQUEST_NUMERATOR_DENOMINATOR_EXACT",
-    "nosoftroute": "PROGRESS_SIMPLEX_NEUTRAL_V_EQUALS_ONE",
-    "soft_cost": ["PINNED_STRUCTURAL_P", "FIXED_RANK_HISTORICAL_H"],
-    "functional_p_h_routing_influence": 0,
-    "per_layer_upper_cap_count": 0,
+    "context_ordinals": [0, 1, 2, 3, 4, 5],
+    "progress_simplex_source_byte_identity": "a343d1f6967ef37763009b92d227ade85cd93de0",
+    "functional_p_routing_influence": true,
     "retry_count": 0,
     "backtracking_count": 0,
     "early_stop_count": 0
   },
-  "history": {
-    "round_entry_counts": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90],
-    "append_after_endpoint_commit": true,
-    "fixed_rank": 100,
-    "retains_all_committed_cases_in_pilot": true,
-    "soft_h_input_required_from_round": 2,
-    "persistent_inactivity_hard_failure": true,
-    "raw_prompt_replay_inside_k8_count": 0
+  "isolation": {
+    "W0_restore_after_every_case": true,
+    "cross_case_weight_state_count": 0,
+    "history_append_count": 0,
+    "history_replay_count": 0,
+    "history_sketch_count": 0,
+    "functional_h_influence_count": 0,
+    "structural_h_influence_count": 0
   },
   "evaluation": {
-    "inner_k_heldout_count": 0,
-    "postcommit_cumulative_b10_evaluation_count": 55,
-    "teacher_kl_wide_locality_rounds": [1, 5, 10],
-    "future_batch_controller_access_count": 0,
-    "generation_call_count": 0
-  },
-  "baseline": {
-    "methods": ["ALPHAEDIT"],
-    "one_per_model": true,
-    "alpha_bf16_key_fp32_adapter": "PINNED_CALLER_SCOPED",
-    "statistics_recompute_count": 0
+    "per_case_action_freeze": true,
+    "inner_k_evaluator_access_count": 0,
+    "future_batch_access_count": 0,
+    "official_alphaedit_per_model_case_count": 10
   },
   "scientific_promotion_authorized": false,
-  "root_digest": "40543080713515c0c70131b221cbe2464326d689f992654a4ad22c9e3937f4de"
+  "root_digest": "f6097d532d8c88ce4eee16cc1d9d3e34efae4f590b99dd7143fa86fa5becccfb"
 }

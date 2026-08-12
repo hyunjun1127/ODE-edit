@@ -1,414 +1,228 @@
-"""P1R23 Full-6 structural Historical sequential validation runtime.
-
-This is an additive production path.  It reuses the accepted P1R19 BG writer
-and strength-preserving router, but removes all inner-k held-out probes.  A
-round is action-frozen before its single weight transaction; the committed
-batch enters history only after that transaction verifies.
-"""
+"""Ten independent whole-B10 P1R23 Atomic experiments from identical W0."""
 
 from __future__ import annotations
 
 import hashlib
-import math
-import resource
 import time
-from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-import numpy as np
 import torch
 
 from .accounting import ComputeLedger
+from .atomic_runtime_optimization import AcceptedPhysicalStateMaterializer
 from .contracts import BATCH_SIZE, ODEBFContractError, ODEBFStateError, canonical_hash
-from .compute_progress_simplex_runtime import (
-    COMPUTE_TOKEN_BUDGET,
-    FixedRankHistoricalSketch,
-)
 from .fixed_e8_soft_routing import FixedE8Arm
 from .functional import tensor_sha256
 from .p0_runtime import ModelForwardCounter
-from .p1_backend import capture_p1_native_entry
-from .p1_evaluator import load_counterfact_cases_after_freeze
-from .p1_replay import (
-    build_outer_entry_pretrained_cache,
-    evaluate_next_token_log_probs,
-    samplewise_teacher_kl,
+from .p1_replay import build_outer_entry_pretrained_cache
+from .p1_runtime import ArmRuntimeState, _atomic_write_once, _entry_parameter_snapshot_sha256
+from .p1_scalable_batched_experiment import (
+    _action_frozen_cases,
+    _evaluate_frozen_state,
+    _model_w0_contract,
+    _run_ode_arm,
 )
-from .p1_runtime import (
-    ArmRuntimeState,
-    _assemble_candidates,
-    _atomic_write_once,
-    _entry_parameter_snapshot_sha256,
-    _finalize_prepared_history,
-    _history_keys,
-    _observed_memory,
-    _prepare_history_batch,
-)
-from .p1_scalable_batched_experiment import _model_w0_contract, _run_ode_arm
-from .scalable_batched_model import (
-    build_scalable_capture_plan,
-    build_scalable_objective_plan,
-)
+from .p1_state import ArmWeightSnapshot, P1Arm, P1HistoryLedger
+from .progress_simplex_routing import PROGRESS_SIMPLEX_METHOD_ID
+from .scalable_batched_model import build_scalable_capture_plan, build_scalable_objective_plan
+from .scalable_batched_native import restore_native_entry, run_official_native_apply
 from .scalable_batched_runtime import (
     P1R23_GRID_COUNT,
-    P1R23_H,
     P1R23_LAYER_ORDER,
     scalable_ordered_request_digest,
 )
-from .p1_state import ArmWeightSnapshot, P1Arm, P1HistoryLedger
-from .p1_stepwise import StepwiseActionFreeze, evaluate_counterfact_stepwise_primary
-from .request_digest import ordered_request_digest_v1
-from .transaction import AtomicBatchTransaction
 
 
-INSTRUCTION_ID = "ODEEDIT-S05-P1R23-FULL6-STRUCTURAL-HISTORICAL-V1-A1-FULL-MATRIX"
+INSTRUCTION_ID = "ODEEDIT-S05-P1R23-PROGRESS-SIMPLEX-INDEPENDENT-B10X10-V1"
 METHODS = (
-    "BG-COMPUTE-FULL6-NOSOFT",
-    "BG-COMPUTE-FULL6-SOFT",
-    "RS-COMPUTE-FULL6-NOSOFT",
-    "RS-COMPUTE-FULL6-SOFT",
-    "ALPHAEDIT",
+    "BG-PROGRESS-SIMPLEX-NEUTRAL",
+    "BG-PROGRESS-SIMPLEX-SOFT",
+    "RS-PROGRESS-SIMPLEX-NEUTRAL",
+    "RS-PROGRESS-SIMPLEX-SOFT",
+    "OFFICIAL-ALPHAEDIT",
 )
-ROUND_COUNT = 10
-HISTORY_COUNTS = tuple(range(0, 100, 10))
-EVALUATION_ROUNDS = (1, 5, 10)
-HISTORICAL_SKETCH_RANK = 100
+CASE_COUNT = 10
+HISTORY_MODE = "OFF"
 
 
 def expected_historical_h0_result_name(alias: str, method: str) -> str:
     if method not in METHODS:
-        raise ODEBFContractError("Compute-A1 Historical method identity differs")
+        raise ODEBFContractError("independent B10 method differs")
     return (
-        "s05-p1r23-full6-structural-historical-"
+        "s05-p1r23-progress-simplex-independent-b10x10-"
         f"{method.lower().replace('-', '_')}-{alias}-v1"
     )
 
 
-def _weight_values(parameters: Mapping[str, torch.nn.Parameter]) -> dict[str, torch.Tensor]:
-    return {
-        name: value.detach().to(device="cpu").clone()
-        for name, value in sorted(parameters.items())
-    }
-
-
-def _weight_hashes(parameters: Mapping[str, torch.nn.Parameter]) -> dict[str, str]:
+def _hashes(parameters: Mapping[str, torch.nn.Parameter]) -> dict[str, str]:
     return {name: tensor_sha256(value) for name, value in sorted(parameters.items())}
 
 
-def _ledger_snapshot(ledger: ComputeLedger) -> dict[str, Any]:
-    return {
-        "counters": dict(ledger.counters),
-        "wall": dict(ledger.component_wall_seconds),
-        "gpu": dict(ledger.component_gpu_seconds),
-    }
-
-
-def _ledger_delta(before: Mapping[str, Any], after: Mapping[str, Any]) -> dict[str, Any]:
-    return {
-        "counters": {
-            key: int(after["counters"].get(key, 0) - before["counters"].get(key, 0))
-            for key in sorted(set(before["counters"]) | set(after["counters"]))
-        },
-        "wall_seconds": {
-            key: float(after["wall"].get(key, 0.0) - before["wall"].get(key, 0.0))
-            for key in sorted(set(before["wall"]) | set(after["wall"]))
-        },
-        "gpu_seconds": {
-            key: float(after["gpu"].get(key, 0.0) - before["gpu"].get(key, 0.0))
-            for key in sorted(set(before["gpu"]) | set(after["gpu"]))
-        },
-    }
-
-
-def _layer_load(
-    entry: Mapping[str, torch.Tensor],
-    current: Mapping[str, torch.nn.Parameter],
-    hparams: Any,
-) -> dict[int, float]:
-    result: dict[int, float] = {}
-    for layer in hparams.layers:
-        name = f"{hparams.rewrite_module_tmp.format(int(layer))}.weight"
-        delta = (
-            current[name].detach().to(device="cpu", dtype=torch.float64)
-            - entry[name].to(dtype=torch.float64)
-        )
-        value = float(torch.sum(delta.square()))
-        if not math.isfinite(value) or value < 0.0:
-            raise ODEBFContractError("P1R20 layer load is non-finite")
-        result[int(layer)] = value
-    return result
-
-
-def _commit_candidates(
+def _restore_exact_w0(
     touched: Mapping[str, torch.nn.Parameter],
-    candidates: Mapping[str, torch.Tensor],
+    base_values: Mapping[str, torch.Tensor],
     *,
-    transaction_id: str,
     mutation_lock: Any,
+    expected_contract: str,
 ) -> dict[str, Any]:
-    transaction = AtomicBatchTransaction(
-        touched, transaction_id=transaction_id, mutation_lock=mutation_lock
-    )
-    expected = {name: tensor_sha256(value) for name, value in candidates.items()}
-    for name, value in sorted(candidates.items()):
-        transaction.stage(name, value.to(dtype=torch.bfloat16, device="cpu"))
-    receipt = transaction.commit(post_commit_verify=lambda: _weight_hashes(touched) == expected)
-    return asdict(receipt)
+    pointers = {name: int(value.data_ptr()) for name, value in touched.items()}
+    with mutation_lock, torch.no_grad():
+        for name, parameter in sorted(touched.items()):
+            parameter.copy_(base_values[name].to(device=parameter.device, dtype=parameter.dtype))
+    if (
+        _model_w0_contract(touched) != expected_contract
+        or any(int(touched[name].data_ptr()) != pointer for name, pointer in pointers.items())
+    ):
+        raise ODEBFStateError("independent B10 W0 restore differs")
+    payload = {
+        "schema": "ode-edit-s05-p1r23-independent-b10-w0-restore/v1",
+        "pointer_restored_exact": True,
+        "byte_restored_exact": True,
+        "parameter_sha256": _hashes(touched),
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
 
 
-def _endpoint_freeze(
-    *, method: str, round_index: int, request_order: str, state_sha256: str
-) -> StepwiseActionFreeze:
-    rollout = canonical_hash(
-        {
-            "instruction_id": INSTRUCTION_ID,
-            "method": method,
-            "round": round_index,
-            "state": state_sha256,
-        }
-    )
-    return StepwiseActionFreeze(
-        variant=method,
-        request_order_sha256=request_order,
-        rollout_sha256=rollout,
-        snapshot_sha256=state_sha256,
-        snapshot_index=round_index,
-        accepted_snapshot_count=round_index,
-        rejected_retry_count=0,
-        trajectory_status="ROUND_ENDPOINT_ACTION_FROZEN",
-    )
+def _history_off_receipt() -> dict[str, Any]:
+    payload = {
+        "schema": "ode-edit-s05-p1r23-independent-b10-history-off/v1",
+        "mode": HISTORY_MODE,
+        "router_visible_history_item_count": 0,
+        "history_append_count": 0,
+        "raw_historical_request_replay_count": 0,
+        "projected_key_historical_sketch_construction_count": 0,
+        "functional_h_status": "INACTIVE_BY_HISTORY_MODE_OFF",
+        "functional_h_input_count": 0,
+        "functional_h_decision_influence_count": 0,
+        "structural_h_status": "INACTIVE_BY_HISTORY_MODE_OFF",
+        "structural_h_input_count": 0,
+        "structural_h_decision_influence_count": 0,
+        "cross_case_weight_state_count": 0,
+        "cross_case_controller_state_count": 0,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
 
 
-def _evaluate_batches(
-    model: torch.nn.Module,
-    tokenizer: Any,
+def _case_failure(
+    case_root: Path,
+    exc: BaseException,
     *,
-    alias: str,
+    case_index: int,
     method: str,
-    round_index: int,
-    batches: Sequence[Sequence[Mapping[str, Any]]],
-    dataset_path: Path,
-    state_sha256: str,
-    ledger: ComputeLedger,
-) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    receipts: list[dict[str, Any]] = []
-    evaluator_started = time.perf_counter()
-    counter = ModelForwardCounter(model, ledger)
-    try:
-        for batch_index, requests in enumerate(batches):
-            request_order = ordered_request_digest_v1(
-                [str(item["request_sha256"]) for item in requests]
-            )
-            freeze = _endpoint_freeze(
-                method=method,
-                round_index=round_index,
-                request_order=request_order,
-                state_sha256=canonical_hash(
-                    {"state": state_sha256, "evaluation_batch": batch_index}
-                ),
-            )
-            cases = load_counterfact_cases_after_freeze(dataset_path, requests, freeze)
-            observed = evaluate_counterfact_stepwise_primary(
-                model, tokenizer, cases, model_alias=alias, freeze=freeze
-            )
-            ledger.increment("evaluator_forward", observed.primary.model_forward_count)
-            ledger.increment("evaluator_tokens", observed.primary.processed_token_count)
-            receipts.append(
-                {
-                    "batch_index": batch_index,
-                    "freeze_sha256": freeze.identity(),
-                    **observed.raw_free_payload(),
-                }
-            )
-    finally:
-        counter.close()
-    elapsed = time.perf_counter() - evaluator_started
-    ledger.add_time("historical_endpoint_evaluation", wall_seconds=elapsed)
-    counts = {
-        metric: sum(
-            int(item["primary"]["metrics"][metric]["numerator"])
-            for item in receipts
-        )
-        for metric in ("efficacy", "generalization", "locality-preservation")
-    }
-    denominators = {
-        metric: sum(
-            int(item["primary"]["metrics"][metric]["denominator"])
-            for item in receipts
-        )
-        for metric in counts
-    }
-    return receipts, {
-        "batch_count": len(receipts),
-        "counts": counts,
-        "denominators": denominators,
-        "receipt_identity_sha256": canonical_hash(receipts),
-        "wall_seconds": elapsed,
-        "controller_access_count": 0,
-    }
-
-
-def _teacher_kl(
-    model: torch.nn.Module,
-    tokenizer: Any,
-    *,
-    theta0_cache: Any,
-    population_by_sha256: Mapping[str, Mapping[str, Any]],
-    ledger: ComputeLedger,
+    w0_restore: Mapping[str, Any],
 ) -> dict[str, Any]:
-    identities = tuple(theta0_cache.request_order[:BATCH_SIZE])
-    anchors = tuple(population_by_sha256[item] for item in identities)
-    counter = ModelForwardCounter(model, ledger)
-    try:
-        observed, receipt = evaluate_next_token_log_probs(model, tokenizer, anchors)
-    finally:
-        counter.close()
-    values = samplewise_teacher_kl(theta0_cache.select(identities), observed)
-    ledger.increment("evaluator_forward", receipt.model_forward_count)
-    ledger.increment("evaluator_tokens", receipt.processed_token_count)
-    return {
-        "anchor_order_sha256": receipt.request_order_sha256,
-        "teacher_cache_sha256": theta0_cache.receipt_sha256,
-        "sample_count": len(identities),
-        "mean": float(values.mean()),
-        "median": float(values.median()),
-        "maximum": float(values.max()),
-        "values_sha256": tensor_sha256(values),
-        "model_forward_count": receipt.model_forward_count,
-        "processed_token_count": receipt.processed_token_count,
-        "decision_influence_count": 0,
-    }
-
-
-def _run_alpha_round(
-    model: torch.nn.Module,
-    tokenizer: Any,
-    requests: Sequence[Mapping[str, Any]],
-    *,
-    hparams: Any,
-    projector: torch.Tensor,
-    contexts: Sequence[Sequence[str]],
-    state: ArmRuntimeState,
-    touched: Mapping[str, torch.nn.Parameter],
-    mutation_lock: Any,
-    residual_tolerance: float,
-    round_index: int,
-) -> tuple[dict[str, Any], dict[str, float]]:
-    before = _weight_hashes(touched)
-    capture = capture_p1_native_entry(
-        model,
-        tokenizer,
-        requests,
-        hparams,
-        projector,
-        contexts,
-        history_keys_by_layer=_history_keys(
-            state.history, tuple(int(item) for item in hparams.layers), risk=False
-        ),
-        mutation_lock=mutation_lock,
-        ledger=state.ledger,
-        residual_tolerance=residual_tolerance,
-    )
-    if _weight_hashes(touched) != before:
-        raise ODEBFStateError("P1R20 Alpha capture mutated entry")
-    transaction = _commit_candidates(
-        touched,
-        capture.native_candidates,
-        transaction_id=canonical_hash(
-            {"method": "ALPHAEDIT", "round": round_index, "entry": before}
-        ),
-        mutation_lock=mutation_lock,
-    )
-    load = _layer_load(capture.entry_weights, touched, hparams)
-    return {
-        "backend": "PINNED_ALPHAEDIT_N32_JOINT_B10",
-        "capture": capture.raw_free_payload(),
-        "transaction": transaction,
+    payload = {
+        "schema": "ode-edit-s05-p1r23-independent-b10-case-failure/v1",
+        "instruction_id": INSTRUCTION_ID,
+        "case_index": case_index,
+        "method": method,
+        "status": "TYPED_CASE_FAILURE_NO_RETRY_NO_IMPUTATION",
+        "exception_class": type(exc).__name__,
+        "exception_message_sha256": hashlib.sha256(str(exc).encode()).hexdigest(),
+        "w0_restore": dict(w0_restore),
         "retry_count": 0,
-    }, load
+        "next_case_continues": True,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    _atomic_write_once(case_root / "failure.json", payload)
+    return payload
 
 
-def _run_ours_round(
+def _case_freeze(
+    *,
+    case_index: int,
+    alias: str,
+    method: str,
+    request_order_sha256: str,
+    action_sha256: str,
+) -> dict[str, Any]:
+    payload = {
+        "schema": "ode-edit-s05-p1r23-independent-b10-action-freeze/v1",
+        "instruction_id": INSTRUCTION_ID,
+        "case_index": case_index,
+        "alias": alias,
+        "method": method,
+        "request_count": BATCH_SIZE,
+        "request_order_sha256": request_order_sha256,
+        "action_sha256": action_sha256,
+        "actions_frozen_before_evaluator": True,
+        "inner_k_evaluator_access_count": 0,
+        "future_batch_access_count": 0,
+        "history_mode": _history_off_receipt(),
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
+
+
+def _run_ode_case(
     model: torch.nn.Module,
     tokenizer: Any,
     requests: Sequence[Mapping[str, Any]],
     *,
     alias: str,
     method: str,
+    case_index: int,
+    case_root: Path,
     hparams: Any,
     projector: torch.Tensor,
     contexts: Sequence[Sequence[str]],
     covariance_registry: Any,
     projector_sha256: str,
     controller_lock: Any,
-    state: ArmRuntimeState,
     request_by_sha256: Mapping[str, Mapping[str, Any]],
     population_by_sha256: Mapping[str, Mapping[str, Any]],
     schedule: Any,
     theta0_cache: Any,
-    touched: Mapping[str, torch.nn.Parameter],
-    raw_root: Path,
-    stages: Any,
-    mutation_lock: Any,
-    round_index: int,
-    historical_sketch: FixedRankHistoricalSketch,
-    trajectory_w0_values: Mapping[str, torch.Tensor],
-    committed_load_by_layer: Mapping[int, float],
     outer_entry_p_cache: Any,
-    job_ledger: ComputeLedger,
-    request_microbatch_size: int = BATCH_SIZE,
-) -> tuple[dict[str, Any], dict[int, float]]:
+    dataset_path: Path,
+    touched: Mapping[str, torch.nn.Parameter],
+    base_receipt: ArmWeightSnapshot,
+    base_values: Mapping[str, torch.Tensor],
+) -> dict[str, Any]:
+    if len(requests) != BATCH_SIZE:
+        raise ODEBFContractError("independent Atomic case is not B10")
     request_order = scalable_ordered_request_digest(
         [str(item["request_sha256"]) for item in requests]
     )
-    entry_values = _weight_values(touched)
-    entry_hashes = _weight_hashes(touched)
     objective_plan = build_scalable_objective_plan(
         model,
         tokenizer,
         requests,
         contexts=contexts,
-        request_microbatch_size=request_microbatch_size,
+        request_microbatch_size=BATCH_SIZE,
         fact_token_strategy=hparams.fact_token,
-        token_budget=COMPUTE_TOKEN_BUDGET,
     )
     capture_plan = build_scalable_capture_plan(
         tokenizer,
         requests,
         contexts=contexts,
-        request_microbatch_size=request_microbatch_size,
+        request_microbatch_size=BATCH_SIZE,
         fact_token_strategy=hparams.fact_token,
-        token_budget=COMPUTE_TOKEN_BUDGET,
-    )
-    round_root = raw_root / f"round-{round_index:02d}"
-    _atomic_write_once(
-        round_root / "plans" / "objective.json", objective_plan.raw_free_payload()
-    )
-    _atomic_write_once(
-        round_root / "plans" / "capture.json", capture_plan.raw_free_payload()
     )
     if (
         objective_plan.context_ordinals != tuple(range(6))
         or objective_plan.request_order_sha256 != request_order
         or capture_plan.request_order_sha256 != request_order
     ):
-        raise ODEBFContractError("Full-6 Historical plan identity differs")
+        raise ODEBFContractError("independent B10 full-six plan differs")
+    _atomic_write_once(case_root / "raw" / "objective-plan.json", objective_plan.raw_free_payload())
+    _atomic_write_once(case_root / "raw" / "capture-plan.json", capture_plan.raw_free_payload())
     allocation = "BG" if method.startswith("BG-") else "RS"
-    arm = FixedE8Arm.NEUTRAL if method.endswith("-NOSOFT") else FixedE8Arm.SOFT
-    round_state = ArmRuntimeState(
+    arm = FixedE8Arm.NEUTRAL if method.endswith("-NEUTRAL") else FixedE8Arm.SOFT
+    state = ArmRuntimeState(
         P1Arm.R_BF,
-        P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=10),
+        P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=40),
         ComputeLedger(),
         ArmWeightSnapshot(
             P1Arm.R_BF,
             0,
-            entry_hashes,
-            canonical_hash(
-                {"method": method, "round": round_index, "entry": entry_hashes}
-            ),
+            base_receipt.parameter_sha256,
+            canonical_hash({"case": case_index, "method": method, "w0": base_receipt.parameter_sha256}),
         ),
-        dict(entry_values),
+        dict(base_values),
     )
     rollout = _run_ode_arm(
         model,
@@ -425,115 +239,183 @@ def _run_ours_round(
         covariance_registry=covariance_registry,
         projector_sha256=projector_sha256,
         controller_lock=controller_lock,
-        arm_state=round_state,
+        arm_state=state,
         request_by_sha256=request_by_sha256,
         population_by_sha256=population_by_sha256,
         schedule=schedule,
         outer_entry_p_cache=outer_entry_p_cache,
         theta0_cache=theta0_cache,
         touched=touched,
-        base_receipt=round_state.snapshot_receipt,
-        base_values=entry_values,
-        raw_root=round_root,
+        base_receipt=base_receipt,
+        base_values=base_values,
+        raw_root=case_root / "raw",
         write_once=_atomic_write_once,
         progress_simplex=True,
-        compute_aware=True,
-        historical_sketch=historical_sketch,
-        trajectory_w0_values=trajectory_w0_values,
-        committed_load_by_layer=committed_load_by_layer,
-        terminal_functional_audit=round_index in EVALUATION_ROUNDS,
-        full_six_slope=True,
     )
     public = rollout["public"]
     if (
         public["status"] != "PROGRESS_SIMPLEX_DYNAMIC_K8_COMPLETE"
+        or public["request_count"] != BATCH_SIZE
         or len(public["accepted_receipt_sha256"]) != P1R23_GRID_COUNT
         or public["tau_final"] != 1.0
-        or public["physical_slope_context_mode"] != "FULL_SIX_FIXED"
-        or any(
-            item["selected_context_ordinals"] != list(range(6))
-            for item in public["rotating_context_receipts"]
-        )
+        or len(state.history.snapshot().active_records) != 0
     ):
-        raise ODEBFStateError("Full-6 Historical K8 contract differs")
-    candidates, assembly = _assemble_candidates(
-        touched, entry_hashes, rollout["terminal_factors"]
+        raise ODEBFStateError("independent B10 Atomic rollout differs")
+    freeze = _case_freeze(
+        case_index=case_index,
+        alias=alias,
+        method=method,
+        request_order_sha256=request_order,
+        action_sha256=public["identity_sha256"],
     )
-    projected_keys: dict[int, np.ndarray] = {}
-    for layer_index, layer in enumerate(P1R23_LAYER_ORDER):
-        key = rollout["terminal_physical"].keys_by_layer[layer].to(
-            device="cpu", dtype=torch.float64
-        )
-        projected = projector[layer_index].detach().to(
-            device="cpu", dtype=torch.float64
-        ) @ key
-        projected_keys[layer] = projected.T.contiguous().numpy()
-    staged_h_sha = historical_sketch.stage(projected_keys, item_count=BATCH_SIZE)
+    freeze_sha = _atomic_write_once(case_root / "action-freeze.json", freeze)
+    cases, evaluator_freeze = _action_frozen_cases(
+        dataset_path,
+        requests,
+        arm=method,
+        selected_snapshot_sha256=freeze_sha,
+        fixed_budget_slots_completed=P1R23_GRID_COUNT,
+    )
+    w0, w0_eval_seconds = _evaluate_frozen_state(
+        model, tokenizer, cases, alias=alias, freeze_payload=evaluator_freeze
+    )
+    materializer = AcceptedPhysicalStateMaterializer(model, base_values)
+    materialized = False
     try:
-        transaction = _commit_candidates(
-            touched,
-            candidates,
-            transaction_id=canonical_hash(
-                {
-                    "method": method,
-                    "round": round_index,
-                    "rollout": public["identity_sha256"],
-                }
-            ),
-            mutation_lock=mutation_lock,
+        materialization = materializer.materialize(rollout["terminal_factors"], transition_index=8)
+        materialized = True
+        endpoint, evaluator_seconds = _evaluate_frozen_state(
+            model, tokenizer, cases, alias=alias, freeze_payload=evaluator_freeze
         )
-    except Exception:
-        historical_sketch.finalize(transaction_committed=False)
-        raise
-    historical_sketch.finalize(transaction_committed=True)
-    load = _layer_load(entry_values, touched, hparams)
-    for name, amount in round_state.ledger.counters.items():
-        job_ledger.increment(name, int(amount))
-    for name, amount in round_state.ledger.component_wall_seconds.items():
-        job_ledger.add_time(name, wall_seconds=float(amount))
-    job_ledger.observe_memory(
-        allocated_bytes=round_state.ledger.peak_allocated_bytes,
-        reserved_bytes=round_state.ledger.peak_reserved_bytes,
-        maxrss_kib=round_state.ledger.host_maxrss_kib,
-    )
-    historical_influence_count = int(public["historical_h_decision_influence_count"])
-    historical_input_count = int(public["historical_h_controller_input_count"])
-    historical_nondegenerate_count = int(public["historical_h_nondegenerate_count"])
-    return {
-        "backend": "P1R23_COMPUTE_PROGRESS_SIMPLEX_FULL6_K8",
-        "variant": method,
+    finally:
+        restore = materializer.restore()
+    if not materialized or _model_w0_contract(touched) != public["initial_w0_sha256"]:
+        raise ODEBFStateError("independent B10 endpoint W0 restore differs")
+    history_off = _history_off_receipt()
+    terminal = {
+        "schema": "ode-edit-s05-p1r23-independent-b10-ode-terminal/v1",
+        "instruction_id": INSTRUCTION_ID,
+        "method_id": PROGRESS_SIMPLEX_METHOD_ID,
+        "case_index": case_index,
+        "alias": alias,
+        "method": method,
+        "allocation": allocation,
+        "arm": arm.value,
+        "request_count": BATCH_SIZE,
+        "request_order_sha256": request_order,
+        "objective_plan_sha256": objective_plan.identity_sha256,
+        "capture_plan_sha256": capture_plan.identity_sha256,
         "rollout": public,
-        "rollout_sha256": public["identity_sha256"],
-        "rollout_status": public["status"],
-        "accepted_k": len(public["accepted_receipt_sha256"]),
-        "tau": float(public["tau_final"]),
-        "transaction": transaction,
-        "assembly": assembly,
-        "historical_sketch_stage_sha256": staged_h_sha,
-        "historical_sketch_after_commit": historical_sketch.raw_free_payload(),
-        "historical_h_controller_input_count": historical_input_count,
-        "historical_h_nondegenerate_count": historical_nondegenerate_count,
-        "historical_h_decision_influence_count": historical_influence_count,
-        "historical_h_decision_influence": historical_influence_count > 0,
-        "historical_bf_classification": (
-            "HISTORICAL_H_ACTIVE"
-            if historical_influence_count > 0
-            else "HISTORICAL_H_NONDEGENERATE_NO_ALLOCATION_CHANGE"
-            if historical_nondegenerate_count > 0
-            else "NON_HISTORICAL_BF"
-            if method.endswith("-SOFT") and round_index >= 2
-            else "NOT_REQUIRED_OR_EMPTY_HISTORY"
-        ),
-        "inner_k_heldout_evaluation_count": 0,
-        "inner_k_functional_probe_count": 0,
-        "full_six_context_ordinals": list(range(6)),
-        "full_six_context_sha256": objective_plan.context_sha256,
-        "full_six_microbatch_partition": [
-            list(item.prepared.request_ordinals) for item in objective_plan.batches
-        ],
-        "functional_p_h_decision_influence_count": 0,
+        "W0_endpoint": w0,
+        "endpoint": endpoint,
+        "endpoint_materialization": materialization,
+        "endpoint_restore": restore,
+        "history_mode": history_off,
+        "action_freeze_sha256": freeze_sha,
+        "W0_evaluator_wall_seconds": w0_eval_seconds,
+        "endpoint_evaluator_wall_seconds": evaluator_seconds,
         "retry_count": 0,
-    }, load
+        "cross_case_state_count": 0,
+        "W0_restored": True,
+    }
+    terminal["identity_sha256"] = canonical_hash(terminal)
+    terminal_sha = _atomic_write_once(case_root / "terminal.json", terminal)
+    manifest = {
+        "schema": "ode-edit-s05-p1r23-independent-b10-case-manifest/v1",
+        "case_index": case_index,
+        "method": method,
+        "terminal_sha256": terminal_sha,
+        "action_freeze_sha256": freeze_sha,
+        "W0_restored": True,
+        "history_mode": HISTORY_MODE,
+    }
+    manifest["identity_sha256"] = canonical_hash(manifest)
+    manifest_sha = _atomic_write_once(case_root / "manifest.json", manifest)
+    return {"status": "CASE_COMPLETE", "terminal_sha256": terminal_sha, "manifest_sha256": manifest_sha}
+
+
+def _run_alpha_case(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    *,
+    alias: str,
+    case_index: int,
+    case_root: Path,
+    hparams: Any,
+    dataset_path: Path,
+    touched: Mapping[str, torch.nn.Parameter],
+    base_values: Mapping[str, torch.Tensor],
+    job_ledger: ComputeLedger,
+) -> dict[str, Any]:
+    if len(requests) != BATCH_SIZE:
+        raise ODEBFContractError("Official AlphaEdit case is not B10")
+    request_order = scalable_ordered_request_digest(
+        [str(item["request_sha256"]) for item in requests]
+    )
+    counter = ModelForwardCounter(model, job_ledger)
+    try:
+        action, originals = run_official_native_apply(
+            model, tokenizer, requests, hparams, touched=touched
+        )
+    finally:
+        counter.close()
+    freeze = _case_freeze(
+        case_index=case_index,
+        alias=alias,
+        method="OFFICIAL-ALPHAEDIT",
+        request_order_sha256=request_order,
+        action_sha256=action["identity_sha256"],
+    )
+    freeze_sha = _atomic_write_once(case_root / "action-freeze.json", freeze)
+    cases, evaluator_freeze = _action_frozen_cases(
+        dataset_path,
+        requests,
+        arm="OFFICIAL-ALPHAEDIT",
+        selected_snapshot_sha256=freeze_sha,
+        fixed_budget_slots_completed=0,
+    )
+    endpoint, evaluator_seconds = _evaluate_frozen_state(
+        model, tokenizer, cases, alias=alias, freeze_payload=evaluator_freeze
+    )
+    restore = restore_native_entry(touched, originals)
+    w0, w0_eval_seconds = _evaluate_frozen_state(
+        model, tokenizer, cases, alias=alias, freeze_payload=evaluator_freeze
+    )
+    terminal = {
+        "schema": "ode-edit-s05-p1r23-independent-b10-alpha-terminal/v1",
+        "instruction_id": INSTRUCTION_ID,
+        "case_index": case_index,
+        "alias": alias,
+        "method": "OFFICIAL-ALPHAEDIT",
+        "request_count": BATCH_SIZE,
+        "request_order_sha256": request_order,
+        "action": action,
+        "endpoint": endpoint,
+        "W0_endpoint": w0,
+        "restore": restore,
+        "history_mode": _history_off_receipt(),
+        "action_freeze_sha256": freeze_sha,
+        "endpoint_evaluator_wall_seconds": evaluator_seconds,
+        "W0_evaluator_wall_seconds": w0_eval_seconds,
+        "retry_count": 0,
+        "cross_case_state_count": 0,
+        "W0_restored": True,
+    }
+    terminal["identity_sha256"] = canonical_hash(terminal)
+    terminal_sha = _atomic_write_once(case_root / "terminal.json", terminal)
+    manifest = {
+        "schema": "ode-edit-s05-p1r23-independent-b10-case-manifest/v1",
+        "case_index": case_index,
+        "method": "OFFICIAL-ALPHAEDIT",
+        "terminal_sha256": terminal_sha,
+        "action_freeze_sha256": freeze_sha,
+        "W0_restored": True,
+        "history_mode": HISTORY_MODE,
+    }
+    manifest["identity_sha256"] = canonical_hash(manifest)
+    manifest_sha = _atomic_write_once(case_root / "manifest.json", manifest)
+    return {"status": "CASE_COMPLETE", "terminal_sha256": terminal_sha, "manifest_sha256": manifest_sha}
 
 
 def run_historical_h0_sequential_trajectory(
@@ -571,401 +453,143 @@ def run_historical_h0_sequential_trajectory(
     cuda_runtime_receipt: Mapping[str, Any],
     job_ledger: ComputeLedger,
 ) -> dict[str, Any]:
-    if method not in METHODS or len(stream_batches) != ROUND_COUNT:
-        raise ODEBFContractError("P1R20 trajectory matrix/round count differs")
+    del collision_by_request, artifact_guard, artifact_receipt, numerical_sha256, context_sha256, cuda_runtime_receipt
+    if method not in METHODS or len(stream_batches) != CASE_COUNT:
+        raise ODEBFContractError("independent B10 matrix/count differs")
     if any(len(batch) != BATCH_SIZE for batch in stream_batches):
-        raise ODEBFContractError("P1R20 stream is not ten B10 rounds")
-    if stream.get("root_digest") is None or len(stream.get("requests", ())) != 100:
-        raise ODEBFContractError("P1R20 fresh seal identity differs")
-
+        raise ODEBFContractError("independent population is not ten B10 batches")
+    if stream.get("all_request_order_sha256") != "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c":
+        raise ODEBFContractError("independent B10 frozen order differs")
+    expected_w0 = _model_w0_contract(touched)
+    if _hashes(touched) != dict(base_receipt.parameter_sha256):
+        raise ODEBFStateError("independent B10 entry W0 differs")
     started = time.perf_counter()
-    initial_hashes = _weight_hashes(touched)
-    if initial_hashes != dict(base_receipt.parameter_sha256):
-        raise ODEBFStateError("P1R20 W0 entry differs")
-    state = ArmRuntimeState(
-        P1Arm.R_BF,
-        P1HistoryLedger(layer_order=tuple(int(item) for item in hparams.layers), maximum_records=100),
-        ComputeLedger(),
-        ArmWeightSnapshot(P1Arm.R_BF, 0, base_receipt.parameter_sha256, canonical_hash({"method": method, "w0": initial_hashes})),
-        dict(base_values),
-    )
-    is_ours = "-COMPUTE-FULL6-" in method
-    trajectory_w0_values = _weight_values(touched)
-    historical_sketch = (
-        FixedRankHistoricalSketch(
-            HISTORICAL_SKETCH_RANK,
-            {
-                int(layer): int(projector[index].shape[0])
-                for index, layer in enumerate(P1R23_LAYER_ORDER)
-            },
-        )
-        if is_ours
-        else None
-    )
-    committed_load_by_layer = {int(layer): 0.0 for layer in P1R23_LAYER_ORDER}
-    outer_entry_p_cache = None
-    if is_ours:
-        outer_population = tuple(
-            population_by_sha256[item] for item in theta0_cache.request_order
-        )
-        outer_snapshot = _entry_parameter_snapshot_sha256(
-            model, dict(base_receipt.parameter_sha256)
-        )
-        outer_counter = ModelForwardCounter(model, state.ledger)
+    outer_cache = None
+    if method != "OFFICIAL-ALPHAEDIT":
+        outer_population = tuple(population_by_sha256[item] for item in theta0_cache.request_order)
+        snapshot = _entry_parameter_snapshot_sha256(model, dict(base_receipt.parameter_sha256))
+        counter = ModelForwardCounter(model, job_ledger)
         try:
-            outer_entry_p_cache = build_outer_entry_pretrained_cache(
+            outer_cache = build_outer_entry_pretrained_cache(
                 model,
                 tokenizer,
                 outer_population,
                 theta0_cache,
-                outer_entry_snapshot_sha256=outer_snapshot,
+                outer_entry_snapshot_sha256=snapshot,
             )
         finally:
-            outer_counter.close()
-    w0_payload = {
-        "schema": "ode-edit-s05-p1r23-full6-historical-w0/v1",
-        "status": "NOT_EVALUATED_55_POSTCOMMIT_B10_CONTRACT",
-        "method": method,
-        "history_count": 0,
-        "parameter_sha256": initial_hashes,
-        "model_forward_count": 0,
-        "evaluator_access_count": 0,
-    }
-    w0_sha = _atomic_write_once(
-        raw_root / "round-00-endpoint.json",
-        w0_payload,
-    )
-    round_hashes: list[str] = []
-    round_summaries: list[dict[str, Any]] = []
-    historical_nondegenerate_rounds: list[int] = []
-    historical_influence_rounds: list[int] = []
-    for round_index, requests in enumerate(stream_batches, start=1):
-        history_count_at_entry = (
-            historical_sketch.history_item_count
-            if historical_sketch is not None
-            else len(state.history.snapshot().active_records)
-        )
-        if history_count_at_entry != HISTORY_COUNTS[round_index - 1]:
-            raise ODEBFStateError("P1R20 round-entry history count differs")
-        round_started = time.perf_counter()
-        before_values = _weight_values(touched)
-        before_hashes = _weight_hashes(touched)
-        phase_entry = _ledger_snapshot(state.ledger)
-        if is_ours:
-            if historical_sketch is None or outer_entry_p_cache is None:
-                raise ODEBFStateError("Full-6 Historical state is absent")
-            edit, load = _run_ours_round(
-                model,
-                tokenizer,
-                requests,
-                alias=alias,
-                method=method,
-                hparams=hparams,
-                projector=projector,
-                contexts=contexts,
-                covariance_registry=covariance_registry,
-                projector_sha256=projector_sha256,
-                controller_lock=controller_lock,
-                state=state,
-                request_by_sha256=request_by_sha256,
-                population_by_sha256=population_by_sha256,
-                schedule=schedule,
-                theta0_cache=theta0_cache,
-                touched=touched,
-                raw_root=raw_root,
-                stages=stages,
-                mutation_lock=mutation_lock,
-                round_index=round_index,
-                historical_sketch=historical_sketch,
-                trajectory_w0_values=trajectory_w0_values,
-                committed_load_by_layer=committed_load_by_layer,
-                outer_entry_p_cache=outer_entry_p_cache,
-                job_ledger=state.ledger,
-            )
-        else:
-            counter = ModelForwardCounter(model, state.ledger)
-            try:
-                edit, load = _run_alpha_round(
+            counter.close()
+    completed: list[dict[str, Any]] = []
+    failed: list[dict[str, Any]] = []
+    for case_index, requests in enumerate(stream_batches, start=1):
+        case_root = raw_root / "cases" / f"case-{case_index:02d}"
+        if _model_w0_contract(touched) != expected_w0:
+            raise ODEBFStateError("cross-case W0 state leak detected")
+        try:
+            if method == "OFFICIAL-ALPHAEDIT":
+                result = _run_alpha_case(
                     model,
                     tokenizer,
                     requests,
+                    alias=alias,
+                    case_index=case_index,
+                    case_root=case_root,
                     hparams=hparams,
-                    projector=projector,
-                    contexts=contexts,
-                    state=state,
+                    dataset_path=dataset_path,
                     touched=touched,
-                    mutation_lock=mutation_lock,
-                    residual_tolerance=controller_lock.residual_tolerance,
-                    round_index=round_index,
+                    base_values=base_values,
+                    job_ledger=job_ledger,
                 )
-            finally:
-                counter.close()
-        phase_after_edit = _ledger_snapshot(state.ledger)
-        after_hashes = _weight_hashes(touched)
-        if after_hashes == before_hashes:
-            raise ODEBFStateError("P1R20 round produced no persistent edit")
-
-        terminal_event = canonical_hash(
-            {
-                "instruction_id": INSTRUCTION_ID,
-                "method": method,
-                "round": round_index,
-                "entry": before_hashes,
-                "endpoint": after_hashes,
-            }
-        )
-        if is_ours:
-            for layer, value in load.items():
-                committed_load_by_layer[int(layer)] += float(value)
-            history_receipt = {
-                "schema": "ode-edit-s05-p1r23-full6-fixed-rank-history-append/v1",
-                "append_call_count": 1,
-                "post_commit_verified": True,
-                "terminal_event_sha256": terminal_event,
-                "sketch": historical_sketch.raw_free_payload(),
-                "load_increment_by_layer": {
-                    str(layer): float(value)
-                    for layer, value in sorted(load.items())
-                },
-                "cumulative_load_by_layer": {
-                    str(layer): float(value)
-                    for layer, value in sorted(committed_load_by_layer.items())
-                },
-                "raw_history_replay_count": 0,
-                "duplicate_append_count": 0,
-            }
-            history_receipt["identity_sha256"] = canonical_hash(history_receipt)
-            history_count_after_commit = historical_sketch.history_item_count
-        else:
-            history_counter = ModelForwardCounter(model, state.ledger)
-            try:
-                prepared = _prepare_history_batch(
+            else:
+                if outer_cache is None:
+                    raise ODEBFStateError("independent B10 pretrained cache is absent")
+                result = _run_ode_case(
                     model,
                     tokenizer,
-                    arm_state=state,
-                    requests=requests,
-                    collision_by_request=collision_by_request,
+                    requests,
+                    alias=alias,
+                    method=method,
+                    case_index=case_index,
+                    case_root=case_root,
                     hparams=hparams,
                     projector=projector,
                     contexts=contexts,
-                    terminal_event_sha256=terminal_event,
-                    load_increment_by_layer=load,
+                    covariance_registry=covariance_registry,
+                    projector_sha256=projector_sha256,
+                    controller_lock=controller_lock,
+                    request_by_sha256=request_by_sha256,
+                    population_by_sha256=population_by_sha256,
+                    schedule=schedule,
+                    theta0_cache=theta0_cache,
+                    outer_entry_p_cache=outer_cache,
+                    dataset_path=dataset_path,
+                    touched=touched,
+                    base_receipt=base_receipt,
+                    base_values=base_values,
                 )
-            finally:
-                history_counter.close()
-            history_receipt = _finalize_prepared_history(state, prepared)
-            history_receipt["load_increment_by_layer"] = {
-                str(layer): float(value) for layer, value in sorted(load.items())
-            }
-            history_receipt["cumulative_load_by_layer"] = {
-                str(layer): float(value)
-                for layer, value in sorted(state.history.cumulative_load().items())
-            }
-            history_count_after_commit = len(state.history.snapshot().active_records)
-        if history_count_after_commit != round_index * BATCH_SIZE:
-            raise ODEBFStateError("P1R20 history append count differs")
-        phase_after_history = _ledger_snapshot(state.ledger)
-
-        if method.endswith("-SOFT") and round_index >= 2:
-            if int(edit["historical_h_controller_input_count"]) != P1R23_GRID_COUNT:
-                raise ODEBFStateError("Historical H did not enter every K8 router input")
-            if int(edit["historical_h_nondegenerate_count"]) > 0:
-                historical_nondegenerate_rounds.append(round_index)
-            if int(edit["historical_h_decision_influence_count"]) > 0:
-                historical_influence_rounds.append(round_index)
-
-        evaluated, evaluation_summary = _evaluate_batches(
-            model,
-            tokenizer,
-            alias=alias,
-            method=method,
-            round_index=round_index,
-            batches=stream_batches[:round_index],
-            dataset_path=dataset_path,
-            state_sha256=canonical_hash(after_hashes),
-            ledger=state.ledger,
-        )
-        phase_after_historical_eval = _ledger_snapshot(state.ledger)
-        kl = (
-            _teacher_kl(
-                model,
-                tokenizer,
-                theta0_cache=theta0_cache,
-                population_by_sha256=population_by_sha256,
-                ledger=state.ledger,
+            completed.append({"case_index": case_index, **result})
+        except Exception as exc:
+            restore = _restore_exact_w0(
+                touched,
+                base_values,
+                mutation_lock=mutation_lock,
+                expected_contract=expected_w0,
             )
-            if round_index in EVALUATION_ROUNDS
-            else {
-                "status": "NOT_EVALUATED_OUTER_CHECKPOINT_SCHEDULE",
-                "model_forward_count": 0,
-                "processed_token_count": 0,
-                "decision_influence_count": 0,
-            }
-        )
-        phase_after_general_eval = _ledger_snapshot(state.ledger)
-        elapsed = time.perf_counter() - round_started
-        payload = {
-            "schema": "ode-edit-s05-p1r23-full6-structural-historical-round-endpoint/v1",
-            "instruction_id": INSTRUCTION_ID,
-            "alias": alias,
-            "method": method,
-            "round": round_index,
-            "history_count_at_entry": history_count_at_entry,
-            "history_count_after_commit": history_count_after_commit,
-            "edit": edit,
-            "history": history_receipt,
-            "evaluation": evaluated,
-            "evaluation_summary": evaluation_summary,
-            "teacher_kl": kl,
-            "entry_parameter_sha256": before_hashes,
-            "endpoint_parameter_sha256": after_hashes,
-            "terminal_event_sha256": terminal_event,
-            "current_batch_enters_history_after_endpoint_commit": True,
-            "future_batch_controller_access_count": 0,
-            "inner_k_heldout_evaluation_count": 0,
-            "retry_count": 0,
-            "first_hit_evaluation_count": 0,
-            "phase_compute": {
-                "edit_core_k8_refresh_or_baseline": _ledger_delta(
-                    phase_entry, phase_after_edit
-                ),
-                "history_routing_and_append": _ledger_delta(
-                    phase_after_edit, phase_after_history
-                ),
-                "historical_current_all_edited_evaluation": _ledger_delta(
-                    phase_after_history, phase_after_historical_eval
-                ),
-                "loc_teacher_kl_downstream_evaluation": _ledger_delta(
-                    phase_after_historical_eval, phase_after_general_eval
-                ),
-                "downstream_status": (
-                    "NOT_RECORDED_NO_PINNED_P1R19_DOWNSTREAM_EVALUATOR"
-                ),
-                "saved_inner_evaluation_contract": {
-                    "inner_k_heldout_evaluation_count": 0,
-                    "inner_k_functional_probe_count": 0,
-                    "called_early_stopping": False,
-                },
-            },
-            "round_wall_seconds": elapsed,
-            "host_maxrss_kib": int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss),
-        }
-        round_sha = _atomic_write_once(
-            raw_root / f"round-{round_index:02d}-endpoint.json", payload
-        )
-        round_hashes.append(round_sha)
-        round_summaries.append(
-            {
-                "round": round_index,
-                "receipt_sha256": round_sha,
-                "summary": evaluation_summary,
-                "teacher_kl": kl,
-                "wall_seconds": elapsed,
-            }
-        )
+            failed.append(_case_failure(case_root, exc, case_index=case_index, method=method, w0_restore=restore))
+        if _model_w0_contract(touched) != expected_w0:
+            raise ODEBFStateError("independent B10 post-case W0 differs")
         stages.record(
-            f"post_sequential_round_{round_index}",
+            f"post_independent_b10_case_{case_index}",
             {
+                "case_index": case_index,
                 "method": method,
-                "round": round_index,
-                "receipt_sha256": round_sha,
-                "history_count": round_index * BATCH_SIZE,
-                "endpoint_parameter_sha256": canonical_hash(after_hashes),
+                "complete_count": len(completed),
+                "failure_count": len(failed),
+                "W0_restored": True,
+                "history_mode": HISTORY_MODE,
             },
         )
-        del before_values
-        _observed_memory(state.ledger)
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
-
-    terminal_weights = _weight_hashes(touched)
-    persistent_h_inactivity = bool(
-        method.endswith("-SOFT") and not historical_influence_rounds
-    )
-    with torch.no_grad():
-        for name, parameter in touched.items():
-            parameter.copy_(base_values[name].to(device=parameter.device))
-    restored = _weight_hashes(touched) == initial_hashes
-    if not restored:
-        raise ODEBFStateError("P1R20 terminal W0 restore differs")
-    if persistent_h_inactivity:
-        raise ODEBFStateError(
-            "P1R23 Full-6 Historical H remained allocation-inactive after t1"
-        )
-    artifact_guard.assert_unchanged()
-    _observed_memory(state.ledger)
     terminal = {
-        "schema": "ode-edit-s05-p1r23-full6-structural-historical-terminal/v1",
+        "schema": "ode-edit-s05-p1r23-independent-b10x10-terminal/v1",
         "instruction_id": INSTRUCTION_ID,
-        "status": "HISTORICAL_H0_SEQUENTIAL_T10_COMPLETE",
+        "source_head": source_head,
         "alias": alias,
         "method": method,
-        "source_head": source_head,
-        "fresh_seal_root": stream["root_digest"],
-        "all_request_order_sha256": stream["all_request_order_sha256"],
-        "batch_order_sha256": stream["batch_ordered_request_digest_v1"],
-        "w0_endpoint_receipt_sha256": w0_sha,
-        "round_receipt_sha256": round_hashes,
-        "round_summaries": round_summaries,
-        "terminal_edited_parameter_sha256": terminal_weights,
-        "final_w0_restored": restored,
-        "persistent_commit_count": ROUND_COUNT,
-        "history_append_count": ROUND_COUNT,
-        "history_final_count": (
-            historical_sketch.history_item_count
-            if historical_sketch is not None
-            else len(state.history.snapshot().active_records)
-        ),
-        "historical_sketch": (
-            historical_sketch.raw_free_payload()
-            if historical_sketch is not None
-            else {"status": "BASELINE_NOT_APPLICABLE"}
-        ),
-        "historical_h_nondegenerate_rounds": historical_nondegenerate_rounds,
-        "historical_h_decision_influence_rounds": historical_influence_rounds,
-        "historical_h_persistent_inactivity": persistent_h_inactivity,
-        "postcommit_cumulative_b10_evaluation_count": sum(range(1, 11)),
-        "wide_locality_teacher_kl_checkpoint_rounds": list(EVALUATION_ROUNDS),
-        "future_batch_controller_access_count": 0,
-        "inner_k_heldout_evaluation_count": 0,
+        "case_count": CASE_COUNT,
+        "completed_case_count": len(completed),
+        "failed_case_count": len(failed),
+        "completed": completed,
+        "failed_case_identity_sha256": [item["identity_sha256"] for item in failed],
+        "history_mode": _history_off_receipt(),
+        "cross_case_state_count": 0,
         "retry_count": 0,
-        "backtracking_count": 0,
-        "first_hit_evaluation_count": 0,
-        "compute": state.ledger.raw_free_payload(),
-        "job_initialization_compute": job_ledger.raw_free_payload(),
-        "elapsed_seconds": time.perf_counter() - started,
-        "artifact_receipt": asdict(artifact_receipt),
-        "numerical_lock_sha256": numerical_sha256,
-        "context_sha256": context_sha256,
-        "cuda_runtime_receipt": dict(cuda_runtime_receipt),
-        "scientific_promotion_authorized": False,
+        "W0_restored": _model_w0_contract(touched) == expected_w0,
+        "total_wall_seconds": time.perf_counter() - started,
+        "job_compute": job_ledger.raw_free_payload(),
+        "scientific_promotion": False,
     }
+    terminal["identity_sha256"] = canonical_hash(terminal)
     terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s05-p1r23-full6-structural-historical-manifest/v1",
-        "status": terminal["status"],
-        "alias": alias,
-        "method": method,
+        "schema": "ode-edit-s05-p1r23-independent-b10x10-manifest/v1",
         "source_head": source_head,
         "terminal_sha256": terminal_sha,
-        "round_receipt_sha256": round_hashes,
-        "final_w0_restored": restored,
-        "scientific_promotion_authorized": False,
+        "case_count": CASE_COUNT,
+        "completed_case_count": len(completed),
+        "failed_case_count": len(failed),
+        "W0_restored": terminal["W0_restored"],
+        "history_mode": HISTORY_MODE,
     }
+    manifest["identity_sha256"] = canonical_hash(manifest)
     manifest_sha = _atomic_write_once(destination / "manifest.json", manifest)
     return {
-        "status": terminal["status"],
-        "alias": alias,
-        "method": method,
+        "status": "P1R23_INDEPENDENT_B10X10_TERMINAL",
         "terminal_sha256": terminal_sha,
         "manifest_sha256": manifest_sha,
-        "final_w0_restored": restored,
+        "completed_case_count": len(completed),
+        "failed_case_count": len(failed),
+        "W0_restored": terminal["W0_restored"],
     }
 
 
-__all__ = [
-    "INSTRUCTION_ID",
-    "METHODS",
-    "expected_historical_h0_result_name",
-    "run_historical_h0_sequential_trajectory",
-]
+__all__ = ["CASE_COUNT", "INSTRUCTION_ID", "METHODS", "expected_historical_h0_result_name", "run_historical_h0_sequential_trajectory"]

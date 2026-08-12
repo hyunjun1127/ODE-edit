@@ -16,25 +16,25 @@ readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
 readonly EXPECTED_SESSION="019fe489-c968-75f3-9965-7cfbc26c0a99"
-readonly RUN_TOKEN="p1r23-full6-structural-historical-a1-v1"
+readonly RUN_TOKEN="p1r23-progress-simplex-independent-b10x10-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 
-[[ "$#" -eq 2 ]] || { echo "P1R23 Full-6 Historical requires source and result parent" >&2; exit 2; }
-[[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R23 Full-6 Historical CWD differs" >&2; exit 2; }
-[[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P1R23 Full-6 Historical source differs" >&2; exit 2; }
-[[ "$(git branch --show-current)" == "codex/p1r23-compute-a1-historical" ]] || { echo "P1R23 Full-6 Historical branch differs" >&2; exit 2; }
-[[ -z "$(git status --porcelain --untracked-files=no)" ]] || { echo "P1R23 Full-6 Historical tracked source dirty" >&2; exit 2; }
+[[ "$#" -eq 2 ]] || { echo "P1R23 independent B10x10 requires source and result parent" >&2; exit 2; }
+[[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R23 independent B10x10 CWD differs" >&2; exit 2; }
+[[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P1R23 independent B10x10 source differs" >&2; exit 2; }
+[[ "$(git branch --show-current)" == "codex/p1r23-progress-simplex-independent-b10x10-v1" ]] || { echo "P1R23 independent B10x10 branch differs" >&2; exit 2; }
+[[ -z "$(git status --porcelain --untracked-files=no)" ]] || { echo "P1R23 independent B10x10 tracked source dirty" >&2; exit 2; }
 scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
-[[ "${CUDA_VISIBLE_DEVICES:-}" != "" && "${CUDA_VISIBLE_DEVICES}" != *,* ]] || { echo "P1R23 Full-6 Historical exactly one GPU required" >&2; exit 2; }
+[[ "${CUDA_VISIBLE_DEVICES:-}" != "" && "${CUDA_VISIBLE_DEVICES}" != *,* ]] || { echo "P1R23 independent B10x10 exactly one GPU required" >&2; exit 2; }
 
 readonly MODELS=(llama3-8b-inst llama3-8b-inst llama3-8b-inst llama3-8b-inst llama3-8b-inst qwen2.5-7b-inst qwen2.5-7b-inst qwen2.5-7b-inst qwen2.5-7b-inst qwen2.5-7b-inst)
-readonly METHODS=(BG-COMPUTE-FULL6-NOSOFT BG-COMPUTE-FULL6-SOFT RS-COMPUTE-FULL6-NOSOFT RS-COMPUTE-FULL6-SOFT ALPHAEDIT BG-COMPUTE-FULL6-NOSOFT BG-COMPUTE-FULL6-SOFT RS-COMPUTE-FULL6-NOSOFT RS-COMPUTE-FULL6-SOFT ALPHAEDIT)
+readonly METHODS=(BG-PROGRESS-SIMPLEX-NEUTRAL BG-PROGRESS-SIMPLEX-SOFT RS-PROGRESS-SIMPLEX-NEUTRAL RS-PROGRESS-SIMPLEX-SOFT OFFICIAL-ALPHAEDIT BG-PROGRESS-SIMPLEX-NEUTRAL BG-PROGRESS-SIMPLEX-SOFT RS-PROGRESS-SIMPLEX-NEUTRAL RS-PROGRESS-SIMPLEX-SOFT OFFICIAL-ALPHAEDIT)
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
 readonly METHOD="${METHODS[${SLURM_ARRAY_TASK_ID}]}"
 readonly METHOD_SLUG="${METHOD,,}"
-readonly RESULT_NAME="s05-p1r23-full6-structural-historical-${METHOD_SLUG//-/_}-${MODEL}-v1"
+readonly RESULT_NAME="s05-p1r23-progress-simplex-independent-b10x10-${METHOD_SLUG//-/_}-${MODEL}-v1"
 readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULT_NAME}"
-[[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R23 Full-6 Historical output exists" >&2; exit 2; }
+[[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R23 independent B10x10 output exists" >&2; exit 2; }
 
 export HF_HOME="/mnt/raid5/janghj/.cache/huggingface"
 export HF_HUB_CACHE="/mnt/raid5/janghj/.cache/huggingface/hub"
@@ -44,7 +44,7 @@ export HF_DATASETS_OFFLINE=1
 export TOKENIZERS_PARALLELISM=false
 export PYTHONHASHSEED=41
 export PYTHONDONTWRITEBYTECODE=1
-export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p1r23-full6-historical"
+export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p1r23-independent-b10x10"
 export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 
 exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-sync \

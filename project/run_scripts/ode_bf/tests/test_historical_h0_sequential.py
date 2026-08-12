@@ -1,85 +1,47 @@
 from __future__ import annotations
 
-import hashlib
 import inspect
 import json
 import subprocess
+import tempfile
 import unittest
 from pathlib import Path
-from types import SimpleNamespace
+from threading import RLock
 
-import numpy as np
 import torch
 
-from project.run_scripts.ode_bf.compute_progress_simplex_runtime import (
-    FixedRankHistoricalSketch,
+from project.run_scripts import (
+    session05_ode_bf_historical_h0_sequential_dry_plan as dry,
 )
-from project.run_scripts.ode_bf.contracts import canonical_hash
-from project.run_scripts.ode_bf.fixed_e8_soft_routing import FixedE8Arm
-from project.run_scripts.ode_bf.fixed_e8_runtime import FixedE8ProblemReceipt
 from project.run_scripts.ode_bf.historical_h0_sequential_runtime import (
-    EVALUATION_ROUNDS,
-    HISTORICAL_SKETCH_RANK,
-    HISTORY_COUNTS,
+    CASE_COUNT,
+    HISTORY_MODE,
+    INSTRUCTION_ID,
     METHODS,
-    _run_ours_round,
+    _case_failure,
+    _history_off_receipt,
+    _restore_exact_w0,
     expected_historical_h0_result_name,
+    run_historical_h0_sequential_trajectory,
 )
 from project.run_scripts.ode_bf.historical_h0_sequential_selection import (
     verify_historical_h0_fresh_seal,
 )
 from project.run_scripts.ode_bf.p1_historical_h0_sequential_panel import (
+    ALL_REQUEST_ORDER,
     LOCK_SCHEMA,
+    SCIENTIFIC_CHECKPOINT,
     load_and_validate_historical_h0_lock,
 )
-from project.run_scripts.ode_bf.p1_scalable_batched_experiment import (
-    _run_ode_arm,
-    _with_fixed_rank_historical_barrier,
-)
-from project.run_scripts.ode_bf.progress_simplex_routing import (
-    StructuralOnlyRoutingInventory,
-    solve_progress_simplex_routing,
-)
-from project.run_scripts.ode_bf.routing import QuadraticBarrier, RoutingProblem
-from project.run_scripts.ode_bf.scalable_batched_runtime import UniformRequestAccumulator
-from project.run_scripts import session05_ode_bf_historical_h0_sequential_dry_plan as dry
+from project.run_scripts.ode_bf.p1_scalable_batched_experiment import _model_w0_contract
 
 
 ROOT = Path(__file__).resolve().parents[4]
 LOCKS = ROOT / "project/run_scripts/ode_bf/locks"
 
 
-def _barrier(label: str, linear: tuple[float, ...]) -> QuadraticBarrier:
-    size = len(linear)
-    return QuadraticBarrier(
-        label,
-        0.0,
-        np.asarray(linear, dtype=np.float64),
-        np.eye(size, dtype=np.float64) * 0.01,
-        1.0,
-        "layer-local-diagonal",
-    )
-
-
-def _problem(*, historical: bool) -> RoutingProblem:
-    return RoutingProblem(
-        np.asarray((0.5, 0.3, 0.2, 0.1, 0.05), dtype=np.float64),
-        np.eye(5, dtype=np.float64),
-        np.eye(5, dtype=np.float64),
-        100.0,
-        np.ones(5, dtype=np.float64),
-        1.0e-6,
-        1.0e-8,
-        _barrier(
-            "historical",
-            (0.0, 8.0, 0.0, 0.0, 0.0) if historical else (0.0,) * 5,
-        ),
-        _barrier("pretrained", (8.0, 0.0, 0.0, 0.0, 0.0)),
-    )
-
-
-class Full6StructuralHistoricalTest(unittest.TestCase):
-    def test_fresh_seal_and_new_lock_are_rooted(self) -> None:
+class IndependentAtomicB10x10Test(unittest.TestCase):
+    def test_lock_seal_matrix_and_repeatable_dry_plan(self) -> None:
         seal = verify_historical_h0_fresh_seal(
             json.loads(
                 (LOCKS / "p1r20_historical_h0_fresh_cf_b100_seal.json").read_text()
@@ -90,174 +52,118 @@ class Full6StructuralHistoricalTest(unittest.TestCase):
         )
         self.assertEqual(lock["schema_version"], LOCK_SCHEMA)
         self.assertEqual(lock["fresh_seal_root"], seal["root_digest"])
-        self.assertEqual(lock["history"]["round_entry_counts"], list(HISTORY_COUNTS))
-        self.assertEqual(HISTORICAL_SKETCH_RANK, 100)
-        self.assertEqual(EVALUATION_ROUNDS, (1, 5, 10))
-
-    def test_full_matrix_and_dry_plan_repeat(self) -> None:
+        self.assertEqual(lock["all_request_order_sha256"], ALL_REQUEST_ORDER)
+        self.assertEqual(lock["atomic"]["cardinality"], "TEN_INDEPENDENT_WHOLE_B10")
+        self.assertEqual(lock["atomic"]["context_ordinals"], list(range(6)))
         first = dry.build_plan("0" * 40)
         self.assertEqual(first, dry.build_plan("0" * 40))
-        self.assertEqual(first["trajectory_count"], 10)
-        self.assertEqual(first["ode_trajectory_count"], 8)
-        self.assertEqual(first["model_level_alphaedit_count"], 2)
-        self.assertEqual(first["array_max_concurrent_gpu"], 4)
-        self.assertEqual([job["method"] for job in first["jobs"][:5]], list(METHODS))
-        self.assertEqual(len({job["result_name"] for job in first["jobs"]}), 10)
+        self.assertEqual(first["job_count"], 10)
+        self.assertEqual(first["ode_job_count"], 8)
+        self.assertEqual(first["official_alphaedit_job_count"], 2)
+        self.assertEqual(first["independent_atomic_b10_case_count"], 100)
+        self.assertEqual(first["sequential_round_count"], 0)
+        self.assertEqual(first["history_mode"], HISTORY_MODE)
+        self.assertEqual([item["method"] for item in first["jobs"][:5]], list(METHODS))
+        self.assertEqual(len({item["result_name"] for item in first["jobs"]}), 10)
 
-    def test_full_six_global_weighting_is_partition_invariant(self) -> None:
-        per_request = (1.0, 2.0, 4.0, 8.0, 16.0)
-        full = UniformRequestAccumulator(5)
-        full.add(range(5), per_request)
-        split = UniformRequestAccumulator(5)
-        split.add((3, 1), (8.0, 2.0))
-        split.add((4,), (16.0,))
-        split.add((0, 2), (1.0, 4.0))
-        self.assertEqual(full.finalize(), split.finalize())
-        self.assertEqual(full.finalize()[0], sum(per_request) / len(per_request))
-        source = inspect.getsource(_run_ode_arm)
-        self.assertIn("full_six_slope", source)
-        self.assertIn("slope_plan =", source)
-        self.assertIn("else objective_plan", source)
-
-    def test_fixed_rank_h_transaction_rollback_commit_once(self) -> None:
-        sketch = FixedRankHistoricalSketch(100, {4: 3, 5: 3})
-        values = {4: np.ones((10, 3)), 5: np.ones((10, 3)) * 2.0}
-        first = sketch.stage(values)
-        sketch.finalize(transaction_committed=False)
-        self.assertEqual(sketch.history_item_count, 0)
-        self.assertEqual(sketch.commit_count, 0)
-        second = sketch.stage(values)
-        self.assertEqual(first, second)
-        sketch.finalize(transaction_committed=True)
-        self.assertEqual(sketch.history_item_count, 10)
-        self.assertEqual(sketch.commit_count, 1)
-        with self.assertRaisesRegex(Exception, "no staged"):
-            sketch.finalize(transaction_committed=True)
-
-    def test_t2_h_can_change_soft_allocation_without_model_calls(self) -> None:
-        p_only = solve_progress_simplex_routing(
-            _problem(historical=False),
-            StructuralOnlyRoutingInventory(0, "a" * 64, "b" * 64, "c" * 64),
-            arm=FixedE8Arm.SOFT,
-            alpha_req=1.0,
-        )
-        with_h = solve_progress_simplex_routing(
-            _problem(historical=True),
-            StructuralOnlyRoutingInventory(10, "a" * 64, "b" * 64, "c" * 64),
-            arm=FixedE8Arm.SOFT,
-            alpha_req=1.0,
-        )
-        self.assertGreater(
-            np.max(np.abs(np.asarray(p_only.velocity) - np.asarray(with_h.velocity))),
-            1.0e-8,
-        )
-        source = inspect.getsource(_run_ours_round)
-        self.assertIn("historical_h_controller_input_count", source)
-        self.assertIn("historical_h_decision_influence_count", source)
-
-    def test_projected_key_h_barrier_matches_manual_quadratic(self) -> None:
-        layers = (4, 5, 6, 7, 8)
-        sketch = FixedRankHistoricalSketch(10, {layer: 2 for layer in layers})
-        historical_rows = {
-            layer: np.asarray(
-                [[1.0 + layer / 10.0, (-1.0) ** row] for row in range(10)],
-                dtype=np.float64,
-            )
-            for layer in layers
-        }
-        sketch.stage(historical_rows, item_count=10)
-        sketch.finalize(transaction_committed=True)
-        names = {layer: f"weight-{layer}" for layer in layers}
-        w0 = {name: torch.zeros((2, 2), dtype=torch.float64) for name in names.values()}
-        entry = {
-            name: torch.full((2, 2), 0.01 * layer, dtype=torch.float64)
-            for layer, name in names.items()
-        }
-        fields = tuple(
-            SimpleNamespace(
-                layer=layer,
-                weight_name=names[layer],
-                residual=torch.tensor([[1.0], [0.5]], dtype=torch.float64),
-                q=torch.tensor([[0.25], [0.75]], dtype=torch.float64),
-            )
-            for layer in layers
-        )
-        base = FixedE8ProblemReceipt(
-            _problem(historical=False),
-            (0.0,) * 5,
-            (0.0,) * 5,
-            (0.0,) * 5,
-            "d" * 64,
-        )
-        observed = _with_fixed_rank_historical_barrier(
-            base,
-            SimpleNamespace(layers=fields),
-            sketch,
-            entry_values=entry,
-            trajectory_w0_values=w0,
-        )
-        velocity = np.asarray((1.0, 0.8, 0.6, 0.4, 0.2), dtype=np.float64)
-        manual = 0.0
-        for index, layer in enumerate(layers):
-            baseline = entry[names[layer]].numpy() @ historical_rows[layer].T
-            proposal = (
-                fields[index].residual.numpy()
-                @ (fields[index].q.numpy().T @ historical_rows[layer].T)
-            )
-            manual += float(
-                np.sum((baseline + 0.125 * velocity[index] * proposal) ** 2)
-            )
-        self.assertAlmostEqual(
-            observed.problem.historical.value(velocity), manual, places=10
-        )
-        self.assertEqual(sketch.history_item_count, 10)
-
-    def test_k8_full6_and_55_evaluation_source_contract(self) -> None:
-        source = inspect.getsource(_run_ode_arm)
-        self.assertIn("for step_index in range(P1R23_GRID_COUNT)", source)
-        self.assertIn('"FULL_SIX_FIXED"', source)
-        runtime_source = (
-            ROOT / "project/run_scripts/ode_bf/historical_h0_sequential_runtime.py"
-        ).read_text()
-        self.assertIn("batches=stream_batches[:round_index]", runtime_source)
-        self.assertIn("if round_index in EVALUATION_ROUNDS", runtime_source)
-        self.assertIn("postcommit_cumulative_b10_evaluation_count", runtime_source)
-        self.assertNotIn('method == "MEMIT"', runtime_source)
-
-    def test_result_namespace_and_launcher_matrix(self) -> None:
-        names = {
-            expected_historical_h0_result_name(alias, method)
-            for alias in ("llama3-8b-inst", "qwen2.5-7b-inst")
-            for method in METHODS
-        }
-        self.assertEqual(len(names), 10)
-        source = (
-            ROOT / "project/run_scripts/session05_ode_bf_historical_h0_sequential.sbatch"
-        ).read_text()
-        self.assertIn("#SBATCH --array=0-9%4", source)
-        self.assertIn("#SBATCH --nodelist=devbox", source)
-        self.assertNotIn("MEMIT", source)
-
-    def test_source_manifest_rehashes_every_member(self) -> None:
-        path = LOCKS / "source_manifest_s05_historical_h0_sequential.json"
-        value = json.loads(path.read_text())
-        root = value.pop("root_digest")
-        self.assertEqual(root, canonical_hash(value))
-        self.assertEqual(value["entry_count"], len(value["entries"]))
-        for item in value["entries"]:
-            member = ROOT / item["path"]
-            payload = member.read_bytes()
-            self.assertEqual(member.stat().st_mode, item["mode"])
-            self.assertEqual(len(payload), item["size"])
-            self.assertEqual(hashlib.sha256(payload).hexdigest(), item["sha256"])
-            object_id = subprocess.run(
-                ["git", "hash-object", str(member)],
+    def test_scientific_router_and_atomic_runtime_are_exact_a343(self) -> None:
+        for relative in (
+            "project/run_scripts/ode_bf/progress_simplex_routing.py",
+            "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+        ):
+            expected = subprocess.run(
+                ["git", "show", f"{SCIENTIFIC_CHECKPOINT}:{relative}"],
                 cwd=ROOT,
                 check=True,
-                text=True,
                 stdout=subprocess.PIPE,
-            ).stdout.strip()
-            self.assertEqual(object_id, item["object_id"])
+            ).stdout
+            self.assertEqual((ROOT / relative).read_bytes(), expected)
+
+    def test_history_off_is_total_and_has_zero_influence(self) -> None:
+        receipt = _history_off_receipt()
+        self.assertEqual(receipt["mode"], "OFF")
+        self.assertEqual(receipt["functional_h_status"], "INACTIVE_BY_HISTORY_MODE_OFF")
+        self.assertEqual(receipt["structural_h_status"], "INACTIVE_BY_HISTORY_MODE_OFF")
+        for key, value in receipt.items():
+            if key.endswith("_count"):
+                self.assertEqual(value, 0, key)
+        source = inspect.getsource(run_historical_h0_sequential_trajectory)
+        self.assertNotIn("history.append", source)
+        self.assertNotIn("history.stage", source)
+        self.assertIn("cross-case W0 state leak detected", source)
+
+    def test_two_consecutive_cases_restore_identical_w0_and_pointers(self) -> None:
+        parameter = torch.nn.Parameter(torch.arange(6, dtype=torch.float32).reshape(2, 3))
+        touched = {"weight": parameter}
+        base = {"weight": parameter.detach().clone()}
+        expected = _model_w0_contract(touched)
+        pointer = parameter.data_ptr()
+        for delta in (5.0, -9.0):
+            with torch.no_grad():
+                parameter.add_(delta)
+            receipt = _restore_exact_w0(
+                touched,
+                base,
+                mutation_lock=RLock(),
+                expected_contract=expected,
+            )
+            self.assertTrue(receipt["byte_restored_exact"])
+            self.assertTrue(receipt["pointer_restored_exact"])
+            self.assertEqual(parameter.data_ptr(), pointer)
+            self.assertEqual(_model_w0_contract(touched), expected)
+
+    def test_case_failure_isolated_and_never_retried_or_imputed(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            restore = {
+                "pointer_restored_exact": True,
+                "byte_restored_exact": True,
+                "identity_sha256": "a" * 64,
+            }
+            first = _case_failure(
+                root / "case-01",
+                RuntimeError("typed failure"),
+                case_index=1,
+                method=METHODS[0],
+                w0_restore=restore,
+            )
+            second_root = root / "case-02"
+            second_root.mkdir()
+            self.assertEqual(first["retry_count"], 0)
+            self.assertTrue(first["next_case_continues"])
+            self.assertEqual(first["status"], "TYPED_CASE_FAILURE_NO_RETRY_NO_IMPUTATION")
+            self.assertTrue((root / "case-01/failure.json").is_file())
+            self.assertTrue(second_root.is_dir())
+
+    def test_no_b1_or_sequential_contract_is_reachable(self) -> None:
+        source = inspect.getsource(run_historical_h0_sequential_trajectory)
+        self.assertEqual(CASE_COUNT, 10)
+        self.assertIn("len(batch) != BATCH_SIZE", source)
+        self.assertIn("for case_index, requests in enumerate(stream_batches", source)
+        self.assertNotIn("request_cardinality", source)
+        self.assertNotIn("B1X100", source.upper())
+        self.assertNotIn("outer_round", source)
+        self.assertEqual(
+            INSTRUCTION_ID,
+            "ODEEDIT-S05-P1R23-PROGRESS-SIMPLEX-INDEPENDENT-B10X10-V1",
+        )
+        self.assertIn("independent-b10x10", expected_historical_h0_result_name("a", METHODS[0]))
+
+    def test_launcher_maps_exact_ten_jobs_and_never_mentions_b1(self) -> None:
+        sbatch = (
+            ROOT / "project/run_scripts/session05_ode_bf_historical_h0_sequential.sbatch"
+        ).read_text()
+        submitter = (
+            ROOT
+            / "project/run_scripts/session05_ode_bf_submit_historical_h0_sequential.py"
+        ).read_text()
+        self.assertIn("#SBATCH --array=0-9%4", sbatch)
+        self.assertIn("#SBATCH --gres=gpu:1", sbatch)
+        self.assertIn("OFFICIAL-ALPHAEDIT", sbatch)
+        self.assertIn("codex/p1r23-progress-simplex-independent-b10x10-v1", sbatch)
+        self.assertNotIn("b1x100", sbatch.lower())
+        self.assertNotIn("b1x100", submitter.lower())
+        self.assertIn('"array": "0-9%4"', submitter)
 
 
 if __name__ == "__main__":

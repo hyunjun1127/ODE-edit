@@ -1,74 +1,181 @@
 {
-  "schema_version": "ode-edit-s05-p1r23-full6-structural-historical-source-manifest/v1",
-  "instruction_id": "ODEEDIT-S05-P1R23-FULL6-STRUCTURAL-HISTORICAL-V1-A1-FULL-MATRIX",
-  "historical_implementation_parent": "bfff750fa360899ef11b1d16732274c1f68eee70",
-  "accepted_compute_a1_scientific_checkpoint": "794885a48c09046b454b88eee7880e08c390902a",
-  "accepted_compute_a1_execution_checkpoint": "f64d0c1221ac0eecc53a1fbb9685a9a23835af0e",
+  "schema_version": "ode-edit-s05-p1r23-progress-simplex-independent-b10x10-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R23-PROGRESS-SIMPLEX-INDEPENDENT-B10X10-V1",
+  "accepted_progress_simplex_scientific_checkpoint": "a343d1f6967ef37763009b92d227ade85cd93de0",
   "fresh_seal_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
-  "numerical_lock_root": "40543080713515c0c70131b221cbe2464326d689f992654a4ad22c9e3937f4de",
-  "execution_head_policy": "EXACT_CHILD_CHECKPOINT_AFTER_FOCUSED_GATES",
+  "all_request_order_sha256": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+  "numerical_lock_root": "f6097d532d8c88ce4eee16cc1d9d3e34efae4f590b99dd7143fa86fa5becccfb",
+  "execution_head_policy": "EXACT_CHILD_CHECKPOINT_AFTER_ESSENTIAL_GATES",
   "scientific_promotion_authorized": false,
   "entries": [
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "efe7fb8dcd7731cc5299c938fd009a890f6f7b75",
-      "path": "project/run_scripts/ode_bf/compute_progress_simplex_runtime.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "230f240bf08fd1b39d3e831e39834af0cec3b3133605cc1a578c45e167255f23",
-      "size": 8895
+      "object_id": "9e4aab2424ccfc1a869d619ce24fb7dffaf4ec04",
+      "path": "project/run_scripts/ode_bf/accounting.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "edd5ba9288ac5c87a85ac3fdc3c53bed7f48811c89cdd133dfe96441cddba416",
+      "size": 11880
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "a885277b5d4df3cddd9f730993f5b4704ed5031c",
+      "object_id": "340c4190e63374dcfe04a985087f66fcb3abb80f",
+      "path": "project/run_scripts/ode_bf/artifacts.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "df7f2c403354269eb470d20773de7f3b8ad6e7eba5506547496e234109b6fe14",
+      "size": 11416
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "cbd8bb8d520f187b6ad6523030fdf5b21e04d540",
+      "path": "project/run_scripts/ode_bf/atomic_runtime_optimization.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "672f700f3f8fcaac230d4f5857b22d305786e776bc9474737b69b931f39d3cd0",
+      "size": 15214
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "a04cf29f9978c93027cdad9d0d26e1a0b7ad0f5f",
+      "path": "project/run_scripts/ode_bf/contracts.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "c7698a3b785bcf95eaaf5ffb133ab0fbce877d6127d168c8daef47f17a051453",
+      "size": 14825
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "ae612328135434e0f15e0834009d5f7a8311482c",
+      "path": "project/run_scripts/ode_bf/fixed_e8_runtime.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "711ab6b640e659863bcff59df97a95c683d12a803fa1c2c0e85a9dafb92d9c60",
+      "size": 101969
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "fd537b96f1c09e696d99f4fc642791b578c3ebc9",
+      "path": "project/run_scripts/ode_bf/functional.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "88bffde0fba6ab72e35b5c67458a31404e4043501c9514bfc241d2b9ddc303ee",
+      "size": 18195
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "66f782d8c1a81db22204e72a7766bc2fdaab9e6c",
       "path": "project/run_scripts/ode_bf/historical_h0_sequential_runtime.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "d781a94c0404259b2cc558033671225e231e069dd9fbc149e0b49f637b94a61b",
-      "size": 37045
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "8b5eb2fe288858c8193d6f17d69ca184f601d7608a4a5be5e561f4ee4d2ce355",
+      "size": 22507
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
       "object_id": "0d365c3a6390757f4bfad7ddcd52f00598c41379",
       "path": "project/run_scripts/ode_bf/historical_h0_sequential_selection.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
+      "role": "EXECUTION_CLOSURE",
       "sha256": "ff4267090bd185c063f567867bf7840f7cbf409201d24c1e82ea46fe6f2956c4",
       "size": 11498
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "466c04dcba3f741e32f263ec79951d4f976926a9",
+      "object_id": "18199fd79e817d7f7f1b26bb81efde91751bb37b",
+      "path": "project/run_scripts/ode_bf/p0_runtime.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "fd486fe9cc3152dc72b4979b07e1fcb6675223896c4b3895c102f5ffa8a37cc3",
+      "size": 54606
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "81832f3607a8ba2aec2d435b5b582e0df92268f1",
+      "path": "project/run_scripts/ode_bf/p1_backend.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "c5be9cf409b0fabd33c30c205ff9f3e188ef24400a7fff7e7f582baec62ebb82",
+      "size": 80530
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "fac266eef1b700d03bd0ab4a382dd887def3f6fb",
+      "path": "project/run_scripts/ode_bf/p1_controller.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "51e1460ef9f9ddb59eaf899b14936be98721a390bee7f82c82a1e18ba68e5c1e",
+      "size": 21080
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "28148a0ccb433a5127ad1b0d00025ac47310b6bd",
+      "path": "project/run_scripts/ode_bf/p1_evaluator.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "a574b7566b4fc5ee1ff76fdcd19feb829d5eec8b7158b2f91542344c416b0381",
+      "size": 24691
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "3e516b35f489875e0e836bbdbc6a9c6f44eb2ae4",
       "path": "project/run_scripts/ode_bf/p1_historical_h0_sequential_panel.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "7f4fe3d9b8849fd727c3adcac07916e47be8cf5545b07211acb15144b37353fd",
-      "size": 4114
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "c64cbc233c193d206bada691eb6d45476fbb55248957a0c367ff8110aa5a38d8",
+      "size": 3402
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "13839a109ec73f37d27e510f0bd0cd495acaa00b",
+      "object_id": "957e668807de0ec3a6a0ac9ab3959b88323d64f2",
+      "path": "project/run_scripts/ode_bf/p1_replay.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "c7e2ea435da6bfecd0fe17fab3fd0148218f4d7c7d8ec53a74eb41c440c6d977",
+      "size": 21061
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "b586c19c729a920464ab1741f934ff570c02f353",
       "path": "project/run_scripts/ode_bf/p1_runtime.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "ff5982a9a2aadcd18349b72d492405dc437263b5baf100fb991e50c649da6f16",
-      "size": 199511
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "b55bd349354599b23dd93fc7aac951b031639934c0164a27ba188561a2583f9b",
+      "size": 199371
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "74e4ceb49d2499b212148a74795e6435b17acbc9",
+      "object_id": "9b55e905d57f9863fbddd6dc1da18b21c7f945f5",
       "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "8fea1705e1a0edfda72ffbdcfdf859615f5236895148fa68e651f067e01996d0",
-      "size": 81874
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "3ffdc698a3ea57fb3cb91988c392110bbf332f3150a8616d410faf32f9b6037f",
+      "size": 66512
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "e7506a1aecc2cf7028ba29b6e02215bbf2809946",
+      "path": "project/run_scripts/ode_bf/p1_state.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "700aa763361748cb1b089d5d0d228832ac405b9fdbb1bdf281e6beeaf174e9a8",
+      "size": 24095
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
+      "object_id": "e1cc0a23d4d7a6a164fde469d70dcd1d6ce56aa1",
+      "path": "project/run_scripts/ode_bf/progress_simplex_routing.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "434790180d671e893193d5cd706fe2f8ed6c0f1e517600713e01e0465efaccc7",
+      "size": 34344
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
       "object_id": "b216b4e73f16036e5a752453c6cdb6ff4c67fd2b",
       "path": "project/run_scripts/ode_bf/scalable_batched_field.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
+      "role": "EXECUTION_CLOSURE",
       "sha256": "786a64b8954e577fd5629a8298d88d2a51acbe74aad1a62e40029febf9a7c695",
       "size": 19251
     },
@@ -77,133 +184,70 @@
       "object_algorithm": "sha1",
       "object_id": "360b0290c9a90d86bdde6c313171241c38b3a550",
       "path": "project/run_scripts/ode_bf/scalable_batched_model.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
+      "role": "EXECUTION_CLOSURE",
       "sha256": "e88f0e9ffa6a949caa8bf558c7fabae68bd52a12b81d3856a9b0feaef672d2c1",
       "size": 42742
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
+      "object_id": "aed9788ece81b0d66e1c4613b4e17562b37e9d19",
+      "path": "project/run_scripts/ode_bf/scalable_batched_native.py",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "6f9a4a50e8d13abab19727f2df56b406f8afd33d65818599cd8353893107098c",
+      "size": 20434
+    },
+    {
+      "mode": 33152,
+      "object_algorithm": "sha1",
       "object_id": "ec226acca40845382a54c3f6e6392fc6adf27154",
       "path": "project/run_scripts/ode_bf/scalable_batched_runtime.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
+      "role": "EXECUTION_CLOSURE",
       "sha256": "df0c0fe71c7535e9cbd69f066ff3a5d9c6a658990aa1829865d4696de580b9df",
       "size": 26837
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "c30a2399604257a1fb55d069ca1c99f424b67f93",
-      "path": "project/run_scripts/ode_bf/progress_simplex_routing.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "11f13db2826d4b977e8c1e962e8d2656555ce3fddafb2a589bb03a14eb1e2fd8",
-      "size": 43427
-    },
-    {
-      "mode": 33152,
-      "object_algorithm": "sha1",
-      "object_id": "ae612328135434e0f15e0834009d5f7a8311482c",
-      "path": "project/run_scripts/ode_bf/fixed_e8_runtime.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "711ab6b640e659863bcff59df97a95c683d12a803fa1c2c0e85a9dafb92d9c60",
-      "size": 101969
-    },
-    {
-      "mode": 33152,
-      "object_algorithm": "sha1",
-      "object_id": "fac266eef1b700d03bd0ab4a382dd887def3f6fb",
-      "path": "project/run_scripts/ode_bf/p1_controller.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "51e1460ef9f9ddb59eaf899b14936be98721a390bee7f82c82a1e18ba68e5c1e",
-      "size": 21080
-    },
-    {
-      "mode": 33152,
-      "object_algorithm": "sha1",
-      "object_id": "81832f3607a8ba2aec2d435b5b582e0df92268f1",
-      "path": "project/run_scripts/ode_bf/p1_backend.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "c5be9cf409b0fabd33c30c205ff9f3e188ef24400a7fff7e7f582baec62ebb82",
-      "size": 80530
-    },
-    {
-      "mode": 33152,
-      "object_algorithm": "sha1",
-      "object_id": "e7506a1aecc2cf7028ba29b6e02215bbf2809946",
-      "path": "project/run_scripts/ode_bf/p1_state.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "700aa763361748cb1b089d5d0d228832ac405b9fdbb1bdf281e6beeaf174e9a8",
-      "size": 24095
-    },
-    {
-      "mode": 33152,
-      "object_algorithm": "sha1",
       "object_id": "8013783f1425feff3fc0d50fa46b293f660d2a8f",
       "path": "project/run_scripts/ode_bf/transaction.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
+      "role": "EXECUTION_CLOSURE",
       "sha256": "95540b9e2df393b8aa0d59973a3a553272b64495b682e11829977d956966db7d",
       "size": 5156
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "957e668807de0ec3a6a0ac9ab3959b88323d64f2",
-      "path": "project/run_scripts/ode_bf/p1_replay.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "c7e2ea435da6bfecd0fe17fab3fd0148218f4d7c7d8ec53a74eb41c440c6d977",
-      "size": 21061
-    },
-    {
-      "mode": 33152,
-      "object_algorithm": "sha1",
-      "object_id": "28148a0ccb433a5127ad1b0d00025ac47310b6bd",
-      "path": "project/run_scripts/ode_bf/p1_evaluator.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "a574b7566b4fc5ee1ff76fdcd19feb829d5eec8b7158b2f91542344c416b0381",
-      "size": 24691
-    },
-    {
-      "mode": 33152,
-      "object_algorithm": "sha1",
-      "object_id": "0715845b048e254ba11fb8a27e70002eca34e03a",
-      "path": "project/run_scripts/ode_bf/p1_stepwise.py",
-      "role": "ODE_BF_RUNTIME_SOURCE",
-      "sha256": "fc055049a8e44bb34e52ffbcfe9881b3523d9e35f984e200d947569eb8083674",
-      "size": 15233
+      "object_id": "681cb64ab4ee932d119c881c4c08fafedc4a26f6",
+      "path": "project/run_scripts/ode_bf/locks/p0_artifact_lock.json",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "623482b05c670b703eebc65493779e863021509f0c0855d5fafb75c0b7b24910",
+      "size": 4170
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
       "object_id": "d7a7e467b811abea0378f6a72f41c0411c326794",
       "path": "project/run_scripts/ode_bf/locks/p1r20_historical_h0_fresh_cf_b100_seal.json",
-      "role": "SCIENTIFIC_OR_SOURCE_LOCK",
+      "role": "EXECUTION_CLOSURE",
       "sha256": "01612c28f700d7281e7f4887189577305396a47715760c98997f97d2acfe596b",
       "size": 52138
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "201f19e4bcd0fd8eeeaeeb9ca36d4709e95653c4",
+      "object_id": "8dc6fe90faa90f153b8acfafa5944ba424c50960",
       "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_historical_h0_sequential.json",
-      "role": "SCIENTIFIC_OR_SOURCE_LOCK",
-      "sha256": "42541901998d05e8a44febd41dcade813706a792b13cdc60db4f75c375749f8b",
-      "size": 2357
-    },
-    {
-      "mode": 33152,
-      "object_algorithm": "sha1",
-      "object_id": "a3a03db296a81fab50f448837c89e4870e3c94b0",
-      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_compute_progress_simplex.json",
-      "role": "SCIENTIFIC_OR_SOURCE_LOCK",
-      "sha256": "15d770bf63b428e1d8f95c5848d70b45842676d4f9d5b7b26e153c4f9296eb88",
-      "size": 2679
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "5b0921fd6de45144ad5a5e798cfb6eb7e4a3af14e4b6c53086d7e783da596577",
+      "size": 1691
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
       "object_id": "06466b40569d8323be650e5858cdca0f2c5e5970",
       "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_progress_simplex_router.json",
-      "role": "SCIENTIFIC_OR_SOURCE_LOCK",
+      "role": "EXECUTION_CLOSURE",
       "sha256": "e07055eb247276039f9e5349b72ac151cf1c2ed906fc4271103da077bb4b20ca",
       "size": 2652
     },
@@ -212,74 +256,74 @@
       "object_algorithm": "sha1",
       "object_id": "04c7838b57d217c98d5922e4a053fabaf9fca4e9",
       "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_scalable_batched_runtime.json",
-      "role": "SCIENTIFIC_OR_SOURCE_LOCK",
+      "role": "EXECUTION_CLOSURE",
       "sha256": "b9a47600032ebeb6c24361be25e828d6dec0360134089bae44aa420e9dbfbdfd",
       "size": 5600
     },
     {
       "mode": 33216,
       "object_algorithm": "sha1",
-      "object_id": "f413752e752cdcf538cae7d7ba631beb0cc6a695",
+      "object_id": "ead86ac6a01929be1f5a2a28aeea3e4c9e80a2b3",
       "path": "project/run_scripts/session05_ode_bf_historical_h0_sequential.py",
-      "role": "SESSION_RUNTIME_OR_LAUNCHER",
-      "sha256": "c692a5ec0b19362af0ab365154489f8ee308231ca0d7589adc8cd6857784c940",
-      "size": 2414
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "28c6c93a9e04bca164e1843336121645c6cb4a1bea84618a71758a548145e3a1",
+      "size": 2408
     },
     {
       "mode": 33216,
       "object_algorithm": "sha1",
-      "object_id": "309bf9741d0d9999c8febfd7a1f2a6fb2c89ec47",
+      "object_id": "02eba0eae8d219035871d5fcd89748dda3f4e62b",
       "path": "project/run_scripts/session05_ode_bf_historical_h0_sequential.sbatch",
-      "role": "SESSION_RUNTIME_OR_LAUNCHER",
-      "sha256": "d511f55d647c433d7fef5b682052e9ebedbaeceb68e61a708ba1ee5e391a302e",
-      "size": 2877
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "f21f9f925c3fa1a8f797b3bdcfbe4492d210c49cab075013c259b8382ea93846",
+      "size": 2962
     },
     {
       "mode": 33216,
       "object_algorithm": "sha1",
-      "object_id": "ace10449f19fd8e3d5612050b6bd8c86db4a82fe",
+      "object_id": "2e3ab5153b49b7d028d93ff427be1cfc335ae887",
       "path": "project/run_scripts/session05_ode_bf_historical_h0_sequential_dry_plan.py",
-      "role": "SESSION_RUNTIME_OR_LAUNCHER",
-      "sha256": "af14d007c8af1a1bfaae46c4a17da2ae519145528f9263149933cf13f2a1b559",
-      "size": 2557
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "8eb84e7c4d710ff1589aead5285952c3c934fe2ea6b78fec0bd81fbc71a5d1d4",
+      "size": 2544
     },
     {
       "mode": 33216,
       "object_algorithm": "sha1",
-      "object_id": "5440437d136a179f2a4c36169553acef7d2ac990",
+      "object_id": "1d001f1cba7f1f0ab9fcd39949a0227430060d3d",
       "path": "project/run_scripts/session05_ode_bf_submit_historical_h0_sequential.py",
-      "role": "SESSION_RUNTIME_OR_LAUNCHER",
-      "sha256": "1b794ed3ce6a1fb768bcae35c3b55ba5fd05a5ea77002b136b494b975f5feebf",
-      "size": 5987
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "ec000b72ff2aaf75fc1ccdb568a5b44bfe06f550887b7c5043d0717afb1ae45e",
+      "size": 6017
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
-      "object_id": "122de967bf9e213e512e829f55c71405d231fccf",
+      "object_id": "f5de759cb801b93887c771d503461f8955214f06",
       "path": "project/run_scripts/ode_bf/tests/test_historical_h0_sequential.py",
-      "role": "FOCUSED_TEST",
-      "sha256": "4921bbe58e55abc4fd0943ba933dffbd328fed763ab7c0f10f466fadaa2703cf",
-      "size": 10606
-    },
-    {
-      "mode": 33152,
-      "object_algorithm": "sha1",
-      "object_id": "c0294d441a4dd9666b7bc1b654f572034b812652",
-      "path": "project/run_scripts/ode_bf/tests/test_compute_progress_simplex.py",
-      "role": "FOCUSED_TEST",
-      "sha256": "90c10f468bff35f36183e4bdfcde39ff32ce4fdeba2a698503be78040d4869d8",
-      "size": 11066
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "066a57bb5646a8c4c9883b8dae9816c8e67ab5cf15519762b7390b9e734dae08",
+      "size": 7189
     },
     {
       "mode": 33152,
       "object_algorithm": "sha1",
       "object_id": "5c6e9a712a9b53794d767b2016e2df12463f16d3",
       "path": "project/run_scripts/ode_bf/tests/test_progress_simplex_routing.py",
-      "role": "FOCUSED_TEST",
+      "role": "EXECUTION_CLOSURE",
       "sha256": "f93fe4e3934606893c6dbba555780a9a6174c596af2e9ce183e436ebe382622e",
       "size": 7854
+    },
+    {
+      "mode": 33216,
+      "object_algorithm": "sha1",
+      "object_id": "0512d1d7c810bcec399e8461e2cf2173f5656e22",
+      "path": "scripts/check-session-boundary.sh",
+      "role": "EXECUTION_CLOSURE",
+      "sha256": "13b915d4285d5301c757bf0c930c1c63bf39f740807b4026a25d393aa8366757",
+      "size": 2606
     }
   ],
-  "entry_count": 30,
-  "root_digest": "d6abce700736f485621ff19303399fecd3cb8da34d6c52b0e49dd0b1dd46f5e7"
+  "entry_count": 35,
+  "root_digest": "97c4a7009595462bbd37ad08be1a7d16579655ef981e3f5748fc67240eb9dbdb"
 }
