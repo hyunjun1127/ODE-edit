@@ -3372,8 +3372,9 @@ def run_p1(
         and strength_preserving_cell is None
         and not atomic_runtime_optimization_mode
         and not atomic_runtime_conformance_mode
-        and scalable_batched_role is None,
-        # P1R23 owns a distinct atomic seal and never consumes the held
+        and scalable_batched_role is None
+        and atomic_strength_recovery_role is None,
+        # P1R23/P1R24 own distinct atomic seals and never consume the held
         # sequential ODE-alloc artifact.
     )
     artifact_receipt = artifact_guard.preflight()

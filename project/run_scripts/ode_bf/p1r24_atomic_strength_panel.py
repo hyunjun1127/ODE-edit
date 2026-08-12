@@ -24,7 +24,7 @@ def expected_p1r24_result_name(alias: str, role: str) -> str:
         "P1R24_B10_RS_PAIR": "b10-rs-neutral-soft-pair",
         "P1R24_B10_BG_PAIR": "b10-bg-neutral-soft-pair",
     }[role]
-    return f"s05-p1r24-{alias}-{suffix}-v1"
+    return f"s05-p1r24-{alias}-{suffix}-tech-r1-v1"
 
 
 def forecast_p1r24_panel(

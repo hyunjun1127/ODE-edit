@@ -155,6 +155,15 @@ class P1R24ContractTests(unittest.TestCase):
         self.assertIn('"functional_p_layer_basis_count": 0', runtime)
         self.assertNotIn("alpha_apply=q", source)
 
+    def test_atomic_role_does_not_require_held_sequential_artifact(self) -> None:
+        root = Path(__file__).parents[1]
+        runtime = (root / "p1_runtime.py").read_text(encoding="utf-8")
+        guard = runtime[runtime.index("require_held_ode_alloc=") : runtime.index(
+            "# P1R23/P1R24 own distinct atomic seals"
+        )]
+        self.assertIn("and scalable_batched_role is None", guard)
+        self.assertIn("and atomic_strength_recovery_role is None", guard)
+
 
 if __name__ == "__main__":
     unittest.main()
