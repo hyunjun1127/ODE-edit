@@ -326,6 +326,16 @@ def _run_ode_arm(
     try:
         for step_index in range(P1R23_GRID_COUNT):
             state_before = _parameter_contract_sha256(touched)
+            p1r28_weight_bytes_before = (
+                canonical_hash(
+                    {
+                        name: tensor_sha256(parameter)
+                        for name, parameter in sorted(touched.items())
+                    }
+                )
+                if p1r28_mode is not None
+                else None
+            )
             replay_entry = (
                 None
                 if p1r24_like
@@ -785,8 +795,13 @@ def _run_ode_arm(
             stall_receipt = None
             if p1r28_mode is not None and stalled:
                 stall_receipt = stall_state_receipt(
-                    w_before_sha256=state_before,
-                    w_after_sha256=_parameter_contract_sha256(touched),
+                    w_before_sha256=p1r28_weight_bytes_before,
+                    w_after_sha256=canonical_hash(
+                        {
+                            name: tensor_sha256(parameter)
+                            for name, parameter in sorted(touched.items())
+                        }
+                    ),
                     z_before_sha256=tensor_sha256(current_target),
                     z_after_sha256=tensor_sha256(target_next),
                 )

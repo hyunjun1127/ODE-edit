@@ -323,6 +323,7 @@ class P1R28CorrectedCouplingTests(unittest.TestCase):
         self.assertIn("p1r24-anchor-scale-comparison.json", runtime)
         self.assertIn("factor_capacity_observer", runtime)
         self.assertIn("allow_zero_action_totality", runtime)
+        self.assertIn("p1r28_weight_bytes_before", runtime)
         self.assertIn("same_sample_p1r24_anchor_energy_ratio", runtime)
         self.assertIn("functional_p_inner_probe_count\": 0", runtime)
         self.assertIn("largest_feasible_lag_scale", runtime)
