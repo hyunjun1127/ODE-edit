@@ -1,0 +1,22 @@
+{
+  "schema_version": "ode-edit-s05-p1r26-asdc-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R26-ABSOLUTE-SEMANTIC-DEFICIT-CONTROLLER-V1",
+  "amendments": ["ODEEDIT-S05-P1R26-ABSOLUTE-SEMANTIC-DEFICIT-CONTROLLER-V1-A1-RS-BG", "ODEEDIT-S05-P1R26-ABSOLUTE-SEMANTIC-DEFICIT-CONTROLLER-V1-A2-CAP4"],
+  "method_id": "P1R26-ASDC-STRONG-Z-MATCHED-STRENGTH-ATOMIC-P-V1",
+  "scientific_base": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "scientific_base_tree": "e8d9bf85dfcd383f075a5a56a03ad0cf62cc84a0",
+  "epsilon_z": 0.05,
+  "projection": "d*=d0-max(rstar-(-g_new^T*d0),0)/(||g_new||^2+1e-8)*g_new",
+  "deadline": "max(ell-epsilon_z,0)/(K-k)",
+  "required_progress": "max(max(-g_new^T*d0,0),deadline)",
+  "grid": {"K": 8, "h": 0.125, "tau_final": 1.0},
+  "allocations": ["RS", "BG"],
+  "arms": ["ASDC-Neutral", "ASDC-Soft"],
+  "target": {"full_six": true, "combined_freeze_decision_influence_count": 0, "additional_forward": 0, "additional_backward": 0},
+  "writer": {"required": "d*+e/(K-k)", "field": "required/h", "physical_h_application_count": 1, "second_remaining_division_count": 0, "strength": "a^T v=rho_write"},
+  "router": {"neutral_structural_p_decision_influence_count": 0, "soft_cumulative_structural_p": true, "capacity_tie_inherited": true, "per_layer_cap_count": 0, "budget_veto_retry_count": 0},
+  "history": {"persistent_count": 0, "functional_h_count": 0, "structural_h_count": 0},
+  "stream": {"root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6", "order": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c", "case_count": 10, "request_count_per_case": 10},
+  "execution": {"project_gpu_cap_server1": 4, "array_max_concurrent_gpu": 4, "callbacks": 0, "native_rerun": 0, "scientific_promotion": false},
+  "root_digest": "4941715c30d85adfface905ad9a91a9b43586c7a06d5056d56e552aef3c80fb6"
+}
