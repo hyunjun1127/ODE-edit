@@ -164,6 +164,10 @@ class P1R24ContractTests(unittest.TestCase):
         )]
         self.assertIn("and scalable_batched_role is None", guard)
         self.assertIn("and atomic_strength_recovery_role is None", guard)
+        self.assertEqual(
+            runtime.count("and scalable_batched_role is None"),
+            runtime.count("and atomic_strength_recovery_role is None"),
+        )
 
     def test_sealed_b1_smoke_digest_is_distinct_and_total(self) -> None:
         value = "a" * 64

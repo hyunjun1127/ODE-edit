@@ -3811,6 +3811,7 @@ def run_p1(
             and not atomic_runtime_optimization_mode
             and not atomic_runtime_conformance_mode
             and scalable_batched_role is None
+            and atomic_strength_recovery_role is None
         ):
             from .p1_cold_structp_softp_noveto_panel import (
                 cold_schedule,
