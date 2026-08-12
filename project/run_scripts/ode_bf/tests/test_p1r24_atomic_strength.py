@@ -21,6 +21,7 @@ from project.run_scripts.ode_bf.routing import QuadraticBarrier, RoutingProblem
 from project.run_scripts.ode_bf.scalable_batched_field import ScalableRobustSharedMetric
 from project.run_scripts.ode_bf.scalable_batched_runtime import scalable_ordered_request_digest
 from project.run_scripts.ode_bf.request_digest import ordered_request_digest_scalable_v1
+from project.run_scripts.ode_bf.woodbury import ProjectorCertificate, solve_alpha_woodbury
 
 
 class _Objective:
@@ -176,6 +177,21 @@ class P1R24ContractTests(unittest.TestCase):
         self.assertEqual(len(observed), 64)
         self.assertNotEqual(observed, value)
         self.assertEqual(observed, ordered_request_digest_scalable_v1((value,)))
+
+    def test_b1_woodbury_backend_preserves_exact_cardinality(self) -> None:
+        projector = torch.eye(4, dtype=torch.float64)
+        current = torch.tensor([[1.0], [2.0], [3.0], [4.0]], dtype=torch.float64)
+        result = solve_alpha_woodbury(
+            projector,
+            current,
+            history_keys=None,
+            regularization=1.0,
+            projector_certificate=ProjectorCertificate(
+                "a" * 64, 0.0, 0.0, "full-matrix", 1.0e-10
+            ),
+            expected_batch_size=1,
+        )
+        self.assertEqual(result.q.shape, (4, 1))
 
 
 if __name__ == "__main__":

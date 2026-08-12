@@ -99,12 +99,19 @@ def _validate_inputs(
     projector: torch.Tensor,
     current_keys: torch.Tensor,
     history_keys: torch.Tensor | None,
+    expected_batch_size: int,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
     if projector.ndim != 2 or projector.shape[0] != projector.shape[1]:
         raise ODEBFContractError("Alpha projector must be square")
     dimension = projector.shape[0]
-    if current_keys.ndim != 2 or current_keys.shape != (dimension, BATCH_SIZE):
-        raise ODEBFContractError("current Alpha keys must have shape [d,10]")
+    if (
+        isinstance(expected_batch_size, bool)
+        or not isinstance(expected_batch_size, int)
+        or expected_batch_size <= 0
+        or current_keys.ndim != 2
+        or current_keys.shape != (dimension, expected_batch_size)
+    ):
+        raise ODEBFContractError("current Alpha keys have an incompatible batch shape")
     if history_keys is None:
         history_keys = torch.empty((dimension, 0), dtype=current_keys.dtype, device=current_keys.device)
     if history_keys.ndim != 2 or history_keys.shape[0] != dimension:
@@ -145,8 +152,11 @@ def solve_alpha_woodbury(
     projector_certificate: ProjectorCertificate,
     maximum_condition: float = 1.0e12,
     residual_tolerance: float = 1.0e-8,
+    expected_batch_size: int = BATCH_SIZE,
 ) -> WoodburyResult:
-    matrix, current, history = _validate_inputs(projector, current_keys, history_keys)
+    matrix, current, history = _validate_inputs(
+        projector, current_keys, history_keys, expected_batch_size
+    )
     lam = positive("Alpha regularization", regularization)
     max_condition = positive("maximum condition", maximum_condition)
     residual_tolerance = positive("Woodbury residual tolerance", residual_tolerance)

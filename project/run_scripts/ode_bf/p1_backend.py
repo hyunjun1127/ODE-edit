@@ -1135,6 +1135,7 @@ def build_p1_dynamic_field(
                     1.0e-10,
                 ),
                 residual_tolerance=residual_tolerance,
+                expected_batch_size=expected_batch_size,
             )
             if not solved.certificate.passed or solved.certificate.alpha_linear_residual > residual_tolerance:
                 raise ODEBFContractError("P1 W64 field certificate failed")
