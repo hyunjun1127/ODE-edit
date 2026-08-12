@@ -1,0 +1,22 @@
+{
+  "schema_version": "ode-edit-s05-p1r24-rs-soft-independent-b10x10-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R24-RS-SOFT-INDEPENDENT-B10X10-V1",
+  "parent_checkpoint": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "parent_tree": "e8d9bf85dfcd383f075a5a56a03ad0cf62cc84a0",
+  "delta_role": "PROVENANCE_ONLY_INDEPENDENT_CASE_ORCHESTRATION",
+  "protected_p1r24_scientific_bytes_unchanged": true,
+  "entries": [
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r24_independent_b10x10.json", "size": 1552, "sha256": "f90dec83269696c18f10ed2232ba5785595ba980f2ec01872cc73c6fc46a1291"},
+    {"path": "project/run_scripts/ode_bf/locks/p1r24_independent_b10x10_stream_seal.json", "size": 52138, "sha256": "01612c28f700d7281e7f4887189577305396a47715760c98997f97d2acfe596b"},
+    {"path": "project/run_scripts/ode_bf/p1_runtime.py", "size": 200498, "sha256": "60398074824f2e3a4d3e60daa250f0b5feef3d01b3458999acf64a623c91fbcf"},
+    {"path": "project/run_scripts/ode_bf/p1r24_independent_b10x10_panel.py", "size": 2718, "sha256": "20967cec7442ebb8f9fcd39aca01a18303bff05dc91b2645c51d8c0fd5b38f54"},
+    {"path": "project/run_scripts/ode_bf/p1r24_independent_b10x10_runtime.py", "size": 18650, "sha256": "626e7f1207d7b1c2f4adc2d73a73f45c69bd8163c7e6905207f3f69955a45c9d"},
+    {"path": "project/run_scripts/ode_bf/p1r24_independent_b10x10_selection.py", "size": 11498, "sha256": "ff4267090bd185c063f567867bf7840f7cbf409201d24c1e82ea46fe6f2956c4"},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r24_independent_b10x10.py", "size": 6230, "sha256": "0355bf345262f810bd6c76afbb112d8eb7ac5d31095efcbd0ef5ee4d344b5f79"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r24_independent_b10x10.py", "size": 5878, "sha256": "9c5419fe5a13144a99002462bc8194980989937dbf93fc264ee05c1c1f1899f5"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r24_independent_b10x10.sbatch", "size": 2410, "sha256": "882beae154bd2e20f57e25f822560fcd17bca8fde00ca87c737cad9da73d85e5"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r24_independent_b10x10_dry_plan.py", "size": 2719, "sha256": "fcf12cf2191ed5c5500c1117dd77fe1e6bf21503c48766f168d220da593c2406"},
+    {"path": "project/run_scripts/session05_ode_bf_submit_p1r24_independent_b10x10.py", "size": 5561, "sha256": "7d41ebb05547210d62a3e168965320ee77d695824d5111a1fa7b79ff02e973fe"}
+  ],
+  "root_digest": "873f9582f622499d3638b242a88896423ffca45a6e522b4c1e6e2d05ed648a8c"
+}
