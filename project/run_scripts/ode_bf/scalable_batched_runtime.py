@@ -28,9 +28,6 @@ P1R23_INSTRUCTION_ID = (
 )
 P1R23_METHOD_ID = "SCALABLE_STREAMING_DYNAMIC_BG_ODE_BF_V1"
 P1R23_LAYER_ORDER = (4, 5, 6, 7, 8)
-P1R24_B1_ORDERED_REQUEST_DIGEST_SCHEMA = (
-    "ode-edit-s05-p1r24-b1-smoke-ordered-request-digest/v1"
-)
 
 
 def scalable_ordered_request_digest(
@@ -44,22 +41,7 @@ def scalable_ordered_request_digest(
     """
 
     values = tuple(request_sha256)
-    if len(values) == 1:
-        value = values[0]
-        if (
-            not isinstance(value, str)
-            or len(value) != 64
-            or any(character not in "0123456789abcdef" for character in value)
-        ):
-            raise ODEBFContractError("P1R24 B1 request identity differs")
-        return canonical_hash(
-            {
-                "schema_version": P1R24_B1_ORDERED_REQUEST_DIGEST_SCHEMA,
-                "sealed_b1_smoke": True,
-                "ordered_request_sha256": [value],
-            }
-        )
-    if len(values) not in (10, 100):
+    if len(values) not in (1, 10, 100):
         raise ODEBFContractError("P1R23 scalable request count differs")
     try:
         return ordered_request_digest_scalable_v1(values)

@@ -20,6 +20,7 @@ from project.run_scripts.ode_bf.p1r24_atomic_strength import (
 from project.run_scripts.ode_bf.routing import QuadraticBarrier, RoutingProblem
 from project.run_scripts.ode_bf.scalable_batched_field import ScalableRobustSharedMetric
 from project.run_scripts.ode_bf.scalable_batched_runtime import scalable_ordered_request_digest
+from project.run_scripts.ode_bf.request_digest import ordered_request_digest_scalable_v1
 
 
 class _Objective:
@@ -174,6 +175,7 @@ class P1R24ContractTests(unittest.TestCase):
         observed = scalable_ordered_request_digest((value,))
         self.assertEqual(len(observed), 64)
         self.assertNotEqual(observed, value)
+        self.assertEqual(observed, ordered_request_digest_scalable_v1((value,)))
 
 
 if __name__ == "__main__":
