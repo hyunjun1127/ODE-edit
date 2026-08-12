@@ -737,11 +737,16 @@ def fixed_e8_target_write_realization(
     """Compare intended target motion with the realized no-hook lookup motion."""
 
     values = (current_target, candidate_target, current_lookup, candidate_lookup)
+    request_count = (
+        int(current_target.shape[1])
+        if isinstance(current_target, torch.Tensor) and current_target.ndim == 2
+        else 0
+    )
     if (
         any(not isinstance(item, torch.Tensor) for item in values)
         or any(item.ndim != 2 for item in values)
         or any(tuple(item.shape) != tuple(current_target.shape) for item in values)
-        or current_target.shape[1] != BATCH_SIZE
+        or request_count <= 0
         or any(not bool(torch.isfinite(item).all()) for item in values)
     ):
         raise ODEBFContractError("fixed E8 target/write realization geometry differs")
@@ -772,7 +777,7 @@ def fixed_e8_target_write_realization(
         raise ODEBFContractError("fixed E8 target/write realization is non-finite")
     payload = {
         "schema": "ode-edit-fixed-e8-target-write-realization/v1",
-        "request_count": BATCH_SIZE,
+        "request_count": request_count,
         "intended_delta_z_sha256": tensor_sha256(intended),
         "realized_delta_z_sha256": tensor_sha256(realized),
         "residual_delta_z_sha256": tensor_sha256(residual),

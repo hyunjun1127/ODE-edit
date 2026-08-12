@@ -8,6 +8,7 @@ from unittest import mock
 import numpy as np
 import torch
 
+from project.run_scripts.ode_bf.fixed_e8_runtime import fixed_e8_target_write_realization
 from project.run_scripts.ode_bf.fixed_e8_soft_routing import FixedE8Arm
 from project.run_scripts.ode_bf.p1r24_atomic_strength import (
     P1R24AliasTargetLock,
@@ -59,6 +60,21 @@ def _problem() -> RoutingProblem:
 
 
 class P1R24ContractTests(unittest.TestCase):
+    def test_b1_target_write_realization_preserves_dynamic_request_count(self) -> None:
+        current_target = torch.zeros((4, 1), dtype=torch.float32)
+        candidate_target = current_target + 0.25
+        current_lookup = torch.ones((4, 1), dtype=torch.float32)
+        candidate_lookup = current_lookup + 0.125
+        receipt = fixed_e8_target_write_realization(
+            current_target,
+            candidate_target,
+            current_lookup,
+            candidate_lookup,
+        )
+        self.assertEqual(receipt["request_count"], 1)
+        self.assertEqual(len(receipt["norm_gain"]), 1)
+        self.assertEqual(receipt["controller_decision_influence_count"], 0)
+
     def test_remaining_step_8_and_1_post_clamp_and_h_once(self) -> None:
         z0 = torch.ones(4, 1)
         metric = ScalableRobustSharedMetric.from_z0(z0, "a" * 64)
