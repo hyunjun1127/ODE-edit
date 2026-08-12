@@ -39,7 +39,9 @@ def _write_once(path: Path, value: dict[str, object]) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
-def submit(source_head: str, phase: str) -> dict[str, object]:
+def submit(source_head: str, phase: str, *, attempt: str = "v1") -> dict[str, object]:
+    if attempt not in ("v1", "tech-r1"):
+        raise ODEBFContractError("P1R28 submission attempt differs")
     if (
         source_head != _run(["git", "rev-parse", "HEAD"]).stdout.strip()
         or _run(["git", "branch", "--show-current"]).stdout.strip() != BRANCH
@@ -54,16 +56,17 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
     active = len(active_rows)
     if active + TASK_GPU_LIMIT > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R28 server1 GPU cap differs")
-    namespace = f"s05-p1r28-{phase}-{source_head[:12]}-v1"
+    namespace = f"s05-p1r28-{phase}-{source_head[:12]}-{attempt}"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P1R28 submission namespace exists")
-    log_root = REPO_ROOT / f"local/odebf/logs/p1r28-{phase}-{source_head[:12]}"
+    log_root = REPO_ROOT / f"local/odebf/logs/p1r28-{phase}-{source_head[:12]}-{attempt}"
     log_root.mkdir(mode=0o700, parents=True, exist_ok=True)
     intent = {
         "schema": "ode-edit-s05-p1r28-submission-intent/v1",
-        "source_head": source_head, "phase": phase, "dry_plan": plan,
+        "source_head": source_head, "phase": phase, "attempt": attempt,
+        "dry_plan": plan,
         "active_devbox_ode_gpu_jobs": active,
         "active_job_rows_sha256": hashlib.sha256("\n".join(active_rows).encode()).hexdigest(),
         "project_gpu_cap": PROJECT_GPU_CAP, "actual_task_gpu_limit": TASK_GPU_LIMIT,
@@ -87,7 +90,8 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
         raise ODEBFContractError("P1R28 held scheduler contract differs")
     receipt = {
         "schema": "ode-edit-s05-p1r28-submission/v1", "source_head": source_head,
-        "phase": phase, "job_id": job_id, "array": "0-1%2", "job_count": 2,
+        "phase": phase, "attempt": attempt, "job_id": job_id,
+        "array": "0-1%2", "job_count": 2,
         "trajectory_count": plan["trajectory_count"],
         "corrected_trajectory_count": plan["corrected_trajectory_count"],
         "anchor_trajectory_count": plan["anchor_trajectory_count"],
@@ -105,8 +109,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--phase", required=True, choices=("smoke", "production"))
+    parser.add_argument("--attempt", default="v1", choices=("v1", "tech-r1"))
     args = parser.parse_args()
-    print(json.dumps(submit(args.source_head, args.phase), sort_keys=True, separators=(",", ":")))
+    print(json.dumps(submit(args.source_head, args.phase, attempt=args.attempt), sort_keys=True, separators=(",", ":")))
     return 0
 
 
