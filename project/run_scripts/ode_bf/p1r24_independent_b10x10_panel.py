@@ -18,7 +18,7 @@ METHOD = "RS-P1R24-SOFT"
 def expected_result_name(alias: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1R24 independent alias differs")
-    return f"s05-p1r24-rs-soft-independent-b10x10-{alias}-v1"
+    return f"s05-p1r24-rs-soft-independent-b10x10-{alias}-tech-r1-v1"
 
 
 def validate_lock(value: Mapping[str, Any]) -> None:

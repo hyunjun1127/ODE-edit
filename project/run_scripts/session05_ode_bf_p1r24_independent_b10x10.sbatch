@@ -18,7 +18,7 @@ readonly RESULT_PARENT="${2:-}"
 readonly EXPECTED_SESSION="019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
 readonly RUN_TOKEN="p1r24-rs-soft-independent-b10x10-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
-readonly EXPECTED_BRANCH="codex/p1r24-rs-soft-independent-b10x10-v1"
+readonly EXPECTED_BRANCH="codex/p1r24-rs-soft-independent-b10x10-tech-r1"
 
 [[ "$#" -eq 2 ]] || { echo "P1R24 independent requires source and result parent" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R24 independent CWD differs" >&2; exit 2; }
@@ -30,7 +30,7 @@ scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 
 readonly MODELS=(llama3-8b-inst qwen2.5-7b-inst)
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
-readonly RESULT_NAME="s05-p1r24-rs-soft-independent-b10x10-${MODEL}-v1"
+readonly RESULT_NAME="s05-p1r24-rs-soft-independent-b10x10-${MODEL}-tech-r1-v1"
 readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULT_NAME}"
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R24 independent output exists" >&2; exit 2; }
 

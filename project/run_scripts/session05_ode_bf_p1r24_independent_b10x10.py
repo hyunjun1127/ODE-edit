@@ -47,8 +47,8 @@ def _source_gate(source_head: str) -> str:
         check=True,
         text=True,
         stdout=subprocess.PIPE,
-    ).stdout.strip() != PARENT:
-        raise ValueError("P1R24 independent parent differs")
+    ).stdout.strip() != "cdd646830eb6e4b3649792f31473e60a1b9685f8":
+        raise ValueError("P1R24 independent TECH-R1 parent differs")
     for relative, expected in PROTECTED_SCIENTIFIC_SHA256.items():
         if sha256_file(REPO_ROOT / relative) != expected:
             raise ValueError("P1R24 protected scientific source differs")
