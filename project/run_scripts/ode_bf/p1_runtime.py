@@ -3216,6 +3216,7 @@ def run_p1(
     scalable_batched_role: str | None = None,
     scalable_batched_batch_size: int | None = None,
     atomic_strength_recovery_role: str | None = None,
+    debt_priority_role: str | None = None,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3240,10 +3241,15 @@ def run_p1(
             atomic_runtime_conformance_mode,
             scalable_batched_role is not None,
             atomic_strength_recovery_role is not None,
+            debt_priority_role is not None,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if atomic_strength_recovery_role is not None:
+    if debt_priority_role is not None:
+        from .p1r30_debt_priority_panel import expected_p1r30_result_name
+
+        expected_name = expected_p1r30_result_name(alias, debt_priority_role)
+    elif atomic_strength_recovery_role is not None:
         from .p1r24_atomic_strength_panel import expected_p1r24_result_name
 
         expected_name = expected_p1r24_result_name(alias, atomic_strength_recovery_role)
@@ -3373,9 +3379,10 @@ def run_p1(
         and not atomic_runtime_optimization_mode
         and not atomic_runtime_conformance_mode
         and scalable_batched_role is None
-        and atomic_strength_recovery_role is None,
-        # P1R23/P1R24 own distinct atomic seals and never consume the held
-        # sequential ODE-alloc artifact.
+        and atomic_strength_recovery_role is None
+        and debt_priority_role is None,
+        # P1R23/P1R24 own distinct atomic seals; P1R30 inherits that exact
+        # atomic firewall. None consume the held sequential ODE-alloc artifact.
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
@@ -3544,6 +3551,7 @@ def run_p1(
         or atomic_runtime_conformance_mode
         or scalable_batched_role is not None
         or atomic_strength_recovery_role is not None
+        or debt_priority_role is not None
     ):
         from .p1_cold_structp_softp_noveto_panel import (
             load_cold_requests,
@@ -3559,8 +3567,13 @@ def run_p1(
             or atomic_runtime_conformance_mode
             or scalable_batched_role is not None
             or atomic_strength_recovery_role is not None
+            or debt_priority_role is not None
         ):
-            if scalable_batched_role is not None or atomic_strength_recovery_role is not None:
+            if (
+                scalable_batched_role is not None
+                or atomic_strength_recovery_role is not None
+                or debt_priority_role is not None
+            ):
                 from .p1_common_coldcoord_fixed_e8_panel import (
                     common_cold_schedule,
                     load_common_cold_requests,
@@ -3624,7 +3637,11 @@ def run_p1(
             )
             cold_requests = load_common_cold_requests(dataset, cold_stream)
             schedule = common_cold_schedule(sampling_seal)
-            if scalable_batched_role is not None or atomic_strength_recovery_role is not None:
+            if (
+                scalable_batched_role is not None
+                or atomic_strength_recovery_role is not None
+                or debt_priority_role is not None
+            ):
                 scalable_batched_lock, scalable_batched_lock_sha256 = (
                     load_and_validate_p1r23_lock(locks / P1R23_LOCK_FILE)
                 )
@@ -3635,7 +3652,47 @@ def run_p1(
                     != cold_stream["batch_ordered_request_digest_v1"][0]
                 ):
                     raise ODEBFContractError("P1R23 B10 seal binding differs")
-                if atomic_strength_recovery_role is not None:
+                if debt_priority_role is not None:
+                    from .p1r30_debt_priority import P1R30_INSTRUCTION_ID
+
+                    debt_priority_lock, debt_priority_lock_sha256 = load_rooted_json(
+                        locks / "numerical_lock_s05_p1r30_debt_priority.json",
+                        expected_schema=(
+                            "ode-edit-s05-p1r30-debt-priority-lock/v1"
+                        ),
+                    )
+                    if (
+                        debt_priority_lock.get("instruction_id")
+                        != P1R30_INSTRUCTION_ID
+                        or debt_priority_lock.get("base_checkpoint")
+                        != "ce8c6c36348752f1407f7d713d30e6b5c727379b"
+                    ):
+                        raise ODEBFContractError("P1R30 numerical lock differs")
+                    if debt_priority_role == "P1R30_B1_RS_REFERENCE_SOFT":
+                        cold_requests = tuple(cold_requests[:1])
+                        from .scalable_batched_runtime import scalable_ordered_request_digest
+
+                        b1_order = scalable_ordered_request_digest(
+                            [str(item["request_sha256"]) for item in cold_requests]
+                        )
+                        if b1_order != (
+                            "f52fe9d5e8c8aceac2c45c8c7b20b07339868a8cefecc18d21eba9023c72d4d0"
+                        ):
+                            raise ODEBFContractError(
+                                "P1R30 B1 sealed-prefix order differs"
+                            )
+                        cold_stream = {
+                            **cold_stream,
+                            "batch_ordered_request_digest_v1": [b1_order],
+                            "requests": cold_stream["requests"][:1],
+                        }
+                    elif debt_priority_role not in (
+                        "P1R30_B10_RS_DEBT_NEUTRAL",
+                        "P1R30_B10_RS_DEBT_SOFT",
+                        "P1R30_B10_BG_PAIR",
+                    ):
+                        raise ODEBFContractError("P1R30 role differs")
+                elif atomic_strength_recovery_role is not None:
                     if atomic_strength_recovery_role == "P1R24_B1_RS_NEUTRAL":
                         cold_requests = tuple(cold_requests[:1])
                         from .scalable_batched_runtime import scalable_ordered_request_digest
@@ -3812,6 +3869,7 @@ def run_p1(
             and not atomic_runtime_conformance_mode
             and scalable_batched_role is None
             and atomic_strength_recovery_role is None
+            and debt_priority_role is None
         ):
             from .p1_cold_structp_softp_noveto_panel import (
                 cold_schedule,
@@ -3870,16 +3928,26 @@ def run_p1(
         or atomic_runtime_conformance_mode
         or scalable_batched_role is not None
         or atomic_strength_recovery_role is not None
+        or debt_priority_role is not None
     ):
-        if scalable_batched_role is not None or atomic_strength_recovery_role is not None:
+        if (
+            scalable_batched_role is not None
+            or atomic_strength_recovery_role is not None
+            or debt_priority_role is not None
+        ):
             from .p1_common_coldcoord_fixed_e8_panel import (
                 validate_common_cold_runtime_gpu_capacity,
             )
-            from .p1_scalable_batched_runtime_panel import (
-                forecast_p1r23_panel,
-            )
+            if debt_priority_role is not None:
+                from .p1r30_debt_priority_panel import forecast_p1r30_panel
 
-            forecast_common_cold_panel = forecast_p1r23_panel
+                forecast_common_cold_panel = forecast_p1r30_panel
+            else:
+                from .p1_scalable_batched_runtime_panel import (
+                    forecast_p1r23_panel,
+                )
+
+                forecast_common_cold_panel = forecast_p1r23_panel
         elif atomic_runtime_optimization_mode or atomic_runtime_conformance_mode:
             from .p1_common_coldcoord_fixed_e8_panel import (
                 validate_common_cold_runtime_gpu_capacity,
@@ -4005,16 +4073,40 @@ def run_p1(
                 "contexts": contexts,
             },
         )
-        with load_timer.measure("theta0_teacher_population"):
-            theta0_cache = build_theta0_teacher_cache(
-                model, tokenizer, population_requests, chunk_size=BATCH_SIZE
+        if debt_priority_role is None:
+            with load_timer.measure("theta0_teacher_population"):
+                theta0_cache = build_theta0_teacher_cache(
+                    model, tokenizer, population_requests, chunk_size=BATCH_SIZE
+                )
+        else:
+            theta0_cache = Theta0TeacherCache(
+                (),
+                {},
+                canonical_hash([]),
+                canonical_hash(
+                    {
+                        "status": "NOT_CONSTRUCTED_P1R30",
+                        "model_forward_count": 0,
+                        "processed_token_count": 0,
+                    }
+                ),
+                0,
+                0,
             )
     finally:
         initialization_counter.close()
-    if theta0_cache.population_sha256 != canonical_hash(
-        [str(item["request_sha256"]) for item in population_requests]
+    if debt_priority_role is None:
+        if theta0_cache.population_sha256 != canonical_hash(
+            [str(item["request_sha256"]) for item in population_requests]
+        ):
+            raise ODEBFContractError("P1 theta0 population identity differs")
+    elif (
+        theta0_cache.request_order
+        or theta0_cache.log_probs_by_request
+        or theta0_cache.model_forward_count != 0
+        or theta0_cache.processed_token_count != 0
     ):
-        raise ODEBFContractError("P1 theta0 population identity differs")
+        raise ODEBFContractError("P1R30 theta0 bypass differs")
     stages.record(
         "post_model_context_teacher",
         {
@@ -4026,6 +4118,14 @@ def run_p1(
             "theta0_receipt_sha256": theta0_cache.receipt_sha256,
             "theta0_forward_count": theta0_cache.model_forward_count,
             "theta0_processed_tokens": theta0_cache.processed_token_count,
+            "theta0_status": (
+                "NOT_CONSTRUCTED_P1R30"
+                if debt_priority_role is not None
+                else "CONSTRUCTED"
+            ),
+            "p1r30_online_functional_p_model_forward_count": (
+                0 if debt_priority_role is not None else None
+            ),
         },
     )
 
@@ -4078,6 +4178,45 @@ def run_p1(
             receipt,
             base_values,
         )
+    if debt_priority_role is not None:
+        from .p1r30_debt_priority_experiment import run_p1r30_debt_priority
+
+        return run_p1r30_debt_priority(
+            model,
+            tokenizer,
+            alias=alias,
+            role=debt_priority_role,
+            destination=destination,
+            raw_root=raw_root,
+            stages=stages,
+            source_head=source_head,
+            requests=cold_requests,
+            stream=cold_stream,
+            hparams=hparams,
+            projector=projector,
+            contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=artifact_guard.spec["projector_sha256"],
+            controller_lock=controller_lock,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            theta0_cache=theta0_cache,
+            dataset_path=dataset,
+            mutation_lock=mutation_lock,
+            touched=touched,
+            base_receipt=base_receipt,
+            base_values=base_values,
+            job_ledger=job_ledger,
+            write_once=_atomic_write_once,
+            request_microbatch_size=int(
+                scalable_batched_lock["microbatch_accumulation"]
+                ["request_microbatch_size"][alias]
+            ),
+            numerical_lock=debt_priority_lock,
+            numerical_lock_sha256=debt_priority_lock_sha256,
+            inherited_runtime_lock_sha256=scalable_batched_lock_sha256,
+        )
     if (
         adaptive_mode
         or target_new_routing_mode
@@ -4094,8 +4233,12 @@ def run_p1(
         or atomic_runtime_conformance_mode
         or scalable_batched_role is not None
         or atomic_strength_recovery_role is not None
+        or debt_priority_role is not None
     ):
-        if scalable_batched_role is not None or atomic_strength_recovery_role is not None:
+        if (
+            scalable_batched_role is not None
+            or atomic_strength_recovery_role is not None
+        ):
             from .p1_scalable_batched_experiment import (
                 run_p1r23_scalable_batched,
             )

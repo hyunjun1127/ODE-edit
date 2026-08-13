@@ -1,0 +1,19 @@
+{
+  "schema_version": "ode-edit-s05-p1r30-debt-priority-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R30-DEBT-PRIORITY-A0-RELATIVE-BARRIER-V1",
+  "base_checkpoint": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "entries": [
+    {"path":"project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r30_debt_priority.json","size":2649,"sha256":"55544120d7f72d14535d9034713289002108b54c6e16d0ec27af827286f320ba"},
+    {"path":"project/run_scripts/ode_bf/p1_runtime.py","size":202765,"sha256":"2c645d613b442f0aa07ab75848586141aaf0f58422c3771a55bc02209c86e690"},
+    {"path":"project/run_scripts/ode_bf/p1_scalable_batched_experiment.py","size":95230,"sha256":"708ac28d3cabbcb594f5aee4eb0a6a238dbc5490d41b650abae892f8326d3581"},
+    {"path":"project/run_scripts/ode_bf/p1r30_debt_priority.py","size":48801,"sha256":"408a1ec5e319eef6be23b81ddf6d9d8a4fcc705dd67fc27df6b25da80360f14d"},
+    {"path":"project/run_scripts/ode_bf/p1r30_debt_priority_experiment.py","size":6211,"sha256":"c6562fda5424c8187f294d3182f3e3beecfa84a2f4599cc4c22127420b4a64ee"},
+    {"path":"project/run_scripts/ode_bf/p1r30_debt_priority_panel.py","size":1246,"sha256":"94f5ee725ea56ddf1e0da0bad182852127efcc46568972eb28c94ddc453224e5"},
+    {"path":"project/run_scripts/ode_bf/tests/test_p1r30_debt_priority.py","size":16836,"sha256":"45309cd9faeafa6cce4988ba4c6b62ea50edd68d8a85b0b018989631d10264a0"},
+    {"path":"project/run_scripts/session05_ode_bf_p1r30_debt_priority.py","size":5445,"sha256":"c877d68b220ca9e48a25a53ee57780ca400845b789ee31272b7bb6ae3799ff5f"},
+    {"path":"project/run_scripts/session05_ode_bf_p1r30_debt_priority.sbatch","size":3077,"sha256":"55c7543c948b25bf43981d1ebdc95203108517031f79763c6cd36a3f8199af98"},
+    {"path":"project/run_scripts/session05_ode_bf_p1r30_debt_priority_dry_plan.py","size":3990,"sha256":"078757db7f382df10f880d8252ab3ac95823bbc2a6c92768e8268d4a5bde1a97"},
+    {"path":"project/run_scripts/session05_ode_bf_submit_p1r30_debt_priority.py","size":9529,"sha256":"e3ecfe7d8da593c1d3c9d44c4a159952398132611e7b86ea213f19af69886225"}
+  ],
+  "root_digest": "82c1ffa2b9fecb7711e70b93721f9e4e040109489539e70f50a8697cb3c094b1"
+}
