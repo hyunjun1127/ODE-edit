@@ -1,0 +1,34 @@
+{
+  "entries": [
+    {
+      "mode": "100644",
+      "path": "project/run_scripts/ode_bf/p1_state.py",
+      "sha256": "1b76715dea63e3d639213d6d46140dde4064e0a217a048d1c5b986c1c21a10fd",
+      "size": 26482
+    },
+    {
+      "mode": "100644",
+      "path": "project/run_scripts/ode_bf/p1r29_sequential_preparation.py",
+      "sha256": "ecdbbf241c444c5cff93a6fb6cbc8fb765009976c3bb3f5d3a7df71e4c8109b0",
+      "size": 72010
+    },
+    {
+      "mode": "100644",
+      "path": "project/run_scripts/ode_bf/tests/test_p1r29_sequential_preparation.py",
+      "sha256": "67b1fc9ffdaabf101a3fffb735e02a2fa7e58e6ee87c4d65928b889791a2a930",
+      "size": 31862
+    },
+    {
+      "mode": "100644",
+      "path": "project/locks/p1r29_independent_sequential_backend_hardening_v1.json",
+      "sha256": "eb7607ac067481cf83c4a7447b18e56624c89fa022b8dbf59ad619304c3850ff",
+      "size": 3160
+    }
+  ],
+  "entries_root": "d3367e22024b2d8e5404d2006deb47ff2ce7d09ec0b3ea12abc559a3964d4c79",
+  "instruction_id": "ODEEDIT-S05-P1R29-INDEPENDENT-SEQUENTIAL-BACKEND-HARDENING-V1",
+  "parent_checkpoint": "b0acdb995942b3561da09312eb67899b2d41af5e",
+  "preserved_scaffold_lock_sha256": "4e4f57c0083e45ebcdf282adeb1f76c1fbf31891e23bd98673ead765ff49f0f3",
+  "scope": "MODEL_FREE_BACKEND_ONLY",
+  "status": "BACKEND_HARDENED_WAITING_VIABLE_ATOMIC_ADAPTER"
+}

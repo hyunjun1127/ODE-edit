@@ -242,6 +242,20 @@ class P1HistoryFinalizeReceipt:
     state_sha256: str
 
 
+@dataclass(frozen=True, slots=True)
+class P1HistoryRollbackState:
+    """Opaque in-process rollback token for a larger all-or-nothing transaction."""
+
+    version: int
+    active_records: tuple[P1HistoryRecord, ...]
+    obsolete_records: tuple[P1HistoryRecord, ...]
+    solve_keys: tuple[tuple[int, torch.Tensor], ...]
+    risk_keys: tuple[tuple[int, torch.Tensor], ...]
+    cumulative_load: tuple[tuple[int, float], ...]
+    finalized_transactions: tuple[tuple[str, str], ...]
+    state_sha256: str
+
+
 class P1HistoryLedger:
     """Atomic raw-solve/projected-risk registry plus immutable request metadata."""
 
@@ -298,6 +312,42 @@ class P1HistoryLedger:
                 tuple(sorted(self._finalized)),
                 canonical_hash(payload),
             )
+
+    def transaction_checkpoint(self) -> P1HistoryRollbackState:
+        """Capture exact mutable ledger state without exposing it to serialization."""
+
+        with self._lock:
+            snapshot = self.snapshot()
+            return P1HistoryRollbackState(
+                self._version,
+                self._active,
+                self._obsolete,
+                tuple((layer, self._solve[layer].clone()) for layer in self.layer_order),
+                tuple((layer, self._risk[layer].clone()) for layer in self.layer_order),
+                tuple(sorted(self._load.items())),
+                tuple(sorted(self._finalized.items())),
+                snapshot.digest,
+            )
+
+    def restore_transaction_checkpoint(self, checkpoint: P1HistoryRollbackState) -> None:
+        """Restore a token captured immediately before a failed enclosing commit."""
+
+        if not isinstance(checkpoint, P1HistoryRollbackState):
+            raise ODEBFContractError("P1 history rollback token differs")
+        solve = dict(checkpoint.solve_keys)
+        risk = dict(checkpoint.risk_keys)
+        if set(solve) != set(self.layer_order) or set(risk) != set(self.layer_order):
+            raise ODEBFContractError("P1 history rollback layer set differs")
+        with self._lock:
+            self._version = checkpoint.version
+            self._active = checkpoint.active_records
+            self._obsolete = checkpoint.obsolete_records
+            self._solve = {layer: solve[layer].clone() for layer in self.layer_order}
+            self._risk = {layer: risk[layer].clone() for layer in self.layer_order}
+            self._load = dict(checkpoint.cumulative_load)
+            self._finalized = dict(checkpoint.finalized_transactions)
+            if self.snapshot().digest != checkpoint.state_sha256:
+                raise ODEBFStateError("P1 history rollback did not restore exact state")
 
     @staticmethod
     def _validate_keys(

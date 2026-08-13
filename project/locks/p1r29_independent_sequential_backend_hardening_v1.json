@@ -1,0 +1,94 @@
+{
+  "adapter": {
+    "backend_target_or_debt_preprocessing": false,
+    "current_inputs": [
+      "W",
+      "z",
+      "layer_proposals_B",
+      "physical_signed_slopes_a",
+      "semantic_rho",
+      "current_raw_keys"
+    ],
+    "preprocessing_owner": "SELECTED_ATOMIC_ADAPTER",
+    "terminal_inputs": [
+      "terminal_physical_state_keys",
+      "six_field_physical_identity"
+    ]
+  },
+  "atomic_winner_checkpoint": null,
+  "contract_sha256": "d4ad648da38ec3348970d68b759f67e8cad2508c832ef9cd70f00f275ce29676",
+  "cumulative_h": {
+    "formula": "sum_l ||A_H,l + h*v_l*B_l*Z_H,l||_F^2",
+    "parts": ["offset", "signed_cross", "self"],
+    "round1_empty_history_value": 0,
+    "scientific_budget_or_veto_count": 0
+  },
+  "cumulative_p": {
+    "candidate_cross_backend": "per-layer-concatenated-low-rank-batched-gram",
+    "prior_pairwise_replay_count_per_step": 0,
+    "prior_scalar_incremental": true,
+    "router_input": "marginal_delta_p_without_constant_prior",
+    "telemetry": ["raw_cumulative_p", "marginal_delta_p", "neutral_marginal_delta_p"]
+  },
+  "easyedit_source_mutation_count": 0,
+  "execution": {
+    "actual_b10x2_model_smoke": "NOT_RECORDED_NO_ADAPTER_SELECTED",
+    "gpu_action_count": 0,
+    "model_action_count": 0,
+    "result_root_action_count": 0,
+    "scientific_sequential_execution": "HOLD_UNTIL_VIABLE_ATOMIC_ADAPTER",
+    "sequential_backend_implementation": "CONTINUE_COMPLETE_MODEL_FREE",
+    "slurm_action_count": 0
+  },
+  "history": {
+    "active_column_source": "ledger_snapshot_active_records",
+    "cache_key": [
+      "version",
+      "active_record_digest",
+      "raw_key_hash",
+      "projected_key_hash",
+      "projector_hash"
+    ],
+    "cache_mismatch_action": "EXACT_UNCACHED_WOODBURY_FALLBACK",
+    "collision_decrements_cumulative_physical_p_or_load": false,
+    "maximum_records": 100,
+    "projected_key_substitutes_for_raw_solve_key": false
+  },
+  "instruction_id": "ODEEDIT-S05-P1R29-INDEPENDENT-SEQUENTIAL-BACKEND-HARDENING-V1",
+  "method_id": "ADAPTER-NEUTRAL-SEQUENTIAL-HISTORICAL-BACKEND-V1",
+  "numerics": {
+    "capacity_role": "tie_only_after_strength_trust_and_h_p",
+    "energy_absolute_tolerance": 1e-12,
+    "energy_relative_tolerance": 1e-8,
+    "energy_tolerance_is_scientific_budget": false,
+    "exact_strength_tolerance": 1e-8,
+    "h": 0.125,
+    "inner_k": 8,
+    "soft_failure": "same_strength_neutral_fallback"
+  },
+  "scaffold_checkpoint": "b0acdb995942b3561da09312eb67899b2d41af5e",
+  "scaffold_status": "SCAFFOLD_NOT_COMPLETE_METHOD_NOT_SCIENTIFIC_SUCCESS",
+  "status": "BACKEND_HARDENED_WAITING_VIABLE_ATOMIC_ADAPTER",
+  "terminal_key_reuse_identity": [
+    "committed_bf16_weight",
+    "request_order",
+    "tokenizer_target_normalization",
+    "layer_set",
+    "capture_method",
+    "hook_disabled_physical_state"
+  ],
+  "transaction": {
+    "components": [
+      "persistent_bf16_weights",
+      "raw_projected_keys",
+      "records",
+      "p_scalar_factors",
+      "h_round_state",
+      "cache_invalidation",
+      "completed_round_version"
+    ],
+    "evaluator_metric_gate_count": 0,
+    "idempotent_replay_append_count": 0,
+    "rollback_scope": "ALL_COMPONENTS"
+  }
+}

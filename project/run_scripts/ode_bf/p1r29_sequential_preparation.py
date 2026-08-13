@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import math
 from dataclasses import asdict, dataclass, field
-from types import SimpleNamespace
 from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
@@ -20,9 +19,7 @@ from scipy.optimize import minimize
 from .contracts import BATCH_SIZE, FIXED_K, ODEBFContractError, ODEBFStateError, canonical_hash
 from .functional import tensor_sha256
 from .p1_state import (
-    P1HistoryFinalizeReceipt,
     P1HistoryLedger,
-    P1HistoryRecord,
     ProspectiveP1HistoryBatch,
 )
 from .progress_simplex_routing import (
@@ -31,7 +28,7 @@ from .progress_simplex_routing import (
     SIMPLEX_PRIMAL_TOLERANCE,
     SIMPLEX_XI_TIE_TOLERANCE,
 )
-from .woodbury import ProjectorCertificate, WoodburyMethod, solve_alpha_woodbury
+from .woodbury import ProjectorCertificate, solve_alpha_woodbury
 
 
 P1R29_SEQUENTIAL_PREPARATION_INSTRUCTION_ID = (
@@ -40,6 +37,10 @@ P1R29_SEQUENTIAL_PREPARATION_INSTRUCTION_ID = (
 P1R29_SEQUENTIAL_PREPARATION_METHOD_ID = (
     "P1R29-SEQUENTIAL-HISTORICAL-PREPARATION-NO-ATOMIC-WINNER-V1"
 )
+P1R29_BACKEND_HARDENING_INSTRUCTION_ID = (
+    "ODEEDIT-S05-P1R29-INDEPENDENT-SEQUENTIAL-BACKEND-HARDENING-V1"
+)
+P1R29_BACKEND_METHOD_ID = "ADAPTER-NEUTRAL-SEQUENTIAL-HISTORICAL-BACKEND-V1"
 FIXED_H = 1.0 / FIXED_K
 SEQUENTIAL_ROUNDS = 10
 MAXIMUM_HISTORY_RECORDS = BATCH_SIZE * SEQUENTIAL_ROUNDS
@@ -61,11 +62,153 @@ def _finite_tensor(name: str, value: torch.Tensor, *, ndim: int = 2) -> torch.Te
 
 
 @dataclass(frozen=True, slots=True)
+class AtomicAdapterPreprocessingIdentity:
+    """Identity supplied by the selected Atomic adapter, never rebuilt here."""
+
+    adapter_id: str
+    preprocessing_sha256: str
+    request_order_sha256: str
+    tokenizer_target_normalization_sha256: str
+
+    def __post_init__(self) -> None:
+        if not self.adapter_id or any(
+            not isinstance(value, str) or len(value) != 64
+            for value in (
+                self.preprocessing_sha256,
+                self.request_order_sha256,
+                self.tokenizer_target_normalization_sha256,
+            )
+        ):
+            raise ODEBFContractError("Atomic adapter preprocessing identity differs")
+
+
+@dataclass(frozen=True, slots=True)
+class AtomicSequentialAdapterFrame:
+    """Adapter-neutral current-state input for one future sequential field."""
+
+    preprocessing: AtomicAdapterPreprocessingIdentity
+    layer_order: tuple[int, ...]
+    current_w_by_layer: Mapping[int, torch.Tensor]
+    current_z: torch.Tensor
+    proposals_by_layer: Mapping[int, torch.Tensor]
+    physical_signed_slopes: tuple[float, ...]
+    semantic_rho: float
+    current_raw_keys_by_layer: Mapping[int, torch.Tensor]
+    accepted_state_sha256: str
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.accepted_state_sha256, str) or len(self.accepted_state_sha256) != 64:
+            raise ODEBFContractError("Atomic adapter current-state identity differs")
+        if len(self.layer_order) < 2 or len(set(self.layer_order)) != len(self.layer_order):
+            raise ODEBFContractError("Atomic adapter layer order differs")
+        if set(self.current_w_by_layer) != set(self.layer_order) or set(
+            self.proposals_by_layer
+        ) != set(self.layer_order) or set(
+            self.current_raw_keys_by_layer
+        ) != set(self.layer_order):
+            raise ODEBFContractError("Atomic adapter layer payload is incomplete")
+        if len(self.physical_signed_slopes) != len(self.layer_order) or not all(
+            math.isfinite(float(value)) for value in self.physical_signed_slopes
+        ):
+            raise ODEBFContractError("Atomic adapter physical slope geometry differs")
+        if not math.isfinite(float(self.semantic_rho)) or self.semantic_rho < 0.0:
+            raise ODEBFContractError("Atomic adapter semantic rho differs")
+        _finite_tensor("Atomic adapter current z", self.current_z)
+        for layer in self.layer_order:
+            weight = self.current_w_by_layer[layer]
+            if weight.dtype != torch.bfloat16 or weight.ndim != 2 or not torch.isfinite(weight).all():
+                raise ODEBFContractError("Atomic adapter current W is not finite BF16")
+            _finite_tensor("Atomic adapter proposal", self.proposals_by_layer[layer])
+            key = _finite_tensor("Atomic adapter current raw key", self.current_raw_keys_by_layer[layer])
+            if key.shape[1] != BATCH_SIZE:
+                raise ODEBFContractError("Atomic adapter current key is not B10")
+
+    def raw_free_receipt(self) -> dict[str, Any]:
+        payload = {
+            "adapter_id": self.preprocessing.adapter_id,
+            "preprocessing_sha256": self.preprocessing.preprocessing_sha256,
+            "request_order_sha256": self.preprocessing.request_order_sha256,
+            "tokenizer_target_normalization_sha256": (
+                self.preprocessing.tokenizer_target_normalization_sha256
+            ),
+            "current_weight_sha256": tuple(
+                (layer, tensor_sha256(self.current_w_by_layer[layer]))
+                for layer in self.layer_order
+            ),
+            "current_z_sha256": tensor_sha256(self.current_z),
+            "accepted_state_sha256": self.accepted_state_sha256,
+            "layer_order": self.layer_order,
+            "proposal_sha256": tuple(
+                (layer, tensor_sha256(self.proposals_by_layer[layer]))
+                for layer in self.layer_order
+            ),
+            "physical_signed_slopes": self.physical_signed_slopes,
+            "semantic_rho": self.semantic_rho,
+            "current_raw_key_sha256": tuple(
+                (layer, tensor_sha256(self.current_raw_keys_by_layer[layer]))
+                for layer in self.layer_order
+            ),
+            "target_or_debt_preprocessing_implemented_by_backend": False,
+            "shared_preprocessing_owned_by_selected_adapter": True,
+            "backend_preprocessing_model_forward_count": 0,
+            "backend_preprocessing_backward_count": 0,
+            "backend_h_p_model_forward_count": 0,
+            "backend_h_p_backward_count": 0,
+        }
+        payload["identity_sha256"] = canonical_hash(payload)
+        return payload
+
+
+@dataclass(frozen=True, slots=True)
+class TerminalPhysicalKeyIdentity:
+    committed_bf16_weight_sha256: str
+    request_order_sha256: str
+    tokenizer_target_normalization_sha256: str
+    layer_set_sha256: str
+    capture_method_sha256: str
+    hook_disabled_physical_state_sha256: str
+
+    def __post_init__(self) -> None:
+        if any(
+            not isinstance(value, str) or len(value) != 64
+            for value in asdict(self).values()
+        ):
+            raise ODEBFContractError("terminal physical-key identity differs")
+
+    @property
+    def digest(self) -> str:
+        return canonical_hash(asdict(self))
+
+
+@dataclass(frozen=True, slots=True)
+class AtomicSequentialTerminalFrame:
+    preprocessing: AtomicAdapterPreprocessingIdentity
+    terminal_keys_by_layer: Mapping[int, torch.Tensor]
+    physical_identity: TerminalPhysicalKeyIdentity
+
+    def __post_init__(self) -> None:
+        if (
+            self.physical_identity.request_order_sha256
+            != self.preprocessing.request_order_sha256
+            or self.physical_identity.tokenizer_target_normalization_sha256
+            != self.preprocessing.tokenizer_target_normalization_sha256
+        ):
+            raise ODEBFContractError("terminal keys do not share Atomic preprocessing")
+        if not self.terminal_keys_by_layer:
+            raise ODEBFContractError("Atomic adapter terminal keys are absent")
+        for value in self.terminal_keys_by_layer.values():
+            key = _finite_tensor("Atomic adapter terminal key", value)
+            if key.shape[1] != BATCH_SIZE:
+                raise ODEBFContractError("Atomic adapter terminal key is not B10")
+
+
+@dataclass(frozen=True, slots=True)
 class HistoryFactorization:
     """History-version factorization of ``lambda I + K_H^T Z_H``."""
 
     history_version: int
     history_columns: int
+    active_record_sha256: str
     regularization: float
     raw_history_sha256: str
     projected_history_sha256: str
@@ -88,6 +231,7 @@ def build_history_factorization(
     projected_history_keys: torch.Tensor,
     *,
     history_version: int,
+    active_record_sha256: str,
     regularization: float,
 ) -> HistoryFactorization:
     """Validate paired history and cache its exact general-projector block."""
@@ -99,8 +243,15 @@ def build_history_factorization(
         raise ODEBFContractError("historical raw/projected key geometry differs")
     if raw.shape[0] != matrix.shape[0]:
         raise ODEBFContractError("historical key dimension differs from projector")
-    if history_version < 0 or raw.shape[1] != history_version * BATCH_SIZE:
-        raise ODEBFContractError("history columns are not 0,10,...,90 for this version")
+    if (
+        history_version < 0
+        or raw.shape[1] < 0
+        or raw.shape[1] > MAXIMUM_HISTORY_RECORDS
+        or raw.shape[1] % BATCH_SIZE != 0
+        or not isinstance(active_record_sha256, str)
+        or len(active_record_sha256) != 64
+    ):
+        raise ODEBFContractError("active history count or record identity differs")
     lam = float(regularization)
     if not math.isfinite(lam) or lam <= 0.0:
         raise ODEBFContractError("historical Woodbury regularization is not positive")
@@ -129,6 +280,7 @@ def build_history_factorization(
     return HistoryFactorization(
         history_version=history_version,
         history_columns=columns,
+        active_record_sha256=active_record_sha256,
         regularization=lam,
         raw_history_sha256=tensor_sha256(raw64),
         projected_history_sha256=tensor_sha256(projected64),
@@ -148,6 +300,8 @@ class CachedWoodburyReceipt:
     current_columns: int
     small_dimension: int
     history_cache_hit: bool
+    cache_mismatch_exact_backend_fallback: bool
+    cache_key_sha256: str
     block_method: str
     alpha_residual: float
     exact_backend_max_abs: float
@@ -163,6 +317,7 @@ def solve_alpha_woodbury_cached(
     projected_history_keys: torch.Tensor,
     *,
     history_version: int,
+    active_record_sha256: str,
     regularization: float,
     projector_certificate: ProjectorCertificate,
     cached_factorization: HistoryFactorization | None,
@@ -181,9 +336,11 @@ def solve_alpha_woodbury_cached(
 
     factor = cached_factorization
     hit = factor is not None
+    exact_fallback = False
     expected_identity = (
         history_version,
         raw.shape[1],
+        active_record_sha256,
         float(regularization),
         tensor_sha256(raw.to(dtype=torch.float64)),
         tensor_sha256(projected.to(dtype=torch.float64)),
@@ -195,18 +352,61 @@ def solve_alpha_woodbury_cached(
             raw,
             projected,
             history_version=history_version,
+            active_record_sha256=active_record_sha256,
             regularization=regularization,
         )
     observed_identity = (
         factor.history_version,
         factor.history_columns,
+        factor.active_record_sha256,
         factor.regularization,
         factor.raw_history_sha256,
         factor.projected_history_sha256,
         factor.projector_sha256,
     )
     if observed_identity != expected_identity:
-        raise ODEBFStateError("historical factorization cache identity is stale")
+        # A stale/mismatched cache is never allowed to alter the solve.  Use the
+        # established exact backend for this field and rebuild the history-only
+        # factor for a future state with the current exact identities.
+        exact_fallback = True
+        exact = solve_alpha_woodbury(
+            matrix,
+            current,
+            history_keys=raw,
+            regularization=float(regularization),
+            projector_certificate=projector_certificate,
+            residual_tolerance=residual_tolerance,
+        )
+        factor = build_history_factorization(
+            matrix,
+            raw,
+            projected,
+            history_version=history_version,
+            active_record_sha256=active_record_sha256,
+            regularization=regularization,
+        )
+        cache_key = canonical_hash(
+            {
+                "version": history_version,
+                "active_records": active_record_sha256,
+                "raw": factor.raw_history_sha256,
+                "projected": factor.projected_history_sha256,
+                "projector": factor.projector_sha256,
+            }
+        )
+        return exact.q, factor, CachedWoodburyReceipt(
+            history_version,
+            raw.shape[1],
+            BATCH_SIZE,
+            BATCH_SIZE + raw.shape[1],
+            False,
+            True,
+            cache_key,
+            "exact-backend-cache-identity-fallback",
+            exact.certificate.alpha_linear_residual,
+            0.0,
+            True,
+        )
 
     lam = factor.regularization
     current64 = current.to(dtype=torch.float64)
@@ -263,6 +463,16 @@ def solve_alpha_woodbury_cached(
         BATCH_SIZE,
         BATCH_SIZE + raw.shape[1],
         hit,
+        exact_fallback,
+        canonical_hash(
+            {
+                "version": history_version,
+                "active_records": active_record_sha256,
+                "raw": factor.raw_history_sha256,
+                "projected": factor.projected_history_sha256,
+                "projector": factor.projector_sha256,
+            }
+        ),
         "general-projector-history-lu-current-schur",
         alpha_residual,
         exact_max_abs,
@@ -345,9 +555,29 @@ class QuadraticRoutingRisk:
     normalization: float
     label: str
 
-    def normalized_value(self, velocity: np.ndarray) -> float:
+    def raw_value(self, velocity: np.ndarray) -> float:
         value = np.asarray(velocity, dtype=np.float64)
-        return float(self.offset + self.linear @ value + value @ self.gram @ value) / self.normalization
+        return float(self.offset + self.linear @ value + value @ self.gram @ value)
+
+    def marginal_value(self, velocity: np.ndarray) -> float:
+        value = np.asarray(velocity, dtype=np.float64)
+        return float(self.linear @ value + value @ self.gram @ value)
+
+    def normalized_value(self, velocity: np.ndarray) -> float:
+        return self.raw_value(velocity) / self.normalization
+
+
+@dataclass(frozen=True, slots=True)
+class CumulativePCheckpoint:
+    contributions: tuple[tuple[int, tuple[LowRankUpdate, ...]], ...]
+    prior_left: tuple[tuple[int, torch.Tensor], ...]
+    prior_right: tuple[tuple[int, torch.Tensor], ...]
+    prior_covariance_right: tuple[tuple[int, torch.Tensor], ...]
+    committed_load: tuple[tuple[int, float], ...]
+    prior_value: float
+    accepted_update_count: int
+    batched_cross_call_count: int
+    prior_pairwise_replay_count: int
 
 
 @dataclass(slots=True)
@@ -356,21 +586,96 @@ class CumulativeStructuralPState:
 
     layer_order: tuple[int, ...]
     contributions: dict[int, list[LowRankUpdate]] = field(init=False)
+    prior_left: dict[int, torch.Tensor] = field(init=False)
+    prior_right: dict[int, torch.Tensor] = field(init=False)
+    prior_covariance_right: dict[int, torch.Tensor] = field(init=False)
     committed_load: dict[int, float] = field(init=False)
+    prior_value: float = field(default=0.0, init=False)
+    accepted_update_count: int = field(default=0, init=False)
+    batched_cross_call_count: int = field(default=0, init=False)
+    prior_pairwise_replay_count: int = field(default=0, init=False)
 
     def __post_init__(self) -> None:
         if len(self.layer_order) < 2 or len(set(self.layer_order)) != len(self.layer_order):
             raise ODEBFContractError("cumulative-P layer order differs")
         self.contributions = {layer: [] for layer in self.layer_order}
+        self.prior_left = {layer: torch.empty((0, 0), dtype=torch.float64) for layer in self.layer_order}
+        self.prior_right = {layer: torch.empty((0, 0), dtype=torch.float64) for layer in self.layer_order}
+        self.prior_covariance_right = {
+            layer: torch.empty((0, 0), dtype=torch.float64) for layer in self.layer_order
+        }
         self.committed_load = {layer: 0.0 for layer in self.layer_order}
 
     def value(self) -> float:
-        total = 0.0
-        for layer in self.layer_order:
-            for left in self.contributions[layer]:
-                for right in self.contributions[layer]:
-                    total += _pretrained_inner(left, right)
-        return total
+        return self.prior_value
+
+    def checkpoint(self) -> CumulativePCheckpoint:
+        return CumulativePCheckpoint(
+            tuple((layer, tuple(self.contributions[layer])) for layer in self.layer_order),
+            tuple((layer, self.prior_left[layer].clone()) for layer in self.layer_order),
+            tuple((layer, self.prior_right[layer].clone()) for layer in self.layer_order),
+            tuple((layer, self.prior_covariance_right[layer].clone()) for layer in self.layer_order),
+            tuple(sorted(self.committed_load.items())),
+            self.prior_value,
+            self.accepted_update_count,
+            self.batched_cross_call_count,
+            self.prior_pairwise_replay_count,
+        )
+
+    def restore(self, checkpoint: CumulativePCheckpoint) -> None:
+        self.contributions = {
+            layer: list(values) for layer, values in checkpoint.contributions
+        }
+        self.prior_left = {layer: value.clone() for layer, value in checkpoint.prior_left}
+        self.prior_right = {layer: value.clone() for layer, value in checkpoint.prior_right}
+        self.prior_covariance_right = {
+            layer: value.clone() for layer, value in checkpoint.prior_covariance_right
+        }
+        self.committed_load = dict(checkpoint.committed_load)
+        self.prior_value = checkpoint.prior_value
+        self.accepted_update_count = checkpoint.accepted_update_count
+        self.batched_cross_call_count = checkpoint.batched_cross_call_count
+        self.prior_pairwise_replay_count = checkpoint.prior_pairwise_replay_count
+
+    def fork(self) -> "CumulativeStructuralPState":
+        result = CumulativeStructuralPState(self.layer_order)
+        result.restore(self.checkpoint())
+        return result
+
+    def identity(self) -> str:
+        return canonical_hash(
+            {
+                "prior_value": self.prior_value,
+                "accepted_update_count": self.accepted_update_count,
+                "batched_cross_call_count": self.batched_cross_call_count,
+                "prior_pairwise_replay_count": self.prior_pairwise_replay_count,
+                "factors": tuple(
+                    (
+                        layer,
+                        tuple(item.identity_sha256 for item in self.contributions[layer]),
+                    )
+                    for layer in self.layer_order
+                ),
+                "load": tuple(sorted(self.committed_load.items())),
+            }
+        )
+
+    def _candidate_cross(self, layer: int, candidate: LowRankUpdate) -> float:
+        prior_left = self.prior_left[layer]
+        if prior_left.numel() == 0:
+            return 0.0
+        self.batched_cross_call_count += 1
+        value = torch.trace(
+            (
+                candidate.left.T.to(dtype=torch.float64)
+                @ prior_left
+            )
+            @ (
+                self.prior_right[layer].T
+                @ candidate.covariance_right.to(dtype=torch.float64)
+            )
+        )
+        return float(value) * candidate.coefficient
 
     def candidate_risk(
         self,
@@ -380,30 +685,189 @@ class CumulativeStructuralPState:
     ) -> QuadraticRoutingRisk:
         if set(candidates) != set(self.layer_order) or h != FIXED_H:
             raise ODEBFContractError("cumulative-P candidate set or h differs")
-        offset = self.value()
+        offset = self.prior_value
         linear = np.zeros(len(self.layer_order), dtype=np.float64)
         gram = np.zeros((len(self.layer_order), len(self.layer_order)), dtype=np.float64)
         for index, layer in enumerate(self.layer_order):
             candidate = candidates[layer]
-            cross = sum(
-                _pretrained_inner(prior, candidate)
-                for prior in self.contributions[layer]
-            )
+            cross = self._candidate_cross(layer, candidate)
             linear[index] = 2.0 * h * cross
             gram[index, index] = h * h * _pretrained_inner(candidate, candidate)
-        scale = max(offset, float(np.trace(gram)), NORMALIZATION_EPSILON)
-        return QuadraticRoutingRisk(offset, linear, gram, scale, "cumulative-structural-p")
+        return QuadraticRoutingRisk(
+            offset,
+            linear,
+            gram,
+            NORMALIZATION_EPSILON,
+            "cumulative-structural-p-marginal-routing",
+        )
 
-    def finalize(self, candidates: Mapping[int, LowRankUpdate], velocity: Sequence[float]) -> None:
+    def finalize(
+        self,
+        candidates: Mapping[int, LowRankUpdate],
+        velocity: Sequence[float],
+        *,
+        candidate_risk: QuadraticRoutingRisk | None = None,
+    ) -> None:
         values = np.asarray(velocity, dtype=np.float64)
         if values.shape != (len(self.layer_order),) or not np.all(np.isfinite(values)):
             raise ODEBFContractError("cumulative-P finalized velocity differs")
         if set(candidates) != set(self.layer_order):
             raise ODEBFContractError("cumulative-P finalized candidates differ")
+        if candidate_risk is not None and (
+            candidate_risk.offset != self.prior_value
+            or candidate_risk.linear.shape != values.shape
+            or candidate_risk.gram.shape != (values.size, values.size)
+        ):
+            raise ODEBFStateError("cumulative-P staged quadratic is stale")
         for index, layer in enumerate(self.layer_order):
             applied = candidates[layer].scaled(FIXED_H * float(values[index]))
+            if candidate_risk is None:
+                cross = self._candidate_cross(layer, applied)
+                self_term = _pretrained_inner(applied, applied)
+            else:
+                # candidate_risk is expressed for unscaled v.  Convert the
+                # staged linear/self coefficients to this already-applied item.
+                cross = (
+                    0.0
+                    if values[index] == 0.0
+                    else candidate_risk.linear[index] * values[index] / 2.0
+                )
+                self_term = candidate_risk.gram[index, index] * values[index] ** 2
+            self.prior_value += 2.0 * cross + self_term
             self.contributions[layer].append(applied)
-            self.committed_load[layer] += max(_pretrained_inner(applied, applied), 0.0)
+            self.committed_load[layer] += max(self_term, 0.0)
+            weighted_left = applied.left.to(dtype=torch.float64) * applied.coefficient
+            right = applied.right.to(dtype=torch.float64)
+            covariance_right = applied.covariance_right.to(dtype=torch.float64)
+            if self.prior_left[layer].numel() == 0:
+                self.prior_left[layer] = weighted_left.clone()
+                self.prior_right[layer] = right.clone()
+                self.prior_covariance_right[layer] = covariance_right.clone()
+            else:
+                self.prior_left[layer] = torch.cat((self.prior_left[layer], weighted_left), dim=1)
+                self.prior_right[layer] = torch.cat((self.prior_right[layer], right), dim=1)
+                self.prior_covariance_right[layer] = torch.cat(
+                    (self.prior_covariance_right[layer], covariance_right), dim=1
+                )
+        self.accepted_update_count += 1
+
+
+@dataclass(frozen=True, slots=True)
+class RoundHCheckpoint:
+    history_version: int
+    history_columns: int
+    accumulated_movement: tuple[tuple[int, torch.Tensor], ...]
+    accepted_step_count: int
+
+
+@dataclass(slots=True)
+class RoundStructuralHState:
+    """Within-round accumulated historical-key response movement."""
+
+    layer_order: tuple[int, ...]
+    history_version: int
+    history_columns: int
+    accumulated_movement: dict[int, torch.Tensor] = field(init=False)
+    accepted_step_count: int = field(default=0, init=False)
+
+    def __post_init__(self) -> None:
+        if (
+            self.history_version < 0
+            or self.history_columns < 0
+            or self.history_columns > MAXIMUM_HISTORY_RECORDS
+            or self.history_columns % BATCH_SIZE != 0
+        ):
+            raise ODEBFContractError("round Structural-H history identity differs")
+        self.accumulated_movement = {
+            layer: torch.empty((0, self.history_columns), dtype=torch.float64)
+            for layer in self.layer_order
+        }
+
+    def checkpoint(self) -> RoundHCheckpoint:
+        return RoundHCheckpoint(
+            self.history_version,
+            self.history_columns,
+            tuple(
+                (layer, self.accumulated_movement[layer].clone())
+                for layer in self.layer_order
+            ),
+            self.accepted_step_count,
+        )
+
+    def restore(self, checkpoint: RoundHCheckpoint) -> None:
+        self.history_version = checkpoint.history_version
+        self.history_columns = checkpoint.history_columns
+        self.accumulated_movement = {
+            layer: value.clone() for layer, value in checkpoint.accumulated_movement
+        }
+        self.accepted_step_count = checkpoint.accepted_step_count
+
+    def candidate_risk(
+        self,
+        factors: Mapping[int, torch.Tensor],
+        projected_history: Mapping[int, torch.Tensor],
+        *,
+        h: float = FIXED_H,
+    ) -> QuadraticRoutingRisk:
+        if set(factors) != set(self.layer_order) or set(projected_history) != set(
+            self.layer_order
+        ) or h != FIXED_H:
+            raise ODEBFContractError("cumulative Structural-H inputs or h differ")
+        offset = 0.0
+        linear = np.zeros(len(self.layer_order), dtype=np.float64)
+        gram = np.zeros((len(self.layer_order), len(self.layer_order)), dtype=np.float64)
+        if self.history_columns == 0:
+            return QuadraticRoutingRisk(
+                0.0, linear, gram, NORMALIZATION_EPSILON, "round1-empty-structural-h"
+            )
+        for index, layer in enumerate(self.layer_order):
+            factor = _finite_tensor("H candidate factor", factors[layer])
+            keys = _finite_tensor("H projected history", projected_history[layer])
+            if keys.shape[1] != self.history_columns or factor.shape[1] != keys.shape[0]:
+                raise ODEBFContractError("cumulative Structural-H geometry differs")
+            movement = factor.to(dtype=torch.float64) @ keys.to(dtype=torch.float64)
+            accumulated = self.accumulated_movement[layer]
+            if accumulated.shape != movement.shape:
+                if self.accepted_step_count == 0 and accumulated.shape[0] == 0:
+                    accumulated = torch.zeros_like(movement)
+                else:
+                    raise ODEBFStateError("round Structural-H accumulated shape differs")
+            offset += float(torch.sum(accumulated * accumulated))
+            linear[index] = 2.0 * h * float(torch.sum(accumulated * movement))
+            gram[index, index] = h * h * float(torch.sum(movement * movement))
+        return QuadraticRoutingRisk(
+            offset,
+            linear,
+            gram,
+            NORMALIZATION_EPSILON,
+            "round-cumulative-structural-h",
+        )
+
+    def accept(
+        self,
+        factors: Mapping[int, torch.Tensor],
+        projected_history: Mapping[int, torch.Tensor],
+        velocity: Sequence[float],
+    ) -> None:
+        values = np.asarray(velocity, dtype=np.float64)
+        if values.shape != (len(self.layer_order),) or not np.all(np.isfinite(values)):
+            raise ODEBFContractError("round Structural-H accepted velocity differs")
+        risk = self.candidate_risk(factors, projected_history)
+        del risk
+        if self.history_columns:
+            for index, layer in enumerate(self.layer_order):
+                movement = (
+                    FIXED_H
+                    * float(values[index])
+                    * (
+                        factors[layer].to(dtype=torch.float64)
+                        @ projected_history[layer].to(dtype=torch.float64)
+                    )
+                )
+                if self.accumulated_movement[layer].shape[0] == 0:
+                    self.accumulated_movement[layer] = torch.zeros_like(movement)
+                self.accumulated_movement[layer] += movement
+        self.accepted_step_count += 1
 
 
 def incremental_structural_h(
@@ -413,31 +877,13 @@ def incremental_structural_h(
     layer_order: Sequence[int],
     h: float = FIXED_H,
 ) -> QuadraticRoutingRisk:
-    """Return ``sum_l ||h v_l B_l Z_H,l||_F^2`` with no baseline term."""
+    """Compatibility wrapper for the k0 cumulative Structural-H quadratic."""
 
-    layers = tuple(layer_order)
-    if set(factors) != set(layers) or set(projected_history) != set(layers) or h != FIXED_H:
-        raise ODEBFContractError("incremental-H inputs or h differ")
-    gram = np.zeros((len(layers), len(layers)), dtype=np.float64)
-    history_columns = set()
-    for index, layer in enumerate(layers):
-        factor = _finite_tensor("H candidate factor", factors[layer])
-        keys = _finite_tensor("H projected history", projected_history[layer])
-        if factor.shape[1] != keys.shape[0]:
-            raise ODEBFContractError("incremental-H factor/key orientation differs")
-        history_columns.add(keys.shape[1])
-        movement = factor.to(dtype=torch.float64) @ keys.to(dtype=torch.float64)
-        gram[index, index] = h * h * float(torch.sum(movement * movement))
-    if len(history_columns) != 1:
+    columns = {value.shape[1] for value in projected_history.values()}
+    if len(columns) != 1:
         raise ODEBFContractError("incremental-H layers have different history counts")
-    scale = max(float(np.trace(gram)), NORMALIZATION_EPSILON)
-    return QuadraticRoutingRisk(
-        0.0,
-        np.zeros(len(layers), dtype=np.float64),
-        gram,
-        scale,
-        "incremental-structural-h",
-    )
+    state = RoundStructuralHState(tuple(layer_order), 0, next(iter(columns)))
+    return state.candidate_risk(factors, projected_history, h=h)
 
 
 @dataclass(frozen=True, slots=True)
@@ -451,9 +897,17 @@ class ExactStrengthRoutingResult:
     exact_strength_residual: float
     neutral_energy: float
     selected_energy: float
+    neutral_relative_trust_limit: float
+    trust_bound_active: bool
     h_score: float
     p_score: float
     worst_hp_score: float
+    h_raw: float
+    p_raw_cumulative: float
+    p_marginal_delta: float
+    p_neutral_marginal_delta: float
+    h_neutral_normalization: float
+    p_neutral_normalization: float
     capacity: float
     active_layer_count: int
     routing_dof: int
@@ -505,7 +959,9 @@ def solve_exact_strength_soft_hp(
         zero = np.zeros_like(slopes)
         return ExactStrengthRoutingResult(
             selected_arm, "SEMANTIC_NO_WRITE", tuple(zero), tuple(zero), rho, 0.0, 0.0,
-            0.0, 0.0, 0.0, 0.0, 0.0, 0.0, int(active.size), max(int(active.size)-1, 0),
+            0.0, 0.0, 0.0, False, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+            NORMALIZATION_EPSILON, NORMALIZATION_EPSILON, 0.0,
+            int(active.size), max(int(active.size)-1, 0),
             False, False, 0, 0, 0,
         )
     if active.size == 0:
@@ -521,13 +977,25 @@ def solve_exact_strength_soft_hp(
     )
     dof = int(active.size) - 1
 
+    h_neutral_normalization = max(
+        abs(historical_risk.raw_value(neutral)), NORMALIZATION_EPSILON
+    )
+    p_neutral_marginal = pretrained_risk.marginal_value(neutral)
+    p_neutral_normalization = max(abs(p_neutral_marginal), NORMALIZATION_EPSILON)
+
     def score(risk: QuadraticRoutingRisk, value: np.ndarray) -> float:
-        return risk.normalized_value(value)
+        if risk is historical_risk:
+            return risk.raw_value(value) / h_neutral_normalization
+        return risk.marginal_value(value) / p_neutral_normalization
 
     def receipt(value: np.ndarray, status: str, fallback: bool) -> ExactStrengthRoutingResult:
         predicted = float(slopes @ value)
         h_score = score(historical_risk, value)
         p_score = score(pretrained_risk, value)
+        selected_energy = _quadratic_energy(value, trust)
+        h_raw = historical_risk.raw_value(value)
+        p_raw = pretrained_risk.raw_value(value)
+        p_marginal = pretrained_risk.marginal_value(value)
         return ExactStrengthRoutingResult(
             selected_arm,
             status,
@@ -537,10 +1005,22 @@ def solve_exact_strength_soft_hp(
             predicted,
             abs(predicted-rho),
             neutral_energy,
-            _quadratic_energy(value, trust),
+            selected_energy,
+            energy_limit,
+            bool(
+                selected_energy
+                >= energy_limit
+                - max(SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE, SIMPLEX_PRIMAL_TOLERANCE)
+            ),
             h_score,
             p_score,
             max(h_score, p_score),
+            h_raw,
+            p_raw,
+            p_marginal,
+            p_neutral_marginal,
+            h_neutral_normalization,
+            p_neutral_normalization,
             0.5 * _quadratic_energy(value, capacity),
             int(active.size),
             dof,
@@ -637,9 +1117,89 @@ class TerminalKeyReuseReceipt:
     reused_terminal_keys: bool
     explicit_recapture_fallback: bool
     recapture_count: int
-    endpoint_weight_sha256: str
-    terminal_virtual_weight_sha256: str
+    committed_identity_sha256: str
+    captured_identity_sha256: str
+    identity_components_matched: bool
     keys_sha256: tuple[tuple[int, str], ...]
+
+
+@dataclass(frozen=True, slots=True)
+class StagedAcceptedStepReceipt:
+    step: int
+    p_prior: float
+    p_marginal_delta: float
+    p_after: float
+    h_prior: float
+    h_cross: float
+    h_self: float
+    h_after: float
+    p_identity_sha256: str
+
+
+@dataclass(slots=True)
+class SequentialRoundStaging:
+    """Uncommitted K8 P/H state; it cannot mutate the persistent arm."""
+
+    round_index: int
+    history_version: int
+    active_record_sha256: str
+    projected_history_by_layer: dict[int, torch.Tensor]
+    cumulative_p: CumulativeStructuralPState
+    round_h: RoundStructuralHState
+    receipts: list[StagedAcceptedStepReceipt] = field(default_factory=list)
+
+    def stage_accepted_step(
+        self,
+        p_candidates: Mapping[int, LowRankUpdate],
+        h_factors: Mapping[int, torch.Tensor],
+        velocity: Sequence[float],
+    ) -> StagedAcceptedStepReceipt:
+        if len(self.receipts) >= FIXED_K:
+            raise ODEBFStateError("round staging exceeds fixed K8")
+        values = np.asarray(velocity, dtype=np.float64)
+        p_risk = self.cumulative_p.candidate_risk(p_candidates)
+        h_risk = self.round_h.candidate_risk(
+            h_factors, self.projected_history_by_layer
+        )
+        p_prior = self.cumulative_p.value()
+        p_delta = p_risk.marginal_value(values)
+        h_prior = h_risk.offset
+        h_cross = float(h_risk.linear @ values)
+        h_self = float(values @ h_risk.gram @ values)
+        self.cumulative_p.finalize(
+            p_candidates, values, candidate_risk=p_risk
+        )
+        self.round_h.accept(h_factors, self.projected_history_by_layer, values)
+        receipt = StagedAcceptedStepReceipt(
+            len(self.receipts) + 1,
+            p_prior,
+            p_delta,
+            self.cumulative_p.value(),
+            h_prior,
+            h_cross,
+            h_self,
+            h_prior + h_cross + h_self,
+            self.cumulative_p.identity(),
+        )
+        self.receipts.append(receipt)
+        return receipt
+
+
+@dataclass(frozen=True, slots=True)
+class BackendRoundCommitReceipt:
+    transaction_id: str
+    before_state_sha256: str
+    after_state_sha256: str
+    appended_count: int
+    completed_round: int
+    history_version: int
+    cumulative_p: float
+    terminal_round_h: float
+    cache_invalidated: bool
+    idempotent_replay: bool
+    verified_scope: str
+    evaluator_metric_gate_count: int
+    identity_sha256: str
 
 
 @dataclass(slots=True)
@@ -651,9 +1211,12 @@ class SequentialArmState:
     ledger: P1HistoryLedger = field(init=False)
     cumulative_p: CumulativeStructuralPState = field(init=False)
     persistent_weights: dict[int, torch.Tensor] = field(init=False)
-    factorization_cache: dict[tuple[int, int], HistoryFactorization] = field(init=False)
+    factorization_cache: dict[str, HistoryFactorization] = field(init=False)
     completed_rounds: int = field(default=0, init=False)
     terminal_key_recapture_count: int = field(default=0, init=False)
+    completed_transactions: dict[str, str] = field(init=False)
+    transaction_receipts: dict[str, BackendRoundCommitReceipt] = field(init=False)
+    round_h_state: RoundStructuralHState = field(init=False)
 
     def __post_init__(self) -> None:
         self.ledger = P1HistoryLedger(
@@ -663,6 +1226,9 @@ class SequentialArmState:
         self.cumulative_p = CumulativeStructuralPState(self.layer_order)
         self.persistent_weights = {}
         self.factorization_cache = {}
+        self.completed_transactions = {}
+        self.transaction_receipts = {}
+        self.round_h_state = RoundStructuralHState(self.layer_order, 0, 0)
 
     def set_initial_weights(self, weights: Mapping[int, torch.Tensor]) -> None:
         if self.persistent_weights or set(weights) != set(self.layer_order):
@@ -673,39 +1239,139 @@ class SequentialArmState:
                 raise ODEBFContractError("persistent sequential W must be finite BF16")
             self.persistent_weights[layer] = value.detach().clone()
 
-    def replace_persistent_weights_after_verified_commit(
-        self,
-        weights: Mapping[int, torch.Tensor],
-        *,
-        verified: bool,
-    ) -> None:
-        if not verified:
-            return
-        if set(weights) != set(self.layer_order):
-            raise ODEBFContractError("persistent committed W layer set differs")
-        replacement: dict[int, torch.Tensor] = {}
-        for layer in self.layer_order:
-            value = weights[layer]
-            if value.dtype != torch.bfloat16 or not torch.isfinite(value).all():
-                raise ODEBFContractError("persistent committed W must be finite BF16")
-            replacement[layer] = value.detach().clone()
-        self.persistent_weights = replacement
-
     def history_entry_count(self) -> int:
         return len(self.ledger.snapshot().active_records)
+
+    def active_record_sha256(self) -> str:
+        records = self.ledger.snapshot().active_records
+        return canonical_hash(
+            tuple(
+                (
+                    item.request_sha256,
+                    item.collision_sha256,
+                    item.target_sha256,
+                    item.version,
+                )
+                for item in records
+            )
+        )
+
+    def state_identity(self) -> str:
+        return canonical_hash(
+            {
+                "arm_id": self.arm_id,
+                "weights": tuple(
+                    (layer, tensor_sha256(self.persistent_weights[layer]))
+                    for layer in self.layer_order
+                ),
+                "history": self.ledger.snapshot().digest,
+                "p": self.cumulative_p.identity(),
+                "round_h": tuple(
+                    (
+                        layer,
+                        tensor_sha256(self.round_h_state.accumulated_movement[layer]),
+                    )
+                    for layer in self.layer_order
+                ),
+                "cache": tuple(sorted(self.factorization_cache)),
+                "completed_rounds": self.completed_rounds,
+                "transactions": tuple(sorted(self.completed_transactions.items())),
+            }
+        )
+
+    def begin_round_staging(
+        self,
+        projected_history_by_layer: Mapping[int, torch.Tensor],
+    ) -> SequentialRoundStaging:
+        if set(projected_history_by_layer) != set(self.layer_order):
+            raise ODEBFContractError("round staging projected history layer set differs")
+        count = self.history_entry_count()
+        if any(value.shape[1] != count for value in projected_history_by_layer.values()):
+            raise ODEBFContractError("round staging history columns differ from active ledger")
+        return SequentialRoundStaging(
+            self.completed_rounds + 1,
+            self.ledger.version,
+            self.active_record_sha256(),
+            {
+                layer: _finite_tensor(
+                    "round staging projected history", projected_history_by_layer[layer]
+                ).clone()
+                for layer in self.layer_order
+            },
+            self.cumulative_p.fork(),
+            RoundStructuralHState(self.layer_order, self.ledger.version, count),
+        )
+
+    def solve_historical_alpha(
+        self,
+        layer: int,
+        projector: torch.Tensor,
+        current_raw_keys: torch.Tensor,
+        *,
+        regularization: float,
+        projector_certificate: ProjectorCertificate,
+    ) -> tuple[torch.Tensor, CachedWoodburyReceipt]:
+        """Resolve history columns from the active ledger and cache by full identity."""
+
+        if layer not in self.layer_order:
+            raise ODEBFContractError("historical Alpha layer is absent")
+        snapshot = self.ledger.snapshot()
+        raw = self.ledger.solve_keys(layer)
+        projected = self.ledger.risk_keys(layer)
+        if not snapshot.active_records and raw.numel() == 0 and projected.numel() == 0:
+            raw = torch.empty(
+                (current_raw_keys.shape[0], 0),
+                dtype=current_raw_keys.dtype,
+                device=current_raw_keys.device,
+            )
+            projected = raw.clone()
+        else:
+            raw = raw.to(device=current_raw_keys.device, dtype=current_raw_keys.dtype)
+            projected = projected.to(
+                device=current_raw_keys.device, dtype=current_raw_keys.dtype
+            )
+        active_digest = self.active_record_sha256()
+        if raw.shape[1] != len(snapshot.active_records) or projected.shape[1] != len(
+            snapshot.active_records
+        ):
+            raise ODEBFStateError("ledger key columns differ from active records")
+        lookup_key = canonical_hash(
+            {
+                "version": snapshot.version,
+                "active_records": active_digest,
+                "raw": tensor_sha256(raw.to(dtype=torch.float64)),
+                "projected": tensor_sha256(projected.to(dtype=torch.float64)),
+                "projector": tensor_sha256(projector),
+            }
+        )
+        q, factor, receipt = solve_alpha_woodbury_cached(
+            projector,
+            current_raw_keys,
+            raw,
+            projected,
+            history_version=snapshot.version,
+            active_record_sha256=active_digest,
+            regularization=regularization,
+            projector_certificate=projector_certificate,
+            cached_factorization=self.factorization_cache.get(lookup_key),
+        )
+        if receipt.cache_key_sha256 != lookup_key:
+            raise ODEBFStateError("historical Alpha cache key construction differs")
+        self.factorization_cache[lookup_key] = factor
+        return q, receipt
 
     def stage_terminal_keys(
         self,
         terminal_keys_by_layer: Mapping[int, torch.Tensor],
         projectors_by_layer: Mapping[int, torch.Tensor],
         *,
-        terminal_virtual_weight_sha256: str,
-        endpoint_weight_sha256: str,
+        captured_identity: TerminalPhysicalKeyIdentity,
+        committed_identity: TerminalPhysicalKeyIdentity,
         recapture: Callable[[], Mapping[int, torch.Tensor]] | None = None,
     ) -> tuple[dict[int, torch.Tensor], dict[int, torch.Tensor], TerminalKeyReuseReceipt]:
         if set(terminal_keys_by_layer) != set(self.layer_order) or set(projectors_by_layer) != set(self.layer_order):
             raise ODEBFContractError("terminal key layer set differs")
-        same_state = terminal_virtual_weight_sha256 == endpoint_weight_sha256
+        same_state = captured_identity == committed_identity
         keys = terminal_keys_by_layer
         recaptured = False
         if not same_state:
@@ -731,34 +1397,190 @@ class SequentialArmState:
             not recaptured,
             recaptured,
             self.terminal_key_recapture_count,
-            endpoint_weight_sha256,
-            terminal_virtual_weight_sha256,
+            committed_identity.digest,
+            captured_identity.digest,
+            same_state,
             tuple((layer, tensor_sha256(raw[layer])) for layer in self.layer_order),
         )
         return raw, projected, receipt
 
-    def finalize_history_after_commit(
+    def stage_adapter_terminal_frame(
         self,
+        frame: AtomicSequentialTerminalFrame,
+        projectors_by_layer: Mapping[int, torch.Tensor],
+        *,
+        committed_identity: TerminalPhysicalKeyIdentity,
+        recapture: Callable[[], Mapping[int, torch.Tensor]] | None = None,
+    ) -> tuple[dict[int, torch.Tensor], dict[int, torch.Tensor], TerminalKeyReuseReceipt]:
+        if set(frame.terminal_keys_by_layer) != set(self.layer_order):
+            raise ODEBFContractError("Atomic terminal frame layer set differs")
+        return self.stage_terminal_keys(
+            frame.terminal_keys_by_layer,
+            projectors_by_layer,
+            captured_identity=frame.physical_identity,
+            committed_identity=committed_identity,
+            recapture=recapture,
+        )
+
+    def commit_verified_round(
+        self,
+        transaction_id: str,
         prospective: ProspectiveP1HistoryBatch,
+        staging: SequentialRoundStaging,
+        committed_weights: Mapping[int, torch.Tensor],
         *,
         post_commit_verified: bool,
         load_increment_by_layer: Mapping[int, float],
         fault_phase: str | None = None,
-    ) -> P1HistoryFinalizeReceipt | None:
-        """Append exactly once; verification/rollback failure has append count zero."""
+    ) -> BackendRoundCommitReceipt | None:
+        """Atomically commit W/history/P/H/cache/version after physical verification."""
 
         if not post_commit_verified:
             return None
-        receipt = self.ledger.finalize(
-            prospective,
-            post_commit_verified=True,
-            load_increment_by_layer=load_increment_by_layer,
-            fault_phase=fault_phase,
+        if fault_phase not in (
+            None,
+            "after_weights",
+            "after_history",
+            "after_p",
+            "after_h",
+            "after_cache",
+            "after_round",
+        ):
+            raise ODEBFContractError("backend transaction fault phase differs")
+        if (
+            transaction_id != prospective.transaction_id
+            or len(staging.receipts) != FIXED_K
+            or set(committed_weights) != set(self.layer_order)
+        ):
+            raise ODEBFStateError("backend transaction scope or K8 staging differs")
+        for layer in self.layer_order:
+            value = committed_weights[layer]
+            if value.dtype != torch.bfloat16 or not torch.isfinite(value).all():
+                raise ODEBFContractError("backend committed W must be finite BF16")
+        payload_sha256 = canonical_hash(
+            {
+                "transaction_id": transaction_id,
+                "prospective": prospective.payload_sha256,
+                "round": staging.round_index,
+                "weights": tuple(
+                    (layer, tensor_sha256(committed_weights[layer]))
+                    for layer in self.layer_order
+                ),
+                "p": staging.cumulative_p.identity(),
+                "h": tuple(
+                    (
+                        layer,
+                        tensor_sha256(staging.round_h.accumulated_movement[layer]),
+                    )
+                    for layer in self.layer_order
+                ),
+            }
         )
-        if receipt.appended_count:
-            self.completed_rounds += 1
+        prior_payload = self.completed_transactions.get(transaction_id)
+        if prior_payload is not None:
+            if prior_payload != payload_sha256:
+                raise ODEBFStateError("backend transaction identity was reused")
+            prior = self.transaction_receipts[transaction_id]
+            current = self.state_identity()
+            payload = {
+                **asdict(prior),
+                "before_state_sha256": current,
+                "after_state_sha256": current,
+                "appended_count": 0,
+                "idempotent_replay": True,
+            }
+            payload.pop("identity_sha256")
+            payload["identity_sha256"] = canonical_hash(payload)
+            return BackendRoundCommitReceipt(**payload)
+        if (
+            staging.round_index != self.completed_rounds + 1
+            or staging.history_version != self.ledger.version
+            or staging.active_record_sha256 != self.active_record_sha256()
+        ):
+            raise ODEBFStateError("backend transaction history/round identity differs")
+
+        before_identity = self.state_identity()
+        weights_before = {layer: value.clone() for layer, value in self.persistent_weights.items()}
+        ledger_before = self.ledger.transaction_checkpoint()
+        p_before = self.cumulative_p.checkpoint()
+        h_before = self.round_h_state.checkpoint()
+        cache_before = dict(self.factorization_cache)
+        rounds_before = self.completed_rounds
+        transactions_before = dict(self.completed_transactions)
+        receipts_before = dict(self.transaction_receipts)
+        try:
+            self.persistent_weights = {
+                layer: committed_weights[layer].detach().clone()
+                for layer in self.layer_order
+            }
+            if fault_phase == "after_weights":
+                raise RuntimeError("injected backend transaction fault after weights")
+            history_receipt = self.ledger.finalize(
+                prospective,
+                post_commit_verified=True,
+                load_increment_by_layer=load_increment_by_layer,
+            )
+            if history_receipt.appended_count != BATCH_SIZE:
+                raise ODEBFStateError("backend transaction did not append one B10")
+            if fault_phase == "after_history":
+                raise RuntimeError("injected backend transaction fault after history")
+            self.cumulative_p.restore(staging.cumulative_p.checkpoint())
+            if fault_phase == "after_p":
+                raise RuntimeError("injected backend transaction fault after P")
+            terminal_h = sum(
+                float(torch.sum(value * value))
+                for value in staging.round_h.accumulated_movement.values()
+            )
+            self.round_h_state = RoundStructuralHState(
+                self.layer_order,
+                history_receipt.after_version,
+                len(self.ledger.snapshot().active_records),
+            )
+            if fault_phase == "after_h":
+                raise RuntimeError("injected backend transaction fault after H")
             self.factorization_cache.clear()
-        return receipt
+            if fault_phase == "after_cache":
+                raise RuntimeError("injected backend transaction fault after cache")
+            self.completed_rounds = staging.round_index
+            self.completed_transactions[transaction_id] = payload_sha256
+            if fault_phase == "after_round":
+                raise RuntimeError("injected backend transaction fault after round")
+            after_identity = self.state_identity()
+            base_payload = {
+                "transaction_id": transaction_id,
+                "before_state_sha256": before_identity,
+                "after_state_sha256": after_identity,
+                "appended_count": BATCH_SIZE,
+                "completed_round": self.completed_rounds,
+                "history_version": self.ledger.version,
+                "cumulative_p": self.cumulative_p.value(),
+                "terminal_round_h": terminal_h,
+                "cache_invalidated": True,
+                "idempotent_replay": False,
+                "verified_scope": "NUMERICAL_PROVENANCE_PHYSICAL_ENDPOINT_ONLY",
+                "evaluator_metric_gate_count": 0,
+            }
+            receipt = BackendRoundCommitReceipt(
+                **base_payload,
+                identity_sha256=canonical_hash(base_payload),
+            )
+            self.transaction_receipts[transaction_id] = receipt
+            return receipt
+        except Exception:
+            self.persistent_weights = weights_before
+            self.ledger.restore_transaction_checkpoint(ledger_before)
+            self.cumulative_p.restore(p_before)
+            self.round_h_state = RoundStructuralHState(
+                self.layer_order, h_before.history_version, h_before.history_columns
+            )
+            self.round_h_state.restore(h_before)
+            self.factorization_cache = cache_before
+            self.completed_rounds = rounds_before
+            self.completed_transactions = transactions_before
+            self.transaction_receipts = receipts_before
+            if self.state_identity() != before_identity:
+                raise ODEBFStateError("backend transaction rollback was not exact")
+            raise
 
 
 @dataclass(frozen=True, slots=True)
@@ -789,12 +1611,18 @@ class AcceptedStepTelemetrySchema:
         "soft_allocation",
         "historical_normalized_score",
         "pretrained_normalized_score",
+        "historical_raw_offset_cross_self",
+        "pretrained_raw_cumulative_p",
+        "pretrained_marginal_delta_p",
+        "pretrained_neutral_marginal_delta_p",
         "allocation_influence",
         "neutral_fallback",
+        "trust_bound_active",
         "history_count",
         "history_version",
         "woodbury_small_dimension",
         "history_cache_hit",
+        "woodbury_cache_exact_fallback",
         "field_identity_sha256",
         "key_identity_sha256",
         "target_refresh_identity_sha256",
@@ -836,11 +1664,11 @@ class SequentialOuterRuntimeSkeleton:
 
     def close_round_after_history_finalize(
         self,
-        receipt: P1HistoryFinalizeReceipt,
+        receipt: BackendRoundCommitReceipt,
     ) -> int:
         if self.active_round is None or self.accepted_steps != FIXED_K:
             raise ODEBFStateError("sequential round lacks a complete K8")
-        if receipt.appended_count != BATCH_SIZE or receipt.after_version != self.active_round:
+        if receipt.appended_count != BATCH_SIZE or receipt.history_version != self.active_round:
             raise ODEBFStateError("sequential round did not append exactly one B10")
         evaluations = self.active_round
         self.cumulative_evaluation_count += evaluations
@@ -902,15 +1730,31 @@ def assert_round1_empty_history_equivalence(
 def stage_a_dry_plan() -> dict[str, Any]:
     rounds = build_b10x10_outer_plan()
     payload = {
-        "instruction_id": P1R29_SEQUENTIAL_PREPARATION_INSTRUCTION_ID,
-        "method_id": P1R29_SEQUENTIAL_PREPARATION_METHOD_ID,
-        "status": "PREPARED_WAITING_P1R29_ATOMIC_GATE",
-        "stage": "A_CPU_SOURCE_TEST_REPORT_ONLY",
+        "instruction_id": P1R29_BACKEND_HARDENING_INSTRUCTION_ID,
+        "scaffold_instruction_id": P1R29_SEQUENTIAL_PREPARATION_INSTRUCTION_ID,
+        "method_id": P1R29_BACKEND_METHOD_ID,
+        "status": "BACKEND_HARDENED_WAITING_VIABLE_ATOMIC_ADAPTER",
+        "sequential_backend_implementation": "CONTINUE_COMPLETE_MODEL_FREE",
+        "scientific_sequential_execution": "HOLD_UNTIL_VIABLE_ATOMIC_ADAPTER",
+        "stage": "BACKEND_CPU_SOURCE_TEST_REPORT_ONLY",
         "models": 0,
         "gpu_allocations": 0,
         "slurm_jobs": 0,
         "result_roots": 0,
         "atomic_winner_imports": 0,
+        "failed_p1r29_atomic_imports": 0,
+        "actual_b10x2_model_smoke_receipt": "NOT_RECORDED_NO_ADAPTER_SELECTED",
+        "adapter_neutral_dry_integration_contract": {
+            "current_w": True,
+            "current_z": True,
+            "layer_proposals": True,
+            "physical_signed_slopes": True,
+            "semantic_rho": True,
+            "current_raw_keys": True,
+            "terminal_physical_state_keys": True,
+            "backend_target_or_debt_preprocessing": False,
+            "shared_preprocessing_required_from_selected_adapter": True,
+        },
         "server1_janghj_gpu_cap": 4,
         "server2_janghj_gpu_cap_independent": 4,
         "future_stage_throttle_max": 2,
