@@ -248,6 +248,7 @@ class P1R37NoPersistentFreezeTest(unittest.TestCase):
         self.assertIn("if p1r36_active > 2", submitter)
         self.assertIn("SERVER2_PROJECT_GPU_CAP = 4", submitter)
         self.assertIn("ARRAY_MAX_CONCURRENT_GPU = 4", submitter)
+        self.assertIn('"ArrayTaskThrottle=4"', submitter)
         self.assertIn('"--hold"', submitter)
         self.assertIn('["scontrol", "release", job_id]', submitter)
 
