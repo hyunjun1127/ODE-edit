@@ -107,9 +107,15 @@ from .p1r24_atomic_strength import (
     evaluate_p1r24_kl,
     p1r24_cumulative_p_receipt,
     p1r24_disable_historical,
+    p1r24_remaining_lag_coordinate,
     p1r24_target_step,
     solve_p1r24_matched_routing,
     verify_p1r24_alphaedit_geometry,
+)
+from .p1r33_remaining_horizon import (
+    P1R33_INSTRUCTION_ID,
+    P1R33_METHOD_ID,
+    p1r33_full_residual_remaining_horizon_coordinate,
 )
 
 
@@ -215,6 +221,7 @@ def _run_ode_arm(
     write_once: Any,
     progress_simplex: bool = False,
     p1r24: bool = False,
+    p1r33: bool = False,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
@@ -223,8 +230,12 @@ def _run_ode_arm(
         raise ODEBFContractError("P1R23 ODE request count differs")
     if allocation not in ("RS", "BG"):
         raise ODEBFContractError("P1R23 ODE target allocation differs")
+    if p1r33 and not p1r24:
+        raise ODEBFContractError("P1R33 requires the P1R24 science path")
     arm_label = (
-        f"{allocation}-P1R24-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
+        f"{allocation}-P1R33-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
+        if p1r33
+        else f"{allocation}-P1R24-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r24
         else
         f"{allocation}-SIMPLEX-"
@@ -360,6 +371,11 @@ def _run_ode_arm(
                     p1r24_target_lock,
                     step_index=step_index,
                     frozen_mask=frozen_mask,
+                    coordinate_builder=(
+                        p1r33_full_residual_remaining_horizon_coordinate
+                        if p1r33
+                        else p1r24_remaining_lag_coordinate
+                    ),
                 )
                 target_next = target_step.target_next
                 target_velocity = target_step.write_velocity
@@ -661,7 +677,9 @@ def _run_ode_arm(
                 "inner_step_heldout_evaluation_count": 0,
                 "retry_backtracking_reject_count": 0,
                 "routing_method": (
-                    P1R24_METHOD_ID
+                    P1R33_METHOD_ID
+                    if p1r33
+                    else P1R24_METHOD_ID
                     if p1r24
                     else
                     PROGRESS_SIMPLEX_METHOD_ID
@@ -765,7 +783,9 @@ def _run_ode_arm(
         rollout_payload = {
             "arm": arm_label,
             "status": (
-                "P1R24_ATOMIC_STRENGTH_RECOVERY_K8_COMPLETE"
+                "P1R33_FULL_RESIDUAL_REMAINING_HORIZON_K8_COMPLETE"
+                if p1r33
+                else "P1R24_ATOMIC_STRENGTH_RECOVERY_K8_COMPLETE"
                 if p1r24
                 else "PROGRESS_SIMPLEX_DYNAMIC_K8_COMPLETE"
                 if progress_simplex
@@ -798,7 +818,9 @@ def _run_ode_arm(
             "initial_w0_sha256": initial_w0,
             "alphaedit_target_geometry": p1r24_alpha_geometry,
             "instruction_id": (
-                P1R24_INSTRUCTION_ID
+                P1R33_INSTRUCTION_ID
+                if p1r33
+                else P1R24_INSTRUCTION_ID
                 if p1r24
                 else
                 PROGRESS_SIMPLEX_INSTRUCTION_ID
@@ -806,7 +828,9 @@ def _run_ode_arm(
                 else P1R23_INSTRUCTION_ID
             ),
             "method_id": (
-                P1R24_METHOD_ID
+                P1R33_METHOD_ID
+                if p1r33
+                else P1R24_METHOD_ID
                 if p1r24
                 else
                 PROGRESS_SIMPLEX_METHOD_ID
@@ -965,7 +989,9 @@ def _run_ode_pair(
     allocation: str,
     progress_simplex: bool = False,
     p1r24: bool = False,
+    p1r33: bool = False,
     neutral_only: bool = False,
+    technical_smoke: bool = False,
 ) -> dict[str, Any]:
     from .p1_runtime import ArmRuntimeState, _entry_parameter_snapshot_sha256
 
@@ -1010,6 +1036,11 @@ def _run_ode_pair(
     w0_contract = _model_w0_contract(touched)
     routing_arms = (
         (
+            f"{allocation}-P1R33-NEUTRAL",
+            f"{allocation}-P1R33-SOFT",
+        )
+        if p1r33
+        else (
             f"{allocation}-P1R24-NEUTRAL",
             f"{allocation}-P1R24-SOFT",
         )
@@ -1081,6 +1112,7 @@ def _run_ode_pair(
             write_once=write_once,
             progress_simplex=progress_simplex,
             p1r24=p1r24,
+            p1r33=p1r33,
         )
     left = rollouts[selected_labels[0]]["public"]["initial"]
     left_metric = rollouts[selected_labels[0]]["public"]["metric"]
@@ -1115,7 +1147,9 @@ def _run_ode_pair(
     action_freeze = {
         "schema": f"{P1R23_SCHEMA}-paired-action-freeze/v1",
         "instruction_id": (
-            P1R24_INSTRUCTION_ID
+            P1R33_INSTRUCTION_ID
+            if p1r33
+            else P1R24_INSTRUCTION_ID
             if p1r24
             else
             PROGRESS_SIMPLEX_INSTRUCTION_ID
@@ -1123,7 +1157,9 @@ def _run_ode_pair(
             else P1R23_INSTRUCTION_ID
         ),
         "method_id": (
-            P1R24_METHOD_ID
+            P1R33_METHOD_ID
+            if p1r33
+            else P1R24_METHOD_ID
             if p1r24
             else
             PROGRESS_SIMPLEX_METHOD_ID
@@ -1146,11 +1182,15 @@ def _run_ode_pair(
     }
     action_freeze["identity_sha256"] = canonical_hash(action_freeze)
     action_sha = write_once(raw_root / "action-freeze.json", action_freeze)
-    if neutral_only:
+    if neutral_only or technical_smoke:
         terminal = {
-            "schema": "ode-edit-s05-p1r24-b1-smoke-terminal/v1",
-            "instruction_id": P1R24_INSTRUCTION_ID,
-            "method_id": P1R24_METHOD_ID,
+            "schema": (
+                "ode-edit-s05-p1r33-b1-smoke-terminal/v1"
+                if p1r33
+                else "ode-edit-s05-p1r24-b1-smoke-terminal/v1"
+            ),
+            "instruction_id": P1R33_INSTRUCTION_ID if p1r33 else P1R24_INSTRUCTION_ID,
+            "method_id": P1R33_METHOD_ID if p1r33 else P1R24_METHOD_ID,
             "source_head": source_head,
             "alias": alias,
             "request_count": 1,
@@ -1163,12 +1203,20 @@ def _run_ode_pair(
             "heldout_evaluator_access_count": 0,
             "persistent_history_append_count": 0,
             "W0_restored": _model_w0_contract(touched) == w0_contract,
-            "status": "P1R24_B1_TECHNICAL_SMOKE_COMPLETE",
+            "status": (
+                "P1R33_B1_TECHNICAL_SMOKE_COMPLETE"
+                if p1r33
+                else "P1R24_B1_TECHNICAL_SMOKE_COMPLETE"
+            ),
         }
         terminal["identity_sha256"] = canonical_hash(terminal)
         terminal_sha = write_once(destination / "terminal.json", terminal)
         manifest = {
-            "schema": "ode-edit-s05-p1r24-b1-smoke-manifest/v1",
+            "schema": (
+                "ode-edit-s05-p1r33-b1-smoke-manifest/v1"
+                if p1r33
+                else "ode-edit-s05-p1r24-b1-smoke-manifest/v1"
+            ),
             "source_head": source_head,
             "terminal_sha256": terminal_sha,
             "action_freeze_sha256": action_sha,
@@ -1186,7 +1234,9 @@ def _run_ode_pair(
         dataset_path,
         requests,
         arm=(
-            f"P1R24-{allocation}-ATOMIC-STRENGTH-RECOVERY-PAIR"
+            f"P1R33-{allocation}-FULL-RESIDUAL-REMAINING-HORIZON-PAIR"
+            if p1r33
+            else f"P1R24-{allocation}-ATOMIC-STRENGTH-RECOVERY-PAIR"
             if p1r24
             else f"P1R23-{allocation}-PROGRESS-SIMPLEX-PAIR"
             if progress_simplex
@@ -1222,7 +1272,9 @@ def _run_ode_pair(
     terminal = {
         "schema": f"{P1R23_SCHEMA}-ode-pair-terminal/v1",
         "instruction_id": (
-            P1R24_INSTRUCTION_ID
+            P1R33_INSTRUCTION_ID
+            if p1r33
+            else P1R24_INSTRUCTION_ID
             if p1r24
             else
             PROGRESS_SIMPLEX_INSTRUCTION_ID
@@ -1230,7 +1282,9 @@ def _run_ode_pair(
             else P1R23_INSTRUCTION_ID
         ),
         "method_id": (
-            P1R24_METHOD_ID
+            P1R33_METHOD_ID
+            if p1r33
+            else P1R24_METHOD_ID
             if p1r24
             else
             PROGRESS_SIMPLEX_METHOD_ID
@@ -1269,7 +1323,15 @@ def _run_ode_pair(
         "terminal_sha256": terminal_sha,
         "request_count": len(requests),
         "role": (
-            (
+            "P1R33_B10_RS_PAIR"
+            if p1r33
+            else (
+                "P1R24_B10_RS_PAIR"
+                if allocation == "RS"
+                else "P1R24_B10_BG_PAIR"
+            )
+            if p1r24
+            else (
                 "PROGRESS_SIMPLEX_BG_PAIR"
                 if allocation == "BG"
                 else "PROGRESS_SIMPLEX_RS_PAIR"
@@ -1288,7 +1350,11 @@ def _run_ode_pair(
     manifest_sha = write_once(destination / "manifest.json", manifest)
     return {
         "status": (
-            "P1R23_PROGRESS_SIMPLEX_PAIR_COMPLETE"
+            "P1R33_FULL_RESIDUAL_REMAINING_HORIZON_PAIR_COMPLETE"
+            if p1r33
+            else "P1R24_ATOMIC_STRENGTH_RECOVERY_PAIR_COMPLETE"
+            if p1r24
+            else "P1R23_PROGRESS_SIMPLEX_PAIR_COMPLETE"
             if progress_simplex
             else "P1R23_ODE_PAIR_COMPLETE"
         ),
@@ -1836,7 +1902,8 @@ def run_p1r23_scalable_batched(
     numerical_lock_sha256: str,
 ) -> dict[str, Any]:
     del stages
-    p1r24_role = role.startswith("P1R24_")
+    p1r24_role = role.startswith(("P1R24_", "P1R33_"))
+    p1r33_role = role.startswith("P1R33_")
     progress_simplex_role = role.startswith("PROGRESS_SIMPLEX_")
     simplex_lock_sha256: str | None = None
     if progress_simplex_role:
@@ -1888,6 +1955,8 @@ def run_p1r23_scalable_batched(
             "P1R24_B1_RS_NEUTRAL",
             "P1R24_B10_RS_PAIR",
             "P1R24_B10_BG_PAIR",
+            "P1R33_B1_RS_PAIR",
+            "P1R33_B10_RS_PAIR",
         ),
         "estimand": "ATOMIC",
         "joint_batch_application_count": 1,
@@ -1906,6 +1975,8 @@ def run_p1r23_scalable_batched(
         "P1R24_B1_RS_NEUTRAL",
         "P1R24_B10_RS_PAIR",
         "P1R24_B10_BG_PAIR",
+        "P1R33_B1_RS_PAIR",
+        "P1R33_B10_RS_PAIR",
     ):
         progress_simplex = progress_simplex_role
         return _run_ode_pair(
@@ -1940,12 +2011,16 @@ def run_p1r23_scalable_batched(
                     "PROGRESS_SIMPLEX_RS_PAIR",
                     "P1R24_B1_RS_NEUTRAL",
                     "P1R24_B10_RS_PAIR",
+                    "P1R33_B1_RS_PAIR",
+                    "P1R33_B10_RS_PAIR",
                 )
                 else "BG"
             ),
             progress_simplex=progress_simplex,
             p1r24=p1r24_role,
+            p1r33=p1r33_role,
             neutral_only=role == "P1R24_B1_RS_NEUTRAL",
+            technical_smoke=role == "P1R33_B1_RS_PAIR",
         )
     if role == "CALIBRATION":
         return _run_calibration(

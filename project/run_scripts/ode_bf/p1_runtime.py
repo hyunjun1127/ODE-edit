@@ -3244,9 +3244,18 @@ def run_p1(
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
     if atomic_strength_recovery_role is not None:
-        from .p1r24_atomic_strength_panel import expected_p1r24_result_name
+        if atomic_strength_recovery_role.startswith("P1R33_"):
+            from .p1r33_remaining_horizon_panel import expected_p1r33_result_name
 
-        expected_name = expected_p1r24_result_name(alias, atomic_strength_recovery_role)
+            expected_name = expected_p1r33_result_name(
+                alias, atomic_strength_recovery_role
+            )
+        else:
+            from .p1r24_atomic_strength_panel import expected_p1r24_result_name
+
+            expected_name = expected_p1r24_result_name(
+                alias, atomic_strength_recovery_role
+            )
     elif scalable_batched_role is not None:
         from .p1_scalable_batched_runtime_panel import (
             expected_p1r23_result_name,
@@ -3636,7 +3645,10 @@ def run_p1(
                 ):
                     raise ODEBFContractError("P1R23 B10 seal binding differs")
                 if atomic_strength_recovery_role is not None:
-                    if atomic_strength_recovery_role == "P1R24_B1_RS_NEUTRAL":
+                    if atomic_strength_recovery_role in (
+                        "P1R24_B1_RS_NEUTRAL",
+                        "P1R33_B1_RS_PAIR",
+                    ):
                         cold_requests = tuple(cold_requests[:1])
                         from .scalable_batched_runtime import scalable_ordered_request_digest
 
@@ -3651,6 +3663,7 @@ def run_p1(
                     elif atomic_strength_recovery_role not in (
                         "P1R24_B10_RS_PAIR",
                         "P1R24_B10_BG_PAIR",
+                        "P1R33_B10_RS_PAIR",
                     ):
                         raise ODEBFContractError("P1R24 role differs")
                 elif scalable_batched_batch_size == 100:

@@ -12,7 +12,7 @@ from contextlib import ExitStack
 from dataclasses import asdict, dataclass
 from enum import Enum
 import math
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 from pathlib import Path
 import hashlib
 
@@ -349,6 +349,64 @@ class P1R24TargetStep:
     receipt: Mapping[str, Any]
 
 
+@dataclass(frozen=True, slots=True)
+class P1R24WriteCoordinate:
+    required_analytic: torch.Tensor
+    required_model: torch.Tensor
+    write_velocity: torch.Tensor
+    receipt: Mapping[str, Any]
+
+
+P1R24CoordinateBuilder = Callable[
+    [torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, int],
+    P1R24WriteCoordinate,
+]
+
+
+def p1r24_remaining_lag_coordinate(
+    target_next64: torch.Tensor,
+    current_target64: torch.Tensor,
+    current_terminal64: torch.Tensor,
+    displacement: torch.Tensor,
+    step_index: int,
+) -> P1R24WriteCoordinate:
+    lag = (current_target64 - current_terminal64).contiguous()
+    remaining = P1R24_K - step_index
+    required = (displacement + lag / remaining).contiguous()
+    required_model = required.to(dtype=torch.float32).contiguous()
+    write_velocity = (required_model / P1R24_H).contiguous()
+    identity_residual = float(
+        torch.max(torch.abs(P1R24_H * write_velocity - required_model))
+    )
+    analytic_to_model_cast_residual = float(
+        torch.max(torch.abs(required_model.to(torch.float64) - required))
+    )
+    if identity_residual > P1R24_NUMERICAL_EPSILON:
+        raise ODEBFContractError("P1R24 remaining-step identity differs")
+    receipt = {
+        "schema": "ode-edit-s05-p1r24-target-write-coordinate/v1",
+        "coordinate_policy": "DISPLACEMENT_PLUS_LAG_OVER_REMAINING",
+        "remaining_steps": remaining,
+        "write_lag_sha256": tensor_sha256(lag),
+        "required_displacement_sha256": tensor_sha256(required_model),
+        "analytic_required_displacement_sha256": tensor_sha256(required),
+        "write_velocity_sha256": tensor_sha256(write_velocity),
+        "identity_max_abs_residual": identity_residual,
+        "analytic_to_model_cast_max_abs": analytic_to_model_cast_residual,
+        "field_coordinate": "ACTIVATION_VELOCITY",
+        "residual_presplit_count": 0,
+        "physical_h_application_count": 1,
+        "second_remaining_division_count": 0,
+    }
+    receipt["coordinate_receipt_sha256"] = canonical_hash(receipt)
+    return P1R24WriteCoordinate(
+        required,
+        required_model,
+        write_velocity,
+        receipt,
+    )
+
+
 def p1r24_target_step(
     current_target: torch.Tensor,
     current_terminal: torch.Tensor,
@@ -360,6 +418,7 @@ def p1r24_target_step(
     *,
     step_index: int,
     frozen_mask: Sequence[bool],
+    coordinate_builder: P1R24CoordinateBuilder = p1r24_remaining_lag_coordinate,
 ) -> P1R24TargetStep:
     if nll.target_gradient is None or kl.gradient is None:
         raise ODEBFContractError("P1R24 target gradients are absent")
@@ -410,19 +469,17 @@ def p1r24_target_step(
         clamp_ratio.append(ratio)
     target_next = candidate.to(dtype=torch.float32).contiguous()
     displacement = (target_next.to(dtype=torch.float64) - current64).contiguous()
-    lag = (current64 - current_terminal.detach().to(device="cpu", dtype=torch.float64)).contiguous()
-    remaining = P1R24_K - step_index
-    required = (displacement + lag / remaining).contiguous()
-    required_model = required.to(dtype=torch.float32).contiguous()
-    write_velocity = (required_model / P1R24_H).contiguous()
-    identity_residual = float(
-        torch.max(torch.abs(P1R24_H * write_velocity - required_model))
+    terminal64 = current_terminal.detach().to(device="cpu", dtype=torch.float64)
+    coordinate = coordinate_builder(
+        target_next.to(dtype=torch.float64),
+        current64,
+        terminal64,
+        displacement,
+        step_index,
     )
-    analytic_to_model_cast_residual = float(
-        torch.max(torch.abs(required_model.to(torch.float64) - required))
-    )
-    if identity_residual > P1R24_NUMERICAL_EPSILON:
-        raise ODEBFContractError("P1R24 remaining-step identity differs")
+    required = coordinate.required_analytic
+    required_model = coordinate.required_model
+    write_velocity = coordinate.write_velocity
     alpha_target_signed = float(-torch.sum(nll_gradient * displacement))
     rho_signed = float(-torch.sum(nll_gradient * required))
     rho = max(rho_signed, 0.0)
@@ -431,7 +488,6 @@ def p1r24_target_step(
         "k": step_index,
         "tau_before": step_index / P1R24_K,
         "tau_after": (step_index + 1) / P1R24_K,
-        "remaining_steps": remaining,
         "target_new_loss": nll.loss,
         "kl_loss": kl.loss,
         "decay_loss_mean": float(torch.mean(decay_values)),
@@ -440,22 +496,13 @@ def p1r24_target_step(
         "frozen_count": sum(latch),
         "clamp_ratio": clamp_ratio,
         "target_displacement_sha256": tensor_sha256(displacement),
-        "write_lag_sha256": tensor_sha256(lag),
-        "required_displacement_sha256": tensor_sha256(required_model),
-        "analytic_required_displacement_sha256": tensor_sha256(required),
-        "write_velocity_sha256": tensor_sha256(write_velocity),
-        "identity_max_abs_residual": identity_residual,
-        "analytic_to_model_cast_max_abs": analytic_to_model_cast_residual,
         "alpha_target_signed": alpha_target_signed,
         "rho_write_signed": rho_signed,
         "rho_write": rho,
-        "field_coordinate": "ACTIVATION_VELOCITY",
-        "residual_presplit_count": 0,
-        "physical_h_application_count": 1,
-        "second_remaining_division_count": 0,
         "combined_gradient_sha256": tensor_sha256(combined),
         "target_new_gradient_sha256": tensor_sha256(nll_gradient),
         "metric": scale,
+        **coordinate.receipt,
     }
     payload["identity_sha256"] = canonical_hash(payload)
     return P1R24TargetStep(
@@ -824,10 +871,12 @@ __all__ = [
     "P1R24_METHOD_ID",
     "P1R24RoutingResult",
     "P1R24RoutingStatus",
+    "P1R24WriteCoordinate",
     "build_p1r24_kl_plan",
     "evaluate_p1r24_kl",
     "p1r24_cumulative_p_receipt",
     "p1r24_disable_historical",
+    "p1r24_remaining_lag_coordinate",
     "p1r24_target_step",
     "solve_p1r24_matched_routing",
     "verify_p1r24_alphaedit_geometry",

@@ -1,0 +1,34 @@
+{
+  "schema_version": "ode-edit-s05-p1r33-remaining-horizon-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R33-P1R24-FULL-RESIDUAL-REMAINING-HORIZON-V1",
+  "method_id": "P1R33-P1R24-FULL-RESIDUAL-REMAINING-HORIZON-V1",
+  "scientific_base": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "grid": {"K": 8, "h": 0.125, "tau_final": 1.0, "retry": 0, "backtracking": 0, "imputation": 0},
+  "only_scientific_delta": {
+    "full_current_residual": "target_next-current_terminal",
+    "remaining_steps": "K-step_index",
+    "required_displacement": "full_current_residual/remaining_steps",
+    "write_velocity": "required_displacement/h",
+    "old_displacement_plus_lag_over_remaining_count": 0,
+    "remaining_horizon_division_count_per_step": 1,
+    "physical_h_application_count_per_step": 1,
+    "second_h_application_count": 0,
+    "semantic_debt_input_count": 0,
+    "residual_attenuation_by_barrier_count": 0
+  },
+  "frozen_p1r24": {
+    "target_update_count_per_step": 1,
+    "target_nll_kl_decay_clamp": "BYTE_IDENTICAL_P1R24",
+    "router": "P1R24_RS_NEUTRAL_SOFT_MATCHED_STRENGTH",
+    "structural_p_trust_energy_capacity": "BYTE_IDENTICAL_P1R24",
+    "history_count": 0,
+    "heldout_inner_step_count": 0,
+    "terminal_evaluator_count": 1
+  },
+  "inputs": {
+    "seal_root": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+    "request_order": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b"
+  },
+  "matrix": {"models": ["llama3-8b-inst", "qwen2.5-7b-inst"], "allocation": "RS", "arms": ["NEUTRAL", "SOFT"], "stage_max_gpu": 2, "server1_project_cap": 4},
+  "root_digest": "3bb6f4e55d676220a0bf192b1dba7d10b3d64e1fe15ddd9a56658baadff1369f"
+}
