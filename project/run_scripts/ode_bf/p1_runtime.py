@@ -3697,6 +3697,7 @@ def run_p1(
                         "P1R30_B10_RS_DEBT_NEUTRAL",
                         "P1R30_B10_RS_DEBT_SOFT",
                         "P1R30_B10_BG_PAIR",
+                        "P1R30_B10_BG_DEBT_SOFT",
                     ):
                         raise ODEBFContractError("P1R30 role differs")
                 elif atomic_strength_recovery_role is not None:

@@ -34,6 +34,30 @@ P1R30_SEAL_ROOT = (
 )
 
 
+def p1r30_role_dispatch(
+    role: str,
+) -> tuple[str, FixedE8Arm | None, bool]:
+    """Map a closed execution role without changing controller semantics."""
+    if role not in P1R30_ROLES:
+        raise ODEBFContractError("P1R30 execution role differs")
+    allocation = (
+        "BG"
+        if role in ("P1R30_B10_BG_PAIR", "P1R30_B10_BG_DEBT_SOFT")
+        else "RS"
+    )
+    selected_arm = (
+        FixedE8Arm.NEUTRAL
+        if role == "P1R30_B10_RS_DEBT_NEUTRAL"
+        else FixedE8Arm.SOFT
+        if role in (
+            "P1R30_B10_RS_DEBT_SOFT",
+            "P1R30_B10_BG_DEBT_SOFT",
+        )
+        else None
+    )
+    return allocation, selected_arm, role == "P1R30_B10_BG_PAIR"
+
+
 def run_p1r30_debt_priority(
     model: torch.nn.Module,
     tokenizer: Any,
@@ -69,8 +93,7 @@ def run_p1r30_debt_priority(
     inherited_runtime_lock_sha256: str,
 ) -> dict[str, Any]:
     del stages, mutation_lock
-    if role not in P1R30_ROLES:
-        raise ODEBFContractError("P1R30 execution role differs")
+    allocation, selected_arm, paired = p1r30_role_dispatch(role)
     request_order = scalable_ordered_request_digest(
         [str(item["request_sha256"]) for item in requests]
     )
@@ -114,8 +137,8 @@ def run_p1r30_debt_priority(
         "request_order_sha256": request_order,
         "request_microbatch_size": min(request_microbatch_size, len(requests)),
         "target_writer_base": "EXACT_P1R24_A0",
-        "allocation": "BG" if role == "P1R30_B10_BG_PAIR" else "RS",
-        "BG_access_count": 1 if role == "P1R30_B10_BG_PAIR" else 0,
+        "allocation": allocation,
+        "BG_access_count": 1 if allocation == "BG" else 0,
         "historical_sequential_access_count": 0,
         "p1r27_controller_inheritance_count": 0,
         "p1r29_controller_inheritance_count": 0,
@@ -129,14 +152,6 @@ def run_p1r30_debt_priority(
     preflight["identity_sha256"] = canonical_hash(preflight)
     write_once(raw_root / "execution-preflight.json", preflight)
 
-    selected_arm = (
-        FixedE8Arm.NEUTRAL
-        if role == "P1R30_B10_RS_DEBT_NEUTRAL"
-        else FixedE8Arm.SOFT
-        if role == "P1R30_B10_RS_DEBT_SOFT"
-        else None
-    )
-    allocation = "BG" if role == "P1R30_B10_BG_PAIR" else "RS"
     return _run_ode_pair(
         model,
         tokenizer,
@@ -166,8 +181,8 @@ def run_p1r30_debt_priority(
         p1r30=True,
         selected_p1r30_arm=selected_arm,
         technical_smoke=technical_smoke,
-        paired_p1r30=role == "P1R30_B10_BG_PAIR",
+        paired_p1r30=paired,
     )
 
 
-__all__ = ["run_p1r30_debt_priority"]
+__all__ = ["p1r30_role_dispatch", "run_p1r30_debt_priority"]

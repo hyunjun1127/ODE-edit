@@ -27,6 +27,9 @@ from project.run_scripts.ode_bf.p1r30_debt_priority import (
     nominal_demand_from_target_displacement,
     solve_p1r30_a0_relative_routing,
 )
+from project.run_scripts.ode_bf.p1r30_debt_priority_experiment import (
+    p1r30_role_dispatch,
+)
 from project.run_scripts.ode_bf.p1r30_debt_priority_panel import (
     P1R30_ROLES,
     expected_p1r30_result_name,
@@ -358,6 +361,7 @@ class P1R30DebtPriorityTests(unittest.TestCase):
                 "P1R30_B10_RS_DEBT_NEUTRAL",
                 "P1R30_B10_RS_DEBT_SOFT",
                 "P1R30_B10_BG_PAIR",
+                "P1R30_B10_BG_DEBT_SOFT",
             ),
         )
         names = {
@@ -366,6 +370,33 @@ class P1R30DebtPriorityTests(unittest.TestCase):
             for role in P1R30_ROLES
         }
         self.assertEqual(len(names), len(dry.ALIASES) * len(P1R30_ROLES))
+
+    def test_a2_bg_soft_isolation_is_dispatch_only(self) -> None:
+        allocation, selected, paired = p1r30_role_dispatch(
+            "P1R30_B10_BG_DEBT_SOFT"
+        )
+        self.assertEqual(allocation, "BG")
+        self.assertIs(selected, FixedE8Arm.SOFT)
+        self.assertFalse(paired)
+        self.assertEqual(
+            expected_p1r30_result_name(
+                "qwen2.5-7b-inst",
+                "P1R30_B10_BG_DEBT_SOFT",
+                technical_attempt="a2-isolation-r1",
+            ),
+            (
+                "s05-p1r30-qwen2.5-7b-inst-"
+                "b10-bg-debt-priority-soft-isolated-v1-a2-isolation-r1"
+            ),
+        )
+        self.assertEqual(
+            p1r30_role_dispatch("P1R30_B10_BG_PAIR"),
+            ("BG", None, True),
+        )
+        self.assertEqual(
+            p1r30_role_dispatch("P1R30_B10_RS_DEBT_SOFT"),
+            ("RS", FixedE8Arm.SOFT, False),
+        )
 
     def test_a1_dry_plan_completes_eight_distinct_b10_cells(self) -> None:
         neutral = dry.build_plan("a" * 40, "b10-neutral")

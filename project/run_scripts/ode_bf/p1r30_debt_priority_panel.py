@@ -15,6 +15,7 @@ P1R30_ROLES = (
     "P1R30_B10_RS_DEBT_NEUTRAL",
     "P1R30_B10_RS_DEBT_SOFT",
     "P1R30_B10_BG_PAIR",
+    "P1R30_B10_BG_DEBT_SOFT",
 )
 P1R30_TECHNICAL_ATTEMPT_RE = re.compile(
     r"(?:[a-z0-9]+(?:-[a-z0-9]+)*)?"
@@ -38,6 +39,7 @@ def expected_p1r30_result_name(
         "P1R30_B10_RS_DEBT_NEUTRAL": "b10-rs-debt-priority-neutral",
         "P1R30_B10_RS_DEBT_SOFT": "b10-rs-debt-priority-soft",
         "P1R30_B10_BG_PAIR": "b10-bg-debt-priority-neutral-soft-pair",
+        "P1R30_B10_BG_DEBT_SOFT": "b10-bg-debt-priority-soft-isolated",
     }[role]
     attempt_suffix = f"-{technical_attempt}" if technical_attempt else ""
     return f"s05-p1r30-{alias}-{suffix}-v1{attempt_suffix}"

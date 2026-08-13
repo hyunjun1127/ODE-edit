@@ -1654,6 +1654,9 @@ def _run_ode_pair(
             (
                 "P1R30_B10_BG_PAIR"
                 if paired_p1r30 and allocation == "BG"
+                else "P1R30_B10_BG_DEBT_SOFT"
+                if allocation == "BG"
+                and selected_p1r30_arm is FixedE8Arm.SOFT
                 else "P1R30_B10_RS_DEBT_NEUTRAL"
                 if selected_p1r30_arm is FixedE8Arm.NEUTRAL
                 else "P1R30_B10_RS_DEBT_SOFT"
