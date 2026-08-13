@@ -1,0 +1,20 @@
+{
+  "schema_version": "ode-edit-s05-p1r33-remaining-horizon-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R33-P1R24-FULL-RESIDUAL-REMAINING-HORIZON-V1",
+  "base_checkpoint": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "implementation_checkpoint": "5a25e13c3a7258180e4f3beee634103d57fe60a9",
+  "entries": [
+    {"path":"project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r33_remaining_horizon.json","size":1682,"sha256":"677010161333a8423ec85156b0f4539df4ac8395c50821879b3af1c73701d163"},
+    {"path":"project/run_scripts/ode_bf/p1_runtime.py","size":197358,"sha256":"725c9eebded998e28c1f069a61b801e0fb663c11e6a0cec400b4a0678e77579d"},
+    {"path":"project/run_scripts/ode_bf/p1_scalable_batched_experiment.py","size":81086,"sha256":"9d138bfd8e41d1147288634e4c598effb5732eb97c8d4c847d6317e412d042bc"},
+    {"path":"project/run_scripts/ode_bf/p1r24_atomic_strength.py","size":35879,"sha256":"53019fd2fc40aa2e74e7b713acd97803f10d252927c8f04e6d9f9defac059acf"},
+    {"path":"project/run_scripts/ode_bf/p1r33_remaining_horizon.py","size":4746,"sha256":"8d9953cd220a0fff0319844dd3f25609e4fc02058aa0a58b21ffb60594ad2bbc"},
+    {"path":"project/run_scripts/ode_bf/p1r33_remaining_horizon_panel.py","size":1000,"sha256":"4d827bd910363b3c939e8a98d10312472db711f2d3ed463ff4f6e698ab787937"},
+    {"path":"project/run_scripts/ode_bf/tests/test_p1r33_remaining_horizon.py","size":4435,"sha256":"1a53f34cb333dc56ee83acd652b78b945ce7e40b3a955715ed45fa681420db90"},
+    {"path":"project/run_scripts/session05_ode_bf_p1r33_remaining_horizon.py","size":4438,"sha256":"cbd8c062b2b53b5c652e8f83e6b2d1c91af06ccf78ebaa48a2da84f6ba3ea4ad"},
+    {"path":"project/run_scripts/session05_ode_bf_p1r33_remaining_horizon.sbatch","size":2702,"sha256":"74c53f43b85b6d46bb79aecc02637451e16a67e59a95e8a5ca59f7052148711d"},
+    {"path":"project/run_scripts/session05_ode_bf_p1r33_remaining_horizon_dry_plan.py","size":2605,"sha256":"e95c8494532e680cc35db02dd1eac5a173c73441058c347147ab85ac83d2e338"},
+    {"path":"project/run_scripts/session05_ode_bf_submit_p1r33_remaining_horizon.py","size":5247,"sha256":"e0e263dbe25ff71addd3b6b3a595924d8a89486a1b77c8c5ac7322680327785d"}
+  ],
+  "root_digest": "65cb8a15c175c888930bbe4bd27611d4987808b0c3b9a18d7ef621b0bc672a2a"
+}
