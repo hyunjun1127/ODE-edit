@@ -41,13 +41,18 @@ def apply_p1r35_full_current_residual(
     current64 = current_target.detach().to(device="cpu", dtype=torch.float64)
     terminal64 = current_terminal.detach().to(device="cpu", dtype=torch.float64)
     next64 = target_step.target_next.detach().to(device="cpu", dtype=torch.float64)
-    d64 = target_step.target_displacement.detach().to(
+    recorded_d64 = target_step.target_displacement.detach().to(
         device="cpu", dtype=torch.float64
     )
+    # The coordinate contract defines d from the two accepted FP32 states.  The
+    # inherited P1R24 displacement was cast independently and may differ by one
+    # FP32 rounding unit; it remains observation-only here.
+    d64 = (next64 - current64).contiguous()
     lag64 = (current64 - terminal64).contiguous()
     full64 = (d64 + lag64).contiguous()
     direct64 = (next64 - terminal64).contiguous()
     d_identity = float(torch.max(torch.abs(d64 - (next64 - current64))))
+    inherited_d_cast_residual = float(torch.max(torch.abs(recorded_d64 - d64)))
     full_identity = float(torch.max(torch.abs(full64 - direct64)))
     if max(d_identity, full_identity) > P1R24_NUMERICAL_EPSILON:
         raise ODEBFContractError("P1R35 full-current-residual identity differs")
@@ -78,6 +83,9 @@ def apply_p1r35_full_current_residual(
         "current_terminal_sha256": tensor_sha256(current_terminal),
         "target_next_sha256": tensor_sha256(target_step.target_next),
         "target_displacement_sha256": tensor_sha256(
+            d64
+        ),
+        "inherited_target_displacement_sha256": tensor_sha256(
             target_step.target_displacement
         ),
         "lag_sha256": tensor_sha256(lag64),
@@ -87,6 +95,7 @@ def apply_p1r35_full_current_residual(
         "lag_norm": float(torch.linalg.vector_norm(lag64)),
         "required_displacement_norm": float(torch.linalg.vector_norm(full64)),
         "d_identity_max_abs_residual": d_identity,
+        "inherited_target_displacement_cast_max_abs": inherited_d_cast_residual,
         "full_current_residual_identity_max_abs": full_identity,
         "h_write_velocity_identity_max_abs": h_identity,
         "rho_write_signed": rho_old_signed,

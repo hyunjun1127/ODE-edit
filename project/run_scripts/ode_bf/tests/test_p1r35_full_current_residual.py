@@ -82,6 +82,35 @@ class P1R35FullCurrentResidualTests(unittest.TestCase):
             "b" * 64,
         )
 
+    def test_d_is_reconstructed_from_accepted_fp32_states(self) -> None:
+        current = torch.tensor([[1.0]], dtype=torch.float32)
+        target_next = torch.nextafter(
+            current, torch.full_like(current, float("inf"))
+        )
+        step = P1R24TargetStep(
+            target_next=target_next,
+            target_displacement=torch.zeros_like(current),
+            required_displacement=torch.zeros_like(current),
+            write_velocity=torch.zeros_like(current),
+            nll_gradient=torch.full_like(current, -1.0),
+            combined_gradient=torch.full_like(current, -1.0),
+            rho_write_signed=0.0,
+            rho_write=0.0,
+            alpha_target_signed=0.0,
+            frozen_mask=(False,),
+            receipt={"identity_sha256": "c" * 64},
+        )
+        result = apply_p1r35_full_current_residual(
+            step,
+            current_target=current,
+            current_terminal=torch.zeros_like(current),
+            step_index=1,
+        )
+        self.assertTrue(torch.equal(result.required_displacement, target_next))
+        self.assertGreater(
+            result.receipt["inherited_target_displacement_cast_max_abs"], 0.0
+        )
+
     def test_matrix_is_two_models_times_two_phases(self) -> None:
         self.assertEqual(P1R35_ROLES, ("P1R35_B1_RS_PAIR", "P1R35_B10_RS_PAIR"))
         names = {
