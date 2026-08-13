@@ -501,6 +501,9 @@ class P1R30DebtPriorityTests(unittest.TestCase):
             scripts / "session05_ode_bf_submit_p1r30_debt_priority.py"
         ).read_text(encoding="utf-8")
         self.assertIn("P1R30_B10_BG_PAIR P1R30_B10_BG_PAIR", sbatch)
+        self.assertIn("a2-qwen-bg-soft-isolated)", sbatch)
+        self.assertIn("ROLES=(P1R30_B10_BG_DEBT_SOFT)", sbatch)
+        self.assertIn("MODELS=(qwen2.5-7b-inst)", sbatch)
         self.assertIn('technical_attempt="${TECHNICAL_ATTEMPT}"', sbatch)
         self.assertIn('"callback_job_count": 0', submitter)
         self.assertNotIn("--dependency", submitter)

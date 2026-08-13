@@ -43,6 +43,10 @@ case "${PHASE}" in
     readonly MODELS=(llama3-8b-inst qwen2.5-7b-inst llama3-8b-inst qwen2.5-7b-inst)
     readonly ROLES=(P1R30_B10_RS_DEBT_SOFT P1R30_B10_RS_DEBT_SOFT P1R30_B10_BG_PAIR P1R30_B10_BG_PAIR)
     ;;
+  a2-qwen-bg-soft-isolated)
+    readonly MODELS=(qwen2.5-7b-inst)
+    readonly ROLES=(P1R30_B10_BG_DEBT_SOFT)
+    ;;
   *) echo "P1R30 phase differs" >&2; exit 2 ;;
 esac
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
