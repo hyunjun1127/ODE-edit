@@ -234,14 +234,14 @@ def _run_ode_case(
         tokenizer,
         requests,
         contexts=contexts,
-        request_microbatch_size=request_microbatch_size,
+        request_microbatch_size=min(request_microbatch_size, len(requests)),
         fact_token_strategy=hparams.fact_token,
     )
     capture_plan = build_scalable_capture_plan(
         tokenizer,
         requests,
         contexts=contexts,
-        request_microbatch_size=request_microbatch_size,
+        request_microbatch_size=min(request_microbatch_size, len(requests)),
         fact_token_strategy=hparams.fact_token,
     )
     objective_payload = objective_plan.raw_free_payload()

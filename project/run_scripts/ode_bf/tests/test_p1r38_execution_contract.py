@@ -43,6 +43,13 @@ class P1R38ExecutionContractTests(unittest.TestCase):
         self.assertIn("selection_added_model_forward_count", selection_source)
         self.assertIn("CURRENT_STATE_INSTANTANEOUS_NO_CARRY", proposal_source)
 
+    def test_b1_wrapper_bounds_microbatch_without_changing_b10(self) -> None:
+        source = (ROOT / "project/run_scripts/ode_bf/p1r36_independent_b10x10_runtime.py").read_text(encoding="utf-8")
+        self.assertEqual(
+            source.count("request_microbatch_size=min(request_microbatch_size, len(requests))"),
+            2,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
