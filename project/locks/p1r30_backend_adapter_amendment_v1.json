@@ -1,0 +1,44 @@
+{
+  "adapter_interface": {
+    "adapter_supplied": [
+      "reference_allocation_c0",
+      "reference_mean_progress",
+      "reference_debt_priority_progress",
+      "reference_energy",
+      "selected_coefficients",
+      "constraint_receipt",
+      "certificate_receipt"
+    ],
+    "backend_target_or_debt_preprocessing": false,
+    "coefficient_requirements": "finite_nonnegative_layer_ordered",
+    "progress_requirements": "reference_mean_and_debt_priority_are_finite_signed",
+    "reference_energy_requirement": "finite_nonnegative",
+    "preprocessing_owner": "SELECTED_ATOMIC_ADAPTER",
+    "universal_rho_over_slope_transform": false,
+    "universal_semantic_rho_exact_equality": false
+  },
+  "backend_unchanged": [
+    "persistent_bf16_state",
+    "raw_projected_history_keys",
+    "exact_woodbury_and_fallback",
+    "cumulative_structural_h",
+    "cumulative_structural_p",
+    "cache_identity_and_invalidation",
+    "all_or_nothing_idempotent_transaction",
+    "terminal_six_field_key_identity"
+  ],
+  "base_checkpoint": "fa3d570bdcea49cdaa1d705dfd399648a4920778",
+  "contract_sha256": "e0b7fcc3d81963475e57f876f77c4987cbb872fa7ab583e812cd2e9588f60611",
+  "execution": {
+    "actual_b10x2_model_smoke": "NOT_RECORDED_NO_ADAPTER_SELECTED",
+    "gpu_action_count": 0,
+    "model_action_count": 0,
+    "result_root_action_count": 0,
+    "scientific_sequential_execution": "HOLD_UNTIL_VIABLE_ATOMIC_ADAPTER",
+    "slurm_action_count": 0
+  },
+  "instruction_id": "P1R30-DEBT-PRIORITY-A0-BARRIER-BACKEND-ADAPTER-AMENDMENT-V1",
+  "preserved_v2_lock_sha256": "eb7607ac067481cf83c4a7447b18e56624c89fa022b8dbf59ad619304c3850ff",
+  "scope": "MODEL_FREE_ADAPTER_INTERFACE_ONLY",
+  "status": "BACKEND_HARDENED_WAITING_VIABLE_ATOMIC_ADAPTER"
+}

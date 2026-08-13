@@ -2,8 +2,8 @@
 
 This module deliberately contains no model, evaluator, GPU, Slurm, or result-
 root entry point.  It prepares the state, exact historical Woodbury, incremental
-Structural-H, cumulative Structural-P, and exact-strength SoftHP contracts that
-may be connected only after a frozen P1R29 Atomic handoff is authorized.
+Structural-H, cumulative Structural-P, and adapter-supplied routing contracts
+that may be connected only after a viable Atomic handoff is authorized.
 """
 
 from __future__ import annotations
@@ -41,6 +41,9 @@ P1R29_BACKEND_HARDENING_INSTRUCTION_ID = (
     "ODEEDIT-S05-P1R29-INDEPENDENT-SEQUENTIAL-BACKEND-HARDENING-V1"
 )
 P1R29_BACKEND_METHOD_ID = "ADAPTER-NEUTRAL-SEQUENTIAL-HISTORICAL-BACKEND-V1"
+P1R30_BACKEND_ADAPTER_AMENDMENT_ID = (
+    "P1R30-DEBT-PRIORITY-A0-RELATIVE-BARRIER-BACKEND-ADAPTER-V1"
+)
 FIXED_H = 1.0 / FIXED_K
 SEQUENTIAL_ROUNDS = 10
 MAXIMUM_HISTORY_RECORDS = BATCH_SIZE * SEQUENTIAL_ROUNDS
@@ -83,6 +86,80 @@ class AtomicAdapterPreprocessingIdentity:
 
 
 @dataclass(frozen=True, slots=True)
+class AtomicAdapterConstraintCertificate:
+    """Raw-free pointer to an adapter-owned feasibility/certificate receipt."""
+
+    constraint_family: str
+    status: str
+    constraint_receipt_sha256: str
+    certificate_receipt_sha256: str
+    reference_feasible: bool
+    fallback_to_reference: bool
+
+    def __post_init__(self) -> None:
+        if not self.constraint_family or not self.status:
+            raise ODEBFContractError("Atomic adapter constraint certificate differs")
+        if any(
+            not isinstance(value, str) or len(value) != 64
+            for value in (
+                self.constraint_receipt_sha256,
+                self.certificate_receipt_sha256,
+            )
+        ):
+            raise ODEBFContractError("Atomic adapter constraint receipt identity differs")
+
+
+@dataclass(frozen=True, slots=True)
+class AtomicAdapterRoutingReference:
+    """Adapter-owned action geometry; the backend imposes no universal rho equality."""
+
+    reference_coefficients: tuple[float, ...]
+    reference_mean_progress: float
+    reference_debt_priority_progress: float
+    reference_energy: float
+    selected_coefficients: tuple[float, ...]
+    constraint_certificate: AtomicAdapterConstraintCertificate
+
+    def validate_for_layers(self, layer_order: Sequence[int]) -> None:
+        layer_count = len(layer_order)
+        if (
+            len(self.reference_coefficients) != layer_count
+            or len(self.selected_coefficients) != layer_count
+        ):
+            raise ODEBFContractError("Atomic adapter coefficient geometry differs")
+        if not all(
+            math.isfinite(float(value)) and float(value) >= 0.0
+            for value in self.reference_coefficients + self.selected_coefficients
+        ):
+            raise ODEBFContractError("Atomic adapter coefficients are not finite nonnegative")
+        if not all(
+            math.isfinite(float(value))
+            for value in (
+                self.reference_mean_progress,
+                self.reference_debt_priority_progress,
+            )
+        ) or not (
+            math.isfinite(float(self.reference_energy))
+            and float(self.reference_energy) >= 0.0
+        ):
+            raise ODEBFContractError("Atomic adapter reference geometry differs")
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        payload = {
+            "reference_coefficients": self.reference_coefficients,
+            "reference_mean_progress": self.reference_mean_progress,
+            "reference_debt_priority_progress": self.reference_debt_priority_progress,
+            "reference_energy": self.reference_energy,
+            "selected_coefficients": self.selected_coefficients,
+            "constraint_certificate": asdict(self.constraint_certificate),
+            "universal_semantic_rho_equality_required": False,
+            "universal_rho_over_slope_transform_required": False,
+        }
+        payload["identity_sha256"] = canonical_hash(payload)
+        return payload
+
+
+@dataclass(frozen=True, slots=True)
 class AtomicSequentialAdapterFrame:
     """Adapter-neutral current-state input for one future sequential field."""
 
@@ -92,7 +169,7 @@ class AtomicSequentialAdapterFrame:
     current_z: torch.Tensor
     proposals_by_layer: Mapping[int, torch.Tensor]
     physical_signed_slopes: tuple[float, ...]
-    semantic_rho: float
+    routing_reference: AtomicAdapterRoutingReference
     current_raw_keys_by_layer: Mapping[int, torch.Tensor]
     accepted_state_sha256: str
 
@@ -111,8 +188,7 @@ class AtomicSequentialAdapterFrame:
             math.isfinite(float(value)) for value in self.physical_signed_slopes
         ):
             raise ODEBFContractError("Atomic adapter physical slope geometry differs")
-        if not math.isfinite(float(self.semantic_rho)) or self.semantic_rho < 0.0:
-            raise ODEBFContractError("Atomic adapter semantic rho differs")
+        self.routing_reference.validate_for_layers(self.layer_order)
         _finite_tensor("Atomic adapter current z", self.current_z)
         for layer in self.layer_order:
             weight = self.current_w_by_layer[layer]
@@ -143,13 +219,15 @@ class AtomicSequentialAdapterFrame:
                 for layer in self.layer_order
             ),
             "physical_signed_slopes": self.physical_signed_slopes,
-            "semantic_rho": self.semantic_rho,
+            "routing_reference": self.routing_reference.raw_free_payload(),
             "current_raw_key_sha256": tuple(
                 (layer, tensor_sha256(self.current_raw_keys_by_layer[layer]))
                 for layer in self.layer_order
             ),
             "target_or_debt_preprocessing_implemented_by_backend": False,
             "shared_preprocessing_owned_by_selected_adapter": True,
+            "universal_semantic_rho_equality_required": False,
+            "universal_rho_over_slope_transform_required": False,
             "backend_preprocessing_model_forward_count": 0,
             "backend_preprocessing_backward_count": 0,
             "backend_h_p_model_forward_count": 0,
@@ -1749,12 +1827,20 @@ def stage_a_dry_plan() -> dict[str, Any]:
             "current_z": True,
             "layer_proposals": True,
             "physical_signed_slopes": True,
-            "semantic_rho": True,
+            "reference_allocation_c0": True,
+            "reference_mean_progress": True,
+            "reference_debt_priority_progress": True,
+            "reference_energy": True,
+            "selected_coefficients": True,
+            "constraint_and_certificate_receipts": True,
+            "universal_semantic_rho_equality": False,
+            "universal_rho_over_slope_transform": False,
             "current_raw_keys": True,
             "terminal_physical_state_keys": True,
             "backend_target_or_debt_preprocessing": False,
             "shared_preprocessing_required_from_selected_adapter": True,
         },
+        "adapter_amendment_id": P1R30_BACKEND_ADAPTER_AMENDMENT_ID,
         "server1_janghj_gpu_cap": 4,
         "server2_janghj_gpu_cap_independent": 4,
         "future_stage_throttle_max": 2,

@@ -1,0 +1,36 @@
+{
+  "base_checkpoint": "fa3d570bdcea49cdaa1d705dfd399648a4920778",
+  "contract_sha256": "e0b7fcc3d81963475e57f876f77c4987cbb872fa7ab583e812cd2e9588f60611",
+  "entries": [
+    {
+      "mode": "100644",
+      "path": "project/run_scripts/ode_bf/p1_state.py",
+      "sha256": "1b76715dea63e3d639213d6d46140dde4064e0a217a048d1c5b986c1c21a10fd",
+      "size": 26482
+    },
+    {
+      "mode": "100644",
+      "path": "project/run_scripts/ode_bf/p1r29_sequential_preparation.py",
+      "sha256": "4128d14a08233c659fb05799b1aa93aa7b6ab23c71cff0f48df58890e14206ed",
+      "size": 75642
+    },
+    {
+      "mode": "100644",
+      "path": "project/run_scripts/ode_bf/tests/test_p1r29_sequential_preparation.py",
+      "sha256": "038b323e04039435e94a1a75b7839a91f17851153752efe717e0004ba3de8333",
+      "size": 36412
+    },
+    {
+      "mode": "100644",
+      "path": "project/locks/p1r30_backend_adapter_amendment_v1.json",
+      "sha256": "85c6e35fe9782c7a0a37effa6785c1944b09a63d7b6ee71ae75876b79384b86e",
+      "size": 1742
+    }
+  ],
+  "entries_root": "0975cce274e704520c44fccfe69a95a19eeb676f7bc57829e079bab3634f2b61",
+  "instruction_id": "P1R30-DEBT-PRIORITY-A0-BARRIER-BACKEND-ADAPTER-AMENDMENT-V1",
+  "preserved_v2_lock_sha256": "eb7607ac067481cf83c4a7447b18e56624c89fa022b8dbf59ad619304c3850ff",
+  "preserved_v2_manifest_sha256": "bd35f7cbf03c7cfda3923d1c791fc9b0ebeac3dd69edbb5f4fa7aeb044b86b11",
+  "scope": "MODEL_FREE_ADAPTER_INTERFACE_ONLY",
+  "status": "BACKEND_HARDENED_WAITING_VIABLE_ATOMIC_ADAPTER"
+}
