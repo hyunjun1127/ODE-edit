@@ -49,7 +49,12 @@ def _active_gpu_jobs() -> int:
     return sum(1 for line in lines if "gpu" in line.casefold())
 
 
-def submit(source_head: str, *, smoke: bool = False) -> dict[str, object]:
+def submit(
+    source_head: str,
+    *,
+    smoke: bool = False,
+    attempt_suffix: str | None = None,
+) -> dict[str, object]:
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
@@ -58,10 +63,12 @@ def submit(source_head: str, *, smoke: bool = False) -> dict[str, object]:
         raise ODEBFContractError("P1R38 execution source differs")
     plan = dry.build_plan(source_head)
     if smoke:
+        if not attempt_suffix or not attempt_suffix.replace("-", "").isalnum():
+            raise ODEBFContractError("P1R38 B1 attempt suffix differs")
         for job in plan["jobs"]:
             arm = str(job["method"]).rsplit("-", 1)[-1].lower()
             job["method"] = str(job["method"]).replace("-NEUTRAL", "-B1-NEUTRAL").replace("-SOFT", "-B1-SOFT")
-            job["result_name"] = f"s05-p1r38-pr-p1r35-b1-{job['alias']}-{arm}-v1"
+            job["result_name"] = f"s05-p1r38-pr-p1r35-b1-{job['alias']}-{arm}-{attempt_suffix}-v1"
             job["case_count"] = 1
             job["request_count_per_case"] = 1
         plan["independent_atomic_b10_case_count"] = 0
@@ -99,6 +106,7 @@ def submit(source_head: str, *, smoke: bool = False) -> dict[str, object]:
         "--output", str(LOG_ROOT / "%A_%a.out"),
         "--error", str(LOG_ROOT / "%A_%a.err"),
         str(B1_SBATCH if smoke else SBATCH), source_head, str(RESULT_PARENT),
+        *([str(attempt_suffix)] if smoke else []),
     ])
     job_id = submitted.stdout.strip().split(";", 1)[0]
     if not job_id.isdigit():
@@ -127,6 +135,7 @@ def submit(source_head: str, *, smoke: bool = False) -> dict[str, object]:
         "intent_sha256": intent_sha,
         "held_inspection_sha256": hashlib.sha256(observed.encode()).hexdigest(),
         "held_then_atomic_release": True,
+        "attempt_suffix": attempt_suffix,
     }
     receipt_sha = _write_once(receipt_path, receipt)
     _run(["scontrol", "release", job_id])
@@ -137,8 +146,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--smoke", action="store_true")
+    parser.add_argument("--attempt-suffix")
     args = parser.parse_args()
-    print(json.dumps(submit(args.source_head, smoke=args.smoke), sort_keys=True, separators=(",", ":")))
+    print(json.dumps(submit(args.source_head, smoke=args.smoke, attempt_suffix=args.attempt_suffix), sort_keys=True, separators=(",", ":")))
     return 0
 
 

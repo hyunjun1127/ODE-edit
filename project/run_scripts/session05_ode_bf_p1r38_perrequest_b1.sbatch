@@ -15,12 +15,13 @@ umask 077
 readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
+readonly ATTEMPT_SUFFIX="${3:-}"
 readonly EXPECTED_SESSION="019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
 readonly RUN_TOKEN="p1r38-pr-p1r35-perrequest-b10x10-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly EXPECTED_BRANCH="codex/p1r38-pr-p1r35-perrequest-target-atomic-v1"
 
-[[ "$#" -eq 2 ]] || { echo "P1R38 B1 requires source and result parent" >&2; exit 2; }
+[[ "$#" -eq 3 && "${ATTEMPT_SUFFIX}" =~ ^[a-z0-9-]+$ ]] || { echo "P1R38 B1 requires source, result parent, suffix" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R38 B1 CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P1R38 B1 source differs" >&2; exit 2; }
 [[ "$(git branch --show-current)" == "${EXPECTED_BRANCH}" ]] || { echo "P1R38 B1 branch differs" >&2; exit 2; }
@@ -33,7 +34,7 @@ readonly METHODS=(PR-P1R35-B1-NEUTRAL PR-P1R35-B1-SOFT PR-P1R35-B1-NEUTRAL PR-P1
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
 readonly METHOD="${METHODS[${SLURM_ARRAY_TASK_ID}]}"
 readonly ARM="$(printf '%s' "${METHOD}" | awk -F- '{print tolower($NF)}')"
-readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-p1r38-pr-p1r35-b1-${MODEL}-${ARM}-v1"
+readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-p1r38-pr-p1r35-b1-${MODEL}-${ARM}-${ATTEMPT_SUFFIX}-v1"
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R38 B1 output exists" >&2; exit 2; }
 
 export HF_HOME="/mnt/raid5/janghj/.cache/huggingface"
@@ -51,4 +52,5 @@ exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-
   python -m project.run_scripts.session05_ode_bf_p1r38_perrequest_b10x10 \
   --model "${MODEL}" --output-root "${OUTPUT_ROOT}" \
   --source-head "${SOURCE_HEAD}" --method "${METHOD}" \
+  --attempt-suffix "${ATTEMPT_SUFFIX}" \
   --run-token "${RUN_TOKEN}"

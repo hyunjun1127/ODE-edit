@@ -32,12 +32,15 @@ CASE_COUNT = 10
 HISTORY_MODE = "OFF"
 
 
-def expected_p1r38_independent_result_name(alias: str, method: str) -> str:
+def expected_p1r38_independent_result_name(
+    alias: str, method: str, *, attempt_suffix: str | None = None
+) -> str:
     if method not in METHODS + B1_METHODS:
         raise ODEBFContractError("P1R38 independent method differs")
     arm = method.rsplit("-", 1)[-1].lower()
     if method in B1_METHODS:
-        return f"s05-p1r38-pr-p1r35-b1-{alias}-{arm}-v1"
+        suffix = f"-{attempt_suffix}" if attempt_suffix else ""
+        return f"s05-p1r38-pr-p1r35-b1-{alias}-{arm}{suffix}-v1"
     return f"s05-p1r38-pr-p1r35-independent-b10x10-{alias}-{arm}-v1"
 
 
