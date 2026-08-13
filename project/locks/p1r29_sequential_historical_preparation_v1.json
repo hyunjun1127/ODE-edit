@@ -1,0 +1,51 @@
+{
+  "atomic_winner_checkpoint": null,
+  "atomic_winner_import_count": 0,
+  "cache_policy": {
+    "history_columns_at_round_entry": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90],
+    "projected_history_reuse": true,
+    "raw_history_replacement_by_projected_key": false,
+    "semantic_drift_tolerance": 0.0,
+    "woodbury_backend_parity_tolerance": 1e-8
+  },
+  "capacity_semantics": "tie-only-after-exact-strength-and-normalized-h-p-minimax",
+  "contract_sha256": "7b65be938dba17d8ab932555436bbfc152e2a9f690ecc319239e97a8fee227f9",
+  "easyedit_source_mutation_count": 0,
+  "evaluation": {
+    "cumulative_b10_evaluations": 55,
+    "inner_evaluator_access_count": 0,
+    "pure_edit_and_evaluator_wall_separated": true
+  },
+  "history": {
+    "append_after_verified_commit_only": true,
+    "collision_decrements_cumulative_p_or_capacity": false,
+    "current_batch_visible_inside_own_k8": false,
+    "maximum_records": 100,
+    "persistent_bf16_w_per_arm": true,
+    "raw_and_projected_keys_paired": true
+  },
+  "instruction_id": "ODEEDIT-S05-P1R29-SEQUENTIAL-HISTORICAL-PREPARATION-V1",
+  "method_id": "P1R29-SEQUENTIAL-HISTORICAL-PREPARATION-NO-ATOMIC-WINNER-V1",
+  "resource_firewall": {
+    "gpu_action_count": 0,
+    "model_action_count": 0,
+    "result_root_action_count": 0,
+    "server1_janghj_gpu_cap": 4,
+    "server2_janghj_gpu_cap_independent": 4,
+    "slurm_action_count": 0,
+    "stage_b_future_throttle_max": 2
+  },
+  "routing": {
+    "exact_strength_primary": true,
+    "historical_absolute_budget_count": 0,
+    "historical_retry_or_veto_count": 0,
+    "neutral_relative_energy": true,
+    "soft_failure_action": "same-strength-neutral-fallback",
+    "soft_objective_order": ["normalized-h-p-minimax", "capacity-tie"]
+  },
+  "stage": "A_CPU_SOURCE_TEST_REPORT_ONLY",
+  "status": "PREPARED_WAITING_P1R29_ATOMIC_GATE",
+  "structural_h": "sum_l ||h*v_l*B_l*Z_H,l||_F^2",
+  "structural_p": "prior-outer-low-rank-plus-current-covariance-cross-and-self",
+  "target_or_semantic_debt_implementation_count": 0
+}
