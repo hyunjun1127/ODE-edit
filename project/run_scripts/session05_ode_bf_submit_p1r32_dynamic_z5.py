@@ -47,7 +47,7 @@ def _active_gpu_jobs() -> int:
     return sum(1 for line in lines if "gpu" in line.casefold())
 
 
-def submit(source_head: str, phase: str) -> dict[str, object]:
+def submit(source_head: str, phase: str, attempt: str) -> dict[str, object]:
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(["git", "status", "--porcelain", "--untracked-files=no"]).stdout
@@ -60,18 +60,21 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
     new = int(plan["task_concurrency"])
     if active + new > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R32 server1 project GPU cap differs")
-    namespace = f"s05-p1r32-{phase}-{source_head[:12]}-v1"
+    if attempt not in ("initial", "tech-r1"):
+        raise ODEBFContractError("P1R32 submission attempt differs")
+    namespace = f"s05-p1r32-{phase}-{source_head[:12]}-{attempt}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P1R32 submission namespace exists")
-    log_root = REPO_ROOT / f"local/odebf/logs/p1r32-{phase}-{source_head[:12]}"
+    log_root = REPO_ROOT / f"local/odebf/logs/p1r32-{phase}-{source_head[:12]}-{attempt}"
     log_root.mkdir(mode=0o700, parents=True, exist_ok=True)
     array = "0-1%2"
     intent = {
         "schema": "ode-edit-s05-p1r32-submission-intent/v1",
         "source_head": source_head,
         "phase": phase,
+        "attempt": attempt,
         "dry_plan": plan,
         "active_devbox_janghj_gpu_jobs": active,
         "project_gpu_cap": PROJECT_GPU_CAP,
@@ -105,6 +108,7 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
         "schema": "ode-edit-s05-p1r32-submission/v1",
         "source_head": source_head,
         "phase": phase,
+        "attempt": attempt,
         "job_id": job_id,
         "array": array,
         "job_count": 2,
@@ -125,8 +129,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--phase", required=True, choices=("smoke", "production"))
+    parser.add_argument("--attempt", default="initial", choices=("initial", "tech-r1"))
     args = parser.parse_args()
-    print(json.dumps(submit(args.source_head, args.phase), sort_keys=True, separators=(",", ":")))
+    print(json.dumps(submit(args.source_head, args.phase, args.attempt), sort_keys=True, separators=(",", ":")))
     return 0
 
 

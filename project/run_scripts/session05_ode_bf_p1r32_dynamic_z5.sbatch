@@ -39,8 +39,8 @@ else
 fi
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
 readonly RESULT_NAME="$(${EASYEDIT_ROOT}/.venv/bin/python - <<PY
-from project.run_scripts.ode_bf.p1r24_atomic_strength_panel import expected_p1r24_result_name
-print(expected_p1r24_result_name("${MODEL}", "${ROLE}"))
+from project.run_scripts.ode_bf.p1r32_dynamic_z5_panel import expected_p1r32_result_name
+print(expected_p1r32_result_name("${MODEL}", "${ROLE}"))
 PY
 )"
 readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULT_NAME}"
