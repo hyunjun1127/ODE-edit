@@ -15,7 +15,7 @@ umask 077
 readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
-readonly EXPECTED_SESSION="019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
+readonly EXPECTED_SESSION="019fe491-954b-70a0-8ba8-0588e9f8d741"
 readonly RUN_TOKEN="p1r37-no-persistent-freeze-independent-b10x10-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly EXPECTED_BRANCH="codex/p1r37-p1r36-no-persistent-freeze-independent-b10x10-v1"

@@ -238,6 +238,10 @@ class P1R37NoPersistentFreezeTest(unittest.TestCase):
         ).read_text()
         self.assertIn("p1r37_independent_b10x10_method=args.method", runner)
         self.assertIn("check-session-boundary.sh", sbatch)
+        self.assertIn(
+            'EXPECTED_SESSION="019fe491-954b-70a0-8ba8-0588e9f8d741"',
+            sbatch,
+        )
         self.assertIn("#SBATCH --array=0-7%4", sbatch)
         self.assertIn("#SBATCH --cpus-per-task=8", sbatch)
         self.assertIn("#SBATCH --mem=65000M", sbatch)
@@ -245,6 +249,13 @@ class P1R37NoPersistentFreezeTest(unittest.TestCase):
         self.assertIn("p1r37-no-persistent-freeze-independent-b10x10", sbatch)
         self.assertNotIn("p1r36-p1r35-independent-b10x10-${MODEL}", sbatch)
         self.assertIn('P1R36_JOB_ID = "19472"', submitter)
+        self.assertIn(
+            'EXPECTED_SESSION = "019fe491-954b-70a0-8ba8-0588e9f8d741"',
+            submitter,
+        )
+        self.assertIn("def _session_boundary_gate()", submitter)
+        self.assertIn('mode != 0o600', submitter)
+        self.assertIn('session_boundary_sha256', submitter)
         self.assertIn("if p1r36_active > 2", submitter)
         self.assertIn("SERVER2_PROJECT_GPU_CAP = 4", submitter)
         self.assertIn("ARRAY_MAX_CONCURRENT_GPU = 4", submitter)

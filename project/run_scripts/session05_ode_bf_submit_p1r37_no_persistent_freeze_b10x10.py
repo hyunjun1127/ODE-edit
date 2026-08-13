@@ -30,6 +30,8 @@ BRANCH = "codex/p1r37-p1r36-no-persistent-freeze-independent-b10x10-v1"
 SERVER2_PROJECT_GPU_CAP = 4
 ARRAY_MAX_CONCURRENT_GPU = 4
 P1R36_JOB_ID = "19472"
+EXPECTED_SESSION = "019fe491-954b-70a0-8ba8-0588e9f8d741"
+SESSION_BOUNDARY = REPO_ROOT / "servers/local/session-boundary.env"
 
 
 def _run(
@@ -95,6 +97,18 @@ def _p1r36_active_gpu_allocations() -> tuple[int, list[str]]:
     return _gpu_allocation_count(lines), lines
 
 
+def _session_boundary_gate() -> str:
+    if not SESSION_BOUNDARY.is_file() or SESSION_BOUNDARY.is_symlink():
+        raise ODEBFContractError("P1R37 local session boundary is absent")
+    mode = SESSION_BOUNDARY.stat().st_mode & 0o777
+    if mode != 0o600:
+        raise ODEBFContractError("P1R37 local session boundary mode differs")
+    checked = _run(["scripts/check-session-boundary.sh", EXPECTED_SESSION])
+    if not checked.stdout.startswith("PASS "):
+        raise ODEBFContractError("P1R37 local session boundary differs")
+    return hashlib.sha256(SESSION_BOUNDARY.read_bytes()).hexdigest()
+
+
 def submit(source_head: str) -> dict[str, object]:
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
@@ -102,6 +116,7 @@ def submit(source_head: str) -> dict[str, object]:
     dirty = _run(["git", "status", "--porcelain"]).stdout
     if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("P1R37 execution source differs")
+    session_boundary_sha256 = _session_boundary_gate()
     plan = dry.build_plan(source_head)
     if any(
         (RESULT_PARENT / str(job["result_name"])).exists()
@@ -136,6 +151,8 @@ def submit(source_head: str) -> dict[str, object]:
         ).hexdigest(),
         "new_max_concurrent_gpu": ARRAY_MAX_CONCURRENT_GPU,
         "server2_project_gpu_cap": SERVER2_PROJECT_GPU_CAP,
+        "session_boundary_sha256": session_boundary_sha256,
+        "expected_session": EXPECTED_SESSION,
         "held_then_atomic_release": True,
         "array": "0-7%4",
     }
@@ -187,6 +204,8 @@ def submit(source_head: str) -> dict[str, object]:
         "max_concurrent_gpu": ARRAY_MAX_CONCURRENT_GPU,
         "server2_project_gpu_cap": SERVER2_PROJECT_GPU_CAP,
         "p1r36_active_gpu_allocations_at_release": p1r36_active,
+        "session_boundary_sha256": session_boundary_sha256,
+        "expected_session": EXPECTED_SESSION,
         "intent_sha256": intent_sha,
         "held_inspection_sha256": hashlib.sha256(observed.encode()).hexdigest(),
         "held_then_atomic_release": True,
