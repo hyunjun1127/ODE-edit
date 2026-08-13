@@ -3678,7 +3678,10 @@ def run_p1(
                 ):
                     raise ODEBFContractError("P1R23 B10 seal binding differs")
                 if atomic_strength_recovery_role is not None:
-                    if atomic_strength_recovery_role == "P1R24_B1_RS_NEUTRAL":
+                    if atomic_strength_recovery_role in (
+                        "P1R24_B1_RS_NEUTRAL",
+                        "P1R32_B1_PAIR",
+                    ):
                         cold_requests = tuple(cold_requests[:1])
                         from .scalable_batched_runtime import scalable_ordered_request_digest
 
@@ -3693,6 +3696,7 @@ def run_p1(
                     elif atomic_strength_recovery_role not in (
                         "P1R24_B10_RS_PAIR",
                         "P1R24_B10_BG_PAIR",
+                        "P1R32_B10_PAIR",
                     ):
                         raise ODEBFContractError("P1R24 role differs")
                 elif scalable_batched_batch_size == 100:

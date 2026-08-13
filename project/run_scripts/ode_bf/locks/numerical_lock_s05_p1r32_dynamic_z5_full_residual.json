@@ -1,0 +1,50 @@
+{
+  "schema_version": "ode-edit-s05-p1r32-dynamic-z5-full-residual-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R32-DYNAMIC-Z5-FULL-RESIDUAL-ATOMIC-V1",
+  "method_id": "P1R32-DYNAMIC-Z5-FULL-RESIDUAL-DIRECT-C-ATOMIC-V1",
+  "scientific_base": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "contract_sha256": "b470b4b4ab442899c24061bb315f3c8775c028bbbe38d5aebefe7679652e557d",
+  "outer": {"K": 8, "h": 0.125, "tau_final": 1.0, "retry": 0, "backtracking": 0, "early_stop": 0},
+  "target": {
+    "inner_adam_updates": 5,
+    "final_post_update_measurement": 1,
+    "teacher_refresh_per_outer": 1,
+    "moment_reset_per_outer": 1,
+    "objective_reduction": "SUM_OF_PER_REQUEST_FULL_SIX_OBJECTIVES",
+    "llama": {"lr": 0.1, "kl": 0.0625, "decay": 0.5, "clamp": 0.75},
+    "qwen": {"lr": 0.5, "kl": 0.0625, "decay": 0.001, "clamp": 4.0}
+  },
+  "writer": {
+    "residual": "z_k_plus_1_minus_current_y_k",
+    "full_residual_divisor": 1,
+    "remaining_step_division_count": 0,
+    "semantic_debt_input_count": 0,
+    "physical_h_application_count": 1,
+    "second_h_application_count": 0
+  },
+  "router": {
+    "coordinate": "DIRECT_APPLIED_COEFFICIENT_c=h*v",
+    "raw_slope_coordinate": "derivative_with_respect_to_full_residual_field_applied_coefficient_c",
+    "velocity_slope_conversion": "a_v=h_times_raw_slope",
+    "writer_demand": "positive_part_of_P1R24_A0_entry_target_new_gradient_dot_full_residual",
+    "neutral_c0": "P1R24_A0_matched_neutral_with_v_active=rho_over_sum_active_a_v_and_c0=h_times_v",
+    "soft_strength": "raw_applied_slope_dot_c_at_least_reference_minus_SIMPLEX_PRIMAL_TOLERANCE",
+    "soft_energy": "reference_energy_with_inherited_relative_and_absolute_tolerances",
+    "stage1": "minimum_cumulative_structural_p",
+    "stage2": "minimum_capacity_inside_inherited_structural_p_tie",
+    "inverse_slope_operation_count": 0,
+    "fallback": "EXACT_C0"
+  },
+  "inputs": {
+    "seal_root": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+    "request_order": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b"
+  },
+  "firewall": {
+    "inner_heldout_access_count": 0,
+    "historical_input_count": 0,
+    "hard_p_budget_count": 0,
+    "functional_p_veto_count": 0,
+    "candidate_materialization_count": 0
+  },
+  "root_digest": "56e4aa6bfb199fee6f683e39cdc8d4656f0a204440af696ebf60f5195507e3b3"
+}

@@ -1,0 +1,31 @@
+{
+  "entries": [
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r24_independent_b10x10.json", "sha256": "f90dec83269696c18f10ed2232ba5785595ba980f2ec01872cc73c6fc46a1291", "size": 1552},
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r31_p1r24_independent_b10x10_detailed.json", "sha256": "73ccff72c4817931658eb168840880afee18fba64d92305c002242974b60d397", "size": 1774},
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r32_dynamic_z5_full_residual.json", "sha256": "35f3a9c1a4b958c08c39db319f83c35d593db1038ea6807afb44fd5458fe0653", "size": 2356},
+    {"path": "project/run_scripts/ode_bf/locks/p1r24_independent_b10x10_stream_seal.json", "sha256": "01612c28f700d7281e7f4887189577305396a47715760c98997f97d2acfe596b", "size": 52138},
+    {"path": "project/run_scripts/ode_bf/locks/source_manifest_s05_p1r24_independent_b10x10.json", "sha256": "4c5880fb212d8c83c9b9bcc8e52fd4fc8088ff5717b28cca915da73dfb08f676", "size": 2451},
+    {"path": "project/run_scripts/ode_bf/locks/source_manifest_s05_p1r31_p1r24_independent_b10x10_detailed.json", "sha256": "934cefc1253cec14ab84d4d1b5c7e998e3abcfa80bf929d69d9034d526dfe69b", "size": 3001},
+    {"path": "project/run_scripts/ode_bf/p1_runtime.py", "sha256": "c5cbe085db2725ca003d580f8899560bf7d755a5635e6e558ddc8d0a1db2d5b2", "size": 201363},
+    {"path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py", "sha256": "96afbf6484b90e8b689e4a31b02444f3f19c0ed3c4af45afdf87591f1987c051", "size": 87898},
+    {"path": "project/run_scripts/ode_bf/p1r24_independent_b10x10_panel.py", "sha256": "c3f6263cbb43814e8ec772ceca75ce5bc62ba94b3cdc9caf98f756d842a547f1", "size": 3031},
+    {"path": "project/run_scripts/ode_bf/p1r24_independent_b10x10_runtime.py", "sha256": "02defa8e9ad36ecb8146df90008969c782626dbc0394297fe5017f549c8adf16", "size": 26248},
+    {"path": "project/run_scripts/ode_bf/p1r24_independent_b10x10_selection.py", "sha256": "ff4267090bd185c063f567867bf7840f7cbf409201d24c1e82ea46fe6f2956c4", "size": 11498},
+    {"path": "project/run_scripts/ode_bf/p1r32_dynamic_z5.py", "sha256": "007d69a563dbcbbef72254ad53701f79c89259a59b285c1de3af3ad528b76969", "size": 28160},
+    {"path": "project/run_scripts/ode_bf/p1r32_dynamic_z5_panel.py", "sha256": "03a49a8ec84eaf6558f4ab6b96680351ecdd38606f18b70c4aaec8504c762409", "size": 976},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r24_independent_b10x10.py", "sha256": "44827bd0375be10f8000a89f5409c1b093ffb7108f05e273cc88830bbaf7536c", "size": 7240},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r32_dynamic_z5.py", "sha256": "85c5f37a20baa2c8283885a5e2def59334d9962e55f4579c37d379e236f7ca7e", "size": 6515},
+    {"path": "project/run_scripts/session05_ode_bf_p1r24_independent_b10x10.py", "sha256": "97a70a3796381963995dc7f60a6bf82738d890636fcf41605a66f967d5571dd2", "size": 5906},
+    {"path": "project/run_scripts/session05_ode_bf_p1r24_independent_b10x10.sbatch", "sha256": "161797f33f6071f6df505a870a6ae27cf4f6adac2baa871de1d6ddfc2f99cd14", "size": 2865},
+    {"path": "project/run_scripts/session05_ode_bf_p1r24_independent_b10x10_dry_plan.py", "sha256": "26c8eed31df53c6676a8471e31feec8c14e87c083af9320bb3ac01b4b110c54b", "size": 2870},
+    {"path": "project/run_scripts/session05_ode_bf_p1r32_dynamic_z5.py", "sha256": "4b907052c3a207d7d1349dbf26f76e35464820a5d60cbcbd0a8c0f6bf760a582", "size": 5717},
+    {"path": "project/run_scripts/session05_ode_bf_p1r32_dynamic_z5.sbatch", "sha256": "d76279720cc36e306162f6b38bff40780371be39a8d8e03c585c440507cc7740", "size": 2681},
+    {"path": "project/run_scripts/session05_ode_bf_p1r32_dynamic_z5_dry_plan.py", "sha256": "7993c29eb3b1cc15d737ea4b71cd90947a089e7aea9cf238d77425365d0e0d59", "size": 3031},
+    {"path": "project/run_scripts/session05_ode_bf_submit_p1r24_independent_b10x10.py", "sha256": "e3975d13d5946e9d6b660131324087ac894a7cf2f8626fb14e5c635cf74202e3", "size": 5551},
+    {"path": "project/run_scripts/session05_ode_bf_submit_p1r32_dynamic_z5.py", "sha256": "add0559bb47d1d26f5eb0e129d36c71cf8f41706b303f2acf078678714534600", "size": 5417}
+  ],
+  "instruction_id": "ODEEDIT-S05-P1R32-DYNAMIC-Z5-FULL-RESIDUAL-ATOMIC-V1",
+  "root_digest": "ab9593baa5b2386c9530e2c7f396a147f3955c02c995fb4fb9fc7e44a0b2e7da",
+  "schema_version": "ode-edit-s05-p1r32-dynamic-z5-source-manifest/v1",
+  "scientific_base": "ce8c6c36348752f1407f7d713d30e6b5c727379b"
+}
