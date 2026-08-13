@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import time
+from contextlib import ExitStack, nullcontext
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
@@ -17,6 +18,11 @@ from .fixed_e8_soft_routing import FixedE8Arm
 from .functional import tensor_sha256
 from .p0_runtime import ModelForwardCounter
 from .p1_replay import build_outer_entry_pretrained_cache
+from .p1_backend import _virtual_context
+from .p1_stepwise import StepwiseActionFreeze, evaluate_counterfact_stepwise_primary
+from .common_cold_coordinate import common_terminal_residual_input
+from .common_coldcoord_fixed_e8_runtime import _heldout_additive_lookup_geometry
+from .bg_soft_diagnostics import HeldoutRequestResidualActivationOverlay
 from .p1_runtime import ArmRuntimeState, _atomic_write_once, _entry_parameter_snapshot_sha256
 from .p1_scalable_batched_experiment import (
     _action_frozen_cases,
@@ -26,7 +32,11 @@ from .p1_scalable_batched_experiment import (
 )
 from .p1_state import ArmWeightSnapshot, P1Arm, P1HistoryLedger
 from .p1r24_atomic_strength import P1R24_METHOD_ID
-from .scalable_batched_model import build_scalable_capture_plan, build_scalable_objective_plan
+from .scalable_batched_model import (
+    build_scalable_capture_plan,
+    build_scalable_objective_plan,
+    evaluate_scalable_target_new_objective,
+)
 from .scalable_batched_runtime import (
     P1R23_GRID_COUNT,
     P1R23_LAYER_ORDER,
@@ -34,8 +44,12 @@ from .scalable_batched_runtime import (
 )
 
 
-INSTRUCTION_ID = "ODEEDIT-S05-P1R24-RS-SOFT-INDEPENDENT-B10X10-V1"
-METHODS = ("RS-P1R24-SOFT",)
+INSTRUCTION_ID = "ODEEDIT-S05-P1R31-P1R24-INDEPENDENT-B10X10-FULL-MATRIX-DETAILED-V1"
+METHODS = tuple(
+    f"{allocation}-P1R24-{arm}"
+    for allocation in ("RS", "BG")
+    for arm in ("NEUTRAL", "SOFT")
+)
 CASE_COUNT = 10
 HISTORY_MODE = "OFF"
 
@@ -43,10 +57,8 @@ HISTORY_MODE = "OFF"
 def expected_p1r24_independent_result_name(alias: str, method: str) -> str:
     if method not in METHODS:
         raise ODEBFContractError("independent B10 method differs")
-    return (
-        "s05-p1r24-rs-soft-independent-b10x10-"
-        f"{alias}-tech-r1-v1"
-    )
+    token = method.lower().replace("-p1r24-", "-")
+    return f"s05-p1r31-p1r24-independent-b10x10-detailed-{alias}-{token}-v1"
 
 
 def _hashes(parameters: Mapping[str, torch.nn.Parameter]) -> dict[str, str]:
@@ -152,6 +164,167 @@ def _case_freeze(
     return payload
 
 
+def _postfreeze_stepwise_panel(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    cases: Sequence[Any],
+    *,
+    alias: str,
+    method: str,
+    case_root: Path,
+    request_order_sha256: str,
+    action_sha256: str,
+    objective_plan: Any,
+    hparams: Any,
+    trajectory: Sequence[Mapping[str, Any]],
+    touched: Mapping[str, torch.nn.Parameter],
+) -> dict[str, Any]:
+    """Evaluate the immutable k0..k8 trajectory after action freeze only."""
+
+    if len(trajectory) != P1R23_GRID_COUNT + 1:
+        raise ODEBFContractError("P1R31 frozen trajectory length differs")
+    lookup_positions, patched_rows, lookup_receipt = (
+        _heldout_additive_lookup_geometry(
+            tokenizer,
+            requests,
+            cases,
+            fact_token_strategy=hparams.fact_token,
+        )
+    )
+    lookup_sha = _atomic_write_once(
+        case_root / "stepwise" / "heldout-additive-lookup.json",
+        lookup_receipt,
+    )
+    entry_w0 = _model_w0_contract(touched)
+    hashes: list[str] = []
+    step_rows: list[dict[str, Any]] = []
+    wall_total = 0.0
+    for snapshot in trajectory:
+        index = int(snapshot["accepted_index"])
+        factors = snapshot["factors"]
+        snapshot_sha = canonical_hash(
+            {
+                "accepted_index": index,
+                "action_sha256": action_sha256,
+                "target_state_sha256": tensor_sha256(snapshot["target_state"]),
+                "physical_terminal_sha256": tensor_sha256(
+                    snapshot["physical_terminal"]
+                ),
+                "physical_capture_sha256": snapshot["physical_capture_sha256"],
+                "factor_order": {
+                    name: [list(item.order_key) for item in values]
+                    for name, values in sorted(factors.items())
+                },
+            }
+        )
+        freeze = StepwiseActionFreeze(
+            variant=method,
+            request_order_sha256=request_order_sha256,
+            rollout_sha256=action_sha256,
+            snapshot_sha256=snapshot_sha,
+            snapshot_index=index,
+            accepted_snapshot_count=P1R23_GRID_COUNT + 1,
+            rejected_retry_count=0,
+            trajectory_status="ACTION_FROZEN_P1R24_K8",
+        )
+        started = time.perf_counter()
+        with ExitStack() as stack:
+            if any(factors.values()):
+                stack.enter_context(_virtual_context(model, factors))
+            weight_only = evaluate_counterfact_stepwise_primary(
+                model, tokenizer, cases, model_alias=alias, freeze=freeze
+            )
+            weight_objective = evaluate_scalable_target_new_objective(
+                model, objective_plan
+            )
+            target_variable = (
+                snapshot["target_state"]
+                .detach()
+                .to(device=next(model.parameters()).device, dtype=torch.float32)
+                .clone()
+                .requires_grad_(True)
+            )
+            z_objective = evaluate_scalable_target_new_objective(
+                model,
+                objective_plan,
+                target_state=target_variable,
+                current_terminal=snapshot["physical_terminal"],
+                target_layer_name=hparams.layer_module_tmp.format(
+                    int(hparams.layers[-1])
+                ),
+            )
+            residual = common_terminal_residual_input(
+                snapshot["target_state"],
+                snapshot["physical_terminal"],
+                request_order_sha256,
+            )
+            overlay = HeldoutRequestResidualActivationOverlay(
+                model,
+                hparams.layer_module_tmp.format(int(hparams.layers[-1])),
+                residual.residual,
+                lookup_positions,
+                patched_rows,
+            )
+            with overlay:
+                z_oracle = evaluate_counterfact_stepwise_primary(
+                    model, tokenizer, cases, model_alias=alias, freeze=freeze
+                )
+        wall = time.perf_counter() - started
+        wall_total += wall
+        if _model_w0_contract(touched) != entry_w0:
+            raise ODEBFStateError("P1R31 stepwise evaluator mutated W0")
+        row = {
+            "schema": "ode-edit-s05-p1r31-p1r24-stepwise-observation/v1",
+            "instruction_id": INSTRUCTION_ID,
+            "method": method,
+            "accepted_index": index,
+            "snapshot_sha256": snapshot_sha,
+            "action_freeze_sha256": freeze.identity(),
+            "weight_only": weight_only.raw_free_payload(),
+            "z_oracle": z_oracle.raw_free_payload(),
+            "full_six_weight_target_new": weight_objective.raw_free_payload(),
+            "full_six_z_target_new": z_objective.raw_free_payload(),
+            "full_six_target_old_status": "NOT_RECORDED_BY_FROZEN_TARGET_NEW_PLAN",
+            "z_oracle_overlay": overlay.raw_free_payload(),
+            "heldout_lookup_sha256": lookup_sha,
+            "evaluation_only_materialization_count": int(index > 0),
+            "scientific_materialization_count": 0,
+            "controller_decision_influence_count": 0,
+            "heldout_access_after_action_freeze": True,
+            "wall_seconds": wall,
+        }
+        row["identity_sha256"] = canonical_hash(row)
+        hashes.append(
+            _atomic_write_once(
+                case_root / "stepwise" / f"accepted-k{index}.json", row
+            )
+        )
+        step_rows.append(row)
+    panel = {
+        "schema": "ode-edit-s05-p1r31-p1r24-stepwise-panel/v1",
+        "method": method,
+        "snapshot_count": len(step_rows),
+        "snapshot_receipt_sha256": hashes,
+        "evaluation_only_materialization_count": P1R23_GRID_COUNT,
+        "scientific_materialization_count": 0,
+        "controller_decision_influence_count": 0,
+        "heldout_opened_after_action_freeze": True,
+        "wall_seconds": wall_total,
+    }
+    panel["identity_sha256"] = canonical_hash(panel)
+    panel_sha = _atomic_write_once(case_root / "stepwise" / "panel.json", panel)
+    return {
+        "panel_sha256": panel_sha,
+        "snapshot_receipt_sha256": hashes,
+        "W0_weight_only": step_rows[0]["weight_only"],
+        "W0_z_oracle": step_rows[0]["z_oracle"],
+        "terminal_weight_only": step_rows[-1]["weight_only"],
+        "terminal_z_oracle": step_rows[-1]["z_oracle"],
+        "wall_seconds": wall_total,
+    }
+
+
 def _run_ode_case(
     model: torch.nn.Module,
     tokenizer: Any,
@@ -233,10 +406,14 @@ def _run_ode_case(
         counter.close()
     _atomic_write_once(case_root / "raw" / "objective-plan.json", objective_payload)
     _atomic_write_once(case_root / "raw" / "capture-plan.json", capture_payload)
-    if method != "RS-P1R24-SOFT":
+    if method not in METHODS:
         raise ODEBFContractError("P1R24 independent method differs")
-    allocation = "RS"
-    arm = FixedE8Arm.SOFT
+    allocation = method.split("-", 1)[0]
+    arm = (
+        FixedE8Arm.NEUTRAL
+        if method.endswith("-NEUTRAL")
+        else FixedE8Arm.SOFT
+    )
     state = ArmRuntimeState(
         P1Arm.R_BF,
         P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=40),
@@ -276,6 +453,7 @@ def _run_ode_case(
         raw_root=case_root / "raw",
         write_once=_atomic_write_once,
         p1r24=True,
+        retain_postfreeze_trajectory=True,
     )
     public = rollout["public"]
     if (
@@ -301,21 +479,23 @@ def _run_ode_case(
         selected_snapshot_sha256=freeze_sha,
         fixed_budget_slots_completed=P1R23_GRID_COUNT,
     )
-    w0, w0_eval_seconds = _evaluate_frozen_state(
-        model, tokenizer, cases, alias=alias, freeze_payload=evaluator_freeze
+    panel = _postfreeze_stepwise_panel(
+        model,
+        tokenizer,
+        requests,
+        cases,
+        alias=alias,
+        method=method,
+        case_root=case_root,
+        request_order_sha256=request_order,
+        action_sha256=public["identity_sha256"],
+        objective_plan=objective_plan,
+        hparams=hparams,
+        trajectory=rollout["postfreeze_trajectory"],
+        touched=touched,
     )
-    materializer = AcceptedPhysicalStateMaterializer(model, base_values)
-    materialized = False
-    try:
-        materialization = materializer.materialize(rollout["terminal_factors"], transition_index=8)
-        materialized = True
-        endpoint, evaluator_seconds = _evaluate_frozen_state(
-            model, tokenizer, cases, alias=alias, freeze_payload=evaluator_freeze
-        )
-    finally:
-        restore = materializer.restore()
-    if not materialized or _model_w0_contract(touched) != public["initial_w0_sha256"]:
-        raise ODEBFStateError("independent B10 endpoint W0 restore differs")
+    if _model_w0_contract(touched) != public["initial_w0_sha256"]:
+        raise ODEBFStateError("independent B10 stepwise W0 restore differs")
     history_off = _history_off_receipt()
     terminal = {
         "schema": "ode-edit-s05-p1r24-independent-b10-ode-terminal/v1",
@@ -331,14 +511,20 @@ def _run_ode_case(
         "objective_plan_sha256": objective_plan.identity_sha256,
         "capture_plan_sha256": capture_plan.identity_sha256,
         "rollout": public,
-        "W0_endpoint": w0,
-        "endpoint": endpoint,
-        "endpoint_materialization": materialization,
-        "endpoint_restore": restore,
+        "W0_endpoint": panel["W0_weight_only"],
+        "W0_z_oracle": panel["W0_z_oracle"],
+        "endpoint": panel["terminal_weight_only"],
+        "terminal_z_oracle": panel["terminal_z_oracle"],
+        "stepwise_panel_sha256": panel["panel_sha256"],
+        "stepwise_snapshot_receipt_sha256": panel["snapshot_receipt_sha256"],
+        "endpoint_restore": {
+            "pointer_restored_exact": True,
+            "byte_restored_exact": True,
+        },
         "history_mode": history_off,
         "action_freeze_sha256": freeze_sha,
-        "W0_evaluator_wall_seconds": w0_eval_seconds,
-        "endpoint_evaluator_wall_seconds": evaluator_seconds,
+        "W0_evaluator_wall_seconds": None,
+        "stepwise_evaluator_wall_seconds": panel["wall_seconds"],
         "retry_count": 0,
         "cross_case_state_count": 0,
         "W0_restored": True,
@@ -396,7 +582,7 @@ def run_p1r24_independent_b10x10(
     request_microbatch_size: int,
 ) -> dict[str, Any]:
     del collision_by_request, artifact_guard, artifact_receipt, numerical_sha256, context_sha256, cuda_runtime_receipt
-    if method != "RS-P1R24-SOFT" or len(stream_batches) != CASE_COUNT:
+    if method not in METHODS or len(stream_batches) != CASE_COUNT:
         raise ODEBFContractError("independent B10 matrix/count differs")
     if any(len(batch) != BATCH_SIZE for batch in stream_batches):
         raise ODEBFContractError("independent population is not ten B10 batches")
@@ -497,7 +683,7 @@ def run_p1r24_independent_b10x10(
     manifest["identity_sha256"] = canonical_hash(manifest)
     manifest_sha = _atomic_write_once(destination / "manifest.json", manifest)
     return {
-        "status": "P1R24_RS_SOFT_INDEPENDENT_B10X10_TERMINAL",
+        "status": "P1R31_P1R24_INDEPENDENT_B10X10_DETAILED_TERMINAL",
         "terminal_sha256": terminal_sha,
         "manifest_sha256": manifest_sha,
         "completed_case_count": len(completed),

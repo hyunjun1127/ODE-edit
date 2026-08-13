@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Held-inspect-release submitter for P1R24 RS-Soft independent B10x10."""
+"""Held-inspect-release submitter for P1R31 detailed full matrix."""
 
 from __future__ import annotations
 
@@ -21,11 +21,11 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError
 
 
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p1r24_independent_b10x10.sbatch"
-STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r24-rs-soft-independent-b10x10"
+STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r31-p1r24-independent-b10x10-detailed"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
-LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r24-rs-soft-independent-b10x10"
-BRANCH = "codex/p1r24-rs-soft-independent-b10x10-tech-r1"
-PROJECT_GPU_CAP = 3
+LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r31-p1r24-independent-b10x10-detailed"
+BRANCH = "codex/p1r31-p1r24-independent-b10x10-full-matrix-v1"
+PROJECT_GPU_CAP = 4
 
 
 def _run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -53,7 +53,7 @@ def submit(source_head: str) -> dict[str, object]:
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(["git", "status", "--porcelain", "--untracked-files=no"]).stdout
-    if source_head != head or parent != "cdd646830eb6e4b3649792f31473e60a1b9685f8" or branch != BRANCH or dirty:
+    if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("P1R24 independent execution source differs")
     plan = dry.build_plan(source_head)
     if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
@@ -62,14 +62,14 @@ def submit(source_head: str) -> dict[str, object]:
     new = int(plan["array_max_concurrent_gpu"])
     if active + new > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R24 independent server1 project GPU cap differs")
-    namespace = f"s05-p1r24-rs-soft-independent-b10x10-{source_head[:12]}-v1"
+    namespace = f"s05-p1r31-p1r24-independent-b10x10-detailed-{source_head[:12]}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P1R24 independent submission namespace exists")
     LOG_ROOT.mkdir(mode=0o700, parents=True, exist_ok=True)
     intent = {
-        "schema": "ode-edit-s05-p1r24-rs-soft-independent-b10x10-intent/v1",
+        "schema": "ode-edit-s05-p1r31-p1r24-independent-b10x10-detailed-intent/v1",
         "source_head": source_head,
         "source_parent": parent,
         "dry_plan": plan,
@@ -77,13 +77,13 @@ def submit(source_head: str) -> dict[str, object]:
         "new_max_concurrent_gpu": new,
         "project_gpu_cap": PROJECT_GPU_CAP,
         "held_then_atomic_release": True,
-        "array": "0-1%2",
+        "array": "0-7%4",
     }
     intent_sha = _write_once(intent_path, intent)
     submitted = _run([
-        "sbatch", "--hold", "--parsable", "--array", "0-1%2",
+        "sbatch", "--hold", "--parsable", "--array", "0-7%4",
         "--chdir", str(REPO_ROOT), "--nodelist", "devbox",
-        "--job-name", "odeedit_s05_p1r24_rs_soft_independent_b10x10",
+        "--job-name", "odeedit_s05_p1r31_p1r24_independent_b10x10_detailed",
         "--output", str(LOG_ROOT / "%A_%a.out"),
         "--error", str(LOG_ROOT / "%A_%a.err"),
         str(SBATCH), source_head, str(RESULT_PARENT),
@@ -102,13 +102,13 @@ def submit(source_head: str) -> dict[str, object]:
         _run(["scancel", job_id], check=False)
         raise ODEBFContractError("P1R24 independent held scheduler contract differs")
     receipt = {
-        "schema": "ode-edit-s05-p1r24-rs-soft-independent-b10x10-submission/v1",
+        "schema": "ode-edit-s05-p1r31-p1r24-independent-b10x10-detailed-submission/v1",
         "source_head": source_head,
         "source_parent": parent,
         "job_id": job_id,
-        "array": "0-1%2",
-        "job_count": 2,
-        "case_count": 20,
+        "array": "0-7%4",
+        "job_count": 8,
+        "case_count": 80,
         "max_concurrent_gpu": new,
         "project_gpu_cap": PROJECT_GPU_CAP,
         "intent_sha256": intent_sha,
