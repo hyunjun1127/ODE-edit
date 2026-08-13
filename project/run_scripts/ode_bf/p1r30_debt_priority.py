@@ -331,6 +331,7 @@ class P1R30RequestwiseSlopeReceipt:
     signed_progress_by_request: tuple[tuple[float, ...], ...]
     signed_progress_mean: tuple[float, ...]
     reduction_max_abs_residual: float
+    reduction_representation_rounding_max_abs: float
     model_forward_count: int
     backward_count: int
     processed_token_count: int
@@ -348,6 +349,12 @@ class P1R30RequestwiseSlopeReceipt:
             "signed_progress_mean": list(self.signed_progress_mean),
             "signed_scalars_preserved": True,
             "reduction_max_abs_residual": self.reduction_max_abs_residual,
+            "reduction_representation_rounding_max_abs": (
+                self.reduction_representation_rounding_max_abs
+            ),
+            "reduction_certificate_coordinate": (
+                "FP64_REQUEST_ACCUMULATION_THEN_MODEL_FACING_FP32"
+            ),
             "reduction_identity": "mean_i(a_i_l)=a_mean_l",
             "same_authoritative_backward": True,
             "requestwise_extension_added_model_forward_count": 0,
@@ -432,9 +439,21 @@ def evaluate_p1r30_requestwise_physical_slopes(
     mean_gradient = mean_gradient64.to(dtype=torch.float32).contiguous()
     signed_by_request64 = -request_gradient
     signed_mean64 = signed_by_request64.mean(dim=0)
+    signed_mean_model_coordinate64 = signed_mean64.to(
+        dtype=torch.float32
+    ).to(dtype=torch.float64)
     signed_mean_from_public = -mean_gradient.to(dtype=torch.float64)
     reduction_residual = float(
-        torch.max(torch.abs(signed_mean64 - signed_mean_from_public))
+        torch.max(
+            torch.abs(
+                signed_mean_model_coordinate64 - signed_mean_from_public
+            )
+        )
+    )
+    reduction_representation_rounding = float(
+        torch.max(
+            torch.abs(signed_mean64 - signed_mean_model_coordinate64)
+        )
     )
     if reduction_residual > P1R30_REDUCTION_TOLERANCE:
         raise ODEBFContractError("P1R30 requestwise slope reduction differs")
@@ -510,6 +529,9 @@ def evaluate_p1r30_requestwise_physical_slopes(
         "signed_by_request": [list(item) for item in rows],
         "signed_mean": list(mean_signed),
         "reduction_max_abs_residual": reduction_residual,
+        "reduction_representation_rounding_max_abs": (
+            reduction_representation_rounding
+        ),
         "objective_sha256": objective.identity_sha256,
         "model_forward_count": objective.model_forward_count,
         "backward_count": objective.backward_count,
@@ -518,6 +540,7 @@ def evaluate_p1r30_requestwise_physical_slopes(
         rows,
         mean_signed,
         reduction_residual,
+        reduction_representation_rounding,
         objective.model_forward_count,
         objective.backward_count,
         objective.processed_token_count,
@@ -866,6 +889,8 @@ class P1R30RoutingResult:
     coefficient_l1_distance: float
     coefficient_l2_distance: float
     coefficient_cosine: float
+    reduction_max_abs_residual: float
+    reduction_representation_rounding_max_abs: float
     linear_constraint_rank: int
     feasible_dimension: int
     certificates: tuple[P1R30SolverCertificate, ...]
@@ -1020,7 +1045,16 @@ def solve_p1r30_a0_relative_routing(
         raise ODEBFContractError("P1R30 routing input geometry differs")
     a_mean = request_slopes.mean(axis=0)
     applied_mean = np.asarray(problem.signed_progress, dtype=np.float64)
-    reduction_residual = float(np.max(np.abs(P1R30_H * a_mean - applied_mean)))
+    raw_applied_mean = P1R30_H * a_mean
+    model_coordinate_applied_mean = np.asarray(
+        raw_applied_mean, dtype=np.float32
+    ).astype(np.float64)
+    reduction_residual = float(
+        np.max(np.abs(model_coordinate_applied_mean - applied_mean))
+    )
+    reduction_representation_rounding = float(
+        np.max(np.abs(raw_applied_mean - model_coordinate_applied_mean))
+    )
     if reduction_residual > P1R30_REDUCTION_TOLERANCE:
         raise ODEBFContractError("P1R30 A0 mean slope reduction differs")
     omega = np.asarray(priority.omega, dtype=np.float64)
@@ -1248,6 +1282,12 @@ def solve_p1r30_a0_relative_routing(
         "reference_capacity": reference_capacity,
         "selected_capacity": selected_capacity,
         "reduction_residual": reduction_residual,
+        "reduction_representation_rounding_max_abs": (
+            reduction_representation_rounding
+        ),
+        "reduction_certificate_coordinate": (
+            "FP64_REQUEST_ACCUMULATION_THEN_MODEL_FACING_FP32"
+        ),
         "linear_constraint_rank": linear_rank,
         "feasible_dimension": feasible_dimension,
         "certificates": [item.raw_free_payload() for item in certificates],
@@ -1287,6 +1327,8 @@ def solve_p1r30_a0_relative_routing(
         l1,
         l2,
         cosine,
+        reduction_residual,
+        reduction_representation_rounding,
         linear_rank,
         feasible_dimension,
         tuple(certificates),

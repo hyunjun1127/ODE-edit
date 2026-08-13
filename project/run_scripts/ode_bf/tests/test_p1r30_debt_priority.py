@@ -291,6 +291,33 @@ class P1R30DebtPriorityTests(unittest.TestCase):
             atol=1.0e-7,
         )
 
+    def test_reduction_certificate_uses_model_facing_fp32_coordinate(self) -> None:
+        raw_mean = np.asarray(
+            (1.0e9 + 33.0, 7.0e8 + 17.0, 4.0e8 + 9.0, 2.0e8 + 5.0, 1.0e8 + 3.0),
+            dtype=np.float64,
+        )
+        public_applied = (
+            raw_mean.astype(np.float32).astype(np.float64) * P1R30_H
+        )
+        problem = _problem(tuple(float(item) for item in public_applied))
+        delta = np.asarray((3.0, -2.0, 1.0, -0.5, 0.25), dtype=np.float64)
+        observed = solve_p1r30_a0_relative_routing(
+            problem,
+            arm=FixedE8Arm.NEUTRAL,
+            rho_reference=0.75,
+            requestwise_signed_progress=(
+                tuple(float(item) for item in raw_mean + delta),
+                tuple(float(item) for item in raw_mean - delta),
+            ),
+            priority=debt_priority((1.0, 2.0), (0.0, 0.0), step_index=0),
+        )
+        self.assertEqual(observed.reduction_max_abs_residual, 0.0)
+        self.assertGreater(
+            observed.reduction_representation_rounding_max_abs,
+            P1R30_H * 1.0e-7,
+        )
+        self.assertEqual(observed.status, P1R30RoutingStatus.A0_REFERENCE)
+
     def test_router_ast_has_direct_c_constraints_and_no_legacy_inverse_path(self) -> None:
         path = Path(__file__).parents[1] / "p1r30_debt_priority.py"
         tree = ast.parse(path.read_text(encoding="utf-8"))
