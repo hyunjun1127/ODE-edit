@@ -29,6 +29,7 @@ from .p1_scalable_batched_experiment import (
 from .p1_state import ArmWeightSnapshot, P1Arm, P1HistoryLedger
 from .p1r34_w_anchored_finite_demand import P1R34NonSemanticTargetMove
 from .p1r35_full_current_residual import P1R35_METHOD_ID
+from .p1r38_perrequest_target import P1R38_METHOD_ID
 from .scalable_batched_model import (
     build_scalable_capture_plan,
     build_scalable_objective_plan,
@@ -116,6 +117,7 @@ def _case_failure(
     case_index: int,
     method: str,
     w0_restore: Mapping[str, Any],
+    p1r38: bool = False,
 ) -> dict[str, Any]:
     classification = (
         "SCIENTIFIC_FAIL"
@@ -127,8 +129,16 @@ def _case_failure(
         key=lambda value: value.name,
     )
     payload = {
-        "schema": "ode-edit-s05-p1r35-independent-b10-case-failure/v1",
-        "instruction_id": INSTRUCTION_ID,
+        "schema": (
+            "ode-edit-s05-p1r38-perrequest-independent-b10-case-failure/v1"
+            if p1r38
+            else "ode-edit-s05-p1r35-independent-b10-case-failure/v1"
+        ),
+        "instruction_id": (
+            "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1"
+            if p1r38
+            else INSTRUCTION_ID
+        ),
         "case_index": case_index,
         "method": method,
         "status": "TYPED_CASE_FAILURE_NO_RETRY_NO_IMPUTATION",
@@ -155,10 +165,19 @@ def _case_freeze(
     method: str,
     request_order_sha256: str,
     action_sha256: str,
+    p1r38: bool = False,
 ) -> dict[str, Any]:
     payload = {
-        "schema": "ode-edit-s05-p1r35-independent-b10-action-freeze/v1",
-        "instruction_id": INSTRUCTION_ID,
+        "schema": (
+            "ode-edit-s05-p1r38-perrequest-independent-b10-action-freeze/v1"
+            if p1r38
+            else "ode-edit-s05-p1r35-independent-b10-action-freeze/v1"
+        ),
+        "instruction_id": (
+            "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1"
+            if p1r38
+            else INSTRUCTION_ID
+        ),
         "case_index": case_index,
         "alias": alias,
         "method": method,
@@ -202,8 +221,10 @@ def _run_ode_case(
     base_values: Mapping[str, torch.Tensor],
     request_microbatch_size: int,
     job_ledger: ComputeLedger,
+    p1r38: bool = False,
+    technical_smoke: bool = False,
 ) -> dict[str, Any]:
-    if len(requests) != BATCH_SIZE:
+    if len(requests) != (1 if technical_smoke else BATCH_SIZE):
         raise ODEBFContractError("independent Atomic case is not B10")
     request_order = scalable_ordered_request_digest(
         [str(item["request_sha256"]) for item in requests]
@@ -258,9 +279,10 @@ def _run_ode_case(
         counter.close()
     _atomic_write_once(case_root / "raw" / "objective-plan.json", objective_payload)
     _atomic_write_once(case_root / "raw" / "capture-plan.json", capture_payload)
-    if method not in METHODS:
-        raise ODEBFContractError("P1R35 independent method differs")
-    allocation = method.split("-", 1)[0]
+    p1r38_methods = ("PR-P1R35-NEUTRAL", "PR-P1R35-SOFT")
+    if method not in (p1r38_methods if p1r38 else METHODS):
+        raise ODEBFContractError("independent method differs")
+    allocation = "RS" if p1r38 else method.split("-", 1)[0]
     arm = (
         FixedE8Arm.NEUTRAL
         if method.endswith("-NEUTRAL")
@@ -307,16 +329,58 @@ def _run_ode_case(
         p1r24=True,
         p1r34=True,
         p1r35=True,
+        p1r38=p1r38,
     )
     public = rollout["public"]
     if (
-        public["status"] != "P1R35_FULL_CURRENT_RESIDUAL_K8_COMPLETE"
-        or public["request_count"] != BATCH_SIZE
+        public["status"]
+        != (
+            "P1R38_PR_P1R35_K8_COMPLETE"
+            if p1r38
+            else "P1R35_FULL_CURRENT_RESIDUAL_K8_COMPLETE"
+        )
+        or public["request_count"] != (1 if technical_smoke else BATCH_SIZE)
         or len(public["accepted_receipt_sha256"]) != P1R23_GRID_COUNT
         or public["tau_final"] != 1.0
         or len(state.history.snapshot().active_records) != 0
     ):
         raise ODEBFStateError("independent B10 Atomic rollout differs")
+    if technical_smoke:
+        restore = _restore_exact_w0(
+            touched,
+            base_values,
+            mutation_lock=mutation_lock,
+            expected_contract=public["initial_w0_sha256"],
+        )
+        terminal = {
+            "schema": "ode-edit-s05-p1r38-perrequest-b1-technical-terminal/v1",
+            "instruction_id": "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1",
+            "method_id": P1R38_METHOD_ID,
+            "case_index": case_index,
+            "alias": alias,
+            "method": method,
+            "request_count": 1,
+            "rollout": public,
+            "endpoint_score_gate_influence_count": 0,
+            "heldout_evaluator_access_count": 0,
+            "W0_restored": True,
+            "endpoint_restore": restore,
+        }
+        terminal["identity_sha256"] = canonical_hash(terminal)
+        terminal_sha = _atomic_write_once(case_root / "terminal.json", terminal)
+        manifest = {
+            "schema": "ode-edit-s05-p1r38-perrequest-b1-technical-manifest/v1",
+            "terminal_sha256": terminal_sha,
+            "W0_restored": True,
+            "K8": True,
+        }
+        manifest["identity_sha256"] = canonical_hash(manifest)
+        manifest_sha = _atomic_write_once(case_root / "manifest.json", manifest)
+        return {
+            "status": "B1_TECHNICAL_COMPLETE",
+            "terminal_sha256": terminal_sha,
+            "manifest_sha256": manifest_sha,
+        }
     accepted_terminal = json.loads(
         (
             case_root
@@ -332,6 +396,7 @@ def _run_ode_case(
         method=method,
         request_order_sha256=request_order,
         action_sha256=public["identity_sha256"],
+        p1r38=p1r38,
     )
     freeze_sha = _atomic_write_once(case_root / "action-freeze.json", freeze)
     cases, evaluator_freeze = _action_frozen_cases(
@@ -359,13 +424,26 @@ def _run_ode_case(
     )
     history_off = _history_off_receipt()
     terminal = {
-        "schema": "ode-edit-s05-p1r35-independent-b10-ode-terminal/v1",
-        "instruction_id": INSTRUCTION_ID,
-        "method_id": P1R35_METHOD_ID,
+        "schema": (
+            "ode-edit-s05-p1r38-perrequest-independent-b10-ode-terminal/v1"
+            if p1r38
+            else "ode-edit-s05-p1r35-independent-b10-ode-terminal/v1"
+        ),
+        "instruction_id": (
+            "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1"
+            if p1r38
+            else INSTRUCTION_ID
+        ),
+        "method_id": P1R38_METHOD_ID if p1r38 else P1R35_METHOD_ID,
         "case_index": case_index,
         "alias": alias,
         "method": method,
-        "allocation": allocation,
+        "allocation": (
+            "NOT_AN_EXPERIMENT_FACTOR" if p1r38 else allocation
+        ),
+        "inherited_writer_router_family": (
+            "P1R35_RS" if p1r38 else allocation
+        ),
         "arm": arm.value,
         "request_count": BATCH_SIZE,
         "request_order_sha256": request_order,
@@ -387,7 +465,11 @@ def _run_ode_case(
     terminal["identity_sha256"] = canonical_hash(terminal)
     terminal_sha = _atomic_write_once(case_root / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s05-p1r35-independent-b10-case-manifest/v1",
+        "schema": (
+            "ode-edit-s05-p1r38-perrequest-independent-b10-case-manifest/v1"
+            if p1r38
+            else "ode-edit-s05-p1r35-independent-b10-case-manifest/v1"
+        ),
         "case_index": case_index,
         "method": method,
         "terminal_sha256": terminal_sha,

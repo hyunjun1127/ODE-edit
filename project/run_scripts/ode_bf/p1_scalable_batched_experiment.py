@@ -123,6 +123,13 @@ from .p1r35_full_current_residual import (
     P1R35_METHOD_ID,
     apply_p1r35_full_current_residual,
 )
+from .p1r38_perrequest_target import (
+    P1R38AdamState,
+    P1R38_INSTRUCTION_ID,
+    P1R38_METHOD_ID,
+    prepare_p1r38_target_proposal,
+    select_p1r38_target_proposal,
+)
 
 
 P1R23_SCHEMA = "ode-edit-s05-p1r23-scalable-batched-runtime"
@@ -229,6 +236,7 @@ def _run_ode_arm(
     p1r24: bool = False,
     p1r34: bool = False,
     p1r35: bool = False,
+    p1r38: bool = False,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
@@ -241,8 +249,14 @@ def _run_ode_arm(
         raise ODEBFContractError("P1R34 requires the P1R24 science path")
     if p1r35 and not p1r34:
         raise ODEBFContractError("P1R35 requires the frozen P1R34 science path")
+    if p1r38 and not p1r35:
+        raise ODEBFContractError("P1R38 requires the frozen P1R35 writer path")
+    if p1r38 and allocation not in ("RS",):
+        raise ODEBFContractError("P1R38 has no RS/BG target factorial")
     arm_label = (
-        f"{allocation}-P1R35-FULL-CURRENT-RESIDUAL-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
+        f"PR-P1R35-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
+        if p1r38
+        else f"{allocation}-P1R35-FULL-CURRENT-RESIDUAL-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r35
         else f"{allocation}-P1R34-W-FINITE-DEMAND-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r34
@@ -282,6 +296,7 @@ def _run_ode_arm(
     current_terminal = initial.current_terminal_z.clone()
     target_origin = current_target.clone()
     frozen_mask: tuple[bool, ...] = tuple(False for _ in range(request_count))
+    p1r38_state = P1R38AdamState.zero(current_target) if p1r38 else None
     p1r24_target_lock = P1R24AliasTargetLock.for_alias(alias) if p1r24 else None
     p1r24_alpha_geometry = (
         verify_p1r24_alphaedit_geometry(
@@ -372,36 +387,32 @@ def _run_ode_arm(
                     current_terminal=current_terminal,
                     target_layer_name=hparams.layer_module_tmp.format(int(hparams.layers[-1])),
                 )
-                target_step = p1r24_target_step(
-                    current_target,
-                    current_terminal,
-                    target_origin,
-                    target_result,
-                    kl_result,
-                    metric,
-                    p1r24_target_lock,
-                    step_index=step_index,
-                    frozen_mask=frozen_mask,
-                )
-                if p1r35:
-                    target_step = apply_p1r35_full_current_residual(
-                        target_step,
+                _phase_add_objective(compute, "target_kl_gradient", kl_result, target=True)
+                if p1r38:
+                    assert p1r38_state is not None
+                    proposal = prepare_p1r38_target_proposal(
+                        current_target,
+                        current_terminal,
+                        target_origin,
+                        target_result,
+                        kl_result,
+                        p1r24_target_lock,
+                        p1r38_state,
+                        alias=alias,
+                        step_index=step_index,
+                        request_cap_radius=P1R23_H * float(metric.shared_speed),
+                    )
+                    trial_step = apply_p1r35_full_current_residual(
+                        proposal.trial_step,
                         current_target=current_target,
                         current_terminal=current_terminal,
                         step_index=step_index,
                     )
-                target_next = target_step.target_next
-                target_velocity = target_step.write_velocity
-                alpha_req = target_step.rho_write
-                target_receipt = dict(target_step.receipt)
-                frozen_mask = target_step.frozen_mask
-                _phase_add_objective(compute, "target_kl_gradient", kl_result, target=True)
-                if p1r34:
                     endpoint_started = time.perf_counter()
                     endpoint_state = (
                         current_terminal.detach()
                         .to(device=next(model.parameters()).device, dtype=torch.float32)
-                        + target_step.required_displacement.detach().to(
+                        + trial_step.required_displacement.detach().to(
                             device=next(model.parameters()).device, dtype=torch.float32
                         )
                     ).contiguous()
@@ -422,6 +433,73 @@ def _run_ode_arm(
                     _phase_add_objective(
                         compute, "finite_demand_endpoint_forward", finite_endpoint
                     )
+                    selected = select_p1r38_target_proposal(
+                        proposal,
+                        p1r38_state,
+                        current_target,
+                        current_terminal,
+                        target_result,
+                        finite_endpoint,
+                        step_index=step_index,
+                    )
+                    p1r38_state = selected.next_state
+                    target_step = apply_p1r35_full_current_residual(
+                        selected.target_step,
+                        current_target=current_target,
+                        current_terminal=current_terminal,
+                        step_index=step_index,
+                    )
+                    finite_endpoint = selected.selected_endpoint
+                else:
+                    target_step = p1r24_target_step(
+                        current_target,
+                        current_terminal,
+                        target_origin,
+                        target_result,
+                        kl_result,
+                        metric,
+                        p1r24_target_lock,
+                        step_index=step_index,
+                        frozen_mask=frozen_mask,
+                    )
+                    if p1r35:
+                        target_step = apply_p1r35_full_current_residual(
+                            target_step,
+                            current_target=current_target,
+                            current_terminal=current_terminal,
+                            step_index=step_index,
+                        )
+                    if p1r34:
+                        endpoint_started = time.perf_counter()
+                        endpoint_state = (
+                            current_terminal.detach()
+                            .to(device=next(model.parameters()).device, dtype=torch.float32)
+                            + target_step.required_displacement.detach().to(
+                                device=next(model.parameters()).device, dtype=torch.float32
+                            )
+                        ).contiguous()
+                        finite_endpoint = evaluate_scalable_target_new_objective(
+                            model,
+                            objective_plan,
+                            target_state=endpoint_state,
+                            current_terminal=current_terminal,
+                            target_layer_name=hparams.layer_module_tmp.format(
+                                int(hparams.layers[-1])
+                            ),
+                            target_gradient_required=False,
+                        )
+                        compute.add_wall(
+                            "finite_demand_endpoint_forward",
+                            time.perf_counter() - endpoint_started,
+                        )
+                        _phase_add_objective(
+                            compute, "finite_demand_endpoint_forward", finite_endpoint
+                        )
+                target_next = target_step.target_next
+                target_velocity = target_step.write_velocity
+                alpha_req = target_step.rho_write
+                target_receipt = dict(target_step.receipt)
+                frozen_mask = target_step.frozen_mask
             else:
                 target_next, target_velocity, alpha_req, target_receipt = (
                     target_update_from_existing_gradient(
@@ -748,7 +826,9 @@ def _run_ode_arm(
                 "inner_step_heldout_evaluation_count": 0,
                 "retry_backtracking_reject_count": 0,
                 "routing_method": (
-                    P1R35_METHOD_ID
+                    P1R38_METHOD_ID
+                    if p1r38
+                    else P1R35_METHOD_ID
                     if p1r35
                     else P1R34_METHOD_ID
                     if p1r34
@@ -764,6 +844,9 @@ def _run_ode_arm(
                 ),
                 "persistent_historical_ledger_count": 0,
                 "historical_h_decision_influence_count": 0,
+                "per_request_target_controller": (
+                    P1R38_METHOD_ID if p1r38 else None
+                ),
             }
             payload["identity_sha256"] = canonical_hash(payload)
             write_once(
@@ -856,7 +939,9 @@ def _run_ode_arm(
         rollout_payload = {
             "arm": arm_label,
             "status": (
-                "P1R35_FULL_CURRENT_RESIDUAL_K8_COMPLETE"
+                "P1R38_PR_P1R35_K8_COMPLETE"
+                if p1r38
+                else "P1R35_FULL_CURRENT_RESIDUAL_K8_COMPLETE"
                 if p1r35
                 else "P1R34_W_ANCHORED_FINITE_DEMAND_K8_COMPLETE"
                 if p1r34
