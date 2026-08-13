@@ -7,7 +7,7 @@ import math
 from pathlib import Path
 import threading
 import time
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
 import torch
@@ -229,6 +229,7 @@ def _run_ode_arm(
     p1r24: bool = False,
     p1r34: bool = False,
     p1r35: bool = False,
+    p1r24_target_step_policy: Callable[..., Any] = p1r24_target_step,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
@@ -372,7 +373,7 @@ def _run_ode_arm(
                     current_terminal=current_terminal,
                     target_layer_name=hparams.layer_module_tmp.format(int(hparams.layers[-1])),
                 )
-                target_step = p1r24_target_step(
+                target_step = p1r24_target_step_policy(
                     current_target,
                     current_terminal,
                     target_origin,
