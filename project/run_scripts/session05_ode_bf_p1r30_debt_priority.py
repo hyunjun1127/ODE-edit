@@ -85,6 +85,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
+    parser.add_argument("--technical-attempt", default="")
     args = parser.parse_args(argv)
     try:
         numerical_lock, numerical_sha256 = load_rooted_json(
@@ -101,6 +102,7 @@ def main(argv: list[str] | None = None) -> int:
             output_root=args.output_root,
             source_head=args.source_head,
             debt_priority_role=args.role,
+            debt_priority_technical_attempt=args.technical_attempt,
         )
         result = {
             **result,

@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import sys
 from pathlib import Path
 
@@ -44,15 +43,6 @@ PHASE_JOBS = {
 CONTRACT_SHA256 = (
     "e0b7fcc3d81963475e57f876f77c4987cbb872fa7ab583e812cd2e9588f60611"
 )
-TECHNICAL_ATTEMPT_RE = re.compile(r"(?:[a-z0-9]+(?:-[a-z0-9]+)*)?")
-
-
-def _technical_result_name(result_name: str, attempt_tag: str) -> str:
-    if TECHNICAL_ATTEMPT_RE.fullmatch(attempt_tag) is None:
-        raise ValueError("P1R30 technical attempt tag differs")
-    return result_name if not attempt_tag else f"{result_name}-{attempt_tag}"
-
-
 def build_plan(
     source_head: str,
     phase: str,
@@ -78,8 +68,8 @@ def build_plan(
                 "allocation": "BG" if role == "P1R30_B10_BG_PAIR" else "RS",
                 "request_count": 1 if phase == "b1" else 10,
                 "trajectory_count": trajectory_count,
-                "result_name": _technical_result_name(
-                    expected_p1r30_result_name(alias, role), attempt_tag
+                "result_name": expected_p1r30_result_name(
+                    alias, role, technical_attempt=attempt_tag
                 ),
                 "gpu": 1,
                 "cpu": 8,

@@ -49,11 +49,12 @@ readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
 readonly ROLE="${ROLES[${SLURM_ARRAY_TASK_ID}]}"
 readonly RESULT_NAME="$(${EASYEDIT_ROOT}/.venv/bin/python - <<PY
 from project.run_scripts.ode_bf.p1r30_debt_priority_panel import expected_p1r30_result_name
-print(expected_p1r30_result_name("${MODEL}", "${ROLE}"))
+print(expected_p1r30_result_name(
+    "${MODEL}", "${ROLE}", technical_attempt="${TECHNICAL_ATTEMPT}"
+))
 PY
 )"
-readonly RESULT_SUFFIX="${TECHNICAL_ATTEMPT:+-${TECHNICAL_ATTEMPT}}"
-readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULT_NAME}${RESULT_SUFFIX}"
+readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULT_NAME}"
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R30 output exists" >&2; exit 2; }
 
 export HF_HOME="/mnt/raid5/janghj/.cache/huggingface"
@@ -70,4 +71,5 @@ export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-sync \
   python -m project.run_scripts.session05_ode_bf_p1r30_debt_priority \
   --model "${MODEL}" --role "${ROLE}" --output-root "${OUTPUT_ROOT}" \
-  --source-head "${SOURCE_HEAD}" --run-token "${RUN_TOKEN}"
+  --source-head "${SOURCE_HEAD}" --run-token "${RUN_TOKEN}" \
+  --technical-attempt "${TECHNICAL_ATTEMPT}"

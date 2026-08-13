@@ -11,6 +11,7 @@ import torch
 
 from project.run_scripts import session05_ode_bf_p1r30_debt_priority_dry_plan as dry
 from project.run_scripts.ode_bf.artifacts import load_rooted_json
+from project.run_scripts.ode_bf.contracts import ODEBFContractError
 from project.run_scripts.ode_bf.fixed_e8_soft_routing import FixedE8Arm
 from project.run_scripts.ode_bf.p1r24_atomic_strength import (
     p1r24_disable_historical,
@@ -371,9 +372,26 @@ class P1R30DebtPriorityTests(unittest.TestCase):
             expected = dict(original)
             expected["result_name"] = f'{original["result_name"]}-tech-r1'
             self.assertEqual(child, expected)
-        with self.assertRaisesRegex(ValueError, "attempt tag"):
+        with self.assertRaisesRegex(ODEBFContractError, "result identity"):
             dry.build_plan(
                 "a" * 40, "b10-neutral", attempt_tag="../../alias"
+            )
+
+    def test_runtime_namespace_adapter_is_exact_and_fail_closed(self) -> None:
+        base = expected_p1r30_result_name(
+            "llama3-8b-inst", "P1R30_B10_RS_DEBT_NEUTRAL"
+        )
+        repaired = expected_p1r30_result_name(
+            "llama3-8b-inst",
+            "P1R30_B10_RS_DEBT_NEUTRAL",
+            technical_attempt="tech-r2",
+        )
+        self.assertEqual(repaired, f"{base}-tech-r2")
+        with self.assertRaisesRegex(ODEBFContractError, "result identity"):
+            expected_p1r30_result_name(
+                "llama3-8b-inst",
+                "P1R30_B10_RS_DEBT_NEUTRAL",
+                technical_attempt="../escape",
             )
 
     def test_numerical_lock_binds_direct_c_and_full_matrix(self) -> None:
@@ -425,7 +443,7 @@ class P1R30DebtPriorityTests(unittest.TestCase):
             scripts / "session05_ode_bf_submit_p1r30_debt_priority.py"
         ).read_text(encoding="utf-8")
         self.assertIn("P1R30_B10_BG_PAIR P1R30_B10_BG_PAIR", sbatch)
-        self.assertIn('RESULT_SUFFIX="${TECHNICAL_ATTEMPT:+-${TECHNICAL_ATTEMPT}}"', sbatch)
+        self.assertIn('technical_attempt="${TECHNICAL_ATTEMPT}"', sbatch)
         self.assertIn('"callback_job_count": 0', submitter)
         self.assertNotIn("--dependency", submitter)
         self.assertNotIn("afterany", submitter.casefold())

@@ -3217,6 +3217,7 @@ def run_p1(
     scalable_batched_batch_size: int | None = None,
     atomic_strength_recovery_role: str | None = None,
     debt_priority_role: str | None = None,
+    debt_priority_technical_attempt: str = "",
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3248,7 +3249,13 @@ def run_p1(
     if debt_priority_role is not None:
         from .p1r30_debt_priority_panel import expected_p1r30_result_name
 
-        expected_name = expected_p1r30_result_name(alias, debt_priority_role)
+        expected_name = expected_p1r30_result_name(
+            alias,
+            debt_priority_role,
+            technical_attempt=debt_priority_technical_attempt,
+        )
+    elif debt_priority_technical_attempt:
+        raise ODEBFContractError("P1R30 technical result identity differs")
     elif atomic_strength_recovery_role is not None:
         from .p1r24_atomic_strength_panel import expected_p1r24_result_name
 

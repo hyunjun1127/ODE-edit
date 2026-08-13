@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 from typing import Any
 
 from .contracts import MODEL_ALIASES, ODEBFContractError
@@ -15,10 +16,22 @@ P1R30_ROLES = (
     "P1R30_B10_RS_DEBT_SOFT",
     "P1R30_B10_BG_PAIR",
 )
+P1R30_TECHNICAL_ATTEMPT_RE = re.compile(
+    r"(?:[a-z0-9]+(?:-[a-z0-9]+)*)?"
+)
 
 
-def expected_p1r30_result_name(alias: str, role: str) -> str:
-    if alias not in MODEL_ALIASES or role not in P1R30_ROLES:
+def expected_p1r30_result_name(
+    alias: str,
+    role: str,
+    *,
+    technical_attempt: str = "",
+) -> str:
+    if (
+        alias not in MODEL_ALIASES
+        or role not in P1R30_ROLES
+        or P1R30_TECHNICAL_ATTEMPT_RE.fullmatch(technical_attempt) is None
+    ):
         raise ODEBFContractError("P1R30 result identity differs")
     suffix = {
         "P1R30_B1_RS_REFERENCE_SOFT": "b1-rs-a0-reference-soft-smoke",
@@ -26,7 +39,8 @@ def expected_p1r30_result_name(alias: str, role: str) -> str:
         "P1R30_B10_RS_DEBT_SOFT": "b10-rs-debt-priority-soft",
         "P1R30_B10_BG_PAIR": "b10-bg-debt-priority-neutral-soft-pair",
     }[role]
-    return f"s05-p1r30-{alias}-{suffix}-v1"
+    attempt_suffix = f"-{technical_attempt}" if technical_attempt else ""
+    return f"s05-p1r30-{alias}-{suffix}-v1{attempt_suffix}"
 
 
 def forecast_p1r30_panel(
