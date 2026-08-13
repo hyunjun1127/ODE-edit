@@ -24,6 +24,7 @@ RESULT_PARENT = REPO_ROOT / "local/odebf/results"
 BRANCH = "codex/p1r34-p1r24-w-anchored-finite-demand-v1"
 PROJECT_GPU_CAP = 4
 STAGE_GPU_MAX = 2
+TECHNICAL_ATTEMPT = "tech-r1-session-boundary"
 
 
 def _run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -58,18 +59,19 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
     active = _active_gpu_jobs()
     if active + STAGE_GPU_MAX > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R34 server1 GPU cap differs")
-    namespace = f"s05-p1r34-{phase}-{source_head[:12]}-v1"
+    namespace = f"s05-p1r34-{phase}-{source_head[:12]}-{TECHNICAL_ATTEMPT}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P1R34 submission namespace exists")
-    log_root = REPO_ROOT / f"local/odebf/logs/p1r34-{phase}-{source_head[:12]}"
+    log_root = REPO_ROOT / f"local/odebf/logs/p1r34-{phase}-{source_head[:12]}-{TECHNICAL_ATTEMPT}"
     log_root.mkdir(mode=0o700, parents=True, exist_ok=True)
     intent = {
         "schema": "ode-edit-s05-p1r34-submission-intent/v1", "source_head": source_head,
         "phase": phase, "dry_plan": plan, "active_devbox_gpu_jobs": active,
         "project_gpu_cap": PROJECT_GPU_CAP, "stage_gpu_max": STAGE_GPU_MAX,
         "held_then_atomic_release": True, "array": "0-1%2",
+        "technical_attempt": TECHNICAL_ATTEMPT,
     }
     intent_sha = _write_once(intent_path, intent)
     submitted = _run([
@@ -92,7 +94,7 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
         "trajectory_count": 4, "max_concurrent_gpu": STAGE_GPU_MAX,
         "project_gpu_cap": PROJECT_GPU_CAP, "intent_sha256": intent_sha,
         "held_inspection_sha256": hashlib.sha256(observed.encode()).hexdigest(),
-        "held_then_atomic_release": True,
+        "held_then_atomic_release": True, "technical_attempt": TECHNICAL_ATTEMPT,
     }
     receipt_sha = _write_once(receipt_path, receipt)
     _run(["scontrol", "release", job_id])
