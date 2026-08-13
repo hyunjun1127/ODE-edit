@@ -360,6 +360,22 @@ class P1R30DebtPriorityTests(unittest.TestCase):
             6,
         )
 
+    def test_technical_attempt_changes_only_result_namespace(self) -> None:
+        base = dry.build_plan("a" * 40, "b10-neutral")
+        repaired = dry.build_plan(
+            "a" * 40, "b10-neutral", attempt_tag="tech-r1"
+        )
+        self.assertIsNone(base["technical_attempt_tag"])
+        self.assertEqual(repaired["technical_attempt_tag"], "tech-r1")
+        for original, child in zip(base["jobs"], repaired["jobs"], strict=True):
+            expected = dict(original)
+            expected["result_name"] = f'{original["result_name"]}-tech-r1'
+            self.assertEqual(child, expected)
+        with self.assertRaisesRegex(ValueError, "attempt tag"):
+            dry.build_plan(
+                "a" * 40, "b10-neutral", attempt_tag="../../alias"
+            )
+
     def test_numerical_lock_binds_direct_c_and_full_matrix(self) -> None:
         lock_path = (
             Path(__file__).parents[1]
@@ -409,6 +425,7 @@ class P1R30DebtPriorityTests(unittest.TestCase):
             scripts / "session05_ode_bf_submit_p1r30_debt_priority.py"
         ).read_text(encoding="utf-8")
         self.assertIn("P1R30_B10_BG_PAIR P1R30_B10_BG_PAIR", sbatch)
+        self.assertIn('RESULT_SUFFIX="${TECHNICAL_ATTEMPT:+-${TECHNICAL_ATTEMPT}}"', sbatch)
         self.assertIn('"callback_job_count": 0', submitter)
         self.assertNotIn("--dependency", submitter)
         self.assertNotIn("afterany", submitter.casefold())

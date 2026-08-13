@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -43,6 +44,13 @@ PHASE_JOBS = {
 CONTRACT_SHA256 = (
     "e0b7fcc3d81963475e57f876f77c4987cbb872fa7ab583e812cd2e9588f60611"
 )
+TECHNICAL_ATTEMPT_RE = re.compile(r"(?:[a-z0-9]+(?:-[a-z0-9]+)*)?")
+
+
+def _technical_result_name(result_name: str, attempt_tag: str) -> str:
+    if TECHNICAL_ATTEMPT_RE.fullmatch(attempt_tag) is None:
+        raise ValueError("P1R30 technical attempt tag differs")
+    return result_name if not attempt_tag else f"{result_name}-{attempt_tag}"
 
 
 def build_plan(
@@ -50,6 +58,7 @@ def build_plan(
     phase: str,
     *,
     repository_root: Path = REPO_ROOT,
+    attempt_tag: str = "",
 ) -> dict[str, object]:
     if phase not in PHASE_JOBS:
         raise ValueError("P1R30 dry phase differs")
@@ -69,7 +78,9 @@ def build_plan(
                 "allocation": "BG" if role == "P1R30_B10_BG_PAIR" else "RS",
                 "request_count": 1 if phase == "b1" else 10,
                 "trajectory_count": trajectory_count,
-                "result_name": expected_p1r30_result_name(alias, role),
+                "result_name": _technical_result_name(
+                    expected_p1r30_result_name(alias, role), attempt_tag
+                ),
                 "gpu": 1,
                 "cpu": 8,
                 "memory_mib": 65_000,
@@ -85,6 +96,7 @@ def build_plan(
         "contract_sha256": CONTRACT_SHA256,
         "source_head": source_head,
         "phase": phase,
+        "technical_attempt_tag": attempt_tag or None,
         "job_count": len(jobs),
         "trajectory_count": sum(int(item["trajectory_count"]) for item in jobs),
         "server2_janghj_gpu_cap": 4,
@@ -111,10 +123,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--phase", required=True, choices=tuple(PHASE_JOBS))
+    parser.add_argument("--technical-attempt", default="")
     args = parser.parse_args()
     print(
         json.dumps(
-            build_plan(args.source_head, args.phase),
+            build_plan(
+                args.source_head,
+                args.phase,
+                attempt_tag=args.technical_attempt,
+            ),
             sort_keys=True,
             separators=(",", ":"),
         )

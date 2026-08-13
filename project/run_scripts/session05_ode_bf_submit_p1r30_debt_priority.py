@@ -151,14 +151,19 @@ def _active_gpu_allocations() -> tuple[int, list[str]]:
     return count, identities
 
 
-def submit(source_head: str, phase: str) -> dict[str, object]:
+def submit(
+    source_head: str,
+    phase: str,
+    *,
+    attempt_tag: str = "",
+) -> dict[str, object]:
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     tree = _run(["git", "rev-parse", "HEAD^{tree}"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(["git", "status", "--porcelain"]).stdout
     if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("P1R30 execution source differs")
-    plan = dry.build_plan(source_head, phase)
+    plan = dry.build_plan(source_head, phase, attempt_tag=attempt_tag)
     predecessor_gate = _predecessor_gate(source_head, phase)
     if any(
         (RESULT_PARENT / str(job["result_name"])).exists()
@@ -172,12 +177,18 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
     new_concurrency = min(stage_cap, int(plan["job_count"]), available)
     if new_concurrency <= 0:
         raise ODEBFContractError("P1R30 server2 janghj GPU cap unavailable")
-    namespace = f"s05-p1r30-{phase}-{source_head[:12]}-v1"
+    attempt_component = f"-{attempt_tag}" if attempt_tag else ""
+    namespace = (
+        f"s05-p1r30-{phase}-{source_head[:12]}{attempt_component}-v1"
+    )
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P1R30 submission namespace exists")
-    log_root = REPO_ROOT / f"local/odebf/logs/p1r30-{phase}-{source_head[:12]}"
+    log_root = REPO_ROOT / (
+        f"local/odebf/logs/p1r30-{phase}-{source_head[:12]}"
+        f"{attempt_component}"
+    )
     log_root.mkdir(mode=0o700, parents=True, exist_ok=True)
     array = f"0-{int(plan['job_count']) - 1}%{new_concurrency}"
     intent = {
@@ -185,6 +196,7 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
         "source_head": source_head,
         "source_tree": tree,
         "phase": phase,
+        "technical_attempt_tag": attempt_tag or None,
         "dry_plan": plan,
         "predecessor_gate": predecessor_gate,
         "active_server2_gpu_allocations": active,
@@ -217,6 +229,7 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
             source_head,
             str(RESULT_PARENT),
             phase,
+            attempt_tag,
         ]
     )
     job_id = submitted.stdout.strip().split(";", 1)[0]
@@ -238,6 +251,7 @@ def submit(source_head: str, phase: str) -> dict[str, object]:
         "source_head": source_head,
         "source_tree": tree,
         "phase": phase,
+        "technical_attempt_tag": attempt_tag or None,
         "job_id": job_id,
         "array": array,
         "job_count": int(plan["job_count"]),
@@ -258,10 +272,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--phase", required=True, choices=tuple(dry.PHASE_JOBS))
+    parser.add_argument("--technical-attempt", default="")
     args = parser.parse_args()
     print(
         json.dumps(
-            submit(args.source_head, args.phase),
+            submit(
+                args.source_head,
+                args.phase,
+                attempt_tag=args.technical_attempt,
+            ),
             sort_keys=True,
             separators=(",", ":"),
         )

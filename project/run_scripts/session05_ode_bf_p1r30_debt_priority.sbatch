@@ -15,12 +15,14 @@ readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
 readonly PHASE="${3:-}"
+readonly TECHNICAL_ATTEMPT="${4:-}"
 readonly EXPECTED_SESSION="019fe491-954b-70a0-8ba8-0588e9f8d741"
 readonly RUN_TOKEN="p1r30-debt-priority-a0-relative-barrier-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly EXPECTED_BRANCH="codex/odeeditsh2-s05-p1r30-debt-priority-a0-barrier-v1"
 
-[[ "$#" -eq 3 ]] || { echo "P1R30 requires source, result parent and phase" >&2; exit 2; }
+[[ "$#" -eq 4 ]] || { echo "P1R30 requires source, result parent, phase and attempt" >&2; exit 2; }
+[[ -z "${TECHNICAL_ATTEMPT}" || "${TECHNICAL_ATTEMPT}" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || { echo "P1R30 technical attempt differs" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R30 CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P1R30 source differs" >&2; exit 2; }
 [[ "$(git branch --show-current)" == "${EXPECTED_BRANCH}" ]] || { echo "P1R30 branch differs" >&2; exit 2; }
@@ -50,7 +52,8 @@ from project.run_scripts.ode_bf.p1r30_debt_priority_panel import expected_p1r30_
 print(expected_p1r30_result_name("${MODEL}", "${ROLE}"))
 PY
 )"
-readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULT_NAME}"
+readonly RESULT_SUFFIX="${TECHNICAL_ATTEMPT:+-${TECHNICAL_ATTEMPT}}"
+readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULT_NAME}${RESULT_SUFFIX}"
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R30 output exists" >&2; exit 2; }
 
 export HF_HOME="/mnt/raid5/janghj/.cache/huggingface"
