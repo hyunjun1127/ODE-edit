@@ -30,7 +30,7 @@ LOCKS = ROOT / "project/run_scripts/ode_bf/locks"
 class P1R24IndependentB10x10Test(unittest.TestCase):
     def test_lock_stream_and_dry_matrix(self) -> None:
         lock, _ = load_and_validate_lock(
-            LOCKS / "numerical_lock_s05_p1r24_independent_b10x10.json"
+            LOCKS / "numerical_lock_s05_p1r31_p1r24_independent_b10x10_detailed.json"
         )
         seal = verify_historical_h0_fresh_seal(
             json.loads(
@@ -40,24 +40,30 @@ class P1R24IndependentB10x10Test(unittest.TestCase):
         self.assertEqual(lock["fresh_stream_root"], seal["root_digest"])
         self.assertEqual(len(seal["batch_ordered_request_digest_v1"]), 10)
         plan = dry.build_plan("child")
-        self.assertEqual(plan["job_count"], 2)
-        self.assertEqual(plan["independent_atomic_b10_case_count"], 20)
-        self.assertEqual(plan["array_max_concurrent_gpu"], 2)
-        self.assertEqual(plan["project_gpu_cap"], 3)
+        self.assertEqual(plan["job_count"], 8)
+        self.assertEqual(plan["independent_atomic_b10_case_count"], 80)
+        self.assertEqual(plan["array_max_concurrent_gpu"], 4)
+        self.assertEqual(plan["project_gpu_cap"], 4)
         self.assertEqual(
             [item["alias"] for item in plan["jobs"]],
-            ["llama3-8b-inst", "qwen2.5-7b-inst"],
+            ["llama3-8b-inst"] * 4 + ["qwen2.5-7b-inst"] * 4,
         )
-        self.assertTrue(all(item["method"] == "RS-P1R24-SOFT" for item in plan["jobs"]))
+        self.assertEqual(
+            [item["method"] for item in plan["jobs"]],
+            [
+                "RS-P1R24-NEUTRAL", "RS-P1R24-SOFT",
+                "BG-P1R24-NEUTRAL", "BG-P1R24-SOFT",
+            ] * 2,
+        )
 
     def test_result_names_are_distinct(self) -> None:
         self.assertEqual(
-            expected_result_name("llama3-8b-inst"),
-            "s05-p1r24-rs-soft-independent-b10x10-llama3-8b-inst-tech-r1-v1",
+            expected_result_name("llama3-8b-inst", "RS-P1R24-SOFT"),
+            "s05-p1r31-p1r24-independent-b10x10-detailed-llama3-8b-inst-rs-soft-v1",
         )
         self.assertNotEqual(
-            expected_result_name("llama3-8b-inst"),
-            expected_result_name("qwen2.5-7b-inst"),
+            expected_result_name("llama3-8b-inst", "RS-P1R24-SOFT"),
+            expected_result_name("qwen2.5-7b-inst", "RS-P1R24-SOFT"),
         )
 
     def test_two_case_restore_has_pointer_and_byte_identity(self) -> None:
@@ -119,12 +125,17 @@ class P1R24IndependentB10x10Test(unittest.TestCase):
         ):
             self.assertEqual(value[key], 0)
 
-    def test_source_uses_exact_p1r24_rs_soft_and_terminal_firewall(self) -> None:
+    def test_source_uses_exact_p1r24_full_matrix_and_postfreeze_firewall(self) -> None:
         source = (
             ROOT / "project/run_scripts/ode_bf/p1r24_independent_b10x10_runtime.py"
         ).read_text()
         self.assertIn("p1r24=True", source)
-        self.assertIn('method != "RS-P1R24-SOFT"', source)
+        self.assertIn("method not in METHODS", source)
+        self.assertIn('for allocation in ("RS", "BG")', source)
+        self.assertIn('for arm in ("NEUTRAL", "SOFT")', source)
+        self.assertIn("retain_postfreeze_trajectory=True", source)
+        self.assertIn("evaluate_counterfact_stepwise_primary", source)
+        self.assertIn('"controller_decision_influence_count": 0', source)
         self.assertIn("FixedE8Arm.SOFT", source)
         self.assertNotIn("run_official_native_apply", source)
         self.assertIn("actions_frozen_before_evaluator", source)
@@ -149,7 +160,6 @@ class P1R24IndependentB10x10Test(unittest.TestCase):
 
         expected = {
             "p1r24_atomic_strength.py": "95ef3aff1e0b2d82df08453492a01be4d69d7e1c8795edd72c7d098979f54b0f",
-            "p1_scalable_batched_experiment.py": "282030bba83163e069ff8ac0a2439d03b82fa626d2e0eea4547a91cc78ebe440",
             "p1r24_atomic_strength_panel.py": "0c46b34a0b6f998ce4c0f8b52c18b9e829d44ce102a41ec37d14a22cc8604c64",
         }
         for relative, digest in expected.items():

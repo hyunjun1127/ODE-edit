@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""No-model dry plan for two long-lived P1R24 RS-Soft B10x10 jobs."""
+"""No-model dry plan for the P1R31 eight-cell detailed Atomic audit."""
 
 from __future__ import annotations
 
@@ -23,7 +23,12 @@ from project.run_scripts.ode_bf.p1r24_independent_b10x10_selection import (
 )
 
 
-ALIASES = ("llama3-8b-inst", "qwen2.5-7b-inst")
+CELLS = tuple(
+    (alias, f"{allocation}-P1R24-{arm}")
+    for alias in ("llama3-8b-inst", "qwen2.5-7b-inst")
+    for allocation in ("RS", "BG")
+    for arm in ("NEUTRAL", "SOFT")
+)
 
 
 def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[str, object]:
@@ -38,8 +43,8 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
         {
             "array_index": index,
             "alias": alias,
-            "method": "RS-P1R24-SOFT",
-            "result_name": expected_result_name(alias),
+            "method": method,
+            "result_name": expected_result_name(alias, method),
             "case_count": 10,
             "request_count_per_case": 10,
             "gpu": 1,
@@ -47,21 +52,21 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
             "memory_mib": 65000,
             "time": "23:59:00",
         }
-        for index, alias in enumerate(ALIASES)
+        for index, (alias, method) in enumerate(CELLS)
     ]
     return {
-        "schema": "ode-edit-s05-p1r24-rs-soft-independent-b10x10-dry-plan/v1",
+        "schema": "ode-edit-s05-p1r31-p1r24-independent-b10x10-detailed-dry-plan/v1",
         "source_head": source_head,
         "parent_scientific_checkpoint": lock["accepted_p1r24_scientific_checkpoint"],
         "p1r24_independent_lock_sha256": lock_sha,
         "p1r24_independent_lock_root": lock["root_digest"],
         "fresh_stream_root": seal["root_digest"],
         "all_request_order_sha256": seal["all_request_order_sha256"],
-        "job_count": 2,
-        "independent_atomic_b10_case_count": 20,
+        "job_count": 8,
+        "independent_atomic_b10_case_count": 80,
         "history_mode": "OFF",
-        "project_gpu_cap": 3,
-        "array_max_concurrent_gpu": 2,
+        "project_gpu_cap": 4,
+        "array_max_concurrent_gpu": 4,
         "model_load": False,
         "gpu_use": False,
         "slurm_submit": False,

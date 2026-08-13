@@ -215,6 +215,7 @@ def _run_ode_arm(
     write_once: Any,
     progress_simplex: bool = False,
     p1r24: bool = False,
+    retain_postfreeze_trajectory: bool = False,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
@@ -258,6 +259,17 @@ def _run_ode_arm(
     )
     current_target = initial.target_z.clone()
     current_terminal = initial.current_terminal_z.clone()
+    postfreeze_trajectory: list[dict[str, Any]] = []
+    if retain_postfreeze_trajectory:
+        postfreeze_trajectory.append(
+            {
+                "accepted_index": 0,
+                "factors": _factor_map(current_factors),
+                "target_state": current_target.clone(),
+                "physical_terminal": current_terminal.clone(),
+                "physical_capture_sha256": physical.identity_sha256,
+            }
+        )
     target_origin = current_target.clone()
     frozen_mask: tuple[bool, ...] = tuple(False for _ in range(request_count))
     p1r24_target_lock = P1R24AliasTargetLock.for_alias(alias) if p1r24 else None
@@ -708,6 +720,16 @@ def _run_ode_arm(
             current_target = target_next
             current_terminal = next_physical.terminal_z.clone()
             physical = next_physical
+            if retain_postfreeze_trajectory:
+                postfreeze_trajectory.append(
+                    {
+                        "accepted_index": step_index + 1,
+                        "factors": _factor_map(current_factors),
+                        "target_state": current_target.clone(),
+                        "physical_terminal": current_terminal.clone(),
+                        "physical_capture_sha256": physical.identity_sha256,
+                    }
+                )
             legacy_ledger.record_accepted_step(
                 accepted_dt=P1R23_H, completed_k_total=step_index + 1
             )
@@ -815,12 +837,17 @@ def _run_ode_arm(
             ),
         }
         rollout_payload["identity_sha256"] = canonical_hash(rollout_payload)
-        return {
+        result = {
             "public": rollout_payload,
             "terminal_factors": factors_for_endpoint,
             "terminal_target": target_for_endpoint,
             "terminal_physical": physical_for_endpoint,
         }
+        if retain_postfreeze_trajectory:
+            if len(postfreeze_trajectory) != P1R23_GRID_COUNT + 1:
+                raise ODEBFStateError("P1R31 frozen trajectory length differs")
+            result["postfreeze_trajectory"] = tuple(postfreeze_trajectory)
+        return result
     finally:
         counter.close()
         restore = materializer.restore()

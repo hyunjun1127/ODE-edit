@@ -1,0 +1,25 @@
+{
+  "schema_version": "ode-edit-s05-p1r31-p1r24-independent-b10x10-detailed-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R31-P1R24-INDEPENDENT-B10X10-FULL-MATRIX-DETAILED-V1",
+  "parent_checkpoint": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "parent_tree": "e8d9bf85dfcd383f075a5a56a03ad0cf62cc84a0",
+  "delta_role": "OBSERVATION_ONLY_POST_FREEZE_FULL_MATRIX_ORCHESTRATION",
+  "protected_p1r24_target_router_numerical_semantics_unchanged": true,
+  "entries": [
+    {"path":"project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r24_independent_b10x10.json","size":1552,"sha256":"f90dec83269696c18f10ed2232ba5785595ba980f2ec01872cc73c6fc46a1291"},
+    {"path":"project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r31_p1r24_independent_b10x10_detailed.json","size":1774,"sha256":"73ccff72c4817931658eb168840880afee18fba64d92305c002242974b60d397"},
+    {"path":"project/run_scripts/ode_bf/locks/p1r24_independent_b10x10_stream_seal.json","size":52138,"sha256":"01612c28f700d7281e7f4887189577305396a47715760c98997f97d2acfe596b"},
+    {"path":"project/run_scripts/ode_bf/locks/source_manifest_s05_p1r24_independent_b10x10.json","size":2451,"sha256":"4c5880fb212d8c83c9b9bcc8e52fd4fc8088ff5717b28cca915da73dfb08f676"},
+    {"path":"project/run_scripts/ode_bf/p1_runtime.py","size":201231,"sha256":"10d81572256d891cc36335117e1c372932ed629302121bfcdc22b100f5fbd254"},
+    {"path":"project/run_scripts/ode_bf/p1_scalable_batched_experiment.py","size":79701,"sha256":"50a482692676340aae53663626b4d5b3afa580882b12826a87a21db6f1451c06"},
+    {"path":"project/run_scripts/ode_bf/p1r24_independent_b10x10_panel.py","size":3031,"sha256":"c3f6263cbb43814e8ec772ceca75ce5bc62ba94b3cdc9caf98f756d842a547f1"},
+    {"path":"project/run_scripts/ode_bf/p1r24_independent_b10x10_runtime.py","size":26248,"sha256":"02defa8e9ad36ecb8146df90008969c782626dbc0394297fe5017f549c8adf16"},
+    {"path":"project/run_scripts/ode_bf/p1r24_independent_b10x10_selection.py","size":11498,"sha256":"ff4267090bd185c063f567867bf7840f7cbf409201d24c1e82ea46fe6f2956c4"},
+    {"path":"project/run_scripts/ode_bf/tests/test_p1r24_independent_b10x10.py","size":7240,"sha256":"44827bd0375be10f8000a89f5409c1b093ffb7108f05e273cc88830bbaf7536c"},
+    {"path":"project/run_scripts/session05_ode_bf_p1r24_independent_b10x10.py","size":5906,"sha256":"97a70a3796381963995dc7f60a6bf82738d890636fcf41605a66f967d5571dd2"},
+    {"path":"project/run_scripts/session05_ode_bf_p1r24_independent_b10x10.sbatch","size":2865,"sha256":"161797f33f6071f6df505a870a6ae27cf4f6adac2baa871de1d6ddfc2f99cd14"},
+    {"path":"project/run_scripts/session05_ode_bf_p1r24_independent_b10x10_dry_plan.py","size":2870,"sha256":"26c8eed31df53c6676a8471e31feec8c14e87c083af9320bb3ac01b4b110c54b"},
+    {"path":"project/run_scripts/session05_ode_bf_submit_p1r24_independent_b10x10.py","size":5551,"sha256":"e3975d13d5946e9d6b660131324087ac894a7cf2f8626fb14e5c635cf74202e3"}
+  ],
+  "root_digest": "a8eb405f07d7143e59136518335e7f1520e0a2ee095ae79861bd2d042b0b3f21"
+}

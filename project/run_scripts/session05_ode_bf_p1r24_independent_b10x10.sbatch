@@ -6,7 +6,7 @@
 #SBATCH --nodelist=devbox
 #SBATCH --mem=65000M
 #SBATCH --time=23:59:00
-#SBATCH --array=0-1%2
+#SBATCH --array=0-7%4
 #SBATCH --export=NONE
 
 set -euo pipefail
@@ -16,9 +16,9 @@ readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
 readonly EXPECTED_SESSION="019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
-readonly RUN_TOKEN="p1r24-rs-soft-independent-b10x10-v1"
+readonly RUN_TOKEN="p1r31-p1r24-independent-b10x10-detailed-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
-readonly EXPECTED_BRANCH="codex/p1r24-rs-soft-independent-b10x10-tech-r1"
+readonly EXPECTED_BRANCH="codex/p1r31-p1r24-independent-b10x10-full-matrix-v1"
 
 [[ "$#" -eq 2 ]] || { echo "P1R24 independent requires source and result parent" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R24 independent CWD differs" >&2; exit 2; }
@@ -28,9 +28,12 @@ readonly EXPECTED_BRANCH="codex/p1r24-rs-soft-independent-b10x10-tech-r1"
 scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 [[ "${CUDA_VISIBLE_DEVICES:-}" != "" && "${CUDA_VISIBLE_DEVICES}" != *,* ]] || { echo "P1R24 independent exactly one GPU required" >&2; exit 2; }
 
-readonly MODELS=(llama3-8b-inst qwen2.5-7b-inst)
+readonly MODELS=(llama3-8b-inst llama3-8b-inst llama3-8b-inst llama3-8b-inst qwen2.5-7b-inst qwen2.5-7b-inst qwen2.5-7b-inst qwen2.5-7b-inst)
+readonly METHODS=(RS-P1R24-NEUTRAL RS-P1R24-SOFT BG-P1R24-NEUTRAL BG-P1R24-SOFT RS-P1R24-NEUTRAL RS-P1R24-SOFT BG-P1R24-NEUTRAL BG-P1R24-SOFT)
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
-readonly RESULT_NAME="s05-p1r24-rs-soft-independent-b10x10-${MODEL}-tech-r1-v1"
+readonly METHOD="${METHODS[${SLURM_ARRAY_TASK_ID}]}"
+readonly METHOD_TOKEN="$(printf '%s' "${METHOD}" | tr '[:upper:]' '[:lower:]' | sed 's/-p1r24-/-/')"
+readonly RESULT_NAME="s05-p1r31-p1r24-independent-b10x10-detailed-${MODEL}-${METHOD_TOKEN}-v1"
 readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULT_NAME}"
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R24 independent output exists" >&2; exit 2; }
 
@@ -48,4 +51,5 @@ export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-sync \
   python -m project.run_scripts.session05_ode_bf_p1r24_independent_b10x10 \
   --model "${MODEL}" --output-root "${OUTPUT_ROOT}" \
-  --source-head "${SOURCE_HEAD}" --run-token "${RUN_TOKEN}"
+  --source-head "${SOURCE_HEAD}" --method "${METHOD}" \
+  --run-token "${RUN_TOKEN}"

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed P1R24 RS-Soft independent whole-B10 runner."""
+"""Fail-closed P1R31 P1R24 full-matrix independent whole-B10 runner."""
 
 from __future__ import annotations
 
@@ -28,13 +28,13 @@ from project.run_scripts.ode_bf.p1r24_independent_b10x10_panel import (
     load_and_validate_lock,
 )
 from project.run_scripts.ode_bf.p1r24_independent_b10x10_runtime import INSTRUCTION_ID
+from project.run_scripts.ode_bf.p1r24_independent_b10x10_runtime import METHODS
 
 
-RUN_TOKEN = "p1r24-rs-soft-independent-b10x10-v1"
-SOURCE_MANIFEST = "source_manifest_s05_p1r24_independent_b10x10.json"
+RUN_TOKEN = "p1r31-p1r24-independent-b10x10-detailed-v1"
+SOURCE_MANIFEST = "source_manifest_s05_p1r31_p1r24_independent_b10x10_detailed.json"
 PROTECTED_SCIENTIFIC_SHA256 = {
     "project/run_scripts/ode_bf/p1r24_atomic_strength.py": "95ef3aff1e0b2d82df08453492a01be4d69d7e1c8795edd72c7d098979f54b0f",
-    "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py": "282030bba83163e069ff8ac0a2439d03b82fa626d2e0eea4547a91cc78ebe440",
     "project/run_scripts/ode_bf/p1r24_atomic_strength_panel.py": "0c46b34a0b6f998ce4c0f8b52c18b9e829d44ce102a41ec37d14a22cc8604c64",
     "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r24_atomic_strength.json": "b7b0d1903a461c75c8d6497e5b7cddb788500e9c009dd6fd5628e3f13842ab6d",
 }
@@ -42,20 +42,18 @@ PROTECTED_SCIENTIFIC_SHA256 = {
 
 def _source_gate(source_head: str) -> str:
     if subprocess.run(
-        ["git", "rev-parse", f"{source_head}^"],
+        ["git", "merge-base", "--is-ancestor", PARENT, source_head],
         cwd=REPO_ROOT,
-        check=True,
-        text=True,
-        stdout=subprocess.PIPE,
-    ).stdout.strip() != "cdd646830eb6e4b3649792f31473e60a1b9685f8":
-        raise ValueError("P1R24 independent TECH-R1 parent differs")
+        check=False,
+    ).returncode != 0:
+        raise ValueError("P1R31 P1R24 scientific ancestry differs")
     for relative, expected in PROTECTED_SCIENTIFIC_SHA256.items():
         if sha256_file(REPO_ROOT / relative) != expected:
             raise ValueError("P1R24 protected scientific source differs")
     manifest_path = REPO_ROOT / "project/run_scripts/ode_bf/locks" / SOURCE_MANIFEST
     manifest, raw_sha = load_rooted_json(
         manifest_path,
-        expected_schema="ode-edit-s05-p1r24-rs-soft-independent-b10x10-source-manifest/v1",
+        expected_schema="ode-edit-s05-p1r31-p1r24-independent-b10x10-detailed-source-manifest/v1",
     )
     entries = manifest.get("entries")
     if (
@@ -96,6 +94,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--model", required=True, choices=MODEL_ALIASES)
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
+    parser.add_argument("--method", required=True, choices=METHODS)
     parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
     args = parser.parse_args(argv)
     try:
@@ -112,7 +111,7 @@ def main(argv: list[str] | None = None) -> int:
             alias=args.model,
             output_root=args.output_root,
             source_head=args.source_head,
-            p1r24_independent_b10x10_mode=True,
+            p1r24_independent_b10x10_method=args.method,
         )
         result = {
             **result,

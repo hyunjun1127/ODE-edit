@@ -3217,6 +3217,7 @@ def run_p1(
     scalable_batched_batch_size: int | None = None,
     atomic_strength_recovery_role: str | None = None,
     p1r24_independent_b10x10_mode: bool = False,
+    p1r24_independent_b10x10_method: str | None = None,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3241,17 +3242,18 @@ def run_p1(
             atomic_runtime_conformance_mode,
             scalable_batched_role is not None,
             atomic_strength_recovery_role is not None,
-            p1r24_independent_b10x10_mode,
+            p1r24_independent_b10x10_mode
+            or p1r24_independent_b10x10_method is not None,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if p1r24_independent_b10x10_mode:
+    if p1r24_independent_b10x10_mode or p1r24_independent_b10x10_method is not None:
         from .p1r24_independent_b10x10_runtime import (
             expected_p1r24_independent_result_name,
         )
 
         expected_name = expected_p1r24_independent_result_name(
-            alias, "RS-P1R24-SOFT"
+            alias, p1r24_independent_b10x10_method or "RS-P1R24-SOFT"
         )
     elif atomic_strength_recovery_role is not None:
         from .p1r24_atomic_strength_panel import expected_p1r24_result_name
@@ -3384,7 +3386,10 @@ def run_p1(
         and not atomic_runtime_conformance_mode
         and scalable_batched_role is None
         and atomic_strength_recovery_role is None
-        and not p1r24_independent_b10x10_mode,
+        and not (
+            p1r24_independent_b10x10_mode
+            or p1r24_independent_b10x10_method is not None
+        ),
         # P1R23/P1R24 own distinct atomic seals and never consume the held
         # sequential ODE-alloc artifact.
     )
@@ -3556,13 +3561,14 @@ def run_p1(
         or scalable_batched_role is not None
         or atomic_strength_recovery_role is not None
         or p1r24_independent_b10x10_mode
+        or p1r24_independent_b10x10_method is not None
     ):
         from .p1_cold_structp_softp_noveto_panel import (
             load_cold_requests,
             verify_cold_case_seal,
         )
 
-        if p1r24_independent_b10x10_mode:
+        if p1r24_independent_b10x10_mode or p1r24_independent_b10x10_method is not None:
             from .p1r24_independent_b10x10_selection import (
                 load_historical_h0_batches,
                 verify_historical_h0_fresh_seal,
@@ -3849,6 +3855,7 @@ def run_p1(
             and scalable_batched_role is None
             and atomic_strength_recovery_role is None
             and not p1r24_independent_b10x10_mode
+            and p1r24_independent_b10x10_method is None
         ):
             from .p1_cold_structp_softp_noveto_panel import (
                 cold_schedule,
@@ -3872,7 +3879,7 @@ def run_p1(
             numerical = cold_numerical
             numerical_sha256 = cold_numerical_sha256
         stream = cold_stream
-        if not p1r24_independent_b10x10_mode:
+        if not p1r24_independent_b10x10_mode and p1r24_independent_b10x10_method is None:
             stream_batches = (cold_requests,)
         request_by_sha256 = {
             str(item["request_sha256"]): item
@@ -3911,11 +3918,13 @@ def run_p1(
         or scalable_batched_role is not None
         or atomic_strength_recovery_role is not None
         or p1r24_independent_b10x10_mode
+        or p1r24_independent_b10x10_method is not None
     ):
         if (
             scalable_batched_role is not None
             or atomic_strength_recovery_role is not None
             or p1r24_independent_b10x10_mode
+            or p1r24_independent_b10x10_method is not None
         ):
             from .p1_common_coldcoord_fixed_e8_panel import (
                 validate_common_cold_runtime_gpu_capacity,
@@ -4140,8 +4149,9 @@ def run_p1(
         or scalable_batched_role is not None
         or atomic_strength_recovery_role is not None
         or p1r24_independent_b10x10_mode
+        or p1r24_independent_b10x10_method is not None
     ):
-        if p1r24_independent_b10x10_mode:
+        if p1r24_independent_b10x10_mode or p1r24_independent_b10x10_method is not None:
             from .p1r24_independent_b10x10_runtime import (
                 run_p1r24_independent_b10x10,
             )
@@ -4150,7 +4160,7 @@ def run_p1(
                 model,
                 tokenizer,
                 alias=alias,
-                method="RS-P1R24-SOFT",
+                method=p1r24_independent_b10x10_method or "RS-P1R24-SOFT",
                 destination=destination,
                 raw_root=raw_root,
                 stages=stages,

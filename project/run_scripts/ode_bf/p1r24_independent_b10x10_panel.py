@@ -9,25 +9,32 @@ from .artifacts import load_rooted_json
 from .contracts import MODEL_ALIASES, ODEBFContractError
 
 
-LOCK_SCHEMA = "ode-edit-s05-p1r24-rs-soft-independent-b10x10-lock/v1"
-LOCK_FILE = "numerical_lock_s05_p1r24_independent_b10x10.json"
+LOCK_SCHEMA = "ode-edit-s05-p1r31-p1r24-independent-b10x10-detailed-lock/v1"
+LOCK_FILE = "numerical_lock_s05_p1r31_p1r24_independent_b10x10_detailed.json"
 PARENT = "ce8c6c36348752f1407f7d713d30e6b5c727379b"
-METHOD = "RS-P1R24-SOFT"
+METHODS = [
+    f"{allocation}-P1R24-{arm}"
+    for allocation in ("RS", "BG")
+    for arm in ("NEUTRAL", "SOFT")
+]
 
 
-def expected_result_name(alias: str) -> str:
+def expected_result_name(alias: str, method: str) -> str:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1R24 independent alias differs")
-    return f"s05-p1r24-rs-soft-independent-b10x10-{alias}-tech-r1-v1"
+    if method not in METHODS:
+        raise ODEBFContractError("P1R31 independent method differs")
+    token = method.lower().replace("-p1r24-", "-")
+    return f"s05-p1r31-p1r24-independent-b10x10-detailed-{alias}-{token}-v1"
 
 
 def validate_lock(value: Mapping[str, Any]) -> None:
     if (
         value.get("schema_version") != LOCK_SCHEMA
         or value.get("instruction_id")
-        != "ODEEDIT-S05-P1R24-RS-SOFT-INDEPENDENT-B10X10-V1"
+        != "ODEEDIT-S05-P1R31-P1R24-INDEPENDENT-B10X10-FULL-MATRIX-DETAILED-V1"
         or value.get("accepted_p1r24_scientific_checkpoint") != PARENT
-        or value.get("method") != METHOD
+        or value.get("methods") != METHODS
         or value.get("fresh_stream_root")
         != "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6"
         or value.get("all_request_order_sha256")
@@ -40,8 +47,8 @@ def validate_lock(value: Mapping[str, Any]) -> None:
         or value.get("tau_final") != 1.0
         or value.get("context_ordinals") != list(range(6))
         or value.get("history_mode") != "OFF"
-        or value.get("project_gpu_cap") != 3
-        or value.get("array_max_concurrent_gpu") != 2
+        or value.get("project_gpu_cap") != 4
+        or value.get("array_max_concurrent_gpu") != 4
         or value.get("scientific_promotion_authorized") is not False
     ):
         raise ODEBFContractError("P1R24 independent lock identity differs")
@@ -67,4 +74,4 @@ def load_and_validate_lock(path: Path) -> tuple[dict[str, Any], str]:
     return value, file_sha
 
 
-__all__ = ["LOCK_FILE", "LOCK_SCHEMA", "METHOD", "PARENT", "expected_result_name", "load_and_validate_lock", "validate_lock"]
+__all__ = ["LOCK_FILE", "LOCK_SCHEMA", "METHODS", "PARENT", "expected_result_name", "load_and_validate_lock", "validate_lock"]
