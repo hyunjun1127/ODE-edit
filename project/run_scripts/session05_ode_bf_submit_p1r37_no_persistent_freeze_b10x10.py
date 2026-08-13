@@ -70,7 +70,7 @@ def _server2_active_gpu_allocations() -> tuple[int, list[str]]:
             "-u",
             "janghj",
             "-w",
-            "devbox",
+            "server2",
             "-t",
             "RUNNING,CONFIGURING",
             "-o",
@@ -167,7 +167,7 @@ def submit(source_head: str) -> dict[str, object]:
             "--chdir",
             str(REPO_ROOT),
             "--nodelist",
-            "devbox",
+            "server2",
             "--job-name",
             "odeedit_s05_p1r37_no_persistent_freeze_b10x10",
             "--output",
@@ -186,7 +186,7 @@ def submit(source_head: str) -> dict[str, object]:
     required = (
         "JobState=PENDING",
         "Reason=JobHeldUser",
-        "ReqNodeList=devbox",
+        "ReqNodeList=server2",
         "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1",
         "ArrayTaskThrottle=4",
     )
