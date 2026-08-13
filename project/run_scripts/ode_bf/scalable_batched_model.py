@@ -514,6 +514,7 @@ def evaluate_scalable_target_new_objective(
     target_layer_name: str | None = None,
     coefficient_layers: Sequence[Any] | None = None,
     coefficients: torch.Tensor | None = None,
+    target_gradient_required: bool = True,
 ) -> ScalableObjectiveResult:
     """Evaluate the exact global-B target-new NLL and optional one VJP."""
 
@@ -531,7 +532,7 @@ def evaluate_scalable_target_new_objective(
         or target_state.ndim != 2
         or target_state.shape != current_terminal.shape
         or target_state.shape[1] != plan.request_count
-        or not target_state.requires_grad
+        or (target_gradient_required and not target_state.requires_grad)
         or not torch.isfinite(target_state).all()
         or not torch.isfinite(current_terminal).all()
     ):
@@ -554,7 +555,7 @@ def evaluate_scalable_target_new_objective(
     spans: list[str | None] = [None] * plan.request_count
     target_gradient = (
         torch.zeros_like(target_state, dtype=torch.float64, device="cpu")
-        if target_mode
+        if target_mode and target_gradient_required
         else None
     )
     coefficient_gradient = (
@@ -597,13 +598,16 @@ def evaluate_scalable_target_new_objective(
                 context_sha256=plan.context_sha256,
             )
             request_sum = torch.stack([item[1] for item in observed]).sum()
-            if target_mode:
+            if target_mode and target_gradient_required:
                 assert target_state is not None and target_gradient is not None
                 gradient = torch.autograd.grad(
                     request_sum, target_state, retain_graph=False, create_graph=False
                 )[0]
                 target_gradient.add_(gradient.detach().to(device="cpu", dtype=torch.float64))
                 backward_count += 1
+                assert target_overlay is not None
+                overlay_fire_count += target_overlay.fire_count
+            elif target_mode:
                 assert target_overlay is not None
                 overlay_fire_count += target_overlay.fire_count
             elif coefficient_mode:

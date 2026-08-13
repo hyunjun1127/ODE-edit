@@ -1,0 +1,34 @@
+{
+  "schema_version": "ode-edit-s05-p1r34-w-anchored-finite-demand-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R34-P1R24-W-ANCHORED-FINITE-DEMAND-V1",
+  "method_id": "P1R24-W-ANCHORED-FINITE-APPLIED-STEP-DEMAND-V1",
+  "scientific_base": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "grid": {"K": 8, "h": 0.125, "tau_final": 1.0, "retry": 0, "backtracking": 0, "imputation": 0},
+  "only_scientific_delta": {
+    "L_base": "SAME_STATE_NOHOOK_FULL_SIX_TARGET_NEW_NLL",
+    "L_endpoint": "SAME_FROZEN_W_FULL_SIX_HOOKED_NLL_AT_CURRENT_TERMINAL_PLUS_REQUIRED_MODEL",
+    "rho_finite_signed": "L_base-L_endpoint",
+    "rho_write": "MAX_ONLY_WITHIN_INHERITED_P1R24_NUMERICAL_NEIGHBORHOOD",
+    "material_negative_status": "NON_SEMANTIC_TARGET_MOVE",
+    "endpoint_forward_count_per_step": 1,
+    "endpoint_backward_count_per_step": 0,
+    "rho_h_or_remaining_scaling_count": 0
+  },
+  "frozen_p1r24": {
+    "coordinate": "u=d+lag/(K-k); write_velocity=u/h",
+    "target_nll_kl_decay_clamp_metric_freeze_latch": "BYTE_IDENTICAL_P1R24",
+    "router": "P1R24_RS_NEUTRAL_SOFT_MATCHED_STRENGTH",
+    "structural_p_trust_energy_capacity": "BYTE_IDENTICAL_P1R24",
+    "physical_h_application_count_per_step": 1,
+    "second_remaining_division_count": 0,
+    "history_count": 0,
+    "heldout_inner_step_count": 0,
+    "terminal_evaluator_count": 1
+  },
+  "inputs": {
+    "seal_root": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+    "request_order": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b"
+  },
+  "matrix": {"models": ["llama3-8b-inst", "qwen2.5-7b-inst"], "allocation": "RS", "arms": ["NEUTRAL", "SOFT"], "stage_max_gpu": 2, "server1_project_cap": 4},
+  "root_digest": "f00f45c5d7f5f6acd78c234c9048aa8dd1e3f1a5f40f02190c3793b88ec512f8"
+}
