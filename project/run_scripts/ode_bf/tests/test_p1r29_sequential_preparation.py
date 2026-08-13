@@ -12,7 +12,9 @@ from project.run_scripts.ode_bf.p1_state import P1HistoryRecord
 from project.run_scripts.ode_bf.p1r29_sequential_preparation import (
     FIXED_H,
     MAXIMUM_HISTORY_RECORDS,
+    AtomicAdapterConstraintCertificate,
     AtomicAdapterPreprocessingIdentity,
+    AtomicAdapterRoutingReference,
     AtomicSequentialAdapterFrame,
     AtomicSequentialTerminalFrame,
     CumulativeStructuralPState,
@@ -565,6 +567,28 @@ class SequentialTransactionTest(unittest.TestCase):
 
 
 class AdapterFirewallTest(unittest.TestCase):
+    def routing_reference(
+        self,
+        *,
+        reference: tuple[float, ...] = (0.25, 0.75),
+        selected: tuple[float, ...] = (0.6, 0.4),
+    ) -> AtomicAdapterRoutingReference:
+        return AtomicAdapterRoutingReference(
+            reference,
+            2.5,
+            3.25,
+            0.875,
+            selected,
+            AtomicAdapterConstraintCertificate(
+                "A0_RELATIVE_MEAN_DEBT_PRIORITY_ENERGY",
+                "CERTIFIED",
+                digest("constraint-receipt"),
+                digest("certificate-receipt"),
+                True,
+                False,
+            ),
+        )
+
     def test_adapter_owns_preprocessing_and_backend_adds_no_model_calls(self) -> None:
         layers = (4, 5)
         preprocessing = AtomicAdapterPreprocessingIdentity(
@@ -580,11 +604,12 @@ class AdapterFirewallTest(unittest.TestCase):
             torch.zeros((10, 3), dtype=torch.float32),
             {layer: torch.ones((2, 3), dtype=torch.float32) for layer in layers},
             (1.0, 2.0),
-            2.5,
+            self.routing_reference(),
             {layer: torch.ones((3, 10), dtype=torch.float32) for layer in layers},
             digest("accepted-state"),
         )
         receipt = frame.raw_free_receipt()
+        self.assertNotIn("semantic_rho", AtomicSequentialAdapterFrame.__dataclass_fields__)
         self.assertFalse(receipt["target_or_debt_preprocessing_implemented_by_backend"])
         self.assertTrue(receipt["shared_preprocessing_owned_by_selected_adapter"])
         self.assertEqual(
@@ -594,7 +619,11 @@ class AdapterFirewallTest(unittest.TestCase):
             + receipt["backend_h_p_backward_count"],
             0,
         )
-        self.assertEqual(receipt["semantic_rho"], 2.5)
+        self.assertNotIn("semantic_rho", receipt)
+        self.assertFalse(receipt["universal_semantic_rho_equality_required"])
+        self.assertFalse(receipt["universal_rho_over_slope_transform_required"])
+        self.assertEqual(receipt["routing_reference"]["reference_coefficients"], (0.25, 0.75))
+        self.assertEqual(receipt["routing_reference"]["selected_coefficients"], (0.6, 0.4))
 
         physical = TerminalPhysicalKeyIdentity(
             digest("weight"),
@@ -620,7 +649,7 @@ class AdapterFirewallTest(unittest.TestCase):
         )
         self.assertTrue(terminal_receipt.reused_terminal_keys)
 
-    def test_adapter_rejects_missing_layer_and_invalid_rho(self) -> None:
+    def test_adapter_rejects_missing_layer_and_invalid_reference_geometry(self) -> None:
         preprocessing = AtomicAdapterPreprocessingIdentity(
             "future-atomic-adapter",
             digest("preprocess"),
@@ -635,10 +664,83 @@ class AdapterFirewallTest(unittest.TestCase):
                 torch.zeros((10, 3), dtype=torch.float32),
                 {4: torch.ones((2, 3), dtype=torch.float32)},
                 (1.0, 2.0),
-                -1.0,
+                self.routing_reference(reference=(-1.0, 2.0)),
                 {4: torch.ones((3, 10), dtype=torch.float32)},
                 digest("state"),
             )
+
+    def test_adapter_accepts_reference_constraints_without_rho_over_slope_transform(self) -> None:
+        layers = (4, 5, 6)
+        preprocessing = AtomicAdapterPreprocessingIdentity(
+            "p1r30-a0-relative-adapter",
+            digest("preprocess-p1r30"),
+            digest("order-p1r30"),
+            digest("normalization-p1r30"),
+        )
+        reference = AtomicAdapterRoutingReference(
+            (0.3, 0.0, 0.7),
+            -1.75,
+            0.0,
+            4.5,
+            (0.1, 0.8, 0.1),
+            AtomicAdapterConstraintCertificate(
+                "A0_RELATIVE_MEAN_DEBT_PRIORITY_ENERGY",
+                "NEUTRAL_FALLBACK",
+                digest("constraint-p1r30"),
+                digest("certificate-p1r30"),
+                True,
+                True,
+            ),
+        )
+        frame = AtomicSequentialAdapterFrame(
+            preprocessing,
+            layers,
+            {layer: torch.zeros((2, 2), dtype=torch.bfloat16) for layer in layers},
+            torch.zeros((10, 3), dtype=torch.float32),
+            {layer: torch.ones((2, 3), dtype=torch.float32) for layer in layers},
+            (1.0e-30, 0.0, -2.0),
+            reference,
+            {layer: torch.ones((3, 10), dtype=torch.float32) for layer in layers},
+            digest("accepted-p1r30"),
+        )
+        receipt = frame.raw_free_receipt()
+        self.assertEqual(receipt["routing_reference"]["selected_coefficients"], (0.1, 0.8, 0.1))
+        self.assertEqual(receipt["routing_reference"]["reference_mean_progress"], -1.75)
+        self.assertEqual(receipt["routing_reference"]["reference_debt_priority_progress"], 0.0)
+        self.assertTrue(
+            receipt["routing_reference"]["constraint_certificate"]["fallback_to_reference"]
+        )
+        self.assertFalse(receipt["routing_reference"]["universal_semantic_rho_equality_required"])
+
+    def test_adapter_rejects_nonfinite_signed_progress_and_negative_energy(self) -> None:
+        certificate = AtomicAdapterConstraintCertificate(
+            "A0_RELATIVE_MEAN_DEBT_PRIORITY_ENERGY",
+            "CERTIFIED",
+            digest("constraint-invalid"),
+            digest("certificate-invalid"),
+            True,
+            False,
+        )
+        for mean_progress, debt_progress, energy in (
+            (float("nan"), 0.0, 1.0),
+            (0.0, float("inf"), 1.0),
+            (0.0, 0.0, -1.0),
+        ):
+            with self.subTest(
+                mean_progress=mean_progress,
+                debt_progress=debt_progress,
+                energy=energy,
+            ):
+                reference = AtomicAdapterRoutingReference(
+                    (0.5, 0.5),
+                    mean_progress,
+                    debt_progress,
+                    energy,
+                    (0.5, 0.5),
+                    certificate,
+                )
+                with self.assertRaisesRegex(ODEBFContractError, "reference geometry"):
+                    reference.validate_for_layers((4, 5))
 
 
 class OuterPlanTest(unittest.TestCase):
@@ -657,6 +759,11 @@ class OuterPlanTest(unittest.TestCase):
             payload["actual_b10x2_model_smoke_receipt"],
             "NOT_RECORDED_NO_ADAPTER_SELECTED",
         )
+        adapter = payload["adapter_neutral_dry_integration_contract"]
+        self.assertFalse(adapter["universal_semantic_rho_equality"])
+        self.assertFalse(adapter["universal_rho_over_slope_transform"])
+        self.assertTrue(adapter["reference_allocation_c0"])
+        self.assertTrue(adapter["constraint_and_certificate_receipts"])
         self.assertEqual(
             payload["models"] + payload["gpu_allocations"] + payload["slurm_jobs"] + payload["result_roots"],
             0,
