@@ -3244,7 +3244,13 @@ def run_p1(
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
     if atomic_strength_recovery_role is not None:
-        if atomic_strength_recovery_role.startswith("P1R34_"):
+        if atomic_strength_recovery_role.startswith("P1R35_"):
+            from .p1r35_full_current_residual_panel import expected_p1r35_result_name
+
+            expected_name = expected_p1r35_result_name(
+                alias, atomic_strength_recovery_role
+            )
+        elif atomic_strength_recovery_role.startswith("P1R34_"):
             from .p1r34_w_anchored_finite_demand_panel import expected_p1r34_result_name
 
             expected_name = expected_p1r34_result_name(
@@ -3646,6 +3652,7 @@ def run_p1(
                     if atomic_strength_recovery_role in (
                         "P1R24_B1_RS_NEUTRAL",
                         "P1R34_B1_RS_PAIR",
+                        "P1R35_B1_RS_PAIR",
                     ):
                         cold_requests = tuple(cold_requests[:1])
                         from .scalable_batched_runtime import scalable_ordered_request_digest
@@ -3662,6 +3669,7 @@ def run_p1(
                         "P1R24_B10_RS_PAIR",
                         "P1R24_B10_BG_PAIR",
                         "P1R34_B10_RS_PAIR",
+                        "P1R35_B10_RS_PAIR",
                     ):
                         raise ODEBFContractError("P1R24 role differs")
                 elif scalable_batched_batch_size == 100:
