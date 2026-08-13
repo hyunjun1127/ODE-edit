@@ -2059,6 +2059,7 @@ def run_p1r23_scalable_batched(
             "P1R34_B1_RS_PAIR",
             "P1R34_B10_RS_PAIR",
             "P1R35_B1_RS_PAIR",
+            "P1R35_B1_RS_PAIR_TECH_R1",
             "P1R35_B10_RS_PAIR",
         ),
         "estimand": "ATOMIC",
@@ -2081,6 +2082,7 @@ def run_p1r23_scalable_batched(
         "P1R34_B1_RS_PAIR",
         "P1R34_B10_RS_PAIR",
         "P1R35_B1_RS_PAIR",
+        "P1R35_B1_RS_PAIR_TECH_R1",
         "P1R35_B10_RS_PAIR",
     ):
         progress_simplex = progress_simplex_role
@@ -2119,6 +2121,7 @@ def run_p1r23_scalable_batched(
                     "P1R34_B1_RS_PAIR",
                     "P1R34_B10_RS_PAIR",
                     "P1R35_B1_RS_PAIR",
+                    "P1R35_B1_RS_PAIR_TECH_R1",
                     "P1R35_B10_RS_PAIR",
                 )
                 else "BG"
@@ -2128,7 +2131,11 @@ def run_p1r23_scalable_batched(
             p1r34=p1r34_role,
             p1r35=p1r35_role,
             neutral_only=role == "P1R24_B1_RS_NEUTRAL",
-            technical_smoke=role in ("P1R34_B1_RS_PAIR", "P1R35_B1_RS_PAIR"),
+            technical_smoke=role in (
+                "P1R34_B1_RS_PAIR",
+                "P1R35_B1_RS_PAIR",
+                "P1R35_B1_RS_PAIR_TECH_R1",
+            ),
         )
     if role == "CALIBRATION":
         return _run_calibration(

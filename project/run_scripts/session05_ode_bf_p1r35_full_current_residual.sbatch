@@ -31,6 +31,8 @@ scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 readonly MODELS=(llama3-8b-inst qwen2.5-7b-inst)
 if [[ "${PHASE}" == "smoke" ]]; then
   readonly ROLE="P1R35_B1_RS_PAIR"
+elif [[ "${PHASE}" == "smoke-tech-r1" ]]; then
+  readonly ROLE="P1R35_B1_RS_PAIR_TECH_R1"
 elif [[ "${PHASE}" == "production" ]]; then
   readonly ROLE="P1R35_B10_RS_PAIR"
 else

@@ -3653,6 +3653,7 @@ def run_p1(
                         "P1R24_B1_RS_NEUTRAL",
                         "P1R34_B1_RS_PAIR",
                         "P1R35_B1_RS_PAIR",
+                        "P1R35_B1_RS_PAIR_TECH_R1",
                     ):
                         cold_requests = tuple(cold_requests[:1])
                         from .scalable_batched_runtime import scalable_ordered_request_digest

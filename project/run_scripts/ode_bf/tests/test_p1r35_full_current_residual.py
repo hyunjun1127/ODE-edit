@@ -112,13 +112,20 @@ class P1R35FullCurrentResidualTests(unittest.TestCase):
         )
 
     def test_matrix_is_two_models_times_two_phases(self) -> None:
-        self.assertEqual(P1R35_ROLES, ("P1R35_B1_RS_PAIR", "P1R35_B10_RS_PAIR"))
+        self.assertEqual(
+            P1R35_ROLES,
+            (
+                "P1R35_B1_RS_PAIR",
+                "P1R35_B1_RS_PAIR_TECH_R1",
+                "P1R35_B10_RS_PAIR",
+            ),
+        )
         names = {
             expected_p1r35_result_name(alias, role)
             for alias in ("llama3-8b-inst", "qwen2.5-7b-inst")
             for role in P1R35_ROLES
         }
-        self.assertEqual(len(names), 4)
+        self.assertEqual(len(names), 6)
 
     def test_helper_has_no_scientific_import_from_r32_r33(self) -> None:
         source = (

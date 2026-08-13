@@ -9,7 +9,11 @@ from .contracts import MODEL_ALIASES, ODEBFContractError
 from .p1_scalable_batched_runtime_panel import forecast_p1r23_panel
 
 
-P1R35_ROLES = ("P1R35_B1_RS_PAIR", "P1R35_B10_RS_PAIR")
+P1R35_ROLES = (
+    "P1R35_B1_RS_PAIR",
+    "P1R35_B1_RS_PAIR_TECH_R1",
+    "P1R35_B10_RS_PAIR",
+)
 
 
 def expected_p1r35_result_name(alias: str, role: str) -> str:
@@ -17,6 +21,7 @@ def expected_p1r35_result_name(alias: str, role: str) -> str:
         raise ODEBFContractError("P1R35 result identity differs")
     suffix = {
         "P1R35_B1_RS_PAIR": "b1-rs-full-current-residual-neutral-soft-pair",
+        "P1R35_B1_RS_PAIR_TECH_R1": "b1-rs-full-current-residual-neutral-soft-pair-tech-r1",
         "P1R35_B10_RS_PAIR": "b10-rs-full-current-residual-neutral-soft-pair",
     }[role]
     return f"s05-p1r35-{alias}-{suffix}-v1"
