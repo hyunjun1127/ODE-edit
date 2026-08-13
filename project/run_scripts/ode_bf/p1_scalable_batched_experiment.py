@@ -237,8 +237,8 @@ def _run_ode_arm(
         raise ODEBFContractError("P1R23 ODE request count differs")
     if allocation not in ("RS", "BG"):
         raise ODEBFContractError("P1R23 ODE target allocation differs")
-    if p1r34 and (not p1r24 or allocation != "RS"):
-        raise ODEBFContractError("P1R34 requires the P1R24 RS science path")
+    if p1r34 and not p1r24:
+        raise ODEBFContractError("P1R34 requires the P1R24 science path")
     if p1r35 and not p1r34:
         raise ODEBFContractError("P1R35 requires the frozen P1R34 science path")
     arm_label = (
