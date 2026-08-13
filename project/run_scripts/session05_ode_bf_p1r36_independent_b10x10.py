@@ -53,7 +53,7 @@ def _source_gate(source_head: str) -> str:
     manifest_path = REPO_ROOT / "project/run_scripts/ode_bf/locks" / SOURCE_MANIFEST
     manifest, raw_sha = load_rooted_json(
         manifest_path,
-        expected_schema="ode-edit-s05-p1r36-p1r35-independent-b10x10-detailed-source-manifest/v1",
+        expected_schema="ode-edit-s05-p1r36-p1r35-independent-b10x10-source-manifest/v1",
     )
     entries = manifest.get("entries")
     if (

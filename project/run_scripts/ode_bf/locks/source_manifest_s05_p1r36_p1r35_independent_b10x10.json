@@ -1,0 +1,97 @@
+{
+  "schema_version": "ode-edit-s05-p1r36-p1r35-independent-b10x10-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R36-P1R35-INDEPENDENT-B10X10-FULL-MATRIX-V1",
+  "parent_checkpoint": "a625e3d1cded3ced0e9128ef7a44205953041447",
+  "parent_tree": "d2c18b36a3644bde4a89900d23d2f26c7ef41af3",
+  "accepted_tech_r1_checkpoint": "117ece2ee1132e7277a0b43ec5ac77feebfb2646",
+  "delta_role": "P1R35_INDEPENDENT_B10X10_FULL_MATRIX_ORCHESTRATION",
+  "protected_p1r35_target_router_numerical_semantics_unchanged": true,
+  "entries": [
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r36_p1r35_independent_b10x10.json",
+      "size": 1901,
+      "sha256": "09e1d10d925183c724a563c2dbe2f5019a95c1a6aa9d0cf2dc7a8aa12a6cb492"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/p1r24_independent_b10x10_stream_seal.json",
+      "size": 52138,
+      "sha256": "01612c28f700d7281e7f4887189577305396a47715760c98997f97d2acfe596b"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/source_manifest_s05_p1r35_full_current_residual.json",
+      "size": 2407,
+      "sha256": "5406c6e58318c1a144e77b3da1cac1be057f8776049bd673d65a87344eccbc79"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "size": 201806,
+      "sha256": "a08d8e78e7d04e6f3584fae11239821cf043f227ab67d7846fd9dcb9c4babe4e"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+      "size": 86129,
+      "sha256": "9ff68781161b9e90486404c723c1387ef2e357f1be54b5e236755ce4798a36cf"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r24_independent_b10x10_selection.py",
+      "size": 11498,
+      "sha256": "ff4267090bd185c063f567867bf7840f7cbf409201d24c1e82ea46fe6f2956c4"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r35_full_current_residual.py",
+      "size": 5257,
+      "sha256": "539425cc1e6bbe66cc873f4c177e8587d3e5dc955fdb081b1d909b0dc8ce617b"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r35_full_current_residual_panel.py",
+      "size": 1166,
+      "sha256": "3335cd6bddcbbe4944ff22890cf55e6f1a852cc81e821c095d9b50e15fc978b1"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r36_independent_b10x10_panel.py",
+      "size": 3167,
+      "sha256": "cb50e8cf070ec2763c222f210b3f315026563fc2fa3fa1c3987f716a37d573f2"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r36_independent_b10x10_runtime.py",
+      "size": 20378,
+      "sha256": "109225e4ece9a58af4389cd1cc2cdf9e6037ac8be514b006c2a56eb67dee75a9"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p1r35_full_current_residual.py",
+      "size": 5439,
+      "sha256": "8491731e75d2fa6de4ed5911b560eb362d69305511f6edeed99a2f5b91ce5347"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p1r36_independent_b10x10.py",
+      "size": 7676,
+      "sha256": "3fd2290ac14cdac4be69bc764f45f3768a46248283cd491c239b8698643b2fcf"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r35_full_current_residual.sbatch",
+      "size": 2780,
+      "sha256": "b81a4c6c2775e89e21dc035576f489b055ab53d1845308668228a86978fe29b5"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r36_independent_b10x10.py",
+      "size": 5898,
+      "sha256": "a16c047eae28eb413c1e937308abe33fb4da969d0601784dca0984697782f4f2"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r36_independent_b10x10.sbatch",
+      "size": 2847,
+      "sha256": "53d9237f72ca948bae5997645f4ed0f6522e2f22983fbeb58954e84da82f0a31"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r36_independent_b10x10_dry_plan.py",
+      "size": 2870,
+      "sha256": "30fa7e6e5ed6544dac5e4e9451d77e363ab5a1b8a463782700310f26ee5b04af"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_submit_p1r36_independent_b10x10.py",
+      "size": 5515,
+      "sha256": "df36c37605373b218ce7b2fbe759c227aeca7813f852472833611b8f9a1b3580"
+    }
+  ],
+  "root_digest": "afc31d746c59b875517dc61cee9973db210d2c33db8d3f959eba9913e01838ac"
+}
