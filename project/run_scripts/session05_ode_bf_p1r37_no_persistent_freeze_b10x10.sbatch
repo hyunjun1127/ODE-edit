@@ -6,7 +6,7 @@
 #SBATCH --nodelist=devbox
 #SBATCH --mem=65000M
 #SBATCH --time=23:59:00
-#SBATCH --array=0-7%2
+#SBATCH --array=0-7%4
 #SBATCH --export=NONE
 
 set -euo pipefail

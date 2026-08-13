@@ -81,7 +81,7 @@ class P1R37NoPersistentFreezeTest(unittest.TestCase):
         plan = dry.build_plan("child")
         self.assertEqual(plan["job_count"], 8)
         self.assertEqual(plan["independent_atomic_b10_case_count"], 80)
-        self.assertEqual(plan["array_max_concurrent_gpu"], 2)
+        self.assertEqual(plan["array_max_concurrent_gpu"], 4)
         self.assertEqual(plan["server2_project_gpu_cap"], 4)
         self.assertEqual(
             [item["method"] for item in plan["jobs"]],
@@ -238,7 +238,7 @@ class P1R37NoPersistentFreezeTest(unittest.TestCase):
         ).read_text()
         self.assertIn("p1r37_independent_b10x10_method=args.method", runner)
         self.assertIn("check-session-boundary.sh", sbatch)
-        self.assertIn("#SBATCH --array=0-7%2", sbatch)
+        self.assertIn("#SBATCH --array=0-7%4", sbatch)
         self.assertIn("#SBATCH --cpus-per-task=8", sbatch)
         self.assertIn("#SBATCH --mem=65000M", sbatch)
         self.assertIn("#SBATCH --time=23:59:00", sbatch)
@@ -247,7 +247,7 @@ class P1R37NoPersistentFreezeTest(unittest.TestCase):
         self.assertIn('P1R36_JOB_ID = "19472"', submitter)
         self.assertIn("if p1r36_active > 2", submitter)
         self.assertIn("SERVER2_PROJECT_GPU_CAP = 4", submitter)
-        self.assertIn("ARRAY_MAX_CONCURRENT_GPU = 2", submitter)
+        self.assertIn("ARRAY_MAX_CONCURRENT_GPU = 4", submitter)
         self.assertIn('"--hold"', submitter)
         self.assertIn('["scontrol", "release", job_id]', submitter)
 

@@ -49,7 +49,7 @@ def validate_lock(value: Mapping[str, Any]) -> None:
         or value.get("predeclared_sentinel")
         != "P1R36_LLAMA_RS_SOFT_CASE02_K7"
         or value.get("server2_project_gpu_cap") != 4
-        or value.get("array_max_concurrent_gpu") != 2
+        or value.get("array_max_concurrent_gpu") != 4
         or value.get("scientific_promotion") is not False
     ):
         raise ODEBFContractError("P1R37 numerical/source identity differs")

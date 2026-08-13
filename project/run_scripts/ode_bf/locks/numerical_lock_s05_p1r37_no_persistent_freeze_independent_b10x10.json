@@ -34,8 +34,8 @@
   "terminal_evaluator_count_per_successful_case": 1,
   "scientific_materialization_count_per_successful_case": 8,
   "server2_project_gpu_cap": 4,
-  "array_max_concurrent_gpu": 2,
+  "array_max_concurrent_gpu": 4,
   "server1_job19472_release_active_allocation_max": 2,
   "scientific_promotion": false,
-  "root_digest": "30cac586e59236ed7fa1fdb10ed89e8ac1a6ce531c07ea2cab2d7f5dd2cfd4bd"
+  "root_digest": "388332e966c6b75bfa794929148bee2ba8c88d01c4e9ba97b88adeffb3d575ca"
 }

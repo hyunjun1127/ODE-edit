@@ -28,7 +28,7 @@ RESULT_PARENT = REPO_ROOT / "local/odebf/results"
 LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r37-no-persistent-freeze-b10x10"
 BRANCH = "codex/p1r37-p1r36-no-persistent-freeze-independent-b10x10-v1"
 SERVER2_PROJECT_GPU_CAP = 4
-ARRAY_MAX_CONCURRENT_GPU = 2
+ARRAY_MAX_CONCURRENT_GPU = 4
 P1R36_JOB_ID = "19472"
 
 
@@ -137,7 +137,7 @@ def submit(source_head: str) -> dict[str, object]:
         "new_max_concurrent_gpu": ARRAY_MAX_CONCURRENT_GPU,
         "server2_project_gpu_cap": SERVER2_PROJECT_GPU_CAP,
         "held_then_atomic_release": True,
-        "array": "0-7%2",
+        "array": "0-7%4",
     }
     intent_sha = _write_once(intent_path, intent)
     submitted = _run(
@@ -146,7 +146,7 @@ def submit(source_head: str) -> dict[str, object]:
             "--hold",
             "--parsable",
             "--array",
-            "0-7%2",
+            "0-7%4",
             "--chdir",
             str(REPO_ROOT),
             "--nodelist",
@@ -181,7 +181,7 @@ def submit(source_head: str) -> dict[str, object]:
         "source_head": source_head,
         "source_parent": parent,
         "job_id": job_id,
-        "array": "0-7%2",
+        "array": "0-7%4",
         "job_count": 8,
         "case_count": 80,
         "max_concurrent_gpu": ARRAY_MAX_CONCURRENT_GPU,

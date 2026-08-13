@@ -79,7 +79,7 @@ def build_plan(
         "independent_atomic_b10_case_count": 80,
         "history_mode": "OFF",
         "server2_project_gpu_cap": 4,
-        "array_max_concurrent_gpu": 2,
+        "array_max_concurrent_gpu": 4,
         "model_load": False,
         "gpu_use": False,
         "slurm_submit": False,

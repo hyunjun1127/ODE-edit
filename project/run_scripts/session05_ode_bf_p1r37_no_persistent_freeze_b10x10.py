@@ -40,6 +40,12 @@ PROTECTED_PARENT_SHA256 = {
     "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r36_p1r35_independent_b10x10.json": "09e1d10d925183c724a563c2dbe2f5019a95c1a6aa9d0cf2dc7a8aa12a6cb492",
     "project/run_scripts/ode_bf/locks/p1r24_independent_b10x10_stream_seal.json": "01612c28f700d7281e7f4887189577305396a47715760c98997f97d2acfe596b",
 }
+EXECUTABLE_SOURCE_PATHS = {
+    "project/run_scripts/session05_ode_bf_p1r37_no_persistent_freeze_b10x10.py",
+    "project/run_scripts/session05_ode_bf_p1r37_no_persistent_freeze_b10x10.sbatch",
+    "project/run_scripts/session05_ode_bf_p1r37_no_persistent_freeze_b10x10_dry_plan.py",
+    "project/run_scripts/session05_ode_bf_submit_p1r37_no_persistent_freeze_b10x10.py",
+}
 
 
 def _source_gate(source_head: str) -> str:
@@ -81,6 +87,10 @@ def _source_gate(source_head: str) -> str:
             or sha256_file(path) != entry.get("sha256")
         ):
             raise ValueError("P1R37 source bytes differ")
+        if relative in EXECUTABLE_SOURCE_PATHS and not (
+            path.stat().st_mode & 0o111
+        ):
+            raise ValueError("P1R37 executable source mode differs")
         observed.append(relative)
     manifest_relative = manifest_path.relative_to(REPO_ROOT).as_posix()
     changed = set(
