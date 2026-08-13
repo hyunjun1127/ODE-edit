@@ -3216,6 +3216,7 @@ def run_p1(
     scalable_batched_role: str | None = None,
     scalable_batched_batch_size: int | None = None,
     atomic_strength_recovery_role: str | None = None,
+    p1r32_result_attempt: str = "initial",
     p1r24_independent_b10x10_mode: bool = False,
     p1r24_independent_b10x10_method: str | None = None,
 ) -> dict[str, Any]:
@@ -3256,9 +3257,20 @@ def run_p1(
             alias, p1r24_independent_b10x10_method or "RS-P1R24-SOFT"
         )
     elif atomic_strength_recovery_role is not None:
-        from .p1r24_atomic_strength_panel import expected_p1r24_result_name
+        if atomic_strength_recovery_role.startswith("P1R32_"):
+            from .p1r32_dynamic_z5_panel import expected_p1r32_result_name
 
-        expected_name = expected_p1r24_result_name(alias, atomic_strength_recovery_role)
+            expected_name = expected_p1r32_result_name(
+                alias, atomic_strength_recovery_role, attempt=p1r32_result_attempt
+            )
+        else:
+            from .p1r24_atomic_strength_panel import expected_p1r24_result_name
+
+            if p1r32_result_attempt != "initial":
+                raise ODEBFContractError("P1R24 result attempt differs")
+            expected_name = expected_p1r24_result_name(
+                alias, atomic_strength_recovery_role
+            )
     elif scalable_batched_role is not None:
         from .p1_scalable_batched_runtime_panel import (
             expected_p1r23_result_name,

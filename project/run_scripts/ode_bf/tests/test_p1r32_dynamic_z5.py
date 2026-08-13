@@ -14,6 +14,9 @@ from project.run_scripts.ode_bf.p1r32_dynamic_z5 import (
     solve_dynamic_z5_direct_routing,
     solve_dynamic_z5_target,
 )
+from project.run_scripts.ode_bf.p1r32_dynamic_z5_panel import (
+    expected_p1r32_result_name,
+)
 from project.run_scripts.ode_bf.routing import QuadraticBarrier, RoutingProblem
 
 
@@ -46,6 +49,14 @@ def _problem(slopes: np.ndarray) -> RoutingProblem:
 
 
 class DynamicZ5RouterTest(unittest.TestCase):
+    def test_p1r32_result_namespace_is_not_dispatched_to_p1r24(self) -> None:
+        self.assertEqual(
+            expected_p1r32_result_name(
+                "llama3-8b-inst", "P1R32_B1_PAIR", attempt="tech-r2"
+            ),
+            "s05-p1r32-llama3-8b-inst-dynz5-fullres-b1-pair-tech-r2-v1",
+        )
+
     def test_neutral_is_direct_nominal_c0(self) -> None:
         slopes = np.asarray((2.0, 1.0, -0.5, 0.25, 3.0))
         result = solve_dynamic_z5_direct_routing(

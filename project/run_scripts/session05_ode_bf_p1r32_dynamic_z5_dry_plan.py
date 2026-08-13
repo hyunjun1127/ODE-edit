@@ -26,7 +26,13 @@ from project.run_scripts.ode_bf.p1r32_dynamic_z5 import (
 ALIASES = ("llama3-8b-inst", "qwen2.5-7b-inst")
 
 
-def build_plan(source_head: str, phase: str, *, repository_root: Path = REPO_ROOT) -> dict[str, object]:
+def build_plan(
+    source_head: str,
+    phase: str,
+    *,
+    attempt: str = "initial",
+    repository_root: Path = REPO_ROOT,
+) -> dict[str, object]:
     if phase not in ("smoke", "production"):
         raise ValueError("P1R32 dry phase differs")
     role = "P1R32_B1_PAIR" if phase == "smoke" else "P1R32_B10_PAIR"
@@ -47,7 +53,9 @@ def build_plan(source_head: str, phase: str, *, repository_root: Path = REPO_ROO
                 "arm_count": 2,
                 "trajectory_count": 2,
                 "arms": ["DYNZ5-FULLRES-NEUTRAL", "DYNZ5-FULLRES-SOFT"],
-                "result_name": expected_p1r32_result_name(alias, role),
+                "result_name": expected_p1r32_result_name(
+                    alias, role, attempt=attempt
+                ),
                 "gpu": 1,
                 "cpu": 8,
                 "memory_mib": 65_000,
@@ -61,6 +69,7 @@ def build_plan(source_head: str, phase: str, *, repository_root: Path = REPO_ROO
         "method_id": P1R32_METHOD_ID,
         "source_head": source_head,
         "phase": phase,
+        "attempt": attempt,
         "job_count": 2,
         "trajectory_count": 4,
         "project_gpu_cap": 4,
@@ -82,8 +91,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--phase", required=True, choices=("smoke", "production"))
+    parser.add_argument("--attempt", default="initial", choices=("initial", "tech-r2"))
     args = parser.parse_args()
-    print(json.dumps(build_plan(args.source_head, args.phase), sort_keys=True, separators=(",", ":")))
+    print(json.dumps(build_plan(args.source_head, args.phase, attempt=args.attempt), sort_keys=True, separators=(",", ":")))
     return 0
 
 

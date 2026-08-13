@@ -101,10 +101,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
+    parser.add_argument("--attempt", default="initial", choices=("initial", "tech-r2"))
     args = parser.parse_args(argv)
     try:
         source_manifest_sha, numerical_lock_sha = _source_gate(args.source_head)
-        expected = expected_p1r32_result_name(args.model, args.role)
+        expected = expected_p1r32_result_name(
+            args.model, args.role, attempt=args.attempt
+        )
         if args.output_root.name != expected:
             raise ValueError("P1R32 result namespace differs")
         result = run_p1(
@@ -113,6 +116,7 @@ def main(argv: list[str] | None = None) -> int:
             output_root=args.output_root,
             source_head=args.source_head,
             atomic_strength_recovery_role=args.role,
+            p1r32_result_attempt=args.attempt,
         )
         result = {
             **result,

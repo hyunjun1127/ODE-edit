@@ -53,14 +53,15 @@ def submit(source_head: str, phase: str, attempt: str) -> dict[str, object]:
     dirty = _run(["git", "status", "--porcelain", "--untracked-files=no"]).stdout
     if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("P1R32 execution source differs")
-    plan = dry.build_plan(source_head, phase)
+    result_attempt = "tech-r2" if attempt == "tech-r2" else "initial"
+    plan = dry.build_plan(source_head, phase, attempt=result_attempt)
     if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
         raise ODEBFContractError("P1R32 result namespace exists")
     active = _active_gpu_jobs()
     new = int(plan["task_concurrency"])
     if active + new > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R32 server1 project GPU cap differs")
-    if attempt not in ("initial", "tech-r1"):
+    if attempt not in ("initial", "tech-r1", "tech-r2"):
         raise ODEBFContractError("P1R32 submission attempt differs")
     namespace = f"s05-p1r32-{phase}-{source_head[:12]}-{attempt}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
@@ -89,7 +90,7 @@ def submit(source_head: str, phase: str, attempt: str) -> dict[str, object]:
         "--job-name", f"odeedit_s05_p1r32_{phase}",
         "--output", str(log_root / "%A_%a.out"),
         "--error", str(log_root / "%A_%a.err"),
-        str(SBATCH), source_head, str(RESULT_PARENT), phase,
+        str(SBATCH), source_head, str(RESULT_PARENT), phase, result_attempt,
     ])
     job_id = submitted.stdout.strip().split(";", 1)[0]
     if not job_id.isdigit():
@@ -129,7 +130,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--phase", required=True, choices=("smoke", "production"))
-    parser.add_argument("--attempt", default="initial", choices=("initial", "tech-r1"))
+    parser.add_argument("--attempt", default="initial", choices=("initial", "tech-r1", "tech-r2"))
     args = parser.parse_args()
     print(json.dumps(submit(args.source_head, args.phase, args.attempt), sort_keys=True, separators=(",", ":")))
     return 0

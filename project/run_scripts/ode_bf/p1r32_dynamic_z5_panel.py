@@ -12,14 +12,19 @@ from .p1_scalable_batched_runtime_panel import forecast_p1r23_panel
 P1R32_ROLES = ("P1R32_B1_PAIR", "P1R32_B10_PAIR")
 
 
-def expected_p1r32_result_name(alias: str, role: str) -> str:
+def expected_p1r32_result_name(
+    alias: str, role: str, *, attempt: str = "initial"
+) -> str:
     if alias not in MODEL_ALIASES or role not in P1R32_ROLES:
         raise ODEBFContractError("P1R32 result identity differs")
+    if attempt not in ("initial", "tech-r2"):
+        raise ODEBFContractError("P1R32 result attempt differs")
     suffix = {
         "P1R32_B1_PAIR": "b1-pair",
         "P1R32_B10_PAIR": "b10-pair",
     }[role]
-    return f"s05-p1r32-{alias}-dynz5-fullres-{suffix}-v1"
+    attempt_suffix = "" if attempt == "initial" else f"-{attempt}"
+    return f"s05-p1r32-{alias}-dynz5-fullres-{suffix}{attempt_suffix}-v1"
 
 
 def forecast_p1r32_panel(

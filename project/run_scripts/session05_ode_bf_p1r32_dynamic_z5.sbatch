@@ -15,12 +15,13 @@ readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
 readonly PHASE="${3:-}"
+readonly ATTEMPT="${4:-}"
 readonly EXPECTED_SESSION="019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
 readonly RUN_TOKEN="p1r32-dynamic-z5-full-residual-atomic-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly EXPECTED_BRANCH="codex/p1r32-dynamic-z5-full-residual-atomic-v1"
 
-[[ "$#" -eq 3 ]] || { echo "P1R32 requires source, result parent and phase" >&2; exit 2; }
+[[ "$#" -eq 4 ]] || { echo "P1R32 requires source, result parent, phase and attempt" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R32 CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P1R32 source differs" >&2; exit 2; }
 [[ "$(git branch --show-current)" == "${EXPECTED_BRANCH}" ]] || { echo "P1R32 branch differs" >&2; exit 2; }
@@ -40,7 +41,7 @@ fi
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
 readonly RESULT_NAME="$(${EASYEDIT_ROOT}/.venv/bin/python - <<PY
 from project.run_scripts.ode_bf.p1r32_dynamic_z5_panel import expected_p1r32_result_name
-print(expected_p1r32_result_name("${MODEL}", "${ROLE}"))
+print(expected_p1r32_result_name("${MODEL}", "${ROLE}", attempt="${ATTEMPT}"))
 PY
 )"
 readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULT_NAME}"
@@ -60,4 +61,4 @@ export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-sync \
   python -m project.run_scripts.session05_ode_bf_p1r32_dynamic_z5 \
   --model "${MODEL}" --role "${ROLE}" --output-root "${OUTPUT_ROOT}" \
-  --source-head "${SOURCE_HEAD}" --run-token "${RUN_TOKEN}"
+  --source-head "${SOURCE_HEAD}" --run-token "${RUN_TOKEN}" --attempt "${ATTEMPT}"
