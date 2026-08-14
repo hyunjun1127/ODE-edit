@@ -3,7 +3,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
-#SBATCH --nodelist=devbox
+#SBATCH --nodelist=server2
 #SBATCH --mem=65000M
 #SBATCH --time=23:59:00
 #SBATCH --array=0-3%4
@@ -15,12 +15,13 @@ umask 077
 readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
+readonly ATTEMPT_SUFFIX="${3:-}"
 readonly EXPECTED_SESSION="019fe491-954b-70a0-8ba8-0588e9f8d741"
 readonly RUN_TOKEN="p1r40-semantic-deficit-velocity-decay-b10x10-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly EXPECTED_BRANCH="codex/p1r40-semantic-deficit-velocity-decay-atomic-v1"
 
-[[ "$#" -eq 2 ]] || { echo "P1R40 requires source and result parent" >&2; exit 2; }
+[[ "$#" -eq 3 && "${ATTEMPT_SUFFIX}" =~ ^[a-z0-9-]+$ ]] || { echo "P1R40 requires source, result parent, and attempt suffix" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R40 CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P1R40 source differs" >&2; exit 2; }
 [[ "$(git branch --show-current)" == "${EXPECTED_BRANCH}" ]] || { echo "P1R40 branch differs" >&2; exit 2; }
@@ -33,7 +34,7 @@ readonly METHODS=(SDVD-P1R38-NEUTRAL SDVD-P1R38-SOFT SDVD-P1R38-NEUTRAL SDVD-P1R
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
 readonly METHOD="${METHODS[${SLURM_ARRAY_TASK_ID}]}"
 readonly ARM="$(printf '%s' "${METHOD}" | awk -F- '{print tolower($NF)}')"
-readonly RESULT_NAME="s05-p1r40-p1r38-semantic-deficit-velocity-decay-${MODEL}-${ARM}-v1"
+readonly RESULT_NAME="s05-p1r40-p1r38-semantic-deficit-velocity-decay-${MODEL}-${ARM}-${ATTEMPT_SUFFIX}-v1"
 readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULT_NAME}"
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R40 output exists" >&2; exit 2; }
 
@@ -52,4 +53,5 @@ exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-
   python -m project.run_scripts.session05_ode_bf_p1r40_velocity_decay_b10x10 \
   --model "${MODEL}" --output-root "${OUTPUT_ROOT}" \
   --source-head "${SOURCE_HEAD}" --method "${METHOD}" \
+  --attempt-suffix "${ATTEMPT_SUFFIX}" \
   --run-token "${RUN_TOKEN}"

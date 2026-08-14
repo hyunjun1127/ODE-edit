@@ -3220,6 +3220,7 @@ def run_p1(
     p1r38_independent_b10x10_method: str | None = None,
     p1r38_attempt_suffix: str | None = None,
     p1r40_independent_b10x10_method: str | None = None,
+    p1r40_attempt_suffix: str | None = None,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3256,7 +3257,9 @@ def run_p1(
         )
 
         expected_name = expected_p1r40_independent_result_name(
-            alias, p1r40_independent_b10x10_method
+            alias,
+            p1r40_independent_b10x10_method,
+            attempt_suffix=p1r40_attempt_suffix,
         )
     elif p1r38_independent_b10x10_method is not None:
         from .p1r38_independent_b10x10_runtime import (

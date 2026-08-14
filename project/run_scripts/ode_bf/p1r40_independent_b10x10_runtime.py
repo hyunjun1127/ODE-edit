@@ -41,11 +41,14 @@ STREAM_ROOT = "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6"
 STREAM_ORDER = "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c"
 
 
-def expected_p1r40_independent_result_name(alias: str, method: str) -> str:
+def expected_p1r40_independent_result_name(
+    alias: str, method: str, *, attempt_suffix: str | None = None
+) -> str:
     if method not in METHODS:
         raise ODEBFContractError("P1R40 independent method differs")
     arm = method.rsplit("-", 1)[-1].lower()
-    return f"s05-p1r40-p1r38-semantic-deficit-velocity-decay-{alias}-{arm}-v1"
+    suffix = f"-{attempt_suffix}" if attempt_suffix else ""
+    return f"s05-p1r40-p1r38-semantic-deficit-velocity-decay-{alias}-{arm}{suffix}-v1"
 
 
 def run_p1r40_independent_b10x10(

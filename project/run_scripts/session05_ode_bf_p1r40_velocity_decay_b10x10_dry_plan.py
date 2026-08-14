@@ -31,7 +31,12 @@ CELLS = (
 )
 
 
-def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[str, object]:
+def build_plan(
+    source_head: str,
+    *,
+    repository_root: Path = REPO_ROOT,
+    attempt_suffix: str | None = None,
+) -> dict[str, object]:
     locks = repository_root / "project/run_scripts/ode_bf/locks"
     lock, lock_sha = load_and_validate_lock(locks / LOCK_FILE)
     seal = verify_historical_h0_fresh_seal(
@@ -52,7 +57,9 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
             "array_index": index,
             "alias": alias,
             "method": method,
-            "result_name": expected_result_name(alias, method),
+            "result_name": expected_result_name(
+                alias, method, attempt_suffix=attempt_suffix
+            ),
             "case_count": 10,
             "request_count_per_case": 10,
             "grid_count": 8,
@@ -66,6 +73,7 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
     return {
         "schema": "ode-edit-s05-p1r40-semantic-deficit-velocity-decay-dry-plan/v1",
         "source_head": source_head,
+        "attempt_suffix": attempt_suffix,
         "p1r40_lock_sha256": lock_sha,
         "p1r40_lock_root": lock["root_digest"],
         "fresh_stream_root": seal["root_digest"],

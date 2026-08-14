@@ -24,9 +24,10 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError
 
 
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p1r40_velocity_decay_b10x10.sbatch"
-STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r40-semantic-deficit-velocity-decay-b10x10"
+ATTEMPT_SUFFIX = "tech-r1"
+STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r40-semantic-deficit-velocity-decay-b10x10-tech-r1"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
-LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r40-semantic-deficit-velocity-decay-b10x10"
+LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r40-semantic-deficit-velocity-decay-b10x10-tech-r1"
 BRANCH = "codex/p1r40-semantic-deficit-velocity-decay-atomic-v1"
 PROJECT_GPU_CAP = 4
 
@@ -73,7 +74,7 @@ def _active_gpu_allocations() -> tuple[int, list[str]]:
             "-u",
             "janghj",
             "-w",
-            "devbox",
+            "server2",
             "-t",
             "RUNNING,COMPLETING,CONFIGURING",
             "-o",
@@ -90,7 +91,7 @@ def submit(source_head: str) -> dict[str, object]:
     dirty = _run(["git", "status", "--porcelain", "--untracked-files=no"]).stdout
     if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("P1R40 execution source differs")
-    plan = dry.build_plan(source_head)
+    plan = dry.build_plan(source_head, attempt_suffix=ATTEMPT_SUFFIX)
     if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
         raise ODEBFContractError("P1R40 result namespace exists")
     active, active_lines = _active_gpu_allocations()
@@ -130,7 +131,7 @@ def submit(source_head: str) -> dict[str, object]:
             "--chdir",
             str(REPO_ROOT),
             "--nodelist",
-            "devbox",
+            "server2",
             "--job-name",
             "odeedit_s05_p1r40_velocity_decay_b10x10",
             "--output",
@@ -140,6 +141,7 @@ def submit(source_head: str) -> dict[str, object]:
             str(SBATCH),
             source_head,
             str(RESULT_PARENT),
+            ATTEMPT_SUFFIX,
         ]
     )
     job_id = submitted.stdout.strip().split(";", 1)[0]
@@ -149,7 +151,7 @@ def submit(source_head: str) -> dict[str, object]:
     required = (
         "JobState=PENDING",
         "Reason=JobHeldUser",
-        "ReqNodeList=devbox",
+        "ReqNodeList=server2",
         "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1",
     )
     if not all(item in observed for item in required):
@@ -168,6 +170,7 @@ def submit(source_head: str) -> dict[str, object]:
         "max_concurrent_gpu": new,
         "server2_janghj_gpu_cap": PROJECT_GPU_CAP,
         "active_gpu_allocations_before_release": active,
+        "attempt_suffix": ATTEMPT_SUFFIX,
         "intent_sha256": intent_sha,
         "held_inspection_sha256": hashlib.sha256(observed.encode()).hexdigest(),
         "held_then_atomic_release": True,

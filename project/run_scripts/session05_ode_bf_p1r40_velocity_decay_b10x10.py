@@ -103,6 +103,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--method", required=True, choices=METHODS)
     parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
+    parser.add_argument("--attempt-suffix")
     args = parser.parse_args(argv)
     try:
         lock, lock_sha = load_and_validate_lock(
@@ -115,6 +116,7 @@ def main(argv: list[str] | None = None) -> int:
             output_root=args.output_root,
             source_head=args.source_head,
             p1r40_independent_b10x10_method=args.method,
+            p1r40_attempt_suffix=args.attempt_suffix,
         )
         result = {
             **result,

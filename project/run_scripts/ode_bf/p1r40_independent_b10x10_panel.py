@@ -15,11 +15,14 @@ PARENT = "6f48ac2800b257ceb16368fff5137212dfa6037f"
 METHODS = ["SDVD-P1R38-NEUTRAL", "SDVD-P1R38-SOFT"]
 
 
-def expected_result_name(alias: str, method: str) -> str:
+def expected_result_name(
+    alias: str, method: str, *, attempt_suffix: str | None = None
+) -> str:
     if alias not in MODEL_ALIASES or method not in METHODS:
         raise ODEBFContractError("P1R40 result identity differs")
     arm = method.rsplit("-", 1)[-1].lower()
-    return f"s05-p1r40-p1r38-semantic-deficit-velocity-decay-{alias}-{arm}-v1"
+    suffix = f"-{attempt_suffix}" if attempt_suffix else ""
+    return f"s05-p1r40-p1r38-semantic-deficit-velocity-decay-{alias}-{arm}{suffix}-v1"
 
 
 def validate_lock(value: Mapping[str, Any]) -> None:

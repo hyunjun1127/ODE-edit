@@ -80,11 +80,16 @@ class P1R40ExecutionContractTests(unittest.TestCase):
         self.assertIn("P1R40_SEMANTIC_DEFICIT_VELOCITY_DECAY_K8_COMPLETE", source)
 
     def test_dry_plan_has_four_nonaliased_cells_and_forty_cases(self) -> None:
-        plan = dry.build_plan("0" * 40, repository_root=ROOT)
+        plan = dry.build_plan(
+            "0" * 40, repository_root=ROOT, attempt_suffix="tech-r1"
+        )
         self.assertEqual(plan["job_count"], 4)
         self.assertEqual(plan["independent_atomic_b10_case_count"], 40)
         self.assertEqual(plan["maximum_accepted_step_count"], 320)
         self.assertEqual(len({job["result_name"] for job in plan["jobs"]}), 4)
+        self.assertTrue(
+            all("-tech-r1-v1" in job["result_name"] for job in plan["jobs"])
+        )
         self.assertEqual(
             [job["method"] for job in plan["jobs"]],
             [
@@ -99,6 +104,18 @@ class P1R40ExecutionContractTests(unittest.TestCase):
         self.assertEqual(_gpu_count("gres/gpu:1"), 1)
         self.assertEqual(_gpu_count("gpu:a100:2"), 2)
         self.assertEqual(_gpu_count("cpu:8"), 0)
+        sbatch = (
+            ROOT
+            / "project/run_scripts/session05_ode_bf_p1r40_velocity_decay_b10x10.sbatch"
+        ).read_text(encoding="utf-8")
+        submitter = (
+            ROOT
+            / "project/run_scripts/session05_ode_bf_submit_p1r40_velocity_decay_b10x10.py"
+        ).read_text(encoding="utf-8")
+        self.assertIn("--nodelist=server2", sbatch)
+        self.assertNotIn("--nodelist=devbox", sbatch)
+        self.assertIn('ATTEMPT_SUFFIX = "tech-r1"', submitter)
+        self.assertIn('"server2",', submitter)
 
 
 if __name__ == "__main__":
