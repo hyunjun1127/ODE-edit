@@ -1,0 +1,94 @@
+{
+  "schema_version": "ode-edit-s05-p1r42-objective-alignment-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R42-P1R39-MOVE-ACCEPT-HOLD-OBJECTIVE-ALIGNMENT-B10X10-V1",
+  "parent": "763457560f2efb177a56310dfd87526772cf8158",
+  "implementation_checkpoint": "ef94e792ffcd8bb8fd24f50bea82ecaae7f2dd19",
+  "entry_count": 14,
+  "entries": [
+    {
+      "mode": "0600",
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r42_objective_alignment_b10x10.json",
+      "sha256": "b5212808d6493afb4b5c2d2bbf2508d7253fd29738882f6483c9a1381d40dc0c",
+      "size": 2778
+    },
+    {
+      "mode": "0600",
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "sha256": "6fbe4fd9272b502bcdd75120bd881464d1f4f1a30cbd02a80c7753e3d87e76d3",
+      "size": 211168
+    },
+    {
+      "mode": "0600",
+      "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+      "sha256": "bb7e2ef483078141a67f6e019c643045eeaa1896bf9f3e99d01f369b31e94b58",
+      "size": 103908
+    },
+    {
+      "mode": "0600",
+      "path": "project/run_scripts/ode_bf/p1r36_independent_b10x10_runtime.py",
+      "sha256": "2b81a0b1dbe7cd0ea26d0260f743040e8fa19e440ca27137c57ad6e9a57e8813",
+      "size": 26204
+    },
+    {
+      "mode": "0600",
+      "path": "project/run_scripts/ode_bf/p1r42_independent_b10x10_panel.py",
+      "sha256": "ab08e096b7ef24ed68cf3ec7b453f42162acadcb0ee84e2433d87f4eb2b61c23",
+      "size": 4421
+    },
+    {
+      "mode": "0600",
+      "path": "project/run_scripts/ode_bf/p1r42_independent_b10x10_runtime.py",
+      "sha256": "423a581d0e9b94f3c153af05f9911db55b51a611992c028ec60758e329327e0f",
+      "size": 9318
+    },
+    {
+      "mode": "0600",
+      "path": "project/run_scripts/ode_bf/p1r42_objective_aligned_target.py",
+      "sha256": "f1cd61c8d8bbe0a13cecca9480929efd37873f57d85873e7f1b8be89c37ad1a9",
+      "size": 19884
+    },
+    {
+      "mode": "0600",
+      "path": "project/run_scripts/ode_bf/tests/test_p1r42_execution_contract.py",
+      "sha256": "64ea483f576cb8603fdcfd51afcca019cfeaf47721fc16cf239e825c07088fad",
+      "size": 3641
+    },
+    {
+      "mode": "0600",
+      "path": "project/run_scripts/ode_bf/tests/test_p1r42_objective_aligned_target.py",
+      "sha256": "50f728203e7ef802d221df2308fefaa0036c8d13b7df931aca2110474886b89a",
+      "size": 6687
+    },
+    {
+      "mode": "0755",
+      "path": "project/run_scripts/session05_ode_bf_p1r42_objective_alignment_b1.sbatch",
+      "sha256": "d4a26e862c3939d83db8cca747d1ab46b7cdf851ab44ac5b85208c7710a9849b",
+      "size": 2692
+    },
+    {
+      "mode": "0755",
+      "path": "project/run_scripts/session05_ode_bf_p1r42_objective_alignment_b10x10.py",
+      "sha256": "93d04cc2dc48e09895bb46fbe320dd0cc9ce7e058612ebffc93c9519771f53c4",
+      "size": 6183
+    },
+    {
+      "mode": "0755",
+      "path": "project/run_scripts/session05_ode_bf_p1r42_objective_alignment_b10x10.sbatch",
+      "sha256": "dcd63a92dd28242bb9aa7ed7a928dd93ba151aa772070ba0225e13c38c576ded",
+      "size": 2552
+    },
+    {
+      "mode": "0755",
+      "path": "project/run_scripts/session05_ode_bf_p1r42_objective_alignment_b10x10_dry_plan.py",
+      "sha256": "2ca8c803e228170cc2f3aa3ff26f330a7e75b0313384c563e117439ba6fdb989",
+      "size": 3040
+    },
+    {
+      "mode": "0755",
+      "path": "project/run_scripts/session05_ode_bf_submit_p1r42_objective_alignment_b10x10.py",
+      "sha256": "d536666b51e847cd630836bb62de347c210bf1eda57e816bbdb63994415fa1ce",
+      "size": 8191
+    }
+  ],
+  "root_digest": "401da068808c6066358f78da7f82c8953d22e1e9e5e14e2d6cf9675007a0e5c6"
+}
