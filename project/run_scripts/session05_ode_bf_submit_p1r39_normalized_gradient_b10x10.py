@@ -75,7 +75,11 @@ def submit(source_head: str, *, smoke: bool = False, attempt_suffix: str | None 
     if active + STAGE_GPU_MAX > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R39 server1 project GPU cap differs")
     phase = "b1" if smoke else "b10x10"
-    namespace = f"s05-p1r39-a1-normalized-gradient-soft-{phase}-{source_head[:12]}-v1"
+    attempt_token = f"-{attempt_suffix}" if smoke else ""
+    namespace = (
+        f"s05-p1r39-a1-normalized-gradient-soft-{phase}"
+        f"{attempt_token}-{source_head[:12]}-v1"
+    )
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
