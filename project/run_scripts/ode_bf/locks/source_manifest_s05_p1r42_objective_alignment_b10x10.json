@@ -2,7 +2,7 @@
   "schema_version": "ode-edit-s05-p1r42-objective-alignment-source-manifest/v1",
   "instruction_id": "ODEEDIT-S05-P1R42-P1R39-MOVE-ACCEPT-HOLD-OBJECTIVE-ALIGNMENT-B10X10-V1",
   "parent": "763457560f2efb177a56310dfd87526772cf8158",
-  "implementation_checkpoint": "ef94e792ffcd8bb8fd24f50bea82ecaae7f2dd19",
+  "implementation_checkpoint": "5d62be52b22d278adf86970e96533f80ac5df156",
   "entry_count": 14,
   "entries": [
     {
@@ -50,8 +50,8 @@
     {
       "mode": "0600",
       "path": "project/run_scripts/ode_bf/tests/test_p1r42_execution_contract.py",
-      "sha256": "64ea483f576cb8603fdcfd51afcca019cfeaf47721fc16cf239e825c07088fad",
-      "size": 3641
+      "sha256": "bb563bc497b5b9ba1eb39ba1d844746203b8d70ab83aee2466cc6b4a37bd6208",
+      "size": 3919
     },
     {
       "mode": "0600",
@@ -86,9 +86,9 @@
     {
       "mode": "0755",
       "path": "project/run_scripts/session05_ode_bf_submit_p1r42_objective_alignment_b10x10.py",
-      "sha256": "d536666b51e847cd630836bb62de347c210bf1eda57e816bbdb63994415fa1ce",
-      "size": 8191
+      "sha256": "11387c219284a4fc76ee3e597f7d474d1d6b7a7ec67135894a9492d9dc1e2e7a",
+      "size": 8296
     }
   ],
-  "root_digest": "401da068808c6066358f78da7f82c8953d22e1e9e5e14e2d6cf9675007a0e5c6"
+  "root_digest": "3f8fc29f956025a2e5bf708e2dfedfa98d4290f1ab55b5a3b6be7c3eb31ea9ef"
 }
