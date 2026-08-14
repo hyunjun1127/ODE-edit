@@ -136,6 +136,13 @@ from .p1r39_normalized_gradient_target import (
     prepare_p1r39_target_proposal,
     select_p1r39_target_proposal,
 )
+from .p1r42_objective_aligned_target import (
+    P1R42ControllerState,
+    P1R42_INSTRUCTION_ID,
+    P1R42_METHOD_ID,
+    prepare_p1r42_target_proposal,
+    select_p1r42_target_proposal,
+)
 
 
 P1R23_SCHEMA = "ode-edit-s05-p1r23-scalable-batched-runtime"
@@ -244,6 +251,7 @@ def _run_ode_arm(
     p1r35: bool = False,
     p1r38: bool = False,
     p1r39: bool = False,
+    p1r42: bool = False,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
@@ -260,10 +268,25 @@ def _run_ode_arm(
         raise ODEBFContractError("P1R38 requires the frozen P1R35 writer path")
     if p1r38 and allocation not in ("RS",):
         raise ODEBFContractError("P1R38 has no RS/BG target factorial")
-    if p1r39 and (not p1r35 or p1r38 or allocation != "RS" or arm is not FixedE8Arm.NEUTRAL):
+    if p1r39 and (
+        not p1r35
+        or p1r38
+        or allocation not in ("RS",)
+        or arm is not FixedE8Arm.NEUTRAL
+    ):
         raise ODEBFContractError("P1R39 normalized-gradient Neutral path differs")
+    if p1r42 and (
+        not p1r35
+        or p1r38
+        or p1r39
+        or allocation not in ("RS",)
+        or arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT)
+    ):
+        raise ODEBFContractError("P1R42 objective-aligned path differs")
     arm_label = (
-        "PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL"
+        f"PR-P1R42-OBJECTIVE-ALIGNED-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
+        if p1r42
+        else "PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL"
         if p1r39
         else f"PR-P1R35-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r38
@@ -309,6 +332,7 @@ def _run_ode_arm(
     frozen_mask: tuple[bool, ...] = tuple(False for _ in range(request_count))
     p1r38_state = P1R38AdamState.zero(current_target) if p1r38 else None
     p1r39_state = P1R39ControllerState.zero(current_target) if p1r39 else None
+    p1r42_state = P1R42ControllerState.zero(current_target) if p1r42 else None
     p1r24_target_lock = P1R24AliasTargetLock.for_alias(alias) if p1r24 else None
     p1r24_alpha_geometry = (
         verify_p1r24_alphaedit_geometry(
@@ -346,6 +370,7 @@ def _run_ode_arm(
     initial_w0 = _model_w0_contract(touched)
     accepted: list[dict[str, Any]] = []
     delayed: list[dict[str, Any]] = []
+    p1r42_request_realization_sha256: list[str] = []
     pending: dict[str, Any] | None = None
     terminal_objective_count = 0
     terminal_functional: dict[str, Any] | None = None
@@ -400,7 +425,60 @@ def _run_ode_arm(
                     target_layer_name=hparams.layer_module_tmp.format(int(hparams.layers[-1])),
                 )
                 _phase_add_objective(compute, "target_kl_gradient", kl_result, target=True)
-                if p1r39:
+                if p1r42:
+                    assert p1r42_state is not None
+                    proposal42 = prepare_p1r42_target_proposal(
+                        current_target,
+                        current_terminal,
+                        target_origin,
+                        target_result,
+                        kl_result,
+                        p1r24_target_lock,
+                        p1r42_state,
+                        alias=alias,
+                        step_index=step_index,
+                        shared_speed=float(metric.shared_speed),
+                    )
+                    endpoint_started = time.perf_counter()
+                    endpoint_state = (
+                        current_terminal.detach().to(
+                            device=next(model.parameters()).device,
+                            dtype=torch.float32,
+                        )
+                        + proposal42.trial_step.required_displacement.detach().to(
+                            device=next(model.parameters()).device,
+                            dtype=torch.float32,
+                        )
+                    ).contiguous()
+                    finite_endpoint = evaluate_scalable_target_new_objective(
+                        model,
+                        objective_plan,
+                        target_state=endpoint_state,
+                        current_terminal=current_terminal,
+                        target_layer_name=hparams.layer_module_tmp.format(
+                            int(hparams.layers[-1])
+                        ),
+                        target_gradient_required=False,
+                    )
+                    compute.add_wall(
+                        "finite_demand_endpoint_forward",
+                        time.perf_counter() - endpoint_started,
+                    )
+                    _phase_add_objective(
+                        compute, "finite_demand_endpoint_forward", finite_endpoint
+                    )
+                    selected42 = select_p1r42_target_proposal(
+                        proposal42,
+                        current_target,
+                        current_terminal,
+                        target_result,
+                        finite_endpoint,
+                        step_index=step_index,
+                    )
+                    p1r42_state = selected42.next_state
+                    target_step = selected42.target_step
+                    finite_endpoint = selected42.selected_endpoint
+                elif p1r39:
                     assert p1r39_state is not None
                     proposal39 = prepare_p1r39_target_proposal(
                         current_target,
@@ -647,6 +725,66 @@ def _run_ode_arm(
                     "candidate_objective_inner_count": 0,
                     "linearization_error": actual - float(pending["predicted"]),
                 }
+                if p1r42:
+                    source_values = tuple(
+                        float(value)
+                        for value in pending["source_per_request_nll"]
+                    )
+                    next_values = tuple(
+                        float(value) for value in slope_result.per_request_values
+                    )
+                    held_mask = tuple(
+                        bool(value) for value in pending["semantic_held_mask"]
+                    )
+                    if not (
+                        len(source_values)
+                        == len(next_values)
+                        == len(held_mask)
+                        == request_count
+                    ):
+                        raise ODEBFStateError(
+                            "P1R42 delayed requestwise realization geometry differs"
+                        )
+                    actual_by_request = tuple(
+                        source - next_value
+                        for source, next_value in zip(
+                            source_values, next_values, strict=True
+                        )
+                    )
+                    realization = {
+                        "schema": (
+                            "ode-edit-s05-p1r42-requestwise-w-only-"
+                            "realization/v1"
+                        ),
+                        "instruction_id": P1R42_INSTRUCTION_ID,
+                        "method_id": P1R42_METHOD_ID,
+                        "transition_index": int(pending["step_index"]) + 1,
+                        "source_w_only_target_new_nll_by_request": list(
+                            source_values
+                        ),
+                        "next_w_only_target_new_nll_by_request": list(next_values),
+                        "actual_w_only_progress_by_request": list(actual_by_request),
+                        "semantic_held_mask": list(held_mask),
+                        "held_actual_w_only_progress_by_request": [
+                            actual_by_request[index] if held_mask[index] else None
+                            for index in range(request_count)
+                        ],
+                        "held_request_count": sum(held_mask),
+                        "completion": "NEXT_REFRESHED_FIELD_W_ONLY_NLL_REUSE",
+                        "added_model_forward_count": 0,
+                        "added_backward_count": 0,
+                        "added_materialization_count": 0,
+                    }
+                    realization["identity_sha256"] = canonical_hash(realization)
+                    realization_sha = write_once(
+                        raw_root
+                        / "ode"
+                        / arm_label.lower()
+                        / f"requestwise-realization-k{int(pending['step_index']) + 1}.json",
+                        realization,
+                    )
+                    p1r42_request_realization_sha256.append(realization_sha)
+                    item["requestwise_realization_sha256"] = realization_sha
                 item["identity_sha256"] = canonical_hash(item)
                 delayed.append(item)
             problem_receipt = build_scalable_routing_problem(
@@ -807,6 +945,67 @@ def _run_ode_arm(
                         "linearization_error": actual - predicted,
                     }
                 )
+                if p1r42:
+                    source_values = tuple(
+                        float(value) for value in slope_result.per_request_values
+                    )
+                    next_values = tuple(
+                        float(value)
+                        for value in terminal_objective.per_request_values
+                    )
+                    held_mask = tuple(
+                        bool(value)
+                        for value in target_receipt["semantic_held_mask"]
+                    )
+                    if not (
+                        len(source_values)
+                        == len(next_values)
+                        == len(held_mask)
+                        == request_count
+                    ):
+                        raise ODEBFStateError(
+                            "P1R42 terminal requestwise realization geometry differs"
+                        )
+                    actual_by_request = tuple(
+                        source - next_value
+                        for source, next_value in zip(
+                            source_values, next_values, strict=True
+                        )
+                    )
+                    realization = {
+                        "schema": (
+                            "ode-edit-s05-p1r42-requestwise-w-only-"
+                            "realization/v1"
+                        ),
+                        "instruction_id": P1R42_INSTRUCTION_ID,
+                        "method_id": P1R42_METHOD_ID,
+                        "transition_index": P1R23_GRID_COUNT,
+                        "source_w_only_target_new_nll_by_request": list(
+                            source_values
+                        ),
+                        "next_w_only_target_new_nll_by_request": list(next_values),
+                        "actual_w_only_progress_by_request": list(actual_by_request),
+                        "semantic_held_mask": list(held_mask),
+                        "held_actual_w_only_progress_by_request": [
+                            actual_by_request[index] if held_mask[index] else None
+                            for index in range(request_count)
+                        ],
+                        "held_request_count": sum(held_mask),
+                        "completion": "TERMINAL_W_ONLY_OBJECTIVE_ONCE",
+                        "added_model_forward_count": 0,
+                        "added_backward_count": 0,
+                        "added_materialization_count": 0,
+                    }
+                    realization["identity_sha256"] = canonical_hash(realization)
+                    realization_sha = write_once(
+                        raw_root
+                        / "ode"
+                        / arm_label.lower()
+                        / f"requestwise-realization-k{P1R23_GRID_COUNT}.json",
+                        realization,
+                    )
+                    p1r42_request_realization_sha256.append(realization_sha)
+                    progress["requestwise_realization_sha256"] = realization_sha
             target_realization = fixed_e8_target_write_realization(
                 current_target,
                 target_next,
@@ -889,7 +1088,9 @@ def _run_ode_arm(
                 "inner_step_heldout_evaluation_count": 0,
                 "retry_backtracking_reject_count": 0,
                 "routing_method": (
-                    P1R39_METHOD_ID
+                    P1R42_METHOD_ID
+                    if p1r42
+                    else P1R39_METHOD_ID
                     if p1r39
                     else P1R38_METHOD_ID
                     if p1r38
@@ -910,7 +1111,13 @@ def _run_ode_arm(
                 "persistent_historical_ledger_count": 0,
                 "historical_h_decision_influence_count": 0,
                 "per_request_target_controller": (
-                    P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID if p1r38 else None
+                    P1R42_METHOD_ID
+                    if p1r42
+                    else P1R39_METHOD_ID
+                    if p1r39
+                    else P1R38_METHOD_ID
+                    if p1r38
+                    else None
                 ),
             }
             payload["identity_sha256"] = canonical_hash(payload)
@@ -941,6 +1148,18 @@ def _run_ode_arm(
                     "source_nll": current_nll,
                     "predicted": predicted,
                     "alpha_apply": routing.alpha_apply,
+                    **(
+                        {
+                            "source_per_request_nll": list(
+                                slope_result.per_request_values
+                            ),
+                            "semantic_held_mask": list(
+                                target_receipt["semantic_held_mask"]
+                            ),
+                        }
+                        if p1r42
+                        else {}
+                    ),
                 }
             )
             current_factors = _factor_map(candidate_factors)
@@ -952,6 +1171,10 @@ def _run_ode_arm(
             )
         if pending is not None or len(accepted) != 8 or len(delayed) != 7:
             raise ODEBFStateError("P1R23 K8 delayed accounting differs")
+        if p1r42 and len(p1r42_request_realization_sha256) != P1R23_GRID_COUNT:
+            raise ODEBFStateError("P1R42 requestwise realization ledger differs")
+        if not p1r42 and p1r42_request_realization_sha256:
+            raise ODEBFStateError("non-P1R42 requestwise realization ledger is active")
         terminal_replay = _controller_replay_entry(
             model,
             tokenizer,
@@ -1004,7 +1227,9 @@ def _run_ode_arm(
         rollout_payload = {
             "arm": arm_label,
             "status": (
-                "P1R39_NORMALIZED_GRADIENT_P1R35_K8_COMPLETE"
+                "P1R42_OBJECTIVE_ALIGNED_P1R35_K8_COMPLETE"
+                if p1r42
+                else "P1R39_NORMALIZED_GRADIENT_P1R35_K8_COMPLETE"
                 if p1r39
                 else "P1R38_PR_P1R35_K8_COMPLETE"
                 if p1r38
@@ -1031,6 +1256,9 @@ def _run_ode_arm(
             "terminal_physical_capture_sha256": physical_for_endpoint.identity_sha256,
             "terminal_functional": terminal_functional,
             "terminal_z8_oracle": terminal_oracle,
+            "p1r42_request_realization_sha256": (
+                p1r42_request_realization_sha256 if p1r42 else []
+            ),
             "terminal_cumulative_structural_p": (
                 accepted[-1]["cumulative_atomic_structural_p"]
                 if p1r24 and accepted
@@ -1045,7 +1273,9 @@ def _run_ode_arm(
             "initial_w0_sha256": initial_w0,
             "alphaedit_target_geometry": p1r24_alpha_geometry,
             "instruction_id": (
-                P1R35_INSTRUCTION_ID
+                P1R42_INSTRUCTION_ID
+                if p1r42
+                else P1R35_INSTRUCTION_ID
                 if p1r35
                 else P1R34_INSTRUCTION_ID
                 if p1r34
@@ -1057,7 +1287,9 @@ def _run_ode_arm(
                 else P1R23_INSTRUCTION_ID
             ),
             "method_id": (
-                P1R35_METHOD_ID
+                P1R42_METHOD_ID
+                if p1r42
+                else P1R35_METHOD_ID
                 if p1r35
                 else P1R34_METHOD_ID
                 if p1r34
