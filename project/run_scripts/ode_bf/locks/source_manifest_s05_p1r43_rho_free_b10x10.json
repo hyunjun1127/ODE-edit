@@ -1,0 +1,89 @@
+{
+  "entries": [
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r43_rho_free_b10x10.json",
+      "sha256": "6b1d889d6b78ff3c6d5b8a4155d379cf8fec344bacb0fa4bc75954a1bada3a00",
+      "size": 2157
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "sha256": "71d18dcbd006b12f134a6c441073d8c3e823f4eeae439870068ca5ee90af2429",
+      "size": 214230
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+      "sha256": "acb3b5142251b0226ca9c5cc4fe8c5d3951584b319743c2c2ff345133e83d862",
+      "size": 109490
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r36_independent_b10x10_runtime.py",
+      "sha256": "783bf177fddc7daf01595f7c4a7595337b4834e36ebf708be015645dc887634d",
+      "size": 32197
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r43_full_strength_routing.py",
+      "sha256": "3e3cf13c734a5fd7812fc239bae9047654a55f2ccbe4c51031b504a13bde7b6c",
+      "size": 4836
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r43_independent_b10x10_panel.py",
+      "sha256": "ba43a837b7b3eec348d949ca9acaf6e082be95e6cc99f0b0cf752ac910f38c55",
+      "size": 3923
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r43_independent_b10x10_runtime.py",
+      "sha256": "4c172809c6f42cbb3c4da6ac9fae911044d5f194772022c3dcdf9c947fbf30cf",
+      "size": 9277
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r43_rho_free_target.py",
+      "sha256": "51d960e907d6aabbb39f21e95401cff91cdaaee4467d7dce823283c60a9a77bb",
+      "size": 18039
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p1r43_execution_contract.py",
+      "sha256": "087fc479444e920a1c0a6da93a19cc974198068658dd28056e94ee815301dec3",
+      "size": 3194
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p1r43_full_strength_routing.py",
+      "sha256": "162ee6985296685774bfb36b2c969bf443b6cffb012daeaa9fa4e7090c7ede14",
+      "size": 2421
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p1r43_rho_free_target.py",
+      "sha256": "d95be1dbec1e2e7ffb04da69e5aa7a342bb5478cea70a3c40aa58a246296955c",
+      "size": 4601
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r43_rho_free_b1.sbatch",
+      "sha256": "1cea57e80bc7b541e57f8ebc54fe9280e8fc3f867eb0f8f086eea613498e2b02",
+      "size": 2634
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r43_rho_free_b10x10.py",
+      "sha256": "281e2a1010bf0a4e6b3db890f39a1d38748faa7b8baf38c979190c31647c8074",
+      "size": 4926
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r43_rho_free_b10x10.sbatch",
+      "sha256": "8f8c115e14fe568ba493831a56ac1255cde855461b5520d57397524ec1eadf8a",
+      "size": 2580
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r43_rho_free_b10x10_dry_plan.py",
+      "sha256": "6da6c74fa5161d56a8007159c5a57c1026ff33982627e388cb4367df475cb0ea",
+      "size": 3060
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_submit_p1r43_rho_free_b10x10.py",
+      "sha256": "d25a2c89466bbcd4f6459f7009e2f4f0affaa0520cfc0f64905289d9d1b1f7ab",
+      "size": 7714
+    }
+  ],
+  "instruction_id": "ODEEDIT-S05-P1R43-RHO-FREE-SEMANTIC-FIRST-STRENGTH-RECOVERY-V1",
+  "parent": "ca68a4f459fd7303a4d5abbde2e1bf7aee0d805c",
+  "parent_tree": "4af77417a52c70b99784d64dbfcabba0a91a1960",
+  "root_digest": "932286c92b9250110676241d8c9008451c021c6078967598e92722307dbc2a42",
+  "schema_version": "ode-edit-s05-p1r43-rho-free-source-manifest/v1"
+}
