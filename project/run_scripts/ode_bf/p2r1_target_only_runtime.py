@@ -143,8 +143,8 @@ def _evaluate_terminal_z_panel(
         request_order_sha256=request_order_sha256,
         rollout_sha256=action_sha256,
         snapshot_sha256=snapshot_sha,
-        snapshot_index=P2R1_TARGET_MICROSTEP_COUNT,
-        accepted_snapshot_count=P2R1_TARGET_MICROSTEP_COUNT + 1,
+        snapshot_index=8,
+        accepted_snapshot_count=9,
         rejected_retry_count=0,
         trajectory_status="ACTION_FROZEN_P2R1_TARGET_N24",
     )
@@ -394,7 +394,7 @@ def _run_target_case(
             requests,
             arm=METHOD,
             selected_snapshot_sha256=freeze_sha,
-            fixed_budget_slots_completed=P2R1_TARGET_MICROSTEP_COUNT,
+            fixed_budget_slots_completed=8,
         )
         terminal_panel, evaluator_wall = _evaluate_terminal_z_panel(
             model,

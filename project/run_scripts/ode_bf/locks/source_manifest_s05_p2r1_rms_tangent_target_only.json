@@ -22,13 +22,13 @@
     },
     {
       "path": "project/run_scripts/ode_bf/p2r1_target_only_runtime.py",
-      "sha256": "184fb00ba10f1ef788063c18d3545f2fe5f633d20d7344159df0d8a2f49f3006",
-      "size": 25186
+      "sha256": "8893353b777a2036143a134210ffee669c849f3cf6fdee46247476405e9bc948",
+      "size": 25104
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_p2r1_execution_contract.py",
-      "sha256": "3c4fc626fb8b76660ca91da700310ec7e66b4614649acb3dcb967841df79e859",
-      "size": 3590
+      "sha256": "b991fa8b46b46006f1a588287bd51307778f0b2c706adf5427ffbed41485647c",
+      "size": 3878
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_p2r1_rms_tangent_target.py",
@@ -59,6 +59,6 @@
   "instruction_id": "ODEEDIT-S05-P2R1-BASELINE-CALIBRATED-RMS-TANGENT-TARGET-FLOW-V1",
   "parent": "11508b6da11d606521b703037034e1814b70d8a8",
   "parent_tree": "a0e71bbb27cf36b3b51bf6cde4c92cdc9a47879b",
-  "root_digest": "e4be7ffded42a2a31d8917ffb515e215b56703334e802668ac0f8aa6b108dcf4",
+  "root_digest": "b8fddb8c40d9ebdf76bfbc4e5ea2d304da9ddc29cd73229584724147063bc892",
   "schema_version": "ode-edit-s05-p2r1-rms-tangent-source-manifest/v1"
 }

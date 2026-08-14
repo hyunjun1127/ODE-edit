@@ -59,6 +59,12 @@ class P2R1ExecutionContractTests(unittest.TestCase):
         self.assertNotIn("solve_p1r", source)
         self.assertIn('"writer_materialization_count": 0', source)
         self.assertIn('"heldout_controller_access_count": 0', source)
+        self.assertIn("snapshot_index=8", source)
+        self.assertIn("accepted_snapshot_count=9", source)
+        self.assertIn("fixed_budget_slots_completed=8", source)
+        self.assertNotIn(
+            "fixed_budget_slots_completed=P2R1_TARGET_MICROSTEP_COUNT", source
+        )
 
     def test_two_alias_first_b10_and_b10x10_plans(self) -> None:
         for case_count in (1, 10):
