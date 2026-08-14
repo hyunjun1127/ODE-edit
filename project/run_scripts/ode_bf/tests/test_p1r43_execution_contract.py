@@ -5,6 +5,10 @@ import unittest
 from pathlib import Path
 
 from project.run_scripts import session05_ode_bf_p1r43_rho_free_b10x10_dry_plan as dry
+from project.run_scripts.ode_bf.contracts import ODEBFContractError
+from project.run_scripts.ode_bf.p1r36_independent_b10x10_runtime import (
+    _p1r43_panel_metric,
+)
 from project.run_scripts.ode_bf.p1r43_independent_b10x10_panel import (
     LOCK_FILE,
     METHODS,
@@ -71,6 +75,31 @@ class P1R43ExecutionContractTests(unittest.TestCase):
             self.assertNotIn("server2", source)
         submitter = (ROOT / "project/run_scripts/session05_ode_bf_submit_p1r43_rho_free_b10x10.py").read_text(encoding="utf-8")
         self.assertIn("PROJECT_GPU_CAP = 4", submitter)
+
+    def test_terminal_panel_uses_pinned_primary_metrics_schema(self) -> None:
+        payload = {
+            "primary": {
+                "metrics": {
+                    "efficacy": {"correct_count": 9},
+                    "generalization": {"correct_count": 17},
+                }
+            }
+        }
+        self.assertEqual(_p1r43_panel_metric(payload, "efficacy"), {"correct_count": 9})
+        self.assertEqual(
+            _p1r43_panel_metric(payload, "generalization"), {"correct_count": 17}
+        )
+        with self.assertRaises(ODEBFContractError):
+            _p1r43_panel_metric({"primary": {"efficacy": {}}}, "efficacy")
+
+    def test_technical_replacement_names_are_distinct(self) -> None:
+        names = {
+            expected_result_name(alias, method, attempt_suffix="tech-r2")
+            for alias in ("llama3-8b-inst", "qwen2.5-7b-inst")
+            for method in METHODS
+        }
+        self.assertEqual(len(names), 4)
+        self.assertTrue(all("-tech-r2-v1" in name for name in names))
 
 
 if __name__ == "__main__":

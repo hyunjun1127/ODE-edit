@@ -305,17 +305,19 @@ def _evaluate_p1r43_terminal_panels(
                 model, tokenizer, cases, model_alias=alias, freeze=freeze
             )
     elapsed = time.perf_counter() - started
+    weight_payload = weight.raw_free_payload()
+    z_inject_payload = z_inject.raw_free_payload()
     payload = {
         "schema": "ode-edit-s05-p1r43-terminal-four-panel/v1",
         "instruction_id": P1R43_INSTRUCTION_ID,
         "method_id": P1R43_METHOD_ID,
         "action_freeze_sha256": freeze.identity(),
-        "weight": weight.raw_free_payload(),
-        "z_inject": z_inject.raw_free_payload(),
-        "eff_z_inject": z_inject.raw_free_payload()["primary"]["efficacy"],
-        "gen_z_inject": z_inject.raw_free_payload()["primary"]["generalization"],
-        "eff_w": weight.raw_free_payload()["primary"]["efficacy"],
-        "gen_w": weight.raw_free_payload()["primary"]["generalization"],
+        "weight": weight_payload,
+        "z_inject": z_inject_payload,
+        "eff_z_inject": _p1r43_panel_metric(z_inject_payload, "efficacy"),
+        "gen_z_inject": _p1r43_panel_metric(z_inject_payload, "generalization"),
+        "eff_w": _p1r43_panel_metric(weight_payload, "efficacy"),
+        "gen_w": _p1r43_panel_metric(weight_payload, "generalization"),
         "heldout_lookup": lookup_receipt,
         "z_overlay": overlay.raw_free_payload(),
         "terminal_residual": residual.raw_free_payload(),
@@ -327,6 +329,20 @@ def _evaluate_p1r43_terminal_panels(
     }
     payload["identity_sha256"] = canonical_hash(payload)
     return payload, elapsed
+
+
+def _p1r43_panel_metric(payload: Mapping[str, Any], metric: str) -> dict[str, Any]:
+    """Select a terminal panel from the pinned StepwisePrimaryReceipt schema."""
+
+    if metric not in {"efficacy", "generalization"}:
+        raise ODEBFContractError("P1R43 terminal panel metric differs")
+    try:
+        value = payload["primary"]["metrics"][metric]
+    except (KeyError, TypeError) as exc:
+        raise ODEBFContractError("P1R43 terminal panel evaluator schema differs") from exc
+    if not isinstance(value, dict):
+        raise ODEBFContractError("P1R43 terminal panel payload differs")
+    return value
 
 
 

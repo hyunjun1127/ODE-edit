@@ -15,12 +15,14 @@ umask 077
 readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
+readonly ATTEMPT_SUFFIX="${3:-}"
 readonly EXPECTED_SESSION="019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
 readonly RUN_TOKEN="p1r43-rho-free-semantic-first-b10x10-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly EXPECTED_BRANCH="codex/p1r43-rho-free-semantic-first-strength-recovery-v1"
 
-[[ "$#" -eq 2 ]] || { echo "P1R43 production arguments differ" >&2; exit 2; }
+[[ "$#" -eq 2 || "$#" -eq 3 ]] || { echo "P1R43 production arguments differ" >&2; exit 2; }
+[[ -z "${ATTEMPT_SUFFIX}" || "${ATTEMPT_SUFFIX}" =~ ^[a-zA-Z0-9-]+$ ]] || { echo "P1R43 production attempt suffix differs" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R43 production CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P1R43 production source differs" >&2; exit 2; }
 [[ "$(git branch --show-current)" == "${EXPECTED_BRANCH}" ]] || { echo "P1R43 production branch differs" >&2; exit 2; }
@@ -34,7 +36,8 @@ readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
 readonly ARM="${ARMS[${SLURM_ARRAY_TASK_ID}]}"
 readonly ARM_TOKEN="${ARM,,}"
 readonly METHOD="PR-P1R43-RHO-FREE-SEMANTIC-FIRST-${ARM}"
-readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-p1r43-rho-free-independent-b10x10-${MODEL}-${ARM_TOKEN}-v1"
+readonly SUFFIX_TOKEN="$([[ -n "${ATTEMPT_SUFFIX}" ]] && printf -- '-%s' "${ATTEMPT_SUFFIX}" || true)"
+readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-p1r43-rho-free-independent-b10x10-${MODEL}-${ARM_TOKEN}${SUFFIX_TOKEN}-v1"
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R43 production output exists" >&2; exit 2; }
 
 export HF_HOME="/mnt/raid5/janghj/.cache/huggingface"
@@ -44,7 +47,13 @@ export TOKENIZERS_PARALLELISM=false PYTHONHASHSEED=43 PYTHONDONTWRITEBYTECODE=1
 export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p1r43-rho-free-production"
 export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 
-exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-sync \
-  python -m project.run_scripts.session05_ode_bf_p1r43_rho_free_b10x10 \
-  --model "${MODEL}" --output-root "${OUTPUT_ROOT}" \
+RUN_ARGS=(
+  /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-sync
+  python -m project.run_scripts.session05_ode_bf_p1r43_rho_free_b10x10
+  --model "${MODEL}" --output-root "${OUTPUT_ROOT}"
   --source-head "${SOURCE_HEAD}" --method "${METHOD}" --run-token "${RUN_TOKEN}"
+)
+if [[ -n "${ATTEMPT_SUFFIX}" ]]; then
+  RUN_ARGS+=(--attempt-suffix "${ATTEMPT_SUFFIX}")
+fi
+exec "${RUN_ARGS[@]}"

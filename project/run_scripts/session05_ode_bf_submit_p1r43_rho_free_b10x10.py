@@ -83,8 +83,10 @@ def submit(source_head: str, *, smoke: bool = False, attempt_suffix: str | None 
     if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("P1R43 execution source differs")
     plan = dry.build_plan(source_head)
+    if attempt_suffix is not None and not attempt_suffix.replace("-", "").isalnum():
+        raise ODEBFContractError("P1R43 attempt suffix differs")
     if smoke:
-        if not attempt_suffix or not attempt_suffix.replace("-", "").isalnum():
+        if not attempt_suffix:
             raise ODEBFContractError("P1R43 B1 attempt suffix differs")
         for job in plan["jobs"]:
             arm = "NEUTRAL" if str(job["method"]).endswith("-NEUTRAL") else "SOFT"
@@ -98,6 +100,9 @@ def submit(source_head: str, *, smoke: bool = False, attempt_suffix: str | None 
         plan["independent_atomic_b10_case_count"] = 0
         plan["b1_technical_case_count"] = 4
         plan["request_attempt_count"] = 4
+    elif attempt_suffix:
+        for job in plan["jobs"]:
+            job["result_name"] = str(job["result_name"]).removesuffix("-v1") + f"-{attempt_suffix}-v1"
     if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
         raise ODEBFContractError("P1R43 result namespace exists")
 
@@ -109,7 +114,9 @@ def submit(source_head: str, *, smoke: bool = False, attempt_suffix: str | None 
     if active + stage_concurrency > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R43 server1 project GPU cap differs")
     phase = "b1" if smoke else "b10x10"
-    namespace_tail = f"{attempt_suffix}-{source_head[:12]}" if smoke else source_head[:12]
+    namespace_tail = (
+        f"{attempt_suffix}-{source_head[:12]}" if attempt_suffix else source_head[:12]
+    )
     namespace = f"s05-p1r43-rho-free-{phase}-{namespace_tail}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
@@ -138,7 +145,7 @@ def submit(source_head: str, *, smoke: bool = False, attempt_suffix: str | None 
             "--output", str(LOG_ROOT / "%A_%a.out"),
             "--error", str(LOG_ROOT / "%A_%a.err"),
             str(B1_SBATCH if smoke else SBATCH), source_head, str(RESULT_PARENT),
-            *([str(attempt_suffix)] if smoke else []),
+            *([str(attempt_suffix)] if attempt_suffix else []),
         ]
     )
     job_id = submitted.stdout.strip().split(";", 1)[0]

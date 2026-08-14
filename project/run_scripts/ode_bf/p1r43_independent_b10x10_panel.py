@@ -25,7 +25,8 @@ def expected_result_name(
     if method in B1_METHODS:
         suffix = f"-{attempt_suffix}" if attempt_suffix else ""
         return f"s05-p1r43-rho-free-b1-{alias}-{arm}{suffix}-v1"
-    return f"s05-p1r43-rho-free-independent-b10x10-{alias}-{arm}-v1"
+    suffix = f"-{attempt_suffix}" if attempt_suffix else ""
+    return f"s05-p1r43-rho-free-independent-b10x10-{alias}-{arm}{suffix}-v1"
 
 
 def validate_lock(value: Mapping[str, Any]) -> None:
