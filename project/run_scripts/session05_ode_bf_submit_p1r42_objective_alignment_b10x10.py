@@ -71,7 +71,7 @@ def _active_gpu_allocations() -> tuple[int, list[dict[str, object]]]:
             "-u",
             "janghj",
             "-w",
-            "devbox",
+            "server2",
             "-t",
             "RUNNING,CONFIGURING",
             "-o",
@@ -151,8 +151,8 @@ def submit(
         "source_head": source_head,
         "source_parent": parent,
         "dry_plan": plan,
-        "active_devbox_gpu_allocations": active,
-        "active_devbox_gpu_jobs": active_jobs,
+        "active_server2_gpu_allocations": active,
+        "active_server2_gpu_jobs": active_jobs,
         "new_max_concurrent_gpu": stage_concurrency,
         "project_gpu_cap": PROJECT_GPU_CAP,
         "held_then_atomic_release": True,
@@ -169,7 +169,7 @@ def submit(
             "--chdir",
             str(REPO_ROOT),
             "--nodelist",
-            "devbox",
+            "server2",
             "--job-name",
             f"odeedit_s05_p1r42_objective_{phase}",
             "--output",
@@ -189,7 +189,7 @@ def submit(
     required = (
         "JobState=PENDING",
         "Reason=JobHeldUser",
-        "ReqNodeList=devbox",
+        "ReqNodeList=server2",
         "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1",
     )
     if not all(item in observed for item in required):

@@ -81,6 +81,17 @@ class P1R42ExecutionContractTests(unittest.TestCase):
         source = (ROOT / "project/run_scripts/session05_ode_bf_submit_p1r42_objective_alignment_b10x10.py").read_text()
         self.assertIn('f"{attempt_suffix}-{source_head[:12]}" if smoke', source)
 
+    def test_scheduler_target_is_server2_not_devbox(self) -> None:
+        paths = (
+            ROOT / "project/run_scripts/session05_ode_bf_p1r42_objective_alignment_b1.sbatch",
+            ROOT / "project/run_scripts/session05_ode_bf_p1r42_objective_alignment_b10x10.sbatch",
+            ROOT / "project/run_scripts/session05_ode_bf_submit_p1r42_objective_alignment_b10x10.py",
+        )
+        for path in paths:
+            source = path.read_text()
+            self.assertIn("server2", source)
+            self.assertNotIn("devbox", source)
+
     def test_dry_plan_has_four_cells_and_forty_independent_cases(self) -> None:
         plan = dry.build_plan("0" * 40, repository_root=ROOT)
         self.assertEqual(plan["job_count"], 4)
