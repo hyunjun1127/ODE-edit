@@ -31,6 +31,7 @@ from .p1r34_w_anchored_finite_demand import P1R34NonSemanticTargetMove
 from .p1r35_full_current_residual import P1R35_METHOD_ID
 from .p1r38_perrequest_target import P1R38_METHOD_ID
 from .p1r39_normalized_gradient_target import P1R39_INSTRUCTION_ID, P1R39_METHOD_ID
+from .p1r41_trust_clipped_target import P1R41_INSTRUCTION_ID, P1R41_METHOD_ID
 from .scalable_batched_model import (
     build_scalable_capture_plan,
     build_scalable_objective_plan,
@@ -120,6 +121,7 @@ def _case_failure(
     w0_restore: Mapping[str, Any],
     p1r38: bool = False,
     p1r39: bool = False,
+    p1r41: bool = False,
 ) -> dict[str, Any]:
     classification = (
         "SCIENTIFIC_FAIL"
@@ -132,7 +134,9 @@ def _case_failure(
     )
     payload = {
         "schema": (
-            "ode-edit-s05-p1r39-normalized-gradient-independent-b10-case-failure/v1"
+            "ode-edit-s05-p1r41-trust-clipped-independent-b10-case-failure/v1"
+            if p1r41
+            else "ode-edit-s05-p1r39-normalized-gradient-independent-b10-case-failure/v1"
             if p1r39
             else
             "ode-edit-s05-p1r38-perrequest-independent-b10-case-failure/v1"
@@ -140,7 +144,9 @@ def _case_failure(
             else "ode-edit-s05-p1r35-independent-b10-case-failure/v1"
         ),
         "instruction_id": (
-            P1R39_INSTRUCTION_ID
+            P1R41_INSTRUCTION_ID
+            if p1r41
+            else P1R39_INSTRUCTION_ID
             if p1r39
             else
             "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1"
@@ -175,10 +181,13 @@ def _case_freeze(
     action_sha256: str,
     p1r38: bool = False,
     p1r39: bool = False,
+    p1r41: bool = False,
 ) -> dict[str, Any]:
     payload = {
         "schema": (
-            "ode-edit-s05-p1r39-normalized-gradient-independent-b10-action-freeze/v1"
+            "ode-edit-s05-p1r41-trust-clipped-independent-b10-action-freeze/v1"
+            if p1r41
+            else "ode-edit-s05-p1r39-normalized-gradient-independent-b10-action-freeze/v1"
             if p1r39
             else
             "ode-edit-s05-p1r38-perrequest-independent-b10-action-freeze/v1"
@@ -186,7 +195,9 @@ def _case_freeze(
             else "ode-edit-s05-p1r35-independent-b10-action-freeze/v1"
         ),
         "instruction_id": (
-            P1R39_INSTRUCTION_ID
+            P1R41_INSTRUCTION_ID
+            if p1r41
+            else P1R39_INSTRUCTION_ID
             if p1r39
             else
             "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1"
@@ -238,6 +249,7 @@ def _run_ode_case(
     job_ledger: ComputeLedger,
     p1r38: bool = False,
     p1r39: bool = False,
+    p1r41: bool = False,
     technical_smoke: bool = False,
 ) -> dict[str, Any]:
     if len(requests) != (1 if technical_smoke else BATCH_SIZE):
@@ -297,9 +309,10 @@ def _run_ode_case(
     _atomic_write_once(case_root / "raw" / "capture-plan.json", capture_payload)
     p1r38_methods = ("PR-P1R35-NEUTRAL", "PR-P1R35-SOFT")
     p1r39_methods = ("PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL",)
-    if method not in (p1r39_methods if p1r39 else p1r38_methods if p1r38 else METHODS):
+    p1r41_methods = ("P1R41-TRUST-CLIPPED-NEUTRAL", "P1R41-TRUST-CLIPPED-SOFT")
+    if method not in (p1r41_methods if p1r41 else p1r39_methods if p1r39 else p1r38_methods if p1r38 else METHODS):
         raise ODEBFContractError("independent method differs")
-    allocation = "RS" if p1r38 or p1r39 else method.split("-", 1)[0]
+    allocation = "RS" if p1r38 or p1r39 or p1r41 else method.split("-", 1)[0]
     arm = (
         FixedE8Arm.NEUTRAL
         if method.endswith("-NEUTRAL")
@@ -348,12 +361,15 @@ def _run_ode_case(
         p1r35=True,
         p1r38=p1r38,
         p1r39=p1r39,
+        p1r41=p1r41,
     )
     public = rollout["public"]
     if (
         public["status"]
         != (
-            "P1R38_PR_P1R35_K8_COMPLETE"
+            "P1R41_TRUST_CLIPPED_GRADIENT_P1R35_K8_COMPLETE"
+            if p1r41
+            else "P1R38_PR_P1R35_K8_COMPLETE"
             if p1r38
             else "P1R39_NORMALIZED_GRADIENT_P1R35_K8_COMPLETE"
             if p1r39
@@ -373,9 +389,9 @@ def _run_ode_case(
             expected_contract=public["initial_w0_sha256"],
         )
         terminal = {
-            "schema": "ode-edit-s05-p1r39-normalized-gradient-b1-technical-terminal/v1" if p1r39 else "ode-edit-s05-p1r38-perrequest-b1-technical-terminal/v1",
-            "instruction_id": P1R39_INSTRUCTION_ID if p1r39 else "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1",
-            "method_id": P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID,
+            "schema": "ode-edit-s05-p1r41-trust-clipped-b1-technical-terminal/v1" if p1r41 else "ode-edit-s05-p1r39-normalized-gradient-b1-technical-terminal/v1" if p1r39 else "ode-edit-s05-p1r38-perrequest-b1-technical-terminal/v1",
+            "instruction_id": P1R41_INSTRUCTION_ID if p1r41 else P1R39_INSTRUCTION_ID if p1r39 else "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1",
+            "method_id": P1R41_METHOD_ID if p1r41 else P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID,
             "case_index": case_index,
             "alias": alias,
             "method": method,
@@ -389,7 +405,7 @@ def _run_ode_case(
         terminal["identity_sha256"] = canonical_hash(terminal)
         terminal_sha = _atomic_write_once(case_root / "terminal.json", terminal)
         manifest = {
-            "schema": "ode-edit-s05-p1r39-normalized-gradient-b1-technical-manifest/v1" if p1r39 else "ode-edit-s05-p1r38-perrequest-b1-technical-manifest/v1",
+            "schema": "ode-edit-s05-p1r41-trust-clipped-b1-technical-manifest/v1" if p1r41 else "ode-edit-s05-p1r39-normalized-gradient-b1-technical-manifest/v1" if p1r39 else "ode-edit-s05-p1r38-perrequest-b1-technical-manifest/v1",
             "terminal_sha256": terminal_sha,
             "W0_restored": True,
             "K8": True,
@@ -418,6 +434,7 @@ def _run_ode_case(
         action_sha256=public["identity_sha256"],
         p1r38=p1r38,
         p1r39=p1r39,
+        p1r41=p1r41,
     )
     freeze_sha = _atomic_write_once(case_root / "action-freeze.json", freeze)
     cases, evaluator_freeze = _action_frozen_cases(
@@ -446,7 +463,9 @@ def _run_ode_case(
     history_off = _history_off_receipt()
     terminal = {
         "schema": (
-            "ode-edit-s05-p1r39-normalized-gradient-independent-b10-ode-terminal/v1"
+            "ode-edit-s05-p1r41-trust-clipped-independent-b10-ode-terminal/v1"
+            if p1r41
+            else "ode-edit-s05-p1r39-normalized-gradient-independent-b10-ode-terminal/v1"
             if p1r39
             else
             "ode-edit-s05-p1r38-perrequest-independent-b10-ode-terminal/v1"
@@ -454,22 +473,24 @@ def _run_ode_case(
             else "ode-edit-s05-p1r35-independent-b10-ode-terminal/v1"
         ),
         "instruction_id": (
-            P1R39_INSTRUCTION_ID
+            P1R41_INSTRUCTION_ID
+            if p1r41
+            else P1R39_INSTRUCTION_ID
             if p1r39
             else
             "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1"
             if p1r38
             else INSTRUCTION_ID
         ),
-        "method_id": P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID if p1r38 else P1R35_METHOD_ID,
+        "method_id": P1R41_METHOD_ID if p1r41 else P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID if p1r38 else P1R35_METHOD_ID,
         "case_index": case_index,
         "alias": alias,
         "method": method,
         "allocation": (
-            "NOT_AN_EXPERIMENT_FACTOR" if p1r38 or p1r39 else allocation
+            "NOT_AN_EXPERIMENT_FACTOR" if p1r38 or p1r39 or p1r41 else allocation
         ),
         "inherited_writer_router_family": (
-            "P1R35_RS" if p1r38 or p1r39 else allocation
+            "P1R35_RS" if p1r38 or p1r39 or p1r41 else allocation
         ),
         "arm": arm.value,
         "request_count": BATCH_SIZE,
@@ -493,7 +514,9 @@ def _run_ode_case(
     terminal_sha = _atomic_write_once(case_root / "terminal.json", terminal)
     manifest = {
         "schema": (
-            "ode-edit-s05-p1r39-normalized-gradient-independent-b10-case-manifest/v1"
+            "ode-edit-s05-p1r41-trust-clipped-independent-b10-case-manifest/v1"
+            if p1r41
+            else "ode-edit-s05-p1r39-normalized-gradient-independent-b10-case-manifest/v1"
             if p1r39
             else
             "ode-edit-s05-p1r38-perrequest-independent-b10-case-manifest/v1"

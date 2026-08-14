@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""No-model dry plan for two-cell P1R39 independent B10x10."""
+"""No-model dry plan for four-cell P1R41 independent B10x10."""
 
 from __future__ import annotations
 
@@ -18,8 +18,10 @@ from project.run_scripts.ode_bf.p1r39_independent_b10x10_panel import LOCK_FILE,
 
 
 CELLS = (
-    ("llama3-8b-inst", "PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL"),
-    ("qwen2.5-7b-inst", "PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL"),
+    ("llama3-8b-inst", "P1R41-TRUST-CLIPPED-NEUTRAL"),
+    ("llama3-8b-inst", "P1R41-TRUST-CLIPPED-SOFT"),
+    ("qwen2.5-7b-inst", "P1R41-TRUST-CLIPPED-NEUTRAL"),
+    ("qwen2.5-7b-inst", "P1R41-TRUST-CLIPPED-SOFT"),
 )
 
 
@@ -30,7 +32,7 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
         json.loads((locks / "p1r24_independent_b10x10_stream_seal.json").read_text(encoding="utf-8"))
     )
     if lock["fresh_stream_root"] != seal["root_digest"] or lock["all_request_order_sha256"] != seal["all_request_order_sha256"]:
-        raise RuntimeError("P1R39 lock/seal differs")
+        raise RuntimeError("P1R41 lock/seal differs")
     jobs = [
         {
             "array_index": index,
@@ -47,20 +49,20 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
         for index, (alias, method) in enumerate(CELLS)
     ]
     return {
-        "schema": "ode-edit-s05-p1r39-normalized-gradient-neutral-b10x10-dry-plan/v1",
+        "schema": "ode-edit-s05-p1r41-trust-clipped-gradient-flow-b10x10-dry-plan/v1",
         "source_head": source_head,
-        "p1r39_lock_sha256": lock_sha,
-        "p1r39_lock_root": lock["root_digest"],
+        "p1r41_lock_sha256": lock_sha,
+        "p1r41_lock_root": lock["root_digest"],
         "fresh_stream_root": seal["root_digest"],
         "all_request_order_sha256": seal["all_request_order_sha256"],
-        "job_count": 2,
-        "cell_count": 2,
-        "independent_atomic_b10_case_count": 20,
-        "request_attempt_count": 200,
-        "routing_arm": "NEUTRAL",
+        "job_count": 4,
+        "cell_count": 4,
+        "independent_atomic_b10_case_count": 40,
+        "request_attempt_count": 400,
+        "routing_arms": ["NEUTRAL", "SOFT"],
         "history_mode": "OFF",
         "project_gpu_cap": 4,
-        "array_max_concurrent_gpu": 2,
+        "array_max_concurrent_gpu": 4,
         "model_load": False,
         "gpu_use": False,
         "slurm_submit": False,

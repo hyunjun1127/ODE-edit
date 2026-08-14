@@ -1,4 +1,4 @@
-"""Ten independent B10 P1R39 Neutral cases for one model."""
+"""Ten independent B10 P1R41 trust-clipped cases for one model/arm."""
 
 from __future__ import annotations
 
@@ -21,12 +21,12 @@ from .p1r36_independent_b10x10_runtime import (
     _restore_exact_w0,
     _run_ode_case,
 )
-from .p1r39_normalized_gradient_target import P1R39_INSTRUCTION_ID, P1R39_METHOD_ID
+from .p1r41_trust_clipped_target import P1R41_INSTRUCTION_ID, P1R41_METHOD_ID
 
 
-INSTRUCTION_ID = P1R39_INSTRUCTION_ID
-METHODS = ("PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL",)
-B1_METHODS = ("PR-P1R39-B1-NORMALIZED-GRADIENT-NEUTRAL",)
+INSTRUCTION_ID = P1R41_INSTRUCTION_ID
+METHODS = ("P1R41-TRUST-CLIPPED-NEUTRAL", "P1R41-TRUST-CLIPPED-SOFT")
+B1_METHODS = ("P1R41-B1-TRUST-CLIPPED-NEUTRAL", "P1R41-B1-TRUST-CLIPPED-SOFT")
 CASE_COUNT = 10
 HISTORY_MODE = "OFF"
 
@@ -35,11 +35,13 @@ def expected_p1r39_independent_result_name(
     alias: str, method: str, *, attempt_suffix: str | None = None
 ) -> str:
     if method not in METHODS + B1_METHODS:
-        raise ODEBFContractError("P1R39 independent method differs")
+        raise ODEBFContractError("P1R41 independent method differs")
     if method in B1_METHODS:
         suffix = f"-{attempt_suffix}" if attempt_suffix else ""
-        return f"s05-p1r39-normalized-gradient-b1-{alias}-neutral{suffix}-v1"
-    return f"s05-p1r39-normalized-gradient-independent-b10x10-{alias}-neutral-v1"
+        arm = "neutral" if method.endswith("-NEUTRAL") else "soft"
+        return f"s05-p1r41-trust-clipped-b1-{alias}-{arm}{suffix}-v1"
+    arm = "neutral" if method.endswith("-NEUTRAL") else "soft"
+    return f"s05-p1r41-trust-clipped-independent-b10x10-{alias}-{arm}-v1"
 
 
 def run_p1r39_independent_b10x10(
@@ -81,18 +83,18 @@ def run_p1r39_independent_b10x10(
     del collision_by_request, artifact_guard, artifact_receipt, numerical_sha256, context_sha256, cuda_runtime_receipt
     smoke = method in B1_METHODS
     if method not in METHODS + B1_METHODS or len(stream_batches) != CASE_COUNT:
-        raise ODEBFContractError("P1R39 independent B10 matrix/count differs")
+        raise ODEBFContractError("P1R41 independent B10 matrix/count differs")
     if any(len(batch) != BATCH_SIZE for batch in stream_batches):
-        raise ODEBFContractError("P1R39 population is not ten B10 batches")
+        raise ODEBFContractError("P1R41 population is not ten B10 batches")
     if stream.get("root_digest") != "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6":
-        raise ODEBFContractError("P1R39 frozen stream root differs")
+        raise ODEBFContractError("P1R41 frozen stream root differs")
     if stream.get("all_request_order_sha256") != "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c":
-        raise ODEBFContractError("P1R39 frozen order differs")
+        raise ODEBFContractError("P1R41 frozen order differs")
     expected_w0 = _model_w0_contract(touched)
     if _hashes(touched) != dict(base_receipt.parameter_sha256):
-        raise ODEBFStateError("P1R39 entry W0 differs")
+        raise ODEBFStateError("P1R41 entry W0 differs")
 
-    executed_method = METHODS[0]
+    executed_method = method.replace("P1R41-B1-", "P1R41-")
     executed_batches: Sequence[Sequence[Mapping[str, Any]]] = (
         ((stream_batches[0][0],),) if smoke else stream_batches
     )
@@ -103,7 +105,7 @@ def run_p1r39_independent_b10x10(
         case_root = raw_root / "cases" / f"case-{case_index:02d}"
         seed_all(COMMON_SEED)
         if _model_w0_contract(touched) != expected_w0:
-            raise ODEBFStateError("P1R39 cross-case W0 state leak detected")
+            raise ODEBFStateError("P1R41 cross-case W0 state leak detected")
         try:
             result = _run_ode_case(
                 model,
@@ -130,7 +132,7 @@ def run_p1r39_independent_b10x10(
                 base_values=base_values,
                 request_microbatch_size=request_microbatch_size,
                 job_ledger=job_ledger,
-                p1r39=True,
+                p1r41=True,
                 technical_smoke=smoke,
             )
             completed.append({"case_index": case_index, **result})
@@ -148,13 +150,13 @@ def run_p1r39_independent_b10x10(
                     case_index=case_index,
                     method=executed_method,
                     w0_restore=restore,
-                    p1r39=True,
+                    p1r41=True,
                 )
             )
         if _model_w0_contract(touched) != expected_w0:
-            raise ODEBFStateError("P1R39 post-case W0 differs")
+            raise ODEBFStateError("P1R41 post-case W0 differs")
         stages.record(
-            f"post_p1r39_independent_b10_case_{case_index}",
+            f"post_p1r41_independent_b10_case_{case_index}",
             {
                 "case_index": case_index,
                 "method": method,
@@ -167,9 +169,9 @@ def run_p1r39_independent_b10x10(
         )
 
     terminal = {
-        "schema": "ode-edit-s05-p1r39-normalized-gradient-independent-b10x10-terminal/v1",
+        "schema": "ode-edit-s05-p1r41-trust-clipped-independent-b10x10-terminal/v1",
         "instruction_id": INSTRUCTION_ID,
-        "method_id": P1R39_METHOD_ID,
+        "method_id": P1R41_METHOD_ID,
         "source_head": source_head,
         "alias": alias,
         "method": method,
@@ -196,7 +198,7 @@ def run_p1r39_independent_b10x10(
     terminal["identity_sha256"] = canonical_hash(terminal)
     terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s05-p1r39-normalized-gradient-independent-b10x10-manifest/v1",
+        "schema": "ode-edit-s05-p1r41-trust-clipped-independent-b10x10-manifest/v1",
         "source_head": source_head,
         "terminal_sha256": terminal_sha,
         "case_count": 1 if smoke else CASE_COUNT,
@@ -208,7 +210,7 @@ def run_p1r39_independent_b10x10(
     manifest["identity_sha256"] = canonical_hash(manifest)
     manifest_sha = _atomic_write_once(destination / "manifest.json", manifest)
     return {
-        "status": "P1R39_NORMALIZED_GRADIENT_INDEPENDENT_B10X10_TERMINAL",
+        "status": "P1R41_TRUST_CLIPPED_INDEPENDENT_B10X10_TERMINAL",
         "terminal_sha256": terminal_sha,
         "manifest_sha256": manifest_sha,
         "completed_case_count": len(completed),

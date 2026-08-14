@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Held-inspect-release submitter for P1R39."""
+"""Held-inspect-release submitter for P1R41."""
 
 from __future__ import annotations
 
@@ -22,12 +22,12 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError
 
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p1r39_normalized_gradient_b10x10.sbatch"
 B1_SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p1r39_normalized_gradient_b1.sbatch"
-STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r39-normalized-gradient-neutral-b10x10"
+STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r41-trust-clipped-gradient-flow-b10x10"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
-LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r39-normalized-gradient-neutral-b10x10"
-BRANCH = "codex/p1r39-pr-p1r38-normalized-gradient-neutral-b10x10-v1"
+LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r41-trust-clipped-gradient-flow-b10x10"
+BRANCH = "codex/p1r41-trust-clipped-gradient-flow-b10x10-v1"
 PROJECT_GPU_CAP = 4
-STAGE_GPU_MAX = 2
+STAGE_GPU_MAX = 4
 
 
 def _run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -56,33 +56,35 @@ def submit(source_head: str, *, smoke: bool = False, attempt_suffix: str | None 
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(["git", "status", "--porcelain", "--untracked-files=no"]).stdout
     if source_head != head or branch != BRANCH or dirty:
-        raise ODEBFContractError("P1R39 execution source differs")
+        raise ODEBFContractError("P1R41 execution source differs")
     plan = dry.build_plan(source_head)
     if smoke:
         if not attempt_suffix or not attempt_suffix.replace("-", "").isalnum():
-            raise ODEBFContractError("P1R39 B1 attempt suffix differs")
+            raise ODEBFContractError("P1R41 B1 attempt suffix differs")
         for job in plan["jobs"]:
-            job["method"] = "PR-P1R39-B1-NORMALIZED-GRADIENT-NEUTRAL"
-            job["result_name"] = f"s05-p1r39-normalized-gradient-b1-{job['alias']}-neutral-{attempt_suffix}-v1"
+            arm = "NEUTRAL" if str(job["method"]).endswith("-NEUTRAL") else "SOFT"
+            arm_token = arm.lower()
+            job["method"] = f"P1R41-B1-TRUST-CLIPPED-{arm}"
+            job["result_name"] = f"s05-p1r41-trust-clipped-b1-{job['alias']}-{arm_token}-{attempt_suffix}-v1"
             job["case_count"] = 1
             job["request_count_per_case"] = 1
         plan["independent_atomic_b10_case_count"] = 0
-        plan["b1_technical_case_count"] = 2
-        plan["request_attempt_count"] = 2
+        plan["b1_technical_case_count"] = 4
+        plan["request_attempt_count"] = 4
     if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
-        raise ODEBFContractError("P1R39 result namespace exists")
+        raise ODEBFContractError("P1R41 result namespace exists")
     active = _active_gpu_jobs()
     if active + STAGE_GPU_MAX > PROJECT_GPU_CAP:
-        raise ODEBFContractError("P1R39 server1 project GPU cap differs")
+        raise ODEBFContractError("P1R41 server1 project GPU cap differs")
     phase = "b1" if smoke else "b10x10"
-    namespace = f"s05-p1r39-normalized-gradient-{phase}-{source_head[:12]}-v1"
+    namespace = f"s05-p1r41-trust-clipped-{phase}-{source_head[:12]}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
-        raise ODEBFContractError("P1R39 submission namespace exists")
+        raise ODEBFContractError("P1R41 submission namespace exists")
     LOG_ROOT.mkdir(mode=0o700, parents=True, exist_ok=True)
     intent = {
-        "schema": f"ode-edit-s05-p1r39-normalized-gradient-{phase}-intent/v1",
+        "schema": f"ode-edit-s05-p1r41-trust-clipped-{phase}-intent/v1",
         "source_head": source_head,
         "source_parent": parent,
         "dry_plan": plan,
@@ -90,13 +92,13 @@ def submit(source_head: str, *, smoke: bool = False, attempt_suffix: str | None 
         "new_max_concurrent_gpu": STAGE_GPU_MAX,
         "project_gpu_cap": PROJECT_GPU_CAP,
         "held_then_atomic_release": True,
-        "array": "0-1%2",
+        "array": "0-3%4",
     }
     intent_sha = _write_once(intent_path, intent)
     submitted = _run([
-        "sbatch", "--hold", "--parsable", "--array", "0-1%2",
+        "sbatch", "--hold", "--parsable", "--array", "0-3%4",
         "--chdir", str(REPO_ROOT), "--nodelist", "devbox",
-        "--job-name", f"odeedit_s05_p1r39_normalized_{phase}",
+        "--job-name", f"odeedit_s05_p1r41_trust_{phase}",
         "--output", str(LOG_ROOT / "%A_%a.out"),
         "--error", str(LOG_ROOT / "%A_%a.err"),
         str(B1_SBATCH if smoke else SBATCH), source_head, str(RESULT_PARENT),
@@ -104,7 +106,7 @@ def submit(source_head: str, *, smoke: bool = False, attempt_suffix: str | None 
     ])
     job_id = submitted.stdout.strip().split(";", 1)[0]
     if not job_id.isdigit():
-        raise ODEBFContractError("P1R39 scheduler ID differs")
+        raise ODEBFContractError("P1R41 scheduler ID differs")
     observed = _run(["scontrol", "show", "job", "-o", job_id]).stdout.strip()
     required = (
         "JobState=PENDING", "Reason=JobHeldUser", "ReqNodeList=devbox",
@@ -112,13 +114,13 @@ def submit(source_head: str, *, smoke: bool = False, attempt_suffix: str | None 
     )
     if not all(item in observed for item in required):
         _run(["scancel", job_id], check=False)
-        raise ODEBFContractError("P1R39 held scheduler contract differs")
+        raise ODEBFContractError("P1R41 held scheduler contract differs")
     receipt = {
-        "schema": f"ode-edit-s05-p1r39-normalized-gradient-{phase}-submission/v1",
+        "schema": f"ode-edit-s05-p1r41-trust-clipped-{phase}-submission/v1",
         "source_head": source_head, "source_parent": parent, "job_id": job_id,
-        "array": "0-1%2", "job_count": 2,
-        "case_count": 2 if smoke else 20,
-        "request_attempt_count": 2 if smoke else 200,
+        "array": "0-3%4", "job_count": 4,
+        "case_count": 4 if smoke else 40,
+        "request_attempt_count": 4 if smoke else 400,
         "max_concurrent_gpu": STAGE_GPU_MAX,
         "project_gpu_cap": PROJECT_GPU_CAP,
         "intent_sha256": intent_sha,

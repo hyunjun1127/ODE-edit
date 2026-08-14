@@ -6,7 +6,7 @@
 #SBATCH --nodelist=devbox
 #SBATCH --mem=65000M
 #SBATCH --time=23:59:00
-#SBATCH --array=0-1%2
+#SBATCH --array=0-3%4
 #SBATCH --export=NONE
 
 set -euo pipefail
@@ -16,23 +16,25 @@ readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
 readonly EXPECTED_SESSION="019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
-readonly RUN_TOKEN="p1r39-normalized-gradient-neutral-b10x10-v1"
+readonly RUN_TOKEN="p1r41-trust-clipped-gradient-flow-b10x10-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
-readonly EXPECTED_BRANCH="codex/p1r39-pr-p1r38-normalized-gradient-neutral-b10x10-v1"
+readonly EXPECTED_BRANCH="codex/p1r41-trust-clipped-gradient-flow-b10x10-v1"
 
-[[ "$#" -eq 2 ]] || { echo "P1R39 requires source and result parent" >&2; exit 2; }
-[[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R39 CWD differs" >&2; exit 2; }
-[[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P1R39 source differs" >&2; exit 2; }
-[[ "$(git branch --show-current)" == "${EXPECTED_BRANCH}" ]] || { echo "P1R39 branch differs" >&2; exit 2; }
-[[ -z "$(git status --porcelain --untracked-files=no)" ]] || { echo "P1R39 tracked source dirty" >&2; exit 2; }
+[[ "$#" -eq 2 ]] || { echo "P1R41 requires source and result parent" >&2; exit 2; }
+[[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R41 CWD differs" >&2; exit 2; }
+[[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P1R41 source differs" >&2; exit 2; }
+[[ "$(git branch --show-current)" == "${EXPECTED_BRANCH}" ]] || { echo "P1R41 branch differs" >&2; exit 2; }
+[[ -z "$(git status --porcelain --untracked-files=no)" ]] || { echo "P1R41 tracked source dirty" >&2; exit 2; }
 scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
-[[ "${CUDA_VISIBLE_DEVICES:-}" != "" && "${CUDA_VISIBLE_DEVICES}" != *,* ]] || { echo "P1R39 exactly one GPU required" >&2; exit 2; }
+[[ "${CUDA_VISIBLE_DEVICES:-}" != "" && "${CUDA_VISIBLE_DEVICES}" != *,* ]] || { echo "P1R41 exactly one GPU required" >&2; exit 2; }
 
-readonly MODELS=(llama3-8b-inst qwen2.5-7b-inst)
+readonly MODELS=(llama3-8b-inst llama3-8b-inst qwen2.5-7b-inst qwen2.5-7b-inst)
+readonly ARMS=(neutral soft neutral soft)
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
-readonly METHOD="PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL"
-readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-p1r39-normalized-gradient-independent-b10x10-${MODEL}-neutral-v1"
-[[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R39 output exists" >&2; exit 2; }
+readonly ARM="${ARMS[${SLURM_ARRAY_TASK_ID}]}"
+readonly METHOD="P1R41-TRUST-CLIPPED-${ARM^^}"
+readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-p1r41-trust-clipped-independent-b10x10-${MODEL}-${ARM}-v1"
+[[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R41 output exists" >&2; exit 2; }
 
 export HF_HOME="/mnt/raid5/janghj/.cache/huggingface"
 export HF_HUB_CACHE="/mnt/raid5/janghj/.cache/huggingface/hub"
@@ -42,7 +44,7 @@ export HF_DATASETS_OFFLINE=1
 export TOKENIZERS_PARALLELISM=false
 export PYTHONHASHSEED=41
 export PYTHONDONTWRITEBYTECODE=1
-export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p1r39-normalized-gradient-b10x10"
+export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p1r41-trust-clipped-b10x10"
 export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 
 exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-sync \
