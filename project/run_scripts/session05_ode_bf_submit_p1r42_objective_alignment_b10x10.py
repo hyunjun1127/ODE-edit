@@ -136,7 +136,10 @@ def submit(
         raise ODEBFContractError("P1R42 server2 project GPU cap differs")
 
     phase = "b1" if smoke else "b10x10"
-    namespace = f"s05-p1r42-objective-alignment-{phase}-{source_head[:12]}-v1"
+    namespace_tail = (
+        f"{attempt_suffix}-{source_head[:12]}" if smoke else source_head[:12]
+    )
+    namespace = f"s05-p1r42-objective-alignment-{phase}-{namespace_tail}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):

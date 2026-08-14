@@ -77,6 +77,10 @@ class P1R42ExecutionContractTests(unittest.TestCase):
         }
         self.assertEqual(len(names), 4)
 
+    def test_b1_submission_state_namespace_is_attempt_scoped(self) -> None:
+        source = (ROOT / "project/run_scripts/session05_ode_bf_submit_p1r42_objective_alignment_b10x10.py").read_text()
+        self.assertIn('f"{attempt_suffix}-{source_head[:12]}" if smoke', source)
+
     def test_dry_plan_has_four_cells_and_forty_independent_cases(self) -> None:
         plan = dry.build_plan("0" * 40, repository_root=ROOT)
         self.assertEqual(plan["job_count"], 4)
