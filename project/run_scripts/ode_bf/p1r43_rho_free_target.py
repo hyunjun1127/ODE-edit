@@ -404,6 +404,8 @@ def select_p1r43_target_proposal(
         "selected_nll_by_request": selected_values,
         "selected_nll_summary": _summary(selected_values),
         "selection_by_request": selection,
+        "semantic_held_mask": list(held),
+        "target_hold_mask": list(held),
         "primary_accept_count": selection.count("PRIMARY"),
         "rescue_accept_count": selection.count("RESCUE"),
         "current_hold_count": selection.count("CURRENT"),

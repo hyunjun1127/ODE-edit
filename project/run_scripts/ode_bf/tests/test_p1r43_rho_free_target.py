@@ -92,6 +92,8 @@ class P1R43RhoFreeTargetTests(unittest.TestCase):
             step_index=0,
         )
         self.assertEqual(selected.receipt["selection_by_request"], ["PRIMARY", "PRIMARY"])
+        self.assertEqual(selected.receipt["semantic_held_mask"], [False, False])
+        self.assertEqual(selected.receipt["target_hold_mask"], [False, False])
         self.assertEqual(selected.receipt["trust_rho_decision_influence_count"], 0)
         self.assertEqual(selected.target_step.receipt["remaining_horizon_division_count"], 0)
 
