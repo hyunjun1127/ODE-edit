@@ -4,7 +4,7 @@
   "scientific_parent": "6f48ac2800b257ceb16368fff5137212dfa6037f",
   "contract_sha256": "8dfa8a44724b0b9ad7a360d7a593bc576fe69419867efc6b8ae911e746b0a8a2",
   "entry_count": 13,
-  "entries_root_digest": "dacdd35d0ba14932ab904f0e6c2cf4b929d49422d89285a96cec9bcbd9b34681",
+  "entries_root_digest": "9756f841ba686eaf743e526fc5eb9ef2d4baca727e86e697e8147e7e2827d1b4",
   "entries": [
     {
       "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r40_semantic_deficit_velocity_decay.json",
@@ -43,8 +43,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_p1r40_execution_contract.py",
-      "size": 4349,
-      "sha256": "7d6a9bdb058b6c69c40e449ef4867bd12feac54ba44c6b2888cc77ccfb75c95c"
+      "size": 4679,
+      "sha256": "2ff86ffb2bccc6768c80d40a082502f4eab58427d87a73e8d9e109ac8aa888a9"
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_p1r40_semantic_deficit_velocity_decay.py",
@@ -68,15 +68,15 @@
     },
     {
       "path": "project/run_scripts/session05_ode_bf_submit_p1r40_velocity_decay_b10x10.py",
-      "size": 6598,
-      "sha256": "4d1265a4d861d0539d6780c8f9337abe6c63d6513aaffe73a3992c2f34b8b53d"
+      "size": 6706,
+      "sha256": "4ec508b958308294ed42b121d9834ea489f7a61969ddd21dfa4000fd77f66591"
     }
   ],
-  "focused_test_count": 35,
+  "focused_test_count": 36,
   "focused_test_status": "PASS",
   "compile_status": "PASS",
   "bash_static_status": "PASS",
   "dry_plan_status": "PASS",
   "scientific_promotion": false,
-  "root_digest": "a22839c0277bb44931a85945f1ebe5d26d55f044495cefee27da9aaaa80b29a3"
+  "root_digest": "c5242bc4ca38e1bdfd8c26947ec89ead20e6f9f726e72893dbb2c1ce0a0d740e"
 }

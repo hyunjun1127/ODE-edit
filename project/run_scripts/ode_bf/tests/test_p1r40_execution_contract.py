@@ -7,6 +7,9 @@ from pathlib import Path
 from project.run_scripts import (
     session05_ode_bf_p1r40_velocity_decay_b10x10_dry_plan as dry,
 )
+from project.run_scripts.session05_ode_bf_submit_p1r40_velocity_decay_b10x10 import (
+    _gpu_count,
+)
 from project.run_scripts.ode_bf.artifacts import sha256_file
 from project.run_scripts.ode_bf.p1_scalable_batched_experiment import _run_ode_arm
 from project.run_scripts.ode_bf.p1r40_independent_b10x10_panel import (
@@ -91,6 +94,11 @@ class P1R40ExecutionContractTests(unittest.TestCase):
                 "SDVD-P1R38-SOFT",
             ],
         )
+
+    def test_scheduler_gpu_count_is_allocation_aware(self) -> None:
+        self.assertEqual(_gpu_count("gres/gpu:1"), 1)
+        self.assertEqual(_gpu_count("gpu:a100:2"), 2)
+        self.assertEqual(_gpu_count("cpu:8"), 0)
 
 
 if __name__ == "__main__":

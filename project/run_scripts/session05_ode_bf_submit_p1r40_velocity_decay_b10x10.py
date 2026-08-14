@@ -94,9 +94,11 @@ def submit(source_head: str) -> dict[str, object]:
     if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
         raise ODEBFContractError("P1R40 result namespace exists")
     active, active_lines = _active_gpu_allocations()
-    new = int(plan["array_max_concurrent_gpu"])
-    if active + new > PROJECT_GPU_CAP:
+    available = PROJECT_GPU_CAP - active
+    new = min(int(plan["array_max_concurrent_gpu"]), available)
+    if new <= 0 or active + new > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R40 server2 janghj GPU cap differs")
+    array_spec = f"0-3%{new}"
     namespace = f"s05-p1r40-semantic-deficit-velocity-decay-{source_head[:12]}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
@@ -115,7 +117,7 @@ def submit(source_head: str) -> dict[str, object]:
         "new_max_concurrent_gpu": new,
         "server2_janghj_gpu_cap": PROJECT_GPU_CAP,
         "held_then_atomic_release": True,
-        "array": "0-3%4",
+        "array": array_spec,
     }
     intent_sha = _write_once(intent_path, intent)
     submitted = _run(
@@ -124,7 +126,7 @@ def submit(source_head: str) -> dict[str, object]:
             "--hold",
             "--parsable",
             "--array",
-            "0-3%4",
+            array_spec,
             "--chdir",
             str(REPO_ROOT),
             "--nodelist",
@@ -158,7 +160,7 @@ def submit(source_head: str) -> dict[str, object]:
         "source_head": source_head,
         "source_parent": parent,
         "job_id": job_id,
-        "array": "0-3%4",
+        "array": array_spec,
         "job_count": 4,
         "case_count": 40,
         "request_attempt_count": 400,
