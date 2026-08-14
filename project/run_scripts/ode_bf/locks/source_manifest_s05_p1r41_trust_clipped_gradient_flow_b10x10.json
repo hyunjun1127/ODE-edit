@@ -1,0 +1,23 @@
+{
+  "schema_version": "ode-edit-s05-p1r41-trust-clipped-gradient-flow-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R41-P1R39-TRUST-CLIPPED-GRADIENT-FLOW-B10X10-V1",
+  "parent": "763457560f2efb177a56310dfd87526772cf8158",
+  "implementation_checkpoint": "3f8d59d2d3d728bfb8fd576abbf05234120f6f55",
+  "entry_count": 13,
+  "entries": [
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r41_trust_clipped_gradient_flow_b10x10.json", "sha256": "f2723b5c46e494b40cfcd9998aeeba5ca1798f823706e6565ab64be99793cc7f", "size": 2724},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py", "sha256": "9abb5d0aab31be3a80c3a3cb7caa9032664e65d52d8a262a13c42d844ab7406e", "size": 96642},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1r36_independent_b10x10_runtime.py", "sha256": "7f2b7ef1b9eab92d004a6704d67ce19ff8dd01677d9f39f8719d951925758649", "size": 26022},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1r39_independent_b10x10_panel.py", "sha256": "1a76217d63be13274859cb418a4f1c3c664eada5492841d3da71b9efda8929b9", "size": 4552},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1r39_independent_b10x10_runtime.py", "sha256": "202bf3a1183fa0a4275cb3e9726f985c835951573f3927acde219e4677fd4185", "size": 9041},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1r41_trust_clipped_target.py", "sha256": "80835b17b10fe3d2c33c0614a0c5fde507830db86c16bb5b0e366c06b8720a31", "size": 21154},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/tests/test_p1r41_execution_contract.py", "sha256": "1385b6fc93d1f1b4329928f3cbacfed26d55f985c54aef36dc742fdc9f044f33", "size": 3285},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/tests/test_p1r41_trust_clipped_target.py", "sha256": "97a6f2582ee50461c660a64fcba00540631e868a903d29dbdc1ec769532c1c2b", "size": 8377},
+    {"mode": "0755", "path": "project/run_scripts/session05_ode_bf_p1r39_normalized_gradient_b1.sbatch", "sha256": "46161aa9c784647908ff662f5d8b2fd243940ac27671d7b78ac960e7730f87f2", "size": 2655},
+    {"mode": "0755", "path": "project/run_scripts/session05_ode_bf_p1r39_normalized_gradient_b10x10.py", "sha256": "8d61b45073474a9d4fa2b4e7a228138bec0ba9e856b64b9fe3cdae03a1dd9b02", "size": 5584},
+    {"mode": "0755", "path": "project/run_scripts/session05_ode_bf_p1r39_normalized_gradient_b10x10.sbatch", "sha256": "6031d15af14991cba45b27d41aa755113c267e8885b4705ff1857381b076e209", "size": 2515},
+    {"mode": "0755", "path": "project/run_scripts/session05_ode_bf_p1r39_normalized_gradient_b10x10_dry_plan.py", "sha256": "f6d94bf84c04e15c4e2bd4b8233f335f98a2eeae07b432b8e49a60e99fb865d3", "size": 2868},
+    {"mode": "0755", "path": "project/run_scripts/session05_ode_bf_submit_p1r39_normalized_gradient_b10x10.py", "sha256": "5802e860465dcc7eb2959cbc27a2561fb863eeaf6669d12a1caed7055edac9cd", "size": 6628}
+  ],
+  "root_digest": "c483b28bcf93d2a7b52891a351e39d15c8bf3790904dbdf2d9447156c0c1399e"
+}
