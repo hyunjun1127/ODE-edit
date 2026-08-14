@@ -2,7 +2,7 @@
   "schema_version": "ode-edit-s05-p1r39-a1-normalized-gradient-soft-source-manifest/v1",
   "instruction_id": "ODEEDIT-S05-P1R39-A1-NORMALIZED-GRADIENT-SOFT-B10X10-V1",
   "parent": "763457560f2efb177a56310dfd87526772cf8158",
-  "implementation_checkpoint": "4a8b358d21b92ff92b669144788946835c9ee5e3",
+  "implementation_checkpoint": "86cd56e21280b0c1ef0f6a068db6310b2f33c25b",
   "entry_count": 11,
   "entries": [
     {
@@ -68,9 +68,9 @@
     {
       "mode": "0755",
       "path": "project/run_scripts/session05_ode_bf_submit_p1r39_normalized_gradient_b10x10.py",
-      "sha256": "170e78bef17e94e9dfb93cecda428b0b5a896e869d921f9da0d943f3475734df",
-      "size": 6569
+      "sha256": "21ea05c0b5f8005554150e5064f1fe5eea2d99326d919c79b0ad79e7dc1bc1e9",
+      "size": 6670
     }
   ],
-  "root_digest": "d46a519926d4bd88fd3c6c66e2f9fa470b593ee892a56862c369c4151403f591"
+  "root_digest": "f82f4aa9b03e921a044d129759dd8151ca8d1a860ad6de4b67e9b56ed7ed7b4c"
 }
