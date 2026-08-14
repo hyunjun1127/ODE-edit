@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""No-model dry plan for two-cell P1R39 independent B10x10."""
+"""No-model dry plan for the two-cell P1R39-A1 Soft extension."""
 
 from __future__ import annotations
 
@@ -18,8 +18,8 @@ from project.run_scripts.ode_bf.p1r39_independent_b10x10_panel import LOCK_FILE,
 
 
 CELLS = (
-    ("llama3-8b-inst", "PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL"),
-    ("qwen2.5-7b-inst", "PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL"),
+    ("llama3-8b-inst", "PR-P1R39-NORMALIZED-GRADIENT-SOFT"),
+    ("qwen2.5-7b-inst", "PR-P1R39-NORMALIZED-GRADIENT-SOFT"),
 )
 
 
@@ -47,7 +47,7 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
         for index, (alias, method) in enumerate(CELLS)
     ]
     return {
-        "schema": "ode-edit-s05-p1r39-normalized-gradient-neutral-b10x10-dry-plan/v1",
+        "schema": "ode-edit-s05-p1r39-a1-normalized-gradient-soft-b10x10-dry-plan/v1",
         "source_head": source_head,
         "p1r39_lock_sha256": lock_sha,
         "p1r39_lock_root": lock["root_digest"],
@@ -57,7 +57,8 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
         "cell_count": 2,
         "independent_atomic_b10_case_count": 20,
         "request_attempt_count": 200,
-        "routing_arm": "NEUTRAL",
+        "routing_arm": "SOFT",
+        "target_or_demand_attenuation_count": 0,
         "history_mode": "OFF",
         "project_gpu_cap": 4,
         "array_max_concurrent_gpu": 2,

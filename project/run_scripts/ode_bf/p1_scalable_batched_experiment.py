@@ -260,10 +260,10 @@ def _run_ode_arm(
         raise ODEBFContractError("P1R38 requires the frozen P1R35 writer path")
     if p1r38 and allocation not in ("RS",):
         raise ODEBFContractError("P1R38 has no RS/BG target factorial")
-    if p1r39 and (not p1r35 or p1r38 or allocation != "RS" or arm is not FixedE8Arm.NEUTRAL):
-        raise ODEBFContractError("P1R39 normalized-gradient Neutral path differs")
+    if p1r39 and (not p1r35 or p1r38 or allocation != "RS"):
+        raise ODEBFContractError("P1R39 normalized-gradient path differs")
     arm_label = (
-        "PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL"
+        f"PR-P1R39-NORMALIZED-GRADIENT-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r39
         else f"PR-P1R35-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r38

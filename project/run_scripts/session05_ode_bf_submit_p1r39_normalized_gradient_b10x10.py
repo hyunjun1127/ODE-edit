@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Held-inspect-release submitter for P1R39."""
+"""Held-inspect-release submitter for P1R39-A1 Soft."""
 
 from __future__ import annotations
 
@@ -22,10 +22,10 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError
 
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p1r39_normalized_gradient_b10x10.sbatch"
 B1_SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p1r39_normalized_gradient_b1.sbatch"
-STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r39-normalized-gradient-neutral-b10x10"
+STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r39-a1-normalized-gradient-soft-b10x10"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
-LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r39-normalized-gradient-neutral-b10x10"
-BRANCH = "codex/p1r39-pr-p1r38-normalized-gradient-neutral-b10x10-v1"
+LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r39-a1-normalized-gradient-soft-b10x10"
+BRANCH = "codex/p1r39-a1-normalized-gradient-soft-b10x10-v1"
 PROJECT_GPU_CAP = 4
 STAGE_GPU_MAX = 2
 
@@ -62,8 +62,8 @@ def submit(source_head: str, *, smoke: bool = False, attempt_suffix: str | None 
         if not attempt_suffix or not attempt_suffix.replace("-", "").isalnum():
             raise ODEBFContractError("P1R39 B1 attempt suffix differs")
         for job in plan["jobs"]:
-            job["method"] = "PR-P1R39-B1-NORMALIZED-GRADIENT-NEUTRAL"
-            job["result_name"] = f"s05-p1r39-normalized-gradient-b1-{job['alias']}-neutral-{attempt_suffix}-v1"
+            job["method"] = "PR-P1R39-B1-NORMALIZED-GRADIENT-SOFT"
+            job["result_name"] = f"s05-p1r39-a1-normalized-gradient-b1-{job['alias']}-soft-{attempt_suffix}-v1"
             job["case_count"] = 1
             job["request_count_per_case"] = 1
         plan["independent_atomic_b10_case_count"] = 0
@@ -75,14 +75,14 @@ def submit(source_head: str, *, smoke: bool = False, attempt_suffix: str | None 
     if active + STAGE_GPU_MAX > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R39 server1 project GPU cap differs")
     phase = "b1" if smoke else "b10x10"
-    namespace = f"s05-p1r39-normalized-gradient-{phase}-{source_head[:12]}-v1"
+    namespace = f"s05-p1r39-a1-normalized-gradient-soft-{phase}-{source_head[:12]}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P1R39 submission namespace exists")
     LOG_ROOT.mkdir(mode=0o700, parents=True, exist_ok=True)
     intent = {
-        "schema": f"ode-edit-s05-p1r39-normalized-gradient-{phase}-intent/v1",
+        "schema": f"ode-edit-s05-p1r39-a1-normalized-gradient-soft-{phase}-intent/v1",
         "source_head": source_head,
         "source_parent": parent,
         "dry_plan": plan,
@@ -96,7 +96,7 @@ def submit(source_head: str, *, smoke: bool = False, attempt_suffix: str | None 
     submitted = _run([
         "sbatch", "--hold", "--parsable", "--array", "0-1%2",
         "--chdir", str(REPO_ROOT), "--nodelist", "devbox",
-        "--job-name", f"odeedit_s05_p1r39_normalized_{phase}",
+        "--job-name", f"odeedit_s05_p1r39a1_soft_{phase}",
         "--output", str(LOG_ROOT / "%A_%a.out"),
         "--error", str(LOG_ROOT / "%A_%a.err"),
         str(B1_SBATCH if smoke else SBATCH), source_head, str(RESULT_PARENT),
@@ -114,7 +114,7 @@ def submit(source_head: str, *, smoke: bool = False, attempt_suffix: str | None 
         _run(["scancel", job_id], check=False)
         raise ODEBFContractError("P1R39 held scheduler contract differs")
     receipt = {
-        "schema": f"ode-edit-s05-p1r39-normalized-gradient-{phase}-submission/v1",
+        "schema": f"ode-edit-s05-p1r39-a1-normalized-gradient-soft-{phase}-submission/v1",
         "source_head": source_head, "source_parent": parent, "job_id": job_id,
         "array": "0-1%2", "job_count": 2,
         "case_count": 2 if smoke else 20,

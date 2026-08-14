@@ -17,9 +17,9 @@ readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
 readonly ATTEMPT_SUFFIX="${3:-}"
 readonly EXPECTED_SESSION="019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
-readonly RUN_TOKEN="p1r39-normalized-gradient-neutral-b10x10-v1"
+readonly RUN_TOKEN="p1r39-a1-normalized-gradient-soft-b10x10-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
-readonly EXPECTED_BRANCH="codex/p1r39-pr-p1r38-normalized-gradient-neutral-b10x10-v1"
+readonly EXPECTED_BRANCH="codex/p1r39-a1-normalized-gradient-soft-b10x10-v1"
 
 [[ "$#" -eq 3 && "${ATTEMPT_SUFFIX}" =~ ^[a-z0-9-]+$ ]] || { echo "P1R39 B1 requires source, result parent, suffix" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R39 B1 CWD differs" >&2; exit 2; }
@@ -31,8 +31,8 @@ scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 
 readonly MODELS=(llama3-8b-inst qwen2.5-7b-inst)
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
-readonly METHOD="PR-P1R39-B1-NORMALIZED-GRADIENT-NEUTRAL"
-readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-p1r39-normalized-gradient-b1-${MODEL}-neutral-${ATTEMPT_SUFFIX}-v1"
+readonly METHOD="PR-P1R39-B1-NORMALIZED-GRADIENT-SOFT"
+readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-p1r39-a1-normalized-gradient-b1-${MODEL}-soft-${ATTEMPT_SUFFIX}-v1"
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R39 B1 output exists" >&2; exit 2; }
 
 export HF_HOME="/mnt/raid5/janghj/.cache/huggingface"
@@ -43,7 +43,7 @@ export HF_DATASETS_OFFLINE=1
 export TOKENIZERS_PARALLELISM=false
 export PYTHONHASHSEED=41
 export PYTHONDONTWRITEBYTECODE=1
-export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p1r39-normalized-gradient-b1"
+export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p1r39-a1-normalized-gradient-soft-b1"
 export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 
 exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-sync \

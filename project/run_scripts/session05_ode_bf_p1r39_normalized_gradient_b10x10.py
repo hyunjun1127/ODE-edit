@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed P1R39 normalized-gradient Neutral runner."""
+"""Fail-closed P1R39-A1 normalized-gradient Soft runner."""
 
 from __future__ import annotations
 
@@ -22,9 +22,10 @@ from project.run_scripts.ode_bf.p1r39_independent_b10x10_panel import LOCK_FILE,
 from project.run_scripts.ode_bf.p1r39_independent_b10x10_runtime import B1_METHODS, INSTRUCTION_ID, METHODS
 
 
-RUN_TOKEN = "p1r39-normalized-gradient-neutral-b10x10-v1"
-SOURCE_MANIFEST = "source_manifest_s05_p1r39_normalized_gradient_neutral_b10x10.json"
+RUN_TOKEN = "p1r39-a1-normalized-gradient-soft-b10x10-v1"
+SOURCE_MANIFEST = "source_manifest_s05_p1r39_a1_normalized_gradient_soft_b10x10.json"
 PROTECTED_SOURCE_SHA256 = {
+    "project/run_scripts/ode_bf/p1r39_normalized_gradient_target.py": "98356016cd87d258f9c9e889ccb59f6f14e3f869e0f9284d2c90721e38c6537a",
     "project/run_scripts/ode_bf/p1r38_perrequest_target.py": "2ee532a3b4293cafb99116b1a587a18f4eef2489deb26b6e5cb3afcd8e3795a3",
     "project/run_scripts/ode_bf/p1r35_full_current_residual.py": "539425cc1e6bbe66cc873f4c177e8587d3e5dc955fdb081b1d909b0dc8ce617b",
     "project/run_scripts/ode_bf/p1r34_w_anchored_finite_demand.py": "b2c59ac75798b9d70fbbc370c6d9f805d33cbeb8f683be81bb9effe7d1dbfe53",
@@ -41,7 +42,7 @@ def _source_gate(source_head: str) -> str:
     manifest_path = REPO_ROOT / "project/run_scripts/ode_bf/locks" / SOURCE_MANIFEST
     manifest, raw_sha = load_rooted_json(
         manifest_path,
-        expected_schema="ode-edit-s05-p1r39-normalized-gradient-neutral-source-manifest/v1",
+        expected_schema="ode-edit-s05-p1r39-a1-normalized-gradient-soft-source-manifest/v1",
     )
     entries = manifest.get("entries")
     if manifest.get("instruction_id") != INSTRUCTION_ID or manifest.get("parent") != PARENT or not isinstance(entries, list) or not entries:

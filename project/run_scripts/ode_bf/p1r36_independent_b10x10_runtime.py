@@ -296,7 +296,10 @@ def _run_ode_case(
     _atomic_write_once(case_root / "raw" / "objective-plan.json", objective_payload)
     _atomic_write_once(case_root / "raw" / "capture-plan.json", capture_payload)
     p1r38_methods = ("PR-P1R35-NEUTRAL", "PR-P1R35-SOFT")
-    p1r39_methods = ("PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL",)
+    p1r39_methods = (
+        "PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL",
+        "PR-P1R39-NORMALIZED-GRADIENT-SOFT",
+    )
     if method not in (p1r39_methods if p1r39 else p1r38_methods if p1r38 else METHODS):
         raise ODEBFContractError("independent method differs")
     allocation = "RS" if p1r38 or p1r39 else method.split("-", 1)[0]

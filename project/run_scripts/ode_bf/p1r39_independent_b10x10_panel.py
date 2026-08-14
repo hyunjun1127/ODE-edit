@@ -1,4 +1,4 @@
-"""Closed identities for P1R39 normalized-gradient Neutral execution."""
+"""Closed identities for the P1R39-A1 normalized-gradient Soft extension."""
 
 from __future__ import annotations
 
@@ -9,11 +9,11 @@ from .artifacts import load_rooted_json
 from .contracts import MODEL_ALIASES, ODEBFContractError
 
 
-LOCK_SCHEMA = "ode-edit-s05-p1r39-normalized-gradient-neutral-b10x10-lock/v1"
-LOCK_FILE = "numerical_lock_s05_p1r39_normalized_gradient_neutral_b10x10.json"
-PARENT = "6f48ac2800b257ceb16368fff5137212dfa6037f"
-METHODS = ["PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL"]
-B1_METHODS = ["PR-P1R39-B1-NORMALIZED-GRADIENT-NEUTRAL"]
+LOCK_SCHEMA = "ode-edit-s05-p1r39-a1-normalized-gradient-soft-b10x10-lock/v1"
+LOCK_FILE = "numerical_lock_s05_p1r39_a1_normalized_gradient_soft_b10x10.json"
+PARENT = "763457560f2efb177a56310dfd87526772cf8158"
+METHODS = ["PR-P1R39-NORMALIZED-GRADIENT-SOFT"]
+B1_METHODS = ["PR-P1R39-B1-NORMALIZED-GRADIENT-SOFT"]
 
 
 def expected_result_name(
@@ -23,16 +23,19 @@ def expected_result_name(
         raise ODEBFContractError("P1R39 result identity differs")
     if method in B1_METHODS:
         suffix = f"-{attempt_suffix}" if attempt_suffix else ""
-        return f"s05-p1r39-normalized-gradient-b1-{alias}-neutral{suffix}-v1"
-    return f"s05-p1r39-normalized-gradient-independent-b10x10-{alias}-neutral-v1"
+        return f"s05-p1r39-a1-normalized-gradient-b1-{alias}-soft{suffix}-v1"
+    return f"s05-p1r39-a1-normalized-gradient-independent-b10x10-{alias}-soft-v1"
 
 
 def validate_lock(value: Mapping[str, Any]) -> None:
     exact = {
         "schema_version": LOCK_SCHEMA,
-        "instruction_id": "ODEEDIT-S05-P1R39-PR-P1R38-PERREQUEST-NORMALIZED-GRADIENT-NEUTRAL-B10X10-V1",
-        "contract_sha256": "56bd2f8caecb118fdd30b08f33952dba6bbf80864920e3573e5e40af1464fb3d",
-        "accepted_p1r38_checkpoint": PARENT,
+        "instruction_id": "ODEEDIT-S05-P1R39-A1-NORMALIZED-GRADIENT-SOFT-B10X10-V1",
+        "accepted_p1r39_checkpoint": PARENT,
+        "accepted_p1r39_tree": "1f58423b53dfb7e84c8011ab08c2bf7a5ad4ca25",
+        "accepted_p1r39_report_sha256": "97d7a6d36818dd5445d29850d03031b19b715c94434c236124c9289e01bd7548",
+        "p1r39_target_source_sha256": "98356016cd87d258f9c9e889ccb59f6f14e3f869e0f9284d2c90721e38c6537a",
+        "accepted_p1r38_checkpoint": "6f48ac2800b257ceb16368fff5137212dfa6037f",
         "accepted_p1r38_report_sha256": "281582a6bfe95b53bda1bce09e0eb453c8675fcf717c6b957051197faf2bf865",
         "methods": METHODS,
         "models": list(MODEL_ALIASES),
@@ -52,7 +55,8 @@ def validate_lock(value: Mapping[str, Any]) -> None:
         "semantic_epsilon": 1.0e-8,
         "semantic_epsilon_source": "P1R24_NUMERICAL_EPSILON",
         "writer_coordinate": "FULL_CURRENT_RESIDUAL",
-        "routing_arm": "NEUTRAL",
+        "routing_arm": "SOFT",
+        "target_or_demand_attenuation_count": 0,
         "history_mode": "OFF",
         "terminal_evaluator_count_per_successful_case": 1,
         "project_gpu_cap": 4,

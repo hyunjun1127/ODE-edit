@@ -1,4 +1,4 @@
-"""Ten independent B10 P1R39 Neutral cases for one model."""
+"""Ten independent B10 P1R39-A1 Soft cases for one model."""
 
 from __future__ import annotations
 
@@ -24,9 +24,9 @@ from .p1r36_independent_b10x10_runtime import (
 from .p1r39_normalized_gradient_target import P1R39_INSTRUCTION_ID, P1R39_METHOD_ID
 
 
-INSTRUCTION_ID = P1R39_INSTRUCTION_ID
-METHODS = ("PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL",)
-B1_METHODS = ("PR-P1R39-B1-NORMALIZED-GRADIENT-NEUTRAL",)
+INSTRUCTION_ID = "ODEEDIT-S05-P1R39-A1-NORMALIZED-GRADIENT-SOFT-B10X10-V1"
+METHODS = ("PR-P1R39-NORMALIZED-GRADIENT-SOFT",)
+B1_METHODS = ("PR-P1R39-B1-NORMALIZED-GRADIENT-SOFT",)
 CASE_COUNT = 10
 HISTORY_MODE = "OFF"
 
@@ -38,8 +38,8 @@ def expected_p1r39_independent_result_name(
         raise ODEBFContractError("P1R39 independent method differs")
     if method in B1_METHODS:
         suffix = f"-{attempt_suffix}" if attempt_suffix else ""
-        return f"s05-p1r39-normalized-gradient-b1-{alias}-neutral{suffix}-v1"
-    return f"s05-p1r39-normalized-gradient-independent-b10x10-{alias}-neutral-v1"
+        return f"s05-p1r39-a1-normalized-gradient-b1-{alias}-soft{suffix}-v1"
+    return f"s05-p1r39-a1-normalized-gradient-independent-b10x10-{alias}-soft-v1"
 
 
 def run_p1r39_independent_b10x10(
@@ -92,7 +92,7 @@ def run_p1r39_independent_b10x10(
     if _hashes(touched) != dict(base_receipt.parameter_sha256):
         raise ODEBFStateError("P1R39 entry W0 differs")
 
-    executed_method = METHODS[0]
+    executed_method = method.replace("-B1-", "-") if smoke else method
     executed_batches: Sequence[Sequence[Mapping[str, Any]]] = (
         ((stream_batches[0][0],),) if smoke else stream_batches
     )
@@ -174,6 +174,9 @@ def run_p1r39_independent_b10x10(
         "alias": alias,
         "method": method,
         "allocation_factorial": "NONE",
+        "routing_arm": "SOFT",
+        "base_target_instruction_id": P1R39_INSTRUCTION_ID,
+        "target_or_demand_attenuation_count": 0,
         "case_count": 1 if smoke else CASE_COUNT,
         "request_attempt_count": 1 if smoke else CASE_COUNT * BATCH_SIZE,
         "completed_case_count": len(completed),
