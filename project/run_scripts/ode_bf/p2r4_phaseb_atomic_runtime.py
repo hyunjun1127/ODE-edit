@@ -1,0 +1,834 @@
+"""P2R4 Phase-B Atomic runtime: clamp ON/OFF over sealed P2R2 V2 writer."""
+
+from __future__ import annotations
+
+import hashlib
+import math
+from pathlib import Path
+import time
+from typing import Any, Mapping, Sequence
+
+import torch
+
+from .accounting import ComputeLedger
+from .alpha_backend import seed_all
+from .atomic_runtime_optimization import AcceptedPhysicalStateMaterializer
+from .bg_soft_diagnostics import HeldoutRequestResidualActivationOverlay
+from .common_cold_coordinate import common_terminal_residual_input
+from .common_coldcoord_fixed_e8_runtime import _heldout_additive_lookup_geometry
+from .contracts import BATCH_SIZE, COMMON_SEED, ODEBFContractError, ODEBFStateError, canonical_hash
+from .functional import WaypointFactor, tensor_sha256
+from .p0_runtime import ModelForwardCounter
+from .p1_adaptive_runtime import _merge_factors
+from .p1_backend import PinnedCovarianceRegistry
+from .p1_controller import P1ControllerLock
+from .p1_runtime import _atomic_write_once
+from .p1_scalable_batched_experiment import (
+    _action_frozen_cases,
+    _evaluate_frozen_state,
+    _model_w0_contract,
+)
+from .p1_state import ArmWeightSnapshot
+from .p1_stepwise import StepwiseActionFreeze, evaluate_counterfact_stepwise_primary
+from .p1r24_atomic_strength import (
+    P1R24AliasTargetLock,
+    build_p1r24_kl_plan,
+    evaluate_p1r24_kl,
+    verify_p1r24_alphaedit_geometry,
+)
+from .p1r36_independent_b10x10_runtime import _hashes, _restore_exact_w0
+from .p2r1_rms_tangent_target import (
+    P2R1RMSState,
+    P2R1_MICROSTEPS_PER_OUTER_STATE,
+    P2R1_TARGET_MICROSTEP_COUNT,
+    p2r1_preservation_gradient,
+    p2r1_target_update,
+)
+from .p2r1_target_only_runtime import _panel_metric, _write_private_target_trajectory_once
+from .p2r2_residual_transport_writer import (
+    build_proposal_quadratics,
+    measure_request_layer_response,
+    p2r2_forbidden_influence_receipt,
+    p2r2_waypoint_factors,
+    solve_p2r2_routing,
+)
+from .p2r4_clamp_off_target import p2r4_clamp_off_target_update
+from .p2r4_phaseb_receipts import committed_outer_h_receipt
+from .scalable_batched_field import build_scalable_dynamic_field
+from .scalable_batched_model import (
+    build_scalable_capture_plan,
+    build_scalable_objective_plan,
+    capture_scalable_physical_state,
+    evaluate_scalable_target_new_objective,
+)
+from .scalable_batched_runtime import initial_target_from_capture, scalable_ordered_request_digest
+
+
+P2R4_PHASEB_INSTRUCTION_ID = (
+    "ODEEDIT-S05-P2R4-P2R1-CLAMP-ON-OFF-CAUSAL-ABLATION-V1-PHASE-B"
+)
+P2R4_PHASEB_METHOD_ID = "P2R4-P2R1-CLAMP-ON-OFF-P2R2-V2-WRITER-V1"
+P2R2_V2_SOURCE_HEAD = "c97e8619b42da7954ce0e824c215a8a82d70589a"
+METHOD = "P2R4-P2R1-CLAMP-ON-OFF-P2R2-V2-WRITER-PAIRED"
+ARMS = ("NEUTRAL", "SOFTP")
+CLAMP_POLICIES = ("ON", "OFF")
+CASE_COUNTS = (1, 10)
+STREAM_ROOT = "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6"
+STREAM_ORDER = "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c"
+
+
+def expected_p2r4_phaseb_result_name(
+    alias: str,
+    *,
+    clamp_policy: str,
+    case_count: int,
+    attempt_suffix: str | None = None,
+) -> str:
+    if (
+        alias not in ("llama3-8b-inst", "qwen2.5-7b-inst")
+        or clamp_policy not in CLAMP_POLICIES
+        or case_count not in CASE_COUNTS
+    ):
+        raise ODEBFContractError("P2R4 Phase-B result identity differs")
+    phase = "sealed-b10-smoke" if case_count == 1 else "b10x10"
+    suffix = f"-{attempt_suffix}" if attempt_suffix else ""
+    clamp = clamp_policy.lower()
+    return f"s05-p2r4-phaseb-{phase}-{alias}-clamp-{clamp}-p2r2-v2-paired{suffix}-v1"
+
+
+def _target_update_for_policy(clamp_policy: str) -> Any:
+    if clamp_policy == "ON":
+        return p2r1_target_update
+    if clamp_policy == "OFF":
+        return p2r4_clamp_off_target_update
+    raise ODEBFContractError("P2R4 Phase-B clamp policy differs")
+
+
+def _normalize_clamp_receipt(
+    receipt: Mapping[str, Any], *, clamp_policy: str
+) -> dict[str, Any]:
+    clamp_hit = list(receipt.get("clamp_hit", ()))
+    would_hit = list(receipt.get("clamp_would_hit", clamp_hit))
+    if len(clamp_hit) != BATCH_SIZE or len(would_hit) != BATCH_SIZE:
+        raise ODEBFContractError("P2R4 Phase-B clamp receipt geometry differs")
+    normalized = {
+        **dict(receipt),
+        "phase_b_clamp_policy": clamp_policy,
+        "clamp_would_hit": [bool(item) for item in would_hit],
+        "clamp_would_hit_count": sum(bool(item) for item in would_hit),
+        "clamp_hit": [bool(item) for item in clamp_hit],
+        "clamp_hit_count": sum(bool(item) for item in clamp_hit),
+        "clamp_policy_only_experimental_variable": True,
+        "sealed_p2r2_v2_source_head": P2R2_V2_SOURCE_HEAD,
+    }
+    normalized["identity_sha256"] = canonical_hash(normalized)
+    return normalized
+
+
+def _factor_sha(factor: WaypointFactor) -> str:
+    return canonical_hash(
+        {
+            "weight_name_sha256": hashlib.sha256(factor.weight_name.encode()).hexdigest(),
+            "layer": factor.layer,
+            "order": list(factor.order_key),
+            "theta": factor.theta,
+            "left_sha256": tensor_sha256(factor.left),
+            "right_sha256": tensor_sha256(factor.right),
+        }
+    )
+
+
+def _evaluate_terminal_z_panel(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    cases: Sequence[Any],
+    *,
+    alias: str,
+    request_order_sha256: str,
+    action_sha256: str,
+    hparams: Any,
+    terminal_target: torch.Tensor,
+    terminal_physical: Any,
+    writer_state_sha256: str,
+    clamp_policy: str,
+) -> tuple[dict[str, Any], float]:
+    lookup_positions, patched_rows, lookup_receipt = _heldout_additive_lookup_geometry(
+        tokenizer, requests, cases, fact_token_strategy=hparams.fact_token
+    )
+    residual = common_terminal_residual_input(
+        terminal_target, terminal_physical.terminal_z, request_order_sha256
+    )
+    freeze = StepwiseActionFreeze(
+        variant=f"{METHOD}-{clamp_policy}",
+        request_order_sha256=request_order_sha256,
+        rollout_sha256=action_sha256,
+        snapshot_sha256=canonical_hash(
+            {
+                "terminal_target_sha256": tensor_sha256(terminal_target),
+                "terminal_physical_sha256": terminal_physical.identity_sha256,
+                "writer_state_sha256": writer_state_sha256,
+            }
+        ),
+        snapshot_index=8,
+        accepted_snapshot_count=9,
+        rejected_retry_count=0,
+        trajectory_status=f"ACTION_FROZEN_P2R4_PHASEB_{clamp_policy}_K8",
+    )
+    overlay = HeldoutRequestResidualActivationOverlay(
+        model,
+        hparams.layer_module_tmp.format(int(hparams.layers[-1])),
+        residual.residual,
+        lookup_positions,
+        patched_rows,
+    )
+    started = time.perf_counter()
+    with overlay:
+        result = evaluate_counterfact_stepwise_primary(
+            model, tokenizer, cases, model_alias=alias, freeze=freeze
+        )
+    elapsed = time.perf_counter() - started
+    raw = result.raw_free_payload()
+    payload = {
+        "schema": "ode-edit-s05-p2r4-phaseb-terminal-z-panel/v1",
+        "instruction_id": P2R4_PHASEB_INSTRUCTION_ID,
+        "method_id": P2R4_PHASEB_METHOD_ID,
+        "clamp_policy": clamp_policy,
+        "sealed_p2r2_v2_source_head": P2R2_V2_SOURCE_HEAD,
+        "action_freeze_sha256": freeze.identity(),
+        "z_inject": raw,
+        "eff_z_inject": _panel_metric(raw, "efficacy"),
+        "gen_z_inject": _panel_metric(raw, "generalization"),
+        "heldout_lookup": lookup_receipt,
+        "z_overlay": overlay.raw_free_payload(),
+        "terminal_residual": residual.raw_free_payload(),
+        "heldout_controller_access_count": 0,
+        "inner_step_heldout_evaluation_count": 0,
+        "wall_seconds": elapsed,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload, elapsed
+
+
+def _run_arm_case(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    *,
+    alias: str,
+    clamp_policy: str,
+    arm: str,
+    case_index: int,
+    case_root: Path,
+    hparams: Any,
+    projector: torch.Tensor,
+    contexts: Sequence[Sequence[str]],
+    covariance_registry: PinnedCovarianceRegistry,
+    projector_sha256: str,
+    controller_lock: P1ControllerLock,
+    dataset_path: Path,
+    mutation_lock: Any,
+    touched: Mapping[str, torch.nn.Parameter],
+    base_values: Mapping[str, torch.Tensor],
+    expected_w0: str,
+    request_microbatch_size: int,
+    job_ledger: ComputeLedger,
+) -> dict[str, Any]:
+    if (
+        clamp_policy not in CLAMP_POLICIES
+        or arm not in ARMS
+        or len(requests) != BATCH_SIZE
+    ):
+        raise ODEBFContractError("P2R4 Phase-B clamp/arm/case inventory differs")
+    request_order = scalable_ordered_request_digest(
+        [str(item["request_sha256"]) for item in requests]
+    )
+    objective_plan = build_scalable_objective_plan(
+        model,
+        tokenizer,
+        requests,
+        contexts=contexts,
+        request_microbatch_size=min(request_microbatch_size, BATCH_SIZE),
+        fact_token_strategy=hparams.fact_token,
+    )
+    capture_plan = build_scalable_capture_plan(
+        tokenizer,
+        requests,
+        contexts=contexts,
+        request_microbatch_size=min(request_microbatch_size, BATCH_SIZE),
+        fact_token_strategy=hparams.fact_token,
+    )
+    if objective_plan.request_order_sha256 != request_order or capture_plan.request_order_sha256 != request_order:
+        raise ODEBFContractError("P2R2 plan order differs")
+    _atomic_write_once(case_root / "raw" / "objective-plan.json", objective_plan.raw_free_payload())
+    _atomic_write_once(case_root / "raw" / "capture-plan.json", capture_plan.raw_free_payload())
+    forbidden = {
+        **p2r2_forbidden_influence_receipt(),
+        "phase_b_clamp_policy": clamp_policy,
+        "sealed_p2r2_v2_source_head": P2R2_V2_SOURCE_HEAD,
+        "writer_interface_mutation_count": 0,
+        "writer_equation_mutation_count": 0,
+        "off_fallback_addition_count": 0,
+        "target_retry_count": 0,
+        "target_backtracking_count": 0,
+        "target_early_stop_count": 0,
+    }
+    forbidden["identity_sha256"] = canonical_hash(forbidden)
+    _atomic_write_once(case_root / "raw" / "forbidden-influence.json", forbidden)
+
+    lock = P1R24AliasTargetLock.for_alias(alias)
+    alpha_geometry = verify_p1r24_alphaedit_geometry(
+        hparams, lock, easyedit_root=Path("/mnt/raid5/janghj/EasyEdit")
+    )
+    counter = ModelForwardCounter(model, job_ledger)
+    materializer = AcceptedPhysicalStateMaterializer(model, base_values)
+    compute = {
+        "target_forward_count": 0,
+        "target_backward_count": 0,
+        "kl_forward_count": 0,
+        "kl_backward_count": 0,
+        "physical_capture_forward_count": 0,
+        "physical_response_forward_count": 0,
+        "physical_response_batched_vjp_count": 0,
+        "post_write_objective_forward_count": 0,
+        "candidate_forward_count": 0,
+        "candidate_materialization_count": 0,
+        "writer_materialization_count": 0,
+    }
+    started = time.perf_counter()
+    cumulative_factors: dict[str, tuple[WaypointFactor, ...]] = {
+        name: () for name in touched
+    }
+    prior_structural_p = 0.0
+    target_receipt_sha: list[str] = []
+    writer_receipt_sha: list[str] = []
+    k_states: list[torch.Tensor] = []
+    step_payloads: list[dict[str, Any]] = []
+    try:
+        physical = capture_scalable_physical_state(model, capture_plan, hparams)
+        compute["physical_capture_forward_count"] += physical.physical_forward_count
+        initial = initial_target_from_capture(physical)
+        current_target = initial.target_z.clone()
+        target_origin = initial.target_z.clone()
+        k_states.append(current_target.clone())
+        kl_plan = build_p1r24_kl_plan(
+            tokenizer,
+            requests,
+            request_order_sha256=request_order,
+            request_microbatch_size=min(request_microbatch_size, BATCH_SIZE),
+            fact_token_strategy=hparams.fact_token,
+        )
+        teacher_result, teacher = evaluate_p1r24_kl(
+            model, kl_plan, teacher_log_probs=None
+        )
+        compute["kl_forward_count"] += teacher_result.model_forward_count
+        state = P2R1RMSState.zero()
+        target_wall = 0.0
+        writer_wall = 0.0
+        target_update = _target_update_for_policy(clamp_policy)
+        for outer in range(8):
+            current_terminal = physical.terminal_z.clone()
+            for inner in range(P2R1_MICROSTEPS_PER_OUTER_STATE):
+                microstep = outer * P2R1_MICROSTEPS_PER_OUTER_STATE + inner
+                target_started = time.perf_counter()
+                variable = (
+                    current_target.detach()
+                    .to(device=next(model.parameters()).device, dtype=torch.float32)
+                    .clone()
+                    .requires_grad_(True)
+                )
+                semantic = evaluate_scalable_target_new_objective(
+                    model,
+                    objective_plan,
+                    target_state=variable,
+                    current_terminal=current_terminal,
+                    target_layer_name=hparams.layer_module_tmp.format(int(hparams.layers[-1])),
+                )
+                kl_result, _ = evaluate_p1r24_kl(
+                    model,
+                    kl_plan,
+                    teacher_log_probs=teacher,
+                    target_state=variable,
+                    current_terminal=current_terminal,
+                    target_layer_name=hparams.layer_module_tmp.format(int(hparams.layers[-1])),
+                )
+                if semantic.target_gradient is None or kl_result.gradient is None:
+                    raise ODEBFContractError("P2R2 target gradient is absent")
+                compute["target_forward_count"] += semantic.model_forward_count
+                compute["target_backward_count"] += semantic.backward_count
+                compute["kl_forward_count"] += kl_result.model_forward_count
+                compute["kl_backward_count"] += kl_result.backward_count
+                preservation, decay_values, decay_gradient = p2r1_preservation_gradient(
+                    current_target,
+                    target_origin,
+                    kl_result.gradient * BATCH_SIZE,
+                    lock,
+                )
+                update = target_update(
+                    current_target,
+                    target_origin,
+                    semantic.target_gradient * BATCH_SIZE,
+                    preservation,
+                    state,
+                    alias=alias,
+                    microstep_index=microstep,
+                    lock=lock,
+                )
+                target_wall += time.perf_counter() - target_started
+                target_receipt = _normalize_clamp_receipt(
+                    {
+                    **dict(update.receipt),
+                    "outer_step": outer,
+                    "within_outer_microstep": inner,
+                    "current_physical_state_sha256": physical.identity_sha256,
+                    "current_terminal_sha256": tensor_sha256(current_terminal),
+                    "target_new_nll_by_request": list(semantic.per_request_values),
+                    "kl_by_request": list(kl_result.per_request_values),
+                    "decay_by_request": [float(item) for item in decay_values],
+                    "decay_gradient_sha256": tensor_sha256(decay_gradient),
+                    "rms_reset_count": 0,
+                    },
+                    clamp_policy=clamp_policy,
+                )
+                target_receipt_sha.append(
+                    _atomic_write_once(
+                        case_root / "raw" / "target" / f"microstep-{microstep:02d}.json",
+                        target_receipt,
+                    )
+                )
+                current_target = update.target_next
+                state = update.state_next
+
+            writer_started = time.perf_counter()
+            field = build_scalable_dynamic_field(
+                model,
+                tokenizer,
+                requests,
+                hparams,
+                projector,
+                contexts,
+                target_state=current_target,
+                current_terminal=current_terminal,
+                captured_keys_by_layer=physical.keys_by_layer,
+                accepted_waypoint=outer,
+                covariance_registry=covariance_registry,
+                projector_sha256=projector_sha256,
+                residual_tolerance=controller_lock.residual_tolerance,
+                ledger=job_ledger,
+                allow_zero_capacity=True,
+            )
+            response = measure_request_layer_response(model, objective_plan, field)
+            compute["physical_response_forward_count"] += response.model_forward_count
+            compute["physical_response_batched_vjp_count"] += response.batched_vjp_count
+            quadratics = build_proposal_quadratics(
+                field,
+                cumulative_factors,
+                prior_structural_p=prior_structural_p,
+            )
+            route = solve_p2r2_routing(response.response, quadratics, arm=arm)
+            increment = p2r2_waypoint_factors(field, route, outer_step=outer)
+            cumulative_factors = _merge_factors(cumulative_factors, increment)
+            materialization = materializer.materialize(
+                cumulative_factors, transition_index=outer + 1
+            )
+            compute["writer_materialization_count"] += 1
+            next_physical = capture_scalable_physical_state(model, capture_plan, hparams)
+            compute["physical_capture_forward_count"] += next_physical.physical_forward_count
+            post = evaluate_scalable_target_new_objective(
+                model, objective_plan, target_gradient_required=False
+            )
+            compute["post_write_objective_forward_count"] += post.model_forward_count
+            before_values = torch.tensor(response.current_nll_by_request, dtype=torch.float64)
+            after_values = torch.tensor(post.per_request_values, dtype=torch.float64)
+            actual = before_values - after_values
+            predicted = route.predicted_progress
+            realization = actual / torch.clamp(torch.abs(predicted), min=1.0e-12)
+            p_after = prior_structural_p + route.marginal_structural_p
+            if p_after < -1.0e-8 or not math.isfinite(p_after):
+                raise ODEBFContractError("P2R2 cumulative Structural-P certificate failed")
+            prior_structural_p = max(0.0, p_after)
+            writer_wall += time.perf_counter() - writer_started
+            outer_h_receipt = committed_outer_h_receipt(
+                committed_joint_transition=True
+            )
+            writer_payload = {
+                "schema": "ode-edit-s05-p2r4-phaseb-writer-step/v1",
+                "instruction_id": P2R4_PHASEB_INSTRUCTION_ID,
+                "method_id": P2R4_PHASEB_METHOD_ID,
+                "clamp_policy": clamp_policy,
+                "sealed_p2r2_v2_source_head": P2R2_V2_SOURCE_HEAD,
+                "outer_step": outer,
+                "arm": arm,
+                "target_state_sha256": tensor_sha256(current_target),
+                "current_terminal_sha256": tensor_sha256(current_terminal),
+                "full_current_residual_sha256": tensor_sha256(current_target - current_terminal),
+                "full_current_residual_norm_by_request": [
+                    float(item)
+                    for item in torch.linalg.vector_norm(
+                        (current_target - current_terminal).double(), dim=0
+                    )
+                ],
+                "field": field.raw_free_payload(),
+                "response": response.raw_free_payload(),
+                "quadratics": quadratics.raw_free_payload(),
+                "route": route.raw_free_payload(),
+                "factor_sha256": {
+                    name: _factor_sha(value) for name, value in sorted(increment.items())
+                },
+                "materialization": materialization,
+                "current_nll_by_request": list(response.current_nll_by_request),
+                "next_nll_by_request": list(post.per_request_values),
+                "predicted_progress_by_request": predicted.tolist(),
+                "actual_progress_by_request": actual.tolist(),
+                "realization_by_request": realization.tolist(),
+                "negative_actual_count": int(torch.sum(actual < 0.0)),
+                "cumulative_structural_p": prior_structural_p,
+                **outer_h_receipt,
+                "outer_h_receipt_identity_sha256": outer_h_receipt[
+                    "identity_sha256"
+                ],
+                "target_microstep_count_before_write": state.completed_microsteps,
+                "one_joint_materialization_count": 1,
+                "current_state_refresh_count": 1,
+                "retry_count": 0,
+                "backtracking_count": 0,
+            }
+            writer_payload["identity_sha256"] = canonical_hash(writer_payload)
+            writer_receipt_sha.append(
+                _atomic_write_once(
+                    case_root / "raw" / "writer" / f"step-{outer:02d}.json",
+                    writer_payload,
+                )
+            )
+            step_payloads.append(writer_payload)
+            physical = next_physical
+            k_states.append(current_target.clone())
+
+        if (
+            state.completed_microsteps != P2R1_TARGET_MICROSTEP_COUNT
+            or len(k_states) != 9
+            or compute["writer_materialization_count"] != 8
+        ):
+            raise ODEBFStateError("P2R2 K8/microstep/materialization count differs")
+        final_target = evaluate_scalable_target_new_objective(
+            model,
+            objective_plan,
+            target_state=current_target.to(
+                device=next(model.parameters()).device, dtype=torch.float32
+            ),
+            current_terminal=physical.terminal_z,
+            target_layer_name=hparams.layer_module_tmp.format(int(hparams.layers[-1])),
+            target_gradient_required=False,
+        )
+        compute["target_forward_count"] += final_target.model_forward_count
+        trajectory_file_sha, trajectory_tensor_sha = _write_private_target_trajectory_once(
+            case_root / "private-target" / "kstate-targets.pt",
+            k_states=k_states,
+            request_order_sha256=request_order,
+        )
+        action = {
+            "schema": "ode-edit-s05-p2r4-phaseb-action-freeze/v1",
+            "instruction_id": P2R4_PHASEB_INSTRUCTION_ID,
+            "method_id": P2R4_PHASEB_METHOD_ID,
+            "clamp_policy": clamp_policy,
+            "sealed_p2r2_v2_source_head": P2R2_V2_SOURCE_HEAD,
+            "alias": alias,
+            "arm": arm,
+            "case_index": case_index,
+            "request_order_sha256": request_order,
+            "target_microstep_receipt_sha256": target_receipt_sha,
+            "writer_step_receipt_sha256": writer_receipt_sha,
+            "target_microstep_count": state.completed_microsteps,
+            "writer_transition_count": 8,
+            "writer_materialization_count": 8,
+            "terminal_target_sha256": tensor_sha256(current_target),
+            "terminal_physical_sha256": physical.identity_sha256,
+            "trajectory_tensor_sha256": trajectory_tensor_sha,
+            "writer_state_sha256": canonical_hash(
+                {
+                    name: [_factor_sha(factor) for factor in factors]
+                    for name, factors in sorted(cumulative_factors.items())
+                }
+            ),
+            "actions_frozen_before_evaluator": True,
+            "heldout_controller_access_count": 0,
+            "retry_count": 0,
+            "W0_sha256": expected_w0,
+        }
+        action["identity_sha256"] = canonical_hash(action)
+        action_sha = _atomic_write_once(case_root / "action-freeze.json", action)
+        cases, evaluator_freeze = _action_frozen_cases(
+            dataset_path,
+            requests,
+            arm=f"P2R4-PHASEB-{clamp_policy}-{arm}",
+            selected_snapshot_sha256=action_sha,
+            fixed_budget_slots_completed=8,
+        )
+        endpoint, w_evaluator_wall = _evaluate_frozen_state(
+            model,
+            tokenizer,
+            cases,
+            alias=alias,
+            freeze_payload=evaluator_freeze,
+        )
+        z_panel, z_evaluator_wall = _evaluate_terminal_z_panel(
+            model,
+            tokenizer,
+            requests,
+            cases,
+            alias=alias,
+            request_order_sha256=request_order,
+            action_sha256=action["identity_sha256"],
+            hparams=hparams,
+            terminal_target=current_target,
+            terminal_physical=physical,
+            writer_state_sha256=action["writer_state_sha256"],
+            clamp_policy=clamp_policy,
+        )
+    finally:
+        counter.close()
+        materializer_restore = materializer.restore()
+    if _model_w0_contract(touched) != expected_w0:
+        raise ODEBFStateError("P2R2 materializer did not restore W0")
+    restore = _restore_exact_w0(
+        touched,
+        base_values,
+        mutation_lock=mutation_lock,
+        expected_contract=expected_w0,
+    )
+    terminal = {
+        "schema": "ode-edit-s05-p2r4-phaseb-case-terminal/v1",
+        "instruction_id": P2R4_PHASEB_INSTRUCTION_ID,
+        "method_id": P2R4_PHASEB_METHOD_ID,
+        "clamp_policy": clamp_policy,
+        "sealed_p2r2_v2_source_head": P2R2_V2_SOURCE_HEAD,
+        "alias": alias,
+        "arm": arm,
+        "case_index": case_index,
+        "request_count": BATCH_SIZE,
+        "request_order_sha256": request_order,
+        "objective_plan_sha256": objective_plan.identity_sha256,
+        "capture_plan_sha256": capture_plan.identity_sha256,
+        "alpha_geometry": alpha_geometry,
+        "action_freeze_sha256": action_sha,
+        "terminal_target_sha256": tensor_sha256(current_target),
+        "target_trajectory_file_sha256": trajectory_file_sha,
+        "target_trajectory_tensor_sha256": trajectory_tensor_sha,
+        "terminal_full_six_target_new_nll": final_target.loss,
+        "terminal_full_six_target_new_nll_by_request": list(final_target.per_request_values),
+        "terminal_w_panel": endpoint,
+        "terminal_z_panel": z_panel,
+        "target_microstep_count": state.completed_microsteps,
+        "writer_transition_count": 8,
+        "writer_materialization_count": 8,
+        "response_batched_vjp_count": compute["physical_response_batched_vjp_count"],
+        "terminal_cumulative_structural_p": prior_structural_p,
+        "compute": compute,
+        "target_wall_seconds": target_wall,
+        "writer_wall_seconds": writer_wall,
+        "terminal_w_evaluator_wall_seconds": w_evaluator_wall,
+        "terminal_z_evaluator_wall_seconds": z_evaluator_wall,
+        "total_wall_seconds": time.perf_counter() - started,
+        "materializer": materializer.raw_free_payload(),
+        "materializer_restore": materializer_restore,
+        "W0_restore": restore,
+        "W0_restored": True,
+        "forbidden_influence": forbidden,
+        "scientific_promotion": False,
+    }
+    terminal["identity_sha256"] = canonical_hash(terminal)
+    terminal_sha = _atomic_write_once(case_root / "terminal.json", terminal)
+    manifest = {
+        "schema": "ode-edit-s05-p2r4-phaseb-case-manifest/v1",
+        "alias": alias,
+        "clamp_policy": clamp_policy,
+        "arm": arm,
+        "case_index": case_index,
+        "terminal_sha256": terminal_sha,
+        "action_freeze_sha256": action_sha,
+        "target_microstep_count": 24,
+        "writer_materialization_count": 8,
+        "W0_restored": True,
+    }
+    manifest["identity_sha256"] = canonical_hash(manifest)
+    manifest_sha = _atomic_write_once(case_root / "manifest.json", manifest)
+    return {
+        "status": "P2R4_PHASEB_CASE_COMPLETE",
+        "terminal_sha256": terminal_sha,
+        "manifest_sha256": manifest_sha,
+        "clamp_policy": clamp_policy,
+        "arm": arm,
+        "case_index": case_index,
+    }
+
+
+def run_p2r4_phaseb_atomic(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    clamp_policy: str,
+    destination: Path,
+    raw_root: Path,
+    stages: Any,
+    source_head: str,
+    stream_batches: Sequence[Sequence[Mapping[str, Any]]],
+    stream: Mapping[str, Any],
+    hparams: Any,
+    projector: torch.Tensor,
+    contexts: Sequence[Sequence[str]],
+    covariance_registry: PinnedCovarianceRegistry,
+    projector_sha256: str,
+    controller_lock: P1ControllerLock,
+    dataset_path: Path,
+    mutation_lock: Any,
+    touched: Mapping[str, torch.nn.Parameter],
+    base_receipt: ArmWeightSnapshot,
+    base_values: Mapping[str, torch.Tensor],
+    job_ledger: ComputeLedger,
+    request_microbatch_size: int,
+    case_count: int,
+) -> dict[str, Any]:
+    if (
+        clamp_policy not in CLAMP_POLICIES
+        or case_count not in CASE_COUNTS
+        or len(stream_batches) != 10
+    ):
+        raise ODEBFContractError("P2R4 Phase-B clamp/case inventory differs")
+    if stream.get("root_digest") != STREAM_ROOT or stream.get("all_request_order_sha256") != STREAM_ORDER:
+        raise ODEBFContractError("P2R2 stream identity differs")
+    if any(len(batch) != BATCH_SIZE for batch in stream_batches):
+        raise ODEBFContractError("P2R2 stream is not B10x10")
+    expected_w0 = _model_w0_contract(touched)
+    if _hashes(touched) != dict(base_receipt.parameter_sha256):
+        raise ODEBFStateError("P2R2 entry W0 differs")
+    started = time.perf_counter()
+    completed: list[dict[str, Any]] = []
+    failed: list[dict[str, Any]] = []
+    for case_index, requests in enumerate(stream_batches[:case_count], start=1):
+        for arm in ARMS:
+            seed_all(COMMON_SEED)
+            if _model_w0_contract(touched) != expected_w0:
+                raise ODEBFStateError("P2R2 cross-arm/case W0 leak detected")
+            case_root = raw_root / "cases" / f"case-{case_index:02d}" / arm.lower()
+            try:
+                completed.append(
+                    _run_arm_case(
+                        model,
+                        tokenizer,
+                        requests,
+                        alias=alias,
+                        clamp_policy=clamp_policy,
+                        arm=arm,
+                        case_index=case_index,
+                        case_root=case_root,
+                        hparams=hparams,
+                        projector=projector,
+                        contexts=contexts,
+                        covariance_registry=covariance_registry,
+                        projector_sha256=projector_sha256,
+                        controller_lock=controller_lock,
+                        dataset_path=dataset_path,
+                        mutation_lock=mutation_lock,
+                        touched=touched,
+                        base_values=base_values,
+                        expected_w0=expected_w0,
+                        request_microbatch_size=request_microbatch_size,
+                        job_ledger=job_ledger,
+                    )
+                )
+            except Exception as exc:
+                restore = _restore_exact_w0(
+                    touched,
+                    base_values,
+                    mutation_lock=mutation_lock,
+                    expected_contract=expected_w0,
+                )
+                failure = {
+                    "schema": "ode-edit-s05-p2r4-phaseb-case-failure/v1",
+                    "alias": alias,
+                    "clamp_policy": clamp_policy,
+                    "arm": arm,
+                    "case_index": case_index,
+                    "classification": "TECHNICAL_FAIL",
+                    "exception_class": type(exc).__name__,
+                    "exception_message_sha256": hashlib.sha256(str(exc).encode()).hexdigest(),
+                    "retry_count": 0,
+                    "W0_restore": restore,
+                    "next_arm_or_case_continues": True,
+                }
+                observability = getattr(exc, "raw_free_receipt", None)
+                if isinstance(observability, Mapping):
+                    failure["technical_observability"] = dict(observability)
+                failure["identity_sha256"] = canonical_hash(failure)
+                _atomic_write_once(case_root / "failure.json", failure)
+                failed.append(failure)
+            if _model_w0_contract(touched) != expected_w0:
+                raise ODEBFStateError("P2R2 post-arm W0 differs")
+            stages.record(
+                f"post_p2r4_phaseb_{clamp_policy.lower()}_case_{case_index}_{arm.lower()}",
+                {
+                    "case_index": case_index,
+                    "arm": arm,
+                    "complete_count": len(completed),
+                    "failure_count": len(failed),
+                    "W0_restored": True,
+                },
+            )
+    terminal = {
+        "schema": "ode-edit-s05-p2r4-phaseb-job-terminal/v1",
+        "instruction_id": P2R4_PHASEB_INSTRUCTION_ID,
+        "method_id": P2R4_PHASEB_METHOD_ID,
+        "sealed_p2r2_v2_source_head": P2R2_V2_SOURCE_HEAD,
+        "source_head": source_head,
+        "alias": alias,
+        "clamp_policy": clamp_policy,
+        "case_count_per_arm": case_count,
+        "arm_count": 2,
+        "attempt_count": case_count * 2,
+        "request_attempt_count": case_count * 2 * BATCH_SIZE,
+        "completed_case_arm_count": len(completed),
+        "failed_case_arm_count": len(failed),
+        "completed": completed,
+        "failed": failed,
+        "W0_restored": _model_w0_contract(touched) == expected_w0,
+        "job_compute": job_ledger.raw_free_payload(),
+        "total_wall_seconds": time.perf_counter() - started,
+        "scientific_promotion": False,
+    }
+    terminal["identity_sha256"] = canonical_hash(terminal)
+    terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
+    manifest = {
+        "schema": "ode-edit-s05-p2r4-phaseb-job-manifest/v1",
+        "source_head": source_head,
+        "alias": alias,
+        "clamp_policy": clamp_policy,
+        "case_count_per_arm": case_count,
+        "terminal_sha256": terminal_sha,
+        "completed_case_arm_count": len(completed),
+        "failed_case_arm_count": len(failed),
+        "W0_restored": terminal["W0_restored"],
+    }
+    manifest["identity_sha256"] = canonical_hash(manifest)
+    manifest_sha = _atomic_write_once(destination / "manifest.json", manifest)
+    return {
+        "status": "P2R4_PHASEB_ATOMIC_TERMINAL",
+        "terminal_sha256": terminal_sha,
+        "manifest_sha256": manifest_sha,
+        "completed_case_arm_count": len(completed),
+        "failed_case_arm_count": len(failed),
+        "W0_restored": terminal["W0_restored"],
+    }
+
+
+__all__ = [
+    "ARMS",
+    "CASE_COUNTS",
+    "CLAMP_POLICIES",
+    "METHOD",
+    "P2R2_V2_SOURCE_HEAD",
+    "P2R4_PHASEB_INSTRUCTION_ID",
+    "P2R4_PHASEB_METHOD_ID",
+    "expected_p2r4_phaseb_result_name",
+    "run_p2r4_phaseb_atomic",
+]
