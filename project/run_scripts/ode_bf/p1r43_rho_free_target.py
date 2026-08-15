@@ -100,6 +100,7 @@ def prepare_p1r43_target_proposal(
     alias: str,
     step_index: int,
     shared_speed: float,
+    max_target_updates: int = P1R24_K,
 ) -> P1R43TargetProposal:
     """Build the entry-calibrated pure-semantic primary proposal."""
 
@@ -107,7 +108,13 @@ def prepare_p1r43_target_proposal(
         raise ODEBFContractError("P1R43 alias differs")
     if nll.target_gradient is None:
         raise ODEBFContractError("P1R43 pure semantic gradient is absent")
-    if step_index < 0 or step_index >= P1R24_K:
+    if (
+        isinstance(max_target_updates, bool)
+        or not isinstance(max_target_updates, int)
+        or max_target_updates < P1R24_K
+        or step_index < 0
+        or step_index >= max_target_updates
+    ):
         raise ODEBFContractError("P1R43 target step index differs")
     if (
         current_target.ndim != 2
@@ -194,6 +201,8 @@ def prepare_p1r43_target_proposal(
         "added_key_factor_refresh_count": 0,
         "added_materialization_count": 0,
     }
+    if max_target_updates != P1R24_K:
+        receipt["max_target_updates"] = max_target_updates
     step = _full_current_residual_step(
         target_next=target_next,
         current_target=current_target,

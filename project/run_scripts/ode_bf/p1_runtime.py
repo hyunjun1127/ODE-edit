@@ -3225,6 +3225,8 @@ def run_p1(
     p1r42_attempt_suffix: str | None = None,
     p1r43_independent_b10x10_method: str | None = None,
     p1r43_attempt_suffix: str | None = None,
+    p1r43_t3_target_only_case_count: int | None = None,
+    p1r43_t3_attempt_suffix: str | None = None,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3254,10 +3256,19 @@ def run_p1(
             p1r39_independent_b10x10_method is not None,
             p1r42_independent_b10x10_method is not None,
             p1r43_independent_b10x10_method is not None,
+            p1r43_t3_target_only_case_count is not None,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if p1r43_independent_b10x10_method is not None:
+    if p1r43_t3_target_only_case_count is not None:
+        from .p1r43_t3_target_only_runtime import expected_p1r43_t3_target_result_name
+
+        expected_name = expected_p1r43_t3_target_result_name(
+            alias,
+            case_count=p1r43_t3_target_only_case_count,
+            attempt_suffix=p1r43_t3_attempt_suffix,
+        )
+    elif p1r43_independent_b10x10_method is not None:
         from .p1r43_independent_b10x10_runtime import (
             expected_p1r43_independent_result_name,
         )
@@ -3453,7 +3464,8 @@ def run_p1(
         and p1r38_independent_b10x10_method is None
         and p1r39_independent_b10x10_method is None
         and p1r42_independent_b10x10_method is None
-        and p1r43_independent_b10x10_method is None,
+        and p1r43_independent_b10x10_method is None
+        and p1r43_t3_target_only_case_count is None,
         # P1R38 is the same independent Atomic artifact class as P1R36.
         # P1R23/P1R24 own distinct atomic seals and never consume the held
         # sequential ODE-alloc artifact.
@@ -3630,6 +3642,7 @@ def run_p1(
         or p1r39_independent_b10x10_method is not None
         or p1r42_independent_b10x10_method is not None
         or p1r43_independent_b10x10_method is not None
+        or p1r43_t3_target_only_case_count is not None
     ):
         from .p1_cold_structp_softp_noveto_panel import (
             load_cold_requests,
@@ -3642,6 +3655,7 @@ def run_p1(
             or p1r39_independent_b10x10_method is not None
             or p1r42_independent_b10x10_method is not None
             or p1r43_independent_b10x10_method is not None
+            or p1r43_t3_target_only_case_count is not None
         ):
             from .p1r24_independent_b10x10_selection import (
                 load_historical_h0_batches,
@@ -3652,7 +3666,12 @@ def run_p1(
                 P1R23_LOCK_FILE,
                 load_and_validate_p1r23_lock,
             )
-            if p1r43_independent_b10x10_method is not None:
+            if p1r43_t3_target_only_case_count is not None:
+                from .p1r43_t3_target_only_panel import (
+                    LOCK_FILE as INDEPENDENT_LOCK_FILE,
+                    load_and_validate_lock as load_and_validate_independent_lock,
+                )
+            elif p1r43_independent_b10x10_method is not None:
                 from .p1r43_independent_b10x10_panel import (
                     LOCK_FILE as INDEPENDENT_LOCK_FILE,
                     load_and_validate_lock as load_and_validate_independent_lock,
@@ -3968,6 +3987,7 @@ def run_p1(
             and p1r39_independent_b10x10_method is None
             and p1r42_independent_b10x10_method is None
             and p1r43_independent_b10x10_method is None
+            and p1r43_t3_target_only_case_count is None
         ):
             from .p1_cold_structp_softp_noveto_panel import (
                 cold_schedule,
@@ -3997,6 +4017,7 @@ def run_p1(
             and p1r39_independent_b10x10_method is None
             and p1r42_independent_b10x10_method is None
             and p1r43_independent_b10x10_method is None
+            and p1r43_t3_target_only_case_count is None
         ):
             stream_batches = (cold_requests,)
         request_by_sha256 = {
@@ -4040,6 +4061,7 @@ def run_p1(
         or p1r39_independent_b10x10_method is not None
         or p1r42_independent_b10x10_method is not None
         or p1r43_independent_b10x10_method is not None
+        or p1r43_t3_target_only_case_count is not None
     ):
         if (
             scalable_batched_role is not None
@@ -4049,6 +4071,7 @@ def run_p1(
             or p1r39_independent_b10x10_method is not None
             or p1r42_independent_b10x10_method is not None
             or p1r43_independent_b10x10_method is not None
+            or p1r43_t3_target_only_case_count is not None
         ):
             from .p1_common_coldcoord_fixed_e8_panel import (
                 validate_common_cold_runtime_gpu_capacity,
@@ -4277,7 +4300,35 @@ def run_p1(
         or p1r39_independent_b10x10_method is not None
         or p1r42_independent_b10x10_method is not None
         or p1r43_independent_b10x10_method is not None
+        or p1r43_t3_target_only_case_count is not None
     ):
+        if p1r43_t3_target_only_case_count is not None:
+            from .p1r43_t3_target_only_runtime import run_p1r43_t3_target_only
+
+            return run_p1r43_t3_target_only(
+                model,
+                tokenizer,
+                alias=alias,
+                destination=destination,
+                raw_root=raw_root,
+                stages=stages,
+                source_head=source_head,
+                stream_batches=stream_batches,
+                stream=stream,
+                hparams=hparams,
+                contexts=contexts,
+                dataset_path=dataset,
+                mutation_lock=mutation_lock,
+                touched=touched,
+                base_receipt=base_receipt,
+                base_values=base_values,
+                job_ledger=job_ledger,
+                request_microbatch_size=int(
+                    scalable_batched_lock["microbatch_accumulation"]
+                    ["request_microbatch_size"][alias]
+                ),
+                case_count=p1r43_t3_target_only_case_count,
+            )
         if p1r43_independent_b10x10_method is not None:
             from .p1r43_independent_b10x10_runtime import (
                 run_p1r43_independent_b10x10,
