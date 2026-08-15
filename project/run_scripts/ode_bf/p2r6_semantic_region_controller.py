@@ -39,6 +39,10 @@ P2R6_STRUCTP_ARMS = ("AR-STRUCTP", "AS-STRUCTP")
 P2R6_ARMS = (*P2R6_CAP_ARMS, *P2R6_STRUCTP_ARMS)
 P2R6_SHADOW_ARMS = P2R6_CAP_ARMS
 P2R6_NUMERICAL_EPSILON = SIMPLEX_PRIMAL_TOLERANCE
+# HiGHS documents 1e-10 as the smallest accepted feasibility tolerance.  This
+# is backend accuracy, strictly tighter than the unchanged scientific/primal
+# certificate above.
+P2R6_HIGHS_INTERNAL_TOLERANCE = 1.0e-10
 
 
 class P2R6RoutingTechnicalError(P2R5RoutingTechnicalError):
@@ -303,6 +307,11 @@ def _semantic_region_optimum(
         b_ub=b_ub,
         bounds=[(0.0, None)] * alpha_count + [(0.0, None)],
         method="highs",
+        options={
+            "primal_feasibility_tolerance": P2R6_HIGHS_INTERNAL_TOLERANCE,
+            "dual_feasibility_tolerance": P2R6_HIGHS_INTERNAL_TOLERANCE,
+            "ipm_optimality_tolerance": P2R6_HIGHS_INTERNAL_TOLERANCE,
+        },
     )
     if not solved.success or not np.all(np.isfinite(solved.x)):
         raise P2R6RoutingTechnicalError(
@@ -364,6 +373,7 @@ def _semantic_region_optimum(
         "solver_status": int(solved.status),
         "message_sha256": canonical_hash(str(solved.message)),
         "iterations": int(getattr(solved, "nit", -1)),
+        "highs_internal_tolerance": P2R6_HIGHS_INTERNAL_TOLERANCE,
         "constraint_row_normalization": "DIVIDE_BY_SEMANTIC_SCALE",
         "semantic_scale_min": float(np.min(scale)),
         "semantic_scale_max": float(np.max(scale)),

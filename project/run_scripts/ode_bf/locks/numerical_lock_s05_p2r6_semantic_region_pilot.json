@@ -21,6 +21,7 @@
   "exact_p2r5_parent": "ff032a10eac257d23c691896458159d2f4eff23b",
   "exact_response_face_enabled_a0_aeta": true,
   "exact_response_face_enabled_ar_as": false,
+  "highs_internal_feasibility_tolerance": 1e-10,
   "instruction_id": "ODEEDIT-S05-P2R6-SEMANTIC-REGION-CONTROLLER-PILOT-V1",
   "numerical_epsilon": 1e-08,
   "phase1_arms": [
@@ -40,7 +41,7 @@
   "phase2_selected_controller_options": ["AR", "AS"],
   "preservation_lexicographic_order": "SEMANTIC_REGION_THEN_STRUCTURAL_P_THEN_CAPACITY",
   "request_layer_alpha_shape": [5, 10],
-  "root_digest": "c1f8b8a238e37efc476a85c047ab632afc80412fb41c1218e6f56e904e9c4300",
+  "root_digest": "bb445d27149e4a9eec39682aa9f229d9735b009eca68d5a142a9d784a6f276e9",
   "schema_version": "ode-edit-s05-p2r6-semantic-region-pilot-numerical-lock/v1",
   "scientific_promotion_authorized": false,
   "shadow_added_model_forward_backward_materialization": [0, 0, 0],

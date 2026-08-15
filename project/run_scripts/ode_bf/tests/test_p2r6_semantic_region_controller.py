@@ -28,6 +28,7 @@ from project.run_scripts.ode_bf.p2r6_pilot_runtime import (
 from project.run_scripts.ode_bf.p2r6_semantic_region_controller import (
     P2R6_ARMS,
     P2R6_CAP_ARMS,
+    P2R6_HIGHS_INTERNAL_TOLERANCE,
     _semantic_region_optimum,
     p2r6_forbidden_influence_receipt,
     solve_p2r6_routing,
@@ -167,6 +168,8 @@ def test_entry_anchored_e1_rows_are_ratio_normalized_for_dynamic_scale() -> None
     )
     e1 = route.solver_receipts[0]
     assert e1["constraint_row_normalization"] == "DIVIDE_BY_SEMANTIC_SCALE"
+    assert e1["highs_internal_tolerance"] == P2R6_HIGHS_INTERNAL_TOLERANCE
+    assert P2R6_HIGHS_INTERNAL_TOLERANCE < 1.0e-8
     assert e1["semantic_scale_min"] == pytest.approx(1.0e-4)
     assert e1["semantic_scale_max"] == pytest.approx(1.0e4)
     assert e1["xi_recertification_delta"] <= 1.0e-8

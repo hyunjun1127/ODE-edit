@@ -12,6 +12,7 @@ from .p2r6_pilot_runtime import PHASE1_CASES, PHASE2_CASES
 from .p2r6_semantic_region_controller import (
     P2R6_ARMS,
     P2R6_CAP_ARMS,
+    P2R6_HIGHS_INTERNAL_TOLERANCE,
     P2R6_INSTRUCTION_ID,
 )
 
@@ -42,6 +43,8 @@ def load_and_validate_lock(path: Path) -> tuple[dict[str, Any], str]:
         or value.get("coefficient_mass_constraint") != "NONNEGATIVE_SUM_LAYER_PER_REQUEST_LE_ONE"
         or value.get("decision_response") != "RAW_CURRENT_STATE_S"
         or value.get("eta_decision_influence_count_aeta_ar_as") != 0
+        or value.get("highs_internal_feasibility_tolerance")
+        != P2R6_HIGHS_INTERNAL_TOLERANCE
         or value.get("shadow_added_model_forward_backward_materialization") != [0, 0, 0]
         or value.get("stage_b10x10_status") != "NOT_AUTHORIZED"
         or value.get("scientific_promotion_authorized") is not False
