@@ -16,7 +16,7 @@ from typing import Any, Mapping, Sequence
 
 import numpy as np
 import torch
-from scipy.optimize import linprog, minimize
+from scipy.optimize import Bounds, LinearConstraint, linprog, minimize
 
 from .contracts import ODEBFContractError, ODEBFStateError, canonical_hash
 from .functional import WaypointFactor, tensor_sha256
@@ -472,8 +472,9 @@ def _reduced_quadratic_solve(
     p_matrix: np.ndarray | None = None,
     p_linear: np.ndarray | None = None,
     p_limit: float | None = None,
+    linear_convex_backend: bool = False,
 ) -> Any:
-    """Run SLSQP only on live request columns; fixed zero columns are exact."""
+    """Solve only live request columns; fixed zero columns remain exact."""
 
     request_count = active.size
     layer_count = start_full.size // request_count
@@ -491,6 +492,9 @@ def _reduced_quadratic_solve(
     reduced_matrix = matrix[np.ix_(live, live)]
     reduced_linear = linear[live]
     constraints: list[dict[str, Any]] = []
+    equality_rows: list[np.ndarray] = []
+    inequality_rows: list[np.ndarray] = []
+    inequality_lower: list[float] = []
     for request in np.flatnonzero(active):
         selector = np.asarray(
             [
@@ -510,8 +514,13 @@ def _reduced_quadratic_solve(
                 ),
             }
         )
+        equality_row = np.zeros(live.size, dtype=np.float64)
+        equality_row[selector] = 1.0
+        equality_rows.append(equality_row)
         row = reduced_response[request].copy()
         threshold = float(minimum_progress[request]) - P2R2_NUMERICAL_EPSILON
+        inequality_rows.append(row)
+        inequality_lower.append(threshold)
         constraints.append(
             {
                 "type": "ineq",
@@ -526,6 +535,8 @@ def _reduced_quadratic_solve(
         normalized = np.sum(
             reduced_response[active_rows] / scale[active_rows, None], axis=0
         )
+        inequality_rows.append(normalized)
+        inequality_lower.append(float(minimum_total_normalized))
         constraints.append(
             {
                 "type": "ineq",
@@ -549,15 +560,51 @@ def _reduced_quadratic_solve(
                 )(x),
             }
         )
-    result = minimize(
-        _quadratic(reduced_matrix, reduced_linear),
-        start,
-        jac=_quadratic_gradient(reduced_matrix, reduced_linear),
-        method="SLSQP",
-        bounds=[(0.0, None)] * live.size,
-        constraints=constraints,
-        options={"ftol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE, "maxiter": 3000, "disp": False},
-    )
+    if linear_convex_backend:
+        if p_limit is not None:
+            raise ODEBFContractError("P2R2 linear convex backend received nonlinear P tie")
+        linear_constraints = [
+            LinearConstraint(
+                np.stack(equality_rows),
+                np.ones(len(equality_rows), dtype=np.float64),
+                np.ones(len(equality_rows), dtype=np.float64),
+            ),
+            LinearConstraint(
+                np.stack(inequality_rows),
+                np.asarray(inequality_lower, dtype=np.float64),
+                np.full(len(inequality_rows), np.inf, dtype=np.float64),
+            ),
+        ]
+        hessian = reduced_matrix + reduced_matrix.T
+        result = minimize(
+            _quadratic(reduced_matrix, reduced_linear),
+            start,
+            jac=_quadratic_gradient(reduced_matrix, reduced_linear),
+            hess=lambda x: hessian,
+            method="trust-constr",
+            bounds=Bounds(
+                np.zeros(live.size, dtype=np.float64),
+                np.full(live.size, np.inf, dtype=np.float64),
+            ),
+            constraints=linear_constraints,
+            options={
+                "gtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                "xtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                "barrier_tol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                "maxiter": 3000,
+                "verbose": 0,
+            },
+        )
+    else:
+        result = minimize(
+            _quadratic(reduced_matrix, reduced_linear),
+            start,
+            jac=_quadratic_gradient(reduced_matrix, reduced_linear),
+            method="SLSQP",
+            bounds=[(0.0, None)] * live.size,
+            constraints=constraints,
+            options={"ftol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE, "maxiter": 3000, "disp": False},
+        )
     if result.success and np.all(np.isfinite(result.x)):
         expanded = np.zeros_like(start_full)
         expanded[live] = result.x
@@ -638,6 +685,7 @@ def _solve_neutral(
         minimum_progress=np.where(active, fairness * scale, 0.0),
         minimum_total_normalized=total - P2R2_NUMERICAL_EPSILON,
         scale=scale,
+        linear_convex_backend=True,
     )
     if not third.success or not np.all(np.isfinite(third.x)):
         symmetric = 0.5 * (capacity + capacity.T)
@@ -664,7 +712,7 @@ def _solve_neutral(
         receipt = {
             "schema": "ode-edit-s05-p2r2-neutral-n3-technical-observability/v1",
             "stage": "NEUTRAL_CAPACITY_TIE",
-            "solver": "SCIPY_SLSQP_ANALYTIC_JACOBIANS",
+            "solver": "SCIPY_TRUST_CONSTR_EXACT_LINEAR_CONSTRAINTS",
             "success": bool(third.success),
             "status": int(third.status),
             "message_sha256": canonical_hash(str(third.message)),
