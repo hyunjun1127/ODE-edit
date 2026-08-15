@@ -445,6 +445,14 @@ def _quadratic(matrix: np.ndarray, linear: np.ndarray | None = None):
     return lambda x: float(x @ matrix @ x + 2.0 * linear_value @ x)
 
 
+def _quadratic_gradient(
+    matrix: np.ndarray, linear: np.ndarray | None = None
+):
+    linear_value = np.zeros(matrix.shape[0], dtype=np.float64) if linear is None else linear
+    symmetric_sum = matrix + matrix.T
+    return lambda x: symmetric_sum @ x + 2.0 * linear_value
+
+
 def _reduced_quadratic_solve(
     start_full: np.ndarray,
     matrix: np.ndarray,
@@ -490,12 +498,20 @@ def _reduced_quadratic_solve(
             {
                 "type": "eq",
                 "fun": lambda x, s=selector: float(np.sum(x[s]) - 1.0),
+                "jac": lambda x, s=selector: np.asarray(
+                    [1.0 if index in s else 0.0 for index in range(x.size)],
+                    dtype=np.float64,
+                ),
             }
         )
         row = reduced_response[request].copy()
         threshold = float(minimum_progress[request]) - P2R2_NUMERICAL_EPSILON
         constraints.append(
-            {"type": "ineq", "fun": lambda x, r=row, t=threshold: float(r @ x - t)}
+            {
+                "type": "ineq",
+                "fun": lambda x, r=row, t=threshold: float(r @ x - t),
+                "jac": lambda x, r=row: r,
+            }
         )
     if minimum_total_normalized is not None:
         if scale is None:
@@ -508,6 +524,7 @@ def _reduced_quadratic_solve(
             {
                 "type": "ineq",
                 "fun": lambda x, r=normalized, t=minimum_total_normalized: float(r @ x - t),
+                "jac": lambda x, r=normalized: r,
             }
         )
     if p_limit is not None:
@@ -521,11 +538,15 @@ def _reduced_quadratic_solve(
                 "fun": lambda x, m=reduced_p, l=reduced_p_linear, p=p_limit: float(
                     p - _quadratic(m, l)(x)
                 ),
+                "jac": lambda x, m=reduced_p, l=reduced_p_linear: -_quadratic_gradient(
+                    m, l
+                )(x),
             }
         )
     result = minimize(
         _quadratic(reduced_matrix, reduced_linear),
         start,
+        jac=_quadratic_gradient(reduced_matrix, reduced_linear),
         method="SLSQP",
         bounds=[(0.0, None)] * live.size,
         constraints=constraints,

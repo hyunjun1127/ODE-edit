@@ -13,6 +13,8 @@ from project.run_scripts.ode_bf.p2r2_residual_transport_writer import (
     P2R2_LAYER_COUNT,
     P2R2_REQUEST_COUNT,
     ProposalQuadratics,
+    _quadratic,
+    _quadratic_gradient,
     build_proposal_quadratics,
     measure_request_layer_response,
     p2r2_forbidden_influence_receipt,
@@ -77,6 +79,30 @@ class ToyModel(torch.nn.Module):
 
 
 class P2R2ResidualTransportWriterTest(unittest.TestCase):
+    def test_quadratic_analytic_gradient_matches_centered_difference(self) -> None:
+        matrix = torch.tensor(
+            [[3.0, -0.5, 0.25], [0.75, 2.0, -1.0], [0.5, 0.25, 4.0]],
+            dtype=torch.float64,
+        ).numpy()
+        linear = torch.tensor([0.5, -0.25, 0.75], dtype=torch.float64).numpy()
+        point = torch.tensor([0.2, 0.4, 0.6], dtype=torch.float64).numpy()
+        objective = _quadratic(matrix, linear)
+        observed = _quadratic_gradient(matrix, linear)(point)
+        epsilon = 1.0e-6
+        numerical = []
+        for index in range(point.size):
+            direction = torch.zeros(point.size, dtype=torch.float64).numpy()
+            direction[index] = epsilon
+            numerical.append((objective(point + direction) - objective(point - direction)) / (2.0 * epsilon))
+        self.assertTrue(
+            torch.allclose(
+                torch.from_numpy(observed),
+                torch.tensor(numerical, dtype=torch.float64),
+                atol=1.0e-8,
+                rtol=1.0e-8,
+            )
+        )
+
     def test_neutral_and_soft_request_conservation_and_no_weaker(self) -> None:
         response = _response()
         neutral = solve_p2r2_routing(response, _quadratics(), arm="NEUTRAL")

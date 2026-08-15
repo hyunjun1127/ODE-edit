@@ -61,7 +61,13 @@ def _active_gpu_allocations() -> tuple[int, list[dict[str, object]]]:
     return total, observed
 
 
-def submit(source_head: str, *, case_count: int, attempt_suffix: str | None = None) -> dict[str, object]:
+def submit(
+    source_head: str,
+    *,
+    case_count: int,
+    attempt_suffix: str | None = None,
+    array_task: int | None = None,
+) -> dict[str, object]:
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
@@ -72,14 +78,21 @@ def submit(source_head: str, *, case_count: int, attempt_suffix: str | None = No
         raise ODEBFContractError("P2R2 case count differs")
     if attempt_suffix is not None and not attempt_suffix.replace("-", "").isalnum():
         raise ODEBFContractError("P2R2 attempt suffix differs")
+    if array_task not in (None, 0, 1):
+        raise ODEBFContractError("P2R2 selected array task differs")
     plan = dry.build_plan(source_head, case_count=case_count, attempt_suffix=attempt_suffix)
-    if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
+    selected_jobs = [
+        job
+        for job in plan["jobs"]
+        if array_task is None or int(job["array_index"]) == array_task
+    ]
+    if any((RESULT_PARENT / str(job["result_name"])).exists() for job in selected_jobs):
         raise ODEBFContractError("P2R2 result namespace exists")
     active, active_jobs = _active_gpu_allocations()
     available = PROJECT_GPU_CAP - active
     if available <= 0:
         raise ODEBFContractError("P2R2 server1 project GPU cap has no free allocation")
-    stage_concurrency = min(STAGE_GPU_MAX, available)
+    stage_concurrency = min(STAGE_GPU_MAX, available, len(selected_jobs))
     if active + stage_concurrency > PROJECT_GPU_CAP:
         raise ODEBFContractError("P2R2 server1 GPU cap differs")
     phase = "sealed-b10-smoke" if case_count == 1 else "b10x10"
@@ -90,7 +103,7 @@ def submit(source_head: str, *, case_count: int, attempt_suffix: str | None = No
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P2R2 submission namespace exists")
     LOG_ROOT.mkdir(mode=0o700, parents=True, exist_ok=True)
-    array = f"0-1%{stage_concurrency}"
+    array = f"0-1%{stage_concurrency}" if array_task is None else str(array_task)
     node_receipt = _run(["scontrol", "show", "node", "-o", "devbox"]).stdout.strip()
     intent = {
         "schema": "ode-edit-s05-p2r2-submission-intent/v1",
@@ -107,6 +120,7 @@ def submit(source_head: str, *, case_count: int, attempt_suffix: str | None = No
         "node_resource_receipt_sha256": hashlib.sha256(node_receipt.encode()).hexdigest(),
         "held_then_atomic_release": True,
         "array": array,
+        "selected_array_task": array_task,
     }
     intent_sha = _write_once(intent_path, intent)
     command = [
@@ -138,10 +152,10 @@ def submit(source_head: str, *, case_count: int, attempt_suffix: str | None = No
         "phase": phase,
         "job_id": job_id,
         "array": array,
-        "job_count": 2,
-        "arm_count": 4,
-        "case_arm_count": 4 * case_count,
-        "request_attempt_count": 40 * case_count,
+        "job_count": len(selected_jobs),
+        "arm_count": 2 * len(selected_jobs),
+        "case_arm_count": 2 * len(selected_jobs) * case_count,
+        "request_attempt_count": 20 * len(selected_jobs) * case_count,
         "active_gpu_allocations_before_release": active,
         "new_max_concurrent_gpu": stage_concurrency,
         "project_gpu_cap": PROJECT_GPU_CAP,
@@ -149,6 +163,7 @@ def submit(source_head: str, *, case_count: int, attempt_suffix: str | None = No
         "held_inspection_sha256": hashlib.sha256(observed.encode()).hexdigest(),
         "held_then_atomic_release": True,
         "attempt_suffix": attempt_suffix,
+        "selected_array_task": array_task,
     }
     receipt_sha = _write_once(receipt_path, receipt)
     _run(["scontrol", "release", job_id])
@@ -160,8 +175,14 @@ def main() -> int:
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--case-count", required=True, type=int, choices=(1, 10))
     parser.add_argument("--attempt-suffix")
+    parser.add_argument("--array-task", type=int, choices=(0, 1))
     args = parser.parse_args()
-    print(json.dumps(submit(args.source_head, case_count=args.case_count, attempt_suffix=args.attempt_suffix), sort_keys=True, separators=(",", ":")))
+    print(json.dumps(submit(
+        args.source_head,
+        case_count=args.case_count,
+        attempt_suffix=args.attempt_suffix,
+        array_task=args.array_task,
+    ), sort_keys=True, separators=(",", ":")))
     return 0
 
 

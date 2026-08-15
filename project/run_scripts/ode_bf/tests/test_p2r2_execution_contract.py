@@ -6,6 +6,7 @@ from pathlib import Path
 import unittest
 
 from project.run_scripts import session05_ode_bf_p2r2_atomic_dry_plan as dry
+from project.run_scripts import session05_ode_bf_submit_p2r2_atomic as submit_module
 from project.run_scripts.ode_bf.p2r2_atomic_panel import (
     LOCK_FILE,
     load_and_validate_lock,
@@ -21,6 +22,12 @@ PACKAGE = ROOT / "project/run_scripts/ode_bf"
 
 
 class P2R2ExecutionContractTest(unittest.TestCase):
+    def test_submitter_supports_missing_alias_only_replacement(self) -> None:
+        self.assertIn("array_task", inspect.signature(submit_module.submit).parameters)
+        source = inspect.getsource(submit_module.submit)
+        self.assertIn("selected_jobs", source)
+        self.assertIn('array_task is None else str(array_task)', source)
+
     def test_post_materialization_finiteness_dependency_is_bound(self) -> None:
         self.assertTrue(p2r2_atomic_runtime.math.isfinite(0.0))
 
