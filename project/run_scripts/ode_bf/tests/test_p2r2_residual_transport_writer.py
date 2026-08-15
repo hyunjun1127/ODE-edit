@@ -12,6 +12,7 @@ from project.run_scripts.ode_bf.p2r2_residual_transport_writer import (
     P2R2_ALPHA_COUNT,
     P2R2_LAYER_COUNT,
     P2R2_REQUEST_COUNT,
+    P2R2RoutingTechnicalError,
     ProposalQuadratics,
     _quadratic,
     _quadratic_gradient,
@@ -79,6 +80,13 @@ class ToyModel(torch.nn.Module):
 
 
 class P2R2ResidualTransportWriterTest(unittest.TestCase):
+    def test_routing_technical_error_keeps_raw_free_receipt(self) -> None:
+        error = P2R2RoutingTechnicalError(
+            "solver failed", {"schema": "test/v1", "status": 8}
+        )
+        self.assertEqual(str(error), "solver failed")
+        self.assertEqual(error.raw_free_receipt["status"], 8)
+
     def test_quadratic_analytic_gradient_matches_centered_difference(self) -> None:
         matrix = torch.tensor(
             [[3.0, -0.5, 0.25], [0.75, 2.0, -1.0], [0.5, 0.25, 4.0]],

@@ -43,6 +43,12 @@ P2R2_ALPHA_COUNT = P2R2_LAYER_COUNT * P2R2_REQUEST_COUNT
 P2R2_NUMERICAL_EPSILON = SIMPLEX_PRIMAL_TOLERANCE
 
 
+class P2R2RoutingTechnicalError(ODEBFContractError):
+    def __init__(self, message: str, raw_free_receipt: Mapping[str, Any]) -> None:
+        super().__init__(message)
+        self.raw_free_receipt = dict(raw_free_receipt)
+
+
 def _unwrap(value: Any) -> torch.Tensor:
     if isinstance(value, torch.Tensor):
         return value
@@ -634,7 +640,80 @@ def _solve_neutral(
         scale=scale,
     )
     if not third.success or not np.all(np.isfinite(third.x)):
-        raise ODEBFContractError("P2R2 Neutral capacity-tie solve failed")
+        symmetric = 0.5 * (capacity + capacity.T)
+        eigenvalues = np.linalg.eigvalsh(symmetric)
+        result_x = np.asarray(third.x, dtype=np.float64)
+        start_progress = response @ second.x
+        result_progress = (
+            response @ result_x
+            if result_x.shape == second.x.shape and np.all(np.isfinite(result_x))
+            else np.full(active.size, np.nan, dtype=np.float64)
+        )
+        start_simplex = max(
+            abs(float(np.sum(second.x[request::active.size])) - (1.0 if active[request] else 0.0))
+            for request in range(active.size)
+        )
+        result_simplex = (
+            max(
+                abs(float(np.sum(result_x[request::active.size])) - (1.0 if active[request] else 0.0))
+                for request in range(active.size)
+            )
+            if np.all(np.isfinite(result_x))
+            else math.inf
+        )
+        receipt = {
+            "schema": "ode-edit-s05-p2r2-neutral-n3-technical-observability/v1",
+            "stage": "NEUTRAL_CAPACITY_TIE",
+            "solver": "SCIPY_SLSQP_ANALYTIC_JACOBIANS",
+            "success": bool(third.success),
+            "status": int(third.status),
+            "message_sha256": canonical_hash(str(third.message)),
+            "iterations": int(getattr(third, "nit", -1)),
+            "function_evaluations": int(getattr(third, "nfev", -1)),
+            "jacobian_evaluations": int(getattr(third, "njev", -1)),
+            "active_request_count": int(np.sum(active)),
+            "capacity_trace": float(np.trace(capacity)),
+            "capacity_max_abs": float(np.max(np.abs(capacity))),
+            "capacity_min_eigenvalue": float(np.min(eigenvalues)),
+            "capacity_max_eigenvalue": float(np.max(eigenvalues)),
+            "response_max_abs": float(np.max(np.abs(response))),
+            "scale_min_active": float(np.min(scale[active])),
+            "scale_max_active": float(np.max(scale[active])),
+            "start_capacity": float(_quadratic(capacity)(second.x)),
+            "result_capacity": (
+                float(_quadratic(capacity)(result_x))
+                if np.all(np.isfinite(result_x)) else None
+            ),
+            "start_gradient_norm": float(
+                np.linalg.norm(_quadratic_gradient(capacity)(second.x))
+            ),
+            "result_gradient_norm": (
+                float(np.linalg.norm(_quadratic_gradient(capacity)(result_x)))
+                if np.all(np.isfinite(result_x)) else None
+            ),
+            "start_simplex_max_abs_residual": start_simplex,
+            "result_simplex_max_abs_residual": result_simplex,
+            "start_progress_max_violation": float(
+                np.max(fairness * scale[active] - start_progress[active])
+            ),
+            "result_progress_max_violation": (
+                float(np.max(fairness * scale[active] - result_progress[active]))
+                if np.all(np.isfinite(result_progress)) else None
+            ),
+            "start_total_normalized_gap": float(
+                total - np.sum(start_progress[active] / scale[active])
+            ),
+            "result_total_normalized_gap": (
+                float(total - np.sum(result_progress[active] / scale[active]))
+                if np.all(np.isfinite(result_progress)) else None
+            ),
+            "primal_tolerance": P2R2_NUMERICAL_EPSILON,
+            "solver_ftol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+        }
+        receipt["identity_sha256"] = canonical_hash(receipt)
+        raise P2R2RoutingTechnicalError(
+            "P2R2 Neutral capacity-tie solve failed", receipt
+        )
     return third.x, fairness, total
 
 

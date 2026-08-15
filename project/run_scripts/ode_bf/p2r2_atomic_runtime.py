@@ -665,6 +665,9 @@ def run_p2r2_atomic(
                     "W0_restore": restore,
                     "next_arm_or_case_continues": True,
                 }
+                observability = getattr(exc, "raw_free_receipt", None)
+                if isinstance(observability, Mapping):
+                    failure["technical_observability"] = dict(observability)
                 failure["identity_sha256"] = canonical_hash(failure)
                 _atomic_write_once(case_root / "failure.json", failure)
                 failed.append(failure)
