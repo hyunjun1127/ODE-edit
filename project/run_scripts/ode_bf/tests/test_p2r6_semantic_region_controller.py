@@ -171,6 +171,15 @@ def test_entry_anchored_e1_rows_are_ratio_normalized_for_dynamic_scale() -> None
     assert e1["xi_recertification_delta"] <= 1.0e-8
     assert e1["certificate_pass"] is True
     assert route.semantic_region_max_violation <= 1.0e-8
+    source = inspect.getsource(
+        __import__(
+            "project.run_scripts.ode_bf.p2r6_semantic_region_controller",
+            fromlist=["_semantic_region_optimum"],
+        )._semantic_region_optimum
+    )
+    assert source.count("response @ allocation") == 1
+    assert "deficit - semantic_response" in source
+    assert "lower - semantic_response" in source
 
 
 def test_forbidden_influence_and_runtime_policy_are_exact() -> None:

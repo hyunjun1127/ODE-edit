@@ -317,12 +317,13 @@ def _semantic_region_optimum(
         )
     allocation = np.asarray(solved.x[:alpha_count], dtype=np.float64)
     xi_solver = max(0.0, float(solved.x[-1]))
+    semantic_response = np.asarray(response @ allocation, dtype=np.float64)
     # Recompute the dimensionless max-ratio objective in FP64 from the returned
     # primal point.  A correction no larger than the inherited primal tolerance
     # is solver certification, not a new scientific relaxation.
     xi_recomputed = max(
         0.0,
-        float(np.max((deficit - response @ allocation) / scale)),
+        float(np.max((deficit - semantic_response) / scale)),
     )
     xi_recertification_delta = max(0.0, xi_recomputed - xi_solver)
     if xi_recertification_delta > P2R6_NUMERICAL_EPSILON:
@@ -345,7 +346,7 @@ def _semantic_region_optimum(
         0.0,
     )
     mass_violation = max(0.0, float(np.max(mass @ allocation - 1.0)))
-    semantic_violation = max(0.0, float(np.max(lower - response @ allocation)))
+    semantic_violation = max(0.0, float(np.max(lower - semantic_response)))
     negative_violation = max(0.0, -float(np.min(allocation)))
     certified = max(mass_violation, semantic_violation, negative_violation) <= P2R6_NUMERICAL_EPSILON
     receipt = {
