@@ -6,6 +6,7 @@ import hashlib
 import math
 from pathlib import Path
 import time
+import traceback
 from typing import Any, Mapping, Sequence
 
 import torch
@@ -735,6 +736,14 @@ def run_p2r5_stage_a(
             observability = getattr(exc, "raw_free_receipt", None)
             if isinstance(observability, Mapping):
                 failure["technical_observability"] = dict(observability)
+            failure["technical_location"] = [
+                {
+                    "file_identity_sha256": hashlib.sha256(frame.filename.encode()).hexdigest(),
+                    "line_number": frame.lineno,
+                    "symbol": frame.name,
+                }
+                for frame in traceback.extract_tb(exc.__traceback__)[-4:]
+            ]
             failure["identity_sha256"] = canonical_hash(failure)
             _atomic_write_once(case_root / "failure.json", failure)
             failed.append(failure)

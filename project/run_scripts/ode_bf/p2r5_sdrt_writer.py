@@ -14,7 +14,7 @@ from typing import Any, Mapping, Sequence
 
 import numpy as np
 import torch
-from scipy.optimize import linprog, minimize
+from scipy.optimize import Bounds, LinearConstraint, NonlinearConstraint, linprog, minimize
 
 from .contracts import ODEBFContractError, canonical_hash
 from .functional import WaypointFactor, tensor_sha256
@@ -422,58 +422,98 @@ def _same_semantic_face_solve(
             current_rank = candidate_rank
     face_matrix = calibrated_response[independent]
     face_value = response_star[independent]
-    constraints: list[dict[str, Any]] = [
-        {
-            "type": "ineq",
-            "fun": lambda x, m=mass: np.ones(request_count, dtype=np.float64) - m @ x,
-            "jac": lambda x, m=mass: -m,
-        }
+    linear_constraints = [
+        LinearConstraint(
+            mass,
+            np.full(request_count, -np.inf, dtype=np.float64),
+            np.ones(request_count, dtype=np.float64),
+        )
     ]
     if independent:
-        constraints.append(
-            {
-                "type": "eq",
-                "fun": lambda x, s=face_matrix, r=face_value: s @ x - r,
-                "jac": lambda x, s=face_matrix: s,
-            }
-        )
+        linear_constraints.append(LinearConstraint(face_matrix, face_value, face_value))
+    nonlinear_constraints: list[NonlinearConstraint] = []
     if p_limit is not None:
         if p_matrix is None or p_cross is None:
             raise ODEBFContractError("P2R5 Structural-P tie is absent")
-        constraints.append(
-            {
-                "type": "ineq",
-                "fun": lambda x, m=p_matrix, c=p_cross, p=p_limit: (
-                    p - _quadratic_value(m, c, x)
-                ),
-                "jac": lambda x, m=p_matrix, c=p_cross: -(
-                    (m + m.T) @ x + 2.0 * c
-                ),
-            }
+        p_hessian = p_matrix + p_matrix.T
+        nonlinear_constraints.append(
+            NonlinearConstraint(
+                lambda x, m=p_matrix, c=p_cross: _quadratic_value(m, c, x),
+                -np.inf,
+                p_limit,
+                jac=lambda x, m=p_matrix, c=p_cross: (m + m.T) @ x + 2.0 * c,
+                hess=lambda x, multiplier, h=p_hessian: float(multiplier[0]) * h,
+            )
         )
-    result = minimize(
-        lambda x: _quadratic_value(objective_matrix, objective_cross, x),
-        start,
-        jac=lambda x: (objective_matrix + objective_matrix.T) @ x + 2.0 * objective_cross,
-        method="SLSQP",
-        bounds=[(0.0, None)] * alpha_count,
-        constraints=constraints,
-        options={
-            "ftol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
-            "maxiter": 3000,
-            "disp": False,
-        },
+    objective_hessian = objective_matrix + objective_matrix.T
+    start_semantic_residual = (
+        float(np.max(np.abs(face_matrix @ start - face_value)))
+        if independent else 0.0
     )
+    start_mass_violation = max(0.0, float(np.max(mass @ start - 1.0)))
+    start_p_violation = (
+        max(0.0, _quadratic_value(p_matrix, p_cross, start) - p_limit)
+        if p_limit is not None and p_matrix is not None and p_cross is not None
+        else 0.0
+    )
+    try:
+        result = minimize(
+            lambda x: _quadratic_value(objective_matrix, objective_cross, x),
+            start,
+            jac=lambda x: objective_hessian @ x + 2.0 * objective_cross,
+            hess=lambda x: objective_hessian,
+            method="trust-constr",
+            bounds=Bounds(
+                np.zeros(alpha_count, dtype=np.float64),
+                np.full(alpha_count, np.inf, dtype=np.float64),
+            ),
+            constraints=[*linear_constraints, *nonlinear_constraints],
+            options={
+                "gtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                "xtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                "barrier_tol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                "maxiter": 3000,
+                "verbose": 0,
+            },
+        )
+    except Exception as exc:
+        raise P2R5RoutingTechnicalError(
+            f"P2R5 {stage} solve raised",
+            {
+                "schema": "ode-edit-s05-p2r5-routing-technical/v2",
+                "stage": stage,
+                "backend": "SCIPY_TRUST_CONSTR_EXACT_CONSTRAINTS_ANALYTIC_DERIVATIVES",
+                "exception_class": type(exc).__name__,
+                "message_sha256": canonical_hash(str(exc)),
+                "semantic_rank": int(np.linalg.matrix_rank(face_matrix)),
+                "start_semantic_max_abs_residual": start_semantic_residual,
+                "start_mass_violation": start_mass_violation,
+                "start_p_violation": start_p_violation,
+                "neutral_fallback_count": 0,
+            },
+        ) from exc
     if not result.success or not np.all(np.isfinite(result.x)):
+        symmetric = 0.5 * (objective_matrix + objective_matrix.T)
+        eigenvalues = np.linalg.eigvalsh(symmetric)
         raise P2R5RoutingTechnicalError(
             f"P2R5 {stage} solve failed",
             {
-                "schema": "ode-edit-s05-p2r5-routing-technical/v1",
+                "schema": "ode-edit-s05-p2r5-routing-technical/v2",
                 "stage": stage,
+                "backend": "SCIPY_TRUST_CONSTR_EXACT_CONSTRAINTS_ANALYTIC_DERIVATIVES",
                 "status": int(result.status),
                 "message_sha256": canonical_hash(str(result.message)),
                 "iterations": int(getattr(result, "nit", -1)),
                 "function_evaluations": int(getattr(result, "nfev", -1)),
+                "gradient_evaluations": int(getattr(result, "njev", -1)),
+                "hessian_evaluations": int(getattr(result, "nhev", -1)),
+                "semantic_rank": int(np.linalg.matrix_rank(face_matrix)),
+                "start_semantic_max_abs_residual": start_semantic_residual,
+                "start_mass_violation": start_mass_violation,
+                "start_p_violation": start_p_violation,
+                "objective_min_eigenvalue": float(np.min(eigenvalues)),
+                "objective_max_eigenvalue": float(np.max(eigenvalues)),
+                "objective_trace": float(np.trace(symmetric)),
                 "neutral_fallback_count": 0,
             },
         )

@@ -44,6 +44,7 @@
   "semantic_stage_e1": "MIN_WORST_NORMALIZED_UNDER_DEFICIT_SLACK",
   "semantic_stage_e2": "MIN_TOTAL_NORMALIZED_ABSOLUTE_MISMATCH_WITH_OVERSHOOT",
   "semantic_face": "EXACT_CALIBRATED_RESPONSE_EQUAL_TO_E1_E2_OPTIMUM",
+  "semantic_face_quadratic_backend": "SCIPY_TRUST_CONSTR_EXACT_CONSTRAINTS_ANALYTIC_GRADIENT_HESSIAN",
   "cap_objective": "CUMULATIVE_ENDPOINT_SQUARED_FROBENIUS_CAPACITY_ON_SEMANTIC_FACE",
   "structp_objective": "CUMULATIVE_STRUCTURAL_P_THEN_CAPACITY_TIE_ON_SEMANTIC_FACE",
   "structural_p_tie_tolerance": "INHERITED_SIMPLEX_XI_TIE_TOLERANCE_TIMES_MAX_TRACE_OR_1E-12",
@@ -68,5 +69,5 @@
   "stage_gpu_max": 4,
   "stage_b_status": "CLOSED_PENDING_GH_STAGE_A_REVIEW",
   "scientific_promotion_authorized": false,
-  "root_digest": "8238fa8ba7a0fe2a5b93b018f491dfa56e1fc6664d50aaffe54dcdebeb173f8f"
+  "root_digest": "10e271074eef3bb786aec6bdde7872d811c541a1344f47187a299f7679786b49"
 }

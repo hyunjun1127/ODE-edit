@@ -151,3 +151,14 @@ def test_no_silent_neutral_fallback_or_forbidden_strength_controls() -> None:
     assert '"functional_p_veto_count": 0' in writer
     assert "solve_p2r2_routing" not in writer
     assert "minimum_remaining" not in writer
+
+
+def test_semantic_face_quadratic_backend_uses_exact_source_backed_constraints() -> None:
+    writer = (PACKAGE / "p2r5_sdrt_writer.py").read_text()
+    assert 'method="trust-constr"' in writer
+    assert "LinearConstraint(face_matrix, face_value, face_value)" in writer
+    assert "NonlinearConstraint(" in writer
+    assert '"gtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE' in writer
+    assert '"xtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE' in writer
+    assert '"barrier_tol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE' in writer
+    assert 'method="SLSQP"' not in writer
