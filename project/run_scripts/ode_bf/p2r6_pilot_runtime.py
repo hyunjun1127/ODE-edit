@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 from pathlib import Path
+import subprocess
 import time
 import traceback
 from typing import Any, Mapping, Sequence
@@ -41,6 +42,10 @@ from .p2r6_semantic_region_controller import (
     solve_p2r6_routing,
     solve_p2r6_shadow_panel,
 )
+from .p2r6_replay_capture import (
+    P2R6ReplayCaptureComplete,
+    build_capture_hook,
+)
 
 
 METHOD = "P2R6-SEMANTIC-REGION-CONTROLLER-PILOT"
@@ -62,7 +67,37 @@ P2R6_RUNTIME_POLICY = P2AtomicArmRuntimePolicy(
 )
 
 
+def _capture_runtime_policy(source_head: str) -> P2AtomicArmRuntimePolicy:
+    repo_root = Path(__file__).resolve().parents[3]
+    source_tree = subprocess.run(
+        ["git", "rev-parse", f"{source_head}^{{tree}}"],
+        cwd=repo_root,
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+    ).stdout.strip()
+    return P2AtomicArmRuntimePolicy(
+        instruction_id=P2R6_INSTRUCTION_ID,
+        method_id=P2R6_METHOD_ID,
+        receipt_namespace="p2r6-red-r1-capture-a1",
+        arm_label_prefix="P2R6-CAPTURE-A1",
+        allowed_arms=("AS-CAP",),
+        allowed_cases={"qwen2.5-7b-inst": (1,)},
+        route_solver=solve_p2r6_routing,
+        forbidden_receipt_builder=p2r6_forbidden_influence_receipt,
+        shadow_solver=solve_p2r6_shadow_panel,
+        pre_shadow_hook=build_capture_hook(
+            instrumentation_source_head=source_head,
+            instrumentation_source_tree=source_tree,
+        ),
+    )
+
+
 def p2r6_phase_arms(phase: str, selected_controller: str | None = None) -> tuple[str, ...]:
+    if phase == "capture-a1":
+        if selected_controller is not None:
+            raise ODEBFContractError("P2R6 capture selection must be absent")
+        return ("AS-CAP",)
     if phase == "phase1":
         if selected_controller is not None:
             raise ODEBFContractError("P2R6 Phase1 selection must be absent")
@@ -84,7 +119,10 @@ def expected_p2r6_result_name(
     selected_controller: str | None = None,
     attempt_suffix: str | None = None,
 ) -> str:
-    cases = PHASE1_CASES if phase == "phase1" else PHASE2_CASES
+    if phase == "capture-a1":
+        cases = {"qwen2.5-7b-inst": (1,)}
+    else:
+        cases = PHASE1_CASES if phase == "phase1" else PHASE2_CASES
     if alias not in cases or case_index not in cases[alias]:
         raise ODEBFContractError("P2R6 result case differs")
     p2r6_phase_arms(phase, selected_controller)
@@ -124,8 +162,16 @@ def run_p2r6_pilot_case(
     case_index: int,
     selected_controller: str | None = None,
 ) -> dict[str, Any]:
-    cases = PHASE1_CASES if phase == "phase1" else PHASE2_CASES
+    if phase == "capture-a1":
+        cases = {"qwen2.5-7b-inst": (1,)}
+    else:
+        cases = PHASE1_CASES if phase == "phase1" else PHASE2_CASES
     arms = p2r6_phase_arms(phase, selected_controller)
+    runtime_policy = (
+        _capture_runtime_policy(source_head)
+        if phase == "capture-a1"
+        else P2R6_RUNTIME_POLICY
+    )
     if (
         alias not in cases
         or case_index not in cases[alias]
@@ -173,9 +219,77 @@ def run_p2r6_pilot_case(
                     expected_w0=expected_w0,
                     request_microbatch_size=request_microbatch_size,
                     job_ledger=job_ledger,
-                    runtime_policy=P2R6_RUNTIME_POLICY,
+                    runtime_policy=runtime_policy,
                 )
             )
+        except P2R6ReplayCaptureComplete as exc:
+            restore = _restore_exact_w0(
+                touched,
+                base_values,
+                mutation_lock=mutation_lock,
+                expected_contract=expected_w0,
+            )
+            if not (
+                restore.get("pointer_restored_exact") is True
+                and restore.get("byte_restored_exact") is True
+                and _model_w0_contract(touched) == expected_w0
+            ):
+                raise ODEBFStateError("P2R6 capture W0 restore differs")
+            stages.record(
+                "post_p2r6_capture_a1_qwen_case1_as_outer5",
+                {
+                    "phase": phase,
+                    "case_index": case_index,
+                    "arm": arm,
+                    "capsule_receipt_sha256": exc.receipt_sha256,
+                    "W0_restored": True,
+                    "scientific_endpoint_count": 0,
+                },
+            )
+            terminal = {
+                "schema": "ode-edit-s05-p2r6-red-r1-capture-job-terminal/v1",
+                "instruction_id": exc.receipt["instruction_id"],
+                "scientific_source_head": exc.receipt["scientific_source_head"],
+                "instrumentation_source_head": source_head,
+                "phase": phase,
+                "alias": alias,
+                "case_index": case_index,
+                "selected_arm": arm,
+                "failing_shadow_arm": exc.receipt["failing_shadow_arm"],
+                "outer_step": exc.receipt["outer_step"],
+                "capsule_path": str(exc.capsule_root),
+                "capsule_receipt_sha256": exc.receipt_sha256,
+                "capsule_identity_sha256": exc.receipt["identity_sha256"],
+                "intentional_stop_before_shadow_solve": True,
+                "terminal_evaluator_access_count": 0,
+                "scientific_endpoint_count": 0,
+                "W0_restore": restore,
+                "W0_restored": True,
+                "job_compute": job_ledger.raw_free_payload(),
+                "status": "P2R6_CAPTURE_A1_COMPLETE",
+            }
+            terminal["identity_sha256"] = canonical_hash(terminal)
+            terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
+            manifest = {
+                "schema": "ode-edit-s05-p2r6-red-r1-capture-job-manifest/v1",
+                "source_head": source_head,
+                "terminal_sha256": terminal_sha,
+                "capsule_receipt_sha256": exc.receipt_sha256,
+                "capsule_identity_sha256": exc.receipt["identity_sha256"],
+                "W0_restored": True,
+                "scientific_endpoint_count": 0,
+            }
+            manifest["identity_sha256"] = canonical_hash(manifest)
+            manifest_sha = _atomic_write_once(destination / "manifest.json", manifest)
+            return {
+                "status": "P2R6_CAPTURE_A1_COMPLETE",
+                "terminal_sha256": terminal_sha,
+                "manifest_sha256": manifest_sha,
+                "capsule_receipt_sha256": exc.receipt_sha256,
+                "capsule_identity_sha256": exc.receipt["identity_sha256"],
+                "W0_restored": True,
+                "scientific_endpoint_count": 0,
+            }
         except Exception as exc:
             restore = _restore_exact_w0(
                 touched,

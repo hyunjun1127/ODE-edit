@@ -99,6 +99,7 @@ class P2AtomicArmRuntimePolicy:
     route_solver: Callable[..., Any]
     forbidden_receipt_builder: Callable[[], Mapping[str, Any]]
     shadow_solver: Callable[..., Any] | None = None
+    pre_shadow_hook: Callable[..., None] | None = None
 
 
 def _p2r5_route_adapter(
@@ -434,6 +435,21 @@ def _run_arm_case(
             )
             quadratics = build_sdrt_quadratics(field, cumulative_factors, base_quadratics)
             shadow_panel = None
+            if runtime_policy.pre_shadow_hook is not None:
+                runtime_policy.pre_shadow_hook(
+                    response.response,
+                    deficit,
+                    entry_deficit,
+                    calibration,
+                    quadratics,
+                    alias=alias,
+                    selected_arm=arm,
+                    case_index=case_index,
+                    outer_step=outer,
+                    request_order_sha256=request_order,
+                    expected_w0_sha256=expected_w0,
+                    case_root=case_root,
+                )
             if runtime_policy.shadow_solver is not None:
                 shadow_panel = runtime_policy.shadow_solver(
                     response.response,
