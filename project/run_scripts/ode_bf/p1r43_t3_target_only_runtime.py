@@ -216,7 +216,7 @@ def _evaluate_t8_eff_gen_only(
 ) -> tuple[dict[str, Any], float]:
     """Evaluate T8 efficacy/generalization without repeating W0 locality."""
 
-    lookup_positions, patched_rows, lookup_receipt = _heldout_additive_lookup_geometry(
+    lookup_positions, patched_rows, lookup_receipt = _heldout_eff_gen_lookup_geometry(
         tokenizer, requests, cases, fact_token_strategy=hparams.fact_token
     )
     residual = common_terminal_residual_input(
@@ -318,6 +318,107 @@ def _evaluate_t8_eff_gen_only(
     }
     payload["identity_sha256"] = canonical_hash(payload)
     return payload, elapsed
+
+
+def _heldout_eff_gen_lookup_geometry(
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    cases: Sequence[Any],
+    *,
+    fact_token_strategy: str,
+) -> tuple[tuple[tuple[int, ...], ...], tuple[int, ...], dict[str, Any]]:
+    """Resolve the pinned overlay geometry for rewrite+paraphrase rows only."""
+
+    from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
+
+    if len(requests) != BATCH_SIZE or len(cases) != BATCH_SIZE:
+        raise ODEBFContractError("P1R43-T3 T8 heldout lookup B10 differs")
+    padding_side = tokenizer.padding_side
+    if padding_side not in ("left", "right"):
+        raise ODEBFContractError("P1R43-T3 T8 evaluator padding policy differs")
+    positions_by_request: list[tuple[int, ...]] = []
+    patched_rows: list[int] = []
+    geometry_rows: list[dict[str, Any]] = []
+    for request_index, (request, case) in enumerate(
+        zip(requests, cases, strict=True)
+    ):
+        if str(request["request_sha256"]) != case.request_sha256:
+            raise ODEBFContractError("P1R43-T3 T8 heldout request order differs")
+        subject = str(request["subject"])
+        prefixes = (case.rewrite_prompt,) + case.paraphrase_prompts
+        templates: list[str] = []
+        raw_positions: list[int] = []
+        prefix_lengths: list[int] = []
+        for prefix in prefixes:
+            if prefix.count(subject) != 1:
+                raise ODEBFContractError("P1R43-T3 T8 heldout subject is ambiguous")
+            template = prefix.replace(subject, "{}", 1)
+            templates.append(template)
+            raw_positions.append(
+                int(
+                    alpha_main.find_fact_lookup_idx(
+                        template,
+                        subject,
+                        tokenizer,
+                        fact_token_strategy,
+                        verbose=False,
+                    )
+                )
+            )
+            prefix_lengths.append(len(tokenizer(prefix)["input_ids"]))
+        rows = [
+            f"{prefix} {suffix}"
+            for prefix in prefixes
+            for suffix in (case.target_new, case.target_true)
+        ]
+        encoded = tokenizer(rows, padding=True, return_tensors="pt")
+        attention = encoded["attention_mask"]
+        row_positions: list[int] = []
+        for row_index in range(len(rows)):
+            prefix_index = row_index // 2
+            pad_count = int(attention.shape[1] - attention[row_index].sum())
+            left_pad = pad_count if padding_side == "left" else 0
+            raw = raw_positions[prefix_index]
+            position = (
+                left_pad + prefix_lengths[prefix_index] - 1
+                if raw == -1
+                else left_pad + raw
+            )
+            if position < 0 or position >= int(attention.shape[1]):
+                raise ODEBFContractError(
+                    "P1R43-T3 T8 heldout lookup position is out of range"
+                )
+            row_positions.append(position)
+        positions_by_request.append(tuple(row_positions))
+        patched_rows.append(len(rows))
+        geometry_rows.append(
+            {
+                "request_index": request_index,
+                "request_sha256": case.request_sha256,
+                "patched_prefix_count": len(prefixes),
+                "patched_row_count": len(rows),
+                "locality_nohook_row_count": 0,
+                "row_position_sha256": canonical_hash(row_positions),
+                "template_sha256": canonical_hash(
+                    [hashlib.sha256(item.encode()).hexdigest() for item in templates]
+                ),
+            }
+        )
+    if tokenizer.padding_side != padding_side:
+        raise ODEBFStateError("P1R43-T3 T8 lookup mutated tokenizer padding")
+    payload = {
+        "schema": "ode-edit-s05-p1r43-t3-eff-gen-heldout-lookup/v1",
+        "request_count": BATCH_SIZE,
+        "patched_rows_per_request": patched_rows,
+        "rows": geometry_rows,
+        "padding_side_during_geometry": padding_side,
+        "padding_side_matches_evaluator": True,
+        "padding_side_unchanged": True,
+        "locality_row_count": 0,
+        "heldout_controller_decision_influence_count": 0,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return tuple(positions_by_request), tuple(patched_rows), payload
 
 
 def _run_target_case(

@@ -3,6 +3,8 @@ from __future__ import annotations
 import inspect
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
 import torch
 
@@ -21,6 +23,7 @@ from project.run_scripts.ode_bf.p1r43_t3_target_only_panel import (
 from project.run_scripts.ode_bf.p1r43_t3_target_only_runtime import (
     P1R43_T3_ENDPOINT_UPDATES,
     P1R43_T3_TARGET_UPDATE_COUNT,
+    _heldout_eff_gen_lookup_geometry,
     expected_p1r43_t3_target_result_name,
 )
 from project.run_scripts.ode_bf.p1r24_atomic_strength import P1R24_H
@@ -145,6 +148,47 @@ class P1R43T3FixedW0TargetTests(unittest.TestCase):
         self.assertIn("#SBATCH --array=0-1%2", sbatch)
         self.assertIn("devbox", sbatch)
         self.assertNotIn("server2", sbatch)
+
+    def test_eff_gen_overlay_geometry_excludes_locality_rows(self) -> None:
+        class Tokenizer:
+            padding_side = "left"
+
+            def __call__(self, value, **_kwargs):
+                if isinstance(value, str):
+                    return {"input_ids": list(range(len(value.split()) + 1))}
+                lengths = [len(item.split()) + 1 for item in value]
+                maximum = max(lengths)
+                mask = torch.zeros((len(value), maximum), dtype=torch.int64)
+                for row, length in enumerate(lengths):
+                    mask[row, maximum - length :] = 1
+                return {"input_ids": mask, "attention_mask": mask}
+
+        requests = []
+        cases = []
+        for index in range(10):
+            digest = f"{index:064x}"
+            subject = f"subject{index}"
+            requests.append({"request_sha256": digest, "subject": subject})
+            cases.append(
+                SimpleNamespace(
+                    request_sha256=digest,
+                    rewrite_prompt=f"rewrite {subject}",
+                    paraphrase_prompts=(f"paraphrase {subject}",),
+                    neighborhood_prompts=(f"locality {subject}",),
+                    target_new="new",
+                    target_true="old",
+                )
+            )
+        with patch(
+            "easyeditor.models.alphaedit.AlphaEdit_main.find_fact_lookup_idx",
+            return_value=-1,
+        ):
+            positions, patched, receipt = _heldout_eff_gen_lookup_geometry(
+                Tokenizer(), requests, cases, fact_token_strategy="subject_last"
+            )
+        self.assertEqual(patched, (4,) * 10)
+        self.assertTrue(all(len(item) == 4 for item in positions))
+        self.assertEqual(receipt["locality_row_count"], 0)
 
 
 if __name__ == "__main__":
