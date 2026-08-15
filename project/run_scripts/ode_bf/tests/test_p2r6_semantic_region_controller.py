@@ -4,9 +4,13 @@ from pathlib import Path
 import inspect
 import subprocess
 import sys
+from types import SimpleNamespace
 
+import numpy as np
 import pytest
 import torch
+
+from project.run_scripts.ode_bf import p2r6_semantic_region_controller as controller
 
 from project.run_scripts import session05_ode_bf_p2r6_pilot_dry_plan as dry
 from project.run_scripts.ode_bf.contracts import ODEBFContractError
@@ -28,6 +32,7 @@ from project.run_scripts.ode_bf.p2r6_pilot_runtime import (
 from project.run_scripts.ode_bf.p2r6_semantic_region_controller import (
     P2R6_ARMS,
     P2R6_CAP_ARMS,
+    P2R6_E1_XI_AUTHORITY,
     P2R6_HIGHS_INTERNAL_TOLERANCE,
     _semantic_region_optimum,
     p2r6_forbidden_influence_receipt,
@@ -172,7 +177,9 @@ def test_entry_anchored_e1_rows_are_ratio_normalized_for_dynamic_scale() -> None
     assert P2R6_HIGHS_INTERNAL_TOLERANCE < 1.0e-8
     assert e1["semantic_scale_min"] == pytest.approx(1.0e-4)
     assert e1["semantic_scale_max"] == pytest.approx(1.0e4)
-    assert e1["xi_recertification_delta"] <= 1.0e-8
+    assert e1["e1_xi"] == e1["xi_recomputed"]
+    assert e1["e1_xi_authority"] == P2R6_E1_XI_AUTHORITY
+    assert e1["xi_solver_decision_influence_count"] == 0
     assert e1["certificate_pass"] is True
     assert route.semantic_region_max_violation <= 1.0e-8
     source = inspect.getsource(
@@ -184,6 +191,37 @@ def test_entry_anchored_e1_rows_are_ratio_normalized_for_dynamic_scale() -> None
     assert source.count("response @ allocation") == 1
     assert "deficit - semantic_response" in source
     assert "lower - semantic_response" in source
+
+
+def test_e1_backend_auxiliary_xi_is_observation_only(monkeypatch: pytest.MonkeyPatch) -> None:
+    original = controller.linprog
+
+    def underreporting_linprog(*args: object, **kwargs: object) -> SimpleNamespace:
+        solved = original(*args, **kwargs)
+        shifted = np.asarray(solved.x, dtype=np.float64).copy()
+        shifted[-1] = max(0.0, float(shifted[-1]) - 1.0e-4)
+        return SimpleNamespace(
+            success=solved.success,
+            status=solved.status,
+            message=solved.message,
+            nit=getattr(solved, "nit", -1),
+            x=shifted,
+        )
+
+    monkeypatch.setattr(controller, "linprog", underreporting_linprog)
+    response = _response().numpy()
+    deficit = np.linspace(3.0, 4.0, 10, dtype=np.float64)
+    _alpha, _scale, _lower, xi, receipt = _semantic_region_optimum(
+        response,
+        deficit,
+        deficit,
+        scale_policy="CURRENT_DEFICIT",
+    )
+    assert receipt["xi_recertification_delta"] > 1.0e-8
+    assert receipt["xi_solver_decision_influence_count"] == 0
+    assert receipt["e1_xi_authority"] == P2R6_E1_XI_AUTHORITY
+    assert xi == receipt["xi_recomputed"]
+    assert receipt["certificate_pass"] is True
 
 
 def test_e1_start_region_slack_is_observation_not_a_false_gate() -> None:

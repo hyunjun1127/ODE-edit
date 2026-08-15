@@ -43,6 +43,7 @@ P2R6_NUMERICAL_EPSILON = SIMPLEX_PRIMAL_TOLERANCE
 # is backend accuracy, strictly tighter than the unchanged scientific/primal
 # certificate above.
 P2R6_HIGHS_INTERNAL_TOLERANCE = 1.0e-10
+P2R6_E1_XI_AUTHORITY = "FP64_RECOMPUTED_FROM_RETURNED_ALPHA"
 
 
 class P2R6RoutingTechnicalError(P2R5RoutingTechnicalError):
@@ -327,29 +328,17 @@ def _semantic_region_optimum(
     allocation = np.asarray(solved.x[:alpha_count], dtype=np.float64)
     xi_solver = max(0.0, float(solved.x[-1]))
     semantic_response = np.asarray(response @ allocation, dtype=np.float64)
-    # Recompute the dimensionless max-ratio objective in FP64 from the returned
-    # primal point.  A correction no larger than the inherited primal tolerance
-    # is solver certification, not a new scientific relaxation.
+    # The contract defines xi as the max-ratio objective of alpha, not as the
+    # epigraph helper variable returned by the LP backend.  Recompute the one
+    # authoritative value from the returned primal allocation in FP64.  The
+    # backend helper remains observation-only because HiGHS postsolve may leave
+    # it below the objective of the returned allocation.
     xi_recomputed = max(
         0.0,
         float(np.max((deficit - semantic_response) / scale)),
     )
     xi_recertification_delta = max(0.0, xi_recomputed - xi_solver)
-    if xi_recertification_delta > P2R6_NUMERICAL_EPSILON:
-        raise P2R6RoutingTechnicalError(
-            "P2R6 E1 dimensionless objective recertification failed",
-            {
-                "schema": "ode-edit-s05-p2r6-routing-technical/v1",
-                "stage": "E1_DIMENSIONLESS_OBJECTIVE_RECERTIFICATION",
-                "solver_status": int(solved.status),
-                "scale_policy": scale_policy,
-                "xi_solver": xi_solver,
-                "xi_recomputed": xi_recomputed,
-                "xi_recertification_delta": xi_recertification_delta,
-                "primal_tolerance": P2R6_NUMERICAL_EPSILON,
-            },
-        )
-    xi = max(xi_solver, xi_recomputed)
+    xi = xi_recomputed
     lower = np.maximum(
         deficit - (xi + P2R6_NUMERICAL_EPSILON) * scale,
         0.0,
@@ -378,9 +367,11 @@ def _semantic_region_optimum(
         "semantic_scale_min": float(np.min(scale)),
         "semantic_scale_max": float(np.max(scale)),
         "xi_solver": xi_solver,
+        "xi_solver_decision_influence_count": 0,
         "xi_recomputed": xi_recomputed,
         "xi_recertification_delta": xi_recertification_delta,
         "e1_xi": xi,
+        "e1_xi_authority": P2R6_E1_XI_AUTHORITY,
         "mass_violation": mass_violation,
         "semantic_region_violation": semantic_violation,
         "e1_start_in_semantic_region": (
