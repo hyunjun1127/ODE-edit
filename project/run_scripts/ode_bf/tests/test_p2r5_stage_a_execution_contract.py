@@ -78,6 +78,16 @@ def test_lock_and_stage_a_dry_plan_are_exact() -> None:
         ("SDRT-CAP",),
     ]
     assert dry.build_plan(PARENT, attempt_suffix="tech-r4")["endpoint_attempt_count"] == 6
+    final_repair = dry.build_plan(PARENT, attempt_suffix="tech-r5")
+    assert final_repair["job_count"] == 3
+    assert final_repair["array"] == "0-2%3"
+    assert final_repair["endpoint_attempt_count"] == 4
+    assert final_repair["request_attempt_count"] == 40
+    assert [tuple(item["arms"]) for item in final_repair["jobs"]] == [
+        ("SDRT-STRUCTP",),
+        ("SDRT-CAP",),
+        ("SDRT-CAP", "SDRT-STRUCTP"),
+    ]
 
 
 def test_runtime_reuses_protected_interfaces_and_one_materialization() -> None:
@@ -152,6 +162,8 @@ def test_entrypoint_and_launcher_resources_are_bound() -> None:
     assert "readonly MODELS=(llama3-8b-inst llama3-8b-inst qwen2.5-7b-inst qwen2.5-7b-inst)" in sbatch
     assert "readonly CASES=(3 5 1 4)" in sbatch
     assert '"${ATTEMPT_SUFFIX}" == "tech-r3" || "${ATTEMPT_SUFFIX}" == "tech-r4"' in sbatch
+    assert '"${ATTEMPT_SUFFIX}" == "tech-r5"' in sbatch
+    assert 'planned_job_count = int(plan["job_count"])' in submitter
     assert 'PROJECT_GPU_CAP = 4' in submitter
     assert 'STAGE_GPU_MAX = 4' in submitter
     assert '"stage_b_status": "CLOSED_PENDING_GH_STAGE_A_REVIEW"' in submitter
@@ -184,7 +196,11 @@ def test_no_silent_neutral_fallback_or_forbidden_strength_controls() -> None:
 def test_semantic_face_quadratic_backend_uses_exact_source_backed_constraints() -> None:
     writer = (PACKAGE / "p2r5_sdrt_writer.py").read_text()
     assert 'method="trust-constr"' in writer
-    assert "LinearConstraint(face_matrix, face_value, face_value)" in writer
+    assert "null_space(" in writer
+    assert '"SCIPY_SVD_SEMANTIC_FACE_NULLSPACE"' in writer
+    assert "start + coordinate_basis @ value" in writer
+    assert "LinearConstraint(\n            coordinate_basis" in writer
+    assert "mass @ coordinate_basis" in writer
     assert "NonlinearConstraint(" in writer
     assert '"gtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE' in writer
     assert '"xtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE' in writer

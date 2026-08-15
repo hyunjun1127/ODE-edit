@@ -77,7 +77,8 @@ def submit(source_head: str, *, attempt_suffix: str | None = None) -> dict[str, 
     available = PROJECT_GPU_CAP - active
     if available <= 0:
         raise ODEBFContractError("P2R5 server1 project GPU cap has no free allocation")
-    stage_concurrency = min(STAGE_GPU_MAX, available, 4)
+    planned_job_count = int(plan["job_count"])
+    stage_concurrency = min(STAGE_GPU_MAX, available, planned_job_count)
     if active + stage_concurrency > PROJECT_GPU_CAP:
         raise ODEBFContractError("P2R5 server1 GPU cap differs")
     namespace_tail = f"{attempt_suffix}-{source_head[:12]}" if attempt_suffix else source_head[:12]
@@ -87,7 +88,7 @@ def submit(source_head: str, *, attempt_suffix: str | None = None) -> dict[str, 
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P2R5 submission namespace exists")
     LOG_ROOT.mkdir(mode=0o700, parents=True, exist_ok=True)
-    array = f"0-3%{stage_concurrency}"
+    array = f"0-{planned_job_count - 1}%{stage_concurrency}"
     node_receipt = _run(["scontrol", "show", "node", "-o", "devbox"]).stdout.strip()
     intent = {
         "schema": "ode-edit-s05-p2r5-sdrt-stage-a-submission-intent/v1",
@@ -133,7 +134,7 @@ def submit(source_head: str, *, attempt_suffix: str | None = None) -> dict[str, 
         "source_parent": parent,
         "job_id": job_id,
         "array": array,
-        "job_count": 4,
+        "job_count": planned_job_count,
         "endpoint_count": plan["endpoint_attempt_count"],
         "request_attempt_count": plan["request_attempt_count"],
         "active_gpu_allocations_before_release": active,

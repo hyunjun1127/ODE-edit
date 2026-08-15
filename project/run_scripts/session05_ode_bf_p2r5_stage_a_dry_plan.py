@@ -32,25 +32,30 @@ def build_plan(source_head: str, *, attempt_suffix: str | None = None) -> dict[s
         ("qwen2.5-7b-inst", 1),
         ("qwen2.5-7b-inst", 4),
     ]
-    tech_r3_arms = (
-        [("SDRT-STRUCTP",), P2R5_ARMS, P2R5_ARMS, ("SDRT-CAP",)]
-        if attempt_suffix in ("tech-r3", "tech-r4") else [P2R5_ARMS] * 4
-    )
+    if attempt_suffix in ("tech-r3", "tech-r4"):
+        selected_cells = cells
+        selected_arms = [("SDRT-STRUCTP",), P2R5_ARMS, P2R5_ARMS, ("SDRT-CAP",)]
+    elif attempt_suffix == "tech-r5":
+        selected_cells = cells[:3]
+        selected_arms = [("SDRT-STRUCTP",), ("SDRT-CAP",), P2R5_ARMS]
+    else:
+        selected_cells = cells
+        selected_arms = [P2R5_ARMS] * 4
     jobs = [
         {
             "array_index": index,
             "model": alias,
             "case_index": case_index,
-            "arms": list(tech_r3_arms[index]),
-            "endpoint_count": len(tech_r3_arms[index]),
-            "request_attempt_count": 10 * len(tech_r3_arms[index]),
+            "arms": list(selected_arms[index]),
+            "endpoint_count": len(selected_arms[index]),
+            "request_attempt_count": 10 * len(selected_arms[index]),
             "result_name": expected_p2r5_stage_a_result_name(
                 alias,
                 case_index=case_index,
                 attempt_suffix=attempt_suffix,
             ),
         }
-        for index, (alias, case_index) in enumerate(cells)
+        for index, (alias, case_index) in enumerate(selected_cells)
     ]
     return {
         "schema": "ode-edit-s05-p2r5-sdrt-stage-a-dry-plan/v1",
@@ -60,10 +65,10 @@ def build_plan(source_head: str, *, attempt_suffix: str | None = None) -> dict[s
         "numerical_lock_root": lock["root_digest"],
         "stage_a_cases": {key: list(value) for key, value in STAGE_A_CASES.items()},
         "jobs": jobs,
-        "job_count": 4,
+        "job_count": len(jobs),
         "endpoint_attempt_count": sum(int(item["endpoint_count"]) for item in jobs),
         "request_attempt_count": sum(int(item["request_attempt_count"]) for item in jobs),
-        "array": "0-3%4",
+        "array": f"0-{len(jobs) - 1}%{len(jobs)}",
         "project_gpu_cap_server1": 4,
         "stage_gpu_max": 4,
         "cpu_per_task": 8,

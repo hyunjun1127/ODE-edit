@@ -108,21 +108,25 @@ def test_non_success_solver_output_requires_inherited_kkt_primal_certificate() -
     response = np.zeros((10, 50), dtype=np.float64)
     for request in range(10):
         response[request, request] = 1.0
-    certified = SimpleNamespace(
-        x=start,
-        success=False,
-        status=0,
-        message="maximum evaluations",
-        nit=3000,
-        nfev=3000,
-        njev=3000,
-        nhev=3000,
-        optimality=1.0e-10,
-        constr_violation=0.0,
-    )
+    def solver_result(value: np.ndarray, *, optimality: float) -> SimpleNamespace:
+        return SimpleNamespace(
+            x=np.asarray(value, dtype=np.float64),
+            success=False,
+            status=0,
+            message="maximum evaluations",
+            nit=3000,
+            nfev=3000,
+            njev=3000,
+            nhev=3000,
+            optimality=optimality,
+            constr_violation=0.0,
+        )
+
     with mock.patch(
         "project.run_scripts.ode_bf.p2r5_sdrt_writer.minimize",
-        return_value=certified,
+        side_effect=lambda function, value, **kwargs: solver_result(
+            value, optimality=1.0e-10
+        ),
     ):
         selected, receipt = _same_semantic_face_solve(
             start,
@@ -135,11 +139,14 @@ def test_non_success_solver_output_requires_inherited_kkt_primal_certificate() -
     assert np.array_equal(selected, start)
     assert receipt["certificate_pass"] is True
     assert receipt["non_success_certified_with_inherited_tolerance"] is True
+    assert receipt["coordinate_backend"] == "SCIPY_SVD_SEMANTIC_FACE_NULLSPACE"
+    assert receipt["semantic_nullity"] == 40
 
-    uncertified = SimpleNamespace(**{**certified.__dict__, "optimality": 1.0e-4})
     with mock.patch(
         "project.run_scripts.ode_bf.p2r5_sdrt_writer.minimize",
-        return_value=uncertified,
+        side_effect=lambda function, value, **kwargs: solver_result(
+            value, optimality=1.0e-4
+        ),
     ), pytest.raises(P2R5RoutingTechnicalError):
         _same_semantic_face_solve(
             start,
@@ -149,6 +156,31 @@ def test_non_success_solver_output_requires_inherited_kkt_primal_certificate() -
             np.zeros(10, dtype=np.float64),
             stage="UNCERTIFIED_NON_SUCCESS_FIXTURE",
         )
+
+
+def test_semantic_face_nullspace_removes_equality_without_changing_solution() -> None:
+    response = np.zeros((10, 50), dtype=np.float64)
+    for request in range(10):
+        response[request, request] = 1.0
+        response[request, request + 10] = 1.0 + 1.0e-10
+    start = np.zeros(50, dtype=np.float64)
+    start[:10] = 0.5
+    start[10:20] = 0.5 / (1.0 + 1.0e-10)
+    objective = np.eye(50, dtype=np.float64)
+    selected, receipt = _same_semantic_face_solve(
+        start,
+        objective,
+        np.zeros(50, dtype=np.float64),
+        response,
+        response @ start,
+        stage="NULLSPACE_CONDITIONING_FIXTURE",
+    )
+    assert receipt["coordinate_backend"] == "SCIPY_SVD_SEMANTIC_FACE_NULLSPACE"
+    assert receipt["semantic_rank"] == 10
+    assert receipt["semantic_nullity"] == 40
+    assert receipt["semantic_basis_max_abs_residual"] <= 1.0e-8
+    assert np.max(np.abs(response @ selected - response @ start)) <= 1.0e-8
+    assert np.min(selected) >= -1.0e-8
 
 
 def test_zero_deficit_preserves_totality_and_mass_contract() -> None:

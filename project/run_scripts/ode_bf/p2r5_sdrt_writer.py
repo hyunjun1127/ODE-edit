@@ -14,7 +14,8 @@ from typing import Any, Mapping, Sequence
 
 import numpy as np
 import torch
-from scipy.optimize import Bounds, LinearConstraint, NonlinearConstraint, linprog, minimize
+from scipy.linalg import null_space
+from scipy.optimize import LinearConstraint, NonlinearConstraint, linprog, minimize
 
 from .contracts import ODEBFContractError, canonical_hash
 from .functional import WaypointFactor, tensor_sha256
@@ -424,30 +425,73 @@ def _same_semantic_face_solve(
             current_rank = candidate_rank
     face_matrix = calibrated_response[independent]
     face_value = response_star[independent]
+    if independent:
+        coordinate_basis = null_space(
+            face_matrix,
+            rcond=P2R5_NUMERICAL_EPSILON,
+        )
+    else:
+        coordinate_basis = np.eye(alpha_count, dtype=np.float64)
+    if (
+        coordinate_basis.ndim != 2
+        or coordinate_basis.shape[0] != alpha_count
+        or not np.all(np.isfinite(coordinate_basis))
+    ):
+        raise P2R5RoutingTechnicalError(
+            f"P2R5 {stage} semantic-face coordinates failed",
+            {
+                "schema": "ode-edit-s05-p2r5-routing-technical/v3",
+                "stage": stage,
+                "coordinate_backend": "SCIPY_SVD_SEMANTIC_FACE_NULLSPACE",
+                "semantic_rank": int(np.linalg.matrix_rank(face_matrix)),
+            },
+        )
+    semantic_basis_residual = (
+        float(np.max(np.abs(face_matrix @ coordinate_basis)))
+        if independent and coordinate_basis.shape[1] else 0.0
+    )
+    reduced_count = int(coordinate_basis.shape[1])
+
+    def expand(value: np.ndarray) -> np.ndarray:
+        return start + coordinate_basis @ value
+
     linear_constraints = [
         LinearConstraint(
-            mass,
+            coordinate_basis,
+            -start,
+            np.full(alpha_count, np.inf, dtype=np.float64),
+        ),
+        LinearConstraint(
+            mass @ coordinate_basis,
             np.full(request_count, -np.inf, dtype=np.float64),
-            np.ones(request_count, dtype=np.float64),
-        )
+            np.ones(request_count, dtype=np.float64) - mass @ start,
+        ),
     ]
-    if independent:
-        linear_constraints.append(LinearConstraint(face_matrix, face_value, face_value))
     nonlinear_constraints: list[NonlinearConstraint] = []
     if p_limit is not None:
         if p_matrix is None or p_cross is None:
             raise ODEBFContractError("P2R5 Structural-P tie is absent")
         p_hessian = p_matrix + p_matrix.T
+        reduced_p_hessian = coordinate_basis.T @ p_hessian @ coordinate_basis
         nonlinear_constraints.append(
             NonlinearConstraint(
-                lambda x, m=p_matrix, c=p_cross: _quadratic_value(m, c, x),
+                lambda value, m=p_matrix, c=p_cross: _quadratic_value(
+                    m, c, expand(value)
+                ),
                 -np.inf,
                 p_limit,
-                jac=lambda x, m=p_matrix, c=p_cross: (m + m.T) @ x + 2.0 * c,
-                hess=lambda x, multiplier, h=p_hessian: float(multiplier[0]) * h,
+                jac=lambda value, m=p_matrix, c=p_cross: coordinate_basis.T
+                @ ((m + m.T) @ expand(value) + 2.0 * c),
+                hess=lambda value, multiplier, h=reduced_p_hessian: float(
+                    multiplier[0]
+                )
+                * h,
             )
         )
     objective_hessian = objective_matrix + objective_matrix.T
+    reduced_objective_hessian = (
+        coordinate_basis.T @ objective_hessian @ coordinate_basis
+    )
     start_semantic_residual = (
         float(np.max(np.abs(face_matrix @ start - face_value)))
         if independent else 0.0
@@ -484,15 +528,14 @@ def _same_semantic_face_solve(
             )
     try:
         result = minimize(
-            lambda x: _quadratic_value(objective_matrix, objective_cross, x),
-            start,
-            jac=lambda x: objective_hessian @ x + 2.0 * objective_cross,
-            hess=lambda x: objective_hessian,
-            method="trust-constr",
-            bounds=Bounds(
-                np.zeros(alpha_count, dtype=np.float64),
-                np.full(alpha_count, np.inf, dtype=np.float64),
+            lambda value: _quadratic_value(
+                objective_matrix, objective_cross, expand(value)
             ),
+            np.zeros(reduced_count, dtype=np.float64),
+            jac=lambda value: coordinate_basis.T
+            @ (objective_hessian @ expand(value) + 2.0 * objective_cross),
+            hess=lambda value: reduced_objective_hessian,
+            method="trust-constr",
             constraints=[*linear_constraints, *nonlinear_constraints],
             options={
                 "gtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
@@ -512,13 +555,16 @@ def _same_semantic_face_solve(
                 "exception_class": type(exc).__name__,
                 "message_sha256": canonical_hash(str(exc)),
                 "semantic_rank": int(np.linalg.matrix_rank(face_matrix)),
+                "semantic_nullity": reduced_count,
+                "semantic_basis_max_abs_residual": semantic_basis_residual,
                 "start_semantic_max_abs_residual": start_semantic_residual,
                 "start_mass_violation": start_mass_violation,
                 "start_p_violation": start_p_violation,
                 "neutral_fallback_count": 0,
             },
         ) from exc
-    result_x = np.asarray(result.x, dtype=np.float64)
+    reduced_x = np.asarray(result.x, dtype=np.float64)
+    result_x = expand(reduced_x)
     finite = bool(np.all(np.isfinite(result_x)))
     negative_violation = (
         max(0.0, -float(np.min(result_x))) if finite else math.inf
@@ -550,6 +596,10 @@ def _same_semantic_face_solve(
         "schema": "ode-edit-s05-p2r5-semantic-face-solver/v1",
         "stage": stage,
         "backend": "SCIPY_TRUST_CONSTR_EXACT_CONSTRAINTS_ANALYTIC_DERIVATIVES",
+        "coordinate_backend": "SCIPY_SVD_SEMANTIC_FACE_NULLSPACE",
+        "semantic_rank": len(independent),
+        "semantic_nullity": reduced_count,
+        "semantic_basis_max_abs_residual": semantic_basis_residual,
         "solver_success": bool(result.success),
         "solver_status": int(result.status),
         "message_sha256": canonical_hash(str(result.message)),
@@ -586,6 +636,8 @@ def _same_semantic_face_solve(
                 "gradient_evaluations": int(getattr(result, "njev", -1)),
                 "hessian_evaluations": int(getattr(result, "nhev", -1)),
                 "semantic_rank": int(np.linalg.matrix_rank(face_matrix)),
+                "semantic_nullity": reduced_count,
+                "semantic_basis_max_abs_residual": semantic_basis_residual,
                 "start_semantic_max_abs_residual": start_semantic_residual,
                 "start_mass_violation": start_mass_violation,
                 "start_p_violation": start_p_violation,
