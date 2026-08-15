@@ -595,23 +595,32 @@ def _solve_region_quadratic(
             selected = candidate
             break
 
-        new_zero = set(int(i) for i in np.flatnonzero(candidate <= P2R6_NUMERICAL_EPSILON))
-        new_mass = set(int(i) for i in np.flatnonzero(c_mass <= P2R6_NUMERICAL_EPSILON))
+        # The entry active set includes near-boundary constraints.  Subsequent
+        # expansion is narrower: add only a constraint that the polished point
+        # actually violates beyond the unchanged certificate tolerance.  Adding
+        # every feasible near-zero coefficient overconstrains a singular KKT
+        # system and is not required for certification.
+        new_zero = set(
+            int(i) for i in np.flatnonzero(candidate < -P2R6_NUMERICAL_EPSILON)
+        )
+        new_mass = set(
+            int(i) for i in np.flatnonzero(c_mass < -P2R6_NUMERICAL_EPSILON)
+        )
         new_semantic = set(
-            int(i) for i in np.flatnonzero(c_semantic <= P2R6_NUMERICAL_EPSILON)
+            int(i) for i in np.flatnonzero(c_semantic < -P2R6_NUMERICAL_EPSILON)
         )
         added = (
             len(new_zero.difference(active_zero))
             + len(new_mass.difference(active_mass))
             + len(new_semantic.difference(active_semantic))
-            + int(c_p <= P2R6_NUMERICAL_EPSILON and not active_p)
+            + int(c_p < -P2R6_NUMERICAL_EPSILON and not active_p)
         )
         if added == 0:
             break
         active_zero = tuple(sorted(set(active_zero).union(new_zero)))
         active_mass = tuple(sorted(set(active_mass).union(new_mass)))
         active_semantic = tuple(sorted(set(active_semantic).union(new_semantic)))
-        active_p = active_p or c_p <= P2R6_NUMERICAL_EPSILON
+        active_p = active_p or c_p < -P2R6_NUMERICAL_EPSILON
         active_set_expansion_count += added
         polish_point = candidate
 

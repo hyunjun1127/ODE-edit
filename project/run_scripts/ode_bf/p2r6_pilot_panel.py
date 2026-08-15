@@ -48,7 +48,7 @@ def load_and_validate_lock(path: Path) -> tuple[dict[str, Any], str]:
         != P2R6_HIGHS_INTERNAL_TOLERANCE
         or value.get("e1_xi_authority") != P2R6_E1_XI_AUTHORITY
         or value.get("quadratic_certificate_polish")
-        != "MONOTONE_ACTIVE_SET_EXPANSION_WITH_UNCHANGED_EXTERNAL_TOLERANCE"
+        != "MONOTONE_STRICTLY_VIOLATED_ACTIVE_SET_EXPANSION_WITH_UNCHANGED_EXTERNAL_TOLERANCE"
         or value.get("shadow_added_model_forward_backward_materialization") != [0, 0, 0]
         or value.get("stage_b10x10_status") != "NOT_AUTHORIZED"
         or value.get("scientific_promotion_authorized") is not False

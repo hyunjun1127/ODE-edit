@@ -273,11 +273,15 @@ def test_quadratic_polish_expands_newly_active_mass_constraint(
         stage="ACTIVE_SET_EXPANSION_FIXTURE",
     )
     assert selected == pytest.approx(np.asarray([1.0, 0.0]))
-    assert receipt["active_set_expansion_count"] >= 1
+    assert receipt["active_set_expansion_count"] == 1
     assert receipt["active_set_polish_round_count"] >= 2
     assert receipt["mass_violation"] <= 1.0e-8
     assert receipt["optimality"] <= 1.0e-8
     assert receipt["certificate_pass"] is True
+    source = inspect.getsource(_solve_region_quadratic)
+    assert "candidate < -P2R6_NUMERICAL_EPSILON" in source
+    assert "c_mass < -P2R6_NUMERICAL_EPSILON" in source
+    assert "c_semantic < -P2R6_NUMERICAL_EPSILON" in source
 
 
 def test_forbidden_influence_and_runtime_policy_are_exact() -> None:
