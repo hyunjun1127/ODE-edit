@@ -1,0 +1,112 @@
+{
+  "schema_version": "ode-edit-s05-p2r4-phaseb-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P2R4-P2R1-CLAMP-ON-OFF-CAUSAL-ABLATION-V1-PHASE-B",
+  "writer_parent": "c97e8619b42da7954ce0e824c215a8a82d70589a",
+  "writer_parent_tree": "711b33fc736641d1f3067c00bd067ed5e60606fe",
+  "p2r1_parent": "8f817e13167289dac190fe74bfa42e2b3e01372d",
+  "phase_a_target_source": "402975870321cacd2be9e42a8aca4e953ff24e8f",
+  "entry_count": 20,
+  "entries": [
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p2r2_residual_transport_writer.json",
+      "sha256": "919a9206b0a3523de3b5259a807ede684401e28e123dcde1790147c31b58d4ba",
+      "size": 2712
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p2r4_phaseb_clamp_on_off_writer.json",
+      "sha256": "e4df84f05c5510a4eff45207eb66d97ee30617e92f43c55ee9d09a25282816a9",
+      "size": 2865
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "sha256": "0e7ec4dfaf26afbafb7db6641e45ba729ae3ad6cb772ccf36b761c76d9efcb9a",
+      "size": 221339
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r1_rms_tangent_target.py",
+      "sha256": "98591cc1472c23d14178002dd535596916c93751d2d10b95f1306dc7705dac21",
+      "size": 12498
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r2_atomic_panel.py",
+      "sha256": "0376553192973ef3071d68121de1ccb5569bcada674a50d7de7d664601f2c373",
+      "size": 3098
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r2_atomic_runtime.py",
+      "sha256": "30810a776603c1d4b1cd51d6c686252e1f585b5d350637dc8a4926550264a095",
+      "size": 31076
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r2_residual_transport_writer.py",
+      "sha256": "307e8fef5811db8bae78118cbce30568aa8c10d81d7890b1a4c724aa7a37527d",
+      "size": 37909
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r4_clamp_off_target.py",
+      "sha256": "6d20505570ac667ecf9ebe87cf136ca8161cde14504de20b2dc40ab983051315",
+      "size": 5593
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r4_phaseb_atomic_panel.py",
+      "sha256": "d0bb9b20fa2da9342222e4b667ad5358e4df28ebf1ab93b1bffd5882ef1a1f70",
+      "size": 3273
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r4_phaseb_atomic_runtime.py",
+      "sha256": "a5c97fc8bf42ad26172ba04414c8ddef75f48baa4583025a89ba969db4ac2cd6",
+      "size": 35073
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r4_phaseb_receipts.py",
+      "sha256": "98a3c83868eb95d62099914ee8dbf6651d9e93820f9afa87249edb4b3909833d",
+      "size": 1880
+    },
+    {
+      "path": "project/run_scripts/ode_bf/scalable_batched_field.py",
+      "sha256": "b75f56d757b4baf8c2edc17c8f6a65034eab3fbbfd4a44d9c317ed5731de052d",
+      "size": 18967
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p2r2_execution_contract.py",
+      "sha256": "57b9c2c644e58627732911aed088a43fb3440d7bac60d7c475c8b2b4190b4294",
+      "size": 5353
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p2r2_residual_transport_writer.py",
+      "sha256": "9e6d672007c0929c55450b91dcb8fdb3dce0c574237561d2a784d7c9bbc1abbc",
+      "size": 10051
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p2r4_clamp_off_target.py",
+      "sha256": "d50f90a8b57c69ec6809a6a8ff6942da15f138efd61f70d55fcd3d9e14601698",
+      "size": 5644
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p2r4_phaseb_execution_contract.py",
+      "sha256": "b4904d77a3ebecbe24e66880315405c1a81a1e08452af537819931cb1bcf49fa",
+      "size": 7472
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p2r4_phaseb_atomic.py",
+      "sha256": "e78404098854aa980288fb3b7a0dbd539273aa72ab298550577a5bb61906ffd9",
+      "size": 5118
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p2r4_phaseb_atomic.sbatch",
+      "sha256": "9cf2f80af3ba701621c5db80bb7345c267036ace75c47b600e7380cb7510f349",
+      "size": 3212
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p2r4_phaseb_atomic_dry_plan.py",
+      "sha256": "0bc9e62ce9dfd9cf22a75641d9054eaa17849e0df5ff2ff6830b65d50a1bf605",
+      "size": 3510
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_submit_p2r4_phaseb_atomic.py",
+      "sha256": "860dd9ed1099e42ee82803e1d33c199e29bd9a8149e56eda1cd4012723e100f1",
+      "size": 8201
+    }
+  ],
+  "root_digest": "6ba1fdbe586de0821135c03103e9b3dcf35c300603581f416caebf4feb1e9753"
+}
