@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from types import SimpleNamespace
+from unittest import mock
 
 import numpy as np
 import pytest
@@ -11,6 +12,8 @@ from project.run_scripts.ode_bf.functional import WaypointFactor
 from project.run_scripts.ode_bf.p2r2_residual_transport_writer import ProposalQuadratics
 from project.run_scripts.ode_bf.p2r5_sdrt_writer import (
     P2R5_ARMS,
+    P2R5RoutingTechnicalError,
+    _same_semantic_face_solve,
     build_sdrt_quadratics,
     clamp_safe_semantic_deficit,
     p2r5_forbidden_influence_receipt,
@@ -96,6 +99,56 @@ def test_cap_and_structp_share_semantic_response_but_move_allocation() -> None:
         assert torch.max(mass) <= 1.0 + 1.0e-8
         assert route.semantic_face_max_abs_residual <= 2.0e-8
         assert route.status.endswith("CERTIFIED")
+        assert all(item["certificate_pass"] for item in route.solver_receipts)
+
+
+def test_non_success_solver_output_requires_inherited_kkt_primal_certificate() -> None:
+    start = np.zeros(50, dtype=np.float64)
+    objective = np.eye(50, dtype=np.float64)
+    response = np.zeros((10, 50), dtype=np.float64)
+    for request in range(10):
+        response[request, request] = 1.0
+    certified = SimpleNamespace(
+        x=start,
+        success=False,
+        status=0,
+        message="maximum evaluations",
+        nit=3000,
+        nfev=3000,
+        njev=3000,
+        nhev=3000,
+        optimality=1.0e-10,
+        constr_violation=0.0,
+    )
+    with mock.patch(
+        "project.run_scripts.ode_bf.p2r5_sdrt_writer.minimize",
+        return_value=certified,
+    ):
+        selected, receipt = _same_semantic_face_solve(
+            start,
+            objective,
+            np.zeros(50, dtype=np.float64),
+            response,
+            np.zeros(10, dtype=np.float64),
+            stage="CERTIFIED_NON_SUCCESS_FIXTURE",
+        )
+    assert np.array_equal(selected, start)
+    assert receipt["certificate_pass"] is True
+    assert receipt["non_success_certified_with_inherited_tolerance"] is True
+
+    uncertified = SimpleNamespace(**{**certified.__dict__, "optimality": 1.0e-4})
+    with mock.patch(
+        "project.run_scripts.ode_bf.p2r5_sdrt_writer.minimize",
+        return_value=uncertified,
+    ), pytest.raises(P2R5RoutingTechnicalError):
+        _same_semantic_face_solve(
+            start,
+            objective,
+            np.zeros(50, dtype=np.float64),
+            response,
+            np.zeros(10, dtype=np.float64),
+            stage="UNCERTIFIED_NON_SUCCESS_FIXTURE",
+        )
 
 
 def test_zero_deficit_preserves_totality_and_mass_contract() -> None:

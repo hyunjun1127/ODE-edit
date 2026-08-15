@@ -112,6 +112,7 @@ class SDRTRoutingResult:
     feasible_rank: int
     feasible_nullity: int
     semantic_face_max_abs_residual: float
+    solver_receipts: tuple[Mapping[str, Any], ...]
     status: str
     identity_sha256: str
 
@@ -147,6 +148,7 @@ class SDRTRoutingResult:
             "feasible_rank": self.feasible_rank,
             "feasible_nullity": self.feasible_nullity,
             "semantic_face_max_abs_residual": self.semantic_face_max_abs_residual,
+            "solver_receipts": [dict(item) for item in self.solver_receipts],
             "status": self.status,
             "neutral_fallback_count": 0,
             "hard_p_budget_influence_count": 0,
@@ -406,7 +408,7 @@ def _same_semantic_face_solve(
     p_cross: np.ndarray | None = None,
     p_limit: float | None = None,
     stage: str,
-) -> np.ndarray:
+) -> tuple[np.ndarray, dict[str, Any]]:
     request_count, alpha_count = calibrated_response.shape
     layer_count = alpha_count // request_count
     mass = _mass_matrix(layer_count, request_count)
@@ -456,6 +458,30 @@ def _same_semantic_face_solve(
         if p_limit is not None and p_matrix is not None and p_cross is not None
         else 0.0
     )
+    objective_symmetric = 0.5 * (objective_matrix + objective_matrix.T)
+    objective_eigenvalues = np.linalg.eigvalsh(objective_symmetric)
+    if float(np.min(objective_eigenvalues)) < -P2R5_NUMERICAL_EPSILON:
+        raise P2R5RoutingTechnicalError(
+            f"P2R5 {stage} objective is nonconvex",
+            {
+                "schema": "ode-edit-s05-p2r5-routing-technical/v3",
+                "stage": stage,
+                "objective_min_eigenvalue": float(np.min(objective_eigenvalues)),
+                "primal_tolerance": P2R5_NUMERICAL_EPSILON,
+            },
+        )
+    if p_limit is not None and p_matrix is not None:
+        p_eigenvalues = np.linalg.eigvalsh(0.5 * (p_matrix + p_matrix.T))
+        if float(np.min(p_eigenvalues)) < -P2R5_NUMERICAL_EPSILON:
+            raise P2R5RoutingTechnicalError(
+                f"P2R5 {stage} P tie is nonconvex",
+                {
+                    "schema": "ode-edit-s05-p2r5-routing-technical/v3",
+                    "stage": stage,
+                    "p_min_eigenvalue": float(np.min(p_eigenvalues)),
+                    "primal_tolerance": P2R5_NUMERICAL_EPSILON,
+                },
+            )
     try:
         result = minimize(
             lambda x: _quadratic_value(objective_matrix, objective_cross, x),
@@ -492,9 +518,61 @@ def _same_semantic_face_solve(
                 "neutral_fallback_count": 0,
             },
         ) from exc
-    if not result.success or not np.all(np.isfinite(result.x)):
-        symmetric = 0.5 * (objective_matrix + objective_matrix.T)
-        eigenvalues = np.linalg.eigvalsh(symmetric)
+    result_x = np.asarray(result.x, dtype=np.float64)
+    finite = bool(np.all(np.isfinite(result_x)))
+    negative_violation = (
+        max(0.0, -float(np.min(result_x))) if finite else math.inf
+    )
+    mass_violation = (
+        max(0.0, float(np.max(mass @ result_x - 1.0))) if finite else math.inf
+    )
+    semantic_residual = (
+        float(np.max(np.abs(face_matrix @ result_x - face_value)))
+        if finite and independent else 0.0
+    )
+    p_violation = (
+        max(0.0, _quadratic_value(p_matrix, p_cross, result_x) - p_limit)
+        if finite and p_limit is not None and p_matrix is not None and p_cross is not None
+        else 0.0
+    )
+    optimality = float(getattr(result, "optimality", math.inf))
+    constraint_violation = float(getattr(result, "constr_violation", math.inf))
+    certified = (
+        finite
+        and negative_violation <= P2R5_NUMERICAL_EPSILON
+        and mass_violation <= P2R5_NUMERICAL_EPSILON
+        and semantic_residual <= P2R5_NUMERICAL_EPSILON
+        and p_violation <= P2R5_NUMERICAL_EPSILON
+        and optimality <= P2R5_NUMERICAL_EPSILON
+        and constraint_violation <= P2R5_NUMERICAL_EPSILON
+    )
+    solver_receipt = {
+        "schema": "ode-edit-s05-p2r5-semantic-face-solver/v1",
+        "stage": stage,
+        "backend": "SCIPY_TRUST_CONSTR_EXACT_CONSTRAINTS_ANALYTIC_DERIVATIVES",
+        "solver_success": bool(result.success),
+        "solver_status": int(result.status),
+        "message_sha256": canonical_hash(str(result.message)),
+        "iterations": int(getattr(result, "nit", -1)),
+        "function_evaluations": int(getattr(result, "nfev", -1)),
+        "gradient_evaluations": int(getattr(result, "njev", -1)),
+        "hessian_evaluations": int(getattr(result, "nhev", -1)),
+        "optimality": optimality,
+        "constraint_violation": constraint_violation,
+        "negative_violation": negative_violation,
+        "mass_violation": mass_violation,
+        "semantic_face_max_abs_residual": semantic_residual,
+        "p_tie_violation": p_violation,
+        "objective_min_eigenvalue": float(np.min(objective_eigenvalues)),
+        "objective_max_eigenvalue": float(np.max(objective_eigenvalues)),
+        "primal_tolerance": P2R5_NUMERICAL_EPSILON,
+        "non_success_certified_with_inherited_tolerance": bool(
+            certified and not result.success
+        ),
+        "certificate_pass": certified,
+    }
+    solver_receipt["identity_sha256"] = canonical_hash(solver_receipt)
+    if not certified:
         raise P2R5RoutingTechnicalError(
             f"P2R5 {stage} solve failed",
             {
@@ -511,13 +589,20 @@ def _same_semantic_face_solve(
                 "start_semantic_max_abs_residual": start_semantic_residual,
                 "start_mass_violation": start_mass_violation,
                 "start_p_violation": start_p_violation,
-                "objective_min_eigenvalue": float(np.min(eigenvalues)),
-                "objective_max_eigenvalue": float(np.max(eigenvalues)),
-                "objective_trace": float(np.trace(symmetric)),
+                "optimality": optimality,
+                "constraint_violation": constraint_violation,
+                "negative_violation": negative_violation,
+                "mass_violation": mass_violation,
+                "semantic_face_max_abs_residual": semantic_residual,
+                "p_tie_violation": p_violation,
+                "objective_min_eigenvalue": float(np.min(objective_eigenvalues)),
+                "objective_max_eigenvalue": float(np.max(objective_eigenvalues)),
+                "objective_trace": float(np.trace(objective_symmetric)),
+                "primal_tolerance": P2R5_NUMERICAL_EPSILON,
                 "neutral_fallback_count": 0,
             },
         )
-    return np.asarray(result.x, dtype=np.float64)
+    return result_x, solver_receipt
 
 
 def _feasible_face_geometry(
@@ -567,7 +652,7 @@ def solve_sdrt_routing(
     structural = quadratics.structural_p_gram.numpy()
     structural_cross = quadratics.structural_p_cross.numpy()
     if arm == "SDRT-CAP":
-        selected = _same_semantic_face_solve(
+        selected, cap_receipt = _same_semantic_face_solve(
             semantic_start,
             capacity,
             capacity_cross,
@@ -575,9 +660,10 @@ def solve_sdrt_routing(
             response_star,
             stage="CAPACITY_ON_SEMANTIC_FACE",
         )
+        solver_receipts = (cap_receipt,)
         status = "SDRT_CAP_CERTIFIED"
     else:
-        p_selected = _same_semantic_face_solve(
+        p_selected, p_receipt = _same_semantic_face_solve(
             semantic_start,
             structural,
             structural_cross,
@@ -587,7 +673,7 @@ def solve_sdrt_routing(
         )
         p_star = _quadratic_value(structural, structural_cross, p_selected)
         p_tie = SIMPLEX_XI_TIE_TOLERANCE * max(float(np.trace(structural)), 1.0e-12)
-        selected = _same_semantic_face_solve(
+        selected, cap_receipt = _same_semantic_face_solve(
             p_selected,
             capacity,
             capacity_cross,
@@ -598,6 +684,7 @@ def solve_sdrt_routing(
             p_limit=p_star + p_tie,
             stage="CAPACITY_TIE_ON_STRUCTURAL_P_SEMANTIC_FACE",
         )
+        solver_receipts = (p_receipt, cap_receipt)
         status = "SDRT_STRUCTP_CERTIFIED"
 
     raw_progress = observed @ selected
@@ -676,6 +763,7 @@ def solve_sdrt_routing(
         rank,
         nullity,
         semantic_residual,
+        solver_receipts,
         status,
         canonical_hash(payload),
     )
