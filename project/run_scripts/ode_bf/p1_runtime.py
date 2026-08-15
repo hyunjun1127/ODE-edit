@@ -3234,6 +3234,7 @@ def run_p1(
     p2r4_phaseb_attempt_suffix: str | None = None,
     p2r5_stage_a_case_index: int | None = None,
     p2r5_attempt_suffix: str | None = None,
+    p2r5_stage_a_arms: tuple[str, ...] | None = None,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -4408,6 +4409,7 @@ def run_p1(
                     ["request_microbatch_size"][alias]
                 ),
                 case_index=p2r5_stage_a_case_index,
+                arms=p2r5_stage_a_arms,
             )
         if p2r4_phaseb_case_count is not None:
             from .p2r4_phaseb_atomic_runtime import run_p2r4_phaseb_atomic

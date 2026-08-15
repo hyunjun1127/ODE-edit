@@ -78,6 +78,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
     parser.add_argument("--attempt-suffix")
+    parser.add_argument("--arms", nargs="+", choices=P2R5_ARMS)
     args = parser.parse_args(argv)
     if args.case_index not in STAGE_A_CASES[args.model]:
         parser.error("P2R5 model/case mapping differs")
@@ -93,6 +94,7 @@ def main(argv: list[str] | None = None) -> int:
             source_head=args.source_head,
             p2r5_stage_a_case_index=args.case_index,
             p2r5_attempt_suffix=args.attempt_suffix,
+            p2r5_stage_a_arms=tuple(args.arms) if args.arms else None,
         )
         result = {
             **result,

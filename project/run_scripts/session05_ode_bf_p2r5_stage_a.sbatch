@@ -34,6 +34,16 @@ readonly MODELS=(llama3-8b-inst llama3-8b-inst qwen2.5-7b-inst qwen2.5-7b-inst)
 readonly CASES=(3 5 1 4)
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
 readonly CASE_INDEX="${CASES[${SLURM_ARRAY_TASK_ID}]}"
+ARM_ARGS=(--arms SDRT-CAP SDRT-STRUCTP)
+if [[ "${ATTEMPT_SUFFIX}" == "tech-r3" ]]; then
+  case "${SLURM_ARRAY_TASK_ID}" in
+    0) ARM_ARGS=(--arms SDRT-STRUCTP) ;;
+    1) ARM_ARGS=(--arms SDRT-CAP SDRT-STRUCTP) ;;
+    2) ARM_ARGS=(--arms SDRT-CAP SDRT-STRUCTP) ;;
+    3) ARM_ARGS=(--arms SDRT-CAP) ;;
+    *) echo "P2R5 TECH-R3 task index differs" >&2; exit 2 ;;
+  esac
+fi
 readonly SUFFIX_TOKEN="$([[ -n "${ATTEMPT_SUFFIX}" ]] && printf -- '-%s' "${ATTEMPT_SUFFIX}" || true)"
 readonly CASE_TOKEN="$(printf '%02d' "${CASE_INDEX}")"
 readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-p2r5-sdrt-stage-a-${MODEL}-case-${CASE_TOKEN}-paired${SUFFIX_TOKEN}-v1"
@@ -51,6 +61,7 @@ RUN_ARGS=(
   python -m project.run_scripts.session05_ode_bf_p2r5_stage_a
   --model "${MODEL}" --case-index "${CASE_INDEX}" --output-root "${OUTPUT_ROOT}"
   --source-head "${SOURCE_HEAD}" --run-token "${RUN_TOKEN}"
+  "${ARM_ARGS[@]}"
 )
 if [[ -n "${ATTEMPT_SUFFIX}" ]]; then
   RUN_ARGS+=(--attempt-suffix "${ATTEMPT_SUFFIX}")

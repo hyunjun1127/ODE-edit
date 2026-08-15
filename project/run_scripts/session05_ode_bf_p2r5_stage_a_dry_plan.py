@@ -32,14 +32,18 @@ def build_plan(source_head: str, *, attempt_suffix: str | None = None) -> dict[s
         ("qwen2.5-7b-inst", 1),
         ("qwen2.5-7b-inst", 4),
     ]
+    tech_r3_arms = (
+        [("SDRT-STRUCTP",), P2R5_ARMS, P2R5_ARMS, ("SDRT-CAP",)]
+        if attempt_suffix == "tech-r3" else [P2R5_ARMS] * 4
+    )
     jobs = [
         {
             "array_index": index,
             "model": alias,
             "case_index": case_index,
-            "arms": list(P2R5_ARMS),
-            "endpoint_count": 2,
-            "request_attempt_count": 20,
+            "arms": list(tech_r3_arms[index]),
+            "endpoint_count": len(tech_r3_arms[index]),
+            "request_attempt_count": 10 * len(tech_r3_arms[index]),
             "result_name": expected_p2r5_stage_a_result_name(
                 alias,
                 case_index=case_index,
@@ -57,8 +61,8 @@ def build_plan(source_head: str, *, attempt_suffix: str | None = None) -> dict[s
         "stage_a_cases": {key: list(value) for key, value in STAGE_A_CASES.items()},
         "jobs": jobs,
         "job_count": 4,
-        "endpoint_attempt_count": 8,
-        "request_attempt_count": 80,
+        "endpoint_attempt_count": sum(int(item["endpoint_count"]) for item in jobs),
+        "request_attempt_count": sum(int(item["request_attempt_count"]) for item in jobs),
         "array": "0-3%4",
         "project_gpu_cap_server1": 4,
         "stage_gpu_max": 4,

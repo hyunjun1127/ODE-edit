@@ -67,6 +67,15 @@ def test_lock_and_stage_a_dry_plan_are_exact() -> None:
         "qwen2.5-7b-inst": (1, 4),
     }
     assert lock["clamp_policy"] == "ON_DECISION_ACTIVE_EVERY_TARGET_MICROSTEP"
+    repair = dry.build_plan(PARENT, attempt_suffix="tech-r3")
+    assert repair["endpoint_attempt_count"] == 6
+    assert repair["request_attempt_count"] == 60
+    assert [tuple(item["arms"]) for item in repair["jobs"]] == [
+        ("SDRT-STRUCTP",),
+        ("SDRT-CAP", "SDRT-STRUCTP"),
+        ("SDRT-CAP", "SDRT-STRUCTP"),
+        ("SDRT-CAP",),
+    ]
 
 
 def test_runtime_reuses_protected_interfaces_and_one_materialization() -> None:
@@ -112,7 +121,7 @@ def test_current_w_target_response_and_deficit_refresh_are_ordered() -> None:
 def test_w0_action_freeze_and_arm_isolation_are_explicit() -> None:
     source = (PACKAGE / "p2r5_stage_a_runtime.py").read_text()
     for token in (
-        "for arm in P2R5_ARMS:",
+        "for arm in selected_arms:",
         "seed_all(COMMON_SEED)",
         "P2R5 cross-arm W0 leak detected",
         '"actions_frozen_before_evaluator": True',
@@ -127,6 +136,7 @@ def test_entrypoint_and_launcher_resources_are_bound() -> None:
     params = inspect.signature(run_p1).parameters
     assert "p2r5_stage_a_case_index" in params
     assert "p2r5_attempt_suffix" in params
+    assert "p2r5_stage_a_arms" in params
     sbatch = (ROOT / "project/run_scripts/session05_ode_bf_p2r5_stage_a.sbatch").read_text()
     submitter = (ROOT / "project/run_scripts/session05_ode_bf_submit_p2r5_stage_a.py").read_text()
     for token in (
@@ -139,6 +149,7 @@ def test_entrypoint_and_launcher_resources_are_bound() -> None:
         assert token in sbatch
     assert "readonly MODELS=(llama3-8b-inst llama3-8b-inst qwen2.5-7b-inst qwen2.5-7b-inst)" in sbatch
     assert "readonly CASES=(3 5 1 4)" in sbatch
+    assert 'if [[ "${ATTEMPT_SUFFIX}" == "tech-r3" ]]' in sbatch
     assert 'PROJECT_GPU_CAP = 4' in submitter
     assert 'STAGE_GPU_MAX = 4' in submitter
     assert '"stage_b_status": "CLOSED_PENDING_GH_STAGE_A_REVIEW"' in submitter

@@ -670,6 +670,7 @@ def run_p2r5_stage_a(
     job_ledger: ComputeLedger,
     request_microbatch_size: int,
     case_index: int,
+    arms: Sequence[str] | None = None,
 ) -> dict[str, Any]:
     if alias not in STAGE_A_CASES or case_index not in STAGE_A_CASES[alias] or len(stream_batches) != 10:
         raise ODEBFContractError("P2R5 Stage-A case inventory differs")
@@ -677,6 +678,14 @@ def run_p2r5_stage_a(
         raise ODEBFContractError("P2R5 stream identity differs")
     if any(len(batch) != BATCH_SIZE for batch in stream_batches):
         raise ODEBFContractError("P2R5 stream is not B10x10")
+    selected_arms = tuple(P2R5_ARMS if arms is None else arms)
+    if (
+        not selected_arms
+        or len(set(selected_arms)) != len(selected_arms)
+        or any(arm not in P2R5_ARMS for arm in selected_arms)
+        or selected_arms != tuple(arm for arm in P2R5_ARMS if arm in selected_arms)
+    ):
+        raise ODEBFContractError("P2R5 Stage-A selected arm inventory differs")
     expected_w0 = _model_w0_contract(touched)
     if _hashes(touched) != dict(base_receipt.parameter_sha256):
         raise ODEBFStateError("P2R5 entry W0 differs")
@@ -684,7 +693,7 @@ def run_p2r5_stage_a(
     completed: list[dict[str, Any]] = []
     failed: list[dict[str, Any]] = []
     requests = stream_batches[case_index - 1]
-    for arm in P2R5_ARMS:
+    for arm in selected_arms:
         seed_all(COMMON_SEED)
         if _model_w0_contract(touched) != expected_w0:
             raise ODEBFStateError("P2R5 cross-arm W0 leak detected")
@@ -760,7 +769,7 @@ def run_p2r5_stage_a(
             },
         )
     paired_allocation_distance: list[float] | str = "NOT_RECORDED"
-    if len(completed) == 2:
+    if selected_arms == P2R5_ARMS and len(completed) == 2:
         cap = completed[0]["allocations_by_step"]
         structp = completed[1]["allocations_by_step"]
         paired_allocation_distance = [
@@ -780,9 +789,10 @@ def run_p2r5_stage_a(
         "source_head": source_head,
         "alias": alias,
         "case_index": case_index,
-        "arm_count": 2,
-        "attempt_count": 2,
-        "request_attempt_count": 20,
+        "arm_count": len(selected_arms),
+        "selected_arms": list(selected_arms),
+        "attempt_count": len(selected_arms),
+        "request_attempt_count": BATCH_SIZE * len(selected_arms),
         "completed_case_arm_count": len(completed),
         "failed_case_arm_count": len(failed),
         "completed": completed,
