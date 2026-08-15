@@ -4,6 +4,7 @@ import hashlib
 import inspect
 from pathlib import Path
 import subprocess
+import sys
 
 from project.run_scripts import session05_ode_bf_p2r5_stage_a_dry_plan as dry
 from project.run_scripts.ode_bf.p1_runtime import run_p1
@@ -153,6 +154,19 @@ def test_entrypoint_and_launcher_resources_are_bound() -> None:
     assert 'PROJECT_GPU_CAP = 4' in submitter
     assert 'STAGE_GPU_MAX = 4' in submitter
     assert '"stage_b_status": "CLOSED_PENDING_GH_STAGE_A_REVIEW"' in submitter
+    help_result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "project.run_scripts.session05_ode_bf_p2r5_stage_a",
+            "--help",
+        ],
+        cwd=ROOT,
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+    )
+    assert "--arms {SDRT-CAP,SDRT-STRUCTP}" in help_result.stdout
 
 
 def test_no_silent_neutral_fallback_or_forbidden_strength_controls() -> None:

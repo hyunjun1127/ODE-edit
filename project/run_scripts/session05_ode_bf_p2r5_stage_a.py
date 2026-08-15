@@ -22,7 +22,7 @@ from project.run_scripts.ode_bf.p1_runtime import (
     run_p1,
     write_p1_failure_once,
 )
-from project.run_scripts.ode_bf.p2r5_sdrt_writer import P2R5_INSTRUCTION_ID
+from project.run_scripts.ode_bf.p2r5_sdrt_writer import P2R5_ARMS, P2R5_INSTRUCTION_ID
 from project.run_scripts.ode_bf.p2r5_stage_a_panel import (
     LOCK_FILE,
     PARENT,
