@@ -18,14 +18,14 @@ from .p2r6_semantic_region_controller import (
 )
 
 
-LOCK_FILE = "numerical_lock_s05_p2r6_semantic_region_pilot.json"
+LOCK_FILE = "numerical_lock_s05_p2r6_red_r2_final.json"
 PARENT = "ff032a10eac257d23c691896458159d2f4eff23b"
 
 
 def load_and_validate_lock(path: Path) -> tuple[dict[str, Any], str]:
     value, raw_sha = load_rooted_json(
         path,
-        expected_schema="ode-edit-s05-p2r6-semantic-region-pilot-numerical-lock/v1",
+        expected_schema="ode-edit-s05-p2r6-red-r2-final-numerical-lock/v1",
     )
     if (
         value.get("instruction_id") != P2R6_INSTRUCTION_ID
@@ -47,8 +47,15 @@ def load_and_validate_lock(path: Path) -> tuple[dict[str, Any], str]:
         or value.get("highs_internal_feasibility_tolerance")
         != P2R6_HIGHS_INTERNAL_TOLERANCE
         or value.get("e1_xi_authority") != P2R6_E1_XI_AUTHORITY
-        or value.get("quadratic_certificate_polish")
-        != "MONOTONE_STRICTLY_VIOLATED_ACTIVE_SET_EXPANSION_WITH_UNCHANGED_EXTERNAL_TOLERANCE"
+        or value.get("e1_semantic_nonnegative_constraint") is not True
+        or value.get("post_b_max_violation_tolerance") != 1.0e-8
+        or value.get("quadratic_solver")
+        != "DENSE_FP64_PRIMAL_DUAL_PREDICTOR_CORRECTOR_ORIGINAL_ALPHA"
+        or value.get("quadratic_external_certificate_tolerance") != 1.0e-8
+        or value.get("quadratic_internal_tolerance") != 1.0e-11
+        or value.get("shadow_failure_isolation")
+        != "SELECTED_STRICT_SHADOW_RESULT_OR_TECHNICAL_ERROR_DECISION_INFLUENCE_ZERO"
+        or value.get("arm_top_level_compute_aggregation_required") is not True
         or value.get("shadow_added_model_forward_backward_materialization") != [0, 0, 0]
         or value.get("stage_b10x10_status") != "NOT_AUTHORIZED"
         or value.get("scientific_promotion_authorized") is not False

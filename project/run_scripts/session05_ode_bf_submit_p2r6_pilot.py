@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Held-inspect-release submitter for P2R6 Phase1/Phase2."""
+"""Held-inspect-selected-release submitter for the P2R6 RED-R2 final run."""
 
 from __future__ import annotations
 
@@ -22,10 +22,10 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError
 
 
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p2r6_pilot.sbatch"
-STATE_ROOT = REPO_ROOT / "local/odebf/state/p2r6-semantic-region-pilot"
+STATE_ROOT = REPO_ROOT / "local/odebf/state/p2r6-red-r2-final-v1"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
-LOG_ROOT = REPO_ROOT / "local/odebf/logs/p2r6-semantic-region-pilot"
-BRANCH = "codex/p2r6-semantic-region-controller-pilot-v1"
+LOG_ROOT = REPO_ROOT / "local/odebf/logs/p2r6-red-r2-final-v1"
+BRANCH = "codex/p2r6-red-r2-final-v1"
 PROJECT_GPU_CAP = 4
 
 
@@ -116,7 +116,7 @@ def submit(
         raise ODEBFContractError("P2R6 server1 GPU cap differs")
     selection = selected_controller.lower() if selected_controller else "none"
     tail = f"-{attempt_suffix}" if attempt_suffix else ""
-    namespace = f"s05-p2r6-{phase}-{selection}-{source_head[:12]}{tail}-v1"
+    namespace = f"s05-p2r6-red-r2-final-{phase}-{selection}-{source_head[:12]}{tail}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
@@ -125,7 +125,7 @@ def submit(
     array = f"0-{planned_job_count - 1}%{stage_concurrency}"
     node_receipt = _run(["scontrol", "show", "node", "-o", "devbox"]).stdout.strip()
     intent = {
-        "schema": "ode-edit-s05-p2r6-pilot-submission-intent/v1",
+        "schema": "ode-edit-s05-p2r6-red-r2-final-submission-intent/v1",
         "source_head": source_head,
         "source_parent": parent,
         "phase": phase,
@@ -137,7 +137,9 @@ def submit(
         "project_gpu_cap": PROJECT_GPU_CAP,
         "stage_gpu_max": stage_max,
         "node_resource_receipt_sha256": hashlib.sha256(node_receipt.encode()).hexdigest(),
-        "held_then_atomic_release": True,
+        "held_then_selected_task_release": True,
+        "initial_release_indices": plan["release_plan"]["initial_release_indices"],
+        "held_indices_after_initial_release": plan["release_plan"]["held_indices"],
         "array": array,
         "b10x10_status": "NOT_AUTHORIZED",
     }
@@ -181,7 +183,7 @@ def submit(
         _run(["scancel", job_id], check=False)
         raise ODEBFContractError("P2R6 held scheduler contract differs")
     receipt = {
-        "schema": "ode-edit-s05-p2r6-pilot-submission/v1",
+        "schema": "ode-edit-s05-p2r6-red-r2-final-submission/v1",
         "source_head": source_head,
         "source_parent": parent,
         "phase": phase,
@@ -196,12 +198,17 @@ def submit(
         "project_gpu_cap": PROJECT_GPU_CAP,
         "intent_sha256": intent_sha,
         "held_inspection_sha256": hashlib.sha256(observed.encode()).hexdigest(),
-        "held_then_atomic_release": True,
+        "held_then_selected_task_release": True,
+        "initial_release_indices": plan["release_plan"]["initial_release_indices"],
+        "held_indices_after_initial_release": plan["release_plan"]["held_indices"],
         "attempt_suffix": attempt_suffix,
         "b10x10_status": "NOT_AUTHORIZED",
     }
     receipt_sha = _write_once(receipt_path, receipt)
-    _run(["scontrol", "release", job_id])
+    if phase == "phase1":
+        _run(["scontrol", "release", job_id])
+    else:
+        _run(["scontrol", "release", f"{job_id}_1", f"{job_id}_2"])
     return {**receipt, "submission_receipt_sha256": receipt_sha}
 
 

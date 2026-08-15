@@ -13,6 +13,7 @@ import torch
 from project.run_scripts.ode_bf import p2r6_semantic_region_controller as controller
 
 from project.run_scripts import session05_ode_bf_p2r6_pilot_dry_plan as dry
+from project.run_scripts.ode_bf.accounting import ComputeLedger
 from project.run_scripts.ode_bf.contracts import ODEBFContractError
 from project.run_scripts.ode_bf.p2r5_sdrt_writer import (
     SDRTQuadratics,
@@ -27,6 +28,7 @@ from project.run_scripts.ode_bf.p2r6_pilot_panel import (
 )
 from project.run_scripts.ode_bf.p2r6_pilot_runtime import (
     P2R6_RUNTIME_POLICY,
+    _arm_compute_aggregation,
     p2r6_phase_arms,
 )
 from project.run_scripts.ode_bf.p2r6_semantic_region_controller import (
@@ -153,11 +155,91 @@ def test_shadow_panel_is_same_state_model_free_and_has_all_four_arms() -> None:
         torch.ones(10, dtype=torch.float64),
         pooled_nonnegative_realization_calibration([], []),
         _quadratics(),
+        selected_arm="AR-CAP",
+        outer_step=0,
     )
     assert tuple(item.arm for item in panel.routes) == P2R6_CAP_ARMS
     assert (panel.model_forward_count, panel.model_backward_count, panel.materialization_count) == (0, 0, 0)
     assert len(panel.pairwise_allocation_l2) == 6
     assert panel.route("AR-CAP").arm == "AR-CAP"
+    assert panel.status == "SHADOW_PANEL_CERTIFIED"
+    assert panel.selected_arm == "AR-CAP"
+
+
+def test_shadow_failure_does_not_change_or_terminate_selected_route(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    original = controller.solve_p2r6_routing
+    response = _response()
+    deficit = torch.ones(10, dtype=torch.float64)
+    entry = deficit.clone()
+    calibration = pooled_nonnegative_realization_calibration([], [])
+    quadratics = _quadratics()
+    expected = original(
+        response, deficit, entry, calibration, quadratics, arm="AR-CAP"
+    )
+
+    def fail_one_shadow(*args: object, arm: str, **kwargs: object):
+        if arm == "AS-CAP":
+            raise controller.P2R6RoutingTechnicalError(
+                "shadow fixture",
+                {"stage": "SHADOW_FIXTURE", "identity_sha256": "fixture"},
+            )
+        return original(*args, arm=arm, **kwargs)
+
+    monkeypatch.setattr(controller, "solve_p2r6_routing", fail_one_shadow)
+    panel = solve_p2r6_shadow_panel(
+        response,
+        deficit,
+        entry,
+        calibration,
+        quadratics,
+        selected_arm="AR-CAP",
+        outer_step=5,
+    )
+    assert panel.status == "SHADOW_TECHNICAL_INVALID"
+    assert panel.failing_shadow_arms == ("AS-CAP",)
+    assert torch.equal(panel.route("AR-CAP").allocation, expected.allocation)
+    assert panel.raw_free_payload()["shadow_error_decision_influence_count"] == 0
+
+
+def test_arm_to_top_level_compute_ledger_aggregation_is_exact() -> None:
+    ledger = ComputeLedger()
+    ledger.increment("model_forward", 10)
+    ledger.increment("backward", 24)
+    ledger.increment("target_backward", 24)
+    ledger.increment("qp_solve", 12)
+    ledger.increment("qp_certificate", 12)
+    for _ in range(8):
+        ledger.record_accepted_step(
+            accepted_dt=1.0 / 8.0,
+            completed_k_total=ledger.completed_k_total + 1,
+        )
+    ledger.add_time("p2r6_routing", wall_seconds=0.25)
+    completed = [
+        {
+            "arm_compute": {
+                "target_forward_count": 24,
+                "target_backward_count": 16,
+                "kl_forward_count": 24,
+                "kl_backward_count": 8,
+                "physical_capture_forward_count": 9,
+                "physical_response_forward_count": 8,
+                "physical_response_batched_vjp_count": 8,
+                "post_write_objective_forward_count": 8,
+                "writer_materialization_count": 8,
+                "routing_qp_solve_count": 12,
+                "routing_qp_certificate_count": 12,
+                "shadow_technical_invalid_count": 0,
+                "completed_k_count": 8,
+            }
+        }
+    ]
+    receipt = _arm_compute_aggregation(completed, ledger)
+    assert receipt["all_checks_pass"] is True
+    assert receipt["top_level_completed_k_total"] == 8
+    assert receipt["top_level_counters"]["qp_solve"] == 12
+    assert receipt["top_level_counters"]["backward"] == 24
 
 
 def test_entry_anchored_e1_rows_are_ratio_normalized_for_dynamic_scale() -> None:
@@ -225,7 +307,7 @@ def test_e1_backend_auxiliary_xi_is_observation_only(monkeypatch: pytest.MonkeyP
     assert receipt["certificate_pass"] is True
 
 
-def test_e1_start_region_slack_is_observation_not_a_false_gate() -> None:
+def test_e1_amendment_enforces_nonnegative_semantic_response_and_b_region() -> None:
     response = _response().numpy()
     response[0, :] = -1.0e-6
     response[0, 0] = 0.0
@@ -240,48 +322,40 @@ def test_e1_start_region_slack_is_observation_not_a_false_gate() -> None:
     )
     assert receipt["certificate_pass"] is True
     assert receipt["ratio_objective_violation"] <= 1.0e-8
-    assert receipt["semantic_region_violation"] > 0.0
-    assert receipt["e1_start_in_semantic_region"] is (
-        receipt["semantic_region_violation"] <= 1.0e-8
-    )
+    assert receipt["semantic_response_nonnegative_violation"] <= 1.0e-8
+    assert receipt["semantic_region_violation"] <= 1.0e-8
+    assert receipt["post_b_max_violation"] <= 1.0e-8
+    assert receipt["e1_semantic_nonnegative_constraint_enabled"] is True
     source = inspect.getsource(_semantic_region_optimum)
-    assert "max(mass_violation, ratio_objective_violation, negative_violation)" in source
-    assert "max(mass_violation, semantic_violation, negative_violation)" not in source
+    assert "semantic_nonnegative_violation" in source
+    assert "semantic_violation" in source
 
 
-def test_quadratic_polish_expands_newly_active_mass_constraint(
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    def boundary_crossing_minimize(*args: object, **kwargs: object) -> SimpleNamespace:
-        return SimpleNamespace(
-            x=np.asarray([0.5, 0.0], dtype=np.float64),
-            success=False,
-            status=8,
-            message="fixture boundary crossing",
-            nit=1,
-            nfev=1,
-            njev=1,
-        )
-
-    monkeypatch.setattr(controller, "minimize", boundary_crossing_minimize)
+def test_certified_backend_releases_a_wrongly_active_zero_constraint() -> None:
     selected, receipt = _solve_region_quadratic(
-        np.asarray([0.5, 0.0], dtype=np.float64),
+        np.asarray([1.0, 0.0], dtype=np.float64),
         np.eye(2, dtype=np.float64),
-        np.asarray([-2.0, 0.0], dtype=np.float64),
+        np.asarray([-0.8, -0.2], dtype=np.float64),
         np.asarray([[1.0, 0.0]], dtype=np.float64),
         np.asarray([0.1], dtype=np.float64),
-        stage="ACTIVE_SET_EXPANSION_FIXTURE",
+        stage="CONSTRAINT_RELEASE_FIXTURE",
     )
-    assert selected == pytest.approx(np.asarray([1.0, 0.0]))
-    assert receipt["active_set_expansion_count"] == 1
-    assert receipt["active_set_polish_round_count"] >= 2
-    assert receipt["mass_violation"] <= 1.0e-8
-    assert receipt["optimality"] <= 1.0e-8
+    assert selected == pytest.approx(np.asarray([0.8, 0.2]), abs=2.0e-6)
+    assert selected[1] > 0.1
+    assert receipt["constraint_release_capability"] == (
+        "ALL_INEQUALITIES_REMAIN_PRIMAL_DUAL_VARIABLES"
+    )
+    assert max(
+        receipt["r_pri"],
+        receipt["r_dual"],
+        receipt["r_stat"],
+        receipt["r_comp"],
+    ) <= 1.0e-8
     assert receipt["certificate_pass"] is True
     source = inspect.getsource(_solve_region_quadratic)
-    assert "candidate < -P2R6_NUMERICAL_EPSILON" in source
-    assert "c_mass < -P2R6_NUMERICAL_EPSILON" in source
-    assert "c_semantic < -P2R6_NUMERICAL_EPSILON" in source
+    assert "solve_certified_semantic_region_qp" in source
+    assert "SLSQP" not in source
+    assert "active_set" not in source
 
 
 def test_forbidden_influence_and_runtime_policy_are_exact() -> None:
@@ -322,7 +396,10 @@ def test_phase_inventory_lock_and_dry_plans() -> None:
     phase2 = dry.build_plan(PARENT, phase="phase2", selected_controller="AS")
     assert phase2["job_count"] == 4
     assert phase2["endpoint_attempt_count"] == 12
-    assert phase2["array"] == "0-3%4"
+    assert phase2["array"] == "0-3%2"
+    assert phase2["release_plan"]["wave_a"] == [1, 2]
+    assert phase2["release_plan"]["wave_b"] == [0, 3]
+    assert phase2["release_plan"]["held_indices"] == [0, 3]
     with pytest.raises(ODEBFContractError):
         p2r6_phase_arms("phase2", None)
 
@@ -414,10 +491,18 @@ def test_entrypoint_runtime_args_and_resource_contract_are_bound() -> None:
         "#SBATCH --mem=65000M",
         "#SBATCH --gres=gpu:1",
         "#SBATCH --nodelist=devbox",
-        'readonly EXPECTED_BRANCH="codex/p2r6-semantic-region-controller-pilot-v1"',
+        'readonly EXPECTED_BRANCH="codex/p2r6-red-r2-final-v1"',
     ):
         assert token in sbatch
     assert "PROJECT_GPU_CAP = 4" in submitter
     assert '"RUNNING,CONFIGURING"' in submitter
     assert '"JobState=PENDING"' in submitter
     assert '"Reason=JobHeldUser"' in submitter
+    assert 'f"{job_id}_1"' in submitter
+    assert 'f"{job_id}_2"' in submitter
+    wave_control = (
+        ROOT / "project/run_scripts/session05_ode_bf_control_p2r6_phase2_wave.py"
+    ).read_text()
+    assert "P2R6_PHASE2_WAVE_A_GATE_V1" in wave_control
+    assert "WAVE_B_INDICES = (0, 3)" in wave_control
+    assert 'PASS_STATUS = "PHASE2_WAVE_A_PASS"' in wave_control

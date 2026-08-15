@@ -267,6 +267,10 @@ def _run_arm_case(
         "writer_materialization_count": 0,
         "nnls_model_pass_count": 0,
         "routing_model_pass_count": 0,
+        "routing_qp_solve_count": 0,
+        "routing_qp_certificate_count": 0,
+        "shadow_technical_invalid_count": 0,
+        "completed_k_count": 0,
     }
     started = time.perf_counter()
     cumulative_factors: dict[str, tuple[WaypointFactor, ...]] = {
@@ -338,6 +342,9 @@ def _run_arm_case(
                 compute["target_backward_count"] += semantic.backward_count
                 compute["kl_forward_count"] += kl_result.model_forward_count
                 compute["kl_backward_count"] += kl_result.backward_count
+                backward_count = semantic.backward_count + kl_result.backward_count
+                job_ledger.increment("backward", backward_count)
+                job_ledger.increment("target_backward", backward_count)
                 preservation, decay_values, decay_gradient = p2r1_preservation_gradient(
                     current_target,
                     target_origin,
@@ -434,6 +441,7 @@ def _run_arm_case(
             )
             quadratics = build_sdrt_quadratics(field, cumulative_factors, base_quadratics)
             shadow_panel = None
+            routing_started = time.perf_counter()
             if runtime_policy.shadow_solver is not None:
                 shadow_panel = runtime_policy.shadow_solver(
                     response.response,
@@ -441,6 +449,8 @@ def _run_arm_case(
                     entry_deficit,
                     calibration,
                     quadratics,
+                    selected_arm=arm,
+                    outer_step=outer,
                 )
                 shadow_payload = shadow_panel.raw_free_payload()
                 if (
@@ -455,6 +465,13 @@ def _run_arm_case(
                         shadow_payload,
                     )
                 )
+                compute["routing_qp_solve_count"] += shadow_panel.solver_call_count
+                compute["routing_qp_certificate_count"] += shadow_panel.certificate_count
+                compute["shadow_technical_invalid_count"] += int(
+                    shadow_panel.status == "SHADOW_TECHNICAL_INVALID"
+                )
+                job_ledger.increment("qp_solve", shadow_panel.solver_call_count)
+                job_ledger.increment("qp_certificate", shadow_panel.certificate_count)
             if shadow_panel is not None and arm in tuple(
                 item.arm for item in shadow_panel.routes
             ):
@@ -468,12 +485,28 @@ def _run_arm_case(
                     quadratics,
                     arm=arm,
                 )
+                route_solve_count = max(1, len(route.solver_receipts))
+                route_certificate_count = sum(
+                    bool(item.get("certificate_pass", True))
+                    for item in route.solver_receipts
+                )
+                compute["routing_qp_solve_count"] += route_solve_count
+                compute["routing_qp_certificate_count"] += route_certificate_count
+                job_ledger.increment("qp_solve", route_solve_count)
+                job_ledger.increment("qp_certificate", route_certificate_count)
+            routing_wall = time.perf_counter() - routing_started
+            job_ledger.add_time("p2r6_routing", wall_seconds=routing_wall)
             increment = p2r2_waypoint_factors(field, route, outer_step=outer)
             cumulative_factors = _merge_factors(cumulative_factors, increment)
             materialization = materializer.materialize(
                 cumulative_factors, transition_index=outer + 1
             )
             compute["writer_materialization_count"] += 1
+            compute["completed_k_count"] += 1
+            job_ledger.record_accepted_step(
+                accepted_dt=1.0 / 8.0,
+                completed_k_total=job_ledger.completed_k_total + 1,
+            )
             actual_capacity = _model_capacity(touched, base_values)
             next_physical = capture_scalable_physical_state(model, capture_plan, hparams)
             compute["physical_capture_forward_count"] += next_physical.physical_forward_count
@@ -549,6 +582,16 @@ def _run_arm_case(
                 "shadow_panel_identity_sha256": (
                     shadow_panel.identity_sha256 if shadow_panel is not None else "NOT_APPLICABLE"
                 ),
+                "shadow_panel_status": (
+                    shadow_panel.status if shadow_panel is not None else "NOT_APPLICABLE"
+                ),
+                "selected_arm": arm,
+                "failing_shadow_arms": (
+                    list(shadow_panel.failing_shadow_arms)
+                    if shadow_panel is not None
+                    else []
+                ),
+                "shadow_error_decision_influence_count": 0,
                 "shadow_model_forward_count": 0,
                 "shadow_model_backward_count": 0,
                 "shadow_materialization_count": 0,
@@ -631,6 +674,7 @@ def _run_arm_case(
             "actions_frozen_before_evaluator": True,
             "heldout_controller_access_count": 0,
             "retry_count": 0,
+            "shadow_technical_invalid_count": compute["shadow_technical_invalid_count"],
             "W0_sha256": expected_w0,
         }
         action["identity_sha256"] = canonical_hash(action)
@@ -642,6 +686,8 @@ def _run_arm_case(
             selected_snapshot_sha256=action_sha,
             fixed_budget_slots_completed=8,
         )
+        evaluator_forward_before = job_ledger.counters["model_forward"]
+        evaluator_tokens_before = job_ledger.counters["processed_tokens"]
         endpoint, w_evaluator_wall = _evaluate_frozen_state(
             model,
             tokenizer,
@@ -649,6 +695,16 @@ def _run_arm_case(
             alias=alias,
             freeze_payload=evaluator_freeze,
         )
+        w_evaluator_forward = (
+            job_ledger.counters["model_forward"] - evaluator_forward_before
+        )
+        w_evaluator_tokens = (
+            job_ledger.counters["processed_tokens"] - evaluator_tokens_before
+        )
+        job_ledger.increment("evaluator_forward", w_evaluator_forward)
+        job_ledger.increment("evaluator_tokens", w_evaluator_tokens)
+        evaluator_forward_before = job_ledger.counters["model_forward"]
+        evaluator_tokens_before = job_ledger.counters["processed_tokens"]
         z_panel, z_evaluator_wall = _evaluate_terminal_z_panel(
             model,
             tokenizer,
@@ -662,6 +718,22 @@ def _run_arm_case(
             terminal_physical=physical,
             writer_state_sha256=action["writer_state_sha256"],
             clamp_policy="ON",
+        )
+        z_evaluator_forward = (
+            job_ledger.counters["model_forward"] - evaluator_forward_before
+        )
+        z_evaluator_tokens = (
+            job_ledger.counters["processed_tokens"] - evaluator_tokens_before
+        )
+        job_ledger.increment("evaluator_forward", z_evaluator_forward)
+        job_ledger.increment("evaluator_tokens", z_evaluator_tokens)
+        job_ledger.add_time("p2r6_target", wall_seconds=target_wall)
+        job_ledger.add_time("p2r6_writer", wall_seconds=writer_wall)
+        job_ledger.add_time(
+            "p2r6_terminal_w_evaluator", wall_seconds=w_evaluator_wall
+        )
+        job_ledger.add_time(
+            "p2r6_terminal_z_evaluator", wall_seconds=z_evaluator_wall
         )
     finally:
         counter.close()
@@ -707,12 +779,18 @@ def _run_arm_case(
         "writer_wall_seconds": writer_wall,
         "terminal_w_evaluator_wall_seconds": w_evaluator_wall,
         "terminal_z_evaluator_wall_seconds": z_evaluator_wall,
+        "terminal_w_evaluator_forward_count": w_evaluator_forward,
+        "terminal_z_evaluator_forward_count": z_evaluator_forward,
         "total_wall_seconds": time.perf_counter() - started,
         "materializer": materializer.raw_free_payload(),
         "materializer_restore": materializer_restore,
         "W0_restore": restore,
         "W0_restored": True,
         "forbidden_influence": forbidden,
+        "shadow_technical_invalid_count": compute["shadow_technical_invalid_count"],
+        "shadow_panel_technical_valid": (
+            compute["shadow_technical_invalid_count"] == 0
+        ),
         "scientific_promotion": False,
     }
     terminal["identity_sha256"] = canonical_hash(terminal)
@@ -737,6 +815,8 @@ def _run_arm_case(
         "arm": arm,
         "case_index": case_index,
         "allocations_by_step": allocations,
+        "arm_compute": compute,
+        "shadow_technical_invalid_count": compute["shadow_technical_invalid_count"],
     }
 
 

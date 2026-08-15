@@ -18,9 +18,9 @@ readonly PHASE="${3:-}"
 readonly SELECTED_CONTROLLER="${4:-}"
 readonly ATTEMPT_SUFFIX="${5:-}"
 readonly EXPECTED_SESSION="019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
-readonly RUN_TOKEN="p2r6-semantic-region-controller-pilot-v1"
+readonly RUN_TOKEN="p2r6-red-r2-final-scientific-run-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
-readonly EXPECTED_BRANCH="codex/p2r6-semantic-region-controller-pilot-v1"
+readonly EXPECTED_BRANCH="codex/p2r6-red-r2-final-v1"
 
 [[ "$#" -eq 4 || "$#" -eq 5 ]] || { echo "P2R6 arguments differ" >&2; exit 2; }
 [[ "${PHASE}" == "phase1" || "${PHASE}" == "phase2" ]] || { echo "P2R6 phase differs" >&2; exit 2; }
@@ -49,14 +49,14 @@ readonly CASE_INDEX="${CASES[${SLURM_ARRAY_TASK_ID}]}"
 readonly SUFFIX_TOKEN="$([[ -n "${ATTEMPT_SUFFIX}" ]] && printf -- '-%s' "${ATTEMPT_SUFFIX}" || true)"
 readonly SELECT_TOKEN="$([[ -n "${SELECTED_CONTROLLER}" ]] && printf -- '-%s' "${SELECTED_CONTROLLER,,}" || true)"
 readonly CASE_TOKEN="$(printf '%02d' "${CASE_INDEX}")"
-readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-p2r6-semantic-region-${PHASE}${SELECT_TOKEN}-${MODEL}-case-${CASE_TOKEN}-paired${SUFFIX_TOKEN}-v1"
+readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-p2r6-red-r2-final-${PHASE}${SELECT_TOKEN}-${MODEL}-case-${CASE_TOKEN}-paired${SUFFIX_TOKEN}-v1"
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P2R6 output exists" >&2; exit 2; }
 
 export HF_HOME="/mnt/raid5/janghj/.cache/huggingface"
 export HF_HUB_CACHE="/mnt/raid5/janghj/.cache/huggingface/hub"
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 export TOKENIZERS_PARALLELISM=false PYTHONHASHSEED=48 PYTHONDONTWRITEBYTECODE=1
-export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p2r6-pilot"
+export MPLCONFIGDIR="${REPO_ROOT}/local/odebf/matplotlib-p2r6-red-r2-final"
 export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 
 RUN_ARGS=(

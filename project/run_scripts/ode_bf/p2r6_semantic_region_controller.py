@@ -10,12 +10,11 @@ runtime interfaces.
 from __future__ import annotations
 
 from dataclasses import dataclass
-import math
 from typing import Any, Mapping, Sequence
 
 import numpy as np
 import torch
-from scipy.optimize import Bounds, linprog, minimize, nnls, root
+from scipy.optimize import linprog
 
 from .contracts import ODEBFContractError, canonical_hash
 from .functional import tensor_sha256
@@ -25,15 +24,19 @@ from .p2r5_sdrt_writer import (
     SDRTQuadratics,
     solve_sdrt_routing,
 )
+from .p2r6_certified_convex_qp import (
+    ConvexQuadraticTie,
+    P2R6CertifiedQPError,
+    solve_certified_semantic_region_qp,
+)
 from .progress_simplex_routing import (
-    SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
     SIMPLEX_PRIMAL_TOLERANCE,
     SIMPLEX_XI_TIE_TOLERANCE,
 )
 
 
-P2R6_INSTRUCTION_ID = "ODEEDIT-S05-P2R6-SEMANTIC-REGION-CONTROLLER-PILOT-V1"
-P2R6_METHOD_ID = "P2R6-SEMANTIC-REGION-CONTROLLER-PILOT-V1"
+P2R6_INSTRUCTION_ID = "ODEEDIT-S05-P2R6-RED-R2-FINAL-SCIENTIFIC-RUN-V1"
+P2R6_METHOD_ID = "P2R6-RED-R2-FINAL-SEMANTIC-REGION-CONTROLLER-V1"
 P2R6_CAP_ARMS = ("A0-CAP", "AETA-CAP", "AR-CAP", "AS-CAP")
 P2R6_STRUCTP_ARMS = ("AR-STRUCTP", "AS-STRUCTP")
 P2R6_ARMS = (*P2R6_CAP_ARMS, *P2R6_STRUCTP_ARMS)
@@ -143,10 +146,39 @@ class P2R6RoutingResult:
 
 
 @dataclass(frozen=True, slots=True)
+class P2R6ShadowArmResult:
+    arm: str
+    selected: bool
+    route: P2R6RoutingResult | None
+    technical_error: Mapping[str, Any] | None
+    status: str
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        return {
+            "arm": self.arm,
+            "selected": self.selected,
+            "status": self.status,
+            "route": self.route.raw_free_payload() if self.route is not None else None,
+            "technical_error": (
+                dict(self.technical_error)
+                if self.technical_error is not None
+                else None
+            ),
+        }
+
+
+@dataclass(frozen=True, slots=True)
 class P2R6ShadowPanel:
+    selected_arm: str
+    outer_step: int
+    arm_results: tuple[P2R6ShadowArmResult, ...]
     routes: tuple[P2R6RoutingResult, ...]
     pairwise_allocation_l2: Mapping[str, float]
-    eta_on_off_allocation_l2: float
+    eta_on_off_allocation_l2: float | None
+    failing_shadow_arms: tuple[str, ...]
+    status: str
+    solver_call_count: int
+    certificate_count: int
     model_forward_count: int
     model_backward_count: int
     materialization_count: int
@@ -161,10 +193,19 @@ class P2R6ShadowPanel:
     def raw_free_payload(self) -> dict[str, Any]:
         return {
             "schema": "ode-edit-s05-p2r6-same-state-shadow-panel/v1",
+            "selected_arm": self.selected_arm,
+            "outer_step": self.outer_step,
             "arms": [item.arm for item in self.routes],
+            "arm_results": [item.raw_free_payload() for item in self.arm_results],
             "routes": [item.raw_free_payload() for item in self.routes],
             "pairwise_allocation_l2": dict(self.pairwise_allocation_l2),
             "eta_on_off_allocation_l2": self.eta_on_off_allocation_l2,
+            "failing_shadow_arms": list(self.failing_shadow_arms),
+            "status": self.status,
+            "selected_action_unchanged_by_shadow_error": True,
+            "shadow_error_decision_influence_count": 0,
+            "solver_call_count": self.solver_call_count,
+            "certificate_count": self.certificate_count,
             "model_forward_count": self.model_forward_count,
             "model_backward_count": self.model_backward_count,
             "materialization_count": self.materialization_count,
@@ -298,10 +339,19 @@ def _semantic_region_optimum(
             np.concatenate(
                 (-normalized_response, -np.ones((request_count, 1))), axis=1
             ),
+            np.concatenate(
+                (-normalized_response, np.zeros((request_count, 1))), axis=1
+            ),
         ),
         axis=0,
     )
-    b_ub = np.concatenate((np.ones(request_count), -normalized_deficit))
+    b_ub = np.concatenate(
+        (
+            np.ones(request_count),
+            -normalized_deficit,
+            np.zeros(request_count),
+        )
+    )
     solved = linprog(
         objective,
         A_ub=a_ub,
@@ -345,13 +395,22 @@ def _semantic_region_optimum(
     )
     mass_violation = max(0.0, float(np.max(mass @ allocation - 1.0)))
     semantic_violation = max(0.0, float(np.max(lower - semantic_response)))
+    semantic_nonnegative_violation = max(
+        0.0, -float(np.min(semantic_response))
+    )
     ratio_objective_violation = max(
         0.0,
         float(np.max((deficit - semantic_response) / scale - xi)),
     )
     negative_violation = max(0.0, -float(np.min(allocation)))
     certified = (
-        max(mass_violation, ratio_objective_violation, negative_violation)
+        max(
+            mass_violation,
+            semantic_nonnegative_violation,
+            semantic_violation,
+            ratio_objective_violation,
+            negative_violation,
+        )
         <= P2R6_NUMERICAL_EPSILON
     )
     receipt = {
@@ -374,6 +433,9 @@ def _semantic_region_optimum(
         "e1_xi_authority": P2R6_E1_XI_AUTHORITY,
         "mass_violation": mass_violation,
         "semantic_region_violation": semantic_violation,
+        "semantic_response_nonnegative_violation": semantic_nonnegative_violation,
+        "e1_semantic_nonnegative_constraint_enabled": True,
+        "post_b_max_violation": semantic_violation,
         "e1_start_in_semantic_region": (
             semantic_violation <= P2R6_NUMERICAL_EPSILON
         ),
@@ -402,300 +464,36 @@ def _solve_region_quadratic(
     p_cross: np.ndarray | None = None,
     p_limit: float | None = None,
 ) -> tuple[np.ndarray, dict[str, Any]]:
+    """Dispatch the exact alpha-coordinate problem to the certified backend."""
+
     request_count, alpha_count = response.shape
-    layer_count = alpha_count // request_count
-    mass = _mass_matrix(layer_count, request_count)
-    objective_symmetric = 0.5 * (objective_matrix + objective_matrix.T)
-    objective_eigenvalues = np.linalg.eigvalsh(objective_symmetric)
-    if float(np.min(objective_eigenvalues)) < -P2R6_NUMERICAL_EPSILON:
-        raise P2R6RoutingTechnicalError(
-            f"P2R6 {stage} objective is nonconvex",
-            {
-                "schema": "ode-edit-s05-p2r6-routing-technical/v1",
-                "stage": stage,
-                "objective_min_eigenvalue": float(np.min(objective_eigenvalues)),
-            },
-        )
+    mass = _mass_matrix(alpha_count // request_count, request_count)
+    tie = None
     if p_limit is not None:
         if p_matrix is None or p_cross is None:
             raise ODEBFContractError("P2R6 P tie geometry is absent")
-        p_eigenvalues = np.linalg.eigvalsh(0.5 * (p_matrix + p_matrix.T))
-        if float(np.min(p_eigenvalues)) < -P2R6_NUMERICAL_EPSILON:
-            raise P2R6RoutingTechnicalError(
-                f"P2R6 {stage} P tie is nonconvex",
-                {
-                    "schema": "ode-edit-s05-p2r6-routing-technical/v1",
-                    "stage": stage,
-                    "p_min_eigenvalue": float(np.min(p_eigenvalues)),
-                },
-            )
-    hessian = objective_matrix + objective_matrix.T
-
-    def objective(value: np.ndarray) -> float:
-        return _quadratic_value(objective_matrix, objective_cross, value)
-
-    def gradient(value: np.ndarray) -> np.ndarray:
-        return hessian @ value + 2.0 * objective_cross
-
-    constraints: list[dict[str, Any]] = [
-        {
-            "type": "ineq",
-            "fun": lambda value: np.ones(request_count) - mass @ value,
-            "jac": lambda value: -mass,
-        },
-        {
-            "type": "ineq",
-            "fun": lambda value: response @ value - lower,
-            "jac": lambda value: response,
-        },
-    ]
-    if p_limit is not None and p_matrix is not None and p_cross is not None:
-        constraints.append(
-            {
-                "type": "ineq",
-                "fun": lambda value: float(
-                    p_limit - _quadratic_value(p_matrix, p_cross, value)
-                ),
-                "jac": lambda value: -(
-                    (p_matrix + p_matrix.T) @ value + 2.0 * p_cross
-                ),
-            }
+        tie = ConvexQuadraticTie(
+            np.asarray(p_matrix, dtype=np.float64),
+            np.asarray(p_cross, dtype=np.float64),
+            float(p_limit),
         )
     try:
-        solved = minimize(
-            objective,
+        solved = solve_certified_semantic_region_qp(
             np.asarray(start, dtype=np.float64),
-            jac=gradient,
-            method="SLSQP",
-            bounds=Bounds(
-                np.zeros(alpha_count, dtype=np.float64),
-                np.full(alpha_count, np.inf, dtype=np.float64),
-            ),
-            constraints=tuple(constraints),
-            options={
-                "ftol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
-                "maxiter": 3000,
-                "disp": False,
-            },
+            np.asarray(objective_matrix, dtype=np.float64),
+            np.asarray(objective_cross, dtype=np.float64),
+            np.asarray(response, dtype=np.float64),
+            np.asarray(lower, dtype=np.float64),
+            mass,
+            stage=stage,
+            tie=tie,
         )
-    except Exception as exc:
+    except P2R6CertifiedQPError as exc:
         raise P2R6RoutingTechnicalError(
-            f"P2R6 {stage} solve raised",
-            {
-                "schema": "ode-edit-s05-p2r6-routing-technical/v1",
-                "stage": stage,
-                "exception_class": type(exc).__name__,
-                "message_sha256": canonical_hash(str(exc)),
-            },
+            f"P2R6 {stage} certified convex QP failed",
+            exc.raw_free_receipt,
         ) from exc
-    selected = np.asarray(solved.x, dtype=np.float64)
-
-    def constraint_slacks(value: np.ndarray) -> tuple[np.ndarray, np.ndarray, float]:
-        mass_slack = 1.0 - mass @ value
-        semantic_slack = response @ value - lower
-        p_slack = (
-            float(p_limit - _quadratic_value(p_matrix, p_cross, value))
-            if p_limit is not None and p_matrix is not None and p_cross is not None
-            else math.inf
-        )
-        return mass_slack, semantic_slack, p_slack
-
-    # Deterministic active-set KKT polish.  A polished equality solution can
-    # activate a previously slack inequality, so expand the active set
-    # monotonically and re-polish.  This changes no objective or tolerance and
-    # a candidate is accepted only after the complete inequality certificate.
-    mass_slack, semantic_slack, p_slack = constraint_slacks(selected)
-    active_zero = tuple(int(i) for i in np.flatnonzero(selected <= P2R6_NUMERICAL_EPSILON))
-    active_mass = tuple(int(i) for i in np.flatnonzero(mass_slack <= P2R6_NUMERICAL_EPSILON))
-    active_semantic = tuple(
-        int(i) for i in np.flatnonzero(semantic_slack <= P2R6_NUMERICAL_EPSILON)
-    )
-    active_p = p_slack <= P2R6_NUMERICAL_EPSILON
-
-    def active_values(value: np.ndarray) -> np.ndarray:
-        m_slack, s_slack, local_p_slack = constraint_slacks(value)
-        values = [float(value[i]) for i in active_zero]
-        values.extend(float(m_slack[i]) for i in active_mass)
-        values.extend(float(s_slack[i]) for i in active_semantic)
-        if active_p:
-            values.append(float(local_p_slack))
-        return np.asarray(values, dtype=np.float64)
-
-    def active_jacobian(value: np.ndarray) -> np.ndarray:
-        rows: list[np.ndarray] = [np.eye(alpha_count)[i] for i in active_zero]
-        rows.extend(-mass[i] for i in active_mass)
-        rows.extend(response[i] for i in active_semantic)
-        if active_p and p_matrix is not None and p_cross is not None:
-            rows.append(-((p_matrix + p_matrix.T) @ value + 2.0 * p_cross))
-        return np.stack(rows) if rows else np.empty((0, alpha_count), dtype=np.float64)
-
-    polish_success = True
-    polish_before = 0.0
-    polish_after = 0.0
-    polish_round_count = 0
-    active_set_expansion_count = 0
-    polish_point = selected.copy()
-    maximum_polish_rounds = alpha_count + 2 * request_count + 2
-    for _ in range(maximum_polish_rounds):
-        current_jacobian = active_jacobian(polish_point)
-        if current_jacobian.shape[0] == 0:
-            break
-        multipliers, _ = nnls(current_jacobian.T, gradient(polish_point))
-
-        def kkt(value: np.ndarray) -> np.ndarray:
-            point = value[:alpha_count]
-            lam = value[alpha_count:]
-            jac = active_jacobian(point)
-            return np.concatenate((gradient(point) - jac.T @ lam, active_values(point)))
-
-        def kkt_jacobian(value: np.ndarray) -> np.ndarray:
-            point = value[:alpha_count]
-            lam = value[alpha_count:]
-            jac = active_jacobian(point)
-            stationarity_hessian = hessian.copy()
-            if active_p and p_matrix is not None:
-                stationarity_hessian += lam[-1] * (p_matrix + p_matrix.T)
-            upper = np.concatenate((stationarity_hessian, -jac.T), axis=1)
-            lower_block = np.concatenate(
-                (jac, np.zeros((jac.shape[0], jac.shape[0]), dtype=np.float64)),
-                axis=1,
-            )
-            return np.concatenate((upper, lower_block), axis=0)
-
-        initial = np.concatenate((polish_point, multipliers))
-        before = float(np.max(np.abs(kkt(initial))))
-        polished = root(
-            kkt,
-            initial,
-            jac=kkt_jacobian,
-            method="hybr",
-            options={"xtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE, "maxfev": 3000},
-        )
-        polish_round_count += 1
-        polish_success = polish_success and bool(polished.success)
-        after = (
-            float(np.max(np.abs(kkt(polished.x))))
-            if np.all(np.isfinite(polished.x))
-            else math.inf
-        )
-        if polish_round_count == 1:
-            polish_before = before
-        polish_after = after
-        candidate = np.asarray(polished.x[:alpha_count], dtype=np.float64)
-        if not np.all(np.isfinite(candidate)):
-            break
-        c_mass, c_semantic, c_p = constraint_slacks(candidate)
-        candidate_feasible = (
-            float(np.min(candidate)) >= -P2R6_NUMERICAL_EPSILON
-            and float(np.min(c_mass)) >= -P2R6_NUMERICAL_EPSILON
-            and float(np.min(c_semantic)) >= -P2R6_NUMERICAL_EPSILON
-            and c_p >= -P2R6_NUMERICAL_EPSILON
-        )
-        if candidate_feasible and after < polish_before:
-            selected = candidate
-            break
-
-        # The entry active set includes near-boundary constraints.  Subsequent
-        # expansion is narrower: add only a constraint that the polished point
-        # actually violates beyond the unchanged certificate tolerance.  Adding
-        # every feasible near-zero coefficient overconstrains a singular KKT
-        # system and is not required for certification.
-        new_zero = set(
-            int(i) for i in np.flatnonzero(candidate < -P2R6_NUMERICAL_EPSILON)
-        )
-        new_mass = set(
-            int(i) for i in np.flatnonzero(c_mass < -P2R6_NUMERICAL_EPSILON)
-        )
-        new_semantic = set(
-            int(i) for i in np.flatnonzero(c_semantic < -P2R6_NUMERICAL_EPSILON)
-        )
-        added = (
-            len(new_zero.difference(active_zero))
-            + len(new_mass.difference(active_mass))
-            + len(new_semantic.difference(active_semantic))
-            + int(c_p < -P2R6_NUMERICAL_EPSILON and not active_p)
-        )
-        if added == 0:
-            break
-        active_zero = tuple(sorted(set(active_zero).union(new_zero)))
-        active_mass = tuple(sorted(set(active_mass).union(new_mass)))
-        active_semantic = tuple(sorted(set(active_semantic).union(new_semantic)))
-        active_p = active_p or c_p < -P2R6_NUMERICAL_EPSILON
-        active_set_expansion_count += added
-        polish_point = candidate
-
-    finite = bool(np.all(np.isfinite(selected)))
-    mass_slack, semantic_slack, p_slack = constraint_slacks(selected)
-    negative_violation = max(0.0, -float(np.min(selected))) if finite else math.inf
-    mass_violation = max(0.0, -float(np.min(mass_slack))) if finite else math.inf
-    semantic_violation = max(0.0, -float(np.min(semantic_slack))) if finite else math.inf
-    p_violation = max(0.0, -p_slack) if finite else math.inf
-    jacobian_rows: list[np.ndarray] = [
-        np.eye(alpha_count)[i]
-        for i in np.flatnonzero(selected <= P2R6_NUMERICAL_EPSILON)
-    ]
-    jacobian_rows.extend(
-        -mass[i] for i in np.flatnonzero(mass_slack <= P2R6_NUMERICAL_EPSILON)
-    )
-    jacobian_rows.extend(
-        response[i]
-        for i in np.flatnonzero(semantic_slack <= P2R6_NUMERICAL_EPSILON)
-    )
-    if p_slack <= P2R6_NUMERICAL_EPSILON and p_matrix is not None and p_cross is not None:
-        jacobian_rows.append(-((p_matrix + p_matrix.T) @ selected + 2.0 * p_cross))
-    if jacobian_rows:
-        active_matrix = np.stack(jacobian_rows)
-        multiplier, _ = nnls(active_matrix.T, gradient(selected))
-        kkt_residual = gradient(selected) - active_matrix.T @ multiplier
-    else:
-        kkt_residual = gradient(selected)
-    optimality = float(np.max(np.abs(kkt_residual))) if kkt_residual.size else 0.0
-    certified = (
-        finite
-        and negative_violation <= P2R6_NUMERICAL_EPSILON
-        and mass_violation <= P2R6_NUMERICAL_EPSILON
-        and semantic_violation <= P2R6_NUMERICAL_EPSILON
-        and p_violation <= P2R6_NUMERICAL_EPSILON
-        and optimality <= P2R6_NUMERICAL_EPSILON
-    )
-    receipt = {
-        "schema": "ode-edit-s05-p2r6-semantic-region-quadratic/v1",
-        "stage": stage,
-        "backend": "SCIPY_SLSQP_FULL_ALPHA_INEQUALITY_WITH_MONOTONE_ACTIVE_SET_KKT_POLISH",
-        "solver_success": bool(solved.success),
-        "solver_status": int(solved.status),
-        "message_sha256": canonical_hash(str(solved.message)),
-        "iterations": int(getattr(solved, "nit", -1)),
-        "function_evaluations": int(getattr(solved, "nfev", -1)),
-        "gradient_evaluations": int(getattr(solved, "njev", -1)),
-        "active_zero_count": int(np.sum(selected <= P2R6_NUMERICAL_EPSILON)),
-        "active_mass_count": int(np.sum(mass_slack <= P2R6_NUMERICAL_EPSILON)),
-        "active_semantic_count": int(
-            np.sum(semantic_slack <= P2R6_NUMERICAL_EPSILON)
-        ),
-        "active_p_tie": bool(p_slack <= P2R6_NUMERICAL_EPSILON),
-        "active_set_polish_success": polish_success,
-        "active_set_polish_before": polish_before,
-        "active_set_polish_after": polish_after,
-        "active_set_polish_round_count": polish_round_count,
-        "active_set_expansion_count": active_set_expansion_count,
-        "negative_violation": negative_violation,
-        "mass_violation": mass_violation,
-        "semantic_region_violation": semantic_violation,
-        "p_tie_violation": p_violation,
-        "optimality": optimality,
-        "objective_min_eigenvalue": float(np.min(objective_eigenvalues)),
-        "objective_max_eigenvalue": float(np.max(objective_eigenvalues)),
-        "primal_tolerance": P2R6_NUMERICAL_EPSILON,
-        "certificate_pass": certified,
-    }
-    receipt["identity_sha256"] = canonical_hash(receipt)
-    if not certified:
-        raise P2R6RoutingTechnicalError(
-            f"P2R6 {stage} certificate failed", receipt
-        )
-    return selected, receipt
-
+    return solved.value, dict(solved.receipt)
 
 def _region_geometry(
     allocation: np.ndarray,
@@ -906,17 +704,70 @@ def solve_p2r6_shadow_panel(
     entry_deficit: torch.Tensor,
     calibration: SDRTCalibration,
     quadratics: SDRTQuadratics,
+    *,
+    selected_arm: str,
+    outer_step: int,
 ) -> P2R6ShadowPanel:
-    routes = tuple(
-        solve_p2r6_routing(
-            response,
-            deficit,
-            entry_deficit,
-            calibration,
-            quadratics,
+    """Solve the physical arm strictly and isolate every shadow failure."""
+
+    if selected_arm not in P2R6_SHADOW_ARMS or outer_step < 0 or outer_step >= 8:
+        raise ODEBFContractError("P2R6 selected shadow identity differs")
+    solved_by_arm: dict[str, P2R6RoutingResult] = {}
+    errors_by_arm: dict[str, Mapping[str, Any]] = {}
+
+    # The selected physical solve is authoritative and fail-close.
+    solved_by_arm[selected_arm] = solve_p2r6_routing(
+        response,
+        deficit,
+        entry_deficit,
+        calibration,
+        quadratics,
+        arm=selected_arm,
+    )
+    for shadow_arm in P2R6_SHADOW_ARMS:
+        if shadow_arm == selected_arm:
+            continue
+        try:
+            solved_by_arm[shadow_arm] = solve_p2r6_routing(
+                response,
+                deficit,
+                entry_deficit,
+                calibration,
+                quadratics,
+                arm=shadow_arm,
+            )
+        except Exception as exc:
+            observability = getattr(exc, "raw_free_receipt", None)
+            error = {
+                "schema": "ode-edit-s05-p2r6-shadow-technical-error/v1",
+                "selected_arm": selected_arm,
+                "failing_shadow_arm": shadow_arm,
+                "outer_step": outer_step,
+                "exception_class": type(exc).__name__,
+                "message_sha256": canonical_hash(str(exc)),
+                "selected_action_decision_influence_count": 0,
+            }
+            if isinstance(observability, Mapping):
+                error["technical_observability"] = dict(observability)
+            error["identity_sha256"] = canonical_hash(error)
+            errors_by_arm[shadow_arm] = error
+
+    arm_results = tuple(
+        P2R6ShadowArmResult(
             arm=arm,
+            selected=arm == selected_arm,
+            route=solved_by_arm.get(arm),
+            technical_error=errors_by_arm.get(arm),
+            status=(
+                "SELECTED_RESULT"
+                if arm == selected_arm
+                else ("SHADOW_RESULT" if arm in solved_by_arm else "SHADOW_TECHNICAL_ERROR")
+            ),
         )
         for arm in P2R6_SHADOW_ARMS
+    )
+    routes = tuple(
+        solved_by_arm[arm] for arm in P2R6_SHADOW_ARMS if arm in solved_by_arm
     )
     pairwise: dict[str, float] = {}
     for left_index, left in enumerate(routes):
@@ -924,25 +775,50 @@ def solve_p2r6_shadow_panel(
             pairwise[f"{left.arm}__{right.arm}"] = float(
                 torch.linalg.vector_norm(left.allocation - right.allocation)
             )
+    eta_distance = pairwise.get("A0-CAP__AETA-CAP")
+    failing = tuple(arm for arm in P2R6_SHADOW_ARMS if arm in errors_by_arm)
+    status = "SHADOW_TECHNICAL_INVALID" if failing else "SHADOW_PANEL_CERTIFIED"
+    solver_call_count = sum(
+        max(1, len(route.solver_receipts)) for route in solved_by_arm.values()
+    ) + len(errors_by_arm)
+    certificate_count = sum(
+        sum(bool(item.get("certificate_pass", True)) for item in route.solver_receipts)
+        for route in solved_by_arm.values()
+    )
     payload = {
-        "arms": [route.arm for route in routes],
+        "selected_arm": selected_arm,
+        "outer_step": outer_step,
+        "arm_status": {item.arm: item.status for item in arm_results},
         "route_sha256": [route.identity_sha256 for route in routes],
+        "error_sha256": [
+            errors_by_arm[arm]["identity_sha256"] for arm in sorted(errors_by_arm)
+        ],
         "pairwise_allocation_l2": pairwise,
-        "eta_on_off_allocation_l2": pairwise["A0-CAP__AETA-CAP"],
+        "eta_on_off_allocation_l2": eta_distance,
+        "failing_shadow_arms": list(failing),
+        "status": status,
+        "solver_call_count": solver_call_count,
+        "certificate_count": certificate_count,
         "model_forward_count": 0,
         "model_backward_count": 0,
         "materialization_count": 0,
     }
     return P2R6ShadowPanel(
+        selected_arm=selected_arm,
+        outer_step=outer_step,
+        arm_results=arm_results,
         routes=routes,
         pairwise_allocation_l2=pairwise,
-        eta_on_off_allocation_l2=pairwise["A0-CAP__AETA-CAP"],
+        eta_on_off_allocation_l2=eta_distance,
+        failing_shadow_arms=failing,
+        status=status,
+        solver_call_count=solver_call_count,
+        certificate_count=certificate_count,
         model_forward_count=0,
         model_backward_count=0,
         materialization_count=0,
         identity_sha256=canonical_hash(payload),
     )
-
 
 def p2r6_forbidden_influence_receipt() -> dict[str, Any]:
     payload = {

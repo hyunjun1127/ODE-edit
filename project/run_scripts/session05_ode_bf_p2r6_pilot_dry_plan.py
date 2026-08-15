@@ -59,9 +59,20 @@ def build_plan(
         }
         for index, (alias, case_index) in enumerate(cells)
     ]
-    stage_gpu_max = 2 if phase == "phase1" else 4
+    stage_gpu_max = 2
+    release_plan = (
+        {"initial_release_indices": [0, 1], "held_indices": []}
+        if phase == "phase1"
+        else {
+            "initial_release_indices": [1, 2],
+            "held_indices": [0, 3],
+            "wave_a": [1, 2],
+            "wave_b": [0, 3],
+            "wave_b_requires_locked_gate_pass": True,
+        }
+    )
     return {
-        "schema": "ode-edit-s05-p2r6-semantic-region-pilot-dry-plan/v1",
+        "schema": "ode-edit-s05-p2r6-red-r2-final-dry-plan/v1",
         "instruction_id": P2R6_INSTRUCTION_ID,
         "source_head": source_head,
         "phase": phase,
@@ -75,6 +86,7 @@ def build_plan(
         "array": f"0-{len(jobs) - 1}%{min(stage_gpu_max, len(jobs))}",
         "project_gpu_cap_server1": 4,
         "stage_gpu_max": stage_gpu_max,
+        "release_plan": release_plan,
         "cpu_per_task": 8,
         "memory_mib_per_task": 65000,
         "gpu_per_task": 1,

@@ -43,7 +43,7 @@ from .p2r6_semantic_region_controller import (
 )
 
 
-METHOD = "P2R6-SEMANTIC-REGION-CONTROLLER-PILOT"
+METHOD = "P2R6-RED-R2-FINAL-SEMANTIC-REGION-CONTROLLER"
 PHASE1_CASES = {
     "llama3-8b-inst": (5,),
     "qwen2.5-7b-inst": (1,),
@@ -52,7 +52,7 @@ PHASE2_CASES = STAGE_A_CASES
 P2R6_RUNTIME_POLICY = P2AtomicArmRuntimePolicy(
     instruction_id=P2R6_INSTRUCTION_ID,
     method_id=P2R6_METHOD_ID,
-    receipt_namespace="p2r6-semantic-region",
+    receipt_namespace="p2r6-red-r2-final-semantic-region",
     arm_label_prefix="P2R6",
     allowed_arms=P2R6_ARMS,
     allowed_cases=PHASE2_CASES,
@@ -60,6 +60,62 @@ P2R6_RUNTIME_POLICY = P2AtomicArmRuntimePolicy(
     forbidden_receipt_builder=p2r6_forbidden_influence_receipt,
     shadow_solver=solve_p2r6_shadow_panel,
 )
+
+
+def _arm_compute_aggregation(
+    completed: Sequence[Mapping[str, Any]], job_ledger: ComputeLedger
+) -> dict[str, Any]:
+    keys = (
+        "target_forward_count",
+        "target_backward_count",
+        "kl_forward_count",
+        "kl_backward_count",
+        "physical_capture_forward_count",
+        "physical_response_forward_count",
+        "physical_response_batched_vjp_count",
+        "post_write_objective_forward_count",
+        "writer_materialization_count",
+        "routing_qp_solve_count",
+        "routing_qp_certificate_count",
+        "shadow_technical_invalid_count",
+        "completed_k_count",
+    )
+    totals = {
+        key: sum(int(item.get("arm_compute", {}).get(key, 0)) for item in completed)
+        for key in keys
+    }
+    ledger = job_ledger.raw_free_payload()
+    counters = ledger["counters"]
+    checks = {
+        "completed_k_equal": totals["completed_k_count"]
+        == ledger["completed_k_total"],
+        "qp_solve_equal": totals["routing_qp_solve_count"]
+        == counters["qp_solve"],
+        "qp_certificate_equal": totals["routing_qp_certificate_count"]
+        == counters["qp_certificate"],
+        "target_backward_equal": (
+            totals["target_backward_count"] + totals["kl_backward_count"]
+        )
+        == counters["target_backward"],
+        "model_forward_nonzero_when_completed": (
+            not completed or counters["model_forward"] > 0
+        ),
+        "backward_nonzero_when_completed": (
+            not completed or counters["backward"] > 0
+        ),
+    }
+    payload = {
+        "schema": "ode-edit-s05-p2r6-arm-top-level-compute-aggregation/v1",
+        "completed_arm_count": len(completed),
+        "arm_totals": totals,
+        "top_level_completed_k_total": ledger["completed_k_total"],
+        "top_level_counters": counters,
+        "top_level_component_wall_seconds": ledger["component_wall_seconds"],
+        "checks": checks,
+        "all_checks_pass": all(checks.values()),
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
 
 
 def p2r6_phase_arms(phase: str, selected_controller: str | None = None) -> tuple[str, ...]:
@@ -91,7 +147,7 @@ def expected_p2r6_result_name(
     selection = f"-{selected_controller.lower()}" if selected_controller else ""
     suffix = f"-{attempt_suffix}" if attempt_suffix else ""
     return (
-        f"s05-p2r6-semantic-region-{phase}{selection}-{alias}-"
+        f"s05-p2r6-red-r2-final-{phase}{selection}-{alias}-"
         f"case-{case_index:02d}-paired{suffix}-v1"
     )
 
@@ -224,6 +280,9 @@ def run_p2r6_pilot_case(
                 "W0_restored": True,
             },
         )
+    compute_aggregation = _arm_compute_aggregation(completed, job_ledger)
+    if not failed and not compute_aggregation["all_checks_pass"]:
+        raise ODEBFStateError("P2R6 arm/top-level compute aggregation differs")
     terminal = {
         "schema": "ode-edit-s05-p2r6-pilot-job-terminal/v1",
         "instruction_id": P2R6_INSTRUCTION_ID,
@@ -245,6 +304,7 @@ def run_p2r6_pilot_case(
         "paired_case_valid": len(completed) == len(arms) and not failed,
         "W0_restored": _model_w0_contract(touched) == expected_w0,
         "job_compute": job_ledger.raw_free_payload(),
+        "arm_top_level_compute_aggregation": compute_aggregation,
         "total_wall_seconds": time.perf_counter() - started,
         "stage_b10x10_status": "NOT_AUTHORIZED",
         "scientific_promotion": False,

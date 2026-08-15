@@ -37,8 +37,8 @@ from project.run_scripts.ode_bf.p2r6_semantic_region_controller import (
 )
 
 
-RUN_TOKEN = "p2r6-semantic-region-controller-pilot-v1"
-SOURCE_MANIFEST = "source_manifest_s05_p2r6_semantic_region_pilot.json"
+RUN_TOKEN = "p2r6-red-r2-final-scientific-run-v1"
+SOURCE_MANIFEST = "source_manifest_s05_p2r6_red_r2_final.json"
 
 
 def _source_gate(source_head: str) -> str:
@@ -50,7 +50,7 @@ def _source_gate(source_head: str) -> str:
         raise ValueError("P2R6 P2R5 source ancestry differs")
     manifest, raw_sha = load_rooted_json(
         REPO_ROOT / "project/run_scripts/ode_bf/locks" / SOURCE_MANIFEST,
-        expected_schema="ode-edit-s05-p2r6-semantic-region-pilot-source-manifest/v1",
+        expected_schema="ode-edit-s05-p2r6-red-r2-final-source-manifest/v1",
     )
     entries = manifest.get("entries")
     if (
