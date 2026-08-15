@@ -88,6 +88,11 @@ def test_lock_and_stage_a_dry_plan_are_exact() -> None:
         ("SDRT-CAP",),
         ("SDRT-CAP", "SDRT-STRUCTP"),
     ]
+    p_tie_repair = dry.build_plan(PARENT, attempt_suffix="tech-r6")
+    assert p_tie_repair["job_count"] == 1
+    assert p_tie_repair["array"] == "0-0%1"
+    assert p_tie_repair["endpoint_attempt_count"] == 1
+    assert tuple(p_tie_repair["jobs"][0]["arms"]) == ("SDRT-STRUCTP",)
 
 
 def test_runtime_reuses_protected_interfaces_and_one_materialization() -> None:
@@ -163,6 +168,7 @@ def test_entrypoint_and_launcher_resources_are_bound() -> None:
     assert "readonly CASES=(3 5 1 4)" in sbatch
     assert '"${ATTEMPT_SUFFIX}" == "tech-r3" || "${ATTEMPT_SUFFIX}" == "tech-r4"' in sbatch
     assert '"${ATTEMPT_SUFFIX}" == "tech-r5"' in sbatch
+    assert '"${ATTEMPT_SUFFIX}" == "tech-r6"' in sbatch
     assert 'planned_job_count = int(plan["job_count"])' in submitter
     assert 'PROJECT_GPU_CAP = 4' in submitter
     assert 'STAGE_GPU_MAX = 4' in submitter
@@ -201,8 +207,9 @@ def test_semantic_face_quadratic_backend_uses_exact_source_backed_constraints() 
     assert "start + coordinate_basis @ value" in writer
     assert "LinearConstraint(\n            coordinate_basis" in writer
     assert "mass @ coordinate_basis" in writer
-    assert "NonlinearConstraint(" in writer
+    assert 'backend = "SCIPY_SLSQP_NULLSPACE_CONVEX_P_TIE_ANALYTIC_GRADIENT"' in writer
+    assert 'method="SLSQP"' in writer
+    assert "nnls(active_matrix.T, reduced_gradient)" in writer
     assert '"gtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE' in writer
     assert '"xtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE' in writer
     assert '"barrier_tol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE' in writer
-    assert 'method="SLSQP"' not in writer

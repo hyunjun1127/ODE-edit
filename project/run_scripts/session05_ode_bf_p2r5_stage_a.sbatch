@@ -50,6 +50,12 @@ elif [[ "${ATTEMPT_SUFFIX}" == "tech-r5" ]]; then
     2) ARM_ARGS=(--arms SDRT-CAP SDRT-STRUCTP) ;;
     *) echo "P2R5 TECH-R5 task index differs" >&2; exit 2 ;;
   esac
+elif [[ "${ATTEMPT_SUFFIX}" == "tech-r6" ]]; then
+  [[ "${SLURM_ARRAY_TASK_ID}" == "0" ]] || {
+    echo "P2R5 TECH-R6 task index differs" >&2
+    exit 2
+  }
+  ARM_ARGS=(--arms SDRT-STRUCTP)
 fi
 readonly SUFFIX_TOKEN="$([[ -n "${ATTEMPT_SUFFIX}" ]] && printf -- '-%s' "${ATTEMPT_SUFFIX}" || true)"
 readonly CASE_TOKEN="$(printf '%02d' "${CASE_INDEX}")"

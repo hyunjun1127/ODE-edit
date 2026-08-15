@@ -38,6 +38,9 @@ def build_plan(source_head: str, *, attempt_suffix: str | None = None) -> dict[s
     elif attempt_suffix == "tech-r5":
         selected_cells = cells[:3]
         selected_arms = [("SDRT-STRUCTP",), ("SDRT-CAP",), P2R5_ARMS]
+    elif attempt_suffix == "tech-r6":
+        selected_cells = cells[:1]
+        selected_arms = [("SDRT-STRUCTP",)]
     else:
         selected_cells = cells
         selected_arms = [P2R5_ARMS] * 4

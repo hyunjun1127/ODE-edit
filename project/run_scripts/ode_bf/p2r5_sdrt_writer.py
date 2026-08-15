@@ -15,7 +15,7 @@ from typing import Any, Mapping, Sequence
 import numpy as np
 import torch
 from scipy.linalg import null_space
-from scipy.optimize import LinearConstraint, NonlinearConstraint, linprog, minimize
+from scipy.optimize import LinearConstraint, linprog, minimize, nnls, root
 
 from .contracts import ODEBFContractError, canonical_hash
 from .functional import WaypointFactor, tensor_sha256
@@ -467,27 +467,13 @@ def _same_semantic_face_solve(
             np.ones(request_count, dtype=np.float64) - mass @ start,
         ),
     ]
-    nonlinear_constraints: list[NonlinearConstraint] = []
+    p_hessian: np.ndarray | None = None
+    reduced_p_hessian: np.ndarray | None = None
     if p_limit is not None:
         if p_matrix is None or p_cross is None:
             raise ODEBFContractError("P2R5 Structural-P tie is absent")
         p_hessian = p_matrix + p_matrix.T
         reduced_p_hessian = coordinate_basis.T @ p_hessian @ coordinate_basis
-        nonlinear_constraints.append(
-            NonlinearConstraint(
-                lambda value, m=p_matrix, c=p_cross: _quadratic_value(
-                    m, c, expand(value)
-                ),
-                -np.inf,
-                p_limit,
-                jac=lambda value, m=p_matrix, c=p_cross: coordinate_basis.T
-                @ ((m + m.T) @ expand(value) + 2.0 * c),
-                hess=lambda value, multiplier, h=reduced_p_hessian: float(
-                    multiplier[0]
-                )
-                * h,
-            )
-        )
     objective_hessian = objective_matrix + objective_matrix.T
     reduced_objective_hessian = (
         coordinate_basis.T @ objective_hessian @ coordinate_basis
@@ -526,32 +512,201 @@ def _same_semantic_face_solve(
                     "primal_tolerance": P2R5_NUMERICAL_EPSILON,
                 },
             )
+    objective = lambda value: _quadratic_value(
+        objective_matrix, objective_cross, expand(value)
+    )
+    objective_gradient = lambda value: coordinate_basis.T @ (
+        objective_hessian @ expand(value) + 2.0 * objective_cross
+    )
+    backend = "SCIPY_TRUST_CONSTR_EXACT_CONSTRAINTS_ANALYTIC_DERIVATIVES"
     try:
-        result = minimize(
-            lambda value: _quadratic_value(
-                objective_matrix, objective_cross, expand(value)
-            ),
-            np.zeros(reduced_count, dtype=np.float64),
-            jac=lambda value: coordinate_basis.T
-            @ (objective_hessian @ expand(value) + 2.0 * objective_cross),
-            hess=lambda value: reduced_objective_hessian,
-            method="trust-constr",
-            constraints=[*linear_constraints, *nonlinear_constraints],
-            options={
-                "gtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
-                "xtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
-                "barrier_tol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
-                "maxiter": 3000,
-                "verbose": 0,
-            },
-        )
+        if p_limit is None:
+            result = minimize(
+                objective,
+                np.zeros(reduced_count, dtype=np.float64),
+                jac=objective_gradient,
+                hess=lambda value: reduced_objective_hessian,
+                method="trust-constr",
+                constraints=linear_constraints,
+                options={
+                    "gtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                    "xtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                    "barrier_tol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                    "maxiter": 3000,
+                    "verbose": 0,
+                },
+            )
+        else:
+            backend = "SCIPY_SLSQP_NULLSPACE_CONVEX_P_TIE_ANALYTIC_GRADIENT"
+            if p_matrix is None or p_cross is None:
+                raise ODEBFContractError("P2R5 Structural-P tie is absent")
+            result = minimize(
+                objective,
+                np.zeros(reduced_count, dtype=np.float64),
+                jac=objective_gradient,
+                method="SLSQP",
+                constraints=(
+                    {
+                        "type": "ineq",
+                        "fun": lambda value: expand(value),
+                        "jac": lambda value: coordinate_basis,
+                    },
+                    {
+                        "type": "ineq",
+                        "fun": lambda value: np.ones(request_count, dtype=np.float64)
+                        - mass @ expand(value),
+                        "jac": lambda value: -mass @ coordinate_basis,
+                    },
+                    {
+                        "type": "ineq",
+                        "fun": lambda value, m=p_matrix, c=p_cross: float(
+                            p_limit - _quadratic_value(m, c, expand(value))
+                        ),
+                        "jac": lambda value, m=p_matrix, c=p_cross: -coordinate_basis.T
+                        @ ((m + m.T) @ expand(value) + 2.0 * c),
+                    },
+                ),
+                options={
+                    "ftol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                    "maxiter": 3000,
+                    "disp": False,
+                },
+            )
+            candidate_y = np.asarray(result.x, dtype=np.float64)
+            candidate_x = expand(candidate_y)
+            active_zero = tuple(
+                int(index)
+                for index in np.flatnonzero(
+                    candidate_x <= P2R5_NUMERICAL_EPSILON
+                )
+            )
+            candidate_mass_slack = 1.0 - mass @ candidate_x
+            active_mass = tuple(
+                int(index)
+                for index in np.flatnonzero(
+                    candidate_mass_slack <= P2R5_NUMERICAL_EPSILON
+                )
+            )
+            candidate_p_slack = float(
+                p_limit - _quadratic_value(p_matrix, p_cross, candidate_x)
+            )
+            active_p = candidate_p_slack <= P2R5_NUMERICAL_EPSILON
+
+            def active_values(value: np.ndarray) -> np.ndarray:
+                selected = expand(value)
+                values = [float(selected[index]) for index in active_zero]
+                values.extend(
+                    float(1.0 - mass[index] @ selected)
+                    for index in active_mass
+                )
+                if active_p:
+                    values.append(
+                        float(
+                            p_limit
+                            - _quadratic_value(p_matrix, p_cross, selected)
+                        )
+                    )
+                return np.asarray(values, dtype=np.float64)
+
+            def active_jacobian(value: np.ndarray) -> np.ndarray:
+                selected = expand(value)
+                rows = [coordinate_basis[index] for index in active_zero]
+                rows.extend(
+                    -(mass @ coordinate_basis)[index] for index in active_mass
+                )
+                if active_p:
+                    rows.append(
+                        -coordinate_basis.T
+                        @ (
+                            (p_matrix + p_matrix.T) @ selected
+                            + 2.0 * p_cross
+                        )
+                    )
+                return (
+                    np.stack(rows)
+                    if rows
+                    else np.empty((0, reduced_count), dtype=np.float64)
+                )
+
+            initial_active_jacobian = active_jacobian(candidate_y)
+            if initial_active_jacobian.shape[0]:
+                initial_multiplier, _ = nnls(
+                    initial_active_jacobian.T,
+                    objective_gradient(candidate_y),
+                )
+
+                def kkt_function(value: np.ndarray) -> np.ndarray:
+                    reduced = value[:reduced_count]
+                    multiplier = value[reduced_count:]
+                    jacobian = active_jacobian(reduced)
+                    stationarity = (
+                        objective_gradient(reduced) - jacobian.T @ multiplier
+                    )
+                    return np.concatenate((stationarity, active_values(reduced)))
+
+                def kkt_jacobian(value: np.ndarray) -> np.ndarray:
+                    reduced = value[:reduced_count]
+                    multiplier = value[reduced_count:]
+                    jacobian = active_jacobian(reduced)
+                    stationarity_hessian = reduced_objective_hessian.copy()
+                    if active_p:
+                        stationarity_hessian = (
+                            stationarity_hessian
+                            + multiplier[-1] * reduced_p_hessian
+                        )
+                    upper = np.concatenate(
+                        (stationarity_hessian, -jacobian.T), axis=1
+                    )
+                    lower = np.concatenate(
+                        (
+                            jacobian,
+                            np.zeros(
+                                (jacobian.shape[0], jacobian.shape[0]),
+                                dtype=np.float64,
+                            ),
+                        ),
+                        axis=1,
+                    )
+                    return np.concatenate((upper, lower), axis=0)
+
+                initial_kkt = np.concatenate((candidate_y, initial_multiplier))
+                polished = root(
+                    kkt_function,
+                    initial_kkt,
+                    jac=kkt_jacobian,
+                    method="hybr",
+                    options={
+                        "xtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                        "maxfev": 3000,
+                    },
+                )
+                before_residual = float(
+                    np.max(np.abs(kkt_function(initial_kkt)))
+                )
+                after_residual = (
+                    float(np.max(np.abs(kkt_function(polished.x))))
+                    if np.all(np.isfinite(polished.x)) else math.inf
+                )
+                if after_residual < before_residual:
+                    result.x = np.asarray(polished.x[:reduced_count], dtype=np.float64)
+                result.p2r5_active_set_polish_success = bool(polished.success)
+                result.p2r5_active_set_polish_before = before_residual
+                result.p2r5_active_set_polish_after = after_residual
+                result.p2r5_active_set_polish_constraint_count = int(
+                    initial_active_jacobian.shape[0]
+                )
+            else:
+                result.p2r5_active_set_polish_success = True
+                result.p2r5_active_set_polish_before = 0.0
+                result.p2r5_active_set_polish_after = 0.0
+                result.p2r5_active_set_polish_constraint_count = 0
     except Exception as exc:
         raise P2R5RoutingTechnicalError(
             f"P2R5 {stage} solve raised",
             {
                 "schema": "ode-edit-s05-p2r5-routing-technical/v2",
                 "stage": stage,
-                "backend": "SCIPY_TRUST_CONSTR_EXACT_CONSTRAINTS_ANALYTIC_DERIVATIVES",
+                "backend": backend,
                 "exception_class": type(exc).__name__,
                 "message_sha256": canonical_hash(str(exc)),
                 "semantic_rank": int(np.linalg.matrix_rank(face_matrix)),
@@ -581,8 +736,39 @@ def _same_semantic_face_solve(
         if finite and p_limit is not None and p_matrix is not None and p_cross is not None
         else 0.0
     )
-    optimality = float(getattr(result, "optimality", math.inf))
-    constraint_violation = float(getattr(result, "constr_violation", math.inf))
+    if p_limit is None:
+        optimality = float(getattr(result, "optimality", math.inf))
+        constraint_violation = float(getattr(result, "constr_violation", math.inf))
+        kkt_active_constraint_count = -1
+    else:
+        reduced_gradient = objective_gradient(reduced_x)
+        active_gradients: list[np.ndarray] = []
+        for index in np.flatnonzero(result_x <= P2R5_NUMERICAL_EPSILON):
+            active_gradients.append(coordinate_basis[index])
+        mass_slack = 1.0 - mass @ result_x
+        for index in np.flatnonzero(mass_slack <= P2R5_NUMERICAL_EPSILON):
+            active_gradients.append(-(mass @ coordinate_basis)[index])
+        p_slack = float(p_limit - _quadratic_value(p_matrix, p_cross, result_x))
+        if p_slack <= P2R5_NUMERICAL_EPSILON:
+            active_gradients.append(
+                -coordinate_basis.T
+                @ ((p_matrix + p_matrix.T) @ result_x + 2.0 * p_cross)
+            )
+        if active_gradients:
+            active_matrix = np.stack(active_gradients)
+            multiplier, _ = nnls(active_matrix.T, reduced_gradient)
+            kkt_residual = reduced_gradient - active_matrix.T @ multiplier
+        else:
+            kkt_residual = reduced_gradient
+        optimality = (
+            float(np.max(np.abs(kkt_residual))) if kkt_residual.size else 0.0
+        )
+        constraint_violation = max(
+            negative_violation,
+            mass_violation,
+            p_violation,
+        )
+        kkt_active_constraint_count = len(active_gradients)
     certified = (
         finite
         and negative_violation <= P2R5_NUMERICAL_EPSILON
@@ -595,7 +781,7 @@ def _same_semantic_face_solve(
     solver_receipt = {
         "schema": "ode-edit-s05-p2r5-semantic-face-solver/v1",
         "stage": stage,
-        "backend": "SCIPY_TRUST_CONSTR_EXACT_CONSTRAINTS_ANALYTIC_DERIVATIVES",
+        "backend": backend,
         "coordinate_backend": "SCIPY_SVD_SEMANTIC_FACE_NULLSPACE",
         "semantic_rank": len(independent),
         "semantic_nullity": reduced_count,
@@ -608,6 +794,19 @@ def _same_semantic_face_solve(
         "gradient_evaluations": int(getattr(result, "njev", -1)),
         "hessian_evaluations": int(getattr(result, "nhev", -1)),
         "optimality": optimality,
+        "kkt_active_constraint_count": kkt_active_constraint_count,
+        "active_set_polish_success": bool(
+            getattr(result, "p2r5_active_set_polish_success", False)
+        ),
+        "active_set_polish_before": float(
+            getattr(result, "p2r5_active_set_polish_before", 0.0)
+        ),
+        "active_set_polish_after": float(
+            getattr(result, "p2r5_active_set_polish_after", 0.0)
+        ),
+        "active_set_polish_constraint_count": int(
+            getattr(result, "p2r5_active_set_polish_constraint_count", -1)
+        ),
         "constraint_violation": constraint_violation,
         "negative_violation": negative_violation,
         "mass_violation": mass_violation,
@@ -628,7 +827,7 @@ def _same_semantic_face_solve(
             {
                 "schema": "ode-edit-s05-p2r5-routing-technical/v2",
                 "stage": stage,
-                "backend": "SCIPY_TRUST_CONSTR_EXACT_CONSTRAINTS_ANALYTIC_DERIVATIVES",
+                "backend": backend,
                 "status": int(result.status),
                 "message_sha256": canonical_hash(str(result.message)),
                 "iterations": int(getattr(result, "nit", -1)),
@@ -642,6 +841,16 @@ def _same_semantic_face_solve(
                 "start_mass_violation": start_mass_violation,
                 "start_p_violation": start_p_violation,
                 "optimality": optimality,
+                "kkt_active_constraint_count": kkt_active_constraint_count,
+                "active_set_polish_success": bool(
+                    getattr(result, "p2r5_active_set_polish_success", False)
+                ),
+                "active_set_polish_before": float(
+                    getattr(result, "p2r5_active_set_polish_before", 0.0)
+                ),
+                "active_set_polish_after": float(
+                    getattr(result, "p2r5_active_set_polish_after", 0.0)
+                ),
                 "constraint_violation": constraint_violation,
                 "negative_violation": negative_violation,
                 "mass_violation": mass_violation,

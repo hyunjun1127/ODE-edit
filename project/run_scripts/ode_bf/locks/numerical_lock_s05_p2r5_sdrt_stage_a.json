@@ -44,7 +44,9 @@
   "semantic_stage_e1": "MIN_WORST_NORMALIZED_UNDER_DEFICIT_SLACK",
   "semantic_stage_e2": "MIN_TOTAL_NORMALIZED_ABSOLUTE_MISMATCH_WITH_OVERSHOOT",
   "semantic_face": "EXACT_CALIBRATED_RESPONSE_EQUAL_TO_E1_E2_OPTIMUM",
-  "semantic_face_quadratic_backend": "SCIPY_TRUST_CONSTR_EXACT_CONSTRAINTS_ANALYTIC_GRADIENT_HESSIAN",
+  "semantic_face_quadratic_backend": "SCIPY_SVD_NULLSPACE_TRUST_CONSTR_LINEAR_AND_SLSQP_ACTIVE_SET_KKT_POLISH_P_TIE",
+  "semantic_face_coordinate_backend": "SCIPY_SVD_SEMANTIC_FACE_NULLSPACE",
+  "p_tie_backend": "SCIPY_SLSQP_NULLSPACE_CONVEX_P_TIE_PLUS_ACTIVE_SET_KKT_ROOT",
   "semantic_face_solver_acceptance": "CONVEX_PSD_KKT_AND_PRIMAL_CERTIFICATE_AT_INHERITED_SIMPLEX_PRIMAL_TOLERANCE",
   "cap_objective": "CUMULATIVE_ENDPOINT_SQUARED_FROBENIUS_CAPACITY_ON_SEMANTIC_FACE",
   "structp_objective": "CUMULATIVE_STRUCTURAL_P_THEN_CAPACITY_TIE_ON_SEMANTIC_FACE",
@@ -70,5 +72,5 @@
   "stage_gpu_max": 4,
   "stage_b_status": "CLOSED_PENDING_GH_STAGE_A_REVIEW",
   "scientific_promotion_authorized": false,
-  "root_digest": "765e67b2211d219054fbef272f862f598e4b586cf78e8fc1e3e9275ff75e8881"
+  "root_digest": "b8ff7adc58dca797ef0d205ec891bafdbb1e3729c6e52fdb3c515ec46efa2da8"
 }
