@@ -13,6 +13,7 @@ from project.run_scripts.ode_bf.p2r2_atomic_panel import (
 from project.run_scripts.ode_bf.p2r2_atomic_runtime import (
     expected_p2r2_result_name,
 )
+from project.run_scripts.ode_bf import p2r2_atomic_runtime
 
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -20,6 +21,9 @@ PACKAGE = ROOT / "project/run_scripts/ode_bf"
 
 
 class P2R2ExecutionContractTest(unittest.TestCase):
+    def test_post_materialization_finiteness_dependency_is_bound(self) -> None:
+        self.assertTrue(p2r2_atomic_runtime.math.isfinite(0.0))
+
     def test_numerical_lock_and_dry_plan(self) -> None:
         lock, _ = load_and_validate_lock(PACKAGE / "locks" / LOCK_FILE)
         plan = dry.build_plan(lock["exact_p2r1_parent"], case_count=10)
