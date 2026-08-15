@@ -415,7 +415,7 @@ def _run_arm_case(
                 "target_field_cosine_to_entry": _cosine(last_target_field, entry_target_field),
                 "full_residual_cosine_to_entry": _cosine(
                     current_target - current_terminal,
-                    entry_writer_field.current_z - entry_writer_field.current_terminal,
+                    entry_writer_field.target_state - entry_writer_field.current_z,
                 ),
                 "proposal_difference_norm_to_entry": _proposal_difference_norm(
                     field, entry_writer_field

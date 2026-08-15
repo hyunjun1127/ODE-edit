@@ -104,6 +104,8 @@ def test_current_w_target_response_and_deficit_refresh_are_ordered() -> None:
     recapture = source.index("next_physical = capture_scalable_physical_state(", materialize)
     assert outer < terminal < target < deficit_forward < field < response < deficit < route < materialize < recapture
     assert "current_target - current_terminal" in source
+    assert "entry_writer_field.target_state - entry_writer_field.current_z" in source
+    assert "entry_writer_field.current_terminal" not in source
     assert "remaining_horizon" not in source
 
 
