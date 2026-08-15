@@ -152,6 +152,27 @@ def test_shadow_panel_is_same_state_model_free_and_has_all_four_arms() -> None:
     assert panel.route("AR-CAP").arm == "AR-CAP"
 
 
+def test_entry_anchored_e1_rows_are_ratio_normalized_for_dynamic_scale() -> None:
+    response = _response()
+    deficit = torch.logspace(-8, -2, 10, dtype=torch.float64)
+    entry = torch.logspace(-4, 4, 10, dtype=torch.float64)
+    route = solve_p2r6_routing(
+        response,
+        deficit,
+        entry,
+        pooled_nonnegative_realization_calibration([], []),
+        _quadratics(),
+        arm="AS-CAP",
+    )
+    e1 = route.solver_receipts[0]
+    assert e1["constraint_row_normalization"] == "DIVIDE_BY_SEMANTIC_SCALE"
+    assert e1["semantic_scale_min"] == pytest.approx(1.0e-4)
+    assert e1["semantic_scale_max"] == pytest.approx(1.0e4)
+    assert e1["xi_recertification_delta"] <= 1.0e-8
+    assert e1["certificate_pass"] is True
+    assert route.semantic_region_max_violation <= 1.0e-8
+
+
 def test_forbidden_influence_and_runtime_policy_are_exact() -> None:
     receipt = p2r6_forbidden_influence_receipt()
     assert receipt["eta_decision_influence_count_for_aeta_ar_as"] == 0

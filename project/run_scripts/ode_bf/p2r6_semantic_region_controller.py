@@ -282,14 +282,21 @@ def _semantic_region_optimum(
         raise ODEBFContractError("P2R6 semantic scale policy differs")
     objective = np.zeros(alpha_count + 1, dtype=np.float64)
     objective[-1] = 1.0
+    # The scientific objective is a dimensionless per-request ratio.  Encode
+    # its LP rows in that coordinate as well, so HiGHS feasibility is not
+    # applied to heterogeneous raw response units before certification.
+    normalized_response = response / scale[:, None]
+    normalized_deficit = deficit / scale
     a_ub = np.concatenate(
         (
             np.concatenate((mass, np.zeros((request_count, 1))), axis=1),
-            np.concatenate((-response, -scale[:, None]), axis=1),
+            np.concatenate(
+                (-normalized_response, -np.ones((request_count, 1))), axis=1
+            ),
         ),
         axis=0,
     )
-    b_ub = np.concatenate((np.ones(request_count), -deficit))
+    b_ub = np.concatenate((np.ones(request_count), -normalized_deficit))
     solved = linprog(
         objective,
         A_ub=a_ub,
@@ -309,7 +316,30 @@ def _semantic_region_optimum(
             },
         )
     allocation = np.asarray(solved.x[:alpha_count], dtype=np.float64)
-    xi = max(0.0, float(solved.x[-1]))
+    xi_solver = max(0.0, float(solved.x[-1]))
+    # Recompute the dimensionless max-ratio objective in FP64 from the returned
+    # primal point.  A correction no larger than the inherited primal tolerance
+    # is solver certification, not a new scientific relaxation.
+    xi_recomputed = max(
+        0.0,
+        float(np.max((deficit - response @ allocation) / scale)),
+    )
+    xi_recertification_delta = max(0.0, xi_recomputed - xi_solver)
+    if xi_recertification_delta > P2R6_NUMERICAL_EPSILON:
+        raise P2R6RoutingTechnicalError(
+            "P2R6 E1 dimensionless objective recertification failed",
+            {
+                "schema": "ode-edit-s05-p2r6-routing-technical/v1",
+                "stage": "E1_DIMENSIONLESS_OBJECTIVE_RECERTIFICATION",
+                "solver_status": int(solved.status),
+                "scale_policy": scale_policy,
+                "xi_solver": xi_solver,
+                "xi_recomputed": xi_recomputed,
+                "xi_recertification_delta": xi_recertification_delta,
+                "primal_tolerance": P2R6_NUMERICAL_EPSILON,
+            },
+        )
+    xi = max(xi_solver, xi_recomputed)
     lower = np.maximum(
         deficit - (xi + P2R6_NUMERICAL_EPSILON) * scale,
         0.0,
@@ -326,6 +356,12 @@ def _semantic_region_optimum(
         "solver_status": int(solved.status),
         "message_sha256": canonical_hash(str(solved.message)),
         "iterations": int(getattr(solved, "nit", -1)),
+        "constraint_row_normalization": "DIVIDE_BY_SEMANTIC_SCALE",
+        "semantic_scale_min": float(np.min(scale)),
+        "semantic_scale_max": float(np.max(scale)),
+        "xi_solver": xi_solver,
+        "xi_recomputed": xi_recomputed,
+        "xi_recertification_delta": xi_recertification_delta,
         "e1_xi": xi,
         "mass_violation": mass_violation,
         "semantic_region_violation": semantic_violation,
