@@ -34,6 +34,7 @@ from project.run_scripts.ode_bf.p2r6_semantic_region_controller import (
     P2R6_CAP_ARMS,
     P2R6_E1_XI_AUTHORITY,
     P2R6_HIGHS_INTERNAL_TOLERANCE,
+    _solve_region_quadratic,
     _semantic_region_optimum,
     p2r6_forbidden_influence_receipt,
     solve_p2r6_routing,
@@ -246,6 +247,37 @@ def test_e1_start_region_slack_is_observation_not_a_false_gate() -> None:
     source = inspect.getsource(_semantic_region_optimum)
     assert "max(mass_violation, ratio_objective_violation, negative_violation)" in source
     assert "max(mass_violation, semantic_violation, negative_violation)" not in source
+
+
+def test_quadratic_polish_expands_newly_active_mass_constraint(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def boundary_crossing_minimize(*args: object, **kwargs: object) -> SimpleNamespace:
+        return SimpleNamespace(
+            x=np.asarray([0.5, 0.0], dtype=np.float64),
+            success=False,
+            status=8,
+            message="fixture boundary crossing",
+            nit=1,
+            nfev=1,
+            njev=1,
+        )
+
+    monkeypatch.setattr(controller, "minimize", boundary_crossing_minimize)
+    selected, receipt = _solve_region_quadratic(
+        np.asarray([0.5, 0.0], dtype=np.float64),
+        np.eye(2, dtype=np.float64),
+        np.asarray([-2.0, 0.0], dtype=np.float64),
+        np.asarray([[1.0, 0.0]], dtype=np.float64),
+        np.asarray([0.1], dtype=np.float64),
+        stage="ACTIVE_SET_EXPANSION_FIXTURE",
+    )
+    assert selected == pytest.approx(np.asarray([1.0, 0.0]))
+    assert receipt["active_set_expansion_count"] >= 1
+    assert receipt["active_set_polish_round_count"] >= 2
+    assert receipt["mass_violation"] <= 1.0e-8
+    assert receipt["optimality"] <= 1.0e-8
+    assert receipt["certificate_pass"] is True
 
 
 def test_forbidden_influence_and_runtime_policy_are_exact() -> None:

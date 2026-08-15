@@ -500,8 +500,10 @@ def _solve_region_quadratic(
         )
         return mass_slack, semantic_slack, p_slack
 
-    # One deterministic active-set KKT polish; this changes no objective or
-    # tolerance and is used only when it strictly improves the residual.
+    # Deterministic active-set KKT polish.  A polished equality solution can
+    # activate a previously slack inequality, so expand the active set
+    # monotonically and re-polish.  This changes no objective or tolerance and
+    # a candidate is accepted only after the complete inequality certificate.
     mass_slack, semantic_slack, p_slack = constraint_slacks(selected)
     active_zero = tuple(int(i) for i in np.flatnonzero(selected <= P2R6_NUMERICAL_EPSILON))
     active_mass = tuple(int(i) for i in np.flatnonzero(mass_slack <= P2R6_NUMERICAL_EPSILON))
@@ -527,12 +529,18 @@ def _solve_region_quadratic(
             rows.append(-((p_matrix + p_matrix.T) @ value + 2.0 * p_cross))
         return np.stack(rows) if rows else np.empty((0, alpha_count), dtype=np.float64)
 
-    initial_jacobian = active_jacobian(selected)
     polish_success = True
     polish_before = 0.0
     polish_after = 0.0
-    if initial_jacobian.shape[0]:
-        multipliers, _ = nnls(initial_jacobian.T, gradient(selected))
+    polish_round_count = 0
+    active_set_expansion_count = 0
+    polish_point = selected.copy()
+    maximum_polish_rounds = alpha_count + 2 * request_count + 2
+    for _ in range(maximum_polish_rounds):
+        current_jacobian = active_jacobian(polish_point)
+        if current_jacobian.shape[0] == 0:
+            break
+        multipliers, _ = nnls(current_jacobian.T, gradient(polish_point))
 
         def kkt(value: np.ndarray) -> np.ndarray:
             point = value[:alpha_count]
@@ -554,7 +562,8 @@ def _solve_region_quadratic(
             )
             return np.concatenate((upper, lower_block), axis=0)
 
-        initial = np.concatenate((selected, multipliers))
+        initial = np.concatenate((polish_point, multipliers))
+        before = float(np.max(np.abs(kkt(initial))))
         polished = root(
             kkt,
             initial,
@@ -562,14 +571,19 @@ def _solve_region_quadratic(
             method="hybr",
             options={"xtol": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE, "maxfev": 3000},
         )
-        polish_success = bool(polished.success)
-        polish_before = float(np.max(np.abs(kkt(initial))))
-        polish_after = (
+        polish_round_count += 1
+        polish_success = polish_success and bool(polished.success)
+        after = (
             float(np.max(np.abs(kkt(polished.x))))
             if np.all(np.isfinite(polished.x))
             else math.inf
         )
+        if polish_round_count == 1:
+            polish_before = before
+        polish_after = after
         candidate = np.asarray(polished.x[:alpha_count], dtype=np.float64)
+        if not np.all(np.isfinite(candidate)):
+            break
         c_mass, c_semantic, c_p = constraint_slacks(candidate)
         candidate_feasible = (
             float(np.min(candidate)) >= -P2R6_NUMERICAL_EPSILON
@@ -577,8 +591,29 @@ def _solve_region_quadratic(
             and float(np.min(c_semantic)) >= -P2R6_NUMERICAL_EPSILON
             and c_p >= -P2R6_NUMERICAL_EPSILON
         )
-        if candidate_feasible and polish_after < polish_before:
+        if candidate_feasible and after < polish_before:
             selected = candidate
+            break
+
+        new_zero = set(int(i) for i in np.flatnonzero(candidate <= P2R6_NUMERICAL_EPSILON))
+        new_mass = set(int(i) for i in np.flatnonzero(c_mass <= P2R6_NUMERICAL_EPSILON))
+        new_semantic = set(
+            int(i) for i in np.flatnonzero(c_semantic <= P2R6_NUMERICAL_EPSILON)
+        )
+        added = (
+            len(new_zero.difference(active_zero))
+            + len(new_mass.difference(active_mass))
+            + len(new_semantic.difference(active_semantic))
+            + int(c_p <= P2R6_NUMERICAL_EPSILON and not active_p)
+        )
+        if added == 0:
+            break
+        active_zero = tuple(sorted(set(active_zero).union(new_zero)))
+        active_mass = tuple(sorted(set(active_mass).union(new_mass)))
+        active_semantic = tuple(sorted(set(active_semantic).union(new_semantic)))
+        active_p = active_p or c_p <= P2R6_NUMERICAL_EPSILON
+        active_set_expansion_count += added
+        polish_point = candidate
 
     finite = bool(np.all(np.isfinite(selected)))
     mass_slack, semantic_slack, p_slack = constraint_slacks(selected)
@@ -617,7 +652,7 @@ def _solve_region_quadratic(
     receipt = {
         "schema": "ode-edit-s05-p2r6-semantic-region-quadratic/v1",
         "stage": stage,
-        "backend": "SCIPY_SLSQP_FULL_ALPHA_INEQUALITY_WITH_ACTIVE_SET_KKT_POLISH",
+        "backend": "SCIPY_SLSQP_FULL_ALPHA_INEQUALITY_WITH_MONOTONE_ACTIVE_SET_KKT_POLISH",
         "solver_success": bool(solved.success),
         "solver_status": int(solved.status),
         "message_sha256": canonical_hash(str(solved.message)),
@@ -633,6 +668,8 @@ def _solve_region_quadratic(
         "active_set_polish_success": polish_success,
         "active_set_polish_before": polish_before,
         "active_set_polish_after": polish_after,
+        "active_set_polish_round_count": polish_round_count,
+        "active_set_expansion_count": active_set_expansion_count,
         "negative_violation": negative_violation,
         "mass_violation": mass_violation,
         "semantic_region_violation": semantic_violation,
