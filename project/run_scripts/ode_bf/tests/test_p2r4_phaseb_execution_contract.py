@@ -109,10 +109,17 @@ class P2R4PhaseBExecutionContractTest(unittest.TestCase):
 
     def test_launcher_mapping_and_resources_are_exact(self) -> None:
         sbatch = (ROOT / "project/run_scripts/session05_ode_bf_p2r4_phaseb_atomic.sbatch").read_text()
+        submitter = (ROOT / "project/run_scripts/session05_ode_bf_submit_p2r4_phaseb_atomic.py").read_text()
         self.assertIn("#SBATCH --array=0-3%2", sbatch)
         self.assertIn("#SBATCH --cpus-per-task=8", sbatch)
         self.assertIn("#SBATCH --mem=65000M", sbatch)
         self.assertIn("#SBATCH --gres=gpu:1", sbatch)
+        self.assertIn("#SBATCH --nodelist=server2", sbatch)
+        self.assertNotIn("devbox", sbatch)
+        self.assertIn('"-w", "server2"', submitter)
+        self.assertIn('"--nodelist", "server2"', submitter)
+        self.assertIn('"ReqNodeList=server2"', submitter)
+        self.assertNotIn("devbox", submitter)
         self.assertIn("readonly CLAMP_POLICIES=(ON OFF ON OFF)", sbatch)
         self.assertIn("--clamp-policy \"${CLAMP_POLICY}\"", sbatch)
 

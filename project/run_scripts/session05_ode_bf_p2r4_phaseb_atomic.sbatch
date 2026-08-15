@@ -3,7 +3,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
-#SBATCH --nodelist=devbox
+#SBATCH --nodelist=server2
 #SBATCH --mem=65000M
 #SBATCH --time=23:59:00
 #SBATCH --array=0-3%2

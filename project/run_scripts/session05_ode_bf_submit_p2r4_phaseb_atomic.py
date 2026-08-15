@@ -47,7 +47,7 @@ def _write_once(path: Path, value: dict[str, object]) -> str:
 
 def _active_gpu_allocations() -> tuple[int, list[dict[str, object]]]:
     lines = _run([
-        "squeue", "-h", "-u", "janghj", "-w", "devbox",
+        "squeue", "-h", "-u", "janghj", "-w", "server2",
         "-t", "RUNNING,CONFIGURING", "-o", "%i|%T|%b",
     ]).stdout.splitlines()
     total = 0
@@ -104,7 +104,7 @@ def submit(
         raise ODEBFContractError("P2R4 Phase-B submission namespace exists")
     LOG_ROOT.mkdir(mode=0o700, parents=True, exist_ok=True)
     array = f"0-3%{stage_concurrency}" if array_task is None else str(array_task)
-    node_receipt = _run(["scontrol", "show", "node", "-o", "devbox"]).stdout.strip()
+    node_receipt = _run(["scontrol", "show", "node", "-o", "server2"]).stdout.strip()
     intent = {
         "schema": "ode-edit-s05-p2r4-phaseb-submission-intent/v1",
         "source_head": source_head,
@@ -125,7 +125,7 @@ def submit(
     intent_sha = _write_once(intent_path, intent)
     command = [
         "sbatch", "--hold", "--parsable", "--array", array,
-        "--chdir", str(REPO_ROOT), "--nodelist", "devbox",
+        "--chdir", str(REPO_ROOT), "--nodelist", "server2",
         "--job-name", f"odeedit_s05_p2r4_phaseb_{phase.replace('-', '_')}",
         "--output", str(LOG_ROOT / "%A_%a.out"),
         "--error", str(LOG_ROOT / "%A_%a.err"),
@@ -139,7 +139,7 @@ def submit(
         raise ODEBFContractError("P2R4 Phase-B scheduler ID differs")
     observed = _run(["scontrol", "show", "job", "-o", job_id]).stdout.strip()
     required = (
-        "JobState=PENDING", "Reason=JobHeldUser", "ReqNodeList=devbox",
+        "JobState=PENDING", "Reason=JobHeldUser", "ReqNodeList=server2",
         "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1",
     )
     if not all(item in observed for item in required):
