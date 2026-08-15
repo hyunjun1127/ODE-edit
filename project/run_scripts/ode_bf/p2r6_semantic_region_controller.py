@@ -600,28 +600,39 @@ def _solve_region_quadratic(
         # actually violates beyond the unchanged certificate tolerance.  Adding
         # every feasible near-zero coefficient overconstrains a singular KKT
         # system and is not required for certification.
-        new_zero = set(
-            int(i) for i in np.flatnonzero(candidate < -P2R6_NUMERICAL_EPSILON)
+        violations: list[tuple[float, int, int]] = []
+        violations.extend(
+            (-float(candidate[i]), 0, int(i))
+            for i in np.flatnonzero(candidate < -P2R6_NUMERICAL_EPSILON)
+            if int(i) not in active_zero
         )
-        new_mass = set(
-            int(i) for i in np.flatnonzero(c_mass < -P2R6_NUMERICAL_EPSILON)
+        violations.extend(
+            (-float(c_mass[i]), 1, int(i))
+            for i in np.flatnonzero(c_mass < -P2R6_NUMERICAL_EPSILON)
+            if int(i) not in active_mass
         )
-        new_semantic = set(
-            int(i) for i in np.flatnonzero(c_semantic < -P2R6_NUMERICAL_EPSILON)
+        violations.extend(
+            (-float(c_semantic[i]), 2, int(i))
+            for i in np.flatnonzero(c_semantic < -P2R6_NUMERICAL_EPSILON)
+            if int(i) not in active_semantic
         )
-        added = (
-            len(new_zero.difference(active_zero))
-            + len(new_mass.difference(active_mass))
-            + len(new_semantic.difference(active_semantic))
-            + int(c_p < -P2R6_NUMERICAL_EPSILON and not active_p)
-        )
-        if added == 0:
+        if c_p < -P2R6_NUMERICAL_EPSILON and not active_p:
+            violations.append((-float(c_p), 3, 0))
+        if not violations:
             break
-        active_zero = tuple(sorted(set(active_zero).union(new_zero)))
-        active_mass = tuple(sorted(set(active_mass).union(new_mass)))
-        active_semantic = tuple(sorted(set(active_semantic).union(new_semantic)))
-        active_p = active_p or c_p < -P2R6_NUMERICAL_EPSILON
-        active_set_expansion_count += added
+        _magnitude, constraint_kind, constraint_index = max(
+            violations,
+            key=lambda item: (item[0], -item[1], -item[2]),
+        )
+        if constraint_kind == 0:
+            active_zero = tuple(sorted((*active_zero, constraint_index)))
+        elif constraint_kind == 1:
+            active_mass = tuple(sorted((*active_mass, constraint_index)))
+        elif constraint_kind == 2:
+            active_semantic = tuple(sorted((*active_semantic, constraint_index)))
+        else:
+            active_p = True
+        active_set_expansion_count += 1
         polish_point = candidate
 
     finite = bool(np.all(np.isfinite(selected)))
@@ -679,6 +690,7 @@ def _solve_region_quadratic(
         "active_set_polish_after": polish_after,
         "active_set_polish_round_count": polish_round_count,
         "active_set_expansion_count": active_set_expansion_count,
+        "active_set_expansion_policy": "ONE_MOST_VIOLATED_CONSTRAINT_PER_ROUND_STABLE_TYPE_INDEX_TIE",
         "negative_violation": negative_violation,
         "mass_violation": mass_violation,
         "semantic_region_violation": semantic_violation,

@@ -12,8 +12,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p2r6_semantic_region_pilot.json",
-      "size": 2229,
-      "sha256": "ba3eed0183870ae4a6d2fb2a07fc0de7819e48f1bfd58b4dbcee915fd39ba171"
+      "size": 2220,
+      "sha256": "25fb7b920780824aaee4014cb919ce3a7adb953d9cb25a7caeedb33886dbcd3c"
     },
     {
       "path": "project/run_scripts/ode_bf/p1_runtime.py",
@@ -62,8 +62,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/p2r6_pilot_panel.py",
-      "size": 2669,
-      "sha256": "c74b3c64498f38ad20d9d2870ac3923b70b6b94c26f3055ad1705c12df317fca"
+      "size": 2660,
+      "sha256": "c7a919b168fe8b91cf5eb4aa827e099f41ec685ef8865b1855b149a81e4c5c0b"
     },
     {
       "path": "project/run_scripts/ode_bf/p2r6_pilot_runtime.py",
@@ -72,8 +72,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/p2r6_semantic_region_controller.py",
-      "size": 40073,
-      "sha256": "1d332a9dbc9db57a5146f59c4dc1474ed1d9c2257c423a2b5a222ad6fb749615"
+      "size": 40578,
+      "sha256": "67e459d855bfe817920f3212588f51e07ec3cca842a75367f1cdccfc25a22230"
     },
     {
       "path": "project/run_scripts/ode_bf/scalable_batched_field.py",
@@ -92,8 +92,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_p2r6_semantic_region_controller.py",
-      "size": 15812,
-      "sha256": "c3d78b9c56db3f6f3415e75be193e826af79ed9137e255d35f8f32597388d0fc"
+      "size": 15944,
+      "sha256": "2f48fce545c0a08f77c3b086d69866532da30ee4a0e3cee252d543be1b19ef47"
     },
     {
       "path": "project/run_scripts/session05_ode_bf_p2r6_pilot.py",
@@ -116,5 +116,5 @@
       "sha256": "ba7ff8c24c2cdbf52dd8ab843b08db17a665aa0ea3c6cea58d08d809c8bbaf59"
     }
   ],
-  "root_digest": "b06d89fcbab091303fb990c33948a86f26884d0340c25f38f99ce58396035ed9"
+  "root_digest": "4f57b13a61d68f2c2389fd82ad6274afbaff0d170f6441fb26ecba5af95b51c0"
 }

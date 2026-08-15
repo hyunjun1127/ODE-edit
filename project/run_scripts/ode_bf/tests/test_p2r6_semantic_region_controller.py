@@ -282,6 +282,9 @@ def test_quadratic_polish_expands_newly_active_mass_constraint(
     assert "candidate < -P2R6_NUMERICAL_EPSILON" in source
     assert "c_mass < -P2R6_NUMERICAL_EPSILON" in source
     assert "c_semantic < -P2R6_NUMERICAL_EPSILON" in source
+    assert receipt["active_set_expansion_policy"] == (
+        "ONE_MOST_VIOLATED_CONSTRAINT_PER_ROUND_STABLE_TYPE_INDEX_TIE"
+    )
 
 
 def test_forbidden_influence_and_runtime_policy_are_exact() -> None:
