@@ -34,7 +34,7 @@ def build_plan(source_head: str, *, attempt_suffix: str | None = None) -> dict[s
     ]
     tech_r3_arms = (
         [("SDRT-STRUCTP",), P2R5_ARMS, P2R5_ARMS, ("SDRT-CAP",)]
-        if attempt_suffix == "tech-r3" else [P2R5_ARMS] * 4
+        if attempt_suffix in ("tech-r3", "tech-r4") else [P2R5_ARMS] * 4
     )
     jobs = [
         {

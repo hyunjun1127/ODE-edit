@@ -35,7 +35,7 @@ readonly CASES=(3 5 1 4)
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
 readonly CASE_INDEX="${CASES[${SLURM_ARRAY_TASK_ID}]}"
 ARM_ARGS=(--arms SDRT-CAP SDRT-STRUCTP)
-if [[ "${ATTEMPT_SUFFIX}" == "tech-r3" ]]; then
+if [[ "${ATTEMPT_SUFFIX}" == "tech-r3" || "${ATTEMPT_SUFFIX}" == "tech-r4" ]]; then
   case "${SLURM_ARRAY_TASK_ID}" in
     0) ARM_ARGS=(--arms SDRT-STRUCTP) ;;
     1) ARM_ARGS=(--arms SDRT-CAP SDRT-STRUCTP) ;;

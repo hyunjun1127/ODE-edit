@@ -77,6 +77,7 @@ def test_lock_and_stage_a_dry_plan_are_exact() -> None:
         ("SDRT-CAP", "SDRT-STRUCTP"),
         ("SDRT-CAP",),
     ]
+    assert dry.build_plan(PARENT, attempt_suffix="tech-r4")["endpoint_attempt_count"] == 6
 
 
 def test_runtime_reuses_protected_interfaces_and_one_materialization() -> None:
@@ -150,7 +151,7 @@ def test_entrypoint_and_launcher_resources_are_bound() -> None:
         assert token in sbatch
     assert "readonly MODELS=(llama3-8b-inst llama3-8b-inst qwen2.5-7b-inst qwen2.5-7b-inst)" in sbatch
     assert "readonly CASES=(3 5 1 4)" in sbatch
-    assert 'if [[ "${ATTEMPT_SUFFIX}" == "tech-r3" ]]' in sbatch
+    assert '"${ATTEMPT_SUFFIX}" == "tech-r3" || "${ATTEMPT_SUFFIX}" == "tech-r4"' in sbatch
     assert 'PROJECT_GPU_CAP = 4' in submitter
     assert 'STAGE_GPU_MAX = 4' in submitter
     assert '"stage_b_status": "CLOSED_PENDING_GH_STAGE_A_REVIEW"' in submitter
