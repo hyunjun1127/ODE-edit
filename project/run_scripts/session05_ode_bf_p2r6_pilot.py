@@ -39,6 +39,8 @@ from project.run_scripts.ode_bf.p2r6_semantic_region_controller import (
 
 RUN_TOKEN = "p2r6-red-r2-final-scientific-run-v1"
 SOURCE_MANIFEST = "source_manifest_s05_p2r6_red_r2_final.json"
+RED_R2_CLEAN_PARENT = "e7c86a5598a7507f4f981068ba1fa8db4df13df9"
+RED_R2_CLEAN_PARENT_TREE = "9012ccb2f31e90f49d870a395188466ee60f4319"
 
 
 def _source_gate(source_head: str) -> str:
@@ -55,7 +57,8 @@ def _source_gate(source_head: str) -> str:
     entries = manifest.get("entries")
     if (
         manifest.get("instruction_id") != P2R6_INSTRUCTION_ID
-        or manifest.get("exact_p2r5_parent") != PARENT
+        or manifest.get("exact_clean_parent") != RED_R2_CLEAN_PARENT
+        or manifest.get("exact_clean_parent_tree") != RED_R2_CLEAN_PARENT_TREE
         or not isinstance(entries, list)
         or not entries
     ):
