@@ -347,8 +347,15 @@ def _semantic_region_optimum(
     )
     mass_violation = max(0.0, float(np.max(mass @ allocation - 1.0)))
     semantic_violation = max(0.0, float(np.max(lower - semantic_response)))
+    ratio_objective_violation = max(
+        0.0,
+        float(np.max((deficit - semantic_response) / scale - xi)),
+    )
     negative_violation = max(0.0, -float(np.min(allocation)))
-    certified = max(mass_violation, semantic_violation, negative_violation) <= P2R6_NUMERICAL_EPSILON
+    certified = (
+        max(mass_violation, ratio_objective_violation, negative_violation)
+        <= P2R6_NUMERICAL_EPSILON
+    )
     receipt = {
         "schema": "ode-edit-s05-p2r6-e1-semantic-region/v1",
         "stage": "E1_SEMANTIC_REGION",
@@ -366,6 +373,10 @@ def _semantic_region_optimum(
         "e1_xi": xi,
         "mass_violation": mass_violation,
         "semantic_region_violation": semantic_violation,
+        "e1_start_in_semantic_region": (
+            semantic_violation <= P2R6_NUMERICAL_EPSILON
+        ),
+        "ratio_objective_violation": ratio_objective_violation,
         "negative_violation": negative_violation,
         "certificate_pass": certified,
         "primal_tolerance": P2R6_NUMERICAL_EPSILON,

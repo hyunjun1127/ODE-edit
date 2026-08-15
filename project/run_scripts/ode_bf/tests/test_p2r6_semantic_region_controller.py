@@ -28,6 +28,7 @@ from project.run_scripts.ode_bf.p2r6_pilot_runtime import (
 from project.run_scripts.ode_bf.p2r6_semantic_region_controller import (
     P2R6_ARMS,
     P2R6_CAP_ARMS,
+    _semantic_region_optimum,
     p2r6_forbidden_influence_receipt,
     solve_p2r6_routing,
     solve_p2r6_shadow_panel,
@@ -180,6 +181,30 @@ def test_entry_anchored_e1_rows_are_ratio_normalized_for_dynamic_scale() -> None
     assert source.count("response @ allocation") == 1
     assert "deficit - semantic_response" in source
     assert "lower - semantic_response" in source
+
+
+def test_e1_start_region_slack_is_observation_not_a_false_gate() -> None:
+    response = _response().numpy()
+    response[0, :] = -1.0e-6
+    response[0, 0] = 0.0
+    deficit = torch.ones(10, dtype=torch.float64).numpy()
+    deficit[0] = 0.0
+    entry = deficit.copy()
+    _start, _scale, _lower, _xi, receipt = _semantic_region_optimum(
+        response,
+        deficit,
+        entry,
+        scale_policy="ENTRY_ANCHORED_DEFICIT",
+    )
+    assert receipt["certificate_pass"] is True
+    assert receipt["ratio_objective_violation"] <= 1.0e-8
+    assert receipt["semantic_region_violation"] > 0.0
+    assert receipt["e1_start_in_semantic_region"] is (
+        receipt["semantic_region_violation"] <= 1.0e-8
+    )
+    source = inspect.getsource(_semantic_region_optimum)
+    assert "max(mass_violation, ratio_objective_violation, negative_violation)" in source
+    assert "max(mass_violation, semantic_violation, negative_violation)" not in source
 
 
 def test_forbidden_influence_and_runtime_policy_are_exact() -> None:
