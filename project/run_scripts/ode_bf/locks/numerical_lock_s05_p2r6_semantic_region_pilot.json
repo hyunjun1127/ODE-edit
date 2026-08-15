@@ -1,0 +1,52 @@
+{
+  "all_request_order_sha256": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+  "all_source_arms": [
+    "A0-CAP",
+    "AETA-CAP",
+    "AR-CAP",
+    "AS-CAP",
+    "AR-STRUCTP",
+    "AS-STRUCTP"
+  ],
+  "clamp_policy": "ON_DECISION_ACTIVE_EVERY_TARGET_MICROSTEP",
+  "coefficient_mass_constraint": "NONNEGATIVE_SUM_LAYER_PER_REQUEST_LE_ONE",
+  "decision_response": "RAW_CURRENT_STATE_S",
+  "e1_entry_scale": "MAX_ENTRY_CURRENT_NUMERICAL_EPSILON",
+  "e1_current_scale": "CURRENT_DEFICIT_PLUS_NUMERICAL_EPSILON",
+  "e2_enabled_a0_aeta": true,
+  "e2_enabled_ar_as": false,
+  "eta_decision_influence_count_aeta_ar_as": 0,
+  "eta_observation": "POOLED_NONNEGATIVE_NNLS_UNCHANGED",
+  "exact_p2r4_parent": "96f23e804be66569ad3fcf98bfcdd8a02ff3f7fb",
+  "exact_p2r5_parent": "ff032a10eac257d23c691896458159d2f4eff23b",
+  "exact_response_face_enabled_a0_aeta": true,
+  "exact_response_face_enabled_ar_as": false,
+  "instruction_id": "ODEEDIT-S05-P2R6-SEMANTIC-REGION-CONTROLLER-PILOT-V1",
+  "numerical_epsilon": 1e-08,
+  "phase1_arms": [
+    "A0-CAP",
+    "AETA-CAP",
+    "AR-CAP",
+    "AS-CAP"
+  ],
+  "phase1_cases": {
+    "llama3-8b-inst": [5],
+    "qwen2.5-7b-inst": [1]
+  },
+  "phase2_cases": {
+    "llama3-8b-inst": [3, 5],
+    "qwen2.5-7b-inst": [1, 4]
+  },
+  "phase2_selected_controller_options": ["AR", "AS"],
+  "preservation_lexicographic_order": "SEMANTIC_REGION_THEN_STRUCTURAL_P_THEN_CAPACITY",
+  "request_layer_alpha_shape": [5, 10],
+  "root_digest": "c1f8b8a238e37efc476a85c047ab632afc80412fb41c1218e6f56e904e9c4300",
+  "schema_version": "ode-edit-s05-p2r6-semantic-region-pilot-numerical-lock/v1",
+  "scientific_promotion_authorized": false,
+  "shadow_added_model_forward_backward_materialization": [0, 0, 0],
+  "stage_b10x10_status": "NOT_AUTHORIZED",
+  "stream_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
+  "structural_p_tie": "SIMPLEX_XI_TIE_TOLERANCE_TIMES_MAX_TRACE_OR_1E12",
+  "target_microstep_count": 24,
+  "writer_transition_count": 8
+}

@@ -1,0 +1,120 @@
+{
+  "schema_version": "ode-edit-s05-p2r6-semantic-region-pilot-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P2R6-SEMANTIC-REGION-CONTROLLER-PILOT-V1",
+  "exact_p2r5_parent": "ff032a10eac257d23c691896458159d2f4eff23b",
+  "exact_p2r5_parent_tree": "8ac005aec6bcb199b833ae224f29591ea59ea108",
+  "protected_parent_source_count": 7,
+  "entries": [
+    {
+      "path": "project/run_scripts/ode_bf/atomic_runtime_optimization.py",
+      "size": 15214,
+      "sha256": "672f700f3f8fcaac230d4f5857b22d305786e776bc9474737b69b931f39d3cd0"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p2r6_semantic_region_pilot.json",
+      "size": 2001,
+      "sha256": "0215301f7d1afae43271088eed21c12ec71416311aab93385d94c532045aad02"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "size": 226351,
+      "sha256": "a7a913b5ba68838de89b1258bdcf49c26bc689c42224b138da2bf5c8730d1c42"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+      "size": 109490,
+      "sha256": "acb3b5142251b0226ca9c5cc4fe8c5d3951584b319743c2c2ff345133e83d862"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r1_rms_tangent_target.py",
+      "size": 12498,
+      "sha256": "98591cc1472c23d14178002dd535596916c93751d2d10b95f1306dc7705dac21"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r2_residual_transport_writer.py",
+      "size": 37909,
+      "sha256": "307e8fef5811db8bae78118cbce30568aa8c10d81d7890b1a4c724aa7a37527d"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r4_phaseb_atomic_runtime.py",
+      "size": 35073,
+      "sha256": "a5c97fc8bf42ad26172ba04414c8ddef75f48baa4583025a89ba969db4ac2cd6"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r4_phaseb_receipts.py",
+      "size": 1880,
+      "sha256": "98a3c83868eb95d62099914ee8dbf6651d9e93820f9afa87249edb4b3909833d"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r5_sdrt_writer.py",
+      "size": 44096,
+      "sha256": "4e85d469f95fa686505c90b6724b8cec8910401ca5cb4f1f682a31f7d2ad25f8"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r5_stage_a_panel.py",
+      "size": 1890,
+      "sha256": "bb9d949214dede392e5a0ca4375d7875c38c82f8a9bcefaf694583d650573d32"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r5_stage_a_runtime.py",
+      "size": 40607,
+      "sha256": "77dfcae2885b5e31fd6d1a1447e3bbc593a7c7d69b1144e9b1c72d42daf2d302"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r6_pilot_panel.py",
+      "size": 2294,
+      "sha256": "43c2b8169abeeb2c098fa57116f7a67046033d559bd7943238bb50a32310365b"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r6_pilot_runtime.py",
+      "size": 10528,
+      "sha256": "10763eeabc0cbd66d0dde0d27efa1e992bd2d2bc9e7f43168ff58192cf182220"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r6_semantic_region_controller.py",
+      "size": 35600,
+      "sha256": "e633d2f5c587a68d4f0b57ab3a02875751fabfea18ba02c7c41bace83ac8e48b"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/scalable_batched_field.py",
+      "size": 18967,
+      "sha256": "b75f56d757b4baf8c2edc17c8f6a65034eab3fbbfd4a44d9c317ed5731de052d"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p2r5_sdrt_writer.py",
+      "size": 10313,
+      "sha256": "ff71de89fa3220805d824e3e25dfde78e6f57315fe758ed2467278fb3d277d02"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p2r5_stage_a_execution_contract.py",
+      "size": 9087,
+      "sha256": "69ebcfa7904f984dd04cd9646a9ce08558585faf06010671cade710a8231533a"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p2r6_semantic_region_controller.py",
+      "size": 10581,
+      "sha256": "4193b015997ba1a6de246cdaeda4cd2dd883b92c7d7d7820b9b3a29a58e90ecb"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p2r6_pilot.py",
+      "size": 5560,
+      "sha256": "4a0eec47345157ea99a86dc489f0e6508e507c49e626f1e96751161c549e7c4e"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p2r6_pilot.sbatch",
+      "size": 3639,
+      "sha256": "748be4edd35c1edf2ff951609219a2c052ecbb14339c0c7a8f197e35550f3029"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p2r6_pilot_dry_plan.py",
+      "size": 3866,
+      "sha256": "28f1d61eb2ad2ab0259f68ee3abb96e6730b81089157ed652ead58f811843791"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_submit_p2r6_pilot.py",
+      "size": 8328,
+      "sha256": "ba7ff8c24c2cdbf52dd8ab843b08db17a665aa0ea3c6cea58d08d809c8bbaf59"
+    }
+  ],
+  "root_digest": "9ff5f185db79e3fe92a7667b057ea648f9e8fbf809372499514fd0dde60fe96e"
+}

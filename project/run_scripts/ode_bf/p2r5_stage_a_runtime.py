@@ -4,10 +4,11 @@ from __future__ import annotations
 
 import hashlib
 import math
+from dataclasses import dataclass
 from pathlib import Path
 import time
 import traceback
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import torch
 
@@ -83,6 +84,52 @@ STAGE_A_CASES = {
     "llama3-8b-inst": (3, 5),
     "qwen2.5-7b-inst": (1, 4),
 }
+
+
+@dataclass(frozen=True, slots=True)
+class P2AtomicArmRuntimePolicy:
+    """Thin policy hooks around the sealed P2 target/write runtime."""
+
+    instruction_id: str
+    method_id: str
+    receipt_namespace: str
+    arm_label_prefix: str
+    allowed_arms: tuple[str, ...]
+    allowed_cases: Mapping[str, tuple[int, ...]]
+    route_solver: Callable[..., Any]
+    forbidden_receipt_builder: Callable[[], Mapping[str, Any]]
+    shadow_solver: Callable[..., Any] | None = None
+
+
+def _p2r5_route_adapter(
+    response: torch.Tensor,
+    deficit: torch.Tensor,
+    entry_deficit: torch.Tensor,
+    calibration: Any,
+    quadratics: Any,
+    *,
+    arm: str,
+) -> Any:
+    del entry_deficit
+    return solve_sdrt_routing(
+        response,
+        deficit,
+        calibration,
+        quadratics,
+        arm=arm,
+    )
+
+
+P2R5_RUNTIME_POLICY = P2AtomicArmRuntimePolicy(
+    instruction_id=P2R5_INSTRUCTION_ID,
+    method_id=P2R5_METHOD_ID,
+    receipt_namespace="p2r5-sdrt",
+    arm_label_prefix="P2R5",
+    allowed_arms=P2R5_ARMS,
+    allowed_cases=STAGE_A_CASES,
+    route_solver=_p2r5_route_adapter,
+    forbidden_receipt_builder=p2r5_forbidden_influence_receipt,
+)
 
 
 def expected_p2r5_stage_a_result_name(
@@ -161,9 +208,18 @@ def _run_arm_case(
     expected_w0: str,
     request_microbatch_size: int,
     job_ledger: ComputeLedger,
+    runtime_policy: P2AtomicArmRuntimePolicy = P2R5_RUNTIME_POLICY,
 ) -> dict[str, Any]:
-    if arm not in P2R5_ARMS or case_index not in STAGE_A_CASES[alias] or len(requests) != BATCH_SIZE:
-        raise ODEBFContractError("P2R5 Stage-A arm/case inventory differs")
+    if (
+        arm not in runtime_policy.allowed_arms
+        or alias not in runtime_policy.allowed_cases
+        or case_index not in runtime_policy.allowed_cases[alias]
+        or len(requests) != BATCH_SIZE
+    ):
+        raise ODEBFContractError("P2 Atomic arm/case inventory differs")
+    instruction_id = runtime_policy.instruction_id
+    method_id = runtime_policy.method_id
+    receipt_namespace = runtime_policy.receipt_namespace
     request_order = scalable_ordered_request_digest(
         [str(item["request_sha256"]) for item in requests]
     )
@@ -183,10 +239,10 @@ def _run_arm_case(
         fact_token_strategy=hparams.fact_token,
     )
     if objective_plan.request_order_sha256 != request_order or capture_plan.request_order_sha256 != request_order:
-        raise ODEBFContractError("P2R5 Stage-A plan order differs")
+        raise ODEBFContractError("P2 Atomic plan order differs")
     _atomic_write_once(case_root / "raw" / "objective-plan.json", objective_plan.raw_free_payload())
     _atomic_write_once(case_root / "raw" / "capture-plan.json", capture_plan.raw_free_payload())
-    forbidden = p2r5_forbidden_influence_receipt()
+    forbidden = dict(runtime_policy.forbidden_receipt_builder())
     _atomic_write_once(case_root / "raw" / "forbidden-influence.json", forbidden)
 
     lock = P1R24AliasTargetLock.for_alias(alias)
@@ -224,6 +280,8 @@ def _run_arm_case(
     k_states: list[torch.Tensor] = []
     step_payloads: list[dict[str, Any]] = []
     allocations: list[list[list[float]]] = []
+    shadow_receipt_sha: list[str] = []
+    entry_deficit: torch.Tensor | None = None
     entry_target_field: torch.Tensor | None = None
     entry_writer_field: Any | None = None
     entry_allocation: torch.Tensor | None = None
@@ -275,7 +333,7 @@ def _run_arm_case(
                     target_layer_name=hparams.layer_module_tmp.format(int(hparams.layers[-1])),
                 )
                 if semantic.target_gradient is None or kl_result.gradient is None:
-                    raise ODEBFContractError("P2R5 target gradient is absent")
+                    raise ODEBFContractError("P2 Atomic target gradient is absent")
                 compute["target_forward_count"] += semantic.model_forward_count
                 compute["target_backward_count"] += semantic.backward_count
                 compute["kl_forward_count"] += kl_result.model_forward_count
@@ -300,7 +358,7 @@ def _run_arm_case(
                 target_receipt = _normalize_clamp_receipt(
                     {
                         **dict(update.receipt),
-                        "p2r5_instruction_id": P2R5_INSTRUCTION_ID,
+                        "instruction_id": instruction_id,
                         "outer_step": outer,
                         "within_outer_microstep": inner,
                         "current_physical_state_sha256": physical.identity_sha256,
@@ -325,7 +383,7 @@ def _run_arm_case(
                 state = update.state_next
                 last_target_field = update.field.detach().cpu()
             if last_target_field is None:
-                raise ODEBFStateError("P2R5 target field is absent")
+                raise ODEBFStateError("P2 Atomic target field is absent")
             if entry_target_field is None:
                 entry_target_field = last_target_field.clone()
 
@@ -364,6 +422,8 @@ def _run_arm_case(
             deficit = clamp_safe_semantic_deficit(
                 response.current_nll_by_request, z_objective.per_request_values
             )
+            if entry_deficit is None:
+                entry_deficit = deficit.clone()
             calibration = pooled_nonnegative_realization_calibration(
                 predicted_history, actual_history
             )
@@ -373,13 +433,41 @@ def _run_arm_case(
                 prior_structural_p=prior_structural_p,
             )
             quadratics = build_sdrt_quadratics(field, cumulative_factors, base_quadratics)
-            route = solve_sdrt_routing(
-                response.response,
-                deficit,
-                calibration,
-                quadratics,
-                arm=arm,
-            )
+            shadow_panel = None
+            if runtime_policy.shadow_solver is not None:
+                shadow_panel = runtime_policy.shadow_solver(
+                    response.response,
+                    deficit,
+                    entry_deficit,
+                    calibration,
+                    quadratics,
+                )
+                shadow_payload = shadow_panel.raw_free_payload()
+                if (
+                    shadow_payload.get("model_forward_count") != 0
+                    or shadow_payload.get("model_backward_count") != 0
+                    or shadow_payload.get("materialization_count") != 0
+                ):
+                    raise ODEBFContractError("P2 shadow solve added model/materialization work")
+                shadow_receipt_sha.append(
+                    _atomic_write_once(
+                        case_root / "raw" / "shadow" / f"step-{outer:02d}.json",
+                        shadow_payload,
+                    )
+                )
+            if shadow_panel is not None and arm in tuple(
+                item.arm for item in shadow_panel.routes
+            ):
+                route = shadow_panel.route(arm)
+            else:
+                route = runtime_policy.route_solver(
+                    response.response,
+                    deficit,
+                    entry_deficit,
+                    calibration,
+                    quadratics,
+                    arm=arm,
+                )
             increment = p2r2_waypoint_factors(field, route, outer_step=outer)
             cumulative_factors = _merge_factors(cumulative_factors, increment)
             materialization = materializer.materialize(
@@ -425,9 +513,9 @@ def _run_arm_case(
                 ),
             }
             writer_payload = {
-                "schema": "ode-edit-s05-p2r5-sdrt-writer-step/v1",
-                "instruction_id": P2R5_INSTRUCTION_ID,
-                "method_id": P2R5_METHOD_ID,
+                "schema": f"ode-edit-s05-{receipt_namespace}-writer-step/v1",
+                "instruction_id": instruction_id,
+                "method_id": method_id,
                 "p2r4_parent_head": P2R4_PARENT_HEAD,
                 "outer_step": outer,
                 "arm": arm,
@@ -458,6 +546,12 @@ def _run_arm_case(
                 "p2r2_quadratics": base_quadratics.raw_free_payload(),
                 "sdrt_quadratics": quadratics.raw_free_payload(),
                 "route": route.raw_free_payload(),
+                "shadow_panel_identity_sha256": (
+                    shadow_panel.identity_sha256 if shadow_panel is not None else "NOT_APPLICABLE"
+                ),
+                "shadow_model_forward_count": 0,
+                "shadow_model_backward_count": 0,
+                "shadow_materialization_count": 0,
                 "factor_sha256": {
                     name: _factor_sha(value) for name, value in sorted(increment.items())
                 },
@@ -494,7 +588,7 @@ def _run_arm_case(
             k_states.append(current_target.clone())
 
         if state.completed_microsteps != P2R1_TARGET_MICROSTEP_COUNT or len(k_states) != 9 or compute["writer_materialization_count"] != 8:
-            raise ODEBFStateError("P2R5 K8/microstep/materialization count differs")
+            raise ODEBFStateError("P2 Atomic K8/microstep/materialization count differs")
         final_target = evaluate_scalable_target_new_objective(
             model,
             objective_plan,
@@ -512,15 +606,16 @@ def _run_arm_case(
             request_order_sha256=request_order,
         )
         action = {
-            "schema": "ode-edit-s05-p2r5-sdrt-action-freeze/v1",
-            "instruction_id": P2R5_INSTRUCTION_ID,
-            "method_id": P2R5_METHOD_ID,
+            "schema": f"ode-edit-s05-{receipt_namespace}-action-freeze/v1",
+            "instruction_id": instruction_id,
+            "method_id": method_id,
             "alias": alias,
             "arm": arm,
             "case_index": case_index,
             "request_order_sha256": request_order,
             "target_microstep_receipt_sha256": target_receipt_sha,
             "writer_step_receipt_sha256": writer_receipt_sha,
+            "shadow_step_receipt_sha256": shadow_receipt_sha,
             "target_microstep_count": state.completed_microsteps,
             "writer_transition_count": 8,
             "writer_materialization_count": 8,
@@ -543,7 +638,7 @@ def _run_arm_case(
         cases, evaluator_freeze = _action_frozen_cases(
             dataset_path,
             requests,
-            arm=f"P2R5-{arm}",
+            arm=f"{runtime_policy.arm_label_prefix}-{arm}",
             selected_snapshot_sha256=action_sha,
             fixed_budget_slots_completed=8,
         )
@@ -572,7 +667,7 @@ def _run_arm_case(
         counter.close()
         materializer_restore = materializer.restore()
     if _model_w0_contract(touched) != expected_w0:
-        raise ODEBFStateError("P2R5 materializer did not restore W0")
+        raise ODEBFStateError("P2 Atomic materializer did not restore W0")
     restore = _restore_exact_w0(
         touched,
         base_values,
@@ -580,9 +675,9 @@ def _run_arm_case(
         expected_contract=expected_w0,
     )
     terminal = {
-        "schema": "ode-edit-s05-p2r5-sdrt-case-terminal/v1",
-        "instruction_id": P2R5_INSTRUCTION_ID,
-        "method_id": P2R5_METHOD_ID,
+        "schema": f"ode-edit-s05-{receipt_namespace}-case-terminal/v1",
+        "instruction_id": instruction_id,
+        "method_id": method_id,
         "p2r4_parent_head": P2R4_PARENT_HEAD,
         "alias": alias,
         "arm": arm,
@@ -623,7 +718,7 @@ def _run_arm_case(
     terminal["identity_sha256"] = canonical_hash(terminal)
     terminal_sha = _atomic_write_once(case_root / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s05-p2r5-sdrt-case-manifest/v1",
+        "schema": f"ode-edit-s05-{receipt_namespace}-case-manifest/v1",
         "alias": alias,
         "arm": arm,
         "case_index": case_index,
@@ -636,7 +731,7 @@ def _run_arm_case(
     manifest["identity_sha256"] = canonical_hash(manifest)
     manifest_sha = _atomic_write_once(case_root / "manifest.json", manifest)
     return {
-        "status": "P2R5_STAGE_A_CASE_COMPLETE",
+        "status": f"{runtime_policy.arm_label_prefix}_CASE_COMPLETE",
         "terminal_sha256": terminal_sha,
         "manifest_sha256": manifest_sha,
         "arm": arm,
@@ -828,10 +923,18 @@ def run_p2r5_stage_a(
     }
 
 
+# Public reusable hook; legacy P2R5 calls the same function with the frozen
+# default policy, while later controllers inject only allocation policy.
+run_p2_atomic_arm_case = _run_arm_case
+
+
 __all__ = [
     "METHOD",
+    "P2AtomicArmRuntimePolicy",
+    "P2R5_RUNTIME_POLICY",
     "P2R4_PARENT_HEAD",
     "STAGE_A_CASES",
     "expected_p2r5_stage_a_result_name",
+    "run_p2_atomic_arm_case",
     "run_p2r5_stage_a",
 ]

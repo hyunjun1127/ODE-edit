@@ -125,7 +125,7 @@ def test_current_w_target_response_and_deficit_refresh_are_ordered() -> None:
     field = source.index("field = build_scalable_dynamic_field(", deficit_forward)
     response = source.index("response = measure_request_layer_response(", field)
     deficit = source.index("deficit = clamp_safe_semantic_deficit(", response)
-    route = source.index("route = solve_sdrt_routing(", deficit)
+    route = source.index("route = runtime_policy.route_solver(", deficit)
     materialize = source.index("materialization = materializer.materialize(", route)
     recapture = source.index("next_physical = capture_scalable_physical_state(", materialize)
     assert outer < terminal < target < deficit_forward < field < response < deficit < route < materialize < recapture
