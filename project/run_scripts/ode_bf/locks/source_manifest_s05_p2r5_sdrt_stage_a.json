@@ -1,0 +1,100 @@
+{
+  "schema_version": "ode-edit-s05-p2r5-sdrt-stage-a-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P2R5-SEMANTIC-DEFICIT-CONSTRAINED-RESIDUAL-TRANSPORT-V1",
+  "exact_p2r4_parent": "96f23e804be66569ad3fcf98bfcdd8a02ff3f7fb",
+  "exact_p2r4_parent_tree": "7d37b3c4c8bab05a9b28628bc986da30d95bca30",
+  "protected_parent_source_count": 7,
+  "entries": [
+    {
+      "path": "project/run_scripts/ode_bf/atomic_runtime_optimization.py",
+      "size": 15214,
+      "sha256": "672f700f3f8fcaac230d4f5857b22d305786e776bc9474737b69b931f39d3cd0"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p2r5_sdrt_stage_a.json",
+      "size": 3620,
+      "sha256": "1156992e51f059ade7c8a83d8e60c4c84d18e24267315484d55ee965a5d5765d"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "size": 223656,
+      "sha256": "5a9aba61f67f588b851827d261d233d8578c2be8feed702c78c5b5b80228dea2"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+      "size": 109490,
+      "sha256": "acb3b5142251b0226ca9c5cc4fe8c5d3951584b319743c2c2ff345133e83d862"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r1_rms_tangent_target.py",
+      "size": 12498,
+      "sha256": "98591cc1472c23d14178002dd535596916c93751d2d10b95f1306dc7705dac21"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r2_residual_transport_writer.py",
+      "size": 37909,
+      "sha256": "307e8fef5811db8bae78118cbce30568aa8c10d81d7890b1a4c724aa7a37527d"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r4_phaseb_atomic_runtime.py",
+      "size": 35073,
+      "sha256": "a5c97fc8bf42ad26172ba04414c8ddef75f48baa4583025a89ba969db4ac2cd6"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r4_phaseb_receipts.py",
+      "size": 1880,
+      "sha256": "98a3c83868eb95d62099914ee8dbf6651d9e93820f9afa87249edb4b3909833d"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r5_sdrt_writer.py",
+      "size": 26361,
+      "sha256": "ed2b9b0ca7f3c2e8ad864404d6eef3a0fbbc51abda6890b9f593173d7060a745"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r5_stage_a_panel.py",
+      "size": 1890,
+      "sha256": "bb9d949214dede392e5a0ca4375d7875c38c82f8a9bcefaf694583d650573d32"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r5_stage_a_runtime.py",
+      "size": 35950,
+      "sha256": "44103ea015244622a8bdd446e7e7eb32c0aa74ece3101a4cc315809cd6f26cad"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/scalable_batched_field.py",
+      "size": 18967,
+      "sha256": "b75f56d757b4baf8c2edc17c8f6a65034eab3fbbfd4a44d9c317ed5731de052d"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p2r5_sdrt_writer.py",
+      "size": 7157,
+      "sha256": "3ce14594b3fc8c32d11585a5e62761ce50918fc873b7ac340fafe7d9f835cc7f"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p2r5_stage_a_execution_contract.py",
+      "size": 6240,
+      "sha256": "800b77da3ebca78e60e2279b16dfab5da2a0e30d74b0766ef366fd20fbf2e0ea"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p2r5_stage_a.py",
+      "size": 5044,
+      "sha256": "0db62d58fdac3e0b300a460a7f68f246905bda22be7283ca2c4e39c53812b8be"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p2r5_stage_a.sbatch",
+      "size": 2840,
+      "sha256": "7860e5cdfebace7f23f251f21d66610dd698375d7743c4c90472f269fc85d619"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p2r5_stage_a_dry_plan.py",
+      "size": 2891,
+      "sha256": "06e0476750670e83d9268a2fd7cc04c819612f0efd6c395bf93a16acb3a797eb"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_submit_p2r5_stage_a.py",
+      "size": 7045,
+      "sha256": "e363acbdaff73cdb31f136b8ba96f61c303137900cfaed8ee575923c7b2d99ad"
+    }
+  ],
+  "root_digest": "30885a0eb6df05aa35682123df7f2fab25cb71db96cc053c715f6c9a14fab0d3"
+}
