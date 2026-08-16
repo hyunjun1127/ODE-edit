@@ -22,10 +22,10 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError
 
 
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p2r6_pilot.sbatch"
-STATE_ROOT = REPO_ROOT / "local/odebf/state/p2r6-red-r2-final-v1"
+STATE_ROOT = REPO_ROOT / "local/odebf/state/p2r6-llama-qp-repair-phase1-v1"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
-LOG_ROOT = REPO_ROOT / "local/odebf/logs/p2r6-red-r2-final-v1"
-BRANCH = "codex/p2r6-red-r2-final-v1"
+LOG_ROOT = REPO_ROOT / "local/odebf/logs/p2r6-llama-qp-repair-phase1-v1"
+BRANCH = "codex/p2r6-llama-qp-repair-phase1-v1"
 PROJECT_GPU_CAP = 4
 
 
@@ -89,6 +89,8 @@ def submit(
     selected_controller: str | None = None,
     attempt_suffix: str | None = None,
 ) -> dict[str, object]:
+    if phase != "phase1" or selected_controller is not None:
+        raise ODEBFContractError("P2R6 repair execution authorizes Phase1 only")
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     parent = _run(["git", "rev-parse", "HEAD^"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
@@ -205,18 +207,14 @@ def submit(
         "b10x10_status": "NOT_AUTHORIZED",
     }
     receipt_sha = _write_once(receipt_path, receipt)
-    if phase == "phase1":
-        _run(["scontrol", "release", job_id])
-    else:
-        _run(["scontrol", "release", f"{job_id}_1", f"{job_id}_2"])
+    _run(["scontrol", "release", job_id])
     return {**receipt, "submission_receipt_sha256": receipt_sha}
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--phase", required=True, choices=("phase1", "phase2"))
-    parser.add_argument("--selected-controller", choices=("AR", "AS"))
+    parser.add_argument("--phase", required=True, choices=("phase1",))
     parser.add_argument("--attempt-suffix")
     args = parser.parse_args()
     print(
@@ -224,7 +222,7 @@ def main() -> int:
             submit(
                 args.source_head,
                 phase=args.phase,
-                selected_controller=args.selected_controller,
+                selected_controller=None,
                 attempt_suffix=args.attempt_suffix,
             ),
             sort_keys=True,

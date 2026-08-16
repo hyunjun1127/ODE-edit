@@ -18,17 +18,13 @@ readonly PHASE="${3:-}"
 readonly SELECTED_CONTROLLER="${4:-}"
 readonly ATTEMPT_SUFFIX="${5:-}"
 readonly EXPECTED_SESSION="019fe491-16f4-7bd3-adf5-4b1eb4a57d1f"
-readonly RUN_TOKEN="p2r6-red-r2-final-scientific-run-v1"
+readonly RUN_TOKEN="p2r6-llama-qp-repair-phase1-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
-readonly EXPECTED_BRANCH="codex/p2r6-red-r2-final-v1"
+readonly EXPECTED_BRANCH="codex/p2r6-llama-qp-repair-phase1-v1"
 
 [[ "$#" -eq 4 || "$#" -eq 5 ]] || { echo "P2R6 arguments differ" >&2; exit 2; }
-[[ "${PHASE}" == "phase1" || "${PHASE}" == "phase2" ]] || { echo "P2R6 phase differs" >&2; exit 2; }
-if [[ "${PHASE}" == "phase1" ]]; then
-  [[ -z "${SELECTED_CONTROLLER}" ]] || { echo "P2R6 Phase1 selection differs" >&2; exit 2; }
-else
-  [[ "${SELECTED_CONTROLLER}" == "AR" || "${SELECTED_CONTROLLER}" == "AS" ]] || { echo "P2R6 Phase2 selection differs" >&2; exit 2; }
-fi
+[[ "${PHASE}" == "phase1" ]] || { echo "P2R6 repair launcher authorizes Phase1 only" >&2; exit 2; }
+[[ -z "${SELECTED_CONTROLLER}" ]] || { echo "P2R6 Phase1 selection differs" >&2; exit 2; }
 [[ -z "${ATTEMPT_SUFFIX}" || "${ATTEMPT_SUFFIX}" =~ ^[a-zA-Z0-9-]+$ ]] || { echo "P2R6 attempt suffix differs" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P2R6 CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P2R6 source differs" >&2; exit 2; }
@@ -37,13 +33,8 @@ fi
 scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 [[ "${CUDA_VISIBLE_DEVICES:-}" != "" && "${CUDA_VISIBLE_DEVICES}" != *,* ]] || { echo "P2R6 exactly one GPU required" >&2; exit 2; }
 
-if [[ "${PHASE}" == "phase1" ]]; then
-  readonly MODELS=(llama3-8b-inst qwen2.5-7b-inst)
-  readonly CASES=(5 1)
-else
-  readonly MODELS=(llama3-8b-inst llama3-8b-inst qwen2.5-7b-inst qwen2.5-7b-inst)
-  readonly CASES=(3 5 1 4)
-fi
+readonly MODELS=(llama3-8b-inst qwen2.5-7b-inst)
+readonly CASES=(5 1)
 readonly MODEL="${MODELS[${SLURM_ARRAY_TASK_ID}]}"
 readonly CASE_INDEX="${CASES[${SLURM_ARRAY_TASK_ID}]}"
 readonly SUFFIX_TOKEN="$([[ -n "${ATTEMPT_SUFFIX}" ]] && printf -- '-%s' "${ATTEMPT_SUFFIX}" || true)"

@@ -43,7 +43,7 @@ from .p2r6_semantic_region_controller import (
 )
 
 
-METHOD = "P2R6-RED-R2-FINAL-SEMANTIC-REGION-CONTROLLER"
+METHOD = "P2R6-LLAMA-QP-REPAIR-PHASE1-SEMANTIC-REGION-CONTROLLER"
 PHASE1_CASES = {
     "llama3-8b-inst": (5,),
     "qwen2.5-7b-inst": (1,),

@@ -84,7 +84,10 @@ def test_negative_cross_and_constraint_release_are_certified() -> None:
     _assert_certificate(dict(result.receipt))
     assert result.value[1] > 0.1
     assert result.receipt["constraint_release_capability"] == (
-        "ALL_INEQUALITIES_REMAIN_PRIMAL_DUAL_VARIABLES"
+        "ADD_VIOLATED_REMOVE_NEGATIVE_DUAL_DROP_DEPENDENT_ROWS"
+    )
+    assert result.receipt["row_equilibration"] == (
+        "BIDIRECTIONAL_POSITIVE_MAX_NORM_RHS_EPSILON_SCALE"
     )
 
 
@@ -129,6 +132,104 @@ def test_structural_p_quadratic_tie_is_certified() -> None:
     _assert_certificate(dict(result.receipt))
     assert result.receipt["tie_enabled"] is True
     assert result.receipt["ordered_constraint_names"][-1] == "structural_p_tie"
+
+
+def test_tiny_semantic_row_bidirectional_equilibration_is_certified() -> None:
+    start = np.asarray([0.5, 0.5], dtype=np.float64)
+    response = np.asarray([[1.0e-10, 1.0e-10]], dtype=np.float64)
+    result = solve_certified_semantic_region_qp(
+        start,
+        np.eye(2, dtype=np.float64),
+        np.asarray([-0.6, -0.4], dtype=np.float64),
+        response,
+        np.asarray([1.0e-10], dtype=np.float64),
+        np.asarray([[1.0, 1.0]], dtype=np.float64),
+        stage="TINY_SEMANTIC_ROW",
+    )
+    _assert_certificate(dict(result.receipt))
+    assert result.receipt["row_scale_min"] < 1.0
+    assert result.receipt["row_equilibration"] == (
+        "BIDIRECTIONAL_POSITIVE_MAX_NORM_RHS_EPSILON_SCALE"
+    )
+
+
+def test_llama_outer1_capsule_old_failure_and_new_strict_pass() -> None:
+    raw = os.environ.get("P2R6_LLAMA_OUTER1_QP_CAPSULE")
+    if raw is None:
+        pytest.skip("private Llama replay path is supplied only to the pre-GPU gate")
+    root = Path(raw)
+    capsule = json.loads((root / "capsule.json").read_text())
+    arrays = {
+        name: np.load(root / f"{name}.npy", allow_pickle=False)
+        for name in ("S", "b", "Q_C", "c_C", "M", "alpha_start")
+    }
+    phase_one = linprog(
+        np.zeros(50, dtype=np.float64),
+        A_ub=np.concatenate((arrays["M"], -arrays["S"]), axis=0),
+        b_ub=np.concatenate((np.ones(10), -arrays["b"])),
+        bounds=[(0.0, None)] * 50,
+        method="highs",
+        options={
+            "primal_feasibility_tolerance": 1.0e-10,
+            "dual_feasibility_tolerance": 1.0e-10,
+            "ipm_optimality_tolerance": 1.0e-12,
+        },
+    )
+    assert phase_one.success
+    assert max(
+        0.0,
+        float(np.max(arrays["M"] @ phase_one.x - 1.0)),
+        float(np.max(arrays["b"] - arrays["S"] @ phase_one.x)),
+        -float(np.min(phase_one.x)),
+    ) <= 1.0e-8
+    with pytest.raises(P2R6CertifiedQPError) as legacy:
+        solve_certified_semantic_region_qp(
+            arrays["alpha_start"],
+            arrays["Q_C"],
+            arrays["c_C"],
+            arrays["S"],
+            arrays["b"],
+            arrays["M"],
+            stage="LLAMA_OUTER1_LEGACY_FAILURE_REPRODUCTION",
+            legacy_failure_reproduction=True,
+        )
+    old = legacy.value.raw_free_receipt
+    assert old["solver_status"] == "MAX_ITERATIONS"
+    assert old["iterations"] == 300
+    assert old["linear_solve_count"] == 600
+    assert old["r_pri"] == pytest.approx(4.10481946452304e-09, abs=1.0e-18)
+    assert old["r_stat"] == pytest.approx(2.252975825678405e-06, abs=1.0e-15)
+    assert old["r_comp"] == pytest.approx(165.7961319173045, abs=1.0e-10)
+
+    first = solve_certified_semantic_region_qp(
+        arrays["alpha_start"],
+        arrays["Q_C"],
+        arrays["c_C"],
+        arrays["S"],
+        arrays["b"],
+        arrays["M"],
+        stage="LLAMA_OUTER1_REPAIRED",
+    )
+    second = solve_certified_semantic_region_qp(
+        arrays["alpha_start"],
+        arrays["Q_C"],
+        arrays["c_C"],
+        arrays["S"],
+        arrays["b"],
+        arrays["M"],
+        stage="LLAMA_OUTER1_REPAIRED",
+    )
+    _assert_certificate(dict(first.receipt))
+    assert np.array_equal(first.value, second.value)
+    assert first.receipt["dual_multipliers"] == second.receipt["dual_multipliers"]
+    assert first.receipt["ordered_slacks"] == second.receipt["ordered_slacks"]
+    assert first.receipt["solver_status"] == "CONVERGED_BY_PRIMAL_ACTIVE_SET_CROSSOVER"
+    assert first.receipt["crossover_used"] is True
+    mass7_index = 50 + 7
+    mass7_dual = first.receipt["dual_multipliers"][mass7_index]
+    mass7_slack = first.receipt["ordered_slacks"][mass7_index]
+    assert mass7_dual == 0.0 or abs(mass7_slack) <= 1.0e-8
+    assert capsule["objective_min_eigenvalue"] > 0.0
 
 
 def test_legacy_qwen_capture_is_exact_infeasible() -> None:

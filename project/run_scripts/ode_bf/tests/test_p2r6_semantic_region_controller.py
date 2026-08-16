@@ -368,7 +368,7 @@ def test_certified_backend_releases_a_wrongly_active_zero_constraint() -> None:
     assert selected == pytest.approx(np.asarray([0.8, 0.2]), abs=2.0e-6)
     assert selected[1] > 0.1
     assert receipt["constraint_release_capability"] == (
-        "ALL_INEQUALITIES_REMAIN_PRIMAL_DUAL_VARIABLES"
+        "ADD_VIOLATED_REMOVE_NEGATIVE_DUAL_DROP_DEPENDENT_ROWS"
     )
     assert max(
         receipt["r_pri"],
@@ -380,7 +380,11 @@ def test_certified_backend_releases_a_wrongly_active_zero_constraint() -> None:
     source = inspect.getsource(_solve_region_quadratic)
     assert "solve_certified_semantic_region_qp" in source
     assert "SLSQP" not in source
-    assert "active_set" not in source
+    backend_source = inspect.getsource(
+        controller.solve_certified_semantic_region_qp
+    )
+    assert "SLSQP" not in backend_source
+    assert "_linear_active_set_crossover" in backend_source
 
 
 def test_forbidden_influence_and_runtime_policy_are_exact() -> None:
@@ -418,13 +422,11 @@ def test_phase_inventory_lock_and_dry_plans() -> None:
     assert phase1["job_count"] == 2
     assert phase1["endpoint_attempt_count"] == 8
     assert phase1["array"] == "0-1%2"
-    phase2 = dry.build_plan(PARENT, phase="phase2", selected_controller="AS")
-    assert phase2["job_count"] == 4
-    assert phase2["endpoint_attempt_count"] == 12
-    assert phase2["array"] == "0-3%2"
-    assert phase2["release_plan"]["wave_a"] == [1, 2]
-    assert phase2["release_plan"]["wave_b"] == [0, 3]
-    assert phase2["release_plan"]["held_indices"] == [0, 3]
+    assert phase1["phase2_status"] == (
+        "CLOSED_PENDING_NEW_PHASE1_AND_EXPLICIT_GH_RELEASE"
+    )
+    with pytest.raises(ValueError):
+        dry.build_plan(PARENT, phase="phase2", selected_controller="AS")
     with pytest.raises(ODEBFContractError):
         p2r6_phase_arms("phase2", None)
 
@@ -505,8 +507,8 @@ def test_entrypoint_runtime_args_and_resource_contract_are_bound() -> None:
         text=True,
         stdout=subprocess.PIPE,
     )
-    assert "--phase {phase1,phase2}" in help_result.stdout
-    assert "--selected-controller {AR,AS}" in help_result.stdout
+    assert "--phase {phase1}" in help_result.stdout
+    assert "--selected-controller" not in help_result.stdout
     sbatch = (ROOT / "project/run_scripts/session05_ode_bf_p2r6_pilot.sbatch").read_text()
     submitter = (
         ROOT / "project/run_scripts/session05_ode_bf_submit_p2r6_pilot.py"
@@ -516,15 +518,16 @@ def test_entrypoint_runtime_args_and_resource_contract_are_bound() -> None:
         "#SBATCH --mem=65000M",
         "#SBATCH --gres=gpu:1",
         "#SBATCH --nodelist=devbox",
-        'readonly EXPECTED_BRANCH="codex/p2r6-red-r2-final-v1"',
+        'readonly EXPECTED_BRANCH="codex/p2r6-llama-qp-repair-phase1-v1"',
     ):
         assert token in sbatch
     assert "PROJECT_GPU_CAP = 4" in submitter
     assert '"RUNNING,CONFIGURING"' in submitter
     assert '"JobState=PENDING"' in submitter
     assert '"Reason=JobHeldUser"' in submitter
-    assert 'f"{job_id}_1"' in submitter
-    assert 'f"{job_id}_2"' in submitter
+    assert 'phase != "phase1"' in submitter
+    assert 'f"{job_id}_1"' not in submitter
+    assert 'f"{job_id}_2"' not in submitter
     wave_control = (
         ROOT / "project/run_scripts/session05_ode_bf_control_p2r6_phase2_wave.py"
     ).read_text()

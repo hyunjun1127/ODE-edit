@@ -50,7 +50,13 @@ def load_and_validate_lock(path: Path) -> tuple[dict[str, Any], str]:
         or value.get("e1_semantic_nonnegative_constraint") is not True
         or value.get("post_b_max_violation_tolerance") != 1.0e-8
         or value.get("quadratic_solver")
-        != "DENSE_FP64_PRIMAL_DUAL_PREDICTOR_CORRECTOR_ORIGINAL_ALPHA"
+        != "DENSE_FP64_PRIMAL_DUAL_WITH_PRIMAL_ACTIVE_SET_CROSSOVER_ORIGINAL_ALPHA"
+        or value.get("quadratic_row_equilibration")
+        != "BIDIRECTIONAL_POSITIVE_MAX_NORM_RHS_EPSILON_SCALE"
+        or value.get("quadratic_constraint_release")
+        != "ADD_VIOLATED_REMOVE_NEGATIVE_DUAL_DROP_DEPENDENT_ROWS"
+        or value.get("quadratic_kkt_refinement_steps") != 8
+        or value.get("legacy_failure_reproduction_decision_influence_count") != 0
         or value.get("quadratic_external_certificate_tolerance") != 1.0e-8
         or value.get("quadratic_internal_tolerance") != 1.0e-11
         or value.get("quadratic_backend_constraint_envelope") != 0.0
@@ -65,6 +71,11 @@ def load_and_validate_lock(path: Path) -> tuple[dict[str, Any], str]:
         or value.get("shadow_added_model_forward_backward_materialization") != [0, 0, 0]
         or value.get("stage_b10x10_status") != "NOT_AUTHORIZED"
         or value.get("scientific_promotion_authorized") is not False
+        or value.get("llama_outer1_capture_budget") != "EXHAUSTED_1_OF_1"
+        or value.get("llama_outer1_capsule_sha256")
+        != "18481bd9aa237009108e5638582f809034888e72b0d152a7e2fa83e61bfac0af"
+        or value.get("phase2_status")
+        != "CLOSED_PENDING_NEW_PHASE1_AND_EXPLICIT_GH_RELEASE"
     ):
         raise ODEBFContractError("P2R6 numerical lock differs")
     return value, raw_sha

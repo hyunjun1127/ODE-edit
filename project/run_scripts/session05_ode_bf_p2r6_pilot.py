@@ -37,10 +37,10 @@ from project.run_scripts.ode_bf.p2r6_semantic_region_controller import (
 )
 
 
-RUN_TOKEN = "p2r6-red-r2-final-scientific-run-v1"
+RUN_TOKEN = "p2r6-llama-qp-repair-phase1-v1"
 SOURCE_MANIFEST = "source_manifest_s05_p2r6_red_r2_final.json"
-RED_R2_CLEAN_PARENT = "e7c86a5598a7507f4f981068ba1fa8db4df13df9"
-RED_R2_CLEAN_PARENT_TREE = "9012ccb2f31e90f49d870a395188466ee60f4319"
+RED_R2_CLEAN_PARENT = "1246e5047bdac2e59d5cc0642ebd8d7104c6d066"
+RED_R2_CLEAN_PARENT_TREE = "ed7c236066afe1c8140ac8b306d5be1785cc08c5"
 
 
 def _source_gate(source_head: str) -> str:
@@ -82,9 +82,8 @@ def _source_gate(source_head: str) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--model", required=True, choices=MODEL_ALIASES)
-    parser.add_argument("--phase", required=True, choices=("phase1", "phase2"))
+    parser.add_argument("--phase", required=True, choices=("phase1",))
     parser.add_argument("--case-index", required=True, type=int)
-    parser.add_argument("--selected-controller", choices=("AR", "AS"))
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
@@ -93,7 +92,7 @@ def main(argv: list[str] | None = None) -> int:
     cases = PHASE1_CASES if args.phase == "phase1" else PHASE2_CASES
     if args.case_index not in cases[args.model]:
         parser.error("P2R6 model/phase/case mapping differs")
-    p2r6_phase_arms(args.phase, args.selected_controller)
+    p2r6_phase_arms(args.phase, None)
     try:
         lock, lock_sha = load_and_validate_lock(
             REPO_ROOT / "project/run_scripts/ode_bf/locks" / LOCK_FILE
@@ -106,7 +105,7 @@ def main(argv: list[str] | None = None) -> int:
             source_head=args.source_head,
             p2r6_phase=args.phase,
             p2r6_case_index=args.case_index,
-            p2r6_selected_controller=args.selected_controller,
+            p2r6_selected_controller=None,
             p2r6_attempt_suffix=args.attempt_suffix,
         )
         result = {

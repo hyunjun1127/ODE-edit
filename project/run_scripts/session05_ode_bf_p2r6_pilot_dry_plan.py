@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic no-model Phase1/Phase2 plan for P2R6."""
+"""Deterministic no-model Phase1 repair plan for P2R6."""
 
 from __future__ import annotations
 
@@ -17,7 +17,6 @@ if str(REPO_ROOT) not in sys.path:
 from project.run_scripts.ode_bf.p2r6_pilot_panel import LOCK_FILE, load_and_validate_lock
 from project.run_scripts.ode_bf.p2r6_pilot_runtime import (
     PHASE1_CASES,
-    PHASE2_CASES,
     expected_p2r6_result_name,
     p2r6_phase_arms,
 )
@@ -31,11 +30,13 @@ def build_plan(
     selected_controller: str | None = None,
     attempt_suffix: str | None = None,
 ) -> dict[str, object]:
+    if phase != "phase1" or selected_controller is not None:
+        raise ValueError("P2R6 repair dry plan authorizes Phase1 only")
     lock, lock_sha = load_and_validate_lock(
         REPO_ROOT / "project/run_scripts/ode_bf/locks" / LOCK_FILE
     )
     arms = p2r6_phase_arms(phase, selected_controller)
-    cases = PHASE1_CASES if phase == "phase1" else PHASE2_CASES
+    cases = PHASE1_CASES
     cells = [
         (alias, case_index)
         for alias in ("llama3-8b-inst", "qwen2.5-7b-inst")
@@ -60,19 +61,9 @@ def build_plan(
         for index, (alias, case_index) in enumerate(cells)
     ]
     stage_gpu_max = 2
-    release_plan = (
-        {"initial_release_indices": [0, 1], "held_indices": []}
-        if phase == "phase1"
-        else {
-            "initial_release_indices": [1, 2],
-            "held_indices": [0, 3],
-            "wave_a": [1, 2],
-            "wave_b": [0, 3],
-            "wave_b_requires_locked_gate_pass": True,
-        }
-    )
+    release_plan = {"initial_release_indices": [0, 1], "held_indices": []}
     return {
-        "schema": "ode-edit-s05-p2r6-red-r2-final-dry-plan/v1",
+        "schema": "ode-edit-s05-p2r6-llama-qp-repair-phase1-dry-plan/v1",
         "instruction_id": P2R6_INSTRUCTION_ID,
         "source_head": source_head,
         "phase": phase,
@@ -93,6 +84,7 @@ def build_plan(
         "clamp_policy": "ON_DECISION_ACTIVE_EVERY_TARGET_MICROSTEP",
         "shadow_added_model_forward_backward_materialization": [0, 0, 0],
         "b10x10_status": "NOT_AUTHORIZED",
+        "phase2_status": "CLOSED_PENDING_NEW_PHASE1_AND_EXPLICIT_GH_RELEASE",
         "attempt_suffix": attempt_suffix,
     }
 
@@ -100,8 +92,7 @@ def build_plan(
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head")
-    parser.add_argument("--phase", required=True, choices=("phase1", "phase2"))
-    parser.add_argument("--selected-controller", choices=("AR", "AS"))
+    parser.add_argument("--phase", required=True, choices=("phase1",))
     parser.add_argument("--attempt-suffix")
     args = parser.parse_args()
     source_head = args.source_head or subprocess.run(
@@ -116,7 +107,7 @@ def main() -> int:
             build_plan(
                 source_head,
                 phase=args.phase,
-                selected_controller=args.selected_controller,
+                selected_controller=None,
                 attempt_suffix=args.attempt_suffix,
             ),
             sort_keys=True,
