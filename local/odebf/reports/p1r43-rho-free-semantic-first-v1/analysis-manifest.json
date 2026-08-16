@@ -1,0 +1,129 @@
+{
+  "attempts": 40,
+  "endpoints": 40,
+  "entries": [
+    {
+      "bytes": 45450,
+      "lines": 928,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/generate_p1r43_factual_report.py",
+      "sha256": "9fd43fca518dcabb69e9321eaa8813a2fa8129812a37e8ad051cab7d35578a41"
+    },
+    {
+      "bytes": 985,
+      "lines": 33,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/independent-review-receipt.json",
+      "sha256": "c186005cc62d1f11eac99f8b67fcd408cf59e3f1f281615339b4a0ba3153cb83"
+    },
+    {
+      "bytes": 213721,
+      "lines": 6007,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/p1r43-case-paired-comparisons.json",
+      "sha256": "eda3d4829cddc4e1283135d0976c522e73ca678caa1c8fd86805409027198543"
+    },
+    {
+      "bytes": 7288,
+      "lines": 207,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/p1r43-cell-aggregates.json",
+      "sha256": "e533b8ed6ac0e9ba25352b14f5ddd6db47ccfc243ce51e94197d209097dc4e85"
+    },
+    {
+      "bytes": 8903,
+      "lines": 263,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/p1r43-comparison-aggregates.json",
+      "sha256": "0afb312e7534900c4dbe1ca42aeb87f0d20e115c342f9a723e49cb2a9a64a8d5"
+    },
+    {
+      "bytes": 11443,
+      "lines": 471,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/p1r43-panel-aggregates.json",
+      "sha256": "560284c56a22178d3efe6b1653349f7630e6a221b625b4b6c4bc7a81b894d795"
+    },
+    {
+      "bytes": 108813,
+      "lines": 2967,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/p1r43-per-case.json",
+      "sha256": "2893482795f1a44c89212196bfdf14a083c50a637084b3313e7e4e79e6d17234"
+    },
+    {
+      "bytes": 629585,
+      "lines": 25287,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/p1r43-per-panel.json",
+      "sha256": "eb7bd7e7d994177e8475c0f3ba0df63510b30d2aed222b313791f927198df238"
+    },
+    {
+      "bytes": 2390899,
+      "lines": 70407,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/p1r43-per-request.json",
+      "sha256": "1ac56012bf99ad9351d4eae4473789dc7e920f2e4914d8d0a9e66a2217b6ba54"
+    },
+    {
+      "bytes": 709749,
+      "lines": 19527,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/p1r43-per-step.json",
+      "sha256": "2319c6380219dad342af01a8997a69ece4df1cc3176899298b5e368bf93009aa"
+    },
+    {
+      "bytes": 8871,
+      "lines": 122,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/p1r43-rho-free-semantic-first-b10x10-factual-ko.md",
+      "sha256": "ed60bd3bc57bf2ee14d35d558674734b5ab7c446125131b2a281f58b7d3bfbf7"
+    },
+    {
+      "bytes": 2157,
+      "lines": 46,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r43_rho_free_b10x10.json",
+      "sha256": "6b1d889d6b78ff3c6d5b8a4155d379cf8fec344bacb0fa4bc75954a1bada3a00"
+    },
+    {
+      "bytes": 3520,
+      "lines": 89,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/project/run_scripts/ode_bf/locks/source_manifest_s05_p1r43_rho_free_b10x10.json",
+      "sha256": "3c2d24ffca48c0d492d1c91810b7923dc6ccb23e1f94f701b22cf76cc3404ad6"
+    },
+    {
+      "bytes": 1396,
+      "lines": 22,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/source-handoff/P1R43_P1R42_PARENT_SUPPORT_SH2_V1/identities/frozen-comparison-identities.json",
+      "sha256": "e0f982759be06610f3b94a8f310497703fcd812ec04afd1390d1c4178196f5e1"
+    },
+    {
+      "bytes": 6721,
+      "lines": 219,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/source-handoff/P1R43_P1R42_PARENT_SUPPORT_SH2_V1/identities/official-alphaedit-baseline-identity.json",
+      "sha256": "e12b19ff941f39a594d2ff0f8718849d102644fd2ec79f53ccb6d7efc9fd8d3c"
+    },
+    {
+      "bytes": 136669,
+      "lines": 3405,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/source-handoff/P1R43_P1R42_PARENT_SUPPORT_SH2_V1/reference/p1r39-neutral-soft-per-case.json",
+      "sha256": "d10b1fcf5de735046836cd4d1d2e4b6a24878145023ace8fd25021a1d33392f3"
+    },
+    {
+      "bytes": 137410,
+      "lines": 3285,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/source-handoff/P1R43_P1R42_PARENT_SUPPORT_SH2_V1/results/p1r42-objective-alignment-per-case.json",
+      "sha256": "cbb718b464a99e94fad88de1d4296aed4a1451e27a166923c687e9e486a080b1"
+    }
+  ],
+  "exact_parent": "ca68a4f459fd7303a4d5abbde2e1bf7aee0d805c",
+  "instruction_id": "ODEEDIT-S05-P1R43-RHO-FREE-SEMANTIC-FIRST-STRENGTH-RECOVERY-V1",
+  "integrity": {
+    "W0_bytes": 40,
+    "W0_pointer": 40,
+    "action_freeze": 40,
+    "case_complete": 40,
+    "controller_reset": 40,
+    "gen_controller_zero": 40,
+    "history_zero": 40,
+    "retry_zero": 40,
+    "task_completed": 4,
+    "task_failed": 0
+  },
+  "root_digest": "7ba9b46283fcd1a7459475a6575b121b880ac0a75002ae751259bad57802e733",
+  "schema": "ode-edit-p1r43-factual-analysis-manifest/v1",
+  "scientific_promotion": false,
+  "source_head": "11508b6da11d606521b703037034e1814b70d8a8",
+  "stream_order": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+  "stream_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
+  "typed_failures": 0
+}

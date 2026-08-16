@@ -1,0 +1,55 @@
+{
+  "actions": {
+    "b10x10": 0,
+    "b10x2": 0,
+    "failed_atomic_import": 0,
+    "gpu": 0,
+    "model": 0,
+    "p1r28": 0,
+    "round1": 0,
+    "scientific_result_root": 0,
+    "sh2_source_job_result_lock": 0,
+    "slurm": 0
+  },
+  "adapter_integration": {
+    "actual_b10x2_model_smoke": "NOT_RECORDED_NO_ADAPTER_SELECTED",
+    "backend_target_or_debt_preprocessing": false,
+    "model_free": true,
+    "scientific_execution": 0,
+    "selected_adapter": null
+  },
+  "checkpoint": "fa3d570bdcea49cdaa1d705dfd399648a4920778",
+  "contract_sha256": "d4ad648da38ec3348970d68b759f67e8cad2508c832ef9cd70f00f275ce29676",
+  "dry_plan_identity": "748202a318797e3c4d2f260551426bb95f721c0183ed55a917e5d48ebc118856",
+  "gates": {
+    "ast": "PASS",
+    "bash": "PASS",
+    "compile": "PASS",
+    "dry_plan": "PASS",
+    "focused": "24/24 PASS",
+    "focused_plus_impacted": "52/52 PASS",
+    "source_manifest": "PASS"
+  },
+  "instruction_id": "ODEEDIT-S05-P1R29-INDEPENDENT-SEQUENTIAL-BACKEND-HARDENING-V1",
+  "numerical_lock_sha256": "eb7607ac067481cf83c4a7447b18e56624c89fa022b8dbf59ad619304c3850ff",
+  "parent": "b0acdb995942b3561da09312eb67899b2d41af5e",
+  "receipt_root": "adf20e3c57d09bb31bac872cfe6a3a7927d2a807a0751ad4eb1c41babb2d0e96",
+  "report": {
+    "bytes": 8380,
+    "lines": 165,
+    "path": "local/odebf/reports/p1r29-independent-sequential-backend-hardening-v2-ko.md",
+    "sha256": "18ddc3ffffc1b143f19fee81b50c895147c131cc87291ca76ea05d5fc1424b2a"
+  },
+  "scaffold_preservation": {
+    "checkpoint": "b0acdb995942b3561da09312eb67899b2d41af5e",
+    "classification": "SCAFFOLD",
+    "lock_sha256": "4e4f57c0083e45ebcdf282adeb1f76c1fbf31891e23bd98673ead765ff49f0f3",
+    "report_sha256": "36927db9b4852780d944a4def726ad0f3b2c731dcf0d8e52c058f88e561d6201"
+  },
+  "schema": "ode-edit-s05-p1r29-independent-sequential-backend-receipt/v1",
+  "scientific_promotion": false,
+  "source_entries_root": "d3367e22024b2d8e5404d2006deb47ff2ce7d09ec0b3ea12abc559a3964d4c79",
+  "source_manifest_sha256": "bd35f7cbf03c7cfda3923d1c791fc9b0ebeac3dd69edbb5f4fa7aeb044b86b11",
+  "status": "BACKEND_HARDENED_WAITING_VIABLE_ATOMIC_ADAPTER",
+  "tree": "c623b13882e10ec3a3255de2d2065e2f17ab04c9"
+}

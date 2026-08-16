@@ -1,0 +1,66 @@
+{
+  "schema": "ode-edit-s05-p1r23-full6-structural-historical-terminal-summary/v1",
+  "raw_free": true,
+  "scope": {
+    "valid_roots": 10,
+    "ode_roots": 8,
+    "alphaedit_roots": 2,
+    "outer_batches": 10,
+    "batch_size": 10,
+    "logical_requests": 100,
+    "cadence": [1, 2, 5, 10],
+    "promotion_authorized": false
+  },
+  "contract_verification": {
+    "manifest_terminal_hashes": "PASS_10_OF_10",
+    "w0_endpoint_hashes": "PASS_10_OF_10",
+    "round_chains": "PASS_10_OF_10",
+    "round_endpoint_files": "PASS_100_OF_100",
+    "final_w0_restored": "PASS_10_OF_10",
+    "commits_history_appends_history_items": [10, 10, 100],
+    "postcommit_cumulative_b10_evaluations": 55,
+    "retry_backtracking": [0, 0],
+    "ode_accepted_fields": 640,
+    "full6_context_and_k8": "PASS_640_OF_640",
+    "functional_online_influence_and_inner_probe": [0, 0]
+  },
+  "final_t10": [
+    {"model":"llama","arm":"alphaedit","tech":"v1","all":[100,190,843],"current":[10,20,72],"history":[90,170,771],"kl_mean":0.423857},
+    {"model":"llama","arm":"bg_nosoft","tech":"r1","all":[98,179,834],"current":[10,19,75],"history":[88,160,759],"kl_mean":1.914696},
+    {"model":"llama","arm":"bg_soft","tech":"r1","all":[98,181,825],"current":[10,18,74],"history":[88,163,751],"kl_mean":2.081006},
+    {"model":"llama","arm":"rs_nosoft","tech":"r1","all":[100,187,822],"current":[10,18,72],"history":[90,169,750],"kl_mean":4.515124},
+    {"model":"llama","arm":"rs_soft","tech":"r1","all":[100,183,823],"current":[10,16,70],"history":[90,167,753],"kl_mean":4.268844},
+    {"model":"qwen","arm":"alphaedit","tech":"v1","all":[100,192,814],"current":[10,20,74],"history":[90,172,740],"kl_mean":0.099361},
+    {"model":"qwen","arm":"bg_nosoft","tech":"r2","all":[96,163,841],"current":[9,16,75],"history":[87,147,766],"kl_mean":0.009104},
+    {"model":"qwen","arm":"bg_soft","tech":"r2","all":[96,161,841],"current":[9,15,75],"history":[87,146,766],"kl_mean":0.007694},
+    {"model":"qwen","arm":"rs_nosoft","tech":"r2","all":[98,170,840],"current":[10,17,75],"history":[88,153,765],"kl_mean":0.006379},
+    {"model":"qwen","arm":"rs_soft","tech":"r3","all":[97,172,845],"current":[9,15,76],"history":[88,157,769],"kl_mean":0.006167}
+  ],
+  "soft_h": {
+    "llama_bg":{"input_t2_to_t10":8,"influence_states":69},
+    "llama_rs":{"input_t2_to_t10":8,"influence_states":64},
+    "qwen_bg":{"input_t2_to_t10":8,"influence_states":61},
+    "qwen_rs":{"input_t2_to_t10":8,"influence_states":65},
+    "nosoft_input_and_influence":0,
+    "sketch":{"rank":100,"history_items":100,"layers":[4,5,6,7,8],"width":{"llama":14336,"qwen":18944},"raw_history_replay":0}
+  },
+  "capacity_t10": [
+    {"cell":"llama_bg","nosoft":[29.477768,0.268695,0.529313],"soft":[30.443172,0.282980,0.504133]},
+    {"cell":"llama_rs","nosoft":[31.110501,0.268190,0.458212],"soft":[30.726893,0.281180,0.510192]},
+    {"cell":"qwen_bg","nosoft":[251.612086,0.355123,0.595386],"soft":[149.063601,0.342888,0.624934]},
+    {"cell":"qwen_rs","nosoft":[233.060984,0.345546,0.628094],"soft":[158.214414,0.273894,0.659125]}
+  ],
+  "compute": {
+    "ode_uniform_f_b":[260,160],
+    "ode_evaluator_forwards":553,
+    "llama_ode_core_seconds_range":[1167.032516,1254.250522],
+    "qwen_ode_core_seconds_range":[1402.279192,1585.907183],
+    "llama_ode_to_alpha_total_wall_ratio_range":[2.25,2.37],
+    "qwen_ode_to_alpha_total_wall_ratio_range":[2.73,2.98],
+    "alpha_exact_pure_core_wall":"NOT_RECORDED"
+  },
+  "claim_boundary": {
+    "supported":"full6 mechanical contract and short-sequential H-routing evidence",
+    "not_supported":["matched rotating-2-of-6 causal reduction","uniform Soft retention superiority","lifelong claim","main-table claim","TECH namespace causal attribution"]
+  }
+}

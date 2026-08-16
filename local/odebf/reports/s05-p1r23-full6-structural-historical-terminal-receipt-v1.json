@@ -1,0 +1,40 @@
+{
+  "schema": "ode-edit-s05-p1r23-full6-structural-historical-terminal-report-receipt/v1",
+  "raw_free": true,
+  "report": {
+    "path": "local/odebf/reports/s05-p1r23-full6-structural-historical-terminal-analysis-v1.md",
+    "sha256": "a70fb6d7defc706b295055f3900176140af5b2b02cf528621367997cc8001c8d",
+    "bytes": 12926,
+    "lines": 134
+  },
+  "summary": {
+    "path": "local/odebf/reports/s05-p1r23-full6-structural-historical-terminal-summary-v1.json",
+    "sha256": "7b2a0b7a155f626bcb56932ff575345671d1fe6f44c414b345070ea4dc4f9b98",
+    "bytes": 3738,
+    "lines": 66
+  },
+  "verification": {
+    "manifest_to_terminal_sha": "PASS_10_OF_10",
+    "terminal_to_round_chain": "PASS_10_OF_10",
+    "round_endpoint_sha": "PASS_100_OF_100",
+    "w0_endpoint_sha": "PASS_10_OF_10",
+    "final_w0_restored": "PASS_10_OF_10",
+    "ode_accepted_receipts": 640,
+    "full6_k8_certificate": "PASS_640_OF_640",
+    "history": {"persistent_commits":10,"appends":10,"final_items":100,"cumulative_b10_evaluations":55},
+    "retry_backtracking": [0,0],
+    "promotion_authorized": false
+  },
+  "input_terminal_roots": [
+    {"root":"s05-p1r23-full6-structural-historical-alphaedit-llama3-8b-inst-v1","terminal_sha256":"2e67e3bf8cec756c0292cadb6b0522075db415f364648507db7e92a87e989828","manifest_sha256":"7ab87a766429e3c88b1dae3e89593bade2c7ceed06cdfaaf1dc6010def27781d","source_head":"bfbb7ad9da6b8825852bbb7939ee2e7a1624e88a"},
+    {"root":"s05-p1r23-full6-structural-historical-alphaedit-qwen2.5-7b-inst-v1","terminal_sha256":"7332c1a08f6736540d424592c1e8328bfc85286fcdb1263ce88d7d08144de938","manifest_sha256":"04bb7a7664a65f789776fe20426a65e30e6299e4ba5d03ce5b472aba13cde4f4","source_head":"bfbb7ad9da6b8825852bbb7939ee2e7a1624e88a"},
+    {"root":"s05-p1r23-full6-structural-historical-bg_compute_full6_nosoft-llama3-8b-inst-tech-r1-v1","terminal_sha256":"4dd8511fe381810aebb95c7ef2f672d1ffd2e306f29f8f22627804c91f4a033a","manifest_sha256":"6909b5edf072176734a4b03e7bbcf319f7b5d1b5bb8599620ae664617d6f5286","source_head":"1b8ab5659c922d36e324abe9f055f71b641129cc"},
+    {"root":"s05-p1r23-full6-structural-historical-bg_compute_full6_soft-llama3-8b-inst-tech-r1-v1","terminal_sha256":"f8bc0b08e25ed0ec0590fcca3ee22bd2240ab28d6b55978f29a11e8ed38033cf","manifest_sha256":"52eb90cd9740061d084bbc6e96ca540277be82450956e7baa40e1624f8f1ace2","source_head":"1b8ab5659c922d36e324abe9f055f71b641129cc"},
+    {"root":"s05-p1r23-full6-structural-historical-rs_compute_full6_nosoft-llama3-8b-inst-tech-r1-v1","terminal_sha256":"ce0c50eb5eaad83e657e0248417c5b7af73620b326a73cdbad113dbef14ee573","manifest_sha256":"66ca9312b97bb310efff4ce680ad36c18e3f036e034fd62f9944cfc35e2e3a71","source_head":"1b8ab5659c922d36e324abe9f055f71b641129cc"},
+    {"root":"s05-p1r23-full6-structural-historical-rs_compute_full6_soft-llama3-8b-inst-tech-r1-v1","terminal_sha256":"c592f3d99dfd75a0191ef4a350f0838785a274045cb350b6f152b2a670b338ac","manifest_sha256":"2a2599269218a39da135d2ddb47d7ff3ee1e9f5dc82f00652688509562d2fd8c","source_head":"1b8ab5659c922d36e324abe9f055f71b641129cc"},
+    {"root":"s05-p1r23-full6-structural-historical-bg_compute_full6_nosoft-qwen2.5-7b-inst-tech-r2-v1","terminal_sha256":"fa95a73a20f3ce224650247c15193539fd9c8c41cf14a73928f29561f2bddd08","manifest_sha256":"7013b82d2ff6702ec79d3ca3620cf048f99d22d34e4c39b9a5a51525e7a38580","source_head":"48ac36262f58b67ce1dfaf1f36daabaa10d8724e"},
+    {"root":"s05-p1r23-full6-structural-historical-bg_compute_full6_soft-qwen2.5-7b-inst-tech-r2-v1","terminal_sha256":"5d01e90f8d973b8d5c7461ac102b74d2e24614ed226f0e7f52ade56ba37f933d","manifest_sha256":"e06504c22210b999679f24e5a986535cc11c93a34106bb730119bf7f0fe11702","source_head":"94d126876d51514b198a0311683c2b0849eaca8f"},
+    {"root":"s05-p1r23-full6-structural-historical-rs_compute_full6_nosoft-qwen2.5-7b-inst-tech-r2-v1","terminal_sha256":"b862978aed01cd02aa9826795b14743c8e14312dc82c9d60ff618c0c44e76d16","manifest_sha256":"af8b6df299359e5ab768b2aff24567b9ed1f718197d5955e58755f07466d0346","source_head":"48ac36262f58b67ce1dfaf1f36daabaa10d8724e"},
+    {"root":"s05-p1r23-full6-structural-historical-rs_compute_full6_soft-qwen2.5-7b-inst-tech-r3-v1","terminal_sha256":"db36ad2e15ee3f173940ce38fe57c66f0734a5a82980c5d325ddc7c16649885a","manifest_sha256":"c71f7308c6ba64434e61044fcba407b28b199f1b11eed4e8991760a9646b9dae","source_head":"7ffd70169f19cfcd3de798053b4f8f418cabd1a9"}
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "actions": {
+    "model_gpu_slurm_scientific_action_count": 0,
+    "p1r25_mutation_count": 0,
+    "p1r26_implementation_count": 0,
+    "source_bundle_count": 0
+  },
+  "instruction_id": "ODEEDIT-S05-P1R26-ASDC-P1R25-REFERENCE-HANDOFF-V1",
+  "manifest": {
+    "mode": "0600",
+    "name": "transport-manifest.json",
+    "package_root_digest": "6ce0973211b70b44b984d92b0a2790b22aae4e86b0413cfe6ebed0053122ba16",
+    "payload_root_digest": "f8fe871422f6b2bddc7fcd8992613c8a29559d8e034cda0942149fa65cfb67cd",
+    "root_digest": "5c47717bb26d3a9792ea9ff684cf9591a08d9e4be1343601355a6b6026b76b5e",
+    "sha256": "8e5e96e4eac6c24aaa2c78e09c3314fb0b3ed229f9467e8491accb06631ccb7a",
+    "size_bytes": 2090
+  },
+  "package_id": "P1R26_P1R25_NEGATIVE_REFERENCE_SH2_V1",
+  "payload_files": [
+    {
+      "mode": "0600",
+      "name": "p1r25-writer-state-pacing-terminal-report-ko.md",
+      "sha256": "b80472156b18e473469b1cd4468195d7de147e341f67757fad97217ef694f110",
+      "size_bytes": 15693
+    },
+    {
+      "mode": "0600",
+      "name": "report-receipt.json",
+      "sha256": "8ecd0f285d068ef8b8992bef80907de5ffffeda1070c32284c465327b4ecc2b0",
+      "size_bytes": 2628
+    }
+  ],
+  "root_definition": "sha256(canonical compact JSON after deleting root_digest; UTF-8)",
+  "root_digest": "4d70ec242f5e1464b55c10d562e9438cfcd63f17f92eee65e3f837f6b7d05395",
+  "schema": "ode-edit-s05-p1r26-p1r25-negative-reference-transport-receipt/v1",
+  "status": "CREATE_ONCE_TRANSFER_PASS_CONTRACT_BOUND",
+  "transfer_contract": {
+    "authorized_transfer_count": 1,
+    "create_once": true,
+    "destination_directory_mode": "0700",
+    "destination_path": "/mnt/raid5/janghj/ODE-edit/local/source-handoff/P1R26_P1R25_NEGATIVE_REFERENCE_SH2_V1",
+    "file_mode": "0600",
+    "overwrite_delete_count": 0,
+    "regular_non_symlink_only": true,
+    "route_policy": "CONFIGURED_PRIVATE_CREATE_ONCE_ROUTE_NO_ENDPOINT_DISCLOSURE",
+    "source_directory_mode": "0700"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "schema": "ode-edit-s05-p1r28-stage-a-tech-r5-analysis-receipt/v1",
+  "analysis_id": "P1R28_STAGE_A_TECH_R5_RAW_FREE_MECHANISM_ANALYSIS_V1",
+  "status": "STAGE_A_MECHANISM_PASS",
+  "stage_b_contract_eligibility": "AUTHORIZED_BY_PARENT_CONTRACT_NOT_SUBMITTED_BY_ANALYSIS",
+  "analysis_action_counts": {
+    "source_mutation": 0,
+    "result_mutation": 0,
+    "model_forward": 0,
+    "model_backward": 0,
+    "evaluator_rerun": 0,
+    "slurm_action": 0
+  },
+  "execution": {
+    "job_id": "19177",
+    "tasks": {
+      "19177_0": {
+        "alias": "llama3-8b-inst",
+        "scheduler_state": "COMPLETED",
+        "exit_code": "0:0",
+        "elapsed": "00:06:32"
+      },
+      "19177_1": {
+        "alias": "qwen2.5-7b-inst",
+        "scheduler_state": "COMPLETED",
+        "exit_code": "0:0",
+        "elapsed": "00:06:15"
+      }
+    },
+    "actual_task_gpu_limit": 2,
+    "callback_job_count": 0
+  },
+  "lineage": {
+    "source_head": "8a8de0e7b4c1666a7bc22d02468410e97f14eeec",
+    "source_tree": "9b75c5a723acdece6bc9af3d9eae513c05be2e0f",
+    "base_checkpoint": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+    "numerical_lock_sha256": "93dcbe85e5736f8116bd3c6b7d58f11e05afecf55c6c45a211a91223e5b75476",
+    "source_manifest_sha256": "bc9ad7a79891ba5a03d89385278543fb24b1b023841462803ebdef138b2e9e83"
+  },
+  "inputs": {
+    "llama": {
+      "terminal_sha256": "eec91ab3a4e8b4b271676a99537bbb29f88a7d7cc0903f72b2ef6331f5a98793",
+      "manifest_sha256": "20aee3d0ef07518132eb9dc34c69b5f1c108a6a6a724a6c92bc3fbc1129c206e",
+      "action_freeze_sha256": "c03a2c8fc36168156d6a83db3f67a18bff314a5d047d7e6a1d62ac29db60a0ad",
+      "terminal_manifest_rehash_pass": true,
+      "action_freeze_rehash_pass": true,
+      "w0_restore_pass": true
+    },
+    "qwen": {
+      "terminal_sha256": "fb7bc875ff7c72b42502cec99d5e06c9a47138f3ce26c2dbd3238ebb9ab48cb3",
+      "manifest_sha256": "0556a6fd60a454a7a14f02d333c58e97a3e31d2853568e6923ab0b1929036547",
+      "action_freeze_sha256": "25cc74d2d69e9cf96c6dd464650e4c008770e8baa4838ac4eb2fe50007679944",
+      "terminal_manifest_rehash_pass": true,
+      "action_freeze_rehash_pass": true,
+      "w0_restore_pass": true
+    }
+  },
+  "mechanism_checks": {
+    "corrected_rollouts": 4,
+    "accepted_transitions": 32,
+    "k8_materialization8_dynamic_refresh8": true,
+    "coordinate_ratio_one_all": true,
+    "h_once_all": true,
+    "second_h_division_zero_all": true,
+    "forbidden_contraction_zero_all": true,
+    "retries_backtracking_reject_zero_all": true,
+    "inner_heldout_zero_all": true,
+    "history_zero_all": true,
+    "technical_fail_count": 0,
+    "positive_semantic_with_tracking_stall_count": 0,
+    "final_zero_action_state_hold_pass": true,
+    "p1r27_gain_gt9_count": 0,
+    "first_step_p1r24_anchor_energy_ratio": {
+      "llama_c1": 1.0,
+      "llama_c2": 1.0,
+      "qwen_c1": 1.0,
+      "qwen_c2": 1.0
+    },
+    "c2_tracking_conflict_rectified_count": 0,
+    "c2_lambda_one_feasible_positive_steps_per_alias": 4,
+    "c2_conflict_branch_observation": "NOT_RECORDED_NO_CONFLICT"
+  },
+  "report": {
+    "relative_path": "p1r28-stage-a-tech-r5-mechanism-report-ko.md",
+    "sha256": "21af6ddfa9b1f429799cea97a85494c081ca7e76cb267c69f9a1de779699ebac",
+    "bytes": 7148,
+    "lines": 106
+  },
+  "prior_immutable_stage_a_report": {
+    "report_sha256": "7863c8ffe6ccd19742faad851f7e17444eb5544dc9d5f8dd553efd23d8b280b7",
+    "receipt_sha256": "4731b6d2a9ffc85813165a1b8b2c3937bac1a2d0413131ce9571f1b6eb18cb24",
+    "mutated": false
+  },
+  "root_digest": "c26d05f039c6cfb90c8453375a1169d2fea9710f03abbb30da253551c6620c0f",
+  "scientific_promotion": false
+}

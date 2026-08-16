@@ -1,0 +1,44 @@
+{
+  "schema": "ode-edit-s05-p1r24-report-manifest-receipt/v1",
+  "created_at": "2026-08-12T17:08:55+09:00",
+  "instruction_id": "ODEEDIT-S05-P1R24-ATOMIC-STRENGTH-RECOVERY-V1",
+  "source_head": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "production_job": "18983",
+  "tracked_source_mutation_count": 0,
+  "result_mutation_count": 0,
+  "model_evaluator_slurm_action_count": 0,
+  "entries": [
+    {
+      "path": "p1r24-llama-technical-ko.md",
+      "sha256": "24de7467d32418ac3017e83245565091e51cd8fb993ecd5c62c11af48df8f0b6",
+      "bytes": 3591,
+      "lines": 42,
+      "mode": "0600"
+    },
+    {
+      "path": "p1r24-qwen-technical-ko.md",
+      "sha256": "ac5fe167fa556e4861067d42967c7152d187c34fc45e0525d594364c5c345d97",
+      "bytes": 3393,
+      "lines": 40,
+      "mode": "0600"
+    },
+    {
+      "path": "p1r24-paired-synthesis-ko.md",
+      "sha256": "c14f6156e72b856629f4bb8ef60c578750a816231cd32fe1bbe5c8c11513e6c7",
+      "bytes": 3588,
+      "lines": 47,
+      "mode": "0600"
+    },
+    {
+      "path": "p1r24-stepwise-terminal-compact.json",
+      "sha256": "3f44e31843f080955755e2280dd8a42e7d2f874ccef5f588873aebf07bb189a8",
+      "bytes": 186973,
+      "lines": 4880,
+      "mode": "0600"
+    }
+  ],
+  "entries_root": "a8ef2c70e0ce8c152ba489fe3809dc09dc7241b36f22c00d05f4af9a7f9e84da",
+  "verdict": "ATOMIC_NOT_RECOVERED",
+  "scientific_promotion": false,
+  "claim_boundary": "outcome-selected reused B10; atomic mechanistic/descriptive only"
+}

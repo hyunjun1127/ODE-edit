@@ -1,0 +1,63 @@
+{
+  "accepted_steps": 320,
+  "attempts": 40,
+  "endpoints": 40,
+  "failures": 0,
+  "instruction_id": "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1",
+  "job": "19566",
+  "manifest_root": "324abf4cc29e9a0641c565552cf502ee06e7b0e8a46273043e7299cd81c300e4",
+  "manifest_sha256": "caa2394601c43477e04a1f482bacc52e9eb6ed1b56b0d3e786dc1f0f8fc7dbf9",
+  "model_evaluator_calls_for_analysis": 0,
+  "request_step_rows": 3200,
+  "root": "bf8fbd92fc0077c00554140b09bce3df6c92093cd8f9f44a0c79b755c0eeb2b0",
+  "schema": "p1r38-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "source_head": "6f48ac2800b257ceb16368fff5137212dfa6037f",
+  "source_result_mutation": 0,
+  "task_receipts": [
+    {
+      "W0_restored": true,
+      "alias": "llama3-8b-inst",
+      "arm": "Neutral",
+      "completed_case_count": 10,
+      "cross_case_state_count": 0,
+      "failed_case_count": 0,
+      "manifest_sha256": "1757f40530b92a23ce1d283b710898c65ec88afaab6471bc2c9c6bc8095699fa",
+      "target_controller_state_reset_count": 10,
+      "terminal_sha256": "d6b736e60dd836031d180c9b0754d9eedef4f6356d3e4fb82a32f2055bf95118"
+    },
+    {
+      "W0_restored": true,
+      "alias": "llama3-8b-inst",
+      "arm": "Soft",
+      "completed_case_count": 10,
+      "cross_case_state_count": 0,
+      "failed_case_count": 0,
+      "manifest_sha256": "865fc3e830e2c6a87195c15f55c6e8673814e2ebdfaf259b67e21848e085d153",
+      "target_controller_state_reset_count": 10,
+      "terminal_sha256": "d07258025584511ec63264293edfafeeb48e29d6b858b5a7e76b94c2568939e2"
+    },
+    {
+      "W0_restored": true,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Neutral",
+      "completed_case_count": 10,
+      "cross_case_state_count": 0,
+      "failed_case_count": 0,
+      "manifest_sha256": "5390eb9f1e2d9070617acdfdf9117828e3d0b9e0442ad5fbfac6944d0dd13018",
+      "target_controller_state_reset_count": 10,
+      "terminal_sha256": "4412dddfaffa23a5f584c4a72ed85aeec2103f5104e1067d34bcb438463a4e7e"
+    },
+    {
+      "W0_restored": true,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Soft",
+      "completed_case_count": 10,
+      "cross_case_state_count": 0,
+      "failed_case_count": 0,
+      "manifest_sha256": "8aa27794960b8a683f334132182db37beba99710aae9d3b65ae00ef31e182188",
+      "target_controller_state_reset_count": 10,
+      "terminal_sha256": "e1d1ff2dce0c3406a3a26f3357681a42487277ec8d2fe1b3aa0449fdc4e9a371"
+    }
+  ]
+}

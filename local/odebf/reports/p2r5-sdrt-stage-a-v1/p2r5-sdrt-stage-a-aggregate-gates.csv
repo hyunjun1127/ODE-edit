@@ -1,0 +1,16 @@
+denominator,evidence,gate,numerator,status
+8,terminal/manifest/action-freeze/W0 hashes,technical_integrity_W0_action_freeze,8,PASS
+640,min=0.000644964922627;max=1.00000000003,coefficient_mass_in_0_1,640,PASS
+8,"matched alias/case and CAP->NEUTRAL, STRUCTP->SOFTP",capacity_reduced_vs_matched_P2R4_clamp_on,3,FAIL
+8,terminal correct-count arithmetic,W_Eff_Gen_not_lower_than_own_z_counts,8,PASS
+4,matched clamp-ON arm deltas,Llama_case3_5_Loc_improved,4,PASS
+4,matched clamp-ON arm deltas,Qwen_Loc_non_degradation,1,FAIL
+4,at least one paired-step L2 distance >1e-8 per case,STRUCTP_allocation_differs_from_CAP,4,PASS
+4,same-prestate comparisons exist only at k0; later paths diverge,STRUCTP_predicted_P_decreases_on_same_semantic_state,0,FAIL
+64,fallback_total=0,silent_neutral_fallback_zero,64,PASS
+64,clamp_off_access_total=0,clamp_off_rescue_zero,64,PASS
+8,cause among contract alternatives NOT_IDENTIFIED,pilot_branch_A_capacity_not_reduced,5,ACTIVATED
+8,W Eff/Gen correct counts never below own z,pilot_branch_B_capacity_down_but_W_count_below_z,0,NOT_ACTIVATED
+4,all four cases have allocation movement >1e-8,pilot_branch_C_barrier_inert,4,NOT_ACTIVATED
+4,same-state P reduction absent at k0; later paths are not same-state comparisons,pilot_branch_D_P_down_without_Loc_capacity_gain,0,NOT_IDENTIFIABLE
+10,Stage B remains CLOSED_PENDING_GH_STAGE_A_REVIEW,P2R5_STAGE_A,7,SCIENTIFIC_FAIL

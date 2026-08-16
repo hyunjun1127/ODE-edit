@@ -1,0 +1,20 @@
+{
+  "schema": "ode-edit-s05-p1r34-analysis-receipt/v1",
+  "instruction_id": "ODEEDIT-S05-P1R34-P1R24-W-ANCHORED-FINITE-DEMAND-V1",
+  "status": "TERMINAL_ANALYSIS_COMPLETE_SCIENTIFIC_FAIL",
+  "scientific_promotion": false,
+  "source_head": "ac321d86a634a20888cb57003a65467d40aa5ddd",
+  "source_tree": "9c98f96151ba940a784db8d26f9e1f58f250e611",
+  "scientific_child": "d38b70cb8fc2150ed47f29ead1baac5a42e133a0",
+  "production_job": "19430",
+  "terminal_scope": {
+    "llama": "COMPLETED0_BOTH_ARMS",
+    "qwen": "NEUTRAL_K8_SOFT_TYPED_INCOMPLETE_NON_SEMANTIC_TARGET_MOVE"
+  },
+  "report_entries_root": "71bc212ac0356fb2b355ac609ad65fd01511ce73ffb63a564ff6f8a8d1c8459c",
+  "receipt_root": "6f633014f9dc86503722b35ef5dc59bf4a55d858ed9fd0dbba2d7dd0c9cd390a",
+  "model_actions_after_terminal": 0,
+  "gpu_actions_after_terminal": 0,
+  "slurm_actions_after_terminal": 0,
+  "result_mutation_after_terminal": "RAW_FREE_ANALYSIS_ONLY"
+}

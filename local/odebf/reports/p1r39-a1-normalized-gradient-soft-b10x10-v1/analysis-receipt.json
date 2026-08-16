@@ -1,0 +1,45 @@
+{
+  "W0_restore_pass": 20,
+  "accepted_steps": 160,
+  "action_freeze_pass": 20,
+  "attempts": 20,
+  "base_head": "763457560f2efb177a56310dfd87526772cf8158",
+  "endpoints": 20,
+  "failures": 0,
+  "instruction_id": "ODEEDIT-S05-P1R39-A1-NORMALIZED-GRADIENT-SOFT-B10X10-V1",
+  "job": "19702",
+  "manifest_root": "bd7bf0c0f7403f396c25045c8e47574cad2b15df0616166ef2c3c52242b22bb6",
+  "manifest_sha256": "e861d476011df117056f62bf8afbb7a134e0b0e1f3772052e539f11e2ec8e14b",
+  "model_evaluator_calls_for_analysis": 0,
+  "neutral_report_sha256": "97d7a6d36818dd5445d29850d03031b19b715c94434c236124c9289e01bd7548",
+  "root": "b383360e7a36abcbbd73c5e44ab9cdba2f5a8ec70c584136658d0c3da4143089",
+  "schema": "p1r39-a1-soft-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "source_head": "670132cf333da88ffef51a4b3c0a0da6b4870804",
+  "stream_order": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+  "stream_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
+  "task_receipts": [
+    {
+      "W0_restored": true,
+      "alias": "llama3-8b-inst",
+      "attempts": 10,
+      "endpoints": 10,
+      "failures": 0,
+      "manifest_sha256": "b2565fe44f1ce65435eb331eda5c516a93b7542fd805dbde62b08e36c29c6253",
+      "terminal_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-a1-normalized-gradient-soft-b10x10-v1/local/odebf/results/s05-p1r39-a1-normalized-gradient-independent-b10x10-llama3-8b-inst-soft-v1/terminal.json",
+      "terminal_sha256": "e8ed3e44ec52ca93132718ad49886d7ad104f14c2c8263694baeb1cc480b23e0",
+      "total_wall_seconds": 1430.34538150765
+    },
+    {
+      "W0_restored": true,
+      "alias": "qwen2.5-7b-inst",
+      "attempts": 10,
+      "endpoints": 10,
+      "failures": 0,
+      "manifest_sha256": "55acb4ebd078162f485f87ac9875b52be5ca54a6a46b949e3bbe46fb96a2ae6d",
+      "terminal_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-a1-normalized-gradient-soft-b10x10-v1/local/odebf/results/s05-p1r39-a1-normalized-gradient-independent-b10x10-qwen2.5-7b-inst-soft-v1/terminal.json",
+      "terminal_sha256": "0ad42d64ddaf9ce82c8337e1fbfd3d98a020de28c7811ea87d4b455fbb9649e6",
+      "total_wall_seconds": 1796.8813645699993
+    }
+  ]
+}

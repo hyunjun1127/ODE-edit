@@ -1,0 +1,87 @@
+{
+  "schema": "ode-edit-s05-p1r28-stage-a-analysis-receipt/v1",
+  "status": "TECHNICAL_FAIL_STRICT_HOLD",
+  "instruction_id": "ODEEDIT-S05-P1R28-P1R24-ANCHORED-CORRECTED-COUPLING-KILL-TEST-V1",
+  "scientific_base": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "tech_r1_source_head": "6d4e8f46334822d832877bd317a0f849a384ea98",
+  "numerical_lock_sha256": "93dcbe85e5736f8116bd3c6b7d58f11e05afecf55c6c45a211a91223e5b75476",
+  "scope": {
+    "stage": "A_B1",
+    "allocation": "RS",
+    "routing": "NEUTRAL",
+    "models": ["llama3-8b-inst", "qwen2.5-7b-inst"],
+    "stage_b_model_gpu_slurm_action": 0
+  },
+  "report": {
+    "relative_path": "local/odebf/reports/p1r28-corrected-coupling-v1/stage-a-analysis/p1r28-stage-a-b1-mechanism-report-ko.md",
+    "sha256": "7863c8ffe6ccd19742faad851f7e17444eb5544dc9d5f8dd553efd23d8b280b7",
+    "bytes": 6165,
+    "lines": 78
+  },
+  "attempts": {
+    "19162": {
+      "classification": "PREMODEL_LOCAL_SESSION_BOUNDARY_CONFIG_ABSENT",
+      "model_scientific_result_action": 0
+    },
+    "19164": {
+      "array": "0-1%2",
+      "max_concurrent_gpu": 2,
+      "source_head": "6d4e8f46334822d832877bd317a0f849a384ea98",
+      "failure_sha256_both_aliases": "dfd08a3bc4604f449cf26ab063b2fb815af8f1f47c0763c34630ecb44507b3c4",
+      "exception_message_sha256": "a9a327b881649c37aceba8d46ad75fa74de44498dc73f57710c9f70090373394",
+      "exception_class": "ODEBFContractError",
+      "last_completed_stage": "post_model_context_teacher",
+      "terminal_established": false,
+      "w0_restore_terminal_established": false
+    }
+  },
+  "valid_c1_receipts": {
+    "accepted_steps_per_alias": 4,
+    "accepted_steps_total": 8,
+    "k_values": [1, 2, 3, 4],
+    "coordinate_ratio_one_count": 8,
+    "coordinate_identity_residual_max": 0,
+    "h_application_count_per_step": 1,
+    "second_h_division_count_total": 0,
+    "forbidden_coordinate_contraction_count_total": 0,
+    "materialization_count_per_accepted_step": 1,
+    "weight_count_per_accepted_step": 5,
+    "retry_backtracking_reject_count_total": 0,
+    "inner_heldout_evaluation_count_total": 0,
+    "persistent_history_count_total": 0,
+    "coupling_added_model_forward_count_total": 0,
+    "coupling_added_backward_count_total": 0,
+    "coupling_added_materialization_count_total": 0,
+    "shared_full_six_vjp_count_per_step": 1
+  },
+  "anchor_k1": {
+    "llama": {
+      "anchor_mode": "SAME_JOB_EXACT_P1R24_RERUN",
+      "energy_ratio_c1_over_anchor": 1.0,
+      "activation_gain_ratio_c1_over_anchor": 1.0,
+      "target_loss_equal": true,
+      "rho_equal": true,
+      "velocity_equal": true,
+      "materialization_identity_equal": true
+    },
+    "qwen": {
+      "anchor_mode": "EXACT_IMMUTABLE_CE8C6C3_P1R24_REUSE",
+      "energy_ratio_c1_over_anchor": 1.0,
+      "activation_gain_ratio_c1_over_anchor": 1.0,
+      "target_loss_equal": true,
+      "rho_equal": true,
+      "velocity_max_abs_difference": 5.551115123125783e-17,
+      "materialization_identity_equal": true
+    }
+  },
+  "failure": {
+    "after_accepted_c1_k": 4,
+    "allowlisted_tail": "build_scalable_dynamic_field/build_p1_dynamic_field/_validate_dynamic_factor_capacity",
+    "message_class": "P1_DYNAMIC_ARM_NONPOSITIVE_CAPACITY",
+    "capacity_scalar": "NOT_RECORDED",
+    "zero_vs_nonfinite_classification": "NOT_RECORDED",
+    "c2_started": false,
+    "scientific_score_evaluated": false
+  },
+  "claim_boundary": "raw-free read-only mechanism analysis; no repair, re-run, Stage-B release, or scientific efficacy conclusion"
+}

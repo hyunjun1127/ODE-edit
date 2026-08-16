@@ -1,0 +1,33 @@
+{
+  "rows": [
+    {
+      "case": "NOT_RECORDED",
+      "name": "Heather Trost",
+      "reason": "RAW_FREE_NAME_TO_POSITION_MAPPING_ABSENT",
+      "request_index": "NOT_RECORDED",
+      "status": "NOT_RECORDED"
+    },
+    {
+      "case": "NOT_RECORDED",
+      "name": "Anadolu Efes",
+      "reason": "RAW_FREE_NAME_TO_POSITION_MAPPING_ABSENT",
+      "request_index": "NOT_RECORDED",
+      "status": "NOT_RECORDED"
+    },
+    {
+      "case": "NOT_RECORDED",
+      "name": "Noll Glacier",
+      "reason": "RAW_FREE_NAME_TO_POSITION_MAPPING_ABSENT",
+      "request_index": "NOT_RECORDED",
+      "status": "NOT_RECORDED"
+    },
+    {
+      "case": "NOT_RECORDED",
+      "name": "Boryspil Airport",
+      "reason": "RAW_FREE_NAME_TO_POSITION_MAPPING_ABSENT",
+      "request_index": "NOT_RECORDED",
+      "status": "NOT_RECORDED"
+    }
+  ],
+  "schema": "p1r41-hard-map/v1"
+}

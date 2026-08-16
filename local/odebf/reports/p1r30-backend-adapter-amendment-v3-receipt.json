@@ -1,0 +1,52 @@
+{
+  "schema": "ode-edit-p1r30-backend-adapter-amendment-receipt/v1",
+  "status": "BACKEND_HARDENED_WAITING_VIABLE_ATOMIC_ADAPTER",
+  "instruction_id": "P1R30-DEBT-PRIORITY-A0-BARRIER-BACKEND-ADAPTER-AMENDMENT-V1",
+  "checkpoint": "a9f846261cd625a48347fcafc5d06dd61322ccfa",
+  "parent": "fa3d570bdcea49cdaa1d705dfd399648a4920778",
+  "tree": "e815b10bb9fda70b69c0b890e74d06688fda3631",
+  "contract_sha256": "e0b7fcc3d81963475e57f876f77c4987cbb872fa7ab583e812cd2e9588f60611",
+  "lock_sha256": "85c6e35fe9782c7a0a37effa6785c1944b09a63d7b6ee71ae75876b79384b86e",
+  "source_manifest_sha256": "37e9fe00152b82ad1d198e907f6c92cb04671ce4ec0ddb717f6be41140714b00",
+  "source_entries_root": "0975cce274e704520c44fccfe69a95a19eeb676f7bc57829e079bab3634f2b61",
+  "adapter_contract": {
+    "semantic_rho_universal_field_present": false,
+    "rho_over_slope_universal_transform_present": false,
+    "reference_coefficients_present": true,
+    "reference_mean_progress_finite_signed": true,
+    "reference_debt_priority_progress_finite_signed": true,
+    "reference_energy_finite_nonnegative": true,
+    "selected_coefficients_present": true,
+    "constraint_and_certificate_receipts_present": true,
+    "backend_target_or_debt_preprocessing": false,
+    "backend_added_model_forward_backward": 0
+  },
+  "backend_preservation": {
+    "transaction_history_h_p_cache_changed": false,
+    "preserved_v2_lock_sha256": "eb7607ac067481cf83c4a7447b18e56624c89fa022b8dbf59ad619304c3850ff",
+    "preserved_v2_report_sha256": "18ddc3ffffc1b143f19fee81b50c895147c131cc87291ca76ea05d5fc1424b2a"
+  },
+  "gates": {
+    "focused_model_free": "26/26 PASS warnings-as-errors",
+    "compile": "PASS",
+    "bash": "PASS",
+    "dry_plan": "PASS",
+    "signed_zero_nonfinite_fixtures": "PASS"
+  },
+  "report": {
+    "path": "local/odebf/reports/p1r30-backend-adapter-amendment-v3-ko.md",
+    "sha256": "edf4e2fc8d38f8cd14c0f5ef9a5591947b2519e815cd255b34a699bbcc17a6a4",
+    "bytes": 2844,
+    "lines": 65
+  },
+  "execution": {
+    "actual_b10x2_model_smoke": "NOT_RECORDED_NO_ADAPTER_SELECTED",
+    "model": 0,
+    "gpu": 0,
+    "slurm": 0,
+    "scientific_result_root": 0
+  },
+  "scientific_promotion": false,
+  "root_definition": "sha256(canonical JSON excluding root_digest)",
+  "root_digest": "473f390d0723ff19faf5984ca67abf12fb036fd092522385580103bf007346d4"
+}

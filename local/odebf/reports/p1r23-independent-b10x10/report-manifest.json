@@ -1,0 +1,227 @@
+{
+  "case_count": 100,
+  "checkpoint": "dd3751f998563e276dca68676a616cc4cb089691",
+  "complete_endpoint_count": 88,
+  "input_results": [
+    {
+      "W0_restored": true,
+      "alias": "llama3-8b-inst",
+      "completed_case_count": 9,
+      "failed_case_count": 1,
+      "manifest": {
+        "bytes": 393,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-bg_progress_simplex_neutral-llama3-8b-inst-v1/manifest.json",
+        "sha256": "a369b7578153e8efb5ae38831acbaf0d0d7432ed192f26fe48aeaf1d21fc1ca9"
+      },
+      "method": "BG-PROGRESS-SIMPLEX-NEUTRAL",
+      "result_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-bg_progress_simplex_neutral-llama3-8b-inst-v1",
+      "terminal": {
+        "bytes": 4156,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-bg_progress_simplex_neutral-llama3-8b-inst-v1/terminal.json",
+        "sha256": "be055db983073d47b1b329d925bbddef492e15175c7d8aae5b21c0374e640960"
+      }
+    },
+    {
+      "W0_restored": true,
+      "alias": "qwen2.5-7b-inst",
+      "completed_case_count": 8,
+      "failed_case_count": 2,
+      "manifest": {
+        "bytes": 393,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-bg_progress_simplex_neutral-qwen2.5-7b-inst-v1/manifest.json",
+        "sha256": "7130cf09702aeff456c152c2bf3780907f09a4e03dfc35165101ac072f1960ed"
+      },
+      "method": "BG-PROGRESS-SIMPLEX-NEUTRAL",
+      "result_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-bg_progress_simplex_neutral-qwen2.5-7b-inst-v1",
+      "terminal": {
+        "bytes": 4003,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-bg_progress_simplex_neutral-qwen2.5-7b-inst-v1/terminal.json",
+        "sha256": "2233cac94fe422e6188c6e3abf2f2b37832cd95bda8f4ab31ebb8a58a19a7575"
+      }
+    },
+    {
+      "W0_restored": true,
+      "alias": "llama3-8b-inst",
+      "completed_case_count": 8,
+      "failed_case_count": 2,
+      "manifest": {
+        "bytes": 393,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-bg_progress_simplex_soft-llama3-8b-inst-v1/manifest.json",
+        "sha256": "1af9d6a4135cdb7e2188380b296b155c8c3218dfe030b4360241280649796cf9"
+      },
+      "method": "BG-PROGRESS-SIMPLEX-SOFT",
+      "result_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-bg_progress_simplex_soft-llama3-8b-inst-v1",
+      "terminal": {
+        "bytes": 4009,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-bg_progress_simplex_soft-llama3-8b-inst-v1/terminal.json",
+        "sha256": "a44e69293d05484223ef1ff7c31ced67a9073bfd5d5dd187e7efdaba913fa90e"
+      }
+    },
+    {
+      "W0_restored": true,
+      "alias": "qwen2.5-7b-inst",
+      "completed_case_count": 9,
+      "failed_case_count": 1,
+      "manifest": {
+        "bytes": 393,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-bg_progress_simplex_soft-qwen2.5-7b-inst-v1/manifest.json",
+        "sha256": "feeb2802d9b469331aaff9821f72b19d92f2fd985962bd6c2e233b9248e677ce"
+      },
+      "method": "BG-PROGRESS-SIMPLEX-SOFT",
+      "result_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-bg_progress_simplex_soft-qwen2.5-7b-inst-v1",
+      "terminal": {
+        "bytes": 4155,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-bg_progress_simplex_soft-qwen2.5-7b-inst-v1/terminal.json",
+        "sha256": "2643e30e5e1e775678f035f36beb7df65ee5e06e0c17e30a189bbfa1dc0220fe"
+      }
+    },
+    {
+      "W0_restored": true,
+      "alias": "llama3-8b-inst",
+      "completed_case_count": 10,
+      "failed_case_count": 0,
+      "manifest": {
+        "bytes": 394,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-official_alphaedit-llama3-8b-inst-v1/manifest.json",
+        "sha256": "52c90e189cb9d62f67f89fc70f89daf3a0d17f0aeb5cb9d2f4595709e13e2639"
+      },
+      "method": "OFFICIAL-ALPHAEDIT",
+      "result_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-official_alphaedit-llama3-8b-inst-v1",
+      "terminal": {
+        "bytes": 4294,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-official_alphaedit-llama3-8b-inst-v1/terminal.json",
+        "sha256": "905fce983d9ee94125a019abb4ce6d448b3d44b0369bb79ae8f22299e0178e2c"
+      }
+    },
+    {
+      "W0_restored": true,
+      "alias": "qwen2.5-7b-inst",
+      "completed_case_count": 10,
+      "failed_case_count": 0,
+      "manifest": {
+        "bytes": 394,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-official_alphaedit-qwen2.5-7b-inst-v1/manifest.json",
+        "sha256": "e5c1bf1a2407c1cb32c2fb9e80ca62ef702aeb0fba727fbb4ebaa7d71b519550"
+      },
+      "method": "OFFICIAL-ALPHAEDIT",
+      "result_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-official_alphaedit-qwen2.5-7b-inst-v1",
+      "terminal": {
+        "bytes": 4293,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-official_alphaedit-qwen2.5-7b-inst-v1/terminal.json",
+        "sha256": "23d93c1a69145cb19eac6c6be9d0f4521e2ccc566f7c311c405a2da1a3a36568"
+      }
+    },
+    {
+      "W0_restored": true,
+      "alias": "llama3-8b-inst",
+      "completed_case_count": 7,
+      "failed_case_count": 3,
+      "manifest": {
+        "bytes": 393,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-rs_progress_simplex_neutral-llama3-8b-inst-v1/manifest.json",
+        "sha256": "f68cdd4cef8efba77fef69af258deaecce8e95983dfc405b531a12c4c984c44c"
+      },
+      "method": "RS-PROGRESS-SIMPLEX-NEUTRAL",
+      "result_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-rs_progress_simplex_neutral-llama3-8b-inst-v1",
+      "terminal": {
+        "bytes": 3863,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-rs_progress_simplex_neutral-llama3-8b-inst-v1/terminal.json",
+        "sha256": "7c7b84f05afa7495d6747482a72e5a05d9cd713f0240c06c4d6370170b51ff77"
+      }
+    },
+    {
+      "W0_restored": true,
+      "alias": "qwen2.5-7b-inst",
+      "completed_case_count": 8,
+      "failed_case_count": 2,
+      "manifest": {
+        "bytes": 393,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-rs_progress_simplex_neutral-qwen2.5-7b-inst-v1/manifest.json",
+        "sha256": "c0285f4f849f89a129989540bc7d7732081d1ba442f2b2fbb43a8fc1187ee54d"
+      },
+      "method": "RS-PROGRESS-SIMPLEX-NEUTRAL",
+      "result_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-rs_progress_simplex_neutral-qwen2.5-7b-inst-v1",
+      "terminal": {
+        "bytes": 4013,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-rs_progress_simplex_neutral-qwen2.5-7b-inst-v1/terminal.json",
+        "sha256": "c1be1b77424ecc9b50b80dc41c1d80182e79823d9a995da55ca42975922bbc1c"
+      }
+    },
+    {
+      "W0_restored": true,
+      "alias": "llama3-8b-inst",
+      "completed_case_count": 9,
+      "failed_case_count": 1,
+      "manifest": {
+        "bytes": 393,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-rs_progress_simplex_soft-llama3-8b-inst-v1/manifest.json",
+        "sha256": "e4147fd876f6959ef028dfa625757a963d1fc0a273ee815bbefbc89f2ef1d9ee"
+      },
+      "method": "RS-PROGRESS-SIMPLEX-SOFT",
+      "result_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-rs_progress_simplex_soft-llama3-8b-inst-v1",
+      "terminal": {
+        "bytes": 4149,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-rs_progress_simplex_soft-llama3-8b-inst-v1/terminal.json",
+        "sha256": "3695054f5d98bf4b98ed425b9d4dde9738aa6237ecd93d261befcd43afc88ea1"
+      }
+    },
+    {
+      "W0_restored": true,
+      "alias": "qwen2.5-7b-inst",
+      "completed_case_count": 10,
+      "failed_case_count": 0,
+      "manifest": {
+        "bytes": 394,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-rs_progress_simplex_soft-qwen2.5-7b-inst-v1/manifest.json",
+        "sha256": "0b8ba92754eaf24635340ba5e777199bfacebb1761e2e4068f0a6d0fccdfbeda"
+      },
+      "method": "RS-PROGRESS-SIMPLEX-SOFT",
+      "result_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-rs_progress_simplex_soft-qwen2.5-7b-inst-v1",
+      "terminal": {
+        "bytes": 4302,
+        "lines": 1,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/results/s05-p1r23-progress-simplex-independent-b10x10-rs_progress_simplex_soft-qwen2.5-7b-inst-v1/terminal.json",
+        "sha256": "3662cd5a478a7d7317c101bec9601f1741d1bce78afc728c562dcc7526b9a93c"
+      }
+    }
+  ],
+  "instruction_id": "ODEEDIT-S05-P1R23-PROGRESS-SIMPLEX-INDEPENDENT-B10X10-V1",
+  "job": "18853",
+  "per_case_table": {
+    "bytes": 49110,
+    "lines": 101,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/reports/p1r23-independent-b10x10/p1r23-independent-b10x10-per-case.csv",
+    "sha256": "691a9a6d185929d1d4e877d83b629f55867bc3ddbb2f7b7401de7c2ad3701495"
+  },
+  "report": {
+    "bytes": 11763,
+    "lines": 153,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r23-progress-simplex-independent-b1x100-v1/local/odebf/reports/p1r23-independent-b10x10/p1r23-independent-b10x10-terminal-report-ko.md",
+    "sha256": "e82eaf647e00de0f35e051dc487ae6602d447fbf2714f3a61aece3d511c0017e"
+  },
+  "result_count": 10,
+  "root_digest": "0af98cd251f367ae68771ee7da05a68a1e81fea8fbf1882ee7967cb188381891",
+  "schema": "ode-edit-s05-p1r23-independent-b10x10-report-manifest/v1",
+  "scientific_promotion": false,
+  "tree": "5fe371aa9cc5b4f6e0e3408ffa637c9987af44ce",
+  "typed_failure_count": 12
+}

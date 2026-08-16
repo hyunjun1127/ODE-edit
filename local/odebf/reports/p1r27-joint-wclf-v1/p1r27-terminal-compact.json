@@ -1,0 +1,48 @@
+{
+  "schema": "ode-edit-s05-p1r27-terminal-analysis/v1",
+  "instruction_id": "ODEEDIT-S05-P1R27-JOINT-WCLF-ZTRACKING-SEMANTIC-PRESERVING-BF-V1",
+  "scientific_checkpoint": "56b744449a5bdd44b9e0798ae3fa486962dbdc22",
+  "execution_head": "c78e7e63f54403b52be3dc619555b2844225852e",
+  "source_tree": "07c2adfb9f3cc2323a6b8c665bd2ff238635fd51",
+  "job_id": "19145",
+  "scheduler_state": "ALL_4_COMPLETED_0",
+  "scientific_invalid_count": 0,
+  "integrity": {
+    "terminal_manifest_rehash": true,
+    "action_freeze_rehash": true,
+    "w0_pointer_and_bytes_restore_all_arms": true,
+    "accepted_k8_all_arms": true,
+    "materialization8_all_arms": true,
+    "history_retry_backtracking_count": 0
+  },
+  "aggregate": {
+    "arm_count": 8,
+    "accepted_transition_count": 64,
+    "nonstall_write_transition_count": 10,
+    "joint_write_status_count": 9,
+    "soft_no_routing_dof_write_count": 1,
+    "semantic_stall_transition_count": 54,
+    "soft_explicit_decision_influence_steps": 4,
+    "model_forwards_per_arm": 180,
+    "backward_autograd_per_arm": 125,
+    "materializations_per_arm": 8
+  },
+  "arms": [
+    {"model":"Llama","allocation":"RS","arm":"Neutral","E":8,"G":14,"L":79,"eff_new_nll":3.69296875,"gen_new_nll":4.307568359375,"loc_new_nll":8.03515625,"w_full6_nll":3.9899846017360687,"z8_nll":5.221873784065247,"structural_p":0.006702514542323177,"functional_p_mean":0.007078311466446098,"capacity":3.800395088878224,"edit_core_s":220.6061081746593,"write_steps":2,"stall_steps":6},
+    {"model":"Llama","allocation":"RS","arm":"Soft","E":8,"G":14,"L":79,"eff_new_nll":3.681640625,"gen_new_nll":4.29384765625,"loc_new_nll":8.02703125,"w_full6_nll":3.985713428258896,"z8_nll":5.208379089832306,"structural_p":0.006706036887550909,"functional_p_mean":0.007916614836164257,"capacity":3.8009895611582074,"edit_core_s":271.996803550981,"write_steps":2,"stall_steps":6},
+    {"model":"Llama","allocation":"BG","arm":"Neutral","E":8,"G":15,"L":72,"eff_new_nll":3.6166015625,"gen_new_nll":4.258447265625,"loc_new_nll":7.634062500000001,"w_full6_nll":3.9002845138311386,"z8_nll":6.077709603309631,"structural_p":0.003932016563360889,"functional_p_mean":0.030345944181168705,"capacity":2.490122833022693,"edit_core_s":240.45463093463331,"write_steps":1,"stall_steps":7},
+    {"model":"Llama","allocation":"BG","arm":"Soft","E":8,"G":15,"L":73,"eff_new_nll":3.6427734375,"gen_new_nll":4.261474609375,"loc_new_nll":7.6359375,"w_full6_nll":3.903703513741493,"z8_nll":6.0876131772995,"structural_p":0.003931777576929421,"functional_p_mean":0.02994640546377935,"capacity":2.490123013171627,"edit_core_s":265.7377906497568,"write_steps":1,"stall_steps":7},
+    {"model":"Qwen","allocation":"RS","arm":"Neutral","E":7,"G":15,"L":80,"eff_new_nll":5.207421875,"gen_new_nll":4.8828125,"loc_new_nll":8.807500000000001,"w_full6_nll":4.404006892442704,"z8_nll":7.122736620903015,"structural_p":0.18650734862222912,"functional_p_mean":0.06025710760483479,"capacity":17.570920177871674,"edit_core_s":236.58435914479196,"write_steps":1,"stall_steps":7},
+    {"model":"Qwen","allocation":"RS","arm":"Soft","E":7,"G":15,"L":79,"eff_new_nll":5.174609375,"gen_new_nll":4.88984375,"loc_new_nll":8.8084375,"w_full6_nll":4.414609557390213,"z8_nll":7.134351801872254,"structural_p":0.18650294361088238,"functional_p_mean":0.060875099961640367,"capacity":17.570928518650547,"edit_core_s":307.6187137821689,"write_steps":1,"stall_steps":7},
+    {"model":"Qwen","allocation":"BG","arm":"Neutral","E":6,"G":15,"L":79,"eff_new_nll":5.8017578125,"gen_new_nll":5.67421875,"loc_new_nll":8.84,"w_full6_nll":5.076810133457184,"z8_nll":7.512989354133606,"structural_p":0.21425099046860113,"functional_p_mean":0.08238970710188102,"capacity":19.578335398719677,"edit_core_s":267.0890376996249,"write_steps":1,"stall_steps":7},
+    {"model":"Qwen","allocation":"BG","arm":"Soft","E":6,"G":14,"L":80,"eff_new_nll":5.7859375,"gen_new_nll":5.690234375,"loc_new_nll":8.84609375,"w_full6_nll":5.072213399410248,"z8_nll":7.51008460521698,"structural_p":0.21424600899517485,"functional_p_mean":0.08255670167798061,"capacity":19.57835006081475,"edit_core_s":261.00574179552495,"write_steps":1,"stall_steps":7}
+  ],
+  "verdicts": {
+    "z_clf": "PARTIAL_WEAK",
+    "w_clf_strength": "NOT_RECOVERED",
+    "tracking": "MECHANICS_PASS_SCIENTIFIC_INSUFFICIENT",
+    "bf_preservation": "PRIORITY_PASS_SIGNAL_ABSENT",
+    "historical_readiness": "HOLD",
+    "scientific_promotion": false
+  }
+}

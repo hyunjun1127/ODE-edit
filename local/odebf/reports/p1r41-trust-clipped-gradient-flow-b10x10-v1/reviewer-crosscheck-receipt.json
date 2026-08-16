@@ -1,0 +1,40 @@
+{
+  "schema": "p1r41-independent-report-review/v1",
+  "reviewer_role": "SEPARATE_BOUNDED_RAW_FREE_REPORT_ONLY_AGENT",
+  "scheduler_completed0": 4,
+  "attempts": 40,
+  "endpoints": 40,
+  "typed_incomplete": 0,
+  "accepted_steps": 320,
+  "request_step_rows": 3200,
+  "cell_row_counts": {
+    "llama3-8b-inst/Neutral": 10,
+    "llama3-8b-inst/Soft": 10,
+    "qwen2.5-7b-inst/Neutral": 10,
+    "qwen2.5-7b-inst/Soft": 10
+  },
+  "cell_eff_gen_loc_sums": {
+    "llama3-8b-inst/Neutral": [98, 178, 872],
+    "llama3-8b-inst/Soft": [100, 180, 872],
+    "qwen2.5-7b-inst/Neutral": [98, 148, 845],
+    "qwen2.5-7b-inst/Soft": [98, 149, 844]
+  },
+  "w0_pointer_byte_restore_pass": 40,
+  "action_freeze_pass": 40,
+  "controller_reset_pass": 40,
+  "cross_case_state_count": 0,
+  "retry_count": 0,
+  "forbidden_counter_sum": 0,
+  "physical_h_count": 320,
+  "target_trial_count": 320,
+  "p1r39_case_join_count": 40,
+  "official_join_count": 40,
+  "official_unique_model_batch_reference_count": 20,
+  "official_latent_fields": "NOT_RECORDED",
+  "qwen_requested_hard_name_position_mapping": "NOT_RECORDED",
+  "independent_arithmetic_crosscheck": "PASS",
+  "raw_prompt_target_generation_tensor_weight_access_count": 0,
+  "model_evaluator_gpu_slurm_action_count": 0,
+  "scientific_source_result_mutation_count": 0,
+  "root_digest": "7116ce36fcdd694f25dc89ecb26d0f9519325e2e0298d62edb7d0a0feb0360ac"
+}

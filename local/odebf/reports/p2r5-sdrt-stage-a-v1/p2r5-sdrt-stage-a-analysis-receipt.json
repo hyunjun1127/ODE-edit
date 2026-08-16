@@ -1,0 +1,26 @@
+{
+  "W0_pointer_byte_pass_count": 8,
+  "action_freeze_pass_count": 8,
+  "analysis_manifest_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/p2r5-sdrt-stage-a-analysis-manifest.json",
+  "analysis_manifest_root": "e7339ad8b9c53c9accfbd7af719d2b4f33a46cacfc638f987e7c8e74f94971bb",
+  "analysis_manifest_sha256": "ed349c066505cb70587f34b754dd1b3c01389427f464a8853f302b3d1ce8dc2b",
+  "endpoint_integrity_pass_count": 8,
+  "endpoint_rows": 8,
+  "gate_rows": 15,
+  "model_evaluator_gpu_slurm_action_counts": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "paired_step_rows": 32,
+  "report_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/p2r5-sdrt-stage-a-terminal-analysis-ko.md",
+  "report_sha256": "2fbb6730a81a88cd7f58b80669bbc3475236303ea3585a793b51cb783cc6cac0",
+  "request_rows": 640,
+  "root_digest": "45a5a4ec3ce1fa33846362a34fa9d8220d8cb7db1bc19fcee09fdaf8b9e72e10",
+  "schema": "ode-edit-s05-p2r5-stage-a-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "stage_a_gate": "SCIENTIFIC_FAIL",
+  "stage_b_status": "CLOSED_PENDING_GH_STAGE_A_REVIEW",
+  "step_rows": 64
+}

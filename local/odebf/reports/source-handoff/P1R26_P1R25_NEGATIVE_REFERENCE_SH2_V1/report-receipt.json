@@ -1,0 +1,68 @@
+{
+  "action_counts_after_callback": {
+    "followup_model": 0,
+    "followup_result_root": 0,
+    "followup_slurm": 0,
+    "followup_gpu": 0,
+    "scheduler_terminal_query": 1
+  },
+  "callback": {
+    "dependency": "afterany:19063",
+    "job_id": "19084",
+    "owner": "SH2",
+    "resources": "no-GPU/1CPU/1GiB"
+  },
+  "classification": "P1R25_ATOMIC_EXECUTION_PASS_WITH_WRITE_UNDER_REALIZATION; PACING_DOF_AND_MATCHED_STRENGTH_CONFIRMED; PRESERVATION_GAIN_NOT_ESTABLISHED; NO_PROMOTION",
+  "independent_analysis": {
+    "accepted_receipt_count": 16,
+    "bounded_read_only_agent": true,
+    "identity_chain_pass": true,
+    "status": "PASS"
+  },
+  "instruction_id": "ODEEDIT-S05-P1R25-WRITER-STATE-PRESERVATION-PACING-V1",
+  "job_group": {
+    "logical_tasks": [
+      {
+        "accounting_raw_job_id": "19118",
+        "alias": "llama3-8b-inst",
+        "elapsed": "00:03:59",
+        "exit_code": "0:0",
+        "logical_task_id": "19063_0",
+        "state": "COMPLETED"
+      },
+      {
+        "accounting_raw_job_id": "19063",
+        "alias": "qwen2.5-7b-inst",
+        "elapsed": "00:04:48",
+        "exit_code": "0:0",
+        "logical_task_id": "19063_1",
+        "state": "COMPLETED"
+      }
+    ],
+    "terminal_check_count": 1
+  },
+  "numerical_lock_sha256": "e183de1fb0231113f404e30ed974f0933982d4c5980c84dc0442d72b6b601016",
+  "report": {
+    "bytes": 15693,
+    "lines": 217,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p1r25-writer-state-pacing-v1/local/odebf/reports/p1r25-writer-state-pacing-terminal-v1/p1r25-writer-state-pacing-terminal-report-ko.md",
+    "sha256": "b80472156b18e473469b1cd4468195d7de147e341f67757fad97217ef694f110"
+  },
+  "request_order_sha256": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b",
+  "results": {
+    "llama3-8b-inst": {
+      "manifest_sha256": "8a312d7c7599031e7aaeedb77e5c18ac470654bbab6fedf0f62d98da638a307e",
+      "terminal_sha256": "456ad5c186589303e2cd9ca6bc531cc704de9dbebe9e2684283722d0f74d85f1"
+    },
+    "qwen2.5-7b-inst": {
+      "manifest_sha256": "b3bab612fd034c5235bb04e2af2bec63c952fdcb9a8794ae5fee80a0342173ad",
+      "terminal_sha256": "f01170724cdfd983db2b21bda5cb8ea9582e0b648404199576cf763d78b63abb"
+    }
+  },
+  "schema": "ode-edit-s05-p1r25-terminal-analysis-receipt/v1",
+  "scientific_checkpoint": "daf669493dfb3866a33e489f1798fd127b3bfd72",
+  "source_head": "b4c1fed7f9be2d63f1a1cf016ca81156511cfdf5",
+  "source_manifest_sha256": "f11bea5fb8a70bd9b1482ac9ed8ad348ebe3ace0267dbfc2cc1c7675efc9883f",
+  "source_tree": "a8e53c3f49d18a505bd5f1325ec522d59d4c9d55",
+  "status": "TERMINAL_ANALYSIS_COMPLETE"
+}

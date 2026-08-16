@@ -1,0 +1,173 @@
+{
+  "analysis_root_definition": "SHA256 of newline-delimited absolute_path NUL sha256 NUL bytes NUL mode for output_members in listed order; receipt excluded to avoid self-reference.",
+  "analysis_root_sha256": "e3d0abcd68d988aaec8f6215ac3b50488da9cfd4d538977ba793b32539b49133",
+  "contract": {
+    "bytes": 9851,
+    "lines": 288,
+    "path": "/mnt/raid5/janghj/.codex/attachments/a3b6fe1c-f888-4125-88e3-a45a1786c767/pasted-text.txt",
+    "sha256": "b9494b606b98df184fa5ae7f08787f9a4ecbc77750fca8060ce6c90e883ee26a"
+  },
+  "counts": {
+    "attempts": 8,
+    "endpoint_table_rows": 8,
+    "per_step_table_rows": 57,
+    "rerun_count": 0,
+    "retry_count": 0,
+    "technical_invalid_incomplete_prefixes": 1,
+    "tuning_count": 0,
+    "valid_endpoints": 7
+  },
+  "input_evidence": [
+    {
+      "bytes": 766,
+      "lines": 1,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/state/p2r6-llama-qp-repair-phase1-v1/s05-p2r6-red-r2-final-phase1-none-f7b18905f575-llamaqp-r1-v1.submission-receipt.json",
+      "sha256": "f00e46a9f661ed833d3c565576b741bb3d17f2a393ad843ceee60dbf3c868c68"
+    },
+    {
+      "bytes": 3454,
+      "lines": 76,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/state/p2r6-llama-qp-repair-phase1-v1/cpu-gate-receipt.json",
+      "sha256": "d5e0f7da5aaa780dc9a31c9df74cdbe8b28b44f9dcfb4c2846c5e0f6070d975a"
+    },
+    {
+      "bytes": 2499,
+      "lines": 59,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/state/p2r6-llama-qp-repair-phase1-v1/pre-gpu-independent-review.json",
+      "sha256": "86a3cff9a2c3ace568891b60edf6bb20bc42cf97daffb96b7e8b12f33e796b1e"
+    },
+    {
+      "bytes": 680,
+      "lines": 1,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/results/s05-p2r6-red-r2-final-phase1-llama3-8b-inst-case-05-paired-llamaqp-r1-v1/failure.json",
+      "sha256": "0cd2ffe749eb0555a3c277152652e6e278c79185ef77a6b529f77e767d29b9a7"
+    },
+    {
+      "bytes": 11753,
+      "lines": 1,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/results/s05-p2r6-red-r2-final-phase1-llama3-8b-inst-case-05-paired-llamaqp-r1-v1/raw/cases/case-05/as-cap/failure.json",
+      "sha256": "4007399527ce90451fd55f93af52394a130df491f943d5d3bc7e6c1f7fc185f8"
+    },
+    {
+      "bytes": 41447,
+      "lines": 1,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/results/s05-p2r6-red-r2-final-phase1-qwen2.5-7b-inst-case-01-paired-llamaqp-r1-v1/terminal.json",
+      "sha256": "e4e2abe069fdbfe68509f13e5889baf2cf7a9ed51c7e0ffdd86c541f932bf798"
+    },
+    {
+      "bytes": 32471,
+      "lines": 1,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/results/s05-p2r6-red-r2-final-phase1-llama3-8b-inst-case-05-paired-llamaqp-r1-v1/raw/cases/case-05/a0-cap/terminal.json",
+      "sha256": "a28e3c1adfd2bc01cf3946f2d7764e8b2936d9ea7332b0e0622fb7f37c9341b2"
+    },
+    {
+      "bytes": 32444,
+      "lines": 1,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/results/s05-p2r6-red-r2-final-phase1-llama3-8b-inst-case-05-paired-llamaqp-r1-v1/raw/cases/case-05/aeta-cap/terminal.json",
+      "sha256": "e66dfe37bfd449ee85e27865ca596aa727f9ff74690b300d3ff931549fc7e671"
+    },
+    {
+      "bytes": 32380,
+      "lines": 1,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/results/s05-p2r6-red-r2-final-phase1-llama3-8b-inst-case-05-paired-llamaqp-r1-v1/raw/cases/case-05/ar-cap/terminal.json",
+      "sha256": "0d7c26c30fc4662c3e1be0286888402ab2d9ac984342e1b069b66a73b6270aff"
+    },
+    {
+      "bytes": 32354,
+      "lines": 1,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/results/s05-p2r6-red-r2-final-phase1-qwen2.5-7b-inst-case-01-paired-llamaqp-r1-v1/raw/cases/case-01/a0-cap/terminal.json",
+      "sha256": "7a1bbcbcdc4c85ff6a7a443e84421fd7e298bfb50463d59ec44a4517dde89226"
+    },
+    {
+      "bytes": 32313,
+      "lines": 1,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/results/s05-p2r6-red-r2-final-phase1-qwen2.5-7b-inst-case-01-paired-llamaqp-r1-v1/raw/cases/case-01/aeta-cap/terminal.json",
+      "sha256": "bad5501f83b1d9e9efb1a0ce53486db9889018f5a2e825608a9b3c53ffd7adbd"
+    },
+    {
+      "bytes": 32283,
+      "lines": 1,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/results/s05-p2r6-red-r2-final-phase1-qwen2.5-7b-inst-case-01-paired-llamaqp-r1-v1/raw/cases/case-01/ar-cap/terminal.json",
+      "sha256": "24854fd7b33808dcab3292e759ddd5646d2da304e94f0a823a2e25ef3f2f0a3d"
+    },
+    {
+      "bytes": 32305,
+      "lines": 1,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/results/s05-p2r6-red-r2-final-phase1-qwen2.5-7b-inst-case-01-paired-llamaqp-r1-v1/raw/cases/case-01/as-cap/terminal.json",
+      "sha256": "eb984aa451862d3e076ffe7338807e1725bdc71c16b09d3265ae7c2594c7a872"
+    }
+  ],
+  "output_members": [
+    {
+      "bytes": 4701,
+      "lines": 62,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/reports/p2r6-llama-qp-repair-phase1-v1/p2r6-red-r2-phase1-llama-qp-repair-terminal-report-ko.md",
+      "sha256": "9859d89020538d0dbcb410be27e7ce34e456a6c1cf3b0f03d8ecc59c90801dd9"
+    },
+    {
+      "bytes": 14226,
+      "lines": 8,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/reports/p2r6-llama-qp-repair-phase1-v1/p2r6-red-r2-phase1-llama-qp-repair-endpoints.jsonl",
+      "sha256": "cb0cae7470cd236cbad33c62671b8ce9ef123b0d8c9de06ef234ecef33c00930"
+    },
+    {
+      "bytes": 84752,
+      "lines": 57,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/reports/p2r6-llama-qp-repair-phase1-v1/p2r6-red-r2-phase1-llama-qp-repair-steps.jsonl",
+      "sha256": "a0365838db2b3711c409e585f05e5d9996e54e5222ccf5fdf47292670aaa93aa"
+    },
+    {
+      "bytes": 1688,
+      "lines": 22,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/reports/p2r6-llama-qp-repair-phase1-v1/p2r6-red-r2-phase1-report-correction-addendum-ko.md",
+      "sha256": "2dcf03bf03038ebc548c23cc483bada90a7480018d384d1a905dc0e830a5904e"
+    }
+  ],
+  "phase1_scientific_gate": "NOT_RUN",
+  "phase2_status": "CLOSED",
+  "scheduler": {
+    "array_job": "20114",
+    "task0_elapsed": "00:11:44",
+    "task0_exit_code": "1:0",
+    "task0_job": "20115",
+    "task0_state": "FAILED",
+    "task1_elapsed": "00:11:12",
+    "task1_exit_code": "0:0",
+    "task1_job": "20114",
+    "task1_state": "COMPLETED"
+  },
+  "schema": "ode-edit-s05-p2r6-red-r2-phase1-rawfree-analysis-manifest/v1",
+  "scientific_failure": false,
+  "source": {
+    "head": "f7b18905f5751c329c28d7e19bd6db7fb33d61dc",
+    "tree": "d2b9e5c41e7da4ded45a6e975974d1b341d996ad"
+  },
+  "status": "PHASE1_TECHNICAL_INVALID_STRICT_STOP",
+  "strict_false_gate": {
+    "arm": "AS-CAP",
+    "case_index": 5,
+    "model": "Llama3-8B-Instruct",
+    "outer_step": 1,
+    "r_comp": 1.2638838334226404e-08,
+    "stage": "AS_CAPACITY_IN_SEMANTIC_REGION",
+    "status": "ACTIVE_SET_CROSSOVER_CERTIFICATE_FAILED",
+    "tolerance": 1e-08
+  }
+}

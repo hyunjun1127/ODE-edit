@@ -1,0 +1,88 @@
+{
+  "schema": "ode-edit-s05-p1r19-strength-preserving-router-result-manifest/v1",
+  "package_id": "P1R19_STRENGTH_PRESERVING_ROUTER_RESULTS_SH2_V1",
+  "instruction_id": "ODEEDIT-S05-ODE-BF-STRENGTH-PRESERVING-ROUTER-P1R19-V1",
+  "amendments": [
+    "ODEEDIT-S05-ODE-BF-STRENGTH-PRESERVING-ROUTER-P1R19-V1-A1",
+    "ODEEDIT-S05-ODE-BF-STRENGTH-PRESERVING-ROUTER-P1R19-V1-A2"
+  ],
+  "source_checkpoint": "657dafd40de50bb396fc9cfaf3862de1d07dd816",
+  "execution_checkpoint": "d604953a046b6af4da7386dd6c64c20fc848f625",
+  "scheduler_array_job_id": 18434,
+  "result_count": 8,
+  "seal_root": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+  "request_order_sha256": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b",
+  "r13_reference": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/source-handoff/P1R19_R13_DYNAMIC_REFERENCE_SH1_V1/p1r19-r13-dynamic-reference-sh1-v1.json",
+    "sha256": "386521002648d7599af530f382a5c1b81486923a052977f20bf78b4cac1d7f91",
+    "size_bytes": 15933
+  },
+  "entries": [
+    {
+      "path": "cell-llama-bg-neutral.json",
+      "mode": "600",
+      "size_bytes": 132686,
+      "sha256": "33a8a89d913e5ff3c85e86858d859e047ebba1739659103b930b3c075614c9c7",
+      "role": "per_cell_k0_k8_raw_free_compact_receipt"
+    },
+    {
+      "path": "cell-llama-bg-soft.json",
+      "mode": "600",
+      "size_bytes": 132986,
+      "sha256": "ac7136c6566c98df615ce7923df04d35d1bc6a6ae14c58ffcb7e3bbc61149229",
+      "role": "per_cell_k0_k8_raw_free_compact_receipt"
+    },
+    {
+      "path": "cell-llama-rs-neutral.json",
+      "mode": "600",
+      "size_bytes": 133762,
+      "sha256": "f8cc68c72b268c6cbe86bf632861b3d3794ff1c55aa4f54a006a8fca8cfb9838",
+      "role": "per_cell_k0_k8_raw_free_compact_receipt"
+    },
+    {
+      "path": "cell-llama-rs-soft.json",
+      "mode": "600",
+      "size_bytes": 133675,
+      "sha256": "eaf64c2bcbd9446637a4f82875df0f9d75e4b74e05602f6e2ae4fa6f2c574ce7",
+      "role": "per_cell_k0_k8_raw_free_compact_receipt"
+    },
+    {
+      "path": "cell-qwen-bg-neutral.json",
+      "mode": "600",
+      "size_bytes": 131066,
+      "sha256": "36fa9c55d992b3a64d880a299ceb97e8838d4702710878f959061bf5de392383",
+      "role": "per_cell_k0_k8_raw_free_compact_receipt"
+    },
+    {
+      "path": "cell-qwen-bg-soft.json",
+      "mode": "600",
+      "size_bytes": 131244,
+      "sha256": "729f1cc26ce4fae50b68267182e5a04ab1d71a8960229ae8726ea89ec208b715",
+      "role": "per_cell_k0_k8_raw_free_compact_receipt"
+    },
+    {
+      "path": "cell-qwen-rs-neutral.json",
+      "mode": "600",
+      "size_bytes": 131625,
+      "sha256": "df946db728db54768275a26e37780f9d88802306366fbcf52d61288e76fc3af2",
+      "role": "per_cell_k0_k8_raw_free_compact_receipt"
+    },
+    {
+      "path": "cell-qwen-rs-soft.json",
+      "mode": "600",
+      "size_bytes": 131423,
+      "sha256": "ce6fcdc8166faa494535bccc276cd914e93f0f45275983e8122dca62b17d10f5",
+      "role": "per_cell_k0_k8_raw_free_compact_receipt"
+    },
+    {
+      "path": "terminal-report-ko.md",
+      "mode": "600",
+      "size_bytes": 10439,
+      "sha256": "267fbf88eb4bdff5ad8c3202e7363f6ef56d2f6f3db6219c9e64f6176a98ab5f",
+      "role": "human_terminal_report"
+    }
+  ],
+  "manifest_root_digest": "6f957c55ba0d4334d263368fa33d3d931165eef6590822d45b26f0abc1a9d310",
+  "raw_prompt_target_token_tensor_count": 0,
+  "scientific_promotion_authorized": false
+}

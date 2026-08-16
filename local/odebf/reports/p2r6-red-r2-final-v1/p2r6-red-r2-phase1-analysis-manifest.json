@@ -1,0 +1,53 @@
+{
+  "schema": "ode-edit-s05-p2r6-red-r2-phase1-analysis-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P2R6-RED-R2-FINAL-SCIENTIFIC-RUN-V1-B1-AMENDED-REPLAY-R1",
+  "status": "PHASE1_TECHNICAL_INVALID_STRICT_STOP",
+  "source_head": "1246e5047bdac2e59d5cc0642ebd8d7104c6d066",
+  "source_tree": "ed7c236066afe1c8140ac8b306d5be1785cc08c5",
+  "source_manifest": {
+    "path": "project/run_scripts/ode_bf/locks/source_manifest_s05_p2r6_red_r2_final.json",
+    "sha256": "9f0cb669310f5a197537bbe0543701d4306ed7b53d5210a48e1d33db97dbf2c0",
+    "root_digest": "1a6ae84883ffcfff1578caf6297ad1d8b261ec0f2e75f65b4f0a5c7260c1d958",
+    "entry_count": 28
+  },
+  "numerical_lock": {
+    "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p2r6_red_r2_final.json",
+    "sha256": "b0cc41404cbee0fc401b879bd150c1551703fe53332b5a4e22aea9e2bfd8d2b0",
+    "root_digest": "2e0389cd3a352ece3f23ff81aa8cc446e6811db762760f332f9073b0d66e439a"
+  },
+  "terminal_receipt": {
+    "path": "local/odebf/state/p2r6-red-r2-final-v1/phase1-technical-invalid-terminal-job20107.json",
+    "sha256": "6089e7e8cc9f520a75054ad1d79829ced4747372aa6fb00319a9fd262f3308d1",
+    "root_digest": "2c8c59105dff56cc64077bc405a3e4f6a2093590d28c18e19a617be6b6468a93"
+  },
+  "endpoint_denominators": {
+    "planned": 8,
+    "valid": 4,
+    "technical_invalid": 1,
+    "cancelled_incomplete": 1,
+    "not_started": 2
+  },
+  "artifacts": [
+    {
+      "path": "local/odebf/reports/p2r6-red-r2-final-v1/p2r6-red-r2-phase1-terminal-report-ko.md",
+      "sha256": "1c6861b58de2662ef0bad5cf766397b6455a8ef8aca278c3da19babf704973be",
+      "bytes": 8903,
+      "lines": 160,
+      "mode": "0600"
+    },
+    {
+      "path": "local/odebf/reports/p2r6-red-r2-final-v1/p2r6-red-r2-phase1-endpoints.json",
+      "sha256": "bf265278837961ed7543d4127f6d9e671db0cf689d3cc9b1ff04f2bc17e70e06",
+      "bytes": 15709,
+      "lines": 216,
+      "rows": 8,
+      "mode": "0600"
+    }
+  ],
+  "raw_prompt_target_generation_tensor_weight_included_count": 0,
+  "model_evaluator_gpu_slurm_rerun_count": 0,
+  "phase1_scientific_gate": "NOT_RUN_INCOMPLETE_TECHNICAL_INVALID_MATRIX",
+  "phase2_status": "CLOSED",
+  "scientific_failure": false,
+  "root_digest": "a8f43a1c921363081b5ce7d43a456a209929b5f5b320998057cfdeed2cbab9af"
+}

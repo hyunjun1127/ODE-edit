@@ -1,0 +1,34 @@
+{
+  "artifact_scope": "RAW_FREE_FACTUAL_RESULTS_ONLY",
+  "instruction_id": "ODEEDIT-S05-P1R35-P1R34-FULL-CURRENT-RESIDUAL-V1",
+  "member_count": 3,
+  "members": [
+    {
+      "bytes": 7142,
+      "lines": 95,
+      "mode": "0600",
+      "path": "p1r35-full-current-residual-results-ko.md",
+      "sha256": "b5a589c1c74c8c7e4304bbbd574f408a76626995cdfb97dddce4547b30d8b98c",
+      "type": "regular_non_symlink"
+    },
+    {
+      "bytes": 16438,
+      "lines": 33,
+      "mode": "0600",
+      "path": "p1r35-per-step.csv",
+      "sha256": "99759e7048507fc4ff0cb9c54cb6363d4f6659854be30e422c345a72acd21e13",
+      "type": "regular_non_symlink"
+    },
+    {
+      "bytes": 2173,
+      "lines": 54,
+      "mode": "0600",
+      "path": "p1r35-analysis-receipt.json",
+      "sha256": "a5cd1fd299e91e2342fffc7200f3199298398450a26f50dc5ed48bd911fe943b",
+      "type": "regular_non_symlink"
+    }
+  ],
+  "members_root_sha256": "78c589959f8fa0ca4acf3e2e353a695a850d865899f022732a73a9c255308975",
+  "schema": "ode-edit-s05-p1r35-report-manifest/v1",
+  "scientific_promotion": false
+}

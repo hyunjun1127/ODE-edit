@@ -1,0 +1,21 @@
+{
+  "schema": "ode-edit-s05-p1r34-report-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R34-P1R24-W-ANCHORED-FINITE-DEMAND-V1",
+  "entries": [
+    {
+      "bytes": 9472,
+      "lines": 124,
+      "path": "p1r34-w-anchored-finite-demand-terminal-analysis-ko.md",
+      "sha256": "df54b3fb30956187da2a37f78638b3e7e3a9ceb9328b233208727afcbe6693d2"
+    },
+    {
+      "bytes": 3897,
+      "lines": 42,
+      "path": "p1r34-stepwise-compact.json",
+      "sha256": "a11f816877d7c306a5d08a5e7cb9e4b421a6b11497682336c2fd50434dc5927d"
+    }
+  ],
+  "entries_root": "71bc212ac0356fb2b355ac609ad65fd01511ce73ffb63a564ff6f8a8d1c8459c",
+  "raw_free": true,
+  "scientific_promotion": false
+}

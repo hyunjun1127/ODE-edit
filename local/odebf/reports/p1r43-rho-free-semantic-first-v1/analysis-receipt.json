@@ -1,0 +1,26 @@
+{
+  "evaluator_action_count": 0,
+  "factual_only": true,
+  "gpu_action_count": 0,
+  "manifest_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/analysis-manifest.json",
+  "manifest_root": "7ba9b46283fcd1a7459475a6575b121b880ac0a75002ae751259bad57802e733",
+  "manifest_sha256": "978dc8557604ecdd60c7b332a5cdbea863e615f00afac3320b13d2c92f404252",
+  "model_action_count": 0,
+  "report_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/p1r43-rho-free-semantic-first-b10x10-factual-ko.md",
+  "report_sha256": "ed60bd3bc57bf2ee14d35d558674734b5ab7c446125131b2a281f58b7d3bfbf7",
+  "root_digest": "0e20f20a81224a3e721952dd11c3c5543d7597631e2ffc15dcc6812632f2f1be",
+  "rows": {
+    "case": 40,
+    "cell_aggregate": 4,
+    "comparison_aggregate": 12,
+    "paired_comparison": 120,
+    "panel": 160,
+    "panel_aggregate": 16,
+    "request": 3200,
+    "step": 320
+  },
+  "schema": "ode-edit-p1r43-factual-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "slurm_action_count": 0,
+  "tracked_source_mutation_count": 0
+}

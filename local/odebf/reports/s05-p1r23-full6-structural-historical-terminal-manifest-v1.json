@@ -1,0 +1,27 @@
+{
+  "schema": "ode-edit-s05-p1r23-full6-structural-historical-terminal-report-manifest/v1",
+  "status": "COMPLETE_RAW_FREE_TERMINAL_ANALYSIS",
+  "rooted_receipt": "local/odebf/reports/s05-p1r23-full6-structural-historical-terminal-receipt-v1.json",
+  "assets": [
+    {
+      "path": "local/odebf/reports/s05-p1r23-full6-structural-historical-terminal-analysis-v1.md",
+      "sha256": "a70fb6d7defc706b295055f3900176140af5b2b02cf528621367997cc8001c8d",
+      "bytes": 12926,
+      "lines": 134
+    },
+    {
+      "path": "local/odebf/reports/s05-p1r23-full6-structural-historical-terminal-summary-v1.json",
+      "sha256": "7b2a0b7a155f626bcb56932ff575345671d1fe6f44c414b345070ea4dc4f9b98",
+      "bytes": 3738,
+      "lines": 66
+    },
+    {
+      "path": "local/odebf/reports/s05-p1r23-full6-structural-historical-terminal-receipt-v1.json",
+      "sha256": "722a11693b92693eb9e6f4bd1f864e28124537bac6f013f73675104622473c9d",
+      "bytes": 4379,
+      "lines": 40
+    }
+  ],
+  "input_terminal_root_count": 10,
+  "scientific_promotion_authorized": false
+}

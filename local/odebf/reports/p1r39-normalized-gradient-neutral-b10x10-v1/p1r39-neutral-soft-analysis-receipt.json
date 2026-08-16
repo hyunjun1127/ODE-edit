@@ -1,0 +1,25 @@
+{
+  "W0_restore_pass": 40,
+  "accepted_steps": 320,
+  "attempts": 40,
+  "canonical_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-pr-p1r38-normalized-gradient-neutral-b10x10-v1/local/odebf/reports/p1r39-normalized-gradient-neutral-b10x10-v1/p1r39-normalized-gradient-neutral-soft-b10x10-factual-ko.md",
+  "endpoints": 40,
+  "failures": 0,
+  "manifest_root": "053361c463fdc946eea1e984c061421550ec4b63f5173bba49a07643e37d3c3b",
+  "manifest_sha256": "24c071bdeb0cf6f787c8d09d863207d837b2b4c4c86216c02baa7d16427aee1b",
+  "model_evaluator_calls_for_analysis": 0,
+  "neutral_original_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-pr-p1r38-normalized-gradient-neutral-b10x10-v1/local/odebf/reports/p1r39-normalized-gradient-neutral-b10x10-v1/p1r39-normalized-gradient-neutral-b10x10-factual-ko.md",
+  "neutral_original_sha256": "97d7a6d36818dd5445d29850d03031b19b715c94434c236124c9289e01bd7548",
+  "request_step_rows": 3200,
+  "root": "487bb9811f261ebba5c2ef4359057114f52660990c9542a74869c013d6097a3e",
+  "schema": "p1r39-neutral-soft-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "soft_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-a1-normalized-gradient-soft-b10x10-v1/local/odebf/reports/p1r39-a1-normalized-gradient-soft-b10x10-v1/p1r39-a1-normalized-gradient-soft-b10x10-factual-ko.md",
+  "soft_report_sha256": "18c46fe9d0f5c754e8a7f36f19ac6b81c2d0155afab465f4ac706e2fdff923bb",
+  "source_heads": {
+    "Neutral": "763457560f2efb177a56310dfd87526772cf8158",
+    "Soft": "670132cf333da88ffef51a4b3c0a0da6b4870804"
+  },
+  "stream_order": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+  "stream_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6"
+}

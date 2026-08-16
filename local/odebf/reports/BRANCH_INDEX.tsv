@@ -1,0 +1,67 @@
+branch	commit	subject
+codex/ode-bf-dynamic-layer-proposal	3083ad4100f56fe48e8948fdd33e18faeb057072	chore: raise server2 ODE GPU cap to four
+codex/odeeditsh1	9a7a3c45afdfe51c00e41ae5bf9001f62f9fd182	docs: align simple-T runtime status
+codex/odeeditsh1-bf16-context-lock-v5-prep-v1	1e0440792297930820059212dead9f93af27edc5	feat: prepare prelocked P1 smax8 continuation
+codex/odeeditsh1-bf16-context-probe-run-v1	c0df0d3dd466353f11ae6bfacc7f9103cff25900	docs: record BF16 context calibration
+codex/odeeditsh1-bf16-context-probe-v1	13a09da5053c7b172918195a8307fe317d889aba	feat: add BF16 context lock probe
+codex/odeeditsh1-ct-k4-v1	cdb80bc70032c203334531edb7020ff654f2938d	Separate GPU identity from runtime capacity
+codex/odeeditsh1-event-strength-rca-v1	7b1241d4de67abf9c5ef07161ca0358d4064464c	runner: validate V4 calibration metadata
+codex/odeeditsh1-p0-orig-v1	66788139c78fd445c83c3e06cc1020435ef8f789	docs: record original-dtype P0 preflight failure
+codex/odeeditsh1-s05-alloff-fulltau-p1r4-v1	c3d45eba301d3e449a03a21f7ce65b5aa70d07c2	Add S05 preservation-all-off full-tau pilot
+codex/odeeditsh1-s05-bg-soft-missing-cell-p1r12-a1-r1-package	542146f1468614a78e9640adb466547c41f822eb	Package repaired R12 execution checkpoint portably
+codex/odeeditsh1-s05-bg-soft-missing-cell-p1r12-a1-runtime-r1	bfd77ddbf046333c59a8e589429d426fd5eee4c4	Repair R12 six-context receipt adapter
+codex/odeeditsh1-s05-bg-soft-missing-cell-p1r12-v1	83ff6cc20df60ea417367ff735c92c0f7b772691	Repair R12 portable package closure
+codex/odeeditsh1-s05-canonical-alpha-posfield-p1r11-v1	58a7d2783650450ec3482673d2e37c4e15826dc5	Implement canonical Alpha positive-field R11 panel
+codex/odeeditsh1-s05-cold-structp-softp-noveto-p1r6-v1	dfdfd703cc4b580cf2c11fb84946cefbb5f30bb7	Repair layer-local cold target overlay
+codex/odeeditsh1-s05-common-coldcoord-fixed-e8-p1r10-v1	38592cd14eddbfd40cd063b1891c75588ddcb7fa	repair R10 effective coefficient and tie receipts
+codex/odeeditsh1-s05-coupled-demand-soft-transport-p1r16-v1	88acfd9e9dd1a7e62854a39298ea2a674cfe99a5	fix(p1r16): resolve held log job tokens
+codex/odeeditsh1-s05-fixed-e8-r8-bound-snap-r1	3711f371c16e360d809dd5f0b4b1a5271a870c26	Prepare distinct fixed-E8 R8 repair execution
+codex/odeeditsh1-s05-fixed-e8-soft-routing-p1r7-v1	ba9fa97e2472b207237ef2d5e1d1a8cf46eeda62	Align fixed-E8 target and physical Euler writes
+codex/odeeditsh1-s05-fpoff-fulltau-p1r3-v1	b29f5ac293b18c8b2513eac214ba539d6ea74517	Add S05 functional-P-off full-tau diagnostic
+codex/odeeditsh1-s05-full-drive-soft-dynamic-p1r17-v1	f705150920b407914edd211e543a447b8143cf9c	Fix P1R17 terminal live-arm status
+codex/odeeditsh1-s05-integrated-physical-writer-p1r14-tech-r1-exec	f0f48f964750dbd11483ea327ae679c24c710fde	Fix P1R14 terminal metric schema adapter
+codex/odeeditsh1-s05-integrated-physical-writer-p1r14-v1	6184857ef7171920e5193e7609f5fc1596bc67b0	Bind P1R14 TECH-R4 output namespaces
+codex/odeeditsh1-s05-newnll-psoft-hard-p1r5-v1	b43c25c57804353ad67c10185d49db6ad0e22aec	Repair matched policy trial field projection
+codex/odeeditsh1-s05-perrequest-target-simplex-transport-p1r15-v1	0fdb2fc8afe497b4c09e58ac94f1a11b75f0d00f	Repair P1R15 EasyEdit launcher path
+codex/odeeditsh1-s05-target-new-nll-v1	46c788df3031ae40fdb7a72f6d1ce70eb4dc5370	Repair S05 target receipt serialization
+codex/odeeditsh1-s05-universal-obs-rs-bg-targethold-p1r13-v1	e6facd2d5dfae12d3c094b51981ad99951174109	feat(ode-bf): add universal observability factorial
+codex/p1r20-historical-h0-bg-sequential-v1	d8c2a7b1c1cd7521939d8fd12a010a01fd55dada	Add P1R20 historical H0 sequential panel
+codex/p1r23-compute-a1-historical	7ffd70169f19cfcd3de798053b4f8f418cabd1a9	Unify Historical simplex energy certificate coordinate
+codex/p1r23-exact-progress-simplex-historical-v1	67678d69fa3ad4dfda82b6f331da512c2ea7ed94	Add Full-6 structural Historical matrix
+codex/p1r23-progress-simplex-compute-a1	f64d0c1221ac0eecc53a1fbb9685a9a23835af0e	chore: bind Compute-A1 TECH-R3 manifest
+codex/p1r23-progress-simplex-independent-b10x10-v1	dd3751f998563e276dca68676a616cc4cb089691	Add independent B10x10 Progress-Simplex evaluation
+codex/p1r23-progress-simplex-original-b10-repro-v1	baad69b298ff0d657c361a5f52d90161ed689547	fix: preserve accepted progress simplex run token
+codex/p1r23-progress-simplex-sequential-noh-v1	7c3e1b4b5c6049d73ed21c61f3428e486c355244	Add exact Progress-Simplex Sequential-NoH matrix
+codex/p1r23-progress-simplex-source-support-v1	47941b0bdfc50f48515f86bdded97e3cc4938d65	chore: bind progress-simplex source manifest
+codex/p1r24-atomic-strength-recovery-v1	ce8c6c36348752f1407f7d713d30e6b5c727379b	Align P1R24 identity certificate with model coordinate
+codex/p1r24-rs-soft-independent-b10x10-tech-r1	88954efa04b44c3db29f2a4c7da947736ae80f27	Fix parent-compatible full-six wrapper certificate
+codex/p1r24-rs-soft-independent-b10x10-v1	cdd646830eb6e4b3649792f31473e60a1b9685f8	Add P1R24 independent RS-Soft B10x10 runner
+codex/p1r26-asdc-v1	6ee78d8353e42fd3d0b83ab6693da74be0d29fe6	Bind P1R26 source manifest
+codex/p1r27-joint-wclf-v1	c78e7e63f54403b52be3dc619555b2844225852e	Bind P1R27 local session resubmission
+codex/p1r28-corrected-coupling-v1	8a8de0e7b4c1666a7bc22d02468410e97f14eeec	Seal P1R28 TECH-R5 stall-byte totality
+codex/p1r29-sequential-historical-prep-v1	a9f846261cd625a48347fcafc5d06dd61322ccfa	feat: generalize sequential atomic adapter contract
+codex/p1r31-p1r24-independent-b10x10-full-matrix-v1	1f37dfe085ec29241f5e3bcfe0592b7c681da69c	Add P1R31 detailed P1R24 independent audit
+codex/p1r32-dynamic-z5-full-residual-atomic-v1	5905f4e217683f363c3318db7889628966c40205	Route P1R32 through its own result namespace
+codex/p1r33-p1r24-full-residual-remaining-horizon-v1	4078eeab6da2abe0aa43c0bfae3ebf8586eb9939	Seal P1R33 scientific source manifest
+codex/p1r34-p1r24-w-anchored-finite-demand-v1	ac321d86a634a20888cb57003a65467d40aa5ddd	Seal P1R34 TECH-R1 source manifest
+codex/p1r35-p1r34-full-current-residual-v1	117ece2ee1132e7277a0b43ec5ac77feebfb2646	Seal P1R35 TECH-R1 replacement role
+codex/p1r36-p1r35-independent-b10x10-full-matrix-v1	87efd168fc9680cabde878cd3b595e98db66d8fa	Seal P1R36 source closure
+codex/p1r38-pr-p1r35-perrequest-target-atomic-v1	6f48ac2800b257ceb16368fff5137212dfa6037f	Add distinct P1R38 B1 repair namespaces
+codex/p1r39-a1-normalized-gradient-soft-b10x10-v1	670132cf333da88ffef51a4b3c0a0da6b4870804	Seal P1R39 A1 TECH-R1 source closure
+codex/p1r39-pr-p1r38-normalized-gradient-neutral-b10x10-v1	763457560f2efb177a56310dfd87526772cf8158	Seal P1R39 source closure
+codex/p1r41-trust-clipped-gradient-flow-b10x10-v1	f5ac33823b3eb4bbd02d7efe4d62bef33a22a5e0	Seal P1R41 source closure
+codex/p1r43-rho-free-semantic-first-strength-recovery-v1	11508b6da11d606521b703037034e1814b70d8a8	fix(p1r43): serialize terminal panels from pinned metric schema
+codex/p1r43-t3-fixed-w0-target-horizon-ablation-v1	d646ddf74e7cc9eb85fd5c9c668ef729d00f3464	p1r43-t3 tech-r1 fix T8 evaluator subset geometry
+codex/p1r46-native-independent-target-flow-v1	11508b6da11d606521b703037034e1814b70d8a8	fix(p1r43): serialize terminal panels from pinned metric schema
+codex/p1r48-baseline-calibrated-rms-tangent-target-flow-v1	11508b6da11d606521b703037034e1814b70d8a8	fix(p1r43): serialize terminal panels from pinned metric schema
+codex/p2r1-baseline-calibrated-rms-tangent-target-flow-v1	8f817e13167289dac190fe74bfa42e2b3e01372d	Fix P2R1 target-only evaluator freeze adapter
+codex/p2r2-semantic-conserving-residual-transport-writer-v1	c97e8619b42da7954ce0e824c215a8a82d70589a	p2r2: use exact convex neutral tie backend
+codex/p2r5-semantic-deficit-constrained-residual-transport-v1	ff032a10eac257d23c691896458159d2f4eff23b	Certify P2R5 convex P-tie solve
+codex/p2r6-llama-outer1-qp-capture-v1	5736fb639e5a362015b023ff901af5a392ee89c7	p2r6: repair capture session launcher namespace
+codex/p2r6-llama-qp-repair-phase1-v1	f7b18905f5751c329c28d7e19bd6db7fb33d61dc	p2r6: repair Llama boundary QP crossover
+codex/p2r6-red-r1-capture-a1	0c46a7c935421f1d6f6a51f43c627106c1c7b3e2	p2r6: add one-shot qwen replay capture
+codex/p2r6-red-r2-final-v1	1246e5047bdac2e59d5cc0642ebd8d7104c6d066	p2r6: fail close paired phase on arm error
+codex/p2r6-semantic-region-controller-pilot-v1	ea92287e2b374c32912466ada80d4de2066f4c78	p2r6: add one-at-a-time constraint activation
+codex/p2r7-main-publish-v1	SELF_PRE_CONSOLIDATION	archive all experiment reports
+codex/p2r7-p2target-p1dw-shared-writer-v1	b5511e3dbcdf31954915591fe56465d351bfc676	p2r7: add pilot and production results
+main	858f562cc8282b9ae164d41b85dfad070a8273f2	docs: render equations with GitHub math blocks

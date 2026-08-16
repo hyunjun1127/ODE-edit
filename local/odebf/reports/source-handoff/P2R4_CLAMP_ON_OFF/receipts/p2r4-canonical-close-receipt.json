@@ -1,0 +1,28 @@
+{
+  "canonical_report_path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p2r4-phaseb-clamp-on-off-writer-v1/local/odebf/reports/p2r4-phaseb-clamp-on-off-writer-v1/p2r4-phaseb-clamp-on-off-writer-v1-terminal-report-ko.md",
+  "canonical_report_sha256": "f9ee105fe82ce229398c32383aac933f0278d15c23eb8e049cfbb194dec589e2",
+  "clamp_off_status": "SCIENTIFIC_FAILURE_PRESERVATION",
+  "clamp_off_technical_failure": false,
+  "clamp_on_status": "CLAMP_ON_CANONICAL_LOCKED",
+  "completed_artifacts_immutable": true,
+  "further_clamp_off_gpu_arms_authorized": false,
+  "instruction_id": "ODEEDIT-S05-P2R4-P2R1-CLAMP-ON-OFF-CAUSAL-ABLATION-V1-CANONICAL-CLOSE",
+  "p2r1_source_head": "8f817e13167289dac190fe74bfa42e2b3e01372d",
+  "p2r2_tech_r4_source_head": "c97e8619b42da7954ce0e824c215a8a82d70589a",
+  "p2r2_tech_r4_source_tree": "711b33fc736641d1f3067c00bd067ed5e60606fe",
+  "p2r4_source_head": "96f23e804be66569ad3fcf98bfcdd8a02ff3f7fb",
+  "p2r4_source_tree": "7d37b3c4c8bab05a9b28628bc986da30d95bca30",
+  "pending_cancel_count": 0,
+  "pending_phase_b_job_count": 0,
+  "request_order_sha256": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+  "root_digest": "232e367f8fc087acd8fa588bea8e32e173c31c065c38fbcaac133ec51e4ac063",
+  "schema": "ode-edit-p2r4-canonical-close-receipt/v1",
+  "source_model_gpu_slurm_result_mutation_counts": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "stream_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6"
+}

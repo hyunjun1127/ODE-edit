@@ -1,0 +1,42 @@
+{
+  "classification": "IMMUTABLE_P1R25_NEGATIVE_ABLATION_REFERENCE",
+  "entries": [
+    {
+      "kind": "REGULAR_FILE",
+      "mode": "0600",
+      "name": "p1r25-writer-state-pacing-terminal-report-ko.md",
+      "role": "RAW_FREE_KOREAN_TERMINAL_REPORT",
+      "sha256": "b80472156b18e473469b1cd4468195d7de147e341f67757fad97217ef694f110",
+      "size_bytes": 15693,
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p1r25-writer-state-pacing-v1/local/odebf/reports/p1r25-writer-state-pacing-terminal-v1/p1r25-writer-state-pacing-terminal-report-ko.md"
+    },
+    {
+      "kind": "REGULAR_FILE",
+      "mode": "0600",
+      "name": "report-receipt.json",
+      "role": "RAW_FREE_REPORT_RECEIPT",
+      "sha256": "8ecd0f285d068ef8b8992bef80907de5ffffeda1070c32284c465327b4ecc2b0",
+      "size_bytes": 2628,
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p1r25-writer-state-pacing-v1/local/odebf/reports/p1r25-writer-state-pacing-terminal-v1/report-receipt.json"
+    }
+  ],
+  "entry_count": 2,
+  "exclusions": {
+    "credential_count": 0,
+    "model_data_cache_count": 0,
+    "raw_log_count": 0,
+    "raw_prompt_target_tensor_count": 0,
+    "source_bundle_count": 0
+  },
+  "instruction_id": "ODEEDIT-S05-P1R26-ASDC-P1R25-REFERENCE-HANDOFF-V1",
+  "package_id": "P1R26_P1R25_NEGATIVE_REFERENCE_SH2_V1",
+  "package_root_definition": "sha256(canonical compact JSON of entry_count,package_id,payload_root_digest; UTF-8)",
+  "package_root_digest": "6ce0973211b70b44b984d92b0a2790b22aae4e86b0413cfe6ebed0053122ba16",
+  "payload_root_definition": "sha256(canonical compact JSON of ordered entries; UTF-8)",
+  "payload_root_digest": "f8fe871422f6b2bddc7fcd8992613c8a29559d8e034cda0942149fa65cfb67cd",
+  "producer_role": "SH2/server2 support-only",
+  "receiver_role": "SH1/server1",
+  "root_definition": "sha256(canonical compact JSON after deleting root_digest; UTF-8)",
+  "root_digest": "5c47717bb26d3a9792ea9ff684cf9591a08d9e4be1343601355a6b6026b76b5e",
+  "schema": "ode-edit-s05-p1r26-p1r25-negative-reference-transport-manifest/v1"
+}

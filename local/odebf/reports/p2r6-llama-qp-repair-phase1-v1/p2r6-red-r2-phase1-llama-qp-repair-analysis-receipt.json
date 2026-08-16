@@ -1,0 +1,109 @@
+{
+  "action_counts": {
+    "evaluator": 0,
+    "existing_result_mutation": 0,
+    "gpu": 0,
+    "model": 0,
+    "new_scientific_execution": 0,
+    "rawfree_analysis_artifact_creates": 5,
+    "slurm": 0,
+    "source_mutation": 0
+  },
+  "analysis_agent": "p2r6_llama_phase1_report",
+  "analysis_manifest": {
+    "bytes": 8074,
+    "lines": 173,
+    "mode": "0600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/reports/p2r6-llama-qp-repair-phase1-v1/p2r6-red-r2-phase1-llama-qp-repair-analysis-manifest.json",
+    "sha256": "7af35bd52c70e5f3a47ea05532204c0c523b89d7e623852e775cb1cc29bfed08"
+  },
+  "analysis_receipt_root_definition": "SHA256(manifest_sha256 LF analysis_root_sha256 LF report_sha256 LF endpoint_table_sha256 LF step_table_sha256); receipt excluded from self-reference.",
+  "analysis_receipt_root_sha256": "cf862feaa330ecbd9fdf44733d608c2cd5624e51b76b5d5f8782618ded318272",
+  "analysis_root_sha256": "e3d0abcd68d988aaec8f6215ac3b50488da9cfd4d538977ba793b32539b49133",
+  "classification": {
+    "phase1_scientific_gate": "NOT_RUN",
+    "phase1_status": "PHASE1_TECHNICAL_INVALID_STRICT_STOP",
+    "phase2_status": "CLOSED",
+    "scientific_failure": false
+  },
+  "contract": {
+    "bytes": 9851,
+    "lines": 288,
+    "path": "/mnt/raid5/janghj/.codex/attachments/a3b6fe1c-f888-4125-88e3-a45a1786c767/pasted-text.txt",
+    "sha256": "b9494b606b98df184fa5ae7f08787f9a4ecbc77750fca8060ce6c90e883ee26a"
+  },
+  "correction_addendum": {
+    "bytes": 1688,
+    "lines": 22,
+    "mode": "0600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/reports/p2r6-llama-qp-repair-phase1-v1/p2r6-red-r2-phase1-report-correction-addendum-ko.md",
+    "sha256": "2dcf03bf03038ebc548c23cc483bada90a7480018d384d1a905dc0e830a5904e"
+  },
+  "outputs": [
+    {
+      "bytes": 4701,
+      "lines": 62,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/reports/p2r6-llama-qp-repair-phase1-v1/p2r6-red-r2-phase1-llama-qp-repair-terminal-report-ko.md",
+      "sha256": "9859d89020538d0dbcb410be27e7ce34e456a6c1cf3b0f03d8ecc59c90801dd9"
+    },
+    {
+      "bytes": 14226,
+      "lines": 8,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/reports/p2r6-llama-qp-repair-phase1-v1/p2r6-red-r2-phase1-llama-qp-repair-endpoints.jsonl",
+      "sha256": "cb0cae7470cd236cbad33c62671b8ce9ef123b0d8c9de06ef234ecef33c00930"
+    },
+    {
+      "bytes": 84752,
+      "lines": 57,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r6-llama-qp-repair-phase1-v1/local/odebf/reports/p2r6-llama-qp-repair-phase1-v1/p2r6-red-r2-phase1-llama-qp-repair-steps.jsonl",
+      "sha256": "a0365838db2b3711c409e585f05e5d9996e54e5222ccf5fdf47292670aaa93aa"
+    }
+  ],
+  "rawfree_boundary": {
+    "generations": 0,
+    "model_weights": 0,
+    "raw_prompts": 0,
+    "raw_targets": 0,
+    "runtime_logs_copied": 0,
+    "tensors": 0
+  },
+  "rehash_checks": {
+    "all_machine_rows_parse_json": true,
+    "analysis_root_rehash": true,
+    "endpoint_status_vector_exact": true,
+    "output_member_rehash": true,
+    "per_step_required_h_counters": {
+      "outer_h_application_count_one_all_rows": true,
+      "retry_count_zero_all_rows": true,
+      "second_h_application_count_zero_all_rows": true,
+      "semantic_debt_input_count_zero_all_rows": true
+    }
+  },
+  "rows": {
+    "endpoints": 8,
+    "physical_steps": 57,
+    "technical_invalid_endpoint_valid_prefix_steps": 1,
+    "technical_invalid_incomplete_prefixes": 1,
+    "valid_endpoint_steps": 56,
+    "valid_endpoints": 7
+  },
+  "schema": "ode-edit-s05-p2r6-red-r2-phase1-rawfree-analysis-receipt/v1",
+  "source": {
+    "head": "f7b18905f5751c329c28d7e19bd6db7fb33d61dc",
+    "tree": "d2b9e5c41e7da4ded45a6e975974d1b341d996ad"
+  },
+  "status": "ANALYSIS_INTEGRITY_PASS",
+  "strict_false_gate": {
+    "arm": "AS-CAP",
+    "case_index": 5,
+    "model": "Llama3-8B-Instruct",
+    "outer_step": 1,
+    "r_comp": 1.2638838334226404e-08,
+    "stage": "AS_CAPACITY_IN_SEMANTIC_REGION",
+    "status": "ACTIVE_SET_CROSSOVER_CERTIFICATE_FAILED",
+    "tolerance": 1e-08
+  }
+}

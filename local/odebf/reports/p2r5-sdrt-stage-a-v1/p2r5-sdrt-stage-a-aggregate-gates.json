@@ -1,0 +1,107 @@
+[
+  {
+    "denominator": 8,
+    "evidence": "terminal/manifest/action-freeze/W0 hashes",
+    "gate": "technical_integrity_W0_action_freeze",
+    "numerator": 8,
+    "status": "PASS"
+  },
+  {
+    "denominator": 640,
+    "evidence": "min=0.000644964922627;max=1.00000000003",
+    "gate": "coefficient_mass_in_0_1",
+    "numerator": 640,
+    "status": "PASS"
+  },
+  {
+    "denominator": 8,
+    "evidence": "matched alias/case and CAP->NEUTRAL, STRUCTP->SOFTP",
+    "gate": "capacity_reduced_vs_matched_P2R4_clamp_on",
+    "numerator": 3,
+    "status": "FAIL"
+  },
+  {
+    "denominator": 8,
+    "evidence": "terminal correct-count arithmetic",
+    "gate": "W_Eff_Gen_not_lower_than_own_z_counts",
+    "numerator": 8,
+    "status": "PASS"
+  },
+  {
+    "denominator": 4,
+    "evidence": "matched clamp-ON arm deltas",
+    "gate": "Llama_case3_5_Loc_improved",
+    "numerator": 4,
+    "status": "PASS"
+  },
+  {
+    "denominator": 4,
+    "evidence": "matched clamp-ON arm deltas",
+    "gate": "Qwen_Loc_non_degradation",
+    "numerator": 1,
+    "status": "FAIL"
+  },
+  {
+    "denominator": 4,
+    "evidence": "at least one paired-step L2 distance >1e-8 per case",
+    "gate": "STRUCTP_allocation_differs_from_CAP",
+    "numerator": 4,
+    "status": "PASS"
+  },
+  {
+    "denominator": 4,
+    "evidence": "same-prestate comparisons exist only at k0; later paths diverge",
+    "gate": "STRUCTP_predicted_P_decreases_on_same_semantic_state",
+    "numerator": 0,
+    "status": "FAIL"
+  },
+  {
+    "denominator": 64,
+    "evidence": "fallback_total=0",
+    "gate": "silent_neutral_fallback_zero",
+    "numerator": 64,
+    "status": "PASS"
+  },
+  {
+    "denominator": 64,
+    "evidence": "clamp_off_access_total=0",
+    "gate": "clamp_off_rescue_zero",
+    "numerator": 64,
+    "status": "PASS"
+  },
+  {
+    "denominator": 8,
+    "evidence": "cause among contract alternatives NOT_IDENTIFIED",
+    "gate": "pilot_branch_A_capacity_not_reduced",
+    "numerator": 5,
+    "status": "ACTIVATED"
+  },
+  {
+    "denominator": 8,
+    "evidence": "W Eff/Gen correct counts never below own z",
+    "gate": "pilot_branch_B_capacity_down_but_W_count_below_z",
+    "numerator": 0,
+    "status": "NOT_ACTIVATED"
+  },
+  {
+    "denominator": 4,
+    "evidence": "all four cases have allocation movement >1e-8",
+    "gate": "pilot_branch_C_barrier_inert",
+    "numerator": 4,
+    "status": "NOT_ACTIVATED"
+  },
+  {
+    "denominator": 4,
+    "evidence": "same-state P reduction absent at k0; later paths are not same-state comparisons",
+    "gate": "pilot_branch_D_P_down_without_Loc_capacity_gain",
+    "numerator": 0,
+    "status": "NOT_IDENTIFIABLE"
+  },
+  {
+    "denominator": 10,
+    "evidence": "Stage B remains CLOSED_PENDING_GH_STAGE_A_REVIEW",
+    "gate": "P2R5_STAGE_A",
+    "numerator": 7,
+    "status": "SCIENTIFIC_FAIL"
+  }
+]

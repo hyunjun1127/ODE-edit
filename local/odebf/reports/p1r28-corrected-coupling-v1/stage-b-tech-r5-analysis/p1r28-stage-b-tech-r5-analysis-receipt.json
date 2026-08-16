@@ -1,0 +1,53 @@
+{
+  "analysis_id": "P1R28_STAGE_B_TECH_R5_RAW_FREE_ANALYSIS_V1",
+  "status": "COMPLETE",
+  "scope": "raw-free terminal analysis only; no model, evaluator, Slurm, source, or result action",
+  "source_checkpoint": "8a8de0e7b4c1666a7bc22d02468410e97f14eeec",
+  "source_tree": "9b75c5a723acdece6bc9af3d9eae513c05be2e0f",
+  "stage_a_report_sha256": "21af6ddfa9b1f429799cea97a85494c081ca7e76cb267c69f9a1de779699ebac",
+  "p1r27_c0_reference_sha256": "f1b05789437ebf30e8c93ac07ea2c1bd6b51c56868f90f1ade96cc178f30fa09",
+  "inputs": {
+    "llama": {
+      "terminal_sha256": "4d62fb24b253e726bdc61a94de7440f06a91eb7acc8d65b3c8bd1fcd385c01e1",
+      "manifest_sha256": "ca0c7215848c77694036579675af48d36e11914e51488ff11d3b657003eac17e",
+      "action_freeze_sha256": "4c91342d33673bb818c3cdf3ee02d027bdd7789b92b060b73612369a48099cd7"
+    },
+    "qwen": {
+      "terminal_sha256": "dc61653696bb0060172b64e917680a9d2e6552ec9fd21eb83462c17d941bb468",
+      "manifest_sha256": "3b5903b5696e6fb7ac2067a5143aeffd4e464b83d6df51195fdabbdfc5b7c96f",
+      "action_freeze_sha256": "42ca18f7a9cb9892d3752cc41a1607cc3d8244cf4449edec7d831857993fbe3e"
+    }
+  },
+  "independent_checks": {
+    "terminal_manifest_hash_match": true,
+    "action_freeze_hash_match": true,
+    "w0_pointer_and_byte_restore": true,
+    "heldout_after_action_freeze": true,
+    "inner_heldout_access_count": 0,
+    "persistent_history_replay_h_and_sequential_influence": 0,
+    "coordinate_ratio_one": true,
+    "h_application_count": 1,
+    "second_h_division_count": 0
+  },
+  "scientific_result": {
+    "classification": "C1_STRENGTH_GATE_SCIENTIFIC_FAIL",
+    "stop_pivot": "P1R24_ATOMIC_FALLBACK_FROZEN; terminate P1R27 joint/coupling branch; C2 RS-Soft not eligible for submission",
+    "scientific_promotion": false,
+    "technical_fail": false
+  },
+  "report": {
+    "relative_path": "local/odebf/reports/p1r28-corrected-coupling-v1/stage-b-tech-r5-analysis/p1r28-stage-b-tech-r5-final-report-ko.md",
+    "sha256": "e9da42d3af3516dd2c5eaeeba9e7988b9387f411de274f128ba5ccceeb9aa17e",
+    "bytes": 13254,
+    "lines": 160
+  },
+  "analysis_action_counts": {
+    "model": 0,
+    "evaluator": 0,
+    "slurm": 0,
+    "source_mutation": 0,
+    "result_mutation": 0,
+    "report_artifact_write": 1
+  },
+  "analysis_root_sha256": "bbc2207a35349311a9b0ee8046b6c24cc5c5defe0e420e1d20c3706ecb383ea2"
+}

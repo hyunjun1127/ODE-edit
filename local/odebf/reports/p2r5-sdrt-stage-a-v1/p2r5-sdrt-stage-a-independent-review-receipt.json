@@ -1,0 +1,26 @@
+{
+  "contract_full_read": true,
+  "endpoint_count": 8,
+  "endpoint_hash_chain_pass": true,
+  "excluded_raw_content_access_count": 0,
+  "gate_recalculation": {
+    "capacity_reduced": "3/8",
+    "llama_loc_improved": "4/4",
+    "qwen_loc_non_degraded": "1/4",
+    "writer_counts_not_weaker": "8/8"
+  },
+  "manifest_rehash_pass": true,
+  "model_evaluator_gpu_slurm_action_counts": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "report_rehash_pass": true,
+  "request_step_count": 640,
+  "review_agent_scope": "SEPARATE_BOUNDED_RAW_FREE_ANALYSIS_AGENT",
+  "root_digest": "f4d8efb05dd7504a9878a85c5a23ab648ce13fb6108c07b25aeb6d33cf2c444a",
+  "schema": "ode-edit-s05-p2r5-stage-a-independent-review/v1",
+  "status": "PASS_WITH_STAGE_A_SCIENTIFIC_FAIL_REPRODUCED",
+  "step_count": 64
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "ode-edit-s05-p1r27-report-manifest-receipt/v1",
+  "generated_at": "2026-08-13T01:42:38+09:00",
+  "instruction_id": "ODEEDIT-S05-P1R27-JOINT-WCLF-ZTRACKING-SEMANTIC-PRESERVING-BF-V1",
+  "scientific_checkpoint": "56b744449a5bdd44b9e0798ae3fa486962dbdc22",
+  "execution_head": "c78e7e63f54403b52be3dc619555b2844225852e",
+  "source_tree": "07c2adfb9f3cc2323a6b8c665bd2ff238635fd51",
+  "job_id": "19145",
+  "scheduler_terminal": "ALL_4_COMPLETED_0",
+  "reports": {
+    "p1r27-joint-wclf-terminal-report-ko.md": {
+      "sha256": "f1b05789437ebf30e8c93ac07ea2c1bd6b51c56868f90f1ade96cc178f30fa09",
+      "bytes": 11118,
+      "lines": 133
+    },
+    "p1r27-terminal-compact.json": {
+      "sha256": "2a0b9c61ecd40464c662fe5dbf15f8944c1292747ce7006f4711e77b9c60321b",
+      "bytes": 4441,
+      "lines": 48
+    }
+  },
+  "results": {
+    "llama_bg": {"terminal_sha256":"f305b21d5d50f0c81ae11a5bd481d6259440800e170bbb314fed9f27bb520573","manifest_sha256":"12aeb8d415c520a8d8ae26dc8abc921c7116230511cc11799dbce4eb3d3f9cab"},
+    "llama_rs": {"terminal_sha256":"3b356a911ed1a5aeb6ac15c0fb184b58fb72df90116a6dc9f5f88aa7dd42993f","manifest_sha256":"ad1f481d5b870e2ce240afef1138564a2206160b71c87de17ba89acf8b40f2e6"},
+    "qwen_bg": {"terminal_sha256":"79261d3d686e5f7fec27d57404aa729038620b7d452f2cc37c6fd9e821efa70f","manifest_sha256":"cb88da9dcf44efa3ec329e1b88b97b1ea6fab52505fd516db9b074eb350afa10"},
+    "qwen_rs": {"terminal_sha256":"ef56e07d13e6a72a2155d19c3837a77c87e6990697b9dfa0e96413d182bf0827","manifest_sha256":"c95213c523921b207a65033371ac047154995cde6cc96ff52071ce55efe184e7"}
+  },
+  "integrity": {
+    "terminal_manifest_rehash": "PASS",
+    "action_freeze_rehash": "PASS",
+    "w0_pointer_and_parameter_bytes_restore": "PASS_8_OF_8",
+    "scientific_invalid_count": 0,
+    "model_evaluator_rerun_for_analysis": 0,
+    "tracked_source_result_mutation_for_analysis": 0
+  },
+  "claim": "ATOMIC_MECHANISTIC_DESCRIPTIVE_ONLY_NO_PROMOTION",
+  "root_digest": "453c13f7b25fa1c4b2e88a153dce4164cdd41576c06ab1ad34c488303a58eb23"
+}

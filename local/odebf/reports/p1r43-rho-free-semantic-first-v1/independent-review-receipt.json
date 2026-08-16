@@ -1,0 +1,33 @@
+{
+  "action_counts": {
+    "evaluator": 0,
+    "gpu": 0,
+    "model": 0,
+    "scientific_result_mutation": 0,
+    "scientific_source_mutation": 0,
+    "slurm": 0
+  },
+  "factual_only": true,
+  "mechanical_checks": {
+    "all_cases_W0_byte_restore": true,
+    "all_cases_W0_pointer_restore": true,
+    "all_cases_action_freeze": true,
+    "all_cases_controller_reset": true,
+    "all_cases_heldout_gen_controller_zero": true,
+    "all_cases_history_zero": true,
+    "all_cases_k8": true,
+    "all_cases_retry_zero": true,
+    "case_rows": 40,
+    "official_matched_case_joins": 40,
+    "p1r39_matched_case_joins": 40,
+    "p1r42_matched_case_joins": 40,
+    "paired_comparison_rows": 120,
+    "panel_rows": 160,
+    "request_rows": 3200,
+    "step_rows": 320
+  },
+  "review_scope": "RAW_FREE_REPORT_ONLY",
+  "root_digest": "ee4c54a2da48288ba5173c3b31b1120224be84d9c7f28f4d11ce5000a652b8b1",
+  "schema": "ode-edit-p1r43-independent-raw-free-review/v1",
+  "scientific_promotion": false
+}

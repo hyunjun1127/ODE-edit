@@ -1,0 +1,115 @@
+{
+  "contract_sha256": "55cc177ecee86750bde732c6f880ea480696269da856495829437c9b59cc669d",
+  "endpoint_rows": 8,
+  "final_source_head": "ff032a10eac257d23c691896458159d2f4eff23b",
+  "final_source_tree": "8ac005aec6bcb199b833ae224f29591ea59ea108",
+  "gate_rows": 15,
+  "instruction_id": "ODEEDIT-S05-P2R5-SEMANTIC-DEFICIT-CONSTRAINED-RESIDUAL-TRANSPORT-V1",
+  "members": [
+    {
+      "bytes": 33577,
+      "lines": 408,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/build_p2r5_stage_a_report.py",
+      "sha256": "e8f06e10f6810f969bd58edc3cfb0cd9d203d577bd09556495e2b27de5861a41"
+    },
+    {
+      "bytes": 1408,
+      "lines": 16,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/p2r5-sdrt-stage-a-aggregate-gates.csv",
+      "sha256": "8591d49f2d813a1316aeaafb272d49bced9c36f6828708d2cdd8c85a16c000d6"
+    },
+    {
+      "bytes": 2805,
+      "lines": 107,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/p2r5-sdrt-stage-a-aggregate-gates.json",
+      "sha256": "8b3993006b0d8d85acc9df1a21981f7f2944f88895c5997ba13661e06286ee52"
+    },
+    {
+      "bytes": 4351,
+      "lines": 33,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/p2r5-sdrt-stage-a-paired-step.csv",
+      "sha256": "42628d0337c6dd237df4b90e0edc737f5409ca21b7ad004493f2cda5cebffc9a"
+    },
+    {
+      "bytes": 12649,
+      "lines": 354,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/p2r5-sdrt-stage-a-paired-step.json",
+      "sha256": "cdd661c947e578bdf6a91048b94a6886a9bb63be2e2b2aaa25f838327e01bbd7"
+    },
+    {
+      "bytes": 24427,
+      "lines": 9,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/p2r5-sdrt-stage-a-per-endpoint.csv",
+      "sha256": "e07273ffd8a5278690b967d57690bd6964c14514e3c9df507fea9a04ca0558df"
+    },
+    {
+      "bytes": 46393,
+      "lines": 970,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/p2r5-sdrt-stage-a-per-endpoint.json",
+      "sha256": "db530fbc0d6a8aa4acd6218582b8a613fdf5eee5196ab65483d0f70a7c907dc3"
+    },
+    {
+      "bytes": 262852,
+      "lines": 641,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/p2r5-sdrt-stage-a-per-request.csv",
+      "sha256": "583b2041b94fed5130a6e95d81db4181faec1170ae69e544225ba431a76317bd"
+    },
+    {
+      "bytes": 663079,
+      "lines": 17282,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/p2r5-sdrt-stage-a-per-request.json",
+      "sha256": "a766dca3721f5521746f28799b477799844ef66aaaa286042f4276e2216a084e"
+    },
+    {
+      "bytes": 57848,
+      "lines": 65,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/p2r5-sdrt-stage-a-per-step.csv",
+      "sha256": "a1c9d0dd36fe0971984685fb13a341ab42c68be601de5a61f83c8b606efe1729"
+    },
+    {
+      "bytes": 157774,
+      "lines": 3522,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/p2r5-sdrt-stage-a-per-step.json",
+      "sha256": "6e0a62054c4aa37cb199535bb51452ed825daeacb82c3effccc487f0f06d61f2"
+    },
+    {
+      "bytes": 6800,
+      "lines": 82,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/reports/p2r5-sdrt-stage-a-v1/p2r5-sdrt-stage-a-terminal-analysis-ko.md",
+      "sha256": "2fbb6730a81a88cd7f58b80669bbc3475236303ea3585a793b51cb783cc6cac0"
+    }
+  ],
+  "members_root": "9417a7a4fa4a1b13ab317cd8480dd93972c47b8e2e1a9ef78086758028b12a4a",
+  "official_identity_sha256": "e12b19ff941f39a594d2ff0f8718849d102644fd2ec79f53ccb6d7efc9fd8d3c",
+  "p2r4_canonical_report_sha256": "f9ee105fe82ce229398c32383aac933f0278d15c23eb8e049cfbb194dec589e2",
+  "p2r4_identity_sha256": "e0f982759be06610f3b94a8f310497703fcd812ec04afd1390d1c4178196f5e1",
+  "paired_step_rows": 32,
+  "request_rows": 640,
+  "root_digest": "e7339ad8b9c53c9accfbd7af719d2b4f33a46cacfc638f987e7c8e74f94971bb",
+  "schema": "ode-edit-s05-p2r5-stage-a-analysis-manifest/v1",
+  "scientific_promotion": false,
+  "stage_b_status": "CLOSED_PENDING_GH_STAGE_A_REVIEW",
+  "step_rows": 64,
+  "terminal_paths": [
+    "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/results/s05-p2r5-sdrt-stage-a-llama3-8b-inst-case-03-paired-tech-r2-v1/raw/cases/case-03/sdrt-cap/terminal.json",
+    "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/results/s05-p2r5-sdrt-stage-a-llama3-8b-inst-case-03-paired-tech-r6-v1/raw/cases/case-03/sdrt-structp/terminal.json",
+    "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/results/s05-p2r5-sdrt-stage-a-llama3-8b-inst-case-05-paired-tech-r5-v1/raw/cases/case-05/sdrt-cap/terminal.json",
+    "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/results/s05-p2r5-sdrt-stage-a-llama3-8b-inst-case-05-paired-tech-r4-v1/raw/cases/case-05/sdrt-structp/terminal.json",
+    "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/results/s05-p2r5-sdrt-stage-a-qwen2.5-7b-inst-case-01-paired-tech-r5-v1/raw/cases/case-01/sdrt-cap/terminal.json",
+    "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/results/s05-p2r5-sdrt-stage-a-qwen2.5-7b-inst-case-01-paired-tech-r5-v1/raw/cases/case-01/sdrt-structp/terminal.json",
+    "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/results/s05-p2r5-sdrt-stage-a-qwen2.5-7b-inst-case-04-paired-tech-r4-v1/raw/cases/case-04/sdrt-cap/terminal.json",
+    "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p2r5-sdrt-stage-a-v1/local/odebf/results/s05-p2r5-sdrt-stage-a-qwen2.5-7b-inst-case-04-paired-tech-r2-v1/raw/cases/case-04/sdrt-structp/terminal.json"
+  ]
+}

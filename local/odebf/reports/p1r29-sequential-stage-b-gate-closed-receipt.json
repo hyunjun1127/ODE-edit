@@ -1,0 +1,47 @@
+{
+  "atomic_b10_debt_neutral": {
+    "llama": {
+      "eff": 9,
+      "gen": 19,
+      "loc": 76,
+      "realization": 0.287316,
+      "terminal_debt_mean": 6.076078
+    },
+    "qwen": {
+      "eff": 8,
+      "gen": 16,
+      "loc": 81,
+      "realization": 0.063708,
+      "terminal_debt_behavior": "REPEATEDLY_INCREASING",
+      "terminal_debt_mean": 28.349959
+    }
+  },
+  "atomic_classification": [
+    "SCIENTIFIC_FAIL_NEUTRAL_STRENGTH_GATE",
+    "TERMINAL_DEBT_REMAINS",
+    "WRITE_UNDER_REALIZED"
+  ],
+  "atomic_debt_soft_status": "NOT_SUBMITTED",
+  "atomic_winner_checkpoint": null,
+  "instruction_id": "ODEEDIT-S05-P1R29-SEQUENTIAL-HISTORICAL-PREPARATION-V1",
+  "next": "IDLE_PENDING_NEW_USER_DIRECTION",
+  "prepared_checkpoint": "b0acdb995942b3561da09312eb67899b2d41af5e",
+  "prepared_tree": "7bcf7a00de6a6263ca120660a0c0d91c6d42ef59",
+  "receipt_root": "c740d7ecd6aa79f6bd3b9ea891ad3b277c1a3d883341b8b6c7f1b79ade545393",
+  "schema": "ode-edit-s05-p1r29-sequential-stage-b-gate-closed/v1",
+  "scientific_promotion": false,
+  "stage_a_receipt_sha256": "4313cfad37027df3b235581e956439f513df06a0a951c57f0a106d832457e203",
+  "stage_a_report_sha256": "36927db9b4852780d944a4def726ad0f3b2c731dcf0d8e52c058f88e561d6201",
+  "stage_b_actions": {
+    "atomic_checkpoint_import": 0,
+    "b10x10_submission": 0,
+    "b10x2_submission": 0,
+    "gpu": 0,
+    "model": 0,
+    "result_root": 0,
+    "round1_submission": 0,
+    "slurm": 0,
+    "tracked_source_mutation": 0
+  },
+  "status": "STAGE_B_GATE_CLOSED_BY_P1R29_ATOMIC_SCIENTIFIC_FAIL"
+}

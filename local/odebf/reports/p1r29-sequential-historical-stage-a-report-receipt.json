@@ -1,0 +1,39 @@
+{
+  "actions": {
+    "gpu": 0,
+    "model": 0,
+    "p1r28": 0,
+    "result_root": 0,
+    "sh2_live_p1r29": 0,
+    "slurm": 0
+  },
+  "atomic_winner_import_count": 0,
+  "checkpoint": "b0acdb995942b3561da09312eb67899b2d41af5e",
+  "contract_sha256": "7b65be938dba17d8ab932555436bbfc152e2a9f690ecc319239e97a8fee227f9",
+  "dry_plan_identity": "fb9fd7ea183d1e40bdb09e9d9cae71c2a6ae503e1ceedab52d8185fb90dde19e",
+  "gates": {
+    "ast": "PASS",
+    "bash": "PASS",
+    "compile": "PASS",
+    "dry_plan": "PASS",
+    "focused": "15/15 PASS",
+    "focused_plus_impacted": "43/43 PASS",
+    "source_manifest": "PASS"
+  },
+  "instruction_id": "ODEEDIT-S05-P1R29-SEQUENTIAL-HISTORICAL-PREPARATION-V1",
+  "numerical_lock_sha256": "4e4f57c0083e45ebcdf282adeb1f76c1fbf31891e23bd98673ead765ff49f0f3",
+  "parent": "7ffd70169f19cfcd3de798053b4f8f418cabd1a9",
+  "receipt_root": "5a354c05f4e5a3489f1d3c2da01c409716ffa4305b9b442bbbfbcfa498e6d2ca",
+  "report": {
+    "bytes": 7933,
+    "lines": 131,
+    "path": "local/odebf/reports/p1r29-sequential-historical-stage-a-design-compute-ko.md",
+    "sha256": "36927db9b4852780d944a4def726ad0f3b2c731dcf0d8e52c058f88e561d6201"
+  },
+  "schema": "ode-edit-s05-p1r29-sequential-stage-a-report-receipt/v1",
+  "scientific_promotion": false,
+  "source_entries_root": "1f130b55621b895fa059a6921823ed4e68133a9c91f34470d42ab42deaa1b570",
+  "source_manifest_sha256": "964b5dec55922d5827c8c94bd5c84546a7f47788dd810d2d0c66968b06dfb655",
+  "status": "PREPARED_WAITING_P1R29_ATOMIC_GATE",
+  "tree": "7bcf7a00de6a6263ca120660a0c0d91c6d42ef59"
+}

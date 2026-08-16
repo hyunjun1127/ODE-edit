@@ -1,0 +1,69 @@
+{
+  "files": [
+    {
+      "bytes": 3216,
+      "lines": 43,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-a1-normalized-gradient-soft-b10x10-v1/local/odebf/reports/p1r39-a1-normalized-gradient-soft-b10x10-v1/p1r39-a1-normalized-gradient-soft-b10x10-factual-ko.md",
+      "sha256": "18c46fe9d0f5c754e8a7f36f19ac6b81c2d0155afab465f4ac706e2fdff923bb"
+    },
+    {
+      "bytes": 14539,
+      "lines": 81,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-a1-normalized-gradient-soft-b10x10-v1/local/odebf/reports/p1r39-a1-normalized-gradient-soft-b10x10-v1/p1r39-a1-soft-comparisons.csv",
+      "sha256": "ae36ddf9fd531d4331b51f9791b320b08e4b9718357763e3d0a05f92c150c7ef"
+    },
+    {
+      "bytes": 40963,
+      "lines": 1415,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-a1-normalized-gradient-soft-b10x10-v1/local/odebf/reports/p1r39-a1-normalized-gradient-soft-b10x10-v1/p1r39-a1-soft-comparisons.json",
+      "sha256": "1d816748502015416935ff6c9a380f8955b8188103d1d8595463e24d161c9978"
+    },
+    {
+      "bytes": 24817,
+      "lines": 21,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-a1-normalized-gradient-soft-b10x10-v1/local/odebf/reports/p1r39-a1-normalized-gradient-soft-b10x10-v1/p1r39-a1-soft-per-case.csv",
+      "sha256": "eb776f10f375451f45947e9260ac1541ae678021f3f5537042b98048b864f259"
+    },
+    {
+      "bytes": 68303,
+      "lines": 1705,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-a1-normalized-gradient-soft-b10x10-v1/local/odebf/reports/p1r39-a1-normalized-gradient-soft-b10x10-v1/p1r39-a1-soft-per-case.json",
+      "sha256": "28c60d0037652a02cdb4a7037474a40d388228b0e216c81d9e0f7fec4d26fb7d"
+    },
+    {
+      "bytes": 719646,
+      "lines": 1601,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-a1-normalized-gradient-soft-b10x10-v1/local/odebf/reports/p1r39-a1-normalized-gradient-soft-b10x10-v1/p1r39-a1-soft-per-request.csv",
+      "sha256": "90de5bf27ba9d3f50b8c54ed82f68ab79a83d7f0fbeeae76d97f15ae48d49f75"
+    },
+    {
+      "bytes": 2344687,
+      "lines": 64005,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-a1-normalized-gradient-soft-b10x10-v1/local/odebf/reports/p1r39-a1-normalized-gradient-soft-b10x10-v1/p1r39-a1-soft-per-request.json",
+      "sha256": "b6f9e93e32724f948b49674c58e802def8041460661554add839c30aff2cafe4"
+    },
+    {
+      "bytes": 204915,
+      "lines": 161,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-a1-normalized-gradient-soft-b10x10-v1/local/odebf/reports/p1r39-a1-normalized-gradient-soft-b10x10-v1/p1r39-a1-soft-per-step.csv",
+      "sha256": "d18cb8a7e3862d07afca43565ac3870de420c159137f3a79b906e7adc0cde7fc"
+    },
+    {
+      "bytes": 563005,
+      "lines": 15205,
+      "mode": "0o600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r39-a1-normalized-gradient-soft-b10x10-v1/local/odebf/reports/p1r39-a1-normalized-gradient-soft-b10x10-v1/p1r39-a1-soft-per-step.json",
+      "sha256": "83cdfde09d35984e3d30e65b02057eb4d3d5c592d26ef78d1d6dc9e292aee90a"
+    }
+  ],
+  "root": "bd7bf0c0f7403f396c25045c8e47574cad2b15df0616166ef2c3c52242b22bb6",
+  "schema": "p1r39-a1-soft-analysis-manifest/v1"
+}

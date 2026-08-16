@@ -1,0 +1,50 @@
+{
+  "schema": "ode-edit-sh1-global-hold-receipt/v1",
+  "status": "HOLD_PENDING_USER_DIRECTION",
+  "created_at": "2026-08-13T12:36:58+09:00",
+  "scope": [
+    "P1R30_SUPPORT",
+    "P1R30_BACKEND_V3",
+    "P1R31_FULL_MATRIX_AUDIT"
+  ],
+  "scheduler": {
+    "related_running_count": 0,
+    "related_pending_count": 0,
+    "related_configuring_count": 0,
+    "cancelled_job_count": 0,
+    "new_submission_count_after_hold": 0
+  },
+  "worktree": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r29-sequential-historical-prep-v1",
+    "head": "a9f846261cd625a48347fcafc5d06dd61322ccfa",
+    "tree": "e815b10bb9fda70b69c0b890e74d06688fda3631",
+    "parent": "fa3d570bdcea49cdaa1d705dfd399648a4920778",
+    "tracked_dirty": false,
+    "staged_dirty": false,
+    "unstaged_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "staged_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "last_completed_action": {
+    "kind": "LOCAL_BACKEND_V3_CHILD_CHECKPOINT",
+    "checkpoint": "a9f846261cd625a48347fcafc5d06dd61322ccfa",
+    "occurred_before_hold_receipt": true,
+    "v3_report_created": false,
+    "p1r31_source_or_job_started": false
+  },
+  "actions": {
+    "p1r30_contract_transfer_completed_before_hold": 1,
+    "p1r30_backend_child_checkpoint_completed_before_hold": 1,
+    "p1r31_source_edit_count": 0,
+    "p1r31_checkpoint_count": 0,
+    "model_action_count": 0,
+    "gpu_action_count": 0,
+    "slurm_submission_count": 0,
+    "scientific_result_root_action_count": 0,
+    "report_action_count_after_hold": 0,
+    "transfer_action_count_after_hold": 0
+  },
+  "immutable_transfer_receipt_sha256": "6742ef0ad8c95b24bd4772785943eaddf01138c10ffa3e942ea9bd6ced0d649c",
+  "resume_requires_explicit_user_or_gh_instruction": true,
+  "root_definition": "sha256(canonical JSON excluding root_digest)",
+  "root_digest": "38eb91eb145ddc5b165a851272ca1d5f7ffd191c58a49c43ca0e3d61c510a3a1"
+}

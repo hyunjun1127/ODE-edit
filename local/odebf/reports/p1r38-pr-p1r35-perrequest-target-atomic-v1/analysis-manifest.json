@@ -1,0 +1,48 @@
+{
+  "files": [
+    {
+      "bytes": 4708,
+      "lines": 79,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r38-pr-p1r35-perrequest-target-atomic-v1/local/odebf/reports/p1r38-pr-p1r35-perrequest-target-atomic-v1/p1r38-pr-p1r35-perrequest-target-atomic-factual-ko.md",
+      "sha256": "281582a6bfe95b53bda1bce09e0eb453c8675fcf717c6b957051197faf2bf865"
+    },
+    {
+      "bytes": 2124465,
+      "lines": 73605,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r38-pr-p1r35-perrequest-target-atomic-v1/local/odebf/reports/p1r38-pr-p1r35-perrequest-target-atomic-v1/p1r38-per-request.json",
+      "sha256": "f42581732bd1ce9150931a69a8517e2737774bdbdec5a28e3d17a67287b7576e"
+    },
+    {
+      "bytes": 716626,
+      "lines": 3201,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r38-pr-p1r35-perrequest-target-atomic-v1/local/odebf/reports/p1r38-pr-p1r35-perrequest-target-atomic-v1/p1r38-per-request.csv",
+      "sha256": "932e87e8a832208211f621371c87bfb17f7432d9b061cf952d034a9c3197b34e"
+    },
+    {
+      "bytes": 623648,
+      "lines": 18565,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r38-pr-p1r35-perrequest-target-atomic-v1/local/odebf/reports/p1r38-pr-p1r35-perrequest-target-atomic-v1/p1r38-per-step.json",
+      "sha256": "595a31c2b828e9eae5ac1f52257bea0a4d983ec343ed14ee9c4259ec9c8aa305"
+    },
+    {
+      "bytes": 243433,
+      "lines": 321,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r38-pr-p1r35-perrequest-target-atomic-v1/local/odebf/reports/p1r38-pr-p1r35-perrequest-target-atomic-v1/p1r38-per-step.csv",
+      "sha256": "27aa9cb4898e4e32d5832943b5605c95984778c199b89253799bad905be3927d"
+    },
+    {
+      "bytes": 117829,
+      "lines": 2915,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r38-pr-p1r35-perrequest-target-atomic-v1/local/odebf/reports/p1r38-pr-p1r35-perrequest-target-atomic-v1/p1r38-per-case.json",
+      "sha256": "309f4135553866d76c01c271cf98af9a082ce8b6bebce87fe2ba4fdcb7e2bd91"
+    },
+    {
+      "bytes": 39904,
+      "lines": 41,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r38-pr-p1r35-perrequest-target-atomic-v1/local/odebf/reports/p1r38-pr-p1r35-perrequest-target-atomic-v1/p1r38-per-case.csv",
+      "sha256": "6f5412dcfe75b1fdf65a0e0e44c77660338496ea3409bdaeb43d4aff009fc176"
+    }
+  ],
+  "root": "324abf4cc29e9a0641c565552cf502ee06e7b0e8a46273043e7299cd81c300e4",
+  "schema": "p1r38-analysis-manifest/v1"
+}

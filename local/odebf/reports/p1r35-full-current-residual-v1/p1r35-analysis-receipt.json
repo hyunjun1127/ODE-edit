@@ -1,0 +1,54 @@
+{
+  "analysis_action": {
+    "evaluator_rerun_count": 0,
+    "model_action_count": 0,
+    "scientific_source_mutation_count": 0,
+    "slurm_action_count": 0
+  },
+  "artifact_scope": "RAW_FREE_FACTUAL_RESULTS_ONLY",
+  "created_at_asia_seoul": "2026-08-13 22:54:23 KST",
+  "input_root_sha256": "26c4752b2205b0f1c199439b1ad0fa8857f1ad602ea7111e914d9cb95736309f",
+  "inputs": [
+    {
+      "bytes": 56104,
+      "path": "local/odebf/results/s05-p1r35-llama3-8b-inst-b10-rs-full-current-residual-neutral-soft-pair-v1/terminal.json",
+      "sha256": "220f56e3bf51be32663643efdc5531d0648fa407c962375c71fb2de9538ae6f6"
+    },
+    {
+      "bytes": 381,
+      "path": "local/odebf/results/s05-p1r35-llama3-8b-inst-b10-rs-full-current-residual-neutral-soft-pair-v1/manifest.json",
+      "sha256": "2da9d4780c26e5611510e72a402b309e3da279e2aedfdf99659c7018a831c52e"
+    },
+    {
+      "bytes": 55875,
+      "path": "local/odebf/results/s05-p1r35-qwen2.5-7b-inst-b10-rs-full-current-residual-neutral-soft-pair-v1/terminal.json",
+      "sha256": "07fc95bfaf55e6cb6aa3c9de04cd4edc10889ccdab588e5ff49b470cdd5279c9"
+    },
+    {
+      "bytes": 381,
+      "path": "local/odebf/results/s05-p1r35-qwen2.5-7b-inst-b10-rs-full-current-residual-neutral-soft-pair-v1/manifest.json",
+      "sha256": "0066e3cfac0584350c6894bd76d47da069946e965529e513324db99b90b5285d"
+    }
+  ],
+  "instruction_id": "ODEEDIT-S05-P1R35-P1R34-FULL-CURRENT-RESIDUAL-V1",
+  "output_root_sha256": "ecd0dcc6eb29f50ef80bd3afe514a19a7509d19e73a4135eb6c40e46c6714fda",
+  "outputs": [
+    {
+      "bytes": 7142,
+      "lines": 95,
+      "path": "p1r35-full-current-residual-results-ko.md",
+      "sha256": "b5a589c1c74c8c7e4304bbbd574f408a76626995cdfb97dddce4547b30d8b98c"
+    },
+    {
+      "bytes": 16438,
+      "lines": 33,
+      "path": "p1r35-per-step.csv",
+      "sha256": "99759e7048507fc4ff0cb9c54cb6363d4f6659854be30e422c345a72acd21e13"
+    }
+  ],
+  "production_job_id": "19460",
+  "production_status": "ALL_4_ARMS_COMPLETED_K8_ACTION_FREEZE_W0_PASS",
+  "schema": "ode-edit-s05-p1r35-raw-free-factual-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "source_head": "117ece2ee1132e7277a0b43ec5ac77feebfb2646"
+}

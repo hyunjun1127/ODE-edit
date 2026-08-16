@@ -1,0 +1,84 @@
+{
+  "files": [
+    {
+      "bytes": 11826,
+      "lines": 133,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r41-trust-clipped-gradient-flow-b10x10-v1/local/odebf/reports/p1r41-trust-clipped-gradient-flow-b10x10-v1/p1r41-trust-clipped-gradient-flow-b10x10-factual-ko.md",
+      "sha256": "5f109a28cba12b7b5fdaad042d2bb5a843f7663f1ebb6f37e90f6e4080e1d625"
+    },
+    {
+      "bytes": 137516,
+      "lines": 4205,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r41-trust-clipped-gradient-flow-b10x10-v1/local/odebf/reports/p1r41-trust-clipped-gradient-flow-b10x10-v1/p1r41-per-case.json",
+      "sha256": "1dfe08b8c894ff80bf204055659acebcdc5a65bfed725d646cb05bce7dd59269"
+    },
+    {
+      "bytes": 51421,
+      "lines": 41,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r41-trust-clipped-gradient-flow-b10x10-v1/local/odebf/reports/p1r41-trust-clipped-gradient-flow-b10x10-v1/p1r41-per-case.csv",
+      "sha256": "4a8525114fc8bab79ed8e09af2808b975b9b781fe623a782778944d1b7be68a6"
+    },
+    {
+      "bytes": 982536,
+      "lines": 28805,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r41-trust-clipped-gradient-flow-b10x10-v1/local/odebf/reports/p1r41-trust-clipped-gradient-flow-b10x10-v1/p1r41-per-step.json",
+      "sha256": "8f23c05b60d59a556aa3c3f54cd52e21c754173d0be1ed5643ad1c95265671aa"
+    },
+    {
+      "bytes": 372629,
+      "lines": 321,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r41-trust-clipped-gradient-flow-b10x10-v1/local/odebf/reports/p1r41-trust-clipped-gradient-flow-b10x10-v1/p1r41-per-step.csv",
+      "sha256": "9aeb0e445de34b05647f10c8ae6808084b931bdedf11bea22fe7d07f2d928991"
+    },
+    {
+      "bytes": 6197214,
+      "lines": 160005,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r41-trust-clipped-gradient-flow-b10x10-v1/local/odebf/reports/p1r41-trust-clipped-gradient-flow-b10x10-v1/p1r41-per-request.json",
+      "sha256": "a85dff5cfcffeaa9eacb4de2ab3203bd5ec5ff03b753ded3c0dedbe10e949f9a"
+    },
+    {
+      "bytes": 2205285,
+      "lines": 3201,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r41-trust-clipped-gradient-flow-b10x10-v1/local/odebf/reports/p1r41-trust-clipped-gradient-flow-b10x10-v1/p1r41-per-request.csv",
+      "sha256": "2874db8b478ea05a910b455ad07e75b83a98d19dda255ba07fdfcfd27e1bf461"
+    },
+    {
+      "bytes": 13178,
+      "lines": 443,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r41-trust-clipped-gradient-flow-b10x10-v1/local/odebf/reports/p1r41-trust-clipped-gradient-flow-b10x10-v1/p1r41-paired-comparisons.json",
+      "sha256": "c285677cde0f67e6dd8f546211479af955e39700ca700f7dd9f4955348e9ef71"
+    },
+    {
+      "bytes": 3518,
+      "lines": 21,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r41-trust-clipped-gradient-flow-b10x10-v1/local/odebf/reports/p1r41-trust-clipped-gradient-flow-b10x10-v1/p1r41-neutral-soft-paired.csv",
+      "sha256": "1a8c2ea92d6945527baf02f34ae8c3f59899ade63ec478b23ec4e54356ef193e"
+    },
+    {
+      "bytes": 869,
+      "lines": 33,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r41-trust-clipped-gradient-flow-b10x10-v1/local/odebf/reports/p1r41-trust-clipped-gradient-flow-b10x10-v1/p1r41-hard-request-mapping.json",
+      "sha256": "74cbaef77dd0daf3a9851d017ce5cbc8ce0eec981c13ed32625c8be7c40832bc"
+    },
+    {
+      "bytes": 1382,
+      "lines": 40,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r41-trust-clipped-gradient-flow-b10x10-v1/local/odebf/reports/p1r41-trust-clipped-gradient-flow-b10x10-v1/reviewer-crosscheck-receipt.json",
+      "sha256": "45f849273980f90bd03ea423277824841c851b64fb396f459ae678257326c31f"
+    }
+  ],
+  "instruction_id": "ODEEDIT-S05-P1R41-P1R39-TRUST-CLIPPED-GRADIENT-FLOW-B10X10-V1",
+  "root_digest": "32883a54f8e7fe379af26744d952e12842861b9cdcc72c8c6c9de90835a85451",
+  "schema": "p1r41-analysis-manifest/v1"
+}

@@ -1,0 +1,51 @@
+{
+  "W0_restore_pass": 20,
+  "accepted_p1r38_checkpoint": "6f48ac2800b257ceb16368fff5137212dfa6037f",
+  "accepted_steps": 160,
+  "action_freeze_pass": 20,
+  "attempts": 20,
+  "endpoints": 20,
+  "failures": 0,
+  "instruction_id": "ODEEDIT-S05-P1R39-PR-P1R38-PERREQUEST-NORMALIZED-GRADIENT-NEUTRAL-B10X10-V1",
+  "job": "19652",
+  "manifest_root": "42db4cf7e1b213a5491e22b9810a1969134e5e494040923990b2987c37f32d98",
+  "manifest_sha256": "a33f997fc1b8d20608302a54bb1cb92208e3cb7c4ae28bd796d39a20735e8a74",
+  "model_evaluator_calls_for_analysis": 0,
+  "p1r36_report_sha256": "75c6d663131e64e6da9734be5806c1c3f43d3337bbc5ca6d9f32aa28387796ac",
+  "p1r38_report_sha256": "281582a6bfe95b53bda1bce09e0eb453c8675fcf717c6b957051197faf2bf865",
+  "paired_comparison_rows": 60,
+  "request_step_rows": 1600,
+  "root": "a65cf464496a86366142771ff292e728445bde300b0470bfe4e5e684b7e5293c",
+  "schema": "p1r39-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "source_head": "763457560f2efb177a56310dfd87526772cf8158",
+  "source_result_mutation": 0,
+  "stream_order": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+  "stream_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
+  "task_receipts": [
+    {
+      "W0_restored": true,
+      "alias": "llama3-8b-inst",
+      "completed_case_count": 10,
+      "cross_case_state_count": 0,
+      "failed_case_count": 0,
+      "manifest_sha256": "2cb57658f4c168ad914be7092d43d745181eb11e9714f5d2f55b349177c269d5",
+      "rng_reset_count": 10,
+      "target_controller_state_reset_count": 10,
+      "terminal_sha256": "b8a0fd50d4ad2fdb007eac156145941310a20d09329420fd96046ea014c0bc9d",
+      "total_wall_seconds": 1401.0101844081655
+    },
+    {
+      "W0_restored": true,
+      "alias": "qwen2.5-7b-inst",
+      "completed_case_count": 10,
+      "cross_case_state_count": 0,
+      "failed_case_count": 0,
+      "manifest_sha256": "3f296c144a34701ac55f77e0cd4f442cb05925b94ff99ec014ce8f41936d142c",
+      "rng_reset_count": 10,
+      "target_controller_state_reset_count": 10,
+      "terminal_sha256": "39cc0193fd204fededffaea48f33110b47a5d6041f9f371ab5e1c87733c18543",
+      "total_wall_seconds": 1872.1223748829216
+    }
+  ]
+}
