@@ -17,15 +17,15 @@
     {"path": "project/run_scripts/ode_bf/p2r6_pilot_runtime.py", "sha256": "76994285c83701b308d43c47c53facf50ed6f7728b58ae0f9073d93a06128da3", "size": 15603},
     {"path": "project/run_scripts/ode_bf/p2r6_semantic_region_controller.py", "sha256": "66a742f8cbc1437c0a0eca311e9f6665c2f5ca8d5e9107f4d0928b235cc7e35d", "size": 33543},
     {"path": "project/run_scripts/ode_bf/tests/test_p2r6_llama_qp_capture.py", "sha256": "62845eb36f517e02dd3581567fc9b3ef97e24ae6549138140c109f6b0fcce095", "size": 4891},
-    {"path": "project/run_scripts/session05_ode_bf_p2r6_llama_qp_capture.py", "sha256": "36fbfe886e9f4412cd79f349e66c78c3467c2a455fa05bc1826a1564c90be229", "size": 6519},
-    {"path": "project/run_scripts/session05_ode_bf_p2r6_llama_qp_capture.sbatch", "sha256": "2ac335cb14879ca5d659e9d4cf55ca665d1af733760b0e3ee7fa4de78e4dc271", "size": 2371},
+    {"path": "project/run_scripts/session05_ode_bf_p2r6_llama_qp_capture.py", "sha256": "6c8bd95a340ae9efcf274034b2c643ca20b86203d9a7df32863f7484d4bcaa6f", "size": 6524},
+    {"path": "project/run_scripts/session05_ode_bf_p2r6_llama_qp_capture.sbatch", "sha256": "521dbaee87f2b3a079b43e4d1af000a54155a89582021fc39025457ecb4fb397", "size": 2402},
     {"path": "project/run_scripts/session05_ode_bf_p2r6_llama_qp_capture_dry_plan.py", "sha256": "35eb6fab7d6b533fffb72f89966d2798d9d5f54dbb07dd307065037db8de4196", "size": 1769},
-    {"path": "project/run_scripts/session05_ode_bf_submit_p2r6_llama_qp_capture.py", "sha256": "2d7c88117ecd63a9761a4895cf11588d9330c97b92f9f5057208f352654b51bd", "size": 6801}
+    {"path": "project/run_scripts/session05_ode_bf_submit_p2r6_llama_qp_capture.py", "sha256": "4acfa578b570e1d1e3b03988b6320340465678dd932d9e228a5509c3f055286f", "size": 6801}
   ],
   "failed_scientific_source_head": "1246e5047bdac2e59d5cc0642ebd8d7104c6d066",
   "failed_scientific_source_tree": "ed7c236066afe1c8140ac8b306d5be1785cc08c5",
   "instruction_id": "ODEEDIT-S05-P2R6-LLAMA-OUTER1-QP-CAPTURE-REPAIR-PHASE1-V1",
   "phase2_status": "CLOSED_PENDING_NEW_PHASE1_AND_EXPLICIT_GH_RELEASE",
   "schema_version": "ode-edit-s05-p2r6-llama-outer1-qp-capture-source-manifest/v1",
-  "root_digest": "5a4997f458217faf5d9fefb9f21bcc36f45b0739bbb3a095c50980b37be39986"
+  "root_digest": "a3a5d6414f0af85ece3b3355bdbc0d7deb8d75fddf1472832f0501da6eebacc0"
 }

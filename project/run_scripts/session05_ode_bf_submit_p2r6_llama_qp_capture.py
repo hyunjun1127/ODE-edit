@@ -27,7 +27,7 @@ RESULT_PARENT = REPO_ROOT / "local/odebf/results"
 LOG_ROOT = REPO_ROOT / "local/odebf/logs/p2r6-llama-outer1-qp-capture-v1"
 BRANCH = "codex/p2r6-llama-outer1-qp-capture-v1"
 PROJECT_GPU_CAP = 4
-ATTEMPT_SUFFIX = "a1"
+ATTEMPT_SUFFIX = "a2"
 
 
 def _run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -91,7 +91,7 @@ def submit(source_head: str) -> dict[str, object]:
     plan = dry.build_plan(source_head)
     result_name = (
         "s05-p2r6-llama-outer1-qp-capture-llama3-8b-inst-"
-        "case-05-ar-cap-a1-v1"
+        "case-05-ar-cap-a2-v1"
     )
     if (RESULT_PARENT / result_name).exists():
         raise ODEBFContractError("P2R6 capture result namespace exists")

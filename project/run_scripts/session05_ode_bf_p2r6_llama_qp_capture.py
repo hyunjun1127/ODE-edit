@@ -100,7 +100,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
-    parser.add_argument("--attempt-suffix", required=True, choices=("a1",))
+    parser.add_argument("--attempt-suffix", required=True, choices=("a1", "a2"))
     args = parser.parse_args(argv)
     try:
         lock, lock_sha = load_and_validate_lock(

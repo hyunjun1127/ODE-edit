@@ -21,7 +21,7 @@ readonly RUN_TOKEN="p2r6-llama-outer1-qp-capture-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 
 [[ "$#" -eq 3 ]] || { echo "P2R6 capture arguments differ" >&2; exit 2; }
-[[ "${ATTEMPT_SUFFIX}" == "a1" ]] || { echo "P2R6 capture attempt differs" >&2; exit 2; }
+[[ "${ATTEMPT_SUFFIX}" == "a1" || "${ATTEMPT_SUFFIX}" == "a2" ]] || { echo "P2R6 capture attempt differs" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P2R6 capture CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P2R6 capture source differs" >&2; exit 2; }
 [[ "$(git branch --show-current)" == "${EXPECTED_BRANCH}" ]] || { echo "P2R6 capture branch differs" >&2; exit 2; }
