@@ -99,6 +99,7 @@ class P2AtomicArmRuntimePolicy:
     route_solver: Callable[..., Any]
     forbidden_receipt_builder: Callable[[], Mapping[str, Any]]
     shadow_solver: Callable[..., Any] | None = None
+    pre_route_observer: Callable[..., None] | None = None
 
 
 def _p2r5_route_adapter(
@@ -440,6 +441,16 @@ def _run_arm_case(
                 prior_structural_p=prior_structural_p,
             )
             quadratics = build_sdrt_quadratics(field, cumulative_factors, base_quadratics)
+            if runtime_policy.pre_route_observer is not None:
+                runtime_policy.pre_route_observer(
+                    response.response,
+                    deficit,
+                    entry_deficit,
+                    calibration,
+                    quadratics,
+                    arm=arm,
+                    outer_step=outer,
+                )
             shadow_panel = None
             routing_started = time.perf_counter()
             if runtime_policy.shadow_solver is not None:

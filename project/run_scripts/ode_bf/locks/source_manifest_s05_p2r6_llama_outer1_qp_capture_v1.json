@@ -1,0 +1,31 @@
+{
+  "capture_invocation_budget": 1,
+  "entries": [
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p2r6_llama_outer1_qp_capture_v1.json", "sha256": "34d4540836548bcafbd83db696566c8d1e32d3a24a39f76fb94141a94c5f64c3", "size": 1580},
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p2r6_red_r2_final.json", "sha256": "b0cc41404cbee0fc401b879bd150c1551703fe53332b5a4e22aea9e2bfd8d2b0", "size": 3033},
+    {"path": "project/run_scripts/ode_bf/p1_runtime.py", "sha256": "a7a913b5ba68838de89b1258bdcf49c26bc689c42224b138da2bf5c8730d1c42", "size": 226351},
+    {"path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py", "sha256": "acb3b5142251b0226ca9c5cc4fe8c5d3951584b319743c2c2ff345133e83d862", "size": 109490},
+    {"path": "project/run_scripts/ode_bf/p1r36_independent_b10x10_runtime.py", "sha256": "50bde20a4e02bc31918a2aa3439024ddd5a7d859bffc7377813b7d4ccdfc6ef9", "size": 32883},
+    {"path": "project/run_scripts/ode_bf/p2r1_rms_tangent_target.py", "sha256": "98591cc1472c23d14178002dd535596916c93751d2d10b95f1306dc7705dac21", "size": 12498},
+    {"path": "project/run_scripts/ode_bf/p2r2_residual_transport_writer.py", "sha256": "307e8fef5811db8bae78118cbce30568aa8c10d81d7890b1a4c724aa7a37527d", "size": 37909},
+    {"path": "project/run_scripts/ode_bf/p2r4_phaseb_atomic_runtime.py", "sha256": "a5c97fc8bf42ad26172ba04414c8ddef75f48baa4583025a89ba969db4ac2cd6", "size": 35073},
+    {"path": "project/run_scripts/ode_bf/p2r5_sdrt_writer.py", "sha256": "4e85d469f95fa686505c90b6724b8cec8910401ca5cb4f1f682a31f7d2ad25f8", "size": 44096},
+    {"path": "project/run_scripts/ode_bf/p2r5_stage_a_runtime.py", "sha256": "464f96912da0af85a5f702d9a19f0f68683087f8380a220f3d060adb682a6794", "size": 45319},
+    {"path": "project/run_scripts/ode_bf/p2r6_certified_convex_qp.py", "sha256": "911e38d3d8757fa80639d6761dd6a55781eafb5e7d24acb135cf509b7c7fa754", "size": 16953},
+    {"path": "project/run_scripts/ode_bf/p2r6_llama_qp_capture.py", "sha256": "d0d18030974a150d4615c39dec3a10aa89216603404f77c29827cd6860e367b8", "size": 17733},
+    {"path": "project/run_scripts/ode_bf/p2r6_pilot_panel.py", "sha256": "4fa6d0e49dfd3745485eed6b57ed1a88015a567791e78ea922bf7bb3af4e0271", "size": 3453},
+    {"path": "project/run_scripts/ode_bf/p2r6_pilot_runtime.py", "sha256": "76994285c83701b308d43c47c53facf50ed6f7728b58ae0f9073d93a06128da3", "size": 15603},
+    {"path": "project/run_scripts/ode_bf/p2r6_semantic_region_controller.py", "sha256": "66a742f8cbc1437c0a0eca311e9f6665c2f5ca8d5e9107f4d0928b235cc7e35d", "size": 33543},
+    {"path": "project/run_scripts/ode_bf/tests/test_p2r6_llama_qp_capture.py", "sha256": "62845eb36f517e02dd3581567fc9b3ef97e24ae6549138140c109f6b0fcce095", "size": 4891},
+    {"path": "project/run_scripts/session05_ode_bf_p2r6_llama_qp_capture.py", "sha256": "36fbfe886e9f4412cd79f349e66c78c3467c2a455fa05bc1826a1564c90be229", "size": 6519},
+    {"path": "project/run_scripts/session05_ode_bf_p2r6_llama_qp_capture.sbatch", "sha256": "2ac335cb14879ca5d659e9d4cf55ca665d1af733760b0e3ee7fa4de78e4dc271", "size": 2371},
+    {"path": "project/run_scripts/session05_ode_bf_p2r6_llama_qp_capture_dry_plan.py", "sha256": "35eb6fab7d6b533fffb72f89966d2798d9d5f54dbb07dd307065037db8de4196", "size": 1769},
+    {"path": "project/run_scripts/session05_ode_bf_submit_p2r6_llama_qp_capture.py", "sha256": "2d7c88117ecd63a9761a4895cf11588d9330c97b92f9f5057208f352654b51bd", "size": 6801}
+  ],
+  "failed_scientific_source_head": "1246e5047bdac2e59d5cc0642ebd8d7104c6d066",
+  "failed_scientific_source_tree": "ed7c236066afe1c8140ac8b306d5be1785cc08c5",
+  "instruction_id": "ODEEDIT-S05-P2R6-LLAMA-OUTER1-QP-CAPTURE-REPAIR-PHASE1-V1",
+  "phase2_status": "CLOSED_PENDING_NEW_PHASE1_AND_EXPLICIT_GH_RELEASE",
+  "schema_version": "ode-edit-s05-p2r6-llama-outer1-qp-capture-source-manifest/v1",
+  "root_digest": "5a4997f458217faf5d9fefb9f21bcc36f45b0739bbb3a095c50980b37be39986"
+}

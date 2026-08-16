@@ -141,6 +141,10 @@ def _arm_compute_aggregation(
 
 
 def p2r6_phase_arms(phase: str, selected_controller: str | None = None) -> tuple[str, ...]:
+    if phase == "capture":
+        if selected_controller is not None:
+            raise ODEBFContractError("P2R6 capture selection must be absent")
+        return ("AR-CAP",)
     if phase == "phase1":
         if selected_controller is not None:
             raise ODEBFContractError("P2R6 Phase1 selection must be absent")
@@ -162,6 +166,14 @@ def expected_p2r6_result_name(
     selected_controller: str | None = None,
     attempt_suffix: str | None = None,
 ) -> str:
+    if phase == "capture":
+        if alias != "llama3-8b-inst" or case_index != 5 or selected_controller is not None:
+            raise ODEBFContractError("P2R6 capture result identity differs")
+        suffix = f"-{attempt_suffix}" if attempt_suffix else ""
+        return (
+            "s05-p2r6-llama-outer1-qp-capture-llama3-8b-inst-"
+            f"case-05-ar-cap{suffix}-v1"
+        )
     cases = PHASE1_CASES if phase == "phase1" else PHASE2_CASES
     if alias not in cases or case_index not in cases[alias]:
         raise ODEBFContractError("P2R6 result case differs")
@@ -202,6 +214,35 @@ def run_p2r6_pilot_case(
     case_index: int,
     selected_controller: str | None = None,
 ) -> dict[str, Any]:
+    if phase == "capture":
+        from .p2r6_llama_qp_capture import run_p2r6_llama_qp_capture
+
+        if alias != "llama3-8b-inst" or case_index != 5 or selected_controller is not None:
+            raise ODEBFContractError("P2R6 capture task identity differs")
+        return run_p2r6_llama_qp_capture(
+            model,
+            tokenizer,
+            alias=alias,
+            destination=destination,
+            raw_root=raw_root,
+            stages=stages,
+            source_head=source_head,
+            stream_batches=stream_batches,
+            stream=stream,
+            hparams=hparams,
+            projector=projector,
+            contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            controller_lock=controller_lock,
+            dataset_path=dataset_path,
+            mutation_lock=mutation_lock,
+            touched=touched,
+            base_receipt=base_receipt,
+            base_values=base_values,
+            job_ledger=job_ledger,
+            request_microbatch_size=request_microbatch_size,
+        )
     cases = PHASE1_CASES if phase == "phase1" else PHASE2_CASES
     arms = p2r6_phase_arms(phase, selected_controller)
     if (
