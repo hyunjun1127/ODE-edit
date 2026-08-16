@@ -169,12 +169,10 @@ def solve_certified_semantic_region_qp(
     scientific_linear_upper = np.concatenate(
         (np.zeros(alpha_count), np.ones(request_count), -lower), axis=0
     )
-    # The backend feasible set is represented with the exact externally locked
-    # certificate envelope.  The unshifted scientific slacks are still
-    # reconstructed below, and no candidate whose raw violation exceeds that
-    # envelope can pass.
-    backend_envelope = P2R6_QP_EXTERNAL_TOLERANCE - P2R6_QP_INTERNAL_TOLERANCE
-    linear_upper = scientific_linear_upper + backend_envelope
+    # Solve the scientific inequalities themselves.  The external tolerance
+    # is a certificate threshold, never a feasible-set translation.
+    backend_envelope = 0.0
+    linear_upper = scientific_linear_upper
     # Positive row scaling changes only the numerical coordinate of each
     # inequality.  Certificates and multipliers below are reconstructed in the
     # original coordinates.
@@ -358,7 +356,7 @@ def solve_certified_semantic_region_qp(
     r_pri = max(0.0, float(np.max(raw_constraint)))
     r_dual = max(0.0, -float(np.min(dual)))
     r_stat = _maximum_abs(stationarity)
-    r_comp = _maximum_abs(dual * ordered_certificate_slack)
+    r_comp = _maximum_abs(dual * ordered_slack)
     finite = bool(
         np.all(np.isfinite(x))
         and np.all(np.isfinite(ordered_slack))

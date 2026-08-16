@@ -49,6 +49,12 @@ def main() -> int:
     }
     capsule_payload = (args.capsule_root / "capsule.json").read_bytes()
     capsule = json.loads(capsule_payload)
+    if (
+        capsule.get("schema")
+        != "ode-edit-s05-p2r6-red-r2-b2-amended-private-replay/v1"
+        or capsule.get("status") != "B2_AMENDED_REPLAY_EXACT_FEASIBLE"
+    ):
+        raise ValueError("P2R6 amended replay capsule differs")
     result = solve_certified_semantic_region_qp(
         arrays["alpha_start"],
         arrays["Q_C"],
@@ -60,7 +66,7 @@ def main() -> int:
     )
     payload: dict[str, object] = {
         "schema": "ode-edit-s05-p2r6-red-r2-fresh-process-qp-verification/v1",
-        "instruction_id": "ODEEDIT-S05-P2R6-RED-R2-FINAL-SCIENTIFIC-RUN-V1",
+        "instruction_id": "ODEEDIT-S05-P2R6-RED-R2-FINAL-SCIENTIFIC-RUN-V1-B1-AMENDED-REPLAY-R1",
         "source_head": args.source_head,
         "capsule_receipt_sha256": hashlib.sha256(capsule_payload).hexdigest(),
         "capsule_identity_sha256": capsule["identity_sha256"],
@@ -71,11 +77,19 @@ def main() -> int:
         "numpy_version": np.__version__,
         "scipy_version": scipy.__version__,
         "solver_receipt": dict(result.receipt),
+        "original_coordinate_r_comp_recomputed": float(
+            np.max(
+                np.abs(
+                    np.asarray(result.receipt["dual_multipliers"], dtype=np.float64)
+                    * np.asarray(result.receipt["ordered_slacks"], dtype=np.float64)
+                )
+            )
+        ),
         "final_alpha_raw_sha256": hashlib.sha256(
             np.ascontiguousarray(result.value, dtype=np.dtype("<f8")).tobytes(order="C")
         ).hexdigest(),
         "certificate_pass": bool(result.receipt["certificate_pass"]),
-        "status": "P2R6_RED_R2_NEW_SOLVER_CAPTURE_STRICT_PASS",
+        "status": "P2R6_RED_R2_AMENDED_REPLAY_ORIGINAL_KKT_STRICT_PASS",
     }
     payload["identity_sha256"] = canonical_hash(payload)
     receipt_sha = _write_once(args.receipt, payload)

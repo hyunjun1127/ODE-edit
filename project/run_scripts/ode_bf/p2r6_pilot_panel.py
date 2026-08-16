@@ -53,6 +53,12 @@ def load_and_validate_lock(path: Path) -> tuple[dict[str, Any], str]:
         != "DENSE_FP64_PRIMAL_DUAL_PREDICTOR_CORRECTOR_ORIGINAL_ALPHA"
         or value.get("quadratic_external_certificate_tolerance") != 1.0e-8
         or value.get("quadratic_internal_tolerance") != 1.0e-11
+        or value.get("quadratic_backend_constraint_envelope") != 0.0
+        or value.get("quadratic_kkt_complementarity_slack")
+        != "RAW_ORIGINAL_SCIENTIFIC_SLACK"
+        or value.get("legacy_capsule_status")
+        != "LEGACY_EQUATION_EXACT_INFEASIBLE"
+        or value.get("legacy_capsule_candidate_strict_pass_authorized") is not False
         or value.get("shadow_failure_isolation")
         != "SELECTED_STRICT_SHADOW_RESULT_OR_TECHNICAL_ERROR_DECISION_INFLUENCE_ZERO"
         or value.get("arm_top_level_compute_aggregation_required") is not True

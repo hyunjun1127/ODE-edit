@@ -1,15 +1,25 @@
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
 
 import numpy as np
 import pytest
+from scipy.optimize import linprog
 
 from project.run_scripts.ode_bf.p2r6_certified_convex_qp import (
     ConvexQuadraticTie,
+    P2R6CertifiedQPError,
     P2R6_QP_EXTERNAL_TOLERANCE,
     solve_certified_semantic_region_qp,
+)
+from project.run_scripts.ode_bf.p2r6_semantic_region_controller import (
+    _semantic_region_optimum,
+)
+from project.run_scripts.session05_ode_bf_p2r6_red_r2_build_amended_replay import (
+    FIXED_MEMBERS,
+    build as build_amended_replay,
 )
 
 
@@ -44,6 +54,12 @@ def _assert_certificate(receipt: dict[str, object]) -> None:
     ) <= P2R6_QP_EXTERNAL_TOLERANCE
     assert len(receipt["ordered_slacks"]) == len(receipt["dual_multipliers"])
     assert receipt["objective_psd_certificate"] is True
+    dual = np.asarray(receipt["dual_multipliers"], dtype=np.float64)
+    raw_slack = np.asarray(receipt["ordered_slacks"], dtype=np.float64)
+    assert np.max(np.abs(dual * raw_slack)) == pytest.approx(
+        receipt["r_comp"], rel=0.0, abs=1.0e-18
+    )
+    assert receipt["backend_constraint_envelope"] == 0.0
 
 
 def test_dense_50d_full_inequality_certificate() -> None:
@@ -115,25 +131,109 @@ def test_structural_p_quadratic_tie_is_certified() -> None:
     assert result.receipt["ordered_constraint_names"][-1] == "structural_p_tie"
 
 
-def test_exact_qwen_capture_new_solver_strict_pass() -> None:
-    raw = os.environ.get("P2R6_QWEN_REPLAY_CAPSULE")
+def test_legacy_qwen_capture_is_exact_infeasible() -> None:
+    raw = os.environ.get("P2R6_QWEN_LEGACY_REPLAY_CAPSULE")
     if raw is None:
-        pytest.skip("private Qwen replay capsule path is supplied only to the pre-GPU gate")
+        pytest.skip("private legacy Qwen replay path is supplied only to the pre-GPU gate")
     root = Path(raw)
     arrays = {
         name: np.load(root / f"{name}.npy", allow_pickle=False)
         for name in ("S", "b", "Q_C", "c_C", "alpha_start", "mass_matrix")
     }
+    exact = linprog(
+        np.zeros(50, dtype=np.float64),
+        A_ub=np.concatenate((arrays["mass_matrix"], -arrays["S"]), axis=0),
+        b_ub=np.concatenate((np.ones(10), -arrays["b"])),
+        bounds=[(0.0, None)] * 50,
+        method="highs",
+        options={
+            "primal_feasibility_tolerance": 1.0e-10,
+            "dual_feasibility_tolerance": 1.0e-10,
+            "ipm_optimality_tolerance": 1.0e-12,
+        },
+    )
+    assert exact.status == 2
+    minimax = linprog(
+        np.concatenate((np.zeros(50), np.ones(1))),
+        A_ub=np.concatenate(
+            (
+                np.concatenate(
+                    (arrays["mass_matrix"], np.zeros((10, 1))), axis=1
+                ),
+                np.concatenate((-arrays["S"], -np.ones((10, 1))), axis=1),
+            ),
+            axis=0,
+        ),
+        b_ub=np.concatenate((np.ones(10), -arrays["b"])),
+        bounds=[(0.0, None)] * 51,
+        method="highs",
+        options={
+            "primal_feasibility_tolerance": 1.0e-10,
+            "dual_feasibility_tolerance": 1.0e-10,
+            "ipm_optimality_tolerance": 1.0e-12,
+        },
+    )
+    assert minimax.success
+    assert minimax.fun == pytest.approx(9.396528963605145e-09, abs=1.0e-15)
+    with pytest.raises(P2R6CertifiedQPError):
+        solve_certified_semantic_region_qp(
+            arrays["alpha_start"],
+            arrays["Q_C"],
+            arrays["c_C"],
+            arrays["S"],
+            arrays["b"],
+            arrays["mass_matrix"],
+            stage="LEGACY_QWEN_AS_OUTER05_AR_CAP",
+        )
+
+
+def test_b2_amended_qwen_replay_new_solver_strict_pass() -> None:
+    raw = os.environ.get("P2R6_QWEN_LEGACY_REPLAY_CAPSULE")
+    if raw is None:
+        pytest.skip("private legacy Qwen replay path is supplied only to the pre-GPU gate")
+    root = Path(raw)
+    arrays = {
+        name: np.load(root / f"{name}.npy", allow_pickle=False)
+        for name in ("S", "d", "b", "Q_C", "c_C", "mass_matrix")
+    }
+    alpha_start, _scale, b_new, xi_new, e1_receipt = _semantic_region_optimum(
+        arrays["S"], arrays["d"], arrays["d"], scale_policy="CURRENT_DEFICIT"
+    )
+    assert xi_new == pytest.approx(0.9816568567493456, abs=1.0e-15)
+    assert np.max(np.abs(b_new - arrays["b"])) == pytest.approx(
+        4.068674066548539e-07, abs=1.0e-15
+    )
+    assert np.max(b_new - arrays["S"] @ alpha_start) <= 1.0e-8
+    assert np.max(arrays["mass_matrix"] @ alpha_start - 1.0) <= 1.0e-8
+    assert e1_receipt["e1_semantic_nonnegative_constraint_enabled"] is True
     result = solve_certified_semantic_region_qp(
-        arrays["alpha_start"],
+        alpha_start,
         arrays["Q_C"],
         arrays["c_C"],
         arrays["S"],
-        arrays["b"],
+        b_new,
         arrays["mass_matrix"],
-        stage="CAPTURED_QWEN_AS_OUTER05_AR_CAP",
+        stage="B2_AMENDED_QWEN_AS_OUTER05_AR_CAP",
     )
     _assert_certificate(dict(result.receipt))
-    assert result.receipt["r_pri"] <= 1.0e-8
-    assert result.receipt["r_stat"] <= 1.0e-8
+    assert result.receipt["r_pri"] <= P2R6_QP_EXTERNAL_TOLERANCE
+    assert result.receipt["r_stat"] <= P2R6_QP_EXTERNAL_TOLERANCE
 
+
+def test_b2_amended_replay_builder_preserves_fixed_members(
+    tmp_path: Path,
+) -> None:
+    raw = os.environ.get("P2R6_QWEN_LEGACY_REPLAY_CAPSULE")
+    if raw is None:
+        pytest.skip("private legacy Qwen replay path is supplied only to the pre-GPU gate")
+    legacy = Path(raw)
+    destination = tmp_path / "amended"
+    receipt = build_amended_replay(legacy, destination, "test-source-head")
+    assert receipt["status"] == "B2_AMENDED_REPLAY_EXACT_FEASIBLE"
+    capsule = json.loads((destination / "capsule.json").read_text())
+    assert capsule["fixed_member_byte_identity_all"] is True
+    assert capsule["feasible_set_rhs_envelope"] == 0.0
+    for name in FIXED_MEMBERS:
+        assert (destination / f"{name}.npy").read_bytes() == (
+            legacy / f"{name}.npy"
+        ).read_bytes()
