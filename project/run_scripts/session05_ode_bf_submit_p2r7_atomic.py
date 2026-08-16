@@ -104,7 +104,12 @@ def submit(
     concurrency = min(STAGE_GPU_MAX, PROJECT_GPU_CAP - active, 2)
     if concurrency <= 0 or active + concurrency > PROJECT_GPU_CAP:
         raise ODEBFContractError("P2R7 server1 GPU cap differs")
-    namespace = f"s05-p2r7-{phase}-{source_head[:12]}"
+    namespace_tail = (
+        f"{attempt_suffix}-{source_head[:12]}"
+        if attempt_suffix
+        else source_head[:12]
+    )
+    namespace = f"s05-p2r7-{phase}-{namespace_tail}"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
