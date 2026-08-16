@@ -59,6 +59,17 @@ class P2R7ExecutionContractTest(unittest.TestCase):
         self.assertNotIn("measure_request_layer_response", wrapper)
         self.assertNotIn("solve_p2r2_routing", wrapper)
 
+    def test_job_terminal_and_manifest_are_written_inside_result_root(self) -> None:
+        source = inspect.getsource(p2r7_atomic_runtime.run_p2r7_atomic)
+        self.assertIn(
+            '_atomic_write_once(destination / "terminal.json", terminal)', source
+        )
+        self.assertIn(
+            '_atomic_write_once(destination / "manifest.json", manifest)', source
+        )
+        self.assertNotIn("_atomic_write_once(destination, terminal)", source)
+        self.assertNotIn("destination.with_suffix", source)
+
     def test_launcher_resources_and_hold_release(self) -> None:
         sbatch = (
             ROOT / "project/run_scripts/session05_ode_bf_p2r7_atomic.sbatch"

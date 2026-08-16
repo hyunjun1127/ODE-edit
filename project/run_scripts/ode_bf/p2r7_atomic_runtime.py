@@ -193,7 +193,7 @@ def run_p2r7_atomic(
         "scientific_promotion": False,
     }
     terminal["identity_sha256"] = canonical_hash(terminal)
-    terminal_sha = _atomic_write_once(destination, terminal)
+    terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
     manifest = {
         "schema": "ode-edit-s05-p2r7-job-manifest/v1",
         "terminal_sha256": terminal_sha,
@@ -205,7 +205,7 @@ def run_p2r7_atomic(
         "W0_restored": terminal["W0_restored"],
     }
     manifest["identity_sha256"] = canonical_hash(manifest)
-    manifest_sha = _atomic_write_once(destination.with_suffix(".manifest.json"), manifest)
+    manifest_sha = _atomic_write_once(destination / "manifest.json", manifest)
     return {**terminal, "terminal_sha256": terminal_sha, "manifest_sha256": manifest_sha}
 
 
