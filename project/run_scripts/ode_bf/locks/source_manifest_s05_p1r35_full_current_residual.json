@@ -1,0 +1,20 @@
+{
+  "schema_version": "ode-edit-s05-p1r35-full-current-residual-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R35-P1R34-FULL-CURRENT-RESIDUAL-V1",
+  "base_checkpoint": "ac321d86a634a20888cb57003a65467d40aa5ddd",
+  "scientific_checkpoint": "a625e3d1cded3ced0e9128ef7a44205953041447",
+  "entries": [
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r35_full_current_residual.json", "mode": "0600", "size": 1757, "sha256": "136c4286bc496373b0f14f8f84ddc4982abcba8c7dc8e30be9d11260b9766c89"},
+    {"path": "project/run_scripts/ode_bf/p1_runtime.py", "mode": "0600", "size": 197751, "sha256": "7f75a052983ff411d477ba35cc1c15578f5683f38d955e27f068cdebaeff0da9"},
+    {"path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py", "mode": "0600", "size": 86156, "sha256": "ca8492953daf1a5801bfca15e3284b3c65ad3a4114bc32311f5f892f98f779fb"},
+    {"path": "project/run_scripts/ode_bf/p1r35_full_current_residual.py", "mode": "0600", "size": 5257, "sha256": "539425cc1e6bbe66cc873f4c177e8587d3e5dc955fdb081b1d909b0dc8ce617b"},
+    {"path": "project/run_scripts/ode_bf/p1r35_full_current_residual_panel.py", "mode": "0600", "size": 1166, "sha256": "3335cd6bddcbbe4944ff22890cf55e6f1a852cc81e821c095d9b50e15fc978b1"},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r35_full_current_residual.py", "mode": "0600", "size": 5439, "sha256": "8491731e75d2fa6de4ed5911b560eb362d69305511f6edeed99a2f5b91ce5347"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r35_full_current_residual.py", "mode": "0755", "size": 4846, "sha256": "36918e1b1cc168272a0e7bc5ced6a13bec02fdb87a68801e8c34ec8600c3d4cd"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r35_full_current_residual.sbatch", "mode": "0755", "size": 2780, "sha256": "b81a4c6c2775e89e21dc035576f489b055ab53d1845308668228a86978fe29b5"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r35_full_current_residual_dry_plan.py", "mode": "0755", "size": 3058, "sha256": "fa6ecc34e607a1174c3ed20e01b83f7d36effc64dec173e4b47757ddf6a33753"},
+    {"path": "project/run_scripts/session05_ode_bf_submit_p1r35_full_current_residual.py", "mode": "0755", "size": 5643, "sha256": "f171f6155b1b13059e6a615dd6f77c291eadac5310ccb25f2374238da15a8b65"}
+  ],
+  "entries_root": "810aa72a397d67cf6bd758892eb831fabd8033cc026ff241464f7248594f5ad6",
+  "root_digest": "b8419cf57c13d78a21bbbbea3a848fb4f82eb753d3c3c529ae1909207880c5f8"
+}

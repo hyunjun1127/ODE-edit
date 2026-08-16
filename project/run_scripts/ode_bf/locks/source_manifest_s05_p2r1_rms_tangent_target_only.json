@@ -1,0 +1,64 @@
+{
+  "entries": [
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p2r1_rms_tangent_target_only.json",
+      "sha256": "688305826cb5c702e90da194ee2739bfc21b260ce6be1776f81019436e21b471",
+      "size": 2459
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "sha256": "fc318aca207931b16e7d14041a89f3451f350c5f29a1446577b10ede968578bc",
+      "size": 216414
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r1_rms_tangent_target.py",
+      "sha256": "98591cc1472c23d14178002dd535596916c93751d2d10b95f1306dc7705dac21",
+      "size": 12498
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r1_target_only_panel.py",
+      "sha256": "066be9281e1934b54cc18e5d633c737eccf0718ea4b893ec62dc37bc99ee9944",
+      "size": 3727
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p2r1_target_only_runtime.py",
+      "sha256": "8893353b777a2036143a134210ffee669c849f3cf6fdee46247476405e9bc948",
+      "size": 25104
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p2r1_execution_contract.py",
+      "sha256": "b991fa8b46b46006f1a588287bd51307778f0b2c706adf5427ffbed41485647c",
+      "size": 3878
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p2r1_rms_tangent_target.py",
+      "sha256": "363f056abe9b8edee4778534c3e341338cd885f2ce545313c0dc616dcbf7a69a",
+      "size": 5487
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p2r1_target_only.py",
+      "sha256": "e93f947c6080eb9bc84bb894addd06e581f69bd3637e6d8520ac978211d52a35",
+      "size": 4856
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p2r1_target_only.sbatch",
+      "sha256": "b7ecb7fedbc527c99f220e7a974a0b3fc0672154c0ad39751034bff7ea8df291",
+      "size": 2915
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p2r1_target_only_dry_plan.py",
+      "sha256": "e4cb9c15683cd771b11a9939d29341d9e89304fc195d1407dec4c1822652a7e7",
+      "size": 3557
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_submit_p2r1_target_only.py",
+      "sha256": "076a3047e0884a719516204b63d0c80f1be3f823a22cada4d5334172bee7bc78",
+      "size": 7705
+    }
+  ],
+  "instruction_id": "ODEEDIT-S05-P2R1-BASELINE-CALIBRATED-RMS-TANGENT-TARGET-FLOW-V1",
+  "parent": "11508b6da11d606521b703037034e1814b70d8a8",
+  "parent_tree": "a0e71bbb27cf36b3b51bf6cde4c92cdc9a47879b",
+  "root_digest": "b8fddb8c40d9ebdf76bfbc4e5ea2d304da9ddc29cd73229584724147063bc892",
+  "schema_version": "ode-edit-s05-p2r1-rms-tangent-source-manifest/v1"
+}

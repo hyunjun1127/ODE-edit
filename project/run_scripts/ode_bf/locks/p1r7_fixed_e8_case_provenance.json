@@ -1,0 +1,16 @@
+{
+  "batch_ordered_request_digest_v1": [
+    "ee5187ca0dfd6fa3f2f6809ced4504f673ca0889713f52d9a1064f15aff0b0a6"
+  ],
+  "fresh_selection_performed": false,
+  "instruction_id": "ODEEDIT-S05-ODE-BF-COLD-FIXED-E8-STRUCTFUNC-SOFT-P1R7-V1",
+  "ordered_seal_reused_exactly": true,
+  "outcome_or_metric_access_count": 0,
+  "request_count": 10,
+  "root_digest": "6e9832bbd6907476047cc9a46ec1098bc67ec19c03379c7bd0d1330a1363a8fd",
+  "schema": "ode-edit-s05-fixed-e8-p1r7-case-provenance/v1",
+  "scientific_promotion_authorized": false,
+  "source_seal_instruction_id": "ODEEDIT-S05-ODE-BF-COLDSTART-STRUCTP-SOFTP-NOVETO-FULLTAU-P1R6-V1",
+  "source_seal_relative_path": "project/run_scripts/ode_bf/locks/p1r6_cold_cf_b10_seal.json",
+  "source_seal_root_digest": "94d6a970e0f42a5cfc59091788b92b81ebc54605373ab86c5bbb8d27c1f5dc95"
+}

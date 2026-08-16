@@ -1,0 +1,76 @@
+{
+  "schema": "ode-edit-s05-p2r7-pilot-tech-r2-analysis-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P2R7-P2TARGET-P1DW-SHARED-WRITER-V1",
+  "job_id": "20148",
+  "source_head": "a7e533a6f65dec7add3f4f6b513f10d51ae81640",
+  "source_tree": "601af3498b6d1e957c1017b9096cfa11d05c29ee",
+  "contract_sha256": "d58e5c067d5687559e2bd809d9c5da17c4d546efa6e8feb679f3038f7ebaee5b",
+  "stream_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
+  "order_sha256": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+  "evaluator_sha256": "25c3f49039e7bacb58de6d9ab8139f6f24f21532434a08690e9ec71ea939e145",
+  "aggregator_sha256": "64f009b2fb648627a956b95abd801838d86edf04c8e1888d90ade0ec07b745c0",
+  "numerical_lock": {
+    "sha256": "021c42bbd245361f4e285b5c9df195b400ef18c7737187f062d6f02d0404736b",
+    "root": "eeac97bc96d3484beb6ba51ac850f0093f708abe2e967a504b525f0881d3c3ce"
+  },
+  "source_manifest": {
+    "sha256": "dd9a39f9507e5ccd70c154539ad0b4f9c7a93615434c8c5219c4c7111add8065",
+    "root": "d58152aa216940369b44bf8bc68f27581d0327639b9334fe5d07464707a9bab9"
+  },
+  "inputs": [
+    {
+      "name": "submission-receipt",
+      "sha256": "6ab8edad5aaead9b40bbbbf6d5d5698b62972e4e6e60642614c98468e4a1c28c"
+    },
+    {
+      "name": "llama-job-terminal",
+      "sha256": "618d6cd8ab2247fd71cd276db970c9bf18e5861abe8a9b584dc7a6821ffe469d"
+    },
+    {
+      "name": "qwen-job-terminal",
+      "sha256": "ed9476820c0b66e8419ac6b805f19d21c0d32e40b6507a91f516f87af6650869"
+    },
+    {
+      "name": "immutable-p2r2-report",
+      "sha256": "747365627c3c750d016335ec9fb7ae02c1bbdb480d0563a37b7d1c9c6f094606"
+    },
+    {
+      "name": "immutable-p2r2-per-case",
+      "sha256": "223143f21e20d852aeb6fccba9b18a8fbaedf17c095813700104ee1d12456e2e",
+      "rows": 40
+    },
+    {
+      "name": "official-alphaedit-identity",
+      "sha256": "e12b19ff941f39a594d2ff0f8718849d102644fd2ec79f53ccb6d7efc9fd8d3c"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "p2r7-pilot-tech-r2-analysis-ko.md",
+      "bytes": 11235,
+      "lines": 165,
+      "sha256": "14baf3cdb492b67db0ec80aec7429de818ac36c7318482ebbb7f64bd8051ddfa"
+    },
+    {
+      "path": "per-endpoint.json",
+      "bytes": 29867,
+      "lines": 787,
+      "rows": 8,
+      "sha256": "5940ec8bd328f63bcacc90f91fccd5ee21e879e8a2368aea7942eb17afbe7de1"
+    },
+    {
+      "path": "per-step.json",
+      "bytes": 426266,
+      "lines": 13891,
+      "rows": 64,
+      "sha256": "6e4bffaa0dd0087d667b551dfb2e03772a8c0997586ee7b7578020f946bd141e"
+    }
+  ],
+  "members_root_sha256": "bc09336cefc556552340f0ce681b4be517a81c69a791b692020fc9a5940cd914",
+  "attempts": 8,
+  "endpoints": 8,
+  "typed_incomplete": 0,
+  "step_rows": 64,
+  "target_microsteps": 192,
+  "scientific_promotion": false
+}

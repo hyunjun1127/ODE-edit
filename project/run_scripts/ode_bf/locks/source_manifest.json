@@ -1,0 +1,224 @@
+{
+  "schema_version": "ode-edit-s04-ode-bf-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S04-ODE-BF-W64-RECEIPT-FIELD-R4-V1",
+  "expected_base": "81ed70588b8ed7ebc3816a3b097531f35a89f094",
+  "staged_cuda_repair_diff_sha256": "924d0647fd6eb0dd6ad80f5aaf5c13aa9b4683208398f687d1dbc15a1a14f150",
+  "entries": [
+    {
+      "path": "project/run_scripts/ode_bf/__init__.py",
+      "sha256": "23a0ca70a7ba879cf27d9effcbe054797bb6c17705027744925d0c7a6022511a",
+      "size": 195
+    },
+    {
+      "path": "project/run_scripts/ode_bf/accounting.py",
+      "sha256": "edd5ba9288ac5c87a85ac3fdc3c53bed7f48811c89cdd133dfe96441cddba416",
+      "size": 11880
+    },
+    {
+      "path": "project/run_scripts/ode_bf/alpha_backend.py",
+      "sha256": "45554313a89f22a3cea1fa9dc8bd32c73d9a4716d7e8703a22039623295a1165",
+      "size": 59526
+    },
+    {
+      "path": "project/run_scripts/ode_bf/analysis.py",
+      "sha256": "5fb2409d087532e9d9690a8f186f9b7e1cd173f615f4b9abf272581cf1b30514",
+      "size": 6652
+    },
+    {
+      "path": "project/run_scripts/ode_bf/artifacts.py",
+      "sha256": "cc96e09b323ab33d5784a1add230f74d55b6ba8dca98deba079cd008e62c1b3c",
+      "size": 10836
+    },
+    {
+      "path": "project/run_scripts/ode_bf/barriers.py",
+      "sha256": "b8050ca0641c4c43f36b46d233aa1946b4988d5e86b2f99923d7fc5fd1f8f7be",
+      "size": 5402
+    },
+    {
+      "path": "project/run_scripts/ode_bf/benchmark.py",
+      "sha256": "f0709766c3957a1a5f4c816da357e826196bf86ab252272be4be305553d93a66",
+      "size": 11368
+    },
+    {
+      "path": "project/run_scripts/ode_bf/contracts.py",
+      "sha256": "c7698a3b785bcf95eaaf5ffb133ab0fbce877d6127d168c8daef47f17a051453",
+      "size": 14825
+    },
+    {
+      "path": "project/run_scripts/ode_bf/evaluator.py",
+      "sha256": "e62257c52df73cf4b8dd0b709708044f0adaf70c4d7de561223be7fb7e52443c",
+      "size": 12070
+    },
+    {
+      "path": "project/run_scripts/ode_bf/firewall.py",
+      "sha256": "b48e8dbcdcb8db0267c15067cb92ecd9430e39d084b1690c463585f062c34382",
+      "size": 5120
+    },
+    {
+      "path": "project/run_scripts/ode_bf/first_hit.py",
+      "sha256": "5a1a301d520644d3016510409503270176f1378f24ee646c95bc4e23f358c4d7",
+      "size": 8735
+    },
+    {
+      "path": "project/run_scripts/ode_bf/functional.py",
+      "sha256": "e4c548329dcfefceeed11f227592d2eef89383969ef5043cdf52da86fc55b82d",
+      "size": 12855
+    },
+    {
+      "path": "project/run_scripts/ode_bf/history.py",
+      "sha256": "20711e9e48df9bd0bca603a644441ae443afb7ab5a91020c48b952fb63929c43",
+      "size": 16099
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_p0.json",
+      "sha256": "23fe5621612f715c52ef70f94a10ae7eaba759b4ac209e0e0f3e09c81ea9feef",
+      "size": 4261
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_p0_r3.json",
+      "sha256": "40421f3f8ef0e47df842268bb68b9c9548398e27e0a9afecb125ab1b6f853fa1",
+      "size": 5674
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/p0_artifact_lock.json",
+      "sha256": "623482b05c670b703eebc65493779e863021509f0c0855d5fafb75c0b7b24910",
+      "size": 4170
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/p0_b10_seal.json",
+      "sha256": "7f34b2f6206f5f4f113037d22fbd93ed494ce81638d45b6c1b879beeed9447d7",
+      "size": 3034
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/p0_cpu_sampling_seal.json",
+      "sha256": "7c1eb44bc6ba01cde6794d3c53767abf850862c620494f6a8c9502876b3f3fc9",
+      "size": 2943
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p0_runtime.py",
+      "sha256": "fd486fe9cc3152dc72b4979b07e1fcb6675223896c4b3895c102f5ffa8a37cc3",
+      "size": 54606
+    },
+    {
+      "path": "project/run_scripts/ode_bf/request_digest.py",
+      "sha256": "21d92e2582c266bd55981d1372bd23edc0664d65aaad0d64b9ccae0addd0ead3",
+      "size": 1347
+    },
+    {
+      "path": "project/run_scripts/ode_bf/resource.py",
+      "sha256": "9ac0396491f91f7f93d1d1b6a83bae9973d28819cbc46aac7148adddc6dbaaa5",
+      "size": 9681
+    },
+    {
+      "path": "project/run_scripts/ode_bf/routing.py",
+      "sha256": "ba51993358f724dc2d85288e16ddd4eaf288e178e27183e6f256d1933444a10c",
+      "size": 21890
+    },
+    {
+      "path": "project/run_scripts/ode_bf/sampling.py",
+      "sha256": "2463a9a5c8acaeab9d51da557503d49f6d49ba713b6b3b3c694bcf7b32e517d3",
+      "size": 10761
+    },
+    {
+      "path": "project/run_scripts/ode_bf/selection.py",
+      "sha256": "2f2f3113ad9eb18b12d0198d6e9e306a5e52fdc1664722fefd4b188689d48dc6",
+      "size": 10286
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/__init__.py",
+      "sha256": "87ad809fc6c8544220212a2f5506cd35c8344186317331e9652d92688bfe1407",
+      "size": 38
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_alpha_p0_contracts.py",
+      "sha256": "aad3f5952b60c6c536ecd924527fbe2eb1fe5128fa4725dfedaf45d8a99694de",
+      "size": 28981
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_barrier_attribution.py",
+      "sha256": "4b5d1ce710a7c442a6c04e4d1c46455fffb856e12cc5b50e5cc5f2189f913f90",
+      "size": 3698
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_benchmark_first_hit.py",
+      "sha256": "ceea476febeb13630ba2a1fd607861dd14cf0b699b1099f1200e812488d3c501",
+      "size": 9710
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_evaluator_firewall.py",
+      "sha256": "cd23ea1f93664eff02b26aaf55938d696ba703f1ab57a15651b56cac82b2e45c",
+      "size": 9714
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_functional_transaction.py",
+      "sha256": "2cbff94ba4de52c9e31a1bea0a0860a68814d5cf1abb85fb7bbff1aefce120b7",
+      "size": 15764
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_history_sampling_accounting.py",
+      "sha256": "1d319238ef98915e9e57f60d9a77abb90168b48686d6fe613d5b78045ce1e4fa",
+      "size": 12805
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_joint_integration.py",
+      "sha256": "24548cbc5b0f02087afc8398e913d77e837497ae6bc673a78bedbaa1c65d96f2",
+      "size": 5965
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p0_runtime_receipts.py",
+      "sha256": "a188bacd6d10645ce155edca8069004ae7cbb16798e69d330c43d22fbde063d3",
+      "size": 12237
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p0_submission.py",
+      "sha256": "7177629a815b06fdfec9f49234397f0a4b66f9fc09a9c98ac35fa11718403cfb",
+      "size": 6644
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_request_digest.py",
+      "sha256": "6c5de055df5c4a60fb8035fc8dc3ac3563f81076978616d236b70624d0bcd55c",
+      "size": 3524
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_selection_artifacts_resource.py",
+      "sha256": "3c742a733ae2faf7a33c2cd77186772c314149ecd38206b2214a2fbef1e5d2e4",
+      "size": 5520
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_woodbury_routing.py",
+      "sha256": "47cadc633e824f408aa71f70a4662c014b2d977129a54c74d2b0229b8b2c279a",
+      "size": 10666
+    },
+    {
+      "path": "project/run_scripts/ode_bf/transaction.py",
+      "sha256": "95540b9e2df393b8aa0d59973a3a553272b64495b682e11829977d956966db7d",
+      "size": 5156
+    },
+    {
+      "path": "project/run_scripts/ode_bf/woodbury.py",
+      "sha256": "90690fbe63d2c02568a21bc680350310e6de156a938b8d211c21098d947a967e",
+      "size": 8609
+    },
+    {
+      "path": "project/run_scripts/session04_ode_bf_dry_plan.py",
+      "sha256": "bf0ddceacaade1e5bf48251d5ed26300af9e3afbe9a0cafd2e51b140b5576c99",
+      "size": 3684
+    },
+    {
+      "path": "project/run_scripts/session04_ode_bf_p0.py",
+      "sha256": "ef42cc15b30533c0c2d6f1d533fdbda2a008eb71facd440f1ac488b4db1632f4",
+      "size": 2147
+    },
+    {
+      "path": "project/run_scripts/session04_ode_bf_p0.sbatch",
+      "sha256": "0b1e0b79f81a766868e635ace20260929587031d2869c0f413f937260858b273",
+      "size": 2192
+    },
+    {
+      "path": "project/run_scripts/session04_ode_bf_submit_p0.py",
+      "sha256": "65869395a92ebe46cc3901c9202f3beb56ea196e24cb5d442dfcd03f0d73e334",
+      "size": 30136
+    }
+  ],
+  "root_digest": "e0df79a8d4bdab5a70bcfb0ba8a6f167a497c38cdd35d3039d8473787ee5fdfb"
+}

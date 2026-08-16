@@ -1,0 +1,48 @@
+{
+  "schema_version": "ode-edit-s05-p1r35-full-current-residual-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R35-P1R34-FULL-CURRENT-RESIDUAL-V1",
+  "method_id": "P1R34-W-ANCHORED-FINITE-DEMAND-FULL-CURRENT-RESIDUAL-V1",
+  "scientific_parent": "ac321d86a634a20888cb57003a65467d40aa5ddd",
+  "only_scientific_delta": {
+    "parent_coordinate": "u=d+lag/(K-k)",
+    "selected_coordinate": "u=d+lag=target_next-current_terminal",
+    "remaining_horizon_division_count": 0,
+    "fresh_component_division_count": 0,
+    "lag_component_division_count": 0
+  },
+  "frozen_p1r34": {
+    "finite_demand": "L_base-L_endpoint_AT_FROZEN_W",
+    "endpoint_forward_count_per_step": 1,
+    "endpoint_backward_count_per_step": 0,
+    "material_negative_status": "NON_SEMANTIC_TARGET_MOVE",
+    "target_nll_kl_decay_clamp_metric_freeze_latch": "P1R24_EXACT",
+    "router": "P1R24_RS_NEUTRAL_SOFT_MATCHED_STRENGTH",
+    "structural_p_trust_energy_capacity": "P1R24_EXACT",
+    "physical_h_application_count_per_step": 1,
+    "second_h_application_count": 0,
+    "semantic_debt_input_count": 0,
+    "history_count": 0,
+    "heldout_inner_step_count": 0,
+    "terminal_evaluator_count": 1
+  },
+  "grid": {
+    "K": 8,
+    "h": 0.125,
+    "tau_final": 1.0,
+    "retry": 0,
+    "backtracking": 0,
+    "imputation": 0
+  },
+  "inputs": {
+    "seal_root": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+    "request_order": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b"
+  },
+  "matrix": {
+    "models": ["llama3-8b-inst", "qwen2.5-7b-inst"],
+    "allocation": "RS",
+    "arms": ["NEUTRAL", "SOFT"],
+    "stage_max_gpu": 2,
+    "server1_project_cap": 4
+  },
+  "root_digest": "4c65eef507702d68dfa08376494302869366fa291b424bee247b5993bd6ebbba"
+}

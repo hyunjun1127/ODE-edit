@@ -1,0 +1,78 @@
+{
+  "schema_version": "ode-alloc-s04-p0-artifact-lock-r1/v1",
+  "instruction_id": "ODEEDIT-S04-ODE-ALLOC-P0-LOCK-R1-PAIR-V1",
+  "easyedit_root": "/mnt/raid5/janghj/EasyEdit",
+  "hf_hub_cache": "/mnt/raid5/janghj/.cache/huggingface/hub",
+  "counterfact": {
+    "path": "data/counterfact/counterfact.json",
+    "size": 45108470,
+    "sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f"
+  },
+  "easyedit_sources": {
+    "easyeditor/models/memit/memit_main.py": "32f27516d30d196ceb2f99bc02359b66a0e886246953bdedc232f64fe7ee6d0a",
+    "easyeditor/models/memit/compute_z.py": "6e43c1f03bc03c87dcff70111dff1a93f4e00ea31b4bfeb5e8eab4a516ea7ae4",
+    "easyeditor/models/memit/compute_ks.py": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+    "easyeditor/models/memit/memit_hparams.py": "223dc4e663a049214c0528a02eff8c066413fbee9bce98735a2ce8d1c6585f41",
+    "easyeditor/models/rome/layer_stats.py": "10c5f6204697a090671d3810f7fd60e781c44b7537e47a9625c07e542ff87cc4",
+    "easyeditor/util/generate.py": "13d28184bd215ea7d51bef091fcd3624271d93f4c3df32fdbf2e97cc15581b45",
+    "easyeditor/util/nethook.py": "2026b36c3a17cd6da0c6e80c79d32d5d80f835e7eb7904d298c0abaa098ecf66",
+    "easyeditor/util/runningstats.py": "cae826b6471b6b5a4dd1f5da3adbd9cf697b01ae80585d59e727ca64f4ec47ae"
+  },
+  "models": {
+    "llama3-8b-inst": {
+      "repo_cache": "models--meta-llama--Meta-Llama-3-8B-Instruct",
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "native_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "hparams_path": "hparams/MEMIT/llama3-8b.yaml",
+      "hparams_sha256": "2b81838b49b1a5e0e4ef41f229216fda473200093fcbed6bd040f07a70d43818",
+      "config_torch_dtype": "bfloat16",
+      "snapshot_files": {
+        "config.json": ["../../blobs/31553d63b8f18df5d6d440860751533ada3759e4", 654, "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b"],
+        "generation_config.json": ["../../blobs/8675015d20a4b12ee2ee0197a0937beba318122a", 187, "d1af74d8ba49428ab2faa65f7948165cc6bf52b740e57e840f8af772587c894c"],
+        "model-00001-of-00004.safetensors": ["../../blobs/d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c", 4976698672, null],
+        "model-00002-of-00004.safetensors": ["../../blobs/8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c", 4999802720, null],
+        "model-00003-of-00004.safetensors": ["../../blobs/3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921", 4915916176, null],
+        "model-00004-of-00004.safetensors": ["../../blobs/67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46", 1168138808, null],
+        "model.safetensors.index.json": ["../../blobs/0fd8120f1c6acddc268ebc2583058efaf699a771", 23950, "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b"],
+        "special_tokens_map.json": ["../../blobs/d8cd5076496dbe4be2320312abc10adc43097b81", 73, "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc"],
+        "tokenizer.json": ["../../blobs/b197f72effb9d5ed16ee0f5663e11e4cfac2ba62", 9085698, "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7"],
+        "tokenizer_config.json": ["../../blobs/1bfd1146b7bde6168de7bb673bfe0acaea6e684c", 50977, "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb"]
+      },
+      "covariance": {
+        "4": ["examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz", 822084814, "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e"],
+        "5": ["examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz", 822084814, "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435"],
+        "6": ["examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz", 822084814, "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495"],
+        "7": ["examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz", 822084814, "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830"],
+        "8": ["examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz", 822084814, "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050"]
+      }
+    },
+    "qwen2.5-7b-inst": {
+      "repo_cache": "models--Qwen--Qwen2.5-7B-Instruct",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "native_name": "Qwen/Qwen2.5-7B-Instruct",
+      "hparams_path": "hparams/MEMIT/qwen2.5-7b.yaml",
+      "hparams_sha256": "fccad05cf749c710ba0ce58ae24203f0bb90d9bf488966a5184dacd489a0311b",
+      "config_torch_dtype": "bfloat16",
+      "snapshot_files": {
+        "config.json": ["../../blobs/0178295f88afc3c7f279ed284f961f8c1be00654", 663, "7463bb0ea78315365e6c6b74de4e73bbcc8359dfb0c5a737584e077d42c0b03c"],
+        "generation_config.json": ["../../blobs/0eb3c536657dcd12626e09eca4b6198c0cbcde1e", 243, "3a8f9087e486054c8a4a08dae2e5a3ba62e23da212b5b8c08bc42cb983c3459f"],
+        "merges.txt": ["../../blobs/20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0", 1671839, "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"],
+        "model-00001-of-00004.safetensors": ["../../blobs/a1333e6293854747c481288ea83b348226af178dd565c49b6f9495ba1966aba7", 3945441440, null],
+        "model-00002-of-00004.safetensors": ["../../blobs/f5d25a2772cb825164a2a2c0fb6d51a87e282abf21e4dd75bc5cfb3cd0ea6185", 3864726352, null],
+        "model-00003-of-00004.safetensors": ["../../blobs/8efdec4c1bc12317ae1a38dc42b595ce777738a64deea3fcb8a0a91381bcdfd5", 3864726424, null],
+        "model-00004-of-00004.safetensors": ["../../blobs/1a72d403cdf0c1ec3cb7f289f17b394a01e64394c2e9b3c0f94dbce3faf879bd", 3556377672, null],
+        "model.safetensors.index.json": ["../../blobs/14d037fdda5a1311dcc0275003a7a370d84114e6", 27752, "624bf7c47cd12468fdc16e38a47cf4f19e0415b859a223ba3c027eed2f0e1028"],
+        "tokenizer.json": ["../../blobs/443909a61d429dff23010e5bddd28ff530edda00", 7031645, "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"],
+        "tokenizer_config.json": ["../../blobs/07bfe0640cb5a0037f9322287fbfc682806cf672", 7305, "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583"],
+        "vocab.json": ["../../blobs/4783fe10ac3adce15ac8f358ef5462739852c569", 2776833, "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"]
+      },
+      "covariance": {
+        "4": ["examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz", 1435501774, "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b"],
+        "5": ["examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz", 1435501774, "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519"],
+        "6": ["examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz", 1435501774, "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a"],
+        "7": ["examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz", 1435501774, "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d"],
+        "8": ["examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz", 1435501774, "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46"]
+      }
+    }
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "schema_version": "ode-edit-s05-p1r23-scalable-batched-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-ODE-BF-SCALABLE-BATCHED-RUNTIME-P1R23-V1",
+  "base_checkpoint": "60fc604e18636499683aebf0f4f24724d8c28981",
+  "design_contract_sha256": "2c23f8dc70436e810d4af4edc8519d6e4b13f4362ee019fe08e45526e4404418",
+  "amendments": [
+    "ODEEDIT-S05-ODE-BF-SCALABLE-BATCHED-RUNTIME-P1R23-V1-A1-B100-SEAL",
+    "ODEEDIT-S05-ODE-BF-SCALABLE-BATCHED-RUNTIME-P1R23-V1-A2-NATIVE",
+    "ODEEDIT-S05-ODE-BF-SCALABLE-BATCHED-RUNTIME-P1R23-V1-A3-ATOMIC-FIRST",
+    "ODEEDIT-S05-ODE-BF-SCALABLE-BATCHED-RUNTIME-P1R23-V1-A4-FAST",
+    "ODEEDIT-S05-ODE-BF-SCALABLE-BATCHED-RUNTIME-P1R23-V1-A5-FULL-CELLS",
+    "ODEEDIT-S05-ODE-BF-SCALABLE-BATCHED-RUNTIME-P1R23-V1-A5-R1-RS-DISPATCH",
+    "ODEEDIT-S05-ODE-BF-SCALABLE-BATCHED-RUNTIME-P1R23-V1-TECH-R2"
+  ],
+  "technical_repairs": [
+    {
+      "classification": "PURE_TECHNICAL_KEYWORD_ONLY_CALL_BINDING",
+      "failed_job": "18652",
+      "scientific_delta_count": 0,
+      "result_namespace": "tech-r1"
+    },
+    {
+      "classification": "PURE_TECHNICAL_PAIRED_GATE_AND_OFFICIAL_NATIVE_DTYPE",
+      "failed_jobs": [
+        "18663_0",
+        "18663_2",
+        "18663_3",
+        "18663_5"
+      ],
+      "scientific_delta_count": 0,
+      "result_namespace": "tech-r2"
+    }
+  ],
+  "allocation_registry": {
+    "RS": "ROBUST_SHARED_REQUEST_SCALE_V1",
+    "BG": "MATCHED_BATCH_GLOBAL_SCALE_V1"
+  },
+  "a5_parent": "1c88523f61d7d983b5cdbe7ed54b8e56e17747bd",
+  "existing_external_job_ids": [
+    "18663"
+  ],
+  "entry_count": 21,
+  "entries": [
+    {
+      "path": "project/run_scripts/ode_bf/fixed_e8_runtime.py",
+      "mode": "100644",
+      "object_id": "ae612328135434e0f15e0834009d5f7a8311482c",
+      "size": 101969,
+      "sha256": "711ab6b640e659863bcff59df97a95c683d12a803fa1c2c0e85a9dafb92d9c60"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/functional.py",
+      "mode": "100644",
+      "object_id": "fd537b96f1c09e696d99f4fc642791b578c3ebc9",
+      "size": 18195,
+      "sha256": "88bffde0fba6ab72e35b5c67458a31404e4043501c9514bfc241d2b9ddc303ee"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_backend.py",
+      "mode": "100644",
+      "object_id": "b1896c477e0b80cce579359889da774532de18da",
+      "size": 80367,
+      "sha256": "31478d7c5f2cace42d81f73e5ef69f13f2f2b11ef0a81016c97f55ecbe4a9af6"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "mode": "100644",
+      "object_id": "9d4b656a4541af18b2eee05bcd0c196b4e3f1287",
+      "size": 194927,
+      "sha256": "0bcc2eb5a28bbf74b2b556af460fa1d96ad7033b1d7b4d5fea836aff83296efa"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/request_digest.py",
+      "mode": "100644",
+      "object_id": "b414a12126ddcd7cd0c9f10fb476ce72c646068c",
+      "size": 2333,
+      "sha256": "bc1511fc07792d806ff763932a3189987b8b084a59376679a05705a6d88e0e4f"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_scalable_batched_runtime.json",
+      "mode": "100644",
+      "object_id": "04c7838b57d217c98d5922e4a053fabaf9fca4e9",
+      "size": 5600,
+      "sha256": "b9a47600032ebeb6c24361be25e828d6dec0360134089bae44aa420e9dbfbdfd"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/p1r23_b100_prefix_canonical90_seal.json",
+      "mode": "100644",
+      "object_id": "9d7bfd23a6bf0b6f94e4ec94c0b5f77d0060383d",
+      "size": 57949,
+      "sha256": "d7086ed200c3a2dc53652389f658dd54ccffbc5af3b3264a29e955d18ef3e0af"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+      "mode": "100644",
+      "object_id": "d77394af0c641e282b3e294493c37161a65d38f7",
+      "size": 61867,
+      "sha256": "14af3b7eb277c43b4f66b3c087ff55448a0fc19736dba1f184d071fe0a4f9638"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_scalable_batched_runtime_panel.py",
+      "mode": "100644",
+      "object_id": "0135bf1089c8da9f19e569523c43444d46038167",
+      "size": 7604,
+      "sha256": "992c4ae7967c2aa9a2224b3b9cbbb65196a1cf19c65a65b71e6e3bac32429dc5"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r23_b100_seal.py",
+      "mode": "100644",
+      "object_id": "0f45ccc91032da028b77b52a1224dc76e7fed3b5",
+      "size": 17802,
+      "sha256": "f5abc24b6cf50921ab2e95f878299312ca1e13e786923a3198ede3e7350d3c34"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/scalable_batched_evaluator.py",
+      "mode": "100644",
+      "object_id": "0e1e6cb85d1071461145bf32fa03186231839b3c",
+      "size": 14514,
+      "sha256": "678433ddde29f1f29a48cf5a218f74bce7d3c6bce0e828354a284af3fa90901f"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/scalable_batched_field.py",
+      "mode": "100644",
+      "object_id": "e5e7103ae4412507e397e652af3f8f8c91927ba0",
+      "size": 18914,
+      "sha256": "d47c95460f705958e38f43cc9fcf3a9b5138313bb36b032ca955d9826b8d19f9"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/scalable_batched_model.py",
+      "mode": "100644",
+      "object_id": "c99e4028c78d374c0a5faaf430913dd972305ff2",
+      "size": 37377,
+      "sha256": "24a623def31dfbaff574681848532587dd58f98d98605c98995cb5d421e34e93"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/scalable_batched_native.py",
+      "mode": "100644",
+      "object_id": "aed9788ece81b0d66e1c4613b4e17562b37e9d19",
+      "size": 20434,
+      "sha256": "6f9a4a50e8d13abab19727f2df56b406f8afd33d65818599cd8353893107098c"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/scalable_batched_runtime.py",
+      "mode": "100644",
+      "object_id": "c730c871592facebe1fc61c0bc65154dab890e1b",
+      "size": 23676,
+      "sha256": "7361116fcd2b60ac8cd5f6108d0f7f4c5c8d8e49ceff6b47dce9585d1a0231e2"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_scalable_batched_launch.py",
+      "mode": "100644",
+      "object_id": "9bcac707cf81e84740f0f24b0762d146cfcc0910",
+      "size": 5314,
+      "sha256": "33791341d7766c31f624f6b4a84d64fc24894b06d31aa65515971070eb7c29fe"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_scalable_batched_runtime.py",
+      "mode": "100644",
+      "object_id": "3107043ba0c050f204162c9ff8471732db454bcc",
+      "size": 25686,
+      "sha256": "17bd29e87f3a5df67f95af69c6663d9361c2a732e97b3ca1f50292b2e91aac60"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_scalable_batched_runtime.py",
+      "mode": "100644",
+      "object_id": "3b9df103ce4a353e64b07606a64dd8e16010b07b",
+      "size": 3408,
+      "sha256": "c6998843f199f309bd7c9b172cbacffdf62b267a523e5a86036b231ab3a63945"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_scalable_batched_runtime.sbatch",
+      "mode": "100644",
+      "object_id": "cc01a3210f87a2968844ee2cee6b2f5b7a11c36b",
+      "size": 3915,
+      "sha256": "adf0c691a44f8a4f4fc91351a81d28fe2f96f2c138c82680c627055b7b8da006"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_scalable_batched_runtime_dry_plan.py",
+      "mode": "100644",
+      "object_id": "85be08b7792518120c6d3f61e8e7a9a42dc6ed0c",
+      "size": 4674,
+      "sha256": "85ce160fa85d2f138d6342eb300f27ec7a5f8138d9cf840ac2399f8a0743bddb"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_submit_scalable_batched_runtime.py",
+      "mode": "100644",
+      "object_id": "c2c6e523505b6dcb169e5a952954791168c0adcb",
+      "size": 5708,
+      "sha256": "3d3c962597cff7265726be5ab3a6c185c0c337e2c3a37af2d322b342574239db"
+    }
+  ],
+  "p1r20_access_count": 0,
+  "root_digest": "32d405225bfcd7c7b5a6d0d593785c50ca8e3d884e5ff7102488bd18b5d9f1e8"
+}

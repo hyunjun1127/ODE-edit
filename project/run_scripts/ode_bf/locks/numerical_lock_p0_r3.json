@@ -1,0 +1,134 @@
+{
+  "schema_version": "ode-edit-s04-ode-bf-p0-numerical-lock/v1",
+  "instruction_id": "ODEEDIT-S04-ODE-BF-V1P1-EXACT-FIRST-HIT-CPU-P0-V1-A3",
+  "status": "technical-p0-locked-scientific-p1-pending-gh",
+  "execution_seed": 41,
+  "edit_batch_size": 10,
+  "joint_editor_invocations": 1,
+  "rollout": {
+    "k_resolution": 8,
+    "correction_cycles": 1,
+    "k_total": 8,
+    "nominal_t_per_cycle": 1.0,
+    "eta": 0.125,
+    "backtracking": [1.0, 0.5, 0.25],
+    "online_early_termination": false,
+    "endpoint_selection": "post-rollout-earliest-exact-feasible-hit",
+    "lambda_final_or_k_complete_means_oracle_complete": false
+  },
+  "coefficient_convention": {
+    "y": "accepted-state velocity in parameter direct sum",
+    "theta": "eta_times_beta_times_y",
+    "coupled_target_write_field": "frozen within one field; beta scales both",
+    "reroute_target_backward_accounting": "mandatory"
+  },
+  "benchmark_success": {
+    "counterfact": {
+      "source_sha256": "25c3f49039e7bacb58de6d9ab8139f6f24f21532434a08690e9ec71ea939e145",
+      "formula": "strict target_new length-normalized suffix NLL < target_true length-normalized suffix NLL",
+      "token_nll_accumulator_dtype": "numpy.float32 sequential",
+      "request_aggregation": "one canonical rewrite-prompt bit",
+      "joint_exact": "integer 10/10 and official mean exactly 1.0"
+    },
+    "zsre": {
+      "source_sha256": "4370a3b2c7eff88bfeffd6412be485c0195bae794f7c7a6d39b9dd9e01299d97",
+      "formula": "full-vocabulary teacher-forced argmax correct at every target suffix position",
+      "request_aggregation": "mean position bits per case",
+      "batch_aggregation": "mean per-case means",
+      "joint_exact": "all required positions correct for all ten requests"
+    },
+    "official_aggregator_sha256": "64f009b2fb648627a956b95abd801838d86edf04c8e1888d90ade0ec07b745c0",
+    "surrogate_can_trigger_success": false,
+    "heldout_controller_access": false,
+    "generation_calls": 0
+  },
+  "native_floor_future_scientific_gate": {
+    "metrics": ["official-efficacy", "official-generalization", "official-locality-preservation"],
+    "count_metric_default_delta": 0,
+    "cross_metric_compensation": false,
+    "continuous_margin": "requires separate pre-outcome GH lock before P1"
+  },
+  "woodbury": {
+    "regularization": "pinned Native AlphaEdit adapter L2",
+    "symmetric_path": "full-matrix-certified symmetric-idempotent Cholesky only",
+    "general_path": "nonsymmetric X^T(PX), X^T(PK) LU with deterministic QR fallback",
+    "cpu_residual_tolerance": 1e-8,
+    "model_residual_tolerance_proposal": 1e-5,
+    "maximum_small_condition": 1000000000000.0,
+    "dense_history_matrix": false
+  },
+  "prospective_technical_path": {
+    "name": "Native AlphaEdit-WB-mixed64-v1",
+    "native_reference": "N32",
+    "primary_path": "W64",
+    "diagnostic_only_paths": [
+      "D32",
+      "W32"
+    ],
+    "input_boundary_dtype": "torch.float32",
+    "reduced_system_dtype": "torch.float64",
+    "reduced_backend": "solve_alpha_woodbury/general-projector-nonsymmetric-lu-deterministic-qr-fallback",
+    "solve_device": "same-canonical-model-layer-device",
+    "cast_boundary": "single-cast-reduced-factor-to-torch.float32-before-canonical-assembler",
+    "assembler": "project.run_scripts.ode_bf.functional.assemble_effective_bf16",
+    "assembler_order": "locked-waypoint-factor-product-summation-cast-order",
+    "assembler_accumulator_dtype": "torch.float32",
+    "endpoint_dtype": "torch.bfloat16",
+    "model_residual_tolerance": 1e-05,
+    "w32_fallback": false,
+    "alias_specific_branch": false,
+    "adaptive_precision": false,
+    "dense_fp64_full_delta_live": 0,
+    "native_bit_exact_claim": false
+  },
+  "ordered_request_digest": {
+    "schema_version": "ode-edit-s04-ode-bf-ordered-request-digest/v1",
+    "function": "project.run_scripts.ode_bf.request_digest.ordered_request_digest_v1",
+    "serialization": "schema-tagged-canonical-json-ordered-ten-sha256-list",
+    "request_count": 10,
+    "duplicates_allowed": false,
+    "alternate_serialization_allowed": false
+  },
+  "routing_cpu_p0": {
+    "solver": "scipy-1.15.3-SLSQP-float64",
+    "ftol": 1e-12,
+    "max_iterations": 1000,
+    "primal_tolerance": 1e-8,
+    "kkt_tolerance": 1e-5,
+    "psd_tolerance": 1e-10,
+    "lexicographic": ["maximum-feasible-signed-progress", "minimum-capacity-at-locked-requested-progress"],
+    "progress_underwrite": false,
+    "nonpositive_directions": "excluded-without-positive-clipping",
+    "scientific_h_p_budgets": "pending-gh-before-p1"
+  },
+  "bf16_transaction": {
+    "assembler": "entry-relative-cumulative-fixed-cycle-step-factor-order",
+    "product_order": "right_times_left_transpose_then_transpose",
+    "accumulator_dtype": "float32-row-block",
+    "cast_count_per_endpoint_layer": 1,
+    "maximum_live_effective_target_weight": 1,
+    "dense_fp32_full_delta_live": 0,
+    "commit": "one-logical-all-layer-batch-transaction",
+    "history_append_count_after_verified_commit": 10
+  },
+  "p0": {
+    "adapter": "N32 Native AlphaEdit reference versus Native AlphaEdit-WB-mixed64-v1",
+    "same_joint_request_call": true,
+    "direct_z_initializations": 10,
+    "target_initializations": 10,
+    "context_generation": "fresh-twice-exact-or-presealed-same-source",
+    "scientific_outcome_count": 0,
+    "technical_exact_hit_required": false,
+    "retry_or_resubmit": false
+  },
+  "resource": {
+    "node": "server2",
+    "gpu_per_job": 1,
+    "cpu_per_job": 8,
+    "memory_mib_per_job": 65000,
+    "time": "04:00:00",
+    "server_gpu_cap": 3,
+    "edit_batch_size_reduction_allowed": false
+  },
+  "root_digest": "905bc8e57215a4ed78ce59537ce9d4b850ebd0d92441f1792b391705eb256bcd"
+}

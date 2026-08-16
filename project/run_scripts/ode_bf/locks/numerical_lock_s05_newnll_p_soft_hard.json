@@ -1,0 +1,94 @@
+{
+  "schema_version": "ode-edit-s05-newnll-p-soft-hard-p1r5-numerical-lock/v1",
+  "instruction_id": "ODEEDIT-S05-ODE-BF-NEWNLL-P-SOFT-HARD-P1R5-V1",
+  "parent_source_head": "c3d45eba301d3e449a03a21f7ce65b5aa70d07c2",
+  "parent_alloff_numerical_lock_sha256": "fc05f9924a368834594b5f4c298975aedb6cdce86027593f557ea488ebeedde0",
+  "status": "SEALED_REUSED_SAMPLE_CAUSAL_DIAGNOSTIC",
+  "benchmark": "counterfact",
+  "common_seed": 41,
+  "edit_batch_size": 10,
+  "sequential_batch_count": 1,
+  "scientific_sample_reused_for_causal_diagnostic": true,
+  "scientific_promotion_authorized": false,
+  "stream_root_digest": "a3e2fbf27e94c3ace4e048027abf1f08f215715388dacc3cf85bb452e8e89157",
+  "p_population_root_digest": "49f3b2674d5fc649e8e17982769a8be7efde70e92b68791b550100fef627ee4b",
+  "panel_labels": [
+    "FR-A8-NEWNLL-PCTRL-PROBE",
+    "FR-A8-NEWNLL-PSOFT-HARD",
+    "FR-A8-NEWNLL-FPOFF-PROBE"
+  ],
+  "routing_objective_by_label": {
+    "FR-A8-NEWNLL-PCTRL-PROBE": "TARGET_NEW_NLL",
+    "FR-A8-NEWNLL-PSOFT-HARD": "TARGET_NEW_NLL",
+    "FR-A8-NEWNLL-FPOFF-PROBE": "TARGET_NEW_NLL"
+  },
+  "clock_variant_by_label": {
+    "FR-A8-NEWNLL-PCTRL-PROBE": "FR-A8",
+    "FR-A8-NEWNLL-PSOFT-HARD": "FR-A8",
+    "FR-A8-NEWNLL-FPOFF-PROBE": "FR-A8"
+  },
+  "functional_p_decision_by_label": {
+    "FR-A8-NEWNLL-PCTRL-PROBE": "PCTRL",
+    "FR-A8-NEWNLL-PSOFT-HARD": "PCTRL",
+    "FR-A8-NEWNLL-FPOFF-PROBE": "FPOFF"
+  },
+  "functional_p_field_policy_by_label": {
+    "FR-A8-NEWNLL-PCTRL-PROBE": "PROBE_ONLY",
+    "FR-A8-NEWNLL-PSOFT-HARD": "PSOFT_HARD",
+    "FR-A8-NEWNLL-FPOFF-PROBE": "PROBE_ONLY"
+  },
+  "preservation_constraints_by_label": {
+    "FR-A8-NEWNLL-PCTRL-PROBE": "LOCKED",
+    "FR-A8-NEWNLL-PSOFT-HARD": "LOCKED",
+    "FR-A8-NEWNLL-FPOFF-PROBE": "LOCKED"
+  },
+  "variant_lock_sha256": {
+    "FR-A8-NEWNLL-PCTRL-PROBE": "2f5dd23194474177c45e823092fc38ba6643aa0c5c437e3aaf45eb1bc2f434e8",
+    "FR-A8-NEWNLL-PSOFT-HARD": "2f5dd23194474177c45e823092fc38ba6643aa0c5c437e3aaf45eb1bc2f434e8",
+    "FR-A8-NEWNLL-FPOFF-PROBE": "2f5dd23194474177c45e823092fc38ba6643aa0c5c437e3aaf45eb1bc2f434e8"
+  },
+  "controller_identity_sha256": "c3e348423c6850a33255c962e3d43a97b5571c2bf80a86c451fd893b2b471c3b",
+  "functional_replay_soft_hard": {
+    "h_ref": 0.125,
+    "functional_p_budget_nats": 0.001,
+    "functional_h_budget_nats": 0.001,
+    "probe_basis": "ordered-unit-actuator-bf16-overlay",
+    "probe_layer_order": [4, 5, 6, 7, 8],
+    "probe_baseline_count_per_field": 1,
+    "probe_endpoint_count_per_field": 5,
+    "same_state_retry_reuses_probe": true,
+    "signed_secants_unclipped": true,
+    "stage1": "minimum-single-worst-normalized-slack",
+    "stage2": "capacity-metric-closest-to-structural-bf-u",
+    "sigma_tie_tolerance": 1e-08,
+    "actual_candidate_p_hard_gate_unchanged": true,
+    "actual_candidate_h_hard_gate_unchanged": true,
+    "generic_hp_soft_capable": true,
+    "historical_soft_active": false,
+    "historical_soft_reason": "EMPTY_HISTORY"
+  },
+  "unchanged_contract": {
+    "routing_objective": "TARGET_NEW_NLL",
+    "target_state_objective": "MARGIN_LOCKED",
+    "adaptive_t_max": 1.0,
+    "delta_tau_min": 0.0078125,
+    "rho_accept": 0.1,
+    "same_state_additional_retry_cap": 4,
+    "k_acc_cap": 32,
+    "n_trial_cap": 128,
+    "first_hit_observation_only": true,
+    "persistent_endpoint_commit_count": 0,
+    "history_append_count": 0
+  },
+  "resource": {
+    "server1_gpu_cap": 3,
+    "gpu_per_job": 1,
+    "cpu_per_job": 8,
+    "memory_mib_per_job": 65000,
+    "time_limit_seconds": 86400,
+    "conservative_time_seconds": 83601
+  },
+  "model_alias_specific_controller_branches": 0,
+  "retry_submission_count": 0,
+  "root_digest": "df1e4fcdcb24dd48487f625c6308677e51d3bef9a050afb27569c570dbcb4293"
+}

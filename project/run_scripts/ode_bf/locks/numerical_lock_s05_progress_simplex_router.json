@@ -1,0 +1,76 @@
+{
+  "schema_version": "ode-edit-s05-p1r23-progress-simplex-router-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R23-PROGRESS-SIMPLEX-BF-ROUTER-V1",
+  "method_id": "P1R23-DYNAMIC-PROGRESS-SIMPLEX-PHYSICAL-WONLY-ROUTER-V1",
+  "scientific_base_checkpoint": "96b3b33bd566c6d1ad3ac15d4cc5c825dddd1e2f",
+  "design_contract": {
+    "sha256": "64c51538b3299a7426bc3477a5d96d8216b4c78f007771772bb34b435994508d",
+    "bytes": 13840,
+    "newline_count": 447
+  },
+  "scientific_grid": {
+    "K": 8,
+    "h": 0.125,
+    "tau_final": 1.0,
+    "retry_count": 0,
+    "reject_count": 0,
+    "backtracking_count": 0,
+    "static_field_reuse_count": 0,
+    "persistent_history_append_count": 0
+  },
+  "layer_order": [4, 5, 6, 7, 8],
+  "progress_simplex": {
+    "active_set": "strict_applied_step_physical_slope_gt_zero",
+    "q_definition": "sum_positive_applied_step_physical_slopes",
+    "alpha_req_role": "TELEMETRY_ONLY",
+    "simplex_parameter": "pi",
+    "coefficient_definition": "v_l=q*pi_l/a_l",
+    "neutral_pi_definition": "a_l/q",
+    "neutral_velocity": 1.0,
+    "per_layer_upper_cap_count": 0,
+    "postsolve_clip_count": 0
+  },
+  "soft_objective": {
+    "stage1": "minimize_existing_normalized_max_structural_functional_P_H_risk",
+    "stage2": "minimize_existing_cumulative_capacity_within_xi_tie",
+    "historical_H_active_count_atomic_B10": 0,
+    "hard_P_H_budget_count": 0,
+    "functional_veto_count": 0
+  },
+  "global_trust": {
+    "definition": "v_transpose_applied_step_trust_metric_v",
+    "bound": "neutral_v_equals_one_energy",
+    "absolute_budget_count": 0,
+    "model_specific_budget_count": 0,
+    "hidden_per_layer_clipping_count": 0
+  },
+  "numerical": {
+    "simplex_primal_tolerance": 1e-8,
+    "predicted_progress_absolute_tolerance": 1e-8,
+    "neutral_identity_absolute_tolerance": 1e-8,
+    "energy_relative_tolerance": 1e-8,
+    "energy_absolute_tolerance": 1e-12,
+    "xi_tie_tolerance": 1e-8,
+    "solver_ftol": 1e-12,
+    "solver_maxiter": 1000,
+    "kkt_telemetry_tolerance": 1e-5,
+    "normalization_epsilon": 1e-12,
+    "temperature": null,
+    "outcome_tuning_count": 0
+  },
+  "execution": {
+    "batch_size": 10,
+    "request_microbatch_size": 2,
+    "models": ["llama3-8b-inst", "qwen2.5-7b-inst"],
+    "allocations": ["RS", "BG"],
+    "arms": ["SIMPLEX_NEUTRAL", "SIMPLEX_SOFT"],
+    "trajectory_count": 8,
+    "paired_job_count": 4,
+    "terminal_evaluation_only": true,
+    "native_rerun_count": 0,
+    "B100_access_count": 0,
+    "P1R20_access_count": 0
+  },
+  "root_digest_convention": "sha256_canonical_json_without_root_digest",
+  "root_digest": "9ac7d598fa19d01d363459fe158f92da558839f9524795c6c361d5b32615f490"
+}

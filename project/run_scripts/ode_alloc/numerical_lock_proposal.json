@@ -1,0 +1,149 @@
+{
+  "schema_version": "ode-alloc-s04-numerical-lock-r1/v1",
+  "status": "gh-approved-p0-technical-pair-only",
+  "instruction_id": "ODEEDIT-S04-ODE-ALLOC-P0-LOCK-R1-PAIR-V1",
+  "parent_checkpoint": "281f4e63611f519995d9b8499895c68a4126002c",
+  "proposal_scope": "common-policy-both-model-aliases",
+  "execution_seed": 41,
+  "model_aliases": [
+    "llama3-8b-inst",
+    "qwen2.5-7b-inst"
+  ],
+  "execution_boundary": {
+    "dry_plan_gpu": 0,
+    "dry_plan_model_load": false,
+    "p0_pair_submit": "conditional-after-all-gates-exact-once",
+    "p0_pair_gpu_total": 2,
+    "p1_submit": false,
+    "retry_or_resubmit": false,
+    "easyedit_write": false,
+    "download_or_recompute": false
+  },
+  "allocation_gauge": {
+    "basis_energy_epsilon": 1e-24,
+    "energy_dtype": "float64-factor-gram",
+    "max_abs_centered_q": 1.3862943611198906,
+    "q_cap_semantics": "record-Q_CAP_HIT-and-reject-no-clamp-no-rescue",
+    "q_chart": "arithmetic-zero-mean",
+    "per_step_projection": "arithmetic-zero-mean",
+    "ratio": "exp(q_l)/sqrt(sum_j(w_j*exp(2*q_j)))",
+    "exact_zero_policy": "inactive-only-if-quantized-native-effective-delta-is-exact-zero",
+    "positive_near_zero_policy": "INELIGIBLE_BASIS_ENERGY-for-0<e_l<=1e-24",
+    "minimum_active_layers": 2,
+    "epsilon_prior": false,
+    "c_energy_role": "predeclared-robustness-ablation-only"
+  },
+  "rewrite_gate": {
+    "rho": 0.5,
+    "denominator_epsilon": 1e-08,
+    "mean_margin_threshold": 0.0,
+    "worst_context_role": "diagnostic-only"
+  },
+  "barriers": {
+    "historical_teacher": "current-teacher",
+    "pretrained_anchor_teacher": "theta0-teacher",
+    "historical_fixed_damage_scale_nats": 0.001,
+    "pretrained_fixed_damage_scale_nats": 0.001,
+    "smooth_max_temperature_nats": 0.01,
+    "aggregate": "equal-weight-smooth-max-plus-mean",
+    "p1_history_size_max": 3,
+    "tail_risk_estimator": "deferred",
+    "scale_rationale": "fixed absolute per-token natural-log unit; never native-damage-plus-tiny"
+  },
+  "solver": {
+    "fixed_k": 8,
+    "max_trials_per_step": 3,
+    "backtracking_factors": [
+      1.0,
+      0.5,
+      0.25
+    ],
+    "cbf_kappa": 1.0,
+    "cbf_slack_penalty_weight": 100.0,
+    "aggregated_constraint_labels": [
+      "E",
+      "H",
+      "P"
+    ],
+    "per_item_constraints": false,
+    "production_max_constraints": 3,
+    "production_qp_backend": "float64-deterministic-active-set-enumerator",
+    "active_subset_count_at_max": 8,
+    "slack_elimination": "analytic-squared-hinge",
+    "linear_solve_residual_tolerance": 1e-10,
+    "stationarity_residual_tolerance": 1e-10,
+    "sign_residual_tolerance": 1e-10,
+    "constraint_residual_tolerance": 1e-10,
+    "fixed_grid_horizon": 1.0,
+    "early_stop": false,
+    "endpoint_policy": "best-exact-feasible-after-full-budget-else-native"
+  },
+  "transaction": {
+    "gradient_path": "fp32-factor-overlay-not-verdict-eligible",
+    "verdict_path": "one-layer-at-a-time-quantized-bf16-full-linear",
+    "commit": "staged-all-layer-validation-one-logical-transaction",
+    "rollback": "all-touched-layer-byte-exact-under-exclusive-model-lock"
+  },
+  "p0_identity_lock": {
+    "case_id": 21135,
+    "request_sha256": "f5626d5c210c4c014af57cb5ed89529f9408ae9e2ad1fab255467713591e2722",
+    "seal_root_digest": "1b45cd567d5ef1a8c52bf0a5a6f8b715270f620cbbdc9949bbf7094f87ef8cab",
+    "checkpoint_dtype": "torch.bfloat16",
+    "context_policy": "fresh-original-bf16-generation-twice-exact-match",
+    "q_path": "q-zero-only",
+    "teacher_logits_atol": 0.0,
+    "teacher_logits_rtol": 0.0,
+    "mean_margin_atol": 0.0,
+    "oracle_ratio_atol": 0.0,
+    "event_atol": 0.0,
+    "scientific_outcome_count": 0
+  },
+  "compute_contract": {
+    "required_counters": [
+      "model_forward_calls",
+      "processed_tokens",
+      "backward_calls",
+      "constraint_vjp_calls",
+      "constraint_jvp_calls",
+      "quantized_trial_calls",
+      "rejected_trials",
+      "qp_calls",
+      "qp_cpu_seconds",
+      "controller_wall_seconds",
+      "gpu_seconds",
+      "peak_memory_bytes",
+      "commit_count"
+    ],
+    "judgments": [
+      "matched-call",
+      "cost-normalized"
+    ]
+  },
+  "future_resource_forecast": {
+    "server": "server2",
+    "project_gpu_cap": 3,
+    "memory_cap_mib_per_gpu": 66017,
+    "p0_model_pair": {
+      "concurrent_jobs": 2,
+      "gpu_per_job": 1,
+      "cpu_per_job": 8,
+      "memory_mib_per_job": 65000,
+      "walltime_per_job": "04:00:00",
+      "case_count_per_model": 1,
+      "purpose": "technical-identity-memory-timing-only"
+    },
+    "p1_model_pair": {
+      "concurrent_jobs": 2,
+      "gpu_per_job": 1,
+      "cpu_per_job": 8,
+      "memory_mib_per_job": 65000,
+      "walltime_per_job": "12:00:00",
+      "sequential_edit_count_per_model": 4,
+      "arms": [
+        "native",
+        "generic-adaptive",
+        "ode-alloc"
+      ]
+    }
+  }
+}

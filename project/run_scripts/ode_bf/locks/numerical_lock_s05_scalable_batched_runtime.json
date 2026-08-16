@@ -1,0 +1,146 @@
+{
+  "schema_version": "ode-edit-s05-scalable-batched-runtime-p1r23-lock/v1",
+  "instruction_id": "ODEEDIT-S05-ODE-BF-SCALABLE-BATCHED-RUNTIME-P1R23-V1",
+  "method_id": "SCALABLE_STREAMING_DYNAMIC_BG_ODE_BF_V1",
+  "design_contract": {
+    "sha256": "2c23f8dc70436e810d4af4edc8519d6e4b13f4362ee019fe08e45526e4404418",
+    "bytes": 18153,
+    "newline_count": 547
+  },
+  "scientific_grid": {
+    "K": 8,
+    "h": 0.125,
+    "tau_final": 1.0,
+    "accepted_updates": 8,
+    "retry_count": 0,
+    "backtracking_count": 0,
+    "static_split_count": 0
+  },
+  "layer_order": [4, 5, 6, 7, 8],
+  "context_group_sizes": [1, 5],
+  "global_objective": "uniform_request_mean_of_uniform_six_context_target_new_suffix_token_means",
+  "microbatch_accumulation": {
+    "request_microbatch_size": {
+      "llama3-8b-inst": 2,
+      "qwen2.5-7b-inst": 2
+    },
+    "mean_of_means_count": 0,
+    "request_numerator_accumulation": "fp64",
+    "gradient_accumulation": "fp32_or_fp64",
+    "global_divisor": "request_count_exactly_once",
+    "deterministic_bucket_key": ["unpadded_length", "request_ordinal"],
+    "inverse_row_mapping_required": true,
+    "mid_field_weight_write_count": 0,
+    "oom_retry_count": 0
+  },
+  "target_coordinate": {
+    "z0": "clone_of_same_operator_H_batch_W0",
+    "R0": 0.0,
+    "target_updates_per_K8": 8,
+    "target_gradient_steps_per_state": 1,
+    "direct_z_access_count": 0,
+    "legacy_z_base_role": "NUMERICAL_REFERENCE_ONLY"
+  },
+  "physical_state": {
+    "entry_relative_cumulative_reconstruction": true,
+    "incremental_bf16_accumulation_count": 0,
+    "hot_hook_dense_assembly_count": 0,
+    "hot_hook_full_weight_hash_count": 0,
+    "accepted_materialization_count": 8,
+    "dynamic_target_key_slope_route_refresh_count": 8
+  },
+  "production_diagnostics": {
+    "overlay_slope_forward_count": 0,
+    "overlay_slope_backward_count": 0,
+    "inner_step_heldout_evaluation_count": 0,
+    "first_hit_evaluation_count": 0,
+    "candidate_objective_delayed_reuse_count": 7,
+    "terminal_objective_count": 1
+  },
+  "hash_policy": {
+    "exact": [
+      "source_config_numerical_contract",
+      "sealed_request_order",
+      "input_context_inventory",
+      "token_attention_suffix_masks",
+      "lookup_positions_and_row_mapping",
+      "layer_module_identity",
+      "covariance_projector_artifacts",
+      "W0_and_restore",
+      "accepted_factor_inventory",
+      "internal_effective_bf16_equals_parameter",
+      "result_manifest_report"
+    ],
+    "p1r19_reference_telemetry_only": [
+      "terminal_z",
+      "layer_key",
+      "activation",
+      "target_gradient",
+      "physical_slope",
+      "layer_allocation",
+      "intermediate_weight",
+      "final_weight",
+      "routing_trajectory"
+    ]
+  },
+  "calibration_reference_tolerances": {
+    "status": "DIAGNOSTIC_ONLY_PREDECLARED_NO_ENDPOINT_TUNING",
+    "reference_microbatch_size": 1,
+    "production_microbatch_size": 2,
+    "production_microbatch_frozen_before_endpoint_access": true,
+    "objective_per_request_max_abs": 1e-5,
+    "objective_mean_abs": 1e-5,
+    "gradient_cosine_min": 0.99999,
+    "gradient_relative_l2_max": 0.0001,
+    "routing_coefficient_max_abs": 0.0001,
+    "nonnegligible_slope_abs": 1e-8
+  },
+  "b10": {
+    "stage_a_seal_root": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+    "request_order_sha256": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b"
+  },
+  "b100_selection": {
+    "amendment_id": "ODEEDIT-S05-ODE-BF-SCALABLE-BATCHED-RUNTIME-P1R23-V1-A1-B100-SEAL",
+    "contract": "A_PREFIX_PLUS_CANONICAL_90",
+    "prefix_count": 10,
+    "added_count": 90,
+    "normalization": "Unicode_NFKC_whitespace_collapse_trim_casefold_schema_placeholder_canonicalization",
+    "model_outcome_access_before_seal": 0,
+    "source_exhaustion_status": "B100_SOURCE_EXHAUSTED",
+    "seal_status": "SEALED_BEFORE_B100_MODEL_OR_OUTCOME_ACCESS",
+    "seal_file_sha256": "d7086ed200c3a2dc53652389f658dd54ccffbc5af3b3264a29e955d18ef3e0af",
+    "seal_root": "af6752e9af8669f8c748e73e363b677ce31939548b4d07b9750d3c757cf386a3",
+    "seal_root_digest": "21e85509703b27791321a5fd840281d064e4f6a48470bf3e3a84aa9ecf57cadf",
+    "atomic_request_order_sha256": "3c8227494a9fcb5141f33993be0406e16c21aca1863bfd341ebede31a2a5ed47"
+  },
+  "native_controls": {
+    "amendment_id": "ODEEDIT-S05-ODE-BF-SCALABLE-BATCHED-RUNTIME-P1R23-V1-A2-NATIVE",
+    "official_native": "PINNED_EASYEDIT_ALPHAEDIT_ONE_SHOT_JOINT_BATCH",
+    "optimized_native_K": 1,
+    "optimized_native_target": "SCIENTIFICALLY_IDENTICAL_DIRECT_Z_SOLVE",
+    "optimized_native_one_gradient_substitution_count": 0,
+    "optimized_native_accepted_materialization_count": 1,
+    "primary_rho_denominator": "OPTIMIZED_NATIVE_K1_EDIT_CORE"
+  },
+  "atomic_only": {
+    "amendment_id": "ODEEDIT-S05-ODE-BF-SCALABLE-BATCHED-RUNTIME-P1R23-V1-A3-ATOMIC-FIRST",
+    "result_label": "ATOMIC",
+    "joint_batch_application_count": 1,
+    "b100_sequential_b10_round_count": 0,
+    "persistent_history_append_count": 0,
+    "replay_h_decision_influence_count": 0,
+    "sequential_controller_influence_count": 0,
+    "p1r20_source_job_result_access_count": 0,
+    "action_freeze_before_evaluation": true,
+    "exact_w0_restore_required": true
+  },
+  "runtime_gate": {
+    "rho_b10_target_max": 2.0,
+    "rho_b100_target_max": 2.0,
+    "historical_resume_requires_rho_gate": true,
+    "rho_over_target_scientific_kill_count": 0
+  },
+  "stage_b_material_count": 0,
+  "root_digest_convention": "sha256_canonical_json_without_root_digest",
+  "root_digest": "7199b0e9a9bc9bc6be98b0bac37ed7addcb92592b6301ff45b724321fcea8699"
+}

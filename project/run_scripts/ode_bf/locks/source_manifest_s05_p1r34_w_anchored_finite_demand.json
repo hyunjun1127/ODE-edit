@@ -1,0 +1,21 @@
+{
+  "schema_version": "ode-edit-s05-p1r34-w-anchored-finite-demand-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R34-P1R24-W-ANCHORED-FINITE-DEMAND-V1",
+  "base_checkpoint": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "scientific_checkpoint": "d38b70cb8fc2150ed47f29ead1baac5a42e133a0",
+  "entries": [
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r34_w_anchored_finite_demand.json", "mode": "0600", "size": 1774, "sha256": "2739fdf05a286529d4d6ac05e029646204b420c6ab0aa18aee8188cbe64a0005"},
+    {"path": "project/run_scripts/ode_bf/p1_runtime.py", "mode": "0600", "size": 197335, "sha256": "6a2adbf6683cf339425c4a6790771158887ae9c69a824b19b6f74831839c8c21"},
+    {"path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py", "mode": "0600", "size": 83630, "sha256": "14d207a0395808924c014e06f593c3d8a8ac87ba80d462573c4e17d239b04a84"},
+    {"path": "project/run_scripts/ode_bf/p1r34_w_anchored_finite_demand.py", "mode": "0600", "size": 5590, "sha256": "b2c59ac75798b9d70fbbc370c6d9f805d33cbeb8f683be81bb9effe7d1dbfe53"},
+    {"path": "project/run_scripts/ode_bf/p1r34_w_anchored_finite_demand_panel.py", "mode": "0600", "size": 1017, "sha256": "cbeaf5c5fd65c547153060c50d45c073caa4f7e425216398fbd5b6e22ad9afd1"},
+    {"path": "project/run_scripts/ode_bf/scalable_batched_model.py", "mode": "0600", "size": 37653, "sha256": "d30e97aea13fcb548b42188a006b2b897110c5d9a0a8cee1846173d43ee518c5"},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r34_w_anchored_finite_demand.py", "mode": "0600", "size": 4272, "sha256": "ad7281edb38bfb25aa6d51afcde63a97d48185b6165c5732e824957222c477f6"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r34_w_anchored_finite_demand.py", "mode": "0755", "size": 4405, "sha256": "6d66a2653f3779e9451a15e89d3728218ddf18c3b30077e4c0a64eda07cf0bfb"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r34_w_anchored_finite_demand.sbatch", "mode": "0755", "size": 2702, "sha256": "7a67a96db98385021d17292494d898664a63c539c48b06af79d0991ebce8a715"},
+    {"path": "project/run_scripts/session05_ode_bf_p1r34_w_anchored_finite_demand_dry_plan.py", "mode": "0755", "size": 2623, "sha256": "aa380163dc3d2c34e12d532ccc37d512e524d577135aa0c81363ebb9ba7d28b9"},
+    {"path": "project/run_scripts/session05_ode_bf_submit_p1r34_w_anchored_finite_demand.py", "mode": "0755", "size": 5420, "sha256": "3d5cffac09b0fefd51c85aff03065856714b251f5286b0e9710d3df9a3df912a"}
+  ],
+  "entries_root": "422ee9bde3b6e12b7935ecc45d85c1cd1bf8a6cd94e2ba7f65614685d42d665c",
+  "root_digest": "82d345293515ab9ba9a3355bbc37a512c31b69470320355eadb212ccf15952ea"
+}

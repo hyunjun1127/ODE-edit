@@ -1,0 +1,40 @@
+{
+  "authoritative_slope": "PHYSICAL_W_ONLY_NOHOOK",
+  "candidate_objective_inner_k_count": 0,
+  "candidate_progress_delayed_reuse_count_per_arm": 7,
+  "cells": [
+    "BG-NEUTRAL",
+    "BG-SOFT"
+  ],
+  "grid_count": 8,
+  "h": 0.125,
+  "hot_hook_dense_assembly_count": 0,
+  "hot_hook_full_weight_hash_count": 0,
+  "inner_field_empty_cache_count": 0,
+  "inner_step_heldout_evaluation_count": 0,
+  "instruction_id": "ODEEDIT-S05-ODE-BF-ATOMIC-RUNTIME-OPTIMIZATION-P1R22-V1",
+  "method_id": "P1R19_STRENGTH_PRESERVING_ATOMIC_ACCEPTED_STATE_OPTIMIZED_V1",
+  "models": [
+    "llama3-8b-inst",
+    "qwen2.5-7b-inst"
+  ],
+  "overlay_slope_backward_count": 0,
+  "overlay_slope_model_forward_count": 0,
+  "p1r19_execution_checkpoint": "d604953a046b6af4da7386dd6c64c20fc848f625",
+  "p1r19_scientific_checkpoint": "657dafd40de50bb396fc9cfaf3862de1d07dd816",
+  "request_microbatch_size": {
+    "llama3-8b-inst": 2,
+    "qwen2.5-7b-inst": 2
+  },
+  "request_order_sha256": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b",
+  "root_digest": "72272e6907744e2e9f675534827e49e79acd96f8322b8800459b104418eef139",
+  "schedule_identity_sha256": "8640437a62adda285a0904f0556e7b152cecdd6fa2dcedc655320b7699cac8b6",
+  "schema_version": "ode-edit-s05-atomic-runtime-optimization-p1r22-lock/v1",
+  "scientific_base_checkpoint": "e6facd2d5dfae12d3c094b51981ad99951174109",
+  "scientific_base_tree": "a9b40eba586d9f54c67f5968ecdd395471d5a531",
+  "scientific_promotion_authorized": false,
+  "stage_a_seal_root": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628",
+  "tau_final": 1.0,
+  "terminal_w_only_objective_count_per_arm": 1,
+  "w0_evaluation_count_per_model": 1
+}

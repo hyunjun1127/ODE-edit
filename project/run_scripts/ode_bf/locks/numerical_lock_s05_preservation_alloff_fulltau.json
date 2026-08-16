@@ -1,0 +1,80 @@
+{
+  "schema_version": "ode-edit-s05-preservation-alloff-fulltau-numerical-lock/v1",
+  "instruction_id": "ODEEDIT-S05-ODE-BF-PRESERVATION-ALLOFF-FULLTAU-P1R4-V1",
+  "parent_source_head": "b29f5ac293b18c8b2513eac214ba539d6ea74517",
+  "parent_numerical_lock_sha256": "bacf045cbe249c5abd99698749d9824fec243b58272e0f61893ec90997ac95c7",
+  "status": "SEALED_REUSED_SAMPLE_CAUSAL_PILOT",
+  "benchmark": "counterfact",
+  "common_seed": 41,
+  "edit_batch_size": 10,
+  "sequential_batch_count": 1,
+  "scientific_sample_reused_for_causal_diagnostic": true,
+  "scientific_promotion_authorized": false,
+  "stream_root_digest": "a3e2fbf27e94c3ace4e048027abf1f08f215715388dacc3cf85bb452e8e89157",
+  "p_population_root_digest": "49f3b2674d5fc649e8e17982769a8be7efde70e92b68791b550100fef627ee4b",
+  "panel_labels": [
+    "FR-A8-MARGIN-ALLOFF",
+    "FR-A8-NEWNLL-ALLOFF"
+  ],
+  "routing_objective_by_label": {
+    "FR-A8-MARGIN-ALLOFF": "MARGIN",
+    "FR-A8-NEWNLL-ALLOFF": "TARGET_NEW_NLL"
+  },
+  "clock_variant_by_label": {
+    "FR-A8-MARGIN-ALLOFF": "FR-A8",
+    "FR-A8-NEWNLL-ALLOFF": "FR-A8"
+  },
+  "functional_p_decision_by_label": {
+    "FR-A8-MARGIN-ALLOFF": "FPOFF",
+    "FR-A8-NEWNLL-ALLOFF": "FPOFF"
+  },
+  "preservation_constraints_by_label": {
+    "FR-A8-MARGIN-ALLOFF": "ALLOFF",
+    "FR-A8-NEWNLL-ALLOFF": "ALLOFF"
+  },
+  "variant_lock_sha256": {
+    "FR-A8-MARGIN-ALLOFF": "2f5dd23194474177c45e823092fc38ba6643aa0c5c437e3aaf45eb1bc2f434e8",
+    "FR-A8-NEWNLL-ALLOFF": "2f5dd23194474177c45e823092fc38ba6643aa0c5c437e3aaf45eb1bc2f434e8"
+  },
+  "controller_identity_sha256": "c3e348423c6850a33255c962e3d43a97b5571c2bf80a86c451fd893b2b471c3b",
+  "all_off_ablation": {
+    "observation_computed_every_trial": true,
+    "decision_influence_count": {
+      "structural_h": 0,
+      "structural_p": 0,
+      "trust": 0,
+      "functional_h": 0,
+      "functional_p": 0
+    },
+    "huge_finite_budget_emulation": false,
+    "positive_progress_active": true,
+    "solver_certificate_active": true,
+    "layer_caps_active": true,
+    "authoritative_bf16_active": true
+  },
+  "unchanged_contract": {
+    "target_state_objective": "MARGIN_LOCKED",
+    "adaptive_t_max": 1.0,
+    "h_ref": 0.125,
+    "delta_tau_min": 0.0078125,
+    "rho_accept": 0.1,
+    "same_state_additional_retry_cap": 4,
+    "k_acc_cap": 32,
+    "n_trial_cap": 128,
+    "first_hit_observation_only": true,
+    "persistent_endpoint_commit_count": 0,
+    "history_append_count": 0
+  },
+  "resource": {
+    "server1_gpu_cap": 3,
+    "gpu_per_job": 1,
+    "cpu_per_job": 8,
+    "memory_mib_per_job": 65000,
+    "time_limit_seconds": 86400,
+    "maximum_unique_accepted_snapshots": 66,
+    "conservative_time_seconds": 81114
+  },
+  "model_alias_specific_controller_branches": 0,
+  "retry_submission_count": 0,
+  "root_digest": "a7ff77c5939cef4e7f79b72b2264b21b3df1657b1b0ae5b491ad744272518713"
+}
