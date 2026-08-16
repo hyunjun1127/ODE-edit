@@ -28,8 +28,10 @@ from project.run_scripts.ode_bf.p2r6_pilot_panel import (
 )
 from project.run_scripts.ode_bf.p2r6_pilot_runtime import (
     P2R6_RUNTIME_POLICY,
+    P2R6PhaseTechnicalInvalid,
     _arm_compute_aggregation,
     p2r6_phase_arms,
+    run_p2r6_pilot_case,
 )
 from project.run_scripts.ode_bf.p2r6_semantic_region_controller import (
     P2R6_ARMS,
@@ -240,6 +242,29 @@ def test_arm_to_top_level_compute_ledger_aggregation_is_exact() -> None:
     assert receipt["top_level_completed_k_total"] == 8
     assert receipt["top_level_counters"]["qp_solve"] == 12
     assert receipt["top_level_counters"]["backward"] == 24
+
+
+def test_arm_technical_failure_fail_closes_phase_before_next_arm() -> None:
+    failure = {
+        "arm": "AR-CAP",
+        "phase": "phase1",
+        "alias": "qwen2.5-7b-inst",
+        "case_index": 1,
+        "identity_sha256": "arm-failure-fixture",
+        "W0_restore": {"pointer_restored": True, "bytes_restored": True},
+    }
+    error = P2R6PhaseTechnicalInvalid(failure)
+    assert error.raw_free_receipt["classification"] == "TECHNICAL_INVALID"
+    assert error.raw_free_receipt["subsequent_arm_execution_count"] == 0
+    assert error.raw_free_receipt["W0_restore"] == failure["W0_restore"]
+
+    source = inspect.getsource(run_p2r6_pilot_case)
+    append = source.index("failed.append(failure)")
+    strict_raise = source.index(
+        "raise P2R6PhaseTechnicalInvalid(failure) from exc", append
+    )
+    stage_record = source.index("stages.record", strict_raise)
+    assert append < strict_raise < stage_record
 
 
 def test_entry_anchored_e1_rows_are_ratio_normalized_for_dynamic_scale() -> None:

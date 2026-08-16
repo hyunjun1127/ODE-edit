@@ -62,6 +62,28 @@ P2R6_RUNTIME_POLICY = P2AtomicArmRuntimePolicy(
 )
 
 
+class P2R6PhaseTechnicalInvalid(ODEBFStateError):
+    """Fail the paired phase immediately after one arm fails technically."""
+
+    def __init__(self, arm_failure: Mapping[str, Any]) -> None:
+        self.raw_free_receipt = {
+            "schema": "ode-edit-s05-p2r6-phase-technical-invalid/v1",
+            "instruction_id": P2R6_INSTRUCTION_ID,
+            "classification": "TECHNICAL_INVALID",
+            "failed_arm": arm_failure["arm"],
+            "phase": arm_failure["phase"],
+            "alias": arm_failure["alias"],
+            "case_index": arm_failure["case_index"],
+            "arm_failure_identity_sha256": arm_failure["identity_sha256"],
+            "W0_restore": arm_failure["W0_restore"],
+            "subsequent_arm_execution_count": 0,
+        }
+        self.raw_free_receipt["identity_sha256"] = canonical_hash(
+            self.raw_free_receipt
+        )
+        super().__init__("P2R6 strict phase technical gate failed")
+
+
 def _arm_compute_aggregation(
     completed: Sequence[Mapping[str, Any]], job_ledger: ComputeLedger
 ) -> dict[str, Any]:
@@ -267,6 +289,7 @@ def run_p2r6_pilot_case(
             failure["identity_sha256"] = canonical_hash(failure)
             _atomic_write_once(case_root / "failure.json", failure)
             failed.append(failure)
+            raise P2R6PhaseTechnicalInvalid(failure) from exc
         if _model_w0_contract(touched) != expected_w0:
             raise ODEBFStateError("P2R6 post-arm W0 differs")
         stages.record(
@@ -342,6 +365,7 @@ __all__ = [
     "PHASE1_CASES",
     "PHASE2_CASES",
     "P2R6_RUNTIME_POLICY",
+    "P2R6PhaseTechnicalInvalid",
     "expected_p2r6_result_name",
     "p2r6_phase_arms",
     "run_p2r6_pilot_case",
