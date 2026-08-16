@@ -21,7 +21,7 @@ from .functional import WaypointFactor, tensor_sha256
 from .p0_runtime import ModelForwardCounter
 from .p1_adaptive_runtime import _merge_factors
 from .p1_backend import PinnedCovarianceRegistry
-from .p1_controller import P1ControllerLock
+from .p1_controller import AcceptedLayerContribution, P1ControllerLock
 from .p1_runtime import _atomic_write_once
 from .p1_scalable_batched_experiment import (
     _action_frozen_cases,
@@ -34,8 +34,10 @@ from .p1r24_atomic_strength import (
     P1R24AliasTargetLock,
     build_p1r24_kl_plan,
     evaluate_p1r24_kl,
+    p1r24_disable_historical,
     verify_p1r24_alphaedit_geometry,
 )
+from .progress_simplex_routing import progress_simplex_waypoint_factors
 from .p1r36_independent_b10x10_runtime import _hashes, _restore_exact_w0
 from .p2r1_rms_tangent_target import (
     P2R1RMSState,
@@ -54,7 +56,18 @@ from .p2r2_residual_transport_writer import (
     p2r2_waypoint_factors,
     solve_p2r2_routing,
 )
+from .p2r7_shared_writer import (
+    P2R7_INSTRUCTION_ID,
+    P2R7_METHOD_ID,
+    P2R7SharedWriterNoPositiveDirection,
+    build_p2r7_deficit_weighting,
+    p2r7_actual_bf16_common_metrics,
+    p2r7_forbidden_influence_receipt,
+    p2r7_weighted_physical_signed_progress,
+    solve_p2r7_shared_routing,
+)
 from .scalable_batched_field import build_scalable_dynamic_field
+from .scalable_batched_field import build_scalable_routing_problem
 from .scalable_batched_model import (
     build_scalable_capture_plan,
     build_scalable_objective_plan,
@@ -107,6 +120,7 @@ def _evaluate_terminal_z_panel(
     terminal_target: torch.Tensor,
     terminal_physical: Any,
     writer_state_sha256: str,
+    variant: str = METHOD,
 ) -> tuple[dict[str, Any], float]:
     lookup_positions, patched_rows, lookup_receipt = _heldout_additive_lookup_geometry(
         tokenizer, requests, cases, fact_token_strategy=hparams.fact_token
@@ -115,7 +129,7 @@ def _evaluate_terminal_z_panel(
         terminal_target, terminal_physical.terminal_z, request_order_sha256
     )
     freeze = StepwiseActionFreeze(
-        variant=METHOD,
+        variant=variant,
         request_order_sha256=request_order_sha256,
         rollout_sha256=action_sha256,
         snapshot_sha256=canonical_hash(
@@ -183,8 +197,20 @@ def _run_arm_case(
     expected_w0: str,
     request_microbatch_size: int,
     job_ledger: ComputeLedger,
+    p2r7_mode: str | None = None,
 ) -> dict[str, Any]:
-    if arm not in ARMS or len(requests) != BATCH_SIZE:
+    p2r7 = p2r7_mode is not None
+    if (
+        (not p2r7 and arm not in ARMS)
+        or (
+            p2r7
+            and (
+                p2r7_mode not in ("P1DW", "P1AGG")
+                or arm not in ("NEUTRAL", "SOFT")
+            )
+        )
+        or len(requests) != BATCH_SIZE
+    ):
         raise ODEBFContractError("P2R2 arm/case inventory differs")
     request_order = scalable_ordered_request_digest(
         [str(item["request_sha256"]) for item in requests]
@@ -208,7 +234,11 @@ def _run_arm_case(
         raise ODEBFContractError("P2R2 plan order differs")
     _atomic_write_once(case_root / "raw" / "objective-plan.json", objective_plan.raw_free_payload())
     _atomic_write_once(case_root / "raw" / "capture-plan.json", capture_plan.raw_free_payload())
-    forbidden = p2r2_forbidden_influence_receipt()
+    forbidden = (
+        p2r7_forbidden_influence_receipt()
+        if p2r7
+        else p2r2_forbidden_influence_receipt()
+    )
     _atomic_write_once(case_root / "raw" / "forbidden-influence.json", forbidden)
 
     lock = P1R24AliasTargetLock.for_alias(alias)
@@ -234,6 +264,9 @@ def _run_arm_case(
     cumulative_factors: dict[str, tuple[WaypointFactor, ...]] = {
         name: () for name in touched
     }
+    accepted_by_layer: dict[int, list[AcceptedLayerContribution]] = {
+        int(layer): [] for layer in hparams.layers
+    }
     prior_structural_p = 0.0
     target_receipt_sha: list[str] = []
     writer_receipt_sha: list[str] = []
@@ -258,6 +291,7 @@ def _run_arm_case(
         )
         compute["kl_forward_count"] += teacher_result.model_forward_count
         state = P2R1RMSState.zero()
+        current_w_objective = None
         target_wall = 0.0
         writer_wall = 0.0
         for outer in range(8):
@@ -332,6 +366,13 @@ def _run_arm_case(
                 state = update.state_next
 
             writer_started = time.perf_counter()
+            weighting = None
+            weighted_slope = None
+            common_metrics = None
+            route_payload: Mapping[str, Any]
+            quadratics_payload: Mapping[str, Any] | None
+            response_payload: Mapping[str, Any]
+            before_weight_state: dict[str, torch.Tensor] | None = None
             field = build_scalable_dynamic_field(
                 model,
                 tokenizer,
@@ -339,7 +380,14 @@ def _run_arm_case(
                 hparams,
                 projector,
                 contexts,
-                target_state=current_target,
+                target_state=(
+                    (
+                        current_terminal
+                        + (current_target - current_terminal) / 0.125
+                    ).contiguous()
+                    if p2r7
+                    else current_target
+                ),
                 current_terminal=current_terminal,
                 captured_keys_by_layer=physical.keys_by_layer,
                 accepted_waypoint=outer,
@@ -349,39 +397,177 @@ def _run_arm_case(
                 ledger=job_ledger,
                 allow_zero_capacity=True,
             )
-            response = measure_request_layer_response(model, objective_plan, field)
-            compute["physical_response_forward_count"] += response.model_forward_count
-            compute["physical_response_batched_vjp_count"] += response.batched_vjp_count
-            quadratics = build_proposal_quadratics(
-                field,
-                cumulative_factors,
-                prior_structural_p=prior_structural_p,
-            )
-            route = solve_p2r2_routing(response.response, quadratics, arm=arm)
-            increment = p2r2_waypoint_factors(field, route, outer_step=outer)
+            if p2r7:
+                if current_w_objective is None:
+                    current_w_objective = evaluate_scalable_target_new_objective(
+                        model, objective_plan, target_gradient_required=False
+                    )
+                    compute["post_write_objective_forward_count"] += (
+                        current_w_objective.model_forward_count
+                    )
+                z_objective = evaluate_scalable_target_new_objective(
+                    model,
+                    objective_plan,
+                    target_state=current_target.to(
+                        device=next(model.parameters()).device, dtype=torch.float32
+                    ),
+                    current_terminal=current_terminal,
+                    target_layer_name=hparams.layer_module_tmp.format(
+                        int(hparams.layers[-1])
+                    ),
+                    target_gradient_required=False,
+                )
+                compute["target_forward_count"] += z_objective.model_forward_count
+                weighting = build_p2r7_deficit_weighting(
+                    current_w_objective.per_request_values,
+                    z_objective.per_request_values,
+                    mode=str(p2r7_mode),
+                )
+                signed, weighted_slope = p2r7_weighted_physical_signed_progress(
+                    model, objective_plan, field, weighting.omega
+                )
+                compute["physical_response_forward_count"] += (
+                    weighted_slope.model_forward_count
+                )
+                compute["physical_response_batched_vjp_count"] += 1
+                raw_positive = tuple(value > 0.0 for value in signed.signed_progress)
+                if weighting.rho_omega > 0.0 and not any(raw_positive):
+                    raise P2R7SharedWriterNoPositiveDirection(
+                        "SCIENTIFIC_SHARED_WRITER_NO_POSITIVE_DIRECTION"
+                    )
+                if weighting.no_semantic_deficit:
+                    route = None
+                    route_velocity = tuple(0.0 for _ in field.layers)
+                    predicted_scalar = 0.0
+                    route_payload = {
+                        "schema": "ode-edit-s05-p2r7-no-semantic-deficit-route/v1",
+                        "status": "NO_SEMANTIC_DEFICIT",
+                        "arm": arm,
+                        "rho_omega": 0.0,
+                        "velocity": list(route_velocity),
+                        "predicted_progress": 0.0,
+                        "fallback_to_neutral": False,
+                        "fallback_reason": None,
+                    }
+                    route_payload["identity_sha256"] = canonical_hash(route_payload)
+                    increment = {}
+                else:
+                    problem_receipt = build_scalable_routing_problem(
+                        field,
+                        signed,
+                        accepted_by_layer=accepted_by_layer,
+                        committed_load_by_layer={
+                            int(layer): 0.0 for layer in hparams.layers
+                        },
+                        lock=controller_lock,
+                    )
+                    routing_problem = p1r24_disable_historical(
+                        problem_receipt.problem
+                    )
+                    route = solve_p2r7_shared_routing(
+                        routing_problem,
+                        arm=arm,
+                        rho_omega=weighting.rho_omega,
+                    )
+                    route_velocity = route.velocity
+                    predicted_scalar = route.predicted_progress
+                    route_payload = route.raw_free_payload()
+                    increment = progress_simplex_waypoint_factors(
+                        field, route_velocity, step_index=outer
+                    )
+                    prior_structural_p = float(route.selected_p)
+                quadratics_payload = None
+                response_payload = {
+                    "schema": "ode-edit-s05-p2r7-five-shared-slope/v1",
+                    "signed_progress": list(signed.signed_progress),
+                    "weighted_objective": weighted_slope.raw_free_payload(),
+                    "routing_variable_count": 5,
+                    "request_layer_response_matrix_count": 0,
+                    "batched_vjp_count": 1,
+                    "identity_sha256": canonical_hash(
+                        {
+                            "signed_progress": list(signed.signed_progress),
+                            "objective_sha256": weighted_slope.identity_sha256,
+                        }
+                    ),
+                }
+                before_weight_state = {
+                    name: parameter.detach().to(device="cpu", dtype=torch.float32).clone()
+                    for name, parameter in touched.items()
+                }
+            else:
+                response = measure_request_layer_response(model, objective_plan, field)
+                compute["physical_response_forward_count"] += response.model_forward_count
+                compute["physical_response_batched_vjp_count"] += response.batched_vjp_count
+                quadratics = build_proposal_quadratics(
+                    field,
+                    cumulative_factors,
+                    prior_structural_p=prior_structural_p,
+                )
+                route = solve_p2r2_routing(response.response, quadratics, arm=arm)
+                increment = p2r2_waypoint_factors(field, route, outer_step=outer)
+                route_velocity = tuple(float(item) for item in route.alpha.reshape(-1))
+                predicted_scalar = float(torch.sum(route.predicted_progress))
+                route_payload = route.raw_free_payload()
+                quadratics_payload = quadratics.raw_free_payload()
+                response_payload = response.raw_free_payload()
             cumulative_factors = _merge_factors(cumulative_factors, increment)
             materialization = materializer.materialize(
                 cumulative_factors, transition_index=outer + 1
             )
             compute["writer_materialization_count"] += 1
+            if p2r7:
+                assert before_weight_state is not None
+                common_metrics = p2r7_actual_bf16_common_metrics(
+                    before_weight_state, touched, field
+                )
             next_physical = capture_scalable_physical_state(model, capture_plan, hparams)
             compute["physical_capture_forward_count"] += next_physical.physical_forward_count
             post = evaluate_scalable_target_new_objective(
                 model, objective_plan, target_gradient_required=False
             )
             compute["post_write_objective_forward_count"] += post.model_forward_count
-            before_values = torch.tensor(response.current_nll_by_request, dtype=torch.float64)
+            before_values = torch.tensor(
+                (
+                    current_w_objective.per_request_values
+                    if p2r7
+                    else response.current_nll_by_request
+                ),
+                dtype=torch.float64,
+            )
             after_values = torch.tensor(post.per_request_values, dtype=torch.float64)
             actual = before_values - after_values
-            predicted = route.predicted_progress
-            realization = actual / torch.clamp(torch.abs(predicted), min=1.0e-12)
-            p_after = prior_structural_p + route.marginal_structural_p
-            if p_after < -1.0e-8 or not math.isfinite(p_after):
-                raise ODEBFContractError("P2R2 cumulative Structural-P certificate failed")
-            prior_structural_p = max(0.0, p_after)
+            predicted = (
+                torch.tensor(
+                    [
+                        float(weight) * predicted_scalar
+                        for weight in weighting.omega
+                    ],
+                    dtype=torch.float64,
+                )
+                if p2r7
+                else route.predicted_progress
+            )
+            realization = actual / torch.clamp(
+                torch.tensor(weighting.deficit, dtype=torch.float64)
+                if p2r7
+                else torch.abs(predicted),
+                min=1.0e-12,
+            )
+            if p2r7:
+                current_w_objective = post
+            else:
+                p_after = prior_structural_p + route.marginal_structural_p
+                if p_after < -1.0e-8 or not math.isfinite(p_after):
+                    raise ODEBFContractError("P2R2 cumulative Structural-P certificate failed")
+                prior_structural_p = max(0.0, p_after)
             writer_wall += time.perf_counter() - writer_started
             writer_payload = {
-                "schema": "ode-edit-s05-p2r2-writer-step/v1",
+                "schema": (
+                    "ode-edit-s05-p2r7-shared-writer-step/v1"
+                    if p2r7
+                    else "ode-edit-s05-p2r2-writer-step/v1"
+                ),
                 "outer_step": outer,
                 "arm": arm,
                 "target_state_sha256": tensor_sha256(current_target),
@@ -394,21 +580,67 @@ def _run_arm_case(
                     )
                 ],
                 "field": field.raw_free_payload(),
-                "response": response.raw_free_payload(),
-                "quadratics": quadratics.raw_free_payload(),
-                "route": route.raw_free_payload(),
+                "response": response_payload,
+                "quadratics": quadratics_payload,
+                "route": route_payload,
                 "factor_sha256": {
                     name: _factor_sha(value) for name, value in sorted(increment.items())
                 },
                 "materialization": materialization,
-                "current_nll_by_request": list(response.current_nll_by_request),
+                "current_nll_by_request": before_values.tolist(),
                 "next_nll_by_request": list(post.per_request_values),
-                "predicted_progress_by_request": predicted.tolist(),
+                "predicted_progress_by_request": (
+                    "NOT_RECORDED_SHARED_SCALAR_ONLY"
+                    if p2r7
+                    else predicted.tolist()
+                ),
+                "predicted_weighted_progress": (
+                    predicted_scalar if p2r7 else None
+                ),
+                "actual_weighted_progress": (
+                    float(
+                        torch.tensor(weighting.omega, dtype=torch.float64)
+                        @ actual
+                    )
+                    if p2r7
+                    else None
+                ),
                 "actual_progress_by_request": actual.tolist(),
                 "realization_by_request": realization.tolist(),
+                "weighted_realization": (
+                    float(
+                        (
+                            torch.tensor(weighting.omega, dtype=torch.float64)
+                            @ actual
+                        )
+                        / max(weighting.rho_omega, 1.0e-12)
+                    )
+                    if p2r7
+                    else None
+                ),
+                "w_z_gap_by_request": (
+                    [
+                        float(w_value - z_value)
+                        for w_value, z_value in zip(
+                            post.per_request_values,
+                            weighting.ell_z,
+                            strict=True,
+                        )
+                    ]
+                    if p2r7
+                    else None
+                ),
+                "deficit_weighting": (
+                    weighting.raw_free_payload() if p2r7 else None
+                ),
+                "actual_bf16_common_metrics": common_metrics,
                 "negative_actual_count": int(torch.sum(actual < 0.0)),
                 "cumulative_structural_p": prior_structural_p,
-                "physical_h_application_count": 0,
+                "routing_variable_count": 5 if p2r7 else 50,
+                "request_layer_response_matrix_count": 0 if p2r7 else 1,
+                "residual_inverse_h_count": 1 if p2r7 else 0,
+                "physical_h_application_count": 1 if p2r7 else 0,
+                "second_h_application_count": 0,
                 "target_microstep_count_before_write": state.completed_microsteps,
                 "one_joint_materialization_count": 1,
                 "current_state_refresh_count": 1,
@@ -423,6 +655,15 @@ def _run_arm_case(
                 )
             )
             step_payloads.append(writer_payload)
+            if p2r7 and increment:
+                for layer in field.layers:
+                    accepted_by_layer[layer.layer].append(
+                        AcceptedLayerContribution.from_field(
+                            layer,
+                            increment[layer.weight_name],
+                            history_action=torch.zeros_like(layer.history_action),
+                        )
+                    )
             physical = next_physical
             k_states.append(current_target.clone())
 
@@ -449,9 +690,13 @@ def _run_arm_case(
             request_order_sha256=request_order,
         )
         action = {
-            "schema": "ode-edit-s05-p2r2-action-freeze/v1",
-            "instruction_id": P2R2_INSTRUCTION_ID,
-            "method_id": P2R2_METHOD_ID,
+            "schema": (
+                "ode-edit-s05-p2r7-action-freeze/v1"
+                if p2r7
+                else "ode-edit-s05-p2r2-action-freeze/v1"
+            ),
+            "instruction_id": P2R7_INSTRUCTION_ID if p2r7 else P2R2_INSTRUCTION_ID,
+            "method_id": P2R7_METHOD_ID if p2r7 else P2R2_METHOD_ID,
             "alias": alias,
             "arm": arm,
             "case_index": case_index,
@@ -472,6 +717,7 @@ def _run_arm_case(
             ),
             "actions_frozen_before_evaluator": True,
             "heldout_controller_access_count": 0,
+            "stepwise_heldout_evaluation_count": 0,
             "retry_count": 0,
             "W0_sha256": expected_w0,
         }
@@ -480,7 +726,7 @@ def _run_arm_case(
         cases, evaluator_freeze = _action_frozen_cases(
             dataset_path,
             requests,
-            arm=f"P2R2-{arm}",
+            arm=(f"P2R7-{p2r7_mode}-{arm}" if p2r7 else f"P2R2-{arm}"),
             selected_snapshot_sha256=action_sha,
             fixed_budget_slots_completed=8,
         )
@@ -503,6 +749,7 @@ def _run_arm_case(
             terminal_target=current_target,
             terminal_physical=physical,
             writer_state_sha256=action["writer_state_sha256"],
+            variant=(f"P2R7-{p2r7_mode}-{arm}" if p2r7 else METHOD),
         )
     finally:
         counter.close()
@@ -516,11 +763,16 @@ def _run_arm_case(
         expected_contract=expected_w0,
     )
     terminal = {
-        "schema": "ode-edit-s05-p2r2-case-terminal/v1",
-        "instruction_id": P2R2_INSTRUCTION_ID,
-        "method_id": P2R2_METHOD_ID,
+        "schema": (
+            "ode-edit-s05-p2r7-case-terminal/v1"
+            if p2r7
+            else "ode-edit-s05-p2r2-case-terminal/v1"
+        ),
+        "instruction_id": P2R7_INSTRUCTION_ID if p2r7 else P2R2_INSTRUCTION_ID,
+        "method_id": P2R7_METHOD_ID if p2r7 else P2R2_METHOD_ID,
         "alias": alias,
         "arm": arm,
+        "writer_weighting_mode": p2r7_mode,
         "case_index": case_index,
         "request_count": BATCH_SIZE,
         "request_order_sha256": request_order,
@@ -539,6 +791,8 @@ def _run_arm_case(
         "writer_transition_count": 8,
         "writer_materialization_count": 8,
         "response_batched_vjp_count": compute["physical_response_batched_vjp_count"],
+        "routing_variable_count": 5 if p2r7 else 50,
+        "request_layer_response_matrix_count": 0 if p2r7 else 8,
         "terminal_cumulative_structural_p": prior_structural_p,
         "compute": compute,
         "target_wall_seconds": target_wall,
@@ -556,7 +810,11 @@ def _run_arm_case(
     terminal["identity_sha256"] = canonical_hash(terminal)
     terminal_sha = _atomic_write_once(case_root / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s05-p2r2-case-manifest/v1",
+        "schema": (
+            "ode-edit-s05-p2r7-case-manifest/v1"
+            if p2r7
+            else "ode-edit-s05-p2r2-case-manifest/v1"
+        ),
         "alias": alias,
         "arm": arm,
         "case_index": case_index,

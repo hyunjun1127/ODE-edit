@@ -515,11 +515,25 @@ def evaluate_scalable_target_new_objective(
     coefficient_layers: Sequence[Any] | None = None,
     coefficients: torch.Tensor | None = None,
     target_gradient_required: bool = True,
+    request_weights: Sequence[float] | torch.Tensor | None = None,
 ) -> ScalableObjectiveResult:
     """Evaluate the exact global-B target-new NLL and optional one VJP."""
 
     target_mode = target_state is not None
     coefficient_mode = coefficients is not None
+    weights_cpu: torch.Tensor | None = None
+    if request_weights is not None:
+        weights_cpu = torch.as_tensor(
+            request_weights, device="cpu", dtype=torch.float64
+        ).detach().contiguous()
+        if (
+            weights_cpu.ndim != 1
+            or weights_cpu.numel() != plan.request_count
+            or not torch.isfinite(weights_cpu).all()
+            or bool(torch.any(weights_cpu < 0.0))
+            or abs(float(weights_cpu.sum()) - 1.0) > 1.0e-12
+        ):
+            raise ODEBFContractError("P1R23 request weights differ")
     if target_mode and coefficient_mode:
         raise ODEBFContractError("P1R23 objective worlds were mixed")
     if target_mode != (current_terminal is not None and target_layer_name is not None):
@@ -597,7 +611,19 @@ def evaluate_scalable_target_new_objective(
                 llama=plan.llama,
                 context_sha256=plan.context_sha256,
             )
-            request_sum = torch.stack([item[1] for item in observed]).sum()
+            request_sum = (
+                torch.stack([item[1] for item in observed]).sum()
+                if weights_cpu is None
+                else torch.stack(
+                    [
+                        item[1]
+                        * weights_cpu[item[0]].to(
+                            device=item[1].device, dtype=item[1].dtype
+                        )
+                        for item in observed
+                    ]
+                ).sum()
+            )
             if target_mode and target_gradient_required:
                 assert target_state is not None and target_gradient is not None
                 gradient = torch.autograd.grad(
@@ -636,13 +662,22 @@ def evaluate_scalable_target_new_objective(
     if target_mode and overlay_fire_count != len(plan.batches):
         raise ODEBFContractError("P1R23 target overlay firing count differs")
     if target_gradient is not None:
-        target_gradient.div_(plan.request_count)
+        if weights_cpu is None:
+            target_gradient.div_(plan.request_count)
         target_gradient = target_gradient.to(dtype=torch.float32).contiguous()
     if coefficient_gradient is not None:
-        coefficient_gradient.div_(plan.request_count)
+        if weights_cpu is None:
+            coefficient_gradient.div_(plan.request_count)
         coefficient_gradient = coefficient_gradient.to(dtype=torch.float32).contiguous()
     final_values = tuple(float(item) for item in values if item is not None)
-    loss = math.fsum(final_values) / plan.request_count
+    loss = (
+        math.fsum(final_values) / plan.request_count
+        if weights_cpu is None
+        else math.fsum(
+            float(weights_cpu[index]) * value
+            for index, value in enumerate(final_values)
+        )
+    )
     final_spans = tuple(str(item) for item in spans if item is not None)
     final_counts = tuple(int(item) for item in counts if item is not None)
     after = _parameter_inventory_sha256(model)
@@ -667,6 +702,15 @@ def evaluate_scalable_target_new_objective(
         "plan_sha256": plan.identity_sha256,
         "model_state_sha256": after,
     }
+    if weights_cpu is not None:
+        payload.update(
+            {
+                "request_weights": [float(item) for item in weights_cpu],
+                "request_weight_sum": float(weights_cpu.sum()),
+                "request_weight_sha256": tensor_sha256(weights_cpu),
+                "request_weight_detached": True,
+            }
+        )
     return ScalableObjectiveResult(
         loss,
         final_values,

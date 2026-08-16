@@ -1,0 +1,27 @@
+{
+  "schema_version": "ode-edit-s05-p2r7-shared-writer-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P2R7-P2TARGET-P1DW-SHARED-WRITER-V1",
+  "parent": "c97e8619b42da7954ce0e824c215a8a82d70589a",
+  "parent_tree": "711b33fc736641d1f3067c00bd067ed5e60606fe",
+  "entries": [
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p2r7_p2target_p1dw_shared_writer.json", "sha256": "021c42bbd245361f4e285b5c9df195b400ef18c7737187f062d6f02d0404736b", "size": 2314},
+    {"path": "project/run_scripts/ode_bf/p1_runtime.py", "sha256": "537597a4b781af068a3c63dc2bbfadd6b0a3b7eed0e03c7bdab57097a8979f87", "size": 220751},
+    {"path": "project/run_scripts/ode_bf/p1r24_atomic_strength.py", "sha256": "95ef3aff1e0b2d82df08453492a01be4d69d7e1c8795edd72c7d098979f54b0f", "size": 34439},
+    {"path": "project/run_scripts/ode_bf/p1r43_full_strength_routing.py", "sha256": "3e3cf13c734a5fd7812fc239bae9047654a55f2ccbe4c51031b504a13bde7b6c", "size": 4836},
+    {"path": "project/run_scripts/ode_bf/p2r1_rms_tangent_target.py", "sha256": "98591cc1472c23d14178002dd535596916c93751d2d10b95f1306dc7705dac21", "size": 12498},
+    {"path": "project/run_scripts/ode_bf/p2r2_atomic_runtime.py", "sha256": "9263448c9d8cadc646a60537db0163a54874e7c3f0d9cf03b067d837578d6267", "size": 42013},
+    {"path": "project/run_scripts/ode_bf/p2r7_atomic_panel.py", "sha256": "b4ead53b50433eab2d2397b560e268783043c2fbee3677d2b3b657c713908006", "size": 3384},
+    {"path": "project/run_scripts/ode_bf/p2r7_atomic_runtime.py", "sha256": "9a976546f5dd7ae811c91cb14ba38ec26c1b159bd0113849904f61f49a5f862f", "size": 8452},
+    {"path": "project/run_scripts/ode_bf/p2r7_shared_writer.py", "sha256": "9f7d83b40a41a6301ebd227f3a5c1383573bfded8a65aacbf35b4b65b56a1f09", "size": 12415},
+    {"path": "project/run_scripts/ode_bf/progress_simplex_routing.py", "sha256": "434790180d671e893193d5cd706fe2f8ed6c0f1e517600713e01e0465efaccc7", "size": 34344},
+    {"path": "project/run_scripts/ode_bf/scalable_batched_field.py", "sha256": "b75f56d757b4baf8c2edc17c8f6a65034eab3fbbfd4a44d9c317ed5731de052d", "size": 18967},
+    {"path": "project/run_scripts/ode_bf/scalable_batched_model.py", "sha256": "7d910240c5af57b679e8eeb6b7b5ccbad947fdcd44bf8a288f029a34270d0e60", "size": 39285},
+    {"path": "project/run_scripts/ode_bf/tests/test_p2r7_execution_contract.py", "sha256": "ddf7d9d6ac0acf3cd984a156f7cd0c1313e4952bf5db88f8133b7e5087a0d40e", "size": 3503},
+    {"path": "project/run_scripts/ode_bf/tests/test_p2r7_shared_writer.py", "sha256": "e67848e345dd5bde3e0bd7d77b88e62e6686e12b50a39dcd1f98e1b485d7780f", "size": 4331},
+    {"path": "project/run_scripts/session05_ode_bf_p2r7_atomic.py", "sha256": "c074c9b44fdcaa859f63c4384f5d9def84c1038b544a392934cff66ffde2a055", "size": 4515},
+    {"path": "project/run_scripts/session05_ode_bf_p2r7_atomic.sbatch", "sha256": "e163db28482d5eff5015116442d1b072b15fbdfcfe246ed6a3cc13b2c39ff0ba", "size": 2753},
+    {"path": "project/run_scripts/session05_ode_bf_p2r7_atomic_dry_plan.py", "sha256": "f89a2bad5d15b63cbf36e96dde6e0b726db0ed90164dc2e7a5d32a01d361e19e", "size": 3264},
+    {"path": "project/run_scripts/session05_ode_bf_submit_p2r7_atomic.py", "sha256": "d93e662faa66e06b1be8991b16fcd6600bccf97a56fc8e2ba2dfd0be6e8ebbfc", "size": 7293}
+  ],
+  "root_digest": "9eca436162411da12d333bb6b168270ba17fee819c2e0fe94a0a45ceb6004cf7"
+}
