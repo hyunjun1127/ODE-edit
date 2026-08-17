@@ -1,0 +1,78 @@
+{
+  "schema": "ode-edit-global-report-index/v1",
+  "instruction_id": "ODEEDIT-S05-P1R52-RSA-R42SAFEKDC-M1-V1",
+  "method_id": "P1R52-RSA-R42SafeKDC-M1",
+  "repair_revision": "R1",
+  "status": "TERMINAL_COMPLETE",
+  "canonical_designation": "CANONICAL_P1R52_REPAIR_R1_METHOD_CONTRACT_ARTIFACT",
+  "scientific_promotion": false,
+  "source": {
+    "head": "34f0b505fe5f32078aa4b8cffd109a7490d8aaa5",
+    "tree": "253a177dcd72d2235d0ece500558b357b578f84b",
+    "pre_repair_head": "c35ebe5c299c919e68e496cbc2f0d77512c73f7a"
+  },
+  "execution": {
+    "slurm_job": "20374",
+    "array": "0-3%4",
+    "scheduler_completed": 4,
+    "scheduler_failed": 0,
+    "attempts": 40,
+    "endpoints": 40,
+    "typed_failures": 0,
+    "steps": 320,
+    "request_steps": 3200,
+    "model_forward_calls": 9220,
+    "model_backward_calls": 5000,
+    "processed_tokens": 1508881,
+    "materializations": 320,
+    "additional_kl_forward_calls": 0,
+    "additional_kl_backward_calls": 0
+  },
+  "published_report": {
+    "path": "experiment-reports/global/2026-08-17-p1r52-rsa-r42safekdc-m1-repair-r1-final-ko.md",
+    "sha256": "9434cb5ab4ae650b5e72226d6833ea46960d2303a4634a249a63018e9509a5d6"
+  },
+  "canonical_local_artifact_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-rsa-r42safekdc-m1-v1/local/odebf/reports/p1r52-rsa-r42safekdc-m1-repair-r1-final-v1",
+  "canonical_receipts": {
+    "manifest_sha256": "c9147332cc9170ff5c51812ea642e028c3dec80e4d84a6ecf41e9de280282d5b",
+    "manifest_root": "6dbccab31ef1d17f5da84a8b1aa14523e47ba9f1cf941b192f58c4ec8df0162e",
+    "receipt_sha256": "8aa5f281b200c52cea2e6f097a82be2a018dc8dcf48968b9a233bb4bd9a36a00",
+    "receipt_identity": "2a58112acd9335f03eb587956ec2946b852047742c726d66b7537c20598be01d",
+    "independent_review_status": "PASS",
+    "independent_review_sha256": "2c69ff8117166540d5fed99b0f04a32d4be225877c26fe5e2002258f806b101a",
+    "independent_review_root": "6827d4e6d35fba78e71227d06418d757ac8c3bb43a2b3903ed85e793d17674f4"
+  },
+  "large_tables_local_only": [
+    {
+      "name": "p1r52-repair-r1-paired-case-deltas.json",
+      "rows": 40,
+      "sha256": "e3b62f20be38faa412a97f080d749cb9461ebfdb47fdc3e375bd02651205ebe1"
+    },
+    {
+      "name": "p1r52-repair-r1-paired-step-deltas.json",
+      "rows": 320,
+      "sha256": "5bf21546f9da8b0fb2663e3dbb3b49159ef18147d32707286297a567e4a18793"
+    },
+    {
+      "name": "p1r52-repair-r1-paired-request-deltas.json",
+      "rows": 3200,
+      "sha256": "863ef2ffd25a39cb21ab861c5290d5e9a3b4516144b522a80e94d38dbbd89ec5"
+    },
+    {
+      "name": "p1r52-repair-r1-failed-cohort-transitions.json",
+      "rows": 340,
+      "sha256": "299298d83555c0bb34087dd51d37ae9b3774172a940b2d44426be4efae22c40b"
+    },
+    {
+      "name": "p1r52-repair-r1-leave-one-case-out.json",
+      "rows": 40,
+      "sha256": "75709dc9f33442ce32756932d6058ff34315dfa4d8fe14cc610c14a0a96437f7"
+    },
+    {
+      "name": "p1r52-repair-r1-qwen-neutral-case10.json",
+      "steps": 8,
+      "request_steps": 80,
+      "sha256": "486912b17dafa607f95777adddf9e4d1635b78611ce130ccdb12c975ac839831"
+    }
+  ]
+}
