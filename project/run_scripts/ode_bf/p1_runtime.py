@@ -3285,6 +3285,7 @@ def run_p1(
             alias,
             p1r52_sequential_role,
             scale=resolve_p1r52_sequential_scale(p1r52_sequential_scale),
+            attempt_suffix=p1r52_attempt_suffix,
         )
     elif p1r52_arm is not None:
         from .p1r52_independent_runtime import expected_p1r52_result_name

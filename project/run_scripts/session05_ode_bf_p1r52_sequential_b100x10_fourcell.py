@@ -37,7 +37,7 @@ from project.run_scripts.ode_bf.p1r52_sequential_runtime import MEMIT_ROLE
 from project.run_scripts.ode_bf.p1r52_sequential_scale import B100X10_INSTRUCTION_ID
 
 
-RUN_TOKEN = "p1r52-llama-sequential-10xb100-fourcell-v1"
+RUN_TOKEN = "p1r52-llama-sequential-10xb100-fourcell-tech-r1-v1"
 
 
 def _source_gate(source_head: str) -> str:
@@ -49,7 +49,7 @@ def _source_gate(source_head: str) -> str:
         raise ValueError("P1R52 B100x10 source ancestry differs")
     manifest, raw_sha = load_rooted_json(
         REPO_ROOT / "project/run_scripts/ode_bf/locks" / SOURCE_MANIFEST,
-        expected_schema="ode-edit-s05-p1r52-sequential-b100x10-source-manifest/v1",
+        expected_schema="ode-edit-s05-p1r52-sequential-b100x10-tech-r1-source-manifest/v1",
     )
     if (
         manifest.get("instruction_id") != B100X10_INSTRUCTION_ID
@@ -99,6 +99,7 @@ def main(argv: list[str] | None = None) -> int:
             source_head=args.source_head,
             p1r52_sequential_role=args.role,
             p1r52_sequential_scale="b100x10",
+            p1r52_attempt_suffix="tech-r1",
         )
         result.update(
             {
@@ -128,7 +129,7 @@ def main(argv: list[str] | None = None) -> int:
             exc,
             repo_root=REPO_ROOT,
             instruction_id=B100X10_INSTRUCTION_ID,
-            failure_schema="ode-edit-s05-p1r52-sequential-b100x10-job-failure/v1",
+            failure_schema="ode-edit-s05-p1r52-sequential-b100x10-tech-r1-job-failure/v1",
         )
         print(
             json.dumps(

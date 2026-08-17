@@ -29,7 +29,17 @@ from .benchmark import PINNED_SOURCE_SHA256
 from .contracts import BATCH_SIZE, ODEBFContractError, canonical_hash, finite
 from .evaluator import _EvaluationStateGuard, _is_llama, _model_device
 from .p1_selection import _case_id_from_row, project_p1_request_identity
-from .request_digest import ordered_request_digest_v1
+from .request_digest import ordered_request_digest_scalable_v1, ordered_request_digest_v1
+
+
+def _ordered_request_digest_for_batch(
+    request_sha256: Sequence[Any],
+    *,
+    expected_batch_size: int,
+) -> str:
+    if expected_batch_size == BATCH_SIZE:
+        return ordered_request_digest_v1(request_sha256)
+    return ordered_request_digest_scalable_v1(request_sha256)
 
 
 PRIMARY_SOURCE_SHA256 = canonical_hash(
@@ -528,8 +538,9 @@ def load_counterfact_cases_after_freeze(
         or len(canonical_requests) != expected_batch_size
     ):
         raise ODEBFContractError("held-out CounterFact loader batch size differs")
-    request_order = ordered_request_digest_v1(
-        [str(item["request_sha256"]) for item in canonical_requests]
+    request_order = _ordered_request_digest_for_batch(
+        [str(item["request_sha256"]) for item in canonical_requests],
+        expected_batch_size=expected_batch_size,
     )
     if request_order != freeze.request_order_sha256 or not freeze.action_frozen:
         raise ODEBFContractError("held-out CounterFact access preceded action freeze")
@@ -798,7 +809,10 @@ def evaluate_counterfact_success_accuracy_batch(
         or len({item.request_sha256 for item in batch}) != expected_batch_size
     ):
         raise ODEBFContractError("CounterFact success/accuracy evaluator batch differs")
-    request_order = ordered_request_digest_v1([item.request_sha256 for item in batch])
+    request_order = _ordered_request_digest_for_batch(
+        [item.request_sha256 for item in batch],
+        expected_batch_size=expected_batch_size,
+    )
     if request_order != freeze.request_order_sha256:
         raise ODEBFContractError("CounterFact success/accuracy request order differs")
     llama = _is_llama(model, model_alias)
@@ -881,7 +895,10 @@ def evaluate_counterfact_primary_batch(
         or len({item.request_sha256 for item in batch}) != expected_batch_size
     ):
         raise ODEBFContractError("CounterFact primary evaluator batch differs")
-    request_order = ordered_request_digest_v1([item.request_sha256 for item in batch])
+    request_order = _ordered_request_digest_for_batch(
+        [item.request_sha256 for item in batch],
+        expected_batch_size=expected_batch_size,
+    )
     if request_order != freeze.request_order_sha256:
         raise ODEBFContractError("CounterFact primary evaluator request order differs")
     llama = _is_llama(model, model_alias)

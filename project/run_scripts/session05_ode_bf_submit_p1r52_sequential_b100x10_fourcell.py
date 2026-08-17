@@ -22,9 +22,9 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError
 
 
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p1r52_sequential_b100x10_fourcell.sbatch"
-STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r52-llama-sequential-10xb100-fourcell-v1"
+STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r52-llama-sequential-10xb100-fourcell-tech-r1-v1"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
-LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r52-llama-sequential-10xb100-fourcell-v1"
+LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r52-llama-sequential-10xb100-fourcell-tech-r1-v1"
 BRANCH = "codex/p1r52-llama-seq-10xb100-fourarm-r1-v1"
 PROJECT_GPU_CAP = 4
 STAGE_GPU_MAX = 4
@@ -106,7 +106,7 @@ def submit(source_head: str) -> dict[str, object]:
     memory_mib = _host_memory_available_mib()
     if memory_mib < 4 * 65000:
         raise ODEBFContractError("P1R52 B100x10 host memory is below the four-cell request")
-    namespace = f"s05-p1r52-sequential-b100x10-{source_head[:12]}-v1"
+    namespace = f"s05-p1r52-sequential-b100x10-tech-r1-{source_head[:12]}-v1"
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
@@ -136,7 +136,7 @@ def submit(source_head: str) -> dict[str, object]:
         "--nodelist",
         "devbox",
         "--job-name",
-        "odeedit_s05_p1r52_seq_b100x10",
+        "odeedit_s05_p1r52_seq_b100x10_r1",
         "--output",
         str(LOG_ROOT / "%A_%a.out"),
         "--error",

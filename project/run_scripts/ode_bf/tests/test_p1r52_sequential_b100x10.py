@@ -13,6 +13,7 @@ from project.run_scripts import session05_ode_bf_p1r52_sequential_b100x10_fource
 from project.run_scripts.ode_bf.p1_backend import _validate_history_keys
 from project.run_scripts.ode_bf.p1_evaluator import (
     PrefixNLLPair,
+    _ordered_request_digest_for_batch,
     _metric_receipt,
     _prompt_metric_receipt,
 )
@@ -26,6 +27,7 @@ from project.run_scripts.ode_bf.p1r52_b100x10_stream import (
 from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
     RESULT_NAMES,
     RESULT_NAMES_B100X10,
+    RESULT_NAMES_B100X10_TECH_R1,
     expected_p1r52_sequential_result_name,
     run_p1r52_sequential,
 )
@@ -34,6 +36,7 @@ from project.run_scripts.ode_bf.p1r52_sequential_scale import (
     P1R52_B100X10_SCALE,
 )
 from project.run_scripts.ode_bf.scalable_batched_runtime import P1R23_LAYER_ORDER
+from project.run_scripts.ode_bf.request_digest import ordered_request_digest_scalable_v1
 
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -71,6 +74,7 @@ class P1R52SequentialB100x10Tests(unittest.TestCase):
             )
         self.assertEqual(len(RESULT_NAMES_B100X10), 4)
         self.assertTrue(all("10xb100" in name for name in RESULT_NAMES_B100X10.values()))
+        self.assertTrue(all("tech-r1" in name for name in RESULT_NAMES_B100X10_TECH_R1.values()))
 
     def test_stream_is_outcome_free_unique_and_preserves_b10_prefix(self) -> None:
         locks = REPO_ROOT / "project/run_scripts/ode_bf/locks"
@@ -180,6 +184,13 @@ class P1R52SequentialB100x10Tests(unittest.TestCase):
         self.assertEqual(official.denominator, 100)
         self.assertEqual(prompt.prompt_numerator, 100)
         self.assertEqual(prompt.strict_request_denominator, 100)
+
+    def test_tech_r1_uses_existing_scalable_digest_only_for_b100(self) -> None:
+        values = tuple(_sha(f"digest-{index}") for index in range(100))
+        self.assertEqual(
+            _ordered_request_digest_for_batch(values, expected_batch_size=100),
+            ordered_request_digest_scalable_v1(values),
+        )
 
     def test_four_cell_plan_is_antialiased_and_single_wave(self) -> None:
         plan = dry.build_plan("1" * 40)

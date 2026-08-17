@@ -87,6 +87,11 @@ RESULT_NAMES_B100X10 = {
     MEMIT_ROLE: "s05-p1r52-official-memit-sequential-10xb100-v1",
 }
 
+RESULT_NAMES_B100X10_TECH_R1 = {
+    role: name.removesuffix("-v1") + "-tech-r1-v1"
+    for role, name in RESULT_NAMES_B100X10.items()
+}
+
 
 B1_PROCESS_LOCAL_RECEIPT_PATHS = frozenset(
     {
@@ -152,8 +157,19 @@ def expected_p1r52_sequential_result_name(
     role: str,
     *,
     scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
+    attempt_suffix: str | None = None,
 ) -> str:
-    names = RESULT_NAMES if scale == P1R52_B10X10_SCALE else RESULT_NAMES_B100X10
+    if attempt_suffix not in (None, "tech-r1"):
+        raise ODEBFContractError("P1R52 sequential attempt suffix differs")
+    if attempt_suffix is not None and scale == P1R52_B10X10_SCALE:
+        raise ODEBFContractError("P1R52 B10 sequential attempt suffix is not authorized")
+    names = (
+        RESULT_NAMES
+        if scale == P1R52_B10X10_SCALE
+        else RESULT_NAMES_B100X10_TECH_R1
+        if attempt_suffix == "tech-r1"
+        else RESULT_NAMES_B100X10
+    )
     if alias != "llama3-8b-inst" or role not in names:
         raise ODEBFContractError("P1R52 sequential result identity differs")
     return names[role]
@@ -1717,6 +1733,7 @@ __all__ = [
     "OFFICIAL_BASELINE_ROLES",
     "RESULT_NAMES",
     "RESULT_NAMES_B100X10",
+    "RESULT_NAMES_B100X10_TECH_R1",
     "R52_CONTROL_ROLE",
     "R52_H_ROLE",
     "ROLES",

@@ -17,7 +17,7 @@ readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
 readonly EXPECTED_SESSION="01a00e5d-29e8-7a01-822b-7acf43226035"
 readonly EXPECTED_BRANCH="codex/p1r52-llama-seq-10xb100-fourarm-r1-v1"
-readonly RUN_TOKEN="p1r52-llama-sequential-10xb100-fourcell-v1"
+readonly RUN_TOKEN="p1r52-llama-sequential-10xb100-fourcell-tech-r1-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 
 [[ "$#" -eq 2 ]] || { echo "P1R52 B100x10 arguments differ" >&2; exit 2; }
@@ -35,10 +35,10 @@ readonly ROLES=(
   r52-soft-sequential-alphacache-on-structuralh-off
 )
 readonly RESULTS=(
-  s05-p1r52-official-memit-sequential-10xb100-v1
-  s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-v1
-  s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-v1
-  s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-v1
+  s05-p1r52-official-memit-sequential-10xb100-tech-r1-v1
+  s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-tech-r1-v1
+  s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-tech-r1-v1
+  s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-tech-r1-v1
 )
 readonly ROLE="${ROLES[${SLURM_ARRAY_TASK_ID}]}"
 readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULTS[${SLURM_ARRAY_TASK_ID}]}"

@@ -33,7 +33,10 @@ def build_plan(source_head: str) -> dict[str, object]:
             "role": role,
             "alias": "llama3-8b-inst",
             "result_name": expected_p1r52_sequential_result_name(
-                "llama3-8b-inst", role, scale=P1R52_B100X10_SCALE
+                "llama3-8b-inst",
+                role,
+                scale=P1R52_B100X10_SCALE,
+                attempt_suffix="tech-r1",
             ),
             "gpu": 1,
             "cpu": 8,
