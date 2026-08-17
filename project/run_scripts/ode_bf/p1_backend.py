@@ -1483,7 +1483,7 @@ def capture_committed_history_key_views(
             resolved_contexts,
         ).T.detach().to(device="cpu", dtype=torch.float32)
         if key.shape[1] != expected_batch_size:
-            raise ODEBFContractError("post-commit history key is not joint B10")
+            raise ODEBFContractError("post-commit history key batch differs")
         projected = (
             projector[layer_index].to(device=device, dtype=torch.float32)
             @ key.to(device=device, dtype=torch.float32)
@@ -1492,11 +1492,15 @@ def capture_committed_history_key_views(
         risk_keys[layer] = projected
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
+    request_sha256 = [str(item["request_sha256"]) for item in normalized]
+    request_order = (
+        ordered_request_digest_v1(request_sha256)
+        if expected_batch_size == BATCH_SIZE
+        else ordered_request_digest_scalable_v1(request_sha256)
+    )
     identity = canonical_hash(
         {
-            "request_order": ordered_request_digest_v1(
-                [str(item["request_sha256"]) for item in normalized]
-            ),
+            "request_order": request_order,
             "solve": [(layer, tensor_sha256(solve_keys[layer])) for layer in layers],
             "risk": [(layer, tensor_sha256(risk_keys[layer])) for layer in layers],
             "weighting": "unweighted-projected-key-view-at-use-time",

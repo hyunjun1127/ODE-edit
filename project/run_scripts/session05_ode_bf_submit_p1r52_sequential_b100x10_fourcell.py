@@ -94,8 +94,8 @@ def submit(source_head: str, *, attempt_suffix: str) -> dict[str, object]:
     dirty = _run(["git", "status", "--porcelain", "--untracked-files=no"]).stdout
     if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("P1R52 B100x10 execution source differs")
-    r52_only = attempt_suffix == "tech-r2"
-    if attempt_suffix not in ("tech-r1", "tech-r2"):
+    r52_only = attempt_suffix in ("tech-r2", "tech-r3")
+    if attempt_suffix not in ("tech-r1", "tech-r2", "tech-r3"):
         raise ODEBFContractError("P1R52 B100x10 submission attempt differs")
     stage_gpu_max = 2 if r52_only else 4
     state_root = REPO_ROOT / (
@@ -203,7 +203,9 @@ def submit(source_head: str, *, attempt_suffix: str) -> dict[str, object]:
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--attempt-suffix", choices=("tech-r1", "tech-r2"), default="tech-r2")
+    parser.add_argument(
+        "--attempt-suffix", choices=("tech-r1", "tech-r2", "tech-r3"), default="tech-r3"
+    )
     args = parser.parse_args()
     print(
         json.dumps(

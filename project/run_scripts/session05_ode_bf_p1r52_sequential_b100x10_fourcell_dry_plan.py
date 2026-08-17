@@ -34,7 +34,11 @@ def build_plan(
     if len(source_head) != 40:
         raise ODEBFContractError("P1R52 B100x10 dry-plan source differs")
     roles = (R52_H_ROLE, R52_CONTROL_ROLE) if r52_only else ROLES
-    if (attempt_suffix, r52_only) not in (("tech-r1", False), ("tech-r2", True)):
+    if (attempt_suffix, r52_only) not in (
+        ("tech-r1", False),
+        ("tech-r2", True),
+        ("tech-r3", True),
+    ):
         raise ODEBFContractError("P1R52 B100x10 dry-plan repair scope differs")
     jobs = [
         {
@@ -83,7 +87,9 @@ def build_plan(
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--attempt-suffix", choices=("tech-r1", "tech-r2"), default="tech-r1")
+    parser.add_argument(
+        "--attempt-suffix", choices=("tech-r1", "tech-r2", "tech-r3"), default="tech-r1"
+    )
     parser.add_argument("--r52-only", action="store_true")
     args = parser.parse_args()
     print(

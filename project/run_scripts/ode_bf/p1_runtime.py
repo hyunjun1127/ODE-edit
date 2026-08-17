@@ -4474,6 +4474,7 @@ def run_p1(
                     ["request_microbatch_size"][alias]
                 ),
                 scale=resolve_p1r52_sequential_scale(p1r52_sequential_scale),
+                batch_entry_evaluation_enabled=p1r52_attempt_suffix != "tech-r3",
             )
         if p1r52_arm is not None:
             from .p1r52_independent_runtime import run_p1r52_independent

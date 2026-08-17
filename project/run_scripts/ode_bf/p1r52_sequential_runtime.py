@@ -97,6 +97,11 @@ RESULT_NAMES_B100X10_TECH_R2 = {
     for role, name in RESULT_NAMES_B100X10.items()
 }
 
+RESULT_NAMES_B100X10_TECH_R3 = {
+    role: name.removesuffix("-v1") + "-tech-r3-v1"
+    for role, name in RESULT_NAMES_B100X10.items()
+}
+
 
 B1_PROCESS_LOCAL_RECEIPT_PATHS = frozenset(
     {
@@ -164,13 +169,15 @@ def expected_p1r52_sequential_result_name(
     scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
     attempt_suffix: str | None = None,
 ) -> str:
-    if attempt_suffix not in (None, "tech-r1", "tech-r2"):
+    if attempt_suffix not in (None, "tech-r1", "tech-r2", "tech-r3"):
         raise ODEBFContractError("P1R52 sequential attempt suffix differs")
     if attempt_suffix is not None and scale == P1R52_B10X10_SCALE:
         raise ODEBFContractError("P1R52 B10 sequential attempt suffix is not authorized")
     names = (
         RESULT_NAMES
         if scale == P1R52_B10X10_SCALE
+        else RESULT_NAMES_B100X10_TECH_R3
+        if attempt_suffix == "tech-r3"
         else RESULT_NAMES_B100X10_TECH_R2
         if attempt_suffix == "tech-r2"
         else RESULT_NAMES_B100X10_TECH_R1
@@ -641,6 +648,82 @@ def build_pre_post_final_request_rows(
     return rows
 
 
+def build_post_final_request_rows(
+    request_batches: Sequence[Sequence[Mapping[str, Any]]],
+    immediate_post: Sequence[Mapping[str, Any]],
+    final_w10: Sequence[Mapping[str, Any]],
+    *,
+    scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
+) -> list[dict[str, Any]]:
+    """Build the amended raw-free request rows without batch-entry metrics."""
+
+    if not (
+        len(request_batches)
+        == len(immediate_post)
+        == len(final_w10)
+        == scale.round_count
+    ):
+        raise ODEBFContractError("sequential post/final cohort inventory differs")
+    rows: list[dict[str, Any]] = []
+    for round_index, (requests, post, final) in enumerate(
+        zip(request_batches, immediate_post, final_w10, strict=True), start=1
+    ):
+        expected_order = scalable_ordered_request_digest(
+            [str(item["request_sha256"]) for item in requests]
+        )
+        for payload in (post, final):
+            if payload["legacy_primary"]["request_order_sha256"] != expected_order:
+                raise ODEBFContractError("sequential post/final request order differs")
+        for name in ("rewrite_success", "rewrite_acc", "paraphrase_success", "paraphrase_acc"):
+            denominators = {
+                tuple(int(value) for value in payload[name]["per_request_required"])
+                for payload in (post, final)
+            }
+            if len(denominators) != 1:
+                raise ODEBFContractError("sequential post/final metric denominator differs")
+        for request_index, request in enumerate(requests):
+            post_view = _request_metric_view(post, request_index)
+            final_view = _request_metric_view(final, request_index)
+            forgetting = {
+                name: {
+                    "lifetime_forgetting_final_minus_post_rate": (
+                        final_view[name]["rate"] - post_view[name]["rate"]
+                    ),
+                    **(
+                        {}
+                        if name == "locality"
+                        else {
+                            "lifetime_target_new_nll_final_minus_post": (
+                                final_view[name]["target_new_nll_mean"]
+                                - post_view[name]["target_new_nll_mean"]
+                            ),
+                            "lifetime_margin_final_minus_post": (
+                                final_view[name]["target_old_minus_new_margin_mean"]
+                                - post_view[name]["target_old_minus_new_margin_mean"]
+                            ),
+                        }
+                    ),
+                }
+                for name in post_view
+            }
+            row = {
+                "round": round_index,
+                "history_width_at_entry": scale.history_counts[round_index - 1],
+                "case_id": int(request["case_id"]),
+                "request_index": request_index,
+                "request_sha256": str(request["request_sha256"]),
+                "batch_entry_metrics_status": "REMOVED_BY_USER_AMENDMENT",
+                "immediate_post": post_view,
+                "final_W10": final_view,
+                "deltas": forgetting,
+            }
+            row["identity_sha256"] = canonical_hash(row)
+            rows.append(row)
+    if len(rows) != scale.request_count:
+        raise ODEBFStateError("sequential post/final request table does not match the scale")
+    return rows
+
+
 def _anchor_matrix(anchors: Sequence[LifetimeAnchor]) -> dict[str, np.ndarray]:
     return {
         item.request_sha256: np.asarray(item.target_new_nll_by_context, dtype=np.float64)
@@ -844,6 +927,7 @@ def run_p1r52_sequential(
     job_ledger: ComputeLedger,
     request_microbatch_size: int,
     scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
+    batch_entry_evaluation_enabled: bool = True,
 ) -> dict[str, Any]:
     role_names = RESULT_NAMES if scale == P1R52_B10X10_SCALE else RESULT_NAMES_B100X10
     if alias != "llama3-8b-inst" or role not in role_names:
@@ -929,25 +1013,27 @@ def run_p1r52_sequential(
 
             case_root = raw_root / "batches" / f"b{round_index:02d}"
             case_root.mkdir(mode=0o700, parents=True, exist_ok=False)
-            entry_pre, pre_wall = _evaluate_batch_entry(
-                model,
-                tokenizer,
-                dataset_path,
-                requests,
-                alias=alias,
-                role=role,
-                round_index=round_index,
-                entry_weight_sha256=entry_hashes,
-                expected_batch_size=scale.batch_size,
-            )
-            entry_pre_evaluations.append(entry_pre)
-            evaluation_wall += pre_wall
-            _record_evaluator_compute(
-                job_ledger,
-                entry_pre,
-                component="batch_entry_pre_evaluator",
-                wall_seconds=pre_wall,
-            )
+            entry_pre: dict[str, Any] | None = None
+            if batch_entry_evaluation_enabled:
+                entry_pre, pre_wall = _evaluate_batch_entry(
+                    model,
+                    tokenizer,
+                    dataset_path,
+                    requests,
+                    alias=alias,
+                    role=role,
+                    round_index=round_index,
+                    entry_weight_sha256=entry_hashes,
+                    expected_batch_size=scale.batch_size,
+                )
+                entry_pre_evaluations.append(entry_pre)
+                evaluation_wall += pre_wall
+                _record_evaluator_compute(
+                    job_ledger,
+                    entry_pre,
+                    component="batch_entry_pre_evaluator",
+                    wall_seconds=pre_wall,
+                )
             seed_all(COMMON_SEED)
             if role in R52_ROLES:
                 request_order = scalable_ordered_request_digest([str(item["request_sha256"]) for item in requests])
@@ -1318,9 +1404,17 @@ def run_p1r52_sequential(
                 checkpoint_evaluations,
                 batch_size=scale.batch_size,
             )
-            pre_summary = _evaluation_summary(entry_pre)
+            pre_summary = (
+                _evaluation_summary(entry_pre)
+                if entry_pre is not None
+                else "REMOVED_BY_USER_AMENDMENT"
+            )
             post_summary = _evaluation_summary(current_eval)
-            post_minus_pre = _summary_delta(post_summary, pre_summary)
+            post_minus_pre = (
+                _summary_delta(post_summary, pre_summary)
+                if isinstance(pre_summary, Mapping)
+                else "NOT_RECORDED_BY_USER_AMENDMENT"
+            )
 
             terminal_observed: dict[str, np.ndarray] = {}
             if prior_requests:
@@ -1428,8 +1522,6 @@ def run_p1r52_sequential(
                 "control_added_materialization_count": 0,
                 "lifetime_anchor_count": len(anchor_ledger.anchors),
                 "structural_h_routing": h_payload,
-                "batch_entry_pre_evaluation": entry_pre,
-                "batch_entry_pre_summary": pre_summary,
                 "current_batch_evaluation": current_eval,
                 "current_batch_immediate_post_summary": post_summary,
                 "current_batch_post_minus_pre": post_minus_pre,
@@ -1447,9 +1539,17 @@ def run_p1r52_sequential(
                 "B1_cross_arm_entry_equality_status": (
                     "PENDING_PAIRED_TERMINAL_INTEGRITY" if round_index == 1 else "NOT_APPLICABLE"
                 ),
+                "batch_entry_metrics_status": (
+                    "RECORDED_LEGACY_SCOPE"
+                    if batch_entry_evaluation_enabled
+                    else "REMOVED_BY_USER_AMENDMENT"
+                ),
                 "retry_count": 0,
                 "backtracking_count": 0,
             }
+            if batch_entry_evaluation_enabled:
+                batch_payload["batch_entry_pre_evaluation"] = entry_pre
+                batch_payload["batch_entry_pre_summary"] = pre_summary
             batch_payload["identity_sha256"] = canonical_hash(batch_payload)
             batch_sha = _atomic_write_once(case_root / "terminal.json", batch_payload)
             checkpoint_rows.append(
@@ -1505,46 +1605,72 @@ def run_p1r52_sequential(
             final_evaluations,
             batch_size=scale.batch_size,
         )
-        true_entry_pre_all = _aggregate_metric_payloads(
-            entry_pre_evaluations,
-            batch_size=scale.batch_size,
-        )
         immediate_post_all = _aggregate_metric_payloads(
             immediate_post_evaluations,
             batch_size=scale.batch_size,
         )
-        request_comparison_rows = build_pre_post_final_request_rows(
-            cohort_requests,
-            entry_pre_evaluations,
-            immediate_post_evaluations,
-            final_evaluations,
-            scale=scale,
-        )
-        cohort_comparison_rows = [
-            {
-                "round": round_index,
-                "batch_age_at_W10": scale.round_count - round_index,
-                "history_width_at_entry": scale.history_counts[round_index - 1],
-                "entry_pre": _evaluation_summary(pre),
-                "immediate_post": _evaluation_summary(post),
-                "final_W10": _evaluation_summary(final),
-                "post_minus_pre": _summary_delta(
-                    _evaluation_summary(post), _evaluation_summary(pre)
-                ),
-                "final_minus_post": _summary_delta(
-                    _evaluation_summary(final), _evaluation_summary(post)
-                ),
-            }
-            for round_index, (pre, post, final) in enumerate(
-                zip(
-                    entry_pre_evaluations,
-                    immediate_post_evaluations,
-                    final_evaluations,
-                    strict=True,
-                ),
-                start=1,
+        if batch_entry_evaluation_enabled:
+            true_entry_pre_all: dict[str, Any] | str = _aggregate_metric_payloads(
+                entry_pre_evaluations,
+                batch_size=scale.batch_size,
             )
-        ]
+            request_comparison_rows = build_pre_post_final_request_rows(
+                cohort_requests,
+                entry_pre_evaluations,
+                immediate_post_evaluations,
+                final_evaluations,
+                scale=scale,
+            )
+            cohort_comparison_rows = [
+                {
+                    "round": round_index,
+                    "batch_age_at_W10": scale.round_count - round_index,
+                    "history_width_at_entry": scale.history_counts[round_index - 1],
+                    "entry_pre": _evaluation_summary(pre),
+                    "immediate_post": _evaluation_summary(post),
+                    "final_W10": _evaluation_summary(final),
+                    "post_minus_pre": _summary_delta(
+                        _evaluation_summary(post), _evaluation_summary(pre)
+                    ),
+                    "final_minus_post": _summary_delta(
+                        _evaluation_summary(final), _evaluation_summary(post)
+                    ),
+                }
+                for round_index, (pre, post, final) in enumerate(
+                    zip(
+                        entry_pre_evaluations,
+                        immediate_post_evaluations,
+                        final_evaluations,
+                        strict=True,
+                    ),
+                    start=1,
+                )
+            ]
+        else:
+            true_entry_pre_all = "REMOVED_BY_USER_AMENDMENT"
+            request_comparison_rows = build_post_final_request_rows(
+                cohort_requests,
+                immediate_post_evaluations,
+                final_evaluations,
+                scale=scale,
+            )
+            cohort_comparison_rows = [
+                {
+                    "round": round_index,
+                    "batch_age_at_W10": scale.round_count - round_index,
+                    "history_width_at_entry": scale.history_counts[round_index - 1],
+                    "batch_entry_metrics_status": "REMOVED_BY_USER_AMENDMENT",
+                    "immediate_post": _evaluation_summary(post),
+                    "final_W10": _evaluation_summary(final),
+                    "final_minus_post": _summary_delta(
+                        _evaluation_summary(final), _evaluation_summary(post)
+                    ),
+                }
+                for round_index, (post, final) in enumerate(
+                    zip(immediate_post_evaluations, final_evaluations, strict=True),
+                    start=1,
+                )
+            ]
     finally:
         terminal_restore = _restore_exact_w0(
             touched,
@@ -1563,9 +1689,12 @@ def run_p1r52_sequential(
         "row_count": len(checkpoint_rows),
     }
     checkpoint_table["identity_sha256"] = canonical_hash(checkpoint_table)
-    checkpoint_table_sha = _atomic_write_once(
-        destination / "b1-b10-pre-post-checkpoints.json", checkpoint_table
+    checkpoint_filename = (
+        "b1-b10-pre-post-checkpoints.json"
+        if batch_entry_evaluation_enabled
+        else "b1-b10-post-final-checkpoints.json"
     )
+    checkpoint_table_sha = _atomic_write_once(destination / checkpoint_filename, checkpoint_table)
     request_table = {
         "schema": f"ode-edit-s05-p1r52-sequential-{scale.scale_id}-pre-post-final-requests/v1",
         "role": role,
@@ -1574,9 +1703,12 @@ def run_p1r52_sequential(
         "row_count": len(request_comparison_rows),
     }
     request_table["identity_sha256"] = canonical_hash(request_table)
-    request_table_sha = _atomic_write_once(
-        destination / "entry-pre-immediate-post-final-w10-requests.json", request_table
+    request_filename = (
+        "entry-pre-immediate-post-final-w10-requests.json"
+        if batch_entry_evaluation_enabled
+        else "immediate-post-final-w10-requests.json"
     )
+    request_table_sha = _atomic_write_once(destination / request_filename, request_table)
     cohort_table = {
         "schema": f"ode-edit-s05-p1r52-sequential-{scale.scale_id}-batch-age-cohorts/v1",
         "role": role,
@@ -1585,27 +1717,39 @@ def run_p1r52_sequential(
         "row_count": len(cohort_comparison_rows),
     }
     cohort_table["identity_sha256"] = canonical_hash(cohort_table)
-    cohort_table_sha = _atomic_write_once(
-        destination / "batch-age-pre-post-final-cohorts.json", cohort_table
+    cohort_filename = (
+        "batch-age-pre-post-final-cohorts.json"
+        if batch_entry_evaluation_enabled
+        else "batch-age-post-final-cohorts.json"
     )
+    cohort_table_sha = _atomic_write_once(destination / cohort_filename, cohort_table)
     aggregate_table = {
-        "schema": f"ode-edit-s05-p1r52-sequential-{scale.scale_id}-true-entry-post-final-aggregate/v1",
+        "schema": f"ode-edit-s05-p1r52-sequential-{scale.scale_id}-post-final-aggregate/v1",
         "role": role,
         "scale_id": scale.scale_id,
-        f"true_entry_pre_B{scale.batch_size}_panels": true_entry_pre_all,
         f"immediate_post_B{scale.batch_size}_panels": immediate_post_all,
         f"final_W10_{scale.final_label}": final_b100,
-        "immediate_post_minus_entry_pre": _aggregate_delta(
-            immediate_post_all, true_entry_pre_all
-        ),
         "final_W10_minus_immediate_post": _aggregate_delta(
             final_b100, immediate_post_all
         ),
+        "batch_entry_metrics_status": (
+            "RECORDED_LEGACY_SCOPE"
+            if batch_entry_evaluation_enabled
+            else "REMOVED_BY_USER_AMENDMENT"
+        ),
     }
+    if batch_entry_evaluation_enabled:
+        aggregate_table[f"true_entry_pre_B{scale.batch_size}_panels"] = true_entry_pre_all
+        aggregate_table["immediate_post_minus_entry_pre"] = _aggregate_delta(
+            immediate_post_all, true_entry_pre_all
+        )
     aggregate_table["identity_sha256"] = canonical_hash(aggregate_table)
-    aggregate_table_sha = _atomic_write_once(
-        destination / "true-entry-post-final-aggregate.json", aggregate_table
+    aggregate_filename = (
+        "true-entry-post-final-aggregate.json"
+        if batch_entry_evaluation_enabled
+        else "post-final-aggregate.json"
     )
+    aggregate_table_sha = _atomic_write_once(destination / aggregate_filename, aggregate_table)
 
     terminal = {
         "schema": f"ode-edit-s05-p1r52-sequential-10xb{scale.batch_size}-terminal/v1",
@@ -1629,30 +1773,33 @@ def run_p1r52_sequential(
         "batch_size": scale.batch_size,
         "request_count": scale.request_count,
         "checkpoint_rows": checkpoint_rows,
-        f"true_entry_pre_all_B{scale.batch_size}": true_entry_pre_all,
         f"immediate_post_all_B{scale.batch_size}": immediate_post_all,
         f"final_{scale.final_label}": final_b100,
         f"final_{scale.final_label}_cohort_receipts": final_evaluations,
-        "entry_pre_receipts": entry_pre_evaluations,
         "immediate_post_receipts": immediate_post_evaluations,
+        "batch_entry_metrics_status": (
+            "RECORDED_LEGACY_SCOPE"
+            if batch_entry_evaluation_enabled
+            else "REMOVED_BY_USER_AMENDMENT"
+        ),
         "comparison_tables": {
             "checkpoint": {
-                "path": str(destination / "b1-b10-pre-post-checkpoints.json"),
+                "path": str(destination / checkpoint_filename),
                 "sha256": checkpoint_table_sha,
                 "rows": len(checkpoint_rows),
             },
             "request": {
-                "path": str(destination / "entry-pre-immediate-post-final-w10-requests.json"),
+                "path": str(destination / request_filename),
                 "sha256": request_table_sha,
                 "rows": len(request_comparison_rows),
             },
             "cohort": {
-                "path": str(destination / "batch-age-pre-post-final-cohorts.json"),
+                "path": str(destination / cohort_filename),
                 "sha256": cohort_table_sha,
                 "rows": len(cohort_comparison_rows),
             },
             "aggregate": {
-                "path": str(destination / "true-entry-post-final-aggregate.json"),
+                "path": str(destination / aggregate_filename),
                 "sha256": aggregate_table_sha,
                 "rows": 1,
             },
@@ -1674,7 +1821,7 @@ def run_p1r52_sequential(
         "terminal_W0_restore_count": 1,
         "terminal_W0_restore": terminal_restore,
         "action_freeze_checkpoint_count": scale.round_count,
-        "batch_entry_pre_evaluator_count": scale.round_count,
+        "batch_entry_pre_evaluator_count": len(entry_pre_evaluations),
         "batch_entry_pre_evaluator_forward_count": sum(
             int(item["legacy_primary"]["model_forward_count"])
             for item in entry_pre_evaluations
@@ -1699,6 +1846,9 @@ def run_p1r52_sequential(
         "job_compute": job_ledger.raw_free_payload(),
         "scientific_promotion": False,
     }
+    if batch_entry_evaluation_enabled:
+        terminal[f"true_entry_pre_all_B{scale.batch_size}"] = true_entry_pre_all
+        terminal["entry_pre_receipts"] = entry_pre_evaluations
     terminal["identity_sha256"] = canonical_hash(terminal)
     terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
     manifest = {
@@ -1708,10 +1858,10 @@ def run_p1r52_sequential(
         "terminal_sha256": terminal_sha,
         "batch_terminal_sha256": [row["terminal_sha256"] for row in checkpoint_rows],
         "comparison_table_sha256": {
-            "b1-b10-pre-post-checkpoints.json": checkpoint_table_sha,
-            "entry-pre-immediate-post-final-w10-requests.json": request_table_sha,
-            "batch-age-pre-post-final-cohorts.json": cohort_table_sha,
-            "true-entry-post-final-aggregate.json": aggregate_table_sha,
+            checkpoint_filename: checkpoint_table_sha,
+            request_filename: request_table_sha,
+            cohort_filename: cohort_table_sha,
+            aggregate_filename: aggregate_table_sha,
         },
         "scale_id": scale.scale_id,
         "round_count": scale.round_count,
@@ -1742,6 +1892,7 @@ __all__ = [
     "RESULT_NAMES_B100X10",
     "RESULT_NAMES_B100X10_TECH_R1",
     "RESULT_NAMES_B100X10_TECH_R2",
+    "RESULT_NAMES_B100X10_TECH_R3",
     "R52_CONTROL_ROLE",
     "R52_H_ROLE",
     "ROLES",

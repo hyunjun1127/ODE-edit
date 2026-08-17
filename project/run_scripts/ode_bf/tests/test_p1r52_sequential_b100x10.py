@@ -29,6 +29,7 @@ from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
     RESULT_NAMES_B100X10,
     RESULT_NAMES_B100X10_TECH_R1,
     RESULT_NAMES_B100X10_TECH_R2,
+    RESULT_NAMES_B100X10_TECH_R3,
     expected_p1r52_sequential_result_name,
     run_p1r52_sequential,
 )
@@ -77,6 +78,7 @@ class P1R52SequentialB100x10Tests(unittest.TestCase):
         self.assertTrue(all("10xb100" in name for name in RESULT_NAMES_B100X10.values()))
         self.assertTrue(all("tech-r1" in name for name in RESULT_NAMES_B100X10_TECH_R1.values()))
         self.assertTrue(all("tech-r2" in name for name in RESULT_NAMES_B100X10_TECH_R2.values()))
+        self.assertTrue(all("tech-r3" in name for name in RESULT_NAMES_B100X10_TECH_R3.values()))
 
     def test_stream_is_outcome_free_unique_and_preserves_b10_prefix(self) -> None:
         locks = REPO_ROOT / "project/run_scripts/ode_bf/locks"
@@ -194,6 +196,15 @@ class P1R52SequentialB100x10Tests(unittest.TestCase):
             ordered_request_digest_scalable_v1(values),
         )
 
+    def test_history_key_commit_dispatches_the_existing_scalable_digest(self) -> None:
+        source = inspect.getsource(
+            __import__(
+                "project.run_scripts.ode_bf.p1_backend", fromlist=["capture_committed_history_key_views"]
+            ).capture_committed_history_key_views
+        )
+        self.assertIn("expected_batch_size == BATCH_SIZE", source)
+        self.assertIn("ordered_request_digest_scalable_v1(request_sha256)", source)
+
     def test_four_cell_plan_is_antialiased_and_single_wave(self) -> None:
         plan = dry.build_plan("1" * 40)
         self.assertEqual(plan["array"], "0-3%4")
@@ -218,6 +229,15 @@ class P1R52SequentialB100x10Tests(unittest.TestCase):
             ],
         )
         self.assertTrue(all("tech-r2" in job["result_name"] for job in plan["jobs"]))
+
+    def test_tech_r3_removes_batch_entry_evaluator_and_keeps_post_final(self) -> None:
+        plan = dry.build_plan("3" * 40, attempt_suffix="tech-r3", r52_only=True)
+        self.assertEqual(plan["job_count"], 2)
+        self.assertTrue(all("tech-r3" in job["result_name"] for job in plan["jobs"]))
+        runtime_source = inspect.getsource(run_p1r52_sequential)
+        self.assertIn("if batch_entry_evaluation_enabled:", runtime_source)
+        self.assertIn("REMOVED_BY_USER_AMENDMENT", runtime_source)
+        self.assertIn("build_post_final_request_rows", runtime_source)
 
 
 if __name__ == "__main__":

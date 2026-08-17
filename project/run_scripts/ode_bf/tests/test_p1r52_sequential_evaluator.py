@@ -13,6 +13,7 @@ from project.run_scripts.ode_bf.p1_evaluator import (
     evaluate_counterfact_success_accuracy_batch,
 )
 from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
+    build_post_final_request_rows,
     build_pre_post_final_request_rows,
 )
 from project.run_scripts.ode_bf.request_digest import ordered_request_digest_v1
@@ -216,6 +217,28 @@ class P1R52SequentialEvaluatorTests(unittest.TestCase):
             build_pre_post_final_request_rows(
                 request_batches, pre, post, bad_final
             )
+        amended = build_post_final_request_rows(request_batches, post, final)
+        self.assertEqual(len(amended), 100)
+        self.assertNotIn("entry_pre", amended[0])
+        self.assertEqual(
+            amended[0]["batch_entry_metrics_status"],
+            "REMOVED_BY_USER_AMENDMENT",
+        )
+        self.assertEqual(
+            set(amended[0]),
+            {
+                "round",
+                "history_width_at_entry",
+                "case_id",
+                "request_index",
+                "request_sha256",
+                "batch_entry_metrics_status",
+                "immediate_post",
+                "final_W10",
+                "deltas",
+                "identity_sha256",
+            },
+        )
 
 
 if __name__ == "__main__":

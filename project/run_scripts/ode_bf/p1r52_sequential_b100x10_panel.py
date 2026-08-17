@@ -22,7 +22,8 @@ LOCK_SCHEMA = "ode-edit-s05-p1r52-sequential-b100x10-fourcell-lock/v1"
 LOCK_FILE = "numerical_lock_s05_p1r52_llama_sequential_10xb100_fourcell.json"
 SOURCE_MANIFEST_TECH_R1 = "source_manifest_s05_p1r52_llama_sequential_10xb100_fourcell_tech_r1.json"
 SOURCE_MANIFEST_TECH_R2 = "source_manifest_s05_p1r52_llama_sequential_10xb100_r52_tech_r2.json"
-SOURCE_MANIFEST = SOURCE_MANIFEST_TECH_R2
+SOURCE_MANIFEST_TECH_R3 = "source_manifest_s05_p1r52_llama_sequential_10xb100_r52_tech_r3.json"
+SOURCE_MANIFEST = SOURCE_MANIFEST_TECH_R3
 PARENT = "329ef063b969e01635f7602e40923936a405c1bd"
 PARENT_TREE = "34d5c147bd23cde3549d88cbd6f844f61d07b618"
 ROLES = (MEMIT_ROLE, NATIVE_CORRECTED_ROLE, R52_H_ROLE, R52_CONTROL_ROLE)
@@ -91,6 +92,7 @@ __all__ = [
     "SOURCE_MANIFEST",
     "SOURCE_MANIFEST_TECH_R1",
     "SOURCE_MANIFEST_TECH_R2",
+    "SOURCE_MANIFEST_TECH_R3",
     "load_and_validate_lock",
     "validate_lock",
     "verify_memit_artifacts",
