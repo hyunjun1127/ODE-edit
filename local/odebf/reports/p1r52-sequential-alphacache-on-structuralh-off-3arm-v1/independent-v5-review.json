@@ -1,0 +1,113 @@
+{
+  "integrity": {
+    "existing_v5_artifacts_modified": true,
+    "first_false_gate": null,
+    "report_directory_mode": "0700",
+    "reviewed_files_mode": "0600",
+    "user_authorized_in_place_report_overwrite": true
+  },
+  "readable_checklist": {
+    "EFF_GEN_LOC_primary_labels": "PASS",
+    "W0_and_B1_to_B10_entry_pre_immediate_post_final_W10_absolute_tables": "PASS",
+    "accuracy_and_strict_all_paraphrases_separate": "PASS",
+    "compact_success_EFF_GEN_LOC_after_summary": "PASS",
+    "controller_alpha_cache_structural_H_P_energy_compute_cohort_tables": "PASS",
+    "four_arm_identity_h_on_h_off_corrected_alphaedit_memit": "PASS",
+    "new_true_NLL_margin_and_z_W_gap_with_NOT_RECORDED": "PASS",
+    "superseded_cache_reset_native_appendix_only": "PASS",
+    "three_arm_identity_h_on_h_off_native": "PASS"
+  },
+  "review_action_counts": {
+    "GPU": 0,
+    "Slurm": 0,
+    "evaluator": 0,
+    "model": 0,
+    "raw_content_access": 0,
+    "source_edit": 0
+  },
+  "review_scope": "raw-free read-only rehash and selected source-to-report cross-check",
+  "review_status": "PASS",
+  "reviewed_artifacts": {
+    "four_arm_machine_tables": {
+      "p1r52-sequential-four-arm-cache-compute-v6.json": {
+        "bytes": 109667,
+        "sha256": "d0484bcfd6a05bc15c06f0dce36ae046eb6efbdf907c5e971d70de30c950a1b3"
+      },
+      "p1r52-sequential-four-arm-hard-cohort-v6.json": {
+        "bytes": 1846,
+        "sha256": "e5d2f983dd0c95bed738616ad46023206604ce5c59b790327ede6763445a61f5"
+      },
+      "p1r52-sequential-four-arm-per-request-v6.json": {
+        "bytes": 2940913,
+        "sha256": "ff44c46b01953d00117fb932716dd2f997b418db495d1b55ecda01ebcae78dc0"
+      },
+      "p1r52-sequential-four-arm-readable-metrics-v6.json": {
+        "bytes": 292148,
+        "sha256": "7a4d5e7460941714e16fa742a1ecbdffff8677210def049580a3a5f127898916"
+      }
+    },
+    "h_off_report_v5": {
+      "bytes": 23271,
+      "lines": 189,
+      "path": "p1r52-soft-sequential-alphacache-on-structuralh-off-10xb10-factual-ko-v5.md",
+      "sha256": "f3686852e489618535bba8dbd72f7fc498caee48ea39bf8b589cb59cc65cde0c"
+    },
+    "manifest_v5": {
+      "members_checked": 29,
+      "members_matching": 29,
+      "members_root_sha256": "3c06edc5b32258ddbce518533569e6fe8a81b972e5549efb3a5d98c76ae30564",
+      "path": "readable-v5-manifest.json",
+      "sha256": "6fac061f7c0275590b54369bd334a2c92fe478863238563e12a24d59702d0b03"
+    },
+    "readable_summary_v5": {
+      "bytes": 321700,
+      "lines": 9819,
+      "path": "p1r52-sequential-three-arm-readable-summary-v5.json",
+      "sha256": "d6d6828b7476501dd74ee024d976e19573b07009b66d23bed04b5630cc2aa56b"
+    },
+    "receipt_v5": {
+      "path": "readable-v5-receipt.json",
+      "sha256": "8c25db6c2f0ec187dc676d8bb6c2df994f4924243bf46b0198f63ef2ebc0a269"
+    },
+    "three_arm_report_v5": {
+      "bytes": 49383,
+      "lines": 487,
+      "path": "p1r52-sequential-structuralh-on-off-native-three-arm-ko-v5.md",
+      "sha256": "9ea2687e3646f0da0311abeca2fda818295cd7875673dfad39aecb090bcf9217"
+    }
+  },
+  "schema": "p1r52-sequential-independent-v5-review/v1",
+  "source_to_summary_cross_check": {
+    "B100_final_W10_checked": true,
+    "arms": [
+      "h_on",
+      "h_off",
+      "alpha",
+      "memit"
+    ],
+    "checked_fields": [
+      "rewrite_success/EFF numerator denominator rate strict request rate target-new NLL target-true NLL margin",
+      "paraphrase_success/GEN numerator denominator rate strict all-paraphrases request rate target-new NLL target-true NLL margin",
+      "rewrite_acc and paraphrase/rephrase_acc numerator denominator rate strict request rate",
+      "locality numerator denominator rate"
+    ],
+    "checks": 40,
+    "mismatches": 0,
+    "phases_per_selected_batch": [
+      "entry_pre",
+      "immediate_post",
+      "final_W10"
+    ],
+    "selected_batches": [
+      1,
+      5,
+      10
+    ],
+    "source_roots": {
+      "alpha": "s05-p1r52-native-alphaedit-sequential-cache-on-corrected-10xb10-v1",
+      "h_off": "s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1",
+      "h_on": "s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1",
+      "memit": "s05-p1r52-official-memit-sequential-10xb10-v1"
+    }
+  }
+}

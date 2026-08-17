@@ -1,0 +1,21 @@
+{
+  "analysis_actions": {
+    "evaluator": 0,
+    "gpu": 0,
+    "model": 0,
+    "result_mutation": 0,
+    "slurm": 0,
+    "source_edit": 0
+  },
+  "canonical_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/reports/p1r52-sequential-alphacache-on-structuralh-off-3arm-v1/p1r52-sequential-structuralh-on-off-native-three-arm-ko.md",
+  "canonical_report_bytes": 6445,
+  "canonical_report_lines": 57,
+  "canonical_report_sha256": "14fe1285f12c648500e780af2f90968cfdd81ded60b9ecbb63fbf012ba76f08a",
+  "control_report_sha256": "5f53540b1960103d41dc156ed84086d403263a9cbadb25bc198690687bf301c7",
+  "manifest_sha256": "5dfda01a269a57c60b19b3aa8e0e1cd367639cd3598b5674b41a20c7954ddb42",
+  "package_root_sha256": "18c1670b0f6947aaf01213014d1932509cfa41f4df6ae721f33b4eda3aeef8fa",
+  "raw_content_included": false,
+  "schema": "p1r52-sequential-three-arm/analysis-receipt/v1",
+  "status": "PASS",
+  "three_arm_identity_pairing_pass": true
+}

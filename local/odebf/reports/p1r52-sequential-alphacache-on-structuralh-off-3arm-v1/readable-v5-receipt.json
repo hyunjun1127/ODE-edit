@@ -1,0 +1,31 @@
+{
+  "analysis_actions": {
+    "evaluator": 0,
+    "gpu": 0,
+    "model": 0,
+    "result_mutation": 0,
+    "slurm": 0,
+    "source_edit": 0
+  },
+  "canonical_arms": [
+    "h_on",
+    "h_off",
+    "alpha",
+    "memit"
+  ],
+  "control_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/reports/p1r52-sequential-alphacache-on-structuralh-off-3arm-v1/p1r52-soft-sequential-alphacache-on-structuralh-off-10xb10-factual-ko-v5.md",
+  "control_report_bytes": 23271,
+  "control_report_lines": 189,
+  "control_report_sha256": "f3686852e489618535bba8dbd72f7fc498caee48ea39bf8b589cb59cc65cde0c",
+  "manifest_sha256": "6fac061f7c0275590b54369bd334a2c92fe478863238563e12a24d59702d0b03",
+  "members_root_sha256": "3c06edc5b32258ddbce518533569e6fe8a81b972e5549efb3a5d98c76ae30564",
+  "prior_three_arm_report_sha256_before_authorized_overwrite": "4c97731e80379a3a45ede38e23581cb8dfbf0e53006093627fea28372b8120a2",
+  "schema": "p1r52-sequential/readable-v5-receipt/v1",
+  "status": "PASS",
+  "summary_sha256": "d6d6828b7476501dd74ee024d976e19573b07009b66d23bed04b5630cc2aa56b",
+  "three_arm_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/reports/p1r52-sequential-alphacache-on-structuralh-off-3arm-v1/p1r52-sequential-structuralh-on-off-native-three-arm-ko-v5.md",
+  "three_arm_report_bytes": 49383,
+  "three_arm_report_lines": 487,
+  "three_arm_report_sha256": "9ea2687e3646f0da0311abeca2fda818295cd7875673dfad39aecb090bcf9217",
+  "user_authorized_in_place_report_overwrite": true
+}

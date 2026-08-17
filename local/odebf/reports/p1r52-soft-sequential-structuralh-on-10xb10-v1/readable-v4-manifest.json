@@ -1,0 +1,47 @@
+{
+  "members": [
+    {
+      "bytes": 17123,
+      "name": "p1r52-soft-sequential-structuralh-on-10xb10-factual-ko-v3.md",
+      "sha256": "7aea6fa1fe19d189de2077986f9023473d434f28e860328761644f787957c9a9"
+    },
+    {
+      "bytes": 117213,
+      "name": "p1r52-structuralh-on-readable-metrics-v4.json",
+      "sha256": "ff3ba2846bab87b5c8fed5438ece378c6ed99baa22196ff8cc9d437c77508261"
+    },
+    {
+      "bytes": 49304,
+      "name": "p1r52-soft-sequential-structuralh-on-10xb10-factual-ko-v4.md",
+      "sha256": "9556e810d09260424e41f1840f755bc91ff1087e22ee3970d3b417533d61715a"
+    }
+  ],
+  "members_root_sha256": "1d6531741f18f31bbfbd95f5861d8c0f8a70999bab0c3cc767571cdf4f6ca9a5",
+  "native_result_terminal_sha256": "8ca539611f7830008b6469f66e96f31921e227f5b75db5af86e29e206e2d8fc0",
+  "official_baseline_external_tables": [
+    {
+      "bytes": 292148,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/reports/p1r52-sequential-alphacache-on-structuralh-off-3arm-v1/p1r52-sequential-four-arm-readable-metrics-v6.json",
+      "sha256": "7a4d5e7460941714e16fa742a1ecbdffff8677210def049580a3a5f127898916"
+    },
+    {
+      "bytes": 109667,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/reports/p1r52-sequential-alphacache-on-structuralh-off-3arm-v1/p1r52-sequential-four-arm-cache-compute-v6.json",
+      "sha256": "d0484bcfd6a05bc15c06f0dce36ae046eb6efbdf907c5e971d70de30c950a1b3"
+    },
+    {
+      "bytes": 1846,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/reports/p1r52-sequential-alphacache-on-structuralh-off-3arm-v1/p1r52-sequential-four-arm-hard-cohort-v6.json",
+      "sha256": "e5d2f983dd0c95bed738616ad46023206604ce5c59b790327ede6763445a61f5"
+    },
+    {
+      "bytes": 2940913,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/reports/p1r52-sequential-alphacache-on-structuralh-off-3arm-v1/p1r52-sequential-four-arm-per-request-v6.json",
+      "sha256": "ff44c46b01953d00117fb932716dd2f997b418db495d1b55ecda01ebcae78dc0"
+    }
+  ],
+  "official_baseline_external_tables_root_sha256": "9312529e327e077628125714d682b6ce270e47c595a8ca3c05221b2e68ebc99f",
+  "schema": "p1r52-structuralh-on/readable-v4-manifest/v1",
+  "source_result_terminal_sha256": "538b4d1853b5db3a2e7ee42b56546e80a2124769990ca72836de03810056bf38",
+  "user_authorized_in_place_report_overwrite": true
+}

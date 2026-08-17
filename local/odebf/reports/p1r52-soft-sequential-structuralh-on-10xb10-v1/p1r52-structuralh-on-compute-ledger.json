@@ -1,0 +1,145 @@
+{
+  "payload": {
+    "entry_pre_evaluator_model_forward_backward_generation": [
+      100,
+      0,
+      0
+    ],
+    "evaluator_controller_influence_count": 0,
+    "inner_K_step_heldout_evaluation_count": 0,
+    "native_edit_core_wall_seconds_sum": 271.81740995310247,
+    "native_terminal_job_compute": {
+      "accepted_t": 0.0,
+      "completed_correction_cycles": 0,
+      "completed_k_total": 0,
+      "component_gpu_seconds": {
+        "batch_entry_pre_evaluator": 0.0,
+        "batch_terminal_checkpoint_evaluator": 0.0,
+        "context_generation_twice": 1.04027978515625,
+        "final_W10_B100_evaluator": 0.0,
+        "model_load": 10.90016015625,
+        "theta0_teacher_population": 1.8691337890625
+      },
+      "component_wall_seconds": {
+        "batch_entry_pre_evaluator": 12.080851797945797,
+        "batch_terminal_checkpoint_evaluator": 65.48658479191363,
+        "context_generation_twice": 1.0402257116511464,
+        "final_W10_B100_evaluator": 12.122629704885185,
+        "model_load": 10.900095485150814,
+        "theta0_teacher_population": 1.8690716903656721
+      },
+      "counters": {
+        "backward": 0,
+        "commit": 0,
+        "constraint_jvp": 0,
+        "constraint_vjp": 0,
+        "dense_fp32_full_delta_live": 0,
+        "effective_bf16_weight_peak_live": 0,
+        "evaluator_forward": 750,
+        "evaluator_tokens": 221626,
+        "fallback": 0,
+        "functional_h_replay": 0,
+        "functional_p_replay": 0,
+        "model_forward": 32,
+        "native_baseline_dense_delta_bytes_peak": 0,
+        "native_baseline_dense_delta_peak_live": 0,
+        "processed_tokens": 1547,
+        "qp_certificate": 0,
+        "qp_solve": 0,
+        "reject": 0,
+        "rollback": 0,
+        "target_backward": 0,
+        "trial": 0
+      },
+      "direct_z_diagnostics": [],
+      "host_maxrss_kib": 0,
+      "peak_allocated_bytes": 0,
+      "peak_reserved_bytes": 0
+    },
+    "one_pass_accuracy_added_model_forward_backward_generation": [
+      0,
+      0,
+      0
+    ],
+    "structural_h_on_batch_atomic_compute_totals_sum": {
+      "autograd_invocations": 1250,
+      "backward_calls": 1250,
+      "capture_forward_calls": 450,
+      "dense_assembly_count": 0,
+      "full_weight_hash_count": 0,
+      "hot_hook_dense_assembly_count": 0,
+      "hot_hook_full_weight_hash_count": 0,
+      "logical_forward_groups": 452,
+      "materialization_count": 80,
+      "model_forward_calls": 2260,
+      "padded_tokens": 426736,
+      "physical_microbatch_graphs": 2260,
+      "processed_tokens": 384560,
+      "slope_backward_calls": 400,
+      "target_backward_calls": 850
+    },
+    "structural_h_on_batch_atomic_wall_seconds_sum": {
+      "accepted_state_refresh": 64.69374814257026,
+      "field_and_physical_slope": 578.7744389967993,
+      "finite_demand_endpoint_forward": 25.75287869758904,
+      "functional_preservation_basis": 0.0010216468945145607,
+      "initial_physical_capture": 2.6406689397990704,
+      "physical_materialization": 136.06056770309806,
+      "routing_solve": 3.0168629605323076,
+      "scalar_corrector_endpoint_forward": 3.91936313547194,
+      "target_gradient": 152.27973404154181,
+      "terminal_objective": 3.1332373125478625
+    },
+    "structural_h_on_terminal_job_compute": {
+      "accepted_t": 0.0,
+      "completed_correction_cycles": 0,
+      "completed_k_total": 0,
+      "component_gpu_seconds": {
+        "batch_entry_pre_evaluator": 0.0,
+        "batch_terminal_checkpoint_evaluator": 0.0,
+        "context_generation_twice": 1.038197265625,
+        "final_W10_B100_evaluator": 0.0,
+        "model_load": 10.9233427734375,
+        "post_commit_history_key_capture": 0.0,
+        "theta0_teacher_population": 1.184657958984375
+      },
+      "component_wall_seconds": {
+        "batch_entry_pre_evaluator": 12.061941363848746,
+        "batch_terminal_checkpoint_evaluator": 65.28413721174002,
+        "context_generation_twice": 1.0381438508629799,
+        "final_W10_B100_evaluator": 12.10279630497098,
+        "model_load": 10.92328769620508,
+        "post_commit_history_key_capture": 34.54434313066304,
+        "theta0_teacher_population": 1.1845869533717632
+      },
+      "counters": {
+        "backward": 0,
+        "commit": 0,
+        "constraint_jvp": 0,
+        "constraint_vjp": 0,
+        "dense_fp32_full_delta_live": 0,
+        "effective_bf16_weight_peak_live": 0,
+        "evaluator_forward": 750,
+        "evaluator_tokens": 221626,
+        "fallback": 0,
+        "functional_h_replay": 0,
+        "functional_p_replay": 0,
+        "model_forward": 242,
+        "native_baseline_dense_delta_bytes_peak": 0,
+        "native_baseline_dense_delta_peak_live": 0,
+        "processed_tokens": 66067,
+        "qp_certificate": 0,
+        "qp_solve": 0,
+        "reject": 0,
+        "rollback": 0,
+        "target_backward": 0,
+        "trial": 0
+      },
+      "direct_z_diagnostics": [],
+      "host_maxrss_kib": 0,
+      "peak_allocated_bytes": 0,
+      "peak_reserved_bytes": 0
+    }
+  },
+  "schema": "p1r52-structuralh-on/compute/v1"
+}

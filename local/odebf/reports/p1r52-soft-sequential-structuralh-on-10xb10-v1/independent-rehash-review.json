@@ -1,0 +1,25 @@
+{
+  "analysis_runtime_action_zero_pass": true,
+  "base_output_rehash_pass": true,
+  "canonical_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/reports/p1r52-soft-sequential-structuralh-on-10xb10-v1/p1r52-soft-sequential-structuralh-on-10xb10-factual-ko-v2.md",
+  "canonical_report_bytes": 16231,
+  "canonical_report_lines": 85,
+  "canonical_report_sha256": "58419b40b57f27ccbcdb146c08394e058e782c05b4fa27aa717d8f5712f87248",
+  "fresh_process": true,
+  "input_rehash_pass": true,
+  "native_source_head": "419cce3322f0f71e29c93db88093861e8c1b5cb5",
+  "required_section_pass": true,
+  "row_count_pass": true,
+  "row_counts": {
+    "aggregate": 3,
+    "checkpoint": 62,
+    "paired": 31,
+    "per_request": 100,
+    "routing": 80,
+    "transaction": 10
+  },
+  "schema": "p1r52-structuralh-on/independent-rehash-review/v1",
+  "source_head": "237f3b65bff69b835a7253f5154bba19feaf1fef",
+  "status": "PASS",
+  "v2_report_rehash_pass": true
+}

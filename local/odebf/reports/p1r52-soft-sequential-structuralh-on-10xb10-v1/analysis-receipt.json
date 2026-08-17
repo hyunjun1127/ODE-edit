@@ -1,0 +1,21 @@
+{
+  "analysis_actions": {
+    "evaluator": 0,
+    "gpu": 0,
+    "model": 0,
+    "result_mutation": 0,
+    "slurm": 0,
+    "source_edit": 0
+  },
+  "h_off_control_status": "PENDING_FOLLOWUP_NOT_A_REPORT_BLOCKER",
+  "input_identity_pass": true,
+  "manifest_sha256": "280a21656f06de658f34ec631f10a31aa9e4fc558360a18e9bc053667110c2e0",
+  "package_root_sha256": "a6250399df913e2e335365c6f671d98e43ab5257f97b16db3ed5338edd15b1ea",
+  "raw_content_included": false,
+  "report_bytes": 14155,
+  "report_lines": 70,
+  "report_sha256": "afcde89f5f50ed55e80f0e4b2894ca67e843619686105b385899abee688709d5",
+  "request_pairing_pass": true,
+  "schema": "p1r52-structuralh-on/analysis-receipt/v1",
+  "status": "PASS"
+}

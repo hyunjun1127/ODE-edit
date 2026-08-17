@@ -1,0 +1,163 @@
+{
+  "canonical_arms": [
+    "h_on",
+    "h_off",
+    "alpha",
+    "memit"
+  ],
+  "canonical_control_report": "p1r52-soft-sequential-alphacache-on-structuralh-off-10xb10-factual-ko-v5.md",
+  "canonical_three_arm_report": "p1r52-sequential-structuralh-on-off-native-three-arm-ko-v5.md",
+  "members": [
+    {
+      "bytes": 989,
+      "name": "analysis-receipt.json",
+      "sha256": "f7ae4305c98757c247c3ea864ae873bacc4cfc5e431dc987cebe987a710e0df4"
+    },
+    {
+      "bytes": 37599,
+      "name": "build_readable_v4.py",
+      "sha256": "02e9108dbf211d6adbd1a9803856c91112d2cd95010cd447314f982612d5ac38"
+    },
+    {
+      "bytes": 31938,
+      "name": "build_three_arm_report.py",
+      "sha256": "3a4bb4e1081dcaa6d38e9cbc1c0c6c97a13256f7293d4b12aac3543ba2e4f398"
+    },
+    {
+      "bytes": 16814,
+      "name": "input-identity-manifest.json",
+      "sha256": "fed6f88e505da87e9e29289df80df10a38afed004ee20cae80cdd49cd3df80f0"
+    },
+    {
+      "bytes": 66291,
+      "name": "p1r52-alphacache-on-structuralh-off-checkpoint-phase-table.json",
+      "sha256": "4f423b198350ebdcc6c823b6cb79c19f4d77df7636305c5dd74e8fc21d5d82cd"
+    },
+    {
+      "bytes": 70108,
+      "name": "p1r52-alphacache-on-structuralh-off-routing-table.json",
+      "sha256": "7e91d1da7fefe9e06e6cebeecd6bdea5369f1d814b0bf61f4076a23158375412"
+    },
+    {
+      "bytes": 18307,
+      "name": "p1r52-alphacache-on-structuralh-off-transaction-table.json",
+      "sha256": "f5f9cee27dc5e7135fe2840a5a98ccff90d0cb116bc648e918564591c832237a"
+    },
+    {
+      "bytes": 109667,
+      "name": "p1r52-sequential-four-arm-cache-compute-v6.json",
+      "sha256": "d0484bcfd6a05bc15c06f0dce36ae046eb6efbdf907c5e971d70de30c950a1b3"
+    },
+    {
+      "bytes": 1846,
+      "name": "p1r52-sequential-four-arm-hard-cohort-v6.json",
+      "sha256": "e5d2f983dd0c95bed738616ad46023206604ce5c59b790327ede6763445a61f5"
+    },
+    {
+      "bytes": 2940913,
+      "name": "p1r52-sequential-four-arm-per-request-v6.json",
+      "sha256": "ff44c46b01953d00117fb932716dd2f997b418db495d1b55ecda01ebcae78dc0"
+    },
+    {
+      "bytes": 292148,
+      "name": "p1r52-sequential-four-arm-readable-metrics-v6.json",
+      "sha256": "7a4d5e7460941714e16fa742a1ecbdffff8677210def049580a3a5f127898916"
+    },
+    {
+      "bytes": 43543,
+      "name": "p1r52-sequential-h-on-routing-reference-table.json",
+      "sha256": "5b141cb462686178d5fc58aace9484e4d67e7b8ecdfd4cce8b1da076c02f2667"
+    },
+    {
+      "bytes": 16826,
+      "name": "p1r52-sequential-structuralh-on-off-native-three-arm-ko-v4.md",
+      "sha256": "3f005bbdff1c5fe4897f165ee471986757f2988d54b9f9bb6573a1d94de5c68b"
+    },
+    {
+      "bytes": 49383,
+      "name": "p1r52-sequential-structuralh-on-off-native-three-arm-ko-v5.md",
+      "sha256": "9ea2687e3646f0da0311abeca2fda818295cd7875673dfad39aecb090bcf9217"
+    },
+    {
+      "bytes": 6445,
+      "name": "p1r52-sequential-structuralh-on-off-native-three-arm-ko.md",
+      "sha256": "14fe1285f12c648500e780af2f90968cfdd81ded60b9ecbb63fbf012ba76f08a"
+    },
+    {
+      "bytes": 345617,
+      "name": "p1r52-sequential-three-arm-checkpoint-table.json",
+      "sha256": "59f05937da0d78fecc9af908f4a5f9215db506145a2cd52e2b6b7fa4611f1585"
+    },
+    {
+      "bytes": 8900,
+      "name": "p1r52-sequential-three-arm-compute-ledger.json",
+      "sha256": "f9b278730dc6f493d6d1f1866e7a848ac1ff8239cb5eba065313b8d549753c70"
+    },
+    {
+      "bytes": 85249,
+      "name": "p1r52-sequential-three-arm-controller-routing-v4.json",
+      "sha256": "fabc6859e1c9c550d617351325f5412ffa69e5c67af87d55844cecc39e6aa22b"
+    },
+    {
+      "bytes": 2173018,
+      "name": "p1r52-sequential-three-arm-failed-cohort-v4.json",
+      "sha256": "93475dfef6cb34e25eb24b08fdccec39559587325f32035a2681431a3894a027"
+    },
+    {
+      "bytes": 1630221,
+      "name": "p1r52-sequential-three-arm-low-cohort-table.json",
+      "sha256": "aa3677827993127582e41358ea1e914f891ff7a2c199cd5e799db37dd07f0500"
+    },
+    {
+      "bytes": 2316033,
+      "name": "p1r52-sequential-three-arm-per-request-table.json",
+      "sha256": "6bd97df59049e065a0fe0f668f0a488b0868eb4108b5e7ebb832546c27278cd7"
+    },
+    {
+      "bytes": 337243,
+      "name": "p1r52-sequential-three-arm-readable-metrics-v4.json",
+      "sha256": "0ac8d1a796726ff3ac574bc138f4a02d541d88d0aa6a981ba58d79bc278c4191"
+    },
+    {
+      "bytes": 321700,
+      "name": "p1r52-sequential-three-arm-readable-summary-v5.json",
+      "sha256": "d6d6828b7476501dd74ee024d976e19573b07009b66d23bed04b5630cc2aa56b"
+    },
+    {
+      "bytes": 8548,
+      "name": "p1r52-soft-sequential-alphacache-on-structuralh-off-10xb10-factual-ko-v4.md",
+      "sha256": "a61d1b1cabc6fe102cf8f1a69f841335bae73dffd9ef6b3866c990b857152df0"
+    },
+    {
+      "bytes": 23271,
+      "name": "p1r52-soft-sequential-alphacache-on-structuralh-off-10xb10-factual-ko-v5.md",
+      "sha256": "f3686852e489618535bba8dbd72f7fc498caee48ea39bf8b589cb59cc65cde0c"
+    },
+    {
+      "bytes": 6164,
+      "name": "p1r52-soft-sequential-alphacache-on-structuralh-off-10xb10-factual-ko.md",
+      "sha256": "5f53540b1960103d41dc156ed84086d403263a9cbadb25bc198690687bf301c7"
+    },
+    {
+      "bytes": 4179,
+      "name": "readable-v4-manifest.json",
+      "sha256": "3e9b5355cf196e15ee567c93f6adf2716783bcc6d40b677e7db1a2b7159f61c4"
+    },
+    {
+      "bytes": 1557,
+      "name": "readable-v4-receipt.json",
+      "sha256": "efa6f7c0d28567d5249b3bbd21c04a3ef84697d8f7a5c53caf4cbbd6909bb3fc"
+    },
+    {
+      "bytes": 3017,
+      "name": "report-manifest.json",
+      "sha256": "5dfda01a269a57c60b19b3aa8e0e1cd367639cd3598b5674b41a20c7954ddb42"
+    }
+  ],
+  "members_root_sha256": "3c06edc5b32258ddbce518533569e6fe8a81b972e5549efb3a5d98c76ae30564",
+  "schema": "p1r52-sequential/readable-v5-manifest/v1",
+  "status": "TERMINAL_FACTUAL_REPORT_COMPLETE",
+  "superseded_cache_reset_native": "APPENDIX_ONLY",
+  "user_authorized_in_place_report_overwrite": true,
+  "v4_receipt_sha256": "efa6f7c0d28567d5249b3bbd21c04a3ef84697d8f7a5c53caf4cbbd6909bb3fc"
+}

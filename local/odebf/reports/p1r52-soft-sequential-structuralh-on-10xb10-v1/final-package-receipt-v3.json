@@ -1,0 +1,159 @@
+{
+  "all_members_regular_0600": true,
+  "analysis_actions": {
+    "evaluator": 0,
+    "gpu": 0,
+    "model": 0,
+    "result_mutation": 0,
+    "slurm": 0,
+    "source_edit": 0
+  },
+  "b1_atomic_identity_pass": true,
+  "b1_scientific_payload_exact": true,
+  "canonical_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/reports/p1r52-soft-sequential-structuralh-on-10xb10-v1/p1r52-soft-sequential-structuralh-on-10xb10-factual-ko-v3.md",
+  "canonical_report_bytes": 17123,
+  "canonical_report_lines": 96,
+  "canonical_report_sha256": "7aea6fa1fe19d189de2077986f9023473d434f28e860328761644f787957c9a9",
+  "commit_to_next_entry_hash_pass_count": 9,
+  "commit_to_next_entry_hash_total": 9,
+  "directory_mode": "0o700",
+  "file_tree_count": 22,
+  "file_tree_root_sha256": "0e0aee5257357bfb2adfb6dd4a892d34a861e7041d2e17e7763897c0ef57d92a",
+  "independent_review_sha256": "aaf6341af98d9441ccd5a533e7e34e636ad59731a6b1408efc7967d6ea954c7c",
+  "members": [
+    {
+      "bytes": 814,
+      "mode": "0o600",
+      "name": "analysis-receipt-v2.json",
+      "sha256": "ce70220bfb60b684a13ddff9ecc9c8c8f414b57fa45b0cb754b7e4a0e635565a"
+    },
+    {
+      "bytes": 700,
+      "mode": "0o600",
+      "name": "analysis-receipt.json",
+      "sha256": "bf98215e2e4ac3468c5e07a683af6e805009bc6d674b4c8afe717198f3684881"
+    },
+    {
+      "bytes": 3854,
+      "mode": "0o600",
+      "name": "append_integrity_v3.py",
+      "sha256": "5a134ad117801a0d17da8f6972822a42109764bac58dbffd76703423037649ee"
+    },
+    {
+      "bytes": 6623,
+      "mode": "0o600",
+      "name": "build_addendum_v2.py",
+      "sha256": "258281bbff305063cc3ad990aaa83c6888f665e1548d1142a21229ac7383c2f0"
+    },
+    {
+      "bytes": 32312,
+      "mode": "0o600",
+      "name": "build_report.py",
+      "sha256": "94985f1d93801c3cf2c3a5b23ed4a05b0fe325cb5472ae211623e5ff69ad10c7"
+    },
+    {
+      "bytes": 4556,
+      "mode": "0o600",
+      "name": "final-package-receipt.json",
+      "sha256": "90b5c2e27c1351b74a6a5fc642991b56fd6df97f3b1089cb51c5f5b2a5570a2f"
+    },
+    {
+      "bytes": 994,
+      "mode": "0o600",
+      "name": "independent-rehash-review.json",
+      "sha256": "aaf6341af98d9441ccd5a533e7e34e636ad59731a6b1408efc7967d6ea954c7c"
+    },
+    {
+      "bytes": 16231,
+      "mode": "0o600",
+      "name": "p1r52-soft-sequential-structuralh-on-10xb10-factual-ko-v2.md",
+      "sha256": "58419b40b57f27ccbcdb146c08394e058e782c05b4fa27aa717d8f5712f87248"
+    },
+    {
+      "bytes": 17123,
+      "mode": "0o600",
+      "name": "p1r52-soft-sequential-structuralh-on-10xb10-factual-ko-v3.md",
+      "sha256": "7aea6fa1fe19d189de2077986f9023473d434f28e860328761644f787957c9a9"
+    },
+    {
+      "bytes": 14155,
+      "mode": "0o600",
+      "name": "p1r52-soft-sequential-structuralh-on-10xb10-factual-ko.md",
+      "sha256": "afcde89f5f50ed55e80f0e4b2894ca67e843619686105b385899abee688709d5"
+    },
+    {
+      "bytes": 17564,
+      "mode": "0o600",
+      "name": "p1r52-structuralh-on-aggregate-phase-table.json",
+      "sha256": "79c552e07e947f94dcf1df348bb12f4b635b40e6a88133ff16e42aa6af713c7e"
+    },
+    {
+      "bytes": 132718,
+      "mode": "0o600",
+      "name": "p1r52-structuralh-on-checkpoint-phase-table.json",
+      "sha256": "82ff079c5f92bf6d15ee2628350a5df4c861e6f79121dbe0cf70d9fe17290b72"
+    },
+    {
+      "bytes": 5049,
+      "mode": "0o600",
+      "name": "p1r52-structuralh-on-compute-ledger.json",
+      "sha256": "59d5c39fce8e67bdf4a2ff831dc195f3d61124f7c474fd27bf1c7e0865f1bd0d"
+    },
+    {
+      "bytes": 1052300,
+      "mode": "0o600",
+      "name": "p1r52-structuralh-on-low-cohort-table.json",
+      "sha256": "4070a4deb81dd40ba7201769c57483583de2f1cf3e9b49cc278b418aa2aa93bb"
+    },
+    {
+      "bytes": 175383,
+      "mode": "0o600",
+      "name": "p1r52-structuralh-on-paired-native-checkpoint-table.json",
+      "sha256": "98cb03a1b0cdb4a28a9843da6071fb2bc43653c1ab1e7b17ebddc99e4bef873e"
+    },
+    {
+      "bytes": 1242592,
+      "mode": "0o600",
+      "name": "p1r52-structuralh-on-per-request-lifetime-table.json",
+      "sha256": "1f108757f14b87d2883a24e5f486f37a100e0cdf6227fa8a7f5a3762da640baf"
+    },
+    {
+      "bytes": 1034,
+      "mode": "0o600",
+      "name": "p1r52-structuralh-on-report-manifest-v2.json",
+      "sha256": "caa92584f1c72eab8b48521db4a35ea14f1dffc9b5dcacc23b05df48a5433fe4"
+    },
+    {
+      "bytes": 12862,
+      "mode": "0o600",
+      "name": "p1r52-structuralh-on-report-manifest.json",
+      "sha256": "280a21656f06de658f34ec631f10a31aa9e4fc558360a18e9bc053667110c2e0"
+    },
+    {
+      "bytes": 48629,
+      "mode": "0o600",
+      "name": "p1r52-structuralh-on-routing-history-table.json",
+      "sha256": "3302949609357ff602f2086028ac5c799c1915b6050e71ee5846b7fd988ef5ab"
+    },
+    {
+      "bytes": 19282,
+      "mode": "0o600",
+      "name": "p1r52-structuralh-on-transaction-table.json",
+      "sha256": "3cd3c96cebdd9a5efd0cb34a6e989202601a2541eeda10a789be623f6518f51e"
+    },
+    {
+      "bytes": 1956,
+      "mode": "0o600",
+      "name": "seal_final_package.py",
+      "sha256": "ebbce5b2042b8d80cf7ca3ca77038de763dabcfc2970672c8b706966f244ec0c"
+    },
+    {
+      "bytes": 3919,
+      "mode": "0o600",
+      "name": "verify_package.py",
+      "sha256": "18ba41383365991e22722cf3239f7ba67654a3438f2a93684f15c6efe33e41c6"
+    }
+  ],
+  "schema": "p1r52-structuralh-on/final-package-receipt-v3/v1",
+  "status": "PASS"
+}

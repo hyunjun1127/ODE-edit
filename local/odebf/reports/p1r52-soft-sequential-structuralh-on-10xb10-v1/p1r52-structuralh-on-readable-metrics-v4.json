@@ -1,0 +1,4245 @@
+{
+  "batch_rows": [
+    {
+      "batch": 1,
+      "batch_age_at_W10": 9,
+      "history_width": 0,
+      "native_alphaedit": {
+        "edit_core_wall_seconds": 30.01986490562558,
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 5.77412109375,
+            "n": 9,
+            "new_nll": 2.568994140625,
+            "old_nll": 8.343115234375,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 9,
+            "strict_rate": 0.9
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 4.824609375,
+            "n": 16,
+            "new_nll": 3.241796875,
+            "old_nll": 8.06640625,
+            "rate": 0.8,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "LOC": {
+            "d": 100,
+            "n": 79,
+            "rate": 0.79
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 4.824609375,
+            "n": 7,
+            "new_nll": 3.241796875,
+            "old_nll": 8.06640625,
+            "rate": 0.35,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 5.77412109375,
+            "n": 4,
+            "new_nll": 2.568994140625,
+            "old_nll": 8.343115234375,
+            "rate": 0.4,
+            "strict_d": 10,
+            "strict_n": 4,
+            "strict_rate": 0.4
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 15.473342132568359,
+            "n": 10,
+            "new_nll": 0.001657867431640625,
+            "old_nll": 15.475,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 8.796124267578126,
+            "n": 19,
+            "new_nll": 1.767156982421875,
+            "old_nll": 10.56328125,
+            "rate": 0.95,
+            "strict_d": 10,
+            "strict_n": 9,
+            "strict_rate": 0.9
+          },
+          "LOC": {
+            "d": 100,
+            "n": 92,
+            "rate": 0.92
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 8.796124267578126,
+            "n": 13,
+            "new_nll": 1.767156982421875,
+            "old_nll": 10.56328125,
+            "rate": 0.65,
+            "strict_d": 10,
+            "strict_n": 4,
+            "strict_rate": 0.4
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 15.473342132568359,
+            "n": 10,
+            "new_nll": 0.001657867431640625,
+            "old_nll": 15.475,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -6.021875,
+            "n": 2,
+            "new_nll": 12.3859375,
+            "old_nll": 6.3640625,
+            "rate": 0.2,
+            "strict_d": 10,
+            "strict_n": 2,
+            "strict_rate": 0.2
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -5.27626953125,
+            "n": 3,
+            "new_nll": 10.6390625,
+            "old_nll": 5.36279296875,
+            "rate": 0.15,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "LOC": {
+            "d": 100,
+            "n": 93,
+            "rate": 0.93
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -5.27626953125,
+            "n": 0,
+            "new_nll": 10.6390625,
+            "old_nll": 5.36279296875,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -6.021875,
+            "n": 0,
+            "new_nll": 12.3859375,
+            "old_nll": 6.3640625,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        }
+      },
+      "structural_h_on": {
+        "W8_full_six_target_new_nll": 0.06089842058718205,
+        "W_minus_z_nll": 0.004973687790334226,
+        "controller_counts": {
+          "active_gradient": 80,
+          "clamp_hit": 0,
+          "current": 0,
+          "primary": 80,
+          "request_steps": 80,
+          "rescue": 0,
+          "soft_to_neutral_fallback_steps": 0
+        },
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 12.211580657958985,
+            "n": 10,
+            "new_nll": 0.025919342041015626,
+            "old_nll": 12.2375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 6.5989501953125,
+            "n": 19,
+            "new_nll": 2.4334716796875,
+            "old_nll": 9.032421875,
+            "rate": 0.95,
+            "strict_d": 10,
+            "strict_n": 9,
+            "strict_rate": 0.9
+          },
+          "LOC": {
+            "d": 100,
+            "n": 95,
+            "rate": 0.95
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 6.5989501953125,
+            "n": 10,
+            "new_nll": 2.4334716796875,
+            "old_nll": 9.032421875,
+            "rate": 0.5,
+            "strict_d": 10,
+            "strict_n": 2,
+            "strict_rate": 0.2
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 12.211580657958985,
+            "n": 10,
+            "new_nll": 0.025919342041015626,
+            "old_nll": 12.2375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 12.439038848876953,
+            "n": 10,
+            "new_nll": 0.023461151123046874,
+            "old_nll": 12.4625,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 6.68419189453125,
+            "n": 19,
+            "new_nll": 2.38533935546875,
+            "old_nll": 9.06953125,
+            "rate": 0.95,
+            "strict_d": 10,
+            "strict_n": 9,
+            "strict_rate": 0.9
+          },
+          "LOC": {
+            "d": 100,
+            "n": 92,
+            "rate": 0.92
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 6.68419189453125,
+            "n": 10,
+            "new_nll": 2.38533935546875,
+            "old_nll": 9.06953125,
+            "rate": 0.5,
+            "strict_d": 10,
+            "strict_n": 3,
+            "strict_rate": 0.3
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 12.439038848876953,
+            "n": 10,
+            "new_nll": 0.023461151123046874,
+            "old_nll": 12.4625,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -6.021875,
+            "n": 2,
+            "new_nll": 12.3859375,
+            "old_nll": 6.3640625,
+            "rate": 0.2,
+            "strict_d": 10,
+            "strict_n": 2,
+            "strict_rate": 0.2
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -5.27626953125,
+            "n": 3,
+            "new_nll": 10.6390625,
+            "old_nll": 5.36279296875,
+            "rate": 0.15,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "LOC": {
+            "d": 100,
+            "n": 93,
+            "rate": 0.93
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -5.27626953125,
+            "n": 0,
+            "new_nll": 10.6390625,
+            "old_nll": 5.36279296875,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -6.021875,
+            "n": 0,
+            "new_nll": 12.3859375,
+            "old_nll": 6.3640625,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        },
+        "routing": {
+          "H_NEUTRAL_sum": 0.0,
+          "H_SELECTED_sum": 0.0,
+          "H_delta_sum": 0.0,
+          "allocation_entropy_mean": 1.5438260029605309,
+          "max_abs_P_violation": 0.0,
+          "max_abs_strength_residual": 4.440892098500626e-16,
+          "max_energy_violation": 4.196643033083092e-14,
+          "status_counts": {
+            "H_EMPTY_EXACT_ATOMIC_EQUIVALENCE": 8
+          }
+        },
+        "transaction": {
+          "active_history_after": 10,
+          "anchor_append": 10,
+          "backtracking": 0,
+          "history_append": 10,
+          "interbatch_W0_restore": 0,
+          "retry": 0
+        },
+        "z8_full_six_target_new_nll": 0.05592473279684782
+      }
+    },
+    {
+      "batch": 2,
+      "batch_age_at_W10": 8,
+      "history_width": 10,
+      "native_alphaedit": {
+        "edit_core_wall_seconds": 29.515007941052318,
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 4.815869140625,
+            "n": 8,
+            "new_nll": 3.171630859375,
+            "old_nll": 7.9875,
+            "rate": 0.8,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 4.148095703125,
+            "n": 17,
+            "new_nll": 3.380810546875,
+            "old_nll": 7.52890625,
+            "rate": 0.85,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "LOC": {
+            "d": 100,
+            "n": 74,
+            "rate": 0.74
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 4.148095703125,
+            "n": 13,
+            "new_nll": 3.380810546875,
+            "old_nll": 7.52890625,
+            "rate": 0.65,
+            "strict_d": 10,
+            "strict_n": 5,
+            "strict_rate": 0.5
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 4.815869140625,
+            "n": 5,
+            "new_nll": 3.171630859375,
+            "old_nll": 7.9875,
+            "rate": 0.5,
+            "strict_d": 10,
+            "strict_n": 5,
+            "strict_rate": 0.5
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 17.361950993537903,
+            "n": 10,
+            "new_nll": 0.0005490064620971679,
+            "old_nll": 17.3625,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 9.437979125976563,
+            "n": 20,
+            "new_nll": 0.7932708740234375,
+            "old_nll": 10.23125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 82,
+            "rate": 0.82
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 9.437979125976563,
+            "n": 18,
+            "new_nll": 0.7932708740234375,
+            "old_nll": 10.23125,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 17.361950993537903,
+            "n": 10,
+            "new_nll": 0.0005490064620971679,
+            "old_nll": 17.3625,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -8.040625,
+            "n": 0,
+            "new_nll": 11.98125,
+            "old_nll": 3.940625,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -5.141796875,
+            "n": 1,
+            "new_nll": 10.14140625,
+            "old_nll": 4.999609375,
+            "rate": 0.05,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 87,
+            "rate": 0.87
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -5.141796875,
+            "n": 0,
+            "new_nll": 10.14140625,
+            "old_nll": 4.999609375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -8.040625,
+            "n": 0,
+            "new_nll": 11.98125,
+            "old_nll": 3.940625,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        }
+      },
+      "structural_h_on": {
+        "W8_full_six_target_new_nll": 0.04087913939729333,
+        "W_minus_z_nll": 0.012279528006911282,
+        "controller_counts": {
+          "active_gradient": 80,
+          "clamp_hit": 0,
+          "current": 0,
+          "primary": 80,
+          "request_steps": 80,
+          "rescue": 0,
+          "soft_to_neutral_fallback_steps": 0
+        },
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 10.966249084472656,
+            "n": 10,
+            "new_nll": 0.03375091552734375,
+            "old_nll": 11.0,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 5.2189208984375,
+            "n": 17,
+            "new_nll": 2.2873291015625,
+            "old_nll": 7.50625,
+            "rate": 0.85,
+            "strict_d": 10,
+            "strict_n": 7,
+            "strict_rate": 0.7
+          },
+          "LOC": {
+            "d": 100,
+            "n": 83,
+            "rate": 0.83
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 5.2189208984375,
+            "n": 10,
+            "new_nll": 2.2873291015625,
+            "old_nll": 7.50625,
+            "rate": 0.5,
+            "strict_d": 10,
+            "strict_n": 3,
+            "strict_rate": 0.3
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 10.966249084472656,
+            "n": 10,
+            "new_nll": 0.03375091552734375,
+            "old_nll": 11.0,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 11.372154235839844,
+            "n": 10,
+            "new_nll": 0.03097076416015625,
+            "old_nll": 11.403125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 5.2517578125,
+            "n": 17,
+            "new_nll": 2.3833984375,
+            "old_nll": 7.63515625,
+            "rate": 0.85,
+            "strict_d": 10,
+            "strict_n": 7,
+            "strict_rate": 0.7
+          },
+          "LOC": {
+            "d": 100,
+            "n": 86,
+            "rate": 0.86
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 5.2517578125,
+            "n": 9,
+            "new_nll": 2.3833984375,
+            "old_nll": 7.63515625,
+            "rate": 0.45,
+            "strict_d": 10,
+            "strict_n": 2,
+            "strict_rate": 0.2
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 11.372154235839844,
+            "n": 10,
+            "new_nll": 0.03097076416015625,
+            "old_nll": 11.403125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -8.17890625,
+            "n": 0,
+            "new_nll": 11.965625,
+            "old_nll": 3.78671875,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -5.18515625,
+            "n": 1,
+            "new_nll": 10.16328125,
+            "old_nll": 4.978125,
+            "rate": 0.05,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 86,
+            "rate": 0.86
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -5.18515625,
+            "n": 0,
+            "new_nll": 10.16328125,
+            "old_nll": 4.978125,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -8.17890625,
+            "n": 0,
+            "new_nll": 11.965625,
+            "old_nll": 3.78671875,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        },
+        "routing": {
+          "H_NEUTRAL_sum": 0.01196049386270576,
+          "H_SELECTED_sum": 0.011800592272081743,
+          "H_delta_sum": -0.00015990159062401768,
+          "allocation_entropy_mean": 1.4579346792473424,
+          "max_abs_P_violation": 6.179952383167375e-18,
+          "max_abs_strength_residual": 4.440892098500626e-16,
+          "max_energy_violation": 0.0,
+          "status_counts": {
+            "H_ACTIVE_CERTIFIED": 8
+          }
+        },
+        "transaction": {
+          "active_history_after": 20,
+          "anchor_append": 10,
+          "backtracking": 0,
+          "history_append": 10,
+          "interbatch_W0_restore": 0,
+          "retry": 0
+        },
+        "z8_full_six_target_new_nll": 0.02859961139038205
+      }
+    },
+    {
+      "batch": 3,
+      "batch_age_at_W10": 7,
+      "history_width": 20,
+      "native_alphaedit": {
+        "edit_core_wall_seconds": 29.69585047662258,
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 6.363537454605103,
+            "n": 9,
+            "new_nll": 1.1755250453948975,
+            "old_nll": 7.5390625,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 9,
+            "strict_rate": 0.9
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 3.9907676696777346,
+            "n": 15,
+            "new_nll": 2.5719276428222657,
+            "old_nll": 6.5626953125,
+            "rate": 0.75,
+            "strict_d": 10,
+            "strict_n": 6,
+            "strict_rate": 0.6
+          },
+          "LOC": {
+            "d": 100,
+            "n": 75,
+            "rate": 0.75
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 3.9907676696777346,
+            "n": 8,
+            "new_nll": 2.5719276428222657,
+            "old_nll": 6.5626953125,
+            "rate": 0.4,
+            "strict_d": 10,
+            "strict_n": 2,
+            "strict_rate": 0.2
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 6.363537454605103,
+            "n": 7,
+            "new_nll": 1.1755250453948975,
+            "old_nll": 7.5390625,
+            "rate": 0.7,
+            "strict_d": 10,
+            "strict_n": 7,
+            "strict_rate": 0.7
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 16.237047171592714,
+            "n": 10,
+            "new_nll": 0.00045282840728759765,
+            "old_nll": 16.2375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 7.527479267120361,
+            "n": 19,
+            "new_nll": 2.6483019828796386,
+            "old_nll": 10.17578125,
+            "rate": 0.95,
+            "strict_d": 10,
+            "strict_n": 9,
+            "strict_rate": 0.9
+          },
+          "LOC": {
+            "d": 100,
+            "n": 86,
+            "rate": 0.86
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 7.527479267120361,
+            "n": 10,
+            "new_nll": 2.6483019828796386,
+            "old_nll": 10.17578125,
+            "rate": 0.5,
+            "strict_d": 10,
+            "strict_n": 3,
+            "strict_rate": 0.3
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 16.237047171592714,
+            "n": 10,
+            "new_nll": 0.00045282840728759765,
+            "old_nll": 16.2375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -4.29881591796875,
+            "n": 2,
+            "new_nll": 9.21522216796875,
+            "old_nll": 4.91640625,
+            "rate": 0.2,
+            "strict_d": 10,
+            "strict_n": 2,
+            "strict_rate": 0.2
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -4.34600830078125,
+            "n": 2,
+            "new_nll": 10.22596435546875,
+            "old_nll": 5.8799560546875,
+            "rate": 0.1,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "LOC": {
+            "d": 100,
+            "n": 87,
+            "rate": 0.87
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -4.34600830078125,
+            "n": 0,
+            "new_nll": 10.22596435546875,
+            "old_nll": 5.8799560546875,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -4.29881591796875,
+            "n": 0,
+            "new_nll": 9.21522216796875,
+            "old_nll": 4.91640625,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        }
+      },
+      "structural_h_on": {
+        "W8_full_six_target_new_nll": 0.07116228342056274,
+        "W_minus_z_nll": 0.028700888715684415,
+        "controller_counts": {
+          "active_gradient": 80,
+          "clamp_hit": 0,
+          "current": 0,
+          "primary": 80,
+          "request_steps": 80,
+          "rescue": 0,
+          "soft_to_neutral_fallback_steps": 0
+        },
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 10.694536590576172,
+            "n": 10,
+            "new_nll": 0.049213409423828125,
+            "old_nll": 10.74375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 4.017527389526367,
+            "n": 17,
+            "new_nll": 3.2264179229736327,
+            "old_nll": 7.2439453125,
+            "rate": 0.85,
+            "strict_d": 10,
+            "strict_n": 7,
+            "strict_rate": 0.7
+          },
+          "LOC": {
+            "d": 100,
+            "n": 87,
+            "rate": 0.87
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 4.017527389526367,
+            "n": 8,
+            "new_nll": 3.2264179229736327,
+            "old_nll": 7.2439453125,
+            "rate": 0.4,
+            "strict_d": 10,
+            "strict_n": 2,
+            "strict_rate": 0.2
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 10.694536590576172,
+            "n": 10,
+            "new_nll": 0.049213409423828125,
+            "old_nll": 10.74375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 10.775447845458984,
+            "n": 10,
+            "new_nll": 0.052677154541015625,
+            "old_nll": 10.828125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 4.110650253295899,
+            "n": 17,
+            "new_nll": 3.2803653717041015,
+            "old_nll": 7.391015625,
+            "rate": 0.85,
+            "strict_d": 10,
+            "strict_n": 7,
+            "strict_rate": 0.7
+          },
+          "LOC": {
+            "d": 100,
+            "n": 87,
+            "rate": 0.87
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 4.110650253295899,
+            "n": 8,
+            "new_nll": 3.2803653717041015,
+            "old_nll": 7.391015625,
+            "rate": 0.4,
+            "strict_d": 10,
+            "strict_n": 2,
+            "strict_rate": 0.2
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 10.775447845458984,
+            "n": 10,
+            "new_nll": 0.052677154541015625,
+            "old_nll": 10.828125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -4.21455078125,
+            "n": 2,
+            "new_nll": 9.266015625,
+            "old_nll": 5.05146484375,
+            "rate": 0.2,
+            "strict_d": 10,
+            "strict_n": 2,
+            "strict_rate": 0.2
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -4.4397216796875,
+            "n": 2,
+            "new_nll": 10.35880126953125,
+            "old_nll": 5.91907958984375,
+            "rate": 0.1,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "LOC": {
+            "d": 100,
+            "n": 88,
+            "rate": 0.88
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -4.4397216796875,
+            "n": 0,
+            "new_nll": 10.35880126953125,
+            "old_nll": 5.91907958984375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -4.21455078125,
+            "n": 0,
+            "new_nll": 9.266015625,
+            "old_nll": 5.05146484375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        },
+        "routing": {
+          "H_NEUTRAL_sum": 0.018872420756679026,
+          "H_SELECTED_sum": 0.01868769170144456,
+          "H_delta_sum": -0.0001847290552344687,
+          "allocation_entropy_mean": 1.5655221397032022,
+          "max_abs_P_violation": 7.546047120499111e-17,
+          "max_abs_strength_residual": 4.440892098500626e-16,
+          "max_energy_violation": 9.122563815466833e-14,
+          "status_counts": {
+            "H_ACTIVE_CERTIFIED": 8
+          }
+        },
+        "transaction": {
+          "active_history_after": 30,
+          "anchor_append": 10,
+          "backtracking": 0,
+          "history_append": 10,
+          "interbatch_W0_restore": 0,
+          "retry": 0
+        },
+        "z8_full_six_target_new_nll": 0.04246139470487833
+      }
+    },
+    {
+      "batch": 4,
+      "batch_age_at_W10": 6,
+      "history_width": 30,
+      "native_alphaedit": {
+        "edit_core_wall_seconds": 29.875938484445214,
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 3.60250244140625,
+            "n": 9,
+            "new_nll": 2.01937255859375,
+            "old_nll": 5.621875,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 9,
+            "strict_rate": 0.9
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 1.708740234375,
+            "n": 16,
+            "new_nll": 3.272900390625,
+            "old_nll": 4.981640625,
+            "rate": 0.8,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "LOC": {
+            "d": 100,
+            "n": 84,
+            "rate": 0.84
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 1.708740234375,
+            "n": 9,
+            "new_nll": 3.272900390625,
+            "old_nll": 4.981640625,
+            "rate": 0.45,
+            "strict_d": 10,
+            "strict_n": 4,
+            "strict_rate": 0.4
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 3.60250244140625,
+            "n": 7,
+            "new_nll": 2.01937255859375,
+            "old_nll": 5.621875,
+            "rate": 0.7,
+            "strict_d": 10,
+            "strict_n": 7,
+            "strict_rate": 0.7
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 13.123774909973145,
+            "n": 10,
+            "new_nll": 0.0012250900268554687,
+            "old_nll": 13.125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 4.556754302978516,
+            "n": 16,
+            "new_nll": 3.3111167907714845,
+            "old_nll": 7.86787109375,
+            "rate": 0.8,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "LOC": {
+            "d": 100,
+            "n": 84,
+            "rate": 0.84
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 4.556754302978516,
+            "n": 13,
+            "new_nll": 3.3111167907714845,
+            "old_nll": 7.86787109375,
+            "rate": 0.65,
+            "strict_d": 10,
+            "strict_n": 6,
+            "strict_rate": 0.6
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 13.123774909973145,
+            "n": 10,
+            "new_nll": 0.0012250900268554687,
+            "old_nll": 13.125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -7.848541259765625,
+            "n": 0,
+            "new_nll": 10.8375,
+            "old_nll": 2.988958740234375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -6.8906494140625,
+            "n": 0,
+            "new_nll": 9.5484375,
+            "old_nll": 2.6577880859375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 97,
+            "rate": 0.97
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -6.8906494140625,
+            "n": 0,
+            "new_nll": 9.5484375,
+            "old_nll": 2.6577880859375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -7.848541259765625,
+            "n": 0,
+            "new_nll": 10.8375,
+            "old_nll": 2.988958740234375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        }
+      },
+      "structural_h_on": {
+        "W8_full_six_target_new_nll": 0.30858858656138183,
+        "W_minus_z_nll": 0.018944196170195937,
+        "controller_counts": {
+          "active_gradient": 80,
+          "clamp_hit": 8,
+          "current": 4,
+          "primary": 72,
+          "request_steps": 80,
+          "rescue": 4,
+          "soft_to_neutral_fallback_steps": 0
+        },
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 9.176869201660157,
+            "n": 10,
+            "new_nll": 0.08250579833984376,
+            "old_nll": 9.259375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 1.4688323974609374,
+            "n": 15,
+            "new_nll": 3.5462066650390627,
+            "old_nll": 5.0150390625,
+            "rate": 0.75,
+            "strict_d": 10,
+            "strict_n": 7,
+            "strict_rate": 0.7
+          },
+          "LOC": {
+            "d": 100,
+            "n": 89,
+            "rate": 0.89
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 1.4688323974609374,
+            "n": 10,
+            "new_nll": 3.5462066650390627,
+            "old_nll": 5.0150390625,
+            "rate": 0.5,
+            "strict_d": 10,
+            "strict_n": 4,
+            "strict_rate": 0.4
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 9.176869201660157,
+            "n": 10,
+            "new_nll": 0.08250579833984376,
+            "old_nll": 9.259375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 9.281214904785156,
+            "n": 10,
+            "new_nll": 0.07191009521484375,
+            "old_nll": 9.353125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 1.433953857421875,
+            "n": 15,
+            "new_nll": 3.620538330078125,
+            "old_nll": 5.0544921875,
+            "rate": 0.75,
+            "strict_d": 10,
+            "strict_n": 7,
+            "strict_rate": 0.7
+          },
+          "LOC": {
+            "d": 100,
+            "n": 92,
+            "rate": 0.92
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 1.433953857421875,
+            "n": 10,
+            "new_nll": 3.620538330078125,
+            "old_nll": 5.0544921875,
+            "rate": 0.5,
+            "strict_d": 10,
+            "strict_n": 4,
+            "strict_rate": 0.4
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 9.281214904785156,
+            "n": 10,
+            "new_nll": 0.07191009521484375,
+            "old_nll": 9.353125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -7.80123291015625,
+            "n": 0,
+            "new_nll": 11.2625,
+            "old_nll": 3.46126708984375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -6.652273559570313,
+            "n": 0,
+            "new_nll": 9.2265625,
+            "old_nll": 2.5742889404296876,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 98,
+            "rate": 0.98
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -6.652273559570313,
+            "n": 0,
+            "new_nll": 9.2265625,
+            "old_nll": 2.5742889404296876,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -7.80123291015625,
+            "n": 0,
+            "new_nll": 11.2625,
+            "old_nll": 3.46126708984375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        },
+        "routing": {
+          "H_NEUTRAL_sum": 0.023360314083989222,
+          "H_SELECTED_sum": 0.0229990898132658,
+          "H_delta_sum": -0.00036122427072342366,
+          "allocation_entropy_mean": 1.3339699664121945,
+          "max_abs_P_violation": 1.5504091066542713e-17,
+          "max_abs_strength_residual": 4.440892098500626e-16,
+          "max_energy_violation": 0.0,
+          "status_counts": {
+            "H_ACTIVE_CERTIFIED": 8
+          }
+        },
+        "transaction": {
+          "active_history_after": 40,
+          "anchor_append": 10,
+          "backtracking": 0,
+          "history_append": 10,
+          "interbatch_W0_restore": 0,
+          "retry": 0
+        },
+        "z8_full_six_target_new_nll": 0.2896443903911859
+      }
+    },
+    {
+      "batch": 5,
+      "batch_age_at_W10": 5,
+      "history_width": 40,
+      "native_alphaedit": {
+        "edit_core_wall_seconds": 31.71345241740346,
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 5.2361572265625,
+            "n": 9,
+            "new_nll": 2.5404052734375,
+            "old_nll": 7.7765625,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 9,
+            "strict_rate": 0.9
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 5.559741973876953,
+            "n": 18,
+            "new_nll": 1.8152580261230469,
+            "old_nll": 7.375,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "LOC": {
+            "d": 100,
+            "n": 75,
+            "rate": 0.75
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 5.559741973876953,
+            "n": 13,
+            "new_nll": 1.8152580261230469,
+            "old_nll": 7.375,
+            "rate": 0.65,
+            "strict_d": 10,
+            "strict_n": 6,
+            "strict_rate": 0.6
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 5.2361572265625,
+            "n": 5,
+            "new_nll": 2.5404052734375,
+            "old_nll": 7.7765625,
+            "rate": 0.5,
+            "strict_d": 10,
+            "strict_n": 5,
+            "strict_rate": 0.5
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 14.336958408355713,
+            "n": 10,
+            "new_nll": 0.0005415916442871094,
+            "old_nll": 14.3375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 8.266733169555664,
+            "n": 18,
+            "new_nll": 1.541079330444336,
+            "old_nll": 9.8078125,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "LOC": {
+            "d": 100,
+            "n": 82,
+            "rate": 0.82
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 8.266733169555664,
+            "n": 14,
+            "new_nll": 1.541079330444336,
+            "old_nll": 9.8078125,
+            "rate": 0.7,
+            "strict_d": 10,
+            "strict_n": 5,
+            "strict_rate": 0.5
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 14.336958408355713,
+            "n": 10,
+            "new_nll": 0.0005415916442871094,
+            "old_nll": 14.3375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -4.66484375,
+            "n": 1,
+            "new_nll": 10.1953125,
+            "old_nll": 5.53046875,
+            "rate": 0.1,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -4.1162109375,
+            "n": 2,
+            "new_nll": 9.482421875,
+            "old_nll": 5.3662109375,
+            "rate": 0.1,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "LOC": {
+            "d": 100,
+            "n": 92,
+            "rate": 0.92
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -4.1162109375,
+            "n": 1,
+            "new_nll": 9.482421875,
+            "old_nll": 5.3662109375,
+            "rate": 0.05,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -4.66484375,
+            "n": 0,
+            "new_nll": 10.1953125,
+            "old_nll": 5.53046875,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        }
+      },
+      "structural_h_on": {
+        "W8_full_six_target_new_nll": 0.12752823755145073,
+        "W_minus_z_nll": 0.09238148415461184,
+        "controller_counts": {
+          "active_gradient": 80,
+          "clamp_hit": 5,
+          "current": 0,
+          "primary": 80,
+          "request_steps": 80,
+          "rescue": 0,
+          "soft_to_neutral_fallback_steps": 0
+        },
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 9.404132080078124,
+            "n": 10,
+            "new_nll": 0.127117919921875,
+            "old_nll": 9.53125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 4.8315185546875,
+            "n": 17,
+            "new_nll": 1.9255126953125,
+            "old_nll": 6.75703125,
+            "rate": 0.85,
+            "strict_d": 10,
+            "strict_n": 7,
+            "strict_rate": 0.7
+          },
+          "LOC": {
+            "d": 100,
+            "n": 91,
+            "rate": 0.91
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 4.8315185546875,
+            "n": 14,
+            "new_nll": 1.9255126953125,
+            "old_nll": 6.75703125,
+            "rate": 0.7,
+            "strict_d": 10,
+            "strict_n": 5,
+            "strict_rate": 0.5
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 9.404132080078124,
+            "n": 10,
+            "new_nll": 0.127117919921875,
+            "old_nll": 9.53125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 9.31966552734375,
+            "n": 10,
+            "new_nll": 0.12408447265625,
+            "old_nll": 9.44375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 4.5045654296875,
+            "n": 14,
+            "new_nll": 2.1622314453125,
+            "old_nll": 6.666796875,
+            "rate": 0.7,
+            "strict_d": 10,
+            "strict_n": 5,
+            "strict_rate": 0.5
+          },
+          "LOC": {
+            "d": 100,
+            "n": 92,
+            "rate": 0.92
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 4.5045654296875,
+            "n": 11,
+            "new_nll": 2.1622314453125,
+            "old_nll": 6.666796875,
+            "rate": 0.55,
+            "strict_d": 10,
+            "strict_n": 3,
+            "strict_rate": 0.3
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 9.31966552734375,
+            "n": 10,
+            "new_nll": 0.12408447265625,
+            "old_nll": 9.44375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -4.74609375,
+            "n": 1,
+            "new_nll": 10.3984375,
+            "old_nll": 5.65234375,
+            "rate": 0.1,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -4.1294921875,
+            "n": 2,
+            "new_nll": 9.483984375,
+            "old_nll": 5.3544921875,
+            "rate": 0.1,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "LOC": {
+            "d": 100,
+            "n": 93,
+            "rate": 0.93
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -4.1294921875,
+            "n": 0,
+            "new_nll": 9.483984375,
+            "old_nll": 5.3544921875,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -4.74609375,
+            "n": 0,
+            "new_nll": 10.3984375,
+            "old_nll": 5.65234375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        },
+        "routing": {
+          "H_NEUTRAL_sum": 0.06283829778531011,
+          "H_SELECTED_sum": 0.06246644783742631,
+          "H_delta_sum": -0.00037184994788378855,
+          "allocation_entropy_mean": 1.5297398467549568,
+          "max_abs_P_violation": 9.540979117872439e-18,
+          "max_abs_strength_residual": 8.881784197001252e-16,
+          "max_energy_violation": 0.0,
+          "status_counts": {
+            "H_ACTIVE_CERTIFIED": 8
+          }
+        },
+        "transaction": {
+          "active_history_after": 50,
+          "anchor_append": 10,
+          "backtracking": 0,
+          "history_append": 10,
+          "interbatch_W0_restore": 0,
+          "retry": 0
+        },
+        "z8_full_six_target_new_nll": 0.035146753396838905
+      }
+    },
+    {
+      "batch": 6,
+      "batch_age_at_W10": 4,
+      "history_width": 50,
+      "native_alphaedit": {
+        "edit_core_wall_seconds": 28.695743846707046,
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 7.7223358154296875,
+            "n": 9,
+            "new_nll": 1.4495391845703125,
+            "old_nll": 9.171875,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 9,
+            "strict_rate": 0.9
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 6.003472137451172,
+            "n": 18,
+            "new_nll": 2.077777862548828,
+            "old_nll": 8.08125,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 9,
+            "strict_rate": 0.9
+          },
+          "LOC": {
+            "d": 100,
+            "n": 60,
+            "rate": 0.6
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 6.003472137451172,
+            "n": 11,
+            "new_nll": 2.077777862548828,
+            "old_nll": 8.08125,
+            "rate": 0.55,
+            "strict_d": 10,
+            "strict_n": 3,
+            "strict_rate": 0.3
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 7.7223358154296875,
+            "n": 7,
+            "new_nll": 1.4495391845703125,
+            "old_nll": 9.171875,
+            "rate": 0.7,
+            "strict_d": 10,
+            "strict_n": 7,
+            "strict_rate": 0.7
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 16.386662864685057,
+            "n": 10,
+            "new_nll": 0.0008371353149414062,
+            "old_nll": 16.3875,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 11.289323997497558,
+            "n": 20,
+            "new_nll": 1.2606760025024415,
+            "old_nll": 12.55,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 76,
+            "rate": 0.76
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 11.289323997497558,
+            "n": 14,
+            "new_nll": 1.2606760025024415,
+            "old_nll": 12.55,
+            "rate": 0.7,
+            "strict_d": 10,
+            "strict_n": 5,
+            "strict_rate": 0.5
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 16.386662864685057,
+            "n": 10,
+            "new_nll": 0.0008371353149414062,
+            "old_nll": 16.3875,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -5.7701171875,
+            "n": 0,
+            "new_nll": 10.115625,
+            "old_nll": 4.3455078125,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -4.5201416015625,
+            "n": 4,
+            "new_nll": 8.928125,
+            "old_nll": 4.4079833984375,
+            "rate": 0.2,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "LOC": {
+            "d": 100,
+            "n": 88,
+            "rate": 0.88
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -4.5201416015625,
+            "n": 0,
+            "new_nll": 8.928125,
+            "old_nll": 4.4079833984375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -5.7701171875,
+            "n": 0,
+            "new_nll": 10.115625,
+            "old_nll": 4.3455078125,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        }
+      },
+      "structural_h_on": {
+        "W8_full_six_target_new_nll": 0.030843347776681185,
+        "W_minus_z_nll": 0.018693594029173255,
+        "controller_counts": {
+          "active_gradient": 80,
+          "clamp_hit": 0,
+          "current": 0,
+          "primary": 77,
+          "request_steps": 80,
+          "rescue": 3,
+          "soft_to_neutral_fallback_steps": 0
+        },
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 11.912347412109375,
+            "n": 10,
+            "new_nll": 0.018902587890625,
+            "old_nll": 11.93125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 6.5717529296875,
+            "n": 18,
+            "new_nll": 1.8395751953125,
+            "old_nll": 8.411328125,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "LOC": {
+            "d": 100,
+            "n": 82,
+            "rate": 0.82
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 6.5717529296875,
+            "n": 11,
+            "new_nll": 1.8395751953125,
+            "old_nll": 8.411328125,
+            "rate": 0.55,
+            "strict_d": 10,
+            "strict_n": 3,
+            "strict_rate": 0.3
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 11.912347412109375,
+            "n": 10,
+            "new_nll": 0.018902587890625,
+            "old_nll": 11.93125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 11.806314086914062,
+            "n": 10,
+            "new_nll": 0.0186859130859375,
+            "old_nll": 11.825,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 6.518017578125,
+            "n": 18,
+            "new_nll": 1.903076171875,
+            "old_nll": 8.42109375,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "LOC": {
+            "d": 100,
+            "n": 86,
+            "rate": 0.86
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 6.518017578125,
+            "n": 11,
+            "new_nll": 1.903076171875,
+            "old_nll": 8.42109375,
+            "rate": 0.55,
+            "strict_d": 10,
+            "strict_n": 3,
+            "strict_rate": 0.3
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 11.806314086914062,
+            "n": 10,
+            "new_nll": 0.0186859130859375,
+            "old_nll": 11.825,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -4.556640625,
+            "n": 1,
+            "new_nll": 9.840625,
+            "old_nll": 5.283984375,
+            "rate": 0.1,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -3.5150634765625,
+            "n": 5,
+            "new_nll": 8.67890625,
+            "old_nll": 5.1638427734375,
+            "rate": 0.25,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "LOC": {
+            "d": 100,
+            "n": 85,
+            "rate": 0.85
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -3.5150634765625,
+            "n": 0,
+            "new_nll": 8.67890625,
+            "old_nll": 5.1638427734375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -4.556640625,
+            "n": 0,
+            "new_nll": 9.840625,
+            "old_nll": 5.283984375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        },
+        "routing": {
+          "H_NEUTRAL_sum": 0.0651033383910175,
+          "H_SELECTED_sum": 0.06331311780825187,
+          "H_delta_sum": -0.0017902205827656338,
+          "allocation_entropy_mean": 1.4596783760371843,
+          "max_abs_P_violation": 5.206338832275392e-16,
+          "max_abs_strength_residual": 6.661338147750939e-16,
+          "max_energy_violation": 0.0,
+          "status_counts": {
+            "H_ACTIVE_CERTIFIED": 8
+          }
+        },
+        "transaction": {
+          "active_history_after": 60,
+          "anchor_append": 10,
+          "backtracking": 0,
+          "history_append": 10,
+          "interbatch_W0_restore": 0,
+          "retry": 0
+        },
+        "z8_full_six_target_new_nll": 0.01214975374750793
+      }
+    },
+    {
+      "batch": 7,
+      "batch_age_at_W10": 3,
+      "history_width": 60,
+      "native_alphaedit": {
+        "edit_core_wall_seconds": 31.330818532966077,
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 8.19383945465088,
+            "n": 10,
+            "new_nll": 0.8436767578125,
+            "old_nll": 9.037516212463379,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 8.183174133300781,
+            "n": 20,
+            "new_nll": 1.1843399047851562,
+            "old_nll": 9.367514038085938,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 80,
+            "rate": 0.8
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 8.183174133300781,
+            "n": 15,
+            "new_nll": 1.1843399047851562,
+            "old_nll": 9.367514038085938,
+            "rate": 0.75,
+            "strict_d": 10,
+            "strict_n": 6,
+            "strict_rate": 0.6
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 8.19383945465088,
+            "n": 8,
+            "new_nll": 0.8436767578125,
+            "old_nll": 9.037516212463379,
+            "rate": 0.8,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 14.433186960220336,
+            "n": 10,
+            "new_nll": 0.0011882781982421875,
+            "old_nll": 14.434375238418578,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 12.652525329589844,
+            "n": 20,
+            "new_nll": 0.593807601928711,
+            "old_nll": 13.246332931518555,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 72,
+            "rate": 0.72
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 12.652525329589844,
+            "n": 15,
+            "new_nll": 0.593807601928711,
+            "old_nll": 13.246332931518555,
+            "rate": 0.75,
+            "strict_d": 10,
+            "strict_n": 7,
+            "strict_rate": 0.7
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 14.433186960220336,
+            "n": 10,
+            "new_nll": 0.0011882781982421875,
+            "old_nll": 14.434375238418578,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -7.69218680858612,
+            "n": 0,
+            "new_nll": 12.003125,
+            "old_nll": 4.31093819141388,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -7.025020599365234,
+            "n": 2,
+            "new_nll": 11.74140625,
+            "old_nll": 4.7163856506347654,
+            "rate": 0.1,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 94,
+            "rate": 0.94
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -7.025020599365234,
+            "n": 0,
+            "new_nll": 11.74140625,
+            "old_nll": 4.7163856506347654,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -7.69218680858612,
+            "n": 0,
+            "new_nll": 12.003125,
+            "old_nll": 4.31093819141388,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        }
+      },
+      "structural_h_on": {
+        "W8_full_six_target_new_nll": 0.02262936779297888,
+        "W_minus_z_nll": 0.00839201402850449,
+        "controller_counts": {
+          "active_gradient": 80,
+          "clamp_hit": 0,
+          "current": 1,
+          "primary": 79,
+          "request_steps": 80,
+          "rescue": 0,
+          "soft_to_neutral_fallback_steps": 0
+        },
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 10.307617568969727,
+            "n": 10,
+            "new_nll": 0.0205078125,
+            "old_nll": 10.328125381469727,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 7.738399887084961,
+            "n": 19,
+            "new_nll": 1.3784591674804687,
+            "old_nll": 9.11685905456543,
+            "rate": 0.95,
+            "strict_d": 10,
+            "strict_n": 9,
+            "strict_rate": 0.9
+          },
+          "LOC": {
+            "d": 100,
+            "n": 88,
+            "rate": 0.88
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 7.738399887084961,
+            "n": 14,
+            "new_nll": 1.3784591674804687,
+            "old_nll": 9.11685905456543,
+            "rate": 0.7,
+            "strict_d": 10,
+            "strict_n": 6,
+            "strict_rate": 0.6
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 10.307617568969727,
+            "n": 10,
+            "new_nll": 0.0205078125,
+            "old_nll": 10.328125381469727,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 10.407715272903442,
+            "n": 10,
+            "new_nll": 0.02041015625,
+            "old_nll": 10.428125429153443,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 7.687747955322266,
+            "n": 19,
+            "new_nll": 1.4173858642578125,
+            "old_nll": 9.105133819580079,
+            "rate": 0.95,
+            "strict_d": 10,
+            "strict_n": 9,
+            "strict_rate": 0.9
+          },
+          "LOC": {
+            "d": 100,
+            "n": 90,
+            "rate": 0.9
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 7.687747955322266,
+            "n": 14,
+            "new_nll": 1.4173858642578125,
+            "old_nll": 9.105133819580079,
+            "rate": 0.7,
+            "strict_d": 10,
+            "strict_n": 6,
+            "strict_rate": 0.6
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 10.407715272903442,
+            "n": 10,
+            "new_nll": 0.02041015625,
+            "old_nll": 10.428125429153443,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -7.757797050476074,
+            "n": 0,
+            "new_nll": 12.41875,
+            "old_nll": 4.660952949523926,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -6.059423446655273,
+            "n": 2,
+            "new_nll": 10.5703125,
+            "old_nll": 4.510889053344727,
+            "rate": 0.1,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 92,
+            "rate": 0.92
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -6.059423446655273,
+            "n": 0,
+            "new_nll": 10.5703125,
+            "old_nll": 4.510889053344727,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -7.757797050476074,
+            "n": 0,
+            "new_nll": 12.41875,
+            "old_nll": 4.660952949523926,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        },
+        "routing": {
+          "H_NEUTRAL_sum": 0.19832998037663144,
+          "H_SELECTED_sum": 0.19278636857231424,
+          "H_delta_sum": -0.005543611804317186,
+          "allocation_entropy_mean": 1.4864141681814256,
+          "max_abs_P_violation": 1.3462321535318011e-14,
+          "max_abs_strength_residual": 8.881784197001252e-16,
+          "max_energy_violation": 0.0,
+          "status_counts": {
+            "H_ACTIVE_CERTIFIED": 8
+          }
+        },
+        "transaction": {
+          "active_history_after": 70,
+          "anchor_append": 10,
+          "backtracking": 0,
+          "history_append": 10,
+          "interbatch_W0_restore": 0,
+          "retry": 0
+        },
+        "z8_full_six_target_new_nll": 0.014237353764474391
+      }
+    },
+    {
+      "batch": 8,
+      "batch_age_at_W10": 2,
+      "history_width": 70,
+      "native_alphaedit": {
+        "edit_core_wall_seconds": 22.247330066747963,
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 9.037673950195312,
+            "n": 10,
+            "new_nll": 0.0615447998046875,
+            "old_nll": 9.09921875,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 8.371527099609375,
+            "n": 20,
+            "new_nll": 0.823785400390625,
+            "old_nll": 9.1953125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 67,
+            "rate": 0.67
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 8.371527099609375,
+            "n": 16,
+            "new_nll": 0.823785400390625,
+            "old_nll": 9.1953125,
+            "rate": 0.8,
+            "strict_d": 10,
+            "strict_n": 6,
+            "strict_rate": 0.6
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 9.037673950195312,
+            "n": 10,
+            "new_nll": 0.0615447998046875,
+            "old_nll": 9.09921875,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 12.347341156005859,
+            "n": 10,
+            "new_nll": 0.002658843994140625,
+            "old_nll": 12.35,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 9.700105285644531,
+            "n": 20,
+            "new_nll": 1.0873947143554688,
+            "old_nll": 10.7875,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 66,
+            "rate": 0.66
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 9.700105285644531,
+            "n": 13,
+            "new_nll": 1.0873947143554688,
+            "old_nll": 10.7875,
+            "rate": 0.65,
+            "strict_d": 10,
+            "strict_n": 4,
+            "strict_rate": 0.4
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 12.347341156005859,
+            "n": 10,
+            "new_nll": 0.002658843994140625,
+            "old_nll": 12.35,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -6.25609130859375,
+            "n": 2,
+            "new_nll": 9.6421875,
+            "old_nll": 3.38609619140625,
+            "rate": 0.2,
+            "strict_d": 10,
+            "strict_n": 2,
+            "strict_rate": 0.2
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -4.97607421875,
+            "n": 4,
+            "new_nll": 9.87265625,
+            "old_nll": 4.89658203125,
+            "rate": 0.2,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "LOC": {
+            "d": 100,
+            "n": 93,
+            "rate": 0.93
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -4.97607421875,
+            "n": 0,
+            "new_nll": 9.87265625,
+            "old_nll": 4.89658203125,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -6.25609130859375,
+            "n": 0,
+            "new_nll": 9.6421875,
+            "old_nll": 3.38609619140625,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        }
+      },
+      "structural_h_on": {
+        "W8_full_six_target_new_nll": 0.025301702925935386,
+        "W_minus_z_nll": 0.005489117372781037,
+        "controller_counts": {
+          "active_gradient": 80,
+          "clamp_hit": 5,
+          "current": 0,
+          "primary": 79,
+          "request_steps": 80,
+          "rescue": 1,
+          "soft_to_neutral_fallback_steps": 0
+        },
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 10.892112350463867,
+            "n": 10,
+            "new_nll": 0.023512649536132812,
+            "old_nll": 10.915625,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 5.47294921875,
+            "n": 17,
+            "new_nll": 3.01474609375,
+            "old_nll": 8.4876953125,
+            "rate": 0.85,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "LOC": {
+            "d": 100,
+            "n": 89,
+            "rate": 0.89
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 5.47294921875,
+            "n": 8,
+            "new_nll": 3.01474609375,
+            "old_nll": 8.4876953125,
+            "rate": 0.4,
+            "strict_d": 10,
+            "strict_n": 3,
+            "strict_rate": 0.3
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 10.892112350463867,
+            "n": 10,
+            "new_nll": 0.023512649536132812,
+            "old_nll": 10.915625,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 10.899638748168945,
+            "n": 10,
+            "new_nll": 0.025361251831054688,
+            "old_nll": 10.925,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 5.47705078125,
+            "n": 18,
+            "new_nll": 3.04736328125,
+            "old_nll": 8.5244140625,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "LOC": {
+            "d": 100,
+            "n": 88,
+            "rate": 0.88
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 5.47705078125,
+            "n": 8,
+            "new_nll": 3.04736328125,
+            "old_nll": 8.5244140625,
+            "rate": 0.4,
+            "strict_d": 10,
+            "strict_n": 3,
+            "strict_rate": 0.3
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 10.899638748168945,
+            "n": 10,
+            "new_nll": 0.025361251831054688,
+            "old_nll": 10.925,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -6.6974853515625,
+            "n": 2,
+            "new_nll": 10.353125,
+            "old_nll": 3.6556396484375,
+            "rate": 0.2,
+            "strict_d": 10,
+            "strict_n": 2,
+            "strict_rate": 0.2
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -4.86689453125,
+            "n": 5,
+            "new_nll": 10.09609375,
+            "old_nll": 5.22919921875,
+            "rate": 0.25,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "LOC": {
+            "d": 100,
+            "n": 89,
+            "rate": 0.89
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -4.86689453125,
+            "n": 0,
+            "new_nll": 10.09609375,
+            "old_nll": 5.22919921875,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -6.6974853515625,
+            "n": 0,
+            "new_nll": 10.353125,
+            "old_nll": 3.6556396484375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        },
+        "routing": {
+          "H_NEUTRAL_sum": 0.034613357171727935,
+          "H_SELECTED_sum": 0.03422974003927861,
+          "H_delta_sum": -0.00038361713244932364,
+          "allocation_entropy_mean": 1.521631469959626,
+          "max_abs_P_violation": 2.2264091611989834e-16,
+          "max_abs_strength_residual": 8.881784197001252e-16,
+          "max_energy_violation": 0.0,
+          "status_counts": {
+            "H_ACTIVE_CERTIFIED": 8
+          }
+        },
+        "transaction": {
+          "active_history_after": 80,
+          "anchor_append": 10,
+          "backtracking": 0,
+          "history_append": 10,
+          "interbatch_W0_restore": 0,
+          "retry": 0
+        },
+        "z8_full_six_target_new_nll": 0.01981258555315435
+      }
+    },
+    {
+      "batch": 9,
+      "batch_age_at_W10": 1,
+      "history_width": 80,
+      "native_alphaedit": {
+        "edit_core_wall_seconds": 19.2947133788839,
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 13.155381774902343,
+            "n": 10,
+            "new_nll": 0.06024322509765625,
+            "old_nll": 13.215625,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 11.167775344848632,
+            "n": 20,
+            "new_nll": 0.2915996551513672,
+            "old_nll": 11.459375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 67,
+            "rate": 0.67
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 11.167775344848632,
+            "n": 18,
+            "new_nll": 0.2915996551513672,
+            "old_nll": 11.459375,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 13.155381774902343,
+            "n": 10,
+            "new_nll": 0.06024322509765625,
+            "old_nll": 13.215625,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 14.986171531677247,
+            "n": 10,
+            "new_nll": 0.007578468322753907,
+            "old_nll": 14.99375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 12.323774909973144,
+            "n": 20,
+            "new_nll": 0.14497509002685546,
+            "old_nll": 12.46875,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 54,
+            "rate": 0.54
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 12.323774909973144,
+            "n": 19,
+            "new_nll": 0.14497509002685546,
+            "old_nll": 12.46875,
+            "rate": 0.95,
+            "strict_d": 10,
+            "strict_n": 9,
+            "strict_rate": 0.9
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 14.986171531677247,
+            "n": 10,
+            "new_nll": 0.007578468322753907,
+            "old_nll": 14.99375,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -6.70572509765625,
+            "n": 1,
+            "new_nll": 9.546875,
+            "old_nll": 2.84114990234375,
+            "rate": 0.1,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -5.64892578125,
+            "n": 1,
+            "new_nll": 8.86328125,
+            "old_nll": 3.21435546875,
+            "rate": 0.05,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 92,
+            "rate": 0.92
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -5.64892578125,
+            "n": 0,
+            "new_nll": 8.86328125,
+            "old_nll": 3.21435546875,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -6.70572509765625,
+            "n": 0,
+            "new_nll": 9.546875,
+            "old_nll": 2.84114990234375,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        }
+      },
+      "structural_h_on": {
+        "W8_full_six_target_new_nll": 0.019809413887560367,
+        "W_minus_z_nll": 0.001005622744560241,
+        "controller_counts": {
+          "active_gradient": 80,
+          "clamp_hit": 0,
+          "current": 0,
+          "primary": 80,
+          "request_steps": 80,
+          "rescue": 0,
+          "soft_to_neutral_fallback_steps": 0
+        },
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 11.092907333374024,
+            "n": 10,
+            "new_nll": 0.013342666625976562,
+            "old_nll": 11.10625,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 4.211878967285156,
+            "n": 17,
+            "new_nll": 2.107652282714844,
+            "old_nll": 6.31953125,
+            "rate": 0.85,
+            "strict_d": 10,
+            "strict_n": 7,
+            "strict_rate": 0.7
+          },
+          "LOC": {
+            "d": 100,
+            "n": 95,
+            "rate": 0.95
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 4.211878967285156,
+            "n": 12,
+            "new_nll": 2.107652282714844,
+            "old_nll": 6.31953125,
+            "rate": 0.6,
+            "strict_d": 10,
+            "strict_n": 4,
+            "strict_rate": 0.4
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 11.092907333374024,
+            "n": 10,
+            "new_nll": 0.013342666625976562,
+            "old_nll": 11.10625,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 10.99927215576172,
+            "n": 10,
+            "new_nll": 0.01322784423828125,
+            "old_nll": 11.0125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 4.311227416992187,
+            "n": 17,
+            "new_nll": 2.0356475830078127,
+            "old_nll": 6.346875,
+            "rate": 0.85,
+            "strict_d": 10,
+            "strict_n": 7,
+            "strict_rate": 0.7
+          },
+          "LOC": {
+            "d": 100,
+            "n": 95,
+            "rate": 0.95
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 4.311227416992187,
+            "n": 12,
+            "new_nll": 2.0356475830078127,
+            "old_nll": 6.346875,
+            "rate": 0.6,
+            "strict_d": 10,
+            "strict_n": 4,
+            "strict_rate": 0.4
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 10.99927215576172,
+            "n": 10,
+            "new_nll": 0.01322784423828125,
+            "old_nll": 11.0125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -8.294970703125,
+            "n": 1,
+            "new_nll": 10.94375,
+            "old_nll": 2.648779296875,
+            "rate": 0.1,
+            "strict_d": 10,
+            "strict_n": 1,
+            "strict_rate": 0.1
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -5.9126953125,
+            "n": 1,
+            "new_nll": 9.3359375,
+            "old_nll": 3.4232421875,
+            "rate": 0.05,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 97,
+            "rate": 0.97
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -5.9126953125,
+            "n": 0,
+            "new_nll": 9.3359375,
+            "old_nll": 3.4232421875,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -8.294970703125,
+            "n": 0,
+            "new_nll": 10.94375,
+            "old_nll": 2.648779296875,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        },
+        "routing": {
+          "H_NEUTRAL_sum": 0.0505441986363829,
+          "H_SELECTED_sum": 0.050213501338333834,
+          "H_delta_sum": -0.00033069729804906847,
+          "allocation_entropy_mean": 1.5228213228815806,
+          "max_abs_P_violation": 1.4490362035268767e-16,
+          "max_abs_strength_residual": 8.881784197001252e-16,
+          "max_energy_violation": 0.0,
+          "status_counts": {
+            "H_ACTIVE_CERTIFIED": 8
+          }
+        },
+        "transaction": {
+          "active_history_after": 90,
+          "anchor_append": 10,
+          "backtracking": 0,
+          "history_append": 10,
+          "interbatch_W0_restore": 0,
+          "retry": 0
+        },
+        "z8_full_six_target_new_nll": 0.018803791143000126
+      }
+    },
+    {
+      "batch": 10,
+      "batch_age_at_W10": 0,
+      "history_width": 90,
+      "native_alphaedit": {
+        "edit_core_wall_seconds": 19.42868990264833,
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 14.774633026123047,
+            "n": 10,
+            "new_nll": 0.012866973876953125,
+            "old_nll": 14.7875,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 12.096968364715575,
+            "n": 20,
+            "new_nll": 0.7342816352844238,
+            "old_nll": 12.83125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 31,
+            "rate": 0.31
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 12.096968364715575,
+            "n": 15,
+            "new_nll": 0.7342816352844238,
+            "old_nll": 12.83125,
+            "rate": 0.75,
+            "strict_d": 10,
+            "strict_n": 5,
+            "strict_rate": 0.5
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 14.774633026123047,
+            "n": 10,
+            "new_nll": 0.012866973876953125,
+            "old_nll": 14.7875,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 14.774633026123047,
+            "n": 10,
+            "new_nll": 0.012866973876953125,
+            "old_nll": 14.7875,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 12.096968364715575,
+            "n": 20,
+            "new_nll": 0.7342816352844238,
+            "old_nll": 12.83125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "LOC": {
+            "d": 100,
+            "n": 31,
+            "rate": 0.31
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 12.096968364715575,
+            "n": 15,
+            "new_nll": 0.7342816352844238,
+            "old_nll": 12.83125,
+            "rate": 0.75,
+            "strict_d": 10,
+            "strict_n": 5,
+            "strict_rate": 0.5
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 14.774633026123047,
+            "n": 10,
+            "new_nll": 0.012866973876953125,
+            "old_nll": 14.7875,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -1.1314453125,
+            "n": 3,
+            "new_nll": 9.9203125,
+            "old_nll": 8.7888671875,
+            "rate": 0.3,
+            "strict_d": 10,
+            "strict_n": 3,
+            "strict_rate": 0.3
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -0.0251953125,
+            "n": 9,
+            "new_nll": 7.959375,
+            "old_nll": 7.9341796875,
+            "rate": 0.45,
+            "strict_d": 10,
+            "strict_n": 4,
+            "strict_rate": 0.4
+          },
+          "LOC": {
+            "d": 100,
+            "n": 56,
+            "rate": 0.56
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -0.0251953125,
+            "n": 0,
+            "new_nll": 7.959375,
+            "old_nll": 7.9341796875,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -1.1314453125,
+            "n": 0,
+            "new_nll": 9.9203125,
+            "old_nll": 8.7888671875,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        }
+      },
+      "structural_h_on": {
+        "W8_full_six_target_new_nll": 0.029074237495660783,
+        "W_minus_z_nll": 0.012408780679106713,
+        "controller_counts": {
+          "active_gradient": 80,
+          "clamp_hit": 0,
+          "current": 2,
+          "primary": 78,
+          "request_steps": 80,
+          "rescue": 0,
+          "soft_to_neutral_fallback_steps": 0
+        },
+        "final_W10": {
+          "EFF": {
+            "d": 10,
+            "margin": 12.456863403320312,
+            "n": 10,
+            "new_nll": 0.0212615966796875,
+            "old_nll": 12.478125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 6.5934326171875,
+            "n": 18,
+            "new_nll": 1.8928955078125,
+            "old_nll": 8.486328125,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "LOC": {
+            "d": 100,
+            "n": 77,
+            "rate": 0.77
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 6.5934326171875,
+            "n": 12,
+            "new_nll": 1.8928955078125,
+            "old_nll": 8.486328125,
+            "rate": 0.6,
+            "strict_d": 10,
+            "strict_n": 5,
+            "strict_rate": 0.5
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 12.456863403320312,
+            "n": 10,
+            "new_nll": 0.0212615966796875,
+            "old_nll": 12.478125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "post": {
+          "EFF": {
+            "d": 10,
+            "margin": 12.456863403320312,
+            "n": 10,
+            "new_nll": 0.0212615966796875,
+            "old_nll": 12.478125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          },
+          "GEN": {
+            "d": 20,
+            "margin": 6.5934326171875,
+            "n": 18,
+            "new_nll": 1.8928955078125,
+            "old_nll": 8.486328125,
+            "rate": 0.9,
+            "strict_d": 10,
+            "strict_n": 8,
+            "strict_rate": 0.8
+          },
+          "LOC": {
+            "d": 100,
+            "n": 77,
+            "rate": 0.77
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": 6.5934326171875,
+            "n": 12,
+            "new_nll": 1.8928955078125,
+            "old_nll": 8.486328125,
+            "rate": 0.6,
+            "strict_d": 10,
+            "strict_n": 5,
+            "strict_rate": 0.5
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": 12.456863403320312,
+            "n": 10,
+            "new_nll": 0.0212615966796875,
+            "old_nll": 12.478125,
+            "rate": 1.0,
+            "strict_d": 10,
+            "strict_n": 10,
+            "strict_rate": 1.0
+          }
+        },
+        "pre": {
+          "EFF": {
+            "d": 10,
+            "margin": -4.269921875,
+            "n": 2,
+            "new_nll": 10.45,
+            "old_nll": 6.180078125,
+            "rate": 0.2,
+            "strict_d": 10,
+            "strict_n": 2,
+            "strict_rate": 0.2
+          },
+          "GEN": {
+            "d": 20,
+            "margin": -3.79951171875,
+            "n": 5,
+            "new_nll": 9.43984375,
+            "old_nll": 5.64033203125,
+            "rate": 0.25,
+            "strict_d": 10,
+            "strict_n": 2,
+            "strict_rate": 0.2
+          },
+          "LOC": {
+            "d": 100,
+            "n": 82,
+            "rate": 0.82
+          },
+          "RephraseAcc": {
+            "d": 20,
+            "margin": -3.79951171875,
+            "n": 0,
+            "new_nll": 9.43984375,
+            "old_nll": 5.64033203125,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          },
+          "RewriteAcc": {
+            "d": 10,
+            "margin": -4.269921875,
+            "n": 0,
+            "new_nll": 10.45,
+            "old_nll": 6.180078125,
+            "rate": 0.0,
+            "strict_d": 10,
+            "strict_n": 0,
+            "strict_rate": 0.0
+          }
+        },
+        "routing": {
+          "H_NEUTRAL_sum": 0.41877699646488903,
+          "H_SELECTED_sum": 0.40647663916246174,
+          "H_delta_sum": -0.012300357302427319,
+          "allocation_entropy_mean": 1.55626163084848,
+          "max_abs_P_violation": 1.261577647904133e-15,
+          "max_abs_strength_residual": 1.3322676295501878e-15,
+          "max_energy_violation": 0.0,
+          "status_counts": {
+            "H_ACTIVE_CERTIFIED": 8
+          }
+        },
+        "transaction": {
+          "active_history_after": 100,
+          "anchor_append": 10,
+          "backtracking": 0,
+          "history_append": 10,
+          "interbatch_W0_restore": 0,
+          "retry": 0
+        },
+        "z8_full_six_target_new_nll": 0.01666545681655407
+      }
+    }
+  ],
+  "compute_ledger": {
+    "entry_pre_evaluator_model_forward_backward_generation": [
+      100,
+      0,
+      0
+    ],
+    "evaluator_controller_influence_count": 0,
+    "inner_K_step_heldout_evaluation_count": 0,
+    "native_edit_core_wall_seconds_sum": 271.81740995310247,
+    "native_terminal_job_compute": {
+      "accepted_t": 0.0,
+      "completed_correction_cycles": 0,
+      "completed_k_total": 0,
+      "component_gpu_seconds": {
+        "batch_entry_pre_evaluator": 0.0,
+        "batch_terminal_checkpoint_evaluator": 0.0,
+        "context_generation_twice": 1.04027978515625,
+        "final_W10_B100_evaluator": 0.0,
+        "model_load": 10.90016015625,
+        "theta0_teacher_population": 1.8691337890625
+      },
+      "component_wall_seconds": {
+        "batch_entry_pre_evaluator": 12.080851797945797,
+        "batch_terminal_checkpoint_evaluator": 65.48658479191363,
+        "context_generation_twice": 1.0402257116511464,
+        "final_W10_B100_evaluator": 12.122629704885185,
+        "model_load": 10.900095485150814,
+        "theta0_teacher_population": 1.8690716903656721
+      },
+      "counters": {
+        "backward": 0,
+        "commit": 0,
+        "constraint_jvp": 0,
+        "constraint_vjp": 0,
+        "dense_fp32_full_delta_live": 0,
+        "effective_bf16_weight_peak_live": 0,
+        "evaluator_forward": 750,
+        "evaluator_tokens": 221626,
+        "fallback": 0,
+        "functional_h_replay": 0,
+        "functional_p_replay": 0,
+        "model_forward": 32,
+        "native_baseline_dense_delta_bytes_peak": 0,
+        "native_baseline_dense_delta_peak_live": 0,
+        "processed_tokens": 1547,
+        "qp_certificate": 0,
+        "qp_solve": 0,
+        "reject": 0,
+        "rollback": 0,
+        "target_backward": 0,
+        "trial": 0
+      },
+      "direct_z_diagnostics": [],
+      "host_maxrss_kib": 0,
+      "peak_allocated_bytes": 0,
+      "peak_reserved_bytes": 0
+    },
+    "one_pass_accuracy_added_model_forward_backward_generation": [
+      0,
+      0,
+      0
+    ],
+    "structural_h_on_batch_atomic_compute_totals_sum": {
+      "autograd_invocations": 1250,
+      "backward_calls": 1250,
+      "capture_forward_calls": 450,
+      "dense_assembly_count": 0,
+      "full_weight_hash_count": 0,
+      "hot_hook_dense_assembly_count": 0,
+      "hot_hook_full_weight_hash_count": 0,
+      "logical_forward_groups": 452,
+      "materialization_count": 80,
+      "model_forward_calls": 2260,
+      "padded_tokens": 426736,
+      "physical_microbatch_graphs": 2260,
+      "processed_tokens": 384560,
+      "slope_backward_calls": 400,
+      "target_backward_calls": 850
+    },
+    "structural_h_on_batch_atomic_wall_seconds_sum": {
+      "accepted_state_refresh": 64.69374814257026,
+      "field_and_physical_slope": 578.7744389967993,
+      "finite_demand_endpoint_forward": 25.75287869758904,
+      "functional_preservation_basis": 0.0010216468945145607,
+      "initial_physical_capture": 2.6406689397990704,
+      "physical_materialization": 136.06056770309806,
+      "routing_solve": 3.0168629605323076,
+      "scalar_corrector_endpoint_forward": 3.91936313547194,
+      "target_gradient": 152.27973404154181,
+      "terminal_objective": 3.1332373125478625
+    },
+    "structural_h_on_terminal_job_compute": {
+      "accepted_t": 0.0,
+      "completed_correction_cycles": 0,
+      "completed_k_total": 0,
+      "component_gpu_seconds": {
+        "batch_entry_pre_evaluator": 0.0,
+        "batch_terminal_checkpoint_evaluator": 0.0,
+        "context_generation_twice": 1.038197265625,
+        "final_W10_B100_evaluator": 0.0,
+        "model_load": 10.9233427734375,
+        "post_commit_history_key_capture": 0.0,
+        "theta0_teacher_population": 1.184657958984375
+      },
+      "component_wall_seconds": {
+        "batch_entry_pre_evaluator": 12.061941363848746,
+        "batch_terminal_checkpoint_evaluator": 65.28413721174002,
+        "context_generation_twice": 1.0381438508629799,
+        "final_W10_B100_evaluator": 12.10279630497098,
+        "model_load": 10.92328769620508,
+        "post_commit_history_key_capture": 34.54434313066304,
+        "theta0_teacher_population": 1.1845869533717632
+      },
+      "counters": {
+        "backward": 0,
+        "commit": 0,
+        "constraint_jvp": 0,
+        "constraint_vjp": 0,
+        "dense_fp32_full_delta_live": 0,
+        "effective_bf16_weight_peak_live": 0,
+        "evaluator_forward": 750,
+        "evaluator_tokens": 221626,
+        "fallback": 0,
+        "functional_h_replay": 0,
+        "functional_p_replay": 0,
+        "model_forward": 242,
+        "native_baseline_dense_delta_bytes_peak": 0,
+        "native_baseline_dense_delta_peak_live": 0,
+        "processed_tokens": 66067,
+        "qp_certificate": 0,
+        "qp_solve": 0,
+        "reject": 0,
+        "rollback": 0,
+        "target_backward": 0,
+        "trial": 0
+      },
+      "direct_z_diagnostics": [],
+      "host_maxrss_kib": 0,
+      "peak_allocated_bytes": 0,
+      "peak_reserved_bytes": 0
+    }
+  },
+  "controller_totals": {
+    "active_gradient": 800,
+    "clamp_hit": 18,
+    "current": 7,
+    "primary": 785,
+    "request_steps": 800,
+    "rescue": 8,
+    "soft_to_neutral_fallback_steps": 0
+  },
+  "low_cohort_summary": {
+    "B5_immediate_post_absolute": {
+      "h_minus_native": {
+        "locality": {
+          "numerator": 10,
+          "rate": 0.10000000000000009
+        },
+        "paraphrase_acc": {
+          "prompt_numerator": -3,
+          "prompt_rate": -0.1499999999999999,
+          "strict_request_numerator": -2,
+          "strict_request_rate": -0.2,
+          "target_new_nll_mean": 0.621152114868164,
+          "target_old_minus_new_margin_mean": -3.762167739868164,
+          "target_old_nll_mean": -3.1410156250000005
+        },
+        "paraphrase_success": {
+          "prompt_numerator": -4,
+          "prompt_rate": -0.20000000000000007,
+          "strict_request_numerator": -3,
+          "strict_request_rate": -0.30000000000000004,
+          "target_new_nll_mean": 0.621152114868164,
+          "target_old_minus_new_margin_mean": -3.762167739868164,
+          "target_old_nll_mean": -3.1410156250000005
+        },
+        "rewrite_acc": {
+          "prompt_numerator": 0,
+          "prompt_rate": 0.0,
+          "strict_request_numerator": 0,
+          "strict_request_rate": 0.0,
+          "target_new_nll_mean": 0.1235428810119629,
+          "target_old_minus_new_margin_mean": -5.017292881011963,
+          "target_old_nll_mean": -4.893750000000001
+        },
+        "rewrite_success": {
+          "prompt_numerator": 0,
+          "prompt_rate": 0.0,
+          "strict_request_numerator": 0,
+          "strict_request_rate": 0.0,
+          "target_new_nll_mean": 0.1235428810119629,
+          "target_old_minus_new_margin_mean": -5.017292881011963,
+          "target_old_nll_mean": -4.893750000000001
+        }
+      },
+      "native_alphaedit": {
+        "identity_sha256": "dec3417edfc9265dbfffd11169b72152f9778d3ef3341de8fb3d9f18f0375379",
+        "locality": {
+          "denominator": 100,
+          "numerator": 82,
+          "rate": 0.82
+        },
+        "paraphrase_acc": {
+          "prompt_denominator": 20,
+          "prompt_numerator": 14,
+          "prompt_rate": 0.7,
+          "strict_request_denominator": 10,
+          "strict_request_numerator": 5,
+          "strict_request_rate": 0.5,
+          "target_new_nll_mean": 1.541079330444336,
+          "target_old_minus_new_margin_mean": 8.266733169555664,
+          "target_old_nll_mean": 9.8078125
+        },
+        "paraphrase_success": {
+          "prompt_denominator": 20,
+          "prompt_numerator": 18,
+          "prompt_rate": 0.9,
+          "strict_request_denominator": 10,
+          "strict_request_numerator": 8,
+          "strict_request_rate": 0.8,
+          "target_new_nll_mean": 1.541079330444336,
+          "target_old_minus_new_margin_mean": 8.266733169555664,
+          "target_old_nll_mean": 9.8078125
+        },
+        "request_count": null,
+        "rewrite_acc": {
+          "prompt_denominator": 10,
+          "prompt_numerator": 10,
+          "prompt_rate": 1.0,
+          "strict_request_denominator": 10,
+          "strict_request_numerator": 10,
+          "strict_request_rate": 1.0,
+          "target_new_nll_mean": 0.0005415916442871094,
+          "target_old_minus_new_margin_mean": 14.336958408355713,
+          "target_old_nll_mean": 14.3375
+        },
+        "rewrite_success": {
+          "prompt_denominator": 10,
+          "prompt_numerator": 10,
+          "prompt_rate": 1.0,
+          "strict_request_denominator": 10,
+          "strict_request_numerator": 10,
+          "strict_request_rate": 1.0,
+          "target_new_nll_mean": 0.0005415916442871094,
+          "target_old_minus_new_margin_mean": 14.336958408355713,
+          "target_old_nll_mean": 14.3375
+        }
+      },
+      "structural_h_on": {
+        "identity_sha256": "4ce3b23601ef1c18a2e1d8fe00754f41c246ac64647724a83143d550be75313a",
+        "locality": {
+          "denominator": 100,
+          "numerator": 92,
+          "rate": 0.92
+        },
+        "paraphrase_acc": {
+          "prompt_denominator": 20,
+          "prompt_numerator": 11,
+          "prompt_rate": 0.55,
+          "strict_request_denominator": 10,
+          "strict_request_numerator": 3,
+          "strict_request_rate": 0.3,
+          "target_new_nll_mean": 2.1622314453125,
+          "target_old_minus_new_margin_mean": 4.5045654296875,
+          "target_old_nll_mean": 6.666796875
+        },
+        "paraphrase_success": {
+          "prompt_denominator": 20,
+          "prompt_numerator": 14,
+          "prompt_rate": 0.7,
+          "strict_request_denominator": 10,
+          "strict_request_numerator": 5,
+          "strict_request_rate": 0.5,
+          "target_new_nll_mean": 2.1622314453125,
+          "target_old_minus_new_margin_mean": 4.5045654296875,
+          "target_old_nll_mean": 6.666796875
+        },
+        "request_count": null,
+        "rewrite_acc": {
+          "prompt_denominator": 10,
+          "prompt_numerator": 10,
+          "prompt_rate": 1.0,
+          "strict_request_denominator": 10,
+          "strict_request_numerator": 10,
+          "strict_request_rate": 1.0,
+          "target_new_nll_mean": 0.12408447265625,
+          "target_old_minus_new_margin_mean": 9.31966552734375,
+          "target_old_nll_mean": 9.44375
+        },
+        "rewrite_success": {
+          "prompt_denominator": 10,
+          "prompt_numerator": 10,
+          "prompt_rate": 1.0,
+          "strict_request_denominator": 10,
+          "strict_request_numerator": 10,
+          "strict_request_rate": 1.0,
+          "target_new_nll_mean": 0.12408447265625,
+          "target_old_minus_new_margin_mean": 9.31966552734375,
+          "target_old_nll_mean": 9.44375
+        }
+      }
+    },
+    "association_scope": "RAW_FREE_OBSERVATIONAL_ONLY_NO_ISOLATED_CAUSAL_ATTRIBUTION",
+    "conclusion_label": "ASSOCIATION_ONLY",
+    "flag_counts": {
+      "entry_hard_by_rewrite_success": 89,
+      "final_paraphrase_accuracy_loss": 1,
+      "final_paraphrase_success_loss": 1,
+      "native_post_paraphrase_success_higher": 21,
+      "post_paraphrase_accuracy_failure": 65,
+      "post_paraphrase_success_failure": 25,
+      "post_rewrite_accuracy_failure": 0,
+      "post_rewrite_success_failure": 0,
+      "post_strict_paraphrase_accuracy_failure": 65,
+      "post_strict_paraphrase_success_failure": 25
+    },
+    "low_or_failed_request_rows": 94,
+    "per_request_rows": 100,
+    "routing_data_granularity": "batch_step_only; requestwise H-routing attribution=NOT_RECORDED"
+  },
+  "nll_summary": {
+    "W8_mean": 0.07367147373966873,
+    "W_minus_z_max_abs": 0.09238148415461184,
+    "W_minus_z_mean": 0.020326891369186344,
+    "z8_mean": 0.05334458237048239
+  },
+  "phase_rows": {
+    "W0_baseline_B1_entry": {
+      "native_alphaedit": {
+        "EFF": {
+          "d": 10,
+          "margin": -6.021875,
+          "n": 2,
+          "new_nll": 12.3859375,
+          "old_nll": 6.3640625,
+          "rate": 0.2,
+          "strict_d": 10,
+          "strict_n": 2,
+          "strict_rate": 0.2
+        },
+        "GEN": {
+          "d": 20,
+          "margin": -5.27626953125,
+          "n": 3,
+          "new_nll": 10.6390625,
+          "old_nll": 5.36279296875,
+          "rate": 0.15,
+          "strict_d": 10,
+          "strict_n": 1,
+          "strict_rate": 0.1
+        },
+        "LOC": {
+          "d": 100,
+          "n": 93,
+          "rate": 0.93
+        },
+        "RephraseAcc": {
+          "d": 20,
+          "margin": -5.27626953125,
+          "n": 0,
+          "new_nll": 10.6390625,
+          "old_nll": 5.36279296875,
+          "rate": 0.0,
+          "strict_d": 10,
+          "strict_n": 0,
+          "strict_rate": 0.0
+        },
+        "RewriteAcc": {
+          "d": 10,
+          "margin": -6.021875,
+          "n": 0,
+          "new_nll": 12.3859375,
+          "old_nll": 6.3640625,
+          "rate": 0.0,
+          "strict_d": 10,
+          "strict_n": 0,
+          "strict_rate": 0.0
+        }
+      },
+      "note": "10-request B1 entry at common W0; not a 100-request aggregate",
+      "structural_h_on": {
+        "EFF": {
+          "d": 10,
+          "margin": -6.021875,
+          "n": 2,
+          "new_nll": 12.3859375,
+          "old_nll": 6.3640625,
+          "rate": 0.2,
+          "strict_d": 10,
+          "strict_n": 2,
+          "strict_rate": 0.2
+        },
+        "GEN": {
+          "d": 20,
+          "margin": -5.27626953125,
+          "n": 3,
+          "new_nll": 10.6390625,
+          "old_nll": 5.36279296875,
+          "rate": 0.15,
+          "strict_d": 10,
+          "strict_n": 1,
+          "strict_rate": 0.1
+        },
+        "LOC": {
+          "d": 100,
+          "n": 93,
+          "rate": 0.93
+        },
+        "RephraseAcc": {
+          "d": 20,
+          "margin": -5.27626953125,
+          "n": 0,
+          "new_nll": 10.6390625,
+          "old_nll": 5.36279296875,
+          "rate": 0.0,
+          "strict_d": 10,
+          "strict_n": 0,
+          "strict_rate": 0.0
+        },
+        "RewriteAcc": {
+          "d": 10,
+          "margin": -6.021875,
+          "n": 0,
+          "new_nll": 12.3859375,
+          "old_nll": 6.3640625,
+          "rate": 0.0,
+          "strict_d": 10,
+          "strict_n": 0,
+          "strict_rate": 0.0
+        }
+      }
+    },
+    "all_immediate_post": {
+      "native_alphaedit": {
+        "EFF": {
+          "d": 100,
+          "margin": 14.946106915473937,
+          "n": 100,
+          "new_nll": 0.0029556083679199217,
+          "old_nll": 14.949062523841858,
+          "rate": 1.0,
+          "strict_d": 100,
+          "strict_n": 100,
+          "strict_rate": 1.0
+        },
+        "GEN": {
+          "d": 200,
+          "margin": 9.664776802062988,
+          "n": 192,
+          "new_nll": 1.3882061004638673,
+          "old_nll": 11.052982902526855,
+          "rate": 0.96,
+          "strict_d": 100,
+          "strict_n": 94,
+          "strict_rate": 0.94
+        },
+        "LOC": {
+          "d": 1000,
+          "n": 725,
+          "rate": 0.725
+        },
+        "RephraseAcc": {
+          "d": 200,
+          "margin": 9.664776802062988,
+          "n": 144,
+          "new_nll": 1.3882061004638673,
+          "old_nll": 11.052982902526855,
+          "rate": 0.72,
+          "strict_d": 100,
+          "strict_n": 56,
+          "strict_rate": 0.56
+        },
+        "RewriteAcc": {
+          "d": 100,
+          "margin": 14.946106915473937,
+          "n": 100,
+          "new_nll": 0.0029556083679199217,
+          "old_nll": 14.949062523841858,
+          "rate": 1.0,
+          "strict_d": 100,
+          "strict_n": 100,
+          "strict_rate": 1.0
+        }
+      },
+      "note": "100 requests immediately after their own B10 edit",
+      "structural_h_on": {
+        "EFF": {
+          "d": 100,
+          "margin": 10.975732502937317,
+          "n": 100,
+          "new_nll": 0.040205039978027345,
+          "old_nll": 11.015937542915344,
+          "rate": 1.0,
+          "strict_d": 100,
+          "strict_n": 100,
+          "strict_rate": 1.0
+        },
+        "GEN": {
+          "d": 200,
+          "margin": 5.257259559631348,
+          "n": 172,
+          "new_nll": 2.41282413482666,
+          "old_nll": 7.6700836944580075,
+          "rate": 0.86,
+          "strict_d": 100,
+          "strict_n": 75,
+          "strict_rate": 0.75
+        },
+        "LOC": {
+          "d": 1000,
+          "n": 885,
+          "rate": 0.885
+        },
+        "RephraseAcc": {
+          "d": 200,
+          "margin": 5.257259559631348,
+          "n": 105,
+          "new_nll": 2.41282413482666,
+          "old_nll": 7.6700836944580075,
+          "rate": 0.525,
+          "strict_d": 100,
+          "strict_n": 35,
+          "strict_rate": 0.35
+        },
+        "RewriteAcc": {
+          "d": 100,
+          "margin": 10.975732502937317,
+          "n": 100,
+          "new_nll": 0.040205039978027345,
+          "old_nll": 11.015937542915344,
+          "rate": 1.0,
+          "strict_d": 100,
+          "strict_n": 100,
+          "strict_rate": 1.0
+        }
+      }
+    },
+    "all_true_batch_entry_pre": {
+      "native_alphaedit": {
+        "EFF": {
+          "d": 100,
+          "margin": -5.843026664257049,
+          "n": 11,
+          "new_nll": 10.584334716796874,
+          "old_nll": 4.741308052539825,
+          "rate": 0.11,
+          "strict_d": 100,
+          "strict_n": 11,
+          "strict_rate": 0.11
+        },
+        "GEN": {
+          "d": 200,
+          "margin": -4.796629257202149,
+          "n": 28,
+          "new_nll": 9.740213623046875,
+          "old_nll": 4.9435843658447265,
+          "rate": 0.14,
+          "strict_d": 100,
+          "strict_n": 9,
+          "strict_rate": 0.09
+        },
+        "LOC": {
+          "d": 1000,
+          "n": 879,
+          "rate": 0.879
+        },
+        "RephraseAcc": {
+          "d": 200,
+          "margin": -4.796629257202149,
+          "n": 1,
+          "new_nll": 9.740213623046875,
+          "old_nll": 4.9435843658447265,
+          "rate": 0.005,
+          "strict_d": 100,
+          "strict_n": 0,
+          "strict_rate": 0.0
+        },
+        "RewriteAcc": {
+          "d": 100,
+          "margin": -5.843026664257049,
+          "n": 0,
+          "new_nll": 10.584334716796874,
+          "old_nll": 4.741308052539825,
+          "rate": 0.0,
+          "strict_d": 100,
+          "strict_n": 0,
+          "strict_rate": 0.0
+        }
+      },
+      "note": "100 requests evaluated at their actual sequential W_(b-1) entry states",
+      "structural_h_on": {
+        "EFF": {
+          "d": 100,
+          "margin": -6.253947429656982,
+          "n": 11,
+          "new_nll": 10.9284765625,
+          "old_nll": 4.674529132843017,
+          "rate": 0.11,
+          "strict_d": 100,
+          "strict_n": 11,
+          "strict_rate": 0.11
+        },
+        "GEN": {
+          "d": 200,
+          "margin": -4.983650169372559,
+          "n": 26,
+          "new_nll": 9.799278564453125,
+          "old_nll": 4.815628395080567,
+          "rate": 0.13,
+          "strict_d": 100,
+          "strict_n": 7,
+          "strict_rate": 0.07
+        },
+        "LOC": {
+          "d": 1000,
+          "n": 903,
+          "rate": 0.903
+        },
+        "RephraseAcc": {
+          "d": 200,
+          "margin": -4.983650169372559,
+          "n": 0,
+          "new_nll": 9.799278564453125,
+          "old_nll": 4.815628395080567,
+          "rate": 0.0,
+          "strict_d": 100,
+          "strict_n": 0,
+          "strict_rate": 0.0
+        },
+        "RewriteAcc": {
+          "d": 100,
+          "margin": -6.253947429656982,
+          "n": 0,
+          "new_nll": 10.9284765625,
+          "old_nll": 4.674529132843017,
+          "rate": 0.0,
+          "strict_d": 100,
+          "strict_n": 0,
+          "strict_rate": 0.0
+        }
+      }
+    },
+    "final_W10_B100": {
+      "native_alphaedit": {
+        "EFF": {
+          "d": 100,
+          "margin": 7.867605137825012,
+          "n": 93,
+          "new_nll": 1.3903798818588258,
+          "old_nll": 9.257985019683838,
+          "rate": 0.93,
+          "strict_d": 100,
+          "strict_n": 93,
+          "strict_rate": 0.93
+        },
+        "GEN": {
+          "d": 200,
+          "margin": 6.605487203598022,
+          "n": 180,
+          "new_nll": 1.9394477939605712,
+          "old_nll": 8.544934997558594,
+          "rate": 0.9,
+          "strict_d": 100,
+          "strict_n": 87,
+          "strict_rate": 0.87
+        },
+        "LOC": {
+          "d": 1000,
+          "n": 692,
+          "rate": 0.692
+        },
+        "RephraseAcc": {
+          "d": 200,
+          "margin": 6.605487203598022,
+          "n": 125,
+          "new_nll": 1.9394477939605712,
+          "old_nll": 8.544934997558594,
+          "rate": 0.625,
+          "strict_d": 100,
+          "strict_n": 46,
+          "strict_rate": 0.46
+        },
+        "RewriteAcc": {
+          "d": 100,
+          "margin": 7.867605137825012,
+          "n": 73,
+          "new_nll": 1.3903798818588258,
+          "old_nll": 9.257985019683838,
+          "rate": 0.73,
+          "strict_d": 100,
+          "strict_n": 73,
+          "strict_rate": 0.73
+        }
+      },
+      "note": "all 100 requests evaluated at final W10",
+      "structural_h_on": {
+        "EFF": {
+          "d": 100,
+          "margin": 10.91152156829834,
+          "n": 100,
+          "new_nll": 0.041603469848632814,
+          "old_nll": 10.953125038146972,
+          "rate": 1.0,
+          "strict_d": 100,
+          "strict_n": 100,
+          "strict_rate": 1.0
+        },
+        "GEN": {
+          "d": 200,
+          "margin": 5.272416305541992,
+          "n": 174,
+          "new_nll": 2.3652266311645507,
+          "old_nll": 7.637642936706543,
+          "rate": 0.87,
+          "strict_d": 100,
+          "strict_n": 77,
+          "strict_rate": 0.77
+        },
+        "LOC": {
+          "d": 1000,
+          "n": 876,
+          "rate": 0.876
+        },
+        "RephraseAcc": {
+          "d": 200,
+          "margin": 5.272416305541992,
+          "n": 109,
+          "new_nll": 2.3652266311645507,
+          "old_nll": 7.637642936706543,
+          "rate": 0.545,
+          "strict_d": 100,
+          "strict_n": 37,
+          "strict_rate": 0.37
+        },
+        "RewriteAcc": {
+          "d": 100,
+          "margin": 10.91152156829834,
+          "n": 100,
+          "new_nll": 0.041603469848632814,
+          "old_nll": 10.953125038146972,
+          "rate": 1.0,
+          "strict_d": 100,
+          "strict_n": 100,
+          "strict_rate": 1.0
+        }
+      }
+    }
+  },
+  "routing_totals": {
+    "H_ACTIVE_CERTIFIED_steps": 72,
+    "H_EMPTY_EXACT_ATOMIC_EQUIVALENCE_steps": 8,
+    "H_NEUTRAL_sum": 0.8843993975293329,
+    "H_SELECTED_sum": 0.8629731885448587,
+    "H_delta_sum": -0.021426208984474227,
+    "max_abs_P_violation": 1.3462321535318011e-14,
+    "max_abs_strength_residual": 1.3322676295501878e-15,
+    "max_energy_violation": 9.122563815466833e-14
+  },
+  "schema": "p1r52-structuralh-on/readable-metrics/v4",
+  "source_head": "237f3b65bff69b835a7253f5154bba19feaf1fef",
+  "v3_sha256": "7aea6fa1fe19d189de2077986f9023473d434f28e860328761644f787957c9a9"
+}

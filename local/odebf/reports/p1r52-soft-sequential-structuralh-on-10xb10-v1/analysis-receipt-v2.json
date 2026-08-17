@@ -1,0 +1,19 @@
+{
+  "aggregate_phase_table_rows": 3,
+  "analysis_actions": {
+    "evaluator": 0,
+    "gpu": 0,
+    "model": 0,
+    "result_mutation": 0,
+    "slurm": 0,
+    "source_edit": 0
+  },
+  "canonical_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/reports/p1r52-soft-sequential-structuralh-on-10xb10-v1/p1r52-soft-sequential-structuralh-on-10xb10-factual-ko-v2.md",
+  "manifest_sha256": "caa92584f1c72eab8b48521db4a35ea14f1dffc9b5dcacc23b05df48a5433fe4",
+  "package_root_sha256": "445ccc2c4234f56fb555e1c65c2df1c5f9e3758478564c9a9e97d9fe59b85399",
+  "report_bytes": 16231,
+  "report_lines": 85,
+  "report_sha256": "58419b40b57f27ccbcdb146c08394e058e782c05b4fa27aa717d8f5712f87248",
+  "schema": "p1r52-structuralh-on/analysis-receipt-v2/v1",
+  "status": "PASS"
+}

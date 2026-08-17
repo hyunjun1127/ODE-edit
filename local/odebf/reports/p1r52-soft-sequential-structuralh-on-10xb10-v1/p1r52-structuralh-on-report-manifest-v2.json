@@ -1,0 +1,23 @@
+{
+  "aggregate_phase_table": {
+    "bytes": 17564,
+    "name": "p1r52-structuralh-on-aggregate-phase-table.json",
+    "rows": 3,
+    "sha256": "79c552e07e947f94dcf1df348bb12f4b635b40e6a88133ff16e42aa6af713c7e"
+  },
+  "base_manifest_sha256": "280a21656f06de658f34ec631f10a31aa9e4fc558360a18e9bc053667110c2e0",
+  "base_package_root": "a6250399df913e2e335365c6f671d98e43ab5257f97b16db3ed5338edd15b1ea",
+  "base_report": {
+    "bytes": 14155,
+    "lines": 70,
+    "name": "p1r52-soft-sequential-structuralh-on-10xb10-factual-ko.md",
+    "sha256": "afcde89f5f50ed55e80f0e4b2894ca67e843619686105b385899abee688709d5"
+  },
+  "canonical_report": "p1r52-soft-sequential-structuralh-on-10xb10-factual-ko-v2.md",
+  "canonical_scope": "P1R52-Soft-Sequential-StructuralH-On-10xB10",
+  "input_terminal_sha256": {
+    "native": "8ca539611f7830008b6469f66e96f31921e227f5b75db5af86e29e206e2d8fc0",
+    "structural_h_on": "538b4d1853b5db3a2e7ee42b56546e80a2124769990ca72836de03810056bf38"
+  },
+  "schema": "p1r52-structuralh-on/report-manifest-v2/v1"
+}

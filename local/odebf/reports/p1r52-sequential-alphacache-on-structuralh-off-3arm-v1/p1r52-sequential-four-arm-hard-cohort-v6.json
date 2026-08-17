@@ -1,0 +1,50 @@
+{
+  "boundary": "RAW_FREE_ASSOCIATION_ONLY_NO_ISOLATED_CAUSAL_ATTRIBUTION",
+  "schema": "ode-edit-s05-p1r52-sequential-four-arm-hard-cohort/v6",
+  "summary": {
+    "alpha": {
+      "entry_rephrase_any_failure_requests": 92,
+      "entry_rewrite_failure_requests": 87,
+      "final_rephrase_any_failure_requests": 8,
+      "final_rewrite_failure_requests": 0,
+      "post_rephrase_any_failure_requests": 8,
+      "post_rewrite_failure_requests": 0,
+      "post_to_final_rephrase_loss_requests": 1,
+      "post_to_final_rewrite_loss_requests": 0,
+      "request_count": 100
+    },
+    "h_off": {
+      "entry_rephrase_any_failure_requests": 91,
+      "entry_rewrite_failure_requests": 89,
+      "final_rephrase_any_failure_requests": 23,
+      "final_rewrite_failure_requests": 0,
+      "post_rephrase_any_failure_requests": 24,
+      "post_rewrite_failure_requests": 0,
+      "post_to_final_rephrase_loss_requests": 1,
+      "post_to_final_rewrite_loss_requests": 0,
+      "request_count": 100
+    },
+    "h_on": {
+      "entry_rephrase_any_failure_requests": 93,
+      "entry_rewrite_failure_requests": 89,
+      "final_rephrase_any_failure_requests": 23,
+      "final_rewrite_failure_requests": 0,
+      "post_rephrase_any_failure_requests": 25,
+      "post_rewrite_failure_requests": 0,
+      "post_to_final_rephrase_loss_requests": 1,
+      "post_to_final_rewrite_loss_requests": 0,
+      "request_count": 100
+    },
+    "memit": {
+      "entry_rephrase_any_failure_requests": 91,
+      "entry_rewrite_failure_requests": 87,
+      "final_rephrase_any_failure_requests": 21,
+      "final_rewrite_failure_requests": 0,
+      "post_rephrase_any_failure_requests": 21,
+      "post_rewrite_failure_requests": 0,
+      "post_to_final_rephrase_loss_requests": 2,
+      "post_to_final_rewrite_loss_requests": 0,
+      "request_count": 100
+    }
+  }
+}

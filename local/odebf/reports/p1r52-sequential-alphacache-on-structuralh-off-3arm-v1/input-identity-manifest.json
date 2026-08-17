@@ -1,0 +1,301 @@
+{
+  "control_route_summary": {
+    "added_model_forward_backward_materialization": [
+      0,
+      0,
+      0
+    ],
+    "alpha_solve_cache_append_transaction_total": 100,
+    "alpha_solve_cache_consume_total": 3600,
+    "max_abs_p_violation": 0.0,
+    "max_abs_strength_residual": 2.6645352591003757e-15,
+    "max_energy_violation": 5.880018694170985e-14,
+    "positive_alpha_solve_history_width_rows": 72,
+    "routing_rows": 80,
+    "statuses": {
+      "ALPHA_CACHE_ON_STRUCTURAL_H_OFF": 80
+    },
+    "structural_h_decision_influence_total": 0,
+    "terminal_active_history_count": 100,
+    "terminal_anchor_count": 100
+  },
+  "identity_pairing_pass": true,
+  "inputs": [
+    {
+      "arm": "h_on",
+      "bytes": 1533,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/manifest.json",
+      "sha256": "c1d06539b0de9b2d95096669f8e47074ce463132c5f1cebd15c63c0a0f69ff9e"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 578616,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/terminal.json",
+      "sha256": "538b4d1853b5db3a2e7ee42b56546e80a2124769990ca72836de03810056bf38"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 233067,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/b1-b10-pre-post-checkpoints.json",
+      "sha256": "9c294e3979431d94d218484812bb2c03d47de9444fdf3d9fcc63c01901c0c5f3"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 120645,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/batch-age-pre-post-final-cohorts.json",
+      "sha256": "66c23bfc44c2ec2344a486ae54d3460f3b5cc1290edac4fa67293564e2f90d97"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 440074,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/entry-pre-immediate-post-final-w10-requests.json",
+      "sha256": "fa4e6180553e94425c6fc1e03f542921ecf3556b0a83c14a32bd4af9bca943a9"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 72313,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/raw/batches/b01/terminal.json",
+      "sha256": "d4f3a1bd14e1a2686d88b956f0919225e1608690eab26dda8047fb9357cf4cbc"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 81910,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/raw/batches/b02/terminal.json",
+      "sha256": "705aefa3958d544ca988133c3200fafbd923a6118ce647891c44e3da2fad07f1"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 97037,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/raw/batches/b03/terminal.json",
+      "sha256": "150e3dbc3a573ce3ffcc633dab7c83f338f1b621260ad412f74fab4f38c3129a"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 111963,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/raw/batches/b04/terminal.json",
+      "sha256": "872971dd09430efb1dca48684c3430683b6b7da32717796a0adfe9c7768b1f1d"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 125907,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/raw/batches/b05/terminal.json",
+      "sha256": "dcf6b8a4b3339a275c105be3e5e6c91ed95cb9b8370e9531bbaa35dea4b68e06"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 140856,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/raw/batches/b06/terminal.json",
+      "sha256": "4ffb27465504567427a972f579c1602f75654bf828bf33c188a9f20a4a4f6aa3"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 156244,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/raw/batches/b07/terminal.json",
+      "sha256": "6c635ec983daad06a8730d26212998e34df1a28d242d1f991f7bb1087922e390"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 170686,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/raw/batches/b08/terminal.json",
+      "sha256": "baf4def67ccbb3778f64f3fa3eaff57f1db0f13b3f65d719b2c559c1b5c5b878"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 185081,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/raw/batches/b09/terminal.json",
+      "sha256": "9d5c707fdd843001226791ebc7a8c89069d90f10aafe0cdb25a561258b156c27"
+    },
+    {
+      "arm": "h_on",
+      "bytes": 199959,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1/raw/batches/b10/terminal.json",
+      "sha256": "6a40b6e2374d7d3ae9540ba4e251badc1af1febf31d5228a89a7357dabb61f58"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 1561,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/manifest.json",
+      "sha256": "fab800003c0e01314e9db374fa598232bea1309f82f30524df526847fdcb85fc"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 578732,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/terminal.json",
+      "sha256": "a5806eb3872dcba2b3c2553f03dee18738ef15376501b4f3474957e9ff407c13"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 232848,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/b1-b10-pre-post-checkpoints.json",
+      "sha256": "cab0ec7d6f4972e2b539566040fcfb742b1bcebe549626f185b956c52f01b4bb"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 120713,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/batch-age-pre-post-final-cohorts.json",
+      "sha256": "8a7a2ca350e2854c1e0679c64a79bba387583565ba2d9d39cb5c6b7979c98935"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 440151,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/entry-pre-immediate-post-final-w10-requests.json",
+      "sha256": "d76134bef010f50ed3e9be16eb895ad3f60e7b61fbd0e6781982472a5c07f5b9"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 76258,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/raw/batches/b01/terminal.json",
+      "sha256": "853410adede1bc729c121585c6edfe45dc48bdb684e80ced11f8769f59ed8381"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 85532,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/raw/batches/b02/terminal.json",
+      "sha256": "0c715561b2d2c6d186e4c6231212a2eac0c886828f31dfc14c1b1255a711ea4a"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 100656,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/raw/batches/b03/terminal.json",
+      "sha256": "0a7b54ff8a31e2f263f528c1b6f9523507f7ea3b367e3c9c2e6f8c3dc27406c6"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 115420,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/raw/batches/b04/terminal.json",
+      "sha256": "5057b2c657b1025a325d2ca5c482321b4df397dad7444986dca7e9d8fc6e512c"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 129375,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/raw/batches/b05/terminal.json",
+      "sha256": "38598490f21b64b0638c5470c165b118743d110f8ca907f703aa24aed2758389"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 144857,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/raw/batches/b06/terminal.json",
+      "sha256": "df199cfeeb2aad0cfb33f2d7e77481556f995319c1df1d5b8e1697dabef11193"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 159242,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/raw/batches/b07/terminal.json",
+      "sha256": "406d7dc85156be266c5301491a1f4f15a29d63d34867bd83343b1f4fb784ecf5"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 174005,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/raw/batches/b08/terminal.json",
+      "sha256": "26a067ec9427ee81d801e51763739461b8d43496253c60afc15d50002ee3b1f7"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 188237,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/raw/batches/b09/terminal.json",
+      "sha256": "18d46f16db6eb74f31bb00ba3041961ddbd466adac6560c274572b4a923f1c07"
+    },
+    {
+      "arm": "h_off",
+      "bytes": 203476,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1/raw/batches/b10/terminal.json",
+      "sha256": "81eb41fc13a771edb44e6beda5591035e9e198b3a49b7a5cdddebbb607692acb"
+    },
+    {
+      "arm": "native",
+      "bytes": 1539,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/manifest.json",
+      "sha256": "25d79c86b27806dd9a7a75b064275516a32675403f101286be11be6cee3112f2"
+    },
+    {
+      "arm": "native",
+      "bytes": 589443,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/terminal.json",
+      "sha256": "8ca539611f7830008b6469f66e96f31921e227f5b75db5af86e29e206e2d8fc0"
+    },
+    {
+      "arm": "native",
+      "bytes": 237529,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/b1-b10-pre-post-checkpoints.json",
+      "sha256": "1be5e0bd2dc2a578ec54d1afe9f779e18f5e6a374adeb0a27faabee3328b5138"
+    },
+    {
+      "arm": "native",
+      "bytes": 121315,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/batch-age-pre-post-final-cohorts.json",
+      "sha256": "4d942122f244dc5837e993ee1525c0ec59d5b2ce8d0e19b454338b4fd7ba7714"
+    },
+    {
+      "arm": "native",
+      "bytes": 446977,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/entry-pre-immediate-post-final-w10-requests.json",
+      "sha256": "be6fd87f32e188157e1554612e6607b438d8a5c3e77b111c0e0e06ef59368ff8"
+    },
+    {
+      "arm": "native",
+      "bytes": 40955,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/raw/batches/b01/terminal.json",
+      "sha256": "66ad6551bd7a700e42ab182380e4ba3a86aba4d1d6d2cb17f4a232b362019fc3"
+    },
+    {
+      "arm": "native",
+      "bytes": 56466,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/raw/batches/b02/terminal.json",
+      "sha256": "324c8c8d50182bf1945ec3232a6c6211e155e3661523ca52e1f1a06808c6acab"
+    },
+    {
+      "arm": "native",
+      "bytes": 72081,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/raw/batches/b03/terminal.json",
+      "sha256": "1ec7bfcfc514361d9eb67966c3e4c94bdca4bab640ab2aa5644198236a0fe3f0"
+    },
+    {
+      "arm": "native",
+      "bytes": 87721,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/raw/batches/b04/terminal.json",
+      "sha256": "41a319e47f517fcb4592e908906a08c058ad1da1629ca399c7da49b92603c6d2"
+    },
+    {
+      "arm": "native",
+      "bytes": 103232,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/raw/batches/b05/terminal.json",
+      "sha256": "c8c46da0b9f091164e16b8553f52adf089f88d893e79cb6b9ccd9bb2c491a4d2"
+    },
+    {
+      "arm": "native",
+      "bytes": 118469,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/raw/batches/b06/terminal.json",
+      "sha256": "6281ddca36125e281d4d5a3a3218c296bc96e524e03398aef7329f19374de1f3"
+    },
+    {
+      "arm": "native",
+      "bytes": 133708,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/raw/batches/b07/terminal.json",
+      "sha256": "d4b3d8671e533aab3fa7e4392af3a9873f1de7948b918b29326e4e4312bc2569"
+    },
+    {
+      "arm": "native",
+      "bytes": 147862,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/raw/batches/b08/terminal.json",
+      "sha256": "102fbf86dd8d99178730c2d9ac40ba5e6864b091b2133ddee00b3d75c175ae13"
+    },
+    {
+      "arm": "native",
+      "bytes": 161840,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/raw/batches/b09/terminal.json",
+      "sha256": "9e6dca7fa7bba64fa73f92a232fa90d605249552f91865cfbb5004ebafcb3f25"
+    },
+    {
+      "arm": "native",
+      "bytes": 173021,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/results/s05-p1r52-native-alphaedit-sequential-10xb10-v1/raw/batches/b10/terminal.json",
+      "sha256": "54766c7dc4abc107284c76307df1d9f8093ced1b3266b0df15585b319dadebd9"
+    }
+  ],
+  "scheduler": {
+    "h_off": "20428 COMPLETED 0:0",
+    "h_on": "20424_0 COMPLETED 0:0",
+    "native": "20403_1 COMPLETED 0:0"
+  },
+  "schema": "p1r52-sequential-three-arm/input-manifest/v1"
+}

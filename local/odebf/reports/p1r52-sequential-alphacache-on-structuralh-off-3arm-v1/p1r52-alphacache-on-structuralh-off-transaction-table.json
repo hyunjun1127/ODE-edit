@@ -1,0 +1,316 @@
+{
+  "row_count": 10,
+  "rows": [
+    {
+      "active_history_count_after": 10,
+      "anchor_count_after": 10,
+      "backtracking_count": 0,
+      "commit_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "329158df898e9f44cd755bc9a3e9cea78f661e278fbc73a45e8ef462ee72a4ed",
+        "model.layers.5.mlp.down_proj.weight": "48ced9173b4ee70de2d4558091d27799415eab98a2bce807521e11bb510628c6",
+        "model.layers.6.mlp.down_proj.weight": "70dde071da87ad912631d393bfab02ac5c3de08cf9ec7ceac71bd68f8b5c6ba5",
+        "model.layers.7.mlp.down_proj.weight": "513af7ffe090787e6c1882c92e6935b7d1e6e3e6be2d2955959bdb33083e4ad0",
+        "model.layers.8.mlp.down_proj.weight": "113c07a5a82dd05d40218a75d58a8262fa529e1b8c39dc5066e8a09f0dfd60a2"
+      },
+      "entry_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "10c24f6f22c779b39409622ace0e8ba4e5e4587a95f9c3879e4f72876839308e",
+        "model.layers.5.mlp.down_proj.weight": "7c006100be11c7c8e74823e9c29c47287a7bee6766ea195d04dd5ce64ada3ea2",
+        "model.layers.6.mlp.down_proj.weight": "73db4a10dcce0840b90e82e8419157e3cd426f573f2e7a2a8d34e209b5f0b695",
+        "model.layers.7.mlp.down_proj.weight": "e814d631d651ffba339afe8a3ac4ba51d9012f91425c7730e4ba8810b06bdc48",
+        "model.layers.8.mlp.down_proj.weight": "2acbde8f2f89f1ac2fffeb701ab86c2d3cc5be82619058aafeb5d429641e2149"
+      },
+      "heldout_controller_influence_count": 0,
+      "history_after_version": 1,
+      "history_append_count": 10,
+      "history_before_version": 0,
+      "history_width_at_entry": 0,
+      "interbatch_W0_restore_count": 0,
+      "post_commit_verified": true,
+      "retry_count": 0,
+      "rollback_count": 0,
+      "round": 1,
+      "transaction_id": "p1r52-sequential-b01-303c439ea687cf14d5ef529fe8553d035db116e97ab4eb25e64ce612cfdf06d5",
+      "weight_commit_count": 1
+    },
+    {
+      "active_history_count_after": 20,
+      "anchor_count_after": 20,
+      "backtracking_count": 0,
+      "commit_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "41cf97bdc68b4d8bcfa6c4f734ba21bd731037762508d65f99306fd9db4216c0",
+        "model.layers.5.mlp.down_proj.weight": "da69173ee3fdb5b2f5129c0c32333db337b8c0a8ee6ebc0deb8bc101e294ff6a",
+        "model.layers.6.mlp.down_proj.weight": "d7036a055f796471e559828f5992155e465b44f13578e80fa4acc0a9e28a7a04",
+        "model.layers.7.mlp.down_proj.weight": "08d2963dac00c530e04d972008213675c658ca86d792ccb855d1891f9a28fa22",
+        "model.layers.8.mlp.down_proj.weight": "0144af165698c255d930e4597ebb752210c4b70a988d1d802f60df508dc790bf"
+      },
+      "entry_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "329158df898e9f44cd755bc9a3e9cea78f661e278fbc73a45e8ef462ee72a4ed",
+        "model.layers.5.mlp.down_proj.weight": "48ced9173b4ee70de2d4558091d27799415eab98a2bce807521e11bb510628c6",
+        "model.layers.6.mlp.down_proj.weight": "70dde071da87ad912631d393bfab02ac5c3de08cf9ec7ceac71bd68f8b5c6ba5",
+        "model.layers.7.mlp.down_proj.weight": "513af7ffe090787e6c1882c92e6935b7d1e6e3e6be2d2955959bdb33083e4ad0",
+        "model.layers.8.mlp.down_proj.weight": "113c07a5a82dd05d40218a75d58a8262fa529e1b8c39dc5066e8a09f0dfd60a2"
+      },
+      "heldout_controller_influence_count": 0,
+      "history_after_version": 2,
+      "history_append_count": 10,
+      "history_before_version": 1,
+      "history_width_at_entry": 10,
+      "interbatch_W0_restore_count": 0,
+      "post_commit_verified": true,
+      "retry_count": 0,
+      "rollback_count": 0,
+      "round": 2,
+      "transaction_id": "p1r52-sequential-b02-8d4d5088ae0aa2f5044de8b56071b68a63d1f47626ee5d07ae568cfd03ca15c6",
+      "weight_commit_count": 1
+    },
+    {
+      "active_history_count_after": 30,
+      "anchor_count_after": 30,
+      "backtracking_count": 0,
+      "commit_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "3d2b90b370e17877e0317b849b256baba49ef2d69fa184f7bdfedadd68d07e13",
+        "model.layers.5.mlp.down_proj.weight": "591a81591a73ab1164492975eedb2248d14b905ca1c103a179b383792008a6ec",
+        "model.layers.6.mlp.down_proj.weight": "07c186281dc3d622a625f03198f42076076b80405d5b5ff62bbcb03898fa10f0",
+        "model.layers.7.mlp.down_proj.weight": "1278ea1ae550d565c7459efc2f26a01ef9b1cc3466e6af508ffa90949b1ccd47",
+        "model.layers.8.mlp.down_proj.weight": "cfafe07a31664fcec2f7fa0dc93e5acd9671f5fc290148de82914a27c4856b96"
+      },
+      "entry_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "41cf97bdc68b4d8bcfa6c4f734ba21bd731037762508d65f99306fd9db4216c0",
+        "model.layers.5.mlp.down_proj.weight": "da69173ee3fdb5b2f5129c0c32333db337b8c0a8ee6ebc0deb8bc101e294ff6a",
+        "model.layers.6.mlp.down_proj.weight": "d7036a055f796471e559828f5992155e465b44f13578e80fa4acc0a9e28a7a04",
+        "model.layers.7.mlp.down_proj.weight": "08d2963dac00c530e04d972008213675c658ca86d792ccb855d1891f9a28fa22",
+        "model.layers.8.mlp.down_proj.weight": "0144af165698c255d930e4597ebb752210c4b70a988d1d802f60df508dc790bf"
+      },
+      "heldout_controller_influence_count": 0,
+      "history_after_version": 3,
+      "history_append_count": 10,
+      "history_before_version": 2,
+      "history_width_at_entry": 20,
+      "interbatch_W0_restore_count": 0,
+      "post_commit_verified": true,
+      "retry_count": 0,
+      "rollback_count": 0,
+      "round": 3,
+      "transaction_id": "p1r52-sequential-b03-0d10ccfa7442d72161af84502182f83b7a2a05252b5ab5c82bf210734476d880",
+      "weight_commit_count": 1
+    },
+    {
+      "active_history_count_after": 40,
+      "anchor_count_after": 40,
+      "backtracking_count": 0,
+      "commit_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "c8b55a047561082f877b03caf6023a77ef2fae3b0935e1f587ffeb85a044830e",
+        "model.layers.5.mlp.down_proj.weight": "3154a78aea027be625b4206658be80efa7a12b8c573dfef850b113d6161fb8b2",
+        "model.layers.6.mlp.down_proj.weight": "e94a14387e099f16c137c68eb491bf179aa0e7ff21b5dd7f6251b67c1f0d161c",
+        "model.layers.7.mlp.down_proj.weight": "6546f1c956ae9a5b89794260f1700f3fcd20a0965d71082294261002fdc06096",
+        "model.layers.8.mlp.down_proj.weight": "1618296666f45830133afbbdbc1eb3d9d93278ee0d95bfaf9f5224b47bc725c3"
+      },
+      "entry_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "3d2b90b370e17877e0317b849b256baba49ef2d69fa184f7bdfedadd68d07e13",
+        "model.layers.5.mlp.down_proj.weight": "591a81591a73ab1164492975eedb2248d14b905ca1c103a179b383792008a6ec",
+        "model.layers.6.mlp.down_proj.weight": "07c186281dc3d622a625f03198f42076076b80405d5b5ff62bbcb03898fa10f0",
+        "model.layers.7.mlp.down_proj.weight": "1278ea1ae550d565c7459efc2f26a01ef9b1cc3466e6af508ffa90949b1ccd47",
+        "model.layers.8.mlp.down_proj.weight": "cfafe07a31664fcec2f7fa0dc93e5acd9671f5fc290148de82914a27c4856b96"
+      },
+      "heldout_controller_influence_count": 0,
+      "history_after_version": 4,
+      "history_append_count": 10,
+      "history_before_version": 3,
+      "history_width_at_entry": 30,
+      "interbatch_W0_restore_count": 0,
+      "post_commit_verified": true,
+      "retry_count": 0,
+      "rollback_count": 0,
+      "round": 4,
+      "transaction_id": "p1r52-sequential-b04-7de06e6b01732cf316759cb29c88902ebda04be7e41d1adf3afcfe169401a567",
+      "weight_commit_count": 1
+    },
+    {
+      "active_history_count_after": 50,
+      "anchor_count_after": 50,
+      "backtracking_count": 0,
+      "commit_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "6fa34c48f6a94c70a7e6b4e0bf8ffce89703b9c2ae2bd8ea0fb0a33291b40b4e",
+        "model.layers.5.mlp.down_proj.weight": "4449ca86307fcd3c7ecc1ea828a8a73bd492ec259711f79f1e995e206333c4bd",
+        "model.layers.6.mlp.down_proj.weight": "5d592c66ec07cfee91f1556d1a683cb300e8349aea7a530af4e5333e71f0e4cc",
+        "model.layers.7.mlp.down_proj.weight": "ee3bcdfc2030eb42127c7b0891c7795c4413d85bb9f9b17775532071db6319e0",
+        "model.layers.8.mlp.down_proj.weight": "ae7fe5459c7db2f59f4f800b0afdef3d51c7d54e7ee2f8ea48c07e4482bb4d41"
+      },
+      "entry_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "c8b55a047561082f877b03caf6023a77ef2fae3b0935e1f587ffeb85a044830e",
+        "model.layers.5.mlp.down_proj.weight": "3154a78aea027be625b4206658be80efa7a12b8c573dfef850b113d6161fb8b2",
+        "model.layers.6.mlp.down_proj.weight": "e94a14387e099f16c137c68eb491bf179aa0e7ff21b5dd7f6251b67c1f0d161c",
+        "model.layers.7.mlp.down_proj.weight": "6546f1c956ae9a5b89794260f1700f3fcd20a0965d71082294261002fdc06096",
+        "model.layers.8.mlp.down_proj.weight": "1618296666f45830133afbbdbc1eb3d9d93278ee0d95bfaf9f5224b47bc725c3"
+      },
+      "heldout_controller_influence_count": 0,
+      "history_after_version": 5,
+      "history_append_count": 10,
+      "history_before_version": 4,
+      "history_width_at_entry": 40,
+      "interbatch_W0_restore_count": 0,
+      "post_commit_verified": true,
+      "retry_count": 0,
+      "rollback_count": 0,
+      "round": 5,
+      "transaction_id": "p1r52-sequential-b05-b70dd045a320ef45836b93fcb1968dc69254269900f0dfaaf4f34674fa0314d5",
+      "weight_commit_count": 1
+    },
+    {
+      "active_history_count_after": 60,
+      "anchor_count_after": 60,
+      "backtracking_count": 0,
+      "commit_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "18629a80115cda00962db0337d6e6bc48a75ec8ef560f67408a5152f6a72683c",
+        "model.layers.5.mlp.down_proj.weight": "fbeccaa97fc416caba58185c1abb1e4bc5151f4b8ad89a45e618a41e01f5b6bd",
+        "model.layers.6.mlp.down_proj.weight": "5dbbcd534d2c7a4a58366df30e8d80a8bb36d6cf46dac9d46988af36114b8c14",
+        "model.layers.7.mlp.down_proj.weight": "f2c8655d652f00ec5766be64517c7b33e70aea111da76c5dd18a38a218383db8",
+        "model.layers.8.mlp.down_proj.weight": "89c49378d4a508db2018df119e213c3dd511c5c22578652476ce64df9f91ce9f"
+      },
+      "entry_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "6fa34c48f6a94c70a7e6b4e0bf8ffce89703b9c2ae2bd8ea0fb0a33291b40b4e",
+        "model.layers.5.mlp.down_proj.weight": "4449ca86307fcd3c7ecc1ea828a8a73bd492ec259711f79f1e995e206333c4bd",
+        "model.layers.6.mlp.down_proj.weight": "5d592c66ec07cfee91f1556d1a683cb300e8349aea7a530af4e5333e71f0e4cc",
+        "model.layers.7.mlp.down_proj.weight": "ee3bcdfc2030eb42127c7b0891c7795c4413d85bb9f9b17775532071db6319e0",
+        "model.layers.8.mlp.down_proj.weight": "ae7fe5459c7db2f59f4f800b0afdef3d51c7d54e7ee2f8ea48c07e4482bb4d41"
+      },
+      "heldout_controller_influence_count": 0,
+      "history_after_version": 6,
+      "history_append_count": 10,
+      "history_before_version": 5,
+      "history_width_at_entry": 50,
+      "interbatch_W0_restore_count": 0,
+      "post_commit_verified": true,
+      "retry_count": 0,
+      "rollback_count": 0,
+      "round": 6,
+      "transaction_id": "p1r52-sequential-b06-0d79418f84ac07078a3291b1d71c0868de390e092bb96177305b49e50a42035f",
+      "weight_commit_count": 1
+    },
+    {
+      "active_history_count_after": 70,
+      "anchor_count_after": 70,
+      "backtracking_count": 0,
+      "commit_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "8104166e631a623b89426cbd683bbedb289806ee9ee5e171321fd38bca008322",
+        "model.layers.5.mlp.down_proj.weight": "05f1cd4e87f71d81b4b47f78435154c039ae3ad21ab4e832897258e442b65919",
+        "model.layers.6.mlp.down_proj.weight": "84a76ad76494d2fe732f8de5438557927a16f5e23889d7827449c2fe56fbbf02",
+        "model.layers.7.mlp.down_proj.weight": "6efb362a9267e1ec5ebf1e7ba215168e6343b04f41429f8faff4106d7342c2f7",
+        "model.layers.8.mlp.down_proj.weight": "2d4887fa89830054ae0a5bf8592664934e61eeeae88eef2191d294c84ef43b1d"
+      },
+      "entry_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "18629a80115cda00962db0337d6e6bc48a75ec8ef560f67408a5152f6a72683c",
+        "model.layers.5.mlp.down_proj.weight": "fbeccaa97fc416caba58185c1abb1e4bc5151f4b8ad89a45e618a41e01f5b6bd",
+        "model.layers.6.mlp.down_proj.weight": "5dbbcd534d2c7a4a58366df30e8d80a8bb36d6cf46dac9d46988af36114b8c14",
+        "model.layers.7.mlp.down_proj.weight": "f2c8655d652f00ec5766be64517c7b33e70aea111da76c5dd18a38a218383db8",
+        "model.layers.8.mlp.down_proj.weight": "89c49378d4a508db2018df119e213c3dd511c5c22578652476ce64df9f91ce9f"
+      },
+      "heldout_controller_influence_count": 0,
+      "history_after_version": 7,
+      "history_append_count": 10,
+      "history_before_version": 6,
+      "history_width_at_entry": 60,
+      "interbatch_W0_restore_count": 0,
+      "post_commit_verified": true,
+      "retry_count": 0,
+      "rollback_count": 0,
+      "round": 7,
+      "transaction_id": "p1r52-sequential-b07-9940a00352eac03f9be2f758d9413087cb12e3f3b1f26f7241a1db413f7dee63",
+      "weight_commit_count": 1
+    },
+    {
+      "active_history_count_after": 80,
+      "anchor_count_after": 80,
+      "backtracking_count": 0,
+      "commit_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "02a89d3bbb3dd7c01b3c601af44d307185592f1f289832b170a6eafd526c49e0",
+        "model.layers.5.mlp.down_proj.weight": "b1d2d96e55d3c780b578eb12c8833da248726ecc90873b97a71ed8754b361262",
+        "model.layers.6.mlp.down_proj.weight": "44199976c2ce488a7d64122ac1e409a5c69c726f887375fc489ef7ddc61f5e77",
+        "model.layers.7.mlp.down_proj.weight": "5940e7293e6fbacf8c537ecf2e04d4f4c1c8e878c02854d0b59d2fe58abf284e",
+        "model.layers.8.mlp.down_proj.weight": "885e6737a6dbf0867b50a64a1210af7d3b2b016fe53ecd2932d2a053e38ec7e9"
+      },
+      "entry_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "8104166e631a623b89426cbd683bbedb289806ee9ee5e171321fd38bca008322",
+        "model.layers.5.mlp.down_proj.weight": "05f1cd4e87f71d81b4b47f78435154c039ae3ad21ab4e832897258e442b65919",
+        "model.layers.6.mlp.down_proj.weight": "84a76ad76494d2fe732f8de5438557927a16f5e23889d7827449c2fe56fbbf02",
+        "model.layers.7.mlp.down_proj.weight": "6efb362a9267e1ec5ebf1e7ba215168e6343b04f41429f8faff4106d7342c2f7",
+        "model.layers.8.mlp.down_proj.weight": "2d4887fa89830054ae0a5bf8592664934e61eeeae88eef2191d294c84ef43b1d"
+      },
+      "heldout_controller_influence_count": 0,
+      "history_after_version": 8,
+      "history_append_count": 10,
+      "history_before_version": 7,
+      "history_width_at_entry": 70,
+      "interbatch_W0_restore_count": 0,
+      "post_commit_verified": true,
+      "retry_count": 0,
+      "rollback_count": 0,
+      "round": 8,
+      "transaction_id": "p1r52-sequential-b08-fa7bbb9c6db2aeb4495a9680f0fdb5ea25391ad6dcc442f6969c825f4750b7f1",
+      "weight_commit_count": 1
+    },
+    {
+      "active_history_count_after": 90,
+      "anchor_count_after": 90,
+      "backtracking_count": 0,
+      "commit_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "fd5526fb235d2b33de5c4dbde8fd20d4ba8f42d5abd9ef3f1078707c52714f64",
+        "model.layers.5.mlp.down_proj.weight": "0aed46da1cba42ce60ea39702241f931cdb7ed882f242dfe3e8b2a16e51e5f85",
+        "model.layers.6.mlp.down_proj.weight": "f2994564d6f594f66729f73e6dd3b7f6ac7a1eb77b3e0d53eac0b7ae27dd337e",
+        "model.layers.7.mlp.down_proj.weight": "d8b62590f45c2f016f3e02d45ccfd3de7468832869ef120fff4eb4eac58636af",
+        "model.layers.8.mlp.down_proj.weight": "8148d161e48d20e49c9965243e087e1d786bb9e7dc149c6189ed325aac30ff57"
+      },
+      "entry_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "02a89d3bbb3dd7c01b3c601af44d307185592f1f289832b170a6eafd526c49e0",
+        "model.layers.5.mlp.down_proj.weight": "b1d2d96e55d3c780b578eb12c8833da248726ecc90873b97a71ed8754b361262",
+        "model.layers.6.mlp.down_proj.weight": "44199976c2ce488a7d64122ac1e409a5c69c726f887375fc489ef7ddc61f5e77",
+        "model.layers.7.mlp.down_proj.weight": "5940e7293e6fbacf8c537ecf2e04d4f4c1c8e878c02854d0b59d2fe58abf284e",
+        "model.layers.8.mlp.down_proj.weight": "885e6737a6dbf0867b50a64a1210af7d3b2b016fe53ecd2932d2a053e38ec7e9"
+      },
+      "heldout_controller_influence_count": 0,
+      "history_after_version": 9,
+      "history_append_count": 10,
+      "history_before_version": 8,
+      "history_width_at_entry": 80,
+      "interbatch_W0_restore_count": 0,
+      "post_commit_verified": true,
+      "retry_count": 0,
+      "rollback_count": 0,
+      "round": 9,
+      "transaction_id": "p1r52-sequential-b09-6b0a1ab10a69f99b7d8042d2f0e2c47480069eb49babf95cc37451839d546a15",
+      "weight_commit_count": 1
+    },
+    {
+      "active_history_count_after": 100,
+      "anchor_count_after": 100,
+      "backtracking_count": 0,
+      "commit_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "7fccb35f38b99e8bdbbe55b8698f7cff056d0cff3c226d98d22451fee915dd46",
+        "model.layers.5.mlp.down_proj.weight": "8b9dd88a138c2793642854de33e9077762c7fd558f7ee75903174d45df639390",
+        "model.layers.6.mlp.down_proj.weight": "79e800197ba3408e0813b1c6c1788e9ff23fe84711d3cd319e6e561fc43595e1",
+        "model.layers.7.mlp.down_proj.weight": "8b0655c0d13adf92a0d9821972af09ff49434e379d9d28d5184d69edb395cb12",
+        "model.layers.8.mlp.down_proj.weight": "647ea4c0600f205713c14e64edc1ceee7e7abfc24bf814212d79a1fab68d8ec8"
+      },
+      "entry_weight_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "fd5526fb235d2b33de5c4dbde8fd20d4ba8f42d5abd9ef3f1078707c52714f64",
+        "model.layers.5.mlp.down_proj.weight": "0aed46da1cba42ce60ea39702241f931cdb7ed882f242dfe3e8b2a16e51e5f85",
+        "model.layers.6.mlp.down_proj.weight": "f2994564d6f594f66729f73e6dd3b7f6ac7a1eb77b3e0d53eac0b7ae27dd337e",
+        "model.layers.7.mlp.down_proj.weight": "d8b62590f45c2f016f3e02d45ccfd3de7468832869ef120fff4eb4eac58636af",
+        "model.layers.8.mlp.down_proj.weight": "8148d161e48d20e49c9965243e087e1d786bb9e7dc149c6189ed325aac30ff57"
+      },
+      "heldout_controller_influence_count": 0,
+      "history_after_version": 10,
+      "history_append_count": 10,
+      "history_before_version": 9,
+      "history_width_at_entry": 90,
+      "interbatch_W0_restore_count": 0,
+      "post_commit_verified": true,
+      "retry_count": 0,
+      "rollback_count": 0,
+      "round": 10,
+      "transaction_id": "p1r52-sequential-b10-a1a9fc1e15fdd96b1a8c765d507380e08c1e8b309d22b3394e9bc0e6812ea57b",
+      "weight_commit_count": 1
+    }
+  ],
+  "schema": "p1r52-alphacache-on-structuralh-off/transaction/v1"
+}

@@ -1,0 +1,79 @@
+{
+  "canonical_scope": "P1R52-Soft-Sequential-AlphaCache-On-StructuralH-Off-10xB10",
+  "canonical_three_arm_report": "p1r52-sequential-structuralh-on-off-native-three-arm-ko.md",
+  "generated_files": [
+    {
+      "bytes": 16814,
+      "name": "input-identity-manifest.json",
+      "sha256": "fed6f88e505da87e9e29289df80df10a38afed004ee20cae80cdd49cd3df80f0"
+    },
+    {
+      "bytes": 66291,
+      "name": "p1r52-alphacache-on-structuralh-off-checkpoint-phase-table.json",
+      "sha256": "4f423b198350ebdcc6c823b6cb79c19f4d77df7636305c5dd74e8fc21d5d82cd"
+    },
+    {
+      "bytes": 70108,
+      "name": "p1r52-alphacache-on-structuralh-off-routing-table.json",
+      "sha256": "7e91d1da7fefe9e06e6cebeecd6bdea5369f1d814b0bf61f4076a23158375412"
+    },
+    {
+      "bytes": 18307,
+      "name": "p1r52-alphacache-on-structuralh-off-transaction-table.json",
+      "sha256": "f5f9cee27dc5e7135fe2840a5a98ccff90d0cb116bc648e918564591c832237a"
+    },
+    {
+      "bytes": 43543,
+      "name": "p1r52-sequential-h-on-routing-reference-table.json",
+      "sha256": "5b141cb462686178d5fc58aace9484e4d67e7b8ecdfd4cce8b1da076c02f2667"
+    },
+    {
+      "bytes": 6445,
+      "name": "p1r52-sequential-structuralh-on-off-native-three-arm-ko.md",
+      "sha256": "14fe1285f12c648500e780af2f90968cfdd81ded60b9ecbb63fbf012ba76f08a"
+    },
+    {
+      "bytes": 345617,
+      "name": "p1r52-sequential-three-arm-checkpoint-table.json",
+      "sha256": "59f05937da0d78fecc9af908f4a5f9215db506145a2cd52e2b6b7fa4611f1585"
+    },
+    {
+      "bytes": 8900,
+      "name": "p1r52-sequential-three-arm-compute-ledger.json",
+      "sha256": "f9b278730dc6f493d6d1f1866e7a848ac1ff8239cb5eba065313b8d549753c70"
+    },
+    {
+      "bytes": 1630221,
+      "name": "p1r52-sequential-three-arm-low-cohort-table.json",
+      "sha256": "aa3677827993127582e41358ea1e914f891ff7a2c199cd5e799db37dd07f0500"
+    },
+    {
+      "bytes": 2316033,
+      "name": "p1r52-sequential-three-arm-per-request-table.json",
+      "sha256": "6bd97df59049e065a0fe0f668f0a488b0868eb4108b5e7ebb832546c27278cd7"
+    },
+    {
+      "bytes": 6164,
+      "name": "p1r52-soft-sequential-alphacache-on-structuralh-off-10xb10-factual-ko.md",
+      "sha256": "5f53540b1960103d41dc156ed84086d403263a9cbadb25bc198690687bf301c7"
+    }
+  ],
+  "input_manifest_sha256": "fed6f88e505da87e9e29289df80df10a38afed004ee20cae80cdd49cd3df80f0",
+  "row_counts": {
+    "control_checkpoint": 31,
+    "control_routing": 80,
+    "control_transaction": 10,
+    "h_on_routing_reference": 80,
+    "low_cohort": 89,
+    "three_arm_checkpoint": 31,
+    "three_arm_per_request": 100
+  },
+  "schema": "p1r52-sequential-three-arm/report-manifest/v1",
+  "source_heads": {
+    "h_off": "5f295e74304d53ee5f7f22d7635c9cf56220eb54",
+    "h_on": "237f3b65bff69b835a7253f5154bba19feaf1fef",
+    "native": "419cce3322f0f71e29c93db88093861e8c1b5cb5"
+  },
+  "standalone_control_report": "p1r52-soft-sequential-alphacache-on-structuralh-off-10xb10-factual-ko.md",
+  "status": "TERMINAL_FACTUAL_REPORT_COMPLETE"
+}

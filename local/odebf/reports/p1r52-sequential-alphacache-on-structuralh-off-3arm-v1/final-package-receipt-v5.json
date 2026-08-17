@@ -1,0 +1,33 @@
+{
+  "analysis_actions": {
+    "evaluator": 0,
+    "gpu": 0,
+    "model": 0,
+    "result_mutation": 0,
+    "slurm": 0,
+    "source_edit": 0
+  },
+  "canonical_arms": [
+    "h_on",
+    "h_off",
+    "alpha",
+    "memit"
+  ],
+  "canonical_control_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/reports/p1r52-sequential-alphacache-on-structuralh-off-3arm-v1/p1r52-soft-sequential-alphacache-on-structuralh-off-10xb10-factual-ko-v5.md",
+  "canonical_control_report_bytes": 23271,
+  "canonical_control_report_lines": 189,
+  "canonical_control_report_sha256": "f3686852e489618535bba8dbd72f7fc498caee48ea39bf8b589cb59cc65cde0c",
+  "canonical_three_arm_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-nohistorical-v1/local/odebf/reports/p1r52-sequential-alphacache-on-structuralh-off-3arm-v1/p1r52-sequential-structuralh-on-off-native-three-arm-ko-v5.md",
+  "canonical_three_arm_report_bytes": 49383,
+  "canonical_three_arm_report_lines": 487,
+  "canonical_three_arm_report_sha256": "9ea2687e3646f0da0311abeca2fda818295cd7875673dfad39aecb090bcf9217",
+  "independent_review_sha256": "5e4953f732bba890df609ea852eaedc0f2eb3332b687166dd47a13e23d76c4d8",
+  "package_members_root_sha256": "ec2be3184bfa6db173edbee404ecb44c2deebd2a830e9a7ffca3b9d21aaf0ddc",
+  "prior_three_arm_report_sha256_before_authorized_overwrite": "4c97731e80379a3a45ede38e23581cb8dfbf0e53006093627fea28372b8120a2",
+  "raw_content_included": false,
+  "readable_v5_manifest_sha256": "6fac061f7c0275590b54369bd334a2c92fe478863238563e12a24d59702d0b03",
+  "readable_v5_receipt_sha256": "8c25db6c2f0ec187dc676d8bb6c2df994f4924243bf46b0198f63ef2ebc0a269",
+  "schema": "p1r52-sequential/three-arm-final-package/v5",
+  "status": "PASS",
+  "user_authorized_in_place_report_overwrite": true
+}

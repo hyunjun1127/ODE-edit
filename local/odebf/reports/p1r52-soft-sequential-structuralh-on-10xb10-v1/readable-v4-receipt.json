@@ -1,0 +1,21 @@
+{
+  "manifest_sha256": "3c7bfb337fe4a916879884ad3f033fabcfdc00edd827fb29b796ed30fb2414a5",
+  "members_root_sha256": "1d6531741f18f31bbfbd95f5861d8c0f8a70999bab0c3cc767571cdf4f6ca9a5",
+  "metrics_sha256": "ff3ba2846bab87b5c8fed5438ece378c6ed99baa22196ff8cc9d437c77508261",
+  "model_evaluator_gpu_slurm_rerun": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "official_baseline_external_tables_root_sha256": "9312529e327e077628125714d682b6ce270e47c595a8ca3c05221b2e68ebc99f",
+  "prior_report_sha256_before_authorized_overwrite": "6d55a15469d24ba7cd3f76f7791bd990280bfb79041bfd0ecf74c09397b5ad44",
+  "report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-soft-seq-hist-10xb10-v1/local/odebf/reports/p1r52-soft-sequential-structuralh-on-10xb10-v1/p1r52-soft-sequential-structuralh-on-10xb10-factual-ko-v4.md",
+  "report_bytes": 49304,
+  "report_lines": 487,
+  "report_sha256": "9556e810d09260424e41f1840f755bc91ff1087e22ee3970d3b417533d61715a",
+  "schema": "p1r52-structuralh-on/readable-v4-receipt/v1",
+  "status": "PASS",
+  "user_authorized_in_place_report_overwrite": true,
+  "v3_mutated": false
+}
