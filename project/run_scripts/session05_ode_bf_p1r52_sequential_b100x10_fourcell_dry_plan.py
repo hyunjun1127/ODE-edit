@@ -38,6 +38,7 @@ def build_plan(
         ("tech-r1", False),
         ("tech-r2", True),
         ("tech-r3", True),
+        ("tech-r3-release-r1", True),
     ):
         raise ODEBFContractError("P1R52 B100x10 dry-plan repair scope differs")
     jobs = [
@@ -88,7 +89,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
     parser.add_argument(
-        "--attempt-suffix", choices=("tech-r1", "tech-r2", "tech-r3"), default="tech-r1"
+        "--attempt-suffix",
+        choices=("tech-r1", "tech-r2", "tech-r3", "tech-r3-release-r1"),
+        default="tech-r1",
     )
     parser.add_argument("--r52-only", action="store_true")
     args = parser.parse_args()

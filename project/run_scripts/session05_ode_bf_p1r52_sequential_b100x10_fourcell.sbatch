@@ -21,7 +21,7 @@ readonly EXPECTED_BRANCH="codex/p1r52-llama-seq-10xb100-fourarm-r1-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 
 [[ "$#" -eq 3 ]] || { echo "P1R52 B100x10 arguments differ" >&2; exit 2; }
-[[ "${ATTEMPT_SUFFIX}" == tech-r1 || "${ATTEMPT_SUFFIX}" == tech-r2 || "${ATTEMPT_SUFFIX}" == tech-r3 ]] || { echo "P1R52 B100x10 attempt differs" >&2; exit 2; }
+[[ "${ATTEMPT_SUFFIX}" == tech-r1 || "${ATTEMPT_SUFFIX}" == tech-r2 || "${ATTEMPT_SUFFIX}" == tech-r3 || "${ATTEMPT_SUFFIX}" == tech-r3-release-r1 ]] || { echo "P1R52 B100x10 attempt differs" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R52 B100x10 CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P1R52 B100x10 source differs" >&2; exit 2; }
 [[ "$(git branch --show-current)" == "${EXPECTED_BRANCH}" ]] || { echo "P1R52 B100x10 branch differs" >&2; exit 2; }
@@ -53,7 +53,7 @@ elif [[ "${ATTEMPT_SUFFIX}" == tech-r2 ]]; then
     s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-tech-r2-v1
     s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-tech-r2-v1
   )
-else
+elif [[ "${ATTEMPT_SUFFIX}" == tech-r3 ]]; then
   readonly RUN_TOKEN="p1r52-llama-sequential-10xb100-r52-tech-r3-v1"
   readonly ROLES=(
     r52-soft-sequential-h
@@ -62,6 +62,16 @@ else
   readonly RESULTS=(
     s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-tech-r3-v1
     s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-tech-r3-v1
+  )
+else
+  readonly RUN_TOKEN="p1r52-llama-sequential-10xb100-r52-tech-r3-release-r1-v1"
+  readonly ROLES=(
+    r52-soft-sequential-h
+    r52-soft-sequential-alphacache-on-structuralh-off
+  )
+  readonly RESULTS=(
+    s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-tech-r3-release-r1-v1
+    s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-tech-r3-release-r1-v1
   )
 fi
 readonly ROLE="${ROLES[${SLURM_ARRAY_TASK_ID}]}"

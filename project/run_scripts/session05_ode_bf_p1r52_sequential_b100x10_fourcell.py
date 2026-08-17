@@ -32,6 +32,7 @@ from project.run_scripts.ode_bf.p1r52_sequential_b100x10_panel import (
     SOURCE_MANIFEST_TECH_R1,
     SOURCE_MANIFEST_TECH_R2,
     SOURCE_MANIFEST_TECH_R3,
+    SOURCE_MANIFEST_TECH_R3_RELEASE_R1,
     load_and_validate_lock,
     verify_memit_artifacts,
 )
@@ -43,6 +44,7 @@ RUN_TOKENS = {
     "tech-r1": "p1r52-llama-sequential-10xb100-fourcell-tech-r1-v1",
     "tech-r2": "p1r52-llama-sequential-10xb100-r52-tech-r2-v1",
     "tech-r3": "p1r52-llama-sequential-10xb100-r52-tech-r3-v1",
+    "tech-r3-release-r1": "p1r52-llama-sequential-10xb100-r52-tech-r3-release-r1-v1",
 }
 
 
@@ -65,6 +67,10 @@ def _source_gate(source_head: str, *, attempt_suffix: str = "tech-r2") -> str:
         "tech-r3": (
             SOURCE_MANIFEST_TECH_R3,
             "ode-edit-s05-p1r52-sequential-b100x10-r52-tech-r3-source-manifest/v1",
+        ),
+        "tech-r3-release-r1": (
+            SOURCE_MANIFEST_TECH_R3_RELEASE_R1,
+            "ode-edit-s05-p1r52-sequential-b100x10-r52-tech-r3-release-r1-source-manifest/v1",
         ),
     }[attempt_suffix]
     manifest, raw_sha = load_rooted_json(

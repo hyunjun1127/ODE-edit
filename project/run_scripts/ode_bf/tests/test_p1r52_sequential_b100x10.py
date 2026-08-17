@@ -30,6 +30,7 @@ from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
     RESULT_NAMES_B100X10_TECH_R1,
     RESULT_NAMES_B100X10_TECH_R2,
     RESULT_NAMES_B100X10_TECH_R3,
+    RESULT_NAMES_B100X10_TECH_R3_RELEASE_R1,
     expected_p1r52_sequential_result_name,
     run_p1r52_sequential,
 )
@@ -79,6 +80,12 @@ class P1R52SequentialB100x10Tests(unittest.TestCase):
         self.assertTrue(all("tech-r1" in name for name in RESULT_NAMES_B100X10_TECH_R1.values()))
         self.assertTrue(all("tech-r2" in name for name in RESULT_NAMES_B100X10_TECH_R2.values()))
         self.assertTrue(all("tech-r3" in name for name in RESULT_NAMES_B100X10_TECH_R3.values()))
+        self.assertTrue(
+            all(
+                "tech-r3-release-r1" in name
+                for name in RESULT_NAMES_B100X10_TECH_R3_RELEASE_R1.values()
+            )
+        )
 
     def test_stream_is_outcome_free_unique_and_preserves_b10_prefix(self) -> None:
         locks = REPO_ROOT / "project/run_scripts/ode_bf/locks"
@@ -238,6 +245,14 @@ class P1R52SequentialB100x10Tests(unittest.TestCase):
         self.assertIn("if batch_entry_evaluation_enabled:", runtime_source)
         self.assertIn("REMOVED_BY_USER_AMENDMENT", runtime_source)
         self.assertIn("build_post_final_request_rows", runtime_source)
+        release = dry.build_plan(
+            "4" * 40,
+            attempt_suffix="tech-r3-release-r1",
+            r52_only=True,
+        )
+        self.assertTrue(
+            all("tech-r3-release-r1" in job["result_name"] for job in release["jobs"])
+        )
 
 
 if __name__ == "__main__":
