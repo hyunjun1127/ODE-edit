@@ -1,54 +1,55 @@
 # 서버 접속 인벤토리
 
-- 갱신 시각: 2026-08-03
+- 갱신 시각: 2026-08-17
 - 작성 agent: head-server1-gh (global-head)
-- 목적: agent 간 SSH/rsync 계획 수립을 위한 redacted 접속 인벤토리 공유
+- repository: `hyunjun1127/ODE-edit`
+- 목적: 현재 GH/SH session authority와 안전한 repository 동기화 경계를 공유
 
 이 tracked 파일에는 raw SSH HostName/IP, username, port를 기록하지 않는다.
-실제 접속값은 각 서버 clone의 ignored local-only 파일에 보관한다.
-비밀번호, SSH private key, token, key path, passphrase는 Git에 기록하지 않는다.
+실제 접속값은 각 clone의 ignored local-only 파일에 보관한다. 비밀번호, SSH
+private key, token, key path, passphrase는 Git에 기록하지 않는다.
 
-## 서버 목록
+## 현재 서버 상태
 
-server1의 canonical SH1은 GH root clone과 분리된 dedicated worktree에서 Session 02 P1
-terminal execution을 완료했으며 GPU/Slurm/push는 HOLD다. server2에는 canonical SH2 session과 repo clone이
-확인됐지만 local session boundary, method runtime과 heartbeat가 아직 없어 onboarding HOLD다.
-server4는 physical host로 등록됐지만 이 repo clone/SH가 없는
-`registered-pending-clone` 상태이며 server3는 future target이다.
+| 서버 | 실제 host | repository CWD | Git 상태 | ODE-edit Slurm |
+| --- | --- | --- | --- | --- |
+| `server1` GH | `devbox` / `remote-ssh-codex-managed:lab120` | `/mnt/raid5/janghj/ODE-edit` | GH root는 detached/dirty 보존 상태. canonical `main` 통합·push는 `/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1`에서 수행 | active 0 |
+| `server1` SH1 | `devbox` / `remote-ssh-codex-managed:lab120` | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | detached `cdb80bc70032c203334531edb7020ff654f2938d`; tracked clean, user-owned untracked paths 2개; cached `origin/main` 대비 277 behind | active 0 |
+| `server2` SH2 | `server2` / `remote-ssh-codex-managed:lab121` | `/mnt/raid5/janghj/ODE-edit` | `main` `6145406ae4b11e05b683c46aa604c972eb727f5a`; clean; ACK 시 cached `origin/main` 대비 30 behind | active 0 |
 
-| Repository server name | Raw connection detail location | 상태/용도 |
-| --- | --- | --- |
-| `server1` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | GH active on root clone / SH1 active on dedicated worktree; GPU cap 3, memory cap 198117 MiB per GPU |
-| `server2` | `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | SH2 assigned-onboarding-hold / clone: `/mnt/raid5/janghj/ODE-edit` |
-| `server3` | `servers/local/ssh_config`, `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | future target / clone 전 / Codex session 미지정 |
-| `server4` | `servers/local/rsync-targets.tsv`, `servers/local/gpu-caps.tsv` | registered-pending-clone / GPU cap 3, memory cap 65984 MiB per GPU / Codex session 미지정 |
+Git 업데이트는 clean canonical `main` 통합 worktree에서만 커밋·push한다. SH1의
+detached worktree와 GH root의 기존 dirty state는 reset/revert/delete하지 않는다.
+SH2는 새 session-boundary 확인 후에만 `fetch`와 `merge --ff-only
+origin/main`을 수행한다.
 
 ## Codex Session Registry
 
-아래 registry는 **이 repository 전용** session만 기록한다. 각 서버의
-global-head와 server-head는 서로 다른 role/session으로 명시하며, `미지정`은
-해당 role의 Codex session을 아직 만들거나 배정하지 않았다는 뜻이다. 다른 repo의
-session ID를 채우거나 대체 대상으로 사용하지 않는다.
+아래 값이 이 repository의 현재 primary session authority다. 사용자 메시지에 SH2
+ID가 SH1과 동일하게 중복 기재됐지만, SH2 direct ACK와 app host metadata로 실제
+SH2 ID를 확인해 정정했다.
 
-| 서버 | 역할 | Codex session ID | Required/confirmed model | Repository CWD | 상태 |
+| 서버 | 역할 | Codex session ID / deeplink | Required / confirmed model | Repository CWD | 상태 |
 | --- | --- | --- | --- | --- | --- |
-| `server1` | global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active / 현재 GH session |
-| `server1` | server-head (SH1) | `019fc63e-5217-7250-9c22-c5b2ec4248f0` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | active canonical SH1; Session 02 P1 terminal; GPU/Slurm/push HOLD |
-| `server2` | server-head (SH2) | `019fc5ec-f85b-7770-a73a-1d19be1cd491` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assignment ACK / onboarding HOLD; canonical SH2 |
-| `server3` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | future target / clone 전 |
+| `server1` | global-head (GH) | `01a00e5f-63ef-7cc2-89ec-f2f7b23df40f` / `codex://threads/01a00e5f-63ef-7cc2-89ec-f2f7b23df40f` | `Sol Ultra` / current-session runtime confirmation pending | `/mnt/raid5/janghj/ODE-edit` | active |
+| `server1` | server-head (SH1) | `01a00e5d-29e8-7a01-822b-7acf43226035` / `codex://threads/01a00e5d-29e8-7a01-822b-7acf43226035` | `Sol Ultra` / current-session runtime confirmation pending | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | direct ACK PASS; local boundary update pending |
+| `server2` | server-head (SH2) | `01a00e5c-f7ae-72a2-98b2-b8b0907168b4` / `codex://threads/01a00e5c-f7ae-72a2-98b2-b8b0907168b4` | `Sol Ultra` / current-session runtime confirmation pending | `/mnt/raid5/janghj/ODE-edit` | direct ACK PASS; local boundary update pending |
+| `server3` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | future target |
 | `server4` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | registered-pending-clone |
 
-Canonical SH를 등록할 때 GH는 이 table, `servers/active/<server>.md`, 그리고 해당
-clone의 ignored `servers/local/session-boundary.env`에 **동일한** session ID,
-confirmed `Sol Ultra` primary model profile, CWD, repository identity를 기록한다.
-실제 instruction은 그 ID와 model profile을 envelope에 넣고
-`scripts/check-session-boundary.sh <session-id>`를 먼저 실행한다.
+현재 session을 대상으로 actionable instruction을 실행하기 전에는 각 clone의
+ignored `servers/local/session-boundary.env`에 실제 session ID, confirmed model,
+CWD와 repository identity를 기록하고
+`scripts/check-session-boundary.sh <session-id>`를 통과해야 한다. Runtime model
+metadata를 확인하지 못한 상태를 이전 session의 confirmation으로 대체하지 않는다.
 
-Task-local delegated session은 canonical SH assignment를 대체하지 않으며, 해당 envelope와
-전용 worktree에만 권한이 있다. 서버를 등록할 때는 `servers/templates/server-onboarding.md`를 바탕으로
-`servers/active/<server>.md`를 만들고, 해당 server-head의 heartbeat와
-red-team onboarding audit이 `pass` 또는 명시적 `waived`가 된 뒤에만 task를
-배정한다.
+## Superseded Session Records
+
+2026-08-17 이전 tracked active registry의 GH/SH authority
+`019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2`,
+`019fc63e-5217-7250-9c22-c5b2ec4248f0`,
+`019fc5ec-f85b-7770-a73a-1d19be1cd491`와 각 clone의 old local boundary 값은
+inactive/superseded다. 과거 experiment report, audit, receipt, completed launcher에
+기록된 session ID는 실행 provenance이므로 일괄 치환하지 않는다.
 
 ## Local Private Inventory
 
@@ -61,34 +62,10 @@ servers/local/rsync-targets.tsv
 servers/local/gpu-caps.tsv
 servers/local/method-runtime.env
 servers/local/dataset-roots.tsv
+servers/local/session-boundary.env
 ```
 
-`rsync-targets.tsv` 형식:
-
-```text
-server<TAB>ssh_alias<TAB>repo_path
-```
-
-## SSH Alias Convention
-
-서버 간 artifact broadcast는 tracked raw IP/user/port가 아니라 local-only SSH
-alias를 사용한다. tracked 문서와 메시지에는 repository server name, alias,
-repo path, relative `local/` path만 기록한다.
-
-일반 project artifact는 source server가
-`scripts/rsync-artifact-broadcast.sh`로 broadcast한다. 단, server1/server2 모두 SH
-onboarding과 peer rsync verification이 끝나지 않았으므로 artifact broadcast는 금지한다. 각
-server에는 local-only `rsync-targets.tsv`의 해당 repo path에 clone을 만든 뒤,
-onboarding audit와 active 등록을 마쳐야 한다. `--delete`, private inventory,
-SSH material, credential, 민감 경로, repo-external 경로는 별도 user approval
-없이는 전송하지 않는다.
-
-## Codex Session Boundary
-
-각 서버 record에는 해당 repo를 담당하는 primary Codex session ID,
-required/confirmed `Sol Ultra` profile, CWD를 역할별로 기록한다.
-Git/SSH/rsync/Slurm command는 `repository identity + session ID + confirmed
-Sol Ultra profile + CWD`가 모두 일치할 때만 수행한다. Delegated subagent는
-별도 `Terra Ultra` runtime metadata를 확인하되 server-session authority를
-대체할 수 없다. 다른 repo session, 특히 `knowledge-revision` session은 이
-repo의 command·message·artifact target으로 사용할 수 없다.
+일반 artifact broadcast는 source server의 boundary, resource cap, peer path가
+검증된 뒤 `scripts/rsync-artifact-broadcast.sh`로 수행한다. `--delete`,
+private inventory, SSH material, credential, 민감 경로와 repo-external 경로는 별도
+사용자 승인 없이 전송하지 않는다.

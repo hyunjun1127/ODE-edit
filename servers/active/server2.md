@@ -1,76 +1,67 @@
-# server2 onboarding record
+# server2 active record
 
-## 요약
+## 현재 authority
 
-- 서버 이름: server2
-- 서버 유형: registered remote lab host
-- 사용 목적: ODE-Edit locked-source reproduction 및 향후 SH2 실행
-- 예상 사용 기간: 사용자 확인 필요
-- 담당 global-head: head-server1-gh
-- 담당 server-head: head-server2-sh2 (canonical SH2 session assigned)
-- global-head 승인: `assigned-onboarding-hold`
+- server: `server2`
+- physical hostname: `server2`
+- host ID: `remote-ssh-codex-managed:lab121`
+- repository: `hyunjun1127/ODE-edit`
+- 갱신 시각: 2026-08-17
+- server-head (SH2):
+  `01a00e5c-f7ae-72a2-98b2-b8b0907168b4`
+  (`codex://threads/01a00e5c-f7ae-72a2-98b2-b8b0907168b4`)
+- required model: `Sol Ultra`
+- confirmed model: current-session runtime confirmation pending
+- repository CWD: `/mnt/raid5/janghj/ODE-edit`
 
-| 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
-| --- | --- | --- | --- | --- |
-| server-head (SH2) | `019fc5ec-f85b-7770-a73a-1d19be1cd491` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | assignment ACK / onboarding HOLD |
+사용자 메시지에 SH2 session ID가 SH1과 동일하게 중복 기재됐으나, app host
+metadata와 SH2 direct ACK로 위 ID를 확인했다. 이 값이 현재 canonical SH2
+authority다.
 
-## 접근과 권한
+## Repository 상태
 
-- 사용자 계정과 raw SSH 정보: Git 기록 금지
-- repository identity: `hyunjun1127/ODE-edit` 확인
-- repo clone: `/mnt/raid5/janghj/ODE-edit` 확인
-- initial ACK 당시 branch/head/worktree: `main` /
-  `6145406ae4b11e05b683c46aa604c972eb727f5a` / clean
-- Slurm command와 server2 node: available로 확인
-- method runtime: local config 미완성으로 `INCOMPLETE`
-- session boundary: `servers/local/session-boundary.env` 미설정으로 HOLD
-- rsync/SSH artifact path: local-only config와 dry-run 검증 전까지 사용 금지
+- remote: `https://github.com/hyunjun1127/ODE-edit.git`
+- ACK snapshot branch: `main`
+- ACK snapshot HEAD/tree:
+  `6145406ae4b11e05b683c46aa604c972eb727f5a` /
+  `8284a6d0230c275056aa38840a03e6a336c2032c`
+- worktree: clean
+- cached `origin/main`:
+  `858f562cc8282b9ae164d41b85dfad070a8273f2`
+- ACK 시 local main은 cached `origin/main` 대비 ahead 0 / behind 30
 
-비밀번호, private key, token, raw HostName/IP, username, port, private dataset
-secret은 이 record에 기록하지 않는다.
+새 GH가 canonical main update를 push한 뒤 SH2는 clean 상태를 다시 확인하고
+`git fetch origin`, `git merge --ff-only origin/main`만 수행한다. Dirty 또는
+diverged 상태이면 자동 정리하지 않고 HOLD/ACK한다.
 
-## Git/Agent 설정
+## Session boundary
 
-- expected `agent.id`: `head-server2-sh2`
-- expected `agent.role`: `server-head`
-- expected `agent.hostname`: `server2`
-- heartbeat 경로: `agents/server2/head-server2-sh2.json` (SH2 작성 전까지 pending)
-- sync: SH2 local boundary와 identity가 일치한 뒤에만 실행
+ACK 시 ignored `servers/local/session-boundary.env`는 inactive
+`019fe491-954b-70a0-8ba8-0588e9f8d741`를 기록해 새 session checker가 rc4로
+실패했다. Actionable work 전에 다음을 수행한다.
 
-## Codex Session Boundary
+1. displayed/runtime primary model이 required `Sol Ultra`인지 직접 확인한다.
+2. local-only session ID를
+   `01a00e5c-f7ae-72a2-98b2-b8b0907168b4`로 갱신한다.
+3. 실제 CWD, repository identity, confirmed model을 기록한다.
+4. `scripts/check-session-boundary.sh
+   01a00e5c-f7ae-72a2-98b2-b8b0907168b4`를 통과한다.
 
-server2의 ODE-Edit command는 canonical session
-`019fc5ec-f85b-7770-a73a-1d19be1cd491`, confirmed `Sol Ultra`, CWD
-`/mnt/raid5/janghj/ODE-edit`, repository identity와 local Git identity가 모두 일치한
-뒤에만 실행한다. 다른 repo 또는 다른 server session은 대체할 수 없다.
+Runtime model metadata를 조회하지 못했으므로 이전 session의 confirmation을
+재사용하지 않는다. Boundary PASS 전 Git write, Slurm, rsync, model/GPU
+execution은 HOLD다.
 
-## Local 경로
+## Slurm 및 resource
 
-- dataset 경로: `local/datasets/` 또는 local-only runtime config
-- output 경로: `local/results/raw/`
-- checkpoint 경로: `local/checkpoints/`
-- log 경로: `local/logs/`
-- scratch 경로: `local/`
-
-## Slurm/Resource
-
-- GPU cap: 동시 최대 `3` GPU (`servers/local/gpu-caps.tsv`)
-- GPU memory request cap: GPU 1개당 최대 `66017 MiB`
-- partition/CPU/time limit: SH2 local-only Slurm preflight에서 확인
-- submit policy: local session boundary, method runtime, heartbeat와 red-team onboarding
-  audit가 닫히고 GH full envelope가 발행되기 전까지 금지
-
-## Subagent 준비
-
-- Blue team 준비 상태: onboarding 뒤 필요
-- Red team 준비 상태: onboarding 뒤 필요
-- red-team onboarding audit: 미작성
-- subagent runtime: 사용 시 `Terra Ultra`만 허용
+- 2026-08-17 ACK 시 ODE-edit active Slurm job: 0
+- local cap file의 현재 server2 project GPU cap은 clone-local authoritative
+  record로 재확인한다.
+- 실제 제출 전에는 `scripts/check-slurm-resource-cap.sh`로 point-in-time GPU와
+  host-memory를 다시 확인한다.
 
 ## 판정
 
-- 상태: `assigned-onboarding-hold`
-- 완료: canonical SH2 session 배정, repo/Slurm read-only 확인
-- blocker: local session boundary, Git identity, method runtime, heartbeat, red-team audit
-- 현재 권한: direct ACK/HOLD 보고만 허용; Git write, Slurm, rsync, artifact 작업 금지
-- 다음 담당자: canonical SH2와 global-head
+- session routing/direct inbox: PASS
+- repository worktree: clean, fast-forward eligible after boundary PASS
+- current blocker: stale local boundary와 current-session model confirmation pending
+- next: GH main push 후 boundary 확인, fetch/ff-only sync, final SH2 ACK

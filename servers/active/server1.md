@@ -1,99 +1,66 @@
-# server1 onboarding record
+# server1 active record
 
-## 요약
+## 현재 authority
 
-- 서버 이름: server1
-- 서버 유형: local GH host
-- 사용 목적: ODE-Edit repository bootstrap 및 Session 01 Motivation 실행 host
-- 예상 사용 기간: 사용자 확인 필요
-- 담당 global-head: head-server1-gh
-- 담당 server-head: head-server1-sh1 (canonical SH1 session assigned)
-- global-head 승인: `active-local-gh-exception`; SH1은 dedicated worktree에서 active
+- server: `server1`
+- physical hostname: `devbox`
+- host ID: `remote-ssh-codex-managed:lab120`
+- repository: `hyunjun1127/ODE-edit`
+- 갱신 시각: 2026-08-17
 
-| 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
+| 역할 | Codex session ID / deeplink | Required / confirmed model | 실제 CWD | 상태 |
 | --- | --- | --- | --- | --- |
-| global-head | `019fb1ea-03cb-7c20-bb3b-eba5f8d6f5f2` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/ODE-edit` | active |
-| server-head (SH1) | `019fc63e-5217-7250-9c22-c5b2ec4248f0` | `Sol Ultra` / `Sol Ultra` (`gpt-5.6-sol`, runtime metadata) | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | active canonical SH1; Session 02 P1 terminal; GPU/Slurm/push HOLD |
+| global-head (GH) | `01a00e5f-63ef-7cc2-89ec-f2f7b23df40f` / `codex://threads/01a00e5f-63ef-7cc2-89ec-f2f7b23df40f` | `Sol Ultra` / current-session runtime confirmation pending | `/mnt/raid5/janghj/ODE-edit` | active |
+| server-head (SH1) | `01a00e5d-29e8-7a01-822b-7acf43226035` / `codex://threads/01a00e5d-29e8-7a01-822b-7acf43226035` | `Sol Ultra` / current-session runtime confirmation pending | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | direct inbox ACK PASS; execution boundary pending |
 
-사용자 정정에 따라 이전 assignment `019fc5e0-eb7e-78a3-9436-93885621b8dc`는
-superseded되었으며 server1 SH authority가 없다. 현재 SH1은 instruction
-`ODEEDIT-S02-P1-SMAX8-AFFECTED-CONT-LLAMA-V1`까지 완료하고 다음 GH envelope를 기다린다.
+새 primary session은 이전 active session authority를 supersede한다. 과거 task,
+report, audit, receipt와 completed launcher의 old session ID는 historical
+provenance로 보존하며 현재 command authority로 해석하지 않는다.
 
-## 접근과 권한
+## Repository 상태
 
-- 사용자 계정: Git 기록 금지
-- SSH 접속 확인: local-only `servers/local/ssh_config`를 통한 read-only check 필요
-- host key 확인: 사용자 또는 향후 server-head 확인 필요
-- Slurm 접근 확인: 사용자 time-critical 지시와 protocol 예외 아래 GH helper
-  submit/monitor/terminal artifact 검증 완료
-- storage mount 확인: `/mnt/raid5/janghj/ODE-edit` local clone 존재 확인
-- rsync 인증 상태: local-only config 이식 후 dry-run으로 확인 필요
-- method runtime: `servers/local/method-runtime.env`에 기존 EasyEdit/Hugging
-  Face cache compatibility 설정을 local-only로 적용
+- canonical remote: `https://github.com/hyunjun1127/ODE-edit.git`
+- GH root clone: `/mnt/raid5/janghj/ODE-edit`; detached/dirty user state이므로
+  reset, revert, cleanup 또는 main 통합에 사용하지 않는다.
+- canonical main integration worktree:
+  `/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1`
+- SH1 worktree:
+  `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit`
+- SH1 ACK snapshot: detached
+  `cdb80bc70032c203334531edb7020ff654f2938d`, tree
+  `cc8285949540f70a4afcc0278968c3978068b465`; tracked diff 0; untracked
+  `project/run_scripts/ode_bf/`와 `runs/session02-p0-tech-v1/` 보존.
+- SH1 cached `origin/main` 대비 277 behind였으므로 해당 detached worktree에서
+  pull/merge하지 않는다.
 
-비밀번호, private key, token, raw HostName/IP, username, port, private dataset
-secret은 절대 기록하지 않는다.
+## Session boundary
 
-## Git/Agent 설정
+SH1 direct ACK 시 local `servers/local/session-boundary.env`는 inactive
+`019fe489-c968-75f3-9965-7cfbc26c0a99`를 기록하고 있었다. 새 session에서
+actionable work를 시작하기 전에 다음을 모두 만족해야 한다.
 
-- repo clone 경로: `/mnt/raid5/janghj/ODE-edit`
-- repository identity: `hyunjun1127/ODE-edit` (remote 등록 후 검증)
-- root clone의 현재 `agent.id`: `head-server1-gh`
-- root clone의 현재 `agent.role`: `global-head`
-- root clone의 현재 `agent.hostname`: `server1`
-- GH heartbeat 경로: `agents/server1/head-server1-gh.json`
-- SH1 worktree: `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit`
-- SH1 branch: `codex/odeeditsh1-bf16-context-lock-v5-prep-v1`
-- SH1 effective identity: `agent.id=head-server1-sh1`, `agent.role=server-head`,
-  `agent.hostname=server1`
-- SH1 session/role boundary: PASS
-- SH1 heartbeat 경로: `agents/server1/head-server1-sh1.json` (tracked heartbeat는 pending)
-- SH1은 GH root clone의 local session boundary를 덮어쓰지 않는다.
-- sync 설정: GitHub remote와 main bootstrap push 완료; GH가 설치 여부를 결정
+1. displayed/runtime primary model이 required `Sol Ultra`인지 직접 확인한다.
+2. local-only boundary의 session ID를
+   `01a00e5d-29e8-7a01-822b-7acf43226035`로 갱신한다.
+3. CWD, repository identity, model confirmation을 실제 값으로 기록한다.
+4. `scripts/check-session-boundary.sh
+   01a00e5d-29e8-7a01-822b-7acf43226035`를 통과한다.
 
-## Codex Session Boundary
+Confirmation이 없거나 checker가 실패하면 Git write, Slurm, rsync, model/GPU
+execution은 HOLD다.
 
-이 record의 command/message는 역할별 registry의 Codex session ID,
-confirmed `Sol Ultra` primary model profile, CWD를 확인한 session만 수행한다.
-`knowledge-revision` 등 다른 repository CWD 또는 그 session ID를 대상으로
-message, shell command, artifact transfer, task claim을 실행하지 않는다. 새
-GH/SH session은 이 record를 갱신하고, 기존 session ID를 재사용하지 않는다.
+## Slurm 및 resource
 
-## Local 경로
-
-- dataset 경로: `local/datasets/` 또는 local-only runtime config
-- output 경로: `local/results/raw/`
-- checkpoint 경로: `local/checkpoints/`
-- log 경로: `local/logs/`
-- scratch 경로: `local/`
-
-## Slurm/Resource
-
-- partition: local-only Slurm query로 확인 필요
-- GPU cap: 동시 최대 `3` GPU (`servers/local/gpu-caps.tsv`); 2026-08-03
-  사용자 지시로 기존 임시 `4` GPU 증액을 종료하고 `3` GPU로 복원했다. 이 변경은
-  즉시 적용되며, 변경 시점의 Session 02 P1 R2 pair는 합계 `2/3` GPU이므로 계속
-  실행하되 추가 제출은 별도 envelope와 잔여 cap 검사를 요구한다.
-- GPU memory request cap: GPU 1개당 최대 `198117 MiB`
-- CPU: task별 명시 필요
-- time limit: task별 명시 필요
-- 주의할 quota/사용 정책: `scripts/check-slurm-gpu-cap.sh` 및
-  `scripts/check-slurm-resource-cap.sh`가 통과하고 red pre-flight가 `pass`
-  또는 기록된 `waived`인 경우에만 submit 가능
-
-## Subagent 준비
-
-- Blue team 준비 상태: SH1 onboarding 뒤 필요
-- Red team 준비 상태: SH1 onboarding 뒤 필요
-- red-team onboarding audit 경로:
-  `audits/servers/server1/session01-motivation-onboarding.preflight.md`
+- 2026-08-17 ACK 시 ODE-edit active Slurm job: 0
+- local cap file의 현재 server1 project GPU cap: 4
+- 실제 제출 전에는 `scripts/check-slurm-resource-cap.sh`로 point-in-time GPU와
+  host-memory를 다시 확인한다.
 
 ## 판정
 
-- 상태: `active-local-gh`; canonical SH1 active on dedicated worktree; Session 02 P1 R2와
-  prelocked `S_max=8` continuation 완료, GPU/Slurm/push HOLD
-- 완료: repository/remote/session/resource boundary, EasyEdit runtime,
-  pinned dataset/cache, Slurm pair 실행과 Session 01 Motivation closure
-- 남은 작업: GH final integration, common-controller redesign, heartbeat, local SSH/rsync
-  dry-run, peer artifact broadcast 검증, red-team execution preflight
-- 다음 담당자: canonical SH1과 global-head
+- session routing/direct inbox: PASS
+- tracked repository update owner: GH canonical main integration worktree
+- SH1 detached worktree update: HOLD, user-owned untracked paths 보존
+- SH1 execution: local session/model boundary PASS 전 HOLD
+- 다음 담당자: GH가 main을 push한 뒤 SH1은 tracked 파일을 직접 변경하지 않고
+  최신 registry를 확인하고 local boundary 결과를 ACK한다.
