@@ -30,7 +30,7 @@ scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 
 readonly ROLES=(r52-soft-sequential-h native-alphaedit-sequential)
 readonly RESULTS=(
-  s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r2-v1
+  s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1
   s05-p1r52-native-alphaedit-sequential-10xb10-v1
 )
 readonly ROLE="${ROLES[${SLURM_ARRAY_TASK_ID}]}"

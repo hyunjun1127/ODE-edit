@@ -23,7 +23,10 @@ from project.run_scripts.ode_bf.p1r52_sequential_contract import (
     commit_sequential_batch,
     dry_plan,
 )
-from project.run_scripts.ode_bf.p1r52_sequential_runtime import run_p1r52_sequential
+from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
+    _b1_scientific_payload,
+    run_p1r52_sequential,
+)
 from project.run_scripts.ode_bf.routing import QuadraticBarrier, RoutingProblem
 from project.run_scripts.ode_bf.scalable_batched_runtime import P1R23_LAYER_ORDER
 from project.run_scripts.ode_bf.woodbury import ProjectorCertificate, solve_alpha_woodbury
@@ -71,6 +74,39 @@ def _keys(version: int) -> dict[int, torch.Tensor]:
 
 
 class P1R52SequentialContractTests(unittest.TestCase):
+    def test_b1_cross_process_identity_filter_is_exact_and_rejects_science_delta(self) -> None:
+        reference = {
+            "field_sha256": "a" * 64,
+            "target_objective": {
+                "model_state_sha256": "b" * 64,
+                "identity_sha256": "c" * 64,
+                "loss": 0.5,
+                "target_gradient_sha256": "d" * 64,
+            },
+            "routing": {"velocity": [0.1, 0.2, 0.3, 0.2, 0.2]},
+        }
+        cross_process = {
+            **reference,
+            "field_sha256": "e" * 64,
+            "target_objective": {
+                **reference["target_objective"],
+                "model_state_sha256": "f" * 64,
+                "identity_sha256": "0" * 64,
+            },
+        }
+        self.assertEqual(
+            _b1_scientific_payload(reference),
+            _b1_scientific_payload(cross_process),
+        )
+        changed = {
+            **cross_process,
+            "routing": {"velocity": [0.1, 0.2, 0.3, 0.1, 0.3]},
+        }
+        self.assertNotEqual(
+            _b1_scientific_payload(reference),
+            _b1_scientific_payload(changed),
+        )
+
     def test_terminal_candidate_assembly_binds_authoritative_row_block(self) -> None:
         entry = torch.zeros((3, 4), dtype=torch.bfloat16)
         factor = WaypointFactor(

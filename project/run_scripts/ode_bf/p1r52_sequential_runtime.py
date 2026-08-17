@@ -60,9 +60,68 @@ from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER, scala
 
 ROLES = ("r52-soft-sequential-h", "native-alphaedit-sequential")
 RESULT_NAMES = {
-    "r52-soft-sequential-h": "s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r2-v1",
+    "r52-soft-sequential-h": "s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1",
     "native-alphaedit-sequential": "s05-p1r52-native-alphaedit-sequential-10xb10-v1",
 }
+
+
+B1_PROCESS_LOCAL_RECEIPT_PATHS = frozenset(
+    {
+        ("field_sha256",),
+        ("finite_writer_demand", "endpoint_objective_sha256"),
+        ("finite_writer_demand", "identity_sha256"),
+        ("identity_sha256",),
+        ("next_physical_capture_sha256",),
+        ("physical_capture_sha256",),
+        ("physical_slope", "field_sha256"),
+        ("physical_slope", "objective_receipt_sha256"),
+        ("target_objective", "identity_sha256"),
+        ("target_objective", "model_state_sha256"),
+        ("target_update", "identity_sha256"),
+        ("target_update", "selected_endpoint", "current_objective_sha256"),
+        ("target_update", "selected_endpoint", "identity_sha256"),
+        ("target_update", "selected_endpoint", "primary_endpoint_sha256"),
+        ("target_update", "writer_demand", "endpoint_objective_sha256"),
+        ("target_update", "writer_demand", "identity_sha256"),
+    }
+)
+
+
+def _b1_scientific_payload(value: Any, path: tuple[str, ...] = ()) -> Any:
+    """Remove only process-local identity cascades from an accepted-k receipt."""
+
+    if isinstance(value, Mapping):
+        return {
+            key: _b1_scientific_payload(item, (*path, str(key)))
+            for key, item in value.items()
+            if (*path, str(key)) not in B1_PROCESS_LOCAL_RECEIPT_PATHS
+        }
+    if isinstance(value, list):
+        return [_b1_scientific_payload(item, path) for item in value]
+    return value
+
+
+def _b1_stable_rollout_payload(rollout: Mapping[str, Any]) -> dict[str, Any]:
+    initial = {
+        key: value
+        for key, value in rollout["initial"].items()
+        if key not in {"capture_identity_sha256", "identity_sha256"}
+    }
+    terminal_z8 = {
+        key: value
+        for key, value in rollout["terminal_z8_oracle"].items()
+        if key != "receipt_sha256"
+    }
+    return {
+        "initial": initial,
+        "metric": rollout["metric"],
+        "terminal_target_sha256": rollout["terminal_target_sha256"],
+        "terminal_z8_oracle": terminal_z8,
+        "terminal_cumulative_structural_p": rollout["terminal_cumulative_structural_p"],
+        "kl_teacher_hash_by_k": rollout["kl_teacher_hash_by_k"],
+        "kl_teacher_hash_k8_constant": rollout["kl_teacher_hash_k8_constant"],
+        "materializer": rollout["materializer"],
+    }
 
 
 def expected_p1r52_sequential_result_name(alias: str, role: str) -> str:
@@ -576,22 +635,34 @@ def _b1_identity_gate(
         for name in ("efficacy", "generalization", "locality-preservation")
     )
     reference_rollout = terminal["rollout"]
-    accepted_exact = rollout["accepted_receipt_sha256"] == reference_rollout["accepted_receipt_sha256"]
-    frozen_rollout_fields = (
-        "initial",
-        "metric",
-        "terminal_target_sha256",
-        "terminal_physical_capture_sha256",
-        "terminal_z8_oracle",
-        "terminal_cumulative_structural_p",
-        "kl_teacher_hash_by_k",
-        "kl_teacher_hash_k8_constant",
-        "materializer",
+    current_accepted_root = case_root / "raw/ode/p1r52-rsa-r42safekdc-m1-soft"
+    reference_accepted_root = accepted_path.parent
+    accepted_receipts: list[dict[str, Any]] = []
+    for step_index in range(1, P1R23_GRID_COUNT + 1):
+        current_path = current_accepted_root / f"accepted-k{step_index}.json"
+        reference_path = reference_accepted_root / f"accepted-k{step_index}.json"
+        if not current_path.is_file() or not reference_path.is_file():
+            raise ODEBFStateError("P1R52 B1 accepted receipt inventory differs")
+        current_value = json.loads(current_path.read_text(encoding="utf-8"))
+        reference_value = json.loads(reference_path.read_text(encoding="utf-8"))
+        current_scientific = _b1_scientific_payload(current_value)
+        reference_scientific = _b1_scientific_payload(reference_value)
+        accepted_receipts.append(
+            {
+                "step_index": step_index,
+                "current_sha256": hashlib.sha256(current_path.read_bytes()).hexdigest(),
+                "reference_sha256": hashlib.sha256(reference_path.read_bytes()).hexdigest(),
+                "scientific_payload_sha256": canonical_hash(current_scientific),
+                "scientific_payload_exact": current_scientific == reference_scientific,
+            }
+        )
+    accepted_scientific_exact = all(
+        item["scientific_payload_exact"] for item in accepted_receipts
     )
-    frozen_field_equal = {
-        name: rollout[name] == reference_rollout[name]
-        for name in frozen_rollout_fields
-    }
+    stable_rollout_equal = (
+        _b1_stable_rollout_payload(rollout)
+        == _b1_stable_rollout_payload(reference_rollout)
+    )
     payload = {
         "reference_terminal_path": str(terminal_path),
         "reference_terminal_sha256": hashlib.sha256(terminal_path.read_bytes()).hexdigest(),
@@ -600,11 +671,20 @@ def _b1_identity_gate(
         "sequential_final_bf16_sha256": dict(committed_hashes),
         "final_bf16_exact": dict(committed_hashes) == reference_hashes,
         "legacy_Eff_Gen_Loc_exact": legacy_metric_equal,
-        "accepted_k1_k8_receipt_sha256_exact": accepted_exact,
-        "target_direction_amplitude_selection_allocation_materialization_exact": all(
-            frozen_field_equal.values()
+        "accepted_k1_k8_receipt_sha256_exact": (
+            rollout["accepted_receipt_sha256"]
+            == reference_rollout["accepted_receipt_sha256"]
         ),
-        "frozen_rollout_field_equal": frozen_field_equal,
+        "accepted_k1_k8_scientific_payload_exact": accepted_scientific_exact,
+        "accepted_k1_k8_receipts": accepted_receipts,
+        "process_local_identity_paths_excluded": [
+            list(path) for path in sorted(B1_PROCESS_LOCAL_RECEIPT_PATHS)
+        ],
+        "stable_rollout_payload_exact": stable_rollout_equal,
+        "terminal_physical_capture_cross_process_identity": "OBSERVATION_ONLY_DATA_PTR_VERSION_SCOPED",
+        "target_direction_amplitude_selection_allocation_materialization_exact": (
+            accepted_scientific_exact and stable_rollout_equal
+        ),
         "atomic_rewrite_acc": "NOT_RECORDED",
         "atomic_paraphrase_acc": "NOT_RECORDED",
         "sequential_accuracy_nonblocking_extension": True,
@@ -613,8 +693,8 @@ def _b1_identity_gate(
     payload["passed"] = bool(
         payload["final_bf16_exact"]
         and legacy_metric_equal
-        and accepted_exact
-        and all(frozen_field_equal.values())
+        and accepted_scientific_exact
+        and stable_rollout_equal
     )
     payload["identity_sha256"] = canonical_hash(payload)
     _atomic_write_once(case_root / "b1-atomic-identity.json", payload)
