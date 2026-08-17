@@ -14,10 +14,12 @@ from project.run_scripts.ode_bf.p1_state import P1HistoryRecord
 from project.run_scripts.ode_bf.p1r29_sequential_preparation import SequentialArmState
 from project.run_scripts.ode_bf.p1r43_full_strength_routing import solve_p1r43_full_strength_routing
 from project.run_scripts.ode_bf.fixed_e8_soft_routing import FixedE8Arm
+from project.run_scripts.ode_bf.functional import WaypointFactor
 from project.run_scripts.ode_bf.p1r52_sequential_contract import (
     LifetimeAnchor,
     LifetimeAnchorLedger,
     SequentialHRouter,
+    assemble_terminal_candidates,
     commit_sequential_batch,
     dry_plan,
 )
@@ -69,6 +71,25 @@ def _keys(version: int) -> dict[int, torch.Tensor]:
 
 
 class P1R52SequentialContractTests(unittest.TestCase):
+    def test_terminal_candidate_assembly_binds_authoritative_row_block(self) -> None:
+        entry = torch.zeros((3, 4), dtype=torch.bfloat16)
+        factor = WaypointFactor(
+            "module.weight",
+            4,
+            0,
+            0,
+            0,
+            1.0,
+            torch.ones((3, 10), dtype=torch.float32),
+            torch.ones((4, 10), dtype=torch.float32),
+        )
+        candidates, receipt = assemble_terminal_candidates(
+            {"module.weight": entry},
+            {"module.weight": (factor,)},
+        )
+        self.assertEqual(candidates["module.weight"].dtype, torch.bfloat16)
+        self.assertEqual(receipt["weights"]["module.weight"]["factor_count"], 1)
+
     def test_atomic_call_uses_only_the_p1r52_method_flag(self) -> None:
         tree = ast.parse(inspect.getsource(run_p1r52_sequential))
         calls = [

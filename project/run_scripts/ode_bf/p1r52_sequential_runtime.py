@@ -60,7 +60,7 @@ from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER, scala
 
 ROLES = ("r52-soft-sequential-h", "native-alphaedit-sequential")
 RESULT_NAMES = {
-    "r52-soft-sequential-h": "s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r1-v1",
+    "r52-soft-sequential-h": "s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r2-v1",
     "native-alphaedit-sequential": "s05-p1r52-native-alphaedit-sequential-10xb10-v1",
 }
 

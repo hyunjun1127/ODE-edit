@@ -66,7 +66,11 @@ def assemble_terminal_candidates(
     candidates: dict[str, torch.Tensor] = {}
     receipts: dict[str, Any] = {}
     for name in sorted(entry_values):
-        value, stats = assemble_effective_bf16(entry_values[name], factors_by_weight[name])
+        value, stats = assemble_effective_bf16(
+            entry_values[name],
+            factors_by_weight[name],
+            row_block=64,
+        )
         candidates[name] = value.detach().to(device="cpu", dtype=torch.bfloat16).clone()
         receipts[name] = {
             "candidate_sha256": tensor_sha256(candidates[name]),
