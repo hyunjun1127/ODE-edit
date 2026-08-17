@@ -152,6 +152,14 @@ from .p1r43_rho_free_target import (
     select_p1r43_target_proposal,
 )
 from .p1r43_full_strength_routing import solve_p1r43_full_strength_routing
+from .p1r51_requestwise_semantic_allocation import (
+    P1R51ControllerState,
+    P1R51_INSTRUCTION_ID,
+    P1R51_METHOD_ID,
+    prepare_p1r51_rescue_proposal,
+    prepare_p1r51_target_proposal,
+    select_p1r51_target_proposal,
+)
 
 
 P1R23_SCHEMA = "ode-edit-s05-p1r23-scalable-batched-runtime"
@@ -262,6 +270,7 @@ def _run_ode_arm(
     p1r39: bool = False,
     p1r42: bool = False,
     p1r43: bool = False,
+    p1r51: bool = False,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
@@ -302,8 +311,20 @@ def _run_ode_arm(
         or arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT)
     ):
         raise ODEBFContractError("P1R43 rho-free semantic-first path differs")
+    if p1r51 and (
+        not p1r35
+        or p1r38
+        or p1r39
+        or p1r42
+        or p1r43
+        or allocation not in ("RS",)
+        or arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT)
+    ):
+        raise ODEBFContractError("P1R51 request-wise allocation path differs")
     arm_label = (
-        f"PR-P1R43-RHO-FREE-SEMANTIC-FIRST-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
+        f"P1R43-RSA-A1-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
+        if p1r51
+        else f"PR-P1R43-RHO-FREE-SEMANTIC-FIRST-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r43
         else f"PR-P1R42-OBJECTIVE-ALIGNED-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r42
@@ -355,6 +376,7 @@ def _run_ode_arm(
     p1r39_state = P1R39ControllerState.zero(current_target) if p1r39 else None
     p1r42_state = P1R42ControllerState.zero(current_target) if p1r42 else None
     p1r43_state = P1R43ControllerState.zero(current_target) if p1r43 else None
+    p1r51_state = P1R51ControllerState.zero(current_target) if p1r51 else None
     p1r24_target_lock = P1R24AliasTargetLock.for_alias(alias) if p1r24 else None
     p1r24_alpha_geometry = (
         verify_p1r24_alphaedit_geometry(
@@ -447,7 +469,86 @@ def _run_ode_arm(
                     target_layer_name=hparams.layer_module_tmp.format(int(hparams.layers[-1])),
                 )
                 _phase_add_objective(compute, "target_kl_gradient", kl_result, target=True)
-                if p1r43:
+                if p1r51:
+                    assert p1r51_state is not None
+                    proposal51 = prepare_p1r51_target_proposal(
+                        current_target,
+                        current_terminal,
+                        target_result,
+                        p1r51_state,
+                        alias=alias,
+                        step_index=step_index,
+                        shared_speed=float(metric.shared_speed),
+                    )
+                    endpoint_started = time.perf_counter()
+                    primary_state = proposal51.primary_step.target_next.detach().to(
+                        device=next(model.parameters()).device, dtype=torch.float32
+                    )
+                    primary_endpoint = evaluate_scalable_target_new_objective(
+                        model,
+                        objective_plan,
+                        target_state=primary_state,
+                        current_terminal=current_terminal,
+                        target_layer_name=hparams.layer_module_tmp.format(
+                            int(hparams.layers[-1])
+                        ),
+                        target_gradient_required=False,
+                    )
+                    compute.add_wall(
+                        "finite_demand_endpoint_forward",
+                        time.perf_counter() - endpoint_started,
+                    )
+                    _phase_add_objective(
+                        compute, "finite_demand_endpoint_forward", primary_endpoint
+                    )
+                    rescue51 = prepare_p1r51_rescue_proposal(
+                        proposal51,
+                        current_target,
+                        current_terminal,
+                        target_result,
+                        primary_endpoint,
+                        step_index=step_index,
+                    )
+                    rescue_endpoint = None
+                    if rescue51.rescue_step is not None:
+                        rescue_started = time.perf_counter()
+                        rescue_state = rescue51.rescue_step.target_next.detach().to(
+                            device=next(model.parameters()).device,
+                            dtype=torch.float32,
+                        )
+                        rescue_endpoint = evaluate_scalable_target_new_objective(
+                            model,
+                            objective_plan,
+                            target_state=rescue_state,
+                            current_terminal=current_terminal,
+                            target_layer_name=hparams.layer_module_tmp.format(
+                                int(hparams.layers[-1])
+                            ),
+                            target_gradient_required=False,
+                        )
+                        compute.add_wall(
+                            "scalar_corrector_endpoint_forward",
+                            time.perf_counter() - rescue_started,
+                        )
+                        _phase_add_objective(
+                            compute,
+                            "scalar_corrector_endpoint_forward",
+                            rescue_endpoint,
+                        )
+                    selected51 = select_p1r51_target_proposal(
+                        proposal51,
+                        rescue51,
+                        current_target,
+                        current_terminal,
+                        target_result,
+                        primary_endpoint,
+                        rescue_endpoint,
+                        step_index=step_index,
+                    )
+                    p1r51_state = selected51.next_state
+                    target_step = selected51.target_step
+                    finite_endpoint = selected51.selected_endpoint
+                elif p1r43:
                     assert p1r43_state is not None
                     proposal43 = prepare_p1r43_target_proposal(
                         current_target,
@@ -826,7 +927,7 @@ def _run_ode_arm(
                     "candidate_objective_inner_count": 0,
                     "linearization_error": actual - float(pending["predicted"]),
                 }
-                if p1r42 or p1r43:
+                if p1r42 or p1r43 or p1r51:
                     source_values = tuple(
                         float(value)
                         for value in pending["source_per_request_nll"]
@@ -854,14 +955,26 @@ def _run_ode_arm(
                     )
                     realization = {
                         "schema": (
-                            "ode-edit-s05-p1r43-requestwise-w-only-realization/v1"
+                            "ode-edit-s05-p1r51-rsa-a1-requestwise-w-only-realization/v1"
+                            if p1r51
+                            else "ode-edit-s05-p1r43-requestwise-w-only-realization/v1"
                             if p1r43
                             else "ode-edit-s05-p1r42-requestwise-w-only-realization/v1"
                         ),
                         "instruction_id": (
-                            P1R43_INSTRUCTION_ID if p1r43 else P1R42_INSTRUCTION_ID
+                            P1R51_INSTRUCTION_ID
+                            if p1r51
+                            else P1R43_INSTRUCTION_ID
+                            if p1r43
+                            else P1R42_INSTRUCTION_ID
                         ),
-                        "method_id": P1R43_METHOD_ID if p1r43 else P1R42_METHOD_ID,
+                        "method_id": (
+                            P1R51_METHOD_ID
+                            if p1r51
+                            else P1R43_METHOD_ID
+                            if p1r43
+                            else P1R42_METHOD_ID
+                        ),
                         "transition_index": int(pending["step_index"]) + 1,
                         "source_w_only_target_new_nll_by_request": list(
                             source_values
@@ -956,7 +1069,7 @@ def _run_ode_arm(
                     arm=arm,
                     alpha_req=alpha_req,
                 )
-                if p1r43
+                if p1r43 or p1r51
                 else solve_p1r24_matched_routing(
                     routing_problem,
                     arm=arm,
@@ -1055,7 +1168,7 @@ def _run_ode_arm(
                         "linearization_error": actual - predicted,
                     }
                 )
-                if p1r42 or p1r43:
+                if p1r42 or p1r43 or p1r51:
                     source_values = tuple(
                         float(value) for value in slope_result.per_request_values
                     )
@@ -1084,14 +1197,26 @@ def _run_ode_arm(
                     )
                     realization = {
                         "schema": (
-                            "ode-edit-s05-p1r43-requestwise-w-only-realization/v1"
+                            "ode-edit-s05-p1r51-rsa-a1-requestwise-w-only-realization/v1"
+                            if p1r51
+                            else "ode-edit-s05-p1r43-requestwise-w-only-realization/v1"
                             if p1r43
                             else "ode-edit-s05-p1r42-requestwise-w-only-realization/v1"
                         ),
                         "instruction_id": (
-                            P1R43_INSTRUCTION_ID if p1r43 else P1R42_INSTRUCTION_ID
+                            P1R51_INSTRUCTION_ID
+                            if p1r51
+                            else P1R43_INSTRUCTION_ID
+                            if p1r43
+                            else P1R42_INSTRUCTION_ID
                         ),
-                        "method_id": P1R43_METHOD_ID if p1r43 else P1R42_METHOD_ID,
+                        "method_id": (
+                            P1R51_METHOD_ID
+                            if p1r51
+                            else P1R43_METHOD_ID
+                            if p1r43
+                            else P1R42_METHOD_ID
+                        ),
                         "transition_index": P1R23_GRID_COUNT,
                         "source_w_only_target_new_nll_by_request": list(
                             source_values
@@ -1201,7 +1326,9 @@ def _run_ode_arm(
                 "inner_step_heldout_evaluation_count": 0,
                 "retry_backtracking_reject_count": 0,
                 "routing_method": (
-                    P1R43_METHOD_ID
+                    P1R51_METHOD_ID
+                    if p1r51
+                    else P1R43_METHOD_ID
                     if p1r43
                     else P1R42_METHOD_ID
                     if p1r42
@@ -1226,7 +1353,9 @@ def _run_ode_arm(
                 "persistent_historical_ledger_count": 0,
                 "historical_h_decision_influence_count": 0,
                 "per_request_target_controller": (
-                    P1R43_METHOD_ID
+                    P1R51_METHOD_ID
+                    if p1r51
+                    else P1R43_METHOD_ID
                     if p1r43
                     else P1R42_METHOD_ID
                     if p1r42
@@ -1274,7 +1403,7 @@ def _run_ode_arm(
                                 target_receipt["semantic_held_mask"]
                             ),
                         }
-                        if p1r42 or p1r43
+                        if p1r42 or p1r43 or p1r51
                         else {}
                     ),
                 }
@@ -1288,9 +1417,9 @@ def _run_ode_arm(
             )
         if pending is not None or len(accepted) != 8 or len(delayed) != 7:
             raise ODEBFStateError("P1R23 K8 delayed accounting differs")
-        if (p1r42 or p1r43) and len(request_realization_sha256) != P1R23_GRID_COUNT:
+        if (p1r42 or p1r43 or p1r51) and len(request_realization_sha256) != P1R23_GRID_COUNT:
             raise ODEBFStateError("requestwise realization ledger differs")
-        if not (p1r42 or p1r43) and request_realization_sha256:
+        if not (p1r42 or p1r43 or p1r51) and request_realization_sha256:
             raise ODEBFStateError("unexpected requestwise realization ledger is active")
         terminal_replay = _controller_replay_entry(
             model,
@@ -1344,7 +1473,9 @@ def _run_ode_arm(
         rollout_payload = {
             "arm": arm_label,
             "status": (
-                "P1R43_RHO_FREE_SEMANTIC_FIRST_K8_COMPLETE"
+                "P1R51_RSA_A1_K8_COMPLETE"
+                if p1r51
+                else "P1R43_RHO_FREE_SEMANTIC_FIRST_K8_COMPLETE"
                 if p1r43
                 else "P1R42_OBJECTIVE_ALIGNED_P1R35_K8_COMPLETE"
                 if p1r42
@@ -1376,7 +1507,7 @@ def _run_ode_arm(
             "terminal_functional": terminal_functional,
             "terminal_z8_oracle": terminal_oracle,
             "requestwise_realization_sha256": (
-                request_realization_sha256 if p1r42 or p1r43 else []
+                request_realization_sha256 if p1r42 or p1r43 or p1r51 else []
             ),
             "terminal_cumulative_structural_p": (
                 accepted[-1]["cumulative_atomic_structural_p"]
@@ -1392,7 +1523,9 @@ def _run_ode_arm(
             "initial_w0_sha256": initial_w0,
             "alphaedit_target_geometry": p1r24_alpha_geometry,
             "instruction_id": (
-                P1R43_INSTRUCTION_ID
+                P1R51_INSTRUCTION_ID
+                if p1r51
+                else P1R43_INSTRUCTION_ID
                 if p1r43
                 else P1R42_INSTRUCTION_ID
                 if p1r42
@@ -1408,7 +1541,9 @@ def _run_ode_arm(
                 else P1R23_INSTRUCTION_ID
             ),
             "method_id": (
-                P1R43_METHOD_ID
+                P1R51_METHOD_ID
+                if p1r51
+                else P1R43_METHOD_ID
                 if p1r43
                 else P1R42_METHOD_ID
                 if p1r42

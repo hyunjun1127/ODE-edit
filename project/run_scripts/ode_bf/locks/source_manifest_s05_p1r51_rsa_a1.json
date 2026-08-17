@@ -1,0 +1,29 @@
+{
+  "entries": [
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r51_rsa_a1.json", "sha256": "f9908c400a70c1f2e6bb6e0487a1848c2243d6c6194d14a4b6c940719beb9867", "size": 2019},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1_runtime.py", "sha256": "d10c0ba5c6573ff3a6f4dc8c805042d3eb99ea222de200a780ce9bd7fbd874bf", "size": 223087},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py", "sha256": "2b782fa13c3ce50b70cb2a62b986faa38a1f895cdf90bf76557d3750acf48379", "size": 115371},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1r36_independent_b10x10_runtime.py", "sha256": "c6a37882c402e3e80942a35631ab51e4a7cd618bbf8bce475d4c81a70cb8ec0f", "size": 34825},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1r43_full_strength_routing.py", "sha256": "3e3cf13c734a5fd7812fc239bae9047654a55f2ccbe4c51031b504a13bde7b6c", "size": 4836},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1r43_independent_b10x10_runtime.py", "sha256": "1f22d1be11559b35d6abf6aa2f52e80167ca625f023206fe871c065dd96bb572", "size": 9345},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1r43_rho_free_target.py", "sha256": "1ae22bfd058853b763b6bb81e669516e355ef90be69cdbcf6f6acaf2956e54f6", "size": 18121},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1r51_independent_panel.py", "sha256": "0e121ccf2486e5903eaa2cd4c5ae6de6c0f6287b945b46379b13013dea6eecd8", "size": 3201},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1r51_independent_runtime.py", "sha256": "a1d0b39576e74f23b2925bf4ab313af76bdb0329cd3cd61c9790feb8224d6517", "size": 8942},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/p1r51_requestwise_semantic_allocation.py", "sha256": "aa678f9898126d62ee41cbc45f7e0a4d95232e4a7522ae88fc10e695f29f6a8e", "size": 17506},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/tests/test_p1r51_execution_contract.py", "sha256": "5e6ef19db5f1b3e829f06a356ee4e74f4b9ce6652bceef7254b88d07d4b85a94", "size": 3352},
+    {"mode": "0600", "path": "project/run_scripts/ode_bf/tests/test_p1r51_requestwise_semantic_allocation.py", "sha256": "763dd2158e76d2a8894816dee47b13d8cd6c9df3a1f168b04caf123e1d28becb", "size": 8364},
+    {"mode": "0600", "path": "project/run_scripts/session05_ode_bf_p1r51_rsa_a1.py", "sha256": "6f6d4f0fe258b9b4611082b39f6838825b4c6f7cceb228b25b7b725aa3b82fb9", "size": 5279},
+    {"mode": "0600", "path": "project/run_scripts/session05_ode_bf_p1r51_rsa_a1.sbatch", "sha256": "4ff7484ec6e3d46036d6fcf085d1d676575b34324686a8fd591662781d735b15", "size": 3130},
+    {"mode": "0600", "path": "project/run_scripts/session05_ode_bf_p1r51_rsa_a1_dry_plan.py", "sha256": "ad72dfb324eb3f3bc35b8c333e199acbd0f2bb985614233a0291e92c6628b3a6", "size": 2549},
+    {"mode": "0600", "path": "project/run_scripts/session05_ode_bf_submit_p1r51_rsa_a1.py", "sha256": "93ee2fc5b0b24a72ef07d1812ec5afc3606f01c76e13c31c606471029bc90b2e", "size": 6803}
+  ],
+  "instruction_id": "ODEEDIT-S05-P1R51-P1R43-REQUESTWISE-SEMANTIC-ALLOCATION-A1-V1",
+  "parent": "11508b6da11d606521b703037034e1814b70d8a8",
+  "parent_tree": "a0e71bbb27cf36b3b51bf6cde4c92cdc9a47879b",
+  "protected_p1r43_blobs": {
+    "project/run_scripts/ode_bf/p1r43_full_strength_routing.py": "f58741eaf04d1523950953eeec88fcb81f30332f",
+    "project/run_scripts/ode_bf/p1r43_rho_free_target.py": "63f64e17d96ff8887d4655614f091c63268310ff"
+  },
+  "root_digest": "b46f94d4dfa98bccc48f09819d9f1c77687a0c6a60913313cca03b1b6f070443",
+  "schema_version": "ode-edit-s05-p1r51-rsa-a1-source-manifest/v1"
+}

@@ -39,6 +39,10 @@ from .p1r39_normalized_gradient_target import P1R39_INSTRUCTION_ID, P1R39_METHOD
 from .p1r42_objective_aligned_target import P1R42_INSTRUCTION_ID, P1R42_METHOD_ID
 from .p1r43_rho_free_target import P1R43_INSTRUCTION_ID, P1R43_METHOD_ID
 from .p1r43_full_strength_routing import P1R43SemanticNoPositiveDirection
+from .p1r51_requestwise_semantic_allocation import (
+    P1R51_INSTRUCTION_ID,
+    P1R51_METHOD_ID,
+)
 from .scalable_batched_model import (
     build_scalable_capture_plan,
     build_scalable_objective_plan,
@@ -130,6 +134,7 @@ def _case_failure(
     p1r39: bool = False,
     p1r42: bool = False,
     p1r43: bool = False,
+    p1r51: bool = False,
 ) -> dict[str, Any]:
     classification = (
         "SCIENTIFIC_FAIL"
@@ -142,7 +147,9 @@ def _case_failure(
     )
     payload = {
         "schema": (
-            "ode-edit-s05-p1r43-rho-free-independent-b10-case-failure/v1"
+            "ode-edit-s05-p1r51-rsa-a1-independent-b10-case-failure/v1"
+            if p1r51
+            else "ode-edit-s05-p1r43-rho-free-independent-b10-case-failure/v1"
             if p1r43
             else "ode-edit-s05-p1r42-objective-alignment-independent-b10-case-failure/v1"
             if p1r42
@@ -155,7 +162,9 @@ def _case_failure(
             else "ode-edit-s05-p1r35-independent-b10-case-failure/v1"
         ),
         "instruction_id": (
-            P1R43_INSTRUCTION_ID
+            P1R51_INSTRUCTION_ID
+            if p1r51
+            else P1R43_INSTRUCTION_ID
             if p1r43
             else P1R42_INSTRUCTION_ID
             if p1r42
@@ -196,10 +205,13 @@ def _case_freeze(
     p1r39: bool = False,
     p1r42: bool = False,
     p1r43: bool = False,
+    p1r51: bool = False,
 ) -> dict[str, Any]:
     payload = {
         "schema": (
-            "ode-edit-s05-p1r43-rho-free-independent-b10-action-freeze/v1"
+            "ode-edit-s05-p1r51-rsa-a1-independent-b10-action-freeze/v1"
+            if p1r51
+            else "ode-edit-s05-p1r43-rho-free-independent-b10-action-freeze/v1"
             if p1r43
             else "ode-edit-s05-p1r42-objective-alignment-independent-b10-action-freeze/v1"
             if p1r42
@@ -212,7 +224,9 @@ def _case_freeze(
             else "ode-edit-s05-p1r35-independent-b10-action-freeze/v1"
         ),
         "instruction_id": (
-            P1R43_INSTRUCTION_ID
+            P1R51_INSTRUCTION_ID
+            if p1r51
+            else P1R43_INSTRUCTION_ID
             if p1r43
             else P1R42_INSTRUCTION_ID
             if p1r42
@@ -252,6 +266,10 @@ def _evaluate_p1r43_terminal_panels(
     terminal_target: torch.Tensor,
     terminal_physical: Any,
     terminal_factors: Mapping[str, Any],
+    instruction_id: str = P1R43_INSTRUCTION_ID,
+    method_id: str = P1R43_METHOD_ID,
+    schema: str = "ode-edit-s05-p1r43-terminal-four-panel/v1",
+    trajectory_status: str = "ACTION_FROZEN_P1R43_K8",
 ) -> tuple[dict[str, Any], float]:
     """Evaluate W and terminal z-injection panels after action freeze."""
 
@@ -284,7 +302,7 @@ def _evaluate_p1r43_terminal_panels(
         snapshot_index=P1R23_GRID_COUNT,
         accepted_snapshot_count=P1R23_GRID_COUNT + 1,
         rejected_retry_count=0,
-        trajectory_status="ACTION_FROZEN_P1R43_K8",
+        trajectory_status=trajectory_status,
     )
     started = time.perf_counter()
     with ExitStack() as stack:
@@ -308,9 +326,9 @@ def _evaluate_p1r43_terminal_panels(
     weight_payload = weight.raw_free_payload()
     z_inject_payload = z_inject.raw_free_payload()
     payload = {
-        "schema": "ode-edit-s05-p1r43-terminal-four-panel/v1",
-        "instruction_id": P1R43_INSTRUCTION_ID,
-        "method_id": P1R43_METHOD_ID,
+        "schema": schema,
+        "instruction_id": instruction_id,
+        "method_id": method_id,
         "action_freeze_sha256": freeze.identity(),
         "weight": weight_payload,
         "z_inject": z_inject_payload,
@@ -377,6 +395,7 @@ def _run_ode_case(
     p1r39: bool = False,
     p1r42: bool = False,
     p1r43: bool = False,
+    p1r51: bool = False,
     technical_smoke: bool = False,
 ) -> dict[str, Any]:
     if len(requests) != (1 if technical_smoke else BATCH_SIZE):
@@ -444,8 +463,14 @@ def _run_ode_case(
         "PR-P1R43-RHO-FREE-SEMANTIC-FIRST-NEUTRAL",
         "PR-P1R43-RHO-FREE-SEMANTIC-FIRST-SOFT",
     )
+    p1r51_methods = (
+        "P1R43-RSA-A1-NEUTRAL",
+        "P1R43-RSA-A1-SOFT",
+    )
     if method not in (
-        p1r43_methods
+        p1r51_methods
+        if p1r51
+        else p1r43_methods
         if p1r43
         else p1r42_methods
         if p1r42
@@ -456,7 +481,7 @@ def _run_ode_case(
         else METHODS
     ):
         raise ODEBFContractError("independent method differs")
-    allocation = "RS" if p1r38 or p1r39 or p1r42 or p1r43 else method.split("-", 1)[0]
+    allocation = "RS" if p1r38 or p1r39 or p1r42 or p1r43 or p1r51 else method.split("-", 1)[0]
     arm = (
         FixedE8Arm.NEUTRAL
         if method.endswith("-NEUTRAL")
@@ -507,12 +532,15 @@ def _run_ode_case(
         p1r39=p1r39,
         p1r42=p1r42,
         p1r43=p1r43,
+        p1r51=p1r51,
     )
     public = rollout["public"]
     if (
         public["status"]
         != (
-            "P1R43_RHO_FREE_SEMANTIC_FIRST_K8_COMPLETE"
+            "P1R51_RSA_A1_K8_COMPLETE"
+            if p1r51
+            else "P1R43_RHO_FREE_SEMANTIC_FIRST_K8_COMPLETE"
             if p1r43
             else "P1R38_PR_P1R35_K8_COMPLETE"
             if p1r38
@@ -536,9 +564,9 @@ def _run_ode_case(
             expected_contract=public["initial_w0_sha256"],
         )
         terminal = {
-            "schema": "ode-edit-s05-p1r43-rho-free-b1-technical-terminal/v1" if p1r43 else "ode-edit-s05-p1r42-objective-alignment-b1-technical-terminal/v1" if p1r42 else "ode-edit-s05-p1r39-normalized-gradient-b1-technical-terminal/v1" if p1r39 else "ode-edit-s05-p1r38-perrequest-b1-technical-terminal/v1",
-            "instruction_id": P1R43_INSTRUCTION_ID if p1r43 else P1R42_INSTRUCTION_ID if p1r42 else P1R39_INSTRUCTION_ID if p1r39 else "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1",
-            "method_id": P1R43_METHOD_ID if p1r43 else P1R42_METHOD_ID if p1r42 else P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID,
+            "schema": "ode-edit-s05-p1r51-rsa-a1-b1-technical-terminal/v1" if p1r51 else "ode-edit-s05-p1r43-rho-free-b1-technical-terminal/v1" if p1r43 else "ode-edit-s05-p1r42-objective-alignment-b1-technical-terminal/v1" if p1r42 else "ode-edit-s05-p1r39-normalized-gradient-b1-technical-terminal/v1" if p1r39 else "ode-edit-s05-p1r38-perrequest-b1-technical-terminal/v1",
+            "instruction_id": P1R51_INSTRUCTION_ID if p1r51 else P1R43_INSTRUCTION_ID if p1r43 else P1R42_INSTRUCTION_ID if p1r42 else P1R39_INSTRUCTION_ID if p1r39 else "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1",
+            "method_id": P1R51_METHOD_ID if p1r51 else P1R43_METHOD_ID if p1r43 else P1R42_METHOD_ID if p1r42 else P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID,
             "case_index": case_index,
             "alias": alias,
             "method": method,
@@ -552,7 +580,7 @@ def _run_ode_case(
         terminal["identity_sha256"] = canonical_hash(terminal)
         terminal_sha = _atomic_write_once(case_root / "terminal.json", terminal)
         manifest = {
-            "schema": "ode-edit-s05-p1r43-rho-free-b1-technical-manifest/v1" if p1r43 else "ode-edit-s05-p1r42-objective-alignment-b1-technical-manifest/v1" if p1r42 else "ode-edit-s05-p1r39-normalized-gradient-b1-technical-manifest/v1" if p1r39 else "ode-edit-s05-p1r38-perrequest-b1-technical-manifest/v1",
+            "schema": "ode-edit-s05-p1r51-rsa-a1-b1-technical-manifest/v1" if p1r51 else "ode-edit-s05-p1r43-rho-free-b1-technical-manifest/v1" if p1r43 else "ode-edit-s05-p1r42-objective-alignment-b1-technical-manifest/v1" if p1r42 else "ode-edit-s05-p1r39-normalized-gradient-b1-technical-manifest/v1" if p1r39 else "ode-edit-s05-p1r38-perrequest-b1-technical-manifest/v1",
             "terminal_sha256": terminal_sha,
             "W0_restored": True,
             "K8": True,
@@ -583,6 +611,7 @@ def _run_ode_case(
         p1r39=p1r39,
         p1r42=p1r42,
         p1r43=p1r43,
+        p1r51=p1r51,
     )
     freeze_sha = _atomic_write_once(case_root / "action-freeze.json", freeze)
     cases, evaluator_freeze = _action_frozen_cases(
@@ -593,7 +622,7 @@ def _run_ode_case(
         fixed_budget_slots_completed=P1R23_GRID_COUNT,
     )
     terminal_four_panel = None
-    if p1r43:
+    if p1r43 or p1r51:
         terminal_four_panel, evaluator_wall = _evaluate_p1r43_terminal_panels(
             model,
             tokenizer,
@@ -607,6 +636,18 @@ def _run_ode_case(
             terminal_target=rollout["terminal_target"],
             terminal_physical=rollout["terminal_physical"],
             terminal_factors=rollout["terminal_factors"],
+            instruction_id=P1R51_INSTRUCTION_ID if p1r51 else P1R43_INSTRUCTION_ID,
+            method_id=P1R51_METHOD_ID if p1r51 else P1R43_METHOD_ID,
+            schema=(
+                "ode-edit-s05-p1r51-rsa-a1-terminal-four-panel/v1"
+                if p1r51
+                else "ode-edit-s05-p1r43-terminal-four-panel/v1"
+            ),
+            trajectory_status=(
+                "ACTION_FROZEN_P1R51_RSA_A1_K8"
+                if p1r51
+                else "ACTION_FROZEN_P1R43_K8"
+            ),
         )
         endpoint = {
             "receipt": terminal_four_panel["weight"],
@@ -632,7 +673,9 @@ def _run_ode_case(
     history_off = _history_off_receipt()
     terminal = {
         "schema": (
-            "ode-edit-s05-p1r43-rho-free-independent-b10-ode-terminal/v1"
+            "ode-edit-s05-p1r51-rsa-a1-independent-b10-ode-terminal/v1"
+            if p1r51
+            else "ode-edit-s05-p1r43-rho-free-independent-b10-ode-terminal/v1"
             if p1r43
             else "ode-edit-s05-p1r42-objective-alignment-independent-b10-ode-terminal/v1"
             if p1r42
@@ -645,7 +688,9 @@ def _run_ode_case(
             else "ode-edit-s05-p1r35-independent-b10-ode-terminal/v1"
         ),
         "instruction_id": (
-            P1R43_INSTRUCTION_ID
+            P1R51_INSTRUCTION_ID
+            if p1r51
+            else P1R43_INSTRUCTION_ID
             if p1r43
             else P1R42_INSTRUCTION_ID
             if p1r42
@@ -656,15 +701,15 @@ def _run_ode_case(
             if p1r38
             else INSTRUCTION_ID
         ),
-        "method_id": P1R43_METHOD_ID if p1r43 else P1R42_METHOD_ID if p1r42 else P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID if p1r38 else P1R35_METHOD_ID,
+        "method_id": P1R51_METHOD_ID if p1r51 else P1R43_METHOD_ID if p1r43 else P1R42_METHOD_ID if p1r42 else P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID if p1r38 else P1R35_METHOD_ID,
         "case_index": case_index,
         "alias": alias,
         "method": method,
         "allocation": (
-            "NOT_AN_EXPERIMENT_FACTOR" if p1r38 or p1r39 or p1r42 or p1r43 else allocation
+            "NOT_AN_EXPERIMENT_FACTOR" if p1r38 or p1r39 or p1r42 or p1r43 or p1r51 else allocation
         ),
         "inherited_writer_router_family": (
-            "P1R42_RS_FULL_CURRENT" if p1r43 else "P1R35_RS" if p1r38 or p1r39 or p1r42 else allocation
+            "P1R43_RS_FULL_CURRENT" if p1r51 else "P1R42_RS_FULL_CURRENT" if p1r43 else "P1R35_RS" if p1r38 or p1r39 or p1r42 else allocation
         ),
         "arm": arm.value,
         "request_count": BATCH_SIZE,
@@ -689,7 +734,9 @@ def _run_ode_case(
     terminal_sha = _atomic_write_once(case_root / "terminal.json", terminal)
     manifest = {
         "schema": (
-            "ode-edit-s05-p1r43-rho-free-independent-b10-case-manifest/v1"
+            "ode-edit-s05-p1r51-rsa-a1-independent-b10-case-manifest/v1"
+            if p1r51
+            else "ode-edit-s05-p1r43-rho-free-independent-b10-case-manifest/v1"
             if p1r43
             else "ode-edit-s05-p1r42-objective-alignment-independent-b10-case-manifest/v1"
             if p1r42
