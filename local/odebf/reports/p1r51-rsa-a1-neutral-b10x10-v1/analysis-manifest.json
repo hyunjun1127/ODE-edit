@@ -1,0 +1,56 @@
+{
+  "file_count": 6,
+  "files": [
+    {
+      "bytes": 463846,
+      "lines": 10247,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-neutral-b10x10-v1/p1r51-rsa-a1-neutral-b10x10-per-case-paired.json",
+      "row_count": 20,
+      "sha256": "f9ba29e62de86f8ee71e355e89c7f99903890d373f04dff4d4da05fa7f63d747"
+    },
+    {
+      "bytes": 809898,
+      "lines": 20807,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-neutral-b10x10-v1/p1r51-rsa-a1-neutral-b10x10-per-step-paired.json",
+      "row_count": 160,
+      "sha256": "c05af59d4b109065023d2089f78f4c7c5f5540432b21395b7ba9928e7e5b11f1"
+    },
+    {
+      "bytes": 3784630,
+      "lines": 99207,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-neutral-b10x10-v1/p1r51-rsa-a1-neutral-b10x10-per-request-paired.json",
+      "row_count": 1600,
+      "sha256": "ca7863c5c3f2074c9cf8fc796c191ebe5fb9370cc1804173b021c84b0cb62936"
+    },
+    {
+      "bytes": 143826,
+      "lines": 2121,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-neutral-b10x10-v1/p1r51-rsa-a1-neutral-b10x10-integrity.json",
+      "row_count": null,
+      "sha256": "b6010c2307e3c2d5b5549f7284014daa3b8556fbe424603c182bbcd51150d11f"
+    },
+    {
+      "bytes": 2931,
+      "lines": 103,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-neutral-b10x10-v1/p1r51-rsa-a1-neutral-b10x10-soft-trigger.json",
+      "row_count": null,
+      "sha256": "27f3c6cd96b44f9ea6105838d9a54626a2b7c1b8fad3eca7d6f4450206796683"
+    },
+    {
+      "bytes": 3699,
+      "lines": 48,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-neutral-b10x10-v1/p1r51-rsa-a1-neutral-b10x10-review-ko.md",
+      "row_count": null,
+      "sha256": "8d36509bdfe4e804ecc72c5349d46a0f5bd46bd57de9d7f4a2b6e314edbf99e6"
+    }
+  ],
+  "parent_head": "11508b6da11d606521b703037034e1814b70d8a8",
+  "parent_tree": "a0e71bbb27cf36b3b51bf6cde4c92cdc9a47879b",
+  "phase_d_soft_trigger": "RELEASE",
+  "root_digest": "9abb8a489657097ba0911de4214f12bb1058f14690fabed4cbd691b2b1bfe344",
+  "schema": "ode-edit-s05-p1r51-rsa-a1-neutral-b10x10-analysis-manifest/v1",
+  "scientific_promotion": false,
+  "source_head": "9b4a88b73bd0c0fdd0b1470d77ea4354bd0e3486",
+  "source_tree": "4a3b5e2dbd7e15bf8da32117c25fd88ec2eaafc7",
+  "technical_gate": "PASS"
+}

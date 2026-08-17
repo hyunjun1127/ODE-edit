@@ -1,0 +1,87 @@
+{
+  "questions": {
+    "A": {
+      "answer": "PARTIAL_SUPPORTED",
+      "facts": {
+        "llama3-8b-inst": {
+          "Neutral": {
+            "denominator": 100,
+            "hard_sample_supported_count": 5
+          },
+          "Soft": {
+            "denominator": 100,
+            "hard_sample_supported_count": 5
+          }
+        },
+        "qwen2.5-7b-inst": {
+          "Neutral": {
+            "denominator": 100,
+            "hard_sample_supported_count": 6
+          },
+          "Soft": {
+            "denominator": 100,
+            "hard_sample_supported_count": 6
+          }
+        }
+      },
+      "question": "hard samples에 RSA energy가 배정되고 terminal target NLL이 감소했는가?"
+    },
+    "B": {
+      "answer": "STEPWISE_RECORDED_REQUESTWISE_ZERO_BY_EXACT_CUMULATIVE_CRITERION",
+      "facts": {
+        "llama3-8b-inst": {
+          "Neutral": 0,
+          "Soft": 0
+        },
+        "qwen2.5-7b-inst": {
+          "Neutral": 0,
+          "Soft": 0
+        }
+      },
+      "question": "높은 RSA share에도 progress가 약한 direction-limited request가 남았는가?"
+    },
+    "C": {
+      "answer": "CONTEXT_GENERALIZATION_LIMITED",
+      "facts": {
+        "llama3-8b-inst": {
+          "Neutral": 14,
+          "Soft": 14
+        },
+        "qwen2.5-7b-inst": {
+          "Neutral": 33,
+          "Soft": 35
+        }
+      },
+      "question": "train target strength가 context generalization까지 이어졌는가?"
+    },
+    "D": {
+      "answer": "WRITER_LIMITED_REQUESTS_RECORDED",
+      "facts": {
+        "llama3-8b-inst": {
+          "Neutral": 2,
+          "Soft": 1
+        },
+        "qwen2.5-7b-inst": {
+          "Neutral": 7,
+          "Soft": 3
+        }
+      },
+      "question": "z 성공을 W가 모두 실현했는가?"
+    },
+    "E": {
+      "answer": "MIXED_PARETO",
+      "facts": "combined comparison의 Soft-minus-Neutral continuous strength/count/Loc/P/capacity/energy를 함께 사용",
+      "question": "Soft는 same-strength 구간에서 P/capacity/energy 및 preservation을 개선했는가?"
+    },
+    "F": {
+      "answer": "A1_PARTIAL",
+      "facts": "target/hard-tail continuous improvement + energy conservation; z-Gen count non-improvement와 일부 writer limitation 공존",
+      "question": "A1 최종 positive/partial/negative 분류는 무엇인가?"
+    },
+    "causal_boundary": "cohort overlap/count는 raw-free association이며 causal correlation claim이 아니다",
+    "existing_four_hard_ids": "NOT_RECORDED"
+  },
+  "questions_root": "84956491c0b0d74552db9c375214957d58be1efd74c0b273a7b2e313b89a89be",
+  "row_count": 6,
+  "schema": "ode-edit-s05-p1r51-rsa-a1-final-af-questions/v1"
+}

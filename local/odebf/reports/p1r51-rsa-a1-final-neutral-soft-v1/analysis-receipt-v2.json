@@ -1,0 +1,104 @@
+{
+  "canonical_final": true,
+  "failure_taxonomy": {
+    "llama3-8b-inst": {
+      "extra_allocation_no_improvement": {
+        "Neutral": 0,
+        "Soft": 0
+      },
+      "failure_A": "UNDER_ALLOCATION_COMPONENT_REDUCED_SIGNAL",
+      "failure_B": "NO_REPEATED_SIGNAL",
+      "failure_C": "FAILURE_C_SIGNAL",
+      "failure_D": "NOT_OBSERVED",
+      "flat_gradient": {
+        "Neutral": 0,
+        "Soft": 0
+      },
+      "gap_delta": {
+        "Neutral": -0.04511409944971091,
+        "Soft": -0.07152440763195045
+      },
+      "hard_tail": {
+        "Neutral": {
+          "count": 10,
+          "improved_count": 10,
+          "mean_delta": -1.1015780251589604
+        },
+        "Soft": {
+          "count": 10,
+          "improved_count": 9,
+          "mean_delta": -0.6669258640613407
+        }
+      },
+      "w8_delta": {
+        "Neutral": -0.21667128211818634,
+        "Soft": -0.18517578734084963
+      },
+      "z_gen_delta": {
+        "Neutral": 1,
+        "Soft": -1
+      }
+    },
+    "qwen2.5-7b-inst": {
+      "extra_allocation_no_improvement": {
+        "Neutral": 20,
+        "Soft": 19
+      },
+      "failure_A": "UNDER_ALLOCATION_COMPONENT_REDUCED_SIGNAL",
+      "failure_B": "RESIDUAL_POOR_DIRECTION_CASES_RECORDED",
+      "failure_C": "FAILURE_C_SIGNAL",
+      "failure_D": "FAILURE_D_WRITER_REALIZATION_SIGNAL_IN_NEUTRAL",
+      "flat_gradient": {
+        "Neutral": 0,
+        "Soft": 0
+      },
+      "gap_delta": {
+        "Neutral": 0.3253789891999623,
+        "Soft": -0.022081453503051317
+      },
+      "hard_tail": {
+        "Neutral": {
+          "count": 10,
+          "improved_count": 7,
+          "mean_delta": -2.5519756679423153
+        },
+        "Soft": {
+          "count": 10,
+          "improved_count": 7,
+          "mean_delta": -2.6683708891272544
+        }
+      },
+      "w8_delta": {
+        "Neutral": 0.09790790158323937,
+        "Soft": -0.30735568201984276
+      },
+      "z_gen_delta": {
+        "Neutral": -3,
+        "Soft": -3
+      }
+    }
+  },
+  "input_identities_root": "f812aa731933f91c3bf487dad6c272cbb67a6bd51ef9a7e9356cf45caa9940c6",
+  "manifest": {
+    "bytes": 4080,
+    "lines": 86,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/analysis-manifest-v2.json",
+    "row_count": null,
+    "sha256": "83b1121bc3dcffc863fe40ae99cd8bf81ae3678cc26abb6ae46d17c95d55eaaf"
+  },
+  "manifest_root_digest": "c96f42e998268b376833f664f1bdba2cba35c7390ea65cded7bd496e73dc2ed6",
+  "prior_unsealed_draft_status": "SUPERSEDED_BEFORE_FINAL_SEAL_BY_FAILURE_COHORT_AMENDMENT",
+  "review_status": "PASS",
+  "reviewer_action_counts": {
+    "evaluator": 0,
+    "gpu": 0,
+    "model": 0,
+    "scientific_result_mutation": 0,
+    "scientific_source_edit": 0,
+    "slurm": 0
+  },
+  "schema": "ode-edit-s05-p1r51-rsa-a1-final-neutral-soft-analysis-receipt/v2",
+  "scientific_classification": "A1_PARTIAL",
+  "scientific_promotion": false,
+  "technical_gate": "PASS"
+}

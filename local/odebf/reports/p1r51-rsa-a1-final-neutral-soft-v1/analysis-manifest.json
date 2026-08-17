@@ -1,0 +1,84 @@
+{
+  "file_count": 10,
+  "files": [
+    {
+      "bytes": 1083464,
+      "lines": 23167,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-per-case.json",
+      "row_count": 20,
+      "sha256": "57a5879c926a27fcafe368edf02e32d19cb5207867897ed053dd1f863fec9c25"
+    },
+    {
+      "bytes": 2271889,
+      "lines": 54407,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-per-step.json",
+      "row_count": 160,
+      "sha256": "6786474c8d83f6a06310adc4b02286d254ed10c3d88cdaa06a1e728dfc0b4b8a"
+    },
+    {
+      "bytes": 11991034,
+      "lines": 283207,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-per-request.json",
+      "row_count": 1600,
+      "sha256": "d7eaa5ea54375a7d9d9cd6aef9146a895cb96ca7b58884a7de98e1d9c79f8d33"
+    },
+    {
+      "bytes": 1573870,
+      "lines": 52655,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-per-failed-request.json",
+      "row_count": 238,
+      "sha256": "8ad36f4c1d8b07bce091599a4f7d601f47ce7d1a7dbbe2890020a021344aefb1"
+    },
+    {
+      "bytes": 29728,
+      "lines": 1215,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-cohort-summary.json",
+      "row_count": 32,
+      "sha256": "5b296783e55af1dd8fc63eabcf71db6acdfc805c235be9cf95381a389d877eb0"
+    },
+    {
+      "bytes": 27203,
+      "lines": 1138,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-pattern-summary.json",
+      "row_count": 24,
+      "sha256": "1f05ad1b12fd31f3231cb7850bf8f154ca65d50764157c5fcade0aa11cf78fd4"
+    },
+    {
+      "bytes": 2638,
+      "lines": 87,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-af-questions.json",
+      "row_count": 6,
+      "sha256": "3c9e5c8ca29d159aa26d5ef25bab6d1619228ae77c1d5804a3ec321b8ee1ea4a"
+    },
+    {
+      "bytes": 42831,
+      "lines": 1113,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-combined-comparison.json",
+      "row_count": 2,
+      "sha256": "d8f287042eda079cf818f033a44e4516b217fe7b4259dcb877ee73d28fdf1a40"
+    },
+    {
+      "bytes": 290527,
+      "lines": 4366,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-integrity.json",
+      "row_count": null,
+      "sha256": "fb1b37609fe98b26c931cfc1a9d60e199ee9e276402bfb40c4a91d4e0e61de9d"
+    },
+    {
+      "bytes": 10821,
+      "lines": 119,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-neutral-soft-ko.md",
+      "row_count": null,
+      "sha256": "a3b5dbe88e39803c8416a4b6ed4a450165178c66f16a0f043668961a1f0cb49b"
+    }
+  ],
+  "parent_head": "11508b6da11d606521b703037034e1814b70d8a8",
+  "parent_tree": "a0e71bbb27cf36b3b51bf6cde4c92cdc9a47879b",
+  "root_digest": "d620479c50a4cc18d290cbc1afe88dc05a06091ce8f5361818ed36be321965d2",
+  "schema": "ode-edit-s05-p1r51-rsa-a1-final-neutral-soft-analysis-manifest/v1",
+  "scientific_classification": "A1_PARTIAL",
+  "scientific_promotion": false,
+  "source_head": "9b4a88b73bd0c0fdd0b1470d77ea4354bd0e3486",
+  "source_tree": "4a3b5e2dbd7e15bf8da32117c25fd88ec2eaafc7",
+  "technical_gate": "PASS"
+}

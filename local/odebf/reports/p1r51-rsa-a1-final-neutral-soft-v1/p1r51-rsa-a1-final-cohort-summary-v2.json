@@ -1,0 +1,1215 @@
+{
+  "row_count": 32,
+  "rows": [
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Neutral",
+      "cohort": "TERMINAL_Z_EFF_FAILURE",
+      "member_count": 0,
+      "member_rate": 0.0,
+      "representatives": [],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Neutral",
+      "cohort": "TERMINAL_Z_GEN_FAILURE",
+      "member_count": 14,
+      "member_rate": 0.14,
+      "representatives": [
+        {
+          "case": 4,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 2.101163625717163
+        },
+        {
+          "case": 3,
+          "labels": [
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 0.057930778712034225
+        },
+        {
+          "case": 8,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 1,
+          "terminal_z_nll": 0.04598855972290039
+        },
+        {
+          "case": 5,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 0.03689734265208244
+        },
+        {
+          "case": 2,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 0.03599810600280762
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Neutral",
+      "cohort": "TERMINAL_W_EFF_FAILURE",
+      "member_count": 0,
+      "member_rate": 0.0,
+      "representatives": [],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Neutral",
+      "cohort": "TERMINAL_W_GEN_FAILURE",
+      "member_count": 16,
+      "member_rate": 0.16,
+      "representatives": [
+        {
+          "case": 4,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 2.101163625717163
+        },
+        {
+          "case": 3,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 7,
+          "terminal_z_nll": 0.06452201306819916
+        },
+        {
+          "case": 3,
+          "labels": [
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 0.057930778712034225
+        },
+        {
+          "case": 3,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 8,
+          "terminal_z_nll": 0.0522618293762207
+        },
+        {
+          "case": 8,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 1,
+          "terminal_z_nll": 0.04598855972290039
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Neutral",
+      "cohort": "CURRENT_OR_RESCUE",
+      "member_count": 3,
+      "member_rate": 0.03,
+      "representatives": [
+        {
+          "case": 4,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 2.101163625717163
+        },
+        {
+          "case": 7,
+          "labels": [
+            "INCONCLUSIVE"
+          ],
+          "request_index": 9,
+          "terminal_z_nll": 0.054285239428281784
+        },
+        {
+          "case": 4,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 7,
+          "terminal_z_nll": 0.0011306790402159095
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Neutral",
+      "cohort": "REGRESSED_VS_P1R43",
+      "member_count": 37,
+      "member_rate": 0.37,
+      "representatives": [
+        {
+          "case": 8,
+          "labels": [
+            "INCONCLUSIVE"
+          ],
+          "request_index": 8,
+          "terminal_z_nll": 0.07689174264669418
+        },
+        {
+          "case": 3,
+          "labels": [
+            "INCONCLUSIVE"
+          ],
+          "request_index": 1,
+          "terminal_z_nll": 0.0658334344625473
+        },
+        {
+          "case": 3,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 7,
+          "terminal_z_nll": 0.06452201306819916
+        },
+        {
+          "case": 3,
+          "labels": [
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 0.057930778712034225
+        },
+        {
+          "case": 3,
+          "labels": [
+            "INCONCLUSIVE"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 0.054600127041339874
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Neutral",
+      "cohort": "HIGH_RSA_SHARE_WEAK_OR_NEGATIVE_NLL_PROGRESS",
+      "member_count": 0,
+      "member_rate": 0.0,
+      "representatives": [],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Neutral",
+      "cohort": "Z_SUCCESS_W_FAILURE",
+      "member_count": 2,
+      "member_rate": 0.02,
+      "representatives": [
+        {
+          "case": 3,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 7,
+          "terminal_z_nll": 0.06452201306819916
+        },
+        {
+          "case": 3,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 8,
+          "terminal_z_nll": 0.0522618293762207
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Soft",
+      "cohort": "TERMINAL_Z_EFF_FAILURE",
+      "member_count": 0,
+      "member_rate": 0.0,
+      "representatives": [],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Soft",
+      "cohort": "TERMINAL_Z_GEN_FAILURE",
+      "member_count": 14,
+      "member_rate": 0.14,
+      "representatives": [
+        {
+          "case": 4,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 1.693214774131775
+        },
+        {
+          "case": 3,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 0.05592244490981102
+        },
+        {
+          "case": 3,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 8,
+          "terminal_z_nll": 0.05164867267012596
+        },
+        {
+          "case": 5,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 0.04157530516386032
+        },
+        {
+          "case": 10,
+          "labels": [
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 4,
+          "terminal_z_nll": 0.03513151407241821
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Soft",
+      "cohort": "TERMINAL_W_EFF_FAILURE",
+      "member_count": 0,
+      "member_rate": 0.0,
+      "representatives": [],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Soft",
+      "cohort": "TERMINAL_W_GEN_FAILURE",
+      "member_count": 15,
+      "member_rate": 0.15,
+      "representatives": [
+        {
+          "case": 4,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 1.693214774131775
+        },
+        {
+          "case": 3,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 0.05592244490981102
+        },
+        {
+          "case": 3,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 8,
+          "terminal_z_nll": 0.05164867267012596
+        },
+        {
+          "case": 8,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 1,
+          "terminal_z_nll": 0.044438451528549194
+        },
+        {
+          "case": 5,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 0.04157530516386032
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Soft",
+      "cohort": "CURRENT_OR_RESCUE",
+      "member_count": 4,
+      "member_rate": 0.04,
+      "representatives": [
+        {
+          "case": 4,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 1.693214774131775
+        },
+        {
+          "case": 7,
+          "labels": [
+            "INCONCLUSIVE"
+          ],
+          "request_index": 9,
+          "terminal_z_nll": 0.05158785730600357
+        },
+        {
+          "case": 7,
+          "labels": [
+            "INCONCLUSIVE"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 0.007740918081253767
+        },
+        {
+          "case": 4,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 7,
+          "terminal_z_nll": 0.0026744818314909935
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Soft",
+      "cohort": "REGRESSED_VS_P1R43",
+      "member_count": 40,
+      "member_rate": 0.4,
+      "representatives": [
+        {
+          "case": 8,
+          "labels": [
+            "INCONCLUSIVE"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 0.0782008171081543
+        },
+        {
+          "case": 8,
+          "labels": [
+            "INCONCLUSIVE"
+          ],
+          "request_index": 8,
+          "terminal_z_nll": 0.077665314078331
+        },
+        {
+          "case": 3,
+          "labels": [
+            "INCONCLUSIVE"
+          ],
+          "request_index": 7,
+          "terminal_z_nll": 0.06965766847133636
+        },
+        {
+          "case": 3,
+          "labels": [
+            "INCONCLUSIVE"
+          ],
+          "request_index": 1,
+          "terminal_z_nll": 0.06566596031188965
+        },
+        {
+          "case": 3,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 0.05592244490981102
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Soft",
+      "cohort": "HIGH_RSA_SHARE_WEAK_OR_NEGATIVE_NLL_PROGRESS",
+      "member_count": 0,
+      "member_rate": 0.0,
+      "representatives": [],
+      "request_denominator": 100
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "Soft",
+      "cohort": "Z_SUCCESS_W_FAILURE",
+      "member_count": 1,
+      "member_rate": 0.01,
+      "representatives": [
+        {
+          "case": 8,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 1,
+          "terminal_z_nll": 0.044438451528549194
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Neutral",
+      "cohort": "TERMINAL_Z_EFF_FAILURE",
+      "member_count": 3,
+      "member_rate": 0.03,
+      "representatives": [
+        {
+          "case": 10,
+          "labels": [
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 12.301475524902344
+        },
+        {
+          "case": 6,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 8.401924133300781
+        },
+        {
+          "case": 2,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 5.96797513961792
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Neutral",
+      "cohort": "TERMINAL_Z_GEN_FAILURE",
+      "member_count": 33,
+      "member_rate": 0.33,
+      "representatives": [
+        {
+          "case": 10,
+          "labels": [
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 12.301475524902344
+        },
+        {
+          "case": 4,
+          "labels": [
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 8.952339172363281
+        },
+        {
+          "case": 6,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 8.401924133300781
+        },
+        {
+          "case": 2,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 5.96797513961792
+        },
+        {
+          "case": 4,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 7,
+          "terminal_z_nll": 1.186873435974121
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Neutral",
+      "cohort": "TERMINAL_W_EFF_FAILURE",
+      "member_count": 4,
+      "member_rate": 0.04,
+      "representatives": [
+        {
+          "case": 10,
+          "labels": [
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 12.301475524902344
+        },
+        {
+          "case": 6,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 8.401924133300781
+        },
+        {
+          "case": 2,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 5.96797513961792
+        },
+        {
+          "case": 10,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 0.009476391598582268
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Neutral",
+      "cohort": "TERMINAL_W_GEN_FAILURE",
+      "member_count": 37,
+      "member_rate": 0.37,
+      "representatives": [
+        {
+          "case": 10,
+          "labels": [
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 12.301475524902344
+        },
+        {
+          "case": 4,
+          "labels": [
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 8.952339172363281
+        },
+        {
+          "case": 6,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 8.401924133300781
+        },
+        {
+          "case": 2,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 5.96797513961792
+        },
+        {
+          "case": 3,
+          "labels": [
+            "DIRECTION_LIMITED",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 4,
+          "terminal_z_nll": 3.285109281539917
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Neutral",
+      "cohort": "CURRENT_OR_RESCUE",
+      "member_count": 16,
+      "member_rate": 0.16,
+      "representatives": [
+        {
+          "case": 10,
+          "labels": [
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 12.301475524902344
+        },
+        {
+          "case": 4,
+          "labels": [
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 8.952339172363281
+        },
+        {
+          "case": 6,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 8.401924133300781
+        },
+        {
+          "case": 2,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 5.96797513961792
+        },
+        {
+          "case": 7,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 5.220926284790039
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Neutral",
+      "cohort": "REGRESSED_VS_P1R43",
+      "member_count": 62,
+      "member_rate": 0.62,
+      "representatives": [
+        {
+          "case": 10,
+          "labels": [
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 12.301475524902344
+        },
+        {
+          "case": 4,
+          "labels": [
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 8.952339172363281
+        },
+        {
+          "case": 6,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 8.401924133300781
+        },
+        {
+          "case": 3,
+          "labels": [
+            "DIRECTION_LIMITED",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 4,
+          "terminal_z_nll": 3.285109281539917
+        },
+        {
+          "case": 5,
+          "labels": [
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 0.6765689253807068
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Neutral",
+      "cohort": "HIGH_RSA_SHARE_WEAK_OR_NEGATIVE_NLL_PROGRESS",
+      "member_count": 0,
+      "member_rate": 0.0,
+      "representatives": [],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Neutral",
+      "cohort": "Z_SUCCESS_W_FAILURE",
+      "member_count": 7,
+      "member_rate": 0.07,
+      "representatives": [
+        {
+          "case": 3,
+          "labels": [
+            "DIRECTION_LIMITED",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 4,
+          "terminal_z_nll": 3.285109281539917
+        },
+        {
+          "case": 5,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 7,
+          "terminal_z_nll": 0.6696886420249939
+        },
+        {
+          "case": 2,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 8,
+          "terminal_z_nll": 0.04936429113149643
+        },
+        {
+          "case": 3,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 0.03377027064561844
+        },
+        {
+          "case": 7,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "WRITER_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 0.03178345784544945
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Soft",
+      "cohort": "TERMINAL_Z_EFF_FAILURE",
+      "member_count": 3,
+      "member_rate": 0.03,
+      "representatives": [
+        {
+          "case": 10,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 11.102496147155762
+        },
+        {
+          "case": 2,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 6.1760454177856445
+        },
+        {
+          "case": 6,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 6.121503829956055
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Soft",
+      "cohort": "TERMINAL_Z_GEN_FAILURE",
+      "member_count": 35,
+      "member_rate": 0.35,
+      "representatives": [
+        {
+          "case": 10,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 11.102496147155762
+        },
+        {
+          "case": 4,
+          "labels": [
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 10.038410186767578
+        },
+        {
+          "case": 2,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 6.1760454177856445
+        },
+        {
+          "case": 6,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 6.121503829956055
+        },
+        {
+          "case": 10,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 5,
+          "terminal_z_nll": 3.8501811027526855
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Soft",
+      "cohort": "TERMINAL_W_EFF_FAILURE",
+      "member_count": 3,
+      "member_rate": 0.03,
+      "representatives": [
+        {
+          "case": 10,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 11.102496147155762
+        },
+        {
+          "case": 2,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 6.1760454177856445
+        },
+        {
+          "case": 6,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 6.121503829956055
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Soft",
+      "cohort": "TERMINAL_W_GEN_FAILURE",
+      "member_count": 38,
+      "member_rate": 0.38,
+      "representatives": [
+        {
+          "case": 10,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 11.102496147155762
+        },
+        {
+          "case": 4,
+          "labels": [
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 10.038410186767578
+        },
+        {
+          "case": 2,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 6.1760454177856445
+        },
+        {
+          "case": 6,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 6.121503829956055
+        },
+        {
+          "case": 10,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 5,
+          "terminal_z_nll": 3.8501811027526855
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Soft",
+      "cohort": "CURRENT_OR_RESCUE",
+      "member_count": 18,
+      "member_rate": 0.18,
+      "representatives": [
+        {
+          "case": 10,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 2,
+          "terminal_z_nll": 11.102496147155762
+        },
+        {
+          "case": 4,
+          "labels": [
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 10.038410186767578
+        },
+        {
+          "case": 2,
+          "labels": [
+            "HARD_SAMPLE_SUPPORTED",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 6.1760454177856445
+        },
+        {
+          "case": 6,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 6.121503829956055
+        },
+        {
+          "case": 10,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 5,
+          "terminal_z_nll": 3.8501811027526855
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Soft",
+      "cohort": "REGRESSED_VS_P1R43",
+      "member_count": 55,
+      "member_rate": 0.55,
+      "representatives": [
+        {
+          "case": 4,
+          "labels": [
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 10.038410186767578
+        },
+        {
+          "case": 6,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 3,
+          "terminal_z_nll": 6.121503829956055
+        },
+        {
+          "case": 10,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 5,
+          "terminal_z_nll": 3.8501811027526855
+        },
+        {
+          "case": 5,
+          "labels": [
+            "DIRECTION_LIMITED"
+          ],
+          "request_index": 6,
+          "terminal_z_nll": 1.2418098449707031
+        },
+        {
+          "case": 5,
+          "labels": [
+            "NEW_RSA_FAILURE",
+            "DIRECTION_LIMITED",
+            "CONTEXT_GENERALIZATION_LIMITED"
+          ],
+          "request_index": 8,
+          "terminal_z_nll": 0.8230232000350952
+        }
+      ],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Soft",
+      "cohort": "HIGH_RSA_SHARE_WEAK_OR_NEGATIVE_NLL_PROGRESS",
+      "member_count": 0,
+      "member_rate": 0.0,
+      "representatives": [],
+      "request_denominator": 100
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "Soft",
+      "cohort": "Z_SUCCESS_W_FAILURE",
+      "member_count": 3,
+      "member_rate": 0.03,
+      "representatives": [
+        {
+          "case": 6,
+          "labels": [
+            "WRITER_LIMITED"
+          ],
+          "request_index": 9,
+          "terminal_z_nll": 0.04127524048089981
+        },
+        {
+          "case": 8,
+          "labels": [
+            "WRITER_LIMITED"
+          ],
+          "request_index": 0,
+          "terminal_z_nll": 0.011638864874839783
+        },
+        {
+          "case": 2,
+          "labels": [
+            "WRITER_LIMITED"
+          ],
+          "request_index": 7,
+          "terminal_z_nll": 0.011449839919805527
+        }
+      ],
+      "request_denominator": 100
+    }
+  ],
+  "rows_root": "764916927fdae0e9fbe5d303cff38664ade2aef419482ac5b0c2ad4a91506f52",
+  "schema": "ode-edit-s05-p1r51-rsa-a1-final-cohort-summary/v1"
+}

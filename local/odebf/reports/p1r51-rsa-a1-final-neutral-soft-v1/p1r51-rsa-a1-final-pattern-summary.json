@@ -1,0 +1,1138 @@
+{
+  "row_count": 24,
+  "rows": [
+    {
+      "alias": "llama3-8b-inst",
+      "all_request_denominator": 100,
+      "arm": "Neutral",
+      "failed_request_union_denominator": 45,
+      "label": "HARD_SAMPLE_SUPPORTED",
+      "member_count": 5,
+      "representatives": [
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 6
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE"
+          ],
+          "request_index": 6
+        },
+        {
+          "case": 2,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE"
+          ],
+          "request_index": 0
+        },
+        {
+          "case": 2,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE"
+          ],
+          "request_index": 8
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 7
+        }
+      ]
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "all_request_denominator": 100,
+      "arm": "Neutral",
+      "failed_request_union_denominator": 45,
+      "label": "NEW_RSA_FAILURE",
+      "member_count": 4,
+      "representatives": [
+        {
+          "case": 3,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 7
+        },
+        {
+          "case": 3,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 8
+        },
+        {
+          "case": 8,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 1
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 4
+        }
+      ]
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "all_request_denominator": 100,
+      "arm": "Neutral",
+      "failed_request_union_denominator": 45,
+      "label": "DIRECTION_LIMITED",
+      "member_count": 1,
+      "representatives": [
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 6
+        }
+      ]
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "all_request_denominator": 100,
+      "arm": "Neutral",
+      "failed_request_union_denominator": 45,
+      "label": "WRITER_LIMITED",
+      "member_count": 2,
+      "representatives": [
+        {
+          "case": 3,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 7
+        },
+        {
+          "case": 3,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 8
+        }
+      ]
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "all_request_denominator": 100,
+      "arm": "Neutral",
+      "failed_request_union_denominator": 45,
+      "label": "CONTEXT_GENERALIZATION_LIMITED",
+      "member_count": 14,
+      "representatives": [
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 6
+        },
+        {
+          "case": 3,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 2
+        },
+        {
+          "case": 8,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 1
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE"
+          ],
+          "request_index": 6
+        },
+        {
+          "case": 2,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE"
+          ],
+          "request_index": 0
+        }
+      ]
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "all_request_denominator": 100,
+      "arm": "Neutral",
+      "failed_request_union_denominator": 45,
+      "label": "INCONCLUSIVE",
+      "member_count": 29,
+      "representatives": [
+        {
+          "case": 8,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 8
+        },
+        {
+          "case": 3,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 1
+        },
+        {
+          "case": 3,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 3
+        },
+        {
+          "case": 7,
+          "cohorts": [
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 9
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 8
+        }
+      ]
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "all_request_denominator": 100,
+      "arm": "Soft",
+      "failed_request_union_denominator": 49,
+      "label": "HARD_SAMPLE_SUPPORTED",
+      "member_count": 5,
+      "representatives": [
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 6
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE"
+          ],
+          "request_index": 6
+        },
+        {
+          "case": 2,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE"
+          ],
+          "request_index": 8
+        },
+        {
+          "case": 2,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE"
+          ],
+          "request_index": 0
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 7
+        }
+      ]
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "all_request_denominator": 100,
+      "arm": "Soft",
+      "failed_request_union_denominator": 49,
+      "label": "NEW_RSA_FAILURE",
+      "member_count": 4,
+      "representatives": [
+        {
+          "case": 3,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 2
+        },
+        {
+          "case": 3,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 8
+        },
+        {
+          "case": 8,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 1
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 4
+        }
+      ]
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "all_request_denominator": 100,
+      "arm": "Soft",
+      "failed_request_union_denominator": 49,
+      "label": "DIRECTION_LIMITED",
+      "member_count": 1,
+      "representatives": [
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 6
+        }
+      ]
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "all_request_denominator": 100,
+      "arm": "Soft",
+      "failed_request_union_denominator": 49,
+      "label": "WRITER_LIMITED",
+      "member_count": 1,
+      "representatives": [
+        {
+          "case": 8,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 1
+        }
+      ]
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "all_request_denominator": 100,
+      "arm": "Soft",
+      "failed_request_union_denominator": 49,
+      "label": "CONTEXT_GENERALIZATION_LIMITED",
+      "member_count": 14,
+      "representatives": [
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 6
+        },
+        {
+          "case": 3,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 2
+        },
+        {
+          "case": 3,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 8
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE"
+          ],
+          "request_index": 6
+        },
+        {
+          "case": 10,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE"
+          ],
+          "request_index": 4
+        }
+      ]
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "all_request_denominator": 100,
+      "arm": "Soft",
+      "failed_request_union_denominator": 49,
+      "label": "INCONCLUSIVE",
+      "member_count": 34,
+      "representatives": [
+        {
+          "case": 8,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 3
+        },
+        {
+          "case": 8,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 8
+        },
+        {
+          "case": 3,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 7
+        },
+        {
+          "case": 3,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 1
+        },
+        {
+          "case": 3,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 3
+        }
+      ]
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "all_request_denominator": 100,
+      "arm": "Neutral",
+      "failed_request_union_denominator": 74,
+      "label": "HARD_SAMPLE_SUPPORTED",
+      "member_count": 6,
+      "representatives": [
+        {
+          "case": 2,
+          "cohorts": [
+            "TERMINAL_Z_EFF_FAILURE",
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_EFF_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 0
+        },
+        {
+          "case": 7,
+          "cohorts": [
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 2
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE"
+          ],
+          "request_index": 7
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 7
+        },
+        {
+          "case": 7,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 6
+        }
+      ]
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "all_request_denominator": 100,
+      "arm": "Neutral",
+      "failed_request_union_denominator": 74,
+      "label": "NEW_RSA_FAILURE",
+      "member_count": 13,
+      "representatives": [
+        {
+          "case": 6,
+          "cohorts": [
+            "TERMINAL_Z_EFF_FAILURE",
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_EFF_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 3
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 8
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 5
+        },
+        {
+          "case": 2,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 8
+        },
+        {
+          "case": 10,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 6
+        }
+      ]
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "all_request_denominator": 100,
+      "arm": "Neutral",
+      "failed_request_union_denominator": 74,
+      "label": "DIRECTION_LIMITED",
+      "member_count": 10,
+      "representatives": [
+        {
+          "case": 10,
+          "cohorts": [
+            "TERMINAL_Z_EFF_FAILURE",
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_EFF_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 2
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 6
+        },
+        {
+          "case": 6,
+          "cohorts": [
+            "TERMINAL_Z_EFF_FAILURE",
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_EFF_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 3
+        },
+        {
+          "case": 2,
+          "cohorts": [
+            "TERMINAL_Z_EFF_FAILURE",
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_EFF_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 0
+        },
+        {
+          "case": 7,
+          "cohorts": [
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 2
+        }
+      ]
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "all_request_denominator": 100,
+      "arm": "Neutral",
+      "failed_request_union_denominator": 74,
+      "label": "WRITER_LIMITED",
+      "member_count": 7,
+      "representatives": [
+        {
+          "case": 3,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 4
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 7
+        },
+        {
+          "case": 2,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 8
+        },
+        {
+          "case": 3,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 3
+        },
+        {
+          "case": 7,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 6
+        }
+      ]
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "all_request_denominator": 100,
+      "arm": "Neutral",
+      "failed_request_union_denominator": 74,
+      "label": "CONTEXT_GENERALIZATION_LIMITED",
+      "member_count": 30,
+      "representatives": [
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 6
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE"
+          ],
+          "request_index": 7
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 8
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 5
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 8
+        }
+      ]
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "all_request_denominator": 100,
+      "arm": "Neutral",
+      "failed_request_union_denominator": 74,
+      "label": "INCONCLUSIVE",
+      "member_count": 31,
+      "representatives": [
+        {
+          "case": 4,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 3
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 4
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 0
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 2
+        },
+        {
+          "case": 7,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 4
+        }
+      ]
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "all_request_denominator": 100,
+      "arm": "Soft",
+      "failed_request_union_denominator": 70,
+      "label": "HARD_SAMPLE_SUPPORTED",
+      "member_count": 6,
+      "representatives": [
+        {
+          "case": 10,
+          "cohorts": [
+            "TERMINAL_Z_EFF_FAILURE",
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_EFF_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 2
+        },
+        {
+          "case": 2,
+          "cohorts": [
+            "TERMINAL_Z_EFF_FAILURE",
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_EFF_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 0
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 7
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 7
+        },
+        {
+          "case": 10,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 9
+        }
+      ]
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "all_request_denominator": 100,
+      "arm": "Soft",
+      "failed_request_union_denominator": 70,
+      "label": "NEW_RSA_FAILURE",
+      "member_count": 10,
+      "representatives": [
+        {
+          "case": 6,
+          "cohorts": [
+            "TERMINAL_Z_EFF_FAILURE",
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_EFF_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 3
+        },
+        {
+          "case": 10,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 5
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 8
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 5
+        },
+        {
+          "case": 3,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 3
+        }
+      ]
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "all_request_denominator": 100,
+      "arm": "Soft",
+      "failed_request_union_denominator": 70,
+      "label": "DIRECTION_LIMITED",
+      "member_count": 8,
+      "representatives": [
+        {
+          "case": 10,
+          "cohorts": [
+            "TERMINAL_Z_EFF_FAILURE",
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_EFF_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 2
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 6
+        },
+        {
+          "case": 2,
+          "cohorts": [
+            "TERMINAL_Z_EFF_FAILURE",
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_EFF_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 0
+        },
+        {
+          "case": 6,
+          "cohorts": [
+            "TERMINAL_Z_EFF_FAILURE",
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_EFF_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 3
+        },
+        {
+          "case": 10,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 5
+        }
+      ]
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "all_request_denominator": 100,
+      "arm": "Soft",
+      "failed_request_union_denominator": 70,
+      "label": "WRITER_LIMITED",
+      "member_count": 3,
+      "representatives": [
+        {
+          "case": 6,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 9
+        },
+        {
+          "case": 8,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 0
+        },
+        {
+          "case": 2,
+          "cohorts": [
+            "TERMINAL_W_GEN_FAILURE",
+            "REGRESSED_VS_P1R43",
+            "Z_SUCCESS_W_FAILURE"
+          ],
+          "request_index": 7
+        }
+      ]
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "all_request_denominator": 100,
+      "arm": "Soft",
+      "failed_request_union_denominator": 70,
+      "label": "CONTEXT_GENERALIZATION_LIMITED",
+      "member_count": 32,
+      "representatives": [
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 6
+        },
+        {
+          "case": 10,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 5
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 7
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 7
+        },
+        {
+          "case": 5,
+          "cohorts": [
+            "TERMINAL_Z_GEN_FAILURE",
+            "TERMINAL_W_GEN_FAILURE",
+            "CURRENT_OR_RESCUE",
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 8
+        }
+      ]
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "all_request_denominator": 100,
+      "arm": "Soft",
+      "failed_request_union_denominator": 70,
+      "label": "INCONCLUSIVE",
+      "member_count": 31,
+      "representatives": [
+        {
+          "case": 3,
+          "cohorts": [
+            "CURRENT_OR_RESCUE"
+          ],
+          "request_index": 4
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 3
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 0
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 2
+        },
+        {
+          "case": 4,
+          "cohorts": [
+            "REGRESSED_VS_P1R43"
+          ],
+          "request_index": 4
+        }
+      ]
+    }
+  ],
+  "rows_root": "782e39813b7ac542b655cc2e0eb0bdd3f7b7c31a4423606ffe3608f0f1bdef89",
+  "schema": "ode-edit-s05-p1r51-rsa-a1-final-pattern-summary/v1"
+}

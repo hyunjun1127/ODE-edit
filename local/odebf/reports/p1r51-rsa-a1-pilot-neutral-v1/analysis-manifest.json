@@ -1,0 +1,49 @@
+{
+  "file_count": 5,
+  "files": [
+    {
+      "bytes": 38739,
+      "lines": 1031,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-pilot-neutral-v1/p1r51-rsa-a1-pilot-neutral-per-step.json",
+      "row_count": 16,
+      "sha256": "d23cad16de7d528a96d84a872af991acd57bbe07315b1286f670d59635130c08"
+    },
+    {
+      "bytes": 178614,
+      "lines": 4327,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-pilot-neutral-v1/p1r51-rsa-a1-pilot-neutral-per-request.json",
+      "row_count": 160,
+      "sha256": "136e212e313082a9642f584f511be49149aaa6ab7ab773f7a9cff8543943f4fe"
+    },
+    {
+      "bytes": 34893,
+      "lines": 767,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-pilot-neutral-v1/p1r51-rsa-a1-pilot-neutral-case-paired.json",
+      "row_count": 2,
+      "sha256": "60b02242e49a382e93a8c55b0c60206fd06f0b2dff91a6e3f537c68dd943fb63"
+    },
+    {
+      "bytes": 20988,
+      "lines": 385,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-pilot-neutral-v1/p1r51-rsa-a1-pilot-neutral-integrity.json",
+      "row_count": null,
+      "sha256": "e2b150c1ad7bc06fc27b92ba7787b4cfcf629b86d663f5d0be083a38006f60d3"
+    },
+    {
+      "bytes": 3791,
+      "lines": 47,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-pilot-neutral-v1/p1r51-rsa-a1-pilot-neutral-review-ko.md",
+      "sha256": "2d95edde8047166e6bc4cb2c6860fa288d2f614bf7121b00a94c21f188feff0b"
+    }
+  ],
+  "parent_head": "11508b6da11d606521b703037034e1814b70d8a8",
+  "parent_tree": "a0e71bbb27cf36b3b51bf6cde4c92cdc9a47879b",
+  "phase": "B_NEUTRAL_PILOT",
+  "phase_c_release_gate": "RELEASE",
+  "root_digest": "7b91993a3746c8f351ccc73f876f0703f0127fc35c9af3c531914185d7887801",
+  "schema": "ode-edit-s05-p1r51-rsa-a1-pilot-neutral-analysis-manifest/v1",
+  "scientific_promotion": false,
+  "source_head": "9b4a88b73bd0c0fdd0b1470d77ea4354bd0e3486",
+  "source_tree": "4a3b5e2dbd7e15bf8da32117c25fd88ec2eaafc7",
+  "technical_gate": "PASS"
+}

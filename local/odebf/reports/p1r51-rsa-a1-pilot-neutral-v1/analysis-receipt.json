@@ -1,0 +1,24 @@
+{
+  "input_identities_root": "79833ceb12bb4813ab4c255d16d13f52c07f991eca1b7add964955b2c675bccf",
+  "manifest": {
+    "bytes": 2223,
+    "lines": 49,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-pilot-neutral-v1/analysis-manifest.json",
+    "row_count": null,
+    "sha256": "2a25a1e6d941e19ba0fce375a57ce40e540dd4bbfefcd6ba0dfe4a2ffa0ed908"
+  },
+  "manifest_root_digest": "7b91993a3746c8f351ccc73f876f0703f0127fc35c9af3c531914185d7887801",
+  "phase_c_release_gate": "RELEASE",
+  "review_status": "PASS",
+  "reviewer_action_counts": {
+    "evaluator": 0,
+    "gpu": 0,
+    "model": 0,
+    "result_mutation": 0,
+    "scientific_source_edit": 0,
+    "slurm": 0
+  },
+  "schema": "ode-edit-s05-p1r51-rsa-a1-pilot-neutral-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "technical_gate": "PASS"
+}

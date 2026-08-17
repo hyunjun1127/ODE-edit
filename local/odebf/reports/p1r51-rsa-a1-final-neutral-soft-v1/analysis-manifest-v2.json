@@ -1,0 +1,86 @@
+{
+  "canonical_final": true,
+  "file_count": 10,
+  "files": [
+    {
+      "bytes": 1096965,
+      "lines": 23527,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-per-case-v2.json",
+      "row_count": 20,
+      "sha256": "a1bb02012f1770220e439789e8c180319389090f84083f4dd8009349026c8f08"
+    },
+    {
+      "bytes": 2271889,
+      "lines": 54407,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-per-step-v2.json",
+      "row_count": 160,
+      "sha256": "6786474c8d83f6a06310adc4b02286d254ed10c3d88cdaa06a1e728dfc0b4b8a"
+    },
+    {
+      "bytes": 11991034,
+      "lines": 283207,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-per-request-v2.json",
+      "row_count": 1600,
+      "sha256": "d7eaa5ea54375a7d9d9cd6aef9146a895cb96ca7b58884a7de98e1d9c79f8d33"
+    },
+    {
+      "bytes": 1573870,
+      "lines": 52655,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-per-failed-request-v2.json",
+      "row_count": 238,
+      "sha256": "8ad36f4c1d8b07bce091599a4f7d601f47ce7d1a7dbbe2890020a021344aefb1"
+    },
+    {
+      "bytes": 29728,
+      "lines": 1215,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-cohort-summary-v2.json",
+      "row_count": 32,
+      "sha256": "5b296783e55af1dd8fc63eabcf71db6acdfc805c235be9cf95381a389d877eb0"
+    },
+    {
+      "bytes": 27203,
+      "lines": 1138,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-pattern-summary-v2.json",
+      "row_count": 24,
+      "sha256": "1f05ad1b12fd31f3231cb7850bf8f154ca65d50764157c5fcade0aa11cf78fd4"
+    },
+    {
+      "bytes": 2694,
+      "lines": 87,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-af-questions-v2.json",
+      "row_count": 6,
+      "sha256": "ea9e8d28efd010f687e1c4b97c009be62c99ddf428ab74f6345df49dbfb93d50"
+    },
+    {
+      "bytes": 44186,
+      "lines": 1149,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-combined-comparison-v2.json",
+      "row_count": 2,
+      "sha256": "131fa2d0884412af4b2ccdec094c258b149d4debc9bea3a79655ebb482610e9f"
+    },
+    {
+      "bytes": 290583,
+      "lines": 4366,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-integrity-v2.json",
+      "row_count": null,
+      "sha256": "adcb1c9a2e6fa24334d43409f7d58a6b7ddad06d2fa68fca90e532b1d15df9fd"
+    },
+    {
+      "bytes": 11098,
+      "lines": 119,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/reports/p1r51-rsa-a1-final-neutral-soft-v1/p1r51-rsa-a1-final-neutral-soft-ko-v2.md",
+      "row_count": null,
+      "sha256": "674a3f115c0259e2157962ae6e90070cbcb79804842391c017bcfe7aec5aaf86"
+    }
+  ],
+  "parent_head": "11508b6da11d606521b703037034e1814b70d8a8",
+  "parent_tree": "a0e71bbb27cf36b3b51bf6cde4c92cdc9a47879b",
+  "prior_unsealed_draft_status": "SUPERSEDED_BEFORE_FINAL_SEAL_BY_FAILURE_COHORT_AMENDMENT",
+  "root_digest": "c96f42e998268b376833f664f1bdba2cba35c7390ea65cded7bd496e73dc2ed6",
+  "schema": "ode-edit-s05-p1r51-rsa-a1-final-neutral-soft-analysis-manifest/v2",
+  "scientific_classification": "A1_PARTIAL",
+  "scientific_promotion": false,
+  "source_head": "9b4a88b73bd0c0fdd0b1470d77ea4354bd0e3486",
+  "source_tree": "4a3b5e2dbd7e15bf8da32117c25fd88ec2eaafc7",
+  "technical_gate": "PASS"
+}

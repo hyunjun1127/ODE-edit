@@ -1,0 +1,2121 @@
+{
+  "by_model": {
+    "llama3-8b-inst": {
+      "accepted_k_exact_case_count": 10,
+      "accepted_update_count": 80,
+      "all_forbidden_counter_sum": {
+        "fresh_component_division_count": 0,
+        "lag_component_division_count": 0,
+        "persistent_freeze_input_count": 0,
+        "radius_state_access_count": 0,
+        "remaining_horizon_division_count": 0,
+        "same_step_retry_count": 0,
+        "second_h_application_count": 0,
+        "semantic_debt_input_count": 0,
+        "target_decay_decision_influence_count": 0,
+        "target_hold_persistent_count": 0,
+        "target_kl_decision_influence_count": 0,
+        "target_preservation_decision_influence_count": 0,
+        "total_target_velocity_energy_increase_count": 0,
+        "trust_rho_decision_influence_count": 0
+      },
+      "attempts": 10,
+      "completed": 10,
+      "failed": 0,
+      "finite_case_count": 10,
+      "materialization_count": 80,
+      "max_energy_relative_error": 1.6358628569466572e-11,
+      "physical_h_total": 80
+    },
+    "qwen2.5-7b-inst": {
+      "accepted_k_exact_case_count": 10,
+      "accepted_update_count": 80,
+      "all_forbidden_counter_sum": {
+        "fresh_component_division_count": 0,
+        "lag_component_division_count": 0,
+        "persistent_freeze_input_count": 0,
+        "radius_state_access_count": 0,
+        "remaining_horizon_division_count": 0,
+        "same_step_retry_count": 0,
+        "second_h_application_count": 0,
+        "semantic_debt_input_count": 0,
+        "target_decay_decision_influence_count": 0,
+        "target_hold_persistent_count": 0,
+        "target_kl_decision_influence_count": 0,
+        "target_preservation_decision_influence_count": 0,
+        "total_target_velocity_energy_increase_count": 0,
+        "trust_rho_decision_influence_count": 0
+      },
+      "attempts": 10,
+      "completed": 10,
+      "failed": 0,
+      "finite_case_count": 10,
+      "materialization_count": 80,
+      "max_energy_relative_error": 1.0043096827361017e-11,
+      "physical_h_total": 80
+    }
+  },
+  "contract": {
+    "bytes": 15841,
+    "lines": 520,
+    "path": "/mnt/raid5/janghj/.codex/attachments/264d9efc-75b7-4694-99b6-e64f005704b4/pasted-text.txt",
+    "sha256": "e19617806b9f60945291885d5fcc91383ee4f2c5198aaf40f77ab38bb9e1562a"
+  },
+  "input_file_identities": [
+    {
+      "bytes": 15841,
+      "path": "/mnt/raid5/janghj/.codex/attachments/264d9efc-75b7-4694-99b6-e64f005704b4/pasted-text.txt",
+      "sha256": "e19617806b9f60945291885d5fcc91383ee4f2c5198aaf40f77ab38bb9e1562a"
+    },
+    {
+      "bytes": 709749,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/p1r43-per-step.json",
+      "sha256": "2319c6380219dad342af01a8997a69ece4df1cc3176899298b5e368bf93009aa"
+    },
+    {
+      "bytes": 2390899,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/reports/p1r43-rho-free-semantic-first-v1/p1r43-per-request.json",
+      "sha256": "1ac56012bf99ad9351d4eae4473789dc7e920f2e4914d8d0a9e66a2217b6ba54"
+    },
+    {
+      "bytes": 417,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/manifest.json",
+      "sha256": "894b9fe60196974bd3b3c46b0d78eac1910963c5cf58e98fee60ab673dff7088"
+    },
+    {
+      "bytes": 4586,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/terminal.json",
+      "sha256": "9e2ba00a5b04035510095abc80bdfbfc7c47324a35bfc1863e06fe1c850b55a6"
+    },
+    {
+      "bytes": 75477,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/terminal.json",
+      "sha256": "7aac7d2dc75d36d8d7c59ce4ec3168fa906970992c5bd081952f4773e65c06c4"
+    },
+    {
+      "bytes": 75486,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-llama3-8b-inst-neutral-tech-r2-v1/raw/cases/case-01/terminal.json",
+      "sha256": "5dfeb33506dcb98925fff6dee10438cec64cbf772b7e056bfbafd892e8bee6c4"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/manifest.json",
+      "sha256": "16176a180e822ced4c15c725adca30d6698774cfa5bcea1a674cd7d6763e676f"
+    },
+    {
+      "bytes": 1315,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/action-freeze.json",
+      "sha256": "aad51e3de3413b7345949136f27452221abcd0b6fabe7a9b5731628423d47156"
+    },
+    {
+      "bytes": 25652,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "575b68fa4c70633177d0d4f65e937dbffe288b1c8bd0678a4c58ab171869d451"
+    },
+    {
+      "bytes": 1306,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "90c546028009cdae14a424bf0daa35575260b57715b6c68292b321b703bfd3bc"
+    },
+    {
+      "bytes": 25888,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "261ca5b0c01569156aa975a57eaef1e2d2f9078896c42c6e0cb234d1db678dd9"
+    },
+    {
+      "bytes": 1298,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "880203d4a70d55c9e6c1a95a0f5ceaba4218089646ecde410133a0868d7800bb"
+    },
+    {
+      "bytes": 25911,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "20aa4fe92bd474fa66f545d62d4c036ef03284befa42712292f5bc065e1f2f5a"
+    },
+    {
+      "bytes": 1302,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "6d99b9a35bbd56e7a8a68fb51f75cd89216dcda49947d73c97c98839b5455d9a"
+    },
+    {
+      "bytes": 25994,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "a3c4a995b94807b69e0f3057a32d8397c47b10a517d2f750c5fecd6a129ece2e"
+    },
+    {
+      "bytes": 1310,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "790d1e5ac1a05e559d8866cf14858e274780ec803045cf81213f9e905c0ee8ce"
+    },
+    {
+      "bytes": 26086,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "6c290ae3f39940e93df0052feeaf2ecf77dd15724b043077338ece9169afe984"
+    },
+    {
+      "bytes": 1321,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "09639ba599a21d37cf3cbcef6934f59b4c6a1173e8d56e1cd1b2e309b497220f"
+    },
+    {
+      "bytes": 26186,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "feda16ab2e6978d9f37c0aecddb7b6ff2286f75147bb103b5f6d95dcd2335e5b"
+    },
+    {
+      "bytes": 1332,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "20ffa8e5bfa52e5b22f4238965fb27efd1f52e8c39062d623af17bbcc32c5b31"
+    },
+    {
+      "bytes": 26322,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "b6047bd24f079b50e33f417ef0b8f8d80df4a4d1e6560da0d283a628d1ec6340"
+    },
+    {
+      "bytes": 1343,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "0590d09238748c523f4c840bc9fcf7e483431eb1e81bb85e2e1a9ccd8eba9f13"
+    },
+    {
+      "bytes": 26558,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "d06d78fce4cbfc51a11103cfb73921b667c34e4aca7a7fbeed15e98f1e924294"
+    },
+    {
+      "bytes": 1346,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "1dd754014007cbe76cfbf9df816bb73a6fd4c5587cb5c13bf29d8e742e7eaec2"
+    },
+    {
+      "bytes": 75311,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/terminal.json",
+      "sha256": "c365a11aa9231f942540722b07740a0cfd95bb8f7617cf7ebabc44368ddeb7e6"
+    },
+    {
+      "bytes": 75509,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-llama3-8b-inst-neutral-tech-r2-v1/raw/cases/case-02/terminal.json",
+      "sha256": "7a4ae1b50e5fafe09a3e5d11691fc151fc6536c83897f62b8d77435229676035"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/manifest.json",
+      "sha256": "9d3633ced50407b1359daac97ae66489eaf0877128dba527d882547b9d687cca"
+    },
+    {
+      "bytes": 1315,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/action-freeze.json",
+      "sha256": "81930591877748f0e3d3ff78ac5f49577e6b11edc4137fccf0975ce16d9e0eb3"
+    },
+    {
+      "bytes": 25623,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "ddaa9ec834891dd49bf122936011dd0be3850fb2a191505a6b1de7a329fff55a"
+    },
+    {
+      "bytes": 1298,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "c77f073292b2d597ff5c81af2637554df289830aebfd63d7008123955ec54562"
+    },
+    {
+      "bytes": 25926,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "cd5db90178138a6dc8a80316f376429a4451be7768f962b0d3b6302bec2404e9"
+    },
+    {
+      "bytes": 1298,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "dfc97d85b1f4f97a7687606d58dd25cc8b8b3bf9cf8040bbef7ab5ccf96bd019"
+    },
+    {
+      "bytes": 25915,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "d5502c1ccef22cd45401302065d192e487a801bfcf2270fa69917176aab9bd4b"
+    },
+    {
+      "bytes": 1303,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "5b50bbb9fb41f20536a44384186b87ae4a39ae92178cd575aa88ef90af8d7a89"
+    },
+    {
+      "bytes": 25920,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "e3a94798bfd7ef317796e790d77b1eee1b3c4ba1423c419cddb5f1ff0a045afb"
+    },
+    {
+      "bytes": 1311,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "a7d058993e066708d70ca3d9dcb8bcccaa78ad172d880e3cdc28cc87c4fa2068"
+    },
+    {
+      "bytes": 26075,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "064bc8fc749f88d92454cc9c11c2f69edb6c321263198df72a8804007f2bffdc"
+    },
+    {
+      "bytes": 1317,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "23e1f256e40d3b99b3551363414046b8307f1de80ece261b3b1a353640e54c12"
+    },
+    {
+      "bytes": 26259,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "6f249cbcdfc9d65ebb0448c3659f2f5f4638ef053056807ef8d1cd7cd9cadcc8"
+    },
+    {
+      "bytes": 1332,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "7dfc86640a3e8958d82931ae53f692bf3fb0eda7ddf9ac7512b26bccf09b2dcb"
+    },
+    {
+      "bytes": 26191,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "7715dcede99fb842d2d73432277a7a9d4c182b0b6b32b2c01213cb1c990bf7a1"
+    },
+    {
+      "bytes": 1346,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "25294aa18afe4362a5c08078224381c7bb5220936885ff5a5871eb443be7cec5"
+    },
+    {
+      "bytes": 26340,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "01b8653b9ad1af00963e3822207f077188fb041b88fad83ee69b10863fb3f68e"
+    },
+    {
+      "bytes": 1348,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "bf7eaa628e59fcc68f9d589a28b583cdbf697bbc1565638b8e563b8cb33c4904"
+    },
+    {
+      "bytes": 76334,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/terminal.json",
+      "sha256": "de456f36a7255a28f911f01420f6617cefd1262178f43a3a36b503991613ff9d"
+    },
+    {
+      "bytes": 76537,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-llama3-8b-inst-neutral-tech-r2-v1/raw/cases/case-03/terminal.json",
+      "sha256": "f5fa22efcf2e6c1c70f5a70cc019da15ae6104bc273b1e94199fa44ad8f38859"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/manifest.json",
+      "sha256": "9636e5edb544f6416593c233aed974a1775fb1cb10c6a7a1f7a89af91c2e5df3"
+    },
+    {
+      "bytes": 1315,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/action-freeze.json",
+      "sha256": "639729aa04a35e39a4824470a68a32c5c83d01fbebd8ddd715d7def60e5d12eb"
+    },
+    {
+      "bytes": 25692,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "6af5c7d1127b084a3c15d9d7dbbab0e0c375453ce5ea199f182635bd7fc6d730"
+    },
+    {
+      "bytes": 1305,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "bb4390b969e910fe7cf833455030a5acfab3fbffe976d4a40697a8a4385aeced"
+    },
+    {
+      "bytes": 25855,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "9cfa1e597b221a05032a3b27db0011c588ff8fc11f72bbbc0e1fa5ffb8bf2eb7"
+    },
+    {
+      "bytes": 1303,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "d49617e2b9744f573dc1e0ef3d642e236a6afd5395cd02a948a919e0a6bf9f73"
+    },
+    {
+      "bytes": 25972,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "9dad124eaf1ec2b385753eca04dbaa839dea5572096cd384a4abfeb67c98da67"
+    },
+    {
+      "bytes": 1311,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "b2cca19d0a375641bdac6b834fdc15d36092360b9c0227575cc44e7e592304d1"
+    },
+    {
+      "bytes": 26024,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "6aba13115a3893aa082e20b7bac480550d95a0d9030d9d47759bea3706518785"
+    },
+    {
+      "bytes": 1312,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "1ccd277cb256d99d7ec0c39bd93f38313dbdae78222b6d92f86a0c2e6afa8e12"
+    },
+    {
+      "bytes": 26089,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "7768d359a479910c3c9210f96efe160a04f122b3c8ef764c692762d5c860e678"
+    },
+    {
+      "bytes": 1315,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "4ef18e93158a5a998874c988d278883efa1ccfcd28d415846225611a8b4a56b3"
+    },
+    {
+      "bytes": 26200,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "7127052571df33c90c6652f70f4048739ba63890cc4b94b133d33ba9cef4484e"
+    },
+    {
+      "bytes": 1330,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "dbb7e54fadb941a6bbe811a8eca9b19d7581981a72f575aa7c49f697903fbb2f"
+    },
+    {
+      "bytes": 26316,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "ca497b6b12bdfa780623e6603a41e64759a2b72769ce47c08b8e412cde97e13b"
+    },
+    {
+      "bytes": 1341,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "0e916f1f033bdb1921262b3a0f47b5efc44338b137319c1a9514e6ad46274571"
+    },
+    {
+      "bytes": 26549,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "62b6e5608d505e5852df7898e8c23ac86c6958e30815ac6744a4246f5a4b9676"
+    },
+    {
+      "bytes": 1345,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "a9f0c67f4d7a52fc0e70cc05960cd73adede96ddab03fc731ed9c75dbadcc697"
+    },
+    {
+      "bytes": 76766,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/terminal.json",
+      "sha256": "ed2b6cf04db10197376fb9840f44041ef386b0b315017c009886f33de2b9f2b8"
+    },
+    {
+      "bytes": 76382,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-llama3-8b-inst-neutral-tech-r2-v1/raw/cases/case-04/terminal.json",
+      "sha256": "ccb44db15c9da61d60c139c10fc0944100a11fba0b9080c05d45f0d7912b8902"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/manifest.json",
+      "sha256": "f7b4e68f2f4d39d22bafec581ca5b6511011a0c1b616cc909cb4cab579430451"
+    },
+    {
+      "bytes": 1315,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/action-freeze.json",
+      "sha256": "4be5177e060e1086eeb8af24840406585be7b4bc261a9aa26a1729200468a898"
+    },
+    {
+      "bytes": 25679,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "e19649fcfa879f0e3759e3f8e43d060433666bdf5bf3f257fe2e3502b6f8d5ee"
+    },
+    {
+      "bytes": 1300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "bcecd92241e63ec29b89bca63f919f8fa62d0ca946fa19028f9230b95c2e4542"
+    },
+    {
+      "bytes": 25962,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "4c9eb839a5bc18bbfbc0cd64b38646030393557ee1eddf43d0ef177d9f1187ad"
+    },
+    {
+      "bytes": 1297,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "19832767962f99a5fe7a930e7585a7f8bab0b0bcefbce493e10c872ee621e9a8"
+    },
+    {
+      "bytes": 25919,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "ccf00c1c529d3ab49f0ecab9e3555b0489085c1904ff276eb6ae6801b9e506d3"
+    },
+    {
+      "bytes": 1309,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "1312c72b780880c3cb75b9ef3b5cdc78d809bfa0d352d4b6b29dcba428e30f5e"
+    },
+    {
+      "bytes": 26270,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "c957a4b50373602dd5d0a2708badc0dd68869e30922cf875083faf3ffa7dbea2"
+    },
+    {
+      "bytes": 1317,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "5d7b73ce21e89167ec4e6f5b409e03c4635fb4eee437a142de4c04b9f8a825d0"
+    },
+    {
+      "bytes": 26397,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "a56d35c7277865af65bc7770cf949b42520393e5ceafd337c618c8845ae2fd33"
+    },
+    {
+      "bytes": 1341,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "14908acbe1c8cbb46ba7b40bff1462ad755514a5a7424a902407d2cc15d67aae"
+    },
+    {
+      "bytes": 26543,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "e449d147161eb72d8cd7d99abb19c77cf076e487687a839621a2e0a6094163e5"
+    },
+    {
+      "bytes": 1349,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "946e4654aa541153007b6f486fb97524d5416fc2ad2c392cbdd1905c10d2720b"
+    },
+    {
+      "bytes": 26538,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "45957afe6000fe35f8a64169228c670ea3ac3aba857f10a90ecf514ff593f6d5"
+    },
+    {
+      "bytes": 1359,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "e01e450e5b8492d6c367600cbbbccff880b632b142cc1f2401ddb3ad78e9d261"
+    },
+    {
+      "bytes": 26877,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "0bdfffa87ad0afbe6b78e5e1a67841fe25fae20df8d49db0af69b1da4a0cdf0e"
+    },
+    {
+      "bytes": 1371,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "e11bf076c727be80d5df469323ca0c81e7a7a81ff507ec2b6de978d8d93eeb99"
+    },
+    {
+      "bytes": 75251,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/terminal.json",
+      "sha256": "37cd804723a6d065cf96e243597a9be9b5cec4493b2850a52e537ba7cbca71ae"
+    },
+    {
+      "bytes": 75929,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-llama3-8b-inst-neutral-tech-r2-v1/raw/cases/case-05/terminal.json",
+      "sha256": "31d8deeafa7c96321d9765464d4c747ad6cedda17d922b9154220e0d51f5050c"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/manifest.json",
+      "sha256": "51c50001125060062ad62024a308f1eff6c9d02786a8f9abe957b9b0279dc3d1"
+    },
+    {
+      "bytes": 1315,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/action-freeze.json",
+      "sha256": "d116cc90836630f7ea8c9cf2f86f724046f41c8b54a2091580a5de081e0dfd32"
+    },
+    {
+      "bytes": 25702,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "791e07b9f039d6ae69305edc450786a4e6ff08304f6ca029d7ab7b679e1a0fb9"
+    },
+    {
+      "bytes": 1305,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "0e32b4fb7b8f0454b90989601a0ba8f3e0ac3fc5a860f079fbbc081489e607c9"
+    },
+    {
+      "bytes": 25925,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "2a6a10fe9e76c628424621dfb59f7de35304bf63bf831c7886096e2bb2839545"
+    },
+    {
+      "bytes": 1302,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "4fc5dee6c5158314c883ebb96b5001633b494d4d92a21e6652dc8b434ef77249"
+    },
+    {
+      "bytes": 25941,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "8de1cb66a9bc738ce24a81d3e2026389ab713266f36e640a21df5aa8aa7f91b0"
+    },
+    {
+      "bytes": 1306,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "2522d7c98200a55ef3c84052dc867b762b0256bbab213ae39eba3ecbab46ebc3"
+    },
+    {
+      "bytes": 25993,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "c2c1f3d83420c273693d24026df243408f93476e74b62283e89b2ae9bba09f77"
+    },
+    {
+      "bytes": 1312,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "e5c69d27ad52d9adb92fe21933e9bcc71b268a1738cd5beb47828d53ed224357"
+    },
+    {
+      "bytes": 26052,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "ee2a23e6ba0386c0b0385fadbae12cb915c4c972104c1ced561b5c0699587ada"
+    },
+    {
+      "bytes": 1313,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "acba92e8a704dfabd47e1a6fbad2bbde0b4d91532edb460bcefd69e1a7c5b95b"
+    },
+    {
+      "bytes": 26162,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "a933a4b3703335c6cb8dea63fe42967da39b5845e98aff0e5bf141d10bcedfa4"
+    },
+    {
+      "bytes": 1327,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "7ff3c100f4b7e7063a2411868ddade2a182868c53466d9ca8474e7839a0a2f37"
+    },
+    {
+      "bytes": 26188,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "4a70b53586c24d767cb389db5e6aa48f1d18228734087a725242b72d01e8ae99"
+    },
+    {
+      "bytes": 1336,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "fcee7f50b52bf7858d582f4ae05b6e66330e1caa57ea3b3684a5d03fb0ddb457"
+    },
+    {
+      "bytes": 26657,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "d3e357bf6cc06e8aa6d511009bbb2ebde0c866dd9d6c103462cede9e04b8efc3"
+    },
+    {
+      "bytes": 1334,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "8df2a5b2129583dfb52ec21dc6c43651f194ae26b17c28a28b44d6866fd8e2e7"
+    },
+    {
+      "bytes": 76164,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/terminal.json",
+      "sha256": "d7cbf99959ab4739e9b951bbb32b6741bae93e52211629529147b4db4f263805"
+    },
+    {
+      "bytes": 76763,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-llama3-8b-inst-neutral-tech-r2-v1/raw/cases/case-06/terminal.json",
+      "sha256": "1d673deb2f1f28df842e761080b948efd1aa775d525b6e5353ded792a17c94ce"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/manifest.json",
+      "sha256": "d817aea5f4c7fb9a5429a97f5413f76f488f720a045d4e8f5fb1c85fdae0dcaa"
+    },
+    {
+      "bytes": 1315,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/action-freeze.json",
+      "sha256": "a94237df0e842be528a39ffaf3fd6d723af32bd0d0623e24b6cc0a6236bb0c00"
+    },
+    {
+      "bytes": 25661,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "a322d006bf5a630e60681eac17d768c3512c02df8dc180ba72890e70437672d2"
+    },
+    {
+      "bytes": 1303,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "6b9ce7054277f76822ff06f11cf828e8b44e4c0623125b3f7edbaa650329a535"
+    },
+    {
+      "bytes": 25861,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "6157c2d90b89bc318da8b8197f49ecf0bde29d023413d422691642fad675863b"
+    },
+    {
+      "bytes": 1297,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "c9a40229954b76500913f00a0c883dc43c0a5374c7a61b59955d620a260ecccc"
+    },
+    {
+      "bytes": 26018,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "02f6f63fccacaa631f059f04c1a22f56e82afdf97e3bfb5284244d0d44ad298c"
+    },
+    {
+      "bytes": 1300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "8970628560b85d8bf3572406ea15827d7312da1090fe954fe09c8da8c88ad0e8"
+    },
+    {
+      "bytes": 26017,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "0957addb6a075433e793937990984e3785e661bf6ad44ea91091136868ad8095"
+    },
+    {
+      "bytes": 1309,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "dcf33926aee54ad3dc81f878a65745de49656dd19aaae7ac8acf22656c929c33"
+    },
+    {
+      "bytes": 26161,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "ad4783fe5f097369c0528db7a4b1766cb653aab1c58633dc048810f97d94a47a"
+    },
+    {
+      "bytes": 1316,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "f99f759db4393e411e4c4d192567f77452cf283817726eec105ebf45647e7a26"
+    },
+    {
+      "bytes": 26262,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "9c1854e07173b023c01ddb3160e3e2011a4c3dfe1dffc003ec0c5ebcb45e6232"
+    },
+    {
+      "bytes": 1334,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "90445273a4eb2a9c84a8b301d73f17e287fc8b5e3279253358789d37f5df371e"
+    },
+    {
+      "bytes": 26363,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "1153427e6b121181306febbace676434410b0807d149ca14742502014a7f3138"
+    },
+    {
+      "bytes": 1347,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "c54852bfe8c1e43a2066a86caf0bd45be5e3023b9f921718939c71d63ee04f54"
+    },
+    {
+      "bytes": 26680,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "a252b8defb3bbae6415a75d3666fba80558b8eed1c3cd78b05d8773c8b030096"
+    },
+    {
+      "bytes": 1352,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "48dd73dbaa00480acab04b20ba2b13ba4ab07c06416bee4c270249d4b518b3f4"
+    },
+    {
+      "bytes": 76959,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/terminal.json",
+      "sha256": "9ef0bb7bf3e6d615f58a076520ee6c8f66a850f073ca1f8bb3fe7c17537877d2"
+    },
+    {
+      "bytes": 76967,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-llama3-8b-inst-neutral-tech-r2-v1/raw/cases/case-07/terminal.json",
+      "sha256": "78f9a80c60bd2fc374cbd4a8c7194b1d5aaf386bf8282f1120a6ba0ba14c3a3c"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/manifest.json",
+      "sha256": "8a59850314076480dc0bf9cfeb574df91669b0e354e4cb341279b4df3248da9d"
+    },
+    {
+      "bytes": 1315,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/action-freeze.json",
+      "sha256": "f04a2ac324f3c297de7b00afc03104e39291eaf7e26d534f74d70e33a09e89c8"
+    },
+    {
+      "bytes": 25609,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "0c00f263377140186f2aa7a3efdf8042066782027ef9bc13697074c36c211e55"
+    },
+    {
+      "bytes": 1306,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "b98295f1fc9e9e79148e8996dfa7825a91ff84aad9df49be2a5c97f253aa3ee5"
+    },
+    {
+      "bytes": 25892,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "4760d091f99c49733c781e5c5d736c42c2070e8f8f103833b23e913edeaf3f6d"
+    },
+    {
+      "bytes": 1294,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "779a544a1c371ffa27c15db5863b3e55e0c8f90fa867284da61c01572fb3d8f5"
+    },
+    {
+      "bytes": 25904,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "2a0037186b1393896d37f65a388ac961172a9c4fdca8deb44e111bae076168d9"
+    },
+    {
+      "bytes": 1306,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "4e7423a2db5892cd59b1881abfc97f4df4e2d5a61eb6330a387841730025f175"
+    },
+    {
+      "bytes": 25982,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "4a396300cb5695982c53964f7ecde5d23d53a9905d2c88fea32a84ab614734a6"
+    },
+    {
+      "bytes": 1309,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "37fccbb7fdfa7a6aa8958a1b1841ae83c803f8b80d80888d724edf58884fefa6"
+    },
+    {
+      "bytes": 26073,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "c245f61dba0dc3a5863d1425dfe77a094220afca295577a85acc92ea517a0cb7"
+    },
+    {
+      "bytes": 1318,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "e01dfbe04a4e7c33c4ea2ced10431bdb2975e9a56d386fdd76513a7b5ad609c7"
+    },
+    {
+      "bytes": 26413,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "72ff20b8b243c6f783f5d20055c91ff8b170c71fed81b13e0ad885b627b71a12"
+    },
+    {
+      "bytes": 1337,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "37f08ed29c04e76b831c71dbf881b32385527286d4d70272a94fec5d618022a2"
+    },
+    {
+      "bytes": 26287,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "564b71c3f80b90bb1b9e8059de7feae31d3b85cf6f7c505b1269de44b3b78413"
+    },
+    {
+      "bytes": 1339,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "d041684f3e8c832d237306c2e420728323a3a255993b970b5c293e9dc0a2db6c"
+    },
+    {
+      "bytes": 26600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "d43247d2ac1de6062c7ff6e4ef8ee42b797b3437ebc4d0af8af6d672b3fda432"
+    },
+    {
+      "bytes": 1344,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "604ff029e32a422f7421d30dd9bee77ecdcbbcf0ce131a27eb8d312b32c0d461"
+    },
+    {
+      "bytes": 75257,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/terminal.json",
+      "sha256": "645dde40d2bdf04a1b966e7db8e0e35e2c3151dac3b2cdd97d2cd7d3c9dfa5cc"
+    },
+    {
+      "bytes": 75698,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-llama3-8b-inst-neutral-tech-r2-v1/raw/cases/case-08/terminal.json",
+      "sha256": "487d6ce583e15916f03d5f248b6c6d3660ef5a734ec55311eea1e3b2795ed187"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/manifest.json",
+      "sha256": "e22db236b9872c0c733e7e17a2f52eac6febca818f7fd7401557f2531ff3e759"
+    },
+    {
+      "bytes": 1315,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/action-freeze.json",
+      "sha256": "13768848ed017a8f002758f2d28c756be01f74f7a3afb7753a2e0174ef51edc6"
+    },
+    {
+      "bytes": 25718,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "e294781b5e21d8d28fd27b06b5f74a62c16e91ce76d477803ed7f5fad3e3704a"
+    },
+    {
+      "bytes": 1302,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "8602f58d2c7d379425f7bc3bf7404d9926a567a15a626186da0507e3e1659064"
+    },
+    {
+      "bytes": 25970,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "69f6278b028254e67952d9d249d6e6e17cff4a3cde78f354c06f715c9ced3abc"
+    },
+    {
+      "bytes": 1300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "ae3c0b0947da9e3e3e04271550e2f7b5e3afde32500f51bfe0f41c2cfd390a8d"
+    },
+    {
+      "bytes": 26015,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "d63eeb485d6a1d746b0b71c100ee28e4e679bc3bb8bbb22d0431a744cb2ba7f7"
+    },
+    {
+      "bytes": 1317,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "5748b82dcc28b01de44b6df33769938a03077aa94d99df67b9379993f5716b16"
+    },
+    {
+      "bytes": 26035,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "e78918dd6089471c88f0bc2474cd62d21a3efcb500452454fb59e67399dea555"
+    },
+    {
+      "bytes": 1317,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "1317f8ecfeb6910a012b8f6883e4a874f21403414398b10a2037aafdfd295142"
+    },
+    {
+      "bytes": 26153,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "920b12e18416c9cd7664b9d5c5d4dabea390edf82c50386308259f3ee603168d"
+    },
+    {
+      "bytes": 1323,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "2e3c83a2744285c53a7e721cb3d4c95a1e649ebe0f3d992862c5f10d10a994cb"
+    },
+    {
+      "bytes": 26264,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "af760bb1e96a4c8e93af1fd3691c6957161266b14033a5b03eb02ecb5dbf7c89"
+    },
+    {
+      "bytes": 1335,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "0f6cb2df318c9a74b051de8d8002e0a7e16c379a9861d3f93dc1bfe2b67042bb"
+    },
+    {
+      "bytes": 26302,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "6a3a66d3c9ff92c0da97790dde2ca445960b4d12c7e9788af514a6fd53cdd904"
+    },
+    {
+      "bytes": 1345,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "996cdfba8d8fa36895ea91c834c345033092bea545dae25c1acad6b78de40cda"
+    },
+    {
+      "bytes": 26121,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "b73b5d8a2b925421d3c51139142e8e7584b6bcb431544e8dc46ae5512dccb20d"
+    },
+    {
+      "bytes": 1335,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "9b41bc108cd7f88fa2ffc52a0dc279592e9bb9f99ab2d6d522e7d152a2a3e465"
+    },
+    {
+      "bytes": 76013,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/terminal.json",
+      "sha256": "73d42c52d60591e1a8543cf83bc29c7811468c1f90717bdf82377d2c9fd5731f"
+    },
+    {
+      "bytes": 76084,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-llama3-8b-inst-neutral-tech-r2-v1/raw/cases/case-09/terminal.json",
+      "sha256": "5a35eba9553565d7def0ab5f81c437762d265c43a00496f8f54d8c4caa7d2dc8"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/manifest.json",
+      "sha256": "a9374bd406b436b74df146958e44209ba78461a9b608fd1bf03d7174984cd960"
+    },
+    {
+      "bytes": 1315,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/action-freeze.json",
+      "sha256": "548c689bfc216e0d54f782b6f3ca0366284ecbe78d4bdfdc9d5a310e5627f4d5"
+    },
+    {
+      "bytes": 25622,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "c07a2ecbf47ba87833584f06d6f8af2b83a2b62259158201b3e665a6ac08356a"
+    },
+    {
+      "bytes": 1305,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "cb304f26634cc1adfdd9c8c70f73d4567752356d839712ff095f099d21af73d1"
+    },
+    {
+      "bytes": 25891,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "dffff078def43f5dd19ff21370e8c6d426e6f71fb4575d30f0109475bdb01fa5"
+    },
+    {
+      "bytes": 1301,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "e066e3137cd2b6de0d1d9f7a6ef0ee4aba89b2a05eb15c153e5f16f101472857"
+    },
+    {
+      "bytes": 25929,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "9a9f6f917c16256ac5bb63a882ec64e4e081f59e786cc31757f5ee868b5e64df"
+    },
+    {
+      "bytes": 1307,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "20a0d466e2c95de4c2c6dbf2824a7358fda618d59490bb2ce41b65c1aacdf656"
+    },
+    {
+      "bytes": 26068,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "dd0fff23110f9553c2cd17f898c0c23560f621ef4c41bccbf23b335c85f81046"
+    },
+    {
+      "bytes": 1319,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "3c121e1baaf3f280cd09561060888de13d46108913ab7289d0b103aa89585ac2"
+    },
+    {
+      "bytes": 26062,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "c4b5516cf2e4bf1ae6eff475e3623f4461075b8f4f32cb5d02acdc06032ead5b"
+    },
+    {
+      "bytes": 1327,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "1b84bbccf684711a534828d8a3fa949209896ce167f8cbf74e7d2c5b0ea10e67"
+    },
+    {
+      "bytes": 26178,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "d44d1de386203869a465e6584d14931f57a2660597c058fa9f1dabdc206875d9"
+    },
+    {
+      "bytes": 1335,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "2780594e4972752a8017f58a4189aea00724bb95e296f9412c925bad637429ed"
+    },
+    {
+      "bytes": 26405,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "27d5a1071f723ec69da17c805dfad14b22dd8b144877a9f6adc2047664b29c8c"
+    },
+    {
+      "bytes": 1345,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "1c2f640579f1c7bab201274c7911233b1176470ae0590f109e0b762bd766bcb5"
+    },
+    {
+      "bytes": 26664,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "dd565a2a7c255b814a28cbc8de77dc82781036cc67d599d6706976b33d7cf21a"
+    },
+    {
+      "bytes": 1354,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "559c60aaed84fb0d83b8ff97a3d31efb7a5f174588ff6870554a99b56e02aaae"
+    },
+    {
+      "bytes": 75731,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/terminal.json",
+      "sha256": "85cd64295d96d7c156a3163fc84133af0a40ed0002d62d33416c88f966994a48"
+    },
+    {
+      "bytes": 76307,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-llama3-8b-inst-neutral-tech-r2-v1/raw/cases/case-10/terminal.json",
+      "sha256": "8bba568d0c399f59144405d40118658b9a2330841f4456e64a502fde7a526cfa"
+    },
+    {
+      "bytes": 420,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/manifest.json",
+      "sha256": "a18972bff420e9e0ff1e7ee35a769eb793a12d91a3493f83e70f9dbff4e1754e"
+    },
+    {
+      "bytes": 1316,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/action-freeze.json",
+      "sha256": "a45ccd800d0cb04a80a6ef9fbd4b417ab771013541bd3eaf9f496c9fa18f73ab"
+    },
+    {
+      "bytes": 25683,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "37f89077ac404fe59fecffc21dc384cc4f382886d17439e6789e2c858c0dc017"
+    },
+    {
+      "bytes": 1304,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "031c87c9caff34302fe681da809e1bf11ccf035aa77cb7663a22782ca289cd16"
+    },
+    {
+      "bytes": 25890,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "fc42ae1e29d5bd1b119edfbafa236973d5c386c7157d399232e1734d057a016d"
+    },
+    {
+      "bytes": 1299,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "b977bdf43c5c7829e517daf8d086ccf0afd1343aca8643c2cc5e59330013b06b"
+    },
+    {
+      "bytes": 25971,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "85ffe51c20f3e90f79db277d5a8b57dbc74fcbdb6457d06a274aa8c563141310"
+    },
+    {
+      "bytes": 1303,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "0119091468906d930a1cbe180b05c5adcc9658dc64b35b99a460a2dc7a363a61"
+    },
+    {
+      "bytes": 25924,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "0eea6e1ffc2690562694e99a26de8acb0cc5fb09bd43abca4dc8cb8e28056652"
+    },
+    {
+      "bytes": 1310,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "32beace605a830c79a18258cf12254ba754afdb3de837691f967b6b8b1ff629d"
+    },
+    {
+      "bytes": 26054,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "c5f889b58d6af2e237a76f2f81a4caafb5b4218e3161e45c753fa75efc17741f"
+    },
+    {
+      "bytes": 1312,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "0c1ea8a36571a10eb97781237a81477e190d59437ce6c3ed7b3df07203f94b96"
+    },
+    {
+      "bytes": 26200,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "39e0b1282fcbecd5856283dbb63503bfff25fea081ebfdb639ca29e8f95f159b"
+    },
+    {
+      "bytes": 1326,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "dccd1dd3ace2f07afa0e6b38534b9523095351e22e7a71534a1cbfd43d3c361a"
+    },
+    {
+      "bytes": 26235,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "62bf02fe156713fc062b2d155999c68ac17a21ee05b87d4169f285b21b2009fb"
+    },
+    {
+      "bytes": 1337,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "1ebe05cdf3d92bd981e2503e193bbe68d1244080d863e5a168fd5c30709d1624"
+    },
+    {
+      "bytes": 26742,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "66ec1b2efc2005e8cc003a003bdbb1a160edaa25858736c37b2bd9dec46927cb"
+    },
+    {
+      "bytes": 1343,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-llama3-8b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "45d871e817d8b01e2e37791cf80a75350d4f98ce878d7ff60b80405284d228c7"
+    },
+    {
+      "bytes": 417,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/manifest.json",
+      "sha256": "896a44cbbc424b05ee533a534607aac33cf8a83515c95bdea3a3c73b3c72f1c7"
+    },
+    {
+      "bytes": 4585,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/terminal.json",
+      "sha256": "1e91e6bf4cebd81650b0a6ee31f9ae19d06dd6d1c2936377c8523a935e59218a"
+    },
+    {
+      "bytes": 75112,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/terminal.json",
+      "sha256": "0e8a4dc86a24ea38f7775cfd141d85aaa667d72d39c1353d254a548b487a3eef"
+    },
+    {
+      "bytes": 75021,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-qwen2.5-7b-inst-neutral-tech-r2-v1/raw/cases/case-01/terminal.json",
+      "sha256": "a4731952fc484e0b14a9dec7a308a4b974bc1efcb63e3f0065cb4a504c1c0ca0"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/manifest.json",
+      "sha256": "e92d7d0922651a28b29ab234421c767223e7f6e2afbd2ed942a3deb76d218b6c"
+    },
+    {
+      "bytes": 1316,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/action-freeze.json",
+      "sha256": "6b747ef6288f840d339543754882ff2b5099d2cf9888909f83f8fbbc3d37a959"
+    },
+    {
+      "bytes": 25592,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "b8a1f07e7eabf748e6af02a426e1ccba942242855f65445ecf955fb787ee856f"
+    },
+    {
+      "bytes": 1309,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "3d5e9efd8fb11ff2d9ea5f6df8c1f305e3b2509e07bf1b93f46aa9af37a91987"
+    },
+    {
+      "bytes": 25806,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "187e91f6d8d59e4f13d8a0380435e0e7b67dd939ca0917794d6d4c09bb62edc2"
+    },
+    {
+      "bytes": 1294,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "98c15d4e99249deea93fe126df82017c69a32f7386943b89c83967565db7ebc2"
+    },
+    {
+      "bytes": 25854,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "90eaef3a136d622d2c3bc767b9f0258b37fb37bf409c4a5818db979fc8f2eae0"
+    },
+    {
+      "bytes": 1298,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "57a7e82a0e6f77bcf375116e1afdf657581f2f8c50ac77bcfda05a97f79583c7"
+    },
+    {
+      "bytes": 25939,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "1dd14f2aea7945bf0c3133182489bb3de7e820392db7ae8dbcdeb000f4e78f61"
+    },
+    {
+      "bytes": 1307,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "02a2bd640c2bc25709edb36b802742c53b537d2327332c4442fb258a721ebdab"
+    },
+    {
+      "bytes": 26025,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "f91804974922bc1c5cefe51334789fb1b87051c7d9ec57bb96a6ff9496eba01c"
+    },
+    {
+      "bytes": 1320,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "531b8b778f9d9fc239529da80c832a4b44b6bc380f887f2125f4052b463c7471"
+    },
+    {
+      "bytes": 26095,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "8358df0432bb396b1d0ef4feb623ff6b803afc7486399271237203197ea97a20"
+    },
+    {
+      "bytes": 1331,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "e0d931f678b2ebfc1ff2c42c69208d9e806f2939386683f5cf2d2a35bdb91e0f"
+    },
+    {
+      "bytes": 26213,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "83f5a8cb602bd492a4d013075862e63f6522d37661d163ccc9ab22b1c8856be6"
+    },
+    {
+      "bytes": 1338,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "3f475fa55dba947f1720e344a506b19971ff489d00ab30bdff2a053b73afbee9"
+    },
+    {
+      "bytes": 26551,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "a735c21f9f4aa8ec38d5b66c237776a7ed71a5cf66223051382cd43992f07d67"
+    },
+    {
+      "bytes": 1341,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-01/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "a78db09ff1b1f571d6c1c932510eeaa250c80eda227fdf16f4ae205ec28295bf"
+    },
+    {
+      "bytes": 75335,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/terminal.json",
+      "sha256": "5775b474dfa8cea6f46d0eed4875f491620de0789a358a0a6b9790b1bfe08a26"
+    },
+    {
+      "bytes": 75777,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-qwen2.5-7b-inst-neutral-tech-r2-v1/raw/cases/case-02/terminal.json",
+      "sha256": "fc6e2d95f1cab7179df071297e3d741266cf92ab8e52a79deb2fc9e8aac608c5"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/manifest.json",
+      "sha256": "0fc0b146a81cb1fdc19a59042ea3ced98f8dd6be5e646e20097b1997560d1919"
+    },
+    {
+      "bytes": 1316,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/action-freeze.json",
+      "sha256": "570990a965b1d81b0c1c2e9ab8b0d3327faeb2201bdd7815c7e406ff885c8c25"
+    },
+    {
+      "bytes": 25607,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "7913c977bc2c985090311f6b6e9ebc9fa994eb1c8470e028cf502a9635988696"
+    },
+    {
+      "bytes": 1308,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "eaba4376428cd3d1fa69aebcb30cdeac27a9cc4f2c18a1ba40e63d4ceccf123b"
+    },
+    {
+      "bytes": 25825,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "b189a27b503f1fbdfbc3af08191b388ee7f099623e7856069a858d42c763b04c"
+    },
+    {
+      "bytes": 1305,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "831fd0b0b3096ebeef711c6563a986710575ae126328b30be42f2d9e2fe80fcd"
+    },
+    {
+      "bytes": 25994,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "083845b31394e3cc9221c1ea734925ae82b4d72f2f77d6bd092007643f67df48"
+    },
+    {
+      "bytes": 1334,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "6f42953ba049de24f6bea79ddea0c566d5efb2c3a81c28a736fed5649c12ba31"
+    },
+    {
+      "bytes": 26085,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "25775916f01fd943c063074eac72398eecef462998b2f581ed0053034a039a51"
+    },
+    {
+      "bytes": 1330,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "b181166b1f6137ba261eb9caf578887140f5d68a80f72d62d889e24a404812e6"
+    },
+    {
+      "bytes": 26180,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "8930c807aa836275187d0cbb5cea6e71fe4da904f5edda51d3c152bfc4b4f536"
+    },
+    {
+      "bytes": 1344,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "89b8f8bc0725247254375426d7a53e0385070c387afddd16bb6d5b884eaae955"
+    },
+    {
+      "bytes": 26335,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "5b547f5f7fefc0ff7a37397023d43a7bf21883407821b0332e8166e03c7bb263"
+    },
+    {
+      "bytes": 1354,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "1552ab57da5b36f82e2bd82be4a7accb1852d9f69dfc3fdd572d4a0615d95bc4"
+    },
+    {
+      "bytes": 26420,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "143ebb16c3f572ba29655b3a96f7dd9e6921ea1c8baec1280f30a64b02ddb91d"
+    },
+    {
+      "bytes": 1363,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "0763c4da9f6df20e3e0de38e9ce6638aa8cc2e79e922939aef7523444f5f5c8a"
+    },
+    {
+      "bytes": 26699,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "1d3d5f83485056b428e7448d04dbd9a8e2ff9b9acf959bb2bd023f96df8d383c"
+    },
+    {
+      "bytes": 1371,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-02/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "9961d57e6206cc7242c100724184e555675280f39df7c3072c6d38fc46e16a10"
+    },
+    {
+      "bytes": 76092,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/terminal.json",
+      "sha256": "c77f288420a26147493dcf4b3479773916ab995e1aa83698e45c1df5fcf38d52"
+    },
+    {
+      "bytes": 76422,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-qwen2.5-7b-inst-neutral-tech-r2-v1/raw/cases/case-03/terminal.json",
+      "sha256": "e9ce6faa5b4d288c705fddf46c8538fc04bc5e0f832426ff5d6f8b9cd9debd8b"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/manifest.json",
+      "sha256": "ff9f9772c659ece9d338de7120c74daa3fe696c1fae9454b3ddef4c8fd3fc8de"
+    },
+    {
+      "bytes": 1316,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/action-freeze.json",
+      "sha256": "93f53c4012f31fac7cd12cf21745308a3ac941ea00876dc94f2ec0df460e515e"
+    },
+    {
+      "bytes": 25536,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "a7c3b13e9b134d8d93d1ed286569b226105b3e8474e089b87129ca920c63d3d2"
+    },
+    {
+      "bytes": 1298,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "58d83021ca31afd1184b285203acd4560ae0ad08753e7cf4d4bcde78c08bc721"
+    },
+    {
+      "bytes": 25904,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "fa8726c0531ed7f56a1db1c77c15acebc8c588bf007c0098f29bd88348d3b27b"
+    },
+    {
+      "bytes": 1293,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "4eb30773f906cdb3b6eb473b56341fb1481034a1375ce58a4eaf0bd9a2228e82"
+    },
+    {
+      "bytes": 25879,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "a52cbe1985c8d99e6ade4c927cb1ce4dc5941aaec287ab2efcb7793c9118c9f3"
+    },
+    {
+      "bytes": 1309,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "2443b55d3f5f7aa83fb4252f96f47571c2dccde1a6a0f944a428d3f1e3ed0eae"
+    },
+    {
+      "bytes": 25999,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "718c30fcfaea8748b1dda6f363dec8ea2087bd45d8775f43f706810396cabec2"
+    },
+    {
+      "bytes": 1319,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "3ab2c7ebde76b66d055091486b3ade6e9454fb27a7efef440dc21273b01fb4de"
+    },
+    {
+      "bytes": 26271,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "c7904cf05b361d6f3eb9110530bc749112a771966b195b9d43eb13837c89a0d9"
+    },
+    {
+      "bytes": 1338,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "4ca3a5b7c9ff8584ac3a3a4f146dc2b0b4480c39c7ac0c114aab69209db74b4b"
+    },
+    {
+      "bytes": 26329,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "3421541e53399a5ae78c68a2bb453bce08beedabc910c239901023d4341e5608"
+    },
+    {
+      "bytes": 1353,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "1a2281279a2ed3732295cf16e1fed3dce2aa9fd541e0ad2f7473ce7e2772300e"
+    },
+    {
+      "bytes": 26519,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "d479ae45eff47c377b4a941def2c72fb47ca7f2a719afdf0be59205fa42a775c"
+    },
+    {
+      "bytes": 1349,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "025a1a05141220bc95820b8c8f51f7de38d0c5f7f4e588a84ce8ffed1037067a"
+    },
+    {
+      "bytes": 26721,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "51a989baae4f99742fe6ee69e914e8fa925e6fe688fef43e1b64008a29134eb2"
+    },
+    {
+      "bytes": 1359,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-03/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "fe6783782c2005a400a3737423b230392e641f870e9ea89d3e7824ae4ebee949"
+    },
+    {
+      "bytes": 75683,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/terminal.json",
+      "sha256": "653469ba4d78f392502115bbfcce4d5fc779637530caf34e692c683901f9c307"
+    },
+    {
+      "bytes": 76057,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-qwen2.5-7b-inst-neutral-tech-r2-v1/raw/cases/case-04/terminal.json",
+      "sha256": "bb81b0a889c5c0419cce5b682288977fd348147aabda43f7852dc3ab0e4da511"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/manifest.json",
+      "sha256": "e69a976d8a0dc3a233f370783008e6c41930f1cc2b6cee2072c7233772d6ef40"
+    },
+    {
+      "bytes": 1316,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/action-freeze.json",
+      "sha256": "c89d03059d283da23f0aa7dc5c0a16eadcc936d4933eb6f9187e6b65e08b7d9e"
+    },
+    {
+      "bytes": 25562,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "e12d14f83f7e1ddc1c898e28083409446e0570cccccc9472a25efef25de60688"
+    },
+    {
+      "bytes": 1308,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "5571ee19c6a68618b0335d07f769edb2db6a5f518c7fcb2927ea13a52a09127b"
+    },
+    {
+      "bytes": 25871,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "fca6d7103c22bed0219fe7eaae2a83d8293f653442c420cf4584988dfaa5da7a"
+    },
+    {
+      "bytes": 1304,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "6e676ef9500dd9059a44a4b778fc3e73167e09c79acc23e475b715f39a4b31b2"
+    },
+    {
+      "bytes": 25916,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "226416dab29c6088487765f3dece0e048425de2f51c666afd2cef662989c99bb"
+    },
+    {
+      "bytes": 1311,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "ccf46f06fa1e335131b010f399b1397a3d017c1fddcbf1aecbb87d499397a1b7"
+    },
+    {
+      "bytes": 26198,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "2a43a34f8d16b6574120c9c2d3cc35a6ffdbec564d0c937fac69c5833a7eab34"
+    },
+    {
+      "bytes": 1314,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "78cdc60bdd32b000985a78e3bf9763ad477e8e73a157ff4b1959312b31e2c1ea"
+    },
+    {
+      "bytes": 26159,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "7f96fe4b7909a6699653b33fcad42504fd0bdb4d668ec735f425435d4d0e4898"
+    },
+    {
+      "bytes": 1327,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "c947ea82e96a98561fc278ddb2e2e4c109e65bf5382d33f1d00b7dc1e0de6cca"
+    },
+    {
+      "bytes": 26267,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "cde2b8b1de6697100b08a038af5c832b3f959ab8972485f601a9a9aa9376a73d"
+    },
+    {
+      "bytes": 1322,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "eed9cc5c89a3b5f8f324e0b531a47b48e5985bc2f6776d54f2af329a1bd6b1ea"
+    },
+    {
+      "bytes": 26285,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "e4c89f989ca54ee34a6d870d74f59ec231733116be3ef0a578ca416fdef663d6"
+    },
+    {
+      "bytes": 1348,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "dfa92689ac0930546b3e235c9f00b2d7fa2bacf3844f114466cf7961804c9f59"
+    },
+    {
+      "bytes": 26599,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "0c0b207deb8844c7f58c05d68f34a9a83815b97c76d7ad7f1186b55ec37d1501"
+    },
+    {
+      "bytes": 1341,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-04/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "e87b2d825d55e829862d41d68874c5f5c910405649ecdcba223b1248f2526f07"
+    },
+    {
+      "bytes": 75332,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/terminal.json",
+      "sha256": "a1d0b76b7686c6e968e1873382f3a9767514fd126af85c641118cbf2f80734d7"
+    },
+    {
+      "bytes": 75800,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-qwen2.5-7b-inst-neutral-tech-r2-v1/raw/cases/case-05/terminal.json",
+      "sha256": "51e4a59bc0859363d9edf63cae14724616ae9d271846343034d47e71aeb89ac7"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/manifest.json",
+      "sha256": "504de1390b4ed2a481030090a9e446f86443b02e99a579d2018a73c8b822e109"
+    },
+    {
+      "bytes": 1316,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/action-freeze.json",
+      "sha256": "5a2882f5caf38aed4e12d4f1ee2f7038b2c49f307f9710df3fdc2eac611d2be2"
+    },
+    {
+      "bytes": 25628,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "f8d24b39ea642ed8abcea713f6513c30a386b77dafe61c6794b606c5173c9a18"
+    },
+    {
+      "bytes": 1301,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "9a4d6334d0a63da1e919558fdd7b3a4820ed1ed0822fce3671525e16c0f2a90a"
+    },
+    {
+      "bytes": 25865,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "a6573a4405be3ddec5c8627c7790b95c1b812dfa90fcec3814518b839d8aaac2"
+    },
+    {
+      "bytes": 1296,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "738e330fe55e44a84fc90b3fafa65cc1815ef8f6119edbe797fedce2d14da43d"
+    },
+    {
+      "bytes": 25943,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "af559216e7a85bcfcad6e94173387c6a115a05cfe591cea1fa4fecd63cc68087"
+    },
+    {
+      "bytes": 1308,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "9e63d7788956a39c4cee20f55ce13749770610fd81a76c5621f428189a05c236"
+    },
+    {
+      "bytes": 26155,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "8cd38023682da6c2bfdffd56c837f66463501804f89ca869c867f45120964e19"
+    },
+    {
+      "bytes": 1306,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "d12c947a0391f77bd29a747fa2eeac3c3e7b52ea1c2712737a4309f117d73381"
+    },
+    {
+      "bytes": 26298,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "d8c73ab59715561490ca71741f6dc379a62208c7cfc90ae77c60e6cc6aea743d"
+    },
+    {
+      "bytes": 1317,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "e1d1624abb68e43395e134019865d1a486696d8f6ce8b321925b724e0252109f"
+    },
+    {
+      "bytes": 26244,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "6e62762517cfcf77575b137dce25bbbd94867e7a314cb86930fac1ee845dcec9"
+    },
+    {
+      "bytes": 1375,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "9197f879b052c926f838ce241cd21a80a9e796ed6f81b02ed10a5736539e29e4"
+    },
+    {
+      "bytes": 26435,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "5f117c20e003a362e41e1b332601ce340f98290f1dadc024d3e8f1d7581a443e"
+    },
+    {
+      "bytes": 1349,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "00a4c6d8bd15ea76507a78d4803e0bbe88ee73c7d1907ceff7b896f6e0d54aec"
+    },
+    {
+      "bytes": 26757,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "afae29a8b4b386dd4588cd27dd9366eaba73f3b8c70cbdd1c0f023bc0e7546a5"
+    },
+    {
+      "bytes": 1331,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-05/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "88f115218a439d0b2ee495b859bd2871d566f0c672e88c75f8fe4cc68927e2b8"
+    },
+    {
+      "bytes": 75801,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/terminal.json",
+      "sha256": "b62e7cc6914d4f8adef96cc0f2c35477d09966dec4cb3bc0e41cdd24ab7136dc"
+    },
+    {
+      "bytes": 76217,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-qwen2.5-7b-inst-neutral-tech-r2-v1/raw/cases/case-06/terminal.json",
+      "sha256": "e4ba9cfb8b62cc899230bc3549e58f17f79eeeb1e786df6cc10d943a850646f8"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/manifest.json",
+      "sha256": "1c8b93ac7db2412393b03a0ba4702408f0d2d2b06bc19ff152ec41d08665dea0"
+    },
+    {
+      "bytes": 1316,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/action-freeze.json",
+      "sha256": "3ce2ab76d490c2949a39bed2760f088d28cdd2c6127a9f8964759a8df9529ed9"
+    },
+    {
+      "bytes": 25564,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "675a74c2184617147b56289ab2efcc7f1b820c50776ff486cbd96a98b0674742"
+    },
+    {
+      "bytes": 1294,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "43abe4acc6ab30fdb593487c1d2849a365420c1a2a841919619464831ed95a7c"
+    },
+    {
+      "bytes": 25844,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "7bcc8db4d1aa5fc4a2e3229ef06ed6ee330f1a3ee870968e092f314f2e88f8e2"
+    },
+    {
+      "bytes": 1297,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "6dc9d9372cd9e8822c2b4a2ba4ae400f8fc8bde3c30e26e4f178b2231b330726"
+    },
+    {
+      "bytes": 25948,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "47eea9b43a4ec9f12789539b41a4b4d6c10c8ea8743030a0f551d08b629caa4e"
+    },
+    {
+      "bytes": 1309,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "dd4b03ef3179b5fc9a43399f1ba8d1424635763bc9cd0ad503092cc4bd57f57b"
+    },
+    {
+      "bytes": 26172,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "9d1563fd18ad339ab61551eb224c1ec24828a1c6ae6e2733834b7822578914e8"
+    },
+    {
+      "bytes": 1334,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "f791b7420176d9d0b79556321cd238b0dfffb54fbe65088661019ace356f80fe"
+    },
+    {
+      "bytes": 26279,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "9ac79d760a39b56b7c9826309c46336a8626ac1f9d90372e65dc276d29d12509"
+    },
+    {
+      "bytes": 1341,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "b75e6a47184bc54f3ca998cc7a2a7031a8fc8034e33a4208b2574ef7a816809f"
+    },
+    {
+      "bytes": 26330,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "550c1a369f0e37537166e6fecd9493ddb24697380937c0771d46f8e62c261858"
+    },
+    {
+      "bytes": 1348,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "8cef83b06409df7e56cccb7861ad4f0c7183606023ec034062036092a895cb4b"
+    },
+    {
+      "bytes": 26491,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "2aa5d010c074588d13f2718cbca5b8ea7ee88c73973b77468da94d211a52365e"
+    },
+    {
+      "bytes": 1359,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "122d81111cc676e19d68b1f4b1b628c41609053c442e45a3904360af1ee1e437"
+    },
+    {
+      "bytes": 26709,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "d7fc60f9dcfdb0aa947806aa8e090031ac8abe8eabac604efb0cf788ff8fc7e1"
+    },
+    {
+      "bytes": 1355,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-06/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "6c6c6d8650f913c9bc24c8f882228001c64161e2a1f5f289081aa9d6e5907532"
+    },
+    {
+      "bytes": 76117,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/terminal.json",
+      "sha256": "9a24e67be5ce83a4e073f6d011e288fb14bba15cd83ae3667e5cafb524e5537a"
+    },
+    {
+      "bytes": 76133,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-qwen2.5-7b-inst-neutral-tech-r2-v1/raw/cases/case-07/terminal.json",
+      "sha256": "f1a225845133b5cbb786d0fbd81ee0973508622487dba1d80f376efa5ba625ae"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/manifest.json",
+      "sha256": "26f8a632a0225c46fca6507eabdee1148b27077b71ec5569ee0c7ccee2a0d128"
+    },
+    {
+      "bytes": 1316,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/action-freeze.json",
+      "sha256": "f2b51ddaa4e972244e9596dc2b84cc8af739146a0ccf85c33ed1414b6106b96b"
+    },
+    {
+      "bytes": 25556,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "75597723ef9b39a22972f2a19ae2729bb13f6a46eb9360bb1529e74338acf625"
+    },
+    {
+      "bytes": 1303,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "0b239c2d82933bc4a94f04a09ca62bc607eb3f0c4f54e4cb4efa81ff491a26f0"
+    },
+    {
+      "bytes": 25845,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "2140b54489a6f878cd12125a0d0bb6ea884cadeff8713825e2e9ae6e2464916f"
+    },
+    {
+      "bytes": 1298,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "8c41a6e05bacdb9767f51fa8c4ee2c288079d95deeea48d694d035084cef75dc"
+    },
+    {
+      "bytes": 26170,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "6ee9c79bb36f0e46b2435eaf2025afe03d7ea0a592f0e21c37178e07050eec43"
+    },
+    {
+      "bytes": 1302,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "6020eddefebb6872dc438e8bd76625f1123ff883bee71fca4d41521d48963f75"
+    },
+    {
+      "bytes": 26224,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "6d4a1ffba76e52ad162db00a89c0cad5ce121c2df1b67d9f9ac48c240e8f7f62"
+    },
+    {
+      "bytes": 1308,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "8ac0232aa1de5cd94e23ff8ead86fc28c49d93ca927af85cca3d62d69dfa015a"
+    },
+    {
+      "bytes": 26220,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "515bb2f7fe8d698b45e2bf1edc94489214a424edcd26c5167f2e82cde10864a9"
+    },
+    {
+      "bytes": 1309,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "fabc40ddd342ddcd2126980368b2736de8695e2535413ab742fcb8a22addf95b"
+    },
+    {
+      "bytes": 26162,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "57943db8e77430fa8356f1881e56b12f12fc4bfaba14b48243fad60468999946"
+    },
+    {
+      "bytes": 1322,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "753029b1761557fffd5f088f50570b4d848f3572287e28e8b9ffda839128f7ca"
+    },
+    {
+      "bytes": 26339,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "14785d7258548f88befcb069b222f58e25944d79308a1b7c46112d8065e1e182"
+    },
+    {
+      "bytes": 1340,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "4c9aec3225ed40edaf77e66a753d6ddc16b471c560f5a7b1ac53f57dcff226b1"
+    },
+    {
+      "bytes": 26587,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "5a3bd29789cf4153be63dc322402e0bc3d758c2c8b6f7c80a77df3586f7e693a"
+    },
+    {
+      "bytes": 1340,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-07/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "8d9bae6efe96d07d9582105a59aa721e9e503be8ecedcf2a0073efa1397db97e"
+    },
+    {
+      "bytes": 75501,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/terminal.json",
+      "sha256": "7c135531adadde89396c4a28dcbca926ed14982843bfab2ac47246e787763cd2"
+    },
+    {
+      "bytes": 75866,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-qwen2.5-7b-inst-neutral-tech-r2-v1/raw/cases/case-08/terminal.json",
+      "sha256": "a8b6237059050e84c92953772c3503f6f23be67c1a0e65030b10cc47129deea5"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/manifest.json",
+      "sha256": "82317a56dc78e3c9f850ef054dd37fe31b5ea78809cfa66c89994f378c1c6dc0"
+    },
+    {
+      "bytes": 1316,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/action-freeze.json",
+      "sha256": "4ed0be5f43dd868e83d3440c07ea2c1f33edb4e3f2b55e8c98cac24b23a8bd2b"
+    },
+    {
+      "bytes": 25567,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "81cbe5be2ef5627b4dcbfc600e72afab24df1c9deb20e4052c1f6a0c52ab25a2"
+    },
+    {
+      "bytes": 1301,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "f98ac52f5e8d0838fc7937e4dab899a241d9cf6a2c7d5abdb19d613732249f97"
+    },
+    {
+      "bytes": 26070,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "4e3742024dfbfc4bfcdfde13c3db82a77d4aad7869ac8d544111e02be9fda278"
+    },
+    {
+      "bytes": 1300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "880416febce4b664322018bc54724ae72011a661f503566310267ad85a9eae5d"
+    },
+    {
+      "bytes": 26109,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "3d9e19aad59c01f88879752c7ccd2a8616c81126df16db2cb72fe0da6d29eebf"
+    },
+    {
+      "bytes": 1313,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "025f6c63cb92fa35b1bd2c72777b1acb2a0e2e6df0e54d54e17a47ff5a1ddf0b"
+    },
+    {
+      "bytes": 26016,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "e0dd017d897eaad67923e7f720834a20532fce314c3b3a33dea9cbd104f0a90a"
+    },
+    {
+      "bytes": 1318,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "9ba3569488f4add05d52ec8cec7fa9824867c1a29585485561a24dfdfb7a06f9"
+    },
+    {
+      "bytes": 26064,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "8e62026bb0a4579b7b78969e7011572167fa19d93955765b5d1210be77580055"
+    },
+    {
+      "bytes": 1327,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "edaf831f081330366e0d1001afdda64ef392f7b09111f7589fcee9ea5b4f16af"
+    },
+    {
+      "bytes": 26088,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "d260035c2154cde62556a59314d8cdd9e431935658472a137f5549c85081a11e"
+    },
+    {
+      "bytes": 1334,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "51bb66e35185671aa0133c57513eb451e6d8436719106e144e2684480a0be97e"
+    },
+    {
+      "bytes": 26060,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "a89cebd26406c7ba2d84db6c0701967f08b7ab92d31c5cf8917cee5dcc07966b"
+    },
+    {
+      "bytes": 1332,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "f8bea20bce5e7fb4cc9d77d07975301899d687f1e48dc2c1a754d791f79aaacb"
+    },
+    {
+      "bytes": 26410,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "3e2ee861757e70ba9133f8bb2c164ff8de88b94e83587ee760f0b4ecd6bb6593"
+    },
+    {
+      "bytes": 1328,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-08/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "d16e9d2b92254e1932e74894241afc9285579ddb6c1ff563446468d4c661971c"
+    },
+    {
+      "bytes": 75325,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/terminal.json",
+      "sha256": "1443f96a0b4d9e943b52c1b3b2124f2a0aadbd0a4ba0d7839d9b2fc24d66c3b7"
+    },
+    {
+      "bytes": 75382,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-qwen2.5-7b-inst-neutral-tech-r2-v1/raw/cases/case-09/terminal.json",
+      "sha256": "18e525906f581b1bcbc0186521787359331d8b7160e1f0a106d7841735ca3d69"
+    },
+    {
+      "bytes": 419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/manifest.json",
+      "sha256": "39b4e474c165f7a1e78417590c433c0c3d2845d18b4d073f990125b37204c15d"
+    },
+    {
+      "bytes": 1316,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/action-freeze.json",
+      "sha256": "3a02577caa1dd47c0f1828c7c39fded1d83539469e924c3c95d76bc6fc3eee57"
+    },
+    {
+      "bytes": 25593,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "716f5d7a0175d36f862a4025fd9ace0e4b189ec1df30a030a67eeca715045766"
+    },
+    {
+      "bytes": 1298,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "579da29dd67c421cd053149c23209513be51ab533bb019535bde0730ce887072"
+    },
+    {
+      "bytes": 25911,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "4d5827df19747661ab1424bfc754f816b2a82e71efa4a3df2a4596aad6e855ab"
+    },
+    {
+      "bytes": 1301,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "0e1f08f5b091643174eebca378fe2089b07e01423383677083e1e29b81d3f3cf"
+    },
+    {
+      "bytes": 26056,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "373d178684f0af4a271a72ea96f982bb34924323718ccd7c545aac808ee88706"
+    },
+    {
+      "bytes": 1311,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "7df6953d01f2ab5af8c515f33ca91ab90a203d959231ebed759ae91e10851a96"
+    },
+    {
+      "bytes": 26017,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "9bdbd1452bd6ea3e02b7a067e6644758f3da70c0075a304c5f84e8a0db556db9"
+    },
+    {
+      "bytes": 1321,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "a5362d110c6afb7a161d288cd882519755c79ba53f90acd7b59829bb8b0f63bd"
+    },
+    {
+      "bytes": 26072,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "a2cd3de1a81a1b9f9334f028923739094d4c9134312a16ecb55a18c057c05d9c"
+    },
+    {
+      "bytes": 1337,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "acfdf1d3a44bdef9931567e6abe973846f885287493c485d9dfd6465e368311b"
+    },
+    {
+      "bytes": 26264,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "d75baef18b32c8142c7dcd6226ef620294a6eb0fd5f58ceec9e84d3c9ecf595a"
+    },
+    {
+      "bytes": 1346,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "4201d7d0aba5bfba9e2f135ca6799b275474b7e193463643e499e2a2a341b923"
+    },
+    {
+      "bytes": 26203,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "2eda545283e632af399c5cbe632135944121c6d5867389a401fefd473752a839"
+    },
+    {
+      "bytes": 1347,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "20538481750dd5998d2b0d9bece977cc1eaa1d2ec7a01e6d0e5ae4838ebffded"
+    },
+    {
+      "bytes": 26298,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "de3b52e65a0c0d1ffca774084e3c9204d23bbc18ec31cc80e15e68491853f83e"
+    },
+    {
+      "bytes": 1348,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-09/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "3927913f42a60411be4c3378d9a176ed215b762435fd7438c9d45d29f5ef1fb9"
+    },
+    {
+      "bytes": 74875,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/terminal.json",
+      "sha256": "6d9269b81ab982f069ac360138e87e7ebd920e62a98adb334305cd98ea4e8205"
+    },
+    {
+      "bytes": 75432,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r43-rho-free-semantic-first-strength-recovery-v1/local/odebf/results/s05-p1r43-rho-free-independent-b10x10-qwen2.5-7b-inst-neutral-tech-r2-v1/raw/cases/case-10/terminal.json",
+      "sha256": "1183763ed9ed4318595b0da91a9dbd91bf35da887ef1fcd2f05c2d19010f8574"
+    },
+    {
+      "bytes": 420,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/manifest.json",
+      "sha256": "797495bd0ba1020bc2ae6d8416b209412e76937cca512f7ec7b0f6686489c547"
+    },
+    {
+      "bytes": 1317,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/action-freeze.json",
+      "sha256": "a79a82c6a6a27befa1d6e637213f45dac5ee87da04f220c7911cbc01995c72eb"
+    },
+    {
+      "bytes": 25612,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k1.json",
+      "sha256": "4c1b2f1343f0c14047fffee8f9a2b28cff49a8d01d7dbbdf273740008662b0d6"
+    },
+    {
+      "bytes": 1305,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k1.json",
+      "sha256": "2e29e82dedae67f0b10d04fe8983a47971173916ece484a67c644cca3f135278"
+    },
+    {
+      "bytes": 25821,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k2.json",
+      "sha256": "9929a306a7a46ef5239991600638885c8387473079b296bbb5fbcfb0822e77fd"
+    },
+    {
+      "bytes": 1298,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k2.json",
+      "sha256": "8b1e013126cf0926a9d9c848aba86c51f2486768e1dc5a104191862e78bc9459"
+    },
+    {
+      "bytes": 25918,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k3.json",
+      "sha256": "d98b8bc1a8710bbfcfcb2a7766189f4d617b03d071a5b6eaa2c96956ca827e96"
+    },
+    {
+      "bytes": 1301,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k3.json",
+      "sha256": "068db7c7e0dbc94d84ea7fa05575bbc33d58c0e1954aba8cc7ffa686e622f633"
+    },
+    {
+      "bytes": 26015,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k4.json",
+      "sha256": "e8f322ec1f3acf079b960eebb916101435b00fedf7fc34521fdb319c2a09db01"
+    },
+    {
+      "bytes": 1316,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k4.json",
+      "sha256": "4f69cfee58455944cabdce248c0f2a89b604e26dcf92368e5655ad604382e433"
+    },
+    {
+      "bytes": 26108,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k5.json",
+      "sha256": "3e941ef131ed875b6b52d8f41c00527c01a4cc6c26d8e240928710d2e2f4d932"
+    },
+    {
+      "bytes": 1342,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k5.json",
+      "sha256": "3f08219b8a528564bb3316500eac8b6149ee599c9370f02940703541f04376af"
+    },
+    {
+      "bytes": 26201,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k6.json",
+      "sha256": "4530d7d8bda4e2abd7ac853e04e8d265af41d4794ffc36400181759d92be23b2"
+    },
+    {
+      "bytes": 1342,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k6.json",
+      "sha256": "f6bb33891d1d06049f50473b74d0ea5bb931b7279e2d2cc044f62b368e122f9c"
+    },
+    {
+      "bytes": 26292,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k7.json",
+      "sha256": "3a4b8c51d0d5cff084253e1e8792eb61f14b9536c8556fb4e0d4e2c7d82bacf0"
+    },
+    {
+      "bytes": 1347,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k7.json",
+      "sha256": "d16892d0c0e77998ce15a936f54d9f17ea6e1532e12ce9eed4037af390891268"
+    },
+    {
+      "bytes": 25993,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/accepted-k8.json",
+      "sha256": "ff50e6bdbbfbbaf3bfd90b58fb02de377b9407f12fe0552d36c0f72a03e4b3c8"
+    },
+    {
+      "bytes": 1327,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1/local/odebf/results/s05-p1r51-rsa-a1-independent-b10x10-qwen2.5-7b-inst-neutral-v1/raw/cases/case-10/raw/ode/p1r43-rsa-a1-neutral/requestwise-realization-k8.json",
+      "sha256": "6652cdc5a0b7f39a2c977d4f829d78fc68a000e2d38adcb125be82a04eb21409"
+    }
+  ],
+  "p1r43_parent": {
+    "head": "11508b6da11d606521b703037034e1814b70d8a8",
+    "tree": "a0e71bbb27cf36b3b51bf6cde4c92cdc9a47879b"
+  },
+  "p1r51_source": {
+    "head": "9b4a88b73bd0c0fdd0b1470d77ea4354bd0e3486",
+    "tree": "4a3b5e2dbd7e15bf8da32117c25fd88ec2eaafc7"
+  },
+  "phase_d_soft_trigger": "RELEASE",
+  "reviewer_action_counts": {
+    "evaluator": 0,
+    "gpu": 0,
+    "model": 0,
+    "result_mutation": 0,
+    "scientific_source_edit": 0,
+    "slurm": 0
+  },
+  "schema": "ode-edit-s05-p1r51-rsa-a1-neutral-b10x10-independent-review/v1",
+  "scientific_promotion": false,
+  "technical_gate": "PASS"
+}
