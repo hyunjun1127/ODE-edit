@@ -50,7 +50,7 @@ class EndpointActionFreeze:
     action_frozen: bool = True
 
     def __post_init__(self) -> None:
-        if not self.arm or self.sequential_batch < 0 or self.sequential_batch >= 4:
+        if not self.arm or self.sequential_batch < 0 or self.sequential_batch >= 10:
             raise ODEBFContractError("P1 endpoint action-freeze identity differs")
         for value in (self.request_order_sha256, self.selected_snapshot_sha256):
             if len(value) != 64:
@@ -69,6 +69,72 @@ class EndpointActionFreeze:
                 "selected_snapshot_sha256": self.selected_snapshot_sha256,
                 "fixed_budget_slots_completed": self.fixed_budget_slots_completed,
                 "action_frozen": self.action_frozen,
+            }
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class BatchEntryObservationSeal:
+    """Seal a sequential batch-entry held-out observation away from actions.
+
+    The evaluator may decode held-out surfaces only after the physical entry
+    bytes and the action-independent request order have been sealed.  The
+    resulting metrics are never returned to the controller, router, history,
+    or anchor paths.
+    """
+
+    arm: str
+    sequential_batch: int
+    request_order_sha256: str
+    selected_snapshot_sha256: str
+    parameter_byte_sha256: str
+    fixed_budget_slots_completed: int = 0
+    action_frozen: bool = True
+    observation_only: bool = True
+    controller_influence_count: int = 0
+    routing_influence_count: int = 0
+    history_influence_count: int = 0
+    anchor_influence_count: int = 0
+
+    def __post_init__(self) -> None:
+        if not self.arm or self.sequential_batch < 0 or self.sequential_batch >= 10:
+            raise ODEBFContractError("P1 batch-entry observation identity differs")
+        for value in (
+            self.request_order_sha256,
+            self.selected_snapshot_sha256,
+            self.parameter_byte_sha256,
+        ):
+            if len(value) != 64:
+                raise ODEBFContractError("P1 batch-entry observation digest differs")
+        if self.fixed_budget_slots_completed != 0:
+            raise ODEBFContractError("P1 batch-entry observation followed a current-B10 action")
+        if not self.action_frozen or not self.observation_only:
+            raise ODEBFContractError("P1 batch-entry observation is not sealed")
+        if any(
+            (
+                self.controller_influence_count,
+                self.routing_influence_count,
+                self.history_influence_count,
+                self.anchor_influence_count,
+            )
+        ):
+            raise ODEBFContractError("P1 batch-entry observation influenced an action")
+
+    def identity(self) -> str:
+        return canonical_hash(
+            {
+                "arm": self.arm,
+                "sequential_batch": self.sequential_batch,
+                "request_order_sha256": self.request_order_sha256,
+                "selected_snapshot_sha256": self.selected_snapshot_sha256,
+                "parameter_byte_sha256": self.parameter_byte_sha256,
+                "fixed_budget_slots_completed": self.fixed_budget_slots_completed,
+                "action_frozen": self.action_frozen,
+                "observation_only": self.observation_only,
+                "controller_influence_count": self.controller_influence_count,
+                "routing_influence_count": self.routing_influence_count,
+                "history_influence_count": self.history_influence_count,
+                "anchor_influence_count": self.anchor_influence_count,
             }
         )
 
@@ -123,6 +189,165 @@ class PrefixNLLPair:
     def __post_init__(self) -> None:
         object.__setattr__(self, "target_new_nll", finite("target_new_nll", self.target_new_nll))
         object.__setattr__(self, "target_true_nll", finite("target_true_nll", self.target_true_nll))
+
+
+@dataclass(frozen=True, slots=True)
+class PrefixSuccessAccuracy:
+    """One-pass CounterFact prompt score.
+
+    ``success`` is the pinned CounterFact NLL-preference metric.  ``accuracy``
+    is the strict teacher-forced target-new suffix-token argmax metric used by
+    the pinned AlphaEdit ``*_prompts_correct`` fields.  Both are derived from
+    the same logits.
+    """
+
+    nll: PrefixNLLPair
+    success: int
+    accuracy: int
+    target_new_suffix_token_count: int
+
+    def __post_init__(self) -> None:
+        if self.success not in (0, 1) or self.accuracy not in (0, 1):
+            raise ODEBFContractError("CounterFact success/accuracy bit differs")
+        if self.target_new_suffix_token_count <= 0:
+            raise ODEBFContractError("CounterFact accuracy target span is empty")
+
+
+@dataclass(frozen=True, slots=True)
+class PromptMetricReceipt:
+    name: str
+    per_request_bits: tuple[tuple[int, ...], ...]
+    per_request_correct: tuple[int, ...]
+    per_request_required: tuple[int, ...]
+    prompt_numerator: int
+    prompt_denominator: int
+    prompt_rate: float
+    prompt_bit_vector_sha256: str
+    strict_all_prompt_bits: tuple[int, ...]
+    strict_request_numerator: int
+    strict_request_denominator: int
+    strict_request_rate: float
+    strict_request_bit_vector_sha256: str
+    target_new_nll_by_request: tuple[tuple[float, ...], ...]
+    target_true_nll_by_request: tuple[tuple[float, ...], ...]
+    target_new_minus_true_margin_by_request: tuple[tuple[float, ...], ...]
+
+    def __post_init__(self) -> None:
+        if len(self.per_request_bits) != BATCH_SIZE:
+            raise ODEBFContractError("CounterFact prompt metric lacks B10")
+        if len(self.per_request_correct) != BATCH_SIZE or len(self.per_request_required) != BATCH_SIZE:
+            raise ODEBFContractError("CounterFact prompt metric request counts differ")
+        for bits, correct, required in zip(
+            self.per_request_bits,
+            self.per_request_correct,
+            self.per_request_required,
+            strict=True,
+        ):
+            if not bits or any(bit not in (0, 1) for bit in bits):
+                raise ODEBFContractError("CounterFact prompt metric bits differ")
+            if len(bits) != required or sum(bits) != correct:
+                raise ODEBFContractError("CounterFact prompt metric arithmetic differs")
+        if self.prompt_numerator != sum(self.per_request_correct) or self.prompt_denominator != sum(self.per_request_required):
+            raise ODEBFContractError("CounterFact prompt metric aggregate differs")
+        if self.strict_all_prompt_bits != tuple(int(all(bits)) for bits in self.per_request_bits):
+            raise ODEBFContractError("CounterFact strict request bits differ")
+        if self.strict_request_numerator != sum(self.strict_all_prompt_bits) or self.strict_request_denominator != BATCH_SIZE:
+            raise ODEBFContractError("CounterFact strict request aggregate differs")
+        if self.prompt_rate != self.prompt_numerator / self.prompt_denominator:
+            raise ODEBFContractError("CounterFact prompt rate differs")
+        if self.strict_request_rate != self.strict_request_numerator / self.strict_request_denominator:
+            raise ODEBFContractError("CounterFact strict request rate differs")
+        if len(self.prompt_bit_vector_sha256) != 64 or len(self.strict_request_bit_vector_sha256) != 64:
+            raise ODEBFContractError("CounterFact prompt metric digest differs")
+        if not (
+            len(self.target_new_nll_by_request)
+            == len(self.target_true_nll_by_request)
+            == len(self.target_new_minus_true_margin_by_request)
+            == BATCH_SIZE
+        ):
+            raise ODEBFContractError("CounterFact prompt NLL request count differs")
+        for bits, new, true, margin in zip(
+            self.per_request_bits,
+            self.target_new_nll_by_request,
+            self.target_true_nll_by_request,
+            self.target_new_minus_true_margin_by_request,
+            strict=True,
+        ):
+            if not (len(bits) == len(new) == len(true) == len(margin)):
+                raise ODEBFContractError("CounterFact prompt NLL span differs")
+            if any(not np.isfinite(value) for value in (*new, *true, *margin)):
+                raise ODEBFContractError("CounterFact prompt NLL is non-finite")
+            if any(observed != left - right for observed, left, right in zip(margin, new, true, strict=True)):
+                raise ODEBFContractError("CounterFact prompt margin arithmetic differs")
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        return {
+            "name": self.name,
+            "per_request_bits": [list(bits) for bits in self.per_request_bits],
+            "per_request_correct": list(self.per_request_correct),
+            "per_request_required": list(self.per_request_required),
+            "prompt_numerator": self.prompt_numerator,
+            "prompt_denominator": self.prompt_denominator,
+            "prompt_rate": self.prompt_rate,
+            "prompt_bit_vector_sha256": self.prompt_bit_vector_sha256,
+            "strict_all_prompt_bits": list(self.strict_all_prompt_bits),
+            "strict_request_numerator": self.strict_request_numerator,
+            "strict_request_denominator": self.strict_request_denominator,
+            "strict_request_rate": self.strict_request_rate,
+            "strict_request_bit_vector_sha256": self.strict_request_bit_vector_sha256,
+            "target_new_nll_by_request": [list(row) for row in self.target_new_nll_by_request],
+            "target_true_nll_by_request": [list(row) for row in self.target_true_nll_by_request],
+            "target_new_minus_true_margin_by_request": [list(row) for row in self.target_new_minus_true_margin_by_request],
+        }
+
+
+@dataclass(frozen=True, slots=True)
+class CounterFactSuccessAccuracyReceipt:
+    primary: "CounterFactPrimaryReceipt"
+    rewrite_success: PromptMetricReceipt
+    rewrite_accuracy: PromptMetricReceipt
+    paraphrase_success: PromptMetricReceipt
+    paraphrase_accuracy: PromptMetricReceipt
+    added_model_forward_count: int = 0
+    added_backward_count: int = 0
+    added_generation_call_count: int = 0
+    controller_influence_count: int = 0
+
+    def __post_init__(self) -> None:
+        if self.rewrite_success.per_request_bits != self.primary.efficacy.per_case_bits:
+            raise ODEBFContractError("Eff is not rewrite_success")
+        if self.paraphrase_success.per_request_bits != self.primary.generalization.per_case_bits:
+            raise ODEBFContractError("Gen is not paraphrase_success")
+        if any((self.added_model_forward_count, self.added_backward_count, self.added_generation_call_count, self.controller_influence_count)):
+            raise ODEBFContractError("CounterFact accuracy extension changed execution")
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        payload = {
+            "schema": "ode-edit-s05-p1r52-sequential-counterfact-success-accuracy/v1",
+            "legacy_primary": self.primary.raw_free_payload(),
+            "canonical_semantics": {
+                "Eff": "rewrite_success",
+                "Gen": "paraphrase_success",
+                "rewrite_success": "target_new_mean_nll_lt_target_true_mean_nll",
+                "rewrite_acc": "all_target_new_suffix_tokens_teacher_forced_argmax",
+                "paraphrase_success": "per_paraphrase_target_new_mean_nll_lt_target_true_mean_nll",
+                "rephrase_success": "alias_of_paraphrase_success",
+                "paraphrase_acc": "per_paraphrase_all_target_new_suffix_tokens_teacher_forced_argmax",
+                "rephrase_acc": "alias_of_paraphrase_acc",
+            },
+            "rewrite_success": self.rewrite_success.raw_free_payload(),
+            "rewrite_acc": self.rewrite_accuracy.raw_free_payload(),
+            "paraphrase_success": self.paraphrase_success.raw_free_payload(),
+            "rephrase_success": self.paraphrase_success.raw_free_payload(),
+            "paraphrase_acc": self.paraphrase_accuracy.raw_free_payload(),
+            "rephrase_acc": self.paraphrase_accuracy.raw_free_payload(),
+            "added_model_forward_count": self.added_model_forward_count,
+            "added_backward_count": self.added_backward_count,
+            "added_generation_call_count": self.added_generation_call_count,
+            "controller_influence_count": self.controller_influence_count,
+        }
+        payload["identity_sha256"] = canonical_hash(payload)
+        return payload
 
 
 @dataclass(frozen=True, slots=True)
@@ -420,6 +645,30 @@ def _evaluate_prefixes_pinned(
     llama: bool,
     device: torch.device,
 ) -> tuple[tuple[PrefixNLLPair, ...], int, dict[str, Any]]:
+    extended, processed, receipt = _evaluate_prefixes_pinned_with_accuracy(
+        model,
+        tokenizer,
+        prefixes,
+        target_new,
+        target_true,
+        llama=llama,
+        device=device,
+    )
+    return tuple(item.nll for item in extended), processed, receipt
+
+
+def _evaluate_prefixes_pinned_with_accuracy(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    prefixes: Sequence[str],
+    target_new: str,
+    target_true: str,
+    *,
+    llama: bool,
+    device: torch.device,
+) -> tuple[tuple[PrefixSuccessAccuracy, ...], int, dict[str, Any]]:
+    """Pinned CounterFact NLL and strict suffix accuracy from one logits tensor."""
+
     prefix_lens = [len(tokens) for tokens in tokenizer(list(prefixes))["input_ids"]]
     encoded = tokenizer(
         [
@@ -443,9 +692,11 @@ def _evaluate_prefixes_pinned(
     if llama:
         logits = logits[:, 1:, :]
     probabilities = np.zeros((logits.size(0),), dtype=np.float32)
+    exact_new_bits: list[int] = []
     span_payload: list[dict[str, int]] = []
     for row in range(logits.size(0)):
         tokens = new_tokens if row % 2 == 0 else true_tokens
+        token_exact: list[bool] = []
         for offset, token in enumerate(tokens):
             position = prefix_lens[row // 2] + offset - 1
             if position < 0 or position >= logits.shape[1]:
@@ -454,7 +705,13 @@ def _evaluate_prefixes_pinned(
             probabilities[row] += -torch.nn.functional.log_softmax(
                 logits[row, position, :], dim=0
             )[int(token)].item()
+            if row % 2 == 0:
+                token_exact.append(
+                    int(torch.argmax(logits[row, position, :]).item()) == int(token)
+                )
         probabilities[row] /= len(tokens)
+        if row % 2 == 0:
+            exact_new_bits.append(int(all(token_exact)))
         span_payload.append(
             {
                 "prefix_tokens": prefix_lens[row // 2],
@@ -463,13 +720,128 @@ def _evaluate_prefixes_pinned(
             }
         )
     pairs = tuple(
-        PrefixNLLPair(float(probabilities[index]), float(probabilities[index + 1]))
+        PrefixSuccessAccuracy(
+            PrefixNLLPair(float(probabilities[index]), float(probabilities[index + 1])),
+            int(probabilities[index] < probabilities[index + 1]),
+            exact_new_bits[index // 2],
+            len(new_tokens),
+        )
         for index in range(0, len(probabilities), 2)
     )
     attention = encoded.get("attention_mask")
     processed = int(attention.sum()) if attention is not None else int(encoded["input_ids"].numel())
     del logits, encoded
     return pairs, processed, {"spans": span_payload}
+
+
+def _prompt_metric_receipt(
+    name: str,
+    bits_by_request: Sequence[Sequence[int]],
+    scores_by_request: Sequence[Sequence[PrefixNLLPair]],
+) -> PromptMetricReceipt:
+    bits = tuple(tuple(int(value) for value in row) for row in bits_by_request)
+    scores = tuple(tuple(row) for row in scores_by_request)
+    correct = tuple(sum(row) for row in bits)
+    required = tuple(len(row) for row in bits)
+    numerator = sum(correct)
+    denominator = sum(required)
+    strict = tuple(int(all(row)) for row in bits)
+    return PromptMetricReceipt(
+        name,
+        bits,
+        correct,
+        required,
+        numerator,
+        denominator,
+        numerator / denominator,
+        canonical_hash([list(row) for row in bits]),
+        strict,
+        sum(strict),
+        len(strict),
+        sum(strict) / len(strict),
+        canonical_hash(list(strict)),
+        tuple(tuple(item.target_new_nll for item in row) for row in scores),
+        tuple(tuple(item.target_true_nll for item in row) for row in scores),
+        tuple(tuple(item.target_new_nll - item.target_true_nll for item in row) for row in scores),
+    )
+
+
+def evaluate_counterfact_success_accuracy_batch(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    cases: Sequence[CounterFactEvaluationCase],
+    *,
+    model_alias: str,
+    freeze: EndpointActionFreeze,
+) -> CounterFactSuccessAccuracyReceipt:
+    """One-pass terminal evaluator for NLL success and strict token accuracy."""
+
+    batch = tuple(cases)
+    if len(batch) != BATCH_SIZE or len({item.request_sha256 for item in batch}) != BATCH_SIZE:
+        raise ODEBFContractError("CounterFact success/accuracy evaluator requires distinct B10")
+    request_order = ordered_request_digest_v1([item.request_sha256 for item in batch])
+    if request_order != freeze.request_order_sha256:
+        raise ODEBFContractError("CounterFact success/accuracy request order differs")
+    llama = _is_llama(model, model_alias)
+    device = _model_device(model)
+    efficacy: list[tuple[PrefixNLLPair, ...]] = []
+    generalization: list[tuple[PrefixNLLPair, ...]] = []
+    locality: list[tuple[PrefixNLLPair, ...]] = []
+    rewrite_success_bits: list[tuple[int, ...]] = []
+    rewrite_accuracy_bits: list[tuple[int, ...]] = []
+    paraphrase_success_bits: list[tuple[int, ...]] = []
+    paraphrase_accuracy_bits: list[tuple[int, ...]] = []
+    spans: list[dict[str, Any]] = []
+    processed = 0
+    with _EvaluationStateGuard(model), torch.no_grad():
+        for case in batch:
+            prefixes = (case.rewrite_prompt,) + case.paraphrase_prompts + case.neighborhood_prompts
+            scores, tokens, span = _evaluate_prefixes_pinned_with_accuracy(
+                model,
+                tokenizer,
+                prefixes,
+                case.target_new,
+                case.target_true,
+                llama=llama,
+                device=device,
+            )
+            rewrite_end = 1
+            paraphrase_end = rewrite_end + len(case.paraphrase_prompts)
+            efficacy.append(tuple(item.nll for item in scores[:rewrite_end]))
+            generalization.append(tuple(item.nll for item in scores[rewrite_end:paraphrase_end]))
+            locality.append(tuple(item.nll for item in scores[paraphrase_end:]))
+            rewrite_success_bits.append(tuple(item.success for item in scores[:rewrite_end]))
+            rewrite_accuracy_bits.append(tuple(item.accuracy for item in scores[:rewrite_end]))
+            paraphrase_success_bits.append(tuple(item.success for item in scores[rewrite_end:paraphrase_end]))
+            paraphrase_accuracy_bits.append(tuple(item.accuracy for item in scores[rewrite_end:paraphrase_end]))
+            processed += tokens
+            spans.append(
+                {
+                    "request_sha256": case.request_sha256,
+                    "rewrite_count": 1,
+                    "paraphrase_count": len(case.paraphrase_prompts),
+                    "neighborhood_count": len(case.neighborhood_prompts),
+                    **span,
+                }
+            )
+    primary = counterfact_primary_receipt_from_scores(
+        efficacy=efficacy,
+        generalization=generalization,
+        locality=locality,
+        request_order_sha256=request_order,
+        evaluation_case_identity_sha256=canonical_hash([item.raw_free_identity() for item in batch]),
+        target_span_sha256=canonical_hash(spans),
+        model_forward_count=BATCH_SIZE,
+        processed_token_count=processed,
+        endpoint_freeze_sha256=freeze.identity(),
+    )
+    return CounterFactSuccessAccuracyReceipt(
+        primary,
+        _prompt_metric_receipt("rewrite_success", rewrite_success_bits, efficacy),
+        _prompt_metric_receipt("rewrite_acc", rewrite_accuracy_bits, efficacy),
+        _prompt_metric_receipt("paraphrase_success", paraphrase_success_bits, generalization),
+        _prompt_metric_receipt("paraphrase_acc", paraphrase_accuracy_bits, generalization),
+    )
 
 
 def evaluate_counterfact_primary_batch(

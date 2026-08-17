@@ -253,7 +253,16 @@ def _normalize_requests(
 def _validate_history_keys(
     history_keys_by_layer: Mapping[int, torch.Tensor],
     layers: Sequence[int],
+    *,
+    maximum_history_columns: int = 30,
 ) -> dict[int, torch.Tensor]:
+    if (
+        isinstance(maximum_history_columns, bool)
+        or not isinstance(maximum_history_columns, int)
+        or maximum_history_columns < 0
+        or maximum_history_columns % BATCH_SIZE != 0
+    ):
+        raise ODEBFContractError("P1 Alpha history maximum differs")
     normalized_layers = tuple(int(layer) for layer in layers)
     if set(history_keys_by_layer) != set(normalized_layers):
         raise ODEBFContractError("P1 Alpha solve history layer set differs")
@@ -267,7 +276,9 @@ def _validate_history_keys(
             raise ODEBFContractError("P1 Alpha solve history key values differ")
         result[layer] = value.detach().to(device="cpu", dtype=torch.float32).contiguous()
         column_counts.add(value.shape[1])
-    if len(column_counts) != 1 or next(iter(column_counts)) not in (0, 10, 20, 30):
+    if len(column_counts) != 1 or next(iter(column_counts)) not in tuple(
+        range(0, maximum_history_columns + 1, BATCH_SIZE)
+    ):
         raise ODEBFContractError("P1 Alpha solve history is not a prior-B10 prefix")
     return result
 
@@ -994,6 +1005,7 @@ def build_p1_dynamic_field(
     captured_keys_by_layer: Mapping[int, torch.Tensor] | None = None,
     allow_inner_empty_cache: bool = True,
     expected_batch_size: int = BATCH_SIZE,
+    maximum_history_columns: int = 30,
 ) -> P1DynamicField:
     """Rebuild all layer arms at one accepted virtual joint state."""
 
@@ -1014,8 +1026,16 @@ def build_p1_dynamic_field(
     layers = tuple(int(layer) for layer in hparams.layers)
     if captured_keys_by_layer is not None and set(captured_keys_by_layer) != set(layers):
         raise ODEBFContractError("P1 captured key inventory differs")
-    history_solve = _validate_history_keys(history_solve_keys_by_layer, layers)
-    history_risk = _validate_history_keys(history_risk_keys_by_layer, layers)
+    history_solve = _validate_history_keys(
+        history_solve_keys_by_layer,
+        layers,
+        maximum_history_columns=maximum_history_columns,
+    )
+    history_risk = _validate_history_keys(
+        history_risk_keys_by_layer,
+        layers,
+        maximum_history_columns=maximum_history_columns,
+    )
     if (
         isinstance(expected_batch_size, bool)
         or not isinstance(expected_batch_size, int)

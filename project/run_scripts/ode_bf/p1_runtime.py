@@ -3229,6 +3229,7 @@ def run_p1(
     p1r51_attempt_suffix: str | None = None,
     p1r52_arm: str | None = None,
     p1r52_attempt_suffix: str | None = None,
+    p1r52_sequential_role: str | None = None,
     p2r1_target_only_case_count: int | None = None,
     p2r1_attempt_suffix: str | None = None,
     p2r2_case_count: int | None = None,
@@ -3266,13 +3267,20 @@ def run_p1(
             p1r43_independent_b10x10_method is not None,
             p1r51_phase is not None,
             p1r52_arm is not None,
+            p1r52_sequential_role is not None,
             p2r1_target_only_case_count is not None,
             p2r2_case_count is not None,
             p2r7_phase is not None,
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
-    if p1r52_arm is not None:
+    if p1r52_sequential_role is not None:
+        from .p1r52_sequential_runtime import expected_p1r52_sequential_result_name
+
+        expected_name = expected_p1r52_sequential_result_name(
+            alias, p1r52_sequential_role
+        )
+    elif p1r52_arm is not None:
         from .p1r52_independent_runtime import expected_p1r52_result_name
 
         expected_name = expected_p1r52_result_name(
@@ -3511,6 +3519,7 @@ def run_p1(
         and p1r43_independent_b10x10_method is None
         and p1r51_phase is None
         and p1r52_arm is None
+        and p1r52_sequential_role is None
         and p2r1_target_only_case_count is None
         and p2r2_case_count is None
         and p2r7_phase is None,
@@ -3693,6 +3702,7 @@ def run_p1(
         or p1r43_independent_b10x10_method is not None
         or p1r51_phase is not None
         or p1r52_arm is not None
+        or p1r52_sequential_role is not None
         or p2r1_target_only_case_count is not None
         or p2r2_case_count is not None
         or p2r7_phase is not None
@@ -3710,6 +3720,7 @@ def run_p1(
             or p1r43_independent_b10x10_method is not None
             or p1r51_phase is not None
             or p1r52_arm is not None
+            or p1r52_sequential_role is not None
             or p2r1_target_only_case_count is not None
             or p2r2_case_count is not None
             or p2r7_phase is not None
@@ -3723,7 +3734,7 @@ def run_p1(
                 P1R23_LOCK_FILE,
                 load_and_validate_p1r23_lock,
             )
-            if p1r52_arm is not None:
+            if p1r52_arm is not None or p1r52_sequential_role is not None:
                 from .p1r52_independent_panel import (
                     LOCK_FILE as INDEPENDENT_LOCK_FILE,
                     load_and_validate_lock as load_and_validate_independent_lock,
@@ -4066,6 +4077,7 @@ def run_p1(
             and p1r43_independent_b10x10_method is None
             and p1r51_phase is None
             and p1r52_arm is None
+            and p1r52_sequential_role is None
             and p2r1_target_only_case_count is None
             and p2r2_case_count is None
             and p2r7_phase is None
@@ -4100,6 +4112,7 @@ def run_p1(
             and p1r43_independent_b10x10_method is None
             and p1r51_phase is None
             and p1r52_arm is None
+            and p1r52_sequential_role is None
             and p2r1_target_only_case_count is None
             and p2r2_case_count is None
             and p2r7_phase is None
@@ -4148,6 +4161,7 @@ def run_p1(
         or p1r43_independent_b10x10_method is not None
         or p1r51_phase is not None
         or p1r52_arm is not None
+        or p1r52_sequential_role is not None
         or p2r1_target_only_case_count is not None
         or p2r2_case_count is not None
         or p2r7_phase is not None
@@ -4162,6 +4176,7 @@ def run_p1(
             or p1r43_independent_b10x10_method is not None
             or p1r51_phase is not None
             or p1r52_arm is not None
+            or p1r52_sequential_role is not None
             or p2r1_target_only_case_count is not None
             or p2r2_case_count is not None
             or p2r7_phase is not None
@@ -4395,10 +4410,47 @@ def run_p1(
         or p1r43_independent_b10x10_method is not None
         or p1r51_phase is not None
         or p1r52_arm is not None
+        or p1r52_sequential_role is not None
         or p2r1_target_only_case_count is not None
         or p2r2_case_count is not None
         or p2r7_phase is not None
     ):
+        if p1r52_sequential_role is not None:
+            from .p1r52_sequential_runtime import run_p1r52_sequential
+
+            return run_p1r52_sequential(
+                model,
+                tokenizer,
+                alias=alias,
+                role=p1r52_sequential_role,
+                destination=destination,
+                raw_root=raw_root,
+                stages=stages,
+                source_head=source_head,
+                stream_batches=stream_batches,
+                stream=stream,
+                hparams=hparams,
+                projector=projector,
+                contexts=contexts,
+                covariance_registry=covariance_registry,
+                projector_sha256=artifact_guard.spec["projector_sha256"],
+                controller_lock=controller_lock,
+                request_by_sha256=request_by_sha256,
+                collision_by_request=collision_by_request,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                theta0_cache=theta0_cache,
+                dataset_path=dataset,
+                mutation_lock=mutation_lock,
+                touched=touched,
+                base_receipt=base_receipt,
+                base_values=base_values,
+                job_ledger=job_ledger,
+                request_microbatch_size=int(
+                    scalable_batched_lock["microbatch_accumulation"]
+                    ["request_microbatch_size"][alias]
+                ),
+            )
         if p1r52_arm is not None:
             from .p1r52_independent_runtime import run_p1r52_independent
 
