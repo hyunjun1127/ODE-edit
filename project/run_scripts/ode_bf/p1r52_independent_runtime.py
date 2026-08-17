@@ -22,7 +22,13 @@ from .p1r36_independent_b10x10_runtime import (
     _run_ode_case,
 )
 from .p1r43_independent_b10x10_runtime import STREAM_ORDER, STREAM_ROOT
-from .p1r52_r42_safe_kdc import P1R52_INSTRUCTION_ID, P1R52_METHOD_ID
+from .p1r52_r42_safe_kdc import (
+    P1R52_INSTRUCTION_ID,
+    P1R52_METHOD_ID,
+    P1R52_REPAIR_REASON,
+    P1R52_REPAIR_REVISION,
+    P1R52_SUPERSEDES_SOURCE_HEAD,
+)
 
 
 INSTRUCTION_ID = P1R52_INSTRUCTION_ID
@@ -158,6 +164,9 @@ def run_p1r52_independent(
         "schema": "ode-edit-s05-p1r52-rsa-r42safekdc-independent-terminal/v1",
         "instruction_id": INSTRUCTION_ID,
         "method_id": P1R52_METHOD_ID,
+        "repair_revision": P1R52_REPAIR_REVISION,
+        "repair_reason": P1R52_REPAIR_REASON,
+        "supersedes_source_head": P1R52_SUPERSEDES_SOURCE_HEAD,
         "source_head": source_head,
         "alias": alias,
         "arm": arm,
@@ -185,6 +194,8 @@ def run_p1r52_independent(
     manifest = {
         "schema": "ode-edit-s05-p1r52-rsa-r42safekdc-independent-manifest/v1",
         "source_head": source_head,
+        "repair_revision": P1R52_REPAIR_REVISION,
+        "supersedes_source_head": P1R52_SUPERSEDES_SOURCE_HEAD,
         "terminal_sha256": terminal_sha,
         "arm": arm,
         "case_count": CASE_COUNT,

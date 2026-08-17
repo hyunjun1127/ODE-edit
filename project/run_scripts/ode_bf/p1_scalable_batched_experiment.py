@@ -421,10 +421,20 @@ def _run_ode_arm(
         else None
     )
     p1r24_kl_teacher: tuple[torch.Tensor, ...] | None = None
+    p1r24_kl_teacher_sha256: str | None = None
     if p1r24:
         assert p1r24_kl_plan is not None
         teacher_result, p1r24_kl_teacher = evaluate_p1r24_kl(
             model, p1r24_kl_plan, teacher_log_probs=None
+        )
+        p1r24_kl_teacher_sha256 = canonical_hash(
+            {
+                "teacher_tensor_sha256": [
+                    tensor_sha256(value) for value in p1r24_kl_teacher
+                ],
+                "request_order_sha256": objective_plan.request_order_sha256,
+                "capture_count": 1,
+            }
         )
         compute.increment(
             "outer_entry_kl_teacher",
@@ -493,6 +503,7 @@ def _run_ode_arm(
                 _phase_add_objective(compute, "target_kl_gradient", kl_result, target=True)
                 if p1r52:
                     assert p1r52_state is not None
+                    assert p1r24_kl_teacher_sha256 is not None
                     proposal52 = prepare_p1r52_target_proposal(
                         current_target,
                         current_terminal,
@@ -504,6 +515,7 @@ def _run_ode_arm(
                         alias=alias,
                         step_index=step_index,
                         shared_speed=float(metric.shared_speed),
+                        kl_teacher_input_sha256=p1r24_kl_teacher_sha256,
                     )
                     endpoint_started = time.perf_counter()
                     primary_state = proposal52.primary_step.target_next.detach().to(
@@ -1590,6 +1602,20 @@ def _run_ode_arm(
         factors_for_endpoint = _factor_map(current_factors)
         target_for_endpoint = current_target.clone()
         physical_for_endpoint = physical
+        p1r52_teacher_hashes = (
+            [
+                str(item["target_update"]["kl_teacher_input_sha256"])
+                for item in accepted
+            ]
+            if p1r52
+            else []
+        )
+        if p1r52 and (
+            len(p1r52_teacher_hashes) != P1R23_GRID_COUNT
+            or len(set(p1r52_teacher_hashes)) != 1
+            or p1r52_teacher_hashes[0] != p1r24_kl_teacher_sha256
+        ):
+            raise ODEBFContractError("P1R52 immutable KL teacher hash differs across K8")
         rollout_payload = {
             "arm": arm_label,
             "status": (
@@ -1628,6 +1654,11 @@ def _run_ode_arm(
             "terminal_physical_capture_sha256": physical_for_endpoint.identity_sha256,
             "terminal_functional": terminal_functional,
             "terminal_z8_oracle": terminal_oracle,
+            "kl_teacher_input_sha256": p1r24_kl_teacher_sha256 if p1r52 else None,
+            "kl_teacher_hash_by_k": p1r52_teacher_hashes,
+            "kl_teacher_hash_k8_constant": bool(
+                p1r52 and len(set(p1r52_teacher_hashes)) == 1
+            ),
             "requestwise_realization_sha256": (
                 request_realization_sha256 if p1r42 or p1r43 or p1r51 or p1r52 else []
             ),

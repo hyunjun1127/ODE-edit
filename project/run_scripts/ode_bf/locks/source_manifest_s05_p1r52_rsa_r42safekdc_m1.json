@@ -1,18 +1,18 @@
 {
   "entries": [
-    {"mode":"0600","path":"project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r52_rsa_r42safekdc_m1.json","sha256":"2b8e0bd36a73ee072af7faf3ae5c039ffbdb0ccc943bfa84967629cbdefcb86e","size":2409},
+    {"mode":"0600","path":"project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r52_rsa_r42safekdc_m1.json","sha256":"4f52e9d47db33d9edc90969d7288152aabe561360666cac2e3808401b814439e","size":2987},
     {"mode":"0600","path":"project/run_scripts/ode_bf/p1_runtime.py","sha256":"af89819368cb4e92e6ca97e41623e97567bbe1f3577e568fff4376e271d6b187","size":225385},
-    {"mode":"0600","path":"project/run_scripts/ode_bf/p1_scalable_batched_experiment.py","sha256":"64ab44aa8650cdcab929cb30359587d05880c857eaf4b5c8c8b42c002c3ced69","size":121032},
+    {"mode":"0600","path":"project/run_scripts/ode_bf/p1_scalable_batched_experiment.py","sha256":"d35dcfac8cb1d873eadf7607c5fea300964ba3b023719874fd0d9b27db788807","size":122334},
     {"mode":"0600","path":"project/run_scripts/ode_bf/p1r36_independent_b10x10_runtime.py","sha256":"92325baa97a4e810b710cc0bc5f6d528288df46f5bf4dcd16fd08d3aabccb621","size":36386},
     {"mode":"0600","path":"project/run_scripts/ode_bf/p1r42_objective_aligned_target.py","sha256":"f1cd61c8d8bbe0a13cecca9480929efd37873f57d85873e7f1b8be89c37ad1a9","size":19884},
     {"mode":"0600","path":"project/run_scripts/ode_bf/p1r43_full_strength_routing.py","sha256":"3e3cf13c734a5fd7812fc239bae9047654a55f2ccbe4c51031b504a13bde7b6c","size":4836},
     {"mode":"0600","path":"project/run_scripts/ode_bf/p1r43_rho_free_target.py","sha256":"1ae22bfd058853b763b6bb81e669516e355ef90be69cdbcf6f6acaf2956e54f6","size":18121},
     {"mode":"0600","path":"project/run_scripts/ode_bf/p1r51_requestwise_semantic_allocation.py","sha256":"aa678f9898126d62ee41cbc45f7e0a4d95232e4a7522ae88fc10e695f29f6a8e","size":17506},
-    {"mode":"0600","path":"project/run_scripts/ode_bf/p1r52_independent_panel.py","sha256":"1e7b06b30ad81907dca2f50019f297a78d43a6d24b1b535f313096fa4d3a3a69","size":3653},
-    {"mode":"0600","path":"project/run_scripts/ode_bf/p1r52_independent_runtime.py","sha256":"3fe4ce8cc4528a62404b1a179001f26adc079f8ebf072b6abbdb2307daa04860","size":7881},
-    {"mode":"0600","path":"project/run_scripts/ode_bf/p1r52_r42_safe_kdc.py","sha256":"02fbc56c826a1490a5c996bf0042dab656ec56bf9627b5d876530bdc0305788c","size":22401},
-    {"mode":"0600","path":"project/run_scripts/ode_bf/tests/test_p1r52_execution_contract.py","sha256":"ee5b01248a7af638b3b77b04614936498582cdde0551ddbfd2f10869a8c06476","size":2369},
-    {"mode":"0600","path":"project/run_scripts/ode_bf/tests/test_p1r52_r42_safe_kdc.py","sha256":"9941394263ffa634da7155ed8b2bbdbc1a85194e6df607fde0ffd2acf290cbef","size":6292},
+    {"mode":"0600","path":"project/run_scripts/ode_bf/p1r52_independent_panel.py","sha256":"4a8fecaa0b4f63b87a6f4b21b99ef35c54c7e9f69ee1ddd28f8d37828eadcc6a","size":4282},
+    {"mode":"0600","path":"project/run_scripts/ode_bf/p1r52_independent_runtime.py","sha256":"f0591e8626a45e7cff3a66fab1061b65d57d158175b2d908a0e779edcb8c788e","size":8254},
+    {"mode":"0600","path":"project/run_scripts/ode_bf/p1r52_r42_safe_kdc.py","sha256":"4225fd41361f89f6f947460a5e038cdda42dbbdab015f37105080351a0bd6aa4","size":31444},
+    {"mode":"0600","path":"project/run_scripts/ode_bf/tests/test_p1r52_execution_contract.py","sha256":"333018986d3e7be38944087f960e0a30402eb42f66b4649dc60e09fc8ca643fa","size":3446},
+    {"mode":"0600","path":"project/run_scripts/ode_bf/tests/test_p1r52_r42_safe_kdc.py","sha256":"1dd71cbe6e19ad80ea1e6c55b8774f2024b83b0d453f5513043e949de398bed8","size":13867},
     {"mode":"0600","path":"project/run_scripts/session05_ode_bf_p1r52_rsa_r42safekdc_m1.py","sha256":"5c627ada4e5c5cc3f49adeb995eccf0edda3db4f5267da40c22283185ac00414","size":4291},
     {"mode":"0600","path":"project/run_scripts/session05_ode_bf_p1r52_rsa_r42safekdc_m1.sbatch","sha256":"9d069b5971cf7cd40e0ce0a1a3a6b425fad4758c3aca5a95e266fd275b397dd9","size":2783},
     {"mode":"0600","path":"project/run_scripts/session05_ode_bf_p1r52_rsa_r42safekdc_m1_dry_plan.py","sha256":"27c6655d091e3a6be5ed20e934adfaa8ac00e261469b3a012cca023da3af7170","size":2194},
@@ -21,12 +21,15 @@
   "instruction_id": "ODEEDIT-S05-P1R52-RSA-R42SAFEKDC-M1-V1",
   "parent": "e9e31260f452ec30ef42393d33eaf37f32f5e1dd",
   "parent_tree": "29ebec8aa5da4b884863e1f0d3021209b0ecbebb",
+  "repair_contract_sha256": "04f4dffd6b6d6caf5ac86e654503dc18322a3a68cfdc736623176e6da0300dc0",
+  "repair_revision": "R1",
+  "repair_source_parent": "c35ebe5c299c919e68e496cbc2f0d77512c73f7a",
   "protected_components": {
     "p1r42_safe_projection_sha256": "f1cd61c8d8bbe0a13cecca9480929efd37873f57d85873e7f1b8be89c37ad1a9",
     "p1r43_router_sha256": "3e3cf13c734a5fd7812fc239bae9047654a55f2ccbe4c51031b504a13bde7b6c",
     "p1r43_target_sha256": "1ae22bfd058853b763b6bb81e669516e355ef90be69cdbcf6f6acaf2956e54f6",
     "p1r51_allocation_sha256": "aa678f9898126d62ee41cbc45f7e0a4d95232e4a7522ae88fc10e695f29f6a8e"
   },
-  "root_digest": "d6749fa204aff846a1c42add480a7582bd1b485c1bc29eb89a598c0339fc8bca",
+  "root_digest": "2090d6179d0189b2c64842f2e27b8c448faf2b1a3542a2367fe775aea83e51ec",
   "schema_version": "ode-edit-s05-p1r52-rsa-r42safekdc-source-manifest/v1"
 }

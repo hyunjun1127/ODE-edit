@@ -21,6 +21,10 @@ def validate_lock(value: Mapping[str, Any]) -> None:
         "schema_version": LOCK_SCHEMA,
         "instruction_id": "ODEEDIT-S05-P1R52-RSA-R42SAFEKDC-M1-V1",
         "contract_sha256": "c7b15a25262a1a8e17e0b9a6b60fced73d49dc4828cc6eea74a6aa447a2212f6",
+        "repair_contract_sha256": "04f4dffd6b6d6caf5ac86e654503dc18322a3a68cfdc736623176e6da0300dc0",
+        "repair_revision": "R1",
+        "repair_reason": "EXACT_ACTIVE_UNIT_NORMALIZATION_AND_METHOD_CONTRACT_REPAIR",
+        "repair_source_parent": "c35ebe5c299c919e68e496cbc2f0d77512c73f7a",
         "exact_parent": PARENT,
         "exact_parent_tree": PARENT_TREE,
         "models": ["llama3-8b-inst", "qwen2.5-7b-inst"],
@@ -46,6 +50,10 @@ def validate_lock(value: Mapping[str, Any]) -> None:
         "numerical_epsilon": 1e-12,
         "numerical_epsilon_source": "P1R39_NORMALIZATION_EPSILON",
         "semantic_certificate_tolerance": 1e-8,
+        "active_direction_normalization": "EXACT_COMBINED_DIRECTION_NORM",
+        "active_small_direction_failure": "TYPED_METHOD_CONTRACT_FAILURE",
+        "final_semantic_descent_contract": "STRICT_SIGN_NO_MAGNITUDE_FLOOR",
+        "raw_energy_certificate_tolerance": 1e-8,
         "alias_hparams": {
             "llama3-8b-inst": {"kl_factor": 0.0625, "decay_factor": 0.5, "clamp_factor": 0.75},
             "qwen2.5-7b-inst": {"kl_factor": 0.0625, "decay_factor": 0.001, "clamp_factor": 4.0},
@@ -73,6 +81,7 @@ def validate_lock(value: Mapping[str, Any]) -> None:
         "retry_count",
         "backtracking_count",
         "clamp_energy_redistribution_count",
+        "active_direction_denominator_epsilon_count",
     )
     if any(value.get(key) != 0 for key in zero):
         raise ODEBFContractError("P1R52 forbidden influence differs")
