@@ -255,12 +255,16 @@ def _validate_history_keys(
     layers: Sequence[int],
     *,
     maximum_history_columns: int = 30,
+    batch_size: int = BATCH_SIZE,
 ) -> dict[int, torch.Tensor]:
     if (
         isinstance(maximum_history_columns, bool)
         or not isinstance(maximum_history_columns, int)
         or maximum_history_columns < 0
-        or maximum_history_columns % BATCH_SIZE != 0
+        or isinstance(batch_size, bool)
+        or not isinstance(batch_size, int)
+        or batch_size <= 0
+        or maximum_history_columns % batch_size != 0
     ):
         raise ODEBFContractError("P1 Alpha history maximum differs")
     normalized_layers = tuple(int(layer) for layer in layers)
@@ -277,7 +281,7 @@ def _validate_history_keys(
         result[layer] = value.detach().to(device="cpu", dtype=torch.float32).contiguous()
         column_counts.add(value.shape[1])
     if len(column_counts) != 1 or next(iter(column_counts)) not in tuple(
-        range(0, maximum_history_columns + 1, BATCH_SIZE)
+        range(0, maximum_history_columns + 1, batch_size)
     ):
         raise ODEBFContractError("P1 Alpha solve history is not a prior-B10 prefix")
     return result
@@ -1030,11 +1034,13 @@ def build_p1_dynamic_field(
         history_solve_keys_by_layer,
         layers,
         maximum_history_columns=maximum_history_columns,
+        batch_size=expected_batch_size,
     )
     history_risk = _validate_history_keys(
         history_risk_keys_by_layer,
         layers,
         maximum_history_columns=maximum_history_columns,
+        batch_size=expected_batch_size,
     )
     if (
         isinstance(expected_batch_size, bool)
@@ -1448,12 +1454,16 @@ def capture_committed_history_key_views(
     contexts: Sequence[Sequence[str]],
     *,
     ledger: ComputeLedger,
+    expected_batch_size: int = BATCH_SIZE,
 ) -> tuple[dict[int, torch.Tensor], dict[int, torch.Tensor], str]:
     """Capture post-commit raw solve keys and unweighted projected risk keys."""
 
     from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
 
-    normalized = _normalize_requests(requests)
+    normalized = _normalize_requests(
+        requests,
+        expected_batch_size=expected_batch_size,
+    )
     resolved_contexts = alpha_main.get_context_templates(model, tokenizer)
     if canonical_hash(resolved_contexts) != canonical_hash(list(contexts)):
         raise ODEBFContractError("post-commit history context identity differs")
@@ -1472,7 +1482,7 @@ def capture_committed_history_key_views(
             layer,
             resolved_contexts,
         ).T.detach().to(device="cpu", dtype=torch.float32)
-        if key.shape[1] != BATCH_SIZE:
+        if key.shape[1] != expected_batch_size:
             raise ODEBFContractError("post-commit history key is not joint B10")
         projected = (
             projector[layer_index].to(device=device, dtype=torch.float32)

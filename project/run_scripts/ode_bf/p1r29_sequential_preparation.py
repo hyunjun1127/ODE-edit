@@ -1286,6 +1286,8 @@ class SequentialArmState:
 
     arm_id: str
     layer_order: tuple[int, ...]
+    maximum_history_records: int = MAXIMUM_HISTORY_RECORDS
+    history_batch_size: int = BATCH_SIZE
     ledger: P1HistoryLedger = field(init=False)
     cumulative_p: CumulativeStructuralPState = field(init=False)
     persistent_weights: dict[int, torch.Tensor] = field(init=False)
@@ -1299,7 +1301,8 @@ class SequentialArmState:
     def __post_init__(self) -> None:
         self.ledger = P1HistoryLedger(
             layer_order=self.layer_order,
-            maximum_records=MAXIMUM_HISTORY_RECORDS,
+            maximum_records=self.maximum_history_records,
+            batch_size=self.history_batch_size,
         )
         self.cumulative_p = CumulativeStructuralPState(self.layer_order)
         self.persistent_weights = {}

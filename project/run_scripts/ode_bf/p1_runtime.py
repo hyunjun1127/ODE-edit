@@ -3230,6 +3230,7 @@ def run_p1(
     p1r52_arm: str | None = None,
     p1r52_attempt_suffix: str | None = None,
     p1r52_sequential_role: str | None = None,
+    p1r52_sequential_scale: str | None = None,
     p2r1_target_only_case_count: int | None = None,
     p2r1_attempt_suffix: str | None = None,
     p2r2_case_count: int | None = None,
@@ -3274,11 +3275,16 @@ def run_p1(
         )
     ) > 1:
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
+    if p1r52_sequential_scale is not None and p1r52_sequential_role is None:
+        raise ODEBFContractError("P1R52 sequential scale has no role")
     if p1r52_sequential_role is not None:
         from .p1r52_sequential_runtime import expected_p1r52_sequential_result_name
+        from .p1r52_sequential_scale import resolve_p1r52_sequential_scale
 
         expected_name = expected_p1r52_sequential_result_name(
-            alias, p1r52_sequential_role
+            alias,
+            p1r52_sequential_role,
+            scale=resolve_p1r52_sequential_scale(p1r52_sequential_scale),
         )
     elif p1r52_arm is not None:
         from .p1r52_independent_runtime import expected_p1r52_result_name
@@ -3785,14 +3791,29 @@ def run_p1(
                     load_and_validate_lock as load_and_validate_independent_lock,
                 )
 
-            cold_stream = verify_historical_h0_fresh_seal(
-                json.loads(
-                    (
-                        locks / "p1r24_independent_b10x10_stream_seal.json"
-                    ).read_text(encoding="utf-8")
+            if p1r52_sequential_scale == "b100x10":
+                from .p1r52_b100x10_stream import (
+                    load_p1r52_b100x10_batches,
+                    verify_p1r52_b100x10_stream,
                 )
-            )
-            stream_batches = load_historical_h0_batches(dataset, cold_stream)
+
+                cold_stream = verify_p1r52_b100x10_stream(
+                    json.loads(
+                        (
+                            locks / "p1r52_sequential_b100x10_stream_seal.json"
+                        ).read_text(encoding="utf-8")
+                    )
+                )
+                stream_batches = load_p1r52_b100x10_batches(dataset, cold_stream)
+            else:
+                cold_stream = verify_historical_h0_fresh_seal(
+                    json.loads(
+                        (
+                            locks / "p1r24_independent_b10x10_stream_seal.json"
+                        ).read_text(encoding="utf-8")
+                    )
+                )
+                stream_batches = load_historical_h0_batches(dataset, cold_stream)
             schedule = common_cold_schedule(sampling_seal)
             cold_requests = tuple(stream_batches[0])
             scalable_batched_lock, _ = load_and_validate_p1r23_lock(
@@ -4417,6 +4438,7 @@ def run_p1(
     ):
         if p1r52_sequential_role is not None:
             from .p1r52_sequential_runtime import run_p1r52_sequential
+            from .p1r52_sequential_scale import resolve_p1r52_sequential_scale
 
             return run_p1r52_sequential(
                 model,
@@ -4450,6 +4472,7 @@ def run_p1(
                     scalable_batched_lock["microbatch_accumulation"]
                     ["request_microbatch_size"][alias]
                 ),
+                scale=resolve_p1r52_sequential_scale(p1r52_sequential_scale),
             )
         if p1r52_arm is not None:
             from .p1r52_independent_runtime import run_p1r52_independent

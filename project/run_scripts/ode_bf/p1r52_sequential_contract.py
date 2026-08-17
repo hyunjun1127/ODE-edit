@@ -149,10 +149,13 @@ class LifetimeAnchor:
 class LifetimeAnchorLedger:
     anchors: list[LifetimeAnchor]
     finalized: MutableMapping[str, str]
+    batch_size: int = BATCH_SIZE
 
     @classmethod
-    def empty(cls) -> "LifetimeAnchorLedger":
-        return cls([], {})
+    def empty(cls, *, batch_size: int = BATCH_SIZE) -> "LifetimeAnchorLedger":
+        if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size <= 0:
+            raise ODEBFContractError("lifetime anchor batch size differs")
+        return cls([], {}, batch_size)
 
     def identity(self) -> str:
         return canonical_hash(
@@ -165,7 +168,7 @@ class LifetimeAnchorLedger:
 
     def append_once(self, transaction_id: str, anchors: Sequence[LifetimeAnchor]) -> int:
         batch = tuple(anchors)
-        if len(batch) != BATCH_SIZE or len({item.request_sha256 for item in batch}) != BATCH_SIZE:
+        if len(batch) != self.batch_size or len({item.request_sha256 for item in batch}) != self.batch_size:
             raise ODEBFContractError("lifetime anchor append is not distinct B10")
         payload = canonical_hash([item.identity_sha256 for item in batch])
         if transaction_id in self.finalized:
@@ -174,7 +177,7 @@ class LifetimeAnchorLedger:
             return 0
         self.anchors.extend(batch)
         self.finalized[transaction_id] = payload
-        return BATCH_SIZE
+        return self.batch_size
 
     def restore(self, anchors: Sequence[LifetimeAnchor], finalized: Mapping[str, str]) -> None:
         self.anchors = list(anchors)
@@ -389,6 +392,7 @@ def build_history_aware_scalable_field(
     residual_tolerance: float,
     ledger: ComputeLedger,
     allow_zero_capacity: bool = False,
+    maximum_history_columns: int = HISTORY_COUNTS[-1],
 ) -> Any:
     layers = tuple(int(layer) for layer in hparams.layers)
     if layers != P1R23_LAYER_ORDER:
@@ -425,7 +429,7 @@ def build_history_aware_scalable_field(
         captured_keys_by_layer=captured_keys_by_layer,
         allow_inner_empty_cache=False,
         expected_batch_size=len(requests),
-        maximum_history_columns=HISTORY_COUNTS[-1],
+        maximum_history_columns=maximum_history_columns,
     )
     expected = history_state.history_entry_count()
     if any(item.history_action.shape[1] != expected for item in field.layers):
@@ -440,6 +444,7 @@ def scoped_atomic_sequential_adapter(
     router: SequentialHRouter,
     *,
     structural_h_decision_enabled: bool = True,
+    maximum_history_columns: int = HISTORY_COUNTS[-1],
 ) -> Iterator[None]:
     """Patch one B10 while keeping Alpha solve history separate from H routing."""
 
@@ -449,7 +454,12 @@ def scoped_atomic_sequential_adapter(
     original_from_field = AcceptedLayerContribution.__dict__["from_field"]
 
     def field_adapter(*args: Any, **kwargs: Any) -> Any:
-        return build_history_aware_scalable_field(history_state, *args, **kwargs)
+        return build_history_aware_scalable_field(
+            history_state,
+            *args,
+            maximum_history_columns=maximum_history_columns,
+            **kwargs,
+        )
 
     def from_field_adapter(cls: type[AcceptedLayerContribution], field: Any, factor: Any, *, history_action: torch.Tensor | None = None) -> AcceptedLayerContribution:
         del history_action
@@ -583,10 +593,18 @@ def commit_sequential_batch(
     anchor_factory: Any,
     history_factory: Any | None = None,
     fault_phase: str | None = None,
+    batch_size: int = BATCH_SIZE,
 ) -> dict[str, Any]:
     """Commit W/history/anchors exactly once with complete enclosing rollback."""
 
-    if fault_phase not in (None, "after_weights", "after_anchor", "after_history"):
+    if (
+        fault_phase not in (None, "after_weights", "after_anchor", "after_history")
+        or isinstance(batch_size, bool)
+        or not isinstance(batch_size, int)
+        or batch_size <= 0
+        or anchor_ledger.batch_size != batch_size
+        or history_state.ledger.batch_size != batch_size
+    ):
         raise ODEBFContractError("sequential transaction fault phase differs")
     if set(parameters) != set(candidates):
         raise ODEBFContractError("sequential transaction weight inventory differs")
@@ -640,7 +658,7 @@ def commit_sequential_batch(
             )
             anchor_replay = anchor_ledger.append_once(transaction_id, anchors)
             if (
-                anchor_append != BATCH_SIZE
+                anchor_append != batch_size
                 or history_replay.appended_count != 0
                 or not history_replay.idempotent_replay
                 or anchor_replay != 0

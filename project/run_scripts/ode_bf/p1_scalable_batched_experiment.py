@@ -283,7 +283,7 @@ def _run_ode_arm(
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
     request_count = len(requests)
-    if request_count not in ((1, 10) if p1r24 else (10, 100)):
+    if request_count not in ((1, 10, 100) if p1r52 else (1, 10) if p1r24 else (10, 100)):
         raise ODEBFContractError("P1R23 ODE request count differs")
     if allocation not in ("RS", "BG"):
         raise ODEBFContractError("P1R23 ODE target allocation differs")

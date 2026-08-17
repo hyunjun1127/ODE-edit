@@ -53,6 +53,7 @@ from .p1r52_sequential_contract import (
     make_history_records,
     scoped_atomic_sequential_adapter,
 )
+from .p1r52_sequential_scale import P1R52SequentialScale, P1R52_B10X10_SCALE
 from .p1r52_official_sequential_baselines import (
     load_official_memit_hparams,
     run_official_memit_apply,
@@ -77,6 +78,13 @@ RESULT_NAMES = {
     NATIVE_ROLE: "s05-p1r52-native-alphaedit-sequential-10xb10-v1",
     NATIVE_CORRECTED_ROLE: "s05-p1r52-native-alphaedit-sequential-cache-on-corrected-10xb10-v1",
     MEMIT_ROLE: "s05-p1r52-official-memit-sequential-10xb10-v1",
+}
+
+RESULT_NAMES_B100X10 = {
+    R52_H_ROLE: "s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-v1",
+    R52_CONTROL_ROLE: "s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-v1",
+    NATIVE_CORRECTED_ROLE: "s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-v1",
+    MEMIT_ROLE: "s05-p1r52-official-memit-sequential-10xb100-v1",
 }
 
 
@@ -139,10 +147,16 @@ def _b1_stable_rollout_payload(rollout: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
-def expected_p1r52_sequential_result_name(alias: str, role: str) -> str:
-    if alias != "llama3-8b-inst" or role not in EXECUTION_ROLES:
+def expected_p1r52_sequential_result_name(
+    alias: str,
+    role: str,
+    *,
+    scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
+) -> str:
+    names = RESULT_NAMES if scale == P1R52_B10X10_SCALE else RESULT_NAMES_B100X10
+    if alias != "llama3-8b-inst" or role not in names:
         raise ODEBFContractError("P1R52 sequential result identity differs")
-    return RESULT_NAMES[role]
+    return names[role]
 
 
 def structural_h_off_control_receipts(
@@ -150,12 +164,13 @@ def structural_h_off_control_receipts(
     *,
     alpha_solve_history_width: int,
     anchor_observation_width: int,
+    scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
 ) -> list[dict[str, Any]]:
     """Bind Alpha-cache activity and zero Structural-H action independently."""
 
     width = int(alpha_solve_history_width)
     anchors = int(anchor_observation_width)
-    if width not in HISTORY_COUNTS or anchors != width:
+    if width not in scale.history_counts or anchors != width:
         raise ODEBFStateError("Structural-H-off control history/anchor width differs")
     result: list[dict[str, Any]] = []
     for receipt in receipts:
@@ -168,7 +183,7 @@ def structural_h_off_control_receipts(
                 "status": "ALPHA_CACHE_ON_STRUCTURAL_H_OFF",
                 "alpha_solve_history_width": width,
                 "alpha_solve_cache_consume_count": width,
-                "alpha_solve_cache_append_count": BATCH_SIZE,
+                "alpha_solve_cache_append_count": scale.batch_size,
                 "structural_h_decision_history_width": 0,
                 "structural_h_decision_influence_count": 0,
                 "risk_observation_width": width,
@@ -218,7 +233,11 @@ def _summary(values: Sequence[float]) -> dict[str, float | int]:
     }
 
 
-def _aggregate_metric_payloads(payloads: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+def _aggregate_metric_payloads(
+    payloads: Sequence[Mapping[str, Any]],
+    *,
+    batch_size: int = BATCH_SIZE,
+) -> dict[str, Any]:
     """Aggregate already-produced B10 receipts; no model action occurs here."""
 
     names = ("rewrite_success", "rewrite_acc", "paraphrase_success", "paraphrase_acc")
@@ -264,7 +283,7 @@ def _aggregate_metric_payloads(payloads: Sequence[Mapping[str, Any]]) -> dict[st
     local_den = sum(int(row["denominator"]) for row in locality)
     result = {
         "batch_count": len(payloads),
-        "request_count": len(payloads) * BATCH_SIZE,
+        "request_count": len(payloads) * batch_size,
         "metrics": metrics,
         "locality": {
             "numerator": local_num,
@@ -318,6 +337,7 @@ def _evaluate_cohort(
     checkpoint_index: int,
     snapshot_sha256: str,
     slots: int,
+    expected_batch_size: int = BATCH_SIZE,
 ) -> tuple[dict[str, Any], float]:
     order = scalable_ordered_request_digest([item.request_sha256 for item in cases])
     freeze = EndpointActionFreeze(
@@ -329,7 +349,12 @@ def _evaluate_cohort(
     )
     started = time.perf_counter()
     receipt = evaluate_counterfact_success_accuracy_batch(
-        model, tokenizer, cases, model_alias=alias, freeze=freeze
+        model,
+        tokenizer,
+        cases,
+        model_alias=alias,
+        freeze=freeze,
+        expected_batch_size=expected_batch_size,
     ).raw_free_payload()
     elapsed = time.perf_counter() - started
     receipt["cohort_index"] = cohort_index
@@ -349,6 +374,7 @@ def _evaluate_batch_entry(
     role: str,
     round_index: int,
     entry_weight_sha256: Mapping[str, str],
+    expected_batch_size: int = BATCH_SIZE,
 ) -> tuple[dict[str, Any], float]:
     """Evaluate one current B10 at its sealed physical entry state."""
 
@@ -363,7 +389,12 @@ def _evaluate_batch_entry(
         selected_snapshot_sha256=parameter_byte_sha256,
         parameter_byte_sha256=parameter_byte_sha256,
     )
-    cases = load_counterfact_cases_after_freeze(dataset_path, requests, seal)
+    cases = load_counterfact_cases_after_freeze(
+        dataset_path,
+        requests,
+        seal,
+        expected_batch_size=expected_batch_size,
+    )
     started = time.perf_counter()
     receipt = evaluate_counterfact_success_accuracy_batch(
         model,
@@ -371,6 +402,7 @@ def _evaluate_batch_entry(
         cases,
         model_alias=alias,
         freeze=seal,
+        expected_batch_size=expected_batch_size,
     ).raw_free_payload()
     elapsed = time.perf_counter() - started
     receipt.update(
@@ -507,6 +539,8 @@ def build_pre_post_final_request_rows(
     entry_pre: Sequence[Mapping[str, Any]],
     immediate_post: Sequence[Mapping[str, Any]],
     final_w10: Sequence[Mapping[str, Any]],
+    *,
+    scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
 ) -> list[dict[str, Any]]:
     """Build aligned raw-free request rows; no evaluator/model action."""
 
@@ -515,7 +549,7 @@ def build_pre_post_final_request_rows(
         == len(entry_pre)
         == len(immediate_post)
         == len(final_w10)
-        == ROUND_COUNT
+        == scale.round_count
     ):
         raise ODEBFContractError("sequential pre/post/final cohort inventory differs")
     rows: list[dict[str, Any]] = []
@@ -568,7 +602,7 @@ def build_pre_post_final_request_rows(
                     )
             row = {
                 "round": round_index,
-                "history_width_at_entry": HISTORY_COUNTS[round_index - 1],
+                "history_width_at_entry": scale.history_counts[round_index - 1],
                 "case_id": int(request["case_id"]),
                 "request_index": request_index,
                 "request_sha256": str(request["request_sha256"]),
@@ -579,8 +613,8 @@ def build_pre_post_final_request_rows(
             }
             row["identity_sha256"] = canonical_hash(row)
             rows.append(row)
-    if len(rows) != ROUND_COUNT * BATCH_SIZE:
-        raise ODEBFStateError("sequential request table does not contain B100")
+    if len(rows) != scale.request_count:
+        raise ODEBFStateError("sequential request table does not match the scale")
     return rows
 
 
@@ -786,13 +820,26 @@ def run_p1r52_sequential(
     base_values: Mapping[str, torch.Tensor],
     job_ledger: ComputeLedger,
     request_microbatch_size: int,
+    scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
 ) -> dict[str, Any]:
-    if alias != "llama3-8b-inst" or role not in EXECUTION_ROLES:
+    role_names = RESULT_NAMES if scale == P1R52_B10X10_SCALE else RESULT_NAMES_B100X10
+    if alias != "llama3-8b-inst" or role not in role_names:
         raise ODEBFContractError("P1R52 sequential model/role differs")
-    if len(stream_batches) != ROUND_COUNT or any(len(batch) != BATCH_SIZE for batch in stream_batches):
-        raise ODEBFContractError("P1R52 sequential stream is not 10xB10")
-    if stream.get("root_digest") != STREAM_ROOT or stream.get("all_request_order_sha256") != STREAM_ORDER:
+    if len(stream_batches) != scale.round_count or any(
+        len(batch) != scale.batch_size for batch in stream_batches
+    ):
+        raise ODEBFContractError("P1R52 sequential stream scale differs")
+    if scale == P1R52_B10X10_SCALE and (
+        stream.get("root_digest") != STREAM_ROOT
+        or stream.get("all_request_order_sha256") != STREAM_ORDER
+    ):
         raise ODEBFContractError("P1R52 sequential stream identity differs")
+    if (
+        stream.get("edit_batch_size") != scale.batch_size
+        or stream.get("sequential_round_count") != scale.round_count
+        or stream.get("logical_edit_count") != scale.request_count
+    ):
+        raise ODEBFContractError("P1R52 sequential stream geometry differs")
     if _hashes(touched) != dict(base_receipt.parameter_sha256):
         raise ODEBFStateError("P1R52 sequential entry W0 differs")
 
@@ -800,8 +847,13 @@ def run_p1r52_sequential(
 
     expected_w0 = _model_w0_contract(touched)
     w0_pointers = {name: int(value.data_ptr()) for name, value in touched.items()}
-    sequential_state = SequentialArmState(role, P1R23_LAYER_ORDER)
-    anchor_ledger = LifetimeAnchorLedger.empty()
+    sequential_state = SequentialArmState(
+        role,
+        P1R23_LAYER_ORDER,
+        maximum_history_records=scale.request_count,
+        history_batch_size=scale.batch_size,
+    )
+    anchor_ledger = LifetimeAnchorLedger.empty(batch_size=scale.batch_size)
     cohort_cases: list[tuple[Any, ...]] = []
     cohort_requests: list[tuple[Mapping[str, Any], ...]] = []
     checkpoint_rows: list[dict[str, Any]] = []
@@ -821,9 +873,9 @@ def run_p1r52_sequential(
             history_width = (
                 sequential_state.history_entry_count()
                 if role in R52_ROLES
-                else (round_index - 1) * BATCH_SIZE
+                else (round_index - 1) * scale.batch_size
             )
-            expected_history_width = HISTORY_COUNTS[round_index - 1]
+            expected_history_width = scale.history_counts[round_index - 1]
             if history_width != expected_history_width:
                 raise ODEBFStateError("P1R52 sequential entry history width differs")
             entry_hashes = _hashes(touched)
@@ -863,6 +915,7 @@ def run_p1r52_sequential(
                 role=role,
                 round_index=round_index,
                 entry_weight_sha256=entry_hashes,
+                expected_batch_size=scale.batch_size,
             )
             entry_pre_evaluations.append(entry_pre)
             evaluation_wall += pre_wall
@@ -880,14 +933,14 @@ def run_p1r52_sequential(
                     tokenizer,
                     requests,
                     contexts=contexts,
-                    request_microbatch_size=min(request_microbatch_size, BATCH_SIZE),
+                    request_microbatch_size=min(request_microbatch_size, scale.batch_size),
                     fact_token_strategy=hparams.fact_token,
                 )
                 capture_plan = build_scalable_capture_plan(
                     tokenizer,
                     requests,
                     contexts=contexts,
-                    request_microbatch_size=min(request_microbatch_size, BATCH_SIZE),
+                    request_microbatch_size=min(request_microbatch_size, scale.batch_size),
                     fact_token_strategy=hparams.fact_token,
                 )
                 if objective_plan.request_order_sha256 != request_order or capture_plan.request_order_sha256 != request_order:
@@ -907,7 +960,11 @@ def run_p1r52_sequential(
                     counter.close()
                 arm_state = ArmRuntimeState(
                     P1Arm.R_BF,
-                    P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=100),
+                    P1HistoryLedger(
+                        layer_order=P1R23_LAYER_ORDER,
+                        maximum_records=scale.request_count,
+                        batch_size=scale.batch_size,
+                    ),
                     ComputeLedger(),
                     entry_receipt,
                     entry_values,
@@ -921,6 +978,7 @@ def run_p1r52_sequential(
                     sequential_state,
                     router,
                     structural_h_decision_enabled=role == R52_H_ROLE,
+                    maximum_history_columns=scale.history_counts[-1],
                 ):
                     rollout = _run_ode_arm(
                         model,
@@ -988,6 +1046,7 @@ def run_p1r52_sequential(
                         router.receipts,
                         alpha_solve_history_width=history_width,
                         anchor_observation_width=len(anchor_ledger.anchors),
+                        scale=scale,
                     )
                 anchor_started = time.perf_counter()
 
@@ -1015,6 +1074,7 @@ def run_p1r52_sequential(
                             projector,
                             contexts,
                             ledger=job_ledger,
+                            expected_batch_size=scale.batch_size,
                         )
                     finally:
                         counter.close()
@@ -1033,7 +1093,7 @@ def run_p1r52_sequential(
                     capture_receipt = {
                         "post_commit_capture": True,
                         "round": round_index,
-                        "request_count": BATCH_SIZE,
+                        "request_count": scale.batch_size,
                         "committed_weight_sha256": _hashes(touched),
                         "solve_key_sha256": {
                             str(layer): tensor_sha256(solve_keys[layer])
@@ -1061,6 +1121,7 @@ def run_p1r52_sequential(
                     anchor_ledger=anchor_ledger,
                     anchor_factory=anchor_factory,
                     history_factory=history_factory,
+                    batch_size=scale.batch_size,
                 )
                 anchor_wall += time.perf_counter() - anchor_started
                 commit = joint_transaction["weight"]
@@ -1186,11 +1247,11 @@ def run_p1r52_sequential(
             committed_contract = _model_w0_contract(touched)
             if not committed_contract:
                 raise ODEBFStateError("P1R52 sequential committed contract is absent")
-            if role in OFFICIAL_BASELINE_ROLES and anchor_append != BATCH_SIZE:
+            if role in OFFICIAL_BASELINE_ROLES and anchor_append != scale.batch_size:
                 raise ODEBFStateError("Official baseline sequential anchor append count differs")
-            if anchor_append != BATCH_SIZE:
+            if anchor_append != scale.batch_size:
                 raise ODEBFStateError("P1R52 sequential anchor append count differs")
-            expected_anchor_count = round_index * BATCH_SIZE
+            expected_anchor_count = round_index * scale.batch_size
             if len(anchor_ledger.anchors) != expected_anchor_count:
                 raise ODEBFStateError("P1R52 sequential anchor count differs")
             if role in R52_ROLES and sequential_state.history_entry_count() != expected_anchor_count:
@@ -1218,6 +1279,7 @@ def run_p1r52_sequential(
                     checkpoint_index=round_index,
                     snapshot_sha256=snapshot_sha,
                     slots=8 if role in R52_ROLES else 0,
+                    expected_batch_size=scale.batch_size,
                 )
                 checkpoint_evaluations.append(receipt)
                 evaluation_wall += wall
@@ -1229,7 +1291,10 @@ def run_p1r52_sequential(
                 )
             current_eval = checkpoint_evaluations[-1]
             immediate_post_evaluations.append(current_eval)
-            aggregate = _aggregate_metric_payloads(checkpoint_evaluations)
+            aggregate = _aggregate_metric_payloads(
+                checkpoint_evaluations,
+                batch_size=scale.batch_size,
+            )
             pre_summary = _evaluation_summary(entry_pre)
             post_summary = _evaluation_summary(current_eval)
             post_minus_pre = _summary_delta(post_summary, pre_summary)
@@ -1260,7 +1325,7 @@ def run_p1r52_sequential(
                     "decision_influence_count": 0,
                 }
                 drift["identity_sha256"] = canonical_hash(drift)
-            if round_index == 1 and role in R52_ROLES:
+            if round_index == 1 and role in R52_ROLES and scale == P1R52_B10X10_SCALE:
                 b1_gate = _b1_identity_gate(
                     case_root,
                     committed_hashes=committed_hashes,
@@ -1268,11 +1333,17 @@ def run_p1r52_sequential(
                     rollout=atomic_payload,
                 )
             else:
-                b1_gate = {"status": "NOT_APPLICABLE"}
+                b1_gate = {
+                    "status": (
+                        "NOT_APPLICABLE_B100X10_SCALE"
+                        if scale != P1R52_B10X10_SCALE
+                        else "NOT_APPLICABLE"
+                    )
+                }
 
             batch_payload = {
-                "schema": "ode-edit-s05-p1r52-sequential-b10-terminal/v1",
-                "instruction_id": INSTRUCTION_ID,
+                "schema": f"ode-edit-s05-p1r52-sequential-{scale.scale_id}-terminal/v1",
+                "instruction_id": scale.instruction_id,
                 "method_id": (
                     METHOD_ID
                     if role == R52_H_ROLE
@@ -1285,6 +1356,8 @@ def run_p1r52_sequential(
                     else "OFFICIAL-ALPHAEDIT-SEQUENTIAL-CACHE-RESET-PER-B10-SUPERSEDED-V1"
                 ),
                 "role": role,
+                "scale_id": scale.scale_id,
+                "batch_size": scale.batch_size,
                 "round": round_index,
                 "history_width_at_entry": history_width,
                 "entry_weight_sha256": entry_hashes,
@@ -1301,7 +1374,7 @@ def run_p1r52_sequential(
                 "active_history_count": sequential_state.history_entry_count() if role in R52_ROLES else 0,
                 "alpha_solve_history_width": history_width if role in R52_ROLES else 0,
                 "alpha_solve_cache_consume_count": history_width if role in R52_ROLES else 0,
-                "alpha_solve_cache_append_count": BATCH_SIZE if role in R52_ROLES else 0,
+                "alpha_solve_cache_append_count": scale.batch_size if role in R52_ROLES else 0,
                 "historical_control_status": (
                     "ALPHA_CACHE_ON_STRUCTURAL_H_OFF"
                     if role == R52_CONTROL_ROLE
@@ -1390,34 +1463,45 @@ def run_p1r52_sequential(
                 tokenizer,
                 cases,
                 alias=alias,
-                role=f"{role}-B100-terminal",
+                role=f"{role}-{scale.final_label}-terminal",
                 cohort_index=cohort_index,
-                checkpoint_index=ROUND_COUNT,
+                checkpoint_index=scale.round_count,
                 snapshot_sha256=final_snapshot_sha,
                 slots=8 if role in R52_ROLES else 0,
+                expected_batch_size=scale.batch_size,
             )
             final_evaluations.append(receipt)
             evaluation_wall += wall
             _record_evaluator_compute(
                 job_ledger,
                 receipt,
-                component="final_W10_B100_evaluator",
+                component=f"final_W10_{scale.final_label}_evaluator",
                 wall_seconds=wall,
             )
-        final_b100 = _aggregate_metric_payloads(final_evaluations)
-        true_entry_pre_all = _aggregate_metric_payloads(entry_pre_evaluations)
-        immediate_post_all = _aggregate_metric_payloads(immediate_post_evaluations)
+        final_b100 = _aggregate_metric_payloads(
+            final_evaluations,
+            batch_size=scale.batch_size,
+        )
+        true_entry_pre_all = _aggregate_metric_payloads(
+            entry_pre_evaluations,
+            batch_size=scale.batch_size,
+        )
+        immediate_post_all = _aggregate_metric_payloads(
+            immediate_post_evaluations,
+            batch_size=scale.batch_size,
+        )
         request_comparison_rows = build_pre_post_final_request_rows(
             cohort_requests,
             entry_pre_evaluations,
             immediate_post_evaluations,
             final_evaluations,
+            scale=scale,
         )
         cohort_comparison_rows = [
             {
                 "round": round_index,
-                "batch_age_at_W10": ROUND_COUNT - round_index,
-                "history_width_at_entry": HISTORY_COUNTS[round_index - 1],
+                "batch_age_at_W10": scale.round_count - round_index,
+                "history_width_at_entry": scale.history_counts[round_index - 1],
                 "entry_pre": _evaluation_summary(pre),
                 "immediate_post": _evaluation_summary(post),
                 "final_W10": _evaluation_summary(final),
@@ -1449,8 +1533,9 @@ def run_p1r52_sequential(
             raise ODEBFStateError("P1R52 sequential terminal W0 pointer differs")
 
     checkpoint_table = {
-        "schema": "ode-edit-s05-p1r52-sequential-pre-post-checkpoints/v1",
+        "schema": f"ode-edit-s05-p1r52-sequential-{scale.scale_id}-pre-post-checkpoints/v1",
         "role": role,
+        "scale_id": scale.scale_id,
         "rows": checkpoint_rows,
         "row_count": len(checkpoint_rows),
     }
@@ -1459,8 +1544,9 @@ def run_p1r52_sequential(
         destination / "b1-b10-pre-post-checkpoints.json", checkpoint_table
     )
     request_table = {
-        "schema": "ode-edit-s05-p1r52-sequential-pre-post-final-requests/v1",
+        "schema": f"ode-edit-s05-p1r52-sequential-{scale.scale_id}-pre-post-final-requests/v1",
         "role": role,
+        "scale_id": scale.scale_id,
         "rows": request_comparison_rows,
         "row_count": len(request_comparison_rows),
     }
@@ -1469,8 +1555,9 @@ def run_p1r52_sequential(
         destination / "entry-pre-immediate-post-final-w10-requests.json", request_table
     )
     cohort_table = {
-        "schema": "ode-edit-s05-p1r52-sequential-batch-age-cohorts/v1",
+        "schema": f"ode-edit-s05-p1r52-sequential-{scale.scale_id}-batch-age-cohorts/v1",
         "role": role,
+        "scale_id": scale.scale_id,
         "rows": cohort_comparison_rows,
         "row_count": len(cohort_comparison_rows),
     }
@@ -1479,11 +1566,12 @@ def run_p1r52_sequential(
         destination / "batch-age-pre-post-final-cohorts.json", cohort_table
     )
     aggregate_table = {
-        "schema": "ode-edit-s05-p1r52-sequential-true-entry-post-final-aggregate/v1",
+        "schema": f"ode-edit-s05-p1r52-sequential-{scale.scale_id}-true-entry-post-final-aggregate/v1",
         "role": role,
-        "true_entry_pre_B10_panels": true_entry_pre_all,
-        "immediate_post_B10_panels": immediate_post_all,
-        "final_W10_B100": final_b100,
+        "scale_id": scale.scale_id,
+        f"true_entry_pre_B{scale.batch_size}_panels": true_entry_pre_all,
+        f"immediate_post_B{scale.batch_size}_panels": immediate_post_all,
+        f"final_W10_{scale.final_label}": final_b100,
         "immediate_post_minus_entry_pre": _aggregate_delta(
             immediate_post_all, true_entry_pre_all
         ),
@@ -1497,8 +1585,8 @@ def run_p1r52_sequential(
     )
 
     terminal = {
-        "schema": "ode-edit-s05-p1r52-sequential-10xb10-terminal/v1",
-        "instruction_id": INSTRUCTION_ID,
+        "schema": f"ode-edit-s05-p1r52-sequential-10xb{scale.batch_size}-terminal/v1",
+        "instruction_id": scale.instruction_id,
         "method_id": (
             METHOD_ID
             if role == R52_H_ROLE
@@ -1513,13 +1601,15 @@ def run_p1r52_sequential(
         "source_head": source_head,
         "alias": alias,
         "role": role,
-        "round_count": ROUND_COUNT,
-        "request_count": ROUND_COUNT * BATCH_SIZE,
+        "scale_id": scale.scale_id,
+        "round_count": scale.round_count,
+        "batch_size": scale.batch_size,
+        "request_count": scale.request_count,
         "checkpoint_rows": checkpoint_rows,
-        "true_entry_pre_all_B10": true_entry_pre_all,
-        "immediate_post_all_B10": immediate_post_all,
-        "final_B100": final_b100,
-        "final_B100_cohort_receipts": final_evaluations,
+        f"true_entry_pre_all_B{scale.batch_size}": true_entry_pre_all,
+        f"immediate_post_all_B{scale.batch_size}": immediate_post_all,
+        f"final_{scale.final_label}": final_b100,
+        f"final_{scale.final_label}_cohort_receipts": final_evaluations,
         "entry_pre_receipts": entry_pre_evaluations,
         "immediate_post_receipts": immediate_post_evaluations,
         "comparison_tables": {
@@ -1544,10 +1634,10 @@ def run_p1r52_sequential(
                 "rows": 1,
             },
         },
-        "history_widths": list(HISTORY_COUNTS),
+        "history_widths": list(scale.history_counts),
         "terminal_active_history_count": sequential_state.history_entry_count() if role in R52_ROLES else 0,
         "terminal_official_method_cache_history_count": (
-            ROUND_COUNT * BATCH_SIZE if role == NATIVE_CORRECTED_ROLE else 0
+            scale.request_count if role == NATIVE_CORRECTED_ROLE else 0
         ),
         "official_method_cache_kind": (
             "DYNAMIC_ALPHAEDIT_KEY_OUTER_PRODUCT_CACHE_C"
@@ -1560,8 +1650,8 @@ def run_p1r52_sequential(
         "interbatch_W0_restore_count": 0,
         "terminal_W0_restore_count": 1,
         "terminal_W0_restore": terminal_restore,
-        "action_freeze_checkpoint_count": ROUND_COUNT,
-        "batch_entry_pre_evaluator_count": ROUND_COUNT,
+        "action_freeze_checkpoint_count": scale.round_count,
+        "batch_entry_pre_evaluator_count": scale.round_count,
         "batch_entry_pre_evaluator_forward_count": sum(
             int(item["legacy_primary"]["model_forward_count"])
             for item in entry_pre_evaluations
@@ -1574,7 +1664,7 @@ def run_p1r52_sequential(
         "batch_entry_pre_evaluator_generation_count": 0,
         "batch_entry_pre_evaluator_controller_routing_history_anchor_influence": [0, 0, 0, 0],
         "B1_cross_arm_entry_equality_gate": "REQUIRED_IN_PAIRED_TERMINAL_INTEGRITY",
-        "full_B100_terminal_evaluation_count": 1,
+        f"full_{scale.final_label}_terminal_evaluation_count": 1,
         "inner_K_step_heldout_evaluation_count": 0,
         "evaluator_controller_influence_count": 0,
         "accuracy_amendment_added_model_forward_count": 0,
@@ -1589,7 +1679,7 @@ def run_p1r52_sequential(
     terminal["identity_sha256"] = canonical_hash(terminal)
     terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s05-p1r52-sequential-10xb10-manifest/v1",
+        "schema": f"ode-edit-s05-p1r52-sequential-10xb{scale.batch_size}-manifest/v1",
         "source_head": source_head,
         "role": role,
         "terminal_sha256": terminal_sha,
@@ -1600,8 +1690,10 @@ def run_p1r52_sequential(
             "batch-age-pre-post-final-cohorts.json": cohort_table_sha,
             "true-entry-post-final-aggregate.json": aggregate_table_sha,
         },
-        "round_count": ROUND_COUNT,
-        "request_count": ROUND_COUNT * BATCH_SIZE,
+        "scale_id": scale.scale_id,
+        "round_count": scale.round_count,
+        "batch_size": scale.batch_size,
+        "request_count": scale.request_count,
         "W0_restored": True,
     }
     manifest["identity_sha256"] = canonical_hash(manifest)
@@ -1611,8 +1703,8 @@ def run_p1r52_sequential(
         "role": role,
         "terminal_sha256": terminal_sha,
         "manifest_sha256": manifest_sha,
-        "round_count": ROUND_COUNT,
-        "request_count": ROUND_COUNT * BATCH_SIZE,
+        "round_count": scale.round_count,
+        "request_count": scale.request_count,
         "W0_restored": True,
     }
 
@@ -1624,6 +1716,7 @@ __all__ = [
     "NATIVE_ROLE",
     "OFFICIAL_BASELINE_ROLES",
     "RESULT_NAMES",
+    "RESULT_NAMES_B100X10",
     "R52_CONTROL_ROLE",
     "R52_H_ROLE",
     "ROLES",

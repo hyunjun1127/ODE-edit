@@ -233,9 +233,10 @@ class PromptMetricReceipt:
     target_new_minus_true_margin_by_request: tuple[tuple[float, ...], ...]
 
     def __post_init__(self) -> None:
-        if len(self.per_request_bits) != BATCH_SIZE:
-            raise ODEBFContractError("CounterFact prompt metric lacks B10")
-        if len(self.per_request_correct) != BATCH_SIZE or len(self.per_request_required) != BATCH_SIZE:
+        request_count = len(self.per_request_bits)
+        if request_count <= 0:
+            raise ODEBFContractError("CounterFact prompt metric has no requests")
+        if len(self.per_request_correct) != request_count or len(self.per_request_required) != request_count:
             raise ODEBFContractError("CounterFact prompt metric request counts differ")
         for bits, correct, required in zip(
             self.per_request_bits,
@@ -251,7 +252,7 @@ class PromptMetricReceipt:
             raise ODEBFContractError("CounterFact prompt metric aggregate differs")
         if self.strict_all_prompt_bits != tuple(int(all(bits)) for bits in self.per_request_bits):
             raise ODEBFContractError("CounterFact strict request bits differ")
-        if self.strict_request_numerator != sum(self.strict_all_prompt_bits) or self.strict_request_denominator != BATCH_SIZE:
+        if self.strict_request_numerator != sum(self.strict_all_prompt_bits) or self.strict_request_denominator != request_count:
             raise ODEBFContractError("CounterFact strict request aggregate differs")
         if self.prompt_rate != self.prompt_numerator / self.prompt_denominator:
             raise ODEBFContractError("CounterFact prompt rate differs")
@@ -263,7 +264,7 @@ class PromptMetricReceipt:
             len(self.target_new_nll_by_request)
             == len(self.target_true_nll_by_request)
             == len(self.target_new_minus_true_margin_by_request)
-            == BATCH_SIZE
+            == request_count
         ):
             raise ODEBFContractError("CounterFact prompt NLL request count differs")
         for bits, new, true, margin in zip(
@@ -363,9 +364,10 @@ class OfficialMetricBatchReceipt:
     comparison_score_sha256: str
 
     def __post_init__(self) -> None:
-        if len(self.per_case_bits) != BATCH_SIZE:
-            raise ODEBFContractError("official CounterFact metric lacks ten cases")
-        if len(self.per_case_correct) != BATCH_SIZE or len(self.per_case_required) != BATCH_SIZE:
+        case_count = len(self.per_case_bits)
+        if case_count <= 0:
+            raise ODEBFContractError("official CounterFact metric has no cases")
+        if len(self.per_case_correct) != case_count or len(self.per_case_required) != case_count:
             raise ODEBFContractError("official CounterFact per-case counts differ")
         for bits, correct, required in zip(
             self.per_case_bits, self.per_case_correct, self.per_case_required
@@ -447,7 +449,10 @@ class CounterFactPrimaryReceipt:
             )
         ):
             raise ODEBFContractError("CounterFact primary receipt digest differs")
-        if self.model_forward_count != BATCH_SIZE or self.processed_token_count <= 0:
+        if (
+            self.model_forward_count != len(self.efficacy.per_case_bits)
+            or self.processed_token_count <= 0
+        ):
             raise ODEBFContractError("CounterFact primary evaluator accounting differs")
         if self.generation_call_count != 0:
             raise ODEBFContractError("CounterFact P1 primary evaluator called generation")
@@ -513,9 +518,16 @@ def load_counterfact_cases_after_freeze(
     dataset_path: str | Path,
     canonical_requests: Sequence[Mapping[str, Any]],
     freeze: EndpointActionFreeze,
+    *,
+    expected_batch_size: int = BATCH_SIZE,
 ) -> tuple[CounterFactEvaluationCase, ...]:
-    if len(canonical_requests) != BATCH_SIZE:
-        raise ODEBFContractError("held-out CounterFact loader requires B10")
+    if (
+        isinstance(expected_batch_size, bool)
+        or not isinstance(expected_batch_size, int)
+        or expected_batch_size <= 0
+        or len(canonical_requests) != expected_batch_size
+    ):
+        raise ODEBFContractError("held-out CounterFact loader batch size differs")
     request_order = ordered_request_digest_v1(
         [str(item["request_sha256"]) for item in canonical_requests]
     )
@@ -525,7 +537,7 @@ def load_counterfact_cases_after_freeze(
         int(item["case_id"]): str(item["request_sha256"])
         for item in canonical_requests
     }
-    if len(approved) != BATCH_SIZE:
+    if len(approved) != expected_batch_size:
         raise ODEBFContractError("held-out CounterFact cases repeat")
     loaded: dict[int, CounterFactEvaluationCase] = {}
     for blob in _iter_top_level_objects(Path(dataset_path).resolve(strict=True)):
@@ -565,7 +577,7 @@ def _metric_receipt(
     metric: PrimaryMetric,
     scores_by_case: Sequence[Sequence[PrefixNLLPair]],
 ) -> OfficialMetricBatchReceipt:
-    if len(scores_by_case) != BATCH_SIZE:
+    if not scores_by_case:
         raise ODEBFContractError("official CounterFact score cases differ")
     bits_by_case: list[tuple[int, ...]] = []
     score_payload: list[list[tuple[float, float]]] = []
@@ -773,12 +785,19 @@ def evaluate_counterfact_success_accuracy_batch(
     *,
     model_alias: str,
     freeze: EndpointActionFreeze,
+    expected_batch_size: int = BATCH_SIZE,
 ) -> CounterFactSuccessAccuracyReceipt:
     """One-pass terminal evaluator for NLL success and strict token accuracy."""
 
     batch = tuple(cases)
-    if len(batch) != BATCH_SIZE or len({item.request_sha256 for item in batch}) != BATCH_SIZE:
-        raise ODEBFContractError("CounterFact success/accuracy evaluator requires distinct B10")
+    if (
+        isinstance(expected_batch_size, bool)
+        or not isinstance(expected_batch_size, int)
+        or expected_batch_size <= 0
+        or len(batch) != expected_batch_size
+        or len({item.request_sha256 for item in batch}) != expected_batch_size
+    ):
+        raise ODEBFContractError("CounterFact success/accuracy evaluator batch differs")
     request_order = ordered_request_digest_v1([item.request_sha256 for item in batch])
     if request_order != freeze.request_order_sha256:
         raise ODEBFContractError("CounterFact success/accuracy request order differs")
@@ -831,7 +850,7 @@ def evaluate_counterfact_success_accuracy_batch(
         request_order_sha256=request_order,
         evaluation_case_identity_sha256=canonical_hash([item.raw_free_identity() for item in batch]),
         target_span_sha256=canonical_hash(spans),
-        model_forward_count=BATCH_SIZE,
+        model_forward_count=expected_batch_size,
         processed_token_count=processed,
         endpoint_freeze_sha256=freeze.identity(),
     )
@@ -851,10 +870,17 @@ def evaluate_counterfact_primary_batch(
     *,
     model_alias: str,
     freeze: EndpointActionFreeze,
+    expected_batch_size: int = BATCH_SIZE,
 ) -> CounterFactPrimaryReceipt:
     batch = tuple(cases)
-    if len(batch) != BATCH_SIZE or len({item.request_sha256 for item in batch}) != BATCH_SIZE:
-        raise ODEBFContractError("CounterFact primary evaluator requires distinct B10")
+    if (
+        isinstance(expected_batch_size, bool)
+        or not isinstance(expected_batch_size, int)
+        or expected_batch_size <= 0
+        or len(batch) != expected_batch_size
+        or len({item.request_sha256 for item in batch}) != expected_batch_size
+    ):
+        raise ODEBFContractError("CounterFact primary evaluator batch differs")
     request_order = ordered_request_digest_v1([item.request_sha256 for item in batch])
     if request_order != freeze.request_order_sha256:
         raise ODEBFContractError("CounterFact primary evaluator request order differs")
@@ -905,7 +931,7 @@ def evaluate_counterfact_primary_batch(
             [item.raw_free_identity() for item in batch]
         ),
         target_span_sha256=canonical_hash(spans),
-        model_forward_count=BATCH_SIZE,
+        model_forward_count=expected_batch_size,
         processed_token_count=processed,
         endpoint_freeze_sha256=freeze.identity(),
     )

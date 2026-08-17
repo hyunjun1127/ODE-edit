@@ -259,13 +259,25 @@ class P1HistoryRollbackState:
 class P1HistoryLedger:
     """Atomic raw-solve/projected-risk registry plus immutable request metadata."""
 
-    def __init__(self, *, layer_order: Sequence[int], maximum_records: int = 40) -> None:
+    def __init__(
+        self,
+        *,
+        layer_order: Sequence[int],
+        maximum_records: int = 40,
+        batch_size: int = BATCH_SIZE,
+    ) -> None:
         self.layer_order = tuple(int(layer) for layer in layer_order)
         if len(self.layer_order) < 2 or len(set(self.layer_order)) != len(self.layer_order):
             raise ODEBFContractError("P1 history layer order differs")
-        if maximum_records < 40:
+        if (
+            isinstance(batch_size, bool)
+            or not isinstance(batch_size, int)
+            or batch_size <= 0
+            or maximum_records < 4 * batch_size
+        ):
             raise ODEBFContractError("P1 history bound cannot hold four B10 transactions")
         self.maximum_records = maximum_records
+        self.batch_size = batch_size
         self._lock = threading.RLock()
         self._version = 0
         self._active: tuple[P1HistoryRecord, ...] = ()
@@ -349,8 +361,8 @@ class P1HistoryLedger:
             if self.snapshot().digest != checkpoint.state_sha256:
                 raise ODEBFStateError("P1 history rollback did not restore exact state")
 
-    @staticmethod
     def _validate_keys(
+        self,
         values: Mapping[int, torch.Tensor],
         layers: tuple[int, ...],
     ) -> tuple[tuple[int, torch.Tensor], ...]:
@@ -363,7 +375,7 @@ class P1HistoryLedger:
             if (
                 not isinstance(tensor, torch.Tensor)
                 or tensor.ndim != 2
-                or tensor.shape[1] != BATCH_SIZE
+                or tensor.shape[1] != self.batch_size
                 or tensor.dtype not in (torch.float32, torch.float64)
                 or not torch.isfinite(tensor).all()
             ):
@@ -382,13 +394,13 @@ class P1HistoryLedger:
         risk_keys_by_layer: Mapping[int, torch.Tensor],
     ) -> ProspectiveP1HistoryBatch:
         batch = tuple(records)
-        if not transaction_id or len(batch) != BATCH_SIZE:
+        if not transaction_id or len(batch) != self.batch_size:
             raise ODEBFContractError("P1 history prospective batch differs")
-        if len({item.request_sha256 for item in batch}) != BATCH_SIZE or len(
+        if len({item.request_sha256 for item in batch}) != self.batch_size or len(
             {item.case_id for item in batch}
-        ) != BATCH_SIZE:
+        ) != self.batch_size:
             raise ODEBFContractError("P1 history batch is not a distinct B10")
-        if len({item.collision_sha256 for item in batch}) != BATCH_SIZE:
+        if len({item.collision_sha256 for item in batch}) != self.batch_size:
             raise ODEBFContractError("P1 history batch has an ambiguous collision")
         if any(item.version != expected_version + 1 for item in batch):
             raise ODEBFContractError("P1 history records do not share the next version")
@@ -406,7 +418,7 @@ class P1HistoryLedger:
                 if item.collision_sha256 in incoming
                 and incoming[item.collision_sha256] != item.target_sha256
             )
-            if len(self._active) - len(obsolete) + BATCH_SIZE > self.maximum_records:
+            if len(self._active) - len(obsolete) + self.batch_size > self.maximum_records:
                 raise ODEBFStateError("P1 history capacity would be exceeded")
         payload = {
             "transaction_id": transaction_id,
@@ -516,7 +528,7 @@ class P1HistoryLedger:
                 prospective.transaction_id,
                 before.version,
                 after.version,
-                BATCH_SIZE,
+                self.batch_size,
                 len(obsolete),
                 False,
                 after.digest,
@@ -548,7 +560,7 @@ class P1HistoryLedger:
                     f"odebf-p1-h|{sequential_batch}|{waypoint}|{item.request_sha256}".encode("utf-8")
                 ).hexdigest(),
             )
-            return tuple(ranked[: min(BATCH_SIZE, len(ranked))])
+            return tuple(ranked[: min(self.batch_size, len(ranked))])
 
 
 @dataclass(frozen=True, slots=True)
