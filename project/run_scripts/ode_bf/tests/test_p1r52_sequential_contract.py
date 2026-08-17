@@ -4,6 +4,7 @@ import ast
 import hashlib
 import inspect
 import threading
+import types
 import unittest
 
 import numpy as np
@@ -22,11 +23,14 @@ from project.run_scripts.ode_bf.p1r52_sequential_contract import (
     assemble_terminal_candidates,
     commit_sequential_batch,
     dry_plan,
+    scoped_atomic_sequential_adapter,
 )
 from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
     _b1_scientific_payload,
     run_p1r52_sequential,
+    structural_h_off_control_receipts,
 )
+from project.run_scripts.ode_bf.p1r24_atomic_strength import p1r24_disable_historical
 from project.run_scripts.ode_bf.routing import QuadraticBarrier, RoutingProblem
 from project.run_scripts.ode_bf.scalable_batched_runtime import P1R23_LAYER_ORDER
 from project.run_scripts.ode_bf.woodbury import ProjectorCertificate, solve_alpha_woodbury
@@ -206,6 +210,76 @@ class P1R52SequentialContractTests(unittest.TestCase):
             1.0e-10,
         )
         self.assertEqual(active_router.receipts[0].status, "H_ACTIVE_CERTIFIED")
+
+    def test_b2_alpha_cache_on_and_structural_h_decision_off(self) -> None:
+        state, anchors = self._state_with_rounds(1)
+        self.assertEqual(state.history_entry_count(), 10)
+        self.assertEqual(len(anchors.anchors), 10)
+        dimension = len(P1R23_LAYER_ORDER)
+        identity = np.eye(dimension, dtype=np.float64)
+        problem = RoutingProblem(
+            np.ones(dimension),
+            identity,
+            identity,
+            100.0,
+            np.full(dimension, 100.0),
+            1.0,
+            1.0,
+            QuadraticBarrier(
+                "historical",
+                0.0,
+                np.zeros(dimension),
+                np.diag([20.0, 1.0, 1.0, 1.0, 1.0]),
+                100.0,
+                "layer-local-diagonal",
+            ),
+            QuadraticBarrier(
+                "pretrained",
+                0.0,
+                np.zeros(dimension),
+                identity,
+                100.0,
+                "layer-local-diagonal",
+            ),
+        )
+        experiment = types.SimpleNamespace(
+            build_scalable_dynamic_field=lambda *args, **kwargs: None,
+            p1r24_disable_historical=p1r24_disable_historical,
+            solve_p1r43_full_strength_routing=solve_p1r43_full_strength_routing,
+        )
+        router = SequentialHRouter(0, solve_p1r43_full_strength_routing)
+        with scoped_atomic_sequential_adapter(
+            experiment,
+            state,
+            router,
+            structural_h_decision_enabled=False,
+        ):
+            routing_problem = experiment.p1r24_disable_historical(problem)
+            selected = experiment.solve_p1r43_full_strength_routing(
+                routing_problem,
+                arm=FixedE8Arm.SOFT,
+                alpha_req=1.0,
+            )
+        expected = solve_p1r43_full_strength_routing(
+            p1r24_disable_historical(problem),
+            arm=FixedE8Arm.SOFT,
+            alpha_req=1.0,
+        )
+        self.assertEqual(selected.identity_sha256, expected.identity_sha256)
+        self.assertEqual(float(np.trace(routing_problem.historical.gram)), 0.0)
+        receipt = structural_h_off_control_receipts(
+            router.receipts,
+            alpha_solve_history_width=state.history_entry_count(),
+            anchor_observation_width=len(anchors.anchors),
+        )[0]
+        self.assertEqual(receipt["alpha_solve_history_width"], 10)
+        self.assertEqual(receipt["alpha_solve_cache_consume_count"], 10)
+        self.assertEqual(receipt["alpha_solve_cache_append_count"], 10)
+        self.assertEqual(receipt["structural_h_decision_history_width"], 0)
+        self.assertEqual(receipt["structural_h_decision_influence_count"], 0)
+        self.assertEqual(receipt["added_model_forward_count"], 0)
+        self.assertEqual(receipt["added_backward_count"], 0)
+        self.assertEqual(receipt["added_materialization_count"], 0)
 
     def test_b90_history_woodbury_is_finite_and_changes_solve(self) -> None:
         generator = torch.Generator().manual_seed(52)

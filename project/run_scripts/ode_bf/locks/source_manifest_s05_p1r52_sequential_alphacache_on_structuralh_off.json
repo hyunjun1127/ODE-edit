@@ -1,0 +1,22 @@
+{
+  "entries": [
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r52_sequential_alphacache_on_structuralh_off.json", "sha256": "1c2c55c8596fe4563de569d1190f1d6816af4c6b3bd13a295926407d58e9193c", "size": 2053},
+    {"path": "project/run_scripts/ode_bf/p1_backend.py", "sha256": "331b82abd6f524d1cb56fa3f696ef1f543dc3b0b48f79f150d45468ea060d592", "size": 81007},
+    {"path": "project/run_scripts/ode_bf/p1_evaluator.py", "sha256": "0c3e83ffff00d1ddb86008f56472fa89dbe2a3043c4d3ffd93d862662ec7a399", "size": 42113},
+    {"path": "project/run_scripts/ode_bf/p1_runtime.py", "sha256": "283913d337f196f8ec42377d0516fb71dbb280c1e9896f578f3213268b40a4b0", "size": 227608},
+    {"path": "project/run_scripts/ode_bf/p1r29_sequential_preparation.py", "sha256": "4128d14a08233c659fb05799b1aa93aa7b6ab23c71cff0f48df58890e14206ed", "size": 75642},
+    {"path": "project/run_scripts/ode_bf/p1r52_sequential_contract.py", "sha256": "802bd658d95ebd85698fc8e1dcb7351af3f3e57f64597efdcdfa6516c51e1b7b", "size": 32508},
+    {"path": "project/run_scripts/ode_bf/p1r52_sequential_control_panel.py", "sha256": "8fa712e3ebd20e54e8e4e42b3f737d83aad75f24edae524b9ce44ab6bdae1e60", "size": 3465},
+    {"path": "project/run_scripts/ode_bf/p1r52_sequential_runtime.py", "sha256": "11c7fd5deb88c701d66773610f90d77684e3da460789c9cff73a7d657d466fdd", "size": 68786},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r52_sequential_contract.py", "sha256": "66f051d511e9f40baea7bd0f738c9a283dcc6a515f3cbf4bb6bec232e6ffe035", "size": 17248},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r52_sequential_evaluator.py", "sha256": "98a987c50300bc23a794ee32731617f86fcedf70d695a805740a262475c74f7c", "size": 8290},
+    {"path": "project/run_scripts/session05_ode_bf_p1r52_sequential_control.py", "sha256": "cd272eca32e14f701362f48b75d5835b700aa8397787c4aa05ee000b6edd0a6a", "size": 4441},
+    {"path": "project/run_scripts/session05_ode_bf_p1r52_sequential_control.sbatch", "sha256": "dc73b1f12fec558605f49132ae21a063d0c035418b2d4b4a5c9c7ef2c232f4a5", "size": 2088},
+    {"path": "project/run_scripts/session05_ode_bf_p1r52_sequential_control_dry_plan.py", "sha256": "4dab297eccd588c3dd8d60f0b2c651db748a4e784e32fcc1ae2d6c7cb10c68b9", "size": 1033}
+  ],
+  "instruction_id": "ODEEDIT-S05-P1R52-LLAMA-SOFT-SEQUENTIAL-HISTORICAL-10XB10-V1",
+  "parent": "237f3b65bff69b835a7253f5154bba19feaf1fef",
+  "parent_tree": "abe87eec97d5ff90f6eb2f76656f2c0ff922f012",
+  "root_digest": "622e8ab8c291b9fa5c2d5384dcfcdab9e4f6676b78512c9f5245b64fe5877f2f",
+  "schema_version": "ode-edit-s05-p1r52-sequential-control-source-manifest/v1"
+}

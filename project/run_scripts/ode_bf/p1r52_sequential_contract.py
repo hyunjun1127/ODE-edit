@@ -438,8 +438,10 @@ def scoped_atomic_sequential_adapter(
     experiment_module: Any,
     history_state: SequentialArmState,
     router: SequentialHRouter,
+    *,
+    structural_h_decision_enabled: bool = True,
 ) -> Iterator[None]:
-    """Patch only imported atomic call sites for one sequential B10 rollout."""
+    """Patch one B10 while keeping Alpha solve history separate from H routing."""
 
     original_field = experiment_module.build_scalable_dynamic_field
     original_disable = experiment_module.p1r24_disable_historical
@@ -454,7 +456,11 @@ def scoped_atomic_sequential_adapter(
         return original_from_field.__func__(cls, field, factor, history_action=field.history_action)
 
     experiment_module.build_scalable_dynamic_field = field_adapter
-    experiment_module.p1r24_disable_historical = lambda problem: problem
+    experiment_module.p1r24_disable_historical = (
+        (lambda problem: problem)
+        if structural_h_decision_enabled
+        else original_disable
+    )
     experiment_module.solve_p1r43_full_strength_routing = router.solve
     AcceptedLayerContribution.from_field = classmethod(from_field_adapter)
     try:

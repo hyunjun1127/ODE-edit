@@ -58,10 +58,15 @@ from .scalable_batched_native import run_official_native_apply
 from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER, scalable_ordered_request_digest
 
 
-ROLES = ("r52-soft-sequential-h", "native-alphaedit-sequential")
+R52_H_ROLE = "r52-soft-sequential-h"
+R52_CONTROL_ROLE = "r52-soft-sequential-alphacache-on-structuralh-off"
+NATIVE_ROLE = "native-alphaedit-sequential"
+R52_ROLES = (R52_H_ROLE, R52_CONTROL_ROLE)
+ROLES = (*R52_ROLES, NATIVE_ROLE)
 RESULT_NAMES = {
-    "r52-soft-sequential-h": "s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1",
-    "native-alphaedit-sequential": "s05-p1r52-native-alphaedit-sequential-10xb10-v1",
+    R52_H_ROLE: "s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1",
+    R52_CONTROL_ROLE: "s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1",
+    NATIVE_ROLE: "s05-p1r52-native-alphaedit-sequential-10xb10-v1",
 }
 
 
@@ -128,6 +133,44 @@ def expected_p1r52_sequential_result_name(alias: str, role: str) -> str:
     if alias != "llama3-8b-inst" or role not in ROLES:
         raise ODEBFContractError("P1R52 sequential result identity differs")
     return RESULT_NAMES[role]
+
+
+def structural_h_off_control_receipts(
+    receipts: Sequence[Any],
+    *,
+    alpha_solve_history_width: int,
+    anchor_observation_width: int,
+) -> list[dict[str, Any]]:
+    """Bind Alpha-cache activity and zero Structural-H action independently."""
+
+    width = int(alpha_solve_history_width)
+    anchors = int(anchor_observation_width)
+    if width not in HISTORY_COUNTS or anchors != width:
+        raise ODEBFStateError("Structural-H-off control history/anchor width differs")
+    result: list[dict[str, Any]] = []
+    for receipt in receipts:
+        item = asdict(receipt)
+        if int(item["history_width"]) != 0:
+            raise ODEBFStateError("Structural-H-off router received decision history")
+        result.append(
+            {
+                **item,
+                "status": "ALPHA_CACHE_ON_STRUCTURAL_H_OFF",
+                "alpha_solve_history_width": width,
+                "alpha_solve_cache_consume_count": width,
+                "alpha_solve_cache_append_count": BATCH_SIZE,
+                "structural_h_decision_history_width": 0,
+                "structural_h_decision_influence_count": 0,
+                "risk_observation_width": width,
+                "anchor_observation_width": anchors,
+                "observation_ledger_decision_influence_count": 0,
+                "counterfactual_h_telemetry_status": "NOT_RECORDED",
+                "added_model_forward_count": 0,
+                "added_backward_count": 0,
+                "added_materialization_count": 0,
+            }
+        )
+    return result
 
 
 def _weight_values(parameters: Mapping[str, torch.nn.Parameter]) -> dict[str, torch.Tensor]:
@@ -747,7 +790,7 @@ def run_p1r52_sequential(
 
     expected_w0 = _model_w0_contract(touched)
     w0_pointers = {name: int(value.data_ptr()) for name, value in touched.items()}
-    sequential_state = SequentialArmState("p1r52-soft-sequential-h", P1R23_LAYER_ORDER)
+    sequential_state = SequentialArmState(role, P1R23_LAYER_ORDER)
     anchor_ledger = LifetimeAnchorLedger.empty()
     cohort_cases: list[tuple[Any, ...]] = []
     cohort_requests: list[tuple[Mapping[str, Any], ...]] = []
@@ -761,8 +804,13 @@ def run_p1r52_sequential(
     try:
         for round_index, request_batch in enumerate(stream_batches, start=1):
             requests = tuple(request_batch)
-            history_width = sequential_state.history_entry_count() if role == ROLES[0] else (round_index - 1) * BATCH_SIZE
-            if history_width != HISTORY_COUNTS[round_index - 1]:
+            history_width = (
+                sequential_state.history_entry_count()
+                if role in R52_ROLES
+                else (round_index - 1) * BATCH_SIZE
+            )
+            expected_history_width = HISTORY_COUNTS[round_index - 1]
+            if history_width != expected_history_width:
                 raise ODEBFStateError("P1R52 sequential entry history width differs")
             entry_hashes = _hashes(touched)
             if entry_hashes != prior_commit_hashes:
@@ -811,7 +859,7 @@ def run_p1r52_sequential(
                 wall_seconds=pre_wall,
             )
             seed_all(COMMON_SEED)
-            if role == ROLES[0]:
+            if role in R52_ROLES:
                 request_order = scalable_ordered_request_digest([str(item["request_sha256"]) for item in requests])
                 objective_plan = build_scalable_objective_plan(
                     model,
@@ -850,8 +898,16 @@ def run_p1r52_sequential(
                     entry_receipt,
                     entry_values,
                 )
-                router = SequentialHRouter(history_width, experiment.solve_p1r43_full_strength_routing)
-                with scoped_atomic_sequential_adapter(experiment, sequential_state, router):
+                router = SequentialHRouter(
+                    history_width if role == R52_H_ROLE else 0,
+                    experiment.solve_p1r43_full_strength_routing,
+                )
+                with scoped_atomic_sequential_adapter(
+                    experiment,
+                    sequential_state,
+                    router,
+                    structural_h_decision_enabled=role == R52_H_ROLE,
+                ):
                     rollout = _run_ode_arm(
                         model,
                         tokenizer,
@@ -913,6 +969,12 @@ def run_p1r52_sequential(
                 }
                 atomic_payload = public
                 h_payload = [asdict(item) for item in router.receipts]
+                if role == R52_CONTROL_ROLE:
+                    h_payload = structural_h_off_control_receipts(
+                        router.receipts,
+                        alpha_solve_history_width=history_width,
+                        anchor_observation_width=len(anchor_ledger.anchors),
+                    )
                 anchor_started = time.perf_counter()
 
                 def anchor_factory() -> Any:
@@ -1039,14 +1101,14 @@ def run_p1r52_sequential(
             committed_contract = _model_w0_contract(touched)
             if not committed_contract:
                 raise ODEBFStateError("P1R52 sequential committed contract is absent")
-            if role == ROLES[1] and anchor_append != BATCH_SIZE:
+            if role == NATIVE_ROLE and anchor_append != BATCH_SIZE:
                 raise ODEBFStateError("Native sequential anchor append count differs")
             if anchor_append != BATCH_SIZE:
                 raise ODEBFStateError("P1R52 sequential anchor append count differs")
             expected_anchor_count = round_index * BATCH_SIZE
             if len(anchor_ledger.anchors) != expected_anchor_count:
                 raise ODEBFStateError("P1R52 sequential anchor count differs")
-            if role == ROLES[0] and sequential_state.history_entry_count() != expected_anchor_count:
+            if role in R52_ROLES and sequential_state.history_entry_count() != expected_anchor_count:
                 raise ODEBFStateError("P1R52 sequential history count differs")
 
             snapshot_sha = canonical_hash(committed_hashes)
@@ -1055,7 +1117,7 @@ def run_p1r52_sequential(
                 requests,
                 arm=role,
                 selected_snapshot_sha256=snapshot_sha,
-                fixed_budget_slots_completed=8 if role == ROLES[0] else 0,
+                fixed_budget_slots_completed=8 if role in R52_ROLES else 0,
             )
             cohort_cases.append(tuple(loaded_cases))
             cohort_requests.append(requests)
@@ -1070,7 +1132,7 @@ def run_p1r52_sequential(
                     cohort_index=cohort_index,
                     checkpoint_index=round_index,
                     snapshot_sha256=snapshot_sha,
-                    slots=8 if role == ROLES[0] else 0,
+                    slots=8 if role in R52_ROLES else 0,
                 )
                 checkpoint_evaluations.append(receipt)
                 evaluation_wall += wall
@@ -1113,7 +1175,7 @@ def run_p1r52_sequential(
                     "decision_influence_count": 0,
                 }
                 drift["identity_sha256"] = canonical_hash(drift)
-            if round_index == 1 and role == ROLES[0]:
+            if round_index == 1 and role in R52_ROLES:
                 b1_gate = _b1_identity_gate(
                     case_root,
                     committed_hashes=committed_hashes,
@@ -1126,7 +1188,13 @@ def run_p1r52_sequential(
             batch_payload = {
                 "schema": "ode-edit-s05-p1r52-sequential-b10-terminal/v1",
                 "instruction_id": INSTRUCTION_ID,
-                "method_id": METHOD_ID if role == ROLES[0] else "OFFICIAL-ALPHAEDIT-SEQUENTIAL-V1",
+                "method_id": (
+                    METHOD_ID
+                    if role == R52_H_ROLE
+                    else "P1R52-REPAIR-R1-LLAMA-SOFT-SEQUENTIAL-ALPHACACHE-ON-STRUCTURALH-OFF-V1"
+                    if role == R52_CONTROL_ROLE
+                    else "OFFICIAL-ALPHAEDIT-SEQUENTIAL-V1"
+                ),
                 "role": role,
                 "round": round_index,
                 "history_width_at_entry": history_width,
@@ -1134,14 +1202,34 @@ def run_p1r52_sequential(
                 "commit_weight_sha256": committed_hashes,
                 "next_entry_identity_required": True,
                 "interbatch_W0_restore_count": 0,
-                "controller_reset_count": 1 if role == ROLES[0] else 0,
+                "controller_reset_count": 1 if role in R52_ROLES else 0,
                 "atomic_or_native": atomic_payload,
                 "candidate": candidate_receipt,
                 "weight_transaction": asdict(commit) if not isinstance(commit, dict) else commit,
                 "history_transaction": asdict(history_commit) if not isinstance(history_commit, dict) else history_commit,
                 "anchor_capture": new_anchor_receipt,
                 "anchor_append_count": anchor_append,
-                "active_history_count": sequential_state.history_entry_count() if role == ROLES[0] else 0,
+                "active_history_count": sequential_state.history_entry_count() if role in R52_ROLES else 0,
+                "alpha_solve_history_width": history_width if role in R52_ROLES else 0,
+                "alpha_solve_cache_consume_count": history_width if role in R52_ROLES else 0,
+                "alpha_solve_cache_append_count": BATCH_SIZE if role in R52_ROLES else 0,
+                "historical_control_status": (
+                    "ALPHA_CACHE_ON_STRUCTURAL_H_OFF"
+                    if role == R52_CONTROL_ROLE
+                    else "HISTORICAL_ACTIVE"
+                    if role == R52_H_ROLE
+                    else "NOT_APPLICABLE_NATIVE"
+                ),
+                "structural_h_decision_history_width": 0 if role == R52_CONTROL_ROLE else history_width,
+                "structural_h_decision_influence_count": 0 if role == R52_CONTROL_ROLE else sum(
+                    int(item["status"] == "H_ACTIVE_CERTIFIED") for item in h_payload
+                ),
+                "risk_observation_width": history_width if role == R52_CONTROL_ROLE else 0,
+                "physical_weight_persistence": True,
+                "observation_ledger_decision_influence_count": 0,
+                "control_added_model_forward_count": 0,
+                "control_added_backward_count": 0,
+                "control_added_materialization_count": 0,
                 "lifetime_anchor_count": len(anchor_ledger.anchors),
                 "structural_h_routing": h_payload,
                 "batch_entry_pre_evaluation": entry_pre,
@@ -1188,7 +1276,7 @@ def run_p1r52_sequential(
                     "history_width_at_entry": history_width,
                     "commit_weight_sha256": committed_hashes,
                     "W0_restored": False,
-                    "active_history_count": sequential_state.history_entry_count() if role == ROLES[0] else 0,
+                    "active_history_count": sequential_state.history_entry_count() if role in R52_ROLES else 0,
                     "anchor_count": len(anchor_ledger.anchors),
                 },
             )
@@ -1206,7 +1294,7 @@ def run_p1r52_sequential(
                 cohort_index=cohort_index,
                 checkpoint_index=ROUND_COUNT,
                 snapshot_sha256=final_snapshot_sha,
-                slots=8 if role == ROLES[0] else 0,
+                slots=8 if role in R52_ROLES else 0,
             )
             final_evaluations.append(receipt)
             evaluation_wall += wall
@@ -1311,7 +1399,13 @@ def run_p1r52_sequential(
     terminal = {
         "schema": "ode-edit-s05-p1r52-sequential-10xb10-terminal/v1",
         "instruction_id": INSTRUCTION_ID,
-        "method_id": METHOD_ID if role == ROLES[0] else "OFFICIAL-ALPHAEDIT-SEQUENTIAL-V1",
+        "method_id": (
+            METHOD_ID
+            if role == R52_H_ROLE
+            else "P1R52-REPAIR-R1-LLAMA-SOFT-SEQUENTIAL-ALPHACACHE-ON-STRUCTURALH-OFF-V1"
+            if role == R52_CONTROL_ROLE
+            else "OFFICIAL-ALPHAEDIT-SEQUENTIAL-V1"
+        ),
         "source_head": source_head,
         "alias": alias,
         "role": role,
@@ -1347,7 +1441,7 @@ def run_p1r52_sequential(
             },
         },
         "history_widths": list(HISTORY_COUNTS),
-        "terminal_active_history_count": sequential_state.history_entry_count() if role == ROLES[0] else 0,
+        "terminal_active_history_count": sequential_state.history_entry_count() if role in R52_ROLES else 0,
         "terminal_lifetime_anchor_count": len(anchor_ledger.anchors),
         "interbatch_W0_restore_count": 0,
         "terminal_W0_restore_count": 1,
@@ -1410,9 +1504,13 @@ def run_p1r52_sequential(
 
 
 __all__ = [
+    "NATIVE_ROLE",
     "RESULT_NAMES",
+    "R52_CONTROL_ROLE",
+    "R52_H_ROLE",
     "ROLES",
     "build_pre_post_final_request_rows",
     "expected_p1r52_sequential_result_name",
     "run_p1r52_sequential",
+    "structural_h_off_control_receipts",
 ]
