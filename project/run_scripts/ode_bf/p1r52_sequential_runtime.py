@@ -53,6 +53,10 @@ from .p1r52_sequential_contract import (
     make_history_records,
     scoped_atomic_sequential_adapter,
 )
+from .p1r52_official_sequential_baselines import (
+    load_official_memit_hparams,
+    run_official_memit_apply,
+)
 from .scalable_batched_model import build_scalable_capture_plan, build_scalable_objective_plan
 from .scalable_batched_native import run_official_native_apply
 from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER, scalable_ordered_request_digest
@@ -61,12 +65,18 @@ from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER, scala
 R52_H_ROLE = "r52-soft-sequential-h"
 R52_CONTROL_ROLE = "r52-soft-sequential-alphacache-on-structuralh-off"
 NATIVE_ROLE = "native-alphaedit-sequential"
+NATIVE_CORRECTED_ROLE = "native-alphaedit-sequential-cache-on-corrected"
+MEMIT_ROLE = "official-memit-sequential"
 R52_ROLES = (R52_H_ROLE, R52_CONTROL_ROLE)
 ROLES = (*R52_ROLES, NATIVE_ROLE)
+OFFICIAL_BASELINE_ROLES = (NATIVE_ROLE, NATIVE_CORRECTED_ROLE, MEMIT_ROLE)
+EXECUTION_ROLES = (*R52_ROLES, *OFFICIAL_BASELINE_ROLES)
 RESULT_NAMES = {
     R52_H_ROLE: "s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1",
     R52_CONTROL_ROLE: "s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1",
     NATIVE_ROLE: "s05-p1r52-native-alphaedit-sequential-10xb10-v1",
+    NATIVE_CORRECTED_ROLE: "s05-p1r52-native-alphaedit-sequential-cache-on-corrected-10xb10-v1",
+    MEMIT_ROLE: "s05-p1r52-official-memit-sequential-10xb10-v1",
 }
 
 
@@ -130,7 +140,7 @@ def _b1_stable_rollout_payload(rollout: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def expected_p1r52_sequential_result_name(alias: str, role: str) -> str:
-    if alias != "llama3-8b-inst" or role not in ROLES:
+    if alias != "llama3-8b-inst" or role not in EXECUTION_ROLES:
         raise ODEBFContractError("P1R52 sequential result identity differs")
     return RESULT_NAMES[role]
 
@@ -777,7 +787,7 @@ def run_p1r52_sequential(
     job_ledger: ComputeLedger,
     request_microbatch_size: int,
 ) -> dict[str, Any]:
-    if alias != "llama3-8b-inst" or role not in ROLES:
+    if alias != "llama3-8b-inst" or role not in EXECUTION_ROLES:
         raise ODEBFContractError("P1R52 sequential model/role differs")
     if len(stream_batches) != ROUND_COUNT or any(len(batch) != BATCH_SIZE for batch in stream_batches):
         raise ODEBFContractError("P1R52 sequential stream is not 10xB10")
@@ -798,6 +808,10 @@ def run_p1r52_sequential(
     entry_pre_evaluations: list[dict[str, Any]] = []
     immediate_post_evaluations: list[dict[str, Any]] = []
     prior_commit_hashes = _hashes(touched)
+    alphaedit_prior_cache_exit_sha256: str | None = None
+    alphaedit_static_projection_identity: str | None = None
+    memit_prior_covariance_exit_identity: str | None = None
+    memit_hparams = load_official_memit_hparams() if role == MEMIT_ROLE else None
     started = time.perf_counter()
     evaluation_wall = 0.0
     anchor_wall = 0.0
@@ -1054,12 +1068,75 @@ def run_p1r52_sequential(
                 new_anchor_receipt = joint_transaction["anchor_capture"]
                 anchor_append = int(joint_transaction["anchor_append_count"])
             else:
-                native_payload, _ = run_official_native_apply(
-                    model, tokenizer, requests, hparams, touched=touched
-                )
+                if role == NATIVE_CORRECTED_ROLE:
+                    counter = ModelForwardCounter(model, job_ledger)
+                    try:
+                        native_payload, _ = run_official_native_apply(
+                            model,
+                            tokenizer,
+                            requests,
+                            hparams,
+                            touched=touched,
+                            reset_cache=round_index == 1,
+                            cache_history_width=history_width,
+                        )
+                    finally:
+                        counter.close()
+                    cache_contract = native_payload["alphaedit_dynamic_cache_contract"]
+                    if not isinstance(cache_contract, Mapping):
+                        raise ODEBFStateError("Corrected Native AlphaEdit cache receipt is absent")
+                    if round_index > 1:
+                        if (
+                            cache_contract["entry"]["sha256"]
+                            != alphaedit_prior_cache_exit_sha256
+                            or not cache_contract["solver_consumed_entry_cache"]
+                        ):
+                            raise ODEBFStateError("Corrected Native AlphaEdit cache continuity differs")
+                    static_identity = canonical_hash(cache_contract["static_projection"])
+                    if alphaedit_static_projection_identity is None:
+                        alphaedit_static_projection_identity = static_identity
+                    elif static_identity != alphaedit_static_projection_identity:
+                        raise ODEBFStateError("Corrected Native static projector identity differs")
+                    alphaedit_prior_cache_exit_sha256 = cache_contract["exit"]["sha256"]
+                elif role == MEMIT_ROLE:
+                    if memit_hparams is None:
+                        raise ODEBFStateError("Official MEMIT hparams are absent")
+                    counter = ModelForwardCounter(model, job_ledger)
+                    try:
+                        native_payload, _ = run_official_memit_apply(
+                            model,
+                            tokenizer,
+                            requests,
+                            memit_hparams,
+                            touched=touched,
+                        )
+                    finally:
+                        counter.close()
+                    covariance_cache = native_payload["covariance_cache"]
+                    if round_index > 1 and (
+                        covariance_cache["entry"]["identity_sha256"]
+                        != memit_prior_covariance_exit_identity
+                        or int(covariance_cache["entry_reused_count"])
+                        != len(P1R23_LAYER_ORDER)
+                    ):
+                        raise ODEBFStateError("Official MEMIT covariance cache continuity differs")
+                    memit_prior_covariance_exit_identity = covariance_cache["exit"][
+                        "identity_sha256"
+                    ]
+                else:
+                    counter = ModelForwardCounter(model, job_ledger)
+                    try:
+                        native_payload, _ = run_official_native_apply(
+                            model, tokenizer, requests, hparams, touched=touched
+                        )
+                    finally:
+                        counter.close()
+                target_backward_count = int(native_payload.get("target_backward_count", 0))
+                job_ledger.increment("backward", target_backward_count)
+                job_ledger.increment("target_backward", target_backward_count)
                 if _model_w0_contract(touched) == entry_contract:
-                    raise ODEBFStateError("Native sequential B10 produced no physical transition")
-                transaction_id = f"native-sequential-b{round_index:02d}-{native_payload['identity_sha256']}"
+                    raise ODEBFStateError("Official sequential baseline B10 produced no physical transition")
+                transaction_id = f"{role}-b{round_index:02d}-{native_payload['identity_sha256']}"
                 commit = {
                     "transaction_id": transaction_id,
                     "touched_weights": tuple(sorted(touched)),
@@ -1095,14 +1172,22 @@ def run_p1r52_sequential(
                         raise ODEBFStateError("Native sequential anchor rollback differs")
                     raise
                 anchor_wall += time.perf_counter() - anchor_started
-                history_commit = {"status": "NOT_APPLICABLE_NATIVE"}
+                history_commit = {
+                    "status": (
+                        "OFFICIAL_ALPHAEDIT_DYNAMIC_CACHE_C"
+                        if role == NATIVE_CORRECTED_ROLE
+                        else "STATIC_MEMIT_COVARIANCE_CACHE_ONLY"
+                        if role == MEMIT_ROLE
+                        else "SUPERSEDED_NATIVE_CACHE_RESET_PER_B10"
+                    )
+                }
 
             committed_hashes = _hashes(touched)
             committed_contract = _model_w0_contract(touched)
             if not committed_contract:
                 raise ODEBFStateError("P1R52 sequential committed contract is absent")
-            if role == NATIVE_ROLE and anchor_append != BATCH_SIZE:
-                raise ODEBFStateError("Native sequential anchor append count differs")
+            if role in OFFICIAL_BASELINE_ROLES and anchor_append != BATCH_SIZE:
+                raise ODEBFStateError("Official baseline sequential anchor append count differs")
             if anchor_append != BATCH_SIZE:
                 raise ODEBFStateError("P1R52 sequential anchor append count differs")
             expected_anchor_count = round_index * BATCH_SIZE
@@ -1193,7 +1278,11 @@ def run_p1r52_sequential(
                     if role == R52_H_ROLE
                     else "P1R52-REPAIR-R1-LLAMA-SOFT-SEQUENTIAL-ALPHACACHE-ON-STRUCTURALH-OFF-V1"
                     if role == R52_CONTROL_ROLE
-                    else "OFFICIAL-ALPHAEDIT-SEQUENTIAL-V1"
+                    else "OFFICIAL-ALPHAEDIT-SEQUENTIAL-CACHE-ON-CORRECTED-V1"
+                    if role == NATIVE_CORRECTED_ROLE
+                    else "OFFICIAL-MEMIT-SEQUENTIAL-V1"
+                    if role == MEMIT_ROLE
+                    else "OFFICIAL-ALPHAEDIT-SEQUENTIAL-CACHE-RESET-PER-B10-SUPERSEDED-V1"
                 ),
                 "role": role,
                 "round": round_index,
@@ -1218,9 +1307,20 @@ def run_p1r52_sequential(
                     if role == R52_CONTROL_ROLE
                     else "HISTORICAL_ACTIVE"
                     if role == R52_H_ROLE
-                    else "NOT_APPLICABLE_NATIVE"
+                    else "OFFICIAL_ALPHAEDIT_DYNAMIC_CACHE_C_ON"
+                    if role == NATIVE_CORRECTED_ROLE
+                    else "OFFICIAL_MEMIT_STATIC_COVARIANCE_CACHE"
+                    if role == MEMIT_ROLE
+                    else "SUPERSEDED_NATIVE_CACHE_RESET_PER_B10"
                 ),
-                "structural_h_decision_history_width": 0 if role == R52_CONTROL_ROLE else history_width,
+                "official_baseline_cache": (
+                    native_payload.get("alphaedit_dynamic_cache_contract")
+                    if role == NATIVE_CORRECTED_ROLE
+                    else native_payload.get("covariance_cache")
+                    if role == MEMIT_ROLE
+                    else None
+                ),
+                "structural_h_decision_history_width": history_width if role == R52_H_ROLE else 0,
                 "structural_h_decision_influence_count": 0 if role == R52_CONTROL_ROLE else sum(
                     int(item["status"] == "H_ACTIVE_CERTIFIED") for item in h_payload
                 ),
@@ -1404,7 +1504,11 @@ def run_p1r52_sequential(
             if role == R52_H_ROLE
             else "P1R52-REPAIR-R1-LLAMA-SOFT-SEQUENTIAL-ALPHACACHE-ON-STRUCTURALH-OFF-V1"
             if role == R52_CONTROL_ROLE
-            else "OFFICIAL-ALPHAEDIT-SEQUENTIAL-V1"
+            else "OFFICIAL-ALPHAEDIT-SEQUENTIAL-CACHE-ON-CORRECTED-V1"
+            if role == NATIVE_CORRECTED_ROLE
+            else "OFFICIAL-MEMIT-SEQUENTIAL-V1"
+            if role == MEMIT_ROLE
+            else "OFFICIAL-ALPHAEDIT-SEQUENTIAL-CACHE-RESET-PER-B10-SUPERSEDED-V1"
         ),
         "source_head": source_head,
         "alias": alias,
@@ -1442,6 +1546,16 @@ def run_p1r52_sequential(
         },
         "history_widths": list(HISTORY_COUNTS),
         "terminal_active_history_count": sequential_state.history_entry_count() if role in R52_ROLES else 0,
+        "terminal_official_method_cache_history_count": (
+            ROUND_COUNT * BATCH_SIZE if role == NATIVE_CORRECTED_ROLE else 0
+        ),
+        "official_method_cache_kind": (
+            "DYNAMIC_ALPHAEDIT_KEY_OUTER_PRODUCT_CACHE_C"
+            if role == NATIVE_CORRECTED_ROLE
+            else "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE"
+            if role == MEMIT_ROLE
+            else "NONE_OR_SUPERSEDED"
+        ),
         "terminal_lifetime_anchor_count": len(anchor_ledger.anchors),
         "interbatch_W0_restore_count": 0,
         "terminal_W0_restore_count": 1,
@@ -1504,7 +1618,11 @@ def run_p1r52_sequential(
 
 
 __all__ = [
+    "EXECUTION_ROLES",
+    "MEMIT_ROLE",
+    "NATIVE_CORRECTED_ROLE",
     "NATIVE_ROLE",
+    "OFFICIAL_BASELINE_ROLES",
     "RESULT_NAMES",
     "R52_CONTROL_ROLE",
     "R52_H_ROLE",

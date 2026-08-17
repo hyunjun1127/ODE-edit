@@ -26,6 +26,58 @@ from .functional import tensor_sha256
 from .scalable_batched_runtime import scalable_ordered_request_digest
 
 
+def _alphaedit_dynamic_cache_snapshot(alpha_module: Any) -> dict[str, Any]:
+    """Describe AlphaEdit's dynamic key outer-product cache without raw rows."""
+
+    initialized = bool(getattr(alpha_module, "cache_c_new", False))
+    cache = getattr(alpha_module, "cache_c", None)
+    if not initialized or not isinstance(cache, torch.Tensor):
+        return {
+            "status": "UNINITIALIZED",
+            "cache_c_new": initialized,
+            "sha256": None,
+            "shape": None,
+            "dtype": None,
+            "frobenius_norm": 0.0,
+            "layer_frobenius_norm": [],
+        }
+    observed = cache.detach().to(device="cpu")
+    if not observed.is_floating_point() or observed.ndim != 3:
+        raise ODEBFStateError("Official Native AlphaEdit cache_c shape/dtype differs")
+    layer_norm = [
+        float(torch.linalg.vector_norm(observed[index].to(dtype=torch.float64)).item())
+        for index in range(observed.shape[0])
+    ]
+    if not all(math.isfinite(item) for item in layer_norm):
+        raise ODEBFStateError("Official Native AlphaEdit cache_c norm is nonfinite")
+    return {
+        "status": "INITIALIZED",
+        "cache_c_new": initialized,
+        "sha256": tensor_sha256(observed),
+        "shape": list(observed.shape),
+        "dtype": str(observed.dtype),
+        "frobenius_norm": float(math.sqrt(sum(item * item for item in layer_norm))),
+        "layer_frobenius_norm": layer_norm,
+    }
+
+
+def _alphaedit_static_projection_snapshot(alpha_module: Any) -> dict[str, Any]:
+    """Separate the static null-space projector P from dynamic cache_c."""
+
+    loaded = bool(getattr(alpha_module, "P_loaded", False))
+    projection = getattr(alpha_module, "P", None)
+    if not loaded or not isinstance(projection, torch.Tensor):
+        raise ODEBFStateError("Official Native AlphaEdit static projector is absent")
+    return {
+        "cache_kind": "STATIC_NULLSPACE_PROJECTOR_P",
+        "loaded": loaded,
+        "loaded_from": str(getattr(alpha_module, "P_loaded_from", None)),
+        "shape": list(projection.shape),
+        "dtype": str(projection.dtype),
+        "reload_requested": False,
+    }
+
+
 @contextlib.contextmanager
 def _alphaedit_solver_key_dtype_adapter(alpha_module: Any | None = None) -> Any:
     """Promote captured BF16 keys for AlphaEdit's pinned FP32 linear solve."""
@@ -433,8 +485,16 @@ def run_official_native_apply(
     hparams: Any,
     *,
     touched: Mapping[str, torch.nn.Parameter],
+    reset_cache: bool = True,
+    cache_history_width: int | None = None,
 ) -> tuple[dict[str, Any], Mapping[str, torch.Tensor]]:
-    """Invoke the pinned Official EasyEdit AlphaEdit entry exactly once."""
+    """Invoke the pinned Official EasyEdit AlphaEdit entry exactly once.
+
+    ``reset_cache`` remains true by default for the pre-existing atomic call
+    sites.  Sequential callers can bind the official AlphaEdit dynamic
+    ``cache_c`` lifecycle explicitly and request a raw-free cache receipt by
+    supplying ``cache_history_width``.
+    """
 
     from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
 
@@ -442,20 +502,42 @@ def run_official_native_apply(
     pointers = {name: int(value.data_ptr()) for name, value in touched.items()}
     request_copy = [copy.deepcopy(dict(item)) for item in requests]
     original_compute_ks = alpha_main.compute_ks
+    original_backward = torch.autograd.backward
+    target_backward_count = 0
+
+    def counted_backward(*args: Any, **kwargs: Any) -> Any:
+        nonlocal target_backward_count
+        target_backward_count += 1
+        return original_backward(*args, **kwargs)
+
+    cache_entry: dict[str, Any] | None = None
+    if cache_history_width is not None:
+        logical_width = int(cache_history_width)
+        if logical_width < 0 or logical_width % len(requests) != 0:
+            raise ODEBFContractError("Official Native cache history width differs")
+        if bool(reset_cache) != (logical_width == 0):
+            raise ODEBFContractError("Official Native reset/cache history contract differs")
+        cache_entry = _alphaedit_dynamic_cache_snapshot(alpha_main)
+        if logical_width > 0 and cache_entry["status"] != "INITIALIZED":
+            raise ODEBFStateError("Official Native sequential cache entry is absent")
     started = time.perf_counter()
-    with _alphaedit_solver_key_dtype_adapter(alpha_main) as adapter_receipt:
-        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
-            returned_model, originals = alpha_main.apply_AlphaEdit_to_model(
-                model,
-                tokenizer,
-                request_copy,
-                hparams,
-                copy=False,
-                return_orig_weights=True,
-                cache_template=None,
-                keep_original_weight=False,
-                reset_cache=True,
-            )
+    torch.autograd.backward = counted_backward
+    try:
+        with _alphaedit_solver_key_dtype_adapter(alpha_main) as adapter_receipt:
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                returned_model, originals = alpha_main.apply_AlphaEdit_to_model(
+                    model,
+                    tokenizer,
+                    request_copy,
+                    hparams,
+                    copy=False,
+                    return_orig_weights=True,
+                    cache_template=None,
+                    keep_original_weight=False,
+                    reset_cache=bool(reset_cache),
+                )
+    finally:
+        torch.autograd.backward = original_backward
     wall = time.perf_counter() - started
     adapter_receipt = {
         **adapter_receipt,
@@ -468,6 +550,32 @@ def run_official_native_apply(
         raise ODEBFContractError("P1R23 Official Native return contract differs")
     if any(int(touched[name].data_ptr()) != pointers[name] for name in touched):
         raise ODEBFStateError("P1R23 Official Native pointer differs")
+    cache_contract: dict[str, Any] | None = None
+    if cache_history_width is not None:
+        cache_exit = _alphaedit_dynamic_cache_snapshot(alpha_main)
+        if cache_exit["status"] != "INITIALIZED":
+            raise ODEBFStateError("Official Native sequential cache exit is absent")
+        static_projection = _alphaedit_static_projection_snapshot(alpha_main)
+        logical_width = int(cache_history_width)
+        cache_contract = {
+            "schema": "ode-edit-s05-official-alphaedit-dynamic-cache-contract/v1",
+            "cache_kind": "DYNAMIC_ALPHAEDIT_KEY_OUTER_PRODUCT_CACHE_C",
+            "reset_cache_requested": bool(reset_cache),
+            "logical_history_width_at_entry": logical_width,
+            "logical_history_width_after_append": logical_width + len(requests),
+            "append_request_count": len(requests),
+            "entry": cache_entry,
+            "exit": cache_exit,
+            "solver_consumed_entry_cache": bool(
+                logical_width > 0
+                and not reset_cache
+                and cache_entry is not None
+                and float(cache_entry["frobenius_norm"]) > 0.0
+            ),
+            "static_projection": static_projection,
+            "static_projection_distinct_from_dynamic_cache": True,
+        }
+        cache_contract["identity_sha256"] = canonical_hash(cache_contract)
     payload = {
         "schema": "ode-edit-s05-p1r23-official-native-apply/v1",
         "entry_sha256": entry_sha,
@@ -483,6 +591,8 @@ def run_official_native_apply(
         "official_entrypoint": "easyeditor.models.alphaedit.AlphaEdit_main.apply_AlphaEdit_to_model",
         "direct_z_semantics": True,
         "solver_key_dtype_adapter": adapter_receipt,
+        "target_backward_count": target_backward_count,
+        "alphaedit_dynamic_cache_contract": cache_contract,
         "edit_core_wall_seconds": wall,
         "raw_stdout_stderr_serialized_count": 0,
     }

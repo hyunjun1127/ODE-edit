@@ -1,0 +1,27 @@
+{
+  "schema_version": "ode-edit-s05-p1r52-official-sequential-baselines-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R52-LLAMA-SOFT-SEQUENTIAL-HISTORICAL-10XB10-V1",
+  "parent": "5f295e74304d53ee5f7f22d7635c9cf56220eb54",
+  "parent_tree": "d7f0c9b2d742c4560ed77c13d0807f718f627894",
+  "entries": [
+    {"path": "project/run_scripts/ode_alloc/p0_artifact_lock_r1.json", "sha256": "6c327c563e0e805eb73a09cf3a577dea3771bc44127748fe64aba70a803292d2", "size": 7617},
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r52_official_sequential_baselines.json", "sha256": "5da594670caf54a442acf2a0d543eeee57d6be1a4efae47425e7d8a5a83afc16", "size": 1681},
+    {"path": "project/run_scripts/ode_bf/p1_backend.py", "sha256": "331b82abd6f524d1cb56fa3f696ef1f543dc3b0b48f79f150d45468ea060d592", "size": 81007},
+    {"path": "project/run_scripts/ode_bf/p1_evaluator.py", "sha256": "0c3e83ffff00d1ddb86008f56472fa89dbe2a3043c4d3ffd93d862662ec7a399", "size": 42113},
+    {"path": "project/run_scripts/ode_bf/p1_runtime.py", "sha256": "283913d337f196f8ec42377d0516fb71dbb280c1e9896f578f3213268b40a4b0", "size": 227608},
+    {"path": "project/run_scripts/ode_bf/p1r29_sequential_preparation.py", "sha256": "4128d14a08233c659fb05799b1aa93aa7b6ab23c71cff0f48df58890e14206ed", "size": 75642},
+    {"path": "project/run_scripts/ode_bf/p1r52_official_sequential_baseline_panel.py", "sha256": "97830bc6b46104117eebdf5db31f86d67be74c88dec20c00c4a29d9d7e2df094", "size": 4863},
+    {"path": "project/run_scripts/ode_bf/p1r52_official_sequential_baselines.py", "sha256": "865014d0611c3d307450ac3d4517fc6b92d8ea4d87fdc792491bf11297675ba0", "size": 6517},
+    {"path": "project/run_scripts/ode_bf/p1r52_sequential_contract.py", "sha256": "802bd658d95ebd85698fc8e1dcb7351af3f3e57f64597efdcdfa6516c51e1b7b", "size": 32508},
+    {"path": "project/run_scripts/ode_bf/p1r52_sequential_runtime.py", "sha256": "6ab4a45872440b491f168ea91feaa4c98d0dd391a75f2bd1dce78b55404dfe15", "size": 75058},
+    {"path": "project/run_scripts/ode_bf/scalable_batched_native.py", "sha256": "06e13adfdac22d4af6b9a3feb4c3c04b7c25e963502239cbb37648e414d4a360", "size": 25515},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r52_official_sequential_baselines.py", "sha256": "e9bddc8616b4f9b6053b603f4f38ed18686b30088bf03a0c36ca3849f9523eed", "size": 7786},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r52_sequential_contract.py", "sha256": "66f051d511e9f40baea7bd0f738c9a283dcc6a515f3cbf4bb6bec232e6ffe035", "size": 17248},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r52_sequential_evaluator.py", "sha256": "98a987c50300bc23a794ee32731617f86fcedf70d695a805740a262475c74f7c", "size": 8290},
+    {"path": "project/run_scripts/ode_bf/tests/test_scalable_batched_runtime.py", "sha256": "17bd29e87f3a5df67f95af69c6663d9361c2a732e97b3ca1f50292b2e91aac60", "size": 25686},
+    {"path": "project/run_scripts/session05_ode_bf_p1r52_official_sequential_baselines.py", "sha256": "d32ac83768cf6343c50d8cc12b46a2bb11a3a0b1b5119b29773fb4b68aac46cc", "size": 4671},
+    {"path": "project/run_scripts/session05_ode_bf_p1r52_official_sequential_baselines.sbatch", "sha256": "8caf0d036eaf20e9553b3c8645b0a97689de0cc12251031d5835e2d2c894c13a", "size": 2596},
+    {"path": "project/run_scripts/session05_ode_bf_p1r52_official_sequential_baselines_dry_plan.py", "sha256": "f218a83980ee1defec66a84e0ce02783167c3a4c3e4e21d45ebab39aecc35b62", "size": 1994}
+  ],
+  "root_digest": "7940fe66d9811ff67fc1182b6970ef1d399daad6b2c6874dc40e4d6f0c5c1a5e"
+}
