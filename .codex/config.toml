@@ -1,4 +1,2 @@
-# Repository-scoped Codex defaults. Codex loads this file only for a trusted
-# ODE-Edit checkout; do not copy these settings into the user-global config.
-model = "gpt-5.6-sol"
-model_reasoning_effort = "ultra"
+# Repository-scoped Codex defaults intentionally do not pin model family or
+# reasoning effort. The user manages both in the Codex session.

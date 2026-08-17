@@ -14,8 +14,8 @@ private key, token, key path, passphrase는 Git에 기록하지 않는다.
 | 서버 | 실제 host | repository CWD | Git 상태 | ODE-edit Slurm |
 | --- | --- | --- | --- | --- |
 | `server1` GH | `devbox` / `remote-ssh-codex-managed:lab120` | `/mnt/raid5/janghj/ODE-edit` | GH root는 detached/dirty 보존 상태. canonical `main` 통합·push는 `/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1`에서 수행 | active 0 |
-| `server1` SH1 | `devbox` / `remote-ssh-codex-managed:lab120` | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | detached `cdb80bc70032c203334531edb7020ff654f2938d`; tracked clean, user-owned untracked paths 2개; cached `origin/main` 대비 277 behind | active 0 |
-| `server2` SH2 | `server2` / `remote-ssh-codex-managed:lab121` | `/mnt/raid5/janghj/ODE-edit` | `main` `6145406ae4b11e05b683c46aa604c972eb727f5a`; clean; ACK 시 cached `origin/main` 대비 30 behind | active 0 |
+| `server1` SH1 | `devbox` / `remote-ssh-codex-managed:lab120` | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | detached `cdb80bc70032c203334531edb7020ff654f2938d`; tracked clean, user-owned untracked paths 2개 보존; `origin/main=1caed88867db3087fa5db26995c7e3719c064216` 확인 | active 0 |
+| `server2` SH2 | `server2` / `remote-ssh-codex-managed:lab121` | `/mnt/raid5/janghj/ODE-edit` | `main` `6145406ae4b11e05b683c46aa604c972eb727f5a`; clean; model gate block로 fetch/ff-only 미실행 | active 0 |
 
 Git 업데이트는 clean canonical `main` 통합 worktree에서만 커밋·push한다. SH1의
 detached worktree와 GH root의 기존 dirty state는 reset/revert/delete하지 않는다.
@@ -30,9 +30,9 @@ SH2 ID를 확인해 정정했다.
 
 | 서버 | 역할 | Codex session ID / deeplink | Required / confirmed model | Repository CWD | 상태 |
 | --- | --- | --- | --- | --- | --- |
-| `server1` | global-head (GH) | `01a00e5f-63ef-7cc2-89ec-f2f7b23df40f` / `codex://threads/01a00e5f-63ef-7cc2-89ec-f2f7b23df40f` | `Sol Ultra` / current-session runtime confirmation pending | `/mnt/raid5/janghj/ODE-edit` | active |
-| `server1` | server-head (SH1) | `01a00e5d-29e8-7a01-822b-7acf43226035` / `codex://threads/01a00e5d-29e8-7a01-822b-7acf43226035` | `Sol Ultra` / current-session runtime confirmation pending | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | direct ACK PASS; local boundary update pending |
-| `server2` | server-head (SH2) | `01a00e5c-f7ae-72a2-98b2-b8b0907168b4` / `codex://threads/01a00e5c-f7ae-72a2-98b2-b8b0907168b4` | `Sol Ultra` / current-session runtime confirmation pending | `/mnt/raid5/janghj/ODE-edit` | direct ACK PASS; local boundary update pending |
+| `server1` | global-head (GH) | `01a00e5f-63ef-7cc2-89ec-f2f7b23df40f` / `codex://threads/01a00e5f-63ef-7cc2-89ec-f2f7b23df40f` | user-managed; observed `gpt-5.6-sol/xhigh` | `/mnt/raid5/janghj/ODE-edit` | active |
+| `server1` | server-head (SH1) | `01a00e5d-29e8-7a01-822b-7acf43226035` / `codex://threads/01a00e5d-29e8-7a01-822b-7acf43226035` | user-managed; observed `gpt-5.6-sol/xhigh` | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | direct ACK PASS; local ID updated |
+| `server2` | server-head (SH2) | `01a00e5c-f7ae-72a2-98b2-b8b0907168b4` / `codex://threads/01a00e5c-f7ae-72a2-98b2-b8b0907168b4` | user-managed; observed `gpt-5.6-sol/max` | `/mnt/raid5/janghj/ODE-edit` | direct ACK PASS; ff-only sync authorized |
 | `server3` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | future target |
 | `server4` | server-head | 미지정 | `Sol Ultra` / 미지정 | `/data/janghj/ODE-edit` | registered-pending-clone |
 
@@ -40,7 +40,9 @@ SH2 ID를 확인해 정정했다.
 ignored `servers/local/session-boundary.env`에 실제 session ID, confirmed model,
 CWD와 repository identity를 기록하고
 `scripts/check-session-boundary.sh <session-id>`를 통과해야 한다. Runtime model
-metadata를 확인하지 못한 상태를 이전 session의 confirmation으로 대체하지 않는다.
+model/profile은 사용자 관리 항목이며 hard boundary가 아니다. Session ID, CWD와
+repository identity는 계속 checker의 hard gate다. 개별 scientific contract가
+model/profile을 명시적으로 고정한 경우에만 그 task 내부 gate로 적용한다.
 
 ## Superseded Session Records
 

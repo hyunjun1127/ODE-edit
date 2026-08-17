@@ -9,13 +9,14 @@
 - 담당 server-head:
 - Codex session registry (role별 별도 행):
 
-| 역할 | Codex session ID | Required/confirmed Codex model | Codex session CWD | 상태 |
+| 역할 | Codex session ID | Observed model (optional) | Codex session CWD | 상태 |
 | --- | --- | --- | --- | --- |
-| server-head |  | `Sol Ultra` /  |  | pending/active/retired |
+| server-head |  | user-managed /  |  | pending/active/retired |
 
-Server-head primary는 `Sol Ultra`다. Blue/red 또는 분석 subagent를 사용할 때만
-`Terra Ultra` runtime metadata를 별도로 확인하며, subagent가 server-head session authority를
-대체할 수 없다.
+Model family와 reasoning effort는 사용자가 관리한다. 관측값은 진단용으로 기록할
+수 있지만, user task contract가 별도 고정하지 않는 한 session authority를
+결정하지 않는다. Subagent도 parent task의 경계를 따르며 server-head session
+authority를 대체할 수 없다.
 - global-head 승인:
 
 ## 접근과 권한

@@ -7,9 +7,9 @@ Usage:
   scripts/check-session-boundary.sh SESSION_ID
 
 Verifies that the caller is in this repository's configured clone and presents
-the Codex session ID assigned to that clone. It also requires a locally
-confirmed primary Codex model profile matching this repository's `Sol Ultra`
-policy. Delegated subagents are verified separately as `Terra Ultra`.
+the Codex session ID assigned to that clone. Model/profile selection is
+user-managed and is not a hard boundary unless a task contract explicitly adds
+one.
 The local configuration is servers/local/session-boundary.env and is never
 committed.
 USAGE
@@ -25,18 +25,8 @@ config_file="${repo_root}/servers/local/session-boundary.env"
 # shellcheck disable=SC1090
 source "${config_file}"
 
-[[ -n "${ODEEDIT_REPOSITORY_ID:-}" && -n "${ODEEDIT_REPOSITORY_CWD:-}" && -n "${ODEEDIT_CODEX_SESSION_ID:-}" && -n "${ODEEDIT_REQUIRED_CODEX_MODEL_PROFILE:-}" && -n "${ODEEDIT_CONFIRMED_CODEX_MODEL_PROFILE:-}" && -n "${ODEEDIT_CURRENT_SERVER:-}" ]] || {
+[[ -n "${ODEEDIT_REPOSITORY_ID:-}" && -n "${ODEEDIT_REPOSITORY_CWD:-}" && -n "${ODEEDIT_CODEX_SESSION_ID:-}" && -n "${ODEEDIT_CURRENT_SERVER:-}" ]] || {
   echo "BLOCK incomplete local session boundary configuration" >&2
-  exit 4
-}
-
-canonical_model_profile="Sol Ultra"
-[[ "${ODEEDIT_REQUIRED_CODEX_MODEL_PROFILE}" == "${canonical_model_profile}" ]] || {
-  echo "BLOCK required Codex model profile mismatch for repository=${ODEEDIT_REPOSITORY_ID}" >&2
-  exit 4
-}
-[[ "${ODEEDIT_CONFIRMED_CODEX_MODEL_PROFILE}" == "${ODEEDIT_REQUIRED_CODEX_MODEL_PROFILE}" ]] || {
-  echo "BLOCK Codex model profile is unconfirmed or mismatched for session=${ODEEDIT_CODEX_SESSION_ID}" >&2
   exit 4
 }
 
@@ -58,4 +48,5 @@ expected_ssh="git@github.com:${ODEEDIT_REPOSITORY_ID}.git"
   exit 4
 }
 
-echo "PASS repository=${ODEEDIT_REPOSITORY_ID} server=${ODEEDIT_CURRENT_SERVER} session=${presented_session_id} model=${ODEEDIT_CONFIRMED_CODEX_MODEL_PROFILE}"
+observed_model="${ODEEDIT_CURRENT_CODEX_MODEL_PROFILE:-${ODEEDIT_CONFIRMED_CODEX_MODEL_PROFILE:-user-managed}}"
+echo "PASS repository=${ODEEDIT_REPOSITORY_ID} server=${ODEEDIT_CURRENT_SERVER} session=${presented_session_id} model=${observed_model}"

@@ -10,8 +10,7 @@
 - server-head (SH2):
   `01a00e5c-f7ae-72a2-98b2-b8b0907168b4`
   (`codex://threads/01a00e5c-f7ae-72a2-98b2-b8b0907168b4`)
-- required model: `Sol Ultra`
-- confirmed model: current-session runtime confirmation pending
+- model/profile: user-managed; observed `gpt-5.6-sol/max`
 - repository CWD: `/mnt/raid5/janghj/ODE-edit`
 
 사용자 메시지에 SH2 session ID가 SH1과 동일하게 중복 기재됐으나, app host
@@ -30,26 +29,26 @@ authority다.
   `858f562cc8282b9ae164d41b85dfad070a8273f2`
 - ACK 시 local main은 cached `origin/main` 대비 ahead 0 / behind 30
 
-새 GH가 canonical main update를 push한 뒤 SH2는 clean 상태를 다시 확인하고
-`git fetch origin`, `git merge --ff-only origin/main`만 수행한다. Dirty 또는
-diverged 상태이면 자동 정리하지 않고 HOLD/ACK한다.
+GH는 canonical main
+`1caed88867db3087fa5db26995c7e3719c064216`을 push했다. 최초 sync에서는
+model gate로 fetch/ff-only가 보류됐지만, 사용자가 model/profile을 직접 관리한다고
+명시해 해당 gate를 해제했다.
 
 ## Session boundary
 
-ACK 시 ignored `servers/local/session-boundary.env`는 inactive
-`019fe491-954b-70a0-8ba8-0588e9f8d741`를 기록해 새 session checker가 rc4로
-실패했다. Actionable work 전에 다음을 수행한다.
+Initial sync ACK 시 ignored `servers/local/session-boundary.env`는 inactive
+`019fe491-954b-70a0-8ba8-0588e9f8d741`를 기록해 session ID gate가 rc4로
+실패하는 상태였다. Runtime `gpt-5.6-sol/max`는 사용자 관리 관측값이며 더 이상
+hard boundary가 아니다.
 
-1. displayed/runtime primary model이 required `Sol Ultra`인지 직접 확인한다.
-2. local-only session ID를
+1. local-only session ID를
    `01a00e5c-f7ae-72a2-98b2-b8b0907168b4`로 갱신한다.
-3. 실제 CWD, repository identity, confirmed model을 기록한다.
-4. `scripts/check-session-boundary.sh
+2. 실제 CWD와 repository identity를 기록한다.
+3. `scripts/check-session-boundary.sh
    01a00e5c-f7ae-72a2-98b2-b8b0907168b4`를 통과한다.
 
-Runtime model metadata를 조회하지 못했으므로 이전 session의 confirmation을
-재사용하지 않는다. Boundary PASS 전 Git write, Slurm, rsync, model/GPU
-execution은 HOLD다.
+Boundary PASS 전 Git write, fetch/merge, Slurm, rsync, model/GPU execution은
+HOLD다.
 
 ## Slurm 및 resource
 
@@ -62,6 +61,6 @@ execution은 HOLD다.
 ## 판정
 
 - session routing/direct inbox: PASS
-- repository worktree: clean, fast-forward eligible after boundary PASS
-- current blocker: stale local boundary와 current-session model confirmation pending
-- next: GH main push 후 boundary 확인, fetch/ff-only sync, final SH2 ACK
+- repository worktree: clean; local fast-forward 미실행
+- current blocker: stale local session ID only
+- next: boundary ID update/check, fetch, ff-only sync, final SH2 ACK

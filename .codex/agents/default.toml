@@ -1,9 +1,6 @@
 name = "default"
-description = "ODE-Edit default subagent pinned to Terra Ultra."
-model = "gpt-5.6-terra"
-model_reasoning_effort = "ultra"
+description = "ODE-Edit default subagent with user-managed model settings."
 developer_instructions = """
-This repository requires the Terra Ultra profile for every delegated task.
 Follow the parent task's read/write boundary exactly, avoid unrelated files,
 and finish immediately after returning the requested result.
 """

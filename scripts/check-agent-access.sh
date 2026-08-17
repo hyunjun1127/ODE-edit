@@ -38,7 +38,7 @@ is_global_head_allowed() {
   path="${1}"
 
   case "${path}" in
-    PROTOCOL.md|README.md|.gitignore|local/README.md)
+    PROTOCOL.md|README.md|.gitignore|local/README.md|.codex/config.toml|.codex/agents/default.toml)
       return 0
       ;;
     scripts/*|project/*|subagents/*|docs/*|local/templates/*|messages/templates/*|tasks/templates/*|runs/templates/*|audits/templates/*|experiment-reports/templates/*|transfers/templates/*|servers/templates/*|run-scripts/*)
