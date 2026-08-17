@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import ast
 import hashlib
+import inspect
 import threading
 import unittest
 
@@ -19,6 +21,7 @@ from project.run_scripts.ode_bf.p1r52_sequential_contract import (
     commit_sequential_batch,
     dry_plan,
 )
+from project.run_scripts.ode_bf.p1r52_sequential_runtime import run_p1r52_sequential
 from project.run_scripts.ode_bf.routing import QuadraticBarrier, RoutingProblem
 from project.run_scripts.ode_bf.scalable_batched_runtime import P1R23_LAYER_ORDER
 from project.run_scripts.ode_bf.woodbury import ProjectorCertificate, solve_alpha_woodbury
@@ -66,6 +69,21 @@ def _keys(version: int) -> dict[int, torch.Tensor]:
 
 
 class P1R52SequentialContractTests(unittest.TestCase):
+    def test_atomic_call_uses_only_the_p1r52_method_flag(self) -> None:
+        tree = ast.parse(inspect.getsource(run_p1r52_sequential))
+        calls = [
+            node
+            for node in ast.walk(tree)
+            if isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name)
+            and node.func.id == "_run_ode_arm"
+        ]
+        self.assertEqual(len(calls), 1)
+        keywords = {item.arg: item.value for item in calls[0].keywords}
+        self.assertIsInstance(keywords["p1r52"], ast.Constant)
+        self.assertIs(keywords["p1r52"].value, True)
+        self.assertNotIn("p1r51", keywords)
+
     def test_history_width_zero_through_ninety(self) -> None:
         for width in range(0, 91, 10):
             values = {
