@@ -59,6 +59,7 @@ HOLD다.
 - session routing/direct inbox: PASS
 - tracked repository update owner: GH canonical main integration worktree
 - SH1 detached worktree update: HOLD, user-owned untracked paths 보존
-- SH1 execution: hard session/repository boundary PASS 필요
+- SH1 hard session/repository boundary: PASS
 - `origin/main` registry update 확인: PASS
-- 다음 담당자: SH1은 최신 tracked checker로 hard boundary를 재확인한다.
+- 다음 담당자: 새 actionable task가 있을 때 point-in-time repository/resource
+  boundary를 다시 확인한다.

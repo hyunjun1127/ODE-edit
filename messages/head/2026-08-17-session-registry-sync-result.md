@@ -6,7 +6,7 @@
 - GH→SH2 direct ACK: PASS
 - canonical remote `main` registry update: PASS
 - SH1 `origin/main` update 확인: PASS
-- SH2 local `main` fast-forward: initial model gate superseded by user-managed policy; final sync pending
+- SH2 local `main` fast-forward: PASS
 - scientific/model/Slurm/GPU/result action: 0
 
 ## Canonical main
@@ -30,8 +30,17 @@ user-owned untracked paths를 보존했다. `origin/main`은 canonical commit으
 
 사용자는 model family/reasoning effort를 직접 관리하며 repository hard boundary로
 사용하지 않도록 명시했다. Checker와 protocol은 session ID, CWD, repository
-identity만 검증하도록 갱신한다. SH2는 이 변경을 받은 뒤 boundary ID update/check와
-clean ff-only sync를 재개한다.
+identity만 검증하도록 갱신한다. SH2는 boundary ID/CWD/repository check를
+PASS하고 clean main을 `d4206536d0c9629e1061b6575bc967e0cf1f742b`까지
+ff-only로 동기화했다.
+
+## 최종 ACK
+
+- SH1: `origin/main=d4206536d0c9629e1061b6575bc967e0cf1f742b`,
+  equivalent hard-boundary PASS, detached HEAD/untracked paths 보존, active job 0.
+- SH2: before `6145406ae4b11e05b683c46aa604c972eb727f5a` → after
+  `d4206536d0c9629e1061b6575bc967e0cf1f742b`, ff-only, clean, ahead/behind
+  0/0, hard-boundary와 active registry verification PASS.
 
 ## 보존 범위
 
