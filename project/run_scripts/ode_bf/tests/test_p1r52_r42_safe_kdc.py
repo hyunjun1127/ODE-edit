@@ -12,6 +12,7 @@ from project.run_scripts.ode_bf.p1r51_requestwise_semantic_allocation import (
 from project.run_scripts.ode_bf.p1r52_r42_safe_kdc import (
     P1R52ActiveDirectionContractError,
     P1R52SemanticDescentContractError,
+    _cast_origin_clamped_target_fp32,
     _origin_relative_clamp,
     prepare_p1r52_rescue_proposal,
     prepare_p1r52_target_proposal,
@@ -128,6 +129,36 @@ class P1R52R42SafeKDCTests(unittest.TestCase):
         self.assertTrue(torch.allclose(once, twice, atol=1e-12, rtol=0.0))
         self.assertTrue(torch.all(torch.linalg.vector_norm(once - origin, dim=0) <= maximum + 1e-12))
         self.assertLess(float(ratio[0]), 1.0)
+
+    def test_b100_fp32_cast_closes_the_unchanged_origin_clamp(self) -> None:
+        generator = torch.Generator().manual_seed(0)
+        origin = torch.randn(4096, 100, generator=generator, dtype=torch.float32).double()
+        candidate = origin + 100.0 * torch.randn(
+            4096, 100, generator=generator, dtype=torch.float64
+        )
+        clamped, _, maximum = _origin_relative_clamp(candidate, origin, 0.75)
+        naive_excess = torch.clamp(
+            torch.linalg.vector_norm(clamped.float().double() - origin, dim=0) - maximum,
+            min=0.0,
+        )
+        self.assertGreater(float(torch.max(naive_excess)), 1.0e-8)
+        repaired, before, after, reprojected, nextafter = (
+            _cast_origin_clamped_target_fp32(clamped, origin, maximum)
+        )
+        self.assertEqual(repaired.dtype, torch.float32)
+        self.assertTrue(torch.equal(before, naive_excess))
+        self.assertLessEqual(float(torch.max(after)), 1.0e-8)
+        self.assertGreater(int(torch.count_nonzero(reprojected)), 0)
+        self.assertGreater(int(torch.count_nonzero(nextafter)), 0)
+        self.assertLessEqual(
+            float(
+                torch.max(
+                    torch.linalg.vector_norm(repaired.double() - origin, dim=0)
+                    - maximum
+                )
+            ),
+            1.0e-8,
+        )
 
     def test_rescue_uses_post_clamp_post_cast_actual_delta(self) -> None:
         lock = P1R24AliasTargetLock("llama3-8b-inst", 0.0, 0.0, 0.01)

@@ -28,6 +28,7 @@ from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
     RESULT_NAMES,
     RESULT_NAMES_B100X10,
     RESULT_NAMES_B100X10_TECH_R1,
+    RESULT_NAMES_B100X10_TECH_R2,
     expected_p1r52_sequential_result_name,
     run_p1r52_sequential,
 )
@@ -75,6 +76,7 @@ class P1R52SequentialB100x10Tests(unittest.TestCase):
         self.assertEqual(len(RESULT_NAMES_B100X10), 4)
         self.assertTrue(all("10xb100" in name for name in RESULT_NAMES_B100X10.values()))
         self.assertTrue(all("tech-r1" in name for name in RESULT_NAMES_B100X10_TECH_R1.values()))
+        self.assertTrue(all("tech-r2" in name for name in RESULT_NAMES_B100X10_TECH_R2.values()))
 
     def test_stream_is_outcome_free_unique_and_preserves_b10_prefix(self) -> None:
         locks = REPO_ROOT / "project/run_scripts/ode_bf/locks"
@@ -201,6 +203,21 @@ class P1R52SequentialB100x10Tests(unittest.TestCase):
         self.assertEqual(len({job["result_name"] for job in plan["jobs"]}), 4)
         self.assertEqual(plan["request_count_per_job"], 1000)
         self.assertEqual(plan["monitor_cadence_after_initial_gate_seconds"], 3600)
+
+    def test_tech_r2_plan_reruns_only_the_two_invalid_r52_cells(self) -> None:
+        plan = dry.build_plan("2" * 40, attempt_suffix="tech-r2", r52_only=True)
+        self.assertEqual(plan["array"], "0-1%2")
+        self.assertEqual(plan["job_count"], 2)
+        self.assertEqual(plan["repair_scope"], "R52_INVALID_CELLS_ONLY")
+        self.assertEqual([job["array_index"] for job in plan["jobs"]], [0, 1])
+        self.assertEqual(
+            [job["role"] for job in plan["jobs"]],
+            [
+                "r52-soft-sequential-h",
+                "r52-soft-sequential-alphacache-on-structuralh-off",
+            ],
+        )
+        self.assertTrue(all("tech-r2" in job["result_name"] for job in plan["jobs"]))
 
 
 if __name__ == "__main__":

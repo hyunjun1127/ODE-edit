@@ -29,7 +29,8 @@ from project.run_scripts.ode_bf.p1r52_sequential_b100x10_panel import (
     LOCK_FILE,
     PARENT,
     ROLES,
-    SOURCE_MANIFEST,
+    SOURCE_MANIFEST_TECH_R1,
+    SOURCE_MANIFEST_TECH_R2,
     load_and_validate_lock,
     verify_memit_artifacts,
 )
@@ -37,19 +38,32 @@ from project.run_scripts.ode_bf.p1r52_sequential_runtime import MEMIT_ROLE
 from project.run_scripts.ode_bf.p1r52_sequential_scale import B100X10_INSTRUCTION_ID
 
 
-RUN_TOKEN = "p1r52-llama-sequential-10xb100-fourcell-tech-r1-v1"
+RUN_TOKENS = {
+    "tech-r1": "p1r52-llama-sequential-10xb100-fourcell-tech-r1-v1",
+    "tech-r2": "p1r52-llama-sequential-10xb100-r52-tech-r2-v1",
+}
 
 
-def _source_gate(source_head: str) -> str:
+def _source_gate(source_head: str, *, attempt_suffix: str = "tech-r2") -> str:
     if subprocess.run(
         ["git", "merge-base", "--is-ancestor", PARENT, source_head],
         cwd=REPO_ROOT,
         check=False,
     ).returncode != 0:
         raise ValueError("P1R52 B100x10 source ancestry differs")
+    manifest_name, schema = {
+        "tech-r1": (
+            SOURCE_MANIFEST_TECH_R1,
+            "ode-edit-s05-p1r52-sequential-b100x10-tech-r1-source-manifest/v1",
+        ),
+        "tech-r2": (
+            SOURCE_MANIFEST_TECH_R2,
+            "ode-edit-s05-p1r52-sequential-b100x10-r52-tech-r2-source-manifest/v1",
+        ),
+    }[attempt_suffix]
     manifest, raw_sha = load_rooted_json(
-        REPO_ROOT / "project/run_scripts/ode_bf/locks" / SOURCE_MANIFEST,
-        expected_schema="ode-edit-s05-p1r52-sequential-b100x10-tech-r1-source-manifest/v1",
+        REPO_ROOT / "project/run_scripts/ode_bf/locks" / manifest_name,
+        expected_schema=schema,
     )
     if (
         manifest.get("instruction_id") != B100X10_INSTRUCTION_ID
@@ -76,13 +90,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--role", required=True, choices=ROLES)
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
+    parser.add_argument("--attempt-suffix", required=True, choices=tuple(RUN_TOKENS))
+    parser.add_argument("--run-token", required=True)
     args = parser.parse_args(argv)
+    if args.run_token != RUN_TOKENS[args.attempt_suffix]:
+        parser.error("run token differs from attempt suffix")
     try:
         lock, lock_sha = load_and_validate_lock(
             REPO_ROOT / "project/run_scripts/ode_bf/locks" / LOCK_FILE
         )
-        source_manifest_sha = _source_gate(args.source_head)
+        source_manifest_sha = _source_gate(
+            args.source_head, attempt_suffix=args.attempt_suffix
+        )
         stream_path = REPO_ROOT / "project/run_scripts/ode_bf/locks" / SEAL_FILE
         stream = verify_p1r52_b100x10_stream(
             json.loads(stream_path.read_text(encoding="utf-8"))
@@ -99,7 +118,7 @@ def main(argv: list[str] | None = None) -> int:
             source_head=args.source_head,
             p1r52_sequential_role=args.role,
             p1r52_sequential_scale="b100x10",
-            p1r52_attempt_suffix="tech-r1",
+            p1r52_attempt_suffix=args.attempt_suffix,
         )
         result.update(
             {
@@ -129,7 +148,9 @@ def main(argv: list[str] | None = None) -> int:
             exc,
             repo_root=REPO_ROOT,
             instruction_id=B100X10_INSTRUCTION_ID,
-            failure_schema="ode-edit-s05-p1r52-sequential-b100x10-tech-r1-job-failure/v1",
+            failure_schema=(
+                f"ode-edit-s05-p1r52-sequential-b100x10-{args.attempt_suffix}-job-failure/v1"
+            ),
         )
         print(
             json.dumps(

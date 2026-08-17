@@ -22,12 +22,9 @@ from project.run_scripts.ode_bf.contracts import ODEBFContractError
 
 
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p1r52_sequential_b100x10_fourcell.sbatch"
-STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r52-llama-sequential-10xb100-fourcell-tech-r1-v1"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
-LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r52-llama-sequential-10xb100-fourcell-tech-r1-v1"
 BRANCH = "codex/p1r52-llama-seq-10xb100-fourarm-r1-v1"
 PROJECT_GPU_CAP = 4
-STAGE_GPU_MAX = 4
 
 
 def _run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -91,27 +88,48 @@ def _host_memory_available_mib() -> int:
     raise ODEBFContractError("host memory availability is absent")
 
 
-def submit(source_head: str) -> dict[str, object]:
+def submit(source_head: str, *, attempt_suffix: str) -> dict[str, object]:
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(["git", "status", "--porcelain", "--untracked-files=no"]).stdout
     if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("P1R52 B100x10 execution source differs")
-    plan = dry.build_plan(source_head)
+    r52_only = attempt_suffix == "tech-r2"
+    if attempt_suffix not in ("tech-r1", "tech-r2"):
+        raise ODEBFContractError("P1R52 B100x10 submission attempt differs")
+    stage_gpu_max = 2 if r52_only else 4
+    state_root = REPO_ROOT / (
+        f"local/odebf/state/p1r52-llama-sequential-10xb100-fourcell-{attempt_suffix}-v1"
+    )
+    log_root = REPO_ROOT / (
+        f"local/odebf/logs/p1r52-llama-sequential-10xb100-fourcell-{attempt_suffix}-v1"
+    )
+    plan = dry.build_plan(
+        source_head, attempt_suffix=attempt_suffix, r52_only=r52_only
+    )
     if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
         raise ODEBFContractError("P1R52 B100x10 result namespace exists")
     allocated, gpu_jobs = _gpu_jobs()
-    if gpu_jobs or allocated + STAGE_GPU_MAX > PROJECT_GPU_CAP:
+    if r52_only:
+        allowed = all(
+            str(item["job_id"]).startswith("20453_") and item["state"] == "RUNNING"
+            for item in gpu_jobs
+        )
+        if not allowed or allocated != 2:
+            raise ODEBFContractError("P1R52 B100x10 TECH-R2 healthy-cell queue differs")
+    elif gpu_jobs:
         raise ODEBFContractError("P1R52 B100x10 requires an empty server1 project GPU queue")
+    if allocated + stage_gpu_max > PROJECT_GPU_CAP:
+        raise ODEBFContractError("P1R52 B100x10 project GPU cap differs")
     memory_mib = _host_memory_available_mib()
-    if memory_mib < 4 * 65000:
-        raise ODEBFContractError("P1R52 B100x10 host memory is below the four-cell request")
-    namespace = f"s05-p1r52-sequential-b100x10-tech-r1-{source_head[:12]}-v1"
-    intent_path = STATE_ROOT / f"{namespace}.intent.json"
-    receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
+    if memory_mib < stage_gpu_max * 65000:
+        raise ODEBFContractError("P1R52 B100x10 host memory is below the stage request")
+    namespace = f"s05-p1r52-sequential-b100x10-{attempt_suffix}-{source_head[:12]}-v1"
+    intent_path = state_root / f"{namespace}.intent.json"
+    receipt_path = state_root / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
         raise ODEBFContractError("P1R52 B100x10 submission namespace exists")
-    LOG_ROOT.mkdir(mode=0o700, parents=True, exist_ok=True)
+    log_root.mkdir(mode=0o700, parents=True, exist_ok=True)
     intent = {
         "schema": "ode-edit-s05-p1r52-sequential-b100x10-submission-intent/v1",
         "source_head": source_head,
@@ -120,7 +138,7 @@ def submit(source_head: str) -> dict[str, object]:
         "active_server1_gpu_allocations": allocated,
         "active_or_pending_server1_gpu_jobs": gpu_jobs,
         "host_memory_available_mib": memory_mib,
-        "new_max_concurrent_gpu": STAGE_GPU_MAX,
+        "new_max_concurrent_gpu": stage_gpu_max,
         "project_gpu_cap": PROJECT_GPU_CAP,
         "held_then_atomic_release": True,
     }
@@ -130,20 +148,21 @@ def submit(source_head: str) -> dict[str, object]:
         "--hold",
         "--parsable",
         "--array",
-        "0-3%4",
+        "0-1%2" if r52_only else "0-3%4",
         "--chdir",
         str(REPO_ROOT),
         "--nodelist",
         "devbox",
         "--job-name",
-        "odeedit_s05_p1r52_seq_b100x10_r1",
+        f"odeedit_s05_p1r52_seq_b100x10_{attempt_suffix.replace('-', '_')}",
         "--output",
-        str(LOG_ROOT / "%A_%a.out"),
+        str(log_root / "%A_%a.out"),
         "--error",
-        str(LOG_ROOT / "%A_%a.err"),
+        str(log_root / "%A_%a.err"),
         str(SBATCH),
         source_head,
         str(RESULT_PARENT),
+        attempt_suffix,
     ]
     submitted = _run(command)
     job_id = submitted.stdout.strip().split(";", 1)[0]
@@ -164,11 +183,12 @@ def submit(source_head: str) -> dict[str, object]:
         "source_head": source_head,
         "branch": branch,
         "job_id": job_id,
-        "array": "0-3%4",
-        "job_count": 4,
-        "endpoint_attempt_count": 4,
+        "array": "0-1%2" if r52_only else "0-3%4",
+        "job_count": len(plan["jobs"]),
+        "endpoint_attempt_count": len(plan["jobs"]),
         "request_count_per_cell": 1000,
-        "total_edit_count": 4000,
+        "total_edit_count": len(plan["jobs"]) * 1000,
+        "attempt_suffix": attempt_suffix,
         "active_gpu_allocations_before_release": allocated,
         "host_memory_available_mib": memory_mib,
         "intent_sha256": intent_sha,
@@ -183,8 +203,15 @@ def submit(source_head: str) -> dict[str, object]:
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
+    parser.add_argument("--attempt-suffix", choices=("tech-r1", "tech-r2"), default="tech-r2")
     args = parser.parse_args()
-    print(json.dumps(submit(args.source_head), sort_keys=True, separators=(",", ":")))
+    print(
+        json.dumps(
+            submit(args.source_head, attempt_suffix=args.attempt_suffix),
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+    )
     return 0
 
 

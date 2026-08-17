@@ -109,6 +109,68 @@ def _origin_relative_clamp(
     return origin + ratio.unsqueeze(0) * relative, ratio, maximum
 
 
+def _cast_origin_clamped_target_fp32(
+    clamped: torch.Tensor,
+    origin: torch.Tensor,
+    maximum: torch.Tensor,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Close the existing clamp certificate under the required FP32 storage cast.
+
+    ``origin`` comes from the persistent FP32 target state, so its FP64 value is
+    exactly representable in FP32.  A nearest FP32 cast of a boundary point can
+    nevertheless round a column just outside the same origin-relative ball.
+    Reproject only those rounded columns to the unchanged ball, then move a
+    still-outside rounded value one representable FP32 step toward the origin.
+    This is numerical closure of the existing clamp, not a new radius.
+    """
+
+    if (
+        clamped.shape != origin.shape
+        or clamped.ndim != 2
+        or maximum.shape != (clamped.shape[1],)
+        or clamped.dtype != torch.float64
+        or origin.dtype != torch.float64
+    ):
+        raise ODEBFContractError("P1R52 post-cast clamp geometry differs")
+    origin32 = origin.to(dtype=torch.float32)
+    if not torch.equal(origin32.to(dtype=torch.float64), origin):
+        raise ODEBFContractError("P1R52 clamp origin is not FP32-exact")
+    target = clamped.to(dtype=torch.float32).contiguous()
+    before_norm = torch.linalg.vector_norm(
+        target.to(dtype=torch.float64) - origin, dim=0
+    )
+    before_excess = torch.clamp(before_norm - maximum, min=0.0)
+    reprojected = before_excess > P1R24_NUMERICAL_EPSILON
+    if bool(torch.any(reprojected)):
+        rounded_relative = target[:, reprojected].to(dtype=torch.float64) - origin[:, reprojected]
+        rounded_norm = torch.linalg.vector_norm(rounded_relative, dim=0)
+        ratio = torch.minimum(
+            torch.ones_like(rounded_norm),
+            maximum[reprojected] / rounded_norm,
+        )
+        target[:, reprojected] = (
+            origin[:, reprojected] + ratio.unsqueeze(0) * rounded_relative
+        ).to(dtype=torch.float32)
+    after_reprojection_norm = torch.linalg.vector_norm(
+        target.to(dtype=torch.float64) - origin, dim=0
+    )
+    nextafter_mask = (
+        torch.clamp(after_reprojection_norm - maximum, min=0.0)
+        > P1R24_NUMERICAL_EPSILON
+    )
+    if bool(torch.any(nextafter_mask)):
+        target[:, nextafter_mask] = torch.nextafter(
+            target[:, nextafter_mask], origin32[:, nextafter_mask]
+        )
+    final_norm = torch.linalg.vector_norm(
+        target.to(dtype=torch.float64) - origin, dim=0
+    )
+    final_excess = torch.clamp(final_norm - maximum, min=0.0)
+    if float(torch.max(final_excess)) > P1R24_NUMERICAL_EPSILON:
+        raise ODEBFContractError("P1R52 post-cast clamp numerical closure differs")
+    return target, before_excess, final_excess, reprojected, nextafter_mask
+
+
 def prepare_p1r52_target_proposal(
     current_target: torch.Tensor,
     current_terminal: torch.Tensor,
@@ -295,7 +357,13 @@ def prepare_p1r52_target_proposal(
         candidate, origin64, lock.clamp_factor
     )
     post_clamp_pre_cast_delta = clamped64 - current64
-    target_next = clamped64.to(dtype=torch.float32).contiguous()
+    (
+        target_next,
+        pre_repair_clamp_bound_residual,
+        clamp_bound_residual,
+        post_cast_clamp_reprojected,
+        post_cast_clamp_nextafter,
+    ) = _cast_origin_clamped_target_fp32(clamped64, origin64, clamp_maximum)
     actual_delta = target_next.to(dtype=torch.float64) - current64
     if not bool(torch.isfinite(actual_delta).all()):
         raise ODEBFContractError("P1R52 post-clamp target displacement is nonfinite")
@@ -425,6 +493,15 @@ def prepare_p1r52_target_proposal(
         "origin_clamp_bound_by_request": [float(item) for item in clamp_maximum],
         "origin_clamp_post_cast_norm_by_request": [float(item) for item in post_cast_origin_norm],
         "origin_clamp_bound_max_abs_excess": float(torch.max(clamp_bound_residual)),
+        "origin_clamp_pre_repair_max_abs_excess": float(
+            torch.max(pre_repair_clamp_bound_residual)
+        ),
+        "post_cast_clamp_reprojection_count": int(
+            torch.count_nonzero(post_cast_clamp_reprojected)
+        ),
+        "post_cast_clamp_nextafter_count": int(
+            torch.count_nonzero(post_cast_clamp_nextafter)
+        ),
         "nominal_target_displacement_norm_by_request": [
             float(item) for item in torch.linalg.vector_norm(nominal_delta, dim=0)
         ],
