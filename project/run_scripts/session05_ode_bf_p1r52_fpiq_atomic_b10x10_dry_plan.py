@@ -22,7 +22,9 @@ from project.run_scripts.ode_bf.p1r52_independent_runtime import (
 POLICIES = ("j0", "sv", "fpiq")
 
 
-def build_plan(source_head: str) -> dict[str, object]:
+def build_plan(
+    source_head: str, *, attempt_suffix: str | None = None
+) -> dict[str, object]:
     if len(source_head) != 40:
         raise ODEBFContractError("P1R52-FPiQ dry-plan source identity differs")
     jobs = [
@@ -32,7 +34,7 @@ def build_plan(source_head: str) -> dict[str, object]:
             "arm": policy,
             "method": f"P1R52-FPIQ-{policy.upper()}",
             "result_name": expected_p1r52_result_name(
-                "llama3-8b-inst", policy
+                "llama3-8b-inst", policy, attempt_suffix=attempt_suffix
             ),
             "gpu": 1,
             "cpu": 8,
@@ -66,8 +68,14 @@ def build_plan(source_head: str) -> dict[str, object]:
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
+    parser.add_argument("--attempt-suffix")
     args = parser.parse_args()
-    print(json.dumps(build_plan(args.source_head), sort_keys=True))
+    print(
+        json.dumps(
+            build_plan(args.source_head, attempt_suffix=args.attempt_suffix),
+            sort_keys=True,
+        )
+    )
     return 0
 
 

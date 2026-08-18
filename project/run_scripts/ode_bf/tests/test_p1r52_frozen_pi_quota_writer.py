@@ -7,6 +7,7 @@ import torch
 from project.run_scripts.ode_bf.p1r52_frozen_pi_quota_writer import (
     P1R52WriterPolicy,
     _factor_for_velocity,
+    _merge_factors,
     _velocity_residual,
     post_commit_identity,
     sequential_quota_decision,
@@ -15,6 +16,13 @@ from project.run_scripts.ode_bf.scalable_batched_runtime import P1R23_H
 
 
 class FrozenPiQuotaAlgebraTests(unittest.TestCase):
+    def test_empty_future_layers_are_absent_from_virtual_prefix(self) -> None:
+        factor = _factor_for_velocity
+        self.assertEqual(
+            _merge_factors({"a.weight": (), "b.weight": ()}, {}), {}
+        )
+        self.assertIsNotNone(factor)
+
     def test_layer4_fpiq_matches_entry_velocity(self) -> None:
         alpha = 0.8
         pi = (0.2, 0.1, 0.3, 0.15, 0.25)

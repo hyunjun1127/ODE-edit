@@ -172,7 +172,12 @@ def _merge_factors(
     base: Mapping[str, Sequence[WaypointFactor]],
     increment: Mapping[str, WaypointFactor],
 ) -> dict[str, tuple[WaypointFactor, ...]]:
-    result = {name: tuple(items) for name, items in base.items()}
+    # The inherited inventory names all five touched weights even at k0.
+    # Functional trials accept only endpoints with at least one factor, so a
+    # future prefix layer remains absent until its factor is planned.
+    result = {
+        name: tuple(items) for name, items in base.items() if tuple(items)
+    }
     for name, factor in increment.items():
         values = result.get(name, ()) + (factor,)
         if len({item.order_key for item in values}) != len(values):

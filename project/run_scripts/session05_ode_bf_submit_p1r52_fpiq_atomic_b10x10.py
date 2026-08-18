@@ -102,7 +102,12 @@ def _memory_snapshot() -> dict[str, int]:
     return fields
 
 
-def submit(source_head: str) -> dict[str, object]:
+def submit(
+    source_head: str,
+    *,
+    attempt_suffix: str | None = None,
+    repair_sequential_only: bool = False,
+) -> dict[str, object]:
     head = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
     branch = _run(["git", "branch", "--show-current"]).stdout.strip()
     dirty = _run(
@@ -110,19 +115,25 @@ def submit(source_head: str) -> dict[str, object]:
     ).stdout
     if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("P1R52-FPiQ execution source differs")
-    plan = dry.build_plan(source_head)
+    plan = dry.build_plan(source_head, attempt_suffix=attempt_suffix)
+    selected_jobs = plan["jobs"][1:] if repair_sequential_only else plan["jobs"]
     if any(
         (RESULT_PARENT / str(job["result_name"])).exists()
-        for job in plan["jobs"]
+        for job in selected_jobs
     ):
         raise ODEBFContractError("P1R52-FPiQ result namespace exists")
     active, active_jobs = _active_gpu_allocations()
-    if active + STAGE_GPU_MAX > PROJECT_GPU_CAP:
+    stage_gpu_max = 2 if repair_sequential_only else STAGE_GPU_MAX
+    array = "1-2%2" if repair_sequential_only else "0-2%3"
+    if active + stage_gpu_max > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R52-FPiQ server1 GPU cap would differ")
     memory = _memory_snapshot()
-    if memory.get("MemAvailable", 0) < 65000 * 1024 * STAGE_GPU_MAX:
+    if memory.get("MemAvailable", 0) < 65000 * 1024 * stage_gpu_max:
         raise ODEBFContractError("P1R52-FPiQ host memory gate differs")
-    namespace = f"s05-p1r52-fpiq-{source_head[:12]}-v1"
+    namespace = (
+        f"s05-p1r52-fpiq-{source_head[:12]}"
+        f"-{attempt_suffix or 'primary'}-v1"
+    )
     intent_path = STATE_ROOT / f"{namespace}.intent.json"
     receipt_path = STATE_ROOT / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
@@ -136,10 +147,11 @@ def submit(source_head: str) -> dict[str, object]:
         "active_server1_gpu_allocations": active,
         "active_server1_gpu_jobs": active_jobs,
         "host_memory_kib": memory,
-        "new_max_concurrent_gpu": STAGE_GPU_MAX,
+        "new_max_concurrent_gpu": stage_gpu_max,
         "project_gpu_cap": PROJECT_GPU_CAP,
         "held_then_atomic_release": True,
-        "array": "0-2%3",
+        "array": array,
+        "repair_sequential_only": repair_sequential_only,
     }
     intent_sha = _write_once(intent_path, intent)
     command = [
@@ -147,7 +159,7 @@ def submit(source_head: str) -> dict[str, object]:
         "--hold",
         "--parsable",
         "--array",
-        "0-2%3",
+        array,
         "--chdir",
         str(REPO_ROOT),
         "--nodelist",
@@ -162,6 +174,8 @@ def submit(source_head: str) -> dict[str, object]:
         source_head,
         str(RESULT_PARENT),
     ]
+    if attempt_suffix:
+        command.append(attempt_suffix)
     submitted = _run(command)
     job_id = submitted.stdout.strip().split(";", 1)[0]
     if not job_id.isdigit():
@@ -181,15 +195,17 @@ def submit(source_head: str) -> dict[str, object]:
         "source_head": source_head,
         "branch": BRANCH,
         "job_id": job_id,
-        "array": "0-2%3",
-        "job_count": 3,
-        "endpoint_attempt_count": 30,
+        "array": array,
+        "job_count": len(selected_jobs),
+        "endpoint_attempt_count": len(selected_jobs) * 10,
         "active_gpu_allocations_before_release": active,
-        "new_max_concurrent_gpu": STAGE_GPU_MAX,
+        "new_max_concurrent_gpu": stage_gpu_max,
         "project_gpu_cap": PROJECT_GPU_CAP,
         "intent_sha256": intent_sha,
         "held_inspection_sha256": hashlib.sha256(observed.encode()).hexdigest(),
         "held_then_atomic_release": True,
+        "attempt_suffix": attempt_suffix,
+        "repair_sequential_only": repair_sequential_only,
     }
     receipt_sha = _write_once(receipt_path, receipt)
     _run(["scontrol", "release", job_id])
@@ -199,8 +215,20 @@ def submit(source_head: str) -> dict[str, object]:
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
+    parser.add_argument("--attempt-suffix")
+    parser.add_argument("--repair-sequential-only", action="store_true")
     args = parser.parse_args()
-    print(json.dumps(submit(args.source_head), sort_keys=True, separators=(",", ":")))
+    print(
+        json.dumps(
+            submit(
+                args.source_head,
+                attempt_suffix=args.attempt_suffix,
+                repair_sequential_only=args.repair_sequential_only,
+            ),
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+    )
     return 0
 
 
