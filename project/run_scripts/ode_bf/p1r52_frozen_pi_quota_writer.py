@@ -25,6 +25,7 @@ from .functional import (
     tensor_sha256,
 )
 from .p1_backend import (
+    CovarianceActionReceipt,
     FULL_CURRENT_RESIDUAL_DIVISOR,
     FULL_CURRENT_RESIDUAL_VELOCITY_DEFINITION,
     P1DynamicField,
@@ -220,6 +221,7 @@ def _layer_field(
     factor_ordinal: int,
     projector_sha256: str,
     residual_tolerance: float,
+    q_only: bool = False,
 ) -> tuple[P1LayerField, float]:
     layers = tuple(int(item) for item in hparams.layers)
     if layers != P1R23_LAYER_ORDER or layer not in layers:
@@ -261,11 +263,30 @@ def _layer_field(
     projected = (p_device @ k_device).detach().to(
         device="cpu", dtype=torch.float32
     )
-    covariance_action, covariance_gram, covariance_receipt = (
-        covariance_registry.action(
-            layer, q, expected_batch_size=request_count
+    if q_only:
+        covariance_action = torch.zeros_like(q)
+        covariance_gram = torch.zeros(
+            (request_count, request_count), dtype=torch.float64
         )
-    )
+        covariance_receipt = CovarianceActionReceipt(
+            layer,
+            canonical_hash({"status": "Q_ONLY_NO_COVARIANCE_ACTION"}),
+            0,
+            (q.shape[0], q.shape[0]),
+            0,
+            tuple(q.shape),
+            tensor_sha256(q),
+            tensor_sha256(covariance_action),
+            tensor_sha256(covariance_gram),
+            True,
+            0.0,
+        )
+    else:
+        covariance_action, covariance_gram, covariance_receipt = (
+            covariance_registry.action(
+                layer, q, expected_batch_size=request_count
+            )
+        )
     right_gram = q.T.to(dtype=torch.float64) @ q.to(dtype=torch.float64)
     left_gram = (
         velocity_residual.T.to(dtype=torch.float64)
@@ -787,4 +808,18 @@ __all__ = [
     "plan_sequential_writer",
     "post_commit_identity",
     "sequential_quota_decision",
+    "build_current_layer_field",
+    "build_entry_layer_field",
+    "build_velocity_factor",
+    "merge_prefix_factors",
+    "parameter_state",
 ]
+
+
+# Narrow reusable prefix-planning interface.  Existing FPIQ callers retain
+# their original functions and defaults; PIR consumes only these aliases.
+build_current_layer_field = _layer_field
+build_entry_layer_field = _entry_layer_field
+build_velocity_factor = _factor_for_velocity
+merge_prefix_factors = _merge_factors
+parameter_state = _parameter_state

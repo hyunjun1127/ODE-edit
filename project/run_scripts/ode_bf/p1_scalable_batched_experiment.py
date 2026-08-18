@@ -176,6 +176,15 @@ from .p1r52_frozen_pi_quota_writer import (
     plan_sequential_writer,
     post_commit_identity,
 )
+from .p1r52_pir_writer import (
+    P1R52_PIR_INSTRUCTION_ID,
+    P1R52_PIR_METHOD_ID,
+    PIR_P_RECEIPT_STATUS,
+    PIR_SEQUENTIAL_POLICIES,
+    P1R52PIRPolicy,
+    plan_pir_writer,
+    post_commit_pir_identity,
+)
 
 
 P1R23_SCHEMA = "ode-edit-s05-p1r23-scalable-batched-runtime"
@@ -289,6 +298,7 @@ def _run_ode_arm(
     p1r51: bool = False,
     p1r52: bool = False,
     p1r52_writer_policy: P1R52WriterPolicy | str | None = None,
+    p1r52_pir_policy: P1R52PIRPolicy | str | None = None,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
@@ -355,11 +365,25 @@ def _run_ode_arm(
         if p1r52_writer_policy is None
         else P1R52WriterPolicy(p1r52_writer_policy)
     )
+    pir_policy = (
+        None
+        if p1r52_pir_policy is None
+        else P1R52PIRPolicy(p1r52_pir_policy)
+    )
+    if writer_policy is not None and pir_policy is not None:
+        raise ODEBFContractError("P1R52 sequential writer policy aliases")
     if writer_policy is not None and (
         not p1r52 or arm is not FixedE8Arm.SOFT
     ):
         raise ODEBFContractError("P1R52-FPiQ writer policy path differs")
+    if pir_policy is not None and (
+        not p1r52 or arm is not FixedE8Arm.SOFT
+    ):
+        raise ODEBFContractError("P1R52-PIR writer policy path differs")
     arm_label = (
+        f"P1R52-PIR-{pir_policy.value}"
+        if pir_policy is not None
+        else
         f"P1R52-FPIQ-{writer_policy.value}"
         if writer_policy is not None
         else f"P1R52-RSA-R42SAFEKDC-M1-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
@@ -1247,34 +1271,61 @@ def _run_ode_arm(
             ):
                 raise ODEBFStateError(routing.status.value)
             sequential_writer = None
-            if writer_policy in SEQUENTIAL_POLICIES:
+            if (
+                writer_policy in SEQUENTIAL_POLICIES
+                or pir_policy in PIR_SEQUENTIAL_POLICIES
+            ):
                 if finite_demand is None or finite_endpoint is None:
                     raise ODEBFContractError(
                         "P1R52-FPiQ authoritative finite demand is absent"
                     )
                 sequential_started = time.perf_counter()
-                sequential_writer = plan_sequential_writer(
-                    model,
-                    policy=writer_policy,
-                    hparams=hparams,
-                    projector=projector,
-                    covariance_registry=covariance_registry,
-                    projector_sha256=projector_sha256,
-                    residual_tolerance=controller_lock.residual_tolerance,
-                    objective_plan=objective_plan,
-                    capture_plan=capture_plan,
-                    base_values=base_values,
-                    current_factors=current_factors,
-                    entry_field=field,
-                    entry_applied_slopes=routing_problem.signed_progress,
-                    entry_pi=routing.pi,
-                    entry_velocity=routing.velocity,
-                    target_state=target_next,
-                    endpoint_nll=float(finite_endpoint.loss),
-                    entry_nll=current_nll,
-                    entry_per_request_nll=slope_result.per_request_values,
-                    step_index=step_index,
-                )
+                if pir_policy in PIR_SEQUENTIAL_POLICIES:
+                    sequential_writer = plan_pir_writer(
+                        model,
+                        policy=pir_policy,
+                        hparams=hparams,
+                        projector=projector,
+                        covariance_registry=covariance_registry,
+                        projector_sha256=projector_sha256,
+                        residual_tolerance=controller_lock.residual_tolerance,
+                        objective_plan=objective_plan,
+                        capture_plan=capture_plan,
+                        base_values=base_values,
+                        current_factors=current_factors,
+                        entry_field=field,
+                        entry_applied_slopes=routing_problem.signed_progress,
+                        entry_pi=routing.pi,
+                        entry_velocity=routing.velocity,
+                        target_state=target_next,
+                        alpha_star=float(alpha_req),
+                        endpoint_nll=float(finite_endpoint.loss),
+                        entry_nll=current_nll,
+                        step_index=step_index,
+                    )
+                else:
+                    sequential_writer = plan_sequential_writer(
+                        model,
+                        policy=writer_policy,
+                        hparams=hparams,
+                        projector=projector,
+                        covariance_registry=covariance_registry,
+                        projector_sha256=projector_sha256,
+                        residual_tolerance=controller_lock.residual_tolerance,
+                        objective_plan=objective_plan,
+                        capture_plan=capture_plan,
+                        base_values=base_values,
+                        current_factors=current_factors,
+                        entry_field=field,
+                        entry_applied_slopes=routing_problem.signed_progress,
+                        entry_pi=routing.pi,
+                        entry_velocity=routing.velocity,
+                        target_state=target_next,
+                        endpoint_nll=float(finite_endpoint.loss),
+                        entry_nll=current_nll,
+                        entry_per_request_nll=slope_result.per_request_values,
+                        step_index=step_index,
+                    )
                 if (
                     abs(
                         float(sequential_writer.receipt["alpha_star"])
@@ -1283,7 +1334,7 @@ def _run_ode_arm(
                     > SIMPLEX_PRIMAL_TOLERANCE
                 ):
                     raise ODEBFContractError(
-                        "P1R52-FPiQ finite demand authority differs"
+                        "P1R52 sequential finite demand authority differs"
                     )
                 compute.add_wall(
                     "sequential_writer_prefix",
@@ -1390,6 +1441,7 @@ def _run_ode_arm(
             sequential_bf16_identity = (
                 post_commit_identity(sequential_writer, materialization)
                 if sequential_writer is not None
+                and writer_policy in SEQUENTIAL_POLICIES
                 else None
             )
             compute.add_wall("physical_materialization", time.perf_counter() - materialize_started)
@@ -1398,6 +1450,12 @@ def _run_ode_arm(
             next_physical = capture_scalable_physical_state(
                 model, capture_plan, hparams
             )
+            if sequential_writer is not None and pir_policy in PIR_SEQUENTIAL_POLICIES:
+                sequential_bf16_identity = post_commit_pir_identity(
+                    sequential_writer,
+                    materialization,
+                    next_physical.terminal_z,
+                )
             compute.add_wall("accepted_state_refresh", time.perf_counter() - next_capture_started)
             _phase_add_capture(compute, "accepted_state_refresh", next_physical)
             progress: dict[str, Any] = {
@@ -1563,6 +1621,18 @@ def _run_ode_arm(
                 for layer in P1R23_LAYER_ORDER
             }
             cumulative_p = (
+                {
+                    "status": PIR_P_RECEIPT_STATUS,
+                    "decision_influence_count": 0,
+                    "entry_field_proxy": p1r24_cumulative_p_receipt(
+                        routing_problem,
+                        writer_velocity,
+                        step_index=step_index,
+                        factor_list_hashes=factor_list_hashes,
+                    ),
+                }
+                if pir_policy in PIR_SEQUENTIAL_POLICIES
+                else
                 p1r24_cumulative_p_receipt(
                     routing_problem,
                     writer_velocity,
@@ -1613,6 +1683,11 @@ def _run_ode_arm(
                 ),
                 "structural_p": routing_problem.pretrained.value(
                     np.asarray(writer_velocity)
+                ) if pir_policy not in PIR_SEQUENTIAL_POLICIES else None,
+                "sequential_p_receipt": (
+                    PIR_P_RECEIPT_STATUS
+                    if pir_policy in PIR_SEQUENTIAL_POLICIES
+                    else None
                 ),
                 "cumulative_atomic_structural_p": cumulative_p,
                 "target_write_realization": target_realization,
@@ -1622,6 +1697,9 @@ def _run_ode_arm(
                 "inner_step_heldout_evaluation_count": 0,
                 "retry_backtracking_reject_count": 0,
                 "routing_method": (
+                    P1R52_PIR_METHOD_ID
+                    if pir_policy is not None
+                    else
                     P1R52_FPIQ_METHOD_ID
                     if writer_policy is not None
                     else P1R52_METHOD_ID
@@ -1801,6 +1879,9 @@ def _run_ode_arm(
         rollout_payload = {
             "arm": arm_label,
             "status": (
+                f"P1R52_PIR_{pir_policy.value}_K8_COMPLETE"
+                if pir_policy is not None
+                else
                 f"P1R52_FPIQ_{writer_policy.value}_K8_COMPLETE"
                 if writer_policy is not None
                 else "P1R52_RSA_R42SAFEKDC_M1_K8_COMPLETE"
@@ -1856,7 +1937,11 @@ def _run_ode_arm(
             "legacy_compute": legacy_ledger.raw_free_payload(),
             "terminal_objective_count": terminal_objective_count,
             "writer_policy": (
-                writer_policy.value if writer_policy is not None else None
+                pir_policy.value
+                if pir_policy is not None
+                else writer_policy.value
+                if writer_policy is not None
+                else None
             ),
             "sequential_writer_additional_slope_group_count": sum(
                 int(item["sequential_writer"]["additional_slope_group_count"])
@@ -1871,6 +1956,9 @@ def _run_ode_arm(
             "initial_w0_sha256": initial_w0,
             "alphaedit_target_geometry": p1r24_alpha_geometry,
             "instruction_id": (
+                P1R52_PIR_INSTRUCTION_ID
+                if pir_policy is not None
+                else
                 P1R52_FPIQ_INSTRUCTION_ID
                 if writer_policy is not None
                 else P1R52_INSTRUCTION_ID
@@ -1893,6 +1981,9 @@ def _run_ode_arm(
                 else P1R23_INSTRUCTION_ID
             ),
             "method_id": (
+                P1R52_PIR_METHOD_ID
+                if pir_policy is not None
+                else
                 P1R52_FPIQ_METHOD_ID
                 if writer_policy is not None
                 else P1R52_METHOD_ID
