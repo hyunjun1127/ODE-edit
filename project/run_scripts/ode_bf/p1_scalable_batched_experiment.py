@@ -95,6 +95,7 @@ from .progress_simplex_routing import (
     PROGRESS_SIMPLEX_INSTRUCTION_ID,
     PROGRESS_SIMPLEX_METHOD_ID,
     ProgressSimplexStatus,
+    SIMPLEX_PRIMAL_TOLERANCE,
     progress_simplex_waypoint_factors,
     solve_progress_simplex_routing,
 )
@@ -166,6 +167,14 @@ from .p1r52_r42_safe_kdc import (
     prepare_p1r52_rescue_proposal,
     prepare_p1r52_target_proposal,
     select_p1r52_target_proposal,
+)
+from .p1r52_frozen_pi_quota_writer import (
+    P1R52_FPIQ_INSTRUCTION_ID,
+    P1R52_FPIQ_METHOD_ID,
+    P1R52WriterPolicy,
+    SEQUENTIAL_POLICIES,
+    plan_sequential_writer,
+    post_commit_identity,
 )
 
 
@@ -279,6 +288,7 @@ def _run_ode_arm(
     p1r43: bool = False,
     p1r51: bool = False,
     p1r52: bool = False,
+    p1r52_writer_policy: P1R52WriterPolicy | str | None = None,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
@@ -340,8 +350,19 @@ def _run_ode_arm(
         or arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT)
     ):
         raise ODEBFContractError("P1R52 R42-safe KDC path differs")
+    writer_policy = (
+        None
+        if p1r52_writer_policy is None
+        else P1R52WriterPolicy(p1r52_writer_policy)
+    )
+    if writer_policy is not None and (
+        not p1r52 or arm is not FixedE8Arm.SOFT
+    ):
+        raise ODEBFContractError("P1R52-FPiQ writer policy path differs")
     arm_label = (
-        f"P1R52-RSA-R42SAFEKDC-M1-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
+        f"P1R52-FPIQ-{writer_policy.value}"
+        if writer_policy is not None
+        else f"P1R52-RSA-R42SAFEKDC-M1-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r52
         else f"P1R43-RSA-A1-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r51
@@ -1225,19 +1246,133 @@ def _run_ode_arm(
                 P1R24RoutingStatus.Q_NUMERICAL_DEGENERACY,
             ):
                 raise ODEBFStateError(routing.status.value)
-            increment = (
-                progress_simplex_waypoint_factors(
-                    field, routing.velocity, step_index=step_index
+            sequential_writer = None
+            if writer_policy in SEQUENTIAL_POLICIES:
+                if finite_demand is None or finite_endpoint is None:
+                    raise ODEBFContractError(
+                        "P1R52-FPiQ authoritative finite demand is absent"
+                    )
+                sequential_started = time.perf_counter()
+                sequential_writer = plan_sequential_writer(
+                    model,
+                    policy=writer_policy,
+                    hparams=hparams,
+                    projector=projector,
+                    covariance_registry=covariance_registry,
+                    projector_sha256=projector_sha256,
+                    residual_tolerance=controller_lock.residual_tolerance,
+                    objective_plan=objective_plan,
+                    capture_plan=capture_plan,
+                    base_values=base_values,
+                    current_factors=current_factors,
+                    entry_field=field,
+                    entry_applied_slopes=routing_problem.signed_progress,
+                    entry_pi=routing.pi,
+                    entry_velocity=routing.velocity,
+                    target_state=target_next,
+                    endpoint_nll=float(finite_endpoint.loss),
+                    entry_nll=current_nll,
+                    entry_per_request_nll=slope_result.per_request_values,
+                    step_index=step_index,
                 )
-                if progress_simplex or p1r24
-                else fixed_e8_waypoint_factors(
-                    field, routing.velocity, step_index=step_index
+                if (
+                    abs(
+                        float(sequential_writer.receipt["alpha_star"])
+                        - float(alpha_req)
+                    )
+                    > SIMPLEX_PRIMAL_TOLERANCE
+                ):
+                    raise ODEBFContractError(
+                        "P1R52-FPiQ finite demand authority differs"
+                    )
+                compute.add_wall(
+                    "sequential_writer_prefix",
+                    time.perf_counter() - sequential_started,
                 )
-            )
+                sequential_compute = sequential_writer.receipt
+                compute.increment(
+                    "sequential_writer_prefix_capture",
+                    logical_forward_groups=int(
+                        sequential_compute["prefix_capture_count"]
+                    ),
+                    model_forward_calls=int(
+                        sequential_compute["prefix_capture_forward_count"]
+                    ),
+                    physical_microbatch_graphs=int(
+                        sequential_compute["prefix_capture_forward_count"]
+                    ),
+                    processed_tokens=int(
+                        sequential_compute["prefix_capture_processed_tokens"]
+                    ),
+                    padded_tokens=int(
+                        sequential_compute["prefix_capture_padded_tokens"]
+                    ),
+                    capture_forward_calls=int(
+                        sequential_compute["prefix_capture_forward_count"]
+                    ),
+                )
+                compute.increment(
+                    "sequential_writer_current_slope",
+                    logical_forward_groups=int(
+                        sequential_compute["additional_slope_group_count"]
+                    ),
+                    model_forward_calls=int(
+                        sequential_compute["additional_slope_forward_count"]
+                    ),
+                    physical_microbatch_graphs=int(
+                        sequential_compute["additional_slope_forward_count"]
+                    ),
+                    autograd_invocations=int(
+                        sequential_compute["additional_slope_backward_count"]
+                    ),
+                    backward_calls=int(
+                        sequential_compute["additional_slope_backward_count"]
+                    ),
+                    slope_backward_calls=int(
+                        sequential_compute["additional_slope_backward_count"]
+                    ),
+                    processed_tokens=int(
+                        sequential_compute["additional_slope_processed_tokens"]
+                    ),
+                    padded_tokens=int(
+                        sequential_compute["additional_slope_padded_tokens"]
+                    ),
+                )
+                _phase_add_objective(
+                    compute,
+                    "sequential_writer_final_virtual_objective",
+                    sequential_writer.final_virtual_objective,
+                )
+                increment = dict(sequential_writer.increment)
+                writer_velocity = tuple(sequential_writer.velocity)
+                writer_fields = tuple(sequential_writer.layer_fields)
+                writer_slopes = tuple(
+                    float(item["applied_slope"])
+                    for item in sequential_writer.receipt["layers"]
+                )
+            else:
+                increment = (
+                    progress_simplex_waypoint_factors(
+                        field, routing.velocity, step_index=step_index
+                    )
+                    if progress_simplex or p1r24
+                    else fixed_e8_waypoint_factors(
+                        field, routing.velocity, step_index=step_index
+                    )
+                )
+                writer_velocity = tuple(float(item) for item in routing.velocity)
+                writer_fields = tuple(field.layers)
+                writer_slopes = tuple(
+                    float(item) for item in routing_problem.signed_progress
+                )
             candidate_factors = _merge_factors(current_factors, increment)
-            predicted = float(
-                routing_problem.signed_progress
-                @ np.asarray(routing.velocity, dtype=np.float64)
+            predicted = (
+                float(sequential_writer.predicted_progress)
+                if sequential_writer is not None
+                else float(
+                    routing_problem.signed_progress
+                    @ np.asarray(routing.velocity, dtype=np.float64)
+                )
             )
             refresh.record(
                 step_index=step_index,
@@ -1251,6 +1386,11 @@ def _run_ode_arm(
             materialize_started = time.perf_counter()
             materialization = materializer.materialize(
                 candidate_factors, transition_index=step_index + 1
+            )
+            sequential_bf16_identity = (
+                post_commit_identity(sequential_writer, materialization)
+                if sequential_writer is not None
+                else None
             )
             compute.add_wall("physical_materialization", time.perf_counter() - materialize_started)
             compute.increment("physical_materialization", materialization_count=1)
@@ -1266,19 +1406,37 @@ def _run_ode_arm(
                 "completion": "DELAYED_TO_NEXT_REFRESHED_FIELD",
                 "alpha_req": routing.alpha_req,
                 "alpha_max": routing.alpha_max,
-                "alpha_apply": routing.alpha_apply,
-                "coverage": routing.coverage,
-                "equality_residual": routing.equality_residual,
+                "alpha_apply": (
+                    predicted if sequential_writer is not None else routing.alpha_apply
+                ),
+                "coverage": (
+                    1.0
+                    if routing.alpha_req == 0.0
+                    else predicted / routing.alpha_req
+                )
+                if sequential_writer is not None
+                else routing.coverage,
+                "equality_residual": (
+                    abs(predicted - routing.alpha_req)
+                    if sequential_writer is not None
+                    else routing.equality_residual
+                ),
+                "entry_router_alpha_apply": routing.alpha_apply,
                 "candidate_objective_inner_count": 0,
             }
             if step_index == P1R23_GRID_COUNT - 1:
                 terminal_started = time.perf_counter()
-                terminal_objective = evaluate_scalable_target_new_objective(
-                    model, objective_plan
+                terminal_objective = (
+                    sequential_writer.final_virtual_objective
+                    if sequential_writer is not None
+                    else evaluate_scalable_target_new_objective(
+                        model, objective_plan
+                    )
                 )
                 terminal_objective_count += 1
                 compute.add_wall("terminal_objective", time.perf_counter() - terminal_started)
-                _phase_add_objective(compute, "terminal_objective", terminal_objective)
+                if sequential_writer is None:
+                    _phase_add_objective(compute, "terminal_objective", terminal_objective)
                 actual = current_nll - float(terminal_objective.loss)
                 progress.update(
                     {
@@ -1286,7 +1444,10 @@ def _run_ode_arm(
                         "terminal_mean_target_new_nll": float(terminal_objective.loss),
                         "completion": "TERMINAL_W_ONLY_OBJECTIVE_ONCE",
                         "realization_ratio": actual
-                        / (routing.alpha_apply + STRENGTH_COVERAGE_EPSILON),
+                        / (
+                            float(progress["alpha_apply"])
+                            + STRENGTH_COVERAGE_EPSILON
+                        ),
                         "linearization_error": actual - predicted,
                     }
                 )
@@ -1381,8 +1542,8 @@ def _run_ode_arm(
             contribution = [
                 float(a * v)
                 for a, v in zip(
-                    routing_problem.signed_progress,
-                    routing.velocity,
+                    writer_slopes,
+                    writer_velocity,
                     strict=True,
                 )
             ]
@@ -1404,7 +1565,7 @@ def _run_ode_arm(
             cumulative_p = (
                 p1r24_cumulative_p_receipt(
                     routing_problem,
-                    routing.velocity,
+                    writer_velocity,
                     step_index=step_index,
                     factor_list_hashes=factor_list_hashes,
                 )
@@ -1428,6 +1589,13 @@ def _run_ode_arm(
                 "physical_slope": asdict(signed),
                 "routing_problem_sha256": routing_problem.identity(),
                 "routing": routing.raw_free_payload(),
+                "entry_routing_role": "FROZEN_ENTRY_ALLOCATION",
+                "sequential_writer": (
+                    sequential_writer.receipt
+                    if sequential_writer is not None
+                    else None
+                ),
+                "sequential_virtual_physical_identity": sequential_bf16_identity,
                 "functional_basis": (
                     inventory.raw_free_payload()
                     if inventory is not None
@@ -1441,10 +1609,10 @@ def _run_ode_arm(
                 "progress": progress,
                 "per_layer_applied_progress": contribution,
                 "structural_h": 0.0 if p1r24 else routing_problem.historical.value(
-                    np.asarray(routing.velocity)
+                    np.asarray(writer_velocity)
                 ),
                 "structural_p": routing_problem.pretrained.value(
-                    np.asarray(routing.velocity)
+                    np.asarray(writer_velocity)
                 ),
                 "cumulative_atomic_structural_p": cumulative_p,
                 "target_write_realization": target_realization,
@@ -1454,7 +1622,9 @@ def _run_ode_arm(
                 "inner_step_heldout_evaluation_count": 0,
                 "retry_backtracking_reject_count": 0,
                 "routing_method": (
-                    P1R52_METHOD_ID
+                    P1R52_FPIQ_METHOD_ID
+                    if writer_policy is not None
+                    else P1R52_METHOD_ID
                     if p1r52
                     else P1R51_METHOD_ID
                     if p1r51
@@ -1507,7 +1677,7 @@ def _run_ode_arm(
                 payload,
             )
             if p1r24:
-                for layer in field.layers:
+                for layer in writer_fields:
                     accepted_by_layer[layer.layer].append(
                         AcceptedLayerContribution.from_field(
                             layer,
@@ -1525,7 +1695,7 @@ def _run_ode_arm(
                     "step_index": step_index,
                     "source_nll": current_nll,
                     "predicted": predicted,
-                    "alpha_apply": routing.alpha_apply,
+                    "alpha_apply": float(progress["alpha_apply"]),
                     **(
                         {
                             "source_per_request_nll": list(
@@ -1553,6 +1723,18 @@ def _run_ode_arm(
             raise ODEBFStateError("requestwise realization ledger differs")
         if not (p1r42 or p1r43 or p1r51 or p1r52) and request_realization_sha256:
             raise ODEBFStateError("unexpected requestwise realization ledger is active")
+        observed_sequential_slope_groups = sum(
+            int(item["sequential_writer"]["additional_slope_group_count"])
+            for item in accepted
+            if item["sequential_writer"] is not None
+        )
+        expected_sequential_slope_groups = (
+            32 if writer_policy in SEQUENTIAL_POLICIES else 0
+        )
+        if observed_sequential_slope_groups != expected_sequential_slope_groups:
+            raise ODEBFStateError(
+                "P1R52-FPiQ K8 additional slope group accounting differs"
+            )
         terminal_replay = _controller_replay_entry(
             model,
             tokenizer,
@@ -1619,7 +1801,9 @@ def _run_ode_arm(
         rollout_payload = {
             "arm": arm_label,
             "status": (
-                "P1R52_RSA_R42SAFEKDC_M1_K8_COMPLETE"
+                f"P1R52_FPIQ_{writer_policy.value}_K8_COMPLETE"
+                if writer_policy is not None
+                else "P1R52_RSA_R42SAFEKDC_M1_K8_COMPLETE"
                 if p1r52
                 else "P1R51_RSA_A1_K8_COMPLETE"
                 if p1r51
@@ -1671,12 +1855,25 @@ def _run_ode_arm(
             "compute": compute.raw_free_payload(),
             "legacy_compute": legacy_ledger.raw_free_payload(),
             "terminal_objective_count": terminal_objective_count,
+            "writer_policy": (
+                writer_policy.value if writer_policy is not None else None
+            ),
+            "sequential_writer_additional_slope_group_count": sum(
+                int(item["sequential_writer"]["additional_slope_group_count"])
+                for item in accepted
+                if item["sequential_writer"] is not None
+            ),
+            "sequential_writer_expected_additional_slope_group_count": (
+                32 if writer_policy in SEQUENTIAL_POLICIES else 0
+            ),
             "edit_core_wall_seconds": time.perf_counter() - started,
             "materializer": materializer.raw_free_payload(),
             "initial_w0_sha256": initial_w0,
             "alphaedit_target_geometry": p1r24_alpha_geometry,
             "instruction_id": (
-                P1R52_INSTRUCTION_ID
+                P1R52_FPIQ_INSTRUCTION_ID
+                if writer_policy is not None
+                else P1R52_INSTRUCTION_ID
                 if p1r52
                 else P1R51_INSTRUCTION_ID
                 if p1r51
@@ -1696,7 +1893,9 @@ def _run_ode_arm(
                 else P1R23_INSTRUCTION_ID
             ),
             "method_id": (
-                P1R52_METHOD_ID
+                P1R52_FPIQ_METHOD_ID
+                if writer_policy is not None
+                else P1R52_METHOD_ID
                 if p1r52
                 else P1R51_METHOD_ID
                 if p1r51

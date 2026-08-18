@@ -44,6 +44,11 @@ from .p1r51_requestwise_semantic_allocation import (
     P1R51_METHOD_ID,
 )
 from .p1r52_r42_safe_kdc import P1R52_INSTRUCTION_ID, P1R52_METHOD_ID
+from .p1r52_frozen_pi_quota_writer import (
+    P1R52_FPIQ_INSTRUCTION_ID,
+    P1R52_FPIQ_METHOD_ID,
+    P1R52WriterPolicy,
+)
 from .scalable_batched_model import (
     build_scalable_capture_plan,
     build_scalable_objective_plan,
@@ -408,6 +413,7 @@ def _run_ode_case(
     p1r43: bool = False,
     p1r51: bool = False,
     p1r52: bool = False,
+    p1r52_writer_policy: P1R52WriterPolicy | str | None = None,
     technical_smoke: bool = False,
 ) -> dict[str, Any]:
     if len(requests) != (1 if technical_smoke else BATCH_SIZE):
@@ -482,6 +488,9 @@ def _run_ode_case(
     p1r52_methods = (
         "P1R52-RSA-R42SAFEKDC-M1-NEUTRAL",
         "P1R52-RSA-R42SAFEKDC-M1-SOFT",
+        "P1R52-FPIQ-J0",
+        "P1R52-FPIQ-SV",
+        "P1R52-FPIQ-FPIQ",
     )
     if method not in (
         p1r52_methods
@@ -552,12 +561,15 @@ def _run_ode_case(
         p1r43=p1r43,
         p1r51=p1r51,
         p1r52=p1r52,
+        p1r52_writer_policy=p1r52_writer_policy,
     )
     public = rollout["public"]
     if (
         public["status"]
         != (
-            "P1R52_RSA_R42SAFEKDC_M1_K8_COMPLETE"
+            f"P1R52_FPIQ_{P1R52WriterPolicy(p1r52_writer_policy).value}_K8_COMPLETE"
+            if p1r52_writer_policy is not None
+            else "P1R52_RSA_R42SAFEKDC_M1_K8_COMPLETE"
             if p1r52
             else "P1R51_RSA_A1_K8_COMPLETE"
             if p1r51
@@ -658,8 +670,8 @@ def _run_ode_case(
             terminal_target=rollout["terminal_target"],
             terminal_physical=rollout["terminal_physical"],
             terminal_factors=rollout["terminal_factors"],
-            instruction_id=P1R52_INSTRUCTION_ID if p1r52 else P1R51_INSTRUCTION_ID if p1r51 else P1R43_INSTRUCTION_ID,
-            method_id=P1R52_METHOD_ID if p1r52 else P1R51_METHOD_ID if p1r51 else P1R43_METHOD_ID,
+            instruction_id=P1R52_FPIQ_INSTRUCTION_ID if p1r52_writer_policy is not None else P1R52_INSTRUCTION_ID if p1r52 else P1R51_INSTRUCTION_ID if p1r51 else P1R43_INSTRUCTION_ID,
+            method_id=P1R52_FPIQ_METHOD_ID if p1r52_writer_policy is not None else P1R52_METHOD_ID if p1r52 else P1R51_METHOD_ID if p1r51 else P1R43_METHOD_ID,
             schema=(
                 "ode-edit-s05-p1r52-rsa-r42safekdc-terminal-four-panel/v1"
                 if p1r52
@@ -699,7 +711,9 @@ def _run_ode_case(
     history_off = _history_off_receipt()
     terminal = {
         "schema": (
-            "ode-edit-s05-p1r52-rsa-r42safekdc-independent-b10-ode-terminal/v1"
+            "ode-edit-s05-p1r52-frozen-pi-quota-independent-b10-ode-terminal/v1"
+            if p1r52_writer_policy is not None
+            else "ode-edit-s05-p1r52-rsa-r42safekdc-independent-b10-ode-terminal/v1"
             if p1r52
             else "ode-edit-s05-p1r51-rsa-a1-independent-b10-ode-terminal/v1"
             if p1r51
@@ -716,7 +730,9 @@ def _run_ode_case(
             else "ode-edit-s05-p1r35-independent-b10-ode-terminal/v1"
         ),
         "instruction_id": (
-            P1R52_INSTRUCTION_ID
+            P1R52_FPIQ_INSTRUCTION_ID
+            if p1r52_writer_policy is not None
+            else P1R52_INSTRUCTION_ID
             if p1r52
             else P1R51_INSTRUCTION_ID
             if p1r51
@@ -731,7 +747,7 @@ def _run_ode_case(
             if p1r38
             else INSTRUCTION_ID
         ),
-        "method_id": P1R52_METHOD_ID if p1r52 else P1R51_METHOD_ID if p1r51 else P1R43_METHOD_ID if p1r43 else P1R42_METHOD_ID if p1r42 else P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID if p1r38 else P1R35_METHOD_ID,
+        "method_id": P1R52_FPIQ_METHOD_ID if p1r52_writer_policy is not None else P1R52_METHOD_ID if p1r52 else P1R51_METHOD_ID if p1r51 else P1R43_METHOD_ID if p1r43 else P1R42_METHOD_ID if p1r42 else P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID if p1r38 else P1R35_METHOD_ID,
         "case_index": case_index,
         "alias": alias,
         "method": method,
@@ -741,7 +757,11 @@ def _run_ode_case(
         "inherited_writer_router_family": (
             "P1R43_RS_FULL_CURRENT" if p1r51 or p1r52 else "P1R42_RS_FULL_CURRENT" if p1r43 else "P1R35_RS" if p1r38 or p1r39 or p1r42 else allocation
         ),
-        "arm": arm.value,
+        "arm": (
+            P1R52WriterPolicy(p1r52_writer_policy).value
+            if p1r52_writer_policy is not None
+            else arm.value
+        ),
         "request_count": BATCH_SIZE,
         "request_order_sha256": request_order,
         "objective_plan_sha256": objective_plan.identity_sha256,

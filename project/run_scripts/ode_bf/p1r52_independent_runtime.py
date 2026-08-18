@@ -29,10 +29,16 @@ from .p1r52_r42_safe_kdc import (
     P1R52_REPAIR_REVISION,
     P1R52_SUPERSEDES_SOURCE_HEAD,
 )
+from .p1r52_frozen_pi_quota_writer import (
+    P1R52_FPIQ_INSTRUCTION_ID,
+    P1R52_FPIQ_METHOD_ID,
+    P1R52WriterPolicy,
+)
 
 
 INSTRUCTION_ID = P1R52_INSTRUCTION_ID
 ARMS = ("neutral", "soft")
+FPIQ_POLICIES = tuple(item.value.lower() for item in P1R52WriterPolicy)
 CASE_COUNT = 10
 HISTORY_MODE = "OFF"
 
@@ -43,9 +49,15 @@ def expected_p1r52_result_name(
     *,
     attempt_suffix: str | None = None,
 ) -> str:
-    if alias not in ("llama3-8b-inst", "qwen2.5-7b-inst") or arm not in ARMS:
+    if (
+        alias not in ("llama3-8b-inst", "qwen2.5-7b-inst")
+        or arm not in (*ARMS, *FPIQ_POLICIES)
+        or (arm in FPIQ_POLICIES and alias != "llama3-8b-inst")
+    ):
         raise ODEBFContractError("P1R52 result identity differs")
     suffix = f"-{attempt_suffix}" if attempt_suffix else ""
+    if arm in FPIQ_POLICIES:
+        return f"s05-p1r52-fpiq-independent-b10x10-{alias}-{arm}{suffix}-v1"
     return f"s05-p1r52-rsa-r42safekdc-m1-independent-b10x10-{alias}-{arm}{suffix}-v1"
 
 
@@ -79,8 +91,13 @@ def run_p1r52_independent(
     job_ledger: ComputeLedger,
     request_microbatch_size: int,
 ) -> dict[str, Any]:
-    if arm not in ARMS or len(stream_batches) != CASE_COUNT:
+    if arm not in (*ARMS, *FPIQ_POLICIES) or len(stream_batches) != CASE_COUNT:
         raise ODEBFContractError("P1R52 arm/matrix differs")
+    writer_policy = (
+        P1R52WriterPolicy(arm.upper()) if arm in FPIQ_POLICIES else None
+    )
+    if writer_policy is not None and alias != "llama3-8b-inst":
+        raise ODEBFContractError("P1R52-FPiQ is Llama-only")
     if any(len(batch) != BATCH_SIZE for batch in stream_batches):
         raise ODEBFContractError("P1R52 population is not ten B10 batches")
     if stream.get("root_digest") != STREAM_ROOT or stream.get("all_request_order_sha256") != STREAM_ORDER:
@@ -89,7 +106,11 @@ def run_p1r52_independent(
     expected_w0 = _model_w0_contract(touched)
     if _hashes(touched) != dict(base_receipt.parameter_sha256):
         raise ODEBFStateError("P1R52 entry W0 differs")
-    method = f"P1R52-RSA-R42SAFEKDC-M1-{arm.upper()}"
+    method = (
+        f"P1R52-FPIQ-{writer_policy.value}"
+        if writer_policy is not None
+        else f"P1R52-RSA-R42SAFEKDC-M1-{arm.upper()}"
+    )
     started = time.perf_counter()
     completed: list[dict[str, Any]] = []
     failed: list[dict[str, Any]] = []
@@ -125,6 +146,7 @@ def run_p1r52_independent(
                 request_microbatch_size=request_microbatch_size,
                 job_ledger=job_ledger,
                 p1r52=True,
+                p1r52_writer_policy=writer_policy,
             )
             completed.append({"case_index": case_index, **result})
         except Exception as exc:
@@ -161,15 +183,30 @@ def run_p1r52_independent(
         )
 
     terminal = {
-        "schema": "ode-edit-s05-p1r52-rsa-r42safekdc-independent-terminal/v1",
-        "instruction_id": INSTRUCTION_ID,
-        "method_id": P1R52_METHOD_ID,
+        "schema": (
+            "ode-edit-s05-p1r52-frozen-pi-quota-independent-terminal/v1"
+            if writer_policy is not None
+            else "ode-edit-s05-p1r52-rsa-r42safekdc-independent-terminal/v1"
+        ),
+        "instruction_id": (
+            P1R52_FPIQ_INSTRUCTION_ID
+            if writer_policy is not None
+            else INSTRUCTION_ID
+        ),
+        "method_id": (
+            P1R52_FPIQ_METHOD_ID
+            if writer_policy is not None
+            else P1R52_METHOD_ID
+        ),
         "repair_revision": P1R52_REPAIR_REVISION,
         "repair_reason": P1R52_REPAIR_REASON,
         "supersedes_source_head": P1R52_SUPERSEDES_SOURCE_HEAD,
         "source_head": source_head,
         "alias": alias,
         "arm": arm,
+        "writer_policy": (
+            writer_policy.value if writer_policy is not None else None
+        ),
         "method": method,
         "case_count": CASE_COUNT,
         "request_attempt_count": CASE_COUNT * BATCH_SIZE,
@@ -192,7 +229,11 @@ def run_p1r52_independent(
     terminal["identity_sha256"] = canonical_hash(terminal)
     terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s05-p1r52-rsa-r42safekdc-independent-manifest/v1",
+        "schema": (
+            "ode-edit-s05-p1r52-frozen-pi-quota-independent-manifest/v1"
+            if writer_policy is not None
+            else "ode-edit-s05-p1r52-rsa-r42safekdc-independent-manifest/v1"
+        ),
         "source_head": source_head,
         "repair_revision": P1R52_REPAIR_REVISION,
         "supersedes_source_head": P1R52_SUPERSEDES_SOURCE_HEAD,
@@ -207,7 +248,11 @@ def run_p1r52_independent(
     manifest["identity_sha256"] = canonical_hash(manifest)
     manifest_sha = _atomic_write_once(destination / "manifest.json", manifest)
     return {
-        "status": "P1R52_RSA_R42SAFEKDC_M1_CELL_TERMINAL",
+        "status": (
+            "P1R52_FPIQ_CELL_TERMINAL"
+            if writer_policy is not None
+            else "P1R52_RSA_R42SAFEKDC_M1_CELL_TERMINAL"
+        ),
         "arm": arm,
         "terminal_sha256": terminal_sha,
         "manifest_sha256": manifest_sha,
@@ -220,6 +265,7 @@ def run_p1r52_independent(
 __all__ = [
     "ARMS",
     "CASE_COUNT",
+    "FPIQ_POLICIES",
     "INSTRUCTION_ID",
     "expected_p1r52_result_name",
     "run_p1r52_independent",

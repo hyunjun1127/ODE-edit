@@ -1,0 +1,32 @@
+{
+  "contract_sha256": "e5c767cdd6cfd498376dacad39155d08d0bc79c89496dbf629725a9b928b4436",
+  "entries": [
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/alpha_backend.py","sha256":"45554313a89f22a3cea1fa9dc8bd32c73d9a4716d7e8703a22039623295a1165","size":59526},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/atomic_runtime_optimization.py","sha256":"672f700f3f8fcaac230d4f5857b22d305786e776bc9474737b69b931f39d3cd0","size":15214},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/functional.py","sha256":"88bffde0fba6ab72e35b5c67458a31404e4043501c9514bfc241d2b9ddc303ee","size":18195},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r52_fpiq_atomic_b10x10.json","sha256":"fd901b535140502c3b92eb598a77048d916faee5fac577872bcd16cbfc0b8478","size":2311},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/p1_backend.py","sha256":"41526735a2c8ca61d8edb2324ccb94f4ab1d1cd5478c456b9ad6e760b1d6d7ca","size":80814},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/p1_scalable_batched_experiment.py","sha256":"6fda8c95ae4483d895b28499277feb98a7e77e7172505fec5f6cd7435b66b869","size":131196},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r36_independent_b10x10_runtime.py","sha256":"060d20402b045f138c95b6cc8a291f9325992ed54b0675b86ddae93c8334c047","size":37383},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r43_full_strength_routing.py","sha256":"3e3cf13c734a5fd7812fc239bae9047654a55f2ccbe4c51031b504a13bde7b6c","size":4836},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r43_rho_free_target.py","sha256":"1ae22bfd058853b763b6bb81e669516e355ef90be69cdbcf6f6acaf2956e54f6","size":18121},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r52_fpiq_panel.py","sha256":"b03cf7138c05b3c81e0c99c402c458f1fa67177475e17bc01f7146d962b14642","size":3197},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r52_frozen_pi_quota_writer.py","sha256":"f0edee3542c305d98c2ae234935e8fe080c8cbd1826ba5d6fea02c7e3e9c4c85","size":29623},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r52_independent_panel.py","sha256":"4a8fecaa0b4f63b87a6f4b21b99ef35c54c7e9f69ee1ddd28f8d37828eadcc6a","size":4282},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r52_independent_runtime.py","sha256":"2f9308a32e4a692db21b96faee6dfb6bdcd19a793c705f2c5153dd90803dd25c","size":9799},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r52_r42_safe_kdc.py","sha256":"4225fd41361f89f6f947460a5e038cdda42dbbdab015f37105080351a0bd6aa4","size":31444},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/scalable_batched_model.py","sha256":"9196adf47ac67b425acc20ed098b8c672a4387c5907f95ea5f05472c53e89621","size":39640},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/tests/test_p1r52_fpiq_execution_contract.py","sha256":"9bcafd589fa595fdb19ea8740aeecb1398021cc4b0164ad303396d307d74cf54","size":2104},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/tests/test_p1r52_frozen_pi_quota_writer.py","sha256":"e0db397033234b041fd01951be8e5f6385ddc71f652ef5728c8c7ec160f97298","size":3625},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/woodbury.py","sha256":"e15a1204cd6abbffd860cbf6641bbbcfdab050508afc3f5fff95dc93ca8449f7","size":8897},
+    {"mode":"0o600","path":"project/run_scripts/session05_ode_bf_p1r52_fpiq_atomic_b10x10.py","sha256":"646eb9d6abc0e5481322ea70ccc1d501533fe1252b340017139c053d4ad0878e","size":4806},
+    {"mode":"0o600","path":"project/run_scripts/session05_ode_bf_p1r52_fpiq_atomic_b10x10.sbatch","sha256":"4b1d4d93ea55a876db9f9f111b56b150c2727a3ee4ca0d5884927d7460b4b228","size":2235},
+    {"mode":"0o600","path":"project/run_scripts/session05_ode_bf_p1r52_fpiq_atomic_b10x10_dry_plan.py","sha256":"1330229912cabc6cc1ea509843e008ad97ba496d8507b458dcc15e96b8510003","size":2116},
+    {"mode":"0o600","path":"project/run_scripts/session05_ode_bf_submit_p1r52_fpiq_atomic_b10x10.py","sha256":"468d95df652466e6cb74554647e36215f779f27944c22b831841d809f8e962ab","size":6817}
+  ],
+  "instruction_id": "ODEEDIT-S05-P1R52-FROZEN-PI-SEQUENTIAL-QUOTA-WRITER-V1",
+  "parent": "34f0b505fe5f32078aa4b8cffd109a7490d8aaa5",
+  "parent_tree": "253a177dcd72d2235d0ece500558b357b578f84b",
+  "root_digest": "851842626916bb554aab3ab15f6a29e14a892987a218fe6ab20dbdd3fb40828d",
+  "schema_version": "ode-edit-s05-p1r52-fpiq-source-manifest/v1"
+}

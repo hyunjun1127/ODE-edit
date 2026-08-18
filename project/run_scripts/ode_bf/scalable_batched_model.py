@@ -553,8 +553,17 @@ def evaluate_scalable_target_new_objective(
         raise ODEBFContractError("P1R23 target objective geometry differs")
     if coefficient_mode and (
         coefficients is None
+        or coefficient_layers is None
         or coefficients.ndim != 1
-        or coefficients.numel() != len(P1R23_LAYER_ORDER)
+        or coefficients.numel() != len(coefficient_layers)
+        or coefficients.numel() <= 0
+        or coefficients.numel() > len(P1R23_LAYER_ORDER)
+        or len({int(item.layer) for item in coefficient_layers})
+        != len(coefficient_layers)
+        or any(
+            int(item.layer) not in P1R23_LAYER_ORDER
+            for item in coefficient_layers
+        )
         or not coefficients.requires_grad
         or not torch.isfinite(coefficients).all()
     ):

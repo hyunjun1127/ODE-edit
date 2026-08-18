@@ -54,6 +54,9 @@ LEGACY_PRE_SHARED_RESIDUAL_DEFINITION = "legacy_remaining_layer_pre_share"
 SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1 = (
     "SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1"
 )
+FULL_CURRENT_RESIDUAL_VELOCITY_DEFINITION = (
+    "FULL_CURRENT_RESIDUAL_VELOCITY_DIVIDE_H_ONCE_V1"
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -863,7 +866,17 @@ class P1LayerField:
             == SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1
             and self.residual_divisor == FULL_CURRENT_RESIDUAL_DIVISOR
         )
-        if not (valid_full or valid_legacy or valid_shared_terminal):
+        valid_full_velocity = (
+            self.residual_definition
+            == FULL_CURRENT_RESIDUAL_VELOCITY_DEFINITION
+            and self.residual_divisor == FULL_CURRENT_RESIDUAL_DIVISOR
+        )
+        if not (
+            valid_full
+            or valid_legacy
+            or valid_shared_terminal
+            or valid_full_velocity
+        ):
             raise ODEBFContractError("non-Native residual policy differs")
         if (
             self.factor.weight_name != self.weight_name
