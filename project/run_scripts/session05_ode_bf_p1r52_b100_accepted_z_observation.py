@@ -25,6 +25,7 @@ from project.run_scripts.ode_bf.p1r52_accepted_z_observation_panel import (
     INSTRUCTION_ID,
     LOCK_FILE,
     MANIFEST_FILE,
+    MANIFEST_TECH_R1_BASELINES_FILE,
     MANIFEST_SCHEMA,
     REFERENCE_TERMINAL_SHA256,
     ROLES,
@@ -45,7 +46,7 @@ from project.run_scripts.ode_bf.p1r52_sequential_runtime import MEMIT_ROLE
 RUN_TOKEN = "p1r52-b100-accepted-z-rephrase-observation-v1"
 
 
-def _source_gate(source_head: str) -> str:
+def _source_gate(source_head: str, *, attempt_suffix: str) -> str:
     if subprocess.run(
         ["git", "merge-base", "--is-ancestor", SOURCE_PARENT, source_head],
         cwd=REPO_ROOT,
@@ -53,7 +54,13 @@ def _source_gate(source_head: str) -> str:
     ).returncode != 0:
         raise ValueError("accepted-z observation source ancestry differs")
     manifest, raw_sha = load_rooted_json(
-        REPO_ROOT / "project/run_scripts/ode_bf/locks" / MANIFEST_FILE,
+        REPO_ROOT
+        / "project/run_scripts/ode_bf/locks"
+        / (
+            MANIFEST_TECH_R1_BASELINES_FILE
+            if attempt_suffix == "accepted-z-rephrase-obs-tech-r1"
+            else MANIFEST_FILE
+        ),
         expected_schema=MANIFEST_SCHEMA,
     )
     if manifest.get("source_parent") != SOURCE_PARENT:
@@ -79,13 +86,20 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--run-token", required=True)
+    parser.add_argument(
+        "--attempt-suffix",
+        choices=("accepted-z-rephrase-obs", "accepted-z-rephrase-obs-tech-r1"),
+        default="accepted-z-rephrase-obs",
+    )
     args = parser.parse_args(argv)
     if args.run_token != RUN_TOKEN:
         parser.error("accepted-z observation run token differs")
     try:
         lock_path = REPO_ROOT / "project/run_scripts/ode_bf/locks" / LOCK_FILE
         lock, lock_sha = load_and_validate_lock(lock_path)
-        source_manifest_sha = _source_gate(args.source_head)
+        source_manifest_sha = _source_gate(
+            args.source_head, attempt_suffix=args.attempt_suffix
+        )
         stream_path = REPO_ROOT / "project/run_scripts/ode_bf/locks" / SEAL_FILE
         stream = verify_p1r52_b100x10_stream(
             json.loads(stream_path.read_text(encoding="utf-8"))
@@ -109,7 +123,7 @@ def main(argv: list[str] | None = None) -> int:
             source_head=args.source_head,
             p1r52_sequential_role=args.role,
             p1r52_sequential_scale="b100x10",
-            p1r52_attempt_suffix="accepted-z-rephrase-obs",
+            p1r52_attempt_suffix=args.attempt_suffix,
             p1r52_accepted_z_observation=True,
             p1r52_accepted_z_reference_root=reference_root,
         )

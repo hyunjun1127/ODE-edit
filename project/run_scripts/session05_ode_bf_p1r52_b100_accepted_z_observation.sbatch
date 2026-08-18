@@ -15,33 +15,45 @@ umask 077
 readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}"
 readonly RESULT_PARENT="${2:-}"
+readonly ATTEMPT_SUFFIX="${3:-accepted-z-rephrase-obs}"
 readonly EXPECTED_SESSION="01a00e5d-29e8-7a01-822b-7acf43226035"
-readonly EXPECTED_BRANCH="codex/p1r52-b100-accepted-z-rephrase-obs-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly RUN_TOKEN="p1r52-b100-accepted-z-rephrase-observation-v1"
 
-[[ "$#" -eq 2 ]] || { echo "accepted-z observation arguments differ" >&2; exit 2; }
+[[ "$#" -eq 2 || "$#" -eq 3 ]] || { echo "accepted-z observation arguments differ" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "accepted-z CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "accepted-z source differs" >&2; exit 2; }
+if [[ "${ATTEMPT_SUFFIX}" == accepted-z-rephrase-obs-tech-r1 ]]; then
+  readonly EXPECTED_BRANCH="codex/p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1"
+else
+  readonly EXPECTED_BRANCH="codex/p1r52-b100-accepted-z-rephrase-obs-v1"
+fi
 [[ "$(git branch --show-current)" == "${EXPECTED_BRANCH}" ]] || { echo "accepted-z branch differs" >&2; exit 2; }
 [[ -z "$(git status --porcelain --untracked-files=no)" ]] || { echo "accepted-z tracked source dirty" >&2; exit 2; }
 scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 [[ "${CUDA_VISIBLE_DEVICES:-}" != "" && "${CUDA_VISIBLE_DEVICES}" != *,* ]] || { echo "accepted-z exactly one GPU required" >&2; exit 2; }
 
-readonly ROLES=(
+readonly ALL_ROLES=(
   official-memit-sequential
   native-alphaedit-sequential-cache-on-corrected
   r52-soft-sequential-h
   r52-soft-sequential-alphacache-on-structuralh-off
 )
-readonly RESULTS=(
+readonly ALL_RESULTS=(
   s05-p1r52-official-memit-sequential-10xb100-accepted-z-rephrase-obs-v1
   s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-accepted-z-rephrase-obs-v1
   s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-accepted-z-rephrase-obs-v1
   s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-accepted-z-rephrase-obs-v1
 )
-readonly ROLE="${ROLES[${SLURM_ARRAY_TASK_ID}]}"
-readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULTS[${SLURM_ARRAY_TASK_ID}]}"
+if [[ "${ATTEMPT_SUFFIX}" == accepted-z-rephrase-obs-tech-r1 ]]; then
+  [[ "${SLURM_ARRAY_TASK_ID}" == 0 || "${SLURM_ARRAY_TASK_ID}" == 1 ]] || { echo "TECH-R1 invalid-baseline-only scope differs" >&2; exit 2; }
+  readonly ROLE="${ALL_ROLES[${SLURM_ARRAY_TASK_ID}]}"
+  readonly OUTPUT_ROOT="${RESULT_PARENT}/${ALL_RESULTS[${SLURM_ARRAY_TASK_ID}]%-v1}-tech-r1-v1"
+else
+  [[ "${ATTEMPT_SUFFIX}" == accepted-z-rephrase-obs ]] || { echo "accepted-z attempt differs" >&2; exit 2; }
+  readonly ROLE="${ALL_ROLES[${SLURM_ARRAY_TASK_ID}]}"
+  readonly OUTPUT_ROOT="${RESULT_PARENT}/${ALL_RESULTS[${SLURM_ARRAY_TASK_ID}]}"
+fi
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "accepted-z output exists" >&2; exit 2; }
 
 export HF_HOME="/mnt/raid5/janghj/.cache/huggingface"
@@ -54,4 +66,5 @@ export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-sync \
   python -m project.run_scripts.session05_ode_bf_p1r52_b100_accepted_z_observation \
   --role "${ROLE}" --output-root "${OUTPUT_ROOT}" \
-  --source-head "${SOURCE_HEAD}" --run-token "${RUN_TOKEN}"
+  --source-head "${SOURCE_HEAD}" --run-token "${RUN_TOKEN}" \
+  --attempt-suffix "${ATTEMPT_SUFFIX}"

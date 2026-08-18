@@ -170,7 +170,7 @@ def _lookup_geometry(
     *,
     fact_token: str,
 ) -> tuple[tuple[tuple[int, ...], ...], tuple[int, ...], dict[str, Any]]:
-    from easyeditor.models.alphaedit.compute_z import find_fact_lookup_idx
+    from easyeditor.models.rome import repr_tools
 
     if len(requests) != 100 or len(cases) != 100:
         raise ODEBFContractError("accepted-z B100 lookup geometry differs")
@@ -192,8 +192,21 @@ def _lookup_geometry(
             if prefix.count(subject) != 1:
                 raise ODEBFContractError("accepted-z heldout subject surface differs")
             template = prefix.replace(subject, "{}", 1)
+            if fact_token != "subject_last":
+                raise ODEBFContractError("accepted-z native lookup strategy differs")
+            # This is the exact source kernel used by EasyEdit's
+            # find_fact_lookup_idx before its observation-only sentence
+            # formatting.  Calling it directly preserves literal braces in a
+            # CounterFact paraphrase (for example ``{name/pronoun}``).
             raw_positions.append(
-                int(find_fact_lookup_idx(template, subject, tokenizer, fact_token, verbose=False))
+                int(
+                    repr_tools.get_words_idxs_in_templates(
+                        tok=tokenizer,
+                        context_templates=[template],
+                        words=[subject],
+                        subtoken="last",
+                    )[0][0]
+                )
             )
             prefix_lengths.append(len(tokenizer(prefix)["input_ids"]))
         rows = [
@@ -229,6 +242,9 @@ def _lookup_geometry(
         "request_count": 100,
         "fact_token": fact_token,
         "padding_side": padding,
+        "lookup_kernel": (
+            "easyeditor.models.rome.repr_tools.get_words_idxs_in_templates:subject_last"
+        ),
         "geometry_sha256": canonical_hash(identities),
         "patched_row_count": sum(prefix_counts),
         "locality_unpatched_row_count": sum(

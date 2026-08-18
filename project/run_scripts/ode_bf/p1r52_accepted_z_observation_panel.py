@@ -26,6 +26,13 @@ MANIFEST_SCHEMA = (
     "ode-edit-s05-p1r52-b100-accepted-z-rephrase-observation-source-manifest/v1"
 )
 MANIFEST_FILE = "source_manifest_s05_p1r52_b100_accepted_z_rephrase_observation.json"
+MANIFEST_TECH_R1_FILE = (
+    "source_manifest_s05_p1r52_b100_accepted_z_rephrase_observation_tech_r1.json"
+)
+MANIFEST_TECH_R1_BASELINES_FILE = (
+    "source_manifest_s05_p1r52_b100_accepted_z_rephrase_observation_"
+    "tech_r1_baselines.json"
+)
 ROLES = (MEMIT_ROLE, NATIVE_CORRECTED_ROLE, R52_H_ROLE, R52_CONTROL_ROLE)
 SEALED_RESULT_ROOT = Path(
     "/mnt/raid5/janghj/.codex/worktrees/"
@@ -99,10 +106,15 @@ def load_and_validate_lock(path: Path) -> tuple[dict[str, Any], str]:
     return value, file_sha
 
 
-def expected_result_name(role: str) -> str:
+def expected_result_name(role: str, *, repair_revision: str | None = None) -> str:
     if role not in RESULT_NAMES_B100X10_ACCEPTED_Z_OBS:
         raise ODEBFContractError("accepted-z observation role differs")
-    return RESULT_NAMES_B100X10_ACCEPTED_Z_OBS[role]
+    name = RESULT_NAMES_B100X10_ACCEPTED_Z_OBS[role]
+    if repair_revision is None:
+        return name
+    if repair_revision != "TECH-R1":
+        raise ODEBFContractError("accepted-z observation repair revision differs")
+    return name.removesuffix("-v1") + "-tech-r1-v1"
 
 
 def sealed_reference_root(role: str) -> Path:
@@ -117,6 +129,8 @@ __all__ = [
     "LOCK_FILE",
     "LOCK_SCHEMA",
     "MANIFEST_FILE",
+    "MANIFEST_TECH_R1_FILE",
+    "MANIFEST_TECH_R1_BASELINES_FILE",
     "MANIFEST_SCHEMA",
     "REFERENCE_NAMES",
     "REFERENCE_TERMINAL_SHA256",

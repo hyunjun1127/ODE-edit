@@ -124,6 +124,9 @@ class AcceptedZObservationTests(unittest.TestCase):
                 rows = [list(range(length)) for length in lengths]
                 return {"input_ids": rows[0] if isinstance(texts, str) else rows}
 
+            def encode(self, text):
+                return list(range(max(2, len(text.split()) + 1)))
+
         requests = tuple(
             {
                 "request_sha256": canonical_hash({"request": index}),
@@ -146,17 +149,59 @@ class AcceptedZObservationTests(unittest.TestCase):
             )
             for index, request in enumerate(requests)
         )
-        with patch(
-            "easyeditor.models.alphaedit.compute_z.find_fact_lookup_idx",
-            return_value=-1,
-        ):
-            positions, prefix_counts, receipt = _lookup_geometry(
-                FakeTokenizer(), requests, cases, fact_token="subject_last"
-            )
+        positions, prefix_counts, receipt = _lookup_geometry(
+            FakeTokenizer(), requests, cases, fact_token="subject_last"
+        )
         self.assertEqual(len(positions), 100)
         self.assertEqual(prefix_counts, (6,) * 100)
         self.assertEqual(receipt["patched_row_count"], 600)
         self.assertEqual(receipt["locality_unpatched_row_count"], 200)
+
+    def test_literal_unrelated_brace_is_preserved_by_lookup_kernel(self) -> None:
+        class LiteralTokenizer:
+            padding_side = "left"
+
+            def encode(self, text):
+                return list(range(max(2, len(text.split()) + 1)))
+
+            def __call__(self, texts, padding=False, return_tensors=None):
+                if isinstance(texts, str):
+                    return {"input_ids": self.encode(texts)}
+                lengths = [len(self.encode(text)) for text in texts]
+                maximum = max(lengths)
+                attention = torch.zeros((len(texts), maximum), dtype=torch.long)
+                for row, length in enumerate(lengths):
+                    attention[row, maximum - length :] = 1
+                return {
+                    "input_ids": torch.ones_like(attention),
+                    "attention_mask": attention,
+                }
+
+        tokenizer = LiteralTokenizer()
+        requests = tuple(
+            {
+                "request_sha256": canonical_hash({"literal": index}),
+                "subject": f"Subject{index}",
+            }
+            for index in range(100)
+        )
+        cases = tuple(
+            CounterFactEvaluationCase(
+                index,
+                request["request_sha256"],
+                f"{request['subject']} rewrite",
+                (f"{request['subject']} literal {{Vinay/he}}",),
+                (f"neighbor {index}",),
+                "new",
+                "true",
+            )
+            for index, request in enumerate(requests)
+        )
+        _, prefix_counts, receipt = _lookup_geometry(
+            tokenizer, requests, cases, fact_token="subject_last"
+        )
+        self.assertEqual(prefix_counts, (4,) * 100)
+        self.assertIn("repr_tools", receipt["lookup_kernel"])
 
     def test_four_cell_names_are_create_once_distinct(self) -> None:
         names = [expected_result_name(role) for role in ROLES]
