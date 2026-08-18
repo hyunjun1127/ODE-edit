@@ -33,6 +33,9 @@ MANIFEST_TECH_R1_BASELINES_FILE = (
     "source_manifest_s05_p1r52_b100_accepted_z_rephrase_observation_"
     "tech_r1_baselines.json"
 )
+MANIFEST_TECH_R1_R52_FILE = (
+    "source_manifest_s05_p1r52_b100_accepted_z_rephrase_observation_tech_r1_r52.json"
+)
 ROLES = (MEMIT_ROLE, NATIVE_CORRECTED_ROLE, R52_H_ROLE, R52_CONTROL_ROLE)
 SEALED_RESULT_ROOT = Path(
     "/mnt/raid5/janghj/.codex/worktrees/"
@@ -112,9 +115,10 @@ def expected_result_name(role: str, *, repair_revision: str | None = None) -> st
     name = RESULT_NAMES_B100X10_ACCEPTED_Z_OBS[role]
     if repair_revision is None:
         return name
-    if repair_revision != "TECH-R1":
+    if repair_revision not in {"TECH-R1", "TECH-R1-R52"}:
         raise ODEBFContractError("accepted-z observation repair revision differs")
-    return name.removesuffix("-v1") + "-tech-r1-v1"
+    suffix = "tech-r1" if repair_revision == "TECH-R1" else "tech-r1-r52"
+    return name.removesuffix("-v1") + f"-{suffix}-v1"
 
 
 def sealed_reference_root(role: str) -> Path:
@@ -131,6 +135,7 @@ __all__ = [
     "MANIFEST_FILE",
     "MANIFEST_TECH_R1_FILE",
     "MANIFEST_TECH_R1_BASELINES_FILE",
+    "MANIFEST_TECH_R1_R52_FILE",
     "MANIFEST_SCHEMA",
     "REFERENCE_NAMES",
     "REFERENCE_TERMINAL_SHA256",

@@ -26,6 +26,7 @@ from project.run_scripts.ode_bf.p1r52_accepted_z_observation_panel import (
     LOCK_FILE,
     MANIFEST_FILE,
     MANIFEST_TECH_R1_BASELINES_FILE,
+    MANIFEST_TECH_R1_R52_FILE,
     MANIFEST_SCHEMA,
     REFERENCE_TERMINAL_SHA256,
     ROLES,
@@ -57,7 +58,9 @@ def _source_gate(source_head: str, *, attempt_suffix: str) -> str:
         REPO_ROOT
         / "project/run_scripts/ode_bf/locks"
         / (
-            MANIFEST_TECH_R1_BASELINES_FILE
+            MANIFEST_TECH_R1_R52_FILE
+            if attempt_suffix == "accepted-z-rephrase-obs-tech-r1-r52"
+            else MANIFEST_TECH_R1_BASELINES_FILE
             if attempt_suffix == "accepted-z-rephrase-obs-tech-r1"
             else MANIFEST_FILE
         ),
@@ -88,7 +91,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--run-token", required=True)
     parser.add_argument(
         "--attempt-suffix",
-        choices=("accepted-z-rephrase-obs", "accepted-z-rephrase-obs-tech-r1"),
+        choices=(
+            "accepted-z-rephrase-obs",
+            "accepted-z-rephrase-obs-tech-r1",
+            "accepted-z-rephrase-obs-tech-r1-r52",
+        ),
         default="accepted-z-rephrase-obs",
     )
     args = parser.parse_args(argv)

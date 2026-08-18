@@ -25,6 +25,8 @@ readonly RUN_TOKEN="p1r52-b100-accepted-z-rephrase-observation-v1"
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "accepted-z source differs" >&2; exit 2; }
 if [[ "${ATTEMPT_SUFFIX}" == accepted-z-rephrase-obs-tech-r1 ]]; then
   readonly EXPECTED_BRANCH="codex/p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1"
+elif [[ "${ATTEMPT_SUFFIX}" == accepted-z-rephrase-obs-tech-r1-r52 ]]; then
+  readonly EXPECTED_BRANCH="codex/p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1"
 else
   readonly EXPECTED_BRANCH="codex/p1r52-b100-accepted-z-rephrase-obs-v1"
 fi
@@ -49,6 +51,10 @@ if [[ "${ATTEMPT_SUFFIX}" == accepted-z-rephrase-obs-tech-r1 ]]; then
   [[ "${SLURM_ARRAY_TASK_ID}" == 0 || "${SLURM_ARRAY_TASK_ID}" == 1 ]] || { echo "TECH-R1 invalid-baseline-only scope differs" >&2; exit 2; }
   readonly ROLE="${ALL_ROLES[${SLURM_ARRAY_TASK_ID}]}"
   readonly OUTPUT_ROOT="${RESULT_PARENT}/${ALL_RESULTS[${SLURM_ARRAY_TASK_ID}]%-v1}-tech-r1-v1"
+elif [[ "${ATTEMPT_SUFFIX}" == accepted-z-rephrase-obs-tech-r1-r52 ]]; then
+  [[ "${SLURM_ARRAY_TASK_ID}" == 2 || "${SLURM_ARRAY_TASK_ID}" == 3 ]] || { echo "TECH-R1 R52-only scope differs" >&2; exit 2; }
+  readonly ROLE="${ALL_ROLES[${SLURM_ARRAY_TASK_ID}]}"
+  readonly OUTPUT_ROOT="${RESULT_PARENT}/${ALL_RESULTS[${SLURM_ARRAY_TASK_ID}]%-v1}-tech-r1-r52-v1"
 else
   [[ "${ATTEMPT_SUFFIX}" == accepted-z-rephrase-obs ]] || { echo "accepted-z attempt differs" >&2; exit 2; }
   readonly ROLE="${ALL_ROLES[${SLURM_ARRAY_TASK_ID}]}"
