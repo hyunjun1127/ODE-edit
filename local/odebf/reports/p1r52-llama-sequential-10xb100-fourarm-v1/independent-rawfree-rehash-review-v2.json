@@ -1,0 +1,19 @@
+{
+  "checks": {
+    "base_preserved": true,
+    "batch_z_w_rows_20": true,
+    "no_inner_heldout": true,
+    "r52_writes_80_each": true,
+    "request_step_denominator_8000_each": true,
+    "step_rows_160": true
+  },
+  "manifest_sha256": "1999ff19bbf581a1731ad2068f4c64908c605af826a81ac257e82624febec314",
+  "model_evaluator_gpu_slurm_actions": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "schema": "p1r52-sequential-b100x10/four-arm-review/v2",
+  "status": "PASS"
+}

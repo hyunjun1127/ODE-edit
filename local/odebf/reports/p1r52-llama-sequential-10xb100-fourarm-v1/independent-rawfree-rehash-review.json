@@ -1,0 +1,24 @@
+{
+  "checks": {
+    "action_freeze_10_each": true,
+    "batch_rows_40": true,
+    "controller_rows_160": true,
+    "entry_fields_excluded": true,
+    "four_terminal_roots": true,
+    "r52_batch_entry_evaluator_zero": true,
+    "request_rows_4000": true,
+    "requests_1000_each": true,
+    "rounds_10_each": true,
+    "terminal_W0_pointer_byte": true
+  },
+  "manifest_root": "c8f7e254b1fa6297d11a2c9eb039e4139e0d609bde45d0a49672cdff04f2bef4",
+  "manifest_sha256": "af8606856336cf0aedb0af134a40267c13019233a34cbf5fbb065d6716122b99",
+  "model_evaluator_gpu_slurm_actions": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "schema": "p1r52-sequential-b100x10/four-arm-independent-review/v1",
+  "status": "PASS"
+}

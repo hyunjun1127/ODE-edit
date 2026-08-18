@@ -1,0 +1,66 @@
+{
+  "analysis_actions_model_evaluator_gpu_slurm": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "canonical_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-llama-sequential-10xb100-fourarm-factual-ko.md",
+  "canonical_report_bytes": 11478,
+  "canonical_report_lines": 116,
+  "canonical_report_sha256": "55aefe5a780410af91c91660324d67fd94c9bc39bf49f9979d2ba43d261f0ef2",
+  "members": [
+    {
+      "bytes": 49763,
+      "lines": 1421,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-aggregate.json",
+      "sha256": "5d2f013b1ccc613cad28ac86f9dff3e3fcab05c72ac26ccfa179deca99ff4d7d"
+    },
+    {
+      "bytes": 403223,
+      "lines": 11206,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-batch-checkpoints.json",
+      "sha256": "84fc346f95377118615f51db067e37902dfea0683c903d8ea232480d00580713"
+    },
+    {
+      "bytes": 16016406,
+      "lines": 616006,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-request-retention.json",
+      "sha256": "02e237cc9319c97999cf9a9ac7f2830935344db13e712fc49e502115aed734ae"
+    },
+    {
+      "bytes": 159081,
+      "lines": 4646,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-r52-controller-routing.json",
+      "sha256": "cbdf13e6621ec943ca6705975c354f4397ea0ca0f29b8c9ee59c39ad79786094"
+    },
+    {
+      "bytes": 21957,
+      "lines": 518,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-integrity-compute.json",
+      "sha256": "24d1692e5ed5ad449828c6cc75b6909d7b750c26e29b4c6cc9f38bdf255edc91"
+    },
+    {
+      "bytes": 11478,
+      "lines": 116,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-llama-sequential-10xb100-fourarm-factual-ko.md",
+      "sha256": "55aefe5a780410af91c91660324d67fd94c9bc39bf49f9979d2ba43d261f0ef2"
+    },
+    {
+      "bytes": 2301,
+      "lines": 43,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/manifest.json",
+      "sha256": "af8606856336cf0aedb0af134a40267c13019233a34cbf5fbb065d6716122b99"
+    },
+    {
+      "bytes": 697,
+      "lines": 24,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/independent-rawfree-rehash-review.json",
+      "sha256": "75edfc1668179bf0f4968d938c0441f16d9baf690ace48cebb94e66b5d08e8ca"
+    }
+  ],
+  "package_root_sha256": "fcccfa7550efcf4ee745cb1ff69ac9d90fe6d7e12aa58bc25d8a66408dc4efa8",
+  "raw_prompts_targets_generations_tensors_weights_included": false,
+  "schema": "p1r52-sequential-b100x10/four-arm-rooted-receipt/v1",
+  "status": "TERMINAL_FACTUAL_REPORT_COMPLETE"
+}

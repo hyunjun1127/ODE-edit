@@ -1,0 +1,56 @@
+{
+  "canonical_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-llama-sequential-10xb100-fourarm-factual-ko-v2.md",
+  "members": [
+    {
+      "bytes": 11478,
+      "lines": 116,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-llama-sequential-10xb100-fourarm-factual-ko.md",
+      "sha256": "55aefe5a780410af91c91660324d67fd94c9bc39bf49f9979d2ba43d261f0ef2"
+    },
+    {
+      "bytes": 159081,
+      "lines": 4646,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-r52-controller-routing.json",
+      "sha256": "cbdf13e6621ec943ca6705975c354f4397ea0ca0f29b8c9ee59c39ad79786094"
+    },
+    {
+      "bytes": 49763,
+      "lines": 1421,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-aggregate.json",
+      "sha256": "5d2f013b1ccc613cad28ac86f9dff3e3fcab05c72ac26ccfa179deca99ff4d7d"
+    },
+    {
+      "bytes": 21957,
+      "lines": 518,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-integrity-compute.json",
+      "sha256": "24d1692e5ed5ad449828c6cc75b6909d7b750c26e29b4c6cc9f38bdf255edc91"
+    },
+    {
+      "bytes": 116623,
+      "lines": 3846,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-r52-target-writer-step-v2.json",
+      "sha256": "7e8538cedd8c9dabbeb9e654a608a05767d2265a69d05c10b484928419a2cbe8"
+    },
+    {
+      "bytes": 15785,
+      "lines": 486,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-r52-terminal-z-w-v2.json",
+      "sha256": "b787bec48128d4a6b5ab867c5e6056529e71bd6f67ed4e18916a9b9c2587b681"
+    },
+    {
+      "bytes": 2742,
+      "lines": 103,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-r52-controller-compute-summary-v2.json",
+      "sha256": "d375b0ecf4d386a81a3386b15905e6cc04345cc3450f30018d949a9b70b03d15"
+    },
+    {
+      "bytes": 30643,
+      "lines": 401,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-llama-sequential-10xb100-fourarm-factual-ko-v2.md",
+      "sha256": "793a318c4ad7421fa7091d16de5c97d7fc6f34156c17e2ec084b9b429572cbeb"
+    }
+  ],
+  "members_root_sha256": "7fab3cb356833a1b3309e5cabe82dbb98bc614e4511c9b8487eae8c92596fe75",
+  "schema": "p1r52-sequential-b100x10/four-arm-manifest/v2",
+  "status": "PASS"
+}

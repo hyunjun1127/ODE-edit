@@ -1,0 +1,103 @@
+{
+  "arms": {
+    "r52_h_off": {
+      "P": {
+        "count": 80,
+        "max": 0.057940398357114495,
+        "mean": 0.01593456667375156,
+        "median": 0.012410270605713512,
+        "p90": 0.03584523837198777
+      },
+      "active_gradient": 8000,
+      "bf16_update_energy": {
+        "count": 80,
+        "max": 2.937915976885327,
+        "mean": 1.0022370816350774,
+        "median": 0.8403206377976594,
+        "p90": 1.8277572653121967
+      },
+      "capacity": {
+        "count": 80,
+        "max": 2.7249485940289464,
+        "mean": 0.7197844220237501,
+        "median": 0.5432600989351775,
+        "p90": 1.3988896207594859
+      },
+      "clamp_hit": 114,
+      "energy": {
+        "count": 80,
+        "max": 2.7447226560877267,
+        "mean": 0.8625472017812212,
+        "median": 0.6935808360458322,
+        "p90": 1.6540337853555855
+      },
+      "fallback": 0,
+      "inner_step_heldout_evaluation_count": 0,
+      "materialization_receipts": 80,
+      "physical_writer_transitions": 80,
+      "primary_rescue_current": [
+        7888,
+        64,
+        48
+      ],
+      "request_steps": 8000,
+      "terminal_W_minus_z_gap": {
+        "count": 10,
+        "max": 0.04643277297727764,
+        "mean": 0.01556832338892855,
+        "median": 0.011961644391994923,
+        "p90": 0.04643277297727764
+      }
+    },
+    "r52_h_on": {
+      "P": {
+        "count": 80,
+        "max": 0.057940398357114495,
+        "mean": 0.015494552939219022,
+        "median": 0.012255296828216689,
+        "p90": 0.036251313210202175
+      },
+      "active_gradient": 8000,
+      "bf16_update_energy": {
+        "count": 80,
+        "max": 2.937915976885327,
+        "mean": 0.9595812448462416,
+        "median": 0.7690001878660848,
+        "p90": 1.8229400228755979
+      },
+      "capacity": {
+        "count": 80,
+        "max": 2.7249485940289464,
+        "mean": 0.6751366755142045,
+        "median": 0.49851578456973195,
+        "p90": 1.403206677246451
+      },
+      "clamp_hit": 99,
+      "energy": {
+        "count": 80,
+        "max": 2.7447226560877267,
+        "mean": 0.8225744497474653,
+        "median": 0.6312023249355023,
+        "p90": 1.6490458126269107
+      },
+      "fallback": 0,
+      "inner_step_heldout_evaluation_count": 0,
+      "materialization_receipts": 80,
+      "physical_writer_transitions": 80,
+      "primary_rescue_current": [
+        7870,
+        75,
+        55
+      ],
+      "request_steps": 8000,
+      "terminal_W_minus_z_gap": {
+        "count": 10,
+        "max": 0.04643277297727764,
+        "mean": 0.016749721187283285,
+        "median": 0.0138304425808019,
+        "p90": 0.04643277297727764
+      }
+    }
+  },
+  "schema": "p1r52-sequential-b100x10/controller-compute-summary/v2"
+}
