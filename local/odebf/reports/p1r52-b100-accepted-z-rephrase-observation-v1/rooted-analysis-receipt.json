@@ -1,0 +1,22 @@
+{
+  "accepted_z_batches": 40,
+  "action_influence_count": 0,
+  "added_backward_count": 0,
+  "added_generation_call_count": 0,
+  "batch_entry_W_metric_count": 0,
+  "imputation_count": 0,
+  "input_root": "03cc18f4072b436838dc2b40a091de39b6d673663172514b92493e4edc7a909a",
+  "instruction_id": "ODEEDIT-S05-P1R52-LLAMA-B100-ACCEPTED-Z-REPHRASE-OBS-V1",
+  "manifest_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/analysis-manifest.json",
+  "manifest_root": "564493f4840afb2e17accda7915e6267989de7176f84e0654b9e5b11bf27cce5",
+  "manifest_sha256": "9a295f238c5178fe9d601612cc0664d1c4c8834abe0aad990229aa4a899c5ac5",
+  "missing_count": 0,
+  "per_request_rows": 4000,
+  "proxy_count": 0,
+  "report_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-b100-accepted-z-rephrase-observation-factual-ko.md",
+  "report_sha256": "3132d5fc2dd420d3e3af71e3e0d77bea3944c48a13d84f418c8d1264a78869a6",
+  "root_digest": "9505aa17a119080be55678c2f58c9f60a71c1f7c0c4cdf7985e0176aa5da2daf",
+  "schema": "p1r52-b100-accepted-z-observation/rooted-receipt/v1",
+  "scientific_promotion": false,
+  "status": "PASS"
+}

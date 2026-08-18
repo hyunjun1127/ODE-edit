@@ -1,0 +1,16 @@
+{
+  "added_backward": 0,
+  "added_generation": 0,
+  "added_model_forward": 0,
+  "binding_root": "329b45c0b62123ba9916264cb02bd3ff69c774433334f79bac627e93acd3b4d5",
+  "instruction_id": "ODEEDIT-S05-P1R52-LLAMA-B100-ACCEPTED-Z-REPHRASE-OBS-V1",
+  "manifest_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/analysis-manifest-v2.json",
+  "manifest_root": "d5a145ddd77f59f3a6511af815b6d41601f2c803a17deed18aafb3869e76b7c3",
+  "manifest_sha256": "6d6c1f81c450a2a714b42e52a843ea3ef5eae2c7a10a5d887704250b94fb2cec",
+  "report_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-b100-accepted-z-rephrase-observation-factual-ko-v2.md",
+  "report_sha256": "ce40d4ee5cedebb107a24d4e76c24b7c5a83be04664e636635b3bdcdd7ed65d8",
+  "root_digest": "6a647ea5e6c53720e84d36af50ce9af8d27f0d10cf885e6026b65ede4437bff0",
+  "schema": "p1r52-b100-accepted-z-observation/rooted-receipt/v2",
+  "scientific_promotion": false,
+  "status": "PASS"
+}

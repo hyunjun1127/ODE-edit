@@ -1,0 +1,16 @@
+{
+  "checks": {
+    "binding_rows40": true,
+    "member_rehash": true,
+    "native_preserved": true,
+    "proxy_imputation_zero": true,
+    "report_rehash": true,
+    "true_nll_margin_present": true
+  },
+  "manifest_sha256": "6d6c1f81c450a2a714b42e52a843ea3ef5eae2c7a10a5d887704250b94fb2cec",
+  "receipt_sha256": "266b6f1f7c968593dd15a74acc9c0dd35c9c84fee1bdcfe4a81c706ae9047016",
+  "report_sha256": "ce40d4ee5cedebb107a24d4e76c24b7c5a83be04664e636635b3bdcdd7ed65d8",
+  "root_digest": "e5a053a8095d07b26b7fd30ba624e7f0553001b776261892fef4f5bfd0b0d654",
+  "schema": "p1r52-b100-accepted-z-observation/independent-rehash/v2",
+  "status": "PASS"
+}

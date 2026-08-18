@@ -1,0 +1,61 @@
+{
+  "checks": {
+    "action_influence_zero": true,
+    "additional_backward_generation_zero": true,
+    "batch_entry_W_metrics_zero": true,
+    "forty_batches": true,
+    "four_arms": true,
+    "four_thousand_requests": true,
+    "manifest_members_rehash": true,
+    "native_z_defined": true,
+    "observation_only": true,
+    "proxy_imputation_zero": true,
+    "sealed_W_exact": true
+  },
+  "members": [
+    {
+      "bytes": 62945,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-accepted-z-aggregates.json",
+      "sha256": "264ba1fbe70ab961b127bbf707cf4d56496d399963e27dc76c18ca73b85601c1"
+    },
+    {
+      "bytes": 588932,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-accepted-z-per-batch.json",
+      "sha256": "2749d5b9b1a72b4fc615827de58ecf7b3f980cac543acf6a555c6d8448ae60d9"
+    },
+    {
+      "bytes": 26948675,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-accepted-z-per-request.json",
+      "sha256": "de11fab7d2bb83ba8a8fa4e36205b6578eff2c1ed618da1feb85fade05a3666a"
+    },
+    {
+      "bytes": 55524,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-accepted-z-hard-cohorts.json",
+      "sha256": "599f840d25c62f340fba021965ab06a7539432736a50ffa9950a83140e22640c"
+    },
+    {
+      "bytes": 44089,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-accepted-z-routing-compute.json",
+      "sha256": "cc621f46c087beef2abba5673c84c9b58fbd8686d4197387126bfa9122262213"
+    },
+    {
+      "bytes": 13007,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-b100-accepted-z-rephrase-observation-factual-ko.md",
+      "sha256": "3132d5fc2dd420d3e3af71e3e0d77bea3944c48a13d84f418c8d1264a78869a6"
+    },
+    {
+      "bytes": 24317,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/analysis-manifest.json",
+      "sha256": "9a295f238c5178fe9d601612cc0664d1c4c8834abe0aad990229aa4a899c5ac5"
+    },
+    {
+      "bytes": 1342,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/rooted-analysis-receipt.json",
+      "sha256": "6a13e5f457bed2c2898b2c6559d5434cf864dad2278ab8dd417c5b0a89a3d394"
+    }
+  ],
+  "members_root_sha256": "b4aab1df7b6fb0b2950ea521ce01ff1ebe326d40df89a99d1d830b0d8ef0ea3c",
+  "root_digest": "347f4978a211a8cd7d74ab37ba52656676b380df161bd19fbe83669aec89692f",
+  "schema": "p1r52-b100-accepted-z-observation/independent-rehash/v1",
+  "status": "PASS"
+}

@@ -1,0 +1,332 @@
+{
+  "inputs": [
+    {
+      "bytes": 1578,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/manifest.json",
+      "sha256": "836797a25bd9aad3d1c54553a2837effe594daf7904edaafdfc39d64c16a5e2e"
+    },
+    {
+      "bytes": 57147,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b01/accepted-z-rephrase-observation.json",
+      "sha256": "a11c50e6aa051c2faf910668b890ceff4220cacfc48e60ad3690e916e2a6230b"
+    },
+    {
+      "bytes": 55733,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b02/accepted-z-rephrase-observation.json",
+      "sha256": "2b4716e14df9eada6f9d95f713a201e2908be58284b22b840a59d19016a160cb"
+    },
+    {
+      "bytes": 57202,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b03/accepted-z-rephrase-observation.json",
+      "sha256": "dda933c55545c5f3eee2d492f717d59e79c6506a7071c9cc41a3405d8a183687"
+    },
+    {
+      "bytes": 56726,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b04/accepted-z-rephrase-observation.json",
+      "sha256": "1b9a423f02aaf48df35bb2ac0dd567d8ad7f75887d78c2539706221c61ab7ff6"
+    },
+    {
+      "bytes": 56971,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b05/accepted-z-rephrase-observation.json",
+      "sha256": "9c80342e6e7cf5cae8841acc349f9f068447437ec43bf5fcac466e2587258e63"
+    },
+    {
+      "bytes": 56757,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b06/accepted-z-rephrase-observation.json",
+      "sha256": "9b9c7b5c573329dfbee82c49fb37c32a3b05c26b342448bf037caec665bd464a"
+    },
+    {
+      "bytes": 58240,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b07/accepted-z-rephrase-observation.json",
+      "sha256": "04b51106f391990a00756beb8729fe95c77f1c8dea1b412c922270a14f257886"
+    },
+    {
+      "bytes": 55040,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b08/accepted-z-rephrase-observation.json",
+      "sha256": "26ec6bb7bf1aa88afa534ddb61ae13e000e89bc187bfc9331f1a4cc931fe71aa"
+    },
+    {
+      "bytes": 56911,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b09/accepted-z-rephrase-observation.json",
+      "sha256": "ec109f485e3db2296ff610ce701a405abd05b4fc6b7b5bd15574ba49e591196e"
+    },
+    {
+      "bytes": 55220,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b10/accepted-z-rephrase-observation.json",
+      "sha256": "3abdc2d527b14f4a8b1a3f612fa4e1ae9d85c36829c49c20cabd70376f89f674"
+    },
+    {
+      "bytes": 2140322,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/terminal.json",
+      "sha256": "36df6202a6f158704b26684065e0e99f298966493e96f897691ecb7ba9461653"
+    },
+    {
+      "bytes": 1550,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/manifest.json",
+      "sha256": "ad773c7655da71b8854945f8c5c6fb64c17028e5391c00c9747771a0c3302c64"
+    },
+    {
+      "bytes": 57091,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b01/accepted-z-rephrase-observation.json",
+      "sha256": "41d4926fc45655fb9d65e8e1555544d91b7f5132078d059a2de59d919a345fed"
+    },
+    {
+      "bytes": 55589,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b02/accepted-z-rephrase-observation.json",
+      "sha256": "656e3b44cf7c76d1b78c2e343c8de201edf0eb846d96663c417200d68040212f"
+    },
+    {
+      "bytes": 57236,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b03/accepted-z-rephrase-observation.json",
+      "sha256": "7f6bb817807e69419e36837da6a407a9ddf18257ef17e26e1a8cbcbd6d7de4d6"
+    },
+    {
+      "bytes": 56770,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b04/accepted-z-rephrase-observation.json",
+      "sha256": "4cf1f0a92fe4871fe22d0e4b82e05e4a6fb91d625bfd5f5ab2df866f0e7bf9fc"
+    },
+    {
+      "bytes": 56673,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b05/accepted-z-rephrase-observation.json",
+      "sha256": "8f30b5e7d7edbdbb8d8572dfd94a3f30d371cf292f8754feb76386d24c65ac54"
+    },
+    {
+      "bytes": 57789,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b06/accepted-z-rephrase-observation.json",
+      "sha256": "afffe51941fccad5fd248197d0d6db7d3a605b6b67f47a658a09a8aed7f5ec7f"
+    },
+    {
+      "bytes": 56584,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b07/accepted-z-rephrase-observation.json",
+      "sha256": "4e12c795461d5cdb145694ab9f30663d9cf5a1126863d51456eca8ca7c4f91ad"
+    },
+    {
+      "bytes": 55230,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b08/accepted-z-rephrase-observation.json",
+      "sha256": "61aa37bdfb8c5c1b1f51611d3598d9fbe3c19da22bec5b54fb3bd2c9a4da8563"
+    },
+    {
+      "bytes": 57712,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b09/accepted-z-rephrase-observation.json",
+      "sha256": "c243ea36251c071144ae908a3ef95e0dedfb74f55863d2e442c60706242a9052"
+    },
+    {
+      "bytes": 55897,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/raw/batches/b10/accepted-z-rephrase-observation.json",
+      "sha256": "b53b53519a1e8a6f59bdf82cc229540d53b8622e4712ec2dbfa541eeeaa2f1cd"
+    },
+    {
+      "bytes": 2138611,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/results/s05-p1r52-llama-soft-sequential-structuralh-on-10xb100-accepted-z-rephrase-obs-tech-r1-r52-v1/terminal.json",
+      "sha256": "cded37266f45a4a29a711a2123c03c9b6b5edc0023b121d3673f1575b9255593"
+    },
+    {
+      "bytes": 1575,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-accepted-z-rephrase-obs-tech-r1-v1/manifest.json",
+      "sha256": "fcc0adff139acb54b756042c99c57550110dfd99907db7a5d1e3371277e7eb65"
+    },
+    {
+      "bytes": 61225,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b01/accepted-z-rephrase-observation.json",
+      "sha256": "f2ecae246ba12162f7323587ad117547c3583a16d7aede272d43100b71247a93"
+    },
+    {
+      "bytes": 62067,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b02/accepted-z-rephrase-observation.json",
+      "sha256": "1ca3d8d04e3a05285033496871194602d630c6d3028ae3cf2e1b1837f2445ade"
+    },
+    {
+      "bytes": 61908,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b03/accepted-z-rephrase-observation.json",
+      "sha256": "a54392951847a2c2c8c6fcc57e6c55cada896980216853b35f3048aae2e89412"
+    },
+    {
+      "bytes": 62071,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b04/accepted-z-rephrase-observation.json",
+      "sha256": "40a9a7d18858e83bde8a65f97da0a8b5519b9f409e51e306eccb7fc06676951a"
+    },
+    {
+      "bytes": 60839,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b05/accepted-z-rephrase-observation.json",
+      "sha256": "74d901ff372d594e577a95477196fd104c6e5dde04203d90934dfdc1c52e34ee"
+    },
+    {
+      "bytes": 62203,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b06/accepted-z-rephrase-observation.json",
+      "sha256": "ad4a991ec178bf17a38c7d2a76a091ac3342120a79ee3583658ebf4d7491ff3a"
+    },
+    {
+      "bytes": 62879,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b07/accepted-z-rephrase-observation.json",
+      "sha256": "640c8e9c5fae6924dfae14e2a03eac40a297742a2bb6070ea70a87609e77be7b"
+    },
+    {
+      "bytes": 61725,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b08/accepted-z-rephrase-observation.json",
+      "sha256": "e508b7b43469184f4939b27d31d566db2798ce98e97d24a17452b098f79a6220"
+    },
+    {
+      "bytes": 62907,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b09/accepted-z-rephrase-observation.json",
+      "sha256": "6de40317d648232412e698f83af188332acfb78e0db7abfc86633670998af65e"
+    },
+    {
+      "bytes": 61716,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b10/accepted-z-rephrase-observation.json",
+      "sha256": "658bb752692e047ee4c4a09cd0828588353bd6f445a4be93b9421b4d1e3b0c81"
+    },
+    {
+      "bytes": 2321014,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-accepted-z-rephrase-obs-tech-r1-v1/terminal.json",
+      "sha256": "b7a11c39f558da1f4c84dfc65cb050e550330e50d5fd360819469304f75cd1e2"
+    },
+    {
+      "bytes": 1554,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-memit-sequential-10xb100-accepted-z-rephrase-obs-tech-r1-v1/manifest.json",
+      "sha256": "510fb6adc5684d50d2f4536703074d5fcceef188c0942aeebc32332d2ba87492"
+    },
+    {
+      "bytes": 60682,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-memit-sequential-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b01/accepted-z-rephrase-observation.json",
+      "sha256": "9606b38292407856dac4c648bef86ddcfd8d0e815dc9beb8f041c6da97a00058"
+    },
+    {
+      "bytes": 60753,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-memit-sequential-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b02/accepted-z-rephrase-observation.json",
+      "sha256": "ac1324e8047260555d5ed75734cde827f3c9fd4a0076bd21847414c102ae1a29"
+    },
+    {
+      "bytes": 61104,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-memit-sequential-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b03/accepted-z-rephrase-observation.json",
+      "sha256": "d531a10e88479a717834ba9bb1f387af195355752748822c49d0056f438e55de"
+    },
+    {
+      "bytes": 61611,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-memit-sequential-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b04/accepted-z-rephrase-observation.json",
+      "sha256": "95bee294a9680ce998542a39cd8ad219c00fe2b0f737e5e7cdfa91ab956d1a9f"
+    },
+    {
+      "bytes": 60793,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-memit-sequential-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b05/accepted-z-rephrase-observation.json",
+      "sha256": "7114debb840fa937928bc85ba95398d7edead0d2fec7c31719aeaeb3cdb3b696"
+    },
+    {
+      "bytes": 62193,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-memit-sequential-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b06/accepted-z-rephrase-observation.json",
+      "sha256": "2006c7d50d39247a3708c0f1578c3d13d4485198e188c74c39cb339174343da9"
+    },
+    {
+      "bytes": 62073,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-memit-sequential-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b07/accepted-z-rephrase-observation.json",
+      "sha256": "24760b3e884f2b22ae110295ea2088d96c9bca46666035c75b17067e45d8a927"
+    },
+    {
+      "bytes": 61624,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-memit-sequential-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b08/accepted-z-rephrase-observation.json",
+      "sha256": "b3a0f24ed6d8d362c581ca4beee461ed975a95c8f4033b7c99f41bd38ed7c432"
+    },
+    {
+      "bytes": 62242,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-memit-sequential-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b09/accepted-z-rephrase-observation.json",
+      "sha256": "f26c5e1c24bca5dda2fdeeb46a4fa9b19bc24d7f298bb805405ae71f6816a2c8"
+    },
+    {
+      "bytes": 61298,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-memit-sequential-10xb100-accepted-z-rephrase-obs-tech-r1-v1/raw/batches/b10/accepted-z-rephrase-observation.json",
+      "sha256": "b779fa2ef24a1597a8891935be83fe1f604cf4449ec270cce50a0975cb8b3ee5"
+    },
+    {
+      "bytes": 2207607,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1/local/odebf/results/s05-p1r52-official-memit-sequential-10xb100-accepted-z-rephrase-obs-tech-r1-v1/terminal.json",
+      "sha256": "d4fa1e142e811c64e8e503f20757c0909bf20e7279ac35555571073830c8ed40"
+    },
+    {
+      "bytes": 3225,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/manifest-v2.json",
+      "sha256": "1999ff19bbf581a1731ad2068f4c64908c605af826a81ac257e82624febec314"
+    },
+    {
+      "bytes": 49763,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-aggregate.json",
+      "sha256": "5d2f013b1ccc613cad28ac86f9dff3e3fcab05c72ac26ccfa179deca99ff4d7d"
+    },
+    {
+      "bytes": 403223,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-batch-checkpoints.json",
+      "sha256": "84fc346f95377118615f51db067e37902dfea0683c903d8ea232480d00580713"
+    },
+    {
+      "bytes": 21957,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-integrity-compute.json",
+      "sha256": "24d1692e5ed5ad449828c6cc75b6909d7b750c26e29b4c6cc9f38bdf255edc91"
+    },
+    {
+      "bytes": 16016406,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-request-retention.json",
+      "sha256": "02e237cc9319c97999cf9a9ac7f2830935344db13e712fc49e502115aed734ae"
+    },
+    {
+      "bytes": 159081,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-r52-controller-routing.json",
+      "sha256": "cbdf13e6621ec943ca6705975c354f4397ea0ca0f29b8c9ee59c39ad79786094"
+    },
+    {
+      "bytes": 116623,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-r52-target-writer-step-v2.json",
+      "sha256": "7e8538cedd8c9dabbeb9e654a608a05767d2265a69d05c10b484928419a2cbe8"
+    },
+    {
+      "bytes": 15785,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-r52-terminal-z-w-v2.json",
+      "sha256": "b787bec48128d4a6b5ab867c5e6056529e71bd6f67ed4e18916a9b9c2587b681"
+    },
+    {
+      "bytes": 4187,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-llama-seq-10xb100-fourarm-r1-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/rooted-receipt-v2.json",
+      "sha256": "2a3b1e813f3ef717f5dd685657dced4b976be50709faaa0f3e67d0b8c5c80acd"
+    }
+  ],
+  "inputs_root_sha256": "03cc18f4072b436838dc2b40a091de39b6d673663172514b92493e4edc7a909a",
+  "instruction_id": "ODEEDIT-S05-P1R52-LLAMA-B100-ACCEPTED-Z-REPHRASE-OBS-V1",
+  "members": [
+    {
+      "bytes": 62945,
+      "lines": 1788,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-accepted-z-aggregates.json",
+      "sha256": "264ba1fbe70ab961b127bbf707cf4d56496d399963e27dc76c18ca73b85601c1"
+    },
+    {
+      "bytes": 588932,
+      "lines": 16646,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-accepted-z-per-batch.json",
+      "sha256": "2749d5b9b1a72b4fc615827de58ecf7b3f980cac543acf6a555c6d8448ae60d9"
+    },
+    {
+      "bytes": 26948675,
+      "lines": 984006,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-accepted-z-per-request.json",
+      "sha256": "de11fab7d2bb83ba8a8fa4e36205b6578eff2c1ed618da1feb85fade05a3666a"
+    },
+    {
+      "bytes": 55524,
+      "lines": 3736,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-accepted-z-hard-cohorts.json",
+      "sha256": "599f840d25c62f340fba021965ab06a7539432736a50ffa9950a83140e22640c"
+    },
+    {
+      "bytes": 44089,
+      "lines": 1124,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-accepted-z-routing-compute.json",
+      "sha256": "cc621f46c087beef2abba5673c84c9b58fbd8686d4197387126bfa9122262213"
+    },
+    {
+      "bytes": 13007,
+      "lines": 119,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-b100-accepted-z-rephrase-observation-factual-ko.md",
+      "sha256": "3132d5fc2dd420d3e3af71e3e0d77bea3944c48a13d84f418c8d1264a78869a6"
+    }
+  ],
+  "members_root_sha256": "564493f4840afb2e17accda7915e6267989de7176f84e0654b9e5b11bf27cce5",
+  "schema": "p1r52-b100-accepted-z-observation/report-manifest/v1",
+  "status": "PASS"
+}
