@@ -14,12 +14,12 @@
     {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r52_independent_panel.py","sha256":"4a8fecaa0b4f63b87a6f4b21b99ef35c54c7e9f69ee1ddd28f8d37828eadcc6a","size":4282},
     {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r52_independent_runtime.py","sha256":"be4cd4e6a6c28176d6e22cc56d2d4432a2f404fbba695e65db794363d99d440b","size":11009},
     {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r52_pir_panel.py","sha256":"965a62596ff34ac13164e0055a06cf7b0602cbc1d0b7498d8115238c823a2c9f","size":3659},
-    {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r52_pir_writer.py","sha256":"b4983e8972c7643e773d60d539ca906536d9ef8679b7968a61f859a76b035178","size":22554},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r52_pir_writer.py","sha256":"6ec509f40acd55a32f33d8a9caf6e705a7d9d67d2f6227e839fcfd3ed6c006d0","size":22605},
     {"mode":"0o600","path":"project/run_scripts/ode_bf/p1r52_r42_safe_kdc.py","sha256":"d4098eb11002349cf3b151f8d2e327bee15990bd6ee4f4accef9fdb4555e97bd","size":34797},
     {"mode":"0o600","path":"project/run_scripts/ode_bf/scalable_batched_model.py","sha256":"9196adf47ac67b425acc20ed098b8c672a4387c5907f95ea5f05472c53e89621","size":39640},
     {"mode":"0o600","path":"project/run_scripts/ode_bf/tests/test_p1r52_frozen_pi_quota_writer.py","sha256":"fa39b82a766c26ed3d5dfa5e0c422a2e5409c6929453a0e521d50a85ed570f4d","size":3905},
     {"mode":"0o600","path":"project/run_scripts/ode_bf/tests/test_p1r52_pir_execution_contract.py","sha256":"53f67c31b36012ee667d4da6f7015a2fbb50b0c2f57f6dd7ed2df02076c5005b","size":2762},
-    {"mode":"0o600","path":"project/run_scripts/ode_bf/tests/test_p1r52_pir_writer.py","sha256":"b7a3c10c6b33be9cc5d29a4eea5dcfce7afd4d0d1bb4a637a31fd1ee25292752","size":4463},
+    {"mode":"0o600","path":"project/run_scripts/ode_bf/tests/test_p1r52_pir_writer.py","sha256":"5a62660fe81f85e978afcae9608bfeed0f435e9d260107f83416365602641fff","size":4530},
     {"mode":"0o600","path":"project/run_scripts/ode_bf/tests/test_p1r52_r42_safe_kdc.py","sha256":"516f591d1120fb734b812e44729f5abc3f88c6c3cb7795af999d18e3da972b7c","size":15256},
     {"mode":"0o600","path":"project/run_scripts/ode_bf/woodbury.py","sha256":"e15a1204cd6abbffd860cbf6641bbbcfdab050508afc3f5fff95dc93ca8449f7","size":8897},
     {"mode":"0o600","path":"project/run_scripts/session05_ode_bf_p1r52_pir_atomic_b10x10.py","sha256":"da14ce179ab177ed178d828c60cf9519ba84439319b4637110f5e463389240a9","size":4539},
@@ -30,6 +30,6 @@
   "instruction_id": "ODEEDIT-S05-P1R52-PIR-SEQUENTIAL-WRITER-V1",
   "parent": "14b0250429bcff993b05fe69783ef808e09a16be",
   "parent_tree": "33a4eebd788f4410f839afd1cf3cf93c8673fee7",
-  "root_digest": "c33cda315043bae0120211cc547eefcdae8052d95056e5faac7292e1fa4beff1",
+  "root_digest": "20af9387a7674a450fea45c18f7abba9f50d6890a323a19e8c390139a8c824ba",
   "schema_version": "ode-edit-s05-p1r52-pir-source-manifest/v1"
 }

@@ -102,6 +102,7 @@ class P1R52PIRWriterTests(unittest.TestCase):
         self.assertNotIn("sequential_quota_decision", source)
         self.assertNotIn("current_nll=", source)
         self.assertIn('"additional_slope_backward_count": 0', source)
+        self.assertIn('"applied_slope": slopes0[ordinal]', source)
         self.assertIn('"sequential_p_receipt": PIR_P_RECEIPT_STATUS', source)
         self.assertIn('"atomic_history_append_count": 0', source)
 

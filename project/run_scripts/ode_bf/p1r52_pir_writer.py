@@ -354,6 +354,7 @@ def plan_pir_writer(
                 "gamma": gamma,
                 "gamma_beta": coefficient,
                 "entry_applied_slope": slopes0[ordinal],
+                "applied_slope": slopes0[ordinal],
                 "predicted_semantic_share": predicted_shares[ordinal],
                 "entry_velocity": velocity0[ordinal],
                 "coefficient_over_j0": (
