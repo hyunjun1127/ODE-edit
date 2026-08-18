@@ -3231,6 +3231,8 @@ def run_p1(
     p1r52_attempt_suffix: str | None = None,
     p1r52_sequential_role: str | None = None,
     p1r52_sequential_scale: str | None = None,
+    p1r52_accepted_z_observation: bool = False,
+    p1r52_accepted_z_reference_root: Path | None = None,
     p2r1_target_only_case_count: int | None = None,
     p2r1_attempt_suffix: str | None = None,
     p2r2_case_count: int | None = None,
@@ -4475,7 +4477,13 @@ def run_p1(
                 ),
                 scale=resolve_p1r52_sequential_scale(p1r52_sequential_scale),
                 batch_entry_evaluation_enabled=p1r52_attempt_suffix
-                not in ("tech-r3", "tech-r3-release-r1"),
+                not in (
+                    "tech-r3",
+                    "tech-r3-release-r1",
+                    "accepted-z-rephrase-obs",
+                ),
+                accepted_z_observation_enabled=p1r52_accepted_z_observation,
+                accepted_z_reference_root=p1r52_accepted_z_reference_root,
             )
         if p1r52_arm is not None:
             from .p1r52_independent_runtime import run_p1r52_independent

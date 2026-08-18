@@ -7,6 +7,7 @@ lifetime anchors, terminal-only evaluation, and exact job-terminal W0 restore.
 
 from __future__ import annotations
 
+import contextlib
 from dataclasses import asdict
 import hashlib
 import json
@@ -58,6 +59,11 @@ from .p1r52_official_sequential_baselines import (
     load_official_memit_hparams,
     run_official_memit_apply,
 )
+from .p1r52_accepted_z_observation import (
+    OfficialNativeZCapture,
+    evaluate_accepted_z_batch,
+    r52_binding,
+)
 from .scalable_batched_model import build_scalable_capture_plan, build_scalable_objective_plan
 from .scalable_batched_native import run_official_native_apply
 from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER, scalable_ordered_request_digest
@@ -104,6 +110,11 @@ RESULT_NAMES_B100X10_TECH_R3 = {
 
 RESULT_NAMES_B100X10_TECH_R3_RELEASE_R1 = {
     role: name.removesuffix("-v1") + "-tech-r3-release-r1-v1"
+    for role, name in RESULT_NAMES_B100X10.items()
+}
+
+RESULT_NAMES_B100X10_ACCEPTED_Z_OBS = {
+    role: name.removesuffix("-v1") + "-accepted-z-rephrase-obs-v1"
     for role, name in RESULT_NAMES_B100X10.items()
 }
 
@@ -180,6 +191,7 @@ def expected_p1r52_sequential_result_name(
         "tech-r2",
         "tech-r3",
         "tech-r3-release-r1",
+        "accepted-z-rephrase-obs",
     ):
         raise ODEBFContractError("P1R52 sequential attempt suffix differs")
     if attempt_suffix is not None and scale == P1R52_B10X10_SCALE:
@@ -187,6 +199,8 @@ def expected_p1r52_sequential_result_name(
     names = (
         RESULT_NAMES
         if scale == P1R52_B10X10_SCALE
+        else RESULT_NAMES_B100X10_ACCEPTED_Z_OBS
+        if attempt_suffix == "accepted-z-rephrase-obs"
         else RESULT_NAMES_B100X10_TECH_R3_RELEASE_R1
         if attempt_suffix == "tech-r3-release-r1"
         else RESULT_NAMES_B100X10_TECH_R3
@@ -941,6 +955,8 @@ def run_p1r52_sequential(
     request_microbatch_size: int,
     scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
     batch_entry_evaluation_enabled: bool = True,
+    accepted_z_observation_enabled: bool = False,
+    accepted_z_reference_root: Path | None = None,
 ) -> dict[str, Any]:
     role_names = RESULT_NAMES if scale == P1R52_B10X10_SCALE else RESULT_NAMES_B100X10
     if alias != "llama3-8b-inst" or role not in role_names:
@@ -962,6 +978,11 @@ def run_p1r52_sequential(
         raise ODEBFContractError("P1R52 sequential stream geometry differs")
     if _hashes(touched) != dict(base_receipt.parameter_sha256):
         raise ODEBFStateError("P1R52 sequential entry W0 differs")
+    if accepted_z_observation_enabled and (
+        accepted_z_reference_root is None
+        or not accepted_z_reference_root.is_dir()
+    ):
+        raise ODEBFContractError("accepted-z sealed reference root is absent")
 
     from . import p1_scalable_batched_experiment as experiment
 
@@ -979,6 +1000,7 @@ def run_p1r52_sequential(
     checkpoint_rows: list[dict[str, Any]] = []
     entry_pre_evaluations: list[dict[str, Any]] = []
     immediate_post_evaluations: list[dict[str, Any]] = []
+    accepted_z_observations: list[dict[str, Any]] = []
     prior_commit_hashes = _hashes(touched)
     alphaedit_prior_cache_exit_sha256: str | None = None
     alphaedit_static_projection_identity: str | None = None
@@ -1007,8 +1029,31 @@ def run_p1r52_sequential(
             prior_requests = tuple(item for batch in cohort_requests for item in batch)
             prior_anchors = tuple(anchor_ledger.anchors)
             prior_anchor_finalized = dict(anchor_ledger.finalized)
+            reference_path: Path | None = None
+            reference: dict[str, Any] | None = None
+            if accepted_z_observation_enabled:
+                assert accepted_z_reference_root is not None
+                reference_path = (
+                    accepted_z_reference_root
+                    / "raw"
+                    / "batches"
+                    / f"b{round_index:02d}"
+                    / "terminal.json"
+                )
+                if not reference_path.is_file():
+                    raise ODEBFStateError("accepted-z sealed batch reference is absent")
+                reference = json.loads(reference_path.read_text(encoding="utf-8"))
+                if (
+                    reference.get("role") != role
+                    or reference.get("round") != round_index
+                    or reference.get("batch_size") != scale.batch_size
+                ):
+                    raise ODEBFStateError("accepted-z sealed batch reference identity differs")
             entry_observed: dict[str, np.ndarray] = {}
-            if prior_requests:
+            if accepted_z_observation_enabled:
+                assert reference is not None
+                entry_anchor_receipt = reference["history_entry_anchor_observation"]
+            elif prior_requests:
                 anchor_started = time.perf_counter()
                 entry_observed, entry_anchor_receipt = _capture_observation(
                     model,
@@ -1048,6 +1093,7 @@ def run_p1r52_sequential(
                     wall_seconds=pre_wall,
                 )
             seed_all(COMMON_SEED)
+            accepted_z_binding = None
             if role in R52_ROLES:
                 request_order = scalable_ordered_request_digest([str(item["request_sha256"]) for item in requests])
                 objective_plan = build_scalable_objective_plan(
@@ -1132,6 +1178,13 @@ def run_p1r52_sequential(
                         p1r34=True,
                         p1r35=True,
                         p1r52=True,
+                    )
+                if accepted_z_observation_enabled:
+                    accepted_z_binding = r52_binding(
+                        role,
+                        requests,
+                        hparams,
+                        rollout["terminal_target"],
                     )
                 public = rollout["public"]
                 if public["accepted_update_count"] != P1R23_GRID_COUNT or public["tau_final"] != 1.0:
@@ -1251,18 +1304,32 @@ def run_p1r52_sequential(
                 new_anchor_receipt = joint_transaction["anchor_capture"]
                 anchor_append = int(joint_transaction["anchor_append_count"])
             else:
+                native_z_capture = (
+                    OfficialNativeZCapture(
+                        role=role,
+                        requests=requests,
+                        hparams=memit_hparams if role == MEMIT_ROLE else hparams,
+                    )
+                    if accepted_z_observation_enabled
+                    else None
+                )
                 if role == NATIVE_CORRECTED_ROLE:
                     counter = ModelForwardCounter(model, job_ledger)
                     try:
-                        native_payload, _ = run_official_native_apply(
-                            model,
-                            tokenizer,
-                            requests,
-                            hparams,
-                            touched=touched,
-                            reset_cache=round_index == 1,
-                            cache_history_width=history_width,
-                        )
+                        with (
+                            native_z_capture
+                            if native_z_capture is not None
+                            else contextlib.nullcontext()
+                        ):
+                            native_payload, _ = run_official_native_apply(
+                                model,
+                                tokenizer,
+                                requests,
+                                hparams,
+                                touched=touched,
+                                reset_cache=round_index == 1,
+                                cache_history_width=history_width,
+                            )
                     finally:
                         counter.close()
                     cache_contract = native_payload["alphaedit_dynamic_cache_contract"]
@@ -1286,13 +1353,18 @@ def run_p1r52_sequential(
                         raise ODEBFStateError("Official MEMIT hparams are absent")
                     counter = ModelForwardCounter(model, job_ledger)
                     try:
-                        native_payload, _ = run_official_memit_apply(
-                            model,
-                            tokenizer,
-                            requests,
-                            memit_hparams,
-                            touched=touched,
-                        )
+                        with (
+                            native_z_capture
+                            if native_z_capture is not None
+                            else contextlib.nullcontext()
+                        ):
+                            native_payload, _ = run_official_memit_apply(
+                                model,
+                                tokenizer,
+                                requests,
+                                memit_hparams,
+                                touched=touched,
+                            )
                     finally:
                         counter.close()
                     covariance_cache = native_payload["covariance_cache"]
@@ -1309,11 +1381,18 @@ def run_p1r52_sequential(
                 else:
                     counter = ModelForwardCounter(model, job_ledger)
                     try:
-                        native_payload, _ = run_official_native_apply(
-                            model, tokenizer, requests, hparams, touched=touched
-                        )
+                        with (
+                            native_z_capture
+                            if native_z_capture is not None
+                            else contextlib.nullcontext()
+                        ):
+                            native_payload, _ = run_official_native_apply(
+                                model, tokenizer, requests, hparams, touched=touched
+                            )
                     finally:
                         counter.close()
+                if native_z_capture is not None:
+                    accepted_z_binding = native_z_capture.finalize()
                 target_backward_count = int(native_payload.get("target_backward_count", 0))
                 job_ledger.increment("backward", target_backward_count)
                 job_ledger.increment("target_backward", target_backward_count)
@@ -1387,36 +1466,93 @@ def run_p1r52_sequential(
                 selected_snapshot_sha256=snapshot_sha,
                 fixed_budget_slots_completed=8 if role in R52_ROLES else 0,
             )
+            accepted_z_observation: dict[str, Any] | None = None
+            if accepted_z_observation_enabled:
+                if (
+                    accepted_z_binding is None
+                    or reference is None
+                    or reference_path is None
+                ):
+                    raise ODEBFStateError("accepted-z native binding is absent")
+                if reference.get("commit_weight_sha256") != committed_hashes:
+                    raise ODEBFStateError("accepted-z replay physical commit differs")
+                before_observation = _hashes(touched)
+                accepted_z_observation, observation_wall = evaluate_accepted_z_batch(
+                    model,
+                    tokenizer,
+                    requests,
+                    loaded_cases,
+                    role=role,
+                    round_index=round_index,
+                    binding=accepted_z_binding,
+                    committed_weight_sha256=committed_hashes,
+                )
+                if _hashes(touched) != before_observation:
+                    raise ODEBFStateError("accepted-z observation mutated model state")
+                accepted_z_observation["sealed_reference_terminal_sha256"] = hashlib.sha256(
+                    reference_path.read_bytes()
+                ).hexdigest()
+                accepted_z_observation["sealed_commit_weight_exact"] = True
+                accepted_z_observation["identity_sha256"] = canonical_hash(
+                    {
+                        key: value
+                        for key, value in accepted_z_observation.items()
+                        if key != "identity_sha256"
+                    }
+                )
+                accepted_z_observation["receipt_sha256"] = _atomic_write_once(
+                    case_root / "accepted-z-rephrase-observation.json",
+                    accepted_z_observation,
+                )
+                accepted_z_observations.append(accepted_z_observation)
+                evaluation_wall += observation_wall
+                _record_evaluator_compute(
+                    job_ledger,
+                    accepted_z_observation["scores"],
+                    component="accepted_z_rephrase_observation",
+                    wall_seconds=observation_wall,
+                )
             cohort_cases.append(tuple(loaded_cases))
             cohort_requests.append(requests)
             checkpoint_evaluations: list[dict[str, Any]] = []
-            for cohort_index, cases in enumerate(cohort_cases, start=1):
-                receipt, wall = _evaluate_cohort(
-                    model,
-                    tokenizer,
-                    cases,
-                    alias=alias,
-                    role=role,
-                    cohort_index=cohort_index,
-                    checkpoint_index=round_index,
-                    snapshot_sha256=snapshot_sha,
-                    slots=8 if role in R52_ROLES else 0,
-                    expected_batch_size=scale.batch_size,
+            if accepted_z_observation_enabled:
+                assert reference is not None
+                checkpoint_evaluations = [
+                    *reference["prior_history_evaluation"],
+                    reference["current_batch_evaluation"],
+                ]
+                if len(checkpoint_evaluations) != round_index:
+                    raise ODEBFStateError("accepted-z sealed checkpoint count differs")
+                current_eval = reference["current_batch_evaluation"]
+                aggregate = reference["cumulative_evaluation"]
+            else:
+                for cohort_index, cases in enumerate(cohort_cases, start=1):
+                    receipt, wall = _evaluate_cohort(
+                        model,
+                        tokenizer,
+                        cases,
+                        alias=alias,
+                        role=role,
+                        cohort_index=cohort_index,
+                        checkpoint_index=round_index,
+                        snapshot_sha256=snapshot_sha,
+                        slots=8 if role in R52_ROLES else 0,
+                        expected_batch_size=scale.batch_size,
+                    )
+                    checkpoint_evaluations.append(receipt)
+                    evaluation_wall += wall
+                    _record_evaluator_compute(
+                        job_ledger,
+                        receipt,
+                        component="batch_terminal_checkpoint_evaluator",
+                        wall_seconds=wall,
+                    )
+                current_eval = checkpoint_evaluations[-1]
+                aggregate = _aggregate_metric_payloads(
+                    checkpoint_evaluations,
+                    batch_size=scale.batch_size,
                 )
-                checkpoint_evaluations.append(receipt)
-                evaluation_wall += wall
-                _record_evaluator_compute(
-                    job_ledger,
-                    receipt,
-                    component="batch_terminal_checkpoint_evaluator",
-                    wall_seconds=wall,
-                )
-            current_eval = checkpoint_evaluations[-1]
             immediate_post_evaluations.append(current_eval)
-            aggregate = _aggregate_metric_payloads(
-                checkpoint_evaluations,
-                batch_size=scale.batch_size,
-            )
             pre_summary = (
                 _evaluation_summary(entry_pre)
                 if entry_pre is not None
@@ -1430,7 +1566,11 @@ def run_p1r52_sequential(
             )
 
             terminal_observed: dict[str, np.ndarray] = {}
-            if prior_requests:
+            if accepted_z_observation_enabled:
+                assert reference is not None
+                terminal_anchor_receipt = reference["history_terminal_anchor_observation"]
+                drift = reference["historical_damage"]
+            elif prior_requests:
                 anchor_started = time.perf_counter()
                 terminal_observed, terminal_anchor_receipt = _capture_observation(
                     model,
@@ -1557,6 +1697,9 @@ def run_p1r52_sequential(
                     if batch_entry_evaluation_enabled
                     else "REMOVED_BY_USER_AMENDMENT"
                 ),
+                "accepted_z_rephrase_observation": accepted_z_observation,
+                "sealed_W_evaluator_receipts_reused": accepted_z_observation_enabled,
+                "duplicate_W_evaluator_model_forward_count": 0,
                 "retry_count": 0,
                 "backtracking_count": 0,
             }
@@ -1592,32 +1735,45 @@ def run_p1r52_sequential(
             prior_commit_hashes = committed_hashes
 
         final_snapshot_sha = canonical_hash(prior_commit_hashes)
-        final_evaluations: list[dict[str, Any]] = []
-        for cohort_index, cases in enumerate(cohort_cases, start=1):
-            receipt, wall = _evaluate_cohort(
-                model,
-                tokenizer,
-                cases,
-                alias=alias,
-                role=f"{role}-{scale.final_label}-terminal",
-                cohort_index=cohort_index,
-                checkpoint_index=scale.round_count,
-                snapshot_sha256=final_snapshot_sha,
-                slots=8 if role in R52_ROLES else 0,
-                expected_batch_size=scale.batch_size,
+        if accepted_z_observation_enabled:
+            assert accepted_z_reference_root is not None
+            sealed_terminal_path = accepted_z_reference_root / "terminal.json"
+            sealed_terminal = json.loads(
+                sealed_terminal_path.read_text(encoding="utf-8")
             )
-            final_evaluations.append(receipt)
-            evaluation_wall += wall
-            _record_evaluator_compute(
-                job_ledger,
-                receipt,
-                component=f"final_W10_{scale.final_label}_evaluator",
-                wall_seconds=wall,
+            final_evaluations = sealed_terminal[
+                f"final_{scale.final_label}_cohort_receipts"
+            ]
+            final_b100 = sealed_terminal[f"final_{scale.final_label}"]
+            if len(final_evaluations) != scale.round_count:
+                raise ODEBFStateError("accepted-z sealed final cohort count differs")
+        else:
+            final_evaluations = []
+            for cohort_index, cases in enumerate(cohort_cases, start=1):
+                receipt, wall = _evaluate_cohort(
+                    model,
+                    tokenizer,
+                    cases,
+                    alias=alias,
+                    role=f"{role}-{scale.final_label}-terminal",
+                    cohort_index=cohort_index,
+                    checkpoint_index=scale.round_count,
+                    snapshot_sha256=final_snapshot_sha,
+                    slots=8 if role in R52_ROLES else 0,
+                    expected_batch_size=scale.batch_size,
+                )
+                final_evaluations.append(receipt)
+                evaluation_wall += wall
+                _record_evaluator_compute(
+                    job_ledger,
+                    receipt,
+                    component=f"final_W10_{scale.final_label}_evaluator",
+                    wall_seconds=wall,
+                )
+            final_b100 = _aggregate_metric_payloads(
+                final_evaluations,
+                batch_size=scale.batch_size,
             )
-        final_b100 = _aggregate_metric_payloads(
-            final_evaluations,
-            batch_size=scale.batch_size,
-        )
         immediate_post_all = _aggregate_metric_payloads(
             immediate_post_evaluations,
             batch_size=scale.batch_size,
@@ -1764,6 +1920,25 @@ def run_p1r52_sequential(
     )
     aggregate_table_sha = _atomic_write_once(destination / aggregate_filename, aggregate_table)
 
+    accepted_z_table_sha: str | None = None
+    accepted_z_table_path: Path | None = None
+    if accepted_z_observation_enabled:
+        if len(accepted_z_observations) != scale.round_count:
+            raise ODEBFStateError("accepted-z observation round count differs")
+        accepted_z_table = {
+            "schema": "ode-edit-s05-p1r52-b100-accepted-z-rephrase-observations/v1",
+            "role": role,
+            "rows": accepted_z_observations,
+            "row_count": len(accepted_z_observations),
+            "batch_entry_W_metrics_count": 0,
+            "imputation_count": 0,
+        }
+        accepted_z_table["identity_sha256"] = canonical_hash(accepted_z_table)
+        accepted_z_table_path = destination / "accepted-z-rephrase-observations.json"
+        accepted_z_table_sha = _atomic_write_once(
+            accepted_z_table_path, accepted_z_table
+        )
+
     terminal = {
         "schema": f"ode-edit-s05-p1r52-sequential-10xb{scale.batch_size}-terminal/v1",
         "instruction_id": scale.instruction_id,
@@ -1842,6 +2017,28 @@ def run_p1r52_sequential(
         "batch_entry_pre_evaluator_token_count": sum(
             int(item["legacy_primary"]["processed_token_count"])
             for item in entry_pre_evaluations
+        ),
+        "accepted_z_observation_enabled": accepted_z_observation_enabled,
+        "accepted_z_observation_count": len(accepted_z_observations),
+        "accepted_z_observation_model_forward_count": sum(
+            int(item["model_forward_count"]) for item in accepted_z_observations
+        ),
+        "accepted_z_observation_processed_token_count": sum(
+            int(item["processed_token_count"]) for item in accepted_z_observations
+        ),
+        "accepted_z_observation_added_backward_count": 0,
+        "accepted_z_observation_added_generation_call_count": 0,
+        "accepted_z_observation_action_influence_count": 0,
+        "sealed_W_evaluator_receipts_reused": accepted_z_observation_enabled,
+        "duplicate_W_evaluator_model_forward_count": 0,
+        "accepted_z_observation_table": (
+            {
+                "path": str(accepted_z_table_path),
+                "sha256": accepted_z_table_sha,
+                "rows": len(accepted_z_observations),
+            }
+            if accepted_z_table_path is not None
+            else None
         ),
         "batch_entry_pre_evaluator_backward_count": 0,
         "batch_entry_pre_evaluator_generation_count": 0,
