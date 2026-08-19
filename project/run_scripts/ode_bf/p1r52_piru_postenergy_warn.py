@@ -20,12 +20,12 @@ INSTRUCTION_ID = (
     "ODEEDIT-S05-P1R52-PIR-U-SEQUENTIAL-10XB100-STRUCTURALH-POSTENERGY-WARN-R1-V1"
 )
 METHOD_ID = "P1R52-PIR-U-SEQUENTIAL-STRUCTURAL-H-POSTENERGY-WARN-R1"
-ATTEMPT_SUFFIX = "pir-u-structuralh-postenergy-warn-r1-v1"
+ATTEMPT_SUFFIX = "pir-u-structuralh-postenergy-warn-r1-tech-r1-v1"
 RESULT_NAME = (
     "s05-p1r52-pir-u-soft-sequential-structuralh-on-10xb100-"
-    "postenergy-warn-r1-v1"
+    "postenergy-warn-r1-tech-r1-v1"
 )
-RUN_TOKEN = "p1r52-pir-u-sequential-postenergy-warn-r1-v1"
+RUN_TOKEN = "p1r52-pir-u-sequential-postenergy-warn-r1-tech-r1-v1"
 
 
 def classify_h_postsolve_certificate(

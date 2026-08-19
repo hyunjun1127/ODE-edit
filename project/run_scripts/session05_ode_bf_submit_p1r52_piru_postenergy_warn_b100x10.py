@@ -38,8 +38,8 @@ def submit(source_head: str) -> dict[str, object]:
     if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("PIR-U post-energy-WARN execution source differs")
     output_root = REPO_ROOT / "local/odebf/results" / RESULT_NAME
-    state_root = REPO_ROOT / "local/odebf/state/p1r52-piru-postenergy-warn-r1-v1"
-    log_root = REPO_ROOT / "local/odebf/logs/p1r52-piru-postenergy-warn-r1-v1"
+    state_root = REPO_ROOT / "local/odebf/state/p1r52-piru-postenergy-warn-r1-tech-r1-v1"
+    log_root = REPO_ROOT / "local/odebf/logs/p1r52-piru-postenergy-warn-r1-tech-r1-v1"
     if any(path.exists() or path.is_symlink() for path in (output_root, state_root, log_root)):
         raise ODEBFContractError("PIR-U post-energy-WARN namespace exists")
     allocated, jobs = _gpu_jobs()

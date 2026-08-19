@@ -1,1 +1,116 @@
-{"accepted_z_observation_action_influence_count":0,"entries":[{"path":"project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r52_piru_postenergy_warn_r1_10xb100.json","sha256":"b6d00b8e18175a2309567baa9dcefa80a9f66838fb9eace15c6f4fc822543b0b","size":1705},{"path":"project/run_scripts/ode_bf/locks/p1r52_sequential_b100x10_stream_seal.json","sha256":"550600af120070594078b73a5da7d066ad6287d8a3224c55f61babca592e0586","size":404973},{"path":"project/run_scripts/ode_bf/p1_runtime.py","sha256":"2be1248c7a3d6c233687c2869a8641a794ec68a93f903161ac5ee35b9cd1a342","size":230725},{"path":"project/run_scripts/ode_bf/p1_scalable_batched_experiment.py","sha256":"7a372aade5de9c363b97839756961dc446492a3ed499eebdda08f51f75de8a36","size":135058},{"path":"project/run_scripts/ode_bf/p1r52_accepted_z_observation.py","sha256":"0f13e6e677bb4494dcd963358b1b678c8c78d53d7a05c41e8e595bd5f3d05c9d","size":16444},{"path":"project/run_scripts/ode_bf/p1r52_pir_writer.py","sha256":"6ec509f40acd55a32f33d8a9caf6e705a7d9d67d2f6227e839fcfd3ed6c006d0","size":22605},{"path":"project/run_scripts/ode_bf/p1r52_piru_postenergy_warn.py","sha256":"e94963a52a18f5e6279130c241a87b9e6dbb05aa5456b73e330fae2e1585c4ef","size":11663},{"path":"project/run_scripts/ode_bf/p1r52_piru_postenergy_warn_panel.py","sha256":"31c787896898ae20e08dd2e8ac24fc4795e58ec023f172e99b6e4f514df9cb2c","size":3207},{"path":"project/run_scripts/ode_bf/p1r52_piru_sequential_adapter.py","sha256":"bc2f77d011b601a091eb00dac28bb72e31e661d48aa363e8cec47fb10f1d7c66","size":4794},{"path":"project/run_scripts/ode_bf/p1r52_sequential_contract.py","sha256":"a48af0a198be87a07fc9b6c4ffd99d16083dc5008ffe2088234b379c341d06ef","size":43294},{"path":"project/run_scripts/ode_bf/p1r52_sequential_runtime.py","sha256":"400e88e4cf25209a8d33040302751dfbfd9039cca7b16780485cc5142c706a66","size":107555},{"path":"project/run_scripts/ode_bf/p1r52_sequential_scale.py","sha256":"5a17b7029f632d838403b27abae406f999206990f5c3d93afc4ca5a28954aa4e","size":2421},{"path":"project/run_scripts/ode_bf/tests/test_p1r52_accepted_z_observation.py","sha256":"09cc238207add19087ce4b5c90449aa47d07f97c62e08d7705897d1936796e9c","size":9065},{"path":"project/run_scripts/ode_bf/tests/test_p1r52_piru_postenergy_warn.py","sha256":"68d8ac4b2176b210339e4d9f25dbacba8db936ef0f44338b074ff6b71e5a8268","size":9413},{"path":"project/run_scripts/ode_bf/tests/test_p1r52_piru_sequential.py","sha256":"0c8c168bf62361a7c35613ab8087b74d032de2f3b11829c9a714cab1b3fc2db3","size":10820},{"path":"project/run_scripts/session05_ode_bf_p1r52_piru_postenergy_warn_b100x10.py","sha256":"be896b7e30bfa1f4d754de0e1d214e41cff56606a7bf08880fd345f9208c84d6","size":5803},{"path":"project/run_scripts/session05_ode_bf_p1r52_piru_postenergy_warn_b100x10.sbatch","sha256":"43bbae0b3cc900e52ff7b6b27dfacd5b54ad66e77da5e25ca0094f15de2181a8","size":2115},{"path":"project/run_scripts/session05_ode_bf_p1r52_piru_postenergy_warn_b100x10_dry_plan.py","sha256":"24612547edc3128df0871fad974b6d95a99330ad9df9c31da86b5fa27c24a028","size":2263},{"path":"project/run_scripts/session05_ode_bf_submit_p1r52_piru_postenergy_warn_b100x10.py","sha256":"88adb4de3f20d2720ae106328af7bd1d3b33e585ad83e922c5f27311852859d6","size":4563}],"entry_count":19,"external_tolerance_delta_count":0,"instruction_id":"ODEEDIT-S05-P1R52-PIR-U-SEQUENTIAL-10XB100-STRUCTURALH-POSTENERGY-WARN-R1-V1","numerical_lock_sha256":"b6d00b8e18175a2309567baa9dcefa80a9f66838fb9eace15c6f4fc822543b0b","optimizer_energy_constraint_delta_count":0,"parent":"3f873f70a341b4d49f1552b55d132c43508c0609","parent_tree":"111be0fc080d5e0a5d8c5c43b689cfe6bcccde36","replacement_polish_shrink_retry_count":[0,0,0,0],"root_digest":"01b0de09bdf49ec87f4c859629ae8f0a1c5024422b2969516ad16607048b413c","schema_version":"ode-edit-s05-p1r52-piru-postenergy-warn-r1-10xb100-source-manifest/v1","scientific_method_delta":"POSTSOLVE_ENERGY_RESIDUAL_HARD_GATE_TO_WARN_CONTINUE"}
+{
+  "accepted_z_observation_action_influence_count": 0,
+  "entries": [
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r52_piru_postenergy_warn_r1_10xb100.json",
+      "sha256": "b6d00b8e18175a2309567baa9dcefa80a9f66838fb9eace15c6f4fc822543b0b",
+      "size": 1705
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/p1r52_sequential_b100x10_stream_seal.json",
+      "sha256": "550600af120070594078b73a5da7d066ad6287d8a3224c55f61babca592e0586",
+      "size": 404973
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "sha256": "2be1248c7a3d6c233687c2869a8641a794ec68a93f903161ac5ee35b9cd1a342",
+      "size": 230725
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+      "sha256": "7a372aade5de9c363b97839756961dc446492a3ed499eebdda08f51f75de8a36",
+      "size": 135058
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r52_accepted_z_observation.py",
+      "sha256": "0f13e6e677bb4494dcd963358b1b678c8c78d53d7a05c41e8e595bd5f3d05c9d",
+      "size": 16444
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r52_pir_writer.py",
+      "sha256": "6ec509f40acd55a32f33d8a9caf6e705a7d9d67d2f6227e839fcfd3ed6c006d0",
+      "size": 22605
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r52_piru_postenergy_warn.py",
+      "sha256": "8574faf44931e8cb720177fa9e6b9ae93617784abb30784409c4f765af6fba51",
+      "size": 11687
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r52_piru_postenergy_warn_panel.py",
+      "sha256": "31c787896898ae20e08dd2e8ac24fc4795e58ec023f172e99b6e4f514df9cb2c",
+      "size": 3207
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r52_piru_sequential_adapter.py",
+      "sha256": "bc2f77d011b601a091eb00dac28bb72e31e661d48aa363e8cec47fb10f1d7c66",
+      "size": 4794
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r52_sequential_contract.py",
+      "sha256": "a48af0a198be87a07fc9b6c4ffd99d16083dc5008ffe2088234b379c341d06ef",
+      "size": 43294
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r52_sequential_runtime.py",
+      "sha256": "234d9afb3036223e6efd45a14224a92cac5f31977ff3d1fc313603d20f1e96a5",
+      "size": 107820
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r52_sequential_scale.py",
+      "sha256": "5a17b7029f632d838403b27abae406f999206990f5c3d93afc4ca5a28954aa4e",
+      "size": 2421
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p1r52_accepted_z_observation.py",
+      "sha256": "09cc238207add19087ce4b5c90449aa47d07f97c62e08d7705897d1936796e9c",
+      "size": 9065
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p1r52_piru_postenergy_warn.py",
+      "sha256": "f961b66d9c1cd1c8e9ea4e3c02ca472c54714ffcc0ddd35b12a43f94b330b976",
+      "size": 10145
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p1r52_piru_sequential.py",
+      "sha256": "0c8c168bf62361a7c35613ab8087b74d032de2f3b11829c9a714cab1b3fc2db3",
+      "size": 10820
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r52_piru_postenergy_warn_b100x10.py",
+      "sha256": "be896b7e30bfa1f4d754de0e1d214e41cff56606a7bf08880fd345f9208c84d6",
+      "size": 5803
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r52_piru_postenergy_warn_b100x10.sbatch",
+      "sha256": "5d2ca57dda514d132c0c04d98f9f9c7facdf8809d41c1dabde59470fb966b5c1",
+      "size": 2123
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r52_piru_postenergy_warn_b100x10_dry_plan.py",
+      "sha256": "24612547edc3128df0871fad974b6d95a99330ad9df9c31da86b5fa27c24a028",
+      "size": 2263
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_submit_p1r52_piru_postenergy_warn_b100x10.py",
+      "sha256": "787c858efb71e73b86a20c0a36a3f8ede69cab546d289e51158d94b2b115521a",
+      "size": 4579
+    }
+  ],
+  "entry_count": 19,
+  "external_tolerance_delta_count": 0,
+  "instruction_id": "ODEEDIT-S05-P1R52-PIR-U-SEQUENTIAL-10XB100-STRUCTURALH-POSTENERGY-WARN-R1-V1",
+  "numerical_lock_sha256": "b6d00b8e18175a2309567baa9dcefa80a9f66838fb9eace15c6f4fc822543b0b",
+  "optimizer_energy_constraint_delta_count": 0,
+  "parent": "3f873f70a341b4d49f1552b55d132c43508c0609",
+  "parent_tree": "111be0fc080d5e0a5d8c5c43b689cfe6bcccde36",
+  "replacement_polish_shrink_retry_count": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "root_digest": "b69185a36ebf3b256a9da68f724ef48ff57dfb8b9f1c70e2a2f9c6e62521e371",
+  "schema_version": "ode-edit-s05-p1r52-piru-postenergy-warn-r1-10xb100-source-manifest/v1",
+  "scientific_method_delta": "POSTSOLVE_ENERGY_RESIDUAL_HARD_GATE_TO_WARN_CONTINUE"
+}

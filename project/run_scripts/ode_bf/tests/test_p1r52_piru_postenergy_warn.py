@@ -22,6 +22,7 @@ from project.run_scripts.ode_bf.p1r52_piru_postenergy_warn_panel import (
 )
 from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
     expected_p1r52_sequential_result_name,
+    run_p1r52_sequential,
 )
 from project.run_scripts.ode_bf.p1r52_sequential_scale import P1R52_B100X10_SCALE
 from project.run_scripts import (
@@ -65,6 +66,8 @@ class P1R52PIRUPostEnergyWarnTests(unittest.TestCase):
         self.assertIn("p1r52_accepted_z_sealed_w_reuse=False", source)
 
     def test_new_result_and_dry_plan_are_create_once_one_cell(self) -> None:
+        self.assertIn("tech-r1", ATTEMPT_SUFFIX)
+        self.assertIn("tech-r1", RESULT_NAME)
         self.assertEqual(
             expected_p1r52_sequential_result_name(
                 "llama3-8b-inst",
@@ -79,6 +82,21 @@ class P1R52PIRUPostEnergyWarnTests(unittest.TestCase):
         self.assertEqual(plan["batch_entry_evaluator_count"], 0)
         self.assertEqual(plan["accepted_z_added_backward_generation_action"], [0, 0, 0])
         self.assertEqual(plan["postsolve_energy_residual"], "WARN_CONTINUE")
+
+    def test_inline_accepted_z_does_not_require_sealed_reference(self) -> None:
+        source = inspect.getsource(run_p1r52_sequential)
+        self.assertIn(
+            "if accepted_z_observation_enabled and accepted_z_sealed_w_reuse:\n"
+            "                assert reference is not None\n"
+            "                terminal_anchor_receipt",
+            source,
+        )
+        self.assertNotIn(
+            "if accepted_z_observation_enabled:\n"
+            "                assert reference is not None\n"
+            "                terminal_anchor_receipt",
+            source,
+        )
 
     def test_exact_captured_b4_k2_energy_residual_warns_and_continues(self) -> None:
         capture = json.loads(CAPTURE_RECEIPT.read_text(encoding="utf-8"))

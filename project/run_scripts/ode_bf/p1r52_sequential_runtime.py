@@ -1681,7 +1681,7 @@ def run_p1r52_sequential(
             )
 
             terminal_observed: dict[str, np.ndarray] = {}
-            if accepted_z_observation_enabled:
+            if accepted_z_observation_enabled and accepted_z_sealed_w_reuse:
                 assert reference is not None
                 terminal_anchor_receipt = reference["history_terminal_anchor_observation"]
                 drift = reference["historical_damage"]
@@ -1729,12 +1729,16 @@ def run_p1r52_sequential(
             batch_payload = {
                 "schema": f"ode-edit-s05-p1r52-sequential-{scale.scale_id}-terminal/v1",
                 "instruction_id": (
-                    P1R52_PIRU_SEQUENTIAL_INSTRUCTION_ID
+                    P1R52_PIRU_POSTENERGY_WARN_INSTRUCTION_ID
+                    if postsolve_energy_warn_enabled
+                    else P1R52_PIRU_SEQUENTIAL_INSTRUCTION_ID
                     if is_piru_structural_h_role(role)
                     else scale.instruction_id
                 ),
                 "method_id": (
-                    P1R52_PIRU_SEQUENTIAL_METHOD_ID
+                    P1R52_PIRU_POSTENERGY_WARN_METHOD_ID
+                    if postsolve_energy_warn_enabled
+                    else P1R52_PIRU_SEQUENTIAL_METHOD_ID
                     if is_piru_structural_h_role(role)
                     else METHOD_ID
                     if role == R52_H_ROLE
