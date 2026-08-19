@@ -3231,6 +3231,7 @@ def run_p1(
     p1r52_attempt_suffix: str | None = None,
     p1r52_sequential_role: str | None = None,
     p1r52_sequential_scale: str | None = None,
+    p1r52_batch_entry_evaluator_enabled: bool | None = None,
     p1r52_accepted_z_observation: bool = False,
     p1r52_accepted_z_reference_root: Path | None = None,
     p2r1_target_only_case_count: int | None = None,
@@ -4442,6 +4443,30 @@ def run_p1(
         if p1r52_sequential_role is not None:
             from .p1r52_sequential_runtime import run_p1r52_sequential
             from .p1r52_sequential_scale import resolve_p1r52_sequential_scale
+            from .p1r52_piru_sequential_adapter import (
+                P1R52_PIRU_SEQUENTIAL_ROLE,
+                resolve_piru_batch_entry_evaluator_enabled,
+            )
+
+            if p1r52_sequential_role == P1R52_PIRU_SEQUENTIAL_ROLE:
+                batch_entry_evaluator_enabled = (
+                    resolve_piru_batch_entry_evaluator_enabled(
+                        p1r52_sequential_role,
+                        p1r52_batch_entry_evaluator_enabled,
+                    )
+                )
+            elif p1r52_batch_entry_evaluator_enabled is not None:
+                batch_entry_evaluator_enabled = bool(
+                    p1r52_batch_entry_evaluator_enabled
+                )
+            else:
+                batch_entry_evaluator_enabled = p1r52_attempt_suffix not in (
+                    "tech-r3",
+                    "tech-r3-release-r1",
+                    "accepted-z-rephrase-obs",
+                    "accepted-z-rephrase-obs-tech-r1",
+                    "accepted-z-rephrase-obs-tech-r1-r52",
+                )
 
             return run_p1r52_sequential(
                 model,
@@ -4476,15 +4501,7 @@ def run_p1(
                     ["request_microbatch_size"][alias]
                 ),
                 scale=resolve_p1r52_sequential_scale(p1r52_sequential_scale),
-                batch_entry_evaluation_enabled=p1r52_attempt_suffix
-                not in (
-                    "tech-r3",
-                    "tech-r3-release-r1",
-                    "accepted-z-rephrase-obs",
-                    "accepted-z-rephrase-obs-tech-r1",
-                    "accepted-z-rephrase-obs-tech-r1-r52",
-                    "pir-u-structuralh-on-v1",
-                ),
+                batch_entry_evaluation_enabled=batch_entry_evaluator_enabled,
                 accepted_z_observation_enabled=p1r52_accepted_z_observation,
                 accepted_z_reference_root=p1r52_accepted_z_reference_root,
             )

@@ -998,6 +998,10 @@ def run_p1r52_sequential(
     )
     if alias != "llama3-8b-inst" or role not in role_names:
         raise ODEBFContractError("P1R52 sequential model/role differs")
+    if is_piru_structural_h_role(role) and batch_entry_evaluation_enabled:
+        raise ODEBFContractError(
+            "P1R52 PIR-U batch-entry evaluator contract differs"
+        )
     if len(stream_batches) != scale.round_count or any(
         len(batch) != scale.batch_size for batch in stream_batches
     ):
@@ -2109,6 +2113,13 @@ def run_p1r52_sequential(
         "job_compute": job_ledger.raw_free_payload(),
         "scientific_promotion": False,
     }
+    if is_piru_structural_h_role(role) and (
+        terminal["batch_entry_pre_evaluator_count"] != 0
+        or terminal["batch_entry_pre_evaluator_forward_count"] != 0
+        or terminal["batch_entry_pre_evaluator_backward_count"] != 0
+        or terminal["batch_entry_pre_evaluator_generation_count"] != 0
+    ):
+        raise ODEBFStateError("P1R52 PIR-U batch-entry evaluator count differs")
     if batch_entry_evaluation_enabled:
         terminal[f"true_entry_pre_all_B{scale.batch_size}"] = true_entry_pre_all
         terminal["entry_pre_receipts"] = entry_pre_evaluations

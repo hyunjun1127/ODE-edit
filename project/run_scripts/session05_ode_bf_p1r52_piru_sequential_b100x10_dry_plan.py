@@ -15,6 +15,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from project.run_scripts.ode_bf.contracts import ODEBFContractError
 from project.run_scripts.ode_bf.p1r52_piru_sequential_adapter import (
+    P1R52_PIRU_BATCH_ENTRY_EVALUATOR_ENABLED,
     P1R52_PIRU_SEQUENTIAL_INSTRUCTION_ID,
     P1R52_PIRU_SEQUENTIAL_RESULT_NAME,
     P1R52_PIRU_SEQUENTIAL_ROLE,
@@ -48,6 +49,7 @@ def build_plan(source_head: str) -> dict[str, object]:
         "writer": "PIR-U",
         "alpha_cache": "ON",
         "structural_h": "ON",
+        "batch_entry_evaluator_enabled": P1R52_PIRU_BATCH_ENTRY_EVALUATOR_ENABLED,
         "batch_entry_evaluator_count": 0,
         "terminal_evaluator_only": True,
         "retry_backtracking_line_search": [0, 0, 0],

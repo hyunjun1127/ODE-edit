@@ -26,6 +26,7 @@ from project.run_scripts.ode_bf.p1r52_b100x10_stream import (
     verify_p1r52_b100x10_stream,
 )
 from project.run_scripts.ode_bf.p1r52_piru_sequential_adapter import (
+    P1R52_PIRU_BATCH_ENTRY_EVALUATOR_ENABLED,
     P1R52_PIRU_SEQUENTIAL_ATTEMPT_SUFFIX,
     P1R52_PIRU_SEQUENTIAL_INSTRUCTION_ID,
     P1R52_PIRU_SEQUENTIAL_ROLE,
@@ -105,6 +106,9 @@ def main(argv: list[str] | None = None) -> int:
             p1r52_sequential_role=P1R52_PIRU_SEQUENTIAL_ROLE,
             p1r52_sequential_scale="b100x10",
             p1r52_attempt_suffix=P1R52_PIRU_SEQUENTIAL_ATTEMPT_SUFFIX,
+            p1r52_batch_entry_evaluator_enabled=(
+                P1R52_PIRU_BATCH_ENTRY_EVALUATOR_ENABLED
+            ),
         )
         result.update(
             {

@@ -7,6 +7,7 @@ from types import SimpleNamespace
 
 import torch
 
+from project.run_scripts.ode_bf.contracts import ODEBFContractError
 from project.run_scripts.ode_bf.functional import WaypointFactor
 from project.run_scripts.ode_bf.p1_backend import (
     FULL_CURRENT_RESIDUAL_VELOCITY_DEFINITION,
@@ -21,6 +22,7 @@ from project.run_scripts.ode_bf.p1r52_pir_writer import (
     P1R52PIRPolicy,
 )
 from project.run_scripts.ode_bf.p1r52_piru_sequential_adapter import (
+    P1R52_PIRU_BATCH_ENTRY_EVALUATOR_ENABLED,
     P1R52_PIRU_SEQUENTIAL_ATTEMPT_SUFFIX,
     P1R52_PIRU_SEQUENTIAL_METHOD_ID,
     P1R52_PIRU_SEQUENTIAL_RESULT_NAME,
@@ -28,6 +30,7 @@ from project.run_scripts.ode_bf.p1r52_piru_sequential_adapter import (
     bind_piru_sequential_history,
     is_piru_structural_h_role,
     pir_policy_for_role,
+    resolve_piru_batch_entry_evaluator_enabled,
 )
 from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
     R52_H_ROLE,
@@ -181,7 +184,67 @@ class P1R52PIRUSequentialTests(unittest.TestCase):
         self.assertEqual(plan["writer"], "PIR-U")
         self.assertEqual(plan["structural_h"], "ON")
         self.assertEqual(plan["batch_entry_evaluator_count"], 0)
+        self.assertIs(plan["batch_entry_evaluator_enabled"], False)
         self.assertEqual(plan["retry_backtracking_line_search"], [0, 0, 0])
+
+    def test_batch_entry_evaluator_is_suffix_invariant_and_fail_closed(self) -> None:
+        for suffix in (
+            "pir-u-structuralh-on-v1",
+            "pir-u-structuralh-on-tech-r1-v1",
+            "pir-u-structuralh-on-tech-r2-v1",
+            "arbitrary-namespace-only",
+        ):
+            with self.subTest(attempt_suffix=suffix):
+                self.assertIs(
+                    resolve_piru_batch_entry_evaluator_enabled(
+                        P1R52_PIRU_SEQUENTIAL_ROLE,
+                        P1R52_PIRU_BATCH_ENTRY_EVALUATOR_ENABLED,
+                    ),
+                    False,
+                )
+        for configured in (None, True):
+            with self.assertRaises(ODEBFContractError):
+                resolve_piru_batch_entry_evaluator_enabled(
+                    P1R52_PIRU_SEQUENTIAL_ROLE,
+                    configured,
+                )
+
+    def test_two_batch_spy_keeps_evaluator_zero_and_history_active(self) -> None:
+        evaluator = {"forward": 0, "backward": 0, "generation": 0}
+        committed_weight_hashes = ["w0", "w1", "w2"]
+        history_widths = [0, 100]
+        cache_consume = [0, 100]
+        cache_append = [100, 100]
+        h_active = [8, 8]
+        for round_index, width in enumerate(history_widths):
+            self.assertIs(
+                resolve_piru_batch_entry_evaluator_enabled(
+                    P1R52_PIRU_SEQUENTIAL_ROLE,
+                    False,
+                ),
+                False,
+            )
+            entry_fields = tuple(
+                self._field(layer, width) for layer in range(4, 9)
+            )
+            refreshed = (entry_fields[0],) + tuple(
+                self._field(layer, 0, offset=0.1) for layer in range(5, 9)
+            )
+            rebound = bind_piru_sequential_history(
+                self._result(refreshed),
+                SimpleNamespace(layers=entry_fields),
+            )
+            self.assertTrue(
+                all(field.history_action.shape[1] == width for field in rebound.layer_fields)
+            )
+            self.assertEqual(cache_consume[round_index], width)
+            self.assertEqual(cache_append[round_index], 100)
+            self.assertEqual(h_active[round_index], 8)
+            self.assertNotEqual(
+                committed_weight_hashes[round_index],
+                committed_weight_hashes[round_index + 1],
+            )
+        self.assertEqual(evaluator, {"forward": 0, "backward": 0, "generation": 0})
 
     def test_piru_runtime_uses_narrow_policy_switch(self) -> None:
         source = inspect.getsource(run_p1r52_sequential)

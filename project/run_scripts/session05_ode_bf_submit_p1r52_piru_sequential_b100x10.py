@@ -89,8 +89,8 @@ def submit(source_head: str) -> dict[str, object]:
     if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("P1R52 PIR-U execution source differs")
     output_root = REPO_ROOT / "local/odebf/results" / P1R52_PIRU_SEQUENTIAL_RESULT_NAME
-    state_root = REPO_ROOT / "local/odebf/state/p1r52-piru-sequential-10xb100-tech-r1-v1"
-    log_root = REPO_ROOT / "local/odebf/logs/p1r52-piru-sequential-10xb100-tech-r1-v1"
+    state_root = REPO_ROOT / "local/odebf/state/p1r52-piru-sequential-10xb100-tech-r2-v1"
+    log_root = REPO_ROOT / "local/odebf/logs/p1r52-piru-sequential-10xb100-tech-r2-v1"
     if output_root.exists() or output_root.is_symlink():
         raise ODEBFContractError("P1R52 PIR-U result namespace exists")
     allocated, jobs = _gpu_jobs()
@@ -100,7 +100,7 @@ def submit(source_head: str) -> dict[str, object]:
     if memory_mib < 65000:
         raise ODEBFContractError("P1R52 PIR-U host memory is below request")
     plan = dry.build_plan(source_head)
-    namespace = f"p1r52-piru-sequential-{source_head[:12]}-tech-r1-v1"
+    namespace = f"p1r52-piru-sequential-{source_head[:12]}-tech-r2-v1"
     intent_path = state_root / f"{namespace}.intent.json"
     receipt_path = state_root / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
@@ -121,7 +121,7 @@ def submit(source_head: str) -> dict[str, object]:
     submitted = _run(
         [
             "sbatch", "--hold", "--parsable", "--chdir", str(REPO_ROOT),
-            "--nodelist", "devbox", "--job-name", "odeedit_s05_p1r52_piru_seq_b1000_tr1",
+            "--nodelist", "devbox", "--job-name", "odeedit_s05_p1r52_piru_seq_b1000_tr2",
             "--output", str(log_root / "%j.out"), "--error", str(log_root / "%j.err"),
             str(SBATCH), source_head, str(output_root),
         ]
