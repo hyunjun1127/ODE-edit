@@ -444,6 +444,7 @@ def scoped_atomic_sequential_adapter(
     router: SequentialHRouter,
     *,
     structural_h_decision_enabled: bool = True,
+    pir_history_rebind_enabled: bool = False,
     maximum_history_columns: int = HISTORY_COUNTS[-1],
 ) -> Iterator[None]:
     """Patch one B10 while keeping Alpha solve history separate from H routing."""
@@ -451,6 +452,7 @@ def scoped_atomic_sequential_adapter(
     original_field = experiment_module.build_scalable_dynamic_field
     original_disable = experiment_module.p1r24_disable_historical
     original_solver = experiment_module.solve_p1r43_full_strength_routing
+    original_pir_planner = experiment_module.plan_pir_writer
     original_from_field = AcceptedLayerContribution.__dict__["from_field"]
 
     def field_adapter(*args: Any, **kwargs: Any) -> Any:
@@ -465,6 +467,15 @@ def scoped_atomic_sequential_adapter(
         del history_action
         return original_from_field.__func__(cls, field, factor, history_action=field.history_action)
 
+    def pir_planner_adapter(*args: Any, **kwargs: Any) -> Any:
+        from .p1r52_piru_sequential_adapter import bind_piru_sequential_history
+
+        result = original_pir_planner(*args, **kwargs)
+        entry_field = kwargs.get("entry_field")
+        if entry_field is None:
+            raise ODEBFContractError("P1R52 PIR-U sequential entry field is absent")
+        return bind_piru_sequential_history(result, entry_field)
+
     experiment_module.build_scalable_dynamic_field = field_adapter
     experiment_module.p1r24_disable_historical = (
         (lambda problem: problem)
@@ -472,6 +483,8 @@ def scoped_atomic_sequential_adapter(
         else original_disable
     )
     experiment_module.solve_p1r43_full_strength_routing = router.solve
+    if pir_history_rebind_enabled:
+        experiment_module.plan_pir_writer = pir_planner_adapter
     AcceptedLayerContribution.from_field = classmethod(from_field_adapter)
     try:
         yield
@@ -479,6 +492,7 @@ def scoped_atomic_sequential_adapter(
         experiment_module.build_scalable_dynamic_field = original_field
         experiment_module.p1r24_disable_historical = original_disable
         experiment_module.solve_p1r43_full_strength_routing = original_solver
+        experiment_module.plan_pir_writer = original_pir_planner
         AcceptedLayerContribution.from_field = original_from_field
 
 

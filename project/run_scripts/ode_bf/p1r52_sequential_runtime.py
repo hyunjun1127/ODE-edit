@@ -1185,6 +1185,7 @@ def run_p1r52_sequential(
                     sequential_state,
                     router,
                     structural_h_decision_enabled=structural_h_enabled,
+                    pir_history_rebind_enabled=pir_policy is not None,
                     maximum_history_columns=scale.history_counts[-1],
                 ):
                     rollout = _run_ode_arm(
