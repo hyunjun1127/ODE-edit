@@ -12,7 +12,7 @@ from contextlib import contextmanager
 from dataclasses import asdict, dataclass, replace
 import hashlib
 import math
-from typing import Any, Iterator, Mapping, MutableMapping, Sequence
+from typing import Any, Callable, Iterator, Mapping, MutableMapping, Sequence
 
 import numpy as np
 import torch
@@ -200,16 +200,112 @@ class HRouteTelemetry:
     strength_residual: float
     energy_violation: float
     p_violation: float
+    selected_action_sha256: str
+    selected_action_summary: Mapping[str, float]
+    selected_strength: float
+    strength_limit: float
+    selected_energy: float
+    energy_limit: float
+    selected_p: float
+    p_limit: float
+    external_tolerances: Mapping[str, float]
+    solver_stages: Mapping[str, Mapping[str, Any]]
+    polish_status: str
+    post_energy_status: str
+    post_energy_warning_magnitude: float
+    post_energy_relative_excess: float
+    post_energy_warning_count_cumulative_in_batch: int
+    post_energy_warning_magnitude_cumulative_in_batch: float
+    certificate_first_false_gate: str | None
+    certificate_hard_gate_status: str
     identity_sha256: str
+
+
+class SequentialHRouteHardFailure(ODEBFStateError):
+    """Fail-close exception carrying the pre-conjunction raw-free receipt."""
+
+    def __init__(self, message: str, receipt: Mapping[str, Any]) -> None:
+        super().__init__(message)
+        self.raw_free_receipt = dict(receipt)
 
 
 class SequentialHRouter:
     """Five-dimensional H-first router with frozen R52 strength semantics."""
 
-    def __init__(self, history_width: int, atomic_solver: Any) -> None:
+    def __init__(
+        self,
+        history_width: int,
+        atomic_solver: Any,
+        *,
+        postsolve_energy_warn_enabled: bool = False,
+        telemetry_sink: Callable[[HRouteTelemetry], None] | None = None,
+    ) -> None:
         self.history_width = int(history_width)
         self.atomic_solver = atomic_solver
+        self.postsolve_energy_warn_enabled = bool(postsolve_energy_warn_enabled)
+        self.telemetry_sink = telemetry_sink
         self.receipts: list[HRouteTelemetry] = []
+        self.post_energy_warning_count = 0
+        self.post_energy_warning_magnitude = 0.0
+
+    def _append_receipt(self, payload: Mapping[str, Any]) -> None:
+        receipt = HRouteTelemetry(
+            **payload,
+            identity_sha256=canonical_hash(payload),
+        )
+        self.receipts.append(receipt)
+        if self.telemetry_sink is not None:
+            self.telemetry_sink(receipt)
+
+    @staticmethod
+    def _stage_receipt(stage: Any) -> dict[str, Any]:
+        message = str(stage.message)
+        value = np.asarray(stage.x, dtype=np.float64)
+        return {
+            "success": bool(stage.success),
+            "status": int(stage.status),
+            "iterations": int(stage.nit),
+            "message_identity_sha256": hashlib.sha256(message.encode("utf-8")).hexdigest(),
+            "candidate_sha256": canonical_hash(value.tolist()) if np.isfinite(value).all() else canonical_hash({"shape": list(value.shape), "finite": False}),
+        }
+
+    def _solver_failure(
+        self,
+        *,
+        stage_name: str,
+        solver_stages: Mapping[str, Mapping[str, Any]],
+    ) -> SequentialHRouteHardFailure:
+        payload = {
+            "schema": "ode-edit-s05-p1r52-sequential-h-hard-failure/v1",
+            "status": "HARD_FAIL",
+            "first_false_gate": "SOLVER_STAGE_SUCCESS",
+            "failing_solver_stage": stage_name,
+            "solver_stages": dict(solver_stages),
+            "selected_action_status": "NOT_AVAILABLE_SOLVER_STAGE_FAILURE",
+            "selected_minimum": None,
+            "strength_residual": None,
+            "energy_residual": None,
+            "p_residual": None,
+            "selected_strength": None,
+            "selected_energy": None,
+            "selected_p": None,
+            "strength_limit": None,
+            "energy_limit": None,
+            "p_limit": None,
+            "external_tolerances": {
+                "strength_residual": SIMPLEX_PRIMAL_TOLERANCE,
+                "postsolve_energy_residual": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                "pretrained_p_residual": SIMPLEX_PRIMAL_TOLERANCE,
+                "selected_nonnegative": SIMPLEX_PRIMAL_TOLERANCE,
+            },
+            "polish_status": "NOT_APPLICABLE",
+            "post_energy_status": "NOT_EVALUATED",
+        }
+        payload["identity_sha256"] = canonical_hash(payload)
+        return SequentialHRouteHardFailure(
+            f"sequential {stage_name} solver failed",
+            payload,
+        )
 
     @staticmethod
     def _entropy(value: np.ndarray) -> float:
@@ -220,6 +316,8 @@ class SequentialHRouter:
         return float(-np.sum(probability * np.log(probability)))
 
     def solve(self, problem: RoutingProblem, *, arm: FixedE8Arm | str, alpha_req: float) -> P1R43RoutingResult:
+        from .p1r52_piru_postenergy_warn import classify_h_postsolve_certificate
+
         requested = FixedE8Arm(arm)
         atomic_soft = self.atomic_solver(problem, arm=requested, alpha_req=alpha_req)
         atomic_neutral = self.atomic_solver(problem, arm=FixedE8Arm.NEUTRAL, alpha_req=alpha_req)
@@ -227,6 +325,17 @@ class SequentialHRouter:
         disabled = np.asarray(atomic_soft.velocity, dtype=np.float64)
         slopes = np.asarray(problem.signed_progress, dtype=np.float64)
         active = np.flatnonzero(slopes > 0.0)
+        solver_stages: dict[str, Mapping[str, Any]] = {
+            name: {
+                "success": True,
+                "status": 0,
+                "iterations": 0,
+                "message_identity_sha256": canonical_hash("NOT_APPLICABLE"),
+                "candidate_sha256": canonical_hash("NOT_APPLICABLE"),
+            }
+            for name in ("H", "P", "CAPACITY")
+        }
+        certificate_decision: dict[str, Any] | None = None
         if self.history_width == 0 or alpha_req == 0.0 or active.size <= 1:
             selected = disabled
             status = "H_EMPTY_EXACT_ATOMIC_EQUIVALENCE" if self.history_width == 0 else "NO_ROUTING_DOF"
@@ -269,8 +378,12 @@ class SequentialHRouter:
             )
             options = {"disp": False, "ftol": SOLVER_FTOL, "maxiter": SOLVER_MAXITER}
             stage_h = minimize(h_value, seed, method="SLSQP", bounds=tuple((0.0, None) for _ in active), constraints=base_constraints, options=options)
+            solver_stages["H"] = self._stage_receipt(stage_h)
             if not stage_h.success:
-                raise ODEBFStateError(f"sequential H-stage solver failed: {stage_h.status}")
+                raise self._solver_failure(
+                    stage_name="H",
+                    solver_stages=solver_stages,
+                )
             pi_h = np.asarray(stage_h.x, dtype=np.float64)
             h_star = h_value(pi_h)
             h_tie = SIMPLEX_XI_TIE_TOLERANCE * max(abs(h_star), float(np.trace(problem.historical.gram)), 1.0)
@@ -282,8 +395,12 @@ class SequentialHRouter:
                 constraints=(*base_constraints, {"type": "ineq", "fun": lambda pi: float(h_star + h_tie - h_value(pi))}),
                 options=options,
             )
+            solver_stages["P"] = self._stage_receipt(stage_p)
             if not stage_p.success:
-                raise ODEBFStateError(f"sequential P-tie solver failed: {stage_p.status}")
+                raise self._solver_failure(
+                    stage_name="P",
+                    solver_stages=solver_stages,
+                )
             pi_p = np.asarray(stage_p.x, dtype=np.float64)
             p_star = p_value(pi_p)
             p_tie = SIMPLEX_XI_TIE_TOLERANCE * max(abs(p_star), float(np.trace(problem.pretrained.gram)), 1.0)
@@ -299,14 +416,58 @@ class SequentialHRouter:
                 ),
                 options=options,
             )
+            solver_stages["CAPACITY"] = self._stage_receipt(stage_c)
             if not stage_c.success:
-                raise ODEBFStateError(f"sequential capacity-tie solver failed: {stage_c.status}")
+                raise self._solver_failure(
+                    stage_name="CAPACITY",
+                    solver_stages=solver_stages,
+                )
             selected = expand(np.asarray(stage_c.x, dtype=np.float64))
             strength_residual = abs(float(slopes @ selected) - alpha_req)
             energy_violation = max(float(selected @ problem.trust_metric @ selected) - energy_limit, 0.0)
             p_violation = max(problem.pretrained.value(selected) - p_limit, 0.0)
-            if strength_residual > SIMPLEX_PRIMAL_TOLERANCE or energy_violation > SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE or p_violation > SIMPLEX_PRIMAL_TOLERANCE or np.min(selected) < -SIMPLEX_PRIMAL_TOLERANCE:
-                raise ODEBFStateError("sequential H routing certificate failed")
+            certificate_decision = classify_h_postsolve_certificate(
+                solver_stage_success={
+                    name: bool(value["success"])
+                    for name, value in solver_stages.items()
+                },
+                strength_residual=strength_residual,
+                energy_residual=energy_violation,
+                p_residual=p_violation,
+                selected_minimum=float(np.min(selected)),
+                primal_tolerance=SIMPLEX_PRIMAL_TOLERANCE,
+                energy_tolerance=SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                postsolve_energy_warn_enabled=self.postsolve_energy_warn_enabled,
+            )
+            if certificate_decision["status"] == "HARD_FAIL":
+                hard_receipt = {
+                    "schema": "ode-edit-s05-p1r52-sequential-h-hard-failure/v1",
+                    **certificate_decision,
+                    "selected_action_sha256": canonical_hash(selected.tolist()),
+                    "selected_action_summary": {
+                        "minimum": float(np.min(selected)),
+                        "maximum": float(np.max(selected)),
+                        "l1_norm": float(np.linalg.norm(selected, ord=1)),
+                        "l2_norm": float(np.linalg.norm(selected)),
+                    },
+                    "selected_strength": float(slopes @ selected),
+                    "strength_limit": float(alpha_req),
+                    "selected_energy": float(selected @ problem.trust_metric @ selected),
+                    "energy_limit": float(energy_limit),
+                    "selected_p": float(problem.pretrained.value(selected)),
+                    "p_limit": float(p_limit),
+                    "solver_stages": solver_stages,
+                    "polish_status": "NOT_APPLICABLE",
+                }
+                hard_receipt.pop("identity_sha256", None)
+                hard_receipt["identity_sha256"] = canonical_hash(hard_receipt)
+                raise SequentialHRouteHardFailure(
+                    "sequential H routing certificate failed",
+                    hard_receipt,
+                )
+            if certificate_decision["status"] == "WARN_POSTSOLVE_ENERGY_RESIDUAL":
+                self.post_energy_warning_count += 1
+                self.post_energy_warning_magnitude += energy_violation
             selected_pi = np.zeros_like(slopes)
             selected_pi[active] = np.asarray(stage_c.x, dtype=np.float64)
             base = atomic_soft.selected
@@ -318,6 +479,8 @@ class SequentialHRouter:
                 "capacity_success": bool(stage_c.success),
                 "strength_residual": strength_residual,
                 "energy_violation": energy_violation,
+                "post_energy_status": certificate_decision["status"],
+                "post_energy_warning_decision_influence_count": 0,
                 "p_violation": p_violation,
                 "legacy_h_budget_influence_count": 0,
                 "legacy_p_budget_influence_count": 0,
@@ -354,6 +517,15 @@ class SequentialHRouter:
         strength_residual = abs(float(slopes @ selected) - alpha_req) if alpha_req > 0.0 else abs(float(slopes @ selected))
         energy_limit = float(neutral @ problem.trust_metric @ neutral) * (1.0 + SIMPLEX_ENERGY_RELATIVE_TOLERANCE) + SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE
         p_limit = problem.pretrained.value(neutral) + SIMPLEX_XI_TIE_TOLERANCE * max(float(np.trace(problem.pretrained.gram)), 1.0)
+        selected_energy = float(selected @ problem.trust_metric @ selected)
+        selected_p = float(problem.pretrained.value(selected))
+        energy_violation = max(selected_energy - energy_limit, 0.0)
+        p_violation = max(selected_p - p_limit, 0.0)
+        if certificate_decision is None:
+            certificate_decision = {
+                "status": "NOT_APPLICABLE",
+                "first_false_gate": None,
+            }
         telemetry_payload = {
             "step_index": len(self.receipts),
             "history_width": self.history_width,
@@ -367,10 +539,50 @@ class SequentialHRouter:
             "h_disabled_velocity": disabled.tolist(),
             "h_aware_velocity": selected.tolist(),
             "strength_residual": strength_residual,
-            "energy_violation": max(float(selected @ problem.trust_metric @ selected) - energy_limit, 0.0),
-            "p_violation": max(problem.pretrained.value(selected) - p_limit, 0.0),
+            "energy_violation": energy_violation,
+            "p_violation": p_violation,
+            "selected_action_sha256": canonical_hash(selected.tolist()),
+            "selected_action_summary": {
+                "minimum": float(np.min(selected)),
+                "maximum": float(np.max(selected)),
+                "l1_norm": float(np.linalg.norm(selected, ord=1)),
+                "l2_norm": float(np.linalg.norm(selected)),
+            },
+            "selected_strength": float(slopes @ selected),
+            "strength_limit": float(alpha_req),
+            "selected_energy": selected_energy,
+            "energy_limit": energy_limit,
+            "selected_p": selected_p,
+            "p_limit": p_limit,
+            "external_tolerances": {
+                "strength_residual": SIMPLEX_PRIMAL_TOLERANCE,
+                "postsolve_energy_residual": SIMPLEX_ENERGY_ABSOLUTE_TOLERANCE,
+                "pretrained_p_residual": SIMPLEX_PRIMAL_TOLERANCE,
+                "selected_nonnegative": SIMPLEX_PRIMAL_TOLERANCE,
+            },
+            "solver_stages": solver_stages,
+            "polish_status": "NOT_APPLICABLE",
+            "post_energy_status": str(certificate_decision["status"]),
+            "post_energy_warning_magnitude": (
+                energy_violation
+                if certificate_decision["status"] == "WARN_POSTSOLVE_ENERGY_RESIDUAL"
+                else 0.0
+            ),
+            "post_energy_relative_excess": (
+                energy_violation / max(abs(energy_limit), np.finfo(np.float64).tiny)
+                if certificate_decision["status"] == "WARN_POSTSOLVE_ENERGY_RESIDUAL"
+                else 0.0
+            ),
+            "post_energy_warning_count_cumulative_in_batch": self.post_energy_warning_count,
+            "post_energy_warning_magnitude_cumulative_in_batch": self.post_energy_warning_magnitude,
+            "certificate_first_false_gate": certificate_decision.get("first_false_gate"),
+            "certificate_hard_gate_status": (
+                "PASS"
+                if certificate_decision["status"] != "HARD_FAIL"
+                else "FAIL"
+            ),
         }
-        self.receipts.append(HRouteTelemetry(**telemetry_payload, identity_sha256=canonical_hash(telemetry_payload)))
+        self._append_receipt(telemetry_payload)
         return result
 
 
@@ -452,7 +664,11 @@ def scoped_atomic_sequential_adapter(
     original_field = experiment_module.build_scalable_dynamic_field
     original_disable = experiment_module.p1r24_disable_historical
     original_solver = experiment_module.solve_p1r43_full_strength_routing
-    original_pir_planner = experiment_module.plan_pir_writer
+    original_pir_planner = (
+        experiment_module.plan_pir_writer
+        if pir_history_rebind_enabled
+        else None
+    )
     original_from_field = AcceptedLayerContribution.__dict__["from_field"]
 
     def field_adapter(*args: Any, **kwargs: Any) -> Any:
@@ -470,6 +686,8 @@ def scoped_atomic_sequential_adapter(
     def pir_planner_adapter(*args: Any, **kwargs: Any) -> Any:
         from .p1r52_piru_sequential_adapter import bind_piru_sequential_history
 
+        if original_pir_planner is None:
+            raise ODEBFContractError("P1R52 PIR-U sequential planner is absent")
         result = original_pir_planner(*args, **kwargs)
         entry_field = kwargs.get("entry_field")
         if entry_field is None:
@@ -492,7 +710,8 @@ def scoped_atomic_sequential_adapter(
         experiment_module.build_scalable_dynamic_field = original_field
         experiment_module.p1r24_disable_historical = original_disable
         experiment_module.solve_p1r43_full_strength_routing = original_solver
-        experiment_module.plan_pir_writer = original_pir_planner
+        if pir_history_rebind_enabled:
+            experiment_module.plan_pir_writer = original_pir_planner
         AcceptedLayerContribution.from_field = original_from_field
 
 

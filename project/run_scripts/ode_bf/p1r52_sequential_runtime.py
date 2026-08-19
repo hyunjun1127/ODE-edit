@@ -73,6 +73,14 @@ from .p1r52_piru_sequential_adapter import (
     is_piru_structural_h_role,
     pir_policy_for_role,
 )
+from .p1r52_piru_postenergy_warn import (
+    ATTEMPT_SUFFIX as P1R52_PIRU_POSTENERGY_WARN_ATTEMPT_SUFFIX,
+    INSTRUCTION_ID as P1R52_PIRU_POSTENERGY_WARN_INSTRUCTION_ID,
+    METHOD_ID as P1R52_PIRU_POSTENERGY_WARN_METHOD_ID,
+    RESULT_NAME as P1R52_PIRU_POSTENERGY_WARN_RESULT_NAME,
+    load_actual_update_norm_rows,
+    z_w_realization_receipt,
+)
 from .scalable_batched_model import build_scalable_capture_plan, build_scalable_objective_plan
 from .scalable_batched_native import run_official_native_apply
 from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER, scalable_ordered_request_digest
@@ -219,6 +227,7 @@ def expected_p1r52_sequential_result_name(
         "accepted-z-rephrase-obs-tech-r1",
         "accepted-z-rephrase-obs-tech-r1-r52",
         P1R52_PIRU_SEQUENTIAL_ATTEMPT_SUFFIX,
+        P1R52_PIRU_POSTENERGY_WARN_ATTEMPT_SUFFIX,
     ):
         raise ODEBFContractError("P1R52 sequential attempt suffix differs")
     if attempt_suffix is not None and scale == P1R52_B10X10_SCALE:
@@ -234,6 +243,8 @@ def expected_p1r52_sequential_result_name(
         if attempt_suffix == "accepted-z-rephrase-obs-tech-r1-r52"
         else RESULT_NAMES_B100X10_PIRU
         if attempt_suffix == P1R52_PIRU_SEQUENTIAL_ATTEMPT_SUFFIX
+        else {P1R52_PIRU_SEQUENTIAL_ROLE: P1R52_PIRU_POSTENERGY_WARN_RESULT_NAME}
+        if attempt_suffix == P1R52_PIRU_POSTENERGY_WARN_ATTEMPT_SUFFIX
         else RESULT_NAMES_B100X10_TECH_R3_RELEASE_R1
         if attempt_suffix == "tech-r3-release-r1"
         else RESULT_NAMES_B100X10_TECH_R3
@@ -990,6 +1001,8 @@ def run_p1r52_sequential(
     batch_entry_evaluation_enabled: bool = True,
     accepted_z_observation_enabled: bool = False,
     accepted_z_reference_root: Path | None = None,
+    accepted_z_sealed_w_reuse: bool = True,
+    postsolve_energy_warn_enabled: bool = False,
 ) -> dict[str, Any]:
     role_names = (
         RESULT_NAMES
@@ -1019,11 +1032,18 @@ def run_p1r52_sequential(
         raise ODEBFContractError("P1R52 sequential stream geometry differs")
     if _hashes(touched) != dict(base_receipt.parameter_sha256):
         raise ODEBFStateError("P1R52 sequential entry W0 differs")
-    if accepted_z_observation_enabled and (
+    if accepted_z_observation_enabled and accepted_z_sealed_w_reuse and (
         accepted_z_reference_root is None
         or not accepted_z_reference_root.is_dir()
     ):
         raise ODEBFContractError("accepted-z sealed reference root is absent")
+    if postsolve_energy_warn_enabled and (
+        role != P1R52_PIRU_SEQUENTIAL_ROLE
+        or batch_entry_evaluation_enabled
+        or not accepted_z_observation_enabled
+        or accepted_z_sealed_w_reuse
+    ):
+        raise ODEBFContractError("PIR-U post-energy-WARN runtime scope differs")
 
     from . import p1_scalable_batched_experiment as experiment
 
@@ -1042,6 +1062,9 @@ def run_p1r52_sequential(
     entry_pre_evaluations: list[dict[str, Any]] = []
     immediate_post_evaluations: list[dict[str, Any]] = []
     accepted_z_observations: list[dict[str, Any]] = []
+    z_w_realization_rows: list[dict[str, Any]] = []
+    actual_update_norm_rows: list[dict[str, Any]] = []
+    h_route_rows: list[dict[str, Any]] = []
     prior_commit_hashes = _hashes(touched)
     alphaedit_prior_cache_exit_sha256: str | None = None
     alphaedit_static_projection_identity: str | None = None
@@ -1072,7 +1095,7 @@ def run_p1r52_sequential(
             prior_anchor_finalized = dict(anchor_ledger.finalized)
             reference_path: Path | None = None
             reference: dict[str, Any] | None = None
-            if accepted_z_observation_enabled:
+            if accepted_z_observation_enabled and accepted_z_sealed_w_reuse:
                 assert accepted_z_reference_root is not None
                 reference_path = (
                     accepted_z_reference_root
@@ -1091,7 +1114,7 @@ def run_p1r52_sequential(
                 ):
                     raise ODEBFStateError("accepted-z sealed batch reference identity differs")
             entry_observed: dict[str, np.ndarray] = {}
-            if accepted_z_observation_enabled:
+            if accepted_z_observation_enabled and accepted_z_sealed_w_reuse:
                 assert reference is not None
                 entry_anchor_receipt = reference["history_entry_anchor_observation"]
             elif prior_requests:
@@ -1180,9 +1203,21 @@ def run_p1r52_sequential(
                 )
                 pir_policy = pir_policy_for_role(role)
                 structural_h_enabled = role in R52_STRUCTURAL_H_ROLES
+
+                def h_telemetry_sink(receipt: Any) -> None:
+                    _atomic_write_once(
+                        case_root
+                        / "raw"
+                        / "h-routing"
+                        / f"decision-{receipt.step_index + 1:02d}.json",
+                        asdict(receipt),
+                    )
+
                 router = SequentialHRouter(
                     history_width if structural_h_enabled else 0,
                     experiment.solve_p1r43_full_strength_routing,
+                    postsolve_energy_warn_enabled=postsolve_energy_warn_enabled,
+                    telemetry_sink=h_telemetry_sink,
                 )
                 with scoped_atomic_sequential_adapter(
                     experiment,
@@ -1224,6 +1259,16 @@ def run_p1r52_sequential(
                         p1r52=True,
                         p1r52_pir_policy=pir_policy,
                     )
+                batch_norm_rows: list[dict[str, Any]] = []
+                if pir_policy is not None:
+                    batch_norm_rows = load_actual_update_norm_rows(case_root / "raw" / "ode")
+                    for item in batch_norm_rows:
+                        item["round"] = round_index
+                        item["history_width"] = history_width
+                        item["identity_sha256"] = canonical_hash(
+                            {key: value for key, value in item.items() if key != "identity_sha256"}
+                        )
+                    actual_update_norm_rows.extend(batch_norm_rows)
                 if accepted_z_observation_enabled:
                     accepted_z_binding = r52_binding(
                         role,
@@ -1261,6 +1306,9 @@ def run_p1r52_sequential(
                 }
                 atomic_payload = public
                 h_payload = [asdict(item) for item in router.receipts]
+                for item in h_payload:
+                    item["round"] = round_index
+                h_route_rows.extend(h_payload)
                 if role == R52_CONTROL_ROLE:
                     h_payload = structural_h_off_control_receipts(
                         router.receipts,
@@ -1513,13 +1561,13 @@ def run_p1r52_sequential(
             )
             accepted_z_observation: dict[str, Any] | None = None
             if accepted_z_observation_enabled:
-                if (
-                    accepted_z_binding is None
-                    or reference is None
-                    or reference_path is None
-                ):
+                if accepted_z_binding is None:
                     raise ODEBFStateError("accepted-z native binding is absent")
-                if reference.get("commit_weight_sha256") != committed_hashes:
+                if accepted_z_sealed_w_reuse and (
+                    reference is None
+                    or reference_path is None
+                    or reference.get("commit_weight_sha256") != committed_hashes
+                ):
                     raise ODEBFStateError("accepted-z replay physical commit differs")
                 before_observation = _hashes(touched)
                 accepted_z_observation, observation_wall = evaluate_accepted_z_batch(
@@ -1534,10 +1582,17 @@ def run_p1r52_sequential(
                 )
                 if _hashes(touched) != before_observation:
                     raise ODEBFStateError("accepted-z observation mutated model state")
-                accepted_z_observation["sealed_reference_terminal_sha256"] = hashlib.sha256(
-                    reference_path.read_bytes()
-                ).hexdigest()
-                accepted_z_observation["sealed_commit_weight_exact"] = True
+                accepted_z_observation["sealed_reference_terminal_sha256"] = (
+                    hashlib.sha256(reference_path.read_bytes()).hexdigest()
+                    if reference_path is not None
+                    else None
+                )
+                accepted_z_observation["sealed_commit_weight_exact"] = (
+                    True if accepted_z_sealed_w_reuse else None
+                )
+                accepted_z_observation["inline_same_run_physical_w_pairing"] = (
+                    not accepted_z_sealed_w_reuse
+                )
                 accepted_z_observation["identity_sha256"] = canonical_hash(
                     {
                         key: value
@@ -1560,7 +1615,7 @@ def run_p1r52_sequential(
             cohort_cases.append(tuple(loaded_cases))
             cohort_requests.append(requests)
             checkpoint_evaluations: list[dict[str, Any]] = []
-            if accepted_z_observation_enabled:
+            if accepted_z_observation_enabled and accepted_z_sealed_w_reuse:
                 assert reference is not None
                 checkpoint_evaluations = [
                     *reference["prior_history_evaluation"],
@@ -1597,6 +1652,21 @@ def run_p1r52_sequential(
                     checkpoint_evaluations,
                     batch_size=scale.batch_size,
                 )
+            z_w_receipt: dict[str, Any] | None = None
+            if accepted_z_observation is not None:
+                z_w_receipt = z_w_realization_receipt(
+                    accepted_z_observation["scores"],
+                    current_eval,
+                )
+                z_w_receipt["round"] = round_index
+                z_w_receipt["identity_sha256"] = canonical_hash(
+                    {key: value for key, value in z_w_receipt.items() if key != "identity_sha256"}
+                )
+                z_w_receipt["receipt_sha256"] = _atomic_write_once(
+                    case_root / "z-w-writer-realization.json",
+                    z_w_receipt,
+                )
+                z_w_realization_rows.append(z_w_receipt)
             immediate_post_evaluations.append(current_eval)
             pre_summary = (
                 _evaluation_summary(entry_pre)
@@ -1749,7 +1819,12 @@ def run_p1r52_sequential(
                     else "REMOVED_BY_USER_AMENDMENT"
                 ),
                 "accepted_z_rephrase_observation": accepted_z_observation,
-                "sealed_W_evaluator_receipts_reused": accepted_z_observation_enabled,
+                "z_w_writer_realization": z_w_receipt,
+                "actual_update_norm_share": batch_norm_rows,
+                "postsolve_energy_warn_enabled": postsolve_energy_warn_enabled,
+                "sealed_W_evaluator_receipts_reused": (
+                    accepted_z_observation_enabled and accepted_z_sealed_w_reuse
+                ),
                 "duplicate_W_evaluator_model_forward_count": 0,
                 "retry_count": 0,
                 "backtracking_count": 0,
@@ -1786,7 +1861,7 @@ def run_p1r52_sequential(
             prior_commit_hashes = committed_hashes
 
         final_snapshot_sha = canonical_hash(prior_commit_hashes)
-        if accepted_z_observation_enabled:
+        if accepted_z_observation_enabled and accepted_z_sealed_w_reuse:
             assert accepted_z_reference_root is not None
             sealed_terminal_path = accepted_z_reference_root / "terminal.json"
             sealed_terminal = json.loads(
@@ -1973,6 +2048,12 @@ def run_p1r52_sequential(
 
     accepted_z_table_sha: str | None = None
     accepted_z_table_path: Path | None = None
+    z_w_table_sha: str | None = None
+    z_w_table_path: Path | None = None
+    actual_norm_table_sha: str | None = None
+    actual_norm_table_path: Path | None = None
+    h_route_table_sha: str | None = None
+    h_route_table_path: Path | None = None
     if accepted_z_observation_enabled:
         if len(accepted_z_observations) != scale.round_count:
             raise ODEBFStateError("accepted-z observation round count differs")
@@ -1989,16 +2070,60 @@ def run_p1r52_sequential(
         accepted_z_table_sha = _atomic_write_once(
             accepted_z_table_path, accepted_z_table
         )
+        if len(z_w_realization_rows) != scale.round_count:
+            raise ODEBFStateError("z/W realization round count differs")
+        z_w_table = {
+            "schema": "ode-edit-s05-p1r52-piru-z-w-writer-realization-table/v1",
+            "rows": z_w_realization_rows,
+            "row_count": len(z_w_realization_rows),
+            "physical_w_evaluator_forward_duplication_count": 0,
+            "action_influence_count": 0,
+        }
+        z_w_table["identity_sha256"] = canonical_hash(z_w_table)
+        z_w_table_path = destination / "z-w-writer-realization.json"
+        z_w_table_sha = _atomic_write_once(z_w_table_path, z_w_table)
+    if postsolve_energy_warn_enabled:
+        if len(actual_update_norm_rows) != scale.round_count * P1R23_GRID_COUNT:
+            raise ODEBFStateError("actual update-norm row count differs")
+        actual_norm_table = {
+            "schema": "ode-edit-s05-p1r52-piru-actual-update-norm-table/v1",
+            "rows": actual_update_norm_rows,
+            "row_count": len(actual_update_norm_rows),
+            "primary_concentration_metric": "SQRT_REALIZED_BF16_STEP_ENERGY_SHARE",
+            "secondary_concentration_metric": "REALIZED_BF16_STEP_ENERGY_SHARE",
+        }
+        actual_norm_table["identity_sha256"] = canonical_hash(actual_norm_table)
+        actual_norm_table_path = destination / "actual-update-norm-share.json"
+        actual_norm_table_sha = _atomic_write_once(
+            actual_norm_table_path,
+            actual_norm_table,
+        )
+        if len(h_route_rows) != scale.round_count * P1R23_GRID_COUNT:
+            raise ODEBFStateError("Structural-H decision row count differs")
+        h_route_table = {
+            "schema": "ode-edit-s05-p1r52-piru-postenergy-warn-h-decisions/v1",
+            "rows": h_route_rows,
+            "row_count": len(h_route_rows),
+            "postsolve_energy_warn_enabled": True,
+            "postsolve_energy_decision_influence_count": 0,
+        }
+        h_route_table["identity_sha256"] = canonical_hash(h_route_table)
+        h_route_table_path = destination / "structural-h-decisions.json"
+        h_route_table_sha = _atomic_write_once(h_route_table_path, h_route_table)
 
     terminal = {
         "schema": f"ode-edit-s05-p1r52-sequential-10xb{scale.batch_size}-terminal/v1",
         "instruction_id": (
-            P1R52_PIRU_SEQUENTIAL_INSTRUCTION_ID
+            P1R52_PIRU_POSTENERGY_WARN_INSTRUCTION_ID
+            if postsolve_energy_warn_enabled
+            else P1R52_PIRU_SEQUENTIAL_INSTRUCTION_ID
             if is_piru_structural_h_role(role)
             else scale.instruction_id
         ),
         "method_id": (
-            P1R52_PIRU_SEQUENTIAL_METHOD_ID
+            P1R52_PIRU_POSTENERGY_WARN_METHOD_ID
+            if postsolve_energy_warn_enabled
+            else P1R52_PIRU_SEQUENTIAL_METHOD_ID
             if is_piru_structural_h_role(role)
             else METHOD_ID
             if role == R52_H_ROLE
@@ -2086,7 +2211,10 @@ def run_p1r52_sequential(
         "accepted_z_observation_added_backward_count": 0,
         "accepted_z_observation_added_generation_call_count": 0,
         "accepted_z_observation_action_influence_count": 0,
-        "sealed_W_evaluator_receipts_reused": accepted_z_observation_enabled,
+        "accepted_z_sealed_w_reuse": accepted_z_sealed_w_reuse,
+        "sealed_W_evaluator_receipts_reused": (
+            accepted_z_observation_enabled and accepted_z_sealed_w_reuse
+        ),
         "duplicate_W_evaluator_model_forward_count": 0,
         "accepted_z_observation_table": (
             {
@@ -2097,6 +2225,43 @@ def run_p1r52_sequential(
             if accepted_z_table_path is not None
             else None
         ),
+        "z_w_writer_realization_table": (
+            {
+                "path": str(z_w_table_path),
+                "sha256": z_w_table_sha,
+                "rows": len(z_w_realization_rows),
+            }
+            if z_w_table_path is not None
+            else None
+        ),
+        "actual_update_norm_share_table": (
+            {
+                "path": str(actual_norm_table_path),
+                "sha256": actual_norm_table_sha,
+                "rows": len(actual_update_norm_rows),
+            }
+            if actual_norm_table_path is not None
+            else None
+        ),
+        "structural_h_decision_table": (
+            {
+                "path": str(h_route_table_path),
+                "sha256": h_route_table_sha,
+                "rows": len(h_route_rows),
+            }
+            if h_route_table_path is not None
+            else None
+        ),
+        "postsolve_energy_warn_enabled": postsolve_energy_warn_enabled,
+        "postsolve_energy_warning_count": sum(
+            int(item.get("post_energy_status") == "WARN_POSTSOLVE_ENERGY_RESIDUAL")
+            for item in h_route_rows
+        ),
+        "postsolve_energy_warning_magnitude_total": math.fsum(
+            float(item.get("post_energy_warning_magnitude", 0.0))
+            for item in h_route_rows
+        ),
+        "structural_h_decision_count": len(h_route_rows),
         "batch_entry_pre_evaluator_backward_count": 0,
         "batch_entry_pre_evaluator_generation_count": 0,
         "batch_entry_pre_evaluator_controller_routing_history_anchor_influence": [0, 0, 0, 0],
@@ -2136,6 +2301,26 @@ def run_p1r52_sequential(
             request_filename: request_table_sha,
             cohort_filename: cohort_table_sha,
             aggregate_filename: aggregate_table_sha,
+            **(
+                {str(accepted_z_table_path.name): accepted_z_table_sha}
+                if accepted_z_table_path is not None
+                else {}
+            ),
+            **(
+                {str(z_w_table_path.name): z_w_table_sha}
+                if z_w_table_path is not None
+                else {}
+            ),
+            **(
+                {str(actual_norm_table_path.name): actual_norm_table_sha}
+                if actual_norm_table_path is not None
+                else {}
+            ),
+            **(
+                {str(h_route_table_path.name): h_route_table_sha}
+                if h_route_table_path is not None
+                else {}
+            ),
         },
         "scale_id": scale.scale_id,
         "round_count": scale.round_count,
