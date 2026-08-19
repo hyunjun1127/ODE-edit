@@ -64,6 +64,15 @@ from .p1r52_accepted_z_observation import (
     evaluate_accepted_z_batch,
     r52_binding,
 )
+from .p1r52_piru_sequential_adapter import (
+    P1R52_PIRU_SEQUENTIAL_ATTEMPT_SUFFIX,
+    P1R52_PIRU_SEQUENTIAL_INSTRUCTION_ID,
+    P1R52_PIRU_SEQUENTIAL_METHOD_ID,
+    P1R52_PIRU_SEQUENTIAL_RESULT_NAME,
+    P1R52_PIRU_SEQUENTIAL_ROLE,
+    is_piru_structural_h_role,
+    pir_policy_for_role,
+)
 from .scalable_batched_model import build_scalable_capture_plan, build_scalable_objective_plan
 from .scalable_batched_native import run_official_native_apply
 from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER, scalable_ordered_request_digest
@@ -74,7 +83,8 @@ R52_CONTROL_ROLE = "r52-soft-sequential-alphacache-on-structuralh-off"
 NATIVE_ROLE = "native-alphaedit-sequential"
 NATIVE_CORRECTED_ROLE = "native-alphaedit-sequential-cache-on-corrected"
 MEMIT_ROLE = "official-memit-sequential"
-R52_ROLES = (R52_H_ROLE, R52_CONTROL_ROLE)
+R52_STRUCTURAL_H_ROLES = (R52_H_ROLE, P1R52_PIRU_SEQUENTIAL_ROLE)
+R52_ROLES = (R52_H_ROLE, R52_CONTROL_ROLE, P1R52_PIRU_SEQUENTIAL_ROLE)
 ROLES = (*R52_ROLES, NATIVE_ROLE)
 OFFICIAL_BASELINE_ROLES = (NATIVE_ROLE, NATIVE_CORRECTED_ROLE, MEMIT_ROLE)
 EXECUTION_ROLES = (*R52_ROLES, *OFFICIAL_BASELINE_ROLES)
@@ -91,6 +101,10 @@ RESULT_NAMES_B100X10 = {
     R52_CONTROL_ROLE: "s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-v1",
     NATIVE_CORRECTED_ROLE: "s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-v1",
     MEMIT_ROLE: "s05-p1r52-official-memit-sequential-10xb100-v1",
+}
+
+RESULT_NAMES_B100X10_PIRU = {
+    P1R52_PIRU_SEQUENTIAL_ROLE: P1R52_PIRU_SEQUENTIAL_RESULT_NAME,
 }
 
 RESULT_NAMES_B100X10_TECH_R1 = {
@@ -204,6 +218,7 @@ def expected_p1r52_sequential_result_name(
         "accepted-z-rephrase-obs",
         "accepted-z-rephrase-obs-tech-r1",
         "accepted-z-rephrase-obs-tech-r1-r52",
+        P1R52_PIRU_SEQUENTIAL_ATTEMPT_SUFFIX,
     ):
         raise ODEBFContractError("P1R52 sequential attempt suffix differs")
     if attempt_suffix is not None and scale == P1R52_B10X10_SCALE:
@@ -217,6 +232,8 @@ def expected_p1r52_sequential_result_name(
         if attempt_suffix == "accepted-z-rephrase-obs-tech-r1"
         else RESULT_NAMES_B100X10_ACCEPTED_Z_OBS_TECH_R1_R52
         if attempt_suffix == "accepted-z-rephrase-obs-tech-r1-r52"
+        else RESULT_NAMES_B100X10_PIRU
+        if attempt_suffix == P1R52_PIRU_SEQUENTIAL_ATTEMPT_SUFFIX
         else RESULT_NAMES_B100X10_TECH_R3_RELEASE_R1
         if attempt_suffix == "tech-r3-release-r1"
         else RESULT_NAMES_B100X10_TECH_R3
@@ -974,7 +991,11 @@ def run_p1r52_sequential(
     accepted_z_observation_enabled: bool = False,
     accepted_z_reference_root: Path | None = None,
 ) -> dict[str, Any]:
-    role_names = RESULT_NAMES if scale == P1R52_B10X10_SCALE else RESULT_NAMES_B100X10
+    role_names = (
+        RESULT_NAMES
+        if scale == P1R52_B10X10_SCALE
+        else {**RESULT_NAMES_B100X10, **RESULT_NAMES_B100X10_PIRU}
+    )
     if alias != "llama3-8b-inst" or role not in role_names:
         raise ODEBFContractError("P1R52 sequential model/role differs")
     if len(stream_batches) != scale.round_count or any(
@@ -1153,15 +1174,17 @@ def run_p1r52_sequential(
                     entry_receipt,
                     entry_values,
                 )
+                pir_policy = pir_policy_for_role(role)
+                structural_h_enabled = role in R52_STRUCTURAL_H_ROLES
                 router = SequentialHRouter(
-                    history_width if role == R52_H_ROLE else 0,
+                    history_width if structural_h_enabled else 0,
                     experiment.solve_p1r43_full_strength_routing,
                 )
                 with scoped_atomic_sequential_adapter(
                     experiment,
                     sequential_state,
                     router,
-                    structural_h_decision_enabled=role == R52_H_ROLE,
+                    structural_h_decision_enabled=structural_h_enabled,
                     maximum_history_columns=scale.history_counts[-1],
                 ):
                     rollout = _run_ode_arm(
@@ -1194,6 +1217,7 @@ def run_p1r52_sequential(
                         p1r34=True,
                         p1r35=True,
                         p1r52=True,
+                        p1r52_pir_policy=pir_policy,
                     )
                 if accepted_z_observation_enabled:
                     accepted_z_binding = r52_binding(
@@ -1629,9 +1653,15 @@ def run_p1r52_sequential(
 
             batch_payload = {
                 "schema": f"ode-edit-s05-p1r52-sequential-{scale.scale_id}-terminal/v1",
-                "instruction_id": scale.instruction_id,
+                "instruction_id": (
+                    P1R52_PIRU_SEQUENTIAL_INSTRUCTION_ID
+                    if is_piru_structural_h_role(role)
+                    else scale.instruction_id
+                ),
                 "method_id": (
-                    METHOD_ID
+                    P1R52_PIRU_SEQUENTIAL_METHOD_ID
+                    if is_piru_structural_h_role(role)
+                    else METHOD_ID
                     if role == R52_H_ROLE
                     else "P1R52-REPAIR-R1-LLAMA-SOFT-SEQUENTIAL-ALPHACACHE-ON-STRUCTURALH-OFF-V1"
                     if role == R52_CONTROL_ROLE
@@ -1665,7 +1695,7 @@ def run_p1r52_sequential(
                     "ALPHA_CACHE_ON_STRUCTURAL_H_OFF"
                     if role == R52_CONTROL_ROLE
                     else "HISTORICAL_ACTIVE"
-                    if role == R52_H_ROLE
+                    if role in R52_STRUCTURAL_H_ROLES
                     else "OFFICIAL_ALPHAEDIT_DYNAMIC_CACHE_C_ON"
                     if role == NATIVE_CORRECTED_ROLE
                     else "OFFICIAL_MEMIT_STATIC_COVARIANCE_CACHE"
@@ -1679,7 +1709,7 @@ def run_p1r52_sequential(
                     if role == MEMIT_ROLE
                     else None
                 ),
-                "structural_h_decision_history_width": history_width if role == R52_H_ROLE else 0,
+                "structural_h_decision_history_width": history_width if role in R52_STRUCTURAL_H_ROLES else 0,
                 "structural_h_decision_influence_count": 0 if role == R52_CONTROL_ROLE else sum(
                     int(item["status"] == "H_ACTIVE_CERTIFIED") for item in h_payload
                 ),
@@ -1957,9 +1987,15 @@ def run_p1r52_sequential(
 
     terminal = {
         "schema": f"ode-edit-s05-p1r52-sequential-10xb{scale.batch_size}-terminal/v1",
-        "instruction_id": scale.instruction_id,
+        "instruction_id": (
+            P1R52_PIRU_SEQUENTIAL_INSTRUCTION_ID
+            if is_piru_structural_h_role(role)
+            else scale.instruction_id
+        ),
         "method_id": (
-            METHOD_ID
+            P1R52_PIRU_SEQUENTIAL_METHOD_ID
+            if is_piru_structural_h_role(role)
+            else METHOD_ID
             if role == R52_H_ROLE
             else "P1R52-REPAIR-R1-LLAMA-SOFT-SEQUENTIAL-ALPHACACHE-ON-STRUCTURALH-OFF-V1"
             if role == R52_CONTROL_ROLE

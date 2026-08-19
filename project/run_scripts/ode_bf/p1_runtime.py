@@ -4483,6 +4483,7 @@ def run_p1(
                     "accepted-z-rephrase-obs",
                     "accepted-z-rephrase-obs-tech-r1",
                     "accepted-z-rephrase-obs-tech-r1-r52",
+                    "pir-u-structuralh-on-v1",
                 ),
                 accepted_z_observation_enabled=p1r52_accepted_z_observation,
                 accepted_z_reference_root=p1r52_accepted_z_reference_root,
