@@ -1,0 +1,449 @@
+from __future__ import annotations
+
+from dataclasses import FrozenInstanceError, replace
+import inspect
+import math
+import unittest
+
+import torch
+
+from project.run_scripts.ode_bf.contracts import ODEBFContractError, ODEBFStateError
+from project.run_scripts.ode_bf import (
+    p1r52_residual_reserve_committed_state as state_module,
+)
+from project.run_scripts.ode_bf.p1r52_residual_reserve_committed_state import (
+    CommittedGrossLoadLedger,
+    LayerCommittedStateAnchor,
+    bind_authoritative_transaction_factors,
+    initialize_committed_gross_load_state,
+)
+from project.run_scripts.ode_bf.p1r52_residual_reserve_fp32_transaction import (
+    FP32TransactionMode,
+    OfficialStyleFP32SequentialTransaction,
+    RESIDUAL_RESERVE_LAYER_ORDER,
+)
+from project.run_scripts.ode_bf.p1r52_residual_reserve_pc_inventory import (
+    LowRankFP32Factor,
+    LowRankFactorSource,
+    SealedPrevalidatedCovariance,
+)
+
+
+class ResidualReserveCommittedStateTests(unittest.TestCase):
+    PARAMETER_SHAPE = (3, 4)
+
+    @staticmethod
+    def covariance(layer: int) -> SealedPrevalidatedCovariance:
+        value = torch.diag(
+            torch.tensor(
+                [1.0, 1.2, 1.4, 1.6],
+                dtype=torch.float32,
+            )
+            + 0.01 * (layer - 4)
+        )
+        return SealedPrevalidatedCovariance(
+            layer,
+            value,
+            f"sealed-covariance-{layer}",
+        )
+
+    def anchors(self):
+        return tuple(
+            LayerCommittedStateAnchor(
+                layer,
+                self.covariance(layer),
+                10.0 + layer,
+            )
+            for layer in RESIDUAL_RESERVE_LAYER_ORDER
+        )
+
+    @staticmethod
+    def factors(scale: float = 1.0):
+        result = []
+        for ordinal, layer in enumerate(RESIDUAL_RESERVE_LAYER_ORDER):
+            left = scale * torch.tensor(
+                [
+                    [0.5 + 0.05 * ordinal],
+                    [-0.25 + 0.02 * ordinal],
+                    [0.75 - 0.03 * ordinal],
+                ],
+                dtype=torch.float32,
+            )
+            right = torch.tensor(
+                [
+                    [0.4],
+                    [-0.3 + 0.01 * ordinal],
+                    [0.2 + 0.02 * ordinal],
+                    [0.1],
+                ],
+                dtype=torch.float32,
+            )
+            result.append(
+                LowRankFP32Factor(
+                    layer,
+                    ResidualReserveCommittedStateTests.PARAMETER_SHAPE,
+                    left,
+                    right,
+                    LowRankFactorSource.SUCCESSFUL_COMMITTED_PRECAST_FP32,
+                )
+            )
+        return tuple(result)
+
+    @staticmethod
+    def transaction_receipt(
+        factors: tuple[LowRankFP32Factor, ...],
+        transaction_id: str,
+        *,
+        mode: FP32TransactionMode = FP32TransactionMode.AUTHORITATIVE,
+    ):
+        parameters = {
+            layer: (
+                f"model.layers.{layer}.mlp.down_proj.weight",
+                torch.nn.Parameter(
+                    torch.full(
+                        ResidualReserveCommittedStateTests.PARAMETER_SHAPE,
+                        0.25 + 0.1 * (layer - 4),
+                        dtype=torch.bfloat16,
+                    ),
+                    requires_grad=False,
+                ),
+            )
+            for layer in RESIDUAL_RESERVE_LAYER_ORDER
+        }
+        transaction = OfficialStyleFP32SequentialTransaction(
+            parameters,
+            mode=mode,
+            transaction_id=transaction_id,
+        )
+        for factor in factors:
+            update = (factor.left @ factor.right.T).contiguous()
+            transaction.apply_layer_fp32(factor.layer, update)
+        return (
+            transaction.commit_outer()
+            if mode is FP32TransactionMode.AUTHORITATIVE
+            else transaction.finish_shadow()
+        )
+
+    def ledger(self, state_id: str = "case-01") -> CommittedGrossLoadLedger:
+        return CommittedGrossLoadLedger(
+            initialize_committed_gross_load_state(
+                self.anchors(),
+                state_id=state_id,
+            )
+        )
+
+    @staticmethod
+    def contains_tensor(value) -> bool:
+        if isinstance(value, torch.Tensor):
+            return True
+        if isinstance(value, dict):
+            return any(
+                ResidualReserveCommittedStateTests.contains_tensor(item)
+                for item in value.values()
+            )
+        if isinstance(value, (list, tuple)):
+            return any(
+                ResidualReserveCommittedStateTests.contains_tensor(item)
+                for item in value
+            )
+        return False
+
+    def stage(
+        self,
+        ledger: CommittedGrossLoadLedger,
+        factors: tuple[LowRankFP32Factor, ...],
+        transaction_id: str,
+    ):
+        transaction = self.transaction_receipt(factors, transaction_id)
+        bindings = bind_authoritative_transaction_factors(transaction, factors)
+        stage = ledger.stage_authoritative_commit(transaction, bindings)
+        return transaction, bindings, stage
+
+    def test_w0_state_is_zero_immutable_and_independent_reset(self) -> None:
+        first = self.ledger("same-case").state
+        second = self.ledger("same-case").state
+        self.assertEqual(first.identity_sha256, second.identity_sha256)
+        self.assertEqual(first.version, 0)
+        self.assertEqual(first.commit_count, 0)
+        self.assertEqual(first.committed_transaction_ids, ())
+        for layer in first.layers:
+            self.assertEqual(layer.committed_precast_factors, ())
+            self.assertEqual(layer.structural_p_constant, 0.0)
+            self.assertEqual(layer.cumulative_precast_lambda, 0.0)
+            self.assertEqual(
+                layer.cumulative_actual_post_storage_load_observation,
+                0.0,
+            )
+        self.assertFalse(self.contains_tensor(first.raw_free_payload()))
+        with self.assertRaises(FrozenInstanceError):
+            first.version = 1
+
+    def test_recursive_p_and_lambda_match_dense_two_commit_fixture(self) -> None:
+        ledger = self.ledger()
+        committed: list[tuple[LowRankFP32Factor, ...]] = []
+        for ordinal, factors in enumerate((self.factors(1.0), self.factors(-0.4))):
+            _, _, stage = self.stage(
+                ledger,
+                factors,
+                f"authoritative-{ordinal}",
+            )
+            result = ledger.commit_staged(stage.stage_identity)
+            committed.append(factors)
+            self.assertEqual(result.state.version, ordinal + 1)
+            self.assertEqual(result.state.commit_count, ordinal + 1)
+            self.assertEqual(result.receipt.factor_append_count, 5)
+            self.assertEqual(result.receipt.logical_commit_count, 1)
+            for layer_index, layer_state in enumerate(result.state.layers):
+                dense = sum(
+                    (
+                        factor_set[layer_index].left
+                        @ factor_set[layer_index].right.T
+                        for factor_set in committed
+                    ),
+                    torch.zeros(self.PARAMETER_SHAPE, dtype=torch.float32),
+                )
+                covariance = layer_state.covariance.value
+                expected_p = float(torch.trace(dense @ covariance @ dense.T))
+                expected_lambda = sum(
+                    float(
+                        torch.sum(
+                            (factor_set[layer_index].left
+                            @ factor_set[layer_index].right.T)
+                            ** 2
+                        )
+                    )
+                    / layer_state.pretrained_weight_norm_squared
+                    for factor_set in committed
+                )
+                self.assertAlmostEqual(
+                    layer_state.structural_p_constant,
+                    expected_p,
+                    places=6,
+                )
+                self.assertAlmostEqual(
+                    layer_state.cumulative_precast_lambda,
+                    expected_lambda,
+                    places=7,
+                )
+                layer_receipt = result.receipt.layer_receipts[layer_index]
+                self.assertAlmostEqual(
+                    layer_receipt.p_increment,
+                    2.0 * layer_receipt.p_cross + layer_receipt.p_self,
+                    places=14,
+                )
+
+    def test_stage_excludes_proposal_and_abort_restores_exact_state(self) -> None:
+        ledger = self.ledger()
+        before = ledger.state
+        before_payload = before.raw_free_payload()
+        _, _, stage = self.stage(ledger, self.factors(), "abort-me")
+        self.assertIs(ledger.state, before)
+        self.assertEqual(ledger.state.raw_free_payload(), before_payload)
+        self.assertEqual(stage.current_state_mutation_count, 0)
+        self.assertEqual(stage.proposal_decision_influence_count_before_commit, 0)
+        receipt = ledger.abort_staged(stage.stage_identity)
+        self.assertIs(ledger.state, before)
+        self.assertEqual(receipt.before_state_identity, receipt.after_state_identity)
+        self.assertEqual(
+            receipt.before_decision_identity,
+            receipt.after_decision_identity,
+        )
+        self.assertEqual(receipt.state_mutation_count, 0)
+        self.assertEqual(receipt.rollback_count, 1)
+
+    def test_authoritative_complete_gate_rejects_shadow_partial_and_failed(self) -> None:
+        factors = self.factors()
+        shadow = self.transaction_receipt(
+            factors,
+            "shadow",
+            mode=FP32TransactionMode.SHADOW,
+        )
+        with self.assertRaises(ODEBFContractError):
+            bind_authoritative_transaction_factors(shadow, factors)
+
+        valid = self.transaction_receipt(factors, "valid")
+        partial = replace(
+            valid,
+            layer_receipts=valid.layer_receipts[:-1],
+            native_storage_assignment_count=4,
+            storage_cast_boundary_count=4,
+        )
+        failed = replace(valid, rollback_count=1)
+        for receipt in (partial, failed):
+            with self.assertRaises(ODEBFContractError):
+                bind_authoritative_transaction_factors(receipt, factors)
+
+        nominal = tuple(
+            LowRankFP32Factor(
+                factor.layer,
+                factor.parameter_shape,
+                factor.left,
+                factor.right,
+                LowRankFactorSource.NOMINAL_REFERENCE_PRECAST_FP32,
+            )
+            for factor in factors
+        )
+        with self.assertRaises(ODEBFContractError):
+            bind_authoritative_transaction_factors(valid, nominal)
+
+    def test_duplicate_out_of_order_and_reused_stage_fail_closed(self) -> None:
+        ledger = self.ledger()
+        transaction = self.transaction_receipt(self.factors(), "once")
+        bindings = bind_authoritative_transaction_factors(
+            transaction,
+            self.factors(),
+        )
+        before_identity = ledger.state.identity_sha256
+        with self.assertRaises(ODEBFContractError):
+            ledger.stage_authoritative_commit(transaction, tuple(reversed(bindings)))
+        self.assertEqual(ledger.state.identity_sha256, before_identity)
+
+        stage = ledger.stage_authoritative_commit(transaction, bindings)
+        with self.assertRaises(ODEBFStateError):
+            ledger.stage_authoritative_commit(transaction, bindings)
+        ledger.commit_staged(stage.stage_identity)
+        committed_identity = ledger.state.identity_sha256
+        with self.assertRaises(ODEBFStateError):
+            ledger.commit_staged(stage.stage_identity)
+        with self.assertRaises(ODEBFStateError):
+            ledger.stage_authoritative_commit(transaction, bindings)
+        self.assertEqual(ledger.state.identity_sha256, committed_identity)
+
+    def test_actual_post_observation_does_not_change_route_inputs(self) -> None:
+        factors = self.factors()
+        transaction = self.transaction_receipt(factors, "observation-split")
+        changed_layers = tuple(
+            replace(
+                item,
+                actual_post_storage_delta32_norm=item.actual_post_storage_delta32_norm
+                + 2.0,
+                actual_post_storage_delta32_energy=item.actual_post_storage_delta32_energy
+                + 4.0,
+            )
+            for item in transaction.layer_receipts
+        )
+        changed_transaction = replace(transaction, layer_receipts=changed_layers)
+
+        first = self.ledger("observation-pair")
+        second = self.ledger("observation-pair")
+        first_bindings = bind_authoritative_transaction_factors(transaction, factors)
+        second_bindings = bind_authoritative_transaction_factors(
+            changed_transaction,
+            factors,
+        )
+        first_stage = first.stage_authoritative_commit(transaction, first_bindings)
+        second_stage = second.stage_authoritative_commit(
+            changed_transaction,
+            second_bindings,
+        )
+        first_result = first.commit_staged(first_stage.stage_identity)
+        second_result = second.commit_staged(second_stage.stage_identity)
+        self.assertEqual(
+            first_result.state.decision_identity_sha256,
+            second_result.state.decision_identity_sha256,
+        )
+        self.assertNotEqual(
+            first_result.state.identity_sha256,
+            second_result.state.identity_sha256,
+        )
+        for left, right in zip(
+            first_result.state.layers,
+            second_result.state.layers,
+            strict=True,
+        ):
+            self.assertEqual(left.structural_p_constant, right.structural_p_constant)
+            self.assertEqual(
+                left.cumulative_precast_lambda,
+                right.cumulative_precast_lambda,
+            )
+            self.assertNotEqual(
+                left.cumulative_actual_post_storage_load_observation,
+                right.cumulative_actual_post_storage_load_observation,
+            )
+
+    def test_binding_receipt_binds_factor_update_and_actual_observation(self) -> None:
+        factors = self.factors()
+        transaction = self.transaction_receipt(factors, "binding")
+        bindings = bind_authoritative_transaction_factors(transaction, factors)
+        for factor, layer_receipt, binding in zip(
+            factors,
+            transaction.layer_receipts,
+            bindings,
+            strict=True,
+        ):
+            self.assertEqual(binding.factor_identity, factor.identity_sha256)
+            self.assertEqual(
+                binding.pre_cast_update_sha256,
+                layer_receipt.pre_cast_fp32_update_sha256,
+            )
+            self.assertEqual(
+                binding.actual_post_storage_delta_sha256,
+                layer_receipt.actual_post_storage_delta32_sha256,
+            )
+            self.assertEqual(binding.transaction_id, transaction.transaction_id)
+            self.assertEqual(
+                binding.factor_update_equivalence_status,
+                "DEFERRED_TO_M3D",
+            )
+            self.assertEqual(
+                binding.raw_free_payload()["second_dense_update_tensor_creation_count"],
+                0,
+            )
+
+    def test_state_and_receipts_are_raw_free_and_inputs_stay_immutable(self) -> None:
+        ledger = self.ledger()
+        factors = self.factors()
+        identities = tuple(factor.identity_sha256 for factor in factors)
+        _, _, stage = self.stage(ledger, factors, "immutable")
+        result = ledger.commit_staged(stage.stage_identity)
+        self.assertEqual(identities, tuple(factor.identity_sha256 for factor in factors))
+        self.assertFalse(self.contains_tensor(result.state.raw_free_payload()))
+        self.assertFalse(self.contains_tensor(result.receipt.raw_free_payload()))
+        self.assertEqual(result.receipt.shadow_commit_count, 0)
+        self.assertEqual(result.receipt.failed_commit_count, 0)
+        self.assertEqual(result.receipt.duplicate_commit_count, 0)
+        self.assertTrue(
+            all(
+                item.factor_append_count == 1
+                and item.covariance_right_matmul_count == 1
+                and item.dense_materialization_count == 0
+                for item in result.receipt.layer_receipts
+            )
+        )
+
+    def test_prohibited_paths_and_compute_ledger(self) -> None:
+        source = inspect.getsource(state_module)
+        for prohibited in (
+            "AcceptedPhysicalStateMaterializer",
+            "AtomicBatchTransaction",
+            "CachedBF16FunctionalTrial",
+            "CandidateBF16FunctionalTrial",
+            "CumulativeBF16FunctionalTrial",
+            "assemble_effective_bf16",
+            "effective_bf16_sha256",
+            "PIR-U",
+            "PIRU",
+            "FPIQ",
+            "p1r52_sequential_contract",
+            "left @ right.T",
+        ):
+            self.assertNotIn(prohibited, source)
+        ledger = self.ledger()
+        _, _, stage = self.stage(ledger, self.factors(), "compute")
+        result = ledger.commit_staged(stage.stage_identity)
+        self.assertEqual(result.receipt.model_forward_count, 0)
+        self.assertEqual(result.receipt.model_backward_count, 0)
+        self.assertEqual(result.receipt.dense_materialization_count, 0)
+        self.assertEqual(result.receipt.post_storage_decision_influence_count, 0)
+        self.assertTrue(
+            all(
+                math.isfinite(item.p_after)
+                and math.isfinite(item.lambda_after)
+                and math.isfinite(item.actual_load_observation_after)
+                for item in result.receipt.layer_receipts
+            )
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()
