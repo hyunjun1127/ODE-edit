@@ -25,6 +25,7 @@ from project.run_scripts.ode_bf.p1r52_independent_runtime import (
     expected_p1r52_result_name,
 )
 from project.run_scripts.ode_bf.p1r52_target_depth import (
+    P1R52_SEQUENTIAL_TARGET_DEPTH_INNER_COUNTS,
     P1R52_TARGET_DEPTH_INNER_COUNTS,
     P1R52TargetDepth,
     P1R52TargetDepthInner,
@@ -163,11 +164,11 @@ class P1R52TargetDepthTests(unittest.TestCase):
         self.assertEqual(P1R52_TARGET_DEPTH_INNER_COUNTS, (1, 3, 8, 10, 15))
         self.assertEqual(P1R52TargetDepth.from_inner_count(1), P1R52TargetDepth.IL1)
         self.assertEqual(P1R52TargetDepth.from_inner_count(3), P1R52TargetDepth.IL3_FULL)
+        self.assertEqual(P1R52TargetDepth.from_inner_count(5), P1R52TargetDepth.IL5_FULL)
         self.assertEqual(P1R52TargetDepth.from_inner_count(8), P1R52TargetDepth.IL8_FULL)
         self.assertEqual(P1R52TargetDepth.from_inner_count(10), P1R52TargetDepth.IL10_FULL)
         self.assertEqual(P1R52TargetDepth.from_inner_count(15), P1R52TargetDepth.IL15_FULL)
-        with self.assertRaises(ODEBFContractError):
-            P1R52TargetDepth.from_inner_count(5)
+        self.assertEqual(P1R52_SEQUENTIAL_TARGET_DEPTH_INNER_COUNTS, (5,))
 
     def test_extension_list_has_no_il5_and_exact_result_names(self) -> None:
         self.assertEqual(validate_extension_depths(EXTENSION_DEPTHS), EXTENSION_DEPTHS)
@@ -633,9 +634,9 @@ class P1R52TargetDepthTests(unittest.TestCase):
         scalable = (
             root / "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py"
         ).read_text()
-        self.assertIn(
-            "p1r52_target_depth not in P1R52_TARGET_DEPTH_INNER_COUNTS", scalable
-        )
+        self.assertIn("allowed_target_depth_counts", scalable)
+        self.assertIn("p1r52_target_depth not in allowed_target_depth_counts", scalable)
+        self.assertIn("P1R52_SEQUENTIAL_TARGET_DEPTH_INNER_COUNTS", scalable)
         self.assertNotIn("p1r52_target_depth not in (1, 3)", scalable)
 
 

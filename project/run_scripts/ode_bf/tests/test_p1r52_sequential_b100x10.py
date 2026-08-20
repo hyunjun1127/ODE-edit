@@ -75,8 +75,14 @@ class P1R52SequentialB100x10Tests(unittest.TestCase):
                 expected_p1r52_sequential_result_name("llama3-8b-inst", role),
                 name,
             )
-        self.assertEqual(len(RESULT_NAMES_B100X10), 4)
-        self.assertTrue(all("10xb100" in name for name in RESULT_NAMES_B100X10.values()))
+        self.assertEqual(len(RESULT_NAMES_B100X10), 6)
+        self.assertTrue(
+            all(
+                "10xb100" in name
+                for role, name in RESULT_NAMES_B100X10.items()
+                if role != "r52-target-official-alphaedit-writer-phase-a"
+            )
+        )
         self.assertTrue(all("tech-r1" in name for name in RESULT_NAMES_B100X10_TECH_R1.values()))
         self.assertTrue(all("tech-r2" in name for name in RESULT_NAMES_B100X10_TECH_R2.values()))
         self.assertTrue(all("tech-r3" in name for name in RESULT_NAMES_B100X10_TECH_R3.values()))

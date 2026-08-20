@@ -3233,6 +3233,8 @@ def run_p1(
     p1r52_attempt_suffix: str | None = None,
     p1r52_sequential_role: str | None = None,
     p1r52_sequential_scale: str | None = None,
+    p1r52_sequential_target_depth: str | None = None,
+    p1r52_sequential_target_depth_inner_telemetry: bool = False,
     p1r52_batch_entry_evaluator_enabled: bool | None = None,
     p1r52_accepted_z_observation: bool = False,
     p1r52_accepted_z_reference_root: Path | None = None,
@@ -3289,6 +3291,18 @@ def run_p1(
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
     if p1r52_sequential_scale is not None and p1r52_sequential_role is None:
         raise ODEBFContractError("P1R52 sequential scale has no role")
+    if (
+        p1r52_sequential_target_depth is not None
+        or p1r52_sequential_target_depth_inner_telemetry
+    ) and p1r52_sequential_role is None:
+        raise ODEBFContractError("P1R52 sequential target depth has no role")
+    if (
+        p1r52_sequential_target_depth_inner_telemetry
+        and p1r52_sequential_target_depth is None
+    ):
+        raise ODEBFContractError(
+            "P1R52 sequential inner telemetry has no target depth"
+        )
     if (p1r52_target_depth is None) != (p1r52_target_depth_case_count is None):
         raise ODEBFContractError("P1R52 target-depth role/count pair differs")
     if p1r52_atomic_target_depth is not None and p1r52_arm is None:
@@ -4579,6 +4593,11 @@ def run_p1(
                 accepted_z_sealed_w_reuse=p1r52_accepted_z_sealed_w_reuse,
                 postsolve_energy_warn_enabled=p1r52_postsolve_energy_warn_enabled,
                 piru_cache_complete_rounds=p1r52_piru_cache_complete_rounds,
+                attempt_suffix=p1r52_attempt_suffix,
+                target_depth=p1r52_sequential_target_depth,
+                target_depth_inner_telemetry=(
+                    p1r52_sequential_target_depth_inner_telemetry
+                ),
             )
         if p1r52_arm is not None:
             from .p1r52_independent_runtime import run_p1r52_independent
