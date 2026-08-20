@@ -5,7 +5,7 @@ from __future__ import annotations
 from project.run_scripts.ode_bf.p1r52_target_official_alphaedit_writer import (
     INSTRUCTION_ID,
     PHASE_A_CASE_COUNT,
-    PHASE_A_RESULT_NAME,
+    PHASE_A_TECH_R1_RESULT_NAME,
     PHASE_A_ROLE,
 )
 
@@ -19,7 +19,8 @@ def build_plan(source_head: str) -> dict[str, object]:
             {
                 "role": PHASE_A_ROLE,
                 "model": "llama3-8b-inst",
-                "result_name": PHASE_A_RESULT_NAME,
+                "result_name": PHASE_A_TECH_R1_RESULT_NAME,
+                "attempt_suffix": "tech-r1",
                 "phase_a_pilot_case_count": 1,
                 "phase_a_conditional_total_case_count": PHASE_A_CASE_COUNT,
                 "batch_size": 100,

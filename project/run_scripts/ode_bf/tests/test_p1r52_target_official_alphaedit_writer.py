@@ -13,6 +13,7 @@ from project.run_scripts.ode_bf.functional import tensor_sha256
 from project.run_scripts.ode_bf.p1r52_target_official_alphaedit_writer import (
     PHASE_A_RESULT_NAME,
     PHASE_A_ROLE,
+    PHASE_A_TECH_R1_RESULT_NAME,
     _writer_gap,
     accepted_z_cache_template,
     isolated_alphaedit_module_state,
@@ -51,6 +52,15 @@ class P1R52TargetOfficialWriterTests(unittest.TestCase):
                 scale=P1R52_B100X10_SCALE,
             ),
             PHASE_A_RESULT_NAME,
+        )
+        self.assertEqual(
+            expected_p1r52_sequential_result_name(
+                "llama3-8b-inst",
+                PHASE_A_ROLE,
+                scale=P1R52_B100X10_SCALE,
+                attempt_suffix="tech-r1",
+            ),
+            PHASE_A_TECH_R1_RESULT_NAME,
         )
 
     def test_accepted_z_cache_is_exact_and_ordered(self) -> None:

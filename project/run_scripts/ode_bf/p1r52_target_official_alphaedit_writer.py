@@ -44,6 +44,7 @@ INSTRUCTION_ID = "ODEEDIT-S05-P1R52-TARGET-OFFICIAL-ALPHAEDIT-WRITER-A1-V1"
 METHOD_ID = "P1R52-TARGET-OFFICIAL-ALPHAEDIT-WRITER-A1"
 PHASE_A_ROLE = "r52-target-official-alphaedit-writer-phase-a"
 PHASE_A_RESULT_NAME = "s05-p1r52-target-official-alphaedit-writer-phase-a-v1"
+PHASE_A_TECH_R1_RESULT_NAME = "s05-p1r52-target-official-alphaedit-writer-phase-a-tech-r1-v1"
 PHASE_A_CASE_COUNT = 10
 
 
@@ -292,7 +293,10 @@ def _run_phase_a_case(
         counter.close()
     state = ArmRuntimeState(
         P1Arm.R_BF,
-        P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=100, batch_size=100),
+        # The target run is history-off, but the reusable ledger's constructor
+        # intentionally reserves four transactions.  This capacity is inert:
+        # no records are appended or consumed in Phase A.
+        P1HistoryLedger(layer_order=P1R23_LAYER_ORDER, maximum_records=400, batch_size=100),
         ComputeLedger(),
         ArmWeightSnapshot(
             P1Arm.R_BF,
@@ -614,6 +618,7 @@ __all__ = [
     "METHOD_ID",
     "PHASE_A_CASE_COUNT",
     "PHASE_A_RESULT_NAME",
+    "PHASE_A_TECH_R1_RESULT_NAME",
     "PHASE_A_ROLE",
     "accepted_z_cache_template",
     "isolated_alphaedit_module_state",
