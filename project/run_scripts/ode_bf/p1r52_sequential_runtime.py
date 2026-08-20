@@ -81,6 +81,19 @@ from .p1r52_piru_postenergy_warn import (
     load_actual_update_norm_rows,
     z_w_realization_receipt,
 )
+from .p1r52_piru_cache_continuity import (
+    ATTEMPT_SUFFIX as P1R52_PIRU_CACHE_CONTINUITY_ATTEMPT_SUFFIX,
+    CACHE_COMPLETE_ROLE as P1R52_PIRU_CACHE_COMPLETE_ROLE,
+    INSTRUCTION_ID as P1R52_PIRU_CACHE_CONTINUITY_INSTRUCTION_ID,
+    LEGACY_ROLE as P1R52_PIRU_CACHE_LEGACY_ROLE,
+    METHOD_ID as P1R52_PIRU_CACHE_CONTINUITY_METHOD_ID,
+    PIRUCacheContinuityPolicy,
+    RESULT_NAMES as P1R52_PIRU_CACHE_CONTINUITY_RESULT_NAMES,
+    STAGE_A_ATTEMPT_SUFFIX as P1R52_PIRU_CACHE_CONTINUITY_STAGE_A_ATTEMPT_SUFFIX,
+    STAGE_A_RESULT_NAMES as P1R52_PIRU_CACHE_CONTINUITY_STAGE_A_RESULT_NAMES,
+    ROLES as P1R52_PIRU_CACHE_CONTINUITY_ROLES,
+    policy_for_role as piru_cache_policy_for_role,
+)
 from .scalable_batched_model import build_scalable_capture_plan, build_scalable_objective_plan
 from .scalable_batched_native import run_official_native_apply
 from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER, scalable_ordered_request_digest
@@ -91,8 +104,17 @@ R52_CONTROL_ROLE = "r52-soft-sequential-alphacache-on-structuralh-off"
 NATIVE_ROLE = "native-alphaedit-sequential"
 NATIVE_CORRECTED_ROLE = "native-alphaedit-sequential-cache-on-corrected"
 MEMIT_ROLE = "official-memit-sequential"
-R52_STRUCTURAL_H_ROLES = (R52_H_ROLE, P1R52_PIRU_SEQUENTIAL_ROLE)
-R52_ROLES = (R52_H_ROLE, R52_CONTROL_ROLE, P1R52_PIRU_SEQUENTIAL_ROLE)
+R52_STRUCTURAL_H_ROLES = (
+    R52_H_ROLE,
+    P1R52_PIRU_SEQUENTIAL_ROLE,
+    *P1R52_PIRU_CACHE_CONTINUITY_ROLES,
+)
+R52_ROLES = (
+    R52_H_ROLE,
+    R52_CONTROL_ROLE,
+    P1R52_PIRU_SEQUENTIAL_ROLE,
+    *P1R52_PIRU_CACHE_CONTINUITY_ROLES,
+)
 ROLES = (*R52_ROLES, NATIVE_ROLE)
 OFFICIAL_BASELINE_ROLES = (NATIVE_ROLE, NATIVE_CORRECTED_ROLE, MEMIT_ROLE)
 EXECUTION_ROLES = (*R52_ROLES, *OFFICIAL_BASELINE_ROLES)
@@ -228,6 +250,8 @@ def expected_p1r52_sequential_result_name(
         "accepted-z-rephrase-obs-tech-r1-r52",
         P1R52_PIRU_SEQUENTIAL_ATTEMPT_SUFFIX,
         P1R52_PIRU_POSTENERGY_WARN_ATTEMPT_SUFFIX,
+        P1R52_PIRU_CACHE_CONTINUITY_ATTEMPT_SUFFIX,
+        P1R52_PIRU_CACHE_CONTINUITY_STAGE_A_ATTEMPT_SUFFIX,
     ):
         raise ODEBFContractError("P1R52 sequential attempt suffix differs")
     if attempt_suffix is not None and scale == P1R52_B10X10_SCALE:
@@ -245,6 +269,10 @@ def expected_p1r52_sequential_result_name(
         if attempt_suffix == P1R52_PIRU_SEQUENTIAL_ATTEMPT_SUFFIX
         else {P1R52_PIRU_SEQUENTIAL_ROLE: P1R52_PIRU_POSTENERGY_WARN_RESULT_NAME}
         if attempt_suffix == P1R52_PIRU_POSTENERGY_WARN_ATTEMPT_SUFFIX
+        else P1R52_PIRU_CACHE_CONTINUITY_RESULT_NAMES
+        if attempt_suffix == P1R52_PIRU_CACHE_CONTINUITY_ATTEMPT_SUFFIX
+        else P1R52_PIRU_CACHE_CONTINUITY_STAGE_A_RESULT_NAMES
+        if attempt_suffix == P1R52_PIRU_CACHE_CONTINUITY_STAGE_A_ATTEMPT_SUFFIX
         else RESULT_NAMES_B100X10_TECH_R3_RELEASE_R1
         if attempt_suffix == "tech-r3-release-r1"
         else RESULT_NAMES_B100X10_TECH_R3
@@ -1003,11 +1031,16 @@ def run_p1r52_sequential(
     accepted_z_reference_root: Path | None = None,
     accepted_z_sealed_w_reuse: bool = True,
     postsolve_energy_warn_enabled: bool = False,
+    piru_cache_complete_rounds: Sequence[int] | None = None,
 ) -> dict[str, Any]:
     role_names = (
         RESULT_NAMES
         if scale == P1R52_B10X10_SCALE
-        else {**RESULT_NAMES_B100X10, **RESULT_NAMES_B100X10_PIRU}
+        else {
+            **RESULT_NAMES_B100X10,
+            **RESULT_NAMES_B100X10_PIRU,
+            **P1R52_PIRU_CACHE_CONTINUITY_RESULT_NAMES,
+        }
     )
     if alias != "llama3-8b-inst" or role not in role_names:
         raise ODEBFContractError("P1R52 sequential model/role differs")
@@ -1038,12 +1071,30 @@ def run_p1r52_sequential(
     ):
         raise ODEBFContractError("accepted-z sealed reference root is absent")
     if postsolve_energy_warn_enabled and (
-        role != P1R52_PIRU_SEQUENTIAL_ROLE
+        not is_piru_structural_h_role(role)
         or batch_entry_evaluation_enabled
         or not accepted_z_observation_enabled
         or accepted_z_sealed_w_reuse
     ):
         raise ODEBFContractError("PIR-U post-energy-WARN runtime scope differs")
+    cache_role_policy = piru_cache_policy_for_role(role)
+    if cache_role_policy is None and piru_cache_complete_rounds is not None:
+        raise ODEBFContractError("PIR-U cache-continuity rounds used by another role")
+    selected_cache_rounds = (
+        frozenset(range(1, scale.round_count + 1))
+        if cache_role_policy is PIRUCacheContinuityPolicy.CACHE_COMPLETE
+        and piru_cache_complete_rounds is None
+        else frozenset()
+        if cache_role_policy is PIRUCacheContinuityPolicy.LEGACY
+        and piru_cache_complete_rounds is None
+        else frozenset(int(value) for value in piru_cache_complete_rounds or ())
+    )
+    if cache_role_policy is not None and (
+        any(value < 1 or value > scale.round_count for value in selected_cache_rounds)
+        or role == P1R52_PIRU_CACHE_LEGACY_ROLE
+        and selected_cache_rounds
+    ):
+        raise ODEBFContractError("PIR-U cache-continuity round schedule differs")
 
     from . import p1_scalable_batched_experiment as experiment
 
@@ -1225,6 +1276,11 @@ def run_p1r52_sequential(
                     router,
                     structural_h_decision_enabled=structural_h_enabled,
                     pir_history_rebind_enabled=pir_policy is not None,
+                    pir_prefix_history_policy=(
+                        PIRUCacheContinuityPolicy.CACHE_COMPLETE.value
+                        if round_index in selected_cache_rounds
+                        else PIRUCacheContinuityPolicy.LEGACY.value
+                    ),
                     maximum_history_columns=scale.history_counts[-1],
                 ):
                     rollout = _run_ode_arm(
@@ -1729,14 +1785,18 @@ def run_p1r52_sequential(
             batch_payload = {
                 "schema": f"ode-edit-s05-p1r52-sequential-{scale.scale_id}-terminal/v1",
                 "instruction_id": (
-                    P1R52_PIRU_POSTENERGY_WARN_INSTRUCTION_ID
+                    P1R52_PIRU_CACHE_CONTINUITY_INSTRUCTION_ID
+                    if cache_role_policy is not None
+                    else P1R52_PIRU_POSTENERGY_WARN_INSTRUCTION_ID
                     if postsolve_energy_warn_enabled
                     else P1R52_PIRU_SEQUENTIAL_INSTRUCTION_ID
                     if is_piru_structural_h_role(role)
                     else scale.instruction_id
                 ),
                 "method_id": (
-                    P1R52_PIRU_POSTENERGY_WARN_METHOD_ID
+                    f"{P1R52_PIRU_CACHE_CONTINUITY_METHOD_ID}:{cache_role_policy.value}"
+                    if cache_role_policy is not None
+                    else P1R52_PIRU_POSTENERGY_WARN_METHOD_ID
                     if postsolve_energy_warn_enabled
                     else P1R52_PIRU_SEQUENTIAL_METHOD_ID
                     if is_piru_structural_h_role(role)
@@ -1826,6 +1886,13 @@ def run_p1r52_sequential(
                 "z_w_writer_realization": z_w_receipt,
                 "actual_update_norm_share": batch_norm_rows,
                 "postsolve_energy_warn_enabled": postsolve_energy_warn_enabled,
+                "piru_cache_continuity_policy": (
+                    PIRUCacheContinuityPolicy.CACHE_COMPLETE.value
+                    if round_index in selected_cache_rounds
+                    else PIRUCacheContinuityPolicy.LEGACY.value
+                    if cache_role_policy is not None
+                    else "NOT_APPLICABLE"
+                ),
                 "sealed_W_evaluator_receipts_reused": (
                     accepted_z_observation_enabled and accepted_z_sealed_w_reuse
                 ),
@@ -2118,14 +2185,18 @@ def run_p1r52_sequential(
     terminal = {
         "schema": f"ode-edit-s05-p1r52-sequential-10xb{scale.batch_size}-terminal/v1",
         "instruction_id": (
-            P1R52_PIRU_POSTENERGY_WARN_INSTRUCTION_ID
+            P1R52_PIRU_CACHE_CONTINUITY_INSTRUCTION_ID
+            if cache_role_policy is not None
+            else P1R52_PIRU_POSTENERGY_WARN_INSTRUCTION_ID
             if postsolve_energy_warn_enabled
             else P1R52_PIRU_SEQUENTIAL_INSTRUCTION_ID
             if is_piru_structural_h_role(role)
             else scale.instruction_id
         ),
         "method_id": (
-            P1R52_PIRU_POSTENERGY_WARN_METHOD_ID
+            f"{P1R52_PIRU_CACHE_CONTINUITY_METHOD_ID}:{cache_role_policy.value}"
+            if cache_role_policy is not None
+            else P1R52_PIRU_POSTENERGY_WARN_METHOD_ID
             if postsolve_energy_warn_enabled
             else P1R52_PIRU_SEQUENTIAL_METHOD_ID
             if is_piru_structural_h_role(role)
@@ -2257,6 +2328,10 @@ def run_p1r52_sequential(
             else None
         ),
         "postsolve_energy_warn_enabled": postsolve_energy_warn_enabled,
+        "piru_cache_continuity_policy": (
+            cache_role_policy.value if cache_role_policy is not None else "NOT_APPLICABLE"
+        ),
+        "piru_cache_complete_rounds": sorted(selected_cache_rounds),
         "postsolve_energy_warning_count": sum(
             int(item.get("post_energy_status") == "WARN_POSTSOLVE_ENERGY_RESIDUAL")
             for item in h_route_rows

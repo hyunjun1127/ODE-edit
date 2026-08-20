@@ -15,6 +15,7 @@ from .contracts import ODEBFContractError, canonical_hash
 from .functional import tensor_sha256
 from .p1_backend import P1DynamicField
 from .p1r52_pir_writer import PIRWriterResult, P1R52PIRPolicy
+from .p1r52_piru_cache_continuity import ROLES as CACHE_CONTINUITY_ROLES
 
 
 P1R52_PIRU_SEQUENTIAL_INSTRUCTION_ID = (
@@ -96,13 +97,13 @@ def pir_policy_for_role(role: str) -> P1R52PIRPolicy | None:
 
     return (
         P1R52PIRPolicy.PIR_U
-        if role == P1R52_PIRU_SEQUENTIAL_ROLE
+        if role == P1R52_PIRU_SEQUENTIAL_ROLE or role in CACHE_CONTINUITY_ROLES
         else None
     )
 
 
 def is_piru_structural_h_role(role: str) -> bool:
-    return role == P1R52_PIRU_SEQUENTIAL_ROLE
+    return role == P1R52_PIRU_SEQUENTIAL_ROLE or role in CACHE_CONTINUITY_ROLES
 
 
 def resolve_piru_batch_entry_evaluator_enabled(
@@ -111,7 +112,7 @@ def resolve_piru_batch_entry_evaluator_enabled(
 ) -> bool:
     """Resolve the PIR-U observation contract independently of run naming."""
 
-    if role != P1R52_PIRU_SEQUENTIAL_ROLE:
+    if not is_piru_structural_h_role(role):
         raise ODEBFContractError("P1R52 PIR-U evaluator role differs")
     if configured is not False:
         raise ODEBFContractError(
