@@ -1,0 +1,242 @@
+{
+  "identity_sha256": "8792e72ff314c5c4312a648a7b1643df657d1f03f99297213791d7413dfe1685",
+  "instruction_id": "ODEEDIT-S05-P1R52-TARGET-DEPTH-IL8-IL10-IL15-V1",
+  "members": [
+    {
+      "bytes": 75169,
+      "mode": "0o600",
+      "name": "build_report.py",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/build_report.py",
+      "sha256": "b054fc12a7ebe37697feb11b8bce66920b82e251e506bc921b5ea09514307f1f"
+    },
+    {
+      "bytes": 1633,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il1-il3-il8-il10-il15-comparisons.csv",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il1-il3-il8-il10-il15-comparisons.csv",
+      "sha256": "753be6d6d959b5946ece0d4f59e3a7e88697f6398682a92507acd6d5eefe0130"
+    },
+    {
+      "bytes": 3685,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il1-il3-il8-il10-il15-comparisons.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il1-il3-il8-il10-il15-comparisons.json",
+      "sha256": "e029fa27cbd18503020e93154ba5cee292e267350fcf972d48a02295613de488"
+    },
+    {
+      "bytes": 6930,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il1-il3-il8-il10-il15-compute-layer-summary.csv",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il1-il3-il8-il10-il15-compute-layer-summary.csv",
+      "sha256": "dbbea1c56e254da6af158dead8404ea994f154c3a31a6252cc4d23134c5ba3fe"
+    },
+    {
+      "bytes": 10183,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il1-il3-il8-il10-il15-compute-layer-summary.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il1-il3-il8-il10-il15-compute-layer-summary.json",
+      "sha256": "fb006b13f83bd896f6a27f28ea6eef39f6b7d7913778c5ae990e5532a85d2a45"
+    },
+    {
+      "bytes": 19183,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il1-il3-il8-il10-il15-depth-summary.csv",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il1-il3-il8-il10-il15-depth-summary.csv",
+      "sha256": "0952c9bd1657b60f3b205fb184473fc0be5787685a162364ac282b9534b1ed55"
+    },
+    {
+      "bytes": 29164,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il1-il3-il8-il10-il15-depth-summary.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il1-il3-il8-il10-il15-depth-summary.json",
+      "sha256": "1c374601aabce36dcce82e8a7669e41f766d5d6b3a435ee663bedd7c355c7030"
+    },
+    {
+      "bytes": 9130,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il1-il3-il8-il10-il15-terminal-report-ko.md",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il1-il3-il8-il10-il15-terminal-report-ko.md",
+      "sha256": "8556e8f85ae510d82ebb36b1b47cf9804c76ca923aee0b362333f7d4d267de02"
+    },
+    {
+      "bytes": 3549,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il1-il3-il8-il10-il15-w-z-gap-summary.csv",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il1-il3-il8-il10-il15-w-z-gap-summary.csv",
+      "sha256": "e2149db0df13e6596f41774e922dea6a02a14a385e3716e2491315830b93777d"
+    },
+    {
+      "bytes": 5344,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il1-il3-il8-il10-il15-w-z-gap-summary.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il1-il3-il8-il10-il15-w-z-gap-summary.json",
+      "sha256": "ef386ffd8b80a20907b8e6e24595201860a5d58151d1e682bd9834ff0da039e9"
+    },
+    {
+      "bytes": 33141,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-global-ordinal-summary.csv",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-global-ordinal-summary.csv",
+      "sha256": "bd50df2c1750a98a16366b51f6e916505b0759235449b8497a61df37d4eb12a4"
+    },
+    {
+      "bytes": 132130,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-global-ordinal-summary.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-global-ordinal-summary.json",
+      "sha256": "d2415e66e0c5f7c2117be49a1c36f9943afc0b859827f0baccc67a48c2c2cb61"
+    },
+    {
+      "bytes": 6744,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-hard-cohort.csv",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-hard-cohort.csv",
+      "sha256": "5a526c88615c9f5b5699e3fb1fbe9de1537e53b43651bdb2ce3f0f587cd07674"
+    },
+    {
+      "bytes": 20005,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-hard-cohort.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-hard-cohort.json",
+      "sha256": "089df499cc224e79b19ccf9a948c2da8d9432b6c6a5e806c46eedb4a6b897336"
+    },
+    {
+      "bytes": 15794,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-minus-il3-paired-per-case.csv",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-minus-il3-paired-per-case.csv",
+      "sha256": "c475a0366e97daff7456f857233b3d69328fe19f2d130e927c3937751edac083"
+    },
+    {
+      "bytes": 37568,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-minus-il3-paired-per-case.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-minus-il3-paired-per-case.json",
+      "sha256": "b0146282da399cdf2bde94bbb5f0dbbc2624e09d1e32e61e65e17a32a53445fd"
+    },
+    {
+      "bytes": 74085,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-minus-il3-paired-per-request.csv",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-minus-il3-paired-per-request.csv",
+      "sha256": "b218377658a0c5a2277847dfba0f0c82963c162df76667a1170dbaab81d99c02"
+    },
+    {
+      "bytes": 214164,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-minus-il3-paired-per-request.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-minus-il3-paired-per-request.json",
+      "sha256": "851336a48e856f9f4df1afeee9c036c93fb1450604f027f09d55043da6c67140"
+    },
+    {
+      "bytes": 28392,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-per-case.csv",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-per-case.csv",
+      "sha256": "b507b95b244b0c849f4cf2c8f5fa11ba9bc3858f14833ee1f42ae13fc7ad910c"
+    },
+    {
+      "bytes": 82495,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-per-case.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-per-case.json",
+      "sha256": "eb1855c7062eaa7f85c0d80a719243968fcf7362ccd281a5523444816f9c0396"
+    },
+    {
+      "bytes": 3238506,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-per-inner-request.csv",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-per-inner-request.csv",
+      "sha256": "6174f48bfbd2d2747acb390636f54a19c0a1fa3bd2a7b1c47e43bf20d925dcc8"
+    },
+    {
+      "bytes": 11932920,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-per-inner-request.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-per-inner-request.json",
+      "sha256": "25ac22e4eb2bc95fc8423200eb1eba3cc4f7b4ae0507b31984df35416671da22"
+    },
+    {
+      "bytes": 1321152,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-per-inner.csv",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-per-inner.csv",
+      "sha256": "2d250153ae4d3cb33a2a6af1ecd7e4e0e10e42f9b98787e3e6ff73cb994cde16"
+    },
+    {
+      "bytes": 3297177,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-per-inner.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-per-inner.json",
+      "sha256": "07896b88fc280f7e9f11c0e59bddc57b646f7a16d3c81dffc6aa7fe8122cf479"
+    },
+    {
+      "bytes": 123446,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-per-request.csv",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-per-request.csv",
+      "sha256": "34d59e47def713abf6192dca31c734151c8bad96df0bda8688ec34e21169cf9c"
+    },
+    {
+      "bytes": 323491,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-per-request.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-per-request.json",
+      "sha256": "e475477c10ebc998afa240e77c86486031da2ae3fe73ff775be8531b0d2ba6c9"
+    },
+    {
+      "bytes": 118004,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-per-step.csv",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-per-step.csv",
+      "sha256": "5794120b73a9cc19eccdf9ca21a8b8d0bd9ae71250c5ade6fcfe04ae2dc85338"
+    },
+    {
+      "bytes": 308726,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-per-step.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-per-step.json",
+      "sha256": "3051d5f0ab3e5e2fc06b88edb6907d860be1e08cc7f0c1434f7850d8a19fbf65"
+    },
+    {
+      "bytes": 3330,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-result-identities.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-result-identities.json",
+      "sha256": "d05c03d98a339e706e7d02c05c214dcc2f40349435106799d165c2456497ce61"
+    },
+    {
+      "bytes": 3,
+      "mode": "0o600",
+      "name": "p1r52-target-depth-il8-il10-il15-typed-failures.json",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il8-il10-il15-typed-failures.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "bytes": 4608,
+      "mode": "0o600",
+      "name": "verify_report.py",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/verify_report.py",
+      "sha256": "04c35c31edd9b2b98d4562d545b9261650131894b1a78262b80e1f77b93d97d0"
+    }
+  ],
+  "members_root_sha256": "9adfa901b975f15bcd8c370ee28e9d2342ff436a0d977c08882b3b2384143904",
+  "row_counts": {
+    "compute_layer_summary": 5,
+    "global_ordinal_summary": 264,
+    "hard_cohort": 30,
+    "paired_il3_per_case": 30,
+    "paired_il3_per_request": 300,
+    "per_case": 30,
+    "per_inner": 2611,
+    "per_inner_request": 26110,
+    "per_request": 300,
+    "per_step": 240,
+    "technical_failures": 0,
+    "typed_scientific_failures": 0,
+    "w_z_gap_summary": 5
+  },
+  "schema": "ode-edit-s05-p1r52-target-depth-extension-analysis-manifest/v1",
+  "source_head": "8d94a8c96db99c5ffdadbcd13f6c0347e9f2ca8d",
+  "source_tree": "d974ee426a033285d5efaa7dcfa7f1e3a8effaf6"
+}

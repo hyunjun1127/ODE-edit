@@ -1,0 +1,16 @@
+{
+  "attempts": 30,
+  "identity_sha256": "7ab17a5aaab223e8b6d4894ab69f46e519d6c7e4ffae0f090497f6e41d1b10a7",
+  "imputation_count": 0,
+  "manifest_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/analysis-manifest.json",
+  "manifest_root": "9adfa901b975f15bcd8c370ee28e9d2342ff436a0d977c08882b3b2384143904",
+  "manifest_sha256": "59bcc5e7cc4e90c521db546a162592e0c23b7cedc65fade97d8b006ce7482986",
+  "report_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/reports/p1r52-target-depth-il8-il10-il15-extension-v1/p1r52-target-depth-il1-il3-il8-il10-il15-terminal-report-ko.md",
+  "report_sha256": "8556e8f85ae510d82ebb36b1b47cf9804c76ca923aee0b362333f7d4d267de02",
+  "schema": "ode-edit-s05-p1r52-target-depth-extension-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "status": "PASS",
+  "technical_failures": 0,
+  "typed_scientific_failures": 0,
+  "valid_endpoints": 30
+}
