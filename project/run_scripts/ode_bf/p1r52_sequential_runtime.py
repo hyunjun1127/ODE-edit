@@ -1135,6 +1135,7 @@ def run_p1r52_sequential(
             depth=target_depth,
             inner_telemetry=target_depth_inner_telemetry,
             batch_entry_evaluator=batch_entry_evaluation_enabled,
+            postsolve_energy_warn_enabled=postsolve_energy_warn_enabled,
         ).depth
     elif attempt_suffix == P1R52_IL5_SEQUENTIAL_ATTEMPT_SUFFIX:
         raise ODEBFContractError("P1R52 IL5 sequential target-depth state is absent")
@@ -1176,13 +1177,22 @@ def run_p1r52_sequential(
         or not accepted_z_reference_root.is_dir()
     ):
         raise ODEBFContractError("accepted-z sealed reference root is absent")
-    if postsolve_energy_warn_enabled and (
-        not is_piru_structural_h_role(role)
-        or batch_entry_evaluation_enabled
-        or not accepted_z_observation_enabled
-        or accepted_z_sealed_w_reuse
-    ):
-        raise ODEBFContractError("PIR-U post-energy-WARN runtime scope differs")
+    if postsolve_energy_warn_enabled:
+        il5_warn_scope = (
+            target_depth_policy is P1R52TargetDepth.IL5_FULL
+            and attempt_suffix == P1R52_IL5_SEQUENTIAL_ATTEMPT_SUFFIX
+            and role == R52_H_ROLE
+            and not batch_entry_evaluation_enabled
+            and not accepted_z_observation_enabled
+        )
+        piru_warn_scope = (
+            is_piru_structural_h_role(role)
+            and not batch_entry_evaluation_enabled
+            and accepted_z_observation_enabled
+            and not accepted_z_sealed_w_reuse
+        )
+        if not (il5_warn_scope or piru_warn_scope):
+            raise ODEBFContractError("post-energy-WARN runtime scope differs")
     cache_role_policy = piru_cache_policy_for_role(role)
     if cache_role_policy is None and piru_cache_complete_rounds is not None:
         raise ODEBFContractError("PIR-U cache-continuity rounds used by another role")

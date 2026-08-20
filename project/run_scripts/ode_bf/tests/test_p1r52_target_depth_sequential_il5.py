@@ -70,6 +70,7 @@ class P1R52TargetDepthSequentialIL5Tests(unittest.TestCase):
                 depth="IL5-FULL",
                 inner_telemetry=True,
                 batch_entry_evaluator=False,
+                postsolve_energy_warn_enabled=True,
             ),
             POLICY,
         )
@@ -78,6 +79,7 @@ class P1R52TargetDepthSequentialIL5Tests(unittest.TestCase):
             {"depth": "IL3-FULL"},
             {"inner_telemetry": False},
             {"batch_entry_evaluator": True},
+            {"postsolve_energy_warn_enabled": False},
         ):
             values = {
                 "role": ROLE,
@@ -86,6 +88,7 @@ class P1R52TargetDepthSequentialIL5Tests(unittest.TestCase):
                 "depth": "IL5-FULL",
                 "inner_telemetry": True,
                 "batch_entry_evaluator": False,
+                "postsolve_energy_warn_enabled": True,
                 **changed,
             }
             with self.assertRaises(ODEBFContractError):
@@ -158,6 +161,8 @@ class P1R52TargetDepthSequentialIL5Tests(unittest.TestCase):
         self.assertIn("p1r52_sequential_target_depth", scalable)
         self.assertIn("validate_il5_sequential_activation", sequential)
         self.assertIn("p1r52_sequential_target_depth=", sequential)
+        self.assertIn("il5_warn_scope", sequential)
+        self.assertIn("piru_warn_scope", sequential)
         self.assertNotIn("writer_materialize(", scheduler)
         self.assertNotIn("evaluate_heldout", scheduler)
 

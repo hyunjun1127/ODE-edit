@@ -22,18 +22,19 @@ PARENT = "db30255a39ec48dcd190fecd61cb5fd8c3ce3555"
 PARENT_TREE = "f05de718e195d39b0d3c198c8e6474d200544f56"
 LOCK_FILE = (
     "numerical_lock_s05_p1r52_llama_j0_il5_sequential_10xb100_"
-    "postenergy_warn_r1.json"
+    "postenergy_warn_r1_tech_r1.json"
 )
 LOCK_SCHEMA = (
-    "ode-edit-s05-p1r52-llama-j0-il5-sequential-postenergy-warn-r1-lock/v1"
+    "ode-edit-s05-p1r52-llama-j0-il5-sequential-postenergy-warn-r1-"
+    "tech-r1-lock/v1"
 )
 SOURCE_MANIFEST_FILE = (
     "source_manifest_s05_p1r52_llama_j0_il5_sequential_10xb100_"
-    "postenergy_warn_r1.json"
+    "postenergy_warn_r1_tech_r1.json"
 )
 SOURCE_MANIFEST_SCHEMA = (
     "ode-edit-s05-p1r52-llama-j0-il5-sequential-postenergy-warn-r1-"
-    "source-manifest/v1"
+    "tech-r1-source-manifest/v1"
 )
 
 
@@ -75,6 +76,7 @@ def validate_lock(value: Mapping[str, Any]) -> None:
         "postsolve_energy_tolerance": 1e-12,
         "postsolve_coefficient_shrink_count": 0,
         "postsolve_retry_count": 0,
+        "technical_attempt": "TECH_R1_IL5_POSTENERGY_WARN_SCOPE",
         "execution_node": "server2",
     }
     if any(value.get(key) != wanted for key, wanted in expected.items()):

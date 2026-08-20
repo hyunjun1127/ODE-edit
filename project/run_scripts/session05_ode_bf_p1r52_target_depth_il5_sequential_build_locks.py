@@ -113,6 +113,7 @@ def main() -> int:
         "postsolve_energy_tolerance": 1e-12,
         "postsolve_coefficient_shrink_count": 0,
         "postsolve_retry_count": 0,
+        "technical_attempt": "TECH_R1_IL5_POSTENERGY_WARN_SCOPE",
         "execution_node": "server2",
         "retry_count": 0,
         "backtracking_count": 0,
@@ -143,7 +144,7 @@ def main() -> int:
         "numerical_lock_sha256": lock_sha,
         "stream_root": STREAM_ROOT,
         "stream_order": STREAM_ORDER,
-        "source_scope": "TARGET_DEPTH_IL5_TYPED_EXTENSION_WITH_POSTSOLVE_ENERGY_WARN_RECORD_ONLY",
+        "source_scope": "TARGET_DEPTH_IL5_POSTSOLVE_ENERGY_WARN_RECORD_ONLY_WITH_EXACT_IL5_RUNTIME_SCOPE_TECH_R1",
     }
     manifest_sha = _write_once(LOCK_ROOT / SOURCE_MANIFEST_FILE, manifest)
     print(
