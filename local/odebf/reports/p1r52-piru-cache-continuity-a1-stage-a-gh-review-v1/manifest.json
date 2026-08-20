@@ -1,0 +1,29 @@
+{
+  "classification": "CACHE_CONTINUITY_PARTIAL_IMPROVEMENT",
+  "instruction_id": "ODEEDIT-S05-P1R52-PIRU-ALPHA-CACHE-CONTINUITY-A1-V1",
+  "job_id": "21414",
+  "job_rerun_required": false,
+  "members": [
+    {
+      "bytes": 1817,
+      "name": "gh-review-summary.json",
+      "sha256": "e525ad6ce320fd083276e2a004ee2cf31c2de8b744312c9cde8eb4e03ae84a76"
+    },
+    {
+      "bytes": 8475,
+      "name": "p1r52-piru-cache-continuity-a1-stage-a-gh-review-ko.md",
+      "sha256": "a99cc5c5cb740e55976cf7e78d6f526a9b408a47be6b21cfe5bd2406e221c581"
+    }
+  ],
+  "preserved_inputs": {
+    "cache_failure_sha256": "bb4f53d127cb26db57912f0d0155961ed7690e2022d35a8392eba0e768914d32",
+    "cache_manifest_sha256": "034397f86459015a38ae5443d560fa07c104e83191e0b2c80cc424ae3ec97802",
+    "cache_terminal_sha256": "022c010e2d680cd79e469cb7f4b63252ea0bd661f347e796fb9e7466ab20040f",
+    "legacy_b10_terminal_sha256": "fafefd79cda540c4bfc65883af746bcc081a6e2a1502258e0d5b7a8f8d54ee70",
+    "legacy_manifest_sha256": "f7e35f62f22df2289eafc251864a5e10518dc56a098cbf4c10ffa994d510e8f3",
+    "legacy_terminal_sha256": "3eedc4f1b5089b56702dfc35f74d78140f472679719e7dea3523772dbda107cb"
+  },
+  "schema": "ode-edit-p1r52-piru-cache-continuity-a1-stage-a-gh-review-manifest/v1",
+  "scientific_promotion": false,
+  "verifier_status": "SEALED_HIGH_HISTORY_B10_PASS"
+}

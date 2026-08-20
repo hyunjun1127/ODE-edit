@@ -1,0 +1,57 @@
+{
+  "classification": "CACHE_CONTINUITY_PARTIAL_IMPROVEMENT",
+  "instruction_id": "ODEEDIT-S05-P1R52-PIRU-ALPHA-CACHE-CONTINUITY-A1-V1",
+  "job_id": "21414",
+  "job_rerun_required": false,
+  "mechanical": {
+    "accepted_steps": 80,
+    "action_freeze_count": 10,
+    "batch_terminals": 10,
+    "b10_committed_history_solve_count_per_k": 4,
+    "b10_empty_history_solve_count_per_k": 0,
+    "b10_history_width": 900,
+    "b10_l5_l8_q_hash_changes_vs_legacy": 32,
+    "b10_l5_l8_q_hash_comparisons": 32,
+    "terminal_w0_byte_restored_exact": true,
+    "terminal_w0_pointer_restored_exact": true
+  },
+  "b10": {
+    "cache_complete": {
+      "direct_z_rephrase_success": [192, 200],
+      "direct_z_strict_rephrase_success": [93, 100],
+      "locality": [834, 1000],
+      "rephrase_w_minus_z_nll_gap_mean": 2.3228894805908205,
+      "total_realized_bf16_energy": 10.464537038993868,
+      "w_rephrase_success": [131, 200]
+    },
+    "legacy": {
+      "direct_z_rephrase_success": [193, 200],
+      "direct_z_strict_rephrase_success": [94, 100],
+      "locality": [817, 1000],
+      "rephrase_w_minus_z_nll_gap_mean": 2.2979393768310548,
+      "total_realized_bf16_energy": 8.246422581332965,
+      "w_rephrase_success": [133, 200]
+    }
+  },
+  "final_b1000": {
+    "cache_complete": {
+      "eff": [997, 1000],
+      "gen": [1695, 2000],
+      "locality": [7772, 10000],
+      "strict_gen": [749, 1000]
+    },
+    "legacy": {
+      "eff": [996, 1000],
+      "gen": [1706, 2000],
+      "locality": [7650, 10000],
+      "strict_gen": [756, 1000]
+    }
+  },
+  "original_scheduler_state": "FAILED_EXIT_1_POST_TERMINAL_VERIFIER_ONLY",
+  "scientific_promotion": false,
+  "verifier": {
+    "head": "e4a5b8ff95717548af6d164f29fbc62ffb0c26c2",
+    "model_or_gpu_actions": 0,
+    "status": "SEALED_HIGH_HISTORY_B10_PASS"
+  }
+}
