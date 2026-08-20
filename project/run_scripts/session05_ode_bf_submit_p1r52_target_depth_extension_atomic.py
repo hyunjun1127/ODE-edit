@@ -27,9 +27,9 @@ from project.run_scripts.session05_ode_bf_p1r52_target_depth_extension_atomic_dr
 
 
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p1r52_target_depth_extension_atomic.sbatch"
-STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r52-target-depth-inner-telemetry-r1-v1"
+STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r52-target-depth-inner-telemetry-tech-r1-v1"
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
-LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r52-target-depth-inner-telemetry-r1-v1"
+LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r52-target-depth-inner-telemetry-tech-r1-v1"
 BRANCH = "codex/p1r52-target-depth-il8-il10-il15-v1"
 MEMORY_MIB_PER_CELL = 65000
 

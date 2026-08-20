@@ -279,7 +279,7 @@ class P1R52TargetDepthTelemetryObserver:
             "action_freeze_sha256": freeze.identity(),
             "lookup_sha256": str(self.lookup_receipt["identity_sha256"]),
             "overlay_sha256": str(geometry["overlay"]["identity_sha256"]),
-            "residual_sha256": str(geometry["residual"]["identity_sha256"]),
+            "residual_sha256": canonical_hash(geometry["residual"]),
             "wall_seconds": wall,
         }
         payload["identity_sha256"] = canonical_hash(payload)

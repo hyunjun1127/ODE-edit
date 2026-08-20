@@ -21,7 +21,7 @@ REQUEST_COUNT = 100
 OUTER_STEP_COUNT = 8
 INNER_H = 1.0 / 8.0
 PROJECT_GPU_CAP = 3
-ATTEMPT_SUFFIX = "extension-inner-telemetry-r1"
+ATTEMPT_SUFFIX = "extension-inner-telemetry-tech-r1"
 EXTENSION_DEPTHS = (
     P1R52TargetDepth.IL8_FULL,
     P1R52TargetDepth.IL10_FULL,

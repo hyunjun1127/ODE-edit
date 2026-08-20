@@ -178,7 +178,7 @@ class P1R52TargetDepthTests(unittest.TestCase):
         )
         self.assertEqual(
             extension_result_name(P1R52TargetDepth.IL15_FULL),
-            "s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il15full-extension-inner-telemetry-r1-v1",
+            "s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il15full-extension-inner-telemetry-tech-r1-v1",
         )
         self.assertEqual(
             extension_result_name(P1R52TargetDepth.IL15_FULL),
@@ -186,7 +186,7 @@ class P1R52TargetDepthTests(unittest.TestCase):
                 "llama3-8b-inst",
                 "soft",
                 target_depth=P1R52TargetDepth.IL15_FULL,
-                attempt_suffix="extension-inner-telemetry-r1",
+                attempt_suffix="extension-inner-telemetry-tech-r1",
             ),
         )
         with self.assertRaises(ODEBFContractError):
@@ -600,7 +600,7 @@ class P1R52TargetDepthTests(unittest.TestCase):
         self.assertIn("DEPTHS=(IL8-FULL IL10-FULL IL15-FULL)", sbatch)
         self.assertIn("#SBATCH --array=0-2%3", sbatch)
         self.assertIn("PROJECT_GPU_CAP - active", submitter)
-        self.assertIn("extension-inner-telemetry-r1", sbatch)
+        self.assertIn("extension-inner-telemetry-tech-r1", sbatch)
         self.assertNotIn("IL5", joined)
         self.assertNotIn("h/3", joined)
         self.assertNotIn("h/depth", joined)
@@ -624,6 +624,8 @@ class P1R52TargetDepthTests(unittest.TestCase):
         self.assertIn('"added_generation_count": 0', observer)
         self.assertIn('"controller_action_influence_count": 0', observer)
         self.assertIn('"duplicate_evaluation_count": 0', observer)
+        self.assertIn('canonical_hash(geometry["residual"])', observer)
+        self.assertNotIn('geometry["residual"]["identity_sha256"]', observer)
         self.assertIn("terminal_target_depth_telemetry_four_panel", runtime)
 
     def test_actual_runtime_activation_uses_the_locked_depth_count_registry(self) -> None:
