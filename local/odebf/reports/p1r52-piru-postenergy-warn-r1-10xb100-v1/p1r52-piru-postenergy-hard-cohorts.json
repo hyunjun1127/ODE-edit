@@ -1,0 +1,2826 @@
+{
+  "W_final_rephrase_strict_failure_count": 244,
+  "W_immediate_success_to_final_failure_count": 18,
+  "final_rephrase_strict_failure_request_ids": [
+    {
+      "case_id": 15031,
+      "request_index": 3,
+      "round": 1
+    },
+    {
+      "case_id": 9396,
+      "request_index": 13,
+      "round": 1
+    },
+    {
+      "case_id": 14961,
+      "request_index": 22,
+      "round": 1
+    },
+    {
+      "case_id": 9846,
+      "request_index": 36,
+      "round": 1
+    },
+    {
+      "case_id": 15078,
+      "request_index": 37,
+      "round": 1
+    },
+    {
+      "case_id": 18512,
+      "request_index": 47,
+      "round": 1
+    },
+    {
+      "case_id": 4548,
+      "request_index": 53,
+      "round": 1
+    },
+    {
+      "case_id": 9936,
+      "request_index": 61,
+      "round": 1
+    },
+    {
+      "case_id": 6770,
+      "request_index": 67,
+      "round": 1
+    },
+    {
+      "case_id": 128,
+      "request_index": 70,
+      "round": 1
+    },
+    {
+      "case_id": 21311,
+      "request_index": 86,
+      "round": 1
+    },
+    {
+      "case_id": 4613,
+      "request_index": 8,
+      "round": 2
+    },
+    {
+      "case_id": 19488,
+      "request_index": 17,
+      "round": 2
+    },
+    {
+      "case_id": 16191,
+      "request_index": 19,
+      "round": 2
+    },
+    {
+      "case_id": 4840,
+      "request_index": 20,
+      "round": 2
+    },
+    {
+      "case_id": 17590,
+      "request_index": 22,
+      "round": 2
+    },
+    {
+      "case_id": 5346,
+      "request_index": 25,
+      "round": 2
+    },
+    {
+      "case_id": 2817,
+      "request_index": 35,
+      "round": 2
+    },
+    {
+      "case_id": 3389,
+      "request_index": 45,
+      "round": 2
+    },
+    {
+      "case_id": 1634,
+      "request_index": 55,
+      "round": 2
+    },
+    {
+      "case_id": 1922,
+      "request_index": 61,
+      "round": 2
+    },
+    {
+      "case_id": 15578,
+      "request_index": 64,
+      "round": 2
+    },
+    {
+      "case_id": 5607,
+      "request_index": 74,
+      "round": 2
+    },
+    {
+      "case_id": 20014,
+      "request_index": 6,
+      "round": 3
+    },
+    {
+      "case_id": 19245,
+      "request_index": 10,
+      "round": 3
+    },
+    {
+      "case_id": 6531,
+      "request_index": 13,
+      "round": 3
+    },
+    {
+      "case_id": 16894,
+      "request_index": 24,
+      "round": 3
+    },
+    {
+      "case_id": 16093,
+      "request_index": 27,
+      "round": 3
+    },
+    {
+      "case_id": 14300,
+      "request_index": 36,
+      "round": 3
+    },
+    {
+      "case_id": 16927,
+      "request_index": 51,
+      "round": 3
+    },
+    {
+      "case_id": 3543,
+      "request_index": 59,
+      "round": 3
+    },
+    {
+      "case_id": 19939,
+      "request_index": 69,
+      "round": 3
+    },
+    {
+      "case_id": 1899,
+      "request_index": 71,
+      "round": 3
+    },
+    {
+      "case_id": 21904,
+      "request_index": 86,
+      "round": 3
+    },
+    {
+      "case_id": 15794,
+      "request_index": 92,
+      "round": 3
+    },
+    {
+      "case_id": 15303,
+      "request_index": 93,
+      "round": 3
+    },
+    {
+      "case_id": 16458,
+      "request_index": 99,
+      "round": 3
+    },
+    {
+      "case_id": 9555,
+      "request_index": 20,
+      "round": 4
+    },
+    {
+      "case_id": 9204,
+      "request_index": 21,
+      "round": 4
+    },
+    {
+      "case_id": 6340,
+      "request_index": 34,
+      "round": 4
+    },
+    {
+      "case_id": 9599,
+      "request_index": 44,
+      "round": 4
+    },
+    {
+      "case_id": 7766,
+      "request_index": 45,
+      "round": 4
+    },
+    {
+      "case_id": 17330,
+      "request_index": 50,
+      "round": 4
+    },
+    {
+      "case_id": 21179,
+      "request_index": 51,
+      "round": 4
+    },
+    {
+      "case_id": 13176,
+      "request_index": 65,
+      "round": 4
+    },
+    {
+      "case_id": 6414,
+      "request_index": 71,
+      "round": 4
+    },
+    {
+      "case_id": 20808,
+      "request_index": 74,
+      "round": 4
+    },
+    {
+      "case_id": 9121,
+      "request_index": 75,
+      "round": 4
+    },
+    {
+      "case_id": 1526,
+      "request_index": 84,
+      "round": 4
+    },
+    {
+      "case_id": 14727,
+      "request_index": 86,
+      "round": 4
+    },
+    {
+      "case_id": 1640,
+      "request_index": 87,
+      "round": 4
+    },
+    {
+      "case_id": 21600,
+      "request_index": 90,
+      "round": 4
+    },
+    {
+      "case_id": 15112,
+      "request_index": 93,
+      "round": 4
+    },
+    {
+      "case_id": 1788,
+      "request_index": 95,
+      "round": 4
+    },
+    {
+      "case_id": 89,
+      "request_index": 98,
+      "round": 4
+    },
+    {
+      "case_id": 374,
+      "request_index": 2,
+      "round": 5
+    },
+    {
+      "case_id": 16795,
+      "request_index": 4,
+      "round": 5
+    },
+    {
+      "case_id": 3849,
+      "request_index": 5,
+      "round": 5
+    },
+    {
+      "case_id": 17500,
+      "request_index": 6,
+      "round": 5
+    },
+    {
+      "case_id": 21370,
+      "request_index": 13,
+      "round": 5
+    },
+    {
+      "case_id": 14113,
+      "request_index": 17,
+      "round": 5
+    },
+    {
+      "case_id": 10831,
+      "request_index": 19,
+      "round": 5
+    },
+    {
+      "case_id": 16286,
+      "request_index": 23,
+      "round": 5
+    },
+    {
+      "case_id": 10450,
+      "request_index": 27,
+      "round": 5
+    },
+    {
+      "case_id": 21300,
+      "request_index": 36,
+      "round": 5
+    },
+    {
+      "case_id": 5368,
+      "request_index": 37,
+      "round": 5
+    },
+    {
+      "case_id": 12837,
+      "request_index": 40,
+      "round": 5
+    },
+    {
+      "case_id": 4935,
+      "request_index": 43,
+      "round": 5
+    },
+    {
+      "case_id": 17878,
+      "request_index": 46,
+      "round": 5
+    },
+    {
+      "case_id": 8234,
+      "request_index": 49,
+      "round": 5
+    },
+    {
+      "case_id": 9490,
+      "request_index": 54,
+      "round": 5
+    },
+    {
+      "case_id": 6539,
+      "request_index": 58,
+      "round": 5
+    },
+    {
+      "case_id": 21280,
+      "request_index": 61,
+      "round": 5
+    },
+    {
+      "case_id": 12146,
+      "request_index": 66,
+      "round": 5
+    },
+    {
+      "case_id": 18583,
+      "request_index": 69,
+      "round": 5
+    },
+    {
+      "case_id": 20922,
+      "request_index": 76,
+      "round": 5
+    },
+    {
+      "case_id": 7328,
+      "request_index": 78,
+      "round": 5
+    },
+    {
+      "case_id": 10447,
+      "request_index": 80,
+      "round": 5
+    },
+    {
+      "case_id": 6541,
+      "request_index": 81,
+      "round": 5
+    },
+    {
+      "case_id": 15293,
+      "request_index": 82,
+      "round": 5
+    },
+    {
+      "case_id": 13576,
+      "request_index": 88,
+      "round": 5
+    },
+    {
+      "case_id": 6252,
+      "request_index": 91,
+      "round": 5
+    },
+    {
+      "case_id": 17326,
+      "request_index": 95,
+      "round": 5
+    },
+    {
+      "case_id": 9515,
+      "request_index": 96,
+      "round": 5
+    },
+    {
+      "case_id": 21668,
+      "request_index": 97,
+      "round": 5
+    },
+    {
+      "case_id": 17215,
+      "request_index": 1,
+      "round": 6
+    },
+    {
+      "case_id": 17809,
+      "request_index": 20,
+      "round": 6
+    },
+    {
+      "case_id": 20319,
+      "request_index": 27,
+      "round": 6
+    },
+    {
+      "case_id": 13769,
+      "request_index": 32,
+      "round": 6
+    },
+    {
+      "case_id": 8587,
+      "request_index": 34,
+      "round": 6
+    },
+    {
+      "case_id": 8951,
+      "request_index": 40,
+      "round": 6
+    },
+    {
+      "case_id": 3211,
+      "request_index": 44,
+      "round": 6
+    },
+    {
+      "case_id": 8556,
+      "request_index": 45,
+      "round": 6
+    },
+    {
+      "case_id": 834,
+      "request_index": 47,
+      "round": 6
+    },
+    {
+      "case_id": 21260,
+      "request_index": 53,
+      "round": 6
+    },
+    {
+      "case_id": 8966,
+      "request_index": 63,
+      "round": 6
+    },
+    {
+      "case_id": 21833,
+      "request_index": 68,
+      "round": 6
+    },
+    {
+      "case_id": 20212,
+      "request_index": 69,
+      "round": 6
+    },
+    {
+      "case_id": 456,
+      "request_index": 83,
+      "round": 6
+    },
+    {
+      "case_id": 4837,
+      "request_index": 85,
+      "round": 6
+    },
+    {
+      "case_id": 2353,
+      "request_index": 86,
+      "round": 6
+    },
+    {
+      "case_id": 6884,
+      "request_index": 88,
+      "round": 6
+    },
+    {
+      "case_id": 3447,
+      "request_index": 89,
+      "round": 6
+    },
+    {
+      "case_id": 19628,
+      "request_index": 91,
+      "round": 6
+    },
+    {
+      "case_id": 13806,
+      "request_index": 94,
+      "round": 6
+    },
+    {
+      "case_id": 17153,
+      "request_index": 96,
+      "round": 6
+    },
+    {
+      "case_id": 8296,
+      "request_index": 5,
+      "round": 7
+    },
+    {
+      "case_id": 10280,
+      "request_index": 7,
+      "round": 7
+    },
+    {
+      "case_id": 13697,
+      "request_index": 12,
+      "round": 7
+    },
+    {
+      "case_id": 12388,
+      "request_index": 19,
+      "round": 7
+    },
+    {
+      "case_id": 18726,
+      "request_index": 25,
+      "round": 7
+    },
+    {
+      "case_id": 14520,
+      "request_index": 28,
+      "round": 7
+    },
+    {
+      "case_id": 18377,
+      "request_index": 29,
+      "round": 7
+    },
+    {
+      "case_id": 6899,
+      "request_index": 32,
+      "round": 7
+    },
+    {
+      "case_id": 1641,
+      "request_index": 36,
+      "round": 7
+    },
+    {
+      "case_id": 11606,
+      "request_index": 41,
+      "round": 7
+    },
+    {
+      "case_id": 2133,
+      "request_index": 44,
+      "round": 7
+    },
+    {
+      "case_id": 20550,
+      "request_index": 46,
+      "round": 7
+    },
+    {
+      "case_id": 12739,
+      "request_index": 47,
+      "round": 7
+    },
+    {
+      "case_id": 15937,
+      "request_index": 54,
+      "round": 7
+    },
+    {
+      "case_id": 17323,
+      "request_index": 55,
+      "round": 7
+    },
+    {
+      "case_id": 20442,
+      "request_index": 56,
+      "round": 7
+    },
+    {
+      "case_id": 20223,
+      "request_index": 58,
+      "round": 7
+    },
+    {
+      "case_id": 3764,
+      "request_index": 59,
+      "round": 7
+    },
+    {
+      "case_id": 15936,
+      "request_index": 67,
+      "round": 7
+    },
+    {
+      "case_id": 16305,
+      "request_index": 68,
+      "round": 7
+    },
+    {
+      "case_id": 14885,
+      "request_index": 73,
+      "round": 7
+    },
+    {
+      "case_id": 13281,
+      "request_index": 76,
+      "round": 7
+    },
+    {
+      "case_id": 345,
+      "request_index": 78,
+      "round": 7
+    },
+    {
+      "case_id": 13490,
+      "request_index": 84,
+      "round": 7
+    },
+    {
+      "case_id": 5704,
+      "request_index": 89,
+      "round": 7
+    },
+    {
+      "case_id": 2924,
+      "request_index": 0,
+      "round": 8
+    },
+    {
+      "case_id": 7892,
+      "request_index": 3,
+      "round": 8
+    },
+    {
+      "case_id": 6330,
+      "request_index": 8,
+      "round": 8
+    },
+    {
+      "case_id": 6986,
+      "request_index": 9,
+      "round": 8
+    },
+    {
+      "case_id": 5603,
+      "request_index": 11,
+      "round": 8
+    },
+    {
+      "case_id": 14994,
+      "request_index": 13,
+      "round": 8
+    },
+    {
+      "case_id": 1508,
+      "request_index": 20,
+      "round": 8
+    },
+    {
+      "case_id": 5563,
+      "request_index": 21,
+      "round": 8
+    },
+    {
+      "case_id": 16616,
+      "request_index": 22,
+      "round": 8
+    },
+    {
+      "case_id": 14786,
+      "request_index": 27,
+      "round": 8
+    },
+    {
+      "case_id": 4029,
+      "request_index": 30,
+      "round": 8
+    },
+    {
+      "case_id": 11548,
+      "request_index": 36,
+      "round": 8
+    },
+    {
+      "case_id": 19520,
+      "request_index": 40,
+      "round": 8
+    },
+    {
+      "case_id": 1904,
+      "request_index": 48,
+      "round": 8
+    },
+    {
+      "case_id": 11129,
+      "request_index": 53,
+      "round": 8
+    },
+    {
+      "case_id": 21317,
+      "request_index": 56,
+      "round": 8
+    },
+    {
+      "case_id": 2769,
+      "request_index": 57,
+      "round": 8
+    },
+    {
+      "case_id": 14296,
+      "request_index": 59,
+      "round": 8
+    },
+    {
+      "case_id": 18620,
+      "request_index": 66,
+      "round": 8
+    },
+    {
+      "case_id": 16047,
+      "request_index": 67,
+      "round": 8
+    },
+    {
+      "case_id": 10388,
+      "request_index": 71,
+      "round": 8
+    },
+    {
+      "case_id": 21146,
+      "request_index": 72,
+      "round": 8
+    },
+    {
+      "case_id": 10990,
+      "request_index": 73,
+      "round": 8
+    },
+    {
+      "case_id": 7259,
+      "request_index": 74,
+      "round": 8
+    },
+    {
+      "case_id": 15618,
+      "request_index": 75,
+      "round": 8
+    },
+    {
+      "case_id": 13555,
+      "request_index": 78,
+      "round": 8
+    },
+    {
+      "case_id": 492,
+      "request_index": 79,
+      "round": 8
+    },
+    {
+      "case_id": 3411,
+      "request_index": 89,
+      "round": 8
+    },
+    {
+      "case_id": 2417,
+      "request_index": 98,
+      "round": 8
+    },
+    {
+      "case_id": 16199,
+      "request_index": 4,
+      "round": 9
+    },
+    {
+      "case_id": 18786,
+      "request_index": 13,
+      "round": 9
+    },
+    {
+      "case_id": 16054,
+      "request_index": 16,
+      "round": 9
+    },
+    {
+      "case_id": 8315,
+      "request_index": 21,
+      "round": 9
+    },
+    {
+      "case_id": 17990,
+      "request_index": 24,
+      "round": 9
+    },
+    {
+      "case_id": 19916,
+      "request_index": 25,
+      "round": 9
+    },
+    {
+      "case_id": 7451,
+      "request_index": 26,
+      "round": 9
+    },
+    {
+      "case_id": 10543,
+      "request_index": 28,
+      "round": 9
+    },
+    {
+      "case_id": 5743,
+      "request_index": 30,
+      "round": 9
+    },
+    {
+      "case_id": 11981,
+      "request_index": 31,
+      "round": 9
+    },
+    {
+      "case_id": 8662,
+      "request_index": 32,
+      "round": 9
+    },
+    {
+      "case_id": 13795,
+      "request_index": 37,
+      "round": 9
+    },
+    {
+      "case_id": 19857,
+      "request_index": 38,
+      "round": 9
+    },
+    {
+      "case_id": 16171,
+      "request_index": 44,
+      "round": 9
+    },
+    {
+      "case_id": 1947,
+      "request_index": 45,
+      "round": 9
+    },
+    {
+      "case_id": 15874,
+      "request_index": 52,
+      "round": 9
+    },
+    {
+      "case_id": 3492,
+      "request_index": 54,
+      "round": 9
+    },
+    {
+      "case_id": 8415,
+      "request_index": 56,
+      "round": 9
+    },
+    {
+      "case_id": 12342,
+      "request_index": 58,
+      "round": 9
+    },
+    {
+      "case_id": 20334,
+      "request_index": 59,
+      "round": 9
+    },
+    {
+      "case_id": 4788,
+      "request_index": 62,
+      "round": 9
+    },
+    {
+      "case_id": 9699,
+      "request_index": 63,
+      "round": 9
+    },
+    {
+      "case_id": 3965,
+      "request_index": 64,
+      "round": 9
+    },
+    {
+      "case_id": 2898,
+      "request_index": 66,
+      "round": 9
+    },
+    {
+      "case_id": 5329,
+      "request_index": 69,
+      "round": 9
+    },
+    {
+      "case_id": 5339,
+      "request_index": 71,
+      "round": 9
+    },
+    {
+      "case_id": 14922,
+      "request_index": 73,
+      "round": 9
+    },
+    {
+      "case_id": 20485,
+      "request_index": 74,
+      "round": 9
+    },
+    {
+      "case_id": 13720,
+      "request_index": 75,
+      "round": 9
+    },
+    {
+      "case_id": 8947,
+      "request_index": 77,
+      "round": 9
+    },
+    {
+      "case_id": 19556,
+      "request_index": 80,
+      "round": 9
+    },
+    {
+      "case_id": 14731,
+      "request_index": 85,
+      "round": 9
+    },
+    {
+      "case_id": 14567,
+      "request_index": 91,
+      "round": 9
+    },
+    {
+      "case_id": 11081,
+      "request_index": 95,
+      "round": 9
+    },
+    {
+      "case_id": 9199,
+      "request_index": 98,
+      "round": 9
+    },
+    {
+      "case_id": 13213,
+      "request_index": 0,
+      "round": 10
+    },
+    {
+      "case_id": 20505,
+      "request_index": 2,
+      "round": 10
+    },
+    {
+      "case_id": 10839,
+      "request_index": 3,
+      "round": 10
+    },
+    {
+      "case_id": 10529,
+      "request_index": 4,
+      "round": 10
+    },
+    {
+      "case_id": 21230,
+      "request_index": 6,
+      "round": 10
+    },
+    {
+      "case_id": 5359,
+      "request_index": 7,
+      "round": 10
+    },
+    {
+      "case_id": 17841,
+      "request_index": 8,
+      "round": 10
+    },
+    {
+      "case_id": 15043,
+      "request_index": 11,
+      "round": 10
+    },
+    {
+      "case_id": 12742,
+      "request_index": 12,
+      "round": 10
+    },
+    {
+      "case_id": 9235,
+      "request_index": 14,
+      "round": 10
+    },
+    {
+      "case_id": 17331,
+      "request_index": 16,
+      "round": 10
+    },
+    {
+      "case_id": 20287,
+      "request_index": 20,
+      "round": 10
+    },
+    {
+      "case_id": 12612,
+      "request_index": 23,
+      "round": 10
+    },
+    {
+      "case_id": 16048,
+      "request_index": 24,
+      "round": 10
+    },
+    {
+      "case_id": 12170,
+      "request_index": 27,
+      "round": 10
+    },
+    {
+      "case_id": 4563,
+      "request_index": 28,
+      "round": 10
+    },
+    {
+      "case_id": 20401,
+      "request_index": 29,
+      "round": 10
+    },
+    {
+      "case_id": 18926,
+      "request_index": 31,
+      "round": 10
+    },
+    {
+      "case_id": 9358,
+      "request_index": 33,
+      "round": 10
+    },
+    {
+      "case_id": 10477,
+      "request_index": 35,
+      "round": 10
+    },
+    {
+      "case_id": 8826,
+      "request_index": 40,
+      "round": 10
+    },
+    {
+      "case_id": 504,
+      "request_index": 47,
+      "round": 10
+    },
+    {
+      "case_id": 11666,
+      "request_index": 49,
+      "round": 10
+    },
+    {
+      "case_id": 12074,
+      "request_index": 50,
+      "round": 10
+    },
+    {
+      "case_id": 9631,
+      "request_index": 51,
+      "round": 10
+    },
+    {
+      "case_id": 4287,
+      "request_index": 53,
+      "round": 10
+    },
+    {
+      "case_id": 18442,
+      "request_index": 56,
+      "round": 10
+    },
+    {
+      "case_id": 10767,
+      "request_index": 57,
+      "round": 10
+    },
+    {
+      "case_id": 18523,
+      "request_index": 58,
+      "round": 10
+    },
+    {
+      "case_id": 21221,
+      "request_index": 59,
+      "round": 10
+    },
+    {
+      "case_id": 4914,
+      "request_index": 62,
+      "round": 10
+    },
+    {
+      "case_id": 13421,
+      "request_index": 63,
+      "round": 10
+    },
+    {
+      "case_id": 18125,
+      "request_index": 65,
+      "round": 10
+    },
+    {
+      "case_id": 11969,
+      "request_index": 67,
+      "round": 10
+    },
+    {
+      "case_id": 13084,
+      "request_index": 71,
+      "round": 10
+    },
+    {
+      "case_id": 18182,
+      "request_index": 73,
+      "round": 10
+    },
+    {
+      "case_id": 3655,
+      "request_index": 75,
+      "round": 10
+    },
+    {
+      "case_id": 16859,
+      "request_index": 77,
+      "round": 10
+    },
+    {
+      "case_id": 19025,
+      "request_index": 78,
+      "round": 10
+    },
+    {
+      "case_id": 5231,
+      "request_index": 79,
+      "round": 10
+    },
+    {
+      "case_id": 8969,
+      "request_index": 81,
+      "round": 10
+    },
+    {
+      "case_id": 20599,
+      "request_index": 84,
+      "round": 10
+    },
+    {
+      "case_id": 6930,
+      "request_index": 85,
+      "round": 10
+    },
+    {
+      "case_id": 8573,
+      "request_index": 86,
+      "round": 10
+    },
+    {
+      "case_id": 2307,
+      "request_index": 87,
+      "round": 10
+    },
+    {
+      "case_id": 7129,
+      "request_index": 88,
+      "round": 10
+    },
+    {
+      "case_id": 16098,
+      "request_index": 90,
+      "round": 10
+    },
+    {
+      "case_id": 7546,
+      "request_index": 91,
+      "round": 10
+    },
+    {
+      "case_id": 19749,
+      "request_index": 97,
+      "round": 10
+    }
+  ],
+  "identity_sha256": "da44ee292c05209c3c56e17b0dccd7df1ff226d5dca772adda04cf879a173a8f",
+  "interpretation_boundary": "ASSOCIATION_ONLY_NO_ISOLATED_CAUSAL_CLAIM",
+  "request_denominator": 1000,
+  "schema": "ode-edit-s05-p1r52-piru-postenergy-warn-r1-hard-cohorts/v1",
+  "z_rephrase_strict_failure_count": 57,
+  "z_rephrase_strict_failure_request_ids": [
+    {
+      "case_id": 9396,
+      "request_index": 13,
+      "round": 1
+    },
+    {
+      "case_id": 9846,
+      "request_index": 36,
+      "round": 1
+    },
+    {
+      "case_id": 18512,
+      "request_index": 47,
+      "round": 1
+    },
+    {
+      "case_id": 4548,
+      "request_index": 53,
+      "round": 1
+    },
+    {
+      "case_id": 9936,
+      "request_index": 61,
+      "round": 1
+    },
+    {
+      "case_id": 15669,
+      "request_index": 3,
+      "round": 2
+    },
+    {
+      "case_id": 2706,
+      "request_index": 18,
+      "round": 2
+    },
+    {
+      "case_id": 4840,
+      "request_index": 20,
+      "round": 2
+    },
+    {
+      "case_id": 17590,
+      "request_index": 22,
+      "round": 2
+    },
+    {
+      "case_id": 2817,
+      "request_index": 35,
+      "round": 2
+    },
+    {
+      "case_id": 17315,
+      "request_index": 42,
+      "round": 2
+    },
+    {
+      "case_id": 11765,
+      "request_index": 78,
+      "round": 2
+    },
+    {
+      "case_id": 19245,
+      "request_index": 10,
+      "round": 3
+    },
+    {
+      "case_id": 16093,
+      "request_index": 27,
+      "round": 3
+    },
+    {
+      "case_id": 3543,
+      "request_index": 59,
+      "round": 3
+    },
+    {
+      "case_id": 15303,
+      "request_index": 93,
+      "round": 3
+    },
+    {
+      "case_id": 9555,
+      "request_index": 20,
+      "round": 4
+    },
+    {
+      "case_id": 3496,
+      "request_index": 22,
+      "round": 4
+    },
+    {
+      "case_id": 19049,
+      "request_index": 35,
+      "round": 4
+    },
+    {
+      "case_id": 5672,
+      "request_index": 48,
+      "round": 4
+    },
+    {
+      "case_id": 6414,
+      "request_index": 71,
+      "round": 4
+    },
+    {
+      "case_id": 20808,
+      "request_index": 74,
+      "round": 4
+    },
+    {
+      "case_id": 374,
+      "request_index": 2,
+      "round": 5
+    },
+    {
+      "case_id": 10831,
+      "request_index": 19,
+      "round": 5
+    },
+    {
+      "case_id": 679,
+      "request_index": 29,
+      "round": 5
+    },
+    {
+      "case_id": 18583,
+      "request_index": 69,
+      "round": 5
+    },
+    {
+      "case_id": 9716,
+      "request_index": 74,
+      "round": 5
+    },
+    {
+      "case_id": 20922,
+      "request_index": 76,
+      "round": 5
+    },
+    {
+      "case_id": 10447,
+      "request_index": 80,
+      "round": 5
+    },
+    {
+      "case_id": 13080,
+      "request_index": 94,
+      "round": 5
+    },
+    {
+      "case_id": 17215,
+      "request_index": 1,
+      "round": 6
+    },
+    {
+      "case_id": 8951,
+      "request_index": 40,
+      "round": 6
+    },
+    {
+      "case_id": 20041,
+      "request_index": 46,
+      "round": 6
+    },
+    {
+      "case_id": 17153,
+      "request_index": 96,
+      "round": 6
+    },
+    {
+      "case_id": 10280,
+      "request_index": 7,
+      "round": 7
+    },
+    {
+      "case_id": 1641,
+      "request_index": 36,
+      "round": 7
+    },
+    {
+      "case_id": 11606,
+      "request_index": 41,
+      "round": 7
+    },
+    {
+      "case_id": 11180,
+      "request_index": 57,
+      "round": 7
+    },
+    {
+      "case_id": 16305,
+      "request_index": 68,
+      "round": 7
+    },
+    {
+      "case_id": 14885,
+      "request_index": 73,
+      "round": 7
+    },
+    {
+      "case_id": 13281,
+      "request_index": 76,
+      "round": 7
+    },
+    {
+      "case_id": 11551,
+      "request_index": 83,
+      "round": 7
+    },
+    {
+      "case_id": 5704,
+      "request_index": 89,
+      "round": 7
+    },
+    {
+      "case_id": 6986,
+      "request_index": 9,
+      "round": 8
+    },
+    {
+      "case_id": 1508,
+      "request_index": 20,
+      "round": 8
+    },
+    {
+      "case_id": 5563,
+      "request_index": 21,
+      "round": 8
+    },
+    {
+      "case_id": 21146,
+      "request_index": 72,
+      "round": 8
+    },
+    {
+      "case_id": 13555,
+      "request_index": 78,
+      "round": 8
+    },
+    {
+      "case_id": 3227,
+      "request_index": 2,
+      "round": 9
+    },
+    {
+      "case_id": 11981,
+      "request_index": 31,
+      "round": 9
+    },
+    {
+      "case_id": 5329,
+      "request_index": 69,
+      "round": 9
+    },
+    {
+      "case_id": 10477,
+      "request_index": 35,
+      "round": 10
+    },
+    {
+      "case_id": 504,
+      "request_index": 47,
+      "round": 10
+    },
+    {
+      "case_id": 13421,
+      "request_index": 63,
+      "round": 10
+    },
+    {
+      "case_id": 8573,
+      "request_index": 86,
+      "round": 10
+    },
+    {
+      "case_id": 2307,
+      "request_index": 87,
+      "round": 10
+    },
+    {
+      "case_id": 16098,
+      "request_index": 90,
+      "round": 10
+    }
+  ],
+  "z_success_to_W_failure_request_ids": [
+    {
+      "case_id": 15031,
+      "request_index": 3,
+      "round": 1
+    },
+    {
+      "case_id": 19312,
+      "request_index": 6,
+      "round": 1
+    },
+    {
+      "case_id": 1301,
+      "request_index": 10,
+      "round": 1
+    },
+    {
+      "case_id": 12335,
+      "request_index": 19,
+      "round": 1
+    },
+    {
+      "case_id": 14961,
+      "request_index": 22,
+      "round": 1
+    },
+    {
+      "case_id": 4356,
+      "request_index": 28,
+      "round": 1
+    },
+    {
+      "case_id": 15078,
+      "request_index": 37,
+      "round": 1
+    },
+    {
+      "case_id": 10153,
+      "request_index": 44,
+      "round": 1
+    },
+    {
+      "case_id": 15196,
+      "request_index": 46,
+      "round": 1
+    },
+    {
+      "case_id": 11671,
+      "request_index": 52,
+      "round": 1
+    },
+    {
+      "case_id": 13746,
+      "request_index": 71,
+      "round": 1
+    },
+    {
+      "case_id": 21311,
+      "request_index": 86,
+      "round": 1
+    },
+    {
+      "case_id": 16116,
+      "request_index": 87,
+      "round": 1
+    },
+    {
+      "case_id": 1354,
+      "request_index": 92,
+      "round": 1
+    },
+    {
+      "case_id": 21859,
+      "request_index": 2,
+      "round": 2
+    },
+    {
+      "case_id": 4613,
+      "request_index": 8,
+      "round": 2
+    },
+    {
+      "case_id": 10083,
+      "request_index": 11,
+      "round": 2
+    },
+    {
+      "case_id": 6195,
+      "request_index": 14,
+      "round": 2
+    },
+    {
+      "case_id": 19488,
+      "request_index": 17,
+      "round": 2
+    },
+    {
+      "case_id": 16191,
+      "request_index": 19,
+      "round": 2
+    },
+    {
+      "case_id": 3944,
+      "request_index": 30,
+      "round": 2
+    },
+    {
+      "case_id": 19967,
+      "request_index": 44,
+      "round": 2
+    },
+    {
+      "case_id": 3389,
+      "request_index": 45,
+      "round": 2
+    },
+    {
+      "case_id": 1634,
+      "request_index": 55,
+      "round": 2
+    },
+    {
+      "case_id": 11574,
+      "request_index": 58,
+      "round": 2
+    },
+    {
+      "case_id": 15578,
+      "request_index": 64,
+      "round": 2
+    },
+    {
+      "case_id": 20801,
+      "request_index": 71,
+      "round": 2
+    },
+    {
+      "case_id": 17654,
+      "request_index": 73,
+      "round": 2
+    },
+    {
+      "case_id": 5607,
+      "request_index": 74,
+      "round": 2
+    },
+    {
+      "case_id": 3959,
+      "request_index": 86,
+      "round": 2
+    },
+    {
+      "case_id": 20014,
+      "request_index": 6,
+      "round": 3
+    },
+    {
+      "case_id": 6531,
+      "request_index": 13,
+      "round": 3
+    },
+    {
+      "case_id": 652,
+      "request_index": 15,
+      "round": 3
+    },
+    {
+      "case_id": 341,
+      "request_index": 19,
+      "round": 3
+    },
+    {
+      "case_id": 3599,
+      "request_index": 21,
+      "round": 3
+    },
+    {
+      "case_id": 8300,
+      "request_index": 23,
+      "round": 3
+    },
+    {
+      "case_id": 16894,
+      "request_index": 24,
+      "round": 3
+    },
+    {
+      "case_id": 20010,
+      "request_index": 28,
+      "round": 3
+    },
+    {
+      "case_id": 12180,
+      "request_index": 34,
+      "round": 3
+    },
+    {
+      "case_id": 14300,
+      "request_index": 36,
+      "round": 3
+    },
+    {
+      "case_id": 21818,
+      "request_index": 38,
+      "round": 3
+    },
+    {
+      "case_id": 14249,
+      "request_index": 45,
+      "round": 3
+    },
+    {
+      "case_id": 6517,
+      "request_index": 48,
+      "round": 3
+    },
+    {
+      "case_id": 16927,
+      "request_index": 51,
+      "round": 3
+    },
+    {
+      "case_id": 19939,
+      "request_index": 69,
+      "round": 3
+    },
+    {
+      "case_id": 3405,
+      "request_index": 70,
+      "round": 3
+    },
+    {
+      "case_id": 1899,
+      "request_index": 71,
+      "round": 3
+    },
+    {
+      "case_id": 4456,
+      "request_index": 78,
+      "round": 3
+    },
+    {
+      "case_id": 4808,
+      "request_index": 85,
+      "round": 3
+    },
+    {
+      "case_id": 15794,
+      "request_index": 92,
+      "round": 3
+    },
+    {
+      "case_id": 16458,
+      "request_index": 99,
+      "round": 3
+    },
+    {
+      "case_id": 6978,
+      "request_index": 12,
+      "round": 4
+    },
+    {
+      "case_id": 5920,
+      "request_index": 24,
+      "round": 4
+    },
+    {
+      "case_id": 17400,
+      "request_index": 30,
+      "round": 4
+    },
+    {
+      "case_id": 10929,
+      "request_index": 33,
+      "round": 4
+    },
+    {
+      "case_id": 7653,
+      "request_index": 43,
+      "round": 4
+    },
+    {
+      "case_id": 9599,
+      "request_index": 44,
+      "round": 4
+    },
+    {
+      "case_id": 17330,
+      "request_index": 50,
+      "round": 4
+    },
+    {
+      "case_id": 21179,
+      "request_index": 51,
+      "round": 4
+    },
+    {
+      "case_id": 11485,
+      "request_index": 52,
+      "round": 4
+    },
+    {
+      "case_id": 17473,
+      "request_index": 59,
+      "round": 4
+    },
+    {
+      "case_id": 13176,
+      "request_index": 65,
+      "round": 4
+    },
+    {
+      "case_id": 8815,
+      "request_index": 69,
+      "round": 4
+    },
+    {
+      "case_id": 17158,
+      "request_index": 73,
+      "round": 4
+    },
+    {
+      "case_id": 8055,
+      "request_index": 79,
+      "round": 4
+    },
+    {
+      "case_id": 14727,
+      "request_index": 86,
+      "round": 4
+    },
+    {
+      "case_id": 1640,
+      "request_index": 87,
+      "round": 4
+    },
+    {
+      "case_id": 21600,
+      "request_index": 90,
+      "round": 4
+    },
+    {
+      "case_id": 15112,
+      "request_index": 93,
+      "round": 4
+    },
+    {
+      "case_id": 1788,
+      "request_index": 95,
+      "round": 4
+    },
+    {
+      "case_id": 16795,
+      "request_index": 4,
+      "round": 5
+    },
+    {
+      "case_id": 3849,
+      "request_index": 5,
+      "round": 5
+    },
+    {
+      "case_id": 21370,
+      "request_index": 13,
+      "round": 5
+    },
+    {
+      "case_id": 14113,
+      "request_index": 17,
+      "round": 5
+    },
+    {
+      "case_id": 2849,
+      "request_index": 20,
+      "round": 5
+    },
+    {
+      "case_id": 16286,
+      "request_index": 23,
+      "round": 5
+    },
+    {
+      "case_id": 10450,
+      "request_index": 27,
+      "round": 5
+    },
+    {
+      "case_id": 19927,
+      "request_index": 33,
+      "round": 5
+    },
+    {
+      "case_id": 21300,
+      "request_index": 36,
+      "round": 5
+    },
+    {
+      "case_id": 5368,
+      "request_index": 37,
+      "round": 5
+    },
+    {
+      "case_id": 12837,
+      "request_index": 40,
+      "round": 5
+    },
+    {
+      "case_id": 17878,
+      "request_index": 46,
+      "round": 5
+    },
+    {
+      "case_id": 8234,
+      "request_index": 49,
+      "round": 5
+    },
+    {
+      "case_id": 9490,
+      "request_index": 54,
+      "round": 5
+    },
+    {
+      "case_id": 6539,
+      "request_index": 58,
+      "round": 5
+    },
+    {
+      "case_id": 16551,
+      "request_index": 59,
+      "round": 5
+    },
+    {
+      "case_id": 21280,
+      "request_index": 61,
+      "round": 5
+    },
+    {
+      "case_id": 8534,
+      "request_index": 65,
+      "round": 5
+    },
+    {
+      "case_id": 12146,
+      "request_index": 66,
+      "round": 5
+    },
+    {
+      "case_id": 2284,
+      "request_index": 68,
+      "round": 5
+    },
+    {
+      "case_id": 7328,
+      "request_index": 78,
+      "round": 5
+    },
+    {
+      "case_id": 6541,
+      "request_index": 81,
+      "round": 5
+    },
+    {
+      "case_id": 15293,
+      "request_index": 82,
+      "round": 5
+    },
+    {
+      "case_id": 13576,
+      "request_index": 88,
+      "round": 5
+    },
+    {
+      "case_id": 6252,
+      "request_index": 91,
+      "round": 5
+    },
+    {
+      "case_id": 17326,
+      "request_index": 95,
+      "round": 5
+    },
+    {
+      "case_id": 9515,
+      "request_index": 96,
+      "round": 5
+    },
+    {
+      "case_id": 21668,
+      "request_index": 97,
+      "round": 5
+    },
+    {
+      "case_id": 9702,
+      "request_index": 98,
+      "round": 5
+    },
+    {
+      "case_id": 16336,
+      "request_index": 99,
+      "round": 5
+    },
+    {
+      "case_id": 12737,
+      "request_index": 12,
+      "round": 6
+    },
+    {
+      "case_id": 17809,
+      "request_index": 20,
+      "round": 6
+    },
+    {
+      "case_id": 20319,
+      "request_index": 27,
+      "round": 6
+    },
+    {
+      "case_id": 14828,
+      "request_index": 28,
+      "round": 6
+    },
+    {
+      "case_id": 13769,
+      "request_index": 32,
+      "round": 6
+    },
+    {
+      "case_id": 8587,
+      "request_index": 34,
+      "round": 6
+    },
+    {
+      "case_id": 12088,
+      "request_index": 36,
+      "round": 6
+    },
+    {
+      "case_id": 16007,
+      "request_index": 37,
+      "round": 6
+    },
+    {
+      "case_id": 3211,
+      "request_index": 44,
+      "round": 6
+    },
+    {
+      "case_id": 8556,
+      "request_index": 45,
+      "round": 6
+    },
+    {
+      "case_id": 834,
+      "request_index": 47,
+      "round": 6
+    },
+    {
+      "case_id": 8843,
+      "request_index": 49,
+      "round": 6
+    },
+    {
+      "case_id": 19223,
+      "request_index": 52,
+      "round": 6
+    },
+    {
+      "case_id": 21260,
+      "request_index": 53,
+      "round": 6
+    },
+    {
+      "case_id": 12062,
+      "request_index": 56,
+      "round": 6
+    },
+    {
+      "case_id": 8966,
+      "request_index": 63,
+      "round": 6
+    },
+    {
+      "case_id": 21833,
+      "request_index": 68,
+      "round": 6
+    },
+    {
+      "case_id": 20212,
+      "request_index": 69,
+      "round": 6
+    },
+    {
+      "case_id": 456,
+      "request_index": 83,
+      "round": 6
+    },
+    {
+      "case_id": 4837,
+      "request_index": 85,
+      "round": 6
+    },
+    {
+      "case_id": 2353,
+      "request_index": 86,
+      "round": 6
+    },
+    {
+      "case_id": 3447,
+      "request_index": 89,
+      "round": 6
+    },
+    {
+      "case_id": 21734,
+      "request_index": 92,
+      "round": 6
+    },
+    {
+      "case_id": 13806,
+      "request_index": 94,
+      "round": 6
+    },
+    {
+      "case_id": 4253,
+      "request_index": 99,
+      "round": 6
+    },
+    {
+      "case_id": 8296,
+      "request_index": 5,
+      "round": 7
+    },
+    {
+      "case_id": 13697,
+      "request_index": 12,
+      "round": 7
+    },
+    {
+      "case_id": 12388,
+      "request_index": 19,
+      "round": 7
+    },
+    {
+      "case_id": 17777,
+      "request_index": 22,
+      "round": 7
+    },
+    {
+      "case_id": 18726,
+      "request_index": 25,
+      "round": 7
+    },
+    {
+      "case_id": 14520,
+      "request_index": 28,
+      "round": 7
+    },
+    {
+      "case_id": 18377,
+      "request_index": 29,
+      "round": 7
+    },
+    {
+      "case_id": 1587,
+      "request_index": 30,
+      "round": 7
+    },
+    {
+      "case_id": 6899,
+      "request_index": 32,
+      "round": 7
+    },
+    {
+      "case_id": 2133,
+      "request_index": 44,
+      "round": 7
+    },
+    {
+      "case_id": 20550,
+      "request_index": 46,
+      "round": 7
+    },
+    {
+      "case_id": 12739,
+      "request_index": 47,
+      "round": 7
+    },
+    {
+      "case_id": 3327,
+      "request_index": 50,
+      "round": 7
+    },
+    {
+      "case_id": 15937,
+      "request_index": 54,
+      "round": 7
+    },
+    {
+      "case_id": 17323,
+      "request_index": 55,
+      "round": 7
+    },
+    {
+      "case_id": 20442,
+      "request_index": 56,
+      "round": 7
+    },
+    {
+      "case_id": 20223,
+      "request_index": 58,
+      "round": 7
+    },
+    {
+      "case_id": 3764,
+      "request_index": 59,
+      "round": 7
+    },
+    {
+      "case_id": 661,
+      "request_index": 64,
+      "round": 7
+    },
+    {
+      "case_id": 15936,
+      "request_index": 67,
+      "round": 7
+    },
+    {
+      "case_id": 20548,
+      "request_index": 72,
+      "round": 7
+    },
+    {
+      "case_id": 345,
+      "request_index": 78,
+      "round": 7
+    },
+    {
+      "case_id": 13184,
+      "request_index": 81,
+      "round": 7
+    },
+    {
+      "case_id": 13490,
+      "request_index": 84,
+      "round": 7
+    },
+    {
+      "case_id": 2176,
+      "request_index": 90,
+      "round": 7
+    },
+    {
+      "case_id": 1127,
+      "request_index": 94,
+      "round": 7
+    },
+    {
+      "case_id": 3442,
+      "request_index": 96,
+      "round": 7
+    },
+    {
+      "case_id": 13955,
+      "request_index": 98,
+      "round": 7
+    },
+    {
+      "case_id": 2924,
+      "request_index": 0,
+      "round": 8
+    },
+    {
+      "case_id": 9915,
+      "request_index": 1,
+      "round": 8
+    },
+    {
+      "case_id": 7892,
+      "request_index": 3,
+      "round": 8
+    },
+    {
+      "case_id": 4404,
+      "request_index": 6,
+      "round": 8
+    },
+    {
+      "case_id": 6330,
+      "request_index": 8,
+      "round": 8
+    },
+    {
+      "case_id": 5603,
+      "request_index": 11,
+      "round": 8
+    },
+    {
+      "case_id": 14994,
+      "request_index": 13,
+      "round": 8
+    },
+    {
+      "case_id": 13784,
+      "request_index": 17,
+      "round": 8
+    },
+    {
+      "case_id": 16616,
+      "request_index": 22,
+      "round": 8
+    },
+    {
+      "case_id": 14786,
+      "request_index": 27,
+      "round": 8
+    },
+    {
+      "case_id": 11548,
+      "request_index": 36,
+      "round": 8
+    },
+    {
+      "case_id": 19520,
+      "request_index": 40,
+      "round": 8
+    },
+    {
+      "case_id": 21494,
+      "request_index": 42,
+      "round": 8
+    },
+    {
+      "case_id": 1904,
+      "request_index": 48,
+      "round": 8
+    },
+    {
+      "case_id": 11129,
+      "request_index": 53,
+      "round": 8
+    },
+    {
+      "case_id": 21317,
+      "request_index": 56,
+      "round": 8
+    },
+    {
+      "case_id": 2769,
+      "request_index": 57,
+      "round": 8
+    },
+    {
+      "case_id": 14296,
+      "request_index": 59,
+      "round": 8
+    },
+    {
+      "case_id": 12697,
+      "request_index": 60,
+      "round": 8
+    },
+    {
+      "case_id": 18620,
+      "request_index": 66,
+      "round": 8
+    },
+    {
+      "case_id": 16047,
+      "request_index": 67,
+      "round": 8
+    },
+    {
+      "case_id": 17193,
+      "request_index": 69,
+      "round": 8
+    },
+    {
+      "case_id": 10388,
+      "request_index": 71,
+      "round": 8
+    },
+    {
+      "case_id": 10990,
+      "request_index": 73,
+      "round": 8
+    },
+    {
+      "case_id": 7259,
+      "request_index": 74,
+      "round": 8
+    },
+    {
+      "case_id": 492,
+      "request_index": 79,
+      "round": 8
+    },
+    {
+      "case_id": 9566,
+      "request_index": 80,
+      "round": 8
+    },
+    {
+      "case_id": 3647,
+      "request_index": 84,
+      "round": 8
+    },
+    {
+      "case_id": 17616,
+      "request_index": 85,
+      "round": 8
+    },
+    {
+      "case_id": 3411,
+      "request_index": 89,
+      "round": 8
+    },
+    {
+      "case_id": 6058,
+      "request_index": 90,
+      "round": 8
+    },
+    {
+      "case_id": 8892,
+      "request_index": 94,
+      "round": 8
+    },
+    {
+      "case_id": 2417,
+      "request_index": 98,
+      "round": 8
+    },
+    {
+      "case_id": 16199,
+      "request_index": 4,
+      "round": 9
+    },
+    {
+      "case_id": 18786,
+      "request_index": 13,
+      "round": 9
+    },
+    {
+      "case_id": 16054,
+      "request_index": 16,
+      "round": 9
+    },
+    {
+      "case_id": 8315,
+      "request_index": 21,
+      "round": 9
+    },
+    {
+      "case_id": 17990,
+      "request_index": 24,
+      "round": 9
+    },
+    {
+      "case_id": 19916,
+      "request_index": 25,
+      "round": 9
+    },
+    {
+      "case_id": 7451,
+      "request_index": 26,
+      "round": 9
+    },
+    {
+      "case_id": 10543,
+      "request_index": 28,
+      "round": 9
+    },
+    {
+      "case_id": 5743,
+      "request_index": 30,
+      "round": 9
+    },
+    {
+      "case_id": 8662,
+      "request_index": 32,
+      "round": 9
+    },
+    {
+      "case_id": 13795,
+      "request_index": 37,
+      "round": 9
+    },
+    {
+      "case_id": 19857,
+      "request_index": 38,
+      "round": 9
+    },
+    {
+      "case_id": 16171,
+      "request_index": 44,
+      "round": 9
+    },
+    {
+      "case_id": 1947,
+      "request_index": 45,
+      "round": 9
+    },
+    {
+      "case_id": 15874,
+      "request_index": 52,
+      "round": 9
+    },
+    {
+      "case_id": 3492,
+      "request_index": 54,
+      "round": 9
+    },
+    {
+      "case_id": 8415,
+      "request_index": 56,
+      "round": 9
+    },
+    {
+      "case_id": 12342,
+      "request_index": 58,
+      "round": 9
+    },
+    {
+      "case_id": 20334,
+      "request_index": 59,
+      "round": 9
+    },
+    {
+      "case_id": 4788,
+      "request_index": 62,
+      "round": 9
+    },
+    {
+      "case_id": 9699,
+      "request_index": 63,
+      "round": 9
+    },
+    {
+      "case_id": 3965,
+      "request_index": 64,
+      "round": 9
+    },
+    {
+      "case_id": 2898,
+      "request_index": 66,
+      "round": 9
+    },
+    {
+      "case_id": 5339,
+      "request_index": 71,
+      "round": 9
+    },
+    {
+      "case_id": 20485,
+      "request_index": 74,
+      "round": 9
+    },
+    {
+      "case_id": 13720,
+      "request_index": 75,
+      "round": 9
+    },
+    {
+      "case_id": 8947,
+      "request_index": 77,
+      "round": 9
+    },
+    {
+      "case_id": 19556,
+      "request_index": 80,
+      "round": 9
+    },
+    {
+      "case_id": 14731,
+      "request_index": 85,
+      "round": 9
+    },
+    {
+      "case_id": 14567,
+      "request_index": 91,
+      "round": 9
+    },
+    {
+      "case_id": 11081,
+      "request_index": 95,
+      "round": 9
+    },
+    {
+      "case_id": 9199,
+      "request_index": 98,
+      "round": 9
+    },
+    {
+      "case_id": 13213,
+      "request_index": 0,
+      "round": 10
+    },
+    {
+      "case_id": 20505,
+      "request_index": 2,
+      "round": 10
+    },
+    {
+      "case_id": 10839,
+      "request_index": 3,
+      "round": 10
+    },
+    {
+      "case_id": 10529,
+      "request_index": 4,
+      "round": 10
+    },
+    {
+      "case_id": 21230,
+      "request_index": 6,
+      "round": 10
+    },
+    {
+      "case_id": 5359,
+      "request_index": 7,
+      "round": 10
+    },
+    {
+      "case_id": 17841,
+      "request_index": 8,
+      "round": 10
+    },
+    {
+      "case_id": 15043,
+      "request_index": 11,
+      "round": 10
+    },
+    {
+      "case_id": 12742,
+      "request_index": 12,
+      "round": 10
+    },
+    {
+      "case_id": 9235,
+      "request_index": 14,
+      "round": 10
+    },
+    {
+      "case_id": 17331,
+      "request_index": 16,
+      "round": 10
+    },
+    {
+      "case_id": 20287,
+      "request_index": 20,
+      "round": 10
+    },
+    {
+      "case_id": 12612,
+      "request_index": 23,
+      "round": 10
+    },
+    {
+      "case_id": 16048,
+      "request_index": 24,
+      "round": 10
+    },
+    {
+      "case_id": 12170,
+      "request_index": 27,
+      "round": 10
+    },
+    {
+      "case_id": 4563,
+      "request_index": 28,
+      "round": 10
+    },
+    {
+      "case_id": 20401,
+      "request_index": 29,
+      "round": 10
+    },
+    {
+      "case_id": 18926,
+      "request_index": 31,
+      "round": 10
+    },
+    {
+      "case_id": 9358,
+      "request_index": 33,
+      "round": 10
+    },
+    {
+      "case_id": 8826,
+      "request_index": 40,
+      "round": 10
+    },
+    {
+      "case_id": 11666,
+      "request_index": 49,
+      "round": 10
+    },
+    {
+      "case_id": 12074,
+      "request_index": 50,
+      "round": 10
+    },
+    {
+      "case_id": 9631,
+      "request_index": 51,
+      "round": 10
+    },
+    {
+      "case_id": 4287,
+      "request_index": 53,
+      "round": 10
+    },
+    {
+      "case_id": 18442,
+      "request_index": 56,
+      "round": 10
+    },
+    {
+      "case_id": 10767,
+      "request_index": 57,
+      "round": 10
+    },
+    {
+      "case_id": 18523,
+      "request_index": 58,
+      "round": 10
+    },
+    {
+      "case_id": 21221,
+      "request_index": 59,
+      "round": 10
+    },
+    {
+      "case_id": 4914,
+      "request_index": 62,
+      "round": 10
+    },
+    {
+      "case_id": 18125,
+      "request_index": 65,
+      "round": 10
+    },
+    {
+      "case_id": 11969,
+      "request_index": 67,
+      "round": 10
+    },
+    {
+      "case_id": 13084,
+      "request_index": 71,
+      "round": 10
+    },
+    {
+      "case_id": 18182,
+      "request_index": 73,
+      "round": 10
+    },
+    {
+      "case_id": 3655,
+      "request_index": 75,
+      "round": 10
+    },
+    {
+      "case_id": 16859,
+      "request_index": 77,
+      "round": 10
+    },
+    {
+      "case_id": 19025,
+      "request_index": 78,
+      "round": 10
+    },
+    {
+      "case_id": 5231,
+      "request_index": 79,
+      "round": 10
+    },
+    {
+      "case_id": 8969,
+      "request_index": 81,
+      "round": 10
+    },
+    {
+      "case_id": 20599,
+      "request_index": 84,
+      "round": 10
+    },
+    {
+      "case_id": 6930,
+      "request_index": 85,
+      "round": 10
+    },
+    {
+      "case_id": 7129,
+      "request_index": 88,
+      "round": 10
+    },
+    {
+      "case_id": 7546,
+      "request_index": 91,
+      "round": 10
+    },
+    {
+      "case_id": 19749,
+      "request_index": 97,
+      "round": 10
+    }
+  ],
+  "z_success_to_W_immediate_rephrase_strict_failure_count": 261
+}

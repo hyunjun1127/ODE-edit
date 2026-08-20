@@ -1,0 +1,254 @@
+{
+  "analysis_manifest_sha256": "48029157df343c8bd829b94d5f207c25f00bb8ac4390a7c690ed9a9ee1170168",
+  "checks": [
+    {
+      "expected": {
+        "bytes": 21730,
+        "lines": 232,
+        "name": "p1r52-piru-postenergy-warn-r1-10xb100-factual-ko.md",
+        "rows": null,
+        "sha256": "b675f6121c5c97c54f6a25e8e8342766e114daf1a0a80703b0cd34ffae079776"
+      },
+      "gate": "member:p1r52-piru-postenergy-warn-r1-10xb100-factual-ko.md",
+      "observed": {
+        "bytes": 21730,
+        "lines": 232,
+        "name": "p1r52-piru-postenergy-warn-r1-10xb100-factual-ko.md",
+        "rows": null,
+        "sha256": "b675f6121c5c97c54f6a25e8e8342766e114daf1a0a80703b0cd34ffae079776"
+      },
+      "status": "PASS"
+    },
+    {
+      "expected": {
+        "bytes": 54973,
+        "lines": 1705,
+        "name": "p1r52-piru-postenergy-core-comparison.json",
+        "rows": null,
+        "sha256": "ff638eda1acaf3f8bbf2bae3227af950aa82ea1d243d8b024effdb55cd0f9420"
+      },
+      "gate": "member:p1r52-piru-postenergy-core-comparison.json",
+      "observed": {
+        "bytes": 54973,
+        "lines": 1705,
+        "name": "p1r52-piru-postenergy-core-comparison.json",
+        "rows": null,
+        "sha256": "ff638eda1acaf3f8bbf2bae3227af950aa82ea1d243d8b024effdb55cd0f9420"
+      },
+      "status": "PASS"
+    },
+    {
+      "expected": {
+        "bytes": 1983421,
+        "lines": 101488,
+        "name": "p1r52-piru-postenergy-per-batch.json",
+        "rows": 10,
+        "sha256": "92335f20803b688efb3c250a52d7e4fb694ded66ecc7ec3bdf1503e6afb2630f"
+      },
+      "gate": "member:p1r52-piru-postenergy-per-batch.json",
+      "observed": {
+        "bytes": 1983421,
+        "lines": 101488,
+        "name": "p1r52-piru-postenergy-per-batch.json",
+        "rows": 10,
+        "sha256": "92335f20803b688efb3c250a52d7e4fb694ded66ecc7ec3bdf1503e6afb2630f"
+      },
+      "status": "PASS"
+    },
+    {
+      "expected": {
+        "bytes": 250157,
+        "lines": 6409,
+        "name": "p1r52-piru-postenergy-per-h-decision.json",
+        "rows": 80,
+        "sha256": "bd7e278eb5275732f895ce5334d5e71c4c1b02148c24fe9179eaaca98973ebe2"
+      },
+      "gate": "member:p1r52-piru-postenergy-per-h-decision.json",
+      "observed": {
+        "bytes": 250157,
+        "lines": 6409,
+        "name": "p1r52-piru-postenergy-per-h-decision.json",
+        "rows": 80,
+        "sha256": "bd7e278eb5275732f895ce5334d5e71c4c1b02148c24fe9179eaaca98973ebe2"
+      },
+      "status": "PASS"
+    },
+    {
+      "expected": {
+        "bytes": 244809,
+        "lines": 5608,
+        "name": "p1r52-piru-postenergy-per-layer.json",
+        "rows": 400,
+        "sha256": "ef37aa0a29318ab429b4aeee7f613c51875aa8101624ffdb580ede7ef3f98ba4"
+      },
+      "gate": "member:p1r52-piru-postenergy-per-layer.json",
+      "observed": {
+        "bytes": 244809,
+        "lines": 5608,
+        "name": "p1r52-piru-postenergy-per-layer.json",
+        "rows": 400,
+        "sha256": "ef37aa0a29318ab429b4aeee7f613c51875aa8101624ffdb580ede7ef3f98ba4"
+      },
+      "status": "PASS"
+    },
+    {
+      "expected": {
+        "bytes": 5839401,
+        "lines": 204008,
+        "name": "p1r52-piru-postenergy-per-z-w-request.json",
+        "rows": 1000,
+        "sha256": "101b058784a10d22f2d90b1b97f38933905fb374aa71033ef783189193cf2299"
+      },
+      "gate": "member:p1r52-piru-postenergy-per-z-w-request.json",
+      "observed": {
+        "bytes": 5839401,
+        "lines": 204008,
+        "name": "p1r52-piru-postenergy-per-z-w-request.json",
+        "rows": 1000,
+        "sha256": "101b058784a10d22f2d90b1b97f38933905fb374aa71033ef783189193cf2299"
+      },
+      "status": "PASS"
+    },
+    {
+      "expected": {
+        "bytes": 45941,
+        "lines": 2826,
+        "name": "p1r52-piru-postenergy-hard-cohorts.json",
+        "rows": null,
+        "sha256": "7c2a5939df90eee39531213b8ff599f43507b5fbc7f7b8384fb85d78a3167f42"
+      },
+      "gate": "member:p1r52-piru-postenergy-hard-cohorts.json",
+      "observed": {
+        "bytes": 45941,
+        "lines": 2826,
+        "name": "p1r52-piru-postenergy-hard-cohorts.json",
+        "rows": null,
+        "sha256": "7c2a5939df90eee39531213b8ff599f43507b5fbc7f7b8384fb85d78a3167f42"
+      },
+      "status": "PASS"
+    },
+    {
+      "expected": {
+        "bytes": 11126,
+        "lines": 325,
+        "name": "p1r52-piru-postenergy-compute-integrity.json",
+        "rows": null,
+        "sha256": "cb6d6df29407a2b6ebafabfaef2b031bc1b1028726863baaf9b0472af2179471"
+      },
+      "gate": "member:p1r52-piru-postenergy-compute-integrity.json",
+      "observed": {
+        "bytes": 11126,
+        "lines": 325,
+        "name": "p1r52-piru-postenergy-compute-integrity.json",
+        "rows": null,
+        "sha256": "cb6d6df29407a2b6ebafabfaef2b031bc1b1028726863baaf9b0472af2179471"
+      },
+      "status": "PASS"
+    },
+    {
+      "gate": "member_root",
+      "status": "PASS"
+    },
+    {
+      "gate": "manifest_sha",
+      "status": "PASS"
+    },
+    {
+      "gate": "report_sha",
+      "status": "PASS"
+    },
+    {
+      "gate": "terminal_sha",
+      "status": "PASS"
+    },
+    {
+      "gate": "result_manifest_sha",
+      "status": "PASS"
+    },
+    {
+      "gate": "scheduler_terminal_bound",
+      "status": "PASS"
+    },
+    {
+      "gate": "batch_10",
+      "status": "PASS"
+    },
+    {
+      "gate": "h_80",
+      "status": "PASS"
+    },
+    {
+      "gate": "layer_400",
+      "status": "PASS"
+    },
+    {
+      "gate": "zw_request_1000",
+      "status": "PASS"
+    },
+    {
+      "gate": "W0_exact",
+      "status": "PASS"
+    },
+    {
+      "gate": "observation_no_influence",
+      "status": "PASS"
+    },
+    {
+      "gate": "duplicate_W_forward_0",
+      "status": "PASS"
+    },
+    {
+      "gate": "warn_count_60",
+      "status": "PASS"
+    },
+    {
+      "gate": "old_energy_false_1",
+      "status": "PASS"
+    },
+    {
+      "gate": "B4K2_exact",
+      "status": "PASS"
+    },
+    {
+      "gate": "all_hard_gates_pass",
+      "status": "PASS"
+    },
+    {
+      "gate": "norm_share_arithmetic",
+      "status": "PASS"
+    },
+    {
+      "gate": "korean_report_nonempty",
+      "status": "PASS"
+    },
+    {
+      "gate": "five_row_boundary_present",
+      "status": "PASS"
+    },
+    {
+      "gate": "scientific_amendment_labeled",
+      "status": "PASS"
+    },
+    {
+      "gate": "no_imputation_boundary",
+      "status": "PASS"
+    },
+    {
+      "gate": "promotion_false",
+      "status": "PASS"
+    }
+  ],
+  "fail_count": 0,
+  "identity_sha256": "8c6ab3ce0148b979c7f19068c933a8202a481de510d595a2d94c326e4b28db98",
+  "member_root_recomputed": "6d143dc352b0ea1dc05507df1f0b58e9615796529d7a2c2c628048c09dfb41fb",
+  "model_evaluator_gpu_slurm_actions": {
+    "evaluator": 0,
+    "gpu": 0,
+    "model": 0,
+    "slurm": 0
+  },
+  "pass_count": 31,
+  "rooted_receipt_sha256": "51031caf49ef1385c9a2032178de4084496dffb5a0bc04f0df526b883580cf49",
+  "schema": "ode-edit-s05-p1r52-piru-postenergy-warn-r1-independent-review/v1",
+  "status": "INDEPENDENT_RAWFREE_REHASH_REVIEW_PASS"
+}
