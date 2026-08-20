@@ -10,11 +10,13 @@ from .p1r52_target_depth import P1R52TargetDepth
 
 INSTRUCTION_ID = "ODEEDIT-S05-P1R52-LLAMA-J0-IL5-SEQUENTIAL-10XB100-V1"
 METHOD_ID = "P1R52-LLAMA-J0-TARGET-DEPTH-IL5-SEQUENTIAL-10XB100"
-ATTEMPT_SUFFIX = "target-depth-il5-tech-r4"
+ATTEMPT_SUFFIX = "target-depth-il5-postenergy-warn-r1"
 ROLE = "r52-soft-sequential-h"
-RESULT_NAME = "s05-p1r52-llama-j0-il5-sequential-10xb100-tech-r4-v1"
-JOB_NAME = "odeedit_p1r52_il5_seq_b1000_r4"
-RUN_TOKEN = "p1r52-llama-j0-il5-sequential-10xb100-tech-r4-v1"
+RESULT_NAME = (
+    "s05-p1r52-llama-j0-il5-sequential-10xb100-postenergy-warn-r1-v1"
+)
+JOB_NAME = "odeedit_p1r52_il5_seq_b1000_pew1"
+RUN_TOKEN = "p1r52-llama-j0-il5-sequential-10xb100-postenergy-warn-r1-v1"
 STREAM_ROOT = "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
 STREAM_ORDER = "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3"
 
@@ -28,6 +30,7 @@ class P1R52IL5SequentialPolicy:
     batch_size: int = 100
     outer_count: int = 8
     h: float = 0.125
+    postsolve_energy_warn_enabled: bool = True
 
     def __post_init__(self) -> None:
         if (
@@ -39,6 +42,7 @@ class P1R52IL5SequentialPolicy:
             or self.batch_size != 100
             or self.outer_count != 8
             or self.h != 0.125
+            or not self.postsolve_energy_warn_enabled
         ):
             raise ODEBFContractError("P1R52 IL5 sequential policy differs")
 

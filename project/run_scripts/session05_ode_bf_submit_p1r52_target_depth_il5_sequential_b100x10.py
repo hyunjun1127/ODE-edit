@@ -98,8 +98,14 @@ def submit(source_head: str) -> dict[str, object]:
     if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("P1R52 IL5 execution source differs")
     output_root = REPO_ROOT / "local/odebf/results" / RESULT_NAME
-    state_root = REPO_ROOT / "local/odebf/state/p1r52-il5-sequential-10xb100-tech-r4-v1"
-    log_root = REPO_ROOT / "local/odebf/logs/p1r52-il5-sequential-10xb100-tech-r4-v1"
+    state_root = REPO_ROOT / (
+        "local/odebf/state/"
+        "p1r52-il5-sequential-10xb100-postenergy-warn-r1-v1"
+    )
+    log_root = REPO_ROOT / (
+        "local/odebf/logs/"
+        "p1r52-il5-sequential-10xb100-postenergy-warn-r1-v1"
+    )
     if output_root.exists() or output_root.is_symlink():
         raise ODEBFContractError("P1R52 IL5 result namespace exists")
     allocated, jobs = _gpu_jobs()
@@ -109,7 +115,9 @@ def submit(source_head: str) -> dict[str, object]:
     if memory_mib < 65000:
         raise ODEBFContractError("P1R52 IL5 host memory is below request")
     plan = dry.build_plan(source_head)
-    namespace = f"p1r52-il5-sequential-tech-r4-{source_head[:12]}-v1"
+    namespace = (
+        f"p1r52-il5-sequential-postenergy-warn-r1-{source_head[:12]}-v1"
+    )
     intent_path = state_root / f"{namespace}.intent.json"
     receipt_path = state_root / f"{namespace}.submission-receipt.json"
     if any(path.exists() or path.is_symlink() for path in (intent_path, receipt_path)):
@@ -155,8 +163,11 @@ def submit(source_head: str) -> dict[str, object]:
         "branch": branch,
         "job_id": job_id,
         "request_count": 1000,
-        "technical_attempt": "TECH_R4_ACCURACY_VECTOR_RECEIPT_SCHEMA",
-        "superseded_scheduler_job_id": "22162",
+        "scientific_amendment": "POSTSOLVE_ENERGY_WARN_RECORD_ONLY",
+        "postsolve_energy_warn_enabled": True,
+        "postsolve_energy_decision_influence_count": 0,
+        "postsolve_energy_tolerance": 1e-12,
+        "superseded_scheduler_job_id": "22163",
         "result_root": str(output_root),
         "active_gpu_allocations_before_release": allocated,
         "host_memory_available_mib": memory_mib,

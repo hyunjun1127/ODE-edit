@@ -27,6 +27,9 @@ from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
     expected_p1r52_sequential_result_name,
     run_p1r52_sequential,
 )
+from project.run_scripts.ode_bf.p1r52_piru_postenergy_warn import (
+    classify_h_postsolve_certificate,
+)
 from project.run_scripts.ode_bf.p1r52_target_depth import (
     P1R52_SEQUENTIAL_TARGET_DEPTH_INNER_COUNTS,
     P1R52_TARGET_DEPTH_INNER_COUNTS,
@@ -56,6 +59,7 @@ class P1R52TargetDepthSequentialIL5Tests(unittest.TestCase):
         self.assertEqual(P1R52TargetDepth.from_inner_count(5), P1R52TargetDepth.IL5_FULL)
         self.assertEqual(POLICY.expected_inner_rows_per_batch, 40)
         self.assertEqual(POLICY.expected_request_inner_rows_per_batch, 4000)
+        self.assertTrue(POLICY.postsolve_energy_warn_enabled)
 
     def test_activation_is_exact_and_fail_closed(self) -> None:
         self.assertIs(
@@ -107,6 +111,42 @@ class P1R52TargetDepthSequentialIL5Tests(unittest.TestCase):
         self.assertEqual(plan["inner_rows_per_batch"], 40)
         self.assertEqual(plan["request_inner_rows_per_batch"], 4000)
         self.assertEqual(plan["batch_entry_evaluator_count"], 0)
+        self.assertTrue(plan["postsolve_energy_warn_enabled"])
+        self.assertEqual(plan["postsolve_energy_decision_influence_count"], 0)
+        self.assertEqual(plan["postsolve_energy_tolerance"], 1e-12)
+
+    def test_postsolve_energy_excess_is_record_only_without_tolerance_change(self) -> None:
+        receipt = classify_h_postsolve_certificate(
+            solver_stage_success={"H": True, "P": True, "CAPACITY": True},
+            strength_residual=5.551115123125783e-17,
+            energy_residual=5.545341963397732e-12,
+            p_residual=7.0013439490423934e-15,
+            selected_minimum=0.07453928323853867,
+            primal_tolerance=1e-8,
+            energy_tolerance=1e-12,
+            postsolve_energy_warn_enabled=True,
+        )
+        self.assertEqual(receipt["status"], "WARN_POSTSOLVE_ENERGY_RESIDUAL")
+        self.assertIsNone(receipt["first_false_gate"])
+        self.assertEqual(receipt["postsolve_energy_decision_influence_count"], 0)
+        self.assertEqual(receipt["energy_tolerance"], 1e-12)
+        self.assertEqual(receipt["coefficient_shrink_count"], 0)
+        self.assertEqual(receipt["retry_count"], 0)
+        self.assertEqual(receipt["tolerance_relaxation_count"], 0)
+
+    def test_warn_does_not_hide_nonenergy_certificate_failure(self) -> None:
+        receipt = classify_h_postsolve_certificate(
+            solver_stage_success={"H": True, "P": True, "CAPACITY": True},
+            strength_residual=2e-8,
+            energy_residual=5.545341963397732e-12,
+            p_residual=0.0,
+            selected_minimum=0.1,
+            primal_tolerance=1e-8,
+            energy_tolerance=1e-12,
+            postsolve_energy_warn_enabled=True,
+        )
+        self.assertEqual(receipt["status"], "HARD_FAIL")
+        self.assertEqual(receipt["first_false_gate"], "STRENGTH_RESIDUAL")
 
     def test_runtime_uses_shared_scheduler_and_explicit_sequential_gate(self) -> None:
         scalable = inspect.getsource(_run_ode_arm)

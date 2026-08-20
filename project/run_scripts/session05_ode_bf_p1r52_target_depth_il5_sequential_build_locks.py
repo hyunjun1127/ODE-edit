@@ -52,6 +52,7 @@ SOURCE_PATHS = (
     "project/run_scripts/ode_bf/p1r52_sequential_runtime.py",
     "project/run_scripts/ode_bf/p1r52_sequential_scale.py",
     "project/run_scripts/ode_bf/p1r52_r42_safe_kdc.py",
+    "project/run_scripts/ode_bf/p1r52_piru_postenergy_warn.py",
     "project/run_scripts/ode_bf/p1r52_target_depth.py",
     "project/run_scripts/ode_bf/p1r52_target_depth_inner_telemetry.py",
     "project/run_scripts/ode_bf/p1r52_target_depth_sequential_il5.py",
@@ -106,7 +107,12 @@ def main() -> int:
         "terminal_w0_restore_count": 1,
         "task_gpu_cap": 3,
         "stage_gpu_max": 1,
-        "technical_attempt": "TECH_R4_ACCURACY_VECTOR_RECEIPT_SCHEMA",
+        "scientific_amendment": "POSTSOLVE_ENERGY_WARN_RECORD_ONLY",
+        "postsolve_energy_warn_enabled": True,
+        "postsolve_energy_decision_influence_count": 0,
+        "postsolve_energy_tolerance": 1e-12,
+        "postsolve_coefficient_shrink_count": 0,
+        "postsolve_retry_count": 0,
         "execution_node": "server2",
         "retry_count": 0,
         "backtracking_count": 0,
@@ -137,7 +143,7 @@ def main() -> int:
         "numerical_lock_sha256": lock_sha,
         "stream_root": STREAM_ROOT,
         "stream_order": STREAM_ORDER,
-        "source_scope": "TARGET_DEPTH_IL5_TYPED_EXTENSION_THIN_SEQUENTIAL_ADAPTER_SERVER2_BINDING_B100_TELEMETRY_CARDINALITY_AND_ACCURACY_VECTOR_SCHEMA_TECH_R4",
+        "source_scope": "TARGET_DEPTH_IL5_TYPED_EXTENSION_WITH_POSTSOLVE_ENERGY_WARN_RECORD_ONLY",
     }
     manifest_sha = _write_once(LOCK_ROOT / SOURCE_MANIFEST_FILE, manifest)
     print(

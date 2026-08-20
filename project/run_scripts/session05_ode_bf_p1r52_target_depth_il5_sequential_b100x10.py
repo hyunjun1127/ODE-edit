@@ -73,6 +73,9 @@ def main(argv: list[str] | None = None) -> int:
             p1r52_sequential_target_depth=POLICY.depth.value,
             p1r52_sequential_target_depth_inner_telemetry=True,
             p1r52_batch_entry_evaluator_enabled=False,
+            p1r52_postsolve_energy_warn_enabled=(
+                POLICY.postsolve_energy_warn_enabled
+            ),
         )
         result.update(
             {
