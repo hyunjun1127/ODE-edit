@@ -322,6 +322,7 @@ def _run_ode_arm(
     p1r51: bool = False,
     p1r52: bool = False,
     p1r52_target_depth: int = 1,
+    p1r52_target_depth_telemetry_observer: Any | None = None,
     p1r52_writer_policy: P1R52WriterPolicy | str | None = None,
     p1r52_pir_policy: P1R52PIRPolicy | str | None = None,
 ) -> dict[str, Any]:
@@ -527,6 +528,7 @@ def _run_ode_arm(
     terminal_objective_count = 0
     terminal_functional: dict[str, Any] | None = None
     restored = False
+    terminal_target_depth_telemetry_four_panel: Mapping[str, Any] | None = None
     counter = ModelForwardCounter(model, legacy_ledger)
     try:
         for step_index in range(P1R23_GRID_COUNT):
@@ -690,6 +692,11 @@ def _run_ode_arm(
                         evaluate_kl=evaluate_depth_kl,
                         evaluate_endpoint=evaluate_depth_endpoint,
                         fixed_state_identities=fixed_depth_state,
+                        observe_inner=(
+                            None
+                            if p1r52_target_depth_telemetry_observer is None
+                            else p1r52_target_depth_telemetry_observer.observe_inner
+                        ),
                         first_target_result=target_result,
                         first_kl_result=kl_result,
                     )
@@ -1080,6 +1087,30 @@ def _run_ode_arm(
                     )
                 )
             compute.add_wall("target_gradient", time.perf_counter() - target_started)
+            if p1r52_target_depth_telemetry_observer is not None:
+                inner_telemetry_rows = target_receipt.get("inner_trajectory", [])
+                inner_forward_count = sum(
+                    int(item["accepted_z_observation"]["added_model_forward_count"])
+                    for item in inner_telemetry_rows
+                )
+                inner_token_count = sum(
+                    int(item["accepted_z_observation"]["added_processed_token_count"])
+                    for item in inner_telemetry_rows
+                )
+                compute.increment(
+                    "target_depth_inner_z_telemetry",
+                    logical_forward_groups=len(inner_telemetry_rows),
+                    model_forward_calls=inner_forward_count,
+                    physical_microbatch_graphs=inner_forward_count,
+                    processed_tokens=inner_token_count,
+                )
+                compute.add_wall(
+                    "target_depth_inner_z_telemetry",
+                    sum(
+                        float(item["accepted_z_observation"]["wall_seconds"])
+                        for item in inner_telemetry_rows
+                    ),
+                )
             if not p1r52:
                 _phase_add_objective(
                     compute, "target_gradient", target_result, target=True
@@ -1522,14 +1553,49 @@ def _run_ode_arm(
             next_physical = capture_scalable_physical_state(
                 model, capture_plan, hparams
             )
+            compute.add_wall(
+                "accepted_state_refresh", time.perf_counter() - next_capture_started
+            )
+            _phase_add_capture(compute, "accepted_state_refresh", next_physical)
+            outer_target_depth_telemetry = None
+            if p1r52_target_depth_telemetry_observer is not None:
+                observed_outer = (
+                    p1r52_target_depth_telemetry_observer.observe_outer(
+                        outer_step_index=step_index,
+                        configured_inner_count=target_depth_policy.inner_count,
+                        accepted_target=target_next,
+                        current_terminal=next_physical.terminal_z,
+                    )
+                )
+                outer_target_depth_telemetry = dict(observed_outer.receipt)
+                terminal_target_depth_telemetry_four_panel = (
+                    observed_outer.terminal_four_panel
+                )
+                compute.increment(
+                    "target_depth_outer_w_z_telemetry",
+                    logical_forward_groups=int(
+                        outer_target_depth_telemetry["observation_pass_count"]
+                    ),
+                    model_forward_calls=int(
+                        outer_target_depth_telemetry["added_model_forward_count"]
+                    ),
+                    physical_microbatch_graphs=int(
+                        outer_target_depth_telemetry["added_model_forward_count"]
+                    ),
+                    processed_tokens=int(
+                        outer_target_depth_telemetry["added_processed_token_count"]
+                    ),
+                )
+                compute.add_wall(
+                    "target_depth_outer_w_z_telemetry",
+                    float(outer_target_depth_telemetry["wall_seconds"]),
+                )
             if sequential_writer is not None and pir_policy in PIR_SEQUENTIAL_POLICIES:
                 sequential_bf16_identity = post_commit_pir_identity(
                     sequential_writer,
                     materialization,
                     next_physical.terminal_z,
                 )
-            compute.add_wall("accepted_state_refresh", time.perf_counter() - next_capture_started)
-            _phase_add_capture(compute, "accepted_state_refresh", next_physical)
             progress: dict[str, Any] = {
                 "predicted": predicted,
                 "actual": None,
@@ -1763,10 +1829,15 @@ def _run_ode_arm(
                 ),
                 "cumulative_atomic_structural_p": cumulative_p,
                 "target_write_realization": target_realization,
+                "target_depth_outer_terminal_telemetry": (
+                    outer_target_depth_telemetry
+                ),
                 "materialization": materialization,
                 "authoritative_slope": "PHYSICAL_W_ONLY_NOHOOK",
                 "overlay_forward_backward_count": 0,
-                "inner_step_heldout_evaluation_count": 0,
+                "inner_step_heldout_evaluation_count": int(
+                    target_receipt.get("inner_observation_pass_count", 0)
+                ),
                 "retry_backtracking_reject_count": 0,
                 "routing_method": (
                     P1R52_PIR_METHOD_ID
@@ -2004,6 +2075,18 @@ def _run_ode_arm(
                 if p1r24 and accepted
                 else None
             ),
+            "target_depth_inner_telemetry_enabled": (
+                p1r52_target_depth_telemetry_observer is not None
+            ),
+            "target_depth_inner_telemetry_row_count": sum(
+                len(item["target_update"].get("inner_trajectory", []))
+                for item in accepted
+            ),
+            "target_depth_outer_telemetry_row_count": sum(
+                int(item.get("target_depth_outer_terminal_telemetry") is not None)
+                for item in accepted
+            ),
+            "target_depth_duplicate_evaluation_count": 0,
             "dynamic_refresh": refresh.finalize(),
             "compute": compute.raw_free_payload(),
             "legacy_compute": legacy_ledger.raw_free_payload(),
@@ -2084,6 +2167,9 @@ def _run_ode_arm(
             "terminal_factors": factors_for_endpoint,
             "terminal_target": target_for_endpoint,
             "terminal_physical": physical_for_endpoint,
+            "terminal_target_depth_telemetry_four_panel": (
+                terminal_target_depth_telemetry_four_panel
+            ),
         }
     finally:
         counter.close()

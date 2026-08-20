@@ -13,7 +13,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = (
     REPO_ROOT
     / "project/run_scripts/ode_bf/locks/"
-    "source_manifest_s05_p1r52_target_depth_il8_il10_il15_tech_r2.json"
+    "source_manifest_s05_p1r52_target_depth_il8_il10_il15_inner_telemetry_r1.json"
 )
 FILES = (
     "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r52_target_depth_il8_il10_il15.json",
@@ -24,6 +24,7 @@ FILES = (
     "project/run_scripts/ode_bf/p1r52_independent_runtime.py",
     "project/run_scripts/ode_bf/p1r52_r42_safe_kdc.py",
     "project/run_scripts/ode_bf/p1r52_target_depth.py",
+    "project/run_scripts/ode_bf/p1r52_target_depth_inner_telemetry.py",
     "project/run_scripts/ode_bf/p1r52_target_depth_extension.py",
     "project/run_scripts/ode_bf/p1r52_target_depth_extension_panel.py",
     "project/run_scripts/ode_bf/tests/test_p1r52_target_depth.py",
@@ -49,11 +50,11 @@ def main() -> int:
         )
     value = {
         "schema_version": (
-            "ode-edit-s05-p1r52-target-depth-extension-source-manifest-tech-r2/v1"
+            "ode-edit-s05-p1r52-target-depth-extension-source-manifest-inner-telemetry-r1/v1"
         ),
         "instruction_id": "ODEEDIT-S05-P1R52-TARGET-DEPTH-IL8-IL10-IL15-V1",
         "source_parent": "0ac0aa2fec7d804b1cb14dfdea28bf6a5f089ec4",
-        "technical_parent": "023e192277662f05b10fa3945846b42d21c59aa4",
+        "technical_parent": "420d8cf0c213ba8b293104be4ee6231441277249",
         "entries": entries,
     }
     canonical = json.dumps(value, sort_keys=True, separators=(",", ":")).encode()

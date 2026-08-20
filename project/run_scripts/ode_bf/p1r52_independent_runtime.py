@@ -116,6 +116,7 @@ def run_p1r52_independent(
     job_ledger: ComputeLedger,
     request_microbatch_size: int,
     target_depth: P1R52TargetDepth | str | None = None,
+    target_depth_inner_telemetry: bool = False,
 ) -> dict[str, Any]:
     if arm not in (*ARMS, *FPIQ_POLICIES, *PIR_POLICIES) or len(stream_batches) != CASE_COUNT:
         raise ODEBFContractError("P1R52 arm/matrix differs")
@@ -128,6 +129,8 @@ def run_p1r52_independent(
     )
     if target_depth is not None and arm not in ARMS:
         raise ODEBFContractError("P1R52 target-depth Atomic arm differs")
+    if target_depth_inner_telemetry and target_depth is None:
+        raise ODEBFContractError("P1R52 inner telemetry has no target depth")
     target_depth_instruction_id = (
         depth_policy.instruction_id if target_depth is not None else INSTRUCTION_ID
     )
@@ -191,6 +194,7 @@ def run_p1r52_independent(
                 job_ledger=job_ledger,
                 p1r52=True,
                 p1r52_target_depth=depth_policy.inner_count,
+                p1r52_target_depth_inner_telemetry=target_depth_inner_telemetry,
                 p1r52_writer_policy=writer_policy,
                 p1r52_pir_policy=pir_policy,
             )
@@ -227,6 +231,7 @@ def run_p1r52_independent(
                 "history_mode": HISTORY_MODE,
                 "target_depth_policy": depth_policy.value,
                 "configured_inner_count": depth_policy.inner_count,
+                "target_depth_inner_telemetry": target_depth_inner_telemetry,
             },
         )
 
@@ -267,6 +272,7 @@ def run_p1r52_independent(
         ),
         "method": method,
         "target_depth_policy": depth_policy.value,
+        "target_depth_inner_telemetry": target_depth_inner_telemetry,
         "configured_inner_count": depth_policy.inner_count,
         "case_count": CASE_COUNT,
         "request_attempt_count": CASE_COUNT * BATCH_SIZE,

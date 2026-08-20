@@ -44,6 +44,9 @@ from .p1r51_requestwise_semantic_allocation import (
     P1R51_METHOD_ID,
 )
 from .p1r52_r42_safe_kdc import P1R52_INSTRUCTION_ID, P1R52_METHOD_ID
+from .p1r52_target_depth_inner_telemetry import (
+    P1R52TargetDepthTelemetryObserver,
+)
 from .p1r52_frozen_pi_quota_writer import (
     P1R52_FPIQ_INSTRUCTION_ID,
     P1R52_FPIQ_METHOD_ID,
@@ -427,6 +430,7 @@ def _run_ode_case(
     p1r51: bool = False,
     p1r52: bool = False,
     p1r52_target_depth: int = 1,
+    p1r52_target_depth_inner_telemetry: bool = False,
     p1r52_writer_policy: P1R52WriterPolicy | str | None = None,
     p1r52_pir_policy: P1R52PIRPolicy | str | None = None,
     technical_smoke: bool = False,
@@ -526,6 +530,39 @@ def _run_ode_case(
         else METHODS
     ):
         raise ODEBFContractError("independent method differs")
+    inner_telemetry_observer = None
+    if p1r52_target_depth_inner_telemetry:
+        if not p1r52 or technical_smoke or len(requests) != BATCH_SIZE:
+            raise ODEBFContractError(
+                "P1R52 target-depth inner telemetry activation differs"
+            )
+        telemetry_cases, _ = _action_frozen_cases(
+            dataset_path,
+            requests,
+            arm=method,
+            selected_snapshot_sha256=canonical_hash(
+                {
+                    "schema": "ode-edit-s05-p1r52-target-depth-inner-case-load/v1",
+                    "case_index": case_index,
+                    "request_order_sha256": request_order,
+                    "decision_influence_count": 0,
+                }
+            ),
+            fixed_budget_slots_completed=0,
+        )
+        inner_telemetry_observer = P1R52TargetDepthTelemetryObserver(
+            model,
+            tokenizer,
+            requests,
+            telemetry_cases,
+            alias=alias,
+            method=method,
+            request_order_sha256=request_order,
+            target_layer_name=hparams.layer_module_tmp.format(
+                int(hparams.layers[-1])
+            ),
+            fact_token_strategy=hparams.fact_token,
+        )
     allocation = "RS" if p1r38 or p1r39 or p1r42 or p1r43 or p1r51 or p1r52 else method.split("-", 1)[0]
     arm = (
         FixedE8Arm.NEUTRAL
@@ -580,6 +617,7 @@ def _run_ode_case(
         p1r51=p1r51,
         p1r52=p1r52,
         p1r52_target_depth=p1r52_target_depth,
+        p1r52_target_depth_telemetry_observer=inner_telemetry_observer,
         p1r52_writer_policy=p1r52_writer_policy,
         p1r52_pir_policy=p1r52_pir_policy,
     )
@@ -678,7 +716,20 @@ def _run_ode_case(
         fixed_budget_slots_completed=P1R23_GRID_COUNT,
     )
     terminal_four_panel = None
-    if p1r43 or p1r51 or p1r52:
+    if p1r52_target_depth_inner_telemetry:
+        terminal_four_panel = rollout.get(
+            "terminal_target_depth_telemetry_four_panel"
+        )
+        if not isinstance(terminal_four_panel, Mapping):
+            raise ODEBFStateError(
+                "P1R52 terminal target-depth telemetry panel is absent"
+            )
+        evaluator_wall = float(terminal_four_panel["wall_seconds"])
+        endpoint = {
+            "receipt": terminal_four_panel["weight"],
+            "wall_seconds": evaluator_wall,
+        }
+    elif p1r43 or p1r51 or p1r52:
         terminal_four_panel, evaluator_wall = _evaluate_p1r43_terminal_panels(
             model,
             tokenizer,
@@ -799,7 +850,11 @@ def _run_ode_case(
         "terminal_four_panel": terminal_four_panel,
         "terminal_z8_oracle": public["terminal_z8_oracle"],
         "terminal_w8_full_six_target_new_nll": accepted_terminal["progress"]["terminal_mean_target_new_nll"],
-        "stepwise_heldout_status": "NOT_RECORDED",
+        "stepwise_heldout_status": (
+            "INNER_AND_OUTER_OBSERVATION_ONLY_RECORDED"
+            if p1r52_target_depth_inner_telemetry
+            else "NOT_RECORDED"
+        ),
         "endpoint_restore": restore,
         "history_mode": history_off,
         "action_freeze_sha256": freeze_sha,

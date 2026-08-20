@@ -97,6 +97,7 @@ class P1R52TargetDepthInner:
     target_step: P1R24TargetStep
     selected_endpoint: Any
     next_state: P1R51ControllerState
+    observation: Mapping[str, Any] | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -207,6 +208,7 @@ def reassemble_p1r52_outer_target(
             "selection_by_request": list(item.target_step.receipt["selection_by_request"]),
             "selected_endpoint_sha256": item.selected_endpoint.identity_sha256,
             "selected_endpoint_nll": float(item.selected_endpoint.loss),
+            "accepted_z_observation": item.observation,
         }
         for item in inner_steps
     ]
@@ -253,7 +255,21 @@ def reassemble_p1r52_outer_target(
         "inner_weight_mutation_count": 0,
         "inner_history_append_count": 0,
         "inner_covariance_recompute_count": 0,
-        "inner_heldout_access_count": 0,
+        "inner_heldout_access_count": sum(
+            int(item.observation is not None) for item in inner_steps
+        ),
+        "inner_observation_pass_count": sum(
+            int(item.observation is not None) for item in inner_steps
+        ),
+        "inner_observation_added_model_forward_count": sum(
+            int(item.observation["added_model_forward_count"])
+            for item in inner_steps
+            if item.observation is not None
+        ),
+        "inner_observation_added_backward_count": 0,
+        "inner_observation_added_generation_count": 0,
+        "inner_observation_action_influence_count": 0,
+        "inner_observation_duplicate_evaluation_count": 0,
         "outer_writer_materialization_expected_count": 1,
         "entry_norm_calibration_count": sum(
             int(item.target_step.receipt["entry_norm_calibration_count"])
@@ -304,6 +320,7 @@ def run_p1r52_target_depth_scheduler(
     evaluate_kl: Callable[[torch.Tensor], P1R24KLResult],
     evaluate_endpoint: Callable[[torch.Tensor, str], ScalableObjectiveResult],
     fixed_state_identities: Callable[[], tuple[str, str, str]],
+    observe_inner: Callable[..., Mapping[str, Any]] | None = None,
     first_target_result: ScalableObjectiveResult | None = None,
     first_kl_result: P1R24KLResult | None = None,
 ) -> P1R52TargetDepthOuter:
@@ -373,6 +390,24 @@ def run_p1r52_target_depth_scheduler(
             rescue_endpoint,
             step_index=outer_step_index,
         )
+        observation = (
+            None
+            if observe_inner is None
+            else observe_inner(
+                depth_policy=policy.value,
+                configured_inner_count=policy.inner_count,
+                outer_step_index=outer_step_index,
+                inner_index=inner_index,
+                global_target_update_ordinal=(
+                    outer_step_index * policy.inner_count + inner_index
+                ),
+                outer_entry_target=current_target,
+                previous_target=scratch_target,
+                accepted_target=selected.target_step.target_next,
+                current_terminal=current_terminal,
+                selected_endpoint=selected.selected_endpoint,
+            )
+        )
         inner_steps.append(
             P1R52TargetDepthInner(
                 inner_index,
@@ -380,6 +415,7 @@ def run_p1r52_target_depth_scheduler(
                 selected.target_step,
                 selected.selected_endpoint,
                 selected.next_state,
+                observation,
             )
         )
         byte_identical = torch.equal(selected.target_step.target_next, scratch_target)

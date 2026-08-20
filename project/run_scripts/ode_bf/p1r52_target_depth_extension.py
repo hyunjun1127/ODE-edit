@@ -21,7 +21,7 @@ REQUEST_COUNT = 100
 OUTER_STEP_COUNT = 8
 INNER_H = 1.0 / 8.0
 PROJECT_GPU_CAP = 3
-ATTEMPT_SUFFIX = "extension-tech-r2"
+ATTEMPT_SUFFIX = "extension-inner-telemetry-r1"
 EXTENSION_DEPTHS = (
     P1R52TargetDepth.IL8_FULL,
     P1R52TargetDepth.IL10_FULL,
@@ -66,6 +66,12 @@ def extension_cells() -> tuple[dict[str, object], ...]:
             "inner_h": INNER_H,
             "case_count": CASE_COUNT,
             "request_attempt_count": REQUEST_COUNT,
+            "expected_inner_telemetry_rows_per_case": (
+                OUTER_STEP_COUNT * depth.inner_count
+            ),
+            "expected_outer_telemetry_rows_per_case": OUTER_STEP_COUNT,
+            "inner_observation_pass_count_per_accepted_inner": 1,
+            "outer_observation_pass_count_per_committed_outer": 2,
             "result_name": extension_result_name(depth),
         }
         for task, depth in enumerate(EXTENSION_DEPTHS)

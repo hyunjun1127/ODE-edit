@@ -31,6 +31,11 @@ def build_plan(source_head: str) -> dict[str, object]:
         "inner_h": 0.125,
         "h_rescale_count": 0,
         "il5_action_count": 0,
+        "inner_telemetry": "ACCEPTED_Z_REWRITE_REPHRASE_OBSERVATION_ONLY",
+        "inner_telemetry_added_backward_count": 0,
+        "inner_telemetry_added_generation_count": 0,
+        "inner_telemetry_action_influence_count": 0,
+        "duplicate_evaluation_count": 0,
         "scientific_promotion": False,
     }
 

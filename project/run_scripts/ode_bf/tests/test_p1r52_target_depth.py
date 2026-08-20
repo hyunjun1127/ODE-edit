@@ -178,7 +178,7 @@ class P1R52TargetDepthTests(unittest.TestCase):
         )
         self.assertEqual(
             extension_result_name(P1R52TargetDepth.IL15_FULL),
-            "s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il15full-extension-tech-r2-v1",
+            "s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il15full-extension-inner-telemetry-r1-v1",
         )
         self.assertEqual(
             extension_result_name(P1R52TargetDepth.IL15_FULL),
@@ -186,7 +186,7 @@ class P1R52TargetDepthTests(unittest.TestCase):
                 "llama3-8b-inst",
                 "soft",
                 target_depth=P1R52TargetDepth.IL15_FULL,
-                attempt_suffix="extension-tech-r2",
+                attempt_suffix="extension-inner-telemetry-r1",
             ),
         )
         with self.assertRaises(ODEBFContractError):
@@ -202,6 +202,13 @@ class P1R52TargetDepthTests(unittest.TestCase):
             {"IL8-FULL": 8, "IL10-FULL": 10, "IL15-FULL": 15},
         )
         self.assertEqual(lock["il5_action_count"], 0)
+        self.assertEqual(
+            lock["expected_inner_rows_per_case"],
+            {"IL8-FULL": 64, "IL10-FULL": 80, "IL15-FULL": 120},
+        )
+        self.assertEqual(lock["expected_outer_rows_per_case"], 8)
+        self.assertEqual(lock["inner_added_backward_count"], 0)
+        self.assertEqual(lock["inner_added_generation_count"], 0)
         self.assertEqual(len(file_sha), 64)
 
     def test_numerical_lock_and_target_only_identity(self) -> None:
@@ -482,6 +489,69 @@ class P1R52TargetDepthTests(unittest.TestCase):
         self.assertEqual(result.receipt["inner_writer_materialization_count"], 0)
         self.assertEqual(8 * result.receipt["configured_inner_count"], 120)
 
+    def test_inner_telemetry_is_request_bound_and_observation_only(self) -> None:
+        calls = {"target": 0, "kl": 0, "endpoint": 0, "observe": 0}
+
+        def evaluate_target(target: torch.Tensor):
+            calls["target"] += 1
+            return objective((1.0, 2.0), self.gradient)
+
+        def evaluate_kl(target: torch.Tensor):
+            calls["kl"] += 1
+            return kl_result((0.0, 0.0), torch.zeros_like(target))
+
+        def evaluate_endpoint(target: torch.Tensor, role: str):
+            calls["endpoint"] += 1
+            return objective((0.1, 0.2), None)
+
+        def observe_inner(**values):
+            calls["observe"] += 1
+            self.assertEqual(values["outer_step_index"], 2)
+            self.assertEqual(values["configured_inner_count"], 8)
+            return {
+                "identity_sha256": f"{calls['observe']:064x}",
+                "added_model_forward_count": 10,
+                "added_processed_token_count": 20,
+                "added_backward_count": 0,
+                "added_generation_count": 0,
+                "controller_action_influence_count": 0,
+                "duplicate_evaluation_count": 0,
+            }
+
+        result = run_p1r52_target_depth_scheduler(
+            outer_step_index=2,
+            depth=P1R52TargetDepth.IL8_FULL,
+            current_target=self.entry,
+            current_terminal=self.terminal,
+            target_origin=self.entry,
+            state=P1R51ControllerState.zero(self.entry),
+            lock=P1R24AliasTargetLock("llama3-8b-inst", 0.0, 0.0, 1.0e9),
+            alias="llama3-8b-inst",
+            shared_speed=0.4,
+            teacher_sha256="8" * 64,
+            evaluate_target=evaluate_target,
+            evaluate_kl=evaluate_kl,
+            evaluate_endpoint=evaluate_endpoint,
+            fixed_state_identities=lambda: ("a" * 64, "b" * 64, "c" * 64),
+            observe_inner=observe_inner,
+        )
+        self.assertEqual(calls, {"target": 8, "kl": 8, "endpoint": 8, "observe": 8})
+        self.assertEqual(result.receipt["inner_heldout_access_count"], 8)
+        self.assertEqual(result.receipt["inner_observation_pass_count"], 8)
+        self.assertEqual(
+            result.receipt["inner_observation_added_model_forward_count"], 80
+        )
+        self.assertEqual(result.receipt["inner_observation_added_backward_count"], 0)
+        self.assertEqual(result.receipt["inner_observation_added_generation_count"], 0)
+        self.assertEqual(result.receipt["inner_observation_action_influence_count"], 0)
+        self.assertEqual(result.receipt["inner_observation_duplicate_evaluation_count"], 0)
+        self.assertTrue(
+            all(
+                item["accepted_z_observation"] is not None
+                for item in result.receipt["inner_trajectory"]
+            )
+        )
+
     def test_atomic_result_identity_is_depth_specific(self) -> None:
         self.assertEqual(
             expected_p1r52_result_name(
@@ -530,9 +600,31 @@ class P1R52TargetDepthTests(unittest.TestCase):
         self.assertIn("DEPTHS=(IL8-FULL IL10-FULL IL15-FULL)", sbatch)
         self.assertIn("#SBATCH --array=0-2%3", sbatch)
         self.assertIn("PROJECT_GPU_CAP - active", submitter)
+        self.assertIn("extension-inner-telemetry-r1", sbatch)
         self.assertNotIn("IL5", joined)
         self.assertNotIn("h/3", joined)
         self.assertNotIn("h/depth", joined)
+
+    def test_inner_telemetry_source_has_exact_no_influence_counters(self) -> None:
+        root = Path(__file__).resolve().parents[4]
+        observer = (
+            root
+            / "project/run_scripts/ode_bf/p1r52_target_depth_inner_telemetry.py"
+        ).read_text()
+        runtime = (
+            root / "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py"
+        ).read_text()
+        self.assertIn('"target_objective_nll_by_request"', observer)
+        self.assertIn('"accepted_z_rewrite_nll_by_request"', observer)
+        self.assertIn('"accepted_z_rephrase_nll_by_request"', observer)
+        self.assertIn('"inner_step_movement_norm_by_request"', observer)
+        self.assertIn('"writer_w_rewrite_nll_by_request"', observer)
+        self.assertIn('"rewrite_w_minus_z_nll_gap_by_request"', observer)
+        self.assertIn('"added_backward_count": 0', observer)
+        self.assertIn('"added_generation_count": 0', observer)
+        self.assertIn('"controller_action_influence_count": 0', observer)
+        self.assertIn('"duplicate_evaluation_count": 0', observer)
+        self.assertIn("terminal_target_depth_telemetry_four_panel", runtime)
 
     def test_actual_runtime_activation_uses_the_locked_depth_count_registry(self) -> None:
         root = Path(__file__).resolve().parents[4]
