@@ -3236,6 +3236,7 @@ def run_p1(
     p1r52_accepted_z_reference_root: Path | None = None,
     p1r52_accepted_z_sealed_w_reuse: bool = True,
     p1r52_postsolve_energy_warn_enabled: bool = False,
+    p1r52_piru_cache_complete_rounds: tuple[int, ...] | None = None,
     p2r1_target_only_case_count: int | None = None,
     p2r1_attempt_suffix: str | None = None,
     p2r2_case_count: int | None = None,
@@ -4446,11 +4447,11 @@ def run_p1(
             from .p1r52_sequential_runtime import run_p1r52_sequential
             from .p1r52_sequential_scale import resolve_p1r52_sequential_scale
             from .p1r52_piru_sequential_adapter import (
-                P1R52_PIRU_SEQUENTIAL_ROLE,
+                is_piru_structural_h_role,
                 resolve_piru_batch_entry_evaluator_enabled,
             )
 
-            if p1r52_sequential_role == P1R52_PIRU_SEQUENTIAL_ROLE:
+            if is_piru_structural_h_role(p1r52_sequential_role):
                 batch_entry_evaluator_enabled = (
                     resolve_piru_batch_entry_evaluator_enabled(
                         p1r52_sequential_role,
@@ -4508,6 +4509,7 @@ def run_p1(
                 accepted_z_reference_root=p1r52_accepted_z_reference_root,
                 accepted_z_sealed_w_reuse=p1r52_accepted_z_sealed_w_reuse,
                 postsolve_energy_warn_enabled=p1r52_postsolve_energy_warn_enabled,
+                piru_cache_complete_rounds=p1r52_piru_cache_complete_rounds,
             )
         if p1r52_arm is not None:
             from .p1r52_independent_runtime import run_p1r52_independent

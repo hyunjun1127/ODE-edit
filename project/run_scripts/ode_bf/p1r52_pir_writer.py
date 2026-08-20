@@ -217,10 +217,14 @@ def plan_pir_writer(
     endpoint_nll: float,
     entry_nll: float,
     step_index: int,
+    prefix_history_keys_by_layer: Mapping[int, torch.Tensor] | None = None,
+    prefix_history_policy: str = "PIRU-LEGACY",
 ) -> PIRWriterResult:
     """Plan five PIR factors against exact cumulative BF16 virtual prefixes."""
 
     selected = P1R52PIRPolicy(policy)
+    if prefix_history_policy not in ("PIRU-LEGACY", "PIRU-CACHE-COMPLETE"):
+        raise ODEBFContractError("P1R52-PIR prefix history policy differs")
     if selected not in PIR_SEQUENTIAL_POLICIES:
         raise ODEBFContractError("P1R52-PIR sequential policy differs")
     layers = tuple(int(item) for item in hparams.layers)
@@ -268,6 +272,15 @@ def plan_pir_writer(
     capture_processed_tokens = 0
     capture_padded_tokens = 0
     q_solve_count = 0
+    expected_history_layers = set(layers)
+    if prefix_history_keys_by_layer is not None and (
+        set(prefix_history_keys_by_layer) != expected_history_layers
+        or any(
+            value.ndim != 2 or not torch.isfinite(value).all()
+            for value in prefix_history_keys_by_layer.values()
+        )
+    ):
+        raise ODEBFContractError("P1R52-PIR prefix history inventory differs")
 
     for ordinal, layer in enumerate(layers):
         if ordinal == 0:
@@ -305,6 +318,12 @@ def plan_pir_writer(
                     projector_sha256=projector_sha256,
                     residual_tolerance=residual_tolerance,
                     q_only=True,
+                    history_keys=(
+                        prefix_history_keys_by_layer[layer]
+                        if prefix_history_keys_by_layer is not None
+                        and prefix_history_policy == "PIRU-CACHE-COMPLETE"
+                        else None
+                    ),
                 )
             capture_count += 1
             capture_forward_count += physical.physical_forward_count
@@ -348,6 +367,43 @@ def plan_pir_writer(
                 "key_norm": float(torch.linalg.norm(field.key.double())),
                 "q_sha256": tensor_sha256(field.q),
                 "q_norm": float(torch.linalg.norm(field.q.double())),
+                "solve_history_policy": prefix_history_policy,
+                "solve_history_width": (
+                    int(prefix_history_keys_by_layer[layer].shape[1])
+                    if ordinal == 0 and prefix_history_keys_by_layer is not None
+                    else int(prefix_history_keys_by_layer[layer].shape[1])
+                    if prefix_history_keys_by_layer is not None
+                    and prefix_history_policy == "PIRU-CACHE-COMPLETE"
+                    else 0
+                ),
+                "solve_history_sha256": (
+                    tensor_sha256(prefix_history_keys_by_layer[layer])
+                    if ordinal == 0 and prefix_history_keys_by_layer is not None
+                    else tensor_sha256(prefix_history_keys_by_layer[layer])
+                    if prefix_history_keys_by_layer is not None
+                    and prefix_history_policy == "PIRU-CACHE-COMPLETE"
+                    else tensor_sha256(
+                        torch.empty((field.key.shape[0], 0), dtype=torch.float32)
+                    )
+                ),
+                "alpha_solve_branch": field.woodbury_certificate.method.value,
+                "alpha_solve_small_dimension": field.woodbury_certificate.small_dimension,
+                "alpha_solve_condition": field.woodbury_certificate.small_condition,
+                "alpha_solve_residual": field.woodbury_certificate.alpha_linear_residual,
+                "historical_overlap_norm": (
+                    0.0
+                    if ordinal == 0
+                    or prefix_history_keys_by_layer is None
+                    or prefix_history_policy != "PIRU-CACHE-COMPLETE"
+                    else float(
+                        torch.linalg.norm(
+                            prefix_history_keys_by_layer[layer]
+                            .to(dtype=torch.float64)
+                            .T
+                            @ field.q.to(dtype=torch.float64)
+                        )
+                    )
+                ),
                 "capture_sha256": capture_sha,
                 "entry_pi": pi0[ordinal],
                 "beta": beta[ordinal],
@@ -474,6 +530,17 @@ def plan_pir_writer(
         "prefix_capture_processed_tokens": capture_processed_tokens,
         "prefix_capture_padded_tokens": capture_padded_tokens,
         "current_q_solve_count": q_solve_count,
+        "prefix_history_policy": prefix_history_policy,
+        "prefix_empty_history_solve_count": (
+            len(layer_receipts) - 1 if prefix_history_policy == "PIRU-LEGACY" else 0
+        ),
+        "prefix_committed_history_solve_count": (
+            len(layer_receipts) - 1
+            if prefix_history_policy == "PIRU-CACHE-COMPLETE"
+            else 0
+        ),
+        "current_batch_history_inclusion_count": 0,
+        "current_prefix_history_inclusion_count": 0,
         "q_only_builder_count": q_solve_count,
         "q_only_virtual_prefix_covariance_action_count": 0,
         "entry_router_covariance_rebind_count": len(committed_fields) - 1,

@@ -222,6 +222,7 @@ def _layer_field(
     projector_sha256: str,
     residual_tolerance: float,
     q_only: bool = False,
+    history_keys: torch.Tensor | None = None,
 ) -> tuple[P1LayerField, float]:
     layers = tuple(int(item) for item in hparams.layers)
     if layers != P1R23_LAYER_ORDER or layer not in layers:
@@ -236,13 +237,21 @@ def _layer_field(
     layer_index = layers.index(layer)
     p_device = projector[layer_index].to(device=device, dtype=torch.float32)
     k_device = key.detach().to(device=device, dtype=torch.float32)
-    empty_history = torch.empty(
-        (key.shape[0], 0), device=device, dtype=torch.float32
+    solve_history = (
+        torch.empty((key.shape[0], 0), device=device, dtype=torch.float32)
+        if history_keys is None
+        else history_keys.detach().to(device=device, dtype=torch.float32).contiguous()
     )
+    if (
+        solve_history.ndim != 2
+        or solve_history.shape[0] != key.shape[0]
+        or not torch.isfinite(solve_history).all()
+    ):
+        raise ODEBFContractError("P1R52-FPiQ current-layer history geometry differs")
     solved = solve_alpha_woodbury(
         p_device,
         k_device,
-        history_keys=empty_history,
+        history_keys=solve_history,
         regularization=float(hparams.L2),
         projector_certificate=ProjectorCertificate(
             projector_sha256,
@@ -330,7 +339,7 @@ def _layer_field(
         solved.certificate,
         torch.empty((velocity_residual.shape[0], 0), dtype=torch.float64),
     )
-    del p_device, k_device, empty_history, solved
+    del p_device, k_device, solve_history, solved
     return field, identity
 
 

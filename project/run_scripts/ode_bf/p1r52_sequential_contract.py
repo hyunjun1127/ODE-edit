@@ -657,6 +657,7 @@ def scoped_atomic_sequential_adapter(
     *,
     structural_h_decision_enabled: bool = True,
     pir_history_rebind_enabled: bool = False,
+    pir_prefix_history_policy: str = "PIRU-LEGACY",
     maximum_history_columns: int = HISTORY_COUNTS[-1],
 ) -> Iterator[None]:
     """Patch one B10 while keeping Alpha solve history separate from H routing."""
@@ -685,14 +686,42 @@ def scoped_atomic_sequential_adapter(
 
     def pir_planner_adapter(*args: Any, **kwargs: Any) -> Any:
         from .p1r52_piru_sequential_adapter import bind_piru_sequential_history
+        from .p1r52_piru_cache_continuity import (
+            PIRUCacheContinuityPolicy,
+            committed_history_snapshot,
+        )
 
         if original_pir_planner is None:
             raise ODEBFContractError("P1R52 PIR-U sequential planner is absent")
+        selected_policy = PIRUCacheContinuityPolicy(pir_prefix_history_policy)
+        history_snapshot = history_state.ledger.snapshot()
+        solve_keys = {
+            int(layer): history_state.ledger.solve_keys(int(layer))
+            for layer in P1R23_LAYER_ORDER
+        }
+        frozen_history, history_receipt = committed_history_snapshot(
+            solve_keys,
+            expected_width=history_state.history_entry_count(),
+            ledger_version=history_snapshot.version,
+            ledger_digest=history_snapshot.digest,
+        )
+        kwargs["prefix_history_keys_by_layer"] = frozen_history
+        kwargs["prefix_history_policy"] = selected_policy.value
         result = original_pir_planner(*args, **kwargs)
         entry_field = kwargs.get("entry_field")
         if entry_field is None:
             raise ODEBFContractError("P1R52 PIR-U sequential entry field is absent")
-        return bind_piru_sequential_history(result, entry_field)
+        rebound = bind_piru_sequential_history(result, entry_field)
+        receipt = dict(rebound.receipt)
+        receipt["committed_history_snapshot"] = history_receipt
+        receipt["committed_history_snapshot_decision_influence"] = (
+            "L5_L8_ALPHA_SOLVE_ONLY"
+            if selected_policy is PIRUCacheContinuityPolicy.CACHE_COMPLETE
+            else "OBSERVATION_ONLY_LEGACY"
+        )
+        receipt.pop("identity_sha256", None)
+        receipt["identity_sha256"] = canonical_hash(receipt)
+        return replace(rebound, receipt=receipt)
 
     experiment_module.build_scalable_dynamic_field = field_adapter
     experiment_module.p1r24_disable_historical = (

@@ -1,0 +1,29 @@
+{
+  "schema_version": "ode-edit-s05-p1r52-piru-cache-continuity-a1-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R52-PIRU-ALPHA-CACHE-CONTINUITY-A1-V1",
+  "parent": "4f25efdc8ccd9e9017a7e44aa99f92dccd01c31e",
+  "parent_tree": "0b621c01a20b31af0925f1e18ab1f4932f1656b6",
+  "contract_sha256": "e25a644e2a5b79ed0f660985f3a3e932856a2184274ead128aa41db8ae613b28",
+  "scientific_delta": "L5_L8_ALPHA_SOLVE_HISTORY_EMPTY_TO_COMMITTED_PAST_ONLY",
+  "coefficient_target_router_tolerance_delta_count": 0,
+  "current_batch_prefix_history_inclusion_count": 0,
+  "entries": [
+    {"path":"project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r52_piru_cache_continuity_a1.json","sha256":"62f70da44febb94eaaffbcd2efbcfef75cccc35abf73ab427b1dea97c95d50c8","size":1492},
+    {"path":"project/run_scripts/ode_bf/locks/p1r52_sequential_b100x10_stream_seal.json","sha256":"550600af120070594078b73a5da7d066ad6287d8a3224c55f61babca592e0586","size":404973},
+    {"path":"project/run_scripts/ode_bf/p1_runtime.py","sha256":"7105638192944f9a45125e330df12014538b758111fb6938a4d664bb21a2cf65","size":230867},
+    {"path":"project/run_scripts/ode_bf/p1r52_frozen_pi_quota_writer.py","sha256":"cab7b9307a929dfa70bd1e52eb9d3057df5657e5a40b414d2bd9bdbabaa35d86","size":31440},
+    {"path":"project/run_scripts/ode_bf/p1r52_pir_writer.py","sha256":"b05ebda4ed9bd8199fd7f643518048c6f882c5c023333d3ea84af73cf5dfae37","size":26071},
+    {"path":"project/run_scripts/ode_bf/p1r52_piru_cache_continuity.py","sha256":"fc9f995c7baa52e900536cec0ecc29b26c50f041783f88de3ab5947f6d043e93","size":3955},
+    {"path":"project/run_scripts/ode_bf/p1r52_piru_cache_continuity_panel.py","sha256":"175ea7eec5bb651d4aeed9d5ee96766b40c1d1796a18f73a97b261844b19ae2f","size":4664},
+    {"path":"project/run_scripts/ode_bf/p1r52_piru_sequential_adapter.py","sha256":"3598d921db7f129f678b1a5e2cc11a28397d7c84fffcfed7c4b37612158f4726","size":4936},
+    {"path":"project/run_scripts/ode_bf/p1r52_sequential_contract.py","sha256":"4cef973a5edcb62a8e5d3f3141f4fb74b3150df02017fc04aa31da52c6fb9e0f","size":44664},
+    {"path":"project/run_scripts/ode_bf/p1r52_sequential_runtime.py","sha256":"bf85fdde28c92d62be082316139d78b1f517826d7717a8a6903cae0fbbb8e36c","size":111445},
+    {"path":"project/run_scripts/ode_bf/tests/test_p1r52_piru_cache_continuity.py","sha256":"88edf0a93d79ffc3039398f64f6d82ab33cabd702fb0d65981945f588c9f4c40","size":6608},
+    {"path":"project/run_scripts/session05_ode_bf_p1r52_piru_cache_continuity_a1.py","sha256":"b1f555698c85c250181f8fda7fde431cf036e4a9e841d605faf55036fadd8738","size":8180},
+    {"path":"project/run_scripts/session05_ode_bf_p1r52_piru_cache_continuity_a1.sbatch","sha256":"f6a7ef5cb1c940a637b1968cdcee7a9915b267894a6d4aa660571f26dde7ccfd","size":2366},
+    {"path":"project/run_scripts/session05_ode_bf_p1r52_piru_cache_continuity_a1_dry_plan.py","sha256":"78c65db4201572be9ca7b6b8704b559c6819568567e4d73549ef97d4bfe3ba0c","size":2645},
+    {"path":"project/run_scripts/session05_ode_bf_submit_p1r52_piru_cache_continuity_a1.py","sha256":"61006aae91a82ee421f847657c560388a20de23d7469682818335aab596f4251","size":4974}
+  ],
+  "entry_count": 15,
+  "root_digest": "c5e37a6fdceff737a4b3076cd4f2d138e21888394fa29c2cf2cdc7bc3e351a02"
+}
