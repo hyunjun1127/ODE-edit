@@ -1,0 +1,68 @@
+{
+  "identity_sha256": "950af337c2cc5ddd5df091110c488b62cae3e09922b8b6c7b0ba9e6cf082926c",
+  "instruction_id": "ODEEDIT-S05-P1R52-PIR-U-SEQUENTIAL-10XB100-STRUCTURALH-POSTENERGY-WARN-R1-V1",
+  "member_root_sha256": "6d143dc352b0ea1dc05507df1f0b58e9615796529d7a2c2c628048c09dfb41fb",
+  "members": [
+    {
+      "bytes": 21730,
+      "lines": 232,
+      "name": "p1r52-piru-postenergy-warn-r1-10xb100-factual-ko.md",
+      "rows": null,
+      "sha256": "b675f6121c5c97c54f6a25e8e8342766e114daf1a0a80703b0cd34ffae079776"
+    },
+    {
+      "bytes": 54973,
+      "lines": 1705,
+      "name": "p1r52-piru-postenergy-core-comparison.json",
+      "rows": null,
+      "sha256": "ff638eda1acaf3f8bbf2bae3227af950aa82ea1d243d8b024effdb55cd0f9420"
+    },
+    {
+      "bytes": 1983421,
+      "lines": 101488,
+      "name": "p1r52-piru-postenergy-per-batch.json",
+      "rows": 10,
+      "sha256": "92335f20803b688efb3c250a52d7e4fb694ded66ecc7ec3bdf1503e6afb2630f"
+    },
+    {
+      "bytes": 250157,
+      "lines": 6409,
+      "name": "p1r52-piru-postenergy-per-h-decision.json",
+      "rows": 80,
+      "sha256": "bd7e278eb5275732f895ce5334d5e71c4c1b02148c24fe9179eaaca98973ebe2"
+    },
+    {
+      "bytes": 244809,
+      "lines": 5608,
+      "name": "p1r52-piru-postenergy-per-layer.json",
+      "rows": 400,
+      "sha256": "ef37aa0a29318ab429b4aeee7f613c51875aa8101624ffdb580ede7ef3f98ba4"
+    },
+    {
+      "bytes": 5839401,
+      "lines": 204008,
+      "name": "p1r52-piru-postenergy-per-z-w-request.json",
+      "rows": 1000,
+      "sha256": "101b058784a10d22f2d90b1b97f38933905fb374aa71033ef783189193cf2299"
+    },
+    {
+      "bytes": 45941,
+      "lines": 2826,
+      "name": "p1r52-piru-postenergy-hard-cohorts.json",
+      "rows": null,
+      "sha256": "7c2a5939df90eee39531213b8ff599f43507b5fbc7f7b8384fb85d78a3167f42"
+    },
+    {
+      "bytes": 11126,
+      "lines": 325,
+      "name": "p1r52-piru-postenergy-compute-integrity.json",
+      "rows": null,
+      "sha256": "cb6d6df29407a2b6ebafabfaef2b031bc1b1028726863baaf9b0472af2179471"
+    }
+  ],
+  "result_manifest_sha256": "f7e35f62f22df2289eafc251864a5e10518dc56a098cbf4c10ffa994d510e8f3",
+  "result_terminal_sha256": "3eedc4f1b5089b56702dfc35f74d78140f472679719e7dea3523772dbda107cb",
+  "schema": "ode-edit-s05-p1r52-piru-postenergy-warn-r1-analysis-manifest/v1",
+  "source_head": "1118821001008cbbde01af8effae4e0c2d2f921f",
+  "source_tree": "b2c599d5082f78a11980abd1f56adf011a1f2ce7"
+}
