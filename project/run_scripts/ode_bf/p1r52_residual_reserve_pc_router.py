@@ -22,6 +22,9 @@ FLOAT64_EPSILON = np.finfo(np.float64).eps
 SOLVER_FTOL = FLOAT64_EPSILON ** 0.75
 SOLVER_PRIMAL_TOLERANCE = math.sqrt(FLOAT64_EPSILON)
 SOLVER_TIE_ENVELOPE = SOLVER_FTOL
+FP32_ROUTE_PRESERVATION_TOLERANCE = (
+    ROUTER_DIMENSION * torch.finfo(torch.float32).eps
+)
 SOLVER_MAX_ITERATIONS = 200 * ROUTER_DIMENSION
 TIE_BREAK_ORDER = (
     "MINIMUM_MAX_NORMALIZED_REGRET",
@@ -142,6 +145,8 @@ class RouteCandidateReceipt:
     pi: tuple[float, ...]
     p_value: float
     c_value: float
+    p_route_dependent_value: float
+    c_route_dependent_value: float
     p_normalized_regret: float | None
     c_normalized_regret: float | None
     maximum_normalized_regret: float
@@ -155,6 +160,8 @@ class RouteCandidateReceipt:
             "pi": list(self.pi),
             "p_value": self.p_value,
             "c_value": self.c_value,
+            "p_route_dependent_value": self.p_route_dependent_value,
+            "c_route_dependent_value": self.c_route_dependent_value,
             "p_normalized_regret": self.p_normalized_regret,
             "c_normalized_regret": self.c_normalized_regret,
             "maximum_normalized_regret": self.maximum_normalized_regret,
@@ -178,6 +185,21 @@ class ResidualReservePCRouterReceipt:
     solver_stages: tuple[SolverStageReceipt, ...]
     selected_status: str
     tie_break_order: tuple[str, ...]
+    layer_order_tie_status: str
+    epigraph_t: float | None
+    epigraph_observed_max_regret: float | None
+    epigraph_binding_residual: float | None
+    stage2_observed_regret_sum: float | None
+    final_max_regret: float
+    final_regret_sum: float
+    final_primary_preservation_residual: float
+    final_regret_sum_preservation_residual: float
+    final_primary_preservation_tolerance: float
+    final_regret_sum_preservation_tolerance: float
+    final_primary_constraint_slack: float
+    final_regret_sum_constraint_slack: float
+    final_simplex_sum_residual: float
+    final_simplex_minimum: float
 
     def raw_free_payload(self) -> dict[str, Any]:
         payload: dict[str, Any] = {
@@ -194,10 +216,26 @@ class ResidualReservePCRouterReceipt:
             "solver_stages": [item.raw_free_payload() for item in self.solver_stages],
             "selected_status": self.selected_status,
             "tie_break_order": list(self.tie_break_order),
+            "layer_order_tie_status": self.layer_order_tie_status,
+            "epigraph_t": self.epigraph_t,
+            "epigraph_observed_max_regret": self.epigraph_observed_max_regret,
+            "epigraph_binding_residual": self.epigraph_binding_residual,
+            "stage2_observed_regret_sum": self.stage2_observed_regret_sum,
+            "final_max_regret": self.final_max_regret,
+            "final_regret_sum": self.final_regret_sum,
+            "final_primary_preservation_residual": self.final_primary_preservation_residual,
+            "final_regret_sum_preservation_residual": self.final_regret_sum_preservation_residual,
+            "final_primary_preservation_tolerance": self.final_primary_preservation_tolerance,
+            "final_regret_sum_preservation_tolerance": self.final_regret_sum_preservation_tolerance,
+            "final_primary_constraint_slack": self.final_primary_constraint_slack,
+            "final_regret_sum_constraint_slack": self.final_regret_sum_constraint_slack,
+            "final_simplex_sum_residual": self.final_simplex_sum_residual,
+            "final_simplex_minimum": self.final_simplex_minimum,
             "solver_backend": "SCIPY_SLSQP_SMALL_5D_INDEPENDENT",
             "solver_ftol": SOLVER_FTOL,
             "solver_primal_tolerance": SOLVER_PRIMAL_TOLERANCE,
             "solver_tie_envelope": SOLVER_TIE_ENVELOPE,
+            "fp32_route_preservation_tolerance": FP32_ROUTE_PRESERVATION_TOLERANCE,
             "solver_max_iterations": SOLVER_MAX_ITERATIONS,
             "manual_weighted_sum_count": 0,
             "hard_budget_count": 0,
@@ -218,12 +256,19 @@ class ResidualReservePCRoutingResult:
     receipt: ResidualReservePCRouterReceipt
 
 
-def _evaluate(proxy: QuadraticProxy, pi: np.ndarray) -> float:
+def _route_dependent_value(proxy: QuadraticProxy, pi: np.ndarray) -> float:
     linear = proxy.linear.to(dtype=torch.float64).numpy()
     quadratic = proxy.quadratic.to(dtype=torch.float64).numpy()
-    value = proxy.constant + float(linear @ pi) + float(pi @ quadratic @ pi)
+    value = float(linear @ pi) + float(pi @ quadratic @ pi)
     if not math.isfinite(value):
-        raise ODEBFContractError("P/C quadratic evaluation is non-finite")
+        raise ODEBFContractError("P/C route-dependent evaluation is non-finite")
+    return value
+
+
+def _full_value(proxy: QuadraticProxy, pi: np.ndarray) -> float:
+    value = proxy.constant + _route_dependent_value(proxy, pi)
+    if not math.isfinite(value):
+        raise ODEBFContractError("P/C full quadratic evaluation is non-finite")
     return value
 
 
@@ -231,7 +276,16 @@ def evaluate_quadratic_proxy(proxy: QuadraticProxy, pi: torch.Tensor) -> float:
     """Evaluate a proxy at a validated FP32 simplex without mutation."""
 
     allocation = _validated_output_pi(pi.detach().to(device="cpu", dtype=pi.dtype))
-    return _evaluate(proxy, allocation.to(dtype=torch.float64).numpy())
+    return _full_value(proxy, allocation.to(dtype=torch.float64).numpy())
+
+
+def evaluate_route_dependent_proxy(proxy: QuadraticProxy, pi: torch.Tensor) -> float:
+    """Evaluate only the allocation-dependent part of a proxy."""
+
+    allocation = _validated_output_pi(pi.detach().to(device="cpu", dtype=pi.dtype))
+    return _route_dependent_value(
+        proxy, allocation.to(dtype=torch.float64).numpy()
+    )
 
 
 def _gradient(proxy: QuadraticProxy, pi: np.ndarray) -> np.ndarray:
@@ -342,7 +396,7 @@ def _solve_axis(
     constraint = _simplex_constraint(ROUTER_DIMENSION)
     value, receipt = _run_slsqp(
         stage=stage,
-        objective=lambda pi: (_evaluate(proxy, pi) - proxy.constant) / scale,
+        objective=lambda pi: _route_dependent_value(proxy, pi) / scale,
         jacobian=lambda pi: _gradient(proxy, pi) / scale,
         start=uniform,
         bounds=((0.0, 1.0),) * ROUTER_DIMENSION,
@@ -370,10 +424,12 @@ def _candidate_receipt(
     solver_status: str,
 ) -> RouteCandidateReceipt:
     array = pi.to(dtype=torch.float64).numpy()
-    p_value = _evaluate(p_proxy, array)
-    c_value = _evaluate(c_proxy, array)
-    p_regret = None if p_flat else (p_value - p_minimum) / p_scale
-    c_regret = None if c_flat else (c_value - c_minimum) / c_scale
+    p_route_value = _route_dependent_value(p_proxy, array)
+    c_route_value = _route_dependent_value(c_proxy, array)
+    p_value = _full_value(p_proxy, array)
+    c_value = _full_value(c_proxy, array)
+    p_regret = None if p_flat else (p_route_value - p_minimum) / p_scale
+    c_regret = None if c_flat else (c_route_value - c_minimum) / c_scale
     regrets = [item for item in (p_regret, c_regret) if item is not None]
     uniform = np.full(ROUTER_DIMENSION, 1.0 / ROUTER_DIMENSION, dtype=np.float64)
     return RouteCandidateReceipt(
@@ -381,6 +437,8 @@ def _candidate_receipt(
         pi=tuple(float(item) for item in pi),
         p_value=p_value,
         c_value=c_value,
+        p_route_dependent_value=p_route_value,
+        c_route_dependent_value=c_route_value,
         p_normalized_regret=p_regret,
         c_normalized_regret=c_regret,
         maximum_normalized_regret=max(regrets, default=0.0),
@@ -403,10 +461,10 @@ def solve_residual_reserve_pc_router(
     pi_uniform = _fp32_pi(
         np.full(ROUTER_DIMENSION, 1.0 / ROUTER_DIMENSION, dtype=np.float64)
     )
-    p_minimum = evaluate_quadratic_proxy(p_proxy, pi_p)
-    c_minimum = evaluate_quadratic_proxy(c_proxy, pi_c)
-    p_scale = evaluate_quadratic_proxy(p_proxy, pi_c) - p_minimum
-    c_scale = evaluate_quadratic_proxy(c_proxy, pi_p) - c_minimum
+    p_minimum = evaluate_route_dependent_proxy(p_proxy, pi_p)
+    c_minimum = evaluate_route_dependent_proxy(c_proxy, pi_c)
+    p_scale = evaluate_route_dependent_proxy(p_proxy, pi_c) - p_minimum
+    c_scale = evaluate_route_dependent_proxy(c_proxy, pi_p) - c_minimum
     p_flat_tolerance = _flat_tolerance(p_proxy)
     c_flat_tolerance = _flat_tolerance(c_proxy)
     if p_scale < -p_flat_tolerance or c_scale < -c_flat_tolerance:
@@ -414,28 +472,51 @@ def solve_residual_reserve_pc_router(
     p_flat = p_scale <= p_flat_tolerance
     c_flat = c_scale <= c_flat_tolerance
     stages: list[SolverStageReceipt] = [p_stage, c_stage]
+    epigraph_t: float | None = None
+    epigraph_observed_max_regret: float | None = None
+    epigraph_binding_residual: float | None = None
+    stage2_observed_regret_sum: float | None = None
 
     if p_flat and c_flat:
         pi_balanced = pi_uniform.clone()
         selected_status = "BOTH_AXES_FLAT_UNIFORM"
-    elif p_flat:
-        pi_balanced = pi_c.clone()
-        selected_status = "P_AXIS_FLAT_C_ONLY"
-    elif c_flat:
-        pi_balanced = pi_p.clone()
-        selected_status = "C_AXIS_FLAT_P_ONLY"
+        layer_order_tie_status = "NOT_REACHED_BOTH_AXES_FLAT_CANONICAL_UNIFORM"
+        final_max_regret = 0.0
+        final_regret_sum = 0.0
+        final_primary_residual = 0.0
+        final_sum_residual = 0.0
+        final_primary_tolerance = 0.0
+        final_sum_tolerance = 0.0
+        final_primary_slack = 0.0
+        final_sum_slack = 0.0
     else:
         def p_regret(pi: np.ndarray) -> float:
-            return (_evaluate(p_proxy, pi) - p_minimum) / p_scale
+            return (_route_dependent_value(p_proxy, pi) - p_minimum) / p_scale
 
         def c_regret(pi: np.ndarray) -> float:
-            return (_evaluate(c_proxy, pi) - c_minimum) / c_scale
+            return (_route_dependent_value(c_proxy, pi) - c_minimum) / c_scale
 
         def p_regret_gradient(pi: np.ndarray) -> np.ndarray:
             return _gradient(p_proxy, pi) / p_scale
 
         def c_regret_gradient(pi: np.ndarray) -> np.ndarray:
             return _gradient(c_proxy, pi) / c_scale
+
+        active_regrets: tuple[Callable[[np.ndarray], float], ...] = tuple(
+            item
+            for item, flat in ((p_regret, p_flat), (c_regret, c_flat))
+            if not flat
+        )
+        active_gradients: tuple[Callable[[np.ndarray], np.ndarray], ...] = tuple(
+            item
+            for item, flat in (
+                (p_regret_gradient, p_flat),
+                (c_regret_gradient, c_flat),
+            )
+            if not flat
+        )
+        if not active_regrets or len(active_regrets) != len(active_gradients):
+            raise ODEBFStateError("P/C active regret inventory differs")
 
         starts = (
             pi_uniform.to(dtype=torch.float64).numpy(),
@@ -445,30 +526,30 @@ def solve_residual_reserve_pc_router(
         start_pi = min(
             starts,
             key=lambda value: (
-                max(p_regret(value), c_regret(value)),
-                p_regret(value) + c_regret(value),
+                max(function(value) for function in active_regrets),
+                math.fsum(function(value) for function in active_regrets),
                 float(np.linalg.norm(value - starts[0])),
                 tuple(float(item) for item in value),
             ),
         )
-        start_t = max(p_regret(start_pi), c_regret(start_pi), 0.0)
+        start_t = max(
+            *(function(start_pi) for function in active_regrets),
+            0.0,
+        )
         start_epigraph = np.concatenate((start_pi, np.array([start_t])))
-        epigraph_constraints = (
-            _simplex_constraint(ROUTER_DIMENSION + 1),
+        epigraph_constraints = (_simplex_constraint(ROUTER_DIMENSION + 1),) + tuple(
             {
                 "type": "ineq",
-                "fun": lambda value: float(value[-1] - p_regret(value[:-1])),
-                "jac": lambda value: np.concatenate(
-                    (-p_regret_gradient(value[:-1]), np.ones(1))
+                "fun": lambda value, function=function: float(
+                    value[-1] - function(value[:-1])
                 ),
-            },
-            {
-                "type": "ineq",
-                "fun": lambda value: float(value[-1] - c_regret(value[:-1])),
-                "jac": lambda value: np.concatenate(
-                    (-c_regret_gradient(value[:-1]), np.ones(1))
+                "jac": lambda value, gradient=gradient: np.concatenate(
+                    (-gradient(value[:-1]), np.ones(1))
                 ),
-            },
+            }
+            for function, gradient in zip(
+                active_regrets, active_gradients, strict=True
+            )
         )
         stage1, receipt1 = _run_slsqp(
             stage="BALANCED_MINMAX",
@@ -481,40 +562,56 @@ def solve_residual_reserve_pc_router(
             constraints=epigraph_constraints,
         )
         stages.append(receipt1)
-        maximum_optimum = float(stage1[-1])
-        numerical_envelope = SOLVER_TIE_ENVELOPE
-        stage2_constraints = (
-            _simplex_constraint(ROUTER_DIMENSION),
+        epigraph_t = float(stage1[-1])
+        epigraph_observed_max_regret = max(
+            function(stage1[:-1]) for function in active_regrets
+        )
+        epigraph_binding_residual = abs(
+            epigraph_t - epigraph_observed_max_regret
+        )
+        primary_solver_envelope = SOLVER_TIE_ENVELOPE + epigraph_binding_residual
+        primary_limit = epigraph_observed_max_regret + primary_solver_envelope
+        stage2_constraints = (_simplex_constraint(ROUTER_DIMENSION),) + tuple(
             {
                 "type": "ineq",
-                "fun": lambda pi: maximum_optimum + numerical_envelope - p_regret(pi),
-                "jac": lambda pi: -p_regret_gradient(pi),
-            },
-            {
-                "type": "ineq",
-                "fun": lambda pi: maximum_optimum + numerical_envelope - c_regret(pi),
-                "jac": lambda pi: -c_regret_gradient(pi),
-            },
+                "fun": lambda pi, function=function: primary_limit - function(pi),
+                "jac": lambda pi, gradient=gradient: -gradient(pi),
+            }
+            for function, gradient in zip(
+                active_regrets, active_gradients, strict=True
+            )
         )
         stage2, receipt2 = _run_slsqp(
             stage="BALANCED_MINIMUM_REGRET_SUM_TIE",
-            objective=lambda pi: p_regret(pi) + c_regret(pi),
-            jacobian=lambda pi: p_regret_gradient(pi) + c_regret_gradient(pi),
+            objective=lambda pi: math.fsum(
+                function(pi) for function in active_regrets
+            ),
+            jacobian=lambda pi: np.sum(
+                [gradient(pi) for gradient in active_gradients], axis=0
+            ),
             start=stage1[:-1],
             bounds=((0.0, 1.0),) * ROUTER_DIMENSION,
             constraints=stage2_constraints,
         )
         stages.append(receipt2)
-        regret_sum_optimum = p_regret(stage2) + c_regret(stage2)
+        stage2_observed_regret_sum = math.fsum(
+            function(stage2) for function in active_regrets
+        )
+        stage2_primary_violation = max(
+            0.0,
+            max(function(stage2) for function in active_regrets) - primary_limit,
+        )
+        sum_solver_envelope = SOLVER_TIE_ENVELOPE + stage2_primary_violation
+        regret_sum_limit = stage2_observed_regret_sum + sum_solver_envelope
         uniform64 = pi_uniform.to(dtype=torch.float64).numpy()
         stage3_constraints = stage2_constraints + (
             {
                 "type": "ineq",
-                "fun": lambda pi: regret_sum_optimum
-                + numerical_envelope
-                - p_regret(pi)
-                - c_regret(pi),
-                "jac": lambda pi: -p_regret_gradient(pi) - c_regret_gradient(pi),
+                "fun": lambda pi: regret_sum_limit
+                - math.fsum(function(pi) for function in active_regrets),
+                "jac": lambda pi: -np.sum(
+                    [gradient(pi) for gradient in active_gradients], axis=0
+                ),
             },
         )
         stage3, receipt3 = _run_slsqp(
@@ -527,7 +624,43 @@ def solve_residual_reserve_pc_router(
         )
         stages.append(receipt3)
         pi_balanced = _fp32_pi(stage3)
-        selected_status = "BALANCED_BOTH_AXES_ACTIVE"
+        selected_status = (
+            "P_AXIS_FLAT_C_ONLY"
+            if p_flat
+            else "C_AXIS_FLAT_P_ONLY"
+            if c_flat
+            else "BALANCED_BOTH_AXES_ACTIVE"
+        )
+        layer_order_tie_status = (
+            "NOT_REACHED_STRICTLY_CONVEX_UNIFORM_DISTANCE_UNIQUE"
+        )
+        final64 = pi_balanced.to(dtype=torch.float64).numpy()
+        final_regrets = tuple(function(final64) for function in active_regrets)
+        final_max_regret = max(final_regrets)
+        final_regret_sum = math.fsum(final_regrets)
+        stage3_feasibility = max(0.0, -receipt3.minimum_constraint_slack)
+        final_primary_tolerance = (
+            primary_solver_envelope
+            + stage3_feasibility
+            + FP32_ROUTE_PRESERVATION_TOLERANCE
+        )
+        final_sum_tolerance = (
+            sum_solver_envelope
+            + stage3_feasibility
+            + FP32_ROUTE_PRESERVATION_TOLERANCE
+        )
+        final_primary_residual = max(
+            0.0, final_max_regret - epigraph_observed_max_regret
+        )
+        final_sum_residual = max(
+            0.0, final_regret_sum - stage2_observed_regret_sum
+        )
+        final_primary_slack = final_primary_tolerance - final_primary_residual
+        final_sum_slack = final_sum_tolerance - final_sum_residual
+        if final_primary_slack < 0.0 or final_sum_slack < 0.0:
+            raise ODEBFStateError(
+                "P/C final FP32 route did not preserve regret optima"
+            )
 
     candidate_specs = (
         ("P_ONLY", pi_p, p_stage.status),
@@ -551,6 +684,10 @@ def solve_residual_reserve_pc_router(
         )
         for role, pi, status in candidate_specs
     )
+    final_simplex_sum_residual = abs(
+        float(pi_balanced.sum(dtype=torch.float32)) - 1.0
+    )
+    final_simplex_minimum = float(pi_balanced.min())
     receipt = ResidualReservePCRouterReceipt(
         p_proxy=p_proxy.raw_free_payload(),
         c_proxy=c_proxy.raw_free_payload(),
@@ -564,6 +701,21 @@ def solve_residual_reserve_pc_router(
         solver_stages=tuple(stages),
         selected_status=selected_status,
         tie_break_order=TIE_BREAK_ORDER,
+        layer_order_tie_status=layer_order_tie_status,
+        epigraph_t=epigraph_t,
+        epigraph_observed_max_regret=epigraph_observed_max_regret,
+        epigraph_binding_residual=epigraph_binding_residual,
+        stage2_observed_regret_sum=stage2_observed_regret_sum,
+        final_max_regret=final_max_regret,
+        final_regret_sum=final_regret_sum,
+        final_primary_preservation_residual=final_primary_residual,
+        final_regret_sum_preservation_residual=final_sum_residual,
+        final_primary_preservation_tolerance=final_primary_tolerance,
+        final_regret_sum_preservation_tolerance=final_sum_tolerance,
+        final_primary_constraint_slack=final_primary_slack,
+        final_regret_sum_constraint_slack=final_sum_slack,
+        final_simplex_sum_residual=final_simplex_sum_residual,
+        final_simplex_minimum=final_simplex_minimum,
     )
     return ResidualReservePCRoutingResult(
         pi_p=pi_p.detach().clone(),
@@ -576,6 +728,7 @@ def solve_residual_reserve_pc_router(
 
 __all__ = [
     "FLOAT64_EPSILON",
+    "FP32_ROUTE_PRESERVATION_TOLERANCE",
     "QuadraticProxy",
     "ResidualReservePCRouterReceipt",
     "ResidualReservePCRoutingResult",
@@ -587,5 +740,6 @@ __all__ = [
     "SolverStageReceipt",
     "TIE_BREAK_ORDER",
     "evaluate_quadratic_proxy",
+    "evaluate_route_dependent_proxy",
     "solve_residual_reserve_pc_router",
 ]

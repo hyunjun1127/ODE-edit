@@ -81,13 +81,25 @@ class ResidualReservePCRouterTests(unittest.TestCase):
         )
         self.assertTrue(p_flat.receipt.p_flat)
         self.assertFalse(p_flat.receipt.c_flat)
-        self.assertTrue(torch.equal(p_flat.pi_balanced, p_flat.pi_c))
+        torch.testing.assert_close(
+            p_flat.pi_balanced,
+            p_flat.pi_c,
+            rtol=0.0,
+            atol=2.0e-6,
+        )
+        self.assertEqual(p_flat.receipt.selected_status, "P_AXIS_FLAT_C_ONLY")
         c_flat = solve_residual_reserve_pc_router(
             p_active, self.constant_proxy("C-flat", -2.0)
         )
         self.assertFalse(c_flat.receipt.p_flat)
         self.assertTrue(c_flat.receipt.c_flat)
-        self.assertTrue(torch.equal(c_flat.pi_balanced, c_flat.pi_p))
+        torch.testing.assert_close(
+            c_flat.pi_balanced,
+            c_flat.pi_p,
+            rtol=0.0,
+            atol=2.0e-6,
+        )
+        self.assertEqual(c_flat.receipt.selected_status, "C_AXIS_FLAT_P_ONLY")
         both = solve_residual_reserve_pc_router(
             self.constant_proxy("P-flat"), self.constant_proxy("C-flat")
         )
@@ -122,6 +134,61 @@ class ResidualReservePCRouterTests(unittest.TestCase):
                 rtol=0.0,
                 atol=torch.finfo(torch.float32).eps,
             )
+
+    def test_huge_additive_shifts_do_not_enter_route_math(self) -> None:
+        p = self.squared_distance_proxy("P", 0)
+        c = self.squared_distance_proxy("C", 4)
+        base = solve_residual_reserve_pc_router(p, c)
+        for shift in (1.0e12, 1.0e16, 1.0e20):
+            shifted_p = QuadraticProxy(
+                f"P-plus-{shift}",
+                p.constant + shift,
+                p.linear,
+                p.quadratic,
+            )
+            shifted_c = QuadraticProxy(
+                f"C-plus-{shift}",
+                c.constant + shift,
+                c.linear,
+                c.quadratic,
+            )
+            for observed in (
+                solve_residual_reserve_pc_router(shifted_p, c),
+                solve_residual_reserve_pc_router(p, shifted_c),
+                solve_residual_reserve_pc_router(shifted_p, shifted_c),
+            ):
+                self.assertEqual(observed.receipt.p_flat, base.receipt.p_flat)
+                self.assertEqual(observed.receipt.c_flat, base.receipt.c_flat)
+                self.assertEqual(
+                    observed.receipt.selected_status,
+                    base.receipt.selected_status,
+                )
+                self.assertEqual(observed.receipt.p_scale, base.receipt.p_scale)
+                self.assertEqual(observed.receipt.c_scale, base.receipt.c_scale)
+                torch.testing.assert_close(
+                    observed.pi_balanced,
+                    base.pi_balanced,
+                    rtol=0.0,
+                    atol=torch.finfo(torch.float32).eps,
+                )
+                base_balanced = next(
+                    item for item in base.receipt.candidates if item.role == "BALANCED"
+                )
+                shifted_balanced = next(
+                    item
+                    for item in observed.receipt.candidates
+                    if item.role == "BALANCED"
+                )
+                self.assertAlmostEqual(
+                    shifted_balanced.p_route_dependent_value,
+                    base_balanced.p_route_dependent_value,
+                    places=12,
+                )
+                self.assertAlmostEqual(
+                    shifted_balanced.c_route_dependent_value,
+                    base_balanced.c_route_dependent_value,
+                    places=12,
+                )
 
     def test_nonuniform_route_preserves_m1_geometry(self) -> None:
         route = self.antagonistic().pi_balanced
@@ -159,8 +226,40 @@ class ResidualReservePCRouterTests(unittest.TestCase):
             first.receipt.tie_break_order,
             router_module.TIE_BREAK_ORDER,
         )
+        self.assertEqual(
+            first.receipt.layer_order_tie_status,
+            "NOT_REACHED_BOTH_AXES_FLAT_CANONICAL_UNIFORM",
+        )
+        active = self.antagonistic()
+        self.assertEqual(
+            active.receipt.layer_order_tie_status,
+            "NOT_REACHED_STRICTLY_CONVEX_UNIFORM_DISTANCE_UNIQUE",
+        )
         source = inspect.getsource(router_module)
         self.assertNotIn("epsilon *", source)
+
+    def test_final_fp32_route_preserves_primary_and_sum_optima(self) -> None:
+        result = self.antagonistic()
+        receipt = result.receipt
+        self.assertIsNotNone(receipt.epigraph_t)
+        self.assertIsNotNone(receipt.epigraph_observed_max_regret)
+        self.assertIsNotNone(receipt.epigraph_binding_residual)
+        self.assertIsNotNone(receipt.stage2_observed_regret_sum)
+        self.assertLessEqual(
+            receipt.final_primary_preservation_residual,
+            receipt.final_primary_preservation_tolerance,
+        )
+        self.assertLessEqual(
+            receipt.final_regret_sum_preservation_residual,
+            receipt.final_regret_sum_preservation_tolerance,
+        )
+        self.assertGreaterEqual(receipt.final_primary_constraint_slack, 0.0)
+        self.assertGreaterEqual(receipt.final_regret_sum_constraint_slack, 0.0)
+        self.assertLessEqual(
+            receipt.final_simplex_sum_residual,
+            router_module.FP32_SIMPLEX_SUM_TOLERANCE,
+        )
+        self.assertGreaterEqual(receipt.final_simplex_minimum, 0.0)
 
     def test_fp32_inputs_are_cloned_and_immutable(self) -> None:
         linear = torch.tensor([-2.0, 0.0, 0.0, 0.0, 0.0], dtype=torch.float32)
