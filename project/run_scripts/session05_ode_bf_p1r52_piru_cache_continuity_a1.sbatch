@@ -17,7 +17,7 @@ readonly OUTPUT_ROOT="${2:-}"
 readonly ARM="${3:-}"
 readonly STAGE="${4:-}"
 readonly EXPECTED_SESSION="01a00e5d-29e8-7a01-822b-7acf43226035"
-readonly EXPECTED_BRANCH="codex/p1r52-piru-cache-continuity-a1-v1"
+readonly EXPECTED_BRANCH="codex/p1r52-piru-cache-continuity-a1-tech-r1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 
 [[ "$#" -eq 4 ]] || { echo "PIR-U cache-continuity arguments differ" >&2; exit 2; }

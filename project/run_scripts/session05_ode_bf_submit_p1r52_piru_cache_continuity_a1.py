@@ -21,7 +21,7 @@ from project.run_scripts.session05_ode_bf_submit_p1r52_piru_sequential_b100x10 i
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SBATCH = REPO_ROOT / "project/run_scripts/session05_ode_bf_p1r52_piru_cache_continuity_a1.sbatch"
-BRANCH = "codex/p1r52-piru-cache-continuity-a1-v1"
+BRANCH = "codex/p1r52-piru-cache-continuity-a1-tech-r1"
 
 
 def submit(source_head: str, stage: str) -> dict[str, object]:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import inspect
+import copy
 import unittest
 from pathlib import Path
 
@@ -34,6 +35,10 @@ from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
     R52_STRUCTURAL_H_ROLES,
 )
 from project.run_scripts.ode_bf.p1r52_pir_writer import P1R52PIRPolicy
+from project.run_scripts.session05_ode_bf_p1r52_piru_cache_continuity_a1 import (
+    _accepted_scientific_projection,
+    _terminal_scientific_projection,
+)
 
 
 class P1R52PIRUCacheContinuityTests(unittest.TestCase):
@@ -163,6 +168,108 @@ class P1R52PIRUCacheContinuityTests(unittest.TestCase):
         )
         self.assertEqual(len(sha), 64)
         self.assertEqual(lock["stage_a_cache_complete_rounds"], [10])
+
+    def test_stage_a_projection_excludes_only_provenance_and_binds_science(self) -> None:
+        layer = {
+            "layer": 4,
+            "key_sha256": "a" * 64,
+            "q_sha256": "b" * 64,
+            "q_norm": 1.0,
+            "current_residual_norm": 2.0,
+            "next_residual_norm": 1.5,
+            "beta": 0.2,
+            "gamma_beta": 0.2,
+            "theta": 0.025,
+            "factor_energy": 3.0,
+            "actual_bf16_energy_share": 0.1,
+            "capture_sha256": "process-a",
+        }
+        receipt = {
+            "field_sha256": "source-a",
+            "target_update": {
+                "target_next_sha256": "c" * 64,
+                "target_displacement_sha256": "d" * 64,
+                "selection_by_request": ["PRIMARY"],
+                "selected_nll_by_request": [0.5],
+                "allocation_amplitude_by_request": [1.0],
+            },
+            "routing": {
+                "pi": [0.2],
+                "velocity": [1.0],
+                "status": "PASS",
+                "executed_arm": "Soft",
+            },
+            "sequential_writer": {
+                "alpha_star": 1.0,
+                "entry_pi": [0.2],
+                "beta": [0.2],
+                "gamma": 1.0,
+                "selected_velocity": [1.0],
+                "layers": [layer],
+            },
+            "sequential_virtual_physical_identity": {
+                "final_virtual_bf16_sha256": "e" * 64,
+                "post_commit_bf16_sha256": "e" * 64,
+                "exact_hash_identity": True,
+            },
+            "materialization": {
+                "transition_receipt_sha256": "process-b",
+                "effective_bf16_sha256": "f" * 64,
+                "realized_bf16_step_energy": [4.0],
+            },
+            "structural_h": 0.25,
+        }
+        provenance_variant = copy.deepcopy(receipt)
+        provenance_variant["field_sha256"] = "source-b"
+        provenance_variant["materialization"]["transition_receipt_sha256"] = "process-c"
+        provenance_variant["sequential_writer"]["layers"][0]["capture_sha256"] = "process-d"
+        self.assertEqual(
+            _accepted_scientific_projection(receipt),
+            _accepted_scientific_projection(provenance_variant),
+        )
+        scientific_variant = copy.deepcopy(receipt)
+        scientific_variant["sequential_writer"]["layers"][0]["q_sha256"] = "0" * 64
+        self.assertNotEqual(
+            _accepted_scientific_projection(receipt),
+            _accepted_scientific_projection(scientific_variant),
+        )
+
+    def test_stage_a_terminal_projection_binds_weights_metrics_and_transaction(self) -> None:
+        terminal = {
+            "entry_weight_sha256": {"layer4": "a" * 64},
+            "commit_weight_sha256": {"layer4": "b" * 64},
+            "history_width_at_entry": 100,
+            "atomic_or_native": {
+                "field_sha256": "source-a",
+                "terminal_target_sha256": "c" * 64,
+                "materializer": {"transition_receipt_sha256": "process-a"},
+            },
+            "history_transaction": {
+                "before_version": 1,
+                "after_version": 2,
+                "appended_count": 100,
+                "transaction_id": "process-b",
+            },
+            "current_batch_immediate_post_summary": {
+                "identity_sha256": "source-b",
+                "request_order_sha256": "d" * 64,
+                "metrics": {"rewrite_success": {"correct": 10, "required": 10}},
+                "locality": {"correct": 95, "required": 100},
+            },
+        }
+        provenance_variant = copy.deepcopy(terminal)
+        provenance_variant["atomic_or_native"]["field_sha256"] = "source-c"
+        provenance_variant["history_transaction"]["transaction_id"] = "process-c"
+        self.assertEqual(
+            _terminal_scientific_projection(terminal),
+            _terminal_scientific_projection(provenance_variant),
+        )
+        scientific_variant = copy.deepcopy(terminal)
+        scientific_variant["commit_weight_sha256"]["layer4"] = "0" * 64
+        self.assertNotEqual(
+            _terminal_scientific_projection(terminal),
+            _terminal_scientific_projection(scientific_variant),
+        )
 
 
 if __name__ == "__main__":
