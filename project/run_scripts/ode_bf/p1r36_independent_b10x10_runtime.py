@@ -426,6 +426,7 @@ def _run_ode_case(
     p1r43: bool = False,
     p1r51: bool = False,
     p1r52: bool = False,
+    p1r52_target_depth: int = 1,
     p1r52_writer_policy: P1R52WriterPolicy | str | None = None,
     p1r52_pir_policy: P1R52PIRPolicy | str | None = None,
     technical_smoke: bool = False,
@@ -578,6 +579,7 @@ def _run_ode_case(
         p1r43=p1r43,
         p1r51=p1r51,
         p1r52=p1r52,
+        p1r52_target_depth=p1r52_target_depth,
         p1r52_writer_policy=p1r52_writer_policy,
         p1r52_pir_policy=p1r52_pir_policy,
     )

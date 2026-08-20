@@ -3228,6 +3228,7 @@ def run_p1(
     p1r51_phase: str | None = None,
     p1r51_attempt_suffix: str | None = None,
     p1r52_arm: str | None = None,
+    p1r52_atomic_target_depth: str | None = None,
     p1r52_attempt_suffix: str | None = None,
     p1r52_sequential_role: str | None = None,
     p1r52_sequential_scale: str | None = None,
@@ -3285,6 +3286,8 @@ def run_p1(
         raise ODEBFContractError("P1R52 sequential scale has no role")
     if (p1r52_target_depth is None) != (p1r52_target_depth_case_count is None):
         raise ODEBFContractError("P1R52 target-depth role/count pair differs")
+    if p1r52_atomic_target_depth is not None and p1r52_arm is None:
+        raise ODEBFContractError("P1R52 Atomic target depth has no writer arm")
     if p1r52_sequential_role is not None:
         from .p1r52_sequential_runtime import expected_p1r52_sequential_result_name
         from .p1r52_sequential_scale import resolve_p1r52_sequential_scale
@@ -3314,6 +3317,7 @@ def run_p1(
             alias,
             p1r52_arm,
             attempt_suffix=p1r52_attempt_suffix,
+            target_depth=p1r52_atomic_target_depth,
         )
     elif p1r51_phase is not None:
         from .p1r51_independent_runtime import expected_p1r51_result_name
@@ -4583,6 +4587,7 @@ def run_p1(
                     scalable_batched_lock["microbatch_accumulation"]
                     ["request_microbatch_size"][alias]
                 ),
+                target_depth=p1r52_atomic_target_depth,
             )
         if p1r51_phase is not None:
             from .p1r51_independent_runtime import run_p1r51_independent
