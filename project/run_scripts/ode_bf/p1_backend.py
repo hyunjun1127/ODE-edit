@@ -72,18 +72,22 @@ class SharedTerminalResidualInput:
     terminal_current_z: torch.Tensor
     request_order_sha256: str
     policy_identity: str = SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1
+    request_count: int = BATCH_SIZE
 
     def __post_init__(self) -> None:
         tensors = (self.residual, self.terminal_current_z)
         if (
             self.policy_identity
             != SHARED_TERMINAL_FULL_RESIDUAL_DIVISOR_ONE_V1
+            or isinstance(self.request_count, bool)
+            or not isinstance(self.request_count, int)
+            or self.request_count <= 0
             or len(self.request_order_sha256) != 64
             or any(character not in "0123456789abcdef" for character in self.request_order_sha256)
             or any(
                 not isinstance(value, torch.Tensor)
                 or value.ndim != 2
-                or value.shape[1] != BATCH_SIZE
+                or value.shape[1] != self.request_count
                 or value.dtype != torch.float32
                 or value.device.type != "cpu"
                 or not value.is_contiguous()

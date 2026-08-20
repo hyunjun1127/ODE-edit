@@ -479,18 +479,27 @@ def common_terminal_residual_input(
     target_state: torch.Tensor,
     terminal_current_z: torch.Tensor,
     request_order_sha256: str,
+    *,
+    expected_request_count: int = BATCH_SIZE,
 ) -> SharedTerminalResidualInput:
     target = target_state.detach().to(device="cpu", dtype=torch.float32).contiguous()
     current = (
         terminal_current_z.detach().to(device="cpu", dtype=torch.float32).contiguous()
     )
-    if target.shape != current.shape or target.shape[1] != BATCH_SIZE:
+    if (
+        isinstance(expected_request_count, bool)
+        or not isinstance(expected_request_count, int)
+        or expected_request_count <= 0
+        or target.shape != current.shape
+        or target.shape[1] != expected_request_count
+    ):
         raise ODEBFContractError("common terminal residual geometry differs")
     residual = (target - current).contiguous()
     return SharedTerminalResidualInput(
         residual=residual,
         terminal_current_z=current,
         request_order_sha256=request_order_sha256,
+        request_count=expected_request_count,
     )
 
 

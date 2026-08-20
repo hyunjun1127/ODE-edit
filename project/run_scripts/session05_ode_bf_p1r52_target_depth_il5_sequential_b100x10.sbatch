@@ -37,4 +37,4 @@ export PYTHONPATH="${REPO_ROOT}:${EASYEDIT_ROOT}"
 exec /usr/local/bin/uv run --offline --project "${EASYEDIT_ROOT}" --frozen --no-sync \
   python -m project.run_scripts.session05_ode_bf_p1r52_target_depth_il5_sequential_b100x10 \
   --output-root "${OUTPUT_ROOT}" --source-head "${SOURCE_HEAD}" \
-  --run-token p1r52-llama-j0-il5-sequential-10xb100-tech-r2-v1
+  --run-token p1r52-llama-j0-il5-sequential-10xb100-tech-r3-v1

@@ -15,7 +15,13 @@ from project.run_scripts import (
 from project.run_scripts.ode_bf.common_coldcoord_fixed_e8_runtime import (
     _heldout_additive_lookup_geometry,
 )
+from project.run_scripts.ode_bf.common_cold_coordinate import (
+    common_terminal_residual_input,
+)
 from project.run_scripts.ode_bf.contracts import ODEBFContractError
+from project.run_scripts.ode_bf.bg_soft_diagnostics import (
+    HeldoutRequestResidualActivationOverlay,
+)
 from project.run_scripts.ode_bf.p1_scalable_batched_experiment import _run_ode_arm
 from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
     expected_p1r52_sequential_result_name,
@@ -190,6 +196,32 @@ class P1R52TargetDepthSequentialIL5Tests(unittest.TestCase):
                 cases,
                 fact_token_strategy="subject_last",
                 expected_batch_size=100,
+            )
+
+    def test_residual_and_overlay_keep_b10_default_and_allow_typed_b100_axis(self) -> None:
+        target = torch.ones((4, 2), dtype=torch.float32)
+        current = torch.zeros_like(target)
+        residual = common_terminal_residual_input(
+            target,
+            current,
+            "1" * 64,
+            expected_request_count=2,
+        )
+        self.assertEqual(residual.request_count, 2)
+        overlay = HeldoutRequestResidualActivationOverlay(
+            torch.nn.Module(),
+            "layer",
+            residual.residual,
+            ((0, 0), (0, 0)),
+            (2, 2),
+        )
+        self.assertEqual(overlay.request_count, 2)
+        with self.assertRaises(ODEBFContractError):
+            common_terminal_residual_input(
+                target,
+                current,
+                "1" * 64,
+                expected_request_count=100,
             )
 
 

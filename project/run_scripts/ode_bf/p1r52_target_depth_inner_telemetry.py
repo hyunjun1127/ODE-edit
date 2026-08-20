@@ -239,7 +239,10 @@ class P1R52TargetDepthTelemetryObserver:
         freeze: StepwiseActionFreeze | EndpointActionFreeze,
     ) -> tuple[Mapping[str, Any], Mapping[str, Any], float]:
         residual = common_terminal_residual_input(
-            target, current_terminal, self.request_order_sha256
+            target,
+            current_terminal,
+            self.request_order_sha256,
+            expected_request_count=self.request_count,
         )
         overlay = HeldoutRequestResidualActivationOverlay(
             self.model,
