@@ -191,6 +191,7 @@ class P1R52TargetDepthTelemetryObserver:
             requests,
             cases,
             fact_token_strategy=fact_token_strategy,
+            expected_batch_size=expected_request_count,
         )
 
     def _freeze(

@@ -4,9 +4,16 @@ import ast
 import inspect
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
+
+import torch
 
 from project.run_scripts import (
     session05_ode_bf_p1r52_target_depth_il5_sequential_b100x10_dry_plan as dry,
+)
+from project.run_scripts.ode_bf.common_coldcoord_fixed_e8_runtime import (
+    _heldout_additive_lookup_geometry,
 )
 from project.run_scripts.ode_bf.contracts import ODEBFContractError
 from project.run_scripts.ode_bf.p1_scalable_batched_experiment import _run_ode_arm
@@ -130,6 +137,60 @@ class P1R52TargetDepthSequentialIL5Tests(unittest.TestCase):
             "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
         )
         self.assertEqual(POLICY.round_count * POLICY.batch_size, 1000)
+
+    def test_lookup_geometry_has_typed_b100_cardinality_extension(self) -> None:
+        class Tokenizer:
+            padding_side = "left"
+
+            def __call__(self, value, **kwargs):
+                if isinstance(value, str):
+                    return {"input_ids": [1, 2]}
+                return {
+                    "attention_mask": torch.ones(
+                        (len(value), 4), dtype=torch.long
+                    )
+                }
+
+        requests = tuple(
+            {
+                "request_sha256": f"request-{index}",
+                "subject": f"subject-{index}",
+            }
+            for index in range(2)
+        )
+        cases = tuple(
+            SimpleNamespace(
+                request_sha256=f"request-{index}",
+                rewrite_prompt=f"subject-{index} rewrite",
+                paraphrase_prompts=(f"subject-{index} rephrase",),
+                neighborhood_prompts=(f"neighbor-{index}",),
+                target_new="new",
+                target_true="true",
+            )
+            for index in range(2)
+        )
+        with patch(
+            "easyeditor.models.alphaedit.AlphaEdit_main.find_fact_lookup_idx",
+            return_value=-1,
+        ):
+            positions, patched, receipt = _heldout_additive_lookup_geometry(
+                Tokenizer(),
+                requests,
+                cases,
+                fact_token_strategy="subject_last",
+                expected_batch_size=2,
+            )
+        self.assertEqual(len(positions), 2)
+        self.assertEqual(patched, (4, 4))
+        self.assertEqual(receipt["request_count"], 2)
+        with self.assertRaises(ODEBFContractError):
+            _heldout_additive_lookup_geometry(
+                Tokenizer(),
+                requests,
+                cases,
+                fact_token_strategy="subject_last",
+                expected_batch_size=100,
+            )
 
 
 if __name__ == "__main__":

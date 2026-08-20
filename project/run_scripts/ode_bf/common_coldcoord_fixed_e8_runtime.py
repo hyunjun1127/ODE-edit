@@ -2965,13 +2965,20 @@ def _heldout_additive_lookup_geometry(
     cases: Sequence[Any],
     *,
     fact_token_strategy: str,
+    expected_batch_size: int = BATCH_SIZE,
 ) -> tuple[tuple[tuple[int, ...], ...], tuple[int, ...], dict[str, Any]]:
     """Resolve held-out rewrite/paraphrase lookup rows without serializing text."""
 
     from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
 
-    if len(requests) != BATCH_SIZE or len(cases) != BATCH_SIZE:
-        raise ODEBFContractError("BG-Soft heldout lookup B10 differs")
+    if (
+        isinstance(expected_batch_size, bool)
+        or not isinstance(expected_batch_size, int)
+        or expected_batch_size <= 0
+        or len(requests) != expected_batch_size
+        or len(cases) != expected_batch_size
+    ):
+        raise ODEBFContractError("heldout lookup batch cardinality differs")
     evaluation_padding_side = tokenizer.padding_side
     if evaluation_padding_side not in ("left", "right"):
         raise ODEBFContractError(
@@ -3065,7 +3072,7 @@ def _heldout_additive_lookup_geometry(
         )
     payload = {
         "schema": "ode-edit-s05-bg-soft-heldout-additive-lookup/v1",
-        "request_count": BATCH_SIZE,
+        "request_count": expected_batch_size,
         "patched_rows_per_request": patched_rows,
         "rows": geometry_rows,
         "padding_side_during_geometry": evaluation_padding_side,

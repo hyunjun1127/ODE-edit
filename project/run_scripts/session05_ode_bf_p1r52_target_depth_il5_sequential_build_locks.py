@@ -36,6 +36,7 @@ from project.run_scripts.ode_bf.p1r52_target_depth_sequential_il5_panel import (
 LOCK_ROOT = REPO_ROOT / "project/run_scripts/ode_bf/locks"
 SOURCE_PATHS = (
     "project/run_scripts/ode_bf/atomic_runtime_optimization.py",
+    "project/run_scripts/ode_bf/common_coldcoord_fixed_e8_runtime.py",
     "project/run_scripts/ode_bf/fixed_e8_soft_routing.py",
     "project/run_scripts/ode_bf/p1_backend.py",
     "project/run_scripts/ode_bf/p1_runtime.py",
@@ -103,7 +104,7 @@ def main() -> int:
         "terminal_w0_restore_count": 1,
         "task_gpu_cap": 3,
         "stage_gpu_max": 1,
-        "technical_attempt": "TECH_R1_SERVER2_NODE_BINDING",
+        "technical_attempt": "TECH_R2_B100_LOOKUP_CARDINALITY",
         "execution_node": "server2",
         "retry_count": 0,
         "backtracking_count": 0,
@@ -134,7 +135,7 @@ def main() -> int:
         "numerical_lock_sha256": lock_sha,
         "stream_root": STREAM_ROOT,
         "stream_order": STREAM_ORDER,
-        "source_scope": "TARGET_DEPTH_IL5_TYPED_EXTENSION_THIN_SEQUENTIAL_ADAPTER_AND_SERVER2_NODE_BINDING_TECH_R1",
+        "source_scope": "TARGET_DEPTH_IL5_TYPED_EXTENSION_THIN_SEQUENTIAL_ADAPTER_SERVER2_BINDING_AND_B100_LOOKUP_CARDINALITY_TECH_R2",
     }
     manifest_sha = _write_once(LOCK_ROOT / SOURCE_MANIFEST_FILE, manifest)
     print(
