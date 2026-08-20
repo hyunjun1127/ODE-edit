@@ -1,0 +1,128 @@
+{
+  "all_request_order_sha256": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+  "case_count": 40,
+  "contract_sha256": "06e65d4a2df4a4610ef09818c2afd96b8dbe86cc3041afdbc5b099ca2358ec63",
+  "instruction_id": "ODEEDIT-S05-P1R52-TARGET-DEPTH-IL1-IL3FULL-V1",
+  "member_count": 16,
+  "members": [
+    {
+      "bytes": 2029,
+      "lines": 5,
+      "mode": "0600",
+      "name": "group-summary.csv",
+      "sha256": "71b7ff2e83f58ce884f6fe44bfa993c7cf973b7ecc0e10d470adb5c0dfffb312"
+    },
+    {
+      "bytes": 4983,
+      "lines": 138,
+      "mode": "0600",
+      "name": "group-summary.json",
+      "sha256": "b7e9eaa0d5f92d95f4024306d1a1474e2c6402dbaa25b3f2de5d8f679ef52b61"
+    },
+    {
+      "bytes": 3215,
+      "lines": 60,
+      "mode": "0600",
+      "name": "p1r52-target-depth-phase1a-terminal-report-ko.md",
+      "sha256": "c37afc65b117ce36915b92cf4b462b567368b7de75d8cd115342c787c80dfc27"
+    },
+    {
+      "bytes": 35909,
+      "lines": 201,
+      "mode": "0600",
+      "name": "paired-request-deltas.csv",
+      "sha256": "eb6c3b4152648d6d8176b63254bc02782194eecb6b91f5347b99d31d70995582"
+    },
+    {
+      "bytes": 99682,
+      "lines": 2402,
+      "mode": "0600",
+      "name": "paired-request-deltas.json",
+      "sha256": "068a48fe50f68253c8dc13964d3dec6252bc4d741fa65b9b53ad71079832854d"
+    },
+    {
+      "bytes": 23175,
+      "lines": 41,
+      "mode": "0600",
+      "name": "per-case.csv",
+      "sha256": "bc7b4b1eac05ad2e5e0b842c159713b9328d439ad7d1039acd831c87d1e2e1bf"
+    },
+    {
+      "bytes": 68760,
+      "lines": 1722,
+      "mode": "0600",
+      "name": "per-case.json",
+      "sha256": "ebe0a7673a314fa448b94eb9e073aeb7c95890946ff9b1bd84503d5e7fb9c011"
+    },
+    {
+      "bytes": 954963,
+      "lines": 641,
+      "mode": "0600",
+      "name": "per-inner.csv",
+      "sha256": "5a4099d95622a7f1782e7d16330a9bed6a5eec065aeb6765aac60974b98d524a"
+    },
+    {
+      "bytes": 1611112,
+      "lines": 46082,
+      "mode": "0600",
+      "name": "per-inner.json",
+      "sha256": "42aa136314520baee51f6d9c92b05916574c195f5930d380240cc1beb3940509"
+    },
+    {
+      "bytes": 2109337,
+      "lines": 6401,
+      "mode": "0600",
+      "name": "per-request-inner.csv",
+      "sha256": "f0c8da22490c0ea3bc4a0d1c08e4df02e57ae4bbb2640e9b8318305a9cf11e94"
+    },
+    {
+      "bytes": 5929755,
+      "lines": 172802,
+      "mode": "0600",
+      "name": "per-request-inner.json",
+      "sha256": "bcbaebe7840f4f0efd5ba0c49a4b286cd650d34811b0c351aeaf1a5206d750f5"
+    },
+    {
+      "bytes": 74471,
+      "lines": 401,
+      "mode": "0600",
+      "name": "per-request.csv",
+      "sha256": "b1c7a684ebaf7b6e0a162434613772e4c7b0f4edb5cf583f4277a3269b817d81"
+    },
+    {
+      "bytes": 188297,
+      "lines": 5602,
+      "mode": "0600",
+      "name": "per-request.json",
+      "sha256": "9efcf34941903996bde7f3d28aa1197075d44a37f9e233c6e4476780d51d81a1"
+    },
+    {
+      "bytes": 2701,
+      "lines": 88,
+      "mode": "0600",
+      "name": "phase1a-gate.json",
+      "sha256": "ba60081743a427d4565ee5269a82229c657a5df519bc70113eceed6bc6aa7262"
+    },
+    {
+      "bytes": 26235,
+      "lines": 41,
+      "mode": "0600",
+      "name": "result-identities.csv",
+      "sha256": "3af9bf6727f485cfb20288dcf9262471af0e4a23e8c6e4d4bc3c6ad89ec5fd47"
+    },
+    {
+      "bytes": 39027,
+      "lines": 522,
+      "mode": "0600",
+      "name": "result-identities.json",
+      "sha256": "55a0743f88791417e74876f52aef480d6f35aa40c79a1ab299917d859b511004"
+    }
+  ],
+  "request_count": 400,
+  "root_digest": "20086962e39a88f5cc6a3694ca15447d002e8a8b07f6b075d5f5828c31b71f27",
+  "schema": "ode-edit-p1r52-target-depth-phase1a-manifest/v1",
+  "slurm_job_id": "21328",
+  "source_head": "d05fe39066c9450fa9f8521e0cae1174cc4fd383",
+  "source_tree": "c7c2cebf781d1a2c38a1d5078a959604aed6ec30",
+  "stream_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6"
+}

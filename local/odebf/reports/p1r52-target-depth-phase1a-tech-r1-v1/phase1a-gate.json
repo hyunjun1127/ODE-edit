@@ -1,0 +1,88 @@
+{
+  "gate_by_alias": {
+    "llama3-8b-inst": {
+      "all_clamp_pathology": false,
+      "all_current_pathology": false,
+      "gate_pass": true,
+      "hard_tail_positive": true,
+      "heldout_rewrite_or_rephrase_positive": true,
+      "paired_eff_nll_delta_summary": {
+        "count": 100,
+        "finite_count": 100,
+        "max": 0.0001678466796875,
+        "mean": -0.024116096496582032,
+        "median": -0.01548004150390625,
+        "min": -0.2399749755859375,
+        "p10": -0.047887420654296874,
+        "p90": -0.0030105590820312493
+      },
+      "paired_gen_nll_delta_summary": {
+        "count": 100,
+        "finite_count": 100,
+        "max": 1.087890625,
+        "mean": -0.12711341857910155,
+        "median": -0.08343505859375,
+        "min": -1.9609375,
+        "p10": -0.42045898437499996,
+        "p90": 0.07665500640869195
+      },
+      "paired_terminal_nll_delta_summary": {
+        "count": 100,
+        "finite_count": 100,
+        "max": -4.6986970119178295e-05,
+        "mean": -0.03151265769382008,
+        "median": -0.02335111703723669,
+        "min": -0.24916344648227096,
+        "p10": -0.053436556551605466,
+        "p90": -0.006196700618602328
+      },
+      "reference_energy_nonfinite_count": 0,
+      "terminal_train_nll_lower": true
+    },
+    "qwen2.5-7b-inst": {
+      "all_clamp_pathology": false,
+      "all_current_pathology": false,
+      "gate_pass": true,
+      "hard_tail_positive": true,
+      "heldout_rewrite_or_rephrase_positive": true,
+      "paired_eff_nll_delta_summary": {
+        "count": 100,
+        "finite_count": 100,
+        "max": 0.0,
+        "mean": -0.20135690689086913,
+        "median": -0.032958984375,
+        "min": -7.703125,
+        "p10": -0.20784912109374998,
+        "p90": -0.0011268615722656188
+      },
+      "paired_gen_nll_delta_summary": {
+        "count": 100,
+        "finite_count": 100,
+        "max": 1.0,
+        "mean": -0.22283530950546265,
+        "median": -0.1015625,
+        "min": -2.71875,
+        "p10": -0.611962890625,
+        "p90": 0.0726562500000002
+      },
+      "paired_terminal_nll_delta_summary": {
+        "count": 100,
+        "finite_count": 100,
+        "max": 0.0,
+        "mean": -0.14335900241625496,
+        "median": -0.023508180514909327,
+        "min": -5.120279312133789,
+        "p10": -0.10954591715708374,
+        "p90": -0.005007937038317312
+      },
+      "reference_energy_nonfinite_count": 0,
+      "terminal_train_nll_lower": true
+    }
+  },
+  "new_threshold_count": 0,
+  "phase": "PHASE_1A_TARGET_ONLY",
+  "phase1a_gate": "PASS",
+  "phase1b_authorized_by_contract": true,
+  "schema": "ode-edit-p1r52-target-depth-phase1a-gate/v1",
+  "scientific_promotion": false
+}

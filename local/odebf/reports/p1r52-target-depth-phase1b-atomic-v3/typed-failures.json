@@ -1,0 +1,72 @@
+[
+  {
+    "W0_restored": true,
+    "alias": "qwen2.5-7b-inst",
+    "arm": "neutral",
+    "case_index": 6,
+    "classification": "SCIENTIFIC_FAIL",
+    "depth": "IL3-FULL",
+    "exception_class": "P1R34NonSemanticTargetMove",
+    "failure_file_sha256": "8e2dfe2f5057347f1f0f98b442696fc172c33f7e9685d02abe49db79af7b2741",
+    "failure_identity_sha256": "971dbbeeb37911bc2fccbd0b65f849b2cf7feb678e16ec999c1bd06543e23884",
+    "last_valid_prefix_count": 6,
+    "retry_count": 0,
+    "status": "TYPED_CASE_FAILURE_NO_RETRY_NO_IMPUTATION"
+  },
+  {
+    "W0_restored": true,
+    "alias": "qwen2.5-7b-inst",
+    "arm": "neutral",
+    "case_index": 7,
+    "classification": "SCIENTIFIC_FAIL",
+    "depth": "IL3-FULL",
+    "exception_class": "P1R34NonSemanticTargetMove",
+    "failure_file_sha256": "ee289785c99aa085a917519ee0827c91786afd2245b3f6f07d7e66b156cb8e6f",
+    "failure_identity_sha256": "baf1e5e7f25b7f150417f80267a141e5ba65ce3b6338968f54c8a6e11a256d3c",
+    "last_valid_prefix_count": 7,
+    "retry_count": 0,
+    "status": "TYPED_CASE_FAILURE_NO_RETRY_NO_IMPUTATION"
+  },
+  {
+    "W0_restored": true,
+    "alias": "qwen2.5-7b-inst",
+    "arm": "neutral",
+    "case_index": 8,
+    "classification": "SCIENTIFIC_FAIL",
+    "depth": "IL3-FULL",
+    "exception_class": "P1R34NonSemanticTargetMove",
+    "failure_file_sha256": "77043cf6db7cb61e1be0cef6e2acc40a854dd55e8df01cd52ffc1515a8e52959",
+    "failure_identity_sha256": "ee489efda4b7f94e8b4bcb8c8ddbf3e538d4ad04f90f1767b8bad4653bc2f1c0",
+    "last_valid_prefix_count": 6,
+    "retry_count": 0,
+    "status": "TYPED_CASE_FAILURE_NO_RETRY_NO_IMPUTATION"
+  },
+  {
+    "W0_restored": true,
+    "alias": "qwen2.5-7b-inst",
+    "arm": "soft",
+    "case_index": 3,
+    "classification": "SCIENTIFIC_FAIL",
+    "depth": "IL3-FULL",
+    "exception_class": "P1R34NonSemanticTargetMove",
+    "failure_file_sha256": "0ed4b7e3a289754c407e88bce3976a4fb83901634a3fb514c9b3f6c873a830b3",
+    "failure_identity_sha256": "6dfc17866cc235c94c34fb517b1bf41b006794db0fa42c92648c1a36b6d31294",
+    "last_valid_prefix_count": 6,
+    "retry_count": 0,
+    "status": "TYPED_CASE_FAILURE_NO_RETRY_NO_IMPUTATION"
+  },
+  {
+    "W0_restored": true,
+    "alias": "qwen2.5-7b-inst",
+    "arm": "soft",
+    "case_index": 6,
+    "classification": "SCIENTIFIC_FAIL",
+    "depth": "IL3-FULL",
+    "exception_class": "P1R34NonSemanticTargetMove",
+    "failure_file_sha256": "6f4993fe6648d5f315ff545df8b994e93586be6b2272dbadcbd3bf9b82f9ab9d",
+    "failure_identity_sha256": "7c1d3cd2b956f47ad3b1a6722f8f9d00a3c19d99ca900765836a4d4238881edd",
+    "last_valid_prefix_count": 7,
+    "retry_count": 0,
+    "status": "TYPED_CASE_FAILURE_NO_RETRY_NO_IMPUTATION"
+  }
+]

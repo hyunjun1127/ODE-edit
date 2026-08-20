@@ -1,0 +1,13 @@
+{
+  "created_at_kst": "2026-08-20T13:57:17+09:00",
+  "manifest_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il1-il3full-v1/local/odebf/reports/p1r52-target-depth-phase1a-tech-r1-v1/manifest.json",
+  "manifest_root": "20086962e39a88f5cc6a3694ca15447d002e8a8b07f6b075d5f5828c31b71f27",
+  "manifest_sha256": "613f1395623527b309dc75e3f9c3cdafcd63a9c78704826f59537c048c4c4936",
+  "phase1a_gate": "PASS",
+  "phase1b_authorized_by_contract": true,
+  "report_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il1-il3full-v1/local/odebf/reports/p1r52-target-depth-phase1a-tech-r1-v1/p1r52-target-depth-phase1a-terminal-report-ko.md",
+  "report_sha256": "c37afc65b117ce36915b92cf4b462b567368b7de75d8cd115342c787c80dfc27",
+  "root_digest": "a377fdd2515805555dd4418732475857922d9b846eaf395e540bb75bdec8d3e9",
+  "schema": "ode-edit-p1r52-target-depth-phase1a-receipt/v1",
+  "scientific_promotion": false
+}

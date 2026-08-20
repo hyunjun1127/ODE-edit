@@ -1,0 +1,15 @@
+{
+  "attempt_count": 40,
+  "endpoint_count": 35,
+  "new_threshold_count": 0,
+  "phase": "PHASE_1B_ATOMIC_J0",
+  "phase2_authorized_combination_count": 0,
+  "phase2_eligible": [],
+  "retry_count": 0,
+  "scheduler_tasks_completed": 4,
+  "scheduler_tasks_failed": 0,
+  "schema": "ode-edit-p1r52-target-depth-phase1b-gate/v1",
+  "scientific_promotion": false,
+  "technical_failure_count": 0,
+  "typed_scientific_failure_count": 5
+}

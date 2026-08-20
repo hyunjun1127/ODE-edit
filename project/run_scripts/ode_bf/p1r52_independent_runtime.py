@@ -29,6 +29,7 @@ from .p1r52_r42_safe_kdc import (
     P1R52_REPAIR_REVISION,
     P1R52_SUPERSEDES_SOURCE_HEAD,
 )
+from .p1r52_target_depth import P1R52TargetDepth
 from .p1r52_frozen_pi_quota_writer import (
     P1R52_FPIQ_INSTRUCTION_ID,
     P1R52_FPIQ_METHOD_ID,
@@ -59,6 +60,7 @@ def expected_p1r52_result_name(
     arm: str,
     *,
     attempt_suffix: str | None = None,
+    target_depth: P1R52TargetDepth | str | None = None,
 ) -> str:
     if (
         alias not in ("llama3-8b-inst", "qwen2.5-7b-inst")
@@ -67,6 +69,16 @@ def expected_p1r52_result_name(
     ):
         raise ODEBFContractError("P1R52 result identity differs")
     suffix = f"-{attempt_suffix}" if attempt_suffix else ""
+    if target_depth is not None:
+        depth = (
+            target_depth
+            if isinstance(target_depth, P1R52TargetDepth)
+            else P1R52TargetDepth(target_depth)
+        )
+        if arm not in ARMS:
+            raise ODEBFContractError("P1R52 target-depth Atomic writer differs")
+        token = depth.value.lower().replace("-", "")
+        return f"s05-p1r52-target-depth-atomic-b10x10-{alias}-{arm}-{token}{suffix}-v1"
     if arm in FPIQ_POLICIES:
         return f"s05-p1r52-fpiq-independent-b10x10-{alias}-{arm}{suffix}-v1"
     if arm in PIR_POLICIES:
@@ -103,9 +115,19 @@ def run_p1r52_independent(
     base_values: Mapping[str, torch.Tensor],
     job_ledger: ComputeLedger,
     request_microbatch_size: int,
+    target_depth: P1R52TargetDepth | str | None = None,
 ) -> dict[str, Any]:
     if arm not in (*ARMS, *FPIQ_POLICIES, *PIR_POLICIES) or len(stream_batches) != CASE_COUNT:
         raise ODEBFContractError("P1R52 arm/matrix differs")
+    depth_policy = (
+        P1R52TargetDepth.IL1
+        if target_depth is None
+        else target_depth
+        if isinstance(target_depth, P1R52TargetDepth)
+        else P1R52TargetDepth(target_depth)
+    )
+    if target_depth is not None and arm not in ARMS:
+        raise ODEBFContractError("P1R52 target-depth Atomic arm differs")
     writer_policy = (
         P1R52WriterPolicy(arm.upper()) if arm in FPIQ_POLICIES else None
     )
@@ -162,6 +184,7 @@ def run_p1r52_independent(
                 request_microbatch_size=request_microbatch_size,
                 job_ledger=job_ledger,
                 p1r52=True,
+                p1r52_target_depth=depth_policy.inner_count,
                 p1r52_writer_policy=writer_policy,
                 p1r52_pir_policy=pir_policy,
             )
@@ -196,6 +219,8 @@ def run_p1r52_independent(
                 "W0_restored": True,
                 "target_controller_state_reset_at_next_case": True,
                 "history_mode": HISTORY_MODE,
+                "target_depth_policy": depth_policy.value,
+                "configured_inner_count": depth_policy.inner_count,
             },
         )
 
@@ -235,6 +260,8 @@ def run_p1r52_independent(
             else None
         ),
         "method": method,
+        "target_depth_policy": depth_policy.value,
+        "configured_inner_count": depth_policy.inner_count,
         "case_count": CASE_COUNT,
         "request_attempt_count": CASE_COUNT * BATCH_SIZE,
         "completed_case_count": len(completed),
@@ -268,6 +295,8 @@ def run_p1r52_independent(
         "supersedes_source_head": P1R52_SUPERSEDES_SOURCE_HEAD,
         "terminal_sha256": terminal_sha,
         "arm": arm,
+        "target_depth_policy": depth_policy.value,
+        "configured_inner_count": depth_policy.inner_count,
         "case_count": CASE_COUNT,
         "completed_case_count": len(completed),
         "failed_case_count": len(failed),
@@ -285,6 +314,7 @@ def run_p1r52_independent(
             else "P1R52_RSA_R42SAFEKDC_M1_CELL_TERMINAL"
         ),
         "arm": arm,
+        "target_depth_policy": depth_policy.value,
         "terminal_sha256": terminal_sha,
         "manifest_sha256": manifest_sha,
         "completed_case_count": len(completed),
