@@ -25,6 +25,7 @@ from project.run_scripts.ode_bf.p1r52_independent_runtime import (
     expected_p1r52_result_name,
 )
 from project.run_scripts.ode_bf.p1r52_target_depth import (
+    P1R52_TARGET_DEPTH_INNER_COUNTS,
     P1R52TargetDepth,
     P1R52TargetDepthInner,
     reassemble_p1r52_outer_target,
@@ -34,6 +35,16 @@ from project.run_scripts.ode_bf.p1r52_target_depth import (
 from project.run_scripts.ode_bf.p1r52_target_depth_panel import (
     LOCK_FILE,
     load_and_validate_lock,
+)
+from project.run_scripts.ode_bf.p1r52_target_depth_extension import (
+    EXTENSION_DEPTHS,
+    extension_cells,
+    extension_result_name,
+    validate_extension_depths,
+)
+from project.run_scripts.ode_bf.p1r52_target_depth_extension_panel import (
+    LOCK_FILE as EXTENSION_LOCK_FILE,
+    load_and_validate_lock as load_and_validate_extension_lock,
 )
 from project.run_scripts.ode_bf.p1r52_target_depth_target_only_runtime import (
     expected_p1r52_target_depth_result_name,
@@ -148,11 +159,57 @@ class P1R52TargetDepthTests(unittest.TestCase):
             factor_inventory_sha256_after_inners="d" * 64,
         )
 
-    def test_depth_policy_is_only_il1_or_il3_full(self) -> None:
+    def test_depth_policy_is_locked_to_original_and_extension_values(self) -> None:
+        self.assertEqual(P1R52_TARGET_DEPTH_INNER_COUNTS, (1, 3, 8, 10, 15))
         self.assertEqual(P1R52TargetDepth.from_inner_count(1), P1R52TargetDepth.IL1)
         self.assertEqual(P1R52TargetDepth.from_inner_count(3), P1R52TargetDepth.IL3_FULL)
+        self.assertEqual(P1R52TargetDepth.from_inner_count(8), P1R52TargetDepth.IL8_FULL)
+        self.assertEqual(P1R52TargetDepth.from_inner_count(10), P1R52TargetDepth.IL10_FULL)
+        self.assertEqual(P1R52TargetDepth.from_inner_count(15), P1R52TargetDepth.IL15_FULL)
         with self.assertRaises(ODEBFContractError):
-            P1R52TargetDepth.from_inner_count(8)
+            P1R52TargetDepth.from_inner_count(5)
+
+    def test_extension_list_has_no_il5_and_exact_result_names(self) -> None:
+        self.assertEqual(validate_extension_depths(EXTENSION_DEPTHS), EXTENSION_DEPTHS)
+        self.assertEqual([item.inner_count for item in EXTENSION_DEPTHS], [8, 10, 15])
+        self.assertEqual(
+            [item["depth"] for item in extension_cells()],
+            ["IL8-FULL", "IL10-FULL", "IL15-FULL"],
+        )
+        self.assertEqual(
+            extension_result_name(P1R52TargetDepth.IL15_FULL),
+            "s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il15full-extension-inner-telemetry-tech-r1-v1",
+        )
+        self.assertEqual(
+            extension_result_name(P1R52TargetDepth.IL15_FULL),
+            expected_p1r52_result_name(
+                "llama3-8b-inst",
+                "soft",
+                target_depth=P1R52TargetDepth.IL15_FULL,
+                attempt_suffix="extension-inner-telemetry-tech-r1",
+            ),
+        )
+        with self.assertRaises(ODEBFContractError):
+            validate_extension_depths((P1R52TargetDepth.IL8_FULL,))
+
+    def test_extension_numerical_lock(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        lock, file_sha = load_and_validate_extension_lock(
+            root / "locks" / EXTENSION_LOCK_FILE
+        )
+        self.assertEqual(
+            lock["depth_policies"],
+            {"IL8-FULL": 8, "IL10-FULL": 10, "IL15-FULL": 15},
+        )
+        self.assertEqual(lock["il5_action_count"], 0)
+        self.assertEqual(
+            lock["expected_inner_rows_per_case"],
+            {"IL8-FULL": 64, "IL10-FULL": 80, "IL15-FULL": 120},
+        )
+        self.assertEqual(lock["expected_outer_rows_per_case"], 8)
+        self.assertEqual(lock["inner_added_backward_count"], 0)
+        self.assertEqual(lock["inner_added_generation_count"], 0)
+        self.assertEqual(len(file_sha), 64)
 
     def test_numerical_lock_and_target_only_identity(self) -> None:
         root = Path(__file__).resolve().parents[1]
@@ -383,6 +440,118 @@ class P1R52TargetDepthTests(unittest.TestCase):
         self.assertEqual(result.receipt["entry_norm_calibration_count"], 1)
         self.assertEqual(result.receipt["inner_writer_materialization_count"], 0)
 
+    def test_il15_runs_120_updates_per_case_without_inner_writer(self) -> None:
+        calls = {"target": 0, "kl": 0, "endpoint": 0, "fixed": 0}
+
+        def evaluate_target(target: torch.Tensor):
+            calls["target"] += 1
+            value = 2.0 - 0.01 * calls["target"]
+            return objective((value, value + 1.0), self.gradient)
+
+        def evaluate_kl(target: torch.Tensor):
+            calls["kl"] += 1
+            return kl_result((0.0, 0.0), torch.zeros_like(target))
+
+        def evaluate_endpoint(target: torch.Tensor, role: str):
+            calls["endpoint"] += 1
+            return objective((0.1, 0.2), None)
+
+        def fixed_state():
+            calls["fixed"] += 1
+            return "a" * 64, "b" * 64, "c" * 64
+
+        result = run_p1r52_target_depth_scheduler(
+            outer_step_index=7,
+            depth=P1R52TargetDepth.IL15_FULL,
+            current_target=self.entry,
+            current_terminal=self.terminal,
+            target_origin=self.entry,
+            state=P1R51ControllerState.zero(self.entry),
+            lock=P1R24AliasTargetLock("llama3-8b-inst", 0.0, 0.0, 1.0e9),
+            alias="llama3-8b-inst",
+            shared_speed=0.4,
+            teacher_sha256="8" * 64,
+            evaluate_target=evaluate_target,
+            evaluate_kl=evaluate_kl,
+            evaluate_endpoint=evaluate_endpoint,
+            fixed_state_identities=fixed_state,
+        )
+        self.assertEqual(calls, {"target": 15, "kl": 15, "endpoint": 15, "fixed": 2})
+        self.assertEqual(len(result.inner_steps), 15)
+        self.assertEqual(
+            [item.global_target_update_ordinal for item in result.inner_steps],
+            list(range(105, 120)),
+        )
+        self.assertEqual(
+            [item.target_step.receipt["k"] for item in result.inner_steps], [7] * 15
+        )
+        self.assertEqual(result.receipt["configured_inner_count"], 15)
+        self.assertEqual(result.receipt["inner_writer_materialization_count"], 0)
+        self.assertEqual(8 * result.receipt["configured_inner_count"], 120)
+
+    def test_inner_telemetry_is_request_bound_and_observation_only(self) -> None:
+        calls = {"target": 0, "kl": 0, "endpoint": 0, "observe": 0}
+
+        def evaluate_target(target: torch.Tensor):
+            calls["target"] += 1
+            return objective((1.0, 2.0), self.gradient)
+
+        def evaluate_kl(target: torch.Tensor):
+            calls["kl"] += 1
+            return kl_result((0.0, 0.0), torch.zeros_like(target))
+
+        def evaluate_endpoint(target: torch.Tensor, role: str):
+            calls["endpoint"] += 1
+            return objective((0.1, 0.2), None)
+
+        def observe_inner(**values):
+            calls["observe"] += 1
+            self.assertEqual(values["outer_step_index"], 2)
+            self.assertEqual(values["configured_inner_count"], 8)
+            return {
+                "identity_sha256": f"{calls['observe']:064x}",
+                "added_model_forward_count": 10,
+                "added_processed_token_count": 20,
+                "added_backward_count": 0,
+                "added_generation_count": 0,
+                "controller_action_influence_count": 0,
+                "duplicate_evaluation_count": 0,
+            }
+
+        result = run_p1r52_target_depth_scheduler(
+            outer_step_index=2,
+            depth=P1R52TargetDepth.IL8_FULL,
+            current_target=self.entry,
+            current_terminal=self.terminal,
+            target_origin=self.entry,
+            state=P1R51ControllerState.zero(self.entry),
+            lock=P1R24AliasTargetLock("llama3-8b-inst", 0.0, 0.0, 1.0e9),
+            alias="llama3-8b-inst",
+            shared_speed=0.4,
+            teacher_sha256="8" * 64,
+            evaluate_target=evaluate_target,
+            evaluate_kl=evaluate_kl,
+            evaluate_endpoint=evaluate_endpoint,
+            fixed_state_identities=lambda: ("a" * 64, "b" * 64, "c" * 64),
+            observe_inner=observe_inner,
+        )
+        self.assertEqual(calls, {"target": 8, "kl": 8, "endpoint": 8, "observe": 8})
+        self.assertEqual(result.receipt["inner_heldout_access_count"], 8)
+        self.assertEqual(result.receipt["inner_observation_pass_count"], 8)
+        self.assertEqual(
+            result.receipt["inner_observation_added_model_forward_count"], 80
+        )
+        self.assertEqual(result.receipt["inner_observation_added_backward_count"], 0)
+        self.assertEqual(result.receipt["inner_observation_added_generation_count"], 0)
+        self.assertEqual(result.receipt["inner_observation_action_influence_count"], 0)
+        self.assertEqual(result.receipt["inner_observation_duplicate_evaluation_count"], 0)
+        self.assertTrue(
+            all(
+                item["accepted_z_observation"] is not None
+                for item in result.receipt["inner_trajectory"]
+            )
+        )
+
     def test_atomic_result_identity_is_depth_specific(self) -> None:
         self.assertEqual(
             expected_p1r52_result_name(
@@ -394,6 +563,12 @@ class P1R52TargetDepthTests(unittest.TestCase):
             expected_p1r52_result_name(
                 "llama3-8b-inst", "pir-j0", target_depth=P1R52TargetDepth.IL3_FULL
             )
+        self.assertEqual(
+            expected_p1r52_result_name(
+                "llama3-8b-inst", "soft", target_depth=P1R52TargetDepth.IL15_FULL
+            ),
+            "s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il15full-v1",
+        )
 
     def test_atomic_adapter_plumbs_depth_without_writer_variant(self) -> None:
         root = Path(__file__).resolve().parents[4]
@@ -406,6 +581,62 @@ class P1R52TargetDepthTests(unittest.TestCase):
         self.assertIn('readonly ARMS=(neutral soft neutral soft)', sbatch)
         self.assertNotIn("h/3", sbatch)
         self.assertNotIn("writer_policy", sbatch)
+
+    def test_extension_launcher_has_exact_depths_and_no_h_rescale(self) -> None:
+        root = Path(__file__).resolve().parents[4]
+        sbatch = (
+            root
+            / "project/run_scripts/session05_ode_bf_p1r52_target_depth_extension_atomic.sbatch"
+        ).read_text()
+        dry_plan = (
+            root
+            / "project/run_scripts/session05_ode_bf_p1r52_target_depth_extension_atomic_dry_plan.py"
+        ).read_text()
+        submitter = (
+            root
+            / "project/run_scripts/session05_ode_bf_submit_p1r52_target_depth_extension_atomic.py"
+        ).read_text()
+        joined = "\n".join((sbatch, dry_plan, submitter))
+        self.assertIn("DEPTHS=(IL8-FULL IL10-FULL IL15-FULL)", sbatch)
+        self.assertIn("#SBATCH --array=0-2%3", sbatch)
+        self.assertIn("PROJECT_GPU_CAP - active", submitter)
+        self.assertIn("extension-inner-telemetry-tech-r1", sbatch)
+        self.assertNotIn("IL5", joined)
+        self.assertNotIn("h/3", joined)
+        self.assertNotIn("h/depth", joined)
+
+    def test_inner_telemetry_source_has_exact_no_influence_counters(self) -> None:
+        root = Path(__file__).resolve().parents[4]
+        observer = (
+            root
+            / "project/run_scripts/ode_bf/p1r52_target_depth_inner_telemetry.py"
+        ).read_text()
+        runtime = (
+            root / "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py"
+        ).read_text()
+        self.assertIn('"target_objective_nll_by_request"', observer)
+        self.assertIn('"accepted_z_rewrite_nll_by_request"', observer)
+        self.assertIn('"accepted_z_rephrase_nll_by_request"', observer)
+        self.assertIn('"inner_step_movement_norm_by_request"', observer)
+        self.assertIn('"writer_w_rewrite_nll_by_request"', observer)
+        self.assertIn('"rewrite_w_minus_z_nll_gap_by_request"', observer)
+        self.assertIn('"added_backward_count": 0', observer)
+        self.assertIn('"added_generation_count": 0', observer)
+        self.assertIn('"controller_action_influence_count": 0', observer)
+        self.assertIn('"duplicate_evaluation_count": 0', observer)
+        self.assertIn('canonical_hash(geometry["residual"])', observer)
+        self.assertNotIn('geometry["residual"]["identity_sha256"]', observer)
+        self.assertIn("terminal_target_depth_telemetry_four_panel", runtime)
+
+    def test_actual_runtime_activation_uses_the_locked_depth_count_registry(self) -> None:
+        root = Path(__file__).resolve().parents[4]
+        scalable = (
+            root / "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py"
+        ).read_text()
+        self.assertIn(
+            "p1r52_target_depth not in P1R52_TARGET_DEPTH_INNER_COUNTS", scalable
+        )
+        self.assertNotIn("p1r52_target_depth not in (1, 3)", scalable)
 
 
 if __name__ == "__main__":

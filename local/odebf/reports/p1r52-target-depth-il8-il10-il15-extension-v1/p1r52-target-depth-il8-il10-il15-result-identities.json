@@ -1,0 +1,54 @@
+{
+  "contract_sha256": "06e65d4a2df4a4610ef09818c2afd96b8dbe86cc3041afdbc5b099ca2358ec63",
+  "identity_sha256": "9768939d1680e276150cbe4d1fe62f69ab37aca434c6d48a34a769424ecfa8bd",
+  "immutable_il1_report_sha256": "9434cb5ab4ae650b5e72226d6833ea46960d2303a4634a249a63018e9509a5d6",
+  "immutable_il3_manifest_sha256": "9e0958855505fec4b33362551e7710a800bf7f5df02330924fd8618a5a16cbdb",
+  "immutable_reference_sha256": {
+    "il1_artifact_index": "6cedac885cea1e35f3e2ad2f5b827b96a25175deb303745a949fa1bff7a0d129",
+    "il1_report": "9434cb5ab4ae650b5e72226d6833ea46960d2303a4634a249a63018e9509a5d6",
+    "il3_group_summary": "c7024e39d143af9b9700614b4c54fb5e9e9e04c2045ae5a6cac1d9b45451c5b6",
+    "il3_manifest": "9e0958855505fec4b33362551e7710a800bf7f5df02330924fd8618a5a16cbdb",
+    "il3_per_case": "dde1c6e7015d706fb18cce41c15a94a319409396f18b89345cb0a56e6f7061d7",
+    "il3_per_request": "46daeca58465a974a96dfa43b6a539cc151e07207248e653d215abb99373b3bf",
+    "il3_per_step": "e3e1d8f7c7459595274154326e5aa5672bd8a0d54eb0ee91109e425dce352ff0",
+    "il3_report": "4925b7e0219f5cc17788cf674ff0aa81c23f94a111176bf3e25ccc59fa64b3ec"
+  },
+  "new_roots": {
+    "IL10-FULL": {
+      "manifest_sha256": "3d231e198c245dcd041e2acbf09ff3e5af4b22605e0904f6dc5047b350b952f8",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/results/s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il10full-extension-inner-telemetry-tech-r1-v1",
+      "terminal_sha256": "43c30be69c150bffdae9b33ed38f0af363f1e972241d0599193d7a67b76b2f9d"
+    },
+    "IL15-FULL": {
+      "manifest_sha256": "ec9a667d988d71b0541437e4543bce1d62ed2df0d5d4c5592e2572ab3c343757",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/results/s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il15full-extension-inner-telemetry-tech-r1-v1",
+      "terminal_sha256": "2479ca251f841237169a2ba160dcd570828d17276d17cbe6cb18d71c3a43b7c0"
+    },
+    "IL8-FULL": {
+      "manifest_sha256": "8f9c887b0d28bc51d41ddebd3ef77a7c7557d04332725ea366fd09aa98f95782",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local/odebf/results/s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il8full-extension-inner-telemetry-tech-r1-v1",
+      "terminal_sha256": "7ed14f6c2d11d4a6a5ffb7d6d36a132cfaaaa4a7cd1cd92118b8631d0195be3d"
+    }
+  },
+  "numerical_lock_sha256": "82b9c996287b8d42d27193ac14ad765d158d32367f1c00a027aadc98987bcbdb",
+  "request_order_sha256": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+  "row_counts": {
+    "compute_layer_summary": 5,
+    "global_ordinal_summary": 264,
+    "hard_cohort": 30,
+    "paired_il3_per_case": 30,
+    "paired_il3_per_request": 300,
+    "per_case": 30,
+    "per_inner": 2611,
+    "per_inner_request": 26110,
+    "per_request": 300,
+    "per_step": 240,
+    "technical_failures": 0,
+    "typed_scientific_failures": 0,
+    "w_z_gap_summary": 5
+  },
+  "schema": "ode-edit-s05-p1r52-target-depth-extension-result-identities/v1",
+  "source_head": "8d94a8c96db99c5ffdadbcd13f6c0347e9f2ca8d",
+  "source_tree": "d974ee426a033285d5efaa7dcfa7f1e3a8effaf6",
+  "stream_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6"
+}

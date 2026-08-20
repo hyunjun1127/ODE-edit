@@ -34,23 +34,60 @@ P1R52_TARGET_DEPTH_INSTRUCTION_ID = (
     "ODEEDIT-S05-P1R52-TARGET-DEPTH-IL1-IL3FULL-V1"
 )
 P1R52_TARGET_DEPTH_METHOD_ID = "P1R52-TARGET-DEPTH-IL1-IL3FULL"
+P1R52_TARGET_DEPTH_EXTENSION_INSTRUCTION_ID = (
+    "ODEEDIT-S05-P1R52-TARGET-DEPTH-IL8-IL10-IL15-V1"
+)
+P1R52_TARGET_DEPTH_EXTENSION_METHOD_ID = "P1R52-TARGET-DEPTH-IL8-IL10-IL15"
 
 
 class P1R52TargetDepth(str, Enum):
     IL1 = "IL1"
     IL3_FULL = "IL3-FULL"
+    IL8_FULL = "IL8-FULL"
+    IL10_FULL = "IL10-FULL"
+    IL15_FULL = "IL15-FULL"
 
     @property
     def inner_count(self) -> int:
-        return 1 if self is P1R52TargetDepth.IL1 else 3
+        return {
+            P1R52TargetDepth.IL1: 1,
+            P1R52TargetDepth.IL3_FULL: 3,
+            P1R52TargetDepth.IL8_FULL: 8,
+            P1R52TargetDepth.IL10_FULL: 10,
+            P1R52TargetDepth.IL15_FULL: 15,
+        }[self]
+
+    @property
+    def instruction_id(self) -> str:
+        return (
+            P1R52_TARGET_DEPTH_INSTRUCTION_ID
+            if self in (P1R52TargetDepth.IL1, P1R52TargetDepth.IL3_FULL)
+            else P1R52_TARGET_DEPTH_EXTENSION_INSTRUCTION_ID
+        )
+
+    @property
+    def method_id(self) -> str:
+        return (
+            P1R52_TARGET_DEPTH_METHOD_ID
+            if self in (P1R52TargetDepth.IL1, P1R52TargetDepth.IL3_FULL)
+            else P1R52_TARGET_DEPTH_EXTENSION_METHOD_ID
+        )
 
     @classmethod
     def from_inner_count(cls, inner_count: int) -> "P1R52TargetDepth":
-        if inner_count == 1:
-            return cls.IL1
-        if inner_count == 3:
-            return cls.IL3_FULL
-        raise ODEBFContractError("P1R52 target depth must be exactly IL1 or IL3-FULL")
+        by_count = {item.inner_count: item for item in cls}
+        try:
+            return by_count[inner_count]
+        except KeyError as exc:
+            raise ODEBFContractError(
+                "P1R52 target depth must be exactly IL1, IL3-FULL, IL8-FULL, "
+                "IL10-FULL, or IL15-FULL"
+            ) from exc
+
+
+P1R52_TARGET_DEPTH_INNER_COUNTS = tuple(
+    item.inner_count for item in P1R52TargetDepth
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -60,6 +97,7 @@ class P1R52TargetDepthInner:
     target_step: P1R24TargetStep
     selected_endpoint: Any
     next_state: P1R51ControllerState
+    observation: Mapping[str, Any] | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -170,13 +208,14 @@ def reassemble_p1r52_outer_target(
             "selection_by_request": list(item.target_step.receipt["selection_by_request"]),
             "selected_endpoint_sha256": item.selected_endpoint.identity_sha256,
             "selected_endpoint_nll": float(item.selected_endpoint.loss),
+            "accepted_z_observation": item.observation,
         }
         for item in inner_steps
     ]
     receipt: dict[str, Any] = {
         "schema": "ode-edit-s05-p1r52-target-depth-outer-reassembly/v1",
-        "instruction_id": P1R52_TARGET_DEPTH_INSTRUCTION_ID,
-        "method_id": P1R52_TARGET_DEPTH_METHOD_ID,
+        "instruction_id": policy.instruction_id,
+        "method_id": policy.method_id,
         "depth_policy": policy.value,
         "configured_inner_count": policy.inner_count,
         "executed_inner_count": len(inner_steps),
@@ -216,7 +255,21 @@ def reassemble_p1r52_outer_target(
         "inner_weight_mutation_count": 0,
         "inner_history_append_count": 0,
         "inner_covariance_recompute_count": 0,
-        "inner_heldout_access_count": 0,
+        "inner_heldout_access_count": sum(
+            int(item.observation is not None) for item in inner_steps
+        ),
+        "inner_observation_pass_count": sum(
+            int(item.observation is not None) for item in inner_steps
+        ),
+        "inner_observation_added_model_forward_count": sum(
+            int(item.observation["added_model_forward_count"])
+            for item in inner_steps
+            if item.observation is not None
+        ),
+        "inner_observation_added_backward_count": 0,
+        "inner_observation_added_generation_count": 0,
+        "inner_observation_action_influence_count": 0,
+        "inner_observation_duplicate_evaluation_count": 0,
         "outer_writer_materialization_expected_count": 1,
         "entry_norm_calibration_count": sum(
             int(item.target_step.receipt["entry_norm_calibration_count"])
@@ -267,6 +320,7 @@ def run_p1r52_target_depth_scheduler(
     evaluate_kl: Callable[[torch.Tensor], P1R24KLResult],
     evaluate_endpoint: Callable[[torch.Tensor, str], ScalableObjectiveResult],
     fixed_state_identities: Callable[[], tuple[str, str, str]],
+    observe_inner: Callable[..., Mapping[str, Any]] | None = None,
     first_target_result: ScalableObjectiveResult | None = None,
     first_kl_result: P1R24KLResult | None = None,
 ) -> P1R52TargetDepthOuter:
@@ -336,6 +390,24 @@ def run_p1r52_target_depth_scheduler(
             rescue_endpoint,
             step_index=outer_step_index,
         )
+        observation = (
+            None
+            if observe_inner is None
+            else observe_inner(
+                depth_policy=policy.value,
+                configured_inner_count=policy.inner_count,
+                outer_step_index=outer_step_index,
+                inner_index=inner_index,
+                global_target_update_ordinal=(
+                    outer_step_index * policy.inner_count + inner_index
+                ),
+                outer_entry_target=current_target,
+                previous_target=scratch_target,
+                accepted_target=selected.target_step.target_next,
+                current_terminal=current_terminal,
+                selected_endpoint=selected.selected_endpoint,
+            )
+        )
         inner_steps.append(
             P1R52TargetDepthInner(
                 inner_index,
@@ -343,6 +415,7 @@ def run_p1r52_target_depth_scheduler(
                 selected.target_step,
                 selected.selected_endpoint,
                 selected.next_state,
+                observation,
             )
         )
         byte_identical = torch.equal(selected.target_step.target_next, scratch_target)
@@ -386,6 +459,9 @@ def run_p1r52_target_depth_scheduler(
 __all__ = [
     "P1R52_TARGET_DEPTH_INSTRUCTION_ID",
     "P1R52_TARGET_DEPTH_METHOD_ID",
+    "P1R52_TARGET_DEPTH_EXTENSION_INSTRUCTION_ID",
+    "P1R52_TARGET_DEPTH_EXTENSION_METHOD_ID",
+    "P1R52_TARGET_DEPTH_INNER_COUNTS",
     "P1R52TargetDepth",
     "P1R52TargetDepthInner",
     "P1R52TargetDepthOuter",

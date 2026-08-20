@@ -1,0 +1,346 @@
+[
+  {
+    "bf16_path_energy": {
+      "mean": 3.6477915080183307
+    },
+    "cumulative_bf16_capacity_endpoint": {
+      "mean": 5.5271347621878775
+    },
+    "depth": "IL1",
+    "edit_core_wall_seconds": "NOT_RECORDED_IL1_LLAMA_SOFT_CELL",
+    "inner_observation_wall_seconds": "NOT_APPLICABLE_IL1_PRE_TELEMETRY",
+    "layer_energy_top1_share": "NOT_RECORDED_IL1_AGGREGATE",
+    "materializations": 80,
+    "model_backward_calls": "NOT_RECORDED_IL1_LLAMA_SOFT_CELL",
+    "model_forward_calls": "NOT_RECORDED_IL1_LLAMA_SOFT_CELL",
+    "outer_observation_wall_seconds": "NOT_APPLICABLE_IL1_PRE_TELEMETRY",
+    "processed_tokens": "NOT_RECORDED_IL1_LLAMA_SOFT_CELL",
+    "simplex_top1_share": "NOT_RECORDED_IL1_AGGREGATE",
+    "target_gradient_wall_seconds": "NOT_RECORDED_IL1_LLAMA_SOFT_CELL",
+    "terminal_cumulative_structural_p": {
+      "mean": 0.0034773800000000004
+    },
+    "terminal_evaluator_wall_seconds": "NOT_RECORDED_IL1_LLAMA_SOFT_CELL",
+    "velocity_abs_top1_share": "NOT_RECORDED_IL1_AGGREGATE"
+  },
+  {
+    "bf16_path_energy": {
+      "mean": 3.8185822267665146
+    },
+    "cumulative_bf16_capacity_endpoint": {
+      "mean": 5.684609030187595
+    },
+    "depth": "IL3-FULL",
+    "edit_core_wall_seconds": {
+      "mean": 122.68264645668678
+    },
+    "inner_observation_wall_seconds": "NOT_APPLICABLE_IL3_PRE_TELEMETRY",
+    "layer_energy_top1_share": "NOT_RECORDED_IL3_AGGREGATE",
+    "materializations": 80,
+    "model_backward_calls": 2850,
+    "model_forward_calls": 4925,
+    "outer_observation_wall_seconds": "NOT_APPLICABLE_IL3_PRE_TELEMETRY",
+    "processed_tokens": 791437,
+    "simplex_top1_share": {
+      "mean": 0.46128781975045346
+    },
+    "target_gradient_wall_seconds": "NOT_RECORDED_IL3_AGGREGATE",
+    "terminal_cumulative_structural_p": {
+      "mean": 0.010479581793213875
+    },
+    "terminal_evaluator_wall_seconds": {
+      "count": 10,
+      "max": 36.822140253614634,
+      "mean": 34.130247911112384,
+      "median": 33.0996881830506,
+      "p10": 32.67360401120968,
+      "p90": 36.08435381208547
+    },
+    "velocity_abs_top1_share": "NOT_RECORDED_IL3_AGGREGATE"
+  },
+  {
+    "bf16_path_energy": {
+      "count": 10,
+      "max": 10.936412927159866,
+      "mean": 6.5430376650589945,
+      "median": 5.5667876050532525,
+      "p10": 3.865942026156954,
+      "p90": 10.0823350163153
+    },
+    "cumulative_bf16_capacity_endpoint": {
+      "count": 10,
+      "max": 13.762211957924205,
+      "mean": 8.14927835547169,
+      "median": 7.182461015909045,
+      "p10": 5.509695366612564,
+      "p90": 11.627909234136403
+    },
+    "depth": "IL8-FULL",
+    "edit_core_wall_seconds": {
+      "count": 10,
+      "max": 317.9426547563635,
+      "mean": 296.99544015564027,
+      "median": 293.63833915581927,
+      "p10": 283.72479448569936,
+      "p90": 312.93108330983665
+    },
+    "inner_observation_wall_seconds": {
+      "count": 10,
+      "max": 86.43830119492486,
+      "mean": 77.12327957442031,
+      "median": 77.41924744355492,
+      "p10": 72.39088817024604,
+      "p90": 80.090140553331
+    },
+    "layer_energy_top1_share": {
+      "count": 10,
+      "max": 0.5704015335757672,
+      "mean": 0.43803382832488424,
+      "median": 0.41100736156062323,
+      "p10": 0.39075960369692586,
+      "p90": 0.5262367833214788
+    },
+    "materializations": 80,
+    "model_backward_calls": 6850,
+    "model_forward_calls": 20785,
+    "outer_observation_wall_seconds": {
+      "count": 10,
+      "max": 21.46395064238459,
+      "mean": 19.160062833270057,
+      "median": 19.190016778884456,
+      "p10": 18.584250551648438,
+      "p90": 19.75828419746831
+    },
+    "processed_tokens": 4444332,
+    "simplex_top1_share": {
+      "count": 10,
+      "max": 0.6265177599463728,
+      "mean": 0.48849219402563226,
+      "median": 0.45570000570513225,
+      "p10": 0.43786203311732474,
+      "p90": 0.5605465022492099
+    },
+    "target_gradient_wall_seconds": {
+      "count": 10,
+      "max": 216.34842445515096,
+      "mean": 205.67992654624396,
+      "median": 205.10762572544627,
+      "p10": 196.09526043091898,
+      "p90": 215.32631677743046
+    },
+    "terminal_cumulative_structural_p": {
+      "count": 10,
+      "max": 0.023528578759561783,
+      "mean": 0.014578035530321646,
+      "median": 0.01323157382232954,
+      "p10": 0.010306408244357829,
+      "p90": 0.020080330797794317
+    },
+    "terminal_evaluator_wall_seconds": {
+      "count": 10,
+      "max": 2.6818074686452746,
+      "mean": 2.3919619699474426,
+      "median": 2.402156635886058,
+      "p10": 2.269237194210291,
+      "p90": 2.487813728582114
+    },
+    "velocity_abs_top1_share": {
+      "count": 10,
+      "max": 0.5534938380196275,
+      "mean": 0.40073184368710535,
+      "median": 0.375230292399387,
+      "p10": 0.3518479613604391,
+      "p90": 0.4903556255841365
+    }
+  },
+  {
+    "bf16_path_energy": {
+      "count": 10,
+      "max": 11.02487126396213,
+      "mean": 6.74353672703338,
+      "median": 5.675963877115569,
+      "p10": 3.9178184541180525,
+      "p90": 10.727188053879132
+    },
+    "cumulative_bf16_capacity_endpoint": {
+      "count": 10,
+      "max": 13.865906409713748,
+      "mean": 8.272523036360136,
+      "median": 7.2130035793827005,
+      "p10": 5.535941839954358,
+      "p90": 12.106473128753011
+    },
+    "depth": "IL10-FULL",
+    "edit_core_wall_seconds": {
+      "count": 10,
+      "max": 376.3501604977064,
+      "mean": 349.14690464749003,
+      "median": 343.2338533210568,
+      "p10": 331.21379698738457,
+      "p90": 366.4569107607473
+    },
+    "inner_observation_wall_seconds": {
+      "count": 10,
+      "max": 110.17161094537005,
+      "mean": 98.27141595310532,
+      "median": 98.67677926504984,
+      "p10": 92.182690004725,
+      "p90": 101.62004031166435
+    },
+    "layer_energy_top1_share": {
+      "count": 10,
+      "max": 0.49949097734482595,
+      "mean": 0.4341693039383994,
+      "median": 0.44521756970039994,
+      "p10": 0.3823778654616789,
+      "p90": 0.4808358174151774
+    },
+    "materializations": 80,
+    "model_backward_calls": 8450,
+    "model_forward_calls": 25590,
+    "outer_observation_wall_seconds": {
+      "count": 10,
+      "max": 21.829994506202638,
+      "mean": 19.517142505338416,
+      "median": 19.59559963364154,
+      "p10": 18.29282159372233,
+      "p90": 20.466560139739883
+    },
+    "processed_tokens": 5442232,
+    "simplex_top1_share": {
+      "count": 10,
+      "max": 0.5432119337806592,
+      "mean": 0.48440661186875483,
+      "median": 0.5100688835178131,
+      "p10": 0.4245558553771248,
+      "p90": 0.5413817955889544
+    },
+    "target_gradient_wall_seconds": {
+      "count": 10,
+      "max": 273.42114502657205,
+      "mean": 257.31194254588337,
+      "median": 253.57888623001054,
+      "p10": 246.39561667530796,
+      "p90": 270.5521044855006
+    },
+    "terminal_cumulative_structural_p": {
+      "count": 10,
+      "max": 0.023771169172841087,
+      "mean": 0.014820196795320591,
+      "median": 0.013354111229895537,
+      "p10": 0.010438750210799111,
+      "p90": 0.021540620708675382
+    },
+    "terminal_evaluator_wall_seconds": {
+      "count": 10,
+      "max": 2.725979389157146,
+      "mean": 2.4401373916771263,
+      "median": 2.4544606048148125,
+      "p10": 2.28662505466491,
+      "p90": 2.5192889223806563
+    },
+    "velocity_abs_top1_share": {
+      "count": 10,
+      "max": 0.4766221320544384,
+      "mean": 0.39770552113775415,
+      "median": 0.40948499621264944,
+      "p10": 0.34899665673589686,
+      "p90": 0.44080239618615147
+    }
+  },
+  {
+    "bf16_path_energy": {
+      "count": 10,
+      "max": 11.26860226109817,
+      "mean": 6.888722213228085,
+      "median": 5.756915864897617,
+      "p10": 3.9420902609436386,
+      "p90": 11.162497512570086
+    },
+    "cumulative_bf16_capacity_endpoint": {
+      "count": 10,
+      "max": 13.95408433761479,
+      "mean": 8.363571909566128,
+      "median": 7.392349460684153,
+      "p10": 5.605755327436894,
+      "p90": 12.300094749791633
+    },
+    "depth": "IL15-FULL",
+    "edit_core_wall_seconds": {
+      "count": 10,
+      "max": 507.17381323920563,
+      "mean": 461.10397003837863,
+      "median": 460.40088127949275,
+      "p10": 440.2633734179195,
+      "p90": 478.5350226733368
+    },
+    "inner_observation_wall_seconds": {
+      "count": 10,
+      "max": 164.7560713449493,
+      "mean": 143.4131453932263,
+      "median": 143.14814028446563,
+      "p10": 129.55810840721242,
+      "p90": 151.67117743301205
+    },
+    "layer_energy_top1_share": {
+      "count": 10,
+      "max": 0.5826637573844097,
+      "mean": 0.4705960455626482,
+      "median": 0.4604760807418674,
+      "p10": 0.37837846718841284,
+      "p90": 0.5679195616838976
+    },
+    "materializations": 80,
+    "model_backward_calls": 12160,
+    "model_forward_calls": 36655,
+    "outer_observation_wall_seconds": {
+      "count": 10,
+      "max": 21.765234130434692,
+      "mean": 19.416062911367042,
+      "median": 19.538553114514798,
+      "p10": 18.212229094840588,
+      "p90": 20.08987116897479
+    },
+    "processed_tokens": 7737947,
+    "simplex_top1_share": {
+      "count": 10,
+      "max": 0.6240519631128875,
+      "mean": 0.5063174126803759,
+      "median": 0.4887654737913909,
+      "p10": 0.42377332042203697,
+      "p90": 0.6108122262068465
+    },
+    "target_gradient_wall_seconds": {
+      "count": 10,
+      "max": 411.09064024407417,
+      "mean": 372.7153112355154,
+      "median": 373.65273297880776,
+      "p10": 352.30795778348113,
+      "p90": 390.36894896202716
+    },
+    "terminal_cumulative_structural_p": {
+      "count": 10,
+      "max": 0.023914249521815235,
+      "mean": 0.014970117686788062,
+      "median": 0.01315692361520505,
+      "p10": 0.010519606001615608,
+      "p90": 0.021734561278311984
+    },
+    "terminal_evaluator_wall_seconds": {
+      "count": 10,
+      "max": 2.723023127298802,
+      "mean": 2.423054884839803,
+      "median": 2.436108205700293,
+      "p10": 2.272390654217452,
+      "p90": 2.508364346856251
+    },
+    "velocity_abs_top1_share": {
+      "count": 10,
+      "max": 0.536078774865456,
+      "mean": 0.43012006554695714,
+      "median": 0.411360093267406,
+      "p10": 0.35633600117926906,
+      "p90": 0.5284295931704366
+    }
+  }
+]

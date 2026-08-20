@@ -3229,6 +3229,7 @@ def run_p1(
     p1r51_attempt_suffix: str | None = None,
     p1r52_arm: str | None = None,
     p1r52_atomic_target_depth: str | None = None,
+    p1r52_atomic_target_depth_inner_telemetry: bool = False,
     p1r52_attempt_suffix: str | None = None,
     p1r52_sequential_role: str | None = None,
     p1r52_sequential_scale: str | None = None,
@@ -3292,6 +3293,8 @@ def run_p1(
         raise ODEBFContractError("P1R52 target-depth role/count pair differs")
     if p1r52_atomic_target_depth is not None and p1r52_arm is None:
         raise ODEBFContractError("P1R52 Atomic target depth has no writer arm")
+    if p1r52_atomic_target_depth_inner_telemetry and p1r52_atomic_target_depth is None:
+        raise ODEBFContractError("P1R52 inner telemetry has no Atomic target depth")
     if p1r52_sequential_role is not None:
         from .p1r52_sequential_runtime import expected_p1r52_sequential_result_name
         from .p1r52_sequential_scale import resolve_p1r52_sequential_scale
@@ -4612,6 +4615,9 @@ def run_p1(
                     ["request_microbatch_size"][alias]
                 ),
                 target_depth=p1r52_atomic_target_depth,
+                target_depth_inner_telemetry=(
+                    p1r52_atomic_target_depth_inner_telemetry
+                ),
             )
         if p1r51_phase is not None:
             from .p1r51_independent_runtime import run_p1r51_independent
