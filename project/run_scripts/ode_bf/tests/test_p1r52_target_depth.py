@@ -176,7 +176,16 @@ class P1R52TargetDepthTests(unittest.TestCase):
         )
         self.assertEqual(
             extension_result_name(P1R52TargetDepth.IL15_FULL),
-            "s05-p1r52-target-depth-atomic-extension-b10x10-llama3-8b-inst-soft-il15full-v1",
+            "s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il15full-extension-tech-r1-v1",
+        )
+        self.assertEqual(
+            extension_result_name(P1R52TargetDepth.IL15_FULL),
+            expected_p1r52_result_name(
+                "llama3-8b-inst",
+                "soft",
+                target_depth=P1R52TargetDepth.IL15_FULL,
+                attempt_suffix="extension-tech-r1",
+            ),
         )
         with self.assertRaises(ODEBFContractError):
             validate_extension_depths((P1R52TargetDepth.IL8_FULL,))

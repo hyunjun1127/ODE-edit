@@ -13,7 +13,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = (
     REPO_ROOT
     / "project/run_scripts/ode_bf/locks/"
-    "source_manifest_s05_p1r52_target_depth_il8_il10_il15.json"
+    "source_manifest_s05_p1r52_target_depth_il8_il10_il15_tech_r1.json"
 )
 FILES = (
     "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r52_target_depth_il8_il10_il15.json",
@@ -48,9 +48,12 @@ def main() -> int:
             }
         )
     value = {
-        "schema_version": "ode-edit-s05-p1r52-target-depth-extension-source-manifest/v1",
+        "schema_version": (
+            "ode-edit-s05-p1r52-target-depth-extension-source-manifest-tech-r1/v1"
+        ),
         "instruction_id": "ODEEDIT-S05-P1R52-TARGET-DEPTH-IL8-IL10-IL15-V1",
         "source_parent": "0ac0aa2fec7d804b1cb14dfdea28bf6a5f089ec4",
+        "technical_parent": "87608708182b361dcf187ee5af47b49ed70e0873",
         "entries": entries,
     }
     canonical = json.dumps(value, sort_keys=True, separators=(",", ":")).encode()

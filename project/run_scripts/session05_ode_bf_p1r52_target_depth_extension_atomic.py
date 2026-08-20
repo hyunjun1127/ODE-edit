@@ -23,6 +23,7 @@ from project.run_scripts.ode_bf.p1_runtime import (
 )
 from project.run_scripts.ode_bf.p1r52_target_depth_extension import (
     ARM,
+    ATTEMPT_SUFFIX,
     EXTENSION_DEPTHS,
     INSTRUCTION_ID,
     MODEL,
@@ -36,24 +37,30 @@ from project.run_scripts.ode_bf.p1r52_target_depth_extension_panel import (
 
 
 RUN_TOKEN = "p1r52-target-depth-atomic-extension-il8-il10-il15-v1"
-SOURCE_MANIFEST = "source_manifest_s05_p1r52_target_depth_il8_il10_il15.json"
+TECHNICAL_PARENT = "87608708182b361dcf187ee5af47b49ed70e0873"
+SOURCE_MANIFEST = (
+    "source_manifest_s05_p1r52_target_depth_il8_il10_il15_tech_r1.json"
+)
 
 
 def source_gate(source_head: str) -> str:
     if subprocess.run(
-        ["git", "merge-base", "--is-ancestor", SOURCE_PARENT, source_head],
+        ["git", "merge-base", "--is-ancestor", TECHNICAL_PARENT, source_head],
         cwd=REPO_ROOT,
         check=False,
     ).returncode != 0:
         raise ValueError("P1R52 target-depth extension ancestry differs")
     manifest, raw_sha = load_rooted_json(
         REPO_ROOT / "project/run_scripts/ode_bf/locks" / SOURCE_MANIFEST,
-        expected_schema="ode-edit-s05-p1r52-target-depth-extension-source-manifest/v1",
+        expected_schema=(
+            "ode-edit-s05-p1r52-target-depth-extension-source-manifest-tech-r1/v1"
+        ),
     )
     entries = manifest.get("entries")
     if (
         manifest.get("instruction_id") != INSTRUCTION_ID
         or manifest.get("source_parent") != SOURCE_PARENT
+        or manifest.get("technical_parent") != TECHNICAL_PARENT
         or not isinstance(entries, list)
         or not entries
     ):
@@ -94,6 +101,7 @@ def main(argv: list[str] | None = None) -> int:
             source_head=args.source_head,
             p1r52_arm=args.arm,
             p1r52_atomic_target_depth=args.depth,
+            p1r52_attempt_suffix=ATTEMPT_SUFFIX,
         )
         result = {
             **result,

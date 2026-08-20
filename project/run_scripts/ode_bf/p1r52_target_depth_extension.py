@@ -21,6 +21,7 @@ REQUEST_COUNT = 100
 OUTER_STEP_COUNT = 8
 INNER_H = 1.0 / 8.0
 PROJECT_GPU_CAP = 3
+ATTEMPT_SUFFIX = "extension-tech-r1"
 EXTENSION_DEPTHS = (
     P1R52TargetDepth.IL8_FULL,
     P1R52TargetDepth.IL10_FULL,
@@ -49,8 +50,8 @@ def depth_slug(depth: P1R52TargetDepth | str) -> str:
 
 def extension_result_name(depth: P1R52TargetDepth | str) -> str:
     return (
-        "s05-p1r52-target-depth-atomic-extension-b10x10-"
-        f"{MODEL}-{ARM}-{depth_slug(depth)}-v1"
+        "s05-p1r52-target-depth-atomic-b10x10-"
+        f"{MODEL}-{ARM}-{depth_slug(depth)}-{ATTEMPT_SUFFIX}-v1"
     )
 
 
@@ -73,6 +74,7 @@ def extension_cells() -> tuple[dict[str, object], ...]:
 
 __all__ = [
     "ARM",
+    "ATTEMPT_SUFFIX",
     "CASE_COUNT",
     "EXTENSION_DEPTHS",
     "INNER_H",
