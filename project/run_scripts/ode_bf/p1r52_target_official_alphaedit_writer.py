@@ -47,6 +47,8 @@ PHASE_A_RESULT_NAME = "s05-p1r52-target-official-alphaedit-writer-phase-a-v1"
 PHASE_A_TECH_R1_RESULT_NAME = "s05-p1r52-target-official-alphaedit-writer-phase-a-tech-r1-v1"
 PHASE_A_TECH_R2_RESULT_NAME = "s05-p1r52-target-official-alphaedit-writer-phase-a-tech-r2-v1"
 PHASE_A_CASE_COUNT = 10
+PHASE_B_ROLE = "r52-target-official-alphaedit-writer-phase-b"
+PHASE_B_RESULT_NAME = "s05-p1r52-target-official-alphaedit-writer-phase-b-sequential-10xb100-v1"
 
 
 def _flatten(rows: Sequence[Sequence[float]]) -> list[float]:
@@ -614,6 +616,417 @@ def run_phase_a(
     }
 
 
+def _entry_snapshot(
+    touched: Mapping[str, torch.nn.Parameter], *, round_index: int
+) -> ArmWeightSnapshot:
+    hashes = _hashes(touched)
+    return ArmWeightSnapshot(
+        P1Arm.R_BF,
+        round_index,
+        hashes,
+        canonical_hash(
+            {"role": PHASE_B_ROLE, "round": round_index, "parameter_sha256": hashes}
+        ),
+    )
+
+
+def _entry_values(
+    touched: Mapping[str, torch.nn.Parameter],
+) -> dict[str, torch.Tensor]:
+    return {
+        name: parameter.detach().to(device="cpu").clone()
+        for name, parameter in touched.items()
+    }
+
+
+def run_phase_b(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    destination: Path,
+    raw_root: Path,
+    stages: Any,
+    source_head: str,
+    stream_batches: Sequence[Sequence[Mapping[str, Any]]],
+    stream: Mapping[str, Any],
+    hparams: Any,
+    projector: torch.Tensor,
+    contexts: Sequence[Sequence[str]],
+    covariance_registry: Any,
+    projector_sha256: str,
+    controller_lock: Any,
+    request_by_sha256: Mapping[str, Mapping[str, Any]],
+    population_by_sha256: Mapping[str, Mapping[str, Any]],
+    schedule: Any,
+    theta0_cache: Any,
+    dataset_path: Path,
+    mutation_lock: Any,
+    touched: Mapping[str, torch.nn.Parameter],
+    base_receipt: ArmWeightSnapshot,
+    base_values: Mapping[str, torch.Tensor],
+    job_ledger: ComputeLedger,
+    request_microbatch_size: int,
+    **_: Any,
+) -> dict[str, Any]:
+    """Run the released fresh-W0 10xB100 Official-writer sequential arm."""
+
+    if (
+        alias != "llama3-8b-inst"
+        or len(stream_batches) != PHASE_A_CASE_COUNT
+        or any(len(batch) != 100 for batch in stream_batches)
+    ):
+        raise ODEBFContractError("Phase-B matrix differs")
+    if (
+        stream.get("root_digest")
+        != "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
+        or stream.get("all_request_order_sha256")
+        != "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3"
+    ):
+        raise ODEBFContractError("Phase-B sealed B100x10 stream differs")
+
+    w0_contract = _model_w0_contract(touched)
+    w0_hashes = _hashes(touched)
+    w0_pointers = {name: int(value.data_ptr()) for name, value in touched.items()}
+    if w0_hashes != dict(base_receipt.parameter_sha256):
+        raise ODEBFStateError("Phase-B W0 differs")
+    batch_rows: list[dict[str, Any]] = []
+    cohort_cases: list[tuple[Any, ...]] = []
+    prior_cache_exit: str | None = None
+    static_p_identity: str | None = None
+    alpha_restore_receipt: dict[str, Any] | None = None
+
+    try:
+        with isolated_alphaedit_module_state() as alpha_state:
+            alpha_restore_receipt = alpha_state
+            for round_index, request_batch in enumerate(stream_batches, start=1):
+                requests = tuple(request_batch)
+                seed_all(COMMON_SEED)
+                case_root = raw_root / "batches" / f"b{round_index:02d}"
+                case_root.mkdir(mode=0o700, parents=True, exist_ok=False)
+                entry_contract = _model_w0_contract(touched)
+                entry_hashes = _hashes(touched)
+                entry_values = _entry_values(touched)
+                entry_receipt = _entry_snapshot(touched, round_index=round_index - 1)
+                request_order = scalable_ordered_request_digest(
+                    [str(item["request_sha256"]) for item in requests]
+                )
+                objective_plan = build_scalable_objective_plan(
+                    model,
+                    tokenizer,
+                    requests,
+                    contexts=contexts,
+                    request_microbatch_size=min(request_microbatch_size, len(requests)),
+                    fact_token_strategy=hparams.fact_token,
+                )
+                capture_plan = build_scalable_capture_plan(
+                    tokenizer,
+                    requests,
+                    contexts=contexts,
+                    request_microbatch_size=min(request_microbatch_size, len(requests)),
+                    fact_token_strategy=hparams.fact_token,
+                )
+                if (
+                    objective_plan.request_order_sha256 != request_order
+                    or capture_plan.request_order_sha256 != request_order
+                ):
+                    raise ODEBFContractError("Phase-B target plan order differs")
+                outer_population = tuple(
+                    population_by_sha256[item] for item in theta0_cache.request_order
+                )
+                snapshot = _entry_parameter_snapshot_sha256(
+                    model, dict(entry_receipt.parameter_sha256)
+                )
+                counter = ModelForwardCounter(model, job_ledger)
+                try:
+                    outer_entry_p_cache = build_outer_entry_pretrained_cache(
+                        model,
+                        tokenizer,
+                        outer_population,
+                        theta0_cache,
+                        outer_entry_snapshot_sha256=snapshot,
+                    )
+                finally:
+                    counter.close()
+                target_state = ArmRuntimeState(
+                    P1Arm.R_BF,
+                    P1HistoryLedger(
+                        layer_order=P1R23_LAYER_ORDER,
+                        maximum_records=400,
+                        batch_size=100,
+                    ),
+                    ComputeLedger(),
+                    entry_receipt,
+                    entry_values,
+                )
+                rollout = _run_ode_arm(
+                    model,
+                    tokenizer,
+                    requests,
+                    alias=alias,
+                    arm=FixedE8Arm.SOFT,
+                    allocation="RS",
+                    capture_plan=capture_plan,
+                    objective_plan=objective_plan,
+                    hparams=hparams,
+                    projector=projector,
+                    contexts=contexts,
+                    covariance_registry=covariance_registry,
+                    projector_sha256=projector_sha256,
+                    controller_lock=controller_lock,
+                    arm_state=target_state,
+                    request_by_sha256=request_by_sha256,
+                    population_by_sha256=population_by_sha256,
+                    schedule=schedule,
+                    outer_entry_p_cache=outer_entry_p_cache,
+                    theta0_cache=theta0_cache,
+                    touched=touched,
+                    base_receipt=entry_receipt,
+                    base_values=entry_values,
+                    raw_root=case_root / "raw" / "target",
+                    write_once=_atomic_write_once,
+                    p1r24=True,
+                    p1r34=True,
+                    p1r35=True,
+                    p1r52=True,
+                )
+                public = rollout["public"]
+                if (
+                    public["accepted_update_count"] != P1R23_GRID_COUNT
+                    or public["tau_final"] != 1.0
+                    or _model_w0_contract(touched) != entry_contract
+                    or _hashes(touched) != entry_hashes
+                ):
+                    raise ODEBFStateError("Phase-B target K8/entry restore differs")
+
+                binding = r52_binding(
+                    PHASE_B_ROLE, requests, hparams, rollout["terminal_target"]
+                )
+                freeze = EndpointActionFreeze(
+                    arm=f"{PHASE_B_ROLE}-b{round_index:02d}",
+                    sequential_batch=round_index - 1,
+                    request_order_sha256=request_order,
+                    selected_snapshot_sha256=public["identity_sha256"],
+                    fixed_budget_slots_completed=P1R23_GRID_COUNT,
+                )
+                cases = tuple(
+                    load_counterfact_cases_after_freeze(
+                        dataset_path,
+                        requests,
+                        freeze,
+                        expected_batch_size=100,
+                    )
+                )
+                cohort_cases.append(cases)
+                counter = ModelForwardCounter(model, job_ledger)
+                try:
+                    z_observation, _ = evaluate_accepted_z_batch(
+                        model,
+                        tokenizer,
+                        requests,
+                        cases,
+                        role=PHASE_B_ROLE,
+                        round_index=round_index,
+                        binding=binding,
+                        committed_weight_sha256=entry_hashes,
+                    )
+                finally:
+                    counter.close()
+                z_scores = z_observation["scores"]
+                z_summary = _endpoint_summary(z_scores)
+
+                with accepted_z_cache_template(
+                    requests,
+                    rollout["terminal_target"],
+                    hparams,
+                    parent=case_root / "private",
+                ) as (cache_template, bridge_receipt):
+                    counter = ModelForwardCounter(model, job_ledger)
+                    try:
+                        official_payload, originals = run_official_native_apply(
+                            model,
+                            tokenizer,
+                            requests,
+                            hparams,
+                            touched=touched,
+                            reset_cache=round_index == 1,
+                            cache_history_width=(round_index - 1) * 100,
+                            cache_template=cache_template,
+                            expected_native_compute_z_call_count=0,
+                            accepted_z_source="P1R52_K8_TERMINAL_TARGET",
+                        )
+                    finally:
+                        counter.close()
+                if any(
+                    tensor_sha256(originals[name]) != entry_hashes[name]
+                    for name in touched
+                ):
+                    raise ODEBFStateError("Phase-B Official writer entry copy differs")
+                cache = official_payload["alphaedit_dynamic_cache_contract"]
+                if (
+                    cache["logical_history_width_at_entry"] != (round_index - 1) * 100
+                    or cache["logical_history_width_after_append"] != round_index * 100
+                    or (round_index > 1 and cache["entry"]["sha256"] != prior_cache_exit)
+                    or (round_index > 1 and not cache["solver_consumed_entry_cache"])
+                ):
+                    raise ODEBFStateError("Phase-B Official cache continuity differs")
+                prior_cache_exit = cache["exit"]["sha256"]
+                observed_static = canonical_hash(cache["static_projection"])
+                if static_p_identity is None:
+                    static_p_identity = observed_static
+                elif observed_static != static_p_identity:
+                    raise ODEBFStateError("Phase-B Official static P identity differs")
+                update_energy = _weight_energy(touched, entry_values)
+                if _hashes(touched) == entry_hashes:
+                    raise ODEBFStateError("Phase-B Official writer produced no transition")
+                w_scores = _evaluate_w(
+                    model, tokenizer, cases, freeze=freeze, ledger=job_ledger
+                )
+                w_summary = _endpoint_summary(w_scores)
+                batch_payload = {
+                    "schema": "ode-edit-s05-p1r52-target-official-alphaedit-writer-phase-b-batch/v1",
+                    "round": round_index,
+                    "request_count": 100,
+                    "request_order_sha256": request_order,
+                    "entry_weight_sha256": entry_hashes,
+                    "commit_weight_sha256": _hashes(touched),
+                    "target_public_identity_sha256": public["identity_sha256"],
+                    "accepted_z": binding.raw_free_payload(),
+                    "z_direct": {"summary": z_summary, "scores": z_scores},
+                    "immediate_w": {
+                        "summary": w_summary,
+                        "scores": w_scores,
+                        "gap": _writer_gap(w_summary, z_summary),
+                    },
+                    "official_alphaedit_writer": {
+                        "apply": official_payload,
+                        "accepted_z_bridge": bridge_receipt,
+                        "update_energy": update_energy,
+                        "alphaedit_static_p_used": True,
+                        "alphaedit_cache_c_continuity": True,
+                        "native_alphaedit_compute_z_call_count": 0,
+                    },
+                    "barrier_influence_counts": {
+                        "r52_structural_h": 0,
+                        "r52_p_barrier": 0,
+                        "r52_energy_capacity_barrier": 0,
+                        "pir": 0,
+                        "pir_u": 0,
+                        "fpiq": 0,
+                        "r52_writer_historical_risk": 0,
+                    },
+                    "materialization_authoritative_count": 1,
+                    "retry_backtracking_count": 0,
+                    "physical_W_persists_to_next_batch": round_index < 10,
+                }
+                batch_payload["identity_sha256"] = canonical_hash(batch_payload)
+                batch_sha = _atomic_write_once(case_root / "terminal.json", batch_payload)
+                batch_rows.append({"terminal_sha256": batch_sha, **batch_payload})
+                stages.record(
+                    f"post_target_official_writer_phase_b_b{round_index:02d}",
+                    {
+                        "round": round_index,
+                        "cache_width": round_index * 100,
+                        "commit_weight_sha256": batch_payload["commit_weight_sha256"],
+                    },
+                )
+
+            final_hashes = _hashes(touched)
+            final_rows: list[dict[str, Any]] = []
+            for round_index, cases in enumerate(cohort_cases, start=1):
+                freeze = EndpointActionFreeze(
+                    arm=f"{PHASE_B_ROLE}-final-b{round_index:02d}",
+                    sequential_batch=9,
+                    request_order_sha256=batch_rows[round_index - 1][
+                        "request_order_sha256"
+                    ],
+                    selected_snapshot_sha256=canonical_hash(final_hashes),
+                    fixed_budget_slots_completed=P1R23_GRID_COUNT,
+                )
+                scores = _evaluate_w(
+                    model, tokenizer, cases, freeze=freeze, ledger=job_ledger
+                )
+                final_rows.append(
+                    {
+                        "round": round_index,
+                        "summary": _endpoint_summary(scores),
+                        "scores": scores,
+                    }
+                )
+            final_payload = {
+                "schema": "ode-edit-s05-p1r52-target-official-alphaedit-writer-phase-b-final-w10/v1",
+                "cohort_count": len(final_rows),
+                "request_count": len(final_rows) * 100,
+                "final_weight_sha256": final_hashes,
+                "cohorts": final_rows,
+            }
+            final_payload["identity_sha256"] = canonical_hash(final_payload)
+            final_sha = _atomic_write_once(raw_root / "final-w10.json", final_payload)
+    except BaseException:
+        _restore_exact_w0(
+            touched,
+            base_values,
+            mutation_lock=mutation_lock,
+            expected_contract=w0_contract,
+        )
+        raise
+
+    restore = _restore_exact_w0(
+        touched,
+        base_values,
+        mutation_lock=mutation_lock,
+        expected_contract=w0_contract,
+    )
+    if (
+        alpha_restore_receipt is None
+        or not alpha_restore_receipt["restored"]
+        or _hashes(touched) != w0_hashes
+        or any(int(touched[name].data_ptr()) != w0_pointers[name] for name in touched)
+    ):
+        raise ODEBFStateError("Phase-B final W0/cache restore differs")
+    terminal = {
+        "schema": "ode-edit-s05-p1r52-target-official-alphaedit-writer-phase-b-terminal/v1",
+        "instruction_id": INSTRUCTION_ID,
+        "method_id": METHOD_ID,
+        "source_head": source_head,
+        "phase": "B",
+        "completed_batch_count": len(batch_rows),
+        "request_attempt_count": len(batch_rows) * 100,
+        "batch_terminal_sha256": [row["terminal_sha256"] for row in batch_rows],
+        "final_w10_sha256": final_sha,
+        "alphaedit_static_p_identity_sha256": static_p_identity,
+        "alphaedit_cache_c_final_sha256": prior_cache_exit,
+        "native_alphaedit_compute_z_call_count": 0,
+        "structural_h_p_energy_pir_piru_fpiq_influence_count": 0,
+        "materialization_authoritative_count": len(batch_rows),
+        "batch_entry_evaluator_count": 0,
+        "retry_count": 0,
+        "imputation_count": 0,
+        "W0_restored": True,
+        "restore": restore,
+        "job_compute": job_ledger.raw_free_payload(),
+        "scientific_promotion": False,
+    }
+    terminal["identity_sha256"] = canonical_hash(terminal)
+    terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
+    manifest = {
+        "schema": "ode-edit-s05-p1r52-target-official-alphaedit-writer-phase-b-manifest/v1",
+        "source_head": source_head,
+        "terminal_sha256": terminal_sha,
+        "completed_batch_count": len(batch_rows),
+        "final_w10_sha256": final_sha,
+        "W0_restored": True,
+    }
+    manifest["identity_sha256"] = canonical_hash(manifest)
+    manifest_sha = _atomic_write_once(destination / "manifest.json", manifest)
+    return {
+        "status": "P1R52_TARGET_OFFICIAL_ALPHAEDIT_WRITER_PHASE_B_TERMINAL",
+        "terminal_sha256": terminal_sha,
+        "manifest_sha256": manifest_sha,
+        "W0_restored": True,
+    }
+
+
 __all__ = [
     "INSTRUCTION_ID",
     "METHOD_ID",
@@ -622,7 +1035,10 @@ __all__ = [
     "PHASE_A_TECH_R1_RESULT_NAME",
     "PHASE_A_TECH_R2_RESULT_NAME",
     "PHASE_A_ROLE",
+    "PHASE_B_RESULT_NAME",
+    "PHASE_B_ROLE",
     "accepted_z_cache_template",
     "isolated_alphaedit_module_state",
     "run_phase_a",
+    "run_phase_b",
 ]

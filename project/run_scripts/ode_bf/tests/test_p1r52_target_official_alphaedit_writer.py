@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import inspect
 from pathlib import Path
 import tempfile
 import unittest
@@ -16,9 +17,12 @@ from project.run_scripts.ode_bf.p1r52_target_official_alphaedit_writer import (
     PHASE_A_ROLE,
     PHASE_A_TECH_R1_RESULT_NAME,
     PHASE_A_TECH_R2_RESULT_NAME,
+    PHASE_B_RESULT_NAME,
+    PHASE_B_ROLE,
     _writer_gap,
     accepted_z_cache_template,
     isolated_alphaedit_module_state,
+    run_phase_b,
 )
 from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
     expected_p1r52_sequential_result_name,
@@ -119,6 +123,28 @@ class P1R52TargetOfficialWriterTests(unittest.TestCase):
                 for index, request in enumerate(requests):
                     path = Path(template.format(8, 4, request["case_id"]))
                     self.assertTrue(np.array_equal(np.load(path)["v_star"], accepted[:, index].numpy()))
+
+    def test_phase_b_result_identity(self) -> None:
+        self.assertEqual(
+            expected_p1r52_sequential_result_name(
+                "llama3-8b-inst",
+                PHASE_B_ROLE,
+                scale=P1R52_B100X10_SCALE,
+            ),
+            PHASE_B_RESULT_NAME,
+        )
+
+    def test_phase_b_exact_writer_and_firewall_contract_is_explicit(self) -> None:
+        source = inspect.getsource(run_phase_b)
+        self.assertIn("expected_native_compute_z_call_count=0", source)
+        self.assertIn("cache_history_width=(round_index - 1) * 100", source)
+        self.assertIn("reset_cache=round_index == 1", source)
+        self.assertIn('"r52_structural_h": 0', source)
+        self.assertIn('"r52_p_barrier": 0', source)
+        self.assertIn('"r52_energy_capacity_barrier": 0', source)
+        self.assertIn('"materialization_authoritative_count": 1', source)
+        self.assertIn('"batch_entry_evaluator_count": 0', source)
+        self.assertIn("_restore_exact_w0", source)
 
     def test_writer_gap_is_signed_w_minus_z(self) -> None:
         z = {"rewrite_target_new_nll_mean": 1.0, "rephrase_target_new_nll_mean": 2.0}
