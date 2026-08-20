@@ -34,23 +34,55 @@ P1R52_TARGET_DEPTH_INSTRUCTION_ID = (
     "ODEEDIT-S05-P1R52-TARGET-DEPTH-IL1-IL3FULL-V1"
 )
 P1R52_TARGET_DEPTH_METHOD_ID = "P1R52-TARGET-DEPTH-IL1-IL3FULL"
+P1R52_TARGET_DEPTH_EXTENSION_INSTRUCTION_ID = (
+    "ODEEDIT-S05-P1R52-TARGET-DEPTH-IL8-IL10-IL15-V1"
+)
+P1R52_TARGET_DEPTH_EXTENSION_METHOD_ID = "P1R52-TARGET-DEPTH-IL8-IL10-IL15"
 
 
 class P1R52TargetDepth(str, Enum):
     IL1 = "IL1"
     IL3_FULL = "IL3-FULL"
+    IL8_FULL = "IL8-FULL"
+    IL10_FULL = "IL10-FULL"
+    IL15_FULL = "IL15-FULL"
 
     @property
     def inner_count(self) -> int:
-        return 1 if self is P1R52TargetDepth.IL1 else 3
+        return {
+            P1R52TargetDepth.IL1: 1,
+            P1R52TargetDepth.IL3_FULL: 3,
+            P1R52TargetDepth.IL8_FULL: 8,
+            P1R52TargetDepth.IL10_FULL: 10,
+            P1R52TargetDepth.IL15_FULL: 15,
+        }[self]
+
+    @property
+    def instruction_id(self) -> str:
+        return (
+            P1R52_TARGET_DEPTH_INSTRUCTION_ID
+            if self in (P1R52TargetDepth.IL1, P1R52TargetDepth.IL3_FULL)
+            else P1R52_TARGET_DEPTH_EXTENSION_INSTRUCTION_ID
+        )
+
+    @property
+    def method_id(self) -> str:
+        return (
+            P1R52_TARGET_DEPTH_METHOD_ID
+            if self in (P1R52TargetDepth.IL1, P1R52TargetDepth.IL3_FULL)
+            else P1R52_TARGET_DEPTH_EXTENSION_METHOD_ID
+        )
 
     @classmethod
     def from_inner_count(cls, inner_count: int) -> "P1R52TargetDepth":
-        if inner_count == 1:
-            return cls.IL1
-        if inner_count == 3:
-            return cls.IL3_FULL
-        raise ODEBFContractError("P1R52 target depth must be exactly IL1 or IL3-FULL")
+        by_count = {item.inner_count: item for item in cls}
+        try:
+            return by_count[inner_count]
+        except KeyError as exc:
+            raise ODEBFContractError(
+                "P1R52 target depth must be exactly IL1, IL3-FULL, IL8-FULL, "
+                "IL10-FULL, or IL15-FULL"
+            ) from exc
 
 
 @dataclass(frozen=True, slots=True)
@@ -175,8 +207,8 @@ def reassemble_p1r52_outer_target(
     ]
     receipt: dict[str, Any] = {
         "schema": "ode-edit-s05-p1r52-target-depth-outer-reassembly/v1",
-        "instruction_id": P1R52_TARGET_DEPTH_INSTRUCTION_ID,
-        "method_id": P1R52_TARGET_DEPTH_METHOD_ID,
+        "instruction_id": policy.instruction_id,
+        "method_id": policy.method_id,
         "depth_policy": policy.value,
         "configured_inner_count": policy.inner_count,
         "executed_inner_count": len(inner_steps),
@@ -386,6 +418,8 @@ def run_p1r52_target_depth_scheduler(
 __all__ = [
     "P1R52_TARGET_DEPTH_INSTRUCTION_ID",
     "P1R52_TARGET_DEPTH_METHOD_ID",
+    "P1R52_TARGET_DEPTH_EXTENSION_INSTRUCTION_ID",
+    "P1R52_TARGET_DEPTH_EXTENSION_METHOD_ID",
     "P1R52TargetDepth",
     "P1R52TargetDepthInner",
     "P1R52TargetDepthOuter",

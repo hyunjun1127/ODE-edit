@@ -128,6 +128,12 @@ def run_p1r52_independent(
     )
     if target_depth is not None and arm not in ARMS:
         raise ODEBFContractError("P1R52 target-depth Atomic arm differs")
+    target_depth_instruction_id = (
+        depth_policy.instruction_id if target_depth is not None else INSTRUCTION_ID
+    )
+    target_depth_method_id = (
+        depth_policy.method_id if target_depth is not None else P1R52_METHOD_ID
+    )
     writer_policy = (
         P1R52WriterPolicy(arm.upper()) if arm in FPIQ_POLICIES else None
     )
@@ -237,14 +243,14 @@ def run_p1r52_independent(
             if pir_policy is not None
             else P1R52_FPIQ_INSTRUCTION_ID
             if writer_policy is not None
-            else INSTRUCTION_ID
+            else target_depth_instruction_id
         ),
         "method_id": (
             P1R52_PIR_METHOD_ID
             if pir_policy is not None
             else P1R52_FPIQ_METHOD_ID
             if writer_policy is not None
-            else P1R52_METHOD_ID
+            else target_depth_method_id
         ),
         "repair_revision": P1R52_REPAIR_REVISION,
         "repair_reason": P1R52_REPAIR_REASON,

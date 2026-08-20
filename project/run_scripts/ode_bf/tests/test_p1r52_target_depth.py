@@ -35,6 +35,16 @@ from project.run_scripts.ode_bf.p1r52_target_depth_panel import (
     LOCK_FILE,
     load_and_validate_lock,
 )
+from project.run_scripts.ode_bf.p1r52_target_depth_extension import (
+    EXTENSION_DEPTHS,
+    extension_cells,
+    extension_result_name,
+    validate_extension_depths,
+)
+from project.run_scripts.ode_bf.p1r52_target_depth_extension_panel import (
+    LOCK_FILE as EXTENSION_LOCK_FILE,
+    load_and_validate_lock as load_and_validate_extension_lock,
+)
 from project.run_scripts.ode_bf.p1r52_target_depth_target_only_runtime import (
     expected_p1r52_target_depth_result_name,
 )
@@ -148,11 +158,40 @@ class P1R52TargetDepthTests(unittest.TestCase):
             factor_inventory_sha256_after_inners="d" * 64,
         )
 
-    def test_depth_policy_is_only_il1_or_il3_full(self) -> None:
+    def test_depth_policy_is_locked_to_original_and_extension_values(self) -> None:
         self.assertEqual(P1R52TargetDepth.from_inner_count(1), P1R52TargetDepth.IL1)
         self.assertEqual(P1R52TargetDepth.from_inner_count(3), P1R52TargetDepth.IL3_FULL)
+        self.assertEqual(P1R52TargetDepth.from_inner_count(8), P1R52TargetDepth.IL8_FULL)
+        self.assertEqual(P1R52TargetDepth.from_inner_count(10), P1R52TargetDepth.IL10_FULL)
+        self.assertEqual(P1R52TargetDepth.from_inner_count(15), P1R52TargetDepth.IL15_FULL)
         with self.assertRaises(ODEBFContractError):
-            P1R52TargetDepth.from_inner_count(8)
+            P1R52TargetDepth.from_inner_count(5)
+
+    def test_extension_list_has_no_il5_and_exact_result_names(self) -> None:
+        self.assertEqual(validate_extension_depths(EXTENSION_DEPTHS), EXTENSION_DEPTHS)
+        self.assertEqual([item.inner_count for item in EXTENSION_DEPTHS], [8, 10, 15])
+        self.assertEqual(
+            [item["depth"] for item in extension_cells()],
+            ["IL8-FULL", "IL10-FULL", "IL15-FULL"],
+        )
+        self.assertEqual(
+            extension_result_name(P1R52TargetDepth.IL15_FULL),
+            "s05-p1r52-target-depth-atomic-extension-b10x10-llama3-8b-inst-soft-il15full-v1",
+        )
+        with self.assertRaises(ODEBFContractError):
+            validate_extension_depths((P1R52TargetDepth.IL8_FULL,))
+
+    def test_extension_numerical_lock(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        lock, file_sha = load_and_validate_extension_lock(
+            root / "locks" / EXTENSION_LOCK_FILE
+        )
+        self.assertEqual(
+            lock["depth_policies"],
+            {"IL8-FULL": 8, "IL10-FULL": 10, "IL15-FULL": 15},
+        )
+        self.assertEqual(lock["il5_action_count"], 0)
+        self.assertEqual(len(file_sha), 64)
 
     def test_numerical_lock_and_target_only_identity(self) -> None:
         root = Path(__file__).resolve().parents[1]
@@ -383,6 +422,55 @@ class P1R52TargetDepthTests(unittest.TestCase):
         self.assertEqual(result.receipt["entry_norm_calibration_count"], 1)
         self.assertEqual(result.receipt["inner_writer_materialization_count"], 0)
 
+    def test_il15_runs_120_updates_per_case_without_inner_writer(self) -> None:
+        calls = {"target": 0, "kl": 0, "endpoint": 0, "fixed": 0}
+
+        def evaluate_target(target: torch.Tensor):
+            calls["target"] += 1
+            value = 2.0 - 0.01 * calls["target"]
+            return objective((value, value + 1.0), self.gradient)
+
+        def evaluate_kl(target: torch.Tensor):
+            calls["kl"] += 1
+            return kl_result((0.0, 0.0), torch.zeros_like(target))
+
+        def evaluate_endpoint(target: torch.Tensor, role: str):
+            calls["endpoint"] += 1
+            return objective((0.1, 0.2), None)
+
+        def fixed_state():
+            calls["fixed"] += 1
+            return "a" * 64, "b" * 64, "c" * 64
+
+        result = run_p1r52_target_depth_scheduler(
+            outer_step_index=7,
+            depth=P1R52TargetDepth.IL15_FULL,
+            current_target=self.entry,
+            current_terminal=self.terminal,
+            target_origin=self.entry,
+            state=P1R51ControllerState.zero(self.entry),
+            lock=P1R24AliasTargetLock("llama3-8b-inst", 0.0, 0.0, 1.0e9),
+            alias="llama3-8b-inst",
+            shared_speed=0.4,
+            teacher_sha256="8" * 64,
+            evaluate_target=evaluate_target,
+            evaluate_kl=evaluate_kl,
+            evaluate_endpoint=evaluate_endpoint,
+            fixed_state_identities=fixed_state,
+        )
+        self.assertEqual(calls, {"target": 15, "kl": 15, "endpoint": 15, "fixed": 2})
+        self.assertEqual(len(result.inner_steps), 15)
+        self.assertEqual(
+            [item.global_target_update_ordinal for item in result.inner_steps],
+            list(range(105, 120)),
+        )
+        self.assertEqual(
+            [item.target_step.receipt["k"] for item in result.inner_steps], [7] * 15
+        )
+        self.assertEqual(result.receipt["configured_inner_count"], 15)
+        self.assertEqual(result.receipt["inner_writer_materialization_count"], 0)
+        self.assertEqual(8 * result.receipt["configured_inner_count"], 120)
+
     def test_atomic_result_identity_is_depth_specific(self) -> None:
         self.assertEqual(
             expected_p1r52_result_name(
@@ -394,6 +482,12 @@ class P1R52TargetDepthTests(unittest.TestCase):
             expected_p1r52_result_name(
                 "llama3-8b-inst", "pir-j0", target_depth=P1R52TargetDepth.IL3_FULL
             )
+        self.assertEqual(
+            expected_p1r52_result_name(
+                "llama3-8b-inst", "soft", target_depth=P1R52TargetDepth.IL15_FULL
+            ),
+            "s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il15full-v1",
+        )
 
     def test_atomic_adapter_plumbs_depth_without_writer_variant(self) -> None:
         root = Path(__file__).resolve().parents[4]
@@ -406,6 +500,28 @@ class P1R52TargetDepthTests(unittest.TestCase):
         self.assertIn('readonly ARMS=(neutral soft neutral soft)', sbatch)
         self.assertNotIn("h/3", sbatch)
         self.assertNotIn("writer_policy", sbatch)
+
+    def test_extension_launcher_has_exact_depths_and_no_h_rescale(self) -> None:
+        root = Path(__file__).resolve().parents[4]
+        sbatch = (
+            root
+            / "project/run_scripts/session05_ode_bf_p1r52_target_depth_extension_atomic.sbatch"
+        ).read_text()
+        dry_plan = (
+            root
+            / "project/run_scripts/session05_ode_bf_p1r52_target_depth_extension_atomic_dry_plan.py"
+        ).read_text()
+        submitter = (
+            root
+            / "project/run_scripts/session05_ode_bf_submit_p1r52_target_depth_extension_atomic.py"
+        ).read_text()
+        joined = "\n".join((sbatch, dry_plan, submitter))
+        self.assertIn("DEPTHS=(IL8-FULL IL10-FULL IL15-FULL)", sbatch)
+        self.assertIn("#SBATCH --array=0-2%3", sbatch)
+        self.assertIn("PROJECT_GPU_CAP - active", submitter)
+        self.assertNotIn("IL5", joined)
+        self.assertNotIn("h/3", joined)
+        self.assertNotIn("h/depth", joined)
 
 
 if __name__ == "__main__":
