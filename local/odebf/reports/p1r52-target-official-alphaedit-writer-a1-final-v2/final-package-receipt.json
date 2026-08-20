@@ -1,0 +1,21 @@
+{
+  "schema": "ode-edit-s05-p1r52-target-official-alphaedit-writer-final-package/v1",
+  "status": "FINAL_PACKAGE_SEALED_INDEPENDENT_REVIEW_PASS",
+  "canonical_report": "p1r52-target-official-alphaedit-writer-a1-factual-ko.md",
+  "canonical_report_sha256": "026db11d1e7c627759fd831592f29e77d1dfb6c5d407cf996ad4b81dfe22333a",
+  "analysis_manifest": "analysis-manifest.json",
+  "analysis_manifest_sha256": "40704f7025ca89be18c5b169a80a0415bc6f0c5513a7140fd2d74b5037f075b5",
+  "analysis_manifest_members_root_sha256": "934902bb772a415a783ca5b49b7800f0d084e50178649117f96eda62225485c9",
+  "independent_review": "independent-raw-free-review.json",
+  "independent_review_sha256": "0dfbd5568d520e8213824d070aa3522b45867f31dac02981f391f3e8d072b597",
+  "package_member_count_excluding_this_receipt": 8,
+  "package_members_root_sha256": "0a038921fc8585b7ca4ed50270fbe764a38486437191ffdca55bbca25f7ccd9e",
+  "row_counts": {
+    "phase_a_case": 10,
+    "phase_b_batch": 10,
+    "phase_b_request": 1000
+  },
+  "terminal_status": "COMPLETE_NEGATIVE_SEQUENTIAL_TRANSFER_RESULT",
+  "imputation_count": 0,
+  "independent_review_status": "PASS"
+}

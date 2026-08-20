@@ -1,0 +1,34 @@
+{
+  "schema": "ode-edit-s05-p1r52-target-official-alphaedit-writer-independent-review/v1",
+  "status": "PASS",
+  "review_scope": "RAW_FREE_READ_ONLY",
+  "reviewer_role": "SEPARATE_BOUNDED_ANALYSIS_AGENT",
+  "checks": {
+    "phase_a_rows_10": true,
+    "phase_a_same_accepted_z_and_entry_W_10_of_10": true,
+    "phase_a_mean_delta_exact": true,
+    "phase_a_win_loss_exact": true,
+    "phase_b_batches_10": true,
+    "phase_b_requests_1000": true,
+    "phase_b_cache_width_0_to_1000": true,
+    "phase_b_W0_restore": true,
+    "request_final_minus_immediate_forgetting_present": true,
+    "absolute_denominators_present": true,
+    "compute_and_forbidden_influence_counters_present": true,
+    "sealed_baseline_comparison_present": true,
+    "causal_boundary_wording_pass": true,
+    "manifest_member_input_sha_bytes_lines_rehash_pass": true,
+    "blocking_error_count": 0
+  },
+  "verified_values": {
+    "phase_a_official_minus_r52_rephrase_gap_mean": -0.033913062095642064,
+    "phase_a_official_wins": 7,
+    "phase_a_r52_wins": 3,
+    "phase_b_batch_rows": 10,
+    "phase_b_request_rows": 1000,
+    "report_sha256": "026db11d1e7c627759fd831592f29e77d1dfb6c5d407cf996ad4b81dfe22333a",
+    "analysis_manifest_sha256": "40704f7025ca89be18c5b169a80a0415bc6f0c5513a7140fd2d74b5037f075b5",
+    "analysis_members_root_sha256": "934902bb772a415a783ca5b49b7800f0d084e50178649117f96eda62225485c9"
+  },
+  "model_evaluator_gpu_slurm_source_result_mutation_counts": "0/0/0/0/0/0/0"
+}

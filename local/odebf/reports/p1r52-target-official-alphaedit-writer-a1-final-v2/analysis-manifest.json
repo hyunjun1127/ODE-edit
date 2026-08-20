@@ -1,0 +1,80 @@
+{
+  "imputation_count": 0,
+  "input_root_sha256": "8991895e9c20c7b810823c4a3a557f34d44b84fca082ad27c0b9246235e696ea",
+  "inputs": [
+    {
+      "bytes": 2514,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-target-official-alphaedit-writer-a1-v1/local/odebf/results/s05-p1r52-target-official-alphaedit-writer-phase-a-tech-r2-v1/terminal.json",
+      "sha256": "6a16201f37fe21ef6324370fcbd4ec1912788d1f7a668e07b77297437557cb6e"
+    },
+    {
+      "bytes": 384,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-target-official-alphaedit-writer-a1-v1/local/odebf/results/s05-p1r52-target-official-alphaedit-writer-phase-a-tech-r2-v1/manifest.json",
+      "sha256": "034964fc21cd95e08dff121e58e57e34e9b14d8c13fa71849ea094b084ee1ba3"
+    },
+    {
+      "bytes": 3374,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-target-official-alphaedit-writer-a1-phase-b-v1/local/odebf/results/s05-p1r52-target-official-alphaedit-writer-phase-b-sequential-10xb100-v1/terminal.json",
+      "sha256": "0acf2ff7f582ba7e57bb1d2660e5f63d1146fb332d03284fddf5cc7d52396b48"
+    },
+    {
+      "bytes": 444,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-target-official-alphaedit-writer-a1-phase-b-v1/local/odebf/results/s05-p1r52-target-official-alphaedit-writer-phase-b-sequential-10xb100-v1/manifest.json",
+      "sha256": "0c3a8762606674b8e606913dcee2f95226e72bceb92474145ef270477be637d8"
+    },
+    {
+      "bytes": 49763,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-target-official-alphaedit-writer-a1-phase-b-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-aggregate.json",
+      "sha256": "5d2f013b1ccc613cad28ac86f9dff3e3fcab05c72ac26ccfa179deca99ff4d7d"
+    },
+    {
+      "bytes": 62945,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-target-official-alphaedit-writer-a1-phase-b-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-accepted-z-aggregates.json",
+      "sha256": "264ba1fbe70ab961b127bbf707cf4d56496d399963e27dc76c18ca73b85601c1"
+    }
+  ],
+  "members": [
+    {
+      "bytes": 9464,
+      "lines": 100,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-target-official-alphaedit-writer-a1-phase-b-v1/local/odebf/reports/p1r52-target-official-alphaedit-writer-a1-final-v2/p1r52-target-official-alphaedit-writer-a1-factual-ko.md",
+      "sha256": "026db11d1e7c627759fd831592f29e77d1dfb6c5d407cf996ad4b81dfe22333a"
+    },
+    {
+      "bytes": 31362,
+      "lines": 715,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-target-official-alphaedit-writer-a1-phase-b-v1/local/odebf/reports/p1r52-target-official-alphaedit-writer-a1-final-v2/p1r52-target-official-alphaedit-writer-phase-a-per-case.json",
+      "sha256": "4e579ad3592214fa7cfd3e1586ffbbb89ac1e232f1550a9497d4921aee537a6e"
+    },
+    {
+      "bytes": 48822,
+      "lines": 1375,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-target-official-alphaedit-writer-a1-phase-b-v1/local/odebf/reports/p1r52-target-official-alphaedit-writer-a1-final-v2/p1r52-target-official-alphaedit-writer-phase-b-per-batch.json",
+      "sha256": "20dfc1b96125150bd126564926700e7c6d0f0a1fa8202f980419ed4ca5a47f60"
+    },
+    {
+      "bytes": 1539009,
+      "lines": 35005,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-target-official-alphaedit-writer-a1-phase-b-v1/local/odebf/reports/p1r52-target-official-alphaedit-writer-a1-final-v2/p1r52-target-official-alphaedit-writer-phase-b-per-request.json",
+      "sha256": "e6dda1c7af3d72d01eca29cf11146c66baa4c83c66e76546cdc8c4508679b49a"
+    },
+    {
+      "bytes": 38601,
+      "lines": 1327,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-target-official-alphaedit-writer-a1-phase-b-v1/local/odebf/reports/p1r52-target-official-alphaedit-writer-a1-final-v2/p1r52-target-official-alphaedit-writer-core-comparison.json",
+      "sha256": "a43b8db45dc3faee433e91b2845fcc722c5d061c61fb004c3176184d574aefd2"
+    }
+  ],
+  "members_root_sha256": "934902bb772a415a783ca5b49b7800f0d084e50178649117f96eda62225485c9",
+  "row_counts": {
+    "phase_a_per_case": 10,
+    "phase_b_per_batch": 10,
+    "phase_b_per_request": 1000
+  },
+  "schema": "ode-edit-s05-p1r52-target-official-alphaedit-writer-analysis-manifest/v1",
+  "source": {
+    "phase_a_head": "1e5bee6a555c1a7cc1a1c5b034ecf004d18d475c",
+    "phase_b_head": "f072ee73d11fbc704dc8b750ec187923250439c0"
+  },
+  "status": "SEALED"
+}
