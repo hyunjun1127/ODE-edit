@@ -1,0 +1,20 @@
+{
+  "checks": {
+    "W0_restored_phase_a_b": true,
+    "barrier_influence_zero": true,
+    "batch_entry_evaluator_zero": true,
+    "imputation_zero": true,
+    "native_compute_z_zero": true,
+    "phase_a_10_of_10": true,
+    "phase_b_10_of_10": true,
+    "phase_b_requests_1000": true,
+    "same_entry_W_all_phase_a": true,
+    "same_z_hash_all_phase_a": true
+  },
+  "identity_sha256": "629b09d47d1facb4261c0e5afd280bfd1d210fdd53961e92c3172d724bf0ec00",
+  "manifest_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-target-official-alphaedit-writer-a1-phase-b-v1/local/odebf/reports/p1r52-target-official-alphaedit-writer-a1-final-v2/analysis-manifest.json",
+  "manifest_root_sha256": "934902bb772a415a783ca5b49b7800f0d084e50178649117f96eda62225485c9",
+  "manifest_sha256": "40704f7025ca89be18c5b169a80a0415bc6f0c5513a7140fd2d74b5037f075b5",
+  "schema": "ode-edit-s05-p1r52-target-official-alphaedit-writer-analysis-receipt/v1",
+  "status": "PASS"
+}

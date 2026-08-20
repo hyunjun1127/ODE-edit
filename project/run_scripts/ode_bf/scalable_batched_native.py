@@ -74,6 +74,7 @@ def _alphaedit_static_projection_snapshot(alpha_module: Any) -> dict[str, Any]:
         "loaded_from": str(getattr(alpha_module, "P_loaded_from", None)),
         "shape": list(projection.shape),
         "dtype": str(projection.dtype),
+        "sha256": tensor_sha256(projection),
         "reload_requested": False,
     }
 
@@ -487,6 +488,9 @@ def run_official_native_apply(
     touched: Mapping[str, torch.nn.Parameter],
     reset_cache: bool = True,
     cache_history_width: int | None = None,
+    cache_template: str | None = None,
+    expected_native_compute_z_call_count: int | None = None,
+    accepted_z_source: str | None = None,
 ) -> tuple[dict[str, Any], Mapping[str, torch.Tensor]]:
     """Invoke the pinned Official EasyEdit AlphaEdit entry exactly once.
 
@@ -502,13 +506,24 @@ def run_official_native_apply(
     pointers = {name: int(value.data_ptr()) for name, value in touched.items()}
     request_copy = [copy.deepcopy(dict(item)) for item in requests]
     original_compute_ks = alpha_main.compute_ks
+    original_compute_z = getattr(alpha_main, "compute_z", None)
+    if expected_native_compute_z_call_count is not None and original_compute_z is None:
+        raise ODEBFContractError("Official AlphaEdit native compute_z interface is absent")
     original_backward = torch.autograd.backward
     target_backward_count = 0
+    native_compute_z_call_count = 0
 
     def counted_backward(*args: Any, **kwargs: Any) -> Any:
         nonlocal target_backward_count
         target_backward_count += 1
         return original_backward(*args, **kwargs)
+
+    def counted_compute_z(*args: Any, **kwargs: Any) -> Any:
+        nonlocal native_compute_z_call_count
+        native_compute_z_call_count += 1
+        if original_compute_z is None:
+            raise ODEBFContractError("Official AlphaEdit native compute_z interface is absent")
+        return original_compute_z(*args, **kwargs)
 
     cache_entry: dict[str, Any] | None = None
     if cache_history_width is not None:
@@ -522,6 +537,8 @@ def run_official_native_apply(
             raise ODEBFStateError("Official Native sequential cache entry is absent")
     started = time.perf_counter()
     torch.autograd.backward = counted_backward
+    if original_compute_z is not None:
+        alpha_main.compute_z = counted_compute_z
     try:
         with _alphaedit_solver_key_dtype_adapter(alpha_main) as adapter_receipt:
             with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
@@ -532,12 +549,14 @@ def run_official_native_apply(
                     hparams,
                     copy=False,
                     return_orig_weights=True,
-                    cache_template=None,
+                    cache_template=cache_template,
                     keep_original_weight=False,
                     reset_cache=bool(reset_cache),
                 )
     finally:
         torch.autograd.backward = original_backward
+        if original_compute_z is not None:
+            alpha_main.compute_z = original_compute_z
     wall = time.perf_counter() - started
     adapter_receipt = {
         **adapter_receipt,
@@ -546,6 +565,11 @@ def run_official_native_apply(
     }
     if adapter_receipt["call_count"] <= 0 or not adapter_receipt["restored"]:
         raise ODEBFContractError("P1R23 Official Native solver key adapter differs")
+    if (
+        expected_native_compute_z_call_count is not None
+        and native_compute_z_call_count != int(expected_native_compute_z_call_count)
+    ):
+        raise ODEBFContractError("Official AlphaEdit native compute_z call count differs")
     if returned_model is not model or set(originals) != set(touched):
         raise ODEBFContractError("P1R23 Official Native return contract differs")
     if any(int(touched[name].data_ptr()) != pointers[name] for name in touched):
@@ -589,7 +613,10 @@ def run_official_native_apply(
             [str(item["request_sha256"]) for item in requests]
         ),
         "official_entrypoint": "easyeditor.models.alphaedit.AlphaEdit_main.apply_AlphaEdit_to_model",
-        "direct_z_semantics": True,
+        "direct_z_semantics": cache_template is None,
+        "accepted_z_source": accepted_z_source,
+        "accepted_z_cache_template_used": cache_template is not None,
+        "native_alphaedit_compute_z_call_count": native_compute_z_call_count,
         "solver_key_dtype_adapter": adapter_receipt,
         "target_backward_count": target_backward_count,
         "alphaedit_dynamic_cache_contract": cache_contract,

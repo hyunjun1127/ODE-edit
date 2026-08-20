@@ -1,0 +1,30 @@
+{
+  "schema_version": "ode-edit-s05-p1r52-target-official-alphaedit-writer-a1-phase-b-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R52-TARGET-OFFICIAL-ALPHAEDIT-WRITER-A1-V1",
+  "parent": "1e5bee6a555c1a7cc1a1c5b034ecf004d18d475c",
+  "implementation_parent": "5ec6765acc38998aa68cfd112760fe1eeade21d0",
+  "entries": [
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r52_target_official_alphaedit_writer_a1_phase_b.json", "sha256": "b58b5bde3946291692bfd02629e9a2c45288fa712e492d12e6d2bed31cb6f707", "size": 1555},
+    {"path": "project/run_scripts/ode_bf/locks/p1r52_sequential_b100x10_stream_seal.json", "sha256": "550600af120070594078b73a5da7d066ad6287d8a3224c55f61babca592e0586", "size": 404973},
+    {"path": "project/run_scripts/ode_bf/p1_runtime.py", "sha256": "2be1248c7a3d6c233687c2869a8641a794ec68a93f903161ac5ee35b9cd1a342", "size": 230725},
+    {"path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py", "sha256": "7a372aade5de9c363b97839756961dc446492a3ed499eebdda08f51f75de8a36", "size": 135058},
+    {"path": "project/run_scripts/ode_bf/p1r52_accepted_z_observation.py", "sha256": "0f13e6e677bb4494dcd963358b1b678c8c78d53d7a05c41e8e595bd5f3d05c9d", "size": 16444},
+    {"path": "project/run_scripts/ode_bf/p1r52_r42_safe_kdc.py", "sha256": "d4098eb11002349cf3b151f8d2e327bee15990bd6ee4f4accef9fdb4555e97bd", "size": 34797},
+    {"path": "project/run_scripts/ode_bf/p1r52_sequential_runtime.py", "sha256": "a58827d5ec361f9f64f88eb392d6c660a525547286ab217d5f87178caa233a48", "size": 110808},
+    {"path": "project/run_scripts/ode_bf/p1r52_target_official_alphaedit_writer.py", "sha256": "f3a07e1852b7a6cf4847b766964a4fadf2207df4aff2d032f83e75cac39d7a9d", "size": 44192},
+    {"path": "project/run_scripts/ode_bf/p1r52_target_official_alphaedit_writer_panel.py", "sha256": "53ebd2bb3b8b74d02a5b1a0b0f74327b9fcc1eaf0d1a865411222f19931ca091", "size": 2861},
+    {"path": "project/run_scripts/ode_bf/scalable_batched_field.py", "sha256": "c704c58e5617e2df6919e7424d19b600822188b9d2f72f0b360b8b84ec6bef66", "size": 19280},
+    {"path": "project/run_scripts/ode_bf/scalable_batched_model.py", "sha256": "9196adf47ac67b425acc20ed098b8c672a4387c5907f95ea5f05472c53e89621", "size": 39640},
+    {"path": "project/run_scripts/ode_bf/scalable_batched_native.py", "sha256": "d8a3a86688eb4131e4d5cbe077d8a0d4e85bae83ac6063d4d1fa17b92663f81e", "size": 26974},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r52_target_official_alphaedit_writer.py", "sha256": "1dbc8967350ca0994437e7d9d8a8a5b876b3712d632d2c01d2f7a8cf24c37b28", "size": 10050},
+    {"path": "project/run_scripts/session05_ode_bf_p1r52_target_official_alphaedit_writer_a1_phase_b.py", "sha256": "dd3d41ee154282ac78ad18014dce6af130c2e490224d284e2c67dafb8c2a4087", "size": 4941},
+    {"path": "project/run_scripts/session05_ode_bf_p1r52_target_official_alphaedit_writer_a1_phase_b.sbatch", "sha256": "420cac0474c31a66bb0bc77056d94868e29d86ae8dd6d6b3d359ca1781c75aa3", "size": 2212},
+    {"path": "project/run_scripts/session05_ode_bf_p1r52_target_official_alphaedit_writer_a1_phase_b_dry_plan.py", "sha256": "128c46b9d6032162d1c76ccce0028e66914091dc6be6b8741a638ce1428e8668", "size": 1434},
+    {"path": "project/run_scripts/session05_ode_bf_submit_p1r52_target_official_alphaedit_writer_a1_phase_b.py", "sha256": "78b1cbf9ef32727e5aee2b253ad5556bf0d3e149bde01044cc531dec5c846b12", "size": 4866}
+  ],
+  "entry_count": 17,
+  "phase_a_terminal_sha256": "6a16201f37fe21ef6324370fcbd4ec1912788d1f7a668e07b77297437557cb6e",
+  "phase_b_status": "RELEASED",
+  "easyedit_write_count": 0,
+  "root_digest": "17076604d93ca44526e2c0adc863e3c43d925a0f70d2bb3021ae20b9b3e461be"
+}

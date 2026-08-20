@@ -94,6 +94,14 @@ from .p1r52_piru_cache_continuity import (
     ROLES as P1R52_PIRU_CACHE_CONTINUITY_ROLES,
     policy_for_role as piru_cache_policy_for_role,
 )
+from .p1r52_target_official_alphaedit_writer import (
+    PHASE_A_RESULT_NAME as TARGET_OFFICIAL_PHASE_A_RESULT_NAME,
+    PHASE_A_ROLE as TARGET_OFFICIAL_PHASE_A_ROLE,
+    PHASE_B_RESULT_NAME as TARGET_OFFICIAL_PHASE_B_RESULT_NAME,
+    PHASE_B_ROLE as TARGET_OFFICIAL_PHASE_B_ROLE,
+    run_phase_a as run_target_official_phase_a,
+    run_phase_b as run_target_official_phase_b,
+)
 from .scalable_batched_model import build_scalable_capture_plan, build_scalable_objective_plan
 from .scalable_batched_native import run_official_native_apply
 from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER, scalable_ordered_request_digest
@@ -131,6 +139,8 @@ RESULT_NAMES_B100X10 = {
     R52_CONTROL_ROLE: "s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-v1",
     NATIVE_CORRECTED_ROLE: "s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-v1",
     MEMIT_ROLE: "s05-p1r52-official-memit-sequential-10xb100-v1",
+    TARGET_OFFICIAL_PHASE_A_ROLE: TARGET_OFFICIAL_PHASE_A_RESULT_NAME,
+    TARGET_OFFICIAL_PHASE_B_ROLE: TARGET_OFFICIAL_PHASE_B_RESULT_NAME,
 }
 
 RESULT_NAMES_B100X10_PIRU = {
@@ -1033,6 +1043,68 @@ def run_p1r52_sequential(
     postsolve_energy_warn_enabled: bool = False,
     piru_cache_complete_rounds: Sequence[int] | None = None,
 ) -> dict[str, Any]:
+    if role == TARGET_OFFICIAL_PHASE_A_ROLE:
+        if batch_entry_evaluation_enabled or accepted_z_observation_enabled:
+            raise ODEBFContractError("target/Official writer Phase-A evaluator scope differs")
+        return run_target_official_phase_a(
+            model,
+            tokenizer,
+            alias=alias,
+            destination=destination,
+            raw_root=raw_root,
+            stages=stages,
+            source_head=source_head,
+            stream_batches=stream_batches,
+            stream=stream,
+            hparams=hparams,
+            projector=projector,
+            contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            controller_lock=controller_lock,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            theta0_cache=theta0_cache,
+            dataset_path=dataset_path,
+            mutation_lock=mutation_lock,
+            touched=touched,
+            base_receipt=base_receipt,
+            base_values=base_values,
+            job_ledger=job_ledger,
+            request_microbatch_size=request_microbatch_size,
+        )
+    if role == TARGET_OFFICIAL_PHASE_B_ROLE:
+        if batch_entry_evaluation_enabled or accepted_z_observation_enabled:
+            raise ODEBFContractError("target/Official writer Phase-B evaluator scope differs")
+        return run_target_official_phase_b(
+            model,
+            tokenizer,
+            alias=alias,
+            destination=destination,
+            raw_root=raw_root,
+            stages=stages,
+            source_head=source_head,
+            stream_batches=stream_batches,
+            stream=stream,
+            hparams=hparams,
+            projector=projector,
+            contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            controller_lock=controller_lock,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            theta0_cache=theta0_cache,
+            dataset_path=dataset_path,
+            mutation_lock=mutation_lock,
+            touched=touched,
+            base_receipt=base_receipt,
+            base_values=base_values,
+            job_ledger=job_ledger,
+            request_microbatch_size=request_microbatch_size,
+        )
     role_names = (
         RESULT_NAMES
         if scale == P1R52_B10X10_SCALE
