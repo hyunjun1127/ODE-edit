@@ -1,0 +1,12 @@
+{
+  "created_at_kst": "2026-08-20T15:00:53+09:00",
+  "manifest_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il1-il3full-v1/local/odebf/reports/p1r52-target-depth-phase1b-atomic-v3/manifest.json",
+  "manifest_root": "328495bb4664263cae738a91983de666228428023e7de768256817e24dd25fc8",
+  "manifest_sha256": "9e0958855505fec4b33362551e7710a800bf7f5df02330924fd8618a5a16cbdb",
+  "phase2_eligible": [],
+  "report_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il1-il3full-v1/local/odebf/reports/p1r52-target-depth-phase1b-atomic-v3/p1r52-target-depth-phase1b-atomic-terminal-report-ko.md",
+  "report_sha256": "4925b7e0219f5cc17788cf674ff0aa81c23f94a111176bf3e25ccc59fa64b3ec",
+  "root_digest": "d0ccbb82790b07bace35c4e3833865d208b3e67d1400719169d1f1850331879f",
+  "schema": "ode-edit-p1r52-target-depth-phase1b-receipt/v1",
+  "scientific_promotion": false
+}

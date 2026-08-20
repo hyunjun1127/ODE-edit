@@ -1,0 +1,129 @@
+{
+  "all_request_order_sha256": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+  "attempt_count": 40,
+  "contract_sha256": "06e65d4a2df4a4610ef09818c2afd96b8dbe86cc3041afdbc5b099ca2358ec63",
+  "endpoint_count": 35,
+  "instruction_id": "ODEEDIT-S05-P1R52-TARGET-DEPTH-IL1-IL3FULL-V1",
+  "member_count": 16,
+  "members": [
+    {
+      "bytes": 4858,
+      "lines": 5,
+      "mode": "0600",
+      "name": "group-summary.csv",
+      "sha256": "e8fc06007ada37a78027be5261145a992d432e0e25f55be09c89df6427db0853"
+    },
+    {
+      "bytes": 11418,
+      "lines": 266,
+      "mode": "0600",
+      "name": "group-summary.json",
+      "sha256": "c7024e39d143af9b9700614b4c54fb5e9e9e04c2045ae5a6cac1d9b45451c5b6"
+    },
+    {
+      "bytes": 2927,
+      "lines": 5,
+      "mode": "0600",
+      "name": "il3-minus-il1-comparison.csv",
+      "sha256": "0108198a859746c278fbe3f4d1b16a78cbf5cd3ccbcb73c293a8144af822293a"
+    },
+    {
+      "bytes": 6562,
+      "lines": 146,
+      "mode": "0600",
+      "name": "il3-minus-il1-comparison.json",
+      "sha256": "6c04896d57595f7119028330442c9ade46386dcb5c494504f9e36b3791ed2b26"
+    },
+    {
+      "bytes": 8572,
+      "lines": 95,
+      "mode": "0600",
+      "name": "p1r52-target-depth-phase1b-atomic-terminal-report-ko.md",
+      "sha256": "4925b7e0219f5cc17788cf674ff0aa81c23f94a111176bf3e25ccc59fa64b3ec"
+    },
+    {
+      "bytes": 31879,
+      "lines": 41,
+      "mode": "0600",
+      "name": "per-case.csv",
+      "sha256": "a8005e3cd766f0cdcde32c040bd298f79a60887cb234c0e0e93e9d84559798c5"
+    },
+    {
+      "bytes": 86118,
+      "lines": 2072,
+      "mode": "0600",
+      "name": "per-case.json",
+      "sha256": "dde1c6e7015d706fb18cce41c15a94a319409396f18b89345cb0a56e6f7061d7"
+    },
+    {
+      "bytes": 115233,
+      "lines": 351,
+      "mode": "0600",
+      "name": "per-request.csv",
+      "sha256": "ce5cc1c1e052e2d1ca8fb95885b1faf5857ac4209f0cf5fac6a1cb2f001074ad"
+    },
+    {
+      "bytes": 332532,
+      "lines": 9452,
+      "mode": "0600",
+      "name": "per-request.json",
+      "sha256": "46daeca58465a974a96dfa43b6a539cc151e07207248e653d215abb99373b3bf"
+    },
+    {
+      "bytes": 161252,
+      "lines": 313,
+      "mode": "0600",
+      "name": "per-step.csv",
+      "sha256": "13207144f152c449386dd9fb6a37bd5501705b84d9da8d42811f5e2be755efac"
+    },
+    {
+      "bytes": 426501,
+      "lines": 10610,
+      "mode": "0600",
+      "name": "per-step.json",
+      "sha256": "e3e1d8f7c7459595274154326e5aa5672bd8a0d54eb0ee91109e425dce352ff0"
+    },
+    {
+      "bytes": 428,
+      "lines": 15,
+      "mode": "0600",
+      "name": "phase1b-gate.json",
+      "sha256": "7cce2bb95625b8064aca6b84e87252d811207ca0ccef4c618d523d1ad9311b7b"
+    },
+    {
+      "bytes": 21988,
+      "lines": 41,
+      "mode": "0600",
+      "name": "result-identities.csv",
+      "sha256": "eb9b6746f30fa607d6c6f988c305877f7f75abb36b1c0d8dfa87a9b5c556b5e6"
+    },
+    {
+      "bytes": 31446,
+      "lines": 472,
+      "mode": "0600",
+      "name": "result-identities.json",
+      "sha256": "b98f55e64c853798eeb16c661c2a545f151e3c9d54bb14fb8973c910abc58183"
+    },
+    {
+      "bytes": 1452,
+      "lines": 6,
+      "mode": "0600",
+      "name": "typed-failures.csv",
+      "sha256": "63361fb25243de62f08a8ea61ecea9efc715381e2486442e4914319b8cf3ed66"
+    },
+    {
+      "bytes": 2677,
+      "lines": 72,
+      "mode": "0600",
+      "name": "typed-failures.json",
+      "sha256": "8bb14758249a8bfc22d004ca2524fa8d2082c7082879ff5b18505430c8fc8146"
+    }
+  ],
+  "root_digest": "328495bb4664263cae738a91983de666228428023e7de768256817e24dd25fc8",
+  "schema": "ode-edit-p1r52-target-depth-phase1b-manifest/v1",
+  "slurm_job_id": "21357",
+  "source_head": "98036fe23a71bd760384d65e3fb5da9d87f717bb",
+  "source_tree": "cc307ef381d03e621bebb3dab819284362750f6d",
+  "stream_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
+  "typed_scientific_failure_count": 5
+}
