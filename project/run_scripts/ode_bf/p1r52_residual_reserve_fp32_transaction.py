@@ -153,6 +153,76 @@ class FP32TransactionReceipt:
 
 
 @dataclass(frozen=True, slots=True)
+class FP32PreparedCommitReceipt:
+    transaction_id: str
+    mode: str
+    layer_order: tuple[int, ...]
+    weight_names: tuple[str, ...]
+    layer_receipts: tuple[FP32LayerApplicationReceipt, ...]
+    native_storage_assignment_count: int
+    storage_cast_boundary_count: int
+    logical_outer_commit_count: int
+    persistent_commit_count: int
+    rollback_count: int
+    prepared_parameter_sha256: tuple[tuple[str, str], ...]
+    prepared_parameter_pointers: tuple[tuple[str, int], ...]
+    future_final_receipt: FP32TransactionReceipt
+    preparation_parameter_mutation_count: int
+    postcast_decision_influence_count: int
+    model_forward_count: int
+    model_backward_count: int
+    candidate_materialization_count: int
+    external_materializer_call_count: int
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        payload: dict[str, Any] = {
+            "transaction_id": self.transaction_id,
+            "mode": self.mode,
+            "layer_order": list(self.layer_order),
+            "weight_names": list(self.weight_names),
+            "layer_receipts": [
+                item.raw_free_payload() for item in self.layer_receipts
+            ],
+            "native_storage_assignment_count": (
+                self.native_storage_assignment_count
+            ),
+            "storage_cast_boundary_count": self.storage_cast_boundary_count,
+            "logical_outer_commit_count": self.logical_outer_commit_count,
+            "persistent_commit_count": self.persistent_commit_count,
+            "rollback_count": self.rollback_count,
+            "prepared_parameter_sha256": [
+                list(item) for item in self.prepared_parameter_sha256
+            ],
+            "prepared_parameter_pointers": [
+                [name, pointer]
+                for name, pointer in self.prepared_parameter_pointers
+            ],
+            "future_final_receipt": self.future_final_receipt.raw_free_payload(),
+            "future_final_receipt_identity": (
+                self.future_final_receipt.identity_sha256
+            ),
+            "preparation_parameter_mutation_count": (
+                self.preparation_parameter_mutation_count
+            ),
+            "postcast_decision_influence_count": (
+                self.postcast_decision_influence_count
+            ),
+            "model_forward_count": self.model_forward_count,
+            "model_backward_count": self.model_backward_count,
+            "candidate_materialization_count": self.candidate_materialization_count,
+            "external_materializer_call_count": (
+                self.external_materializer_call_count
+            ),
+        }
+        payload["identity_sha256"] = canonical_hash(payload)
+        return payload
+
+    @property
+    def identity_sha256(self) -> str:
+        return self.raw_free_payload()["identity_sha256"]
+
+
+@dataclass(frozen=True, slots=True)
 class _EntryParameterSnapshot:
     layer: int
     weight_name: str
@@ -253,6 +323,7 @@ class OfficialStyleFP32SequentialTransaction(AbstractContextManager):
             for layer in RESIDUAL_RESERVE_LAYER_ORDER
         }
         self._layer_receipts: list[FP32LayerApplicationReceipt] = []
+        self._prepared_receipt: FP32PreparedCommitReceipt | None = None
         self._final_receipt: FP32TransactionReceipt | None = None
         self._finalized = False
         self._rollback_count = 0
@@ -268,6 +339,14 @@ class OfficialStyleFP32SequentialTransaction(AbstractContextManager):
     @property
     def final_receipt(self) -> FP32TransactionReceipt | None:
         return self._final_receipt
+
+    @property
+    def prepared_receipt(self) -> FP32PreparedCommitReceipt | None:
+        return self._prepared_receipt
+
+    @property
+    def finalized(self) -> bool:
+        return self._finalized
 
     def __enter__(self) -> OfficialStyleFP32SequentialTransaction:
         if self._finalized:
@@ -395,6 +474,8 @@ class OfficialStyleFP32SequentialTransaction(AbstractContextManager):
         try:
             if self._finalized:
                 raise ODEBFStateError("FP32 transaction is already finalized")
+            if self._prepared_receipt is not None:
+                raise ODEBFStateError("prepared FP32 transaction cannot apply a layer")
             expected_layer = RESIDUAL_RESERVE_LAYER_ORDER[len(self._layer_receipts)]
             if layer != expected_layer:
                 raise ODEBFContractError(
@@ -501,19 +582,82 @@ class OfficialStyleFP32SequentialTransaction(AbstractContextManager):
                 self._restore_entry()
             raise
 
-    def commit_outer(self) -> FP32TransactionReceipt:
+    def commit_outer(
+        self,
+        expected_prepare_identity: str | None = None,
+    ) -> FP32TransactionReceipt:
+        """Finalize only an explicitly prepared authoritative transaction."""
+        return self.commit_prepared(expected_prepare_identity)
+
+    def prepare_authoritative_commit(self) -> FP32PreparedCommitReceipt:
+        try:
+            if self._finalized:
+                raise ODEBFStateError("FP32 transaction is already finalized")
+            if self._prepared_receipt is not None:
+                raise ODEBFStateError("FP32 transaction is already prepared")
+            if self.mode is not FP32TransactionMode.AUTHORITATIVE:
+                raise ODEBFContractError("shadow FP32 transaction cannot prepare")
+            self._require_complete()
+            future_final_receipt = self._receipt(
+                logical_outer_commit_count=1,
+                persistent_commit_count=1,
+                restored=False,
+            )
+            prepared_receipt = FP32PreparedCommitReceipt(
+                transaction_id=self.transaction_id,
+                mode=self.mode.value,
+                layer_order=RESIDUAL_RESERVE_LAYER_ORDER,
+                weight_names=tuple(
+                    self._bindings[layer].weight_name
+                    for layer in RESIDUAL_RESERVE_LAYER_ORDER
+                ),
+                layer_receipts=tuple(self._layer_receipts),
+                native_storage_assignment_count=len(self._layer_receipts),
+                storage_cast_boundary_count=len(self._layer_receipts),
+                logical_outer_commit_count=0,
+                persistent_commit_count=0,
+                rollback_count=self._rollback_count,
+                prepared_parameter_sha256=(
+                    future_final_receipt.final_parameter_sha256
+                ),
+                prepared_parameter_pointers=(
+                    future_final_receipt.final_parameter_pointers
+                ),
+                future_final_receipt=future_final_receipt,
+                preparation_parameter_mutation_count=0,
+                postcast_decision_influence_count=0,
+                model_forward_count=0,
+                model_backward_count=0,
+                candidate_materialization_count=0,
+                external_materializer_call_count=0,
+            )
+            prepared_receipt.identity_sha256
+            self._prepared_receipt = prepared_receipt
+            return prepared_receipt
+        except BaseException:
+            if not self._finalized:
+                self._restore_entry()
+            raise
+
+    def commit_prepared(
+        self,
+        expected_prepare_identity: str,
+    ) -> FP32TransactionReceipt:
         try:
             if self._finalized:
                 raise ODEBFStateError("FP32 transaction is already finalized")
             if self.mode is not FP32TransactionMode.AUTHORITATIVE:
                 raise ODEBFContractError("shadow FP32 transaction cannot commit")
+            prepared = self._prepared_receipt
+            if prepared is None:
+                raise ODEBFStateError("FP32 transaction is not prepared")
+            if (
+                not isinstance(expected_prepare_identity, str)
+                or expected_prepare_identity != prepared.identity_sha256
+            ):
+                raise ODEBFStateError("FP32 prepared identity differs")
             self._require_complete()
-            receipt = self._receipt(
-                logical_outer_commit_count=1,
-                persistent_commit_count=1,
-                restored=False,
-            )
-            self._final_receipt = receipt
+            self._final_receipt = prepared.future_final_receipt
             self._finalized = True
             return self._final_receipt
         except BaseException:
@@ -535,6 +679,7 @@ class OfficialStyleFP32SequentialTransaction(AbstractContextManager):
 
 __all__ = [
     "FP32LayerApplicationReceipt",
+    "FP32PreparedCommitReceipt",
     "FP32TransactionMode",
     "FP32TransactionReceipt",
     "LayerParameterBinding",

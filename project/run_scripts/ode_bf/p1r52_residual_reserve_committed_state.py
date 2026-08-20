@@ -10,8 +10,10 @@ import torch
 
 from .contracts import ODEBFContractError, ODEBFStateError, canonical_hash
 from .p1r52_residual_reserve_fp32_transaction import (
+    FP32PreparedCommitReceipt,
     FP32TransactionMode,
     FP32TransactionReceipt,
+    OfficialStyleFP32SequentialTransaction,
     RESIDUAL_RESERVE_LAYER_ORDER,
 )
 from .p1r52_residual_reserve_pc_inventory import (
@@ -335,31 +337,52 @@ class CommittedLayerFactorBinding:
 
 
 def bind_authoritative_transaction_factors(
-    transaction: FP32TransactionReceipt,
+    prepared: FP32PreparedCommitReceipt,
     factors: tuple[LowRankFP32Factor, ...],
 ) -> tuple[CommittedLayerFactorBinding, ...]:
-    if not isinstance(transaction, FP32TransactionReceipt):
-        raise ODEBFContractError("M3A transaction receipt type differs")
+    if not isinstance(prepared, FP32PreparedCommitReceipt):
+        raise ODEBFContractError("M3A prepared receipt type differs")
+    future = prepared.future_final_receipt
     if (
-        transaction.mode != FP32TransactionMode.AUTHORITATIVE.value
-        or transaction.layer_order != RESIDUAL_RESERVE_LAYER_ORDER
-        or len(transaction.layer_receipts) != len(RESIDUAL_RESERVE_LAYER_ORDER)
-        or transaction.native_storage_assignment_count
+        prepared.mode != FP32TransactionMode.AUTHORITATIVE.value
+        or prepared.layer_order != RESIDUAL_RESERVE_LAYER_ORDER
+        or len(prepared.layer_receipts) != len(RESIDUAL_RESERVE_LAYER_ORDER)
+        or prepared.native_storage_assignment_count
         != len(RESIDUAL_RESERVE_LAYER_ORDER)
-        or transaction.storage_cast_boundary_count
+        or prepared.storage_cast_boundary_count
         != len(RESIDUAL_RESERVE_LAYER_ORDER)
-        or transaction.logical_outer_commit_count != 1
-        or transaction.persistent_commit_count != 1
-        or transaction.rollback_count != 0
-        or transaction.restored_entry_bytes
-        or transaction.restored_entry_pointers
-        or transaction.postcast_decision_influence_count != 0
-        or transaction.model_forward_count != 0
-        or transaction.model_backward_count != 0
-        or transaction.candidate_materialization_count != 0
-        or transaction.external_materializer_call_count != 0
+        or prepared.logical_outer_commit_count != 0
+        or prepared.persistent_commit_count != 0
+        or prepared.rollback_count != 0
+        or prepared.preparation_parameter_mutation_count != 0
+        or prepared.postcast_decision_influence_count != 0
+        or prepared.model_forward_count != 0
+        or prepared.model_backward_count != 0
+        or prepared.candidate_materialization_count != 0
+        or prepared.external_materializer_call_count != 0
+        or future.transaction_id != prepared.transaction_id
+        or future.mode != prepared.mode
+        or future.layer_order != prepared.layer_order
+        or future.weight_names != prepared.weight_names
+        or future.layer_receipts != prepared.layer_receipts
+        or future.native_storage_assignment_count
+        != len(RESIDUAL_RESERVE_LAYER_ORDER)
+        or future.storage_cast_boundary_count
+        != len(RESIDUAL_RESERVE_LAYER_ORDER)
+        or future.logical_outer_commit_count != 1
+        or future.persistent_commit_count != 1
+        or future.rollback_count != 0
+        or future.restored_entry_bytes
+        or future.restored_entry_pointers
+        or future.final_parameter_sha256 != prepared.prepared_parameter_sha256
+        or future.final_parameter_pointers != prepared.prepared_parameter_pointers
+        or future.postcast_decision_influence_count != 0
+        or future.model_forward_count != 0
+        or future.model_backward_count != 0
+        or future.candidate_materialization_count != 0
+        or future.external_materializer_call_count != 0
     ):
-        raise ODEBFContractError("M3A authoritative commit gate differs")
+        raise ODEBFContractError("M3A authoritative prepare gate differs")
     if (
         not isinstance(factors, tuple)
         or not all(isinstance(item, LowRankFP32Factor) for item in factors)
@@ -371,7 +394,7 @@ def bind_authoritative_transaction_factors(
     for layer, factor, receipt in zip(
         RESIDUAL_RESERVE_LAYER_ORDER,
         factors,
-        transaction.layer_receipts,
+        prepared.layer_receipts,
         strict=True,
     ):
         if (
@@ -382,7 +405,7 @@ def bind_authoritative_transaction_factors(
             or receipt.storage_assignment_count != 1
             or receipt.storage_cast_boundary_count != 1
             or receipt.postcast_decision_influence_count != 0
-            or receipt.weight_name != transaction.weight_names[layer - 4]
+            or receipt.weight_name != prepared.weight_names[layer - 4]
             or not receipt.pre_cast_fp32_update_sha256
             or not receipt.actual_post_storage_delta32_sha256
         ):
@@ -401,8 +424,8 @@ def bind_authoritative_transaction_factors(
                 layer=layer,
                 factor=committed_factor,
                 factor_identity=committed_factor.identity_sha256,
-                transaction_id=transaction.transaction_id,
-                transaction_mode=transaction.mode,
+                transaction_id=prepared.transaction_id,
+                transaction_mode=prepared.mode,
                 m3a_layer_receipt_identity=receipt.identity_sha256,
                 pre_cast_update_sha256=receipt.pre_cast_fp32_update_sha256,
                 pre_cast_update_norm=receipt.pre_cast_fp32_update_norm,
@@ -491,6 +514,8 @@ class CommittedLayerTransitionReceipt:
 class LedgerStageReceipt:
     stage_identity: str
     transaction_id: str
+    prepared_commit_identity: str
+    future_final_transaction_receipt_identity: str
     before_state_identity: str
     before_decision_identity: str
     proposed_after_state_identity: str
@@ -502,6 +527,10 @@ class LedgerStageReceipt:
         return {
             "stage_identity": self.stage_identity,
             "transaction_id": self.transaction_id,
+            "prepared_commit_identity": self.prepared_commit_identity,
+            "future_final_transaction_receipt_identity": (
+                self.future_final_transaction_receipt_identity
+            ),
             "before_state_identity": self.before_state_identity,
             "before_decision_identity": self.before_decision_identity,
             "proposed_after_state_identity": self.proposed_after_state_identity,
@@ -519,6 +548,8 @@ class LedgerStageReceipt:
 class LedgerCommitReceipt:
     stage_identity: str
     transaction_id: str
+    prepared_commit_identity: str
+    final_transaction_receipt_identity: str
     before_version: int
     after_version: int
     before_state_identity: str
@@ -540,6 +571,10 @@ class LedgerCommitReceipt:
         payload: dict[str, Any] = {
             "stage_identity": self.stage_identity,
             "transaction_id": self.transaction_id,
+            "prepared_commit_identity": self.prepared_commit_identity,
+            "final_transaction_receipt_identity": (
+                self.final_transaction_receipt_identity
+            ),
             "before_version": self.before_version,
             "after_version": self.after_version,
             "before_state_identity": self.before_state_identity,
@@ -595,6 +630,7 @@ class LedgerAbortReceipt:
 class LedgerCommitResult:
     state: CommittedGrossLoadState
     receipt: LedgerCommitReceipt
+    transaction_receipt: FP32TransactionReceipt
 
 
 @dataclass(frozen=True, slots=True)
@@ -602,7 +638,11 @@ class _StagedTransition:
     stage_receipt: LedgerStageReceipt
     before_state: CommittedGrossLoadState
     after_state: CommittedGrossLoadState
-    layer_receipts: tuple[CommittedLayerTransitionReceipt, ...]
+    precomputed_result: LedgerCommitResult
+    transaction: OfficialStyleFP32SequentialTransaction
+    prepared_identity: str
+    after_state_identity: str
+    after_decision_identity: str
 
 
 def _factor_norm_squared(factor: LowRankFP32Factor) -> float:
@@ -751,118 +791,205 @@ class CommittedGrossLoadLedger:
 
     def stage_authoritative_commit(
         self,
-        transaction: FP32TransactionReceipt,
-        bindings: tuple[CommittedLayerFactorBinding, ...],
+        transaction: OfficialStyleFP32SequentialTransaction,
+        prepared: FP32PreparedCommitReceipt,
+        factors: tuple[LowRankFP32Factor, ...],
     ) -> LedgerStageReceipt:
-        self._verify_state()
-        if self._staged is not None:
-            raise ODEBFStateError("committed ledger already has a staged transition")
-        if not isinstance(transaction, FP32TransactionReceipt):
-            raise ODEBFContractError("staged M3A transaction receipt type differs")
-        if transaction.transaction_id in self._state.committed_transaction_ids:
-            raise ODEBFStateError("M3A transaction identity was already committed")
-        if (
-            not isinstance(bindings, tuple)
-            or not all(isinstance(item, CommittedLayerFactorBinding) for item in bindings)
-            or tuple(item.layer for item in bindings) != RESIDUAL_RESERVE_LAYER_ORDER
-            or any(
-                item.transaction_id != transaction.transaction_id
-                or item.transaction_mode != FP32TransactionMode.AUTHORITATIVE.value
-                or item.factor_identity != item.factor.identity_sha256
-                or item.post_storage_decision_influence_count != 0
-                for item in bindings
-            )
-        ):
-            raise ODEBFContractError("staged factor binding order/identity differs")
-        expected_bindings = bind_authoritative_transaction_factors(
-            transaction,
-            tuple(item.factor for item in bindings),
-        )
-        if tuple(item.raw_free_payload() for item in expected_bindings) != tuple(
-            item.raw_free_payload() for item in bindings
-        ):
-            raise ODEBFContractError("staged factor binding does not match M3A receipt")
+        if not isinstance(transaction, OfficialStyleFP32SequentialTransaction):
+            raise ODEBFContractError("staged M3A transaction object type differs")
+        try:
+            self._verify_state()
+            if self._staged is not None:
+                raise ODEBFStateError(
+                    "committed ledger already has a staged transition"
+                )
+            if not isinstance(prepared, FP32PreparedCommitReceipt):
+                raise ODEBFContractError("staged M3A receipt is not prepared")
+            transaction_prepared = transaction.prepared_receipt
+            if (
+                transaction.finalized
+                or transaction_prepared is None
+                or transaction_prepared.identity_sha256
+                != prepared.identity_sha256
+                or transaction.transaction_id != prepared.transaction_id
+            ):
+                raise ODEBFStateError("staged prepared transaction identity differs")
+            if prepared.transaction_id in self._state.committed_transaction_ids:
+                raise ODEBFStateError("M3A transaction identity was already committed")
+            bindings = bind_authoritative_transaction_factors(prepared, factors)
+            if (
+                tuple(item.layer for item in bindings)
+                != RESIDUAL_RESERVE_LAYER_ORDER
+                or any(
+                    item.transaction_id != prepared.transaction_id
+                    or item.transaction_mode
+                    != FP32TransactionMode.AUTHORITATIVE.value
+                    or item.factor_identity != item.factor.identity_sha256
+                    or item.post_storage_decision_influence_count != 0
+                    for item in bindings
+                )
+            ):
+                raise ODEBFContractError("staged factor binding order/identity differs")
 
-        after_layers: list[CommittedLayerState] = []
-        layer_receipts: list[CommittedLayerTransitionReceipt] = []
-        for before, binding in zip(self._state.layers, bindings, strict=True):
-            if before.layer != binding.layer:
-                raise ODEBFContractError("committed state/binding layer differs")
-            after, layer_receipt = _next_layer_state(
-                before,
-                binding,
-                transaction_id=transaction.transaction_id,
+            after_layers: list[CommittedLayerState] = []
+            layer_receipts: list[CommittedLayerTransitionReceipt] = []
+            for before, binding in zip(self._state.layers, bindings, strict=True):
+                if before.layer != binding.layer:
+                    raise ODEBFContractError("committed state/binding layer differs")
+                after, layer_receipt = _next_layer_state(
+                    before,
+                    binding,
+                    transaction_id=prepared.transaction_id,
+                )
+                after_layers.append(after)
+                layer_receipts.append(layer_receipt)
+            after_state = CommittedGrossLoadState(
+                state_id=self._state.state_id,
+                layers=tuple(after_layers),
+                version=self._state.version + 1,
+                commit_count=self._state.commit_count + 1,
+                committed_transaction_ids=self._state.committed_transaction_ids
+                + (prepared.transaction_id,),
+                last_transaction_id=prepared.transaction_id,
             )
-            after_layers.append(after)
-            layer_receipts.append(layer_receipt)
-        after_state = CommittedGrossLoadState(
-            state_id=self._state.state_id,
-            layers=tuple(after_layers),
-            version=self._state.version + 1,
-            commit_count=self._state.commit_count + 1,
-            committed_transaction_ids=self._state.committed_transaction_ids
-            + (transaction.transaction_id,),
-            last_transaction_id=transaction.transaction_id,
-        )
-        stage_identity = canonical_hash(
-            {
-                "before_state_identity": self._state.identity_sha256,
-                "transaction_receipt_identity": transaction.identity_sha256,
-                "binding_identities": [item.identity_sha256 for item in bindings],
-                "proposed_after_state_identity": after_state.identity_sha256,
-            }
-        )
-        stage_receipt = LedgerStageReceipt(
-            stage_identity=stage_identity,
-            transaction_id=transaction.transaction_id,
-            before_state_identity=self._state.identity_sha256,
-            before_decision_identity=self._state.decision_identity_sha256,
-            proposed_after_state_identity=after_state.identity_sha256,
-            proposed_after_decision_identity=after_state.decision_identity_sha256,
-            current_state_mutation_count=0,
-            proposal_decision_influence_count_before_commit=0,
-        )
-        self._staged = _StagedTransition(
-            stage_receipt,
-            self._state,
-            after_state,
-            tuple(layer_receipts),
-        )
-        self._verify_state()
-        return stage_receipt
+            before_state_identity = self._state.identity_sha256
+            before_decision_identity = self._state.decision_identity_sha256
+            after_state_identity = after_state.identity_sha256
+            after_decision_identity = after_state.decision_identity_sha256
+            prepared_identity = prepared.identity_sha256
+            final_identity = prepared.future_final_receipt.identity_sha256
+            stage_identity = canonical_hash(
+                {
+                    "before_state_identity": before_state_identity,
+                    "prepared_commit_identity": prepared_identity,
+                    "future_final_transaction_receipt_identity": final_identity,
+                    "binding_identities": [
+                        item.identity_sha256 for item in bindings
+                    ],
+                    "proposed_after_state_identity": after_state_identity,
+                }
+            )
+            stage_receipt = LedgerStageReceipt(
+                stage_identity=stage_identity,
+                transaction_id=prepared.transaction_id,
+                prepared_commit_identity=prepared_identity,
+                future_final_transaction_receipt_identity=final_identity,
+                before_state_identity=before_state_identity,
+                before_decision_identity=before_decision_identity,
+                proposed_after_state_identity=after_state_identity,
+                proposed_after_decision_identity=after_decision_identity,
+                current_state_mutation_count=0,
+                proposal_decision_influence_count_before_commit=0,
+            )
+            commit_receipt = LedgerCommitReceipt(
+                stage_identity=stage_identity,
+                transaction_id=prepared.transaction_id,
+                prepared_commit_identity=prepared_identity,
+                final_transaction_receipt_identity=final_identity,
+                before_version=self._state.version,
+                after_version=after_state.version,
+                before_state_identity=before_state_identity,
+                after_state_identity=after_state_identity,
+                before_decision_identity=before_decision_identity,
+                after_decision_identity=after_decision_identity,
+                factor_append_count=len(layer_receipts),
+                logical_commit_count=1,
+                layer_receipts=tuple(layer_receipts),
+                shadow_commit_count=0,
+                failed_commit_count=0,
+                duplicate_commit_count=0,
+                post_storage_decision_influence_count=0,
+                model_forward_count=0,
+                model_backward_count=0,
+                dense_materialization_count=0,
+            )
+            commit_receipt.identity_sha256
+            result = LedgerCommitResult(
+                state=after_state,
+                receipt=commit_receipt,
+                transaction_receipt=prepared.future_final_receipt,
+            )
+            self._staged = _StagedTransition(
+                stage_receipt=stage_receipt,
+                before_state=self._state,
+                after_state=after_state,
+                precomputed_result=result,
+                transaction=transaction,
+                prepared_identity=prepared_identity,
+                after_state_identity=after_state_identity,
+                after_decision_identity=after_decision_identity,
+            )
+            self._verify_state()
+            return stage_receipt
+        except BaseException:
+            staged_on_error = self._staged
+            self._staged = None
+            if (
+                staged_on_error is not None
+                and staged_on_error.transaction is not transaction
+                and not staged_on_error.transaction.finalized
+            ):
+                staged_on_error.transaction.abort_and_rollback()
+            if not transaction.finalized:
+                transaction.abort_and_rollback()
+            raise
 
     def commit_staged(self, stage_identity: str) -> LedgerCommitResult:
-        self._verify_state()
-        if self._staged is None or self._staged.stage_receipt.stage_identity != stage_identity:
-            raise ODEBFStateError("committed ledger stage identity is absent or reused")
-        staged = self._staged
-        if staged.before_state is not self._state:
-            raise ODEBFStateError("committed ledger state changed after staging")
-        self._state = staged.after_state
-        self._sealed_state_identity = self._state.identity_sha256
-        self._sealed_decision_identity = self._state.decision_identity_sha256
-        self._staged = None
-        receipt = LedgerCommitReceipt(
-            stage_identity=stage_identity,
-            transaction_id=staged.stage_receipt.transaction_id,
-            before_version=staged.before_state.version,
-            after_version=staged.after_state.version,
-            before_state_identity=staged.before_state.identity_sha256,
-            after_state_identity=staged.after_state.identity_sha256,
-            before_decision_identity=staged.before_state.decision_identity_sha256,
-            after_decision_identity=staged.after_state.decision_identity_sha256,
-            factor_append_count=len(staged.layer_receipts),
-            logical_commit_count=1,
-            layer_receipts=staged.layer_receipts,
-            shadow_commit_count=0,
-            failed_commit_count=0,
-            duplicate_commit_count=0,
-            post_storage_decision_influence_count=0,
-            model_forward_count=0,
-            model_backward_count=0,
-            dense_materialization_count=0,
+        if self._staged is not None:
+            transaction = self._staged.transaction
+            self._staged = None
+            if not transaction.finalized:
+                transaction.abort_and_rollback()
+        raise ODEBFStateError(
+            "ledger publication requires commit_staged_with_transaction"
         )
-        return LedgerCommitResult(self._state, receipt)
+
+    def commit_staged_with_transaction(
+        self,
+        transaction: OfficialStyleFP32SequentialTransaction,
+        stage_identity: str,
+        expected_prepare_identity: str,
+    ) -> LedgerCommitResult:
+        try:
+            self._verify_state()
+            staged = self._staged
+            if (
+                staged is None
+                or staged.stage_receipt.stage_identity != stage_identity
+                or staged.transaction is not transaction
+                or staged.prepared_identity != expected_prepare_identity
+                or staged.before_state is not self._state
+                or transaction.prepared_receipt is None
+                or transaction.prepared_receipt.identity_sha256
+                != expected_prepare_identity
+            ):
+                raise ODEBFStateError(
+                    "coordinated committed-ledger stage identity differs"
+                )
+            result = staged.precomputed_result
+            after_state_identity = staged.after_state_identity
+            after_decision_identity = staged.after_decision_identity
+            transaction.commit_prepared(expected_prepare_identity)
+            self._state = result.state
+            self._sealed_state_identity = after_state_identity
+            self._sealed_decision_identity = after_decision_identity
+            self._staged = None
+            return result
+        except BaseException:
+            staged_on_error = self._staged
+            self._staged = None
+            if (
+                staged_on_error is not None
+                and staged_on_error.transaction is not transaction
+                and not staged_on_error.transaction.finalized
+            ):
+                staged_on_error.transaction.abort_and_rollback()
+            if (
+                isinstance(transaction, OfficialStyleFP32SequentialTransaction)
+                and not transaction.finalized
+            ):
+                transaction.abort_and_rollback()
+            raise
 
     def abort_staged(self, stage_identity: str) -> LedgerAbortReceipt:
         self._verify_state()
@@ -874,6 +1001,8 @@ class CommittedGrossLoadLedger:
         if staged.before_state is not self._state:
             raise ODEBFStateError("committed ledger state changed before abort")
         self._staged = None
+        if not staged.transaction.finalized:
+            staged.transaction.abort_and_rollback()
         self._verify_state()
         return LedgerAbortReceipt(
             stage_identity=stage_identity,
@@ -892,7 +1021,7 @@ __all__ = [
     "CommittedGrossLoadState",
     "CommittedLayerFactorBinding",
     "CommittedLayerState",
-    "CommittedLayerStateAnchor",
+    "LayerCommittedStateAnchor",
     "CommittedLayerTransitionReceipt",
     "FACTOR_UPDATE_EQUIVALENCE_STATUS",
     "LedgerAbortReceipt",

@@ -70,6 +70,11 @@ class ResidualReserveFP32TransactionTests(unittest.TestCase):
             self.assertEqual(tensor_sha256(parameter), entry[layer]["hash"])
             self.assertTrue(torch.equal(parameter, entry[layer]["value"]))
 
+    @staticmethod
+    def prepare_and_commit(transaction):
+        prepared = transaction.prepare_authoritative_commit()
+        return prepared, transaction.commit_prepared(prepared.identity_sha256)
+
     def test_official_reference_equality_bf16_single_and_five_layer(self) -> None:
         bindings = self.bindings(torch.bfloat16)
         updates = self.updates()
@@ -93,7 +98,13 @@ class ResidualReserveFP32TransactionTests(unittest.TestCase):
                 self.assertEqual(
                     tensor_sha256(bindings[layer][1]), tensor_sha256(expected[layer])
                 )
-        receipt = transaction.commit_outer()
+        prepared, receipt = self.prepare_and_commit(transaction)
+        self.assertEqual(prepared.logical_outer_commit_count, 0)
+        self.assertEqual(prepared.persistent_commit_count, 0)
+        self.assertEqual(
+            prepared.future_final_receipt.identity_sha256,
+            receipt.identity_sha256,
+        )
         self.assertEqual(receipt.native_storage_assignment_count, 5)
         self.assertEqual(receipt.storage_cast_boundary_count, 5)
         self.assertEqual(receipt.logical_outer_commit_count, 1)
@@ -120,7 +131,7 @@ class ResidualReserveFP32TransactionTests(unittest.TestCase):
             self.assertTrue(torch.equal(bindings[layer][1], expected[layer]))
             self.assertEqual(int(bindings[layer][1].data_ptr()), pointer)
             self.assertFalse(receipt.storage_cast_required)
-        receipt = transaction.commit_outer()
+        _, receipt = self.prepare_and_commit(transaction)
         self.assertEqual(receipt.persistent_commit_count, 1)
 
     def test_pointer_and_storage_dtype_stay_fixed_after_every_apply(self) -> None:
@@ -139,7 +150,7 @@ class ResidualReserveFP32TransactionTests(unittest.TestCase):
             self.assertEqual(parameter.device, entry[layer]["device"])
             self.assertEqual(receipt.entry_parameter_pointer, entry[layer]["pointer"])
             self.assertEqual(receipt.post_storage_parameter_pointer, entry[layer]["pointer"])
-        transaction.commit_outer()
+        self.prepare_and_commit(transaction)
 
     def test_shadow_restores_exact_bytes_and_pointers_without_commit(self) -> None:
         bindings = self.bindings()
@@ -174,14 +185,76 @@ class ResidualReserveFP32TransactionTests(unittest.TestCase):
             with torch.no_grad():
                 expected[layer][...] = expected[layer] + updates[layer].float()
             transaction.apply_layer_fp32(layer, updates[layer])
-        receipt = transaction.commit_outer()
+        prepared, receipt = self.prepare_and_commit(transaction)
         for layer in RESIDUAL_RESERVE_LAYER_ORDER:
             self.assertTrue(torch.equal(bindings[layer][1], expected[layer]))
         self.assertEqual(receipt.logical_outer_commit_count, 1)
         self.assertEqual(receipt.native_storage_assignment_count, 5)
         self.assertFalse(receipt.restored_entry_bytes)
         with self.assertRaises(ODEBFStateError):
+            transaction.commit_prepared(prepared.identity_sha256)
+
+    def test_prepare_is_nonmutating_and_binds_exact_future_receipt(self) -> None:
+        bindings = self.bindings()
+        updates = self.updates()
+        transaction = OfficialStyleFP32SequentialTransaction(
+            bindings,
+            mode=FP32TransactionMode.AUTHORITATIVE,
+            transaction_id="prepared",
+        )
+        for layer in RESIDUAL_RESERVE_LAYER_ORDER:
+            transaction.apply_layer_fp32(layer, updates[layer])
+        before = self.snapshot(bindings)
+        prepared = transaction.prepare_authoritative_commit()
+        after = self.snapshot(bindings)
+        self.assertEqual(
+            tuple(item["hash"] for item in before.values()),
+            tuple(item["hash"] for item in after.values()),
+        )
+        self.assertFalse(transaction.finalized)
+        self.assertEqual(prepared.preparation_parameter_mutation_count, 0)
+        self.assertEqual(prepared.logical_outer_commit_count, 0)
+        self.assertEqual(prepared.persistent_commit_count, 0)
+        receipt = transaction.commit_prepared(prepared.identity_sha256)
+        self.assertIs(receipt, prepared.future_final_receipt)
+
+    def test_wrong_prepared_identity_and_postprepare_corruption_restore(self) -> None:
+        for failure in ("wrong-identity", "postprepare-corruption"):
+            with self.subTest(failure=failure):
+                bindings = self.bindings()
+                entry = self.snapshot(bindings)
+                transaction = OfficialStyleFP32SequentialTransaction(
+                    bindings,
+                    mode=FP32TransactionMode.AUTHORITATIVE,
+                    transaction_id=failure,
+                )
+                for layer, update in self.updates().items():
+                    transaction.apply_layer_fp32(layer, update)
+                prepared = transaction.prepare_authoritative_commit()
+                if failure == "postprepare-corruption":
+                    with torch.no_grad():
+                        bindings[6][1][0, 0] += 1.0
+                with self.assertRaises(ODEBFStateError):
+                    transaction.commit_prepared(
+                        "wrong" if failure == "wrong-identity" else prepared.identity_sha256
+                    )
+                self.assert_entry_restored(bindings, entry)
+                self.assertTrue(transaction.finalized)
+                self.assertEqual(transaction.rollback_count, 1)
+
+    def test_direct_unprepared_commit_restores_and_fails(self) -> None:
+        bindings = self.bindings()
+        entry = self.snapshot(bindings)
+        transaction = OfficialStyleFP32SequentialTransaction(
+            bindings,
+            mode=FP32TransactionMode.AUTHORITATIVE,
+            transaction_id="unprepared",
+        )
+        for layer, update in self.updates().items():
+            transaction.apply_layer_fp32(layer, update)
+        with self.assertRaises(ODEBFStateError):
             transaction.commit_outer()
+        self.assert_entry_restored(bindings, entry)
 
     def test_order_completeness_and_mode_fail_closed(self) -> None:
         updates = self.updates()

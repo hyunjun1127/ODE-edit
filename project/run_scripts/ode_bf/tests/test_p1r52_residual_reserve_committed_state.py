@@ -18,7 +18,9 @@ from project.run_scripts.ode_bf.p1r52_residual_reserve_committed_state import (
     initialize_committed_gross_load_state,
 )
 from project.run_scripts.ode_bf.p1r52_residual_reserve_fp32_transaction import (
+    FP32PreparedCommitReceipt,
     FP32TransactionMode,
+    FP32TransactionReceipt,
     OfficialStyleFP32SequentialTransaction,
     RESIDUAL_RESERVE_LAYER_ORDER,
 )
@@ -90,11 +92,11 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
         return tuple(result)
 
     @staticmethod
-    def transaction_receipt(
+    def prepared_transaction(
         factors: tuple[LowRankFP32Factor, ...],
         transaction_id: str,
         *,
-        mode: FP32TransactionMode = FP32TransactionMode.AUTHORITATIVE,
+        dtype: torch.dtype = torch.bfloat16,
     ):
         parameters = {
             layer: (
@@ -103,7 +105,7 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
                     torch.full(
                         ResidualReserveCommittedStateTests.PARAMETER_SHAPE,
                         0.25 + 0.1 * (layer - 4),
-                        dtype=torch.bfloat16,
+                        dtype=dtype,
                     ),
                     requires_grad=False,
                 ),
@@ -112,17 +114,29 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
         }
         transaction = OfficialStyleFP32SequentialTransaction(
             parameters,
-            mode=mode,
+            mode=FP32TransactionMode.AUTHORITATIVE,
             transaction_id=transaction_id,
         )
         for factor in factors:
             update = (factor.left @ factor.right.T).contiguous()
             transaction.apply_layer_fp32(factor.layer, update)
-        return (
-            transaction.commit_outer()
-            if mode is FP32TransactionMode.AUTHORITATIVE
-            else transaction.finish_shadow()
-        )
+        prepared = transaction.prepare_authoritative_commit()
+        return parameters, transaction, prepared
+
+    @staticmethod
+    def parameter_snapshot(parameters):
+        return {
+            layer: (
+                int(parameter.data_ptr()),
+                parameter.detach().clone(),
+            )
+            for layer, (_, parameter) in parameters.items()
+        }
+
+    def assert_parameter_snapshot(self, parameters, snapshot) -> None:
+        for layer, (_, parameter) in parameters.items():
+            self.assertEqual(int(parameter.data_ptr()), snapshot[layer][0])
+            self.assertTrue(torch.equal(parameter, snapshot[layer][1]))
 
     def ledger(self, state_id: str = "case-01") -> CommittedGrossLoadLedger:
         return CommittedGrossLoadLedger(
@@ -154,10 +168,24 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
         factors: tuple[LowRankFP32Factor, ...],
         transaction_id: str,
     ):
-        transaction = self.transaction_receipt(factors, transaction_id)
-        bindings = bind_authoritative_transaction_factors(transaction, factors)
-        stage = ledger.stage_authoritative_commit(transaction, bindings)
-        return transaction, bindings, stage
+        parameters, transaction, prepared = self.prepared_transaction(
+            factors,
+            transaction_id,
+        )
+        stage = ledger.stage_authoritative_commit(
+            transaction,
+            prepared,
+            factors,
+        )
+        return parameters, transaction, prepared, stage
+
+    @staticmethod
+    def commit(ledger, transaction, prepared, stage):
+        return ledger.commit_staged_with_transaction(
+            transaction,
+            stage.stage_identity,
+            prepared.identity_sha256,
+        )
 
     def test_w0_state_is_zero_immutable_and_independent_reset(self) -> None:
         first = self.ledger("same-case").state
@@ -182,12 +210,12 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
         ledger = self.ledger()
         committed: list[tuple[LowRankFP32Factor, ...]] = []
         for ordinal, factors in enumerate((self.factors(1.0), self.factors(-0.4))):
-            _, _, stage = self.stage(
+            _, transaction, prepared, stage = self.stage(
                 ledger,
                 factors,
                 f"authoritative-{ordinal}",
             )
-            result = ledger.commit_staged(stage.stage_identity)
+            result = self.commit(ledger, transaction, prepared, stage)
             committed.append(factors)
             self.assertEqual(result.state.version, ordinal + 1)
             self.assertEqual(result.state.commit_count, ordinal + 1)
@@ -236,7 +264,8 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
         ledger = self.ledger()
         before = ledger.state
         before_payload = before.raw_free_payload()
-        _, _, stage = self.stage(ledger, self.factors(), "abort-me")
+        parameters, _, _, stage = self.stage(ledger, self.factors(), "abort-me")
+        live_endpoint = self.parameter_snapshot(parameters)
         self.assertIs(ledger.state, before)
         self.assertEqual(ledger.state.raw_free_payload(), before_payload)
         self.assertEqual(stage.current_state_mutation_count, 0)
@@ -250,18 +279,39 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
         )
         self.assertEqual(receipt.state_mutation_count, 0)
         self.assertEqual(receipt.rollback_count, 1)
+        self.assertTrue(
+            any(
+                not torch.equal(parameters[layer][1], live_endpoint[layer][1])
+                for layer in RESIDUAL_RESERVE_LAYER_ORDER
+            )
+        )
 
     def test_authoritative_complete_gate_rejects_shadow_partial_and_failed(self) -> None:
         factors = self.factors()
-        shadow = self.transaction_receipt(
-            factors,
-            "shadow",
+        shadow_parameters = {
+            layer: (
+                f"model.layers.{layer}.mlp.down_proj.weight",
+                torch.nn.Parameter(
+                    torch.zeros(self.PARAMETER_SHAPE, dtype=torch.bfloat16),
+                    requires_grad=False,
+                ),
+            )
+            for layer in RESIDUAL_RESERVE_LAYER_ORDER
+        }
+        shadow = OfficialStyleFP32SequentialTransaction(
+            shadow_parameters,
             mode=FP32TransactionMode.SHADOW,
+            transaction_id="shadow",
         )
+        for factor in factors:
+            shadow.apply_layer_fp32(
+                factor.layer,
+                (factor.left @ factor.right.T).contiguous(),
+            )
         with self.assertRaises(ODEBFContractError):
-            bind_authoritative_transaction_factors(shadow, factors)
+            shadow.prepare_authoritative_commit()
 
-        valid = self.transaction_receipt(factors, "valid")
+        _, transaction, valid = self.prepared_transaction(factors, "valid")
         partial = replace(
             valid,
             layer_receipts=valid.layer_receipts[:-1],
@@ -285,59 +335,245 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
         )
         with self.assertRaises(ODEBFContractError):
             bind_authoritative_transaction_factors(valid, nominal)
+        transaction.abort_and_rollback()
 
     def test_duplicate_out_of_order_and_reused_stage_fail_closed(self) -> None:
         ledger = self.ledger()
-        transaction = self.transaction_receipt(self.factors(), "once")
-        bindings = bind_authoritative_transaction_factors(
-            transaction,
+        parameters, transaction, prepared = self.prepared_transaction(
             self.factors(),
+            "bad-order",
         )
+        entry = {
+            layer: (
+                int(parameter.data_ptr()),
+                torch.full_like(parameter, 0.25 + 0.1 * (layer - 4)),
+            )
+            for layer, (_, parameter) in parameters.items()
+        }
         before_identity = ledger.state.identity_sha256
         with self.assertRaises(ODEBFContractError):
-            ledger.stage_authoritative_commit(transaction, tuple(reversed(bindings)))
+            ledger.stage_authoritative_commit(
+                transaction,
+                prepared,
+                tuple(reversed(self.factors())),
+            )
+        self.assert_parameter_snapshot(parameters, entry)
         self.assertEqual(ledger.state.identity_sha256, before_identity)
 
-        stage = ledger.stage_authoritative_commit(transaction, bindings)
+        parameters, transaction, prepared, _ = self.stage(
+            ledger,
+            self.factors(),
+            "duplicate-stage",
+        )
+        entry = {
+            layer: (
+                int(parameter.data_ptr()),
+                torch.full_like(parameter, 0.25 + 0.1 * (layer - 4)),
+            )
+            for layer, (_, parameter) in parameters.items()
+        }
         with self.assertRaises(ODEBFStateError):
-            ledger.stage_authoritative_commit(transaction, bindings)
-        ledger.commit_staged(stage.stage_identity)
+            ledger.stage_authoritative_commit(
+                transaction,
+                prepared,
+                self.factors(),
+            )
+        self.assert_parameter_snapshot(parameters, entry)
+        self.assertEqual(ledger.state.identity_sha256, before_identity)
+
+        _, transaction, prepared, stage = self.stage(
+            ledger,
+            self.factors(),
+            "once",
+        )
+        result = self.commit(ledger, transaction, prepared, stage)
         committed_identity = ledger.state.identity_sha256
         with self.assertRaises(ODEBFStateError):
-            ledger.commit_staged(stage.stage_identity)
+            ledger.commit_staged_with_transaction(
+                transaction,
+                stage.stage_identity,
+                prepared.identity_sha256,
+            )
+        self.assertEqual(result.state.version, 1)
+
+        _, reused_transaction, reused_prepared = self.prepared_transaction(
+            self.factors(),
+            "once",
+        )
         with self.assertRaises(ODEBFStateError):
-            ledger.stage_authoritative_commit(transaction, bindings)
+            ledger.stage_authoritative_commit(
+                reused_transaction,
+                reused_prepared,
+                self.factors(),
+            )
         self.assertEqual(ledger.state.identity_sha256, committed_identity)
+
+    def test_valid_prepare_stage_coordinated_commit_binds_all_identities(self) -> None:
+        ledger = self.ledger()
+        _, transaction, prepared, stage = self.stage(
+            ledger,
+            self.factors(),
+            "coordinated",
+        )
+        before = ledger.state
+        result = self.commit(ledger, transaction, prepared, stage)
+        self.assertTrue(transaction.finalized)
+        self.assertIs(transaction.final_receipt, prepared.future_final_receipt)
+        self.assertEqual(result.state.version, 1)
+        self.assertIs(ledger.state, result.state)
+        self.assertIsNot(ledger.state, before)
+        self.assertEqual(
+            stage.prepared_commit_identity,
+            prepared.identity_sha256,
+        )
+        self.assertEqual(
+            stage.future_final_transaction_receipt_identity,
+            prepared.future_final_receipt.identity_sha256,
+        )
+        self.assertEqual(
+            result.receipt.prepared_commit_identity,
+            prepared.identity_sha256,
+        )
+        self.assertEqual(
+            result.receipt.final_transaction_receipt_identity,
+            result.transaction_receipt.identity_sha256,
+        )
+
+    def test_legacy_ledger_only_publish_is_disabled_and_restores_w(self) -> None:
+        ledger = self.ledger()
+        before = ledger.state
+        parameters, _, _, stage = self.stage(
+            ledger,
+            self.factors(),
+            "ledger-only-disabled",
+        )
+        entry = {
+            layer: (
+                int(parameter.data_ptr()),
+                torch.full_like(parameter, 0.25 + 0.1 * (layer - 4)),
+            )
+            for layer, (_, parameter) in parameters.items()
+        }
+        with self.assertRaises(ODEBFStateError):
+            ledger.commit_staged(stage.stage_identity)
+        self.assertIs(ledger.state, before)
+        self.assertEqual(ledger.state.version, 0)
+        self.assert_parameter_snapshot(parameters, entry)
+
+    def test_poststage_live_hash_corruption_restores_w_and_aborts_ledger(self) -> None:
+        ledger = self.ledger()
+        before_state = ledger.state
+        before_identity = before_state.identity_sha256
+        parameters, transaction, prepared, stage = self.stage(
+            ledger,
+            self.factors(),
+            "poststage-corruption",
+        )
+        entry = {
+            layer: (
+                int(parameter.data_ptr()),
+                torch.full_like(parameter, 0.25 + 0.1 * (layer - 4)),
+            )
+            for layer, (_, parameter) in parameters.items()
+        }
+        with torch.no_grad():
+            parameters[7][1][0, 0] += 1.0
+        with self.assertRaises(ODEBFStateError):
+            self.commit(ledger, transaction, prepared, stage)
+        self.assert_parameter_snapshot(parameters, entry)
+        self.assertTrue(transaction.finalized)
+        self.assertEqual(transaction.rollback_count, 1)
+        self.assertIs(ledger.state, before_state)
+        self.assertEqual(ledger.state.identity_sha256, before_identity)
+
+    def test_wrong_prepared_identity_and_direct_final_receipt_rejected(self) -> None:
+        ledger = self.ledger()
+        parameters, transaction, prepared = self.prepared_transaction(
+            self.factors(),
+            "wrong-prepared",
+        )
+        entry = {
+            layer: (
+                int(parameter.data_ptr()),
+                torch.full_like(parameter, 0.25 + 0.1 * (layer - 4)),
+            )
+            for layer, (_, parameter) in parameters.items()
+        }
+        wrong = replace(prepared, transaction_id="wrong")
+        with self.assertRaises(ODEBFStateError):
+            ledger.stage_authoritative_commit(
+                transaction,
+                wrong,
+                self.factors(),
+            )
+        self.assert_parameter_snapshot(parameters, entry)
+        self.assertEqual(ledger.state.version, 0)
+
+        _, finalized_transaction, finalized_prepared = self.prepared_transaction(
+            self.factors(),
+            "direct-final",
+        )
+        final_receipt = finalized_transaction.commit_prepared(
+            finalized_prepared.identity_sha256
+        )
+        self.assertIsInstance(final_receipt, FP32TransactionReceipt)
+        self.assertNotIsInstance(final_receipt, FP32PreparedCommitReceipt)
+        with self.assertRaises(ODEBFContractError):
+            ledger.stage_authoritative_commit(
+                finalized_transaction,
+                final_receipt,
+                self.factors(),
+            )
+        self.assertEqual(ledger.state.version, 0)
+
+    def test_public_wildcard_export_resolves_anchor(self) -> None:
+        namespace: dict[str, object] = {}
+        exec(
+            "from project.run_scripts.ode_bf."
+            "p1r52_residual_reserve_committed_state import *",
+            namespace,
+        )
+        self.assertIs(
+            namespace["LayerCommittedStateAnchor"],
+            LayerCommittedStateAnchor,
+        )
+        self.assertNotIn("CommittedLayerStateAnchor", namespace)
 
     def test_actual_post_observation_does_not_change_route_inputs(self) -> None:
         factors = self.factors()
-        transaction = self.transaction_receipt(factors, "observation-split")
-        changed_layers = tuple(
-            replace(
-                item,
-                actual_post_storage_delta32_norm=item.actual_post_storage_delta32_norm
-                + 2.0,
-                actual_post_storage_delta32_energy=item.actual_post_storage_delta32_energy
-                + 4.0,
-            )
-            for item in transaction.layer_receipts
-        )
-        changed_transaction = replace(transaction, layer_receipts=changed_layers)
-
         first = self.ledger("observation-pair")
         second = self.ledger("observation-pair")
-        first_bindings = bind_authoritative_transaction_factors(transaction, factors)
-        second_bindings = bind_authoritative_transaction_factors(
-            changed_transaction,
+        _, first_transaction, first_prepared = self.prepared_transaction(
+            factors,
+            "observation-bf16",
+        )
+        _, second_transaction, second_prepared = self.prepared_transaction(
+            factors,
+            "observation-fp32",
+            dtype=torch.float32,
+        )
+        first_stage = first.stage_authoritative_commit(
+            first_transaction,
+            first_prepared,
             factors,
         )
-        first_stage = first.stage_authoritative_commit(transaction, first_bindings)
         second_stage = second.stage_authoritative_commit(
-            changed_transaction,
-            second_bindings,
+            second_transaction,
+            second_prepared,
+            factors,
         )
-        first_result = first.commit_staged(first_stage.stage_identity)
-        second_result = second.commit_staged(second_stage.stage_identity)
+        first_result = self.commit(
+            first,
+            first_transaction,
+            first_prepared,
+            first_stage,
+        )
+        second_result = self.commit(
+            second,
+            second_transaction,
+            second_prepared,
+            second_stage,
+        )
         self.assertEqual(
             first_result.state.decision_identity_sha256,
             second_result.state.decision_identity_sha256,
@@ -363,11 +599,11 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
 
     def test_binding_receipt_binds_factor_update_and_actual_observation(self) -> None:
         factors = self.factors()
-        transaction = self.transaction_receipt(factors, "binding")
-        bindings = bind_authoritative_transaction_factors(transaction, factors)
+        _, transaction, prepared = self.prepared_transaction(factors, "binding")
+        bindings = bind_authoritative_transaction_factors(prepared, factors)
         for factor, layer_receipt, binding in zip(
             factors,
-            transaction.layer_receipts,
+            prepared.layer_receipts,
             bindings,
             strict=True,
         ):
@@ -380,7 +616,7 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
                 binding.actual_post_storage_delta_sha256,
                 layer_receipt.actual_post_storage_delta32_sha256,
             )
-            self.assertEqual(binding.transaction_id, transaction.transaction_id)
+            self.assertEqual(binding.transaction_id, prepared.transaction_id)
             self.assertEqual(
                 binding.factor_update_equivalence_status,
                 "DEFERRED_TO_M3D",
@@ -389,13 +625,18 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
                 binding.raw_free_payload()["second_dense_update_tensor_creation_count"],
                 0,
             )
+        transaction.abort_and_rollback()
 
     def test_state_and_receipts_are_raw_free_and_inputs_stay_immutable(self) -> None:
         ledger = self.ledger()
         factors = self.factors()
         identities = tuple(factor.identity_sha256 for factor in factors)
-        _, _, stage = self.stage(ledger, factors, "immutable")
-        result = ledger.commit_staged(stage.stage_identity)
+        _, transaction, prepared, stage = self.stage(
+            ledger,
+            factors,
+            "immutable",
+        )
+        result = self.commit(ledger, transaction, prepared, stage)
         self.assertEqual(identities, tuple(factor.identity_sha256 for factor in factors))
         self.assertFalse(self.contains_tensor(result.state.raw_free_payload()))
         self.assertFalse(self.contains_tensor(result.receipt.raw_free_payload()))
@@ -429,8 +670,12 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
         ):
             self.assertNotIn(prohibited, source)
         ledger = self.ledger()
-        _, _, stage = self.stage(ledger, self.factors(), "compute")
-        result = ledger.commit_staged(stage.stage_identity)
+        _, transaction, prepared, stage = self.stage(
+            ledger,
+            self.factors(),
+            "compute",
+        )
+        result = self.commit(ledger, transaction, prepared, stage)
         self.assertEqual(result.receipt.model_forward_count, 0)
         self.assertEqual(result.receipt.model_backward_count, 0)
         self.assertEqual(result.receipt.dense_materialization_count, 0)
