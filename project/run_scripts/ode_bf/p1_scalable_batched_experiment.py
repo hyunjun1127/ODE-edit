@@ -168,6 +168,10 @@ from .p1r52_r42_safe_kdc import (
     prepare_p1r52_target_proposal,
     select_p1r52_target_proposal,
 )
+from .p1r52_target_depth import (
+    P1R52TargetDepth,
+    run_p1r52_target_depth_scheduler,
+)
 from .p1r52_frozen_pi_quota_writer import (
     P1R52_FPIQ_INSTRUCTION_ID,
     P1R52_FPIQ_METHOD_ID,
@@ -195,6 +199,25 @@ def _key_identity(keys: Mapping[int, torch.Tensor]) -> str:
         {
             str(layer): tensor_sha256(keys[layer])
             for layer in P1R23_LAYER_ORDER
+        }
+    )
+
+
+def _factor_inventory_identity(
+    factors: Mapping[str, Sequence[WaypointFactor]],
+) -> str:
+    return canonical_hash(
+        {
+            name: [
+                {
+                    "order_key": list(item.order_key),
+                    "theta": item.theta,
+                    "left_sha256": tensor_sha256(item.left),
+                    "right_sha256": tensor_sha256(item.right),
+                }
+                for item in sorted(values, key=lambda value: value.order_key)
+            ]
+            for name, values in sorted(factors.items())
         }
     )
 
@@ -297,6 +320,7 @@ def _run_ode_arm(
     p1r43: bool = False,
     p1r51: bool = False,
     p1r52: bool = False,
+    p1r52_target_depth: int = 1,
     p1r52_writer_policy: P1R52WriterPolicy | str | None = None,
     p1r52_pir_policy: P1R52PIRPolicy | str | None = None,
 ) -> dict[str, Any]:
@@ -360,6 +384,9 @@ def _run_ode_arm(
         or arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT)
     ):
         raise ODEBFContractError("P1R52 R42-safe KDC path differs")
+    if (p1r52_target_depth != 1 and not p1r52) or p1r52_target_depth not in (1, 3):
+        raise ODEBFContractError("P1R52 target-depth activation differs")
+    target_depth_policy = P1R52TargetDepth.from_inner_count(p1r52_target_depth)
     writer_policy = (
         None
         if p1r52_writer_policy is None
@@ -500,6 +527,7 @@ def _run_ode_arm(
     try:
         for step_index in range(P1R23_GRID_COUNT):
             state_before = _parameter_contract_sha256(touched)
+            p1r52_pending_state: P1R51ControllerState | None = None
             replay_entry = (
                 None
                 if p1r24
@@ -549,87 +577,122 @@ def _run_ode_arm(
                 if p1r52:
                     assert p1r52_state is not None
                     assert p1r24_kl_teacher_sha256 is not None
-                    proposal52 = prepare_p1r52_target_proposal(
-                        current_target,
-                        current_terminal,
-                        target_origin,
-                        target_result,
-                        kl_result,
-                        p1r24_target_lock,
-                        p1r52_state,
-                        alias=alias,
-                        step_index=step_index,
-                        shared_speed=float(metric.shared_speed),
-                        kl_teacher_input_sha256=p1r24_kl_teacher_sha256,
-                    )
-                    endpoint_started = time.perf_counter()
-                    primary_state = proposal52.primary_step.target_next.detach().to(
-                        device=next(model.parameters()).device, dtype=torch.float32
-                    )
-                    primary_endpoint = evaluate_scalable_target_new_objective(
-                        model,
-                        objective_plan,
-                        target_state=primary_state,
-                        current_terminal=current_terminal,
-                        target_layer_name=hparams.layer_module_tmp.format(
-                            int(hparams.layers[-1])
-                        ),
-                        target_gradient_required=False,
-                    )
-                    compute.add_wall(
-                        "finite_demand_endpoint_forward",
-                        time.perf_counter() - endpoint_started,
-                    )
                     _phase_add_objective(
-                        compute, "finite_demand_endpoint_forward", primary_endpoint
+                        compute, "target_gradient", target_result, target=True
                     )
-                    rescue52 = prepare_p1r52_rescue_proposal(
-                        proposal52,
-                        current_target,
-                        current_terminal,
-                        target_result,
-                        primary_endpoint,
-                        step_index=step_index,
-                    )
-                    rescue_endpoint = None
-                    if rescue52.rescue_step is not None:
-                        rescue_started = time.perf_counter()
-                        rescue_state = rescue52.rescue_step.target_next.detach().to(
-                            device=next(model.parameters()).device,
-                            dtype=torch.float32,
+
+                    def evaluate_depth_target(target: torch.Tensor) -> Any:
+                        variable = (
+                            target.detach()
+                            .to(
+                                device=next(model.parameters()).device,
+                                dtype=torch.float32,
+                            )
+                            .clone()
+                            .requires_grad_(True)
                         )
-                        rescue_endpoint = evaluate_scalable_target_new_objective(
+                        result = evaluate_scalable_target_new_objective(
                             model,
                             objective_plan,
-                            target_state=rescue_state,
+                            target_state=variable,
+                            current_terminal=current_terminal,
+                            target_layer_name=hparams.layer_module_tmp.format(
+                                int(hparams.layers[-1])
+                            ),
+                        )
+                        if result.target_gradient is None:
+                            raise ODEBFContractError(
+                                "P1R52 inner target gradient is absent"
+                            )
+                        _phase_add_objective(
+                            compute, "target_gradient", result, target=True
+                        )
+                        return result
+
+                    def evaluate_depth_kl(target: torch.Tensor) -> Any:
+                        variable = (
+                            target.detach()
+                            .to(
+                                device=next(model.parameters()).device,
+                                dtype=torch.float32,
+                            )
+                            .clone()
+                            .requires_grad_(True)
+                        )
+                        result, _ = evaluate_p1r24_kl(
+                            model,
+                            p1r24_kl_plan,
+                            teacher_log_probs=p1r24_kl_teacher,
+                            target_state=variable,
+                            current_terminal=current_terminal,
+                            target_layer_name=hparams.layer_module_tmp.format(
+                                int(hparams.layers[-1])
+                            ),
+                        )
+                        _phase_add_objective(
+                            compute, "target_kl_gradient", result, target=True
+                        )
+                        return result
+
+                    def evaluate_depth_endpoint(
+                        target: torch.Tensor, endpoint_role: str
+                    ) -> Any:
+                        endpoint_started = time.perf_counter()
+                        result = evaluate_scalable_target_new_objective(
+                            model,
+                            objective_plan,
+                            target_state=target.detach().to(
+                                device=next(model.parameters()).device,
+                                dtype=torch.float32,
+                            ),
                             current_terminal=current_terminal,
                             target_layer_name=hparams.layer_module_tmp.format(
                                 int(hparams.layers[-1])
                             ),
                             target_gradient_required=False,
                         )
+                        phase = (
+                            "finite_demand_endpoint_forward"
+                            if endpoint_role == "PRIMARY"
+                            else "scalar_corrector_endpoint_forward"
+                        )
                         compute.add_wall(
-                            "scalar_corrector_endpoint_forward",
-                            time.perf_counter() - rescue_started,
+                            phase, time.perf_counter() - endpoint_started
                         )
-                        _phase_add_objective(
-                            compute,
-                            "scalar_corrector_endpoint_forward",
-                            rescue_endpoint,
+                        _phase_add_objective(compute, phase, result)
+                        return result
+
+                    def fixed_depth_state() -> tuple[str, str, str]:
+                        return (
+                            _parameter_contract_sha256(touched),
+                            history.snapshot().digest,
+                            _factor_inventory_identity(current_factors),
                         )
-                    selected52 = select_p1r52_target_proposal(
-                        proposal52,
-                        rescue52,
-                        current_target,
-                        current_terminal,
-                        target_result,
-                        primary_endpoint,
-                        rescue_endpoint,
-                        step_index=step_index,
+
+                    outer52 = run_p1r52_target_depth_scheduler(
+                        # Legacy binding is preserved inside the scheduler:
+                        # kl_teacher_input_sha256=p1r24_kl_teacher_sha256
+                        outer_step_index=step_index,
+                        depth=target_depth_policy,
+                        current_target=current_target,
+                        current_terminal=current_terminal,
+                        target_origin=target_origin,
+                        state=p1r52_state,
+                        lock=p1r24_target_lock,
+                        alias=alias,
+                        shared_speed=float(metric.shared_speed),
+                        teacher_sha256=p1r24_kl_teacher_sha256,
+                        evaluate_target=evaluate_depth_target,
+                        evaluate_kl=evaluate_depth_kl,
+                        evaluate_endpoint=evaluate_depth_endpoint,
+                        fixed_state_identities=fixed_depth_state,
+                        first_target_result=target_result,
+                        first_kl_result=kl_result,
                     )
-                    p1r52_state = selected52.next_state
-                    target_step = selected52.target_step
-                    finite_endpoint = selected52.selected_endpoint
+                    target_result = outer52.target_results[-1]
+                    p1r52_pending_state = outer52.next_state
+                    target_step = outer52.target_step
+                    finite_endpoint = outer52.selected_endpoint
                 elif p1r51:
                     assert p1r51_state is not None
                     proposal51 = prepare_p1r51_target_proposal(
@@ -1013,9 +1076,10 @@ def _run_ode_arm(
                     )
                 )
             compute.add_wall("target_gradient", time.perf_counter() - target_started)
-            _phase_add_objective(
-                compute, "target_gradient", target_result, target=True
-            )
+            if not p1r52:
+                _phase_add_objective(
+                    compute, "target_gradient", target_result, target=True
+                )
             field_started = time.perf_counter()
             field = build_scalable_dynamic_field(
                 model,
@@ -1438,6 +1502,10 @@ def _run_ode_arm(
             materialization = materializer.materialize(
                 candidate_factors, transition_index=step_index + 1
             )
+            if p1r52:
+                if p1r52_pending_state is None:
+                    raise ODEBFStateError("P1R52 scratch state is absent at commit")
+                p1r52_state = p1r52_pending_state
             sequential_bf16_identity = (
                 post_commit_identity(sequential_writer, materialization)
                 if sequential_writer is not None
