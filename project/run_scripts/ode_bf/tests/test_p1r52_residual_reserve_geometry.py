@@ -34,7 +34,12 @@ class ResidualReserveGeometryTests(unittest.TestCase):
             abs(float(result.omega.sum()) - float(result.mass)),
             geometry_module.FP32_SIMPLEX_SUM_TOLERANCE,
         )
-        self.assertLessEqual(float(result.beta.max()), float(result.mass) + 1.0e-7)
+        permitted_maximum = torch.nextafter(
+            result.mass,
+            torch.tensor(float("inf"), dtype=torch.float32),
+        )
+        self.assertLessEqual(float(result.beta.max()), float(permitted_maximum))
+        self.assertLess(float(result.beta[-1]), 1.0)
         self.assertLess(float(result.mass), 1.0)
 
     def test_uniform_expected_beta(self) -> None:
@@ -64,6 +69,38 @@ class ResidualReserveGeometryTests(unittest.TestCase):
             rtol=0.0,
             atol=4.0e-7,
         )
+
+    def test_nonuniform_direct_layer_identity(self) -> None:
+        pi = torch.tensor([0.05, 0.1, 0.2, 0.25, 0.4], dtype=torch.float32)
+        result = build_residual_reserve_geometry(pi)
+        direct = result.beta * result.suffix_retention
+        direct_residual = torch.abs(direct - result.omega)
+        omega_ulp = torch.maximum(
+            torch.nextafter(
+                result.omega,
+                torch.full_like(result.omega, float("inf")),
+            )
+            - result.omega,
+            result.omega
+            - torch.nextafter(
+                result.omega,
+                torch.full_like(result.omega, float("-inf")),
+            ),
+        )
+        self.assertTrue(bool((direct_residual <= omega_ulp).all()))
+
+        entry = torch.tensor([[1.25, -0.75], [0.5, 3.0]], dtype=torch.float32)
+        left = result.beta[:, None, None] * (
+            result.suffix_retention[:, None, None] * entry[None, :, :]
+        )
+        right = result.omega[:, None, None] * entry[None, :, :]
+        realized_residual = torch.abs(left - right)
+        machine_bound = (
+            3.0
+            * torch.finfo(torch.float32).eps
+            * torch.maximum(torch.abs(right), torch.ones_like(right))
+        )
+        self.assertTrue(bool((realized_residual <= machine_bound).all()))
 
     def test_previous_writer_defect_is_in_next_residual(self) -> None:
         target = torch.tensor([[3.0, -1.0]], dtype=torch.float32)
