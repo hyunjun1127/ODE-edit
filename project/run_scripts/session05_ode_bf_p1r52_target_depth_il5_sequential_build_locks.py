@@ -103,6 +103,8 @@ def main() -> int:
         "terminal_w0_restore_count": 1,
         "task_gpu_cap": 3,
         "stage_gpu_max": 1,
+        "technical_attempt": "TECH_R1_SERVER2_NODE_BINDING",
+        "execution_node": "server2",
         "retry_count": 0,
         "backtracking_count": 0,
         "imputation_count": 0,
@@ -132,7 +134,7 @@ def main() -> int:
         "numerical_lock_sha256": lock_sha,
         "stream_root": STREAM_ROOT,
         "stream_order": STREAM_ORDER,
-        "source_scope": "TARGET_DEPTH_IL5_TYPED_EXTENSION_AND_THIN_SEQUENTIAL_ADAPTER",
+        "source_scope": "TARGET_DEPTH_IL5_TYPED_EXTENSION_THIN_SEQUENTIAL_ADAPTER_AND_SERVER2_NODE_BINDING_TECH_R1",
     }
     manifest_sha = _write_once(LOCK_ROOT / SOURCE_MANIFEST_FILE, manifest)
     print(
