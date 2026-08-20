@@ -9,6 +9,7 @@ from typing import Any
 import torch
 
 from .contracts import ODEBFContractError, ODEBFStateError, canonical_hash
+from .functional import tensor_sha256
 from .p1r52_residual_reserve_fp32_transaction import (
     FP32PreparedCommitReceipt,
     FP32TransactionMode,
@@ -30,14 +31,28 @@ from .p1r52_residual_reserve_pc_router import SOLVER_PRIMAL_TOLERANCE
 FACTOR_UPDATE_EQUIVALENCE_STATUS = "DEFERRED_TO_M3D"
 
 
-def _clone_factor(factor: LowRankFP32Factor) -> LowRankFP32Factor:
+def _clone_factor(
+    factor: LowRankFP32Factor,
+    *,
+    source: LowRankFactorSource | None = None,
+) -> LowRankFP32Factor:
     return LowRankFP32Factor(
         factor.layer,
         factor.parameter_shape,
         factor.left,
         factor.right,
-        factor.source,
+        factor.source if source is None else source,
     )
+
+
+def _factor_identity_with_source(
+    factor: LowRankFP32Factor,
+    source: LowRankFactorSource,
+) -> str:
+    payload = factor.raw_free_payload()
+    payload["source"] = source.value
+    payload.pop("identity_sha256")
+    return canonical_hash(payload)
 
 
 def _clone_covariance(
@@ -292,7 +307,11 @@ def initialize_committed_gross_load_state(
 class CommittedLayerFactorBinding:
     layer: int
     factor: LowRankFP32Factor
-    factor_identity: str
+    prepared_factor_identity: str
+    prepared_factor_source: str
+    committed_factor_identity: str
+    committed_factor_source: str
+    provenance_transition_count: int
     transaction_id: str
     transaction_mode: str
     m3a_layer_receipt_identity: str
@@ -308,7 +327,11 @@ class CommittedLayerFactorBinding:
     def raw_free_payload(self) -> dict[str, Any]:
         payload: dict[str, Any] = {
             "layer": self.layer,
-            "factor_identity": self.factor_identity,
+            "prepared_factor_identity": self.prepared_factor_identity,
+            "prepared_factor_source": self.prepared_factor_source,
+            "committed_factor_identity": self.committed_factor_identity,
+            "committed_factor_source": self.committed_factor_source,
+            "provenance_transition_count": self.provenance_transition_count,
             "transaction_id": self.transaction_id,
             "transaction_mode": self.transaction_mode,
             "m3a_layer_receipt_identity": self.m3a_layer_receipt_identity,
@@ -327,6 +350,9 @@ class CommittedLayerFactorBinding:
                 self.post_storage_decision_influence_count
             ),
             "second_dense_update_tensor_creation_count": 0,
+            "source_transition_tensor_certificate_stage": (
+                "COMMITTED_LAYER_TRANSITION_RECEIPT"
+            ),
         }
         payload["identity_sha256"] = canonical_hash(payload)
         return payload
@@ -399,7 +425,7 @@ def bind_authoritative_transaction_factors(
     ):
         if (
             factor.source
-            is not LowRankFactorSource.SUCCESSFUL_COMMITTED_PRECAST_FP32
+            is not LowRankFactorSource.AUTHORITATIVE_PREPARED_PRECAST_FP32
             or receipt.layer != layer
             or receipt.parameter_shape != factor.parameter_shape
             or receipt.storage_assignment_count != 1
@@ -418,12 +444,22 @@ def bind_authoritative_transaction_factors(
         )
         if any(not math.isfinite(item) or item < 0.0 for item in values):
             raise ODEBFContractError("M3A factor binding scalar is invalid")
-        committed_factor = _clone_factor(factor)
+        prepared_factor = _clone_factor(factor)
+        committed_factor_identity = _factor_identity_with_source(
+            prepared_factor,
+            LowRankFactorSource.SUCCESSFUL_COMMITTED_PRECAST_FP32,
+        )
         bindings.append(
             CommittedLayerFactorBinding(
                 layer=layer,
-                factor=committed_factor,
-                factor_identity=committed_factor.identity_sha256,
+                factor=prepared_factor,
+                prepared_factor_identity=prepared_factor.identity_sha256,
+                prepared_factor_source=prepared_factor.source.value,
+                committed_factor_identity=committed_factor_identity,
+                committed_factor_source=(
+                    LowRankFactorSource.SUCCESSFUL_COMMITTED_PRECAST_FP32.value
+                ),
+                provenance_transition_count=1,
                 transaction_id=prepared.transaction_id,
                 transaction_mode=prepared.mode,
                 m3a_layer_receipt_identity=receipt.identity_sha256,
@@ -451,7 +487,14 @@ class CommittedLayerTransitionReceipt:
     layer: int
     before_version: int
     after_version: int
-    factor_identity: str
+    prepared_factor_identity: str
+    prepared_factor_source: str
+    committed_factor_identity: str
+    committed_factor_source: str
+    provenance_transition_count: int
+    source_transition_numerical_tensor_byte_identity: bool
+    source_transition_numerical_tensor_nonalias: bool
+    factor_update_equivalence_status: str
     factor_append_count: int
     committed_factor_count_before: int
     committed_factor_count_after: int
@@ -479,7 +522,20 @@ class CommittedLayerTransitionReceipt:
             "layer": self.layer,
             "before_version": self.before_version,
             "after_version": self.after_version,
-            "factor_identity": self.factor_identity,
+            "prepared_factor_identity": self.prepared_factor_identity,
+            "prepared_factor_source": self.prepared_factor_source,
+            "committed_factor_identity": self.committed_factor_identity,
+            "committed_factor_source": self.committed_factor_source,
+            "provenance_transition_count": self.provenance_transition_count,
+            "source_transition_numerical_tensor_byte_identity": (
+                self.source_transition_numerical_tensor_byte_identity
+            ),
+            "source_transition_numerical_tensor_nonalias": (
+                self.source_transition_numerical_tensor_nonalias
+            ),
+            "factor_update_equivalence_status": (
+                self.factor_update_equivalence_status
+            ),
             "factor_append_count": self.factor_append_count,
             "committed_factor_count_before": self.committed_factor_count_before,
             "committed_factor_count_after": self.committed_factor_count_after,
@@ -666,6 +722,16 @@ def _next_layer_state(
 ) -> tuple[CommittedLayerState, CommittedLayerTransitionReceipt]:
     factor = binding.factor
     covariance = before.covariance
+    if (
+        factor.source
+        is not LowRankFactorSource.AUTHORITATIVE_PREPARED_PRECAST_FP32
+        or binding.prepared_factor_identity != factor.identity_sha256
+        or binding.prepared_factor_source != factor.source.value
+        or binding.committed_factor_source
+        != LowRankFactorSource.SUCCESSFUL_COMMITTED_PRECAST_FP32.value
+        or binding.provenance_transition_count != 1
+    ):
+        raise ODEBFContractError("prepared factor provenance binding differs")
     if before.committed_precast_factors and any(
         historical.parameter_shape != factor.parameter_shape
         for historical in before.committed_precast_factors
@@ -716,7 +782,24 @@ def _next_layer_state(
         for value in (lambda_increment, actual_increment, lambda_after, actual_after)
     ):
         raise ODEBFContractError("gross-load recursive scalar is invalid")
-    committed_factor = _clone_factor(factor)
+    committed_factor = _clone_factor(
+        factor,
+        source=LowRankFactorSource.SUCCESSFUL_COMMITTED_PRECAST_FP32,
+    )
+    byte_identity = (
+        tensor_sha256(factor.left) == tensor_sha256(committed_factor.left)
+        and tensor_sha256(factor.right) == tensor_sha256(committed_factor.right)
+    )
+    nonalias = (
+        int(factor.left.data_ptr()) != int(committed_factor.left.data_ptr())
+        and int(factor.right.data_ptr()) != int(committed_factor.right.data_ptr())
+    )
+    if (
+        not byte_identity
+        or not nonalias
+        or committed_factor.identity_sha256 != binding.committed_factor_identity
+    ):
+        raise ODEBFStateError("prepared-to-committed factor transition differs")
     after = CommittedLayerState(
         layer=before.layer,
         covariance=before.covariance,
@@ -739,7 +822,14 @@ def _next_layer_state(
         layer=before.layer,
         before_version=before.version,
         after_version=after.version,
-        factor_identity=committed_factor.identity_sha256,
+        prepared_factor_identity=factor.identity_sha256,
+        prepared_factor_source=factor.source.value,
+        committed_factor_identity=committed_factor.identity_sha256,
+        committed_factor_source=committed_factor.source.value,
+        provenance_transition_count=1,
+        source_transition_numerical_tensor_byte_identity=byte_identity,
+        source_transition_numerical_tensor_nonalias=nonalias,
+        factor_update_equivalence_status=FACTOR_UPDATE_EQUIVALENCE_STATUS,
         factor_append_count=1,
         committed_factor_count_before=len(before.committed_precast_factors),
         committed_factor_count_after=len(after.committed_precast_factors),
@@ -824,7 +914,13 @@ class CommittedGrossLoadLedger:
                     item.transaction_id != prepared.transaction_id
                     or item.transaction_mode
                     != FP32TransactionMode.AUTHORITATIVE.value
-                    or item.factor_identity != item.factor.identity_sha256
+                    or item.prepared_factor_identity
+                    != item.factor.identity_sha256
+                    or item.prepared_factor_source
+                    != LowRankFactorSource.AUTHORITATIVE_PREPARED_PRECAST_FP32.value
+                    or item.committed_factor_source
+                    != LowRankFactorSource.SUCCESSFUL_COMMITTED_PRECAST_FP32.value
+                    or item.provenance_transition_count != 1
                     or item.post_storage_decision_influence_count != 0
                     for item in bindings
                 )

@@ -358,6 +358,14 @@ class ResidualReservePCInventoryTests(unittest.TestCase):
     def test_invalid_inputs_fail_closed(self) -> None:
         nominal = self.nominal_factor(4)
         covariance = self.covariance(4)
+        historical = self.history_factor(4)
+        prepared_historical = LowRankFP32Factor(
+            historical.layer,
+            historical.parameter_shape,
+            historical.left,
+            historical.right,
+            LowRankFactorSource.AUTHORITATIVE_PREPARED_PRECAST_FP32,
+        )
         invalid_constructors = (
             lambda: LowRankFP32Factor(
                 4,
@@ -412,6 +420,15 @@ class ResidualReservePCInventoryTests(unittest.TestCase):
             ),
             lambda: LayerPCInventoryInput(
                 4, nominal, (nominal,), covariance, 0.0, 0.0, 1.0
+            ),
+            lambda: LayerPCInventoryInput(
+                4,
+                nominal,
+                (prepared_historical,),
+                covariance,
+                0.0,
+                0.0,
+                1.0,
             ),
             lambda: LayerPCInventoryInput(
                 4, nominal, [], covariance, 0.0, 0.0, 1.0
