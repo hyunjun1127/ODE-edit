@@ -45,6 +45,7 @@ METHOD_ID = "P1R52-TARGET-OFFICIAL-ALPHAEDIT-WRITER-A1"
 PHASE_A_ROLE = "r52-target-official-alphaedit-writer-phase-a"
 PHASE_A_RESULT_NAME = "s05-p1r52-target-official-alphaedit-writer-phase-a-v1"
 PHASE_A_TECH_R1_RESULT_NAME = "s05-p1r52-target-official-alphaedit-writer-phase-a-tech-r1-v1"
+PHASE_A_TECH_R2_RESULT_NAME = "s05-p1r52-target-official-alphaedit-writer-phase-a-tech-r2-v1"
 PHASE_A_CASE_COUNT = 10
 
 
@@ -619,6 +620,7 @@ __all__ = [
     "PHASE_A_CASE_COUNT",
     "PHASE_A_RESULT_NAME",
     "PHASE_A_TECH_R1_RESULT_NAME",
+    "PHASE_A_TECH_R2_RESULT_NAME",
     "PHASE_A_ROLE",
     "accepted_z_cache_template",
     "isolated_alphaedit_module_state",

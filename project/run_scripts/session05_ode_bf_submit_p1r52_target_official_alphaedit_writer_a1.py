@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 
 from project.run_scripts.ode_bf.contracts import ODEBFContractError
-from project.run_scripts.ode_bf.p1r52_target_official_alphaedit_writer import PHASE_A_TECH_R1_RESULT_NAME
+from project.run_scripts.ode_bf.p1r52_target_official_alphaedit_writer import PHASE_A_TECH_R2_RESULT_NAME
 from project.run_scripts import session05_ode_bf_p1r52_target_official_alphaedit_writer_a1_dry_plan as dry
 from project.run_scripts.session05_ode_bf_submit_p1r52_piru_sequential_b100x10 import (
     PROJECT_GPU_CAP,
@@ -31,9 +31,9 @@ def submit(source_head: str) -> dict[str, object]:
     dirty = _run(["git", "status", "--porcelain"]).stdout
     if source_head != head or branch != BRANCH or dirty:
         raise ODEBFContractError("target/Official writer execution source differs")
-    output_root = REPO_ROOT / "local/odebf/results" / PHASE_A_TECH_R1_RESULT_NAME
-    state_root = REPO_ROOT / "local/odebf/state/p1r52-target-official-alphaedit-writer-a1-tech-r1-v1"
-    log_root = REPO_ROOT / "local/odebf/logs/p1r52-target-official-alphaedit-writer-a1-tech-r1-v1"
+    output_root = REPO_ROOT / "local/odebf/results" / PHASE_A_TECH_R2_RESULT_NAME
+    state_root = REPO_ROOT / "local/odebf/state/p1r52-target-official-alphaedit-writer-a1-tech-r2-v1"
+    log_root = REPO_ROOT / "local/odebf/logs/p1r52-target-official-alphaedit-writer-a1-tech-r2-v1"
     if any(path.exists() or path.is_symlink() for path in (output_root, state_root, log_root)):
         raise ODEBFContractError("target/Official writer namespace exists")
     allocated, jobs = _gpu_jobs()

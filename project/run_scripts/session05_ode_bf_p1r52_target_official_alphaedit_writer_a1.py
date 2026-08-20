@@ -88,7 +88,7 @@ def main(argv: list[str] | None = None) -> int:
             source_head=args.source_head,
             p1r52_sequential_role=PHASE_A_ROLE,
             p1r52_sequential_scale="b100x10",
-            p1r52_attempt_suffix="tech-r1",
+            p1r52_attempt_suffix="tech-r2",
             p1r52_batch_entry_evaluator_enabled=False,
         )
         result.update(

@@ -5,6 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest import mock
+from types import SimpleNamespace
 
 import numpy as np
 import torch
@@ -14,6 +15,7 @@ from project.run_scripts.ode_bf.p1r52_target_official_alphaedit_writer import (
     PHASE_A_RESULT_NAME,
     PHASE_A_ROLE,
     PHASE_A_TECH_R1_RESULT_NAME,
+    PHASE_A_TECH_R2_RESULT_NAME,
     _writer_gap,
     accepted_z_cache_template,
     isolated_alphaedit_module_state,
@@ -23,6 +25,7 @@ from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
 )
 from project.run_scripts.ode_bf.p1r52_sequential_scale import P1R52_B100X10_SCALE
 from project.run_scripts.ode_bf.scalable_batched_native import run_official_native_apply
+from project.run_scripts.ode_bf.scalable_batched_field import build_scalable_dynamic_field
 
 
 class _Hparams:
@@ -62,6 +65,44 @@ class P1R52TargetOfficialWriterTests(unittest.TestCase):
             ),
             PHASE_A_TECH_R1_RESULT_NAME,
         )
+        self.assertEqual(
+            expected_p1r52_sequential_result_name(
+                "llama3-8b-inst",
+                PHASE_A_ROLE,
+                scale=P1R52_B100X10_SCALE,
+                attempt_suffix="tech-r2",
+            ),
+            PHASE_A_TECH_R2_RESULT_NAME,
+        )
+
+    def test_b100_scalable_field_binds_empty_history_capacity_zero(self) -> None:
+        requests = self._requests()
+        state = torch.zeros(3, 100)
+        captured = {layer: torch.zeros(7, 100) for layer in (4, 5, 6, 7, 8)}
+        observed = SimpleNamespace(model_forward_count=0, current_z=state)
+        with mock.patch(
+            "project.run_scripts.ode_bf.scalable_batched_field.build_p1_dynamic_field",
+            return_value=observed,
+        ) as builder:
+            result = build_scalable_dynamic_field(
+                object(),
+                object(),
+                requests,
+                _Hparams(),
+                torch.eye(7),
+                (("{}",),),
+                target_state=state,
+                current_terminal=state,
+                captured_keys_by_layer=captured,
+                accepted_waypoint=0,
+                covariance_registry=object(),
+                projector_sha256="0" * 64,
+                residual_tolerance=1e-8,
+                ledger=object(),
+            )
+        self.assertIs(result, observed)
+        self.assertEqual(builder.call_args.kwargs["expected_batch_size"], 100)
+        self.assertEqual(builder.call_args.kwargs["maximum_history_columns"], 0)
 
     def test_accepted_z_cache_is_exact_and_ordered(self) -> None:
         requests = self._requests()

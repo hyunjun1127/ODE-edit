@@ -417,6 +417,11 @@ def build_scalable_dynamic_field(
         captured_keys_by_layer=captured_keys_by_layer,
         allow_inner_empty_cache=False,
         expected_batch_size=request_count,
+        # This scalable field is explicitly history-off and always passes the
+        # empty matrices constructed above.  Binding the maximum to zero keeps
+        # the validator batch-size invariant (including B100) without enabling
+        # or consuming any history state.
+        maximum_history_columns=0,
     )
     if field.model_forward_count != 0 or field.current_z.shape[1] != request_count:
         raise ODEBFContractError("P1R23 field performed duplicate capture")
