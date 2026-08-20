@@ -21,6 +21,9 @@ from project.run_scripts.ode_bf.p1r52_r42_safe_kdc import (
     prepare_p1r52_target_proposal,
     select_p1r52_target_proposal,
 )
+from project.run_scripts.ode_bf.p1r52_independent_runtime import (
+    expected_p1r52_result_name,
+)
 from project.run_scripts.ode_bf.p1r52_target_depth import (
     P1R52TargetDepth,
     P1R52TargetDepthInner,
@@ -379,6 +382,30 @@ class P1R52TargetDepthTests(unittest.TestCase):
         )
         self.assertEqual(result.receipt["entry_norm_calibration_count"], 1)
         self.assertEqual(result.receipt["inner_writer_materialization_count"], 0)
+
+    def test_atomic_result_identity_is_depth_specific(self) -> None:
+        self.assertEqual(
+            expected_p1r52_result_name(
+                "llama3-8b-inst", "soft", target_depth=P1R52TargetDepth.IL3_FULL
+            ),
+            "s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il3full-v1",
+        )
+        with self.assertRaises(ODEBFContractError):
+            expected_p1r52_result_name(
+                "llama3-8b-inst", "pir-j0", target_depth=P1R52TargetDepth.IL3_FULL
+            )
+
+    def test_atomic_adapter_plumbs_depth_without_writer_variant(self) -> None:
+        root = Path(__file__).resolve().parents[4]
+        independent = (root / "project/run_scripts/ode_bf/p1r52_independent_runtime.py").read_text()
+        shared = (root / "project/run_scripts/ode_bf/p1r36_independent_b10x10_runtime.py").read_text()
+        sbatch = (root / "project/run_scripts/session05_ode_bf_p1r52_target_depth_atomic.sbatch").read_text()
+        self.assertIn("p1r52_target_depth=depth_policy.inner_count", independent)
+        self.assertIn("p1r52_target_depth=p1r52_target_depth", shared)
+        self.assertIn('readonly DEPTH="IL3-FULL"', sbatch)
+        self.assertIn('readonly ARMS=(neutral soft neutral soft)', sbatch)
+        self.assertNotIn("h/3", sbatch)
+        self.assertNotIn("writer_policy", sbatch)
 
 
 if __name__ == "__main__":

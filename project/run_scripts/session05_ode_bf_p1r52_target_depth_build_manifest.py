@@ -13,17 +13,23 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = REPO_ROOT / "project/run_scripts/ode_bf/locks/source_manifest_s05_p1r52_target_depth_il1_il3full.json"
 FILES = (
     "project/run_scripts/ode_bf/p1_runtime.py",
+    "project/run_scripts/ode_bf/p1r36_independent_b10x10_runtime.py",
     "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
     "project/run_scripts/ode_bf/p1r52_r42_safe_kdc.py",
+    "project/run_scripts/ode_bf/p1r52_independent_runtime.py",
     "project/run_scripts/ode_bf/p1r52_target_depth.py",
     "project/run_scripts/ode_bf/p1r52_target_depth_panel.py",
     "project/run_scripts/ode_bf/p1r52_target_depth_target_only_runtime.py",
     "project/run_scripts/ode_bf/p2r1_target_only_runtime.py",
     "project/run_scripts/ode_bf/tests/test_p1r52_target_depth.py",
     "project/run_scripts/session05_ode_bf_p1r52_target_depth.py",
+    "project/run_scripts/session05_ode_bf_p1r52_target_depth_atomic.py",
+    "project/run_scripts/session05_ode_bf_p1r52_target_depth_atomic.sbatch",
+    "project/run_scripts/session05_ode_bf_p1r52_target_depth_atomic_dry_plan.py",
     "project/run_scripts/session05_ode_bf_p1r52_target_depth.sbatch",
     "project/run_scripts/session05_ode_bf_p1r52_target_depth_dry_plan.py",
     "project/run_scripts/session05_ode_bf_submit_p1r52_target_depth.py",
+    "project/run_scripts/session05_ode_bf_submit_p1r52_target_depth_atomic.py",
 )
 
 
