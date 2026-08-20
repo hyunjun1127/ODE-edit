@@ -3236,6 +3236,9 @@ def run_p1(
     p1r52_accepted_z_reference_root: Path | None = None,
     p1r52_accepted_z_sealed_w_reuse: bool = True,
     p1r52_postsolve_energy_warn_enabled: bool = False,
+    p1r52_target_depth: str | None = None,
+    p1r52_target_depth_case_count: int | None = None,
+    p1r52_target_depth_attempt_suffix: str | None = None,
     p2r1_target_only_case_count: int | None = None,
     p2r1_attempt_suffix: str | None = None,
     p2r2_case_count: int | None = None,
@@ -3274,6 +3277,7 @@ def run_p1(
             p1r51_phase is not None,
             p1r52_arm is not None,
             p1r52_sequential_role is not None,
+            p1r52_target_depth is not None,
             p2r1_target_only_case_count is not None,
             p2r2_case_count is not None,
             p2r7_phase is not None,
@@ -3282,6 +3286,8 @@ def run_p1(
         raise ODEBFContractError("P1 diagnostic modes are mutually exclusive")
     if p1r52_sequential_scale is not None and p1r52_sequential_role is None:
         raise ODEBFContractError("P1R52 sequential scale has no role")
+    if (p1r52_target_depth is None) != (p1r52_target_depth_case_count is None):
+        raise ODEBFContractError("P1R52 target-depth role/count pair differs")
     if p1r52_sequential_role is not None:
         from .p1r52_sequential_runtime import expected_p1r52_sequential_result_name
         from .p1r52_sequential_scale import resolve_p1r52_sequential_scale
@@ -3291,6 +3297,18 @@ def run_p1(
             p1r52_sequential_role,
             scale=resolve_p1r52_sequential_scale(p1r52_sequential_scale),
             attempt_suffix=p1r52_attempt_suffix,
+        )
+    elif p1r52_target_depth is not None:
+        from .p1r52_target_depth_target_only_runtime import (
+            expected_p1r52_target_depth_result_name,
+        )
+
+        assert p1r52_target_depth_case_count is not None
+        expected_name = expected_p1r52_target_depth_result_name(
+            alias,
+            depth=p1r52_target_depth,
+            case_count=p1r52_target_depth_case_count,
+            attempt_suffix=p1r52_target_depth_attempt_suffix,
         )
     elif p1r52_arm is not None:
         from .p1r52_independent_runtime import expected_p1r52_result_name
@@ -3532,6 +3550,7 @@ def run_p1(
         and p1r51_phase is None
         and p1r52_arm is None
         and p1r52_sequential_role is None
+        and p1r52_target_depth is None
         and p2r1_target_only_case_count is None
         and p2r2_case_count is None
         and p2r7_phase is None,
@@ -3715,6 +3734,7 @@ def run_p1(
         or p1r51_phase is not None
         or p1r52_arm is not None
         or p1r52_sequential_role is not None
+        or p1r52_target_depth is not None
         or p2r1_target_only_case_count is not None
         or p2r2_case_count is not None
         or p2r7_phase is not None
@@ -3733,6 +3753,7 @@ def run_p1(
             or p1r51_phase is not None
             or p1r52_arm is not None
             or p1r52_sequential_role is not None
+            or p1r52_target_depth is not None
             or p2r1_target_only_case_count is not None
             or p2r2_case_count is not None
             or p2r7_phase is not None
@@ -3746,7 +3767,12 @@ def run_p1(
                 P1R23_LOCK_FILE,
                 load_and_validate_p1r23_lock,
             )
-            if p1r52_arm is not None or p1r52_sequential_role is not None:
+            if p1r52_target_depth is not None:
+                from .p1r52_target_depth_panel import (
+                    LOCK_FILE as INDEPENDENT_LOCK_FILE,
+                    load_and_validate_lock as load_and_validate_independent_lock,
+                )
+            elif p1r52_arm is not None or p1r52_sequential_role is not None:
                 from .p1r52_independent_panel import (
                     LOCK_FILE as INDEPENDENT_LOCK_FILE,
                     load_and_validate_lock as load_and_validate_independent_lock,
@@ -4105,6 +4131,7 @@ def run_p1(
             and p1r51_phase is None
             and p1r52_arm is None
             and p1r52_sequential_role is None
+            and p1r52_target_depth is None
             and p2r1_target_only_case_count is None
             and p2r2_case_count is None
             and p2r7_phase is None
@@ -4140,6 +4167,7 @@ def run_p1(
             and p1r51_phase is None
             and p1r52_arm is None
             and p1r52_sequential_role is None
+            and p1r52_target_depth is None
             and p2r1_target_only_case_count is None
             and p2r2_case_count is None
             and p2r7_phase is None
@@ -4189,6 +4217,7 @@ def run_p1(
         or p1r51_phase is not None
         or p1r52_arm is not None
         or p1r52_sequential_role is not None
+        or p1r52_target_depth is not None
         or p2r1_target_only_case_count is not None
         or p2r2_case_count is not None
         or p2r7_phase is not None
@@ -4204,6 +4233,7 @@ def run_p1(
             or p1r51_phase is not None
             or p1r52_arm is not None
             or p1r52_sequential_role is not None
+            or p1r52_target_depth is not None
             or p2r1_target_only_case_count is not None
             or p2r2_case_count is not None
             or p2r7_phase is not None
@@ -4438,10 +4468,42 @@ def run_p1(
         or p1r51_phase is not None
         or p1r52_arm is not None
         or p1r52_sequential_role is not None
+        or p1r52_target_depth is not None
         or p2r1_target_only_case_count is not None
         or p2r2_case_count is not None
         or p2r7_phase is not None
     ):
+        if p1r52_target_depth is not None:
+            from .p1r52_target_depth_target_only_runtime import (
+                run_p1r52_target_depth_target_only,
+            )
+
+            assert p1r52_target_depth_case_count is not None
+            return run_p1r52_target_depth_target_only(
+                model,
+                tokenizer,
+                alias=alias,
+                depth=p1r52_target_depth,
+                destination=destination,
+                raw_root=raw_root,
+                stages=stages,
+                source_head=source_head,
+                stream_batches=stream_batches,
+                stream=cold_stream,
+                hparams=hparams,
+                contexts=contexts,
+                dataset_path=dataset,
+                mutation_lock=mutation_lock,
+                touched=touched,
+                base_receipt=base_receipt,
+                base_values=base_values,
+                job_ledger=job_ledger,
+                request_microbatch_size=int(
+                    scalable_batched_lock["microbatch_accumulation"]
+                    ["request_microbatch_size"][alias]
+                ),
+                case_count=p1r52_target_depth_case_count,
+            )
         if p1r52_sequential_role is not None:
             from .p1r52_sequential_runtime import run_p1r52_sequential
             from .p1r52_sequential_scale import resolve_p1r52_sequential_scale

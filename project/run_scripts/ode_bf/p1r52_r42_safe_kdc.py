@@ -225,7 +225,8 @@ def prepare_p1r52_target_proposal(
     if not bool(torch.isfinite(nll_values).all()) or bool(torch.any(nll_values < 0.0)):
         raise ODEBFContractError("P1R52 request-wise NLL is nonfinite or negative")
 
-    if state.entry_semantic_gradient_norm is None:
+    calibrated_now = state.entry_semantic_gradient_norm is None
+    if calibrated_now:
         entry_norm = current_norm + P1R52_NUMERICAL_EPSILON
         next_state = P1R51ControllerState(
             tuple(float(item) for item in entry_norm),
@@ -513,7 +514,8 @@ def prepare_p1r52_target_proposal(
         "top1_allocation_share": float(sorted_shares[0]),
         "top3_allocation_share": float(torch.sum(sorted_shares[: min(3, request_count)])),
         "allocation_entropy": _entropy(rsa_shares),
-        "entry_norm_calibration_count": 1 if step_index == 0 else 0,
+        "entry_norm_calibration_count": int(calibrated_now),
+        "entry_norm_calibration_trigger": "STATE_NONE_TO_VALUE",
         "entry_norm_frozen_after_k0": True,
         "cumulative_accepted_activation_path_before_by_request": list(state.cumulative_accepted_activation_path),
         "semantic_gradient_sha256": tensor_sha256(semantic),
