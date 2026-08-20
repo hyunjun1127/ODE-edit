@@ -3,7 +3,7 @@
   "instruction_id": "ODEEDIT-S05-P1R52-TARGET-OFFICIAL-ALPHAEDIT-WRITER-A1-V1",
   "parent": "4f25efdc8ccd9e9017a7e44aa99f92dccd01c31e",
   "parent_tree": "0b621c01a20b31af0925f1e18ab1f4932f1656b6",
-  "implementation_parent": "3b237ad6614df26f7df15b6d662ce85f4fe0843d",
+  "implementation_parent": "b56891519038ca186360524b6e38a35a4a00672d",
   "entries": [
     {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r52_target_official_alphaedit_writer_a1.json", "sha256": "4d83297e506996f9adf9ae27fc37dc5e8740c5329d34b9fe595bda68a070b61c", "size": 1368},
     {"path": "project/run_scripts/ode_bf/locks/p1r52_sequential_b100x10_stream_seal.json", "sha256": "550600af120070594078b73a5da7d066ad6287d8a3224c55f61babca592e0586", "size": 404973},
@@ -12,14 +12,14 @@
     {"path": "project/run_scripts/ode_bf/p1r52_accepted_z_observation.py", "sha256": "0f13e6e677bb4494dcd963358b1b678c8c78d53d7a05c41e8e595bd5f3d05c9d", "size": 16444},
     {"path": "project/run_scripts/ode_bf/p1r52_r42_safe_kdc.py", "sha256": "d4098eb11002349cf3b151f8d2e327bee15990bd6ee4f4accef9fdb4555e97bd", "size": 34797},
     {"path": "project/run_scripts/ode_bf/p1r52_sequential_runtime.py", "sha256": "8ef718232b64c5851ae92d800b44bf2023e5538976c0d7d677ff07fbc4920926", "size": 109342},
-    {"path": "project/run_scripts/ode_bf/p1r52_target_official_alphaedit_writer.py", "sha256": "846585afee9be8fe62f8106f7b143ca57a84b7576bcf0f72ae73231865d4c307", "size": 25625},
+    {"path": "project/run_scripts/ode_bf/p1r52_target_official_alphaedit_writer.py", "sha256": "47ed65ff5888838440a743dbeefc6aca7ae5389e6e0ad2dc72778631c1966e19", "size": 25968},
     {"path": "project/run_scripts/ode_bf/p1r52_target_official_alphaedit_writer_panel.py", "sha256": "53ebd2bb3b8b74d02a5b1a0b0f74327b9fcc1eaf0d1a865411222f19931ca091", "size": 2861},
     {"path": "project/run_scripts/ode_bf/scalable_batched_native.py", "sha256": "d8a3a86688eb4131e4d5cbe077d8a0d4e85bae83ac6063d4d1fa17b92663f81e", "size": 26974},
-    {"path": "project/run_scripts/ode_bf/tests/test_p1r52_target_official_alphaedit_writer.py", "sha256": "98062f5345ed1762d4eafa96fcaf666863079f9fbfd94873ef9f018ef272e01c", "size": 6967},
-    {"path": "project/run_scripts/session05_ode_bf_p1r52_target_official_alphaedit_writer_a1.py", "sha256": "56b0a73f28d6ac103d54941f25bc61b7521d69f2c1c9d3abc43cc17f671cb1cc", "size": 4750},
+    {"path": "project/run_scripts/ode_bf/tests/test_p1r52_target_official_alphaedit_writer.py", "sha256": "96eba927c0479f06ad95bef345737c7ef5a5e130e7ec34caa0f82eaf12987c19", "size": 7292},
+    {"path": "project/run_scripts/session05_ode_bf_p1r52_target_official_alphaedit_writer_a1.py", "sha256": "639b5841012144905e53af44fb1b357efcff1963c175f1bdf2040f804cb4709e", "size": 4794},
     {"path": "project/run_scripts/session05_ode_bf_p1r52_target_official_alphaedit_writer_a1.sbatch", "sha256": "e2c5641b8eb63db325637ef59cb182fb284c0bc94b1b719942292c65ca106445", "size": 2140},
-    {"path": "project/run_scripts/session05_ode_bf_p1r52_target_official_alphaedit_writer_a1_dry_plan.py", "sha256": "639a459e0e4534e8368d1290b3ea751a9eeaec1a7329f7923f67d7ecb6de6f52", "size": 1491},
-    {"path": "project/run_scripts/session05_ode_bf_submit_p1r52_target_official_alphaedit_writer_a1.py", "sha256": "e0171d57379215e74be3c5aa3e56e3f7e2b9547ebfe3c1670da18672473bd2c2", "size": 4874}
+    {"path": "project/run_scripts/session05_ode_bf_p1r52_target_official_alphaedit_writer_a1_dry_plan.py", "sha256": "b440abf4f2648f19451926853a1c261d8764d0d7cf6f82d53d850cee9b0d9947", "size": 1552},
+    {"path": "project/run_scripts/session05_ode_bf_submit_p1r52_target_official_alphaedit_writer_a1.py", "sha256": "b23ad47c8be50a9615cab728b55c70708e698497f0c549678d4cabff8d120a39", "size": 4906}
   ],
   "entry_count": 15,
   "numerical_lock_sha256": "4d83297e506996f9adf9ae27fc37dc5e8740c5329d34b9fe595bda68a070b61c",
@@ -27,5 +27,5 @@
   "native_alphaedit_compute_z_call_count": 0,
   "barrier_influence_count": 0,
   "easyedit_write_count": 0,
-  "root_digest": "92630c228d897bb75daa2495e6df2bf540418a4853ad39032dbf124045db342f"
+  "root_digest": "73e05de283b88c0e016ddc86fbbca1ab167d177ab71665f32791bd9ccad29b6f"
 }
