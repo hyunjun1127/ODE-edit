@@ -106,7 +106,7 @@ def main() -> int:
         "terminal_w0_restore_count": 1,
         "task_gpu_cap": 3,
         "stage_gpu_max": 1,
-        "technical_attempt": "TECH_R3_B100_RESIDUAL_OVERLAY_CARDINALITY",
+        "technical_attempt": "TECH_R4_ACCURACY_VECTOR_RECEIPT_SCHEMA",
         "execution_node": "server2",
         "retry_count": 0,
         "backtracking_count": 0,
@@ -137,7 +137,7 @@ def main() -> int:
         "numerical_lock_sha256": lock_sha,
         "stream_root": STREAM_ROOT,
         "stream_order": STREAM_ORDER,
-        "source_scope": "TARGET_DEPTH_IL5_TYPED_EXTENSION_THIN_SEQUENTIAL_ADAPTER_SERVER2_BINDING_AND_B100_TELEMETRY_CARDINALITY_TECH_R3",
+        "source_scope": "TARGET_DEPTH_IL5_TYPED_EXTENSION_THIN_SEQUENTIAL_ADAPTER_SERVER2_BINDING_B100_TELEMETRY_CARDINALITY_AND_ACCURACY_VECTOR_SCHEMA_TECH_R4",
     }
     manifest_sha = _write_once(LOCK_ROOT / SOURCE_MANIFEST_FILE, manifest)
     print(

@@ -134,6 +134,30 @@ def _mean_nested(values: Sequence[Sequence[float]]) -> float:
     return sum(flat) / len(flat)
 
 
+def _pinned_numeric_vectors_sha256(
+    raw: Mapping[str, Any],
+    rewrite: Sequence[Sequence[float]],
+    rephrase: Sequence[Sequence[float]],
+) -> str:
+    existing = raw.get("numeric_vectors_sha256")
+    if isinstance(existing, str) and len(existing) == 64:
+        return existing
+    primary = raw.get("primary", raw.get("legacy_primary"))
+    if not isinstance(primary, Mapping):
+        raise ODEBFContractError("P1R52 telemetry primary schema differs")
+    return canonical_hash(
+        {
+            "schema": "ode-edit-s05-p1r52-accuracy-numeric-vectors/v1",
+            "rewrite_target_new_nll_by_request": [list(row) for row in rewrite],
+            "rephrase_target_new_nll_by_request": [list(row) for row in rephrase],
+            "target_span_sha256": str(primary["target_span_sha256"]),
+            "evaluation_case_identity_sha256": str(
+                primary["evaluation_case_identity_sha256"]
+            ),
+        }
+    )
+
+
 def _metric_summary(raw: Mapping[str, Any], name: str) -> dict[str, Any]:
     metric = _metric(raw, name)
     return {
@@ -367,7 +391,9 @@ class P1R52TargetDepthTelemetryObserver:
             "added_generation_count": 0,
             "controller_action_influence_count": 0,
             "duplicate_evaluation_count": 0,
-            "pinned_numeric_vectors_sha256": str(primary["numeric_vectors_sha256"]),
+            "pinned_numeric_vectors_sha256": _pinned_numeric_vectors_sha256(
+                raw, rewrite, rephrase
+            ),
             "action_freeze_sha256": freeze.identity(),
             "lookup_sha256": str(self.lookup_receipt["identity_sha256"]),
             "overlay_sha256": str(geometry["overlay"]["identity_sha256"]),

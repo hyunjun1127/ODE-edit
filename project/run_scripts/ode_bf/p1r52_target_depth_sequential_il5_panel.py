@@ -20,13 +20,13 @@ from .p1r52_target_depth_sequential_il5 import (
 
 PARENT = "db30255a39ec48dcd190fecd61cb5fd8c3ce3555"
 PARENT_TREE = "f05de718e195d39b0d3c198c8e6474d200544f56"
-LOCK_FILE = "numerical_lock_s05_p1r52_llama_j0_il5_sequential_10xb100_tech_r3.json"
-LOCK_SCHEMA = "ode-edit-s05-p1r52-llama-j0-il5-sequential-tech-r3-lock/v1"
+LOCK_FILE = "numerical_lock_s05_p1r52_llama_j0_il5_sequential_10xb100_tech_r4.json"
+LOCK_SCHEMA = "ode-edit-s05-p1r52-llama-j0-il5-sequential-tech-r4-lock/v1"
 SOURCE_MANIFEST_FILE = (
-    "source_manifest_s05_p1r52_llama_j0_il5_sequential_10xb100_tech_r3.json"
+    "source_manifest_s05_p1r52_llama_j0_il5_sequential_10xb100_tech_r4.json"
 )
 SOURCE_MANIFEST_SCHEMA = (
-    "ode-edit-s05-p1r52-llama-j0-il5-sequential-tech-r3-source-manifest/v1"
+    "ode-edit-s05-p1r52-llama-j0-il5-sequential-tech-r4-source-manifest/v1"
 )
 
 
@@ -62,7 +62,7 @@ def validate_lock(value: Mapping[str, Any]) -> None:
         "terminal_w0_restore_count": 1,
         "task_gpu_cap": 3,
         "stage_gpu_max": 1,
-        "technical_attempt": "TECH_R3_B100_RESIDUAL_OVERLAY_CARDINALITY",
+        "technical_attempt": "TECH_R4_ACCURACY_VECTOR_RECEIPT_SCHEMA",
         "execution_node": "server2",
     }
     if any(value.get(key) != wanted for key, wanted in expected.items()):

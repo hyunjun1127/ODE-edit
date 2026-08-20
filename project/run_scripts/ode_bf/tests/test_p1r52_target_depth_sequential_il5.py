@@ -32,6 +32,9 @@ from project.run_scripts.ode_bf.p1r52_target_depth import (
     P1R52_TARGET_DEPTH_INNER_COUNTS,
     P1R52TargetDepth,
 )
+from project.run_scripts.ode_bf.p1r52_target_depth_inner_telemetry import (
+    _pinned_numeric_vectors_sha256,
+)
 from project.run_scripts.ode_bf.p1r52_target_depth_sequential_il5 import (
     ATTEMPT_SUFFIX,
     POLICY,
@@ -223,6 +226,26 @@ class P1R52TargetDepthSequentialIL5Tests(unittest.TestCase):
                 "1" * 64,
                 expected_request_count=100,
             )
+
+    def test_accuracy_schema_numeric_vector_digest_is_deterministic(self) -> None:
+        raw = {
+            "legacy_primary": {
+                "target_span_sha256": "2" * 64,
+                "evaluation_case_identity_sha256": "3" * 64,
+            }
+        }
+        left = _pinned_numeric_vectors_sha256(raw, ((1.0,),), ((2.0, 3.0),))
+        right = _pinned_numeric_vectors_sha256(raw, ((1.0,),), ((2.0, 3.0),))
+        self.assertEqual(left, right)
+        self.assertEqual(len(left), 64)
+        self.assertEqual(
+            _pinned_numeric_vectors_sha256(
+                {"numeric_vectors_sha256": "4" * 64},
+                ((9.0,),),
+                ((8.0,),),
+            ),
+            "4" * 64,
+        )
 
 
 if __name__ == "__main__":
