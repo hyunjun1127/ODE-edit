@@ -89,3 +89,32 @@
 5. Qwen/Llama 차이: 신규 실행은 Llama Soft만이므로 Qwen 신규 비교는 `NOT_EVALUATED`.
 
 scientific_promotion=false. 추가 model/GPU/Slurm job=0.
+
+## 부록 A. IL15의 첫 outer write 집중도
+
+이 부록의 `k=1..8`은 `per-step` machine table의 `transition_index=1..8`과 같다. IL15-FULL Llama Soft의 유효 10개 case를 transition별로 평균했으며, 신규 model/evaluator 실행이나 결과 보간은 수행하지 않았다.
+
+| outer k | outer net target movement mean | predicted progress mean | actual progress mean | realized BF16 step energy mean |
+|---:|---:|---:|---:|---:|
+| 1 | 8.45807 | 10.3763 | 10.2846 | 5.12206 |
+| 2 | 0.956374 | 0.0982894 | 0.0567110 | 0.371524 |
+| 3 | 0.288851 | 0.0437796 | 0.0283071 | 0.412261 |
+| 4 | 0.170682 | 0.0162418 | 0.0114909 | 0.302698 |
+| 5 | 0.129898 | 0.00518987 | -0.000858186 | 0.252207 |
+| 6 | 0.113479 | 0.00627846 | 0.00526384 | 0.192373 |
+| 7 | 0.0832852 | 0.00119639 | -0.0212856 | 0.139539 |
+| 8 | 0.123023 | 0.0225844 | 0.0214797 | 0.0960602 |
+
+전체 8개 transition 평균합 대비 첫 transition의 비중은 다음과 같다.
+
+- outer net target movement: `8.45807 / 10.3237 = 81.93%`
+- predicted semantic progress: `10.3763 / 10.5698 = 98.17%`
+- actual semantic progress: `10.2846 / 10.3858 = 99.03%`
+- selected writer energy: `5.05141 / 6.27291 = 80.53%`
+- realized BF16 path energy: `5.12206 / 6.88872 = 74.35%`
+
+IL15는 각 outer에서 physical `W_k`를 고정한 채 target operator를 최대 15회 적용한 뒤, 누적된 최종 `z*`와 `y(W_k)`의 full-current residual로 J0 writer를 한 번 실행한다. inner writer/materialization count는 0이고 outer writer/materialization count는 1이다. 따라서 `K=8`은 write를 8등분하는 규칙이 아니며, 이 관측에서는 첫 outer transition에 target movement와 writer energy가 집중되고 이후 7개 transition은 상대적으로 작은 correction으로 기록됐다.
+
+첫 transition의 target pseudo-time은 고정 `h=1/8` inner를 15회 수행하므로 명목상 `15/8=1.875`이다. 이는 `h/15` refinement 또는 8등분된 physical write가 아니다. 또한 k=2의 final full-current residual norm 평균은 `12.4584`로 남았지만 actual semantic progress 평균은 `0.0567110`이었다. 따라서 residual norm의 잔존과 semantic write progress의 크기는 동일한 양으로 해석하지 않는다.
+
+근거 machine table: `p1r52-target-depth-il8-il10-il15-per-step.json` (`depth=IL15-FULL`, valid cases `10/10`, rows `80`).
