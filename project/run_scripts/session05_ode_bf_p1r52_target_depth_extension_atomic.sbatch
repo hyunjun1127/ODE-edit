@@ -32,7 +32,7 @@ readonly DEPTHS=(IL8-FULL IL10-FULL IL15-FULL)
 readonly DEPTH="${DEPTHS[${SLURM_ARRAY_TASK_ID}]}"
 readonly DEPTH_LOWER="${DEPTH,,}"
 readonly DEPTH_SLUG="${DEPTH_LOWER//-/}"
-readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-${DEPTH_SLUG}-extension-tech-r1-v1"
+readonly OUTPUT_ROOT="${RESULT_PARENT}/s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-${DEPTH_SLUG}-extension-tech-r2-v1"
 [[ ! -e "${OUTPUT_ROOT}" ]] || { echo "P1R52 target-depth extension output exists" >&2; exit 2; }
 
 export HF_HOME="/mnt/raid5/janghj/.cache/huggingface"

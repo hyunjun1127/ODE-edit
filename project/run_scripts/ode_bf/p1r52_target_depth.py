@@ -85,6 +85,11 @@ class P1R52TargetDepth(str, Enum):
             ) from exc
 
 
+P1R52_TARGET_DEPTH_INNER_COUNTS = tuple(
+    item.inner_count for item in P1R52TargetDepth
+)
+
+
 @dataclass(frozen=True, slots=True)
 class P1R52TargetDepthInner:
     inner_index: int
@@ -420,6 +425,7 @@ __all__ = [
     "P1R52_TARGET_DEPTH_METHOD_ID",
     "P1R52_TARGET_DEPTH_EXTENSION_INSTRUCTION_ID",
     "P1R52_TARGET_DEPTH_EXTENSION_METHOD_ID",
+    "P1R52_TARGET_DEPTH_INNER_COUNTS",
     "P1R52TargetDepth",
     "P1R52TargetDepthInner",
     "P1R52TargetDepthOuter",

@@ -169,6 +169,7 @@ from .p1r52_r42_safe_kdc import (
     select_p1r52_target_proposal,
 )
 from .p1r52_target_depth import (
+    P1R52_TARGET_DEPTH_INNER_COUNTS,
     P1R52TargetDepth,
     run_p1r52_target_depth_scheduler,
 )
@@ -384,7 +385,10 @@ def _run_ode_arm(
         or arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT)
     ):
         raise ODEBFContractError("P1R52 R42-safe KDC path differs")
-    if (p1r52_target_depth != 1 and not p1r52) or p1r52_target_depth not in (1, 3):
+    if (
+        (p1r52_target_depth != 1 and not p1r52)
+        or p1r52_target_depth not in P1R52_TARGET_DEPTH_INNER_COUNTS
+    ):
         raise ODEBFContractError("P1R52 target-depth activation differs")
     target_depth_policy = P1R52TargetDepth.from_inner_count(p1r52_target_depth)
     writer_policy = (

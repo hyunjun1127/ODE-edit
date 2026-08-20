@@ -25,6 +25,7 @@ from project.run_scripts.ode_bf.p1r52_independent_runtime import (
     expected_p1r52_result_name,
 )
 from project.run_scripts.ode_bf.p1r52_target_depth import (
+    P1R52_TARGET_DEPTH_INNER_COUNTS,
     P1R52TargetDepth,
     P1R52TargetDepthInner,
     reassemble_p1r52_outer_target,
@@ -159,6 +160,7 @@ class P1R52TargetDepthTests(unittest.TestCase):
         )
 
     def test_depth_policy_is_locked_to_original_and_extension_values(self) -> None:
+        self.assertEqual(P1R52_TARGET_DEPTH_INNER_COUNTS, (1, 3, 8, 10, 15))
         self.assertEqual(P1R52TargetDepth.from_inner_count(1), P1R52TargetDepth.IL1)
         self.assertEqual(P1R52TargetDepth.from_inner_count(3), P1R52TargetDepth.IL3_FULL)
         self.assertEqual(P1R52TargetDepth.from_inner_count(8), P1R52TargetDepth.IL8_FULL)
@@ -176,7 +178,7 @@ class P1R52TargetDepthTests(unittest.TestCase):
         )
         self.assertEqual(
             extension_result_name(P1R52TargetDepth.IL15_FULL),
-            "s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il15full-extension-tech-r1-v1",
+            "s05-p1r52-target-depth-atomic-b10x10-llama3-8b-inst-soft-il15full-extension-tech-r2-v1",
         )
         self.assertEqual(
             extension_result_name(P1R52TargetDepth.IL15_FULL),
@@ -184,7 +186,7 @@ class P1R52TargetDepthTests(unittest.TestCase):
                 "llama3-8b-inst",
                 "soft",
                 target_depth=P1R52TargetDepth.IL15_FULL,
-                attempt_suffix="extension-tech-r1",
+                attempt_suffix="extension-tech-r2",
             ),
         )
         with self.assertRaises(ODEBFContractError):
@@ -531,6 +533,16 @@ class P1R52TargetDepthTests(unittest.TestCase):
         self.assertNotIn("IL5", joined)
         self.assertNotIn("h/3", joined)
         self.assertNotIn("h/depth", joined)
+
+    def test_actual_runtime_activation_uses_the_locked_depth_count_registry(self) -> None:
+        root = Path(__file__).resolve().parents[4]
+        scalable = (
+            root / "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py"
+        ).read_text()
+        self.assertIn(
+            "p1r52_target_depth not in P1R52_TARGET_DEPTH_INNER_COUNTS", scalable
+        )
+        self.assertNotIn("p1r52_target_depth not in (1, 3)", scalable)
 
 
 if __name__ == "__main__":

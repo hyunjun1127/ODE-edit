@@ -37,9 +37,9 @@ from project.run_scripts.ode_bf.p1r52_target_depth_extension_panel import (
 
 
 RUN_TOKEN = "p1r52-target-depth-atomic-extension-il8-il10-il15-v1"
-TECHNICAL_PARENT = "87608708182b361dcf187ee5af47b49ed70e0873"
+TECHNICAL_PARENT = "023e192277662f05b10fa3945846b42d21c59aa4"
 SOURCE_MANIFEST = (
-    "source_manifest_s05_p1r52_target_depth_il8_il10_il15_tech_r1.json"
+    "source_manifest_s05_p1r52_target_depth_il8_il10_il15_tech_r2.json"
 )
 
 
@@ -53,7 +53,7 @@ def source_gate(source_head: str) -> str:
     manifest, raw_sha = load_rooted_json(
         REPO_ROOT / "project/run_scripts/ode_bf/locks" / SOURCE_MANIFEST,
         expected_schema=(
-            "ode-edit-s05-p1r52-target-depth-extension-source-manifest-tech-r1/v1"
+            "ode-edit-s05-p1r52-target-depth-extension-source-manifest-tech-r2/v1"
         ),
     )
     entries = manifest.get("entries")
