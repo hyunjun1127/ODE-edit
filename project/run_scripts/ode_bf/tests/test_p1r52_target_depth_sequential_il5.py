@@ -216,7 +216,9 @@ class P1R52TargetDepthSequentialIL5Tests(unittest.TestCase):
             SimpleNamespace(
                 request_sha256=f"request-{index}",
                 rewrite_prompt=f"subject-{index} rewrite",
-                paraphrase_prompts=(f"subject-{index} rephrase",),
+                paraphrase_prompts=(
+                    f"subject-{index} rephrase {{literal/pronoun}}",
+                ),
                 neighborhood_prompts=(f"neighbor-{index}",),
                 target_new="new",
                 target_true="true",
@@ -224,8 +226,8 @@ class P1R52TargetDepthSequentialIL5Tests(unittest.TestCase):
             for index in range(2)
         )
         with patch(
-            "easyeditor.models.alphaedit.AlphaEdit_main.find_fact_lookup_idx",
-            return_value=-1,
+            "easyeditor.models.rome.repr_tools.get_words_idxs_in_templates",
+            return_value=[[-1]],
         ):
             positions, patched, receipt = _heldout_additive_lookup_geometry(
                 Tokenizer(),
@@ -237,6 +239,9 @@ class P1R52TargetDepthSequentialIL5Tests(unittest.TestCase):
         self.assertEqual(len(positions), 2)
         self.assertEqual(patched, (4, 4))
         self.assertEqual(receipt["request_count"], 2)
+        self.assertEqual(receipt["unused_sentence_format_call_count"], 0)
+        self.assertTrue(receipt["literal_unrelated_brace_preserved"])
+        self.assertIn("repr_tools", receipt["lookup_kernel"])
         with self.assertRaises(ODEBFContractError):
             _heldout_additive_lookup_geometry(
                 Tokenizer(),

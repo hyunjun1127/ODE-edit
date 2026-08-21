@@ -2969,7 +2969,7 @@ def _heldout_additive_lookup_geometry(
 ) -> tuple[tuple[tuple[int, ...], ...], tuple[int, ...], dict[str, Any]]:
     """Resolve held-out rewrite/paraphrase lookup rows without serializing text."""
 
-    from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
+    from easyeditor.models.rome import repr_tools
 
     if (
         isinstance(expected_batch_size, bool)
@@ -3007,17 +3007,22 @@ def _heldout_additive_lookup_geometry(
                 )
             template = prefix.replace(subject, "{}", 1)
             templates.append(template)
-            raw_positions.append(
-                int(
-                    alpha_main.find_fact_lookup_idx(
-                        template,
-                        subject,
-                        tokenizer,
-                        fact_token_strategy,
-                        verbose=False,
-                    )
+            if fact_token_strategy == "last":
+                raw_position = -1
+            elif fact_token_strategy.startswith("subject_"):
+                raw_position = int(
+                    repr_tools.get_words_idxs_in_templates(
+                        tok=tokenizer,
+                        context_templates=[template],
+                        words=[subject],
+                        subtoken=fact_token_strategy[len("subject_") :],
+                    )[0][0]
                 )
-            )
+            else:
+                raise ODEBFContractError(
+                    "BG-Soft heldout lookup strategy differs"
+                )
+            raw_positions.append(raw_position)
             prefix_lengths.append(len(tokenizer(prefix)["input_ids"]))
         rows = [
             f"{prefix} {suffix}"
@@ -3078,6 +3083,12 @@ def _heldout_additive_lookup_geometry(
         "padding_side_during_geometry": evaluation_padding_side,
         "padding_side_matches_evaluator": True,
         "padding_side_unchanged": True,
+        "lookup_kernel": (
+            "easyeditor.models.rome.repr_tools."
+            "get_words_idxs_in_templates"
+        ),
+        "unused_sentence_format_call_count": 0,
+        "literal_unrelated_brace_preserved": True,
         "absolute_z_replacement_count": 0,
         "heldout_controller_decision_influence_count": 0,
     }

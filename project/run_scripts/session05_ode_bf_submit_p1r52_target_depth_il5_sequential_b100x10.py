@@ -100,11 +100,11 @@ def submit(source_head: str) -> dict[str, object]:
     output_root = REPO_ROOT / "local/odebf/results" / RESULT_NAME
     state_root = REPO_ROOT / (
         "local/odebf/state/"
-        "p1r52-il5-sequential-10xb100-postenergy-warn-r1-tech-r1-v1"
+        "p1r52-il5-sequential-10xb100-postenergy-warn-r1-tech-r2-v1"
     )
     log_root = REPO_ROOT / (
         "local/odebf/logs/"
-        "p1r52-il5-sequential-10xb100-postenergy-warn-r1-tech-r1-v1"
+        "p1r52-il5-sequential-10xb100-postenergy-warn-r1-tech-r2-v1"
     )
     if output_root.exists() or output_root.is_symlink():
         raise ODEBFContractError("P1R52 IL5 result namespace exists")
@@ -116,7 +116,7 @@ def submit(source_head: str) -> dict[str, object]:
         raise ODEBFContractError("P1R52 IL5 host memory is below request")
     plan = dry.build_plan(source_head)
     namespace = (
-        f"p1r52-il5-sequential-postenergy-warn-r1-tech-r1-"
+        f"p1r52-il5-sequential-postenergy-warn-r1-tech-r2-"
         f"{source_head[:12]}-v1"
     )
     intent_path = state_root / f"{namespace}.intent.json"
@@ -168,8 +168,8 @@ def submit(source_head: str) -> dict[str, object]:
         "postsolve_energy_warn_enabled": True,
         "postsolve_energy_decision_influence_count": 0,
         "postsolve_energy_tolerance": 1e-12,
-        "technical_attempt": "TECH_R1_IL5_POSTENERGY_WARN_SCOPE",
-        "superseded_scheduler_job_id": "22169",
+        "technical_attempt": "TECH_R2_HELDOUT_LITERAL_BRACE_LOOKUP",
+        "superseded_scheduler_job_id": "22170",
         "result_root": str(output_root),
         "active_gpu_allocations_before_release": allocated,
         "host_memory_available_mib": memory_mib,
