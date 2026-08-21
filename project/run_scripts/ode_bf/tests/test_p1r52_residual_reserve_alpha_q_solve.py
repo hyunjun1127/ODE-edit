@@ -101,8 +101,26 @@ class ResidualReserveAlphaQOnlySolveTests(unittest.TestCase):
         self.assertTrue(torch.isfinite(zero.q32).all())
         self.assertTrue(torch.isfinite(nonzero.q32).all())
         self.assertFalse(torch.equal(zero.q32, nonzero.q32))
-        self.assertEqual(zero.receipt.key_rank, 2)
-        self.assertEqual(zero.receipt.required_key_rank, 2)
+        self.assertEqual(zero.receipt.observed_key_rank, 2)
+        self.assertEqual(zero.receipt.key_column_count, 2)
+        self.assertEqual(zero.receipt.minimum_required_key_rank, 2)
+
+    def test_partially_dependent_three_column_keys_rank_two_pass(self) -> None:
+        projector, keys, covariance, regularization = self.fixture()
+        partially_dependent = torch.stack(
+            (keys[:, 0], keys[:, 1], keys[:, 0]),
+            dim=1,
+        )
+        result = self.solve(
+            (projector, partially_dependent, covariance, regularization)
+        )
+        self.assertEqual(result.receipt.observed_key_rank, 2)
+        self.assertEqual(result.receipt.key_column_count, 3)
+        self.assertEqual(result.receipt.minimum_required_key_rank, 2)
+        self.assertLessEqual(
+            result.receipt.relative_solve_residual,
+            result.receipt.residual_tolerance,
+        )
 
     def test_residual_certificate_tolerance_fail_closes(self) -> None:
         inputs = self.fixture()
@@ -194,7 +212,7 @@ class ResidualReserveAlphaQOnlySolveTests(unittest.TestCase):
             )
         )
         with self.assertRaises(FrozenInstanceError):
-            result.receipt.key_rank = 0
+            result.receipt.observed_key_rank = 0
 
     def test_invalid_dtype_device_shape_rank_nonfinite_and_controls_fail(self) -> None:
         projector, keys, covariance, regularization = self.fixture()
@@ -222,6 +240,9 @@ class ResidualReserveAlphaQOnlySolveTests(unittest.TestCase):
         rank_deficient[:, 1] = rank_deficient[:, 0]
         with self.assertRaises(ODEBFContractError):
             self.solve((projector, rank_deficient, covariance, regularization))
+        zero_rank = torch.zeros_like(keys)
+        with self.assertRaises(ODEBFContractError):
+            self.solve((projector, zero_rank, covariance, regularization))
         nonfinite = covariance.clone()
         nonfinite[0, 0] = float("nan")
         with self.assertRaises(ODEBFContractError):

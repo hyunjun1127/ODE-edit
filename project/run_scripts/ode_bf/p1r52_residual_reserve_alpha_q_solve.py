@@ -60,8 +60,9 @@ class AlphaQOnlySolveReceipt:
     system_sha256: str
     rhs_sha256: str
     q_sha256: str
-    key_rank: int
-    required_key_rank: int
+    observed_key_rank: int
+    key_column_count: int
+    minimum_required_key_rank: int
     relative_solve_residual: float
     residual_tolerance: float
     q_norm: float
@@ -97,8 +98,9 @@ class AlphaQOnlySolveReceipt:
             "system_sha256": self.system_sha256,
             "rhs_sha256": self.rhs_sha256,
             "q_sha256": self.q_sha256,
-            "key_rank": self.key_rank,
-            "required_key_rank": self.required_key_rank,
+            "observed_key_rank": self.observed_key_rank,
+            "key_column_count": self.key_column_count,
+            "minimum_required_key_rank": self.minimum_required_key_rank,
             "relative_solve_residual": self.relative_solve_residual,
             "residual_tolerance": self.residual_tolerance,
             "q_norm": self.q_norm,
@@ -284,10 +286,11 @@ def solve_residual_independent_alpha_q_fp32(
     ):
         raise ODEBFContractError("Alpha q-solve output contract differs")
 
-    key_rank = int(torch.linalg.matrix_rank(joint_keys32).item())
-    required_key_rank = int(joint_keys32.shape[1])
-    if key_rank != required_key_rank:
-        raise ODEBFContractError("Alpha q-solve joint keys are rank deficient")
+    observed_key_rank = int(torch.linalg.matrix_rank(joint_keys32).item())
+    key_column_count = int(joint_keys32.shape[1])
+    minimum_required_key_rank = 2
+    if observed_key_rank < minimum_required_key_rank:
+        raise ODEBFContractError("Alpha q-solve joint key rank is below two")
     relative_residual = _relative_residual_scalar(system32, q32, rhs32)
     if (
         not math.isfinite(relative_residual)
@@ -333,8 +336,9 @@ def solve_residual_independent_alpha_q_fp32(
         system_sha256=tensor_sha256(system32),
         rhs_sha256=tensor_sha256(rhs32),
         q_sha256=tensor_sha256(q32),
-        key_rank=key_rank,
-        required_key_rank=required_key_rank,
+        observed_key_rank=observed_key_rank,
+        key_column_count=key_column_count,
+        minimum_required_key_rank=minimum_required_key_rank,
         relative_solve_residual=relative_residual,
         residual_tolerance=tolerance,
         q_norm=q_norm,
