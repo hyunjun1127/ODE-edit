@@ -20,12 +20,18 @@ from project.run_scripts.ode_bf.p1r52_joint_pc_runtime import (
     PILOT_TECH_R2_ROLE,
     PILOT_TECH_R3_RESULT_NAME,
     PILOT_TECH_R3_ROLE,
+    PILOT_TECH_R4_RESULT_NAME,
+    PILOT_TECH_R4_ROLE,
     STREAM_ORDER,
     STREAM_ROOT,
     expected_result_name,
     production_role,
 )
 from project.run_scripts.ode_bf.p1r52_pir_writer import remaining_pi_beta
+from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
+    expected_p1r52_sequential_result_name,
+)
+from project.run_scripts.ode_bf.p1r52_sequential_scale import P1R52_B100X10_SCALE
 
 
 class JointPCExecutionTests(unittest.TestCase):
@@ -61,6 +67,15 @@ class JointPCExecutionTests(unittest.TestCase):
         self.assertEqual(expected_result_name(PILOT_TECH_R1_ROLE), PILOT_TECH_R1_RESULT_NAME)
         self.assertEqual(expected_result_name(PILOT_TECH_R2_ROLE), PILOT_TECH_R2_RESULT_NAME)
         self.assertEqual(expected_result_name(PILOT_TECH_R3_ROLE), PILOT_TECH_R3_RESULT_NAME)
+        self.assertEqual(expected_result_name(PILOT_TECH_R4_ROLE), PILOT_TECH_R4_RESULT_NAME)
+        self.assertEqual(
+            expected_p1r52_sequential_result_name(
+                "llama3-8b-inst",
+                PILOT_TECH_R4_ROLE,
+                scale=P1R52_B100X10_SCALE,
+            ),
+            PILOT_TECH_R4_RESULT_NAME,
+        )
         self.assertTrue(expected_result_name(production_role(10)).endswith("case-10-v1"))
         self.assertEqual(
             STREAM_ROOT,

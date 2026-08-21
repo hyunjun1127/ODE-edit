@@ -140,7 +140,7 @@ def submit(source_head: str, *, stage: str) -> dict[str, object]:
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--stage", choices=("pilot", "pilot-tech-r1", "pilot-tech-r2", "pilot-tech-r3", "production"), required=True)
+    parser.add_argument("--stage", choices=("pilot", "pilot-tech-r1", "pilot-tech-r2", "pilot-tech-r3", "pilot-tech-r4", "production"), required=True)
     args = parser.parse_args()
     print(json.dumps(submit(args.source_head, stage=args.stage), sort_keys=True, separators=(",", ":")))
     return 0
