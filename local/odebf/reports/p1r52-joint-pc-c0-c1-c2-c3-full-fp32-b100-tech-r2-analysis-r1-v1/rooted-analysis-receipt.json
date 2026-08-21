@@ -1,0 +1,19 @@
+{
+  "W0_restored": true,
+  "accepted_z_sha256": "5772bc53771f446591d9c5a05cd598388fc26bcb41e5695f30438ac5bea45e57",
+  "analysis_manifest_root": "c750c3211669c0f7500b2577b0b5788463931bb676234d1e1a092c7a2b24adf8",
+  "analysis_manifest_sha256": "4340bebc5a158870e24e2db19e2dd6dd88948718047208a5598f9556eb0b96d3",
+  "attempted": 100,
+  "model_gpu_slurm_replay_count": 0,
+  "result_terminal_sha256": "8a58753a26e451b5954c716415633184758e80890d74c56327e6f3489adf05fb",
+  "root_digest": "7edaf5f8a991e66a4334468a6d0bf2a6f4638cb2a0bff2642228fe712a1959e4",
+  "same_accepted_z": true,
+  "same_writer_entry_W0": true,
+  "schema": "ode-edit-s05-p1r52-joint-pc-full-fp32-rooted-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "stream_order": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+  "technical_failures": 0,
+  "typed_scientific_failures": 0,
+  "valid": 100
+}

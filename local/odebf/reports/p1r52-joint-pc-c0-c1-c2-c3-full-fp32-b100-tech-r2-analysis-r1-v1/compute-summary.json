@@ -1,0 +1,65 @@
+{
+  "bf16_fp16_autocast_conversion_counts": 0,
+  "c0_c1_c2_j0_writer_wall_seconds": "NOT_RECORDED",
+  "c3_direct_official_writer_edit_core_wall_seconds": 140.4480538549833,
+  "c3_native_compute_z_call_count": 0,
+  "evaluator_wall_seconds": "NOT_RECORDED",
+  "gpu_peak_memory_bytes": "NOT_RECORDED",
+  "job_compute": {
+    "accepted_t": 0.0,
+    "completed_correction_cycles": 0,
+    "completed_k_total": 0,
+    "component_gpu_seconds": {
+      "context_generation_twice": 1.2052730712890625,
+      "model_load": 9.19935546875,
+      "theta0_teacher_population": 2.649217041015625
+    },
+    "component_wall_seconds": {
+      "context_generation_twice": 1.205241546034813,
+      "model_load": 9.1993736946024,
+      "theta0_teacher_population": 2.6491906410083175
+    },
+    "counters": {
+      "backward": 0,
+      "commit": 0,
+      "constraint_jvp": 0,
+      "constraint_vjp": 0,
+      "dense_fp32_full_delta_live": 0,
+      "effective_bf16_weight_peak_live": 0,
+      "evaluator_forward": 0,
+      "evaluator_tokens": 0,
+      "fallback": 0,
+      "functional_h_replay": 0,
+      "functional_p_replay": 0,
+      "model_forward": 6296,
+      "native_baseline_dense_delta_bytes_peak": 0,
+      "native_baseline_dense_delta_peak_live": 0,
+      "processed_tokens": 1121014,
+      "qp_certificate": 0,
+      "qp_solve": 0,
+      "reject": 0,
+      "rollback": 0,
+      "target_backward": 0,
+      "trial": 0
+    },
+    "direct_z_diagnostics": [],
+    "host_maxrss_kib": 0,
+    "peak_allocated_bytes": 0,
+    "peak_reserved_bytes": 0
+  },
+  "model_forward_count": 6296,
+  "native_alphaedit_target_backward_count": 2400,
+  "native_memit_target_backward_count": 2400,
+  "official_alphaedit_edit_core_wall_seconds": 776.1652729730122,
+  "official_memit_edit_core_wall_seconds": 733.4940266297199,
+  "p1r52_target_wall_seconds": "NOT_RECORDED",
+  "processed_tokens": 1121014,
+  "scheduler": {
+    "elapsed": "00:58:51",
+    "elapsed_seconds": 3531,
+    "exit_code": "0:0",
+    "job_id": 22489,
+    "max_rss_kib": 21587516,
+    "state": "COMPLETED"
+  }
+}

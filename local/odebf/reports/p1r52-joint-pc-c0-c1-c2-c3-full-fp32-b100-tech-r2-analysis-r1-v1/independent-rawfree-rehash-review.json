@@ -1,0 +1,22 @@
+{
+  "analysis_manifest_sha256": "4340bebc5a158870e24e2db19e2dd6dd88948718047208a5598f9556eb0b96d3",
+  "canonical_report_sha256": "f5d1f3e76c1549786a3a1ab239509c4c941e26c81faeab9671df6f83b95f4e16",
+  "checked": {
+    "bf16_comparison_boundaries": "PASS",
+    "c0_c1_c2_allocation_layer_residual_q_energy": "PASS",
+    "c3_direct_official_alphaedit_identity": "PASS",
+    "endpoint_values_denominators_success_accuracy_strict": "PASS",
+    "factual_only_claims": "PASS",
+    "fp32_dtype_invariants": "PASS",
+    "manifest_members_hash_root_mode_size": "PASS",
+    "per_layer_rows": 35,
+    "per_request_rows": 3300,
+    "result_terminal_bindings": "PASS",
+    "w_minus_z_gap_arithmetic": "PASS"
+  },
+  "exact_discrepancies": [],
+  "review_mode": "BOUNDED_RAW_FREE_REPORT_ONLY_NO_MODEL_EVALUATOR_GPU_SLURM",
+  "schema": "ode-edit-s05-p1r52-joint-pc-full-fp32-independent-review/v1",
+  "scientific_promotion": false,
+  "status": "INDEPENDENT_RAW_FREE_REVIEW_PASS"
+}

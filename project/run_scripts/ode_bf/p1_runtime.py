@@ -3252,6 +3252,9 @@ def run_p1(
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
+    from .p1r52_joint_pc_fp32_runtime import is_joint_pc_full_fp32_role
+
+    joint_pc_full_fp32_mode = is_joint_pc_full_fp32_role(p1r52_sequential_role)
     _source_freeze(repo_root, source_head)
     expected_parent = (repo_root / "local" / "odebf" / "results").resolve(strict=False)
     destination = output_root.resolve(strict=False)
@@ -4388,7 +4391,7 @@ def run_p1(
     load_timer = ComponentTimer(job_ledger)
     phase_a_fp32_runtime = None
     with load_timer.measure("model_load"):
-        if p1r52_residual_reserve_phase_a_arm is not None:
+        if p1r52_residual_reserve_phase_a_arm is not None or joint_pc_full_fp32_mode:
             from .p1r52_residual_reserve_phase_a_execution import (
                 load_phase_a_fp32_model,
             )
@@ -4397,6 +4400,7 @@ def run_p1(
                 load_phase_a_fp32_model(
                     artifact_guard,
                     alias,
+                    allow_python_patch_compatible=joint_pc_full_fp32_mode,
                 )
             )
         else:
@@ -4431,7 +4435,7 @@ def run_p1(
             "parameter_count": sum(parameter.numel() for parameter in model.parameters()),
             "parameter_dtype": (
                 "torch.float32"
-                if p1r52_residual_reserve_phase_a_arm is not None
+                if p1r52_residual_reserve_phase_a_arm is not None or joint_pc_full_fp32_mode
                 else "torch.bfloat16"
             ),
             "context_sha256": context_sha256,
@@ -4468,7 +4472,7 @@ def run_p1(
     }
     expected_touched_dtype = (
         torch.float32
-        if p1r52_residual_reserve_phase_a_arm is not None
+        if p1r52_residual_reserve_phase_a_arm is not None or joint_pc_full_fp32_mode
         else torch.bfloat16
     )
     if any(value.dtype is not expected_touched_dtype for value in touched.values()):
@@ -4665,6 +4669,7 @@ def run_p1(
                 accepted_z_sealed_w_reuse=p1r52_accepted_z_sealed_w_reuse,
                 postsolve_energy_warn_enabled=p1r52_postsolve_energy_warn_enabled,
                 piru_cache_complete_rounds=p1r52_piru_cache_complete_rounds,
+                fp32_runtime=phase_a_fp32_runtime,
             )
         if p1r52_arm is not None:
             from .p1r52_independent_runtime import run_p1r52_independent

@@ -184,11 +184,19 @@ def runtime_versions() -> dict[str, str]:
     }
 
 
-def assert_fixed_runtime() -> dict[str, str]:
+def assert_fixed_runtime(*, allow_python_patch_compatible: bool = False) -> dict[str, str]:
     observed = runtime_versions()
-    if observed != dict(EXPECTED_RUNTIME):
+    expected = dict(EXPECTED_RUNTIME)
+    compatible = (
+        allow_python_patch_compatible
+        and observed.get("python", "").split(".")[:2]
+        == expected.get("python", "").split(".")[:2]
+        and {key: value for key, value in observed.items() if key != "python"}
+        == {key: value for key, value in expected.items() if key != "python"}
+    )
+    if observed != expected and not compatible:
         raise GpuRuntimeError(
-            f"runtime version mismatch: expected {dict(EXPECTED_RUNTIME)}, "
+            f"runtime version mismatch: expected {expected}, "
             f"observed {observed}"
         )
     return observed
@@ -386,6 +394,7 @@ def load_fixed_model(
     auto_tokenizer_class: Any | None = None,
     cached_file_fn: Any | None = None,
     cuda_api: Any = torch.cuda,
+    allow_python_patch_compatible: bool = False,
 ) -> FixedModelRuntime:
     """Load the legacy Motivation runtime in forced float32.
 
@@ -404,6 +413,7 @@ def load_fixed_model(
         auto_tokenizer_class=auto_tokenizer_class,
         cached_file_fn=cached_file_fn,
         cuda_api=cuda_api,
+        allow_python_patch_compatible=allow_python_patch_compatible,
     )
 
 
@@ -427,6 +437,7 @@ def load_fixed_model_checkpoint_original(
         auto_tokenizer_class=auto_tokenizer_class,
         cached_file_fn=cached_file_fn,
         cuda_api=cuda_api,
+        allow_python_patch_compatible=False,
     )
 
 
@@ -441,11 +452,14 @@ def _load_fixed_model_with_dtype_policy(
     auto_tokenizer_class: Any | None,
     cached_file_fn: Any | None,
     cuda_api: Any,
+    allow_python_patch_compatible: bool = False,
 ) -> FixedModelRuntime:
     """Shared offline loader; callers must select one explicit dtype policy."""
 
     spec = fixed_model_spec(alias)
-    assert_fixed_runtime()
+    assert_fixed_runtime(
+        allow_python_patch_compatible=allow_python_patch_compatible
+    )
     gpu = assert_single_visible_gpu(cuda_api)
     if auto_model_class is None or auto_tokenizer_class is None or cached_file_fn is None:
         try:
