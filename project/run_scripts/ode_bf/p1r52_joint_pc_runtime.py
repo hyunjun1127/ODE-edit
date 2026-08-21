@@ -50,8 +50,10 @@ from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER, scala
 
 
 PILOT_ROLE = "r52-joint-pc-c1-c2-pilot"
+PILOT_TECH_R1_ROLE = "r52-joint-pc-c1-c2-pilot-tech-r1"
 PRODUCTION_ROLE_PREFIX = "r52-joint-pc-c1-c2-production-case-"
 PILOT_RESULT_NAME = "s05-p1r52-joint-pc-c1-c2-pilot-b100-v1"
+PILOT_TECH_R1_RESULT_NAME = "s05-p1r52-joint-pc-c1-c2-pilot-b100-tech-r1-v1"
 PRODUCTION_RESULT_PREFIX = "s05-p1r52-joint-pc-c1-c2-independent-b100-case-"
 STREAM_ROOT = "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
 STREAM_ORDER = "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3"
@@ -66,6 +68,8 @@ def production_role(case_index: int) -> str:
 def expected_result_name(role: str) -> str:
     if role == PILOT_ROLE:
         return PILOT_RESULT_NAME
+    if role == PILOT_TECH_R1_ROLE:
+        return PILOT_TECH_R1_RESULT_NAME
     if role.startswith(PRODUCTION_ROLE_PREFIX):
         suffix = role.removeprefix(PRODUCTION_ROLE_PREFIX)
         if len(suffix) == 2 and suffix.isdigit() and 1 <= int(suffix) <= 10:
@@ -74,7 +78,7 @@ def expected_result_name(role: str) -> str:
 
 
 def _case_index(role: str) -> int:
-    if role == PILOT_ROLE:
+    if role in (PILOT_ROLE, PILOT_TECH_R1_ROLE):
         return 1
     expected_result_name(role)
     return int(role.removeprefix(PRODUCTION_ROLE_PREFIX))
@@ -630,6 +634,8 @@ def run_joint_pc_case(
 __all__ = [
     "PILOT_RESULT_NAME",
     "PILOT_ROLE",
+    "PILOT_TECH_R1_RESULT_NAME",
+    "PILOT_TECH_R1_ROLE",
     "PRODUCTION_RESULT_PREFIX",
     "PRODUCTION_ROLE_PREFIX",
     "STREAM_ORDER",

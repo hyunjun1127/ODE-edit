@@ -9,6 +9,7 @@ import json
 from project.run_scripts.ode_bf.p1r52_joint_pc_execution import INSTRUCTION_ID
 from project.run_scripts.ode_bf.p1r52_joint_pc_runtime import (
     PILOT_ROLE,
+    PILOT_TECH_R1_ROLE,
     STREAM_ORDER,
     STREAM_ROOT,
     expected_result_name,
@@ -17,7 +18,13 @@ from project.run_scripts.ode_bf.p1r52_joint_pc_runtime import (
 
 
 def build_plan(source_head: str, *, stage: str) -> dict[str, object]:
-    roles = (PILOT_ROLE,) if stage == "pilot" else tuple(production_role(i) for i in range(1, 11))
+    roles = (
+        (PILOT_ROLE,)
+        if stage == "pilot"
+        else (PILOT_TECH_R1_ROLE,)
+        if stage == "pilot-tech-r1"
+        else tuple(production_role(i) for i in range(1, 11))
+    )
     return {
         "schema": "ode-edit-s05-p1r52-joint-pc-c1-c2-b100-dry-plan/v1",
         "instruction_id": INSTRUCTION_ID,
@@ -34,12 +41,12 @@ def build_plan(source_head: str, *, stage: str) -> dict[str, object]:
             {
                 "array_index": index,
                 "role": role,
-                "case_index": 1 if role == PILOT_ROLE else index + 1,
+                "case_index": 1 if role in (PILOT_ROLE, PILOT_TECH_R1_ROLE) else index + 1,
                 "result_name": expected_result_name(role),
             }
             for index, role in enumerate(roles)
         ],
-        "max_concurrent_gpu": 1 if stage == "pilot" else 3,
+        "max_concurrent_gpu": 1 if stage.startswith("pilot") else 3,
         "gpu_per_task": 1,
         "callback_count": 0,
     }
@@ -48,7 +55,7 @@ def build_plan(source_head: str, *, stage: str) -> dict[str, object]:
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--stage", choices=("pilot", "production"), required=True)
+    parser.add_argument("--stage", choices=("pilot", "pilot-tech-r1", "production"), required=True)
     args = parser.parse_args()
     print(json.dumps(build_plan(args.source_head, stage=args.stage), sort_keys=True, separators=(",", ":")))
     return 0

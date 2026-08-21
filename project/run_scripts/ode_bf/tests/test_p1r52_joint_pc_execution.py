@@ -14,6 +14,8 @@ from project.run_scripts.ode_bf.p1r52_joint_pc_execution import (
 from project.run_scripts.ode_bf.p1r52_joint_pc_runtime import (
     PILOT_RESULT_NAME,
     PILOT_ROLE,
+    PILOT_TECH_R1_RESULT_NAME,
+    PILOT_TECH_R1_ROLE,
     STREAM_ORDER,
     STREAM_ROOT,
     expected_result_name,
@@ -52,6 +54,7 @@ class JointPCExecutionTests(unittest.TestCase):
 
     def test_roles_and_frozen_stream_are_exact(self) -> None:
         self.assertEqual(expected_result_name(PILOT_ROLE), PILOT_RESULT_NAME)
+        self.assertEqual(expected_result_name(PILOT_TECH_R1_ROLE), PILOT_TECH_R1_RESULT_NAME)
         self.assertTrue(expected_result_name(production_role(10)).endswith("case-10-v1"))
         self.assertEqual(
             STREAM_ROOT,

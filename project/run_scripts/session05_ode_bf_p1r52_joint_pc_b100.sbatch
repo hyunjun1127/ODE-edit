@@ -21,7 +21,7 @@ readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly RUN_TOKEN="p1r52-joint-pc-c1-c2-independent-b100-v1"
 
 [[ "$#" -eq 3 ]] || { echo "joint P/C arguments differ" >&2; exit 2; }
-[[ "${STAGE}" == pilot || "${STAGE}" == production ]] || { echo "joint P/C stage differs" >&2; exit 2; }
+[[ "${STAGE}" == pilot || "${STAGE}" == pilot-tech-r1 || "${STAGE}" == production ]] || { echo "joint P/C stage differs" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "joint P/C CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "joint P/C source differs" >&2; exit 2; }
 [[ "$(git branch --show-current)" == "${EXPECTED_BRANCH}" ]] || { echo "joint P/C branch differs" >&2; exit 2; }
@@ -32,6 +32,9 @@ scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 if [[ "${STAGE}" == pilot ]]; then
   readonly RESULT_NAME="s05-p1r52-joint-pc-c1-c2-pilot-b100-v1"
   readonly ROLE_ARGS=(--pilot)
+elif [[ "${STAGE}" == pilot-tech-r1 ]]; then
+  readonly RESULT_NAME="s05-p1r52-joint-pc-c1-c2-pilot-b100-tech-r1-v1"
+  readonly ROLE_ARGS=(--pilot-tech-r1)
 else
   readonly CASE_INDEX="$((SLURM_ARRAY_TASK_ID + 1))"
   printf -v RESULT_NAME 's05-p1r52-joint-pc-c1-c2-independent-b100-case-%02d-v1' "${CASE_INDEX}"

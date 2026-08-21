@@ -72,7 +72,7 @@ def submit(source_head: str, *, stage: str) -> dict[str, object]:
     plan = dry.build_plan(source_head, stage=stage)
     if any((RESULT_PARENT / str(job["result_name"])).exists() for job in plan["jobs"]):
         raise ODEBFContractError("joint P/C result namespace exists")
-    stage_max = 1 if stage == "pilot" else 3
+    stage_max = 1 if stage.startswith("pilot") else 3
     allocated, gpu_jobs = _gpu_jobs()
     if allocated + stage_max > PROJECT_GPU_CAP:
         raise ODEBFContractError("joint P/C GPU cap differs")
@@ -140,7 +140,7 @@ def submit(source_head: str, *, stage: str) -> dict[str, object]:
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--stage", choices=("pilot", "production"), required=True)
+    parser.add_argument("--stage", choices=("pilot", "pilot-tech-r1", "production"), required=True)
     args = parser.parse_args()
     print(json.dumps(submit(args.source_head, stage=args.stage), sort_keys=True, separators=(",", ":")))
     return 0

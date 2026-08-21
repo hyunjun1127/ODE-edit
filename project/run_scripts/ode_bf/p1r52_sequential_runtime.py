@@ -104,6 +104,7 @@ from .p1r52_target_official_alphaedit_writer import (
 )
 from .p1r52_joint_pc_runtime import (
     PILOT_ROLE as JOINT_PC_PILOT_ROLE,
+    PILOT_TECH_R1_ROLE as JOINT_PC_PILOT_TECH_R1_ROLE,
     PRODUCTION_ROLE_PREFIX as JOINT_PC_PRODUCTION_ROLE_PREFIX,
     expected_result_name as expected_joint_pc_result_name,
     run_joint_pc_case,
@@ -255,7 +256,7 @@ def expected_p1r52_sequential_result_name(
     scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
     attempt_suffix: str | None = None,
 ) -> str:
-    if role == JOINT_PC_PILOT_ROLE or role.startswith(JOINT_PC_PRODUCTION_ROLE_PREFIX):
+    if role in (JOINT_PC_PILOT_ROLE, JOINT_PC_PILOT_TECH_R1_ROLE) or role.startswith(JOINT_PC_PRODUCTION_ROLE_PREFIX):
         if (
             alias != "llama3-8b-inst"
             or scale == P1R52_B10X10_SCALE
@@ -1057,7 +1058,7 @@ def run_p1r52_sequential(
     postsolve_energy_warn_enabled: bool = False,
     piru_cache_complete_rounds: Sequence[int] | None = None,
 ) -> dict[str, Any]:
-    if role == JOINT_PC_PILOT_ROLE or role.startswith(JOINT_PC_PRODUCTION_ROLE_PREFIX):
+    if role in (JOINT_PC_PILOT_ROLE, JOINT_PC_PILOT_TECH_R1_ROLE) or role.startswith(JOINT_PC_PRODUCTION_ROLE_PREFIX):
         if (
             scale == P1R52_B10X10_SCALE
             or batch_entry_evaluation_enabled
