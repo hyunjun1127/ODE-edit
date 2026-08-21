@@ -26,9 +26,13 @@ from .p1r52_residual_reserve_pc_inventory import (
     _small_gram_trace,
 )
 from .p1r52_residual_reserve_pc_router import SOLVER_PRIMAL_TOLERANCE
+from .p1r52_residual_reserve_update_binding import (
+    EXACT_SINGLE_CONSTRUCTION_STATUS,
+    AppliedPreparedLowRankUpdate,
+)
 
 
-FACTOR_UPDATE_EQUIVALENCE_STATUS = "DEFERRED_TO_M3D"
+FACTOR_UPDATE_EQUIVALENCE_STATUS = EXACT_SINGLE_CONSTRUCTION_STATUS
 
 
 def _clone_factor(
@@ -96,6 +100,7 @@ class CommittedLayerState:
     cumulative_actual_post_storage_load_observation: float
     version: int
     committed_transaction_ids: tuple[str, ...]
+    committed_construction_receipt_ids: tuple[str, ...]
 
     def __post_init__(self) -> None:
         if (
@@ -140,9 +145,15 @@ class CommittedLayerState:
             or not isinstance(self.committed_transaction_ids, tuple)
             or len(self.committed_transaction_ids) != self.version
             or len(set(self.committed_transaction_ids)) != self.version
+            or not isinstance(self.committed_construction_receipt_ids, tuple)
+            or len(self.committed_construction_receipt_ids) != self.version
+            or len(set(self.committed_construction_receipt_ids)) != self.version
             or any(
                 not isinstance(item, str) or not item
-                for item in self.committed_transaction_ids
+                for item in (
+                    self.committed_transaction_ids
+                    + self.committed_construction_receipt_ids
+                )
             )
         ):
             raise ODEBFContractError("committed layer state scalar/version differs")
@@ -166,6 +177,9 @@ class CommittedLayerState:
         payload.update(
             {
                 "committed_transaction_ids": list(self.committed_transaction_ids),
+                "committed_construction_receipt_ids": list(
+                    self.committed_construction_receipt_ids
+                ),
                 "cumulative_actual_post_storage_load_observation": (
                     self.cumulative_actual_post_storage_load_observation
                 ),
@@ -290,6 +304,7 @@ def initialize_committed_gross_load_state(
             cumulative_actual_post_storage_load_observation=0.0,
             version=0,
             committed_transaction_ids=(),
+            committed_construction_receipt_ids=(),
         )
         for anchor in anchors
     )
@@ -315,6 +330,11 @@ class CommittedLayerFactorBinding:
     transaction_id: str
     transaction_mode: str
     m3a_layer_receipt_identity: str
+    construction_id: str
+    construction_receipt_identity: str
+    applied_binding_identity: str
+    construction_update_pointer: int
+    construction_update_version: int
     pre_cast_update_sha256: str
     pre_cast_update_norm: float
     pre_cast_update_energy: float
@@ -335,6 +355,13 @@ class CommittedLayerFactorBinding:
             "transaction_id": self.transaction_id,
             "transaction_mode": self.transaction_mode,
             "m3a_layer_receipt_identity": self.m3a_layer_receipt_identity,
+            "construction_id": self.construction_id,
+            "construction_receipt_identity": (
+                self.construction_receipt_identity
+            ),
+            "applied_binding_identity": self.applied_binding_identity,
+            "construction_update_pointer": self.construction_update_pointer,
+            "construction_update_version": self.construction_update_version,
             "pre_cast_update_sha256": self.pre_cast_update_sha256,
             "pre_cast_update_norm": self.pre_cast_update_norm,
             "pre_cast_update_energy": self.pre_cast_update_energy,
@@ -364,7 +391,7 @@ class CommittedLayerFactorBinding:
 
 def bind_authoritative_transaction_factors(
     prepared: FP32PreparedCommitReceipt,
-    factors: tuple[LowRankFP32Factor, ...],
+    constructions: tuple[AppliedPreparedLowRankUpdate, ...],
 ) -> tuple[CommittedLayerFactorBinding, ...]:
     if not isinstance(prepared, FP32PreparedCommitReceipt):
         raise ODEBFContractError("M3A prepared receipt type differs")
@@ -410,24 +437,46 @@ def bind_authoritative_transaction_factors(
     ):
         raise ODEBFContractError("M3A authoritative prepare gate differs")
     if (
-        not isinstance(factors, tuple)
-        or not all(isinstance(item, LowRankFP32Factor) for item in factors)
-        or tuple(item.layer for item in factors) != RESIDUAL_RESERVE_LAYER_ORDER
+        not isinstance(constructions, tuple)
+        or not all(
+            isinstance(item, AppliedPreparedLowRankUpdate)
+            for item in constructions
+        )
+        or tuple(
+            item.construction.receipt.layer for item in constructions
+        )
+        != RESIDUAL_RESERVE_LAYER_ORDER
     ):
-        raise ODEBFContractError("committed factor inventory differs")
+        raise ODEBFContractError("committed construction inventory differs")
 
     bindings: list[CommittedLayerFactorBinding] = []
-    for layer, factor, receipt in zip(
+    for layer, construction, receipt in zip(
         RESIDUAL_RESERVE_LAYER_ORDER,
-        factors,
+        constructions,
         prepared.layer_receipts,
         strict=True,
     ):
+        construction.validate()
+        factor = construction.construction.factor
+        construction_receipt = construction.construction.receipt
         if (
             factor.source
             is not LowRankFactorSource.AUTHORITATIVE_PREPARED_PRECAST_FP32
             or receipt.layer != layer
+            or construction.m3a_layer_receipt.identity_sha256
+            != receipt.identity_sha256
+            or construction_receipt.layer != layer
+            or construction_receipt.weight_name != receipt.weight_name
             or receipt.parameter_shape != factor.parameter_shape
+            or construction_receipt.parameter_shape != factor.parameter_shape
+            or construction_receipt.prepared_factor_identity
+            != factor.identity_sha256
+            or construction_receipt.matched_update_sha256
+            != receipt.pre_cast_fp32_update_sha256
+            or construction_receipt.matched_update_pointer
+            != int(construction.construction.matched_update32.data_ptr())
+            or construction_receipt.matched_update_version
+            != int(construction.construction.matched_update32._version)
             or receipt.storage_assignment_count != 1
             or receipt.storage_cast_boundary_count != 1
             or receipt.postcast_decision_influence_count != 0
@@ -463,6 +512,17 @@ def bind_authoritative_transaction_factors(
                 transaction_id=prepared.transaction_id,
                 transaction_mode=prepared.mode,
                 m3a_layer_receipt_identity=receipt.identity_sha256,
+                construction_id=construction_receipt.construction_id,
+                construction_receipt_identity=(
+                    construction_receipt.identity_sha256
+                ),
+                applied_binding_identity=construction.identity_sha256,
+                construction_update_pointer=(
+                    construction_receipt.matched_update_pointer
+                ),
+                construction_update_version=(
+                    construction_receipt.matched_update_version
+                ),
                 pre_cast_update_sha256=receipt.pre_cast_fp32_update_sha256,
                 pre_cast_update_norm=receipt.pre_cast_fp32_update_norm,
                 pre_cast_update_energy=receipt.pre_cast_fp32_update_energy,
@@ -513,6 +573,9 @@ class CommittedLayerTransitionReceipt:
     dense_materialization_count: int
     transaction_id: str
     binding_identity: str
+    construction_id: str
+    construction_receipt_identity: str
+    applied_binding_identity: str
     pre_cast_update_sha256: str
     actual_post_storage_delta_sha256: str
     post_storage_decision_influence_count: int
@@ -556,6 +619,11 @@ class CommittedLayerTransitionReceipt:
             "dense_materialization_count": self.dense_materialization_count,
             "transaction_id": self.transaction_id,
             "binding_identity": self.binding_identity,
+            "construction_id": self.construction_id,
+            "construction_receipt_identity": (
+                self.construction_receipt_identity
+            ),
+            "applied_binding_identity": self.applied_binding_identity,
             "pre_cast_update_sha256": self.pre_cast_update_sha256,
             "actual_post_storage_delta_sha256": (
                 self.actual_post_storage_delta_sha256
@@ -730,6 +798,11 @@ def _next_layer_state(
         or binding.committed_factor_source
         != LowRankFactorSource.SUCCESSFUL_COMMITTED_PRECAST_FP32.value
         or binding.provenance_transition_count != 1
+        or binding.factor_update_equivalence_status
+        != EXACT_SINGLE_CONSTRUCTION_STATUS
+        or not binding.construction_receipt_identity
+        or binding.construction_receipt_identity
+        in before.committed_construction_receipt_ids
     ):
         raise ODEBFContractError("prepared factor provenance binding differs")
     if before.committed_precast_factors and any(
@@ -812,6 +885,10 @@ def _next_layer_state(
         version=before.version + 1,
         committed_transaction_ids=before.committed_transaction_ids
         + (transaction_id,),
+        committed_construction_receipt_ids=(
+            before.committed_construction_receipt_ids
+            + (binding.construction_receipt_identity,)
+        ),
     )
     observed_guards = tuple(
         item.identity_sha256 for item in before.committed_precast_factors
@@ -850,6 +927,9 @@ def _next_layer_state(
         dense_materialization_count=0,
         transaction_id=transaction_id,
         binding_identity=binding.identity_sha256,
+        construction_id=binding.construction_id,
+        construction_receipt_identity=binding.construction_receipt_identity,
+        applied_binding_identity=binding.applied_binding_identity,
         pre_cast_update_sha256=binding.pre_cast_update_sha256,
         actual_post_storage_delta_sha256=(
             binding.actual_post_storage_delta_sha256
@@ -883,7 +963,7 @@ class CommittedGrossLoadLedger:
         self,
         transaction: OfficialStyleFP32SequentialTransaction,
         prepared: FP32PreparedCommitReceipt,
-        factors: tuple[LowRankFP32Factor, ...],
+        constructions: tuple[AppliedPreparedLowRankUpdate, ...],
     ) -> LedgerStageReceipt:
         if not isinstance(transaction, OfficialStyleFP32SequentialTransaction):
             raise ODEBFContractError("staged M3A transaction object type differs")
@@ -906,7 +986,10 @@ class CommittedGrossLoadLedger:
                 raise ODEBFStateError("staged prepared transaction identity differs")
             if prepared.transaction_id in self._state.committed_transaction_ids:
                 raise ODEBFStateError("M3A transaction identity was already committed")
-            bindings = bind_authoritative_transaction_factors(prepared, factors)
+            bindings = bind_authoritative_transaction_factors(
+                prepared,
+                constructions,
+            )
             if (
                 tuple(item.layer for item in bindings)
                 != RESIDUAL_RESERVE_LAYER_ORDER
@@ -921,6 +1004,9 @@ class CommittedGrossLoadLedger:
                     or item.committed_factor_source
                     != LowRankFactorSource.SUCCESSFUL_COMMITTED_PRECAST_FP32.value
                     or item.provenance_transition_count != 1
+                    or item.factor_update_equivalence_status
+                    != EXACT_SINGLE_CONSTRUCTION_STATUS
+                    or not item.construction_receipt_identity
                     or item.post_storage_decision_influence_count != 0
                     for item in bindings
                 )
