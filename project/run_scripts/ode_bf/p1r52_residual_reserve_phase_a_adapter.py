@@ -608,15 +608,17 @@ def _restore_entry(snapshots: tuple[_EntryParameterSnapshot, ...]) -> None:
 def _validate_nominal_binding(
     nominal: NominalShadowResult,
     target: P1R52SelectedTargetBindingReceipt,
+    execution_target: torch.Tensor,
     entry_state: tuple[ShadowWeightStateIdentity, ...],
     entry_identity: str,
 ) -> None:
     if (
         nominal.receipt.target_identity.sha256 != target.target_next_sha256
         or nominal.receipt.target_identity.pointer
-        != target.target_tensor_guards[0].pointer
+        != int(execution_target.data_ptr())
         or nominal.receipt.target_identity.version
-        != target.target_tensor_guards[0].version
+        != int(execution_target._version)
+        or tensor_sha256(execution_target) != target.target_next_sha256
         or nominal.receipt.entry_weight_state != entry_state
         or nominal.receipt.restored_weight_state != entry_state
         or canonical_hash(
@@ -768,6 +770,7 @@ class _PhaseAAdapterPublicationBuilder(
 ):
     selected_target: P1R52SelectedTarget
     target_binding: P1R52SelectedTargetBindingReceipt
+    execution_target: torch.Tensor
     action_freeze: ResidualReservePhaseAActionFreezeReceipt
     arm: ResidualReservePhaseAArm
     entry_state: tuple[ShadowWeightStateIdentity, ...]
@@ -791,6 +794,7 @@ class _PhaseAAdapterPublicationBuilder(
         _validate_nominal_binding(
             self.nominal,
             self.target_binding,
+            self.execution_target,
             self.entry_state,
             self.entry_identity,
         )
@@ -958,9 +962,24 @@ def run_residual_reserve_phase_a_outer(
     entry_snapshots, entry_state, captured_entry_identity = _capture_entry(bindings)
     if captured_entry_identity != entry_identity:
         raise ODEBFStateError("Phase-A entry changed during snapshot")
-    target = selected_target.target_step.target_next
-    if target.device != entry_snapshots[0].parameter.device:
-        raise ODEBFContractError("Phase-A target/weight device differs")
+    accepted_target = selected_target.target_step.target_next
+    execution_device = entry_snapshots[0].parameter.device
+    target = (
+        accepted_target
+        if accepted_target.device == execution_device
+        else accepted_target.detach().to(
+            device=execution_device,
+            dtype=torch.float32,
+        ).contiguous()
+    )
+    if (
+        target.dtype is not torch.float32
+        or target.device != execution_device
+        or target.requires_grad
+        or not bool(torch.isfinite(target).all())
+        or tensor_sha256(target) != target_binding.target_next_sha256
+    ):
+        raise ODEBFContractError("Phase-A target execution binding differs")
     before_state = committed_ledger.state
     before_identity = before_state.identity_sha256
     before_decision_identity = before_state.decision_identity_sha256
@@ -991,6 +1010,7 @@ def run_residual_reserve_phase_a_outer(
         _validate_nominal_binding(
             nominal,
             target_binding,
+            target,
             entry_state,
             entry_identity,
         )
@@ -1047,6 +1067,7 @@ def run_residual_reserve_phase_a_outer(
         _validate_nominal_binding(
             nominal,
             target_binding,
+            target,
             entry_state,
             entry_identity,
         )
@@ -1065,6 +1086,7 @@ def run_residual_reserve_phase_a_outer(
         publication_builder = _PhaseAAdapterPublicationBuilder(
             selected_target=selected_target,
             target_binding=target_binding,
+            execution_target=target,
             action_freeze=action_freeze,
             arm=arm,
             entry_state=entry_state,

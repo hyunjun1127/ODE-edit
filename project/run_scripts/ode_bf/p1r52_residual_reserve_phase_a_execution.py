@@ -64,6 +64,7 @@ def expected_phase_a_result_name(
         "tech-r1",
         "tech-r2",
         "tech-r3",
+        "tech-r4",
     ):
         raise ODEBFContractError("residual-reserve Phase-A attempt suffix differs")
     return f"s05-p1r52-residual-reserve-phase-a-fp32-{alias}-{arm}{suffix}-v1"
