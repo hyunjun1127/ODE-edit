@@ -3253,8 +3253,14 @@ def run_p1(
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
     from .p1r52_joint_pc_fp32_runtime import is_joint_pc_full_fp32_role
+    from .p1r52_joint_pc_independent_fp32_runtime import (
+        is_joint_pc_independent_fp32_role,
+    )
 
-    joint_pc_full_fp32_mode = is_joint_pc_full_fp32_role(p1r52_sequential_role)
+    joint_pc_full_fp32_mode = (
+        is_joint_pc_full_fp32_role(p1r52_sequential_role)
+        or is_joint_pc_independent_fp32_role(p1r52_sequential_role)
+    )
     _source_freeze(repo_root, source_head)
     expected_parent = (repo_root / "local" / "odebf" / "results").resolve(strict=False)
     destination = output_root.resolve(strict=False)
@@ -4390,6 +4396,7 @@ def run_p1(
     job_ledger = ComputeLedger()
     load_timer = ComponentTimer(job_ledger)
     phase_a_fp32_runtime = None
+    joint_pc_fp32_parameter_inventory = None
     with load_timer.measure("model_load"):
         if p1r52_residual_reserve_phase_a_arm is not None or joint_pc_full_fp32_mode:
             from .p1r52_residual_reserve_phase_a_execution import (
@@ -4405,6 +4412,16 @@ def run_p1(
             )
         else:
             model, tokenizer, hparams = load_original_bf16(artifact_guard)
+    if joint_pc_full_fp32_mode:
+        from .p1r52_joint_pc_independent_fp32_runtime import (
+            full_fp32_parameter_inventory,
+        )
+
+        joint_pc_fp32_parameter_inventory = full_fp32_parameter_inventory(model)
+        stages.record(
+            "post_model_load_full_fp32_inventory",
+            joint_pc_fp32_parameter_inventory,
+        )
     initialization_counter = ModelForwardCounter(model, job_ledger)
     mutation_lock = threading.RLock()
     try:
@@ -4444,6 +4461,11 @@ def run_p1(
             "theta0_receipt_sha256": theta0_cache.receipt_sha256,
             "theta0_forward_count": theta0_cache.model_forward_count,
             "theta0_processed_tokens": theta0_cache.processed_token_count,
+            "full_fp32_parameter_inventory_identity_sha256": (
+                joint_pc_fp32_parameter_inventory["identity_sha256"]
+                if joint_pc_fp32_parameter_inventory is not None
+                else None
+            ),
         },
     )
 

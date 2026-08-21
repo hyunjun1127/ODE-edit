@@ -87,6 +87,8 @@ class OfficialNativeZCapture:
         self._original: Any | None = None
         self._values: list[torch.Tensor] = []
         self._request_sha256: list[str] = []
+        self._compute_z_region_started: float | None = None
+        self._compute_z_wall_seconds: float | None = None
         self.binding: AcceptedZBinding | None = None
 
     def __enter__(self) -> "OfficialNativeZCapture":
@@ -103,6 +105,10 @@ class OfficialNativeZCapture:
         original = native_module.compute_z
 
         def capture(*args: Any, **kwargs: Any) -> torch.Tensor:
+            if self._compute_z_region_started is None:
+                if torch.cuda.is_available():
+                    torch.cuda.synchronize()
+                self._compute_z_region_started = time.perf_counter()
             value = original(*args, **kwargs)
             if not isinstance(value, torch.Tensor) or value.ndim != 1:
                 raise ODEBFContractError("Official accepted-z return differs")
@@ -111,6 +117,13 @@ class OfficialNativeZCapture:
                 raise ODEBFContractError("Official accepted-z request differs")
             self._values.append(value.detach().to(device="cpu").contiguous().clone())
             self._request_sha256.append(str(request["request_sha256"]))
+            if len(self._request_sha256) == len(self.requests):
+                if value.is_cuda:
+                    torch.cuda.synchronize(value.device)
+                assert self._compute_z_region_started is not None
+                self._compute_z_wall_seconds = (
+                    time.perf_counter() - self._compute_z_region_started
+                )
             return value
 
         self._module = native_module
@@ -143,6 +156,23 @@ class OfficialNativeZCapture:
             accepted,
         )
         return self.binding
+
+    def timing_payload(self) -> dict[str, Any]:
+        if self.binding is None or self._compute_z_wall_seconds is None:
+            raise ODEBFStateError("Official accepted-z timing is not finalized")
+        payload = {
+            "schema": "ode-edit-official-native-compute-z-timing/v1",
+            "compute_z_call_count": len(self._request_sha256),
+            "compute_z_wall_seconds": self._compute_z_wall_seconds,
+            "cuda_synchronization_policy": (
+                "START_SYNC_EXCLUDED_END_COMPLETION_SYNC_INCLUDED"
+            ),
+            "additional_model_forward_count": 0,
+            "additional_model_backward_count": 0,
+            "decision_influence_count": 0,
+        }
+        payload["identity_sha256"] = canonical_hash(payload)
+        return payload
 
 
 def r52_binding(

@@ -54,7 +54,11 @@ from .p1r52_sequential_contract import (
     make_history_records,
     scoped_atomic_sequential_adapter,
 )
-from .p1r52_sequential_scale import P1R52SequentialScale, P1R52_B10X10_SCALE
+from .p1r52_sequential_scale import (
+    P1R52SequentialScale,
+    P1R52_B10X10_SCALE,
+    P1R52_B100X10_SCALE,
+)
 from .p1r52_official_sequential_baselines import (
     load_official_memit_hparams,
     run_official_memit_apply,
@@ -118,6 +122,11 @@ from .p1r52_joint_pc_fp32_runtime import (
     RESULT_NAME as JOINT_PC_FULL_FP32_RESULT_NAME,
     ROLE as JOINT_PC_FULL_FP32_ROLE,
     run_joint_pc_full_fp32_b100,
+)
+from .p1r52_joint_pc_independent_fp32_runtime import (
+    ROLES as JOINT_PC_INDEPENDENT_FP32_ROLES,
+    expected_result_name as expected_joint_pc_independent_fp32_result_name,
+    run_joint_pc_independent_full_fp32,
 )
 from .scalable_batched_model import build_scalable_capture_plan, build_scalable_objective_plan
 from .scalable_batched_native import run_official_native_apply
@@ -266,6 +275,14 @@ def expected_p1r52_sequential_result_name(
     scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
     attempt_suffix: str | None = None,
 ) -> str:
+    if role in JOINT_PC_INDEPENDENT_FP32_ROLES:
+        if (
+            alias != "llama3-8b-inst"
+            or scale != P1R52_B100X10_SCALE
+            or attempt_suffix is not None
+        ):
+            raise ODEBFContractError("independent FP32 joint P/C result scope differs")
+        return expected_joint_pc_independent_fp32_result_name(role)
     if role == JOINT_PC_FULL_FP32_ROLE:
         if (
             alias != "llama3-8b-inst"
@@ -1077,6 +1094,47 @@ def run_p1r52_sequential(
     piru_cache_complete_rounds: Sequence[int] | None = None,
     fp32_runtime: Any | None = None,
 ) -> dict[str, Any]:
+    if role in JOINT_PC_INDEPENDENT_FP32_ROLES:
+        if (
+            scale != P1R52_B100X10_SCALE
+            or batch_entry_evaluation_enabled
+            or accepted_z_observation_enabled
+            or accepted_z_reference_root is not None
+            or not accepted_z_sealed_w_reuse
+            or postsolve_energy_warn_enabled
+            or piru_cache_complete_rounds is not None
+        ):
+            raise ODEBFContractError("independent FP32 joint P/C runtime scope differs")
+        return run_joint_pc_independent_full_fp32(
+            model,
+            tokenizer,
+            alias=alias,
+            role=role,
+            destination=destination,
+            raw_root=raw_root,
+            stages=stages,
+            source_head=source_head,
+            stream_batches=stream_batches,
+            stream=stream,
+            hparams=hparams,
+            projector=projector,
+            contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            controller_lock=controller_lock,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            theta0_cache=theta0_cache,
+            dataset_path=dataset_path,
+            mutation_lock=mutation_lock,
+            touched=touched,
+            base_receipt=base_receipt,
+            base_values=base_values,
+            job_ledger=job_ledger,
+            request_microbatch_size=request_microbatch_size,
+            fp32_runtime=fp32_runtime,
+        )
     if role == JOINT_PC_FULL_FP32_ROLE:
         if (
             scale == P1R52_B10X10_SCALE

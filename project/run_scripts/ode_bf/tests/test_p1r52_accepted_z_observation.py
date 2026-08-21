@@ -100,8 +100,13 @@ class AcceptedZObservationTests(unittest.TestCase):
                 for request in requests:
                     memit_main.compute_z(None, None, request, hparams)
             binding = capture.finalize()
+            timing = capture.timing_payload()
         self.assertEqual(list(binding.accepted_z.shape), [3, 100])
         self.assertTrue(torch.equal(binding.accepted_z[:, 99], torch.full((3,), 99.0)))
+        self.assertEqual(timing["compute_z_call_count"], 100)
+        self.assertGreaterEqual(timing["compute_z_wall_seconds"], 0.0)
+        self.assertEqual(timing["additional_model_forward_count"], 0)
+        self.assertEqual(timing["decision_influence_count"], 0)
 
     def test_lookup_geometry_counts_rewrite_rephrase_and_locality(self) -> None:
         class FakeBatch(dict):
