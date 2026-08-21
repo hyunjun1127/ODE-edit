@@ -2,6 +2,11 @@ from __future__ import annotations
 
 from dataclasses import FrozenInstanceError
 import inspect
+import os
+from pathlib import Path
+import subprocess
+import sys
+import textwrap
 import unittest
 
 import torch
@@ -18,6 +23,8 @@ from project.run_scripts.ode_bf.p1r52_residual_reserve_fp32_transaction import (
 )
 from project.run_scripts.ode_bf.p1r52_residual_reserve_update_binding import (
     EXACT_SINGLE_CONSTRUCTION_STATUS,
+    INPUT_BETA_APPLICATION_PROOF_STATUS,
+    OFFICIAL_MATCHER,
     UpdateMatchOrientation,
     apply_prepared_low_rank_update,
     build_prepared_low_rank_update,
@@ -58,8 +65,12 @@ class ResidualReserveUpdateBindingTests(unittest.TestCase):
             self.assertEqual(result.receipt.dense_construction_count, 1)
             self.assertEqual(result.receipt.second_dense_construction_count, 0)
             self.assertEqual(result.receipt.fp64_algorithm_tensor_count, 0)
-            self.assertEqual(result.receipt.beta_application_count, 1)
-            self.assertEqual(result.receipt.beta_reapplication_count, 0)
+            self.assertEqual(
+                result.receipt.input_beta_application_proof_status,
+                INPUT_BETA_APPLICATION_PROOF_STATUS,
+            )
+            self.assertEqual(result.receipt.internal_beta_reapplication_count, 0)
+            self.assertEqual(result.receipt.official_matcher, OFFICIAL_MATCHER)
             self.assertEqual(
                 result.receipt.raw_update_pointer,
                 result.receipt.matched_update_pointer,
@@ -177,6 +188,72 @@ class ResidualReserveUpdateBindingTests(unittest.TestCase):
         self.assertEqual(payload["second_dense_construction_count"], 0)
         self.assertEqual(payload["fp64_algorithm_tensor_count"], 0)
         self.assertEqual(payload["postcast_decision_influence_count"], 0)
+
+    def test_clean_process_warning_error_direct_transpose_and_identity(self) -> None:
+        repository_root = Path(__file__).resolve().parents[4]
+        env = os.environ.copy()
+        python_paths = [
+            str(repository_root),
+            *(item for item in sys.path if item),
+        ]
+        if env.get("PYTHONPATH"):
+            python_paths.extend(env["PYTHONPATH"].split(os.pathsep))
+        env["PYTHONPATH"] = os.pathsep.join(dict.fromkeys(python_paths))
+        script = textwrap.dedent(
+            """
+            import warnings
+            import torch
+            from project.run_scripts.ode_bf.p1r52_residual_reserve_update_binding import (
+                OFFICIAL_MATCHER,
+                build_prepared_low_rank_update,
+            )
+
+            for name, left, right, orientation in (
+                (
+                    "direct",
+                    torch.ones((3, 1), dtype=torch.float32),
+                    torch.ones((4, 1), dtype=torch.float32),
+                    "DIRECT",
+                ),
+                (
+                    "transpose",
+                    torch.ones((4, 1), dtype=torch.float32),
+                    torch.ones((3, 1), dtype=torch.float32),
+                    "TRANSPOSE_VIEW",
+                ),
+            ):
+                result = build_prepared_low_rank_update(
+                    construction_id=name,
+                    layer=4,
+                    weight_name="model.layers.4.mlp.down_proj.weight",
+                    parameter_shape=(3, 4),
+                    beta_applied_left32=left,
+                    q_side32=right,
+                )
+                assert result.receipt.official_matcher == OFFICIAL_MATCHER
+                assert result.receipt.matched_orientation == orientation
+
+            try:
+                warnings.warn("unrelated future warning", FutureWarning)
+            except FutureWarning:
+                pass
+            else:
+                raise AssertionError("unrelated FutureWarning was suppressed")
+            """
+        )
+        completed = subprocess.run(
+            [sys.executable, "-W", "error", "-c", script],
+            cwd=repository_root,
+            env=env,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(
+            completed.returncode,
+            0,
+            msg=f"stdout={completed.stdout}\nstderr={completed.stderr}",
+        )
 
 
 if __name__ == "__main__":

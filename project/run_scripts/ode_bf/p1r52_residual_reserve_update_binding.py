@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any
+import warnings
 
 import torch
 
@@ -25,7 +26,16 @@ EXACT_SINGLE_CONSTRUCTION_STATUS = "EXACT_BY_SINGLE_FP32_CONSTRUCTION"
 OFFICIAL_MATCHER = (
     "easyeditor.models.alphaedit.AlphaEdit_main.upd_matrix_match_shape"
 )
-INPUT_FORMULA = "left32=beta32*E32;right32=Psi32_or_q_side32"
+INPUT_FORMULA = (
+    "left32=CALLER_SUPPLIED_ALREADY_BETA_APPLIED_E32;"
+    "right32=Psi32_or_q_side32"
+)
+INPUT_BETA_APPLICATION_PROOF_STATUS = "DEFERRED_TO_M3D_B"
+OFFICIAL_IMPORT_WARNING_MESSAGE = (
+    r"^Importing from timm\.models\.hub is deprecated, "
+    r"please import via timm\.models$"
+)
+OFFICIAL_IMPORT_WARNING_MODULE = r"^timm\.models\.hub$"
 
 
 class UpdateMatchOrientation(str, Enum):
@@ -64,8 +74,8 @@ class PreparedUpdateConstructionReceipt:
     dense_construction_count: int
     second_dense_construction_count: int
     fp64_algorithm_tensor_count: int
-    beta_application_count: int
-    beta_reapplication_count: int
+    input_beta_application_proof_status: str
+    internal_beta_reapplication_count: int
     input_formula: str
     factor_input_immutability_verified: bool
     factor_input_nonalias_verified: bool
@@ -104,8 +114,12 @@ class PreparedUpdateConstructionReceipt:
                 self.second_dense_construction_count
             ),
             "fp64_algorithm_tensor_count": self.fp64_algorithm_tensor_count,
-            "beta_application_count": self.beta_application_count,
-            "beta_reapplication_count": self.beta_reapplication_count,
+            "input_beta_application_proof_status": (
+                self.input_beta_application_proof_status
+            ),
+            "internal_beta_reapplication_count": (
+                self.internal_beta_reapplication_count
+            ),
             "input_formula": self.input_formula,
             "factor_input_immutability_verified": (
                 self.factor_input_immutability_verified
@@ -172,8 +186,9 @@ class PreparedLowRankUpdate:
             or receipt.dense_construction_count != 1
             or receipt.second_dense_construction_count != 0
             or receipt.fp64_algorithm_tensor_count != 0
-            or receipt.beta_application_count != 1
-            or receipt.beta_reapplication_count != 0
+            or receipt.input_beta_application_proof_status
+            != INPUT_BETA_APPLICATION_PROOF_STATUS
+            or receipt.internal_beta_reapplication_count != 0
             or receipt.input_formula != INPUT_FORMULA
             or not receipt.factor_input_immutability_verified
             or not receipt.factor_input_nonalias_verified
@@ -306,9 +321,20 @@ def _official_upd_matrix_match_shape(
     matrix: torch.Tensor,
     shape: torch.Size,
 ) -> torch.Tensor:
-    from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            message=OFFICIAL_IMPORT_WARNING_MESSAGE,
+            category=FutureWarning,
+            module=OFFICIAL_IMPORT_WARNING_MODULE,
+        )
+        from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
 
-    return alpha_main.upd_matrix_match_shape(matrix, shape)
+    matcher = alpha_main.upd_matrix_match_shape
+    matcher_identity = f"{matcher.__module__}.{matcher.__name__}"
+    if matcher_identity != OFFICIAL_MATCHER:
+        raise ODEBFStateError("Official update matcher identity differs")
+    return matcher(matrix, shape)
 
 
 def build_prepared_low_rank_update(
@@ -449,8 +475,10 @@ def build_prepared_low_rank_update(
         dense_construction_count=1,
         second_dense_construction_count=0,
         fp64_algorithm_tensor_count=0,
-        beta_application_count=1,
-        beta_reapplication_count=0,
+        input_beta_application_proof_status=(
+            INPUT_BETA_APPLICATION_PROOF_STATUS
+        ),
+        internal_beta_reapplication_count=0,
         input_formula=INPUT_FORMULA,
         factor_input_immutability_verified=True,
         factor_input_nonalias_verified=True,
@@ -500,8 +528,11 @@ def apply_prepared_low_rank_update(
 __all__ = [
     "AppliedPreparedLowRankUpdate",
     "EXACT_SINGLE_CONSTRUCTION_STATUS",
+    "INPUT_BETA_APPLICATION_PROOF_STATUS",
     "INPUT_FORMULA",
     "OFFICIAL_MATCHER",
+    "OFFICIAL_IMPORT_WARNING_MESSAGE",
+    "OFFICIAL_IMPORT_WARNING_MODULE",
     "PreparedLowRankUpdate",
     "PreparedUpdateConstructionReceipt",
     "UpdateMatchOrientation",
