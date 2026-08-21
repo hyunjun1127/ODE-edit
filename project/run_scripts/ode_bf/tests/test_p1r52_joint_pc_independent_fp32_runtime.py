@@ -122,6 +122,8 @@ class JointPCIndependentFP32RuntimeTest(unittest.TestCase):
         )
         self.assertTrue(all(item["requested_dtype"] == "torch.float32" for item in plan["cells"]))
         self.assertEqual(len(plan["batch_order_sha256"]), 10)
+        self.assertEqual(plan["logical_server"], "server1")
+        self.assertEqual(plan["scheduler_node"], "devbox")
 
     def test_launcher_and_runtime_prohibited_imports_absent(self) -> None:
         source = RUNTIME.read_text(encoding="utf-8")
@@ -143,7 +145,7 @@ class JointPCIndependentFP32RuntimeTest(unittest.TestCase):
         self.assertFalse(imported & prohibited)
         sbatch = SBATCH.read_text(encoding="utf-8")
         self.assertIn("#SBATCH --array=0-4%4", sbatch)
-        self.assertIn("#SBATCH --nodelist=server1", sbatch)
+        self.assertIn("#SBATCH --nodelist=devbox", sbatch)
         self.assertIn("TORCH_ALLOW_TF32_CUBLAS_OVERRIDE=0", sbatch)
 
 

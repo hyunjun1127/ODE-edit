@@ -27,6 +27,8 @@ LOG_PARENT = REPO_ROOT / "local/odebf/logs"
 BRANCH = "codex/p1r52-joint-pc-fullfp32-independent-10xb100-v1"
 ARRAY = "0-4%4"
 PROJECT_GPU_CAP = 4
+LOGICAL_SERVER = "server1"
+SCHEDULER_NODE = "devbox"
 
 
 def run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -51,7 +53,7 @@ def write_once(path: Path, value: dict[str, object]) -> str:
 
 def active_gpus() -> tuple[int, list[dict[str, object]]]:
     lines = run([
-        "squeue", "-h", "-u", "janghj", "-w", "server1",
+        "squeue", "-h", "-u", "janghj", "-w", SCHEDULER_NODE,
         "-t", "RUNNING,CONFIGURING", "-o", "%i|%T|%b|%j",
     ]).stdout.splitlines()
     total = 0
@@ -72,14 +74,15 @@ def active_gpus() -> tuple[int, list[dict[str, object]]]:
 
 
 def host_snapshot() -> dict[str, object]:
-    memory = run(["ssh", "server1", "free", "-b"]).stdout
+    memory = run(["free", "-b"]).stdout
     gpu = run([
-        "ssh", "server1", "nvidia-smi",
+        "nvidia-smi",
         "--query-gpu=index,name,uuid,memory.total,memory.used,memory.free",
         "--format=csv,noheader,nounits",
     ]).stdout
     return {
-        "server": "server1",
+        "logical_server": LOGICAL_SERVER,
+        "scheduler_node": SCHEDULER_NODE,
         "free_b_sha256": hashlib.sha256(memory.encode()).hexdigest(),
         "free_b_lines": memory.splitlines(),
         "nvidia_smi_sha256": hashlib.sha256(gpu.encode()).hexdigest(),
@@ -127,7 +130,7 @@ def submit(source_head: str, source_tree: str) -> dict[str, object]:
     intent_sha = write_once(state_root / "intent.json", intent)
     submitted = run([
         "sbatch", "--hold", "--parsable", "--array", ARRAY,
-        "--chdir", str(REPO_ROOT), "--nodelist", "server1",
+        "--chdir", str(REPO_ROOT), "--nodelist", SCHEDULER_NODE,
         "--job-name", "odeedit_p1r52_joint_pc_ind_fp32",
         "--output", str(log_root / "%A_%a.out"),
         "--error", str(log_root / "%A_%a.err"),
@@ -136,7 +139,7 @@ def submit(source_head: str, source_tree: str) -> dict[str, object]:
     job_id = submitted.stdout.strip().split(";", 1)[0]
     observed = run(["scontrol", "show", "job", "-o", job_id]).stdout.strip()
     required = (
-        "JobState=PENDING", "Reason=JobHeldUser", "ReqNodeList=server1",
+        "JobState=PENDING", "Reason=JobHeldUser", f"ReqNodeList={SCHEDULER_NODE}",
         "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1",
     )
     if not job_id.isdigit() or not all(value in observed for value in required):
@@ -155,6 +158,8 @@ def submit(source_head: str, source_tree: str) -> dict[str, object]:
         "active_gpu_allocations_before_release": active,
         "new_max_concurrent_gpu": 4,
         "project_gpu_cap": PROJECT_GPU_CAP,
+        "logical_server": LOGICAL_SERVER,
+        "scheduler_node": SCHEDULER_NODE,
         "intent_sha256": intent_sha,
         "held_inspection_sha256": hashlib.sha256(observed.encode()).hexdigest(),
         "held_then_atomic_release": True,

@@ -62,6 +62,8 @@ def build_plan(source_head: str, source_tree: str) -> dict[str, object]:
         "full_fp32_required": True,
         "autocast_bf16_fp16_quantization_allowed": False,
         "project_server1_gpu_cap": 4,
+        "logical_server": "server1",
+        "scheduler_node": "devbox",
         "timing_observation_only": True,
         "timing_additional_model_forward_backward_evaluator_count": 0,
     }
