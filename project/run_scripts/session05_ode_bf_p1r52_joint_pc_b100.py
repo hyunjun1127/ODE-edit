@@ -40,6 +40,7 @@ from project.run_scripts.ode_bf.p1r52_joint_pc_runtime import (
     PILOT_TECH_R3_ROLE,
     PILOT_TECH_R4_ROLE,
     PILOT_TECH_R5_ROLE,
+    PILOT_TECH_R6_ROLE,
     expected_result_name,
     production_role,
 )
@@ -87,6 +88,7 @@ def main(argv: list[str] | None = None) -> int:
     group.add_argument("--pilot-tech-r3", action="store_true")
     group.add_argument("--pilot-tech-r4", action="store_true")
     group.add_argument("--pilot-tech-r5", action="store_true")
+    group.add_argument("--pilot-tech-r6", action="store_true")
     group.add_argument("--case-index", type=int, choices=range(1, 11))
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
@@ -105,6 +107,8 @@ def main(argv: list[str] | None = None) -> int:
         if args.pilot_tech_r4
         else PILOT_TECH_R5_ROLE
         if args.pilot_tech_r5
+        else PILOT_TECH_R6_ROLE
+        if args.pilot_tech_r6
         else production_role(args.case_index)
     )
     try:

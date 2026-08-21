@@ -309,7 +309,7 @@ def plan_c2_writer(
         intended_max_abs = float(
             torch.max(
                 torch.abs(
-                    float(factor.theta) * field.residual
+                    float(factor.theta) * factor.left
                     - quota
                 )
             )
