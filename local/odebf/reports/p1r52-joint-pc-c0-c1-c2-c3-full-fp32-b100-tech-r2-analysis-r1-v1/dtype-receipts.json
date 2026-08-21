@@ -1,0 +1,89 @@
+{
+  "C0_C1_C2": {
+    "C0-PIRU-CONTROL": {
+      "bf16_path_call_count": 0,
+      "native_storage_assignment_count": 5,
+      "numeric_storage_cast_count": 0,
+      "storage_dtypes": [
+        "torch.float32"
+      ]
+    },
+    "C1-JOINT-PC-REMAINING": {
+      "bf16_path_call_count": 0,
+      "native_storage_assignment_count": 5,
+      "numeric_storage_cast_count": 0,
+      "storage_dtypes": [
+        "torch.float32"
+      ]
+    },
+    "C2-JOINT-PC-FIXED-QUOTA": {
+      "bf16_path_call_count": 0,
+      "native_storage_assignment_count": 5,
+      "numeric_storage_cast_count": 0,
+      "storage_dtypes": [
+        "torch.float32"
+      ]
+    }
+  },
+  "C3": {
+    "cache_entry": {
+      "cache_c_new": false,
+      "dtype": null,
+      "frobenius_norm": 0.0,
+      "layer_frobenius_norm": [],
+      "sha256": null,
+      "shape": null,
+      "status": "UNINITIALIZED"
+    },
+    "cache_exit": {
+      "cache_c_new": true,
+      "dtype": "torch.float32",
+      "frobenius_norm": 450.295813674984,
+      "layer_frobenius_norm": [
+        100.60209288591022,
+        152.61823437270067,
+        218.14341938860187,
+        256.7992213205719,
+        236.26430488701945
+      ],
+      "sha256": "75bef3b59e811ad8bd2112c4f938af5432fd0592b42c123617309ef79d97470c",
+      "shape": [
+        5,
+        14336,
+        14336
+      ],
+      "status": "INITIALIZED"
+    },
+    "native_compute_z_call_count": 0,
+    "official_entrypoint": "easyeditor.models.alphaedit.AlphaEdit_main.apply_AlphaEdit_to_model",
+    "official_source_file": "/mnt/raid5/janghj/EasyEdit/easyeditor/models/alphaedit/AlphaEdit_main.py",
+    "p1r52_barrier_decision_influence_count": 0,
+    "p1r52_pc_router_decision_influence_count": 0,
+    "same_accepted_z_sha256": "5772bc53771f446591d9c5a05cd598388fc26bcb41e5695f30438ac5bea45e57",
+    "static_projection": {
+      "cache_kind": "STATIC_NULLSPACE_PROJECTOR_P",
+      "dtype": "torch.float32",
+      "loaded": true,
+      "loaded_from": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+      "reload_requested": false,
+      "sha256": "8140fc0ef380b986c907f4b39004447a1d56d2c412fe9e43cbac68a0b722a89a",
+      "shape": [
+        5,
+        14336,
+        14336
+      ]
+    }
+  },
+  "global": {
+    "autocast_count": 0,
+    "bf16_conversion_count": 0,
+    "bf16_materializer_call_count": 0,
+    "fp16_conversion_count": 0,
+    "model_storage": "torch.float32",
+    "numeric_storage_cast_count": 0,
+    "planner": "torch.float32",
+    "python_runtime_patch_compatibility": "3.12.x",
+    "solve": "torch.float32",
+    "update": "torch.float32"
+  }
+}

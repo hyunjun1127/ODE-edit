@@ -1,0 +1,88 @@
+{
+  "members": [
+    {
+      "bytes": 10205,
+      "lines": 132,
+      "mode": "0o600",
+      "path": "p1r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-factual-ko.md",
+      "sha256": "f5d1f3e76c1549786a3a1ab239509c4c941e26c81faeab9671df6f83b95f4e16"
+    },
+    {
+      "bytes": 15180,
+      "lines": 398,
+      "mode": "0o600",
+      "path": "endpoint-summary.json",
+      "sha256": "40cdfb374825d68406751cc744f0ce1242fe0c6bacfb9b36f2feeb8f91ccc87c"
+    },
+    {
+      "bytes": 3505,
+      "lines": 12,
+      "mode": "0o600",
+      "path": "endpoint-summary.csv",
+      "sha256": "efb0b211ae6a1275ab3d8f93c26e71e5bc4b63e2978501891ba7cad5b7c6d83d"
+    },
+    {
+      "bytes": 1021839,
+      "lines": 39602,
+      "mode": "0o600",
+      "path": "per-request.json",
+      "sha256": "dcd0b28ec4b4fcf8f8797305b4a4c04fb1653273a76bd87ae1ce1bfadbbd3202"
+    },
+    {
+      "bytes": 259675,
+      "lines": 3301,
+      "mode": "0o600",
+      "path": "per-request.csv",
+      "sha256": "17fd8c771ef948b82121592664948a7a5351e5941def714df62e714e178e4e6e"
+    },
+    {
+      "bytes": 18448,
+      "lines": 597,
+      "mode": "0o600",
+      "path": "per-layer.json",
+      "sha256": "7b5c734c1fc928e6b247dc22c0964a31c0e636ea7639ef708751b5ce6c264e9f"
+    },
+    {
+      "bytes": 6277,
+      "lines": 36,
+      "mode": "0o600",
+      "path": "per-layer.csv",
+      "sha256": "cd781ae6af7215f02833caad4e13f996e637a909619db2fdf857c0a686cb3195"
+    },
+    {
+      "bytes": 3700,
+      "lines": 86,
+      "mode": "0o600",
+      "path": "bf16-comparison.json",
+      "sha256": "c4010e6bf168d5bcda8466a85680bcf7b5f4e2f14c2e46ea807664ec630b6b8b"
+    },
+    {
+      "bytes": 2099,
+      "lines": 5,
+      "mode": "0o600",
+      "path": "bf16-comparison.csv",
+      "sha256": "96d06b3b440b36aa5860990f1c3bb27536c83ee9022bda0ee12aca989319a81e"
+    },
+    {
+      "bytes": 2604,
+      "lines": 89,
+      "mode": "0o600",
+      "path": "dtype-receipts.json",
+      "sha256": "3fa4d2297834c5ba3c78bfb82af50f39a26abb5b2c2efdf5aa272c850f7ed4e2"
+    },
+    {
+      "bytes": 2048,
+      "lines": 65,
+      "mode": "0o600",
+      "path": "compute-summary.json",
+      "sha256": "506c33cae732d129b1e55e52dca84cc429f699586159a7b53485d2a6bafe8094"
+    }
+  ],
+  "members_root_sha256": "2ec3f7b735b62dab09e130faa43ef1a9becfaa09a6a04ad4c4b6699169ec8e96",
+  "result_manifest_sha256": "e98361919cbbd1b0e0df73a572854cddeb7062fd48c53109b75d331a56bccf35",
+  "result_terminal_sha256": "8a58753a26e451b5954c716415633184758e80890d74c56327e6f3489adf05fb",
+  "schema": "ode-edit-s05-p1r52-joint-pc-full-fp32-analysis-manifest/v1",
+  "scientific_promotion": false,
+  "source_head": "6319748fc181c69eabe5d48ef5f84df7a6ffac1e",
+  "source_tree": "c93db49663465ccb45fe38dcfe773e9ca8190808"
+}
