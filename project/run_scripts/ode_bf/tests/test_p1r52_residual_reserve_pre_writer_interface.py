@@ -123,6 +123,46 @@ class _ForgedComputeObserver(P1R52PreWriterObserver):
         )
 
 
+class _EntryContractMutationObserver(P1R52PreWriterObserver):
+    def __init__(self, touched, mutation: str) -> None:
+        self.touched = touched
+        self.mutation = mutation
+        self.mutated_version: int | None = None
+
+    def observe(
+        self, pre_writer_input: P1R52PreWriterInput
+    ) -> P1R52PreWriterObservationReceipt:
+        name = next(iter(self.touched))
+        parameter = self.touched[name]
+        if self.mutation == "parameter_add_zero":
+            with torch.no_grad():
+                parameter.add_(0)
+            self.mutated_version = int(parameter._version)
+        elif self.mutation == "requires_grad":
+            parameter.requires_grad_(True)
+        elif self.mutation == "mapping_swap":
+            self.touched[name] = torch.nn.Parameter(
+                parameter.detach().clone(),
+                requires_grad=parameter.requires_grad,
+            )
+        elif self.mutation == "same_pointer_stride":
+            parameter.data = parameter.data.as_strided(
+                tuple(parameter.shape), tuple(reversed(parameter.stride()))
+            )
+        elif self.mutation == "target_add_zero":
+            with torch.no_grad():
+                pre_writer_input.selected_target.target_step.target_next.add_(0)
+            self.mutated_version = int(
+                pre_writer_input.selected_target.target_step.target_next._version
+            )
+        else:
+            raise AssertionError("unknown focused mutation")
+        return P1R52PreWriterObservationReceipt.no_action(
+            pre_writer_input,
+            observer_id=f"focused-{self.mutation}-observer",
+        )
+
+
 class P1R52ResidualReservePreWriterInterfaceTests(unittest.TestCase):
     def setUp(self) -> None:
         self.entry = torch.tensor([[0.4], [0.2], [0.8]], dtype=torch.float32)
@@ -206,16 +246,44 @@ class P1R52ResidualReservePreWriterInterfaceTests(unittest.TestCase):
                 int(parameter.data_ptr()),
                 tensor_sha256(parameter),
                 parameter.detach().clone(),
+                bool(parameter.requires_grad),
+                tuple(parameter.shape),
+                parameter.dtype,
+                parameter.device,
+                parameter.layout,
+                tuple(parameter.stride()),
+                int(parameter.storage_offset()),
+                int(parameter._version),
             )
             for name, parameter in parameters.items()
         }
 
     def assert_snapshot(self, snapshot) -> None:
-        for name, (parameter, pointer, sha256, value) in snapshot.items():
+        for name, (
+            parameter,
+            pointer,
+            sha256,
+            value,
+            requires_grad,
+            shape,
+            dtype,
+            device,
+            layout,
+            stride,
+            storage_offset,
+            _version,
+        ) in snapshot.items():
             self.assertIs(self.touched[name], parameter)
             self.assertEqual(int(parameter.data_ptr()), pointer)
             self.assertEqual(tensor_sha256(parameter), sha256)
             self.assertTrue(torch.equal(parameter, value))
+            self.assertEqual(bool(parameter.requires_grad), requires_grad)
+            self.assertEqual(tuple(parameter.shape), shape)
+            self.assertEqual(parameter.dtype, dtype)
+            self.assertEqual(parameter.device, device)
+            self.assertEqual(parameter.layout, layout)
+            self.assertEqual(tuple(parameter.stride()), stride)
+            self.assertEqual(int(parameter.storage_offset()), storage_offset)
 
     def test_native_il1_bridge_is_exact_for_six_tensors_endpoint_and_state(self):
         outer = self.outer()
@@ -347,6 +415,46 @@ class P1R52ResidualReservePreWriterInterfaceTests(unittest.TestCase):
                 request_order_sha256=REQUEST_ORDER,
             )
         self.assert_snapshot(before)
+
+    def test_live_weight_and_target_contract_mutations_fail_and_restore(self):
+        for mutation in (
+            "parameter_add_zero",
+            "requires_grad",
+            "mapping_swap",
+            "same_pointer_stride",
+            "target_add_zero",
+        ):
+            with self.subTest(mutation=mutation):
+                outer = self.outer()
+                target = outer.inner_steps[-1].target_step.target_next
+                target_pointer = int(target.data_ptr())
+                target_sha256 = tensor_sha256(target)
+                target_requires_grad = bool(target.requires_grad)
+                target_version = int(target._version)
+                before = self.snapshot(self.touched)
+                observer = _EntryContractMutationObserver(
+                    self.touched, mutation
+                )
+                with self.assertRaises(ODEBFStateError):
+                    observe_native_il1_pre_writer_input(
+                        observer,
+                        outer=outer,
+                        step_index=2,
+                        touched=self.touched,
+                        request_identities=REQUESTS,
+                        request_order_sha256=REQUEST_ORDER,
+                    )
+                self.assert_snapshot(before)
+                self.assertEqual(int(target.data_ptr()), target_pointer)
+                self.assertEqual(tensor_sha256(target), target_sha256)
+                self.assertEqual(bool(target.requires_grad), target_requires_grad)
+                if mutation == "parameter_add_zero":
+                    original_version = next(iter(before.values()))[-1]
+                    self.assertIsNotNone(observer.mutated_version)
+                    self.assertGreater(observer.mutated_version, original_version)
+                if mutation == "target_add_zero":
+                    self.assertIsNotNone(observer.mutated_version)
+                    self.assertGreater(observer.mutated_version, target_version)
 
     def test_default_disabled_hook_is_additive_and_precedes_j0_field(self):
         root = Path(__file__).resolve().parents[1]

@@ -8,6 +8,7 @@ evaluator, materializer, or history operation.
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from collections.abc import MutableMapping
 from dataclasses import dataclass
 from typing import Mapping, Sequence
 
@@ -45,6 +46,9 @@ class PreWriterTensorIdentity:
     pointer: int
     version: int
     requires_grad: bool
+    layout: str
+    stride: tuple[int, ...]
+    storage_offset: int
 
     def raw_free_payload(self) -> dict[str, object]:
         return {
@@ -56,6 +60,9 @@ class PreWriterTensorIdentity:
             "pointer": self.pointer,
             "version": self.version,
             "requires_grad": self.requires_grad,
+            "layout": self.layout,
+            "stride": list(self.stride),
+            "storage_offset": self.storage_offset,
         }
 
 
@@ -69,6 +76,10 @@ class PreWriterWeightIdentity:
     pointer: int
     version: int
     requires_grad: bool
+    parameter_object_identity: int
+    layout: str
+    stride: tuple[int, ...]
+    storage_offset: int
 
     def scientific_payload(self) -> dict[str, object]:
         return {
@@ -78,6 +89,9 @@ class PreWriterWeightIdentity:
             "device": self.device,
             "sha256": self.sha256,
             "requires_grad": self.requires_grad,
+            "layout": self.layout,
+            "stride": list(self.stride),
+            "storage_offset": self.storage_offset,
         }
 
     def raw_free_payload(self) -> dict[str, object]:
@@ -85,6 +99,7 @@ class PreWriterWeightIdentity:
             **self.scientific_payload(),
             "pointer": self.pointer,
             "version": self.version,
+            "parameter_object_identity": self.parameter_object_identity,
         }
 
 
@@ -165,6 +180,8 @@ class P1R52PreWriterInputReceipt:
     native_selected_bridge_identity: str
     native_selected_receipt_identity: str
     outer_reassembly_receipt_identity: str
+    entry_weight_key_inventory: tuple[str, ...]
+    touched_mapping_object_identity: int
     entry_weight_identities: tuple[PreWriterWeightIdentity, ...]
     entry_weight_scientific_identity: str
     entry_weight_pointer_identity: str
@@ -191,6 +208,10 @@ class P1R52PreWriterInputReceipt:
             ),
             "outer_reassembly_receipt_identity": (
                 self.outer_reassembly_receipt_identity
+            ),
+            "entry_weight_key_inventory": list(self.entry_weight_key_inventory),
+            "touched_mapping_object_identity": (
+                self.touched_mapping_object_identity
             ),
             "entry_weight_identities": [
                 item.raw_free_payload() for item in self.entry_weight_identities
@@ -304,6 +325,22 @@ class _WeightRollback:
     value: torch.Tensor
     pointer: int
     sha256: str
+    version: int
+    requires_grad: bool
+    shape: tuple[int, ...]
+    dtype: torch.dtype
+    device: torch.device
+    layout: torch.layout
+    stride: tuple[int, ...]
+    storage_offset: int
+
+
+@dataclass(slots=True)
+class _TouchedMappingRollback:
+    mapping: MutableMapping[str, torch.nn.Parameter]
+    object_identity: int
+    items: tuple[tuple[str, torch.nn.Parameter], ...]
+    key_inventory: tuple[str, ...]
 
 
 @dataclass(slots=True)
@@ -313,6 +350,14 @@ class _TargetTensorRollback:
     value: torch.Tensor
     pointer: int
     sha256: str
+    version: int
+    requires_grad: bool
+    shape: tuple[int, ...]
+    dtype: torch.dtype
+    device: torch.device
+    layout: torch.layout
+    stride: tuple[int, ...]
+    storage_offset: int
 
 
 def _mapping_identity(value: Mapping[str, object], *, name: str) -> str:
@@ -339,6 +384,9 @@ def _tensor_identity(name: str, value: torch.Tensor) -> PreWriterTensorIdentity:
         int(value.data_ptr()),
         int(value._version),
         bool(value.requires_grad),
+        str(value.layout),
+        tuple(value.stride()),
+        int(value.storage_offset()),
     )
 
 
@@ -465,10 +513,11 @@ def reconstruct_native_il1_selected_target(
 
 
 def _capture_weights(
-    parameters: Mapping[str, torch.nn.Parameter],
+    parameters: MutableMapping[str, torch.nn.Parameter],
 ) -> tuple[
     tuple[PreWriterWeightIdentity, ...],
     tuple[_WeightRollback, ...],
+    _TouchedMappingRollback,
 ]:
     if not parameters:
         raise ODEBFContractError("P1R52 pre-writer touched weights are absent")
@@ -490,6 +539,10 @@ def _capture_weights(
                 int(parameter.data_ptr()),
                 int(parameter._version),
                 bool(parameter.requires_grad),
+                id(parameter),
+                str(parameter.layout),
+                tuple(parameter.stride()),
+                int(parameter.storage_offset()),
             )
         )
         rollbacks.append(
@@ -500,9 +553,27 @@ def _capture_weights(
                 parameter.detach().clone(),
                 int(parameter.data_ptr()),
                 sha256,
+                int(parameter._version),
+                bool(parameter.requires_grad),
+                tuple(parameter.shape),
+                parameter.dtype,
+                parameter.device,
+                parameter.layout,
+                tuple(parameter.stride()),
+                int(parameter.storage_offset()),
             )
         )
-    return tuple(identities), tuple(rollbacks)
+    items = tuple(parameters.items())
+    return (
+        tuple(identities),
+        tuple(rollbacks),
+        _TouchedMappingRollback(
+            parameters,
+            id(parameters),
+            items,
+            tuple(sorted(parameters)),
+        ),
+    )
 
 
 def _capture_target_tensors(
@@ -515,6 +586,14 @@ def _capture_target_tensors(
             value=value.detach().clone(),
             pointer=int(value.data_ptr()),
             sha256=tensor_sha256(value),
+            version=int(value._version),
+            requires_grad=bool(value.requires_grad),
+            shape=tuple(value.shape),
+            dtype=value.dtype,
+            device=value.device,
+            layout=value.layout,
+            stride=tuple(value.stride()),
+            storage_offset=int(value.storage_offset()),
         )
         for value in (
             getattr(selected.target_step, name)
@@ -523,48 +602,129 @@ def _capture_target_tensors(
     )
 
 
+def _weight_matches(item: _WeightRollback) -> bool:
+    parameter = item.parameter
+    return (
+        int(parameter.data_ptr()) == item.pointer
+        and tensor_sha256(parameter) == item.sha256
+        and int(parameter._version) == item.version
+        and bool(parameter.requires_grad) == item.requires_grad
+        and tuple(parameter.shape) == item.shape
+        and parameter.dtype == item.dtype
+        and parameter.device == item.device
+        and parameter.layout == item.layout
+        and tuple(parameter.stride()) == item.stride
+        and int(parameter.storage_offset()) == item.storage_offset
+    )
+
+
+def _target_matches(item: _TargetTensorRollback) -> bool:
+    tensor = item.tensor
+    return (
+        int(tensor.data_ptr()) == item.pointer
+        and tensor_sha256(tensor) == item.sha256
+        and int(tensor._version) == item.version
+        and bool(tensor.requires_grad) == item.requires_grad
+        and tuple(tensor.shape) == item.shape
+        and tensor.dtype == item.dtype
+        and tensor.device == item.device
+        and tensor.layout == item.layout
+        and tuple(tensor.stride()) == item.stride
+        and int(tensor.storage_offset()) == item.storage_offset
+    )
+
+
+def _mapping_matches(
+    mapping: _TouchedMappingRollback,
+    weights: tuple[_WeightRollback, ...],
+) -> bool:
+    return (
+        id(mapping.mapping) == mapping.object_identity
+        and tuple(sorted(mapping.mapping)) == mapping.key_inventory
+        and len(mapping.mapping) == len(mapping.items)
+        and all(
+            mapping.mapping.get(item.name) is item.parameter for item in weights
+        )
+    )
+
+
 def _restore_entry(
+    mapping: _TouchedMappingRollback,
     weights: tuple[_WeightRollback, ...],
     targets: tuple[_TargetTensorRollback, ...],
 ) -> None:
     with torch.no_grad():
         for item in weights:
-            if int(item.parameter.data_ptr()) != item.pointer:
+            if (
+                int(item.parameter.data_ptr()) != item.pointer
+                or tuple(item.parameter.shape) != item.shape
+                or item.parameter.dtype != item.dtype
+                or item.parameter.device != item.device
+                or item.parameter.layout != item.layout
+                or tuple(item.parameter.stride()) != item.stride
+                or int(item.parameter.storage_offset()) != item.storage_offset
+            ):
                 item.parameter.data = item.data_reference
-            item.parameter.data.copy_(item.value)
+            if tensor_sha256(item.parameter) != item.sha256:
+                item.parameter.data.copy_(item.value)
+            if bool(item.parameter.requires_grad) != item.requires_grad:
+                item.parameter.requires_grad_(item.requires_grad)
         for item in targets:
-            if int(item.tensor.data_ptr()) != item.pointer:
+            if (
+                int(item.tensor.data_ptr()) != item.pointer
+                or tuple(item.tensor.shape) != item.shape
+                or item.tensor.dtype != item.dtype
+                or item.tensor.device != item.device
+                or item.tensor.layout != item.layout
+                or tuple(item.tensor.stride()) != item.stride
+                or int(item.tensor.storage_offset()) != item.storage_offset
+            ):
                 item.tensor.data = item.data_reference
-            item.tensor.copy_(item.value)
+            if tensor_sha256(item.tensor) != item.sha256:
+                item.tensor.copy_(item.value)
+            if bool(item.tensor.requires_grad) != item.requires_grad:
+                item.tensor.requires_grad_(item.requires_grad)
+        mapping.mapping.clear()
+        for name, parameter in mapping.items:
+            mapping.mapping[name] = parameter
     if any(
         int(item.parameter.data_ptr()) != item.pointer
         or tensor_sha256(item.parameter) != item.sha256
+        or bool(item.parameter.requires_grad) != item.requires_grad
+        or tuple(item.parameter.shape) != item.shape
+        or item.parameter.dtype != item.dtype
+        or item.parameter.device != item.device
+        or item.parameter.layout != item.layout
+        or tuple(item.parameter.stride()) != item.stride
+        or int(item.parameter.storage_offset()) != item.storage_offset
         for item in weights
-    ):
+    ) or not _mapping_matches(mapping, weights):
         raise ODEBFStateError("P1R52 pre-writer W rollback differs")
     if any(
         int(item.tensor.data_ptr()) != item.pointer
         or tensor_sha256(item.tensor) != item.sha256
+        or bool(item.tensor.requires_grad) != item.requires_grad
+        or tuple(item.tensor.shape) != item.shape
+        or item.tensor.dtype != item.dtype
+        or item.tensor.device != item.device
+        or item.tensor.layout != item.layout
+        or tuple(item.tensor.stride()) != item.stride
+        or int(item.tensor.storage_offset()) != item.storage_offset
         for item in targets
     ):
         raise ODEBFStateError("P1R52 pre-writer target rollback differs")
 
 
 def _validate_entry_unchanged(
+    mapping: _TouchedMappingRollback,
     weights: tuple[_WeightRollback, ...],
     targets: tuple[_TargetTensorRollback, ...],
 ) -> None:
-    if any(
-        int(item.parameter.data_ptr()) != item.pointer
-        or tensor_sha256(item.parameter) != item.sha256
-        for item in weights
+    if not _mapping_matches(mapping, weights) or any(
+        not _weight_matches(item) for item in weights
     ):
         raise ODEBFStateError("P1R52 pre-writer hook mutated physical W")
-    if any(
-        int(item.tensor.data_ptr()) != item.pointer
-        or tensor_sha256(item.tensor) != item.sha256
-        for item in targets
-    ):
+    if any(not _target_matches(item) for item in targets):
         raise ODEBFStateError("P1R52 pre-writer hook mutated selected target")
 
 
@@ -600,7 +760,7 @@ def observe_native_il1_pre_writer_input(
     *,
     outer: P1R52TargetDepthOuter,
     step_index: int,
-    touched: Mapping[str, torch.nn.Parameter],
+    touched: MutableMapping[str, torch.nn.Parameter],
     request_identities: Sequence[str],
     request_order_sha256: str,
 ) -> P1R52PreWriterObservationReceipt:
@@ -608,6 +768,8 @@ def observe_native_il1_pre_writer_input(
 
     if not isinstance(observer, P1R52PreWriterObserver):
         raise ODEBFContractError("P1R52 pre-writer observer type differs")
+    if not isinstance(touched, MutableMapping):
+        raise ODEBFContractError("P1R52 pre-writer touched mapping is not mutable")
     requests = tuple(str(item) for item in request_identities)
     if (
         not requests
@@ -621,7 +783,9 @@ def observe_native_il1_pre_writer_input(
     )
     if selected.target_step.target_next.shape[1] != len(requests):
         raise ODEBFContractError("P1R52 pre-writer request geometry differs")
-    weight_identities, weight_rollback = _capture_weights(touched)
+    weight_identities, weight_rollback, mapping_rollback = _capture_weights(
+        touched
+    )
     target_rollback = _capture_target_tensors(selected)
     scientific_identity = canonical_hash(
         [item.scientific_payload() for item in weight_identities]
@@ -652,6 +816,8 @@ def observe_native_il1_pre_writer_input(
         bridge.identity_sha256,
         bridge.native_selected_receipt_identity,
         bridge.outer_reassembly_receipt_identity,
+        mapping_rollback.key_inventory,
+        mapping_rollback.object_identity,
         weight_identities,
         scientific_identity,
         pointer_identity,
@@ -675,7 +841,9 @@ def observe_native_il1_pre_writer_input(
     try:
         observation = observer.observe(pre_writer_input)
         _validate_observation_receipt(observation, pre_writer_input)
-        _validate_entry_unchanged(weight_rollback, target_rollback)
+        _validate_entry_unchanged(
+            mapping_rollback, weight_rollback, target_rollback
+        )
         selected_after = reconstruct_native_il1_selected_target(
             outer, step_index=step_index
         )[1]
@@ -691,7 +859,7 @@ def observe_native_il1_pre_writer_input(
             )
         return observation
     except Exception:
-        _restore_entry(weight_rollback, target_rollback)
+        _restore_entry(mapping_rollback, weight_rollback, target_rollback)
         raise
 
 
