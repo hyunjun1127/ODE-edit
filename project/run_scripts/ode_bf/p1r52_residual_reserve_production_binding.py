@@ -45,6 +45,9 @@ from .scalable_batched_runtime import StreamingPhysicalCapture
 PRODUCTION_BINDING_STATUS = "P1R52_RR_PHASE_A_PRODUCTION_BINDING"
 PREFIX_OBSERVATION_STATUS = "EXISTING_PHYSICAL_CAPTURE_READ_ONLY_PROJECTION"
 PARAMETER_ORIENTATION = "ROWS_OUTPUT_COLUMNS_KEY"
+PRODUCTION_ALGORITHM_DTYPE = "torch.float32"
+PRODUCTION_LIVE_STORAGE_DTYPE = "torch.float32"
+PREPARED_UPDATE_BINDING_STATUS = "FP32_REQUIRED_NOT_CONSTRUCTED_IN_M4B_I2"
 
 
 @dataclass(frozen=True, slots=True)
@@ -84,6 +87,12 @@ class ProductionLayerBindingReceipt:
     regularization_sha256: str
     pretrained_weight_norm_squared: float
     live_parameter_copy_count: int
+    live_storage_dtype: str
+    authoritative_prepared_update_required_dtype: str
+    prepared_update_binding_status: str
+    numeric_storage_cast_count: int
+    bf16_path_call_count: int
+    bf16_path_decision_influence_count: int
     alpha_history_consume_count: int
     alpha_history_append_count: int
     alpha_history_finalize_count: int
@@ -106,6 +115,16 @@ class ProductionLayerBindingReceipt:
             "regularization_sha256": self.regularization_sha256,
             "pretrained_weight_norm_squared": self.pretrained_weight_norm_squared,
             "live_parameter_copy_count": self.live_parameter_copy_count,
+            "live_storage_dtype": self.live_storage_dtype,
+            "authoritative_prepared_update_required_dtype": (
+                self.authoritative_prepared_update_required_dtype
+            ),
+            "prepared_update_binding_status": self.prepared_update_binding_status,
+            "numeric_storage_cast_count": self.numeric_storage_cast_count,
+            "bf16_path_call_count": self.bf16_path_call_count,
+            "bf16_path_decision_influence_count": (
+                self.bf16_path_decision_influence_count
+            ),
             "alpha_history_consume_count": self.alpha_history_consume_count,
             "alpha_history_append_count": self.alpha_history_append_count,
             "alpha_history_finalize_count": self.alpha_history_finalize_count,
@@ -130,7 +149,17 @@ class ResidualReserveProductionBindingReceipt:
     layer_receipts: tuple[ProductionLayerBindingReceipt, ...]
     execution_device: str
     algorithm_dtype: str
+    model_floating_parameter_count: int
+    model_floating_parameter_dtype: str
     live_storage_dtypes: tuple[str, ...]
+    authoritative_prepared_update_required_dtype: str
+    prepared_update_binding_status: str
+    numeric_storage_cast_count: int
+    bf16_path_call_count: int
+    bf16_path_decision_influence_count: int
+    autocast_count: int
+    downcast_count: int
+    quantization_count: int
     gross_state_identity: str
     gross_state_decision_identity: str
     gross_state_version: int
@@ -153,7 +182,21 @@ class ResidualReserveProductionBindingReceipt:
             "layer_receipts": [item.raw_free_payload() for item in self.layer_receipts],
             "execution_device": self.execution_device,
             "algorithm_dtype": self.algorithm_dtype,
+            "model_floating_parameter_count": self.model_floating_parameter_count,
+            "model_floating_parameter_dtype": self.model_floating_parameter_dtype,
             "live_storage_dtypes": list(self.live_storage_dtypes),
+            "authoritative_prepared_update_required_dtype": (
+                self.authoritative_prepared_update_required_dtype
+            ),
+            "prepared_update_binding_status": self.prepared_update_binding_status,
+            "numeric_storage_cast_count": self.numeric_storage_cast_count,
+            "bf16_path_call_count": self.bf16_path_call_count,
+            "bf16_path_decision_influence_count": (
+                self.bf16_path_decision_influence_count
+            ),
+            "autocast_count": self.autocast_count,
+            "downcast_count": self.downcast_count,
+            "quantization_count": self.quantization_count,
             "gross_state_identity": self.gross_state_identity,
             "gross_state_decision_identity": self.gross_state_decision_identity,
             "gross_state_version": self.gross_state_version,
@@ -285,6 +328,11 @@ def _tensor_identity(value: torch.Tensor) -> ProductionTensorIdentity:
         version=int(value._version),
         requires_grad=bool(value.requires_grad),
     )
+
+
+def _require_autocast_disabled() -> None:
+    if torch.is_autocast_enabled() or torch.is_autocast_enabled("cpu"):
+        raise ODEBFStateError("production residual-reserve autocast is enabled")
 
 
 def _weight_state(
@@ -459,6 +507,7 @@ class ResidualReserveProductionPrefixObservationProvider:
         layer: int,
         pre_state: tuple[ShadowWeightStateIdentity, ...],
     ) -> PrefixObservation:
+        _require_autocast_disabled()
         expected_layer = RESIDUAL_RESERVE_LAYER_ORDER[self._next_layer_index]
         if layer != expected_layer:
             raise ODEBFStateError("production prefix observation order differs")
@@ -593,6 +642,7 @@ def build_residual_reserve_production_binding(
 
     if not isinstance(model, torch.nn.Module):
         raise ODEBFContractError("production binding model type differs")
+    _require_autocast_disabled()
     if not isinstance(capture_plan, ScalableCapturePlan):
         raise ODEBFContractError("production capture plan type differs")
     layers = tuple(int(item) for item in hparams.layers)
@@ -629,6 +679,22 @@ def build_residual_reserve_production_binding(
         raise ODEBFContractError("production Alpha regularization differs")
 
     live_by_name = dict(model.named_parameters())
+    floating_parameters = tuple(
+        parameter
+        for parameter in live_by_name.values()
+        if parameter.is_floating_point()
+    )
+    if (
+        not floating_parameters
+        or len(floating_parameters) != len(live_by_name)
+        or any(
+            parameter.dtype is not torch.float32
+            for parameter in floating_parameters
+        )
+    ):
+        raise ODEBFContractError(
+            "production model parameters are not uniformly unquantized FP32"
+        )
     expected_names = tuple(
         f"{hparams.rewrite_module_tmp.format(layer)}.weight" for layer in layers
     )
@@ -641,6 +707,7 @@ def build_residual_reserve_production_binding(
             not isinstance(parameter, torch.nn.Parameter)
             or touched_weights[name] is not parameter
             or parameter.ndim != 2
+            or parameter.dtype is not torch.float32
             or parameter.requires_grad
             or not bool(torch.isfinite(parameter).all())
         ):
@@ -729,6 +796,14 @@ def build_residual_reserve_production_binding(
             regularization_sha256=tensor_sha256(regularization32),
             pretrained_weight_norm_squared=weight_norm_squared,
             live_parameter_copy_count=0,
+            live_storage_dtype=PRODUCTION_LIVE_STORAGE_DTYPE,
+            authoritative_prepared_update_required_dtype=(
+                PRODUCTION_ALGORITHM_DTYPE
+            ),
+            prepared_update_binding_status=PREPARED_UPDATE_BINDING_STATUS,
+            numeric_storage_cast_count=0,
+            bf16_path_call_count=0,
+            bf16_path_decision_influence_count=0,
             alpha_history_consume_count=0,
             alpha_history_append_count=0,
             alpha_history_finalize_count=0,
@@ -759,8 +834,18 @@ def build_residual_reserve_production_binding(
         projector_artifact_identity=projector_artifact_identity,
         layer_receipts=tuple(layer_receipts),
         execution_device=str(execution_device),
-        algorithm_dtype="torch.float32",
+        algorithm_dtype=PRODUCTION_ALGORITHM_DTYPE,
+        model_floating_parameter_count=len(floating_parameters),
+        model_floating_parameter_dtype=PRODUCTION_LIVE_STORAGE_DTYPE,
         live_storage_dtypes=tuple(str(item.parameter.dtype) for item in bindings),
+        authoritative_prepared_update_required_dtype=PRODUCTION_ALGORITHM_DTYPE,
+        prepared_update_binding_status=PREPARED_UPDATE_BINDING_STATUS,
+        numeric_storage_cast_count=0,
+        bf16_path_call_count=0,
+        bf16_path_decision_influence_count=0,
+        autocast_count=0,
+        downcast_count=0,
+        quantization_count=0,
         gross_state_identity=initial_state.identity_sha256,
         gross_state_decision_identity=initial_state.decision_identity_sha256,
         gross_state_version=initial_state.version,
@@ -790,7 +875,10 @@ def build_residual_reserve_production_binding(
 __all__ = [
     "PARAMETER_ORIENTATION",
     "PREFIX_OBSERVATION_STATUS",
+    "PREPARED_UPDATE_BINDING_STATUS",
+    "PRODUCTION_ALGORITHM_DTYPE",
     "PRODUCTION_BINDING_STATUS",
+    "PRODUCTION_LIVE_STORAGE_DTYPE",
     "ProductionLayerBindingReceipt",
     "ProductionPrefixObservationReceipt",
     "ProductionTensorIdentity",

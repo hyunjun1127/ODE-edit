@@ -48,7 +48,7 @@ class _FakeModel(torch.nn.Module):
             for layer in LAYERS:
                 value = torch.randn((3, 4), generator=generator)
                 self.layers[layer].weight = torch.nn.Parameter(
-                    value.to(dtype=torch.bfloat16), requires_grad=False
+                    value.to(dtype=torch.float32), requires_grad=False
                 )
 
 
@@ -180,8 +180,26 @@ class ResidualReserveProductionBindingTests(unittest.TestCase):
         self.assertEqual((state.version, state.commit_count), (0, 0))
         self.assertTrue(all(not layer.committed_precast_factors for layer in state.layers))
         receipt = binding.receipt
-        self.assertEqual(set(receipt.live_storage_dtypes), {"torch.bfloat16"})
+        self.assertEqual(set(receipt.live_storage_dtypes), {"torch.float32"})
         self.assertEqual(receipt.algorithm_dtype, "torch.float32")
+        self.assertEqual(receipt.model_floating_parameter_dtype, "torch.float32")
+        self.assertEqual(receipt.model_floating_parameter_count, 9)
+        self.assertEqual(receipt.authoritative_prepared_update_required_dtype, "torch.float32")
+        self.assertEqual(receipt.numeric_storage_cast_count, 0)
+        self.assertEqual(receipt.bf16_path_call_count, 0)
+        self.assertEqual(receipt.bf16_path_decision_influence_count, 0)
+        self.assertEqual(receipt.autocast_count, 0)
+        self.assertEqual(receipt.downcast_count, 0)
+        self.assertEqual(receipt.quantization_count, 0)
+        for layer_receipt in receipt.layer_receipts:
+            self.assertEqual(layer_receipt.live_storage_dtype, "torch.float32")
+            self.assertEqual(
+                layer_receipt.authoritative_prepared_update_required_dtype,
+                "torch.float32",
+            )
+            self.assertEqual(layer_receipt.numeric_storage_cast_count, 0)
+            self.assertEqual(layer_receipt.bf16_path_call_count, 0)
+            self.assertEqual(layer_receipt.bf16_path_decision_influence_count, 0)
         self.assertEqual(receipt.gross_state_version, 0)
         self.assertEqual(receipt.gross_factor_count, 0)
         self.assertEqual(receipt.binding_model_forward_count, 0)
@@ -199,13 +217,18 @@ class ResidualReserveProductionBindingTests(unittest.TestCase):
             side_effect=self.fake_capture,
         ):
             first = provider(4, _weight_state(binding))
+            before = model.layers[4].weight.detach().clone()
             with torch.no_grad():
                 update = torch.full(
                     model.layers[4].weight.shape, 0.03125, dtype=torch.float32
                 )
+                expected = before + update.float()
                 model.layers[4].weight[...] = (
                     model.layers[4].weight + update.float()
                 )
+            self.assertEqual(model.layers[4].weight.dtype, torch.float32)
+            self.assertTrue(torch.equal(model.layers[4].weight, expected))
+            self.assertEqual((model.layers[4].weight - before).dtype, torch.float32)
             second = provider(5, _weight_state(binding))
         self.assertNotEqual(
             tensor_sha256(first.current_terminal32),
@@ -379,6 +402,28 @@ class ResidualReserveProductionBindingTests(unittest.TestCase):
             build_residual_reserve_production_binding(
                 touched_weights=copied, **kwargs
             )
+        model.layers[0].weight = torch.nn.Parameter(
+            model.layers[0].weight.detach().to(dtype=torch.bfloat16)
+        )
+        with self.assertRaisesRegex(ODEBFContractError, "unquantized FP32"):
+            build_residual_reserve_production_binding(
+                touched_weights=touched, **kwargs
+            )
+        model.layers[0].weight = torch.nn.Parameter(
+            model.layers[0].weight.detach().to(dtype=torch.float32)
+        )
+        model.layers[1].weight = torch.nn.Parameter(
+            torch.ones(model.layers[1].weight.shape, dtype=torch.int8),
+            requires_grad=False,
+        )
+        with self.assertRaisesRegex(ODEBFContractError, "unquantized FP32"):
+            build_residual_reserve_production_binding(
+                touched_weights=touched, **kwargs
+            )
+        model.layers[1].weight = torch.nn.Parameter(
+            model.layers[1].weight.detach().to(dtype=torch.float32),
+            requires_grad=False,
+        )
         with self.assertRaises(ODEBFContractError):
             build_residual_reserve_production_binding(
                 touched_weights=touched, projector32=torch.eye(4),
@@ -414,6 +459,19 @@ class ResidualReserveProductionBindingTests(unittest.TestCase):
             with self.assertRaises(ODEBFContractError):
                 binding.prefix_provider(4, _weight_state(binding))
         self.assertEqual(binding.prefix_provider.receipts, ())
+
+    def test_autocast_fails_before_binding_or_capture(self):
+        with torch.autocast(device_type="cpu", dtype=torch.bfloat16):
+            with self.assertRaisesRegex(ODEBFStateError, "autocast"):
+                self.fixture()
+        _, _, _, _, binding = self.fixture()
+        with torch.autocast(device_type="cpu", dtype=torch.bfloat16):
+            with mock.patch.object(
+                binding_module, "capture_scalable_physical_state"
+            ) as capture:
+                with self.assertRaisesRegex(ODEBFStateError, "autocast"):
+                    binding.prefix_provider(4, _weight_state(binding))
+                capture.assert_not_called()
 
     def test_prohibited_paths_and_public_surface(self):
         source = inspect.getsource(binding_module)
