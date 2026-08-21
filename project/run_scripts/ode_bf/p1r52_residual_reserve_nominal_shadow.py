@@ -64,7 +64,12 @@ PROCESS_LOCAL_IDENTITY_EXCLUSIONS = (
     "layers[*].nominal.layer_step_receipt_identity",
     "layers[*].nominal.construction_receipt_identity",
     "layers[*].nominal.identity_sha256",
-    "layers[*].closure.pointer_derived_receipt_identities",
+    "layers[*].closure.observation_receipt_identity",
+    "layers[*].closure.layer_step_receipt_identity",
+    "layers[*].closure.nominal_factor_receipt_identity",
+    "layers[*].closure.construction_receipt_identity",
+    "layers[*].closure.application_receipt_identity",
+    "layers[*].closure.transaction_layer_receipt_identity",
     "layers[*].closure.identity_sha256",
     "transaction.transaction_id",
     "transaction.layer_receipts[*].entry_parameter_pointer",
@@ -819,35 +824,132 @@ def _stable_scientific_identity(
     )
 
 
-def _derive_and_validate_ledger(
+def _validate_nested_shadow_contract(
     layer_results: tuple[NominalShadowLayerResult, ...],
     transaction: FP32TransactionReceipt,
-) -> NominalShadowDerivedLedger:
+) -> None:
+    """Validate every nested compute/influence receipt before aggregation."""
+
     if (
         tuple(item.receipt.layer for item in layer_results)
         != RESIDUAL_RESERVE_LAYER_ORDER
         or len(transaction.layer_receipts) != len(layer_results)
     ):
-        raise ODEBFStateError("nominal shadow derived layer inventory differs")
+        raise ODEBFStateError("nominal shadow nested layer inventory differs")
     for item, transaction_layer in zip(
         layer_results,
         transaction.layer_receipts,
         strict=True,
     ):
+        observation = item.observation.receipt
+        q_receipt = item.plan.q_solve.receipt
+        plan_receipt = item.plan.receipt
+        construction = item.plan.prepared_update.receipt
+        application = item.application
+        m3a_layer = application.m3a_layer_receipt
+        nominal = item.nominal.receipt
+        closure = item.receipt
+        application.validate()
+        expected_fp64_scalar_reductions = (
+            3 if q_receipt.condition_estimate is not None else 2
+        )
         if (
-            item.receipt.exact_construction_apply_count
-            != item.application.exact_object_apply_count
-            or item.plan.receipt.q_solve_count
-            != item.plan.q_solve.receipt.logical_q_solve_count
-            or item.plan.receipt.dense_construction_count
-            != item.plan.prepared_update.receipt.dense_construction_count
-            or item.receipt.post_storage_decision_influence_count
-            != item.application.m3a_layer_receipt.postcast_decision_influence_count
-            or item.application.m3a_layer_receipt != transaction_layer
-            or item.receipt.transaction_layer_receipt_identity
+            observation.terminal_forward_count != 1
+            or observation.key_forward_count != 1
+            or observation.model_backward_count != 0
+            or observation.semantic_backward_count != 0
+            or observation.slope_backward_count != 0
+            or observation.action_influence_count != 0
+            or q_receipt.logical_q_solve_count != 1
+            or q_receipt.dense_writer_update_construction_count != 0
+            or q_receipt.fp64_algorithm_tensor_count != 0
+            or q_receipt.fp64_scalar_reduction_count
+            != expected_fp64_scalar_reductions
+            or q_receipt.model_forward_count != 0
+            or q_receipt.model_backward_count != 0
+            or q_receipt.semantic_backward_count != 0
+            or q_receipt.slope_backward_count != 0
+            or q_receipt.materialization_count != 0
+            or plan_receipt.beta_application_count != 1
+            or plan_receipt.internal_beta_reapplication_count != 0
+            or plan_receipt.q_solve_count != q_receipt.logical_q_solve_count
+            or plan_receipt.dense_construction_count != 1
+            or plan_receipt.second_dense_construction_count != 0
+            or plan_receipt.algorithm_tensor_requires_grad_count != 0
+            or plan_receipt.model_forward_count != 0
+            or plan_receipt.model_backward_count != 0
+            or plan_receipt.semantic_backward_count != 0
+            or plan_receipt.slope_backward_count != 0
+            or plan_receipt.apply_count != 0
+            or plan_receipt.commit_count != 0
+            or plan_receipt.materialization_count != 0
+            or construction.official_matcher_call_count != 1
+            or construction.dense_construction_count != 1
+            or construction.second_dense_construction_count != 0
+            or construction.fp64_algorithm_tensor_count != 0
+            or construction.internal_beta_reapplication_count != 0
+            or not construction.factor_input_immutability_verified
+            or not construction.factor_input_nonalias_verified
+            or construction.postcast_decision_influence_count != 0
+            or application.exact_object_apply_count != 1
+            or not application.input_pointer_unchanged
+            or not application.input_version_unchanged
+            or m3a_layer.storage_assignment_count != 1
+            or m3a_layer.storage_cast_boundary_count != 1
+            or m3a_layer.postcast_decision_influence_count != 0
+            or nominal.shadow_application_proof_status
+            != SHADOW_APPLICATION_PROOF_STATUS
+            or nominal.authoritative_transaction_committed_claim
+            or nominal.division_count != 1
+            or nominal.dense_factor_materialization_count != 0
+            or nominal.dense_update_construction_count != 0
+            or nominal.second_update_construction_count != 0
+            or not nominal.quota_byte_exact_to_geometry_omega
+            or not nominal.source_tensor_immutability_verified
+            or not nominal.input_pointer_version_hash_immutability_verified
+            or not nominal.nominal_factor_nonalias_verified
+            or closure.shadow_proof_status != SHADOW_PROOF_STATUS
+            or closure.b2a_input_shadow_proof_status
+            != SHADOW_APPLICATION_PROOF_STATUS
+            or closure.exact_construction_apply_count
+            != application.exact_object_apply_count
+            or closure.authoritative_transaction_commit_claim_count != 0
+            or closure.post_storage_decision_influence_count
+            != m3a_layer.postcast_decision_influence_count
+            or closure.router_call_count != 0
+            or closure.heldout_evaluator_count != 0
+            or closure.external_materializer_count != 0
+            or closure.ledger_append_count != 0
+            or closure.history_append_count != 0
+            or m3a_layer != transaction_layer
+            or closure.transaction_layer_receipt_identity
             != transaction_layer.identity_sha256
         ):
-            raise ODEBFStateError("nominal shadow nested ledger binding differs")
+            raise ODEBFStateError("nominal shadow nested contract differs")
+    if (
+        transaction.mode != FP32TransactionMode.SHADOW.value
+        or transaction.layer_order != RESIDUAL_RESERVE_LAYER_ORDER
+        or transaction.native_storage_assignment_count != 5
+        or transaction.storage_cast_boundary_count != 5
+        or transaction.logical_outer_commit_count != 0
+        or transaction.persistent_commit_count != 0
+        or transaction.rollback_count != 1
+        or not transaction.restored_entry_bytes
+        or not transaction.restored_entry_pointers
+        or transaction.postcast_decision_influence_count != 0
+        or transaction.model_forward_count != 0
+        or transaction.model_backward_count != 0
+        or transaction.candidate_materialization_count != 0
+        or transaction.external_materializer_call_count != 0
+    ):
+        raise ODEBFStateError("nominal shadow transaction contract differs")
+
+
+def _derive_and_validate_ledger(
+    layer_results: tuple[NominalShadowLayerResult, ...],
+    transaction: FP32TransactionReceipt,
+) -> NominalShadowDerivedLedger:
+    _validate_nested_shadow_contract(layer_results, transaction)
     ledger = NominalShadowDerivedLedger(
         terminal_forward_count=sum(
             item.observation.receipt.terminal_forward_count
@@ -878,32 +980,17 @@ def _derive_and_validate_ledger(
             for item in layer_results
         ),
         restore_count=transaction.rollback_count,
-        model_backward_count=(
-            sum(
-                item.observation.receipt.model_backward_count
-                + item.plan.q_solve.receipt.model_backward_count
-                for item in layer_results
-            )
-            + transaction.model_backward_count
-        ),
+        model_backward_count=transaction.model_backward_count,
         semantic_backward_count=sum(
-            item.observation.receipt.semantic_backward_count
-            + item.plan.receipt.semantic_backward_count
+            item.plan.receipt.semantic_backward_count
             for item in layer_results
         ),
         slope_backward_count=sum(
-            item.observation.receipt.slope_backward_count
-            + item.plan.receipt.slope_backward_count
+            item.plan.receipt.slope_backward_count
             for item in layer_results
         ),
         post_storage_decision_influence_count=(
-            sum(
-                item.observation.receipt.action_influence_count
-                + item.application.m3a_layer_receipt.postcast_decision_influence_count
-                + item.receipt.post_storage_decision_influence_count
-                for item in layer_results
-            )
-            + transaction.postcast_decision_influence_count
+            transaction.postcast_decision_influence_count
         ),
         router_call_count=sum(
             item.receipt.router_call_count for item in layer_results
@@ -911,14 +998,7 @@ def _derive_and_validate_ledger(
         heldout_evaluator_count=sum(
             item.receipt.heldout_evaluator_count for item in layer_results
         ),
-        external_materializer_count=(
-            sum(
-                item.receipt.external_materializer_count
-                + item.plan.receipt.materialization_count
-                for item in layer_results
-            )
-            + transaction.external_materializer_call_count
-        ),
+        external_materializer_count=transaction.external_materializer_call_count,
         candidate_materialization_count=(
             transaction.candidate_materialization_count
         ),
@@ -928,14 +1008,7 @@ def _derive_and_validate_ledger(
         history_append_count=sum(
             item.receipt.history_append_count for item in layer_results
         ),
-        logical_outer_commit_count=(
-            sum(
-                item.plan.receipt.commit_count
-                + item.receipt.authoritative_transaction_commit_claim_count
-                for item in layer_results
-            )
-            + transaction.logical_outer_commit_count
-        ),
+        logical_outer_commit_count=transaction.logical_outer_commit_count,
         persistent_commit_count=transaction.persistent_commit_count,
     )
     locked = {

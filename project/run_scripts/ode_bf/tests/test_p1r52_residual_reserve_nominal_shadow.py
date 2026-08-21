@@ -22,6 +22,7 @@ from project.run_scripts.ode_bf.p1r52_residual_reserve_layer_step import (
     SHADOW_APPLICATION_PROOF_STATUS,
 )
 from project.run_scripts.ode_bf.p1r52_residual_reserve_nominal_shadow import (
+    PROCESS_LOCAL_IDENTITY_EXCLUSIONS,
     SHADOW_PROOF_STATUS,
     UNIFORM_NOMINAL_PI,
     PrefixObservation,
@@ -38,6 +39,46 @@ from project.run_scripts.ode_bf.p1r52_residual_reserve_update_binding import (
 
 
 LAYERS = (4, 5, 6, 7, 8)
+EXPECTED_PROCESS_LOCAL_IDENTITY_EXCLUSIONS = (
+    "overall.transaction_id",
+    "target.pointer",
+    "entry_weight_state[*].pointer",
+    "restored_weight_state[*].pointer",
+    "layers[*].observation.pre_observation_weight_state[*].pointer",
+    "layers[*].observation.terminal_identity.pointer",
+    "layers[*].observation.joint_keys_identity.pointer",
+    "layers[*].observation.identity_sha256",
+    "layers[*].q_solve.input_identities[*].pointer",
+    "layers[*].q_solve.identity_sha256",
+    "layers[*].plan.input_identities[*].pointer",
+    "layers[*].plan.q_solve_receipt_identity",
+    "layers[*].plan.construction_receipt_identity",
+    "layers[*].plan.identity_sha256",
+    "layers[*].construction.raw_update_pointer",
+    "layers[*].construction.matched_update_pointer",
+    "layers[*].construction.identity_sha256",
+    "layers[*].application.construction_receipt_identity",
+    "layers[*].application.matched_update_pointer",
+    "layers[*].application.m3a_layer_receipt_identity",
+    "layers[*].application.identity_sha256",
+    "layers[*].m3a_layer.entry_parameter_pointer",
+    "layers[*].m3a_layer.post_storage_parameter_pointer",
+    "layers[*].nominal.layer_step_receipt_identity",
+    "layers[*].nominal.construction_receipt_identity",
+    "layers[*].nominal.identity_sha256",
+    "layers[*].closure.observation_receipt_identity",
+    "layers[*].closure.layer_step_receipt_identity",
+    "layers[*].closure.nominal_factor_receipt_identity",
+    "layers[*].closure.construction_receipt_identity",
+    "layers[*].closure.application_receipt_identity",
+    "layers[*].closure.transaction_layer_receipt_identity",
+    "layers[*].closure.identity_sha256",
+    "transaction.transaction_id",
+    "transaction.layer_receipts[*].entry_parameter_pointer",
+    "transaction.layer_receipts[*].post_storage_parameter_pointer",
+    "transaction.final_parameter_pointers",
+    "transaction.identity_sha256",
+)
 
 
 class DeterministicPrefixProvider:
@@ -389,6 +430,52 @@ class ResidualReserveNominalShadowTests(unittest.TestCase):
                 backward_transaction,
             )
 
+        plan_backward = replace(
+            first,
+            plan=replace(
+                first.plan,
+                receipt=replace(first.plan.receipt, model_backward_count=1),
+            ),
+        )
+        plan_backward_layers = (plan_backward,) + result.layer_results[1:]
+        with self.assertRaises(ODEBFStateError):
+            shadow_module._derive_and_validate_ledger(
+                plan_backward_layers,
+                result.transaction_receipt,
+            )
+
+        transaction_forward = replace(
+            result.transaction_receipt,
+            model_forward_count=1,
+        )
+        with self.assertRaises(ODEBFStateError):
+            shadow_module._derive_and_validate_ledger(
+                result.layer_results,
+                transaction_forward,
+            )
+
+        q_materialization = replace(
+            first,
+            plan=replace(
+                first.plan,
+                q_solve=replace(
+                    first.plan.q_solve,
+                    receipt=replace(
+                        first.plan.q_solve.receipt,
+                        materialization_count=1,
+                    ),
+                ),
+            ),
+        )
+        q_materialization_layers = (
+            q_materialization,
+        ) + result.layer_results[1:]
+        with self.assertRaises(ODEBFStateError):
+            shadow_module._derive_and_validate_ledger(
+                q_materialization_layers,
+                result.transaction_receipt,
+            )
+
         renamed_transaction = replace(
             result.transaction_receipt,
             transaction_id="process-local-renamed",
@@ -398,6 +485,11 @@ class ResidualReserveNominalShadowTests(unittest.TestCase):
             shadow_module._stable_scientific_identity(
                 **{**kwargs, "transaction": renamed_transaction}
             ),
+        )
+        self.assertEqual(len(PROCESS_LOCAL_IDENTITY_EXCLUSIONS), 38)
+        self.assertEqual(
+            PROCESS_LOCAL_IDENTITY_EXCLUSIONS,
+            EXPECTED_PROCESS_LOCAL_IDENTITY_EXCLUSIONS,
         )
         pointer_only_target = replace(
             result.receipt.target_identity,
