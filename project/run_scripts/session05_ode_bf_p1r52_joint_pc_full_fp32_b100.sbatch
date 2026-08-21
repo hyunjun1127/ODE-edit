@@ -17,8 +17,8 @@ readonly RESULT_PARENT="${2:-}"
 readonly EXPECTED_SESSION="01a00e5c-f7ae-72a2-98b2-b8b0907168b4"
 readonly EXPECTED_BRANCH="codex/p1r52-joint-pc-full-fp32-b100-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
-readonly RESULT_NAME="s05-p1r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-tech-r1-v1"
-readonly RUN_TOKEN="p1r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-v1"
+readonly RESULT_NAME="s05-p1r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-tech-r2-v1"
+readonly RUN_TOKEN="p1r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-tech-r2-v1"
 
 [[ "$#" -eq 2 ]] || { echo "FP32 Joint-P/C arguments differ" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "FP32 Joint-P/C CWD differs" >&2; exit 2; }

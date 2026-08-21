@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import inspect
+import json
 import unittest
+
+import torch
 
 from project.run_scripts.ode_bf import p1r52_joint_pc_fp32_runtime as runtime
 from project.run_scripts.ode_edit_motivation.gpu_runtime import assert_fixed_runtime
@@ -38,6 +41,19 @@ class JointPCFullFP32SourceGateTest(unittest.TestCase):
     def test_current_python_patch_is_explicitly_compatible(self) -> None:
         observed = assert_fixed_runtime(allow_python_patch_compatible=True)
         self.assertEqual(observed["python"].split(".")[:2], ["3", "12"])
+
+    def test_terminal_tensor_is_raw_free_identity_only(self) -> None:
+        value = {
+            "summary": {"mean": 1.25},
+            "nested": [torch.tensor([1.0, 2.0], dtype=torch.float32)],
+        }
+        converted, paths = runtime._raw_free_json_tree(value)
+        self.assertEqual(paths, ("$.nested[0]",))
+        self.assertEqual(converted["summary"], value["summary"])
+        self.assertEqual(converted["nested"][0]["shape"], [2])
+        self.assertEqual(converted["nested"][0]["dtype"], "torch.float32")
+        self.assertEqual(converted["nested"][0]["serialized_value_count"], 0)
+        json.dumps(converted, allow_nan=False, sort_keys=True)
 
 
 if __name__ == "__main__":

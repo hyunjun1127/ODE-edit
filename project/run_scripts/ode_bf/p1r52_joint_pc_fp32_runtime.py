@@ -65,12 +65,57 @@ from .scalable_batched_runtime import (
 
 INSTRUCTION_ID = "ODEEDIT-S05-P1R52-JOINT-PC-C0-C1-C2-C3-FULL-FP32-B100-V1"
 METHOD_ID = "P1R52-JOINT-PC-C0-C1-C2-C3-FULL-FP32"
-ROLE = "r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-tech-r1"
-RESULT_NAME = "s05-p1r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-tech-r1-v1"
+ROLE = "r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-tech-r2"
+RESULT_NAME = "s05-p1r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-tech-r2-v1"
 
 
 def is_joint_pc_full_fp32_role(role: str | None) -> bool:
     return role == ROLE
+
+
+def _raw_free_json_tree(value: Any, *, path: str = "$") -> tuple[Any, tuple[str, ...]]:
+    """Replace leaked receipt tensors by raw-free identity metadata.
+
+    This adapter is terminal-serialization plumbing only.  It never runs on a
+    controller, target, route, update, evaluator, or model input.  Numeric
+    endpoint summaries remain ordinary JSON scalars; an unexpected tensor in
+    a nested raw-free receipt is represented solely by its hash/shape/dtype.
+    """
+
+    if isinstance(value, torch.Tensor):
+        observed = value.detach().contiguous()
+        return (
+            {
+                "schema": "ode-edit-raw-free-tensor-identity/v1",
+                "sha256": tensor_sha256(observed),
+                "shape": list(observed.shape),
+                "dtype": str(observed.dtype),
+                "device_class": observed.device.type,
+                "serialized_value_count": 0,
+            },
+            (path,),
+        )
+    if isinstance(value, Mapping):
+        converted: dict[Any, Any] = {}
+        paths: list[str] = []
+        for key, item in value.items():
+            item_value, item_paths = _raw_free_json_tree(
+                item, path=f"{path}.{key}"
+            )
+            converted[key] = item_value
+            paths.extend(item_paths)
+        return converted, tuple(paths)
+    if isinstance(value, (list, tuple)):
+        converted_items: list[Any] = []
+        paths = []
+        for index, item in enumerate(value):
+            item_value, item_paths = _raw_free_json_tree(
+                item, path=f"{path}[{index}]"
+            )
+            converted_items.append(item_value)
+            paths.extend(item_paths)
+        return converted_items, tuple(paths)
+    return value, ()
 
 
 def _entry_state(
@@ -542,6 +587,16 @@ def run_joint_pc_full_fp32_b100(
         "arms": arms, "arm_entry_hashes": arm_entry_hashes,
         "W0_restored": True, "retry_count": 0, "imputation_count": 0,
         "job_compute": job_ledger.raw_free_payload(), "scientific_promotion": False,
+    }
+    payload, tensor_paths = _raw_free_json_tree(payload)
+    payload["terminal_raw_free_tensor_adapter"] = {
+        "schema": "ode-edit-s05-p1r52-joint-pc-terminal-tensor-adapter/v1",
+        "replacement_count": len(tensor_paths),
+        "paths": list(tensor_paths),
+        "serialized_tensor_value_count": 0,
+        "scientific_decision_influence_count": 0,
+        "model_forward_backward_count": 0,
+        "model_weight_mutation_count": 0,
     }
     payload["identity_sha256"] = canonical_hash(payload)
     case_sha = _atomic_write_once(case_root / "terminal.json", payload)

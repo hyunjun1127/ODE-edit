@@ -32,7 +32,7 @@ from project.run_scripts.ode_bf.p1r52_joint_pc_fp32_runtime import (
 from project.run_scripts.ode_bf.artifacts import sha256_file
 
 
-RUN_TOKEN = "p1r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-v1"
+RUN_TOKEN = "p1r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-tech-r2-v1"
 SOURCE_FILES = (
     "project/run_scripts/ode_bf/p1_runtime.py",
     "project/run_scripts/ode_bf/p1r52_sequential_runtime.py",
