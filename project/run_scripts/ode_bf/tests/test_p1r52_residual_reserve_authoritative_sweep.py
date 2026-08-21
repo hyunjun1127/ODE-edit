@@ -7,13 +7,16 @@ from unittest import mock
 
 import torch
 
-from project.run_scripts.ode_bf.contracts import ODEBFStateError
+from project.run_scripts.ode_bf.contracts import ODEBFContractError, ODEBFStateError
 from project.run_scripts.ode_bf.functional import tensor_sha256
 from project.run_scripts.ode_bf import (
     p1r52_residual_reserve_authoritative_sweep as sweep_module,
 )
 from project.run_scripts.ode_bf import (
     p1r52_residual_reserve_layer_step as layer_step_module,
+)
+from project.run_scripts.ode_bf import (
+    p1r52_residual_reserve_route_assembly as assembly_module,
 )
 from project.run_scripts.ode_bf.p1r52_residual_reserve_authoritative_sweep import (
     AUTHORITATIVE_SWEEP_STATUS,
@@ -42,6 +45,7 @@ from project.run_scripts.ode_bf.p1r52_residual_reserve_pc_inventory import (
 )
 from project.run_scripts.ode_bf.p1r52_residual_reserve_route_assembly import (
     assemble_residual_reserve_pc_route,
+    assemble_residual_reserve_uniform_route,
 )
 from project.run_scripts.ode_bf.p1r52_residual_reserve_update_binding import (
     EXACT_SINGLE_CONSTRUCTION_STATUS,
@@ -82,7 +86,13 @@ class _PrefixProvider:
 
 
 class ResidualReserveAuthoritativeSweepTests(unittest.TestCase):
-    def base_fixture(self, *, history: bool = False, dtype=torch.bfloat16):
+    def base_fixture(
+        self,
+        *,
+        history: bool = False,
+        dtype=torch.bfloat16,
+        route_mode: str = "pcsoft",
+    ):
         generator = torch.Generator().manual_seed(811)
         bindings = {}
         nominal_contexts = {}
@@ -140,11 +150,20 @@ class ResidualReserveAuthoritativeSweepTests(unittest.TestCase):
             )
         )
         ledger = CommittedGrossLoadLedger(state)
-        route = assemble_residual_reserve_pc_route(
-            nominal,
-            ledger.state,
-            covariances,
-        )
+        if route_mode == "pcsoft":
+            route = assemble_residual_reserve_pc_route(
+                nominal,
+                ledger.state,
+                covariances,
+            )
+        elif route_mode == "uniform":
+            route = assemble_residual_reserve_uniform_route(
+                nominal,
+                ledger.state,
+                covariances,
+            )
+        else:
+            raise AssertionError(f"unexpected route mode: {route_mode}")
         authoritative_contexts = {
             layer: replace(
                 context,
@@ -295,6 +314,121 @@ class ResidualReserveAuthoritativeSweepTests(unittest.TestCase):
                 prior_state.sha256,
                 previous.receipt.post_storage_parameter_sha256,
             )
+
+    def test_solver_free_uniform_route_commits_with_frozen_uniform_pi(self):
+        with mock.patch.object(
+            assembly_module,
+            "solve_residual_reserve_pc_router",
+            side_effect=AssertionError("uniform route must not call PC solver"),
+        ) as solver:
+            fixture = self.base_fixture(route_mode="uniform")
+            target, bindings, nominal, contexts, ledger, route = fixture
+            result = run_authoritative_residual_reserve_sweep(
+                target,
+                nominal,
+                route,
+                bindings,
+                contexts,
+                _PrefixProvider(bindings),
+                ledger,
+                transaction_id="authoritative-uniform-success",
+            )
+        self.assertEqual(solver.call_count, 0)
+        self.assertEqual(route.receipt.pc_solver_call_count, 0)
+        self.assertEqual(route.receipt.routing_decision_influence_count, 0)
+        self.assertEqual(route.receipt.alpha_history_consume_count, 0)
+        self.assertEqual(route.receipt.alpha_history_append_count, 0)
+        self.assertEqual(route.receipt.alpha_history_finalize_count, 0)
+        self.assertTrue(
+            torch.equal(
+                route.selected_pi.cpu(),
+                torch.tensor([0.2] * 5, dtype=torch.float32),
+            )
+        )
+        self.assertTrue(
+            all(
+                item.plan.receipt.geometry_receipt_identity
+                == route.receipt.selected_geometry_identity
+                for item in result.layer_results
+            )
+        )
+        self.assertEqual(result.receipt.committed_state_after_version, 1)
+        self.assertEqual(result.receipt.ledger.ledger_commit_count, 1)
+        self.assertEqual(result.receipt.ledger.successful_factor_append_count, 5)
+
+    def test_uniform_cross_mode_receipts_fail_before_weight_mutation(self):
+        target, bindings, nominal, contexts, ledger, uniform = self.base_fixture(
+            route_mode="uniform"
+        )
+        covariances = tuple(item.covariance for item in ledger.state.layers)
+        pcsoft = assemble_residual_reserve_pc_route(
+            nominal,
+            ledger.state,
+            covariances,
+        )
+        snapshot = self.parameter_snapshot(bindings)
+        before = ledger.state
+        for forged in (
+            replace(uniform, receipt=pcsoft.receipt),
+            replace(pcsoft, receipt=uniform.receipt),
+            replace(
+                uniform,
+                receipt=replace(
+                    uniform.receipt,
+                    observed_c_value=uniform.receipt.observed_c_value + 1.0,
+                ),
+            ),
+        ):
+            with self.subTest(route_type=type(forged).__name__):
+                with self.assertRaises((ODEBFContractError, ODEBFStateError)):
+                    run_authoritative_residual_reserve_sweep(
+                        target,
+                        nominal,
+                        forged,
+                        bindings,
+                        contexts,
+                        _PrefixProvider(bindings),
+                        ledger,
+                        transaction_id="authoritative-cross-mode-forged",
+                    )
+                self.assert_snapshot(bindings, snapshot)
+                self.assertIs(ledger.state, before)
+                self.assertEqual(ledger.state.version, 0)
+
+    def test_uniform_failure_and_frozen_pi_mutation_roll_back(self):
+        for failure in ("observation", "route-pi"):
+            with self.subTest(failure=failure):
+                target, bindings, nominal, contexts, ledger, route = (
+                    self.base_fixture(route_mode="uniform")
+                )
+                snapshot = self.parameter_snapshot(bindings)
+                before = ledger.state
+                base_provider = _PrefixProvider(
+                    bindings,
+                    fail_layer=6 if failure == "observation" else None,
+                )
+
+                def provider(layer, pre_state):
+                    observation = base_provider(layer, pre_state)
+                    if failure == "route-pi" and layer == 6:
+                        with torch.no_grad():
+                            route.selected_pi[0] += 0.01
+                    return observation
+
+                with self.assertRaises((RuntimeError, ODEBFStateError)):
+                    run_authoritative_residual_reserve_sweep(
+                        target,
+                        nominal,
+                        route,
+                        bindings,
+                        contexts,
+                        provider,
+                        ledger,
+                        transaction_id=f"authoritative-uniform-{failure}",
+                    )
+                self.assert_snapshot(bindings, snapshot)
+                self.assertIs(ledger.state, before)
+                self.assertEqual(ledger.state.version, 0)
 
     def test_nonzero_history_advances_exactly_once(self):
         result, fixture, _, _ = self.run_success(history=True, dtype=torch.float32)
@@ -729,6 +863,7 @@ class ResidualReserveAuthoritativeSweepTests(unittest.TestCase):
             "p1r52_fpiq",
             "solve_residual_reserve_pc_router",
             "build_residual_reserve_pc_inventory",
+            "P1HistoryLedger",
         )
         for symbol in prohibited:
             with self.subTest(symbol=symbol):

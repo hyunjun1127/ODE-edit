@@ -37,7 +37,13 @@ from .p1r52_residual_reserve_nominal_shadow import (
 from .p1r52_residual_reserve_pc_inventory import LowRankFactorSource
 from .p1r52_residual_reserve_route_assembly import (
     ROUTE_ASSEMBLY_STATUS,
+    UNIFORM_ROUTE_MODE,
+    UNIFORM_ROUTE_STATUS,
+    ResidualReserveRouteAssemblyReceipt,
     ResidualReserveRouteAssemblyResult,
+    ResidualReserveUniformRouteReceipt,
+    ResidualReserveUniformRouteResult,
+    validate_residual_reserve_uniform_route,
 )
 from .p1r52_residual_reserve_update_binding import (
     EXACT_SINGLE_CONSTRUCTION_STATUS,
@@ -47,6 +53,9 @@ from .p1r52_residual_reserve_update_binding import (
 
 
 AUTHORITATIVE_SWEEP_STATUS = "M3D_B2B2_B_AUTHORITATIVE_COMMITTED"
+ResidualReserveAuthoritativeRoute = (
+    ResidualReserveRouteAssemblyResult | ResidualReserveUniformRouteResult
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -315,7 +324,7 @@ def _tensor_guard(value: torch.Tensor) -> tuple[str, int, int]:
 
 
 def _route_tensor_guard(
-    route: ResidualReserveRouteAssemblyResult,
+    route: ResidualReserveAuthoritativeRoute,
 ) -> tuple[tuple[str, int, int], ...]:
     geometry = route.selected_geometry
     return tuple(
@@ -333,7 +342,7 @@ def _route_tensor_guard(
 
 
 def _validate_selected_geometry(
-    route: ResidualReserveRouteAssemblyResult,
+    route: ResidualReserveAuthoritativeRoute,
 ) -> None:
     geometry = route.selected_geometry
     receipt = geometry.receipt
@@ -383,14 +392,20 @@ def _resolve_bindings(
 
 
 def _validate_route_and_entry(
-    route: ResidualReserveRouteAssemblyResult,
+    route: ResidualReserveAuthoritativeRoute,
     nominal_shadow: NominalShadowResult,
     ledger: CommittedGrossLoadLedger,
     target_proposal32: torch.Tensor,
     entry_state: tuple[ShadowWeightStateIdentity, ...],
 ) -> None:
     if (
-        not isinstance(route, ResidualReserveRouteAssemblyResult)
+        not isinstance(
+            route,
+            (
+                ResidualReserveRouteAssemblyResult,
+                ResidualReserveUniformRouteResult,
+            ),
+        )
         or not isinstance(nominal_shadow, NominalShadowResult)
         or not isinstance(ledger, CommittedGrossLoadLedger)
     ):
@@ -401,9 +416,8 @@ def _validate_route_and_entry(
         "identity_sha256"
     ]
     _validate_selected_geometry(route)
-    if (
-        route_receipt.status != ROUTE_ASSEMBLY_STATUS
-        or route_receipt.nominal_scientific_identity
+    common_differs = (
+        route_receipt.nominal_scientific_identity
         != nominal_shadow.receipt.scientific_identity_sha256
         or route_receipt.nominal_receipt_identity
         != nominal_shadow.receipt.identity_sha256
@@ -422,14 +436,6 @@ def _validate_route_and_entry(
         != route.inventory.p_proxy.raw_free_payload()["identity_sha256"]
         or route_receipt.c_proxy_identity
         != route.inventory.c_proxy.raw_free_payload()["identity_sha256"]
-        or route_receipt.router_receipt_identity
-        != route.routing.receipt.raw_free_payload()["identity_sha256"]
-        or route.routing.receipt.p_proxy
-        != route.inventory.p_proxy.raw_free_payload()
-        or route.routing.receipt.c_proxy
-        != route.inventory.c_proxy.raw_free_payload()
-        or route_receipt.router_selected_pi_sha256
-        != tensor_sha256(route.routing.pi_balanced)
         or route_receipt.selected_pi_sha256 != tensor_sha256(route.selected_pi)
         or route_receipt.selected_pi_sha256
         != tensor_sha256(route.selected_geometry.pi)
@@ -442,15 +448,99 @@ def _validate_route_and_entry(
         or route.selected_pi.device != route.selected_geometry.pi.device
         or route.selected_pi.dtype is not torch.float32
         or route.selected_geometry.pi.dtype is not torch.float32
-        or route_receipt.ledger.router_call_count != 1
         or route_receipt.ledger.inventory_build_count != 1
         or route_receipt.ledger.post_storage_decision_influence_count != 0
         or not _tensor_identity_matches(
             target_proposal32,
             nominal_shadow.receipt.target_identity,
         )
-    ):
+    )
+    if common_differs:
         raise ODEBFStateError("authoritative sweep frozen route/entry differs")
+    if isinstance(route, ResidualReserveRouteAssemblyResult):
+        if not isinstance(route_receipt, ResidualReserveRouteAssemblyReceipt):
+            raise ODEBFContractError("authoritative PCSOFT receipt type differs")
+        if (
+            route_receipt.status != ROUTE_ASSEMBLY_STATUS
+            or route_receipt.router_receipt_identity
+            != route.routing.receipt.raw_free_payload()["identity_sha256"]
+            or route.routing.receipt.p_proxy
+            != route.inventory.p_proxy.raw_free_payload()
+            or route.routing.receipt.c_proxy
+            != route.inventory.c_proxy.raw_free_payload()
+            or route_receipt.router_selected_pi_sha256
+            != tensor_sha256(route.routing.pi_balanced)
+            or route_receipt.ledger.router_call_count != 1
+        ):
+            raise ODEBFStateError("authoritative PCSOFT route differs")
+        return
+    if not isinstance(route_receipt, ResidualReserveUniformRouteReceipt):
+        raise ODEBFContractError("authoritative uniform receipt type differs")
+    validate_residual_reserve_uniform_route(route)
+    state_bindings = tuple(
+        (
+            item.layer,
+            item.decision_identity_sha256,
+            item.covariance.identity_sha256,
+            item.covariance.artifact_identity,
+            tuple(
+                factor.identity_sha256
+                for factor in item.committed_precast_factors
+            ),
+            len(item.committed_precast_factors),
+            item.structural_p_constant,
+            item.cumulative_precast_lambda,
+            item.pretrained_weight_norm_squared,
+        )
+        for item in state.layers
+    )
+    receipt_bindings = tuple(
+        (
+            item.layer,
+            item.committed_layer_decision_identity,
+            item.covariance_anchor_identity,
+            item.covariance_artifact_identity,
+            item.committed_factor_identities,
+            item.committed_factor_count,
+            item.committed_p_constant,
+            item.cumulative_precast_lambda,
+            item.pretrained_weight_norm_squared,
+        )
+        for item in route_receipt.layer_bindings
+    )
+    nominal_bindings = tuple(
+        (
+            factor.layer,
+            factor.identity_sha256,
+            layer_result.receipt.identity_sha256,
+        )
+        for factor, layer_result in zip(
+            nominal_shadow.factors,
+            nominal_shadow.layer_results,
+            strict=True,
+        )
+    )
+    receipt_nominal_bindings = tuple(
+        (
+            item.layer,
+            item.nominal_factor_identity,
+            item.nominal_shadow_layer_receipt_identity,
+        )
+        for item in route_receipt.layer_bindings
+    )
+    if (
+        route_receipt.status != UNIFORM_ROUTE_STATUS
+        or route_receipt.route_mode != UNIFORM_ROUTE_MODE
+        or route_receipt.pc_solver_call_count != 0
+        or route_receipt.routing_decision_influence_count != 0
+        or route_receipt.ledger.router_call_count != 0
+        or route_receipt.alpha_history_consume_count != 0
+        or route_receipt.alpha_history_append_count != 0
+        or route_receipt.alpha_history_finalize_count != 0
+        or receipt_bindings != state_bindings
+        or receipt_nominal_bindings != nominal_bindings
+    ):
+        raise ODEBFStateError("authoritative uniform route differs")
 
 
 def _context_guard(context: ShadowAlphaLayerContext) -> tuple[Any, ...]:
@@ -645,7 +735,7 @@ def _derive_ledger(
 
 def _validate_precommit_layers(
     layers: tuple[AuthoritativeSweepLayerResult, ...],
-    route: ResidualReserveRouteAssemblyResult,
+    route: ResidualReserveAuthoritativeRoute,
 ) -> None:
     if tuple(item.receipt.layer for item in layers) != RESIDUAL_RESERVE_LAYER_ORDER:
         raise ODEBFStateError("authoritative precommit layer order differs")
@@ -824,7 +914,7 @@ def _validate_publication_preview(
 def run_authoritative_residual_reserve_sweep(
     target_proposal32: torch.Tensor,
     nominal_shadow: NominalShadowResult,
-    route: ResidualReserveRouteAssemblyResult,
+    route: ResidualReserveAuthoritativeRoute,
     bindings: Mapping[int, LayerParameterBinding],
     alpha_contexts: Mapping[int, ShadowAlphaLayerContext],
     observation_provider: PrefixObservationProvider,
@@ -1109,5 +1199,6 @@ __all__ = [
     "AuthoritativeSweepLedger",
     "AuthoritativeSweepReceipt",
     "AuthoritativeSweepResult",
+    "ResidualReserveAuthoritativeRoute",
     "run_authoritative_residual_reserve_sweep",
 ]

@@ -37,6 +37,9 @@ from .p1r52_residual_reserve_pc_router import (
 
 
 ROUTE_ASSEMBLY_STATUS = "M3D_B2B2_A_ROUTE_ASSEMBLY_ONLY"
+UNIFORM_ROUTE_STATUS = "M4A_RR_UNIFORM_SOLVER_FREE_ROUTE"
+UNIFORM_ROUTE_MODE = "RR_UNIFORM"
+PCSOFT_ROUTE_MODE = "RR_PCSOFT"
 UNIFORM_DECISION_OFF_STATUS = "UNIFORM_OBSERVATION_WITHOUT_SECOND_ROUTE"
 _LAYER_ORDER = RESIDUAL_RESERVE_INVENTORY_LAYERS
 _SHADOW_MODE = "SHADOW"
@@ -214,6 +217,110 @@ class ResidualReserveRouteAssemblyResult:
     selected_pi: torch.Tensor
     selected_geometry: ResidualReserveGeometry
     receipt: ResidualReserveRouteAssemblyReceipt
+
+
+@dataclass(frozen=True, slots=True)
+class ResidualReserveUniformRouteReceipt:
+    status: str
+    route_mode: str
+    nominal_scientific_identity: str
+    nominal_receipt_identity: str
+    nominal_restored_entry_identity: str
+    committed_state_id: str
+    committed_state_version: int
+    committed_state_identity: str
+    committed_state_decision_identity: str
+    layer_bindings: tuple[RouteAssemblyLayerBindingReceipt, ...]
+    covariance_artifact_identities: tuple[str, ...]
+    inventory_receipt_identity: str
+    p_proxy_identity: str
+    c_proxy_identity: str
+    observed_p_value: float
+    observed_c_value: float
+    selected_pi: tuple[float, ...]
+    selected_pi_sha256: str
+    selected_execution_device: str
+    decision_to_execution_pi_copy_count: int
+    cross_device_pi_copy_count: int
+    device_independent_pi_bytes_exact: bool
+    selected_geometry_identity: str
+    selected_geometry_pi_sha256: str
+    selected_geometry_build_count: int
+    selected_pi_frozen_nonalias: bool
+    pc_solver_call_count: int
+    routing_decision_influence_count: int
+    alpha_history_consume_count: int
+    alpha_history_append_count: int
+    alpha_history_finalize_count: int
+    input_immutability_verified: bool
+    ledger: RouteAssemblyLedger
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        payload: dict[str, Any] = {
+            "status": self.status,
+            "route_mode": self.route_mode,
+            "nominal_scientific_identity": self.nominal_scientific_identity,
+            "nominal_receipt_identity": self.nominal_receipt_identity,
+            "nominal_restored_entry_identity": self.nominal_restored_entry_identity,
+            "committed_state_id": self.committed_state_id,
+            "committed_state_version": self.committed_state_version,
+            "committed_state_identity": self.committed_state_identity,
+            "committed_state_decision_identity": (
+                self.committed_state_decision_identity
+            ),
+            "layer_bindings": [
+                item.raw_free_payload() for item in self.layer_bindings
+            ],
+            "covariance_artifact_identities": list(
+                self.covariance_artifact_identities
+            ),
+            "inventory_receipt_identity": self.inventory_receipt_identity,
+            "p_proxy_identity": self.p_proxy_identity,
+            "c_proxy_identity": self.c_proxy_identity,
+            "observed_p_value": self.observed_p_value,
+            "observed_c_value": self.observed_c_value,
+            "selected_pi": list(self.selected_pi),
+            "selected_pi_sha256": self.selected_pi_sha256,
+            "selected_execution_device": self.selected_execution_device,
+            "decision_to_execution_pi_copy_count": (
+                self.decision_to_execution_pi_copy_count
+            ),
+            "cross_device_pi_copy_count": self.cross_device_pi_copy_count,
+            "device_independent_pi_bytes_exact": (
+                self.device_independent_pi_bytes_exact
+            ),
+            "selected_geometry_identity": self.selected_geometry_identity,
+            "selected_geometry_pi_sha256": self.selected_geometry_pi_sha256,
+            "selected_geometry_build_count": self.selected_geometry_build_count,
+            "selected_pi_frozen_nonalias": self.selected_pi_frozen_nonalias,
+            "pc_solver_call_count": self.pc_solver_call_count,
+            "routing_decision_influence_count": (
+                self.routing_decision_influence_count
+            ),
+            "alpha_history_consume_count": self.alpha_history_consume_count,
+            "alpha_history_append_count": self.alpha_history_append_count,
+            "alpha_history_finalize_count": self.alpha_history_finalize_count,
+            "input_immutability_verified": self.input_immutability_verified,
+            "ledger": self.ledger.raw_free_payload(),
+            "decision_inputs": (
+                "UNIFORM_PI_PLUS_NOMINAL_SURROGATE_AND_"
+                "SUCCESSFUL_COMMITTED_PRECAST_OBSERVATION_ONLY"
+            ),
+        }
+        payload["identity_sha256"] = canonical_hash(payload)
+        return payload
+
+    @property
+    def identity_sha256(self) -> str:
+        return self.raw_free_payload()["identity_sha256"]
+
+
+@dataclass(frozen=True, slots=True)
+class ResidualReserveUniformRouteResult:
+    inventory: PCInventoryResult
+    selected_pi: torch.Tensor
+    selected_geometry: ResidualReserveGeometry
+    receipt: ResidualReserveUniformRouteReceipt
 
 
 @dataclass(frozen=True, slots=True)
@@ -544,13 +651,15 @@ def _validate_routing_result(
     return routing.pi_balanced
 
 
-def assemble_residual_reserve_pc_route(
+def _prepare_route_inventory_inputs(
     nominal_shadow: NominalShadowResult,
     committed_state: CommittedGrossLoadState,
     covariances: tuple[SealedPrevalidatedCovariance, ...],
-) -> ResidualReserveRouteAssemblyResult:
-    """Build P/C proxies, solve once, and freeze one selected M1 geometry."""
-
+) -> tuple[
+    tuple[_TensorGuard, ...],
+    tuple[LayerPCInventoryInput, ...],
+    tuple[RouteAssemblyLayerBindingReceipt, ...],
+]:
     _validate_nominal_shadow(nominal_shadow)
     _validate_committed_and_covariance_inputs(committed_state, covariances)
     guards = _guard_tensors(
@@ -637,8 +746,23 @@ def assemble_residual_reserve_pc_route(
                 input_alias_count=0,
             )
         )
+    return guards, tuple(layer_inputs), tuple(layer_receipts)
 
-    frozen_layer_inputs = tuple(layer_inputs)
+
+def assemble_residual_reserve_pc_route(
+    nominal_shadow: NominalShadowResult,
+    committed_state: CommittedGrossLoadState,
+    covariances: tuple[SealedPrevalidatedCovariance, ...],
+) -> ResidualReserveRouteAssemblyResult:
+    """Build P/C proxies, solve once, and freeze one selected M1 geometry."""
+
+    guards, frozen_layer_inputs, frozen_layer_receipts = (
+        _prepare_route_inventory_inputs(
+            nominal_shadow,
+            committed_state,
+            covariances,
+        )
+    )
     inventory = build_residual_reserve_pc_inventory(
         frozen_layer_inputs,
         mass=nominal_shadow.geometry.mass,
@@ -744,7 +868,7 @@ def assemble_residual_reserve_pc_route(
         committed_state_version=committed_state.version,
         committed_state_identity=committed_state.identity_sha256,
         committed_state_decision_identity=committed_state.decision_identity_sha256,
-        layer_bindings=tuple(layer_receipts),
+        layer_bindings=frozen_layer_receipts,
         covariance_artifact_identities=tuple(
             item.artifact_identity for item in covariances
         ),
@@ -779,6 +903,286 @@ def assemble_residual_reserve_pc_route(
         selected_geometry,
         receipt,
     )
+
+
+def _uniform_route_ledger(
+    inventory: PCInventoryResult,
+    *,
+    cross_device_pi_copy_count: int,
+) -> RouteAssemblyLedger:
+    ledger = RouteAssemblyLedger(
+        inventory_build_count=1,
+        covariance_right_matmul_count=sum(
+            item.covariance_right_matmul_count
+            for item in inventory.receipt.layer_receipts
+        ),
+        router_call_count=0,
+        router_decision_to_execution_pi_copy_count=1,
+        cross_device_pi_copy_count=cross_device_pi_copy_count,
+        selected_geometry_build_count=1,
+        model_forward_count=inventory.receipt.model_forward_count,
+        model_backward_count=inventory.receipt.model_backward_count,
+        prefix_observation_count=0,
+        q_solve_count=0,
+        dense_writer_update_construction_count=0,
+        native_apply_count=0,
+        storage_cast_count=0,
+        transaction_count=0,
+        materialization_count=inventory.receipt.dense_materialization_count,
+        ledger_append_count=0,
+        history_append_count=0,
+        heldout_evaluator_count=0,
+        weight_mutation_count=0,
+        post_storage_decision_influence_count=(
+            inventory.receipt.post_storage_decision_influence_count
+        ),
+    )
+    expected = {
+        "inventory_build_count": 1,
+        "covariance_right_matmul_count": 5,
+        "router_call_count": 0,
+        "router_decision_to_execution_pi_copy_count": 1,
+        "cross_device_pi_copy_count": cross_device_pi_copy_count,
+        "selected_geometry_build_count": 1,
+        "model_forward_count": 0,
+        "model_backward_count": 0,
+        "prefix_observation_count": 0,
+        "q_solve_count": 0,
+        "dense_writer_update_construction_count": 0,
+        "native_apply_count": 0,
+        "storage_cast_count": 0,
+        "transaction_count": 0,
+        "materialization_count": 0,
+        "ledger_append_count": 0,
+        "history_append_count": 0,
+        "heldout_evaluator_count": 0,
+        "weight_mutation_count": 0,
+        "post_storage_decision_influence_count": 0,
+    }
+    if ledger.raw_free_payload() != expected:
+        raise ODEBFStateError("uniform route assembly compute ledger differs")
+    return ledger
+
+
+def _validate_uniform_layer_bindings(
+    receipt: ResidualReserveUniformRouteReceipt,
+    inventory: PCInventoryResult,
+) -> None:
+    inventory_layers = inventory.receipt.layer_receipts
+    if (
+        tuple(item.layer for item in receipt.layer_bindings) != _LAYER_ORDER
+        or tuple(item.layer for item in inventory_layers) != _LAYER_ORDER
+        or receipt.covariance_artifact_identities
+        != tuple(item.covariance_artifact_identity for item in inventory_layers)
+    ):
+        raise ODEBFStateError("uniform route layer inventory order differs")
+    for binding, item in zip(
+        receipt.layer_bindings,
+        inventory_layers,
+        strict=True,
+    ):
+        if (
+            binding.layer != item.layer
+            or binding.nominal_factor_identity != item.nominal_factor_identity
+            or binding.committed_factor_identities
+            != item.committed_factor_identities
+            or binding.committed_factor_count != item.committed_factor_count
+            or binding.covariance_identity != item.covariance_identity
+            or binding.covariance_artifact_identity
+            != item.covariance_artifact_identity
+            or binding.committed_p_constant != item.committed_p_constant
+            or binding.cumulative_precast_lambda
+            != item.cumulative_precast_lambda
+            or binding.pretrained_weight_norm_squared
+            != item.pretrained_weight_norm_squared
+            or binding.current_candidate_factor_count != 0
+            or binding.current_prefix_factor_count != 0
+            or binding.input_alias_count != 0
+        ):
+            raise ODEBFStateError("uniform route layer provenance differs")
+
+
+def validate_residual_reserve_uniform_route(
+    result: ResidualReserveUniformRouteResult,
+) -> None:
+    """Fail closed unless a solver-free uniform route is internally exact."""
+
+    if not isinstance(result, ResidualReserveUniformRouteResult):
+        raise ODEBFContractError("uniform route result type differs")
+    receipt = result.receipt
+    if not isinstance(receipt, ResidualReserveUniformRouteReceipt):
+        raise ODEBFContractError("uniform route receipt type differs")
+    inventory = result.inventory
+    if not isinstance(inventory, PCInventoryResult):
+        raise ODEBFContractError("uniform route inventory type differs")
+    selected_pi = result.selected_pi
+    geometry = result.selected_geometry
+    uniform_cpu = torch.tensor(UNIFORM_NOMINAL_PI, dtype=torch.float32)
+    if (
+        not isinstance(selected_pi, torch.Tensor)
+        or selected_pi.dtype is not torch.float32
+        or selected_pi.shape != (len(_LAYER_ORDER),)
+        or selected_pi.requires_grad
+        or not bool(torch.isfinite(selected_pi).all())
+        or _pi_tuple(selected_pi) != UNIFORM_NOMINAL_PI
+        or int(selected_pi.data_ptr()) == int(geometry.pi.data_ptr())
+        or geometry.pi.device != selected_pi.device
+        or geometry.pi.dtype is not torch.float32
+        or geometry.pi.requires_grad
+        or _pi_tuple(geometry.pi) != UNIFORM_NOMINAL_PI
+    ):
+        raise ODEBFStateError("uniform route selected pi differs")
+    selected_sha = tensor_sha256(selected_pi)
+    geometry_sha = tensor_sha256(geometry.pi)
+    uniform_sha = tensor_sha256(uniform_cpu)
+    geometry_identity = geometry.receipt.raw_free_payload()["identity_sha256"]
+    p_identity = inventory.p_proxy.raw_free_payload()["identity_sha256"]
+    c_identity = inventory.c_proxy.raw_free_payload()["identity_sha256"]
+    observed_p = evaluate_quadratic_proxy(inventory.p_proxy, uniform_cpu)
+    observed_c = evaluate_quadratic_proxy(inventory.c_proxy, uniform_cpu)
+    _validate_uniform_layer_bindings(receipt, inventory)
+    expected_ledger = _uniform_route_ledger(
+        inventory,
+        cross_device_pi_copy_count=int(
+            uniform_cpu.device != selected_pi.device
+        ),
+    )
+    if (
+        receipt.status != UNIFORM_ROUTE_STATUS
+        or receipt.route_mode != UNIFORM_ROUTE_MODE
+        or receipt.inventory_receipt_identity != inventory.receipt.identity_sha256
+        or receipt.p_proxy_identity != p_identity
+        or receipt.c_proxy_identity != c_identity
+        or inventory.receipt.p_proxy_identity != p_identity
+        or inventory.receipt.c_proxy_identity != c_identity
+        or receipt.observed_p_value != observed_p
+        or receipt.observed_c_value != observed_c
+        or receipt.selected_pi != UNIFORM_NOMINAL_PI
+        or receipt.selected_pi_sha256 != selected_sha
+        or receipt.selected_execution_device != str(selected_pi.device)
+        or receipt.decision_to_execution_pi_copy_count != 1
+        or receipt.cross_device_pi_copy_count
+        != int(uniform_cpu.device != selected_pi.device)
+        or not receipt.device_independent_pi_bytes_exact
+        or selected_sha != uniform_sha
+        or geometry_sha != uniform_sha
+        or receipt.selected_geometry_identity != geometry_identity
+        or receipt.selected_geometry_pi_sha256 != geometry_sha
+        or receipt.selected_geometry_build_count != 1
+        or not receipt.selected_pi_frozen_nonalias
+        or receipt.pc_solver_call_count != 0
+        or receipt.routing_decision_influence_count != 0
+        or receipt.alpha_history_consume_count != 0
+        or receipt.alpha_history_append_count != 0
+        or receipt.alpha_history_finalize_count != 0
+        or not receipt.input_immutability_verified
+        or receipt.ledger != expected_ledger
+    ):
+        raise ODEBFStateError("uniform route receipt binding differs")
+
+
+def assemble_residual_reserve_uniform_route(
+    nominal_shadow: NominalShadowResult,
+    committed_state: CommittedGrossLoadState,
+    covariances: tuple[SealedPrevalidatedCovariance, ...],
+) -> ResidualReserveUniformRouteResult:
+    """Build one solver-free uniform route with P/C observation only."""
+
+    guards, layer_inputs, layer_receipts = _prepare_route_inventory_inputs(
+        nominal_shadow,
+        committed_state,
+        covariances,
+    )
+    inventory = build_residual_reserve_pc_inventory(
+        layer_inputs,
+        mass=nominal_shadow.geometry.mass,
+    )
+    _validate_inventory_result(inventory, layer_inputs, nominal_shadow.geometry)
+    decision_pi = torch.tensor(UNIFORM_NOMINAL_PI, dtype=torch.float32)
+    observed_p = evaluate_quadratic_proxy(inventory.p_proxy, decision_pi)
+    observed_c = evaluate_quadratic_proxy(inventory.c_proxy, decision_pi)
+    execution_device = nominal_shadow.geometry.pi.device
+    selected_pi = (
+        decision_pi.detach()
+        .to(device=execution_device, dtype=torch.float32, copy=True)
+        .contiguous()
+    )
+    selected_geometry = build_residual_reserve_geometry(selected_pi)
+    _verify_guards(guards)
+    decision_sha = tensor_sha256(decision_pi)
+    selected_sha = tensor_sha256(selected_pi)
+    geometry_sha = tensor_sha256(selected_geometry.pi)
+    cross_device_copy_count = int(decision_pi.device != execution_device)
+    if (
+        selected_pi.device != execution_device
+        or selected_pi.dtype is not torch.float32
+        or selected_pi.requires_grad
+        or _pi_tuple(selected_pi) != UNIFORM_NOMINAL_PI
+        or int(selected_pi.data_ptr()) == int(decision_pi.data_ptr())
+        or int(selected_pi.data_ptr()) == int(selected_geometry.pi.data_ptr())
+        or decision_sha != selected_sha
+        or selected_sha != geometry_sha
+    ):
+        raise ODEBFStateError("uniform route frozen execution pi differs")
+    ledger = _uniform_route_ledger(
+        inventory,
+        cross_device_pi_copy_count=cross_device_copy_count,
+    )
+    receipt = ResidualReserveUniformRouteReceipt(
+        status=UNIFORM_ROUTE_STATUS,
+        route_mode=UNIFORM_ROUTE_MODE,
+        nominal_scientific_identity=nominal_shadow.receipt.scientific_identity_sha256,
+        nominal_receipt_identity=nominal_shadow.receipt.identity_sha256,
+        nominal_restored_entry_identity=canonical_hash(
+            [
+                item.scientific_payload()
+                for item in nominal_shadow.receipt.restored_weight_state
+            ]
+        ),
+        committed_state_id=committed_state.state_id,
+        committed_state_version=committed_state.version,
+        committed_state_identity=committed_state.identity_sha256,
+        committed_state_decision_identity=(
+            committed_state.decision_identity_sha256
+        ),
+        layer_bindings=layer_receipts,
+        covariance_artifact_identities=tuple(
+            item.artifact_identity for item in covariances
+        ),
+        inventory_receipt_identity=inventory.receipt.identity_sha256,
+        p_proxy_identity=inventory.receipt.p_proxy_identity,
+        c_proxy_identity=inventory.receipt.c_proxy_identity,
+        observed_p_value=observed_p,
+        observed_c_value=observed_c,
+        selected_pi=UNIFORM_NOMINAL_PI,
+        selected_pi_sha256=selected_sha,
+        selected_execution_device=str(execution_device),
+        decision_to_execution_pi_copy_count=1,
+        cross_device_pi_copy_count=cross_device_copy_count,
+        device_independent_pi_bytes_exact=True,
+        selected_geometry_identity=(
+            selected_geometry.receipt.raw_free_payload()["identity_sha256"]
+        ),
+        selected_geometry_pi_sha256=geometry_sha,
+        selected_geometry_build_count=1,
+        selected_pi_frozen_nonalias=True,
+        pc_solver_call_count=0,
+        routing_decision_influence_count=0,
+        alpha_history_consume_count=0,
+        alpha_history_append_count=0,
+        alpha_history_finalize_count=0,
+        input_immutability_verified=True,
+        ledger=ledger,
+    )
+    result = ResidualReserveUniformRouteResult(
+        inventory,
+        selected_pi,
+        selected_geometry,
+        receipt,
+    )
+    validate_residual_reserve_uniform_route(result)
+    receipt.identity_sha256
+    return result
 
 
 def observe_uniform_route_without_resolve(
@@ -857,13 +1261,20 @@ def observe_uniform_route_without_resolve(
 
 
 __all__ = [
+    "PCSOFT_ROUTE_MODE",
     "ROUTE_ASSEMBLY_STATUS",
     "UNIFORM_DECISION_OFF_STATUS",
+    "UNIFORM_ROUTE_MODE",
+    "UNIFORM_ROUTE_STATUS",
     "ResidualReserveRouteAssemblyReceipt",
     "ResidualReserveRouteAssemblyResult",
+    "ResidualReserveUniformRouteReceipt",
+    "ResidualReserveUniformRouteResult",
     "RouteAssemblyLayerBindingReceipt",
     "RouteAssemblyLedger",
     "UniformDecisionOffObservation",
     "assemble_residual_reserve_pc_route",
+    "assemble_residual_reserve_uniform_route",
     "observe_uniform_route_without_resolve",
+    "validate_residual_reserve_uniform_route",
 ]

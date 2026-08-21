@@ -41,8 +41,12 @@ from project.run_scripts.ode_bf.p1r52_residual_reserve_pc_router import (
 from project.run_scripts.ode_bf.p1r52_residual_reserve_route_assembly import (
     ROUTE_ASSEMBLY_STATUS,
     UNIFORM_DECISION_OFF_STATUS,
+    UNIFORM_ROUTE_MODE,
+    UNIFORM_ROUTE_STATUS,
     assemble_residual_reserve_pc_route,
+    assemble_residual_reserve_uniform_route,
     observe_uniform_route_without_resolve,
+    validate_residual_reserve_uniform_route,
 )
 
 
@@ -236,6 +240,7 @@ class ResidualReserveRouteAssemblyTests(unittest.TestCase):
             self.assertEqual(solver.call_count, 1)
         self.assert_guards(guards)
         self.assertEqual(result.receipt.status, ROUTE_ASSEMBLY_STATUS)
+        self.assertNotIn("route_mode", result.receipt.raw_free_payload())
         self.assertEqual(result.receipt.committed_state_version, 0)
         self.assertEqual(len(result.receipt.layer_bindings), 5)
         self.assertTrue(
@@ -296,6 +301,130 @@ class ResidualReserveRouteAssemblyTests(unittest.TestCase):
             for tensor in (factor.left, factor.right)
         ]
         self.assertEqual(len(pointers), len(set(pointers)))
+
+    def test_solver_free_uniform_route_binds_direct_pc_observations(self):
+        shadow = self.shadow()
+        covariances = self.covariances(shadow)
+        state = self.zero_state(covariances)
+        guards = self.tensor_guards(shadow, state, covariances)
+        with mock.patch.object(
+            assembly_module,
+            "solve_residual_reserve_pc_router",
+            side_effect=AssertionError("uniform route must not call solver"),
+        ) as solver:
+            result = assemble_residual_reserve_uniform_route(
+                shadow,
+                state,
+                covariances,
+            )
+        self.assertEqual(solver.call_count, 0)
+        self.assert_guards(guards)
+        validate_residual_reserve_uniform_route(result)
+        receipt = result.receipt
+        uniform_cpu = torch.tensor([0.2] * 5, dtype=torch.float32)
+        self.assertEqual(receipt.status, UNIFORM_ROUTE_STATUS)
+        self.assertEqual(receipt.route_mode, UNIFORM_ROUTE_MODE)
+        self.assertTrue(torch.equal(result.selected_pi.cpu(), uniform_cpu))
+        self.assertTrue(torch.equal(result.selected_geometry.pi.cpu(), uniform_cpu))
+        self.assertNotEqual(
+            int(result.selected_pi.data_ptr()),
+            int(result.selected_geometry.pi.data_ptr()),
+        )
+        self.assertEqual(
+            receipt.observed_p_value,
+            evaluate_quadratic_proxy(result.inventory.p_proxy, uniform_cpu),
+        )
+        self.assertEqual(
+            receipt.observed_c_value,
+            evaluate_quadratic_proxy(result.inventory.c_proxy, uniform_cpu),
+        )
+        self.assertEqual(receipt.pc_solver_call_count, 0)
+        self.assertEqual(receipt.routing_decision_influence_count, 0)
+        self.assertEqual(receipt.ledger.router_call_count, 0)
+        self.assertEqual(receipt.ledger.inventory_build_count, 1)
+        self.assertEqual(receipt.ledger.covariance_right_matmul_count, 5)
+        self.assertEqual(receipt.alpha_history_consume_count, 0)
+        self.assertEqual(receipt.alpha_history_append_count, 0)
+        self.assertEqual(receipt.alpha_history_finalize_count, 0)
+
+    def test_uniform_route_is_deterministic_and_matches_pc_uniform_observation(self):
+        shadow = self.shadow()
+        covariances = self.covariances(shadow)
+        state = self.nonzero_state(shadow, covariances)
+        first = assemble_residual_reserve_uniform_route(
+            shadow,
+            state,
+            covariances,
+        )
+        second = assemble_residual_reserve_uniform_route(
+            shadow,
+            state,
+            covariances,
+        )
+        pcsoft = assemble_residual_reserve_pc_route(
+            shadow,
+            state,
+            covariances,
+        )
+        observation = observe_uniform_route_without_resolve(pcsoft)
+        self.assertEqual(first.receipt.identity_sha256, second.receipt.identity_sha256)
+        self.assertTrue(torch.equal(first.selected_pi, second.selected_pi))
+        self.assertEqual(first.receipt.observed_p_value, observation.p_value)
+        self.assertEqual(first.receipt.observed_c_value, observation.c_value)
+        self.assertEqual(
+            first.selected_geometry.receipt.raw_free_payload()["identity_sha256"],
+            observation.geometry.receipt.raw_free_payload()["identity_sha256"],
+        )
+
+    def test_uniform_route_mixed_and_forged_provenance_fails_close(self):
+        shadow = self.shadow()
+        covariances = self.covariances(shadow)
+        state = self.zero_state(covariances)
+        history = self.nonzero_state(shadow, covariances, scale=0.33)
+        uniform = assemble_residual_reserve_uniform_route(
+            shadow,
+            state,
+            covariances,
+        )
+        pcsoft = assemble_residual_reserve_pc_route(
+            shadow,
+            state,
+            covariances,
+        )
+        mixed_inventory = assemble_residual_reserve_uniform_route(
+            shadow,
+            history,
+            covariances,
+        ).inventory
+        for forged in (
+            replace(uniform, receipt=pcsoft.receipt),
+            replace(uniform, inventory=mixed_inventory),
+            replace(
+                uniform,
+                receipt=replace(uniform.receipt, route_mode="RR_PCSOFT"),
+            ),
+            replace(
+                uniform,
+                receipt=replace(uniform.receipt, pc_solver_call_count=1),
+            ),
+            replace(
+                uniform,
+                receipt=replace(
+                    uniform.receipt,
+                    observed_p_value=uniform.receipt.observed_p_value + 1.0,
+                ),
+            ),
+            replace(
+                uniform,
+                selected_pi=torch.tensor(
+                    [0.1, 0.1, 0.1, 0.1, 0.6],
+                    dtype=torch.float32,
+                ),
+            ),
+        ):
+            with self.subTest(forged=type(forged.receipt).__name__):
+                with self.assertRaises((ODEBFContractError, ODEBFStateError)):
+                    validate_residual_reserve_uniform_route(forged)
 
     def test_nonzero_successful_history_and_deterministic_identity(self):
         shadow = self.shadow()
@@ -603,6 +732,7 @@ class ResidualReserveRouteAssemblyTests(unittest.TestCase):
             "commit_outer",
             "commit_prepared",
             "stage_authoritative_commit",
+            "P1HistoryLedger",
         )
         for symbol in prohibited:
             with self.subTest(symbol=symbol):
