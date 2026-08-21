@@ -1,0 +1,79 @@
+{
+  "accepted_z_sha256": "467a195af3602208e97606ed5c2a78f1d148b4afd35bb2d2332e4f1b3410e461",
+  "arms": {
+    "C0-PIRU-CONTROL": {
+      "final_residual_norm": 1.294668486197723,
+      "layer8_energy_share": 0.47275233287259205,
+      "locality": [891, 1000],
+      "rephrase_accuracy": [106, 200],
+      "rephrase_nll": 2.276501808166504,
+      "rephrase_strict_accuracy": [34, 100],
+      "rephrase_strict_success": [82, 100],
+      "rephrase_success": [179, 200],
+      "rephrase_w_minus_z_nll": 0.9298080062866212,
+      "rewrite_accuracy": [99, 100],
+      "rewrite_nll": 0.028274173736572265,
+      "rewrite_success": [100, 100],
+      "rewrite_w_minus_z_nll": 0.005786819458007811,
+      "total_bf16_energy": 41.40475540616442
+    },
+    "C1-JOINT-PC-REMAINING": {
+      "final_residual_norm": 1.2780584832693964,
+      "layer8_energy_share": 0.46802557606562156,
+      "locality": [889, 1000],
+      "rephrase_accuracy": [105, 200],
+      "rephrase_nll": 2.2971811294555664,
+      "rephrase_strict_accuracy": [34, 100],
+      "rephrase_strict_success": [82, 100],
+      "rephrase_success": [179, 200],
+      "rephrase_w_minus_z_nll": 0.9504873275756835,
+      "rewrite_accuracy": [99, 100],
+      "rewrite_nll": 0.026397056579589843,
+      "rewrite_success": [100, 100],
+      "rewrite_w_minus_z_nll": 0.00390970230102539,
+      "total_bf16_energy": 40.939219597855185
+    },
+    "C2-JOINT-PC-FIXED-QUOTA": {
+      "final_residual_norm": 25.581469302292867,
+      "layer8_energy_share": 0.14759835631517873,
+      "locality": [892, 1000],
+      "rephrase_accuracy": [92, 200],
+      "rephrase_nll": 2.6334014701843262,
+      "rephrase_strict_accuracy": [28, 100],
+      "rephrase_strict_success": [79, 100],
+      "rephrase_success": [174, 200],
+      "rephrase_w_minus_z_nll": 1.2867076683044434,
+      "rewrite_accuracy": [93, 100],
+      "rewrite_nll": 0.2115357971191406,
+      "rewrite_success": [100, 100],
+      "rewrite_w_minus_z_nll": 0.18904844284057615,
+      "total_bf16_energy": 12.038146030757739
+    }
+  },
+  "job_id": "22295",
+  "job_state": "COMPLETED",
+  "production_gate": {
+    "C1": "PASS",
+    "C2": "FAIL",
+    "production_not_submitted": true
+  },
+  "request_count": 100,
+  "schema": "ode-edit-s05-p1r52-joint-pc-tech-r6-arm-summary/v1",
+  "source_head": "20911aa13a6689577b62f53b7096f061bb5151a0",
+  "source_tree": "e22899378f571394948816989b62e148df84b10c",
+  "stream_order": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+  "technical_failure_count": 0,
+  "typed_failure_count": 0,
+  "valid_case_count": 1,
+  "z_summary": {
+    "rephrase_accuracy": [141, 200],
+    "rephrase_nll": 1.3466938018798829,
+    "rephrase_strict_accuracy": [56, 100],
+    "rephrase_strict_success": [97, 100],
+    "rephrase_success": [196, 200],
+    "rewrite_accuracy": [100, 100],
+    "rewrite_nll": 0.022487354278564454,
+    "rewrite_success": [100, 100]
+  }
+}

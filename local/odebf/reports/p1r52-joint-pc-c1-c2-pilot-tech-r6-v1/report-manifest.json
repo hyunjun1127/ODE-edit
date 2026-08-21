@@ -1,0 +1,60 @@
+{
+  "canonical_report": "p1r52-joint-pc-c1-c2-pilot-tech-r6-factual-ko.md",
+  "evidence": {
+    "authoritative_contract": {
+      "bytes": 13564,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/p1r52-joint-pc-c1-c2-independent-b100-v1/authoritative-contract.txt",
+      "sha256": "9f24ca3062e91a903f4fb92e80c73c372b8fc03f76e8e12d545ae97c3df4f0b8"
+    },
+    "case_terminal": {
+      "bytes": 355100,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-independent-b100-v1/local/odebf/results/s05-p1r52-joint-pc-c1-c2-pilot-b100-tech-r6-v1/raw/case-01/terminal.json",
+      "sha256": "17e5888f548c753cc3fec672f25d4bb2167248273911da390a4e54811079253e"
+    },
+    "result_manifest": {
+      "bytes": 469,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-independent-b100-v1/local/odebf/results/s05-p1r52-joint-pc-c1-c2-pilot-b100-tech-r6-v1/manifest.json",
+      "sha256": "bd050c18af5bdd97714554741fb797144c34feb2a4aee1bf12fe88dd5078121e"
+    },
+    "result_terminal": {
+      "bytes": 829,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-independent-b100-v1/local/odebf/results/s05-p1r52-joint-pc-c1-c2-pilot-b100-tech-r6-v1/terminal.json",
+      "sha256": "8d4f330078eca5069d72cdb0381b3fd6b4b9f89e3b2409404350fda8386a7aba"
+    },
+    "scheduler": {
+      "elapsed": "00:07:28",
+      "end": "2026-08-21T19:47:31",
+      "exit_code": "0:0",
+      "job_id": "22295",
+      "start": "2026-08-21T19:40:03",
+      "state": "COMPLETED"
+    },
+    "submission_intent_sha256": "f198a7f1daa8b47be5d0e17d7c09a5b6138867ce2ffeed4bf9083419e86899b6",
+    "submission_receipt_sha256": "8ab0decdd313f1a2343ec8ba458dbe0c96a989c4683711e6249fc78cc0bf325b"
+  },
+  "instruction_id": "ODEEDIT-S05-P1R52-JOINT-PC-C1-C2-INDEPENDENT-B100-V1",
+  "members": [
+    {
+      "bytes": 2979,
+      "lines": 79,
+      "mode": "0600",
+      "path": "arm-summary.json",
+      "sha256": "0d41062070b0a194a523fb74023bf2a6425e1cbd3de1275b8f88678ea1f85eb7"
+    },
+    {
+      "bytes": 6666,
+      "lines": 101,
+      "mode": "0600",
+      "path": "p1r52-joint-pc-c1-c2-pilot-tech-r6-factual-ko.md",
+      "sha256": "9c45a8a48499824f89b337afbcfcd9caf3d511e2c75d88ea93002301e1f2aeed"
+    }
+  ],
+  "package_root": "78716f498da1e5e9118f5e1c87952540b56388e439689b18c50ad92eb7600bb6",
+  "package_root_basis": "sorted UTF-8 lines: relative_path<TAB>sha256<TAB>bytes<LF>",
+  "production_not_submitted": true,
+  "schema": "ode-edit-s05-p1r52-joint-pc-tech-r6-report-manifest/v1",
+  "scientific_promotion": false,
+  "source_head": "20911aa13a6689577b62f53b7096f061bb5151a0",
+  "source_tree": "e22899378f571394948816989b62e148df84b10c",
+  "status": "TECHNICAL_VALID_PILOT_PRODUCTION_GATE_PASS_VIA_C1"
+}

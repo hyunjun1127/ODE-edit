@@ -1,0 +1,29 @@
+{
+  "action_counts": {
+    "gpu": 0,
+    "model": 0,
+    "production_job": 0,
+    "result_mutation": 0,
+    "slurm": 0
+  },
+  "analysis_scope": "READ_ONLY_SEALED_TECH_R6_RESULT",
+  "canonical_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-independent-b100-v1/local/odebf/reports/p1r52-joint-pc-c1-c2-pilot-tech-r6-v1/p1r52-joint-pc-c1-c2-pilot-tech-r6-factual-ko.md",
+  "case_terminal_sha256": "17e5888f548c753cc3fec672f25d4bb2167248273911da390a4e54811079253e",
+  "instruction_id": "ODEEDIT-S05-P1R52-JOINT-PC-C1-C2-INDEPENDENT-B100-V1",
+  "job_id": "22295",
+  "job_state": "COMPLETED",
+  "manifest_bytes": 2768,
+  "manifest_lines": 60,
+  "manifest_sha256": "446a67bf0c77cce0fea7a3eae296ccb4981c3cc5f451a7968fc2134a23d60afd",
+  "package_root": "78716f498da1e5e9118f5e1c87952540b56388e439689b18c50ad92eb7600bb6",
+  "production_gate": "PASS_VIA_C1",
+  "production_not_submitted": true,
+  "receipt_root": "79724eed9ca5be454af4f08a920bfb48b237f6a6edc8ed20c98b8811930935bb",
+  "receipt_root_basis": "package_root<LF>manifest_sha256<LF>result_terminal_sha256<LF>source_head<LF>",
+  "result_terminal_sha256": "8d4f330078eca5069d72cdb0381b3fd6b4b9f89e3b2409404350fda8386a7aba",
+  "schema": "ode-edit-s05-p1r52-joint-pc-tech-r6-rooted-report-receipt/v1",
+  "scientific_promotion": false,
+  "source_head": "20911aa13a6689577b62f53b7096f061bb5151a0",
+  "source_tree": "e22899378f571394948816989b62e148df84b10c",
+  "status": "PASS"
+}
