@@ -3228,6 +3228,7 @@ def run_p1(
     p1r51_phase: str | None = None,
     p1r51_attempt_suffix: str | None = None,
     p1r52_arm: str | None = None,
+    p1r52_residual_reserve_phase_a_arm: str | None = None,
     p1r52_atomic_target_depth: str | None = None,
     p1r52_atomic_target_depth_inner_telemetry: bool = False,
     p1r52_attempt_suffix: str | None = None,
@@ -3279,6 +3280,7 @@ def run_p1(
             p1r43_independent_b10x10_method is not None,
             p1r51_phase is not None,
             p1r52_arm is not None,
+            p1r52_residual_reserve_phase_a_arm is not None,
             p1r52_sequential_role is not None,
             p1r52_target_depth is not None,
             p2r1_target_only_case_count is not None,
@@ -3295,7 +3297,15 @@ def run_p1(
         raise ODEBFContractError("P1R52 Atomic target depth has no writer arm")
     if p1r52_atomic_target_depth_inner_telemetry and p1r52_atomic_target_depth is None:
         raise ODEBFContractError("P1R52 inner telemetry has no Atomic target depth")
-    if p1r52_sequential_role is not None:
+    if p1r52_residual_reserve_phase_a_arm is not None:
+        from .p1r52_residual_reserve_phase_a_execution import (
+            expected_phase_a_result_name,
+        )
+
+        expected_name = expected_phase_a_result_name(
+            alias, p1r52_residual_reserve_phase_a_arm
+        )
+    elif p1r52_sequential_role is not None:
         from .p1r52_sequential_runtime import expected_p1r52_sequential_result_name
         from .p1r52_sequential_scale import resolve_p1r52_sequential_scale
 
@@ -3741,6 +3751,7 @@ def run_p1(
         or p1r43_independent_b10x10_method is not None
         or p1r51_phase is not None
         or p1r52_arm is not None
+        or p1r52_residual_reserve_phase_a_arm is not None
         or p1r52_sequential_role is not None
         or p1r52_target_depth is not None
         or p2r1_target_only_case_count is not None
@@ -3760,6 +3771,7 @@ def run_p1(
             or p1r43_independent_b10x10_method is not None
             or p1r51_phase is not None
             or p1r52_arm is not None
+            or p1r52_residual_reserve_phase_a_arm is not None
             or p1r52_sequential_role is not None
             or p1r52_target_depth is not None
             or p2r1_target_only_case_count is not None
@@ -3780,7 +3792,11 @@ def run_p1(
                     LOCK_FILE as INDEPENDENT_LOCK_FILE,
                     load_and_validate_lock as load_and_validate_independent_lock,
                 )
-            elif p1r52_arm is not None or p1r52_sequential_role is not None:
+            elif (
+                p1r52_arm is not None
+                or p1r52_sequential_role is not None
+                or p1r52_residual_reserve_phase_a_arm is not None
+            ):
                 from .p1r52_independent_panel import (
                     LOCK_FILE as INDEPENDENT_LOCK_FILE,
                     load_and_validate_lock as load_and_validate_independent_lock,
@@ -4224,6 +4240,7 @@ def run_p1(
         or p1r43_independent_b10x10_method is not None
         or p1r51_phase is not None
         or p1r52_arm is not None
+        or p1r52_residual_reserve_phase_a_arm is not None
         or p1r52_sequential_role is not None
         or p1r52_target_depth is not None
         or p2r1_target_only_case_count is not None
@@ -4240,6 +4257,7 @@ def run_p1(
             or p1r43_independent_b10x10_method is not None
             or p1r51_phase is not None
             or p1r52_arm is not None
+            or p1r52_residual_reserve_phase_a_arm is not None
             or p1r52_sequential_role is not None
             or p1r52_target_depth is not None
             or p2r1_target_only_case_count is not None
@@ -4363,8 +4381,21 @@ def run_p1(
     seed_all(COMMON_SEED)
     job_ledger = ComputeLedger()
     load_timer = ComponentTimer(job_ledger)
+    phase_a_fp32_runtime = None
     with load_timer.measure("model_load"):
-        model, tokenizer, hparams = load_original_bf16(artifact_guard)
+        if p1r52_residual_reserve_phase_a_arm is not None:
+            from .p1r52_residual_reserve_phase_a_execution import (
+                load_phase_a_fp32_model,
+            )
+
+            model, tokenizer, hparams, phase_a_fp32_runtime = (
+                load_phase_a_fp32_model(
+                    artifact_guard,
+                    alias,
+                )
+            )
+        else:
+            model, tokenizer, hparams = load_original_bf16(artifact_guard)
     initialization_counter = ModelForwardCounter(model, job_ledger)
     mutation_lock = threading.RLock()
     try:
@@ -4393,7 +4424,11 @@ def run_p1(
         "post_model_context_teacher",
         {
             "parameter_count": sum(parameter.numel() for parameter in model.parameters()),
-            "parameter_dtype": "torch.bfloat16",
+            "parameter_dtype": (
+                "torch.float32"
+                if p1r52_residual_reserve_phase_a_arm is not None
+                else "torch.bfloat16"
+            ),
             "context_sha256": context_sha256,
             "context_generation_count": 2,
             "theta0_population_sha256": theta0_cache.population_sha256,
@@ -4426,7 +4461,12 @@ def run_p1(
         )[f"{hparams.rewrite_module_tmp.format(layer)}.weight"]
         for layer in layers
     }
-    if any(value.dtype is not torch.bfloat16 for value in touched.values()):
+    expected_touched_dtype = (
+        torch.float32
+        if p1r52_residual_reserve_phase_a_arm is not None
+        else torch.bfloat16
+    )
+    if any(value.dtype is not expected_touched_dtype for value in touched.values()):
         raise ODEBFContractError("P1 touched parameter dtype differs")
     base_receipt, base_values = snapshot_touched_weights(
         P1Arm.N32_NATIVE, 0, touched
@@ -4475,12 +4515,53 @@ def run_p1(
         or p1r43_independent_b10x10_method is not None
         or p1r51_phase is not None
         or p1r52_arm is not None
+        or p1r52_residual_reserve_phase_a_arm is not None
         or p1r52_sequential_role is not None
         or p1r52_target_depth is not None
         or p2r1_target_only_case_count is not None
         or p2r2_case_count is not None
         or p2r7_phase is not None
     ):
+        if p1r52_residual_reserve_phase_a_arm is not None:
+            from .p1r52_residual_reserve_phase_a_execution import (
+                run_residual_reserve_phase_a_b10,
+            )
+
+            if phase_a_fp32_runtime is None:
+                raise ODEBFStateError("residual-reserve FP32 runtime is absent")
+            return run_residual_reserve_phase_a_b10(
+                model,
+                tokenizer,
+                alias=alias,
+                arm=p1r52_residual_reserve_phase_a_arm,
+                destination=destination,
+                raw_root=raw_root,
+                stages=stages,
+                source_head=source_head,
+                stream_batches=stream_batches,
+                stream=stream,
+                hparams=hparams,
+                projector=projector,
+                contexts=contexts,
+                covariance_registry=covariance_registry,
+                projector_sha256=artifact_guard.spec["projector_sha256"],
+                controller_lock=controller_lock,
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                theta0_cache=theta0_cache,
+                dataset_path=dataset,
+                mutation_lock=mutation_lock,
+                touched=touched,
+                base_receipt=base_receipt,
+                base_values=base_values,
+                job_ledger=job_ledger,
+                request_microbatch_size=int(
+                    scalable_batched_lock["microbatch_accumulation"]
+                    ["request_microbatch_size"][alias]
+                ),
+                runtime=phase_a_fp32_runtime,
+            )
         if p1r52_target_depth is not None:
             from .p1r52_target_depth_target_only_runtime import (
                 run_p1r52_target_depth_target_only,

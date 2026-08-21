@@ -58,6 +58,17 @@ from .p1r52_pir_writer import (
     PIRTypedBoundary,
     P1R52PIRPolicy,
 )
+from .p1r52_residual_reserve_phase_a_execution import (
+    INSTRUCTION_ID as RR_INSTRUCTION_ID,
+    METHOD_ID as RR_METHOD_ID,
+    ResidualReservePhaseAWriterRuntime,
+    fp32_weight_energy,
+)
+from .p1r52_residual_reserve_phase_a_adapter import ResidualReservePhaseAArm
+from .p1r52_residual_reserve_production_binding import (
+    build_residual_reserve_production_binding,
+)
+from .p1r52_residual_reserve_pc_inventory import SealedPrevalidatedCovariance
 from .scalable_batched_model import (
     build_scalable_capture_plan,
     build_scalable_objective_plan,
@@ -433,6 +444,9 @@ def _run_ode_case(
     p1r52_target_depth_inner_telemetry: bool = False,
     p1r52_writer_policy: P1R52WriterPolicy | str | None = None,
     p1r52_pir_policy: P1R52PIRPolicy | str | None = None,
+    p1r52_residual_reserve_arm: ResidualReservePhaseAArm | str | None = None,
+    p1r52_phase_a_fp32: bool = False,
+    p1r52_rr_covariances: tuple[SealedPrevalidatedCovariance, ...] | None = None,
     technical_smoke: bool = False,
 ) -> dict[str, Any]:
     if len(requests) != (1 if technical_smoke else BATCH_SIZE):
@@ -513,6 +527,9 @@ def _run_ode_case(
         "P1R52-PIR-J0",
         "P1R52-PIR-PIR-G",
         "P1R52-PIR-PIR-U",
+        "P1R52-RR-FP32-J0",
+        "P1R52-RR-FP32-UNIFORM",
+        "P1R52-RR-FP32-PCSOFT",
     )
     if method not in (
         p1r52_methods
@@ -581,6 +598,41 @@ def _run_ode_case(
         ),
         dict(base_values),
     )
+    residual_reserve_writer = None
+    residual_reserve_arm = (
+        None
+        if p1r52_residual_reserve_arm is None
+        else ResidualReservePhaseAArm(p1r52_residual_reserve_arm)
+    )
+    if residual_reserve_arm is not None:
+        if not p1r52_phase_a_fp32 or p1r52_rr_covariances is None:
+            raise ODEBFContractError("residual-reserve Phase-A binding is absent")
+        binding = build_residual_reserve_production_binding(
+            model=model,
+            capture_plan=capture_plan,
+            hparams=hparams,
+            touched_weights=touched,
+            projector32=projector.detach().to(dtype=torch.float32, device="cpu"),
+            projector_artifact_identity=projector_sha256,
+            covariances=p1r52_rr_covariances,
+            gross_state_id=canonical_hash(
+                {
+                    "instruction_id": RR_INSTRUCTION_ID,
+                    "alias": alias,
+                    "method": method,
+                    "case_index": case_index,
+                    "request_order_sha256": request_order,
+                    "w0": base_receipt.parameter_sha256,
+                }
+            ),
+            q_residual_tolerance=float(controller_lock.residual_tolerance),
+            q_condition_max_dimension=64,
+        )
+        residual_reserve_writer = ResidualReservePhaseAWriterRuntime(
+            binding,
+            arm=residual_reserve_arm,
+            execution_prefix=f"{alias}:{method}:case{case_index}",
+        )
     rollout = _run_ode_arm(
         model,
         tokenizer,
@@ -618,6 +670,9 @@ def _run_ode_case(
         p1r52=p1r52,
         p1r52_target_depth=p1r52_target_depth,
         p1r52_target_depth_telemetry_observer=inner_telemetry_observer,
+        p1r52_residual_reserve_writer=residual_reserve_writer,
+        p1r52_fp32_phase_a=p1r52_phase_a_fp32,
+        p1r52_phase_a_method_label=(method if p1r52_phase_a_fp32 else None),
         p1r52_writer_policy=p1r52_writer_policy,
         p1r52_pir_policy=p1r52_pir_policy,
     )
@@ -625,7 +680,9 @@ def _run_ode_case(
     if (
         public["status"]
         != (
-            f"P1R52_FPIQ_{P1R52WriterPolicy(p1r52_writer_policy).value}_K8_COMPLETE"
+            f"P1R52_RESIDUAL_RESERVE_{method}_K8_COMPLETE"
+            if p1r52_phase_a_fp32
+            else f"P1R52_FPIQ_{P1R52WriterPolicy(p1r52_writer_policy).value}_K8_COMPLETE"
             if p1r52_writer_policy is not None
             else f"P1R52_PIR_{P1R52PIRPolicy(p1r52_pir_policy).value}_K8_COMPLETE"
             if p1r52_pir_policy is not None
@@ -743,8 +800,8 @@ def _run_ode_case(
             terminal_target=rollout["terminal_target"],
             terminal_physical=rollout["terminal_physical"],
             terminal_factors=rollout["terminal_factors"],
-            instruction_id=P1R52_FPIQ_INSTRUCTION_ID if p1r52_writer_policy is not None else P1R52_PIR_INSTRUCTION_ID if p1r52_pir_policy is not None else P1R52_INSTRUCTION_ID if p1r52 else P1R51_INSTRUCTION_ID if p1r51 else P1R43_INSTRUCTION_ID,
-            method_id=P1R52_FPIQ_METHOD_ID if p1r52_writer_policy is not None else P1R52_PIR_METHOD_ID if p1r52_pir_policy is not None else P1R52_METHOD_ID if p1r52 else P1R51_METHOD_ID if p1r51 else P1R43_METHOD_ID,
+            instruction_id=RR_INSTRUCTION_ID if p1r52_phase_a_fp32 else P1R52_FPIQ_INSTRUCTION_ID if p1r52_writer_policy is not None else P1R52_PIR_INSTRUCTION_ID if p1r52_pir_policy is not None else P1R52_INSTRUCTION_ID if p1r52 else P1R51_INSTRUCTION_ID if p1r51 else P1R43_INSTRUCTION_ID,
+            method_id=RR_METHOD_ID if p1r52_phase_a_fp32 else P1R52_FPIQ_METHOD_ID if p1r52_writer_policy is not None else P1R52_PIR_METHOD_ID if p1r52_pir_policy is not None else P1R52_METHOD_ID if p1r52 else P1R51_METHOD_ID if p1r51 else P1R43_METHOD_ID,
             schema=(
                 "ode-edit-s05-p1r52-rsa-r42safekdc-terminal-four-panel/v1"
                 if p1r52
@@ -773,8 +830,13 @@ def _run_ode_case(
                 alias=alias,
                 freeze_payload=evaluator_freeze,
             )
-    if _model_w0_contract(touched) != public["initial_w0_sha256"]:
+    if not p1r52_phase_a_fp32 and _model_w0_contract(touched) != public["initial_w0_sha256"]:
         raise ODEBFStateError("independent B10 terminal evaluator W0 differs")
+    fp32_update_energy = (
+        fp32_weight_energy(touched, base_values)
+        if p1r52_phase_a_fp32
+        else None
+    )
     restore = _restore_exact_w0(
         touched,
         base_values,
@@ -805,7 +867,9 @@ def _run_ode_case(
             else "ode-edit-s05-p1r35-independent-b10-ode-terminal/v1"
         ),
         "instruction_id": (
-            P1R52_FPIQ_INSTRUCTION_ID
+            RR_INSTRUCTION_ID
+            if p1r52_phase_a_fp32
+            else P1R52_FPIQ_INSTRUCTION_ID
             if p1r52_writer_policy is not None
             else P1R52_PIR_INSTRUCTION_ID
             if p1r52_pir_policy is not None
@@ -824,7 +888,7 @@ def _run_ode_case(
             if p1r38
             else INSTRUCTION_ID
         ),
-        "method_id": P1R52_FPIQ_METHOD_ID if p1r52_writer_policy is not None else P1R52_PIR_METHOD_ID if p1r52_pir_policy is not None else P1R52_METHOD_ID if p1r52 else P1R51_METHOD_ID if p1r51 else P1R43_METHOD_ID if p1r43 else P1R42_METHOD_ID if p1r42 else P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID if p1r38 else P1R35_METHOD_ID,
+        "method_id": RR_METHOD_ID if p1r52_phase_a_fp32 else P1R52_FPIQ_METHOD_ID if p1r52_writer_policy is not None else P1R52_PIR_METHOD_ID if p1r52_pir_policy is not None else P1R52_METHOD_ID if p1r52 else P1R51_METHOD_ID if p1r51 else P1R43_METHOD_ID if p1r43 else P1R42_METHOD_ID if p1r42 else P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID if p1r38 else P1R35_METHOD_ID,
         "case_index": case_index,
         "alias": alias,
         "method": method,
@@ -859,6 +923,12 @@ def _run_ode_case(
         "history_mode": history_off,
         "action_freeze_sha256": freeze_sha,
         "terminal_evaluator_wall_seconds": evaluator_wall,
+        "fp32_update_energy": fp32_update_energy,
+        "live_storage_dtype": (
+            "torch.float32" if p1r52_phase_a_fp32 else None
+        ),
+        "numeric_storage_cast_count": 0 if p1r52_phase_a_fp32 else None,
+        "bf16_path_call_count": 0 if residual_reserve_arm is not None else None,
         "retry_count": 0,
         "cross_case_state_count": 0,
         "W0_restored": bool(restore["pointer_restored_exact"] and restore["byte_restored_exact"]),

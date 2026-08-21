@@ -328,6 +328,9 @@ def _run_ode_arm(
     p1r52_target_depth: int = 1,
     p1r52_target_depth_telemetry_observer: Any | None = None,
     p1r52_pre_writer_observer: P1R52PreWriterObserver | None = None,
+    p1r52_residual_reserve_writer: Any | None = None,
+    p1r52_fp32_phase_a: bool = False,
+    p1r52_phase_a_method_label: str | None = None,
     p1r52_writer_policy: P1R52WriterPolicy | str | None = None,
     p1r52_pir_policy: P1R52PIRPolicy | str | None = None,
 ) -> dict[str, Any]:
@@ -401,6 +404,26 @@ def _run_ode_arm(
         not p1r52 or target_depth_policy is not P1R52TargetDepth.IL1
     ):
         raise ODEBFContractError("P1R52 pre-writer observer requires IL1")
+    if p1r52_residual_reserve_writer is not None and (
+        not p1r52
+        or target_depth_policy is not P1R52TargetDepth.IL1
+        or p1r52_pre_writer_observer is not None
+        or not p1r52_fp32_phase_a
+    ):
+        raise ODEBFContractError("P1R52 residual-reserve writer activation differs")
+    if p1r52_fp32_phase_a and (
+        not p1r52
+        or any(
+            parameter.dtype is not torch.float32
+            for parameter in model.parameters()
+            if parameter.is_floating_point()
+        )
+        or torch.is_autocast_enabled()
+        or torch.is_autocast_enabled("cpu")
+    ):
+        raise ODEBFContractError("P1R52 Phase-A FP32 runtime differs")
+    if (p1r52_phase_a_method_label is None) != (not p1r52_fp32_phase_a):
+        raise ODEBFContractError("P1R52 Phase-A method label differs")
     writer_policy = (
         None
         if p1r52_writer_policy is None
@@ -451,6 +474,8 @@ def _run_ode_arm(
         if progress_simplex
         else f"{allocation}-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
     )
+    if p1r52_phase_a_method_label is not None:
+        arm_label = p1r52_phase_a_method_label
     history = arm_state.history
     legacy_ledger = arm_state.ledger
     compute = ScalableComputeLedger()
@@ -459,7 +484,14 @@ def _run_ode_arm(
         {name: value.detach().cpu().clone() for name, value in base_values.items()},
         dict(base_receipt.parameter_sha256),
     )
-    materializer = AcceptedPhysicalStateMaterializer(model, base_values)
+    if p1r52_fp32_phase_a:
+        from .p1r52_residual_reserve_phase_a_execution import (
+            AcceptedPhysicalStateFP32Materializer,
+        )
+
+        materializer = AcceptedPhysicalStateFP32Materializer(model, base_values)
+    else:
+        materializer = AcceptedPhysicalStateMaterializer(model, base_values)
     accepted_by_layer: dict[int, list[AcceptedLayerContribution]] = {
         layer: [] for layer in P1R23_LAYER_ORDER
     }
@@ -537,12 +569,15 @@ def _run_ode_arm(
     terminal_objective_count = 0
     terminal_functional: dict[str, Any] | None = None
     restored = False
+    phase_endpoint_ready = False
     terminal_target_depth_telemetry_four_panel: Mapping[str, Any] | None = None
     counter = ModelForwardCounter(model, legacy_ledger)
     try:
         for step_index in range(P1R23_GRID_COUNT):
             state_before = _parameter_contract_sha256(touched)
             p1r52_pending_state: P1R51ControllerState | None = None
+            residual_reserve_execution = None
+            residual_reserve_outer = None
             replay_entry = (
                 None
                 if p1r24
@@ -726,6 +761,8 @@ def _run_ode_arm(
                                 objective_plan.request_order_sha256
                             ),
                         )
+                    if p1r52_residual_reserve_writer is not None:
+                        residual_reserve_outer = outer52
                 elif p1r51:
                     assert p1r51_state is not None
                     proposal51 = prepare_p1r51_target_proposal(
@@ -1137,6 +1174,183 @@ def _run_ode_arm(
                 _phase_add_objective(
                     compute, "target_gradient", target_result, target=True
                 )
+            if p1r52_residual_reserve_writer is not None:
+                if residual_reserve_outer is None or p1r52_pending_state is None:
+                    raise ODEBFStateError(
+                        "P1R52 residual-reserve target state is absent"
+                    )
+                writer_started = time.perf_counter()
+                residual_reserve_execution = (
+                    p1r52_residual_reserve_writer.execute(
+                        residual_reserve_outer,
+                        step_index=step_index,
+                    )
+                )
+                writer_receipt = residual_reserve_execution.result.receipt
+                writer_compute = writer_receipt.compute
+                prefix_receipts = residual_reserve_execution.prefix_capture_receipts
+                physical_forward_count = sum(
+                    int(item["physical_forward_count"])
+                    for item in prefix_receipts
+                )
+                compute.increment(
+                    "residual_reserve_prefix_capture",
+                    logical_forward_groups=len(prefix_receipts),
+                    model_forward_calls=physical_forward_count,
+                    physical_microbatch_graphs=physical_forward_count,
+                    processed_tokens=sum(
+                        int(item["processed_token_count"])
+                        for item in prefix_receipts
+                    ),
+                    padded_tokens=sum(
+                        int(item["padded_token_count"])
+                        for item in prefix_receipts
+                    ),
+                    capture_forward_calls=physical_forward_count,
+                    dense_assembly_count=int(
+                        writer_compute.total_dense_update_construction_count
+                    ),
+                )
+                compute.increment(
+                    "residual_reserve_authoritative_commit",
+                    materialization_count=int(
+                        writer_compute.authoritative_logical_outer_commit_count
+                    ),
+                )
+                compute.add_wall(
+                    "residual_reserve_writer",
+                    time.perf_counter() - writer_started,
+                )
+                p1r52_state = p1r52_pending_state
+                next_capture_started = time.perf_counter()
+                next_physical = capture_scalable_physical_state(
+                    model, capture_plan, hparams
+                )
+                compute.add_wall(
+                    "accepted_state_refresh",
+                    time.perf_counter() - next_capture_started,
+                )
+                _phase_add_capture(compute, "accepted_state_refresh", next_physical)
+                terminal_nll = None
+                terminal_per_request = None
+                terminal_objective_payload = None
+                if step_index == P1R23_GRID_COUNT - 1:
+                    terminal_started = time.perf_counter()
+                    terminal_objective = evaluate_scalable_target_new_objective(
+                        model, objective_plan
+                    )
+                    terminal_objective_count += 1
+                    terminal_nll = float(terminal_objective.loss)
+                    terminal_per_request = list(
+                        terminal_objective.per_request_values
+                    )
+                    terminal_objective_payload = terminal_objective.raw_free_payload()
+                    compute.add_wall(
+                        "terminal_objective",
+                        time.perf_counter() - terminal_started,
+                    )
+                    _phase_add_objective(
+                        compute, "terminal_objective", terminal_objective
+                    )
+                route = residual_reserve_execution.result.route
+                route_receipt = route.receipt.raw_free_payload()
+                adapter_payload = writer_receipt.raw_free_payload()
+                progress = {
+                    "completion": (
+                        "TERMINAL_W_ONLY_OBJECTIVE_ONCE"
+                        if terminal_nll is not None
+                        else "REFRESHED_PHYSICAL_PREFIX"
+                    ),
+                    "terminal_mean_target_new_nll": terminal_nll,
+                    "terminal_per_request_target_new_nll": terminal_per_request,
+                    "predicted": None,
+                    "actual": None,
+                    "alpha_req": None,
+                    "alpha_apply": None,
+                    "candidate_objective_inner_count": 0,
+                }
+                target_realization = fixed_e8_target_write_realization(
+                    current_target,
+                    target_next,
+                    current_terminal,
+                    next_physical.terminal_z,
+                )
+                refresh.record(
+                    step_index=step_index,
+                    accepted_state_sha256=state_before,
+                    target_sha256=tensor_sha256(target_next),
+                    key_inventory_sha256=_key_identity(physical.keys_by_layer),
+                    slope_sha256=writer_receipt.identity_sha256,
+                    field_sha256=writer_receipt.authoritative_receipt_identity,
+                    field_invocation_index=step_index + 1,
+                )
+                payload = {
+                    "schema": "ode-edit-s05-p1r52-residual-reserve-phase-a-accepted-transition/v1",
+                    "arm": arm_label,
+                    "accepted_index": step_index + 1,
+                    "tau_before": step_index * P1R23_H,
+                    "tau_after": (step_index + 1) * P1R23_H,
+                    "physical_capture_sha256": physical.identity_sha256,
+                    "next_physical_capture_sha256": next_physical.identity_sha256,
+                    "target_objective": target_result.raw_free_payload(),
+                    "target_update": target_receipt,
+                    "target_depth_outer_terminal_telemetry": None,
+                    "residual_reserve": residual_reserve_execution.raw_free_payload(),
+                    "routing": route_receipt,
+                    "routing_problem_sha256": route_receipt["identity_sha256"],
+                    "field_sha256": writer_receipt.authoritative_receipt_identity,
+                    "physical_slope": None,
+                    "finite_writer_demand": None,
+                    "entry_routing_role": "RESIDUAL_RESERVE_FROZEN_ROUTE",
+                    "sequential_writer": None,
+                    "sequential_virtual_physical_identity": None,
+                    "functional_basis": {
+                        "status": "P_C_LOW_RANK_PROXY_ONLY",
+                        "heldout_influence_count": 0,
+                    },
+                    "functional_probe_sha256": None,
+                    "progress": progress,
+                    "per_layer_applied_progress": None,
+                    "structural_h": 0.0,
+                    "structural_p": route_receipt.get("selected_p_value"),
+                    "sequential_p_receipt": None,
+                    "cumulative_atomic_structural_p": route_receipt,
+                    "target_write_realization": target_realization,
+                    "materialization": adapter_payload,
+                    "terminal_objective": terminal_objective_payload,
+                    "authoritative_slope": "NO_ADDED_SEMANTIC_SLOPE_BACKWARD",
+                    "overlay_forward_backward_count": 0,
+                    "inner_step_heldout_evaluation_count": 0,
+                    "retry_backtracking_reject_count": 0,
+                    "routing_method": p1r52_phase_a_method_label,
+                    "progress_simplex_decision_influence_count": 0,
+                    "persistent_historical_ledger_count": 0,
+                    "historical_h_decision_influence_count": 0,
+                    "per_request_target_controller": P1R52_METHOD_ID,
+                    "instruction_id": (
+                        "ODEEDIT-S05-P1R52-RESIDUAL-RESERVE-PCSOFT-WRITER-V1"
+                    ),
+                    "method_id": (
+                        "P1R52-RESIDUAL-RESERVE-PCSOFT-WRITER-V1"
+                    ),
+                }
+                payload["identity_sha256"] = canonical_hash(payload)
+                write_once(
+                    raw_root
+                    / "ode"
+                    / arm_label.lower()
+                    / f"accepted-k{step_index + 1}.json",
+                    payload,
+                )
+                accepted.append(payload)
+                current_target = target_next
+                current_terminal = next_physical.terminal_z.clone()
+                physical = next_physical
+                legacy_ledger.record_accepted_step(
+                    accepted_dt=P1R23_H,
+                    completed_k_total=step_index + 1,
+                )
+                continue
             field_started = time.perf_counter()
             field = build_scalable_dynamic_field(
                 model,
@@ -1960,9 +2174,20 @@ def _run_ode_arm(
             legacy_ledger.record_accepted_step(
                 accepted_dt=P1R23_H, completed_k_total=step_index + 1
             )
-        if pending is not None or len(accepted) != 8 or len(delayed) != 7:
+        expected_delayed_count = (
+            0 if p1r52_residual_reserve_writer is not None else 7
+        )
+        if (
+            pending is not None
+            or len(accepted) != 8
+            or len(delayed) != expected_delayed_count
+        ):
             raise ODEBFStateError("P1R23 K8 delayed accounting differs")
-        if (p1r42 or p1r43 or p1r51 or p1r52) and len(request_realization_sha256) != P1R23_GRID_COUNT:
+        if (
+            p1r52_residual_reserve_writer is None
+            and (p1r42 or p1r43 or p1r51 or p1r52)
+            and len(request_realization_sha256) != P1R23_GRID_COUNT
+        ):
             raise ODEBFStateError("requestwise realization ledger differs")
         if not (p1r42 or p1r43 or p1r51 or p1r52) and request_realization_sha256:
             raise ODEBFStateError("unexpected requestwise realization ledger is active")
@@ -2024,7 +2249,11 @@ def _run_ode_arm(
                 "model_forward_count": oracle_result.model_forward_count,
                 "backward_count": oracle_result.backward_count,
             }
-        factors_for_endpoint = _factor_map(current_factors)
+        factors_for_endpoint = (
+            {name: () for name in current_factors}
+            if p1r52_fp32_phase_a
+            else _factor_map(current_factors)
+        )
         target_for_endpoint = current_target.clone()
         physical_for_endpoint = physical
         p1r52_teacher_hashes = (
@@ -2044,7 +2273,9 @@ def _run_ode_arm(
         rollout_payload = {
             "arm": arm_label,
             "status": (
-                f"P1R52_PIR_{pir_policy.value}_K8_COMPLETE"
+                f"P1R52_RESIDUAL_RESERVE_{p1r52_phase_a_method_label}_K8_COMPLETE"
+                if p1r52_phase_a_method_label is not None
+                else f"P1R52_PIR_{pir_policy.value}_K8_COMPLETE"
                 if pir_policy is not None
                 else
                 f"P1R52_FPIQ_{writer_policy.value}_K8_COMPLETE"
@@ -2130,6 +2361,23 @@ def _run_ode_arm(
             ),
             "edit_core_wall_seconds": time.perf_counter() - started,
             "materializer": materializer.raw_free_payload(),
+            "residual_reserve_writer": (
+                None
+                if p1r52_residual_reserve_writer is None
+                else {
+                    "arm": p1r52_residual_reserve_writer.arm.value,
+                    "outer_count": len(p1r52_residual_reserve_writer.executions),
+                    "gross_ledger_version": (
+                        p1r52_residual_reserve_writer.binding.gross_ledger.state.version
+                    ),
+                    "alpha_history_consume_count": 0,
+                    "alpha_history_append_count": 0,
+                    "alpha_history_finalize_count": 0,
+                    "heldout_inner_evaluator_count": 0,
+                    "numeric_storage_cast_count": 0,
+                    "bf16_path_call_count": 0,
+                }
+            ),
             "initial_w0_sha256": initial_w0,
             "alphaedit_target_geometry": p1r24_alpha_geometry,
             "instruction_id": (
@@ -2183,7 +2431,10 @@ def _run_ode_arm(
                 else P1R23_METHOD_ID
             ),
         }
+        if p1r52_residual_reserve_writer is not None:
+            p1r52_residual_reserve_writer.assert_complete()
         rollout_payload["identity_sha256"] = canonical_hash(rollout_payload)
+        phase_endpoint_ready = p1r52_fp32_phase_a
         return {
             "public": rollout_payload,
             "terminal_factors": factors_for_endpoint,
@@ -2195,12 +2446,15 @@ def _run_ode_arm(
         }
     finally:
         counter.close()
-        restore = materializer.restore()
-        restored = True
-        if _model_w0_contract(touched) != initial_w0:
-            raise ODEBFStateError("P1R23 ODE arm did not restore W0")
-        if not restored:
+        if p1r52_fp32_phase_a and not phase_endpoint_ready:
             materializer.restore()
+        elif not p1r52_fp32_phase_a:
+            materializer.restore()
+            restored = True
+            if _model_w0_contract(touched) != initial_w0:
+                raise ODEBFStateError("P1R23 ODE arm did not restore W0")
+            if not restored:
+                materializer.restore()
 
 
 def _evaluate_frozen_state(
