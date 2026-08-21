@@ -26,7 +26,6 @@ from .p1_backend import P1DynamicField, P1LayerField, PinnedCovarianceRegistry
 from .p1r24_atomic_strength import P1R24_Q_EPSILON
 from .p1r52_frozen_pi_quota_writer import (
     build_current_layer_field,
-    build_velocity_factor,
     merge_prefix_factors,
     parameter_state,
 )
@@ -92,8 +91,16 @@ def _cosine(left: torch.Tensor, right: torch.Tensor) -> float | None:
     return max(-1.0, min(1.0, float(torch.dot(lhs, rhs) / denominator)))
 
 
-def _factor_energy(field: P1LayerField, factor: WaypointFactor) -> float:
-    value = float(factor.theta * factor.theta) * float(field.factor_frobenius_sq)
+def _factor_energy(factor: WaypointFactor) -> float:
+    left_gram = factor.left.T.to(dtype=torch.float64) @ factor.left.to(
+        dtype=torch.float64
+    )
+    right_gram = factor.right.T.to(dtype=torch.float64) @ factor.right.to(
+        dtype=torch.float64
+    )
+    value = float(factor.theta * factor.theta) * float(
+        torch.sum(left_gram * right_gram)
+    )
     if not math.isfinite(value) or value < 0.0:
         raise ODEBFContractError("joint P/C factor energy differs")
     return value
@@ -286,13 +293,19 @@ def plan_c2_writer(
             field_source = "CURRENT_PREFIX_KEY_Q_FIXED_ENTRY_RESIDUAL"
 
         quota = (float(pi[ordinal]) * entry_residual).contiguous()
-        factor = build_velocity_factor(
-            field,
+        # C2 is defined directly in the finite contribution coordinate:
+        # theta=pi_l and left=e0.  No residual/h then h round trip is allowed.
+        factor = WaypointFactor(
+            field.weight_name,
+            field.layer,
+            0,
+            step_index,
+            ordinal,
             float(pi[ordinal]),
-            step_index=step_index,
-            factor_ordinal=ordinal,
+            entry_residual.clone(),
+            field.q.clone(),
+            global_batch_size=field.factor.global_batch_size,
         )
-        # build_velocity_factor applies h exactly once to the velocity field.
         intended_max_abs = float(
             torch.max(
                 torch.abs(
@@ -325,7 +338,8 @@ def plan_c2_writer(
                 "solve_condition": field.woodbury_certificate.small_condition,
                 "theta": factor.theta,
                 "intended_quota_identity_max_abs": intended_max_abs,
-                "factor_energy": _factor_energy(field, factor),
+                "factor_energy": _factor_energy(factor),
+                "numeric_h_multiplication_count": 0,
                 "actual_bf16_energy_share": None,
                 "suffix_normalization_count": 0,
                 "current_slope_inverse_count": 0,

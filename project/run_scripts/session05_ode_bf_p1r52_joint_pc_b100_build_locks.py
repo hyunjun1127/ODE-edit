@@ -82,6 +82,8 @@ def main() -> int:
         "residual_divide_h_layer_count": 5,
         "factor_h_application_count_per_selected_layer": 1,
         "second_h_application_count": 0,
+        "c2_direct_fixed_quota_coordinate": "THETA_PI_LEFT_ENTRY_RESIDUAL",
+        "c2_numeric_h_multiplication_count": 0,
         "stream_root": STREAM_ROOT,
         "stream_order": STREAM_ORDER,
         "batch_entry_evaluator_count": 0,
