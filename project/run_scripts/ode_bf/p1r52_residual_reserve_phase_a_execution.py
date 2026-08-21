@@ -70,12 +70,20 @@ def expected_phase_a_result_name(
     return f"s05-p1r52-residual-reserve-phase-a-fp32-{alias}-{arm}{suffix}-v1"
 
 
-def load_phase_a_fp32_model(guard: Any, alias: str) -> tuple[Any, Any, Any, Any]:
+def load_phase_a_fp32_model(
+    guard: Any,
+    alias: str,
+    *,
+    allow_python_patch_compatible: bool = False,
+) -> tuple[Any, Any, Any, Any]:
     """Reuse the pinned Motivation loader at its accepted FP32 boundary."""
 
     from easyeditor.models.alphaedit.AlphaEdit_hparams import AlphaEditHyperParams
 
-    runtime = load_fixed_model(alias)
+    runtime = load_fixed_model(
+        alias,
+        allow_python_patch_compatible=allow_python_patch_compatible,
+    )
     model = runtime.model
     tokenizer = runtime.tokenizer
     hparams = AlphaEditHyperParams.from_hparams(str(guard.hparams))

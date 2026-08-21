@@ -65,8 +65,8 @@ from .scalable_batched_runtime import (
 
 INSTRUCTION_ID = "ODEEDIT-S05-P1R52-JOINT-PC-C0-C1-C2-C3-FULL-FP32-B100-V1"
 METHOD_ID = "P1R52-JOINT-PC-C0-C1-C2-C3-FULL-FP32"
-ROLE = "r52-joint-pc-c0-c1-c2-c3-full-fp32-b100"
-RESULT_NAME = "s05-p1r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-v1"
+ROLE = "r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-tech-r1"
+RESULT_NAME = "s05-p1r52-joint-pc-c0-c1-c2-c3-full-fp32-b100-tech-r1-v1"
 
 
 def is_joint_pc_full_fp32_role(role: str | None) -> bool:
@@ -526,6 +526,7 @@ def run_joint_pc_full_fp32_b100(
             "autocast_count": 0, "bf16_conversion_count": 0,
             "fp16_conversion_count": 0, "numeric_storage_cast_count": 0,
             "bf16_materializer_call_count": 0,
+            "python_runtime_patch_compatibility": "3.12.x",
         },
         "pre_edit": pre_edit,
         "official_memit": official_memit,

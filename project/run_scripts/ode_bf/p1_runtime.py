@@ -4400,6 +4400,7 @@ def run_p1(
                 load_phase_a_fp32_model(
                     artifact_guard,
                     alias,
+                    allow_python_patch_compatible=joint_pc_full_fp32_mode,
                 )
             )
         else:

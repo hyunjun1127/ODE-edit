@@ -4,6 +4,7 @@ import inspect
 import unittest
 
 from project.run_scripts.ode_bf import p1r52_joint_pc_fp32_runtime as runtime
+from project.run_scripts.ode_edit_motivation.gpu_runtime import assert_fixed_runtime
 
 
 class JointPCFullFP32SourceGateTest(unittest.TestCase):
@@ -33,6 +34,10 @@ class JointPCFullFP32SourceGateTest(unittest.TestCase):
         self.assertIn('"bf16_conversion_count": 0', source)
         self.assertIn('"numeric_storage_cast_count": 0', source)
         self.assertIn('"autocast_count": 0', source)
+
+    def test_current_python_patch_is_explicitly_compatible(self) -> None:
+        observed = assert_fixed_runtime(allow_python_patch_compatible=True)
+        self.assertEqual(observed["python"].split(".")[:2], ["3", "12"])
 
 
 if __name__ == "__main__":
