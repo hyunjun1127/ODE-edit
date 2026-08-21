@@ -242,6 +242,11 @@ class ResidualReserveRouteAssemblyTests(unittest.TestCase):
             all(item.committed_factor_count == 0 for item in result.receipt.layer_bindings)
         )
         self.assertEqual(result.receipt.ledger.router_call_count, 1)
+        self.assertEqual(
+            result.receipt.ledger.router_decision_to_execution_pi_copy_count,
+            1,
+        )
+        self.assertEqual(result.receipt.ledger.cross_device_pi_copy_count, 0)
         self.assertEqual(result.receipt.ledger.covariance_right_matmul_count, 5)
         self.assertEqual(result.receipt.ledger.model_forward_count, 0)
         self.assertEqual(result.receipt.ledger.model_backward_count, 0)
@@ -251,6 +256,32 @@ class ResidualReserveRouteAssemblyTests(unittest.TestCase):
         self.assertEqual(result.receipt.ledger.materialization_count, 0)
         self.assertEqual(result.receipt.ledger.weight_mutation_count, 0)
         self.assertIs(result.selected_pi.dtype, torch.float32)
+        self.assertEqual(
+            result.selected_pi.device,
+            shadow.geometry.pi.device,
+        )
+        self.assertEqual(result.receipt.router_decision_device, "cpu")
+        self.assertEqual(
+            result.receipt.selected_execution_device,
+            str(shadow.geometry.pi.device),
+        )
+        self.assertEqual(
+            result.receipt.router_selected_pi_sha256,
+            result.receipt.selected_pi_sha256,
+        )
+        self.assertEqual(
+            result.receipt.selected_pi_sha256,
+            result.receipt.selected_geometry_pi_sha256,
+        )
+        self.assertTrue(result.receipt.device_independent_pi_bytes_exact)
+        self.assertNotEqual(
+            int(result.selected_pi.data_ptr()),
+            int(result.routing.pi_balanced.data_ptr()),
+        )
+        self.assertNotEqual(
+            int(result.selected_pi.data_ptr()),
+            int(result.selected_geometry.pi.data_ptr()),
+        )
         self.assertAlmostEqual(float(result.selected_pi.sum()), 1.0, places=6)
         self.assertTrue(bool((result.selected_pi >= 0.0).all()))
         self.assertAlmostEqual(
@@ -312,6 +343,19 @@ class ResidualReserveRouteAssemblyTests(unittest.TestCase):
         self.assertEqual(observation.status, UNIFORM_DECISION_OFF_STATUS)
         self.assertEqual(observation.router_call_count, 0)
         self.assertEqual(observation.decision_influence_count, 0)
+        self.assertEqual(
+            observation.execution_device,
+            str(result.selected_pi.device),
+        )
+        self.assertEqual(
+            observation.router_pi_sha256,
+            tensor_sha256(observation.pi),
+        )
+        self.assertTrue(observation.device_independent_pi_bytes_exact)
+        self.assertEqual(
+            observation.router_decision_to_execution_pi_copy_count,
+            1,
+        )
         self.assertTrue(torch.equal(observation.pi, result.routing.pi_uniform))
         self.assertEqual(
             observation.p_value,
@@ -424,6 +468,124 @@ class ResidualReserveRouteAssemblyTests(unittest.TestCase):
                 committed_construction_receipt_ids=("candidate",),
             )
 
+    def test_mixed_inventory_is_rejected_by_exact_layer_provenance(self):
+        shadow = self.shadow()
+        covariances = self.covariances(shadow)
+        zero_state = self.zero_state(covariances)
+        history_state = self.nonzero_state(shadow, covariances, scale=0.31)
+        mixed_inventory = assemble_residual_reserve_pc_route(
+            shadow,
+            history_state,
+            covariances,
+        ).inventory
+        with mock.patch.object(
+            assembly_module,
+            "build_residual_reserve_pc_inventory",
+            return_value=mixed_inventory,
+        ):
+            with self.assertRaises(ODEBFStateError):
+                assemble_residual_reserve_pc_route(
+                    shadow,
+                    zero_state,
+                    covariances,
+                )
+
+    def test_mixed_router_and_replaced_balanced_pi_fail_close(self):
+        shadow = self.shadow()
+        covariances = self.covariances(shadow)
+        zero_state = self.zero_state(covariances)
+        history_state = self.nonzero_state(shadow, covariances, scale=0.42)
+        mixed_routing = assemble_residual_reserve_pc_route(
+            shadow,
+            history_state,
+            covariances,
+        ).routing
+        with mock.patch.object(
+            assembly_module,
+            "solve_residual_reserve_pc_router",
+            return_value=mixed_routing,
+        ):
+            with self.assertRaises(ODEBFStateError):
+                assemble_residual_reserve_pc_route(
+                    shadow,
+                    zero_state,
+                    covariances,
+                )
+
+        valid = assemble_residual_reserve_pc_route(
+            shadow,
+            zero_state,
+            covariances,
+        )
+        forged = replace(
+            valid.routing,
+            pi_balanced=torch.tensor(
+                [0.1, 0.1, 0.1, 0.1, 0.6],
+                dtype=torch.float32,
+            ),
+        )
+        with mock.patch.object(
+            assembly_module,
+            "solve_residual_reserve_pc_router",
+            return_value=forged,
+        ):
+            with self.assertRaises(ODEBFStateError):
+                assemble_residual_reserve_pc_route(
+                    shadow,
+                    zero_state,
+                    covariances,
+                )
+
+    def test_inventory_receipt_exactly_binds_every_m3b_input(self):
+        shadow = self.shadow()
+        covariances = self.covariances(shadow)
+        state = self.nonzero_state(shadow, covariances, scale=0.27)
+        result = assemble_residual_reserve_pc_route(
+            shadow,
+            state,
+            covariances,
+        )
+        self.assertEqual(
+            result.inventory.receipt.mass_sha256,
+            tensor_sha256(shadow.geometry.mass),
+        )
+        for nominal, state_layer, covariance, receipt in zip(
+            shadow.factors,
+            state.layers,
+            covariances,
+            result.inventory.receipt.layer_receipts,
+            strict=True,
+        ):
+            self.assertEqual(receipt.nominal_factor_identity, nominal.identity_sha256)
+            self.assertEqual(
+                receipt.committed_factor_identities,
+                tuple(
+                    factor.identity_sha256
+                    for factor in state_layer.committed_precast_factors
+                ),
+            )
+            self.assertEqual(
+                receipt.committed_factor_count,
+                len(state_layer.committed_precast_factors),
+            )
+            self.assertEqual(receipt.covariance_identity, covariance.identity_sha256)
+            self.assertEqual(
+                receipt.covariance_artifact_identity,
+                covariance.artifact_identity,
+            )
+            self.assertEqual(
+                receipt.committed_p_constant,
+                state_layer.structural_p_constant,
+            )
+            self.assertEqual(
+                receipt.cumulative_precast_lambda,
+                state_layer.cumulative_precast_lambda,
+            )
+            self.assertEqual(
+                receipt.pretrained_weight_norm_squared,
+                state_layer.pretrained_weight_norm_squared,
+            )
+
     def test_prohibited_imports_and_route_only_compute_boundary(self):
         source = inspect.getsource(assembly_module)
         prohibited = (
@@ -445,6 +607,8 @@ class ResidualReserveRouteAssemblyTests(unittest.TestCase):
         for symbol in prohibited:
             with self.subTest(symbol=symbol):
                 self.assertNotIn(symbol, source)
+        self.assertIn("device=execution_device", source)
+        self.assertNotIn('selected_pi.device.type != "cpu"', source)
 
 
 if __name__ == "__main__":
