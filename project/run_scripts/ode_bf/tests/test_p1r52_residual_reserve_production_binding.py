@@ -179,6 +179,12 @@ class ResidualReserveProductionBindingTests(unittest.TestCase):
         state = binding.gross_ledger.state
         self.assertEqual((state.version, state.commit_count), (0, 0))
         self.assertTrue(all(not layer.committed_precast_factors for layer in state.layers))
+        for sealed, layer_state in zip(binding.covariances, state.layers, strict=True):
+            self.assertIs(sealed, layer_state.covariance)
+        self.assertEqual(
+            len({item.committed_covariance32.data_ptr() for item in binding.alpha_contexts}),
+            1,
+        )
         receipt = binding.receipt
         self.assertEqual(set(receipt.live_storage_dtypes), {"torch.float32"})
         self.assertEqual(receipt.algorithm_dtype, "torch.float32")

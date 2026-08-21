@@ -66,7 +66,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--arm", required=True, choices=PHASE_A_ARMS)
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--attempt-suffix", choices=("tech-r1", "tech-r2"))
+    parser.add_argument(
+        "--attempt-suffix", choices=("tech-r1", "tech-r2", "tech-r3")
+    )
     parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
     args = parser.parse_args(argv)
     try:

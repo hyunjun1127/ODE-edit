@@ -74,6 +74,7 @@ class LayerCommittedStateAnchor:
     layer: int
     covariance: SealedPrevalidatedCovariance
     pretrained_weight_norm_squared: float
+    share_sealed_covariance: bool = False
 
     def __post_init__(self) -> None:
         if (
@@ -85,7 +86,10 @@ class LayerCommittedStateAnchor:
         norm_squared = float(self.pretrained_weight_norm_squared)
         if not math.isfinite(norm_squared) or norm_squared <= 0.0:
             raise ODEBFContractError("committed-state pretrained norm is invalid")
-        object.__setattr__(self, "covariance", _clone_covariance(self.covariance))
+        if not isinstance(self.share_sealed_covariance, bool):
+            raise ODEBFContractError("committed-state covariance sharing flag differs")
+        if not self.share_sealed_covariance:
+            object.__setattr__(self, "covariance", _clone_covariance(self.covariance))
         object.__setattr__(self, "pretrained_weight_norm_squared", norm_squared)
 
 
@@ -296,7 +300,11 @@ def initialize_committed_gross_load_state(
     layers = tuple(
         CommittedLayerState(
             layer=anchor.layer,
-            covariance=_clone_covariance(anchor.covariance),
+            covariance=(
+                anchor.covariance
+                if anchor.share_sealed_covariance
+                else _clone_covariance(anchor.covariance)
+            ),
             pretrained_weight_norm_squared=anchor.pretrained_weight_norm_squared,
             committed_precast_factors=(),
             structural_p_constant=0.0,

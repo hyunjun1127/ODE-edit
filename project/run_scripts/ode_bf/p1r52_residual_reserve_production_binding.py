@@ -723,6 +723,7 @@ def build_residual_reserve_production_binding(
     execution_covariances: list[SealedPrevalidatedCovariance] = []
     anchors: list[LayerCommittedStateAnchor] = []
     layer_receipts: list[ProductionLayerBindingReceipt] = []
+    zero_history_by_dimension: dict[int, torch.Tensor] = {}
     for index, (binding, covariance) in enumerate(
         zip(bindings, covariances, strict=True)
     ):
@@ -743,11 +744,14 @@ def build_residual_reserve_production_binding(
             ),
             covariance.artifact_identity,
         )
-        committed_covariance = torch.zeros(
-            (key_dimension, key_dimension),
-            dtype=torch.float32,
-            device=execution_device,
-        )
+        committed_covariance = zero_history_by_dimension.get(key_dimension)
+        if committed_covariance is None:
+            committed_covariance = torch.zeros(
+                (key_dimension, key_dimension),
+                dtype=torch.float32,
+                device=execution_device,
+            )
+            zero_history_by_dimension[key_dimension] = committed_covariance
         regularization32 = torch.tensor(
             regularization, dtype=torch.float32, device=execution_device
         )
@@ -780,7 +784,10 @@ def build_residual_reserve_production_binding(
         if not math.isfinite(weight_norm_squared) or weight_norm_squared <= 0.0:
             raise ODEBFContractError("production pretrained weight norm differs")
         anchor = LayerCommittedStateAnchor(
-            binding.layer, covariance_execution, weight_norm_squared
+            binding.layer,
+            covariance_execution,
+            weight_norm_squared,
+            share_sealed_covariance=True,
         )
         layer_receipt = ProductionLayerBindingReceipt(
             layer=binding.layer,
