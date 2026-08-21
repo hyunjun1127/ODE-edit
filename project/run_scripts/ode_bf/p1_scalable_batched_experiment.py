@@ -173,6 +173,10 @@ from .p1r52_target_depth import (
     P1R52TargetDepth,
     run_p1r52_target_depth_scheduler,
 )
+from .p1r52_residual_reserve_pre_writer_interface import (
+    P1R52PreWriterObserver,
+    observe_native_il1_pre_writer_input,
+)
 from .p1r52_frozen_pi_quota_writer import (
     P1R52_FPIQ_INSTRUCTION_ID,
     P1R52_FPIQ_METHOD_ID,
@@ -323,6 +327,7 @@ def _run_ode_arm(
     p1r52: bool = False,
     p1r52_target_depth: int = 1,
     p1r52_target_depth_telemetry_observer: Any | None = None,
+    p1r52_pre_writer_observer: P1R52PreWriterObserver | None = None,
     p1r52_writer_policy: P1R52WriterPolicy | str | None = None,
     p1r52_pir_policy: P1R52PIRPolicy | str | None = None,
 ) -> dict[str, Any]:
@@ -392,6 +397,10 @@ def _run_ode_arm(
     ):
         raise ODEBFContractError("P1R52 target-depth activation differs")
     target_depth_policy = P1R52TargetDepth.from_inner_count(p1r52_target_depth)
+    if p1r52_pre_writer_observer is not None and (
+        not p1r52 or target_depth_policy is not P1R52TargetDepth.IL1
+    ):
+        raise ODEBFContractError("P1R52 pre-writer observer requires IL1")
     writer_policy = (
         None
         if p1r52_writer_policy is None
@@ -704,6 +713,19 @@ def _run_ode_arm(
                     p1r52_pending_state = outer52.next_state
                     target_step = outer52.target_step
                     finite_endpoint = outer52.selected_endpoint
+                    if p1r52_pre_writer_observer is not None:
+                        observe_native_il1_pre_writer_input(
+                            p1r52_pre_writer_observer,
+                            outer=outer52,
+                            step_index=step_index,
+                            touched=touched,
+                            request_identities=tuple(
+                                str(item["request_sha256"]) for item in requests
+                            ),
+                            request_order_sha256=(
+                                objective_plan.request_order_sha256
+                            ),
+                        )
                 elif p1r51:
                     assert p1r51_state is not None
                     proposal51 = prepare_p1r51_target_proposal(
