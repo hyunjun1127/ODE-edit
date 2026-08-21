@@ -114,6 +114,26 @@ class ResidualReserveUpdateBindingTests(unittest.TestCase):
                 construction.receipt.matched_update_sha256,
             )
             self.assertEqual(
+                item.m3a_layer_receipt.prepared_fp32_update_pointer,
+                construction.receipt.matched_update_pointer,
+            )
+            self.assertEqual(
+                item.m3a_layer_receipt.prepared_fp32_update_version,
+                construction.receipt.matched_update_version,
+            )
+            self.assertTrue(
+                item.m3a_layer_receipt.official_reference_endpoint_byte_exact
+            )
+            self.assertEqual(
+                item.m3a_layer_receipt.numeric_storage_cast_count,
+                int(item.m3a_layer_receipt.storage_cast_required),
+            )
+            self.assertEqual(item.m3a_layer_receipt.bf16_path_call_count, 0)
+            self.assertEqual(
+                item.m3a_layer_receipt.rounding_telemetry_decision_influence_count,
+                0,
+            )
+            self.assertEqual(
                 item.raw_free_payload()["equivalence_status"],
                 EXACT_SINGLE_CONSTRUCTION_STATUS,
             )

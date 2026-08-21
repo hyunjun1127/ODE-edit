@@ -62,6 +62,7 @@ EXPECTED_PROCESS_LOCAL_IDENTITY_EXCLUSIONS = (
     "layers[*].application.m3a_layer_receipt_identity",
     "layers[*].application.identity_sha256",
     "layers[*].m3a_layer.entry_parameter_pointer",
+    "layers[*].m3a_layer.prepared_fp32_update_pointer",
     "layers[*].m3a_layer.post_storage_parameter_pointer",
     "layers[*].nominal.layer_step_receipt_identity",
     "layers[*].nominal.construction_receipt_identity",
@@ -75,6 +76,7 @@ EXPECTED_PROCESS_LOCAL_IDENTITY_EXCLUSIONS = (
     "layers[*].closure.identity_sha256",
     "transaction.transaction_id",
     "transaction.layer_receipts[*].entry_parameter_pointer",
+    "transaction.layer_receipts[*].prepared_fp32_update_pointer",
     "transaction.layer_receipts[*].post_storage_parameter_pointer",
     "transaction.final_parameter_pointers",
     "transaction.identity_sha256",
@@ -430,6 +432,49 @@ class ResidualReserveNominalShadowTests(unittest.TestCase):
                 backward_transaction,
             )
 
+        forged_numeric_cast = replace(
+            result.transaction_receipt,
+            numeric_storage_cast_count=(
+                result.transaction_receipt.numeric_storage_cast_count + 1
+            ),
+        )
+        self.assertNotEqual(
+            baseline,
+            shadow_module._stable_scientific_identity(
+                **{**kwargs, "transaction": forged_numeric_cast}
+            ),
+        )
+        with self.assertRaises(ODEBFStateError):
+            shadow_module._derive_and_validate_ledger(
+                result.layer_results,
+                forged_numeric_cast,
+            )
+
+        forged_rounding_influence = replace(
+            first,
+            application=replace(
+                first.application,
+                m3a_layer_receipt=replace(
+                    first.application.m3a_layer_receipt,
+                    rounding_telemetry_decision_influence_count=1,
+                ),
+            ),
+        )
+        forged_rounding_layers = (
+            forged_rounding_influence,
+        ) + result.layer_results[1:]
+        self.assertNotEqual(
+            baseline,
+            shadow_module._stable_scientific_identity(
+                **{**kwargs, "layer_results": forged_rounding_layers}
+            ),
+        )
+        with self.assertRaises(ODEBFStateError):
+            shadow_module._derive_and_validate_ledger(
+                forged_rounding_layers,
+                result.transaction_receipt,
+            )
+
         plan_backward = replace(
             first,
             plan=replace(
@@ -486,7 +531,7 @@ class ResidualReserveNominalShadowTests(unittest.TestCase):
                 **{**kwargs, "transaction": renamed_transaction}
             ),
         )
-        self.assertEqual(len(PROCESS_LOCAL_IDENTITY_EXCLUSIONS), 38)
+        self.assertEqual(len(PROCESS_LOCAL_IDENTITY_EXCLUSIONS), 40)
         self.assertEqual(
             PROCESS_LOCAL_IDENTITY_EXCLUSIONS,
             EXPECTED_PROCESS_LOCAL_IDENTITY_EXCLUSIONS,

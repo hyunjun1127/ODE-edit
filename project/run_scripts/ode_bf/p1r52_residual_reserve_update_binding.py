@@ -275,10 +275,32 @@ class AppliedPreparedLowRankUpdate:
             != receipt.matched_update_sha256
             or application.pre_cast_fp32_update_sha256
             != tensor_sha256(update)
+            or application.prepared_fp32_update_sha256
+            != receipt.matched_update_sha256
+            or application.prepared_fp32_update_pointer
+            != receipt.matched_update_pointer
+            or application.prepared_fp32_update_version
+            != receipt.matched_update_version
+            or application.prepared_fp32_update_dtype != "torch.float32"
+            or application.prepared_fp32_update_device != str(update.device)
+            or not application.official_reference_endpoint_byte_exact
+            or application.official_reference_endpoint_sha256
+            != application.post_storage_parameter_sha256
+            or application.official_assignment_equation
+            != "parameter[...] = parameter + matched_update32.float()"
+            or application.actual_post_storage_delta32_dtype != "torch.float32"
+            or application.rounding_telemetry_decision_influence_count != 0
             or int(update.data_ptr()) != receipt.matched_update_pointer
             or int(update._version) != receipt.matched_update_version
             or application.storage_assignment_count != 1
             or application.storage_cast_boundary_count != 1
+            or application.numeric_storage_cast_count
+            != int(application.storage_cast_required)
+            or application.bf16_path_call_count != 0
+            or application.bf16_path_decision_influence_count != 0
+            or application.autocast_count != 0
+            or application.downcast_count != 0
+            or application.quantization_count != 0
             or application.postcast_decision_influence_count != 0
         ):
             raise ODEBFStateError("M3A exact-object construction binding differs")

@@ -107,6 +107,9 @@ class ResidualReserveFP32TransactionTests(unittest.TestCase):
         )
         self.assertEqual(receipt.native_storage_assignment_count, 5)
         self.assertEqual(receipt.storage_cast_boundary_count, 5)
+        self.assertEqual(receipt.numeric_storage_cast_count, 5)
+        self.assertEqual(receipt.bf16_path_call_count, 0)
+        self.assertEqual(receipt.bf16_path_decision_influence_count, 0)
         self.assertEqual(receipt.logical_outer_commit_count, 1)
         self.assertEqual(receipt.rollback_count, 0)
 
@@ -133,6 +136,94 @@ class ResidualReserveFP32TransactionTests(unittest.TestCase):
             self.assertFalse(receipt.storage_cast_required)
         _, receipt = self.prepare_and_commit(transaction)
         self.assertEqual(receipt.persistent_commit_count, 1)
+
+    def test_fp32_rounding_mismatch_is_observation_only_and_commits(self) -> None:
+        bindings = {
+            layer: (
+                f"model.layers.{layer}.mlp.down_proj.weight",
+                torch.nn.Parameter(
+                    torch.full((2, 3), float(2**24), dtype=torch.float32),
+                    requires_grad=False,
+                ),
+            )
+            for layer in RESIDUAL_RESERVE_LAYER_ORDER
+        }
+        updates = {
+            layer: torch.ones((2, 3), dtype=torch.float32)
+            for layer in RESIDUAL_RESERVE_LAYER_ORDER
+        }
+        transaction = OfficialStyleFP32SequentialTransaction(
+            bindings,
+            mode=FP32TransactionMode.AUTHORITATIVE,
+            transaction_id="fp32-rounding-mismatch",
+        )
+        for layer in RESIDUAL_RESERVE_LAYER_ORDER:
+            update = updates[layer]
+            pointer = int(update.data_ptr())
+            version = int(update._version)
+            receipt = transaction.apply_layer_fp32(layer, update)
+            self.assertTrue(receipt.official_reference_endpoint_byte_exact)
+            self.assertEqual(
+                receipt.official_reference_endpoint_sha256,
+                receipt.post_storage_parameter_sha256,
+            )
+            self.assertEqual(receipt.prepared_fp32_update_sha256, tensor_sha256(update))
+            self.assertEqual(receipt.prepared_fp32_update_pointer, pointer)
+            self.assertEqual(receipt.prepared_fp32_update_version, version)
+            self.assertEqual(receipt.prepared_fp32_update_dtype, "torch.float32")
+            self.assertEqual(receipt.actual_post_storage_delta32_dtype, "torch.float32")
+            self.assertFalse(receipt.prepared_vs_actual_byte_exact)
+            self.assertEqual(receipt.prepared_vs_actual_rounding_error_max_abs, 1.0)
+            self.assertGreater(receipt.prepared_vs_actual_rounding_error_norm, 0.0)
+            self.assertGreater(receipt.prepared_vs_actual_rounding_error_energy, 0.0)
+            self.assertFalse(receipt.prepared_vs_actual_cosine_defined)
+            self.assertIsNone(receipt.prepared_vs_actual_cosine)
+            self.assertEqual(receipt.rounding_telemetry_decision_influence_count, 0)
+            self.assertEqual(receipt.numeric_storage_cast_count, 0)
+            self.assertFalse(receipt.storage_cast_required)
+            self.assertEqual(receipt.bf16_path_call_count, 0)
+            self.assertEqual(receipt.bf16_path_decision_influence_count, 0)
+        prepared, committed = self.prepare_and_commit(transaction)
+        self.assertEqual(prepared.numeric_storage_cast_count, 0)
+        self.assertEqual(prepared.rounding_observation_count, 5)
+        self.assertEqual(prepared.rounding_mismatch_count, 5)
+        self.assertEqual(committed.numeric_storage_cast_count, 0)
+        self.assertEqual(committed.rounding_mismatch_count, 5)
+        self.assertEqual(committed.logical_outer_commit_count, 1)
+
+    def test_fp32_exact_representable_update_has_zero_rounding_error(self) -> None:
+        bindings = {
+            layer: (
+                f"model.layers.{layer}.mlp.down_proj.weight",
+                torch.nn.Parameter(
+                    torch.zeros((2, 3), dtype=torch.float32),
+                    requires_grad=False,
+                ),
+            )
+            for layer in RESIDUAL_RESERVE_LAYER_ORDER
+        }
+        update = torch.full((2, 3), 0.25, dtype=torch.float32)
+        transaction = OfficialStyleFP32SequentialTransaction(
+            bindings,
+            mode=FP32TransactionMode.AUTHORITATIVE,
+            transaction_id="fp32-exact-representable",
+        )
+        for layer in RESIDUAL_RESERVE_LAYER_ORDER:
+            receipt = transaction.apply_layer_fp32(layer, update)
+            self.assertTrue(receipt.official_reference_endpoint_byte_exact)
+            self.assertTrue(receipt.prepared_vs_actual_byte_exact)
+            self.assertEqual(receipt.prepared_vs_actual_rounding_error_max_abs, 0.0)
+            self.assertEqual(receipt.prepared_vs_actual_rounding_error_norm, 0.0)
+            self.assertEqual(receipt.prepared_vs_actual_rounding_error_energy, 0.0)
+            self.assertTrue(receipt.prepared_vs_actual_cosine_defined)
+            self.assertEqual(receipt.prepared_vs_actual_cosine, 1.0)
+            self.assertEqual(receipt.numeric_storage_cast_count, 0)
+            self.assertFalse(receipt.storage_cast_required)
+        _, committed = self.prepare_and_commit(transaction)
+        self.assertEqual(committed.rounding_observation_count, 5)
+        self.assertEqual(committed.rounding_mismatch_count, 0)
+        self.assertEqual(committed.numeric_storage_cast_count, 0)
+        self.assertEqual(committed.logical_outer_commit_count, 1)
 
     def test_pointer_and_storage_dtype_stay_fixed_after_every_apply(self) -> None:
         bindings = self.bindings()

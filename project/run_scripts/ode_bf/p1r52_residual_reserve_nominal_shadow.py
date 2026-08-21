@@ -60,6 +60,7 @@ PROCESS_LOCAL_IDENTITY_EXCLUSIONS = (
     "layers[*].application.m3a_layer_receipt_identity",
     "layers[*].application.identity_sha256",
     "layers[*].m3a_layer.entry_parameter_pointer",
+    "layers[*].m3a_layer.prepared_fp32_update_pointer",
     "layers[*].m3a_layer.post_storage_parameter_pointer",
     "layers[*].nominal.layer_step_receipt_identity",
     "layers[*].nominal.construction_receipt_identity",
@@ -73,6 +74,7 @@ PROCESS_LOCAL_IDENTITY_EXCLUSIONS = (
     "layers[*].closure.identity_sha256",
     "transaction.transaction_id",
     "transaction.layer_receipts[*].entry_parameter_pointer",
+    "transaction.layer_receipts[*].prepared_fp32_update_pointer",
     "transaction.layer_receipts[*].post_storage_parameter_pointer",
     "transaction.final_parameter_pointers",
     "transaction.identity_sha256",
@@ -710,6 +712,7 @@ def _project_m3a_layer(result: NominalShadowLayerResult) -> dict[str, Any]:
     return _drop(
         result.application.m3a_layer_receipt.raw_free_payload(),
         "entry_parameter_pointer",
+        "prepared_fp32_update_pointer",
         "post_storage_parameter_pointer",
     )
 
@@ -757,6 +760,7 @@ def _project_transaction(receipt: FP32TransactionReceipt) -> dict[str, Any]:
         _drop(
             item.raw_free_payload(),
             "entry_parameter_pointer",
+            "prepared_fp32_update_pointer",
             "post_storage_parameter_pointer",
         )
         for item in receipt.layer_receipts
@@ -896,6 +900,17 @@ def _validate_nested_shadow_contract(
             or not application.input_version_unchanged
             or m3a_layer.storage_assignment_count != 1
             or m3a_layer.storage_cast_boundary_count != 1
+            or m3a_layer.numeric_storage_cast_count
+            != int(m3a_layer.storage_cast_required)
+            or not m3a_layer.official_reference_endpoint_byte_exact
+            or m3a_layer.official_reference_endpoint_sha256
+            != m3a_layer.post_storage_parameter_sha256
+            or m3a_layer.rounding_telemetry_decision_influence_count != 0
+            or m3a_layer.bf16_path_call_count != 0
+            or m3a_layer.bf16_path_decision_influence_count != 0
+            or m3a_layer.autocast_count != 0
+            or m3a_layer.downcast_count != 0
+            or m3a_layer.quantization_count != 0
             or m3a_layer.postcast_decision_influence_count != 0
             or nominal.shadow_application_proof_status
             != SHADOW_APPLICATION_PROOF_STATUS
@@ -931,6 +946,19 @@ def _validate_nested_shadow_contract(
         or transaction.layer_order != RESIDUAL_RESERVE_LAYER_ORDER
         or transaction.native_storage_assignment_count != 5
         or transaction.storage_cast_boundary_count != 5
+        or transaction.numeric_storage_cast_count
+        != sum(
+            item.numeric_storage_cast_count
+            for item in transaction.layer_receipts
+        )
+        or transaction.rounding_observation_count != 5
+        or transaction.rounding_mismatch_count
+        != sum(
+            not item.prepared_vs_actual_byte_exact
+            for item in transaction.layer_receipts
+        )
+        or transaction.bf16_path_call_count != 0
+        or transaction.bf16_path_decision_influence_count != 0
         or transaction.logical_outer_commit_count != 0
         or transaction.persistent_commit_count != 0
         or transaction.rollback_count != 1

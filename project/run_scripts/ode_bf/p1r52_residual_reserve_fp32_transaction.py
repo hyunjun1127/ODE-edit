@@ -40,6 +40,14 @@ class FP32LayerApplicationReceipt:
     pre_cast_fp32_update_sha256: str
     pre_cast_fp32_update_norm: float
     pre_cast_fp32_update_energy: float
+    prepared_fp32_update_sha256: str
+    prepared_fp32_update_pointer: int
+    prepared_fp32_update_version: int
+    prepared_fp32_update_dtype: str
+    prepared_fp32_update_device: str
+    official_reference_endpoint_sha256: str
+    official_reference_endpoint_byte_exact: bool
+    official_assignment_equation: str
     post_storage_parameter_sha256: str
     post_storage_parameter_pointer: int
     post_storage_dtype: str
@@ -47,9 +55,24 @@ class FP32LayerApplicationReceipt:
     actual_post_storage_delta32_sha256: str
     actual_post_storage_delta32_norm: float
     actual_post_storage_delta32_energy: float
+    actual_post_storage_delta32_dtype: str
+    prepared_vs_actual_byte_exact: bool
+    prepared_vs_actual_rounding_error32_sha256: str
+    prepared_vs_actual_rounding_error_max_abs: float
+    prepared_vs_actual_rounding_error_norm: float
+    prepared_vs_actual_rounding_error_energy: float
+    prepared_vs_actual_cosine: float | None
+    prepared_vs_actual_cosine_defined: bool
+    rounding_telemetry_decision_influence_count: int
     storage_assignment_count: int
     storage_cast_boundary_count: int
+    numeric_storage_cast_count: int
     storage_cast_required: bool
+    bf16_path_call_count: int
+    bf16_path_decision_influence_count: int
+    autocast_count: int
+    downcast_count: int
+    quantization_count: int
     postcast_decision_influence_count: int
 
     def raw_free_payload(self) -> dict[str, Any]:
@@ -64,6 +87,18 @@ class FP32LayerApplicationReceipt:
             "pre_cast_fp32_update_sha256": self.pre_cast_fp32_update_sha256,
             "pre_cast_fp32_update_norm": self.pre_cast_fp32_update_norm,
             "pre_cast_fp32_update_energy": self.pre_cast_fp32_update_energy,
+            "prepared_fp32_update_sha256": self.prepared_fp32_update_sha256,
+            "prepared_fp32_update_pointer": self.prepared_fp32_update_pointer,
+            "prepared_fp32_update_version": self.prepared_fp32_update_version,
+            "prepared_fp32_update_dtype": self.prepared_fp32_update_dtype,
+            "prepared_fp32_update_device": self.prepared_fp32_update_device,
+            "official_reference_endpoint_sha256": (
+                self.official_reference_endpoint_sha256
+            ),
+            "official_reference_endpoint_byte_exact": (
+                self.official_reference_endpoint_byte_exact
+            ),
+            "official_assignment_equation": self.official_assignment_equation,
             "post_storage_parameter_sha256": self.post_storage_parameter_sha256,
             "post_storage_parameter_pointer": self.post_storage_parameter_pointer,
             "post_storage_dtype": self.post_storage_dtype,
@@ -77,9 +112,40 @@ class FP32LayerApplicationReceipt:
             "actual_post_storage_delta32_energy": (
                 self.actual_post_storage_delta32_energy
             ),
+            "actual_post_storage_delta32_dtype": (
+                self.actual_post_storage_delta32_dtype
+            ),
+            "prepared_vs_actual_byte_exact": self.prepared_vs_actual_byte_exact,
+            "prepared_vs_actual_rounding_error32_sha256": (
+                self.prepared_vs_actual_rounding_error32_sha256
+            ),
+            "prepared_vs_actual_rounding_error_max_abs": (
+                self.prepared_vs_actual_rounding_error_max_abs
+            ),
+            "prepared_vs_actual_rounding_error_norm": (
+                self.prepared_vs_actual_rounding_error_norm
+            ),
+            "prepared_vs_actual_rounding_error_energy": (
+                self.prepared_vs_actual_rounding_error_energy
+            ),
+            "prepared_vs_actual_cosine": self.prepared_vs_actual_cosine,
+            "prepared_vs_actual_cosine_defined": (
+                self.prepared_vs_actual_cosine_defined
+            ),
+            "rounding_telemetry_decision_influence_count": (
+                self.rounding_telemetry_decision_influence_count
+            ),
             "storage_assignment_count": self.storage_assignment_count,
             "storage_cast_boundary_count": self.storage_cast_boundary_count,
+            "numeric_storage_cast_count": self.numeric_storage_cast_count,
             "storage_cast_required": self.storage_cast_required,
+            "bf16_path_call_count": self.bf16_path_call_count,
+            "bf16_path_decision_influence_count": (
+                self.bf16_path_decision_influence_count
+            ),
+            "autocast_count": self.autocast_count,
+            "downcast_count": self.downcast_count,
+            "quantization_count": self.quantization_count,
             "postcast_decision_influence_count": (
                 self.postcast_decision_influence_count
             ),
@@ -99,6 +165,11 @@ class FP32TransactionReceipt:
     layer_receipts: tuple[FP32LayerApplicationReceipt, ...]
     native_storage_assignment_count: int
     storage_cast_boundary_count: int
+    numeric_storage_cast_count: int
+    rounding_observation_count: int
+    rounding_mismatch_count: int
+    bf16_path_call_count: int
+    bf16_path_decision_influence_count: int
     logical_outer_commit_count: int
     persistent_commit_count: int
     rollback_count: int
@@ -125,6 +196,13 @@ class FP32TransactionReceipt:
                 self.native_storage_assignment_count
             ),
             "storage_cast_boundary_count": self.storage_cast_boundary_count,
+            "numeric_storage_cast_count": self.numeric_storage_cast_count,
+            "rounding_observation_count": self.rounding_observation_count,
+            "rounding_mismatch_count": self.rounding_mismatch_count,
+            "bf16_path_call_count": self.bf16_path_call_count,
+            "bf16_path_decision_influence_count": (
+                self.bf16_path_decision_influence_count
+            ),
             "logical_outer_commit_count": self.logical_outer_commit_count,
             "persistent_commit_count": self.persistent_commit_count,
             "rollback_count": self.rollback_count,
@@ -161,6 +239,11 @@ class FP32PreparedCommitReceipt:
     layer_receipts: tuple[FP32LayerApplicationReceipt, ...]
     native_storage_assignment_count: int
     storage_cast_boundary_count: int
+    numeric_storage_cast_count: int
+    rounding_observation_count: int
+    rounding_mismatch_count: int
+    bf16_path_call_count: int
+    bf16_path_decision_influence_count: int
     logical_outer_commit_count: int
     persistent_commit_count: int
     rollback_count: int
@@ -187,6 +270,13 @@ class FP32PreparedCommitReceipt:
                 self.native_storage_assignment_count
             ),
             "storage_cast_boundary_count": self.storage_cast_boundary_count,
+            "numeric_storage_cast_count": self.numeric_storage_cast_count,
+            "rounding_observation_count": self.rounding_observation_count,
+            "rounding_mismatch_count": self.rounding_mismatch_count,
+            "bf16_path_call_count": self.bf16_path_call_count,
+            "bf16_path_decision_influence_count": (
+                self.bf16_path_decision_influence_count
+            ),
             "logical_outer_commit_count": self.logical_outer_commit_count,
             "persistent_commit_count": self.persistent_commit_count,
             "rollback_count": self.rollback_count,
@@ -241,6 +331,44 @@ def _tensor_norm_and_energy(value: torch.Tensor) -> tuple[float, float]:
     energy = float(torch.dot(flat64, flat64))
     norm = float(torch.sqrt(torch.tensor(energy, dtype=torch.float64)))
     return norm, energy
+
+
+def _prepared_actual_rounding_telemetry(
+    prepared32: torch.Tensor,
+    actual_delta32: torch.Tensor,
+) -> tuple[bool, str, float, float, float, float | None, bool]:
+    if (
+        prepared32.dtype is not torch.float32
+        or actual_delta32.dtype is not torch.float32
+        or prepared32.shape != actual_delta32.shape
+        or prepared32.device != actual_delta32.device
+    ):
+        raise ODEBFContractError("FP32 rounding telemetry inputs differ")
+    error32 = (actual_delta32 - prepared32).contiguous()
+    error_norm, error_energy = _tensor_norm_and_energy(error32)
+    max_abs = float(error32.detach().abs().max().to(device="cpu"))
+    prepared64 = prepared32.detach().to(device="cpu", dtype=torch.float64).reshape(-1)
+    actual64 = actual_delta32.detach().to(
+        device="cpu", dtype=torch.float64
+    ).reshape(-1)
+    prepared_norm = float(torch.linalg.vector_norm(prepared64))
+    actual_norm = float(torch.linalg.vector_norm(actual64))
+    cosine_defined = prepared_norm > 0.0 and actual_norm > 0.0
+    cosine = None
+    if cosine_defined:
+        cosine = float(
+            torch.dot(prepared64, actual64) / (prepared_norm * actual_norm)
+        )
+        cosine = min(1.0, max(-1.0, cosine))
+    return (
+        tensor_sha256(prepared32) == tensor_sha256(actual_delta32),
+        tensor_sha256(error32),
+        max_abs,
+        error_norm,
+        error_energy,
+        cosine,
+        cosine_defined,
+    )
 
 
 def _official_native_assignment(
@@ -452,6 +580,21 @@ class OfficialStyleFP32SequentialTransaction(AbstractContextManager):
             layer_receipts=tuple(self._layer_receipts),
             native_storage_assignment_count=len(self._layer_receipts),
             storage_cast_boundary_count=len(self._layer_receipts),
+            numeric_storage_cast_count=sum(
+                item.numeric_storage_cast_count for item in self._layer_receipts
+            ),
+            rounding_observation_count=len(self._layer_receipts),
+            rounding_mismatch_count=sum(
+                not item.prepared_vs_actual_byte_exact
+                for item in self._layer_receipts
+            ),
+            bf16_path_call_count=sum(
+                item.bf16_path_call_count for item in self._layer_receipts
+            ),
+            bf16_path_decision_influence_count=sum(
+                item.bf16_path_decision_influence_count
+                for item in self._layer_receipts
+            ),
             logical_outer_commit_count=logical_outer_commit_count,
             persistent_commit_count=persistent_commit_count,
             rollback_count=self._rollback_count,
@@ -472,6 +615,8 @@ class OfficialStyleFP32SequentialTransaction(AbstractContextManager):
         matched_update32: torch.Tensor,
     ) -> FP32LayerApplicationReceipt:
         try:
+            if torch.is_autocast_enabled() or torch.is_autocast_enabled("cpu"):
+                raise ODEBFStateError("FP32 transaction autocast is enabled")
             if self._finalized:
                 raise ODEBFStateError("FP32 transaction is already finalized")
             if self._prepared_receipt is not None:
@@ -499,6 +644,13 @@ class OfficialStyleFP32SequentialTransaction(AbstractContextManager):
             update_sha256 = tensor_sha256(matched_update32)
             update_norm, update_energy = _tensor_norm_and_energy(matched_update32)
             snapshot = self._entry[layer]
+            official_reference_endpoint = (
+                snapshot.value.to(device=parameter.device, dtype=torch.float32)
+                + matched_update32.float()
+            ).to(dtype=parameter.dtype).contiguous()
+            official_reference_endpoint_sha256 = tensor_sha256(
+                official_reference_endpoint
+            )
             _official_native_assignment(parameter, matched_update32)
             if (
                 int(matched_update32.data_ptr()) != update_pointer
@@ -516,6 +668,13 @@ class OfficialStyleFP32SequentialTransaction(AbstractContextManager):
                 raise ODEBFStateError(
                     "native FP32 assignment changed storage identity or finiteness"
                 )
+            official_reference_endpoint_byte_exact = (
+                tensor_sha256(parameter) == official_reference_endpoint_sha256
+            )
+            if not official_reference_endpoint_byte_exact:
+                raise ODEBFStateError(
+                    "native assignment differs from Official FP32 reference"
+                )
 
             actual_delta32 = (
                 parameter.detach().to(dtype=torch.float32)
@@ -525,6 +684,19 @@ class OfficialStyleFP32SequentialTransaction(AbstractContextManager):
                 )
             ).contiguous()
             actual_norm, actual_energy = _tensor_norm_and_energy(actual_delta32)
+            (
+                prepared_vs_actual_byte_exact,
+                rounding_error_sha256,
+                rounding_error_max_abs,
+                rounding_error_norm,
+                rounding_error_energy,
+                prepared_actual_cosine,
+                prepared_actual_cosine_defined,
+            ) = _prepared_actual_rounding_telemetry(
+                matched_update32,
+                actual_delta32,
+            )
+            numeric_storage_cast_count = int(parameter.dtype is not torch.float32)
             receipt = FP32LayerApplicationReceipt(
                 layer=layer,
                 weight_name=self._bindings[layer].weight_name,
@@ -536,6 +708,20 @@ class OfficialStyleFP32SequentialTransaction(AbstractContextManager):
                 pre_cast_fp32_update_sha256=update_sha256,
                 pre_cast_fp32_update_norm=update_norm,
                 pre_cast_fp32_update_energy=update_energy,
+                prepared_fp32_update_sha256=update_sha256,
+                prepared_fp32_update_pointer=update_pointer,
+                prepared_fp32_update_version=update_version,
+                prepared_fp32_update_dtype=str(matched_update32.dtype),
+                prepared_fp32_update_device=str(matched_update32.device),
+                official_reference_endpoint_sha256=(
+                    official_reference_endpoint_sha256
+                ),
+                official_reference_endpoint_byte_exact=(
+                    official_reference_endpoint_byte_exact
+                ),
+                official_assignment_equation=(
+                    "parameter[...] = parameter + matched_update32.float()"
+                ),
                 post_storage_parameter_sha256=tensor_sha256(parameter),
                 post_storage_parameter_pointer=int(parameter.data_ptr()),
                 post_storage_dtype=str(parameter.dtype),
@@ -543,9 +729,30 @@ class OfficialStyleFP32SequentialTransaction(AbstractContextManager):
                 actual_post_storage_delta32_sha256=tensor_sha256(actual_delta32),
                 actual_post_storage_delta32_norm=actual_norm,
                 actual_post_storage_delta32_energy=actual_energy,
+                actual_post_storage_delta32_dtype=str(actual_delta32.dtype),
+                prepared_vs_actual_byte_exact=prepared_vs_actual_byte_exact,
+                prepared_vs_actual_rounding_error32_sha256=(
+                    rounding_error_sha256
+                ),
+                prepared_vs_actual_rounding_error_max_abs=(
+                    rounding_error_max_abs
+                ),
+                prepared_vs_actual_rounding_error_norm=rounding_error_norm,
+                prepared_vs_actual_rounding_error_energy=rounding_error_energy,
+                prepared_vs_actual_cosine=prepared_actual_cosine,
+                prepared_vs_actual_cosine_defined=(
+                    prepared_actual_cosine_defined
+                ),
+                rounding_telemetry_decision_influence_count=0,
                 storage_assignment_count=1,
                 storage_cast_boundary_count=1,
-                storage_cast_required=parameter.dtype is not torch.float32,
+                numeric_storage_cast_count=numeric_storage_cast_count,
+                storage_cast_required=bool(numeric_storage_cast_count),
+                bf16_path_call_count=0,
+                bf16_path_decision_influence_count=0,
+                autocast_count=0,
+                downcast_count=0,
+                quantization_count=0,
                 postcast_decision_influence_count=0,
             )
             self._layer_receipts.append(receipt)
@@ -614,6 +821,22 @@ class OfficialStyleFP32SequentialTransaction(AbstractContextManager):
                 layer_receipts=tuple(self._layer_receipts),
                 native_storage_assignment_count=len(self._layer_receipts),
                 storage_cast_boundary_count=len(self._layer_receipts),
+                numeric_storage_cast_count=sum(
+                    item.numeric_storage_cast_count
+                    for item in self._layer_receipts
+                ),
+                rounding_observation_count=len(self._layer_receipts),
+                rounding_mismatch_count=sum(
+                    not item.prepared_vs_actual_byte_exact
+                    for item in self._layer_receipts
+                ),
+                bf16_path_call_count=sum(
+                    item.bf16_path_call_count for item in self._layer_receipts
+                ),
+                bf16_path_decision_influence_count=sum(
+                    item.bf16_path_decision_influence_count
+                    for item in self._layer_receipts
+                ),
                 logical_outer_commit_count=0,
                 persistent_commit_count=0,
                 rollback_count=self._rollback_count,

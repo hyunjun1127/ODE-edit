@@ -404,6 +404,17 @@ def bind_authoritative_transaction_factors(
         != len(RESIDUAL_RESERVE_LAYER_ORDER)
         or prepared.storage_cast_boundary_count
         != len(RESIDUAL_RESERVE_LAYER_ORDER)
+        or prepared.numeric_storage_cast_count
+        != sum(item.numeric_storage_cast_count for item in prepared.layer_receipts)
+        or prepared.rounding_observation_count
+        != len(RESIDUAL_RESERVE_LAYER_ORDER)
+        or prepared.rounding_mismatch_count
+        != sum(
+            not item.prepared_vs_actual_byte_exact
+            for item in prepared.layer_receipts
+        )
+        or prepared.bf16_path_call_count != 0
+        or prepared.bf16_path_decision_influence_count != 0
         or prepared.logical_outer_commit_count != 0
         or prepared.persistent_commit_count != 0
         or prepared.rollback_count != 0
@@ -422,6 +433,12 @@ def bind_authoritative_transaction_factors(
         != len(RESIDUAL_RESERVE_LAYER_ORDER)
         or future.storage_cast_boundary_count
         != len(RESIDUAL_RESERVE_LAYER_ORDER)
+        or future.numeric_storage_cast_count != prepared.numeric_storage_cast_count
+        or future.rounding_observation_count
+        != prepared.rounding_observation_count
+        or future.rounding_mismatch_count != prepared.rounding_mismatch_count
+        or future.bf16_path_call_count != 0
+        or future.bf16_path_decision_influence_count != 0
         or future.logical_outer_commit_count != 1
         or future.persistent_commit_count != 1
         or future.rollback_count != 0
@@ -473,12 +490,33 @@ def bind_authoritative_transaction_factors(
             != factor.identity_sha256
             or construction_receipt.matched_update_sha256
             != receipt.pre_cast_fp32_update_sha256
+            or receipt.prepared_fp32_update_sha256
+            != construction_receipt.matched_update_sha256
             or construction_receipt.matched_update_pointer
             != int(construction.construction.matched_update32.data_ptr())
+            or receipt.prepared_fp32_update_pointer
+            != construction_receipt.matched_update_pointer
             or construction_receipt.matched_update_version
             != int(construction.construction.matched_update32._version)
+            or receipt.prepared_fp32_update_version
+            != construction_receipt.matched_update_version
+            or receipt.prepared_fp32_update_dtype != "torch.float32"
+            or receipt.prepared_fp32_update_device
+            != str(construction.construction.matched_update32.device)
+            or not receipt.official_reference_endpoint_byte_exact
+            or receipt.official_reference_endpoint_sha256
+            != receipt.post_storage_parameter_sha256
+            or receipt.actual_post_storage_delta32_dtype != "torch.float32"
+            or receipt.rounding_telemetry_decision_influence_count != 0
             or receipt.storage_assignment_count != 1
             or receipt.storage_cast_boundary_count != 1
+            or receipt.numeric_storage_cast_count
+            != int(receipt.storage_cast_required)
+            or receipt.bf16_path_call_count != 0
+            or receipt.bf16_path_decision_influence_count != 0
+            or receipt.autocast_count != 0
+            or receipt.downcast_count != 0
+            or receipt.quantization_count != 0
             or receipt.postcast_decision_influence_count != 0
             or receipt.weight_name != prepared.weight_names[layer - 4]
             or not receipt.pre_cast_fp32_update_sha256

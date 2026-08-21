@@ -367,7 +367,20 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
             storage_cast_boundary_count=4,
         )
         failed = replace(valid, rollback_count=1)
-        for receipt in (partial, failed):
+        forged_numeric_cast = replace(
+            valid,
+            numeric_storage_cast_count=valid.numeric_storage_cast_count + 1,
+        )
+        forged_rounding_count = replace(
+            valid,
+            rounding_mismatch_count=valid.rounding_mismatch_count + 1,
+        )
+        for receipt in (
+            partial,
+            failed,
+            forged_numeric_cast,
+            forged_rounding_count,
+        ):
             with self.assertRaises(ODEBFContractError):
                 bind_authoritative_transaction_factors(receipt, applied)
 
