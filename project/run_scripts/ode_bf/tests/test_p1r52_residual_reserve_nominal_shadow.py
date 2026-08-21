@@ -212,6 +212,34 @@ class ResidualReserveNominalShadowTests(unittest.TestCase):
                 layer_result.application.m3a_layer_receipt.layer,
                 LAYERS[index],
             )
+        for index in range(1, len(result.layer_results)):
+            previous = result.layer_results[index - 1]
+            current = result.layer_results[index]
+            prior_state = next(
+                item
+                for item in current.observation.receipt.pre_observation_weight_state
+                if item.layer == previous.receipt.layer
+            )
+            self.assertEqual(
+                prior_state.sha256,
+                previous.application.m3a_layer_receipt.post_storage_parameter_sha256,
+            )
+            self.assertNotEqual(
+                previous.observation.receipt.terminal_identity.sha256,
+                current.observation.receipt.terminal_identity.sha256,
+            )
+            self.assertNotEqual(
+                previous.observation.receipt.joint_keys_identity.sha256,
+                current.observation.receipt.joint_keys_identity.sha256,
+            )
+            self.assertNotEqual(
+                previous.plan.receipt.residual_sha256,
+                current.plan.receipt.residual_sha256,
+            )
+            self.assertNotEqual(
+                previous.plan.receipt.q_sha256,
+                current.plan.receipt.q_sha256,
+            )
 
     def test_shadow_proof_closes_only_in_b2b1(self) -> None:
         result, *_ = self.execute()
@@ -291,8 +319,105 @@ class ResidualReserveNominalShadowTests(unittest.TestCase):
             tuple(item.identity_sha256 for item in second.factors),
         )
         self.assertIn(
-            "tensor_identity.pointer",
+            "layers[*].observation.terminal_identity.pointer",
             first.receipt.process_local_identity_exclusions,
+        )
+
+    def test_scientific_projection_binds_substantive_fields_only(self) -> None:
+        result, *_ = self.execute()
+        kwargs = {
+            "geometry": result.geometry,
+            "target": result.receipt.target_identity,
+            "entry": result.receipt.entry_weight_state,
+            "restored": result.receipt.restored_weight_state,
+            "layer_results": result.layer_results,
+            "transaction": result.transaction_receipt,
+        }
+        baseline = shadow_module._stable_scientific_identity(**kwargs)
+
+        first = result.layer_results[0]
+        apply_two = replace(
+            first,
+            receipt=replace(first.receipt, exact_construction_apply_count=2),
+        )
+        apply_two_layers = (apply_two,) + result.layer_results[1:]
+        self.assertNotEqual(
+            baseline,
+            shadow_module._stable_scientific_identity(
+                **{**kwargs, "layer_results": apply_two_layers}
+            ),
+        )
+        with self.assertRaises(ODEBFStateError):
+            shadow_module._derive_and_validate_ledger(
+                apply_two_layers,
+                result.transaction_receipt,
+            )
+
+        influenced = replace(
+            first,
+            receipt=replace(
+                first.receipt,
+                post_storage_decision_influence_count=1,
+            ),
+        )
+        influenced_layers = (influenced,) + result.layer_results[1:]
+        self.assertNotEqual(
+            baseline,
+            shadow_module._stable_scientific_identity(
+                **{**kwargs, "layer_results": influenced_layers}
+            ),
+        )
+        with self.assertRaises(ODEBFStateError):
+            shadow_module._derive_and_validate_ledger(
+                influenced_layers,
+                result.transaction_receipt,
+            )
+
+        backward_transaction = replace(
+            result.transaction_receipt,
+            model_backward_count=1,
+        )
+        self.assertNotEqual(
+            baseline,
+            shadow_module._stable_scientific_identity(
+                **{**kwargs, "transaction": backward_transaction}
+            ),
+        )
+        with self.assertRaises(ODEBFStateError):
+            shadow_module._derive_and_validate_ledger(
+                result.layer_results,
+                backward_transaction,
+            )
+
+        renamed_transaction = replace(
+            result.transaction_receipt,
+            transaction_id="process-local-renamed",
+        )
+        self.assertEqual(
+            baseline,
+            shadow_module._stable_scientific_identity(
+                **{**kwargs, "transaction": renamed_transaction}
+            ),
+        )
+        pointer_only_target = replace(
+            result.receipt.target_identity,
+            pointer=result.receipt.target_identity.pointer + 4096,
+        )
+        pointer_only_entry = (
+            replace(
+                result.receipt.entry_weight_state[0],
+                pointer=result.receipt.entry_weight_state[0].pointer + 4096,
+            ),
+        ) + result.receipt.entry_weight_state[1:]
+        self.assertEqual(
+            baseline,
+            shadow_module._stable_scientific_identity(
+                **{
+                    **kwargs,
+                    "target": pointer_only_target,
+                    "entry": pointer_only_entry,
+                }
+            ),
         )
 
     def test_callback_failures_at_4_6_8_restore_and_return_no_result(self) -> None:
@@ -431,6 +556,7 @@ class ResidualReserveNominalShadowTests(unittest.TestCase):
         self.assertEqual(receipt.ledger_append_count, 0)
         self.assertEqual(receipt.history_append_count, 0)
         self.assertEqual(receipt.post_storage_decision_influence_count, 0)
+        self.assertEqual(receipt.candidate_materialization_count, 0)
         self.assertIs(
             FP32TransactionMode.SHADOW,
             FP32TransactionMode.SHADOW,

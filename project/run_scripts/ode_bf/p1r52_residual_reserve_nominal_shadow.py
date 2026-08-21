@@ -38,9 +38,39 @@ _UNIFORM_NOMINAL_PI_FP32 = float(torch.tensor(0.2, dtype=torch.float32))
 UNIFORM_NOMINAL_PI = (_UNIFORM_NOMINAL_PI_FP32,) * 5
 SHADOW_PROOF_STATUS = "CLOSED_BY_M3D_B2B1_SHADOW_APPLY_AND_RESTORE"
 PROCESS_LOCAL_IDENTITY_EXCLUSIONS = (
-    "weight_state.pointer",
-    "tensor_identity.pointer",
-    "nested_m3a_pointer_fields",
+    "overall.transaction_id",
+    "target.pointer",
+    "entry_weight_state[*].pointer",
+    "restored_weight_state[*].pointer",
+    "layers[*].observation.pre_observation_weight_state[*].pointer",
+    "layers[*].observation.terminal_identity.pointer",
+    "layers[*].observation.joint_keys_identity.pointer",
+    "layers[*].observation.identity_sha256",
+    "layers[*].q_solve.input_identities[*].pointer",
+    "layers[*].q_solve.identity_sha256",
+    "layers[*].plan.input_identities[*].pointer",
+    "layers[*].plan.q_solve_receipt_identity",
+    "layers[*].plan.construction_receipt_identity",
+    "layers[*].plan.identity_sha256",
+    "layers[*].construction.raw_update_pointer",
+    "layers[*].construction.matched_update_pointer",
+    "layers[*].construction.identity_sha256",
+    "layers[*].application.construction_receipt_identity",
+    "layers[*].application.matched_update_pointer",
+    "layers[*].application.m3a_layer_receipt_identity",
+    "layers[*].application.identity_sha256",
+    "layers[*].m3a_layer.entry_parameter_pointer",
+    "layers[*].m3a_layer.post_storage_parameter_pointer",
+    "layers[*].nominal.layer_step_receipt_identity",
+    "layers[*].nominal.construction_receipt_identity",
+    "layers[*].nominal.identity_sha256",
+    "layers[*].closure.pointer_derived_receipt_identities",
+    "layers[*].closure.identity_sha256",
+    "transaction.transaction_id",
+    "transaction.layer_receipts[*].entry_parameter_pointer",
+    "transaction.layer_receipts[*].post_storage_parameter_pointer",
+    "transaction.final_parameter_pointers",
+    "transaction.identity_sha256",
 )
 
 
@@ -195,6 +225,11 @@ class NominalShadowLayerReceipt:
     beta_applied_left_sha256: str
     matched_update_sha256: str
     post_storage_parameter_sha256: str
+    router_call_count: int
+    heldout_evaluator_count: int
+    external_materializer_count: int
+    ledger_append_count: int
+    history_append_count: int
 
     def raw_free_payload(self) -> dict[str, Any]:
         payload: dict[str, Any] = {
@@ -236,6 +271,11 @@ class NominalShadowLayerReceipt:
             "post_storage_parameter_sha256": (
                 self.post_storage_parameter_sha256
             ),
+            "router_call_count": self.router_call_count,
+            "heldout_evaluator_count": self.heldout_evaluator_count,
+            "external_materializer_count": self.external_materializer_count,
+            "ledger_append_count": self.ledger_append_count,
+            "history_append_count": self.history_append_count,
         }
         payload["identity_sha256"] = canonical_hash(payload)
         return payload
@@ -252,6 +292,36 @@ class NominalShadowLayerResult:
     application: AppliedPreparedLowRankUpdate
     nominal: NominalReferenceFactorResult
     receipt: NominalShadowLayerReceipt
+
+
+@dataclass(frozen=True, slots=True)
+class NominalShadowDerivedLedger:
+    terminal_forward_count: int
+    key_forward_count: int
+    q_solve_count: int
+    dense_update_construction_count: int
+    temporary_native_apply_count: int
+    native_storage_assignment_count: int
+    storage_cast_boundary_count: int
+    restore_count: int
+    model_backward_count: int
+    semantic_backward_count: int
+    slope_backward_count: int
+    post_storage_decision_influence_count: int
+    router_call_count: int
+    heldout_evaluator_count: int
+    external_materializer_count: int
+    candidate_materialization_count: int
+    ledger_append_count: int
+    history_append_count: int
+    logical_outer_commit_count: int
+    persistent_commit_count: int
+
+    def raw_free_payload(self) -> dict[str, int]:
+        return {
+            field: int(getattr(self, field))
+            for field in self.__dataclass_fields__
+        }
 
 
 @dataclass(frozen=True, slots=True)
@@ -273,6 +343,7 @@ class NominalShadowReceipt:
     logical_outer_commit_count: int
     persistent_commit_count: int
     external_materializer_count: int
+    candidate_materialization_count: int
     ledger_append_count: int
     history_append_count: int
     terminal_forward_count: int
@@ -316,6 +387,9 @@ class NominalShadowReceipt:
             "logical_outer_commit_count": self.logical_outer_commit_count,
             "persistent_commit_count": self.persistent_commit_count,
             "external_materializer_count": self.external_materializer_count,
+            "candidate_materialization_count": (
+                self.candidate_materialization_count
+            ),
             "ledger_append_count": self.ledger_append_count,
             "history_append_count": self.history_append_count,
             "terminal_forward_count": self.terminal_forward_count,
@@ -574,61 +648,328 @@ def _validate_contexts(
     return tuple(guards)
 
 
+def _drop(payload: dict[str, Any], *keys: str) -> dict[str, Any]:
+    projected = dict(payload)
+    for key in keys:
+        projected.pop(key, None)
+    return projected
+
+
+def _project_observation(receipt: PrefixObservationReceipt) -> dict[str, Any]:
+    payload = _drop(receipt.raw_free_payload(), "identity_sha256")
+    payload["pre_observation_weight_state"] = [
+        item.scientific_payload()
+        for item in receipt.pre_observation_weight_state
+    ]
+    payload["terminal_identity"] = receipt.terminal_identity.scientific_payload()
+    payload["joint_keys_identity"] = (
+        receipt.joint_keys_identity.scientific_payload()
+    )
+    return payload
+
+
+def _project_q_solve(result: NominalShadowLayerResult) -> dict[str, Any]:
+    payload = _drop(
+        result.plan.q_solve.receipt.raw_free_payload(),
+        "identity_sha256",
+    )
+    payload["input_identities"] = [
+        _drop(item, "pointer") for item in payload["input_identities"]
+    ]
+    return payload
+
+
+def _project_layer_step(result: NominalShadowLayerResult) -> dict[str, Any]:
+    payload = _drop(
+        result.plan.receipt.raw_free_payload(),
+        "q_solve_receipt_identity",
+        "construction_receipt_identity",
+        "identity_sha256",
+    )
+    payload["input_identities"] = [
+        _drop(item, "pointer") for item in payload["input_identities"]
+    ]
+    return payload
+
+
+def _project_construction(result: NominalShadowLayerResult) -> dict[str, Any]:
+    return _drop(
+        result.plan.prepared_update.receipt.raw_free_payload(),
+        "raw_update_pointer",
+        "matched_update_pointer",
+        "identity_sha256",
+    )
+
+
+def _project_m3a_layer(result: NominalShadowLayerResult) -> dict[str, Any]:
+    return _drop(
+        result.application.m3a_layer_receipt.raw_free_payload(),
+        "entry_parameter_pointer",
+        "post_storage_parameter_pointer",
+    )
+
+
+def _project_application(result: NominalShadowLayerResult) -> dict[str, Any]:
+    return _drop(
+        result.application.raw_free_payload(),
+        "construction_receipt_identity",
+        "matched_update_pointer",
+        "m3a_layer_receipt_identity",
+        "identity_sha256",
+    )
+
+
+def _project_nominal(result: NominalShadowLayerResult) -> dict[str, Any]:
+    return _drop(
+        result.nominal.receipt.raw_free_payload(),
+        "layer_step_receipt_identity",
+        "construction_receipt_identity",
+        "identity_sha256",
+    )
+
+
+def _project_closure(result: NominalShadowLayerResult) -> dict[str, Any]:
+    return _drop(
+        result.receipt.raw_free_payload(),
+        "observation_receipt_identity",
+        "layer_step_receipt_identity",
+        "nominal_factor_receipt_identity",
+        "construction_receipt_identity",
+        "application_receipt_identity",
+        "transaction_layer_receipt_identity",
+        "identity_sha256",
+    )
+
+
+def _project_transaction(receipt: FP32TransactionReceipt) -> dict[str, Any]:
+    payload = _drop(
+        receipt.raw_free_payload(),
+        "transaction_id",
+        "final_parameter_pointers",
+        "identity_sha256",
+    )
+    payload["layer_receipts"] = [
+        _drop(
+            item.raw_free_payload(),
+            "entry_parameter_pointer",
+            "post_storage_parameter_pointer",
+        )
+        for item in receipt.layer_receipts
+    ]
+    return payload
+
+
+def _stable_scientific_projection(
+    *,
+    geometry: ResidualReserveGeometry,
+    target: ShadowTensorIdentity,
+    entry: tuple[ShadowWeightStateIdentity, ...],
+    restored: tuple[ShadowWeightStateIdentity, ...],
+    layer_results: tuple[NominalShadowLayerResult, ...],
+    transaction: FP32TransactionReceipt,
+) -> dict[str, Any]:
+    return {
+        "uniform_pi": list(UNIFORM_NOMINAL_PI),
+        "geometry": geometry.receipt.raw_free_payload(),
+        "target": target.scientific_payload(),
+        "entry": [item.scientific_payload() for item in entry],
+        "restored": [item.scientific_payload() for item in restored],
+        "layers": [
+            {
+                "observation": _project_observation(item.observation.receipt),
+                "q_solve": _project_q_solve(item),
+                "plan": _project_layer_step(item),
+                "construction": _project_construction(item),
+                "prepared_factor": (
+                    item.plan.prepared_update.factor.raw_free_payload()
+                ),
+                "application": _project_application(item),
+                "m3a_layer": _project_m3a_layer(item),
+                "nominal": _project_nominal(item),
+                "nominal_factor": item.nominal.factor.raw_free_payload(),
+                "closure": _project_closure(item),
+            }
+            for item in layer_results
+        ],
+        "transaction": _project_transaction(transaction),
+        "process_local_identity_exclusions": list(
+            PROCESS_LOCAL_IDENTITY_EXCLUSIONS
+        ),
+    }
+
+
 def _stable_scientific_identity(
     *,
     geometry: ResidualReserveGeometry,
     target: ShadowTensorIdentity,
     entry: tuple[ShadowWeightStateIdentity, ...],
     restored: tuple[ShadowWeightStateIdentity, ...],
-    layers: tuple[NominalShadowLayerReceipt, ...],
+    layer_results: tuple[NominalShadowLayerResult, ...],
     transaction: FP32TransactionReceipt,
 ) -> str:
-    payload = {
-        "uniform_pi": list(UNIFORM_NOMINAL_PI),
-        "geometry_receipt_identity": geometry.receipt.raw_free_payload()[
-            "identity_sha256"
-        ],
-        "target": target.scientific_payload(),
-        "entry": [item.scientific_payload() for item in entry],
-        "restored": [item.scientific_payload() for item in restored],
-        "layers": [
-            {
-                "layer": item.layer,
-                "pre_observation_weight_hashes": [
-                    list(value) for value in item.pre_observation_weight_hashes
-                ],
-                "terminal_sha256": item.terminal_sha256,
-                "joint_keys_sha256": item.joint_keys_sha256,
-                "residual_sha256": item.residual_sha256,
-                "q_sha256": item.q_sha256,
-                "beta_applied_left_sha256": item.beta_applied_left_sha256,
-                "matched_update_sha256": item.matched_update_sha256,
-                "post_storage_parameter_sha256": (
-                    item.post_storage_parameter_sha256
-                ),
-                "nominal_factor_identity": item.nominal_factor_identity,
-                "shadow_proof_status": item.shadow_proof_status,
-            }
-            for item in layers
-        ],
-        "transaction": {
-            "mode": transaction.mode,
-            "layer_order": list(transaction.layer_order),
-            "final_parameter_sha256": [
-                list(item) for item in transaction.final_parameter_sha256
-            ],
-            "native_storage_assignment_count": (
-                transaction.native_storage_assignment_count
-            ),
-            "storage_cast_boundary_count": (
-                transaction.storage_cast_boundary_count
-            ),
-            "rollback_count": transaction.rollback_count,
-            "logical_outer_commit_count": transaction.logical_outer_commit_count,
-            "persistent_commit_count": transaction.persistent_commit_count,
-        },
+    return canonical_hash(
+        _stable_scientific_projection(
+            geometry=geometry,
+            target=target,
+            entry=entry,
+            restored=restored,
+            layer_results=layer_results,
+            transaction=transaction,
+        )
+    )
+
+
+def _derive_and_validate_ledger(
+    layer_results: tuple[NominalShadowLayerResult, ...],
+    transaction: FP32TransactionReceipt,
+) -> NominalShadowDerivedLedger:
+    if (
+        tuple(item.receipt.layer for item in layer_results)
+        != RESIDUAL_RESERVE_LAYER_ORDER
+        or len(transaction.layer_receipts) != len(layer_results)
+    ):
+        raise ODEBFStateError("nominal shadow derived layer inventory differs")
+    for item, transaction_layer in zip(
+        layer_results,
+        transaction.layer_receipts,
+        strict=True,
+    ):
+        if (
+            item.receipt.exact_construction_apply_count
+            != item.application.exact_object_apply_count
+            or item.plan.receipt.q_solve_count
+            != item.plan.q_solve.receipt.logical_q_solve_count
+            or item.plan.receipt.dense_construction_count
+            != item.plan.prepared_update.receipt.dense_construction_count
+            or item.receipt.post_storage_decision_influence_count
+            != item.application.m3a_layer_receipt.postcast_decision_influence_count
+            or item.application.m3a_layer_receipt != transaction_layer
+            or item.receipt.transaction_layer_receipt_identity
+            != transaction_layer.identity_sha256
+        ):
+            raise ODEBFStateError("nominal shadow nested ledger binding differs")
+    ledger = NominalShadowDerivedLedger(
+        terminal_forward_count=sum(
+            item.observation.receipt.terminal_forward_count
+            for item in layer_results
+        ),
+        key_forward_count=sum(
+            item.observation.receipt.key_forward_count
+            for item in layer_results
+        ),
+        q_solve_count=sum(
+            item.plan.q_solve.receipt.logical_q_solve_count
+            for item in layer_results
+        ),
+        dense_update_construction_count=sum(
+            item.plan.prepared_update.receipt.dense_construction_count
+            for item in layer_results
+        ),
+        temporary_native_apply_count=sum(
+            item.application.exact_object_apply_count
+            for item in layer_results
+        ),
+        native_storage_assignment_count=sum(
+            item.application.m3a_layer_receipt.storage_assignment_count
+            for item in layer_results
+        ),
+        storage_cast_boundary_count=sum(
+            item.application.m3a_layer_receipt.storage_cast_boundary_count
+            for item in layer_results
+        ),
+        restore_count=transaction.rollback_count,
+        model_backward_count=(
+            sum(
+                item.observation.receipt.model_backward_count
+                + item.plan.q_solve.receipt.model_backward_count
+                for item in layer_results
+            )
+            + transaction.model_backward_count
+        ),
+        semantic_backward_count=sum(
+            item.observation.receipt.semantic_backward_count
+            + item.plan.receipt.semantic_backward_count
+            for item in layer_results
+        ),
+        slope_backward_count=sum(
+            item.observation.receipt.slope_backward_count
+            + item.plan.receipt.slope_backward_count
+            for item in layer_results
+        ),
+        post_storage_decision_influence_count=(
+            sum(
+                item.observation.receipt.action_influence_count
+                + item.application.m3a_layer_receipt.postcast_decision_influence_count
+                + item.receipt.post_storage_decision_influence_count
+                for item in layer_results
+            )
+            + transaction.postcast_decision_influence_count
+        ),
+        router_call_count=sum(
+            item.receipt.router_call_count for item in layer_results
+        ),
+        heldout_evaluator_count=sum(
+            item.receipt.heldout_evaluator_count for item in layer_results
+        ),
+        external_materializer_count=(
+            sum(
+                item.receipt.external_materializer_count
+                + item.plan.receipt.materialization_count
+                for item in layer_results
+            )
+            + transaction.external_materializer_call_count
+        ),
+        candidate_materialization_count=(
+            transaction.candidate_materialization_count
+        ),
+        ledger_append_count=sum(
+            item.receipt.ledger_append_count for item in layer_results
+        ),
+        history_append_count=sum(
+            item.receipt.history_append_count for item in layer_results
+        ),
+        logical_outer_commit_count=(
+            sum(
+                item.plan.receipt.commit_count
+                + item.receipt.authoritative_transaction_commit_claim_count
+                for item in layer_results
+            )
+            + transaction.logical_outer_commit_count
+        ),
+        persistent_commit_count=transaction.persistent_commit_count,
+    )
+    locked = {
+        "terminal_forward_count": 5,
+        "key_forward_count": 5,
+        "q_solve_count": 5,
+        "dense_update_construction_count": 5,
+        "temporary_native_apply_count": 5,
+        "native_storage_assignment_count": 5,
+        "storage_cast_boundary_count": 5,
+        "restore_count": 1,
+        "model_backward_count": 0,
+        "semantic_backward_count": 0,
+        "slope_backward_count": 0,
+        "post_storage_decision_influence_count": 0,
+        "router_call_count": 0,
+        "heldout_evaluator_count": 0,
+        "external_materializer_count": 0,
+        "candidate_materialization_count": 0,
+        "ledger_append_count": 0,
+        "history_append_count": 0,
+        "logical_outer_commit_count": 0,
+        "persistent_commit_count": 0,
     }
-    return canonical_hash(payload)
+    if ledger.raw_free_payload() != locked:
+        raise ODEBFStateError("nominal shadow derived compute ledger differs")
+    if (
+        transaction.native_storage_assignment_count
+        != ledger.native_storage_assignment_count
+        or transaction.storage_cast_boundary_count
+        != ledger.storage_cast_boundary_count
+    ):
+        raise ODEBFStateError("nominal shadow transaction ledger differs")
+    return ledger
 
 
 def run_uniform_nominal_shadow_probe(
@@ -762,6 +1103,11 @@ def run_uniform_nominal_shadow_probe(
                 post_storage_parameter_sha256=(
                     transaction_layer_receipt.post_storage_parameter_sha256
                 ),
+                router_call_count=0,
+                heldout_evaluator_count=0,
+                external_materializer_count=0,
+                ledger_append_count=0,
+                history_append_count=0,
             )
             if (
                 nominal.receipt.shadow_application_proof_status
@@ -790,24 +1136,23 @@ def run_uniform_nominal_shadow_probe(
         restored_state != entry_state
         or transaction_receipt.mode != FP32TransactionMode.SHADOW.value
         or transaction_receipt.layer_order != RESIDUAL_RESERVE_LAYER_ORDER
-        or transaction_receipt.native_storage_assignment_count != 5
-        or transaction_receipt.storage_cast_boundary_count != 5
-        or transaction_receipt.logical_outer_commit_count != 0
-        or transaction_receipt.persistent_commit_count != 0
-        or transaction_receipt.rollback_count != 1
         or not transaction_receipt.restored_entry_bytes
         or not transaction_receipt.restored_entry_pointers
-        or transaction_receipt.external_materializer_call_count != 0
         or len(layer_results) != 5
     ):
         raise ODEBFStateError("nominal shadow final restore receipt differs")
-    layer_receipts = tuple(item.receipt for item in layer_results)
+    frozen_layer_results = tuple(layer_results)
+    layer_receipts = tuple(item.receipt for item in frozen_layer_results)
+    derived_ledger = _derive_and_validate_ledger(
+        frozen_layer_results,
+        transaction_receipt,
+    )
     scientific_identity = _stable_scientific_identity(
         geometry=geometry,
         target=target_guard,
         entry=entry_state,
         restored=restored_state,
-        layers=layer_receipts,
+        layer_results=frozen_layer_results,
         transaction=transaction_receipt,
     )
     receipt = NominalShadowReceipt(
@@ -824,25 +1169,34 @@ def run_uniform_nominal_shadow_probe(
         layer_receipts=layer_receipts,
         transaction_receipt_identity=transaction_receipt.identity_sha256,
         shadow_proof_status=SHADOW_PROOF_STATUS,
-        native_storage_assignment_count=5,
-        storage_cast_boundary_count=5,
-        restore_count=1,
-        logical_outer_commit_count=0,
-        persistent_commit_count=0,
-        external_materializer_count=0,
-        ledger_append_count=0,
-        history_append_count=0,
-        terminal_forward_count=5,
-        key_forward_count=5,
-        q_solve_count=5,
-        dense_update_construction_count=5,
-        temporary_native_apply_count=5,
-        model_backward_count=0,
-        semantic_backward_count=0,
-        slope_backward_count=0,
-        router_call_count=0,
-        heldout_evaluator_count=0,
-        post_storage_decision_influence_count=0,
+        native_storage_assignment_count=(
+            derived_ledger.native_storage_assignment_count
+        ),
+        storage_cast_boundary_count=derived_ledger.storage_cast_boundary_count,
+        restore_count=derived_ledger.restore_count,
+        logical_outer_commit_count=derived_ledger.logical_outer_commit_count,
+        persistent_commit_count=derived_ledger.persistent_commit_count,
+        external_materializer_count=derived_ledger.external_materializer_count,
+        candidate_materialization_count=(
+            derived_ledger.candidate_materialization_count
+        ),
+        ledger_append_count=derived_ledger.ledger_append_count,
+        history_append_count=derived_ledger.history_append_count,
+        terminal_forward_count=derived_ledger.terminal_forward_count,
+        key_forward_count=derived_ledger.key_forward_count,
+        q_solve_count=derived_ledger.q_solve_count,
+        dense_update_construction_count=(
+            derived_ledger.dense_update_construction_count
+        ),
+        temporary_native_apply_count=derived_ledger.temporary_native_apply_count,
+        model_backward_count=derived_ledger.model_backward_count,
+        semantic_backward_count=derived_ledger.semantic_backward_count,
+        slope_backward_count=derived_ledger.slope_backward_count,
+        router_call_count=derived_ledger.router_call_count,
+        heldout_evaluator_count=derived_ledger.heldout_evaluator_count,
+        post_storage_decision_influence_count=(
+            derived_ledger.post_storage_decision_influence_count
+        ),
         process_local_identity_exclusions=PROCESS_LOCAL_IDENTITY_EXCLUSIONS,
         scientific_identity_sha256=scientific_identity,
     )
@@ -861,7 +1215,7 @@ def run_uniform_nominal_shadow_probe(
     return NominalShadowResult(
         geometry,
         factors,
-        tuple(layer_results),
+        frozen_layer_results,
         transaction_receipt,
         receipt,
     )
@@ -871,6 +1225,7 @@ __all__ = [
     "PROCESS_LOCAL_IDENTITY_EXCLUSIONS",
     "SHADOW_PROOF_STATUS",
     "UNIFORM_NOMINAL_PI",
+    "NominalShadowDerivedLedger",
     "NominalShadowLayerReceipt",
     "NominalShadowLayerResult",
     "NominalShadowReceipt",
