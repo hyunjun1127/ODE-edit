@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from dataclasses import replace
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
@@ -16,6 +17,12 @@ from .contracts import COMMON_SEED, ODEBFContractError, ODEBFStateError, canonic
 from .fixed_e8_soft_routing import FixedE8Arm
 from .functional import tensor_sha256
 from .p0_runtime import ModelForwardCounter
+from .p1_backend import (
+    FULL_CURRENT_RESIDUAL_DIVISOR,
+    FULL_CURRENT_RESIDUAL_VELOCITY_DEFINITION,
+    P1DynamicField,
+    P1LayerField,
+)
 from .p1_evaluator import EndpointActionFreeze, load_counterfact_cases_after_freeze
 from .p1_replay import build_outer_entry_pretrained_cache
 from .p1_runtime import ArmRuntimeState, _atomic_write_once, _entry_parameter_snapshot_sha256
@@ -46,16 +53,23 @@ from .scalable_batched_model import (
     capture_scalable_physical_state,
     evaluate_scalable_target_new_objective,
 )
-from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER, scalable_ordered_request_digest
+from .scalable_batched_runtime import (
+    P1R23_GRID_COUNT,
+    P1R23_H,
+    P1R23_LAYER_ORDER,
+    scalable_ordered_request_digest,
+)
 
 
 PILOT_ROLE = "r52-joint-pc-c1-c2-pilot"
 PILOT_TECH_R1_ROLE = "r52-joint-pc-c1-c2-pilot-tech-r1"
 PILOT_TECH_R2_ROLE = "r52-joint-pc-c1-c2-pilot-tech-r2"
+PILOT_TECH_R3_ROLE = "r52-joint-pc-c1-c2-pilot-tech-r3"
 PRODUCTION_ROLE_PREFIX = "r52-joint-pc-c1-c2-production-case-"
 PILOT_RESULT_NAME = "s05-p1r52-joint-pc-c1-c2-pilot-b100-v1"
 PILOT_TECH_R1_RESULT_NAME = "s05-p1r52-joint-pc-c1-c2-pilot-b100-tech-r1-v1"
 PILOT_TECH_R2_RESULT_NAME = "s05-p1r52-joint-pc-c1-c2-pilot-b100-tech-r2-v1"
+PILOT_TECH_R3_RESULT_NAME = "s05-p1r52-joint-pc-c1-c2-pilot-b100-tech-r3-v1"
 PRODUCTION_RESULT_PREFIX = "s05-p1r52-joint-pc-c1-c2-independent-b100-case-"
 STREAM_ROOT = "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
 STREAM_ORDER = "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3"
@@ -74,6 +88,8 @@ def expected_result_name(role: str) -> str:
         return PILOT_TECH_R1_RESULT_NAME
     if role == PILOT_TECH_R2_ROLE:
         return PILOT_TECH_R2_RESULT_NAME
+    if role == PILOT_TECH_R3_ROLE:
+        return PILOT_TECH_R3_RESULT_NAME
     if role.startswith(PRODUCTION_ROLE_PREFIX):
         suffix = role.removeprefix(PRODUCTION_ROLE_PREFIX)
         if len(suffix) == 2 and suffix.isdigit() and 1 <= int(suffix) <= 10:
@@ -82,7 +98,12 @@ def expected_result_name(role: str) -> str:
 
 
 def _case_index(role: str) -> int:
-    if role in (PILOT_ROLE, PILOT_TECH_R1_ROLE, PILOT_TECH_R2_ROLE):
+    if role in (
+        PILOT_ROLE,
+        PILOT_TECH_R1_ROLE,
+        PILOT_TECH_R2_ROLE,
+        PILOT_TECH_R3_ROLE,
+    ):
         return 1
     expected_result_name(role)
     return int(role.removeprefix(PRODUCTION_ROLE_PREFIX))
@@ -235,7 +256,7 @@ def _writer_entry(
 ) -> dict[str, Any]:
     physical = capture_scalable_physical_state(model, capture_plan, hparams)
     field_ledger = ComputeLedger()
-    field = build_scalable_dynamic_field(
+    finite_field = build_scalable_dynamic_field(
         model,
         tokenizer,
         requests,
@@ -251,6 +272,7 @@ def _writer_entry(
         residual_tolerance=controller_lock.residual_tolerance,
         ledger=field_ledger,
     )
+    field, coordinate_receipt = _writer_velocity_field(finite_field)
     signed, slope = scalable_physical_signed_progress(model, objective_plan, field)
     problem_receipt = build_scalable_routing_problem(
         field,
@@ -295,7 +317,95 @@ def _writer_entry(
         "control": control,
         "joint": joint,
         "field_compute": field_ledger.raw_free_payload(),
+        "writer_coordinate": coordinate_receipt,
     }
+
+
+def _writer_velocity_field(
+    finite_field: P1DynamicField,
+) -> tuple[P1DynamicField, dict[str, Any]]:
+    """Bind one-shot finite residuals to the inherited PIR velocity field.
+
+    The inherited writer constructs a factor from residual/h and applies h
+    exactly once when selecting the contribution coefficient.  This adapter
+    changes only that coordinate representation; its finite residual remains
+    byte-exact after the h multiplication.
+    """
+
+    if not isinstance(finite_field, P1DynamicField) or not finite_field.layers:
+        raise ODEBFContractError("joint P/C writer coordinate geometry differs")
+    velocity_layers: list[P1LayerField] = []
+    layer_receipts: list[dict[str, Any]] = []
+    for layer in finite_field.layers:
+        full_residual = layer.residual.detach().to(
+            device="cpu", dtype=torch.float32
+        ).contiguous()
+        velocity_residual = (full_residual / float(P1R23_H)).contiguous()
+        identity = float(
+            torch.max(
+                torch.abs(float(P1R23_H) * velocity_residual - full_residual)
+            ).item()
+        )
+        if not torch.isfinite(velocity_residual).all() or identity != 0.0:
+            raise ODEBFContractError("joint P/C writer coordinate identity differs")
+        velocity_factor = replace(layer.factor, left=velocity_residual.clone())
+        velocity_layer = replace(
+            layer,
+            residual=velocity_residual,
+            residual_definition=FULL_CURRENT_RESIDUAL_VELOCITY_DEFINITION,
+            residual_divisor=FULL_CURRENT_RESIDUAL_DIVISOR,
+            factor=velocity_factor,
+            factor_frobenius_sq=(
+                float(layer.factor_frobenius_sq) / float(P1R23_H * P1R23_H)
+            ),
+            history_action=(layer.history_action / float(P1R23_H)).contiguous(),
+        )
+        velocity_layers.append(velocity_layer)
+        layer_receipts.append(
+            {
+                "layer": layer.layer,
+                "full_residual_sha256": tensor_sha256(full_residual),
+                "velocity_residual_sha256": tensor_sha256(velocity_residual),
+                "key_sha256": tensor_sha256(layer.key),
+                "q_sha256": tensor_sha256(layer.q),
+                "finite_residual_h_identity_max_abs": identity,
+            }
+        )
+    field_identity = canonical_hash(
+        {
+            "schema": "ode-edit-s05-p1r52-joint-pc-velocity-field/v1",
+            "finite_field_sha256": finite_field.identity_sha256,
+            "layers": [item.arm_identity() for item in velocity_layers],
+            "h": float(P1R23_H),
+        }
+    )
+    velocity_field = replace(
+        finite_field,
+        layers=tuple(velocity_layers),
+        identity_sha256=field_identity,
+    )
+    receipt = {
+        "schema": "ode-edit-s05-p1r52-joint-pc-finite-to-velocity-coordinate/v1",
+        "finite_target_sha256": tensor_sha256(finite_field.target_state),
+        "current_terminal_sha256": tensor_sha256(finite_field.current_z),
+        "finite_field_sha256": finite_field.identity_sha256,
+        "velocity_field_sha256": field_identity,
+        "layers": layer_receipts,
+        "h": float(P1R23_H),
+        "finite_residual_h_identity_max_abs": max(
+            float(item["finite_residual_h_identity_max_abs"])
+            for item in layer_receipts
+        ),
+        "residual_divide_h_count_per_layer": 1,
+        "residual_divide_h_layer_count": len(velocity_layers),
+        "factor_h_application_count_per_selected_layer": 1,
+        "second_h_application_count": 0,
+        "target_recompute_count": 0,
+        "model_forward_count": 0,
+        "model_backward_count": 0,
+    }
+    receipt["identity_sha256"] = canonical_hash(receipt)
+    return velocity_field, receipt
 
 
 def _plan_arm(
@@ -560,6 +670,7 @@ def run_joint_pc_case(
             "control_route": entry["control"].raw_free_payload(),
             "joint_route": entry["joint"].receipt.raw_free_payload(),
             "field_compute": entry["field_compute"],
+            "writer_coordinate": entry["writer_coordinate"],
             "entry_field_solve_count": 5,
             "joint_router_solve_count": 1,
         },
@@ -642,6 +753,8 @@ __all__ = [
     "PILOT_TECH_R1_ROLE",
     "PILOT_TECH_R2_RESULT_NAME",
     "PILOT_TECH_R2_ROLE",
+    "PILOT_TECH_R3_RESULT_NAME",
+    "PILOT_TECH_R3_ROLE",
     "PRODUCTION_RESULT_PREFIX",
     "PRODUCTION_ROLE_PREFIX",
     "STREAM_ORDER",

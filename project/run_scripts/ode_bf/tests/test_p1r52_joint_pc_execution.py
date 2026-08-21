@@ -18,6 +18,8 @@ from project.run_scripts.ode_bf.p1r52_joint_pc_runtime import (
     PILOT_TECH_R1_ROLE,
     PILOT_TECH_R2_RESULT_NAME,
     PILOT_TECH_R2_ROLE,
+    PILOT_TECH_R3_RESULT_NAME,
+    PILOT_TECH_R3_ROLE,
     STREAM_ORDER,
     STREAM_ROOT,
     expected_result_name,
@@ -58,6 +60,7 @@ class JointPCExecutionTests(unittest.TestCase):
         self.assertEqual(expected_result_name(PILOT_ROLE), PILOT_RESULT_NAME)
         self.assertEqual(expected_result_name(PILOT_TECH_R1_ROLE), PILOT_TECH_R1_RESULT_NAME)
         self.assertEqual(expected_result_name(PILOT_TECH_R2_ROLE), PILOT_TECH_R2_RESULT_NAME)
+        self.assertEqual(expected_result_name(PILOT_TECH_R3_ROLE), PILOT_TECH_R3_RESULT_NAME)
         self.assertTrue(expected_result_name(production_role(10)).endswith("case-10-v1"))
         self.assertEqual(
             STREAM_ROOT,
@@ -72,6 +75,19 @@ class JointPCExecutionTests(unittest.TestCase):
             "C1-JOINT-PC-REMAINING",
             "C2-JOINT-PC-FIXED-QUOTA",
         ))
+
+    def test_finite_residual_coordinate_adapter_is_explicit(self) -> None:
+        from project.run_scripts.ode_bf.p1r52_joint_pc_runtime import (
+            _writer_velocity_field,
+        )
+
+        source = inspect.getsource(_writer_velocity_field)
+        self.assertIn("full_residual / float(P1R23_H)", source)
+        self.assertIn("float(P1R23_H) * velocity_residual", source)
+        self.assertIn("FULL_CURRENT_RESIDUAL_VELOCITY_DEFINITION", source)
+        self.assertIn('"second_h_application_count": 0', source)
+        self.assertIn('"model_forward_count": 0', source)
+        self.assertIn('"model_backward_count": 0', source)
 
 
 if __name__ == "__main__":
