@@ -36,6 +36,9 @@ LAYER_STEP_BETA_PROOF_STATUS = "CLOSED_BY_M3D_B2A_LAYER_STEP"
 NOMINAL_REFERENCE_RECEIPT_NAME = (
     "NOMINAL_PATH_LAGGED_CROSS_AWARE_SURROGATE"
 )
+SHADOW_APPLICATION_PROOF_STATUS = (
+    "DEFERRED_TO_M3D_B2B_SHADOW_TRANSACTION"
+)
 NOMINAL_FACTOR_FP32_RTOL = 4.0 * torch.finfo(torch.float32).eps
 
 
@@ -48,6 +51,7 @@ class LayerStepInputIdentity:
     sha256: str
     pointer: int
     version: int
+    requires_grad: bool
 
     def raw_free_payload(self) -> dict[str, Any]:
         return {
@@ -58,6 +62,7 @@ class LayerStepInputIdentity:
             "sha256": self.sha256,
             "pointer": self.pointer,
             "version": self.version,
+            "requires_grad": self.requires_grad,
         }
 
 
@@ -91,6 +96,7 @@ class ResidualReserveLayerStepReceipt:
     second_dense_construction_count: int
     input_pointer_version_hash_immutability_verified: bool
     intermediate_nonalias_verified: bool
+    algorithm_tensor_requires_grad_count: int
     model_forward_count: int
     model_backward_count: int
     semantic_backward_count: int
@@ -141,6 +147,9 @@ class ResidualReserveLayerStepReceipt:
                 self.input_pointer_version_hash_immutability_verified
             ),
             "intermediate_nonalias_verified": self.intermediate_nonalias_verified,
+            "algorithm_tensor_requires_grad_count": (
+                self.algorithm_tensor_requires_grad_count
+            ),
             "model_forward_count": self.model_forward_count,
             "model_backward_count": self.model_backward_count,
             "semantic_backward_count": self.semantic_backward_count,
@@ -171,31 +180,38 @@ class ResidualReserveLayerStepPlan:
 class NominalReferenceFactorReceipt:
     name: str
     layer: int
+    layer_step_receipt_identity: str
+    geometry_receipt_identity: str
     construction_receipt_identity: str
     source_factor_identity: str
     source_factor_source: str
     nominal_factor_identity: str
     nominal_factor_source: str
-    shadow_prepared_not_applied: bool
+    shadow_application_proof_status: str
     authoritative_transaction_committed_claim: bool
     mass_scalar: float
     pi_reference_scalar: float
     quota_scalar: float
     quota_tensor_sha256: str
+    omega_scalar: float
+    omega_tensor_sha256: str
+    quota_byte_exact_to_geometry_omega: bool
     divided_oriented_side: str
     division_count: int
     dense_factor_materialization_count: int
     dense_update_construction_count: int
     second_update_construction_count: int
-    source_tensor_byte_identity_before_division: bool
+    source_tensor_immutability_verified: bool
     input_pointer_version_hash_immutability_verified: bool
     nominal_factor_nonalias_verified: bool
-    fp32_equivalence_rtol: float
+    test_only_dense_equivalence_rtol: float
 
     def raw_free_payload(self) -> dict[str, Any]:
         payload: dict[str, Any] = {
             "name": self.name,
             "layer": self.layer,
+            "layer_step_receipt_identity": self.layer_step_receipt_identity,
+            "geometry_receipt_identity": self.geometry_receipt_identity,
             "construction_receipt_identity": (
                 self.construction_receipt_identity
             ),
@@ -203,7 +219,9 @@ class NominalReferenceFactorReceipt:
             "source_factor_source": self.source_factor_source,
             "nominal_factor_identity": self.nominal_factor_identity,
             "nominal_factor_source": self.nominal_factor_source,
-            "shadow_prepared_not_applied": self.shadow_prepared_not_applied,
+            "shadow_application_proof_status": (
+                self.shadow_application_proof_status
+            ),
             "authoritative_transaction_committed_claim": (
                 self.authoritative_transaction_committed_claim
             ),
@@ -211,6 +229,11 @@ class NominalReferenceFactorReceipt:
             "pi_reference_scalar": self.pi_reference_scalar,
             "quota_scalar": self.quota_scalar,
             "quota_tensor_sha256": self.quota_tensor_sha256,
+            "omega_scalar": self.omega_scalar,
+            "omega_tensor_sha256": self.omega_tensor_sha256,
+            "quota_byte_exact_to_geometry_omega": (
+                self.quota_byte_exact_to_geometry_omega
+            ),
             "divided_oriented_side": self.divided_oriented_side,
             "division_count": self.division_count,
             "dense_factor_materialization_count": (
@@ -222,8 +245,8 @@ class NominalReferenceFactorReceipt:
             "second_update_construction_count": (
                 self.second_update_construction_count
             ),
-            "source_tensor_byte_identity_before_division": (
-                self.source_tensor_byte_identity_before_division
+            "source_tensor_immutability_verified": (
+                self.source_tensor_immutability_verified
             ),
             "input_pointer_version_hash_immutability_verified": (
                 self.input_pointer_version_hash_immutability_verified
@@ -231,7 +254,9 @@ class NominalReferenceFactorReceipt:
             "nominal_factor_nonalias_verified": (
                 self.nominal_factor_nonalias_verified
             ),
-            "fp32_equivalence_rtol": self.fp32_equivalence_rtol,
+            "test_only_dense_equivalence_rtol": (
+                self.test_only_dense_equivalence_rtol
+            ),
         }
         payload["identity_sha256"] = canonical_hash(payload)
         return payload
@@ -262,6 +287,7 @@ def _tensor_identity(name: str, value: torch.Tensor) -> LayerStepInputIdentity:
         sha256=tensor_sha256(value),
         pointer=int(value.data_ptr()),
         version=int(value._version),
+        requires_grad=bool(value.requires_grad),
     )
 
 
@@ -284,6 +310,7 @@ def _validate_geometry(
             or value.dtype is not torch.float32
             or value.device != device
             or value.shape != (RESIDUAL_RESERVE_LAYER_COUNT,)
+            or value.requires_grad
             or not bool(torch.isfinite(value).all())
             for value in tensors
         )
@@ -293,12 +320,25 @@ def _validate_geometry(
         or geometry.mass.device != device
         or geometry.rho.ndim != 0
         or geometry.mass.ndim != 0
+        or geometry.rho.requires_grad
+        or geometry.mass.requires_grad
+        or not bool(torch.isfinite(geometry.rho))
+        or not bool(torch.isfinite(geometry.mass))
     ):
         raise ODEBFContractError("residual-reserve layer-step geometry differs")
     receipt = geometry.receipt.raw_free_payload()
     if (
         tuple(float(item) for item in geometry.pi.detach().to(device="cpu"))
         != geometry.receipt.pi
+        or tuple(
+            float(item) for item in geometry.omega.detach().to(device="cpu")
+        )
+        != geometry.receipt.omega
+        or tuple(
+            float(item)
+            for item in geometry.suffix_retention.detach().to(device="cpu")
+        )
+        != geometry.receipt.suffix_retention
         or tuple(float(item) for item in geometry.beta.detach().to(device="cpu"))
         != geometry.receipt.beta
         or float(geometry.mass) != geometry.receipt.mass
@@ -351,6 +391,7 @@ def plan_residual_reserve_layer_step(
         or current_terminal32.ndim != 2
         or target_proposal32.shape != current_terminal32.shape
         or any(value.device != device for _, value in named_inputs)
+        or any(value.requires_grad for _, value in named_inputs)
     ):
         raise ODEBFContractError("residual-reserve layer-step input geometry differs")
     geometry_identity = _validate_geometry(geometry, device=device)
@@ -388,6 +429,8 @@ def plan_residual_reserve_layer_step(
         or residual32.ndim != 2
         or q32.ndim != 2
         or residual32.shape[1] != q32.shape[1]
+        or residual32.requires_grad
+        or q32.requires_grad
     ):
         raise ODEBFContractError(
             "residual-reserve residual/q request axis differs"
@@ -400,6 +443,7 @@ def plan_residual_reserve_layer_step(
         or beta32.ndim != 0
         or beta_applied_left32.dtype is not torch.float32
         or beta_applied_left32.device != device
+        or beta_applied_left32.requires_grad
         or not bool(torch.isfinite(beta_applied_left32).all())
     ):
         raise ODEBFContractError("residual-reserve beta application differs")
@@ -421,6 +465,9 @@ def plan_residual_reserve_layer_step(
         or construction_receipt.raw_right_sha256 != q_solve.receipt.q_sha256
         or construction_receipt.dense_construction_count != 1
         or construction_receipt.second_dense_construction_count != 0
+        or prepared_update.matched_update32.requires_grad
+        or prepared_update.factor.left.requires_grad
+        or prepared_update.factor.right.requires_grad
     ):
         raise ODEBFStateError("residual-reserve construction binding differs")
 
@@ -467,7 +514,7 @@ def plan_residual_reserve_layer_step(
         geometry_beta_tensor_dtype=str(beta32.dtype),
         geometry_beta_tensor_device=str(beta32.device),
         geometry_beta_tensor_sha256=tensor_sha256(beta32),
-        input_identities=input_identities,
+        input_identities=input_identities + geometry_guards,
         residual_shape=tuple(residual32.shape),
         residual_sha256=tensor_sha256(residual32),
         beta_applied_left_shape=tuple(beta_applied_left32.shape),
@@ -489,6 +536,7 @@ def plan_residual_reserve_layer_step(
         second_dense_construction_count=0,
         input_pointer_version_hash_immutability_verified=True,
         intermediate_nonalias_verified=True,
+        algorithm_tensor_requires_grad_count=0,
         model_forward_count=0,
         model_backward_count=0,
         semantic_backward_count=0,
@@ -508,18 +556,114 @@ def plan_residual_reserve_layer_step(
     )
 
 
+def _validate_layer_step_plan(
+    plan: ResidualReserveLayerStepPlan,
+    geometry: ResidualReserveGeometry,
+    *,
+    layer: int,
+) -> tuple[str, PreparedLowRankUpdate]:
+    """Bind a complete layer plan to the exact geometry that produced it."""
+
+    layer_index = _layer_index(layer)
+    if not isinstance(plan, ResidualReserveLayerStepPlan):
+        raise ODEBFContractError("nominal reference layer-step plan type differs")
+    if (
+        not isinstance(plan.receipt, ResidualReserveLayerStepReceipt)
+        or not isinstance(plan.prepared_update, PreparedLowRankUpdate)
+        or not isinstance(plan.q_solve, AlphaQOnlySolveResult)
+    ):
+        raise ODEBFContractError("nominal reference layer-step members differ")
+    plan.prepared_update.validate()
+    geometry_identity = _validate_geometry(
+        geometry,
+        device=plan.prepared_update.factor.left.device,
+    )
+    receipt = plan.receipt
+    construction = plan.prepared_update
+    construction_receipt = construction.receipt
+    tensors = (
+        plan.residual32,
+        plan.q32,
+        plan.beta_applied_left32,
+        construction.matched_update32,
+        construction.factor.left,
+        construction.factor.right,
+    )
+    if any(
+        not isinstance(value, torch.Tensor)
+        or value.dtype is not torch.float32
+        or value.requires_grad
+        or not bool(torch.isfinite(value).all())
+        for value in tensors
+    ):
+        raise ODEBFContractError("nominal reference plan tensor differs")
+    beta32 = geometry.beta[layer_index]
+    expected_geometry_identities = _guard_inputs(
+        (
+            ("geometry_pi", geometry.pi),
+            ("geometry_omega", geometry.omega),
+            ("geometry_suffix_retention", geometry.suffix_retention),
+            ("geometry_beta", geometry.beta),
+            ("geometry_rho", geometry.rho),
+            ("geometry_mass", geometry.mass),
+        )
+    )
+    if (
+        receipt.layer != layer
+        or receipt.layer_index != layer_index
+        or receipt.geometry_receipt_identity != geometry_identity
+        or receipt.geometry_beta_scalar != float(beta32.detach().to(device="cpu"))
+        or receipt.geometry_beta_tensor_sha256 != tensor_sha256(beta32)
+        or receipt.residual_shape != tuple(plan.residual32.shape)
+        or receipt.residual_sha256 != tensor_sha256(plan.residual32)
+        or receipt.beta_applied_left_shape
+        != tuple(plan.beta_applied_left32.shape)
+        or receipt.beta_applied_left_sha256
+        != tensor_sha256(plan.beta_applied_left32)
+        or receipt.q_solve_receipt_identity
+        != plan.q_solve.receipt.identity_sha256
+        or receipt.q_sha256 != tensor_sha256(plan.q32)
+        or plan.q_solve.receipt.q_sha256 != tensor_sha256(plan.q32)
+        or receipt.construction_receipt_identity
+        != construction_receipt.identity_sha256
+        or receipt.construction_factor_identity
+        != construction.factor.identity_sha256
+        or receipt.construction_update_sha256
+        != tensor_sha256(construction.matched_update32)
+        or receipt.construction_orientation
+        != construction_receipt.matched_orientation
+        or construction_receipt.raw_left_sha256
+        != tensor_sha256(plan.beta_applied_left32)
+        or construction_receipt.raw_right_sha256 != tensor_sha256(plan.q32)
+        or receipt.beta_proof_status != LAYER_STEP_BETA_PROOF_STATUS
+        or receipt.beta_application_count != 1
+        or receipt.internal_beta_reapplication_count != 0
+        or receipt.q_solve_count != 1
+        or receipt.dense_construction_count != 1
+        or receipt.second_dense_construction_count != 0
+        or receipt.algorithm_tensor_requires_grad_count != 0
+        or len(receipt.input_identities) != 12
+        or receipt.input_identities[-6:] != expected_geometry_identities
+        or any(item.requires_grad for item in receipt.input_identities)
+    ):
+        raise ODEBFStateError("nominal reference layer-step binding differs")
+    return geometry_identity, construction
+
+
 def derive_nominal_reference_factor(
-    shadow_prepared_update: PreparedLowRankUpdate,
+    shadow_layer_step_plan: ResidualReserveLayerStepPlan,
     geometry: ResidualReserveGeometry,
     *,
     layer: int,
 ) -> NominalReferenceFactorResult:
-    """Convert a prepared shadow construction into quota-normalized A_l."""
+    """Convert one geometry-bound shadow plan into quota-normalized A_l."""
 
     layer_index = _layer_index(layer)
-    if not isinstance(shadow_prepared_update, PreparedLowRankUpdate):
-        raise ODEBFContractError("nominal reference construction type differs")
-    shadow_prepared_update.validate()
+    geometry_identity, shadow_prepared_update = _validate_layer_step_plan(
+        shadow_layer_step_plan,
+        geometry,
+        layer=layer,
+    )
     source = shadow_prepared_update.factor
     if (
         source.layer != layer
@@ -527,11 +671,6 @@ def derive_nominal_reference_factor(
         is not LowRankFactorSource.AUTHORITATIVE_PREPARED_PRECAST_FP32
     ):
         raise ODEBFContractError("nominal reference factor provenance differs")
-    geometry_identity = _validate_geometry(
-        geometry,
-        device=source.left.device,
-    )
-    del geometry_identity
     source_guards = (
         source.identity_sha256,
         int(source.left.data_ptr()),
@@ -549,15 +688,25 @@ def derive_nominal_reference_factor(
         )
     )
     pi_reference32 = geometry.pi[layer_index]
-    quota32 = geometry.mass * pi_reference32
+    recomputed_quota32 = geometry.mass * pi_reference32
+    omega32 = geometry.omega[layer_index]
     if (
         pi_reference32.dtype is not torch.float32
-        or quota32.dtype is not torch.float32
-        or quota32.device != source.left.device
-        or not bool(torch.isfinite(quota32))
-        or float(quota32) <= 0.0
+        or recomputed_quota32.dtype is not torch.float32
+        or omega32.dtype is not torch.float32
+        or recomputed_quota32.device != source.left.device
+        or omega32.device != source.left.device
+        or recomputed_quota32.requires_grad
+        or omega32.requires_grad
+        or not bool(torch.isfinite(recomputed_quota32))
+        or not bool(torch.isfinite(omega32))
+        or float(recomputed_quota32.detach().to(device="cpu")) <= 0.0
+        or not torch.equal(recomputed_quota32, omega32)
     ):
-        raise ODEBFContractError("nominal reference quota is not positive FP32")
+        raise ODEBFContractError(
+            "nominal reference quota differs from geometry omega"
+        )
+    quota32 = omega32
     divided_left32 = (source.left / quota32).contiguous()
     nominal_factor = LowRankFP32Factor(
         layer=layer,
@@ -598,6 +747,8 @@ def derive_nominal_reference_factor(
     receipt = NominalReferenceFactorReceipt(
         name=NOMINAL_REFERENCE_RECEIPT_NAME,
         layer=layer,
+        layer_step_receipt_identity=shadow_layer_step_plan.receipt.identity_sha256,
+        geometry_receipt_identity=geometry_identity,
         construction_receipt_identity=(
             shadow_prepared_update.receipt.identity_sha256
         ),
@@ -605,21 +756,24 @@ def derive_nominal_reference_factor(
         source_factor_source=source.source.value,
         nominal_factor_identity=nominal_factor.identity_sha256,
         nominal_factor_source=nominal_factor.source.value,
-        shadow_prepared_not_applied=True,
+        shadow_application_proof_status=SHADOW_APPLICATION_PROOF_STATUS,
         authoritative_transaction_committed_claim=False,
-        mass_scalar=float(geometry.mass),
-        pi_reference_scalar=float(pi_reference32),
-        quota_scalar=float(quota32),
+        mass_scalar=float(geometry.mass.detach().to(device="cpu")),
+        pi_reference_scalar=float(pi_reference32.detach().to(device="cpu")),
+        quota_scalar=float(quota32.detach().to(device="cpu")),
         quota_tensor_sha256=tensor_sha256(quota32),
+        omega_scalar=float(omega32.detach().to(device="cpu")),
+        omega_tensor_sha256=tensor_sha256(omega32),
+        quota_byte_exact_to_geometry_omega=True,
         divided_oriented_side="PARAMETER_ORIENTED_LEFT",
         division_count=1,
         dense_factor_materialization_count=0,
         dense_update_construction_count=0,
         second_update_construction_count=0,
-        source_tensor_byte_identity_before_division=True,
+        source_tensor_immutability_verified=True,
         input_pointer_version_hash_immutability_verified=True,
         nominal_factor_nonalias_verified=True,
-        fp32_equivalence_rtol=NOMINAL_FACTOR_FP32_RTOL,
+        test_only_dense_equivalence_rtol=NOMINAL_FACTOR_FP32_RTOL,
     )
     receipt.identity_sha256
     return NominalReferenceFactorResult(nominal_factor, receipt)
@@ -629,6 +783,7 @@ __all__ = [
     "LAYER_STEP_BETA_PROOF_STATUS",
     "NOMINAL_FACTOR_FP32_RTOL",
     "NOMINAL_REFERENCE_RECEIPT_NAME",
+    "SHADOW_APPLICATION_PROOF_STATUS",
     "LayerStepInputIdentity",
     "NominalReferenceFactorReceipt",
     "NominalReferenceFactorResult",

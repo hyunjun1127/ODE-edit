@@ -18,6 +18,7 @@ from project.run_scripts.ode_bf.p1r52_residual_reserve_layer_step import (
     LAYER_STEP_BETA_PROOF_STATUS,
     NOMINAL_FACTOR_FP32_RTOL,
     NOMINAL_REFERENCE_RECEIPT_NAME,
+    SHADOW_APPLICATION_PROOF_STATUS,
     derive_nominal_reference_factor,
     plan_residual_reserve_layer_step,
 )
@@ -150,7 +151,7 @@ class ResidualReserveLayerStepTests(unittest.TestCase):
             with self.subTest(layer=layer):
                 plan = self.plan(layer=layer, geometry=geometry)
                 result = derive_nominal_reference_factor(
-                    plan.prepared_update,
+                    plan,
                     geometry,
                     layer=layer,
                 )
@@ -176,7 +177,29 @@ class ResidualReserveLayerStepTests(unittest.TestCase):
                 self.assertFalse(
                     result.receipt.authoritative_transaction_committed_claim
                 )
-                self.assertTrue(result.receipt.shadow_prepared_not_applied)
+                self.assertEqual(
+                    result.receipt.shadow_application_proof_status,
+                    SHADOW_APPLICATION_PROOF_STATUS,
+                )
+                self.assertEqual(
+                    result.receipt.layer_step_receipt_identity,
+                    plan.receipt.identity_sha256,
+                )
+                self.assertEqual(
+                    result.receipt.geometry_receipt_identity,
+                    plan.receipt.geometry_receipt_identity,
+                )
+                self.assertTrue(
+                    result.receipt.quota_byte_exact_to_geometry_omega
+                )
+                self.assertEqual(
+                    result.receipt.quota_tensor_sha256,
+                    result.receipt.omega_tensor_sha256,
+                )
+                self.assertEqual(
+                    result.receipt.test_only_dense_equivalence_rtol,
+                    NOMINAL_FACTOR_FP32_RTOL,
+                )
 
     def test_inputs_pointer_version_hash_immutable_and_intermediates_nonalias(self) -> None:
         values = self.inputs()
@@ -204,7 +227,7 @@ class ResidualReserveLayerStepTests(unittest.TestCase):
         )
         self.assertTrue(plan.receipt.intermediate_nonalias_verified)
         nominal = derive_nominal_reference_factor(
-            plan.prepared_update,
+            plan,
             geometry,
             layer=4,
         )
@@ -254,7 +277,7 @@ class ResidualReserveLayerStepTests(unittest.TestCase):
         zero_plan = self.plan(layer=4, geometry=zero_geometry)
         with self.assertRaises(ODEBFContractError):
             derive_nominal_reference_factor(
-                zero_plan.prepared_update,
+                zero_plan,
                 zero_geometry,
                 layer=4,
             )
@@ -269,11 +292,88 @@ class ResidualReserveLayerStepTests(unittest.TestCase):
             source.right,
             LowRankFactorSource.NOMINAL_REFERENCE_PRECAST_FP32,
         )
-        invalid = replace(plan.prepared_update, factor=nominal_source)
+        invalid_update = replace(plan.prepared_update, factor=nominal_source)
+        invalid = replace(plan, prepared_update=invalid_update)
         with self.assertRaises((ODEBFContractError, ODEBFStateError)):
             derive_nominal_reference_factor(invalid, geometry, layer=4)
+        with self.assertRaises((ODEBFContractError, ODEBFStateError)):
+            derive_nominal_reference_factor(plan, geometry, layer=5)
+
+    def test_geometry_and_full_plan_provenance_mismatch_fail_closed(self) -> None:
+        geometry = self.geometry()
+        plan = self.plan(geometry=geometry)
+        uniform = build_residual_reserve_geometry(
+            torch.full((5,), 0.2, dtype=torch.float32)
+        )
+        with self.assertRaises(ODEBFStateError):
+            derive_nominal_reference_factor(plan, uniform, layer=4)
+
+        forged_receipt = replace(
+            plan.receipt,
+            geometry_receipt_identity="forged-geometry",
+        )
+        with self.assertRaises(ODEBFStateError):
+            derive_nominal_reference_factor(
+                replace(plan, receipt=forged_receipt),
+                geometry,
+                layer=4,
+            )
+
+        other = plan_residual_reserve_layer_step(
+            *self.inputs(),
+            geometry,
+            layer=4,
+            weight_name="model.layers.4.mlp.down_proj.weight",
+            parameter_shape=(3, 4),
+            construction_id="other-single-construction",
+            q_residual_tolerance=1.0e-6,
+        )
+        with self.assertRaises(ODEBFStateError):
+            derive_nominal_reference_factor(
+                replace(plan, prepared_update=other.prepared_update),
+                geometry,
+                layer=4,
+            )
         with self.assertRaises(ODEBFContractError):
-            derive_nominal_reference_factor(plan.prepared_update, geometry, layer=5)
+            derive_nominal_reference_factor(
+                plan.prepared_update,
+                geometry,
+                layer=4,
+            )
+
+    def test_autograd_inputs_fail_closed_and_outputs_are_detached(self) -> None:
+        for field in ("pi", "beta", "mass"):
+            with self.subTest(field=field):
+                geometry = self.geometry()
+                getattr(geometry, field).requires_grad_(True)
+                with self.assertRaises(ODEBFContractError):
+                    self.plan(geometry=geometry)
+
+        for index in (0, 1):
+            with self.subTest(input_index=index):
+                values = list(self.inputs())
+                values[index].requires_grad_(True)
+                with self.assertRaises(ODEBFContractError):
+                    self.plan(inputs=tuple(values))
+
+        plan = self.plan()
+        outputs = (
+            plan.residual32,
+            plan.q32,
+            plan.beta_applied_left32,
+            plan.prepared_update.matched_update32,
+            plan.prepared_update.factor.left,
+            plan.prepared_update.factor.right,
+        )
+        self.assertFalse(any(value.requires_grad for value in outputs))
+        self.assertEqual(
+            plan.receipt.algorithm_tensor_requires_grad_count,
+            0,
+        )
+        self.assertEqual(len(plan.receipt.input_identities), 12)
+        self.assertFalse(
+            any(item.requires_grad for item in plan.receipt.input_identities)
+        )
 
     def test_compute_receipt_and_prohibited_paths(self) -> None:
         source = inspect.getsource(step_module)
