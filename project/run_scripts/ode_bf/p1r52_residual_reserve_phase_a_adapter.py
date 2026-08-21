@@ -40,6 +40,7 @@ from .p1r52_residual_reserve_nominal_shadow import (
     PrefixObservationProvider,
     ShadowAlphaLayerContext,
     ShadowWeightStateIdentity,
+    compact_nominal_shadow_for_authoritative,
     run_uniform_nominal_shadow_probe,
 )
 from .p1r52_residual_reserve_pc_inventory import (
@@ -1071,6 +1072,14 @@ def run_residual_reserve_phase_a_outer(
             entry_state,
             entry_identity,
         )
+
+        # The route is now frozen and binds every nominal receipt/factor.  Keep
+        # only that immutable evidence so the five already-applied SHADOW dense
+        # FP32 updates do not occupy q-solve workspace during the authoritative
+        # sweep.  This is a storage-lifetime repair, not a scientific fallback.
+        nominal = compact_nominal_shadow_for_authoritative(nominal)
+        if target.device.type == "cuda":
+            torch.cuda.empty_cache()
 
         def guarded_provider(
             layer: int,

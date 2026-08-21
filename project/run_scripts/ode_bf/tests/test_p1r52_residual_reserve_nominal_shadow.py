@@ -28,6 +28,7 @@ from project.run_scripts.ode_bf.p1r52_residual_reserve_nominal_shadow import (
     PrefixObservation,
     ShadowAlphaLayerContext,
     build_prefix_observation,
+    compact_nominal_shadow_for_authoritative,
     run_uniform_nominal_shadow_probe,
 )
 from project.run_scripts.ode_bf.p1r52_residual_reserve_pc_inventory import (
@@ -279,6 +280,37 @@ class ResidualReserveNominalShadowTests(unittest.TestCase):
                 previous.plan.receipt.residual_sha256,
                 current.plan.receipt.residual_sha256,
             )
+
+    def test_authoritative_compaction_releases_dense_shadow_payloads(self) -> None:
+        result, *_ = self.execute(dtype=torch.float32)
+        receipt_identity = result.receipt.identity_sha256
+        scientific_identity = result.receipt.scientific_identity_sha256
+        update_pointers = tuple(
+            int(item.plan.prepared_update.matched_update32.data_ptr())
+            for item in result.layer_results
+        )
+        compacted = compact_nominal_shadow_for_authoritative(result)
+        self.assertEqual(compacted.receipt.identity_sha256, receipt_identity)
+        self.assertEqual(
+            compacted.receipt.scientific_identity_sha256,
+            scientific_identity,
+        )
+        self.assertEqual(
+            tuple(item.nominal.factor.identity_sha256 for item in compacted.layer_results),
+            tuple(item.identity_sha256 for item in compacted.factors),
+        )
+        self.assertTrue(
+            all(not hasattr(item.plan, "prepared_update") for item in compacted.layer_results)
+        )
+        self.assertTrue(
+            all(
+                not hasattr(item, "application") and not hasattr(item, "observation")
+                for item in compacted.layer_results
+            )
+        )
+        self.assertEqual(len(set(update_pointers)), 5)
+        with self.assertRaises(ODEBFStateError):
+            compact_nominal_shadow_for_authoritative(compacted)
             self.assertNotEqual(
                 previous.plan.receipt.q_sha256,
                 current.plan.receipt.q_sha256,

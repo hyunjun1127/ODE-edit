@@ -23,6 +23,7 @@ from .p1r52_residual_reserve_geometry import (
 from .p1r52_residual_reserve_layer_step import (
     SHADOW_APPLICATION_PROOF_STATUS,
     NominalReferenceFactorResult,
+    ResidualReserveLayerStepReceipt,
     ResidualReserveLayerStepPlan,
     derive_nominal_reference_factor,
     plan_residual_reserve_layer_step,
@@ -302,6 +303,22 @@ class NominalShadowLayerResult:
 
 
 @dataclass(frozen=True, slots=True)
+class NominalShadowLayerPlanEvidence:
+    """Receipt-only shadow plan retained after its dense update is no longer needed."""
+
+    receipt: ResidualReserveLayerStepReceipt
+
+
+@dataclass(frozen=True, slots=True)
+class NominalShadowLayerAuthoritativeEvidence:
+    """Minimal immutable shadow evidence required by the authoritative sweep."""
+
+    plan: NominalShadowLayerPlanEvidence
+    nominal: NominalReferenceFactorResult
+    receipt: NominalShadowLayerReceipt
+
+
+@dataclass(frozen=True, slots=True)
 class NominalShadowDerivedLedger:
     terminal_forward_count: int
     key_forward_count: int
@@ -431,9 +448,80 @@ class NominalShadowReceipt:
 class NominalShadowResult:
     geometry: ResidualReserveGeometry
     factors: tuple[LowRankFP32Factor, ...]
-    layer_results: tuple[NominalShadowLayerResult, ...]
+    layer_results: tuple[
+        NominalShadowLayerResult | NominalShadowLayerAuthoritativeEvidence, ...
+    ]
     transaction_receipt: FP32TransactionReceipt
     receipt: NominalShadowReceipt
+
+
+def compact_nominal_shadow_for_authoritative(
+    result: NominalShadowResult,
+) -> NominalShadowResult:
+    """Drop sealed shadow dense-update payloads before the next FP32 q solve.
+
+    The scientific receipt, nominal low-rank factors, geometry, and transaction
+    proof are preserved byte-for-byte.  Only tensors that have already served
+    their one temporary SHADOW application are released; no route or receipt is
+    recomputed.
+    """
+
+    if (
+        not isinstance(result, NominalShadowResult)
+        or len(result.layer_results) != len(RESIDUAL_RESERVE_LAYER_ORDER)
+        or tuple(item.receipt for item in result.layer_results)
+        != result.receipt.layer_receipts
+        or result.receipt.logical_outer_commit_count != 0
+        or result.receipt.persistent_commit_count != 0
+        or not result.transaction_receipt.restored_entry_bytes
+        or not result.transaction_receipt.restored_entry_pointers
+    ):
+        raise ODEBFStateError("nominal shadow compaction input differs")
+    compacted: list[NominalShadowLayerAuthoritativeEvidence] = []
+    for layer, factor, item in zip(
+        RESIDUAL_RESERVE_LAYER_ORDER,
+        result.factors,
+        result.layer_results,
+        strict=True,
+    ):
+        if not isinstance(item, NominalShadowLayerResult):
+            raise ODEBFStateError("nominal shadow payload was already compacted")
+        if (
+            item.receipt.layer != layer
+            or item.plan.receipt.identity_sha256
+            != item.receipt.layer_step_receipt_identity
+            or item.nominal.factor.identity_sha256 != factor.identity_sha256
+            or item.nominal.receipt.identity_sha256
+            != item.receipt.nominal_factor_receipt_identity
+            or item.application.identity_sha256
+            != item.receipt.application_receipt_identity
+            or item.plan.prepared_update.receipt.identity_sha256
+            != item.receipt.construction_receipt_identity
+        ):
+            raise ODEBFStateError("nominal shadow compaction provenance differs")
+        compacted.append(
+            NominalShadowLayerAuthoritativeEvidence(
+                plan=NominalShadowLayerPlanEvidence(item.plan.receipt),
+                nominal=item.nominal,
+                receipt=item.receipt,
+            )
+        )
+    compacted_result = NominalShadowResult(
+        geometry=result.geometry,
+        factors=result.factors,
+        layer_results=tuple(compacted),
+        transaction_receipt=result.transaction_receipt,
+        receipt=result.receipt,
+    )
+    if (
+        compacted_result.receipt.identity_sha256 != result.receipt.identity_sha256
+        or compacted_result.receipt.scientific_identity_sha256
+        != result.receipt.scientific_identity_sha256
+        or tuple(item.nominal.factor.identity_sha256 for item in compacted)
+        != tuple(item.identity_sha256 for item in result.factors)
+    ):
+        raise ODEBFStateError("nominal shadow compaction identity differs")
+    return compacted_result
 
 
 PrefixObservationProvider = Callable[
@@ -1329,6 +1417,8 @@ __all__ = [
     "NominalShadowDerivedLedger",
     "NominalShadowLayerReceipt",
     "NominalShadowLayerResult",
+    "NominalShadowLayerPlanEvidence",
+    "NominalShadowLayerAuthoritativeEvidence",
     "NominalShadowReceipt",
     "NominalShadowResult",
     "PrefixObservation",
@@ -1339,4 +1429,5 @@ __all__ = [
     "ShadowWeightStateIdentity",
     "build_prefix_observation",
     "run_uniform_nominal_shadow_probe",
+    "compact_nominal_shadow_for_authoritative",
 ]
