@@ -60,7 +60,7 @@ def expected_phase_a_result_name(
     if alias not in ("llama3-8b-inst", "qwen2.5-7b-inst") or arm not in PHASE_A_ARMS:
         raise ODEBFContractError("residual-reserve Phase-A result identity differs")
     suffix = "" if attempt_suffix is None else f"-{attempt_suffix}"
-    if attempt_suffix is not None and attempt_suffix != "tech-r1":
+    if attempt_suffix is not None and attempt_suffix not in ("tech-r1", "tech-r2"):
         raise ODEBFContractError("residual-reserve Phase-A attempt suffix differs")
     return f"s05-p1r52-residual-reserve-phase-a-fp32-{alias}-{arm}{suffix}-v1"
 

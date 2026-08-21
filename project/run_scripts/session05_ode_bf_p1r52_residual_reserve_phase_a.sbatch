@@ -31,7 +31,7 @@ scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 
 readonly ARMS=(j0 rr-uniform rr-pcsoft official-alphaedit)
 readonly ARM="${ARMS[${SLURM_ARRAY_TASK_ID}]}"
-if [[ -n "${ATTEMPT_SUFFIX}" && "${ATTEMPT_SUFFIX}" != "tech-r1" ]]; then
+if [[ -n "${ATTEMPT_SUFFIX}" && "${ATTEMPT_SUFFIX}" != "tech-r1" && "${ATTEMPT_SUFFIX}" != "tech-r2" ]]; then
   exit 2
 fi
 readonly ATTEMPT_PART="${ATTEMPT_SUFFIX:+-${ATTEMPT_SUFFIX}}"

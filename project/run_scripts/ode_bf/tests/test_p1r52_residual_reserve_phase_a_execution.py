@@ -32,6 +32,12 @@ class ResidualReservePhaseAExecutionTests(unittest.TestCase):
             ),
             "s05-p1r52-residual-reserve-phase-a-fp32-llama3-8b-inst-j0-tech-r1-v1",
         )
+        self.assertEqual(
+            expected_phase_a_result_name(
+                "llama3-8b-inst", "j0", attempt_suffix="tech-r2"
+            ),
+            "s05-p1r52-residual-reserve-phase-a-fp32-llama3-8b-inst-j0-tech-r2-v1",
+        )
 
     def test_fp32_j0_native_materialization_and_restore(self) -> None:
         model = torch.nn.Module()

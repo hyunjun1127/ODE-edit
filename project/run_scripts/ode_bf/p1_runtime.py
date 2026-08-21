@@ -4157,6 +4157,7 @@ def run_p1(
             and p1r43_independent_b10x10_method is None
             and p1r51_phase is None
             and p1r52_arm is None
+            and p1r52_residual_reserve_phase_a_arm is None
             and p1r52_sequential_role is None
             and p1r52_target_depth is None
             and p2r1_target_only_case_count is None
@@ -4193,6 +4194,7 @@ def run_p1(
             and p1r43_independent_b10x10_method is None
             and p1r51_phase is None
             and p1r52_arm is None
+            and p1r52_residual_reserve_phase_a_arm is None
             and p1r52_sequential_role is None
             and p1r52_target_depth is None
             and p2r1_target_only_case_count is None
