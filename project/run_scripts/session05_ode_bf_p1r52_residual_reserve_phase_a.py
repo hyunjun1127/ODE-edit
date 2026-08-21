@@ -66,6 +66,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--arm", required=True, choices=PHASE_A_ARMS)
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
+    parser.add_argument("--attempt-suffix", choices=("tech-r1",))
     parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
     args = parser.parse_args(argv)
     try:
@@ -88,6 +89,7 @@ def main(argv: list[str] | None = None) -> int:
             output_root=args.output_root,
             source_head=args.source_head,
             p1r52_residual_reserve_phase_a_arm=args.arm,
+            p1r52_attempt_suffix=args.attempt_suffix,
         )
         result = {
             **result,

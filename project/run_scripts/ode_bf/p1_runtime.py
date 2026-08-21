@@ -3303,7 +3303,9 @@ def run_p1(
         )
 
         expected_name = expected_phase_a_result_name(
-            alias, p1r52_residual_reserve_phase_a_arm
+            alias,
+            p1r52_residual_reserve_phase_a_arm,
+            attempt_suffix=p1r52_attempt_suffix,
         )
     elif p1r52_sequential_role is not None:
         from .p1r52_sequential_runtime import expected_p1r52_sequential_result_name
@@ -3567,6 +3569,7 @@ def run_p1(
         and p1r43_independent_b10x10_method is None
         and p1r51_phase is None
         and p1r52_arm is None
+        and p1r52_residual_reserve_phase_a_arm is None
         and p1r52_sequential_role is None
         and p1r52_target_depth is None
         and p2r1_target_only_case_count is None
