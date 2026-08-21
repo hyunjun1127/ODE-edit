@@ -43,7 +43,7 @@ def _write_once(path: Path, value: dict[str, object]) -> str:
 
 
 def _gpu_jobs() -> tuple[int, list[dict[str, object]]]:
-    lines = _run(["squeue", "-h", "-u", "janghj", "-w", "devbox", "-t", "RUNNING,CONFIGURING,PENDING", "-o", "%i|%T|%r|%b"]).stdout.splitlines()
+    lines = _run(["squeue", "-h", "-u", "janghj", "-w", "server2", "-t", "RUNNING,CONFIGURING,PENDING", "-o", "%i|%T|%r|%b"]).stdout.splitlines()
     allocated = 0
     jobs: list[dict[str, object]] = []
     for line in lines:
@@ -103,7 +103,7 @@ def submit(source_head: str, *, stage: str) -> dict[str, object]:
     intent_sha = _write_once(intent_path, intent)
     command = [
         "sbatch", "--hold", "--parsable", "--chdir", str(REPO_ROOT),
-        "--nodelist", "devbox", "--job-name", f"odeedit_s05_p1r52_joint_pc_{stage}",
+        "--nodelist", "server2", "--job-name", f"odeedit_s05_p1r52_joint_pc_{stage}",
         "--output", str(log_root / "%A_%a.out" if stage == "production" else log_root / "%j.out"),
         "--error", str(log_root / "%A_%a.err" if stage == "production" else log_root / "%j.err"),
     ]
@@ -114,7 +114,7 @@ def submit(source_head: str, *, stage: str) -> dict[str, object]:
     if not job_id.isdigit():
         raise ODEBFContractError("joint P/C scheduler ID differs")
     observed = _run(["scontrol", "show", "job", "-o", job_id]).stdout.strip()
-    required = ("JobState=PENDING", "Reason=JobHeldUser", "ReqNodeList=devbox", "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1")
+    required = ("JobState=PENDING", "Reason=JobHeldUser", "ReqNodeList=server2", "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1")
     if not all(item in observed for item in required):
         _run(["scancel", job_id], check=False)
         raise ODEBFContractError("joint P/C held scheduler contract differs")
@@ -124,7 +124,7 @@ def submit(source_head: str, *, stage: str) -> dict[str, object]:
         "branch": branch,
         "stage": stage,
         "job_id": job_id,
-        "array": None if stage == "pilot" else "0-9%3",
+        "array": None if stage.startswith("pilot") else "0-9%3",
         "job_count": len(plan["jobs"]),
         "active_gpu_allocations_before_release": allocated,
         "host_memory_available_mib": memory_mib,
@@ -140,7 +140,7 @@ def submit(source_head: str, *, stage: str) -> dict[str, object]:
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--stage", choices=("pilot", "pilot-tech-r1", "production"), required=True)
+    parser.add_argument("--stage", choices=("pilot", "pilot-tech-r1", "pilot-tech-r2", "production"), required=True)
     args = parser.parse_args()
     print(json.dumps(submit(args.source_head, stage=args.stage), sort_keys=True, separators=(",", ":")))
     return 0

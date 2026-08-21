@@ -10,6 +10,7 @@ from project.run_scripts.ode_bf.p1r52_joint_pc_execution import INSTRUCTION_ID
 from project.run_scripts.ode_bf.p1r52_joint_pc_runtime import (
     PILOT_ROLE,
     PILOT_TECH_R1_ROLE,
+    PILOT_TECH_R2_ROLE,
     STREAM_ORDER,
     STREAM_ROOT,
     expected_result_name,
@@ -23,6 +24,8 @@ def build_plan(source_head: str, *, stage: str) -> dict[str, object]:
         if stage == "pilot"
         else (PILOT_TECH_R1_ROLE,)
         if stage == "pilot-tech-r1"
+        else (PILOT_TECH_R2_ROLE,)
+        if stage == "pilot-tech-r2"
         else tuple(production_role(i) for i in range(1, 11))
     )
     return {
@@ -41,7 +44,7 @@ def build_plan(source_head: str, *, stage: str) -> dict[str, object]:
             {
                 "array_index": index,
                 "role": role,
-                "case_index": 1 if role in (PILOT_ROLE, PILOT_TECH_R1_ROLE) else index + 1,
+                "case_index": 1 if role in (PILOT_ROLE, PILOT_TECH_R1_ROLE, PILOT_TECH_R2_ROLE) else index + 1,
                 "result_name": expected_result_name(role),
             }
             for index, role in enumerate(roles)
@@ -55,7 +58,7 @@ def build_plan(source_head: str, *, stage: str) -> dict[str, object]:
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--stage", choices=("pilot", "pilot-tech-r1", "production"), required=True)
+    parser.add_argument("--stage", choices=("pilot", "pilot-tech-r1", "pilot-tech-r2", "production"), required=True)
     args = parser.parse_args()
     print(json.dumps(build_plan(args.source_head, stage=args.stage), sort_keys=True, separators=(",", ":")))
     return 0
