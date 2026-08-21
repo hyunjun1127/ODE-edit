@@ -453,6 +453,192 @@ class ResidualReservePhaseAAdapterTests(unittest.TestCase):
         self.assert_snapshot(bindings, snapshot)
         self.assertIs(ledger.state, before)
 
+    def test_adapter_publication_failures_are_precommit_and_restore(self):
+        failures = (
+            ("compute", "_derive_compute_ledger"),
+            ("receipt", "ResidualReservePhaseAAdapterReceipt"),
+            ("hash", "canonical_hash"),
+            ("result", "ResidualReservePhaseAAdapterResult"),
+        )
+        for label, symbol in failures:
+            with self.subTest(failure=label):
+                selected = self.selected_target()
+                bindings, contexts, covariances, ledger = self.fixture()
+                snapshot = self.snapshot(bindings)
+                before = ledger.state
+                action_freeze = freeze_residual_reserve_phase_a_action(
+                    selected,
+                    bindings,
+                )
+                original_hash = adapter_module.canonical_hash
+
+                def fail_publication_hash(value):
+                    if (
+                        isinstance(value, dict)
+                        and value.get("status") == PHASE_A_ADAPTER_STATUS
+                    ):
+                        raise RuntimeError(
+                            "injected adapter hash publication failure"
+                        )
+                    return original_hash(value)
+
+                side_effect = (
+                    fail_publication_hash
+                    if label == "hash"
+                    else RuntimeError(
+                        f"injected adapter {label} publication failure"
+                    )
+                )
+                with mock.patch.object(
+                    adapter_module,
+                    symbol,
+                    side_effect=side_effect,
+                ):
+                    with self.assertRaises(RuntimeError):
+                        run_residual_reserve_phase_a_outer(
+                            selected,
+                            action_freeze,
+                            ResidualReservePhaseAArm.RR_UNIFORM,
+                            bindings,
+                            contexts,
+                            _PrefixProvider(bindings),
+                            ledger,
+                            covariances,
+                            execution_id=f"phase-a-publication-{label}",
+                        )
+                self.assert_snapshot(bindings, snapshot)
+                self.assertIs(ledger.state, before)
+                self.assertEqual(ledger.state.version, 0)
+                self.assertEqual(
+                    [
+                        len(layer.committed_precast_factors)
+                        for layer in ledger.state.layers
+                    ],
+                    [0] * 5,
+                )
+
+    def test_final_target_route_and_state_binding_mutations_restore(self):
+        original_prepare = (
+            adapter_module._PhaseAAdapterPublicationBuilder.prepare
+        )
+        for mutation in ("target", "route", "state"):
+            with self.subTest(mutation=mutation):
+                selected = self.selected_target()
+                bindings, contexts, covariances, ledger = self.fixture()
+                snapshot = self.snapshot(bindings)
+                before = ledger.state
+
+                def mutate_then_prepare(builder, view):
+                    if mutation == "target":
+                        builder.selected_target.receipt["k"] = 1
+                    elif mutation == "route":
+                        with torch.no_grad():
+                            builder.route.selected_pi[0].add_(0.01)
+                    else:
+                        builder.before_identity = "forged-before-state"
+                    return original_prepare(builder, view)
+
+                with mock.patch.object(
+                    adapter_module._PhaseAAdapterPublicationBuilder,
+                    "prepare",
+                    new=mutate_then_prepare,
+                ):
+                    with self.assertRaises(ODEBFStateError):
+                        run_residual_reserve_phase_a_outer(
+                            selected,
+                            freeze_residual_reserve_phase_a_action(
+                                selected,
+                                bindings,
+                            ),
+                            ResidualReservePhaseAArm.RR_UNIFORM,
+                            bindings,
+                            contexts,
+                            _PrefixProvider(bindings),
+                            ledger,
+                            covariances,
+                            execution_id=f"phase-a-final-{mutation}",
+                        )
+                self.assert_snapshot(bindings, snapshot)
+                self.assertIs(ledger.state, before)
+                self.assertEqual(ledger.state.version, 0)
+
+    def test_success_has_zero_fallible_adapter_work_after_commit(self):
+        selected = self.selected_target()
+        bindings, contexts, covariances, ledger = self.fixture()
+        committed = False
+        original_commit = ledger.commit_staged_with_transaction
+        original_derive = adapter_module._derive_compute_ledger
+        original_binding = adapter_module._selected_target_binding
+        original_hash = adapter_module.canonical_hash
+        original_tensor_hash = adapter_module.tensor_sha256
+        original_receipt = adapter_module.ResidualReservePhaseAAdapterReceipt
+        original_result = adapter_module.ResidualReservePhaseAAdapterResult
+
+        def commit_then_mark(*args, **kwargs):
+            nonlocal committed
+            value = original_commit(*args, **kwargs)
+            committed = True
+            return value
+
+        def before_commit(function):
+            def checked(*args, **kwargs):
+                self.assertFalse(committed)
+                return function(*args, **kwargs)
+
+            return checked
+
+        with (
+            mock.patch.object(
+                ledger,
+                "commit_staged_with_transaction",
+                side_effect=commit_then_mark,
+            ),
+            mock.patch.object(
+                adapter_module,
+                "_derive_compute_ledger",
+                side_effect=before_commit(original_derive),
+            ),
+            mock.patch.object(
+                adapter_module,
+                "_selected_target_binding",
+                side_effect=before_commit(original_binding),
+            ),
+            mock.patch.object(
+                adapter_module,
+                "canonical_hash",
+                side_effect=before_commit(original_hash),
+            ),
+            mock.patch.object(
+                adapter_module,
+                "tensor_sha256",
+                side_effect=before_commit(original_tensor_hash),
+            ),
+            mock.patch.object(
+                adapter_module,
+                "ResidualReservePhaseAAdapterReceipt",
+                side_effect=before_commit(original_receipt),
+            ),
+            mock.patch.object(
+                adapter_module,
+                "ResidualReservePhaseAAdapterResult",
+                side_effect=before_commit(original_result),
+            ),
+        ):
+            result = run_residual_reserve_phase_a_outer(
+                selected,
+                freeze_residual_reserve_phase_a_action(selected, bindings),
+                ResidualReservePhaseAArm.RR_PCSOFT,
+                bindings,
+                contexts,
+                _PrefixProvider(bindings),
+                ledger,
+                covariances,
+                execution_id="phase-a-postcommit-sentinel",
+            )
+        self.assertTrue(committed)
+        self.assertEqual(result.receipt.committed_state_after_version, 1)
+        self.assertEqual(ledger.state.version, 1)
+
     def test_cross_arm_receipt_and_stale_target_fail_before_authoritative(self):
         selected = self.selected_target()
         bindings, contexts, covariances, ledger = self.fixture()

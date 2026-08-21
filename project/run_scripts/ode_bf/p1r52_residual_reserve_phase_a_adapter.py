@@ -20,11 +20,17 @@ from .p1r52_r42_safe_kdc import (
     P1R52SelectedTarget,
 )
 from .p1r52_residual_reserve_authoritative_sweep import (
-    AuthoritativeSweepResult,
+    AuthoritativeSweepPrecommitView,
+    AuthoritativeSweepPreparedPublication,
+    AuthoritativeSweepPublicationBuilder,
+    AuthoritativeSweepReceipt,
     ResidualReserveAuthoritativeRoute,
-    run_authoritative_residual_reserve_sweep,
+    run_authoritative_residual_reserve_sweep_with_publication,
 )
-from .p1r52_residual_reserve_committed_state import CommittedGrossLoadLedger
+from .p1r52_residual_reserve_committed_state import (
+    CommittedGrossLoadLedger,
+    CommittedGrossLoadState,
+)
 from .p1r52_residual_reserve_fp32_transaction import (
     LayerParameterBinding,
     RESIDUAL_RESERVE_LAYER_ORDER,
@@ -318,11 +324,21 @@ class ResidualReservePhaseAAdapterReceipt:
 
 
 @dataclass(frozen=True, slots=True)
-class ResidualReservePhaseAAdapterResult:
+class ResidualReservePhaseAAdapterResult(
+    AuthoritativeSweepPreparedPublication,
+):
     nominal_shadow: NominalShadowResult
     route: ResidualReserveAuthoritativeRoute
-    authoritative: AuthoritativeSweepResult
+    authoritative: AuthoritativeSweepPrecommitView
     receipt: ResidualReservePhaseAAdapterReceipt
+
+    @property
+    def authoritative_sweep_receipt_identity(self) -> str:
+        return self.authoritative.receipt.identity_sha256
+
+    @property
+    def publication_identity_sha256(self) -> str:
+        return self.receipt.identity_sha256
 
 
 @dataclass(frozen=True, slots=True)
@@ -617,11 +633,11 @@ def _validate_nominal_binding(
 def _derive_compute_ledger(
     nominal: NominalShadowResult,
     route: ResidualReserveAuthoritativeRoute,
-    authoritative: AuthoritativeSweepResult,
+    authoritative: AuthoritativeSweepReceipt,
 ) -> PhaseAAdapterComputeLedger:
     shadow = nominal.receipt
     route_ledger = route.receipt.ledger
-    sweep = authoritative.receipt.ledger
+    sweep = authoritative.ledger
     ledger = PhaseAAdapterComputeLedger(
         shadow_terminal_forward_count=shadow.terminal_forward_count,
         shadow_key_forward_count=shadow.key_forward_count,
@@ -744,6 +760,153 @@ def _derive_compute_ledger(
     ):
         raise ODEBFStateError("Phase-A adapter compute ledger differs")
     return ledger
+
+
+@dataclass(slots=True)
+class _PhaseAAdapterPublicationBuilder(
+    AuthoritativeSweepPublicationBuilder,
+):
+    selected_target: P1R52SelectedTarget
+    target_binding: P1R52SelectedTargetBindingReceipt
+    action_freeze: ResidualReservePhaseAActionFreezeReceipt
+    arm: ResidualReservePhaseAArm
+    entry_state: tuple[ShadowWeightStateIdentity, ...]
+    entry_identity: str
+    nominal: NominalShadowResult
+    route: ResidualReserveAuthoritativeRoute
+    route_mode: str
+    committed_ledger: CommittedGrossLoadLedger
+    before_state: CommittedGrossLoadState
+    before_identity: str
+    before_decision_identity: str
+
+    def prepare(
+        self,
+        view: AuthoritativeSweepPrecommitView,
+    ) -> ResidualReservePhaseAAdapterResult:
+        """Build the complete adapter result while W+ledger remain reversible."""
+
+        if not isinstance(view, AuthoritativeSweepPrecommitView):
+            raise ODEBFContractError("Phase-A authoritative preview type differs")
+        _validate_nominal_binding(
+            self.nominal,
+            self.target_binding,
+            self.entry_state,
+            self.entry_identity,
+        )
+        route_identity = self.route.receipt.identity_sha256
+        route_geometry_identity = (
+            self.route.selected_geometry.receipt.raw_free_payload()[
+                "identity_sha256"
+            ]
+        )
+        authoritative = view.receipt
+        preview = view.publication_preview
+        if (
+            _selected_target_binding(self.selected_target)
+            != self.target_binding
+            or self.action_freeze.selected_target_binding_identity
+            != self.target_binding.identity_sha256
+            or self.action_freeze.selected_target_action_identity
+            != self.target_binding.action_freeze_identity
+            or self.action_freeze.target_next_sha256
+            != self.target_binding.target_next_sha256
+            or self.action_freeze.entry_weight_scientific_identity
+            != self.entry_identity
+            or self.committed_ledger.state is not self.before_state
+            or self.before_state.identity_sha256 != self.before_identity
+            or self.before_state.decision_identity_sha256
+            != self.before_decision_identity
+            or authoritative.route_assembly_identity != route_identity
+            or authoritative.nominal_shadow_scientific_identity
+            != self.nominal.receipt.scientific_identity_sha256
+            or authoritative.nominal_shadow_receipt_identity
+            != self.nominal.receipt.identity_sha256
+            or authoritative.entry_weight_state_identity != self.entry_identity
+            or authoritative.selected_pi_sha256
+            != tensor_sha256(self.route.selected_pi)
+            or authoritative.selected_geometry_identity
+            != route_geometry_identity
+            or authoritative.committed_state_before_version
+            != self.before_state.version
+            or authoritative.committed_state_after_version
+            != self.before_state.version + 1
+            or authoritative.committed_state_before_identity
+            != self.before_identity
+            or authoritative.committed_state_after_identity
+            != preview.after_state_identity
+            or authoritative.committed_state_before_decision_identity
+            != self.before_decision_identity
+            or authoritative.committed_state_after_decision_identity
+            != preview.after_decision_identity
+            or preview.committed_factor_counts_after
+            != tuple(
+                len(layer.committed_precast_factors) + 1
+                for layer in self.before_state.layers
+            )
+            or preview.factor_append_count != 5
+            or authoritative.ledger.successful_factor_append_count != 5
+        ):
+            raise ODEBFStateError(
+                "Phase-A precommit target/route/state binding differs"
+            )
+        compute = _derive_compute_ledger(
+            self.nominal,
+            self.route,
+            authoritative,
+        )
+        receipt = ResidualReservePhaseAAdapterReceipt(
+            status=PHASE_A_ADAPTER_STATUS,
+            arm=self.arm.value,
+            selected_target_binding=self.target_binding,
+            action_freeze_identity=self.action_freeze.action_freeze_identity,
+            entry_weight_scientific_identity=self.entry_identity,
+            nominal_shadow_scientific_identity=(
+                self.nominal.receipt.scientific_identity_sha256
+            ),
+            nominal_shadow_receipt_identity=self.nominal.receipt.identity_sha256,
+            nominal_restored_entry_identity=canonical_hash(
+                [
+                    item.scientific_payload()
+                    for item in self.nominal.receipt.restored_weight_state
+                ]
+            ),
+            route_mode=self.route_mode,
+            route_receipt_identity=route_identity,
+            route_selected_pi_sha256=tensor_sha256(self.route.selected_pi),
+            route_selected_geometry_identity=route_geometry_identity,
+            route_solver_call_count=self.route.receipt.ledger.router_call_count,
+            authoritative_receipt_identity=authoritative.identity_sha256,
+            authoritative_entry_weight_identity=(
+                authoritative.entry_weight_state_identity
+            ),
+            authoritative_final_weight_identity=(
+                authoritative.final_weight_state_identity
+            ),
+            committed_state_id=authoritative.committed_state_id,
+            committed_state_before_version=self.before_state.version,
+            committed_state_after_version=preview.after_version,
+            committed_state_before_identity=self.before_identity,
+            committed_state_after_identity=preview.after_state_identity,
+            successful_factor_append_count=5,
+            alpha_history_consume_count=0,
+            alpha_history_append_count=0,
+            alpha_history_finalize_count=0,
+            heldout_evaluator_count=0,
+            target_controller_decision_influence_count=0,
+            cross_arm_state_access_count=0,
+            input_immutability_verified=True,
+            compute=compute,
+        )
+        receipt.identity_sha256
+        result = ResidualReservePhaseAAdapterResult(
+            self.nominal,
+            self.route,
+            view,
+            receipt,
+        )
+        result.publication_identity_sha256
+        return result
 
 
 def run_residual_reserve_phase_a_outer(
@@ -899,7 +1062,22 @@ def run_residual_reserve_phase_a_outer(
                 raise ODEBFStateError("Phase-A target mutated during prefix capture")
             return observation
 
-        authoritative = run_authoritative_residual_reserve_sweep(
+        publication_builder = _PhaseAAdapterPublicationBuilder(
+            selected_target=selected_target,
+            target_binding=target_binding,
+            action_freeze=action_freeze,
+            arm=arm,
+            entry_state=entry_state,
+            entry_identity=entry_identity,
+            nominal=nominal,
+            route=route,
+            route_mode=route_mode,
+            committed_ledger=committed_ledger,
+            before_state=before_state,
+            before_identity=before_identity,
+            before_decision_identity=before_decision_identity,
+        )
+        result = run_authoritative_residual_reserve_sweep_with_publication(
             target,
             nominal,
             route,
@@ -907,100 +1085,14 @@ def run_residual_reserve_phase_a_outer(
             alpha_contexts,
             guarded_provider,
             committed_ledger,
+            publication_builder,
             transaction_id=f"{execution_id}:authoritative",
         )
     except BaseException:
         if committed_ledger.state is before_state:
             _restore_entry(entry_snapshots)
         raise
-
-    after_state = committed_ledger.state
-    route_identity = route.receipt.identity_sha256
-    route_geometry_identity = (
-        route.selected_geometry.receipt.raw_free_payload()["identity_sha256"]
-    )
-    if (
-        _selected_target_binding(selected_target) != target_binding
-        or authoritative.receipt.route_assembly_identity != route_identity
-        or authoritative.receipt.nominal_shadow_scientific_identity
-        != nominal.receipt.scientific_identity_sha256
-        or authoritative.receipt.nominal_shadow_receipt_identity
-        != nominal.receipt.identity_sha256
-        or authoritative.receipt.entry_weight_state_identity != entry_identity
-        or authoritative.receipt.selected_pi_sha256
-        != tensor_sha256(route.selected_pi)
-        or authoritative.receipt.selected_geometry_identity
-        != route_geometry_identity
-        or authoritative.receipt.committed_state_before_version
-        != before_state.version
-        or authoritative.receipt.committed_state_after_version
-        != before_state.version + 1
-        or authoritative.receipt.committed_state_before_identity != before_identity
-        or authoritative.receipt.committed_state_after_identity
-        != after_state.identity_sha256
-        or after_state.version != before_state.version + 1
-        or any(
-            len(after.committed_precast_factors)
-            != len(before.committed_precast_factors) + 1
-            for before, after in zip(
-                before_state.layers,
-                after_state.layers,
-                strict=True,
-            )
-        )
-    ):
-        raise ODEBFStateError("Phase-A committed target/route binding differs")
-    compute = _derive_compute_ledger(nominal, route, authoritative)
-    receipt = ResidualReservePhaseAAdapterReceipt(
-        status=PHASE_A_ADAPTER_STATUS,
-        arm=arm.value,
-        selected_target_binding=target_binding,
-        action_freeze_identity=action_freeze.action_freeze_identity,
-        entry_weight_scientific_identity=entry_identity,
-        nominal_shadow_scientific_identity=(
-            nominal.receipt.scientific_identity_sha256
-        ),
-        nominal_shadow_receipt_identity=nominal.receipt.identity_sha256,
-        nominal_restored_entry_identity=canonical_hash(
-            [
-                item.scientific_payload()
-                for item in nominal.receipt.restored_weight_state
-            ]
-        ),
-        route_mode=route_mode,
-        route_receipt_identity=route_identity,
-        route_selected_pi_sha256=tensor_sha256(route.selected_pi),
-        route_selected_geometry_identity=route_geometry_identity,
-        route_solver_call_count=route.receipt.ledger.router_call_count,
-        authoritative_receipt_identity=authoritative.receipt.identity_sha256,
-        authoritative_entry_weight_identity=(
-            authoritative.receipt.entry_weight_state_identity
-        ),
-        authoritative_final_weight_identity=(
-            authoritative.receipt.final_weight_state_identity
-        ),
-        committed_state_id=after_state.state_id,
-        committed_state_before_version=before_state.version,
-        committed_state_after_version=after_state.version,
-        committed_state_before_identity=before_identity,
-        committed_state_after_identity=after_state.identity_sha256,
-        successful_factor_append_count=5,
-        alpha_history_consume_count=0,
-        alpha_history_append_count=0,
-        alpha_history_finalize_count=0,
-        heldout_evaluator_count=0,
-        target_controller_decision_influence_count=0,
-        cross_arm_state_access_count=0,
-        input_immutability_verified=True,
-        compute=compute,
-    )
-    receipt.identity_sha256
-    return ResidualReservePhaseAAdapterResult(
-        nominal,
-        route,
-        authoritative,
-        receipt,
-    )
+    return result
 
 
 __all__ = [

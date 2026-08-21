@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Mapping
+from typing import Any, Mapping, cast
 
 import torch
 
@@ -275,6 +276,42 @@ class AuthoritativeSweepResult:
     stage_receipt: LedgerStageReceipt
     ledger_commit: LedgerCommitResult
     receipt: AuthoritativeSweepReceipt
+
+
+@dataclass(frozen=True, slots=True)
+class AuthoritativeSweepPrecommitView:
+    """Immutable, fully validated sweep publication available before commit."""
+
+    layer_results: tuple[AuthoritativeSweepLayerResult, ...]
+    prepared_receipt: FP32PreparedCommitReceipt
+    stage_receipt: LedgerStageReceipt
+    publication_preview: LedgerPublicationPreviewReceipt
+    receipt: AuthoritativeSweepReceipt
+
+
+class AuthoritativeSweepPreparedPublication(ABC):
+    """Nominal base for a typed publication built entirely before commit."""
+
+    @property
+    @abstractmethod
+    def authoritative_sweep_receipt_identity(self) -> str:
+        """Return the exact precommit sweep receipt identity."""
+
+    @property
+    @abstractmethod
+    def publication_identity_sha256(self) -> str:
+        """Return the already-computed immutable publication identity."""
+
+
+class AuthoritativeSweepPublicationBuilder(ABC):
+    """Typed precommit builder; implementations cannot depend on final mutation."""
+
+    @abstractmethod
+    def prepare(
+        self,
+        view: AuthoritativeSweepPrecommitView,
+    ) -> AuthoritativeSweepPreparedPublication:
+        """Build and validate the complete external publication before commit."""
 
 
 def _weight_state(
@@ -911,7 +948,7 @@ def _validate_publication_preview(
         raise ODEBFStateError("authoritative publication preview differs")
 
 
-def run_authoritative_residual_reserve_sweep(
+def _execute_authoritative_residual_reserve_sweep(
     target_proposal32: torch.Tensor,
     nominal_shadow: NominalShadowResult,
     route: ResidualReserveAuthoritativeRoute,
@@ -921,7 +958,8 @@ def run_authoritative_residual_reserve_sweep(
     committed_ledger: CommittedGrossLoadLedger,
     *,
     transaction_id: str,
-) -> AuthoritativeSweepResult:
+    publication_builder: AuthoritativeSweepPublicationBuilder | None,
+) -> AuthoritativeSweepResult | AuthoritativeSweepPreparedPublication:
     """Run one frozen-route native prefix sweep and atomically publish its ledger."""
 
     if not callable(observation_provider):
@@ -1166,13 +1204,48 @@ def run_authoritative_residual_reserve_sweep(
             input_immutability_verified=True,
             ledger=derived_ledger,
         )
-        receipt.identity_sha256
+        receipt_identity = receipt.identity_sha256
+        prepared_publication: AuthoritativeSweepPreparedPublication | None = None
+        if publication_builder is not None:
+            if not isinstance(
+                publication_builder,
+                AuthoritativeSweepPublicationBuilder,
+            ):
+                raise ODEBFContractError(
+                    "authoritative publication builder type differs"
+                )
+            precommit_view = AuthoritativeSweepPrecommitView(
+                layer_results=frozen_precommit_layers,
+                prepared_receipt=prepared,
+                stage_receipt=stage,
+                publication_preview=preview,
+                receipt=receipt,
+            )
+            prepared_publication = publication_builder.prepare(precommit_view)
+            if (
+                not isinstance(
+                    prepared_publication,
+                    AuthoritativeSweepPreparedPublication,
+                )
+                or prepared_publication.authoritative_sweep_receipt_identity
+                != receipt_identity
+                or not isinstance(
+                    prepared_publication.publication_identity_sha256,
+                    str,
+                )
+                or not prepared_publication.publication_identity_sha256
+            ):
+                raise ODEBFStateError(
+                    "authoritative prepared publication binding differs"
+                )
         commit = committed_ledger.commit_staged_with_transaction(
             transaction,
             stage.stage_identity,
             prepared.identity_sha256,
             preview.identity_sha256,
         )
+        if prepared_publication is not None:
+            return prepared_publication
         return AuthoritativeSweepResult(
             frozen_precommit_layers,
             prepared,
@@ -1192,8 +1265,69 @@ def run_authoritative_residual_reserve_sweep(
         raise
 
 
+def run_authoritative_residual_reserve_sweep(
+    target_proposal32: torch.Tensor,
+    nominal_shadow: NominalShadowResult,
+    route: ResidualReserveAuthoritativeRoute,
+    bindings: Mapping[int, LayerParameterBinding],
+    alpha_contexts: Mapping[int, ShadowAlphaLayerContext],
+    observation_provider: PrefixObservationProvider,
+    committed_ledger: CommittedGrossLoadLedger,
+    *,
+    transaction_id: str,
+) -> AuthoritativeSweepResult:
+    """Run one authoritative sweep with its established result publication."""
+
+    return cast(
+        AuthoritativeSweepResult,
+        _execute_authoritative_residual_reserve_sweep(
+            target_proposal32,
+            nominal_shadow,
+            route,
+            bindings,
+            alpha_contexts,
+            observation_provider,
+            committed_ledger,
+            transaction_id=transaction_id,
+            publication_builder=None,
+        ),
+    )
+
+
+def run_authoritative_residual_reserve_sweep_with_publication(
+    target_proposal32: torch.Tensor,
+    nominal_shadow: NominalShadowResult,
+    route: ResidualReserveAuthoritativeRoute,
+    bindings: Mapping[int, LayerParameterBinding],
+    alpha_contexts: Mapping[int, ShadowAlphaLayerContext],
+    observation_provider: PrefixObservationProvider,
+    committed_ledger: CommittedGrossLoadLedger,
+    publication_builder: AuthoritativeSweepPublicationBuilder,
+    *,
+    transaction_id: str,
+) -> AuthoritativeSweepPreparedPublication:
+    """Commit only after a typed external publication is fully prepared."""
+
+    if not isinstance(publication_builder, AuthoritativeSweepPublicationBuilder):
+        raise ODEBFContractError("authoritative publication builder type differs")
+    return _execute_authoritative_residual_reserve_sweep(
+        target_proposal32,
+        nominal_shadow,
+        route,
+        bindings,
+        alpha_contexts,
+        observation_provider,
+        committed_ledger,
+        transaction_id=transaction_id,
+        publication_builder=publication_builder,
+    )
+
+
 __all__ = [
     "AUTHORITATIVE_SWEEP_STATUS",
+    "AuthoritativeSweepPrecommitView",
+    "AuthoritativeSweepPreparedPublication",
+    "AuthoritativeSweepPublicationBuilder",
     "AuthoritativeSweepLayerReceipt",
     "AuthoritativeSweepLayerResult",
     "AuthoritativeSweepLedger",
@@ -1201,4 +1335,5 @@ __all__ = [
     "AuthoritativeSweepResult",
     "ResidualReserveAuthoritativeRoute",
     "run_authoritative_residual_reserve_sweep",
+    "run_authoritative_residual_reserve_sweep_with_publication",
 ]
