@@ -42,14 +42,14 @@
       "sha256": "0d41062070b0a194a523fb74023bf2a6425e1cbd3de1275b8f88678ea1f85eb7"
     },
     {
-      "bytes": 6667,
-      "lines": 102,
+      "bytes": 6666,
+      "lines": 101,
       "mode": "0600",
       "path": "p1r52-joint-pc-c1-c2-pilot-tech-r6-factual-ko.md",
-      "sha256": "3af6176fcd97c4d11f3e361e74db31e33832cc55a773a4f2a3cc31e42df39e79"
+      "sha256": "9c45a8a48499824f89b337afbcfcd9caf3d511e2c75d88ea93002301e1f2aeed"
     }
   ],
-  "package_root": "0a72472707fdc4107d7167edce479f7da668bbfbc408e6ddceb6fef57d561188",
+  "package_root": "78716f498da1e5e9118f5e1c87952540b56388e439689b18c50ad92eb7600bb6",
   "package_root_basis": "sorted UTF-8 lines: relative_path<TAB>sha256<TAB>bytes<LF>",
   "production_not_submitted": true,
   "schema": "ode-edit-s05-p1r52-joint-pc-tech-r6-report-manifest/v1",

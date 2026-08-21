@@ -99,4 +99,3 @@ C2−C0: BF16 energy `−29.366609` (−70.926%)이지만 final residual은 `+24
 - result: `/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-independent-b100-v1/local/odebf/results/s05-p1r52-joint-pc-c1-c2-pilot-b100-tech-r6-v1`
 - state: `/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-independent-b100-v1/local/odebf/state/p1r52-joint-pc-c1-c2-pilot-tech-r6-v1`
 - log: `/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-independent-b100-v1/local/odebf/logs/p1r52-joint-pc-c1-c2-pilot-tech-r6-v1`
-
