@@ -727,6 +727,67 @@ class LedgerCommitReceipt:
 
 
 @dataclass(frozen=True, slots=True)
+class LedgerPublicationPreviewReceipt:
+    """Primitive-only preview of the exact staged ledger publication."""
+
+    stage_identity: str
+    transaction_id: str
+    prepared_commit_identity: str
+    future_final_transaction_receipt_identity: str
+    ledger_commit_receipt_identity: str
+    committed_state_id: str
+    before_version: int
+    after_version: int
+    before_state_identity: str
+    after_state_identity: str
+    before_decision_identity: str
+    after_decision_identity: str
+    layer_transition_identities: tuple[str, ...]
+    layers: tuple[int, ...]
+    prepared_factor_identities: tuple[str, ...]
+    prepared_factor_sources: tuple[str, ...]
+    committed_factor_identities: tuple[str, ...]
+    committed_factor_sources: tuple[str, ...]
+    provenance_transition_counts: tuple[int, ...]
+    factor_update_equivalence_statuses: tuple[str, ...]
+    factor_append_counts: tuple[int, ...]
+    committed_factor_counts_after: tuple[int, ...]
+    factor_append_count: int
+    logical_commit_count: int
+    shadow_commit_count: int
+    failed_commit_count: int
+    duplicate_commit_count: int
+    post_storage_decision_influence_count: int
+    model_forward_count: int
+    model_backward_count: int
+    dense_materialization_count: int
+    native_storage_assignment_count: int
+    storage_cast_boundary_count: int
+    logical_outer_commit_count: int
+    persistent_commit_count: int
+    transaction_model_forward_count: int
+    transaction_model_backward_count: int
+    external_materializer_count: int
+    candidate_materialization_count: int
+    postcast_decision_influence_count: int
+
+    def raw_free_payload(self) -> dict[str, Any]:
+        payload: dict[str, Any] = {
+            name: list(value) if isinstance(value, tuple) else value
+            for name, value in (
+                (field_name, getattr(self, field_name))
+                for field_name in self.__dataclass_fields__
+            )
+        }
+        payload["identity_sha256"] = canonical_hash(payload)
+        return payload
+
+    @property
+    def identity_sha256(self) -> str:
+        return self.raw_free_payload()["identity_sha256"]
+
+
+@dataclass(frozen=True, slots=True)
 class LedgerAbortReceipt:
     stage_identity: str
     transaction_id: str
@@ -763,6 +824,7 @@ class _StagedTransition:
     before_state: CommittedGrossLoadState
     after_state: CommittedGrossLoadState
     precomputed_result: LedgerCommitResult
+    publication_preview: LedgerPublicationPreviewReceipt
     transaction: OfficialStyleFP32SequentialTransaction
     prepared_identity: str
     after_state_identity: str
@@ -1091,11 +1153,97 @@ class CommittedGrossLoadLedger:
                 receipt=commit_receipt,
                 transaction_receipt=prepared.future_final_receipt,
             )
+            publication_preview = LedgerPublicationPreviewReceipt(
+                stage_identity=stage_identity,
+                transaction_id=prepared.transaction_id,
+                prepared_commit_identity=prepared_identity,
+                future_final_transaction_receipt_identity=final_identity,
+                ledger_commit_receipt_identity=commit_receipt.identity_sha256,
+                committed_state_id=after_state.state_id,
+                before_version=self._state.version,
+                after_version=after_state.version,
+                before_state_identity=before_state_identity,
+                after_state_identity=after_state_identity,
+                before_decision_identity=before_decision_identity,
+                after_decision_identity=after_decision_identity,
+                layer_transition_identities=tuple(
+                    canonical_hash(item.raw_free_payload())
+                    for item in layer_receipts
+                ),
+                layers=tuple(item.layer for item in layer_receipts),
+                prepared_factor_identities=tuple(
+                    item.prepared_factor_identity for item in layer_receipts
+                ),
+                prepared_factor_sources=tuple(
+                    item.prepared_factor_source for item in layer_receipts
+                ),
+                committed_factor_identities=tuple(
+                    item.committed_factor_identity for item in layer_receipts
+                ),
+                committed_factor_sources=tuple(
+                    item.committed_factor_source for item in layer_receipts
+                ),
+                provenance_transition_counts=tuple(
+                    item.provenance_transition_count for item in layer_receipts
+                ),
+                factor_update_equivalence_statuses=tuple(
+                    item.factor_update_equivalence_status
+                    for item in layer_receipts
+                ),
+                factor_append_counts=tuple(
+                    item.factor_append_count for item in layer_receipts
+                ),
+                committed_factor_counts_after=tuple(
+                    item.committed_factor_count_after for item in layer_receipts
+                ),
+                factor_append_count=commit_receipt.factor_append_count,
+                logical_commit_count=commit_receipt.logical_commit_count,
+                shadow_commit_count=commit_receipt.shadow_commit_count,
+                failed_commit_count=commit_receipt.failed_commit_count,
+                duplicate_commit_count=commit_receipt.duplicate_commit_count,
+                post_storage_decision_influence_count=(
+                    commit_receipt.post_storage_decision_influence_count
+                ),
+                model_forward_count=commit_receipt.model_forward_count,
+                model_backward_count=commit_receipt.model_backward_count,
+                dense_materialization_count=(
+                    commit_receipt.dense_materialization_count
+                ),
+                native_storage_assignment_count=(
+                    prepared.future_final_receipt.native_storage_assignment_count
+                ),
+                storage_cast_boundary_count=(
+                    prepared.future_final_receipt.storage_cast_boundary_count
+                ),
+                logical_outer_commit_count=(
+                    prepared.future_final_receipt.logical_outer_commit_count
+                ),
+                persistent_commit_count=(
+                    prepared.future_final_receipt.persistent_commit_count
+                ),
+                transaction_model_forward_count=(
+                    prepared.future_final_receipt.model_forward_count
+                ),
+                transaction_model_backward_count=(
+                    prepared.future_final_receipt.model_backward_count
+                ),
+                external_materializer_count=(
+                    prepared.future_final_receipt.external_materializer_call_count
+                ),
+                candidate_materialization_count=(
+                    prepared.future_final_receipt.candidate_materialization_count
+                ),
+                postcast_decision_influence_count=(
+                    prepared.future_final_receipt.postcast_decision_influence_count
+                ),
+            )
+            publication_preview.identity_sha256
             self._staged = _StagedTransition(
                 stage_receipt=stage_receipt,
                 before_state=self._state,
                 after_state=after_state,
                 precomputed_result=result,
+                publication_preview=publication_preview,
                 transaction=transaction,
                 prepared_identity=prepared_identity,
                 after_state_identity=after_state_identity,
@@ -1116,6 +1264,32 @@ class CommittedGrossLoadLedger:
                 transaction.abort_and_rollback()
             raise
 
+    def preview_staged_publication(
+        self,
+        stage_identity: str,
+        expected_prepare_identity: str,
+    ) -> LedgerPublicationPreviewReceipt:
+        """Return the sealed primitive-only result of a valid staged commit."""
+
+        self._verify_state()
+        staged = self._staged
+        if (
+            staged is None
+            or staged.stage_receipt.stage_identity != stage_identity
+            or staged.prepared_identity != expected_prepare_identity
+            or staged.before_state is not self._state
+            or staged.transaction.finalized
+            or staged.transaction.prepared_receipt is None
+            or staged.transaction.prepared_receipt.identity_sha256
+            != expected_prepare_identity
+            or staged.publication_preview.stage_identity != stage_identity
+            or staged.publication_preview.prepared_commit_identity
+            != expected_prepare_identity
+        ):
+            raise ODEBFStateError("committed-ledger publication preview differs")
+        staged.publication_preview.identity_sha256
+        return staged.publication_preview
+
     def commit_staged(self, stage_identity: str) -> LedgerCommitResult:
         if self._staged is not None:
             transaction = self._staged.transaction
@@ -1131,6 +1305,7 @@ class CommittedGrossLoadLedger:
         transaction: OfficialStyleFP32SequentialTransaction,
         stage_identity: str,
         expected_prepare_identity: str,
+        expected_preview_identity: str,
     ) -> LedgerCommitResult:
         try:
             self._verify_state()
@@ -1140,6 +1315,8 @@ class CommittedGrossLoadLedger:
                 or staged.stage_receipt.stage_identity != stage_identity
                 or staged.transaction is not transaction
                 or staged.prepared_identity != expected_prepare_identity
+                or staged.publication_preview.identity_sha256
+                != expected_preview_identity
                 or staged.before_state is not self._state
                 or transaction.prepared_receipt is None
                 or transaction.prepared_receipt.identity_sha256
@@ -1209,6 +1386,7 @@ __all__ = [
     "LedgerAbortReceipt",
     "LedgerCommitReceipt",
     "LedgerCommitResult",
+    "LedgerPublicationPreviewReceipt",
     "LedgerStageReceipt",
     "bind_authoritative_transaction_factors",
     "initialize_committed_gross_load_state",

@@ -200,10 +200,15 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
 
     @staticmethod
     def commit(ledger, transaction, prepared, stage):
+        preview = ledger.preview_staged_publication(
+            stage.stage_identity,
+            prepared.identity_sha256,
+        )
         return ledger.commit_staged_with_transaction(
             transaction,
             stage.stage_identity,
             prepared.identity_sha256,
+            preview.identity_sha256,
         )
 
     def test_w0_state_is_zero_immutable_and_independent_reset(self) -> None:
@@ -490,6 +495,7 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
                 transaction,
                 stage.stage_identity,
                 prepared.identity_sha256,
+                "reused-preview-identity",
             )
         self.assertEqual(result.state.version, 1)
 
@@ -516,6 +522,10 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
             "coordinated",
         )
         before = ledger.state
+        preview = ledger.preview_staged_publication(
+            stage.stage_identity,
+            prepared.identity_sha256,
+        )
         result = self.commit(ledger, transaction, prepared, stage)
         self.assertTrue(transaction.finalized)
         self.assertIs(transaction.final_receipt, prepared.future_final_receipt)
@@ -537,6 +547,15 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
         self.assertEqual(
             result.receipt.final_transaction_receipt_identity,
             result.transaction_receipt.identity_sha256,
+        )
+        self.assertEqual(
+            preview.ledger_commit_receipt_identity,
+            result.receipt.identity_sha256,
+        )
+        self.assertEqual(preview.after_state_identity, result.state.identity_sha256)
+        self.assertEqual(
+            preview.after_decision_identity,
+            result.state.decision_identity_sha256,
         )
         for construction, layer_state, layer_receipt in zip(
             constructions,
@@ -593,6 +612,65 @@ class ResidualReserveCommittedStateTests(unittest.TestCase):
                 layer_state.committed_construction_receipt_ids,
                 (construction.receipt.identity_sha256,),
             )
+
+    def test_publication_preview_is_primitive_immutable_and_identity_gated(self) -> None:
+        ledger = self.ledger("preview-gate")
+        parameters, transaction, prepared, stage = self.stage(
+            ledger,
+            self.constructions(),
+            "preview-first",
+        )
+        before = ledger.state
+        entry = {
+            layer: (
+                int(parameter.data_ptr()),
+                torch.full_like(parameter, 0.25 + 0.1 * (layer - 4)),
+            )
+            for layer, (_, parameter) in parameters.items()
+        }
+        preview = ledger.preview_staged_publication(
+            stage.stage_identity,
+            prepared.identity_sha256,
+        )
+        self.assertFalse(self.contains_tensor(preview.raw_free_payload()))
+        self.assertEqual(preview.layers, RESIDUAL_RESERVE_LAYER_ORDER)
+        self.assertEqual(preview.factor_append_counts, (1,) * 5)
+        self.assertEqual(preview.native_storage_assignment_count, 5)
+        with self.assertRaises(FrozenInstanceError):
+            preview.after_version = 99
+        with self.assertRaises(ODEBFStateError):
+            ledger.commit_staged_with_transaction(
+                transaction,
+                stage.stage_identity,
+                prepared.identity_sha256,
+                "0" * 64,
+            )
+        self.assert_parameter_snapshot(parameters, entry)
+        self.assertIs(ledger.state, before)
+        self.assertEqual(ledger.state.version, 0)
+
+        parameters, transaction, prepared, stage = self.stage(
+            ledger,
+            self.constructions(),
+            "preview-second",
+        )
+        entry = {
+            layer: (
+                int(parameter.data_ptr()),
+                torch.full_like(parameter, 0.25 + 0.1 * (layer - 4)),
+            )
+            for layer, (_, parameter) in parameters.items()
+        }
+        with self.assertRaises(ODEBFStateError):
+            ledger.commit_staged_with_transaction(
+                transaction,
+                stage.stage_identity,
+                prepared.identity_sha256,
+                preview.identity_sha256,
+            )
+        self.assert_parameter_snapshot(parameters, entry)
+        self.assertIs(ledger.state, before)
+        self.assertEqual(ledger.state.version, 0)
 
     def test_corrupt_construction_fields_fail_closed_with_exact_w_and_ledger(self) -> None:
         def corrupt(

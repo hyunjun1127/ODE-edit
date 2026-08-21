@@ -12,6 +12,7 @@ from .functional import tensor_sha256
 from .p1r52_residual_reserve_committed_state import (
     CommittedGrossLoadLedger,
     LedgerCommitResult,
+    LedgerPublicationPreviewReceipt,
     LedgerStageReceipt,
 )
 from .p1r52_residual_reserve_fp32_transaction import (
@@ -575,9 +576,8 @@ def _validate_observation(
 
 def _derive_ledger(
     layers: tuple[AuthoritativeSweepLayerResult, ...],
-    commit: LedgerCommitResult,
+    preview: LedgerPublicationPreviewReceipt,
 ) -> AuthoritativeSweepLedger:
-    transaction = commit.transaction_receipt
     ledger = AuthoritativeSweepLedger(
         terminal_forward_count=sum(
             item.observation.receipt.terminal_forward_count for item in layers
@@ -593,14 +593,14 @@ def _derive_ledger(
             item.application.exact_object_apply_count for item in layers
         ),
         native_storage_assignment_count=(
-            transaction.native_storage_assignment_count
+            preview.native_storage_assignment_count
         ),
-        storage_cast_boundary_count=transaction.storage_cast_boundary_count,
-        logical_outer_commit_count=transaction.logical_outer_commit_count,
-        persistent_commit_count=transaction.persistent_commit_count,
-        ledger_commit_count=commit.receipt.logical_commit_count,
-        successful_factor_append_count=commit.receipt.factor_append_count,
-        model_backward_count=transaction.model_backward_count,
+        storage_cast_boundary_count=preview.storage_cast_boundary_count,
+        logical_outer_commit_count=preview.logical_outer_commit_count,
+        persistent_commit_count=preview.persistent_commit_count,
+        ledger_commit_count=preview.logical_commit_count,
+        successful_factor_append_count=preview.factor_append_count,
+        model_backward_count=preview.transaction_model_backward_count,
         semantic_backward_count=sum(
             item.plan.receipt.semantic_backward_count for item in layers
         ),
@@ -610,10 +610,10 @@ def _derive_ledger(
         router_call_count=0,
         inventory_build_count=0,
         heldout_evaluator_count=0,
-        external_materializer_count=transaction.external_materializer_call_count,
-        candidate_materialization_count=transaction.candidate_materialization_count,
+        external_materializer_count=preview.external_materializer_count,
+        candidate_materialization_count=preview.candidate_materialization_count,
         post_storage_decision_influence_count=(
-            transaction.postcast_decision_influence_count
+            preview.postcast_decision_influence_count
         ),
     )
     locked = {
@@ -658,6 +658,10 @@ def _validate_precommit_layers(
         m3a = application.m3a_layer_receipt
         receipt = item.receipt
         application.validate()
+        expected_pre_hashes = tuple(
+            (state.layer, state.sha256)
+            for state in observation.pre_observation_weight_state
+        )
         if (
             observation.terminal_forward_count != 1
             or observation.key_forward_count != 1
@@ -679,6 +683,14 @@ def _validate_precommit_layers(
             != route.receipt.selected_execution_device
             or plan.q_solve_receipt_identity != q_solve.identity_sha256
             or plan.q_sha256 != q_solve.q_sha256
+            or plan.construction_receipt_identity
+            != construction.identity_sha256
+            or plan.construction_factor_identity
+            != item.plan.prepared_update.factor.identity_sha256
+            or plan.construction_update_sha256
+            != construction.matched_update_sha256
+            or plan.construction_orientation
+            != construction.matched_orientation
             or plan.dense_construction_count != 1
             or plan.second_dense_construction_count != 0
             or plan.model_forward_count != 0
@@ -697,6 +709,14 @@ def _validate_precommit_layers(
             or m3a.postcast_decision_influence_count != 0
             or receipt.observation_receipt_identity
             != observation.identity_sha256
+            or receipt.pre_observation_weight_hashes != expected_pre_hashes
+            or receipt.terminal_sha256 != observation.terminal_identity.sha256
+            or receipt.terminal_sha256
+            != tensor_sha256(item.observation.current_terminal32)
+            or receipt.joint_keys_sha256
+            != observation.joint_keys_identity.sha256
+            or receipt.joint_keys_sha256
+            != tensor_sha256(item.observation.joint_keys32)
             or receipt.plan_receipt_identity != plan.identity_sha256
             or receipt.construction_receipt_identity
             != construction.identity_sha256
@@ -704,10 +724,25 @@ def _validate_precommit_layers(
             != item.plan.prepared_update.factor.identity_sha256
             or receipt.construction_update_sha256
             != construction.matched_update_sha256
+            or receipt.construction_orientation
+            != construction.matched_orientation
             or receipt.residual_sha256 != plan.residual_sha256
+            or receipt.residual_sha256 != tensor_sha256(item.plan.residual32)
             or receipt.q_sha256 != plan.q_sha256
+            or receipt.q_sha256 != q_solve.q_sha256
+            or receipt.q_sha256 != tensor_sha256(item.plan.q32)
             or receipt.application_receipt_identity != application.identity_sha256
             or receipt.transaction_layer_receipt_identity != m3a.identity_sha256
+            or receipt.post_storage_parameter_sha256
+            != m3a.post_storage_parameter_sha256
+            or receipt.actual_post_storage_delta_sha256
+            != m3a.actual_post_storage_delta32_sha256
+            or receipt.pre_cast_update_norm != m3a.pre_cast_fp32_update_norm
+            or receipt.pre_cast_update_energy != m3a.pre_cast_fp32_update_energy
+            or receipt.actual_post_storage_delta_norm
+            != m3a.actual_post_storage_delta32_norm
+            or receipt.actual_post_storage_delta_energy
+            != m3a.actual_post_storage_delta32_energy
             or receipt.terminal_forward_count != observation.terminal_forward_count
             or receipt.key_forward_count != observation.key_forward_count
             or receipt.q_solve_count != plan.q_solve_count
@@ -718,9 +753,11 @@ def _validate_precommit_layers(
             or receipt.storage_cast_boundary_count
             != m3a.storage_cast_boundary_count
             or receipt.model_backward_count != 0
-            or receipt.semantic_backward_count != 0
-            or receipt.slope_backward_count != 0
-            or receipt.post_storage_decision_influence_count != 0
+            or receipt.model_backward_count != observation.model_backward_count
+            or receipt.semantic_backward_count != plan.semantic_backward_count
+            or receipt.slope_backward_count != plan.slope_backward_count
+            or receipt.post_storage_decision_influence_count
+            != m3a.postcast_decision_influence_count
             or receipt.factor_update_equivalence_status
             != EXACT_SINGLE_CONSTRUCTION_STATUS
             or item.plan.prepared_update.factor.source
@@ -729,6 +766,59 @@ def _validate_precommit_layers(
             raise ODEBFStateError(
                 "authoritative nested precommit receipt differs"
             )
+
+
+def _validate_publication_preview(
+    preview: LedgerPublicationPreviewReceipt,
+    stage: LedgerStageReceipt,
+    prepared: FP32PreparedCommitReceipt,
+    layers: tuple[AuthoritativeSweepLayerResult, ...],
+    *,
+    before_state_identity: str,
+    before_decision_identity: str,
+    before_version: int,
+) -> None:
+    if (
+        preview.stage_identity != stage.stage_identity
+        or preview.transaction_id != prepared.transaction_id
+        or preview.prepared_commit_identity != prepared.identity_sha256
+        or preview.future_final_transaction_receipt_identity
+        != prepared.future_final_receipt.identity_sha256
+        or preview.before_version != before_version
+        or preview.after_version != before_version + 1
+        or preview.before_state_identity != before_state_identity
+        or preview.before_decision_identity != before_decision_identity
+        or preview.layers != RESIDUAL_RESERVE_LAYER_ORDER
+        or preview.prepared_factor_identities
+        != tuple(item.plan.prepared_update.factor.identity_sha256 for item in layers)
+        or preview.prepared_factor_sources
+        != (LowRankFactorSource.AUTHORITATIVE_PREPARED_PRECAST_FP32.value,) * 5
+        or preview.committed_factor_sources
+        != (LowRankFactorSource.SUCCESSFUL_COMMITTED_PRECAST_FP32.value,) * 5
+        or preview.provenance_transition_counts != (1,) * 5
+        or preview.factor_update_equivalence_statuses
+        != (EXACT_SINGLE_CONSTRUCTION_STATUS,) * 5
+        or preview.factor_append_counts != (1,) * 5
+        or preview.factor_append_count != 5
+        or preview.logical_commit_count != 1
+        or preview.shadow_commit_count != 0
+        or preview.failed_commit_count != 0
+        or preview.duplicate_commit_count != 0
+        or preview.post_storage_decision_influence_count != 0
+        or preview.model_forward_count != 0
+        or preview.model_backward_count != 0
+        or preview.dense_materialization_count != 0
+        or preview.native_storage_assignment_count != 5
+        or preview.storage_cast_boundary_count != 5
+        or preview.logical_outer_commit_count != 1
+        or preview.persistent_commit_count != 1
+        or preview.transaction_model_forward_count != 0
+        or preview.transaction_model_backward_count != 0
+        or preview.external_materializer_count != 0
+        or preview.candidate_materialization_count != 0
+        or preview.postcast_decision_influence_count != 0
+    ):
+        raise ODEBFStateError("authoritative publication preview differs")
 
 
 def run_authoritative_residual_reserve_sweep(
@@ -777,6 +867,7 @@ def run_authoritative_residual_reserve_sweep(
     before_state_identity = state_before.identity_sha256
     before_decision_identity = state_before.decision_identity_sha256
     transaction: OfficialStyleFP32SequentialTransaction | None = None
+    stage: LedgerStageReceipt | None = None
     layer_results: list[AuthoritativeSweepLayerResult] = []
     try:
         transaction = OfficialStyleFP32SequentialTransaction(
@@ -899,7 +990,14 @@ def run_authoritative_residual_reserve_sweep(
         frozen_precommit_layers = tuple(layer_results)
         _validate_precommit_layers(frozen_precommit_layers, route)
         if (
-            _route_tensor_guard(route) != route_guards
+            _validate_contexts(
+                alpha_contexts,
+                resolved,
+                nominal_shadow,
+                device=device,
+            )
+            != context_guards
+            or _route_tensor_guard(route) != route_guards
             or route.receipt.identity_sha256 != route_receipt_guard
             or _tensor_guard(target_proposal32) != target_guard
         ):
@@ -910,92 +1008,98 @@ def run_authoritative_residual_reserve_sweep(
             prepared,
             tuple(item.application for item in layer_results),
         )
+        preview = committed_ledger.preview_staged_publication(
+            stage.stage_identity,
+            prepared.identity_sha256,
+        )
+        _validate_publication_preview(
+            preview,
+            stage,
+            prepared,
+            frozen_precommit_layers,
+            before_state_identity=before_state_identity,
+            before_decision_identity=before_decision_identity,
+            before_version=state_before.version,
+        )
+        final_state = _weight_state(resolved)
+        derived_ledger = _derive_ledger(frozen_precommit_layers, preview)
+        receipt = AuthoritativeSweepReceipt(
+            status=AUTHORITATIVE_SWEEP_STATUS,
+            route_assembly_identity=route.receipt.identity_sha256,
+            nominal_shadow_scientific_identity=(
+                nominal_shadow.receipt.scientific_identity_sha256
+            ),
+            nominal_shadow_receipt_identity=(
+                nominal_shadow.receipt.identity_sha256
+            ),
+            selected_pi_sha256=tensor_sha256(route.selected_pi),
+            selected_geometry_identity=(
+                route.selected_geometry.receipt.raw_free_payload()[
+                    "identity_sha256"
+                ]
+            ),
+            selected_geometry_pi_sha256=tensor_sha256(
+                route.selected_geometry.pi
+            ),
+            selected_execution_device=str(route.selected_pi.device),
+            entry_weight_state_identity=(
+                _scientific_weight_state_identity(entry_state)
+            ),
+            final_weight_state_identity=(
+                _scientific_weight_state_identity(final_state)
+            ),
+            layer_receipts=tuple(
+                item.receipt for item in frozen_precommit_layers
+            ),
+            prepared_commit_identity=prepared.identity_sha256,
+            staged_ledger_identity=stage.stage_identity,
+            final_transaction_receipt_identity=(
+                preview.future_final_transaction_receipt_identity
+            ),
+            ledger_commit_receipt_identity=(
+                preview.ledger_commit_receipt_identity
+            ),
+            committed_state_id=preview.committed_state_id,
+            committed_state_before_version=preview.before_version,
+            committed_state_after_version=preview.after_version,
+            committed_state_before_identity=preview.before_state_identity,
+            committed_state_after_identity=preview.after_state_identity,
+            committed_state_before_decision_identity=(
+                preview.before_decision_identity
+            ),
+            committed_state_after_decision_identity=(
+                preview.after_decision_identity
+            ),
+            factor_update_equivalence_status=(
+                EXACT_SINGLE_CONSTRUCTION_STATUS
+            ),
+            input_immutability_verified=True,
+            ledger=derived_ledger,
+        )
+        receipt.identity_sha256
         commit = committed_ledger.commit_staged_with_transaction(
             transaction,
             stage.stage_identity,
             prepared.identity_sha256,
+            preview.identity_sha256,
+        )
+        return AuthoritativeSweepResult(
+            frozen_precommit_layers,
+            prepared,
+            stage,
+            commit,
+            receipt,
         )
     except BaseException:
-        if transaction is not None and not transaction.finalized:
+        if (
+            stage is not None
+            and transaction is not None
+            and not transaction.finalized
+        ):
+            committed_ledger.abort_staged(stage.stage_identity)
+        elif transaction is not None and not transaction.finalized:
             transaction.abort_and_rollback()
         raise
-
-    frozen_layers = tuple(layer_results)
-    final_state = _weight_state(resolved)
-    after_state = committed_ledger.state
-    derived_ledger = _derive_ledger(frozen_layers, commit)
-    if (
-        tuple(item.receipt.layer for item in frozen_layers)
-        != RESIDUAL_RESERVE_LAYER_ORDER
-        or commit.state is not after_state
-        or after_state.version != state_before.version + 1
-        or after_state.commit_count != state_before.commit_count + 1
-        or commit.receipt.before_state_identity != before_state_identity
-        or commit.receipt.after_state_identity != after_state.identity_sha256
-        or commit.receipt.before_decision_identity != before_decision_identity
-        or commit.receipt.after_decision_identity
-        != after_state.decision_identity_sha256
-        or commit.receipt.factor_append_count != 5
-        or any(
-            item.factor_append_count != 1
-            or item.factor_update_equivalence_status
-            != EXACT_SINGLE_CONSTRUCTION_STATUS
-            for item in commit.receipt.layer_receipts
-        )
-        or any(
-            layer.committed_precast_factors[-1].source
-            is not LowRankFactorSource.SUCCESSFUL_COMMITTED_PRECAST_FP32
-            for layer in after_state.layers
-        )
-        or transaction.final_receipt is not commit.transaction_receipt
-        or prepared.future_final_receipt is not commit.transaction_receipt
-        or _route_tensor_guard(route) != route_guards
-        or route.receipt.identity_sha256 != route_receipt_guard
-    ):
-        raise ODEBFStateError("authoritative sweep committed receipt differs")
-    receipt = AuthoritativeSweepReceipt(
-        status=AUTHORITATIVE_SWEEP_STATUS,
-        route_assembly_identity=route.receipt.identity_sha256,
-        nominal_shadow_scientific_identity=(
-            nominal_shadow.receipt.scientific_identity_sha256
-        ),
-        nominal_shadow_receipt_identity=nominal_shadow.receipt.identity_sha256,
-        selected_pi_sha256=tensor_sha256(route.selected_pi),
-        selected_geometry_identity=route.selected_geometry.receipt.raw_free_payload()[
-            "identity_sha256"
-        ],
-        selected_geometry_pi_sha256=tensor_sha256(route.selected_geometry.pi),
-        selected_execution_device=str(route.selected_pi.device),
-        entry_weight_state_identity=_scientific_weight_state_identity(entry_state),
-        final_weight_state_identity=_scientific_weight_state_identity(final_state),
-        layer_receipts=tuple(item.receipt for item in frozen_layers),
-        prepared_commit_identity=prepared.identity_sha256,
-        staged_ledger_identity=stage.stage_identity,
-        final_transaction_receipt_identity=(
-            commit.transaction_receipt.identity_sha256
-        ),
-        ledger_commit_receipt_identity=commit.receipt.identity_sha256,
-        committed_state_id=after_state.state_id,
-        committed_state_before_version=state_before.version,
-        committed_state_after_version=after_state.version,
-        committed_state_before_identity=before_state_identity,
-        committed_state_after_identity=after_state.identity_sha256,
-        committed_state_before_decision_identity=before_decision_identity,
-        committed_state_after_decision_identity=(
-            after_state.decision_identity_sha256
-        ),
-        factor_update_equivalence_status=EXACT_SINGLE_CONSTRUCTION_STATUS,
-        input_immutability_verified=True,
-        ledger=derived_ledger,
-    )
-    receipt.identity_sha256
-    return AuthoritativeSweepResult(
-        frozen_layers,
-        prepared,
-        stage,
-        commit,
-        receipt,
-    )
 
 
 __all__ = [

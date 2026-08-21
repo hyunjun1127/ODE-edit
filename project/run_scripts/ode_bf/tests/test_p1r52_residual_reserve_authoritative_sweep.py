@@ -537,6 +537,185 @@ class ResidualReserveAuthoritativeSweepTests(unittest.TestCase):
         self.assert_snapshot(bindings, snapshot)
         self.assertEqual(ledger.state.version, 0)
 
+    def test_precommit_ledger_derivation_failure_restores_w_and_ledger(self):
+        target, bindings, nominal, contexts, ledger, route = self.base_fixture()
+        snapshot = self.parameter_snapshot(bindings)
+        before = ledger.state
+        before_identity = before.identity_sha256
+        with mock.patch.object(
+            sweep_module,
+            "_derive_ledger",
+            side_effect=RuntimeError("injected precommit ledger derivation failure"),
+        ):
+            with self.assertRaises(RuntimeError):
+                run_authoritative_residual_reserve_sweep(
+                    target,
+                    nominal,
+                    route,
+                    bindings,
+                    contexts,
+                    _PrefixProvider(bindings),
+                    ledger,
+                    transaction_id="derive-ledger-failure",
+                )
+        self.assert_snapshot(bindings, snapshot)
+        self.assertIs(ledger.state, before)
+        self.assertEqual(ledger.state.identity_sha256, before_identity)
+        self.assertEqual(ledger.state.version, 0)
+
+    def test_postcommit_has_no_ledger_derivation_or_hash_work(self):
+        target, bindings, nominal, contexts, ledger, route = self.base_fixture()
+        committed = False
+        original_commit = ledger.commit_staged_with_transaction
+        original_derive = sweep_module._derive_ledger
+        original_hash = sweep_module.canonical_hash
+
+        def commit_then_mark(*args, **kwargs):
+            nonlocal committed
+            result = original_commit(*args, **kwargs)
+            committed = True
+            return result
+
+        def derive_before_commit(*args, **kwargs):
+            self.assertFalse(committed)
+            return original_derive(*args, **kwargs)
+
+        def hash_before_commit(*args, **kwargs):
+            self.assertFalse(committed)
+            return original_hash(*args, **kwargs)
+
+        with (
+            mock.patch.object(
+                ledger,
+                "commit_staged_with_transaction",
+                side_effect=commit_then_mark,
+            ),
+            mock.patch.object(
+                sweep_module,
+                "_derive_ledger",
+                side_effect=derive_before_commit,
+            ),
+            mock.patch.object(
+                sweep_module,
+                "canonical_hash",
+                side_effect=hash_before_commit,
+            ),
+        ):
+            result = run_authoritative_residual_reserve_sweep(
+                target,
+                nominal,
+                route,
+                bindings,
+                contexts,
+                _PrefixProvider(bindings),
+                ledger,
+                transaction_id="postcommit-zero-fallible",
+            )
+        self.assertTrue(committed)
+        self.assertEqual(result.receipt.committed_state_after_version, 1)
+
+    def test_final_context_mutations_after_layer8_fail_before_prepare(self):
+        for context_field in (
+            "projector32",
+            "committed_covariance32",
+            "regularization32",
+        ):
+            with self.subTest(field=context_field):
+                target, bindings, nominal, contexts, ledger, route = (
+                    self.base_fixture()
+                )
+                snapshot = self.parameter_snapshot(bindings)
+                before = ledger.state
+                before_identity = before.identity_sha256
+                original_apply = sweep_module.apply_prepared_low_rank_update
+
+                def mutate_after_layer8(transaction, construction):
+                    application = original_apply(transaction, construction)
+                    if construction.receipt.layer == 8:
+                        with torch.no_grad():
+                            getattr(contexts[8], context_field).add_(1.0)
+                    return application
+
+                with mock.patch.object(
+                    sweep_module,
+                    "apply_prepared_low_rank_update",
+                    side_effect=mutate_after_layer8,
+                ):
+                    with self.assertRaises(ODEBFStateError):
+                        run_authoritative_residual_reserve_sweep(
+                            target,
+                            nominal,
+                            route,
+                            bindings,
+                            contexts,
+                            _PrefixProvider(bindings),
+                            ledger,
+                            transaction_id=f"final-context-{context_field}",
+                        )
+                self.assert_snapshot(bindings, snapshot)
+                self.assertIs(ledger.state, before)
+                self.assertEqual(ledger.state.identity_sha256, before_identity)
+                self.assertEqual(ledger.state.version, 0)
+
+    def test_forged_wrapper_telemetry_fails_precommit_and_rolls_back(self):
+        for field in (
+            "terminal_sha256",
+            "actual_post_storage_delta_energy",
+            "construction_orientation",
+        ):
+            with self.subTest(field=field):
+                target, bindings, nominal, contexts, ledger, route = (
+                    self.base_fixture()
+                )
+                snapshot = self.parameter_snapshot(bindings)
+                before = ledger.state
+                before_identity = before.identity_sha256
+                receipt_type = sweep_module.AuthoritativeSweepLayerReceipt
+
+                def forge_receipt(**kwargs):
+                    receipt = receipt_type(**kwargs)
+                    if kwargs["layer"] != 6:
+                        return receipt
+                    if field == "terminal_sha256":
+                        return replace(receipt, terminal_sha256="0" * 64)
+                    if field == "actual_post_storage_delta_energy":
+                        return replace(
+                            receipt,
+                            actual_post_storage_delta_energy=(
+                                receipt.actual_post_storage_delta_energy + 1.0
+                            ),
+                        )
+                    replacement = (
+                        "TRANSPOSE_VIEW"
+                        if receipt.construction_orientation == "DIRECT"
+                        else "DIRECT"
+                    )
+                    return replace(
+                        receipt,
+                        construction_orientation=replacement,
+                    )
+
+                with mock.patch.object(
+                    sweep_module,
+                    "AuthoritativeSweepLayerReceipt",
+                    side_effect=forge_receipt,
+                ):
+                    with self.assertRaises(ODEBFStateError):
+                        run_authoritative_residual_reserve_sweep(
+                            target,
+                            nominal,
+                            route,
+                            bindings,
+                            contexts,
+                            _PrefixProvider(bindings),
+                            ledger,
+                            transaction_id=f"forged-wrapper-{field}",
+                        )
+                self.assert_snapshot(bindings, snapshot)
+                self.assertIs(ledger.state, before)
+                self.assertEqual(ledger.state.identity_sha256, before_identity)
+                self.assertEqual(ledger.state.version, 0)
+
     def test_prohibited_paths_and_authoritative_compute_boundary(self):
         source = inspect.getsource(sweep_module)
         prohibited = (
