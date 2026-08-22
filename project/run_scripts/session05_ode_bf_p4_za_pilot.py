@@ -95,7 +95,6 @@ HPARAMS = {
     "llama3-8b-inst": EASYEDIT_ROOT / "hparams/AlphaEdit/llama3-8b.yaml",
     "qwen2.5-7b-inst": EASYEDIT_ROOT / "hparams/AlphaEdit/qwen2.5-7b.yaml",
 }
-SEALED_REFERENCE_MICROBATCH = 2
 EXECUTION_MICROBATCH = 1
 
 
@@ -524,29 +523,6 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         raise ODEBFContractError("P4 ZA alias/sealed case01 binding differs")
 
     contexts, context_sha = fresh_contexts_twice(model, tokenizer, seed=COMMON_SEED)
-    sealed_reference = build_p4_paired_objective_plans(
-        model,
-        tokenizer,
-        requests,
-        contexts=contexts,
-        request_microbatch_size=SEALED_REFERENCE_MICROBATCH,
-        fact_token_strategy=hparams.fact_token,
-    )
-    capture_plan = build_scalable_capture_plan(
-        tokenizer,
-        requests,
-        contexts=contexts,
-        request_microbatch_size=SEALED_REFERENCE_MICROBATCH,
-        fact_token_strategy=hparams.fact_token,
-    )
-    transferred_row = _evaluation_row(identity, args.model)
-    if (
-        sealed_reference.new.identity_sha256 != transferred_row.get("objective_plan_sha256")
-        or capture_plan.identity_sha256 != transferred_row.get("capture_plan_sha256")
-        or request_order != transferred_row.get("request_order_sha256")
-        or sealed_reference.new.context_sha256 != context_sha
-    ):
-        raise ODEBFContractError("P4 ZA runtime plan differs from transferred evaluator binding")
     paired = build_p4_paired_objective_plans(
         model,
         tokenizer,
@@ -555,15 +531,31 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         request_microbatch_size=EXECUTION_MICROBATCH,
         fact_token_strategy=hparams.fact_token,
     )
+    capture_plan = build_scalable_capture_plan(
+        tokenizer,
+        requests,
+        contexts=contexts,
+        request_microbatch_size=EXECUTION_MICROBATCH,
+        fact_token_strategy=hparams.fact_token,
+    )
+    transferred_row = _evaluation_row(identity, args.model)
+    if (
+        request_order != transferred_row.get("request_order_sha256")
+        or paired.new.request_order_sha256 != request_order
+        or capture_plan.request_order_sha256 != request_order
+        or paired.new.context_sha256 != context_sha
+    ):
+        raise ODEBFContractError("P4 ZA runtime input/order binding differs")
     stages.record("post_alias_sealed_input_plan", {
         "alias": args.model,
         "request_order_sha256": request_order,
-        "sealed_objective_plan_sha256": sealed_reference.new.identity_sha256,
+        "transferred_bf16_objective_plan_sha256_observation_only": transferred_row["objective_plan_sha256"],
+        "transferred_bf16_capture_plan_sha256_observation_only": transferred_row["capture_plan_sha256"],
         "capture_plan_sha256": capture_plan.identity_sha256,
         "execution_objective_plan_sha256": paired.new.identity_sha256,
-        "sealed_reference_microbatch_size": SEALED_REFERENCE_MICROBATCH,
         "execution_microbatch_size": EXECUTION_MICROBATCH,
         "execution_microbatch_role": "FULL_FP32_MEMORY_DEPLOYMENT_ONLY",
+        "transferred_bf16_plan_decision_influence_count": 0,
         "context_sha256": context_sha,
         "transferred_evaluation_case_identity_sha256": transferred_row["evaluation_case_identity_sha256"],
     })

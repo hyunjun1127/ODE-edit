@@ -71,8 +71,8 @@ class P4ZAPilotEssentialGateTests(unittest.TestCase):
         self.assertIn("from easyeditor.models.alphaedit.compute_z import compute_z", source)
         self.assertIn('"writer_call_count": 0', source)
         self.assertIn("reuse_final_verified_closure=True", source)
-        self.assertIn("SEALED_REFERENCE_MICROBATCH = 2", source)
         self.assertIn("EXECUTION_MICROBATCH = 1", source)
+        self.assertIn("transferred_bf16_plan_decision_influence_count", source)
         self.assertIn("first_target_completion_nonfinite_restore_gate", source)
 
     def test_final_gate_is_no_model_and_full_fp32_offline(self) -> None:
