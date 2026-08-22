@@ -8,6 +8,8 @@ import json
 from pathlib import Path
 import subprocess
 
+from project.run_scripts.ode_bf.p3r1_runtime import expected_result_parent
+
 
 PROJECT_GPU_CAP = 2
 ALIASES = ("llama3-8b-inst", "qwen2.5-7b-inst")
@@ -33,6 +35,11 @@ def main() -> int:
     parser.add_argument("--case-index", required=True, type=int, choices=range(1, 11))
     parser.add_argument("--release", action="store_true")
     args = parser.parse_args()
+    repo_root = Path(__file__).resolve().parents[2]
+    resolved_result_parent = args.result_parent.resolve(strict=False)
+    expected_parent = expected_result_parent(repo_root)
+    if resolved_result_parent != expected_parent:
+        raise SystemExit("P3R1 TECH-R1 result parent differs")
     rows = active_allocations()
     requested = len(ALIASES)
     payload = {
@@ -41,6 +48,9 @@ def main() -> int:
         "observed_active_pending_gpu_allocations": rows,
         "observed_allocation_count": len(rows),
         "requested_gpu_count": requested,
+        "resolved_result_parent": str(resolved_result_parent),
+        "expected_result_parent": str(expected_parent),
+        "result_parent_match": True,
         "release_allowed": len(rows) + requested <= PROJECT_GPU_CAP,
         "case_index": args.case_index,
         "aliases": list(ALIASES),
@@ -58,7 +68,7 @@ def main() -> int:
                     f"--job-name=p3r1-{alias}-c{args.case_index:02d}",
                     "project/run_scripts/session05_ode_bf_p3r1_fastz_fh.sbatch",
                     args.source_head,
-                    str(args.result_parent),
+                    str(resolved_result_parent),
                     alias,
                     str(args.case_index),
                 ],

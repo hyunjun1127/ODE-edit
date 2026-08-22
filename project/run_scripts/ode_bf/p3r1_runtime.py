@@ -92,7 +92,8 @@ from .scalable_batched_runtime import (
 
 
 ROLE_PREFIX = "p3r1-two-timescale-fastz-fh-case-"
-RESULT_PREFIX = "s05-p3r1-two-timescale-fastz-fh-c013-fp32"
+RESULT_PARENT_NAME = "p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1"
+RESULT_PREFIX = "s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1"
 STREAM_ROOT = "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
 STREAM_ORDER = "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3"
 
@@ -121,6 +122,12 @@ def expected_result_name(alias: str, role: str) -> str:
     if alias not in ("llama3-8b-inst", "qwen2.5-7b-inst"):
         raise ODEBFContractError("P3R1 alias differs")
     return f"{RESULT_PREFIX}-{alias}-case-{case_index:02d}-v1"
+
+
+def expected_result_parent(repo_root: Path) -> Path:
+    return (
+        repo_root / "local" / "odebf" / "results" / RESULT_PARENT_NAME
+    ).resolve(strict=False)
 
 
 def _bindings(model: torch.nn.Module, hparams: Any) -> dict[int, tuple[str, torch.nn.Parameter]]:
@@ -1015,9 +1022,11 @@ def run_p3r1_case(
 
 __all__ = [
     "RESULT_PREFIX",
+    "RESULT_PARENT_NAME",
     "ROLE_PREFIX",
     "case_role",
     "expected_result_name",
+    "expected_result_parent",
     "is_p3r1_role",
     "role_case_index",
     "run_p3r1_case",

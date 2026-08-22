@@ -26,7 +26,11 @@ from project.run_scripts.ode_bf.p1r52_b100x10_stream import (
     verify_p1r52_b100x10_stream,
 )
 from project.run_scripts.ode_bf.p3r1_fixed_m_target import INSTRUCTION_ID
-from project.run_scripts.ode_bf.p3r1_runtime import case_role, expected_result_name
+from project.run_scripts.ode_bf.p3r1_runtime import (
+    case_role,
+    expected_result_name,
+    expected_result_parent,
+)
 
 
 SOURCE_FILES = (
@@ -39,6 +43,7 @@ SOURCE_FILES = (
     "project/run_scripts/ode_bf/p3r1_runtime.py",
     "project/run_scripts/session05_ode_bf_p3r1_fastz_fh.py",
     "project/run_scripts/session05_ode_bf_p3r1_fastz_fh.sbatch",
+    "project/run_scripts/session05_submit_p3r1_fastz_fh.py",
 )
 
 
@@ -71,6 +76,11 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     role = case_role(args.case_index)
     try:
+        expected_output = expected_result_parent(REPO_ROOT) / expected_result_name(
+            args.alias, role
+        )
+        if args.output_root.resolve(strict=False) != expected_output:
+            raise ValueError("P3R1 TECH-R1 output namespace differs")
         observed = subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, text=True
         ).strip()

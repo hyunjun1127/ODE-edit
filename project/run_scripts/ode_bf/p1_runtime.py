@@ -3253,12 +3253,17 @@ def run_p1(
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
     from .p1r52_joint_pc_fp32_runtime import is_joint_pc_full_fp32_role
+    from .p3r1_runtime import expected_result_parent as expected_p3r1_result_parent
     from .p3r1_runtime import is_p3r1_role
 
     joint_pc_full_fp32_mode = is_joint_pc_full_fp32_role(p1r52_sequential_role)
     p3r1_fp32_mode = is_p3r1_role(p1r52_sequential_role)
     _source_freeze(repo_root, source_head)
-    expected_parent = (repo_root / "local" / "odebf" / "results").resolve(strict=False)
+    expected_parent = (
+        expected_p3r1_result_parent(repo_root)
+        if p3r1_fp32_mode
+        else (repo_root / "local" / "odebf" / "results").resolve(strict=False)
+    )
     destination = output_root.resolve(strict=False)
     if sum(
         (
