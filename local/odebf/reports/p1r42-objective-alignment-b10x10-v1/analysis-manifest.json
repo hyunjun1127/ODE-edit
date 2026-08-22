@@ -1,0 +1,65 @@
+{
+  "artifact_count": 11,
+  "artifact_root": "7ece0c41111972fd38411d95202bf11da5d1392882ecae19fcee08bc850236c5",
+  "artifact_root_algorithm": "sha256(canonical-json(sorted[{path,sha256,bytes}]))",
+  "artifacts": [
+    {
+      "bytes": 25964,
+      "path": "analysis-summary.json",
+      "sha256": "23c8b7e3ec337833325ed17500146e15c705d922cd96ad836cea8bbe9367d4af"
+    },
+    {
+      "bytes": 11960,
+      "path": "p1r42-objective-alignment-b10x10-factual-ko.md",
+      "sha256": "f5cf8ac14b34e38a0d235df57b2d1453d91954c4d6d9cf0b0dd86bc100078989"
+    },
+    {
+      "bytes": 41547,
+      "path": "p1r42-objective-alignment-paired-comparisons.csv",
+      "sha256": "40cb2a109570ff15920ab773b208c1e19c2bd04edc556edcd2952b15cff5e153"
+    },
+    {
+      "bytes": 136273,
+      "path": "p1r42-objective-alignment-paired-comparisons.json",
+      "sha256": "a69fe939ecf33d3dd8fb7ced65e7c41c47b407afdea36bd13660be028f6f6a25"
+    },
+    {
+      "bytes": 45138,
+      "path": "p1r42-objective-alignment-per-case.csv",
+      "sha256": "a29e90833cc2f1cfb37db6ee85876c0da0152eb7ea07b6081002ea6f04b1d5f3"
+    },
+    {
+      "bytes": 137410,
+      "path": "p1r42-objective-alignment-per-case.json",
+      "sha256": "cbb718b464a99e94fad88de1d4296aed4a1451e27a166923c687e9e486a080b1"
+    },
+    {
+      "bytes": 1477156,
+      "path": "p1r42-objective-alignment-per-request.csv",
+      "sha256": "446c512246a3f2dee4f752c8635b0a6eda64acb7029d7c948127849ecc5592e3"
+    },
+    {
+      "bytes": 4736881,
+      "path": "p1r42-objective-alignment-per-request.json",
+      "sha256": "ee916f753cb9b871cfc3dbdde5dab3eade9355bfa243ccec31f03b94b7245b3a"
+    },
+    {
+      "bytes": 323282,
+      "path": "p1r42-objective-alignment-per-step.csv",
+      "sha256": "c25c8fb085109513ebabec1c6463d79412914db9e624d19e16f1d487793c427f"
+    },
+    {
+      "bytes": 903524,
+      "path": "p1r42-objective-alignment-per-step.json",
+      "sha256": "5d0ac639db6d84853c3e56d2462b529502a09500f21fe070f1712ab861697e2e"
+    },
+    {
+      "bytes": 233722,
+      "path": "result-integrity.json",
+      "sha256": "632ee6e16a50f1ad98c281f6d55ccbe0da19d585ba23624689538f66d33f6a70"
+    }
+  ],
+  "schema": "ode-edit-s05-p1r42-analysis-manifest/v1",
+  "source_head": "ca68a4f459fd7303a4d5abbde2e1bf7aee0d805c",
+  "source_tree": "4af77417a52c70b99784d64dbfcabba0a91a1960"
+}
