@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 import time
 from typing import Any, Mapping, Sequence
@@ -38,6 +39,27 @@ RESULT_NAMES = {
     role: f"s05-p1r52-c-writer-phase2-independent-full-fp32-{arm.lower()}-10xb100-v1"
     for role, arm in zip(ROLES, ARMS, strict=True)
 }
+FINAL_V6_ROOTED_RECEIPT = (
+    Path(__file__).resolve().parents[3]
+    / "local/odebf/reports/p1r52-joint-pc-full-fp32-independent-b100x10-final-v6/rooted-analysis-receipt.json"
+)
+
+
+def _final_v6_case_reference(arm: str, case_index: int) -> dict[str, Any]:
+    receipt = json.loads(FINAL_V6_ROOTED_RECEIPT.read_text(encoding="utf-8"))
+    if (
+        receipt.get("status") != "TERMINAL_ANALYSIS_VALID"
+        or receipt.get("stream_root") != STREAM_ROOT
+        or receipt.get("stream_order") != STREAM_ORDER
+    ):
+        raise ODEBFStateError("Phase2 final-v6 reference receipt differs")
+    reference_arm = arm.removesuffix("-KSTEP")
+    root = Path(receipt["input_roots"][reference_arm])
+    path = root / "raw" / "cases" / f"case-{case_index:02d}" / "terminal.json"
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if value.get("case_index") != case_index or value.get("cell") != reference_arm:
+        raise ODEBFStateError("Phase2 final-v6 case reference differs")
+    return value
 
 
 def role_for_cell(cell: int) -> str:
@@ -119,6 +141,15 @@ def run_phase2(
     for case_index, request_batch in enumerate(stream_batches, start=1):
         requests = tuple(request_batch)
         seed_all(COMMON_SEED)
+        reference = _final_v6_case_reference(arm, case_index)
+        request_order = scalable_ordered_request_digest(
+            [str(item["request_sha256"]) for item in requests]
+        )
+        if (
+            reference["request_order_sha256"] != request_order
+            or reference["entry_W0_parameter_sha256"] != w0_hashes
+        ):
+            raise ODEBFStateError("Phase2 final-v6 same-entry/slice/order gate differs")
         if _hashes(touched) != w0_hashes or any(int(touched[name].data_ptr()) != w0_pointers[name] for name in touched):
             raise ODEBFStateError("Phase2 case did not enter exact W0")
         case_root = raw_root / "cases" / f"case-{case_index:02d}"
@@ -165,6 +196,8 @@ def run_phase2(
             runtime.assert_complete()
             if len(runtime.executions) != P1R23_GRID_COUNT:
                 raise ODEBFStateError("Phase2 K8 execution count differs")
+            if dict(runtime.executions[0].entry_weight_sha256) != w0_hashes:
+                raise ODEBFStateError("Phase2 K1 pre-write W0 identity differs")
             commit_hashes = _hashes(touched)
             if commit_hashes == w0_hashes:
                 raise ODEBFStateError("Phase2 K-step endpoint equals W0")
@@ -173,8 +206,17 @@ def run_phase2(
                 "case_index": case_index,
                 "arm": arm,
                 "request_count": BATCH_SIZE,
-                "request_order_sha256": scalable_ordered_request_digest([str(item["request_sha256"]) for item in requests]),
+                "request_order_sha256": request_order,
                 "entry_W0_parameter_sha256": w0_hashes,
+                "final_v6_reference": {
+                    "reference_arm": arm.removesuffix("-KSTEP"),
+                    "reference_case_identity_sha256": reference["identity_sha256"],
+                    "same_slice_order": True,
+                    "same_entry_W0": True,
+                    "K1_prewrite_W0_identity": runtime.executions[0].entry_weight_sha256 == w0_hashes,
+                    "same_z_equivalence_claimed": False,
+                    "paired_denominator": "10_OF_10_REQUIRED",
+                },
                 "terminal_target_sha256": public["terminal_target_sha256"],
                 "terminal_target_tensor_sha256": tensor_sha256(target),
                 "commit_weight_sha256": commit_hashes,

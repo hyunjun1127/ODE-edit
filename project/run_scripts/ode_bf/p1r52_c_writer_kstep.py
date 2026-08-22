@@ -20,6 +20,7 @@ from .p0_runtime import ModelForwardCounter
 from .p1_evaluator import EndpointActionFreeze, load_counterfact_cases_after_freeze
 from .p1r36_independent_b10x10_runtime import _hashes
 from .p1r52_accepted_z_observation import evaluate_accepted_z_batch, r52_binding
+from .p1r52_c_writer_kstep_cache import KStepBatchEntryCachePolicy
 from .p1r52_joint_pc_execution import JointPCWriterArm
 from .p1r52_joint_pc_fp32_runtime import _run_pc_arm_fp32
 from .p1r52_joint_pc_independent_fp32_runtime import _assert_no_low_precision_activity, _validate_official_fp32_apply
@@ -31,6 +32,7 @@ from .scalable_batched_runtime import P1R23_GRID_COUNT, scalable_ordered_request
 
 
 ARMS = ("C0-KSTEP", "C1-KSTEP", "C3-KSTEP")
+CACHE_ARMS = ("C0-KSTEP-CACHE", "C1-KSTEP-CACHE", "C3-KSTEP-CACHE")
 
 
 @dataclass(frozen=True, slots=True)
@@ -84,8 +86,9 @@ class CKStepWriterRuntime:
         job_ledger: ComputeLedger,
         solve_history_keys_by_layer: Mapping[int, torch.Tensor] | None = None,
         alpha_cache_status: str = "ALPHA_CACHE_OFF_CONTROL",
+        cache_policy: KStepBatchEntryCachePolicy | None = None,
     ) -> None:
-        if arm not in ARMS:
+        if arm not in ARMS + CACHE_ARMS:
             raise ODEBFContractError("C K-step arm differs")
         if alpha_cache_status not in ("ALPHA_CACHE_OFF_CONTROL", "ALPHA_CACHE_BATCH_ENTRY_SNAPSHOT"):
             raise ODEBFContractError("C K-step cache policy differs")
@@ -106,6 +109,11 @@ class CKStepWriterRuntime:
         self.job_ledger = job_ledger
         self.solve_history_keys_by_layer = solve_history_keys_by_layer
         self.alpha_cache_status = alpha_cache_status
+        self.cache_policy = cache_policy
+        if (alpha_cache_status == "ALPHA_CACHE_BATCH_ENTRY_SNAPSHOT") != (cache_policy is not None):
+            raise ODEBFContractError("C K-step cache policy binding differs")
+        if cache_policy is not None and cache_policy.arm != arm:
+            raise ODEBFContractError("C K-step cache policy arm differs")
         self.executions: list[CKStepExecution] = []
         self._entry_order = scalable_ordered_request_digest([str(item["request_sha256"]) for item in self.requests])
 
@@ -138,7 +146,7 @@ class CKStepWriterRuntime:
         finally:
             counter.close()
         pre_scores = _evaluate_w(self.model, self.tokenizer, cases, freeze=freeze, ledger=self.job_ledger)
-        if self.arm in ("C0-KSTEP", "C1-KSTEP"):
+        if self.arm.startswith(("C0-KSTEP", "C1-KSTEP")):
             entry = _writer_entry(
                 self.model, self.tokenizer, self.requests, target=target,
                 hparams=self.hparams, projector=self.projector, contexts=self.contexts,
@@ -147,7 +155,7 @@ class CKStepWriterRuntime:
                 controller_lock=self.controller_lock,
                 objective_plan=self.objective_plan, capture_plan=self.capture_plan,
             )
-            writer_arm = JointPCWriterArm.C0 if self.arm == "C0-KSTEP" else JointPCWriterArm.C1
+            writer_arm = JointPCWriterArm.C0 if self.arm.startswith("C0-KSTEP") else JointPCWriterArm.C1
             writer = _run_pc_arm_fp32(
                 self.model, writer_arm, target=target, entry=entry,
                 hparams=self.hparams, projector=self.projector,
@@ -158,9 +166,14 @@ class CKStepWriterRuntime:
             )
             route = (
                 entry["control"].raw_free_payload()
-                if self.arm == "C0-KSTEP"
+                if self.arm.startswith("C0-KSTEP")
                 else entry["joint"].receipt.raw_free_payload()
             )
+            if self.cache_policy is not None:
+                self.cache_policy.close_c0_c1_step(
+                    step_index,
+                    entry["physical"].keys_by_layer,
+                )
             prefix = tuple(writer["prefix_capture_receipts"])
             writer_receipt = {
                 "identity_sha256": canonical_hash(writer),
@@ -172,19 +185,33 @@ class CKStepWriterRuntime:
             dense_count = len(writer["layers"])
             apply_count = len(writer["layers"])
         else:
+            if self.cache_policy is not None:
+                self.cache_policy.prepare_c3_step(step_index)
             with accepted_z_cache_template(
                 self.requests, target, self.hparams,
                 parent=self.private_root / f"k{step_index + 1}",
             ) as (cache_template, bridge_receipt):
                 counter = ModelForwardCounter(self.model, self.job_ledger)
                 try:
-                    apply_payload, originals = run_official_native_apply(
-                        self.model, self.tokenizer, self.requests, self.hparams,
-                        touched=self.model_touched, reset_cache=True,
-                        cache_history_width=0, cache_template=cache_template,
-                        expected_native_compute_z_call_count=0,
-                        accepted_z_source="P1R52_CURRENT_K_ACCEPTED_TARGET",
-                    )
+                    try:
+                        apply_payload, originals = run_official_native_apply(
+                            self.model, self.tokenizer, self.requests, self.hparams,
+                            touched=self.model_touched,
+                            reset_cache=(self.cache_policy is None or self.cache_policy.entry_width == 0),
+                            cache_history_width=(0 if self.cache_policy is None else self.cache_policy.entry_width),
+                            cache_template=cache_template,
+                            expected_native_compute_z_call_count=0,
+                            accepted_z_source="P1R52_CURRENT_K_ACCEPTED_TARGET",
+                        )
+                        if self.cache_policy is not None:
+                            self.cache_policy.close_c3_step(
+                                step_index,
+                                apply_payload["alphaedit_dynamic_cache_contract"],
+                            )
+                    except BaseException:
+                        if self.cache_policy is not None:
+                            self.cache_policy.abort_c3_step()
+                        raise
                 finally:
                     counter.close()
             _validate_official_fp32_apply("C3", apply_payload)
@@ -230,7 +257,7 @@ class CKStepWriterRuntime:
             "dense_update_construction_count": dense_count,
             "native_apply_count": apply_count,
             "logical_commit_count": 1,
-            "router_call_count": 1 if self.arm == "C1-KSTEP" else 0,
+            "router_call_count": 1 if self.arm.startswith("C1-KSTEP") else 0,
             "model_backward_added_count": 0,
             "semantic_slope_backward_added_count": 0,
             "bf16_fp16_path_count": 0,
@@ -290,4 +317,4 @@ class CKStepWriterRuntime:
         return payload
 
 
-__all__ = ["ARMS", "CKStepExecution", "CKStepWriterRuntime"]
+__all__ = ["ARMS", "CACHE_ARMS", "CKStepExecution", "CKStepWriterRuntime"]

@@ -1,0 +1,404 @@
+"""Phase-3 sequential B100 runner for K-step C writers with Alpha cache."""
+
+from __future__ import annotations
+
+from pathlib import Path
+import time
+from typing import Any, Mapping, Sequence
+
+import torch
+
+from .accounting import ComputeLedger
+from .alpha_backend import seed_all
+from .contracts import COMMON_SEED, ODEBFContractError, ODEBFStateError, canonical_hash
+from .functional import tensor_sha256
+from .p1_evaluator import EndpointActionFreeze, load_counterfact_cases_after_freeze
+from .p1_runtime import _atomic_write_once
+from .p1_scalable_batched_experiment import _model_w0_contract
+from .p1_state import ArmWeightSnapshot, P1Arm, snapshot_touched_weights
+from .p1r36_independent_b10x10_runtime import _hashes
+from .p1r52_b100x10_stream import BATCH_SIZE, ROUND_COUNT
+from .p1r52_c_writer_kstep import CACHE_ARMS, CKStepWriterRuntime
+from .p1r52_c_writer_kstep_cache import (
+    KStepBatchEntryCachePolicy,
+    restore_alpha_module_cache,
+    snapshot_alpha_module_cache,
+)
+from .p1r52_joint_pc_fp32_runtime import _fp32_target_and_j0, _restore
+from .p1r52_joint_pc_independent_fp32_runtime import (
+    _assert_no_low_precision_activity,
+    _gpu_observation,
+    _raw_free_json_tree,
+    full_fp32_parameter_inventory,
+)
+from .p1r52_joint_pc_runtime import STREAM_ORDER, STREAM_ROOT
+from .p1r52_target_official_alphaedit_writer import _endpoint_summary, _evaluate_w, isolated_alphaedit_module_state
+from .scalable_batched_runtime import P1R23_GRID_COUNT, scalable_ordered_request_digest
+
+
+INSTRUCTION_ID = "ODEEDIT-S05-P1R52-C-WRITER-THREE-PHASE-V1"
+METHOD_ID = "P1R52-C-WRITER-PHASE3-KSTEP-ALPHA-CACHE-SEQUENTIAL-FULL-FP32"
+ROLE_PREFIX = "r52-c-writer-phase3-kstep-cache-sequential-full-fp32-"
+ROLES = tuple(f"{ROLE_PREFIX}{arm.lower()}" for arm in CACHE_ARMS)
+RESULT_NAMES = {
+    role: f"s05-p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-{arm.lower()}-10xb100-v1"
+    for role, arm in zip(ROLES, CACHE_ARMS, strict=True)
+}
+
+
+def role_for_cell(cell: int) -> str:
+    if isinstance(cell, bool) or not 0 <= cell < len(ROLES):
+        raise ODEBFContractError("Phase3 cell differs")
+    return ROLES[cell]
+
+
+def arm_for_role(role: str) -> str:
+    if role not in ROLES:
+        raise ODEBFContractError("Phase3 role differs")
+    return CACHE_ARMS[ROLES.index(role)]
+
+
+def expected_result_name(role: str) -> str:
+    try:
+        return RESULT_NAMES[role]
+    except KeyError as exc:
+        raise ODEBFContractError("Phase3 result role differs") from exc
+
+
+def is_phase3_role(role: str | None) -> bool:
+    return role in ROLES
+
+
+def run_phase3(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    *,
+    alias: str,
+    role: str,
+    destination: Path,
+    raw_root: Path,
+    stages: Any,
+    source_head: str,
+    stream_batches: Sequence[Sequence[Mapping[str, Any]]],
+    stream: Mapping[str, Any],
+    hparams: Any,
+    projector: torch.Tensor,
+    contexts: Sequence[Sequence[str]],
+    covariance_registry: Any,
+    projector_sha256: str,
+    controller_lock: Any,
+    request_by_sha256: Mapping[str, Mapping[str, Any]],
+    population_by_sha256: Mapping[str, Mapping[str, Any]],
+    schedule: Any,
+    theta0_cache: Any,
+    dataset_path: Path,
+    mutation_lock: Any,
+    touched: Mapping[str, torch.nn.Parameter],
+    base_receipt: ArmWeightSnapshot,
+    base_values: Mapping[str, torch.Tensor],
+    job_ledger: ComputeLedger,
+    request_microbatch_size: int,
+    fp32_runtime: Any | None = None,
+    **_: Any,
+) -> dict[str, Any]:
+    arm = arm_for_role(role)
+    if (
+        alias != "llama3-8b-inst"
+        or len(stream_batches) != ROUND_COUNT
+        or any(len(batch) != BATCH_SIZE for batch in stream_batches)
+        or stream.get("root_digest") != STREAM_ROOT
+        or stream.get("all_request_order_sha256") != STREAM_ORDER
+        or fp32_runtime is None
+        or torch.is_autocast_enabled()
+        or torch.is_autocast_enabled("cpu")
+    ):
+        raise ODEBFContractError("Phase3 matrix/stream/FP32 boundary differs")
+    parameter_inventory = full_fp32_parameter_inventory(model)
+    w0_contract = _model_w0_contract(touched)
+    w0_hashes = _hashes(touched)
+    w0_pointers = {name: int(value.data_ptr()) for name, value in touched.items()}
+    if w0_hashes != dict(base_receipt.parameter_sha256):
+        raise ODEBFStateError("Phase3 W0 differs")
+    history: Mapping[int, torch.Tensor] | None = None
+    history_version = 0
+    prior_official_exit_sha256: str | None = None
+    batch_rows: list[dict[str, Any]] = []
+    batch_shas: list[str] = []
+    cohort_cases: list[tuple[Any, ...]] = []
+    started = time.perf_counter()
+    from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
+
+    try:
+        with isolated_alphaedit_module_state() as alpha_state:
+            for batch_index, request_batch in enumerate(stream_batches, start=1):
+                requests = tuple(request_batch)
+                seed_all(COMMON_SEED)
+                batch_root = raw_root / "batches" / f"b{batch_index:02d}"
+                batch_root.mkdir(mode=0o700, parents=True, exist_ok=False)
+                entry_contract = _model_w0_contract(touched)
+                entry_hashes = _hashes(touched)
+                entry_pointers = {name: int(value.data_ptr()) for name, value in touched.items()}
+                entry_values = {name: value.detach().cpu().clone() for name, value in touched.items()}
+                entry_receipt, _ = snapshot_touched_weights(P1Arm.R_BF, batch_index - 1, touched)
+                cache_checkpoint = snapshot_alpha_module_cache(alpha_main)
+                history_checkpoint = (
+                    None if history is None else {layer: value.clone() for layer, value in history.items()}
+                )
+                policy = KStepBatchEntryCachePolicy(
+                    arm=arm,
+                    batch_index=batch_index,
+                    history_keys_by_layer=(history if arm.startswith(("C0", "C1")) else None),
+                    history_version=history_version,
+                    alpha_main=(alpha_main if arm.startswith("C3") else None),
+                    alpha_entry_snapshot=(cache_checkpoint if arm.startswith("C3") else None),
+                    expected_official_entry_sha256=prior_official_exit_sha256,
+                )
+                created: list[CKStepWriterRuntime] = []
+
+                def factory(objective_plan: Any, capture_plan: Any) -> CKStepWriterRuntime:
+                    runtime = CKStepWriterRuntime(
+                        arm=arm,
+                        model=model,
+                        tokenizer=tokenizer,
+                        requests=requests,
+                        hparams=hparams,
+                        projector=projector,
+                        contexts=contexts,
+                        covariance_registry=covariance_registry,
+                        projector_sha256=projector_sha256,
+                        controller_lock=controller_lock,
+                        objective_plan=objective_plan,
+                        capture_plan=capture_plan,
+                        dataset_path=dataset_path,
+                        private_root=batch_root / "private",
+                        job_ledger=job_ledger,
+                        solve_history_keys_by_layer=(history if arm.startswith(("C0", "C1")) else None),
+                        alpha_cache_status="ALPHA_CACHE_BATCH_ENTRY_SNAPSHOT",
+                        cache_policy=policy,
+                    )
+                    created.append(runtime)
+                    return runtime
+
+                batch_started = time.perf_counter()
+                try:
+                    target, public, _, _ = _fp32_target_and_j0(
+                        model,
+                        tokenizer,
+                        requests,
+                        case_root=batch_root,
+                        hparams=hparams,
+                        projector=projector,
+                        contexts=contexts,
+                        covariance_registry=covariance_registry,
+                        projector_sha256=projector_sha256,
+                        controller_lock=controller_lock,
+                        request_by_sha256=request_by_sha256,
+                        population_by_sha256=population_by_sha256,
+                        schedule=schedule,
+                        theta0_cache=theta0_cache,
+                        touched=touched,
+                        base_receipt=entry_receipt,
+                        base_values=entry_values,
+                        request_microbatch_size=request_microbatch_size,
+                        job_ledger=job_ledger,
+                        c_kstep_writer_factory=factory,
+                    )
+                    if len(created) != 1:
+                        raise ODEBFStateError("Phase3 writer runtime count differs")
+                    runtime = created[0]
+                    runtime.assert_complete()
+                    commit_hashes = _hashes(touched)
+                    if commit_hashes == entry_hashes:
+                        raise ODEBFStateError("Phase3 batch endpoint equals entry W")
+                    cache_commit = policy.commit_after_k8()
+                    history = cache_commit.history_keys_by_layer
+                    history_version += 1
+                    if arm.startswith("C3"):
+                        prior_official_exit_sha256 = str(cache_commit.receipt["official_exit_sha256"])
+                    last_metrics = runtime.executions[-1].metrics
+                    loaded_cases = tuple(
+                        # Each K used the exact same frozen case inventory; retain
+                        # the final score rows now and reload only for final W10.
+                        # The dataset loader remains outside writer decisions.
+                        load_counterfact_cases_after_freeze(
+                            dataset_path,
+                            requests,
+                            EndpointActionFreeze(
+                                arm=f"{arm}-b{batch_index:02d}-cohort",
+                                sequential_batch=batch_index - 1,
+                                request_order_sha256=scalable_ordered_request_digest(
+                                    [str(item["request_sha256"]) for item in requests]
+                                ),
+                                selected_snapshot_sha256=public["identity_sha256"],
+                                fixed_budget_slots_completed=P1R23_GRID_COUNT,
+                            ),
+                            expected_batch_size=BATCH_SIZE,
+                        )
+                    )
+                    cohort_cases.append(loaded_cases)
+                    payload: dict[str, Any] = {
+                        "schema": "ode-edit-s05-p1r52-c-writer-phase3-batch/v1",
+                        "instruction_id": INSTRUCTION_ID,
+                        "method_id": METHOD_ID,
+                        "arm": arm,
+                        "batch_index": batch_index,
+                        "request_count": BATCH_SIZE,
+                        "request_order_sha256": scalable_ordered_request_digest(
+                            [str(item["request_sha256"]) for item in requests]
+                        ),
+                        "entry_weight_sha256": entry_hashes,
+                        "commit_weight_sha256": commit_hashes,
+                        "terminal_target_sha256": tensor_sha256(target),
+                        "target_public_identity": public["identity_sha256"],
+                        "kstep_executions": [item.raw_free_payload() for item in runtime.executions],
+                        "immediate_post_W": last_metrics["post_writer_W"],
+                        "alpha_cache": cache_commit.receipt,
+                        "K_writer_call_count": P1R23_GRID_COUNT,
+                        "cache_append_count": 1,
+                        "commit_count": 1,
+                        "rollback_count": 0,
+                        "retry_count": 0,
+                        "imputation_count": 0,
+                        "batch_total_seconds": time.perf_counter() - batch_started,
+                        "dtype_contract": {
+                            "status": "FULL_FP32_PASS",
+                            "numeric_storage_cast_count": 0,
+                            "bf16_fp16_path_count": 0,
+                        },
+                    }
+                    _assert_no_low_precision_activity(payload)
+                    payload, tensor_paths = _raw_free_json_tree(payload)
+                    payload["raw_free_tensor_paths"] = list(tensor_paths)
+                    payload["identity_sha256"] = canonical_hash(payload)
+                    terminal_sha = _atomic_write_once(batch_root / "terminal.json", payload)
+                except BaseException:
+                    _restore(touched, entry_values, mutation_lock=mutation_lock, entry_contract=entry_contract)
+                    restore_alpha_module_cache(alpha_main, cache_checkpoint)
+                    history = history_checkpoint
+                    if _hashes(touched) != entry_hashes or any(
+                        int(touched[name].data_ptr()) != entry_pointers[name] for name in touched
+                    ):
+                        raise ODEBFStateError("Phase3 batch rollback W differs")
+                    raise
+                batch_shas.append(terminal_sha)
+                batch_rows.append(
+                    {
+                        "batch_index": batch_index,
+                        "request_order_sha256": payload["request_order_sha256"],
+                        "entry_weight_sha256": entry_hashes,
+                        "commit_weight_sha256": commit_hashes,
+                        "terminal_sha256": terminal_sha,
+                        "cache_entry_width": (batch_index - 1) * BATCH_SIZE,
+                        "cache_exit_width": batch_index * BATCH_SIZE,
+                    }
+                )
+                stages.record(
+                    f"phase3_{arm.lower()}_b{batch_index:02d}",
+                    {
+                        "completed_batch_count": len(batch_rows),
+                        "K_count": P1R23_GRID_COUNT,
+                        "cache_exit_width": batch_index * BATCH_SIZE,
+                        "full_fp32": True,
+                    },
+                )
+
+            final_hashes = _hashes(touched)
+            final_rows = []
+            for batch_index, loaded_cases in enumerate(cohort_cases, start=1):
+                freeze = EndpointActionFreeze(
+                    arm=f"{arm}-final-b{batch_index:02d}",
+                    sequential_batch=ROUND_COUNT - 1,
+                    request_order_sha256=batch_rows[batch_index - 1]["request_order_sha256"],
+                    selected_snapshot_sha256=canonical_hash(final_hashes),
+                    fixed_budget_slots_completed=P1R23_GRID_COUNT,
+                )
+                scores = _evaluate_w(model, tokenizer, loaded_cases, freeze=freeze, ledger=job_ledger)
+                final_rows.append(
+                    {"batch_index": batch_index, "summary": _endpoint_summary(scores), "scores": scores}
+                )
+            final_payload = {
+                "schema": "ode-edit-s05-p1r52-c-writer-phase3-final-w10/v1",
+                "arm": arm,
+                "cohort_count": len(final_rows),
+                "request_count": len(final_rows) * BATCH_SIZE,
+                "final_weight_sha256": final_hashes,
+                "cohorts": final_rows,
+            }
+            final_payload["identity_sha256"] = canonical_hash(final_payload)
+            final_sha = _atomic_write_once(raw_root / "final-w10.json", final_payload)
+        if not alpha_state["restored"]:
+            raise ODEBFStateError("Phase3 Alpha module state restore differs")
+    except BaseException:
+        _restore(touched, base_values, mutation_lock=mutation_lock, entry_contract=w0_contract)
+        raise
+
+    restore = _restore(touched, base_values, mutation_lock=mutation_lock, entry_contract=w0_contract)
+    if _hashes(touched) != w0_hashes or any(int(touched[name].data_ptr()) != w0_pointers[name] for name in touched):
+        raise ODEBFStateError("Phase3 terminal W0 restore differs")
+    terminal = {
+        "schema": "ode-edit-s05-p1r52-c-writer-phase3-terminal/v1",
+        "instruction_id": INSTRUCTION_ID,
+        "method_id": METHOD_ID,
+        "status": "TERMINAL_VALID",
+        "source_head": source_head,
+        "role": role,
+        "arm": arm,
+        "completed_batch_count": len(batch_rows),
+        "valid_request_count": len(batch_rows) * BATCH_SIZE,
+        "K_writer_call_count": len(batch_rows) * P1R23_GRID_COUNT,
+        "batch_terminal_sha256": batch_shas,
+        "final_w10_sha256": final_sha,
+        "alpha_cache_status": "ALPHA_CACHE_CONTINUITY_ON_BATCH_ENTRY_SNAPSHOT",
+        "alpha_cache_entry_widths": [index * BATCH_SIZE for index in range(ROUND_COUNT)],
+        "alpha_cache_append_count": ROUND_COUNT,
+        "same_batch_current_key_history_inclusion_count": 0,
+        "dtype_contract": {
+            "status": "FULL_FP32_PASS",
+            "parameter_inventory": parameter_inventory,
+            "numeric_storage_cast_count": 0,
+            "bf16_fp16_path_count": 0,
+        },
+        "runtime_after_model_preflight_seconds": time.perf_counter() - started,
+        "job_compute": job_ledger.raw_free_payload(),
+        "final_gpu_host_observation": _gpu_observation(),
+        "terminal_W0_restore": restore,
+        "W0_restored": True,
+        "technical_failure_count": 0,
+        "scientific_failure_count": 0,
+        "imputation_count": 0,
+        "scientific_promotion": False,
+    }
+    _assert_no_low_precision_activity(terminal)
+    terminal["identity_sha256"] = canonical_hash(terminal)
+    terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
+    manifest = {
+        "schema": "ode-edit-s05-p1r52-c-writer-phase3-manifest/v1",
+        "source_head": source_head,
+        "role": role,
+        "arm": arm,
+        "terminal_sha256": terminal_sha,
+        "batch_terminal_sha256": batch_shas,
+        "final_w10_sha256": final_sha,
+        "W0_restored": True,
+    }
+    manifest["identity_sha256"] = canonical_hash(manifest)
+    manifest_sha = _atomic_write_once(destination / "manifest.json", manifest)
+    return {
+        "status": "P1R52_C_WRITER_PHASE3_TERMINAL",
+        "arm": arm,
+        "terminal_sha256": terminal_sha,
+        "manifest_sha256": manifest_sha,
+        "W0_restored": True,
+    }
+
+
+__all__ = [
+    "CACHE_ARMS",
+    "RESULT_NAMES",
+    "ROLES",
+    "arm_for_role",
+    "expected_result_name",
+    "is_phase3_role",
+    "role_for_cell",
+    "run_phase3",
+]
