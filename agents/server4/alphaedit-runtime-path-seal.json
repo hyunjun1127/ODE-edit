@@ -1,0 +1,166 @@
+{
+  "schema_version": "ode-edit-alphaedit-runtime-path-seal/v1",
+  "seal_id": "ODEEDIT-S4-M1-R1-SERVER4-ALPHAEDIT-PATH-SEAL-V1",
+  "hostname": "server4",
+  "agent_hostname": "server4",
+  "agent_role": "server-head",
+  "mappings": {
+    "easyedit_root": {
+      "logical_root": "/mnt/raid5/janghj/EasyEdit",
+      "runtime_root": "/data/janghj/EasyEdit"
+    }
+  },
+  "withheld_mappings": {
+    "alphaedit_evaluator_root": "server4 canonical evaluator root is not authorized or identity-verified",
+    "hf_hub_cache": "candidate /data/janghj/.cache/huggingface/hub has locked members but its snapshot member sets contain unsealed extras"
+  },
+  "models": {
+    "llama3-8b-inst": {
+      "native_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "layers": [4, 5, 6, 7, 8],
+      "representation": "model.layers.{L}.mlp.down_proj",
+      "bundle_sha256": "2cd8517f65f476e3a8be4edddc81fc345ecd96a49634e41769bbacd4206af77e",
+      "member_manifest_sha256": "5b982fd7d35cd33d7dde7fe483dfd1a48f765d1492491533d72a13db14cb020a",
+      "members": [
+        {
+          "kind": "hparams",
+          "layer": null,
+          "relative_path": "hparams/AlphaEdit/llama3-8b.yaml",
+          "size": 1134,
+          "sha256": "d403e1875e62096b089be5343d33896510e454b0cdd2b256618ab53de6609ef8",
+          "shape": [],
+          "dtype": null
+        },
+        {
+          "kind": "projector",
+          "layer": null,
+          "relative_path": "examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+          "size": 4110419877,
+          "sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+          "shape": [5, 14336, 14336],
+          "dtype": "float32"
+        },
+        {
+          "kind": "covariance",
+          "layer": 4,
+          "relative_path": "examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+          "size": 822084814,
+          "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+          "shape": [14336, 14336],
+          "dtype": "float32"
+        },
+        {
+          "kind": "covariance",
+          "layer": 5,
+          "relative_path": "examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+          "size": 822084814,
+          "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+          "shape": [14336, 14336],
+          "dtype": "float32"
+        },
+        {
+          "kind": "covariance",
+          "layer": 6,
+          "relative_path": "examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+          "size": 822084814,
+          "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+          "shape": [14336, 14336],
+          "dtype": "float32"
+        },
+        {
+          "kind": "covariance",
+          "layer": 7,
+          "relative_path": "examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+          "size": 822084814,
+          "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+          "shape": [14336, 14336],
+          "dtype": "float32"
+        },
+        {
+          "kind": "covariance",
+          "layer": 8,
+          "relative_path": "examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+          "size": 822084814,
+          "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+          "shape": [14336, 14336],
+          "dtype": "float32"
+        }
+      ]
+    },
+    "qwen2.5-7b-inst": {
+      "native_name": "Qwen/Qwen2.5-7B-Instruct",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "layers": [4, 5, 6, 7, 8],
+      "representation": "model.layers.{L}.mlp.down_proj",
+      "bundle_sha256": "55a6c2557b3a89f6880a7c56f65fb2487bafee53476dd248b57a3a48185a6638",
+      "member_manifest_sha256": "915d87cd96cebee5eb2757dfa3d1734ba53ae267460b0b157be43f43a6a18a57",
+      "members": [
+        {
+          "kind": "hparams",
+          "layer": null,
+          "relative_path": "hparams/AlphaEdit/qwen2.5-7b.yaml",
+          "size": 695,
+          "sha256": "82d04976c4ab65e67c537ac3bd1b04d42c8f7527e2a749bdefcce63e43b995c3",
+          "shape": [],
+          "dtype": null
+        },
+        {
+          "kind": "projector",
+          "layer": null,
+          "relative_path": "examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+          "size": 7177504758,
+          "sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+          "shape": [5, 18944, 18944],
+          "dtype": "float32"
+        },
+        {
+          "kind": "covariance",
+          "layer": 4,
+          "relative_path": "examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+          "size": 1435501774,
+          "sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b",
+          "shape": [18944, 18944],
+          "dtype": "float32"
+        },
+        {
+          "kind": "covariance",
+          "layer": 5,
+          "relative_path": "examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+          "size": 1435501774,
+          "sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519",
+          "shape": [18944, 18944],
+          "dtype": "float32"
+        },
+        {
+          "kind": "covariance",
+          "layer": 6,
+          "relative_path": "examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+          "size": 1435501774,
+          "sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a",
+          "shape": [18944, 18944],
+          "dtype": "float32"
+        },
+        {
+          "kind": "covariance",
+          "layer": 7,
+          "relative_path": "examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+          "size": 1435501774,
+          "sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d",
+          "shape": [18944, 18944],
+          "dtype": "float32"
+        },
+        {
+          "kind": "covariance",
+          "layer": 8,
+          "relative_path": "examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+          "size": 1435501774,
+          "sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46",
+          "shape": [18944, 18944],
+          "dtype": "float32"
+        }
+      ]
+    }
+  },
+  "root_digest": "00e99949cc53bb5a8ad85aafbff0965e26f0d1d7fd84783feed7a9ea5595d06e"
+}

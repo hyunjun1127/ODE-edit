@@ -11,6 +11,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping
 
+from project.run_scripts.alphaedit_runtime_path_seal import (
+    AlphaEditRuntimePathSeal,
+    RuntimePathSealReceipt,
+)
 from project.run_scripts.ode_alloc.p0_artifacts import P0ArtifactGuard
 
 from .contracts import MODEL_ALIASES, ODEBFContractError, canonical_hash
@@ -117,6 +121,7 @@ class ODEBFArtifactGuard:
         alias: str,
         *,
         require_held_ode_alloc: bool = True,
+        runtime_path_seal: AlphaEditRuntimePathSeal | None = None,
     ) -> None:
         if alias not in MODEL_ALIASES:
             raise ODEBFContractError("unknown ODE-BF model alias")
@@ -127,16 +132,38 @@ class ODEBFArtifactGuard:
             expected_schema=LOCK_SCHEMA,
         )
         self.alias = alias
-        self.easyedit_root = Path(self.value["easyedit_root"]).resolve(strict=True)
-        self.evaluator_root = Path(self.value["alphaedit_evaluator_root"]).resolve(strict=True)
-        self.hf_hub_cache = Path(self.value["hf_hub_cache"]).resolve(strict=True)
+        self.runtime_path_seal = runtime_path_seal
+        self.runtime_path_seal_receipt: RuntimePathSealReceipt | None = None
+        if runtime_path_seal is None:
+            self.easyedit_root = Path(self.value["easyedit_root"]).resolve(strict=True)
+            self.evaluator_root = Path(
+                self.value["alphaedit_evaluator_root"]
+            ).resolve(strict=True)
+            self.hf_hub_cache = Path(self.value["hf_hub_cache"]).resolve(strict=True)
+        else:
+            self.easyedit_root = runtime_path_seal.resolve_root(
+                "easyedit_root", self.value["easyedit_root"]
+            )
+            self.evaluator_root = runtime_path_seal.resolve_root(
+                "alphaedit_evaluator_root",
+                self.value["alphaedit_evaluator_root"],
+            )
+            self.hf_hub_cache = runtime_path_seal.resolve_root(
+                "hf_hub_cache", self.value["hf_hub_cache"]
+            )
         self.spec: Mapping[str, Any] = self.value["models"][alias]
+        if runtime_path_seal is not None:
+            runtime_path_seal.assert_odebf_model_contract(alias, self.spec)
         self.require_held_ode_alloc = bool(require_held_ode_alloc)
         self.hparams = _safe_relative(self.easyedit_root, self.spec["hparams_path"])
         self.projector = _safe_relative(self.easyedit_root, self.spec["projector_path"])
         base_relative = self.value["base_model_artifact_lock"]["path"]
         self.base_lock_path = _safe_relative(self.repo_root, base_relative)
-        self.base_guard = P0ArtifactGuard(self.base_lock_path, alias)
+        self.base_guard = P0ArtifactGuard(
+            self.base_lock_path,
+            alias,
+            runtime_path_seal=runtime_path_seal,
+        )
         self._fingerprints: dict[Path, tuple[int, int, int, int, int]] = {}
         self._held_tree: tuple[Path, str, int] | None = None
 
@@ -174,6 +201,7 @@ class ODEBFArtifactGuard:
             raise ODEBFContractError("base model artifact lock digest differs")
         self._fingerprints[self.base_lock_path] = _fingerprint(self.base_lock_path)
         base_receipt = self.base_guard.preflight()
+        self.runtime_path_seal_receipt = self.base_guard.runtime_path_seal_receipt
         if base_receipt.revision != self.spec["revision"]:
             raise ODEBFContractError("AlphaEdit/base-model revision differs")
 

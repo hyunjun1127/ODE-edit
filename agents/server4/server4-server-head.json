@@ -2,8 +2,8 @@
   "agent_id": "server4-server-head",
   "role": "server-head",
   "hostname": "server4",
-  "status": "online_blocked_shared_source_change_waiting_for_global_head",
-  "last_seen": "2026-08-22T18:22:14+09:00",
+  "status": "online_easyedit_path_sealed_launcher_blocked_hf_evaluator",
+  "last_seen": "2026-08-22T18:44:51+09:00",
   "repo_path": "/data/janghj/ODE-edit",
   "repository_identity": "hyunjun1127/ODE-edit",
   "codex_session_id": "codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d",
@@ -13,6 +13,6 @@
   "project_gpu_cap": 2,
   "active_project_gpus": 0,
   "storage_status": "storage_scope_ok_206896500736_bytes_available",
-  "alphaedit_reusable_artifact_status": "ready_reuse_content_blocked_shared_path_resolver_change",
+  "alphaedit_reusable_artifact_status": "easyedit_path_seal_pass_hf_evaluator_mapping_withheld",
   "experiment_submission": "hold_by_global_head_directive"
 }

@@ -1,0 +1,11 @@
+{
+  "task_id": "S4-M1-R1",
+  "server": "server4",
+  "agent_id": "server4-server-head",
+  "agent_role": "server-head",
+  "status": "blocked",
+  "updated_at": "2026-08-22T18:44:51+09:00",
+  "ack_path": "messages/acks/server4/2026-08-22.md",
+  "report_dir": "messages/server-heads/server4/",
+  "note": "Approved shared guard interface와 server4 EasyEdit-only seal 구현 및 focused tests PASS. /mnt/raid5/janghj/EasyEdit -> /data/janghj/EasyEdit member/bundle verification은 PASS지만 HF candidate snapshot exact-set mismatch와 evaluator canonical root 부재로 full LAUNCHER_READY=false. Model/GPU/Slurm action 0, scientific submit HOLD."
+}

@@ -11,9 +11,9 @@
   `01a028a7-9e3c-7541-81ba-efb40555d17d`
   (`codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d`)
 - local hard boundary: checker PASS, model/profile은 user-managed
-- 갱신 시각: `2026-08-22T18:22:14+09:00`
-- current GH directive: `S4-M1` server4 artifact path seal; shared scientific
-  launcher 변경이 필요하면 구현 전 차단 보고, scientific submit HOLD
+- 갱신 시각: `2026-08-22T18:44:51+09:00`
+- current GH directive: `S4-M1-R1` shared path-seal interface 승인 범위 구현,
+  focused gate 후에도 scientific submit HOLD
 
 이 session은 이전 `registered-pending-clone` 상태를 supersede한다. 과거 task,
 report, audit와 experiment provenance는 변경하지 않는다.
@@ -83,12 +83,18 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - reusable asset verdict: Llama `READY_REUSE`, Qwen `READY_REUSE`
 - S4-M1 focused rehash: projector 2개와 stats 10개 size/SHA exact MATCH;
   projector CPU mmap shape/dtype PASS
-- current legacy launcher path: `BLOCKED_SHARED_SOURCE_CHANGE`;
-  `ODEBFArtifactGuard`와 `P0ArtifactGuard`가 runtime root override를 받지 않고,
-  현재 ODE-BF launcher도 local runtime config를 소비하지 않는다.
-- server4 canonical runtime root `/data/janghj/EasyEdit`는 승인됐지만 실제
-  launcher-consumed seal은 아직 생성하지 않았다. shared source 승인 전 재계산,
-  다운로드 또는 submit하지 않는다.
+- S4-M1-R1 EasyEdit path seal: `PASS`
+  - path: `agents/server4/alphaedit-runtime-path-seal.json`
+  - id: `ODEEDIT-S4-M1-R1-SERVER4-ALPHAEDIT-PATH-SEAL-V1`
+  - logical `/mnt/raid5/janghj/EasyEdit` -> runtime `/data/janghj/EasyEdit`
+  - Llama/Qwen 각 hparams/P/stats 7개 SHA/size/shape/dtype PASS
+- shared guard interface: `PASS`; default `None` canonical lock identity 유지,
+  immutable seal receipt를 P0/ODE-BF guard에 전달
+- HF mapping: `WITHHELD`; `/data/janghj/.cache/huggingface/hub`의 locked member는
+  target/size/SHA가 맞지만 snapshot exact set에 unsealed extras가 있다.
+- AlphaEdit evaluator mapping: `WITHHELD`; server4 canonical root 미확인
+- no-model launcher dry-plan: EasyEdit `/data` resolution PASS,
+  `launcher_ready=false`, model/GPU/Slurm action 0
 
 ## 판정
 
@@ -96,7 +102,8 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - resource/storage readiness: `STORAGE_SCOPE_OK`
 - session/repository boundary: `PASS`
 - artifact content: Llama/Qwen `READY_REUSE`
-- artifact path seal / launcher: `BLOCKED_SHARED_SOURCE_CHANGE`
+- EasyEdit artifact path seal/interface: `PASS`
+- full launcher: `BLOCKED_HF_EVALUATOR_MAPPING`
 - scientific job submission: `HOLD`
-- next owner: global-head가 shared resolver/API 변경 범위와 target launcher를
-  지정·승인하면 server4가 재개
+- next owner: global-head가 HF exact-set disposition과 evaluator root/mapping
+  범위를 결정하면 server4가 재개

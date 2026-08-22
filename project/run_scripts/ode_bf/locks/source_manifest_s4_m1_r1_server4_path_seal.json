@@ -1,0 +1,47 @@
+{
+  "schema_version": "ode-edit-s4-m1-r1-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S4-M1-R1-SERVER4-SHARED-PATH-SEAL-V1",
+  "entries": [
+    {
+      "path": "agents/server4/alphaedit-runtime-path-seal.json",
+      "sha256": "176018298d691a1b67ae7ca787c7dcd2bd77d8606044790833d361fd451ddeb3",
+      "size": 6922
+    },
+    {
+      "path": "project/run_scripts/alphaedit_runtime_path_seal.py",
+      "sha256": "364a3148ce6198c00987ff2601841539d4c739103d08aafe59ce06d7aaa521a3",
+      "size": 24670
+    },
+    {
+      "path": "project/run_scripts/ode_alloc/p0_artifact_lock_r1.json",
+      "sha256": "6c327c563e0e805eb73a09cf3a577dea3771bc44127748fe64aba70a803292d2",
+      "size": 7617
+    },
+    {
+      "path": "project/run_scripts/ode_alloc/p0_artifacts.py",
+      "sha256": "117b779ab23fa19809cc2ac886146efad4d938ea1d430afeb2bdad4f31228d8d",
+      "size": 13015
+    },
+    {
+      "path": "project/run_scripts/ode_bf/artifacts.py",
+      "sha256": "6b938cfc45a62a29523ac6fe5ce37f5505d11c1b7025e9d7e198b30bfacf9dfe",
+      "size": 12569
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/p0_artifact_lock.json",
+      "sha256": "623482b05c670b703eebc65493779e863021509f0c0855d5fafb75c0b7b24910",
+      "size": 4170
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_runtime_path_seal.py",
+      "sha256": "6f279704e7095fed0edc0fed6ef535f443e7a7cfecfa6918a59654b7093dcdd1",
+      "size": 19073
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_server4_artifact_path_dry_plan.py",
+      "sha256": "58f8ea5175d8c5d05fdb9a752a1f323221a6a3070108e34310552d7c413cd33b",
+      "size": 3618
+    }
+  ],
+  "root_digest": "10efecc8c03418793c819b06f2e7910a95ab17f825820bd9a7e9eebe7eafa539"
+}

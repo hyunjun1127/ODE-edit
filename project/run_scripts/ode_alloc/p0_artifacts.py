@@ -10,6 +10,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping
 
+from project.run_scripts.alphaedit_runtime_path_seal import (
+    AlphaEditRuntimePathSeal,
+    RuntimePathSealReceipt,
+)
+
 from .contracts import MODEL_ALIASES, ODEAllocContractError, canonical_hash
 
 
@@ -48,7 +53,11 @@ def _triple(value: Any, label: str) -> tuple[str, int, str | None]:
     return value[0], value[1], value[2]
 
 
-def validate_artifact_lock_structure(value: Any) -> dict[str, Any]:
+def validate_artifact_lock_structure(
+    value: Any,
+    *,
+    runtime_path_seal: AlphaEditRuntimePathSeal | None = None,
+) -> dict[str, Any]:
     if not isinstance(value, dict) or value.get("schema_version") != LOCK_SCHEMA:
         raise ODEAllocContractError("P0 artifact lock schema differs")
     if value.get("instruction_id") != "ODEEDIT-S04-ODE-ALLOC-P0-LOCK-R1-PAIR-V1":
@@ -57,6 +66,13 @@ def validate_artifact_lock_structure(value: Any) -> dict[str, Any]:
         raise ODEAllocContractError("EasyEdit artifact root differs")
     if value.get("hf_hub_cache") != "/mnt/raid5/janghj/.cache/huggingface/hub":
         raise ODEAllocContractError("HF artifact root differs")
+    if runtime_path_seal is not None:
+        runtime_path_seal.assert_logical_root(
+            "easyedit_root", value["easyedit_root"]
+        )
+        runtime_path_seal.assert_logical_root(
+            "hf_hub_cache", value["hf_hub_cache"]
+        )
     sources = value.get("easyedit_sources")
     if not isinstance(sources, dict) or not sources:
         raise ODEAllocContractError("EasyEdit source lock is empty")
@@ -97,14 +113,21 @@ def validate_artifact_lock_structure(value: Any) -> dict[str, Any]:
     return value
 
 
-def load_artifact_lock(path: Path) -> tuple[dict[str, Any], str, str]:
+def load_artifact_lock(
+    path: Path,
+    *,
+    runtime_path_seal: AlphaEditRuntimePathSeal | None = None,
+) -> tuple[dict[str, Any], str, str]:
     source = path.resolve(strict=True)
     raw_sha = sha256_file(source)
     try:
         value = json.loads(source.read_text(encoding="utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise ODEAllocContractError("P0 artifact lock is invalid JSON") from exc
-    value = validate_artifact_lock_structure(value)
+    value = validate_artifact_lock_structure(
+        value,
+        runtime_path_seal=runtime_path_seal,
+    )
     return value, raw_sha, canonical_hash(value)
 
 
@@ -137,17 +160,36 @@ def _fingerprint(path: Path) -> tuple[int, int, int, int, int]:
 class P0ArtifactGuard:
     """Full preflight digest validation plus point-in-time mutation detection."""
 
-    def __init__(self, lock_path: Path, alias: str) -> None:
+    def __init__(
+        self,
+        lock_path: Path,
+        alias: str,
+        *,
+        runtime_path_seal: AlphaEditRuntimePathSeal | None = None,
+    ) -> None:
         if alias not in MODEL_ALIASES:
             raise ODEAllocContractError("unknown P0 model alias")
         self.lock_path = lock_path.resolve(strict=True)
+        self.runtime_path_seal = runtime_path_seal
+        self.runtime_path_seal_receipt: RuntimePathSealReceipt | None = None
         self.value, self.lock_sha256, self.lock_canonical_sha256 = load_artifact_lock(
-            self.lock_path
+            self.lock_path,
+            runtime_path_seal=runtime_path_seal,
         )
         self.alias = alias
-        self.easyedit_root = Path(self.value["easyedit_root"]).resolve(strict=True)
-        self.hf_hub_cache = Path(self.value["hf_hub_cache"]).resolve(strict=True)
+        if runtime_path_seal is None:
+            self.easyedit_root = Path(self.value["easyedit_root"]).resolve(strict=True)
+            self.hf_hub_cache = Path(self.value["hf_hub_cache"]).resolve(strict=True)
+        else:
+            self.easyedit_root = runtime_path_seal.resolve_root(
+                "easyedit_root", self.value["easyedit_root"]
+            )
+            self.hf_hub_cache = runtime_path_seal.resolve_root(
+                "hf_hub_cache", self.value["hf_hub_cache"]
+            )
         self.spec: Mapping[str, Any] = self.value["models"][alias]
+        if runtime_path_seal is not None:
+            runtime_path_seal.assert_p0_model_contract(alias, self.spec)
         self.snapshot = (
             self.hf_hub_cache
             / self.spec["repo_cache"]
@@ -167,6 +209,10 @@ class P0ArtifactGuard:
         self._fingerprints[label] = observed
 
     def preflight(self) -> ArtifactReceipt:
+        if self.runtime_path_seal is not None:
+            self.runtime_path_seal_receipt = self.runtime_path_seal.preflight_alias(
+                self.alias
+            )
         source_digests: dict[str, str] = {}
         for relative, expected in sorted(self.value["easyedit_sources"].items()):
             path = _safe_relative(self.easyedit_root, relative)
