@@ -1,0 +1,11 @@
+{
+  "task_id": "S4-M1",
+  "server": "server4",
+  "agent_id": "server4-server-head",
+  "agent_role": "server-head",
+  "status": "blocked",
+  "updated_at": "2026-08-22T18:22:14+09:00",
+  "ack_path": "messages/acks/server4/2026-08-22.md",
+  "report_dir": "messages/server-heads/server4/",
+  "note": "BLOCKED_SHARED_SOURCE_CHANGE. /data/janghj/EasyEdit의 Llama/Qwen P+stats member identity와 CPU projector shape/dtype는 PASS지만 current ODEBFArtifactGuard/P0ArtifactGuard와 ODE-BF launchers가 server4 physical-root seal을 소비할 API가 없다. Shared source/lock/model/GPU/Slurm 변경 0건; scientific submit HOLD."
+}
