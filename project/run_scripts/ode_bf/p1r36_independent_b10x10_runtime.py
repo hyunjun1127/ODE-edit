@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 import hashlib
 import json
 import time
 from contextlib import ExitStack
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import torch
 
@@ -69,6 +70,7 @@ from .p1r52_residual_reserve_production_binding import (
     build_residual_reserve_production_binding,
 )
 from .p1r52_residual_reserve_pc_inventory import SealedPrevalidatedCovariance
+from .p1r24_atomic_strength import p1r24_target_step
 from .scalable_batched_model import (
     build_scalable_capture_plan,
     build_scalable_objective_plan,
@@ -88,6 +90,30 @@ METHODS = tuple(
 )
 CASE_COUNT = 10
 HISTORY_MODE = "OFF"
+
+
+@dataclass(frozen=True, slots=True)
+class IndependentB10x10RuntimeContract:
+    instruction_id: str
+    method_id: str
+    schema_prefix: str
+    terminal_status: str
+    freeze_policy: str | None = None
+
+
+P1R36_RUNTIME_CONTRACT = IndependentB10x10RuntimeContract(
+    instruction_id=INSTRUCTION_ID,
+    method_id=P1R35_METHOD_ID,
+    schema_prefix="ode-edit-s05-p1r35-independent-b10",
+    terminal_status="P1R36_P1R35_INDEPENDENT_B10X10_TERMINAL",
+)
+
+
+def _p1r36_target_step_policy_factory(
+    alias: str, method: str, case_index: int
+) -> Callable[..., Any]:
+    del alias, method, case_index
+    return p1r24_target_step
 
 
 def expected_p1r36_independent_result_name(alias: str, method: str) -> str:
@@ -162,6 +188,7 @@ def _case_failure(
     p1r43: bool = False,
     p1r51: bool = False,
     p1r52: bool = False,
+    runtime_contract: IndependentB10x10RuntimeContract = P1R36_RUNTIME_CONTRACT,
 ) -> dict[str, Any]:
     classification = (
         "SCIENTIFIC_FAIL"
@@ -227,6 +254,10 @@ def _case_failure(
         "retry_count": 0,
         "next_case_continues": True,
     }
+    if runtime_contract.freeze_policy is not None:
+        payload["schema"] = f"{runtime_contract.schema_prefix}-case-failure/v1"
+        payload["instruction_id"] = runtime_contract.instruction_id
+        payload["freeze_policy"] = runtime_contract.freeze_policy
     payload["identity_sha256"] = canonical_hash(payload)
     _atomic_write_once(case_root / "failure.json", payload)
     return payload
@@ -245,6 +276,7 @@ def _case_freeze(
     p1r43: bool = False,
     p1r51: bool = False,
     p1r52: bool = False,
+    runtime_contract: IndependentB10x10RuntimeContract = P1R36_RUNTIME_CONTRACT,
 ) -> dict[str, Any]:
     payload = {
         "schema": (
@@ -290,6 +322,71 @@ def _case_freeze(
         "inner_k_evaluator_access_count": 0,
         "future_batch_access_count": 0,
         "history_mode": _history_off_receipt(),
+    }
+    if runtime_contract.freeze_policy is not None:
+        payload["schema"] = f"{runtime_contract.schema_prefix}-action-freeze/v1"
+        payload["instruction_id"] = runtime_contract.instruction_id
+        payload["freeze_policy"] = runtime_contract.freeze_policy
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
+
+
+def _freeze_policy_summary(
+    accepted_paths: Sequence[Path], *, expected_policy: str
+) -> dict[str, Any]:
+    updates: list[Mapping[str, Any]] = []
+    for path in accepted_paths:
+        accepted = json.loads(path.read_text(encoding="utf-8"))
+        update = accepted.get("target_update")
+        if not isinstance(update, dict) or update.get("freeze_policy") != expected_policy:
+            raise ODEBFStateError("independent B10 freeze-policy receipt differs")
+        updates.append(update)
+    if len(updates) != P1R23_GRID_COUNT:
+        raise ODEBFStateError("independent B10 freeze-policy step count differs")
+    masks = [tuple(bool(item) for item in value["instantaneous_mask"]) for value in updates]
+    priors = [
+        tuple(bool(item) for item in value["prior_step_instantaneous_mask"])
+        for value in updates
+    ]
+    if any(len(mask) != BATCH_SIZE for mask in masks + priors):
+        raise ODEBFStateError("independent B10 instantaneous mask geometry differs")
+    if any(priors[index] != masks[index - 1] for index in range(1, len(masks))):
+        raise ODEBFStateError("independent B10 prior instantaneous telemetry differs")
+    if any(
+        int(value["persistent_mask_decision_influence_count"]) != 0
+        or int(value["carried_frozen_input_count"]) != 0
+        for value in updates
+    ):
+        raise ODEBFStateError("independent B10 freeze carry influenced decision")
+    reactivation_by_request = [
+        sum(bool(value["frozen_to_active"][request]) for value in updates)
+        for request in range(BATCH_SIZE)
+    ]
+    active_to_frozen_by_request = [
+        sum(bool(value["active_to_frozen"][request]) for value in updates)
+        for request in range(BATCH_SIZE)
+    ]
+    payload = {
+        "schema": "ode-edit-s05-p1r37-instantaneous-freeze-case-summary/v1",
+        "freeze_policy": expected_policy,
+        "step_count": len(updates),
+        "instantaneous_mask_by_k": [list(value) for value in masks],
+        "prior_step_instantaneous_mask_by_k": [list(value) for value in priors],
+        "active_request_count_by_k": [
+            int(value["active_request_count"]) for value in updates
+        ],
+        "reactivation_count": sum(reactivation_by_request),
+        "reactivation_count_by_request": reactivation_by_request,
+        "active_to_frozen_count": sum(active_to_frozen_by_request),
+        "active_to_frozen_count_by_request": active_to_frozen_by_request,
+        "persistent_mask_decision_influence_count": 0,
+        "carried_frozen_input_count": 0,
+        "sentinel_observation_count": sum(
+            bool(value["predeclared_sentinel_observation"]) for value in updates
+        ),
+        "target_update_identity_sha256": [
+            str(value["identity_sha256"]) for value in updates
+        ],
     }
     payload["identity_sha256"] = canonical_hash(payload)
     return payload
@@ -448,6 +545,10 @@ def _run_ode_case(
     p1r52_phase_a_fp32: bool = False,
     p1r52_rr_covariances: tuple[SealedPrevalidatedCovariance, ...] | None = None,
     technical_smoke: bool = False,
+    runtime_contract: IndependentB10x10RuntimeContract = P1R36_RUNTIME_CONTRACT,
+    target_step_policy_factory: Callable[
+        [str, str, int], Callable[..., Any]
+    ] = _p1r36_target_step_policy_factory,
 ) -> dict[str, Any]:
     if len(requests) != (1 if technical_smoke else BATCH_SIZE):
         raise ODEBFContractError("independent Atomic case is not B10")
@@ -675,6 +776,9 @@ def _run_ode_case(
         p1r52_phase_a_method_label=(method if p1r52_phase_a_fp32 else None),
         p1r52_writer_policy=p1r52_writer_policy,
         p1r52_pir_policy=p1r52_pir_policy,
+        p1r24_target_step_policy=target_step_policy_factory(
+            alias, method, case_index
+        ),
     )
     public = rollout["public"]
     if (
@@ -742,14 +846,18 @@ def _run_ode_case(
             "terminal_sha256": terminal_sha,
             "manifest_sha256": manifest_sha,
         }
-    accepted_terminal = json.loads(
-        (
-            case_root
-            / "raw"
-            / "ode"
-            / public["arm"].lower()
-            / "accepted-k8.json"
-        ).read_text(encoding="utf-8")
+    accepted_root = case_root / "raw" / "ode" / public["arm"].lower()
+    accepted_paths = [
+        accepted_root / f"accepted-k{k}.json"
+        for k in range(1, P1R23_GRID_COUNT + 1)
+    ]
+    accepted_terminal = json.loads(accepted_paths[-1].read_text(encoding="utf-8"))
+    freeze_policy_summary = (
+        _freeze_policy_summary(
+            accepted_paths, expected_policy=runtime_contract.freeze_policy
+        )
+        if runtime_contract.freeze_policy is not None
+        else None
     )
     freeze = _case_freeze(
         case_index=case_index,
@@ -763,6 +871,7 @@ def _run_ode_case(
         p1r43=p1r43,
         p1r51=p1r51,
         p1r52=p1r52,
+        runtime_contract=runtime_contract,
     )
     freeze_sha = _atomic_write_once(case_root / "action-freeze.json", freeze)
     cases, evaluator_freeze = _action_frozen_cases(
@@ -933,6 +1042,12 @@ def _run_ode_case(
         "cross_case_state_count": 0,
         "W0_restored": bool(restore["pointer_restored_exact"] and restore["byte_restored_exact"]),
     }
+    if runtime_contract.freeze_policy is not None:
+        terminal["schema"] = f"{runtime_contract.schema_prefix}-ode-terminal/v1"
+        terminal["instruction_id"] = runtime_contract.instruction_id
+        terminal["method_id"] = runtime_contract.method_id
+        terminal["freeze_policy"] = runtime_contract.freeze_policy
+        terminal["freeze_policy_summary"] = freeze_policy_summary
     terminal["identity_sha256"] = canonical_hash(terminal)
     terminal_sha = _atomic_write_once(case_root / "terminal.json", terminal)
     manifest = {
@@ -960,6 +1075,10 @@ def _run_ode_case(
         "W0_restored": True,
         "history_mode": HISTORY_MODE,
     }
+    if runtime_contract.freeze_policy is not None:
+        manifest["schema"] = f"{runtime_contract.schema_prefix}-case-manifest/v1"
+        manifest["instruction_id"] = runtime_contract.instruction_id
+        manifest["freeze_policy"] = runtime_contract.freeze_policy
     manifest["identity_sha256"] = canonical_hash(manifest)
     manifest_sha = _atomic_write_once(case_root / "manifest.json", manifest)
     return {"status": "CASE_COMPLETE", "terminal_sha256": terminal_sha, "manifest_sha256": manifest_sha}
@@ -1000,6 +1119,10 @@ def run_p1r36_independent_b10x10(
     cuda_runtime_receipt: Mapping[str, Any],
     job_ledger: ComputeLedger,
     request_microbatch_size: int,
+    runtime_contract: IndependentB10x10RuntimeContract = P1R36_RUNTIME_CONTRACT,
+    target_step_policy_factory: Callable[
+        [str, str, int], Callable[..., Any]
+    ] = _p1r36_target_step_policy_factory,
 ) -> dict[str, Any]:
     del collision_by_request, artifact_guard, artifact_receipt, numerical_sha256, context_sha256, cuda_runtime_receipt
     if method not in METHODS or len(stream_batches) != CASE_COUNT:
@@ -1045,6 +1168,8 @@ def run_p1r36_independent_b10x10(
                 base_values=base_values,
                 request_microbatch_size=request_microbatch_size,
                 job_ledger=job_ledger,
+                runtime_contract=runtime_contract,
+                target_step_policy_factory=target_step_policy_factory,
             )
             completed.append({"case_index": case_index, **result})
         except Exception as exc:
@@ -1054,7 +1179,16 @@ def run_p1r36_independent_b10x10(
                 mutation_lock=mutation_lock,
                 expected_contract=expected_w0,
             )
-            failed.append(_case_failure(case_root, exc, case_index=case_index, method=method, w0_restore=restore))
+            failed.append(
+                _case_failure(
+                    case_root,
+                    exc,
+                    case_index=case_index,
+                    method=method,
+                    w0_restore=restore,
+                    runtime_contract=runtime_contract,
+                )
+            )
         if _model_w0_contract(touched) != expected_w0:
             raise ODEBFStateError("independent B10 post-case W0 differs")
         stages.record(
@@ -1069,8 +1203,8 @@ def run_p1r36_independent_b10x10(
             },
         )
     terminal = {
-        "schema": "ode-edit-s05-p1r35-independent-b10x10-terminal/v1",
-        "instruction_id": INSTRUCTION_ID,
+        "schema": f"{runtime_contract.schema_prefix}x10-terminal/v1",
+        "instruction_id": runtime_contract.instruction_id,
         "source_head": source_head,
         "alias": alias,
         "method": method,
@@ -1095,10 +1229,13 @@ def run_p1r36_independent_b10x10(
         "job_compute": job_ledger.raw_free_payload(),
         "scientific_promotion": False,
     }
+    if runtime_contract.freeze_policy is not None:
+        terminal["method_id"] = runtime_contract.method_id
+        terminal["freeze_policy"] = runtime_contract.freeze_policy
     terminal["identity_sha256"] = canonical_hash(terminal)
     terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s05-p1r35-independent-b10x10-manifest/v1",
+        "schema": f"{runtime_contract.schema_prefix}x10-manifest/v1",
         "source_head": source_head,
         "terminal_sha256": terminal_sha,
         "case_count": CASE_COUNT,
@@ -1107,10 +1244,13 @@ def run_p1r36_independent_b10x10(
         "W0_restored": terminal["W0_restored"],
         "history_mode": HISTORY_MODE,
     }
+    if runtime_contract.freeze_policy is not None:
+        manifest["instruction_id"] = runtime_contract.instruction_id
+        manifest["freeze_policy"] = runtime_contract.freeze_policy
     manifest["identity_sha256"] = canonical_hash(manifest)
     manifest_sha = _atomic_write_once(destination / "manifest.json", manifest)
     return {
-        "status": "P1R36_P1R35_INDEPENDENT_B10X10_TERMINAL",
+        "status": runtime_contract.terminal_status,
         "terminal_sha256": terminal_sha,
         "manifest_sha256": manifest_sha,
         "completed_case_count": len(completed),
@@ -1119,4 +1259,12 @@ def run_p1r36_independent_b10x10(
     }
 
 
-__all__ = ["CASE_COUNT", "INSTRUCTION_ID", "METHODS", "expected_p1r36_independent_result_name", "run_p1r36_independent_b10x10"]
+__all__ = [
+    "CASE_COUNT",
+    "INSTRUCTION_ID",
+    "METHODS",
+    "IndependentB10x10RuntimeContract",
+    "P1R36_RUNTIME_CONTRACT",
+    "expected_p1r36_independent_result_name",
+    "run_p1r36_independent_b10x10",
+]

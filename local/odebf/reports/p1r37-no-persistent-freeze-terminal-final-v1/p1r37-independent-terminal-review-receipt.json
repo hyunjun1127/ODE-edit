@@ -1,0 +1,38 @@
+{
+  "schema": "ode-edit-s05-p1r37-independent-terminal-review/v1",
+  "instruction_id": "ODEEDIT-S05-P1R37-P1R36-NO-PERSISTENT-FREEZE-INDEPENDENT-B10X10-V1",
+  "review_scope": "RAW_FREE_READ_ONLY_P1R36_P1R37_TERMINAL_COMPARISON",
+  "review_task": "/root/p1r37_terminal_review",
+  "source_mutation_count": 0,
+  "model_forward_count": 0,
+  "model_backward_count": 0,
+  "evaluator_rerun_count": 0,
+  "result_mutation_count": 0,
+  "verified": {
+    "job_tasks_completed_exit0": 8,
+    "source_manifest_entries": 12,
+    "p1r37_attempts": 80,
+    "p1r37_endpoints": 73,
+    "p1r37_typed_incomplete": 7,
+    "p1r36_attempts": 80,
+    "p1r36_endpoints": 71,
+    "p1r36_typed_incomplete": 9,
+    "exact_common_endpoint_pairs": 71,
+    "accepted_prefix_steps": 631,
+    "phi_values": 6310,
+    "mask_threshold_identity_pass_count": 6310,
+    "active_to_frozen_count": 224,
+    "reactivation_count": 8,
+    "persistent_mask_decision_influence_count": 0,
+    "carried_frozen_input_count": 0,
+    "w0_restore_pass_attempts": 80,
+    "retry_count": 0
+  },
+  "not_recorded": [
+    "P1R36_TERMINAL_FUNCTIONAL_P",
+    "P1R36_FREEZE_REACTIVATION_TELEMETRY",
+    "P1R36_P1R37_COMPARABLE_GPU_PEAK_MEMORY"
+  ],
+  "task_scoped_freeze_classification": "NEAR_IDENTICAL_OUTCOME",
+  "scientific_promotion": false
+}

@@ -1,0 +1,15 @@
+{
+  "schema": "ode-edit-s05-p1r37-focused-tests-terminal-receipt/v1",
+  "instruction_id": "ODEEDIT-S05-P1R37-P1R36-NO-PERSISTENT-FREEZE-INDEPENDENT-B10X10-V1",
+  "source_head": "27fd7714532599abfe169dc9cccf83b7a66735b9",
+  "test_file": "project/run_scripts/ode_bf/tests/test_p1r37_no_persistent_freeze.py",
+  "test_file_sha256": "173333189073668dab1822b25cd4360b9e34c6ccbabe692081c57420235dc325",
+  "runtime": "uv-offline-frozen-no-sync EasyEdit environment",
+  "tests_run": 6,
+  "failures": 0,
+  "errors": 0,
+  "exit_code": 0,
+  "model_forward_count": 0,
+  "model_backward_count": 0,
+  "result_mutation_count": 0
+}

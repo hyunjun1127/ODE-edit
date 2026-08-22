@@ -1,0 +1,72 @@
+{
+  "schema_version": "ode-edit-s05-p1r37-no-persistent-freeze-independent-b10x10-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R37-P1R36-NO-PERSISTENT-FREEZE-INDEPENDENT-B10X10-V1",
+  "parent_checkpoint": "87efd168fc9680cabde878cd3b595e98db66d8fa",
+  "parent_tree": "0df5a4318b7886145e6b083d48db982de56b37ed",
+  "scientific_parent": "a625e3d1cded3ced0e9128ef7a44205953041447",
+  "delta_role": "CURRENT_STATE_INSTANTANEOUS_NO_CARRY_FREEZE_POLICY_ONLY",
+  "p1r36_default_policy_semantics_unchanged": true,
+  "entries": [
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r37_no_persistent_freeze_independent_b10x10.json",
+      "size": 1957,
+      "sha256": "c980677247280cca5cba7a8c840d33266cb5d44cb3698e303651da5b5d1bfde2"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "size": 204865,
+      "sha256": "da3ef25fa6f6d65bae4a8f5c1cd5c77ff70abeb71763d4d0f9a7493c8172a688"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+      "size": 86216,
+      "sha256": "0c934f0e5da6fe9c605c830f455b60c6a0907e9badd3504161f8b394bb1f7826"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r36_independent_b10x10_runtime.py",
+      "size": 26435,
+      "sha256": "ad8ffb7ff883e739d224a01ab08fc6d12328107360b9e5566e4264a174afc958"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r37_independent_b10x10_panel.py",
+      "size": 3162,
+      "sha256": "d477aca8491408166e07d9f562d7d592103f8916db4cfff8fb7eb41601881c56"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r37_independent_b10x10_runtime.py",
+      "size": 1855,
+      "sha256": "e22f54dc2a784782715e63b2ea0907370bf9577655f136de239b5201f6859e87"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r37_instantaneous_freeze.py",
+      "size": 6114,
+      "sha256": "a233b77c350d845eed54617bca309f0cff4980fd4c69ccfb39c4a56fa0251de3"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p1r37_no_persistent_freeze.py",
+      "size": 10623,
+      "sha256": "173333189073668dab1822b25cd4360b9e34c6ccbabe692081c57420235dc325"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r37_no_persistent_freeze_b10x10.py",
+      "size": 6881,
+      "sha256": "d358bbee59664c77e506281c3c3663162e04a06f87168cffedc7cec2f5389bab"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r37_no_persistent_freeze_b10x10.sbatch",
+      "size": 2814,
+      "sha256": "93d314122dfc4bdcf53923b8f6bf48f25538a652bfa6ce05f4a29874896d3c5b"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r37_no_persistent_freeze_b10x10_dry_plan.py",
+      "size": 3057,
+      "sha256": "c6d340cf51c4e39dbf68f16ac9519bbad3ae9f8a365c7bb4e308bc2feb2e097e"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_submit_p1r37_no_persistent_freeze_b10x10.py",
+      "size": 8156,
+      "sha256": "5a170a8d6c49367c27d81d3dcac7a9ff789b53915a12906c5f702aba13687de8"
+    }
+  ],
+  "root_digest": "46ab24c1ca8739313c4c657c5e344de1e61d02e2d0bf20e0a55e43390bb4f378"
+}

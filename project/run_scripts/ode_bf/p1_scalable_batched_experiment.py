@@ -7,7 +7,7 @@ import math
 from pathlib import Path
 import threading
 import time
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
 import torch
@@ -346,6 +346,7 @@ def _run_ode_arm(
     p1r52_writer_policy: P1R52WriterPolicy | str | None = None,
     p1r52_pir_policy: P1R52PIRPolicy | str | None = None,
     p1r30: bool = False,
+    p1r24_target_step_policy: Callable[..., Any] = p1r24_target_step,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
@@ -1138,7 +1139,7 @@ def _run_ode_arm(
                     )
                     finite_endpoint = selected.selected_endpoint
                 else:
-                    target_step = p1r24_target_step(
+                    target_step = p1r24_target_step_policy(
                         current_target,
                         current_terminal,
                         target_origin,
