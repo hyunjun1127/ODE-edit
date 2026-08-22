@@ -11,9 +11,9 @@
   `01a028a7-9e3c-7541-81ba-efb40555d17d`
   (`codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d`)
 - local hard boundary: checker PASS, model/profile은 user-managed
-- 갱신 시각: `2026-08-22T17:51:38+09:00`
-- current GH directive: onboarding/resource audit 완료 후 신규 실험 job을
-  제출하지 않고 GH task 명령 대기
+- 갱신 시각: `2026-08-22T18:00:45+09:00`
+- current GH directive: `S4-M0` storage/execution readiness audit 완료 후
+  scientific submit HOLD
 
 이 session은 이전 `registered-pending-clone` 상태를 supersede한다. 과거 task,
 report, audit와 experiment provenance는 변경하지 않는다.
@@ -64,17 +64,31 @@ report, audit와 experiment provenance는 변경하지 않는다.
 
 ## Storage
 
-- `/data`: 7.0 TiB 중 6.4 TiB 사용, 약 193 GiB 가용, 사용률 98%
+- `/data`: 7,619,770,974,208 bytes 중 7,028,782,764,032 bytes 사용,
+  206,896,500,736 bytes(약 193 GiB) 가용, 사용률 98%
 - inode 사용률: 3%
 - repo-local ignored `local/` write probe: PASS 후 즉시 삭제
-- 판정: `WARN`; 신규 대용량 artifact 생성 전 용량 정리 또는 예상 출력량
-  확인이 필요하다.
+- bounded ODE-Edit clone + EasyEdit dependency + HF cache:
+  103,290,650,624 bytes(약 96.2 GiB)
+- 판정: `STORAGE_SCOPE_OK`; 현재 2-GPU job에 즉시 치명적인 local-space
+  blocker는 bounded 범위에서 확인되지 않았다. Exact task output contract가
+  주어지면 submit 전 point-in-time 재확인이 필요하다.
+
+## AlphaEdit reusable artifact
+
+- Llama/Qwen projector 2개와 Wikipedia stats 10개는 canonical lock의
+  size/SHA와 exact MATCH하며 `PROTECTED_REUSABLE=22,575,859,404 bytes`다.
+- server4 실제 자산 root: `/data/janghj/EasyEdit`
+- current lock root: `/mnt/raid5/janghj/EasyEdit` (server4에서 missing)
+- reusable asset verdict: Llama `READY_REUSE`, Qwen `READY_REUSE`
+- current legacy launcher path: `BLOCKED`; GH가 server4 canonical path를
+  승인·봉인하기 전 재계산, 다운로드 또는 submit하지 않는다.
 
 ## 판정
 
 - control-plane onboarding: `PASS`
-- resource/storage onboarding: `WARN` (storage 98%)
+- resource/storage readiness: `STORAGE_SCOPE_OK`
 - session/repository boundary: `PASS`
-- scientific job submission: `HOLD` (현재 GH 지시 및 향후 task별 red-team
-  preflight 필요)
-- next owner: `server4-server-head`, GH task 명령 대기
+- scientific job submission: `HOLD`
+- next owner: global-head가 server4 artifact path seal과 exact task envelope를
+  제공하면 server4가 point-in-time preflight 재실행
