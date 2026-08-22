@@ -1,0 +1,45 @@
+{
+  "action_counts": {
+    "evaluator_rerun": 0,
+    "model_backward": 0,
+    "model_forward": 0,
+    "result_mutation": 0,
+    "slurm": 0,
+    "source_mutation": 0
+  },
+  "comparison": {
+    "class": "DESCRIPTIVE_AGGREGATE_ONLY_NOT_CASE_MATCHED",
+    "exact_batch_order_match_count": 0,
+    "exact_evaluation_case_group_match_count": 0,
+    "p1r30_full_matrix_diagnostic": "PARTIAL_6_ENDPOINTS_2_TYPED_K4_PREFIXES",
+    "p1r30_predeclared_neutral_recovery_gate": "FAIL_UNCHANGED",
+    "scientific_promotion": false
+  },
+  "inputs": {
+    "p1r30_report_receipt_root": "5735c38c21ada3eaedcf16f6e2e4db8ce4cc04ebe2610f45e88931a2354e1cc3",
+    "p1r30_report_receipt_sha256": "360def3ba7c950853880b6fd486df8cc935e1ad24fbcc2e7ae021e1b993013c4",
+    "p1r30_report_sha256": "426c78287cad904fbcf13502d5bdad150a5badc5f008123820dec0573c865de7",
+    "p1r30_verdict_root": "49854c71fd8fafb3389d8e7c620370c6f1833e7d7491e9863f404ff59f2a3687",
+    "p1r30_verdict_sha256": "25afed3066cb1b8b071381b216ec992e42f9b69634a00d596f253b4382c3897a",
+    "p1r31_analysis_report_sha256": "e487668709934786dc8415fe7d34be0078df858e34c3318a07990616ec75047f",
+    "p1r31_package_manifest_sha256": "ff804cd9f22a4d493c13324bf74fa908b7787689a9d78a13744140cd30b7e86e",
+    "p1r31_package_root": "8df18d6de8d1e065b12d607ee3e17e5257545b109801356026172a9d90628318",
+    "p1r31_per_case_json_sha256": "a049f55778ba4a69326c24c0209349350fd548496137dd7bada3bf35345bb29d",
+    "p1r31_per_step_json_sha256": "2a57389ee657106c1b5db18cb336087bfe3c9318e48db2aeca9dac2fd1778904",
+    "package_verification_receipt_root": "02518481f2a744062d87b236df5344e43ba5e62f78e3eef7f85f593eafeccfb0",
+    "package_verification_receipt_sha256": "b9cded8f393faf778dd0f9f62809452311168f152ac1051f3e3f774d4cd5fd4d"
+  },
+  "independent_review": {
+    "reviewer_role": "BOUNDED_READ_ONLY_ANALYSIS_AGENT",
+    "status": "PASS_WITH_UNMATCHED_STREAM_BOUNDARY"
+  },
+  "report": {
+    "bytes": 16168,
+    "lines": 218,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p1r30-debt-priority-a0-barrier-v1/local/odebf/reports/p1r30-debt-priority-a0-barrier-v1/p1r30-vs-p1r31-raw-free-comparison-addendum-ko.md",
+    "sha256": "b440060e35e0fbd0e3b18ef325bfb32175271201a0d8ef75e6b64f7734ed2acd"
+  },
+  "root_digest": "d6eff39b18ad02b0b4008c7ba252435d14dc67070a4322634bd89d42b72c4cf6",
+  "schema": "ode-edit-s05-p1r30-p1r31-raw-free-comparison-addendum-receipt/v1",
+  "status": "PASS_WITH_UNMATCHED_STREAM_BOUNDARY"
+}

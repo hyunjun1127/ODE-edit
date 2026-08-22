@@ -195,6 +195,16 @@ from .p1r52_pir_writer import (
     plan_pir_writer,
     post_commit_pir_identity,
 )
+from .p1r30_debt_priority import (
+    P1R30DebtState,
+    P1R30RoutingStatus,
+    P1R30_INSTRUCTION_ID,
+    P1R30_METHOD_ID,
+    evaluate_p1r30_requestwise_physical_slopes,
+    evaluate_p1r30_target_new_objective,
+    nominal_demand_from_target_displacement,
+    solve_p1r30_a0_relative_routing,
+)
 
 
 P1R23_SCHEMA = "ode-edit-s05-p1r23-scalable-batched-runtime"
@@ -310,7 +320,7 @@ def _run_ode_arm(
     population_by_sha256: Mapping[str, Mapping[str, Any]],
     schedule: StatelessReplaySchedule,
     outer_entry_p_cache: Any,
-    theta0_cache: Theta0TeacherCache,
+    theta0_cache: Theta0TeacherCache | None,
     touched: Mapping[str, torch.nn.Parameter],
     base_receipt: ArmWeightSnapshot,
     base_values: Mapping[str, torch.Tensor],
@@ -335,11 +345,14 @@ def _run_ode_arm(
     p1r52_sequential_target_depth: bool = False,
     p1r52_writer_policy: P1R52WriterPolicy | str | None = None,
     p1r52_pir_policy: P1R52PIRPolicy | str | None = None,
+    p1r30: bool = False,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
     request_count = len(requests)
-    if request_count not in ((1, 10, 100) if p1r52 else (1, 10) if p1r24 else (10, 100)):
+    if request_count not in (
+        (1, 10, 100) if p1r52 else (1, 10) if p1r24 or p1r30 else (10, 100)
+    ):
         raise ODEBFContractError("P1R23 ODE request count differs")
     if allocation not in ("RS", "BG"):
         raise ODEBFContractError("P1R23 ODE target allocation differs")
@@ -478,6 +491,9 @@ def _run_ode_arm(
         if p1r35
         else f"{allocation}-P1R34-W-FINITE-DEMAND-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r34
+        else f"{allocation}-P1R30-DEBT-PRIORITY-"
+        f"{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
+        if p1r30
         else f"{allocation}-P1R24-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r24
         else
@@ -529,14 +545,16 @@ def _run_ode_arm(
     p1r43_state = P1R43ControllerState.zero(current_target) if p1r43 else None
     p1r51_state = P1R51ControllerState.zero(current_target) if p1r51 else None
     p1r52_state = P1R51ControllerState.zero(current_target) if p1r52 else None
-    p1r24_target_lock = P1R24AliasTargetLock.for_alias(alias) if p1r24 else None
+    p1r24_target_lock = (
+        P1R24AliasTargetLock.for_alias(alias) if p1r24 or p1r30 else None
+    )
     p1r24_alpha_geometry = (
         verify_p1r24_alphaedit_geometry(
             hparams,
             p1r24_target_lock,
             easyedit_root=Path("/mnt/raid5/janghj/EasyEdit"),
         )
-        if p1r24 and p1r24_target_lock is not None
+        if (p1r24 or p1r30) and p1r24_target_lock is not None
         else None
     )
     p1r24_kl_plan = (
@@ -547,12 +565,12 @@ def _run_ode_arm(
             request_microbatch_size=min(objective_plan.request_microbatch_size, request_count),
             fact_token_strategy=hparams.fact_token,
         )
-        if p1r24
+        if p1r24 or p1r30
         else None
     )
     p1r24_kl_teacher: tuple[torch.Tensor, ...] | None = None
     p1r24_kl_teacher_sha256: str | None = None
-    if p1r24:
+    if p1r24 or p1r30:
         assert p1r24_kl_plan is not None
         teacher_result, p1r24_kl_teacher = evaluate_p1r24_kl(
             model, p1r24_kl_plan, teacher_log_probs=None
@@ -578,6 +596,9 @@ def _run_ode_arm(
     delayed: list[dict[str, Any]] = []
     request_realization_sha256: list[str] = []
     pending: dict[str, Any] | None = None
+    debt_state: P1R30DebtState | None = None
+    pending_nominal: Any | None = None
+    debt_completions: list[dict[str, Any]] = []
     terminal_objective_count = 0
     terminal_functional: dict[str, Any] | None = None
     restored = False
@@ -592,7 +613,7 @@ def _run_ode_arm(
             residual_reserve_outer = None
             replay_entry = (
                 None
-                if p1r24
+                if p1r24 or p1r30
                 else _controller_replay_entry(
                     model,
                     tokenizer,
@@ -613,18 +634,35 @@ def _run_ode_arm(
                 .clone()
                 .requires_grad_(True)
             )
-            target_result = evaluate_scalable_target_new_objective(
-                model,
-                objective_plan,
-                target_state=target_variable,
-                current_terminal=current_terminal,
-                target_layer_name=hparams.layer_module_tmp.format(
-                    int(hparams.layers[-1])
-                ),
+            p1r30_target_objective = (
+                evaluate_p1r30_target_new_objective(
+                    model,
+                    objective_plan,
+                    target_state=target_variable,
+                    current_terminal=current_terminal,
+                    target_layer_name=hparams.layer_module_tmp.format(
+                        int(hparams.layers[-1])
+                    ),
+                )
+                if p1r30
+                else None
+            )
+            target_result = (
+                p1r30_target_objective.objective
+                if p1r30_target_objective is not None
+                else evaluate_scalable_target_new_objective(
+                    model,
+                    objective_plan,
+                    target_state=target_variable,
+                    current_terminal=current_terminal,
+                    target_layer_name=hparams.layer_module_tmp.format(
+                        int(hparams.layers[-1])
+                    ),
+                )
             )
             if target_result.target_gradient is None:
                 raise ODEBFContractError("P1R23 target gradient is absent")
-            if p1r24:
+            if p1r24 or p1r30:
                 assert p1r24_kl_plan is not None and p1r24_kl_teacher is not None
                 assert p1r24_target_lock is not None
                 kl_result, _ = evaluate_p1r24_kl(
@@ -1363,6 +1401,17 @@ def _run_ode_arm(
                     completed_k_total=step_index + 1,
                 )
                 continue
+            _phase_add_objective(
+                compute, "target_gradient", target_result, target=True
+            )
+            nominal = (
+                nominal_demand_from_target_displacement(
+                    p1r30_target_objective.per_request_gradient_fp64,
+                    target_step.target_displacement,
+                )
+                if p1r30 and p1r30_target_objective is not None
+                else None
+            )
             field_started = time.perf_counter()
             field = build_scalable_dynamic_field(
                 model,
@@ -1373,7 +1422,7 @@ def _run_ode_arm(
                 contexts,
                 target_state=(
                     current_terminal + target_velocity
-                    if p1r24
+                    if p1r24 or p1r30
                     else target_next
                 ),
                 current_terminal=current_terminal,
@@ -1384,9 +1433,23 @@ def _run_ode_arm(
                 residual_tolerance=controller_lock.residual_tolerance,
                 ledger=legacy_ledger,
             )
-            signed, slope_result = scalable_physical_signed_progress(
-                model, objective_plan, field
-            )
+            p1r30_requestwise_slope = None
+            if p1r30:
+                (
+                    signed,
+                    slope_result,
+                    p1r30_requestwise_slope,
+                ) = evaluate_p1r30_requestwise_physical_slopes(
+                    model, objective_plan, field
+                )
+            else:
+                signed, slope_result = scalable_physical_signed_progress(
+                    model, objective_plan, field
+                )
+            if p1r30 and p1r30_requestwise_slope is None:
+                raise ODEBFStateError(
+                    "P1R30 requestwise physical slope receipt is absent"
+                )
             compute.add_wall("field_and_physical_slope", time.perf_counter() - field_started)
             _phase_add_objective(
                 compute, "physical_slope", slope_result, slope=True
@@ -1421,6 +1484,27 @@ def _run_ode_arm(
                     raise P1R34NonSemanticTargetMove("NON_SEMANTIC_TARGET_MOVE")
                 assert finite_demand.rho_write is not None
                 alpha_req = finite_demand.rho_write
+            debt_completion_before_command: dict[str, Any] | None = None
+            if p1r30:
+                if debt_state is None:
+                    debt_state = P1R30DebtState.initial(
+                        slope_result.per_request_values
+                    )
+                elif pending_nominal is not None:
+                    debt_state, completed = debt_state.complete(
+                        pending_nominal,
+                        slope_result.per_request_values,
+                    )
+                    debt_completion_before_command = completed.raw_free_payload()
+                    debt_completions.append(debt_completion_before_command)
+                    write_once(
+                        raw_root
+                        / "debt"
+                        / arm_label.lower()
+                        / f"completion-k{completed.step_index + 1}.json",
+                        debt_completion_before_command,
+                    )
+                    pending_nominal = None
             if pending is not None:
                 actual = float(pending["source_nll"] - current_nll)
                 item = {
@@ -1430,7 +1514,10 @@ def _run_ode_arm(
                     "actual": actual,
                     "predicted": float(pending["predicted"]),
                     "realization_ratio": actual
-                    / (float(pending["alpha_apply"]) + STRENGTH_COVERAGE_EPSILON),
+                    / (
+                        float(pending["prediction_denominator"])
+                        + STRENGTH_COVERAGE_EPSILON
+                    ),
                     "completion": "NEXT_REFRESHED_FIELD_W_ONLY_NLL_REUSE",
                     "candidate_objective_inner_count": 0,
                     "linearization_error": actual - float(pending["predicted"]),
@@ -1527,7 +1614,7 @@ def _run_ode_arm(
             )
             routing_problem = (
                 p1r24_disable_historical(problem_receipt.problem)
-                if p1r24
+                if p1r24 or p1r30
                 else problem_receipt.problem
             )
             field_semantic = canonical_hash(
@@ -1539,7 +1626,7 @@ def _run_ode_arm(
                 }
             )
             functional_started = time.perf_counter()
-            if not p1r24:
+            if not p1r24 and not p1r30:
                 inventory, functional_probe = _fixed_e8_functional_basis_probe(
                 model,
                 tokenizer,
@@ -1567,44 +1654,67 @@ def _run_ode_arm(
                     raise ODEBFStateError("P1R23 atomic replay-H inventory is active")
             else:
                 inventory = None
+                inactive_functional_status = (
+                    "NOT_EVALUATED_INNER_P1R30"
+                    if p1r30
+                    else "NOT_EVALUATED_INNER_P1R24"
+                )
                 functional_probe = {
-                    "status": "NOT_EVALUATED_INNER_P1R24",
+                    "status": inactive_functional_status,
                     "model_forward_count": 0,
                     "backward_count": 0,
                     "identity_sha256": canonical_hash(
-                        {"step": step_index, "status": "NOT_EVALUATED_INNER_P1R24"}
+                        {"step": step_index, "status": inactive_functional_status}
                     ),
                 }
             compute.add_wall("functional_preservation_basis", time.perf_counter() - functional_started)
             route_started = time.perf_counter()
-            routing = (
-                solve_p1r43_full_strength_routing(
+            if p1r30:
+                if (
+                    nominal is None
+                    or debt_state is None
+                    or p1r30_requestwise_slope is None
+                ):
+                    raise ODEBFStateError("P1R30 routing state is absent")
+                priority = debt_state.priority(nominal)
+                routing = solve_p1r30_a0_relative_routing(
                     routing_problem,
                     arm=arm,
-                    alpha_req=alpha_req,
+                    rho_reference=alpha_req,
+                    requestwise_signed_progress=(
+                        p1r30_requestwise_slope.signed_progress_by_request
+                    ),
+                    priority=priority,
                 )
-                if p1r43 or p1r51 or p1r52
-                else solve_p1r24_matched_routing(
-                    routing_problem,
-                    arm=arm,
-                    rho_write=alpha_req,
+            else:
+                priority = None
+                routing = (
+                    solve_p1r43_full_strength_routing(
+                        routing_problem,
+                        arm=arm,
+                        alpha_req=alpha_req,
+                    )
+                    if p1r43 or p1r51 or p1r52
+                    else solve_p1r24_matched_routing(
+                        routing_problem,
+                        arm=arm,
+                        rho_write=alpha_req,
+                    )
+                    if p1r24
+                    else solve_progress_simplex_routing(
+                        problem_receipt.problem,
+                        inventory,
+                        arm=arm,
+                        alpha_req=alpha_req,
+                    )
+                    if progress_simplex
+                    else solve_strength_preserving_routing(
+                        problem_receipt.problem,
+                        inventory,
+                        arm=arm,
+                        alpha_req=alpha_req,
+                    )
                 )
-                if p1r24
-                else
-                solve_progress_simplex_routing(
-                    problem_receipt.problem,
-                    inventory,
-                    arm=arm,
-                    alpha_req=alpha_req,
-                )
-                if progress_simplex
-                else solve_strength_preserving_routing(
-                    problem_receipt.problem,
-                    inventory,
-                    arm=arm,
-                    alpha_req=alpha_req,
-                )
-            )
             compute.add_wall("routing_solve", time.perf_counter() - route_started)
             if (
                 progress_simplex
@@ -1749,15 +1859,32 @@ def _run_ode_arm(
                     for item in sequential_writer.receipt["layers"]
                 )
             else:
+                if (
+                    p1r30
+                    and routing.status is P1R30RoutingStatus.NO_POSITIVE_DIRECTION
+                ):
+                    raise ODEBFStateError("WRITER_NO_POSITIVE_DIRECTION")
                 increment = (
                     progress_simplex_waypoint_factors(
                         field, routing.velocity, step_index=step_index
                     )
-                    if progress_simplex or p1r24
+                    if progress_simplex or p1r24 or p1r30
                     else fixed_e8_waypoint_factors(
                         field, routing.velocity, step_index=step_index
                     )
                 )
+                if p1r30 and any(
+                    not math.isclose(
+                        float(increment[layer.weight_name].theta),
+                        float(routing.selected_c[ordinal]),
+                        rel_tol=0.0,
+                        abs_tol=1.0e-12,
+                    )
+                    for ordinal, layer in enumerate(field.layers)
+                ):
+                    raise ODEBFContractError(
+                        "P1R30 applied coefficient/factor identity differs"
+                    )
                 writer_velocity = tuple(float(item) for item in routing.velocity)
                 writer_fields = tuple(field.layers)
                 writer_slopes = tuple(
@@ -1767,6 +1894,8 @@ def _run_ode_arm(
             predicted = (
                 float(sequential_writer.predicted_progress)
                 if sequential_writer is not None
+                else float(routing.selected_mean_progress)
+                if p1r30
                 else float(
                     routing_problem.signed_progress
                     @ np.asarray(routing.velocity, dtype=np.float64)
@@ -1866,8 +1995,31 @@ def _run_ode_arm(
                     else routing.equality_residual
                 ),
                 "entry_router_alpha_apply": routing.alpha_apply,
+                "alpha_req": None if p1r30 else routing.alpha_req,
+                "alpha_max": None if p1r30 else routing.alpha_max,
+                "alpha_apply": None if p1r30 else routing.alpha_apply,
+                "coverage": routing.coverage,
+                "equality_residual": routing.equality_residual,
                 "candidate_objective_inner_count": 0,
             }
+            if p1r30:
+                progress.update(
+                    {
+                        "a0_requested_rho": routing.rho_reference,
+                        "a0_reference_mean_progress": (
+                            routing.reference_mean_progress
+                        ),
+                        "selected_mean_progress": routing.selected_mean_progress,
+                        "a0_reference_debt_progress": (
+                            routing.reference_debt_progress
+                        ),
+                        "selected_debt_progress": routing.selected_debt_progress,
+                        "absolute_strength_cap_count": 0,
+                        "debt_total_update_magnitude_influence_count": 0,
+                        "legacy_alpha_max_semantics": "NOT_USED",
+                    }
+                )
+            terminal_debt_completion: dict[str, Any] | None = None
             if step_index == P1R23_GRID_COUNT - 1:
                 terminal_started = time.perf_counter()
                 terminal_objective = (
@@ -1889,7 +2041,11 @@ def _run_ode_arm(
                         "completion": "TERMINAL_W_ONLY_OBJECTIVE_ONCE",
                         "realization_ratio": actual
                         / (
-                            float(progress["alpha_apply"])
+                            (
+                                routing.selected_mean_progress
+                                if p1r30
+                                else float(progress["alpha_apply"])
+                            )
                             + STRENGTH_COVERAGE_EPSILON
                         ),
                         "linearization_error": actual - predicted,
@@ -1977,6 +2133,24 @@ def _run_ode_arm(
                     )
                     request_realization_sha256.append(realization_sha)
                     progress["requestwise_realization_sha256"] = realization_sha
+                if p1r30:
+                    if debt_state is None or nominal is None:
+                        raise ODEBFStateError(
+                            "P1R30 terminal debt state is absent"
+                        )
+                    debt_state, completed = debt_state.complete(
+                        nominal,
+                        terminal_objective.per_request_values,
+                    )
+                    terminal_debt_completion = completed.raw_free_payload()
+                    debt_completions.append(terminal_debt_completion)
+                    write_once(
+                        raw_root
+                        / "debt"
+                        / arm_label.lower()
+                        / "completion-k8.json",
+                        terminal_debt_completion,
+                    )
             target_realization = fixed_e8_target_write_realization(
                 current_target,
                 target_next,
@@ -2025,9 +2199,31 @@ def _run_ode_arm(
                     step_index=step_index,
                     factor_list_hashes=factor_list_hashes,
                 )
-                if p1r24
+                if p1r24 or p1r30
                 else None
             )
+            target_writer_independence = (
+                {
+                    "schema": "ode-edit-s05-p1r30-target-writer-independence/v1",
+                    "target_step_sha256": target_receipt["identity_sha256"],
+                    "target_next_sha256": tensor_sha256(target_next),
+                    "debt_state_sha256": (
+                        None if debt_state is None else debt_state.identity_sha256
+                    ),
+                    "target_update_debt_input_count": 0,
+                    "target_update_writer_input_count": 0,
+                    "target_update_p_h_input_count": 0,
+                    "target_update_solver_input_count": 0,
+                    "target_update_stall_input_count": 0,
+                    "debt_total_update_magnitude_influence_count": 0,
+                }
+                if p1r30
+                else None
+            )
+            if target_writer_independence is not None:
+                target_writer_independence["identity_sha256"] = canonical_hash(
+                    target_writer_independence
+                )
             payload = {
                 "schema": f"{P1R23_SCHEMA}-accepted-transition/v1",
                 "arm": arm_label,
@@ -2037,12 +2233,23 @@ def _run_ode_arm(
                 "physical_capture_sha256": physical.identity_sha256,
                 "next_physical_capture_sha256": next_physical.identity_sha256,
                 "target_objective": target_result.raw_free_payload(),
+                "target_requestwise_objective": (
+                    p1r30_target_objective.raw_free_payload()
+                    if p1r30_target_objective is not None
+                    else None
+                ),
                 "target_update": target_receipt,
                 "finite_writer_demand": (
                     finite_demand.receipt if finite_demand is not None else None
                 ),
+                "target_writer_independence": target_writer_independence,
                 "field_sha256": field.identity_sha256,
                 "physical_slope": asdict(signed),
+                "requestwise_physical_slope": (
+                    p1r30_requestwise_slope.raw_free_payload()
+                    if p1r30_requestwise_slope is not None
+                    else None
+                ),
                 "routing_problem_sha256": routing_problem.identity(),
                 "routing": routing.raw_free_payload(),
                 "entry_routing_role": "FROZEN_ENTRY_ALLOCATION",
@@ -2056,7 +2263,11 @@ def _run_ode_arm(
                     inventory.raw_free_payload()
                     if inventory is not None
                     else {
-                        "status": "NOT_EVALUATED_INNER_P1R24",
+                        "status": (
+                            "NOT_EVALUATED_INNER_P1R30"
+                            if p1r30
+                            else "NOT_EVALUATED_INNER_P1R24"
+                        ),
                         "functional_p_layer_basis_count": 0,
                         "functional_h_count": 0,
                     }
@@ -2064,7 +2275,7 @@ def _run_ode_arm(
                 "functional_probe_sha256": functional_probe["identity_sha256"],
                 "progress": progress,
                 "per_layer_applied_progress": contribution,
-                "structural_h": 0.0 if p1r24 else routing_problem.historical.value(
+                "structural_h": 0.0 if p1r24 or p1r30 else routing_problem.historical.value(
                     np.asarray(writer_velocity)
                 ),
                 "structural_p": routing_problem.pretrained.value(
@@ -2076,6 +2287,14 @@ def _run_ode_arm(
                     else None
                 ),
                 "cumulative_atomic_structural_p": cumulative_p,
+                "nominal_demand": (
+                    None if nominal is None else nominal.raw_free_payload()
+                ),
+                "debt_priority": (
+                    None if priority is None else priority.raw_free_payload()
+                ),
+                "debt_completion_before_command": debt_completion_before_command,
+                "debt_completion_after_write": terminal_debt_completion,
                 "target_write_realization": target_realization,
                 "target_depth_outer_terminal_telemetry": (
                     outer_target_depth_telemetry
@@ -2109,6 +2328,8 @@ def _run_ode_arm(
                     if p1r35
                     else P1R34_METHOD_ID
                     if p1r34
+                    else P1R30_METHOD_ID
+                    if p1r30
                     else P1R24_METHOD_ID
                     if p1r24
                     else
@@ -2117,7 +2338,7 @@ def _run_ode_arm(
                     else "P1R23_STRENGTH_PRESERVING"
                 ),
                 "progress_simplex_decision_influence_count": (
-                    1 if progress_simplex or p1r24 else 0
+                    1 if progress_simplex or p1r24 or p1r30 else 0
                 ),
                 "persistent_historical_ledger_count": 0,
                 "historical_h_decision_influence_count": 0,
@@ -2136,6 +2357,8 @@ def _run_ode_arm(
                     if p1r38
                     else None
                 ),
+                "inverse_slope_operation_count": 0 if p1r30 else None,
+                "debt_total_update_magnitude_influence_count": 0 if p1r30 else None,
             }
             payload["identity_sha256"] = canonical_hash(payload)
             write_once(
@@ -2145,8 +2368,8 @@ def _run_ode_arm(
                 / f"accepted-k{step_index + 1}.json",
                 payload,
             )
-            if p1r24:
-                for layer in writer_fields:
+            if p1r24 or p1r30:
+                for layer in field.layers:
                     accepted_by_layer[layer.layer].append(
                         AcceptedLayerContribution.from_field(
                             layer,
@@ -2157,6 +2380,8 @@ def _run_ode_arm(
             elif any(accepted_by_layer[layer] for layer in P1R23_LAYER_ORDER):
                 raise ODEBFStateError("P1R23 atomic H state is not empty")
             accepted.append(payload)
+            if p1r30 and step_index < P1R23_GRID_COUNT - 1:
+                pending_nominal = nominal
             pending = (
                 None
                 if step_index == P1R23_GRID_COUNT - 1
@@ -2176,6 +2401,11 @@ def _run_ode_arm(
                         }
                         if p1r42 or p1r43 or p1r51 or p1r52
                         else {}
+                    ),
+                    "prediction_denominator": (
+                        routing.selected_mean_progress
+                        if p1r30
+                        else routing.alpha_apply
                     ),
                 }
             )
@@ -2215,31 +2445,63 @@ def _run_ode_arm(
             raise ODEBFStateError(
                 "P1R52-FPiQ K8 additional slope group accounting differs"
             )
-        terminal_replay = _controller_replay_entry(
-            model,
-            tokenizer,
-            alias=alias,
-            arm_state=arm_state,
-            sample_waypoint=8,
-            factors={},
-            request_by_sha256=request_by_sha256,
-            population_by_sha256=population_by_sha256,
-            schedule=schedule,
-            outer_entry_p_cache=outer_entry_p_cache,
-        )
-        terminal_value = _functional_trial(
-            model,
-            tokenizer,
-            alias=alias,
-            entry=terminal_replay,
-            theta0_cache=theta0_cache,
-            factors={},
-            lock=controller_lock,
-            ledger=legacy_ledger,
-        )
-        terminal_functional = _terminal_functional_payload(terminal_value)
+        if (
+            pending is not None
+            or len(accepted) != 8
+            or len(delayed) != expected_delayed_count
+            or (
+                p1r30
+                and (
+                    debt_state is None
+                    or debt_state.step_index != 8
+                    or len(debt_completions) != 8
+                    or pending_nominal is not None
+                )
+            )
+        ):
+            raise ODEBFStateError("P1R23 K8 delayed accounting differs")
+        if p1r30:
+            terminal_functional = {
+                "status": "NOT_RECORDED_P1R30_ONLINE_FUNCTIONAL_P_DISABLED",
+                "model_forward_count": 0,
+                "backward_count": 0,
+                "decision_influence_count": 0,
+                "identity_sha256": canonical_hash(
+                    {
+                        "status": "NOT_RECORDED_P1R30_ONLINE_FUNCTIONAL_P_DISABLED",
+                        "model_forward_count": 0,
+                        "backward_count": 0,
+                    }
+                ),
+            }
+        else:
+            if theta0_cache is None or outer_entry_p_cache is None:
+                raise ODEBFStateError("P1R23 terminal functional cache is absent")
+            terminal_replay = _controller_replay_entry(
+                model,
+                tokenizer,
+                alias=alias,
+                arm_state=arm_state,
+                sample_waypoint=8,
+                factors={},
+                request_by_sha256=request_by_sha256,
+                population_by_sha256=population_by_sha256,
+                schedule=schedule,
+                outer_entry_p_cache=outer_entry_p_cache,
+            )
+            terminal_value = _functional_trial(
+                model,
+                tokenizer,
+                alias=alias,
+                entry=terminal_replay,
+                theta0_cache=theta0_cache,
+                factors={},
+                lock=controller_lock,
+                ledger=legacy_ledger,
+            )
+            terminal_functional = _terminal_functional_payload(terminal_value)
         terminal_oracle: dict[str, Any] | None = None
-        if p1r24:
+        if p1r24 or p1r30:
             oracle_variable = (
                 current_target.detach()
                 .to(device=next(model.parameters()).device, dtype=torch.float32)
@@ -2308,6 +2570,13 @@ def _run_ode_arm(
                 if p1r35
                 else "P1R34_W_ANCHORED_FINITE_DEMAND_K8_COMPLETE"
                 if p1r34
+                else (
+                    "P1R30_TERMINAL_DEBT_REMAINS"
+                    if debt_state is not None
+                    and max(debt_state.debt, default=0.0) > 0.0
+                    else "P1R30_DEBT_PRIORITY_K8_COMPLETE"
+                )
+                if p1r30
                 else "P1R24_ATOMIC_STRENGTH_RECOVERY_K8_COMPLETE"
                 if p1r24
                 else "PROGRESS_SIMPLEX_DYNAMIC_K8_COMPLETE"
@@ -2337,7 +2606,43 @@ def _run_ode_arm(
             ),
             "terminal_cumulative_structural_p": (
                 accepted[-1]["cumulative_atomic_structural_p"]
-                if p1r24 and accepted
+                if (p1r24 or p1r30) and accepted
+                else None
+            ),
+            "semantic_debt": (
+                {
+                    "completion_receipt_sha256": [
+                        item["identity_sha256"] for item in debt_completions
+                    ],
+                    "terminal_per_request_sha256": canonical_hash(
+                        list(debt_state.debt)
+                    ),
+                    "terminal_mean": math.fsum(debt_state.debt)
+                    / len(debt_state.debt),
+                    "terminal_median": float(
+                        np.median(np.asarray(debt_state.debt, dtype=np.float64))
+                    ),
+                    "terminal_p90": float(
+                        np.quantile(
+                            np.asarray(debt_state.debt, dtype=np.float64), 0.9
+                        )
+                    ),
+                    "terminal_maximum": max(debt_state.debt),
+                    "positive_debt_request_count": int(
+                        np.count_nonzero(
+                            np.asarray(debt_state.debt, dtype=np.float64) > 0.0
+                        )
+                    ),
+                    "terminal_status": (
+                        "TERMINAL_DEBT_REMAINS"
+                        if max(debt_state.debt) > 0.0
+                        else "DEBT_CLEARED"
+                    ),
+                    "requestwise_before_aggregation": True,
+                    "negative_actual_increases_debt": True,
+                    "total_update_magnitude_influence_count": 0,
+                }
+                if p1r30 and debt_state is not None
                 else None
             ),
             "target_depth_inner_telemetry_enabled": (
@@ -2371,6 +2676,10 @@ def _run_ode_arm(
             "sequential_writer_expected_additional_slope_group_count": (
                 32 if writer_policy in SEQUENTIAL_POLICIES else 0
             ),
+            "online_functional_p_model_forward_count": 0 if p1r30 else None,
+            "online_functional_p_backward_count": 0 if p1r30 else None,
+            "theta0_teacher_model_forward_count": 0 if p1r30 else None,
+            "terminal_functional_replay_count": 0 if p1r30 else 1,
             "edit_core_wall_seconds": time.perf_counter() - started,
             "materializer": materializer.raw_free_payload(),
             "residual_reserve_writer": (
@@ -2410,6 +2719,8 @@ def _run_ode_arm(
                 if p1r35
                 else P1R34_INSTRUCTION_ID
                 if p1r34
+                else P1R30_INSTRUCTION_ID
+                if p1r30
                 else P1R24_INSTRUCTION_ID
                 if p1r24
                 else
@@ -2435,6 +2746,8 @@ def _run_ode_arm(
                 if p1r35
                 else P1R34_METHOD_ID
                 if p1r34
+                else P1R30_METHOD_ID
+                if p1r30
                 else P1R24_METHOD_ID
                 if p1r24
                 else
@@ -2592,7 +2905,7 @@ def _run_ode_pair(
     request_by_sha256: Mapping[str, Mapping[str, Any]],
     population_by_sha256: Mapping[str, Mapping[str, Any]],
     schedule: StatelessReplaySchedule,
-    theta0_cache: Theta0TeacherCache,
+    theta0_cache: Theta0TeacherCache | None,
     dataset_path: Path,
     touched: Mapping[str, torch.nn.Parameter],
     base_receipt: ArmWeightSnapshot,
@@ -2607,6 +2920,9 @@ def _run_ode_pair(
     p1r35: bool = False,
     neutral_only: bool = False,
     technical_smoke: bool = False,
+    p1r30: bool = False,
+    selected_p1r30_arm: FixedE8Arm | None = None,
+    paired_p1r30: bool = False,
 ) -> dict[str, Any]:
     from .p1_runtime import ArmRuntimeState, _entry_parameter_snapshot_sha256
 
@@ -2631,23 +2947,36 @@ def _run_ode_pair(
     )
     write_once(raw_root / "plans" / "objective.json", objective_plan.raw_free_payload())
     write_once(raw_root / "plans" / "capture.json", capture_plan.raw_free_payload())
-    outer_population = tuple(
-        population_by_sha256[item] for item in theta0_cache.request_order
-    )
-    outer_snapshot = _entry_parameter_snapshot_sha256(
-        model, dict(base_receipt.parameter_sha256)
-    )
-    counter = ModelForwardCounter(model, job_ledger)
-    try:
-        outer_cache = build_outer_entry_pretrained_cache(
-            model,
-            tokenizer,
-            outer_population,
-            theta0_cache,
-            outer_entry_snapshot_sha256=outer_snapshot,
+    if p1r30:
+        if (
+            theta0_cache is None
+            or theta0_cache.request_order
+            or theta0_cache.log_probs_by_request
+            or theta0_cache.model_forward_count != 0
+            or theta0_cache.processed_token_count != 0
+        ):
+            raise ODEBFContractError("P1R30 functional-P bypass differs")
+        outer_cache = None
+    else:
+        if theta0_cache is None:
+            raise ODEBFContractError("P1R23 theta0 teacher cache is absent")
+        outer_population = tuple(
+            population_by_sha256[item] for item in theta0_cache.request_order
         )
-    finally:
-        counter.close()
+        outer_snapshot = _entry_parameter_snapshot_sha256(
+            model, dict(base_receipt.parameter_sha256)
+        )
+        counter = ModelForwardCounter(model, job_ledger)
+        try:
+            outer_cache = build_outer_entry_pretrained_cache(
+                model,
+                tokenizer,
+                outer_population,
+                theta0_cache,
+                outer_entry_snapshot_sha256=outer_snapshot,
+            )
+        finally:
+            counter.close()
     w0_contract = _model_w0_contract(touched)
     routing_arms = (
         (
@@ -2661,6 +2990,12 @@ def _run_ode_pair(
         )
         if p1r34
         else (
+            f"{allocation}-P1R30-DEBT-PRIORITY-NEUTRAL",
+            f"{allocation}-P1R30-DEBT-PRIORITY-SOFT",
+        )
+        if p1r30
+        else
+        (
             f"{allocation}-P1R24-NEUTRAL",
             f"{allocation}-P1R24-SOFT",
         )
@@ -2681,12 +3016,31 @@ def _run_ode_pair(
     if allocation not in ("RS", "BG"):
         raise ODEBFContractError("P1R23 paired target allocation differs")
     rollouts: dict[str, dict[str, Any]] = {}
-    selected_arms = (
-        (FixedE8Arm.NEUTRAL,)
-        if neutral_only
-        else (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT)
-    )
-    selected_labels = routing_arms[: len(selected_arms)]
+    if p1r30:
+        if technical_smoke or paired_p1r30:
+            if selected_p1r30_arm is not None:
+                raise ODEBFContractError("P1R30 paired selected arm differs")
+            selected_arms = (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT)
+            selected_labels = routing_arms
+        else:
+            if selected_p1r30_arm not in (
+                FixedE8Arm.NEUTRAL,
+                FixedE8Arm.SOFT,
+            ):
+                raise ODEBFContractError("P1R30 selected stage arm differs")
+            selected_arms = (selected_p1r30_arm,)
+            selected_labels = (
+                routing_arms[
+                    0 if selected_p1r30_arm is FixedE8Arm.NEUTRAL else 1
+                ],
+            )
+    else:
+        selected_arms = (
+            (FixedE8Arm.NEUTRAL,)
+            if neutral_only
+            else (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT)
+        )
+        selected_labels = routing_arms[: len(selected_arms)]
     for selected, label in zip(
         selected_arms, selected_labels, strict=True
     ):
@@ -2734,6 +3088,7 @@ def _run_ode_pair(
             p1r24=p1r24,
             p1r34=p1r34,
             p1r35=p1r35,
+            p1r30=p1r30,
         )
     left = rollouts[selected_labels[0]]["public"]["initial"]
     left_metric = rollouts[selected_labels[0]]["public"]["metric"]
@@ -2746,9 +3101,10 @@ def _run_ode_pair(
             "target_allocation": allocation,
             "initial": left,
             "metric": left_metric,
-            "neutral_only_smoke": True,
+            "single_arm_stage": selected_labels[0],
+            "neutral_only_smoke": bool(neutral_only),
         }
-        if neutral_only
+        if len(selected_labels) == 1
         else _paired_initial_semantic_gate(
             left,
             rollouts[selected_labels[1]]["public"]["initial"],
@@ -2772,6 +3128,8 @@ def _run_ode_pair(
             if p1r35
             else P1R34_INSTRUCTION_ID
             if p1r34
+            else P1R30_INSTRUCTION_ID
+            if p1r30
             else P1R24_INSTRUCTION_ID
             if p1r24
             else
@@ -2784,6 +3142,8 @@ def _run_ode_pair(
             if p1r35
             else P1R34_METHOD_ID
             if p1r34
+            else P1R30_METHOD_ID
+            if p1r30
             else P1R24_METHOD_ID
             if p1r24
             else
@@ -2804,6 +3164,10 @@ def _run_ode_pair(
         "persistent_history_append_count": 0,
         "replay_h_decision_influence_count": 0,
         "sequential_controller_influence_count": 0,
+        "p1r30_online_functional_p_model_forward_count": 0 if p1r30 else None,
+        "p1r30_online_functional_p_backward_count": 0 if p1r30 else None,
+        "p1r30_theta0_teacher_model_forward_count": 0 if p1r30 else None,
+        "p1r30_inverse_slope_operation_count": 0 if p1r30 else None,
     }
     action_freeze["identity_sha256"] = canonical_hash(action_freeze)
     action_sha = write_once(raw_root / "action-freeze.json", action_freeze)
@@ -2814,10 +3178,28 @@ def _run_ode_pair(
                 if p1r35
                 else "ode-edit-s05-p1r34-b1-smoke-terminal/v1"
                 if p1r34
+                else "ode-edit-s05-p1r30-b1-smoke-terminal/v1"
+                if p1r30
                 else "ode-edit-s05-p1r24-b1-smoke-terminal/v1"
             ),
-            "instruction_id": P1R35_INSTRUCTION_ID if p1r35 else P1R34_INSTRUCTION_ID if p1r34 else P1R24_INSTRUCTION_ID,
-            "method_id": P1R35_METHOD_ID if p1r35 else P1R34_METHOD_ID if p1r34 else P1R24_METHOD_ID,
+            "instruction_id": (
+                P1R35_INSTRUCTION_ID
+                if p1r35
+                else P1R34_INSTRUCTION_ID
+                if p1r34
+                else P1R30_INSTRUCTION_ID
+                if p1r30
+                else P1R24_INSTRUCTION_ID
+            ),
+            "method_id": (
+                P1R35_METHOD_ID
+                if p1r35
+                else P1R34_METHOD_ID
+                if p1r34
+                else P1R30_METHOD_ID
+                if p1r30
+                else P1R24_METHOD_ID
+            ),
             "source_head": source_head,
             "alias": alias,
             "request_count": 1,
@@ -2835,6 +3217,8 @@ def _run_ode_pair(
                 if p1r35
                 else "P1R34_B1_TECHNICAL_SMOKE_COMPLETE"
                 if p1r34
+                else "P1R30_B1_TECHNICAL_SMOKE_COMPLETE"
+                if p1r30
                 else "P1R24_B1_TECHNICAL_SMOKE_COMPLETE"
             ),
         }
@@ -2846,6 +3230,8 @@ def _run_ode_pair(
                 if p1r35
                 else "ode-edit-s05-p1r34-b1-smoke-manifest/v1"
                 if p1r34
+                else "ode-edit-s05-p1r30-b1-smoke-manifest/v1"
+                if p1r30
                 else "ode-edit-s05-p1r24-b1-smoke-manifest/v1"
             ),
             "source_head": source_head,
@@ -2869,6 +3255,9 @@ def _run_ode_pair(
             if p1r35
             else f"P1R34-{allocation}-W-ANCHORED-FINITE-DEMAND-PAIR"
             if p1r34
+            else f"P1R30-{allocation}-DEBT-PRIORITY-"
+            f"{'PAIR' if paired_p1r30 else 'NEUTRAL' if selected_p1r30_arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
+            if p1r30
             else f"P1R24-{allocation}-ATOMIC-STRENGTH-RECOVERY-PAIR"
             if p1r24
             else f"P1R23-{allocation}-PROGRESS-SIMPLEX-PAIR"
@@ -2909,6 +3298,8 @@ def _run_ode_pair(
             if p1r35
             else P1R34_INSTRUCTION_ID
             if p1r34
+            else P1R30_INSTRUCTION_ID
+            if p1r30
             else P1R24_INSTRUCTION_ID
             if p1r24
             else
@@ -2921,6 +3312,8 @@ def _run_ode_pair(
             if p1r35
             else P1R34_METHOD_ID
             if p1r34
+            else P1R30_METHOD_ID
+            if p1r30
             else P1R24_METHOD_ID
             if p1r24
             else
@@ -2951,6 +3344,9 @@ def _run_ode_pair(
         "replay_h_decision_influence_count": 0,
         "sequential_round_count": 0,
         "p1r20_access_count": 0,
+        "p1r27_access_count": 0 if p1r30 else None,
+        "p1r29_controller_access_count": 0 if p1r30 else None,
+        "inverse_slope_operation_count": 0 if p1r30 else None,
     }
     terminal["identity_sha256"] = canonical_hash(terminal)
     terminal_sha = write_once(destination / "terminal.json", terminal)
@@ -2965,6 +3361,18 @@ def _run_ode_pair(
             else "P1R34_B10_RS_PAIR"
             if p1r34
             else (
+                "P1R30_B10_BG_PAIR"
+                if paired_p1r30 and allocation == "BG"
+                else "P1R30_B10_BG_DEBT_SOFT"
+                if allocation == "BG"
+                and selected_p1r30_arm is FixedE8Arm.SOFT
+                else "P1R30_B10_RS_DEBT_NEUTRAL"
+                if selected_p1r30_arm is FixedE8Arm.NEUTRAL
+                else "P1R30_B10_RS_DEBT_SOFT"
+            )
+            if p1r30
+            else
+            (
                 "PROGRESS_SIMPLEX_BG_PAIR"
                 if allocation == "BG"
                 else "PROGRESS_SIMPLEX_RS_PAIR"
@@ -2987,6 +3395,8 @@ def _run_ode_pair(
             if p1r35
             else "P1R34_W_ANCHORED_FINITE_DEMAND_PAIR_COMPLETE"
             if p1r34
+            else "P1R30_B10_ATOMIC_COMPLETE"
+            if p1r30
             else "P1R24_ATOMIC_STRENGTH_RECOVERY_PAIR_COMPLETE"
             if p1r24
             else "P1R23_PROGRESS_SIMPLEX_PAIR_COMPLETE"

@@ -1,0 +1,15 @@
+{
+  "schema_version": "ode-edit-s05-p1r30-debt-priority-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R30-DEBT-PRIORITY-A0-RELATIVE-BARRIER-V1",
+  "method_id": "P1R30-P1R24-A0-DEBT-PRIORITY-STRUCTURAL-P-SOFT-V1",
+  "contract_sha256": "e0b7fcc3d81963475e57f876f77c4987cbb872fa7ab583e812cd2e9588f60611",
+  "base_checkpoint": "ce8c6c36348752f1407f7d713d30e6b5c727379b",
+  "grid": {"K": 8, "h": 0.125, "tau_final": 1.0, "retry": 0, "backtracking": 0, "rollback": 0, "early_stop": 0},
+  "target": {"source": "EXACT_P1R24_A0", "proposal_direction": "target_displacement+activation_lag/(K-k)", "debt_p_h_solver_stall_influence_count": 0, "adaptive_lambda_count": 0},
+  "debt": {"nominal": "requestwise_positive_part(-g_new_dot_target_displacement)", "audit_recursion": "positive_part(D+rho_nom-(V_k-V_k1))", "priority": "u=rho_nom+D/(K-k);omega=u/(sum_u+1e-12)", "uniform_branch": "ALL_U_EXACT_ZERO_ONLY", "total_update_magnitude_influence_count": 0, "terminal_completion_count": 8},
+  "reference_writer": {"source": "EXACT_SAME_STATE_P1R24_A0_NEUTRAL", "coefficient_coordinate": "c=h*v", "h_application_count": 1, "debt_decision_influence_count": 0, "per_layer_cap_influence_count": 0},
+  "soft": {"parameterization": "DIRECT_APPLIED_C_SPACE", "constraints": ["c>=0", "a_mean_dot_c>=a_mean_dot_c0", "a_debt_dot_c>=a_debt_dot_c0", "energy_c<=energy_c0"], "stage1": "MINIMUM_RAW_CUMULATIVE_STRUCTURAL_P", "stage2": "MINIMUM_INHERITED_CAPACITY_INSIDE_P_TIE", "structural_p_tie": "1e-8*max(trace(pretrained_gram),1e-12)", "energy_relative_tolerance": 1e-8, "energy_absolute_tolerance": 1e-12, "primal_tolerance": 1e-8, "requestwise_reduction_tolerance": 1e-7, "solver_failure": "EXACT_C0_FALLBACK", "inverse_slope_operation_count": 0},
+  "inputs": {"seal_root": "3d38b76de81c21e65068b1c1e22466ec55a0c5973ae289081d773391ed92f628", "request_order": "984fe6ecc419fd0f701dae6032f33556f65a94dbb2850b57196be56c353b015b", "b1_request_count": 1, "b10_request_count": 10, "allocation": "RS_GATE_THEN_FULL_RS_BG_MATRIX"},
+  "execution": {"phase_order": ["PHASE_A_CPU", "B1_RS_REFERENCE_SOFT", "B10_RS_DEBT_NEUTRAL", "CONDITIONAL_FULL_RS_BG_NEUTRAL_SOFT_MATRIX"], "b1_and_neutral_stage_gpu_throttle": 2, "conditional_full_matrix_gpu_throttle": 4, "server2_user_gpu_cap": 4, "production_task_mapping": ["LLAMA_RS_SOFT", "QWEN_RS_SOFT", "LLAMA_BG_NEUTRAL_SOFT_PAIR", "QWEN_BG_NEUTRAL_SOFT_PAIR"], "distinct_b10_cell_count": 8, "historical_sequential_access_count": 0, "online_functional_p_count": 0, "terminal_evaluator_count_per_cell": 1, "maximum_materializations_per_trajectory": 8},
+  "root_digest": "6465a131fa0cf0129b38937477c0ef47ae6fecb9d6bcdbc956f4412467ac1cd8"
+}
