@@ -14,6 +14,7 @@ from project.run_scripts.ode_bf.p3r1_finite_horizon import finite_horizon_waypoi
 from project.run_scripts.ode_bf.p3r1_fixed_m_target import run_fixed_m_final_iterate
 from project.run_scripts.ode_bf.p3r1_runtime import (
     case_role,
+    expected_writer_solver_counts,
     expected_result_name,
     expected_result_parent,
     writer_route_requirement,
@@ -144,6 +145,18 @@ class P3R1SourceLockTest(unittest.TestCase):
         self.assertEqual(writer_route_requirement("C0-FH"), "LEGACY_SOFT")
         self.assertEqual(writer_route_requirement("C1-FH"), "JOINT_PC")
         self.assertEqual(writer_route_requirement("C3-FH"), "DIRECT_OFFICIAL")
+        self.assertEqual(
+            expected_writer_solver_counts("C0-FH", positive_demand=True), (1, 0)
+        )
+        self.assertEqual(
+            expected_writer_solver_counts("C1-FH", positive_demand=True), (0, 1)
+        )
+        self.assertEqual(
+            expected_writer_solver_counts("C3-FH", positive_demand=True), (0, 0)
+        )
+        self.assertEqual(
+            expected_writer_solver_counts("C1-FH", positive_demand=False), (0, 0)
+        )
         with self.assertRaisesRegex(Exception, "writer arm differs"):
             writer_route_requirement("C2-FH")
 
@@ -154,6 +167,7 @@ class P3R1SourceLockTest(unittest.TestCase):
         self.assertIn('if route_requirement == "LEGACY_SOFT":', text)
         self.assertIn('elif route_requirement == "JOINT_PC":', text)
         self.assertIn('if route_requirement != "DIRECT_OFFICIAL":', text)
+        self.assertIn('"cross_arm_solver_call_count": 0', text)
 
     def test_runtime_binds_frozen_kernels_and_forbidden_counts(self) -> None:
         root = Path(__file__).resolve().parents[4]

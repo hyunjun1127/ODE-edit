@@ -141,6 +141,15 @@ def writer_route_requirement(arm: str) -> str:
     raise ODEBFContractError("P3R1 writer arm differs")
 
 
+def expected_writer_solver_counts(arm: str, *, positive_demand: bool) -> tuple[int, int]:
+    requirement = writer_route_requirement(arm)
+    if not positive_demand or requirement == "DIRECT_OFFICIAL":
+        return 0, 0
+    if requirement == "LEGACY_SOFT":
+        return 1, 0
+    return 0, 1
+
+
 def _bindings(model: torch.nn.Module, hparams: Any) -> dict[int, tuple[str, torch.nn.Parameter]]:
     named = dict(model.named_parameters())
     return {
@@ -347,10 +356,18 @@ def _writer_entry(
             joint = solve_joint_pc_router(p_proxy, c_proxy)
             if joint.receipt.fallback_count != 0:
                 raise ODEBFStateError("P3R1 C1 fallback differs")
+    control_solver_call_count = int(control is not None)
+    joint_solver_call_count = int(joint is not None)
+    expected_solver_counts = expected_writer_solver_counts(
+        arm, positive_demand=alpha > 0.0
+    )
+    if (control_solver_call_count, joint_solver_call_count) != expected_solver_counts:
+        raise ODEBFStateError("P3R1 cross-arm solver count differs")
     return {
         "route_requirement": route_requirement,
-        "control_solver_call_count": int(control is not None),
-        "joint_solver_call_count": int(joint is not None),
+        "control_solver_call_count": control_solver_call_count,
+        "joint_solver_call_count": joint_solver_call_count,
+        "cross_arm_solver_call_count": 0,
         "physical": physical,
         "field": field,
         "signed": signed,
