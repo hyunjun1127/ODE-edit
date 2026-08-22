@@ -71,6 +71,11 @@ from .p1r52_residual_reserve_production_binding import (
 )
 from .p1r52_residual_reserve_pc_inventory import SealedPrevalidatedCovariance
 from .p1r24_atomic_strength import p1r24_target_step
+from .p1r40_semantic_deficit_velocity_decay import (
+    P1R40_INSTRUCTION_ID,
+    P1R40_METHOD_ID,
+    P1R40VelocityMechanismError,
+)
 from .scalable_batched_model import (
     build_scalable_capture_plan,
     build_scalable_objective_plan,
@@ -188,6 +193,7 @@ def _case_failure(
     p1r43: bool = False,
     p1r51: bool = False,
     p1r52: bool = False,
+    p1r40: bool = False,
     runtime_contract: IndependentB10x10RuntimeContract = P1R36_RUNTIME_CONTRACT,
 ) -> dict[str, Any]:
     classification = (
@@ -198,6 +204,7 @@ def _case_failure(
                 P1R34NonSemanticTargetMove,
                 P1R43SemanticNoPositiveDirection,
                 PIRTypedBoundary,
+                P1R40VelocityMechanismError,
             ),
         )
         else "TECHNICAL_FAIL"
@@ -219,6 +226,8 @@ def _case_failure(
             else
             "ode-edit-s05-p1r39-normalized-gradient-independent-b10-case-failure/v1"
             if p1r39
+            else "ode-edit-s05-p1r40-independent-b10-case-failure/v1"
+            if p1r40
             else
             "ode-edit-s05-p1r38-perrequest-independent-b10-case-failure/v1"
             if p1r38
@@ -235,8 +244,9 @@ def _case_failure(
             if p1r42
             else P1R39_INSTRUCTION_ID
             if p1r39
-            else
-            "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1"
+            else P1R40_INSTRUCTION_ID
+            if p1r40
+            else "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1"
             if p1r38
             else INSTRUCTION_ID
         ),
@@ -276,6 +286,7 @@ def _case_freeze(
     p1r43: bool = False,
     p1r51: bool = False,
     p1r52: bool = False,
+    p1r40: bool = False,
     runtime_contract: IndependentB10x10RuntimeContract = P1R36_RUNTIME_CONTRACT,
 ) -> dict[str, Any]:
     payload = {
@@ -291,6 +302,8 @@ def _case_freeze(
             else
             "ode-edit-s05-p1r39-normalized-gradient-independent-b10-action-freeze/v1"
             if p1r39
+            else "ode-edit-s05-p1r40-independent-b10-action-freeze/v1"
+            if p1r40
             else
             "ode-edit-s05-p1r38-perrequest-independent-b10-action-freeze/v1"
             if p1r38
@@ -307,8 +320,9 @@ def _case_freeze(
             if p1r42
             else P1R39_INSTRUCTION_ID
             if p1r39
-            else
-            "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1"
+            else P1R40_INSTRUCTION_ID
+            if p1r40
+            else "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1"
             if p1r38
             else INSTRUCTION_ID
         ),
@@ -544,6 +558,7 @@ def _run_ode_case(
     p1r52_residual_reserve_arm: ResidualReservePhaseAArm | str | None = None,
     p1r52_phase_a_fp32: bool = False,
     p1r52_rr_covariances: tuple[SealedPrevalidatedCovariance, ...] | None = None,
+    p1r40: bool = False,
     technical_smoke: bool = False,
     runtime_contract: IndependentB10x10RuntimeContract = P1R36_RUNTIME_CONTRACT,
     target_step_policy_factory: Callable[
@@ -632,6 +647,9 @@ def _run_ode_case(
         "P1R52-RR-FP32-UNIFORM",
         "P1R52-RR-FP32-PCSOFT",
     )
+    p1r40_methods = ("SDVD-P1R38-NEUTRAL", "SDVD-P1R38-SOFT")
+    if p1r38 and p1r40:
+        raise ODEBFContractError("independent target policies are exclusive")
     if method not in (
         p1r52_methods
         if p1r52
@@ -643,6 +661,8 @@ def _run_ode_case(
         if p1r42
         else p1r39_methods
         if p1r39
+        else p1r40_methods
+        if p1r40
         else p1r38_methods
         if p1r38
         else METHODS
@@ -681,7 +701,11 @@ def _run_ode_case(
             ),
             fact_token_strategy=hparams.fact_token,
         )
-    allocation = "RS" if p1r38 or p1r39 or p1r42 or p1r43 or p1r51 or p1r52 else method.split("-", 1)[0]
+    allocation = (
+        "RS"
+        if p1r38 or p1r39 or p1r40 or p1r42 or p1r43 or p1r51 or p1r52
+        else method.split("-", 1)[0]
+    )
     arm = (
         FixedE8Arm.NEUTRAL
         if method.endswith("-NEUTRAL")
@@ -779,6 +803,7 @@ def _run_ode_case(
         p1r24_target_step_policy=target_step_policy_factory(
             alias, method, case_index
         ),
+        p1r40=p1r40,
     )
     public = rollout["public"]
     if (
@@ -796,6 +821,8 @@ def _run_ode_case(
             if p1r51
             else "P1R43_RHO_FREE_SEMANTIC_FIRST_K8_COMPLETE"
             if p1r43
+            else "P1R40_SEMANTIC_DEFICIT_VELOCITY_DECAY_K8_COMPLETE"
+            if p1r40
             else "P1R38_PR_P1R35_K8_COMPLETE"
             if p1r38
             else "P1R42_OBJECTIVE_ALIGNED_P1R35_K8_COMPLETE"
@@ -818,9 +845,51 @@ def _run_ode_case(
             expected_contract=public["initial_w0_sha256"],
         )
         terminal = {
-            "schema": "ode-edit-s05-p1r52-rsa-r42safekdc-b1-technical-terminal/v1" if p1r52 else "ode-edit-s05-p1r51-rsa-a1-b1-technical-terminal/v1" if p1r51 else "ode-edit-s05-p1r43-rho-free-b1-technical-terminal/v1" if p1r43 else "ode-edit-s05-p1r42-objective-alignment-b1-technical-terminal/v1" if p1r42 else "ode-edit-s05-p1r39-normalized-gradient-b1-technical-terminal/v1" if p1r39 else "ode-edit-s05-p1r38-perrequest-b1-technical-terminal/v1",
-            "instruction_id": P1R52_INSTRUCTION_ID if p1r52 else P1R51_INSTRUCTION_ID if p1r51 else P1R43_INSTRUCTION_ID if p1r43 else P1R42_INSTRUCTION_ID if p1r42 else P1R39_INSTRUCTION_ID if p1r39 else "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1",
-            "method_id": P1R52_METHOD_ID if p1r52 else P1R51_METHOD_ID if p1r51 else P1R43_METHOD_ID if p1r43 else P1R42_METHOD_ID if p1r42 else P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID,
+            "schema": (
+                "ode-edit-s05-p1r52-rsa-r42safekdc-b1-technical-terminal/v1"
+                if p1r52
+                else "ode-edit-s05-p1r51-rsa-a1-b1-technical-terminal/v1"
+                if p1r51
+                else "ode-edit-s05-p1r43-rho-free-b1-technical-terminal/v1"
+                if p1r43
+                else "ode-edit-s05-p1r42-objective-alignment-b1-technical-terminal/v1"
+                if p1r42
+                else "ode-edit-s05-p1r39-normalized-gradient-b1-technical-terminal/v1"
+                if p1r39
+                else "ode-edit-s05-p1r40-b1-technical-terminal/v1"
+                if p1r40
+                else "ode-edit-s05-p1r38-perrequest-b1-technical-terminal/v1"
+            ),
+            "instruction_id": (
+                P1R52_INSTRUCTION_ID
+                if p1r52
+                else P1R51_INSTRUCTION_ID
+                if p1r51
+                else P1R43_INSTRUCTION_ID
+                if p1r43
+                else P1R42_INSTRUCTION_ID
+                if p1r42
+                else P1R39_INSTRUCTION_ID
+                if p1r39
+                else P1R40_INSTRUCTION_ID
+                if p1r40
+                else "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1"
+            ),
+            "method_id": (
+                P1R52_METHOD_ID
+                if p1r52
+                else P1R51_METHOD_ID
+                if p1r51
+                else P1R43_METHOD_ID
+                if p1r43
+                else P1R42_METHOD_ID
+                if p1r42
+                else P1R39_METHOD_ID
+                if p1r39
+                else P1R40_METHOD_ID
+                if p1r40
+                else P1R38_METHOD_ID
+            ),
             "case_index": case_index,
             "alias": alias,
             "method": method,
@@ -834,7 +903,21 @@ def _run_ode_case(
         terminal["identity_sha256"] = canonical_hash(terminal)
         terminal_sha = _atomic_write_once(case_root / "terminal.json", terminal)
         manifest = {
-            "schema": "ode-edit-s05-p1r52-rsa-r42safekdc-b1-technical-manifest/v1" if p1r52 else "ode-edit-s05-p1r51-rsa-a1-b1-technical-manifest/v1" if p1r51 else "ode-edit-s05-p1r43-rho-free-b1-technical-manifest/v1" if p1r43 else "ode-edit-s05-p1r42-objective-alignment-b1-technical-manifest/v1" if p1r42 else "ode-edit-s05-p1r39-normalized-gradient-b1-technical-manifest/v1" if p1r39 else "ode-edit-s05-p1r38-perrequest-b1-technical-manifest/v1",
+            "schema": (
+                "ode-edit-s05-p1r52-rsa-r42safekdc-b1-technical-manifest/v1"
+                if p1r52
+                else "ode-edit-s05-p1r51-rsa-a1-b1-technical-manifest/v1"
+                if p1r51
+                else "ode-edit-s05-p1r43-rho-free-b1-technical-manifest/v1"
+                if p1r43
+                else "ode-edit-s05-p1r42-objective-alignment-b1-technical-manifest/v1"
+                if p1r42
+                else "ode-edit-s05-p1r39-normalized-gradient-b1-technical-manifest/v1"
+                if p1r39
+                else "ode-edit-s05-p1r40-b1-technical-manifest/v1"
+                if p1r40
+                else "ode-edit-s05-p1r38-perrequest-b1-technical-manifest/v1"
+            ),
             "terminal_sha256": terminal_sha,
             "W0_restored": True,
             "K8": True,
@@ -872,6 +955,7 @@ def _run_ode_case(
         p1r51=p1r51,
         p1r52=p1r52,
         runtime_contract=runtime_contract,
+        p1r40=p1r40,
     )
     freeze_sha = _atomic_write_once(case_root / "action-freeze.json", freeze)
     cases, evaluator_freeze = _action_frozen_cases(
@@ -970,6 +1054,8 @@ def _run_ode_case(
             else
             "ode-edit-s05-p1r39-normalized-gradient-independent-b10-ode-terminal/v1"
             if p1r39
+            else "ode-edit-s05-p1r40-independent-b10-ode-terminal/v1"
+            if p1r40
             else
             "ode-edit-s05-p1r38-perrequest-independent-b10-ode-terminal/v1"
             if p1r38
@@ -992,20 +1078,51 @@ def _run_ode_case(
             if p1r42
             else P1R39_INSTRUCTION_ID
             if p1r39
-            else
-            "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1"
+            else P1R40_INSTRUCTION_ID
+            if p1r40
+            else "ODEEDIT-S05-P1R38-PR-P1R35-PERREQUEST-TARGET-ATOMIC-V1"
             if p1r38
             else INSTRUCTION_ID
         ),
-        "method_id": RR_METHOD_ID if p1r52_phase_a_fp32 else P1R52_FPIQ_METHOD_ID if p1r52_writer_policy is not None else P1R52_PIR_METHOD_ID if p1r52_pir_policy is not None else P1R52_METHOD_ID if p1r52 else P1R51_METHOD_ID if p1r51 else P1R43_METHOD_ID if p1r43 else P1R42_METHOD_ID if p1r42 else P1R39_METHOD_ID if p1r39 else P1R38_METHOD_ID if p1r38 else P1R35_METHOD_ID,
+        "method_id": (
+            RR_METHOD_ID
+            if p1r52_phase_a_fp32
+            else P1R52_FPIQ_METHOD_ID
+            if p1r52_writer_policy is not None
+            else P1R52_PIR_METHOD_ID
+            if p1r52_pir_policy is not None
+            else P1R52_METHOD_ID
+            if p1r52
+            else P1R51_METHOD_ID
+            if p1r51
+            else P1R43_METHOD_ID
+            if p1r43
+            else P1R42_METHOD_ID
+            if p1r42
+            else P1R39_METHOD_ID
+            if p1r39
+            else P1R40_METHOD_ID
+            if p1r40
+            else P1R38_METHOD_ID
+            if p1r38
+            else P1R35_METHOD_ID
+        ),
         "case_index": case_index,
         "alias": alias,
         "method": method,
         "allocation": (
-            "NOT_AN_EXPERIMENT_FACTOR" if p1r38 or p1r39 or p1r42 or p1r43 or p1r51 or p1r52 else allocation
+            "NOT_AN_EXPERIMENT_FACTOR"
+            if p1r38 or p1r39 or p1r40 or p1r42 or p1r43 or p1r51 or p1r52
+            else allocation
         ),
         "inherited_writer_router_family": (
-            "P1R43_RS_FULL_CURRENT" if p1r51 or p1r52 else "P1R42_RS_FULL_CURRENT" if p1r43 else "P1R35_RS" if p1r38 or p1r39 or p1r42 else allocation
+            "P1R43_RS_FULL_CURRENT"
+            if p1r51 or p1r52
+            else "P1R42_RS_FULL_CURRENT"
+            if p1r43
+            else "P1R35_RS"
+            if p1r38 or p1r39 or p1r40 or p1r42
+            else allocation
         ),
         "arm": (
             P1R52WriterPolicy(p1r52_writer_policy).value
@@ -1063,6 +1180,8 @@ def _run_ode_case(
             else
             "ode-edit-s05-p1r39-normalized-gradient-independent-b10-case-manifest/v1"
             if p1r39
+            else "ode-edit-s05-p1r40-independent-b10-case-manifest/v1"
+            if p1r40
             else
             "ode-edit-s05-p1r38-perrequest-independent-b10-case-manifest/v1"
             if p1r38

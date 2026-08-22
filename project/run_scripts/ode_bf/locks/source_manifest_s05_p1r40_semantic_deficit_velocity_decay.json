@@ -1,0 +1,82 @@
+{
+  "schema_version": "ode-edit-s05-p1r40-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P1R40-P1R38-SEMANTIC-DEFICIT-VELOCITY-DECAY-ATOMIC-V1",
+  "scientific_parent": "6f48ac2800b257ceb16368fff5137212dfa6037f",
+  "contract_sha256": "8dfa8a44724b0b9ad7a360d7a593bc576fe69419867efc6b8ae911e746b0a8a2",
+  "entry_count": 13,
+  "entries_root_digest": "4192334c8a83b3f30407964f2798e12f42fc1563c891dcc4949454f8ab46dba3",
+  "entries": [
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r40_semantic_deficit_velocity_decay.json",
+      "size": 2667,
+      "sha256": "b2e0ac4096143a5f70675bef55b68bb134fc0ba59656cb7f1283bb4e97b429da"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "size": 208106,
+      "sha256": "247e0589e3f22eec9c26426dc925a619d7587a9e7b02f1d5e78a6a5720488e1e"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+      "size": 91557,
+      "sha256": "d545f524fe1dcd1aca7ccc970ad9da6a0858b7be94fb2bf713299fa4210c87b9"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r36_independent_b10x10_runtime.py",
+      "size": 24997,
+      "sha256": "db5ecbc0a42bd00278b35dae9cd49a154c0747b94b2db014c48e2fa3c7b133bf"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r40_independent_b10x10_panel.py",
+      "size": 4385,
+      "sha256": "10428dcdf169c1f11bf2719b416f79a1b3db703e9962b2b8521a4b4f605ecbfc"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r40_independent_b10x10_runtime.py",
+      "size": 8529,
+      "sha256": "fce2c6e94db7892508435dad8023ec6d229561cdcc5900407e03cbe1469a4571"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r40_semantic_deficit_velocity_decay.py",
+      "size": 12266,
+      "sha256": "3d2acb6ffefd9ba311d14fd9345be4770be73e40e3940c9b9215d64e2cdf36f8"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p1r40_execution_contract.py",
+      "size": 5385,
+      "sha256": "470423dd2849f2e3dc1531116f27c7bbd571224061ba86ba8148b6fad46ae348"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p1r40_semantic_deficit_velocity_decay.py",
+      "size": 7174,
+      "sha256": "620a1e919c8a5f16ae3909c791649643fdd2e4e82a940af9714c301095afc851"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r40_velocity_decay_b10x10.py",
+      "size": 6003,
+      "sha256": "0354eec9ec719865e8663d86817adf15e67b5b3cc37d89525fe4f85d84110861"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r40_velocity_decay_b10x10.sbatch",
+      "size": 2796,
+      "sha256": "4336f089b87e47f821a1ba5bf00618ebe8786c274457cf2cc77541605edbd43d"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r40_velocity_decay_b10x10_dry_plan.py",
+      "size": 3200,
+      "sha256": "54d83c6575def8a2f16023cb056da43bf06f686799a1d7c6aa25c89ed1a2d287"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_submit_p1r40_velocity_decay_b10x10.py",
+      "size": 6853,
+      "sha256": "58a00e680a64cb0a8278f088e8be9d75a5d2617205c7c392dde63a249dd9cb60"
+    }
+  ],
+  "focused_test_count": 36,
+  "focused_test_status": "PASS",
+  "compile_status": "PASS",
+  "bash_static_status": "PASS",
+  "dry_plan_status": "PASS",
+  "scientific_promotion": false,
+  "root_digest": "a0e666bba030d1e3304a5e91a6f86ce2ced9f21249df798d413968087f311732"
+}

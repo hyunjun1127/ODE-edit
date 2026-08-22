@@ -205,6 +205,11 @@ from .p1r30_debt_priority import (
     nominal_demand_from_target_displacement,
     solve_p1r30_a0_relative_routing,
 )
+from .p1r40_semantic_deficit_velocity_decay import (
+    P1R40_METHOD_ID,
+    apply_p1r40_semantic_deficit_velocity_decay,
+    select_p1r40_target_proposal,
+)
 
 
 P1R23_SCHEMA = "ode-edit-s05-p1r23-scalable-batched-runtime"
@@ -347,6 +352,7 @@ def _run_ode_arm(
     p1r52_pir_policy: P1R52PIRPolicy | str | None = None,
     p1r30: bool = False,
     p1r24_target_step_policy: Callable[..., Any] = p1r24_target_step,
+    p1r40: bool = False,
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
@@ -363,11 +369,17 @@ def _run_ode_arm(
         raise ODEBFContractError("P1R35 requires the frozen P1R34 science path")
     if p1r38 and not p1r35:
         raise ODEBFContractError("P1R38 requires the frozen P1R35 writer path")
-    if p1r38 and allocation not in ("RS",):
-        raise ODEBFContractError("P1R38 has no RS/BG target factorial")
+    if p1r40 and not p1r35:
+        raise ODEBFContractError("P1R40 requires the frozen P1R35 writer path")
+    if p1r38 and p1r40:
+        raise ODEBFContractError("P1R38 and P1R40 target policies are exclusive")
+    per_request_target = p1r38 or p1r40
+    if per_request_target and allocation not in ("RS",):
+        raise ODEBFContractError("per-request target path has no RS/BG target factorial")
     if p1r39 and (
         not p1r35
         or p1r38
+        or p1r40
         or allocation not in ("RS",)
         or arm is not FixedE8Arm.NEUTRAL
     ):
@@ -375,6 +387,7 @@ def _run_ode_arm(
     if p1r42 and (
         not p1r35
         or p1r38
+        or p1r40
         or p1r39
         or allocation not in ("RS",)
         or arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT)
@@ -383,6 +396,7 @@ def _run_ode_arm(
     if p1r43 and (
         not p1r35
         or p1r38
+        or p1r40
         or p1r39
         or p1r42
         or allocation not in ("RS",)
@@ -392,6 +406,7 @@ def _run_ode_arm(
     if p1r51 and (
         not p1r35
         or p1r38
+        or p1r40
         or p1r39
         or p1r42
         or p1r43
@@ -402,6 +417,7 @@ def _run_ode_arm(
     if p1r52 and (
         not p1r35
         or p1r38
+        or p1r40
         or p1r39
         or p1r42
         or p1r43
@@ -473,8 +489,7 @@ def _run_ode_arm(
     arm_label = (
         f"P1R52-PIR-{pir_policy.value}"
         if pir_policy is not None
-        else
-        f"P1R52-FPIQ-{writer_policy.value}"
+        else f"P1R52-FPIQ-{writer_policy.value}"
         if writer_policy is not None
         else f"P1R52-RSA-R42SAFEKDC-M1-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r52
@@ -486,6 +501,8 @@ def _run_ode_arm(
         if p1r42
         else "PR-P1R39-NORMALIZED-GRADIENT-NEUTRAL"
         if p1r39
+        else f"SDVD-P1R38-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
+        if p1r40
         else f"PR-P1R35-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
         if p1r38
         else f"{allocation}-P1R35-FULL-CURRENT-RESIDUAL-{'NEUTRAL' if arm is FixedE8Arm.NEUTRAL else 'SOFT'}"
@@ -540,7 +557,6 @@ def _run_ode_arm(
     current_terminal = initial.current_terminal_z.clone()
     target_origin = current_target.clone()
     frozen_mask: tuple[bool, ...] = tuple(False for _ in range(request_count))
-    p1r38_state = P1R38AdamState.zero(current_target) if p1r38 else None
     p1r39_state = P1R39ControllerState.zero(current_target) if p1r39 else None
     p1r42_state = P1R42ControllerState.zero(current_target) if p1r42 else None
     p1r43_state = P1R43ControllerState.zero(current_target) if p1r43 else None
@@ -549,6 +565,7 @@ def _run_ode_arm(
     p1r24_target_lock = (
         P1R24AliasTargetLock.for_alias(alias) if p1r24 or p1r30 else None
     )
+    p1r38_state = P1R38AdamState.zero(current_target) if per_request_target else None
     p1r24_alpha_geometry = (
         verify_p1r24_alphaedit_geometry(
             hparams,
@@ -1076,7 +1093,7 @@ def _run_ode_arm(
                     p1r39_state = selected39.next_state
                     target_step = selected39.target_step
                     finite_endpoint = selected39.selected_endpoint
-                elif p1r38:
+                elif per_request_target:
                     assert p1r38_state is not None
                     proposal = prepare_p1r38_target_proposal(
                         current_target,
@@ -1090,6 +1107,14 @@ def _run_ode_arm(
                         step_index=step_index,
                         request_cap_radius=P1R23_H * float(metric.shared_speed),
                     )
+                    if p1r40:
+                        proposal = apply_p1r40_semantic_deficit_velocity_decay(
+                            proposal,
+                            current_target,
+                            current_terminal,
+                            target_result,
+                            step_index=step_index,
+                        )
                     trial_step = apply_p1r35_full_current_residual(
                         proposal.trial_step,
                         current_target=current_target,
@@ -1121,7 +1146,12 @@ def _run_ode_arm(
                     _phase_add_objective(
                         compute, "finite_demand_endpoint_forward", finite_endpoint
                     )
-                    selected = select_p1r38_target_proposal(
+                    selection = (
+                        select_p1r40_target_proposal
+                        if p1r40
+                        else select_p1r38_target_proposal
+                    )
+                    selected = selection(
                         proposal,
                         p1r38_state,
                         current_target,
@@ -2323,6 +2353,8 @@ def _run_ode_arm(
                     if p1r42
                     else P1R39_METHOD_ID
                     if p1r39
+                    else P1R40_METHOD_ID
+                    if p1r40
                     else P1R38_METHOD_ID
                     if p1r38
                     else P1R35_METHOD_ID
@@ -2354,6 +2386,8 @@ def _run_ode_arm(
                     if p1r42
                     else P1R39_METHOD_ID
                     if p1r39
+                    else P1R40_METHOD_ID
+                    if p1r40
                     else P1R38_METHOD_ID
                     if p1r38
                     else None
@@ -2565,6 +2599,8 @@ def _run_ode_arm(
                 if p1r42
                 else "P1R39_NORMALIZED_GRADIENT_P1R35_K8_COMPLETE"
                 if p1r39
+                else "P1R40_SEMANTIC_DEFICIT_VELOCITY_DECAY_K8_COMPLETE"
+                if p1r40
                 else "P1R38_PR_P1R35_K8_COMPLETE"
                 if p1r38
                 else "P1R35_FULL_CURRENT_RESIDUAL_K8_COMPLETE"
