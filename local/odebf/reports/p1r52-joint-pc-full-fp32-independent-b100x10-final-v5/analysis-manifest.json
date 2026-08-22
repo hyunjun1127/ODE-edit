@@ -1,0 +1,98 @@
+{
+  "identity_sha256": "382b24daa53ebb84814ebe70af00fd7c3dadd3421d531bbb7d816c54178ae9bf",
+  "member_count": 15,
+  "members": [
+    {
+      "bytes": 4665,
+      "lines": 94,
+      "path": "analysis-summary.json",
+      "sha256": "5ac9f19eb6c2953234a601aa2e5624eaa0e2e8123b4e838126243f19b026f482"
+    },
+    {
+      "bytes": 43291,
+      "lines": 1458,
+      "path": "c-target-step-aggregates.json",
+      "sha256": "78ecf7be27f4510414c7a8f911560c5d29c2023b847ff104a7061423266e39c4"
+    },
+    {
+      "bytes": 284447,
+      "lines": 5882,
+      "path": "c-target-step.json",
+      "sha256": "12fc080ceecd7e9c45199a77ac95a9de87f24c55d2d305cadc79675e5868f07b"
+    },
+    {
+      "bytes": 11382,
+      "lines": 342,
+      "path": "job-facts.json",
+      "sha256": "b63cdf98803daf53a504b6c039a96d111a076c20c8443dc97e4e4c93646fc82b"
+    },
+    {
+      "bytes": 16583,
+      "lines": 512,
+      "path": "layer-aggregates.json",
+      "sha256": "30cd2a7afe74f9f862622e51664d3c6bf22ea3c4c4922e201510fb46bdf029c1"
+    },
+    {
+      "bytes": 33564,
+      "lines": 875,
+      "path": "method-aggregates.json",
+      "sha256": "b0af50d92dae0e92538afc50f709ee02c2d2b4a04c91c50aa951892146e30785"
+    },
+    {
+      "bytes": 21043,
+      "lines": 770,
+      "path": "nll-distribution-aggregates.json",
+      "sha256": "a82c4cd7a0b732192a49e581ad926105c1751e331a81d4230dce8c94e9a2a6e8"
+    },
+    {
+      "bytes": 18960,
+      "lines": 722,
+      "path": "nll-prompt-distribution-aggregates.json",
+      "sha256": "17fd9eaefda61836a86dc795d1a1a088e06f21aaed1e12f4eb6e4d15124f2188"
+    },
+    {
+      "bytes": 14444,
+      "lines": 492,
+      "path": "overhead-aggregates.json",
+      "sha256": "11d804f7b4e4d4b12c8544064fe4593be775946775ed8aed7f4c65ba0a0f8e99"
+    },
+    {
+      "bytes": 15047,
+      "lines": 221,
+      "path": "p1r52-joint-pc-full-fp32-independent-b100x10-factual-ko.md",
+      "sha256": "d7efbbc0a28a31b80e8c54ce5981cff2082eff8d4ba25be761f32433314d66c4"
+    },
+    {
+      "bytes": 62150,
+      "lines": 1652,
+      "path": "paired-overhead.json",
+      "sha256": "b91b368edd010eaaaa31a9703da3367995a03ea5b5ab8fa2fe8c7be50216a958"
+    },
+    {
+      "bytes": 31711,
+      "lines": 882,
+      "path": "paired-performance.json",
+      "sha256": "c8c4751f3fd88d380f388a8a42de14b2b0d5b191f959f825dce000dfc6ff16f9"
+    },
+    {
+      "bytes": 356285,
+      "lines": 7682,
+      "path": "per-case.json",
+      "sha256": "97cf0332a42ff15ed73ac85c093dd6322736e87f75e4abb02879c70cc54488ff"
+    },
+    {
+      "bytes": 179538,
+      "lines": 6002,
+      "path": "per-layer.json",
+      "sha256": "5c04a1a67e4ac3224270d0efb2aa15c1ef2ac51bea15d5d569be24e3746e30b7"
+    },
+    {
+      "bytes": 2258,
+      "lines": 59,
+      "path": "pilot-case01-consistency.json",
+      "sha256": "3309d8fbf22f844953fc6889cdaca9905938c06c06e5a4511ecc1e7fa15b9b0a"
+    }
+  ],
+  "schema": "ode-edit-s05-p1r52-joint-pc-independent-full-fp32-analysis-manifest/v1",
+  "source_head": "27a5ea828af26e30887b9546b31f7f9584ef1e7c"
+}

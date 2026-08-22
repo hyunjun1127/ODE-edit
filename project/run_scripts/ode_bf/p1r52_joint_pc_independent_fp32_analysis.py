@@ -771,6 +771,8 @@ def _report(analysis: Mapping[str, Any]) -> str:
     lines = [
         "# P1R52 Joint P+C FULL-FP32 독립 10×B100 사실 보고서",
         "",
+        "> **핵심 실행 경계:** 이번 C0–C3는 이전 J0의 step-wise write 경로와 달리, P1R52 target controller가 K8까지 z 최적화를 모두 완료한 뒤 최종 accepted-z를 고정하고 writer를 정확히 한 번만 실행한 one-shot 편집이다. 따라서 아래 K1→K8 표는 write 중간 endpoint가 아니라 최종 write 전에 수행된 z/target 최적화 telemetry이며, 실제 W endpoint는 그 뒤의 단일 writer 적용 결과다.",
+        "",
         "## 결론",
         "",
         f"- 상태: `{analysis['status']}`. 6개 방법 × 10개 독립 B100 = {analysis['valid_endpoint_count']} endpoints, {analysis['valid_request_count']} requests가 유효하다.",
