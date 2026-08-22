@@ -6,6 +6,8 @@ from pathlib import Path
 import tempfile
 import unittest
 
+from project.run_scripts.ode_bf.contracts import ODEBFContractError
+from project.run_scripts.ode_bf.p1_evaluator import EndpointActionFreeze
 from project.run_scripts.ode_bf import p1_scalable_batched_experiment as experiment
 from project.run_scripts.ode_bf import p1r52_c_writer_kstep as kstep
 from project.run_scripts.ode_bf import p1r52_c_writer_kstep_independent as phase2
@@ -94,6 +96,40 @@ class CKStepContractTest(unittest.TestCase):
         observed = receipt.raw_free_payload()
         claimed = observed.pop("identity_sha256")
         self.assertEqual(claimed, kstep.canonical_hash(observed))
+
+    def test_kstep_freeze_repairs_nonterminal_completed_slot_contract(self) -> None:
+        with self.assertRaisesRegex(ODEBFContractError, "Native/K8 policy"):
+            EndpointActionFreeze(
+                arm="C0-KSTEP-k1",
+                sequential_batch=0,
+                request_order_sha256="a" * 64,
+                selected_snapshot_sha256="b" * 64,
+                fixed_budget_slots_completed=1,
+            )
+        identities = []
+        for step_index in range(8):
+            freeze = kstep.KStepEndpointActionFreeze(
+                arm=f"C0-KSTEP-k{step_index + 1}",
+                sequential_batch=step_index,
+                request_order_sha256="a" * 64,
+                selected_snapshot_sha256="b" * 64,
+                fixed_budget_slots_completed=step_index + 1,
+            )
+            self.assertTrue(freeze.action_frozen)
+            self.assertEqual(freeze.fixed_budget_slots_completed, step_index + 1)
+            identities.append(freeze.identity())
+        self.assertEqual(len(set(identities)), 8)
+
+    def test_kstep_freeze_rejects_stale_or_future_action_count(self) -> None:
+        for completed in (0, 2):
+            with self.assertRaisesRegex(ODEBFContractError, "completed-action count"):
+                kstep.KStepEndpointActionFreeze(
+                    arm="C1-KSTEP-k1",
+                    sequential_batch=0,
+                    request_order_sha256="a" * 64,
+                    selected_snapshot_sha256="b" * 64,
+                    fixed_budget_slots_completed=completed,
+                )
 
 
 if __name__ == "__main__":

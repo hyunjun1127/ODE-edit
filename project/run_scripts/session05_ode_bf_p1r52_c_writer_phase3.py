@@ -22,6 +22,7 @@ from project.run_scripts.ode_bf.artifacts import sha256_file
 from project.run_scripts.ode_bf.contracts import canonical_hash
 from project.run_scripts.ode_bf.p1_runtime import P1OutputRootCollision, _atomic_write_once, run_p1, write_p1_failure_once
 from project.run_scripts.ode_bf.p1r52_b100x10_stream import SEAL_FILE, verify_p1r52_b100x10_stream
+from project.run_scripts.ode_bf.p1r52_c_writer_phase2_dependency import verify_phase2_terminal_completeness
 from project.run_scripts.ode_bf.p1r52_c_writer_kstep_cache_sequential import INSTRUCTION_ID, expected_result_name, role_for_cell
 
 RUN_TOKEN = "p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-v1"
@@ -32,6 +33,7 @@ SOURCE_FILES = (
     "project/run_scripts/ode_bf/p1r52_c_writer_kstep.py",
     "project/run_scripts/ode_bf/p1r52_c_writer_kstep_cache.py",
     "project/run_scripts/ode_bf/p1r52_c_writer_kstep_cache_sequential.py",
+    "project/run_scripts/ode_bf/p1r52_c_writer_phase2_dependency.py",
     "project/run_scripts/ode_bf/p1r52_joint_pc_fp32_runtime.py",
     "project/run_scripts/ode_bf/p1r52_joint_pc_runtime.py",
     "project/run_scripts/ode_bf/p1r52_target_official_alphaedit_writer.py",
@@ -65,6 +67,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--source-tree", required=True)
     parser.add_argument("--cell", required=True, type=int, choices=range(3))
     parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
+    parser.add_argument("--phase2-terminal-parent", required=True, type=Path)
     args = parser.parse_args(argv)
     started = time.perf_counter()
     role = role_for_cell(args.cell)
@@ -73,6 +76,10 @@ def main(argv: list[str] | None = None) -> int:
         tree = subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=REPO_ROOT, text=True).strip()
         if (head, tree) != (args.source_head, args.source_tree) or args.output_root.name != expected_result_name(role):
             raise ValueError("Phase3 source/output identity differs")
+        phase2_gate = verify_phase2_terminal_completeness(
+            args.phase2_terminal_parent,
+            expected_source_head=head,
+        )
         stream = verify_p1r52_b100x10_stream(
             json.loads((REPO_ROOT / "project/run_scripts/ode_bf/locks" / SEAL_FILE).read_text(encoding="utf-8"))
         )
@@ -102,6 +109,10 @@ def main(argv: list[str] | None = None) -> int:
                     args.output_root / "source-manifest.json", source_manifest(head, tree)
                 ),
                 "job_timing_sha256": _atomic_write_once(args.output_root / "job-timing.json", timing),
+                "phase2_dependency_gate_sha256": _atomic_write_once(
+                    args.output_root / "phase2-dependency-gate.json",
+                    phase2_gate.raw_free_payload(),
+                ),
                 "stream_root": stream["root_digest"],
                 "stream_order": stream["all_request_order_sha256"],
             }

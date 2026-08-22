@@ -17,7 +17,7 @@ from .accounting import ComputeLedger
 from .contracts import ODEBFContractError, ODEBFStateError, canonical_hash
 from .functional import tensor_sha256
 from .p0_runtime import ModelForwardCounter
-from .p1_evaluator import EndpointActionFreeze, load_counterfact_cases_after_freeze
+from .p1_evaluator import load_counterfact_cases_after_freeze
 from .p1r36_independent_b10x10_runtime import _hashes
 from .p1r52_accepted_z_observation import evaluate_accepted_z_batch, r52_binding
 from .p1r52_c_writer_kstep_cache import KStepBatchEntryCachePolicy
@@ -33,6 +33,48 @@ from .scalable_batched_runtime import P1R23_GRID_COUNT, scalable_ordered_request
 
 ARMS = ("C0-KSTEP", "C1-KSTEP", "C3-KSTEP")
 CACHE_ARMS = ("C0-KSTEP-CACHE", "C1-KSTEP-CACHE", "C3-KSTEP-CACHE")
+
+
+@dataclass(frozen=True, slots=True)
+class KStepEndpointActionFreeze:
+    """Action freeze for one completed write in the K1--K8 closed loop.
+
+    ``EndpointActionFreeze`` deliberately admits only the legacy pre-action and
+    terminal-K8 policies (0 or 8 completed slots).  A K-step writer evaluates
+    after every accepted target/write action, so its sealed count is exactly
+    ``step_index + 1``.  Keep that distinct policy local to this runtime rather
+    than broadening the established endpoint evaluator contract.
+    """
+
+    arm: str
+    sequential_batch: int
+    request_order_sha256: str
+    selected_snapshot_sha256: str
+    fixed_budget_slots_completed: int
+    action_frozen: bool = True
+
+    def __post_init__(self) -> None:
+        if not self.arm or not 0 <= self.sequential_batch < P1R23_GRID_COUNT:
+            raise ODEBFContractError("C K-step action-freeze identity differs")
+        if any(len(value) != 64 for value in (self.request_order_sha256, self.selected_snapshot_sha256)):
+            raise ODEBFContractError("C K-step action-freeze digest differs")
+        if self.fixed_budget_slots_completed != self.sequential_batch + 1:
+            raise ODEBFContractError("C K-step completed-action count differs")
+        if not self.action_frozen:
+            raise ODEBFContractError("C K-step held-out evaluator was not action frozen")
+
+    def identity(self) -> str:
+        return canonical_hash(
+            {
+                "schema": "ode-edit-c-writer-kstep-action-freeze/v1",
+                "arm": self.arm,
+                "sequential_batch": self.sequential_batch,
+                "request_order_sha256": self.request_order_sha256,
+                "selected_snapshot_sha256": self.selected_snapshot_sha256,
+                "fixed_budget_slots_completed": self.fixed_budget_slots_completed,
+                "action_frozen": self.action_frozen,
+            }
+        )
 
 
 @dataclass(frozen=True, slots=True)
@@ -131,7 +173,7 @@ class CKStepWriterRuntime:
         if target.dtype is not torch.float32 or target.shape[1] != len(self.requests):
             raise ODEBFContractError("C K-step selected target geometry differs")
         entry_hashes = _hashes(self.model_touched)
-        freeze = EndpointActionFreeze(
+        freeze = KStepEndpointActionFreeze(
             arm=f"{self.arm}-k{step_index + 1}",
             sequential_batch=step_index,
             request_order_sha256=self._entry_order,
@@ -326,4 +368,4 @@ class CKStepWriterRuntime:
         return payload
 
 
-__all__ = ["ARMS", "CACHE_ARMS", "CKStepExecution", "CKStepWriterRuntime"]
+__all__ = ["ARMS", "CACHE_ARMS", "CKStepEndpointActionFreeze", "CKStepExecution", "CKStepWriterRuntime"]

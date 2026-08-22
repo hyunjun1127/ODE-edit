@@ -29,7 +29,10 @@ def build_plan() -> dict[str, object]:
             for index, arm in enumerate(CACHE_ARMS)
         ],
         "bf16_fp16_autocast_count": 0,
-        "phase2_terminal_required_before_submit": True,
+        "phase2_afterok_dependency_required": True,
+        "phase2_terminal_valid_gate_before_model_load": True,
+        "phase2_expected_valid_case_count": 30,
+        "phase2_expected_valid_request_count": 3000,
     }
     payload["identity_sha256"] = canonical_hash(payload)
     return payload
