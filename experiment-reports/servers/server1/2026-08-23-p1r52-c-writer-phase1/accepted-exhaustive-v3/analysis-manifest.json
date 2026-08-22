@@ -1,0 +1,39 @@
+{
+  "input_artifact_inventory_root_sha256": "f5414ac8caf75430bc9b2665c4cfe81924d1194fc51a44398a2b023ff130a10f",
+  "input_v2_receipt_identity_sha256": "adaceec6cdd339ee94c12f465b5f0dc09594b948d4d1576802fc1ec9f18be16b",
+  "member_root_sha256": "887323682210e115332dd6c4db92a21a8e12e839677fb68daa0da980043b7006",
+  "members": [
+    {
+      "bytes": 9419,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase1-tech-r1/local/odebf/reports/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-analysis-v3/build_phase1_exhaustive_analysis_v3.py",
+      "sha256": "c76b09a4ade427282534d63f59227eacbd18b329b8e73babb52ac9e69fd1f524"
+    },
+    {
+      "bytes": 16287,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase1-tech-r1/local/odebf/reports/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-analysis-v3/endpoint-success-accuracy-nll.json",
+      "sha256": "44b093b4cd3f340a3859072583cc0fbb32e70b4c300dfea2e351b4c9604a7a7d"
+    },
+    {
+      "bytes": 5163,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase1-tech-r1/local/odebf/reports/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-analysis-v3/endpoint-success-accuracy-nll.csv",
+      "sha256": "4be49695b8964e49facef76e6e3b0ec3db5639c98f13fe830e6201b90aff02d2"
+    },
+    {
+      "bytes": 2873,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase1-tech-r1/local/odebf/reports/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-analysis-v3/w-minus-z-gap.json",
+      "sha256": "38f1a0dcbbfe7db9abaa2e3aee2d16cf35f34b3195bbd32723c51b2d3344fe37"
+    },
+    {
+      "bytes": 1284,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase1-tech-r1/local/odebf/reports/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-analysis-v3/w-minus-z-gap.csv",
+      "sha256": "7220ad61a031d13ac4888e4dd696cc070d91e9b9e4f2272a49c4993e98d9624b"
+    },
+    {
+      "bytes": 16283,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase1-tech-r1/local/odebf/reports/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-analysis-v3/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-factual-ko.md",
+      "sha256": "cc5c210ad3a80e2237bb55a4a4cb5f91c260d3f368e745319dd5f2fb92daec3b"
+    }
+  ],
+  "schema": "phase1/exhaustive-analysis-manifest/v3",
+  "scientific_promotion": false
+}

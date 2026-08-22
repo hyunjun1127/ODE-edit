@@ -1,0 +1,7 @@
+arm,label,endpoint,eff_numerator,eff_denominator,rewrite_accuracy_numerator,rewrite_accuracy_denominator,gen_numerator,gen_denominator,gen_strict_numerator,gen_strict_denominator,rephrase_accuracy_numerator,rephrase_accuracy_denominator,locality_numerator,locality_denominator
+pre_edit,Pre-edit (공통 W0),COMMON_W0_PRE_EDIT,88,1000,1,1000,208,2000,60,1000,8,2000,8839,10000
+alphaedit,Official AlphaEdit,POOLED_IMMEDIATE_POST_W,1000,1000,1000,1000,1948,2000,955,1000,1511,2000,8183,10000
+memit,Native MEMIT,POOLED_IMMEDIATE_POST_W,996,1000,989,1000,1841,2000,879,1000,1344,2000,8113,10000
+c0,C0,POOLED_IMMEDIATE_POST_W,999,1000,996,1000,1661,2000,719,1000,965,2000,8590,10000
+c1,C1,POOLED_IMMEDIATE_POST_W,1000,1000,997,1000,1686,2000,739,1000,1021,2000,8579,10000
+c3,C3,POOLED_IMMEDIATE_POST_W,998,1000,992,1000,1682,2000,742,1000,1023,2000,8646,10000

@@ -1,0 +1,26 @@
+{
+  "change": "PROMOTE_FINAL_W10_TABLE_AND_REMOVE_IMMEDIATE_POST_LEAD_TABLE",
+  "input_v4": {
+    "receipt_identity_sha256": "5bb2757f0ffe014aca4ab1f4634bb236f608bca4a7acf7b31fefc329e4ed449b",
+    "receipt_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase1-tech-r1/local/odebf/reports/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-analysis-v4/rooted-analysis-receipt.json",
+    "receipt_sha256": "49172572d0ef9b49903836bd94d14f8a2e377856fabcce9e90382808635f86e9",
+    "report_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase1-tech-r1/local/odebf/reports/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-analysis-v4/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-factual-ko.md",
+    "report_sha256": "0a27d5bb97eca1ee9c65bcf16650cef55b26a6dc2fa2725cfaf6e3a58197d169"
+  },
+  "member_root_sha256": "b7215eac646401b7790449aa4d171739d6dd41238a78e1bc24b0ac81f390011f",
+  "members": [
+    {
+      "bytes": 6152,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase1-tech-r1/local/odebf/reports/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-analysis-v5/build_phase1_exhaustive_analysis_v5.py",
+      "sha256": "e05badd076f3e2c74fed80161c2bb3264bddd500a401aae9f59b6120ffd1be3c"
+    },
+    {
+      "bytes": 17225,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase1-tech-r1/local/odebf/reports/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-analysis-v5/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-factual-ko.md",
+      "sha256": "b93391e5c344bd5635fdd1c2f6532d41e683a88d85dabb3be21e949f05f3891b"
+    }
+  ],
+  "schema": "phase1/exhaustive-analysis-manifest/v5",
+  "scientific_promotion": false,
+  "terminal_table_row_count": 6
+}
