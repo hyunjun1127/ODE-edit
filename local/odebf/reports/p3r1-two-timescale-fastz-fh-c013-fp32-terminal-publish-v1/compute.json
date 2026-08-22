@@ -1,0 +1,64 @@
+[
+  {
+    "arm_wall_seconds": {
+      "C0-FH": 2165.815905799158,
+      "C1-FH": 2092.8028895230964,
+      "C3-FH": 2911.3053864231333
+    },
+    "baseline_wall_seconds": {
+      "Official-AlphaEdit": 897.5926388800144,
+      "Official-MEMIT": 846.5163194453344
+    },
+    "batch_maxrss_kib": 23638916,
+    "cpu_time_raw_seconds": 82680,
+    "elapsed": "02:52:15",
+    "elapsed_seconds": 10335,
+    "evaluator_wall_seconds": "NOT_RECORDED",
+    "exit_code": "0:0",
+    "gpu_peak_memory_bytes": "NOT_RECORDED",
+    "job_id": 22764,
+    "model": "Llama3-8B-Instruct",
+    "model_backward_count": 0,
+    "model_forward_count": 5725,
+    "processed_tokens": 867432,
+    "runtime_component_wall_seconds": {
+      "context_generation_twice": 1.1813337877392769,
+      "model_load": 12.716679226607084,
+      "theta0_teacher_population": 2.6393124349415302
+    },
+    "state": "COMPLETED",
+    "target_wall_seconds": "NOT_RECORDED",
+    "writer_wall_seconds": "NOT_RECORDED"
+  },
+  {
+    "arm_wall_seconds": {
+      "C0-FH": 2143.8316650362685,
+      "C1-FH": 2100.094897281844,
+      "C3-FH": 3070.500346045941
+    },
+    "baseline_wall_seconds": {
+      "Official-AlphaEdit": 603.4561086171307,
+      "Official-MEMIT": 563.8629326517694
+    },
+    "batch_maxrss_kib": 31945344,
+    "cpu_time_raw_seconds": 78888,
+    "elapsed": "02:44:21",
+    "elapsed_seconds": 9861,
+    "evaluator_wall_seconds": "NOT_RECORDED",
+    "exit_code": "0:0",
+    "gpu_peak_memory_bytes": "NOT_RECORDED",
+    "job_id": 22815,
+    "model": "Qwen2.5-7B-Instruct",
+    "model_backward_count": 0,
+    "model_forward_count": 3404,
+    "processed_tokens": 571681,
+    "runtime_component_wall_seconds": {
+      "context_generation_twice": 1.2816985389217734,
+      "model_load": 8.717055039014667,
+      "theta0_teacher_population": 2.4397806618362665
+    },
+    "state": "COMPLETED",
+    "target_wall_seconds": "NOT_RECORDED",
+    "writer_wall_seconds": "NOT_RECORDED"
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "checks": {
+      "all_arm_fallback0": true,
+      "all_arm_outer8": true,
+      "all_arm_w0_restore": true,
+      "c3_native_compute_z0": true,
+      "c3_pc_barrier_influence0": true,
+      "c3_pre_k8_append0": true,
+      "fixed_final_iterate": true,
+      "fixed_m5": true,
+      "fp32_storage": true,
+      "heldout_influence_zero": true,
+      "imputation_zero": true,
+      "k8": true,
+      "no_bf16_fp16_autocast": true,
+      "requests_100_of_100": true,
+      "selector_and_retry_zero": true,
+      "stream_order": true,
+      "stream_root": true,
+      "technical_failure_zero": true,
+      "terminal_valid": true,
+      "typed_scientific_failure_zero": true,
+      "w0_restored": true
+    },
+    "model": "Llama3-8B-Instruct",
+    "status": "PASS"
+  },
+  {
+    "checks": {
+      "all_arm_fallback0": true,
+      "all_arm_outer8": true,
+      "all_arm_w0_restore": true,
+      "c3_native_compute_z0": true,
+      "c3_pc_barrier_influence0": true,
+      "c3_pre_k8_append0": true,
+      "fixed_final_iterate": true,
+      "fixed_m5": true,
+      "fp32_storage": true,
+      "heldout_influence_zero": true,
+      "imputation_zero": true,
+      "k8": true,
+      "no_bf16_fp16_autocast": true,
+      "requests_100_of_100": true,
+      "selector_and_retry_zero": true,
+      "stream_order": true,
+      "stream_root": true,
+      "technical_failure_zero": true,
+      "terminal_valid": true,
+      "typed_scientific_failure_zero": true,
+      "w0_restored": true
+    },
+    "model": "Qwen2.5-7B-Instruct",
+    "status": "PASS"
+  }
+]

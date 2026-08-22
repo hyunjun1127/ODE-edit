@@ -371,6 +371,7 @@ def evaluate_accepted_z_batch(
     round_index: int,
     binding: AcceptedZBinding,
     committed_weight_sha256: Mapping[str, str],
+    model_alias: str = "llama3-8b-inst",
 ) -> tuple[dict[str, Any], float]:
     order = scalable_ordered_request_digest([str(item["request_sha256"]) for item in requests])
     if order != binding.request_order_sha256:
@@ -392,7 +393,7 @@ def evaluate_accepted_z_batch(
             model,
             tokenizer,
             cases,
-            model_alias="llama3-8b-inst",
+            model_alias=model_alias,
             freeze=freeze,
             expected_batch_size=100,
         )

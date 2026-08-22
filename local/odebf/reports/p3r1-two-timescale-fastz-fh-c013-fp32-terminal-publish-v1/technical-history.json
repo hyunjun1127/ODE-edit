@@ -1,0 +1,60 @@
+[
+  {
+    "classification": "PURE_TECHNICAL",
+    "direct_cause": "OUTPUT_PARENT_NAMESPACE_MISMATCH",
+    "elapsed_seconds": 3,
+    "endpoint_use": "EXCLUDED",
+    "job_id": 22600,
+    "model": "Llama3-8B-Instruct",
+    "model_action_count": 0,
+    "science_step_count": 0,
+    "state": "FAILED"
+  },
+  {
+    "classification": "PURE_TECHNICAL",
+    "direct_cause": "OUTPUT_PARENT_NAMESPACE_MISMATCH",
+    "elapsed_seconds": 3,
+    "endpoint_use": "EXCLUDED",
+    "job_id": 22601,
+    "model": "Qwen2.5-7B-Instruct",
+    "model_action_count": 0,
+    "science_step_count": 0,
+    "state": "FAILED"
+  },
+  {
+    "classification": "TERMINAL_VALID",
+    "direct_cause": null,
+    "elapsed_seconds": 10335,
+    "endpoint_use": "VALID",
+    "job_id": 22764,
+    "model": "Llama3-8B-Instruct",
+    "state": "COMPLETED"
+  },
+  {
+    "classification": "PURE_TECHNICAL",
+    "direct_cause": "CROSS_ARM_JOINT_PC_CERTIFICATE_CALL_ON_C0_PATH",
+    "elapsed_seconds": 2966,
+    "endpoint_use": "EXCLUDED",
+    "job_id": 22765,
+    "model": "Qwen2.5-7B-Instruct",
+    "state": "FAILED"
+  },
+  {
+    "classification": "PURE_TECHNICAL",
+    "direct_cause": "INACTIVE_INEQUALITY_INCLUDED_IN_KKT_MULTIPLIER_CERTIFICATE",
+    "elapsed_seconds": 5069,
+    "endpoint_use": "EXCLUDED",
+    "job_id": 22784,
+    "model": "Qwen2.5-7B-Instruct",
+    "state": "FAILED"
+  },
+  {
+    "classification": "TERMINAL_VALID",
+    "direct_cause": null,
+    "elapsed_seconds": 9861,
+    "endpoint_use": "VALID",
+    "job_id": 22815,
+    "model": "Qwen2.5-7B-Instruct",
+    "state": "COMPLETED"
+  }
+]

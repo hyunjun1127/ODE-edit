@@ -1,0 +1,26 @@
+{
+  "analysis_manifest": "analysis-manifest-v2.json",
+  "analysis_manifest_sha256": "28ae5204cbfad8384e990ce4ca60febe5fa0e1c715c015fba6298b2980ebe2bc",
+  "canonical_report": "p3r1-two-timescale-fastz-fh-c013-fp32-terminal-report-ko.md",
+  "canonical_report_sha256": "3e677a9c50f4f6072fb53818aa0770a05193e00bc4908ded7a9fc63c1a676e80",
+  "excluded_technical_jobs": [
+    22600,
+    22601,
+    22765,
+    22784
+  ],
+  "imputation_count": 0,
+  "members_root_sha256": "bcbfa69ed52ca0eb335e24b58129f782a492ea202c97c4f77a6b2ef54a100d2b",
+  "prohibited_raw_model_data_generation_member_count": 0,
+  "root_digest": "bd2e6d8a3e798de28079a1762fc1f534d76f969e91c6e640adf8166e96d60ee5",
+  "schema": "ode-edit-s05-p3r1-terminal-rooted-analysis-receipt/v2",
+  "scientific_promotion": false,
+  "status": "PASS",
+  "typed_scientific_failure_count": 0,
+  "valid_aliases": 2,
+  "valid_jobs": [
+    22764,
+    22815
+  ],
+  "valid_requests": 200
+}

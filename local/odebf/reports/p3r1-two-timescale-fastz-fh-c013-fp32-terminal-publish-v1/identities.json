@@ -1,0 +1,55 @@
+{
+  "contract": {
+    "bytes": 18602,
+    "lines": 697,
+    "mode": "0600",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/state/p3r1-two-timescale-fastz-fh-c013-fp32-v1/authoritative-contract.txt",
+    "sha256": "d1a4216bad9ab5330794c13c0f3aa59bbc2f0e32ca3f901593ed24a262f14e08"
+  },
+  "models": {
+    "Llama3-8B-Instruct": {
+      "W0_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "4300365feb31fec8b3ea07a9228d2245814b1bccb04f9ff5d9201a64cfd3e2e6",
+        "model.layers.5.mlp.down_proj.weight": "499390edc8a328f15c3aa76229c244c205322f4e360e255529b7764c35f98ef5",
+        "model.layers.6.mlp.down_proj.weight": "0897876dda2b8c8adaf4f59d610b4f3f410c9d3c254565c45c13466eba6211fb",
+        "model.layers.7.mlp.down_proj.weight": "4fffb5e77728ea2bc3cf6b5394a3c8e3ac363eca20096b7ce85985ef091dec42",
+        "model.layers.8.mlp.down_proj.weight": "6b460ccfec10ba9e477dda71ee2ba634d374e3150103516f543a0d199f98d5b2"
+      },
+      "case_terminal_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-v1/local/odebf/results/p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1/s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1-llama3-8b-inst-case-01-v1/raw/case-01/terminal.json",
+      "case_terminal_sha256": "80a7d3d35d456b9302c0c7cc933f2fe3f29f9bd0acbda2f1575a43883d606e76",
+      "identity_sha256": "f8f8352c0febca9ddefb61b3bcd00dcd0b7aaa6e5eb34cfb15a8de372696d092",
+      "request_order_sha256": "bb2e661ad44bf8dc20e0224f21dc90164ed4b3dcf3316d751afb7d8a00bfaed6",
+      "result_manifest_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-v1/local/odebf/results/p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1/s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1-llama3-8b-inst-case-01-v1/manifest.json",
+      "result_manifest_sha256": "2a3ee94993e5b98aefe02b271b6c1c2e7b140e41e5dc16c6f1b3c6490324d555",
+      "result_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-v1/local/odebf/results/p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1/s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1-llama3-8b-inst-case-01-v1",
+      "source_head": "05a804b0bf554a1ee3af0067dfc41fb1db8b21f8",
+      "source_tree": "465dfeeb4d69b50ebedf0f6d378585f4aa3e42e2",
+      "target_origin_sha256": "b14094cfc4c3a1b6e75ac411b1816d1ec931392d9a4b0f606b618c4aa41b716c",
+      "top_terminal_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-v1/local/odebf/results/p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1/s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1-llama3-8b-inst-case-01-v1/terminal.json",
+      "top_terminal_sha256": "83d76f37e236a69ddd00fc93e09cee0d4e4c311efa34f15beff54c1e80ee11c5"
+    },
+    "Qwen2.5-7B-Instruct": {
+      "W0_sha256": {
+        "model.layers.4.mlp.down_proj.weight": "9da76ac5cba59b6047f1482585ee798e1b44437c1129d9bac854a285d4f7f380",
+        "model.layers.5.mlp.down_proj.weight": "38dca5d34a404fec7ba695d5d22e4ac25cf8e85be74174c2905b9fa0a3639534",
+        "model.layers.6.mlp.down_proj.weight": "c06986773b2f1122646ec275aff6c62dd1ca6b1c0931407dc0402303929bf908",
+        "model.layers.7.mlp.down_proj.weight": "1338cfbc3359c31a4fa745f98e9f801401f2680892f108b59acfe847645c3d3e",
+        "model.layers.8.mlp.down_proj.weight": "80468fbd104ee946811304bdbdf398021084ca55e4a0792307bf6591b308f2ff"
+      },
+      "case_terminal_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3-v1/local/odebf/results/p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3/s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3-qwen2.5-7b-inst-case-01-v1/raw/case-01/terminal.json",
+      "case_terminal_sha256": "3641520e3eceb990452737028186582903e90ded14ce8822370cb1e061f34868",
+      "identity_sha256": "b5c4110015597d79a2fb108ebb59e5999a8c92313e7870cda46c8c45674fa6e8",
+      "request_order_sha256": "bb2e661ad44bf8dc20e0224f21dc90164ed4b3dcf3316d751afb7d8a00bfaed6",
+      "result_manifest_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3-v1/local/odebf/results/p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3/s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3-qwen2.5-7b-inst-case-01-v1/manifest.json",
+      "result_manifest_sha256": "7835ad108dcbe2429227040b4645cacab09106e0515c29e7a4d55528c5333ace",
+      "result_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3-v1/local/odebf/results/p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3/s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3-qwen2.5-7b-inst-case-01-v1",
+      "source_head": "f15ed227e62f7187fede2a631c157d2ac31ae824",
+      "source_tree": "3bed9a6b4927b8c76f002786b559cdce0a03ea6b",
+      "target_origin_sha256": "bfac81ec19a5dcf228e49b7d07f7e3962786392bd60d63614eeca0609c320c94",
+      "top_terminal_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3-v1/local/odebf/results/p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3/s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3-qwen2.5-7b-inst-case-01-v1/terminal.json",
+      "top_terminal_sha256": "7c1198c36baf2240d00b9f7f28252af8fef0430cd46278cff73e4d4d13e6b822"
+    }
+  },
+  "stream_order": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
+}

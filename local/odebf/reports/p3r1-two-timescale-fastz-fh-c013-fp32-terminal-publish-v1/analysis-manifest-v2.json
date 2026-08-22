@@ -1,0 +1,197 @@
+{
+  "comparison_binding": {
+    "C1_minus_C0": "MATCHED_WITHIN_MODEL_REQUEST_ORDER_EVALUATOR_BUT_ARM_LOCAL_DYNAMIC_TARGET_W_TRAJECTORIES",
+    "C3_minus_Official_AlphaEdit": "MATCHED_WITHIN_MODEL_W0_REQUEST_ORDER_EVALUATOR; TARGET_AND_FH_POLICY_DIFFER",
+    "target_only_M25_minus_M5": "MATCHED_WITHIN_MODEL_W0_REQUEST_ORDER_EVALUATOR"
+  },
+  "created_at_kst": "2026-08-23T00:46:58.341533+09:00",
+  "endpoint_denominator": {
+    "aliases_attempted": 2,
+    "aliases_valid": 2,
+    "imputation": 0,
+    "requests_attempted": 200,
+    "requests_valid": 200,
+    "scheduler_attempts": 6,
+    "technical_failed_jobs_excluded_from_endpoints": [
+      22600,
+      22601,
+      22765,
+      22784
+    ],
+    "typed_scientific_failures": 0,
+    "valid_endpoint_jobs": 2,
+    "valid_requests_by_model": {
+      "Llama3-8B-Instruct": 100,
+      "Qwen2.5-7B-Instruct": 100
+    }
+  },
+  "instruction_id": "ODEEDIT-S05-P3R1-TWO-TIMESCALE-FASTZ-FH-C013-FP32-V1",
+  "members": [
+    {
+      "bytes": 1943,
+      "lines": 64,
+      "mode": "0600",
+      "path": "compute.json",
+      "sha256": "b1aac49877377e9967894a0867d16663076b1a99f0cec9dc0690ef848cdf8191"
+    },
+    {
+      "bytes": 6930,
+      "lines": 27,
+      "mode": "0600",
+      "path": "endpoint-summary.csv",
+      "sha256": "3962861bea6793be265643d7b29e00a8bde547d0e0a50f66f70e44e3a28a917b"
+    },
+    {
+      "bytes": 33922,
+      "lines": 886,
+      "mode": "0600",
+      "path": "endpoint-summary.json",
+      "sha256": "6295320e892091b7579934a2a6df8848b45881e23998283fdf51e1b335835dd3"
+    },
+    {
+      "bytes": 8434,
+      "lines": 51,
+      "mode": "0600",
+      "path": "energy-layer.csv",
+      "sha256": "d33c97cca92b17c7e0b898780d8c03ef0fc4e7e221f477f34851af30780156ec"
+    },
+    {
+      "bytes": 22055,
+      "lines": 602,
+      "mode": "0600",
+      "path": "energy-layer.json",
+      "sha256": "5a8af2eb00a9531c548d6177ed3df39f6b4b712219e51e3f4cf64e8b8e5cf6cb"
+    },
+    {
+      "bytes": 5423,
+      "lines": 55,
+      "mode": "0600",
+      "path": "identities.json",
+      "sha256": "e6ff017e6695d879a9d51502038f90f54969270e9e47ccbbed95e9fbc7947961"
+    },
+    {
+      "bytes": 17412,
+      "lines": 167,
+      "mode": "0600",
+      "path": "p3r1-two-timescale-fastz-fh-c013-fp32-terminal-report-ko.md",
+      "sha256": "3e677a9c50f4f6072fb53818aa0770a05193e00bc4908ded7a9fc63c1a676e80"
+    },
+    {
+      "bytes": 2363,
+      "lines": 13,
+      "mode": "0600",
+      "path": "paired-deltas.csv",
+      "sha256": "ea885b7d57fd652257e5c44ffac5f133115a9c9317b6ea6d1df03e2ff65848fd"
+    },
+    {
+      "bytes": 8872,
+      "lines": 218,
+      "mode": "0600",
+      "path": "paired-deltas.json",
+      "sha256": "7de93b83dfbfeb38f1af7fed0d9ed7c24fe7ef4215cdf02046d7c8154dc679c2"
+    },
+    {
+      "bytes": 36915,
+      "lines": 101,
+      "mode": "0600",
+      "path": "per-layer.csv",
+      "sha256": "9afbd76081596a4dd864e56e5d7be24cf02175a7f78b3e33d406ab05a93f6b73"
+    },
+    {
+      "bytes": 80062,
+      "lines": 2202,
+      "mode": "0600",
+      "path": "per-layer.json",
+      "sha256": "35a3cde368bed84b0913588dd792d1bb9b70a1b7ad91f1fea55218790f5b3be2"
+    },
+    {
+      "bytes": 24648,
+      "lines": 49,
+      "mode": "0600",
+      "path": "per-outer.csv",
+      "sha256": "ad278d04fafe8212bd8f3603d6331083405db0733a3925479ebd76c08fd41098"
+    },
+    {
+      "bytes": 60308,
+      "lines": 1442,
+      "mode": "0600",
+      "path": "per-outer.json",
+      "sha256": "1792b710d384a6264cba404339985a8b73730cb11485ff8ccc349418f92aaf7f"
+    },
+    {
+      "bytes": 7367,
+      "lines": 49,
+      "mode": "0600",
+      "path": "per-route.csv",
+      "sha256": "4786d9df75d0726b855c2afa002e588a1ff4625ac0ba014b4348821b0093cbe0"
+    },
+    {
+      "bytes": 28066,
+      "lines": 1106,
+      "mode": "0600",
+      "path": "per-route.json",
+      "sha256": "46ab9e35b6cf1130b8dd92fcd28f16453d8be744b96eb0dba70e72499ce2aded"
+    },
+    {
+      "bytes": 7372,
+      "lines": 162,
+      "mode": "0600",
+      "path": "seal_and_verify_publish.py",
+      "sha256": "ed79dd3e9033fe97f92e6f1ffafea650ee7fbde538f5f1e39b203fdea7b32e8b"
+    },
+    {
+      "bytes": 669,
+      "lines": 7,
+      "mode": "0600",
+      "path": "technical-history.csv",
+      "sha256": "24b4301e86466c31e8a6b88e471afb1cc91f9fd4a09284e936b3081e284c2284"
+    },
+    {
+      "bytes": 1562,
+      "lines": 60,
+      "mode": "0600",
+      "path": "technical-history.json",
+      "sha256": "bbf5e39b7ef31e0b0250b65a98217c26ad598f8be6a28bb1ee4f6fc8a02745f6"
+    },
+    {
+      "bytes": 1550,
+      "lines": 56,
+      "mode": "0600",
+      "path": "terminal-validation.json",
+      "sha256": "188f9debeafc560c9eea28e067ba7c71bb119cc48c05d11883fce6d9efede0af"
+    },
+    {
+      "bytes": 503,
+      "lines": 11,
+      "mode": "0600",
+      "path": "writer-transfer.csv",
+      "sha256": "73623214dbd8fd381aa0c043b57e5b2b2393b140f80a0795dab4c976444b40f2"
+    },
+    {
+      "bytes": 2295,
+      "lines": 72,
+      "mode": "0600",
+      "path": "writer-transfer.json",
+      "sha256": "32125bae426ecca124633a84f448c5762c4e608b9eabf9c638f8726a7f49b21b"
+    }
+  ],
+  "members_root_sha256": "bcbfa69ed52ca0eb335e24b58129f782a492ea202c97c4f77a6b2ef54a100d2b",
+  "omitted_from_git": {
+    "raw_logs_results_models_checkpoints_generations_tensors_cache": 0,
+    "server2_only_large_raw_free_tables": [
+      "per-request.json/csv",
+      "per-inner.json/csv"
+    ]
+  },
+  "package_role": "GIT_PUBLISHABLE_RAW_FREE_AGGREGATE_SUBSET",
+  "schema": "ode-edit-s05-p3r1-terminal-analysis-manifest/v2",
+  "scientific_promotion": false,
+  "source_commits": [
+    "b6077c376d1f82c08d464f51f57c9f9c8be04a0c",
+    "05a804b0bf554a1ee3af0067dfc41fb1db8b21f8",
+    "70946091da1523fb9b26565786b4f3ac1e703b74",
+    "770dd02a26efa1805cd4010fef200ba962da711f",
+    "f15ed227e62f7187fede2a631c157d2ac31ae824"
+  ],
+  "status": "TERMINAL_ANALYSIS_PASS"
+}

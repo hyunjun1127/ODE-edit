@@ -7,6 +7,7 @@ import torch
 
 from project.run_scripts.ode_bf.p1r52_joint_pc_router import (
     JointPCReferenceDegenerate,
+    _kkt_residual,
     proxies_from_entry_problem,
     solve_joint_pc_router,
 )
@@ -21,6 +22,19 @@ def _barrier(label: str, diagonal: tuple[float, ...]) -> QuadraticBarrier:
 
 
 class JointPCRouterTests(unittest.TestCase):
+    def test_kkt_certificate_excludes_inactive_inequalities(self) -> None:
+        pi = np.asarray((0.0, 0.25, 0.25, 0.25, 0.25), dtype=np.float64)
+        stationarity, complementarity = _kkt_residual(
+            pi,
+            1.0,
+            p_slack=0.0,
+            c_slack=0.1,
+            p_gradient=np.asarray((2.0, 1.0, 1.0, 1.0, 1.0)),
+            c_gradient=np.asarray((-10.0, 1.0, 1.0, 1.0, 1.0)),
+        )
+        self.assertLessEqual(stationarity, 1.0e-12)
+        self.assertLessEqual(complementarity, 1.0e-12)
+
     def test_exact_one_stage_minimax_is_finite_and_simplex(self) -> None:
         p = QuadraticProxy(
             "P",

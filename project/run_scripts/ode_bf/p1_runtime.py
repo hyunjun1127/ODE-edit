@@ -3256,13 +3256,20 @@ def run_p1(
     from .p1r52_joint_pc_independent_fp32_runtime import (
         is_joint_pc_independent_fp32_role,
     )
+    from .p3r1_runtime import expected_result_parent as expected_p3r1_result_parent
+    from .p3r1_runtime import is_p3r1_role
 
     joint_pc_full_fp32_mode = (
         is_joint_pc_full_fp32_role(p1r52_sequential_role)
         or is_joint_pc_independent_fp32_role(p1r52_sequential_role)
     )
+    p3r1_fp32_mode = is_p3r1_role(p1r52_sequential_role)
     _source_freeze(repo_root, source_head)
-    expected_parent = (repo_root / "local" / "odebf" / "results").resolve(strict=False)
+    expected_parent = (
+        expected_p3r1_result_parent(repo_root)
+        if p3r1_fp32_mode
+        else (repo_root / "local" / "odebf" / "results").resolve(strict=False)
+    )
     destination = output_root.resolve(strict=False)
     if sum(
         (
@@ -4398,7 +4405,7 @@ def run_p1(
     phase_a_fp32_runtime = None
     joint_pc_fp32_parameter_inventory = None
     with load_timer.measure("model_load"):
-        if p1r52_residual_reserve_phase_a_arm is not None or joint_pc_full_fp32_mode:
+        if p1r52_residual_reserve_phase_a_arm is not None or joint_pc_full_fp32_mode or p3r1_fp32_mode:
             from .p1r52_residual_reserve_phase_a_execution import (
                 load_phase_a_fp32_model,
             )
@@ -4407,7 +4414,7 @@ def run_p1(
                 load_phase_a_fp32_model(
                     artifact_guard,
                     alias,
-                    allow_python_patch_compatible=joint_pc_full_fp32_mode,
+                    allow_python_patch_compatible=(joint_pc_full_fp32_mode or p3r1_fp32_mode),
                 )
             )
         else:
@@ -4452,7 +4459,7 @@ def run_p1(
             "parameter_count": sum(parameter.numel() for parameter in model.parameters()),
             "parameter_dtype": (
                 "torch.float32"
-                if p1r52_residual_reserve_phase_a_arm is not None or joint_pc_full_fp32_mode
+                if p1r52_residual_reserve_phase_a_arm is not None or joint_pc_full_fp32_mode or p3r1_fp32_mode
                 else "torch.bfloat16"
             ),
             "context_sha256": context_sha256,
@@ -4494,7 +4501,7 @@ def run_p1(
     }
     expected_touched_dtype = (
         torch.float32
-        if p1r52_residual_reserve_phase_a_arm is not None or joint_pc_full_fp32_mode
+        if p1r52_residual_reserve_phase_a_arm is not None or joint_pc_full_fp32_mode or p3r1_fp32_mode
         else torch.bfloat16
     )
     if any(value.dtype is not expected_touched_dtype for value in touched.values()):
