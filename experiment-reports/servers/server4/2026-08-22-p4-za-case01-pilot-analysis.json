@@ -1,0 +1,180 @@
+{
+  "schema": "ode-edit-s05-p4-za-case01-server4-analysis/v1",
+  "instruction_id": "ODEEDIT-S05-P4-TARGET-SIDE-SMOOTH-SEMANTIC-LOGODDS-BARRIER-V1",
+  "server": "server4",
+  "agent_id": "server4-server-head",
+  "source_head": "8229219c01f92e9c1d279b07504e88fc4b95f7ba",
+  "source_tree": "12f56a35b7f2c8bb074444fcd1c67ab94c8718e9",
+  "slurm": {
+    "array_job_id": "22793",
+    "array": "0-1%2",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed_seconds_per_cell": 595,
+    "gpu_per_cell": 1,
+    "cpu_per_cell": 8,
+    "requested_memory_mib_per_cell": 65000,
+    "successful_gpu_hours": 0.33055555555555555,
+    "successful_cpu_hours": 2.6444444444444444,
+    "pre_success_technical_gpu_hours": 0.045,
+    "total_gpu_hours_including_technical_fail_close": 0.37555555555555553
+  },
+  "sealed_input": {
+    "transfer_identity": "534b8a936f9dfdc2ab8f97dfcafa4d42f7523829cb7fc15e94b52522330cec50",
+    "member_root": "28189ad33cdcda0c01d269216514508d62b15cd6c16ed053afd4683577169843",
+    "stream_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
+    "all_order_sha256": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+    "case01_order_sha256": "20933669138b5090645da9ea81b662085081fbc7eb756f542ec90bb9f51435ac",
+    "evaluator_identity": "72b8ecb737157a42d6a055ffd339dc3f907876a0a98165a00cca49ca9bbed07d",
+    "dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+    "final_pre_gpu_identity": "257c74ec52cdfafd245ca14c10b61ad3b6cb366964f7c28af0e80cf3d4c14a71"
+  },
+  "execution_contract": {
+    "full_fp32": true,
+    "offline": true,
+    "same_W0": true,
+    "writer_call_count": 0,
+    "retry_count": 0,
+    "nonfinite_count": 0,
+    "outer_steps_per_target_arm": 8,
+    "inner_iterations_per_outer": 5,
+    "final_iterate_only": true,
+    "moment_reset_each_outer": true,
+    "heldout_decision_influence_count": 0,
+    "scientific_promotion": false
+  },
+  "models": {
+    "llama3-8b-inst": {
+      "native_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "W0_sha256": "33a8ff4a1c57335b9c73107a758e0b31b2348e8795e89b13c0237158d81e7f78",
+      "terminal_identity": "f00cc764ae1fa40a43f952572a29feca050da6e99b4ff155992e001ca1ecf9a6",
+      "terminal_file_sha256": "f01fa811cea4daa922d5a264607ad09b672f83306f28aa6377f7029ae60d88a5",
+      "slurm_maxrss_kib": 2207872,
+      "result_file_count": 28,
+      "result_bytes": 858665,
+      "arms": {
+        "Z+": {
+          "terminal_z_sha256": "9c26bf05fbb3e16f3989b5e34cbdd8f6086ebb079331af0501abbdcc2b0da1cb",
+          "efficacy": {"numerator": 10, "denominator": 10, "new_nll_mean": 0.059241856573498806},
+          "generalization": {"numerator": 20, "denominator": 20, "new_nll_mean": 1.5234038899827282, "new_nll_p90": 5.149062871932986, "new_nll_max": 11.159738540649414, "margin_mean": 10.413010113389465},
+          "locality": {"numerator": 93, "denominator": 100},
+          "clamp_hits": 400,
+          "clamp_trials": 400,
+          "final_minus_best_mean": 0.17087492514401675,
+          "wall_seconds": 256.2019674628973,
+          "evaluator_wall_seconds": 1.8847028790041804
+        },
+        "Z+-": {
+          "terminal_z_sha256": "86b95d4e0ec466965144d73425e0bc6606338b07d0d234f124768f65d203c552",
+          "efficacy": {"numerator": 10, "denominator": 10, "new_nll_mean": 0.06031129377079196},
+          "generalization": {"numerator": 20, "denominator": 20, "new_nll_mean": 1.8375869096722455, "new_nll_p90": 5.347443103790283, "new_nll_max": 10.755396842956543, "margin_mean": 8.319737857440487},
+          "locality": {"numerator": 93, "denominator": 100},
+          "clamp_hits": 400,
+          "clamp_trials": 400,
+          "final_minus_best_mean": 0.14007373498752715,
+          "wall_seconds": 253.82958914339542,
+          "evaluator_wall_seconds": 1.8757740911096334
+        },
+        "Native-Z": {
+          "terminal_z_sha256": "3ccc3ba3488676fe6804d2e6f94fae7def208557eef750c468e49c4e5f4c2d98",
+          "compute_z_call_count": 10,
+          "efficacy": {"numerator": 10, "denominator": 10, "new_nll_mean": 0.0009801905776839702},
+          "generalization": {"numerator": 20, "denominator": 20, "new_nll_mean": 1.040890564410074, "new_nll_p90": 2.8104336738586464, "new_nll_max": 6.803314685821533, "margin_mean": 10.738011584790366},
+          "locality": {"numerator": 93, "denominator": 100},
+          "wall_seconds": 35.940454439260066,
+          "evaluator_wall_seconds": 1.881974270567298
+        }
+      },
+      "observed_Zplusminus_minus_Zplus": {
+        "efficacy_delta": 0.0,
+        "generalization_delta": 0.0,
+        "gen_new_nll_mean_delta": 0.3141830196895173,
+        "gen_new_nll_p90_delta": 0.1983802318572971,
+        "gen_new_nll_max_delta": -0.4043416976928711,
+        "gen_margin_mean_delta": -2.093272255948978
+      }
+    },
+    "qwen2.5-7b-inst": {
+      "native_name": "Qwen/Qwen2.5-7B-Instruct",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "W0_sha256": "765190ef5405a7e9bc41297b37175ddbcae2f47abc6b80b3f0c10c9b279c124f",
+      "terminal_identity": "acf087c82bef1e1b3217fc865258e9dd79eb01cabe4c79329739b198c9e44f1d",
+      "terminal_file_sha256": "37b4653ed54f28077c44ef86cfd6dc2ff62cdd231984bdad21c3d2bb84ff458a",
+      "slurm_maxrss_kib": 2271424,
+      "result_file_count": 28,
+      "result_bytes": 861728,
+      "arms": {
+        "Z+": {
+          "terminal_z_sha256": "fa65762a08c460fc26a1e85c09d672be035f470b521f4df8cca775efb20165d4",
+          "efficacy": {"numerator": 10, "denominator": 10, "new_nll_mean": 0.00007583700389659497},
+          "generalization": {"numerator": 19, "denominator": 20, "new_nll_mean": 2.5218676862117717, "new_nll_p90": 6.7846467971801765, "new_nll_max": 10.784921646118164, "margin_mean": 7.97398007541924},
+          "locality": {"numerator": 93, "denominator": 100},
+          "clamp_hits": 0,
+          "clamp_trials": 400,
+          "final_minus_best_mean": 0.0,
+          "wall_seconds": 267.72487668693066,
+          "evaluator_wall_seconds": 1.8738069869577885
+        },
+        "Z+-": {
+          "terminal_z_sha256": "9209424d27c7c0c3c5e3b1a544ba23c7a1d8e6e0b60c8e73a2d19c1deb4a2e0d",
+          "efficacy": {"numerator": 10, "denominator": 10, "new_nll_mean": 0.00008554900559829549},
+          "generalization": {"numerator": 18, "denominator": 20, "new_nll_mean": 2.696915654392069, "new_nll_p90": 7.951864480972291, "new_nll_max": 10.515106201171875, "margin_mean": 8.316938825397665},
+          "locality": {"numerator": 93, "denominator": 100},
+          "clamp_hits": 0,
+          "clamp_trials": 400,
+          "final_minus_best_mean": 0.0,
+          "wall_seconds": 251.578634750098,
+          "evaluator_wall_seconds": 1.863561138510704
+        },
+        "Native-Z": {
+          "terminal_z_sha256": "99cf32a738417cadb639b50416218d42d8a27b12b0303c48f931d6cb8867df98",
+          "compute_z_call_count": 10,
+          "efficacy": {"numerator": 10, "denominator": 10, "new_nll_mean": 0.006403145811054856},
+          "generalization": {"numerator": 20, "denominator": 20, "new_nll_mean": 2.0096083470154555, "new_nll_p90": 7.018723821640015, "new_nll_max": 8.735128402709961, "margin_mean": 11.072662084503099},
+          "locality": {"numerator": 93, "denominator": 100},
+          "wall_seconds": 24.18683077581227,
+          "evaluator_wall_seconds": 1.8740855352953076
+        }
+      },
+      "observed_Zplusminus_minus_Zplus": {
+        "efficacy_delta": 0.0,
+        "generalization_delta": -0.04999999999999993,
+        "gen_new_nll_mean_delta": 0.17504796818029722,
+        "gen_new_nll_p90_delta": 1.1672176837921144,
+        "gen_new_nll_max_delta": -0.26981544494628906,
+        "gen_margin_mean_delta": 0.34295874997842524
+      }
+    }
+  },
+  "operation_counts_per_target_arm": {
+    "new_semantic_forward": 400,
+    "old_semantic_forward": 400,
+    "kl_forward": 400,
+    "kl_backward": 400,
+    "semantic_gradient_calls": 400,
+    "terminal_evaluator_forward": 10
+  },
+  "artifact_storage": {
+    "result_file_count": 56,
+    "result_bytes": 1720393,
+    "log_file_count": 4,
+    "log_bytes": 3173,
+    "raw_artifacts_git_tracked": false
+  },
+  "limitations": {
+    "gradient_cosine_missing": true,
+    "requestwise_inner_quantiles_missing": true,
+    "post_model_hf_receipt_model_loaded_false": true,
+    "gpu_peak_memory_unavailable": true,
+    "writer_metrics_not_applicable_in_ZA": true,
+    "single_slice_only": true
+  },
+  "verdict": {
+    "technical": "TECHNICAL_PILOT_PASS",
+    "science": "SCIENCE_HOLD",
+    "barrier_signal": "NO_POSITIVE_SIGNAL",
+    "report_completeness": "INCOMPLETE_TELEMETRY",
+    "next_submit": "HOLD"
+  }
+}

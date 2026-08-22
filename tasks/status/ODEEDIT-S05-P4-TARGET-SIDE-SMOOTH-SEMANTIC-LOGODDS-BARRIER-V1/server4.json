@@ -4,8 +4,8 @@
   "agent_id": "server4-server-head",
   "agent_role": "server-head",
   "status": "running",
-  "updated_at": "2026-08-22T20:22:00+09:00",
+  "updated_at": "2026-08-22T21:08:06+09:00",
   "ack_path": "messages/acks/server4/2026-08-22.md",
-  "report_path": "messages/server-heads/server4/2026-08-22-P4-za-pilot-submitted.md",
-  "note": "TRANSFER_FULL_READ_PASS and FINAL_PRE_GPU_PASS. ZA Llama/Qwen case01 array 22793_[0-1%2] is running at cap2; each cell is 1GPU/8CPU/65000MiB/48h. Both first target M=5 gates passed with target/gradient nonfinite 0, writer 0, and W0 unchanged/restored. Raw results/logs remain ignored local; automatic promotion 0 and subsequent scientific submit HOLD."
+  "report_path": "experiment-reports/servers/server4/2026-08-22-p4-za-case01-pilot-detailed.md",
+  "note": "ZA case01 array 22793_[0-1%2] terminal COMPLETED 0:0 for Llama/Qwen. FULL-FP32/offline/same-W0/writer0/retry0/nonfinite0 passed. Z+- did not improve Gen over Z+ in case01; Native-Z had the lowest mean Gen NLL. Authoritative section 9 gradient cosine and requestwise inner quantiles are absent from runtime receipts, so status remains running with SCIENCE_HOLD and no further submit pending GH review."
 }

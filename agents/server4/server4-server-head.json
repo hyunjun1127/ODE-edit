@@ -2,8 +2,8 @@
   "agent_id": "server4-server-head",
   "role": "server-head",
   "hostname": "server4",
-  "status": "online_p4_za_case01_pilot_running",
-  "last_seen": "2026-08-22T20:22:00+09:00",
+  "status": "online_p4_za_case01_terminal_review_hold",
+  "last_seen": "2026-08-22T21:08:06+09:00",
   "repo_path": "/data/janghj/ODE-edit",
   "repository_identity": "hyunjun1127/ODE-edit",
   "codex_session_id": "codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d",
@@ -11,9 +11,9 @@
   "session_boundary": "pass",
   "slurm_access": "pass",
   "project_gpu_cap": 2,
-  "active_project_gpus": 2,
-  "storage_status": "storage_scope_ok_207185137664_bytes_available",
+  "active_project_gpus": 0,
+  "storage_status": "storage_scope_ok_207091679232_bytes_available",
   "alphaedit_reusable_artifact_status": "easyedit_path_seal_pass_p4_hf_consumed_closure_pass_stream_evaluator_pass",
-  "p4_status": "transfer_and_final_pre_gpu_pass_za_case01_job_22793_first_target_gate_pass_running",
-  "experiment_submission": "za_pilot_running_subsequent_submit_hold"
+  "p4_status": "za_case01_job_22793_terminal_technical_pass_science_hold_incomplete_telemetry",
+  "experiment_submission": "za_pilot_terminal_no_further_submit_pending_gh_review"
 }
