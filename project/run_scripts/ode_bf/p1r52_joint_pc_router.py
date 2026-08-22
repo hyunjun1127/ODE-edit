@@ -40,6 +40,14 @@ class JointPCReferenceDegenerate(ODEBFStateError):
     """Typed formulation boundary for a numerical-zero reference scale."""
 
 
+class JointPCNumericalCertificateError(ODEBFStateError):
+    """Raw-free technical certificate failure with exact residual facts."""
+
+    def __init__(self, receipt: dict[str, Any]) -> None:
+        super().__init__("joint P/C epigraph numerical certificate failed")
+        self.raw_free_receipt = receipt
+
+
 @dataclass(frozen=True, slots=True)
 class JointPCRouterReceipt:
     p_proxy: dict[str, Any]
@@ -88,6 +96,7 @@ class JointPCRouterReceipt:
                 "solver_ftol": SOLVER_FTOL,
                 "solver_primal_tolerance": SOLVER_PRIMAL_TOLERANCE,
                 "solver_kkt_tolerance": FIXED_E8_KKT_TOLERANCE,
+                "kkt_active_set_tolerance": SOLVER_PRIMAL_TOLERANCE,
                 "solver_max_iterations": SOLVER_MAX_ITERATIONS,
             }
         )
@@ -166,15 +175,20 @@ def _kkt_residual(
     )
     gradients: list[np.ndarray] = []
     slacks: list[float] = []
+    # Inactive inequalities have exactly zero KKT multipliers. Including
+    # their columns in NNLS can assign a spurious positive multiplier to a
+    # slack constraint and falsely fail complementarity.
     for index, value in enumerate(pi):
-        row = np.zeros(ROUTER_DIMENSION + 1, dtype=np.float64)
-        row[index] = 1.0
-        gradients.append(row)
-        slacks.append(float(value))
+        if float(value) <= SOLVER_PRIMAL_TOLERANCE:
+            row = np.zeros(ROUTER_DIMENSION + 1, dtype=np.float64)
+            row[index] = 1.0
+            gradients.append(row)
+            slacks.append(float(value))
     for slack, gradient in ((p_slack, p_gradient), (c_slack, c_gradient)):
-        row = np.concatenate((-gradient, np.ones(1, dtype=np.float64)))
-        gradients.append(row)
-        slacks.append(float(slack))
+        if float(slack) <= SOLVER_PRIMAL_TOLERANCE:
+            row = np.concatenate((-gradient, np.ones(1, dtype=np.float64)))
+            gradients.append(row)
+            slacks.append(float(slack))
     equality = np.concatenate(
         (np.ones(ROUTER_DIMENSION, dtype=np.float64), np.zeros(1, dtype=np.float64))
     )
@@ -303,7 +317,23 @@ def solve_joint_pc_router(
         or stationarity > FIXED_E8_KKT_TOLERANCE
         or complementarity > FIXED_E8_KKT_TOLERANCE
     ):
-        raise ODEBFStateError("joint P/C epigraph numerical certificate failed")
+        raise JointPCNumericalCertificateError(
+            {
+                "schema": "ode-edit-s05-p1r52-joint-pc-certificate-failure/v1",
+                "simplex_sum_residual": simplex_residual,
+                "simplex_minimum": float(np.min(pi)),
+                "p_constraint_slack": p_slack,
+                "c_constraint_slack": c_slack,
+                "stationarity_residual": stationarity,
+                "complementarity_residual": complementarity,
+                "solver_primal_tolerance": SOLVER_PRIMAL_TOLERANCE,
+                "solver_kkt_tolerance": FIXED_E8_KKT_TOLERANCE,
+                "kkt_active_set_tolerance": SOLVER_PRIMAL_TOLERANCE,
+                "solver_success": bool(result.success),
+                "solver_status": int(result.status),
+                "solver_iterations": int(result.nit),
+            }
+        )
     pi32 = torch.tensor(pi, dtype=torch.float32)
     if abs(float(pi32.sum()) - 1.0) > 5 * torch.finfo(torch.float32).eps:
         raise ODEBFStateError("joint P/C FP32 simplex preservation failed")
@@ -352,6 +382,7 @@ def solve_joint_pc_router(
 __all__ = [
     "INSTRUCTION_ID",
     "JointPCReferenceDegenerate",
+    "JointPCNumericalCertificateError",
     "JointPCRouterReceipt",
     "JointPCRoutingResult",
     "METHOD_ID",

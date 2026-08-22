@@ -37,6 +37,8 @@ SOURCE_FILES = (
     "project/run_scripts/ode_bf/p1_runtime.py",
     "project/run_scripts/ode_bf/p1r24_atomic_strength.py",
     "project/run_scripts/ode_bf/p1r52_accepted_z_observation.py",
+    "project/run_scripts/ode_bf/p1r52_joint_pc_router.py",
+    "project/run_scripts/ode_bf/p1r52_residual_reserve_pc_router.py",
     "project/run_scripts/ode_bf/p1r52_sequential_runtime.py",
     "project/run_scripts/ode_bf/p3r1_fixed_m_target.py",
     "project/run_scripts/ode_bf/p3r1_finite_horizon.py",
@@ -80,7 +82,7 @@ def main(argv: list[str] | None = None) -> int:
             args.alias, role
         )
         if args.output_root.resolve(strict=False) != expected_output:
-            raise ValueError("P3R1 TECH-R2 output namespace differs")
+            raise ValueError("P3R1 TECH-R3 output namespace differs")
         observed = subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, text=True
         ).strip()

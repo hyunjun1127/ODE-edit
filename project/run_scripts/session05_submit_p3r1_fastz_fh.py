@@ -40,7 +40,7 @@ def main() -> int:
     resolved_result_parent = args.result_parent.resolve(strict=False)
     expected_parent = expected_result_parent(repo_root)
     if resolved_result_parent != expected_parent:
-        raise SystemExit("P3R1 TECH-R2 result parent differs")
+        raise SystemExit("P3R1 TECH-R3 result parent differs")
     rows = active_allocations()
     aliases = tuple(args.alias) if args.alias else ALIASES
     requested = len(aliases)
@@ -67,7 +67,7 @@ def main() -> int:
                 [
                     "sbatch",
                     "--parsable",
-                    f"--job-name=p3r1-tech-r2-{alias}-c{args.case_index:02d}",
+                    f"--job-name=p3r1-tech-r3-{alias}-c{args.case_index:02d}",
                     "project/run_scripts/session05_ode_bf_p3r1_fastz_fh.sbatch",
                     args.source_head,
                     str(resolved_result_parent),
