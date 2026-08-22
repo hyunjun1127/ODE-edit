@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import inspect
+import json
+from pathlib import Path
+import tempfile
 import unittest
 
 from project.run_scripts.ode_bf import p1_scalable_batched_experiment as experiment
@@ -36,6 +39,25 @@ class CKStepContractTest(unittest.TestCase):
         self.assertIn('"cross_case_state_count": 0', source)
         self.assertIn("_restore(touched, base_values", source)
         self.assertIn("K_writer_call_count", source)
+
+    def test_final_v6_receipts_and_slice_are_exactly_bound(self) -> None:
+        rooted = phase2._final_v6_rooted_receipt()
+        reference = phase2._final_v6_case_reference(
+            "C0-KSTEP", 1, rooted_receipt=rooted
+        )
+        self.assertEqual(reference["slice_identity"]["stream_root"], phase2.STREAM_ROOT)
+        self.assertEqual(reference["slice_identity"]["stream_order"], phase2.STREAM_ORDER)
+        self.assertEqual(reference["slice_identity"]["case_index"], 1)
+
+    def test_forged_final_v6_receipt_rejects(self) -> None:
+        rooted = phase2._final_v6_rooted_receipt()
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "receipt.json"
+            forged = dict(rooted)
+            forged["stream_root"] = "0" * 64
+            path.write_text(json.dumps(forged), encoding="utf-8")
+            with self.assertRaisesRegex(Exception, "identity differs"):
+                phase2._verified_json_receipt(path, label="forged")
 
 
 if __name__ == "__main__":

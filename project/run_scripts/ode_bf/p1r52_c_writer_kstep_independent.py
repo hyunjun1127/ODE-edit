@@ -45,18 +45,42 @@ FINAL_V6_ROOTED_RECEIPT = (
 )
 
 
-def _final_v6_case_reference(arm: str, case_index: int) -> dict[str, Any]:
-    receipt = json.loads(FINAL_V6_ROOTED_RECEIPT.read_text(encoding="utf-8"))
+def _verified_json_receipt(path: Path, *, label: str) -> dict[str, Any]:
+    if not path.is_file() or path.is_symlink():
+        raise ODEBFStateError(f"Phase2 {label} receipt path differs")
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict) or not isinstance(value.get("identity_sha256"), str):
+        raise ODEBFStateError(f"Phase2 {label} receipt identity is absent")
+    sealed = dict(value)
+    claimed = sealed.pop("identity_sha256")
+    if canonical_hash(sealed) != claimed:
+        raise ODEBFStateError(f"Phase2 {label} receipt identity differs")
+    return value
+
+
+def _final_v6_rooted_receipt() -> dict[str, Any]:
+    receipt = _verified_json_receipt(
+        FINAL_V6_ROOTED_RECEIPT, label="final-v6 rooted"
+    )
     if (
         receipt.get("status") != "TERMINAL_ANALYSIS_VALID"
         or receipt.get("stream_root") != STREAM_ROOT
         or receipt.get("stream_order") != STREAM_ORDER
     ):
         raise ODEBFStateError("Phase2 final-v6 reference receipt differs")
+    return receipt
+
+
+def _final_v6_case_reference(
+    arm: str,
+    case_index: int,
+    *,
+    rooted_receipt: Mapping[str, Any],
+) -> dict[str, Any]:
     reference_arm = arm.removesuffix("-KSTEP")
-    root = Path(receipt["input_roots"][reference_arm])
+    root = Path(rooted_receipt["input_roots"][reference_arm])
     path = root / "raw" / "cases" / f"case-{case_index:02d}" / "terminal.json"
-    value = json.loads(path.read_text(encoding="utf-8"))
+    value = _verified_json_receipt(path, label=f"final-v6 {reference_arm} case")
     if value.get("case_index") != case_index or value.get("cell") != reference_arm:
         raise ODEBFStateError("Phase2 final-v6 case reference differs")
     return value
@@ -137,17 +161,27 @@ def run_phase2(
         raise ODEBFStateError("Phase2 W0 differs")
     rows: list[dict[str, Any]] = []
     shas: list[str] = []
+    final_v6_rooted = _final_v6_rooted_receipt()
     started = time.perf_counter()
     for case_index, request_batch in enumerate(stream_batches, start=1):
         requests = tuple(request_batch)
         seed_all(COMMON_SEED)
-        reference = _final_v6_case_reference(arm, case_index)
+        reference = _final_v6_case_reference(
+            arm, case_index, rooted_receipt=final_v6_rooted
+        )
         request_order = scalable_ordered_request_digest(
             [str(item["request_sha256"]) for item in requests]
         )
+        expected_slice_identity = {
+            "case_index": case_index,
+            "request_order_sha256": request_order,
+            "stream_order": STREAM_ORDER,
+            "stream_root": STREAM_ROOT,
+        }
         if (
             reference["request_order_sha256"] != request_order
             or reference["entry_W0_parameter_sha256"] != w0_hashes
+            or reference.get("slice_identity") != expected_slice_identity
         ):
             raise ODEBFStateError("Phase2 final-v6 same-entry/slice/order gate differs")
         if _hashes(touched) != w0_hashes or any(int(touched[name].data_ptr()) != w0_pointers[name] for name in touched):
@@ -209,8 +243,10 @@ def run_phase2(
                 "request_order_sha256": request_order,
                 "entry_W0_parameter_sha256": w0_hashes,
                 "final_v6_reference": {
+                    "rooted_receipt_identity_sha256": final_v6_rooted["identity_sha256"],
                     "reference_arm": arm.removesuffix("-KSTEP"),
                     "reference_case_identity_sha256": reference["identity_sha256"],
+                    "slice_identity": expected_slice_identity,
                     "same_slice_order": True,
                     "same_entry_W0": True,
                     "K1_prewrite_W0_identity": runtime.executions[0].entry_weight_sha256 == w0_hashes,

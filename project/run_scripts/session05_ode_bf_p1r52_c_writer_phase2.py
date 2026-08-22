@@ -39,6 +39,7 @@ SOURCE_FILES = (
     "project/run_scripts/session05_ode_bf_p1r52_c_writer_phase2_dry_plan.py",
     "project/run_scripts/ode_bf/tests/test_p1r52_c_writer_kstep.py",
     "project/run_scripts/ode_bf/locks/p1r52_sequential_b100x10_stream_seal.json",
+    "local/odebf/reports/p1r52-joint-pc-full-fp32-independent-b100x10-final-v6/rooted-analysis-receipt.json",
 )
 
 
