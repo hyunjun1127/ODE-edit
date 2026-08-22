@@ -161,6 +161,7 @@ def _fp32_target_and_j0(
     base_values: Mapping[str, torch.Tensor],
     request_microbatch_size: int,
     job_ledger: ComputeLedger,
+    c_kstep_writer_factory: Any | None = None,
 ) -> tuple[torch.Tensor, Mapping[str, Any], Any, Any]:
     order = scalable_ordered_request_digest([str(item["request_sha256"]) for item in requests])
     objective_plan = build_scalable_objective_plan(
@@ -185,6 +186,11 @@ def _fp32_target_and_j0(
         )
     finally:
         counter.close()
+    c_kstep_writer = (
+        None
+        if c_kstep_writer_factory is None
+        else c_kstep_writer_factory(objective_plan, capture_plan)
+    )
     rollout = _run_ode_arm(
         model, tokenizer, requests,
         alias="llama3-8b-inst", arm=FixedE8Arm.SOFT, allocation="RS",
@@ -200,7 +206,11 @@ def _fp32_target_and_j0(
         base_values=base_values, raw_root=case_root / "raw" / "target",
         write_once=_atomic_write_once, p1r24=True, p1r34=True, p1r35=True,
         p1r52=True, p1r52_fp32_phase_a=True,
-        p1r52_phase_a_method_label="P1R52-J0-FULL-FP32",
+        p1r52_phase_a_method_label=(
+            "P1R52-J0-FULL-FP32"
+            if c_kstep_writer is None else c_kstep_writer.arm
+        ),
+        p1r52_c_kstep_writer=c_kstep_writer,
     )
     public = rollout["public"]
     if public["accepted_update_count"] != P1R23_GRID_COUNT or public["tau_final"] != 1.0:
@@ -252,6 +262,9 @@ def _run_pc_arm_fp32(
         transaction_id=f"{ROLE}-{arm.value}",
     )
     layer_rows: list[dict[str, Any]] = []
+    capture_receipts: list[dict[str, Any]] = [
+        entry["physical"].raw_free_payload()
+    ]
     applied = []
     if solve_history_keys_by_layer is not None and (
         set(solve_history_keys_by_layer) != set(P1R23_LAYER_ORDER)
@@ -287,6 +300,7 @@ def _run_pc_arm_fp32(
                     field_source = "ENTRY_CURRENT_KEY_Q_WITH_COMMITTED_CACHE"
             else:
                 physical = capture_scalable_physical_state(model, capture_plan, hparams)
+                capture_receipts.append(physical.raw_free_payload())
                 current_terminal = physical.terminal_z.detach().cpu().float().contiguous()
                 field_target = (
                     target if arm is not JointPCWriterArm.C2
@@ -362,6 +376,7 @@ def _run_pc_arm_fp32(
         row["update_energy_share"] = row["update_energy"] / total_energy if total_energy else 0.0
     return {
         "arm": arm.value, "pi": list(pi), "beta": list(beta), "layers": layer_rows,
+        "prefix_capture_receipts": capture_receipts,
         "transaction": transaction_receipt.raw_free_payload(),
         "post_terminal_sha256": tensor_sha256(post.terminal_z),
         "post_terminal_residual_norm": float(torch.linalg.norm((target-post.terminal_z.cpu().float()).double())),
