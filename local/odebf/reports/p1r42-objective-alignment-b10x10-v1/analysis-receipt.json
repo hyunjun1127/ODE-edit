@@ -1,0 +1,16 @@
+{
+  "analysis_manifest_sha256": "b1bff0a5178040536ee26ab12fd11f2239ff968059b2e0229f1f237171a69174",
+  "artifact_root": "7ece0c41111972fd38411d95202bf11da5d1392882ecae19fcee08bc850236c5",
+  "contract_sha256": "5ae7074d2280d8975a5735ceca108377d4f270292a293232f7a690efe25344b1",
+  "report_bytes": 11960,
+  "report_directory": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p1r42-objective-alignment-b10x10-v1/local/odebf/reports/p1r42-objective-alignment-b10x10-v1",
+  "report_lines": 153,
+  "report_sha256": "f5cf8ac14b34e38a0d235df57b2d1453d91954c4d6d9cf0b0dd86bc100078989",
+  "result_integrity_root": "627c5248db104cf92d8282af4f6d1bff7bd673eb12275cdab359343b4fb51fbb",
+  "schema": "ode-edit-s05-p1r42-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "source_head": "ca68a4f459fd7303a4d5abbde2e1bf7aee0d805c",
+  "source_tree": "4af77417a52c70b99784d64dbfcabba0a91a1960",
+  "transport_reconciliation_root": "f991b41083642298eeccccf06c5a4435c65397acb5e4b802b9fdfce63f96bcd3",
+  "transport_reconciliation_sha256": "f7665744a019deb5fa64c43a1bf11cf903857f0b8711683ae574769a8bc1214d"
+}
