@@ -38,11 +38,18 @@ P1R52_TARGET_DEPTH_EXTENSION_INSTRUCTION_ID = (
     "ODEEDIT-S05-P1R52-TARGET-DEPTH-IL8-IL10-IL15-V1"
 )
 P1R52_TARGET_DEPTH_EXTENSION_METHOD_ID = "P1R52-TARGET-DEPTH-IL8-IL10-IL15"
+P1R52_TARGET_DEPTH_IL5_SEQUENTIAL_INSTRUCTION_ID = (
+    "ODEEDIT-S05-P1R52-LLAMA-J0-IL5-SEQUENTIAL-10XB100-V1"
+)
+P1R52_TARGET_DEPTH_IL5_SEQUENTIAL_METHOD_ID = (
+    "P1R52-LLAMA-J0-TARGET-DEPTH-IL5-SEQUENTIAL-10XB100"
+)
 
 
 class P1R52TargetDepth(str, Enum):
     IL1 = "IL1"
     IL3_FULL = "IL3-FULL"
+    IL5_FULL = "IL5-FULL"
     IL8_FULL = "IL8-FULL"
     IL10_FULL = "IL10-FULL"
     IL15_FULL = "IL15-FULL"
@@ -52,6 +59,7 @@ class P1R52TargetDepth(str, Enum):
         return {
             P1R52TargetDepth.IL1: 1,
             P1R52TargetDepth.IL3_FULL: 3,
+            P1R52TargetDepth.IL5_FULL: 5,
             P1R52TargetDepth.IL8_FULL: 8,
             P1R52TargetDepth.IL10_FULL: 10,
             P1R52TargetDepth.IL15_FULL: 15,
@@ -59,19 +67,19 @@ class P1R52TargetDepth(str, Enum):
 
     @property
     def instruction_id(self) -> str:
-        return (
-            P1R52_TARGET_DEPTH_INSTRUCTION_ID
-            if self in (P1R52TargetDepth.IL1, P1R52TargetDepth.IL3_FULL)
-            else P1R52_TARGET_DEPTH_EXTENSION_INSTRUCTION_ID
-        )
+        if self in (P1R52TargetDepth.IL1, P1R52TargetDepth.IL3_FULL):
+            return P1R52_TARGET_DEPTH_INSTRUCTION_ID
+        if self is P1R52TargetDepth.IL5_FULL:
+            return P1R52_TARGET_DEPTH_IL5_SEQUENTIAL_INSTRUCTION_ID
+        return P1R52_TARGET_DEPTH_EXTENSION_INSTRUCTION_ID
 
     @property
     def method_id(self) -> str:
-        return (
-            P1R52_TARGET_DEPTH_METHOD_ID
-            if self in (P1R52TargetDepth.IL1, P1R52TargetDepth.IL3_FULL)
-            else P1R52_TARGET_DEPTH_EXTENSION_METHOD_ID
-        )
+        if self in (P1R52TargetDepth.IL1, P1R52TargetDepth.IL3_FULL):
+            return P1R52_TARGET_DEPTH_METHOD_ID
+        if self is P1R52TargetDepth.IL5_FULL:
+            return P1R52_TARGET_DEPTH_IL5_SEQUENTIAL_METHOD_ID
+        return P1R52_TARGET_DEPTH_EXTENSION_METHOD_ID
 
     @classmethod
     def from_inner_count(cls, inner_count: int) -> "P1R52TargetDepth":
@@ -80,13 +88,18 @@ class P1R52TargetDepth(str, Enum):
             return by_count[inner_count]
         except KeyError as exc:
             raise ODEBFContractError(
-                "P1R52 target depth must be exactly IL1, IL3-FULL, IL8-FULL, "
-                "IL10-FULL, or IL15-FULL"
+                "P1R52 target depth must be exactly IL1, IL3-FULL, IL5-FULL, "
+                "IL8-FULL, IL10-FULL, or IL15-FULL"
             ) from exc
 
 
 P1R52_TARGET_DEPTH_INNER_COUNTS = tuple(
-    item.inner_count for item in P1R52TargetDepth
+    item.inner_count
+    for item in P1R52TargetDepth
+    if item is not P1R52TargetDepth.IL5_FULL
+)
+P1R52_SEQUENTIAL_TARGET_DEPTH_INNER_COUNTS = (
+    P1R52TargetDepth.IL5_FULL.inner_count,
 )
 
 
@@ -461,7 +474,10 @@ __all__ = [
     "P1R52_TARGET_DEPTH_METHOD_ID",
     "P1R52_TARGET_DEPTH_EXTENSION_INSTRUCTION_ID",
     "P1R52_TARGET_DEPTH_EXTENSION_METHOD_ID",
+    "P1R52_TARGET_DEPTH_IL5_SEQUENTIAL_INSTRUCTION_ID",
+    "P1R52_TARGET_DEPTH_IL5_SEQUENTIAL_METHOD_ID",
     "P1R52_TARGET_DEPTH_INNER_COUNTS",
+    "P1R52_SEQUENTIAL_TARGET_DEPTH_INNER_COUNTS",
     "P1R52TargetDepth",
     "P1R52TargetDepthInner",
     "P1R52TargetDepthOuter",

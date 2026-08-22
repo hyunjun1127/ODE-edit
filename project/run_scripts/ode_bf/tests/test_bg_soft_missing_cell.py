@@ -374,18 +374,18 @@ class BgSoftMissingCellTests(unittest.TestCase):
             tokenizer = _GeometryTokenizer(padding_side)
             easyeditor = ModuleType("easyeditor")
             models = ModuleType("easyeditor.models")
-            alphaedit = ModuleType("easyeditor.models.alphaedit")
-            alphaedit.AlphaEdit_main = SimpleNamespace(
-                find_fact_lookup_idx=mock.Mock(return_value=1)
+            rome = ModuleType("easyeditor.models.rome")
+            rome.repr_tools = SimpleNamespace(
+                get_words_idxs_in_templates=mock.Mock(return_value=[[1]])
             )
             easyeditor.models = models
-            models.alphaedit = alphaedit
+            models.rome = rome
             with mock.patch.dict(
                 sys.modules,
                 {
                     "easyeditor": easyeditor,
                     "easyeditor.models": models,
-                    "easyeditor.models.alphaedit": alphaedit,
+                    "easyeditor.models.rome": rome,
                 },
             ):
                 positions, patched_rows, receipt = (

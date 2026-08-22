@@ -2965,13 +2965,20 @@ def _heldout_additive_lookup_geometry(
     cases: Sequence[Any],
     *,
     fact_token_strategy: str,
+    expected_batch_size: int = BATCH_SIZE,
 ) -> tuple[tuple[tuple[int, ...], ...], tuple[int, ...], dict[str, Any]]:
     """Resolve held-out rewrite/paraphrase lookup rows without serializing text."""
 
-    from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
+    from easyeditor.models.rome import repr_tools
 
-    if len(requests) != BATCH_SIZE or len(cases) != BATCH_SIZE:
-        raise ODEBFContractError("BG-Soft heldout lookup B10 differs")
+    if (
+        isinstance(expected_batch_size, bool)
+        or not isinstance(expected_batch_size, int)
+        or expected_batch_size <= 0
+        or len(requests) != expected_batch_size
+        or len(cases) != expected_batch_size
+    ):
+        raise ODEBFContractError("heldout lookup batch cardinality differs")
     evaluation_padding_side = tokenizer.padding_side
     if evaluation_padding_side not in ("left", "right"):
         raise ODEBFContractError(
@@ -3000,17 +3007,22 @@ def _heldout_additive_lookup_geometry(
                 )
             template = prefix.replace(subject, "{}", 1)
             templates.append(template)
-            raw_positions.append(
-                int(
-                    alpha_main.find_fact_lookup_idx(
-                        template,
-                        subject,
-                        tokenizer,
-                        fact_token_strategy,
-                        verbose=False,
-                    )
+            if fact_token_strategy == "last":
+                raw_position = -1
+            elif fact_token_strategy.startswith("subject_"):
+                raw_position = int(
+                    repr_tools.get_words_idxs_in_templates(
+                        tok=tokenizer,
+                        context_templates=[template],
+                        words=[subject],
+                        subtoken=fact_token_strategy[len("subject_") :],
+                    )[0][0]
                 )
-            )
+            else:
+                raise ODEBFContractError(
+                    "BG-Soft heldout lookup strategy differs"
+                )
+            raw_positions.append(raw_position)
             prefix_lengths.append(len(tokenizer(prefix)["input_ids"]))
         rows = [
             f"{prefix} {suffix}"
@@ -3065,12 +3077,18 @@ def _heldout_additive_lookup_geometry(
         )
     payload = {
         "schema": "ode-edit-s05-bg-soft-heldout-additive-lookup/v1",
-        "request_count": BATCH_SIZE,
+        "request_count": expected_batch_size,
         "patched_rows_per_request": patched_rows,
         "rows": geometry_rows,
         "padding_side_during_geometry": evaluation_padding_side,
         "padding_side_matches_evaluator": True,
         "padding_side_unchanged": True,
+        "lookup_kernel": (
+            "easyeditor.models.rome.repr_tools."
+            "get_words_idxs_in_templates"
+        ),
+        "unused_sentence_format_call_count": 0,
+        "literal_unrelated_brace_preserved": True,
         "absolute_z_replacement_count": 0,
         "heldout_controller_decision_influence_count": 0,
     }

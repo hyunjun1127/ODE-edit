@@ -1,0 +1,147 @@
+{
+  "identity_sha256": "920f1d432f3248a56207c3704414e628590d436d01533bdb16c56dc4e6b0b014",
+  "inputs": [
+    {
+      "bytes": 2224283,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-llama-j0-il5-sequential-10xb100-v1/local/odebf/results/s05-p1r52-llama-j0-il5-sequential-10xb100-postenergy-warn-r1-tech-r2-v1/terminal.json",
+      "sha256": "adf8f68682475f94c2c2c95d2b511feb5ec82e35ebf861c95c16838c207154c6"
+    },
+    {
+      "bytes": 1952,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-llama-j0-il5-sequential-10xb100-v1/local/odebf/results/s05-p1r52-llama-j0-il5-sequential-10xb100-postenergy-warn-r1-tech-r2-v1/manifest.json",
+      "sha256": "83be2f044d0c94e26f8c55dd4652bb7eb17c97e530a43367776d9a2ae2eabdfb"
+    },
+    {
+      "bytes": 6426122,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-llama-j0-il5-sequential-10xb100-v1/local/odebf/results/s05-p1r52-llama-j0-il5-sequential-10xb100-postenergy-warn-r1-tech-r2-v1/target-depth-inner-telemetry.json",
+      "sha256": "141eadf79751b65a34a9259d37fa3f22354411fb92264ba81b50f06b16015806"
+    },
+    {
+      "bytes": 1755918,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-llama-j0-il5-sequential-10xb100-v1/local/odebf/results/s05-p1r52-llama-j0-il5-sequential-10xb100-postenergy-warn-r1-tech-r2-v1/target-depth-outer-telemetry.json",
+      "sha256": "2602251c4af8ed3f81ba8a6757543e8524d6f756464f19b2d514b9001766a4ac"
+    },
+    {
+      "bytes": 186348,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-llama-j0-il5-sequential-10xb100-v1/local/odebf/results/s05-p1r52-llama-j0-il5-sequential-10xb100-postenergy-warn-r1-tech-r2-v1/structural-h-decisions.json",
+      "sha256": "e9d92cda8b8f409d4724fd7f1b8a0abae597a077fc6ede5dd0b3148c38d02e88"
+    },
+    {
+      "bytes": 147223,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-llama-j0-il5-sequential-10xb100-v1/local/odebf/results/s05-p1r52-llama-j0-il5-sequential-10xb100-postenergy-warn-r1-tech-r2-v1/actual-update-norm-share.json",
+      "sha256": "535139fda3d349bc3d6f21c2ffc026bec5614661095c05da181984a510b57306"
+    },
+    {
+      "bytes": 49763,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-llama-j0-il5-sequential-10xb100-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-aggregate.json",
+      "sha256": "5d2f013b1ccc613cad28ac86f9dff3e3fcab05c72ac26ccfa179deca99ff4d7d"
+    },
+    {
+      "bytes": 62945,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-llama-j0-il5-sequential-10xb100-v1/local/odebf/reports/p1r52-b100-accepted-z-rephrase-observation-v1/p1r52-accepted-z-aggregates.json",
+      "sha256": "264ba1fbe70ab961b127bbf707cf4d56496d399963e27dc76c18ca73b85601c1"
+    },
+    {
+      "bytes": 970,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-llama-j0-il5-sequential-10xb100-v1/local/odebf/results/s05-p1r52-llama-j0-il5-sequential-10xb100-postenergy-warn-r1-tech-r1-v1/failure.json",
+      "sha256": "cd80cca84eb369fe47f4bbe269c794ce90949cf3bea1c92bb4ec3130fdac0353"
+    }
+  ],
+  "member_root_sha256": "fcd077fca5eaa2be5083c50bf7b198f3d0c70e4ff7a0e103c73d3345ce32b2ed",
+  "members": [
+    {
+      "bytes": 11919,
+      "lines": 115,
+      "name": "p1r52-llama-j0-il5-sequential-10xb100-terminal-report-ko.md",
+      "rows": null,
+      "sha256": "31fc39a34491e6e68e4b24c6bab9b260f2eff8cc7dd60645b44d26979aabe834"
+    },
+    {
+      "bytes": 28248,
+      "lines": 976,
+      "name": "il5-core-comparison.json",
+      "rows": null,
+      "sha256": "16c34e60efe419c566cbc3d608d6cf2f67d0e5289577fa74b30dce63dccddb8e"
+    },
+    {
+      "bytes": 8484,
+      "lines": 340,
+      "name": "il5-inner-trajectory.json",
+      "rows": 5,
+      "sha256": "a0df92c50c310154f8c0aaf4f28f32b035117075ef07292f051bf064b8328e5a"
+    },
+    {
+      "bytes": 86967,
+      "lines": 2857,
+      "name": "il5-batch-trajectory.json",
+      "rows": 10,
+      "sha256": "6b29134da8cc372f6927f800d6e03f07366a7a58f22c861ed7181def4af4beb6"
+    },
+    {
+      "bytes": 105122,
+      "lines": 2991,
+      "name": "il5-writer-routing-structural-h.json",
+      "rows": 80,
+      "sha256": "9dfaedd2c5e1061c0c4de79f52d8400afc79225816420c7979ef8b3096c0953e"
+    },
+    {
+      "bytes": 3494,
+      "lines": 122,
+      "name": "il5-layer-update-summary.json",
+      "rows": 5,
+      "sha256": "394fd649b52d8d7f3c51d317ca31d4ce3252d4c0d9579b12426ed4947fcdd8f3"
+    },
+    {
+      "bytes": 3699,
+      "lines": 84,
+      "name": "il5-hard-cohorts.json",
+      "rows": null,
+      "sha256": "b857c665bff2ee7b77bfbab89c62862c866fc6d9ad596f310756c873efa19515"
+    },
+    {
+      "bytes": 6739,
+      "lines": 230,
+      "name": "il5-compute-integrity.json",
+      "rows": null,
+      "sha256": "9ff7e02fed3c96225f3c53947de738bc2337813b9193a1fb7591cb1b0aa6beac"
+    }
+  ],
+  "result_manifest": {
+    "W0_restored": true,
+    "batch_size": 100,
+    "batch_terminal_sha256": [
+      "b3f284585d023ebaed10eae063965f21e92d7ac03e3547c22aa31e9ed52231ec",
+      "461682b30214d714a2d4f50db6e77afdf23670a8808f1a75cde77a5564474720",
+      "1b0e64dae08a1ef4ce11aa3754ae228d36521077ec144dc31de00b20172b19e3",
+      "d2c8b1d82aa84b4cd7c89009dfeaab65590f96112becd81583a64be4e3d1212b",
+      "e11b6bea390fd9cf9f67b4d658a0bac6eb79bc89200a6d01dae0444e91697e1d",
+      "c19fb35451e908dc55a20bc053c1fb49c6979d1ad61e249988070d546510d419",
+      "4c13f9917fd5945e59c5eced8dc825c272e4b7bd56e9fa779311c0c9a43b6751",
+      "4688d0958ef362d1f32b116f103a26d560dd6aaa1e240b1f917a604115598f72",
+      "7714b6a423c79aad5123db6dfefb5867c93249ac339a4e67631394007bdf9663",
+      "d23901f8c18c3ba5c79ad04d1916cde1b12f9f78e7abb0c3adebf7d9f4ce418e"
+    ],
+    "comparison_table_sha256": {
+      "actual-update-norm-share.json": "535139fda3d349bc3d6f21c2ffc026bec5614661095c05da181984a510b57306",
+      "b1-b10-post-final-checkpoints.json": "9a67d62eb676850bc2203b6156942b93bbb5cdffc44d1cc959b4de2fb65ea04f",
+      "batch-age-post-final-cohorts.json": "450718d9681bc91059b131eebdd2acd5eca6611915c486b82e338562fa95743b",
+      "immediate-post-final-w10-requests.json": "6f4864ecebc64ff9822b63015ef3aed786542b790425a381e59fed74cca1dd99",
+      "post-final-aggregate.json": "b7008e83eef3daf80a4da3a92c66135de1a900c657d22a7584bc300430623509",
+      "structural-h-decisions.json": "e9d92cda8b8f409d4724fd7f1b8a0abae597a077fc6ede5dd0b3148c38d02e88",
+      "target-depth-inner-telemetry.json": "141eadf79751b65a34a9259d37fa3f22354411fb92264ba81b50f06b16015806",
+      "target-depth-outer-telemetry.json": "2602251c4af8ed3f81ba8a6757543e8524d6f756464f19b2d514b9001766a4ac"
+    },
+    "identity_sha256": "24d52852ccbedbce85a2099170dd354f4ac5cfda11330c988ded28bb447d7aeb",
+    "request_count": 1000,
+    "role": "r52-soft-sequential-h",
+    "round_count": 10,
+    "scale_id": "b100x10",
+    "schema": "ode-edit-s05-p1r52-sequential-10xb100-manifest/v1",
+    "source_head": "e21a6a93db716c794a19f99da5b54d3558aa0776",
+    "terminal_sha256": "adf8f68682475f94c2c2c95d2b511feb5ec82e35ebf861c95c16838c207154c6"
+  },
+  "schema": "ode-edit-s05-p1r52-il5-sequential-analysis-manifest/v1",
+  "source_head": "e21a6a93db716c794a19f99da5b54d3558aa0776",
+  "source_tree": "c600adeae46f68a86cdd98f9daa91e6efab970ba",
+  "status": "PASS"
+}

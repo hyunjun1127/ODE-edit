@@ -488,10 +488,17 @@ def _rewrap_hook_output(output: Any, patched: torch.Tensor) -> Any:
 
 def _validated_positions_by_forward(
     value: Sequence[Sequence[int]],
+    *,
+    expected_forward_count: int = BATCH_SIZE,
 ) -> tuple[tuple[int, ...], ...]:
     forwards = _validated_sequence("held-out lookup positions", value)
-    if len(forwards) != BATCH_SIZE:
-        raise ODEBFContractError("held-out overlay forward count differs from B10")
+    if (
+        isinstance(expected_forward_count, bool)
+        or not isinstance(expected_forward_count, int)
+        or expected_forward_count <= 0
+        or len(forwards) != expected_forward_count
+    ):
+        raise ODEBFContractError("held-out overlay forward count differs")
     normalized: list[tuple[int, ...]] = []
     for forward_index, rows in enumerate(forwards):
         row_positions = _validated_sequence(
@@ -511,11 +518,14 @@ def _validated_positions_by_forward(
 
 
 def _validated_prefix_counts(
-    value: Sequence[int], positions: Sequence[Sequence[int]]
+    value: Sequence[int],
+    positions: Sequence[Sequence[int]],
+    *,
+    expected_forward_count: int = BATCH_SIZE,
 ) -> tuple[int, ...]:
     counts = _validated_sequence("held-out patched-prefix row counts", value)
-    if len(counts) != BATCH_SIZE:
-        raise ODEBFContractError("held-out overlay prefix count differs from B10")
+    if len(counts) != expected_forward_count:
+        raise ODEBFContractError("held-out overlay prefix count differs")
     normalized: list[int] = []
     for count, row_positions in zip(counts, positions, strict=True):
         if (
@@ -568,7 +578,7 @@ class HeldoutRequestResidualActivationOverlay:
             or residual.layout != torch.strided
             or residual.ndim != 2
             or residual.shape[0] <= 0
-            or residual.shape[1] != BATCH_SIZE
+            or residual.shape[1] <= 0
             or not residual.is_floating_point()
         ):
             raise ODEBFContractError("held-out residual overlay geometry differs")
@@ -580,8 +590,16 @@ class HeldoutRequestResidualActivationOverlay:
             ) from exc
         if not residual_finite:
             raise ODEBFContractError("held-out residual overlay must be finite")
-        positions = _validated_positions_by_forward(lookup_positions_by_forward)
-        prefix_counts = _validated_prefix_counts(patched_prefix_row_counts, positions)
+        self.request_count = int(residual.shape[1])
+        positions = _validated_positions_by_forward(
+            lookup_positions_by_forward,
+            expected_forward_count=self.request_count,
+        )
+        prefix_counts = _validated_prefix_counts(
+            patched_prefix_row_counts,
+            positions,
+            expected_forward_count=self.request_count,
+        )
         self.model = model
         self.layer_name = layer_name
         self.residual = residual
@@ -673,7 +691,7 @@ class HeldoutRequestResidualActivationOverlay:
         return authoritative_error, realized_delta_error
 
     def _hook(self, _module: torch.nn.Module, _inputs: Any, output: Any) -> Any:
-        if self.calls >= BATCH_SIZE:
+        if self.calls >= self.request_count:
             raise ODEBFContractError("held-out residual overlay received extra forward")
         activation = _unwrap_hook_output(output)
         forward_index = self.calls
@@ -767,12 +785,12 @@ class HeldoutRequestResidualActivationOverlay:
         return False
 
     def assert_complete(self) -> None:
-        expected = tuple(range(BATCH_SIZE))
+        expected = tuple(range(self.request_count))
         if (
             self._handle is not None
-            or self.calls != BATCH_SIZE
+            or self.calls != self.request_count
             or tuple(self.request_ordinals) != expected
-            or len(self.layouts) != BATCH_SIZE
+            or len(self.layouts) != self.request_count
         ):
             raise ODEBFContractError("held-out residual overlay call/cleanup differs")
 
@@ -783,7 +801,7 @@ class HeldoutRequestResidualActivationOverlay:
         payload: dict[str, Any] = {
             "schema": "ode-edit-s05-bg-soft-heldout-residual-overlay/v1",
             "mode": "REQUEST_WISE_ADDITIVE_HELDOUT_PREFIX",
-            "request_count": BATCH_SIZE,
+            "request_count": self.request_count,
             "hook_call_count": self.calls,
             "request_ordinal_sha256": canonical_hash(self.request_ordinals),
             "residual_sha256": tensor_sha256(self.residual),

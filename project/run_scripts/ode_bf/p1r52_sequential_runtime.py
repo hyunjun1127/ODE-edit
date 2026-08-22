@@ -133,6 +133,17 @@ from .p3r1_runtime import (
     is_p3r1_role,
     run_p3r1_case,
 )
+from .p1r52_target_depth import P1R52TargetDepth
+from .p1r52_target_depth_inner_telemetry import (
+    P1R52TargetDepthTelemetryObserver,
+)
+from .p1r52_target_depth_sequential_il5 import (
+    ATTEMPT_SUFFIX as P1R52_IL5_SEQUENTIAL_ATTEMPT_SUFFIX,
+    INSTRUCTION_ID as P1R52_IL5_SEQUENTIAL_INSTRUCTION_ID,
+    METHOD_ID as P1R52_IL5_SEQUENTIAL_METHOD_ID,
+    RESULT_NAME as P1R52_IL5_SEQUENTIAL_RESULT_NAME,
+    validate_runtime_activation as validate_il5_sequential_activation,
+)
 from .scalable_batched_model import build_scalable_capture_plan, build_scalable_objective_plan
 from .scalable_batched_native import run_official_native_apply
 from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER, scalable_ordered_request_digest
@@ -211,6 +222,10 @@ RESULT_NAMES_B100X10_ACCEPTED_Z_OBS_TECH_R1 = {
 RESULT_NAMES_B100X10_ACCEPTED_Z_OBS_TECH_R1_R52 = {
     role: name.removesuffix("-v1") + "-tech-r1-r52-v1"
     for role, name in RESULT_NAMES_B100X10_ACCEPTED_Z_OBS.items()
+}
+
+RESULT_NAMES_B100X10_IL5 = {
+    R52_H_ROLE: P1R52_IL5_SEQUENTIAL_RESULT_NAME,
 }
 
 
@@ -317,6 +332,7 @@ def expected_p1r52_sequential_result_name(
         "accepted-z-rephrase-obs",
         "accepted-z-rephrase-obs-tech-r1",
         "accepted-z-rephrase-obs-tech-r1-r52",
+        P1R52_IL5_SEQUENTIAL_ATTEMPT_SUFFIX,
         P1R52_PIRU_SEQUENTIAL_ATTEMPT_SUFFIX,
         P1R52_PIRU_POSTENERGY_WARN_ATTEMPT_SUFFIX,
         P1R52_PIRU_CACHE_CONTINUITY_ATTEMPT_SUFFIX,
@@ -336,6 +352,8 @@ def expected_p1r52_sequential_result_name(
         if attempt_suffix == "accepted-z-rephrase-obs-tech-r1-r52"
         else RESULT_NAMES_B100X10_PIRU
         if attempt_suffix == P1R52_PIRU_SEQUENTIAL_ATTEMPT_SUFFIX
+        else RESULT_NAMES_B100X10_IL5
+        if attempt_suffix == P1R52_IL5_SEQUENTIAL_ATTEMPT_SUFFIX
         else {P1R52_PIRU_SEQUENTIAL_ROLE: P1R52_PIRU_POSTENERGY_WARN_RESULT_NAME}
         if attempt_suffix == P1R52_PIRU_POSTENERGY_WARN_ATTEMPT_SUFFIX
         else P1R52_PIRU_CACHE_CONTINUITY_RESULT_NAMES
@@ -1102,6 +1120,9 @@ def run_p1r52_sequential(
     postsolve_energy_warn_enabled: bool = False,
     piru_cache_complete_rounds: Sequence[int] | None = None,
     fp32_runtime: Any | None = None,
+    attempt_suffix: str | None = None,
+    target_depth: P1R52TargetDepth | str | None = None,
+    target_depth_inner_telemetry: bool = False,
 ) -> dict[str, Any]:
     if role in JOINT_PC_INDEPENDENT_FP32_ROLES:
         if (
@@ -1327,12 +1348,26 @@ def run_p1r52_sequential(
             job_ledger=job_ledger,
             request_microbatch_size=request_microbatch_size,
         )
+    target_depth_policy = None
+    if target_depth is not None or target_depth_inner_telemetry:
+        target_depth_policy = validate_il5_sequential_activation(
+            role=role,
+            scale_id=scale.scale_id,
+            attempt_suffix=attempt_suffix,
+            depth=target_depth,
+            inner_telemetry=target_depth_inner_telemetry,
+            batch_entry_evaluator=batch_entry_evaluation_enabled,
+            postsolve_energy_warn_enabled=postsolve_energy_warn_enabled,
+        ).depth
+    elif attempt_suffix == P1R52_IL5_SEQUENTIAL_ATTEMPT_SUFFIX:
+        raise ODEBFContractError("P1R52 IL5 sequential target-depth state is absent")
     role_names = (
         RESULT_NAMES
         if scale == P1R52_B10X10_SCALE
         else {
             **RESULT_NAMES_B100X10,
             **RESULT_NAMES_B100X10_PIRU,
+            **RESULT_NAMES_B100X10_IL5,
             **P1R52_PIRU_CACHE_CONTINUITY_RESULT_NAMES,
         }
     )
@@ -1364,13 +1399,22 @@ def run_p1r52_sequential(
         or not accepted_z_reference_root.is_dir()
     ):
         raise ODEBFContractError("accepted-z sealed reference root is absent")
-    if postsolve_energy_warn_enabled and (
-        not is_piru_structural_h_role(role)
-        or batch_entry_evaluation_enabled
-        or not accepted_z_observation_enabled
-        or accepted_z_sealed_w_reuse
-    ):
-        raise ODEBFContractError("PIR-U post-energy-WARN runtime scope differs")
+    if postsolve_energy_warn_enabled:
+        il5_warn_scope = (
+            target_depth_policy is P1R52TargetDepth.IL5_FULL
+            and attempt_suffix == P1R52_IL5_SEQUENTIAL_ATTEMPT_SUFFIX
+            and role == R52_H_ROLE
+            and not batch_entry_evaluation_enabled
+            and not accepted_z_observation_enabled
+        )
+        piru_warn_scope = (
+            is_piru_structural_h_role(role)
+            and not batch_entry_evaluation_enabled
+            and accepted_z_observation_enabled
+            and not accepted_z_sealed_w_reuse
+        )
+        if not (il5_warn_scope or piru_warn_scope):
+            raise ODEBFContractError("post-energy-WARN runtime scope differs")
     cache_role_policy = piru_cache_policy_for_role(role)
     if cache_role_policy is None and piru_cache_complete_rounds is not None:
         raise ODEBFContractError("PIR-U cache-continuity rounds used by another role")
@@ -1410,6 +1454,8 @@ def run_p1r52_sequential(
     z_w_realization_rows: list[dict[str, Any]] = []
     actual_update_norm_rows: list[dict[str, Any]] = []
     h_route_rows: list[dict[str, Any]] = []
+    target_depth_inner_rows: list[dict[str, Any]] = []
+    target_depth_outer_rows: list[dict[str, Any]] = []
     prior_commit_hashes = _hashes(touched)
     alphaedit_prior_cache_exit_sha256: str | None = None
     alphaedit_static_projection_identity: str | None = None
@@ -1480,6 +1526,10 @@ def run_p1r52_sequential(
 
             case_root = raw_root / "batches" / f"b{round_index:02d}"
             case_root.mkdir(mode=0o700, parents=True, exist_ok=False)
+            # These remain empty for every legacy/non-target-depth role.  Keep
+            # the batch schema total without changing those execution paths.
+            batch_target_depth_inner_rows: list[dict[str, Any]] = []
+            batch_target_depth_outer_rows: list[dict[str, Any]] = []
             entry_pre: dict[str, Any] | None = None
             if batch_entry_evaluation_enabled:
                 entry_pre, pre_wall = _evaluate_batch_entry(
@@ -1522,6 +1572,32 @@ def run_p1r52_sequential(
                 )
                 if objective_plan.request_order_sha256 != request_order or capture_plan.request_order_sha256 != request_order:
                     raise ODEBFContractError("P1R52 sequential objective/capture order differs")
+                target_depth_telemetry_observer = None
+                if target_depth_policy is not None:
+                    telemetry_cases, _ = _action_frozen_cases(
+                        dataset_path,
+                        requests,
+                        arm=f"{role}-{target_depth_policy.value}",
+                        selected_snapshot_sha256=canonical_hash(entry_hashes),
+                        fixed_budget_slots_completed=0,
+                    )
+                    target_depth_telemetry_observer = (
+                        P1R52TargetDepthTelemetryObserver(
+                            model,
+                            tokenizer,
+                            requests,
+                            telemetry_cases,
+                            alias=alias,
+                            method=P1R52_IL5_SEQUENTIAL_METHOD_ID,
+                            request_order_sha256=request_order,
+                            target_layer_name=hparams.layer_module_tmp.format(
+                                int(hparams.layers[-1])
+                            ),
+                            fact_token_strategy=hparams.fact_token,
+                            expected_request_count=scale.batch_size,
+                            include_accuracy=True,
+                        )
+                    )
                 outer_population = tuple(population_by_sha256[item] for item in theta0_cache.request_order)
                 snapshot = _entry_parameter_snapshot_sha256(model, dict(entry_receipt.parameter_sha256))
                 counter = ModelForwardCounter(model, job_ledger)
@@ -1607,10 +1683,21 @@ def run_p1r52_sequential(
                         p1r34=True,
                         p1r35=True,
                         p1r52=True,
+                        p1r52_target_depth=(
+                            target_depth_policy.inner_count
+                            if target_depth_policy is not None
+                            else 1
+                        ),
+                        p1r52_target_depth_telemetry_observer=(
+                            target_depth_telemetry_observer
+                        ),
+                        p1r52_sequential_target_depth=(
+                            target_depth_policy is not None
+                        ),
                         p1r52_pir_policy=pir_policy,
                     )
                 batch_norm_rows: list[dict[str, Any]] = []
-                if pir_policy is not None:
+                if pir_policy is not None or target_depth_policy is not None:
                     batch_norm_rows = load_actual_update_norm_rows(case_root / "raw" / "ode")
                     for item in batch_norm_rows:
                         item["round"] = round_index
@@ -1619,6 +1706,86 @@ def run_p1r52_sequential(
                             {key: value for key, value in item.items() if key != "identity_sha256"}
                         )
                     actual_update_norm_rows.extend(batch_norm_rows)
+                if target_depth_policy is not None:
+                    accepted_paths = sorted(
+                        (case_root / "raw" / "ode").rglob("accepted-k*.json"),
+                        key=lambda path: int(path.stem.removeprefix("accepted-k")),
+                    )
+                    if [
+                        int(path.stem.removeprefix("accepted-k"))
+                        for path in accepted_paths
+                    ] != list(range(1, P1R23_GRID_COUNT + 1)):
+                        raise ODEBFStateError(
+                            "P1R52 IL5 sequential accepted receipt inventory differs"
+                        )
+                    for accepted_path in accepted_paths:
+                        accepted_step = json.loads(
+                            accepted_path.read_text(encoding="utf-8")
+                        )
+                        outer_index = int(
+                            accepted_path.stem.removeprefix("accepted-k")
+                        ) - 1
+                        inner_trajectory = accepted_step["target_update"][
+                            "inner_trajectory"
+                        ]
+                        if len(inner_trajectory) != target_depth_policy.inner_count:
+                            raise ODEBFStateError(
+                                "P1R52 IL5 sequential accepted inner count differs"
+                            )
+                        for inner in inner_trajectory:
+                            observation = inner.get("accepted_z_observation")
+                            if not isinstance(observation, Mapping):
+                                raise ODEBFStateError(
+                                    "P1R52 IL5 sequential inner telemetry is absent"
+                                )
+                            row = {
+                                "round": round_index,
+                                "outer_step_index": outer_index,
+                                **dict(observation),
+                            }
+                            row["identity_sha256"] = canonical_hash(
+                                {
+                                    key: value
+                                    for key, value in row.items()
+                                    if key != "identity_sha256"
+                                }
+                            )
+                            batch_target_depth_inner_rows.append(row)
+                        outer_observation = accepted_step.get(
+                            "target_depth_outer_terminal_telemetry"
+                        )
+                        if not isinstance(outer_observation, Mapping):
+                            raise ODEBFStateError(
+                                "P1R52 IL5 sequential outer telemetry is absent"
+                            )
+                        outer_row = {
+                            "round": round_index,
+                            **dict(outer_observation),
+                        }
+                        outer_row["identity_sha256"] = canonical_hash(
+                            {
+                                key: value
+                                for key, value in outer_row.items()
+                                if key != "identity_sha256"
+                            }
+                        )
+                        batch_target_depth_outer_rows.append(outer_row)
+                    if len(batch_target_depth_inner_rows) != 40 or len(
+                        batch_target_depth_outer_rows
+                    ) != 8:
+                        raise ODEBFStateError(
+                            "P1R52 IL5 sequential telemetry row count differs"
+                        )
+                    _atomic_write_once(
+                        case_root / "target-depth-inner-telemetry.json",
+                        batch_target_depth_inner_rows,
+                    )
+                    _atomic_write_once(
+                        case_root / "target-depth-outer-telemetry.json",
+                        batch_target_depth_outer_rows,
+                    )
+                    target_depth_inner_rows.extend(batch_target_depth_inner_rows)
+                    target_depth_outer_rows.extend(batch_target_depth_outer_rows)
                 if accepted_z_observation_enabled:
                     accepted_z_binding = r52_binding(
                         role,
@@ -2079,6 +2246,9 @@ def run_p1r52_sequential(
             batch_payload = {
                 "schema": f"ode-edit-s05-p1r52-sequential-{scale.scale_id}-terminal/v1",
                 "instruction_id": (
+                    P1R52_IL5_SEQUENTIAL_INSTRUCTION_ID
+                    if target_depth_policy is not None
+                    else
                     P1R52_PIRU_CACHE_CONTINUITY_INSTRUCTION_ID
                     if cache_role_policy is not None
                     else P1R52_PIRU_POSTENERGY_WARN_INSTRUCTION_ID
@@ -2088,6 +2258,9 @@ def run_p1r52_sequential(
                     else scale.instruction_id
                 ),
                 "method_id": (
+                    P1R52_IL5_SEQUENTIAL_METHOD_ID
+                    if target_depth_policy is not None
+                    else
                     f"{P1R52_PIRU_CACHE_CONTINUITY_METHOD_ID}:{cache_role_policy.value}"
                     if cache_role_policy is not None
                     else P1R52_PIRU_POSTENERGY_WARN_METHOD_ID
@@ -2105,6 +2278,20 @@ def run_p1r52_sequential(
                     else "OFFICIAL-ALPHAEDIT-SEQUENTIAL-CACHE-RESET-PER-B10-SUPERSEDED-V1"
                 ),
                 "role": role,
+                "target_depth_policy": (
+                    target_depth_policy.value
+                    if target_depth_policy is not None
+                    else None
+                ),
+                "target_depth_inner_count": (
+                    target_depth_policy.inner_count
+                    if target_depth_policy is not None
+                    else 1
+                ),
+                "target_depth_inner_telemetry": batch_target_depth_inner_rows,
+                "target_depth_outer_telemetry": batch_target_depth_outer_rows,
+                "target_depth_controller_heldout_access_count": 0,
+                "target_depth_observation_action_influence_count": 0,
                 "scale_id": scale.scale_id,
                 "batch_size": scale.batch_size,
                 "round": round_index,
@@ -2419,6 +2606,10 @@ def run_p1r52_sequential(
     actual_norm_table_path: Path | None = None
     h_route_table_sha: str | None = None
     h_route_table_path: Path | None = None
+    target_depth_inner_table_sha: str | None = None
+    target_depth_inner_table_path: Path | None = None
+    target_depth_outer_table_sha: str | None = None
+    target_depth_outer_table_path: Path | None = None
     if accepted_z_observation_enabled:
         if len(accepted_z_observations) != scale.round_count:
             raise ODEBFStateError("accepted-z observation round count differs")
@@ -2447,7 +2638,61 @@ def run_p1r52_sequential(
         z_w_table["identity_sha256"] = canonical_hash(z_w_table)
         z_w_table_path = destination / "z-w-writer-realization.json"
         z_w_table_sha = _atomic_write_once(z_w_table_path, z_w_table)
-    if postsolve_energy_warn_enabled:
+    if target_depth_policy is not None:
+        expected_inner_rows = (
+            scale.round_count
+            * P1R23_GRID_COUNT
+            * target_depth_policy.inner_count
+        )
+        expected_outer_rows = scale.round_count * P1R23_GRID_COUNT
+        if (
+            len(target_depth_inner_rows) != expected_inner_rows
+            or len(target_depth_outer_rows) != expected_outer_rows
+        ):
+            raise ODEBFStateError(
+                "P1R52 IL5 sequential terminal telemetry inventory differs"
+            )
+        target_depth_inner_table = {
+            "schema": "ode-edit-s05-p1r52-il5-sequential-inner-telemetry/v1",
+            "depth_policy": target_depth_policy.value,
+            "rows": target_depth_inner_rows,
+            "row_count": len(target_depth_inner_rows),
+            "request_bound_row_count": len(target_depth_inner_rows)
+            * scale.batch_size,
+            "controller_heldout_access_count": 0,
+            "observation_action_influence_count": 0,
+            "observation_added_backward_count": 0,
+            "observation_added_generation_count": 0,
+        }
+        target_depth_inner_table["identity_sha256"] = canonical_hash(
+            target_depth_inner_table
+        )
+        target_depth_inner_table_path = (
+            destination / "target-depth-inner-telemetry.json"
+        )
+        target_depth_inner_table_sha = _atomic_write_once(
+            target_depth_inner_table_path,
+            target_depth_inner_table,
+        )
+        target_depth_outer_table = {
+            "schema": "ode-edit-s05-p1r52-il5-sequential-outer-telemetry/v1",
+            "depth_policy": target_depth_policy.value,
+            "rows": target_depth_outer_rows,
+            "row_count": len(target_depth_outer_rows),
+            "batch_entry_evaluator_count": 0,
+            "observation_action_influence_count": 0,
+        }
+        target_depth_outer_table["identity_sha256"] = canonical_hash(
+            target_depth_outer_table
+        )
+        target_depth_outer_table_path = (
+            destination / "target-depth-outer-telemetry.json"
+        )
+        target_depth_outer_table_sha = _atomic_write_once(
+            target_depth_outer_table_path,
+            target_depth_outer_table,
+        )
+    if postsolve_energy_warn_enabled or target_depth_policy is not None:
         if len(actual_update_norm_rows) != scale.round_count * P1R23_GRID_COUNT:
             raise ODEBFStateError("actual update-norm row count differs")
         actual_norm_table = {
@@ -2469,7 +2714,7 @@ def run_p1r52_sequential(
             "schema": "ode-edit-s05-p1r52-piru-postenergy-warn-h-decisions/v1",
             "rows": h_route_rows,
             "row_count": len(h_route_rows),
-            "postsolve_energy_warn_enabled": True,
+            "postsolve_energy_warn_enabled": postsolve_energy_warn_enabled,
             "postsolve_energy_decision_influence_count": 0,
         }
         h_route_table["identity_sha256"] = canonical_hash(h_route_table)
@@ -2479,7 +2724,9 @@ def run_p1r52_sequential(
     terminal = {
         "schema": f"ode-edit-s05-p1r52-sequential-10xb{scale.batch_size}-terminal/v1",
         "instruction_id": (
-            P1R52_PIRU_CACHE_CONTINUITY_INSTRUCTION_ID
+            P1R52_IL5_SEQUENTIAL_INSTRUCTION_ID
+            if target_depth_policy is not None
+            else P1R52_PIRU_CACHE_CONTINUITY_INSTRUCTION_ID
             if cache_role_policy is not None
             else P1R52_PIRU_POSTENERGY_WARN_INSTRUCTION_ID
             if postsolve_energy_warn_enabled
@@ -2488,7 +2735,9 @@ def run_p1r52_sequential(
             else scale.instruction_id
         ),
         "method_id": (
-            f"{P1R52_PIRU_CACHE_CONTINUITY_METHOD_ID}:{cache_role_policy.value}"
+            P1R52_IL5_SEQUENTIAL_METHOD_ID
+            if target_depth_policy is not None
+            else f"{P1R52_PIRU_CACHE_CONTINUITY_METHOD_ID}:{cache_role_policy.value}"
             if cache_role_policy is not None
             else P1R52_PIRU_POSTENERGY_WARN_METHOD_ID
             if postsolve_energy_warn_enabled
@@ -2507,6 +2756,37 @@ def run_p1r52_sequential(
         "source_head": source_head,
         "alias": alias,
         "role": role,
+        "target_depth_policy": (
+            target_depth_policy.value if target_depth_policy is not None else None
+        ),
+        "target_depth_inner_count": (
+            target_depth_policy.inner_count if target_depth_policy is not None else 1
+        ),
+        "target_depth_inner_telemetry_row_count": len(target_depth_inner_rows),
+        "target_depth_request_inner_telemetry_row_count": (
+            len(target_depth_inner_rows) * scale.batch_size
+        ),
+        "target_depth_outer_telemetry_row_count": len(target_depth_outer_rows),
+        "target_depth_controller_heldout_access_count": 0,
+        "target_depth_observation_action_influence_count": 0,
+        "target_depth_inner_telemetry_table": (
+            {
+                "path": str(target_depth_inner_table_path),
+                "sha256": target_depth_inner_table_sha,
+                "rows": len(target_depth_inner_rows),
+            }
+            if target_depth_inner_table_path is not None
+            else None
+        ),
+        "target_depth_outer_telemetry_table": (
+            {
+                "path": str(target_depth_outer_table_path),
+                "sha256": target_depth_outer_table_sha,
+                "rows": len(target_depth_outer_rows),
+            }
+            if target_depth_outer_table_path is not None
+            else None
+        ),
         "scale_id": scale.scale_id,
         "round_count": scale.round_count,
         "batch_size": scale.batch_size,
@@ -2651,6 +2931,16 @@ def run_p1r52_sequential(
         "job_compute": job_ledger.raw_free_payload(),
         "scientific_promotion": False,
     }
+    if target_depth_policy is not None and (
+        terminal["batch_entry_pre_evaluator_count"] != 0
+        or terminal["batch_entry_pre_evaluator_forward_count"] != 0
+        or terminal["batch_entry_pre_evaluator_backward_count"] != 0
+        or terminal["batch_entry_pre_evaluator_generation_count"] != 0
+        or terminal["target_depth_inner_telemetry_row_count"] != 400
+        or terminal["target_depth_request_inner_telemetry_row_count"] != 40000
+        or terminal["target_depth_outer_telemetry_row_count"] != 80
+    ):
+        raise ODEBFStateError("P1R52 IL5 sequential terminal gate differs")
     if is_piru_structural_h_role(role) and (
         terminal["batch_entry_pre_evaluator_count"] != 0
         or terminal["batch_entry_pre_evaluator_forward_count"] != 0
@@ -2692,6 +2982,16 @@ def run_p1r52_sequential(
             **(
                 {str(h_route_table_path.name): h_route_table_sha}
                 if h_route_table_path is not None
+                else {}
+            ),
+            **(
+                {str(target_depth_inner_table_path.name): target_depth_inner_table_sha}
+                if target_depth_inner_table_path is not None
+                else {}
+            ),
+            **(
+                {str(target_depth_outer_table_path.name): target_depth_outer_table_sha}
+                if target_depth_outer_table_path is not None
                 else {}
             ),
         },

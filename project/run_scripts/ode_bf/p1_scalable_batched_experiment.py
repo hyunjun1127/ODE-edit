@@ -169,6 +169,7 @@ from .p1r52_r42_safe_kdc import (
     select_p1r52_target_proposal,
 )
 from .p1r52_target_depth import (
+    P1R52_SEQUENTIAL_TARGET_DEPTH_INNER_COUNTS,
     P1R52_TARGET_DEPTH_INNER_COUNTS,
     P1R52TargetDepth,
     run_p1r52_target_depth_scheduler,
@@ -331,6 +332,7 @@ def _run_ode_arm(
     p1r52_residual_reserve_writer: Any | None = None,
     p1r52_fp32_phase_a: bool = False,
     p1r52_phase_a_method_label: str | None = None,
+    p1r52_sequential_target_depth: bool = False,
     p1r52_writer_policy: P1R52WriterPolicy | str | None = None,
     p1r52_pir_policy: P1R52PIRPolicy | str | None = None,
 ) -> dict[str, Any]:
@@ -394,11 +396,21 @@ def _run_ode_arm(
         or arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT)
     ):
         raise ODEBFContractError("P1R52 R42-safe KDC path differs")
+    allowed_target_depth_counts = P1R52_TARGET_DEPTH_INNER_COUNTS + (
+        P1R52_SEQUENTIAL_TARGET_DEPTH_INNER_COUNTS
+        if p1r52_sequential_target_depth
+        else ()
+    )
     if (
         (p1r52_target_depth != 1 and not p1r52)
-        or p1r52_target_depth not in P1R52_TARGET_DEPTH_INNER_COUNTS
+        or p1r52_target_depth not in allowed_target_depth_counts
     ):
         raise ODEBFContractError("P1R52 target-depth activation differs")
+    if p1r52_sequential_target_depth and (
+        not p1r52
+        or p1r52_target_depth not in P1R52_SEQUENTIAL_TARGET_DEPTH_INNER_COUNTS
+    ):
+        raise ODEBFContractError("P1R52 sequential target-depth activation differs")
     target_depth_policy = P1R52TargetDepth.from_inner_count(p1r52_target_depth)
     if p1r52_pre_writer_observer is not None and (
         not p1r52 or target_depth_policy is not P1R52TargetDepth.IL1
