@@ -67,12 +67,12 @@
     },
     {
       "path": "project/run_scripts/session05_ode_bf_p4_za_pilot.py",
-      "sha256": "21c80544c48ab54a52f30246ff9610ed0a8ec94e5fd765c5a889ab7ff9397584",
-      "size": 26678
+      "sha256": "4263a50bd5fe5a6fd0528a5f6a830c6ce59d127bf685edb1168470e39059f2bf",
+      "size": 26626
     }
   ],
   "instruction_id": "ODEEDIT-S05-P4-TARGET-SIDE-SMOOTH-SEMANTIC-LOGODDS-BARRIER-V1",
-  "root_digest": "beadf79393497ebafb6be3db8b3193bc65946694c5483bf5abe1376b672ff634",
+  "root_digest": "0078187c9fd5931163ae1ce277909f089f1c9f8c89796bd941abe71657805bae",
   "schema_version": "ode-edit-s05-p4-za-pilot-source-manifest/v1",
   "source_parent": "f199ca3b519ef5e0387075cd4c77cf55ce494bc0"
 }

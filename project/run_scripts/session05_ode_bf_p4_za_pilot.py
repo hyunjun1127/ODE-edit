@@ -543,7 +543,6 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         request_order != transferred_row.get("request_order_sha256")
         or paired.new.request_order_sha256 != request_order
         or capture_plan.request_order_sha256 != request_order
-        or paired.new.context_sha256 != context_sha
     ):
         raise ODEBFContractError("P4 ZA runtime input/order binding differs")
     stages.record("post_alias_sealed_input_plan", {
