@@ -1,0 +1,135 @@
+{
+  "schema": "ode-edit-server4-p4-za-m1-vs-m5-case01-analysis/v1",
+  "instruction_id": "ODEEDIT-S05-P4-TARGET-SIDE-SMOOTH-SEMANTIC-LOGODDS-BARRIER-V1",
+  "authorization": "USER_2026-08-22_EXPLICIT_M1_COMPARISON",
+  "status": "M1_TERMINAL_COMPARISON_COMPLETE",
+  "source": {
+    "head": "26dc6007f8d41d5ca9fcb36ea6c8a6893f54bcb6",
+    "tree": "8ecedf0c83579b3066c266363e14bc08b64565c8",
+    "branch": "codex/server4-p4-m1-budget-ablation",
+    "m1_budget_lock_root": "2970634d9d427aefc73aec27a83ec67ab898e20aa1ab244397f619537425e140",
+    "source_manifest_root": "18aacd2db88f9a051f8ed509000d282cfc3fd7fcd464139b6571eac66a2b29d3"
+  },
+  "readiness": {
+    "transfer_status": "TRANSFER_FULL_READ_PASS",
+    "transfer_identity": "534b8a936f9dfdc2ab8f97dfcafa4d42f7523829cb7fc15e94b52522330cec50",
+    "final_pre_gpu_status": "FINAL_PRE_GPU_PASS",
+    "final_pre_gpu_identity": "9e24d0988f3018307851fce39f3b840e447c3ee22f61570c71d3a499c159cebe",
+    "full_fp32_offline": true,
+    "same_case01_request_order": "20933669138b5090645da9ea81b662085081fbc7eb756f542ec90bb9f51435ac",
+    "writer_count": 0,
+    "project_gpu_cap": 2
+  },
+  "execution": {
+    "successful_job": "22818_[0-1%2]",
+    "llama": {
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed_seconds": 256,
+      "max_rss_kib": 2205964,
+      "terminal_file_sha256": "6e94ff1788242e3747419fef5d268f20316070e14cfa0781927535f6cb8d4bc9",
+      "terminal_identity": "da8c19db9d484e804c29b8991ee9c3bb85c57fdcc4eb8393c628b4fbfc1b0f11"
+    },
+    "qwen": {
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed_seconds": 246,
+      "max_rss_kib": 2268096,
+      "terminal_file_sha256": "e67f0782c9d60a90bcc4cf9963dc67426abbfd6d203477b17da0ad9c129c589d",
+      "terminal_identity": "e4f77e5878edc9a94cefe5eff16a12edd74e2f05c12bb9e3bd31760f8c793968"
+    },
+    "pre_model_technical_failure": {
+      "job": "22816_[0-1%2]",
+      "cause": "isolated_worktree_missing_ignored_session_boundary",
+      "model_load_count": 0,
+      "scientific_result_count": 0,
+      "elapsed_gpu_seconds": 2
+    },
+    "inner_updates_per_outer": 1,
+    "outer_steps": 8,
+    "target_updates_per_arm": 8,
+    "post_update_selected_final_observations_per_arm": 8,
+    "same_w0_within_each_three_arm_panel": true,
+    "retry_count_scientific": 0
+  },
+  "cross_run_binding": {
+    "same_model_alias_revision_and_hf_consumed_closure": true,
+    "same_request_order_context_plan_teacher_and_initial_target_identity": true,
+    "same_native_target_identity": true,
+    "same_native_numeric_vectors": true,
+    "process_local_w0_receipt_hash_comparable": false,
+    "process_local_w0_receipt_reason": "_model_w0_contract includes CUDA data_ptr",
+    "verdict": "DEPLOYMENT_AND_INITIAL_STATE_MATCH_RUNTIME_POINTER_HASH_NOT_COMPARABLE"
+  },
+  "terminal": {
+    "llama": {
+      "M1": {
+        "Z+": {"eff": [10, 10], "gen": [20, 20], "loc": [93, 100], "eff_new_nll_mean": 1.2826826237142086, "gen_new_nll_mean": 2.8498496476560833, "gen_new_nll_p90": 8.26878890991211, "gen_new_nll_max": 9.21005630493164, "gen_margin_mean": 5.787540107592941},
+        "Z+-": {"eff": [10, 10], "gen": [19, 20], "loc": [93, 100], "eff_new_nll_mean": 0.36170707724959356, "gen_new_nll_mean": 1.8609225015505217, "gen_new_nll_p90": 4.666651773452761, "gen_new_nll_max": 8.205084800720215, "gen_margin_mean": 8.172762778832112},
+        "Native-Z": {"eff": [10, 10], "gen": [20, 20], "loc": [93, 100], "eff_new_nll_mean": 0.0009801905776839702, "gen_new_nll_mean": 1.040890564410074, "gen_new_nll_p90": 2.8104336738586464, "gen_new_nll_max": 6.803314685821533, "gen_margin_mean": 10.738011584790366}
+      },
+      "barrier_delta_M1_Zplusminus_minus_Zplus": {"gen_hits": -1, "eff_new_nll_mean": -0.920975546464615, "gen_new_nll_mean": -0.9889271461055615, "gen_new_nll_p90": -3.6021371364593495, "gen_new_nll_max": -1.0049715042114258, "gen_margin_mean": 2.3852226712391715},
+      "barrier_delta_M5_Zplusminus_minus_Zplus": {"gen_hits": 0, "eff_new_nll_mean": 0.0010694371972931535, "gen_new_nll_mean": 0.31418301968951723, "gen_new_nll_p90": 0.19838023185729714, "gen_new_nll_max": -0.4043416976928711, "gen_margin_mean": -2.0932722559489783},
+      "M1_minus_M5": {
+        "Z+": {"gen_hits": 0, "eff_new_nll_mean": 1.2234407671407097, "gen_new_nll_mean": 1.326445757673355, "gen_new_nll_p90": 3.1197260379791247, "gen_margin_mean": -4.625470005796524},
+        "Z+-": {"gen_hits": -1, "eff_new_nll_mean": 0.3013957834788016, "gen_new_nll_mean": 0.023335591878276274, "gen_new_nll_p90": -0.6807913303375219, "gen_margin_mean": -0.14697507860837433}
+      }
+    },
+    "qwen": {
+      "M1": {
+        "Z+": {"eff": [10, 10], "gen": [20, 20], "loc": [93, 100], "eff_new_nll_mean": 0.08521410891116829, "gen_new_nll_mean": 3.097799830383883, "gen_new_nll_p90": 7.783821010589601, "gen_new_nll_max": 12.371578216552734, "gen_margin_mean": 8.911165542655363},
+        "Z+-": {"eff": [10, 10], "gen": [20, 20], "loc": [93, 100], "eff_new_nll_mean": 0.15190766089654062, "gen_new_nll_mean": 2.2903474939696027, "gen_new_nll_p90": 6.646664524078371, "gen_new_nll_max": 8.278192520141602, "gen_margin_mean": 11.545763664162951},
+        "Native-Z": {"eff": [10, 10], "gen": [20, 20], "loc": [93, 100], "eff_new_nll_mean": 0.006403145811054856, "gen_new_nll_mean": 2.0096083470154555, "gen_new_nll_p90": 7.018723821640015, "gen_new_nll_max": 8.735128402709961, "gen_margin_mean": 11.072662084503099}
+      },
+      "barrier_delta_M1_Zplusminus_minus_Zplus": {"gen_hits": 0, "eff_new_nll_mean": 0.06669355198537233, "gen_new_nll_mean": -0.8074523364142805, "gen_new_nll_p90": -1.1371564865112296, "gen_new_nll_max": -4.093385696411133, "gen_margin_mean": 2.6345981215075884},
+      "barrier_delta_M5_Zplusminus_minus_Zplus": {"gen_hits": -1, "eff_new_nll_mean": 0.000009712001701700512, "gen_new_nll_mean": 0.17504796818029744, "gen_new_nll_p90": 1.1672176837921144, "gen_new_nll_max": -0.26981544494628906, "gen_margin_mean": 0.34295874997842546},
+      "M1_minus_M5": {
+        "Z+": {"gen_hits": 1, "eff_new_nll_mean": 0.08513827190727169, "gen_new_nll_mean": 0.5759321441721115, "gen_new_nll_p90": 0.9991742134094244, "gen_margin_mean": 0.9371854672361231},
+        "Z+-": {"gen_hits": 2, "eff_new_nll_mean": 0.15182211189094233, "gen_new_nll_mean": -0.40656816042246646, "gen_new_nll_p90": -1.3051999568939197, "gen_margin_mean": 3.228824838765286}
+      }
+    }
+  },
+  "selected_final_train_new_nll_by_outer": {
+    "llama": {
+      "Z+": [6.293618202209473, 1.4811345338821411, 1.8425861597061157, 0.9719884991645813, 1.431313157081604, 0.981442391872406, 1.682267427444458, 1.30934739112854],
+      "Z+-": [7.449134826660156, 2.5602478981018066, 1.7047301530838013, 1.8888459205627441, 0.7945412397384644, 1.0670613050460815, 2.3775370121002197, 0.3505421280860901]
+    },
+    "qwen": {
+      "Z+": [7.580581188201904, 2.616942882537842, 0.8065993785858154, 0.2565520405769348, 0.3288325071334839, 0.06136307865381241, 0.19562678039073944, 0.2558921277523041],
+      "Z+-": [8.633611679077148, 3.9420535564422607, 1.2878695726394653, 1.365535855293274, 0.34862855076789856, 0.17490129172801971, 0.02959442511200905, 0.15936627984046936]
+    }
+  },
+  "mechanism": {
+    "llama_clamp_hits_per_outer_request": "10/10 for both arms at all eight outer steps",
+    "llama_step_displacement_mean_range": [4.103875231742859, 4.700863218307495],
+    "qwen_clamp_hits_per_outer_request": "0/10 for both arms at all eight outer steps",
+    "qwen_step_displacement_mean_range": [29.90064811706543, 29.933123970031737],
+    "gradient_cosine_observation": "new-only versus positive-negative semantic gradients become nearly collinear after the first one or two outer steps as sigma collapses",
+    "interpretation": "M1 reduces front-loaded saturation but moment-reset first-step dynamics still yield large nearly constant moves and non-monotone oscillation"
+  },
+  "overhead": {
+    "M1_success_gpu_hours": 0.13944444444444445,
+    "M1_success_allocated_cpu_hours": 1.1155555555555556,
+    "M1_including_pre_model_failure_gpu_hours": 0.14,
+    "M1_including_pre_model_failure_allocated_cpu_hours": 1.12,
+    "M5_success_gpu_hours": 0.33055555555555555,
+    "M5_success_allocated_cpu_hours": 2.6444444444444444,
+    "success_gpu_time_reduction_fraction": 0.5781512605042017,
+    "target_objective_evaluations_per_arm_M1": 16,
+    "target_objective_evaluations_per_arm_M5": 40,
+    "target_objective_evaluation_reduction_fraction": 0.6,
+    "M1_result_bytes": 1005067,
+    "M1_result_file_count": 56,
+    "M1_log_bytes": 3243,
+    "M1_log_file_count": 4
+  },
+  "verdict": {
+    "technical": "PASS",
+    "M1_budget_ablation": "SUPPORTED_FOR_FURTHER_INDEPENDENT_VALIDATION",
+    "barrier_signal": "M1_MEAN_GEN_NLL_DIRECTION_POSITIVE_BOTH_MODELS_BUT_LLAMA_BINARY_DISCORDANT",
+    "progressive_edit_claim": "NOT_ESTABLISHED_ZA_WRITER0_AND_NON_MONOTONE_TARGET_TRAJECTORY",
+    "promotion": "HOLD",
+    "automatic_promotion": false,
+    "next_submit": "HOLD_PENDING_USER_OR_GH_SCIENTIFIC_DIRECTION"
+  }
+}

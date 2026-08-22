@@ -4,8 +4,8 @@
   "agent_id": "server4-server-head",
   "agent_role": "server-head",
   "status": "running",
-  "updated_at": "2026-08-22T21:08:06+09:00",
+  "updated_at": "2026-08-22T21:55:34+09:00",
   "ack_path": "messages/acks/server4/2026-08-22.md",
-  "report_path": "experiment-reports/servers/server4/2026-08-22-p4-za-case01-pilot-detailed.md",
-  "note": "ZA case01 array 22793_[0-1%2] terminal COMPLETED 0:0 for Llama/Qwen. FULL-FP32/offline/same-W0/writer0/retry0/nonfinite0 passed. Z+- did not improve Gen over Z+ in case01; Native-Z had the lowest mean Gen NLL. Authoritative section 9 gradient cosine and requestwise inner quantiles are absent from runtime receipts, so status remains running with SCIENCE_HOLD and no further submit pending GH review."
+  "report_path": "experiment-reports/servers/server4/2026-08-22-p4-za-m1-vs-m5-case01.md",
+  "note": "User-authorized M1 target-budget ablation array 22818_[0-1%2] terminal COMPLETED 0:0 for Llama/Qwen with selected post-update z and semantic gradient telemetry. M1 barrier Gen NLL delta Z±−Z+ was -0.9889 Llama and -0.8075 Qwen versus positive deltas under M5; Llama discrete Gen lost 1/20 while Qwen remained 20/20. M1 reduced GPU time 57.8% but trajectories remained non-monotone, Llama clamped every request, and ZA writer0 cannot establish progressive weight editing. Status remains running with scientific submit HOLD and automatic promotion 0."
 }

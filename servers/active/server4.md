@@ -149,3 +149,22 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - report: `experiment-reports/servers/server4/2026-08-22-p4-za-case01-pilot-detailed.md`
 - current status: `TECHNICAL_PILOT_PASS / SCIENCE_HOLD /
   INCOMPLETE_TELEMETRY`; automatic promotion 0, subsequent submit HOLD
+
+## P4 ZA M1 budget-ablation heartbeat
+
+- user-authorized delta: target inner Adam update `M=5→1`; all other
+  scientific/runtime bindings fixed
+- source HEAD/tree: `26dc6007...4bcb6` / `8ecedf0c...65c8`
+- final PRE-GPU: `PASS`, identity `9e24d098...9cebe`; focused tests 23 PASS
+- Slurm: `22818_[0-1%2]`, Llama/Qwen `COMPLETED 0:0`, `4:16 / 4:06`;
+  current active SH4 project GPU 0
+- execution: M1 update 8/arm, selected-final observation 8/arm, FULL-FP32,
+  writer0, nonfinite0, W0 unchanged/restored
+- barrier Gen NLL delta: Llama `-0.9889` with discrete Gen -1/20; Qwen
+  `-0.8075` with Gen tie 20/20
+- overhead: `0.1394 GPU-h`, 57.8% below M5 successful pilot
+- resource snapshot: `/data` available `206722387968` bytes; host available
+  memory `436516229120` bytes; other-user job 22352 uses 2 GPU, SH4 uses 0
+- report: `experiment-reports/servers/server4/2026-08-22-p4-za-m1-vs-m5-case01.md`
+- current status: `M1_BUDGET_ABLATION_SUPPORTED_FOR_FURTHER_VALIDATION /
+  PROGRESSIVE_EDIT_NOT_ESTABLISHED / HOLD`; automatic promotion 0
