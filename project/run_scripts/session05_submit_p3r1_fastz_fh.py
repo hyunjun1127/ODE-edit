@@ -33,15 +33,17 @@ def main() -> int:
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--result-parent", required=True, type=Path)
     parser.add_argument("--case-index", required=True, type=int, choices=range(1, 11))
+    parser.add_argument("--alias", action="append", choices=ALIASES)
     parser.add_argument("--release", action="store_true")
     args = parser.parse_args()
     repo_root = Path(__file__).resolve().parents[2]
     resolved_result_parent = args.result_parent.resolve(strict=False)
     expected_parent = expected_result_parent(repo_root)
     if resolved_result_parent != expected_parent:
-        raise SystemExit("P3R1 TECH-R1 result parent differs")
+        raise SystemExit("P3R1 TECH-R2 result parent differs")
     rows = active_allocations()
-    requested = len(ALIASES)
+    aliases = tuple(args.alias) if args.alias else ALIASES
+    requested = len(aliases)
     payload = {
         "schema": "ode-edit-s05-p3r1-held-inspect-release/v1",
         "project_gpu_cap": PROJECT_GPU_CAP,
@@ -53,19 +55,19 @@ def main() -> int:
         "result_parent_match": True,
         "release_allowed": len(rows) + requested <= PROJECT_GPU_CAP,
         "case_index": args.case_index,
-        "aliases": list(ALIASES),
+        "aliases": list(aliases),
         "released": False,
         "job_ids": [],
     }
     if args.release:
         if not payload["release_allowed"]:
             raise SystemExit(json.dumps(payload, sort_keys=True))
-        for alias in ALIASES:
+        for alias in aliases:
             output = subprocess.check_output(
                 [
                     "sbatch",
                     "--parsable",
-                    f"--job-name=p3r1-{alias}-c{args.case_index:02d}",
+                    f"--job-name=p3r1-tech-r2-{alias}-c{args.case_index:02d}",
                     "project/run_scripts/session05_ode_bf_p3r1_fastz_fh.sbatch",
                     args.source_head,
                     str(resolved_result_parent),

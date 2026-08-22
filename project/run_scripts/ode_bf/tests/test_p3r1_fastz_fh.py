@@ -16,6 +16,7 @@ from project.run_scripts.ode_bf.p3r1_runtime import (
     case_role,
     expected_result_name,
     expected_result_parent,
+    writer_route_requirement,
 )
 from project.run_scripts.ode_bf.scalable_batched_model import ScalableObjectiveResult
 
@@ -120,24 +121,39 @@ class P3R1FiniteHorizonTest(unittest.TestCase):
 
 
 class P3R1SourceLockTest(unittest.TestCase):
-    def test_tech_r1_namespace_is_shared_by_dispatcher_and_runtime(self) -> None:
+    def test_tech_r2_namespace_is_shared_by_dispatcher_and_runtime(self) -> None:
         root = Path(__file__).resolve().parents[4]
         role = case_role(1)
         parent = expected_result_parent(root)
         self.assertEqual(
             parent,
-            (root / "local/odebf/results/p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1").resolve(
+            (root / "local/odebf/results/p3r1-two-timescale-fastz-fh-c013-fp32-tech-r2").resolve(
                 strict=False
             ),
         )
         self.assertEqual(
             expected_result_name("llama3-8b-inst", role),
-            "s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1-llama3-8b-inst-case-01-v1",
+            "s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r2-llama3-8b-inst-case-01-v1",
         )
         dispatcher = (root / "project/run_scripts/session05_ode_bf_p3r1_fastz_fh.sbatch").read_text(
             encoding="utf-8"
         )
-        self.assertIn("p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1-${ALIAS}", dispatcher)
+        self.assertIn("p3r1-two-timescale-fastz-fh-c013-fp32-tech-r2-${ALIAS}", dispatcher)
+
+    def test_writer_entry_runs_only_the_authoritative_arm_router(self) -> None:
+        self.assertEqual(writer_route_requirement("C0-FH"), "LEGACY_SOFT")
+        self.assertEqual(writer_route_requirement("C1-FH"), "JOINT_PC")
+        self.assertEqual(writer_route_requirement("C3-FH"), "DIRECT_OFFICIAL")
+        with self.assertRaisesRegex(Exception, "writer arm differs"):
+            writer_route_requirement("C2-FH")
+
+        root = Path(__file__).resolve().parents[4]
+        text = (root / "project/run_scripts/ode_bf/p3r1_runtime.py").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('if route_requirement == "LEGACY_SOFT":', text)
+        self.assertIn('elif route_requirement == "JOINT_PC":', text)
+        self.assertIn('if route_requirement != "DIRECT_OFFICIAL":', text)
 
     def test_runtime_binds_frozen_kernels_and_forbidden_counts(self) -> None:
         root = Path(__file__).resolve().parents[4]

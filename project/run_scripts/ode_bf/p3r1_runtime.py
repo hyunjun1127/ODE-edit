@@ -92,8 +92,8 @@ from .scalable_batched_runtime import (
 
 
 ROLE_PREFIX = "p3r1-two-timescale-fastz-fh-case-"
-RESULT_PARENT_NAME = "p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1"
-RESULT_PREFIX = "s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1"
+RESULT_PARENT_NAME = "p3r1-two-timescale-fastz-fh-c013-fp32-tech-r2"
+RESULT_PREFIX = "s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r2"
 STREAM_ROOT = "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
 STREAM_ORDER = "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3"
 
@@ -128,6 +128,17 @@ def expected_result_parent(repo_root: Path) -> Path:
     return (
         repo_root / "local" / "odebf" / "results" / RESULT_PARENT_NAME
     ).resolve(strict=False)
+
+
+def writer_route_requirement(arm: str) -> str:
+    """Return the only authoritative entry router for a P3R1 writer arm."""
+    if arm == "C0-FH":
+        return "LEGACY_SOFT"
+    if arm == "C1-FH":
+        return "JOINT_PC"
+    if arm == "C3-FH":
+        return "DIRECT_OFFICIAL"
+    raise ODEBFContractError("P3R1 writer arm differs")
 
 
 def _bindings(model: torch.nn.Module, hparams: Any) -> dict[int, tuple[str, torch.nn.Parameter]]:
@@ -264,6 +275,7 @@ def _writer_entry(
     tokenizer: Any,
     requests: Sequence[Mapping[str, Any]],
     *,
+    arm: str,
     waypoint: torch.Tensor,
     hparams: Any,
     projector: torch.Tensor,
@@ -274,6 +286,7 @@ def _writer_entry(
     objective_plan: Any,
     capture_plan: Any,
 ) -> Mapping[str, Any]:
+    route_requirement = writer_route_requirement(arm)
     physical = capture_scalable_physical_state(model, capture_plan, hparams)
     field_ledger = ComputeLedger()
     field = build_scalable_dynamic_field(
@@ -293,13 +306,15 @@ def _writer_entry(
         ledger=field_ledger,
     )
     signed, slope = scalable_physical_signed_progress(model, objective_plan, field)
-    problem = build_scalable_routing_problem(
-        field,
-        signed,
-        accepted_by_layer={layer: () for layer in P1R23_LAYER_ORDER},
-        committed_load_by_layer={layer: 0.0 for layer in P1R23_LAYER_ORDER},
-        lock=controller_lock,
-    )
+    problem = None
+    if route_requirement != "DIRECT_OFFICIAL":
+        problem = build_scalable_routing_problem(
+            field,
+            signed,
+            accepted_by_layer={layer: () for layer in P1R23_LAYER_ORDER},
+            committed_load_by_layer={layer: 0.0 for layer in P1R23_LAYER_ORDER},
+            lock=controller_lock,
+        )
     endpoint_state = waypoint.to(next(model.parameters()).device)
     endpoint = evaluate_scalable_target_new_objective(
         model,
@@ -315,18 +330,27 @@ def _writer_entry(
     control = None
     joint = None
     if alpha > 0.0:
-        control = solve_p1r43_full_strength_routing(
-            problem.problem,
-            arm=FixedE8Arm.SOFT,
-            alpha_req=alpha,
-        )
-        if control.fallback_to_neutral:
-            raise ODEBFStateError("C0_ROUTER_INVALID")
-        p_proxy, c_proxy = proxies_from_entry_problem(problem.problem)
-        joint = solve_joint_pc_router(p_proxy, c_proxy)
-        if joint.receipt.fallback_count != 0:
-            raise ODEBFStateError("P3R1 C1 fallback differs")
+        if route_requirement == "LEGACY_SOFT":
+            if problem is None:
+                raise ODEBFStateError("P3R1 C0 routing problem missing")
+            control = solve_p1r43_full_strength_routing(
+                problem.problem,
+                arm=FixedE8Arm.SOFT,
+                alpha_req=alpha,
+            )
+            if control.fallback_to_neutral:
+                raise ODEBFStateError("C0_ROUTER_INVALID")
+        elif route_requirement == "JOINT_PC":
+            if problem is None:
+                raise ODEBFStateError("P3R1 C1 routing problem missing")
+            p_proxy, c_proxy = proxies_from_entry_problem(problem.problem)
+            joint = solve_joint_pc_router(p_proxy, c_proxy)
+            if joint.receipt.fallback_count != 0:
+                raise ODEBFStateError("P3R1 C1 fallback differs")
     return {
+        "route_requirement": route_requirement,
+        "control_solver_call_count": int(control is not None),
+        "joint_solver_call_count": int(joint is not None),
         "physical": physical,
         "field": field,
         "signed": signed,
@@ -517,6 +541,7 @@ def _run_dynamic_arm(
                 model,
                 tokenizer,
                 requests,
+                arm=arm,
                 waypoint=waypoint,
                 hparams=hparams,
                 projector=projector,

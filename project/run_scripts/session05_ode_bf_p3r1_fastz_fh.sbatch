@@ -17,14 +17,14 @@ readonly RESULT_PARENT="${2:-}"
 readonly ALIAS="${3:-}"
 readonly CASE_INDEX="${4:-}"
 readonly EXPECTED_SESSION="01a0278d-6e24-7a81-974a-96e4addd7ca5"
-readonly EXPECTED_BRANCH="codex/p3r1-two-timescale-fastz-fh-c013-fp32-v1"
+readonly EXPECTED_BRANCH="codex/p3r1-two-timescale-fastz-fh-c013-fp32-tech-r2-v1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 
 [[ "$#" -eq 4 ]] || { echo "P3R1 arguments differ" >&2; exit 2; }
 [[ "${ALIAS}" == "llama3-8b-inst" || "${ALIAS}" == "qwen2.5-7b-inst" ]] || { echo "P3R1 alias differs" >&2; exit 2; }
 [[ "${CASE_INDEX}" =~ ^(0?[1-9]|10)$ ]] || { echo "P3R1 case differs" >&2; exit 2; }
 readonly CASE_PADDED="$(printf '%02d' "$((10#${CASE_INDEX}))")"
-readonly RESULT_NAME="s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r1-${ALIAS}-case-${CASE_PADDED}-v1"
+readonly RESULT_NAME="s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r2-${ALIAS}-case-${CASE_PADDED}-v1"
 readonly OUTPUT_ROOT="${RESULT_PARENT}/${RESULT_NAME}"
 
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P3R1 CWD differs" >&2; exit 2; }

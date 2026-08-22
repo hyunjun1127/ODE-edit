@@ -80,7 +80,7 @@ def main(argv: list[str] | None = None) -> int:
             args.alias, role
         )
         if args.output_root.resolve(strict=False) != expected_output:
-            raise ValueError("P3R1 TECH-R1 output namespace differs")
+            raise ValueError("P3R1 TECH-R2 output namespace differs")
         observed = subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, text=True
         ).strip()
