@@ -11,10 +11,11 @@
   `01a028a7-9e3c-7541-81ba-efb40555d17d`
   (`codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d`)
 - local hard boundary: checker PASS, model/profile은 user-managed
-- 갱신 시각: `2026-08-22T21:08:06+09:00`
+- 갱신 시각: `2026-08-23T01:30:45+09:00`
 - current GH directive:
-  `ODEEDIT-S05-P4-TARGET-SIDE-SMOOTH-SEMANTIC-LOGODDS-BARRIER-V1`
-  P4 ZA sealed case01 pilot terminal review; subsequent scientific submit HOLD
+  `ODEEDIT-S05-P4-EULER-PROJECTED-SEMANTIC-ODE-V1`
+  Llama ZA h=1 B2–B10 terminal report complete; `POST_ZA_PAUSE_ACTIVE`,
+  `IDLE_AWAITING_GH_CALL`
 
 이 session은 이전 `registered-pending-clone` 상태를 supersede한다. 과거 task,
 report, audit와 experiment provenance는 변경하지 않는다.
@@ -111,10 +112,11 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - artifact content: Llama/Qwen `READY_REUSE`
 - EasyEdit artifact path seal/interface: `PASS`
 - P4 HF readiness: `PASS`
-- full launcher: `BLOCKED_STREAM_EVALUATOR_PACKAGE`
-- scientific job submission: `HOLD`
-- next owner: global-head가 sealed stream/evaluator package identity를 전달하면
-  server4가 full-read consumer preflight로 재개
+- full launcher/sealed deployment: `PASS`
+- P4-Euler ZA h=1: `TERMINAL_TECHNICAL_PASS / PROJECTION_DOMINATED_EXPLORATORY_RUN`
+- scientific job submission: `POST_ZA_PAUSE_ACTIVE`; ZB/Qwen/tuning/rerun 0
+- scientific promotion: `false`
+- next state: `IDLE_AWAITING_GH_CALL`
 
 ## P4 Phase 0 heartbeat
 
@@ -168,3 +170,24 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - report: `experiment-reports/servers/server4/2026-08-22-p4-za-m1-vs-m5-case01.md`
 - current status: `M1_BUDGET_ABLATION_SUPPORTED_FOR_FURTHER_VALIDATION /
   PROGRESSIVE_EDIT_NOT_ESTABLISHED / HOLD`; automatic promotion 0
+
+## P4-Euler ZA h=1 Llama B2–B10 terminal heartbeat
+
+- user/GH-authorized exploratory setting: Llama only, `h=1`, `M=5`,
+  `T_z=5`; sealed B2–B10, B1 calibration-only excluded
+- source HEAD/tree: `f4fbfb5de132de9b986e4b291c5b41784c182743` /
+  `8c3f444014907f69b1bb793674f7a5a9e2b9ee0e`
+- Slurm: `22854_[2-10]%2`, `9/9 COMPLETED 0:0`; current SH4 project GPU 0
+- terminal receipts: case 9, arm 27, action-freeze 18, microstep 90;
+  mismatch/nonfinite/W mutation/duplicate/failure 0
+- primary limitation: Z+ clamp `286/450=.635556`, all-5 `19/90`;
+  Z± clamp `381/450=.846667`, all-5 `54/90`
+- classification: `PROJECTION_DOMINATED_EXPLORATORY_RUN`; clamp correlation
+  causal claim 0; h=.25 calibration and Stage2 geometry diagnostic remain separate
+- report:
+  `experiment-reports/servers/server4/p4-euler-za-llama-h1-b2b10-2026-08-23/report-ko.md`
+- current resource snapshot: `/data` available `205303037952` bytes; host
+  available memory `435321729024` bytes; other-user job 22352 uses 2 GPU;
+  SH4 project job 0
+- current status: `POST_ZA_PAUSE_ACTIVE / IDLE_AWAITING_GH_CALL`;
+  Qwen/ZB/tuning/rerun/new GPU/Slurm/model action 0; promotion false

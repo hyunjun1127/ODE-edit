@@ -1,0 +1,90 @@
+{
+  "B1_excluded": true,
+  "ZB_submission_count": 0,
+  "analysis_identity_sha256": "086c500d9a65a269cd1e471b39694d78b861cb9b174b98c531eefa6f2ba1a601",
+  "analysis_manifest_root": "c3498eee45a2ec1a05153f1dbb2d929f37e300f0cedac10e21a191e398d23fb4",
+  "classification": "PROJECTION_DOMINATED_EXPLORATORY_RUN",
+  "continuation": "IDLE_AWAITING_GH_CALL",
+  "identity_sha256": "d0af2a3d722742ecc86a951f787e075b5b89f04f76a908e6d21e7c5ad7fa37be",
+  "instruction_id": "ODEEDIT-S05-P4-EULER-PROJECTED-SEMANTIC-ODE-V1",
+  "package_member_root": "351c1c76531fc8324a86c4cd0d4fa0f8b9d2be185bd3097f9ecf056d97de100d",
+  "package_members": [
+    {
+      "bytes": 49571,
+      "path": "analysis-manifest.json",
+      "sha256": "24058d3872bc799c37c5632c2a1207e66a72bd4a2c57add67f4a319d9a61ae06"
+    },
+    {
+      "bytes": 51850,
+      "path": "analysis.json",
+      "sha256": "9f9cd23ebd6a947acbee1c407a3e6babc363705f1022a5efd0a7ff0b1a1b6fdd"
+    },
+    {
+      "bytes": 879,
+      "path": "clamp-metric-relations.csv",
+      "sha256": "f2e9981facb5770fac0d950a8b01d65fa729388fa7234fd1089ec25c510a9ef8"
+    },
+    {
+      "bytes": 2722,
+      "path": "clamp-strata.csv",
+      "sha256": "6cf5b2ed75485fe299621435e8414b7717096e509bf1ba87f9371bdebd09d41e"
+    },
+    {
+      "bytes": 3487,
+      "path": "compute.csv",
+      "sha256": "41b578af99664c11e499c5eff99862cfb2278b6b4d18152ed5059dba4c843caf"
+    },
+    {
+      "bytes": 25518,
+      "path": "evaluator-paired-deltas.csv",
+      "sha256": "72547e2e3e0b209cb15f972437369b665c934a1c5ffc6149bba70b90e739e4b6"
+    },
+    {
+      "bytes": 81072,
+      "path": "evaluator-request.csv",
+      "sha256": "bdb59ec4e0a33efe529f2efc5e2c95694eaa1e15b60b3e50b3203fc179b704b0"
+    },
+    {
+      "bytes": 12534,
+      "path": "paired-endpoint-deltas.csv",
+      "sha256": "09213a86a78bdc0b94ec093371e0fada1f31226ba6974bddca3f22c5d3af1341"
+    },
+    {
+      "bytes": 11322,
+      "path": "report-ko.md",
+      "sha256": "c955536b899e0cea39c210f9bc8cfb83e5c955fa7f71cead37598bd319417505"
+    },
+    {
+      "bytes": 25311,
+      "path": "request-endpoint-train.csv",
+      "sha256": "f3638721b1f53b401cb7c407c3f72e51680f3794c557da4209c145923fa05bb7"
+    },
+    {
+      "bytes": 308411,
+      "path": "request-microsteps.csv",
+      "sha256": "869ffb80900970651f71b042a8fccb785b67bc5a30294752fbfe6fae3f0a0fb4"
+    },
+    {
+      "bytes": 4002,
+      "path": "slice-arm-clamp.csv",
+      "sha256": "dee3debe023504e6893ac3a332d6aa6dd539365ca22090f101dde248d74c0db5"
+    },
+    {
+      "bytes": 26329,
+      "path": "slice-microstep-summary.csv",
+      "sha256": "13063ffaa4498b31c12840610ca3978795e0d7c3c24eca370aa69831593c8b43"
+    },
+    {
+      "bytes": 1679,
+      "path": "slurm-accounting.csv",
+      "sha256": "84a6282be508f0f76450cdcbbf957155b671838d131ef6ef92d5bb7259f0f215"
+    }
+  ],
+  "qwen_scientific_input_count": 0,
+  "raw_member_root": "f89340fe9de2082c99844204c76628c2dcd0f9bf198475287300c5287d052f87",
+  "schema": "ode-edit-s05-p4-euler-za-llama-h1-rooted-receipt/v1",
+  "scientific_promotion": false,
+  "source_head": "f4fbfb5de132de9b986e4b291c5b41784c182743",
+  "source_tree": "8c3f444014907f69b1bb793674f7a5a9e2b9ee0e",
+  "status": "TERMINAL_TECHNICAL_PASS_POST_ZA_PAUSED"
+}

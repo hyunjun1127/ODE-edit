@@ -1,0 +1,962 @@
+{
+  "bindings": [
+    {
+      "bytes": 62303,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p4-euler-e0/project/run_scripts/ode_bf/p4_euler_za_h1_analysis.py",
+      "sha256": "7cdf64977aafe9fcc7ffa27c2b302caedd8c94db28ae0f952dcbe367c667ec6e"
+    },
+    {
+      "bytes": 4567,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p4-euler-e0/project/run_scripts/ode_bf/locks/numerical_lock_s05_p4_euler_za_llama_h1_b2b10.json",
+      "sha256": "529b4f807de29e66ff6c15dec43842a00032ded7dd4b5366118531511711fc98"
+    },
+    {
+      "bytes": 4621,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p4-euler-e0/project/run_scripts/ode_bf/locks/source_manifest_s05_p4_euler_za_llama_h1_b2b10.json",
+      "sha256": "d93b121bb6d9c3c10b728b427ca401eb2ba1a590859870bd025bec46872cfd15"
+    },
+    {
+      "bytes": 11667,
+      "path": "/data/janghj/ODE-edit/local/state/p4-euler-target-side-semantic-barrier-v1/readiness/za-llama-h1-f4fbfb5-r1/final-pre-gpu.json",
+      "sha256": "d4d11b49a2cf36ac636b783eb5b210e79c67884caa0e08c5b390ddc453077f12"
+    }
+  ],
+  "derived_members": [
+    {
+      "bytes": 51850,
+      "path": "analysis.json",
+      "sha256": "9f9cd23ebd6a947acbee1c407a3e6babc363705f1022a5efd0a7ff0b1a1b6fdd"
+    },
+    {
+      "bytes": 879,
+      "path": "clamp-metric-relations.csv",
+      "sha256": "f2e9981facb5770fac0d950a8b01d65fa729388fa7234fd1089ec25c510a9ef8"
+    },
+    {
+      "bytes": 2722,
+      "path": "clamp-strata.csv",
+      "sha256": "6cf5b2ed75485fe299621435e8414b7717096e509bf1ba87f9371bdebd09d41e"
+    },
+    {
+      "bytes": 3487,
+      "path": "compute.csv",
+      "sha256": "41b578af99664c11e499c5eff99862cfb2278b6b4d18152ed5059dba4c843caf"
+    },
+    {
+      "bytes": 25518,
+      "path": "evaluator-paired-deltas.csv",
+      "sha256": "72547e2e3e0b209cb15f972437369b665c934a1c5ffc6149bba70b90e739e4b6"
+    },
+    {
+      "bytes": 81072,
+      "path": "evaluator-request.csv",
+      "sha256": "bdb59ec4e0a33efe529f2efc5e2c95694eaa1e15b60b3e50b3203fc179b704b0"
+    },
+    {
+      "bytes": 12534,
+      "path": "paired-endpoint-deltas.csv",
+      "sha256": "09213a86a78bdc0b94ec093371e0fada1f31226ba6974bddca3f22c5d3af1341"
+    },
+    {
+      "bytes": 11322,
+      "path": "report-ko.md",
+      "sha256": "c955536b899e0cea39c210f9bc8cfb83e5c955fa7f71cead37598bd319417505"
+    },
+    {
+      "bytes": 25311,
+      "path": "request-endpoint-train.csv",
+      "sha256": "f3638721b1f53b401cb7c407c3f72e51680f3794c557da4209c145923fa05bb7"
+    },
+    {
+      "bytes": 308411,
+      "path": "request-microsteps.csv",
+      "sha256": "869ffb80900970651f71b042a8fccb785b67bc5a30294752fbfe6fae3f0a0fb4"
+    },
+    {
+      "bytes": 4002,
+      "path": "slice-arm-clamp.csv",
+      "sha256": "dee3debe023504e6893ac3a332d6aa6dd539365ca22090f101dde248d74c0db5"
+    },
+    {
+      "bytes": 26329,
+      "path": "slice-microstep-summary.csv",
+      "sha256": "13063ffaa4498b31c12840610ca3978795e0d7c3c24eca370aa69831593c8b43"
+    },
+    {
+      "bytes": 1679,
+      "path": "slurm-accounting.csv",
+      "sha256": "84a6282be508f0f76450cdcbbf957155b671838d131ef6ef92d5bb7259f0f215"
+    }
+  ],
+  "instruction_id": "ODEEDIT-S05-P4-EULER-PROJECTED-SEMANTIC-ODE-V1",
+  "numerical_lock_root": "1e3c8ee90d0d912bdfafeb0b281e399e3926263a0d1b4349fb45ba29fbe0bc84",
+  "qwen_scientific_input_count": 0,
+  "raw_input_count": 171,
+  "raw_inputs": [
+    {
+      "bytes": 28444,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/native-z/terminal.json",
+      "sha256": "38732ba8c1f2f7746ddfc3abb7a332ad2f9eb0b8feacace5e33a082d7c5e2f40"
+    },
+    {
+      "bytes": 834,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/stages/stage-003-post_sealed_input_plan.json",
+      "sha256": "427de7b315ddf184fad47079f44a7e44d34eafe490edb7700eb770c49c14b5c6"
+    },
+    {
+      "bytes": 2291,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/stages/stage-004-post_shared_W0_nonsemantic_gate.json",
+      "sha256": "644206b6a373b746d478c7448fecb4887ef338dc435fabdd440fc0ce13b110e0"
+    },
+    {
+      "bytes": 1477,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/stages/stage-005-first_valid_slice_gate.json",
+      "sha256": "f0bd3d79d0c8c667a8145df58880f419aa980bacfeb8e507cf2180a2f13f400c"
+    },
+    {
+      "bytes": 1877,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/terminal.json",
+      "sha256": "2ddabe71c7df7082d7612c6480a4d05ffaa30792294fbf680c79a4f2f8560d80"
+    },
+    {
+      "bytes": 5378,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus-minus/action-freeze.json",
+      "sha256": "8d24da77e2ee6dfcd3346b22ec4a5de05128f04d26f14886e641a29a2f37b950"
+    },
+    {
+      "bytes": 10586,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus-minus/raw/target/microstep-00.json",
+      "sha256": "dddb6e05afb129a02a706fc222351a3d8c70c868061de1411b0a7c60fd8ce29c"
+    },
+    {
+      "bytes": 11198,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus-minus/raw/target/microstep-01.json",
+      "sha256": "cfbf6cc4d4ad394a8eba4f1957c24918134d9c38fdfbd5c125619b51250940c1"
+    },
+    {
+      "bytes": 11182,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus-minus/raw/target/microstep-02.json",
+      "sha256": "1367e27fd79912c756a6cb8f63924bfb76f73a0e42497f2648e673b2c3a849b5"
+    },
+    {
+      "bytes": 11237,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus-minus/raw/target/microstep-03.json",
+      "sha256": "3b0cc696443975d1143bd080759885010e5747666b91e58c32bde8d29f4130e0"
+    },
+    {
+      "bytes": 11202,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus-minus/raw/target/microstep-04.json",
+      "sha256": "7707abeea4d64ac00f3393340ea560b4c90ac2ec05ba59903ceabcfe3ff68ca5"
+    },
+    {
+      "bytes": 27892,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus-minus/terminal.json",
+      "sha256": "6f596d6380013f45a39c66a29a0e118b101945904106d9baab145a2c08548f1b"
+    },
+    {
+      "bytes": 5388,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus/action-freeze.json",
+      "sha256": "6a0a94a82578e128f349bc2bc0f43fddfbbcc76f953dacca59148f3793b9cbb8"
+    },
+    {
+      "bytes": 10366,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus/raw/target/microstep-00.json",
+      "sha256": "2c61d5ab0ab9a7bb9cdc1fe57464d86d0e43ccb35b00df4d103c200abbca7fa6"
+    },
+    {
+      "bytes": 11138,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus/raw/target/microstep-01.json",
+      "sha256": "baace9e8a4e03d391e848d7684bcd564acfac6cd84f394f54870948ca86edcef"
+    },
+    {
+      "bytes": 11149,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus/raw/target/microstep-02.json",
+      "sha256": "53a73912082ed3c0affe6e58b2cbe37146a9af5ece4bb0d5cae26920d7b50efc"
+    },
+    {
+      "bytes": 11156,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus/raw/target/microstep-03.json",
+      "sha256": "b35955917ee55682a13c19116fc27d04a1be9894dd63081456ea6c79f0a4363e"
+    },
+    {
+      "bytes": 11180,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus/raw/target/microstep-04.json",
+      "sha256": "53ff123bde2e06dbc1be2dc5862121fde3e6b6fe21b2352851fe37c4bbe87946"
+    },
+    {
+      "bytes": 27876,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B10-llama3-8b-inst/z-plus/terminal.json",
+      "sha256": "5de8e7ceba3ab2b66ae312691aacce31abb53d5d4890094e0b5a9da93667469f"
+    },
+    {
+      "bytes": 28417,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/native-z/terminal.json",
+      "sha256": "87948a7fcae3e346c53add54ad19dac0c3090cdaae864d0877201f1852401a93"
+    },
+    {
+      "bytes": 833,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/stages/stage-003-post_sealed_input_plan.json",
+      "sha256": "c1a24b470506caf17fc436aea31ad96aa7bf4eb2cbec092ba4de31eba8e891be"
+    },
+    {
+      "bytes": 2291,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/stages/stage-004-post_shared_W0_nonsemantic_gate.json",
+      "sha256": "864afe45da99661ea4f31fc689fcc598362d78a454a9e1b546147036028bc8b5"
+    },
+    {
+      "bytes": 1481,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/stages/stage-005-first_valid_slice_gate.json",
+      "sha256": "8555b7f9ad1b5ce9d7e25e20034bfac471416ae9b5b619421a4045e0cf998de4"
+    },
+    {
+      "bytes": 1876,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/terminal.json",
+      "sha256": "a99c1a4be3cab5814f1713d2736e8ecf0f7cf0aaaea0894275d39198dbb009ee"
+    },
+    {
+      "bytes": 5380,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus-minus/action-freeze.json",
+      "sha256": "b99f1b43f0b7af48a0707964966e4ee05704a27c447dfbab7c5c0663a8f21e49"
+    },
+    {
+      "bytes": 10738,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus-minus/raw/target/microstep-00.json",
+      "sha256": "fd97a3871bde9560018c7c0c0f2c3a03c2e101a95052306931e4c1e92d18f320"
+    },
+    {
+      "bytes": 11191,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus-minus/raw/target/microstep-01.json",
+      "sha256": "d5775963f4814018bee7e4f5c80d41497adb9e799bfd9ffbd624ab89a16bcb6a"
+    },
+    {
+      "bytes": 11165,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus-minus/raw/target/microstep-02.json",
+      "sha256": "122a30ac9762bb452287ff329d9ae091fe91111dd731b73d46a8d69c85f7d473"
+    },
+    {
+      "bytes": 11183,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus-minus/raw/target/microstep-03.json",
+      "sha256": "de14553c98492154d3e9945c7433c6a59513a8ee428857b3ae40a19421a4cbc4"
+    },
+    {
+      "bytes": 11254,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus-minus/raw/target/microstep-04.json",
+      "sha256": "12aa4d8d9a2410a5b2eab6ecc84d73bd42a8336ba410c3308cb029153b9fd14c"
+    },
+    {
+      "bytes": 27873,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus-minus/terminal.json",
+      "sha256": "c9735d52978f01c66af63f76504961932c551848c7d31f26f5db78b9549594d0"
+    },
+    {
+      "bytes": 5378,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus/action-freeze.json",
+      "sha256": "04984d3dba29cc347dd4368af1f544685a9b1d35d0652ed96acf2d0cac34877c"
+    },
+    {
+      "bytes": 10620,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus/raw/target/microstep-00.json",
+      "sha256": "6cce4d89cc443ab6cc51608d9f15638e539ae74417ea8718e10f2370f3193e54"
+    },
+    {
+      "bytes": 11146,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus/raw/target/microstep-01.json",
+      "sha256": "ba09f7aea24253346e7d507abc73859f755656afcbcbba7b008f4f673003855c"
+    },
+    {
+      "bytes": 11205,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus/raw/target/microstep-02.json",
+      "sha256": "51337fcf2a9680d20145ce0cbf7e3b6d2178909c1e6bdfb45bf93761aad8613b"
+    },
+    {
+      "bytes": 11150,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus/raw/target/microstep-03.json",
+      "sha256": "c577fbbb965d0724b7d3376a756b7e844d435484cafccefd58b963d24933befd"
+    },
+    {
+      "bytes": 11203,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus/raw/target/microstep-04.json",
+      "sha256": "57457b6177232c2f93debd2f7df6134077174a6ad25147cabefc13d7549bb2b7"
+    },
+    {
+      "bytes": 27878,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B2-llama3-8b-inst/z-plus/terminal.json",
+      "sha256": "4e92b7187cb6ef015ab7e93ec79eb8215d7a50ab7c5522f0a0c22cc115f033fb"
+    },
+    {
+      "bytes": 28397,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/native-z/terminal.json",
+      "sha256": "eacbfd46f619608d7de458f5ba7cb3896041d619bd41204d79848b4b3bd0f974"
+    },
+    {
+      "bytes": 833,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/stages/stage-003-post_sealed_input_plan.json",
+      "sha256": "832e44ed57c593fcad2c603fa497de9cea6fa2caa745a4c14402e0471217b68b"
+    },
+    {
+      "bytes": 2291,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/stages/stage-004-post_shared_W0_nonsemantic_gate.json",
+      "sha256": "7a1d877edf9994822b81dba91110bde2d44beec11e3eaea0bb6b23ce7507f85a"
+    },
+    {
+      "bytes": 1476,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/stages/stage-005-first_valid_slice_gate.json",
+      "sha256": "d1123b116b8d2b8c02422b70849d312d1f9cdfda689cfcb4da8d31e283f2af94"
+    },
+    {
+      "bytes": 1876,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/terminal.json",
+      "sha256": "06c9013661d05f99ccc30defdc3a77851915b397d6cbeab92d49177e6d0ddf45"
+    },
+    {
+      "bytes": 5373,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus-minus/action-freeze.json",
+      "sha256": "9508c5446e160b787f3fa65d268712acaac64a05e2064f6c48e92eba2fe164f0"
+    },
+    {
+      "bytes": 10680,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus-minus/raw/target/microstep-00.json",
+      "sha256": "d7498ba192c1b3979aa4226ebd9e81575151490df9e867d3cf51dfd73c580718"
+    },
+    {
+      "bytes": 11187,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus-minus/raw/target/microstep-01.json",
+      "sha256": "ea8ac036d5c289585a71ba5b1a841befe1118d271d6048a1fabe526f6d690768"
+    },
+    {
+      "bytes": 11201,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus-minus/raw/target/microstep-02.json",
+      "sha256": "264cb351435c6e02f9b24b6ed012ed066d730ca24aa53bb549222d87ff4cb057"
+    },
+    {
+      "bytes": 11247,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus-minus/raw/target/microstep-03.json",
+      "sha256": "29c13ab72f71704b1a0164b51ff997dc5d08bb07814176d683c2eef2fe59e056"
+    },
+    {
+      "bytes": 11253,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus-minus/raw/target/microstep-04.json",
+      "sha256": "083afdd74144186162b9f2790f714960ec818b6bc57d27079df05f34bc000b43"
+    },
+    {
+      "bytes": 27849,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus-minus/terminal.json",
+      "sha256": "35c0cceb167194c930526efbc49b69e54d1a4968854ba9f08a43c876feb8b738"
+    },
+    {
+      "bytes": 5374,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus/action-freeze.json",
+      "sha256": "0c41c78c6a4b4709b736f3fcf68acc66849cc6b8b93eb9a0e2bf00a4265ddeef"
+    },
+    {
+      "bytes": 10416,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus/raw/target/microstep-00.json",
+      "sha256": "29f1cc0cfdb79442f11468ae5cb6f82b82064c871982eaf2a03ba2e83defa8f4"
+    },
+    {
+      "bytes": 11136,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus/raw/target/microstep-01.json",
+      "sha256": "38336e7752deaf1d6aeeebb14ac484c1e378d2572c3d52aee55042a3e09946ec"
+    },
+    {
+      "bytes": 11181,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus/raw/target/microstep-02.json",
+      "sha256": "ded7e3e30fc66f00a3ebcc0c87ff017f7409a7174259615afafdb1204fe4c102"
+    },
+    {
+      "bytes": 11195,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus/raw/target/microstep-03.json",
+      "sha256": "d95501d01fceae0a8ede3e3edd29089fecdd93b048b496e4a4d38467b2b11d79"
+    },
+    {
+      "bytes": 11205,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus/raw/target/microstep-04.json",
+      "sha256": "687f46b21053e3557e3bad78ac915aecb9b36a1e0103b5e7bad77218f8ed80d2"
+    },
+    {
+      "bytes": 27849,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B3-llama3-8b-inst/z-plus/terminal.json",
+      "sha256": "9512b576fedc6b92a4205b8b0ad4427bceb927b14e0e8b27bde2cc61315f5eed"
+    },
+    {
+      "bytes": 28416,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/native-z/terminal.json",
+      "sha256": "07bd14fd932278e38f34d50c94ae89bfd1ad214ea24328876bf08349f6cd3234"
+    },
+    {
+      "bytes": 833,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/stages/stage-003-post_sealed_input_plan.json",
+      "sha256": "6a32284535b5ebb6a989733d949fb50ac0679285607b4d8dc20f881f02b68cae"
+    },
+    {
+      "bytes": 2291,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/stages/stage-004-post_shared_W0_nonsemantic_gate.json",
+      "sha256": "9c4ecc6a010a13b068f282a89ffe04932120628f8d8b4134d6934c29b30fd76c"
+    },
+    {
+      "bytes": 1470,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/stages/stage-005-first_valid_slice_gate.json",
+      "sha256": "7f4605d0c6c71b24c3d610f124bd05a9978fe1f7b34f1af87c6025bc6bf55162"
+    },
+    {
+      "bytes": 1876,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/terminal.json",
+      "sha256": "f123446c99b591b21a85e57e647a734adb27b46ccba3280671cc12fd2a888af3"
+    },
+    {
+      "bytes": 5376,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus-minus/action-freeze.json",
+      "sha256": "deffd93acc0a100123c5cc863d2291fb65f0177441e4345c1ca7adc5e8c00559"
+    },
+    {
+      "bytes": 10676,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus-minus/raw/target/microstep-00.json",
+      "sha256": "931305705954c699cffa0f98d0e910e58f342b0a7fc06ab19edaf6de6cdc3b59"
+    },
+    {
+      "bytes": 11142,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus-minus/raw/target/microstep-01.json",
+      "sha256": "9295c33587bd44796caff3c3d1927e9ff216625cc324ad7efb77d8c1435cf713"
+    },
+    {
+      "bytes": 11218,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus-minus/raw/target/microstep-02.json",
+      "sha256": "fdd2155ba3b6095e38d521264cd98706e78c4b339b2f0aa5074c2a4c995099bf"
+    },
+    {
+      "bytes": 11191,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus-minus/raw/target/microstep-03.json",
+      "sha256": "6d3fec16fbc3d9cbfcaa9e45129e00e9115349e8c09a7b36a239811f86f5649c"
+    },
+    {
+      "bytes": 11257,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus-minus/raw/target/microstep-04.json",
+      "sha256": "b171d05054181aa22c73ac650c3c754aa000ea6761440b95ca06c9e9326246bd"
+    },
+    {
+      "bytes": 27854,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus-minus/terminal.json",
+      "sha256": "f87c041237c67d21638dadcd3a681d1bcd839b845a528fc6937025cbcfda1f37"
+    },
+    {
+      "bytes": 5374,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus/action-freeze.json",
+      "sha256": "708bc5170d6eb0465b916e6c8854b767ce6104e3d2c58f0175d7cc0a31c54772"
+    },
+    {
+      "bytes": 10548,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus/raw/target/microstep-00.json",
+      "sha256": "59100b8f64ba654e20c2d8e76e00939d33ae972b1a712d4bc4f2b6d8c76e9c1d"
+    },
+    {
+      "bytes": 11136,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus/raw/target/microstep-01.json",
+      "sha256": "581978e6c2e0a7857ab9e09ff0622be03711b1cb1cbff08c5129c8d541267b14"
+    },
+    {
+      "bytes": 11152,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus/raw/target/microstep-02.json",
+      "sha256": "878d8c11de6ee7b20d75ff1b7175d8dc2ec248c9b5776b1e4c6817fbcff9d38a"
+    },
+    {
+      "bytes": 11225,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus/raw/target/microstep-03.json",
+      "sha256": "d4785316e5299d6389f72e053b53772bf5f521de789f94f32fff42558f54af33"
+    },
+    {
+      "bytes": 11206,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus/raw/target/microstep-04.json",
+      "sha256": "a236cdbdd30081706545b943f30b54311df122677e6356d6bfe0629af7271ef9"
+    },
+    {
+      "bytes": 27865,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B4-llama3-8b-inst/z-plus/terminal.json",
+      "sha256": "1f0318e09c78aacea0db26169e24317e8c469b607845c5a6b2dbb44b3058bb65"
+    },
+    {
+      "bytes": 28411,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/native-z/terminal.json",
+      "sha256": "75a93989a6281b67591cd0531ac28437fd832225a18c56fbf53add3db928b50a"
+    },
+    {
+      "bytes": 833,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/stages/stage-003-post_sealed_input_plan.json",
+      "sha256": "74f87dd98d9c91d85c05cc870bc50830f8f4682aa7480ab075240c9bba44a5a4"
+    },
+    {
+      "bytes": 2291,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/stages/stage-004-post_shared_W0_nonsemantic_gate.json",
+      "sha256": "10bedfa3650861239c828e3f3c87fea2f18a160fcf231f6f093afe982e36a5d5"
+    },
+    {
+      "bytes": 1474,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/stages/stage-005-first_valid_slice_gate.json",
+      "sha256": "bd3fd85646e9aa7803acacbec0f33ebb25c12db7297921fe5bad0cf31e03f644"
+    },
+    {
+      "bytes": 1876,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/terminal.json",
+      "sha256": "71787cdd44f468c792e4aa4b1ffab8760996639c1b7ef0e0b2b965ec3c009e29"
+    },
+    {
+      "bytes": 5378,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus-minus/action-freeze.json",
+      "sha256": "8c289d471cadd954e829ef9b127564fb83f399b50b37bd45b0ab327ac5b20582"
+    },
+    {
+      "bytes": 10714,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus-minus/raw/target/microstep-00.json",
+      "sha256": "4a987aa600f434a1fa8ee35b2746c9be75a3b14b89dc4002ff3381d377116a5b"
+    },
+    {
+      "bytes": 11140,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus-minus/raw/target/microstep-01.json",
+      "sha256": "089a80f7e5a4b3d4ab7d7fab1390942b94b592399440661865fd161d12bdfb7d"
+    },
+    {
+      "bytes": 11197,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus-minus/raw/target/microstep-02.json",
+      "sha256": "8fb6b89f201d762519a388279913765060a8abbaf68154c74df75c0c5456c3f2"
+    },
+    {
+      "bytes": 11177,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus-minus/raw/target/microstep-03.json",
+      "sha256": "4e3fddd1ac2a5884246c1ed50fe93a98205b7ebcd4529ffaf89aa6e3e1be4c52"
+    },
+    {
+      "bytes": 11215,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus-minus/raw/target/microstep-04.json",
+      "sha256": "2160cbc8af1063afc2d2d99975fdc6a703780e59f65c4097d6dad926464ce21f"
+    },
+    {
+      "bytes": 27868,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus-minus/terminal.json",
+      "sha256": "491bf3d7c6f70697e69e6ed50323dc3d436fdc6ec1055877f81505f8e0375671"
+    },
+    {
+      "bytes": 5372,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus/action-freeze.json",
+      "sha256": "facea41359ab36bab275a693a651fb02ad087ff733663f53531cb00e49cd4466"
+    },
+    {
+      "bytes": 10387,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus/raw/target/microstep-00.json",
+      "sha256": "f8c3ca86f1c7666a80e08f70dc01961ba147b05cc7c5f90f8076ce84b329c791"
+    },
+    {
+      "bytes": 11055,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus/raw/target/microstep-01.json",
+      "sha256": "aaaad4b151aea3736ac633930c46147d0544c9f91542e67f489240d0daf05263"
+    },
+    {
+      "bytes": 11206,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus/raw/target/microstep-02.json",
+      "sha256": "eb8c66c3bdf1b3698a84b2d0a60bad9dc716d833e68d9b4701217cef2aa0aed3"
+    },
+    {
+      "bytes": 11184,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus/raw/target/microstep-03.json",
+      "sha256": "b63cacc877ce78f43415557d94886db670460a02128bc415fb5cfe1a29348e26"
+    },
+    {
+      "bytes": 11190,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus/raw/target/microstep-04.json",
+      "sha256": "005262aa3e6c8f7631645513dc3e9ac3f1cc380175b99f8ecdef28a17354b713"
+    },
+    {
+      "bytes": 27851,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B5-llama3-8b-inst/z-plus/terminal.json",
+      "sha256": "ada555b2bdc7d684da8aae8a5f26595e4d87202db28ee8c119491356cd6063c7"
+    },
+    {
+      "bytes": 28420,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/native-z/terminal.json",
+      "sha256": "e16a3cfb0d6422f0cbe8021c9e0cb33bb07ee81310318351e295e27139745532"
+    },
+    {
+      "bytes": 833,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/stages/stage-003-post_sealed_input_plan.json",
+      "sha256": "7df58f3ae6a2fbdb93fc8121c4b665c7748653ef3024ac262005159dcd916795"
+    },
+    {
+      "bytes": 2291,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/stages/stage-004-post_shared_W0_nonsemantic_gate.json",
+      "sha256": "f938f495db4f9dd7b1fe89fc19c563afc5d4945c343d29a9dbcc9dc8822d6fb2"
+    },
+    {
+      "bytes": 1470,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/stages/stage-005-first_valid_slice_gate.json",
+      "sha256": "46222aa3ef63fde775a3d1936997ab303ba90ecc0ce3b4aff432f3f35673219a"
+    },
+    {
+      "bytes": 1876,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/terminal.json",
+      "sha256": "0ffba3f8813756701664deff1d8cd9ec03793ed60fa627335654956c9b604603"
+    },
+    {
+      "bytes": 5383,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus-minus/action-freeze.json",
+      "sha256": "5556ae98eccee42e0cb58bb7e59d6ffa1b9235d08a7b96bc3fa263b81b61f4cc"
+    },
+    {
+      "bytes": 10665,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus-minus/raw/target/microstep-00.json",
+      "sha256": "ac1b19f694e3f24ce22552d43c1f8fd7a51de555330cfa6befa1a3453de1de36"
+    },
+    {
+      "bytes": 11132,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus-minus/raw/target/microstep-01.json",
+      "sha256": "c54ae335b08c100c28fc396760a1f6530e2c5b4ecbae41f20fb3738914d18f2f"
+    },
+    {
+      "bytes": 11172,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus-minus/raw/target/microstep-02.json",
+      "sha256": "cc9b80be2df243199e0b9695243aa36122185c45e24fa198cc4f3125000a249c"
+    },
+    {
+      "bytes": 11192,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus-minus/raw/target/microstep-03.json",
+      "sha256": "34cd9b5eef3d2588050d8fe499e1b34b407ab6dc931017bf929c5ae1eedbbcb5"
+    },
+    {
+      "bytes": 11220,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus-minus/raw/target/microstep-04.json",
+      "sha256": "21050fc332de1f586044187347a79efcebcee47f65d70b6ef0cebed59c844970"
+    },
+    {
+      "bytes": 27867,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus-minus/terminal.json",
+      "sha256": "1e2159fc49eca1007de087ba53813ccd31723442b033893ca70499408a38e0b9"
+    },
+    {
+      "bytes": 5373,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus/action-freeze.json",
+      "sha256": "744631b6ae0b1d221cc05c4dc08e8adf0395f2cc67be425069605993ee8691be"
+    },
+    {
+      "bytes": 10309,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus/raw/target/microstep-00.json",
+      "sha256": "216a9fe6dc7f52c656bd75f794c7420e2accbcbe60fa3cd318065df5b85bd9a1"
+    },
+    {
+      "bytes": 11079,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus/raw/target/microstep-01.json",
+      "sha256": "bb82b01313f5425e66a39cc6fb8ab86756662160e68bae78eca8f26b16c4d7ca"
+    },
+    {
+      "bytes": 11167,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus/raw/target/microstep-02.json",
+      "sha256": "e4279ef049909eae5a3f76aa8f775e927c53bc9eeb89f5d58c8f983ca04d10d4"
+    },
+    {
+      "bytes": 11149,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus/raw/target/microstep-03.json",
+      "sha256": "1273e2685905184412eb09c23ef107ef86d57b6ecdc4fd132df9f64040bcd2c6"
+    },
+    {
+      "bytes": 11133,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus/raw/target/microstep-04.json",
+      "sha256": "41da090bb288e5e5a8989d560d6eb82cfca4a31000b88a9ed7745e19928645cf"
+    },
+    {
+      "bytes": 27859,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B6-llama3-8b-inst/z-plus/terminal.json",
+      "sha256": "7a982757397c1640f5a4f76ae087c843f8402e36a88bfdd2de334695d43c1891"
+    },
+    {
+      "bytes": 28416,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/native-z/terminal.json",
+      "sha256": "f4ccd0f9f473b4b31f081ef8a62aa6c15d0381dfd85c425a48f696e3f65cbb46"
+    },
+    {
+      "bytes": 833,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/stages/stage-003-post_sealed_input_plan.json",
+      "sha256": "e5affb45ef53711df514852bafae5e12e1a873d025b0ebea921c2c43fcfca81b"
+    },
+    {
+      "bytes": 2291,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/stages/stage-004-post_shared_W0_nonsemantic_gate.json",
+      "sha256": "2e34f7d90d70997cc0b7fd2c8cde561c7c27bc4c4ea30d346f9b5cb5b2be88c1"
+    },
+    {
+      "bytes": 1476,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/stages/stage-005-first_valid_slice_gate.json",
+      "sha256": "33596a41bcc9535daac0449df81195c448fd828e93c780e8f9620de29bc86efe"
+    },
+    {
+      "bytes": 1876,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/terminal.json",
+      "sha256": "227833d6a473816a95c40f8cf17d0b91e5f198abe8b23710407c66a715954208"
+    },
+    {
+      "bytes": 5377,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus-minus/action-freeze.json",
+      "sha256": "fb1462369d71bcbb90f05a8c87f50a92eecef856d75681b968bbacdba6878040"
+    },
+    {
+      "bytes": 10654,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus-minus/raw/target/microstep-00.json",
+      "sha256": "b5f5ae8df808e9e13282944a04a7f6dcb731e1784adca16a4de80dfcbd3c7dcf"
+    },
+    {
+      "bytes": 11130,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus-minus/raw/target/microstep-01.json",
+      "sha256": "a38ff5253020bf99248aa2ad0b007557a4f54ef4e1673fa0d9bc7dd416fa2534"
+    },
+    {
+      "bytes": 11214,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus-minus/raw/target/microstep-02.json",
+      "sha256": "e51156b84f56dbe57288ad20967c83ae610a45564bf353577ee0c13ca3e17fe1"
+    },
+    {
+      "bytes": 11216,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus-minus/raw/target/microstep-03.json",
+      "sha256": "7ede2dff848b2824e29076c94abb7f1f3225761a5f63d70565a9da13c9132491"
+    },
+    {
+      "bytes": 11228,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus-minus/raw/target/microstep-04.json",
+      "sha256": "c1ad6191b7ee001ddc839525dd856ac204a966ec9088c7913464b86359c31ff1"
+    },
+    {
+      "bytes": 27856,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus-minus/terminal.json",
+      "sha256": "f1e6cd8cedcd6be09b6683a89df1a525496d30130d7f510e2f68be9d26a283f1"
+    },
+    {
+      "bytes": 5372,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus/action-freeze.json",
+      "sha256": "ac1620aada90c63ce600d1a264e80b1aae54ac24608d20549c88b345849c606a"
+    },
+    {
+      "bytes": 10504,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus/raw/target/microstep-00.json",
+      "sha256": "f9c778f59ee64aa45d0b85dc03540d07f73721350482b75729deb74131e7dae1"
+    },
+    {
+      "bytes": 11111,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus/raw/target/microstep-01.json",
+      "sha256": "a8f36ce4f610f4d4be053b9cdde2b4aa2ea1612eb2a753139f4ac4892a6b8d1e"
+    },
+    {
+      "bytes": 11201,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus/raw/target/microstep-02.json",
+      "sha256": "2430d8dba3c1d673bd23b890a6e6274e81fa53bc35e92f838ff309be835dec59"
+    },
+    {
+      "bytes": 11226,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus/raw/target/microstep-03.json",
+      "sha256": "0a5593369d7dded874e493329e0ae6f8e0346806103047e4e28429a2d17eb28f"
+    },
+    {
+      "bytes": 11210,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus/raw/target/microstep-04.json",
+      "sha256": "3d2101022b4f0c2e09c4d5df0b544821806aad47ebe10f4639f86da629c93cc4"
+    },
+    {
+      "bytes": 27858,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B7-llama3-8b-inst/z-plus/terminal.json",
+      "sha256": "20a334fc762fe45d4913569bc4395c58dac828113db5c13a3d2efbb5e0e24938"
+    },
+    {
+      "bytes": 28432,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/native-z/terminal.json",
+      "sha256": "f9a4913efaee686e778a29c6b83fb500f2634abf74414c6f32d0ba24093a1808"
+    },
+    {
+      "bytes": 833,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/stages/stage-003-post_sealed_input_plan.json",
+      "sha256": "f22339c8be259277114fa16a64aa35f0c02893607a1ea079ea448583bb77110e"
+    },
+    {
+      "bytes": 2291,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/stages/stage-004-post_shared_W0_nonsemantic_gate.json",
+      "sha256": "7afed436db168d5dbf4147ca1dfc2f557c4b712f62f9594ca2e965ddbb41ba2e"
+    },
+    {
+      "bytes": 1470,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/stages/stage-005-first_valid_slice_gate.json",
+      "sha256": "358fa90b66ca5bbfbf2d7ccc5c4be68c2000f7ecc3745c8088d2aa4ef9fa0667"
+    },
+    {
+      "bytes": 1876,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/terminal.json",
+      "sha256": "2d5d7f5108b0ad7050bfbba3be41042d2e06c12eb1e5653acbda6fb58b0a318a"
+    },
+    {
+      "bytes": 5373,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus-minus/action-freeze.json",
+      "sha256": "d08e853dae97f30d7f6d6d12d22c321f6ea6c13a95893752aff710c3003ad268"
+    },
+    {
+      "bytes": 10768,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus-minus/raw/target/microstep-00.json",
+      "sha256": "1d340677c1e9bbe76616ef3a09a7bdb354720c0f918ac51b102bacb88bd9913c"
+    },
+    {
+      "bytes": 11128,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus-minus/raw/target/microstep-01.json",
+      "sha256": "65148faf22064a4d754f5b3a3870d423e46d1183782a906ce37ff5e7b8eb3f24"
+    },
+    {
+      "bytes": 11239,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus-minus/raw/target/microstep-02.json",
+      "sha256": "08498ee2397315be3f2db173aa6bd12e3b03cc317c3c51be7729d061d10bb254"
+    },
+    {
+      "bytes": 11223,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus-minus/raw/target/microstep-03.json",
+      "sha256": "ca56b1f8bc3fad3cd0511be9e9e75b3227a0a3fd9ef88d709ec40c240d7bbe9b"
+    },
+    {
+      "bytes": 11250,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus-minus/raw/target/microstep-04.json",
+      "sha256": "e4d8fade48fa2331fcec4dbed9fa1ea1d0365e774d707ce82a8f51a955b7664f"
+    },
+    {
+      "bytes": 27892,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus-minus/terminal.json",
+      "sha256": "e1c22ad6422563a1f633b8093e0f23ca7b65ab8fb2fcde72a48b6f3ab2624607"
+    },
+    {
+      "bytes": 5378,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus/action-freeze.json",
+      "sha256": "8874a82c328852c1fb199054e361cbab673a55ca054b26606b2cf6177a6908ff"
+    },
+    {
+      "bytes": 10597,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus/raw/target/microstep-00.json",
+      "sha256": "07a62accca57db22a735496c21ad1cb9da57cc6b547474a984beb8b0f7e2cf24"
+    },
+    {
+      "bytes": 11071,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus/raw/target/microstep-01.json",
+      "sha256": "f58ed306e891b0e7835c58b00082384100ab9ee1bb629eb1d81a437aa50890bb"
+    },
+    {
+      "bytes": 11192,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus/raw/target/microstep-02.json",
+      "sha256": "64a99ed8478f8820ce4afd15d8c3232a8be30d396f782a5314599d123e84a3f8"
+    },
+    {
+      "bytes": 11186,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus/raw/target/microstep-03.json",
+      "sha256": "2bcd71cf53a33c2e041a73300372192672894825bd7deb1de0db2aae142e1f6d"
+    },
+    {
+      "bytes": 11188,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus/raw/target/microstep-04.json",
+      "sha256": "680183c19366480adbe43b16a52bdc024078cedcf0a9b906c4771765506cd4cd"
+    },
+    {
+      "bytes": 27881,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B8-llama3-8b-inst/z-plus/terminal.json",
+      "sha256": "2f11693dbd29a8aedb52d67ad7c915379b35907ecb5a686aeaa3d257828edc04"
+    },
+    {
+      "bytes": 28414,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/native-z/terminal.json",
+      "sha256": "54e302fcca8921855130c5fe8414e7399e7b92bdc6cd10dfff524026c2a9c62c"
+    },
+    {
+      "bytes": 833,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/stages/stage-003-post_sealed_input_plan.json",
+      "sha256": "9d5d118dae64954ed2ef96175da130537a18f528944480d4082eed590c9af580"
+    },
+    {
+      "bytes": 2291,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/stages/stage-004-post_shared_W0_nonsemantic_gate.json",
+      "sha256": "53f7d2171850020ef335b238c47940f0e76f238c319c1315a82b277d90bdfe2f"
+    },
+    {
+      "bytes": 1481,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/stages/stage-005-first_valid_slice_gate.json",
+      "sha256": "a15af5553fa22f0beaaec92c4abd26891c3930f5e0f9acb850ea569d484245fd"
+    },
+    {
+      "bytes": 1876,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/terminal.json",
+      "sha256": "adffdc7517b7dfdf22e3959ad61be3c44741e57c8ae6aed423834741f4498bd5"
+    },
+    {
+      "bytes": 5382,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus-minus/action-freeze.json",
+      "sha256": "1989e0b5a0dc9b74ec4b763be31e240e900c2ea2919eb9f5fd7f3134bad397bb"
+    },
+    {
+      "bytes": 10691,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus-minus/raw/target/microstep-00.json",
+      "sha256": "91b129d3d6d4afefa33e586c24758a3873596b8a4d4d127f4000001b6849fe16"
+    },
+    {
+      "bytes": 11131,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus-minus/raw/target/microstep-01.json",
+      "sha256": "999d1a90720c8cc3fed9ba6d5baa8a051d60be19e43771fa38b8652129870bf5"
+    },
+    {
+      "bytes": 11206,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus-minus/raw/target/microstep-02.json",
+      "sha256": "8127fdcf5ed90a2e88020d442ad512494b1d894f4314a951a7166926398d0640"
+    },
+    {
+      "bytes": 11223,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus-minus/raw/target/microstep-03.json",
+      "sha256": "8c086d9363e703db359839d3c874ba7ac71b57a4c54a6261972b3c4fec35fbd6"
+    },
+    {
+      "bytes": 11238,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus-minus/raw/target/microstep-04.json",
+      "sha256": "ca942c7daba74d8f5e41b552391d6e780b3773754e9e16c950c61efbb850ba85"
+    },
+    {
+      "bytes": 27859,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus-minus/terminal.json",
+      "sha256": "a57a4db52ed7dacacf50345bce0ebba5698142c13d3a1d06f9c502154a7e7daa"
+    },
+    {
+      "bytes": 5378,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus/action-freeze.json",
+      "sha256": "db90c873f1eafbc6a476fe0c4d876794ce108ebc59a401ddabad95ef52f2f5bc"
+    },
+    {
+      "bytes": 10479,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus/raw/target/microstep-00.json",
+      "sha256": "c7d669593cc033f3f71fb4a373f6714100d79c280bd79b70f8d9362e6710d3ee"
+    },
+    {
+      "bytes": 11103,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus/raw/target/microstep-01.json",
+      "sha256": "3493aca079e282309ceb8c75a573d9a71ef8310644349a983c1ccdee1ec4cfba"
+    },
+    {
+      "bytes": 11145,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus/raw/target/microstep-02.json",
+      "sha256": "833edcdc21f2b50a15e01d480621c28d78aa18ac7a58dbb0ba8d89e2c4895830"
+    },
+    {
+      "bytes": 11157,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus/raw/target/microstep-03.json",
+      "sha256": "2d94f67e53ba31e0561a0d534e662db84f513d5e6da6ce01cd11ba45b8fa2f3d"
+    },
+    {
+      "bytes": 11197,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus/raw/target/microstep-04.json",
+      "sha256": "2eb42a98ed0ad6a17cc267fcbddbf59960873864a87f9e70afcb578a56c4d0be"
+    },
+    {
+      "bytes": 27859,
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1/B9-llama3-8b-inst/z-plus/terminal.json",
+      "sha256": "d1e7d11c160099cb4ce06abcef9ce89072b621204be3a5224c42f76da504e05f"
+    }
+  ],
+  "raw_member_root": "f89340fe9de2082c99844204c76628c2dcd0f9bf198475287300c5287d052f87",
+  "raw_root": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-za-llama-h1-b2b10-f4fbfb5-r1",
+  "raw_root_policy": "IMMUTABLE_IGNORED_LOCAL_REFERENCE_ONLY",
+  "root_digest": "c3498eee45a2ec1a05153f1dbb2d929f37e300f0cedac10e21a191e398d23fb4",
+  "schema": "ode-edit-s05-p4-euler-za-llama-h1-analysis-manifest/v1",
+  "scientific_input_model": "llama3-8b-inst",
+  "scientific_promotion": false,
+  "source_head": "f4fbfb5de132de9b986e4b291c5b41784c182743",
+  "source_tree": "8c3f444014907f69b1bb793674f7a5a9e2b9ee0e",
+  "status": "TERMINAL_TECHNICAL_PASS_POST_ZA_PAUSED"
+}

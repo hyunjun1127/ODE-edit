@@ -1,0 +1,7 @@
+arm,level,n,x,y,pearson,spearman,interpretation
+Z+,request,90,clamp_fraction,endpoint_train_new_nll,0.0979787067827026,0.11372731511659859,DESCRIPTIVE_ASSOCIATION_ONLY_NOT_CAUSAL
+Z+,request,90,clamp_fraction,endpoint_train_true_nll,0.012374538889724842,0.016362368886021633,DESCRIPTIVE_ASSOCIATION_ONLY_NOT_CAUSAL
+Z+,request,90,clamp_fraction,endpoint_train_margin_new_minus_true,-0.03852006924735397,-0.038929118761281765,DESCRIPTIVE_ASSOCIATION_ONLY_NOT_CAUSAL
+Z±,request,90,clamp_fraction,endpoint_train_new_nll,0.0289870728479682,0.26978302628525713,DESCRIPTIVE_ASSOCIATION_ONLY_NOT_CAUSAL
+Z±,request,90,clamp_fraction,endpoint_train_true_nll,-0.08243937379385585,-0.030991935782795528,DESCRIPTIVE_ASSOCIATION_ONLY_NOT_CAUSAL
+Z±,request,90,clamp_fraction,endpoint_train_margin_new_minus_true,-0.073124331851575,-0.07268813871661085,DESCRIPTIVE_ASSOCIATION_ONLY_NOT_CAUSAL
