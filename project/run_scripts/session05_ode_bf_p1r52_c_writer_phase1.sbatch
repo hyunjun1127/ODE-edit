@@ -16,15 +16,15 @@ readonly SOURCE_HEAD="${1:-}"
 readonly SOURCE_TREE="${2:-}"
 readonly RESULT_PARENT="${3:-}"
 readonly EXPECTED_SESSION="01a0278d-456b-7d20-820f-63fc80a57b8d"
-readonly EXPECTED_BRANCH="codex/p1r52-c-writer-three-phase-v1"
+readonly EXPECTED_BRANCH="codex/p1r52-c-writer-phase1-tech-r1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
-readonly RUN_TOKEN="p1r52-c-writer-phase1-full-fp32-sequential-v1"
+readonly RUN_TOKEN="p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-v1"
 readonly RESULTS=(
-  "s05-p1r52-c-writer-phase1-full-fp32-sequential-official-alphaedit-10xb100-v1"
-  "s05-p1r52-c-writer-phase1-full-fp32-sequential-official-memit-10xb100-v1"
-  "s05-p1r52-c-writer-phase1-full-fp32-sequential-c0-10xb100-v1"
-  "s05-p1r52-c-writer-phase1-full-fp32-sequential-c1-10xb100-v1"
-  "s05-p1r52-c-writer-phase1-full-fp32-sequential-c3-10xb100-v1"
+  "s05-p1r52-c-writer-phase1-full-fp32-sequential-official-alphaedit-10xb100-tech-r1-v1"
+  "s05-p1r52-c-writer-phase1-full-fp32-sequential-official-memit-10xb100-tech-r1-v1"
+  "s05-p1r52-c-writer-phase1-full-fp32-sequential-c0-10xb100-tech-r1-v1"
+  "s05-p1r52-c-writer-phase1-full-fp32-sequential-c1-10xb100-tech-r1-v1"
+  "s05-p1r52-c-writer-phase1-full-fp32-sequential-c3-10xb100-tech-r1-v1"
 )
 [[ "$#" -eq 3 ]] || { echo "Phase1 arguments differ" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "Phase1 CWD differs" >&2; exit 2; }

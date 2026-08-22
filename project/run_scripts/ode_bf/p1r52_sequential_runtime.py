@@ -1545,6 +1545,10 @@ def run_p1r52_sequential(
                 )
             seed_all(COMMON_SEED)
             accepted_z_binding = None
+            # Native AlphaEdit/MEMIT do not emit the P1R52/PIR-U layer-norm
+            # rows.  Keep the common batch receipt factual and empty instead
+            # of reading a branch-local variable after the native call.
+            batch_norm_rows: list[dict[str, Any]] = []
             if role in R52_ROLES:
                 request_order = scalable_ordered_request_digest([str(item["request_sha256"]) for item in requests])
                 objective_plan = build_scalable_objective_plan(
@@ -1651,7 +1655,6 @@ def run_p1r52_sequential(
                         p1r52=True,
                         p1r52_pir_policy=pir_policy,
                     )
-                batch_norm_rows: list[dict[str, Any]] = []
                 if pir_policy is not None:
                     batch_norm_rows = load_actual_update_norm_rows(case_root / "raw" / "ode")
                     for item in batch_norm_rows:

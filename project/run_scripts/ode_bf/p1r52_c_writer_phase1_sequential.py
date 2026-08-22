@@ -59,7 +59,7 @@ CELL_LABELS = ("OFFICIAL-ALPHAEDIT", "OFFICIAL-MEMIT", "C0", "C1", "C3")
 ROLE_PREFIX = "r52-c-writer-phase1-full-fp32-sequential-"
 ROLES = tuple(f"{ROLE_PREFIX}{label.lower()}" for label in CELL_LABELS)
 RESULT_NAMES = {
-    role: f"s05-p1r52-c-writer-phase1-full-fp32-sequential-{label.lower()}-10xb100-v1"
+    role: f"s05-p1r52-c-writer-phase1-full-fp32-sequential-{label.lower()}-10xb100-tech-r1-v1"
     for role, label in zip(ROLES, CELL_LABELS, strict=True)
 }
 ALPHA_APPLICABLE = frozenset(("OFFICIAL-ALPHAEDIT", "C0", "C1", "C3"))

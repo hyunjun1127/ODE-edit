@@ -7,6 +7,7 @@ import torch
 
 from project.run_scripts.ode_bf import p1r52_c_writer_phase1_sequential as phase1
 from project.run_scripts.ode_bf import p1r52_joint_pc_fp32_runtime as fp32
+from project.run_scripts.ode_bf import p1r52_sequential_runtime as sequential
 from project.run_scripts.session05_ode_bf_p1r52_c_writer_phase1_dry_plan import build_plan
 
 
@@ -43,6 +44,15 @@ class Phase1ContractTest(unittest.TestCase):
         values = tuple(phase1.expected_result_name(role) for role in phase1.ROLES)
         self.assertEqual(len(values), len(set(values)))
         self.assertTrue(all("full-fp32" in value and "10xb100" in value for value in values))
+        self.assertTrue(all("tech-r1" in value for value in values))
+
+    def test_native_baseline_common_receipt_initializes_norm_rows(self) -> None:
+        source = inspect.getsource(sequential.run_p1r52_sequential)
+        initialized = source.index("batch_norm_rows: list[dict[str, Any]] = []")
+        role_branch = source.index("if role in R52_ROLES:", initialized)
+        receipt_read = source.index('"actual_update_norm_share": batch_norm_rows', role_branch)
+        self.assertLess(initialized, role_branch)
+        self.assertLess(role_branch, receipt_read)
 
 
 if __name__ == "__main__":

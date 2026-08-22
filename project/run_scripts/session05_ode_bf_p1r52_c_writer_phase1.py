@@ -24,7 +24,7 @@ from project.run_scripts.ode_bf.p1_runtime import P1OutputRootCollision, _atomic
 from project.run_scripts.ode_bf.p1r52_b100x10_stream import SEAL_FILE, verify_p1r52_b100x10_stream
 from project.run_scripts.ode_bf.p1r52_c_writer_phase1_sequential import INSTRUCTION_ID, expected_result_name, role_for_cell
 
-RUN_TOKEN = "p1r52-c-writer-phase1-full-fp32-sequential-v1"
+RUN_TOKEN = "p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-v1"
 SOURCE_FILES = (
     "project/run_scripts/ode_bf/p1_runtime.py",
     "project/run_scripts/ode_bf/p1r52_sequential_runtime.py",
