@@ -1,0 +1,12 @@
+scope,arm,h,executed_microsteps,actual_autograd_grad_calls,duplicate_evaluations,wall_seconds,seconds_per_microstep,W_pointer_version_changes,W_bytes_changes,optimizer,adam_states,backward_calls,parameter_gradients
+trajectory,Z+,0.0625,10,10,0,33.037018618546426,3.3037018618546425,0,0,NONE,0,0,0
+trajectory,Z+,0.25,10,10,0,32.14430589322001,3.2144305893220007,0,0,NONE,0,0,0
+trajectory,Z+,1.0,10,10,0,32.55759436171502,3.255759436171502,0,0,NONE,0,0,0
+trajectory,Z+,4.0,10,10,0,32.47155565582216,3.247155565582216,0,0,NONE,0,0,0
+trajectory,Z±,0.0625,10,10,0,42.40755446255207,4.240755446255207,0,0,NONE,0,0,0
+trajectory,Z±,0.25,10,10,0,42.57777638081461,4.257777638081461,0,0,NONE,0,0,0
+trajectory,Z±,1.0,10,10,0,42.91399849858135,4.291399849858135,0,0,NONE,0,0,0
+trajectory,Z±,4.0,10,10,0,41.87223741598427,4.1872237415984275,0,0,NONE,0,0,0
+stage1_total,ALL,ALL,80,80,0,299.9820412872359,3.749775516090449,0,0,NONE,0,0,0
+slurm_allocation,ALL,ALL,80,80,0,354.0,4.425,0,0,NONE,0,0,0
+setup_load_report_overhead,ALL,ALL,0,0,0,54.017958712764084,NOT_APPLICABLE,0,0,NONE,0,0,0

@@ -114,10 +114,50 @@
     "analysis_manifest_root": "fa433d4022517c0935f94ea6a4f0cb1ee0b9d443599e425525ff885079b68670",
     "analysis_receipt_identity": "92d0eb6692fdd2819b39d9134990453e5d72aaafa61c862e8b1f1e12d0ddfb9a"
   },
+  "gate_policy_revision": {
+    "authority": "USER_DIRECTED_GATE_POLICY_REVISION",
+    "decision": "TASK_METRIC_GATE_PASS",
+    "decisive_gate": "ODESteer_STYLE_EMPIRICAL_TRAIN_TARGET_METRIC_STABILITY",
+    "latent_endpoint_geometry_gate": "FAILED_OBSERVED_NONDECISIONAL",
+    "results_recomputed_or_modified": false,
+    "selected_h_or_horizon_changed": false,
+    "llama_stage1_h_0_25_new_nll_median": {
+      "M": [1, 3, 5, 10],
+      "T_z": [0.25, 0.75, 1.25, 2.5],
+      "Z_plus": [7.655735015869141, 0.7527183294296265, 0.10981786251068115, 0.018934842199087143],
+      "Z_plus_minus": [8.668874740600586, 1.0071120262145996, 0.12847886979579926, 0.028573522344231606]
+    },
+    "same_T_z_1_25_metric_stability": {
+      "Z_plus": {
+        "M5_new_nll_median": 0.10981786251068115,
+        "M10_new_nll_median": 0.03485048934817314,
+        "M5_positive_margin_count": 10,
+        "M10_positive_margin_count": 10,
+        "request_denominator": 10
+      },
+      "Z_plus_minus": {
+        "M5_new_nll_median": 0.12847886979579926,
+        "M10_new_nll_median": 0.05883515626192093,
+        "M5_positive_margin_count": 10,
+        "M10_positive_margin_count": 10,
+        "request_denominator": 10
+      }
+    },
+    "report_path": "experiment-reports/servers/server4/p4-euler-stage1-llama-nll-metric-gate-2026-08-23/report-ko.md",
+    "analysis_manifest_root": "623aa80daf1bb178d244b93b516d27feb9c784b09eae6f39a6720ced1768ffea",
+    "analysis_receipt_identity": "fbe3a7a383560863527ddc598985bc6cec65b0d1fa4487f066103f174d14db90",
+    "claim_supported": "empirical Euler train-target metric stability on one permanent calibration-only unit",
+    "claims_not_supported": [
+      "latent endpoint numerical convergence",
+      "continuous ODE existence or uniqueness proof",
+      "heldout efficacy/generalization/locality",
+      "writer-level or sequential editing performance"
+    ]
+  },
   "selected_h": 0.25,
   "selected_target_horizon": 1.25,
   "za_zb_submission_authorized": false,
   "scientific_promotion": false,
-  "status": "CALIBRATION_TERMINAL_SCIENTIFIC_HOLD",
-  "root_digest": "2d9034eb4ceb59f12469388679663710c48ed0fab394613f8cd1769eebe9a577"
+  "status": "CALIBRATION_TASK_METRIC_GATE_PASS_REPORT_COMPLETE",
+  "root_digest": "e520a8005b6531e7cc9cf641ae7ffd3c8b4afaa157c6ef1f61a9fc7bfaf03d77"
 }
