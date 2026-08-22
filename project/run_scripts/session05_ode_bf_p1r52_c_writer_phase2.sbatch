@@ -13,7 +13,7 @@ umask 077
 readonly REPO_ROOT="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is required}"
 readonly SOURCE_HEAD="${1:-}" SOURCE_TREE="${2:-}" RESULT_PARENT="${3:-}"
 readonly EXPECTED_SESSION="01a0278d-456b-7d20-820f-63fc80a57b8d"
-readonly EXPECTED_BRANCH="codex/p1r52-c-writer-three-phase-v1"
+readonly EXPECTED_BRANCH="codex/p1r52-c-writer-phase2-tech-r1"
 readonly EASYEDIT_ROOT="/mnt/raid5/janghj/EasyEdit"
 readonly RUN_TOKEN="p1r52-c-writer-phase2-independent-kstep-full-fp32-v1"
 readonly RESULTS=("s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1" "s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1" "s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1")
