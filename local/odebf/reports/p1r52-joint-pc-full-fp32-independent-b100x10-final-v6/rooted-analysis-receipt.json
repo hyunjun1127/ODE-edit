@@ -1,0 +1,36 @@
+{
+  "C_arm_same_accepted_z_status": "PASS_10_OF_10",
+  "C_arm_same_entry_W_status": "PASS_10_OF_10",
+  "W0_restore_status": "PASS_60_OF_60",
+  "analysis_manifest_identity": "cdce949f68766b0cce5094490ccef99020495b648b847c81f7fb1a45d63f4638",
+  "analysis_manifest_sha256": "b38d8b23d7d2876e72dcab35c8a64083ba6baa5951769998cf3c1726d9a77d09",
+  "dtype_status": "FULL_FP32_PASS_ALL_METHODS",
+  "identity_sha256": "ea5261b1f4b08732fa7ae08895dbe655d53a630d3c4f5b7bb86a5a74b644ff60",
+  "imputation_count": 0,
+  "input_manifests": {
+    "BASELINE": "ce5c47a8a7ce9d81685266178c106687febdb03cbb1595ffb1432a0c401c6890",
+    "C0": "a16d83029973e41e418a982310f83f865fc2dea3fbf12feb6284e835297c9dd1",
+    "C1": "5c63a9fe2efbd2f56045b43d89360ee7442092f71b1a8254e9c29285efbec81b",
+    "C2": "a93f71d30964ef83cd33c1c6fce841d4c4229c4d7a807ca650ab046a0ece74a0",
+    "C3": "2f72d51e62ea00fc111361bd63d446454a402a9833336cecb79558062f86f729"
+  },
+  "input_roots": {
+    "BASELINE": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-joint-pc-fullfp32-independent-10xb100-v1/local/odebf/results/s05-p1r52-joint-pc-full-fp32-independent-b100x10-baseline-group-v1",
+    "C0": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-joint-pc-fullfp32-independent-10xb100-v1/local/odebf/results/s05-p1r52-joint-pc-full-fp32-independent-b100x10-c0-v1",
+    "C1": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-joint-pc-fullfp32-independent-10xb100-v1/local/odebf/results/s05-p1r52-joint-pc-full-fp32-independent-b100x10-c1-v1",
+    "C2": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-joint-pc-fullfp32-independent-10xb100-v1/local/odebf/results/s05-p1r52-joint-pc-full-fp32-independent-b100x10-c2-v1",
+    "C3": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-joint-pc-fullfp32-independent-10xb100-v1/local/odebf/results/s05-p1r52-joint-pc-full-fp32-independent-b100x10-c3-v1"
+  },
+  "model_gpu_slurm_replay_count": 0,
+  "promotion_ruling": "NO_SCIENTIFIC_PROMOTION_IN_THIS_INDEPENDENT_GATE",
+  "retry_count": 0,
+  "schema": "ode-edit-s05-p1r52-joint-pc-independent-full-fp32-rooted-receipt/v1",
+  "scientific_failure_count": 0,
+  "source_head": "27a5ea828af26e30887b9546b31f7f9584ef1e7c",
+  "status": "TERMINAL_ANALYSIS_VALID",
+  "stream_order": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+  "technical_failure_count": 0,
+  "valid_endpoint_count": 60,
+  "valid_request_count": 6000
+}

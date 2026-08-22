@@ -1,0 +1,770 @@
+[
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 0.011625275331898593,
+      "mean": 0.0023065382779223,
+      "median": 0.0012480470254195098,
+      "min": 0.0009604068432054191,
+      "p90": 0.001593894394864037
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 15.730135235786438,
+      "mean": 14.628757358789443,
+      "median": 14.60570684671402,
+      "min": 13.914570274353027,
+      "p90": 14.868586835861207
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 1.3021252602219102,
+      "mean": 1.100521684650808,
+      "median": 1.1095301781616764,
+      "min": 0.879235416501906,
+      "p90": 1.2518033557443413
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 11.533121348619462,
+      "mean": 11.050088527980726,
+      "median": 11.185178875476122,
+      "min": 10.175758894085885,
+      "p90": 11.432099155187608
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 0.020522585602448087,
+      "mean": 0.003315151903836522,
+      "median": 0.0013850607858694273,
+      "min": 0.001050682249115198,
+      "p90": 0.0017807831844766043
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 15.615297355651855,
+      "mean": 14.51001994651556,
+      "median": 14.480948040485382,
+      "min": 13.800285782814026,
+      "p90": 14.758676443099976
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 2.1301560119151692,
+      "mean": 1.8480393136327293,
+      "median": 1.8944376641590863,
+      "min": 1.473142809818055,
+      "p90": 2.040360684557381
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 9.875813219249249,
+      "mean": 9.396850217508618,
+      "median": 9.447517836242914,
+      "min": 8.583724738880992,
+      "p90": 9.665493662953377
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 0.001345386663779209,
+      "mean": 0.0010984351011029503,
+      "median": 0.0011013812893543218,
+      "min": 0.0008701384958112612,
+      "p90": 0.0012827276829921175
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 15.926641430854797,
+      "mean": 14.820166948795318,
+      "median": 14.765256326198578,
+      "min": 14.103041782379151,
+      "p90": 15.117586684226989
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 1.307772919381241,
+      "mean": 1.1047603197513154,
+      "median": 1.1130143411645077,
+      "min": 0.9068408323517361,
+      "p90": 1.267334884372831
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 11.574653215408325,
+      "mean": 11.066664205111097,
+      "median": 11.214385404884816,
+      "min": 10.144933334589005,
+      "p90": 11.441371159553528
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 0.418758233570843,
+      "mean": 0.19672490518997074,
+      "median": 0.16749156100479012,
+      "min": 0.05942578645306639,
+      "p90": 0.34685499667873954
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 12.829260210990906,
+      "mean": 11.534597757350653,
+      "median": 11.579849857520312,
+      "min": 10.573763340115548,
+      "p90": 11.935910394191742
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 3.316450161087705,
+      "mean": 2.8756256010443613,
+      "median": 2.9650738084224577,
+      "min": 2.43116447626875,
+      "p90": 3.103041890395689
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 8.228489306229166,
+      "mean": 7.794277056097053,
+      "median": 7.8926716384291655,
+      "min": 7.135286750160158,
+      "p90": 8.068657064195722
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 0.11799615965457633,
+      "mean": 0.049447215133084685,
+      "median": 0.04474334806247498,
+      "min": 0.012999152383417822,
+      "p90": 0.07492331225308589
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 13.118142404556274,
+      "mean": 11.75203917646408,
+      "median": 11.776812120676041,
+      "min": 10.354257464408875,
+      "p90": 12.391957197189331
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 1.5176552467932924,
+      "mean": 1.3809938863671998,
+      "median": 1.345473188007818,
+      "min": 1.2975907566957177,
+      "p90": 1.501324976531323
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 10.774385620951653,
+      "mean": 9.830554769178852,
+      "median": 9.820637063933535,
+      "min": 8.76695774435997,
+      "p90": 10.201972208023072
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 0.10345573604688979,
+      "mean": 0.04577854116182425,
+      "median": 0.04167291401041439,
+      "min": 0.012292173894820735,
+      "p90": 0.07397008877713233
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 12.87452070236206,
+      "mean": 11.6372588057518,
+      "median": 11.655352444648742,
+      "min": 10.26688189983368,
+      "p90": 12.29464952468872
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 2.180472073927522,
+      "mean": 2.025021321225853,
+      "median": 2.026477373628877,
+      "min": 1.8748516546899918,
+      "p90": 2.177131572937942
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 9.041062909662724,
+      "mean": 8.267789240605431,
+      "median": 8.314203906059266,
+      "min": 7.234389442279935,
+      "p90": 8.562625523686874
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 0.11799615965457633,
+      "mean": 0.049447215133084685,
+      "median": 0.04474334806247498,
+      "min": 0.012999152383417822,
+      "p90": 0.07492331225308589
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 13.118142404556274,
+      "mean": 11.75203917646408,
+      "median": 11.776812120676041,
+      "min": 10.354257464408875,
+      "p90": 12.391957197189331
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 1.5176552467932924,
+      "mean": 1.3809938863671998,
+      "median": 1.345473188007818,
+      "min": 1.2975907566957177,
+      "p90": 1.501324976531323
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 10.774385620951653,
+      "mean": 9.830554769178852,
+      "median": 9.820637063933535,
+      "min": 8.76695774435997,
+      "p90": 10.201972208023072
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 0.10341251957695931,
+      "mean": 0.0457410696883162,
+      "median": 0.0416662125752191,
+      "min": 0.012256430877896492,
+      "p90": 0.07491675219731406
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 12.880376048088074,
+      "mean": 11.641794450044632,
+      "median": 11.659454840421677,
+      "min": 10.28055712223053,
+      "p90": 12.292960386276246
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 2.189711809034925,
+      "mean": 2.0280464106703873,
+      "median": 2.0253347128711177,
+      "min": 1.87563161097758,
+      "p90": 2.1855856063897954
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 9.05289471924305,
+      "mean": 8.26344186465256,
+      "median": 8.30349617153406,
+      "min": 7.242022715136409,
+      "p90": 8.54578435631469
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 0.11799615965457633,
+      "mean": 0.049447215133084685,
+      "median": 0.04474334806247498,
+      "min": 0.012999152383417822,
+      "p90": 0.07492331225308589
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 13.118142404556274,
+      "mean": 11.75203917646408,
+      "median": 11.776812120676041,
+      "min": 10.354257464408875,
+      "p90": 12.391957197189331
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 1.5176552467932924,
+      "mean": 1.3809938863671998,
+      "median": 1.345473188007818,
+      "min": 1.2975907566957177,
+      "p90": 1.501324976531323
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 10.774385620951653,
+      "mean": 9.830554769178852,
+      "median": 9.820637063933535,
+      "min": 8.76695774435997,
+      "p90": 10.201972208023072
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 0.29289028082974256,
+      "mean": 0.2106546244632918,
+      "median": 0.20549833100056275,
+      "min": 0.1390685965458397,
+      "p90": 0.2509911670046858
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 10.882053523063659,
+      "mean": 9.925998946964741,
+      "median": 9.89317939221859,
+      "min": 8.98350578725338,
+      "p90": 10.349793553352356
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 2.616729448624101,
+      "mean": 2.441291787455164,
+      "median": 2.4404377005971036,
+      "min": 2.2163424600148574,
+      "p90": 2.6138848035782574
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 8.38591958287172,
+      "mean": 7.8787036603041924,
+      "median": 7.94454357146984,
+      "min": 7.032675572000444,
+      "p90": 8.098579351902009
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 0.11799615965457633,
+      "mean": 0.049447215133084685,
+      "median": 0.04474334806247498,
+      "min": 0.012999152383417822,
+      "p90": 0.07492331225308589
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 13.118142404556274,
+      "mean": 11.75203917646408,
+      "median": 11.776812120676041,
+      "min": 10.354257464408875,
+      "p90": 12.391957197189331
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 1.5176552467932924,
+      "mean": 1.3809938863671998,
+      "median": 1.345473188007818,
+      "min": 1.2975907566957177,
+      "p90": 1.501324976531323
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 10.774385620951653,
+      "mean": 9.830554769178852,
+      "median": 9.820637063933535,
+      "min": 8.76695774435997,
+      "p90": 10.201972208023072
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 0.10315495740622282,
+      "mean": 0.045636410559614884,
+      "median": 0.0417825047581573,
+      "min": 0.01238339283328969,
+      "p90": 0.07320591613883153
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 12.866936693191528,
+      "mean": 11.63158254146576,
+      "median": 11.651915830373763,
+      "min": 10.266272814273835,
+      "p90": 12.284576063156129
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 2.188976931421785,
+      "mean": 2.029780559398816,
+      "median": 2.029273752269801,
+      "min": 1.875532587869675,
+      "p90": 2.188103887551697
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-new"
+  },
+  {
+    "case_denominator": 10,
+    "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+    "cross_case_summary": {
+      "max": 9.042161950170994,
+      "mean": 8.258608016589191,
+      "median": 8.297543162703516,
+      "min": 7.237480289414525,
+      "p90": 8.542329273088836
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "target": "target-true"
+  }
+]

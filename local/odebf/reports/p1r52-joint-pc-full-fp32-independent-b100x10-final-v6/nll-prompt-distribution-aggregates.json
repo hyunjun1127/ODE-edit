@@ -1,0 +1,722 @@
+[
+  {
+    "cross_prompt_summary": {
+      "max": 0.9981651306152344,
+      "mean": 0.0023065382779223,
+      "median": 0.000690460205078125,
+      "min": 2.0265373677830212e-05,
+      "p90": 0.0026848006527870893
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 27.31596565246582,
+      "mean": 14.628757358789445,
+      "median": 14.350395202636719,
+      "min": 1.0292930603027344,
+      "p90": 19.818744659423828
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 15.602556228637695,
+      "mean": 1.100521684650808,
+      "median": 0.051957255229353905,
+      "min": 1.4066597032069694e-05,
+      "p90": 4.3084917068481445
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 26.353649139404297,
+      "mean": 11.050088527980726,
+      "median": 10.976290225982666,
+      "min": 0.009349963627755642,
+      "p90": 16.343198776245117
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 1.8773164749145508,
+      "mean": 0.0033151519038365222,
+      "median": 0.0007467461109627038,
+      "min": 2.1934269170742482e-05,
+      "p90": 0.002938360208645463
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 27.063623428344727,
+      "mean": 14.51001994651556,
+      "median": 14.228349685668945,
+      "min": 0.6187495589256287,
+      "p90": 19.696653366088867
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 17.445371627807617,
+      "mean": 1.8480393136327293,
+      "median": 0.2934666723012924,
+      "min": 6.305972783593461e-05,
+      "p90": 5.901395797729492
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 24.31145477294922,
+      "mean": 9.396850217508618,
+      "median": 9.368317127227783,
+      "min": 0.0038867658004164696,
+      "p90": 14.641416549682617
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "OFFICIAL-ALPHAEDIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 0.02549242600798607,
+      "mean": 0.0010984351011029503,
+      "median": 0.0006447739724535495,
+      "min": 1.9073304429184645e-05,
+      "p90": 0.0023079682141542435
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 27.45424461364746,
+      "mean": 14.820166948795318,
+      "median": 14.542142391204834,
+      "min": 4.685792446136475,
+      "p90": 19.804351806640625
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 15.612509727478027,
+      "mean": 1.1047603197513154,
+      "median": 0.05395769327878952,
+      "min": 1.6689160474925302e-05,
+      "p90": 4.29409646987915
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 26.519575119018555,
+      "mean": 11.066664205111097,
+      "median": 11.003041744232178,
+      "min": 0.011455356143414974,
+      "p90": 16.42639923095703
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 12.664019584655762,
+      "mean": 0.19672490518997074,
+      "median": 0.0042555255349725485,
+      "min": 0.00010668662434909493,
+      "p90": 0.10974674671888351
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 25.43890380859375,
+      "mean": 11.534597757350653,
+      "median": 11.359379768371582,
+      "min": 0.035663869231939316,
+      "p90": 17.133033752441406
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 20.605066299438477,
+      "mean": 2.8756256010443613,
+      "median": 1.1551117300987244,
+      "min": 0.0002351722796447575,
+      "p90": 8.353468894958496
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 23.182947158813477,
+      "mean": 7.794277056097053,
+      "median": 7.66874623298645,
+      "min": 0.009222171269357204,
+      "p90": 13.102352142333984
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "OFFICIAL-MEMIT",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 7.662848472595215,
+      "mean": 0.049447215133084685,
+      "median": 0.015121293719857931,
+      "min": 0.0004172646440565586,
+      "p90": 0.05611254274845123
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 24.088829040527344,
+      "mean": 11.75203917646408,
+      "median": 11.293511867523193,
+      "min": 2.6448745727539062,
+      "p90": 16.528322219848633
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 17.824970245361328,
+      "mean": 1.3809938863671996,
+      "median": 0.2504539340734482,
+      "min": 0.0004377598816063255,
+      "p90": 4.7313432693481445
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 25.268795013427734,
+      "mean": 9.830554769178853,
+      "median": 9.631955623626709,
+      "min": 0.012681674212217331,
+      "p90": 14.553216934204102
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 6.721010684967041,
+      "mean": 0.04577854116182425,
+      "median": 0.014567385893315077,
+      "min": 0.00026901919045485556,
+      "p90": 0.04993228614330292
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 23.5684814453125,
+      "mean": 11.6372588057518,
+      "median": 11.189199924468994,
+      "min": 3.4687106609344482,
+      "p90": 16.496339797973633
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 18.160749435424805,
+      "mean": 2.025021321225853,
+      "median": 0.7647867500782013,
+      "min": 0.0006245807744562626,
+      "p90": 5.942322731018066
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 23.160614013671875,
+      "mean": 8.267789240605431,
+      "median": 8.061366081237793,
+      "min": 0.006281158421188593,
+      "p90": 13.22671127319336
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C0",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 7.662848472595215,
+      "mean": 0.049447215133084685,
+      "median": 0.015121293719857931,
+      "min": 0.0004172646440565586,
+      "p90": 0.05611254274845123
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 24.088829040527344,
+      "mean": 11.75203917646408,
+      "median": 11.293511867523193,
+      "min": 2.6448745727539062,
+      "p90": 16.528322219848633
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 17.824970245361328,
+      "mean": 1.3809938863671996,
+      "median": 0.2504539340734482,
+      "min": 0.0004377598816063255,
+      "p90": 4.7313432693481445
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 25.268795013427734,
+      "mean": 9.830554769178853,
+      "median": 9.631955623626709,
+      "min": 0.012681674212217331,
+      "p90": 14.553216934204102
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 6.719561576843262,
+      "mean": 0.045741069688316205,
+      "median": 0.01450364850461483,
+      "min": 0.00026842328952625394,
+      "p90": 0.050352808088064194
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 23.558738708496094,
+      "mean": 11.641794450044632,
+      "median": 11.19070816040039,
+      "min": 3.4632561206817627,
+      "p90": 16.505910873413086
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 18.160404205322266,
+      "mean": 2.0280464106703877,
+      "median": 0.7658581137657166,
+      "min": 0.0006279165390878916,
+      "p90": 5.954511642456055
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 23.082550048828125,
+      "mean": 8.26344186465256,
+      "median": 8.067918300628662,
+      "min": 0.006260190159082413,
+      "p90": 13.24191665649414
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C1",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 7.662848472595215,
+      "mean": 0.049447215133084685,
+      "median": 0.015121293719857931,
+      "min": 0.0004172646440565586,
+      "p90": 0.05611254274845123
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 24.088829040527344,
+      "mean": 11.75203917646408,
+      "median": 11.293511867523193,
+      "min": 2.6448745727539062,
+      "p90": 16.528322219848633
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 17.824970245361328,
+      "mean": 1.3809938863671996,
+      "median": 0.2504539340734482,
+      "min": 0.0004377598816063255,
+      "p90": 4.7313432693481445
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 25.268795013427734,
+      "mean": 9.830554769178853,
+      "median": 9.631955623626709,
+      "min": 0.012681674212217331,
+      "p90": 14.553216934204102
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 6.637660026550293,
+      "mean": 0.21065462446329183,
+      "median": 0.0808306410908699,
+      "min": 0.0007487303810194135,
+      "p90": 0.5078907012939453
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 24.384719848632812,
+      "mean": 9.925998946964741,
+      "median": 9.713048458099365,
+      "min": 0.777738630771637,
+      "p90": 14.793373107910156
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 18.04446792602539,
+      "mean": 2.441291787455164,
+      "median": 1.3028943538665771,
+      "min": 0.00045253525604493916,
+      "p90": 6.487974643707275
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 21.515918731689453,
+      "mean": 7.8787036603041924,
+      "median": 7.716750383377075,
+      "min": 0.004281758330762386,
+      "p90": 12.735983848571777
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C2",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 7.662848472595215,
+      "mean": 0.049447215133084685,
+      "median": 0.015121293719857931,
+      "min": 0.0004172646440565586,
+      "p90": 0.05611254274845123
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 24.088829040527344,
+      "mean": 11.75203917646408,
+      "median": 11.293511867523193,
+      "min": 2.6448745727539062,
+      "p90": 16.528322219848633
+    },
+    "endpoint": "Z",
+    "family": "rewrite",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 17.824970245361328,
+      "mean": 1.3809938863671996,
+      "median": 0.2504539340734482,
+      "min": 0.0004377598816063255,
+      "p90": 4.7313432693481445
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 25.268795013427734,
+      "mean": 9.830554769178853,
+      "median": 9.631955623626709,
+      "min": 0.012681674212217331,
+      "p90": 14.553216934204102
+    },
+    "endpoint": "Z",
+    "family": "rephrase",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 6.686975002288818,
+      "mean": 0.045636410559614884,
+      "median": 0.014550527092069387,
+      "min": 0.0002646096108946949,
+      "p90": 0.050299983471632004
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 23.52413558959961,
+      "mean": 11.63158254146576,
+      "median": 11.190505981445312,
+      "min": 3.4660234451293945,
+      "p90": 16.48699188232422
+    },
+    "endpoint": "W",
+    "family": "rewrite",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 1000,
+    "target": "target-true"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 18.137563705444336,
+      "mean": 2.029780559398816,
+      "median": 0.7718630433082581,
+      "min": 0.0006167178507894278,
+      "p90": 5.945937633514404
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-new"
+  },
+  {
+    "cross_prompt_summary": {
+      "max": 23.322620391845703,
+      "mean": 8.258608016589191,
+      "median": 8.079404830932617,
+      "min": 0.006200718693435192,
+      "p90": 13.241050720214844
+    },
+    "endpoint": "W",
+    "family": "rephrase",
+    "method": "C3",
+    "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+    "prompt_denominator": 2000,
+    "target": "target-true"
+  }
+]
