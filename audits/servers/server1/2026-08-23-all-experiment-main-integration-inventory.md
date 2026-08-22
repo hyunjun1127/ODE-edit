@@ -1,6 +1,6 @@
 # Server1 실험 코드·보고서 main 통합 인벤토리
 
-상태: `ORDER3_RELEASED_INTEGRATION_VALIDATED_PENDING_PUSH`
+상태: `ORDER3_COMPLETE_CODE_REPORTS_PUSHED`
 
 초기 감사 기준 `origin/main`은 commit `f4fbfb5de132de9b986e4b291c5b41784c182743`, tree `8c3f444014907f69b1bb793674f7a5a9e2b9ee0e`였다. ORDER3 release 뒤 commit `4f9a7ec492b1bb937b7424ba32611a05ac5565a0`, tree `30b41f6d558b055a701889612e39c8a984a525db`를 독립 fetch/검증하고 clean branch `codex/server1-all-experiment-integration-v1`을 그 위로 rebase했다. active Phase2/3 job source, result root, 사용자 dirty worktree는 변경하지 않았다.
 
@@ -58,8 +58,6 @@ PIR-U manifest가 report를 `8475` bytes / `a99cc5c5...`로 기록하지만 trac
 - active job worktree/result의 미커밋 또는 실행 중 bytes
 - credentials, host-local session boundary, scheduler state
 
-## 남은 순서
+## 후속 범위
 
-1. 최종 branch commit/tree와 최신 remote 상태를 재검증한다.
-2. non-force로 `HEAD:main`을 push한다.
-3. Phase2/3 terminal-valid 보고서는 완료 뒤 별도 non-force commit/push한다.
+ORDER3 code/report integration은 non-force fast-forward로 main에 게시했다. Phase2/3 terminal-valid 보고서는 실행 완료 뒤 별도 non-force commit/push한다.
