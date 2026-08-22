@@ -1,0 +1,17 @@
+{
+  "agent_id": "server4-server-head",
+  "role": "server-head",
+  "hostname": "server4",
+  "status": "online_waiting_for_global_head_task",
+  "last_seen": "2026-08-22T17:51:38+09:00",
+  "repo_path": "/data/janghj/ODE-edit",
+  "repository_identity": "hyunjun1127/ODE-edit",
+  "codex_session_id": "codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d",
+  "head_sha": "96494a05c37ffb32f101d53d14e0e61b2f25664d",
+  "session_boundary": "pass",
+  "slurm_access": "pass",
+  "project_gpu_cap": 2,
+  "active_project_gpus": 0,
+  "storage_status": "warn_98_percent_used",
+  "experiment_submission": "hold_by_global_head_directive"
+}
