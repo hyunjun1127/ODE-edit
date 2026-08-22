@@ -1,0 +1,42 @@
+{
+  "array_task_states": {
+    "19663_0": "COMPLETED/0:0/00:18:15",
+    "19663_1": "COMPLETED/0:0/00:19:16",
+    "19663_2": "COMPLETED/0:0/00:21:54",
+    "19663_3": "COMPLETED/0:0/00:21:13"
+  },
+  "denominators": {
+    "accepted_steps": 320,
+    "cases": 40,
+    "cells": 4,
+    "request_steps": 3200,
+    "requests": 400,
+    "scientific_failures": 0,
+    "technical_failures": 0
+  },
+  "instruction_id": "ODEEDIT-S05-P1R40-P1R38-SEMANTIC-DEFICIT-VELOCITY-DECAY-ATOMIC-V1",
+  "integrity": {
+    "K8": "PASS_40_OF_40",
+    "P1R38_case_match": "PASS_40_OF_40",
+    "W0_byte_pointer_restore": "PASS_40_OF_40",
+    "added_gamma_model_compute": "0F_0B_0M",
+    "case_terminal_manifest_action_freeze_rehash": "PASS_40_OF_40",
+    "gamma_application": "PASS_320_OF_320",
+    "request_demean": "PASS_3200_OF_3200"
+  },
+  "job_id": "19663",
+  "manifest_root": "2b20472942a50e335e1cd6e1b7b0bfe341f594731f3220192c3e28fcb920134c",
+  "manifest_sha256": "e0cf4e4170794935258692b9b3f704a4b1468d833ab1e140fcc488128ece29f1",
+  "report_sha256": "d2d9614260b1edc45a4398baba4d896f47c28d493aad6b32ca2fadb702d0b27f",
+  "root_digest": "d522f10a9a6111aad0472802b624ca4c93422457c4476a7e5dcb21c8ae96ee07",
+  "scheduler_maxrss_kib": {
+    "19663_0": 7516248,
+    "19663_1": 7487804,
+    "19663_2": 10678764,
+    "19663_3": 10748988
+  },
+  "schema_version": "ode-edit-s05-p1r40-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "source_head": "ca42fd9559951dc6337e6610379cfa222bf570ba",
+  "source_tree": "dc3046684bcb27f9ce2a30a288b2ece0f273a197"
+}

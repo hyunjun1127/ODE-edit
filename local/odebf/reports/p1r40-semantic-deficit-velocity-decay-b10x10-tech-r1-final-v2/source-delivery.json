@@ -1,0 +1,13 @@
+{
+  "branch": "codex/p1r40-semantic-deficit-velocity-decay-atomic-v1",
+  "bundle_bytes": 3338966,
+  "bundle_complete_history": true,
+  "bundle_prerequisites": 0,
+  "bundle_sha256": "d66e6ce60b71a718854e08157894488eddd9ff1e356e073086558c5d1040b4dd",
+  "bundle_verify_output_sha256": "d5bff5baf6b63030251db0fce883c65c04f8a8bb2b4221f25a1ef7b99257f5ee",
+  "execution_checkpoint": "ca42fd9559951dc6337e6610379cfa222bf570ba",
+  "execution_tree": "dc3046684bcb27f9ce2a30a288b2ece0f273a197",
+  "schema": "ode-edit-s05-p1r40-source-delivery/v1",
+  "scientific_checkpoint": "a9444e3db6d7ff7b2e3ef05037e2298c2cce5101",
+  "scientific_parent": "6f48ac2800b257ceb16368fff5137212dfa6037f"
+}

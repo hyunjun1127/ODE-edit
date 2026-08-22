@@ -1,0 +1,129 @@
+{
+  "entries": [
+    {
+      "bytes": 7608,
+      "lines": 5,
+      "mode": "0o600",
+      "path": "cell-summary.csv",
+      "sha256": "171a072d8d4cfb548dde3a6c46d62d73404725be552b357d59840ac2c3fc2302"
+    },
+    {
+      "bytes": 16344,
+      "lines": 441,
+      "mode": "0o600",
+      "path": "cell-summary.json",
+      "sha256": "ea3f1e9d85170f0f849fb0c8ccd8ac587cb62a86f75e27e294d6ab8936ae97e2"
+    },
+    {
+      "bytes": 6714,
+      "lines": 41,
+      "mode": "0o600",
+      "path": "integrity-cases.csv",
+      "sha256": "92bace693c3731b5242868f339564482e6463ba949e48893e27eeb91db8c266b"
+    },
+    {
+      "bytes": 17915,
+      "lines": 525,
+      "mode": "0o600",
+      "path": "integrity-cases.json",
+      "sha256": "7baeed4f43ea3fa998281dddb8b611c05ae8d4f4271a34218dc4810c4a366aa3"
+    },
+    {
+      "bytes": 3338966,
+      "lines": 12954,
+      "mode": "0o600",
+      "path": "p1r40-source.bundle",
+      "sha256": "d66e6ce60b71a718854e08157894488eddd9ff1e356e073086558c5d1040b4dd"
+    },
+    {
+      "bytes": 7789,
+      "lines": 103,
+      "mode": "0o600",
+      "path": "p1r40-terminal-factual-report-ko.md",
+      "sha256": "d2d9614260b1edc45a4398baba4d896f47c28d493aad6b32ca2fadb702d0b27f"
+    },
+    {
+      "bytes": 64750,
+      "lines": 41,
+      "mode": "0o600",
+      "path": "per-case.csv",
+      "sha256": "f826f5e698d0ab1c9476e0f0c0512a8fb0dad7c4c56c1ae1bc57bf7eb262a42c"
+    },
+    {
+      "bytes": 184625,
+      "lines": 4325,
+      "mode": "0o600",
+      "path": "per-case.json",
+      "sha256": "68c354d8629f76b6a45bfb0aef15cd5745e267a6c90f1618a30ace5145c4c133"
+    },
+    {
+      "bytes": 1355965,
+      "lines": 3201,
+      "mode": "0o600",
+      "path": "per-request.csv",
+      "sha256": "6876762b74611dd30d4792862c7dd03ee4a8c2fc43164fe0ae9d7022ffec3562"
+    },
+    {
+      "bytes": 3611646,
+      "lines": 99205,
+      "mode": "0o600",
+      "path": "per-request.json",
+      "sha256": "8fbf72f215ba6575612a6888194c230125e1c94f8773804e1a7fd1df21d3fc54"
+    },
+    {
+      "bytes": 506705,
+      "lines": 321,
+      "mode": "0o600",
+      "path": "per-step.csv",
+      "sha256": "96c9327846a4853909204da5a3f4c69a18ac626da6d852296674302aac3f819b"
+    },
+    {
+      "bytes": 1176683,
+      "lines": 34298,
+      "mode": "0o600",
+      "path": "per-step.json",
+      "sha256": "056592c80faf2f1aa155f139f02240cd2d1eca1cc2941c81f24d31f4c0337bfe"
+    },
+    {
+      "bytes": 676,
+      "lines": 13,
+      "mode": "0o600",
+      "path": "source-delivery.json",
+      "sha256": "53f6e6a94a6fcac3ac498cb62ed5ae11054a7ba8f4dc4157d66a85e6c4f85086"
+    }
+  ],
+  "instruction_id": "ODEEDIT-S05-P1R40-P1R38-SEMANTIC-DEFICIT-VELOCITY-DECAY-ATOMIC-V1",
+  "job_id": "19663",
+  "p1r38_reference": {
+    "per_case_sha256": "309f4135553866d76c01c271cf98af9a082ce8b6bebce87fe2ba4fdcb7e2bd91",
+    "per_request_sha256": "f42581732bd1ce9150931a69a8517e2737774bdbdec5a28e3d17a67287b7576e",
+    "per_step_sha256": "595a31c2b828e9eae5ac1f52257bea0a4d983ec343ed14ee9c4259ec9c8aa305",
+    "report_sha256": "281582a6bfe95b53bda1bce09e0eb453c8675fcf717c6b957051197faf2bf865"
+  },
+  "root_digest": "2b20472942a50e335e1cd6e1b7b0bfe341f594731f3220192c3e28fcb920134c",
+  "schema_version": "ode-edit-s05-p1r40-analysis-manifest/v1",
+  "scientific_head": "a9444e3db6d7ff7b2e3ef05037e2298c2cce5101",
+  "scientific_parent": "6f48ac2800b257ceb16368fff5137212dfa6037f",
+  "source_head": "ca42fd9559951dc6337e6610379cfa222bf570ba",
+  "source_manifest_root": "a0e666bba030d1e3304a5e91a6f86ce2ced9f21249df798d413968087f311732",
+  "source_manifest_sha256": "7fd689b7876d4aee10fbc464f42b47d5e027599557d3a38c39acc645425827da",
+  "source_tree": "dc3046684bcb27f9ce2a30a288b2ece0f273a197",
+  "terminal_result_hashes": {
+    "llama3-8b-inst:Neutral": {
+      "manifest_sha256": "5e0db59e073dd14df31c88322d3027e47d437328d8798f2d4614e31967fa2d31",
+      "terminal_sha256": "6e5e7f53dadc3697b5b7bb3677b7ad55e4589f469c240111b753e6aa02dcb738"
+    },
+    "llama3-8b-inst:Soft": {
+      "manifest_sha256": "ba401a337d78678a7c9a4bb271a904289c2d706b07f2c791b8f398cbbf38aaa1",
+      "terminal_sha256": "59105a76b951f9a0544a7c8624246e4bbdb04d345a39569e55d5bba13a051dcb"
+    },
+    "qwen2.5-7b-inst:Neutral": {
+      "manifest_sha256": "1824ce6fe5936d1e1b2df2e27b530ccaa607cec247f44e8a69a8687ab08d5dc7",
+      "terminal_sha256": "972ffa66eab7265237e68b260865a6e81f87bbcbdb4e1c69e66b9f9a4c847662"
+    },
+    "qwen2.5-7b-inst:Soft": {
+      "manifest_sha256": "111f4997c5f692bf9ef56c0219c7b992c7c56c8ee8e973de585208372a731012",
+      "terminal_sha256": "7cb8efbbbdf2ee23e9836a586f0ffd23a499ede70f780e12f09a4118a2b90482"
+    }
+  }
+}
