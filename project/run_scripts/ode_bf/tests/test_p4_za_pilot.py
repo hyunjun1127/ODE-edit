@@ -100,6 +100,7 @@ class P4ZAPilotEssentialGateTests(unittest.TestCase):
             "#SBATCH --time=48:00:00",
             "#SBATCH --nodelist=server4",
             "export PROJECT_GPU_CAP=2",
+            'EXPECTED_SESSION="codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d"',
         ):
             self.assertIn(expected, source)
 
