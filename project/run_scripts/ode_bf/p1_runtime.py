@@ -3256,10 +3256,12 @@ def run_p1(
     from .p1r52_joint_pc_independent_fp32_runtime import (
         is_joint_pc_independent_fp32_role,
     )
+    from .p1r52_c_writer_phase1_sequential import is_phase1_role
 
     joint_pc_full_fp32_mode = (
         is_joint_pc_full_fp32_role(p1r52_sequential_role)
         or is_joint_pc_independent_fp32_role(p1r52_sequential_role)
+        or is_phase1_role(p1r52_sequential_role)
     )
     _source_freeze(repo_root, source_head)
     expected_parent = (repo_root / "local" / "odebf" / "results").resolve(strict=False)

@@ -237,6 +237,7 @@ def _run_pc_arm_fp32(
     *, target: torch.Tensor, entry: Mapping[str, Any], hparams: Any,
     projector: torch.Tensor, covariance_registry: Any, projector_sha256: str,
     controller_lock: Any, capture_plan: Any,
+    solve_history_keys_by_layer: Mapping[int, torch.Tensor] | None = None,
 ) -> dict[str, Any]:
     if arm not in (JointPCWriterArm.C0, JointPCWriterArm.C1, JointPCWriterArm.C2):
         raise ODEBFContractError("FP32 Joint-P/C arm differs")
@@ -252,12 +253,38 @@ def _run_pc_arm_fp32(
     )
     layer_rows: list[dict[str, Any]] = []
     applied = []
+    if solve_history_keys_by_layer is not None and (
+        set(solve_history_keys_by_layer) != set(P1R23_LAYER_ORDER)
+        or any(
+            value.ndim != 2
+            or value.dtype is not torch.float32
+            or not torch.isfinite(value).all()
+            for value in solve_history_keys_by_layer.values()
+        )
+    ):
+        raise ODEBFContractError("FP32 Joint-P/C solve-history inventory differs")
     with transaction:
         for ordinal, layer in enumerate(P1R23_LAYER_ORDER):
             if ordinal == 0:
                 current_terminal = entry_terminal.clone()
-                field = entry["field"].layers[0]
-                field_source = "ENTRY_FIELD_REUSE"
+                if solve_history_keys_by_layer is None:
+                    field = entry["field"].layers[0]
+                    field_source = "ENTRY_FIELD_REUSE"
+                else:
+                    field, _ = build_current_layer_field(
+                        model, hparams, projector, covariance_registry,
+                        layer=layer,
+                        key=entry["physical"].keys_by_layer[layer],
+                        target_state=target,
+                        current_terminal=current_terminal,
+                        step_index=0,
+                        factor_ordinal=ordinal,
+                        projector_sha256=projector_sha256,
+                        residual_tolerance=controller_lock.residual_tolerance,
+                        q_only=True,
+                        history_keys=solve_history_keys_by_layer[layer],
+                    )
+                    field_source = "ENTRY_CURRENT_KEY_Q_WITH_COMMITTED_CACHE"
             else:
                 physical = capture_scalable_physical_state(model, capture_plan, hparams)
                 current_terminal = physical.terminal_z.detach().cpu().float().contiguous()
@@ -273,6 +300,11 @@ def _run_pc_arm_fp32(
                     projector_sha256=projector_sha256,
                     residual_tolerance=controller_lock.residual_tolerance,
                     q_only=True,
+                    history_keys=(
+                        solve_history_keys_by_layer[layer]
+                        if solve_history_keys_by_layer is not None
+                        else None
+                    ),
                 )
                 field_source = "CURRENT_PREFIX_KEY_Q"
             if arm is JointPCWriterArm.C2:
@@ -306,6 +338,14 @@ def _run_pc_arm_fp32(
                 "current_residual_norm": float(torch.linalg.norm((target-current_terminal).double())),
                 "key_norm": float(torch.linalg.norm(field.key.double())),
                 "q_norm": float(torch.linalg.norm(field.q.double())),
+                "alpha_cache_history_width": (
+                    int(solve_history_keys_by_layer[layer].shape[1])
+                    if solve_history_keys_by_layer is not None else 0
+                ),
+                "alpha_cache_history_sha256": (
+                    tensor_sha256(solve_history_keys_by_layer[layer])
+                    if solve_history_keys_by_layer is not None else None
+                ),
                 "update_norm": receipt.actual_post_storage_delta32_norm,
                 "update_energy": receipt.actual_post_storage_delta32_energy,
                 "storage_dtype": receipt.post_storage_dtype,
