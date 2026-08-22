@@ -1,0 +1,120 @@
+{
+  "schema_version": "ode-edit-s05-p4-euler-projected-semantic-ode-e0-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P4-EULER-PROJECTED-SEMANTIC-ODE-V1",
+  "authoritative_contract": {
+    "path": "/data/janghj/ODE-edit/local/state/p4-euler-target-side-semantic-barrier-v1/authoritative-contract.txt",
+    "sha256": "1899bbfa3610ee2edc94044548475dbb39353ebb7aeafeea371c9a879e7d4398",
+    "bytes": 21620,
+    "lines": 989
+  },
+  "status": "E0_CALIBRATION_PLAN_PENDING_GH_APPROVAL",
+  "selected_target_horizon": null,
+  "main": {
+    "microsteps": 5,
+    "step_size_formula": "h=T_z/M",
+    "raw_field": true,
+    "field_normalization": false,
+    "optimizer": "NONE",
+    "final_iterate_only": true
+  },
+  "calibration_subset": {
+    "stream_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
+    "order_sha256": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+    "slice": "B1_CASE01",
+    "contexts": "TRAIN_ONLY",
+    "heldout_access_count": 0,
+    "native_access_count": 0,
+    "calibration_label": "PERMANENT_CALIBRATION_ONLY",
+    "confirmatory_denominator_eligibility": false
+  },
+  "shared_models": [
+    "llama3-8b-inst",
+    "qwen2.5-7b-inst"
+  ],
+  "shared_arms": [
+    "Euler Z+",
+    "Euler Z±"
+  ],
+  "model_specific_method_branch_count": 0,
+  "stage_1": {
+    "name": "FIXED_H_STRENGTH_CURVE",
+    "fixed_h_candidates": [
+      0.0625,
+      0.25,
+      1.0,
+      4.0
+    ],
+    "grid_rationale": "A model-common factor-4 ladder around the raw-gradient natural unit h=1; it is independently defined and does not reuse either Adam learning rate. Prior immutable train telemetry places initial per-request total-gradient norms near 1.37-1.97 for Llama and 0.172-0.266 for Qwen, so the ladder deliberately spans clearly weak through likely boundary-dominated raw displacements.",
+    "microsteps": [
+      1,
+      3,
+      5,
+      10
+    ],
+    "same_h_within_curve": true,
+    "target_horizon_formula": "T_z=M*h",
+    "interpretation": "STRENGTH_PSEUDO_TIME_CURVE_NOT_REFINEMENT",
+    "observations": [
+      "train_new_nll",
+      "train_old_nll",
+      "train_new_minus_old_margin",
+      "raw_field_norm",
+      "target_displacement",
+      "clamp_telemetry"
+    ],
+    "selection_rows": "M5_ONLY_AFTER_ALL_M1_M3_M5_M10_CURVES_COMPLETE",
+    "selection_rule": "Choose the largest h whose complete fixed-h curve is finite for both models and both Euler arms, has clamp-hit fraction below 0.5 in every cell, has nondecreasing median displacement over M=1,3,5,10 up to 1e-5 relative tolerance, and for Euler Z+ does not increase median train new NLL from M1 to M10 by more than 1e-4 absolute. The next larger h must be inadmissible, which creates a closed safe/unsafe bracket. Select T_z=5*h_selected. If no h is admissible or the largest grid point remains admissible, HOLD without extending the grid.",
+    "barrier_effect_selection_influence_count": 0
+  },
+  "stage_2": {
+    "name": "FIXED_TARGET_HORIZON_REFINEMENT",
+    "target_horizon_source": "STAGE1_T_z_EQUALS_5_TIMES_SELECTED_H",
+    "microsteps": [
+      5,
+      10
+    ],
+    "step_sizes": [
+      "T_z/5",
+      "T_z/10"
+    ],
+    "interpretation": "FIXED_TARGET_HORIZON_NUMERICAL_REFINEMENT",
+    "endpoint_relative_discrepancy_formula": "norm(z_M5-z_M10)/max(norm(z_M10-origin),1e-12)",
+    "pass_thresholds": {
+      "request_median_max": 0.1,
+      "request_p90_max": 0.25,
+      "request_max_max": 0.5,
+      "clamp_domination_fraction_max_exclusive": 0.5
+    },
+    "reported_observation_only": [
+      "train_new_nll_discrepancy",
+      "train_old_nll_discrepancy",
+      "train_margin_discrepancy",
+      "field_norm_discrepancy",
+      "displacement_discrepancy",
+      "clamp_discrepancy"
+    ]
+  },
+  "hold_rules": [
+    "NONFINITE_ANY_MODEL_ARM_STEP",
+    "W_CONTENT_HASH_CHANGE",
+    "ADAM_OR_OPTIMIZER_OR_PARAMETER_GRADIENT_NONZERO",
+    "CLAMP_HIT_FRACTION_GTE_0_5_ANY_MODEL_ARM_CURVE",
+    "NO_CLOSED_SAFE_UNSAFE_STAGE1_BRACKET",
+    "M5_M10_RELATIVE_ENDPOINT_MEDIAN_GT_0_1",
+    "M5_M10_RELATIVE_ENDPOINT_P90_GT_0_25",
+    "M5_M10_RELATIVE_ENDPOINT_MAX_GT_0_5",
+    "MODEL_SPECIFIC_H_OR_T_z_OR_SELECTION_BRANCH",
+    "HELDOUT_NATIVE_OR_FINAL_PERFORMANCE_SELECTION_INFLUENCE"
+  ],
+  "forbidden_selection_inputs": [
+    "heldout_eff",
+    "heldout_gen",
+    "heldout_loc",
+    "native_endpoint",
+    "native_performance",
+    "final_main_performance",
+    "barrier_causal_delta"
+  ],
+  "gpu_slurm_authorized": false,
+  "root_digest": "f0393f460386d10c2e6f6dba7d21e077cf1ab19bed4b67f914cb4ab6aa52e61f"
+}
