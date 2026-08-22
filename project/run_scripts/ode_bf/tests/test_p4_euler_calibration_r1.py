@@ -45,7 +45,9 @@ class P4EulerCalibrationR1FocusedTests(unittest.TestCase):
             REPO_ROOT
             / "project/run_scripts/session05_ode_bf_p4_euler_calibration_stage1.py"
         ).read_text(encoding="utf-8")
-        self.assertEqual(source.count("run_raw_projected_euler("), 1)
+        self.assertEqual(source.count("run_raw_projected_euler("), 2)
+        stage1_body = source.split("def _fixed_endpoint_trajectory(", 1)[0]
+        self.assertEqual(stage1_body.count("run_raw_projected_euler("), 1)
         for expected in (
             "microsteps=10",
             "1: pre_states[1]",
@@ -96,6 +98,42 @@ class P4EulerCalibrationR1FocusedTests(unittest.TestCase):
             "#SBATCH --nodelist=server4",
             "export PROJECT_GPU_CAP=2",
             'EXPECTED_BRANCH="codex/server4-p4-euler-calibration-r1"',
+        ):
+            self.assertIn(expected, source)
+
+    def test_stage2_is_fixed_horizon_m5_m10_and_fail_closed(self) -> None:
+        source = (
+            REPO_ROOT
+            / "project/run_scripts/session05_ode_bf_p4_euler_calibration_stage1.py"
+        ).read_text(encoding="utf-8")
+        for expected in (
+            "SELECTED_H = 0.25",
+            "SELECTED_TARGET_HORIZON = 1.25",
+            "for microsteps in (5, 10)",
+            "numerator = torch.linalg.vector_norm(endpoints[5] - endpoints[10]",
+            'summary["median"] <= 0.10',
+            'summary["p90"] <= 0.25',
+            'summary["max"] <= 0.50',
+            'float(row["clamp_fraction"]) < 0.5',
+            '"actual_autograd_grad_call_count": 30',
+            '"STAGE2_MODEL_CELL_SCIENTIFIC_HOLD"',
+        ):
+            self.assertIn(expected, source)
+
+    def test_stage2_sbatch_preserves_cap_and_science_lock(self) -> None:
+        source = (
+            REPO_ROOT
+            / "project/run_scripts/"
+            "session05_ode_bf_p4_euler_calibration_stage2_server4.sbatch"
+        ).read_text(encoding="utf-8")
+        for expected in (
+            "#SBATCH --array=0-1%2",
+            "#SBATCH --gres=gpu:1",
+            "#SBATCH --cpus-per-task=8",
+            "#SBATCH --mem=65000M",
+            "#SBATCH --time=48:00:00",
+            "--stage stage2",
+            "export PROJECT_GPU_CAP=2",
         ):
             self.assertIn(expected, source)
 

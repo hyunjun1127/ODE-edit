@@ -60,8 +60,27 @@
     "parameter_gradient_count": 0,
     "loss_backward_count": 0
   },
-  "selected_h": null,
-  "selected_target_horizon": null,
-  "status": "CALIBRATION_STAGE1_AUTHORIZED",
-  "root_digest": "649d4a271b29cceec3f20080db7c763e47c7f143a9a43fafaa7a4db3806bbe0b"
+  "stage_1_selection_receipt": {
+    "status": "STAGE1_PASS_CLOSED_BRACKET",
+    "source_head": "bddb5dce6b19b4d2cfebbe364c291d6903452302",
+    "slurm_array_job_id": "22829",
+    "common_admissibility": {
+      "0.0625": true,
+      "0.25": true,
+      "1": false,
+      "4": false
+    },
+    "immediate_next_inadmissible_h": 1.0,
+    "closed_bracket_absent": false,
+    "llama_terminal_identity": "8bda03a9d5a9cc58a36928145afa11dadc083b2480bdec5cbb053a3204a7c059",
+    "llama_terminal_file_sha256": "53cdf7937684d12046db1320cdfda8be4297ebed1fac7e16a363cd14e2b020d4",
+    "qwen_terminal_identity": "ca21708321a9886099fcb58eb9c63e89b3f286e5e546e7fcdd53bbe9698c9518",
+    "qwen_terminal_file_sha256": "6d5cce560fd688e0673ecd2e2ce073caa447dd3cda3378fbd8cdd23ff749d73e",
+    "selection_model_branch_count": 0,
+    "tolerance_or_grid_change_count": 0
+  },
+  "selected_h": 0.25,
+  "selected_target_horizon": 1.25,
+  "status": "CALIBRATION_STAGE2_AUTHORIZED",
+  "root_digest": "b60e1b442a96700e5bccbe5d72ab4be0be08128f740fbbc707c0165c653036af"
 }

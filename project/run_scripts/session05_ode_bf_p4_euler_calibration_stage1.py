@@ -79,7 +79,10 @@ from project.run_scripts.ode_bf.scalable_batched_runtime import (
 
 H_GRID = (0.0625, 0.25, 1.0, 4.0)
 PREFIXES = (1, 3, 5, 10)
-LOCK_ROOT = "649d4a271b29cceec3f20080db7c763e47c7f143a9a43fafaa7a4db3806bbe0b"
+STAGE1_LOCK_ROOT = "649d4a271b29cceec3f20080db7c763e47c7f143a9a43fafaa7a4db3806bbe0b"
+STAGE2_LOCK_ROOT = "b60e1b442a96700e5bccbe5d72ab4be0be08128f740fbbc707c0165c653036af"
+SELECTED_H = 0.25
+SELECTED_TARGET_HORIZON = 1.25
 HF_SEAL = REPO_ROOT / "agents/server4/p4-hf-consumed-closure-seal.json"
 STREAM_SEAL_RELATIVE = Path("canonical/p1r24_independent_b10x10_stream_seal.json")
 DATASET = EASYEDIT_ROOT / "data/counterfact/counterfact.json"
@@ -100,14 +103,22 @@ def _load_regular_json(path: Path) -> dict[str, Any]:
     return value
 
 
-def _load_final_preflight(path: Path, *, alias: str, source_head: str) -> dict[str, Any]:
+def _load_final_preflight(
+    path: Path, *, alias: str, source_head: str, stage: str
+) -> dict[str, Any]:
     value = _load_regular_json(path)
     payload = dict(value)
     identity = payload.pop("identity_sha256", None)
     binding = value.get("model_input_binding")
     execution = value.get("execution_binding")
+    expected_schema = (
+        "ode-edit-s05-p4-euler-calibration-final-pre-gpu/v1"
+        if stage == "stage1"
+        else "ode-edit-s05-p4-euler-calibration-stage2-final-pre-gpu/v1"
+    )
+    expected_root = STAGE1_LOCK_ROOT if stage == "stage1" else STAGE2_LOCK_ROOT
     if (
-        value.get("schema") != "ode-edit-s05-p4-euler-calibration-final-pre-gpu/v1"
+        value.get("schema") != expected_schema
         or value.get("status") != "FINAL_PRE_GPU_PASS"
         or value.get("model_load_authorized") is not True
         or value.get("source_head") != source_head
@@ -115,8 +126,21 @@ def _load_final_preflight(path: Path, *, alias: str, source_head: str) -> dict[s
         or not isinstance(binding, Mapping)
         or alias not in binding
         or not isinstance(execution, Mapping)
-        or execution.get("calibration_lock_root") != LOCK_ROOT
-        or execution.get("single_trajectory_prefix_reuse") is not True
+        or execution.get("calibration_lock_root") != expected_root
+        or (
+            stage == "stage1"
+            and execution.get("single_trajectory_prefix_reuse") is not True
+        )
+        or (
+            stage == "stage2"
+            and (
+                execution.get("selected_h") != SELECTED_H
+                or execution.get("selected_target_horizon")
+                != SELECTED_TARGET_HORIZON
+                or execution.get("microsteps") != [5, 10]
+                or execution.get("step_sizes") != [0.25, 0.125]
+            )
+        )
         or value.get("project_gpu_cap") != 2
     ):
         raise ODEBFContractError("P4 Euler calibration final preflight differs")
@@ -361,6 +385,297 @@ def _trajectory(
     return payload
 
 
+def _fixed_endpoint_trajectory(
+    model: torch.nn.Module,
+    paired: Any,
+    kl_plan: Any,
+    teacher: Sequence[torch.Tensor],
+    *,
+    arm: P4TargetArm,
+    microsteps: int,
+    initial_target: torch.Tensor,
+    current_terminal: torch.Tensor,
+    target_layer_name: str,
+    lock: P1R24AliasTargetLock,
+    request_order_sha256: str,
+    context_sha256: str,
+    teacher_sha256: str,
+    touched: Mapping[str, torch.nn.Parameter],
+    expected_w0: str,
+    snapshot_root: Path,
+) -> tuple[Mapping[str, Any], torch.Tensor]:
+    """Run one fresh-origin Stage2 endpoint at the selected common horizon."""
+
+    origin = initial_target.detach().clone().to(dtype=torch.float32)
+    radius = lock.clamp_factor * torch.linalg.vector_norm(origin, dim=0)
+    step_size = SELECTED_TARGET_HORIZON / microsteps
+    nonsemantic = build_euler_nonsemantic_identity(
+        request_order_sha256=request_order_sha256,
+        context_sha256=context_sha256,
+        teacher_sha256=teacher_sha256,
+        origin_sha256=tensor_sha256(origin),
+        radius_sha256=tensor_sha256(radius),
+        target_layer_name=target_layer_name,
+        kl_factor=lock.kl_factor,
+        decay_factor=lock.decay_factor,
+        clamp_factor=lock.clamp_factor,
+        target_horizon=SELECTED_TARGET_HORIZON,
+        microsteps=microsteps,
+    )
+
+    def terms(candidate: torch.Tensor):
+        return evaluate_checkpointed_model_terms(
+            model,
+            paired,
+            kl_plan,
+            teacher,
+            target_state=candidate,
+            current_terminal=current_terminal,
+            target_origin=origin,
+            target_layer_name=target_layer_name,
+        )
+
+    objective = build_p4_euler_objective_callback(
+        terms, arm=arm, kl_factor=lock.kl_factor, decay_factor=lock.decay_factor
+    )
+    inventory_before = _parameter_inventory_sha256(model)
+    started = time.perf_counter()
+    result = run_raw_projected_euler(
+        origin,
+        origin=origin,
+        radius_by_request=radius,
+        target_horizon=SELECTED_TARGET_HORIZON,
+        microsteps=microsteps,
+        objective_callback=objective,
+        frozen_content_sha256=lambda: _parameter_inventory_sha256(model),
+        outer_step_index=0,
+    )
+    wall = time.perf_counter() - started
+    endpoint = result.final_state.detach().clone()
+    observation = observe_model_terms_no_grad(
+        model,
+        paired,
+        kl_plan,
+        teacher,
+        target_state=endpoint,
+        current_terminal=current_terminal,
+        target_origin=origin,
+        target_layer_name=target_layer_name,
+    )
+    hits = sum(
+        int(hit)
+        for row in result.step_receipts
+        for hit in row["clamp_hit_by_request"]
+    )
+    denominator = BATCH_SIZE * microsteps
+    displacement = result.step_receipts[-1]["post_clamp_displacement_by_request"]
+    relative = Path(arm.value.replace("±", "pm").replace("+", "plus")) / (
+        f"M{microsteps}.pt"
+    )
+    snapshot_sha = _snapshot_tensor(snapshot_root / relative, endpoint)
+    inventory_after = _parameter_inventory_sha256(model)
+    if inventory_after != inventory_before or _model_w0_contract(touched) != expected_w0:
+        raise ODEBFStateError("P4 Euler Stage2 W0 pointer/bytes changed")
+    if any(parameter.grad is not None for parameter in model.parameters()):
+        raise ODEBFStateError("P4 Euler Stage2 parameter gradient exists")
+    payload: dict[str, Any] = {
+        "schema": "ode-edit-s05-p4-euler-calibration-stage2-trajectory/v1",
+        "instruction_id": P4_EULER_INSTRUCTION_ID,
+        "arm": arm.value,
+        "M": microsteps,
+        "h": step_size,
+        "target_horizon": SELECTED_TARGET_HORIZON,
+        "fresh_origin": True,
+        "target_sha256": snapshot_sha,
+        "target_snapshot_relative_path": str(relative),
+        "new_nll": _summary(observation["new_nll_by_request"]),
+        "old_nll": _summary(observation["old_nll_by_request"]),
+        "new_minus_old_margin": _summary(
+            observation["new_minus_old_margin_by_request"]
+        ),
+        "displacement": _summary(displacement),
+        "clamp_hit_count": hits,
+        "clamp_denominator": denominator,
+        "clamp_fraction": hits / denominator,
+        "finite": True,
+        "executed_microsteps": microsteps,
+        "logical_field_evaluation_count": microsteps,
+        "actual_autograd_grad_call_count": microsteps,
+        "duplicate_autograd_evaluation_count": 0,
+        "nonsemantic_identity": nonsemantic,
+        "integrator_receipt": result.receipt,
+        "final_value_only_observation": observation,
+        "W0_pointer_version_inventory_entry": inventory_before,
+        "W0_pointer_version_inventory_exit": inventory_after,
+        "W0_pointer_version_change_count": 0,
+        "W0_bytes_change_count": 0,
+        "optimizer": "NONE",
+        "adam_state_count": 0,
+        "parameter_gradient_count": 0,
+        "loss_backward_count": 0,
+        "writer_materialization_count": 0,
+        "cache_append_count": 0,
+        "heldout_access_count": 0,
+        "native_access_count": 0,
+        "wall_time_seconds": wall,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload, endpoint
+
+
+def _run_stage2(
+    args: argparse.Namespace,
+    *,
+    model: torch.nn.Module,
+    paired: Any,
+    kl_plan: Any,
+    teacher: Sequence[torch.Tensor],
+    initial: Any,
+    hparams: Any,
+    lock: P1R24AliasTargetLock,
+    request_order: str,
+    context_sha: str,
+    teacher_sha: str,
+    touched: Mapping[str, torch.nn.Parameter],
+    expected_w0: str,
+    inventory_w0: str,
+    fp32: Mapping[str, Any],
+) -> Mapping[str, Any]:
+    comparisons: list[Mapping[str, Any]] = []
+    trajectory_rows: list[Mapping[str, Any]] = []
+    target_layer_name = hparams.layer_module_tmp.format(int(hparams.layers[-1]))
+    for arm in (P4TargetArm.POSITIVE, P4TargetArm.POSITIVE_NEGATIVE):
+        endpoints: dict[int, torch.Tensor] = {}
+        arm_rows: list[Mapping[str, Any]] = []
+        for microsteps in (5, 10):
+            row, endpoint = _fixed_endpoint_trajectory(
+                model,
+                paired,
+                kl_plan,
+                teacher,
+                arm=arm,
+                microsteps=microsteps,
+                initial_target=initial.target_z,
+                current_terminal=initial.current_terminal_z,
+                target_layer_name=target_layer_name,
+                lock=lock,
+                request_order_sha256=request_order,
+                context_sha256=context_sha,
+                teacher_sha256=teacher_sha,
+                touched=touched,
+                expected_w0=expected_w0,
+                snapshot_root=args.output_root / "snapshots",
+            )
+            endpoints[microsteps] = endpoint
+            arm_rows.append(row)
+            trajectory_rows.append(row)
+            path = (
+                args.output_root
+                / "trajectories"
+                / arm.value.replace("±", "pm").replace("+", "plus")
+                / f"M{microsteps}.json"
+            )
+            path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+            _atomic_write_once(path, row)
+        origin = initial.target_z.to(dtype=torch.float32)
+        numerator = torch.linalg.vector_norm(endpoints[5] - endpoints[10], dim=0)
+        denominator = torch.clamp(
+            torch.linalg.vector_norm(endpoints[10] - origin, dim=0), min=1e-12
+        )
+        discrepancy = numerator / denominator
+        summary = _summary([float(value) for value in discrepancy])
+        clamp_pass = all(float(row["clamp_fraction"]) < 0.5 for row in arm_rows)
+        threshold_pass = (
+            summary["median"] <= 0.10
+            and summary["p90"] <= 0.25
+            and summary["max"] <= 0.50
+        )
+        comparison: dict[str, Any] = {
+            "schema": "ode-edit-s05-p4-euler-calibration-stage2-comparison/v1",
+            "arm": arm.value,
+            "target_horizon": SELECTED_TARGET_HORIZON,
+            "M5_h": 0.25,
+            "M10_h": 0.125,
+            "endpoint_discrepancy": summary,
+            "thresholds": {"median": 0.10, "p90": 0.25, "max": 0.50},
+            "threshold_pass": threshold_pass,
+            "clamp_fraction_M5": arm_rows[0]["clamp_fraction"],
+            "clamp_fraction_M10": arm_rows[1]["clamp_fraction"],
+            "clamp_pass": clamp_pass,
+            "finite": bool(torch.isfinite(discrepancy).all()),
+            "M5_target_sha256": arm_rows[0]["target_sha256"],
+            "M10_target_sha256": arm_rows[1]["target_sha256"],
+            "decision_influence_source": "TRAIN_ONLY_NUMERICAL_ENDPOINT",
+            "heldout_decision_influence_count": 0,
+        }
+        comparison["identity_sha256"] = canonical_hash(comparison)
+        comparisons.append(comparison)
+        path = args.output_root / "comparisons" / (
+            arm.value.replace("±", "pm").replace("+", "plus") + ".json"
+        )
+        path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+        _atomic_write_once(path, comparison)
+    if (
+        _model_w0_contract(touched) != expected_w0
+        or _parameter_inventory_sha256(model) != inventory_w0
+        or any(parameter.grad is not None for parameter in model.parameters())
+    ):
+        raise ODEBFStateError("P4 Euler Stage2 terminal W0 freeze differs")
+    passed = all(
+        row["threshold_pass"] and row["clamp_pass"] and row["finite"]
+        for row in comparisons
+    )
+    terminal: dict[str, Any] = {
+        "schema": "ode-edit-s05-p4-euler-calibration-stage2-terminal/v1",
+        "instruction_id": P4_EULER_INSTRUCTION_ID,
+        "status": (
+            "STAGE2_MODEL_CELL_PASS"
+            if passed
+            else "STAGE2_MODEL_CELL_SCIENTIFIC_HOLD"
+        ),
+        "source_head": args.source_head,
+        "alias": args.model,
+        "case_index": 1,
+        "calibration_label": "PERMANENT_CALIBRATION_ONLY",
+        "confirmatory_eligibility": False,
+        "selected_h": SELECTED_H,
+        "selected_target_horizon": SELECTED_TARGET_HORIZON,
+        "M": [5, 10],
+        "h": [0.25, 0.125],
+        "trajectory_count": 4,
+        "executed_microstep_count": 30,
+        "actual_autograd_grad_call_count": 30,
+        "duplicate_autograd_evaluation_count": 0,
+        "comparison_identity_sha256": [
+            row["identity_sha256"] for row in comparisons
+        ],
+        "trajectory_identity_sha256": [
+            row["identity_sha256"] for row in trajectory_rows
+        ],
+        "W0_pointer_bytes_sha256": expected_w0,
+        "W0_restored": True,
+        "optimizer": "NONE",
+        "adam_state_count": 0,
+        "parameter_gradient_count": 0,
+        "loss_backward_count": 0,
+        "writer_materialization_count": 0,
+        "cache_append_count": 0,
+        "heldout_access_count": 0,
+        "native_access_count": 0,
+        "full_fp32": fp32,
+        "peak_gpu_memory_bytes": int(torch.cuda.max_memory_allocated()),
+        "scientific_promotion": False,
+    }
+    terminal["identity_sha256"] = canonical_hash(terminal)
+    terminal_sha = _atomic_write_once(args.output_root / "terminal.json", terminal)
+    return {
+        "status": terminal["status"],
+        "alias": args.model,
+        "terminal_sha256": terminal_sha,
+        "identity_sha256": terminal["identity_sha256"],
+    }
+
+
 def run(args: argparse.Namespace) -> Mapping[str, Any]:
     if os.environ.get("PROJECT_GPU_CAP") != "2" or any(
         os.environ.get(name) != "1"
@@ -379,12 +694,17 @@ def run(args: argparse.Namespace) -> Mapping[str, Any]:
     args.output_root.mkdir(mode=0o700, parents=True)
     stages = P1StageRecorder(args.output_root / "stages")
     final = _load_final_preflight(
-        args.final_pre_gpu_receipt, alias=args.model, source_head=args.source_head
+        args.final_pre_gpu_receipt,
+        alias=args.model,
+        source_head=args.source_head,
+        stage=args.stage,
     )
     binding = final["model_input_binding"][args.model]
     stages.record("pre_model_final_gate", {
         "final_pre_gpu_identity": final["identity_sha256"],
-        "calibration_lock_root": LOCK_ROOT,
+        "calibration_lock_root": (
+            STAGE1_LOCK_ROOT if args.stage == "stage1" else STAGE2_LOCK_ROOT
+        ),
         "model_input_binding": binding,
     })
     seed_all(COMMON_SEED)
@@ -473,6 +793,24 @@ def run(args: argparse.Namespace) -> Mapping[str, Any]:
         "heldout_access_count": 0,
     })
     torch.cuda.reset_peak_memory_stats()
+    if args.stage == "stage2":
+        return _run_stage2(
+            args,
+            model=model,
+            paired=paired,
+            kl_plan=kl_plan,
+            teacher=teacher,
+            initial=initial,
+            hparams=hparams,
+            lock=lock,
+            request_order=request_order,
+            context_sha=context_sha,
+            teacher_sha=teacher_sha,
+            touched=touched,
+            expected_w0=expected_w0,
+            inventory_w0=inventory_w0,
+            fp32=fp32,
+        )
     trajectory_rows: list[Mapping[str, Any]] = []
     for arm in (P4TargetArm.POSITIVE, P4TargetArm.POSITIVE_NEGATIVE):
         for h in H_GRID:
@@ -578,13 +916,14 @@ def main() -> int:
     parser.add_argument("--stream-root", type=Path, required=True)
     parser.add_argument("--final-pre-gpu-receipt", type=Path, required=True)
     parser.add_argument("--source-head", required=True)
+    parser.add_argument("--stage", choices=("stage1", "stage2"), default="stage1")
     args = parser.parse_args()
     try:
         result = run(args)
     except Exception as error:
         traceback.print_exc()
         failure = {
-            "schema": "ode-edit-s05-p4-euler-calibration-stage1-failure/v1",
+            "schema": f"ode-edit-s05-p4-euler-calibration-{args.stage}-failure/v1",
             "instruction_id": P4_EULER_INSTRUCTION_ID,
             "alias": args.model,
             "exception_class": type(error).__name__,

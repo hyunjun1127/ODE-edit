@@ -30,7 +30,8 @@ LOCK = Path(
 MANIFEST = Path(
     "project/run_scripts/ode_bf/locks/source_manifest_s05_p4_euler_calibration_r1.json"
 )
-LOCK_ROOT = "649d4a271b29cceec3f20080db7c763e47c7f143a9a43fafaa7a4db3806bbe0b"
+STAGE1_LOCK_ROOT = "649d4a271b29cceec3f20080db7c763e47c7f143a9a43fafaa7a4db3806bbe0b"
+STAGE2_LOCK_ROOT = "b60e1b442a96700e5bccbe5d72ab4be0be08128f740fbbc707c0165c653036af"
 
 
 def _sha(path: Path) -> str:
@@ -100,6 +101,7 @@ def build_receipt(
     *, prior_final: Path,
     source_head: str,
     session_id: str,
+    stage: str,
 ) -> Mapping[str, Any]:
     if (
         session_id != EXPECTED_SESSION
@@ -135,12 +137,29 @@ def build_receipt(
         REPO_ROOT / LOCK,
         schema="ode-edit-s05-p4-euler-calibration-r1-lock/v1",
     )
-    if (
-        numerical.get("root_digest") != LOCK_ROOT
-        or numerical.get("status") != "CALIBRATION_STAGE1_AUTHORIZED"
-        or numerical.get("selected_h") is not None
-        or numerical.get("selected_target_horizon") is not None
-    ):
+    expected_root = STAGE1_LOCK_ROOT if stage == "stage1" else STAGE2_LOCK_ROOT
+    numerical_ok = (
+        numerical.get("root_digest") == expected_root
+        and (
+            (
+                stage == "stage1"
+                and numerical.get("status") == "CALIBRATION_STAGE1_AUTHORIZED"
+                and numerical.get("selected_h") is None
+                and numerical.get("selected_target_horizon") is None
+            )
+            or (
+                stage == "stage2"
+                and numerical.get("status") == "CALIBRATION_STAGE2_AUTHORIZED"
+                and numerical.get("selected_h") == 0.25
+                and numerical.get("selected_target_horizon") == 1.25
+                and numerical.get("stage_1_selection_receipt", {}).get(
+                    "status"
+                )
+                == "STAGE1_PASS_CLOSED_BRACKET"
+            )
+        )
+    )
+    if not numerical_ok:
         raise ODEBFContractError("P4 Euler calibration numerical lock differs")
     source = _verify_manifest(source_head)
     prior = _load(prior_final)
@@ -164,8 +183,45 @@ def build_receipt(
             "confirmatory_eligibility": False,
             "future_reentry_allowed": False,
         }
+    execution_binding: dict[str, Any]
+    if stage == "stage1":
+        execution_binding = {
+            "calibration_lock_root": STAGE1_LOCK_ROOT,
+            "h_grid": [0.0625, 0.25, 1.0, 4.0],
+            "prefix_M": [1, 3, 5, 10],
+            "single_trajectory_prefix_reuse": True,
+            "executed_microsteps_per_trajectory": 10,
+            "separate_prefix_trajectory_count": 0,
+            "duplicate_autograd_evaluation_count": 0,
+        }
+    else:
+        execution_binding = {
+            "calibration_lock_root": STAGE2_LOCK_ROOT,
+            "selected_h": 0.25,
+            "selected_target_horizon": 1.25,
+            "microsteps": [5, 10],
+            "step_sizes": [0.25, 0.125],
+            "endpoint_discrepancy_thresholds": {
+                "median": 0.10,
+                "p90": 0.25,
+                "max": 0.50,
+            },
+            "duplicate_autograd_evaluation_count": 0,
+        }
+    execution_binding.update({
+        "full_fp32": True,
+        "offline": True,
+        "writer_materialization_count": 0,
+        "cache_append_count": 0,
+        "heldout_access_count": 0,
+        "native_access_count": 0,
+    })
     payload: dict[str, Any] = {
-        "schema": "ode-edit-s05-p4-euler-calibration-final-pre-gpu/v1",
+        "schema": (
+            "ode-edit-s05-p4-euler-calibration-final-pre-gpu/v1"
+            if stage == "stage1"
+            else "ode-edit-s05-p4-euler-calibration-stage2-final-pre-gpu/v1"
+        ),
         "instruction_id": P4_EULER_INSTRUCTION_ID,
         "status": "FINAL_PRE_GPU_PASS",
         "owner_session": session_id,
@@ -175,7 +231,7 @@ def build_receipt(
         "numerical_lock": {
             "path": str(REPO_ROOT / LOCK),
             "sha256": numerical_sha,
-            "root_digest": LOCK_ROOT,
+            "root_digest": expected_root,
         },
         "transfer_receipt": prior["transfer_receipt"],
         "model_input_binding": model_binding,
@@ -183,21 +239,7 @@ def build_receipt(
         "hf_content_verification": "PRIOR_ACCEPTED_EXACT_CONSUMED_CLOSURE_REUSED",
         "hf_duplicate_rehash_count": 0,
         "easyedit_seal": prior["easyedit_seal"],
-        "execution_binding": {
-            "calibration_lock_root": LOCK_ROOT,
-            "h_grid": [0.0625, 0.25, 1.0, 4.0],
-            "prefix_M": [1, 3, 5, 10],
-            "single_trajectory_prefix_reuse": True,
-            "executed_microsteps_per_trajectory": 10,
-            "separate_prefix_trajectory_count": 0,
-            "duplicate_autograd_evaluation_count": 0,
-            "full_fp32": True,
-            "offline": True,
-            "writer_materialization_count": 0,
-            "cache_append_count": 0,
-            "heldout_access_count": 0,
-            "native_access_count": 0,
-        },
+        "execution_binding": execution_binding,
         "project_gpu_cap": 2,
         "model_load_authorized": True,
         "model_load_count": 0,
@@ -214,11 +256,13 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--session-id", required=True)
+    parser.add_argument("--stage", choices=("stage1", "stage2"), default="stage1")
     args = parser.parse_args()
     receipt = build_receipt(
         prior_final=args.prior_final,
         source_head=args.source_head,
         session_id=args.session_id,
+        stage=args.stage,
     )
     args.output.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     _atomic_write_once(args.output, receipt)
