@@ -1,0 +1,28 @@
+{
+  "analysis_manifest_sha256": "28ae5204cbfad8384e990ce4ca60febe5fa0e1c715c015fba6298b2980ebe2bc",
+  "canonical_report_sha256": "3e677a9c50f4f6072fb53818aa0770a05193e00bc4908ded7a9fc63c1a676e80",
+  "checks": {
+    "all_member_hashes_match": true,
+    "all_member_sizes_match": true,
+    "all_members_exist": true,
+    "imputation_zero": true,
+    "manifest_receipt_binding": true,
+    "members_root_match": true,
+    "prohibited_members_zero": true,
+    "promotion_false": true,
+    "report_receipt_binding": true,
+    "technical_failures_excluded": true,
+    "typed_scientific_failure_zero": true,
+    "valid_requests_200": true
+  },
+  "review_action_counts": {
+    "GPU": 0,
+    "Slurm": 0,
+    "model": 0,
+    "result": 0
+  },
+  "reviewed_at_kst": "2026-08-23T00:46:58.350402+09:00",
+  "rooted_analysis_receipt_sha256": "6394f516b0e29cc0ec33bf8793d879c05f2d4c07cc60a63f9d5f1db1dbe0387e",
+  "schema": "ode-edit-s05-p3r1-git-publish-independent-rehash-review/v1",
+  "status": "PASS"
+}

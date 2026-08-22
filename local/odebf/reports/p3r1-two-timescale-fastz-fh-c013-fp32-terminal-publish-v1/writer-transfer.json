@@ -1,0 +1,72 @@
+[
+  {
+    "model": "Llama3-8B-Instruct",
+    "rephrase_z_success_to_W_failure_prompts": 0,
+    "rewrite_z_success_to_W_failure_requests": 0,
+    "strict_rephrase_z_success_to_W_failure_requests": 0,
+    "writer": "C0-FH"
+  },
+  {
+    "model": "Llama3-8B-Instruct",
+    "rephrase_z_success_to_W_failure_prompts": 0,
+    "rewrite_z_success_to_W_failure_requests": 0,
+    "strict_rephrase_z_success_to_W_failure_requests": 0,
+    "writer": "C1-FH"
+  },
+  {
+    "model": "Llama3-8B-Instruct",
+    "rephrase_z_success_to_W_failure_prompts": 2,
+    "rewrite_z_success_to_W_failure_requests": 0,
+    "strict_rephrase_z_success_to_W_failure_requests": 8,
+    "writer": "C3-FH"
+  },
+  {
+    "model": "Llama3-8B-Instruct",
+    "rephrase_z_success_to_W_failure_prompts": 1,
+    "rewrite_z_success_to_W_failure_requests": 0,
+    "strict_rephrase_z_success_to_W_failure_requests": 10,
+    "writer": "Official-AlphaEdit"
+  },
+  {
+    "model": "Llama3-8B-Instruct",
+    "rephrase_z_success_to_W_failure_prompts": 11,
+    "rewrite_z_success_to_W_failure_requests": 2,
+    "strict_rephrase_z_success_to_W_failure_requests": 22,
+    "writer": "Official-MEMIT"
+  },
+  {
+    "model": "Qwen2.5-7B-Instruct",
+    "rephrase_z_success_to_W_failure_prompts": 0,
+    "rewrite_z_success_to_W_failure_requests": 0,
+    "strict_rephrase_z_success_to_W_failure_requests": 0,
+    "writer": "C0-FH"
+  },
+  {
+    "model": "Qwen2.5-7B-Instruct",
+    "rephrase_z_success_to_W_failure_prompts": 0,
+    "rewrite_z_success_to_W_failure_requests": 0,
+    "strict_rephrase_z_success_to_W_failure_requests": 0,
+    "writer": "C1-FH"
+  },
+  {
+    "model": "Qwen2.5-7B-Instruct",
+    "rephrase_z_success_to_W_failure_prompts": 4,
+    "rewrite_z_success_to_W_failure_requests": 0,
+    "strict_rephrase_z_success_to_W_failure_requests": 1,
+    "writer": "C3-FH"
+  },
+  {
+    "model": "Qwen2.5-7B-Instruct",
+    "rephrase_z_success_to_W_failure_prompts": 1,
+    "rewrite_z_success_to_W_failure_requests": 0,
+    "strict_rephrase_z_success_to_W_failure_requests": 1,
+    "writer": "Official-AlphaEdit"
+  },
+  {
+    "model": "Qwen2.5-7B-Instruct",
+    "rephrase_z_success_to_W_failure_prompts": 1,
+    "rewrite_z_success_to_W_failure_requests": 0,
+    "strict_rephrase_z_success_to_W_failure_requests": 1,
+    "writer": "Official-MEMIT"
+  }
+]
