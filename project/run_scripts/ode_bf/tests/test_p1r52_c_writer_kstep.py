@@ -59,6 +59,42 @@ class CKStepContractTest(unittest.TestCase):
             with self.assertRaisesRegex(Exception, "identity differs"):
                 phase2._verified_json_receipt(path, label="forged")
 
+    def test_execution_raw_free_payload_preserves_identity_fields(self) -> None:
+        body = {
+            "arm": "C0-KSTEP",
+            "step_index": 0,
+            "selected_target_sha256": "a" * 64,
+            "selected_bridge_identity": "b" * 64,
+            "entry_weight_sha256": {"w": "c" * 64},
+            "commit_weight_sha256": {"w": "d" * 64},
+            "route_receipt": {"identity_sha256": "e" * 64},
+            "writer_receipt": {"identity_sha256": "f" * 64},
+            "prefix_capture_receipts": [],
+            "metrics": {"heldout_evaluator_decision_influence_count": 0},
+            "compute": {"numeric_storage_cast_count": 0},
+            "alpha_cache_status": "ALPHA_CACHE_OFF_CONTROL",
+            "current_K_writer_affects_next_target": True,
+        }
+        receipt = kstep.CKStepExecution(
+            body["arm"],
+            body["step_index"],
+            body["selected_target_sha256"],
+            body["selected_bridge_identity"],
+            body["entry_weight_sha256"],
+            body["commit_weight_sha256"],
+            body["route_receipt"],
+            body["writer_receipt"],
+            (),
+            body["metrics"],
+            body["compute"],
+            body["alpha_cache_status"],
+            body["current_K_writer_affects_next_target"],
+            kstep.canonical_hash(body),
+        )
+        observed = receipt.raw_free_payload()
+        claimed = observed.pop("identity_sha256")
+        self.assertEqual(claimed, kstep.canonical_hash(observed))
+
 
 if __name__ == "__main__":
     unittest.main()

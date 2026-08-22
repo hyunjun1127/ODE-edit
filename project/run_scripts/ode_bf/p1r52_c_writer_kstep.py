@@ -40,6 +40,7 @@ class CKStepExecution:
     arm: str
     step_index: int
     selected_target_sha256: str
+    selected_bridge_identity: str
     entry_weight_sha256: Mapping[str, str]
     commit_weight_sha256: Mapping[str, str]
     route_receipt: Mapping[str, Any]
@@ -47,6 +48,8 @@ class CKStepExecution:
     prefix_capture_receipts: tuple[Mapping[str, Any], ...]
     metrics: Mapping[str, Any]
     compute: Mapping[str, int]
+    alpha_cache_status: str
+    current_K_writer_affects_next_target: bool
     identity_sha256: str
 
     def raw_free_payload(self) -> dict[str, Any]:
@@ -54,6 +57,7 @@ class CKStepExecution:
             "arm": self.arm,
             "step_index": self.step_index,
             "selected_target_sha256": self.selected_target_sha256,
+            "selected_bridge_identity": self.selected_bridge_identity,
             "entry_weight_sha256": dict(self.entry_weight_sha256),
             "commit_weight_sha256": dict(self.commit_weight_sha256),
             "route_receipt": dict(self.route_receipt),
@@ -61,6 +65,8 @@ class CKStepExecution:
             "prefix_capture_receipts": [dict(item) for item in self.prefix_capture_receipts],
             "metrics": dict(self.metrics),
             "compute": dict(self.compute),
+            "alpha_cache_status": self.alpha_cache_status,
+            "current_K_writer_affects_next_target": self.current_K_writer_affects_next_target,
             "identity_sha256": self.identity_sha256,
         }
 
@@ -282,8 +288,11 @@ class CKStepWriterRuntime:
         payload["identity_sha256"] = canonical_hash(payload)
         execution = CKStepExecution(
             self.arm, step_index, payload["selected_target_sha256"],
+            payload["selected_bridge_identity"],
             entry_hashes, commit_hashes, route, writer_receipt, prefix,
-            metrics, compute, payload["identity_sha256"],
+            metrics, compute, payload["alpha_cache_status"],
+            payload["current_K_writer_affects_next_target"],
+            payload["identity_sha256"],
         )
         self.executions.append(execution)
         return execution
