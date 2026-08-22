@@ -1,0 +1,136 @@
+{
+  "claim_boundary": {
+    "calibration_unit": "B1_CASE01_PERMANENT_CALIBRATION_ONLY",
+    "heldout": "NOT_RECORDED_CALIBRATION_TRAIN_ONLY",
+    "not_supported": [
+      "latent endpoint numerical convergence",
+      "continuous ODE existence or uniqueness proof",
+      "heldout efficacy/generalization/locality",
+      "writer-level or sequential editing performance"
+    ],
+    "qwen_scientific_input_count": 0,
+    "supported": "empirical Euler train-target metric stability on one calibration unit"
+  },
+  "compute": {
+    "overhead_fraction_of_allocation": 0.15259310370837312,
+    "peak_gpu_memory_bytes": 33214585344,
+    "setup_load_report_overhead_seconds": 54.017958712764084,
+    "slurm_allocation_seconds": 354.0,
+    "trajectory_inner_seconds": 299.9820412872359
+  },
+  "decision_revision": "USER_DIRECTED_GATE_POLICY_REVISION",
+  "decisive_gate": "ODESteer_STYLE_EMPIRICAL_TRAIN_TARGET_METRIC_STABILITY",
+  "instruction_id": "ODEEDIT-S05-P4-EULER-PROJECTED-SEMANTIC-ODE-V1",
+  "invariants": {
+    "W0_restored": true,
+    "adam_state_count": 0,
+    "cache_append_count": 0,
+    "finite": true,
+    "full_fp32": {
+      "autocast_enabled": false,
+      "cpu_autocast_enabled": false,
+      "device": "cuda:0",
+      "dtype": "torch.float32",
+      "floating_parameter_count": 291,
+      "parameter_gradient_count": 0,
+      "quantization": false,
+      "requires_grad_parameter_count": 0
+    },
+    "heldout_access_count": 0,
+    "loss_backward_count": 0,
+    "native_access_count": 0,
+    "optimizer": "NONE",
+    "parameter_gradient_count": 0,
+    "stage1_autograd_grad_count": 80,
+    "stage1_duplicate_evaluation_count": 0,
+    "writer_materialization_count": 0
+  },
+  "latent_endpoint_geometry_gate": "FAILED_OBSERVED_NONDECISIONAL",
+  "model": "llama3-8b-inst",
+  "root_digest": "49d05931f8bcd27c758da8852c62fe96ad9ebf69aa99e63f63e59514a5482c7e",
+  "same_T_metric_stability": [
+    {
+      "M10_clamp_fraction": 0.0,
+      "M10_h": 0.125,
+      "M10_new_nll_below_1_count": 10,
+      "M10_new_nll_max": 0.1575644165277481,
+      "M10_new_nll_mean": 0.051359884440898895,
+      "M10_new_nll_median": 0.03485048934817314,
+      "M10_new_nll_p90": 0.12240596860647202,
+      "M10_positive_margin_count": 10,
+      "M5_clamp_fraction": 0.0,
+      "M5_h": 0.25,
+      "M5_new_nll_below_1_count": 10,
+      "M5_new_nll_max": 0.9183434844017029,
+      "M5_new_nll_mean": 0.2615390717983246,
+      "M5_new_nll_median": 0.10981786251068115,
+      "M5_new_nll_p90": 0.8283525705337524,
+      "M5_positive_margin_count": 10,
+      "T_z": 1.25,
+      "arm": "Z+",
+      "claim_level": "TRAIN_TARGET_METRIC_STABILITY_ONLY",
+      "latent_endpoint_d_max": 0.8374960422515869,
+      "latent_endpoint_d_median": 0.5998193025588989,
+      "latent_endpoint_d_p90": 0.8199989199638367,
+      "old_geometry_gate_pass": false,
+      "request_denominator": 10,
+      "revised_task_metric_gate": "USER_DIRECTED_PASS"
+    },
+    {
+      "M10_clamp_fraction": 0.0,
+      "M10_h": 0.125,
+      "M10_new_nll_below_1_count": 10,
+      "M10_new_nll_max": 0.18896625936031342,
+      "M10_new_nll_mean": 0.06824278086423874,
+      "M10_new_nll_median": 0.05883515626192093,
+      "M10_new_nll_p90": 0.13339382410049438,
+      "M10_positive_margin_count": 10,
+      "M5_clamp_fraction": 0.12,
+      "M5_h": 0.25,
+      "M5_new_nll_below_1_count": 10,
+      "M5_new_nll_max": 0.9252386093139648,
+      "M5_new_nll_mean": 0.2864028513431549,
+      "M5_new_nll_median": 0.12847886979579926,
+      "M5_new_nll_p90": 0.8783213496208191,
+      "M5_positive_margin_count": 10,
+      "T_z": 1.25,
+      "arm": "Z±",
+      "claim_level": "TRAIN_TARGET_METRIC_STABILITY_ONLY",
+      "latent_endpoint_d_max": 1.022678017616272,
+      "latent_endpoint_d_median": 0.7378959655761719,
+      "latent_endpoint_d_p90": 0.8652667999267578,
+      "old_geometry_gate_pass": false,
+      "request_denominator": 10,
+      "revised_task_metric_gate": "USER_DIRECTED_PASS"
+    }
+  ],
+  "schema": "ode-edit-s05-p4-euler-stage1-llama-nll-metric-report/v1",
+  "scientific_promotion": false,
+  "scope": "LLAMA_ONLY_B1_CASE01_CALIBRATION_TRAIN_ONLY",
+  "selected_h": 0.25,
+  "selected_h025_summary": {
+    "Z_plus": {
+      "new_nll_median_M1_M3_M5_M10": [
+        7.655735015869141,
+        0.7527183294296265,
+        0.10981786251068115,
+        0.018934842199087143
+      ],
+      "new_nll_median_reduction_M1_to_M10_percent": 99.75267113921997,
+      "new_nll_median_reduction_M1_to_M5_percent": 98.56554775886252
+    },
+    "Z_plus_minus": {
+      "new_nll_median_M1_M3_M5_M10": [
+        8.668874740600586,
+        1.0071120262145996,
+        0.12847886979579926,
+        0.028573522344231606
+      ],
+      "new_nll_median_reduction_M1_to_M10_percent": 99.67038948884095,
+      "new_nll_median_reduction_M1_to_M5_percent": 98.51792910106234
+    }
+  },
+  "selected_target_horizon": 1.25,
+  "status": "TASK_METRIC_GATE_PASS_REPORT_COMPLETE",
+  "za_zb_submission_count": 0
+}

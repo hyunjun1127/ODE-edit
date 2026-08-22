@@ -1,0 +1,5 @@
+h,llama_admissible,selection_role,reason
+0.0625,True,ADMISSIBLE_SMALLER_GRID_POINT,clamp/coherence/strength gates passed
+0.25,True,SELECTED_LARGEST_ADMISSIBLE,clamp/coherence/strength gates passed
+1.0,False,IMMEDIATE_UNSAFE_BRACKET,clamp/coherence gate failed
+4.0,False,INADMISSIBLE,clamp/coherence gate failed

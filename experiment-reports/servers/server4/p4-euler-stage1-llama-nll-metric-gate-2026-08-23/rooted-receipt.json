@@ -1,0 +1,19 @@
+{
+  "B1_confirmatory_eligibility": false,
+  "analysis_root": "49d05931f8bcd27c758da8852c62fe96ad9ebf69aa99e63f63e59514a5482c7e",
+  "decision_revision": "USER_DIRECTED_GATE_POLICY_REVISION",
+  "decisive_gate": "ODESteer_STYLE_EMPIRICAL_TRAIN_TARGET_METRIC_STABILITY",
+  "heldout_access_count": 0,
+  "identity_sha256": "fbe3a7a383560863527ddc598985bc6cec65b0d1fa4487f066103f174d14db90",
+  "instruction_id": "ODEEDIT-S05-P4-EULER-PROJECTED-SEMANTIC-ODE-V1",
+  "latent_endpoint_geometry_gate": "FAILED_OBSERVED_NONDECISIONAL",
+  "manifest_root": "623aa80daf1bb178d244b93b516d27feb9c784b09eae6f39a6720ced1768ffea",
+  "manifest_sha256": "01f3d2c0715be1948548cca0258b78aeb33b26f1fd19a51b2163e488b80aaf7d",
+  "output_root": "/data/janghj/ODE-edit/local/worktrees/p4-euler-e0/experiment-reports/servers/server4/p4-euler-stage1-llama-nll-metric-gate-2026-08-23",
+  "qwen_scientific_input_count": 0,
+  "schema": "ode-edit-s05-p4-euler-stage1-llama-nll-rooted-receipt/v1",
+  "scientific_promotion": false,
+  "scope": "LLAMA_ONLY_B1_CASE01_CALIBRATION_TRAIN_ONLY",
+  "status": "TASK_METRIC_GATE_PASS_REPORT_COMPLETE",
+  "za_zb_submission_count": 0
+}
