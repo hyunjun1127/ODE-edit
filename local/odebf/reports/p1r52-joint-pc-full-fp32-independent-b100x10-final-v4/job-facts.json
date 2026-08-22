@@ -1,0 +1,342 @@
+{
+  "BASELINE": {
+    "compute": {
+      "accepted_t": 0.0,
+      "completed_correction_cycles": 0,
+      "completed_k_total": 0,
+      "component_gpu_seconds": {
+        "context_generation_twice": 1.298143310546875,
+        "model_load": 11.5168974609375,
+        "theta0_teacher_population": 2.693049072265625
+      },
+      "component_wall_seconds": {
+        "context_generation_twice": 1.2980796284973621,
+        "model_load": 11.516805353574455,
+        "theta0_teacher_population": 2.692835694178939
+      },
+      "counters": {
+        "backward": 0,
+        "commit": 0,
+        "constraint_jvp": 0,
+        "constraint_vjp": 0,
+        "dense_fp32_full_delta_live": 0,
+        "effective_bf16_weight_peak_live": 0,
+        "evaluator_forward": 0,
+        "evaluator_tokens": 0,
+        "fallback": 0,
+        "functional_h_replay": 0,
+        "functional_p_replay": 0,
+        "model_forward": 54890,
+        "native_baseline_dense_delta_bytes_peak": 0,
+        "native_baseline_dense_delta_peak_live": 0,
+        "processed_tokens": 8114206,
+        "qp_certificate": 0,
+        "qp_solve": 0,
+        "reject": 0,
+        "rollback": 0,
+        "target_backward": 0,
+        "trial": 0
+      },
+      "direct_z_diagnostics": [],
+      "host_maxrss_kib": 0,
+      "peak_allocated_bytes": 0,
+      "peak_reserved_bytes": 0
+    },
+    "gpu": {
+      "allocator_visible_total_bytes": 50899386368,
+      "available": true,
+      "contention_snapshot_status": "POINT_IN_TIME_LOCAL_DEVICE_ONLY",
+      "device_name": "NVIDIA RTX A6000",
+      "device_uuid": "d623a715-ed10-696d-07ec-50b7614c4272",
+      "free_bytes_at_observation": 14401470464,
+      "host_maxrss_kib": 19439600,
+      "logical_device_index": 0,
+      "peak_allocated_bytes": 39573406208,
+      "peak_reserved_bytes": 43230691328,
+      "physical_total_bytes": 50899386368,
+      "visible_device": "0"
+    },
+    "job_total_seconds": 18348.320603093132,
+    "model_load_preflight_seconds": {
+      "context_generation_twice": 1.2980796284973621,
+      "model_load": 11.516805353574455,
+      "theta0_teacher_population": 2.692835694178939
+    },
+    "runtime_after_model_preflight_seconds": 18297.112060246058,
+    "slurm_array_job_id": "22541",
+    "slurm_array_task_id": "0",
+    "slurm_job_id": "22542"
+  },
+  "C0": {
+    "compute": {
+      "accepted_t": 0.0,
+      "completed_correction_cycles": 0,
+      "completed_k_total": 0,
+      "component_gpu_seconds": {
+        "context_generation_twice": 1.309690185546875,
+        "model_load": 11.9923515625,
+        "theta0_teacher_population": 2.59412890625
+      },
+      "component_wall_seconds": {
+        "context_generation_twice": 1.309624433517456,
+        "model_load": 11.992219792678952,
+        "theta0_teacher_population": 2.593906095251441
+      },
+      "counters": {
+        "backward": 0,
+        "commit": 0,
+        "constraint_jvp": 0,
+        "constraint_vjp": 0,
+        "dense_fp32_full_delta_live": 0,
+        "effective_bf16_weight_peak_live": 0,
+        "evaluator_forward": 0,
+        "evaluator_tokens": 0,
+        "fallback": 0,
+        "functional_h_replay": 0,
+        "functional_p_replay": 0,
+        "model_forward": 2192,
+        "native_baseline_dense_delta_bytes_peak": 0,
+        "native_baseline_dense_delta_peak_live": 0,
+        "processed_tokens": 618999,
+        "qp_certificate": 0,
+        "qp_solve": 0,
+        "reject": 0,
+        "rollback": 0,
+        "target_backward": 0,
+        "trial": 0
+      },
+      "direct_z_diagnostics": [],
+      "host_maxrss_kib": 0,
+      "peak_allocated_bytes": 0,
+      "peak_reserved_bytes": 0
+    },
+    "gpu": {
+      "allocator_visible_total_bytes": 50899386368,
+      "available": true,
+      "contention_snapshot_status": "POINT_IN_TIME_LOCAL_DEVICE_ONLY",
+      "device_name": "NVIDIA RTX A6000",
+      "device_uuid": "08613291-f9aa-4b3b-8ee3-b4a48f542f22",
+      "free_bytes_at_observation": 11249451008,
+      "host_maxrss_kib": 11325124,
+      "logical_device_index": 0,
+      "peak_allocated_bytes": 35930176000,
+      "peak_reserved_bytes": 39260782592,
+      "physical_total_bytes": 50899386368,
+      "visible_device": "0"
+    },
+    "job_total_seconds": 11303.751265558414,
+    "model_load_preflight_seconds": {
+      "context_generation_twice": 1.309624433517456,
+      "model_load": 11.992219792678952,
+      "theta0_teacher_population": 2.593906095251441
+    },
+    "runtime_after_model_preflight_seconds": 11252.678244923241,
+    "slurm_array_job_id": "22541",
+    "slurm_array_task_id": "1",
+    "slurm_job_id": "22543"
+  },
+  "C1": {
+    "compute": {
+      "accepted_t": 0.0,
+      "completed_correction_cycles": 0,
+      "completed_k_total": 0,
+      "component_gpu_seconds": {
+        "context_generation_twice": 1.3213165283203125,
+        "model_load": 11.4052939453125,
+        "theta0_teacher_population": 2.7164189453125
+      },
+      "component_wall_seconds": {
+        "context_generation_twice": 1.321258271113038,
+        "model_load": 11.405171787366271,
+        "theta0_teacher_population": 2.7163361934944987
+      },
+      "counters": {
+        "backward": 0,
+        "commit": 0,
+        "constraint_jvp": 0,
+        "constraint_vjp": 0,
+        "dense_fp32_full_delta_live": 0,
+        "effective_bf16_weight_peak_live": 0,
+        "evaluator_forward": 0,
+        "evaluator_tokens": 0,
+        "fallback": 0,
+        "functional_h_replay": 0,
+        "functional_p_replay": 0,
+        "model_forward": 2192,
+        "native_baseline_dense_delta_bytes_peak": 0,
+        "native_baseline_dense_delta_peak_live": 0,
+        "processed_tokens": 618999,
+        "qp_certificate": 0,
+        "qp_solve": 0,
+        "reject": 0,
+        "rollback": 0,
+        "target_backward": 0,
+        "trial": 0
+      },
+      "direct_z_diagnostics": [],
+      "host_maxrss_kib": 0,
+      "peak_allocated_bytes": 0,
+      "peak_reserved_bytes": 0
+    },
+    "gpu": {
+      "allocator_visible_total_bytes": 50899386368,
+      "available": true,
+      "contention_snapshot_status": "POINT_IN_TIME_LOCAL_DEVICE_ONLY",
+      "device_name": "NVIDIA RTX A6000",
+      "device_uuid": "8b402bc3-f797-6774-24e2-d1c920adadfb",
+      "free_bytes_at_observation": 11249451008,
+      "host_maxrss_kib": 11292084,
+      "logical_device_index": 0,
+      "peak_allocated_bytes": 35930176000,
+      "peak_reserved_bytes": 39260782592,
+      "physical_total_bytes": 50899386368,
+      "visible_device": "0"
+    },
+    "job_total_seconds": 11457.518151275814,
+    "model_load_preflight_seconds": {
+      "context_generation_twice": 1.321258271113038,
+      "model_load": 11.405171787366271,
+      "theta0_teacher_population": 2.7163361934944987
+    },
+    "runtime_after_model_preflight_seconds": 11406.599009780213,
+    "slurm_array_job_id": "22541",
+    "slurm_array_task_id": "2",
+    "slurm_job_id": "22544"
+  },
+  "C2": {
+    "compute": {
+      "accepted_t": 0.0,
+      "completed_correction_cycles": 0,
+      "completed_k_total": 0,
+      "component_gpu_seconds": {
+        "context_generation_twice": 1.286903076171875,
+        "model_load": 11.1997060546875,
+        "theta0_teacher_population": 4.47568017578125
+      },
+      "component_wall_seconds": {
+        "context_generation_twice": 1.2868375619873405,
+        "model_load": 11.199547270312905,
+        "theta0_teacher_population": 4.475571663118899
+      },
+      "counters": {
+        "backward": 0,
+        "commit": 0,
+        "constraint_jvp": 0,
+        "constraint_vjp": 0,
+        "dense_fp32_full_delta_live": 0,
+        "effective_bf16_weight_peak_live": 0,
+        "evaluator_forward": 0,
+        "evaluator_tokens": 0,
+        "fallback": 0,
+        "functional_h_replay": 0,
+        "functional_p_replay": 0,
+        "model_forward": 2192,
+        "native_baseline_dense_delta_bytes_peak": 0,
+        "native_baseline_dense_delta_peak_live": 0,
+        "processed_tokens": 618999,
+        "qp_certificate": 0,
+        "qp_solve": 0,
+        "reject": 0,
+        "rollback": 0,
+        "target_backward": 0,
+        "trial": 0
+      },
+      "direct_z_diagnostics": [],
+      "host_maxrss_kib": 0,
+      "peak_allocated_bytes": 0,
+      "peak_reserved_bytes": 0
+    },
+    "gpu": {
+      "allocator_visible_total_bytes": 50899386368,
+      "available": true,
+      "contention_snapshot_status": "POINT_IN_TIME_LOCAL_DEVICE_ONLY",
+      "device_name": "NVIDIA RTX A6000",
+      "device_uuid": "9edcc6a0-bc56-e743-e1d7-05815ef24483",
+      "free_bytes_at_observation": 11249451008,
+      "host_maxrss_kib": 11418240,
+      "logical_device_index": 0,
+      "peak_allocated_bytes": 35930176000,
+      "peak_reserved_bytes": 39260782592,
+      "physical_total_bytes": 50899386368,
+      "visible_device": "0"
+    },
+    "job_total_seconds": 11369.092005793937,
+    "model_load_preflight_seconds": {
+      "context_generation_twice": 1.2868375619873405,
+      "model_load": 11.199547270312905,
+      "theta0_teacher_population": 4.475571663118899
+    },
+    "runtime_after_model_preflight_seconds": 11316.734093244188,
+    "slurm_array_job_id": "22541",
+    "slurm_array_task_id": "3",
+    "slurm_job_id": "22545"
+  },
+  "C3": {
+    "compute": {
+      "accepted_t": 0.0,
+      "completed_correction_cycles": 0,
+      "completed_k_total": 0,
+      "component_gpu_seconds": {
+        "context_generation_twice": 1.2801614990234376,
+        "model_load": 11.2862197265625,
+        "theta0_teacher_population": 2.98738525390625
+      },
+      "component_wall_seconds": {
+        "context_generation_twice": 1.2801121417433023,
+        "model_load": 11.286169710569084,
+        "theta0_teacher_population": 2.9873239835724235
+      },
+      "counters": {
+        "backward": 0,
+        "commit": 0,
+        "constraint_jvp": 0,
+        "constraint_vjp": 0,
+        "dense_fp32_full_delta_live": 0,
+        "effective_bf16_weight_peak_live": 0,
+        "evaluator_forward": 0,
+        "evaluator_tokens": 0,
+        "fallback": 0,
+        "functional_h_replay": 0,
+        "functional_p_replay": 0,
+        "model_forward": 2742,
+        "native_baseline_dense_delta_bytes_peak": 0,
+        "native_baseline_dense_delta_peak_live": 0,
+        "processed_tokens": 1655919,
+        "qp_certificate": 0,
+        "qp_solve": 0,
+        "reject": 0,
+        "rollback": 0,
+        "target_backward": 0,
+        "trial": 0
+      },
+      "direct_z_diagnostics": [],
+      "host_maxrss_kib": 0,
+      "peak_allocated_bytes": 0,
+      "peak_reserved_bytes": 0
+    },
+    "gpu": {
+      "allocator_visible_total_bytes": 50899386368,
+      "available": true,
+      "contention_snapshot_status": "POINT_IN_TIME_LOCAL_DEVICE_ONLY",
+      "device_name": "NVIDIA RTX A6000",
+      "device_uuid": "5d6a1f79-0105-d49c-d8de-40c9438d6d85",
+      "free_bytes_at_observation": 13948485632,
+      "host_maxrss_kib": 20919292,
+      "logical_device_index": 0,
+      "peak_allocated_bytes": 36851761664,
+      "peak_reserved_bytes": 39862665216,
+      "physical_total_bytes": 50899386368,
+      "visible_device": "0"
+    },
+    "job_total_seconds": 11616.119118745439,
+    "model_load_preflight_seconds": {
+      "context_generation_twice": 1.2801121417433023,
+      "model_load": 11.286169710569084,
+      "theta0_teacher_population": 2.9873239835724235
+    },
+    "runtime_after_model_preflight_seconds": 11566.33362644352,
+    "slurm_array_job_id": "22541",
+    "slurm_array_task_id": "4",
+    "slurm_job_id": "22541"
+  }
+}

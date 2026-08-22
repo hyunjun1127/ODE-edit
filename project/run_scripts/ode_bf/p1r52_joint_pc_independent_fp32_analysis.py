@@ -449,6 +449,143 @@ def _paired_performance(case_rows: Sequence[Mapping[str, Any]]) -> list[dict[str
     return pairs
 
 
+def _nll_distribution(case_rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """Summarize the ten sealed case-level NLL means without pooling endpoints."""
+
+    result: list[dict[str, Any]] = []
+    for method in METHODS:
+        selected = [row for row in case_rows if row["method"] == method]
+        _need(len(selected) == CASE_COUNT, f"{method}: NLL denominator is not 10")
+        for endpoint in ("z", "W"):
+            for family in ("rewrite", "rephrase"):
+                for target in ("new", "true"):
+                    key = f"{endpoint}_{family}_target_{target}_nll_mean"
+                    result.append({
+                        "method": method,
+                        "endpoint": endpoint.upper(),
+                        "family": family,
+                        "target": f"target-{target}",
+                        "case_denominator": CASE_COUNT,
+                        "case_level_statistic": "NLL_MEAN_WITHIN_CASE",
+                        "cross_case_summary": _stats([float(row[key]) for row in selected]),
+                        "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+                    })
+    _need(len(result) == len(METHODS) * 2 * 2 * 2, "NLL distribution row count")
+    return result
+
+
+def _c_target_steps(
+    cases_by_method: Mapping[tuple[str, int], Mapping[str, Any]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Extract only the K1→K8 delayed target progress sealed by the runtime."""
+
+    rows: list[dict[str, Any]] = []
+    for method in C_METHODS:
+        for case_index in range(1, CASE_COUNT + 1):
+            case = cases_by_method[(method, case_index)]
+            target = case["target_public"]
+            _validate_identity(target, f"{method}/case-{case_index:02d}: target_public")
+            _need(target["target_depth_inner_telemetry_enabled"] is False, "unexpected inner telemetry")
+            progress = target["delayed_progress"]
+            _need(len(progress) == 7, f"{method}/case-{case_index:02d}: delayed progress")
+            for expected_transition, item in enumerate(progress, start=1):
+                _validate_identity(item, f"{method}/case-{case_index:02d}/transition-{expected_transition}")
+                _need(item["transition_index"] == expected_transition, "target transition order")
+                _need(item["candidate_objective_inner_count"] == 0, "target inner objective count")
+                rows.append({
+                    "method": method,
+                    "case_index": case_index,
+                    "source_k": expected_transition,
+                    "next_k": expected_transition + 1,
+                    "request_order_sha256": case["request_order_sha256"],
+                    "accepted_z_sha256": case["accepted_z_sha256"],
+                    "target_public_identity_sha256": target["identity_sha256"],
+                    "transition_identity_sha256": item["identity_sha256"],
+                    "completion": item["completion"],
+                    "source_mean_target_new_nll": _finite(item["source_mean_target_new_nll"], "source step NLL"),
+                    "next_field_mean_target_new_nll": _finite(item["next_field_mean_target_new_nll"], "next step NLL"),
+                    "predicted_progress": _finite(item["predicted"], "predicted progress"),
+                    "actual_progress": _finite(item["actual"], "actual progress"),
+                    "linearization_error": _finite(item["linearization_error"], "linearization error"),
+                    "realization_ratio": _finite(item["realization_ratio"], "realization ratio"),
+                    "candidate_objective_inner_count": 0,
+                    "heldout_inner_evaluator_count": int(case["heldout_inner_evaluator_count"]),
+                    "target_depth_inner_telemetry_enabled": False,
+                    "target_depth_inner_telemetry_row_count": int(target["target_depth_inner_telemetry_row_count"]),
+                })
+    _need(len(rows) == len(C_METHODS) * CASE_COUNT * 7, "C target step row count")
+    aggregates: list[dict[str, Any]] = []
+    for method in C_METHODS:
+        for transition in range(1, 8):
+            selected = [row for row in rows if row["method"] == method and row["source_k"] == transition]
+            _need(len(selected) == CASE_COUNT, "C target step denominator")
+            aggregate: dict[str, Any] = {
+                "method": method,
+                "source_k": transition,
+                "next_k": transition + 1,
+                "case_denominator": CASE_COUNT,
+                "inner_objective_count": 0,
+                "heldout_inner_evaluator_count": 0,
+                "target_depth_inner_telemetry_enabled": False,
+                "target_depth_inner_telemetry_row_count_per_case": int(selected[0]["target_depth_inner_telemetry_row_count"]),
+            }
+            for key in (
+                "source_mean_target_new_nll",
+                "next_field_mean_target_new_nll",
+                "predicted_progress",
+                "actual_progress",
+                "linearization_error",
+                "realization_ratio",
+            ):
+                aggregate[f"{key}_stats"] = _stats([float(row[key]) for row in selected])
+            aggregates.append(aggregate)
+    return rows, aggregates
+
+
+def _prompt_nll_distribution(
+    cases_by_method: Mapping[tuple[str, int], Mapping[str, Any]],
+) -> list[dict[str, Any]]:
+    """Summarize every sealed rewrite/rephrase prompt NLL across 10 cases."""
+
+    result: list[dict[str, Any]] = []
+    for method in METHODS:
+        for endpoint_name in ("z", "W"):
+            for family in ("rewrite", "rephrase"):
+                score_name = f"{family}_success"
+                for target in ("new", "true"):
+                    values: list[float] = []
+                    for case_index in range(1, CASE_COUNT + 1):
+                        case = cases_by_method[(method, case_index)]
+                        endpoint = case["methods"][method] if method.startswith("OFFICIAL-") else case
+                        nested = endpoint[endpoint_name]["scores"][score_name][f"target_{target}_nll_by_request"]
+                        for value in _flatten_nested_values(nested, f"{method}/{endpoint_name}/{family}/{target}"):
+                            values.append(_finite(value, "prompt NLL"))
+                    expected = CASE_COUNT * REQUESTS_PER_CASE * (1 if family == "rewrite" else 2)
+                    _need(len(values) == expected, f"{method}/{endpoint_name}/{family}/{target}: prompt denominator")
+                    result.append({
+                        "method": method,
+                        "endpoint": endpoint_name.upper(),
+                        "family": family,
+                        "target": f"target-{target}",
+                        "prompt_denominator": expected,
+                        "cross_prompt_summary": _stats(values),
+                        "p90_definition": "NEAREST_RANK_CEIL_0.9N",
+                    })
+    _need(len(result) == len(METHODS) * 2 * 2 * 2, "prompt NLL row count")
+    return result
+
+
+def _flatten_nested_values(value: Any, label: str) -> list[Any]:
+    _need(isinstance(value, list), f"{label}: values not list")
+    result: list[Any] = []
+    for item in value:
+        if isinstance(item, list):
+            result.extend(_flatten_nested_values(item, label))
+        else:
+            result.append(item)
+    return result
+
+
 def _pilot_consistency(repo: Path, case_rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     path = repo / PILOT_REPORT
     if not path.is_file():
@@ -567,6 +704,9 @@ def analyze(repo: Path) -> dict[str, Any]:
     layer_aggregates = _aggregate_layers(layer_rows)
     overhead_rows, overhead_aggregates = _paired_overhead(case_rows)
     performance_pairs = _paired_performance(case_rows)
+    nll_distribution = _nll_distribution(case_rows)
+    prompt_nll_distribution = _prompt_nll_distribution(cases_by_method)
+    c_target_step_rows, c_target_step_aggregates = _c_target_steps(cases_by_method)
     job_facts: dict[str, Any] = {}
     for name, root in roots.items():
         timing = _read_json(root / "job-timing.json")
@@ -607,6 +747,10 @@ def analyze(repo: Path) -> dict[str, Any]:
         "layer_aggregates": layer_aggregates,
         "aggregates": aggregates,
         "performance_pairs": performance_pairs,
+        "nll_distribution": nll_distribution,
+        "prompt_nll_distribution": prompt_nll_distribution,
+        "c_target_step_rows": c_target_step_rows,
+        "c_target_step_aggregates": c_target_step_aggregates,
         "overhead_rows": overhead_rows,
         "overhead_aggregates": overhead_aggregates,
         "pilot_case01_consistency": _pilot_consistency(repo, case_rows),
@@ -651,20 +795,78 @@ def _report(analysis: Mapping[str, Any]) -> str:
         )
     lines.extend([
         "",
-        "### Accepted-z와 accuracy",
+        "### Accepted-z 전용 요약",
         "",
-        "|방법|z Rewrite|z Gen|z strict Gen|W rewrite accuracy|W rephrase accuracy|W strict accuracy|",
-        "|---|---:|---:|---:|---:|---:|---:|",
+        "C0–C3는 각 slice 안에서 동일한 P1R52 K8 accepted-z를 사용했다(`PASS_10_OF_10`). AlphaEdit/MEMIT의 Z는 각 native method가 만든 별도 reference이므로 C-arm accepted-z와 byte-equivalence를 주장하지 않는다.",
+        "",
+        "|방법|Z source|z Rewrite|z Gen|z strict Gen|z rewrite acc|z rephrase acc|z strict acc|z Loc|",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|",
+    ])
+    for method in METHODS:
+        row = aggregate[method]
+        z_source = "P1R52_K8_ACCEPTED_Z_SHARED_C0_C3" if method in C_METHODS else f"NATIVE_{method.removeprefix('OFFICIAL-')}_Z"
+        lines.append(
+            f"|{method}|{z_source}|{row['z_rewrite_success_numerator']}/{row['z_rewrite_success_denominator']}|"
+            f"{row['z_rephrase_success_numerator']}/{row['z_rephrase_success_denominator']}|"
+            f"{row['z_rephrase_strict_success_numerator']}/{row['z_rephrase_strict_success_denominator']}|"
+            f"{row['z_rewrite_accuracy_numerator']}/{row['z_rewrite_accuracy_denominator']}|"
+            f"{row['z_rephrase_accuracy_numerator']}/{row['z_rephrase_accuracy_denominator']}|"
+            f"{row['z_rephrase_strict_accuracy_numerator']}/{row['z_rephrase_strict_accuracy_denominator']}|"
+            f"{row['z_locality_numerator']}/{row['z_locality_denominator']}|"
+        )
+    nll_index = {
+        (row["method"], row["endpoint"], row["family"], row["target"]): row["cross_prompt_summary"]
+        for row in analysis["prompt_nll_distribution"]
+    }
+    for target in ("target-new", "target-true"):
+        title = "새 target NLL" if target == "target-new" else "원 target NLL"
+        lines.extend([
+            "",
+            f"### Z/W {title}: 전체 prompt mean·median·p90",
+            "",
+            "Rewrite denominator는 10×100=1000 prompts, rephrase denominator는 10×100×2=2000 prompts이다. p90은 nearest-rank `ceil(0.9N)`이다. case-level mean의 10-case mean/median/p90도 별도 machine table에 보존했다.",
+            "",
+            "|방법|Z rewrite mean/median/p90|Z rephrase mean/median/p90|W rewrite mean/median/p90|W rephrase mean/median/p90|",
+            "|---|---:|---:|---:|---:|",
+        ])
+        for method in METHODS:
+            cells = []
+            for endpoint, family in (("Z", "rewrite"), ("Z", "rephrase"), ("W", "rewrite"), ("W", "rephrase")):
+                stats = nll_index[(method, endpoint, family, target)]
+                cells.append(f"{_fmt(stats['mean'])} / {_fmt(stats['median'])} / {_fmt(stats['p90'])}")
+            lines.append(f"|{method}|" + "|".join(cells) + "|")
+    lines.extend([
+        "",
+        "### W accuracy",
+        "",
+        "|방법|W rewrite accuracy|W rephrase accuracy|W strict accuracy|",
+        "|---|---:|---:|---:|",
     ])
     for method in METHODS:
         row = aggregate[method]
         lines.append(
-            f"|{method}|{row['z_rewrite_success_numerator']}/{row['z_rewrite_success_denominator']}|"
-            f"{row['z_rephrase_success_numerator']}/{row['z_rephrase_success_denominator']}|"
-            f"{row['z_rephrase_strict_success_numerator']}/{row['z_rephrase_strict_success_denominator']}|"
-            f"{row['W_rewrite_accuracy_numerator']}/{row['W_rewrite_accuracy_denominator']}|"
+            f"|{method}|{row['W_rewrite_accuracy_numerator']}/{row['W_rewrite_accuracy_denominator']}|"
             f"{row['W_rephrase_accuracy_numerator']}/{row['W_rephrase_accuracy_denominator']}|"
             f"{row['W_rephrase_strict_accuracy_numerator']}/{row['W_rephrase_strict_accuracy_denominator']}|"
+        )
+    lines.extend([
+        "",
+        "### C 계열 K-step target progress",
+        "",
+        "Runtime receipt에는 C0–C3 각각 K1→K8의 7개 delayed target transition이 기록돼 있었다. 아래는 각 transition의 10-case 평균이며, per-case 원값과 mean/median/p90은 `c-target-step.json` 및 `c-target-step-aggregates.json`에 보존했다. heldout evaluator와 candidate objective 재평가는 모두 0이다. `target_depth_inner_telemetry_enabled=false`이고 봉인된 bookkeeping row count는 case당 8로 별도 기록했다.",
+        "",
+        "|방법|transition|source NLL|next-field NLL|predicted progress|actual progress|linearization error|realization ratio|",
+        "|---|---|---:|---:|---:|---:|---:|---:|",
+    ])
+    for row in analysis["c_target_step_aggregates"]:
+        lines.append(
+            f"|{row['method']}|K{row['source_k']}→K{row['next_k']}|"
+            f"{_fmt(row['source_mean_target_new_nll_stats']['mean'])}|"
+            f"{_fmt(row['next_field_mean_target_new_nll_stats']['mean'])}|"
+            f"{_fmt(row['predicted_progress_stats']['mean'])}|"
+            f"{_fmt(row['actual_progress_stats']['mean'])}|"
+            f"{_fmt(row['linearization_error_stats']['mean'])}|"
+            f"{_fmt(row['realization_ratio_stats']['mean'])}|"
         )
     lines.extend([
         "",
@@ -798,6 +1000,10 @@ def _report(analysis: Mapping[str, Any]) -> str:
         "- `per-layer.json`: 300 rows.",
         "- `layer-aggregates.json`: 30 method/layer rows.",
         "- `method-aggregates.json`: 6 methods, 각각 10 cases/1000 requests.",
+        "- `nll-prompt-distribution-aggregates.json`: 전체 prompt 기준 Z/W NLL mean/median/p90 48 rows.",
+        "- `nll-distribution-aggregates.json`: case-level mean 기준 10-case mean/median/p90 48 rows.",
+        "- `c-target-step.json`: C0–C3 × 10 cases × K1→K8의 280개 target-transition rows.",
+        "- `c-target-step-aggregates.json`: 28 method/transition mean·median·p90 rows.",
         "- `paired-performance.json`: C0–C3 × AlphaEdit/MEMIT × 10 slices.",
         "- `paired-overhead.json`: 5 non-reference methods × 3 timing boundaries × 10 slices.",
         "- `overhead-aggregates.json`: mean/median/p90/max seconds, paired delta, ratio, percent.",
@@ -832,11 +1038,15 @@ def emit(repo: Path, output: Path, analysis: Mapping[str, Any]) -> dict[str, Any
         "layer-aggregates.json": _json_bytes(analysis["layer_aggregates"]),
         "method-aggregates.json": _json_bytes(analysis["aggregates"]),
         "paired-performance.json": _json_bytes(analysis["performance_pairs"]),
+        "nll-distribution-aggregates.json": _json_bytes(analysis["nll_distribution"]),
+        "nll-prompt-distribution-aggregates.json": _json_bytes(analysis["prompt_nll_distribution"]),
+        "c-target-step.json": _json_bytes(analysis["c_target_step_rows"]),
+        "c-target-step-aggregates.json": _json_bytes(analysis["c_target_step_aggregates"]),
         "paired-overhead.json": _json_bytes(analysis["overhead_rows"]),
         "overhead-aggregates.json": _json_bytes(analysis["overhead_aggregates"]),
         "pilot-case01-consistency.json": _json_bytes(analysis["pilot_case01_consistency"]),
         "job-facts.json": _json_bytes(analysis["job_facts"]),
-        "analysis-summary.json": _json_bytes({key: value for key, value in analysis.items() if key not in {"case_rows", "layer_rows", "layer_aggregates", "performance_pairs", "overhead_rows", "aggregates", "overhead_aggregates", "job_facts"}}),
+        "analysis-summary.json": _json_bytes({key: value for key, value in analysis.items() if key not in {"case_rows", "layer_rows", "layer_aggregates", "performance_pairs", "nll_distribution", "prompt_nll_distribution", "c_target_step_rows", "c_target_step_aggregates", "overhead_rows", "aggregates", "overhead_aggregates", "job_facts"}}),
     }
     for name, data in payloads.items():
         _write_once(output / name, data)
@@ -895,6 +1105,10 @@ def verify(output: Path) -> dict[str, Any]:
     _need(len(_read_json(output / "per-case.json")) == 60, "per-case rows")
     _need(len(_read_json(output / "per-layer.json")) == 300, "per-layer rows")
     _need(len(_read_json(output / "paired-overhead.json")) == 150, "overhead rows")
+    _need(len(_read_json(output / "nll-distribution-aggregates.json")) == 48, "NLL distribution rows")
+    _need(len(_read_json(output / "nll-prompt-distribution-aggregates.json")) == 48, "prompt NLL distribution rows")
+    _need(len(_read_json(output / "c-target-step.json")) == 280, "C target step rows")
+    _need(len(_read_json(output / "c-target-step-aggregates.json")) == 28, "C target step aggregate rows")
     return {"status": "INDEPENDENT_REHASH_PASS", "member_count": manifest["member_count"], "receipt_identity": receipt["identity_sha256"]}
 
 

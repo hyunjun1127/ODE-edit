@@ -1,0 +1,59 @@
+{
+  "accepted_z_identity_exact": false,
+  "comparisons": {
+    "C0": {
+      "energy_delta": 7.50175650523488e-05,
+      "locality_numerator_delta": 0,
+      "rephrase_nll_delta": -8.927228627442219e-06,
+      "rephrase_success_numerator_delta": 0,
+      "rewrite_nll_delta": -2.738806651907122e-06,
+      "strict_rephrase_success_numerator_delta": 0
+    },
+    "C1": {
+      "energy_delta": 7.347693942705291e-05,
+      "locality_numerator_delta": 0,
+      "rephrase_nll_delta": -8.79978004375559e-06,
+      "rephrase_success_numerator_delta": 0,
+      "rewrite_nll_delta": -3.2186356838798114e-06,
+      "strict_rephrase_success_numerator_delta": 0
+    },
+    "C2": {
+      "energy_delta": 1.591105244536095e-05,
+      "locality_numerator_delta": 0,
+      "rephrase_nll_delta": -6.066197529186468e-06,
+      "rephrase_success_numerator_delta": 0,
+      "rewrite_nll_delta": 8.44709575176239e-07,
+      "strict_rephrase_success_numerator_delta": 0
+    },
+    "C3": {
+      "energy_delta": 7.052841917953856e-05,
+      "locality_numerator_delta": 0,
+      "rephrase_nll_delta": -7.4022286571384655e-06,
+      "rephrase_success_numerator_delta": 0,
+      "rewrite_nll_delta": -3.2229191856483763e-06,
+      "strict_rephrase_success_numerator_delta": 0
+    },
+    "OFFICIAL-ALPHAEDIT": {
+      "energy_delta": 0.0,
+      "locality_numerator_delta": 0,
+      "rephrase_nll_delta": 0.0,
+      "rephrase_success_numerator_delta": 0,
+      "rewrite_nll_delta": 0.0,
+      "strict_rephrase_success_numerator_delta": 0
+    },
+    "OFFICIAL-MEMIT": {
+      "energy_delta": 0.0,
+      "locality_numerator_delta": 0,
+      "rephrase_nll_delta": 0.0,
+      "rephrase_success_numerator_delta": 0,
+      "rewrite_nll_delta": 0.0,
+      "strict_rephrase_success_numerator_delta": 0
+    }
+  },
+  "current_case01_accepted_z_sha256": "9e9e518043a1dd8899a813ccebed7853f9e77df621f8898be285f86f242dbf50",
+  "interpretation": "Official baselines are exact when deltas are zero; P1R52 rows are factual cross-run comparisons, not substituted endpoints.",
+  "request_stream_identity_exact": true,
+  "sealed_pilot_accepted_z_sha256": "5772bc53771f446591d9c5a05cd598388fc26bcb41e5695f30438ac5bea45e57",
+  "status": "FACTUAL_COMPARISON_COMPLETE",
+  "stream_root_identity_exact": true
+}
