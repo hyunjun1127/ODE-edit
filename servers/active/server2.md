@@ -6,64 +6,49 @@
 - physical hostname: `server2`
 - host ID: `remote-ssh-codex-managed:lab121`
 - repository: `hyunjun1127/ODE-edit`
-- 갱신 시각: 2026-08-17
+- 갱신 시각: 2026-08-22
 - server-head (SH2):
-  `01a00e5c-f7ae-72a2-98b2-b8b0907168b4`
-  (`codex://threads/01a00e5c-f7ae-72a2-98b2-b8b0907168b4`)
-- model/profile: user-managed; observed `gpt-5.6-sol/max`
+  `01a0278d-6e24-7a81-974a-96e4addd7ca5`
+  (`codex://threads/01a0278d-6e24-7a81-974a-96e4addd7ca5`)
 - repository CWD: `/mnt/raid5/janghj/ODE-edit`
+- local hard boundary: `Sol Ultra`, checker PASS
 
-사용자 메시지에 SH2 session ID가 SH1과 동일하게 중복 기재됐으나, app host
-metadata와 SH2 direct ACK로 위 ID를 확인했다. 이 값이 현재 canonical SH2
-authority다.
+새 session은 2026-08-17 registry의 SH2 authority를 supersede한다. 과거
+experiment provenance는 변경하지 않는다.
 
 ## Repository 상태
 
 - remote: `https://github.com/hyunjun1127/ODE-edit.git`
-- initial ACK branch: `main`
-- initial ACK HEAD/tree:
-  `6145406ae4b11e05b683c46aa604c972eb727f5a` /
-  `8284a6d0230c275056aa38840a03e6a336c2032c`
-- worktree: clean
-- cached `origin/main`:
-  `858f562cc8282b9ae164d41b85dfad070a8273f2`
-- final ff-only sync HEAD/tree:
-  `d4206536d0c9629e1061b6575bc967e0cf1f742b` /
-  `7f8b563c89361e48c126301eb906a0dd6484a9c9`
-- final sync worktree: clean, ahead/behind 0/0
+- connection audit branch: clean `main`
+- audit HEAD/tree:
+  `0d63ad4ec4978be6d04aabb640e17917bd1348d7` /
+  `652b84489825371558002e24b381dcb777327a7f`
+- cached `origin/main`과 audit HEAD가 일치했다.
+- registry push 뒤 GH가 별도 direct inbox로 fetch 및 ff-only 최신화를
+  명령한다. 실행 중인 experiment job과 result root는 건드리지 않는다.
 
-사용자 model-management 정정 뒤 SH2는 session ID/CWD/repository hard boundary를
-PASS했고 clean `main`을 `git merge --ff-only origin/main`으로 동기화했다.
+## 연결 및 runtime
 
-## Session boundary
-
-Initial sync ACK 시 ignored `servers/local/session-boundary.env`는 inactive
-`019fe491-954b-70a0-8ba8-0588e9f8d741`를 기록해 session ID gate가 rc4로
-실패하는 상태였다. Runtime `gpt-5.6-sol/max`는 사용자 관리 관측값이며 더 이상
-hard boundary가 아니다.
-
-1. local-only session ID를
-   `01a00e5c-f7ae-72a2-98b2-b8b0907168b4`로 갱신한다.
-2. 실제 CWD와 repository identity를 기록한다.
-3. `scripts/check-session-boundary.sh
-   01a00e5c-f7ae-72a2-98b2-b8b0907168b4`를 통과한다.
-
-Boundary PASS 전 Git write, fetch/merge, Slurm, rsync, model/GPU execution은
-HOLD다.
+- GH→SH2 direct inbox/ACK: PASS
+- SH1→SH2 ping/ACK와 SH2→SH1 ping/ACK: PASS
+- `PROTOCOL.md` full-read identity:
+  SHA256 `a54a4e7c00c36ec9f3b0fe122e5d8735dacc2c21c8604bc598593eb396936663`,
+  51,147 bytes, 1,125 lines
+- EasyEdit, `.venv`, `uv`, Hugging Face Llama/Qwen cache: available
+- Slurm query/submit commands: available
+- SSH/rsync local inventory와 client: available; 이번 audit에서는 remote
+  authentication/transfer를 실행하지 않았다.
 
 ## Slurm 및 resource
 
-- 2026-08-17 ACK 시 ODE-edit active Slurm job: 0
-- local cap file의 현재 server2 project GPU cap은 clone-local authoritative
-  record로 재확인한다.
-- 실제 제출 전에는 `scripts/check-slurm-resource-cap.sh`로 point-in-time GPU와
-  host-memory를 다시 확인한다.
+- audit 시 `22600`: `PENDING(Resources)`
+- audit 시 `22601`: `PENDING(ReqNodeNotAvail)`
+- server2 registry cap: 4; active P3 task-specific override: 2
+- job 변경·취소·재제출, model/GPU/result mutation: 0
 
 ## 판정
 
 - session routing/direct inbox: PASS
-- repository worktree: clean; ff-only sync PASS
-- hard session/repository boundary: PASS
-- registry GH/SH1/SH2 ID verification: PASS
-- current blocker: 없음
-- next: 새 actionable task가 있을 때 point-in-time repository/resource boundary 재확인
+- SH1↔SH2 bidirectional inbox/ACK: PASS
+- clean main 및 hard session/repository boundary: PASS
+- next: registry push 뒤 fetch 및 `git merge --ff-only origin/main`

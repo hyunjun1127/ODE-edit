@@ -6,60 +6,55 @@
 - physical hostname: `devbox`
 - host ID: `remote-ssh-codex-managed:lab120`
 - repository: `hyunjun1127/ODE-edit`
-- 갱신 시각: 2026-08-17
+- 갱신 시각: 2026-08-22
 
-| 역할 | Codex session ID / deeplink | Required / confirmed model | 실제 CWD | 상태 |
+| 역할 | Codex session ID / deeplink | local hard boundary | 실제 CWD | 상태 |
 | --- | --- | --- | --- | --- |
-| global-head (GH) | `01a00e5f-63ef-7cc2-89ec-f2f7b23df40f` / `codex://threads/01a00e5f-63ef-7cc2-89ec-f2f7b23df40f` | user-managed; observed `gpt-5.6-sol/xhigh` | `/mnt/raid5/janghj/ODE-edit` | active |
-| server-head (SH1) | `01a00e5d-29e8-7a01-822b-7acf43226035` / `codex://threads/01a00e5d-29e8-7a01-822b-7acf43226035` | user-managed; observed `gpt-5.6-sol/xhigh` | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | direct inbox ACK PASS |
+| global-head (GH) | `01a0278e-3f20-7b12-8c26-cf71deb2708b` / `codex://threads/01a0278e-3f20-7b12-8c26-cf71deb2708b` | `Sol Ultra`, checker PASS | `/mnt/raid5/janghj/ODE-edit` | active caller |
+| server-head (SH1) | `01a0278d-456b-7d20-820f-63fc80a57b8d` / `codex://threads/01a0278d-456b-7d20-820f-63fc80a57b8d` | `Sol Ultra`, checker PASS | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | direct inbox ACK PASS |
 
-새 primary session은 이전 active session authority를 supersede한다. 과거 task,
-report, audit, receipt와 completed launcher의 old session ID는 historical
-provenance로 보존하며 현재 command authority로 해석하지 않는다.
+새 session은 2026-08-17 registry의 GH/SH1 authority를 supersede한다. 과거
+task, report, audit, receipt와 completed launcher의 session ID는 historical
+provenance로 보존한다.
 
 ## Repository 상태
 
 - canonical remote: `https://github.com/hyunjun1127/ODE-edit.git`
-- GH root clone: `/mnt/raid5/janghj/ODE-edit`; detached/dirty user state이므로
-  reset, revert, cleanup 또는 main 통합에 사용하지 않는다.
-- canonical main integration worktree:
-  `/mnt/raid5/janghj/.codex/worktrees/odeedit-p2r7-main-publish-v1`
-- SH1 worktree:
-  `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit`
-- SH1 ACK snapshot: detached
+- audit 시 `origin/main`: `0d63ad4ec4978be6d04aabb640e17917bd1348d7`,
+  tree `652b84489825371558002e24b381dcb777327a7f`
+- GH root clone은 detached `858f562cc8282b9ae164d41b85dfad070a8273f2`의
+  기존 tracked/untracked dirty 상태다. reset, stash, cleanup 또는 통합에
+  사용하지 않는다.
+- 이번 registry 통합은 clean worktree
+  `/mnt/raid5/janghj/.codex/worktrees/odeedit-gh-session-registry-20260822-v1`
+  에서 수행한다.
+- SH1 worktree는 detached
   `cdb80bc70032c203334531edb7020ff654f2938d`, tree
-  `cc8285949540f70a4afcc0278968c3978068b465`; tracked diff 0; untracked
-  `project/run_scripts/ode_bf/`와 `runs/session02-p0-tech-v1/` 보존.
-- SH1은 detached HEAD를 그대로 유지한 채
-  `origin/main=1caed88867db3087fa5db26995c7e3719c064216`을 확인했다. 해당
-  worktree에서는 pull/merge하지 않는다.
+  `cc8285949540f70a4afcc0278968c3978068b465`다. tracked clean,
+  user-owned untracked path 2개를 그대로 보존한다.
 
-## Session boundary
+## 연결 및 runtime
 
-SH1은 local `servers/local/session-boundary.env`의 SH1/GH ID를 새 값으로
-갱신했고 detached HEAD와 user-owned untracked paths를 보존했다. Runtime
-model/profile은 사용자 관리 관측값이며 checker의 hard boundary가 아니다.
-
-1. CWD, repository identity와 session ID를 실제 값으로 기록한다.
-2. `scripts/check-session-boundary.sh
-   01a00e5d-29e8-7a01-822b-7acf43226035`를 통과한다.
-
-Hard boundary checker가 실패하면 Git write, Slurm, rsync, model/GPU execution은
-HOLD다.
+- GH→SH1 direct inbox/ACK: PASS
+- SH1→SH2 ping/ACK와 SH2→SH1 ping/ACK: PASS
+- `PROTOCOL.md` full-read identity:
+  SHA256 `a54a4e7c00c36ec9f3b0fe122e5d8735dacc2c21c8604bc598593eb396936663`,
+  51,147 bytes, 1,125 lines
+- EasyEdit, Python runtime와 Hugging Face Llama/Qwen cache: available
+- Slurm query/submit commands: available
+- SSH/rsync read-only audit: server2/server4 PASS; server3 SSH PASS이나 target
+  repository 없음; server1 loopback alias DNS 실패. 외부 transfer action은 0이다.
 
 ## Slurm 및 resource
 
-- 2026-08-17 ACK 시 ODE-edit active Slurm job: 0
-- local cap file의 현재 server1 project GPU cap: 4
-- 실제 제출 전에는 `scripts/check-slurm-resource-cap.sh`로 point-in-time GPU와
-  host-memory를 다시 확인한다.
+- audit 시 job `22541`: array 1–3 `COMPLETED(0:0)`, array 0/4
+  `RUNNING`; 변경·취소·재제출 0
+- active server1 project GPU cap: 4
+- 실제 후속 제출 전에는 point-in-time GPU/host-memory cap을 다시 확인한다.
 
 ## 판정
 
 - session routing/direct inbox: PASS
-- tracked repository update owner: GH canonical main integration worktree
-- SH1 detached worktree update: HOLD, user-owned untracked paths 보존
-- SH1 hard session/repository boundary: PASS
-- `origin/main` registry update 확인: PASS
-- 다음 담당자: 새 actionable task가 있을 때 point-in-time repository/resource
-  boundary를 다시 확인한다.
+- GH와 SH1 local hard boundary: PASS
+- tracked registry update owner: GH clean integration worktree
+- SH1 detached worktree pull/merge: HOLD; 기존 실험과 untracked state 보존
