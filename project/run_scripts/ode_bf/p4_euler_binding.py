@@ -46,6 +46,10 @@ def _validate_terms(terms: P4EulerObjectiveTerms, target_state: torch.Tensor) ->
         or terms.decay_per_request.dtype is not torch.float32
         or terms.kl_per_request.shape != (request_count,)
         or terms.decay_per_request.shape != (request_count,)
+        or terms.new_logprob.device != target_state.device
+        or terms.old_logprob.device != target_state.device
+        or terms.kl_per_request.device != target_state.device
+        or terms.decay_per_request.device != target_state.device
         or not bool(torch.isfinite(terms.new_logprob).all())
         or not bool(torch.isfinite(terms.old_logprob).all())
         or not bool(torch.isfinite(terms.kl_per_request).all())

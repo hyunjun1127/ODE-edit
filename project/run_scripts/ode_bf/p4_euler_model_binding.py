@@ -231,7 +231,18 @@ def evaluate_checkpointed_model_terms(
         "parameter_gradient_count": 0,
     }
     telemetry["identity_sha256"] = canonical_hash(telemetry)
-    return P4EulerObjectiveTerms(-all_new_nll, -all_old_nll, kl_values, decay, telemetry)
+    # The captured target state is intentionally CPU-resident, matching the
+    # established target-only solver path. Model scores are produced on CUDA;
+    # move the differentiable values back before forming the aggregate value.
+    # ``Tensor.to`` preserves the autograd edge to the model-backed scores.
+    value_device = target_state.device
+    return P4EulerObjectiveTerms(
+        -all_new_nll.to(device=value_device, dtype=torch.float32),
+        -all_old_nll.to(device=value_device, dtype=torch.float32),
+        kl_values.to(device=value_device, dtype=torch.float32),
+        decay,
+        telemetry,
+    )
 
 
 @torch.no_grad()

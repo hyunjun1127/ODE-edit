@@ -37,6 +37,8 @@ class P4EulerCalibrationR1FocusedTests(unittest.TestCase):
         self.assertNotIn(".backward(", source)
         self.assertIn("use_reentrant=False", source)
         self.assertIn("actual_model_forward_count_after_gradient", source)
+        self.assertIn("value_device = target_state.device", source)
+        self.assertIn("kl_values.to(device=value_device", source)
 
     def test_stage1_uses_one_m10_trajectory_and_prefix_snapshots(self) -> None:
         source = (
