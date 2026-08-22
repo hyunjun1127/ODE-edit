@@ -235,6 +235,7 @@ def evaluate_p1r24_kl(
     target_state: torch.Tensor | None = None,
     current_terminal: torch.Tensor | None = None,
     target_layer_name: str | None = None,
+    target_gradient_required: bool = True,
 ) -> tuple[P1R24KLResult, tuple[torch.Tensor, ...]]:
     target_mode = target_state is not None
     if target_mode != (current_terminal is not None and target_layer_name is not None):
@@ -244,7 +245,7 @@ def evaluate_p1r24_kl(
         or current_terminal is None
         or target_state.shape != current_terminal.shape
         or target_state.shape[1] != plan.request_count
-        or not target_state.requires_grad
+        or (target_gradient_required and not target_state.requires_grad)
     ):
         raise ODEBFContractError("P1R24 KL target geometry differs")
     if teacher_log_probs is not None and len(teacher_log_probs) != plan.request_count:
@@ -255,7 +256,7 @@ def evaluate_p1r24_kl(
     values: list[torch.Tensor | None] = [None] * plan.request_count
     gradient = (
         torch.zeros_like(target_state, device="cpu", dtype=torch.float64)
-        if target_mode
+        if target_mode and target_gradient_required
         else None
     )
     processed = 0
@@ -292,7 +293,7 @@ def evaluate_p1r24_kl(
                 batch_values = F.kl_div(teacher, log_probs, log_target=True, reduction="none").sum(dim=1)
             for row, ordinal in enumerate(batch.request_ordinals):
                 values[ordinal] = batch_values[row]
-            if target_mode:
+            if target_mode and target_gradient_required:
                 assert target_state is not None and gradient is not None and overlay is not None
                 local = torch.autograd.grad(batch_values.sum(), target_state, retain_graph=False, create_graph=False)[0]
                 gradient.add_(local.detach().to(device="cpu", dtype=torch.float64))
