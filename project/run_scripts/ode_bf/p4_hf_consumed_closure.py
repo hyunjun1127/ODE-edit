@@ -638,6 +638,7 @@ def load_p4_full_fp32_from_sealed_snapshot(
     auto_model_class: Any | None = None,
     auto_tokenizer_class: Any | None = None,
     cuda_api: Any | None = None,
+    reuse_final_verified_closure: bool = False,
 ) -> tuple[Any, Any, P4HFClosureReceipt]:
     """The only P4 model-load entrypoint; unreachable before final gates pass.
 
@@ -662,13 +663,80 @@ def load_p4_full_fp32_from_sealed_snapshot(
         raise P4HFClosureError("final PRE-GPU gate has not authorized model load")
 
     model_seal = seal.model(alias)
-    receipt = seal.preflight_alias(
-        alias,
-        requested_paths=[
-            member.relative_path for member in model_seal.required_members
-        ],
-        requested_snapshot=Path(model_seal.snapshot_path),
-    )
+    if reuse_final_verified_closure:
+        binding = final_pre_gpu_receipt.get("hf_closure_binding")
+        row = binding.get(alias) if isinstance(binding, Mapping) else None
+        expected = {
+            "alias": alias,
+            "closure_identity": model_seal.closure_identity,
+            "native_name": model_seal.native_name,
+            "required_bytes": model_seal.required_bytes,
+            "required_count": len(model_seal.required_members),
+            "required_root": model_seal.required_root,
+            "revision": model_seal.revision,
+            "seal_root_digest": seal.root_digest,
+            "seal_sha256": seal.seal_sha256,
+            "snapshot_path": model_seal.snapshot_path,
+        }
+        if (
+            not isinstance(row, Mapping)
+            or dict(row) != expected
+            or final_pre_gpu_receipt.get("hf_content_verification")
+            != "PRIOR_ACCEPTED_EXACT_CONSUMED_CLOSURE_REUSED"
+            or final_pre_gpu_receipt.get("hf_duplicate_rehash_count") != 0
+        ):
+            raise P4HFClosureError("final PRE-GPU HF closure binding differs")
+        snapshot_path = Path(model_seal.snapshot_path)
+        if (
+            snapshot_path.is_symlink()
+            or not snapshot_path.is_dir()
+            or snapshot_path.resolve(strict=True) != snapshot_path
+        ):
+            raise P4HFClosureError("final PRE-GPU pinned snapshot path differs")
+        receipt = P4HFClosureReceipt(
+            seal_id=seal.seal_id,
+            seal_path=seal.source_path,
+            seal_sha256=seal.seal_sha256,
+            seal_root_digest=seal.root_digest,
+            hostname=seal.hostname,
+            agent_hostname=seal.agent_hostname,
+            agent_role=seal.agent_role,
+            alias=alias,
+            native_name=model_seal.native_name,
+            revision=model_seal.revision,
+            snapshot_path=model_seal.snapshot_path,
+            required_count=len(model_seal.required_members),
+            required_bytes=model_seal.required_bytes,
+            required_root=model_seal.required_root,
+            extra_count=len(model_seal.extra_members),
+            extra_bytes=model_seal.extra_bytes,
+            extra_root=model_seal.extra_root,
+            closure_identity=model_seal.closure_identity,
+            loader_kwargs={
+                "snapshot_argument": "sealed_absolute_snapshot",
+                "local_files_only": True,
+                "trust_remote_code": False,
+                "torch_dtype": "torch.float32",
+                "device_map": {"": 0},
+            },
+            offline_environment={
+                "HF_DATASETS_OFFLINE": "1",
+                "HF_HUB_OFFLINE": "1",
+                "TOKENIZERS_PARALLELISM": "false",
+                "TRANSFORMERS_OFFLINE": "1",
+                "WANDB_DISABLED": "true",
+            },
+            extra_influence_count=0,
+            model_loaded=False,
+        )
+    else:
+        receipt = seal.preflight_alias(
+            alias,
+            requested_paths=[
+                member.relative_path for member in model_seal.required_members
+            ],
+            requested_snapshot=Path(model_seal.snapshot_path),
+        )
     try:
         import torch
         from project.run_scripts.ode_edit_motivation.gpu_runtime import (
