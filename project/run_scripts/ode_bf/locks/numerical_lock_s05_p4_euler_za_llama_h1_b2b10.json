@@ -1,0 +1,115 @@
+{
+  "schema": "ode-edit-s05-p4-euler-za-llama-h1-b2b10-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P4-EULER-PROJECTED-SEMANTIC-ODE-V1",
+  "phase": "ZA_TARGET_ONLY",
+  "authority": "DIRECT_USER_INSTRUCTION_IN_SH4_TASK",
+  "policy_provenance": "USER_DIRECTED_POST_CALIBRATION_HYPERPARAMETER_REVISION",
+  "interpretation": "EXPLORATORY_CONFIRMATION_AFTER_CALIBRATION",
+  "prior_gh_release_setting": {
+    "h": 0.25,
+    "M": 5,
+    "T_z": 1.25,
+    "submission_count_before_user_revision": 0
+  },
+  "selected_setting": {
+    "h": 1.0,
+    "M": 5,
+    "T_z": 5.0,
+    "formula": "T_z=M*h",
+    "under_edit_mitigation_intent": true,
+    "model_or_arm_specific_branch_count": 0
+  },
+  "calibration_evidence_boundary": {
+    "slice": "B1_CASE01",
+    "label": "PERMANENT_CALIBRATION_ONLY",
+    "confirmatory_eligibility": false,
+    "h_1_M5_clamp_hit_fraction": {
+      "Z_plus": {
+        "numerator": 37,
+        "denominator": 50,
+        "fraction": 0.74
+      },
+      "Z_plus_minus": {
+        "numerator": 43,
+        "denominator": 50,
+        "fraction": 0.86
+      }
+    },
+    "clamp_radius_factor": 0.75,
+    "warning": "clamp radius factor and clamp-hit fraction are distinct; Z_plus_minus h=1,M5 was projection-dominated",
+    "decision_label": "USER_SELECTED_DESPITE_PRIOR_ADMISSIBILITY_FAILURE",
+    "predeclared_claim_count": 0
+  },
+  "scientific_scope": {
+    "model": "llama3-8b-inst",
+    "qwen_analysis_or_submission_count": 0,
+    "arms": ["Z+", "Z±", "Native-Z"],
+    "causal_estimand": "Z±-Z+",
+    "native_role": "CANONICAL_COMPUTE_Z_OBSERVATION_ONLY",
+    "native_selection_influence_count": 0,
+    "writer_materialization_count": 0,
+    "cache_append_count": 0,
+    "outer_k8_repeat_count": 0,
+    "heldout_inner_access_count": 0,
+    "terminal_evaluator_only": true
+  },
+  "confirmatory_stream": {
+    "stream_root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6",
+    "order_sha256": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+    "evaluator_identity": "72b8ecb737157a42d6a055ffd339dc3f907876a0a98165a00cca49ca9bbed07d",
+    "slice_indices": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "slice_count": 9,
+    "requests_per_slice": 10,
+    "request_denominator": 90,
+    "B1_excluded": true,
+    "ordered_request_sha256": {
+      "B2": "d926188b4b11b462acfbf3c3cb3623bbd37a6043dc2673072e40004eb2e0e22a",
+      "B3": "38bed59f6dc2b193082c30197e61ca9cfddaaecf3e524a0dbcb358f780c4db1a",
+      "B4": "d866c44874892d760da97cd7ede76979ae2281c2934a83d9c10695159e88d3d3",
+      "B5": "bb5f940c463a8c24798c3f75045c109b1f6752da1086e9ec5cb36de0c434c1b0",
+      "B6": "36f62d08abd69321360044edb1500c6afd302f7c10c546e78467e866c2ef3dd5",
+      "B7": "badf5694b025745be31e42e3bd18a603f8fde0db206462b01c0794d5bb0431fc",
+      "B8": "c363db241e2c07ca144d278b90b21023234c7c63d6bc7156eb180b7cd6ebb572",
+      "B9": "1702d290642650ce9a2ff4a5687d48c469441e4d2b7c3f204e05d71d6918eefd",
+      "B10": "add78cd5df75ad1ee941a84527fba9b0a63cfde5a3338450ffbe6bc248af08d9"
+    }
+  },
+  "runtime": {
+    "integrator": "RAW_PROJECTED_EXPLICIT_EULER",
+    "tensor_state_solver": "FULL_FP32",
+    "optimizer": "NONE",
+    "optimizer_object_count": 0,
+    "adam_state_count": 0,
+    "sgd_state_count": 0,
+    "loss_backward_count": 0,
+    "parameter_gradient_count": 0,
+    "autograd_grad_calls_per_euler_arm": 5,
+    "duplicate_evaluation_count": 0,
+    "final_iterate_only": true,
+    "fresh_origin": true,
+    "W0_pointer_version_bytes_freeze": true,
+    "offline_local_files_only": true,
+    "project_gpu_cap": 2,
+    "array_concurrency_max": 2,
+    "gpu_per_cell": 1,
+    "cpu_per_cell": 8,
+    "memory_mib_per_cell": 65000,
+    "walltime_hours_max": 48
+  },
+  "asset_identity": {
+    "easyedit_runtime_seal_root": "00e99949cc53bb5a8ad85aafbff0965e26f0d1d7fd84783feed7a9ea5595d06e",
+    "llama_P_stats_bundle": "2cd8517f65f476e3a8be4edddc81fc345ecd96a49634e41769bbacd4206af77e",
+    "hf_consumed_closure_seal_root": "7616e511248f1ce73e4eb3460448374f3ba2ee8895c502fee5a79054569a893b",
+    "llama_hf_closure": "54e45cdfb1a594a17775b9608864df06e87a036047de5592d20830f486be3e3a"
+  },
+  "claim_boundary": {
+    "allowed": "user-selected h=1 raw projected Euler target-only empirical result",
+    "continuous_ODE_convergence_claim": false,
+    "unique_ODE_solution_claim": false,
+    "step_size_convergence_claim": false,
+    "predeclared_hyperparameter_claim": false,
+    "automatic_scientific_promotion": false,
+    "ZB_release_before_GH_review": false
+  },
+  "root_digest": "1e3c8ee90d0d912bdfafeb0b281e399e3926263a0d1b4349fb45ba29fbe0bc84"
+}

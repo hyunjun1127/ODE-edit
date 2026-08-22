@@ -133,7 +133,11 @@ def _evaluate_terminal_z_panel(
     method_id: str = P2R1_METHOD_ID,
     schema: str = "ode-edit-s05-p2r1-target-only-terminal-z-panel/v1",
     trajectory_status: str = "ACTION_FROZEN_P2R1_TARGET_N24",
+    freeze_snapshot_index: int = 8,
+    freeze_accepted_snapshot_count: int = 9,
+    native_endpoint_runtime_access_count: int = 0,
 ) -> tuple[dict[str, Any], float]:
+    # Legacy defaults preserve snapshot_index=8 and accepted_snapshot_count=9.
     lookup_positions, patched_rows, lookup_receipt = _heldout_additive_lookup_geometry(
         tokenizer, requests, cases, fact_token_strategy=hparams.fact_token
     )
@@ -152,8 +156,8 @@ def _evaluate_terminal_z_panel(
         request_order_sha256=request_order_sha256,
         rollout_sha256=action_sha256,
         snapshot_sha256=snapshot_sha,
-        snapshot_index=8,
-        accepted_snapshot_count=9,
+        snapshot_index=freeze_snapshot_index,
+        accepted_snapshot_count=freeze_accepted_snapshot_count,
         rejected_retry_count=0,
         trajectory_status=trajectory_status,
     )
@@ -186,7 +190,7 @@ def _evaluate_terminal_z_panel(
         "heldout_efficacy_controller_access_count": 0,
         "terminal_only_evaluator": True,
         "inner_step_heldout_evaluation_count": 0,
-        "native_endpoint_runtime_access_count": 0,
+        "native_endpoint_runtime_access_count": native_endpoint_runtime_access_count,
         "wall_seconds": elapsed,
     }
     payload["identity_sha256"] = canonical_hash(payload)
