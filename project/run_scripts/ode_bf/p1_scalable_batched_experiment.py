@@ -345,6 +345,7 @@ def _run_ode_arm(
     p1r52_target_depth_telemetry_observer: Any | None = None,
     p1r52_pre_writer_observer: P1R52PreWriterObserver | None = None,
     p1r52_residual_reserve_writer: Any | None = None,
+    p1r52_c_kstep_writer: Any | None = None,
     p1r52_fp32_phase_a: bool = False,
     p1r52_phase_a_method_label: str | None = None,
     p1r52_sequential_target_depth: bool = False,
@@ -453,6 +454,14 @@ def _run_ode_arm(
         or not p1r52_fp32_phase_a
     ):
         raise ODEBFContractError("P1R52 residual-reserve writer activation differs")
+    if p1r52_c_kstep_writer is not None and (
+        not p1r52
+        or target_depth_policy is not P1R52TargetDepth.IL1
+        or p1r52_pre_writer_observer is not None
+        or p1r52_residual_reserve_writer is not None
+        or not p1r52_fp32_phase_a
+    ):
+        raise ODEBFContractError("P1R52 C K-step writer activation differs")
     if p1r52_fp32_phase_a and (
         not p1r52
         or any(
@@ -629,6 +638,7 @@ def _run_ode_arm(
             p1r52_pending_state: P1R51ControllerState | None = None
             residual_reserve_execution = None
             residual_reserve_outer = None
+            c_kstep_outer = None
             replay_entry = (
                 None
                 if p1r24 or p1r30
@@ -831,6 +841,8 @@ def _run_ode_arm(
                         )
                     if p1r52_residual_reserve_writer is not None:
                         residual_reserve_outer = outer52
+                    if p1r52_c_kstep_writer is not None:
+                        c_kstep_outer = outer52
                 elif p1r51:
                     assert p1r51_state is not None
                     proposal51 = prepare_p1r51_target_proposal(
@@ -1255,6 +1267,105 @@ def _run_ode_arm(
                 _phase_add_objective(
                     compute, "target_gradient", target_result, target=True
                 )
+            if p1r52_c_kstep_writer is not None:
+                if c_kstep_outer is None or p1r52_pending_state is None:
+                    raise ODEBFStateError("P1R52 C K-step target state is absent")
+                writer_started = time.perf_counter()
+                c_execution = p1r52_c_kstep_writer.execute(
+                    c_kstep_outer,
+                    step_index=step_index,
+                )
+                prefix_receipts = c_execution.prefix_capture_receipts
+                physical_forward_count = sum(
+                    int(item["physical_forward_count"]) for item in prefix_receipts
+                )
+                compute.increment(
+                    "c_kstep_prefix_capture",
+                    logical_forward_groups=len(prefix_receipts),
+                    model_forward_calls=physical_forward_count,
+                    physical_microbatch_graphs=physical_forward_count,
+                    processed_tokens=sum(int(item["processed_token_count"]) for item in prefix_receipts),
+                    padded_tokens=sum(int(item["padded_token_count"]) for item in prefix_receipts),
+                    capture_forward_calls=physical_forward_count,
+                    dense_assembly_count=int(c_execution.compute["dense_update_construction_count"]),
+                )
+                compute.increment(
+                    "c_kstep_authoritative_commit",
+                    materialization_count=int(c_execution.compute["logical_commit_count"]),
+                )
+                compute.add_wall("c_kstep_writer", time.perf_counter() - writer_started)
+                p1r52_state = p1r52_pending_state
+                next_capture_started = time.perf_counter()
+                next_physical = capture_scalable_physical_state(model, capture_plan, hparams)
+                compute.add_wall("accepted_state_refresh", time.perf_counter() - next_capture_started)
+                _phase_add_capture(compute, "accepted_state_refresh", next_physical)
+                terminal_nll = None
+                terminal_per_request = None
+                terminal_objective_payload = None
+                if step_index == P1R23_GRID_COUNT - 1:
+                    terminal_started = time.perf_counter()
+                    terminal_objective = evaluate_scalable_target_new_objective(model, objective_plan)
+                    terminal_objective_count += 1
+                    terminal_nll = float(terminal_objective.loss)
+                    terminal_per_request = list(terminal_objective.per_request_values)
+                    terminal_objective_payload = terminal_objective.raw_free_payload()
+                    compute.add_wall("terminal_objective", time.perf_counter() - terminal_started)
+                    _phase_add_objective(compute, "terminal_objective", terminal_objective)
+                target_realization = fixed_e8_target_write_realization(
+                    current_target, target_next, current_terminal, next_physical.terminal_z
+                )
+                refresh.record(
+                    step_index=step_index,
+                    accepted_state_sha256=state_before,
+                    target_sha256=tensor_sha256(target_next),
+                    key_inventory_sha256=_key_identity(physical.keys_by_layer),
+                    slope_sha256=c_execution.identity_sha256,
+                    field_sha256=c_execution.writer_receipt["identity_sha256"],
+                    field_invocation_index=step_index + 1,
+                )
+                progress = {
+                    "completion": "TERMINAL_W_ONLY_OBJECTIVE_ONCE" if terminal_nll is not None else "REFRESHED_PHYSICAL_PREFIX",
+                    "terminal_mean_target_new_nll": terminal_nll,
+                    "terminal_per_request_target_new_nll": terminal_per_request,
+                    "candidate_objective_inner_count": 0,
+                }
+                payload = {
+                    "schema": "ode-edit-s05-p1r52-c-kstep-accepted-transition/v1",
+                    "arm": arm_label,
+                    "accepted_index": step_index + 1,
+                    "tau_before": step_index * P1R23_H,
+                    "tau_after": (step_index + 1) * P1R23_H,
+                    "physical_capture_sha256": physical.identity_sha256,
+                    "next_physical_capture_sha256": next_physical.identity_sha256,
+                    "target_objective": target_result.raw_free_payload(),
+                    "target_update": target_receipt,
+                    "target_depth_outer_terminal_telemetry": None,
+                    "c_kstep_writer": c_execution.raw_free_payload(),
+                    "sequential_writer": None,
+                    "routing": c_execution.route_receipt,
+                    "cumulative_atomic_structural_p": c_execution.route_receipt,
+                    "routing_problem_sha256": c_execution.route_receipt["identity_sha256"],
+                    "field_sha256": c_execution.writer_receipt["identity_sha256"],
+                    "progress": progress,
+                    "target_write_realization": target_realization,
+                    "terminal_objective": terminal_objective_payload,
+                    "inner_step_heldout_evaluation_count": int(c_execution.compute["heldout_evaluator_count"]),
+                    "heldout_evaluator_decision_influence_count": 0,
+                    "retry_backtracking_reject_count": 0,
+                    "routing_method": p1r52_phase_a_method_label,
+                    "persistent_historical_ledger_count": 0,
+                    "per_request_target_controller": P1R52_METHOD_ID,
+                    "instruction_id": "ODEEDIT-S05-P1R52-C-WRITER-THREE-PHASE-V1",
+                    "method_id": "P1R52-C-WRITER-KSTEP-FULL-FP32",
+                }
+                payload["identity_sha256"] = canonical_hash(payload)
+                write_once(raw_root / "ode" / arm_label.lower() / f"accepted-k{step_index + 1}.json", payload)
+                accepted.append(payload)
+                current_target = target_next
+                current_terminal = next_physical.terminal_z.clone()
+                physical = next_physical
+                legacy_ledger.record_accepted_step(accepted_dt=P1R23_H, completed_k_total=step_index + 1)
+                continue
             if p1r52_residual_reserve_writer is not None:
                 if residual_reserve_outer is None or p1r52_pending_state is None:
                     raise ODEBFStateError(
@@ -2451,9 +2562,11 @@ def _run_ode_arm(
             legacy_ledger.record_accepted_step(
                 accepted_dt=P1R23_H, completed_k_total=step_index + 1
             )
-        expected_delayed_count = (
-            0 if p1r52_residual_reserve_writer is not None else 7
+        external_fp32_writer = (
+            p1r52_residual_reserve_writer is not None
+            or p1r52_c_kstep_writer is not None
         )
+        expected_delayed_count = 0 if external_fp32_writer else 7
         if (
             pending is not None
             or len(accepted) != 8
@@ -2461,7 +2574,7 @@ def _run_ode_arm(
         ):
             raise ODEBFStateError("P1R23 K8 delayed accounting differs")
         if (
-            p1r52_residual_reserve_writer is None
+            not external_fp32_writer
             and (p1r42 or p1r43 or p1r51 or p1r52)
             and len(request_realization_sha256) != P1R23_GRID_COUNT
         ):
@@ -2736,6 +2849,11 @@ def _run_ode_arm(
                     "bf16_path_call_count": 0,
                 }
             ),
+            "c_kstep_writer": (
+                None
+                if p1r52_c_kstep_writer is None
+                else p1r52_c_kstep_writer.raw_free_payload()
+            ),
             "initial_w0_sha256": initial_w0,
             "alphaedit_target_geometry": p1r24_alpha_geometry,
             "instruction_id": (
@@ -2795,6 +2913,8 @@ def _run_ode_arm(
         }
         if p1r52_residual_reserve_writer is not None:
             p1r52_residual_reserve_writer.assert_complete()
+        if p1r52_c_kstep_writer is not None:
+            p1r52_c_kstep_writer.assert_complete()
         rollout_payload["identity_sha256"] = canonical_hash(rollout_payload)
         phase_endpoint_ready = p1r52_fp32_phase_a
         return {

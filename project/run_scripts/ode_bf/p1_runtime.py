@@ -3268,10 +3268,16 @@ def run_p1(
     )
     from .p3r1_runtime import expected_result_parent as expected_p3r1_result_parent
     from .p3r1_runtime import is_p3r1_role
+    from .p1r52_c_writer_phase1_sequential import is_phase1_role
+    from .p1r52_c_writer_kstep_independent import is_phase2_role
+    from .p1r52_c_writer_kstep_cache_sequential import is_phase3_role
 
     joint_pc_full_fp32_mode = (
         is_joint_pc_full_fp32_role(p1r52_sequential_role)
         or is_joint_pc_independent_fp32_role(p1r52_sequential_role)
+        or is_phase1_role(p1r52_sequential_role)
+        or is_phase2_role(p1r52_sequential_role)
+        or is_phase3_role(p1r52_sequential_role)
     )
     p3r1_fp32_mode = is_p3r1_role(p1r52_sequential_role)
     _source_freeze(repo_root, source_head)

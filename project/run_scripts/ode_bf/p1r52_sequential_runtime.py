@@ -133,6 +133,21 @@ from .p3r1_runtime import (
     is_p3r1_role,
     run_p3r1_case,
 )
+from .p1r52_c_writer_phase1_sequential import (
+    ROLES as C_WRITER_PHASE1_ROLES,
+    expected_result_name as expected_c_writer_phase1_result_name,
+    run_phase1 as run_c_writer_phase1,
+)
+from .p1r52_c_writer_kstep_independent import (
+    ROLES as C_WRITER_PHASE2_ROLES,
+    expected_result_name as expected_c_writer_phase2_result_name,
+    run_phase2 as run_c_writer_phase2,
+)
+from .p1r52_c_writer_kstep_cache_sequential import (
+    ROLES as C_WRITER_PHASE3_ROLES,
+    expected_result_name as expected_c_writer_phase3_result_name,
+    run_phase3 as run_c_writer_phase3,
+)
 from .p1r52_target_depth import P1R52TargetDepth
 from .p1r52_target_depth_inner_telemetry import (
     P1R52TargetDepthTelemetryObserver,
@@ -295,6 +310,22 @@ def expected_p1r52_sequential_result_name(
     scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
     attempt_suffix: str | None = None,
 ) -> str:
+    if role in C_WRITER_PHASE1_ROLES:
+        if (
+            alias != "llama3-8b-inst"
+            or scale != P1R52_B100X10_SCALE
+            or attempt_suffix is not None
+        ):
+            raise ODEBFContractError("C-writer Phase1 result scope differs")
+        return expected_c_writer_phase1_result_name(role)
+    if role in C_WRITER_PHASE2_ROLES:
+        if alias != "llama3-8b-inst" or scale != P1R52_B100X10_SCALE or attempt_suffix is not None:
+            raise ODEBFContractError("C-writer Phase2 result scope differs")
+        return expected_c_writer_phase2_result_name(role)
+    if role in C_WRITER_PHASE3_ROLES:
+        if alias != "llama3-8b-inst" or scale != P1R52_B100X10_SCALE or attempt_suffix is not None:
+            raise ODEBFContractError("C-writer Phase3 result scope differs")
+        return expected_c_writer_phase3_result_name(role)
     if role in JOINT_PC_INDEPENDENT_FP32_ROLES:
         if (
             alias != "llama3-8b-inst"
@@ -1124,6 +1155,102 @@ def run_p1r52_sequential(
     target_depth: P1R52TargetDepth | str | None = None,
     target_depth_inner_telemetry: bool = False,
 ) -> dict[str, Any]:
+    if role in C_WRITER_PHASE1_ROLES:
+        if (
+            scale != P1R52_B100X10_SCALE
+            or batch_entry_evaluation_enabled
+            or accepted_z_observation_enabled
+            or accepted_z_reference_root is not None
+            or not accepted_z_sealed_w_reuse
+            or postsolve_energy_warn_enabled
+            or piru_cache_complete_rounds is not None
+        ):
+            raise ODEBFContractError("C-writer Phase1 runtime scope differs")
+        return run_c_writer_phase1(
+            model,
+            tokenizer,
+            alias=alias,
+            role=role,
+            destination=destination,
+            raw_root=raw_root,
+            stages=stages,
+            source_head=source_head,
+            stream_batches=stream_batches,
+            stream=stream,
+            hparams=hparams,
+            projector=projector,
+            contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256,
+            controller_lock=controller_lock,
+            request_by_sha256=request_by_sha256,
+            collision_by_request=collision_by_request,
+            population_by_sha256=population_by_sha256,
+            schedule=schedule,
+            theta0_cache=theta0_cache,
+            dataset_path=dataset_path,
+            mutation_lock=mutation_lock,
+            touched=touched,
+            base_receipt=base_receipt,
+            base_values=base_values,
+            job_ledger=job_ledger,
+            request_microbatch_size=request_microbatch_size,
+            fp32_runtime=fp32_runtime,
+        )
+    if role in C_WRITER_PHASE2_ROLES:
+        if (
+            scale != P1R52_B100X10_SCALE
+            or batch_entry_evaluation_enabled
+            or accepted_z_observation_enabled
+            or accepted_z_reference_root is not None
+            or not accepted_z_sealed_w_reuse
+            or postsolve_energy_warn_enabled
+            or piru_cache_complete_rounds is not None
+        ):
+            raise ODEBFContractError("C-writer Phase2 runtime scope differs")
+        return run_c_writer_phase2(
+            model, tokenizer, alias=alias, role=role, destination=destination,
+            raw_root=raw_root, stages=stages, source_head=source_head,
+            stream_batches=stream_batches, stream=stream, hparams=hparams,
+            projector=projector, contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256, controller_lock=controller_lock,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256, schedule=schedule,
+            theta0_cache=theta0_cache, dataset_path=dataset_path,
+            mutation_lock=mutation_lock, touched=touched,
+            base_receipt=base_receipt, base_values=base_values,
+            job_ledger=job_ledger,
+            request_microbatch_size=request_microbatch_size,
+            fp32_runtime=fp32_runtime,
+        )
+    if role in C_WRITER_PHASE3_ROLES:
+        if (
+            scale != P1R52_B100X10_SCALE
+            or batch_entry_evaluation_enabled
+            or accepted_z_observation_enabled
+            or accepted_z_reference_root is not None
+            or not accepted_z_sealed_w_reuse
+            or postsolve_energy_warn_enabled
+            or piru_cache_complete_rounds is not None
+        ):
+            raise ODEBFContractError("C-writer Phase3 runtime scope differs")
+        return run_c_writer_phase3(
+            model, tokenizer, alias=alias, role=role, destination=destination,
+            raw_root=raw_root, stages=stages, source_head=source_head,
+            stream_batches=stream_batches, stream=stream, hparams=hparams,
+            projector=projector, contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256, controller_lock=controller_lock,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256, schedule=schedule,
+            theta0_cache=theta0_cache, dataset_path=dataset_path,
+            mutation_lock=mutation_lock, touched=touched,
+            base_receipt=base_receipt, base_values=base_values,
+            job_ledger=job_ledger,
+            request_microbatch_size=request_microbatch_size,
+            fp32_runtime=fp32_runtime,
+        )
     if role in JOINT_PC_INDEPENDENT_FP32_ROLES:
         if (
             scale != P1R52_B100X10_SCALE
@@ -1553,6 +1680,10 @@ def run_p1r52_sequential(
                 )
             seed_all(COMMON_SEED)
             accepted_z_binding = None
+            # Native AlphaEdit/MEMIT do not emit the P1R52/PIR-U layer-norm
+            # rows.  Keep the common batch receipt factual and empty instead
+            # of reading a branch-local variable after the native call.
+            batch_norm_rows: list[dict[str, Any]] = []
             if role in R52_ROLES:
                 request_order = scalable_ordered_request_digest([str(item["request_sha256"]) for item in requests])
                 objective_plan = build_scalable_objective_plan(

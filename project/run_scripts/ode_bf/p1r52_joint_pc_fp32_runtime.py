@@ -161,6 +161,7 @@ def _fp32_target_and_j0(
     base_values: Mapping[str, torch.Tensor],
     request_microbatch_size: int,
     job_ledger: ComputeLedger,
+    c_kstep_writer_factory: Any | None = None,
 ) -> tuple[torch.Tensor, Mapping[str, Any], Any, Any]:
     order = scalable_ordered_request_digest([str(item["request_sha256"]) for item in requests])
     objective_plan = build_scalable_objective_plan(
@@ -185,6 +186,11 @@ def _fp32_target_and_j0(
         )
     finally:
         counter.close()
+    c_kstep_writer = (
+        None
+        if c_kstep_writer_factory is None
+        else c_kstep_writer_factory(objective_plan, capture_plan)
+    )
     rollout = _run_ode_arm(
         model, tokenizer, requests,
         alias="llama3-8b-inst", arm=FixedE8Arm.SOFT, allocation="RS",
@@ -200,7 +206,11 @@ def _fp32_target_and_j0(
         base_values=base_values, raw_root=case_root / "raw" / "target",
         write_once=_atomic_write_once, p1r24=True, p1r34=True, p1r35=True,
         p1r52=True, p1r52_fp32_phase_a=True,
-        p1r52_phase_a_method_label="P1R52-J0-FULL-FP32",
+        p1r52_phase_a_method_label=(
+            "P1R52-J0-FULL-FP32"
+            if c_kstep_writer is None else c_kstep_writer.arm
+        ),
+        p1r52_c_kstep_writer=c_kstep_writer,
     )
     public = rollout["public"]
     if public["accepted_update_count"] != P1R23_GRID_COUNT or public["tau_final"] != 1.0:
@@ -237,6 +247,7 @@ def _run_pc_arm_fp32(
     *, target: torch.Tensor, entry: Mapping[str, Any], hparams: Any,
     projector: torch.Tensor, covariance_registry: Any, projector_sha256: str,
     controller_lock: Any, capture_plan: Any,
+    solve_history_keys_by_layer: Mapping[int, torch.Tensor] | None = None,
 ) -> dict[str, Any]:
     if arm not in (JointPCWriterArm.C0, JointPCWriterArm.C1, JointPCWriterArm.C2):
         raise ODEBFContractError("FP32 Joint-P/C arm differs")
@@ -251,15 +262,45 @@ def _run_pc_arm_fp32(
         transaction_id=f"{ROLE}-{arm.value}",
     )
     layer_rows: list[dict[str, Any]] = []
+    capture_receipts: list[dict[str, Any]] = [
+        entry["physical"].raw_free_payload()
+    ]
     applied = []
+    if solve_history_keys_by_layer is not None and (
+        set(solve_history_keys_by_layer) != set(P1R23_LAYER_ORDER)
+        or any(
+            value.ndim != 2
+            or value.dtype is not torch.float32
+            or not torch.isfinite(value).all()
+            for value in solve_history_keys_by_layer.values()
+        )
+    ):
+        raise ODEBFContractError("FP32 Joint-P/C solve-history inventory differs")
     with transaction:
         for ordinal, layer in enumerate(P1R23_LAYER_ORDER):
             if ordinal == 0:
                 current_terminal = entry_terminal.clone()
-                field = entry["field"].layers[0]
-                field_source = "ENTRY_FIELD_REUSE"
+                if solve_history_keys_by_layer is None:
+                    field = entry["field"].layers[0]
+                    field_source = "ENTRY_FIELD_REUSE"
+                else:
+                    field, _ = build_current_layer_field(
+                        model, hparams, projector, covariance_registry,
+                        layer=layer,
+                        key=entry["physical"].keys_by_layer[layer],
+                        target_state=target,
+                        current_terminal=current_terminal,
+                        step_index=0,
+                        factor_ordinal=ordinal,
+                        projector_sha256=projector_sha256,
+                        residual_tolerance=controller_lock.residual_tolerance,
+                        q_only=True,
+                        history_keys=solve_history_keys_by_layer[layer],
+                    )
+                    field_source = "ENTRY_CURRENT_KEY_Q_WITH_COMMITTED_CACHE"
             else:
                 physical = capture_scalable_physical_state(model, capture_plan, hparams)
+                capture_receipts.append(physical.raw_free_payload())
                 current_terminal = physical.terminal_z.detach().cpu().float().contiguous()
                 field_target = (
                     target if arm is not JointPCWriterArm.C2
@@ -273,6 +314,11 @@ def _run_pc_arm_fp32(
                     projector_sha256=projector_sha256,
                     residual_tolerance=controller_lock.residual_tolerance,
                     q_only=True,
+                    history_keys=(
+                        solve_history_keys_by_layer[layer]
+                        if solve_history_keys_by_layer is not None
+                        else None
+                    ),
                 )
                 field_source = "CURRENT_PREFIX_KEY_Q"
             if arm is JointPCWriterArm.C2:
@@ -306,6 +352,14 @@ def _run_pc_arm_fp32(
                 "current_residual_norm": float(torch.linalg.norm((target-current_terminal).double())),
                 "key_norm": float(torch.linalg.norm(field.key.double())),
                 "q_norm": float(torch.linalg.norm(field.q.double())),
+                "alpha_cache_history_width": (
+                    int(solve_history_keys_by_layer[layer].shape[1])
+                    if solve_history_keys_by_layer is not None else 0
+                ),
+                "alpha_cache_history_sha256": (
+                    tensor_sha256(solve_history_keys_by_layer[layer])
+                    if solve_history_keys_by_layer is not None else None
+                ),
                 "update_norm": receipt.actual_post_storage_delta32_norm,
                 "update_energy": receipt.actual_post_storage_delta32_energy,
                 "storage_dtype": receipt.post_storage_dtype,
@@ -322,6 +376,7 @@ def _run_pc_arm_fp32(
         row["update_energy_share"] = row["update_energy"] / total_energy if total_energy else 0.0
     return {
         "arm": arm.value, "pi": list(pi), "beta": list(beta), "layers": layer_rows,
+        "prefix_capture_receipts": capture_receipts,
         "transaction": transaction_receipt.raw_free_payload(),
         "post_terminal_sha256": tensor_sha256(post.terminal_z),
         "post_terminal_residual_norm": float(torch.linalg.norm((target-post.terminal_z.cpu().float()).double())),
