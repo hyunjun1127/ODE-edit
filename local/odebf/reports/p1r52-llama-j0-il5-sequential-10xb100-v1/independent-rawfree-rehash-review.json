@@ -1,0 +1,29 @@
+{
+  "analysis_manifest_sha256": "21368595083c431f37d9e637229e7eb9c904b86dc7eb1415da1fb452c3feaf83",
+  "checks": {
+    "W0_exact": true,
+    "all_inner_5": true,
+    "h_hard_gates": true,
+    "member_root": true,
+    "no_inner_writer": true,
+    "outer_materialization_80": true,
+    "rows_400_40000_80": true,
+    "same_stream_order": true,
+    "scheduler_terminal": true,
+    "source_identity": true,
+    "terminal_sha_bound": true,
+    "warn_influence_zero": true
+  },
+  "fail_count": 0,
+  "identity_sha256": "bb48419bc8128d0a1c13f2cceb0d6ddd0cbbad8cac772afe39436c90a3272224",
+  "model_evaluator_gpu_slurm_actions": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "pass_count": 12,
+  "rooted_receipt_sha256": "b6fec421e15eb6e67ae7aeadac9d7c7e4c502dbf1dd591d22c6b0ec820bbbd4d",
+  "schema": "ode-edit-s05-p1r52-il5-sequential-independent-review/v1",
+  "status": "INDEPENDENT_RAWFREE_REHASH_REVIEW_PASS"
+}

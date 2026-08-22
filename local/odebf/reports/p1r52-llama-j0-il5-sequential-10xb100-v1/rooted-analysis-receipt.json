@@ -1,0 +1,28 @@
+{
+  "analysis_actions": {
+    "evaluator": 0,
+    "gpu": 0,
+    "model": 0,
+    "result_mutation": 0,
+    "slurm": 0
+  },
+  "analysis_manifest_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-llama-j0-il5-sequential-10xb100-v1/local/odebf/reports/p1r52-llama-j0-il5-sequential-10xb100-v1/analysis-manifest.json",
+  "analysis_manifest_sha256": "21368595083c431f37d9e637229e7eb9c904b86dc7eb1415da1fb452c3feaf83",
+  "member_root_sha256": "fcd077fca5eaa2be5083c50bf7b198f3d0c70e4ff7a0e103c73d3345ce32b2ed",
+  "report_bytes": 11919,
+  "report_lines": 115,
+  "report_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-llama-j0-il5-sequential-10xb100-v1/local/odebf/reports/p1r52-llama-j0-il5-sequential-10xb100-v1/p1r52-llama-j0-il5-sequential-10xb100-terminal-report-ko.md",
+  "report_sha256": "31fc39a34491e6e68e4b24c6bab9b260f2eff8cc7dd60645b44d26979aabe834",
+  "root_digest": "2653d1832d309ca37ca6aafc8b67f00e74b5be813227d8d5d2f1e0a745a4defb",
+  "scheduler": {
+    "elapsed": "04:47:21",
+    "end": "2026-08-21T16:50:43",
+    "exit_code": "0:0",
+    "job_id": 22212,
+    "start": "2026-08-21T12:03:22",
+    "state": "COMPLETED"
+  },
+  "schema": "ode-edit-s05-p1r52-il5-sequential-rooted-receipt/v1",
+  "scientific_promotion": false,
+  "status": "TERMINAL_FACTUAL_REPORT_COMPLETE"
+}

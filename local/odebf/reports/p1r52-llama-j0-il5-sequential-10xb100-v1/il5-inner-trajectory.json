@@ -1,0 +1,340 @@
+{
+  "identity_sha256": "ff27508d8fa29a3aaf9fef6b4a9d5a0f057ba48d0e7ebedf16c2724b5896740c",
+  "observation_added_backward_generation_action_influence": [
+    0,
+    0,
+    0
+  ],
+  "observation_model_forward_count": 40000,
+  "row_count": 5,
+  "rows": [
+    {
+      "accepted_z_rephrase_nll": {
+        "count": 16000,
+        "mean": 3.0451587109938263,
+        "median": 1.6484375,
+        "p90": 8.3125,
+        "raw_max": 18.875,
+        "raw_min": 0.000118255615234375
+      },
+      "accepted_z_rewrite_nll": {
+        "count": 8000,
+        "mean": 0.7271028514876962,
+        "median": 0.00616455078125,
+        "p90": 2.4375,
+        "raw_max": 17.5,
+        "raw_min": 1.7404556274414062e-05
+      },
+      "cumulative_outer_entry_movement_norm": {
+        "count": 8000,
+        "mean": 0.11146977989299685,
+        "median": 0.0076527835711905825,
+        "p90": 0.5398189617114957,
+        "raw_max": 3.5207860130350013,
+        "raw_min": 0.0
+      },
+      "inner_index_1based": 1,
+      "inner_step_movement_norm": {
+        "count": 8000,
+        "mean": 0.11146977989299685,
+        "median": 0.0076527835711905825,
+        "p90": 0.5398189617114957,
+        "raw_max": 3.5207860130350013,
+        "raw_min": 0.0
+      },
+      "request_count": 8000,
+      "row_count": 80,
+      "target_objective_nll": {
+        "count": 8000,
+        "mean": 0.6824219351187485,
+        "median": 0.007499305065721273,
+        "p90": 2.3271446228027397,
+        "raw_max": 15.20654296875,
+        "raw_min": 0.00011568427726160735
+      },
+      "z_eff": [
+        7418,
+        8000
+      ],
+      "z_gen": [
+        12379,
+        16000
+      ],
+      "z_gen_strict": [
+        5378,
+        8000
+      ],
+      "z_rephrase_accuracy": [
+        7453,
+        16000
+      ],
+      "z_rephrase_accuracy_strict": [
+        2358,
+        8000
+      ]
+    },
+    {
+      "accepted_z_rephrase_nll": {
+        "count": 16000,
+        "mean": 2.725420016348362,
+        "median": 1.40234375,
+        "p90": 7.409375000000011,
+        "raw_max": 18.25,
+        "raw_min": 0.00012302398681640625
+      },
+      "accepted_z_rewrite_nll": {
+        "count": 8000,
+        "mean": 0.30929108448326587,
+        "median": 0.005828857421875,
+        "p90": 0.3966796875000007,
+        "raw_max": 14.375,
+        "raw_min": 1.7404556274414062e-05
+      },
+      "cumulative_outer_entry_movement_norm": {
+        "count": 8000,
+        "mean": 0.16861368798247936,
+        "median": 0.01385962417500814,
+        "p90": 0.7454595962665467,
+        "raw_max": 3.5792480860924436,
+        "raw_min": 0.0
+      },
+      "inner_index_1based": 2,
+      "inner_step_movement_norm": {
+        "count": 8000,
+        "mean": 0.09315911817522023,
+        "median": 0.006928181721178435,
+        "p90": 0.2790694508238901,
+        "raw_max": 3.166090126585838,
+        "raw_min": 0.0
+      },
+      "request_count": 8000,
+      "row_count": 80,
+      "target_objective_nll": {
+        "count": 8000,
+        "mean": 0.2882514453393587,
+        "median": 0.007002858677878976,
+        "p90": 0.4559988170862207,
+        "raw_max": 12.031221389770508,
+        "raw_min": 0.0001116711282520555
+      },
+      "z_eff": [
+        7829,
+        8000
+      ],
+      "z_gen": [
+        13074,
+        16000
+      ],
+      "z_gen_strict": [
+        5706,
+        8000
+      ],
+      "z_rephrase_accuracy": [
+        7803,
+        16000
+      ],
+      "z_rephrase_accuracy_strict": [
+        2454,
+        8000
+      ]
+    },
+    {
+      "accepted_z_rephrase_nll": {
+        "count": 16000,
+        "mean": 2.5533458817228674,
+        "median": 1.171875,
+        "p90": 7.0,
+        "raw_max": 18.25,
+        "raw_min": 0.0001125335693359375
+      },
+      "accepted_z_rewrite_nll": {
+        "count": 8000,
+        "mean": 0.11880976611375808,
+        "median": 0.0053863525390625,
+        "p90": 0.07861328125,
+        "raw_max": 14.375,
+        "raw_min": 1.7404556274414062e-05
+      },
+      "cumulative_outer_entry_movement_norm": {
+        "count": 8000,
+        "mean": 0.2240450237727591,
+        "median": 0.020349811238698397,
+        "p90": 0.857976777286411,
+        "raw_max": 4.77858402750683,
+        "raw_min": 0.0
+      },
+      "inner_index_1based": 3,
+      "inner_step_movement_norm": {
+        "count": 8000,
+        "mean": 0.10118052964876069,
+        "median": 0.0069160157464220684,
+        "p90": 0.14988223231006675,
+        "raw_max": 4.123188017644566,
+        "raw_min": 0.0
+      },
+      "request_count": 8000,
+      "row_count": 80,
+      "target_objective_nll": {
+        "count": 8000,
+        "mean": 0.1088440951735929,
+        "median": 0.006472197128459811,
+        "p90": 0.09102663919329644,
+        "raw_max": 10.627281188964844,
+        "raw_min": 0.00010914902668446302
+      },
+      "z_eff": [
+        7960,
+        8000
+      ],
+      "z_gen": [
+        13361,
+        16000
+      ],
+      "z_gen_strict": [
+        5872,
+        8000
+      ],
+      "z_rephrase_accuracy": [
+        8203,
+        16000
+      ],
+      "z_rephrase_accuracy_strict": [
+        2605,
+        8000
+      ]
+    },
+    {
+      "accepted_z_rephrase_nll": {
+        "count": 16000,
+        "mean": 2.483156615264714,
+        "median": 1.078125,
+        "p90": 6.90625,
+        "raw_max": 18.25,
+        "raw_min": 0.00012302398681640625
+      },
+      "accepted_z_rewrite_nll": {
+        "count": 8000,
+        "mean": 0.05514398165792227,
+        "median": 0.004974365234375,
+        "p90": 0.045654296875,
+        "raw_max": 14.375,
+        "raw_min": 1.7404556274414062e-05
+      },
+      "cumulative_outer_entry_movement_norm": {
+        "count": 8000,
+        "mean": 0.24466198231504097,
+        "median": 0.026405262698901383,
+        "p90": 0.9014724208339149,
+        "raw_max": 5.026044137945515,
+        "raw_min": 0.0
+      },
+      "inner_index_1based": 4,
+      "inner_step_movement_norm": {
+        "count": 8000,
+        "mean": 0.05491975852816658,
+        "median": 0.006491570422335613,
+        "p90": 0.06910547661623408,
+        "raw_max": 4.4802387933228855,
+        "raw_min": 0.0
+      },
+      "request_count": 8000,
+      "row_count": 80,
+      "target_objective_nll": {
+        "count": 8000,
+        "mean": 0.05104010116646441,
+        "median": 0.006010120967403054,
+        "p90": 0.04351091384887695,
+        "raw_max": 10.325225830078125,
+        "raw_min": 0.00010914902668446302
+      },
+      "z_eff": [
+        7978,
+        8000
+      ],
+      "z_gen": [
+        13470,
+        16000
+      ],
+      "z_gen_strict": [
+        5947,
+        8000
+      ],
+      "z_rephrase_accuracy": [
+        8411,
+        16000
+      ],
+      "z_rephrase_accuracy_strict": [
+        2705,
+        8000
+      ]
+    },
+    {
+      "accepted_z_rephrase_nll": {
+        "count": 16000,
+        "mean": 2.4570259283408524,
+        "median": 1.0234375,
+        "p90": 6.875,
+        "raw_max": 18.25,
+        "raw_min": 0.00011110305786132812
+      },
+      "accepted_z_rewrite_nll": {
+        "count": 8000,
+        "mean": 0.03746193648129702,
+        "median": 0.004638671875,
+        "p90": 0.03466796875,
+        "raw_max": 14.375,
+        "raw_min": 1.7404556274414062e-05
+      },
+      "cumulative_outer_entry_movement_norm": {
+        "count": 8000,
+        "mean": 0.2543077668308081,
+        "median": 0.03183162429027456,
+        "p90": 0.9253132108392473,
+        "raw_max": 5.044071818699935,
+        "raw_min": 0.0
+      },
+      "inner_index_1based": 5,
+      "inner_step_movement_norm": {
+        "count": 8000,
+        "mean": 0.024693131587700718,
+        "median": 0.006060061024638819,
+        "p90": 0.03212249347768975,
+        "raw_max": 4.142946541168782,
+        "raw_min": 0.0
+      },
+      "request_count": 8000,
+      "row_count": 80,
+      "target_objective_nll": {
+        "count": 8000,
+        "mean": 0.033465530803739055,
+        "median": 0.005574370268732309,
+        "p90": 0.03134688809514047,
+        "raw_max": 10.325225830078125,
+        "raw_min": 0.00010914902668446302
+      },
+      "z_eff": [
+        7983,
+        8000
+      ],
+      "z_gen": [
+        13500,
+        16000
+      ],
+      "z_gen_strict": [
+        5973,
+        8000
+      ],
+      "z_rephrase_accuracy": [
+        8492,
+        16000
+      ],
+      "z_rephrase_accuracy_strict": [
+        2749,
+        8000
+      ]
+    }
+  ],
+  "schema": "ode-edit-s05-p1r52-il5-sequential-inner-trajectory/v1",
+  "source_inner_rows": 400,
+  "source_request_inner_rows": 40000
+}

@@ -1,0 +1,230 @@
+{
+  "cache_history_transactions": [
+    {
+      "alpha_append": 100,
+      "alpha_consume": 0,
+      "alpha_history_width": 0,
+      "anchor_append": 100,
+      "history_width_at_entry": 0,
+      "round": 1,
+      "transaction_commit": 1,
+      "transaction_rollback": 0
+    },
+    {
+      "alpha_append": 100,
+      "alpha_consume": 100,
+      "alpha_history_width": 100,
+      "anchor_append": 100,
+      "history_width_at_entry": 100,
+      "round": 2,
+      "transaction_commit": 1,
+      "transaction_rollback": 0
+    },
+    {
+      "alpha_append": 100,
+      "alpha_consume": 200,
+      "alpha_history_width": 200,
+      "anchor_append": 100,
+      "history_width_at_entry": 200,
+      "round": 3,
+      "transaction_commit": 1,
+      "transaction_rollback": 0
+    },
+    {
+      "alpha_append": 100,
+      "alpha_consume": 300,
+      "alpha_history_width": 300,
+      "anchor_append": 100,
+      "history_width_at_entry": 300,
+      "round": 4,
+      "transaction_commit": 1,
+      "transaction_rollback": 0
+    },
+    {
+      "alpha_append": 100,
+      "alpha_consume": 400,
+      "alpha_history_width": 400,
+      "anchor_append": 100,
+      "history_width_at_entry": 400,
+      "round": 5,
+      "transaction_commit": 1,
+      "transaction_rollback": 0
+    },
+    {
+      "alpha_append": 100,
+      "alpha_consume": 500,
+      "alpha_history_width": 500,
+      "anchor_append": 100,
+      "history_width_at_entry": 500,
+      "round": 6,
+      "transaction_commit": 1,
+      "transaction_rollback": 0
+    },
+    {
+      "alpha_append": 100,
+      "alpha_consume": 600,
+      "alpha_history_width": 600,
+      "anchor_append": 100,
+      "history_width_at_entry": 600,
+      "round": 7,
+      "transaction_commit": 1,
+      "transaction_rollback": 0
+    },
+    {
+      "alpha_append": 100,
+      "alpha_consume": 700,
+      "alpha_history_width": 700,
+      "anchor_append": 100,
+      "history_width_at_entry": 700,
+      "round": 8,
+      "transaction_commit": 1,
+      "transaction_rollback": 0
+    },
+    {
+      "alpha_append": 100,
+      "alpha_consume": 800,
+      "alpha_history_width": 800,
+      "anchor_append": 100,
+      "history_width_at_entry": 800,
+      "round": 9,
+      "transaction_commit": 1,
+      "transaction_rollback": 0
+    },
+    {
+      "alpha_append": 100,
+      "alpha_consume": 900,
+      "alpha_history_width": 900,
+      "anchor_append": 100,
+      "history_width_at_entry": 900,
+      "round": 10,
+      "transaction_commit": 1,
+      "transaction_rollback": 0
+    }
+  ],
+  "edit_compute_totals": {
+    "autograd_invocations": 44500,
+    "backward_calls": 44500,
+    "capture_forward_calls": 4500,
+    "dense_assembly_count": 0,
+    "full_weight_hash_count": 0,
+    "hot_hook_dense_assembly_count": 0,
+    "hot_hook_full_weight_hash_count": 0,
+    "logical_forward_groups": 2257,
+    "materialization_count": 80,
+    "model_forward_calls": 136850,
+    "padded_tokens": 16189952,
+    "physical_microbatch_graphs": 136850,
+    "processed_tokens": 29262009,
+    "slope_backward_calls": 4000,
+    "target_backward_calls": 40500
+  },
+  "edit_wall_by_phase_seconds": {
+    "accepted_state_refresh": 138.97917523421347,
+    "field_and_physical_slope": 1430.1143887992948,
+    "finite_demand_endpoint_forward": 1254.351729058195,
+    "functional_preservation_basis": 0.0008625057525932789,
+    "initial_physical_capture": 15.076136210933328,
+    "physical_materialization": 164.67829485749826,
+    "routing_solve": 3.392853904515505,
+    "scalar_corrector_endpoint_forward": 1182.8176699890755,
+    "target_depth_inner_z_telemetry": 4940.126201111358,
+    "target_depth_outer_w_z_telemetry": 968.4030510699376,
+    "target_gradient": 11708.64082180895,
+    "terminal_objective": 31.090347266290337
+  },
+  "identity_sha256": "7545871f8fd74fae6ce40b0754451e169c3b925a3065772dd00f7a415ed24f26",
+  "il5_over_il1_wall_ratio": 3.0897538049567026,
+  "integrity": {
+    "W0_bytes_exact": true,
+    "W0_pointer_exact": true,
+    "accepted_transitions": 80,
+    "action_freeze": 10,
+    "batch_entry_evaluator": 0,
+    "inner_controller_heldout": 0,
+    "inner_observation_backward_generation_action": [
+      0,
+      0,
+      0
+    ],
+    "inner_observation_forward": 40000,
+    "inner_rows": 400,
+    "inner_writer_materialization": 0,
+    "outer_materialization": 80,
+    "outer_rows": 80,
+    "request_inner_rows": 40000,
+    "requests": 1000,
+    "retry_backtracking": [
+      0,
+      0
+    ],
+    "rounds": 10
+  },
+  "scheduler": {
+    "elapsed": "04:47:21",
+    "end": "2026-08-21T16:50:43",
+    "exit_code": "0:0",
+    "job_id": 22212,
+    "start": "2026-08-21T12:03:22",
+    "state": "COMPLETED"
+  },
+  "schema": "ode-edit-s05-p1r52-il5-sequential-compute-integrity/v1",
+  "sealed_il1_detailed_same_accounting_F_B": "NOT_RECORDED_IN_CANONICAL_REFERENCE_PACKAGE",
+  "sealed_il1_wall_seconds": 5567.2,
+  "source": {
+    "failed_job": 22170,
+    "failed_root_preserved": true,
+    "head": "e21a6a93db716c794a19f99da5b54d3558aa0776",
+    "same_stream_order": true,
+    "technical_fix": "OBSERVATION_ONLY_BRACE_SAFE_SUBJECT_LOOKUP",
+    "tree": "c600adeae46f68a86cdd98f9daa91e6efab970ba"
+  },
+  "terminal_job_compute": {
+    "accepted_t": 0.0,
+    "completed_correction_cycles": 0,
+    "completed_k_total": 0,
+    "component_gpu_seconds": {
+      "batch_terminal_checkpoint_evaluator": 0.0,
+      "context_generation_twice": 0.9168858032226562,
+      "final_W10_B1000_evaluator": 0.0,
+      "model_load": 9.4972734375,
+      "post_commit_history_key_capture": 0.0,
+      "theta0_teacher_population": 0.871161376953125
+    },
+    "component_wall_seconds": {
+      "batch_terminal_checkpoint_evaluator": 662.3868714347482,
+      "context_generation_twice": 0.916824892628938,
+      "final_W10_B1000_evaluator": 122.31657339865342,
+      "model_load": 9.497048192191869,
+      "post_commit_history_key_capture": 140.64510160963982,
+      "theta0_teacher_population": 0.871095011010766
+    },
+    "counters": {
+      "backward": 0,
+      "commit": 0,
+      "constraint_jvp": 0,
+      "constraint_vjp": 0,
+      "dense_fp32_full_delta_live": 0,
+      "effective_bf16_weight_peak_live": 0,
+      "evaluator_forward": 6500,
+      "evaluator_tokens": 1955660,
+      "fallback": 0,
+      "functional_h_replay": 0,
+      "functional_p_replay": 0,
+      "model_forward": 442,
+      "native_baseline_dense_delta_bytes_peak": 0,
+      "native_baseline_dense_delta_peak_live": 0,
+      "processed_tokens": 517957,
+      "qp_certificate": 0,
+      "qp_solve": 0,
+      "reject": 0,
+      "rollback": 0,
+      "target_backward": 0,
+      "trial": 0
+    },
+    "direct_z_diagnostics": [],
+    "host_maxrss_kib": 0,
+    "peak_allocated_bytes": 0,
+    "peak_reserved_bytes": 0
+  },
+  "total_wall_seconds": 17201.277382954955
+}
