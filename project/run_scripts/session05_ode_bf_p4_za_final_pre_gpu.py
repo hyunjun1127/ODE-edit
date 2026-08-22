@@ -12,13 +12,14 @@ import socket
 import stat
 import subprocess
 import sys
+from typing import Mapping
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from project.run_scripts.alphaedit_runtime_path_seal import canonical_hash
+from project.run_scripts.ode_bf.contracts import canonical_hash
 from project.run_scripts.ode_bf.p4_hf_consumed_closure import (
     EXPECTED_ALIASES,
     load_p4_hf_consumed_closure_seal,
@@ -55,6 +56,22 @@ HPARAMS = {
         "82d04976c4ab65e67c537ac3bd1b04d42c8f7527e2a749bdefcce63e43b995c3",
     ),
 }
+
+
+def _write_or_verify_once(path: Path, value: Mapping[str, object]) -> str:
+    payload = json.dumps(
+        value,
+        ensure_ascii=False,
+        allow_nan=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8") + b"\n"
+    expected = hashlib.sha256(payload).hexdigest()
+    if path.exists() or path.is_symlink():
+        if path.is_symlink() or not path.is_file() or path.read_bytes() != payload:
+            raise FileExistsError("P4 ZA create-once receipt differs")
+        return expected
+    return _atomic_write_once(path, value)
 
 
 def _sha256(path: Path) -> str:
@@ -169,7 +186,7 @@ def build_receipts(
     transfer = preflight_transferred_stream_v2(
         extract_root, archive=archive, dataset_path=DATASET
     )
-    _atomic_write_once(transfer_receipt_path, transfer)
+    _write_or_verify_once(transfer_receipt_path, transfer)
 
     source = _source_gate(REPO_ROOT / SOURCE_MANIFEST, source_head)
     numerical, numerical_sha = _load_rooted(
@@ -307,7 +324,7 @@ def build_receipts(
         "slurm_submit_count": 0,
     }
     final["identity_sha256"] = canonical_hash(final)
-    _atomic_write_once(final_receipt_path, final)
+    _write_or_verify_once(final_receipt_path, final)
     return transfer, final
 
 

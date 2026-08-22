@@ -62,8 +62,8 @@
     },
     {
       "path": "project/run_scripts/session05_ode_bf_p4_za_final_pre_gpu.py",
-      "sha256": "5fe1112a40fb7c9779a566073856f2e58d3bc3dae7a75c2c5c0232796329d4fe",
-      "size": 12219
+      "sha256": "81b9db43a6e8ec6c1b9fa5aa4ee42f207268fe0b3a5567c499f2d404d00b3eae",
+      "size": 12813
     },
     {
       "path": "project/run_scripts/session05_ode_bf_p4_za_pilot.py",
@@ -72,7 +72,7 @@
     }
   ],
   "instruction_id": "ODEEDIT-S05-P4-TARGET-SIDE-SMOOTH-SEMANTIC-LOGODDS-BARRIER-V1",
-  "root_digest": "9fc864ff95e7d4ab6b09d38e1fd1d14500042671650b6ec0ce986791cb601cde",
+  "root_digest": "5bd4ccc910d607ac46275e07efd47c191068a049acb3870d637d3cc7ffb0e9c9",
   "schema_version": "ode-edit-s05-p4-za-pilot-source-manifest/v1",
   "source_parent": "f199ca3b519ef5e0387075cd4c77cf55ce494bc0"
 }
