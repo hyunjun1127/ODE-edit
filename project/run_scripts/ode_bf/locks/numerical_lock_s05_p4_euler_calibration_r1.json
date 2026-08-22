@@ -45,7 +45,8 @@
     "B1_future_reentry_allowed": false
   },
   "runtime": {
-    "models": ["llama3-8b-inst", "qwen2.5-7b-inst"],
+    "scientific_scope_models": ["llama3-8b-inst"],
+    "qwen_scientific_input_count": 0,
     "arms": ["Z+", "Z±"],
     "model_or_arm_method_branch_count": 0,
     "gpu_cells": 2,
@@ -60,11 +61,19 @@
     "parameter_gradient_count": 0,
     "loss_backward_count": 0
   },
-  "stage_1_selection_receipt": {
+  "scientific_scope": {
+    "label": "LLAMA_ONLY_STAGE2_PLUS",
+    "primary_model": "llama3-8b-inst",
+    "qwen_scope": "USER_DIRECTED_SCIENTIFIC_SCOPE_EXCLUSION",
+    "qwen_metric_input_count": 0,
+    "qwen_numerical_lock_influence_count": 0,
+    "qwen_za_zb_submission_count": 0
+  },
+  "stage_1_llama_selection_receipt": {
     "status": "STAGE1_PASS_CLOSED_BRACKET",
     "source_head": "bddb5dce6b19b4d2cfebbe364c291d6903452302",
     "slurm_array_job_id": "22829",
-    "common_admissibility": {
+    "llama_admissibility": {
       "0.0625": true,
       "0.25": true,
       "1": false,
@@ -74,13 +83,41 @@
     "closed_bracket_absent": false,
     "llama_terminal_identity": "8bda03a9d5a9cc58a36928145afa11dadc083b2480bdec5cbb053a3204a7c059",
     "llama_terminal_file_sha256": "53cdf7937684d12046db1320cdfda8be4297ebed1fac7e16a363cd14e2b020d4",
-    "qwen_terminal_identity": "ca21708321a9886099fcb58eb9c63e89b3f286e5e546e7fcdd53bbe9698c9518",
-    "qwen_terminal_file_sha256": "6d5cce560fd688e0673ecd2e2ce073caa447dd3cda3378fbd8cdd23ff749d73e",
     "selection_model_branch_count": 0,
     "tolerance_or_grid_change_count": 0
   },
+  "stage_2_llama_gate_receipt": {
+    "status": "SCIENTIFIC_HOLD",
+    "hold_reason": "Euler discretization refinement gate failure at locked T_z=1.25",
+    "source_head": "f9cc0c8c511a34cefd7476276d5632a654d44b4f",
+    "slurm_array_job_id": "22833",
+    "llama_terminal_identity": "a4fe250550132f419c3a9eee1d1657a41abdea5e370f97303074f47b1e18e1c3",
+    "llama_terminal_file_sha256": "91f2d26029a663258d10f20f22c0d66cefbb36b8512dc752a2517dcf0e04d319",
+    "Z_plus_comparison_identity": "14ae961026fc8edcabb03a80484275aa817c968a99eba4fafda3e1f61955b8da",
+    "Z_plus_discrepancy": {
+      "mean": 0.5997660756111145,
+      "median": 0.5998193025588989,
+      "p90": 0.8199989199638367,
+      "max": 0.8374960422515869,
+      "threshold_pass": false
+    },
+    "Z_plus_minus_comparison_identity": "c28e77d219fc144645e085ac03a2882108f417cf676ceffdae39f88ef816230d",
+    "Z_plus_minus_discrepancy": {
+      "mean": 0.722632646560669,
+      "median": 0.7378959655761719,
+      "p90": 0.8652667999267578,
+      "max": 1.022678017616272,
+      "threshold_pass": false
+    },
+    "finite_W0_FP32_Adam0_pass": true,
+    "retry_regrid_horizon_tolerance_change_count": 0,
+    "analysis_manifest_root": "fa433d4022517c0935f94ea6a4f0cb1ee0b9d443599e425525ff885079b68670",
+    "analysis_receipt_identity": "92d0eb6692fdd2819b39d9134990453e5d72aaafa61c862e8b1f1e12d0ddfb9a"
+  },
   "selected_h": 0.25,
   "selected_target_horizon": 1.25,
-  "status": "CALIBRATION_STAGE2_AUTHORIZED",
-  "root_digest": "b60e1b442a96700e5bccbe5d72ab4be0be08128f740fbbc707c0165c653036af"
+  "za_zb_submission_authorized": false,
+  "scientific_promotion": false,
+  "status": "CALIBRATION_TERMINAL_SCIENTIFIC_HOLD",
+  "root_digest": "2d9034eb4ceb59f12469388679663710c48ed0fab394613f8cd1769eebe9a577"
 }

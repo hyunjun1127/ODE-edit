@@ -1,0 +1,17 @@
+{
+  "B1_confirmatory_eligibility": false,
+  "hold_reason": "Euler discretization refinement gate failure at locked T_z=1.25",
+  "identity_sha256": "92d0eb6692fdd2819b39d9134990453e5d72aaafa61c862e8b1f1e12d0ddfb9a",
+  "instruction_id": "ODEEDIT-S05-P4-EULER-PROJECTED-SEMANTIC-ODE-V1",
+  "llama_analysis_root": "da8663cd9815d204b9efa853fcbaa24d9c3dd535530ee6c7143e654f6936818c",
+  "manifest_root": "fa433d4022517c0935f94ea6a4f0cb1ee0b9d443599e425525ff885079b68670",
+  "manifest_sha256": "a152292659e4509f59374db94bda930fa69f7796fe142a46cabb23b3a304a37b",
+  "output_root": "/data/janghj/ODE-edit/local/worktrees/p4-euler-e0/experiment-reports/servers/server4/p4-euler-stage2-llama-only-2026-08-22",
+  "qwen_archival_exclusion_identity": "76beef6f03bd046da12a48c97e9cf82cac937b348f29239d3a9518a641749b21",
+  "qwen_scientific_input_count": 0,
+  "schema": "ode-edit-s05-p4-euler-stage2-llama-only-rooted-receipt/v1",
+  "scientific_promotion": false,
+  "scope": "LLAMA_ONLY_STAGE2_PLUS",
+  "status": "TERMINAL_SCIENTIFIC_HOLD",
+  "za_zb_submission_count": 0
+}

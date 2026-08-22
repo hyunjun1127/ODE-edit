@@ -1,0 +1,3 @@
+arm,requests,d_i_mean,d_i_median,d_i_p90,d_i_max,threshold_median,threshold_p90,threshold_max,threshold_pass,M5_clamp_hits,M5_clamp_denominator,M5_clamp_fraction,M10_clamp_hits,M10_clamp_denominator,M10_clamp_fraction
+Z+,10,0.5997660756111145,0.5998193025588989,0.8199989199638367,0.8374960422515869,0.1,0.25,0.5,False,0,50,0.0,0,100,0.0
+Z±,10,0.722632646560669,0.7378959655761719,0.8652667999267578,1.022678017616272,0.1,0.25,0.5,False,6,50,0.12,0,100,0.0

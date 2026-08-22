@@ -1,0 +1,157 @@
+{
+  "archival_exclusion_output": {
+    "bytes": 915,
+    "lines": 21,
+    "relative_path": "qwen-archival-exclusion.json",
+    "role": "NON_SCIENTIFIC_ARCHIVAL_EXCLUSION",
+    "sha256": "14b89ceecfbdcef6625751befc995f2770a29d574c09eac9fc7e01b3353c3916"
+  },
+  "instruction_id": "ODEEDIT-S05-P4-EULER-PROJECTED-SEMANTIC-ODE-V1",
+  "outputs": [
+    {
+      "bytes": 3624,
+      "lines": 96,
+      "relative_path": "llama-analysis.json",
+      "role": "LLAMA_SCIENTIFIC_REPORT",
+      "sha256": "c4d3d3b6c8294796e63191fc6f14d16663deb98b70f00da9a4ff4e6a59d9254d"
+    },
+    {
+      "bytes": 575,
+      "lines": 5,
+      "relative_path": "llama-compute.csv",
+      "role": "LLAMA_SCIENTIFIC_REPORT",
+      "sha256": "69329bb015053369e6fa5802da89d46ece740ae56967fb4784062495c63f56fe"
+    },
+    {
+      "bytes": 8451,
+      "lines": 21,
+      "relative_path": "llama-endpoint-requests.csv",
+      "role": "LLAMA_SCIENTIFIC_REPORT",
+      "sha256": "42176cfd24a8ac1bc95786d74f612ff3ebadaa7c4f1d23e56a2a13662f5a2957"
+    },
+    {
+      "bytes": 458,
+      "lines": 3,
+      "relative_path": "llama-endpoint-summary.csv",
+      "role": "LLAMA_SCIENTIFIC_REPORT",
+      "sha256": "e8efc4e4b6c5e26d63f0b0d82f81dd7907278bb3cefc878b3ef8d1ab6746b2e7"
+    },
+    {
+      "bytes": 18130,
+      "lines": 31,
+      "relative_path": "llama-microstep-ledger.csv",
+      "role": "LLAMA_SCIENTIFIC_REPORT",
+      "sha256": "c347c44c76f3fd8c1c5a2284cb7312fc1167f104fff4c8ba2039cd8e43778da8"
+    },
+    {
+      "bytes": 2983,
+      "lines": 9,
+      "relative_path": "llama-stage1-h025-curve.csv",
+      "role": "LLAMA_SCIENTIFIC_REPORT",
+      "sha256": "f86825d638222e5fdf0f4baf67dfe127c9309b077c6abbf3dc6a49f004cf4752"
+    },
+    {
+      "bytes": 1787,
+      "lines": 61,
+      "relative_path": "llama-stage1-prefix-distances.csv",
+      "role": "LLAMA_SCIENTIFIC_REPORT",
+      "sha256": "98ade190863d08f82d07788eacbe03ea4f2556ceec604be59da476b041c3706f"
+    },
+    {
+      "bytes": 3827,
+      "lines": 43,
+      "relative_path": "report-ko.md",
+      "role": "LLAMA_SCIENTIFIC_REPORT",
+      "sha256": "f2a11bf2f6ba3d26b03fd8557d046b6d73edf05dced75aed17eb8c9feaac38f1"
+    }
+  ],
+  "qwen_scientific_input_count": 0,
+  "root_digest": "fa433d4022517c0935f94ea6a4f0cb1ee0b9d443599e425525ff885079b68670",
+  "schema": "ode-edit-s05-p4-euler-stage2-llama-only-analysis-manifest/v1",
+  "scientific_input_model_aliases": [
+    "llama3-8b-inst"
+  ],
+  "scientific_inputs": [
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage1-bddb5dc-r4/stage1-llama3-8b-inst/snapshots/Zplus/h-0.25-M1.pt",
+      "sha256": "529e0215b5b1c6d227f5af40761fec50b60ca5158e146d1f42409585a2d1ec5d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage1-bddb5dc-r4/stage1-llama3-8b-inst/snapshots/Zplus/h-0.25-M10.pt",
+      "sha256": "178f0bc8391f2d6c6fe38ee7c42fbb2321ca93edc39ea0a28012438535ffdb9c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage1-bddb5dc-r4/stage1-llama3-8b-inst/snapshots/Zplus/h-0.25-M3.pt",
+      "sha256": "410e6c2234ad54bc0077df4277efc7859ef6d3b782dd3bdcb2c39696b5a35e14"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage1-bddb5dc-r4/stage1-llama3-8b-inst/snapshots/Zplus/h-0.25-M5.pt",
+      "sha256": "9cdeec90dd6eac2872b6ca3716bdf162d65c6cd5b41535b694b78f1a81c00acc"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage1-bddb5dc-r4/stage1-llama3-8b-inst/snapshots/Zpm/h-0.25-M1.pt",
+      "sha256": "cd6a90ce102ee3244903b5aa7c06ce92c08914ef201792f2562697085565f152"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage1-bddb5dc-r4/stage1-llama3-8b-inst/snapshots/Zpm/h-0.25-M10.pt",
+      "sha256": "6f5110bfc79d5dd4cc0927f8a062fff7d08c0b9ccf17f8466138c70534c56db6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage1-bddb5dc-r4/stage1-llama3-8b-inst/snapshots/Zpm/h-0.25-M3.pt",
+      "sha256": "e8afa62e64ef9038781f41241e1bd957794c38c97aface96c07491b9202fb723"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage1-bddb5dc-r4/stage1-llama3-8b-inst/snapshots/Zpm/h-0.25-M5.pt",
+      "sha256": "5128035c94b936f710313072480f048ffaf543c1d8e9347771a4c9dab327febf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage1-bddb5dc-r4/stage1-llama3-8b-inst/trajectories/Zplus/h-0.25.json",
+      "sha256": "5f2015c45ebf2cd3ed7a63c80e3cbd96c2a6016e9240d8f35f90e5413bc9cfe3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage1-bddb5dc-r4/stage1-llama3-8b-inst/trajectories/Zpm/h-0.25.json",
+      "sha256": "38178621dcd811eaf0c4a802ed4e50a844a2451a412dd846989f613f01d72740"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage2-f9cc0c8-r1/stage2-llama3-8b-inst/comparisons/Zplus.json",
+      "sha256": "5a28e51407fb181172eb2c062d5aab6c492a3755a047d08ccaccdee9fc91dbf2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage2-f9cc0c8-r1/stage2-llama3-8b-inst/comparisons/Zpm.json",
+      "sha256": "11169c7a9567278d494f48ba66148ff65d8874c36a24a5841c4cbef78a17de11"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage2-f9cc0c8-r1/stage2-llama3-8b-inst/snapshots/Zplus/M10.pt",
+      "sha256": "3c23dc6270f7723b654ce18da3a2725143b5656cc2a1bc8f0cfdb0b904656341"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage2-f9cc0c8-r1/stage2-llama3-8b-inst/snapshots/Zplus/M5.pt",
+      "sha256": "34f8c785f7224cb42f5fc121056cbe4650ccbd9b2acce155b6303e94d8bf0687"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage2-f9cc0c8-r1/stage2-llama3-8b-inst/snapshots/Zpm/M10.pt",
+      "sha256": "ffb3b313ab09f0e371a1f5e3348bab42484b59a78d2cb3c531b73a3889e5182f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage2-f9cc0c8-r1/stage2-llama3-8b-inst/snapshots/Zpm/M5.pt",
+      "sha256": "715a71644da65414cda82f3bbf69729442eb19f31b6393a6c39fe89ec3d5ec4d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage2-f9cc0c8-r1/stage2-llama3-8b-inst/trajectories/Zplus/M10.json",
+      "sha256": "824b564ca975830663dc85ab0820d81d123baa580972b51d74c098c2d840f958"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage2-f9cc0c8-r1/stage2-llama3-8b-inst/trajectories/Zplus/M5.json",
+      "sha256": "d60c7e35e6385b670e5455feb2e7b82e5161aab7e82a953d3db9261523b59fa3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage2-f9cc0c8-r1/stage2-llama3-8b-inst/trajectories/Zpm/M10.json",
+      "sha256": "b402b0ff75ab80aa7d5baa40c8469a0047650d763a1b0c14afa0651fd5e272be"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage2-f9cc0c8-r1/stage2-llama3-8b-inst/trajectories/Zpm/M5.json",
+      "sha256": "e35cb4f3a8dcda44b9d8695b0693addb88c66876e25f06e09bb78fb398280c76"
+    }
+  ],
+  "scope": "LLAMA_ONLY_STAGE2_PLUS"
+}

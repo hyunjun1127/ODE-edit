@@ -1,0 +1,5 @@
+stage,arm,M,h,T_z,requests,executed_microsteps,autograd_grad_calls,duplicate_evaluations,clamp_hits,clamp_denominator_request_microsteps,clamp_fraction,inner_wall_seconds,W_pointer_version_changes,W_bytes_changes,optimizer,adam_states,backward_calls,parameter_gradients
+Stage2,Z+,5,0.25,1.25,10,5,5,0,0,50,0.0,16.94398140627891,0,0,NONE,0,0,0
+Stage2,Z+,10,0.125,1.25,10,10,10,0,0,100,0.0,32.15630011446774,0,0,NONE,0,0,0
+Stage2,Z±,5,0.25,1.25,10,5,5,0,6,50,0.12,21.531346743926406,0,0,NONE,0,0,0
+Stage2,Z±,10,0.125,1.25,10,10,10,0,0,100,0.0,42.5477645220235,0,0,NONE,0,0,0

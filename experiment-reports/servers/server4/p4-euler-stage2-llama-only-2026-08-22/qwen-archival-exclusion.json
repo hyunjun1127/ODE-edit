@@ -1,0 +1,21 @@
+{
+  "identity_sha256": "76beef6f03bd046da12a48c97e9cf82cac937b348f29239d3a9518a641749b21",
+  "instruction_id": "ODEEDIT-S05-P4-EULER-PROJECTED-SEMANTIC-ODE-V1",
+  "labels": [
+    "CALIBRATION_DIAGNOSTIC_ONLY",
+    "SCIENTIFIC_INTERPRETATION_EXCLUDED"
+  ],
+  "member_count": 14,
+  "member_root": "4d7776e9dc3b67379285e2c8b8068c307a5a19f5e6ef69f0b9823293c2232485",
+  "metric_aggregate_count": 0,
+  "numerical_lock_influence_count": 0,
+  "payload_parse_count": 0,
+  "raw_root_preserved": true,
+  "root": "/data/janghj/ODE-edit/local/odebf/slurm/p4-euler-calibration-stage2-f9cc0c8-r1/stage2-qwen2.5-7b-inst",
+  "schema": "ode-edit-s05-p4-euler-qwen-stage2-archival-exclusion/v1",
+  "scientific_input_count": 0,
+  "status": "USER_DIRECTED_SCIENTIFIC_SCOPE_EXCLUSION",
+  "terminal_file_sha256": "f16e490b2fc05ecd80f8afbb17cd0f963514b73f6f915b32ee80cfcc76d6230a",
+  "total_bytes": 608319,
+  "za_zb_submission_count": 0
+}
