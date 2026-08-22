@@ -16,6 +16,11 @@
       "size": 2347
     },
     {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p4_za_m1_budget_ablation.json",
+      "sha256": "714ca77cda24065c9316972c6d0ee8190c5fd21e960b78f0d2e1d9f67bdb08bf",
+      "size": 1064
+    },
+    {
       "path": "project/run_scripts/ode_bf/locks/source_manifest_s05_p4_hf_consumed_closure.json",
       "sha256": "dc865def5dc1466280ac5cce279ec5e33f0a99d7d32ad839876fc27f54bcce69",
       "size": 2799
@@ -27,8 +32,8 @@
     },
     {
       "path": "project/run_scripts/ode_bf/p4_fixed_target_solver.py",
-      "sha256": "a5810faab964bff1bb411dc0a541cf8c571aefd9a0b716bfbe895bb95da71027",
-      "size": 8124
+      "sha256": "5c9c1e5e2300ed4e0fdf8077fa7f3d87ade59d5daa1d8bfae64db6ab654f4878",
+      "size": 11510
     },
     {
       "path": "project/run_scripts/ode_bf/p4_hf_consumed_closure.py",
@@ -47,13 +52,18 @@
     },
     {
       "path": "project/run_scripts/ode_bf/p4_target_solver_binding.py",
-      "sha256": "28268dfdd5945d3cf700599b15a2f7fbc434bf20dbfce114365bc8d4c2d67413",
-      "size": 13424
+      "sha256": "4d0b8637424e0b3abb21e808eb149314f5a75ccf9e8ac378d2b2b09eaaa1f979",
+      "size": 16028
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p4_semantic_barrier.py",
+      "sha256": "64b939647eaa5fb9090109e71c03958d53e5c88500d546e597275d044e87f635",
+      "size": 14898
     },
     {
       "path": "project/run_scripts/ode_bf/tests/test_p4_za_pilot.py",
-      "sha256": "779d84c9a19ebdebe55ddd9f55a7eedbbbc97fec8b8e73ff44d3d3599d31c5d4",
-      "size": 4383
+      "sha256": "c3504ab82f9542e9944e1540361d533409da17d59c8a1bdb51508ea76649acf7",
+      "size": 6984
     },
     {
       "path": "project/run_scripts/session05_ode_bf_p4_za_case01_server4.sbatch",
@@ -62,17 +72,22 @@
     },
     {
       "path": "project/run_scripts/session05_ode_bf_p4_za_final_pre_gpu.py",
-      "sha256": "81b9db43a6e8ec6c1b9fa5aa4ee42f207268fe0b3a5567c499f2d404d00b3eae",
-      "size": 12813
+      "sha256": "b0adc6e53c179440f5043116c6c3a40b1416f63af47cdcc87e141ff0256a481a",
+      "size": 14350
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p4_za_m1_case01_server4.sbatch",
+      "sha256": "418528064b2bc50adc341bfb130fa212c1e75a595b6d5f06ffa3133f27ac2f9f",
+      "size": 2762
     },
     {
       "path": "project/run_scripts/session05_ode_bf_p4_za_pilot.py",
-      "sha256": "4263a50bd5fe5a6fd0528a5f6a830c6ce59d127bf685edb1168470e39059f2bf",
-      "size": 26626
+      "sha256": "5c87be570ba978ee96ddbb4049d51cf277ab3de81f6035cfe9d55c99f9cef498",
+      "size": 28470
     }
   ],
   "instruction_id": "ODEEDIT-S05-P4-TARGET-SIDE-SMOOTH-SEMANTIC-LOGODDS-BARRIER-V1",
-  "root_digest": "ce3b0cc4bfd1003c0c8dc5ff18dc001b184969428604dcb67d8940771dc481f9",
+  "root_digest": "18aacd2db88f9a051f8ed509000d282cfc3fd7fcd464139b6571eac66a2b29d3",
   "schema_version": "ode-edit-s05-p4-za-pilot-source-manifest/v1",
   "source_parent": "f199ca3b519ef5e0387075cd4c77cf55ce494bc0"
 }

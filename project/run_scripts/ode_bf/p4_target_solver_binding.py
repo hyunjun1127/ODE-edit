@@ -13,7 +13,11 @@ from .contracts import ODEBFContractError, ODEBFStateError, canonical_hash
 from .functional import tensor_sha256
 from .p1r24_atomic_strength import P1R24KLPlan, evaluate_p1r24_kl
 from .p4_fixed_target_solver import P4SolverEvaluation
-from .p4_semantic_barrier import P4TargetArm, smooth_semantic_logodds_potential
+from .p4_semantic_barrier import (
+    P4TargetArm,
+    semantic_gradient_comparison,
+    smooth_semantic_logodds_potential,
+)
 from .scalable_batched_model import (
     OrdinalTargetActivationOverlay,
     ScalableObjectivePlan,
@@ -105,7 +109,13 @@ def non_barrier_arm_identity(
     kl_factor: float,
     decay_factor: float,
     clamp_factor: float,
+    inner_iterations: int = 5,
+    selected_final_observation: bool = False,
 ) -> dict[str, Any]:
+    if inner_iterations not in (1, 5) or (
+        inner_iterations == 1 and not selected_final_observation
+    ):
+        raise ODEBFContractError("P4 non-barrier inner budget differs")
     payload: dict[str, Any] = {
         "schema": "ode-edit-s05-p4-za-non-barrier-arm-identity/v1",
         "paired_plan_sha256": paired.binding["identity_sha256"],
@@ -117,7 +127,8 @@ def non_barrier_arm_identity(
         "terminal_target_sha256": terminal_target_sha256,
         "target_layer_name": target_layer_name,
         "optimizer": "ADAM",
-        "inner_iterations": 5,
+        "inner_iterations": inner_iterations,
+        "selected_final_observation": selected_final_observation,
         "moment_reset_each_outer": True,
         "learning_rate": learning_rate,
         "kl_factor": kl_factor,
@@ -231,6 +242,7 @@ def evaluate_p4_target_objective(
     arm: P4TargetArm | str,
     kl_factor: float,
     decay_factor: float,
+    record_gradient_comparison: bool = False,
 ) -> P4SolverEvaluation:
     """Evaluate per-request semantic + pinned KL + origin decay gradients."""
 
@@ -247,6 +259,8 @@ def evaluate_p4_target_objective(
     old_rows: list[torch.Tensor] = []
     semantic_values: list[torch.Tensor] = []
     semantic_gradient = torch.zeros_like(target_state)
+    new_only_gradient = torch.zeros_like(target_state)
+    positive_negative_gradient = torch.zeros_like(target_state)
     new_receipts: list[dict[str, Any]] = []
     old_receipts: list[dict[str, Any]] = []
     for ordinal in range(paired.new.request_count):
@@ -261,10 +275,37 @@ def evaluate_p4_target_objective(
             target_label="target_true",
         )
         local = smooth_semantic_logodds_potential(-new_nll, -old_nll, arm=arm)
-        local_gradient = torch.autograd.grad(
-            local.per_request_objective.sum(), target_state,
-            retain_graph=False, create_graph=False,
-        )[0]
+        if record_gradient_comparison:
+            plus = smooth_semantic_logodds_potential(
+                -new_nll, -old_nll, arm=P4TargetArm.POSITIVE
+            )
+            plus_minus = smooth_semantic_logodds_potential(
+                -new_nll, -old_nll, arm=P4TargetArm.POSITIVE_NEGATIVE
+            )
+            plus_gradient = torch.autograd.grad(
+                plus.per_request_objective.sum(),
+                target_state,
+                retain_graph=True,
+                create_graph=False,
+            )[0]
+            plus_minus_gradient = torch.autograd.grad(
+                plus_minus.per_request_objective.sum(),
+                target_state,
+                retain_graph=False,
+                create_graph=False,
+            )[0]
+            new_only_gradient[:, ordinal] = plus_gradient[:, ordinal]
+            positive_negative_gradient[:, ordinal] = plus_minus_gradient[:, ordinal]
+            local_gradient = (
+                plus_gradient
+                if P4TargetArm(arm) is P4TargetArm.POSITIVE
+                else plus_minus_gradient
+            )
+        else:
+            local_gradient = torch.autograd.grad(
+                local.per_request_objective.sum(), target_state,
+                retain_graph=False, create_graph=False,
+            )[0]
         semantic_gradient[:, ordinal] = local_gradient[:, ordinal]
         new_rows.append(new_nll.detach())
         old_rows.append(old_nll.detach())
@@ -332,13 +373,32 @@ def evaluate_p4_target_objective(
         "new_context": new_receipts,
         "old_context": old_receipts,
         "kl": kl.raw_free_payload(),
-        "decay_by_request": [float(item) for item in decay_values],
+        "decay_by_request": [float(item.detach()) for item in decay_values],
         "combined_gradient_sha256": tensor_sha256(gradient),
         "autocast_enabled": torch.is_autocast_enabled(),
         "cpu_autocast_enabled": torch.is_autocast_enabled("cpu"),
         "dtype": str(target_state.dtype),
         "heldout_decision_influence_count": 0,
     }
+    if record_gradient_comparison:
+        telemetry["semantic_gradient_comparison"] = semantic_gradient_comparison(
+            new_only_gradient, positive_negative_gradient
+        )
+        telemetry["semantic_requestwise"] = [
+            {
+                "request_ordinal": ordinal,
+                "new_nll_mean": float(torch.mean(all_new_nll[ordinal]).detach()),
+                "old_nll_mean": float(torch.mean(all_old_nll[ordinal]).detach()),
+                "new_minus_old_logprob_margin_mean": float(
+                    torch.mean(-all_new_nll[ordinal] + all_old_nll[ordinal]).detach()
+                ),
+                "pairwise_softplus_mean": float(
+                    torch.mean(semantic.pairwise_softplus[ordinal]).detach()
+                ),
+                "sigma_mean": float(torch.mean(semantic.sigma[ordinal]).detach()),
+            }
+            for ordinal in range(request_count)
+        ]
     return P4SolverEvaluation(values, gradient, telemetry)
 
 

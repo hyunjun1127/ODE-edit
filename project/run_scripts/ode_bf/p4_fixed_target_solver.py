@@ -84,8 +84,10 @@ def run_fixed_m_target_adam(
     outer_step_index: int,
     arm: str,
     paired_input_identity: str,
+    inner_iterations: int = P4_INNER_ITERATIONS,
+    observe_selected_final: bool = False,
 ) -> P4TargetSolution:
-    """Run all five Adam updates and return only the fifth iterate.
+    """Run the locked Adam budget and return only its final iterate.
 
     ``evaluate`` must return per-request total J gradients, already including
     the arm's semantic potential plus the pinned KL and decay terms.  Each
@@ -105,6 +107,8 @@ def run_fixed_m_target_adam(
         or not isinstance(clamp_factor, float)
         or clamp_factor <= 0.0
         or len(paired_input_identity) != 64
+        or inner_iterations not in (1, P4_INNER_ITERATIONS)
+        or (inner_iterations == 1 and not observe_selected_final)
     ):
         raise ODEBFContractError("P4 target solver configuration differs")
 
@@ -116,7 +120,7 @@ def run_fixed_m_target_adam(
     iterations: list[dict[str, Any]] = []
     targets: list[torch.Tensor] = []
     objective_rows: list[tuple[float, ...]] = []
-    for iteration in range(P4_INNER_ITERATIONS):
+    for iteration in range(inner_iterations):
         evaluation = evaluate(current.detach().clone(), iteration)
         values = evaluation.per_request_objective
         gradient = evaluation.gradient_by_request
@@ -169,12 +173,53 @@ def run_fixed_m_target_adam(
         targets.append(current)
 
     means = [sum(row) / len(row) for row in objective_rows]
-    best_index = min(range(P4_INNER_ITERATIONS), key=means.__getitem__)
+    best_index = min(range(inner_iterations), key=means.__getitem__)
+    selected_final_observation: dict[str, Any] | None = None
+    selected_final_mean: float | None = None
+    if observe_selected_final:
+        final_evaluation = evaluate(current.detach().clone(), inner_iterations)
+        final_values = final_evaluation.per_request_objective
+        final_gradient = final_evaluation.gradient_by_request
+        if (
+            not isinstance(final_values, torch.Tensor)
+            or final_values.dtype != torch.float32
+            or final_values.shape != (current.shape[1],)
+            or not isinstance(final_gradient, torch.Tensor)
+            or final_gradient.dtype != torch.float32
+            or final_gradient.shape != current.shape
+            or not bool(torch.isfinite(final_values).all())
+            or not bool(torch.isfinite(final_gradient).all())
+        ):
+            raise ODEBFContractError("P4 selected-final observation differs")
+        selected_final_mean = float(torch.mean(final_values))
+        selected_final_observation = {
+            "observation_role": "SELECTED_FINAL_AFTER_LAST_UPDATE",
+            "selected_iterate_ordinal": inner_iterations,
+            "per_request_objective": [float(item) for item in final_values],
+            "objective_mean": selected_final_mean,
+            "gradient_norm_by_request": [
+                float(item)
+                for item in torch.linalg.vector_norm(final_gradient, dim=0)
+            ],
+            "target_sha256": tensor_sha256(current),
+            "telemetry": dict(final_evaluation.telemetry),
+            "optimizer_update_count": 0,
+            "observation_only": True,
+            "decision_influence_count": 0,
+            "heldout_decision_influence_count": 0,
+        }
+        selected_final_observation["identity_sha256"] = canonical_hash(
+            selected_final_observation
+        )
     receipt: dict[str, Any] = {
-        "schema": "ode-edit-s05-p4-fixed-m-target-adam/v1",
+        "schema": (
+            "ode-edit-s05-p4-fixed-m-target-adam/v2"
+            if observe_selected_final
+            else "ode-edit-s05-p4-fixed-m-target-adam/v1"
+        ),
         "arm": arm,
         "outer_step_index": outer_step_index,
-        "configured_inner_iterations": P4_INNER_ITERATIONS,
+        "configured_inner_iterations": inner_iterations,
         "executed_inner_iterations": len(iterations),
         "optimizer": "ADAM",
         "learning_rate": learning_rate,
@@ -183,8 +228,8 @@ def run_fixed_m_target_adam(
         "dtype": "torch.float32",
         "request_independent_optimizer_state": True,
         "moment_reset_count": 1,
-        "final_iterate_ordinal": P4_INNER_ITERATIONS,
-        "selected_iterate_ordinal": P4_INNER_ITERATIONS,
+        "final_iterate_ordinal": inner_iterations,
+        "selected_iterate_ordinal": inner_iterations,
         "best_iterate_ordinal_observation_only": best_index + 1,
         "final_minus_best_objective_observation": means[-1] - means[best_index],
         "best_iterate_decision_influence_count": 0,
@@ -199,6 +244,30 @@ def run_fixed_m_target_adam(
         "final_target_sha256": tensor_sha256(current),
         "iterations": iterations,
     }
+    if selected_final_observation is not None and selected_final_mean is not None:
+        observed_means = [*means, selected_final_mean]
+        observed_labels = [
+            f"PRE_UPDATE_{index}" for index in range(inner_iterations)
+        ] + [f"SELECTED_FINAL_AFTER_UPDATE_{inner_iterations}"]
+        observed_best = min(range(len(observed_means)), key=observed_means.__getitem__)
+        receipt.update(
+            {
+                "iteration_observation_semantics": "PRE_UPDATE_STATE",
+                "pre_update_observation_count": inner_iterations,
+                "selected_final_observation_count": 1,
+                "selected_final_observation": selected_final_observation,
+                "legacy_preupdate_last_minus_best_objective_observation": receipt[
+                    "final_minus_best_objective_observation"
+                ],
+                "best_observed_state_label_observation_only": observed_labels[
+                    observed_best
+                ],
+                "final_minus_best_objective_observation": (
+                    selected_final_mean - observed_means[observed_best]
+                ),
+                "selected_final_observation_decision_influence_count": 0,
+            }
+        )
     receipt["identity_sha256"] = canonical_hash(receipt)
     return P4TargetSolution(current, tuple(targets), receipt)
 

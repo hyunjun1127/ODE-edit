@@ -42,6 +42,10 @@ EASYEDIT_SEAL = Path("agents/server4/alphaedit-runtime-path-seal.json")
 NUMERICAL_LOCK = Path(
     "project/run_scripts/ode_bf/locks/numerical_lock_s05_p4_target_side_semantic_barrier.json"
 )
+M1_BUDGET_LOCK = Path(
+    "project/run_scripts/ode_bf/locks/"
+    "numerical_lock_s05_p4_za_m1_budget_ablation.json"
+)
 DATASET = Path("/data/janghj/EasyEdit/data/counterfact/counterfact.json")
 EASYEDIT_ROOT = Path("/data/janghj/EasyEdit")
 HPARAMS = {
@@ -146,6 +150,7 @@ def build_receipts(
     final_receipt_path: Path,
     source_head: str,
     session_id: str,
+    inner_iterations: int = 5,
 ) -> tuple[dict[str, object], dict[str, object]]:
     if (
         socket.gethostname() != "server4"
@@ -166,6 +171,7 @@ def build_receipts(
         ).stdout.strip()
         != "server4"
         or os.environ.get("PROJECT_GPU_CAP", "2") != "2"
+        or inner_iterations not in (1, 5)
     ):
         raise ValueError("P4 ZA server4 agent/cap identity differs")
     observed_head = subprocess.run(
@@ -195,6 +201,25 @@ def build_receipts(
     )
     if numerical.get("instruction_id") != P4_INSTRUCTION_ID:
         raise ValueError("P4 ZA numerical lock differs")
+    budget_overlay: dict[str, object] | None = None
+    if inner_iterations == 1:
+        overlay, overlay_sha = _load_rooted(
+            REPO_ROOT / M1_BUDGET_LOCK,
+            schema="ode-edit-s05-p4-za-m1-budget-ablation-lock/v1",
+        )
+        if (
+            overlay.get("instruction_id") != P4_INSTRUCTION_ID
+            or overlay.get("base_numerical_lock_root") != numerical["root_digest"]
+            or overlay.get("inner_iterations") != 1
+            or overlay.get("outer_steps") != 8
+            or overlay.get("only_scientific_delta") != "inner_iterations:5->1"
+        ):
+            raise ValueError("P4 ZA M1 budget overlay differs")
+        budget_overlay = {
+            "path": str(REPO_ROOT / M1_BUDGET_LOCK),
+            "sha256": overlay_sha,
+            "root_digest": overlay["root_digest"],
+        }
 
     hf = load_p4_hf_consumed_closure_seal(REPO_ROOT / HF_SEAL, repo_root=REPO_ROOT)
     hf_binding: dict[str, object] = {}
@@ -285,6 +310,7 @@ def build_receipts(
             "sha256": numerical_sha,
             "root_digest": numerical["root_digest"],
         },
+        "scientific_budget_overlay": budget_overlay,
         "execution_binding": {
             "stage": "ZA",
             "case_index": 1,
@@ -292,11 +318,18 @@ def build_receipts(
             "same_W0": True,
             "writer_count": 0,
             "positive_negative_only_difference": "softplus(s_minus-s_plus)",
-            "inner_iterations": 5,
+            "inner_iterations": inner_iterations,
             "outer_steps": 8,
             "final_iterate_only": True,
+            "selected_final_observation": inner_iterations == 1,
+            "selected_final_observation_decision_influence_count": 0,
             "moment_reset_each_outer": True,
             "heldout_decision_influence_count": 0,
+            "scientific_delta": (
+                "M1_TARGET_UPDATE_BUDGET_ONLY"
+                if inner_iterations == 1
+                else "AUTHORITATIVE_M5"
+            ),
         },
         "full_fp32_offline": {
             "loader": "load_p4_full_fp32_from_sealed_snapshot",
@@ -336,6 +369,7 @@ def main() -> int:
     parser.add_argument("--final-receipt", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--session-id", required=True)
+    parser.add_argument("--inner-iterations", type=int, choices=(1, 5), default=5)
     args = parser.parse_args()
     transfer, final = build_receipts(
         archive=args.archive.resolve(strict=True),
@@ -344,6 +378,7 @@ def main() -> int:
         final_receipt_path=args.final_receipt,
         source_head=args.source_head,
         session_id=args.session_id,
+        inner_iterations=args.inner_iterations,
     )
     print(json.dumps({
         "transfer": transfer["status"],

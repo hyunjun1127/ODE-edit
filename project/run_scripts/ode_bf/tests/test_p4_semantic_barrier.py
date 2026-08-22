@@ -159,6 +159,65 @@ class FixedSolverTests(unittest.TestCase):
                 paired_input_identity=SHA_A,
             )
 
+    def test_m1_observes_selected_post_update_without_selecting_on_it(self) -> None:
+        initial = torch.tensor([[1.0], [2.0]], dtype=torch.float32)
+        goal = torch.zeros_like(initial)
+        calls: list[int] = []
+
+        def evaluate(target: torch.Tensor, iteration: int) -> P4SolverEvaluation:
+            calls.append(iteration)
+            delta = target - goal
+            return P4SolverEvaluation(
+                torch.sum(torch.square(delta), dim=0),
+                2.0 * delta,
+                {"iteration": iteration, "heldout_access_count": 0},
+            )
+
+        observed = run_fixed_m_target_adam(
+            initial,
+            initial,
+            evaluate,
+            learning_rate=0.1,
+            clamp_factor=100.0,
+            outer_step_index=0,
+            arm="Z+",
+            paired_input_identity=SHA_A,
+            inner_iterations=1,
+            observe_selected_final=True,
+        )
+        self.assertEqual(calls, [0, 1])
+        self.assertEqual(observed.receipt["executed_inner_iterations"], 1)
+        self.assertEqual(observed.receipt["selected_final_observation_count"], 1)
+        final = observed.receipt["selected_final_observation"]
+        self.assertEqual(final["target_sha256"], observed.receipt["final_target_sha256"])
+        self.assertEqual(final["optimizer_update_count"], 0)
+        self.assertTrue(final["observation_only"])
+        self.assertEqual(final["decision_influence_count"], 0)
+        self.assertLess(
+            final["objective_mean"], observed.receipt["iterations"][0]["objective_mean"]
+        )
+
+    def test_m1_without_selected_final_observation_fails_closed(self) -> None:
+        initial = torch.ones((2, 1), dtype=torch.float32)
+
+        def evaluate(target: torch.Tensor, _iteration: int) -> P4SolverEvaluation:
+            return P4SolverEvaluation(
+                torch.sum(torch.square(target), dim=0), 2.0 * target, {}
+            )
+
+        with self.assertRaises(ODEBFContractError):
+            run_fixed_m_target_adam(
+                initial,
+                initial,
+                evaluate,
+                learning_rate=0.1,
+                clamp_factor=1.0,
+                outer_step_index=0,
+                arm="Z+",
+                paired_input_identity=SHA_A,
+                inner_iterations=1,
+            )
+
 
 class WaypointAndCacheTests(unittest.TestCase):
     def test_all_k8_waypoints(self) -> None:

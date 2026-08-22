@@ -86,7 +86,9 @@ from project.run_scripts.ode_bf.scalable_batched_runtime import (
 )
 
 
-RUN_TOKEN = "p4-za-case01-server4-v1"
+M5_RUN_TOKEN = "p4-za-case01-server4-v1"
+M1_RUN_TOKEN = "p4-za-m1-case01-server4-v1"
+RUN_TOKEN_TO_INNER_ITERATIONS = {M5_RUN_TOKEN: 5, M1_RUN_TOKEN: 1}
 STREAM_SEAL_RELATIVE = Path("canonical/p1r24_independent_b10x10_stream_seal.json")
 STREAM_IDENTITY_RELATIVE = Path("canonical/stream-order-context-identity.json")
 HF_SEAL = REPO_ROOT / "agents/server4/p4-hf-consumed-closure-seal.json"
@@ -108,12 +110,19 @@ def _load_json_regular(path: Path) -> dict[str, object]:
     return value
 
 
-def _load_final_receipt(path: Path, *, alias: str, source_head: str) -> dict[str, object]:
+def _load_final_receipt(
+    path: Path,
+    *,
+    alias: str,
+    source_head: str,
+    inner_iterations: int,
+) -> dict[str, object]:
     value = _load_json_regular(path)
     identity = value.get("identity_sha256")
     payload = dict(value)
     payload.pop("identity_sha256", None)
     binding = value.get("model_input_binding")
+    execution = value.get("execution_binding")
     if (
         value.get("schema") != "ode-edit-s05-p4-za-server4-final-pre-gpu/v1"
         or value.get("status") != "FINAL_PRE_GPU_PASS"
@@ -122,6 +131,9 @@ def _load_final_receipt(path: Path, *, alias: str, source_head: str) -> dict[str
         or identity != canonical_hash(payload)
         or not isinstance(binding, Mapping)
         or alias not in binding
+        or not isinstance(execution, Mapping)
+        or execution.get("inner_iterations") != inner_iterations
+        or execution.get("selected_final_observation") != (inner_iterations == 1)
         or value.get("project_gpu_cap") != 2
     ):
         raise ODEBFContractError("P4 ZA final PRE-GPU receipt differs")
@@ -199,6 +211,7 @@ def _target_arm(
     touched: Mapping[str, torch.nn.Parameter],
     expected_w0: str,
     stages: P1StageRecorder,
+    inner_iterations: int,
 ) -> dict[str, object]:
     started = time.perf_counter()
     current = initial.target_z.detach().clone().to(dtype=torch.float32)
@@ -221,6 +234,7 @@ def _target_arm(
                 arm=arm,
                 kl_factor=lock.kl_factor,
                 decay_factor=lock.decay_factor,
+                record_gradient_comparison=(inner_iterations == 1),
             )
 
         solution = run_fixed_m_target_adam(
@@ -232,6 +246,8 @@ def _target_arm(
             outer_step_index=outer_step,
             arm=arm.value,
             paired_input_identity=str(non_barrier["identity_sha256"]),
+            inner_iterations=inner_iterations,
+            observe_selected_final=(inner_iterations == 1),
         )
         current = solution.final_target.detach().clone()
         receipt = dict(solution.receipt)
@@ -258,8 +274,11 @@ def _target_arm(
                     "alias": alias,
                     "arm": arm.value,
                     "outer_step_index": 0,
-                    "configured_inner_iterations": 5,
-                    "executed_inner_iterations": 5,
+                    "configured_inner_iterations": inner_iterations,
+                    "executed_inner_iterations": inner_iterations,
+                    "selected_final_observation_count": (
+                        1 if inner_iterations == 1 else 0
+                    ),
                     "target_nonfinite_count": 0,
                     "gradient_nonfinite_count": 0,
                     "W0_unchanged": True,
@@ -278,7 +297,11 @@ def _target_arm(
         "case_index": 1,
         "request_order_sha256": paired.new.request_order_sha256,
         "outer_step_count": 8,
-        "inner_iteration_count": 40,
+        "inner_iterations_per_outer": inner_iterations,
+        "inner_iteration_count": 8 * inner_iterations,
+        "selected_final_observation_count": (
+            8 if inner_iterations == 1 else 0
+        ),
         "outer_receipt_sha256": outer_receipts,
         "outer_identity_sha256": outer_identities,
         "terminal_target_sha256": tensor_sha256(current),
@@ -328,7 +351,11 @@ def _target_arm(
         "evaluator_wall_seconds": evaluator_wall,
         "total_wall_seconds": time.perf_counter() - started,
         "outer_step_count": 8,
-        "inner_iteration_count": 40,
+        "inner_iterations_per_outer": inner_iterations,
+        "inner_iteration_count": 8 * inner_iterations,
+        "selected_final_observation_count": (
+            8 if inner_iterations == 1 else 0
+        ),
         "writer_call_count": 0,
         "W0_restored": True,
         "scientific_promotion": False,
@@ -443,6 +470,7 @@ def _native_arm(
 
 
 def run(args: argparse.Namespace) -> dict[str, object]:
+    inner_iterations = RUN_TOKEN_TO_INNER_ITERATIONS[args.run_token]
     if os.environ.get("PROJECT_GPU_CAP") != "2":
         raise ODEBFContractError("P4 ZA PROJECT_GPU_CAP differs")
     if any(
@@ -466,7 +494,10 @@ def run(args: argparse.Namespace) -> dict[str, object]:
     args.output_root.mkdir(mode=0o700, parents=True)
     stages = P1StageRecorder(args.output_root / "stages")
     final = _load_final_receipt(
-        args.final_pre_gpu_receipt, alias=args.model, source_head=args.source_head
+        args.final_pre_gpu_receipt,
+        alias=args.model,
+        source_head=args.source_head,
+        inner_iterations=inner_iterations,
     )
     stream_receipt = final["transfer_receipt"]
     binding = final["model_input_binding"][args.model]
@@ -600,6 +631,8 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         kl_factor=lock.kl_factor,
         decay_factor=lock.decay_factor,
         clamp_factor=lock.clamp_factor,
+        inner_iterations=inner_iterations,
+        selected_final_observation=(inner_iterations == 1),
     )
     stages.record("post_shared_W0_non_barrier_gate", {
         "W0_sha256": expected_w0,
@@ -623,6 +656,7 @@ def run(args: argparse.Namespace) -> dict[str, object]:
             kl_plan=kl_plan, teacher=teacher, teacher_sha=teacher_sha,
             lock=lock, non_barrier=non_barrier, dataset_path=DATASET,
             touched=touched, expected_w0=expected_w0, stages=stages,
+            inner_iterations=inner_iterations,
         ))
     arm_results.append(_native_arm(
         model, tokenizer, requests,
@@ -647,6 +681,16 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         "W0_sha256": expected_w0,
         "W0_restored": True,
         "writer_call_count": 0,
+        "inner_iterations_per_outer": inner_iterations,
+        "target_optimizer_update_count_per_arm": 8 * inner_iterations,
+        "selected_final_observation_count_per_target_arm": (
+            8 if inner_iterations == 1 else 0
+        ),
+        "scientific_delta": (
+            "M1_TARGET_UPDATE_BUDGET_ONLY"
+            if inner_iterations == 1
+            else "AUTHORITATIVE_M5"
+        ),
         "non_barrier_identity_sha256": non_barrier["identity_sha256"],
         "full_fp32": fp32,
         "offline": True,
@@ -671,7 +715,9 @@ def main() -> int:
     parser.add_argument("--stream-root", required=True, type=Path)
     parser.add_argument("--final-pre-gpu-receipt", required=True, type=Path)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
+    parser.add_argument(
+        "--run-token", required=True, choices=tuple(RUN_TOKEN_TO_INNER_ITERATIONS)
+    )
     args = parser.parse_args()
     try:
         result = run(args)
