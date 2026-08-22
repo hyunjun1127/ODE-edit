@@ -12,6 +12,7 @@ import stat
 import subprocess
 import sys
 import time
+import traceback
 from typing import Any, Mapping, Sequence
 
 
@@ -581,6 +582,7 @@ def main() -> int:
     try:
         result = run(args)
     except Exception as error:
+        traceback.print_exc()
         failure = {
             "schema": "ode-edit-s05-p4-euler-calibration-stage1-failure/v1",
             "instruction_id": P4_EULER_INSTRUCTION_ID,
