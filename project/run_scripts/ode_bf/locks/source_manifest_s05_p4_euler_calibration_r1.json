@@ -1,0 +1,32 @@
+{
+  "schema": "ode-edit-s05-p4-euler-calibration-r1-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P4-EULER-PROJECTED-SEMANTIC-ODE-V1",
+  "source_parent": "9070e611e9d299597be108023bf3c194cce2d52e",
+  "entries": [
+    {"path": "agents/server4/alphaedit-runtime-path-seal.json", "sha256": "176018298d691a1b67ae7ca787c7dcd2bd77d8606044790833d361fd451ddeb3", "size": 6922},
+    {"path": "agents/server4/p4-hf-consumed-closure-seal.json", "sha256": "02db39b636625a513aca0d185d3dab04de2b6ba3ece7d867d241dd3a21c28854", "size": 14390},
+    {"path": "project/run_scripts/ode_bf/alpha_backend.py", "sha256": "45554313a89f22a3cea1fa9dc8bd32c73d9a4716d7e8703a22039623295a1165", "size": 59526},
+    {"path": "project/run_scripts/ode_bf/contracts.py", "sha256": "c7698a3b785bcf95eaaf5ffb133ab0fbce877d6127d168c8daef47f17a051453", "size": 14825},
+    {"path": "project/run_scripts/ode_bf/functional.py", "sha256": "88bffde0fba6ab72e35b5c67458a31404e4043501c9514bfc241d2b9ddc303ee", "size": 18195},
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p4_euler_calibration_r1.json", "sha256": "2caaed5b2f4930e80eae8fb05ded3bc7fa5a24108e9b90c8a1c7abadbc445dc2", "size": 2715},
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p4_euler_projected_semantic_ode_e0.json", "sha256": "2c127da684e6b4f6a3fc37deda504ae4ca03ea44a069d9f6410cf5cfcaf1a4e2", "size": 4540},
+    {"path": "project/run_scripts/ode_bf/p1_runtime.py", "sha256": "f81f1cbdd9e9493fc9a1a4da9f1ef183d838601d2de763f8829321435a85a949", "size": 238849},
+    {"path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py", "sha256": "2dbf1b97db21e2c483e1ad5a3f5420e6ea78f9d4c0822c629e95622908b447aa", "size": 155523},
+    {"path": "project/run_scripts/ode_bf/p1r24_atomic_strength.py", "sha256": "95ef3aff1e0b2d82df08453492a01be4d69d7e1c8795edd72c7d098979f54b0f", "size": 34439},
+    {"path": "project/run_scripts/ode_bf/p1r24_independent_b10x10_selection.py", "sha256": "ff4267090bd185c063f567867bf7840f7cbf409201d24c1e82ea46fe6f2956c4", "size": 11498},
+    {"path": "project/run_scripts/ode_bf/p4_euler_binding.py", "sha256": "6f8de931ba6a985463a747bc02c34367dad4b3b4c0e61b09e88c2a5bcef880b3", "size": 6552},
+    {"path": "project/run_scripts/ode_bf/p4_euler_integrator.py", "sha256": "f112a5e2caabbba09d0723080097d035451f6bb398703ba663063ae445947a89", "size": 12828},
+    {"path": "project/run_scripts/ode_bf/p4_euler_model_binding.py", "sha256": "9819e4b441e48a67402f1ea1d8a8f777aa23f3e947f7a645dc289742788ff526", "size": 11153},
+    {"path": "project/run_scripts/ode_bf/p4_hf_consumed_closure.py", "sha256": "1cc9c94fab7e42225dc9964b1fd6fcb6b2f1d76ed0a01a3ec702064867d96b2a", "size": 31811},
+    {"path": "project/run_scripts/ode_bf/p4_semantic_barrier.py", "sha256": "89c73661f16f91f09afaa036c3b8cdf868b58152f0787ffd5f1644d046685398", "size": 7164},
+    {"path": "project/run_scripts/ode_bf/p4_target_solver_binding.py", "sha256": "4d0b8637424e0b3abb21e808eb149314f5a75ccf9e8ac378d2b2b09eaaa1f979", "size": 16028},
+    {"path": "project/run_scripts/ode_bf/scalable_batched_model.py", "sha256": "9196adf47ac67b425acc20ed098b8c672a4387c5907f95ea5f05472c53e89621", "size": 39640},
+    {"path": "project/run_scripts/ode_bf/scalable_batched_runtime.py", "sha256": "ca2163ad3b9317201fd5bb2e5b577e78809e7b9c7875d0f733d3e9b0144bbb31", "size": 23678},
+    {"path": "project/run_scripts/ode_bf/target_new_nll.py", "sha256": "a2d2e68a6398323ded583103bdd6033083e5f7f3204fd43d34d14b66bc07df76", "size": 52454},
+    {"path": "project/run_scripts/ode_bf/tests/test_p4_euler_calibration_r1.py", "sha256": "30e67d0a27818fcd29ab6e84f46f4372899f7bcb15e20cf99a7474abc964f359", "size": 4187},
+    {"path": "project/run_scripts/session05_ode_bf_p4_euler_calibration_preflight.py", "sha256": "744ee1f22a1b308f7a23637762bc127dfa2f772d054b4eb6819629d8e5732ac7", "size": 8557},
+    {"path": "project/run_scripts/session05_ode_bf_p4_euler_calibration_stage1.py", "sha256": "748992b69ae1ec8157d292833e435dc8fdb8e536b70bef66aaad57d95dfd4748", "size": 23440},
+    {"path": "project/run_scripts/session05_ode_bf_p4_euler_calibration_stage1_server4.sbatch", "sha256": "034e81f49e313bf40d27d22a8b2b0fad09fce5bf843025c2856ca2d51d15c4e9", "size": 2805}
+  ],
+  "root_digest": "4e4b816b4f77f6c19108418fb6177b8dd1228b61ed67c28126cebbc53feaae96"
+}
