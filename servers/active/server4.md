@@ -11,10 +11,10 @@
   `01a028a7-9e3c-7541-81ba-efb40555d17d`
   (`codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d`)
 - local hard boundary: checker PASS, model/profile은 user-managed
-- 갱신 시각: `2026-08-22T19:41:35+09:00`
+- 갱신 시각: `2026-08-22T20:22:00+09:00`
 - current GH directive:
   `ODEEDIT-S05-P4-TARGET-SIDE-SMOOTH-SEMANTIC-LOGODDS-BARRIER-V1`
-  P4 HF consumed-closure readiness; sample/evaluator seal 전 submit HOLD
+  P4 ZA sealed case01 pilot execution; subsequent scientific submit HOLD
 
 이 session은 이전 `registered-pending-clone` 상태를 supersede한다. 과거 task,
 report, audit와 experiment provenance는 변경하지 않는다.
@@ -129,3 +129,18 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - blockers: `BLOCKED_EVALUATOR_PACKAGE`, `BLOCKED_SEALED_STREAM_TRANSFER`
 - model load / GPU use / Slurm submit: `0 / 0 / 0`
 - P4 verdict: `BLOCKED_READINESS`; scientific submit `HOLD`
+
+## P4 ZA case01 pilot heartbeat
+
+- transfer full-read: `PASS`; member root `28189ad3...9843`, stream root
+  `74d68965...89e6`, order `abe62c07...cd5c`, evaluator identity
+  `72b8ecb7...07d`
+- final PRE-GPU: `PASS`, identity `257c74ec...4a71`
+- source HEAD/tree: `8229219c01f92e9c1d279b07504e88fc4b95f7ba` /
+  `12f56a35b7f2c8bb074444fcd1c67ab94c8718e9`
+- Slurm: `22793_[0-1%2]`, Llama/Qwen case01, each 1 GPU / 8 CPU /
+  65,000 MiB / 48h; active project GPU 2 = cap2
+- first target gate: both models M=5/5, target/gradient nonfinite 0,
+  writer 0, W0 unchanged/restored true
+- current status: `ZA_PILOT_RUNNING`; automatic promotion 0, subsequent submit
+  HOLD

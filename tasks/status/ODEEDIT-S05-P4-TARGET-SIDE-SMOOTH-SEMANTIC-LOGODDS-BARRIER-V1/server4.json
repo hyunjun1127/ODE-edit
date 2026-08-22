@@ -3,9 +3,9 @@
   "server": "server4",
   "agent_id": "server4-server-head",
   "agent_role": "server-head",
-  "status": "blocked",
-  "updated_at": "2026-08-22T19:41:35+09:00",
+  "status": "running",
+  "updated_at": "2026-08-22T20:22:00+09:00",
   "ack_path": "messages/acks/server4/2026-08-22.md",
-  "report_path": "audits/servers/server4/P4-hf-consumed-closure-readiness.md",
-  "note": "P4 server4 pinned HF consumed closure PASS for Llama/Qwen: exact snapshot/revision/config/tokenizer/index/all shards and observation-only extras verified; extra influence count 0. P4-only absolute-snapshot offline FULL-FP32 loader remains unreachable before stream/evaluator and final PRE-GPU receipts. Remaining blockers are sealed stream transfer and evaluator package. Model/GPU/Slurm submit 0; scientific submit HOLD."
+  "report_path": "messages/server-heads/server4/2026-08-22-P4-za-pilot-submitted.md",
+  "note": "TRANSFER_FULL_READ_PASS and FINAL_PRE_GPU_PASS. ZA Llama/Qwen case01 array 22793_[0-1%2] is running at cap2; each cell is 1GPU/8CPU/65000MiB/48h. Both first target M=5 gates passed with target/gradient nonfinite 0, writer 0, and W0 unchanged/restored. Raw results/logs remain ignored local; automatic promotion 0 and subsequent scientific submit HOLD."
 }
