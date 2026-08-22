@@ -1,0 +1,80 @@
+{
+  "schema_version": "ode-edit-s05-p4-target-side-semantic-barrier-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P4-TARGET-SIDE-SMOOTH-SEMANTIC-LOGODDS-BARRIER-V1",
+  "estimand": "A±-A+",
+  "models": {
+    "llama3-8b-inst": {
+      "adam_lr": 0.1,
+      "adam_lr_source": "pinned AlphaEdit hparams v_lr",
+      "kl_factor": 0.0625,
+      "decay_factor": 0.5,
+      "clamp_factor": 0.75
+    },
+    "qwen2.5-7b-inst": {
+      "adam_lr": 0.5,
+      "adam_lr_source": "pinned AlphaEdit hparams v_lr",
+      "kl_factor": 0.0625,
+      "decay_factor": 0.001,
+      "clamp_factor": 4.0
+    }
+  },
+  "target": {
+    "positive_formula": "contexts_mean(-s_plus)",
+    "positive_negative_formula": "contexts_mean(-s_plus+softplus(s_minus-s_plus))",
+    "old_source": "current request target_true only",
+    "context_count": 6,
+    "margin_threshold": null,
+    "barrier_weight": 1.0,
+    "dtype": "torch.float32",
+    "optimizer": "Adam",
+    "adam_betas": [0.9, 0.999],
+    "adam_epsilon": 1e-08,
+    "inner_iterations": 5,
+    "all_iterations_required": true,
+    "final_iterate_only": true,
+    "moment_reset_each_outer": true,
+    "request_independent_optimizer_state": true
+  },
+  "outer": {
+    "K": 8,
+    "lambda": "1/(K-k)",
+    "waypoint": "y_k+lambda_k*(z_star_k-y_k)",
+    "current_state_refresh": [
+      "target_gradient",
+      "terminal_residual",
+      "key",
+      "AlphaEdit_solve"
+    ]
+  },
+  "writer": {
+    "entrypoint": "easyeditor.models.alphaedit.AlphaEdit_main.apply_AlphaEdit_to_model",
+    "native_reference": "easyeditor.models.alphaedit.compute_z.compute_z",
+    "static_projector": true,
+    "historical_cache": true,
+    "structural_h_decision_influence": 0,
+    "functional_p_decision_influence": 0,
+    "router_decision_influence": 0
+  },
+  "cache_transaction": {
+    "batch_entry_snapshot_read_only_for_k1_k8": true,
+    "current_batch_append_during_k1_k8": 0,
+    "append_after_successful_k8_commit": 1,
+    "append_on_failure": 0,
+    "rollback_required": true
+  },
+  "forbidden": [
+    "primary_rescue_current",
+    "best_iterate_selection",
+    "early_stop",
+    "accept_reject",
+    "retry",
+    "backtracking",
+    "fallback",
+    "heldout_decision_influence",
+    "autocast",
+    "bf16",
+    "quantization",
+    "sequential"
+  ],
+  "root_digest": "a7e8d51b0fcc8ac7576d4d16346f415fdca5c98904753cdcc2e9133dc6ba92c6"
+}

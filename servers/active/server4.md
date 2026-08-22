@@ -11,9 +11,10 @@
   `01a028a7-9e3c-7541-81ba-efb40555d17d`
   (`codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d`)
 - local hard boundary: checker PASS, model/profile은 user-managed
-- 갱신 시각: `2026-08-22T18:44:51+09:00`
-- current GH directive: `S4-M1-R1` shared path-seal interface 승인 범위 구현,
-  focused gate 후에도 scientific submit HOLD
+- 갱신 시각: `2026-08-22T19:08:56+09:00`
+- current GH directive:
+  `ODEEDIT-S05-P4-TARGET-SIDE-SMOOTH-SEMANTIC-LOGODDS-BARRIER-V1`
+  Phase 0 source/readiness mapping; sample/HF/evaluator seal 전 submit HOLD
 
 이 session은 이전 `registered-pending-clone` 상태를 supersede한다. 과거 task,
 report, audit와 experiment provenance는 변경하지 않는다.
@@ -105,5 +106,18 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - EasyEdit artifact path seal/interface: `PASS`
 - full launcher: `BLOCKED_HF_EVALUATOR_MAPPING`
 - scientific job submission: `HOLD`
-- next owner: global-head가 HF exact-set disposition과 evaluator root/mapping
-  범위를 결정하면 server4가 재개
+- next owner: global-head가 HF exact-set disposition, evaluator root/mapping,
+  sealed stream transfer를 닫으면 server4가 재개
+
+## P4 Phase 0 heartbeat
+
+- authoritative contract: `FULL_READ_PASS`, SHA
+  `0e6b0ad5110ba8bc758a92ffa126ab094afff57aa18223c4f2d1d16de1170611`
+- P4 focused gates 13/13, reused P1R52/path-seal gates 34/34 PASS
+- current `/data` available: `207415042048` bytes
+- current host available memory: `437642498048` bytes
+- server4 current Slurm occupancy: other-user 2-GPU job 1; SH4 project job 0
+- blockers: `BLOCKED_HF_MAPPING`, `BLOCKED_EVALUATOR_MAPPING`,
+  `BLOCKED_SEALED_STREAM_TRANSFER`
+- model load / GPU use / Slurm submit: `0 / 0 / 0`
+- P4 verdict: `BLOCKED_READINESS`; scientific submit `HOLD`

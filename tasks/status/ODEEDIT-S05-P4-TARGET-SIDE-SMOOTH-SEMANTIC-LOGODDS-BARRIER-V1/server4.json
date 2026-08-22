@@ -1,0 +1,11 @@
+{
+  "task_id": "ODEEDIT-S05-P4-TARGET-SIDE-SMOOTH-SEMANTIC-LOGODDS-BARRIER-V1",
+  "server": "server4",
+  "agent_id": "server4-server-head",
+  "agent_role": "server-head",
+  "status": "blocked",
+  "updated_at": "2026-08-22T19:08:56+09:00",
+  "ack_path": "messages/acks/server4/2026-08-22.md",
+  "report_path": "audits/servers/server4/P4-target-side-semantic-barrier-phase0.md",
+  "note": "Authoritative contract FULL_READ_PASS. Minimal P4 objective/fixed-M solver/K8 Official writer/cache transaction/panel primitives and focused gates PASS. Pre-GPU readiness remains blocked on HF mapping, evaluator mapping, and GH-mediated sealed stream transfer. Model/GPU/Slurm submit 0; scientific submit HOLD."
+}

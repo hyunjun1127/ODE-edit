@@ -1,0 +1,23 @@
+{
+  "schema_version": "ode-edit-s05-p4-target-side-semantic-barrier-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-P4-TARGET-SIDE-SMOOTH-SEMANTIC-LOGODDS-BARRIER-V1",
+  "parent": "d951ed3733f95ea6c90d5e1be0cd18e7c48808b0",
+  "authoritative_contract_sha256": "0e6b0ad5110ba8bc758a92ffa126ab094afff57aa18223c4f2d1d16de1170611",
+  "entries": [
+    {"path": "agents/server4/alphaedit-runtime-path-seal.json", "sha256": "176018298d691a1b67ae7ca787c7dcd2bd77d8606044790833d361fd451ddeb3", "size": 6922},
+    {"path": "project/run_scripts/alphaedit_runtime_path_seal.py", "sha256": "364a3148ce6198c00987ff2601841539d4c739103d08aafe59ce06d7aaa521a3", "size": 24670},
+    {"path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p4_target_side_semantic_barrier.json", "sha256": "934137ec143a481ba69fe27053d35fb9db3b186ceab9c9843e004f838653e4e7", "size": 2347},
+    {"path": "project/run_scripts/ode_bf/p1r24_atomic_strength.py", "sha256": "95ef3aff1e0b2d82df08453492a01be4d69d7e1c8795edd72c7d098979f54b0f", "size": 34439},
+    {"path": "project/run_scripts/ode_bf/p1r52_target_official_alphaedit_writer.py", "sha256": "ad8014c63398ab747e2fd5a567970cf37e9014084785ed610e60501f8a2654ea", "size": 44355},
+    {"path": "project/run_scripts/ode_bf/p4_cache_transaction.py", "sha256": "926cf4c6fb525454b791ba378c2b28e3b1883c2661fdf20cac7c5e5c6c9c2627", "size": 4114},
+    {"path": "project/run_scripts/ode_bf/p4_fixed_target_solver.py", "sha256": "a5810faab964bff1bb411dc0a541cf8c571aefd9a0b716bfbe895bb95da71027", "size": 8124},
+    {"path": "project/run_scripts/ode_bf/p4_panel_analysis.py", "sha256": "f84aaee69befb21b5efc04aa622757c12ce81ef681d5f3975051d43044b330d6", "size": 2743},
+    {"path": "project/run_scripts/ode_bf/p4_semantic_barrier.py", "sha256": "89c73661f16f91f09afaa036c3b8cdf868b58152f0787ffd5f1644d046685398", "size": 7164},
+    {"path": "project/run_scripts/ode_bf/p4_waypoint_writer.py", "sha256": "d03ae3d9a817ab18f2aed86a77bf14d67b0f79d901c32053798ccc574d3d99de", "size": 7522},
+    {"path": "project/run_scripts/ode_bf/scalable_batched_model.py", "sha256": "9196adf47ac67b425acc20ed098b8c672a4387c5907f95ea5f05472c53e89621", "size": 39640},
+    {"path": "project/run_scripts/ode_bf/scalable_batched_native.py", "sha256": "d8a3a86688eb4131e4d5cbe077d8a0d4e85bae83ac6063d4d1fa17b92663f81e", "size": 26974},
+    {"path": "project/run_scripts/ode_bf/tests/test_p4_semantic_barrier.py", "sha256": "73dbe1a7892a15c4adc2ac336a67ab062da0325ba3c7bea9d4871eddc82af27b", "size": 12575},
+    {"path": "project/run_scripts/session05_ode_bf_p4_semantic_barrier_dry_plan.py", "sha256": "2e11796c3167200651a19da27a91a96bee8bb1fe709df15ab6fcffc7a6652e93", "size": 7031}
+  ],
+  "root_digest": "bda8f5b204f8edc227f68127d370b2cd8c54beba40b0a895562e5ab849f0092b"
+}

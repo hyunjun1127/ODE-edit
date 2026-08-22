@@ -163,6 +163,7 @@ def accepted_z_cache_template(
     hparams: Any,
     *,
     parent: Path,
+    accepted_z_source: str = "P1R52_K8_TERMINAL_TARGET",
 ) -> Iterator[tuple[str, dict[str, Any]]]:
     """Expose accepted z through the exact Official AlphaEdit cache interface."""
 
@@ -190,8 +191,10 @@ def accepted_z_cache_template(
                     "dtype": str(loaded.dtype),
                 }
             )
+        if not accepted_z_source:
+            raise ODEBFContractError("accepted-z Official cache source differs")
         receipt = {
-            "source": "P1R52_K8_TERMINAL_TARGET",
+            "source": accepted_z_source,
             "request_count": len(requests),
             "request_order_sha256": scalable_ordered_request_digest(
                 [str(item["request_sha256"]) for item in requests]
