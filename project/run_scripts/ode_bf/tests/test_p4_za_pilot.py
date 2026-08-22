@@ -62,6 +62,7 @@ class P4ZAPilotEssentialGateTests(unittest.TestCase):
         self.assertIn('"historical_negative_access_count": 0', source)
         self.assertIn("smooth_semantic_logodds_potential", source)
         self.assertIn("evaluate_p1r24_kl", source)
+        self.assertIn(".detach().to(target_state.device)", source)
 
     def test_runner_binds_exact_arm_panel_and_direct_native(self) -> None:
         source = (

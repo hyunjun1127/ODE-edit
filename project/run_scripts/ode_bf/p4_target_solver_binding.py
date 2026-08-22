@@ -268,7 +268,9 @@ def evaluate_p4_target_objective(
         semantic_gradient[:, ordinal] = local_gradient[:, ordinal]
         new_rows.append(new_nll.detach())
         old_rows.append(old_nll.detach())
-        semantic_values.append(local.per_request_objective.detach())
+        semantic_values.append(
+            local.per_request_objective.detach().to(target_state.device)
+        )
         new_receipts.append(new_row)
         old_receipts.append(old_row)
     all_new_nll = torch.cat(new_rows, dim=0)
