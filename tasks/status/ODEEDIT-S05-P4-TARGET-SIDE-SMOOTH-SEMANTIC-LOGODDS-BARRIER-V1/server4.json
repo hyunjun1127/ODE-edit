@@ -4,8 +4,8 @@
   "agent_id": "server4-server-head",
   "agent_role": "server-head",
   "status": "blocked",
-  "updated_at": "2026-08-22T19:08:56+09:00",
+  "updated_at": "2026-08-22T19:41:35+09:00",
   "ack_path": "messages/acks/server4/2026-08-22.md",
-  "report_path": "audits/servers/server4/P4-target-side-semantic-barrier-phase0.md",
-  "note": "Authoritative contract FULL_READ_PASS. Minimal P4 objective/fixed-M solver/K8 Official writer/cache transaction/panel primitives and focused gates PASS. Pre-GPU readiness remains blocked on HF mapping, evaluator mapping, and GH-mediated sealed stream transfer. Model/GPU/Slurm submit 0; scientific submit HOLD."
+  "report_path": "audits/servers/server4/P4-hf-consumed-closure-readiness.md",
+  "note": "P4 server4 pinned HF consumed closure PASS for Llama/Qwen: exact snapshot/revision/config/tokenizer/index/all shards and observation-only extras verified; extra influence count 0. P4-only absolute-snapshot offline FULL-FP32 loader remains unreachable before stream/evaluator and final PRE-GPU receipts. Remaining blockers are sealed stream transfer and evaluator package. Model/GPU/Slurm submit 0; scientific submit HOLD."
 }

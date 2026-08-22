@@ -11,10 +11,10 @@
   `01a028a7-9e3c-7541-81ba-efb40555d17d`
   (`codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d`)
 - local hard boundary: checker PASS, model/profile은 user-managed
-- 갱신 시각: `2026-08-22T19:08:56+09:00`
+- 갱신 시각: `2026-08-22T19:41:35+09:00`
 - current GH directive:
   `ODEEDIT-S05-P4-TARGET-SIDE-SMOOTH-SEMANTIC-LOGODDS-BARRIER-V1`
-  Phase 0 source/readiness mapping; sample/HF/evaluator seal 전 submit HOLD
+  P4 HF consumed-closure readiness; sample/evaluator seal 전 submit HOLD
 
 이 session은 이전 `registered-pending-clone` 상태를 supersede한다. 과거 task,
 report, audit와 experiment provenance는 변경하지 않는다.
@@ -91,8 +91,14 @@ report, audit와 experiment provenance는 변경하지 않는다.
   - Llama/Qwen 각 hparams/P/stats 7개 SHA/size/shape/dtype PASS
 - shared guard interface: `PASS`; default `None` canonical lock identity 유지,
   immutable seal receipt를 P0/ODE-BF guard에 전달
-- HF mapping: `WITHHELD`; `/data/janghj/.cache/huggingface/hub`의 locked member는
-  target/size/SHA가 맞지만 snapshot exact set에 unsealed extras가 있다.
+- generic HF mapping: `WITHHELD` 유지; shared/cache 정책은 변경하지 않음
+- P4 server4 HF consumed-closure seal: `PASS`
+  - exact pinned absolute snapshot/revision과 config/tokenizer/index/all shard
+    size/SHA full-read PASS
+  - Llama/Qwen extras exact list/count/bytes/root observation-only,
+    load/decision influence count 0
+  - P4 loader는 offline/local-only FULL-FP32이며 stream/evaluator + final
+    PRE-GPU receipt 전 model import/load를 거절
 - AlphaEdit evaluator mapping: `WITHHELD`; server4 canonical root 미확인
 - no-model launcher dry-plan: EasyEdit `/data` resolution PASS,
   `launcher_ready=false`, model/GPU/Slurm action 0
@@ -104,20 +110,22 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - session/repository boundary: `PASS`
 - artifact content: Llama/Qwen `READY_REUSE`
 - EasyEdit artifact path seal/interface: `PASS`
-- full launcher: `BLOCKED_HF_EVALUATOR_MAPPING`
+- P4 HF readiness: `PASS`
+- full launcher: `BLOCKED_STREAM_EVALUATOR_PACKAGE`
 - scientific job submission: `HOLD`
-- next owner: global-head가 HF exact-set disposition, evaluator root/mapping,
-  sealed stream transfer를 닫으면 server4가 재개
+- next owner: global-head가 sealed stream/evaluator package identity를 전달하면
+  server4가 full-read consumer preflight로 재개
 
 ## P4 Phase 0 heartbeat
 
 - authoritative contract: `FULL_READ_PASS`, SHA
   `0e6b0ad5110ba8bc758a92ffa126ab094afff57aa18223c4f2d1d16de1170611`
 - P4 focused gates 13/13, reused P1R52/path-seal gates 34/34 PASS
-- current `/data` available: `207415042048` bytes
-- current host available memory: `437642498048` bytes
+- current `/data` available: `207310778368` bytes
+- current host available memory: `435844132864` bytes
 - server4 current Slurm occupancy: other-user 2-GPU job 1; SH4 project job 0
-- blockers: `BLOCKED_HF_MAPPING`, `BLOCKED_EVALUATOR_MAPPING`,
-  `BLOCKED_SEALED_STREAM_TRANSFER`
+- P4 HF seal SHA/root: `02db39b6...8854` / `7616e511...893b`
+- HF consumed closure: Llama/Qwen `PASS`, extras influence count 0
+- blockers: `BLOCKED_EVALUATOR_PACKAGE`, `BLOCKED_SEALED_STREAM_TRANSFER`
 - model load / GPU use / Slurm submit: `0 / 0 / 0`
 - P4 verdict: `BLOCKED_READINESS`; scientific submit `HOLD`

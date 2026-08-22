@@ -1,0 +1,72 @@
+{
+  "entries": [
+    {
+      "path": "agents/server4/alphaedit-runtime-path-seal.json",
+      "sha256": "176018298d691a1b67ae7ca787c7dcd2bd77d8606044790833d361fd451ddeb3",
+      "size": 6922
+    },
+    {
+      "path": "agents/server4/p4-hf-consumed-closure-seal.json",
+      "sha256": "02db39b636625a513aca0d185d3dab04de2b6ba3ece7d867d241dd3a21c28854",
+      "size": 14390
+    },
+    {
+      "path": "project/run_scripts/alphaedit_runtime_path_seal.py",
+      "sha256": "364a3148ce6198c00987ff2601841539d4c739103d08aafe59ce06d7aaa521a3",
+      "size": 24670
+    },
+    {
+      "path": "project/run_scripts/ode_bf/alpha_backend.py",
+      "sha256": "45554313a89f22a3cea1fa9dc8bd32c73d9a4716d7e8703a22039623295a1165",
+      "size": 59526
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p4_hf_consumed_closure.py",
+      "sha256": "4cd939bb726404504d3d7b911e427322bb146d415d88600c9d80a6635c30b51f",
+      "size": 28815
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p4_sealed_stream.py",
+      "sha256": "c0771b1cfbd6f8931cfee190f4a1270703c0e36c071d39d7a740986939cd1384",
+      "size": 8257
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p4_target_side_semantic_barrier.json",
+      "sha256": "934137ec143a481ba69fe27053d35fb9db3b186ceab9c9843e004f838653e4e7",
+      "size": 2347
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/source_manifest_s05_p4_target_side_semantic_barrier.json",
+      "sha256": "74d198e89c6bdb22a569e1e9109f2259efec0586003960b6a1765607b26c0817",
+      "size": 2767
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p4_hf_consumed_closure.py",
+      "sha256": "9e87b22cd21d7d899c0dcbb717b21fe76f36b509408d37201577fd222ef3169c",
+      "size": 13204
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p4_sealed_stream.py",
+      "sha256": "6ff7f6c3652234b7b44293e63ccd54fdc6dad1bf4ae546d4cdd61deea9c7a6b8",
+      "size": 3189
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p4_semantic_barrier.py",
+      "sha256": "73dbe1a7892a15c4adc2ac336a67ab062da0325ba3c7bea9d4871eddc82af27b",
+      "size": 12575
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p4_semantic_barrier_dry_plan.py",
+      "sha256": "2e11796c3167200651a19da27a91a96bee8bb1fe709df15ab6fcffc7a6652e93",
+      "size": 7031
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p4_hf_consumed_closure_dry_plan.py",
+      "sha256": "b07877dfeb5f7af8d859dcd37bfc0af94a30ee4780289376902cd342a3a70da3",
+      "size": 6146
+    }
+  ],
+  "instruction_id": "ODEEDIT-S05-P4-TARGET-SIDE-SMOOTH-SEMANTIC-LOGODDS-BARRIER-V1",
+  "root_digest": "5de47cd3f227897de7c619dedac6205d9b12c33284382c46b0e9fe6a339e676d",
+  "schema": "ode-edit-s05-p4-server4-hf-consumed-closure-source-manifest/v1"
+}

@@ -1,0 +1,336 @@
+{
+  "agent_hostname": "server4",
+  "agent_role": "server-head",
+  "hf_hub_root": "/data/janghj/.cache/huggingface/hub",
+  "hostname": "server4",
+  "loader_contract": {
+    "dtype_policy": "full-fp32",
+    "entrypoint": "project.run_scripts.ode_bf.p4_hf_consumed_closure.load_p4_full_fp32_from_sealed_snapshot",
+    "model_kwargs": {
+      "device_map": {
+        "": 0
+      },
+      "local_files_only": true,
+      "low_cpu_mem_usage": true,
+      "torch_dtype": "torch.float32",
+      "trust_remote_code": false
+    },
+    "offline_environment": {
+      "HF_DATASETS_OFFLINE": "1",
+      "HF_HUB_OFFLINE": "1",
+      "TOKENIZERS_PARALLELISM": "false",
+      "TRANSFORMERS_OFFLINE": "1",
+      "WANDB_DISABLED": "true"
+    },
+    "snapshot_argument": "sealed_absolute_snapshot",
+    "sources": [
+      {
+        "path": "/data/janghj/ODE-edit/project/run_scripts/ode_bf/alpha_backend.py",
+        "sha256": "45554313a89f22a3cea1fa9dc8bd32c73d9a4716d7e8703a22039623295a1165",
+        "size": 59526
+      },
+      {
+        "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/configuration_utils.py",
+        "sha256": "08a3889c1b8a73d340a37c93f72346ee0e385e339b7a72a03b5c026d4943baf7",
+        "size": 65603
+      },
+      {
+        "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/generation/configuration_utils.py",
+        "sha256": "d83f2281f939402be1633a29f3c760e29f5d2f284258d8ed99693b873744074b",
+        "size": 76547
+      },
+      {
+        "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py",
+        "sha256": "bf1c6b2a43cf7c36fb79f37c981424dd6ae78eb863fcaa5d2a37e76c9828611d",
+        "size": 308964
+      },
+      {
+        "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/tokenization_utils_base.py",
+        "sha256": "e71871474be2b1aa32f3a147dc31fe0a195fd402a27c37d30d666035fcccd891",
+        "size": 211457
+      },
+      {
+        "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/models/auto/tokenization_auto.py",
+        "sha256": "bd040dfb212fb20f1bef1f8fedfc3b4c100fe3b57e603c738552aebf2521c51d",
+        "size": 57863
+      }
+    ],
+    "tokenizer_kwargs": {
+      "local_files_only": true,
+      "trust_remote_code": false,
+      "use_fast": true
+    },
+    "transformers_version": "4.57.1"
+  },
+  "models": {
+    "llama3-8b-inst": {
+      "architecture": "LlamaForCausalLM",
+      "closure_identity": "54e45cdfb1a594a17775b9608864df06e87a036047de5592d20830f486be3e3a",
+      "extra_bytes": 16062854655,
+      "extra_directories": [
+        "original"
+      ],
+      "extra_members": [
+        {
+          "kind": "observation_only_extra",
+          "link_target": "../../blobs/a6344aac8c09253b3b630fb776ae94478aa0275b",
+          "relative_path": ".gitattributes",
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+          "size": 1519
+        },
+        {
+          "kind": "observation_only_extra",
+          "link_target": "../../blobs/4c763399690c7fec642231350756e4ee9184b5ce",
+          "relative_path": "LICENSE",
+          "sha256": "475211637354ce4c14b9c3dacccbefbaba735fe1b0db97d6c4fd11cd1356819f",
+          "size": 7801
+        },
+        {
+          "kind": "observation_only_extra",
+          "link_target": "../../blobs/671db9596dbd5ba6ee039d914b4915d509fc54a5",
+          "relative_path": "README.md",
+          "sha256": "8ca60bb111f7a6ac8922daf085c050d3c30755a7a21ee52e53982ad82eae3b49",
+          "size": 38854
+        },
+        {
+          "kind": "observation_only_extra",
+          "link_target": "../../blobs/6f8e5f6e3243c92046a133c92eb62b1ed7975a0b",
+          "relative_path": "USE_POLICY.md",
+          "sha256": "003513f595a20b7d63c609dfe80879531acb9caef6376fcc109bf0827471f3d1",
+          "size": 4696
+        },
+        {
+          "kind": "observation_only_extra",
+          "link_target": "../../../blobs/be52262c9289304f3e8240e0749bf257bc04264405a86cd4de38efb9068724ee",
+          "relative_path": "original/consolidated.00.pth",
+          "sha256": "be52262c9289304f3e8240e0749bf257bc04264405a86cd4de38efb9068724ee",
+          "size": 16060617592
+        },
+        {
+          "kind": "observation_only_extra",
+          "link_target": "../../../blobs/65f16bb074ab2ba456331a8ea3d50c3fdbf343bf",
+          "relative_path": "original/params.json",
+          "sha256": "1d705272c15ef86cbfc636c9129bb457a8bdb94354f38d9553598a28d4ad7879",
+          "size": 211
+        },
+        {
+          "kind": "observation_only_extra",
+          "link_target": "../../../blobs/82e9d31979e92ab929cd544440f129d9ecd797b69e327f80f17e1c50d5551b55",
+          "relative_path": "original/tokenizer.model",
+          "sha256": "82e9d31979e92ab929cd544440f129d9ecd797b69e327f80f17e1c50d5551b55",
+          "size": 2183982
+        }
+      ],
+      "extra_root": "139a3ce3d775e585306dee4f180680b5ebea195c85a7398d434c42cc0f69aa32",
+      "model_type": "llama",
+      "native_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "repo_cache": "models--meta-llama--Meta-Llama-3-8B-Instruct",
+      "required_bytes": 16069717915,
+      "required_members": [
+        {
+          "kind": "model_config",
+          "link_target": "../../blobs/31553d63b8f18df5d6d440860751533ada3759e4",
+          "relative_path": "config.json",
+          "sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b",
+          "size": 654
+        },
+        {
+          "kind": "generation_config",
+          "link_target": "../../blobs/8675015d20a4b12ee2ee0197a0937beba318122a",
+          "relative_path": "generation_config.json",
+          "sha256": "d1af74d8ba49428ab2faa65f7948165cc6bf52b740e57e840f8af772587c894c",
+          "size": 187
+        },
+        {
+          "kind": "weight_shard",
+          "link_target": "../../blobs/d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+          "relative_path": "model-00001-of-00004.safetensors",
+          "sha256": "d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+          "size": 4976698672
+        },
+        {
+          "kind": "weight_shard",
+          "link_target": "../../blobs/8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+          "relative_path": "model-00002-of-00004.safetensors",
+          "sha256": "8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+          "size": 4999802720
+        },
+        {
+          "kind": "weight_shard",
+          "link_target": "../../blobs/3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+          "relative_path": "model-00003-of-00004.safetensors",
+          "sha256": "3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+          "size": 4915916176
+        },
+        {
+          "kind": "weight_shard",
+          "link_target": "../../blobs/67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+          "relative_path": "model-00004-of-00004.safetensors",
+          "sha256": "67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+          "size": 1168138808
+        },
+        {
+          "kind": "weight_index",
+          "link_target": "../../blobs/0fd8120f1c6acddc268ebc2583058efaf699a771",
+          "relative_path": "model.safetensors.index.json",
+          "sha256": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b",
+          "size": 23950
+        },
+        {
+          "kind": "tokenizer_file",
+          "link_target": "../../blobs/d8cd5076496dbe4be2320312abc10adc43097b81",
+          "relative_path": "special_tokens_map.json",
+          "sha256": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc",
+          "size": 73
+        },
+        {
+          "kind": "tokenizer_file",
+          "link_target": "../../blobs/b197f72effb9d5ed16ee0f5663e11e4cfac2ba62",
+          "relative_path": "tokenizer.json",
+          "sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7",
+          "size": 9085698
+        },
+        {
+          "kind": "tokenizer_config",
+          "link_target": "../../blobs/1bfd1146b7bde6168de7bb673bfe0acaea6e684c",
+          "relative_path": "tokenizer_config.json",
+          "sha256": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb",
+          "size": 50977
+        }
+      ],
+      "required_root": "a1795dc0fe12a307e16432a7c2049da1a795e4170e3b6f6822d760a5d6ea8056",
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "snapshot_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "tokenizer_class": "PreTrainedTokenizerFast",
+      "tokenizer_members": [
+        "special_tokens_map.json",
+        "tokenizer.json"
+      ]
+    },
+    "qwen2.5-7b-inst": {
+      "architecture": "Qwen2ForCausalLM",
+      "closure_identity": "48028b01bb0ffaa826e07a7b071d7382a11700bf30345e168fb6621a8d1ccbe7",
+      "extra_bytes": 19102,
+      "extra_directories": [],
+      "extra_members": [
+        {
+          "kind": "observation_only_extra",
+          "link_target": "../../blobs/a6344aac8c09253b3b630fb776ae94478aa0275b",
+          "relative_path": ".gitattributes",
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+          "size": 1519
+        },
+        {
+          "kind": "observation_only_extra",
+          "link_target": "../../blobs/6634c8cc3133b3848ec74b9f275acaaa1ea618ab",
+          "relative_path": "LICENSE",
+          "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+          "size": 11343
+        },
+        {
+          "kind": "observation_only_extra",
+          "link_target": "../../blobs/4e9536cebaeb5cac673952ad5d0eeae469900f81",
+          "relative_path": "README.md",
+          "sha256": "f366f33bbf6bcadbb7d87f0a21a7b65584a56b8d58b0743c77c88bee625b93a6",
+          "size": 6240
+        }
+      ],
+      "extra_root": "7c0ca780db0407f6c407adc5250a19e357d27cd85f3da6712b7e3a1dd6feb771",
+      "model_type": "qwen2",
+      "native_name": "Qwen/Qwen2.5-7B-Instruct",
+      "repo_cache": "models--Qwen--Qwen2.5-7B-Instruct",
+      "required_bytes": 15242788168,
+      "required_members": [
+        {
+          "kind": "model_config",
+          "link_target": "../../blobs/0178295f88afc3c7f279ed284f961f8c1be00654",
+          "relative_path": "config.json",
+          "sha256": "7463bb0ea78315365e6c6b74de4e73bbcc8359dfb0c5a737584e077d42c0b03c",
+          "size": 663
+        },
+        {
+          "kind": "generation_config",
+          "link_target": "../../blobs/0eb3c536657dcd12626e09eca4b6198c0cbcde1e",
+          "relative_path": "generation_config.json",
+          "sha256": "3a8f9087e486054c8a4a08dae2e5a3ba62e23da212b5b8c08bc42cb983c3459f",
+          "size": 243
+        },
+        {
+          "kind": "tokenizer_file",
+          "link_target": "../../blobs/20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0",
+          "relative_path": "merges.txt",
+          "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+          "size": 1671839
+        },
+        {
+          "kind": "weight_shard",
+          "link_target": "../../blobs/a1333e6293854747c481288ea83b348226af178dd565c49b6f9495ba1966aba7",
+          "relative_path": "model-00001-of-00004.safetensors",
+          "sha256": "a1333e6293854747c481288ea83b348226af178dd565c49b6f9495ba1966aba7",
+          "size": 3945441440
+        },
+        {
+          "kind": "weight_shard",
+          "link_target": "../../blobs/f5d25a2772cb825164a2a2c0fb6d51a87e282abf21e4dd75bc5cfb3cd0ea6185",
+          "relative_path": "model-00002-of-00004.safetensors",
+          "sha256": "f5d25a2772cb825164a2a2c0fb6d51a87e282abf21e4dd75bc5cfb3cd0ea6185",
+          "size": 3864726352
+        },
+        {
+          "kind": "weight_shard",
+          "link_target": "../../blobs/8efdec4c1bc12317ae1a38dc42b595ce777738a64deea3fcb8a0a91381bcdfd5",
+          "relative_path": "model-00003-of-00004.safetensors",
+          "sha256": "8efdec4c1bc12317ae1a38dc42b595ce777738a64deea3fcb8a0a91381bcdfd5",
+          "size": 3864726424
+        },
+        {
+          "kind": "weight_shard",
+          "link_target": "../../blobs/1a72d403cdf0c1ec3cb7f289f17b394a01e64394c2e9b3c0f94dbce3faf879bd",
+          "relative_path": "model-00004-of-00004.safetensors",
+          "sha256": "1a72d403cdf0c1ec3cb7f289f17b394a01e64394c2e9b3c0f94dbce3faf879bd",
+          "size": 3556377672
+        },
+        {
+          "kind": "weight_index",
+          "link_target": "../../blobs/14d037fdda5a1311dcc0275003a7a370d84114e6",
+          "relative_path": "model.safetensors.index.json",
+          "sha256": "624bf7c47cd12468fdc16e38a47cf4f19e0415b859a223ba3c027eed2f0e1028",
+          "size": 27752
+        },
+        {
+          "kind": "tokenizer_file",
+          "link_target": "../../blobs/443909a61d429dff23010e5bddd28ff530edda00",
+          "relative_path": "tokenizer.json",
+          "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+          "size": 7031645
+        },
+        {
+          "kind": "tokenizer_config",
+          "link_target": "../../blobs/07bfe0640cb5a0037f9322287fbfc682806cf672",
+          "relative_path": "tokenizer_config.json",
+          "sha256": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583",
+          "size": 7305
+        },
+        {
+          "kind": "tokenizer_file",
+          "link_target": "../../blobs/4783fe10ac3adce15ac8f358ef5462739852c569",
+          "relative_path": "vocab.json",
+          "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+          "size": 2776833
+        }
+      ],
+      "required_root": "2f7e899779cac6f49071af6b98519a7058cb31bb14eef651fe6300f62f1dd43b",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "snapshot_path": "/data/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+      "tokenizer_class": "Qwen2Tokenizer",
+      "tokenizer_members": [
+        "merges.txt",
+        "tokenizer.json",
+        "vocab.json"
+      ]
+    }
+  },
+  "root_digest": "7616e511248f1ce73e4eb3460448374f3ba2ee8895c502fee5a79054569a893b",
+  "schema": "ode-edit-s05-p4-server4-hf-consumed-closure-seal/v1",
+  "seal_id": "ODEEDIT-S05-P4-SERVER4-HF-CONSUMED-CLOSURE-V1"
+}
