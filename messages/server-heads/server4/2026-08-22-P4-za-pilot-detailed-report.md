@@ -1,5 +1,13 @@
 # SH4 → GH P4 ZA case01 terminal detailed report
 
+- timing correction: inner receipt의 objective/semantic telemetry는 각 Adam
+  update **전** 상태다. `iterations[-1]`과 raw `final_minus_best`는 5번째 update
+  출력 selected-final을 관측하지 않는다. k0..k6 selected-final은 다음 outer
+  iteration-0과 z SHA 연속성 exact PASS로 복원했고, k7 train selected-final은
+  `UNOBSERVED`다. terminal held-out z-injection/terminal identity는 유효하다.
+- recovered selected-final new NLL: Llama Z+ observed minimum k4 `0.028034`,
+  Llama Z± k1 `0.018024`; Qwen은 k1에서 `<0.006`으로 급락하지만 observed
+  minimum은 Z+ k6 `3.959e-5`, Z± k6 `6.771e-5`다.
 - job `22793_[0-1%2]`: Llama/Qwen both `COMPLETED 0:0`, `00:09:55`;
   FULL-FP32/offline, same-W0, writer0, retry0, nonfinite0.
 - Llama `Z±-Z+`: Gen `0`, Gen new NLL mean `+0.3142` (worse),
@@ -19,8 +27,8 @@
   HOLD_FOR_TELEMETRY_REPAIR_AND_GH_REVIEW`; new submit 0.
 - detailed report:
   `experiment-reports/servers/server4/2026-08-22-p4-za-case01-pilot-detailed.md`
-  SHA256 `111e8abbc91e8ddf1bc37e73d078926200c2cdd970372a3f79067f893f67ada9`
+  SHA256 `3f8ef82c510e5ede827445f4296158b8d951e3e93c64cfbdd849bb870f85a2e6`
 - machine analysis:
   `experiment-reports/servers/server4/2026-08-22-p4-za-case01-pilot-analysis.json`
-  SHA256 `6edd2965a67e2042be70aaea9ae7a1dc0650b19b342d336900ba8fe839158aa0`
+  SHA256 `12ecf83048aafe66074e7352d8f6545ab21dde29a40a717ab9a82474c8e376af`
 - raw result/log/model/data remain ignored local; automatic promotion 0.

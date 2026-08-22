@@ -21,6 +21,13 @@
 - authoritative contract §9의 new-only/PN gradient cosine과 request별 inner
   median/p90/max가 runtime receipt에 남지 않았다. 이 누락값은 저장된 SHA와
   norm만으로 사후 복원할 수 없다.
+- **정정**: 각 inner receipt는 해당 Adam update를 적용하기 **전**의 objective와
+  semantic telemetry를 기록한다. 따라서 기존 raw 필드
+  `final_minus_best_objective_observation`과 `iterations[-1]`은 5번째 update 후
+  선택된 final z가 아니라 5번째 update 직전 상태를 가리킨다. k0..k6의 선택
+  final z는 다음 outer의 iteration-0에서 SHA 연속성을 확인해 복원했으며, k7의
+  선택 final z train metric은 미관측이다. terminal held-out z-injection 결과와
+  terminal z identity는 이 timing 오류의 영향을 받지 않는다.
 
 이 pilot은 실행 경계의 건전성을 확인하는 데에는 유효하다. 그러나 단일
 B10 slice이며 writer0 target-injection 결과이므로 최종 weight edit의
@@ -106,7 +113,8 @@ Arm terminal identity, action-freeze raw SHA, 각 target outer receipt raw SHA�
 4. `stage-004`: W0 hash, activation capture, origin/current terminal z, KL teacher,
    Z+/Z± non-barrier identity를 고정했다.
 5. Z+에서 outer `k=0..7`을 순서대로 수행했다. 각 outer는 독립 Adam moment로
-   inner 5회를 전부 수행하고 항상 5번째 iterate를 다음 z로 넘겼다.
+   inner Adam update 5회를 전부 수행하고 항상 5번째 update의 출력 z를 다음
+   outer로 넘겼다.
 6. 첫 Z+ outer가 끝난 시점에 nonfinite 0, writer0, W0 unchanged/restored를
    `stage-005`로 기록했다.
 7. W0가 같은지 다시 확인한 뒤 Z±에서 동일한 8×5 schedule을 수행했다.
@@ -126,23 +134,30 @@ Arm terminal identity, action-freeze raw SHA, 각 target outer receipt raw SHA�
 - `s_minus`: 같은 request의 `target_true` log probability
 - 별도 margin threshold와 tuned barrier weight는 없다. barrier weight는 1이다.
 - 아래 inner NLL/margin은 optimizer가 보고 있는 target-side activation
-  intervention 값이다.
+  intervention 값이다. 각 row는 해당 Adam update **직전** 상태다.
 - terminal 지표는 최종 target z를 W0에 additive activation overlay로 주입해
   측정한 값이다. ZA는 writer0이므로 final edited W의 지표가 아니다.
 - 각 outer receipt의 `z SHA`는 raw tensor를 Git에 넣지 않고 z 상태 전이를
   봉인하는 identity다.
+- `iterations[-1].target_after_sha256`이 실제 선택된 outer-final z다. k0..k6은
+  이 SHA가 다음 outer `iterations[0].target_before_sha256`과 정확히 일치하므로
+  다음 outer의 첫 semantic observation으로 선택 final z를 복원할 수 있다.
+  k7 뒤에는 다음 outer가 없어 train objective/NLL/margin을 복원할 수 없다.
 
 ## 6. Llama step별 z 진행
 
-표의 `J1..J5`는 다섯 Adam update 직전의 total objective mean이다. `g J/V`는
-마지막 inner에서 request별 combined/semantic gradient norm의 평균,
+표의 `J1..J5`는 다섯 Adam update 직전의 total objective mean이다. 표의
+`pre5 new/old NLL`, margin, softplus/sigma, `g J/V`는 모두 5번째 update 직전
+request별 값의 평균이고,
 `step dz`는 해당 outer의 50개 request-update displacement norm 평균이다.
-`clamp`는 50개 update 중 hit 수와 제거 norm 평균이다. `final-best`는 선택에
-영향을 주지 않는 관측값이며 실제 선택은 항상 iterate 5다.
+`clamp`는 50개 update 중 hit 수와 제거 norm 평균이다. `pre5-best(raw)`는 raw
+필드 `final_minus_best_objective_observation`의 실제 의미, 즉 5번째 update 직전
+objective와 다섯 pre-update observation 중 best의 차이다. 선택에 영향은 없으며
+실제 선택은 항상 5번째 update 출력이다.
 
 ### Llama Z+
 
-| k | J1 -> J2 -> J3 -> J4 -> J5 | final new/old NLL | margin | softplus / sigma | g J/V | step dz | clamp | final-best | z SHA prefix |
+| k | J1 -> J2 -> J3 -> J4 -> J5 | pre5 new/old NLL | pre5 margin | pre5 softplus / sigma | pre5 g J/V | step dz | clamp | pre5-best(raw) | z SHA prefix |
 | ---: | --- | --- | ---: | --- | --- | ---: | --- | ---: | --- |
 | 0 | 11.6208 -> 6.4069 -> 2.1550 -> 0.8513 -> 0.4445 | 0.3187 / 10.8284 | 10.5097 | 3.58e-4 / 3.58e-4 | 1.371 / 1.049 | 1.948 | 50/50, 2.876 | 0.0000 | `3d3ec0e56a5f -> c545cb3444c8` |
 | 1 | 0.1958 -> 2.5017 -> 0.6371 -> 0.2052 -> 0.3789 | 0.2481 / 12.0669 | 11.8188 | 4.08e-4 / 4.07e-4 | 2.413 / 2.270 | 2.245 | 50/50, 2.754 | 0.1831 | `c545cb3444c8 -> 9b1414d6d3ac` |
@@ -155,7 +170,7 @@ Arm terminal identity, action-freeze raw SHA, 각 target outer receipt raw SHA�
 
 ### Llama Z±
 
-| k | J1 -> J2 -> J3 -> J4 -> J5 | final new/old NLL | margin | softplus / sigma | g J/V | step dz | clamp | final-best | z SHA prefix |
+| k | J1 -> J2 -> J3 -> J4 -> J5 | pre5 new/old NLL | pre5 margin | pre5 softplus / sigma | pre5 g J/V | step dz | clamp | pre5-best(raw) | z SHA prefix |
 | ---: | --- | --- | ---: | --- | --- | ---: | --- | ---: | --- |
 | 0 | 17.2390 -> 8.5741 -> 3.7740 -> 1.8033 -> 0.9505 | 0.8222 / 10.8210 | 9.9988 | 4.45e-4 / 4.45e-4 | 1.968 / 1.973 | 1.916 | 50/50, 2.907 | 0.0000 | `3d3ec0e56a5f -> 9d96bfe24564` |
 | 1 | 0.3773 -> 3.2748 -> 0.6321 -> 0.1814 -> 0.1454 | 0.0222 / 12.5325 | 12.5103 | 1.15e-4 / 1.14e-4 | 0.429 / 0.252 | 2.104 | 50/50, 2.842 | 0.0000 | `9d96bfe24564 -> 51a34bb5e077` |
@@ -166,15 +181,17 @@ Arm terminal identity, action-freeze raw SHA, 각 target outer receipt raw SHA�
 | 6 | 0.1891 -> 3.3263 -> 1.0657 -> 0.4195 -> 0.2047 | 0.0980 / 11.3606 | 11.2626 | 5.92e-4 / 5.91e-4 | 0.803 / 0.791 | 2.152 | 50/50, 2.806 | 0.0156 | `cd1166f70fc4 -> 2e588c10b527` |
 | 7 | 0.1391 -> 3.7354 -> 0.8423 -> 0.5209 -> 0.2831 | 0.1650 / 14.0109 | 13.8459 | 4.32e-4 / 4.31e-4 | 1.490 / 1.408 | 2.272 | 50/50, 2.739 | 0.1440 | `2e588c10b527 -> 86b95d4e0ec4` |
 
-Llama는 16개 outer-arm 모두 clamp 50/50이다. Z+에서 final iterate가
-관측 best인 outer는 3/8, Z±는 4/8뿐이다. 계약대로 best를 선택하지 않았기
-때문에 일부 outer의 `final-best`가 크며 특히 Z+ k5는 `0.7376`이다.
+Llama는 16개 outer-arm 모두 clamp 50/50이다. 5번째 update 직전 상태가 다섯
+pre-update 관측 중 best인 outer는 Z+ 3/8, Z± 4/8이다. 이 수치는 선택된
+outer-final z와 best의 비교가 아니다. raw `pre5-best`는 특히 Z+ k5에서
+`0.7376`이지만, 5번째 update 출력의 objective가 미기록이므로 selected-final
+대비 차이로 해석할 수 없다.
 
 ## 7. Qwen step별 z 진행
 
 ### Qwen Z+
 
-| k | J1 -> J2 -> J3 -> J4 -> J5 | final new/old NLL | margin | softplus / sigma | g J/V | step dz | clamp | final-best | z SHA prefix |
+| k | J1 -> J2 -> J3 -> J4 -> J5 | pre5 new/old NLL | pre5 margin | pre5 softplus / sigma | pre5 g J/V | step dz | clamp | pre5-best(raw) | z SHA prefix |
 | ---: | --- | --- | ---: | --- | --- | ---: | --- | ---: | --- |
 | 0 | 12.5171 -> 7.6339 -> 3.7859 -> 1.4389 -> 0.7477 | 0.6670 / 12.1758 | 11.5088 | 0.00565 / 0.00537 | 0.172 / 0.159 | 19.509 | 0/50 | 0.0000 | `91ad27e317ce -> 5b1925ecd8de` |
 | 1 | 0.3771 -> 0.4354 -> 0.0872 -> 0.0496 -> 0.0425 | 0.00524 / 16.4820 | 16.4768 | 3.81e-5 / 3.81e-5 | 0.0110 / 0.00627 | 18.499 | 0/50 | 0.0000 | `5b1925ecd8de -> 6d9454b7a193` |
@@ -187,7 +204,7 @@ Llama는 16개 outer-arm 모두 clamp 50/50이다. Z+에서 final iterate가
 
 ### Qwen Z±
 
-| k | J1 -> J2 -> J3 -> J4 -> J5 | final new/old NLL | margin | softplus / sigma | g J/V | step dz | clamp | final-best | z SHA prefix |
+| k | J1 -> J2 -> J3 -> J4 -> J5 | pre5 new/old NLL | pre5 margin | pre5 softplus / sigma | pre5 g J/V | step dz | clamp | pre5-best(raw) | z SHA prefix |
 | ---: | --- | --- | ---: | --- | --- | ---: | --- | ---: | --- |
 | 0 | 19.2281 -> 10.2636 -> 4.9889 -> 2.6328 -> 1.3444 | 1.2364 / 12.4898 | 11.2534 | 0.00234 / 0.00230 | 0.266 / 0.255 | 19.340 | 0/50 | 0.0000 | `91ad27e317ce -> 3b7083b0e7ef` |
 | 1 | 0.6307 -> 0.9142 -> 0.1923 -> 0.0881 -> 0.0663 | 0.00367 / 19.5461 | 19.5424 | 1.77e-5 / 1.77e-5 | 0.0131 / 0.00432 | 18.459 | 0/50 | 0.0000 | `3b7083b0e7ef -> 344b816dcf76` |
@@ -198,15 +215,81 @@ Llama는 16개 outer-arm 모두 clamp 50/50이다. Z+에서 final iterate가
 | 6 | 0.00613 -> 0.00970 -> 0.00677 -> 0.00552 -> 0.00472 | 8.34e-5 / 20.0190 | 20.0189 | 2.22e-7 / 2.22e-7 | 3.07e-4 / 5.77e-5 | 17.091 | 0/50 | 0.0000 | `caf5274f7a0a -> c4390b41bfb8` |
 | 7 | 0.00441 -> 0.00748 -> 0.00445 -> 0.00393 -> 0.00359 | 5.60e-5 / 20.1165 | 20.1165 | 4.32e-8 / 4.32e-8 | 2.46e-4 / 3.61e-5 | 16.685 | 0/50 | 0.0000 | `c4390b41bfb8 -> 9209424d27c7` |
 
-Qwen에서는 모든 outer의 최종 iterate가 관측 best였고 clamp hit는 0이다.
-origin clamp factor와 lr가 Llama와 다르므로 `step dz`의 모델 간 절대 크기를
-동일 scale의 성능 척도로 해석하지 않는다.
+Qwen에서는 모든 outer의 5번째 update 직전 상태가 다섯 pre-update 관측 중
+best였고 clamp hit는 0이다. 이는 5번째 update 출력인 selected-final의
+objective가 best였다는 뜻은 아니다. origin clamp factor와 lr가 Llama와
+다르므로 `step dz`의 모델 간 절대 크기를 동일 scale의 성능 척도로 해석하지
+않는다.
+
+### 선택된 outer-final z의 복원 관측
+
+아래 값은 임의 재평가가 아니라, k의 `target_after_sha256`과 k+1의 첫
+`target_before_sha256`가 정확히 같은 경우에만 k+1 iteration-0의 semantic
+telemetry를 k selected-final 관측으로 연결한 값이다. 네 model/arm sequence의
+k0..k6 SHA 연속성은 모두 PASS했다. k7은 다음 outer가 없어 `UNOBSERVED`다.
+
+#### Llama Z+
+
+| selected k | new NLL | old NLL | margin | softplus / sigma | z SHA prefix |
+| ---: | ---: | ---: | ---: | --- | --- |
+| 0 | 0.088415 | 11.526524 | 11.438110 | 1.963e-4 / 1.962e-4 | `c545cb3444c8` |
+| 1 | 0.115626 | 12.744638 | 12.629010 | 6.405e-5 / 6.403e-5 | `9b1414d6d3ac` |
+| 2 | 0.030332 | 12.810815 | 12.780482 | 6.158e-5 / 6.157e-5 | `93a48556f215` |
+| 3 | 0.048551 | 13.121049 | 13.072497 | 1.439e-4 / 1.438e-4 | `85a7635499fc` |
+| 4 | **0.028034** | 13.347870 | 13.319836 | 2.063e-5 / 2.062e-5 | `c4f6bf61ab2c` |
+| 5 | 0.190210 | 11.774059 | 11.583849 | 1.411e-3 / 1.405e-3 | `b1fa854398e6` |
+| 6 | 0.072730 | 12.093874 | 12.021145 | 5.308e-4 / 5.296e-4 | `8ab215076d24` |
+| 7 | `UNOBSERVED` | `UNOBSERVED` | `UNOBSERVED` | `UNOBSERVED` | `9c26bf05fbb3` |
+
+#### Llama Z±
+
+| selected k | new NLL | old NLL | margin | softplus / sigma | z SHA prefix |
+| ---: | ---: | ---: | ---: | --- | --- |
+| 0 | 0.241099 | 12.136912 | 11.895813 | 4.027e-5 / 4.027e-5 | `9d96bfe24564` |
+| 1 | **0.018024** | 13.002619 | 12.984592 | 3.209e-4 / 3.200e-4 | `51a34bb5e077` |
+| 2 | 0.292242 | 13.260311 | 12.968068 | 2.363e-4 / 2.353e-4 | `4b7b13e1b684` |
+| 3 | 0.028269 | 15.035621 | 15.007353 | 6.843e-6 / 6.843e-6 | `79f7eac167cc` |
+| 4 | 0.179791 | 13.110971 | 12.931181 | 3.313e-5 / 3.313e-5 | `f4de9b8aa391` |
+| 5 | 0.089978 | 13.294465 | 13.204488 | 5.905e-5 / 5.903e-5 | `cd1166f70fc4` |
+| 6 | 0.026299 | 12.163852 | 12.137553 | 3.735e-4 / 3.727e-4 | `2e588c10b527` |
+| 7 | `UNOBSERVED` | `UNOBSERVED` | `UNOBSERVED` | `UNOBSERVED` | `86b95d4e0ec4` |
+
+#### Qwen Z+
+
+| selected k | new NLL | old NLL | margin | softplus / sigma | z SHA prefix |
+| ---: | ---: | ---: | ---: | --- | --- |
+| 0 | 0.293945 | 13.920115 | 13.626169 | 3.073e-3 / 2.980e-3 | `5b1925ecd8de` |
+| 1 | 0.005826 | 16.775761 | 16.769934 | 2.366e-5 / 2.365e-5 | `6d9454b7a193` |
+| 2 | 7.637e-4 | 19.232584 | 19.231819 | 8.644e-6 / 8.644e-6 | `ef7db2c9c89f` |
+| 3 | 5.613e-4 | 18.780087 | 18.779524 | 7.824e-7 / 7.824e-7 | `e811b5f1c9b1` |
+| 4 | 1.441e-4 | 19.909687 | 19.909542 | 6.026e-7 / 6.026e-7 | `6c438b7bf1a7` |
+| 5 | 1.149e-4 | 20.114344 | 20.114229 | 4.591e-7 / 4.591e-7 | `5d6c01aa2933` |
+| 6 | **3.959e-5** | 20.151869 | 20.151831 | 3.016e-7 / 3.015e-7 | `e0a508304447` |
+| 7 | `UNOBSERVED` | `UNOBSERVED` | `UNOBSERVED` | `UNOBSERVED` | `fa65762a08c4` |
+
+#### Qwen Z±
+
+| selected k | new NLL | old NLL | margin | softplus / sigma | z SHA prefix |
+| ---: | ---: | ---: | ---: | --- | --- |
+| 0 | 0.520487 | 13.971927 | 13.451440 | 1.020e-3 / 1.013e-3 | `3b7083b0e7ef` |
+| 1 | 0.004740 | 19.666655 | 19.661917 | 7.158e-6 / 7.158e-6 | `344b816dcf76` |
+| 2 | 0.002327 | 19.954674 | 19.952343 | 6.550e-6 / 6.549e-6 | `6da3de76b724` |
+| 3 | 3.523e-4 | 20.567463 | 20.567108 | 6.051e-7 / 6.051e-7 | `a5fba1874678` |
+| 4 | 1.528e-4 | 20.214973 | 20.214821 | 2.353e-7 / 2.353e-7 | `f0ee30a40e6f` |
+| 5 | 7.603e-5 | 20.690189 | 20.690113 | 2.992e-7 / 2.991e-7 | `caf5274f7a0a` |
+| 6 | **6.771e-5** | 20.176292 | 20.176222 | 1.246e-7 / 1.246e-7 | `c4390b41bfb8` |
+| 7 | `UNOBSERVED` | `UNOBSERVED` | `UNOBSERVED` | `UNOBSERVED` | `9209424d27c7` |
+
+관측 가능한 k0..k6만 비교하면 Llama Z+의 최저 new NLL은 k4, Llama Z±는
+k1이다. Qwen은 양 arm 모두 k1에서 이미 new NLL이 0.006 미만으로 급락하지만
+관측 최저는 Z+ k6, Z± k6이다. 따라서 “Qwen k1이 절대 최저”는 아니고,
+“k1에서 사실상 포화 구간에 진입”으로 해석하는 것이 정확하다.
 
 ## 8. Z± barrier의 inner 활성도
 
 `sigma = sigmoid(s_minus-s_plus)`다. 1에 가까우면 old가 new보다 강해 barrier
 gradient가 활발하고, 0에 가까우면 new가 충분히 앞서 barrier가 사실상
-비활성이다. 아래는 각 outer에서 inner 1→5의 평균 궤적이다.
+비활성이다. 아래는 각 outer에서 Adam update 1→5 **직전**의 평균 궤적이다.
 
 ### Llama Z±
 
@@ -402,6 +485,10 @@ tolerance의 과학 delta는 0이고 실패 namespace 결과를 metric에 합치
    Eff/Gen/Loc, historical forgetting과의 상관은 이 산출물에 존재하지 않는다.
 7. **표본 한계**: 독립 slice 하나뿐이므로 모델/arm 평균과 causal claim을
    승격하지 않는다. retry/imputation은 0이다.
+8. **selected-final train metric 누락**: inner receipt는 update 전만 기록해
+   k7의 5번째 update 출력 z에 대한 train objective/NLL/margin이 없다. k0..k6은
+   다음 outer 첫 observation으로 복원했지만, raw `final_minus_best`는 여전히
+   selected-final 비교가 아니다.
 
 ## 13. 판정과 다음 행동
 
@@ -420,7 +507,9 @@ tolerance의 과학 delta는 0이고 실패 namespace 결과를 metric에 합치
 2. new/old NLL, margin, softplus, sigma의 request별 median/p90/max를 보존한다.
 3. post-load receipt의 `model_loaded=true` 사실값을 별도 필드로 기록한다.
 4. decay telemetry scalar 변환에 명시적 detach를 적용한다.
-5. focused negative/identity test 후 GH가 full ZA release 여부를 결정한다.
+5. 각 update 직후 선택 z를 observation-only로 재평가해 true selected-final
+   objective와 final-vs-best를 기록한다.
+6. focused negative/identity test 후 GH가 full ZA release 여부를 결정한다.
 
 ## 14. 로컬 산출물과 checksum
 
@@ -429,7 +518,7 @@ path만 참조한다.
 
 - tracked machine-readable analysis:
   `experiment-reports/servers/server4/2026-08-22-p4-za-case01-pilot-analysis.json`
-  - SHA256 `6edd2965a67e2042be70aaea9ae7a1dc0650b19b342d336900ba8fe839158aa0`
+  - SHA256 `12ecf83048aafe66074e7352d8f6545ab21dde29a40a717ab9a82474c8e376af`
 - result root:
   `/data/janghj/ODE-edit/local/odebf/results/p4-target-side-semantic-barrier-v1/za-case01-pilot-8229219-tech-r4`
 - log root:
