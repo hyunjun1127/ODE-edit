@@ -1,0 +1,16 @@
+{
+  "analysis_manifest_identity": "bb51bd2c6414db08de721430dec2d7bbd3d18d7f7ae91b54c2384a81accbf21c",
+  "analysis_manifest_sha256": "1d5aa605e3921ac4b372a81ba64a3d0c3693d5892445b2cd89861e75141ec510",
+  "identity_sha256": "7b8005756f43cb98c7d39fc4a619e824cf0dea340471d616c2d0bbc9572fd896",
+  "instruction_id": "ODEEDIT-S05-P1R53-REQUEST-LOCAL-TARGET-SPEED-B100-V1",
+  "job_array": "23318_[0-1]",
+  "qwen_execution_count": 0,
+  "reference_execution_count": 0,
+  "report_sha256": "f25e397a89f8a0f94c1adafedd5256e3385f40dd7f9830347c6634850b7377bb",
+  "schema": "ode-edit-s05-p1r53-request-local-speed-source-receipt/v1",
+  "scientific_promotion": false,
+  "source_head": "715df5845a312d10f4825560829ea271e9ef854b",
+  "source_tree": "cbf6a961aaed6df09c80126028de7121add107b9",
+  "status": "TERMINAL_REPORT_COMPLETE",
+  "technical_exclusion": "23314_[0-1]_PURE_TECHNICAL_PRE_MODEL"
+}

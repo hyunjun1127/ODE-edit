@@ -1,0 +1,3 @@
+arm,job_id,state,exit_code,elapsed_seconds,allocated_cpu_seconds,runtime_after_model_preflight_seconds,target_field_evaluations,writer_calls,writer_layer_applies,added_model_forward_count,added_backward_count,per_request_backward_loop_count,retry_count,model_forward_total,model_backward_total,peak_allocated_bytes,peak_reserved_bytes,W0_restored
+LP-S,23318_0,COMPLETED,0:0,1150,9200,1094.1826262874529,8,8,40,0,0,0,0,NOT_RECORDED,NOT_RECORDED,38027805184,42618322944,True
+LFD-E,23318_1,COMPLETED,0:0,1101,8808,1048.2769179204479,8,8,40,0,0,0,0,NOT_RECORDED,NOT_RECORDED,38027805184,42618322944,True
