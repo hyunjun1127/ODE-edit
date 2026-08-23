@@ -158,6 +158,11 @@ from .p1r52_target_timescale_native_reference import (
     expected_result_name as expected_target_timescale_native_reference_result_name,
     run_target_timescale_native_reference_b100,
 )
+from .p1r53_request_local_speed_b100 import (
+    ROLES as P1R53_REQUEST_LOCAL_SPEED_ROLES,
+    expected_result_name as expected_p1r53_request_local_speed_result_name,
+    run_p1r53_request_local_speed_b100,
+)
 from .p1r52_target_depth import P1R52TargetDepth
 from .p1r52_target_depth_inner_telemetry import (
     P1R52TargetDepthTelemetryObserver,
@@ -320,6 +325,14 @@ def expected_p1r52_sequential_result_name(
     scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
     attempt_suffix: str | None = None,
 ) -> str:
+    if role in P1R53_REQUEST_LOCAL_SPEED_ROLES:
+        if (
+            alias != "llama3-8b-inst"
+            or scale != P1R52_B100X10_SCALE
+            or attempt_suffix is not None
+        ):
+            raise ODEBFContractError("P1R53 request-local-speed result scope differs")
+        return expected_p1r53_request_local_speed_result_name(role)
     if role in TARGET_TIMESCALE_NATIVE_REFERENCE_ROLES:
         if (
             alias != "llama3-8b-inst"
@@ -1181,6 +1194,36 @@ def run_p1r52_sequential(
     target_depth: P1R52TargetDepth | str | None = None,
     target_depth_inner_telemetry: bool = False,
 ) -> dict[str, Any]:
+    if role in P1R53_REQUEST_LOCAL_SPEED_ROLES:
+        if (
+            scale != P1R52_B100X10_SCALE
+            or batch_entry_evaluation_enabled
+            or accepted_z_observation_enabled
+            or accepted_z_reference_root is not None
+            or not accepted_z_sealed_w_reuse
+            or postsolve_energy_warn_enabled
+            or piru_cache_complete_rounds is not None
+            or attempt_suffix is not None
+            or target_depth is not None
+            or target_depth_inner_telemetry
+        ):
+            raise ODEBFContractError("P1R53 request-local-speed runtime scope differs")
+        return run_p1r53_request_local_speed_b100(
+            model, tokenizer, alias=alias, role=role, destination=destination,
+            raw_root=raw_root, stages=stages, source_head=source_head,
+            stream_batches=stream_batches, stream=stream, hparams=hparams,
+            projector=projector, contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256, controller_lock=controller_lock,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256, schedule=schedule,
+            theta0_cache=theta0_cache, dataset_path=dataset_path,
+            mutation_lock=mutation_lock, touched=touched,
+            base_receipt=base_receipt, base_values=base_values,
+            job_ledger=job_ledger,
+            request_microbatch_size=request_microbatch_size,
+            fp32_runtime=fp32_runtime,
+        )
     if role in TARGET_TIMESCALE_NATIVE_REFERENCE_ROLES:
         if (
             scale != P1R52_B100X10_SCALE

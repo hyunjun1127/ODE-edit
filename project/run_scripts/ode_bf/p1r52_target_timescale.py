@@ -21,6 +21,7 @@ from .p1r24_atomic_strength import P1R24AliasTargetLock, P1R24KLResult
 from .p1r39_normalized_gradient_target import _full_current_residual_step
 from .p1r51_requestwise_semantic_allocation import P1R51ControllerState
 from .p1r52_r42_safe_kdc import (
+    P1R52AmplitudePolicy,
     P1R52SelectedTarget,
     prepare_p1r52_rescue_proposal,
     prepare_p1r52_target_proposal,
@@ -188,6 +189,7 @@ def run_target_subcycle_scheduler(
     fixed_state_identities: Callable[[], tuple[str, str, str]],
     first_target_result: ScalableObjectiveResult | None = None,
     first_kl_result: P1R24KLResult | None = None,
+    amplitude_policy: P1R52AmplitudePolicy | None = None,
 ) -> TargetSubcycleOuter:
     """Execute every configured target microstep at one fixed physical W_k."""
 
@@ -231,6 +233,7 @@ def run_target_subcycle_scheduler(
             shared_speed=shared_speed,
             kl_teacher_input_sha256=teacher_sha256,
             target_dt=target_dt,
+            amplitude_policy=amplitude_policy,
         )
         if microstep_index == 0:
             entry_nll_gradient = proposal.primary_step.nll_gradient
@@ -262,6 +265,23 @@ def run_target_subcycle_scheduler(
             step_index=outer_step_index,
             target_dt=target_dt,
         )
+        selected_observation = None
+        if amplitude_policy is not None:
+            observer = getattr(amplitude_policy, "observe_selected", None)
+            if observer is None:
+                raise ODEBFContractError(
+                    "P1R52 external amplitude selected observer is absent"
+                )
+            selected_observation = observer(
+                step_index=outer_step_index,
+                current_nll=tuple(float(item) for item in target_result.per_request_values),
+                selected_nll=tuple(
+                    float(item) for item in selected.selected_endpoint.per_request_values
+                ),
+                field_receipt=proposal.receipt,
+                selection=tuple(str(item) for item in selected.receipt["selection_by_request"]),
+                target_dt=target_dt,
+            )
         physical_now, history_now, factors_now = fixed_state_identities()
         if (
             physical_now != physical_before
@@ -306,6 +326,10 @@ def run_target_subcycle_scheduler(
             "history_append_count": 0,
             "early_break_count": 0,
         }
+        if selected_observation is not None:
+            micro_receipt["external_amplitude_selected_observation"] = dict(
+                selected_observation
+            )
         micro_receipt["identity_sha256"] = canonical_hash(micro_receipt)
         microsteps.append(
             TargetSubcycleMicrostep(

@@ -113,9 +113,24 @@ def run_target_timescale_b100(
     request_microbatch_size: int,
     fp32_runtime: Any | None = None,
     easyedit_root: Path = Path("/data/janghj/EasyEdit"),
+    target_schedule_override: TargetSubcycleSchedule | None = None,
+    amplitude_policy: Any | None = None,
+    heldout_k_indices: tuple[int, ...] | None = None,
+    experiment_instruction_id: str = INSTRUCTION_ID,
+    experiment_method_id: str = METHOD_ID,
+    terminal_schema: str = "ode-edit-s05-p1r52-target-timescale-cell-terminal/v1",
+    manifest_schema: str = "ode-edit-s05-p1r52-target-timescale-cell-manifest/v1",
+    terminal_status: str = "P1R52_TARGET_TIMESCALE_TERMINAL",
+    stage_prefix: str = "target_timescale",
+    experiment_metadata: Mapping[str, Any] | None = None,
     **_: Any,
 ) -> dict[str, Any]:
-    target_schedule = schedule_for_role(role)
+    target_schedule = (
+        schedule_for_role(role)
+        if target_schedule_override is None
+        else target_schedule_override
+    )
+    heldout_indices = HELDOUT_K_INDICES if heldout_k_indices is None else heldout_k_indices
     if (
         alias != "llama3-8b-inst"
         or len(stream_batches) != ROUND_COUNT
@@ -174,7 +189,7 @@ def run_target_timescale_b100(
             alpha_cache_status="ALPHA_CACHE_BATCH_ENTRY_SNAPSHOT",
             cache_policy=policy,
             selected_target_resolver=reconstruct_target_subcycle_final_selected,
-            heldout_step_indices=HELDOUT_K_INDICES,
+            heldout_step_indices=heldout_indices,
         )
         created.append(runtime)
         return runtime
@@ -208,26 +223,33 @@ def run_target_timescale_b100(
                     job_ledger=job_ledger,
                     c_kstep_writer_factory=factory,
                     target_subcycle_schedule=target_schedule,
+                    amplitude_policy=amplitude_policy,
                     easyedit_root=easyedit_root,
                 )
                 if len(created) != 1:
                     raise ODEBFStateError("target-timescale writer runtime count differs")
                 runtime = created[0]
                 runtime.assert_complete()
+                writer_layer_apply_count = sum(
+                    int(item.compute["native_apply_count"])
+                    for item in runtime.executions
+                )
                 if (
                     len(runtime.executions) != P1R23_GRID_COUNT
                     or sum(
                         int(item.compute["heldout_schedule_step_count"])
                         for item in runtime.executions
                     )
-                    != len(HELDOUT_K_INDICES)
+                    != len(heldout_indices)
                     or any(
                         int(item.compute["heldout_evaluator_count"])
-                        != (3 if item.step_index in HELDOUT_K_INDICES else 0)
+                        != (3 if item.step_index in heldout_indices else 0)
                         for item in runtime.executions
                     )
                 ):
                     raise ODEBFStateError("target-timescale heldout clock differs")
+                if amplitude_policy is not None and writer_layer_apply_count != 40:
+                    raise ODEBFStateError("external amplitude writer layer clock differs")
                 cache_commit = policy.commit_after_k8()
                 commit_hashes = _hashes(touched)
                 if commit_hashes == w0_hashes:
@@ -292,9 +314,9 @@ def run_target_timescale_b100(
     ):
         raise ODEBFStateError("target-timescale terminal W0 restore differs")
     transition_payload: dict[str, Any] = {
-        "schema": "ode-edit-s05-p1r52-target-timescale-cell-terminal/v1",
-        "instruction_id": INSTRUCTION_ID,
-        "method_id": METHOD_ID,
+        "schema": terminal_schema,
+        "instruction_id": experiment_instruction_id,
+        "method_id": experiment_method_id,
         "status": "TERMINAL_VALID",
         "source_head": source_head,
         "role": role,
@@ -313,7 +335,7 @@ def run_target_timescale_b100(
         "writer_call_indices": [item.step_index + 1 for item in runtime.executions],
         "writer_authority": "FINAL_SELECTED_TARGET_ONLY",
         "intermediate_writer_authority_count": 0,
-        "heldout_outer_indices": [index + 1 for index in HELDOUT_K_INDICES],
+        "heldout_outer_indices": [index + 1 for index in heldout_indices],
         "heldout_evaluator_count": sum(
             int(item.compute["heldout_evaluator_count"])
             for item in runtime.executions
@@ -347,14 +369,29 @@ def run_target_timescale_b100(
         "W0_restored": True,
         "scientific_promotion": False,
     }
+    if amplitude_policy is not None:
+        transition_payload["amplitude_policy_terminal"] = dict(
+            amplitude_policy.terminal_receipt()
+        )
+        transition_payload["p1r53_writer_layer_apply_count"] = sum(
+            int(item.compute["native_apply_count"])
+            for item in runtime.executions
+        )
+    if experiment_metadata:
+        overlap = set(transition_payload).intersection(experiment_metadata)
+        if overlap:
+            raise ODEBFContractError(
+                f"target-timescale experiment metadata collides: {sorted(overlap)}"
+            )
+        transition_payload.update(experiment_metadata)
     _assert_no_low_precision_activity(transition_payload)
     transition_payload, tensor_paths = _raw_free_json_tree(transition_payload)
     transition_payload["raw_free_tensor_paths"] = list(tensor_paths)
     transition_payload["identity_sha256"] = canonical_hash(transition_payload)
     terminal_sha = _atomic_write_once(destination / "terminal.json", transition_payload)
     manifest: dict[str, Any] = {
-        "schema": "ode-edit-s05-p1r52-target-timescale-cell-manifest/v1",
-        "instruction_id": INSTRUCTION_ID,
+        "schema": manifest_schema,
+        "instruction_id": experiment_instruction_id,
         "source_head": source_head,
         "role": role,
         "cell": target_schedule.cell.value,
@@ -367,7 +404,7 @@ def run_target_timescale_b100(
     manifest["identity_sha256"] = canonical_hash(manifest)
     manifest_sha = _atomic_write_once(destination / "manifest.json", manifest)
     stages.record(
-        f"target_timescale_{target_schedule.cell.value.lower()}_terminal",
+        f"{stage_prefix}_{target_schedule.cell.value.lower()}_terminal",
         {
             "target_field_evaluation_count": expected_field_evaluations,
             "writer_call_count": P1R23_GRID_COUNT,
@@ -376,7 +413,7 @@ def run_target_timescale_b100(
         },
     )
     return {
-        "status": "P1R52_TARGET_TIMESCALE_TERMINAL",
+        "status": terminal_status,
         "cell": target_schedule.cell.value,
         "terminal_sha256": terminal_sha,
         "manifest_sha256": manifest_sha,

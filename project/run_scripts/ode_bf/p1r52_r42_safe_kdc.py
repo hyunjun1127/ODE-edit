@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, replace
 import math
-from typing import Any, Mapping
+from typing import Any, Callable, Mapping
 
 import torch
 
@@ -54,6 +54,35 @@ class P1R52ActiveDirectionContractError(ODEBFContractError):
 
 class P1R52SemanticDescentContractError(ODEBFContractError):
     """An active KDC direction is not a strict semantic descent direction."""
+
+
+@dataclass(frozen=True, slots=True)
+class P1R52AmplitudeContext:
+    """Read-only inputs exposed to a separately typed amplitude policy."""
+
+    step_index: int
+    shared_speed: float
+    semantic_gradient: torch.Tensor
+    semantic_gradient_norm: torch.Tensor
+    entry_semantic_gradient_norm: torch.Tensor
+    target_new_nll: torch.Tensor
+    active_mask: torch.Tensor
+    kdc_direction: torch.Tensor
+    local_parent_amplitude: torch.Tensor
+    counterfactual_global_reference_energy: float
+
+
+@dataclass(frozen=True, slots=True)
+class P1R52AmplitudeDecision:
+    """Vectorized amplitude returned by a non-Global policy extension."""
+
+    amplitude: torch.Tensor
+    policy_name: str
+    enforce_reference_energy_identity: bool
+    receipt: Mapping[str, Any]
+
+
+P1R52AmplitudePolicy = Callable[[P1R52AmplitudeContext], P1R52AmplitudeDecision]
 
 
 @dataclass(frozen=True, slots=True)
@@ -185,6 +214,7 @@ def prepare_p1r52_target_proposal(
     shared_speed: float,
     kl_teacher_input_sha256: str,
     target_dt: float | None = None,
+    amplitude_policy: P1R52AmplitudePolicy | None = None,
 ) -> P1R52TargetProposal:
     """Build one P1R52 primary proposal without any model call."""
 
@@ -257,15 +287,21 @@ def prepare_p1r52_target_proposal(
     if not math.isfinite(reference_energy):
         raise ODEBFContractError("P1R52 reference energy is nonfinite")
     active = current_norm > P1R52_NUMERICAL_EPSILON
-    active_nll = torch.where(active, nll_values, torch.zeros_like(nll_values))
-    allocation_denominator = float(torch.linalg.vector_norm(active_nll))
-    amplitude = torch.zeros_like(nll_values)
-    if reference_energy > 0.0 and bool(torch.any(active)):
-        amplitude[active] = (
-            math.sqrt(reference_energy)
-            * nll_values[active]
-            / (allocation_denominator + P1R52_NUMERICAL_EPSILON)
-        )
+    amplitude_receipt: Mapping[str, Any] = {}
+    parent_amplitude_policy = "P1R51_REQUESTWISE_NLL_PROPORTIONAL_ENERGY_ALLOCATION"
+    enforce_reference_energy_identity = True
+    if amplitude_policy is None:
+        active_nll = torch.where(active, nll_values, torch.zeros_like(nll_values))
+        allocation_denominator = float(torch.linalg.vector_norm(active_nll))
+        amplitude = torch.zeros_like(nll_values)
+        if reference_energy > 0.0 and bool(torch.any(active)):
+            amplitude[active] = (
+                math.sqrt(reference_energy)
+                * nll_values[active]
+                / (allocation_denominator + P1R52_NUMERICAL_EPSILON)
+            )
+    else:
+        amplitude = torch.zeros_like(nll_values)
 
     # AlphaEdit-compatible request-wise decay at the frozen origin.
     displacement_from_origin = current64 - origin64
@@ -351,6 +387,40 @@ def prepare_p1r52_target_proposal(
     if bool(torch.any(active)):
         semantic_direction[:, active] = -semantic[:, active] / current_norm[active].unsqueeze(0)
 
+    if amplitude_policy is not None:
+        decision = amplitude_policy(
+            P1R52AmplitudeContext(
+                step_index=step_index,
+                shared_speed=shared_speed,
+                semantic_gradient=semantic,
+                semantic_gradient_norm=current_norm,
+                entry_semantic_gradient_norm=entry_norm,
+                target_new_nll=nll_values,
+                active_mask=active,
+                kdc_direction=kdc_direction,
+                local_parent_amplitude=parent_norm,
+                counterfactual_global_reference_energy=reference_energy,
+            )
+        )
+        if (
+            not isinstance(decision, P1R52AmplitudeDecision)
+            or decision.amplitude.shape != nll_values.shape
+            or decision.amplitude.device.type != "cpu"
+            or decision.amplitude.dtype != torch.float64
+            or not decision.policy_name
+        ):
+            raise ODEBFContractError("P1R52 external amplitude decision differs")
+        amplitude = decision.amplitude
+        if (
+            not bool(torch.isfinite(amplitude).all())
+            or bool(torch.any(amplitude < 0.0))
+            or bool(torch.any((~active) & (amplitude != 0.0)))
+        ):
+            raise ODEBFContractError("P1R52 external amplitude is invalid")
+        parent_amplitude_policy = decision.policy_name
+        enforce_reference_energy_identity = decision.enforce_reference_energy_identity
+        amplitude_receipt = decision.receipt
+
     velocity = kdc_direction * amplitude.unsqueeze(0)
     allocation_energy = float(torch.sum(torch.square(amplitude)))
     raw_energy_by_request = torch.square(torch.linalg.vector_norm(velocity, dim=0))
@@ -360,7 +430,11 @@ def prepare_p1r52_target_proposal(
     raw_energy_relative_error = abs(raw_kdc_energy - reference_energy) / (
         reference_energy + P1R52_NUMERICAL_EPSILON
     )
-    if bool(torch.any(active)) and raw_energy_relative_error > P1R24_NUMERICAL_EPSILON:
+    if (
+        enforce_reference_energy_identity
+        and bool(torch.any(active))
+        and raw_energy_relative_error > P1R24_NUMERICAL_EPSILON
+    ):
         raise ODEBFContractError("P1R52 raw target velocity energy is not conserved")
     nominal_delta = effective_target_dt * velocity
     candidate = current64 + nominal_delta
@@ -424,7 +498,7 @@ def prepare_p1r52_target_proposal(
         "repair_reason": P1R52_REPAIR_REASON,
         "supersedes_source_head": P1R52_SUPERSEDES_SOURCE_HEAD,
         "target_direction_policy": P1R52_DIRECTION_POLICY,
-        "parent_amplitude_policy": "P1R51_REQUESTWISE_NLL_PROPORTIONAL_ENERGY_ALLOCATION",
+        "parent_amplitude_policy": parent_amplitude_policy,
         "parent_selection_policy": "P1R43_PRIMARY_RESCUE_CURRENT",
         "preservation_projection": "R42_ONE_SIDED_SEMANTIC_SAFE",
         "kl_direction": "KL_CURRENT_TO_TEACHER_W0",
@@ -556,6 +630,13 @@ def prepare_p1r52_target_proposal(
         "added_materialization_count": 0,
         "kl_result_identity_sha256": kl.identity_sha256,
     }
+    if amplitude_receipt:
+        overlap = set(receipt).intersection(amplitude_receipt)
+        if overlap:
+            raise ODEBFContractError(
+                f"P1R52 external amplitude receipt collides: {sorted(overlap)}"
+            )
+        receipt.update(amplitude_receipt)
     step = _full_current_residual_step(
         target_next=target_next,
         current_target=current_target,
@@ -762,6 +843,9 @@ def select_p1r52_target_proposal(
 
 __all__ = [
     "P1R52ActiveDirectionContractError",
+    "P1R52AmplitudeContext",
+    "P1R52AmplitudeDecision",
+    "P1R52AmplitudePolicy",
     "P1R52_DIRECTION_POLICY",
     "P1R52_INSTRUCTION_ID",
     "P1R52_METHOD_ID",

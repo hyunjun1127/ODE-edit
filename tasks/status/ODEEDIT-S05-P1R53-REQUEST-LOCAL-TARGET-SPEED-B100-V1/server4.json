@@ -1,0 +1,26 @@
+{
+  "task_id": "ODEEDIT-S05-P1R53-REQUEST-LOCAL-TARGET-SPEED-B100-V1",
+  "server": "server4",
+  "agent_id": "server4-server-head",
+  "agent_role": "server-head",
+  "status": "implementation_focused_gates_pass_pre_gpu_pending",
+  "updated_at": "2026-08-23T23:41:13+09:00",
+  "owner_session": "codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d",
+  "authoritative_contract": {
+    "path": "/data/janghj/ODE-edit/local/state/p1r53-request-local-speed-llama-b100-v1/authoritative-contract.txt",
+    "sha256": "fde535a1f88b10bb82011166255a5d4d08a3c0a3a3d7499933596b2b516da322",
+    "bytes": 17305,
+    "lines": 808,
+    "full_read": true
+  },
+  "source_base_head": "8d39bd253d196a016cc65518af3df75644b561d8",
+  "source_base_tree": "33d27e97a8f75bef867b774182a5f1cb06f637d9",
+  "selected_model": "llama3-8b-inst",
+  "selected_batch": "B1_100_REQUESTS",
+  "arms": ["LP-S", "LFD-E"],
+  "project_gpu_cap": 4,
+  "planned_array": "0-1%2",
+  "gpu_slurm_model_action_count": 0,
+  "scientific_promotion": false,
+  "next_state": "COMMIT_AND_FINAL_PRE_GPU"
+}

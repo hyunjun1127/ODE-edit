@@ -119,6 +119,17 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - scientific promotion: `false`
 - next state: `IDLE_AWAITING_GH_CALL`
 
+## P1R53 request-local target-speed B100 heartbeat
+
+- contract: `FULL_READ_PASS`, SHA256 `fde535a1...da322`, 17,305 bytes, 808 lines
+- source base: `8d39bd253d196a016cc65518af3df75644b561d8` / tree `33d27e97a8f75bef867b774182a5f1cb06f637d9`
+- model/input: Llama only, transferred SINGLE_CANONICAL_STREAM B1 100 requests
+- arms: LP-S / LFD-E; K8, h=1/8, microstep1, T=1, C3 writer8
+- external references: existing Z0-COARSE / Native AlphaEdit / Native MEMIT, execution0
+- registered janghj/project GPU cap: 4; task array concurrency: 2
+- current action: implementation focused gates PASS, commit/final PRE-GPU pending; active project GPU 0
+- scientific promotion: false
+
 ## P1R52 target-timescale B100 terminal heartbeat
 
 - target array: `23132_[0-4]`, Z0/Z1/Z15/Z20/Z30 5/5 `COMPLETED 0:0`

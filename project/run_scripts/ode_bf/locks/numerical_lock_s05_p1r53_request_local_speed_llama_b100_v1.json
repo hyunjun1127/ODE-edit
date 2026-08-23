@@ -1,0 +1,66 @@
+{
+  "schema": "ode-edit-s05-p1r53-request-local-speed-llama-b100-numerical-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R53-REQUEST-LOCAL-TARGET-SPEED-B100-V1",
+  "authoritative_contract_sha256": "fde535a1f88b10bb82011166255a5d4d08a3c0a3a3d7499933596b2b516da322",
+  "model_alias": "llama3-8b-inst",
+  "selected_batch": "B1",
+  "selected_request_count": 100,
+  "physical_outer_count": 8,
+  "target_dt": 0.125,
+  "target_microsteps_per_outer": 1,
+  "target_horizon": 1.0,
+  "target_field_evaluations_per_arm": 8,
+  "writer": "C3-OFFICIAL-EASYEDIT-ALPHAEDIT-KSTEP-CACHE",
+  "writer_calls_per_arm": 8,
+  "writer_layer_applies_per_arm": 40,
+  "cache_entry_reuse_count": 8,
+  "cache_append_count": 1,
+  "heldout_outer_indices": [8],
+  "arms": [
+    {
+      "arm": "LP-S",
+      "policy": "REQUEST_LOCAL_PARENT_AMPLITUDE_WITH_SHARED_BATCH_SCALE",
+      "formula": "a_i=m_i*s_B*norm(g_i(t))/(norm(g_i(0))+epsilon_n)"
+    },
+    {
+      "arm": "LFD-E",
+      "policy": "ENTRY_MATCHED_LOCAL_FINITE_DEMAND",
+      "kappa_formula": "kappa_i0=a_i_LP0*sigma_i0/ell_i0",
+      "formula": "a_i=m_i*kappa_i0*ell_i/sigma_i",
+      "kappa_calibration_outer": 0,
+      "kappa_refresh_count": 0
+    }
+  ],
+  "direction_and_preservation": {
+    "authority": "P1R52_RSA_R42_ONE_SIDED_SAFE_KL_DECAY_ORIGIN_CLAMP",
+    "active_normalization": "c_i/norm(c_i)",
+    "semantic_descent": "g_i_dot_d_i_lt_0",
+    "primary_rescue_current_selector_unchanged": true,
+    "new_angle_or_trust_gate_count": 0
+  },
+  "stream": {
+    "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+    "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+    "sample_duplication_count": 0
+  },
+  "references": {
+    "global_p1r52": "SEALED_SERVER4_Z0_COARSE_REUSE_ONLY",
+    "native_alphaedit": "SEALED_CANONICAL_ONE_SHOT_REUSE_ONLY",
+    "native_memit": "SEALED_CANONICAL_ONE_SHOT_REUSE_ONLY",
+    "dynamic_reference_execution_count": 0
+  },
+  "compute_boundaries": {
+    "additional_semantic_forward_count_vs_z0": 0,
+    "additional_semantic_backward_count_vs_z0": 0,
+    "additional_kl_backward_count_vs_z0": 0,
+    "per_request_backward_loop_count": 0,
+    "line_search_forward_count": 0,
+    "retry_count": 0,
+    "adam_state_count": 0,
+    "momentum_state_count": 0,
+    "full_fp32": true,
+    "qwen_execution_count": 0,
+    "scientific_promotion": false
+  },
+  "root_digest": "e577df9dfe3dd9a292cae10232d8d776d459f7617cefd5c2ec021526919509bb"
+}
