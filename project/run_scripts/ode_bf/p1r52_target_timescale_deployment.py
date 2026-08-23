@@ -74,6 +74,7 @@ class TargetTimescaleHFBaseGuard:
         self.easyedit_root = runtime_path_seal.resolve_root(
             "easyedit_root", p0_value["easyedit_root"]
         )
+        self.dataset = self.easyedit_root / str(p0_value["counterfact"]["path"])
         self.model_seal = self.seal.model(MODEL_ALIAS)
         self.snapshot = Path(self.model_seal.snapshot_path)
         self.prior_final_pre_gpu_path = prior_final_pre_gpu_path
@@ -152,7 +153,7 @@ class TargetTimescaleHFBaseGuard:
                 raise ODEBFContractError("target-timescale HF member size differs")
             self._fingerprints[resolved] = fingerprint
         dataset_lock = self.p0_value["counterfact"]
-        dataset = self.easyedit_root / str(dataset_lock["path"])
+        dataset = self.dataset
         if (
             dataset.is_symlink()
             or self._fingerprint(dataset)[2] != int(dataset_lock["size"])

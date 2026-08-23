@@ -30,6 +30,11 @@ from project.run_scripts.ode_bf.p1r52_target_timescale import (
     run_target_subcycle_scheduler,
     schedule_for_cell,
 )
+from project.run_scripts.ode_bf.p1r52_target_timescale_b100 import (
+    TECHNICAL_ATTEMPT_SUFFIX,
+    expected_result_name,
+    role_for_cell,
+)
 from project.run_scripts.ode_bf.scalable_batched_model import ScalableObjectiveResult
 
 
@@ -110,6 +115,13 @@ class TargetTimescaleTest(unittest.TestCase):
                 8 * item.microsteps_per_outer * item.target_dt,
                 item.target_horizon,
             )
+
+    def test_technical_retry_uses_distinct_create_once_namespace(self) -> None:
+        self.assertEqual(TECHNICAL_ATTEMPT_SUFFIX, "tech-r1")
+        self.assertEqual(
+            expected_result_name(role_for_cell(0)),
+            "s05-p1r52-target-timescale-b100-z0-coarse-tech-r1-v1",
+        )
 
     def test_z0_matches_legacy_p1r52_target_and_selection(self) -> None:
         state = P1R51ControllerState.zero(self.entry)

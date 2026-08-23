@@ -47,8 +47,12 @@ from .scalable_batched_runtime import P1R23_GRID_COUNT, scalable_ordered_request
 
 ROLE_PREFIX = "r52-target-timescale-b100-c3-kstep-"
 ROLES = tuple(f"{ROLE_PREFIX}{item.cell.value.lower()}" for item in SCHEDULES)
+TECHNICAL_ATTEMPT_SUFFIX = "tech-r1"
 RESULT_NAMES = {
-    role: f"s05-p1r52-target-timescale-b100-{item.cell.value.lower()}-v1"
+    role: (
+        "s05-p1r52-target-timescale-b100-"
+        f"{item.cell.value.lower()}-{TECHNICAL_ATTEMPT_SUFFIX}-v1"
+    )
     for role, item in zip(ROLES, SCHEDULES, strict=True)
 }
 C3_ARM = "C3-KSTEP-CACHE"
@@ -383,6 +387,7 @@ def run_target_timescale_b100(
 __all__ = [
     "RESULT_NAMES",
     "ROLES",
+    "TECHNICAL_ATTEMPT_SUFFIX",
     "expected_result_name",
     "is_target_timescale_role",
     "role_for_cell",
