@@ -413,6 +413,7 @@ def build_longer_time(
         cells=cell_rows,
         writer=writer_rows,
         native_endpoints=native_endpoint_rows,
+        marginals=marginal_rows,
     )
     (output_root / "report-ko.md").write_text(report, encoding="utf-8")
     generated = [output_root / name for name in tables] + [output_root / "analysis.json", output_root / "report-ko.md"]
@@ -458,6 +459,7 @@ def _render_report(
     cells: Sequence[Mapping[str, Any]],
     writer: Sequence[Mapping[str, Any]],
     native_endpoints: Sequence[Mapping[str, Any]],
+    marginals: Sequence[Mapping[str, Any]],
 ) -> str:
     writer_k8 = {(row["cell"], row["outer_K"]): row for row in writer}
     lines = [
@@ -515,7 +517,48 @@ def _render_report(
     lines.extend(
         [
             "",
-            "## 3. K8 accepted-z → post-W 전달",
+            "## 3. K8 longer-time paired 및 marginal 변화",
+            "",
+            "|cell vs Z1|prompt|delta mean/median/p90/max|longer win|Z1 win|",
+            "|---|---|---|---:|---:|",
+        ]
+    )
+    paired = analysis["paired_vs_Z1"]
+    for cell in CELLS[1:]:
+        for prompt in ("rewrite", "rephrase"):
+            row = paired[cell]["8"][prompt]
+            delta = row["longer_minus_Z1"]
+            lines.append(
+                f"|{cell}|{prompt}|{delta['mean']:+.6f}/{delta['median']:+.6f}/{delta['p90']:+.6f}/{delta['max']:+.6f}|{row['longer_win_count']}/{delta['n']}|{row['Z1_win_count']}/{delta['n']}|"
+            )
+    lines.extend(
+        [
+            "",
+            "|increment|endpoint|prompt|K8 mean delta|K8 median delta|K8 p90 delta|",
+            "|---|---|---|---:|---:|---:|",
+        ]
+    )
+    for left, right in CONSECUTIVE:
+        for endpoint in ("accepted_z", "post_writer_W"):
+            for prompt in ("rewrite", "rephrase"):
+                rows = {
+                    row["statistic"]: row
+                    for row in marginals
+                    if row["left_cell"] == left
+                    and row["right_cell"] == right
+                    and row["outer_K"] == 8
+                    and row["endpoint"] == endpoint
+                    and row["prompt"] == prompt
+                }
+                lines.append(
+                    f"|{left}→{right}|{endpoint}|{prompt}|{float(rows['mean']['right_minus_left']):+.6f}|{float(rows['median']['right_minus_left']):+.6f}|{float(rows['p90']['right_minus_left']):+.6f}|"
+                )
+    lines.extend(
+        [
+            "",
+            "음수는 longer cell의 NLL 감소다. marginal은 Rewrite에서 대체로 감소하지만 Rephrase mean/tail과 post-W는 구간별 비단조다. 이는 raw association이며 최적 T_z 선택 또는 인과 기제 판정이 아니다.",
+            "",
+            "## 4. K8 accepted-z → post-W 전달",
             "",
             "|cell|Rewrite z/W/gap|Rephrase z/W/gap|z locality|W locality|",
             "|---|---:|---:|---:|---:|",
@@ -533,7 +576,7 @@ def _render_report(
     lines.extend(
         [
             "",
-            "## 4. Native direct-z reference",
+            "## 5. Native direct-z reference",
             "",
             "|method|prompt|mean|median|p90|max|success|strict|",
             "|---|---|---:|---:|---:|---:|---:|---:|",
@@ -548,7 +591,7 @@ def _render_report(
     lines.extend(
         [
             "",
-            "## 5. 해석 경계",
+            "## 6. 해석 경계",
             "",
             "- B100×1 exploratory ablation이며 이 결과만으로 final T_z를 선택하거나 promotion하지 않는다.",
             "- fixed-dt longer-time 효과만 다룬다. Z0 coarse resolution은 과학 분모와 raw manifest에 포함하지 않았다.",
