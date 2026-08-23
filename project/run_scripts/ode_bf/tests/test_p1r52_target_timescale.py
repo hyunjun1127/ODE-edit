@@ -4,6 +4,7 @@ from dataclasses import replace
 import inspect
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 import torch
 
@@ -38,6 +39,7 @@ from project.run_scripts.ode_bf.p1r52_target_timescale_b100 import (
 )
 from project.run_scripts.ode_bf.p1r52_target_timescale_deployment import (
     SERVER4_GPU_ALLOCATABLE_BYTES,
+    TargetTimescaleHFBaseGuard,
     validate_target_timescale_server4_gpu_capacity,
 )
 from project.run_scripts.ode_bf.scalable_batched_model import ScalableObjectiveResult
@@ -122,10 +124,10 @@ class TargetTimescaleTest(unittest.TestCase):
             )
 
     def test_technical_retry_uses_distinct_create_once_namespace(self) -> None:
-        self.assertEqual(TECHNICAL_ATTEMPT_SUFFIX, "tech-r2")
+        self.assertEqual(TECHNICAL_ATTEMPT_SUFFIX, "tech-r3")
         self.assertEqual(
             expected_result_name(role_for_cell(0)),
-            "s05-p1r52-target-timescale-b100-z0-coarse-tech-r2-v1",
+            "s05-p1r52-target-timescale-b100-z0-coarse-tech-r3-v1",
         )
 
     def test_server4_capacity_does_not_reuse_server1_device_identity(self) -> None:
@@ -145,6 +147,22 @@ class TargetTimescaleTest(unittest.TestCase):
                 allocatable_total_bytes=80 * 1024**3,
                 free_bytes=79 * 1024**3,
             )
+
+    def test_task_loader_binds_llama_padding_before_context_generation(self) -> None:
+        guard = object.__new__(TargetTimescaleHFBaseGuard)
+        guard.seal = object()
+        guard.stream_receipt = {"status": "TRANSFER_FULL_READ_PASS"}
+        guard.prior_final_pre_gpu = {"status": "FINAL_PRE_GPU_PASS"}
+        tokenizer = SimpleNamespace(pad_token_id=None, eos_token_id=128001)
+        with patch(
+            "project.run_scripts.ode_bf.p1r52_target_timescale_deployment."
+            "load_p4_full_fp32_from_sealed_snapshot",
+            return_value=("model", tokenizer, "receipt"),
+        ):
+            model, observed, receipt = guard.load_full_fp32("llama3-8b-inst")
+        self.assertEqual((model, receipt), ("model", "receipt"))
+        self.assertIs(observed, tokenizer)
+        self.assertEqual(observed.pad_token_id, observed.eos_token_id)
 
     def test_z0_matches_legacy_p1r52_target_and_selection(self) -> None:
         state = P1R51ControllerState.zero(self.entry)

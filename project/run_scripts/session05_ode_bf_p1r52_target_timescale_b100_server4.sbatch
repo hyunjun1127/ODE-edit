@@ -23,11 +23,11 @@ readonly EASYEDIT_ROOT="/data/janghj/EasyEdit"
 readonly CELL="${SLURM_ARRAY_TASK_ID:?SLURM_ARRAY_TASK_ID is required}"
 readonly RUN_TOKEN="p1r52-target-timescale-b100-v1"
 readonly RESULT_NAMES=(
-  "s05-p1r52-target-timescale-b100-z0-coarse-tech-r2-v1"
-  "s05-p1r52-target-timescale-b100-z1-refine-tech-r2-v1"
-  "s05-p1r52-target-timescale-b100-z15-tech-r2-v1"
-  "s05-p1r52-target-timescale-b100-z20-tech-r2-v1"
-  "s05-p1r52-target-timescale-b100-z30-tech-r2-v1"
+  "s05-p1r52-target-timescale-b100-z0-coarse-tech-r3-v1"
+  "s05-p1r52-target-timescale-b100-z1-refine-tech-r3-v1"
+  "s05-p1r52-target-timescale-b100-z15-tech-r3-v1"
+  "s05-p1r52-target-timescale-b100-z20-tech-r3-v1"
+  "s05-p1r52-target-timescale-b100-z30-tech-r3-v1"
 )
 
 [[ "$#" -eq 3 ]] || { echo "target-timescale arguments differ" >&2; exit 2; }

@@ -47,7 +47,7 @@ from .scalable_batched_runtime import P1R23_GRID_COUNT, scalable_ordered_request
 
 ROLE_PREFIX = "r52-target-timescale-b100-c3-kstep-"
 ROLES = tuple(f"{ROLE_PREFIX}{item.cell.value.lower()}" for item in SCHEDULES)
-TECHNICAL_ATTEMPT_SUFFIX = "tech-r2"
+TECHNICAL_ATTEMPT_SUFFIX = "tech-r3"
 RESULT_NAMES = {
     role: (
         "s05-p1r52-target-timescale-b100-"

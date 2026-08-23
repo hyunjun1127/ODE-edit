@@ -231,13 +231,20 @@ class TargetTimescaleHFBaseGuard:
             raise ODEBFContractError("target-timescale HF closure changed")
 
     def load_full_fp32(self, alias: str) -> tuple[Any, Any, Any]:
-        return load_p4_full_fp32_from_sealed_snapshot(
+        model, tokenizer, receipt = load_p4_full_fp32_from_sealed_snapshot(
             self.seal,
             alias,
             stream_receipt=self.stream_receipt,
             final_pre_gpu_receipt=self.prior_final_pre_gpu,
             reuse_final_verified_closure=True,
         )
+        if tokenizer.pad_token_id is None:
+            if tokenizer.eos_token_id is None:
+                raise ODEBFContractError(
+                    "target-timescale tokenizer padding identity differs"
+                )
+            tokenizer.pad_token_id = tokenizer.eos_token_id
+        return model, tokenizer, receipt
 
 
 def _sha256(path: Path) -> str:
