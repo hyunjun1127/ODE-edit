@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import replace
 import inspect
+from types import SimpleNamespace
 import unittest
 
 import torch
@@ -34,6 +35,10 @@ from project.run_scripts.ode_bf.p1r52_target_timescale_b100 import (
     TECHNICAL_ATTEMPT_SUFFIX,
     expected_result_name,
     role_for_cell,
+)
+from project.run_scripts.ode_bf.p1r52_target_timescale_deployment import (
+    SERVER4_GPU_ALLOCATABLE_BYTES,
+    validate_target_timescale_server4_gpu_capacity,
 )
 from project.run_scripts.ode_bf.scalable_batched_model import ScalableObjectiveResult
 
@@ -117,11 +122,29 @@ class TargetTimescaleTest(unittest.TestCase):
             )
 
     def test_technical_retry_uses_distinct_create_once_namespace(self) -> None:
-        self.assertEqual(TECHNICAL_ATTEMPT_SUFFIX, "tech-r1")
+        self.assertEqual(TECHNICAL_ATTEMPT_SUFFIX, "tech-r2")
         self.assertEqual(
             expected_result_name(role_for_cell(0)),
-            "s05-p1r52-target-timescale-b100-z0-coarse-tech-r1-v1",
+            "s05-p1r52-target-timescale-b100-z0-coarse-tech-r2-v1",
         )
+
+    def test_server4_capacity_does_not_reuse_server1_device_identity(self) -> None:
+        forecast = SimpleNamespace(conservative_gpu_peak_mib=65_000)
+        observed = validate_target_timescale_server4_gpu_capacity(
+            forecast,
+            device_property_total_bytes=SERVER4_GPU_ALLOCATABLE_BYTES,
+            allocatable_total_bytes=SERVER4_GPU_ALLOCATABLE_BYTES,
+            free_bytes=80_000 * 1024 * 1024,
+        )
+        self.assertTrue(observed["passed"])
+        self.assertEqual(observed["server1_device_identity_influence_count"], 0)
+        with self.assertRaisesRegex(ODEBFContractError, "server4 GPU"):
+            validate_target_timescale_server4_gpu_capacity(
+                forecast,
+                device_property_total_bytes=80 * 1024**3,
+                allocatable_total_bytes=80 * 1024**3,
+                free_bytes=79 * 1024**3,
+            )
 
     def test_z0_matches_legacy_p1r52_target_and_selection(self) -> None:
         state = P1R51ControllerState.zero(self.entry)

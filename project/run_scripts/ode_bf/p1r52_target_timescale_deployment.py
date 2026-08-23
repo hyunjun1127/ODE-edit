@@ -11,6 +11,7 @@ from dataclasses import dataclass
 import json
 import os
 from pathlib import Path
+import socket
 import stat
 from typing import Any, Mapping
 
@@ -34,6 +35,41 @@ EXPECTED_HF_REQUIRED_ROOT = "a1795dc0fe12a307e16432a7c2049da1a795e4170e3b6f6822d
 EXPECTED_STREAM_ROOT = "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
 EXPECTED_STREAM_ORDER = "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3"
 EXPECTED_EVALUATOR_IDENTITY = "8d8196eedd2c8c675a6bff17912916bdd99a96715b2e7a714417b7ebc16da159"
+SERVER4_GPU_ALLOCATABLE_BYTES = 101_975_851_008
+
+
+def validate_target_timescale_server4_gpu_capacity(
+    forecast: Any,
+    *,
+    device_property_total_bytes: int,
+    allocatable_total_bytes: int,
+    free_bytes: int,
+) -> dict[str, Any]:
+    """Validate the selected server4 96-GB GPU without server1 identity reuse."""
+
+    required = int(forecast.conservative_gpu_peak_mib) * 1024 * 1024
+    if (
+        socket.gethostname() != "server4"
+        or device_property_total_bytes != SERVER4_GPU_ALLOCATABLE_BYTES
+        or allocatable_total_bytes > device_property_total_bytes
+        or free_bytes > allocatable_total_bytes
+        or required <= 0
+        or free_bytes < required
+    ):
+        raise ODEBFContractError("target-timescale server4 GPU capacity differs")
+    payload: dict[str, Any] = {
+        "schema": "ode-edit-s05-p1r52-target-timescale-server4-gpu-capacity/v1",
+        "hostname": "server4",
+        "stable_device_total_bytes": device_property_total_bytes,
+        "allocatable_total_bytes": allocatable_total_bytes,
+        "free_bytes": free_bytes,
+        "required_free_bytes": required,
+        "server1_device_identity_influence_count": 0,
+        "scientific_parameter_influence_count": 0,
+        "passed": True,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
 
 
 @dataclass(frozen=True, slots=True)
@@ -291,8 +327,10 @@ __all__ = [
     "EXPECTED_HF_REQUIRED_ROOT",
     "EXPECTED_STREAM_ORDER",
     "EXPECTED_STREAM_ROOT",
+    "SERVER4_GPU_ALLOCATABLE_BYTES",
     "TargetTimescaleBaseReceipt",
     "TargetTimescaleDeployment",
     "TargetTimescaleHFBaseGuard",
     "build_target_timescale_deployment",
+    "validate_target_timescale_server4_gpu_capacity",
 ]

@@ -3263,6 +3263,7 @@ def run_p1(
     artifact_evaluator_source_paths: Mapping[str, Path] | None = None,
     sealed_fp32_model_loader: Any | None = None,
     artifact_base_guard_override: Any | None = None,
+    runtime_gpu_capacity_validator: Any | None = None,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3285,6 +3286,10 @@ def run_p1(
         or is_phase3_role(p1r52_sequential_role)
         or is_target_timescale_role(p1r52_sequential_role)
     )
+    if runtime_gpu_capacity_validator is not None and not is_target_timescale_role(
+        p1r52_sequential_role
+    ):
+        raise ODEBFContractError("runtime GPU capacity override scope differs")
     p3r1_fp32_mode = is_p3r1_role(p1r52_sequential_role)
     _source_freeze(repo_root, source_head)
     expected_parent = (
@@ -4512,7 +4517,12 @@ def run_p1(
         )
         device_properties = torch.cuda.get_device_properties(0)
         free_bytes, allocatable_total_bytes = torch.cuda.mem_get_info(0)
-        common_capacity_receipt = validate_common_cold_runtime_gpu_capacity(
+        capacity_validator = (
+            validate_common_cold_runtime_gpu_capacity
+            if runtime_gpu_capacity_validator is None
+            else runtime_gpu_capacity_validator
+        )
+        common_capacity_receipt = capacity_validator(
             common_forecast,
             device_property_total_bytes=int(device_properties.total_memory),
             allocatable_total_bytes=int(allocatable_total_bytes),

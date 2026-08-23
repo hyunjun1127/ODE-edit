@@ -34,6 +34,7 @@ from project.run_scripts.ode_bf.p1r52_target_timescale_b100 import (
 )
 from project.run_scripts.ode_bf.p1r52_target_timescale_deployment import (
     build_target_timescale_deployment,
+    validate_target_timescale_server4_gpu_capacity,
 )
 from project.run_scripts.session05_ode_bf_p1r52_target_timescale_b100_preflight import (
     EXTRACT_ROOT,
@@ -107,6 +108,9 @@ def main(argv: list[str] | None = None) -> int:
             artifact_evaluator_source_paths=deployment.evaluator_source_paths,
             artifact_base_guard_override=deployment.base_guard,
             sealed_fp32_model_loader=deployment.base_guard.load_full_fp32,
+            runtime_gpu_capacity_validator=(
+                validate_target_timescale_server4_gpu_capacity
+            ),
         )
         if torch.cuda.is_available():
             torch.cuda.synchronize()
