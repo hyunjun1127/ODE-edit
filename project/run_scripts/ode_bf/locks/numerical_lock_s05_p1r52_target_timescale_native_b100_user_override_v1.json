@@ -1,0 +1,44 @@
+{
+  "array": "0-1%2",
+  "execution": {
+    "accepted_z": "EXACT_OFFICIAL_COMPUTE_Z_RETURN",
+    "alphaedit_cache": "FRESH_B1_OFFICIAL_RESET_TRUE",
+    "full_fp32": true,
+    "memit_covariance": "OFFICIAL_PINNED_WIKIPEDIA_STATS",
+    "official_apply_count_per_cell": 1,
+    "post_W_evaluator_count_per_cell": 1,
+    "target_timescale_field_execution_count": 0,
+    "W0_restore_required": true,
+    "z_evaluator_count_per_cell": 1
+  },
+  "instruction_id": "ODEEDIT-S05-P1R52-TARGET-TIMESCALE-NATIVE-B100-USER-OVERRIDE-V1",
+  "methods": [
+    {
+      "method": "OFFICIAL-ALPHAEDIT",
+      "official_entrypoint": "easyeditor.models.alphaedit.AlphaEdit_main.apply_AlphaEdit_to_model",
+      "role": "r52-target-timescale-native-b100-user-override-official-alphaedit"
+    },
+    {
+      "method": "OFFICIAL-MEMIT",
+      "official_entrypoint": "easyeditor.models.memit.memit_main.apply_memit_to_model",
+      "role": "r52-target-timescale-native-b100-user-override-official-memit"
+    }
+  ],
+  "model_alias": "llama3-8b-inst",
+  "parent_instruction_id": "ODEEDIT-S05-P1R52-TARGET-TIMESCALE-ABLATION-B100-V1",
+  "policy_provenance": "USER_DIRECTED_NATIVE_REFERENCE_RUN_OVERRIDE",
+  "project_gpu_cap": 4,
+  "reference_boundary": {
+    "comparison_only": true,
+    "promotion_influence_count": 0,
+    "selection_influence_count": 0,
+    "target_timescale_parameter_influence_count": 0
+  },
+  "root_digest": "d62373984c4a8461429ca62054c80a0f035c104f3f155aa24402f9c6feaa65a2",
+  "sample_duplication_count": 0,
+  "schema": "ode-edit-s05-p1r52-target-timescale-native-b100-numerical-lock/v1",
+  "selected_batch": "B1",
+  "selected_request_count": 100,
+  "stream_order": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
+}

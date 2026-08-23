@@ -3277,6 +3277,9 @@ def run_p1(
     from .p1r52_c_writer_kstep_independent import is_phase2_role
     from .p1r52_c_writer_kstep_cache_sequential import is_phase3_role
     from .p1r52_target_timescale_b100 import is_target_timescale_role
+    from .p1r52_target_timescale_native_reference import (
+        is_target_timescale_native_reference_role,
+    )
 
     joint_pc_full_fp32_mode = (
         is_joint_pc_full_fp32_role(p1r52_sequential_role)
@@ -3285,9 +3288,11 @@ def run_p1(
         or is_phase2_role(p1r52_sequential_role)
         or is_phase3_role(p1r52_sequential_role)
         or is_target_timescale_role(p1r52_sequential_role)
+        or is_target_timescale_native_reference_role(p1r52_sequential_role)
     )
-    if runtime_gpu_capacity_validator is not None and not is_target_timescale_role(
-        p1r52_sequential_role
+    if runtime_gpu_capacity_validator is not None and not (
+        is_target_timescale_role(p1r52_sequential_role)
+        or is_target_timescale_native_reference_role(p1r52_sequential_role)
     ):
         raise ODEBFContractError("runtime GPU capacity override scope differs")
     p3r1_fp32_mode = is_p3r1_role(p1r52_sequential_role)
