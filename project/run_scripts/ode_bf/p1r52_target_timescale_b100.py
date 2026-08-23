@@ -122,6 +122,7 @@ def run_target_timescale_b100(
     manifest_schema: str = "ode-edit-s05-p1r52-target-timescale-cell-manifest/v1",
     terminal_status: str = "P1R52_TARGET_TIMESCALE_TERMINAL",
     stage_prefix: str = "target_timescale",
+    amplitude_writer_layer_apply_count_key: str = "p1r53_writer_layer_apply_count",
     experiment_metadata: Mapping[str, Any] | None = None,
     **_: Any,
 ) -> dict[str, Any]:
@@ -370,10 +371,12 @@ def run_target_timescale_b100(
         "scientific_promotion": False,
     }
     if amplitude_policy is not None:
+        if not amplitude_writer_layer_apply_count_key:
+            raise ODEBFContractError("amplitude writer layer counter key differs")
         transition_payload["amplitude_policy_terminal"] = dict(
             amplitude_policy.terminal_receipt()
         )
-        transition_payload["p1r53_writer_layer_apply_count"] = sum(
+        transition_payload[amplitude_writer_layer_apply_count_key] = sum(
             int(item.compute["native_apply_count"])
             for item in runtime.executions
         )

@@ -70,6 +70,7 @@ class P1R52AmplitudeContext:
     kdc_direction: torch.Tensor
     local_parent_amplitude: torch.Tensor
     counterfactual_global_reference_energy: float
+    target_origin_norm: torch.Tensor | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -400,6 +401,7 @@ def prepare_p1r52_target_proposal(
                 kdc_direction=kdc_direction,
                 local_parent_amplitude=parent_norm,
                 counterfactual_global_reference_energy=reference_energy,
+                target_origin_norm=origin_norm,
             )
         )
         if (

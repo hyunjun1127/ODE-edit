@@ -1,0 +1,83 @@
+{
+  "schema": "ode-edit-s05-p1r54-energyfree-localz-llama-b100-numerical-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R54-ENERGYFREE-LOCALZ-B100-V1",
+  "authoritative_contract_sha256": "6fcfc7df83c9b94d38accecb5fa600c33a8a1741f579881d9f1fab05cd0a3d58",
+  "model_alias": "llama3-8b-inst",
+  "selected_batch": "B1",
+  "selected_request_count": 100,
+  "physical_outer_count": 8,
+  "target_dt": 0.125,
+  "target_microsteps_per_outer": 1,
+  "target_horizon": 1.0,
+  "target_field_evaluations_per_arm": 8,
+  "writer": "C3-OFFICIAL-EASYEDIT-ALPHAEDIT-KSTEP-CACHE",
+  "writer_calls_per_arm": 8,
+  "writer_layer_applies_per_arm": 40,
+  "cache_entry_reuse_count": 8,
+  "cache_append_count": 1,
+  "heldout_outer_indices": [8],
+  "rho": {
+    "formula": "rho_i=norm(z0_i)",
+    "source": "IMMUTABLE_CASE_ENTRY_TARGET_ORIGIN_NORM",
+    "calibration_outer": 0,
+    "refresh_count": 0,
+    "cross_request_access_count": 0
+  },
+  "arms": [
+    {
+      "arm": "FZ",
+      "policy": "FIXED_ORIGIN_NORM_LOCAL_Z",
+      "formula": "F_i=m_i*rho_i*d_i"
+    },
+    {
+      "arm": "PDZ",
+      "policy": "NLL_PACED_ORIGIN_NORM_LOCAL_Z",
+      "deficit_formula": "delta_i=-expm1(-ell_i)",
+      "formula": "F_i=m_i*rho_i*delta_i*d_i"
+    }
+  ],
+  "direction_and_preservation": {
+    "authority": "P1R52_RSA_R42_ONE_SIDED_SAFE_KL_DECAY_ORIGIN_CLAMP",
+    "active_normalization": "c_i/norm(c_i)",
+    "semantic_descent": "g_i_dot_d_i_lt_0",
+    "barrier_role": "DIRECTION_ROTATION_ONLY",
+    "amplitude_attenuation_or_reject_count": 0,
+    "primary_rescue_current_selector_unchanged": true
+  },
+  "forbidden_decision_access": {
+    "shared_scale": 0,
+    "global_reference_energy": 0,
+    "batch_nll_denominator": 0,
+    "cross_request_gradient_reduction": 0,
+    "entry_gradient_denominator": 0,
+    "gradient_ratio": 0,
+    "kappa": 0,
+    "inverse_slope": 0,
+    "unused_energy_redistribution": 0
+  },
+  "stream": {
+    "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+    "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+    "sample_duplication_count": 0
+  },
+  "references": {
+    "global_p1r52": "SEALED_SERVER4_Z0_COARSE_REUSE_ONLY",
+    "p1r53_lp_s": "SEALED_SERVER4_REUSE_ONLY",
+    "p1r53_lfd_e": "SEALED_SERVER4_REUSE_ONLY",
+    "native_alphaedit": "SEALED_CANONICAL_ONE_SHOT_REUSE_ONLY",
+    "native_memit": "SEALED_CANONICAL_ONE_SHOT_REUSE_ONLY",
+    "dynamic_reference_execution_count": 0
+  },
+  "compute_boundaries": {
+    "additional_semantic_forward_count_vs_z0": 0,
+    "additional_semantic_backward_count_vs_z0": 0,
+    "additional_kl_backward_count_vs_z0": 0,
+    "per_request_backward_loop_count": 0,
+    "line_search_forward_count": 0,
+    "retry_count": 0,
+    "full_fp32": true,
+    "qwen_execution_count": 0,
+    "scientific_promotion": false
+  },
+  "root_digest": "b9f7ca3beac529491b4cf16237f8b7887a3f02913110639ed2c29a63dc4286ad"
+}
