@@ -3,8 +3,8 @@
   "server": "server4",
   "agent_id": "server4-server-head",
   "agent_role": "server-head",
-  "status": "implementation_focused_gates_pass_pre_gpu_pending",
-  "updated_at": "2026-08-24T00:30:00+09:00",
+  "status": "terminal_factual_analysis_complete",
+  "updated_at": "2026-08-24T01:38:30+09:00",
   "owner_session": "codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d",
   "authoritative_contract": {
     "path": "/data/janghj/ODE-edit/local/state/p1r54-energyfree-localz-llama-b100-v1/authoritative-contract.txt",
@@ -28,9 +28,53 @@
   "selected_model": "llama3-8b-inst",
   "selected_batch": "B1_100_REQUESTS",
   "project_gpu_cap": 4,
-  "planned_array": "0-1%2",
-  "gpu_slurm_model_action_count": 0,
+  "execution": {
+    "source_commit": "27339f987c4f4147a6bf6347061444f53af095a4",
+    "source_tree": "3683ae0bdb7004148516514ffbf567c566dfab94",
+    "array": "23375_[0-1]%2",
+    "fz_state": "COMPLETED_0:0",
+    "pdz_state": "COMPLETED_0:0",
+    "terminal_cells": 2,
+    "field_evaluations_per_arm": 8,
+    "writer_calls_per_arm": 8,
+    "layer_applies_per_arm": 40,
+    "additional_forward_backward": "0/0",
+    "w0_restore": true,
+    "full_fp32": true
+  },
+  "results": {
+    "fz": {
+      "post_w_eff": "100/100",
+      "post_w_gen_prompt": "183/200",
+      "post_w_gen_strict": "85/100",
+      "post_w_loc": "890/1000",
+      "accepted_z_rewrite_nll_mean_median_p90": [0.048273, 0.001017, 0.016592],
+      "accepted_z_rephrase_nll_mean_median_p90": [1.274926, 0.084032, 4.438152],
+      "post_w_rewrite_nll_mean_median_p90": [0.050604, 0.001007, 0.017023],
+      "post_w_rephrase_nll_mean_median_p90": [1.983023, 0.417421, 5.601935]
+    },
+    "pdz": {
+      "post_w_eff": "100/100",
+      "post_w_gen_prompt": "179/200",
+      "post_w_gen_strict": "82/100",
+      "post_w_loc": "883/1000",
+      "accepted_z_rewrite_nll_mean_median_p90": [0.093820, 0.034567, 0.109534],
+      "accepted_z_rephrase_nll_mean_median_p90": [1.584130, 0.405968, 5.151646],
+      "post_w_rewrite_nll_mean_median_p90": [0.092770, 0.035101, 0.112419],
+      "post_w_rephrase_nll_mean_median_p90": [2.421488, 1.149194, 6.500853]
+    }
+  },
+  "report_package": {
+    "commit": "71ae5a797fda86f8eace0a83dbd2adb95c003bf2",
+    "path": "experiment-reports/servers/server4/p1r54-energyfree-localz-llama-b100-2026-08-24-v3",
+    "report_sha256": "5132ae8f6b37df8899f24fa283e0663c56f020b82fa77930df8ac7f4b6dea510",
+    "manifest_sha256": "a1765961854deb2b2b078a94f1365dc535c647fddec515ffe2e4c5c994a1d685",
+    "manifest_identity": "0b241f0853fd9941799659526d7ed9f172b50bce99eb7ea70f4ff4b0f9506fca",
+    "receipt_sha256": "673933a3d5de212449863c00f941dbcf03d24f0f513aa4b47514b7dd07fda5ce",
+    "receipt_identity": "a61fb40147fead2745520d11a6b6ac6a0a31a764844efc510590a50245ed5d3e"
+  },
+  "gpu_slurm_model_action_count": 2,
   "reference_execution_count": 0,
   "scientific_promotion": false,
-  "next_state": "FINAL_PRE_GPU"
+  "next_state": "IDLE_AWAITING_GH_CALL"
 }

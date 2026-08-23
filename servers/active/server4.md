@@ -11,10 +11,10 @@
   `01a028a7-9e3c-7541-81ba-efb40555d17d`
   (`codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d`)
 - local hard boundary: checker PASS, model/profile은 user-managed
-- 갱신 시각: `2026-08-24T00:07:09+09:00`
+- 갱신 시각: `2026-08-24T01:38:30+09:00`
 - current GH directive:
   `ODEEDIT-S05-P1R54-ENERGYFREE-LOCALZ-B100-V1`
-  FZ/PDZ implementation focused gates PASS; final PRE-GPU pending
+  FZ/PDZ job23375 terminal factual report complete; next instruction HOLD
 
 이 session은 이전 `registered-pending-clone` 상태를 supersede한다. 과거 task,
 report, audit와 experiment provenance는 변경하지 않는다.
@@ -61,7 +61,7 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - current user-directed project GPU cap: server4의 `janghj` allocation 동시 최대 4 GPU
 - host-memory request cap: GPU당 65,984 MiB
 - `scripts/check-slurm-resource-cap.sh server4 1 65984`: PASS
-- 현재 target-timescale/Native job은 모두 terminal이며 신규 experiment submit은 HOLD
+- 현재 `janghj` active GPU는 0개이며 신규 experiment submit은 HOLD
 
 ## Storage
 
@@ -147,7 +147,17 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - numerical lock root: `b9f7ca3beac529491b4cf16237f8b7887a3f02913110639ed2c29a63dc4286ad`
 - focused mechanical/legacy suite: 38/38 PASS; GPU/Slurm/model action0
 - registered janghj/project GPU cap4; planned array `0-1%2`
-- current action: final PRE-GPU/source integration pending
+- execution source/tree: `27339f987c4f4147a6bf6347061444f53af095a4` / `3683ae0bdb7004148516514ffbf567c566dfab94`
+- valid array: `23375_[0-1]%2`; FZ/PDZ 모두 `COMPLETED 0:0`, elapsed 1267s/1264s
+- completeness per arm: field eval8, writer8/layer40, cache reuse8/append1, W0 restore, FULL-FP32, additional F/B0
+- FZ W: Eff 100/100, Gen prompt 183/200, strict85/100, Loc890/1000
+- PDZ W: Eff 100/100, Gen prompt179/200, strict82/100, Loc883/1000
+- FZ accepted-z Rewrite/Rephrase NLL mean: `0.048273 / 1.274926`; post-W `0.050604 / 1.983023`
+- PDZ accepted-z Rewrite/Rephrase NLL mean: `0.093820 / 1.584130`; post-W `0.092770 / 2.421488`
+- both arms clamp0/800; FZ hard-tail/barrier-writer transfer and PDZ under-edit pacing remain factual limitations
+- canonical report: `experiment-reports/servers/server4/p1r54-energyfree-localz-llama-b100-2026-08-24-v3`
+- report/manifest/receipt SHA: `5132ae8f...a510` / `a1765961...d685` / `673933a3...a5ce`
+- current action: terminal factual report complete, active project GPU0, no new submission
 - scientific promotion: false
 
 ## P1R52 target-timescale B100 terminal heartbeat
