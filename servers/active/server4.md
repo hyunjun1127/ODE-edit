@@ -11,11 +11,11 @@
   `01a028a7-9e3c-7541-81ba-efb40555d17d`
   (`codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d`)
 - local hard boundary: checker PASS, model/profile은 user-managed
-- 갱신 시각: `2026-08-23T01:30:45+09:00`
+- 갱신 시각: `2026-08-23T18:08:04+09:00`
 - current GH directive:
-  `ODEEDIT-S05-P4-EULER-PROJECTED-SEMANTIC-ODE-V1`
-  Llama ZA h=1 B2–B10 terminal report complete; `POST_ZA_PAUSE_ACTIVE`,
-  `IDLE_AWAITING_GH_CALL`
+  `ODEEDIT-S05-P1R52-TARGET-TIMESCALE-ABLATION-B100-V1`
+  same-horizon/longer-time 및 user-authorized Native reference terminal
+  reports complete; `IDLE_AWAITING_GH_CALL`
 
 이 session은 이전 `registered-pending-clone` 상태를 supersede한다. 과거 task,
 report, audit와 experiment provenance는 변경하지 않는다.
@@ -59,10 +59,10 @@ report, audit와 experiment provenance는 변경하지 않는다.
   각 97,887 MiB
 - Slurm 전체 alloc GPU: 2개; non-project job 1건이 사용 중
 - ODE-Edit project pattern 실행 GPU: 0개
-- project GPU cap: 동시 최대 2 GPU
+- current user-directed project GPU cap: server4의 `janghj` allocation 동시 최대 4 GPU
 - host-memory request cap: GPU당 65,984 MiB
 - `scripts/check-slurm-resource-cap.sh server4 1 65984`: PASS
-- 현재 GH 지시 때문에 cap PASS 여부와 무관하게 신규 experiment submit은 HOLD
+- 현재 target-timescale/Native job은 모두 terminal이며 신규 experiment submit은 HOLD
 
 ## Storage
 
@@ -114,9 +114,24 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - P4 HF readiness: `PASS`
 - full launcher/sealed deployment: `PASS`
 - P4-Euler ZA h=1: `TERMINAL_TECHNICAL_PASS / PROJECTION_DOMINATED_EXPLORATORY_RUN`
-- scientific job submission: `POST_ZA_PAUSE_ACTIVE`; ZB/Qwen/tuning/rerun 0
+- scientific job submission: target-timescale/Native terminal; active `janghj` GPU 0,
+  신규 submit HOLD
 - scientific promotion: `false`
 - next state: `IDLE_AWAITING_GH_CALL`
+
+## P1R52 target-timescale B100 terminal heartbeat
+
+- target array: `23132_[0-4]`, Z0/Z1/Z15/Z20/Z30 5/5 `COMPLETED 0:0`
+- same-horizon: Z0/Z1, `T_z=1`, resolution-only report complete
+- longer-time: Z1/Z15/Z20/Z30, fixed `dt=1/16`, report complete
+- Native reference: AlphaEdit `23140_0` valid; MEMIT `23140_1` technical
+  exclusion 뒤 TECH-R2 `23142_1` valid
+- raw roots: ignored local, immutable reference only
+- report roots:
+  - `experiment-reports/servers/server4/p1r52-target-timescale-same-horizon-b100-2026-08-23-native-v1`
+  - `experiment-reports/servers/server4/p1r52-target-timescale-longer-time-b100-2026-08-23-native-v1`
+- final Tz selection: false
+- scientific promotion: false
 
 ## P4 Phase 0 heartbeat
 

@@ -1,0 +1,47 @@
+{
+  "task_id": "ODEEDIT-S05-P1R52-TARGET-TIMESCALE-ABLATION-B100-V1",
+  "server": "server4",
+  "agent_id": "server4-server-head",
+  "agent_role": "server-head",
+  "status": "terminal_reports_complete_idle_awaiting_gh_call",
+  "updated_at": "2026-08-23T18:08:04+09:00",
+  "owner_session": "codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d",
+  "execution_source_commit": "c1f1962937af87392a6d046d66c8d864bd54073d",
+  "execution_source_tree": "79535403ea7c09d5954102813f2185107966d5a6",
+  "job_array": "23132_[0-4]",
+  "job_terminal": "5/5_COMPLETED_EXIT0",
+  "valid_cells": [
+    "Z0-COARSE",
+    "Z1-REFINE",
+    "Z15",
+    "Z20",
+    "Z30"
+  ],
+  "same_horizon_report": {
+    "path": "experiment-reports/servers/server4/p1r52-target-timescale-same-horizon-b100-2026-08-23-native-v1/report-ko.md",
+    "sha256": "a20f240dee91c41a5efd9b71298f3d0874ca2c6c5a68e0b8f89a561a5d722696",
+    "manifest_root": "d63afbfda0615387100f0543a8830a5a4c43aa90f9525ef4f293a2d530b6eade",
+    "receipt_identity": "ba20e3c89a4726b02b2a73c7c00167d727e9df53f7c4c2252f2d7fb6455a97c9"
+  },
+  "longer_time_report": {
+    "path": "experiment-reports/servers/server4/p1r52-target-timescale-longer-time-b100-2026-08-23-native-v1/report-ko.md",
+    "sha256": "d015e44a04ec231c434098561eb088b59d3ffedca7c9ec6d470bc562585f287f",
+    "manifest_root": "5decf168f1aedf4a7fc1076805b6a1157505e84bbe550f5e1e5fc7ad7b014d56",
+    "receipt_identity": "66d5533b0316af0b0ff45d22dd855db2cde5b2ea8f5f1d51a580af25aef8c607"
+  },
+  "native_reference": {
+    "policy_provenance": "USER_DIRECTED_NATIVE_REFERENCE_RUN_OVERRIDE",
+    "alphaedit_job": "23140_0_COMPLETED_EXIT0",
+    "memit_initial_attempt": "23140_1_PURE_TECHNICAL_EXCLUDED",
+    "memit_repair_job": "23142_1_TECH_R2_COMPLETED_EXIT0",
+    "reference_selection_influence_count": 0
+  },
+  "raw_root_policy": "IMMUTABLE_IGNORED_LOCAL_REFERENCE_ONLY",
+  "same_horizon_classification": "COARSE_RESOLUTION_BOTTLENECK_COMPONENT_WITH_REPHRASE_WRITER_TRANSFER_LIMIT",
+  "longer_time_classification": "REWRITE_IMPROVES_WITH_LONGER_TIME_REPHRASE_AND_POST_W_NONMONOTONIC",
+  "B100x1_exploratory": true,
+  "final_Tz_selection": false,
+  "scientific_promotion": false,
+  "new_gpu_slurm_model_action_authorized": false,
+  "next_state": "IDLE_AWAITING_GH_CALL"
+}
