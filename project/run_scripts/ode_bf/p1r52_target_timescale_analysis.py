@@ -819,6 +819,9 @@ def build_same_horizon(
         "raw_inputs": raw_inputs,
         "raw_input_count": len(raw_inputs),
         "raw_member_root": canonical_hash(raw_inputs),
+        "analysis_generator": _member(
+            Path(__file__).resolve(strict=True), relative_to=repo_root.resolve(strict=True)
+        ),
         "generated_members": [_member(path, relative_to=output_root) for path in generated],
         "longer_time_raw_input_count": 0,
         "scientific_promotion": False,
