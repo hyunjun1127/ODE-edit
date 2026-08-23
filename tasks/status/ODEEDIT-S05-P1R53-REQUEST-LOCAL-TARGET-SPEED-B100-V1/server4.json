@@ -3,8 +3,8 @@
   "server": "server4",
   "agent_id": "server4-server-head",
   "agent_role": "server-head",
-  "status": "implementation_focused_gates_pass_pre_gpu_pending",
-  "updated_at": "2026-08-23T23:41:13+09:00",
+  "status": "pure_technical_r1_session_boundary_repair",
+  "updated_at": "2026-08-23T23:44:30+09:00",
   "owner_session": "codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d",
   "authoritative_contract": {
     "path": "/data/janghj/ODE-edit/local/state/p1r53-request-local-speed-llama-b100-v1/authoritative-contract.txt",
@@ -21,6 +21,15 @@
   "project_gpu_cap": 4,
   "planned_array": "0-1%2",
   "gpu_slurm_model_action_count": 0,
+  "excluded_technical_attempts": [
+    {
+      "job_array": "23314_[0-1]",
+      "classification": "PURE_TECHNICAL_PRE_MODEL_SESSION_BOUNDARY_MISSING",
+      "exit_code": "4:0",
+      "scientific_denominator_influence_count": 0,
+      "model_load_count": 0
+    }
+  ],
   "scientific_promotion": false,
-  "next_state": "COMMIT_AND_FINAL_PRE_GPU"
+  "next_state": "TECH_R1_COMMIT_PRE_GPU_RESUBMIT"
 }

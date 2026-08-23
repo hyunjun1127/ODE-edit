@@ -70,8 +70,8 @@ class P1R53RequestLocalSpeedTests(unittest.TestCase):
         self.assertEqual(
             [expected_result_name(role_for_cell(index)) for index in range(2)],
             [
-                "s05-p1r53-request-local-speed-llama-b100-lp-s-v1",
-                "s05-p1r53-request-local-speed-llama-b100-lfd-e-v1",
+                "s05-p1r53-request-local-speed-llama-b100-lp-s-tech-r1-v1",
+                "s05-p1r53-request-local-speed-llama-b100-lfd-e-tech-r1-v1",
             ],
         )
 

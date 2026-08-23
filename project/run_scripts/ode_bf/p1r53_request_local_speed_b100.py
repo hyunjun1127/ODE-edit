@@ -25,9 +25,10 @@ ROLE_TO_ARM = {
     ROLES[0]: RequestLocalSpeedArm.LP_S,
     ROLES[1]: RequestLocalSpeedArm.LFD_E,
 }
+TECHNICAL_ATTEMPT_SUFFIX = "tech-r1"
 RESULT_NAMES = {
-    ROLES[0]: "s05-p1r53-request-local-speed-llama-b100-lp-s-v1",
-    ROLES[1]: "s05-p1r53-request-local-speed-llama-b100-lfd-e-v1",
+    ROLES[0]: f"s05-p1r53-request-local-speed-llama-b100-lp-s-{TECHNICAL_ATTEMPT_SUFFIX}-v1",
+    ROLES[1]: f"s05-p1r53-request-local-speed-llama-b100-lfd-e-{TECHNICAL_ATTEMPT_SUFFIX}-v1",
 }
 HELDOUT_K_INDICES = (7,)
 
@@ -104,6 +105,7 @@ __all__ = [
     "HELDOUT_K_INDICES",
     "RESULT_NAMES",
     "ROLES",
+    "TECHNICAL_ATTEMPT_SUFFIX",
     "arm_for_role",
     "expected_result_name",
     "is_p1r53_role",

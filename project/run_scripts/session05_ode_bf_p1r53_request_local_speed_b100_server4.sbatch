@@ -23,8 +23,8 @@ readonly EASYEDIT_ROOT="/data/janghj/EasyEdit"
 readonly CELL="${SLURM_ARRAY_TASK_ID:?SLURM_ARRAY_TASK_ID is required}"
 readonly RUN_TOKEN="p1r53-request-local-speed-llama-b100-v1"
 readonly RESULT_NAMES=(
-  "s05-p1r53-request-local-speed-llama-b100-lp-s-v1"
-  "s05-p1r53-request-local-speed-llama-b100-lfd-e-v1"
+  "s05-p1r53-request-local-speed-llama-b100-lp-s-tech-r1-v1"
+  "s05-p1r53-request-local-speed-llama-b100-lfd-e-tech-r1-v1"
 )
 
 [[ "$#" -eq 3 ]] || { echo "P1R53 arguments differ" >&2; exit 2; }
