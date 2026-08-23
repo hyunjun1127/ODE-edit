@@ -24,7 +24,7 @@ readonly CELL="${SLURM_ARRAY_TASK_ID:?SLURM_ARRAY_TASK_ID is required}"
 readonly RUN_TOKEN="p1r52-target-timescale-native-b100-user-override-v1"
 readonly RESULT_NAMES=(
   "s05-p1r52-target-timescale-native-b100-official-alphaedit-user-override-v1"
-  "s05-p1r52-target-timescale-native-b100-official-memit-user-override-v1"
+  "s05-p1r52-target-timescale-native-b100-official-memit-user-override-tech-r2-v1"
 )
 
 [[ "$#" -eq 3 ]] || { echo "Native arguments differ" >&2; exit 2; }

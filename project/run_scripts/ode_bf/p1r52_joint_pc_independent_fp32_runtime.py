@@ -321,6 +321,7 @@ def _run_native_method(
     mutation_lock: Any,
     entry_contract: str,
     job_ledger: ComputeLedger,
+    memit_easyedit_root: Path | None = None,
 ) -> dict[str, Any]:
     if kind == "OFFICIAL-ALPHAEDIT":
         native_role = "native-alphaedit-sequential-cache-on-corrected"
@@ -332,7 +333,9 @@ def _run_native_method(
         context = isolated_alphaedit_module_state()
     elif kind == "OFFICIAL-MEMIT":
         native_role = "official-memit-sequential"
-        native_hparams = load_official_memit_hparams()
+        native_hparams = load_official_memit_hparams(
+            easyedit_root=memit_easyedit_root
+        )
         apply = lambda: run_official_memit_apply(
             model, tokenizer, requests, native_hparams, touched=touched,
         )

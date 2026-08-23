@@ -46,6 +46,10 @@ RESULT_NAMES = {
     )
     for role, method in zip(ROLES, METHODS, strict=True)
 }
+RESULT_NAMES[ROLES[1]] = (
+    "s05-p1r52-target-timescale-native-b100-"
+    "official-memit-user-override-tech-r2-v1"
+)
 
 
 def role_for_cell(cell: int) -> str:
@@ -132,6 +136,7 @@ def run_target_timescale_native_reference_b100(
         mutation_lock=mutation_lock,
         entry_contract=entry_contract,
         job_ledger=job_ledger,
+        memit_easyedit_root=Path("/data/janghj/EasyEdit"),
     )
     _assert_w0(
         touched,
@@ -186,6 +191,7 @@ def run_target_timescale_native_reference_b100(
         "gpu_host_observation": _gpu_observation(),
         "W0_restored": True,
         "scientific_promotion": False,
+        "technical_attempt": "TECH-R2" if method == "OFFICIAL-MEMIT" else "R1",
     }
     _assert_no_low_precision_activity(terminal)
     terminal, tensor_paths = _raw_free_json_tree(terminal)

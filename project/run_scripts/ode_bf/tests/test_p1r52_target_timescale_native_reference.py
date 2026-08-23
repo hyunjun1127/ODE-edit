@@ -38,6 +38,7 @@ def test_native_roles_and_names_are_exact_and_distinct() -> None:
         assert expected_p1r52_sequential_result_name(
             "llama3-8b-inst", role, scale=P1R52_B100X10_SCALE
         ) == expected_result_name(role)
+    assert "tech-r2" in expected_result_name(ROLES[1])
     with pytest.raises(ODEBFContractError):
         role_for_cell(2)
     with pytest.raises(ODEBFContractError):
@@ -72,3 +73,4 @@ def test_native_binding_reuses_official_implementation_without_science_copy() ->
     assert "apply_memit_to_model(" not in source
     assert "USER_DIRECTED_NATIVE_REFERENCE_RUN_OVERRIDE" in source
     assert "target_timescale_field_execution_count\": 0" in source
+    assert 'memit_easyedit_root=Path("/data/janghj/EasyEdit")' in source

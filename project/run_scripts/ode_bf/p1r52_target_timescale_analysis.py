@@ -41,6 +41,19 @@ NATIVE_MEAN_NLL = {
     "Native AlphaEdit direct-z": {"rewrite": 0.001156, "rephrase": 1.09902},
     "Native MEMIT direct-z": {"rewrite": 0.000870, "rephrase": 1.09211},
 }
+NATIVE_ALPHA_SOURCE_HEAD = "241aa0621379f26d67c48f0bfebe93f2bbec97c2"
+NATIVE_ALPHA_SOURCE_TREE = "8fa4a4e98b18197257832d383420e29f9ae11565"
+NATIVE_POLICY = "USER_DIRECTED_NATIVE_REFERENCE_RUN_OVERRIDE"
+NATIVE_RESULTS = {
+    "OFFICIAL-ALPHAEDIT": (
+        "s05-p1r52-target-timescale-native-b100-"
+        "official-alphaedit-user-override-v1"
+    ),
+    "OFFICIAL-MEMIT": (
+        "s05-p1r52-target-timescale-native-b100-"
+        "official-memit-user-override-tech-r2-v1"
+    ),
+}
 
 
 def _sha256(path: Path) -> str:
@@ -253,21 +266,76 @@ def _validate_terminal(value: Mapping[str, Any], cell: str) -> None:
         raise ValueError(f"terminal contract differs: {cell}")
 
 
+def _validate_native_terminal(
+    value: Mapping[str, Any], method: str, source_head: str
+) -> None:
+    native = value.get("native", {})
+    dtype = value.get("dtype_contract", {})
+    if (
+        value.get("instruction_id")
+        != "ODEEDIT-S05-P1R52-TARGET-TIMESCALE-NATIVE-B100-USER-OVERRIDE-V1"
+        or value.get("policy_provenance") != NATIVE_POLICY
+        or value.get("status") != "TERMINAL_VALID"
+        or len(source_head) != 40
+        or value.get("source_head") != source_head
+        or value.get("method") != method
+        or value.get("model_alias") != "llama3-8b-inst"
+        or value.get("selected_batch") != "B1"
+        or value.get("request_count") != 100
+        or value.get("request_order_sha256") != B1_ORDER
+        or value.get("stream_root") != STREAM_ROOT
+        or value.get("stream_order") != STREAM_ORDER
+        or value.get("sample_duplication_count") != 0
+        or value.get("native_execution_count") != 1
+        or value.get("official_apply_count") != 1
+        or value.get("target_timescale_field_execution_count") != 0
+        or value.get("C3_K8_writer_execution_count") != 0
+        or value.get("reference_only") is not True
+        or value.get("selection_influence_count") != 0
+        or value.get("promotion_influence_count") != 0
+        or not value.get("W0_restored")
+        or dtype.get("status") != "FULL_FP32_PASS"
+        or dtype.get("bf16_fp16_path_count") != 0
+        or dtype.get("autocast_count") != 0
+        or native.get("method") != method
+        or native.get("request_order_sha256") != B1_ORDER
+        or native.get("module_state_restored") is not True
+        or native.get("model_storage_dtype") != "torch.float32"
+        or native.get("numeric_storage_cast_count") != 0
+        or native.get("autocast_count") != 0
+        or native.get("bf16_path_call_count") != 0
+        or native.get("fp16_conversion_count") != 0
+        or native.get("restore", {}).get("byte_restored_exact") is not True
+        or native.get("restore", {}).get("pointer_restored_exact") is not True
+    ):
+        raise ValueError(f"Native terminal contract differs: {method}")
+
+
 def build_same_horizon(
-    *, raw_root: Path, output_root: Path, job_id: str, repo_root: Path
+    *,
+    raw_root: Path,
+    native_root: Path,
+    output_root: Path,
+    job_id: str,
+    native_job_id: str,
+    repo_root: Path,
 ) -> None:
     if output_root.exists() or output_root.is_symlink():
         raise FileExistsError(f"create-once output exists: {output_root}")
     output_root.mkdir(mode=0o755, parents=True)
     cells = ("Z0-COARSE", "Z1-REFINE")
     slurm = _sacct(job_id, (0, 1))
+    native_slurm = _sacct(native_job_id, (0, 1))
     terminals: dict[str, dict[str, Any]] = {}
+    native_terminals: dict[str, dict[str, Any]] = {}
     raw_inputs: list[dict[str, Any]] = []
     cell_rows: list[dict[str, Any]] = []
     micro_rows: list[dict[str, Any]] = []
     endpoint_rows: list[dict[str, Any]] = []
     writer_rows: list[dict[str, Any]] = []
     compute_rows: list[dict[str, Any]] = []
+    native_endpoint_rows: list[dict[str, Any]] = []
+    native_compute_rows: list[dict[str, Any]] = []
 
     for cell_index, cell in enumerate(cells):
         result_root = raw_root / (
@@ -410,6 +478,87 @@ def build_same_horizon(
             }
         )
 
+    for native_index, (method, result_name) in enumerate(NATIVE_RESULTS.items()):
+        result_root = native_root / result_name
+        terminal_path = result_root / "terminal.json"
+        manifest_path = result_root / "manifest.json"
+        source_manifest_path = result_root / "source-manifest.json"
+        terminal = _load(terminal_path)
+        manifest = _load(manifest_path)
+        source_manifest = _load(source_manifest_path)
+        native_source_head = str(source_manifest.get("source_head", ""))
+        native_source_tree = str(source_manifest.get("source_tree", ""))
+        _validate_native_terminal(terminal, method, native_source_head)
+        if (
+            manifest.get("terminal_sha256") != _sha256(terminal_path)
+            or manifest.get("method") != method
+            or manifest.get("request_order_sha256") != B1_ORDER
+            or manifest.get("policy_provenance") != NATIVE_POLICY
+            or manifest.get("reference_only") is not True
+            or len(native_source_tree) != 40
+            or (
+                method == "OFFICIAL-ALPHAEDIT"
+                and (native_source_head, native_source_tree)
+                != (NATIVE_ALPHA_SOURCE_HEAD, NATIVE_ALPHA_SOURCE_TREE)
+            )
+        ):
+            raise ValueError(f"Native manifest binding differs: {method}")
+        native_terminals[method] = terminal
+        raw_inputs.extend(
+            _member(path)
+            for path in (terminal_path, manifest_path, source_manifest_path)
+        )
+        for endpoint, scores in (
+            ("accepted_z", terminal["native"]["z"]["scores"]),
+            ("post_W", terminal["native"]["W"]["scores"]),
+        ):
+            native_endpoint_rows.extend(
+                _score_rows(
+                    cell=method,
+                    outer=0,
+                    endpoint=endpoint,
+                    scores=scores,
+                )
+            )
+        timing = terminal["native"]["timing"]
+        native_compute_rows.append(
+            {
+                "method": method,
+                **native_slurm[native_index],
+                "official_apply_count": terminal["official_apply_count"],
+                "compute_z_call_count": terminal["native"]["apply"].get(
+                    "native_alphaedit_compute_z_call_count", 100
+                ),
+                "target_backward_count": terminal["native"]["apply"].get(
+                    "target_backward_count", "NOT_RECORDED"
+                ),
+                "target_accepted_z_generation_seconds": timing[
+                    "target_accepted_z_generation_seconds"
+                ],
+                "writer_edit_core_seconds": timing["writer_edit_core_seconds"],
+                "native_apply_scope_seconds": timing["native_apply_scope_seconds"],
+                "accepted_z_evaluator_seconds": timing[
+                    "accepted_z_evaluator_seconds"
+                ],
+                "post_W_evaluator_seconds": timing[
+                    "immediate_post_evaluator_seconds"
+                ],
+                "restore_seconds": timing["restore_seconds"],
+                "method_total_seconds": timing["case_method_total_seconds"],
+                "runtime_after_model_preflight_seconds": terminal[
+                    "runtime_after_model_preflight_seconds"
+                ],
+                "peak_allocated_bytes": terminal["gpu_host_observation"][
+                    "peak_allocated_bytes"
+                ],
+                "peak_reserved_bytes": terminal["gpu_host_observation"][
+                    "peak_reserved_bytes"
+                ],
+                "W0_restored": terminal["W0_restored"],
+                "full_fp32": terminal["dtype_contract"]["status"],
+            }
+        )
+
     paired_rows: list[dict[str, Any]] = []
     paired_summary: dict[str, Any] = {}
     for outer in (1, 4, 8):
@@ -450,43 +599,96 @@ def build_same_horizon(
         (row["cell"], row["outer_K"], row["endpoint"], row["prompt"]): row
         for row in endpoint_rows
     }
+    native_endpoint_lookup = {
+        (row["cell"], row["endpoint"], row["prompt"]): row
+        for row in native_endpoint_rows
+    }
     native_rows: list[dict[str, Any]] = []
-    for native_name, prompts in NATIVE_MEAN_NLL.items():
-        for prompt, native_value in prompts.items():
-            z0 = float(endpoint_lookup[("Z0-COARSE", 8, "accepted_z", prompt)]["target_new_mean"])
+    native_paired_rows: list[dict[str, Any]] = []
+    contract_labels = {
+        "OFFICIAL-ALPHAEDIT": "Native AlphaEdit direct-z",
+        "OFFICIAL-MEMIT": "Native MEMIT direct-z",
+    }
+    for method in NATIVE_RESULTS:
+        for prompt, success_key in (
+            ("rewrite", "rewrite_success"),
+            ("rephrase", "rephrase_success"),
+        ):
+            native_scores = native_terminals[method]["native"]["z"]["scores"]
+            native_vector = _flatten(
+                native_scores[success_key]["target_new_nll_by_request"]
+            )
+            native_endpoint = native_endpoint_lookup[(method, "accepted_z", prompt)]
+            contract_value = NATIVE_MEAN_NLL[contract_labels[method]][prompt]
+            for statistic in ("mean", "median", "p90", "max"):
+                native_value = float(native_endpoint[f"target_new_{statistic}"])
+                z0 = float(
+                    endpoint_lookup[
+                        ("Z0-COARSE", 8, "accepted_z", prompt)
+                    ][f"target_new_{statistic}"]
+                )
+                for cell in cells:
+                    value = float(
+                        endpoint_lookup[
+                            (cell, 8, "accepted_z", prompt)
+                        ][f"target_new_{statistic}"]
+                    )
+                    denominator = z0 - native_value
+                    closure: float | str = (
+                        1.0 - (value - native_value) / denominator
+                        if denominator != 0.0
+                        else "UNDEFINED_ZERO_Z0_NATIVE_GAP"
+                    )
+                    native_rows.append(
+                        {
+                            "reference": method,
+                            "prompt": prompt,
+                            "statistic": statistic,
+                            "native_NLL": native_value,
+                            "contract_native_mean_NLL": (
+                                contract_value if statistic == "mean" else "NOT_APPLICABLE"
+                            ),
+                            "run_minus_contract_native_mean": (
+                                native_value - contract_value
+                                if statistic == "mean"
+                                else "NOT_APPLICABLE"
+                            ),
+                            "Z0_observed_NLL": z0,
+                            "cell": cell,
+                            "cell_NLL": value,
+                            "gap_cell_minus_native": value - native_value,
+                            "closure": closure,
+                            "comparability": "EXACT_B1_USER_OVERRIDE_NATIVE_RUN",
+                        }
+                    )
             for cell in cells:
-                value = float(endpoint_lookup[(cell, 8, "accepted_z", prompt)]["target_new_mean"])
-                denominator = z0 - native_value
-                closure = 1.0 - (value - native_value) / denominator
-                native_rows.append(
-                    {
-                        "reference": native_name,
-                        "prompt": prompt,
-                        "statistic": "mean",
-                        "native_NLL": native_value,
-                        "Z0_observed_NLL": z0,
-                        "cell": cell,
-                        "cell_NLL": value,
-                        "gap_cell_minus_native": value - native_value,
-                        "closure": closure,
-                        "comparability": "AUTHORITATIVE_CONTRACT_B1_MEAN",
-                    }
+                target_scores = terminals[cell]["outer_transitions"][7][
+                    "c_kstep_writer"
+                ]["metrics"]["accepted_z"]["scores"]
+                target_vector = _flatten(
+                    target_scores[success_key]["target_new_nll_by_request"]
                 )
-            for statistic in ("median", "p90"):
-                native_rows.append(
-                    {
-                        "reference": native_name,
-                        "prompt": prompt,
-                        "statistic": statistic,
-                        "native_NLL": "NOT_RECORDED",
-                        "Z0_observed_NLL": endpoint_lookup[("Z0-COARSE", 8, "accepted_z", prompt)][f"target_new_{statistic}"],
-                        "cell": "Z1-REFINE",
-                        "cell_NLL": endpoint_lookup[("Z1-REFINE", 8, "accepted_z", prompt)][f"target_new_{statistic}"],
-                        "gap_cell_minus_native": "NOT_COMPARABLE",
-                        "closure": "NOT_COMPARABLE",
-                        "comparability": "NATIVE_DISTRIBUTION_NOT_PROVIDED_DO_NOT_ESTIMATE",
-                    }
-                )
+                for ordinal, (target_value, native_value) in enumerate(
+                    zip(target_vector, native_vector, strict=True)
+                ):
+                    native_paired_rows.append(
+                        {
+                            "reference": method,
+                            "cell": cell,
+                            "prompt": prompt,
+                            "prompt_ordinal": ordinal,
+                            "cell_target_new_nll": target_value,
+                            "native_target_new_nll": native_value,
+                            "cell_minus_native": target_value - native_value,
+                            "winner_lower_nll": (
+                                method
+                                if native_value < target_value
+                                else cell
+                                if target_value < native_value
+                                else "TIE"
+                            ),
+                        }
+                    )
 
     z0_k8_rewrite = endpoint_lookup[("Z0-COARSE", 8, "accepted_z", "rewrite")]
     z1_k8_rewrite = endpoint_lookup[("Z1-REFINE", 8, "accepted_z", "rewrite")]
@@ -494,6 +696,25 @@ def build_same_horizon(
     z1_k8_rephrase = endpoint_lookup[("Z1-REFINE", 8, "accepted_z", "rephrase")]
     z0_post_rephrase = endpoint_lookup[("Z0-COARSE", 8, "post_writer_W", "rephrase")]
     z1_post_rephrase = endpoint_lookup[("Z1-REFINE", 8, "post_writer_W", "rephrase")]
+    native_paired_summary: dict[str, Any] = {}
+    for method in NATIVE_RESULTS:
+        native_paired_summary[method] = {}
+        for cell in cells:
+            native_paired_summary[method][cell] = {}
+            for prompt in ("rewrite", "rephrase"):
+                values = [
+                    float(row["cell_minus_native"])
+                    for row in native_paired_rows
+                    if row["reference"] == method
+                    and row["cell"] == cell
+                    and row["prompt"] == prompt
+                ]
+                native_paired_summary[method][cell][prompt] = {
+                    "cell_minus_native": _summary(values),
+                    "native_lower_NLL_count": sum(value > 0 for value in values),
+                    "cell_lower_NLL_count": sum(value < 0 for value in values),
+                    "tie_count": sum(value == 0 for value in values),
+                }
     analysis: dict[str, Any] = {
         "schema": "ode-edit-s05-p1r52-target-timescale-same-horizon-analysis/v1",
         "instruction_id": INSTRUCTION_ID,
@@ -520,6 +741,22 @@ def build_same_horizon(
             },
         },
         "paired_accepted_z": paired_summary,
+        "native_reference": {
+            "policy_provenance": NATIVE_POLICY,
+            "source_by_method": {
+                method: {
+                    "source_head": native_terminals[method]["source_head"],
+                    "source_manifest_identity": _load(
+                        native_root / result_name / "source-manifest.json"
+                    )["identity_sha256"],
+                }
+                for method, result_name in NATIVE_RESULTS.items()
+            },
+            "methods": list(NATIVE_RESULTS),
+            "paired_gap": native_paired_summary,
+            "selection_influence_count": 0,
+            "target_timescale_parameter_influence_count": 0,
+        },
         "cell_summary": cell_rows,
         "compute_overhead": {
             "field_evaluation_ratio_Z1_over_Z0": 2.0,
@@ -532,8 +769,9 @@ def build_same_horizon(
             "longer_time_result_used": False,
             "final_Tz_selection": False,
             "scientific_promotion": False,
-            "native_execution_count": 0,
+            "native_execution_count": 2,
             "native_median_p90_imputation_count": 0,
+            "native_reference_policy": NATIVE_POLICY,
             "causal_claim_for_writer_rephrase_gap": False,
         },
         "resource_provenance": {
@@ -551,8 +789,11 @@ def build_same_horizon(
         "k1-k4-k8-endpoints.csv": endpoint_rows,
         "paired-accepted-z-nll.csv": paired_rows,
         "writer-transfer-locality.csv": writer_rows,
+        "native-reference-endpoints.csv": native_endpoint_rows,
+        "native-paired-nll.csv": native_paired_rows,
         "native-gap-closure.csv": native_rows,
         "compute.csv": compute_rows,
+        "native-compute.csv": native_compute_rows,
     }
     for name, rows in tables.items():
         _write_csv(output_root / name, rows)
@@ -561,6 +802,7 @@ def build_same_horizon(
     report = _render_same_horizon_report(
         analysis=analysis,
         endpoint=endpoint_lookup,
+        native_endpoint=native_endpoint_lookup,
         cells=cell_rows,
         writer=writer_rows,
     )
@@ -607,6 +849,7 @@ def _render_same_horizon_report(
     *,
     analysis: Mapping[str, Any],
     endpoint: Mapping[tuple[str, int, str, str], Mapping[str, Any]],
+    native_endpoint: Mapping[tuple[str, str, str], Mapping[str, Any]],
     cells: Sequence[Mapping[str, Any]],
     writer: Sequence[Mapping[str, Any]],
 ) -> str:
@@ -617,7 +860,7 @@ def _render_same_horizon_report(
     lines = [
         "# P1R52 target-timescale B100 — same-horizon Z0/Z1 상세 결과",
         "",
-        "> **범위:** `SAME_HORIZON_ONLY_Z0_COARSE_VS_Z1_REFINE`. 두 cell은 동일 `T_z=1`, 동일 B1 100 requests, 동일 W0·writer·cache·evaluator를 사용한다. Z0는 `m=1, dt=1/8`, Z1은 `m=2, dt=1/16`이다. 아직 실행 중인 Z15/Z20/Z30은 이 분석과 manifest에 포함하지 않았다.",
+        "> **범위:** `SAME_HORIZON_ONLY_Z0_COARSE_VS_Z1_REFINE`. 두 cell은 동일 `T_z=1`, 동일 B1 100 requests, 동일 W0·writer·cache·evaluator를 사용한다. Z0는 `m=1, dt=1/8`, Z1은 `m=2, dt=1/16`이다. Z15/Z20/Z30 결과는 별도 longer-time 보고 대상으로 이 분석과 manifest에 포함하지 않았다.",
         "",
         "## 결론",
         "",
@@ -683,7 +926,22 @@ def _render_same_horizon_report(
             "",
             "## 5. Native mean gap closure",
             "",
-            "원문 contract가 제공한 동일 B1 Native mean만 사용했다. Z1 K8 accepted-z mean closure는 AlphaEdit 대비 Rewrite와 Rephrase 각각 `native-gap-closure.csv`에 기록했다. Native median/p90 원자료가 제공되지 않아 그 closure는 `NOT_COMPARABLE`이며 추정하지 않았다.",
+            "사용자 지시에 따라 동일 sealed B1/W0/evaluator에서 Official AlphaEdit와 Official MEMIT를 별도 실행했다. 아래는 direct-z accepted endpoint이며 두 Native 실행은 target-timescale 설정 선택에 영향 0이다.",
+            "",
+            "|Native|prompt|mean|median|p90|max|success|strict|",
+            "|---|---|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for method in NATIVE_RESULTS:
+        for prompt in ("rewrite", "rephrase"):
+            row = native_endpoint[(method, "accepted_z", prompt)]
+            lines.append(
+                f"|{method}|{prompt}|{row['target_new_mean']:.6f}|{row['target_new_median']:.6f}|{row['target_new_p90']:.6f}|{row['target_new_max']:.6f}|{row['success_numerator']}/{row['success_denominator']}|{row['strict_success_numerator']}/{row['strict_success_denominator']}|"
+            )
+    lines.extend(
+        [
+            "",
+            "Native 대비 mean/median/p90/max gap과 closure는 `native-gap-closure.csv`, prompt별 paired 차이와 승패는 `native-paired-nll.csv`, Native post-W 분포는 `native-reference-endpoints.csv`에 기록했다. 원문 contract mean과 새 실행 mean의 차이도 함께 남겨 재현 identity를 점검했다.",
             "",
             "## 6. 계산량과 overhead",
             "",
@@ -693,11 +951,11 @@ def _render_same_horizon_report(
             "",
             "- 이 보고서는 same-horizon resolution 효과만 다룬다. Z15/Z20/Z30 결과 영향은 0이다.",
             "- B100×1 탐색이므로 final T_z, promotion, production setting을 선정하지 않는다.",
-            "- Native는 external mean reference이며 새 Native 실행은 0이다.",
+            f"- Native 두 실행은 `{NATIVE_POLICY}`에 따른 external reference 통계 보강이다. target-timescale parameter·selection influence는 0이고 schedule-matched Native 또는 Native-K8 주장은 하지 않는다.",
             "- resource cap은 제출 당시 2였고 사용자 지시로 실행 중 4로 상향됐다. 이는 동시성만 바꾸었고 cell science/result selection에는 영향 0이다.",
             "- 제외된 pre-model/interface 기술 시도는 최종 통합 보고서에서 한 번에 provenance로 정리하며, 이 scientific denominator에는 포함하지 않는다.",
             "",
-            "세부 수치는 `microstep-trajectory.csv`, `k1-k4-k8-endpoints.csv`, `paired-accepted-z-nll.csv`, `writer-transfer-locality.csv`, `native-gap-closure.csv`, `compute.csv`에 있다.",
+            "세부 수치는 `microstep-trajectory.csv`, `k1-k4-k8-endpoints.csv`, `paired-accepted-z-nll.csv`, `writer-transfer-locality.csv`, `native-reference-endpoints.csv`, `native-paired-nll.csv`, `native-gap-closure.csv`, `compute.csv`, `native-compute.csv`에 있다.",
         ]
     )
     return "\n".join(lines) + "\n"
@@ -707,14 +965,18 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--mode", choices=("same-horizon",), required=True)
     parser.add_argument("--raw-root", required=True, type=Path)
+    parser.add_argument("--native-root", required=True, type=Path)
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--job-id", required=True)
+    parser.add_argument("--native-job-id", required=True)
     parser.add_argument("--repo-root", required=True, type=Path)
     args = parser.parse_args(argv)
     build_same_horizon(
         raw_root=args.raw_root,
+        native_root=args.native_root,
         output_root=args.output_root,
         job_id=args.job_id,
+        native_job_id=args.native_job_id,
         repo_root=args.repo_root,
     )
     return 0

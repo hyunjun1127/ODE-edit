@@ -26,14 +26,17 @@ MEMIT_HPARAMS_PATH = EASYEDIT_ROOT / "hparams/MEMIT/llama3-8b.yaml"
 MEMIT_STATS_ROOT = EASYEDIT_ROOT / "examples/data/stats"
 
 
-def load_official_memit_hparams() -> Any:
+def load_official_memit_hparams(*, easyedit_root: Path | None = None) -> Any:
     """Load the frozen Llama MEMIT configuration used by the artifact lock."""
 
     from easyeditor.models.memit.memit_hparams import MEMITHyperParams
 
-    hparams = MEMITHyperParams.from_hparams(str(MEMIT_HPARAMS_PATH))
+    root = EASYEDIT_ROOT if easyedit_root is None else Path(easyedit_root)
+    hparams_path = root / "hparams/MEMIT/llama3-8b.yaml"
+    stats_root = root / "examples/data/stats"
+    hparams = MEMITHyperParams.from_hparams(str(hparams_path))
     hparams.device = 0
-    hparams.stats_dir = str(MEMIT_STATS_ROOT)
+    hparams.stats_dir = str(stats_root)
     exact = {
         "alg_name": "MEMIT",
         "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
