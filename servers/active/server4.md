@@ -11,11 +11,10 @@
   `01a028a7-9e3c-7541-81ba-efb40555d17d`
   (`codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d`)
 - local hard boundary: checker PASS, model/profile은 user-managed
-- 갱신 시각: `2026-08-23T18:08:04+09:00`
+- 갱신 시각: `2026-08-24T00:07:09+09:00`
 - current GH directive:
-  `ODEEDIT-S05-P1R52-TARGET-TIMESCALE-ABLATION-B100-V1`
-  same-horizon/longer-time 및 user-authorized Native reference terminal
-  reports complete; `IDLE_AWAITING_GH_CALL`
+  `ODEEDIT-S05-P1R53-REQUEST-LOCAL-TARGET-SPEED-B100-V1`
+  LP-S/LFD-E terminal factual report complete; `IDLE_AWAITING_GH_CALL`
 
 이 session은 이전 `registered-pending-clone` 상태를 supersede한다. 과거 task,
 report, audit와 experiment provenance는 변경하지 않는다.
@@ -33,7 +32,7 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - ignored local boundary:
   `servers/local/session-boundary.env`, checker PASS
 - ignored local cap:
-  `servers/local/gpu-caps.tsv`, `PROJECT_GPU_CAP=2`
+  `servers/local/gpu-caps.tsv`; current user-registered `PROJECT_GPU_CAP=4`
 
 ## Protocol 및 task 상태
 
@@ -119,7 +118,7 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - scientific promotion: `false`
 - next state: `IDLE_AWAITING_GH_CALL`
 
-## P1R53 request-local target-speed B100 heartbeat
+## P1R53 request-local target-speed B100 terminal heartbeat
 
 - contract: `FULL_READ_PASS`, SHA256 `fde535a1...da322`, 17,305 bytes, 808 lines
 - source base: `8d39bd253d196a016cc65518af3df75644b561d8` / tree `33d27e97a8f75bef867b774182a5f1cb06f637d9`
@@ -127,7 +126,15 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - arms: LP-S / LFD-E; K8, h=1/8, microstep1, T=1, C3 writer8
 - external references: existing Z0-COARSE / Native AlphaEdit / Native MEMIT, execution0
 - registered janghj/project GPU cap: 4; task array concurrency: 2
-- current action: implementation focused gates PASS, commit/final PRE-GPU pending; active project GPU 0
+- execution source: `715df5845a312d10f4825560829ea271e9ef854b` / tree `cbf6a961aaed6df09c80126028de7121add107b9`
+- valid array: `23318_[0-1]%2`, LP-S/LFD-E both `COMPLETED 0:0`; runtime 1150s/1101s
+- completeness: each field eval8, writer8/layer40, cache reuse8/append1, W0 byte/pointer restore exact, FULL-FP32
+- technical exclusion: `23314_[0-1]` pre-model session-boundary missing, scientific denominator influence0
+- LP-S: W Rewrite 100/100, Rephrase prompt 181/200, Loc 881/1000, clamp 34/800
+- LFD-E: W Rewrite 95/100, Rephrase prompt 153/200, Loc 888/1000, clamp 0/800
+- canonical report: `experiment-reports/servers/server4/p1r53-request-local-speed-llama-b100-2026-08-24-v2`
+- report/manifest/receipt SHA: `f25e397a...77bb` / `1d5aa605...c510` / `575b7c76...423a`
+- current action: terminal report complete, active project GPU0, no new submission
 - scientific promotion: false
 
 ## P1R52 target-timescale B100 terminal heartbeat
