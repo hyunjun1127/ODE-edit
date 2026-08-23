@@ -23,6 +23,7 @@ from .p1r52_target_timescale_analysis import (
     _flatten,
     _load,
     _member,
+    _native_z_to_w_summary,
     _pct,
     _sacct,
     _score_rows,
@@ -362,8 +363,13 @@ def build_longer_time(
             }
         )
 
+    native_z_to_w = _native_z_to_w_summary(
+        terminals=native_terminals,
+        endpoint_rows=native_endpoint_rows,
+    )
+
     analysis: dict[str, Any] = {
-        "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-analysis/v1",
+        "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-analysis/v2",
         "instruction_id": INSTRUCTION_ID,
         "scope": "FIXED_DT_LONGER_TARGET_TIME_Z1_Z15_Z20_Z30",
         "source_head": SOURCE_HEAD,
@@ -380,6 +386,7 @@ def build_longer_time(
         "native_reference": {
             "policy_provenance": NATIVE_POLICY,
             "methods": list(NATIVE_RESULTS),
+            "z_to_W_measurement": native_z_to_w,
             "selection_influence_count": 0,
         },
         "interpretation_boundary": {
@@ -419,7 +426,7 @@ def build_longer_time(
     generated = [output_root / name for name in tables] + [output_root / "analysis.json", output_root / "report-ko.md"]
     raw_inputs.sort(key=lambda row: str(row["path"]))
     manifest: dict[str, Any] = {
-        "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-manifest/v1",
+        "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-manifest/v2",
         "instruction_id": INSTRUCTION_ID,
         "source_head": SOURCE_HEAD,
         "source_tree": SOURCE_TREE,
@@ -439,7 +446,7 @@ def build_longer_time(
     package_paths = generated + [output_root / "analysis-manifest.json"]
     members = [_member(path, relative_to=output_root) for path in package_paths]
     receipt: dict[str, Any] = {
-        "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-rooted-receipt/v1",
+        "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-rooted-receipt/v2",
         "instruction_id": INSTRUCTION_ID,
         "status": "LONGER_TIME_REPORT_COMPLETE",
         "analysis_identity": analysis["identity_sha256"],
@@ -467,6 +474,8 @@ def _render_report(
         "",
         "> **범위:** `FIXED_DT_LONGER_TARGET_TIME_Z1_Z15_Z20_Z30`. 네 cell은 동일 `dt=1/16`, sealed B1 100 requests, W0, C3 K8 writer, cache, evaluator를 공유하고 `T_z=1/1.5/2/3`만 다르다. Z0 coarse-resolution은 이 비교와 manifest에서 제외했다.",
         "",
+        "> **정정판 v2:** v1의 CSV에는 존재했지만 본문에서 생략된 Native post-W 측정, z→W gap, success/accuracy/strict/locality와 Native compute를 명시적으로 반영했다. 실험·raw identity·longer-time 결론은 변경하지 않았다.",
+        "",
         "## 핵심 관측",
         "",
     ]
@@ -484,7 +493,7 @@ def _render_report(
     lines.extend(
         [
             "- 증가 시간의 marginal gain은 단조라고 가정하지 않았다. `consecutive-marginal-gain.csv`에 accepted-z와 post-W의 mean/median/p90/max를 K1/K4/K8별로 기록했다.",
-            "- 아래 Native 비교는 사용자 승인 별도 Official 실행의 external reference이며 target-timescale 설정 선택에 영향 0이다.",
+            "- 아래 Native 비교는 사용자 승인 별도 Official 실행의 external reference이며 target-timescale 설정 선택에 영향 0이다. AlphaEdit post-W mean NLL은 Rewrite `0.001915`, Rephrase `1.940613`; MEMIT는 Rewrite `0.342457`, Rephrase `2.974135`로 direct-z와 materialized W 사이의 차이가 확인됐다.",
             "",
             "## 1. 실행·clamp·selection·overhead",
             "",
@@ -576,18 +585,49 @@ def _render_report(
     lines.extend(
         [
             "",
-            "## 5. Native direct-z reference",
+            "## 5. Native accepted-z 및 post-W reference",
             "",
-            "|method|prompt|mean|median|p90|max|success|strict|",
-            "|---|---|---:|---:|---:|---:|---:|---:|",
+            "|method|endpoint|prompt|mean|median|p90|max|success/strict|accuracy/strict|locality|",
+            "|---|---|---|---:|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for method in NATIVE_RESULTS:
+        native_measurement = analysis["native_reference"]["z_to_W_measurement"][method]
+        for endpoint_name, endpoint_label in (("accepted_z", "accepted-z"), ("post_W", "post-W")):
+            locality = native_measurement["locality"][endpoint_name]
+            for prompt in ("rewrite", "rephrase"):
+                row = next(item for item in native_endpoints if item["cell"] == method and item["endpoint"] == endpoint_name and item["prompt"] == prompt)
+                lines.append(
+                    f"|{method}|{endpoint_label}|{prompt}|{row['target_new_mean']:.6f}|{row['target_new_median']:.6f}|{row['target_new_p90']:.6f}|{row['target_new_max']:.6f}|{row['success_numerator']}/{row['success_denominator']} · {row['strict_success_numerator']}/{row['strict_success_denominator']}|{row['accuracy_numerator']}/{row['accuracy_denominator']} · {row['strict_accuracy_numerator']}/{row['strict_accuracy_denominator']}|{locality['numerator']}/{locality['denominator']}|"
+                )
+    lines.extend(
+        [
+            "",
+            "|method|prompt|post-W − accepted-z mean/median/p90/max|",
+            "|---|---|---:|",
         ]
     )
     for method in NATIVE_RESULTS:
         for prompt in ("rewrite", "rephrase"):
-            row = next(item for item in native_endpoints if item["cell"] == method and item["endpoint"] == "accepted_z" and item["prompt"] == prompt)
+            delta = analysis["native_reference"]["z_to_W_measurement"][method]["prompts"][prompt]["post_W_minus_accepted_z"]
             lines.append(
-                f"|{method}|{prompt}|{row['target_new_mean']:.6f}|{row['target_new_median']:.6f}|{row['target_new_p90']:.6f}|{row['target_new_max']:.6f}|{row['success_numerator']}/{row['success_denominator']}|{row['strict_success_numerator']}/{row['strict_success_denominator']}|"
+                f"|{method}|{prompt}|{delta['mean']:+.6f}/{delta['median']:+.6f}/{delta['p90']:+.6f}/{delta['max']:+.6f}|"
             )
+    lines.extend(
+        [
+            "",
+            "AlphaEdit의 z→W mean gap은 Rewrite `+0.000553`, Rephrase `+0.837049`였고, MEMIT는 Rewrite `+0.341572`, Rephrase `+1.881562`였다. Native direct-z와 materialized W를 구분해 해석해야 하며 이 전달 손실은 target-time 설정 선택에 사용하지 않았다.",
+            "",
+            "|method|total|z 생성|writer core|z eval|W eval|restore|W0 restore|",
+            "|---|---:|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for method in NATIVE_RESULTS:
+        native_measurement = analysis["native_reference"]["z_to_W_measurement"][method]
+        compute = native_measurement["compute"]
+        lines.append(
+            f"|{method}|{compute['method_total_seconds']:.1f}s|{compute['target_accepted_z_generation_seconds']:.1f}s|{compute['writer_edit_core_seconds']:.1f}s|{compute['accepted_z_evaluator_seconds']:.1f}s|{compute['post_W_evaluator_seconds']:.1f}s|{compute['restore_seconds']:.1f}s|{native_measurement['W0_restored']}|"
+        )
     lines.extend(
         [
             "",

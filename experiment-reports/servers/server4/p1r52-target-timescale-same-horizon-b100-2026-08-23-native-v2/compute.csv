@@ -1,0 +1,3 @@
+cell,job_id,state,exit_code,start,end,elapsed_seconds,elapsed,allocated_cpu_seconds,requested_memory,allocated_tres,field_evaluations,writer_calls,writer_layer_apply_count,writer_edit_core_wall_seconds,runtime_after_model_preflight_seconds,model_forward_count,processed_tokens,peak_allocated_bytes,peak_reserved_bytes
+Z0-COARSE,23132_0,COMPLETED,0:0,2026-08-23T16:59:53,2026-08-23T17:19:04,1151,00:19:11,9208,65000M,"billing=8,cpu=8,gres/gpu=1,mem=65000M,node=1",8,8,40,366.7682836204767,1103.4921496594325,1388,1096514,38027805184,44010831872
+Z1-REFINE,23132_1,COMPLETED,0:0,2026-08-23T16:59:53,2026-08-23T17:21:30,1297,00:21:37,10376,65000M,"billing=8,cpu=8,gres/gpu=1,mem=65000M,node=1",16,8,40,367.46894347760826,1249.9552456913516,1388,1096514,38027805184,44010831872

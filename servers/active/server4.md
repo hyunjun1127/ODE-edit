@@ -128,8 +128,10 @@ report, audit와 experiment provenance는 변경하지 않는다.
   exclusion 뒤 TECH-R2 `23142_1` valid
 - raw roots: ignored local, immutable reference only
 - report roots:
-  - `experiment-reports/servers/server4/p1r52-target-timescale-same-horizon-b100-2026-08-23-native-v1`
-  - `experiment-reports/servers/server4/p1r52-target-timescale-longer-time-b100-2026-08-23-native-v1`
+  - canonical: `experiment-reports/servers/server4/p1r52-target-timescale-same-horizon-b100-2026-08-23-native-v2`
+  - canonical: `experiment-reports/servers/server4/p1r52-target-timescale-longer-time-b100-2026-08-23-native-v2`
+  - v1 roots preserved as superseded report-body omission lineage
+- Native endpoint coverage: accepted-z + post-W, z→W transfer and compute in v2
 - final Tz selection: false
 - scientific promotion: false
 

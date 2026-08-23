@@ -1,0 +1,141 @@
+{
+  "analysis_generator": {
+    "bytes": 58301,
+    "path": "project/run_scripts/ode_bf/p1r52_target_timescale_analysis.py",
+    "sha256": "694121ccca1d594d1289b3862054c5fefc554f6ba32b337429ce2b524730d20b"
+  },
+  "generated_members": [
+    {
+      "bytes": 783,
+      "path": "cell-summary.csv",
+      "sha256": "eadb991692aff98b7ff186e89eb97663487a5e9902bbb163e398c486f8a5eb36"
+    },
+    {
+      "bytes": 9407,
+      "path": "microstep-trajectory.csv",
+      "sha256": "91208025f47c705ecb1f7fc6bb8b8ce6d3aa40d6a49213f018e7d6dea8d273fd"
+    },
+    {
+      "bytes": 14904,
+      "path": "k1-k4-k8-endpoints.csv",
+      "sha256": "f8077357cd932c96b3a9a2ed261f1b32d582f9976ebd167e84f3f0d05ab6f9ac"
+    },
+    {
+      "bytes": 76202,
+      "path": "paired-accepted-z-nll.csv",
+      "sha256": "0269c6aae513e8e18c9b365ea22fd40a86cc1b95f5ba9be2117fc275b37564cd"
+    },
+    {
+      "bytes": 1053,
+      "path": "writer-transfer-locality.csv",
+      "sha256": "e59e379e35906c1bda51438a95acf43154b51e1ee02823ca1660f23949158b7f"
+    },
+    {
+      "bytes": 3839,
+      "path": "native-reference-endpoints.csv",
+      "sha256": "144683b146b0d2b5b79eee3825fbcbeef4091f21a321525bea164d2c0a4686d6"
+    },
+    {
+      "bytes": 139305,
+      "path": "native-paired-nll.csv",
+      "sha256": "ffbdb1f17fc104e6f38ee518b5b9016e03cdd7ef3702b450b2eb60143bbc15fd"
+    },
+    {
+      "bytes": 6401,
+      "path": "native-gap-closure.csv",
+      "sha256": "d383dbc343ede1e5b9e334501635497f846ea3f3529201e322d1f42b899653ce"
+    },
+    {
+      "bytes": 773,
+      "path": "compute.csv",
+      "sha256": "66943005a0d00e703d142e9fbbd87ed14e48d46746e16fcfa3ac0b6206d4a0d2"
+    },
+    {
+      "bytes": 1168,
+      "path": "native-compute.csv",
+      "sha256": "8cba4bc2c781bd1f886983d0d7195f124e0c69d1bff3168e68e5daaf0f5ab00f"
+    },
+    {
+      "bytes": 18348,
+      "path": "analysis.json",
+      "sha256": "90bc29097ca8086d2420466300d281984332c93ed6867a9a1bbb9170b3f06388"
+    },
+    {
+      "bytes": 8522,
+      "path": "report-ko.md",
+      "sha256": "1d68675c279089c96524b6ab882a22d058c6bc14ce97f74d21b5bcbde8a9c515"
+    }
+  ],
+  "instruction_id": "ODEEDIT-S05-P1R52-TARGET-TIMESCALE-B100-V1",
+  "longer_time_raw_input_count": 0,
+  "raw_input_count": 12,
+  "raw_inputs": [
+    {
+      "bytes": 1396,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z0-coarse-tech-r4-v1/manifest.json",
+      "sha256": "6a319aa7f94f3866e23e19f317dad4546e72afd1ceeec8da014644eb1e22dedd"
+    },
+    {
+      "bytes": 3980,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z0-coarse-tech-r4-v1/source-manifest.json",
+      "sha256": "73c75b904c9b95c0a0652ff60d154a491eb0ecc422bb6e961ce2bfc710d36458"
+    },
+    {
+      "bytes": 5079299,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z0-coarse-tech-r4-v1/terminal.json",
+      "sha256": "683102c81fbc93b4515d885c1a3d78491198cbe04992004101f4e52977273900"
+    },
+    {
+      "bytes": 1396,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z1-refine-tech-r4-v1/manifest.json",
+      "sha256": "a6460cba808a5bb4b764f13b765ab9c70b43edf9bd4638d4678fa4c50051aa70"
+    },
+    {
+      "bytes": 3980,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z1-refine-tech-r4-v1/source-manifest.json",
+      "sha256": "73c75b904c9b95c0a0652ff60d154a491eb0ecc422bb6e961ce2bfc710d36458"
+    },
+    {
+      "bytes": 8205167,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z1-refine-tech-r4-v1/terminal.json",
+      "sha256": "b5d2666b76fc5f488616ffa207469277616e290a30113cb5f648b79b7884b5d1"
+    },
+    {
+      "bytes": 903,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-alphaedit-user-override-v1/manifest.json",
+      "sha256": "f7a3b8ceec31630e6f27d353b31c21593e2ac03042576f664e60d38f9b9fa252"
+    },
+    {
+      "bytes": 2511,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-alphaedit-user-override-v1/source-manifest.json",
+      "sha256": "7240411bfd1dff4cc2b2ab316230332536c686305f4e65d08233e12205786821"
+    },
+    {
+      "bytes": 172882,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-alphaedit-user-override-v1/terminal.json",
+      "sha256": "4e26d1637202a01a3c9a88207f71b320acc7d02c287a0fa195ed54309f370549"
+    },
+    {
+      "bytes": 895,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-memit-user-override-tech-r2-v1/manifest.json",
+      "sha256": "992a041af73cb860ca1239be44d07f3e8bffbd74cd7fbc5ce10ba7d489a5e8e8"
+    },
+    {
+      "bytes": 2511,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-memit-user-override-tech-r2-v1/source-manifest.json",
+      "sha256": "107aeb4e6969de1783dccc5d00ece27598ef98914adca0875d43b3a34bc96420"
+    },
+    {
+      "bytes": 172187,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-memit-user-override-tech-r2-v1/terminal.json",
+      "sha256": "2d4430f5081638984e65aecbb3e3a3e98a1d50bd849ae39e12abd6c0ed781ebf"
+    }
+  ],
+  "raw_member_root": "467bd6c6f1f3b9bed842fb7c70c32860419397273c575e7f206722db7dff5eac",
+  "root_digest": "7af73c8914141c33f19d2273f4e63fc8d9b6b3eecddf8164daf88e64a55e6321",
+  "schema": "ode-edit-s05-p1r52-target-timescale-same-horizon-analysis-manifest/v2",
+  "scientific_promotion": false,
+  "scope": "Z0_COARSE_Z1_REFINE_ONLY",
+  "source_head": "c1f1962937af87392a6d046d66c8d864bd54073d",
+  "source_tree": "79535403ea7c09d5954102813f2185107966d5a6"
+}

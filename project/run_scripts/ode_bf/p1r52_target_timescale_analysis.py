@@ -183,6 +183,99 @@ def _score_rows(
     return rows
 
 
+def _native_z_to_w_summary(
+    *,
+    terminals: Mapping[str, Mapping[str, Any]],
+    endpoint_rows: Sequence[Mapping[str, Any]],
+) -> dict[str, Any]:
+    """Summarize measured Native accepted-z and materialized-W endpoints."""
+    lookup = {
+        (str(row["cell"]), str(row["endpoint"]), str(row["prompt"])): row
+        for row in endpoint_rows
+    }
+    result: dict[str, Any] = {}
+    for method, terminal in terminals.items():
+        native = terminal["native"]
+        timing = native["timing"]
+        prompts: dict[str, Any] = {}
+        for prompt in ("rewrite", "rephrase"):
+            z_row = lookup[(method, "accepted_z", prompt)]
+            w_row = lookup[(method, "post_W", prompt)]
+            prompts[prompt] = {
+                "accepted_z": {
+                    key: z_row[key]
+                    for key in (
+                        "target_new_mean",
+                        "target_new_median",
+                        "target_new_p90",
+                        "target_new_max",
+                        "success_numerator",
+                        "success_denominator",
+                        "strict_success_numerator",
+                        "strict_success_denominator",
+                        "accuracy_numerator",
+                        "accuracy_denominator",
+                        "strict_accuracy_numerator",
+                        "strict_accuracy_denominator",
+                    )
+                },
+                "post_W": {
+                    key: w_row[key]
+                    for key in (
+                        "target_new_mean",
+                        "target_new_median",
+                        "target_new_p90",
+                        "target_new_max",
+                        "success_numerator",
+                        "success_denominator",
+                        "strict_success_numerator",
+                        "strict_success_denominator",
+                        "accuracy_numerator",
+                        "accuracy_denominator",
+                        "strict_accuracy_numerator",
+                        "strict_accuracy_denominator",
+                    )
+                },
+                "post_W_minus_accepted_z": {
+                    statistic: float(w_row[f"target_new_{statistic}"])
+                    - float(z_row[f"target_new_{statistic}"])
+                    for statistic in ("mean", "median", "p90", "max")
+                },
+            }
+        result[method] = {
+            "measured_endpoints": ["accepted_z", "post_W"],
+            "prompt_denominators": {"rewrite": 100, "rephrase": 200},
+            "prompts": prompts,
+            "locality": {
+                "accepted_z": {
+                    "numerator": native["z"]["summary"]["locality_numerator"],
+                    "denominator": native["z"]["summary"]["locality_denominator"],
+                },
+                "post_W": {
+                    "numerator": native["W"]["summary"]["locality_numerator"],
+                    "denominator": native["W"]["summary"]["locality_denominator"],
+                },
+            },
+            "compute": {
+                "official_apply_count": terminal["official_apply_count"],
+                "target_accepted_z_generation_seconds": timing[
+                    "target_accepted_z_generation_seconds"
+                ],
+                "writer_edit_core_seconds": timing["writer_edit_core_seconds"],
+                "accepted_z_evaluator_seconds": timing[
+                    "accepted_z_evaluator_seconds"
+                ],
+                "post_W_evaluator_seconds": timing[
+                    "immediate_post_evaluator_seconds"
+                ],
+                "restore_seconds": timing["restore_seconds"],
+                "method_total_seconds": timing["case_method_total_seconds"],
+            },
+            "W0_restored": terminal["W0_restored"],
+        }
+    return result
+
+
 def _sacct(job_id: str, cells: Sequence[int]) -> dict[int, dict[str, Any]]:
     output = subprocess.run(
         [
@@ -718,8 +811,12 @@ def build_same_horizon(
                     "cell_lower_NLL_count": sum(value < 0 for value in values),
                     "tie_count": sum(value == 0 for value in values),
                 }
+    native_z_to_w = _native_z_to_w_summary(
+        terminals=native_terminals,
+        endpoint_rows=native_endpoint_rows,
+    )
     analysis: dict[str, Any] = {
-        "schema": "ode-edit-s05-p1r52-target-timescale-same-horizon-analysis/v1",
+        "schema": "ode-edit-s05-p1r52-target-timescale-same-horizon-analysis/v2",
         "instruction_id": INSTRUCTION_ID,
         "scope": "SAME_HORIZON_ONLY_Z0_COARSE_VS_Z1_REFINE",
         "source_head": SOURCE_HEAD,
@@ -757,6 +854,7 @@ def build_same_horizon(
             },
             "methods": list(NATIVE_RESULTS),
             "paired_gap": native_paired_summary,
+            "z_to_W_measurement": native_z_to_w,
             "selection_influence_count": 0,
             "target_timescale_parameter_influence_count": 0,
         },
@@ -814,7 +912,7 @@ def build_same_horizon(
     generated = [output_root / name for name in tables] + [output_root / "analysis.json", output_root / "report-ko.md"]
     raw_inputs.sort(key=lambda row: str(row["path"]))
     manifest: dict[str, Any] = {
-        "schema": "ode-edit-s05-p1r52-target-timescale-same-horizon-analysis-manifest/v1",
+        "schema": "ode-edit-s05-p1r52-target-timescale-same-horizon-analysis-manifest/v2",
         "instruction_id": INSTRUCTION_ID,
         "source_head": SOURCE_HEAD,
         "source_tree": SOURCE_TREE,
@@ -834,7 +932,7 @@ def build_same_horizon(
     package_paths = generated + [output_root / "analysis-manifest.json"]
     package_members = [_member(path, relative_to=output_root) for path in package_paths]
     receipt: dict[str, Any] = {
-        "schema": "ode-edit-s05-p1r52-target-timescale-same-horizon-rooted-receipt/v1",
+        "schema": "ode-edit-s05-p1r52-target-timescale-same-horizon-rooted-receipt/v2",
         "instruction_id": INSTRUCTION_ID,
         "status": "SAME_HORIZON_REPORT_COMPLETE",
         "analysis_identity": analysis["identity_sha256"],
@@ -868,11 +966,14 @@ def _render_same_horizon_report(
         "",
         "> **범위:** `SAME_HORIZON_ONLY_Z0_COARSE_VS_Z1_REFINE`. 두 cell은 동일 `T_z=1`, 동일 B1 100 requests, 동일 W0·writer·cache·evaluator를 사용한다. Z0는 `m=1, dt=1/8`, Z1은 `m=2, dt=1/16`이다. Z15/Z20/Z30 결과는 별도 longer-time 보고 대상으로 이 분석과 manifest에 포함하지 않았다.",
         "",
+        "> **정정판 v2:** v1의 CSV에는 존재했지만 본문에서 생략된 Native post-W 측정, z→W gap, success/accuracy/strict/locality와 Native compute를 명시적으로 반영했다. 실험·raw identity·target-timescale 결론은 변경하지 않았다.",
+        "",
         "## 결론",
         "",
         f"- K8 accepted-z Rewrite mean NLL은 `{primary['rewrite_Z0_mean']:.6f} → {primary['rewrite_Z1_mean']:.6f}`로 `{primary['rewrite_delta_Z1_minus_Z0']:.6f}` 감소했다. paired prompt 기준 Z1 승리는 `{paired['8']['rewrite']['Z1_win_count']}/100`이다.",
         f"- K8 accepted-z Rephrase mean은 `{primary['rephrase_Z0_mean']:.6f} → {primary['rephrase_Z1_mean']:.6f}`로 `{primary['rephrase_delta_Z1_minus_Z0']:.6f}` 감소했고 Z1 승리는 `{paired['8']['rephrase']['Z1_win_count']}/200`이다. 다만 p90은 `{primary['rephrase_p90_delta_Z1_minus_Z0']:+.6f}`로 악화했다.",
         f"- Rewrite 개선은 post-W에도 유지됐지만, Rephrase post-W mean은 `{post['Z0_mean']:.6f} → {post['Z1_mean']:.6f}`로 `{post['delta_Z1_minus_Z0']:+.6f}` 악화했다. accepted-z 개선이 writer의 Rephrase endpoint 개선으로 전달되지 않았다는 사실만 말할 수 있으며 원인 인과는 주장하지 않는다.",
+        "- 별도 Native에서도 z와 W는 같지 않았다. AlphaEdit post-W mean NLL은 Rewrite `0.001915`, Rephrase `1.940613`; MEMIT는 Rewrite `0.342457`, Rephrase `2.974135`였다. 따라서 Native 비교도 direct-z만으로 결론내리지 않고 실제 W endpoint를 함께 본다.",
         "- 따라서 같은 horizon에서 `dt`를 절반으로 줄인 것은 coarse-resolution 병목의 일부를 해소했다. 그러나 Rephrase tail과 post-W transfer는 남아 있어 resolution 하나만으로 전체 병목이 해소됐다고 볼 수 없다.",
         "",
         "## 1. 실행·불변식",
@@ -887,7 +988,7 @@ def _render_same_horizon_report(
     lines.extend(
         [
             "",
-            "두 cell 모두 terminal valid, writer K1–K8 정확히 8회, cache entry reuse 8회·K8 뒤 append 1회, heldout K1/K4/K8만 9 evaluator groups, W0 pointer/bytes restore exact, FULL-FP32, Native 실행 0이다.",
+            "두 cell 모두 terminal valid, writer K1–K8 정확히 8회, cache entry reuse 8회·K8 뒤 append 1회, heldout K1/K4/K8만 9 evaluator groups, W0 pointer/bytes restore exact, FULL-FP32다. 각 target-timescale cell 내부 Native 실행은 0이며, 본문의 Native 수치는 별도 external reference jobs에서 왔다.",
             "",
             "## 2. K1/K4/K8 accepted-z NLL",
             "",
@@ -930,24 +1031,55 @@ def _render_same_horizon_report(
             "",
             f"Z0는 clamp `27/800`(3.375%), Z1은 `13/1600`(0.8125%)이다. Z0의 선택은 PRIMARY/RESCUE/CURRENT `788/7/5`, Z1은 `1593/7/0`이다. Z1은 field evaluation을 2배 사용했지만 clamp-removed energy 합이 `{float(cells[0]['clamp_removed_energy_sum']):.3f} → {float(cells[1]['clamp_removed_energy_sum']):.3f}`로 감소했다. 이는 관측 association이며 개별 기제의 인과 증명은 아니다.",
             "",
-            "## 5. Native mean gap closure",
+            "## 5. Native accepted-z 및 post-W reference",
             "",
-            "사용자 지시에 따라 동일 sealed B1/W0/evaluator에서 Official AlphaEdit와 Official MEMIT를 별도 실행했다. 아래는 direct-z accepted endpoint이며 두 Native 실행은 target-timescale 설정 선택에 영향 0이다.",
+            "사용자 지시에 따라 동일 sealed B1/W0/evaluator에서 Official AlphaEdit와 Official MEMIT를 별도 실행했다. 두 실행 모두 accepted-z와 실제 weight materialization 직후 post-W를 같은 evaluator로 측정했으며, target-timescale 설정 선택에 영향 0이다.",
             "",
-            "|Native|prompt|mean|median|p90|max|success|strict|",
-            "|---|---|---:|---:|---:|---:|---:|---:|",
+            "|Native|endpoint|prompt|mean|median|p90|max|success/strict|accuracy/strict|locality|",
+            "|---|---|---|---:|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for method in NATIVE_RESULTS:
+        native_measurement = analysis["native_reference"]["z_to_W_measurement"][method]
+        for endpoint_name, endpoint_label in (("accepted_z", "accepted-z"), ("post_W", "post-W")):
+            locality = native_measurement["locality"][endpoint_name]
+            for prompt in ("rewrite", "rephrase"):
+                row = native_endpoint[(method, endpoint_name, prompt)]
+                lines.append(
+                    f"|{method}|{endpoint_label}|{prompt}|{row['target_new_mean']:.6f}|{row['target_new_median']:.6f}|{row['target_new_p90']:.6f}|{row['target_new_max']:.6f}|{row['success_numerator']}/{row['success_denominator']} · {row['strict_success_numerator']}/{row['strict_success_denominator']}|{row['accuracy_numerator']}/{row['accuracy_denominator']} · {row['strict_accuracy_numerator']}/{row['strict_accuracy_denominator']}|{locality['numerator']}/{locality['denominator']}|"
+                )
+    lines.extend(
+        [
+            "",
+            "|Native|prompt|post-W − accepted-z mean/median/p90/max|",
+            "|---|---|---:|",
         ]
     )
     for method in NATIVE_RESULTS:
         for prompt in ("rewrite", "rephrase"):
-            row = native_endpoint[(method, "accepted_z", prompt)]
+            delta = analysis["native_reference"]["z_to_W_measurement"][method]["prompts"][prompt]["post_W_minus_accepted_z"]
             lines.append(
-                f"|{method}|{prompt}|{row['target_new_mean']:.6f}|{row['target_new_median']:.6f}|{row['target_new_p90']:.6f}|{row['target_new_max']:.6f}|{row['success_numerator']}/{row['success_denominator']}|{row['strict_success_numerator']}/{row['strict_success_denominator']}|"
+                f"|{method}|{prompt}|{delta['mean']:+.6f}/{delta['median']:+.6f}/{delta['p90']:+.6f}/{delta['max']:+.6f}|"
             )
     lines.extend(
         [
             "",
-            "Native 대비 mean/median/p90/max gap과 closure는 `native-gap-closure.csv`, prompt별 paired 차이와 승패는 `native-paired-nll.csv`, Native post-W 분포는 `native-reference-endpoints.csv`에 기록했다. 원문 contract mean과 새 실행 mean의 차이도 함께 남겨 재현 identity를 점검했다.",
+            "AlphaEdit의 z→W mean gap은 Rewrite `+0.000553`, Rephrase `+0.837049`였고, MEMIT는 Rewrite `+0.341572`, Rephrase `+1.881562`였다. 즉 Native direct-z가 낮은 NLL을 보였더라도 materialized W의 성능은 별도이며, 특히 MEMIT Rewrite와 두 방법 Rephrase에서 전달 손실이 관측됐다.",
+            "",
+            "|Native|total|z 생성|writer core|z eval|W eval|restore|W0 restore|",
+            "|---|---:|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for method in NATIVE_RESULTS:
+        native_measurement = analysis["native_reference"]["z_to_W_measurement"][method]
+        compute = native_measurement["compute"]
+        lines.append(
+            f"|{method}|{compute['method_total_seconds']:.1f}s|{compute['target_accepted_z_generation_seconds']:.1f}s|{compute['writer_edit_core_seconds']:.1f}s|{compute['accepted_z_evaluator_seconds']:.1f}s|{compute['post_W_evaluator_seconds']:.1f}s|{compute['restore_seconds']:.1f}s|{native_measurement['W0_restored']}|"
+        )
+    lines.extend(
+        [
+            "",
+            "Native 대비 accepted-z mean/median/p90/max gap과 closure는 `native-gap-closure.csv`, prompt별 paired 차이와 승패는 `native-paired-nll.csv`, accepted-z와 post-W 전체 분포는 `native-reference-endpoints.csv`에 기록했다. 원문 contract mean과 새 실행 mean의 차이도 함께 남겨 재현 identity를 점검했다.",
             "",
             "## 6. 계산량과 overhead",
             "",
