@@ -317,7 +317,7 @@ def build_same_horizon(
     native_root: Path,
     output_root: Path,
     job_id: str,
-    native_job_id: str,
+    native_job_ids: tuple[str, str],
     repo_root: Path,
 ) -> None:
     if output_root.exists() or output_root.is_symlink():
@@ -325,7 +325,10 @@ def build_same_horizon(
     output_root.mkdir(mode=0o755, parents=True)
     cells = ("Z0-COARSE", "Z1-REFINE")
     slurm = _sacct(job_id, (0, 1))
-    native_slurm = _sacct(native_job_id, (0, 1))
+    native_slurm = {
+        0: _sacct(native_job_ids[0], (0,))[0],
+        1: _sacct(native_job_ids[1], (1,))[1],
+    }
     terminals: dict[str, dict[str, Any]] = {}
     native_terminals: dict[str, dict[str, Any]] = {}
     raw_inputs: list[dict[str, Any]] = []
@@ -971,7 +974,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--native-root", required=True, type=Path)
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--job-id", required=True)
-    parser.add_argument("--native-job-id", required=True)
+    parser.add_argument("--native-alpha-job-id", required=True)
+    parser.add_argument("--native-memit-job-id", required=True)
     parser.add_argument("--repo-root", required=True, type=Path)
     args = parser.parse_args(argv)
     build_same_horizon(
@@ -979,7 +983,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         native_root=args.native_root,
         output_root=args.output_root,
         job_id=args.job_id,
-        native_job_id=args.native_job_id,
+        native_job_ids=(args.native_alpha_job_id, args.native_memit_job_id),
         repo_root=args.repo_root,
     )
     return 0
