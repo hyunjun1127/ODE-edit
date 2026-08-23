@@ -184,9 +184,19 @@ def prepare_p1r52_target_proposal(
     step_index: int,
     shared_speed: float,
     kl_teacher_input_sha256: str,
+    target_dt: float | None = None,
 ) -> P1R52TargetProposal:
     """Build one P1R52 primary proposal without any model call."""
 
+    effective_target_dt = P1R24_H if target_dt is None else target_dt
+    if (
+        isinstance(effective_target_dt, bool)
+        or not isinstance(effective_target_dt, (int, float))
+        or not math.isfinite(float(effective_target_dt))
+        or float(effective_target_dt) <= 0.0
+    ):
+        raise ODEBFContractError("P1R52 target integration dt differs")
+    effective_target_dt = float(effective_target_dt)
     if alias not in ("llama3-8b-inst", "qwen2.5-7b-inst") or lock.alias != alias:
         raise ODEBFContractError("P1R52 alias/target lock differs")
     if nll.target_gradient is None or kl.gradient is None:
@@ -352,7 +362,7 @@ def prepare_p1r52_target_proposal(
     )
     if bool(torch.any(active)) and raw_energy_relative_error > P1R24_NUMERICAL_EPSILON:
         raise ODEBFContractError("P1R52 raw target velocity energy is not conserved")
-    nominal_delta = P1R24_H * velocity
+    nominal_delta = effective_target_dt * velocity
     candidate = current64 + nominal_delta
     clamped64, clamp_ratio, clamp_maximum = _origin_relative_clamp(
         candidate, origin64, lock.clamp_factor
@@ -377,10 +387,12 @@ def prepare_p1r52_target_proposal(
         raise ODEBFContractError("P1R52 origin-relative clamp bound differs")
 
     post_clamp_pre_cast_energy_by_request = torch.square(
-        torch.linalg.vector_norm(post_clamp_pre_cast_delta / P1R24_H, dim=0)
+        torch.linalg.vector_norm(
+            post_clamp_pre_cast_delta / effective_target_dt, dim=0
+        )
     )
     post_cast_energy_by_request = torch.square(
-        torch.linalg.vector_norm(actual_delta / P1R24_H, dim=0)
+        torch.linalg.vector_norm(actual_delta / effective_target_dt, dim=0)
     )
     clamp_only_removed_energy_by_request = (
         raw_energy_by_request - post_clamp_pre_cast_energy_by_request
@@ -423,7 +435,7 @@ def prepare_p1r52_target_proposal(
         "k": step_index,
         "alias": alias,
         "request_count": request_count,
-        "h": P1R24_H,
+        "h": effective_target_dt,
         "shared_speed": shared_speed,
         "native_compatible_lock": lock.raw_free_payload(),
         "numerical_epsilon": P1R52_NUMERICAL_EPSILON,
@@ -623,7 +635,17 @@ def select_p1r52_target_proposal(
     rescue_endpoint: ScalableObjectiveResult | None,
     *,
     step_index: int,
+    target_dt: float | None = None,
 ) -> P1R52SelectedTarget:
+    effective_target_dt = P1R24_H if target_dt is None else target_dt
+    if (
+        isinstance(effective_target_dt, bool)
+        or not isinstance(effective_target_dt, (int, float))
+        or not math.isfinite(float(effective_target_dt))
+        or float(effective_target_dt) <= 0.0
+    ):
+        raise ODEBFContractError("P1R52 selected target integration dt differs")
+    effective_target_dt = float(effective_target_dt)
     selected: P1R43SelectedTarget = select_p1r43_target_proposal(
         proposal,
         rescue,
@@ -653,7 +675,7 @@ def select_p1r52_target_proposal(
     post_cast_energy_by_request = torch.tensor(
         proposal.receipt["post_cast_energy_by_request"], dtype=torch.float64
     )
-    accepted_energy_by_request = torch.square(accepted_norm / P1R24_H)
+    accepted_energy_by_request = torch.square(accepted_norm / effective_target_dt)
     rescue_contraction_energy_by_request = torch.tensor(
         [
             float(post_cast_energy_by_request[index] - accepted_energy_by_request[index])

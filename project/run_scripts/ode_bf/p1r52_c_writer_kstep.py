@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import torch
 
@@ -135,6 +135,10 @@ class CKStepWriterRuntime:
         solve_history_keys_by_layer: Mapping[int, torch.Tensor] | None = None,
         alpha_cache_status: str = "ALPHA_CACHE_OFF_CONTROL",
         cache_policy: KStepBatchEntryCachePolicy | None = None,
+        selected_target_resolver: Callable[..., tuple[Any, Any]] = (
+            reconstruct_native_il1_selected_target
+        ),
+        heldout_step_indices: Sequence[int] | None = None,
     ) -> None:
         if arm not in ARMS + CACHE_ARMS:
             raise ODEBFContractError("C K-step arm differs")
@@ -158,6 +162,22 @@ class CKStepWriterRuntime:
         self.solve_history_keys_by_layer = solve_history_keys_by_layer
         self.alpha_cache_status = alpha_cache_status
         self.cache_policy = cache_policy
+        self.selected_target_resolver = selected_target_resolver
+        self.heldout_step_indices = frozenset(
+            range(P1R23_GRID_COUNT)
+            if heldout_step_indices is None
+            else heldout_step_indices
+        )
+        if (
+            not callable(self.selected_target_resolver)
+            or any(
+                isinstance(index, bool)
+                or not isinstance(index, int)
+                or not 0 <= index < P1R23_GRID_COUNT
+                for index in self.heldout_step_indices
+            )
+        ):
+            raise ODEBFContractError("C K-step selected-target/evaluator binding differs")
         if (alpha_cache_status == "ALPHA_CACHE_BATCH_ENTRY_SNAPSHOT") != (cache_policy is not None):
             raise ODEBFContractError("C K-step cache policy binding differs")
         if cache_policy is not None and cache_policy.arm != arm:
@@ -168,32 +188,44 @@ class CKStepWriterRuntime:
     def execute(self, outer: Any, *, step_index: int) -> CKStepExecution:
         if step_index != len(self.executions) or not 0 <= step_index < P1R23_GRID_COUNT:
             raise ODEBFStateError("C K-step execution order differs")
-        selected, bridge = reconstruct_native_il1_selected_target(outer, step_index=step_index)
+        selected, bridge = self.selected_target_resolver(
+            outer, step_index=step_index
+        )
         target = selected.target_step.target_next.detach().cpu().float().contiguous()
         if target.dtype is not torch.float32 or target.shape[1] != len(self.requests):
             raise ODEBFContractError("C K-step selected target geometry differs")
         entry_hashes = _hashes(self.model_touched)
-        freeze = KStepEndpointActionFreeze(
-            arm=f"{self.arm}-k{step_index + 1}",
-            sequential_batch=step_index,
-            request_order_sha256=self._entry_order,
-            selected_snapshot_sha256=bridge.identity_sha256,
-            fixed_budget_slots_completed=step_index + 1,
-        )
-        cases = tuple(load_counterfact_cases_after_freeze(
-            self.dataset_path, self.requests, freeze, expected_batch_size=len(self.requests)
-        ))
-        binding = r52_binding(self.arm, self.requests, self.hparams, target)
-        counter = ModelForwardCounter(self.model, self.job_ledger)
-        try:
-            z_observation, _ = evaluate_accepted_z_batch(
-                self.model, self.tokenizer, self.requests, cases,
-                role=self.arm, round_index=step_index + 1, binding=binding,
-                committed_weight_sha256=entry_hashes,
+        evaluate_heldout = step_index in self.heldout_step_indices
+        binding = None
+        z_observation = None
+        pre_scores = None
+        freeze = None
+        if evaluate_heldout:
+            freeze = KStepEndpointActionFreeze(
+                arm=f"{self.arm}-k{step_index + 1}",
+                sequential_batch=step_index,
+                request_order_sha256=self._entry_order,
+                selected_snapshot_sha256=bridge.identity_sha256,
+                fixed_budget_slots_completed=step_index + 1,
             )
-        finally:
-            counter.close()
-        pre_scores = _evaluate_w(self.model, self.tokenizer, cases, freeze=freeze, ledger=self.job_ledger)
+            cases = tuple(load_counterfact_cases_after_freeze(
+                self.dataset_path, self.requests, freeze,
+                expected_batch_size=len(self.requests)
+            ))
+            binding = r52_binding(self.arm, self.requests, self.hparams, target)
+            counter = ModelForwardCounter(self.model, self.job_ledger)
+            try:
+                z_observation, _ = evaluate_accepted_z_batch(
+                    self.model, self.tokenizer, self.requests, cases,
+                    role=self.arm, round_index=step_index + 1, binding=binding,
+                    committed_weight_sha256=entry_hashes,
+                )
+            finally:
+                counter.close()
+            pre_scores = _evaluate_w(
+                self.model, self.tokenizer, cases,
+                freeze=freeze, ledger=self.job_ledger
+            )
         if self.arm.startswith(("C0-KSTEP", "C1-KSTEP")):
             entry = _writer_entry(
                 self.model, self.tokenizer, self.requests, target=target,
@@ -286,22 +318,38 @@ class CKStepWriterRuntime:
         commit_hashes = _hashes(self.model_touched)
         if commit_hashes == entry_hashes:
             raise ODEBFStateError("C K-step writer produced no physical transition")
-        post_scores = _evaluate_w(self.model, self.tokenizer, cases, freeze=freeze, ledger=self.job_ledger)
-        z_summary = _endpoint_summary(z_observation["scores"])
-        pre_summary = _endpoint_summary(pre_scores)
-        post_summary = _endpoint_summary(post_scores)
-        metrics = {
-            "accepted_z": {"binding": binding.raw_free_payload(), "summary": z_summary, "scores": z_observation["scores"]},
-            "pre_writer_W": {"summary": pre_summary, "scores": pre_scores},
-            "post_writer_W": {"summary": post_summary, "scores": post_scores},
-            "post_W_minus_z_gap": _writer_gap(post_summary, z_summary),
-            "heldout_evaluator_decision_influence_count": 0,
-        }
+        if evaluate_heldout:
+            assert freeze is not None and binding is not None
+            assert z_observation is not None and pre_scores is not None
+            post_scores = _evaluate_w(
+                self.model, self.tokenizer, cases,
+                freeze=freeze, ledger=self.job_ledger
+            )
+            z_summary = _endpoint_summary(z_observation["scores"])
+            pre_summary = _endpoint_summary(pre_scores)
+            post_summary = _endpoint_summary(post_scores)
+            metrics = {
+                "status": "HELDOUT_TERMINAL_ONLY_OBSERVATION",
+                "accepted_z": {"binding": binding.raw_free_payload(), "summary": z_summary, "scores": z_observation["scores"]},
+                "pre_writer_W": {"summary": pre_summary, "scores": pre_scores},
+                "post_writer_W": {"summary": post_summary, "scores": post_scores},
+                "post_W_minus_z_gap": _writer_gap(post_summary, z_summary),
+                "heldout_evaluator_decision_influence_count": 0,
+            }
+        else:
+            metrics = {
+                "status": "NOT_SCHEDULED_CALIBRATION_TARGET_ONLY",
+                "accepted_z": None,
+                "pre_writer_W": None,
+                "post_writer_W": None,
+                "post_W_minus_z_gap": None,
+                "heldout_evaluator_decision_influence_count": 0,
+            }
         compute = {
-            "accepted_z_evaluator_count": 1,
-            "pre_writer_evaluator_count": 1,
-            "post_writer_evaluator_count": 1,
-            "heldout_evaluator_count": 3,
+            "accepted_z_evaluator_count": int(evaluate_heldout),
+            "pre_writer_evaluator_count": int(evaluate_heldout),
+            "post_writer_evaluator_count": int(evaluate_heldout),
+            "heldout_evaluator_count": 3 * int(evaluate_heldout),
             "dense_update_construction_count": dense_count,
             "native_apply_count": apply_count,
             "logical_commit_count": 1,
@@ -311,6 +359,7 @@ class CKStepWriterRuntime:
             "bf16_fp16_path_count": 0,
             "numeric_storage_cast_count": 0,
             "retry_count": 0,
+            "heldout_schedule_step_count": int(evaluate_heldout),
         }
         payload = {
             "arm": self.arm,

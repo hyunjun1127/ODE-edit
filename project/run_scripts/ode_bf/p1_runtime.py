@@ -3259,6 +3259,10 @@ def run_p1(
     p2r4_phaseb_case_count: int | None = None,
     p2r4_phaseb_clamp_policy: str | None = None,
     p2r4_phaseb_attempt_suffix: str | None = None,
+    artifact_runtime_path_seal: Any | None = None,
+    artifact_evaluator_source_paths: Mapping[str, Path] | None = None,
+    sealed_fp32_model_loader: Any | None = None,
+    artifact_base_guard_override: Any | None = None,
 ) -> dict[str, Any]:
     if alias not in MODEL_ALIASES:
         raise ODEBFContractError("P1 alias differs")
@@ -3271,6 +3275,7 @@ def run_p1(
     from .p1r52_c_writer_phase1_sequential import is_phase1_role
     from .p1r52_c_writer_kstep_independent import is_phase2_role
     from .p1r52_c_writer_kstep_cache_sequential import is_phase3_role
+    from .p1r52_target_timescale_b100 import is_target_timescale_role
 
     joint_pc_full_fp32_mode = (
         is_joint_pc_full_fp32_role(p1r52_sequential_role)
@@ -3278,6 +3283,7 @@ def run_p1(
         or is_phase1_role(p1r52_sequential_role)
         or is_phase2_role(p1r52_sequential_role)
         or is_phase3_role(p1r52_sequential_role)
+        or is_target_timescale_role(p1r52_sequential_role)
     )
     p3r1_fp32_mode = is_p3r1_role(p1r52_sequential_role)
     _source_freeze(repo_root, source_head)
@@ -3670,6 +3676,10 @@ def run_p1(
         # P1R38 is the same independent Atomic artifact class as P1R36.
         # P1R23/P1R24/P1R30 own distinct atomic seals and never consume the
         # held sequential ODE-alloc artifact.
+        ,
+        runtime_path_seal=artifact_runtime_path_seal,
+        evaluator_source_paths=artifact_evaluator_source_paths,
+        base_guard_override=artifact_base_guard_override,
     )
     artifact_receipt = artifact_guard.preflight()
     stream_value = json.loads(
@@ -4579,6 +4589,7 @@ def run_p1(
                     artifact_guard,
                     alias,
                     allow_python_patch_compatible=(joint_pc_full_fp32_mode or p3r1_fp32_mode),
+                    sealed_model_loader=sealed_fp32_model_loader,
                 )
             )
         else:

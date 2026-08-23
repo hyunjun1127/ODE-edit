@@ -174,6 +174,10 @@ from .p1r52_target_depth import (
     P1R52TargetDepth,
     run_p1r52_target_depth_scheduler,
 )
+from .p1r52_target_timescale import (
+    TargetSubcycleSchedule,
+    run_target_subcycle_scheduler,
+)
 from .p1r52_residual_reserve_pre_writer_interface import (
     P1R52PreWriterObserver,
     observe_native_il1_pre_writer_input,
@@ -346,6 +350,7 @@ def _run_ode_arm(
     p1r52_pre_writer_observer: P1R52PreWriterObserver | None = None,
     p1r52_residual_reserve_writer: Any | None = None,
     p1r52_c_kstep_writer: Any | None = None,
+    p1r52_target_subcycle_schedule: TargetSubcycleSchedule | None = None,
     p1r52_fp32_phase_a: bool = False,
     p1r52_phase_a_method_label: str | None = None,
     p1r52_sequential_target_depth: bool = False,
@@ -354,6 +359,7 @@ def _run_ode_arm(
     p1r30: bool = False,
     p1r24_target_step_policy: Callable[..., Any] = p1r24_target_step,
     p1r40: bool = False,
+    easyedit_root: Path = Path("/mnt/raid5/janghj/EasyEdit"),
 ) -> dict[str, Any]:
     if arm not in (FixedE8Arm.NEUTRAL, FixedE8Arm.SOFT):
         raise ODEBFContractError("P1R23 ODE routing arm differs")
@@ -443,6 +449,16 @@ def _run_ode_arm(
     ):
         raise ODEBFContractError("P1R52 sequential target-depth activation differs")
     target_depth_policy = P1R52TargetDepth.from_inner_count(p1r52_target_depth)
+    if p1r52_target_subcycle_schedule is not None and (
+        not p1r52
+        or not isinstance(p1r52_target_subcycle_schedule, TargetSubcycleSchedule)
+        or target_depth_policy is not P1R52TargetDepth.IL1
+        or p1r52_c_kstep_writer is None
+        or p1r52_target_depth_telemetry_observer is not None
+        or p1r52_pre_writer_observer is not None
+        or p1r52_residual_reserve_writer is not None
+    ):
+        raise ODEBFContractError("P1R52 target-subcycle activation differs")
     if p1r52_pre_writer_observer is not None and (
         not p1r52 or target_depth_policy is not P1R52TargetDepth.IL1
     ):
@@ -579,7 +595,7 @@ def _run_ode_arm(
         verify_p1r24_alphaedit_geometry(
             hparams,
             p1r24_target_lock,
-            easyedit_root=Path("/mnt/raid5/janghj/EasyEdit"),
+            easyedit_root=easyedit_root,
         )
         if (p1r24 or p1r30) and p1r24_target_lock is not None
         else None
@@ -797,32 +813,54 @@ def _run_ode_arm(
                             _factor_inventory_identity(current_factors),
                         )
 
-                    outer52 = run_p1r52_target_depth_scheduler(
-                        # Legacy binding is preserved inside the scheduler:
-                        # kl_teacher_input_sha256=p1r24_kl_teacher_sha256
-                        outer_step_index=step_index,
-                        depth=target_depth_policy,
-                        current_target=current_target,
-                        current_terminal=current_terminal,
-                        target_origin=target_origin,
-                        state=p1r52_state,
-                        lock=p1r24_target_lock,
-                        alias=alias,
-                        shared_speed=float(metric.shared_speed),
-                        teacher_sha256=p1r24_kl_teacher_sha256,
-                        evaluate_target=evaluate_depth_target,
-                        evaluate_kl=evaluate_depth_kl,
-                        evaluate_endpoint=evaluate_depth_endpoint,
-                        fixed_state_identities=fixed_depth_state,
-                        observe_inner=(
-                            None
-                            if p1r52_target_depth_telemetry_observer is None
-                            else p1r52_target_depth_telemetry_observer.observe_inner
-                        ),
-                        first_target_result=target_result,
-                        first_kl_result=kl_result,
+                    if p1r52_target_subcycle_schedule is None:
+                        outer52 = run_p1r52_target_depth_scheduler(
+                            outer_step_index=step_index,
+                            depth=target_depth_policy,
+                            current_target=current_target,
+                            current_terminal=current_terminal,
+                            target_origin=target_origin,
+                            state=p1r52_state,
+                            lock=p1r24_target_lock,
+                            alias=alias,
+                            shared_speed=float(metric.shared_speed),
+                            teacher_sha256=p1r24_kl_teacher_sha256,
+                            evaluate_target=evaluate_depth_target,
+                            evaluate_kl=evaluate_depth_kl,
+                            evaluate_endpoint=evaluate_depth_endpoint,
+                            fixed_state_identities=fixed_depth_state,
+                            observe_inner=(
+                                None
+                                if p1r52_target_depth_telemetry_observer is None
+                                else p1r52_target_depth_telemetry_observer.observe_inner
+                            ),
+                            first_target_result=target_result,
+                            first_kl_result=kl_result,
+                        )
+                    else:
+                        outer52 = run_target_subcycle_scheduler(
+                            outer_step_index=step_index,
+                            schedule=p1r52_target_subcycle_schedule,
+                            current_target=current_target,
+                            current_terminal=current_terminal,
+                            target_origin=target_origin,
+                            state=p1r52_state,
+                            lock=p1r24_target_lock,
+                            alias=alias,
+                            shared_speed=float(metric.shared_speed),
+                            teacher_sha256=p1r24_kl_teacher_sha256,
+                            evaluate_target=evaluate_depth_target,
+                            evaluate_kl=evaluate_depth_kl,
+                            evaluate_endpoint=evaluate_depth_endpoint,
+                            fixed_state_identities=fixed_depth_state,
+                            first_target_result=target_result,
+                            first_kl_result=kl_result,
+                        )
+                    target_result = (
+                        outer52.target_results[-1]
+                        if p1r52_target_subcycle_schedule is None
+                        else outer52.selected_endpoint
                     )
-                    target_result = outer52.target_results[-1]
                     p1r52_pending_state = outer52.next_state
                     target_step = outer52.target_step
                     finite_endpoint = outer52.selected_endpoint

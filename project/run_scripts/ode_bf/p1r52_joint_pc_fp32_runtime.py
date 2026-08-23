@@ -162,6 +162,8 @@ def _fp32_target_and_j0(
     request_microbatch_size: int,
     job_ledger: ComputeLedger,
     c_kstep_writer_factory: Any | None = None,
+    target_subcycle_schedule: Any | None = None,
+    easyedit_root: Path = Path("/mnt/raid5/janghj/EasyEdit"),
 ) -> tuple[torch.Tensor, Mapping[str, Any], Any, Any]:
     order = scalable_ordered_request_digest([str(item["request_sha256"]) for item in requests])
     objective_plan = build_scalable_objective_plan(
@@ -211,6 +213,8 @@ def _fp32_target_and_j0(
             if c_kstep_writer is None else c_kstep_writer.arm
         ),
         p1r52_c_kstep_writer=c_kstep_writer,
+        p1r52_target_subcycle_schedule=target_subcycle_schedule,
+        easyedit_root=easyedit_root,
     )
     public = rollout["public"]
     if public["accepted_update_count"] != P1R23_GRID_COUNT or public["tau_final"] != 1.0:

@@ -75,17 +75,21 @@ def load_phase_a_fp32_model(
     alias: str,
     *,
     allow_python_patch_compatible: bool = False,
+    sealed_model_loader: Any | None = None,
 ) -> tuple[Any, Any, Any, Any]:
     """Reuse the pinned Motivation loader at its accepted FP32 boundary."""
 
     from easyeditor.models.alphaedit.AlphaEdit_hparams import AlphaEditHyperParams
 
-    runtime = load_fixed_model(
-        alias,
-        allow_python_patch_compatible=allow_python_patch_compatible,
-    )
-    model = runtime.model
-    tokenizer = runtime.tokenizer
+    if sealed_model_loader is None:
+        runtime = load_fixed_model(
+            alias,
+            allow_python_patch_compatible=allow_python_patch_compatible,
+        )
+        model = runtime.model
+        tokenizer = runtime.tokenizer
+    else:
+        model, tokenizer, runtime = sealed_model_loader(alias)
     hparams = AlphaEditHyperParams.from_hparams(str(guard.hparams))
     hparams.device = 0
     hparams.P_loc = str(guard.projector)

@@ -122,6 +122,8 @@ class ODEBFArtifactGuard:
         *,
         require_held_ode_alloc: bool = True,
         runtime_path_seal: AlphaEditRuntimePathSeal | None = None,
+        evaluator_source_paths: Mapping[str, Path] | None = None,
+        base_guard_override: Any | None = None,
     ) -> None:
         if alias not in MODEL_ALIASES:
             raise ODEBFContractError("unknown ODE-BF model alias")
@@ -133,23 +135,43 @@ class ODEBFArtifactGuard:
         )
         self.alias = alias
         self.runtime_path_seal = runtime_path_seal
+        self.evaluator_source_paths = (
+            None
+            if evaluator_source_paths is None
+            else {str(name): Path(path) for name, path in evaluator_source_paths.items()}
+        )
+        self.base_guard_override = base_guard_override
         self.runtime_path_seal_receipt: RuntimePathSealReceipt | None = None
         if runtime_path_seal is None:
             self.easyedit_root = Path(self.value["easyedit_root"]).resolve(strict=True)
-            self.evaluator_root = Path(
-                self.value["alphaedit_evaluator_root"]
-            ).resolve(strict=True)
-            self.hf_hub_cache = Path(self.value["hf_hub_cache"]).resolve(strict=True)
+            self.evaluator_root = (
+                Path(self.value["alphaedit_evaluator_root"]).resolve(strict=True)
+                if self.evaluator_source_paths is None
+                else None
+            )
+            self.hf_hub_cache = (
+                Path(self.value["hf_hub_cache"]).resolve(strict=True)
+                if self.base_guard_override is None
+                else None
+            )
         else:
             self.easyedit_root = runtime_path_seal.resolve_root(
                 "easyedit_root", self.value["easyedit_root"]
             )
-            self.evaluator_root = runtime_path_seal.resolve_root(
-                "alphaedit_evaluator_root",
-                self.value["alphaedit_evaluator_root"],
+            self.evaluator_root = (
+                runtime_path_seal.resolve_root(
+                    "alphaedit_evaluator_root",
+                    self.value["alphaedit_evaluator_root"],
+                )
+                if self.evaluator_source_paths is None
+                else None
             )
-            self.hf_hub_cache = runtime_path_seal.resolve_root(
-                "hf_hub_cache", self.value["hf_hub_cache"]
+            self.hf_hub_cache = (
+                runtime_path_seal.resolve_root(
+                    "hf_hub_cache", self.value["hf_hub_cache"]
+                )
+                if self.base_guard_override is None
+                else None
             )
         self.spec: Mapping[str, Any] = self.value["models"][alias]
         if runtime_path_seal is not None:
@@ -159,11 +181,24 @@ class ODEBFArtifactGuard:
         self.projector = _safe_relative(self.easyedit_root, self.spec["projector_path"])
         base_relative = self.value["base_model_artifact_lock"]["path"]
         self.base_lock_path = _safe_relative(self.repo_root, base_relative)
-        self.base_guard = P0ArtifactGuard(
-            self.base_lock_path,
-            alias,
-            runtime_path_seal=runtime_path_seal,
+        self.base_guard = (
+            P0ArtifactGuard(
+                self.base_lock_path,
+                alias,
+                runtime_path_seal=runtime_path_seal,
+            )
+            if self.base_guard_override is None
+            else self.base_guard_override
         )
+        base_spec = getattr(self.base_guard, "spec", None)
+        if (
+            getattr(self.base_guard, "alias", None) != alias
+            or not isinstance(base_spec, Mapping)
+            or base_spec.get("native_name") != self.spec["native_name"]
+            or base_spec.get("revision") != self.spec["revision"]
+            or not isinstance(base_spec.get("covariance"), Mapping)
+        ):
+            raise ODEBFContractError("ODE-BF base guard override binding differs")
         self._fingerprints: dict[Path, tuple[int, int, int, int, int]] = {}
         self._held_tree: tuple[Path, str, int] | None = None
 
@@ -212,7 +247,21 @@ class ODEBFArtifactGuard:
             alpha_observed[relative] = expected
         evaluator_observed: dict[str, str] = {}
         for relative, expected in sorted(self.value["benchmark_evaluator_sources"].items()):
-            path = _safe_relative(self.evaluator_root, relative)
+            if self.evaluator_source_paths is None:
+                assert self.evaluator_root is not None
+                path = _safe_relative(self.evaluator_root, relative)
+            else:
+                if set(self.evaluator_source_paths) != set(
+                    self.value["benchmark_evaluator_sources"]
+                ):
+                    raise ODEBFContractError(
+                        "ODE-BF evaluator override closure differs"
+                    )
+                path = self.evaluator_source_paths[relative]
+                if path.is_symlink() or not path.is_absolute():
+                    raise ODEBFContractError(
+                        "ODE-BF evaluator override path differs"
+                    )
             self._validate_file(path, expected_sha256=expected)
             evaluator_observed[relative] = expected
 
