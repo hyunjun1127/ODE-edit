@@ -1,0 +1,82 @@
+{
+  "analysis_identity": "bb8e52e80cde8b9bc8d1535e09418aac23573ed8ab87601e19ba96d437f6e0af",
+  "identity_sha256": "66d5533b0316af0b0ff45d22dd855db2cde5b2ea8f5f1d51a580af25aef8c607",
+  "instruction_id": "ODEEDIT-S05-P1R52-TARGET-TIMESCALE-B100-V1",
+  "manifest_root": "5decf168f1aedf4a7fc1076805b6a1157505e84bbe550f5e1e5fc7ad7b014d56",
+  "package_member_root": "19a2be4a1804a93f9ba4ebb781aa108452c7b308a0a522595c9bbda6f2650846",
+  "package_members": [
+    {
+      "bytes": 1184,
+      "path": "cell-summary.csv",
+      "sha256": "49c467ebe299bad7a214a366b6fcfc66b68b656933ba71a5feffad6100f39463"
+    },
+    {
+      "bytes": 40113,
+      "path": "per-microstep-trajectory.csv",
+      "sha256": "381aec36b84f56e9a12e04c51b07593448c4f8d329d6c775dfc6c86673b218d6"
+    },
+    {
+      "bytes": 29128,
+      "path": "k1-k4-k8-endpoints.csv",
+      "sha256": "331c2faed003747ce2e8a350008bd549d06ea9c232efe61c8a996740a7b0246c"
+    },
+    {
+      "bytes": 221461,
+      "path": "paired-vs-z1-accepted-z.csv",
+      "sha256": "449a43014321e93f92e58e6e18a5e6d3166d3a1488a88172c2193ba8e69211a1"
+    },
+    {
+      "bytes": 14674,
+      "path": "consecutive-marginal-gain.csv",
+      "sha256": "d3b6b5fcc14fa80e97f1ef017fc5bceda2874003acde0a9c28298b8c2ffb26ea"
+    },
+    {
+      "bytes": 1760,
+      "path": "writer-transfer-locality.csv",
+      "sha256": "8c48640054d2ad448b87f169579ce4c01677d0950771b3b398d63fb9c8ec9e2e"
+    },
+    {
+      "bytes": 1215,
+      "path": "compute.csv",
+      "sha256": "902b320c29fb14bc6c70a6d5c918c54f0fbb44440812674f9da7343855bb1dcf"
+    },
+    {
+      "bytes": 3839,
+      "path": "native-reference-endpoints.csv",
+      "sha256": "144683b146b0d2b5b79eee3825fbcbeef4091f21a321525bea164d2c0a4686d6"
+    },
+    {
+      "bytes": 6230,
+      "path": "native-gap.csv",
+      "sha256": "8e2c31a744413a2dfa7fecae4ace2aa471b479d9c5ec275e19c8e69a28d638da"
+    },
+    {
+      "bytes": 230828,
+      "path": "native-paired-nll.csv",
+      "sha256": "fa4834e72afe0c2520b3230541e17efffb9bfcb9c9587a2c7fe53520f1961077"
+    },
+    {
+      "bytes": 1023,
+      "path": "native-compute.csv",
+      "sha256": "5fe598398a1df8b41ef3b1123d4c6fa6e095444fe2a09cc67f6aca5ae8f06eab"
+    },
+    {
+      "bytes": 11823,
+      "path": "analysis.json",
+      "sha256": "40349f58f85dfd27fa924f32461b84fe110c8b1ee4a815f35cfc1fe6b5ef80c3"
+    },
+    {
+      "bytes": 6336,
+      "path": "report-ko.md",
+      "sha256": "d015e44a04ec231c434098561eb088b59d3ffedca7c9ec6d470bc562585f287f"
+    },
+    {
+      "bytes": 8243,
+      "path": "analysis-manifest.json",
+      "sha256": "94b99a80aa9e414c3529af5b453d914d4493750d3c5d1b827f3c55591934ebd7"
+    }
+  ],
+  "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-rooted-receipt/v1",
+  "scientific_promotion": false,
+  "status": "LONGER_TIME_REPORT_COMPLETE"
+}

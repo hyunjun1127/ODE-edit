@@ -1,0 +1,77 @@
+{
+  "analysis_identity": "ea5e9dd3a6e607e1deb6643a068dad787a67616ac6f16d4c9e1b186f48805cc0",
+  "identity_sha256": "ba20e3c89a4726b02b2a73c7c00167d727e9df53f7c4c2252f2d7fb6455a97c9",
+  "instruction_id": "ODEEDIT-S05-P1R52-TARGET-TIMESCALE-B100-V1",
+  "manifest_root": "d63afbfda0615387100f0543a8830a5a4c43aa90f9525ef4f293a2d530b6eade",
+  "package_member_root": "5e00299e8735395677463bb47205738e4dfa95963516f4f8c3dbbe053bd39a7d",
+  "package_members": [
+    {
+      "bytes": 783,
+      "path": "cell-summary.csv",
+      "sha256": "eadb991692aff98b7ff186e89eb97663487a5e9902bbb163e398c486f8a5eb36"
+    },
+    {
+      "bytes": 9407,
+      "path": "microstep-trajectory.csv",
+      "sha256": "91208025f47c705ecb1f7fc6bb8b8ce6d3aa40d6a49213f018e7d6dea8d273fd"
+    },
+    {
+      "bytes": 14904,
+      "path": "k1-k4-k8-endpoints.csv",
+      "sha256": "f8077357cd932c96b3a9a2ed261f1b32d582f9976ebd167e84f3f0d05ab6f9ac"
+    },
+    {
+      "bytes": 76202,
+      "path": "paired-accepted-z-nll.csv",
+      "sha256": "0269c6aae513e8e18c9b365ea22fd40a86cc1b95f5ba9be2117fc275b37564cd"
+    },
+    {
+      "bytes": 1053,
+      "path": "writer-transfer-locality.csv",
+      "sha256": "e59e379e35906c1bda51438a95acf43154b51e1ee02823ca1660f23949158b7f"
+    },
+    {
+      "bytes": 3839,
+      "path": "native-reference-endpoints.csv",
+      "sha256": "144683b146b0d2b5b79eee3825fbcbeef4091f21a321525bea164d2c0a4686d6"
+    },
+    {
+      "bytes": 139305,
+      "path": "native-paired-nll.csv",
+      "sha256": "ffbdb1f17fc104e6f38ee518b5b9016e03cdd7ef3702b450b2eb60143bbc15fd"
+    },
+    {
+      "bytes": 6401,
+      "path": "native-gap-closure.csv",
+      "sha256": "d383dbc343ede1e5b9e334501635497f846ea3f3529201e322d1f42b899653ce"
+    },
+    {
+      "bytes": 773,
+      "path": "compute.csv",
+      "sha256": "66943005a0d00e703d142e9fbbd87ed14e48d46746e16fcfa3ac0b6206d4a0d2"
+    },
+    {
+      "bytes": 1168,
+      "path": "native-compute.csv",
+      "sha256": "8cba4bc2c781bd1f886983d0d7195f124e0c69d1bff3168e68e5daaf0f5ab00f"
+    },
+    {
+      "bytes": 10513,
+      "path": "analysis.json",
+      "sha256": "6a46f3c149da130ce0545801cd71d662d812e1d4b8ab87677a9e6f0a957fe561"
+    },
+    {
+      "bytes": 6203,
+      "path": "report-ko.md",
+      "sha256": "a20f240dee91c41a5efd9b71298f3d0874ca2c6c5a68e0b8f89a561a5d722696"
+    },
+    {
+      "bytes": 6368,
+      "path": "analysis-manifest.json",
+      "sha256": "63a6125708263154d21b19311dc561abaa0afb73725fe99e26a5a4c3c508762f"
+    }
+  ],
+  "schema": "ode-edit-s05-p1r52-target-timescale-same-horizon-rooted-receipt/v1",
+  "scientific_promotion": false,
+  "status": "SAME_HORIZON_REPORT_COMPLETE"
+}
