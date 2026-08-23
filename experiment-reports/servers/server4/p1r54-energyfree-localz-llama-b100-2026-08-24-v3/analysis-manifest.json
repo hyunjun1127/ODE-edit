@@ -1,0 +1,154 @@
+{
+  "B1_order": "bb2e661ad44bf8dc20e0224f21dc90164ed4b3dcf3316d751afb7d8a00bfaed6",
+  "authoritative_contract_sha256": "6fcfc7df83c9b94d38accecb5fa600c33a8a1741f579881d9f1fab05cd0a3d58",
+  "identity_sha256": "0b241f0853fd9941799659526d7ed9f172b50bce99eb7ea70f4ff4b0f9506fca",
+  "input_members": [
+    {
+      "bytes": 4695420,
+      "path": "local/odebf/results/s05-p1r54-energyfree-localz-llama-b100-fz-tech-r1-v1/terminal.json",
+      "sha256": "89ad4231916278f6ba087004106fb1870a3227f903e7e499eef63e7dab1b08d2"
+    },
+    {
+      "bytes": 1383,
+      "path": "local/odebf/results/s05-p1r54-energyfree-localz-llama-b100-fz-tech-r1-v1/manifest.json",
+      "sha256": "697450bc79649b92abc50582d61f02106ffcbda12a966cbcba6c2ca294a6f478"
+    },
+    {
+      "bytes": 5415,
+      "path": "local/odebf/results/s05-p1r54-energyfree-localz-llama-b100-fz-tech-r1-v1/source-manifest.json",
+      "sha256": "5e1405c6f9d27860e088a66e3da97b0fbf70b015d39ab2e8478fb8af87a7a82c"
+    },
+    {
+      "bytes": 539,
+      "path": "local/odebf/results/s05-p1r54-energyfree-localz-llama-b100-fz-tech-r1-v1/job-timing.json",
+      "sha256": "b5194aa65f7ffa7a54401305069ece08c3ce16e483f21f5a1e0cdfedb247c21f"
+    },
+    {
+      "bytes": 4804888,
+      "path": "local/odebf/results/s05-p1r54-energyfree-localz-llama-b100-pdz-tech-r1-v1/terminal.json",
+      "sha256": "f222c6b30bd90e95747936947972ac61771691072d3b1f8be8d0ce2ad660354b"
+    },
+    {
+      "bytes": 1384,
+      "path": "local/odebf/results/s05-p1r54-energyfree-localz-llama-b100-pdz-tech-r1-v1/manifest.json",
+      "sha256": "cf7b373ce7d9b8a2ac8b5f703ebb53d3a9d9a5abcd318fed6c970a3ca23ac0fe"
+    },
+    {
+      "bytes": 5415,
+      "path": "local/odebf/results/s05-p1r54-energyfree-localz-llama-b100-pdz-tech-r1-v1/source-manifest.json",
+      "sha256": "5e1405c6f9d27860e088a66e3da97b0fbf70b015d39ab2e8478fb8af87a7a82c"
+    },
+    {
+      "bytes": 539,
+      "path": "local/odebf/results/s05-p1r54-energyfree-localz-llama-b100-pdz-tech-r1-v1/job-timing.json",
+      "sha256": "8ec6d5bf6b62053b9a3fbcf436dde5dd8481eb5d6e6e3ab2fba34cdfcb36ccb1"
+    },
+    {
+      "bytes": 16323,
+      "path": "local/state/p1r54-energyfree-localz-llama-b100-v1/readiness/27339f9-r1/final-pre-gpu.json",
+      "sha256": "d8600915156a1428608a1b5603311a39d091d3e70645180913c936e71e1a36bd"
+    },
+    {
+      "bytes": 5079299,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z0-coarse-tech-r4-v1/terminal.json",
+      "sha256": "683102c81fbc93b4515d885c1a3d78491198cbe04992004101f4e52977273900"
+    },
+    {
+      "bytes": 1396,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z0-coarse-tech-r4-v1/manifest.json",
+      "sha256": "6a319aa7f94f3866e23e19f317dad4546e72afd1ceeec8da014644eb1e22dedd"
+    },
+    {
+      "bytes": 4672558,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r53-request-local-speed-llama-b100-v1/local/odebf/results/s05-p1r53-request-local-speed-llama-b100-lp-s-tech-r1-v1/terminal.json",
+      "sha256": "a9edd666ed08d40352183448e059716eb93e0d2cea1a48ab84930988a209edb0"
+    },
+    {
+      "bytes": 1398,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r53-request-local-speed-llama-b100-v1/local/odebf/results/s05-p1r53-request-local-speed-llama-b100-lp-s-tech-r1-v1/manifest.json",
+      "sha256": "73b159986dee39780c3126f158b480aad7d1b952d7900b7818b60ae97a999519"
+    },
+    {
+      "bytes": 4843391,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r53-request-local-speed-llama-b100-v1/local/odebf/results/s05-p1r53-request-local-speed-llama-b100-lfd-e-tech-r1-v1/terminal.json",
+      "sha256": "daba8439b5e24aab8aab06787b8214e109f6b05519d717cb2ebb73fc1a6c72d4"
+    },
+    {
+      "bytes": 1399,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r53-request-local-speed-llama-b100-v1/local/odebf/results/s05-p1r53-request-local-speed-llama-b100-lfd-e-tech-r1-v1/manifest.json",
+      "sha256": "b404cc17063d7313c1d64472c07f00a1372fc8c65c9ed4d2d2bf18c39447f4e1"
+    },
+    {
+      "bytes": 172882,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-alphaedit-user-override-v1/terminal.json",
+      "sha256": "4e26d1637202a01a3c9a88207f71b320acc7d02c287a0fa195ed54309f370549"
+    },
+    {
+      "bytes": 903,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-alphaedit-user-override-v1/manifest.json",
+      "sha256": "f7a3b8ceec31630e6f27d353b31c21593e2ac03042576f664e60d38f9b9fa252"
+    },
+    {
+      "bytes": 172187,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-memit-user-override-tech-r2-v1/terminal.json",
+      "sha256": "2d4430f5081638984e65aecbb3e3a3e98a1d50bd849ae39e12abd6c0ed781ebf"
+    },
+    {
+      "bytes": 895,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-memit-user-override-tech-r2-v1/manifest.json",
+      "sha256": "992a041af73cb860ca1239be44d07f3e8bffbd74cd7fbc5ce10ba7d489a5e8e8"
+    }
+  ],
+  "instruction_id": "ODEEDIT-S05-P1R54-ENERGYFREE-LOCALZ-B100-V1",
+  "numerical_lock_root": "b9f7ca3beac529491b4cf16237f8b7887a3f02913110639ed2c29a63dc4286ad",
+  "output_members": [
+    {
+      "bytes": 13298,
+      "path": "p1r54-energyfree-localz-llama-b100-factual-ko.md",
+      "sha256": "5132ae8f6b37df8899f24fa283e0663c56f020b82fa77930df8ac7f4b6dea510"
+    },
+    {
+      "bytes": 60377,
+      "path": "aggregates.json",
+      "sha256": "60622b74a6d059294c2de633b32a0f6122284da7ac4ef6d8e97b8fdde8c563fc"
+    },
+    {
+      "bytes": 14100,
+      "path": "terminal-z-w-nll.csv",
+      "sha256": "3d63998e1ad9b9bd67e1940f200889b0cf50c1f78e3aa5fe482f4429d4a96d04"
+    },
+    {
+      "bytes": 242727,
+      "path": "paired-request-deltas.csv",
+      "sha256": "5472457dde5efbdbc88d14d06e679b9adfcd3649f0ad2918b2a619a48032d484"
+    },
+    {
+      "bytes": 471850,
+      "path": "target-amplitude-trajectory.csv",
+      "sha256": "e1ec0fc42bd02a134b97f6955c1d2a5dbd3be139139330c830a5111a499a6c28"
+    },
+    {
+      "bytes": 6036,
+      "path": "capacity-barrier-selector.csv",
+      "sha256": "961f89ee6f18f0dea44f7959de2e269a29dc831ba5712670a80901546a0b97dd"
+    },
+    {
+      "bytes": 89404,
+      "path": "writer-gap.csv",
+      "sha256": "e0966f9ea18054f7e02ef99e129d5aee19c4c5ece954a767a9b507fb032d11b6"
+    },
+    {
+      "bytes": 837,
+      "path": "compute.csv",
+      "sha256": "6ffc8d4f426da95771be751cd80d3d2e4017b5f12266cb6f052772cc26ab2c1c"
+    }
+  ],
+  "pre_gpu_identity": "0e0463bc6af79622f8d0e08dd953fa43e3acb3cff95e8b9f2067a9436d71b0a6",
+  "pre_gpu_sha256": "d8600915156a1428608a1b5603311a39d091d3e70645180913c936e71e1a36bd",
+  "schema": "ode-edit-s05-p1r54-energyfree-localz-analysis-manifest/v1",
+  "scientific_promotion": false,
+  "source_head": "27339f987c4f4147a6bf6347061444f53af095a4",
+  "source_tree": "3683ae0bdb7004148516514ffbf567c566dfab94",
+  "stream_order": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
+}

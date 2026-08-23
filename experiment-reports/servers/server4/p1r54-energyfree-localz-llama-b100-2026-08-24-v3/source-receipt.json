@@ -1,0 +1,15 @@
+{
+  "analysis_manifest_identity": "0b241f0853fd9941799659526d7ed9f172b50bce99eb7ea70f4ff4b0f9506fca",
+  "analysis_manifest_sha256": "a1765961854deb2b2b078a94f1365dc535c647fddec515ffe2e4c5c994a1d685",
+  "identity_sha256": "a61fb40147fead2745520d11a6b6ac6a0a31a764844efc510590a50245ed5d3e",
+  "instruction_id": "ODEEDIT-S05-P1R54-ENERGYFREE-LOCALZ-B100-V1",
+  "job_array": "23375_[0-1]",
+  "qwen_execution_count": 0,
+  "reference_execution_count": 0,
+  "report_sha256": "5132ae8f6b37df8899f24fa283e0663c56f020b82fa77930df8ac7f4b6dea510",
+  "schema": "ode-edit-s05-p1r54-energyfree-localz-source-receipt/v1",
+  "scientific_promotion": false,
+  "source_head": "27339f987c4f4147a6bf6347061444f53af095a4",
+  "source_tree": "3683ae0bdb7004148516514ffbf567c566dfab94",
+  "status": "TERMINAL_REPORT_COMPLETE"
+}
