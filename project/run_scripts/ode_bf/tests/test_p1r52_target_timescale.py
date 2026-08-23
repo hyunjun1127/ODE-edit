@@ -124,11 +124,16 @@ class TargetTimescaleTest(unittest.TestCase):
             )
 
     def test_technical_retry_uses_distinct_create_once_namespace(self) -> None:
-        self.assertEqual(TECHNICAL_ATTEMPT_SUFFIX, "tech-r3")
+        self.assertEqual(TECHNICAL_ATTEMPT_SUFFIX, "tech-r4")
         self.assertEqual(
             expected_result_name(role_for_cell(0)),
-            "s05-p1r52-target-timescale-b100-z0-coarse-tech-r3-v1",
+            "s05-p1r52-target-timescale-b100-z0-coarse-tech-r4-v1",
         )
+
+    def test_subcycle_outer_preserves_legacy_teacher_rollup_key(self) -> None:
+        observed = self.run_schedule(TargetTimescaleCell.Z0_COARSE)
+        self.assertEqual(observed.receipt["teacher_sha256"], "8" * 64)
+        self.assertEqual(observed.receipt["kl_teacher_input_sha256"], "8" * 64)
 
     def test_server4_capacity_does_not_reuse_server1_device_identity(self) -> None:
         forecast = SimpleNamespace(conservative_gpu_peak_mib=65_000)

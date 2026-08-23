@@ -383,6 +383,7 @@ def run_target_subcycle_scheduler(
         "outer_writer_materialization_expected_count": 1,
         "cache_entry_reuse_expected_count": 1,
         "teacher_sha256": teacher_sha256,
+        "kl_teacher_input_sha256": teacher_sha256,
         "physical_state_sha256": physical_before,
         "history_cache_sha256": history_before,
         "factor_inventory_sha256": factors_before,
