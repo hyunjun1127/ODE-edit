@@ -1,0 +1,111 @@
+{
+  "all_request_order_sha256": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "case_count": 10,
+  "member_count": 11,
+  "members": [
+    {
+      "bytes": 2323,
+      "lines": 44,
+      "mode": "0600",
+      "path": "canonical/context-evaluator-input-identity.json",
+      "sha256": "8d8196eedd2c8c675a6bff17912916bdd99a96715b2e7a714417b7ebc16da159",
+      "type": "regular_non_symlink"
+    },
+    {
+      "bytes": 404973,
+      "lines": 1,
+      "mode": "0600",
+      "path": "canonical/p1r52_sequential_b100x10_stream_seal.json",
+      "sha256": "550600af120070594078b73a5da7d066ad6287d8a3224c55f61babca592e0586",
+      "type": "regular_non_symlink"
+    },
+    {
+      "bytes": 4622,
+      "lines": 122,
+      "mode": "0600",
+      "path": "canonical/phase-stream-mapping.json",
+      "sha256": "1b64cb4c70fa9e443ac924d0917ff1b1baaeff5f44cf886581ad594f3ad48645",
+      "type": "regular_non_symlink"
+    },
+    {
+      "bytes": 7941,
+      "lines": 265,
+      "mode": "0600",
+      "path": "evaluator/eval_utils_counterfact.py",
+      "sha256": "25c3f49039e7bacb58de6d9ab8139f6f24f21532434a08690e9ec71ea939e145",
+      "type": "regular_non_symlink"
+    },
+    {
+      "bytes": 4168,
+      "lines": 125,
+      "mode": "0600",
+      "path": "evaluator/eval_utils_zsre.py",
+      "sha256": "4370a3b2c7eff88bfeffd6412be485c0195bae794f7c7a6d39b9dd9e01299d97",
+      "type": "regular_non_symlink"
+    },
+    {
+      "bytes": 7455,
+      "lines": 204,
+      "mode": "0600",
+      "path": "evaluator/summarize.py",
+      "sha256": "64f009b2fb648627a956b95abd801838d86edf04c8e1888d90ade0ec07b745c0",
+      "type": "regular_non_symlink"
+    },
+    {
+      "bytes": 2931,
+      "lines": 1,
+      "mode": "0600",
+      "path": "evidence/phase1-source-manifest.json",
+      "sha256": "d388bf79805882fc148661e1e6e6ee337c46491861bc396fcb46a81942a3fb2b",
+      "type": "regular_non_symlink"
+    },
+    {
+      "bytes": 2581,
+      "lines": 1,
+      "mode": "0600",
+      "path": "evidence/phase2-source-manifest.json",
+      "sha256": "ede2377a096c434b6516431d74a4d927d47535b4f1842c7999ac4ab6d85ac947",
+      "type": "regular_non_symlink"
+    },
+    {
+      "bytes": 1740,
+      "lines": 48,
+      "mode": "0600",
+      "path": "evidence/runtime-source-identities.json",
+      "sha256": "9e2fb231061763234542857b3e426e3f960dcc22ae4ac91c7ae5046da1774dbf",
+      "type": "regular_non_symlink"
+    },
+    {
+      "bytes": 1189538,
+      "lines": 21015,
+      "mode": "0600",
+      "path": "samples/ordered-record-index.json",
+      "sha256": "1f6699ec95ce863b09386c074d2a0b4f4b949f56772e6eaf62c711c6a9463930",
+      "type": "regular_non_symlink"
+    },
+    {
+      "bytes": 2044634,
+      "mode": "0600",
+      "path": "samples/selected-counterfact-records.bin",
+      "sha256": "fe7c8b0cb51abf591e0ec560c0009bdcc47f20e8c4efcf6efc3311710a373475",
+      "type": "regular_non_symlink"
+    }
+  ],
+  "members_root_sha256": "f2d6145e7b49c49047cfdc781453e86013212ae35e3e09ce2bb95ab5d17ced44",
+  "raw_excluded_classes": [
+    "result",
+    "log",
+    "model",
+    "checkpoint",
+    "cache",
+    "tensor",
+    "generation",
+    "metric_output"
+  ],
+  "request_count": 1000,
+  "sample_duplication_count": 0,
+  "sample_payload_count": 1,
+  "schema": "ode-edit-p1r52-phase123-single-canonical-stream-source-manifest/v1",
+  "status": "SOURCE_READY",
+  "stream_root_sha256": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
+}

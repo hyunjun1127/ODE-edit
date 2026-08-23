@@ -1,0 +1,234 @@
+{
+  "input_artifact_inventory_root_sha256": "77755a24e2ee9634781185f7a4dbce6ae3f072b57e9bc09afc2adb7ebf198a5e",
+  "member_root_sha256": "04758fc0f0dfea4c15022f650a6474488354db6cae6b967872c17da5085f5f29",
+  "members": [
+    {
+      "bytes": 77202,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase23-exhaustive-analysis-tool-v1/build_phase23_exhaustive_analysis.py",
+      "role": "analysis_builder",
+      "sha256": "3b389a371fe9adb5685212e189f3e48ea1766deb9170dbba8ce6cd8859d796f4"
+    },
+    {
+      "bytes": 1656,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/method-definitions.json",
+      "role": "analysis_output",
+      "sha256": "c8adc77537d9c045a6f9cb96b589569b74ecf9ff4492a3af6e5ae9428cd5b2a4"
+    },
+    {
+      "bytes": 991,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/method-definitions.csv",
+      "role": "analysis_output",
+      "sha256": "ae8897237700e9b0278665668a739f7463ad871f8f6f6cfa71e4c8bcad381db5"
+    },
+    {
+      "bytes": 783542,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/per-unit-endpoint-summary.json",
+      "role": "analysis_output",
+      "sha256": "121f0b2d3345cb767f04c11ddb4f98b9fa10b3ff96d5671fd76072aac4f9d56c"
+    },
+    {
+      "bytes": 160715,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/per-unit-endpoint-summary.csv",
+      "role": "analysis_output",
+      "sha256": "defcc2d8abc33913855a5b3334be5be3afe5afabd877effaadf575ea7cae80f7"
+    },
+    {
+      "bytes": 677272,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/per-k-endpoint-and-compute.json",
+      "role": "analysis_output",
+      "sha256": "7315bdfb2ba5149a60875bd95087da9995d9a410c9442ea25a3f39efdb6562b3"
+    },
+    {
+      "bytes": 330068,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/per-k-endpoint-and-compute.csv",
+      "role": "analysis_output",
+      "sha256": "2bcfe864b13a33ef2f20ae44be08f403713168d02d3feaeead24293267ca9d8e"
+    },
+    {
+      "bytes": 226513,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/per-k-route.json",
+      "role": "analysis_output",
+      "sha256": "72937c25727239c86d06a536b06cd7f178453285254dc3e80798670431589ed6"
+    },
+    {
+      "bytes": 85552,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/per-k-route.csv",
+      "role": "analysis_output",
+      "sha256": "e3486367966969e365d52142d945fa2c2ec758cd1d0fe8262e71a89220d9ce72"
+    },
+    {
+      "bytes": 1261007,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/per-layer-writer-update-energy.json",
+      "role": "analysis_output",
+      "sha256": "e6147e243c7cfaefe608bec38720507169d4eb5887d7159df6e2e2067506450a"
+    },
+    {
+      "bytes": 421989,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/per-layer-writer-update-energy.csv",
+      "role": "analysis_output",
+      "sha256": "fc91641496f4065d443ddd45048742628c3e52e681dbe28d17ed00ad2b8f9084"
+    },
+    {
+      "bytes": 42447,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/per-unit-compute.json",
+      "role": "analysis_output",
+      "sha256": "674ba359341a30c89571827e3983aacb6c98fe67035198b5aa104340bb6e2c9e"
+    },
+    {
+      "bytes": 8673,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/per-unit-compute.csv",
+      "role": "analysis_output",
+      "sha256": "55766076b9f15dd891fd6331df5049a1fa6e2c7d3239670d58f4c448d0a3612d"
+    },
+    {
+      "bytes": 9071,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/compute-aggregate.json",
+      "role": "analysis_output",
+      "sha256": "1cdb5a0eca18748990c5b0a5df6485e66cecaa1e11d1db9a1d48690845c1d68a"
+    },
+    {
+      "bytes": 5399,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/compute-aggregate.csv",
+      "role": "analysis_output",
+      "sha256": "055d97d69317afe371029ddcd0069b1002225e2d070ae5de28e0a5b126cf7fb9"
+    },
+    {
+      "bytes": 15917,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/terminal-endpoint-aggregate.json",
+      "role": "analysis_output",
+      "sha256": "30add7d17ad046c75fed57fef628b37ee972ed50e2189e051c8bc149e6895154"
+    },
+    {
+      "bytes": 5152,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/terminal-endpoint-aggregate.csv",
+      "role": "analysis_output",
+      "sha256": "6405ce1f6fe78bb4ee411dd2c5e14eb21c877f26c209eabc02a8fb7a73e44cd8"
+    },
+    {
+      "bytes": 70995,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/paired-unit-comparison.json",
+      "role": "analysis_output",
+      "sha256": "9c8fd0ad99328483e249388d2d2eaa22511afd613b8b25671d42a4a3023fb45e"
+    },
+    {
+      "bytes": 18176,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/paired-unit-comparison.csv",
+      "role": "analysis_output",
+      "sha256": "cb8bc2ad30544999fde020d846b2198a0866509e971b4032ae69712b93bfaa54"
+    },
+    {
+      "bytes": 25576,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/paired-comparison-aggregate.json",
+      "role": "analysis_output",
+      "sha256": "85d0c4d55d3269ee6f3aac8abd44c8df9de2ce1dec85976519ab3dd3807a6c25"
+    },
+    {
+      "bytes": 10990,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/paired-comparison-aggregate.csv",
+      "role": "analysis_output",
+      "sha256": "a0d031b2fb6abfe5bfa211e8072215ea70344b7aeed59d2b1c9159f34dd83b6f"
+    },
+    {
+      "bytes": 60335,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/cross-arm-target-identity.json",
+      "role": "analysis_output",
+      "sha256": "26cec3a015c1dea508983ef49e680aac858eaf7cb771176cd7b6249fd5d0f4d8"
+    },
+    {
+      "bytes": 32857,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/cross-arm-target-identity.csv",
+      "role": "analysis_output",
+      "sha256": "51f696efdecdde318d27b57521513d1323d635d5f1243a9a964cc9ada96d47b9"
+    },
+    {
+      "bytes": 14156,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/cache-sequential-audit.json",
+      "role": "analysis_output",
+      "sha256": "9ba6e4fbdd82e3f6ce434b897bff0c9205ff78cc3679663355f1b9d34d6e05a8"
+    },
+    {
+      "bytes": 3107,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/cache-sequential-audit.csv",
+      "role": "analysis_output",
+      "sha256": "116359c45c90ae20a61390e4660b1df91b1f3df8ec41c16daf790b0aaa035aa5"
+    },
+    {
+      "bytes": 18222712,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/per-prompt-kstep-nll.csv",
+      "role": "analysis_output",
+      "sha256": "bdd31cc5316f56e6683d9219766e9921714be8d94ca4c9ed0c9b42722f1c808a"
+    },
+    {
+      "bytes": 96118,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/nll-distribution-aggregates.json",
+      "role": "analysis_output",
+      "sha256": "12ebaf304f605193df1f4da0d32d14e6f5500ddc06ef6597520e18ac644b6fa0"
+    },
+    {
+      "bytes": 39372,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/nll-distribution-aggregates.csv",
+      "role": "analysis_output",
+      "sha256": "667bd883feeb442304d24d8c7b72a21597fc858ee399b212f0259b2d4ca82101"
+    },
+    {
+      "bytes": 1540,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/terminal-integrity.json",
+      "role": "analysis_output",
+      "sha256": "e75d5844bf487b7a1710a94d0c3fcc09e0ee2630aaf5c8bc049f62f00a9ccaf2"
+    },
+    {
+      "bytes": 19544,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/artifact-inventory.json",
+      "role": "analysis_output",
+      "sha256": "a0e99471643a0471c091e893d8b84f29ac0ccddbeaa4c507065d01d1b2cae373"
+    },
+    {
+      "bytes": 14701,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/artifact-inventory.csv",
+      "role": "analysis_output",
+      "sha256": "e6551039022ce45fc54a68a1465f95c31932b47502fc6fef9278fbb3e0bbc4cd"
+    },
+    {
+      "bytes": 9891,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-analysis-v1/p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-exhaustive-factual-ko.md",
+      "role": "analysis_output",
+      "sha256": "fbb790618655f7c975e0f5c42dff3860c8159880be44e38a258fe046a26047d8"
+    }
+  ],
+  "schema": "phase3/exhaustive-analysis-manifest/v1",
+  "scientific_promotion": false,
+  "source_head": "034b72c59aace422b7048509b336bac26992d90e",
+  "source_tree": "76f3b8e0b3304dcdca25a8467439c4bf035bb41c"
+}

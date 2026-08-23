@@ -1,0 +1,4 @@
+phase,arm,label,writer,route,official_writer,target,writer_calls_per_unit,cache_status,execution_scope
+2,c0,C0-KSTEP,PIR-U control remaining-residual L4→L8 prefix sequential writer,PIR-U control allocation; P/C router call 0,False,P1R52 accepted-z refreshed at every K,8,ALPHA_CACHE_OFF_CONTROL,10 independent B100; W0/cache0 restored between cases
+2,c1,C1-KSTEP,Joint P+C minimax + remaining-residual L4→L8 prefix sequential writer,current-K P/C proxy and Joint-PC route recomputed; router call 1/K,False,P1R52 accepted-z refreshed at every K,8,ALPHA_CACHE_OFF_CONTROL,10 independent B100; W0/cache0 restored between cases
+2,c3,C3-KSTEP,direct Official EasyEdit AlphaEdit writer with P1R52 accepted-z,no P/C route; native AlphaEdit compute_z call 0,True,P1R52 accepted-z refreshed at every K,8,ALPHA_CACHE_OFF_CONTROL,10 independent B100; W0/cache0 restored between cases

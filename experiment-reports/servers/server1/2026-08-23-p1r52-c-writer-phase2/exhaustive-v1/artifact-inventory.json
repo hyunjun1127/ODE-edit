@@ -1,0 +1,301 @@
+{
+  "root_sha256": "e3f4ee5ea1ec2895ac826649522ef9163dffd71487728b65ecc6b4d0328f6c42",
+  "row_count": 42,
+  "rows": [
+    {
+      "bytes": 13541,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/terminal.json",
+      "role": "c0:top_terminal",
+      "sha256": "0bc2ac84b6c7ea86ea9feb1c680fa47fd0c8cc77f9f05d99602a821b342d1a72"
+    },
+    {
+      "bytes": 1061,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/manifest.json",
+      "role": "c0:result_manifest",
+      "sha256": "1dbc04374f311a030f60a143de604a0a76df954e2466b375699b877a0686c80d"
+    },
+    {
+      "bytes": 2581,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/source-manifest.json",
+      "role": "c0:source_manifest",
+      "sha256": "ede2377a096c434b6516431d74a4d927d47535b4f1842c7999ac4ab6d85ac947"
+    },
+    {
+      "bytes": 314,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/job-timing.json",
+      "role": "c0:job_timing",
+      "sha256": "159c7b4f6d5965ea81dabf6371bb636d4dc190cbe2947ec0bf5cc829e936c312"
+    },
+    {
+      "bytes": 2158004,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/raw/cases/case-01/terminal.json",
+      "role": "c0:unit_terminal:01",
+      "sha256": "6b75e00d9728cdf21fb4cdd1eb857d5fc4d2e58513ea66e9bcaaead2e3bfc2a1"
+    },
+    {
+      "bytes": 2156926,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/raw/cases/case-02/terminal.json",
+      "role": "c0:unit_terminal:02",
+      "sha256": "5744bd2d318fb8233e8e7b07240659e6ed3ff041a4696cb235bb6caa8893fc62"
+    },
+    {
+      "bytes": 2155589,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/raw/cases/case-03/terminal.json",
+      "role": "c0:unit_terminal:03",
+      "sha256": "bef17190a04e8f309f9a9577de82c0d8e38cd968e4d58483aaf79d6052c94872"
+    },
+    {
+      "bytes": 2160570,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/raw/cases/case-04/terminal.json",
+      "role": "c0:unit_terminal:04",
+      "sha256": "8d368470b6c875b16d67f40cc63a4f077254beecb37cd2a51d1f6a9b5180d625"
+    },
+    {
+      "bytes": 2156838,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/raw/cases/case-05/terminal.json",
+      "role": "c0:unit_terminal:05",
+      "sha256": "bc4744e45e826ee84a6fa8d87df25f895144525b87fcaa79761203ded40187a1"
+    },
+    {
+      "bytes": 2160983,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/raw/cases/case-06/terminal.json",
+      "role": "c0:unit_terminal:06",
+      "sha256": "acd2239bdac0b9e0ece8b81d774082c497676a37bcfa8fc7e487ade7ff63678e"
+    },
+    {
+      "bytes": 2158134,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/raw/cases/case-07/terminal.json",
+      "role": "c0:unit_terminal:07",
+      "sha256": "20397173ac5d51cd92df1825b3c6619fff33367089335f15114c48aa044c4422"
+    },
+    {
+      "bytes": 2158244,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/raw/cases/case-08/terminal.json",
+      "role": "c0:unit_terminal:08",
+      "sha256": "8bc07cd70e3559bed1fb54c2e2f1d76f18d8b2cf71cd7b8bc276ac83ae787232"
+    },
+    {
+      "bytes": 2159066,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/raw/cases/case-09/terminal.json",
+      "role": "c0:unit_terminal:09",
+      "sha256": "36e3de6663169cfc844f76b638a3e1f55d6996d5ac23dd1fda0ad32ae2f29d1f"
+    },
+    {
+      "bytes": 2156984,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c0-kstep-10xb100-v1/raw/cases/case-10/terminal.json",
+      "role": "c0:unit_terminal:10",
+      "sha256": "058ca012bba103a6d8055bee90f847a0b39bfd354969553cb9f52aa1b2c55796"
+    },
+    {
+      "bytes": 13542,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/terminal.json",
+      "role": "c1:top_terminal",
+      "sha256": "5d9d7d0100a58389ecccf7035f5aa07d496f7bf525211561c7c295ae6b0cd234"
+    },
+    {
+      "bytes": 1061,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/manifest.json",
+      "role": "c1:result_manifest",
+      "sha256": "4365dd7a7e95eaeb2790568847586ab13e0a023298e231fd8556a65b490e8f1b"
+    },
+    {
+      "bytes": 2581,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/source-manifest.json",
+      "role": "c1:source_manifest",
+      "sha256": "ede2377a096c434b6516431d74a4d927d47535b4f1842c7999ac4ab6d85ac947"
+    },
+    {
+      "bytes": 313,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/job-timing.json",
+      "role": "c1:job_timing",
+      "sha256": "b7f3f7938e116cb9ce38c3d577e2052fd92fea5f934a80e2cf23d2964172c6a4"
+    },
+    {
+      "bytes": 2156031,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/raw/cases/case-01/terminal.json",
+      "role": "c1:unit_terminal:01",
+      "sha256": "156bedcb389785e1f92c9c2ef1569e5308dfb81dd7526b08f0c61e4cf75a9264"
+    },
+    {
+      "bytes": 2155580,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/raw/cases/case-02/terminal.json",
+      "role": "c1:unit_terminal:02",
+      "sha256": "55f3871655e4c9df8e01a8309fe8aefec46505287bfeb65cb00fe1fb3f9e168e"
+    },
+    {
+      "bytes": 2153567,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/raw/cases/case-03/terminal.json",
+      "role": "c1:unit_terminal:03",
+      "sha256": "146622ec7d43691f278a1fcb51a26c3ad5d83b5fff8c1cf22dc39d34ebed5430"
+    },
+    {
+      "bytes": 2157556,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/raw/cases/case-04/terminal.json",
+      "role": "c1:unit_terminal:04",
+      "sha256": "63a3e788aeb4b80be87a28453c78549eb44213114cafed3cf3d00bc37fac2018"
+    },
+    {
+      "bytes": 2155873,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/raw/cases/case-05/terminal.json",
+      "role": "c1:unit_terminal:05",
+      "sha256": "ac59e0b890594b22c8c5cbfb7573bcae2798a8d1f8c14fbf13e886d4f390dfb4"
+    },
+    {
+      "bytes": 2158663,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/raw/cases/case-06/terminal.json",
+      "role": "c1:unit_terminal:06",
+      "sha256": "b61a1b6d7d0a52b2a27f70b932bc613b11e8d96f2662097d731ec8f8de04a705"
+    },
+    {
+      "bytes": 2155926,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/raw/cases/case-07/terminal.json",
+      "role": "c1:unit_terminal:07",
+      "sha256": "9b20e6d77ab1a30b5f686eea4c11aa9d502ffc56d5096df2fe13f4c2c2facfee"
+    },
+    {
+      "bytes": 2155837,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/raw/cases/case-08/terminal.json",
+      "role": "c1:unit_terminal:08",
+      "sha256": "b7a78443f53f4cd3607616c4289e85dba5817d940dfa8a4377bdf15055ecc768"
+    },
+    {
+      "bytes": 2156346,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/raw/cases/case-09/terminal.json",
+      "role": "c1:unit_terminal:09",
+      "sha256": "d4e709dfa577db22535a819fe973cfd24d85a8e37ac967e7d8531d7fb107f34f"
+    },
+    {
+      "bytes": 2155153,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c1-kstep-10xb100-v1/raw/cases/case-10/terminal.json",
+      "role": "c1:unit_terminal:10",
+      "sha256": "83981713960545cdf151ff9e5005ad4460d24489d9d1aed32e80bddd571a2910"
+    },
+    {
+      "bytes": 13536,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/terminal.json",
+      "role": "c3:top_terminal",
+      "sha256": "542ce8cc61df7c553ee5c0eb3d764145160fab3a77af16824bd62260dea30527"
+    },
+    {
+      "bytes": 1061,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/manifest.json",
+      "role": "c3:result_manifest",
+      "sha256": "8c6a8b4bd8518f7bc01d0e497b9a6e205e2146f71ff08dae5c8e53d862169869"
+    },
+    {
+      "bytes": 2581,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/source-manifest.json",
+      "role": "c3:source_manifest",
+      "sha256": "ede2377a096c434b6516431d74a4d927d47535b4f1842c7999ac4ab6d85ac947"
+    },
+    {
+      "bytes": 314,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/job-timing.json",
+      "role": "c3:job_timing",
+      "sha256": "15cba422aa987adbb2739aedc382f44bc8e54873aa4574d6635b240a9f64d9e2"
+    },
+    {
+      "bytes": 2136479,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/raw/cases/case-01/terminal.json",
+      "role": "c3:unit_terminal:01",
+      "sha256": "50026351806cda46e0515aa402a623884c9bf99653a4a3b154754286168af974"
+    },
+    {
+      "bytes": 2135868,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/raw/cases/case-02/terminal.json",
+      "role": "c3:unit_terminal:02",
+      "sha256": "6af09c09c7632593afa6a36245ff5e5b722b96d935786a2a6ecd3ac16827f806"
+    },
+    {
+      "bytes": 2133948,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/raw/cases/case-03/terminal.json",
+      "role": "c3:unit_terminal:03",
+      "sha256": "348bf37dba12dc54294c95329e431dc47b23884ec9e478274442668c77f088e0"
+    },
+    {
+      "bytes": 2137610,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/raw/cases/case-04/terminal.json",
+      "role": "c3:unit_terminal:04",
+      "sha256": "eec028497caba04e60e8ab14d4be3f7d439e535fa500546eaf6beb9d84315815"
+    },
+    {
+      "bytes": 2136377,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/raw/cases/case-05/terminal.json",
+      "role": "c3:unit_terminal:05",
+      "sha256": "c3555d2862c324841eda12ce1f39c34edd268c0d2da9e615e77502732cc34fbc"
+    },
+    {
+      "bytes": 2139317,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/raw/cases/case-06/terminal.json",
+      "role": "c3:unit_terminal:06",
+      "sha256": "cfc81abb0f1bcb5ff97243629f541013c44a662acdd4a9798931079f7789d42e"
+    },
+    {
+      "bytes": 2136206,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/raw/cases/case-07/terminal.json",
+      "role": "c3:unit_terminal:07",
+      "sha256": "42f01ff2c92b5b28a4ec06712da21eadae87e64c5fc931bfad9acaa25c96b44b"
+    },
+    {
+      "bytes": 2136367,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/raw/cases/case-08/terminal.json",
+      "role": "c3:unit_terminal:08",
+      "sha256": "4691b2d1cce3c779d73cc761e7ae8523e8705588e9951180d5e5495c737fbe38"
+    },
+    {
+      "bytes": 2137688,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/raw/cases/case-09/terminal.json",
+      "role": "c3:unit_terminal:09",
+      "sha256": "c94f736c73d924d9bf1836e497b3f6fb261057b71cf54e7692761a63af4116a1"
+    },
+    {
+      "bytes": 2135635,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/results/s05-p1r52-c-writer-phase2-independent-full-fp32-c3-kstep-10xb100-v1/raw/cases/case-10/terminal.json",
+      "role": "c3:unit_terminal:10",
+      "sha256": "160bf4aeaa86cfc6e2afec6229cfaffd6c8a206f45031e5fe71d49e5eec45172"
+    }
+  ],
+  "schema": "phase2/artifact-inventory/v1"
+}

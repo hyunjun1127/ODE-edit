@@ -1,0 +1,77 @@
+{
+  "schema": "ode-edit-p1r52-c-writer-phase123-canonical-status/v1",
+  "status": "PHASE123_TERMINAL_VALID_CANONICAL_REPORTS_COMPLETE",
+  "full_fp32": true,
+  "scientific_promotion": false,
+  "stream": {
+    "mode": "SINGLE_CANONICAL_STREAM",
+    "case_count": 10,
+    "request_count": 1000,
+    "sample_payload_count": 1,
+    "sample_duplication_count": 0,
+    "stream_root_sha256": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+    "all_request_order_sha256": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+    "ordered_record_root_sha256": "af215235177d1ac07e82fadc62de7235244a82342a146c5867f673625486d0e1",
+    "sample_payload_sha256": "fe7c8b0cb51abf591e0ec560c0009bdcc47f20e8c4efcf6efc3311710a373475"
+  },
+  "phases": {
+    "phase1": {
+      "jobs": [22759, 22760, 22761, 22762, 22783],
+      "terminal_state": "COMPLETED_0_0",
+      "batch_endpoints": 50,
+      "request_attempts": 5000,
+      "k_receipts": 240,
+      "technical_failures": 0,
+      "scientific_failures": 0,
+      "imputations": 0,
+      "accepted_exhaustive_report_sha256": "cc5c210ad3a80e2237bb55a4a4cb5f91c260d3f368e745319dd5f2fb92daec3b",
+      "accepted_manifest_member_root_sha256": "887323682210e115332dd6c4db92a21a8e12e839677fb68daa0da980043b7006",
+      "accepted_receipt_identity_sha256": "ed6036fe06a12ca914eefd59b6bf74ba948b8b1f6ec8b3193a6598b89d910f91",
+      "final_presentation_report_sha256": "b93391e5c344bd5635fdd1c2f6532d41e683a88d85dabb3be21e949f05f3891b",
+      "final_presentation_receipt_identity_sha256": "fb9b1e9709ec8c86319e8f88a36a9d99726fd4a22177f5cf8c2cb2607347812e"
+    },
+    "phase2": {
+      "jobs": [22839, 22841, 22842],
+      "terminal_state": "COMPLETED_0_0",
+      "cases": 30,
+      "requests": 3000,
+      "k_writes": 240,
+      "technical_failures": 0,
+      "scientific_failures": 0,
+      "retries": 0,
+      "imputations": 0,
+      "report_sha256": "7d34b40f4e1983061113dbce1afb771436c187ae54286e4cc349d47616e2a6b6",
+      "manifest_member_root_sha256": "e8964390b10963eb4f3b89b63f7f8e9b3dd49a06231e647bb851d0f21cf87ae1",
+      "receipt_identity_sha256": "01ae51f73877ab9d70ffaccf32e20f2e94f7d3eb35c4f19e2c505caec3776b7f"
+    },
+    "phase3": {
+      "jobs": [22840, 23042, 23043],
+      "terminal_state": "COMPLETED_0_0",
+      "batches": 30,
+      "requests": 3000,
+      "k_writes": 240,
+      "cache_audit_rows": 30,
+      "cache_append_count": 30,
+      "technical_failures": 0,
+      "scientific_failures": 0,
+      "retries": 0,
+      "imputations": 0,
+      "report_sha256": "fbb790618655f7c975e0f5c42dff3860c8159880be44e38a258fe046a26047d8",
+      "manifest_member_root_sha256": "04758fc0f0dfea4c15022f650a6474488354db6cae6b967872c17da5085f5f29",
+      "receipt_identity_sha256": "ae578ebc22ff8fb5c4dc288ba2494f8e9fcfcab8487357b9e1e716cad4587356"
+    }
+  },
+  "excluded_from_git": [
+    "raw_logs",
+    "raw_results",
+    "prompt_level_large_csv",
+    "models",
+    "checkpoints",
+    "runtime_cache",
+    "tensors",
+    "generations",
+    "datasets",
+    "credentials",
+    "superseded_technical_attempt_outputs"
+  ]
+}

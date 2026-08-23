@@ -1,0 +1,42 @@
+{
+  "row_count": 3,
+  "rows": [
+    {
+      "arm": "c0",
+      "cache_status": "ALPHA_CACHE_CONTINUITY_ON_BATCH_ENTRY_SNAPSHOT",
+      "execution_scope": "B1→B10 sequential W/cache continuity; final exact W0 restore",
+      "label": "C0-KSTEP-CACHE",
+      "official_writer": false,
+      "phase": 3,
+      "route": "PIR-U control allocation; P/C router call 0",
+      "target": "P1R52 accepted-z refreshed at every K",
+      "writer": "PIR-U control remaining-residual L4→L8 prefix sequential writer",
+      "writer_calls_per_unit": 8
+    },
+    {
+      "arm": "c1",
+      "cache_status": "ALPHA_CACHE_CONTINUITY_ON_BATCH_ENTRY_SNAPSHOT",
+      "execution_scope": "B1→B10 sequential W/cache continuity; final exact W0 restore",
+      "label": "C1-KSTEP-CACHE",
+      "official_writer": false,
+      "phase": 3,
+      "route": "current-K P/C proxy and Joint-PC route recomputed; router call 1/K",
+      "target": "P1R52 accepted-z refreshed at every K",
+      "writer": "Joint P+C minimax + remaining-residual L4→L8 prefix sequential writer",
+      "writer_calls_per_unit": 8
+    },
+    {
+      "arm": "c3",
+      "cache_status": "ALPHA_CACHE_CONTINUITY_ON_BATCH_ENTRY_SNAPSHOT",
+      "execution_scope": "B1→B10 sequential W/cache continuity; final exact W0 restore",
+      "label": "C3-KSTEP-CACHE",
+      "official_writer": true,
+      "phase": 3,
+      "route": "no P/C route; native AlphaEdit compute_z call 0",
+      "target": "P1R52 accepted-z refreshed at every K",
+      "writer": "direct Official EasyEdit AlphaEdit writer with P1R52 accepted-z",
+      "writer_calls_per_unit": 8
+    }
+  ],
+  "schema": "phase3/method-definitions/v1"
+}

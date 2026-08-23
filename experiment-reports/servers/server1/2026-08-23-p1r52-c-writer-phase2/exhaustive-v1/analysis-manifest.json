@@ -1,0 +1,220 @@
+{
+  "input_artifact_inventory_root_sha256": "e3f4ee5ea1ec2895ac826649522ef9163dffd71487728b65ecc6b4d0328f6c42",
+  "member_root_sha256": "e8964390b10963eb4f3b89b63f7f8e9b3dd49a06231e647bb851d0f21cf87ae1",
+  "members": [
+    {
+      "bytes": 77202,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase23-exhaustive-analysis-tool-v1/build_phase23_exhaustive_analysis.py",
+      "role": "analysis_builder",
+      "sha256": "3b389a371fe9adb5685212e189f3e48ea1766deb9170dbba8ce6cd8859d796f4"
+    },
+    {
+      "bytes": 1542,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/method-definitions.json",
+      "role": "analysis_output",
+      "sha256": "049af43537618a6b8bcfd3ae2a5c0270c39f488342c12e629c62818f464d4e7c"
+    },
+    {
+      "bytes": 877,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/method-definitions.csv",
+      "role": "analysis_output",
+      "sha256": "f96d69be3730acbfe26b22f3122b01189755a9530a82869a972363d92b528973"
+    },
+    {
+      "bytes": 751269,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/per-unit-endpoint-summary.json",
+      "role": "analysis_output",
+      "sha256": "37c40d71d44efe6832eb44d27e11c3e3109c2a25c65c64ddda57b27dce82c275"
+    },
+    {
+      "bytes": 153432,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/per-unit-endpoint-summary.csv",
+      "role": "analysis_output",
+      "sha256": "c4333bfc9bd9689d90e050d072a1432d0adf29cb1b96c964880f9bae25bad364"
+    },
+    {
+      "bytes": 676843,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/per-k-endpoint-and-compute.json",
+      "role": "analysis_output",
+      "sha256": "6cf4477a0c6c7a92b05463c81213f754f4c23c366c8820a88134470b6f7fd132"
+    },
+    {
+      "bytes": 329639,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/per-k-endpoint-and-compute.csv",
+      "role": "analysis_output",
+      "sha256": "55608583b564081c090080e37a5d55b4e0fca3dfb430f9b6ff40686ad3d4d59a"
+    },
+    {
+      "bytes": 226256,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/per-k-route.json",
+      "role": "analysis_output",
+      "sha256": "e2269761b1899ac3efcbf15f2dd82eefdeb005e124859296da513f7b31179372"
+    },
+    {
+      "bytes": 85295,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/per-k-route.csv",
+      "role": "analysis_output",
+      "sha256": "2430c74e0cb76b8734d907759e7ee157a8ea7c830cab2464efec586d20c81832"
+    },
+    {
+      "bytes": 1256922,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/per-layer-writer-update-energy.json",
+      "role": "analysis_output",
+      "sha256": "93dbd09d92b30f0d86d57b4f64da1d157df234c1f3276ad5ac9eae33575523b4"
+    },
+    {
+      "bytes": 417904,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/per-layer-writer-update-energy.csv",
+      "role": "analysis_output",
+      "sha256": "466d68ef3ba155f1ea4307ef9fff65ca279cda8326fc023784e1415d1235f4aa"
+    },
+    {
+      "bytes": 40579,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/per-unit-compute.json",
+      "role": "analysis_output",
+      "sha256": "4dade772c7abe42d3e35296d2242bd3c0acf7777e88e4cdd0e6b0540c227331d"
+    },
+    {
+      "bytes": 7585,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/per-unit-compute.csv",
+      "role": "analysis_output",
+      "sha256": "8290962ee6c508b69153173a18fd44183e31731d57aaa2c26dec2b603ca94d70"
+    },
+    {
+      "bytes": 9185,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/compute-aggregate.json",
+      "role": "analysis_output",
+      "sha256": "91d47ce1dc66e9023dc2941a465ab7bd926c0145ea6f478d6b49720ec768b7b8"
+    },
+    {
+      "bytes": 5585,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/compute-aggregate.csv",
+      "role": "analysis_output",
+      "sha256": "8c904d24906cfd1fd8f18ed58c7757cdec37a330e312688cda96ff56939fda96"
+    },
+    {
+      "bytes": 15284,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/terminal-endpoint-aggregate.json",
+      "role": "analysis_output",
+      "sha256": "fabb1e8848573e1df5d286f9039e92540559e707f5adbc36d7698d0bc565f7b8"
+    },
+    {
+      "bytes": 4969,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/terminal-endpoint-aggregate.csv",
+      "role": "analysis_output",
+      "sha256": "5919c87ec5e067011e8850ccda5f041ad3b9f797839d8bef98e5956ea2809703"
+    },
+    {
+      "bytes": 84078,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/paired-unit-comparison.json",
+      "role": "analysis_output",
+      "sha256": "b2d05c12e1d802263a00a21ac5ccf6fa04e21ac57fc0bfb092e7860fa42280ae"
+    },
+    {
+      "bytes": 21608,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/paired-unit-comparison.csv",
+      "role": "analysis_output",
+      "sha256": "dfc795ca8c93aaf3ab4cf2a52c7125d59ea2b8c2be8d1ddd12976094301eb7d8"
+    },
+    {
+      "bytes": 25584,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/paired-comparison-aggregate.json",
+      "role": "analysis_output",
+      "sha256": "fd036da3b7920f5d7954372554aca221d0b7830b12f21a53bb41262e0380ea3e"
+    },
+    {
+      "bytes": 10998,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/paired-comparison-aggregate.csv",
+      "role": "analysis_output",
+      "sha256": "c65438bab4481ba8782506489e0032824ac2bd722d79b2b0407ae5495bbae9b3"
+    },
+    {
+      "bytes": 60327,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/cross-arm-target-identity.json",
+      "role": "analysis_output",
+      "sha256": "5ca5502373b183c58a34fdb88adac4c68120934ea68a53dd7430143b34e324e4"
+    },
+    {
+      "bytes": 32849,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/cross-arm-target-identity.csv",
+      "role": "analysis_output",
+      "sha256": "86664a77b74f6e0f3e5d66fab5d6b21d906ff20e103a3a5c30b9a20c56311f5a"
+    },
+    {
+      "bytes": 17424183,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/per-prompt-kstep-nll.csv",
+      "role": "analysis_output",
+      "sha256": "950cdedd0c06744eb3565ba518ae1fd066b0a90a4ff42969a81bc23acf14a407"
+    },
+    {
+      "bytes": 92083,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/nll-distribution-aggregates.json",
+      "role": "analysis_output",
+      "sha256": "474cc9b4476d70dbb0d466d7de205fc7527eb66b539d032afbe9314d5af07b3c"
+    },
+    {
+      "bytes": 37629,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/nll-distribution-aggregates.csv",
+      "role": "analysis_output",
+      "sha256": "c5876c2063bb363e1094886df77a345c24d1d0a59bab34a57ede482addc68c49"
+    },
+    {
+      "bytes": 1552,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/terminal-integrity.json",
+      "role": "analysis_output",
+      "sha256": "bcdd277ff3e1458c32bdfffcb64533b63fe3161065dff7e288ad8a03f353e79c"
+    },
+    {
+      "bytes": 16538,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/artifact-inventory.json",
+      "role": "analysis_output",
+      "sha256": "44d0f9bd4a8e465c1a6d7e2240ace6bfd44a5db6c9116ea3c939677d5b36b238"
+    },
+    {
+      "bytes": 12283,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/artifact-inventory.csv",
+      "role": "analysis_output",
+      "sha256": "535e91193e8c654f077a03e61bcd6920678663e7062886aa7a28cb8bb9af5c69"
+    },
+    {
+      "bytes": 9437,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-p1r52-c-writer-phase2-tech-r1/local/odebf/reports/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-analysis-v1/p1r52-c-writer-phase2-independent-kstep-full-fp32-exhaustive-factual-ko.md",
+      "role": "analysis_output",
+      "sha256": "7d34b40f4e1983061113dbce1afb771436c187ae54286e4cc349d47616e2a6b6"
+    }
+  ],
+  "schema": "phase2/exhaustive-analysis-manifest/v1",
+  "scientific_promotion": false,
+  "source_head": "034b72c59aace422b7048509b336bac26992d90e",
+  "source_tree": "76f3b8e0b3304dcdca25a8467439c4bf035bb41c"
+}
