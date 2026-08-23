@@ -1,0 +1,36 @@
+{
+  "task_id": "ODEEDIT-S05-P1R54-ENERGYFREE-LOCALZ-B100-V1",
+  "server": "server4",
+  "agent_id": "server4-server-head",
+  "agent_role": "server-head",
+  "status": "implementation_focused_gates_pass_pre_gpu_pending",
+  "updated_at": "2026-08-24T00:30:00+09:00",
+  "owner_session": "codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d",
+  "authoritative_contract": {
+    "path": "/data/janghj/ODE-edit/local/state/p1r54-energyfree-localz-llama-b100-v1/authoritative-contract.txt",
+    "sha256": "6fcfc7df83c9b94d38accecb5fa600c33a8a1741f579881d9f1fab05cd0a3d58",
+    "bytes": 12866,
+    "wc_lines": 610,
+    "logical_records_without_terminal_newline": 611,
+    "full_read": true
+  },
+  "source_base": {
+    "head": "ec7c25e2c42816718ac2eda1a43efae82c466970",
+    "tree": "d557cc7edbcb5eaa71faddf365c52880713ae366"
+  },
+  "scientific_implementation": {
+    "commit": "cf6d1dc673d84129c46a742948dcf83703fa07f9",
+    "tree": "05b4b8b0a1f41b73d92a6ec38360b4314e06faf7",
+    "arms": ["FZ", "PDZ"],
+    "numerical_lock_root": "b9f7ca3beac529491b4cf16237f8b7887a3f02913110639ed2c29a63dc4286ad",
+    "focused_tests": "38/38_PASS"
+  },
+  "selected_model": "llama3-8b-inst",
+  "selected_batch": "B1_100_REQUESTS",
+  "project_gpu_cap": 4,
+  "planned_array": "0-1%2",
+  "gpu_slurm_model_action_count": 0,
+  "reference_execution_count": 0,
+  "scientific_promotion": false,
+  "next_state": "FINAL_PRE_GPU"
+}

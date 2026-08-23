@@ -13,8 +13,8 @@
 - local hard boundary: checker PASS, model/profile은 user-managed
 - 갱신 시각: `2026-08-24T00:07:09+09:00`
 - current GH directive:
-  `ODEEDIT-S05-P1R53-REQUEST-LOCAL-TARGET-SPEED-B100-V1`
-  LP-S/LFD-E terminal factual report complete; `IDLE_AWAITING_GH_CALL`
+  `ODEEDIT-S05-P1R54-ENERGYFREE-LOCALZ-B100-V1`
+  FZ/PDZ implementation focused gates PASS; final PRE-GPU pending
 
 이 session은 이전 `registered-pending-clone` 상태를 supersede한다. 과거 task,
 report, audit와 experiment provenance는 변경하지 않는다.
@@ -135,6 +135,19 @@ report, audit와 experiment provenance는 변경하지 않는다.
 - canonical report: `experiment-reports/servers/server4/p1r53-request-local-speed-llama-b100-2026-08-24-v2`
 - report/manifest/receipt SHA: `f25e397a...77bb` / `1d5aa605...c510` / `575b7c76...423a`
 - current action: terminal report complete, active project GPU0, no new submission
+- scientific promotion: false
+
+## P1R54 energy-free Local-Z B100 heartbeat
+
+- contract: `FULL_READ_PASS`, SHA256 `6fcfc7df...3d58`, 12,866 bytes, wc-lines610
+- source base: `ec7c25e2c42816718ac2eda1a43efae82c466970` / tree `d557cc7edbcb5eaa71faddf365c52880713ae366`
+- implementation commit/tree: `cf6d1dc673d84129c46a742948dcf83703fa07f9` / `05b4b8b0a1f41b73d92a6ec38360b4314e06faf7`
+- arms: FZ `F_i=m_i||z0_i||d_i`; PDZ `F_i=m_i||z0_i||[-expm1(-ell_i)]d_i`
+- scope: Llama sealed B1 100, K8, h=1/8, C3 writer8/layer40, FULL-FP32
+- numerical lock root: `b9f7ca3beac529491b4cf16237f8b7887a3f02913110639ed2c29a63dc4286ad`
+- focused mechanical/legacy suite: 38/38 PASS; GPU/Slurm/model action0
+- registered janghj/project GPU cap4; planned array `0-1%2`
+- current action: final PRE-GPU/source integration pending
 - scientific promotion: false
 
 ## P1R52 target-timescale B100 terminal heartbeat
