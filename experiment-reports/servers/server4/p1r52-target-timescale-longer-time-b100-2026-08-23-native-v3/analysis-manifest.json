@@ -1,0 +1,176 @@
+{
+  "Z0_coarse_raw_input_count": 0,
+  "analysis_generator": {
+    "bytes": 44299,
+    "path": "project/run_scripts/ode_bf/p1r52_target_timescale_longer_analysis.py",
+    "sha256": "9e927dc1fd518f5200435530a7841a7088951feaf05e33929091ab541d84402e"
+  },
+  "generated_members": [
+    {
+      "bytes": 1184,
+      "path": "cell-summary.csv",
+      "sha256": "49c467ebe299bad7a214a366b6fcfc66b68b656933ba71a5feffad6100f39463"
+    },
+    {
+      "bytes": 40113,
+      "path": "per-microstep-trajectory.csv",
+      "sha256": "381aec36b84f56e9a12e04c51b07593448c4f8d329d6c775dfc6c86673b218d6"
+    },
+    {
+      "bytes": 29128,
+      "path": "k1-k4-k8-endpoints.csv",
+      "sha256": "331c2faed003747ce2e8a350008bd549d06ea9c232efe61c8a996740a7b0246c"
+    },
+    {
+      "bytes": 221461,
+      "path": "paired-vs-z1-accepted-z.csv",
+      "sha256": "449a43014321e93f92e58e6e18a5e6d3166d3a1488a88172c2193ba8e69211a1"
+    },
+    {
+      "bytes": 14674,
+      "path": "consecutive-marginal-gain.csv",
+      "sha256": "d3b6b5fcc14fa80e97f1ef017fc5bceda2874003acde0a9c28298b8c2ffb26ea"
+    },
+    {
+      "bytes": 1760,
+      "path": "writer-transfer-locality.csv",
+      "sha256": "8c48640054d2ad448b87f169579ce4c01677d0950771b3b398d63fb9c8ec9e2e"
+    },
+    {
+      "bytes": 1215,
+      "path": "compute.csv",
+      "sha256": "902b320c29fb14bc6c70a6d5c918c54f0fbb44440812674f9da7343855bb1dcf"
+    },
+    {
+      "bytes": 3839,
+      "path": "native-reference-endpoints.csv",
+      "sha256": "144683b146b0d2b5b79eee3825fbcbeef4091f21a321525bea164d2c0a4686d6"
+    },
+    {
+      "bytes": 6230,
+      "path": "native-gap.csv",
+      "sha256": "8e2c31a744413a2dfa7fecae4ace2aa471b479d9c5ec275e19c8e69a28d638da"
+    },
+    {
+      "bytes": 230828,
+      "path": "native-paired-nll.csv",
+      "sha256": "fa4834e72afe0c2520b3230541e17efffb9bfcb9c9587a2c7fe53520f1961077"
+    },
+    {
+      "bytes": 1023,
+      "path": "native-compute.csv",
+      "sha256": "5fe598398a1df8b41ef3b1123d4c6fa6e095444fe2a09cc67f6aca5ae8f06eab"
+    },
+    {
+      "bytes": 19658,
+      "path": "analysis.json",
+      "sha256": "efbf8ce73fe507864fd8f56496f367ddb6d1eff86c1edac54cd7716fa098f6cf"
+    },
+    {
+      "bytes": 13293,
+      "path": "report-ko.md",
+      "sha256": "9ca1c2797bc3b71c7e1bfb1080f9f2d5555c34a0a375068cf6da2ea66562805b"
+    }
+  ],
+  "instruction_id": "ODEEDIT-S05-P1R52-TARGET-TIMESCALE-B100-V1",
+  "raw_input_count": 18,
+  "raw_inputs": [
+    {
+      "bytes": 1396,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z1-refine-tech-r4-v1/manifest.json",
+      "sha256": "a6460cba808a5bb4b764f13b765ab9c70b43edf9bd4638d4678fa4c50051aa70"
+    },
+    {
+      "bytes": 3980,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z1-refine-tech-r4-v1/source-manifest.json",
+      "sha256": "73c75b904c9b95c0a0652ff60d154a491eb0ecc422bb6e961ce2bfc710d36458"
+    },
+    {
+      "bytes": 8205167,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z1-refine-tech-r4-v1/terminal.json",
+      "sha256": "b5d2666b76fc5f488616ffa207469277616e290a30113cb5f648b79b7884b5d1"
+    },
+    {
+      "bytes": 1384,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z15-tech-r4-v1/manifest.json",
+      "sha256": "8e3d7853e461622b347154c7ccded87fbc090f5a2bf5cbf4da0d1726336827a5"
+    },
+    {
+      "bytes": 3980,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z15-tech-r4-v1/source-manifest.json",
+      "sha256": "73c75b904c9b95c0a0652ff60d154a491eb0ecc422bb6e961ce2bfc710d36458"
+    },
+    {
+      "bytes": 11394078,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z15-tech-r4-v1/terminal.json",
+      "sha256": "d8b0b6323c9cd654df5bd67bc9139c551b229f65a5c3b30501eac72c28c8c26c"
+    },
+    {
+      "bytes": 1384,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z20-tech-r4-v1/manifest.json",
+      "sha256": "e30a775d05a48a263bdf5a849c4e6b17847fda2b2b7743d4ba7ff1070f1d07bb"
+    },
+    {
+      "bytes": 3980,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z20-tech-r4-v1/source-manifest.json",
+      "sha256": "73c75b904c9b95c0a0652ff60d154a491eb0ecc422bb6e961ce2bfc710d36458"
+    },
+    {
+      "bytes": 14557465,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z20-tech-r4-v1/terminal.json",
+      "sha256": "2ee3efe613eabd536d5ab6446c1f2d3da28c6f82b0ec17311342ba53b71201c9"
+    },
+    {
+      "bytes": 1384,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z30-tech-r4-v1/manifest.json",
+      "sha256": "2451a7263f0c5f635f687f5092844135eab959b2609551f00bc16a308d8a7f0f"
+    },
+    {
+      "bytes": 3980,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z30-tech-r4-v1/source-manifest.json",
+      "sha256": "b3c7992b8ab54671574c6897c14aeb18e83fdb1f8d3649850a2051bbf7be30df"
+    },
+    {
+      "bytes": 21016572,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-b100-z30-tech-r4-v1/terminal.json",
+      "sha256": "ef9dba71b87b5a1d104f679b2e06ab42e2678e30926bad3594f7a98bb0b7638f"
+    },
+    {
+      "bytes": 903,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-alphaedit-user-override-v1/manifest.json",
+      "sha256": "f7a3b8ceec31630e6f27d353b31c21593e2ac03042576f664e60d38f9b9fa252"
+    },
+    {
+      "bytes": 2511,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-alphaedit-user-override-v1/source-manifest.json",
+      "sha256": "7240411bfd1dff4cc2b2ab316230332536c686305f4e65d08233e12205786821"
+    },
+    {
+      "bytes": 172882,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-alphaedit-user-override-v1/terminal.json",
+      "sha256": "4e26d1637202a01a3c9a88207f71b320acc7d02c287a0fa195ed54309f370549"
+    },
+    {
+      "bytes": 895,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-memit-user-override-tech-r2-v1/manifest.json",
+      "sha256": "992a041af73cb860ca1239be44d07f3e8bffbd74cd7fbc5ce10ba7d489a5e8e8"
+    },
+    {
+      "bytes": 2511,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-memit-user-override-tech-r2-v1/source-manifest.json",
+      "sha256": "107aeb4e6969de1783dccc5d00ece27598ef98914adca0875d43b3a34bc96420"
+    },
+    {
+      "bytes": 172187,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r52-target-timescale-b100-v1/local/odebf/results/s05-p1r52-target-timescale-native-b100-official-memit-user-override-tech-r2-v1/terminal.json",
+      "sha256": "2d4430f5081638984e65aecbb3e3a3e98a1d50bd849ae39e12abd6c0ed781ebf"
+    }
+  ],
+  "raw_member_root": "5261a49c4ecd0a57a5e14d8f5f09eb97cd7b930cc8f360707a11eb2bc584a930",
+  "root_digest": "8775a5633f05830c08438c7c6d343ed62d144e232f227af7ad7ecd9f059d6145",
+  "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-manifest/v3",
+  "scientific_promotion": false,
+  "scope": "FIXED_DT_Z1_Z15_Z20_Z30_ONLY",
+  "source_head": "c1f1962937af87392a6d046d66c8d864bd54073d",
+  "source_tree": "79535403ea7c09d5954102813f2185107966d5a6"
+}

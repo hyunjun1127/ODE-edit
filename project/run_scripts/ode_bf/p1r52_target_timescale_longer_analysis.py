@@ -20,10 +20,13 @@ from .p1r52_target_timescale_analysis import (
     NUMERICAL_LOCK_ROOT,
     SOURCE_HEAD,
     SOURCE_TREE,
+    _count_rate,
+    _final_endpoint_report_lines,
     _flatten,
     _load,
     _member,
     _native_z_to_w_summary,
+    _nll_triplet,
     _pct,
     _sacct,
     _score_rows,
@@ -369,7 +372,7 @@ def build_longer_time(
     )
 
     analysis: dict[str, Any] = {
-        "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-analysis/v2",
+        "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-analysis/v3",
         "instruction_id": INSTRUCTION_ID,
         "scope": "FIXED_DT_LONGER_TARGET_TIME_Z1_Z15_Z20_Z30",
         "source_head": SOURCE_HEAD,
@@ -426,7 +429,7 @@ def build_longer_time(
     generated = [output_root / name for name in tables] + [output_root / "analysis.json", output_root / "report-ko.md"]
     raw_inputs.sort(key=lambda row: str(row["path"]))
     manifest: dict[str, Any] = {
-        "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-manifest/v2",
+        "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-manifest/v3",
         "instruction_id": INSTRUCTION_ID,
         "source_head": SOURCE_HEAD,
         "source_tree": SOURCE_TREE,
@@ -446,7 +449,7 @@ def build_longer_time(
     package_paths = generated + [output_root / "analysis-manifest.json"]
     members = [_member(path, relative_to=output_root) for path in package_paths]
     receipt: dict[str, Any] = {
-        "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-rooted-receipt/v2",
+        "schema": "ode-edit-s05-p1r52-target-timescale-longer-time-rooted-receipt/v3",
         "instruction_id": INSTRUCTION_ID,
         "status": "LONGER_TIME_REPORT_COMPLETE",
         "analysis_identity": analysis["identity_sha256"],
@@ -459,7 +462,7 @@ def build_longer_time(
     _write_json(output_root / "rooted-receipt.json", receipt)
 
 
-def _render_report(
+def _render_report_v2(
     *,
     analysis: Mapping[str, Any],
     endpoints: Mapping[tuple[str, int, str, str], Mapping[str, Any]],
@@ -638,6 +641,208 @@ def _render_report(
             "- Native는 canonical one-shot external reference다. K8/schedule-matched Native, causal target-time arm, continuous-ODE convergence를 주장하지 않는다.",
             "- heldout은 K1/K4/K8 terminal observation-only이며 controller influence 0이다.",
             "- 세부 request/prompt/microstep/marginal/compute 수치는 동봉 CSV에 있으며 누락값은 추정하지 않았다.",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def _render_report(
+    *,
+    analysis: Mapping[str, Any],
+    endpoints: Mapping[tuple[str, int, str, str], Mapping[str, Any]],
+    cells: Sequence[Mapping[str, Any]],
+    writer: Sequence[Mapping[str, Any]],
+    native_endpoints: Sequence[Mapping[str, Any]],
+    marginals: Sequence[Mapping[str, Any]],
+) -> str:
+    labels = (*CELLS, *NATIVE_RESULTS)
+    display = {
+        "Z1-REFINE": "Z1 (Tz=1)",
+        "Z15": "Z15 (Tz=1.5)",
+        "Z20": "Z20 (Tz=2)",
+        "Z30": "Z30 (Tz=3)",
+        "OFFICIAL-ALPHAEDIT": "Native AlphaEdit†",
+        "OFFICIAL-MEMIT": "Native MEMIT†",
+    }
+    scope = {
+        **{cell: "fixed-dt longer-time" for cell in CELLS},
+        "OFFICIAL-ALPHAEDIT": "one-shot external",
+        "OFFICIAL-MEMIT": "one-shot external",
+    }
+    writer_k8 = {(row["cell"], row["outer_K"]): row for row in writer}
+    native_lookup = {
+        (str(row["cell"]), str(row["endpoint"]), str(row["prompt"])): row
+        for row in native_endpoints
+    }
+    final_endpoints: dict[tuple[str, str, str], Mapping[str, Any]] = {}
+    locality: dict[tuple[str, str], tuple[int, int]] = {}
+    for cell in CELLS:
+        for endpoint_name in ("accepted_z", "post_W"):
+            source_endpoint = (
+                endpoint_name if endpoint_name == "accepted_z" else "post_writer_W"
+            )
+            for prompt in ("rewrite", "rephrase"):
+                final_endpoints[(cell, endpoint_name, prompt)] = endpoints[
+                    (cell, 8, source_endpoint, prompt)
+                ]
+        row = writer_k8[(cell, 8)]
+        locality[(cell, "accepted_z")] = (
+            int(row["accepted_z_locality_numerator"]),
+            int(row["accepted_z_locality_denominator"]),
+        )
+        locality[(cell, "post_W")] = (
+            int(row["post_W_locality_numerator"]),
+            int(row["post_W_locality_denominator"]),
+        )
+    for method in NATIVE_RESULTS:
+        measurement = analysis["native_reference"]["z_to_W_measurement"][method]
+        for endpoint_name in ("accepted_z", "post_W"):
+            for prompt in ("rewrite", "rephrase"):
+                final_endpoints[(method, endpoint_name, prompt)] = native_lookup[
+                    (method, endpoint_name, prompt)
+                ]
+            loc = measurement["locality"][endpoint_name]
+            locality[(method, endpoint_name)] = (
+                int(loc["numerator"]),
+                int(loc["denominator"]),
+            )
+
+    lines = [
+        "# P1R52 target-timescale B100 — longer target time 상세 결과",
+        "",
+        "> **범위:** `FIXED_DT_LONGER_TARGET_TIME_Z1_Z15_Z20_Z30`. 네 cell은 동일 `dt=1/16`, sealed B1 100 requests, W0·C3 K8 writer·cache·evaluator를 공유하고 `T_z=1/1.5/2/3`만 다르다. Z0 coarse-resolution은 제외했다.",
+        "",
+        "> **가독성 정정판 v3:** 최종 W Eff/Gen/Loc와 z/W NLL을 첫 표로 통합하고, Rewrite·Rephrase 상세 및 longer-time 전용 표를 분리했다. v2의 수치·raw identity·과학 경계는 변경하지 않았다.",
+        "",
+    ]
+    lines.extend(
+        _final_endpoint_report_lines(
+            labels=labels,
+            display=display,
+            scope=scope,
+            endpoints=final_endpoints,
+            locality=locality,
+        )
+    )
+    lines.extend(
+        [
+            "",
+            "## 3. Longer-time 실험 전용 표",
+            "",
+            "### 3.1 K1/K4/K8 accepted-z target-time curve",
+            "",
+            "|K|cell|T_z|Rewrite NLL mean/median/p90|Rephrase NLL mean/median/p90|Rewrite success|Rephrase success/strict|",
+            "|---:|---|---:|---:|---:|---:|---:|",
+        ]
+    )
+    horizons = {str(row["cell"]): float(row["target_horizon"]) for row in cells}
+    for outer in (1, 4, 8):
+        for cell in CELLS:
+            rewrite = endpoints[(cell, outer, "accepted_z", "rewrite")]
+            rephrase = endpoints[(cell, outer, "accepted_z", "rephrase")]
+            lines.append(
+                f"|{outer}|{display[cell]}|{horizons[cell]:.1f}|{_nll_triplet(rewrite)}|"
+                f"{_nll_triplet(rephrase)}|"
+                f"{_count_rate(rewrite['success_numerator'], rewrite['success_denominator'])}|"
+                f"{_count_rate(rephrase['success_numerator'], rephrase['success_denominator'])} · "
+                f"strict {_count_rate(rephrase['strict_success_numerator'], rephrase['strict_success_denominator'])}|"
+            )
+    lines.extend(
+        [
+            "",
+            "### 3.2 K8 consecutive target-time marginal",
+            "",
+            "아래 delta는 `right T_z − left T_z`이므로 음수면 longer-time 쪽 NLL이 낮다.",
+            "",
+            "|increment|endpoint|prompt|Δmean/Δmedian/Δp90|",
+            "|---|---|---|---:|",
+        ]
+    )
+    for left, right in CONSECUTIVE:
+        for endpoint_name in ("accepted_z", "post_writer_W"):
+            for prompt in ("rewrite", "rephrase"):
+                rows = {
+                    row["statistic"]: row
+                    for row in marginals
+                    if row["left_cell"] == left
+                    and row["right_cell"] == right
+                    and row["outer_K"] == 8
+                    and row["endpoint"] == endpoint_name
+                    and row["prompt"] == prompt
+                }
+                lines.append(
+                    f"|{display[left]}→{display[right]}|"
+                    f"{'z' if endpoint_name == 'accepted_z' else 'W'}|{prompt}|"
+                    f"{float(rows['mean']['right_minus_left']):+.6f}/"
+                    f"{float(rows['median']['right_minus_left']):+.6f}/"
+                    f"{float(rows['p90']['right_minus_left']):+.6f}|"
+                )
+    lines.extend(
+        [
+            "",
+            "### 3.3 Target-time 비용·clamp·selection",
+            "",
+            "|cell|T_z|m|field eval|clamp|PRIMARY/RESCUE/CURRENT|Slurm|post-model|peak allocated|",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for row in cells:
+        lines.append(
+            f"|{display[str(row['cell'])]}|{float(row['target_horizon']):.1f}|{row['microsteps_per_outer']}|"
+            f"{row['target_field_evaluations']}|{row['clamp_hits']}/{row['request_microstep_denominator']} "
+            f"({_pct(float(row['clamp_fraction']))})|{row['primary_count']}/{row['rescue_count']}/{row['current_count']}|"
+            f"{row['slurm_elapsed_seconds']}s|{float(row['runtime_after_model_preflight_seconds']):.1f}s|"
+            f"{float(row['peak_allocated_bytes']) / 2**30:.2f} GiB|"
+        )
+    lines.extend(
+        [
+            "",
+            "## 4. Native z→W 전달과 compute",
+            "",
+            "|Native|prompt|W−z NLL mean/median/p90/max|",
+            "|---|---|---:|",
+        ]
+    )
+    for method in NATIVE_RESULTS:
+        measurement = analysis["native_reference"]["z_to_W_measurement"][method]
+        for prompt in ("rewrite", "rephrase"):
+            delta = measurement["prompts"][prompt]["post_W_minus_accepted_z"]
+            lines.append(
+                f"|{display[method]}|{prompt}|{delta['mean']:+.6f}/{delta['median']:+.6f}/{delta['p90']:+.6f}/{delta['max']:+.6f}|"
+            )
+    lines.extend(
+        [
+            "",
+            "|Native|total|z 생성|writer core|z eval|W eval|restore|W0 restore|",
+            "|---|---:|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for method in NATIVE_RESULTS:
+        measurement = analysis["native_reference"]["z_to_W_measurement"][method]
+        compute = measurement["compute"]
+        lines.append(
+            f"|{display[method]}|{compute['method_total_seconds']:.1f}s|"
+            f"{compute['target_accepted_z_generation_seconds']:.1f}s|{compute['writer_edit_core_seconds']:.1f}s|"
+            f"{compute['accepted_z_evaluator_seconds']:.1f}s|{compute['post_W_evaluator_seconds']:.1f}s|"
+            f"{compute['restore_seconds']:.1f}s|{measurement['W0_restored']}|"
+        )
+    z1_rp = final_endpoints[("Z1-REFINE", "accepted_z", "rephrase")]
+    z30_rp = final_endpoints[("Z30", "accepted_z", "rephrase")]
+    z20_w_rp = final_endpoints[("Z20", "post_W", "rephrase")]
+    z30_w_rp = final_endpoints[("Z30", "post_W", "rephrase")]
+    lines.extend(
+        [
+            "",
+            "## 5. 판독과 경계",
+            "",
+            f"- K8 accepted-z Rewrite mean은 `0.011389 → 0.006024 → 0.005008 → 0.002264`로 T_z와 함께 감소했다. Rephrase mean은 `{float(z1_rp['target_new_mean']):.6f} → 1.299307 → 1.319775 → {float(z30_rp['target_new_mean']):.6f}`로 비단조다.",
+            f"- final W Rephrase mean도 Z20 `{float(z20_w_rp['target_new_mean']):.6f}`에서 Z30 `{float(z30_w_rp['target_new_mean']):.6f}`으로 다시 증가해 longer-time의 writer endpoint 이득이 단조가 아니다.",
+            "- Rewrite는 longer target time에서 꾸준히 낮아졌지만 Rephrase tail과 z→W 전달은 구간별로 달랐다. 이는 B1 raw association이며 최적 T_z 선택 근거가 아니다.",
+            "- B100×1 exploratory ablation이므로 final T_z, production setting, scientific promotion을 선정하지 않는다.",
+            "- Native는 canonical one-shot external reference이며 K8/schedule-matched Native 또는 causal target-time arm이 아니다.",
+            "- 모든 target cell은 writer 8회, cache reuse 8·append 1, W0 exact restore, FULL-FP32를 통과했다.",
+            "",
+            "request/prompt/microstep/marginal 수치는 동봉 CSV에 있으며 v2와 동일 raw identities를 사용한다.",
         ]
     )
     return "\n".join(lines) + "\n"

@@ -4,7 +4,7 @@
   "agent_id": "server4-server-head",
   "agent_role": "server-head",
   "status": "terminal_reports_complete_idle_awaiting_gh_call",
-  "updated_at": "2026-08-23T18:29:04+09:00",
+  "updated_at": "2026-08-23T18:45:21+09:00",
   "owner_session": "codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d",
   "execution_source_commit": "c1f1962937af87392a6d046d66c8d864bd54073d",
   "execution_source_tree": "79535403ea7c09d5954102813f2185107966d5a6",
@@ -18,16 +18,16 @@
     "Z30"
   ],
   "same_horizon_report": {
-    "path": "experiment-reports/servers/server4/p1r52-target-timescale-same-horizon-b100-2026-08-23-native-v2/report-ko.md",
-    "sha256": "1d68675c279089c96524b6ab882a22d058c6bc14ce97f74d21b5bcbde8a9c515",
-    "manifest_root": "7af73c8914141c33f19d2273f4e63fc8d9b6b3eecddf8164daf88e64a55e6321",
-    "receipt_identity": "88bdc26375d9ca1c5d0240affefc41994e2fb88d596a5bbf4d6d873243b2770c"
+    "path": "experiment-reports/servers/server4/p1r52-target-timescale-same-horizon-b100-2026-08-23-native-v3/report-ko.md",
+    "sha256": "9cbab02b75b4dabab67d3f71b9609447e250c7e18380c2309ab6d96fbf331502",
+    "manifest_root": "0c160dde13f6619632d7c2cf5448e583c481e969644c24601801862030c162f7",
+    "receipt_identity": "80cb84698737db39d7e231f02e260b3aba5c9eae34f30729fcf1e2fc36dfcef7"
   },
   "longer_time_report": {
-    "path": "experiment-reports/servers/server4/p1r52-target-timescale-longer-time-b100-2026-08-23-native-v2/report-ko.md",
-    "sha256": "67ed9c459e8230a8f54740f384f82778c567fc8805de422c4102f9273d40ab29",
-    "manifest_root": "282e18bde2b94d108740a5b333964cde8d5d68ce79d6e03228aaab3e4ebee904",
-    "receipt_identity": "c799dc2b0b02768ae3aea9a9845a011aaad1324ebed04af1ccc5f074b16b3df3"
+    "path": "experiment-reports/servers/server4/p1r52-target-timescale-longer-time-b100-2026-08-23-native-v3/report-ko.md",
+    "sha256": "9ca1c2797bc3b71c7e1bfb1080f9f2d5555c34a0a375068cf6da2ea66562805b",
+    "manifest_root": "8775a5633f05830c08438c7c6d343ed62d144e232f227af7ad7ecd9f059d6145",
+    "receipt_identity": "6a88a53b963666f9e9b375096c41a4690067c6fdd274a7b4034209a86471fcf9"
   },
   "native_reference": {
     "policy_provenance": "USER_DIRECTED_NATIVE_REFERENCE_RUN_OVERRIDE",
@@ -36,11 +36,14 @@
     "memit_repair_job": "23142_1_TECH_R2_COMPLETED_EXIT0",
     "accepted_z_and_post_W_measured": true,
     "report_body_post_W_omission_corrected_in": "native-v2",
+    "readability_layout_canonicalized_in": "native-v3",
     "reference_selection_influence_count": 0
   },
   "superseded_report_packages_preserved": [
     "p1r52-target-timescale-same-horizon-b100-2026-08-23-native-v1",
-    "p1r52-target-timescale-longer-time-b100-2026-08-23-native-v1"
+    "p1r52-target-timescale-longer-time-b100-2026-08-23-native-v1",
+    "p1r52-target-timescale-same-horizon-b100-2026-08-23-native-v2",
+    "p1r52-target-timescale-longer-time-b100-2026-08-23-native-v2"
   ],
   "raw_root_policy": "IMMUTABLE_IGNORED_LOCAL_REFERENCE_ONLY",
   "same_horizon_classification": "COARSE_RESOLUTION_BOTTLENECK_COMPONENT_WITH_REPHRASE_WRITER_TRANSFER_LIMIT",
