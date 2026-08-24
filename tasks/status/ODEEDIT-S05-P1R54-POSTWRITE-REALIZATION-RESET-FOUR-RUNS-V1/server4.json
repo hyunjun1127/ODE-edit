@@ -3,8 +3,8 @@
   "server": "server4",
   "agent_id": "server4-server-head",
   "agent_role": "server-head",
-  "status": "tech_r3_terminal_metadata_repair_focused_gates_pass",
-  "updated_at": "2026-08-24T19:27:46+09:00",
+  "status": "independent_b2_b10_user_expansion_pre_gpu_focused_gates_pass",
+  "updated_at": "2026-08-24T19:57:20+09:00",
   "owner_session": "codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d",
   "authoritative_contract": {
     "path": "/data/janghj/ODE-edit/local/state/p1r54-realization-reset-v1/authoritative-contract.txt",
@@ -25,6 +25,16 @@
       "FZ_RESET_SEQUENTIAL_10XB100",
       "PDZ_T1_RESET_SEQUENTIAL_10XB100"
     ]
+  },
+  "user_directed_independent_expansion": {
+    "frozen_B1_per_arm": 1,
+    "new_batch_indices": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "new_arm_count": 2,
+    "new_cell_count": 18,
+    "array": "0-17%2",
+    "entry_state": "EXACT_W0_AND_COLD_CACHE_PER_CELL",
+    "cross_batch_state_consumption_count": 0,
+    "final_denominator_per_arm": "10_BATCHES_1000_REQUESTS"
   },
   "source_base": {
     "head": "592ad5053497a2829b983e88e4a878b1b4d90d70",
@@ -85,5 +95,5 @@
   "project_gpu_cap": 4,
   "gpu_slurm_model_action_count": 4,
   "scientific_promotion": false,
-  "next_state": "COMMIT_PUSH_FINAL_PRE_GPU_AND_SUBMIT_TECH_R3"
+  "next_state": "COMMIT_PUSH_EXPANSION_FINAL_PRE_GPU_AND_SUBMIT_WITH_CAP4"
 }

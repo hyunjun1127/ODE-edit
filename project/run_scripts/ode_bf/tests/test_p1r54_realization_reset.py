@@ -9,6 +9,7 @@ from project.run_scripts.ode_bf.p1r54_realization_policy import (
 )
 from project.run_scripts.ode_bf.p1r54_realization_reset import (
     CELLS,
+    INDEPENDENT_EXPANSION_CELLS,
     ResetExecutionScope,
     _experiment_metadata,
     build_sequential_binding,
@@ -148,3 +149,18 @@ def test_terminal_metadata_is_single_collision_safe_namespace() -> None:
         assert payload["request_count"] == (
             100 if config.scope is ResetExecutionScope.INDEPENDENT_B100 else 1000
         )
+
+
+def test_independent_expansion_maps_b2_b10_for_both_arms() -> None:
+    assert len(INDEPENDENT_EXPANSION_CELLS) == 18
+    assert [item.batch_index for item in INDEPENDENT_EXPANSION_CELLS[:9]] == list(
+        range(2, 11)
+    )
+    assert [item.batch_index for item in INDEPENDENT_EXPANSION_CELLS[9:]] == list(
+        range(2, 11)
+    )
+    assert {item.arm.value for item in INDEPENDENT_EXPANSION_CELLS[:9]} == {"FZ"}
+    assert {item.arm.value for item in INDEPENDENT_EXPANSION_CELLS[9:]} == {"PDZ"}
+    assert len({item.role for item in INDEPENDENT_EXPANSION_CELLS}) == 18
+    assert len({item.result_name for item in INDEPENDENT_EXPANSION_CELLS}) == 18
+    assert all(item.batch_index != 1 for item in INDEPENDENT_EXPANSION_CELLS)

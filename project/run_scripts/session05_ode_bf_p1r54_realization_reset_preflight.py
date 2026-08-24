@@ -87,6 +87,10 @@ SOURCE_FILES = (
     "project/run_scripts/session05_ode_bf_p1r54_realization_reset_dry_plan.py",
     "project/run_scripts/session05_ode_bf_p1r54_realization_reset_preflight.py",
     "project/run_scripts/session05_ode_bf_p1r54_realization_reset_server4.sbatch",
+    "project/run_scripts/session05_ode_bf_p1r54_realization_reset_independent.py",
+    "project/run_scripts/session05_ode_bf_p1r54_realization_reset_independent_dry_plan.py",
+    "project/run_scripts/session05_ode_bf_p1r54_realization_reset_independent_preflight.py",
+    "project/run_scripts/session05_ode_bf_p1r54_realization_reset_independent_server4.sbatch",
     str(NUMERICAL_LOCK),
     "project/run_scripts/ode_bf/locks/p1r52_sequential_b100x10_stream_seal.json",
 )

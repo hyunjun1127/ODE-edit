@@ -179,7 +179,7 @@ from .p1r54_fz_c3_independent import (
     run_p1r54_fz_c3_independent,
 )
 from .p1r54_realization_reset import (
-    ROLES as P1R54_REALIZATION_RESET_ROLES,
+    ALL_ROLES as P1R54_REALIZATION_RESET_ROLES,
     expected_result_name as expected_p1r54_realization_reset_result_name,
     run_p1r54_realization_reset,
 )
