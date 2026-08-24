@@ -1,0 +1,57 @@
+{
+  "analysis_identity_sha256": "de1aec92eb3e736aa508df23f6c0b3b41c0de365ed0df8871daba13aa7acee33",
+  "baseline_rerun_count": 0,
+  "common_seal": {
+    "dtype": "FULL_FP32",
+    "endpoint_count": 10,
+    "model": "Llama-3-8B-Instruct",
+    "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+    "ordered_record_root": "af215235177d1ac07e82fadc62de7235244a82342a146c5867f673625486d0e1",
+    "request_count": 1000,
+    "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
+  },
+  "external_independent_analysis": {
+    "independent_analysis_identity": "953f7bb08b47d63e81a82c272819a59c0910248321398e5247a0d76605e4e595",
+    "independent_analysis_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server4/p1r54-fz-c3-independent-10xb100-2026-08-24-v4/analysis.json",
+    "independent_analysis_sha256": "a973cb19ac7bb4c0d3190b97ba9cb05b0fec23d19547e5c88a1e79e255564346",
+    "independent_manifest_sha256": "bd6d9c19f5c231343eebfc3cb67acecad7c68e287514b177fb7712e9d1efa30a",
+    "independent_receipt_sha256": "503961717085198ef76857435facf5bfda7ac21a581edb960c578cddf1e1abd7"
+  },
+  "external_native_baseline": {
+    "job_group": "job22759_PHASE1_GROUP",
+    "manifest_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/analysis-manifest.json",
+    "manifest_sha256": "58ee504c70e2a3a5708a937a44f1d6cdb736240e38745e021d4eb1244ba97a70",
+    "mode": "SEQUENTIAL_B1_TO_B10_W_AND_APPLICABLE_CACHE_CONTINUITY",
+    "receipt_identity": "fb9b1e9709ec8c86319e8f88a36a9d99726fd4a22177f5cf8c2cb2607347812e",
+    "receipt_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/rooted-analysis-receipt.json",
+    "receipt_sha256": "6d269759f9cc8b458e9589c1ca64fcd5362681ec5c6cf455fe6376cf4e0a1f66",
+    "report_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-factual-ko.md",
+    "report_sha256": "b93391e5c344bd5635fdd1c2f6532d41e683a88d85dabb3be21e949f05f3891b",
+    "source_head": "251e616cf95972e230ce40718e1e390ef7dc9eb4",
+    "structured_members": {
+      "rephrase-endpoint-summary.csv": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/tables/rephrase-endpoint-summary.csv",
+        "sha256": "9d20f3d337a95b5273549758053bfa6ecc8bb26faa5c73d7686c4bd28144c69f"
+      },
+      "rewrite-endpoint-summary.csv": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/tables/rewrite-endpoint-summary.csv",
+        "sha256": "a70d8f702e1c490dce0f583c65eadb8b0313546f8ed1fdd5d53f1120da38b7ee"
+      },
+      "terminal-w10-performance-comparison.json": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/tables/terminal-w10-performance-comparison.json",
+        "sha256": "2f35c71c18d60ddd874c6165644b99c3f4cb7757a6cdd2cb0ab25d096dae90fc"
+      }
+    }
+  },
+  "identity_sha256": "e49d37087c69a8c7ac47c8512bfb324e0094881bed9fc92dca3f1fe5a50120c2",
+  "imputation_count": 0,
+  "manifest_identity_sha256": "36a9b5103ef4575c0dee6af8a58d2b89299e91a49478dbb8328b3e7e881a6e0e",
+  "manifest_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server4/p1r54-fz-c3-sequential-10xb100-2026-08-24-v3/analysis-manifest.json",
+  "manifest_sha256": "1354f6dc459d5e4eec711e596df144bd5a73c0fdba6173d67237f26ea28b8837",
+  "raw_result_mutation_count": 0,
+  "report_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server4/p1r54-fz-c3-sequential-10xb100-2026-08-24-v3/report-ko.md",
+  "report_sha256": "a0de79d673a145778cab49891fd604c47ea601dce3149e7092f76897ba546ce9",
+  "schema": "ode-edit-s05-p1r54-fz-c3-sequential-rooted-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "status": "TERMINAL_NATIVE_BASELINE_REPORT_VALID"
+}

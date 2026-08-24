@@ -1,0 +1,96 @@
+{
+  "external_independent_analysis": {
+    "independent_analysis_identity": "953f7bb08b47d63e81a82c272819a59c0910248321398e5247a0d76605e4e595",
+    "independent_analysis_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server4/p1r54-fz-c3-independent-10xb100-2026-08-24-v4/analysis.json",
+    "independent_analysis_sha256": "a973cb19ac7bb4c0d3190b97ba9cb05b0fec23d19547e5c88a1e79e255564346",
+    "independent_manifest_sha256": "bd6d9c19f5c231343eebfc3cb67acecad7c68e287514b177fb7712e9d1efa30a",
+    "independent_receipt_sha256": "503961717085198ef76857435facf5bfda7ac21a581edb960c578cddf1e1abd7"
+  },
+  "external_native_baseline": {
+    "job_group": "job22759_PHASE1_GROUP",
+    "manifest_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/analysis-manifest.json",
+    "manifest_sha256": "58ee504c70e2a3a5708a937a44f1d6cdb736240e38745e021d4eb1244ba97a70",
+    "mode": "SEQUENTIAL_B1_TO_B10_W_AND_APPLICABLE_CACHE_CONTINUITY",
+    "receipt_identity": "fb9b1e9709ec8c86319e8f88a36a9d99726fd4a22177f5cf8c2cb2607347812e",
+    "receipt_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/rooted-analysis-receipt.json",
+    "receipt_sha256": "6d269759f9cc8b458e9589c1ca64fcd5362681ec5c6cf455fe6376cf4e0a1f66",
+    "report_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-factual-ko.md",
+    "report_sha256": "b93391e5c344bd5635fdd1c2f6532d41e683a88d85dabb3be21e949f05f3891b",
+    "source_head": "251e616cf95972e230ce40718e1e390ef7dc9eb4",
+    "structured_members": {
+      "rephrase-endpoint-summary.csv": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/tables/rephrase-endpoint-summary.csv",
+        "sha256": "9d20f3d337a95b5273549758053bfa6ecc8bb26faa5c73d7686c4bd28144c69f"
+      },
+      "rewrite-endpoint-summary.csv": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/tables/rewrite-endpoint-summary.csv",
+        "sha256": "a70d8f702e1c490dce0f583c65eadb8b0313546f8ed1fdd5d53f1120da38b7ee"
+      },
+      "terminal-w10-performance-comparison.json": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/tables/terminal-w10-performance-comparison.json",
+        "sha256": "2f35c71c18d60ddd874c6165644b99c3f4cb7757a6cdd2cb0ab25d096dae90fc"
+      }
+    }
+  },
+  "identity_sha256": "36a9b5103ef4575c0dee6af8a58d2b89299e91a49478dbb8328b3e7e881a6e0e",
+  "member_root_sha256": "2337de060430e86740461aab5936096acc3ede6f724ed42340a8386586e2cce8",
+  "members": [
+    {
+      "bytes": 319511,
+      "path": "analysis.json",
+      "sha256": "6551c72c6d15e15e70629e2996ac13f147128cf439b0a8ba8e7aac0074eb7846"
+    },
+    {
+      "bytes": 551,
+      "path": "cache-layer-load.csv",
+      "sha256": "67b58d3d41a3695aa17e5ce5d44955f750d26c52e6193326037ebdf70d5cf481"
+    },
+    {
+      "bytes": 935,
+      "path": "compute.csv",
+      "sha256": "a5d80c65c12a1a5db895ebabe7799960472629145f60e64cabec353a88072284"
+    },
+    {
+      "bytes": 3093,
+      "path": "endpoint-detail.csv",
+      "sha256": "d2542a730d967c6562ef20f87c8dc2b238b5ad5129bad942e522c132a5fd0034"
+    },
+    {
+      "bytes": 625,
+      "path": "forgetting.csv",
+      "sha256": "06da4d9410e3cb659e381f1fc25db7aa1463e46bce18cb6c52a2fde1a987b9e6"
+    },
+    {
+      "bytes": 19532,
+      "path": "forgetting.json",
+      "sha256": "52666a74f8b8be18d596db7fd7ddd8cef3e97de4233dd416d4573fea0e0430dd"
+    },
+    {
+      "bytes": 1187,
+      "path": "headline.csv",
+      "sha256": "f4b7a9edd65c0782f6b6f70d4546ce5ea9bbfce8140cfa99e9e38f27ccafc2f9"
+    },
+    {
+      "bytes": 1033,
+      "path": "independent-comparison.csv",
+      "sha256": "5f89af412136fa241009d2e7dd4629ba93c19bd082b86c072f32cad46e73dc8b"
+    },
+    {
+      "bytes": 26127,
+      "path": "native-baselines.json",
+      "sha256": "28879c05bd00596ca9ca75127e17805580aa240b430495679960afb9d1d71ee6"
+    },
+    {
+      "bytes": 11121,
+      "path": "report-ko.md",
+      "sha256": "a0de79d673a145778cab49891fd604c47ea601dce3149e7092f76897ba546ce9"
+    },
+    {
+      "bytes": 118403,
+      "path": "target-K.json",
+      "sha256": "b4fed3a0b7eb5c19e7fdc6ae11ae38919daf7f2e9efa4b0c183b44737885b987"
+    }
+  ],
+  "schema": "ode-edit-s05-p1r54-fz-c3-sequential-analysis-manifest/v1",
+  "scientific_promotion": false
+}

@@ -1,0 +1,884 @@
+{
+  "inputs": {
+    "job_group": "job22759_PHASE1_GROUP",
+    "manifest_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/analysis-manifest.json",
+    "manifest_sha256": "58ee504c70e2a3a5708a937a44f1d6cdb736240e38745e021d4eb1244ba97a70",
+    "mode": "SEQUENTIAL_B1_TO_B10_W_AND_APPLICABLE_CACHE_CONTINUITY",
+    "receipt_identity": "fb9b1e9709ec8c86319e8f88a36a9d99726fd4a22177f5cf8c2cb2607347812e",
+    "receipt_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/rooted-analysis-receipt.json",
+    "receipt_sha256": "6d269759f9cc8b458e9589c1ca64fcd5362681ec5c6cf455fe6376cf4e0a1f66",
+    "report_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-factual-ko.md",
+    "report_sha256": "b93391e5c344bd5635fdd1c2f6532d41e683a88d85dabb3be21e949f05f3891b",
+    "source_head": "251e616cf95972e230ce40718e1e390ef7dc9eb4",
+    "structured_members": {
+      "rephrase-endpoint-summary.csv": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/tables/rephrase-endpoint-summary.csv",
+        "sha256": "9d20f3d337a95b5273549758053bfa6ecc8bb26faa5c73d7686c4bd28144c69f"
+      },
+      "rewrite-endpoint-summary.csv": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/tables/rewrite-endpoint-summary.csv",
+        "sha256": "a70d8f702e1c490dce0f583c65eadb8b0313546f8ed1fdd5d53f1120da38b7ee"
+      },
+      "terminal-w10-performance-comparison.json": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/tables/terminal-w10-performance-comparison.json",
+        "sha256": "2f35c71c18d60ddd874c6165644b99c3f4cb7757a6cdd2cb0ab25d096dae90fc"
+      }
+    }
+  },
+  "methods": {
+    "OFFICIAL-ALPHAEDIT-CACHE": {
+      "accepted_z": {
+        "performance": {
+          "Eff": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "Gen": {
+            "denominator": 2000,
+            "numerator": 1987,
+            "rate": 0.9935
+          },
+          "Gen_strict": {
+            "denominator": 1000,
+            "numerator": 988,
+            "rate": 0.988
+          },
+          "Loc": {
+            "denominator": null,
+            "numerator": null,
+            "rate": null
+          },
+          "Rephrase_accuracy": {
+            "denominator": 2000,
+            "numerator": 1631,
+            "rate": 0.8155
+          },
+          "Rephrase_strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 694,
+            "rate": 0.694
+          },
+          "Rewrite_accuracy": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          }
+        },
+        "rephrase": {
+          "accuracy": {
+            "denominator": 2000,
+            "numerator": 1631,
+            "rate": 0.8155
+          },
+          "strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 694,
+            "rate": 0.694
+          },
+          "strict_success": {
+            "denominator": 1000,
+            "numerator": 988,
+            "rate": 0.988
+          },
+          "success": {
+            "denominator": 2000,
+            "numerator": 1987,
+            "rate": 0.9935
+          },
+          "target_new": {
+            "count": null,
+            "max": 12.862534523010254,
+            "mean": 0.7976907307744578,
+            "median": 0.06925876706372947,
+            "p90_nearest_rank": 2.721581995487213
+          },
+          "target_true": {
+            "count": null,
+            "max": 24.27603054046631,
+            "mean": 12.183187448585405,
+            "median": 11.778221607208252,
+            "p90_nearest_rank": 17.39711284637451
+          }
+        },
+        "rewrite": {
+          "accuracy": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "strict_success": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "success": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "target_new": {
+            "count": null,
+            "max": 0.025194421410560608,
+            "mean": 0.0013915438221733893,
+            "median": 0.0007433511782437563,
+            "p90_nearest_rank": 0.0033570146188139915
+          },
+          "target_true": {
+            "count": null,
+            "max": 31.449064254760742,
+            "mean": 15.196513225078583,
+            "median": 14.896466255187988,
+            "p90_nearest_rank": 20.951120376586914
+          }
+        }
+      },
+      "compute": {
+        "field_forward_selector_writer_materialization_counts": "NOT_RECORDED_IN_PINNED_V5_PACKAGE",
+        "job_total_seconds": 14890.526
+      },
+      "final_W": {
+        "NLL": "NOT_RECORDED_IN_PINNED_FINAL_W10_PACKAGE",
+        "performance": {
+          "Eff": {
+            "denominator": 1000,
+            "numerator": 994,
+            "rate": 0.994
+          },
+          "Gen": {
+            "denominator": 2000,
+            "numerator": 1934,
+            "rate": 0.967
+          },
+          "Gen_strict": {
+            "denominator": 1000,
+            "numerator": 943,
+            "rate": 0.943
+          },
+          "Loc": {
+            "denominator": 10000,
+            "numerator": 7810,
+            "rate": 0.781
+          },
+          "Rephrase_accuracy": {
+            "denominator": 2000,
+            "numerator": 1494,
+            "rate": 0.747
+          },
+          "Rewrite_accuracy": {
+            "denominator": 1000,
+            "numerator": 992,
+            "rate": 0.992
+          }
+        }
+      },
+      "label": "Official AlphaEdit-cache",
+      "per_batch": "NOT_RECORDED_IN_PINNED_V5_PACKAGE",
+      "post_W": {
+        "performance": {
+          "Eff": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "Gen": {
+            "denominator": 2000,
+            "numerator": 1948,
+            "rate": 0.974
+          },
+          "Gen_strict": {
+            "denominator": 1000,
+            "numerator": 955,
+            "rate": 0.955
+          },
+          "Loc": {
+            "denominator": null,
+            "numerator": null,
+            "rate": null
+          },
+          "Rephrase_accuracy": {
+            "denominator": 2000,
+            "numerator": 1511,
+            "rate": 0.7555
+          },
+          "Rephrase_strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 613,
+            "rate": 0.613
+          },
+          "Rewrite_accuracy": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          }
+        },
+        "rephrase": {
+          "accuracy": {
+            "denominator": 2000,
+            "numerator": 1511,
+            "rate": 0.7555
+          },
+          "strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 613,
+            "rate": 0.613
+          },
+          "strict_success": {
+            "denominator": 1000,
+            "numerator": 955,
+            "rate": 0.955
+          },
+          "success": {
+            "denominator": 2000,
+            "numerator": 1948,
+            "rate": 0.974
+          },
+          "target_new": {
+            "count": null,
+            "max": 13.746431350708008,
+            "mean": 1.1592758414183608,
+            "median": 0.2907789424061775,
+            "p90_nearest_rank": 3.3864146806299686
+          },
+          "target_true": {
+            "count": null,
+            "max": 23.082350730895996,
+            "mean": 10.758104332764255,
+            "median": 10.754892110824585,
+            "p90_nearest_rank": 15.675660133361816
+          }
+        },
+        "rewrite": {
+          "accuracy": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "strict_success": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "success": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "target_new": {
+            "count": null,
+            "max": 0.02607957273721695,
+            "mean": 0.0014925836953384533,
+            "median": 0.0008041276014409959,
+            "p90_nearest_rank": 0.003581777447834611
+          },
+          "target_true": {
+            "count": null,
+            "max": 31.112592697143555,
+            "mean": 15.100299176216126,
+            "median": 14.8002347946167,
+            "p90_nearest_rank": 20.819164276123047
+          }
+        }
+      },
+      "source_head": "251e616cf95972e230ce40718e1e390ef7dc9eb4",
+      "z_provenance": "NATIVE_ALPHAEDIT_Z"
+    },
+    "OFFICIAL-MEMIT": {
+      "accepted_z": {
+        "performance": {
+          "Eff": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "Gen": {
+            "denominator": 2000,
+            "numerator": 1980,
+            "rate": 0.99
+          },
+          "Gen_strict": {
+            "denominator": 1000,
+            "numerator": 981,
+            "rate": 0.981
+          },
+          "Loc": {
+            "denominator": null,
+            "numerator": null,
+            "rate": null
+          },
+          "Rephrase_accuracy": {
+            "denominator": 2000,
+            "numerator": 1626,
+            "rate": 0.813
+          },
+          "Rephrase_strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 689,
+            "rate": 0.689
+          },
+          "Rewrite_accuracy": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          }
+        },
+        "rephrase": {
+          "accuracy": {
+            "denominator": 2000,
+            "numerator": 1626,
+            "rate": 0.813
+          },
+          "strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 689,
+            "rate": 0.689
+          },
+          "strict_success": {
+            "denominator": 1000,
+            "numerator": 981,
+            "rate": 0.981
+          },
+          "success": {
+            "denominator": 2000,
+            "numerator": 1980,
+            "rate": 0.99
+          },
+          "target_new": {
+            "count": null,
+            "max": 12.733782768249512,
+            "mean": 0.7717991034221341,
+            "median": 0.0817473437928129,
+            "p90_nearest_rank": 2.6468722596764565
+          },
+          "target_true": {
+            "count": null,
+            "max": 24.677602767944336,
+            "mean": 11.586471787825227,
+            "median": 11.335656642913818,
+            "p90_nearest_rank": 16.863792419433594
+          }
+        },
+        "rewrite": {
+          "accuracy": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "strict_success": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "success": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "target_new": {
+            "count": null,
+            "max": 0.043855756521224976,
+            "mean": 0.002096798793733342,
+            "median": 0.000902960222447291,
+            "p90_nearest_rank": 0.004588788375258446
+          },
+          "target_true": {
+            "count": null,
+            "max": 27.45424461364746,
+            "mean": 14.776315965175629,
+            "median": 14.372349262237549,
+            "p90_nearest_rank": 20.241044998168945
+          }
+        }
+      },
+      "compute": {
+        "field_forward_selector_writer_materialization_counts": "NOT_RECORDED_IN_PINNED_V5_PACKAGE",
+        "job_total_seconds": 13845.522
+      },
+      "final_W": {
+        "NLL": "NOT_RECORDED_IN_PINNED_FINAL_W10_PACKAGE",
+        "performance": {
+          "Eff": {
+            "denominator": 1000,
+            "numerator": 954,
+            "rate": 0.954
+          },
+          "Gen": {
+            "denominator": 2000,
+            "numerator": 1807,
+            "rate": 0.9035
+          },
+          "Gen_strict": {
+            "denominator": 1000,
+            "numerator": 861,
+            "rate": 0.861
+          },
+          "Loc": {
+            "denominator": 10000,
+            "numerator": 7239,
+            "rate": 0.7239
+          },
+          "Rephrase_accuracy": {
+            "denominator": 2000,
+            "numerator": 1294,
+            "rate": 0.647
+          },
+          "Rewrite_accuracy": {
+            "denominator": 1000,
+            "numerator": 840,
+            "rate": 0.84
+          }
+        }
+      },
+      "label": "Native MEMIT",
+      "per_batch": "NOT_RECORDED_IN_PINNED_V5_PACKAGE",
+      "post_W": {
+        "performance": {
+          "Eff": {
+            "denominator": 1000,
+            "numerator": 996,
+            "rate": 0.996
+          },
+          "Gen": {
+            "denominator": 2000,
+            "numerator": 1841,
+            "rate": 0.9205
+          },
+          "Gen_strict": {
+            "denominator": 1000,
+            "numerator": 879,
+            "rate": 0.879
+          },
+          "Loc": {
+            "denominator": null,
+            "numerator": null,
+            "rate": null
+          },
+          "Rephrase_accuracy": {
+            "denominator": 2000,
+            "numerator": 1344,
+            "rate": 0.672
+          },
+          "Rephrase_strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 528,
+            "rate": 0.528
+          },
+          "Rewrite_accuracy": {
+            "denominator": 1000,
+            "numerator": 989,
+            "rate": 0.989
+          }
+        },
+        "rephrase": {
+          "accuracy": {
+            "denominator": 2000,
+            "numerator": 1344,
+            "rate": 0.672
+          },
+          "strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 528,
+            "rate": 0.528
+          },
+          "strict_success": {
+            "denominator": 1000,
+            "numerator": 879,
+            "rate": 0.879
+          },
+          "success": {
+            "denominator": 2000,
+            "numerator": 1841,
+            "rate": 0.9205
+          },
+          "target_new": {
+            "count": null,
+            "max": 18.988174438476562,
+            "mean": 1.6781503709262944,
+            "median": 0.6032406305894256,
+            "p90_nearest_rank": 4.716974973678589
+          },
+          "target_true": {
+            "count": null,
+            "max": 21.984386444091797,
+            "mean": 9.28681953659316,
+            "median": 9.209508299827576,
+            "p90_nearest_rank": 14.49013900756836
+          }
+        },
+        "rewrite": {
+          "accuracy": {
+            "denominator": 1000,
+            "numerator": 989,
+            "rate": 0.989
+          },
+          "strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 989,
+            "rate": 0.989
+          },
+          "strict_success": {
+            "denominator": 1000,
+            "numerator": 996,
+            "rate": 0.996
+          },
+          "success": {
+            "denominator": 1000,
+            "numerator": 996,
+            "rate": 0.996
+          },
+          "target_new": {
+            "count": null,
+            "max": 12.664019584655762,
+            "mean": 0.07658723756304425,
+            "median": 0.003204451175406575,
+            "p90_nearest_rank": 0.022911004722118378
+          },
+          "target_true": {
+            "count": null,
+            "max": 24.849830627441406,
+            "mean": 12.895130016531795,
+            "median": 12.687969207763672,
+            "p90_nearest_rank": 18.405181884765625
+          }
+        }
+      },
+      "source_head": "251e616cf95972e230ce40718e1e390ef7dc9eb4",
+      "z_provenance": "NATIVE_MEMIT_LATENT_Z"
+    },
+    "P1R54-FZ-SEQUENTIAL": {
+      "accepted_z": {
+        "performance": {
+          "Eff": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "Gen": {
+            "denominator": 2000,
+            "numerator": 1933,
+            "rate": 0.9665
+          },
+          "Gen_strict": {
+            "denominator": 1000,
+            "numerator": 941,
+            "rate": 0.941
+          },
+          "Loc": {
+            "denominator": 10000,
+            "numerator": 8637,
+            "rate": 0.8637
+          },
+          "Rephrase_accuracy": {
+            "denominator": 2000,
+            "numerator": 1471,
+            "rate": 0.7355
+          },
+          "Rephrase_strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 591,
+            "rate": 0.591
+          },
+          "Rewrite_accuracy": {
+            "denominator": 1000,
+            "numerator": 998,
+            "rate": 0.998
+          }
+        },
+        "rephrase": {
+          "accuracy": {
+            "denominator": 2000,
+            "numerator": 1471,
+            "rate": 0.7355
+          },
+          "strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 591,
+            "rate": 0.591
+          },
+          "strict_success": {
+            "denominator": 1000,
+            "numerator": 941,
+            "rate": 0.941
+          },
+          "success": {
+            "denominator": 2000,
+            "numerator": 1933,
+            "rate": 0.9665
+          },
+          "target_new": {
+            "count": 2000,
+            "max": 21.40110969543457,
+            "mean": 1.2650328017407673,
+            "median": 0.06551201641559601,
+            "nonfinite_count": 0,
+            "p90_nearest_rank": 4.6607537269592285,
+            "sum": 2530.0656034815347
+          },
+          "target_true": {
+            "count": 2000,
+            "max": 27.655797958374023,
+            "mean": 10.604269796693115,
+            "median": 10.390417098999023,
+            "nonfinite_count": 0,
+            "p90_nearest_rank": 16.28145980834961,
+            "sum": 21208.53959338623
+          }
+        },
+        "rewrite": {
+          "accuracy": {
+            "denominator": 1000,
+            "numerator": 998,
+            "rate": 0.998
+          },
+          "strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 998,
+            "rate": 0.998
+          },
+          "strict_success": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "success": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "target_new": {
+            "count": 1000,
+            "max": 2.775531768798828,
+            "mean": 0.008817008990365138,
+            "median": 0.0006174922455102205,
+            "nonfinite_count": 0,
+            "p90_nearest_rank": 0.004827629309147596,
+            "sum": 8.817008990365139
+          },
+          "target_true": {
+            "count": 1000,
+            "max": 28.37030601501465,
+            "mean": 14.519902227401733,
+            "median": 14.051020622253418,
+            "nonfinite_count": 0,
+            "p90_nearest_rank": 19.6837158203125,
+            "sum": 14519.902227401733
+          }
+        }
+      },
+      "final_W": {
+        "NLL": {
+          "rephrase_target_new_nll": {
+            "count": 2000,
+            "max": 17.947860717773438,
+            "mean": 2.306030945784841,
+            "median": 0.5941270887851715,
+            "nonfinite_count": 0,
+            "p90_nearest_rank": 7.233588695526123,
+            "sum": 4612.061891569681
+          },
+          "rephrase_target_true_nll": {
+            "count": 2000,
+            "max": 25.379133224487305,
+            "mean": 8.516335408237063,
+            "median": 8.230486392974854,
+            "nonfinite_count": 0,
+            "p90_nearest_rank": 14.528118133544922,
+            "sum": 17032.67081647413
+          },
+          "rewrite_target_new_nll": {
+            "count": 1000,
+            "max": 8.71495246887207,
+            "mean": 0.018627236681428825,
+            "median": 0.0005799638165626675,
+            "nonfinite_count": 0,
+            "p90_nearest_rank": 0.005624540150165558,
+            "sum": 18.627236681428826
+          },
+          "rewrite_target_true_nll": {
+            "count": 1000,
+            "max": 30.16880226135254,
+            "mean": 14.51783628463745,
+            "median": 14.114929676055908,
+            "nonfinite_count": 0,
+            "p90_nearest_rank": 20.189289093017578,
+            "sum": 14517.836284637451
+          }
+        },
+        "performance": {
+          "Eff": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "Gen": {
+            "denominator": 2000,
+            "numerator": 1699,
+            "rate": 0.8495
+          },
+          "Gen_strict": {
+            "denominator": 1000,
+            "numerator": 756,
+            "rate": 0.756
+          },
+          "Loc": {
+            "denominator": 10000,
+            "numerator": 8453,
+            "rate": 0.8453
+          },
+          "Rephrase_accuracy": {
+            "denominator": 2000,
+            "numerator": 1161,
+            "rate": 0.5805
+          },
+          "Rephrase_strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 410,
+            "rate": 0.41
+          },
+          "Rewrite_accuracy": {
+            "denominator": 1000,
+            "numerator": 997,
+            "rate": 0.997
+          }
+        }
+      },
+      "label": "P1R54 FZ-SEQUENTIAL",
+      "post_W": {
+        "performance": {
+          "Eff": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "Gen": {
+            "denominator": 2000,
+            "numerator": 1703,
+            "rate": 0.8515
+          },
+          "Gen_strict": {
+            "denominator": 1000,
+            "numerator": 761,
+            "rate": 0.761
+          },
+          "Loc": {
+            "denominator": 10000,
+            "numerator": 8638,
+            "rate": 0.8638
+          },
+          "Rephrase_accuracy": {
+            "denominator": 2000,
+            "numerator": 1148,
+            "rate": 0.574
+          },
+          "Rephrase_strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 401,
+            "rate": 0.401
+          },
+          "Rewrite_accuracy": {
+            "denominator": 1000,
+            "numerator": 998,
+            "rate": 0.998
+          }
+        },
+        "rephrase": {
+          "accuracy": {
+            "denominator": 2000,
+            "numerator": 1148,
+            "rate": 0.574
+          },
+          "strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 401,
+            "rate": 0.401
+          },
+          "strict_success": {
+            "denominator": 1000,
+            "numerator": 761,
+            "rate": 0.761
+          },
+          "success": {
+            "denominator": 2000,
+            "numerator": 1703,
+            "rate": 0.8515
+          },
+          "target_new": {
+            "count": 2000,
+            "max": 18.269323348999023,
+            "mean": 2.343741464740332,
+            "median": 0.6284839510917664,
+            "nonfinite_count": 0,
+            "p90_nearest_rank": 7.347599029541016,
+            "sum": 4687.482929480664
+          },
+          "target_true": {
+            "count": 2000,
+            "max": 25.353164672851562,
+            "mean": 8.485302196355711,
+            "median": 8.24233865737915,
+            "nonfinite_count": 0,
+            "p90_nearest_rank": 14.347277641296387,
+            "sum": 16970.604392711422
+          }
+        },
+        "rewrite": {
+          "accuracy": {
+            "denominator": 1000,
+            "numerator": 998,
+            "rate": 0.998
+          },
+          "strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 998,
+            "rate": 0.998
+          },
+          "strict_success": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "success": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "target_new": {
+            "count": 1000,
+            "max": 2.7645864486694336,
+            "mean": 0.008849255667660145,
+            "median": 0.0006179092160891742,
+            "nonfinite_count": 0,
+            "p90_nearest_rank": 0.0048966724425554276,
+            "sum": 8.849255667660145
+          },
+          "target_true": {
+            "count": 1000,
+            "max": 28.348249435424805,
+            "mean": 14.514567356586456,
+            "median": 14.001203060150146,
+            "nonfinite_count": 0,
+            "p90_nearest_rank": 19.708972930908203,
+            "sum": 14514.567356586456
+          }
+        }
+      },
+      "source_head": "6b7364f4caf3b3fbead83a3f5bcb8c39a79b38f5",
+      "z_provenance": "P1R54_FZ_ACCEPTED_Z"
+    }
+  }
+}

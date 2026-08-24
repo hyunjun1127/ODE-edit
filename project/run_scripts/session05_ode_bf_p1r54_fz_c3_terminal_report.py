@@ -561,6 +561,9 @@ def _report_text(mode: str, methods: Mapping[str, Any], analysis: Mapping[str, A
         for row in analysis["forgetting_immediate_to_final_W10"]["rows"]:
             lines.append(f"|{row['batch_index']}|{row['rewrite_final_W10_minus_immediate_W_target_new_nll']['mean']:.6f}|{row['rephrase_final_W10_minus_immediate_W_target_new_nll']['mean']:.6f}|{row['rewrite_immediate_success_to_final_failure']}|{row['rephrase_immediate_success_to_final_failure']}|")
         lines += ["", "Cache entry widths는 0→900, exit widths는 100→1000이며 성공 batch당 append1, 총 append10/consume80이다. B_r commit hash와 B_(r+1) entry hash는 9/9 exact 일치했고 종료 후 W0 bytes를 복원했다."]
+        lines += ["", "### 최종 W10 NLL 분포", "", "|method|prompt|target-new mean/median/p90/max|target-true mean/median/p90/max|", "|---|---|---:|---:|", "|Official AlphaEdit-cache|rewrite/rephrase|NOT_RECORDED_IN_PINNED_FINAL_W10_PACKAGE|NOT_RECORDED_IN_PINNED_FINAL_W10_PACKAGE|", "|Native MEMIT|rewrite/rephrase|NOT_RECORDED_IN_PINNED_FINAL_W10_PACKAGE|NOT_RECORDED_IN_PINNED_FINAL_W10_PACKAGE|"]
+        for prompt in ("rewrite", "rephrase"):
+            lines.append(f"|P1R54 FZ-SEQUENTIAL|{prompt}|{_fmt_dist(analysis['final_W10'][f'{prompt}_target_new_nll'])}|{_fmt_dist(analysis['final_W10'][f'{prompt}_target_true_nll'])}|")
         comparison = analysis["independent_comparison"]
         lines += ["", "### 동일 FZ Independent 대비 descriptive delta (Sequential−Independent)", "", "|B|z rewrite Δ|z rephrase Δ|immediate W rewrite Δ|immediate W rephrase Δ|", "|---:|---:|---:|---:|---:|"]
         for row in comparison["by_batch"]:
@@ -721,9 +724,25 @@ def build_package(
     for path in sorted(output_dir.iterdir()):
         members.append({"path": path.name, "bytes": path.stat().st_size, "sha256": sha256_file(path)})
     manifest: dict[str, Any] = {"schema": f"ode-edit-s05-p1r54-fz-c3-{mode}-analysis-manifest/v1", "members": members, "member_root_sha256": canonical_hash([[row["path"], row["bytes"], row["sha256"]] for row in members]), "external_native_baseline": baseline_inputs, "scientific_promotion": False}
+    if mode == "sequential":
+        comparison = analysis["independent_comparison"]
+        manifest["external_independent_analysis"] = {
+            key: comparison[key]
+            for key in (
+                "independent_analysis_path",
+                "independent_analysis_sha256",
+                "independent_analysis_identity",
+                "independent_manifest_sha256",
+                "independent_receipt_sha256",
+            )
+        }
     manifest["identity_sha256"] = canonical_hash(manifest)
     _write_once(output_dir / "analysis-manifest.json", json.dumps(manifest, ensure_ascii=False, sort_keys=True, indent=2) + "\n")
     receipt: dict[str, Any] = {"schema": f"ode-edit-s05-p1r54-fz-c3-{mode}-rooted-analysis-receipt/v1", "status": "TERMINAL_NATIVE_BASELINE_REPORT_VALID", "analysis_identity_sha256": analysis["identity_sha256"], "manifest_path": str(output_dir / "analysis-manifest.json"), "manifest_sha256": sha256_file(output_dir / "analysis-manifest.json"), "manifest_identity_sha256": manifest["identity_sha256"], "report_path": str(output_dir / "report-ko.md"), "report_sha256": sha256_file(output_dir / "report-ko.md"), "external_native_baseline": baseline_inputs, "common_seal": analysis["common_seal"], "raw_result_mutation_count": 0, "baseline_rerun_count": 0, "imputation_count": 0, "scientific_promotion": False}
+    if mode == "sequential":
+        receipt["external_independent_analysis"] = manifest[
+            "external_independent_analysis"
+        ]
     receipt["identity_sha256"] = canonical_hash(receipt)
     _write_once(output_dir / "rooted-receipt.json", json.dumps(receipt, ensure_ascii=False, sort_keys=True, indent=2) + "\n")
     return {"status": receipt["status"], "output_dir": str(output_dir), "report_sha256": receipt["report_sha256"], "manifest_sha256": receipt["manifest_sha256"], "receipt_sha256": sha256_file(output_dir / "rooted-receipt.json"), "receipt_identity_sha256": receipt["identity_sha256"]}
