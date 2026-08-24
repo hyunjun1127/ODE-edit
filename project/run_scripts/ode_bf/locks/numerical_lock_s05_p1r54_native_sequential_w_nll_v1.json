@@ -1,5 +1,5 @@
 {
-  "schema": "ode-edit-s05-p1r54-native-sequential-w-nll-numerical-lock/tech-r2-v1",
+  "schema": "ode-edit-s05-p1r54-native-sequential-w-nll-numerical-lock/tech-r3-v1",
   "instruction_id": "ODEEDIT-S05-P1R54-NATIVE-SEQUENTIAL-W-NLL-BACKFILL-V1",
   "technical_attempt": "TECH-R2",
   "excluded_technical_attempts": [
@@ -14,11 +14,18 @@
       "classification": "PURE_TECHNICAL_PRE_MODEL_RUNTIME_CAPACITY_OVERRIDE_SCOPE",
       "failure_sha256": "c87de08d16e42d6c1a78b6eca8ecaadb18f17a7c1e7c282e0ecce34d2f55b5ba",
       "scientific_denominator_inclusion_count": 0
+    },
+    {
+      "job": "24225_0",
+      "classification": "PURE_TECHNICAL_PRE_MODEL_NONSTANDARD_RESULT_PARENT",
+      "failure_sha256": "0a91e412254b9acdf261029e61be2ddae9993f2a7e5b817708e75abac19d8dd8",
+      "scientific_denominator_inclusion_count": 0
     }
   ],
   "technical_repair": {
     "local_session_boundary_added_ignored_only": true,
     "server4_capacity_validator_allowed_for_existing_phase1_roles": true,
+    "runtime_standard_result_parent_reused": true,
     "default_capacity_validator_behavior_unchanged": true,
     "science_stream_evaluator_change_count": 0
   },
@@ -50,5 +57,5 @@
   "fz_sequential_rerun_count": 0,
   "result_selection_or_imputation_count": 0,
   "scientific_promotion": false,
-  "root_digest": "403f9bf3f0c0f29d45d6d6084efa061ed50ca20c5fa57b88a12c172a7a0f2abe"
+  "root_digest": "fce63f19dcc9ce151def27a4f90b7c026c8ef564facce0934be746802b189890"
 }

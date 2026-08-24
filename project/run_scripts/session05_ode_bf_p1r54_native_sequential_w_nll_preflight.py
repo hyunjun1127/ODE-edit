@@ -135,7 +135,13 @@ def build_receipt(
         or os.environ.get("PROJECT_GPU_CAP", str(PROJECT_GPU_CAP)) != str(PROJECT_GPU_CAP)
         or result_parent.is_symlink()
         or not result_parent.is_dir()
-        or any(result_parent.iterdir())
+        or result_parent.resolve()
+        != (REPO_ROOT / "local/odebf/results").resolve(strict=False)
+        or any(
+            (result_parent / item.result_name).exists()
+            or (result_parent / item.result_name).is_symlink()
+            for item in CELLS
+        )
     ):
         raise ODEBFContractError("native sequential W-NLL host/source/result/cap differs")
 
