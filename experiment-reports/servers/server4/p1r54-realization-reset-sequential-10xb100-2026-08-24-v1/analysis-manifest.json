@@ -1,0 +1,51 @@
+{
+  "identity_sha256": "00b0f23c708801174e9bd3fdbc380fc98a87f4715af09b7ba52faf149fcfda3d",
+  "member_root": "1c762808454f8aeefbd313af7711aa72fcf934656810e9c7e79360ac4ca5f154",
+  "members": [
+    {
+      "bytes": 351217,
+      "name": "analysis.json",
+      "sha256": "27f4edbb4875421a347f4367ebb82add6a1f0d0f300a67911eccd7e877bf6b4b"
+    },
+    {
+      "bytes": 2751,
+      "name": "by-batch.csv",
+      "sha256": "d0a5dbe2a4cd2bc1a4dd4a7961dfee6def9e0b78fcbf19ab4be5351d9f159947"
+    },
+    {
+      "bytes": 222,
+      "name": "compute.csv",
+      "sha256": "962bfa7fad720fbc7504ad745dd2271cc7f30b09c3807d277a102f484d2b8d75"
+    },
+    {
+      "bytes": 7423,
+      "name": "endpoint-detail.csv",
+      "sha256": "4b38dae34540470c931be7e96d708df5789ba081ca8bd1cbec4fe3818666de14"
+    },
+    {
+      "bytes": 70289,
+      "name": "external-inputs.json",
+      "sha256": "24d525b0d99123723647350a3b1e6b7ada9939b81899e991bf8c3c83e9e8bdef"
+    },
+    {
+      "bytes": 1656,
+      "name": "headline.csv",
+      "sha256": "f923b85e7c37d0e16a87d3ae959d40a9b9a6279915fdc33f73fe70471a8c3da4"
+    },
+    {
+      "bytes": 3022,
+      "name": "report-ko.md",
+      "sha256": "520034e40168427750242ce60ea833adb8cba0f6f49114b7aaf029d5f1931b95"
+    },
+    {
+      "bytes": 4488,
+      "name": "reset-by-k.csv",
+      "sha256": "094858c9c1d38868f4d2fd50c53581b418ff4483ee2929739ec9f17f2396ff12"
+    }
+  ],
+  "package": "p1r54-realization-reset-sequential-10xb100-2026-08-24-v1",
+  "schema": "p1r54-reset-report-manifest/v1",
+  "scientific_promotion": false,
+  "source": "0620115fd1a3f6b41e7541b2532fe9d4f860b360",
+  "tree": "1d7dcf95d2327400dea1dafd5386be392bf5d81d"
+}

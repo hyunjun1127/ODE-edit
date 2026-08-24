@@ -1,0 +1,13 @@
+{
+  "analysis_sha256": "6c7b7621095cfeb07e7620854a557ba316b167d05e92120296fb3aedd91e6f8c",
+  "identity_sha256": "15b659991020dfe3d3c640b5bf9fa37be2873e6b998749f3df9f56d310d5b10c",
+  "manifest_identity": "454056beb8aa170e607cf9b741044ce3e39e7b1de513b583e1771f9fae56150c",
+  "manifest_sha256": "4b9ec6a15c410ac33986ded67984e2a39624d64e0a23be305e7f1c14424da310",
+  "member_root": "ba407980c11836379edf91e3ff54a7cbe11731fc41cfe93a8da6f6698c1347a3",
+  "package": "p1r54-realization-reset-independent-b1b10-2026-08-24-v1",
+  "raw_mutation": 0,
+  "report_sha256": "dd20712a7311cf008b2eb20ce0f703488bedc7aa0eebec2716bef259c8c99408",
+  "schema": "p1r54-reset-report-receipt/v1",
+  "scientific_promotion": false,
+  "source_mutation": 0
+}

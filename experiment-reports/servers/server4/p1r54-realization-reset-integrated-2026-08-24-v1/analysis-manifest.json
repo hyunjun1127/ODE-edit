@@ -1,0 +1,36 @@
+{
+  "identity_sha256": "6fe8fdf899855d52b32b44459d744f1c52ecf93aabe6e71abfd34033f905148e",
+  "member_root": "5524cf1e17de3e193ca66d4b2a5dce15a22f9f0f06583066499b3a2908962294",
+  "members": [
+    {
+      "bytes": 1189,
+      "name": "analysis.json",
+      "sha256": "ac24d11dc64995ec8b8dca1126da9b32cc85cb8cf3a12a29cd8ea6685172d434"
+    },
+    {
+      "bytes": 2085,
+      "name": "independent-headline.csv",
+      "sha256": "153fb7e3afa13fcd36d45b12df69ff023918c153ad6630b51403a127efe5eb16"
+    },
+    {
+      "bytes": 269,
+      "name": "mode-deltas.csv",
+      "sha256": "955ab7c5180529d78442f4425e2be4769f9c778ed8fddde80941cc9830cc3dde"
+    },
+    {
+      "bytes": 3176,
+      "name": "report-ko.md",
+      "sha256": "e26144bcba2b70f8e6acac89a30c0d383225a912fa6490bc3bfe4587257e4ad7"
+    },
+    {
+      "bytes": 1656,
+      "name": "sequential-headline.csv",
+      "sha256": "f923b85e7c37d0e16a87d3ae959d40a9b9a6279915fdc33f73fe70471a8c3da4"
+    }
+  ],
+  "package": "p1r54-realization-reset-integrated-2026-08-24-v1",
+  "schema": "p1r54-reset-report-manifest/v1",
+  "scientific_promotion": false,
+  "source": "0620115fd1a3f6b41e7541b2532fe9d4f860b360",
+  "tree": "1d7dcf95d2327400dea1dafd5386be392bf5d81d"
+}

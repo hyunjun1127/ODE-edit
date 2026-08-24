@@ -1,0 +1,3 @@
+arm,model_forward,field,writer,layer,wall_seconds,peak_gpu_memory,layer_parameter_update_energy
+FZ,7880,80,80,400,10189.61749845557,NOT_RECORDED,NOT_RECORDED
+PDZ,7880,80,80,400,10728.498741814867,NOT_RECORDED,NOT_RECORDED
