@@ -6,6 +6,7 @@ import unittest
 
 from project.run_scripts.ode_bf.p1r52_c_writer_phase1_sequential import run_phase1
 from project.run_scripts.ode_bf.p1r52_sequential_runtime import run_p1r52_sequential
+from project.run_scripts.ode_bf.p1_runtime import run_p1
 from project.run_scripts.ode_bf.p1r54_native_sequential_w_nll import (
     CELLS,
     STREAM_ORDER,
@@ -60,6 +61,14 @@ class NativeSequentialWNLLTests(unittest.TestCase):
         self.assertEqual(receipt["stream_or_evaluator_change_count"], 0)
         self.assertEqual(receipt["new_native_arm_count"], 0)
         self.assertEqual(receipt["required_request_count_per_cell"], 1000)
+
+    def test_capacity_override_is_scoped_to_existing_phase1_roles(self) -> None:
+        source = inspect.getsource(run_p1)
+        start = source.index("if runtime_gpu_capacity_validator is not None")
+        end = source.index("p3r1_fp32_mode =", start)
+        scope = source[start:end]
+        self.assertIn("is_phase1_role(p1r52_sequential_role)", scope)
+        self.assertIn("runtime GPU capacity override scope differs", scope)
 
     def test_server4_sbatch_is_exact_two_cell_cap4(self) -> None:
         path = Path(__file__).resolve().parents[2] / "session05_ode_bf_p1r54_native_sequential_w_nll_server4.sbatch"

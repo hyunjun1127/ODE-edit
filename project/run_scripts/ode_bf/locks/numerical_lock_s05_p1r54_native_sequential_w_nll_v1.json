@@ -1,6 +1,27 @@
 {
-  "schema": "ode-edit-s05-p1r54-native-sequential-w-nll-numerical-lock/v1",
+  "schema": "ode-edit-s05-p1r54-native-sequential-w-nll-numerical-lock/tech-r2-v1",
   "instruction_id": "ODEEDIT-S05-P1R54-NATIVE-SEQUENTIAL-W-NLL-BACKFILL-V1",
+  "technical_attempt": "TECH-R2",
+  "excluded_technical_attempts": [
+    {
+      "job": "24210_[0-1]",
+      "classification": "PURE_TECHNICAL_PRE_MODEL_MISSING_LOCAL_SESSION_BOUNDARY",
+      "slurm_log_sha256": "9191a0e0d311e85d85feda4ebab0c5e50a35c78b4b154c9ebbfa0ebc3eb936bc",
+      "scientific_denominator_inclusion_count": 0
+    },
+    {
+      "job": "24213_0",
+      "classification": "PURE_TECHNICAL_PRE_MODEL_RUNTIME_CAPACITY_OVERRIDE_SCOPE",
+      "failure_sha256": "c87de08d16e42d6c1a78b6eca8ecaadb18f17a7c1e7c282e0ecce34d2f55b5ba",
+      "scientific_denominator_inclusion_count": 0
+    }
+  ],
+  "technical_repair": {
+    "local_session_boundary_added_ignored_only": true,
+    "server4_capacity_validator_allowed_for_existing_phase1_roles": true,
+    "default_capacity_validator_behavior_unchanged": true,
+    "science_stream_evaluator_change_count": 0
+  },
   "provenance": "DIRECT_USER_REQUEST_MISSING_BASELINE_FINAL_W_NLL",
   "model_alias": "llama3-8b-inst",
   "dtype": "FULL_FP32",
@@ -29,5 +50,5 @@
   "fz_sequential_rerun_count": 0,
   "result_selection_or_imputation_count": 0,
   "scientific_promotion": false,
-  "root_digest": "a5d98dbe67a2ad91d83f518f32a7615a64fbd27bd26d76f5d9f45aa35d1c5c59"
+  "root_digest": "403f9bf3f0c0f29d45d6d6084efa061ed50ca20c5fa57b88a12c172a7a0f2abe"
 }

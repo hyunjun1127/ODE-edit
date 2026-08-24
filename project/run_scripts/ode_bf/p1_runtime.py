@@ -3305,7 +3305,8 @@ def run_p1(
         or is_p1r54_fz_finalz_oneshot_role(p1r52_sequential_role)
     )
     if runtime_gpu_capacity_validator is not None and not (
-        is_target_timescale_role(p1r52_sequential_role)
+        is_phase1_role(p1r52_sequential_role)
+        or is_target_timescale_role(p1r52_sequential_role)
         or is_target_timescale_native_reference_role(p1r52_sequential_role)
         or is_p1r53_role(p1r52_sequential_role)
         or is_p1r54_role(p1r52_sequential_role)
