@@ -1,0 +1,15 @@
+{
+  "analysis_sha256": "fcea4d6d5b25d49c210f3c10ae96503105b2ffd2b1a4fcff3e2f315c3d93798f",
+  "external_input_root": "4abcbea4801dd93ac1aec8db0ca5343b6424bb4c42b291660fe16a93ccc0f3e0",
+  "identity_sha256": "97ba522f48d5a456513abe9c31fada6ff3b22745d8f939dc284f22ed68f44fb3",
+  "imputation_count": 0,
+  "manifest_identity": "f13afdf7919384ec2a88bd21ddbd11521e380769249ef095f1786d1db278f46b",
+  "manifest_sha256": "acd2c25090ef7fdc89f8240ae4d0be360a096f7e1eb2a4f21474c04e0d9c181e",
+  "member_root": "0b27d856454e18687d6cef4cabe6d04e42969a896abb1f6322a3f215860adf82",
+  "package": "p1r54-realization-reset-sequential-10xb100-2026-08-25-v2",
+  "raw_mutation": 0,
+  "report_sha256": "ab98ae395b60c228f0ac0f79e46636f0f8092caa801f711233aec8faa31d4574",
+  "schema": "p1r54-reset-report-receipt/v2",
+  "scientific_promotion": false,
+  "source_mutation": 0
+}

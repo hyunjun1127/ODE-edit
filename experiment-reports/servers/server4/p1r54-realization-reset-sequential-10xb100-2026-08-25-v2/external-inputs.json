@@ -1,0 +1,2058 @@
+{
+  "baseline_final_W10_NLL_backfill": [
+    {
+      "imputation_count": 0,
+      "method": "OFFICIAL-ALPHAEDIT-CACHE",
+      "request_denominator": 1000,
+      "source_bytes": 3163574,
+      "source_path": "/data/janghj/ODE-edit/local/state/p1r54-native-seq-finalw10-backfill-v1/alphaedit/immediate-post-final-w10-requests.json",
+      "source_sha256": "fe2310e31545cc5da019661f278420638d7292970e0a87a323afa9f7dff4e21d"
+    },
+    {
+      "imputation_count": 0,
+      "method": "OFFICIAL-MEMIT",
+      "request_denominator": 1000,
+      "source_bytes": 3149957,
+      "source_path": "/data/janghj/ODE-edit/local/state/p1r54-native-seq-finalw10-backfill-v1/memit/immediate-post-final-w10-requests.json",
+      "source_sha256": "eb2c3ef08fc41ed65490e9c23f7c50ce1d8927b53f7f586e13c262370c55febf"
+    },
+    {
+      "imputation_count": 0,
+      "method": "P1R54-FZ-SEQUENTIAL",
+      "request_denominator": 1000,
+      "source_bytes": 796315,
+      "source_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-sequential-10xb100-v1/local/odebf/results/s05-p1r54-fz-c3-sequential-10xb100-v1/raw/final-w10.json",
+      "source_sha256": "7f90dc19fbf02164c55406a8149ad77e72357597081127f4ed0b1b248e3d378b"
+    }
+  ],
+  "controls": {
+    "FZ": {
+      "W": {
+        "by_batch": [
+          {
+            "batch_index": 1,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 182,
+                "rate": 0.91
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 85,
+                "rate": 0.85
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 834,
+                "rate": 0.834
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 122,
+                "rate": 0.61
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 43,
+                "rate": 0.43
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 98,
+                "rate": 0.98
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 15.25960636138916,
+              "mean": 1.8906105870962346,
+              "median": 0.45269130170345306,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 5.086021423339844,
+              "sum": 378.12211741924693
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 22.93257713317871,
+              "mean": 9.08704936102964,
+              "median": 9.318235874176025,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 13.936677932739258,
+              "sum": 1817.409872205928
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 2.787477493286133,
+              "mean": 0.05007246925708387,
+              "median": 0.001139527652412653,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.014853950589895248,
+              "sum": 5.007246925708387
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 25.654571533203125,
+              "mean": 14.072043867111207,
+              "median": 13.702755451202393,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 19.050395965576172,
+              "sum": 1407.2043867111206
+            }
+          },
+          {
+            "batch_index": 2,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 176,
+                "rate": 0.88
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 80,
+                "rate": 0.8
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 867,
+                "rate": 0.867
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 118,
+                "rate": 0.59
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 42,
+                "rate": 0.42
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 17.947860717773438,
+              "mean": 2.1232632582132647,
+              "median": 0.7869875729084015,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 6.369230270385742,
+              "sum": 424.6526516426529
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 22.831087112426758,
+              "mean": 9.288194942772389,
+              "median": 9.270841121673584,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 15.334515571594238,
+              "sum": 1857.6389885544777
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.22753718495368958,
+              "mean": 0.007739707444194437,
+              "median": 0.0006936766149010509,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.007785807363688946,
+              "sum": 0.7739707444194437
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 30.16880226135254,
+              "mean": 14.89084324836731,
+              "median": 14.167311191558838,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 20.003726959228516,
+              "sum": 1489.084324836731
+            }
+          },
+          {
+            "batch_index": 3,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 163,
+                "rate": 0.815
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 71,
+                "rate": 0.71
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 864,
+                "rate": 0.864
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 116,
+                "rate": 0.58
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 40,
+                "rate": 0.4
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 14.775378227233887,
+              "mean": 2.3606864114294877,
+              "median": 0.7848864495754242,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 6.828086853027344,
+              "sum": 472.1372822858975
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 23.795501708984375,
+              "mean": 7.823589788116514,
+              "median": 7.429795980453491,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 12.940402030944824,
+              "sum": 1564.717957623303
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.33273160457611084,
+              "mean": 0.007558696432997749,
+              "median": 0.000638042576611042,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.007847077213227749,
+              "sum": 0.7558696432997749
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 25.399518966674805,
+              "mean": 13.62491271018982,
+              "median": 12.826735496520996,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 20.849018096923828,
+              "sum": 1362.491271018982
+            }
+          },
+          {
+            "batch_index": 4,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 174,
+                "rate": 0.87
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 78,
+                "rate": 0.78
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 842,
+                "rate": 0.842
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 119,
+                "rate": 0.595
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 44,
+                "rate": 0.44
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 99,
+                "rate": 0.99
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 14.616618156433105,
+              "mean": 2.320495809068707,
+              "median": 0.5761218965053558,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 7.536843776702881,
+              "sum": 464.0991618137414
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 23.079608917236328,
+              "mean": 8.241391060966999,
+              "median": 8.008217811584473,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 13.64011287689209,
+              "sum": 1648.2782121933997
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 8.71495246887207,
+              "mean": 0.09549866609817399,
+              "median": 0.0004916174366371706,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.006491644773632288,
+              "sum": 9.5498666098174
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 23.180252075195312,
+              "mean": 14.455193476676941,
+              "median": 13.975920677185059,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 19.91057586669922,
+              "sum": 1445.519347667694
+            }
+          },
+          {
+            "batch_index": 5,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 168,
+                "rate": 0.84
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 76,
+                "rate": 0.76
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 842,
+                "rate": 0.842
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 114,
+                "rate": 0.57
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 39,
+                "rate": 0.39
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 15.550031661987305,
+              "mean": 2.3523117895977337,
+              "median": 0.4459579437971115,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 7.24342155456543,
+              "sum": 470.4623579195468
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 21.963211059570312,
+              "mean": 8.42176555391401,
+              "median": 8.133095741271973,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 14.732969284057617,
+              "sum": 1684.353110782802
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.10673002153635025,
+              "mean": 0.0026177321891009343,
+              "median": 0.000607186695560813,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.0032619622070342302,
+              "sum": 0.2617732189100934
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 24.755496978759766,
+              "mean": 14.294493217468261,
+              "median": 14.139639854431152,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 20.105745315551758,
+              "sum": 1429.4493217468262
+            }
+          },
+          {
+            "batch_index": 6,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 167,
+                "rate": 0.835
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 73,
+                "rate": 0.73
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 807,
+                "rate": 0.807
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 102,
+                "rate": 0.51
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 34,
+                "rate": 0.34
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 15.684829711914062,
+              "mean": 2.6744380914953947,
+              "median": 0.9627484977245331,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 7.462254524230957,
+              "sum": 534.8876182990789
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 22.6141357421875,
+              "mean": 8.250255408789963,
+              "median": 7.899131774902344,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 13.881402015686035,
+              "sum": 1650.0510817579925
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.017169762402772903,
+              "mean": 0.001173887897525674,
+              "median": 0.000457837653812021,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.0022639615926891565,
+              "sum": 0.11738878975256739
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 25.021438598632812,
+              "mean": 14.969917688369751,
+              "median": 14.64739179611206,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 20.557044982910156,
+              "sum": 1496.991768836975
+            }
+          },
+          {
+            "batch_index": 7,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 166,
+                "rate": 0.83
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 74,
+                "rate": 0.74
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 851,
+                "rate": 0.851
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 116,
+                "rate": 0.58
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 41,
+                "rate": 0.41
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 14.444679260253906,
+              "mean": 2.320177077176595,
+              "median": 0.7681145370006561,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 7.316340446472168,
+              "sum": 464.035415435319
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 21.206220626831055,
+              "mean": 8.608077015746385,
+              "median": 7.752443552017212,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 14.22948169708252,
+              "sum": 1721.615403149277
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.02763766050338745,
+              "mean": 0.0017871296096518563,
+              "median": 0.0006195175228640437,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.003577382303774357,
+              "sum": 0.17871296096518563
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 24.090227127075195,
+              "mean": 15.424282779693604,
+              "median": 15.032969951629639,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 20.442718505859375,
+              "sum": 1542.4282779693604
+            }
+          },
+          {
+            "batch_index": 8,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 175,
+                "rate": 0.875
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 79,
+                "rate": 0.79
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 809,
+                "rate": 0.809
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 115,
+                "rate": 0.575
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 42,
+                "rate": 0.42
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 17.24639129638672,
+              "mean": 2.302542522267795,
+              "median": 0.47516578435897827,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 6.984671115875244,
+              "sum": 460.508504453559
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 25.379133224487305,
+              "mean": 8.773447876546998,
+              "median": 8.250308513641357,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 15.427541732788086,
+              "sum": 1754.6895753093995
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.35897618532180786,
+              "mean": 0.004929313668235409,
+              "median": 0.00044878186599817127,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.0023203373420983553,
+              "sum": 0.4929313668235409
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 24.136552810668945,
+              "mean": 14.717691679000854,
+              "median": 13.995976448059082,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 19.17576026916504,
+              "sum": 1471.7691679000854
+            }
+          },
+          {
+            "batch_index": 9,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 168,
+                "rate": 0.84
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 73,
+                "rate": 0.73
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 852,
+                "rate": 0.852
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 125,
+                "rate": 0.625
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 45,
+                "rate": 0.45
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 12.260150909423828,
+              "mean": 1.9773124244487281,
+              "median": 0.3337172865867615,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 6.6658453941345215,
+              "sum": 395.4624848897456
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 22.422643661499023,
+              "mean": 9.002448199391365,
+              "median": 8.969956398010254,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 15.361235618591309,
+              "sum": 1800.489639878273
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 1.1328634023666382,
+              "mean": 0.0127719331859862,
+              "median": 0.0005576247640419751,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.0022651508916169405,
+              "sum": 1.27719331859862
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 28.03141212463379,
+              "mean": 14.63594132423401,
+              "median": 14.029093742370605,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 19.227346420288086,
+              "sum": 1463.5941324234009
+            }
+          },
+          {
+            "batch_index": 10,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 160,
+                "rate": 0.8
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 67,
+                "rate": 0.67
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 885,
+                "rate": 0.885
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 114,
+                "rate": 0.57
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 40,
+                "rate": 0.4
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 14.615684509277344,
+              "mean": 2.7384714870544666,
+              "median": 0.7717560529708862,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 8.57278823852539,
+              "sum": 547.6942974108933
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 23.948360443115234,
+              "mean": 7.667134875096381,
+              "median": 7.1955060958862305,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 13.693524360656738,
+              "sum": 1533.4269750192761
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.03522757068276405,
+              "mean": 0.0021228310313381373,
+              "median": 0.0005709686374757439,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.005147892981767654,
+              "sum": 0.2122831031338137
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 22.990478515625,
+              "mean": 14.093042855262757,
+              "median": 13.814913272857666,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 19.101293563842773,
+              "sum": 1409.3042855262756
+            }
+          }
+        ],
+        "performance": {
+          "Eff": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "Gen": {
+            "denominator": 2000,
+            "numerator": 1699,
+            "rate": 0.8495
+          },
+          "Gen_strict": {
+            "denominator": 1000,
+            "numerator": 756,
+            "rate": 0.756
+          },
+          "Loc": {
+            "denominator": 10000,
+            "numerator": 8453,
+            "rate": 0.8453
+          },
+          "Rephrase_accuracy": {
+            "denominator": 2000,
+            "numerator": 1161,
+            "rate": 0.5805
+          },
+          "Rephrase_strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 410,
+            "rate": 0.41
+          },
+          "Rewrite_accuracy": {
+            "denominator": 1000,
+            "numerator": 997,
+            "rate": 0.997
+          }
+        },
+        "rephrase_target_new_nll": {
+          "count": 2000,
+          "max": 17.947860717773438,
+          "mean": 2.306030945784841,
+          "median": 0.5941270887851715,
+          "nonfinite_count": 0,
+          "p90_nearest_rank": 7.233588695526123,
+          "sum": 4612.061891569681
+        },
+        "rephrase_target_true_nll": {
+          "count": 2000,
+          "max": 25.379133224487305,
+          "mean": 8.516335408237063,
+          "median": 8.230486392974854,
+          "nonfinite_count": 0,
+          "p90_nearest_rank": 14.528118133544922,
+          "sum": 17032.67081647413
+        },
+        "rewrite_target_new_nll": {
+          "count": 1000,
+          "max": 8.71495246887207,
+          "mean": 0.018627236681428825,
+          "median": 0.0005799638165626675,
+          "nonfinite_count": 0,
+          "p90_nearest_rank": 0.005624540150165558,
+          "sum": 18.627236681428826
+        },
+        "rewrite_target_true_nll": {
+          "count": 1000,
+          "max": 30.16880226135254,
+          "mean": 14.51783628463745,
+          "median": 14.114929676055908,
+          "nonfinite_count": 0,
+          "p90_nearest_rank": 20.189289093017578,
+          "sum": 14517.836284637451
+        }
+      },
+      "sha": "6551c72c6d15e15e70629e2996ac13f147128cf439b0a8ba8e7aac0074eb7846",
+      "status": "EXACT_FULL",
+      "z": {
+        "Eff_Gen_Loc": {
+          "Eff": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "Gen": {
+            "denominator": 2000,
+            "numerator": 1933,
+            "rate": 0.9665
+          },
+          "Loc": {
+            "denominator": 10000,
+            "numerator": 8637,
+            "rate": 0.8637
+          }
+        },
+        "by_batch": [
+          {
+            "Eff_Gen_Loc": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 196,
+                "rate": 0.98
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 892,
+                "rate": 0.892
+              }
+            },
+            "batch_index": 1,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 196,
+                "rate": 0.98
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 97,
+                "rate": 0.97
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 892,
+                "rate": 0.892
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 140,
+                "rate": 0.7
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 55,
+                "rate": 0.55
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 98,
+                "rate": 0.98
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 10.709609031677246,
+              "mean": 1.2749256088755283,
+              "median": 0.08403219282627106,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 4.434688091278076,
+              "sum": 254.98512177510565
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 21.83785629272461,
+              "mean": 11.098135681003333,
+              "median": 11.420191764831543,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 15.636419296264648,
+              "sum": 2219.6271362006664
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 2.775531768798828,
+              "mean": 0.048273141012105045,
+              "median": 0.001016934053041041,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.016203733161091805,
+              "sum": 4.827314101210504
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 24.135387420654297,
+              "mean": 14.045874400138855,
+              "median": 13.536025524139404,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 19.370567321777344,
+              "sum": 1404.5874400138855
+            }
+          },
+          {
+            "Eff_Gen_Loc": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 198,
+                "rate": 0.99
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 911,
+                "rate": 0.911
+              }
+            },
+            "batch_index": 2,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 198,
+                "rate": 0.99
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 98,
+                "rate": 0.98
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 911,
+                "rate": 0.911
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 144,
+                "rate": 0.72
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 56,
+                "rate": 0.56
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 14.724187850952148,
+              "mean": 1.3106374567607417,
+              "median": 0.15353059023618698,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 4.391482353210449,
+              "sum": 262.12749135214835
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 27.655797958374023,
+              "mean": 10.966959646940232,
+              "median": 10.747280597686768,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 16.20292854309082,
+              "sum": 2193.3919293880463
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.09332349896430969,
+              "mean": 0.004441725192114063,
+              "median": 0.0008764590893406421,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.00953394640237093,
+              "sum": 0.4441725192114063
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 28.37030601501465,
+              "mean": 14.806967391967774,
+              "median": 14.234506130218506,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 19.471105575561523,
+              "sum": 1480.6967391967773
+            }
+          },
+          {
+            "Eff_Gen_Loc": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 194,
+                "rate": 0.97
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 888,
+                "rate": 0.888
+              }
+            },
+            "batch_index": 3,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 194,
+                "rate": 0.97
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 94,
+                "rate": 0.94
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 888,
+                "rate": 0.888
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 144,
+                "rate": 0.72
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 56,
+                "rate": 0.56
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 12.65184211730957,
+              "mean": 1.2828539475441358,
+              "median": 0.08369439467787743,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 5.159169673919678,
+              "sum": 256.57078950882715
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 24.83051109313965,
+              "mean": 9.881339184045792,
+              "median": 9.238857746124268,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 16.622421264648438,
+              "sum": 1976.2678368091583
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.2845633924007416,
+              "mean": 0.005348124371639642,
+              "median": 0.000626844324870035,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.006039346568286419,
+              "sum": 0.5348124371639642
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 24.916704177856445,
+              "mean": 13.899678564071655,
+              "median": 12.834598064422607,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 19.52052879333496,
+              "sum": 1389.9678564071655
+            }
+          },
+          {
+            "Eff_Gen_Loc": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 190,
+                "rate": 0.95
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 846,
+                "rate": 0.846
+              }
+            },
+            "batch_index": 4,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 190,
+                "rate": 0.95
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 92,
+                "rate": 0.92
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 846,
+                "rate": 0.846
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 146,
+                "rate": 0.73
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 58,
+                "rate": 0.58
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 14.760530471801758,
+              "mean": 1.381513380606084,
+              "median": 0.06806647405028343,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 5.377796649932861,
+              "sum": 276.3026761212168
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 22.549760818481445,
+              "mean": 10.480905699133872,
+              "median": 10.512415885925293,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 16.2012882232666,
+              "sum": 2096.1811398267746
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.05537492781877518,
+              "mean": 0.0029068253513105445,
+              "median": 0.0005212253163335845,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.006113164126873016,
+              "sum": 0.29068253513105446
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 23.737913131713867,
+              "mean": 14.66440577030182,
+              "median": 14.313603401184082,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 19.61285400390625,
+              "sum": 1466.4405770301819
+            }
+          },
+          {
+            "Eff_Gen_Loc": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 194,
+                "rate": 0.97
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 869,
+                "rate": 0.869
+              }
+            },
+            "batch_index": 5,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 194,
+                "rate": 0.97
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 95,
+                "rate": 0.95
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 869,
+                "rate": 0.869
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 148,
+                "rate": 0.74
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 61,
+                "rate": 0.61
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 11.39081859588623,
+              "mean": 1.3171309810337517,
+              "median": 0.04610673524439335,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 4.744964122772217,
+              "sum": 263.4261962067503
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 22.164085388183594,
+              "mean": 10.313627154827119,
+              "median": 10.308217525482178,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 16.013608932495117,
+              "sum": 2062.7254309654236
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.03153881058096886,
+              "mean": 0.0018244921154837357,
+              "median": 0.000638221186818555,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.0026749325916171074,
+              "sum": 0.18244921154837357
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 24.33390998840332,
+              "mean": 14.230429544448853,
+              "median": 13.983368873596191,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 19.785947799682617,
+              "sum": 1423.0429544448853
+            }
+          },
+          {
+            "Eff_Gen_Loc": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 194,
+                "rate": 0.97
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 814,
+                "rate": 0.814
+              }
+            },
+            "batch_index": 6,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 194,
+                "rate": 0.97
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 94,
+                "rate": 0.94
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 814,
+                "rate": 0.814
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 148,
+                "rate": 0.74
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 59,
+                "rate": 0.59
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 9.143342971801758,
+              "mean": 1.1632549110942545,
+              "median": 0.06296923756599426,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 4.613886833190918,
+              "sum": 232.6509822188509
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 22.00598907470703,
+              "mean": 10.759409113824368,
+              "median": 10.66836929321289,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 16.48543930053711,
+              "sum": 2151.8818227648735
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.018611442297697067,
+              "mean": 0.001101468064457549,
+              "median": 0.0004683231672970578,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.002062814310193062,
+              "sum": 0.11014680644575492
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 25.262088775634766,
+              "mean": 14.962046771049499,
+              "median": 14.393417358398438,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 20.428951263427734,
+              "sum": 1496.20467710495
+            }
+          },
+          {
+            "Eff_Gen_Loc": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 189,
+                "rate": 0.945
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 861,
+                "rate": 0.861
+              }
+            },
+            "batch_index": 7,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 189,
+                "rate": 0.945
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 89,
+                "rate": 0.89
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 861,
+                "rate": 0.861
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 151,
+                "rate": 0.755
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 61,
+                "rate": 0.61
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 21.40110969543457,
+              "mean": 1.316989479065669,
+              "median": 0.06138383410871029,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 4.610246181488037,
+              "sum": 263.3978958131338
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 23.530071258544922,
+              "mean": 11.033546106219292,
+              "median": 10.662665367126465,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 17.118663787841797,
+              "sum": 2206.7092212438583
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.04432126507163048,
+              "mean": 0.0020269096444008026,
+              "median": 0.0006531130929943174,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.0035511308815330267,
+              "sum": 0.20269096444008028
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 24.55421257019043,
+              "mean": 15.279231629371644,
+              "median": 15.059563636779785,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 20.197322845458984,
+              "sum": 1527.9231629371643
+            }
+          },
+          {
+            "Eff_Gen_Loc": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 193,
+                "rate": 0.965
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 815,
+                "rate": 0.815
+              }
+            },
+            "batch_index": 8,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 193,
+                "rate": 0.965
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 94,
+                "rate": 0.94
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 815,
+                "rate": 0.815
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 149,
+                "rate": 0.745
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 60,
+                "rate": 0.6
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 13.544966697692871,
+              "mean": 1.2468254079289272,
+              "median": 0.0572376549243927,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 4.750722885131836,
+              "sum": 249.36508158578545
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 25.488962173461914,
+              "mean": 10.434671327248216,
+              "median": 10.156839847564697,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 15.858269691467285,
+              "sum": 2086.934265449643
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.3435826599597931,
+              "mean": 0.005001188757523778,
+              "median": 0.000433827648521401,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.0021168221719563007,
+              "sum": 0.5001188757523778
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 24.27825164794922,
+              "mean": 14.588590788841248,
+              "median": 13.835043907165527,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 18.514482498168945,
+              "sum": 1458.8590788841248
+            }
+          },
+          {
+            "Eff_Gen_Loc": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 195,
+                "rate": 0.975
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 856,
+                "rate": 0.856
+              }
+            },
+            "batch_index": 9,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 195,
+                "rate": 0.975
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 96,
+                "rate": 0.96
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 856,
+                "rate": 0.856
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 152,
+                "rate": 0.76
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 63,
+                "rate": 0.63
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 9.62840461730957,
+              "mean": 1.0160890279703745,
+              "median": 0.028238109312951565,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 4.263484954833984,
+              "sum": 203.2178055940749
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 24.206300735473633,
+              "mean": 11.309482954144478,
+              "median": 11.371894359588623,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 16.956377029418945,
+              "sum": 2261.8965908288956
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 1.3665088415145874,
+              "mean": 0.015123579022538252,
+              "median": 0.0005747216055169702,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.0022877492010593414,
+              "sum": 1.5123579022538252
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 27.985551834106445,
+              "mean": 14.620995140075683,
+              "median": 14.075358867645264,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 19.135711669921875,
+              "sum": 1462.0995140075684
+            }
+          },
+          {
+            "Eff_Gen_Loc": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 190,
+                "rate": 0.95
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 885,
+                "rate": 0.885
+              }
+            },
+            "batch_index": 10,
+            "performance": {
+              "Eff": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              },
+              "Gen": {
+                "denominator": 200,
+                "numerator": 190,
+                "rate": 0.95
+              },
+              "Gen_strict": {
+                "denominator": 100,
+                "numerator": 92,
+                "rate": 0.92
+              },
+              "Loc": {
+                "denominator": 1000,
+                "numerator": 885,
+                "rate": 0.885
+              },
+              "Rephrase_accuracy": {
+                "denominator": 200,
+                "numerator": 149,
+                "rate": 0.745
+              },
+              "Rephrase_strict_accuracy": {
+                "denominator": 100,
+                "numerator": 62,
+                "rate": 0.62
+              },
+              "Rewrite_accuracy": {
+                "denominator": 100,
+                "numerator": 100,
+                "rate": 1.0
+              }
+            },
+            "rephrase_target_new_nll": {
+              "count": 200,
+              "max": 10.444141387939453,
+              "mean": 1.340107816528207,
+              "median": 0.11029237136244774,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 4.0196638107299805,
+              "sum": 268.0215633056414
+            },
+            "rephrase_target_true_nll": {
+              "count": 200,
+              "max": 22.457988739013672,
+              "mean": 9.764621099544456,
+              "median": 9.50275182723999,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 15.595154762268066,
+              "sum": 1952.9242199088912
+            },
+            "rewrite_target_new_nll": {
+              "count": 100,
+              "max": 0.03675045445561409,
+              "mean": 0.002122636372077977,
+              "median": 0.000591401185374707,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 0.004794173873960972,
+              "sum": 0.21226363720779773
+            },
+            "rewrite_target_true_nll": {
+              "count": 100,
+              "max": 22.679533004760742,
+              "mean": 14.100802273750306,
+              "median": 13.817296981811523,
+              "nonfinite_count": 0,
+              "p90_nearest_rank": 19.073009490966797,
+              "sum": 1410.0802273750305
+            }
+          }
+        ],
+        "performance": {
+          "Eff": {
+            "denominator": 1000,
+            "numerator": 1000,
+            "rate": 1.0
+          },
+          "Gen": {
+            "denominator": 2000,
+            "numerator": 1933,
+            "rate": 0.9665
+          },
+          "Gen_strict": {
+            "denominator": 1000,
+            "numerator": 941,
+            "rate": 0.941
+          },
+          "Loc": {
+            "denominator": 10000,
+            "numerator": 8637,
+            "rate": 0.8637
+          },
+          "Rephrase_accuracy": {
+            "denominator": 2000,
+            "numerator": 1471,
+            "rate": 0.7355
+          },
+          "Rephrase_strict_accuracy": {
+            "denominator": 1000,
+            "numerator": 591,
+            "rate": 0.591
+          },
+          "Rewrite_accuracy": {
+            "denominator": 1000,
+            "numerator": 998,
+            "rate": 0.998
+          }
+        },
+        "rephrase_target_new_nll": {
+          "count": 2000,
+          "max": 21.40110969543457,
+          "mean": 1.2650328017407673,
+          "median": 0.06551201641559601,
+          "nonfinite_count": 0,
+          "p90_nearest_rank": 4.6607537269592285,
+          "sum": 2530.0656034815347
+        },
+        "rephrase_target_true_nll": {
+          "count": 2000,
+          "max": 27.655797958374023,
+          "mean": 10.604269796693115,
+          "median": 10.390417098999023,
+          "nonfinite_count": 0,
+          "p90_nearest_rank": 16.28145980834961,
+          "sum": 21208.53959338623
+        },
+        "rewrite_target_new_nll": {
+          "count": 1000,
+          "max": 2.775531768798828,
+          "mean": 0.008817008990365138,
+          "median": 0.0006174922455102205,
+          "nonfinite_count": 0,
+          "p90_nearest_rank": 0.004827629309147596,
+          "sum": 8.817008990365139
+        },
+        "rewrite_target_true_nll": {
+          "count": 1000,
+          "max": 28.37030601501465,
+          "mean": 14.519902227401733,
+          "median": 14.051020622253418,
+          "nonfinite_count": 0,
+          "p90_nearest_rank": 19.6837158203125,
+          "sum": 14519.902227401733
+        }
+      }
+    },
+    "PDZ": {
+      "status": "ABSENT_CONTROL"
+    }
+  },
+  "identity_sha256": "791aff2a9f1612905016559b7eef885bb5f6197cba80e10a32c4433015d1a906",
+  "native": {
+    "job_group": "job22759_PHASE1_GROUP",
+    "manifest_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/analysis-manifest.json",
+    "manifest_sha256": "58ee504c70e2a3a5708a937a44f1d6cdb736240e38745e021d4eb1244ba97a70",
+    "mode": "SEQUENTIAL_B1_TO_B10_W_AND_APPLICABLE_CACHE_CONTINUITY",
+    "receipt_identity": "fb9b1e9709ec8c86319e8f88a36a9d99726fd4a22177f5cf8c2cb2607347812e",
+    "receipt_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/rooted-analysis-receipt.json",
+    "receipt_sha256": "6d269759f9cc8b458e9589c1ca64fcd5362681ec5c6cf455fe6376cf4e0a1f66",
+    "report_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/p1r52-c-writer-phase1-full-fp32-sequential-tech-r1-exhaustive-factual-ko.md",
+    "report_sha256": "b93391e5c344bd5635fdd1c2f6532d41e683a88d85dabb3be21e949f05f3891b",
+    "source_head": "251e616cf95972e230ce40718e1e390ef7dc9eb4",
+    "structured_members": {
+      "rephrase-endpoint-summary.csv": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/tables/rephrase-endpoint-summary.csv",
+        "sha256": "9d20f3d337a95b5273549758053bfa6ecc8bb26faa5c73d7686c4bd28144c69f"
+      },
+      "rewrite-endpoint-summary.csv": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/tables/rewrite-endpoint-summary.csv",
+        "sha256": "a70d8f702e1c490dce0f583c65eadb8b0313546f8ed1fdd5d53f1120da38b7ee"
+      },
+      "terminal-w10-performance-comparison.json": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-terminal-reports-v1/experiment-reports/servers/server1/2026-08-23-p1r52-c-writer-phase1/final-presentation-v5/tables/terminal-w10-performance-comparison.json",
+        "sha256": "2f35c71c18d60ddd874c6165644b99c3f4cb7757a6cdd2cb0ab25d096dae90fc"
+      }
+    }
+  },
+  "raw": [
+    {
+      "bytes": 7669,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1/terminal.json",
+      "sha256": "f87e7ae463942cb0aedb3c4183e76a69ab8bb0ca1cabb0bf22abe1ea41db61c2"
+    },
+    {
+      "bytes": 1180,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1/manifest.json",
+      "sha256": "4dbf8c75baaaf6ad9348ef6785ce49c17406fe4f5c21d22ea07fcea2360eba44"
+    },
+    {
+      "bytes": 796212,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1/raw/final-w10.json",
+      "sha256": "18a8a3f104bab02938539a86dafb218dbb316a1180813d119b95a1bf463c8d21"
+    },
+    {
+      "bytes": 4918172,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1/raw/batches/b01/terminal.json",
+      "sha256": "3d2f27bd5a8f75ffda37b6c6017a152528997bc069861ef161952de00848a05f"
+    },
+    {
+      "bytes": 4942289,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1/raw/batches/b02/terminal.json",
+      "sha256": "9245dffdab85ad1e1733f24e4b1b7a17f1c4957791f08a90acb30627ec875cd7"
+    },
+    {
+      "bytes": 4943023,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1/raw/batches/b03/terminal.json",
+      "sha256": "366bbb1e73ab43c8a559640841df0e90c79646154a7a9950155b229c7b634722"
+    },
+    {
+      "bytes": 4954345,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1/raw/batches/b04/terminal.json",
+      "sha256": "b2cc353939e006a254027c9caa0ce17e6b0daef80946d46f48e8f8ccdf8fc383"
+    },
+    {
+      "bytes": 4966916,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1/raw/batches/b05/terminal.json",
+      "sha256": "1c4d1ff7b7ac1b0aab2e8254141b2dd966e1079e376563787b213585f53a14d2"
+    },
+    {
+      "bytes": 4963195,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1/raw/batches/b06/terminal.json",
+      "sha256": "d4fd230f23c2cda7b7f7a127a0a76f588a0c1c770e943266c6c0187688c53e95"
+    },
+    {
+      "bytes": 4956374,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1/raw/batches/b07/terminal.json",
+      "sha256": "2f2728d7eb4cd79f17c96b49fae5f6ea00d6bccfc2ca110a148e6634136bff1c"
+    },
+    {
+      "bytes": 4980136,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1/raw/batches/b08/terminal.json",
+      "sha256": "438fde617c3dbadc2e11d581c8929f8fe9cb1e60f4e26aa4f218d49b8d83a484"
+    },
+    {
+      "bytes": 4961980,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1/raw/batches/b09/terminal.json",
+      "sha256": "b550a3f576117b29864f9aac0b7ae9cdf7b634d4fdec65d138cbe1f51b5ed6f6"
+    },
+    {
+      "bytes": 4953807,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1/raw/batches/b10/terminal.json",
+      "sha256": "53d094c342837b00bcd2b6f2edee5153cd2ab4a43f7ee0fbc26fae7aaf55f605"
+    },
+    {
+      "bytes": 7694,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1/terminal.json",
+      "sha256": "39a7c625249f240514cc5d62a2b199f45ec80ad03396d442adfda862ae91f020"
+    },
+    {
+      "bytes": 1185,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1/manifest.json",
+      "sha256": "9e0d4784146f2f7be069eb2e9b029d8838b472b89fe7055f92be99b10076be71"
+    },
+    {
+      "bytes": 787540,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1/raw/final-w10.json",
+      "sha256": "0de927f367b2fd3d7ee9a55fe8438876888a3ff40bd409373d37ffb1bcf8b0a3"
+    },
+    {
+      "bytes": 5036187,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1/raw/batches/b01/terminal.json",
+      "sha256": "8e4c6ce1d58eedee458e54839d4a4bbfec06a1d6ef33fb8a1f1a13c9c57c008c"
+    },
+    {
+      "bytes": 5063042,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1/raw/batches/b02/terminal.json",
+      "sha256": "7e0849a009a21db38997d184bb23dbd9a3ad3c75e6d7bbe7e42137c8bbbe0e32"
+    },
+    {
+      "bytes": 5062283,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1/raw/batches/b03/terminal.json",
+      "sha256": "95da8bfe1bcc52147e7003ba0d67cd3a2788ff1e80c2d77a36998ba6f41a2cbf"
+    },
+    {
+      "bytes": 5076071,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1/raw/batches/b04/terminal.json",
+      "sha256": "41ca3ddccbfc8d1776d760121c520c3e4e28da085b26f10cb3b1f8f21331a67c"
+    },
+    {
+      "bytes": 5077940,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1/raw/batches/b05/terminal.json",
+      "sha256": "fb662c9b3ad1470746df5d8587cfe52e2045ac83403da7e492088c718b060d3b"
+    },
+    {
+      "bytes": 5086423,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1/raw/batches/b06/terminal.json",
+      "sha256": "072633ddc3c451293312fc2f0a7d5267a4194182421c1d3ce3c802402d4a9111"
+    },
+    {
+      "bytes": 5083575,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1/raw/batches/b07/terminal.json",
+      "sha256": "a6226d485830d7ca8dd4ba3052d21141874ae12a183ae21b7f349c4e6f52b2a6"
+    },
+    {
+      "bytes": 5106125,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1/raw/batches/b08/terminal.json",
+      "sha256": "5be14b58eed5239671bdb35d6e8456f0a1cd9c450fb6a89e451837fd20ed40b7"
+    },
+    {
+      "bytes": 5102673,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1/raw/batches/b09/terminal.json",
+      "sha256": "66a362816c68b0f823bc441be204ca2607043387a2a7b3e115e1f6fcc2577ec9"
+    },
+    {
+      "bytes": 5093228,
+      "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-realization-reset-four-runs-v1/local/odebf/results/s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1/raw/batches/b10/terminal.json",
+      "sha256": "1c99e13901b8e2fc6d920ef89a6d9e40e5dbdc725d1be44923ad87b93a8b6646"
+    }
+  ],
+  "schema": "p1r54-reset-sequential-inputs/v1"
+}

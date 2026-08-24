@@ -1,0 +1,188 @@
+{
+  "analysis_revision_source": "000ffea989fb81b1963b98fdb762ca94adef2284",
+  "analysis_revision_tree": "54adb955a9b3d5e35e727388763fb9c9bfad0cb7",
+  "baseline_W_NLL_imputation_count": 0,
+  "baseline_W_NLL_status": "RECORDED_EXACT_SAME_SAMPLE_1000_REQUESTS",
+  "baseline_final_W10_NLL_backfill": {
+    "OFFICIAL-ALPHAEDIT-CACHE": {
+      "compatibility_field_note": "target_old_nll_mean maps to target_true_nll_by_request/request-mean",
+      "identity_sha256": "561d154d5bf14865fe59bb6a9c281d48f73524b1932e765679d6cdd6073bcce1",
+      "imputation_count": 0,
+      "manifest_identity": "475720a96bfdd231074ad5d770106bb851fb019aa08cad6a9db6f8295d65380b",
+      "manifest_sha256": "b9ad408c3e8fec00205788653815a7bcecb63305135c154583b0326b072f4d09",
+      "method": "OFFICIAL-ALPHAEDIT-CACHE",
+      "metrics": {
+        "rephrase": {
+          "target_new": {
+            "denominator": 1000,
+            "max": 12.973389625549316,
+            "mean": 1.2008818798193532,
+            "median": 0.31812869664281607,
+            "p90_nearest_rank": 3.407060593366623
+          },
+          "target_true": {
+            "denominator": 1000,
+            "max": 22.683067321777344,
+            "mean": 10.38422155314061,
+            "median": 10.370014190673828,
+            "p90_nearest_rank": 15.267339706420898
+          }
+        },
+        "rewrite": {
+          "target_new": {
+            "denominator": 1000,
+            "max": 8.8618803024292,
+            "mean": 0.04352576237318954,
+            "median": 0.0010169935994781554,
+            "p90_nearest_rank": 0.005215609911829233
+          },
+          "target_true": {
+            "denominator": 1000,
+            "max": 31.089412689208984,
+            "mean": 14.608627825975418,
+            "median": 14.390605449676514,
+            "p90_nearest_rank": 20.425498962402344
+          }
+        }
+      },
+      "model_or_evaluator_action_count": 0,
+      "request_denominator": 1000,
+      "source_bytes": 3163574,
+      "source_head": "251e616cf95972e230ce40718e1e390ef7dc9eb4",
+      "source_path": "/data/janghj/ODE-edit/local/state/p1r54-native-seq-finalw10-backfill-v1/alphaedit/immediate-post-final-w10-requests.json",
+      "source_sha256": "fe2310e31545cc5da019661f278420638d7292970e0a87a323afa9f7dff4e21d",
+      "terminal_identity": "2788b047f55f1e88bed0ae081b9cdb7f4e9b1b53dba4bfb684348930bad938f3",
+      "terminal_sha256": "c4376a89bf58db155b876b8d754172d7af9e28af0ac5982d3c13b29a231fd244"
+    },
+    "OFFICIAL-MEMIT": {
+      "compatibility_field_note": "target_old_nll_mean maps to target_true_nll_by_request/request-mean",
+      "identity_sha256": "7220ff1f762a9d5c6c0be34204cf86c047932b6f28c5475e5cb34853b3e1a2b4",
+      "imputation_count": 0,
+      "manifest_identity": "972f4bd0b09ba4f524c64834fb8473995b109eda6794b51ded95ef2cb0fa0b01",
+      "manifest_sha256": "06a0325b216c930527edb85d2685eb2a3e96672a9b8582e83b25fe461601c8d9",
+      "method": "OFFICIAL-MEMIT",
+      "metrics": {
+        "rephrase": {
+          "target_new": {
+            "denominator": 1000,
+            "max": 14.99956226348877,
+            "mean": 1.6675217712210033,
+            "median": 0.7559563992545009,
+            "p90_nearest_rank": 4.704381227493286
+          },
+          "target_true": {
+            "denominator": 1000,
+            "max": 21.764062881469727,
+            "mean": 8.297380083743484,
+            "median": 8.211417317390442,
+            "p90_nearest_rank": 13.32375955581665
+          }
+        },
+        "rewrite": {
+          "target_new": {
+            "denominator": 1000,
+            "max": 19.90550422668457,
+            "mean": 0.7571528150301747,
+            "median": 0.038795603439211845,
+            "p90_nearest_rank": 2.4733715057373047
+          },
+          "target_true": {
+            "denominator": 1000,
+            "max": 24.699993133544922,
+            "mean": 9.669078924335539,
+            "median": 9.445753574371338,
+            "p90_nearest_rank": 15.330941200256348
+          }
+        }
+      },
+      "model_or_evaluator_action_count": 0,
+      "request_denominator": 1000,
+      "source_bytes": 3149957,
+      "source_head": "251e616cf95972e230ce40718e1e390ef7dc9eb4",
+      "source_path": "/data/janghj/ODE-edit/local/state/p1r54-native-seq-finalw10-backfill-v1/memit/immediate-post-final-w10-requests.json",
+      "source_sha256": "eb2c3ef08fc41ed65490e9c23f7c50ce1d8927b53f7f586e13c262370c55febf",
+      "terminal_identity": "b219d7d882b8b8ba52968f0d9ad926bc43030ecd65dc0c5612c455518b6d2e80",
+      "terminal_sha256": "4ec82d71123e6007f7931ab3895580057899fdbeea28dadf74bef3be0b67bc12"
+    },
+    "P1R54-FZ-SEQUENTIAL": {
+      "identity_sha256": "86e7ca4d6d3882ab73518495545e75bd99f4eed6c1283c58fb090ecedfb688c1",
+      "imputation_count": 0,
+      "method": "P1R54-FZ-SEQUENTIAL",
+      "metrics": {
+        "rephrase": {
+          "target_new": {
+            "denominator": 1000,
+            "max": 13.292747020721436,
+            "mean": 2.306030945784841,
+            "median": 1.447105615399778,
+            "p90_nearest_rank": 6.100810527801514
+          },
+          "target_true": {
+            "denominator": 1000,
+            "max": 22.684467315673828,
+            "mean": 8.516335408237063,
+            "median": 8.26163899898529,
+            "p90_nearest_rank": 13.544448375701904
+          }
+        },
+        "rewrite": {
+          "target_new": {
+            "denominator": 1000,
+            "max": 8.71495246887207,
+            "mean": 0.018627236681428825,
+            "median": 0.0005799638165626675,
+            "p90_nearest_rank": 0.005624540150165558
+          },
+          "target_true": {
+            "denominator": 1000,
+            "max": 30.16880226135254,
+            "mean": 14.51783628463745,
+            "median": 14.114929676055908,
+            "p90_nearest_rank": 20.189289093017578
+          }
+        }
+      },
+      "model_or_evaluator_action_count": 0,
+      "request_denominator": 1000,
+      "source_bytes": 796315,
+      "source_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-fz-c3-sequential-10xb100-v1/local/odebf/results/s05-p1r54-fz-c3-sequential-10xb100-v1/raw/final-w10.json",
+      "source_sha256": "7f90dc19fbf02164c55406a8149ad77e72357597081127f4ed0b1b248e3d378b"
+    }
+  },
+  "boundaries": [
+    "descriptive only causal0",
+    "PDZ sequential control absent",
+    "c0 definitional",
+    "energy/peak NOT_RECORDED"
+  ],
+  "common": {
+    "dtype": "FULL_FP32",
+    "model": "Llama3-8B-Instruct",
+    "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+    "ordered_record_root": "af215235177d1ac07e82fadc62de7235244a82342a146c5867f673625486d0e1",
+    "requests": 1000,
+    "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
+  },
+  "identity_sha256": "14a26d67ee8b8ded60bd9ca09101a297f02ae49d31ce45d8e4bdcf0a73244216",
+  "schema": "p1r54-reset-integrated/v1",
+  "scientific_promotion": false,
+  "seq_minus_ind": {
+    "FZ": {
+      "Eff": 0.0010000000000000009,
+      "Gen": -0.07499999999999996,
+      "Gen_strict": -0.11599999999999999,
+      "Loc": -0.027800000000000047,
+      "rephrase_nll": 0.4347833709154363,
+      "rewrite_nll": -0.007482136402184095
+    },
+    "PDZ": {
+      "Eff": 0.0,
+      "Gen": -0.0645,
+      "Gen_strict": -0.10399999999999998,
+      "Loc": -0.0262,
+      "rephrase_nll": 0.27178574485142626,
+      "rewrite_nll": -0.020510628485048067
+    }
+  },
+  "status": "PASS"
+}
