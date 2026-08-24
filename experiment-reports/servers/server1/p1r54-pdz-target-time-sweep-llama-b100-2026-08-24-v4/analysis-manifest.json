@@ -1,0 +1,159 @@
+{
+  "B1_order": "bb2e661ad44bf8dc20e0224f21dc90164ed4b3dcf3316d751afb7d8a00bfaed6",
+  "authoritative_contract_sha256": "d9f5ee879534bb5f33c6741cf39b1ff3bfb938d07238842f584bfb44f6b9195e",
+  "identity_sha256": "6e1705950c1f6287a6df7541eb9032bc4b80e8d4c9de69c3120b85caf7ec7b4b",
+  "input_members": [
+    {
+      "bytes": 8713823,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-p1r54-pdz-ablation-v1/local/odebf/results/s05-p1r54-pdz-ablation-llama-b100-t2-prc-tech-r1-v1/terminal.json",
+      "sha256": "0a4f190d8506380868df7ab1b880c00ba2475a3d300acd50bb18a17055c6e86f"
+    },
+    {
+      "bytes": 1390,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-p1r54-pdz-ablation-v1/local/odebf/results/s05-p1r54-pdz-ablation-llama-b100-t2-prc-tech-r1-v1/manifest.json",
+      "sha256": "856d99c2ad8a25dbb3e2a61d36185a5825dec156428605c096d901c01549785a"
+    },
+    {
+      "bytes": 1001,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-p1r54-pdz-ablation-v1/local/odebf/results/s05-p1r54-pdz-ablation-llama-b100-t2-prc-tech-r1-v1/raw/stage-004-post_model_load_full_fp32_inventory.json",
+      "sha256": "35dae392324016e8107c8a9b7f18a224215f99056299d7fecf577425ef86db75"
+    },
+    {
+      "bytes": 12645536,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-p1r54-pdz-ablation-v1/local/odebf/results/s05-p1r54-pdz-ablation-llama-b100-t3-prc-tech-r1-v1/terminal.json",
+      "sha256": "b1293e06de7483ba18a1eb11c98c32db11de2e3340ece745ff5e898678b600d6"
+    },
+    {
+      "bytes": 1390,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-p1r54-pdz-ablation-v1/local/odebf/results/s05-p1r54-pdz-ablation-llama-b100-t3-prc-tech-r1-v1/manifest.json",
+      "sha256": "3cd561c54ce70029e85cc40401c673d44a74530ff5e94b40315936a03f9f36d1"
+    },
+    {
+      "bytes": 1001,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-p1r54-pdz-ablation-v1/local/odebf/results/s05-p1r54-pdz-ablation-llama-b100-t3-prc-tech-r1-v1/raw/stage-004-post_model_load_full_fp32_inventory.json",
+      "sha256": "35dae392324016e8107c8a9b7f18a224215f99056299d7fecf577425ef86db75"
+    },
+    {
+      "bytes": 20554235,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-p1r54-pdz-ablation-v1/local/odebf/results/s05-p1r54-pdz-ablation-llama-b100-t5-prc-tech-r1-v1/terminal.json",
+      "sha256": "23f8e2b435e1ae7cc73c796339073e918dde057affe6859f037104467d30353e"
+    },
+    {
+      "bytes": 1390,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-p1r54-pdz-ablation-v1/local/odebf/results/s05-p1r54-pdz-ablation-llama-b100-t5-prc-tech-r1-v1/manifest.json",
+      "sha256": "a911e6186bce5c62ecdddec5ac115d62da9cddfbb439d4035923125fbfeb5f8c"
+    },
+    {
+      "bytes": 1001,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-p1r54-pdz-ablation-v1/local/odebf/results/s05-p1r54-pdz-ablation-llama-b100-t5-prc-tech-r1-v1/raw/stage-004-post_model_load_full_fp32_inventory.json",
+      "sha256": "35dae392324016e8107c8a9b7f18a224215f99056299d7fecf577425ef86db75"
+    },
+    {
+      "bytes": 3057497,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-p1r54-pdz-ablation-v1/local/odebf/results/s05-p1r54-pdz-ablation-llama-b100-t1-direct-tech-r1-v1/terminal.json",
+      "sha256": "ecb9f1556ecb6eb823ce346fcf4b476c128f536d5f654fbf751f464cfb0f774a"
+    },
+    {
+      "bytes": 1396,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-p1r54-pdz-ablation-v1/local/odebf/results/s05-p1r54-pdz-ablation-llama-b100-t1-direct-tech-r1-v1/manifest.json",
+      "sha256": "d34819c223bf360d06b89b898086d32f2d87a2952206f20ffa04920deb077fe5"
+    },
+    {
+      "bytes": 1001,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-p1r54-pdz-ablation-v1/local/odebf/results/s05-p1r54-pdz-ablation-llama-b100-t1-direct-tech-r1-v1/raw/stage-004-post_model_load_full_fp32_inventory.json",
+      "sha256": "35dae392324016e8107c8a9b7f18a224215f99056299d7fecf577425ef86db75"
+    },
+    {
+      "bytes": 6434,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/p1r54-pdz-time-sweep-llama-b100-v1/final-pre-gpu.json",
+      "sha256": "f0db7f9fd8ee51180a7a21b181c1874905435b389f3a0abdc62ac2d237252e2f"
+    },
+    {
+      "bytes": 60377,
+      "path": "experiment-reports/servers/server4/p1r54-energyfree-localz-llama-b100-2026-08-24-v3/aggregates.json",
+      "sha256": "60622b74a6d059294c2de633b32a0f6122284da7ac4ef6d8e97b8fdde8c563fc"
+    },
+    {
+      "bytes": 242727,
+      "path": "experiment-reports/servers/server4/p1r54-energyfree-localz-llama-b100-2026-08-24-v3/paired-request-deltas.csv",
+      "sha256": "5472457dde5efbdbc88d14d06e679b9adfcd3649f0ad2918b2a619a48032d484"
+    },
+    {
+      "bytes": 837,
+      "path": "experiment-reports/servers/server4/p1r54-energyfree-localz-llama-b100-2026-08-24-v3/compute.csv",
+      "sha256": "6ffc8d4f426da95771be751cd80d3d2e4017b5f12266cb6f052772cc26ab2c1c"
+    },
+    {
+      "bytes": 7425,
+      "path": "experiment-reports/servers/server4/p1r54-energyfree-localz-llama-b100-2026-08-24-v3/analysis-manifest.json",
+      "sha256": "a1765961854deb2b2b078a94f1365dc535c647fddec515ffe2e4c5c994a1d685"
+    },
+    {
+      "bytes": 802,
+      "path": "experiment-reports/servers/server4/p1r54-energyfree-localz-llama-b100-2026-08-24-v3/source-receipt.json",
+      "sha256": "673933a3d5de212449863c00f941dbcf03d24f0f513aa4b47514b7dd07fda5ce"
+    }
+  ],
+  "instruction_id": "ODEEDIT-S05-P1R54-PDZ-PRC-TIME-SWEEP-T2-T3-T5-DIRECT-V1",
+  "output_members": [
+    {
+      "bytes": 13454,
+      "path": "p1r54-pdz-target-time-sweep-llama-b100-factual-ko.md",
+      "sha256": "83cabd07349af8245a2d1b2aa78bdd3d9e645c155e0cce8607ca0d2e8b96972c"
+    },
+    {
+      "bytes": 58496,
+      "path": "aggregates.json",
+      "sha256": "e598b07fd60a1cdf223a5f348a2621cf3c75b0caed239254d3e734d212365bdd"
+    },
+    {
+      "bytes": 14133,
+      "path": "terminal-z-w-nll.csv",
+      "sha256": "ca4865c6f68a3b81fb8831e79db508da21a13059b3021d82556dd609bb32057d"
+    },
+    {
+      "bytes": 151479,
+      "path": "paired-target-time-gains.csv",
+      "sha256": "a90c881780460b7088bce8e2bc1b79585a2f6a10ea5e9b3f53145828ba801175"
+    },
+    {
+      "bytes": 3038173,
+      "path": "microstep-trajectory.csv",
+      "sha256": "55b4fa4ca9f876babe7fa31317429eddbf95322a3777490578f56b7c57641221"
+    },
+    {
+      "bytes": 87594,
+      "path": "microstep-summary.csv",
+      "sha256": "6cd598eedc7b2c288eba857c3ae267931635a9bd31f231b6a07183cf9713dbd7"
+    },
+    {
+      "bytes": 7538,
+      "path": "outer-writer.csv",
+      "sha256": "f140922fa35cfe682d40f53bdf60db0f46a9cb08c8fa4b271a3c936c7477bebe"
+    },
+    {
+      "bytes": 981,
+      "path": "outer-writer-summary.csv",
+      "sha256": "bed01c1b87d9a7fa25cf0c7b85aadc3e04ddb3232388bf383804860d1cfe591d"
+    },
+    {
+      "bytes": 183624,
+      "path": "writer-transfer.csv",
+      "sha256": "cb8228207165e935706a5be679914388eaef9008b620903f2ba740a34e09d41b"
+    },
+    {
+      "bytes": 2494,
+      "path": "compute.csv",
+      "sha256": "b4bbe842821eb915a835b550aebc386309b303714d933a14196f6b56cf777ee9"
+    }
+  ],
+  "pre_gpu_identity": "843991f626785daa0cfe9daececa58d6b1d2a640d296650c137f795aee7860e9",
+  "pre_gpu_sha256": "f0db7f9fd8ee51180a7a21b181c1874905435b389f3a0abdc62ac2d237252e2f",
+  "reference_execution_count": 0,
+  "schema": "ode-edit-s05-p1r54-pdz-time-sweep-analysis-manifest/v1",
+  "scientific_promotion": false,
+  "source_head": "c0dc8e3fcd1ea2c941441dd2dc5cfa91a28aa296",
+  "source_tree": "ccd9015d13adecc8dcf5e2d97baff5b12d3ddca8",
+  "stream_order": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
+}
