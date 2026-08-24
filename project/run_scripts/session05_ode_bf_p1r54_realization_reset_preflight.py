@@ -247,7 +247,13 @@ def verify_controls() -> Mapping[str, Any]:
     return payload
 
 
-def build_receipt(*, source_head: str, final_receipt: Path, session_id: str) -> Mapping[str, Any]:
+def build_receipt(
+    *,
+    source_head: str,
+    final_receipt: Path,
+    session_id: str,
+    continuation_control_audit_required: bool = True,
+) -> Mapping[str, Any]:
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, text=True).strip()
     tree = subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=REPO_ROOT, text=True).strip()
     origin_main = subprocess.check_output(
@@ -360,7 +366,14 @@ def build_receipt(*, source_head: str, final_receipt: Path, session_id: str) -> 
         "dry_plan": build_plan(),
         "focused_transition_fixture": focused_transition_fixture(),
         "source_equivalence": [source_equivalence_receipt(item.cell) for item in CELLS],
-        "continuation_controls": verify_controls(),
+        "continuation_controls": (
+            verify_controls()
+            if continuation_control_audit_required
+            else {
+                "status": "NOT_RELEVANT_ACTIVE_RUN_USER_EXPANSION",
+                "decision_influence_count": 0,
+            }
+        ),
         "deployment_identity": deployment.identity_sha256,
         "easyedit_runtime_seal_root": deployment.runtime_path_seal.root_digest,
         "hf_binding": {

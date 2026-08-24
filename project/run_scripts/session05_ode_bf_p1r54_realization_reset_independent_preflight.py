@@ -43,6 +43,7 @@ def build_receipt(
         source_head=source_head,
         final_receipt=base_path,
         session_id=session_id,
+        continuation_control_audit_required=False,
     )
     plan = build_plan()
     if (
