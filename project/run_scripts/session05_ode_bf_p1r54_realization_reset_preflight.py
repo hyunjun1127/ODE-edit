@@ -273,7 +273,7 @@ def build_receipt(*, source_head: str, final_receipt: Path, session_id: str) -> 
         or (CONTRACT.stat().st_mode & 0o777) != 0o600
         or CONTRACT.stat().st_size != 15228
         or sha256_file(CONTRACT) != CONTRACT_SHA256
-        or len(CONTRACT.read_text(encoding="utf-8").splitlines()) != 569
+        or CONTRACT.read_bytes().count(b"\n") != 569
     ):
         raise ODEBFContractError("P1R54 reset authoritative contract differs")
     stream = _verify_stream()

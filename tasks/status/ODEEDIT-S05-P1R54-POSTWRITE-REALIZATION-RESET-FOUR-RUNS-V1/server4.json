@@ -39,6 +39,15 @@
     "focused_tests": "3/3_PASS",
     "legacy_regressions": "29/29_PASS"
   },
+  "technical_preflight_attempts": [
+    {
+      "attempt": "PRE-GPU-R0",
+      "status": "PURE_TECHNICAL_PRE_MODEL_FAILURE_EXCLUDED",
+      "cause": "used logical splitlines count instead of authoritative wc newline count",
+      "model_load_count": 0,
+      "gpu_slurm_action_count": 0
+    }
+  ],
   "continuation_controls": {
     "fz_independent": "SEALED_EXISTING",
     "pdz_t1_independent": "SEALED_EXISTING",
