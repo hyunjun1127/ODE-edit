@@ -141,9 +141,10 @@ def build_receipt(
 
     stream = _verify_stream()
     if (
-        stream.get("root_digest") != STREAM_ROOT
-        or stream.get("all_request_order_sha256") != STREAM_ORDER
-        or stream.get("logical_edit_count") != 1000
+        stream.get("stream_root") != STREAM_ROOT
+        or stream.get("order_root") != STREAM_ORDER
+        or stream.get("B1_request_count") != 100
+        or stream.get("sample_duplication_count") != 0
     ):
         raise ODEBFContractError("native sequential W-NLL stream differs")
     lock, lock_sha = _rooted(REPO_ROOT / NUMERICAL_LOCK)
