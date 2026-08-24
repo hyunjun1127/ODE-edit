@@ -1,0 +1,15 @@
+{
+  "analysis_summary_sha256": "ffb987fdb767b9d5b27e4ea70b193e39177de23846a4b71c3ea688df052ec461",
+  "external_input_root": "3376b634fa2ba66cb1beac1dc3587ca60f38c1bdf2841a32e7257972fd8da82a",
+  "identity_sha256": "38d0131b5feac3da467d113417376d728595a988fb0fc11738d622cd448384ac",
+  "imputation_count": 0,
+  "manifest_identity": "807f967e760545d12b1649bbaeb5dec694df899d5666b4bcbf8324a042e6384c",
+  "manifest_sha256": "00562858a1a46d0c6fb08bd4b57f833a48f8e7fd43c1f0171b012f63fb0c4154",
+  "member_root": "5bc2f45a1ffd183eb8fe5fc828e6f09d164ea1f0ffa3b008fe662e6b28e3fe08",
+  "package": "p1r54-fz-finalz-oneshot-sequential-10xb100-2026-08-25-v1",
+  "raw_mutation": 0,
+  "report_sha256": "deb54608e99eea4fa80a7180e8973b95cd81e8365176e1a9aef854cc8e9549ed",
+  "schema": "p1r54-fz-finalz-oneshot-sequential-rooted-receipt/v1",
+  "scientific_promotion": false,
+  "status": "TERMINAL_VALID_REVIEW_COMPLETE"
+}

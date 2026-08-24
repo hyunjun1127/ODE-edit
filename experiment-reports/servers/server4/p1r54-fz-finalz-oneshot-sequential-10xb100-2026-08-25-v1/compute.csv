@@ -1,0 +1,12 @@
+counter,finalz_writer1,kstep_writer8,delta_or_ratio
+target_field_evaluations,80,80,0
+official_writer_calls,10,80,-0.875
+layer_applies,50,400,-0.875
+finite_demand_materialization,10,80,-0.875
+model_forwards,4742,8592,-0.448091
+processed_tokens,2258801,9517241,-0.762663
+writer_edit_core_wall_seconds,465.1878643166274,3650.182114546187,-0.872558
+batch_wall_sum_seconds,5293.3948319051415,11512.17562929634,-0.540197
+runtime_after_preflight_seconds,5670.8598427809775,11918.2667542696,-0.524192
+peak_allocated_gpu_bytes,38027805184,38027805184,0
+peak_reserved_gpu_bytes,44010831872,43260051456,750780416

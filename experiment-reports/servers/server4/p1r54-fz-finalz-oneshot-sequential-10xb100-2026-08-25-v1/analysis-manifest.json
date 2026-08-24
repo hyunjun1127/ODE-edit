@@ -1,0 +1,34 @@
+{
+  "analysis_source": "a90719de33bea2878633cddb52147b7e3f524889",
+  "analysis_tree": "849c5d178dc79ae39bfa8c61bf4ba8e5c9f01a51",
+  "experiment_source": "ede7c77742102b6ff369690c860af214bd92f930",
+  "external_input_root": "3376b634fa2ba66cb1beac1dc3587ca60f38c1bdf2841a32e7257972fd8da82a",
+  "external_inputs": [
+    {"role": "treatment_terminal", "sha256": "8d22a5df0b0fd5d948ab4dd1cc9dc5333f1a30862c36a21d71d7f585cf9228a9"},
+    {"role": "treatment_manifest", "sha256": "69eca8fdec7eb59328280eb95b46b23bd331545d4a957c9d8820d04176d8bbef"},
+    {"role": "treatment_final_W10", "sha256": "338370d338476c6570af568bc367ecc040a0e48bab5187c76553cdcbebeb083c"},
+    {"role": "kstep_control_terminal", "sha256": "7507d44f453fe701e67e76c758f578ef658ab00081dc189afc84e99d695fdb88"},
+    {"role": "kstep_control_manifest", "sha256": "b4efbcb2e7cade61935eb6a745fc935d5a8fe9e3b0343129d28628d61c94d295"},
+    {"role": "kstep_control_final_W10", "sha256": "7f90dc19fbf02164c55406a8149ad77e72357597081127f4ed0b1b248e3d378b"},
+    {"role": "native_alphaedit_final_W10_requests", "sha256": "fe2310e31545cc5da019661f278420638d7292970e0a87a323afa9f7dff4e21d"},
+    {"role": "native_memit_final_W10_requests", "sha256": "eb2c3ef08fc41ed65490e9c23f7c50ce1d8927b53f7f586e13c262370c55febf"},
+    {"role": "native_backfill_rooted_receipt", "sha256": "7e18ef5a86a96b543e17f9f4ffd04ae983a4232be9e0e1525cfc4ee91a8a3e03"}
+  ],
+  "identity_sha256": "807f967e760545d12b1649bbaeb5dec694df899d5666b4bcbf8324a042e6384c",
+  "imputation_count": 0,
+  "member_root": "5bc2f45a1ffd183eb8fe5fc828e6f09d164ea1f0ffa3b008fe662e6b28e3fe08",
+  "members": [
+    {"bytes": 1718, "name": "analysis-summary.json", "sha256": "ffb987fdb767b9d5b27e4ea70b193e39177de23846a4b71c3ea688df052ec461"},
+    {"bytes": 602, "name": "compute.csv", "sha256": "04ea2de88405162d5baa9b3678c5320c5bdc16d0df00d5322a6e1b8717dea1b6"},
+    {"bytes": 1563, "name": "headline.csv", "sha256": "5ede3ff4369f91013fb07b84e76ec649cdc58b7f973d1443fdd04ddd2063cc02"},
+    {"bytes": 685, "name": "per-batch.csv", "sha256": "765ce4fc89f5f9ae487c8bd7b4dce2c743a7cea6c993aa18992d0fd4ec9425ae"},
+    {"bytes": 9740, "name": "report-ko.md", "sha256": "deb54608e99eea4fa80a7180e8973b95cd81e8365176e1a9aef854cc8e9549ed"},
+    {"bytes": 405, "name": "target-k-curve.csv", "sha256": "ace8f602bd55305ae3244c09d3b95231c4cb53b9935a85c443ddc79e992efb08"}
+  ],
+  "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "package": "p1r54-fz-finalz-oneshot-sequential-10xb100-2026-08-25-v1",
+  "raw_mutation": 0,
+  "schema": "p1r54-fz-finalz-oneshot-sequential-analysis-manifest/v1",
+  "scientific_promotion": false,
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
+}

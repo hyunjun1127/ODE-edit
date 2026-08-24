@@ -1,0 +1,39 @@
+{
+  "schema": "p1r54-fz-finalz-oneshot-sequential-review/v1",
+  "status": "TERMINAL_VALID_REVIEW_COMPLETE",
+  "job_id": "24175",
+  "experiment_source": "ede7c77742102b6ff369690c860af214bd92f930",
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+  "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "denominators": {"batches": 10, "requests": 1000, "rephrase_prompts": 2000, "locality_prompts": 10000},
+  "integrity": {
+    "terminal_manifest_final_and_batch_identity_pass": true,
+    "full_fp32": true,
+    "W0_restored": true,
+    "commit_to_next_entry": "9/9",
+    "cache_entry_to_exit": "0->1000",
+    "nonfinite_count": 0,
+    "imputation_count": 0
+  },
+  "writer_cadence": {
+    "treatment": "FINAL_Z_ONESHOT",
+    "control": "KSTEP_EACH_OUTER",
+    "target_fields": {"treatment": 80, "control": 80},
+    "writer_calls": {"treatment": 10, "control": 80},
+    "layer_applies": {"treatment": 50, "control": 400}
+  },
+  "final_W": {
+    "treatment": {"Eff": 1.0, "Gen": 0.812, "strict_Gen": 0.7, "Loc": 0.8562},
+    "control": {"Eff": 1.0, "Gen": 0.8495, "strict_Gen": 0.756, "Loc": 0.8453},
+    "treatment_minus_control_pp": {"Eff": 0.0, "Gen": -3.75, "strict_Gen": -5.6, "Loc": 1.09}
+  },
+  "paired_final_W_rephrase_target_new_nll_delta": {"mean": 0.40975961439734965, "median": 0.14284092875459464, "p90": 1.8319170475006104, "max": 11.692910432815552},
+  "selection": {
+    "treatment_PRIMARY_RESCUE_CURRENT": [5419, 2423, 158],
+    "control_PRIMARY_RESCUE_CURRENT": [5216, 2681, 103],
+    "treatment_clamp": "0/8000",
+    "control_clamp": "0/8000"
+  },
+  "decision": "TECHNICAL_PASS_EMPIRICAL_GEN_TRADEOFF",
+  "scientific_promotion": false
+}
