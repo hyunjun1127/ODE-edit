@@ -31,8 +31,12 @@ INSTRUCTION_ID = "ODEEDIT-S05-P1R54-FZ-C3-INDEPENDENT-10XB100-V1"
 METHOD_ID = "P1R54-FZ-C3-KSTEP-INDEPENDENT-B100-FULL-FP32"
 ROLE_PREFIX = "r54-fz-c3-independent-full-fp32-b"
 ROLES = tuple(f"{ROLE_PREFIX}{index:02d}" for index in range(1, ROUND_COUNT + 1))
+TECHNICAL_ATTEMPT_SUFFIX = "tech-r2"
 RESULT_NAMES = {
-    role: f"s05-p1r54-fz-c3-independent-b{index:02d}-b100-v1"
+    role: (
+        f"s05-p1r54-fz-c3-independent-b{index:02d}-b100-"
+        f"{TECHNICAL_ATTEMPT_SUFFIX}-v1"
+    )
     for index, role in enumerate(ROLES, start=1)
 }
 HELDOUT_K_INDICES = (7,)
@@ -256,6 +260,7 @@ def run_p1r54_fz_c3_independent(
             "heldout_decision_influence_count_contract": 0,
             "reference_execution_count": 0,
             "sequential_job_mutation_count": 0,
+            "technical_attempt_suffix": TECHNICAL_ATTEMPT_SUFFIX,
         },
         easyedit_root=easyedit_root,
         **kwargs,
@@ -270,6 +275,7 @@ __all__ = [
     "P1R54FZExecutionMode",
     "RESULT_NAMES",
     "ROLES",
+    "TECHNICAL_ATTEMPT_SUFFIX",
     "atomic_source_equivalence",
     "bind_independent_batch_view",
     "cell_config",

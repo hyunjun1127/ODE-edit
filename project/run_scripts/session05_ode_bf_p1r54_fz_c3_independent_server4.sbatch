@@ -25,7 +25,7 @@ readonly RUN_TOKEN="p1r54-fz-c3-independent-10xb100-v1"
 [[ "$#" -eq 3 ]] || { echo "P1R54 FZ independent arguments differ" >&2; exit 2; }
 [[ "$CELL" =~ ^[0-9]$ ]] || { echo "P1R54 FZ independent array cell differs" >&2; exit 2; }
 printf -v BATCH_TAG 'b%02d' "$((CELL + 1))"
-readonly RESULT_NAME="s05-p1r54-fz-c3-independent-${BATCH_TAG}-b100-v1"
+readonly RESULT_NAME="s05-p1r54-fz-c3-independent-${BATCH_TAG}-b100-tech-r2-v1"
 
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R54 FZ independent CWD differs" >&2; exit 2; }
 [[ "$(git rev-parse HEAD)" == "${SOURCE_HEAD}" ]] || { echo "P1R54 FZ independent source differs" >&2; exit 2; }
