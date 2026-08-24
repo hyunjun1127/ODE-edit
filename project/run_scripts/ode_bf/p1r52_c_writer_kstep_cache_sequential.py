@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+import json
 from pathlib import Path
 import time
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import torch
 
@@ -44,6 +46,94 @@ RESULT_NAMES = {
     role: f"s05-p1r52-c-writer-phase3-kstep-cache-sequential-full-fp32-{arm.lower()}-10xb100-v1"
     for role, arm in zip(ROLES, CACHE_ARMS, strict=True)
 }
+
+
+@dataclass(frozen=True, slots=True)
+class Phase3SequentialExperimentBinding:
+    """Optional scientific binding over the unchanged Phase-3 transaction.
+
+    ``None`` keeps the legacy Phase-3 role map, target field, evaluator clock,
+    schemas, and result identities.  A binding may only provide a target
+    schedule/amplitude policy and namespaced receipts while reusing the exact
+    C3 writer and cache-sequential transaction below.
+    """
+
+    role: str
+    writer_arm: str
+    instruction_id: str
+    method_id: str
+    batch_schema: str
+    final_schema: str
+    terminal_schema: str
+    manifest_schema: str
+    terminal_status: str
+    return_status: str
+    stage_prefix: str
+    selected_target_resolver: Callable[..., tuple[Any, Any]]
+    heldout_step_indices: tuple[int, ...]
+    target_subcycle_schedule: Any
+    amplitude_policy_factory: Callable[[int, int], Any]
+    easyedit_root: Path
+    metadata: Mapping[str, Any]
+
+    def __post_init__(self) -> None:
+        if (
+            not self.role
+            or self.writer_arm != "C3-KSTEP-CACHE"
+            or not all(
+                isinstance(value, str) and value
+                for value in (
+                    self.instruction_id,
+                    self.method_id,
+                    self.batch_schema,
+                    self.final_schema,
+                    self.terminal_schema,
+                    self.manifest_schema,
+                    self.terminal_status,
+                    self.return_status,
+                    self.stage_prefix,
+                )
+            )
+            or not callable(self.selected_target_resolver)
+            or self.heldout_step_indices != (7,)
+            or not callable(self.amplitude_policy_factory)
+            or not self.easyedit_root.is_absolute()
+        ):
+            raise ODEBFContractError("Phase3 external experiment binding differs")
+
+
+def validate_phase3_batch_chain(
+    rows: Sequence[Mapping[str, Any]], *, expected_count: int = ROUND_COUNT
+) -> Mapping[str, Any]:
+    """Validate sequential W/cache continuity without touching model state."""
+
+    if (
+        isinstance(expected_count, bool)
+        or expected_count != ROUND_COUNT
+        or len(rows) != expected_count
+        or any(
+            row.get("batch_index") != index
+            or row.get("cache_entry_width") != (index - 1) * BATCH_SIZE
+            or row.get("cache_exit_width") != index * BATCH_SIZE
+            for index, row in enumerate(rows, start=1)
+        )
+        or any(
+            rows[index - 1].get("commit_weight_sha256")
+            != rows[index].get("entry_weight_sha256")
+            for index in range(1, len(rows))
+        )
+    ):
+        raise ODEBFStateError("Phase3 B commit/entry/cache chain differs")
+    payload: dict[str, Any] = {
+        "schema": "ode-edit-phase3-batch-chain/v1",
+        "batch_count": len(rows),
+        "entry_widths": [row["cache_entry_width"] for row in rows],
+        "exit_widths": [row["cache_exit_width"] for row in rows],
+        "commit_to_next_entry_match_count": len(rows) - 1,
+        "sample_duplication_count": 0,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return payload
 
 
 def role_for_cell(cell: int) -> str:
@@ -99,9 +189,15 @@ def run_phase3(
     job_ledger: ComputeLedger,
     request_microbatch_size: int,
     fp32_runtime: Any | None = None,
+    experiment_binding: Phase3SequentialExperimentBinding | None = None,
     **_: Any,
 ) -> dict[str, Any]:
-    arm = arm_for_role(role)
+    if experiment_binding is None:
+        arm = arm_for_role(role)
+    else:
+        if role != experiment_binding.role:
+            raise ODEBFContractError("Phase3 external experiment role differs")
+        arm = experiment_binding.writer_arm
     if (
         alias != "llama3-8b-inst"
         or len(stream_batches) != ROUND_COUNT
@@ -153,9 +249,26 @@ def run_phase3(
                     alpha_entry_snapshot=(cache_checkpoint if arm.startswith("C3") else None),
                     expected_official_entry_sha256=prior_official_exit_sha256,
                 )
+                amplitude_policy = (
+                    None
+                    if experiment_binding is None
+                    else experiment_binding.amplitude_policy_factory(
+                        batch_index, len(requests)
+                    )
+                )
                 created: list[CKStepWriterRuntime] = []
 
                 def factory(objective_plan: Any, capture_plan: Any) -> CKStepWriterRuntime:
+                    runtime_kwargs: dict[str, Any] = {}
+                    if experiment_binding is not None:
+                        runtime_kwargs.update(
+                            selected_target_resolver=(
+                                experiment_binding.selected_target_resolver
+                            ),
+                            heldout_step_indices=(
+                                experiment_binding.heldout_step_indices
+                            ),
+                        )
                     runtime = CKStepWriterRuntime(
                         arm=arm,
                         model=model,
@@ -175,12 +288,22 @@ def run_phase3(
                         solve_history_keys_by_layer=(history if arm.startswith(("C0", "C1")) else None),
                         alpha_cache_status="ALPHA_CACHE_BATCH_ENTRY_SNAPSHOT",
                         cache_policy=policy,
+                        **runtime_kwargs,
                     )
                     created.append(runtime)
                     return runtime
 
                 batch_started = time.perf_counter()
                 try:
+                    target_kwargs: dict[str, Any] = {}
+                    if experiment_binding is not None:
+                        target_kwargs.update(
+                            target_subcycle_schedule=(
+                                experiment_binding.target_subcycle_schedule
+                            ),
+                            amplitude_policy=amplitude_policy,
+                            easyedit_root=experiment_binding.easyedit_root,
+                        )
                     target, public, _, _ = _fp32_target_and_j0(
                         model,
                         tokenizer,
@@ -202,6 +325,7 @@ def run_phase3(
                         request_microbatch_size=request_microbatch_size,
                         job_ledger=job_ledger,
                         c_kstep_writer_factory=factory,
+                        **target_kwargs,
                     )
                     if len(created) != 1:
                         raise ODEBFStateError("Phase3 writer runtime count differs")
@@ -216,6 +340,49 @@ def run_phase3(
                     if arm.startswith("C3"):
                         prior_official_exit_sha256 = str(cache_commit.receipt["official_exit_sha256"])
                     last_metrics = runtime.executions[-1].metrics
+                    amplitude_terminal: Mapping[str, Any] | None = None
+                    outer_transitions: list[Mapping[str, Any]] | None = None
+                    microstep_trajectory: list[Mapping[str, Any]] | None = None
+                    if experiment_binding is not None:
+                        if amplitude_policy is None:
+                            raise ODEBFStateError("Phase3 external amplitude policy missing")
+                        amplitude_terminal = amplitude_policy.terminal_receipt()
+                        accepted_root = (
+                            batch_root / "raw" / "target" / "ode" / arm.lower()
+                        )
+                        outer_transitions = [
+                            json.loads(
+                                (accepted_root / f"accepted-k{index}.json").read_text(
+                                    encoding="utf-8"
+                                )
+                            )
+                            for index in range(1, P1R23_GRID_COUNT + 1)
+                        ]
+                        if [
+                            item["identity_sha256"] for item in outer_transitions
+                        ] != list(public["accepted_receipt_sha256"]):
+                            raise ODEBFStateError(
+                                "Phase3 external accepted receipt chain differs"
+                            )
+                        microstep_trajectory = [
+                            micro
+                            for accepted in outer_transitions
+                            for micro in accepted["target_update"]["microstep_receipts"]
+                        ]
+                        if (
+                            len(microstep_trajectory) != P1R23_GRID_COUNT
+                            or amplitude_terminal.get("amplitude_call_count")
+                            != P1R23_GRID_COUNT
+                            or amplitude_terminal.get("rho_refresh_count") != 0
+                            or amplitude_terminal.get("forbidden_decision_access_count")
+                            != 0
+                            or amplitude_terminal.get("additional_model_forward_count")
+                            != 0
+                            or amplitude_terminal.get("additional_backward_count") != 0
+                        ):
+                            raise ODEBFStateError(
+                                "Phase3 external amplitude/field clock differs"
+                            )
                     loaded_cases = tuple(
                         # Each K used the exact same frozen case inventory; retain
                         # the final score rows now and reload only for final W10.
@@ -237,9 +404,21 @@ def run_phase3(
                     )
                     cohort_cases.append(loaded_cases)
                     payload: dict[str, Any] = {
-                        "schema": "ode-edit-s05-p1r52-c-writer-phase3-batch/v1",
-                        "instruction_id": INSTRUCTION_ID,
-                        "method_id": METHOD_ID,
+                        "schema": (
+                            "ode-edit-s05-p1r52-c-writer-phase3-batch/v1"
+                            if experiment_binding is None
+                            else experiment_binding.batch_schema
+                        ),
+                        "instruction_id": (
+                            INSTRUCTION_ID
+                            if experiment_binding is None
+                            else experiment_binding.instruction_id
+                        ),
+                        "method_id": (
+                            METHOD_ID
+                            if experiment_binding is None
+                            else experiment_binding.method_id
+                        ),
                         "arm": arm,
                         "batch_index": batch_index,
                         "request_count": BATCH_SIZE,
@@ -266,6 +445,30 @@ def run_phase3(
                             "bf16_fp16_path_count": 0,
                         },
                     }
+                    if experiment_binding is not None:
+                        if set(payload).intersection(experiment_binding.metadata):
+                            raise ODEBFContractError(
+                                "Phase3 external batch metadata collides"
+                            )
+                        payload.update(
+                            {
+                                "target_field_evaluation_count": len(
+                                    microstep_trajectory or ()
+                                ),
+                                "outer_transitions": outer_transitions,
+                                "microstep_trajectory": microstep_trajectory,
+                                "amplitude_policy_terminal": amplitude_terminal,
+                                "heldout_outer_indices": [8],
+                                "heldout_evaluator_decision_influence_count": 0,
+                                "writer_layer_apply_count": sum(
+                                    int(item.compute["native_apply_count"])
+                                    for item in runtime.executions
+                                ),
+                                "cache_entry_reuse_count": P1R23_GRID_COUNT,
+                                "same_batch_current_key_history_inclusion_count": 0,
+                                **dict(experiment_binding.metadata),
+                            }
+                        )
                     _assert_no_low_precision_activity(payload)
                     payload, tensor_paths = _raw_free_json_tree(payload)
                     payload["raw_free_tensor_paths"] = list(tensor_paths)
@@ -290,6 +493,16 @@ def run_phase3(
                         "terminal_sha256": terminal_sha,
                         "cache_entry_width": (batch_index - 1) * BATCH_SIZE,
                         "cache_exit_width": batch_index * BATCH_SIZE,
+                        **(
+                            {}
+                            if amplitude_terminal is None
+                            else {
+                                "rho_sha256": amplitude_terminal["rho_sha256"],
+                                "field_evaluation_count": len(
+                                    microstep_trajectory or ()
+                                ),
+                            }
+                        ),
                     }
                 )
                 stages.record(
@@ -316,8 +529,17 @@ def run_phase3(
                 final_rows.append(
                     {"batch_index": batch_index, "summary": _endpoint_summary(scores), "scores": scores}
                 )
+            sequential_chain = (
+                None
+                if experiment_binding is None
+                else validate_phase3_batch_chain(batch_rows)
+            )
             final_payload = {
-                "schema": "ode-edit-s05-p1r52-c-writer-phase3-final-w10/v1",
+                "schema": (
+                    "ode-edit-s05-p1r52-c-writer-phase3-final-w10/v1"
+                    if experiment_binding is None
+                    else experiment_binding.final_schema
+                ),
                 "arm": arm,
                 "cohort_count": len(final_rows),
                 "request_count": len(final_rows) * BATCH_SIZE,
@@ -336,10 +558,26 @@ def run_phase3(
     if _hashes(touched) != w0_hashes or any(int(touched[name].data_ptr()) != w0_pointers[name] for name in touched):
         raise ODEBFStateError("Phase3 terminal W0 restore differs")
     terminal = {
-        "schema": "ode-edit-s05-p1r52-c-writer-phase3-terminal/v1",
-        "instruction_id": INSTRUCTION_ID,
-        "method_id": METHOD_ID,
-        "status": "TERMINAL_VALID",
+        "schema": (
+            "ode-edit-s05-p1r52-c-writer-phase3-terminal/v1"
+            if experiment_binding is None
+            else experiment_binding.terminal_schema
+        ),
+        "instruction_id": (
+            INSTRUCTION_ID
+            if experiment_binding is None
+            else experiment_binding.instruction_id
+        ),
+        "method_id": (
+            METHOD_ID
+            if experiment_binding is None
+            else experiment_binding.method_id
+        ),
+        "status": (
+            "TERMINAL_VALID"
+            if experiment_binding is None
+            else experiment_binding.terminal_status
+        ),
         "source_head": source_head,
         "role": role,
         "arm": arm,
@@ -368,11 +606,35 @@ def run_phase3(
         "imputation_count": 0,
         "scientific_promotion": False,
     }
+    if experiment_binding is not None:
+        if set(terminal).intersection(experiment_binding.metadata):
+            raise ODEBFContractError("Phase3 external terminal metadata collides")
+        terminal.update(
+            {
+                "target_field_evaluation_count": len(batch_rows)
+                * P1R23_GRID_COUNT,
+                "writer_layer_apply_count": len(batch_rows)
+                * P1R23_GRID_COUNT
+                * 5,
+                "batch_commit_to_next_entry_chain": True,
+                "sequential_chain_receipt": sequential_chain,
+                "heldout_outer_indices_per_batch": [8],
+                "heldout_evaluator_decision_influence_count": 0,
+                "forbidden_decision_access_count": 0,
+                "additional_model_forward_count": 0,
+                "additional_backward_count": 0,
+                **dict(experiment_binding.metadata),
+            }
+        )
     _assert_no_low_precision_activity(terminal)
     terminal["identity_sha256"] = canonical_hash(terminal)
     terminal_sha = _atomic_write_once(destination / "terminal.json", terminal)
     manifest = {
-        "schema": "ode-edit-s05-p1r52-c-writer-phase3-manifest/v1",
+        "schema": (
+            "ode-edit-s05-p1r52-c-writer-phase3-manifest/v1"
+            if experiment_binding is None
+            else experiment_binding.manifest_schema
+        ),
         "source_head": source_head,
         "role": role,
         "arm": arm,
@@ -384,7 +646,11 @@ def run_phase3(
     manifest["identity_sha256"] = canonical_hash(manifest)
     manifest_sha = _atomic_write_once(destination / "manifest.json", manifest)
     return {
-        "status": "P1R52_C_WRITER_PHASE3_TERMINAL",
+        "status": (
+            "P1R52_C_WRITER_PHASE3_TERMINAL"
+            if experiment_binding is None
+            else experiment_binding.return_status
+        ),
         "arm": arm,
         "terminal_sha256": terminal_sha,
         "manifest_sha256": manifest_sha,
@@ -394,6 +660,7 @@ def run_phase3(
 
 __all__ = [
     "CACHE_ARMS",
+    "Phase3SequentialExperimentBinding",
     "RESULT_NAMES",
     "ROLES",
     "arm_for_role",
@@ -401,4 +668,5 @@ __all__ = [
     "is_phase3_role",
     "role_for_cell",
     "run_phase3",
+    "validate_phase3_batch_chain",
 ]
