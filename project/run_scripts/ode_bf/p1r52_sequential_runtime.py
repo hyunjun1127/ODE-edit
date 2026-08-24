@@ -178,6 +178,11 @@ from .p1r54_fz_c3_independent import (
     expected_result_name as expected_p1r54_fz_independent_result_name,
     run_p1r54_fz_c3_independent,
 )
+from .p1r54_realization_reset import (
+    ROLES as P1R54_REALIZATION_RESET_ROLES,
+    expected_result_name as expected_p1r54_realization_reset_result_name,
+    run_p1r54_realization_reset,
+)
 from .p1r52_target_depth import P1R52TargetDepth
 from .p1r52_target_depth_inner_telemetry import (
     P1R52TargetDepthTelemetryObserver,
@@ -340,6 +345,14 @@ def expected_p1r52_sequential_result_name(
     scale: P1R52SequentialScale = P1R52_B10X10_SCALE,
     attempt_suffix: str | None = None,
 ) -> str:
+    if role in P1R54_REALIZATION_RESET_ROLES:
+        if (
+            alias != "llama3-8b-inst"
+            or scale != P1R52_B100X10_SCALE
+            or attempt_suffix is not None
+        ):
+            raise ODEBFContractError("P1R54 realization-reset result scope differs")
+        return expected_p1r54_realization_reset_result_name(role)
     if role in P1R54_FZ_INDEPENDENT_ROLES:
         if (
             alias != "llama3-8b-inst"
@@ -1233,6 +1246,36 @@ def run_p1r52_sequential(
     target_depth: P1R52TargetDepth | str | None = None,
     target_depth_inner_telemetry: bool = False,
 ) -> dict[str, Any]:
+    if role in P1R54_REALIZATION_RESET_ROLES:
+        if (
+            scale != P1R52_B100X10_SCALE
+            or batch_entry_evaluation_enabled
+            or accepted_z_observation_enabled
+            or accepted_z_reference_root is not None
+            or not accepted_z_sealed_w_reuse
+            or postsolve_energy_warn_enabled
+            or piru_cache_complete_rounds is not None
+            or attempt_suffix is not None
+            or target_depth is not None
+            or target_depth_inner_telemetry
+        ):
+            raise ODEBFContractError("P1R54 realization-reset runtime scope differs")
+        return run_p1r54_realization_reset(
+            model, tokenizer, alias=alias, role=role, destination=destination,
+            raw_root=raw_root, stages=stages, source_head=source_head,
+            stream_batches=stream_batches, stream=stream, hparams=hparams,
+            projector=projector, contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256, controller_lock=controller_lock,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256, schedule=schedule,
+            theta0_cache=theta0_cache, dataset_path=dataset_path,
+            mutation_lock=mutation_lock, touched=touched,
+            base_receipt=base_receipt, base_values=base_values,
+            job_ledger=job_ledger,
+            request_microbatch_size=request_microbatch_size,
+            fp32_runtime=fp32_runtime,
+        )
     if role in P1R54_FZ_INDEPENDENT_ROLES:
         if (
             scale != P1R52_B100X10_SCALE

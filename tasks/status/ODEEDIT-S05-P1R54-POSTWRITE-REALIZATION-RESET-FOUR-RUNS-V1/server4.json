@@ -1,0 +1,53 @@
+{
+  "task_id": "ODEEDIT-S05-P1R54-POSTWRITE-REALIZATION-RESET-FOUR-RUNS-V1",
+  "server": "server4",
+  "agent_id": "server4-server-head",
+  "agent_role": "server-head",
+  "status": "implementation_focused_gates_pass_pre_gpu_pending",
+  "updated_at": "2026-08-24T18:56:50+09:00",
+  "owner_session": "codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d",
+  "authoritative_contract": {
+    "path": "/data/janghj/ODE-edit/local/state/p1r54-realization-reset-v1/authoritative-contract.txt",
+    "sha256": "3cbaec42ddc8727e7a35ad5ffc9503f736bd8e6f24b30ba9b0eca03bb5425d15",
+    "bytes": 15228,
+    "lines": 569,
+    "mode": "0600",
+    "full_read": true
+  },
+  "scope_correction": {
+    "array": "0-3%4",
+    "independent_reset_runs": 2,
+    "sequential_reset_runs": 2,
+    "new_continuation_runs": 0,
+    "cells": [
+      "FZ_RESET_INDEPENDENT_B100",
+      "PDZ_T1_RESET_INDEPENDENT_B100",
+      "FZ_RESET_SEQUENTIAL_10XB100",
+      "PDZ_T1_RESET_SEQUENTIAL_10XB100"
+    ]
+  },
+  "source_base": {
+    "head": "592ad5053497a2829b983e88e4a878b1b4d90d70",
+    "tree": "88b9f493b2a31e1e922d2d29f5426fe9e53572f5"
+  },
+  "implementation": {
+    "realization_policy": "POST_WRITE_W_REALIZATION_RESET",
+    "single_changed_transition": "NEXT_CONTROLLER_ANCHOR_ONLY",
+    "terminal_accepted_z": "LAST_COMMANDED_TARGET",
+    "reset_added_forward_backward_materialization_evaluator": "0/0/0/0",
+    "numerical_lock_root": "7bd9082fcd23b6c6270e4d3ceef52bda152db2ef11c97eed6af99d45c40fc035",
+    "focused_tests": "3/3_PASS",
+    "legacy_regressions": "29/29_PASS"
+  },
+  "continuation_controls": {
+    "fz_independent": "SEALED_EXISTING",
+    "pdz_t1_independent": "SEALED_EXISTING",
+    "fz_sequential": "SEALED_EXISTING",
+    "pdz_t1_sequential": "ABSENT_CONTROL",
+    "fifth_run_count": 0
+  },
+  "project_gpu_cap": 4,
+  "gpu_slurm_model_action_count": 0,
+  "scientific_promotion": false,
+  "next_state": "COMMIT_PUSH_AND_FINAL_PRE_GPU"
+}

@@ -3284,6 +3284,7 @@ def run_p1(
     from .p1r54_energyfree_localz_b100 import is_p1r54_role
     from .p1r54_fz_c3_independent import is_p1r54_fz_independent_role
     from .p1r54_fz_c3_sequential import is_p1r54_fz_sequential_role
+    from .p1r54_realization_reset import is_p1r54_realization_reset_role
 
     joint_pc_full_fp32_mode = (
         is_joint_pc_full_fp32_role(p1r52_sequential_role)
@@ -3297,6 +3298,7 @@ def run_p1(
         or is_p1r54_role(p1r52_sequential_role)
         or is_p1r54_fz_independent_role(p1r52_sequential_role)
         or is_p1r54_fz_sequential_role(p1r52_sequential_role)
+        or is_p1r54_realization_reset_role(p1r52_sequential_role)
     )
     if runtime_gpu_capacity_validator is not None and not (
         is_target_timescale_role(p1r52_sequential_role)
@@ -3305,6 +3307,7 @@ def run_p1(
         or is_p1r54_role(p1r52_sequential_role)
         or is_p1r54_fz_independent_role(p1r52_sequential_role)
         or is_p1r54_fz_sequential_role(p1r52_sequential_role)
+        or is_p1r54_realization_reset_role(p1r52_sequential_role)
     ):
         raise ODEBFContractError("runtime GPU capacity override scope differs")
     p3r1_fp32_mode = is_p3r1_role(p1r52_sequential_role)

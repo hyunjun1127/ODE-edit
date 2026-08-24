@@ -75,6 +75,7 @@ class Phase3SequentialExperimentBinding:
     amplitude_policy_factory: Callable[[int, int], Any]
     easyedit_root: Path
     metadata: Mapping[str, Any]
+    realization_controller_factory: Callable[[int, int], Any] | None = None
 
     def __post_init__(self) -> None:
         if (
@@ -97,6 +98,10 @@ class Phase3SequentialExperimentBinding:
             or not callable(self.selected_target_resolver)
             or self.heldout_step_indices != (7,)
             or not callable(self.amplitude_policy_factory)
+            or (
+                self.realization_controller_factory is not None
+                and not callable(self.realization_controller_factory)
+            )
             or not self.easyedit_root.is_absolute()
         ):
             raise ODEBFContractError("Phase3 external experiment binding differs")
@@ -256,6 +261,14 @@ def run_phase3(
                         batch_index, len(requests)
                     )
                 )
+                realization_controller = (
+                    None
+                    if experiment_binding is None
+                    or experiment_binding.realization_controller_factory is None
+                    else experiment_binding.realization_controller_factory(
+                        batch_index, len(requests)
+                    )
+                )
                 created: list[CKStepWriterRuntime] = []
 
                 def factory(objective_plan: Any, capture_plan: Any) -> CKStepWriterRuntime:
@@ -302,6 +315,7 @@ def run_phase3(
                                 experiment_binding.target_subcycle_schedule
                             ),
                             amplitude_policy=amplitude_policy,
+                            realization_controller=realization_controller,
                             easyedit_root=experiment_binding.easyedit_root,
                         )
                     target, public, _, _ = _fp32_target_and_j0(

@@ -353,6 +353,7 @@ def _run_ode_arm(
     p1r52_c_kstep_writer: Any | None = None,
     p1r52_target_subcycle_schedule: TargetSubcycleSchedule | None = None,
     p1r52_amplitude_policy: P1R52AmplitudePolicy | None = None,
+    p1r54_realization_controller: Any | None = None,
     p1r52_fp32_phase_a: bool = False,
     p1r52_phase_a_method_label: str | None = None,
     p1r52_sequential_target_depth: bool = False,
@@ -465,6 +466,21 @@ def _run_ode_arm(
         p1r52_target_subcycle_schedule is None or not p1r52
     ):
         raise ODEBFContractError("P1R52 external amplitude policy activation differs")
+    if p1r54_realization_controller is not None and (
+        p1r52_target_subcycle_schedule is None
+        or p1r52_amplitude_policy is None
+        or p1r52_c_kstep_writer is None
+        or not all(
+            callable(getattr(p1r54_realization_controller, name, None))
+            for name in (
+                "observe_entry",
+                "advance",
+                "terminal_commanded_target",
+                "terminal_receipt",
+            )
+        )
+    ):
+        raise ODEBFContractError("P1R54 realization controller activation differs")
     if p1r52_pre_writer_observer is not None and (
         not p1r52 or target_depth_policy is not P1R52TargetDepth.IL1
     ):
@@ -712,6 +728,17 @@ def _run_ode_arm(
             )
             if target_result.target_gradient is None:
                 raise ODEBFContractError("P1R23 target gradient is absent")
+            if p1r54_realization_controller is not None:
+                if p1r24_kl_teacher_sha256 is None:
+                    raise ODEBFStateError("P1R54 realization teacher seal is absent")
+                p1r54_realization_controller.observe_entry(
+                    step_index=step_index,
+                    controller_anchor=current_target,
+                    current_terminal=current_terminal,
+                    target_origin=target_origin,
+                    teacher_sha256=p1r24_kl_teacher_sha256,
+                    target_new_nll_by_request=target_result.per_request_values,
+                )
             if p1r24 or p1r30:
                 assert p1r24_kl_plan is not None and p1r24_kl_teacher is not None
                 assert p1r24_target_lock is not None
@@ -1359,6 +1386,28 @@ def _run_ode_arm(
                 target_realization = fixed_e8_target_write_realization(
                     current_target, target_next, current_terminal, next_physical.terminal_z
                 )
+                realization_transition = None
+                next_controller_anchor = target_next
+                if p1r54_realization_controller is not None:
+                    if p1r24_kl_teacher_sha256 is None or finite_endpoint is None:
+                        raise ODEBFStateError("P1R54 realization endpoint seal is absent")
+                    next_controller_anchor, realization_transition = (
+                        p1r54_realization_controller.advance(
+                            step_index=step_index,
+                            controller_anchor=current_target,
+                            commanded_target=target_next,
+                            current_terminal=current_terminal,
+                            next_physical_terminal=next_physical.terminal_z,
+                            target_origin=target_origin,
+                            teacher_sha256=p1r24_kl_teacher_sha256,
+                            commanded_target_new_nll_by_request=(
+                                finite_endpoint.per_request_values
+                            ),
+                            terminal_post_write_nll_by_request=(
+                                terminal_per_request
+                            ),
+                        )
+                    )
                 refresh.record(
                     step_index=step_index,
                     accepted_state_sha256=state_before,
@@ -1403,10 +1452,14 @@ def _run_ode_arm(
                     "instruction_id": "ODEEDIT-S05-P1R52-C-WRITER-THREE-PHASE-V1",
                     "method_id": "P1R52-C-WRITER-KSTEP-FULL-FP32",
                 }
+                if realization_transition is not None:
+                    payload["p1r54_realization_transition"] = dict(
+                        realization_transition
+                    )
                 payload["identity_sha256"] = canonical_hash(payload)
                 write_once(raw_root / "ode" / arm_label.lower() / f"accepted-k{step_index + 1}.json", payload)
                 accepted.append(payload)
-                current_target = target_next
+                current_target = next_controller_anchor
                 current_terminal = next_physical.terminal_z.clone()
                 physical = next_physical
                 legacy_ledger.record_accepted_step(accepted_dt=P1R23_H, completed_k_total=step_index + 1)
@@ -2721,7 +2774,11 @@ def _run_ode_arm(
             if p1r52_fp32_phase_a
             else _factor_map(current_factors)
         )
-        target_for_endpoint = current_target.clone()
+        target_for_endpoint = (
+            current_target.clone()
+            if p1r54_realization_controller is None
+            else p1r54_realization_controller.terminal_commanded_target()
+        )
         physical_for_endpoint = physical
         p1r52_teacher_hashes = (
             [
@@ -2960,6 +3017,10 @@ def _run_ode_arm(
             p1r52_residual_reserve_writer.assert_complete()
         if p1r52_c_kstep_writer is not None:
             p1r52_c_kstep_writer.assert_complete()
+        if p1r54_realization_controller is not None:
+            rollout_payload["p1r54_realization_controller"] = dict(
+                p1r54_realization_controller.terminal_receipt()
+            )
         rollout_payload["identity_sha256"] = canonical_hash(rollout_payload)
         phase_endpoint_ready = p1r52_fp32_phase_a
         return {
