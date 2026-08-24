@@ -60,28 +60,28 @@ CELLS = (
         EnergyFreeLocalZArm.FZ,
         ResetExecutionScope.INDEPENDENT_B100,
         "r54-realization-reset-independent-b100-fz",
-        "s05-p1r54-realization-reset-independent-b100-fz-tech-r2-v1",
+        "s05-p1r54-realization-reset-independent-b100-fz-tech-r3-v1",
     ),
     ResetCell(
         1,
         EnergyFreeLocalZArm.PDZ,
         ResetExecutionScope.INDEPENDENT_B100,
         "r54-realization-reset-independent-b100-pdz-t1",
-        "s05-p1r54-realization-reset-independent-b100-pdz-t1-tech-r2-v1",
+        "s05-p1r54-realization-reset-independent-b100-pdz-t1-tech-r3-v1",
     ),
     ResetCell(
         2,
         EnergyFreeLocalZArm.FZ,
         ResetExecutionScope.SEQUENTIAL_10XB100,
         "r54-realization-reset-sequential-10xb100-fz",
-        "s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r2-v1",
+        "s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r3-v1",
     ),
     ResetCell(
         3,
         EnergyFreeLocalZArm.PDZ,
         ResetExecutionScope.SEQUENTIAL_10XB100,
         "r54-realization-reset-sequential-10xb100-pdz-t1",
-        "s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r2-v1",
+        "s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r3-v1",
     ),
 )
 ROLES = tuple(item.role for item in CELLS)
@@ -165,6 +165,46 @@ def source_equivalence_receipt(cell: int) -> Mapping[str, Any]:
     return payload
 
 
+def _experiment_metadata(config: ResetCell) -> Mapping[str, Any]:
+    """Return one collision-safe terminal metadata namespace.
+
+    The reused target-timescale and sequential terminal schemas already own
+    generic keys such as ``cell``, ``request_count`` and
+    ``scientific_promotion``.  Keeping reset deployment metadata under one
+    experiment-specific key preserves those legacy terminal contracts.
+    """
+
+    request_count = (
+        100
+        if config.scope is ResetExecutionScope.INDEPENDENT_B100
+        else 1000
+    )
+    batch_count = (
+        1
+        if config.scope is ResetExecutionScope.INDEPENDENT_B100
+        else 10
+    )
+    payload: dict[str, Any] = {
+        "cell": config.raw_free_payload(),
+        "canonical_batch": (
+            "B1"
+            if config.scope is ResetExecutionScope.INDEPENDENT_B100
+            else "B1-B10"
+        ),
+        "stream_root": STREAM_ROOT,
+        "stream_order": STREAM_ORDER,
+        "sample_duplication_count": 0,
+        "sequential_batch_count": batch_count,
+        "request_count": request_count,
+        "realization_policy": RealizationPolicy.POST_WRITE_W_REALIZATION_RESET.value,
+        "continuation_gpu_execution_count": 0,
+        "source_equivalence": source_equivalence_receipt(config.cell),
+        "scientific_promotion": False,
+    }
+    payload["identity_sha256"] = canonical_hash(payload)
+    return {"p1r54_realization_reset": payload}
+
+
 def build_sequential_binding(
     config: ResetCell,
     *,
@@ -190,18 +230,7 @@ def build_sequential_binding(
         target_subcycle_schedule=schedule_for_cell(TargetTimescaleCell.Z0_COARSE),
         amplitude_policy_factory=_amplitude_factory(config.arm),
         easyedit_root=easyedit_root,
-        metadata={
-            "cell": config.raw_free_payload(),
-            "stream_root": STREAM_ROOT,
-            "stream_order": STREAM_ORDER,
-            "sample_duplication_count": 0,
-            "sequential_batch_count": 10,
-            "request_count": 1000,
-            "realization_policy": RealizationPolicy.POST_WRITE_W_REALIZATION_RESET.value,
-            "continuation_gpu_execution_count": 0,
-            "source_equivalence": source_equivalence_receipt(config.cell),
-            "scientific_promotion": False,
-        },
+        metadata=_experiment_metadata(config),
         realization_controller_factory=_realization_factory,
     )
 
@@ -247,17 +276,7 @@ def run_p1r54_realization_reset(
         terminal_status="P1R54_REALIZATION_RESET_INDEPENDENT_TERMINAL",
         stage_prefix=f"p1r54_realization_reset_{arm_tag}_independent",
         amplitude_writer_layer_apply_count_key="writer_layer_apply_count",
-        experiment_metadata={
-            "cell": config.raw_free_payload(),
-            "canonical_batch": "B1",
-            "request_count": 100,
-            "stream_root": STREAM_ROOT,
-            "stream_order": STREAM_ORDER,
-            "realization_policy": RealizationPolicy.POST_WRITE_W_REALIZATION_RESET.value,
-            "continuation_gpu_execution_count": 0,
-            "source_equivalence": source_equivalence_receipt(config.cell),
-            "scientific_promotion": False,
-        },
+        experiment_metadata=_experiment_metadata(config),
         easyedit_root=easyedit_root,
         **kwargs,
     )

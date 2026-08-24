@@ -10,6 +10,7 @@ from project.run_scripts.ode_bf.p1r54_realization_policy import (
 from project.run_scripts.ode_bf.p1r54_realization_reset import (
     CELLS,
     ResetExecutionScope,
+    _experiment_metadata,
     build_sequential_binding,
     source_equivalence_receipt,
 )
@@ -122,4 +123,28 @@ def test_four_cell_mapping_and_shared_sequential_loop() -> None:
         binding = build_sequential_binding(config)
         assert binding.realization_controller_factory is not None
         assert binding.writer_arm == "C3-KSTEP-CACHE"
-        assert binding.metadata["continuation_gpu_execution_count"] == 0
+        assert set(binding.metadata) == {"p1r54_realization_reset"}
+        metadata = binding.metadata["p1r54_realization_reset"]
+        assert metadata["continuation_gpu_execution_count"] == 0
+        assert metadata["request_count"] == 1000
+        assert metadata["sequential_batch_count"] == 10
+        assert metadata["identity_sha256"]
+
+
+def test_terminal_metadata_is_single_collision_safe_namespace() -> None:
+    generic_terminal_keys = {
+        "cell",
+        "request_count",
+        "scientific_promotion",
+        "stream_root",
+        "realization_policy",
+    }
+    for config in CELLS:
+        metadata = _experiment_metadata(config)
+        assert set(metadata) == {"p1r54_realization_reset"}
+        assert not generic_terminal_keys.intersection(metadata)
+        payload = metadata["p1r54_realization_reset"]
+        assert payload["cell"]["cell"] == config.cell
+        assert payload["request_count"] == (
+            100 if config.scope is ResetExecutionScope.INDEPENDENT_B100 else 1000
+        )

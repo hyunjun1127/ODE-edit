@@ -3,8 +3,8 @@
   "server": "server4",
   "agent_id": "server4-server-head",
   "agent_role": "server-head",
-  "status": "implementation_focused_gates_pass_pre_gpu_pending",
-  "updated_at": "2026-08-24T18:56:50+09:00",
+  "status": "tech_r3_terminal_metadata_repair_focused_gates_pass",
+  "updated_at": "2026-08-24T19:27:46+09:00",
   "owner_session": "codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d",
   "authoritative_contract": {
     "path": "/data/janghj/ODE-edit/local/state/p1r54-realization-reset-v1/authoritative-contract.txt",
@@ -36,8 +36,8 @@
     "terminal_accepted_z": "LAST_COMMANDED_TARGET",
     "reset_added_forward_backward_materialization_evaluator": "0/0/0/0",
     "numerical_lock_root": "7bd9082fcd23b6c6270e4d3ceef52bda152db2ef11c97eed6af99d45c40fc035",
-    "focused_tests": "3/3_PASS",
-    "legacy_regressions": "29/29_PASS"
+    "focused_tests": "4/4_PASS",
+    "focused_plus_legacy_regressions": "23/23_PASS"
   },
   "technical_preflight_attempts": [
     {
@@ -64,6 +64,15 @@
       "elapsed_seconds_per_cell": "0_TO_1",
       "science_denominator_influence_count": 0,
       "repair": "create only owned mode0700 parents and use TECH-R2 result namespace"
+    },
+    {
+      "attempt": "JOB23976_ARRAY0_3_TECH_R2",
+      "status": "PURE_TECHNICAL_POST_K8_PRE_TERMINAL_FAILURE_EXCLUDED",
+      "cause": "reset experiment metadata reused generic terminal keys and triggered the existing fail-close collision guard",
+      "valid_k1_k8_writer_completion": "4/4_CELLS",
+      "terminal_count": 0,
+      "science_denominator_influence_count": 0,
+      "repair": "place deployment-only reset metadata under one p1r54_realization_reset namespace and use fresh-W0 TECH-R3 result roots"
     }
   ],
   "continuation_controls": {
@@ -74,7 +83,7 @@
     "fifth_run_count": 0
   },
   "project_gpu_cap": 4,
-  "gpu_slurm_model_action_count": 0,
+  "gpu_slurm_model_action_count": 4,
   "scientific_promotion": false,
-  "next_state": "COMMIT_PUSH_AND_FINAL_PRE_GPU"
+  "next_state": "COMMIT_PUSH_FINAL_PRE_GPU_AND_SUBMIT_TECH_R3"
 }
