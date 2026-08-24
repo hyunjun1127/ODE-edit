@@ -55,6 +55,15 @@
       "elapsed_seconds_per_cell": 1,
       "science_denominator_influence_count": 0,
       "repair": "restore exact server4 session boundary and use TECH-R1 result namespace"
+    },
+    {
+      "attempt": "JOB23972_ARRAY0_3_TECH_R1",
+      "status": "PURE_TECHNICAL_PRE_MODEL_FAILURE_EXCLUDED",
+      "cause": "missing ignored local/odebf state/log/result parent directories",
+      "model_load_count": 0,
+      "elapsed_seconds_per_cell": "0_TO_1",
+      "science_denominator_influence_count": 0,
+      "repair": "create only owned mode0700 parents and use TECH-R2 result namespace"
     }
   ],
   "continuation_controls": {
