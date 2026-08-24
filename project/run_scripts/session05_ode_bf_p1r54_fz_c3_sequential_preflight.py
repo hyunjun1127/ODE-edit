@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import asdict
 import json
 import os
 from pathlib import Path
@@ -301,7 +302,7 @@ def build_receipt(*, source_head: str, final_receipt: Path, session_id: str) -> 
         "reference_execution_count": 0,
         "deployment_identity": deployment.identity_sha256,
         "easyedit_runtime_seal_root": deployment.runtime_path_seal.root_digest,
-        "artifact_identity": artifact.identity(),
+        "artifact_receipt": asdict(artifact),
         "dry_plan": dry_plan,
         "result_name": RESULT_NAME,
         "role": ROLE,
