@@ -7,7 +7,7 @@ import unittest
 
 import torch
 
-from project.run_scripts.ode_bf.contracts import ODEBFStateError
+from project.run_scripts.ode_bf.contracts import ODEBFStateError, canonical_hash
 from project.run_scripts.ode_bf.functional import tensor_sha256
 from project.run_scripts.ode_bf.p1r52_c_writer_kstep import CKStepWriterRuntime
 from project.run_scripts.ode_bf.p1r52_c_writer_kstep_cache import (
@@ -18,6 +18,10 @@ from project.run_scripts.ode_bf.p1r52_sequential_runtime import (
     expected_p1r52_sequential_result_name,
 )
 from project.run_scripts.ode_bf.p1r52_sequential_scale import P1R52_B100X10_SCALE
+from project.run_scripts.ode_bf.scalable_batched_runtime import (
+    AcceptedPhysicalAdvancePolicy,
+    DynamicRefreshLedger,
+)
 from project.run_scripts.ode_bf.p1r54_fz_finalz_oneshot_analysis import (
     build_writer_cadence_comparison,
 )
@@ -86,6 +90,79 @@ def _runtime() -> tuple[CKStepWriterRuntime, _Model, _CachePolicy, torch.Tensor]
 
 
 class P1R54FZFinalZOneShotTests(unittest.TestCase):
+    def test_typed_refresh_policy_allows_only_stationary7_then_advance1(self) -> None:
+        ledger = DynamicRefreshLedger(
+            physical_advance_policy=(
+                AcceptedPhysicalAdvancePolicy.FINAL_Z_ONESHOT
+            )
+        )
+        state = canonical_hash({"state": "w0"})
+        for step in range(8):
+            digest = lambda label: canonical_hash({"label": label, "step": step})
+            ledger.record(
+                step_index=step,
+                accepted_state_sha256=state,
+                target_sha256=digest("target"),
+                key_inventory_sha256=digest("key"),
+                slope_sha256=digest("slope"),
+                field_sha256=digest("field"),
+                field_invocation_index=step + 1,
+                physical_state_advanced=step == 7,
+            )
+        receipt = ledger.finalize()
+        self.assertEqual(receipt["stationary_physical_state_count"], 7)
+        self.assertEqual(receipt["physical_advance_count"], 1)
+        self.assertEqual(receipt["target_command_advance_count"], 7)
+
+    def test_refresh_policy_rejects_wrong_cadence_and_stale_target(self) -> None:
+        state = canonical_hash({"state": "w0"})
+        digest = lambda label, step: canonical_hash({"label": label, "step": step})
+        wrong = DynamicRefreshLedger(
+            physical_advance_policy=(
+                AcceptedPhysicalAdvancePolicy.FINAL_Z_ONESHOT
+            )
+        )
+        with self.assertRaisesRegex(ODEBFStateError, "cadence"):
+            wrong.record(
+                step_index=0,
+                accepted_state_sha256=state,
+                target_sha256=digest("target", 0),
+                key_inventory_sha256=digest("key", 0),
+                slope_sha256=digest("slope", 0),
+                field_sha256=digest("field", 0),
+                field_invocation_index=1,
+                physical_state_advanced=True,
+            )
+        stale = DynamicRefreshLedger(
+            physical_advance_policy=(
+                AcceptedPhysicalAdvancePolicy.FINAL_Z_ONESHOT
+            )
+        )
+        for step in range(2):
+            if step == 1:
+                with self.assertRaisesRegex(ODEBFStateError, "target command"):
+                    stale.record(
+                        step_index=step,
+                        accepted_state_sha256=state,
+                        target_sha256=digest("target", 0),
+                        key_inventory_sha256=digest("key", step),
+                        slope_sha256=digest("slope", step),
+                        field_sha256=digest("field", step),
+                        field_invocation_index=step + 1,
+                        physical_state_advanced=False,
+                    )
+            else:
+                stale.record(
+                    step_index=step,
+                    accepted_state_sha256=state,
+                    target_sha256=digest("target", 0),
+                    key_inventory_sha256=digest("key", step),
+                    slope_sha256=digest("slope", step),
+                    field_sha256=digest("field", step),
+                    field_invocation_index=step + 1,
+                    physical_state_advanced=False,
+                )
+
     def test_writer_cadence_and_binding_are_exact(self) -> None:
         binding = build_binding()
         self.assertIs(binding.writer_cadence, WriterCadence.FINAL_Z_ONESHOT)

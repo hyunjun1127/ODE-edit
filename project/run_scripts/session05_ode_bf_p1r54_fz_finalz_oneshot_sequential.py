@@ -45,7 +45,7 @@ from project.run_scripts.session05_ode_bf_p1r54_fz_finalz_oneshot_sequential_pre
 )
 
 
-RUN_TOKEN = "p1r54-fz-final-z-oneshot-sequential-10xb100-v1"
+RUN_TOKEN = "p1r54-fz-final-z-oneshot-sequential-10xb100-tech-r1-v1"
 
 
 def _load_final(path: Path, *, source_head: str, source_tree: str) -> dict[str, object]:
@@ -173,7 +173,7 @@ def main(argv: list[str] | None = None) -> int:
             exc,
             repo_root=REPO_ROOT,
             instruction_id=INSTRUCTION_ID,
-            failure_schema="ode-edit-s05-p1r54-fz-final-z-failure/v1",
+            failure_schema="ode-edit-s05-p1r54-fz-final-z-failure/tech-r1-v1",
         )
         print(
             json.dumps(

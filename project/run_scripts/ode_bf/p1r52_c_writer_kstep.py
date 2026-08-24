@@ -28,7 +28,11 @@ from .p1r52_joint_pc_runtime import _writer_entry
 from .p1r52_residual_reserve_pre_writer_interface import reconstruct_native_il1_selected_target
 from .p1r52_target_official_alphaedit_writer import _endpoint_summary, _evaluate_w, _writer_gap, accepted_z_cache_template
 from .scalable_batched_native import run_official_native_apply
-from .scalable_batched_runtime import P1R23_GRID_COUNT, scalable_ordered_request_digest
+from .scalable_batched_runtime import (
+    AcceptedPhysicalAdvancePolicy,
+    P1R23_GRID_COUNT,
+    scalable_ordered_request_digest,
+)
 from .writer_cadence import WriterCadence
 
 
@@ -168,6 +172,11 @@ class CKStepWriterRuntime:
         if not isinstance(writer_cadence, WriterCadence):
             raise ODEBFContractError("C K-step writer cadence differs")
         self.writer_cadence = writer_cadence
+        self.physical_advance_policy = (
+            AcceptedPhysicalAdvancePolicy.FINAL_Z_ONESHOT
+            if writer_cadence is WriterCadence.FINAL_Z_ONESHOT
+            else AcceptedPhysicalAdvancePolicy.EVERY_OUTER
+        )
         self.heldout_step_indices = frozenset(
             range(P1R23_GRID_COUNT)
             if heldout_step_indices is None

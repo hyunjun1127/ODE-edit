@@ -77,6 +77,7 @@ from .scalable_batched_native import (
     run_official_native_apply,
 )
 from .scalable_batched_runtime import (
+    AcceptedPhysicalAdvancePolicy,
     DynamicRefreshLedger,
     P1R23_GRID_COUNT,
     P1R23_H,
@@ -572,7 +573,13 @@ def _run_ode_arm(
     history = arm_state.history
     legacy_ledger = arm_state.ledger
     compute = ScalableComputeLedger()
-    refresh = DynamicRefreshLedger()
+    refresh = DynamicRefreshLedger(
+        physical_advance_policy=(
+            AcceptedPhysicalAdvancePolicy.EVERY_OUTER
+            if p1r52_c_kstep_writer is None
+            else p1r52_c_kstep_writer.physical_advance_policy
+        )
+    )
     entry_capture = FixedE8EntryCapture(
         {name: value.detach().cpu().clone() for name, value in base_values.items()},
         dict(base_receipt.parameter_sha256),
@@ -1408,6 +1415,15 @@ def _run_ode_arm(
                             ),
                         )
                     )
+                cadence_refresh_kwargs: dict[str, Any] = {}
+                if (
+                    p1r52_c_kstep_writer.physical_advance_policy
+                    is AcceptedPhysicalAdvancePolicy.FINAL_Z_ONESHOT
+                ):
+                    cadence_refresh_kwargs["physical_state_advanced"] = (
+                        c_execution.entry_weight_sha256
+                        != c_execution.commit_weight_sha256
+                    )
                 refresh.record(
                     step_index=step_index,
                     accepted_state_sha256=state_before,
@@ -1416,6 +1432,7 @@ def _run_ode_arm(
                     slope_sha256=c_execution.identity_sha256,
                     field_sha256=c_execution.writer_receipt["identity_sha256"],
                     field_invocation_index=step_index + 1,
+                    **cadence_refresh_kwargs,
                 )
                 progress = {
                     "completion": "TERMINAL_W_ONLY_OBJECTIVE_ONCE" if terminal_nll is not None else "REFRESHED_PHYSICAL_PREFIX",

@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
+from enum import Enum
 from typing import Any, Callable, Mapping, Sequence
 
 import torch
@@ -446,12 +447,29 @@ def initial_target_from_capture(capture: StreamingPhysicalCapture) -> InitialTar
     )
 
 
+class AcceptedPhysicalAdvancePolicy(str, Enum):
+    EVERY_OUTER = "EVERY_OUTER"
+    FINAL_Z_ONESHOT = "FINAL_Z_ONESHOT"
+
+
 @dataclass(slots=True)
 class DynamicRefreshLedger:
     """Prove that K8 fields are rebuilt on the accepted-state chain."""
 
     expected_steps: int = P1R23_GRID_COUNT
+    physical_advance_policy: AcceptedPhysicalAdvancePolicy = (
+        AcceptedPhysicalAdvancePolicy.EVERY_OUTER
+    )
     records: list[dict[str, Any]] = field(default_factory=list)
+
+    def __post_init__(self) -> None:
+        if (
+            self.expected_steps != P1R23_GRID_COUNT
+            or not isinstance(
+                self.physical_advance_policy, AcceptedPhysicalAdvancePolicy
+            )
+        ):
+            raise ODEBFContractError("P1R23 refresh policy differs")
 
     def record(
         self,
@@ -463,6 +481,7 @@ class DynamicRefreshLedger:
         slope_sha256: str,
         field_sha256: str,
         field_invocation_index: int,
+        physical_state_advanced: bool | None = None,
     ) -> None:
         if step_index != len(self.records) or field_invocation_index != step_index + 1:
             raise ODEBFStateError("P1R23 field refresh sequence differs")
@@ -475,8 +494,32 @@ class DynamicRefreshLedger:
         )
         if any(not isinstance(item, str) or len(item) != 64 for item in values):
             raise ODEBFContractError("P1R23 field refresh identity differs")
-        if self.records and accepted_state_sha256 == self.records[-1]["accepted_state_sha256"]:
-            raise ODEBFStateError("P1R23 accepted physical state did not advance")
+        if self.physical_advance_policy is AcceptedPhysicalAdvancePolicy.EVERY_OUTER:
+            if physical_state_advanced is not None:
+                raise ODEBFContractError(
+                    "legacy refresh received cadence-specific state"
+                )
+            if self.records and accepted_state_sha256 == self.records[-1]["accepted_state_sha256"]:
+                raise ODEBFStateError("P1R23 accepted physical state did not advance")
+        else:
+            if not isinstance(physical_state_advanced, bool):
+                raise ODEBFContractError(
+                    "final-z refresh physical transition status is absent"
+                )
+            expected_advance = step_index == self.expected_steps - 1
+            if physical_state_advanced != expected_advance:
+                raise ODEBFStateError(
+                    "final-z physical advance cadence differs"
+                )
+            if self.records:
+                if accepted_state_sha256 != self.records[-1]["accepted_state_sha256"]:
+                    raise ODEBFStateError(
+                        "final-z stationary physical prefix differs"
+                    )
+                if target_sha256 == self.records[-1]["target_sha256"]:
+                    raise ODEBFStateError(
+                        "final-z target command did not advance"
+                    )
         record = {
             "step_index": step_index,
             "field_invocation_index": field_invocation_index,
@@ -486,6 +529,8 @@ class DynamicRefreshLedger:
             "slope_sha256": slope_sha256,
             "field_sha256": field_sha256,
         }
+        if self.physical_advance_policy is AcceptedPhysicalAdvancePolicy.FINAL_Z_ONESHOT:
+            record["physical_state_advanced"] = physical_state_advanced
         record["identity_sha256"] = canonical_hash(record)
         self.records.append(record)
 
@@ -500,6 +545,25 @@ class DynamicRefreshLedger:
             "static_split_count": 0,
             "records": self.records,
         }
+        if self.physical_advance_policy is AcceptedPhysicalAdvancePolicy.FINAL_Z_ONESHOT:
+            stationary_count = sum(
+                int(not bool(item["physical_state_advanced"]))
+                for item in self.records
+            )
+            advance_count = sum(
+                int(bool(item["physical_state_advanced"]))
+                for item in self.records
+            )
+            if stationary_count != self.expected_steps - 1 or advance_count != 1:
+                raise ODEBFStateError("final-z refresh terminal cadence differs")
+            payload.update(
+                {
+                    "physical_advance_policy": self.physical_advance_policy.value,
+                    "stationary_physical_state_count": stationary_count,
+                    "physical_advance_count": advance_count,
+                    "target_command_advance_count": self.expected_steps - 1,
+                }
+            )
         payload["identity_sha256"] = canonical_hash(payload)
         return payload
 

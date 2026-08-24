@@ -23,13 +23,16 @@ from .writer_cadence import WriterCadence
 INSTRUCTION_ID = "ODEEDIT-S05-P1R54-FZ-FINAL-Z-ONESHOT-SEQUENTIAL-10XB100-V1"
 METHOD_ID = "P1R54-FZ-FINAL-Z-ONESHOT-C3-SEQUENTIAL-FULL-FP32"
 ROLE = "r54-fz-final-z-oneshot-cache-sequential-full-fp32"
-RESULT_NAME = "s05-p1r54-fz-final-z-oneshot-sequential-10xb100-v1"
+RESULT_NAME = "s05-p1r54-fz-final-z-oneshot-sequential-10xb100-tech-r1-v1"
 HELDOUT_K_INDICES = (7,)
 CONTROL_TERMINAL_SHA256 = (
     "7507d44f453fe701e67e76c758f578ef658ab00081dc189afc84e99d695fdb88"
 )
 CONTROL_MANIFEST_SHA256 = (
     "b4efbcb2e7cade61935eb6a745fc935d5a8fe9e3b0343129d28628d61c94d295"
+)
+TECH_R0_FAILURE_SHA256 = (
+    "1e75dbf99f49ed15cd630b60fb9756553568efa7449df69d0ed28d21ecc0e40f"
 )
 
 
@@ -79,6 +82,9 @@ def control_source_equivalence() -> Mapping[str, Any]:
         "new_layer_applies_per_block": 5,
         "target_proposal_difference_count_at_k1": 0,
         "reference_execution_count": 0,
+        "technical_attempt": "TECH-R1",
+        "excluded_technical_failure_sha256": TECH_R0_FAILURE_SHA256,
+        "scientific_change_count": 0,
         "outcome_decision_influence_count": 0,
     }
     payload["identity_sha256"] = canonical_hash(payload)
@@ -169,6 +175,9 @@ def build_binding(
             "reference_execution_count": 0,
             "pdz_execution_count": 0,
             "qwen_execution_count": 0,
+            "technical_attempt": "TECH-R1",
+            "excluded_technical_failure_sha256": TECH_R0_FAILURE_SHA256,
+            "scientific_change_count": 0,
         },
     )
 
@@ -200,6 +209,7 @@ __all__ = [
     "METHOD_ID",
     "RESULT_NAME",
     "ROLE",
+    "TECH_R0_FAILURE_SHA256",
     "build_binding",
     "control_source_equivalence",
     "expected_result_name",

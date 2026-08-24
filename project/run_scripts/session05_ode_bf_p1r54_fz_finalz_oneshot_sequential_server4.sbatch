@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=p1r54_fz_finalz_s4
+#SBATCH --job-name=p1r54_fz_finalz_r1_s4
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -19,8 +19,8 @@ readonly FINAL_PRE_GPU_RECEIPT="${3:-}"
 readonly EXPECTED_SESSION="codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d"
 readonly EXPECTED_BRANCH="codex/server4-p1r54-fz-finalz-oneshot-seq-v1"
 readonly EASYEDIT_ROOT="/data/janghj/EasyEdit"
-readonly RUN_TOKEN="p1r54-fz-final-z-oneshot-sequential-10xb100-v1"
-readonly RESULT_NAME="s05-p1r54-fz-final-z-oneshot-sequential-10xb100-v1"
+readonly RUN_TOKEN="p1r54-fz-final-z-oneshot-sequential-10xb100-tech-r1-v1"
+readonly RESULT_NAME="s05-p1r54-fz-final-z-oneshot-sequential-10xb100-tech-r1-v1"
 
 [[ "$#" -eq 3 ]] || { echo "final-z arguments differ" >&2; exit 2; }
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "final-z CWD differs" >&2; exit 2; }

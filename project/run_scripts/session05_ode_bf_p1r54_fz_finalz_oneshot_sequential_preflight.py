@@ -33,6 +33,7 @@ from project.run_scripts.ode_bf.p1r54_fz_finalz_oneshot_sequential import (
     INSTRUCTION_ID,
     RESULT_NAME,
     ROLE,
+    TECH_R0_FAILURE_SHA256,
     control_source_equivalence,
 )
 from project.run_scripts.session05_ode_bf_p1r52_target_timescale_b100_preflight import (
@@ -52,7 +53,12 @@ PROJECT_GPU_CAP = 4
 JOB_GPU_COUNT = 1
 NUMERICAL_LOCK = Path(
     "project/run_scripts/ode_bf/locks/"
-    "numerical_lock_s05_p1r54_fz_finalz_oneshot_sequential_10xb100_v1.json"
+    "numerical_lock_s05_p1r54_fz_finalz_oneshot_sequential_10xb100_tech_r1_v1.json"
+)
+TECH_R0_ROOT = Path(
+    "/data/janghj/ODE-edit/local/worktrees/"
+    "p1r54-fz-finalz-oneshot-seq-v1/local/odebf/results/"
+    "s05-p1r54-fz-final-z-oneshot-sequential-10xb100-v1"
 )
 CONTROL_ROOT = Path(
     "/data/janghj/ODE-edit/local/worktrees/"
@@ -72,6 +78,7 @@ SOURCE_FILES = (
     "project/run_scripts/ode_bf/p1r52_c_writer_kstep_cache_sequential.py",
     "project/run_scripts/ode_bf/p1r52_joint_pc_fp32_runtime.py",
     "project/run_scripts/ode_bf/p1r52_sequential_runtime.py",
+    "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
     "project/run_scripts/ode_bf/p1r52_target_timescale.py",
     "project/run_scripts/ode_bf/p1r52_target_timescale_deployment.py",
     "project/run_scripts/ode_bf/p1r54_energyfree_localz.py",
@@ -79,6 +86,7 @@ SOURCE_FILES = (
     "project/run_scripts/ode_bf/p1r54_fz_finalz_oneshot_analysis.py",
     "project/run_scripts/ode_bf/p1r54_fz_finalz_oneshot_sequential.py",
     "project/run_scripts/ode_bf/writer_cadence.py",
+    "project/run_scripts/ode_bf/scalable_batched_runtime.py",
     "project/run_scripts/ode_bf/tests/test_p1r54_fz_finalz_oneshot_sequential.py",
     "project/run_scripts/session05_ode_bf_p1r54_fz_finalz_oneshot_sequential.py",
     "project/run_scripts/session05_ode_bf_p1r54_fz_finalz_oneshot_sequential_analyze.py",
@@ -86,6 +94,8 @@ SOURCE_FILES = (
     "project/run_scripts/session05_ode_bf_p1r54_fz_finalz_oneshot_sequential_preflight.py",
     "project/run_scripts/session05_ode_bf_p1r54_fz_finalz_oneshot_sequential_server4.sbatch",
     str(NUMERICAL_LOCK),
+    "project/run_scripts/ode_bf/locks/"
+    "numerical_lock_s05_p1r54_fz_finalz_oneshot_sequential_10xb100_v1.json",
     "project/run_scripts/ode_bf/locks/p1r52_sequential_b100x10_stream_seal.json",
 )
 
@@ -138,6 +148,25 @@ def verify_control() -> Mapping[str, Any]:
     }
 
 
+def verify_excluded_technical_attempt() -> Mapping[str, Any]:
+    path = TECH_R0_ROOT / "failure.json"
+    failure = _read_json(path)
+    if (
+        sha256_file(path) != TECH_R0_FAILURE_SHA256
+        or failure.get("status") != "FAIL_CLOSED_NO_RETRY"
+        or failure.get("exception_class") != "ODEBFStateError"
+        or failure.get("last_completed_stage") != "post_model_context_teacher"
+    ):
+        raise ODEBFContractError("final-z excluded TECH-R0 failure differs")
+    return {
+        "root": str(TECH_R0_ROOT),
+        "failure_sha256": TECH_R0_FAILURE_SHA256,
+        "classification": "PURE_TECHNICAL_PRE_FIELD",
+        "scientific_denominator_inclusion_count": 0,
+        "immutable": True,
+    }
+
+
 def build_receipt(*, source_head: str, final_receipt: Path, session_id: str) -> Mapping[str, Any]:
     head = subprocess.check_output(
         ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, text=True
@@ -182,10 +211,20 @@ def build_receipt(*, source_head: str, final_receipt: Path, session_id: str) -> 
         or lock.get("writer", {}).get("calls_total") != 10
         or lock.get("writer", {}).get("layer_applies_total") != 50
         or lock.get("writer", {}).get("intermediate_target_writer_influence_count") != 0
+        or lock.get("technical_attempt") != "TECH-R1"
+        or lock.get("parent_numerical_lock_root")
+        != "5b60ffc0b9267cc3d3a25263c03b1aebfc50bc4eb2125e7b5e1e44a0d5969018"
+        or lock.get("repair", {}).get("accepted_physical_advance_policy")
+        != "FINAL_Z_ONESHOT"
+        or lock.get("repair", {}).get("stationary_physical_state_count_per_batch")
+        != 7
+        or lock.get("repair", {}).get("physical_advance_count_per_batch") != 1
+        or lock.get("repair", {}).get("scientific_change_count") != 0
         or lock.get("scientific_promotion") is not False
     ):
         raise ODEBFContractError("final-z numerical lock differs")
     control = verify_control()
+    excluded_technical_attempt = verify_excluded_technical_attempt()
     deployment = build_target_timescale_deployment(
         repo_root=REPO_ROOT,
         stream_extract_root=EXTRACT_ROOT,
@@ -228,6 +267,9 @@ def build_receipt(*, source_head: str, final_receipt: Path, session_id: str) -> 
         "deployment_identity": deployment.identity_sha256,
         "artifact_receipt": asdict(artifact),
         "control": control,
+        "excluded_technical_attempt": excluded_technical_attempt,
+        "technical_attempt": "TECH-R1",
+        "scientific_change_count": 0,
         "control_source_equivalence": control_source_equivalence(),
         "dry_plan": build_plan(),
         "full_fp32": True,
