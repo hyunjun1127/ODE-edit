@@ -235,7 +235,7 @@ def build_receipt(
         or role != "server-head"
         or agent_host != "server4"
         or head != source_head
-        or origin_main != IMPLEMENTATION_BASE_HEAD
+        or origin_main != head
         or implementation_base_tree != IMPLEMENTATION_BASE_TREE
         or subprocess.run(
             ["git", "merge-base", "--is-ancestor", IMPLEMENTATION_BASE_HEAD, head],
