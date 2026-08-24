@@ -17,6 +17,7 @@ import torch
 from .contracts import ODEBFContractError, ODEBFStateError, canonical_hash
 from .functional import tensor_sha256
 from .scalable_batched_runtime import P1R23_GRID_COUNT, P1R23_LAYER_ORDER
+from .writer_cadence import WriterCadence
 
 
 def snapshot_alpha_module_cache(alpha_main: Any) -> dict[str, Any]:
@@ -75,6 +76,7 @@ class KStepBatchEntryCachePolicy:
         alpha_main: Any | None = None,
         alpha_entry_snapshot: Mapping[str, Any] | None = None,
         expected_official_entry_sha256: str | None = None,
+        writer_cadence: WriterCadence = WriterCadence.KSTEP_EACH_OUTER,
     ) -> None:
         if arm not in ("C0-KSTEP-CACHE", "C1-KSTEP-CACHE", "C3-KSTEP-CACHE"):
             raise ODEBFContractError("K-step cache arm differs")
@@ -86,6 +88,9 @@ class KStepBatchEntryCachePolicy:
         self.history_version = history_version
         self.entry_width = expected_width
         self.expected_official_entry_sha256 = expected_official_entry_sha256
+        if not isinstance(writer_cadence, WriterCadence):
+            raise ODEBFContractError("K-step cache writer cadence differs")
+        self.writer_cadence = writer_cadence
         self._entry_snapshot = copy.deepcopy(alpha_entry_snapshot)
         self._alpha_main = alpha_main
         self._candidate_snapshot: dict[str, Any] | None = None
@@ -114,6 +119,18 @@ class KStepBatchEntryCachePolicy:
                 raise ODEBFContractError("C3 Official cache policy boundary differs")
             self.history_keys_by_layer = None
             self._entry_snapshot_identity = _snapshot_identity(alpha_entry_snapshot)
+
+    def close_no_write_step(self, step_index: int) -> None:
+        """Seal an outer target transition that has no writer authority."""
+
+        if (
+            self.writer_cadence is not WriterCadence.FINAL_Z_ONESHOT
+            or self.writer_cadence.writes_at(step_index)
+            or step_index in self._closed_steps
+            or self._committed
+        ):
+            raise ODEBFStateError("no-write cache close order differs")
+        self._closed_steps.add(step_index)
 
     def close_c0_c1_step(
         self,
@@ -215,7 +232,7 @@ class KStepBatchEntryCachePolicy:
             "cache_kind": cache_kind,
             "entry_width": self.entry_width,
             "consume_width_per_k": self.entry_width,
-            "consume_count": P1R23_GRID_COUNT,
+            "consume_count": self.writer_cadence.writer_calls_per_block,
             "append_width": 100,
             "exit_width": self.entry_width + 100,
             "entry_version": self.history_version,
@@ -223,13 +240,25 @@ class KStepBatchEntryCachePolicy:
             "entry_identity": entry_identity,
             "append_identity": append_identity,
             "official_exit_sha256": official_exit,
-            "same_batch_entry_cache_reuse_count": P1R23_GRID_COUNT,
+            "same_batch_entry_cache_reuse_count": (
+                self.writer_cadence.writer_calls_per_block
+            ),
             "current_batch_k_key_history_inclusion_count": 0,
             "current_uncommitted_prefix_key_history_inclusion_count": 0,
             "append_count": 1,
             "rollback_count": 0,
             "commit_count": 1,
         }
+        if self.writer_cadence is not WriterCadence.KSTEP_EACH_OUTER:
+            receipt.update(
+                {
+                    "writer_cadence": self.writer_cadence.value,
+                    "no_write_closed_step_count": (
+                        P1R23_GRID_COUNT
+                        - self.writer_cadence.writer_calls_per_block
+                    ),
+                }
+            )
         receipt["identity_sha256"] = canonical_hash(receipt)
         return KStepBatchCacheCommit(next_history, receipt)
 

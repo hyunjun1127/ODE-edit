@@ -29,6 +29,7 @@ from .p1r52_residual_reserve_pre_writer_interface import reconstruct_native_il1_
 from .p1r52_target_official_alphaedit_writer import _endpoint_summary, _evaluate_w, _writer_gap, accepted_z_cache_template
 from .scalable_batched_native import run_official_native_apply
 from .scalable_batched_runtime import P1R23_GRID_COUNT, scalable_ordered_request_digest
+from .writer_cadence import WriterCadence
 
 
 ARMS = ("C0-KSTEP", "C1-KSTEP", "C3-KSTEP")
@@ -139,6 +140,7 @@ class CKStepWriterRuntime:
             reconstruct_native_il1_selected_target
         ),
         heldout_step_indices: Sequence[int] | None = None,
+        writer_cadence: WriterCadence = WriterCadence.KSTEP_EACH_OUTER,
     ) -> None:
         if arm not in ARMS + CACHE_ARMS:
             raise ODEBFContractError("C K-step arm differs")
@@ -163,6 +165,9 @@ class CKStepWriterRuntime:
         self.alpha_cache_status = alpha_cache_status
         self.cache_policy = cache_policy
         self.selected_target_resolver = selected_target_resolver
+        if not isinstance(writer_cadence, WriterCadence):
+            raise ODEBFContractError("C K-step writer cadence differs")
+        self.writer_cadence = writer_cadence
         self.heldout_step_indices = frozenset(
             range(P1R23_GRID_COUNT)
             if heldout_step_indices is None
@@ -196,6 +201,96 @@ class CKStepWriterRuntime:
             raise ODEBFContractError("C K-step selected target geometry differs")
         entry_hashes = _hashes(self.model_touched)
         evaluate_heldout = step_index in self.heldout_step_indices
+        if not self.writer_cadence.writes_at(step_index):
+            if evaluate_heldout:
+                raise ODEBFStateError("no-write step received heldout authority")
+            if self.cache_policy is not None:
+                self.cache_policy.close_no_write_step(step_index)
+            route = {
+                "schema": "ode-edit-final-z-oneshot-no-writer-route/v1",
+                "status": "TARGET_ONLY_NO_WRITER_AUTHORITY",
+                "pc_router_call_count": 0,
+                "decision_influence_count": 0,
+            }
+            route["identity_sha256"] = canonical_hash(route)
+            touched = self.model_touched
+            frozen_bytes = sum(
+                int(value.numel() * value.element_size()) for value in touched.values()
+            )
+            writer_receipt = {
+                "schema": "ode-edit-final-z-oneshot-no-writer/v1",
+                "status": "NO_WRITER_THROUGH_K7",
+                "selected_target_sha256": tensor_sha256(target),
+                "writer_call_count": 0,
+                "finite_demand_builder_count": 0,
+                "materialization_count": 0,
+                "physical_weight_mutation_count": 0,
+                "cache_mutation_count": 0,
+                "intermediate_target_writer_influence_count": 0,
+                "weight_bytes_before_after": [frozen_bytes, frozen_bytes],
+                "weight_pointer_match": True,
+                "weight_version_match": True,
+                "weight_bytes_match": True,
+            }
+            writer_receipt["identity_sha256"] = canonical_hash(writer_receipt)
+            metrics = {
+                "status": "TARGET_ONLY_NO_HELDOUT_NO_WRITER",
+                "accepted_z": None,
+                "pre_writer_W": None,
+                "post_writer_W": None,
+                "post_W_minus_z_gap": None,
+                "heldout_evaluator_decision_influence_count": 0,
+            }
+            compute = {
+                "accepted_z_evaluator_count": 0,
+                "pre_writer_evaluator_count": 0,
+                "post_writer_evaluator_count": 0,
+                "heldout_evaluator_count": 0,
+                "dense_update_construction_count": 0,
+                "native_apply_count": 0,
+                "logical_commit_count": 0,
+                "router_call_count": 0,
+                "model_backward_added_count": 0,
+                "semantic_slope_backward_added_count": 0,
+                "bf16_fp16_path_count": 0,
+                "numeric_storage_cast_count": 0,
+                "retry_count": 0,
+                "heldout_schedule_step_count": 0,
+            }
+            payload = {
+                "arm": self.arm,
+                "step_index": step_index,
+                "selected_target_sha256": tensor_sha256(target),
+                "selected_bridge_identity": bridge.identity_sha256,
+                "entry_weight_sha256": entry_hashes,
+                "commit_weight_sha256": entry_hashes,
+                "route_receipt": route,
+                "writer_receipt": writer_receipt,
+                "prefix_capture_receipts": [],
+                "metrics": metrics,
+                "compute": compute,
+                "alpha_cache_status": self.alpha_cache_status,
+                "current_K_writer_affects_next_target": False,
+            }
+            payload["identity_sha256"] = canonical_hash(payload)
+            execution = CKStepExecution(
+                self.arm,
+                step_index,
+                payload["selected_target_sha256"],
+                payload["selected_bridge_identity"],
+                entry_hashes,
+                entry_hashes,
+                route,
+                writer_receipt,
+                (),
+                metrics,
+                compute,
+                payload["alpha_cache_status"],
+                False,
+                payload["identity_sha256"],
+            )
+            self.executions.append(execution)
+            return execution
         binding = None
         z_observation = None
         pre_scores = None
@@ -281,7 +376,12 @@ class CKStepWriterRuntime:
                             cache_history_width=(0 if self.cache_policy is None else self.cache_policy.entry_width),
                             cache_template=cache_template,
                             expected_native_compute_z_call_count=0,
-                            accepted_z_source="P1R52_CURRENT_K_ACCEPTED_TARGET",
+                            accepted_z_source=(
+                                "P1R54_FINAL_K8_COMMANDED_TARGET"
+                                if self.writer_cadence
+                                is WriterCadence.FINAL_Z_ONESHOT
+                                else "P1R52_CURRENT_K_ACCEPTED_TARGET"
+                            ),
                         )
                         if self.cache_policy is not None:
                             self.cache_policy.close_c3_step(
@@ -310,7 +410,11 @@ class CKStepWriterRuntime:
                 "writer": apply_payload,
                 "accepted_z_bridge": bridge_receipt,
                 "native_compute_z_call_count": 0,
-                "hybrid_label": "P1R52_KSTEP_TARGET_PLUS_OFFICIAL_WRITER_8_CALL_HYBRID",
+                "hybrid_label": (
+                    "P1R54_FINAL_Z_ONESHOT_TARGET_PLUS_OFFICIAL_WRITER"
+                    if self.writer_cadence is WriterCadence.FINAL_Z_ONESHOT
+                    else "P1R52_KSTEP_TARGET_PLUS_OFFICIAL_WRITER_8_CALL_HYBRID"
+                ),
             }
             dense_count = len(tuple(int(item) for item in self.hparams.layers))
             apply_count = dense_count
@@ -374,7 +478,9 @@ class CKStepWriterRuntime:
             "metrics": metrics,
             "compute": compute,
             "alpha_cache_status": self.alpha_cache_status,
-            "current_K_writer_affects_next_target": True,
+            "current_K_writer_affects_next_target": (
+                self.writer_cadence is WriterCadence.KSTEP_EACH_OUTER
+            ),
         }
         payload["identity_sha256"] = canonical_hash(payload)
         execution = CKStepExecution(
@@ -400,7 +506,9 @@ class CKStepWriterRuntime:
     def assert_complete(self) -> None:
         if len(self.executions) != P1R23_GRID_COUNT or any(
             item.step_index != index for index, item in enumerate(self.executions)
-        ):
+        ) or sum(
+            int(item.compute["logical_commit_count"]) for item in self.executions
+        ) != self.writer_cadence.writer_calls_per_block:
             raise ODEBFStateError("C K-step K8 completion differs")
 
     def raw_free_payload(self) -> dict[str, Any]:
@@ -413,6 +521,17 @@ class CKStepWriterRuntime:
             "numeric_storage_cast_count": 0,
             "bf16_fp16_path_count": 0,
         }
+        if self.writer_cadence is not WriterCadence.KSTEP_EACH_OUTER:
+            payload.update(
+                {
+                    "writer_cadence": self.writer_cadence.value,
+                    "writer_call_count": sum(
+                        int(item.compute["logical_commit_count"])
+                        for item in self.executions
+                    ),
+                    "intermediate_target_writer_influence_count": 0,
+                }
+            )
         payload["identity_sha256"] = canonical_hash(payload)
         return payload
 

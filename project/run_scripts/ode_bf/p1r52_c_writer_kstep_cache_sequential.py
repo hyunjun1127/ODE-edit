@@ -36,6 +36,7 @@ from .p1r52_joint_pc_independent_fp32_runtime import (
 from .p1r52_joint_pc_runtime import STREAM_ORDER, STREAM_ROOT
 from .p1r52_target_official_alphaedit_writer import _endpoint_summary, _evaluate_w, isolated_alphaedit_module_state
 from .scalable_batched_runtime import P1R23_GRID_COUNT, scalable_ordered_request_digest
+from .writer_cadence import WriterCadence
 
 
 INSTRUCTION_ID = "ODEEDIT-S05-P1R52-C-WRITER-THREE-PHASE-V1"
@@ -76,6 +77,7 @@ class Phase3SequentialExperimentBinding:
     easyedit_root: Path
     metadata: Mapping[str, Any]
     realization_controller_factory: Callable[[int, int], Any] | None = None
+    writer_cadence: WriterCadence = WriterCadence.KSTEP_EACH_OUTER
 
     def __post_init__(self) -> None:
         if (
@@ -103,6 +105,7 @@ class Phase3SequentialExperimentBinding:
                 and not callable(self.realization_controller_factory)
             )
             or not self.easyedit_root.is_absolute()
+            or not isinstance(self.writer_cadence, WriterCadence)
         ):
             raise ODEBFContractError("Phase3 external experiment binding differs")
 
@@ -253,6 +256,11 @@ def run_phase3(
                     alpha_main=(alpha_main if arm.startswith("C3") else None),
                     alpha_entry_snapshot=(cache_checkpoint if arm.startswith("C3") else None),
                     expected_official_entry_sha256=prior_official_exit_sha256,
+                    writer_cadence=(
+                        WriterCadence.KSTEP_EACH_OUTER
+                        if experiment_binding is None
+                        else experiment_binding.writer_cadence
+                    ),
                 )
                 amplitude_policy = (
                     None
@@ -281,6 +289,7 @@ def run_phase3(
                             heldout_step_indices=(
                                 experiment_binding.heldout_step_indices
                             ),
+                            writer_cadence=experiment_binding.writer_cadence,
                         )
                     runtime = CKStepWriterRuntime(
                         arm=arm,
@@ -446,7 +455,10 @@ def run_phase3(
                         "kstep_executions": [item.raw_free_payload() for item in runtime.executions],
                         "immediate_post_W": last_metrics["post_writer_W"],
                         "alpha_cache": cache_commit.receipt,
-                        "K_writer_call_count": P1R23_GRID_COUNT,
+                        "K_writer_call_count": sum(
+                            int(item.compute["logical_commit_count"])
+                            for item in runtime.executions
+                        ),
                         "cache_append_count": 1,
                         "commit_count": 1,
                         "rollback_count": 0,
@@ -478,7 +490,10 @@ def run_phase3(
                                     int(item.compute["native_apply_count"])
                                     for item in runtime.executions
                                 ),
-                                "cache_entry_reuse_count": P1R23_GRID_COUNT,
+                                "cache_entry_reuse_count": sum(
+                                    int(item.compute["logical_commit_count"])
+                                    for item in runtime.executions
+                                ),
                                 "same_batch_current_key_history_inclusion_count": 0,
                                 **dict(experiment_binding.metadata),
                             }
@@ -507,6 +522,10 @@ def run_phase3(
                         "terminal_sha256": terminal_sha,
                         "cache_entry_width": (batch_index - 1) * BATCH_SIZE,
                         "cache_exit_width": batch_index * BATCH_SIZE,
+                        "writer_call_count": sum(
+                            int(item.compute["logical_commit_count"])
+                            for item in runtime.executions
+                        ),
                         **(
                             {}
                             if amplitude_terminal is None
@@ -597,7 +616,10 @@ def run_phase3(
         "arm": arm,
         "completed_batch_count": len(batch_rows),
         "valid_request_count": len(batch_rows) * BATCH_SIZE,
-        "K_writer_call_count": len(batch_rows) * P1R23_GRID_COUNT,
+        "K_writer_call_count": sum(
+            int(row.get("writer_call_count", P1R23_GRID_COUNT))
+            for row in batch_rows
+        ),
         "batch_terminal_sha256": batch_shas,
         "final_w10_sha256": final_sha,
         "alpha_cache_status": "ALPHA_CACHE_CONTINUITY_ON_BATCH_ENTRY_SNAPSHOT",
@@ -628,7 +650,7 @@ def run_phase3(
                 "target_field_evaluation_count": len(batch_rows)
                 * P1R23_GRID_COUNT,
                 "writer_layer_apply_count": len(batch_rows)
-                * P1R23_GRID_COUNT
+                * experiment_binding.writer_cadence.writer_calls_per_block
                 * 5,
                 "batch_commit_to_next_entry_chain": True,
                 "sequential_chain_receipt": sequential_chain,
