@@ -353,6 +353,7 @@ def _run_ode_arm(
     p1r52_c_kstep_writer: Any | None = None,
     p1r52_target_subcycle_schedule: TargetSubcycleSchedule | None = None,
     p1r52_amplitude_policy: P1R52AmplitudePolicy | None = None,
+    p1r52_target_subcycle_runner: Callable[..., Any] | None = None,
     p1r52_fp32_phase_a: bool = False,
     p1r52_phase_a_method_label: str | None = None,
     p1r52_sequential_target_depth: bool = False,
@@ -465,6 +466,12 @@ def _run_ode_arm(
         p1r52_target_subcycle_schedule is None or not p1r52
     ):
         raise ODEBFContractError("P1R52 external amplitude policy activation differs")
+    if p1r52_target_subcycle_runner is not None and (
+        p1r52_target_subcycle_schedule is None
+        or not p1r52
+        or not callable(p1r52_target_subcycle_runner)
+    ):
+        raise ODEBFContractError("P1R52 target-subcycle runner activation differs")
     if p1r52_pre_writer_observer is not None and (
         not p1r52 or target_depth_policy is not P1R52TargetDepth.IL1
     ):
@@ -844,7 +851,12 @@ def _run_ode_arm(
                             first_kl_result=kl_result,
                         )
                     else:
-                        outer52 = run_target_subcycle_scheduler(
+                        target_subcycle_runner = (
+                            run_target_subcycle_scheduler
+                            if p1r52_target_subcycle_runner is None
+                            else p1r52_target_subcycle_runner
+                        )
+                        outer52 = target_subcycle_runner(
                             outer_step_index=step_index,
                             schedule=p1r52_target_subcycle_schedule,
                             current_target=current_target,
