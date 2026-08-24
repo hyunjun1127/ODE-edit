@@ -60,28 +60,28 @@ CELLS = (
         EnergyFreeLocalZArm.FZ,
         ResetExecutionScope.INDEPENDENT_B100,
         "r54-realization-reset-independent-b100-fz",
-        "s05-p1r54-realization-reset-independent-b100-fz-v1",
+        "s05-p1r54-realization-reset-independent-b100-fz-tech-r1-v1",
     ),
     ResetCell(
         1,
         EnergyFreeLocalZArm.PDZ,
         ResetExecutionScope.INDEPENDENT_B100,
         "r54-realization-reset-independent-b100-pdz-t1",
-        "s05-p1r54-realization-reset-independent-b100-pdz-t1-v1",
+        "s05-p1r54-realization-reset-independent-b100-pdz-t1-tech-r1-v1",
     ),
     ResetCell(
         2,
         EnergyFreeLocalZArm.FZ,
         ResetExecutionScope.SEQUENTIAL_10XB100,
         "r54-realization-reset-sequential-10xb100-fz",
-        "s05-p1r54-realization-reset-sequential-10xb100-fz-v1",
+        "s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r1-v1",
     ),
     ResetCell(
         3,
         EnergyFreeLocalZArm.PDZ,
         ResetExecutionScope.SEQUENTIAL_10XB100,
         "r54-realization-reset-sequential-10xb100-pdz-t1",
-        "s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-v1",
+        "s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r1-v1",
     ),
 )
 ROLES = tuple(item.role for item in CELLS)

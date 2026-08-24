@@ -26,10 +26,10 @@ readonly RUN_TOKEN="p1r54-realization-reset-four-runs-v1"
 [[ "$CELL" =~ ^[0-3]$ ]] || { echo "P1R54 reset array cell differs" >&2; exit 2; }
 
 case "$CELL" in
-  0) readonly RESULT_NAME="s05-p1r54-realization-reset-independent-b100-fz-v1" ;;
-  1) readonly RESULT_NAME="s05-p1r54-realization-reset-independent-b100-pdz-t1-v1" ;;
-  2) readonly RESULT_NAME="s05-p1r54-realization-reset-sequential-10xb100-fz-v1" ;;
-  3) readonly RESULT_NAME="s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-v1" ;;
+  0) readonly RESULT_NAME="s05-p1r54-realization-reset-independent-b100-fz-tech-r1-v1" ;;
+  1) readonly RESULT_NAME="s05-p1r54-realization-reset-independent-b100-pdz-t1-tech-r1-v1" ;;
+  2) readonly RESULT_NAME="s05-p1r54-realization-reset-sequential-10xb100-fz-tech-r1-v1" ;;
+  3) readonly RESULT_NAME="s05-p1r54-realization-reset-sequential-10xb100-pdz-t1-tech-r1-v1" ;;
 esac
 
 [[ "$(pwd -P)" == "$(readlink -f "${REPO_ROOT}")" ]] || { echo "P1R54 reset CWD differs" >&2; exit 2; }

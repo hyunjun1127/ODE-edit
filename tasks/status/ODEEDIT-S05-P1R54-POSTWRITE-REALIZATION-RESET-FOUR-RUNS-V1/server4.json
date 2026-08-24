@@ -46,6 +46,15 @@
       "cause": "used logical splitlines count instead of authoritative wc newline count",
       "model_load_count": 0,
       "gpu_slurm_action_count": 0
+    },
+    {
+      "attempt": "JOB23959_ARRAY0_3_R0",
+      "status": "PURE_TECHNICAL_PRE_MODEL_FAILURE_EXCLUDED",
+      "cause": "missing ignored isolated-worktree session-boundary.env",
+      "model_load_count": 0,
+      "elapsed_seconds_per_cell": 1,
+      "science_denominator_influence_count": 0,
+      "repair": "restore exact server4 session boundary and use TECH-R1 result namespace"
     }
   ],
   "continuation_controls": {
