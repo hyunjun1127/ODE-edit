@@ -29,6 +29,7 @@ from project.run_scripts.ode_bf.p1r54_native_sequential_w_nll_analysis import (
     summarize_native_final_w10,
     update_headline_csv,
     update_report_markdown,
+    validate_native_transfer,
     write_csv,
     write_json,
 )
@@ -106,8 +107,10 @@ def _write_details(package: Path, summaries: dict[str, dict[str, Any]]) -> None:
     write_json(package / "baseline-final-w10-nll.json", payload)
 
 
-def _external_inputs(summaries: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
-    return [
+def _external_inputs(
+    summaries: dict[str, dict[str, Any]], transfer: dict[str, Any]
+) -> list[dict[str, Any]]:
+    inputs = [
         {
             "method": method,
             "path": summaries[method]["source_path"],
@@ -118,13 +121,23 @@ def _external_inputs(summaries: dict[str, dict[str, Any]]) -> list[dict[str, Any
         }
         for method in (METHOD_ALPHA, METHOD_MEMIT, METHOD_FZ)
     ]
+    inputs.append({
+        "method": "SH1-NATIVE-FINAL-W10-TRANSFER-PROVENANCE",
+        "path": transfer["root"],
+        "sha256": transfer["identity_sha256"],
+        "stream_root": transfer["stream_root"],
+        "order_root": transfer["order_root"],
+        "member_sha256": transfer["member_sha256"],
+        "request_denominator_per_native_method": 1000,
+        "raw_mutation": 0,
+    })
+    return inputs
 
 
 def build_packages(
     *,
     source_head: str,
-    alpha_root: Path,
-    memit_root: Path,
+    transfer_root: Path,
     fz_final_w10: Path,
 ) -> dict[str, Any]:
     observed_head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, text=True).strip()
@@ -133,12 +146,13 @@ def build_packages(
         ["git", "status", "--porcelain"], cwd=REPO_ROOT, text=True
     ):
         raise ODEBFContractError("analysis source is not clean/frozen")
+    transfer = validate_native_transfer(transfer_root)
     summaries = {
-        METHOD_ALPHA: summarize_native_final_w10(alpha_root, method=METHOD_ALPHA),
-        METHOD_MEMIT: summarize_native_final_w10(memit_root, method=METHOD_MEMIT),
+        METHOD_ALPHA: summarize_native_final_w10(transfer_root / "alphaedit", method=METHOD_ALPHA),
+        METHOD_MEMIT: summarize_native_final_w10(transfer_root / "memit", method=METHOD_MEMIT),
         METHOD_FZ: summarize_fz_final_w10(fz_final_w10),
     }
-    external = _external_inputs(summaries)
+    external = _external_inputs(summaries, transfer)
     outputs = []
     for source_relative, destination_relative, headline_name, report_heading in (
         (SEQUENTIAL_V1, SEQUENTIAL_V2, "headline.csv", None),
@@ -179,20 +193,24 @@ def build_packages(
             "receipt_identity": receipt["identity_sha256"],
             "member_root": manifest["member_root"],
         })
-    return {"status": "PASS", "source_head": observed_head, "source_tree": observed_tree, "outputs": outputs}
+    return {
+        "status": "PASS",
+        "source_head": observed_head,
+        "source_tree": observed_tree,
+        "native_transfer": transfer,
+        "outputs": outputs,
+    }
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--source-head", required=True)
-    parser.add_argument("--alpha-root", required=True, type=Path)
-    parser.add_argument("--memit-root", required=True, type=Path)
+    parser.add_argument("--transfer-root", required=True, type=Path)
     parser.add_argument("--fz-final-w10", required=True, type=Path)
     args = parser.parse_args()
     print(json.dumps(build_packages(
         source_head=args.source_head,
-        alpha_root=args.alpha_root,
-        memit_root=args.memit_root,
+        transfer_root=args.transfer_root,
         fz_final_w10=args.fz_final_w10,
     ), sort_keys=True))
     return 0
