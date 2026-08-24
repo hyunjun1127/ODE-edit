@@ -1,0 +1,69 @@
+{
+  "task_id": "ODEEDIT-S05-P1R54-FZ-C3-SEQUENTIAL-10XB100-V1",
+  "server": "server4",
+  "agent_id": "server4-server-head",
+  "agent_role": "server-head",
+  "status": "terminal_native_baseline_and_independent_comparison_report_complete_idle",
+  "updated_at": "2026-08-24T17:46:53+09:00",
+  "owner_session": "codex://threads/01a028a7-9e3c-7541-81ba-efb40555d17d",
+  "execution_source_commit": "6b7364f4caf3b3fbead83a3f5bcb8c39a79b38f5",
+  "canonical_job": "23682",
+  "job_terminal": "COMPLETED_EXIT0",
+  "batch_completeness": "10/10",
+  "request_completeness": "1000/1000",
+  "execution_semantics": "SEQUENTIAL_B1_TO_B10_W_AND_ALPHA_CACHE_CONTINUITY",
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+  "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "terminal_invariants": {
+    "full_fp32": true,
+    "field_evaluations": 80,
+    "writer_calls": 80,
+    "layer_applies": 400,
+    "batch_commit_to_next_entry_W_chain": "9/9",
+    "cache_entry_widths": "0_TO_900",
+    "cache_exit_widths": "100_TO_1000",
+    "cache_append_count": 10,
+    "cache_consume_count": 80,
+    "terminal_W0_restore": true,
+    "clamp_hits": "0/8000",
+    "forbidden_decision_access_count": 0,
+    "additional_forward_backward_count": 0,
+    "nonfinite_count": 0
+  },
+  "results": {
+    "final_W10_eff": "1000/1000",
+    "final_W10_gen": "1699/2000",
+    "final_W10_gen_strict": "756/1000",
+    "final_W10_loc": "8453/10000",
+    "accepted_z_immediate_rewrite_target_new_nll_mean_median_p90": [0.008817, 0.000617, 0.004828],
+    "accepted_z_immediate_rephrase_target_new_nll_mean_median_p90": [1.265033, 0.065512, 4.660754],
+    "post_W_immediate_rewrite_target_new_nll_mean_median_p90": [0.008849, 0.000618, 0.004897],
+    "post_W_immediate_rephrase_target_new_nll_mean_median_p90": [2.343741, 0.628484, 7.347599],
+    "final_W10_rewrite_target_new_nll_mean_median_p90": [0.018627, 0.000580, 0.005625],
+    "final_W10_rephrase_target_new_nll_mean_median_p90": [2.306031, 0.594127, 7.233589]
+  },
+  "independent_descriptive_delta": {
+    "final_W10_minus_independent_eff_percentage_points": 0.20,
+    "final_W10_minus_independent_gen_percentage_points": -7.15,
+    "final_W10_minus_independent_gen_strict_percentage_points": -11.10,
+    "final_W10_minus_independent_loc_percentage_points": -2.94,
+    "causal_claim": false
+  },
+  "native_baseline": {
+    "job_group": "22759_PHASE1_GROUP",
+    "source_commit": "251e616cf95972e230ce40718e1e390ef7dc9eb4",
+    "methods": ["Official EasyEdit AlphaEdit-cache", "native EasyEdit MEMIT"],
+    "receipt_identity": "fb9b1e9709ec8c86319e8f88a36a9d99726fd4a22177f5cf8c2cb2607347812e"
+  },
+  "report_package": {
+    "commit": "faf647d470196ef6410124b7889dfa33c2f534dd",
+    "path": "experiment-reports/servers/server4/p1r54-fz-c3-sequential-10xb100-2026-08-24-v3",
+    "report_sha256": "a0de79d673a145778cab49891fd604c47ea601dce3149e7092f76897ba546ce9",
+    "manifest_sha256": "1354f6dc459d5e4eec711e596df144bd5a73c0fdba6173d67237f26ea28b8837",
+    "manifest_identity": "36a9b5103ef4575c0dee6af8a58d2b89299e91a49478dbb8328b3e7e881a6e0e",
+    "receipt_sha256": "3f5e1ba4588d79a5d81f0f604502d0fe9db74d1469824bda96731782d5fef9ac",
+    "receipt_identity": "e49d37087c69a8c7ac47c8512bfb324e0094881bed9fc92dca3f1fe5a50120c2"
+  },
+  "scientific_promotion": false,
+  "next_state": "IDLE_AWAITING_GH_CALL"
+}
