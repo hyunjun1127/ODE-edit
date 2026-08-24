@@ -61,6 +61,7 @@ def _distribution(values: Iterable[float]) -> dict[str, Any]:
     p90_index = max(0, math.ceil(0.9 * len(observed)) - 1)
     return {
         "count": len(observed),
+        "sum": sum(observed),
         "mean": statistics.fmean(observed),
         "median": statistics.median(observed),
         "p90_nearest_rank": observed[p90_index],
@@ -73,6 +74,22 @@ def _metric_rates(summary: Mapping[str, Any]) -> dict[str, Any]:
     pairs = {
         "Eff": ("rewrite_success_numerator", "rewrite_success_denominator"),
         "Gen": ("rephrase_success_numerator", "rephrase_success_denominator"),
+        "Rewrite_accuracy": (
+            "rewrite_accuracy_numerator",
+            "rewrite_accuracy_denominator",
+        ),
+        "Gen_strict": (
+            "rephrase_strict_success_numerator",
+            "rephrase_strict_success_denominator",
+        ),
+        "Rephrase_accuracy": (
+            "rephrase_accuracy_numerator",
+            "rephrase_accuracy_denominator",
+        ),
+        "Rephrase_strict_accuracy": (
+            "rephrase_strict_accuracy_numerator",
+            "rephrase_strict_accuracy_denominator",
+        ),
         "Loc": ("locality_numerator", "locality_denominator"),
     }
     result = {}
@@ -98,9 +115,13 @@ def _surface(terminal: Mapping[str, Any], surface: str) -> Mapping[str, Any]:
     raise ODEBFStateError("endpoint surface differs")
 
 
-def _nll_values(endpoint: Mapping[str, Any], prompt: str) -> list[float]:
+def _nll_values(
+    endpoint: Mapping[str, Any], prompt: str, *, target: str = "new"
+) -> list[float]:
     score_key = "rewrite_success" if prompt == "rewrite" else "rephrase_success"
-    return _flatten(endpoint["scores"][score_key]["target_new_nll_by_request"])
+    if target not in {"new", "true"}:
+        raise ODEBFStateError("endpoint NLL target differs")
+    return _flatten(endpoint["scores"][score_key][f"target_{target}_nll_by_request"])
 
 
 def _aggregate_surface(
@@ -109,7 +130,7 @@ def _aggregate_surface(
     endpoints = [_surface(terminal, surface) for terminal in terminals]
     rates = [_metric_rates(endpoint["summary"]) for endpoint in endpoints]
     aggregate_rates = {}
-    for label in ("Eff", "Gen", "Loc"):
+    for label in rates[0]:
         numerator = sum(int(row[label]["numerator"]) for row in rates)
         denominator = sum(int(row[label]["denominator"]) for row in rates)
         aggregate_rates[label] = {
@@ -128,7 +149,20 @@ def _aggregate_surface(
             for endpoint in endpoints
             for item in _nll_values(endpoint, "rephrase")
         ),
-        "Eff_Gen_Loc": aggregate_rates,
+        "rewrite_target_true_nll": _distribution(
+            item
+            for endpoint in endpoints
+            for item in _nll_values(endpoint, "rewrite", target="true")
+        ),
+        "rephrase_target_true_nll": _distribution(
+            item
+            for endpoint in endpoints
+            for item in _nll_values(endpoint, "rephrase", target="true")
+        ),
+        "performance": aggregate_rates,
+        "Eff_Gen_Loc": {
+            label: aggregate_rates[label] for label in ("Eff", "Gen", "Loc")
+        },
         "by_batch": [
             {
                 "batch_index": index,
@@ -138,7 +172,16 @@ def _aggregate_surface(
                 "rephrase_target_new_nll": _distribution(
                     _nll_values(endpoint, "rephrase")
                 ),
-                "Eff_Gen_Loc": rate,
+                "rewrite_target_true_nll": _distribution(
+                    _nll_values(endpoint, "rewrite", target="true")
+                ),
+                "rephrase_target_true_nll": _distribution(
+                    _nll_values(endpoint, "rephrase", target="true")
+                ),
+                "performance": rate,
+                "Eff_Gen_Loc": {
+                    label: rate[label] for label in ("Eff", "Gen", "Loc")
+                },
             }
             for index, (endpoint, rate) in enumerate(zip(endpoints, rates, strict=True), start=1)
         ],

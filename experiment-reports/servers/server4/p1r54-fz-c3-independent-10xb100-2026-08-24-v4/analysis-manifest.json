@@ -1,0 +1,83 @@
+{
+  "external_native_baseline": {
+    "job_group": "job22541",
+    "manifest_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-energyfree-localz-llama-b100-v1/local/odebf/reports/p1r52-joint-pc-full-fp32-independent-b100x10-final-v6/analysis-manifest.json",
+    "manifest_sha256": "b38d8b23d7d2876e72dcab35c8a64083ba6baa5951769998cf3c1726d9a77d09",
+    "mode": "INDEPENDENT_W0_COLD_PER_SLICE",
+    "receipt_identity": "ea5261b1f4b08732fa7ae08895dbe655d53a630d3c4f5b7bb86a5a74b644ff60",
+    "receipt_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-energyfree-localz-llama-b100-v1/local/odebf/reports/p1r52-joint-pc-full-fp32-independent-b100x10-final-v6/rooted-analysis-receipt.json",
+    "receipt_sha256": "e82fb1dd0f8c1596823979b63f66168682a15bf231621771dae95340e68c8356",
+    "report_path": "/data/janghj/ODE-edit/local/worktrees/p1r54-energyfree-localz-llama-b100-v1/local/odebf/reports/p1r52-joint-pc-full-fp32-independent-b100x10-final-v6/p1r52-joint-pc-full-fp32-independent-b100x10-factual-ko.md",
+    "report_sha256": "3ea9739fa9200fd2e9fbf36a7a6b9e86c0212279fc52f9c6b2c0aa6f5f42e217",
+    "source_head": "27a5ea828af26e30887b9546b31f7f9584ef1e7c",
+    "structured_members": {
+      "analysis-summary.json": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-energyfree-localz-llama-b100-v1/local/odebf/reports/p1r52-joint-pc-full-fp32-independent-b100x10-final-v6/analysis-summary.json",
+        "sha256": "5ac9f19eb6c2953234a601aa2e5624eaa0e2e8123b4e838126243f19b026f482"
+      },
+      "method-aggregates.json": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-energyfree-localz-llama-b100-v1/local/odebf/reports/p1r52-joint-pc-full-fp32-independent-b100x10-final-v6/method-aggregates.json",
+        "sha256": "b0af50d92dae0e92538afc50f709ee02c2d2b4a04c91c50aa951892146e30785"
+      },
+      "nll-prompt-distribution-aggregates.json": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-energyfree-localz-llama-b100-v1/local/odebf/reports/p1r52-joint-pc-full-fp32-independent-b100x10-final-v6/nll-prompt-distribution-aggregates.json",
+        "sha256": "17fd9eaefda61836a86dc795d1a1a088e06f21aaed1e12f4eb6e4d15124f2188"
+      },
+      "per-case.json": {
+        "path": "/data/janghj/ODE-edit/local/worktrees/p1r54-energyfree-localz-llama-b100-v1/local/odebf/reports/p1r52-joint-pc-full-fp32-independent-b100x10-final-v6/per-case.json",
+        "sha256": "97cf0332a42ff15ed73ac85c093dd6322736e87f75e4abb02879c70cc54488ff"
+      }
+    }
+  },
+  "identity_sha256": "8e11ab7a3e3752a9de491396e45474641c680b18cc6f7e8ddac596448130c0eb",
+  "member_root_sha256": "7508608d91bf3b53524b1c1c62b7ddce4b03bb1d1ff811681c0473d0b68ef63f",
+  "members": [
+    {
+      "bytes": 275061,
+      "path": "analysis.json",
+      "sha256": "a973cb19ac7bb4c0d3190b97ba9cb05b0fec23d19547e5c88a1e79e255564346"
+    },
+    {
+      "bytes": 547,
+      "path": "cache-layer-load.csv",
+      "sha256": "395c132fc34a427fced93ee8c9e200bdcac2720551365347d0d3c2327bb4d867"
+    },
+    {
+      "bytes": 791,
+      "path": "compute.csv",
+      "sha256": "73d8d1a4c34409cf5b21cb5aba5fa7772d84a767cf21b48f46f3ff1b3f2070d3"
+    },
+    {
+      "bytes": 3051,
+      "path": "endpoint-detail.csv",
+      "sha256": "389af602e440ceb3eab6c5d9590253ddfad0625464d1ec6d3de4fd334c486cf3"
+    },
+    {
+      "bytes": 1175,
+      "path": "headline.csv",
+      "sha256": "d2bfd988abc675a029dfede0adc99c7e815d5867b8f5dab2ddbacd79c830c1d4"
+    },
+    {
+      "bytes": 163917,
+      "path": "native-baselines.json",
+      "sha256": "c2295f457232c90cb5df48c48d94d3a2efe9200100df6480e13af97fbf157ad3"
+    },
+    {
+      "bytes": 2199,
+      "path": "native-paired-by-batch.csv",
+      "sha256": "e12973594fc15b5751508d6849cedd79cf436927499dbf8ee3c8e0275d165727"
+    },
+    {
+      "bytes": 10925,
+      "path": "report-ko.md",
+      "sha256": "f5537dedc659c9bc0827c5f626ac4d982cd9c0c4fdde246614301636e1da2921"
+    },
+    {
+      "bytes": 118209,
+      "path": "target-K.json",
+      "sha256": "b834f8efe1b13ad7d47f4908e201fa8935b7f6b6ed8cfdce9907b2c605525a31"
+    }
+  ],
+  "schema": "ode-edit-s05-p1r54-fz-c3-independent-analysis-manifest/v1",
+  "scientific_promotion": false
+}
