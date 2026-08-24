@@ -1,0 +1,14 @@
+{
+  "analysis_manifest_identity": "6e1705950c1f6287a6df7541eb9032bc4b80e8d4c9de69c3120b85caf7ec7b4b",
+  "analysis_manifest_sha256": "c655146eeaf602a8a6610f7ed8ab19f1a9fd89ce8c149ac28486110f9cdcb1b8",
+  "identity_sha256": "90161a3f3783d72f22309758d243393389e520968a0f10f95678624509450ec3",
+  "instruction_id": "ODEEDIT-S05-P1R54-PDZ-PRC-TIME-SWEEP-T2-T3-T5-DIRECT-V1",
+  "job_array": "23749_[0-3%3]",
+  "reference_execution_count": 0,
+  "report_sha256": "83cabd07349af8245a2d1b2aa78bdd3d9e645c155e0cce8607ca0d2e8b96972c",
+  "schema": "ode-edit-s05-p1r54-pdz-time-sweep-source-receipt/v1",
+  "scientific_promotion": false,
+  "source_head": "c0dc8e3fcd1ea2c941441dd2dc5cfa91a28aa296",
+  "source_tree": "ccd9015d13adecc8dcf5e2d97baff5b12d3ddca8",
+  "status": "TERMINAL_REPORT_COMPLETE"
+}
