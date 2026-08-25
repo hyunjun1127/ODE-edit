@@ -354,6 +354,7 @@ def _run_ode_arm(
     p1r52_c_kstep_writer: Any | None = None,
     p1r52_target_subcycle_schedule: TargetSubcycleSchedule | None = None,
     p1r52_amplitude_policy: P1R52AmplitudePolicy | None = None,
+    p1r55_objective_evaluator: Callable[..., Any] | None = None,
     p1r54_realization_controller: Any | None = None,
     p1r52_fp32_phase_a: bool = False,
     p1r52_phase_a_method_label: str | None = None,
@@ -467,6 +468,12 @@ def _run_ode_arm(
         p1r52_target_subcycle_schedule is None or not p1r52
     ):
         raise ODEBFContractError("P1R52 external amplitude policy activation differs")
+    if p1r55_objective_evaluator is not None and (
+        p1r52_target_subcycle_schedule is None
+        or p1r52_amplitude_policy is None
+        or not callable(p1r55_objective_evaluator)
+    ):
+        raise ODEBFContractError("P1R55 objective evaluator activation differs")
     if p1r54_realization_controller is not None and (
         p1r52_target_subcycle_schedule is None
         or p1r52_amplitude_policy is None
@@ -720,10 +727,15 @@ def _run_ode_arm(
                 if p1r30
                 else None
             )
+            selected_target_evaluator = (
+                evaluate_scalable_target_new_objective
+                if p1r55_objective_evaluator is None
+                else p1r55_objective_evaluator
+            )
             target_result = (
                 p1r30_target_objective.objective
                 if p1r30_target_objective is not None
-                else evaluate_scalable_target_new_objective(
+                else selected_target_evaluator(
                     model,
                     objective_plan,
                     target_state=target_variable,
@@ -775,7 +787,7 @@ def _run_ode_arm(
                             .clone()
                             .requires_grad_(True)
                         )
-                        result = evaluate_scalable_target_new_objective(
+                        result = selected_target_evaluator(
                             model,
                             objective_plan,
                             target_state=variable,
@@ -822,7 +834,7 @@ def _run_ode_arm(
                         target: torch.Tensor, endpoint_role: str
                     ) -> Any:
                         endpoint_started = time.perf_counter()
-                        result = evaluate_scalable_target_new_objective(
+                        result = selected_target_evaluator(
                             model,
                             objective_plan,
                             target_state=target.detach().to(

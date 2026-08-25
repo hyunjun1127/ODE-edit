@@ -164,6 +164,7 @@ def _fp32_target_and_j0(
     c_kstep_writer_factory: Any | None = None,
     target_subcycle_schedule: Any | None = None,
     amplitude_policy: Any | None = None,
+    objective_evaluator: Any | None = None,
     realization_controller: Any | None = None,
     easyedit_root: Path = Path("/mnt/raid5/janghj/EasyEdit"),
 ) -> tuple[torch.Tensor, Mapping[str, Any], Any, Any]:
@@ -217,6 +218,7 @@ def _fp32_target_and_j0(
         p1r52_c_kstep_writer=c_kstep_writer,
         p1r52_target_subcycle_schedule=target_subcycle_schedule,
         p1r52_amplitude_policy=amplitude_policy,
+        p1r55_objective_evaluator=objective_evaluator,
         p1r54_realization_controller=realization_controller,
         easyedit_root=easyedit_root,
     )

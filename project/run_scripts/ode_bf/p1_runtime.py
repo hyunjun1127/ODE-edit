@@ -3288,6 +3288,7 @@ def run_p1(
     from .p1r54_fz_finalz_oneshot_sequential import (
         is_p1r54_fz_finalz_oneshot_role,
     )
+    from .p1r55_rms_pdz_rate_experiment import is_p1r55_phase1_role
 
     joint_pc_full_fp32_mode = (
         is_joint_pc_full_fp32_role(p1r52_sequential_role)
@@ -3303,6 +3304,7 @@ def run_p1(
         or is_p1r54_fz_sequential_role(p1r52_sequential_role)
         or is_p1r54_realization_reset_role(p1r52_sequential_role)
         or is_p1r54_fz_finalz_oneshot_role(p1r52_sequential_role)
+        or is_p1r55_phase1_role(p1r52_sequential_role)
     )
     if runtime_gpu_capacity_validator is not None and not (
         is_phase1_role(p1r52_sequential_role)
