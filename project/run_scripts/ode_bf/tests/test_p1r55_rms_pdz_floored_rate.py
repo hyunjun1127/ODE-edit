@@ -86,7 +86,7 @@ class P1R55RMSPDZRateTests(unittest.TestCase):
             self.assertEqual(binding.heldout_step_indices, (0, 3, 7))
             self.assertEqual(binding.writer_arm, "C3-KSTEP-CACHE")
             self.assertEqual(binding.easyedit_root, Path("/mnt/raid5/janghj/EasyEdit"))
-            self.assertTrue(config.result_name.endswith("-tech-r1-v1"))
+            self.assertTrue(config.result_name.endswith("-tech-r2-v1"))
             self.assertIsNotNone(binding.canonical_prefix_amplitude_policy_factory)
             self.assertIsNotNone(binding.canonical_prefix_objective_evaluator_factory)
             metadata = binding.metadata["p1r55_rms_pdz_rate"]
@@ -168,8 +168,24 @@ class P1R55RMSPDZRateTests(unittest.TestCase):
         self.assertTrue(torch.equal(legacy.amplitude, observed.amplitude))
         self.assertEqual(
             legacy.receipt["p1r54_kdc_direction_sha256"],
-            observed.receipt["kdc_direction_sha256"],
+            observed.receipt["p1r55_kdc_direction_sha256"],
         )
+
+    def test_external_amplitude_receipt_namespace_does_not_collide(self) -> None:
+        decision = RequestLocalPDZPolicy(
+            risk_policy=ObjectiveRiskPolicy.MEAN,
+            amplitude_policy=AmplitudePolicy.PDZ,
+            request_count=2,
+        )(_context(torch.tensor([0.2, 0.3], dtype=torch.float64)))
+        parent_keys = {
+            "schema",
+            "instruction_id",
+            "semantic_gradient_norm_by_request",
+            "semantic_gradient_sha256",
+            "kdc_direction_sha256",
+        }
+        self.assertFalse(parent_keys.intersection(decision.receipt))
+        self.assertTrue(all(key.startswith("p1r55_") for key in decision.receipt))
 
     def test_request_axis_microbatch_partition_keeps_one_global_scaling(self) -> None:
         context = torch.tensor(
@@ -314,7 +330,7 @@ class P1R55RMSPDZRateTests(unittest.TestCase):
                 "extra_model_backward_count",
                 "heldout_decision_access_count",
             ):
-                self.assertEqual(decision.receipt[key], 0)
+                self.assertEqual(decision.receipt[f"p1r55_{key}"], 0)
             policy.observe_selected(
                 step_index=ordinal // 2,
                 current_nll=(0.2, 0.3),

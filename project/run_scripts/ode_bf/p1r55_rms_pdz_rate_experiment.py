@@ -100,7 +100,7 @@ PHASE1_CELLS = tuple(
         ),
         (
             "s05-p1r55-rms-pdz-rate-phase1-warm-"
-            f"b{snapshot_batch:02d}-{arm.label.lower()}-t1-tech-r1-v1"
+            f"b{snapshot_batch:02d}-{arm.label.lower()}-t1-tech-r2-v1"
         ),
     )
     for snapshot_position, snapshot_batch in enumerate(PHASE1_SNAPSHOTS)

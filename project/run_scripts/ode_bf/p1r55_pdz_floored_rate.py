@@ -258,53 +258,62 @@ class RequestLocalPDZPolicy:
             slope / gradient_norm,
             torch.zeros_like(slope),
         )
+        # This receipt is flattened into the established P1R52 target receipt.
+        # Keep every key in one experiment-owned namespace so provenance can be
+        # merged without replacing the parent target science or telemetry.
         receipt: dict[str, Any] = {
-            "schema": "ode-edit-s05-p1r55-request-local-amplitude-decision/v1",
-            "instruction_id": INSTRUCTION_ID,
-            "arm": self.arm,
-            "risk_policy": self.risk_policy.value,
-            "amplitude_policy": self.amplitude_policy.value,
-            "outer_index": context.step_index,
-            "microstep_index": self._call_count % self.microsteps_per_outer,
-            "global_microstep_ordinal": self._call_count,
-            "target_dt": TARGET_DT,
-            "rho_source": "IMMUTABLE_CASE_ENTRY_TARGET_ORIGIN_NORM",
-            "rho_by_request": [float(item) for item in self._rho],
-            "rho_sha256": self._rho_sha256,
-            "rho_capture_count_this_call": 1 if self._call_count == 0 else 0,
-            "rho_capture_count_total": 1,
-            "rho_refresh_count": 0,
-            "risk_by_request": [float(item) for item in context.target_new_nll],
-            "semantic_gradient_sha256": tensor_sha256(
+            "p1r55_schema": "ode-edit-s05-p1r55-request-local-amplitude-decision/v1",
+            "p1r55_instruction_id": INSTRUCTION_ID,
+            "p1r55_arm": self.arm,
+            "p1r55_risk_policy": self.risk_policy.value,
+            "p1r55_amplitude_policy": self.amplitude_policy.value,
+            "p1r55_outer_index": context.step_index,
+            "p1r55_microstep_index": self._call_count % self.microsteps_per_outer,
+            "p1r55_global_microstep_ordinal": self._call_count,
+            "p1r55_target_dt": TARGET_DT,
+            "p1r55_rho_source": "IMMUTABLE_CASE_ENTRY_TARGET_ORIGIN_NORM",
+            "p1r55_rho_by_request": [float(item) for item in self._rho],
+            "p1r55_rho_sha256": self._rho_sha256,
+            "p1r55_rho_capture_count_this_call": 1 if self._call_count == 0 else 0,
+            "p1r55_rho_capture_count_total": 1,
+            "p1r55_rho_refresh_count": 0,
+            "p1r55_risk_by_request": [float(item) for item in context.target_new_nll],
+            "p1r55_semantic_gradient_sha256": tensor_sha256(
                 context.semantic_gradient.contiguous()
             ),
-            "kdc_direction_sha256": tensor_sha256(
+            "p1r55_kdc_direction_sha256": tensor_sha256(
                 context.kdc_direction.contiguous()
             ),
-            "semantic_gradient_norm_by_request": [float(item) for item in gradient_norm],
-            "semantic_slope_by_request": [float(item) for item in slope],
-            "semantic_direction_efficiency_by_request": [float(item) for item in gamma],
-            "pdz_amplitude_by_request": [float(item) for item in pdz],
-            "selected_amplitude_by_request": [float(item) for item in amplitude],
-            "rate_solver_receipt": None if rate_receipt is None else dict(rate_receipt),
-            "cross_request_nll_decision_access_count": 0,
-            "cross_request_gradient_reduction_decision_count": 0,
-            "batch_energy_normalization_count": 0,
-            "unused_energy_redistribution_count": 0,
-            "batch_percentile_decision_count": 0,
-            "per_request_backward_loop_count": 0,
-            "extra_model_forward_count": 0,
-            "extra_model_backward_count": 0,
-            "heldout_decision_access_count": 0,
-            "request_cohort_gain_count": 0,
-            "learned_threshold_count": 0,
-            "retry_line_search_count": 0,
-            "writer_debt_count": 0,
-            "shared_energy_decision_count": 0,
-            "amplitude_sha256": tensor_sha256(amplitude),
+            "p1r55_semantic_gradient_norm_by_request": [
+                float(item) for item in gradient_norm
+            ],
+            "p1r55_semantic_slope_by_request": [float(item) for item in slope],
+            "p1r55_semantic_direction_efficiency_by_request": [
+                float(item) for item in gamma
+            ],
+            "p1r55_pdz_amplitude_by_request": [float(item) for item in pdz],
+            "p1r55_selected_amplitude_by_request": [float(item) for item in amplitude],
+            "p1r55_rate_solver_receipt": (
+                None if rate_receipt is None else dict(rate_receipt)
+            ),
+            "p1r55_cross_request_nll_decision_access_count": 0,
+            "p1r55_cross_request_gradient_reduction_decision_count": 0,
+            "p1r55_batch_energy_normalization_count": 0,
+            "p1r55_unused_energy_redistribution_count": 0,
+            "p1r55_batch_percentile_decision_count": 0,
+            "p1r55_per_request_backward_loop_count": 0,
+            "p1r55_extra_model_forward_count": 0,
+            "p1r55_extra_model_backward_count": 0,
+            "p1r55_heldout_decision_access_count": 0,
+            "p1r55_request_cohort_gain_count": 0,
+            "p1r55_learned_threshold_count": 0,
+            "p1r55_retry_line_search_count": 0,
+            "p1r55_writer_debt_count": 0,
+            "p1r55_shared_energy_decision_count": 0,
+            "p1r55_amplitude_sha256": tensor_sha256(amplitude),
         }
-        receipt["identity_sha256"] = canonical_hash(receipt)
-        self._decision_ids.append(str(receipt["identity_sha256"]))
+        receipt["p1r55_identity_sha256"] = canonical_hash(receipt)
+        self._decision_ids.append(str(receipt["p1r55_identity_sha256"]))
         self._call_count += 1
         return P1R52AmplitudeDecision(
             amplitude.detach().clone().contiguous(),
