@@ -38,7 +38,7 @@ from project.run_scripts.session05_ode_bf_p1r55_rms_pdz_rate_preflight import (
 )
 
 
-RUN_TOKEN = "p1r55-rms-pdz-floored-rate-phase1-warm-t1-v1"
+RUN_TOKEN = "p1r55-rms-pdz-floored-rate-phase1-warm-t1-tech-r1-v1"
 
 
 def _owned_state_root(path: Path, *, expected_name: str) -> Path:

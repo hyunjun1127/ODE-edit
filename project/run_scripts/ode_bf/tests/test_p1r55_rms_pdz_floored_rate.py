@@ -86,6 +86,7 @@ class P1R55RMSPDZRateTests(unittest.TestCase):
             self.assertEqual(binding.heldout_step_indices, (0, 3, 7))
             self.assertEqual(binding.writer_arm, "C3-KSTEP-CACHE")
             self.assertEqual(binding.easyedit_root, Path("/mnt/raid5/janghj/EasyEdit"))
+            self.assertTrue(config.result_name.endswith("-tech-r1-v1"))
             self.assertIsNotNone(binding.canonical_prefix_amplitude_policy_factory)
             self.assertIsNotNone(binding.canonical_prefix_objective_evaluator_factory)
             metadata = binding.metadata["p1r55_rms_pdz_rate"]
