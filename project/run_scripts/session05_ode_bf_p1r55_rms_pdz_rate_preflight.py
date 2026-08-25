@@ -214,7 +214,7 @@ def build_receipt(*, source_head: str, source_tree: str) -> Mapping[str, Any]:
         "source_manifest": source_manifest(head, tree),
         "dry_plan": dry_plan,
         "access": access,
-        "focused_test_count": 10,
+        "focused_test_count": 11,
         "focused_test_status": "PASS",
         "py_compile_status": "PASS",
         "bash_syntax_status": "PASS",
