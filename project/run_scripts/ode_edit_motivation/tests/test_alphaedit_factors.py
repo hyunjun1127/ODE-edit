@@ -113,7 +113,7 @@ class IsolatedAlphaEditFactorTests(unittest.TestCase):
         torch.testing.assert_close(dense_update, native.T, rtol=1e-12, atol=1e-12)
         torch.testing.assert_close(dense_update, woodbury_update, rtol=1e-12, atol=1e-12)
 
-    def test_upstream_dense_rhs_first_projection_handles_repeated_residuals(self) -> None:
+    def test_upstream_dense_rhs_first_preserves_repeated_residual_rounding(self) -> None:
         keys = self.keys.float()
         projector = self.projector.float()
         repeated = self.residuals[:, :1].float().repeat(1, keys.shape[1])
@@ -137,6 +137,7 @@ class IsolatedAlphaEditFactorTests(unittest.TestCase):
             native.T
         )
         self.assertLess(float(relative.item()), 5.0e-6)
+        self.assertEqual(factor.rank, repeated.shape[0])
         solve_residual = _dense_rhs_solve_residual_ratio(
             keys=keys,
             projected_keys=projector @ keys,
