@@ -110,6 +110,31 @@ class IsolatedAlphaEditFactorTests(unittest.TestCase):
         torch.testing.assert_close(dense_update, native.T, rtol=1e-12, atol=1e-12)
         torch.testing.assert_close(dense_update, woodbury_update, rtol=1e-12, atol=1e-12)
 
+    def test_upstream_dense_rhs_first_projection_handles_repeated_residuals(self) -> None:
+        keys = self.keys.float()
+        projector = self.projector.float()
+        repeated = self.residuals[:, :1].float().repeat(1, keys.shape[1])
+        system = projector @ (keys @ keys.T)
+        system.diagonal().add_(self.l2)
+        native = torch.linalg.solve(
+            system,
+            (projector @ keys) @ repeated.T,
+        )
+        factor = solve_isolated_alphaedit_factor_upstream_dense(
+            keys=keys,
+            residuals=repeated,
+            projector=projector,
+            l2=self.l2,
+            weight_name="layer.weight",
+            weight_shape=tuple(native.T.shape),
+            expected_weight_sha256="e" * 64,
+        )
+        reconstructed = factor.left @ factor.right.T
+        relative = torch.linalg.vector_norm(reconstructed - native.T) / torch.linalg.vector_norm(
+            native.T
+        )
+        self.assertLess(float(relative.item()), 5.0e-6)
+
     def test_native_and_transposed_weight_orientations_are_both_exact(self) -> None:
         native = self._native_dense_update()
         direct = solve_isolated_alphaedit_factor(

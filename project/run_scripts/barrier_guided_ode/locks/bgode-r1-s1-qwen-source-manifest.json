@@ -42,8 +42,8 @@
     },
     {
       "path": "project/run_scripts/barrier_guided_ode/locks/bgode-r1-s1-qwen-numerical-lock.json",
-      "bytes": 2764,
-      "sha256": "91f71b264ceb011c92135e81251e40193dd4cbf593712e5848ce21c912c35b5e"
+      "bytes": 2777,
+      "sha256": "ca02b619c70318ffacc3fe7a89a0adf11255c8c03c9737d5707e13273cb865fb"
     },
     {
       "path": "project/run_scripts/barrier_guided_ode/policies.py",
@@ -72,8 +72,8 @@
     },
     {
       "path": "project/run_scripts/barrier_guided_ode/s1_experiment.py",
-      "bytes": 38919,
-      "sha256": "ab14e80ad0c90cf9489a36dabf2254cffd6c6677d4cd83e664ebf897298796f5"
+      "bytes": 41436,
+      "sha256": "e58875bba70c47b0b6357dcfab50b5bc72abe07e336efa2b4989ed269447772e"
     },
     {
       "path": "project/run_scripts/barrier_guided_ode/s1_streaming_events.py",
@@ -112,8 +112,8 @@
     },
     {
       "path": "project/run_scripts/ode_edit_motivation/alphaedit_factors.py",
-      "bytes": 38138,
-      "sha256": "929628707f47fdad33fbcd8794cfd633e647da64a6373984180c0d4f10eff8c6"
+      "bytes": 39529,
+      "sha256": "29fbe72a4015f1cd3da349b0b2fa604209cfdffffe2f46d412af12bbc46d51f1"
     },
     {
       "path": "project/run_scripts/ode_edit_motivation/alphaedit_proposal_adapter.py",
@@ -127,8 +127,8 @@
     },
     {
       "path": "project/run_scripts/ode_edit_motivation/tests/test_alphaedit_factors.py",
-      "bytes": 14455,
-      "sha256": "58fdb2e88ece5b648574b0d4b7c0dd4457d30e9796fccabd27897a189eba3761"
+      "bytes": 15452,
+      "sha256": "6508a8ced8f7b4228cb9d35655a56d3d7c55ee21822930a5656bd22a0488778c"
     },
     {
       "path": "project/run_scripts/ode_edit_motivation/tests/test_contracts.py",
@@ -146,5 +146,5 @@
       "sha256": "87ee4a1b93c24b8190e7e4b92a3d002b6f89da04cddd139058abedeac6669d7c"
     }
   ],
-  "entries_root_sha256": "1db272ec066644bdd780e9744d21d1428b8fb498c0572fbcbcb24273398326e4"
+  "entries_root_sha256": "2f9ee97914a5bd814da15aad8b9ca31d037095482fb452c647d6ed8bcd9130b0"
 }

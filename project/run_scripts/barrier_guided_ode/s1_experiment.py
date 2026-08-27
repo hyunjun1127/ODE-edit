@@ -26,6 +26,7 @@ from project.run_scripts.ode_edit_motivation.contracts import (
     LowRankFactor,
     MemitFactorProposal,
     ProposalSemantics,
+    canonical_hash,
     canonical_json,
     sha256_bytes,
 )
@@ -713,12 +714,57 @@ def run_s1(
                 fidelity_trajectory.apply(native_proposal, bypass.coefficients)
                 numerator = 0.0
                 denominator = 0.0
+                fidelity_layers: list[dict[str, Any]] = []
                 for name in weight_names:
                     candidate = resolve_parameter(runtime.model, name).detach().float()
                     official = native_weights[name].detach().float()
-                    numerator += float(torch.sum((candidate - official).square()).item())
-                    denominator += float(torch.sum((official - originals[name].float()).square()).item())
+                    entry = originals[name].float()
+                    candidate_delta = candidate - entry
+                    official_delta = official - entry
+                    difference = candidate - official
+                    difference_energy = float(torch.sum(difference.square()).item())
+                    official_energy = float(torch.sum(official_delta.square()).item())
+                    candidate_energy = float(torch.sum(candidate_delta.square()).item())
+                    numerator += difference_energy
+                    denominator += official_energy
+                    cosine_denominator = math.sqrt(candidate_energy * official_energy)
+                    cosine = (
+                        float(torch.sum(candidate_delta * official_delta).item())
+                        / cosine_denominator
+                        if cosine_denominator > 0.0
+                        else None
+                    )
+                    fidelity_layers.append(
+                        {
+                            "weight_name": name,
+                            "entry_sha256": tensor_sha256(entry),
+                            "candidate_sha256": tensor_sha256(candidate),
+                            "official_sha256": tensor_sha256(official),
+                            "candidate_delta_frobenius": math.sqrt(candidate_energy),
+                            "official_delta_frobenius": math.sqrt(official_energy),
+                            "difference_frobenius": math.sqrt(difference_energy),
+                            "relative_frobenius": math.sqrt(
+                                difference_energy
+                                / max(official_energy, torch.finfo(torch.float32).tiny)
+                            ),
+                            "cosine": cosine,
+                        }
+                    )
                 relative = math.sqrt(numerator / max(denominator, torch.finfo(torch.float32).tiny))
+                fidelity_receipt = {
+                    "schema": "ode-edit-s05-bgode-r1-s1-native-adapter-fidelity/v1",
+                    "model_alias": model_alias,
+                    "solver_name": native_proposal.solver_name,
+                    "relative_frobenius": relative,
+                    "tolerance": 5.0e-5,
+                    "pass": math.isfinite(relative) and relative <= 5.0e-5,
+                    "layers": fidelity_layers,
+                    "model_forward_count": 0,
+                    "target_recompute_count": 0,
+                    "controller_influence_count": 0,
+                }
+                fidelity_receipt["identity_sha256"] = canonical_hash(fidelity_receipt)
+                _write_json_once(output / "native-adapter-fidelity.json", fidelity_receipt)
                 if not math.isfinite(relative) or relative > 5.0e-5:
                     raise BGODEScientificBoundary("P-inside adapter differs from Official AlphaEdit endpoint")
             del native_weights

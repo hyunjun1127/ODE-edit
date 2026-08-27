@@ -33,7 +33,7 @@
     "one-step-full-barrier",
     "frozen-field-n4-split"
   ],
-  "alphaedit_isolated_solve_backend": "upstream_dense_p_inside_reference_order",
+  "alphaedit_isolated_solve_backend": "upstream_dense_rhs_first_p_inside_lowrank_projection",
   "jvp_backend": "serial_forward_mode_per_prefix_per_actuator_with_eager_attention_math",
   "jvp_attention_entry_restore": "exact_after_each_observation_boundary",
   "jvp_actuator_count": 5,
@@ -63,5 +63,5 @@
     "token_or_full_vocab_ablation",
     "performance_termination_selection"
   ],
-  "lock_root_sha256": "b7256fd3cece8339a8a6a895cd3cd37de7c53d98956747517b5571b5ad7c4c9e"
+  "lock_root_sha256": "e9b9b6195dc39ba4727c408888d1238c6473bd649f48b54db1a62bdbf1631de8"
 }

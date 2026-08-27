@@ -379,15 +379,16 @@ def solve_isolated_alphaedit_factor_upstream_dense(
     weight_shape: Sequence[int],
     expected_weight_sha256: str,
 ) -> LowRankFactor:
-    """Factor the exact dense equation evaluated by upstream AlphaEdit.
+    """Factor the exact dense RHS equation evaluated by upstream AlphaEdit.
 
     This is algebraically identical to :func:`solve_isolated_alphaedit_factor`,
-    but intentionally evaluates ``solve(P @ (K @ K.T) + lambda I, P @ K)``
-    in the same order as the pinned Official implementation.  It is useful
-    when an ill-conditioned large projector makes the Woodbury evaluation
-    differ from that reference by more than a predeclared fidelity tolerance.
-    The returned update remains low rank because only the adjusted key columns
-    are retained.
+    but intentionally evaluates
+    ``solve(P @ (K @ K.T) + lambda I, (P @ K) @ R.T)`` in the same order as
+    the pinned Official implementation.  The resulting dense update is then
+    projected onto the deterministic numerical column space of ``R`` so the
+    actuator remains low rank.  This preserves the scientific equation while
+    avoiding an FP32 operation-order discrepancy on ill-conditioned large
+    projectors.
     """
 
     if not isinstance(weight_name, str) or not weight_name.strip():
@@ -421,20 +422,46 @@ def solve_isolated_alphaedit_factor_upstream_dense(
         projected_keys = p @ k
         system = p @ (k @ k.transpose(0, 1))
         system.diagonal().add_(lambda_value)
+        native_rhs = projected_keys @ resid.transpose(0, 1)
         if not bool(torch.isfinite(system).all()) or not bool(
-            torch.isfinite(projected_keys).all()
+            torch.isfinite(native_rhs).all()
         ):
             raise AlphaEditFactorError("dense AlphaEdit system is non-finite")
         try:
-            adjusted_keys = torch.linalg.solve(system, projected_keys)
+            native_update = torch.linalg.solve(system, native_rhs)
         except RuntimeError as exc:
             raise AlphaEditFactorError("dense AlphaEdit system is singular") from exc
+        if not bool(torch.isfinite(native_update).all()):
+            raise AlphaEditFactorError("dense AlphaEdit update is non-finite")
+
+        # ``R`` may contain repeated context columns (rank one for a single
+        # request).  SVD supplies a deterministic orthonormal basis for its
+        # numerical column space without dividing by a small residual entry.
+        try:
+            residual_basis, singular_values, _ = torch.linalg.svd(
+                resid,
+                full_matrices=False,
+            )
+        except RuntimeError as exc:
+            raise AlphaEditFactorError("dense AlphaEdit residual basis failed") from exc
+        if singular_values.numel() == 0 or not bool(torch.isfinite(singular_values).all()):
+            raise AlphaEditFactorError("dense AlphaEdit residual basis is non-finite")
+        cutoff = (
+            torch.finfo(work_dtype).eps
+            * max(int(resid.shape[0]), int(resid.shape[1]))
+            * singular_values[0]
+        )
+        rank = int(torch.count_nonzero(singular_values > cutoff).item())
+        if rank <= 0:
+            raise AlphaEditFactorError("dense AlphaEdit residual basis has zero rank")
+        right_basis = residual_basis[:, :rank].contiguous()
+        adjusted_keys = (native_update @ right_basis).contiguous()
         if not bool(torch.isfinite(adjusted_keys).all()):
-            raise AlphaEditFactorError("dense AlphaEdit adjusted keys are non-finite")
+            raise AlphaEditFactorError("dense AlphaEdit low-rank projection is non-finite")
 
     return orient_easyedit_factor(
         adjusted_keys,
-        resid,
+        right_basis,
         weight_name=weight_name,
         weight_shape=shape,
         expected_weight_sha256=expected_weight_sha256,
