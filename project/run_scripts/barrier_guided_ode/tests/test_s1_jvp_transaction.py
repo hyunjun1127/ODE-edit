@@ -38,6 +38,15 @@ class _ToyModel(torch.nn.Module):
         return SimpleNamespace(logits=self.head(value))
 
 
+class _ToyAttentionConfig:
+    def __init__(self):
+        self._attn_implementation_internal = "sdpa"
+
+    @property
+    def _attn_implementation(self):
+        return self._attn_implementation_internal
+
+
 def _proposal(model):
     names = tuple(f"layers.{index}.weight" for index in range(5))
     request = EditRequest("case", "{}", "subject", "target")
@@ -101,6 +110,21 @@ def test_serial_forward_jvp_matches_locked_central_fd_for_all_five_directions(mo
     assert backend.finite_difference_receipt.direction_count == 5
     assert backend.ledger.jvp_call_count == 5 * len(layout.internal_prefixes)
     assert backend.ledger.finite_difference_forward_count == 10
+
+
+def test_jvp_eager_attention_boundary_restores_entry_backend(monkeypatch):
+    model = _ToyModel().eval()
+    model.config = _ToyAttentionConfig()
+    proposal = _proposal(model)
+    layout = StreamingTrieLayout.build(
+        source_tokens=(4,), target_tokens=(3,), boundary_token=10, vocabulary_size=11
+    )
+    monkeypatch.setattr(torch.cuda, "synchronize", lambda *args, **kwargs: None)
+    backend = SerialForwardJVPBackend(model, _tokenization())
+    backend.observe(layout=layout, proposal=proposal, validate_first_node_fd=True)
+    assert model.config._attn_implementation == "sdpa"
+    assert backend.ledger.attention_backend == "eager-forward-ad-reference"
+    assert backend.ledger.attention_backend_switch_count == 1
 
 
 def test_atomic_trajectory_restores_pointer_and_bytes_on_success_and_failure(monkeypatch):

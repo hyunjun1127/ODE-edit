@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 import time
-from contextlib import ExitStack
+from contextlib import ExitStack, contextmanager
 from dataclasses import dataclass, field
 from typing import Any, Mapping, Sequence
 
@@ -287,6 +287,37 @@ class JVPComputeLedger:
     finite_difference_forward_count: int = 0
     score_buffer_peak_bytes: int = 0
     wall_seconds: float = 0.0
+    attention_backend_switch_count: int = 0
+    attention_backend: str = "eager-forward-ad-reference"
+
+
+@contextmanager
+def _forward_ad_attention(model: torch.nn.Module):
+    """Use Transformers' public eager attention math for forward AD only.
+
+    PyTorch's CUDA efficient SDPA kernel has no forward-mode derivative.  The
+    eager implementation expresses the same attention equation in operations
+    with registered forward derivatives.  The model runtime configuration is
+    restored exactly after every observation boundary.
+    """
+
+    config = getattr(model, "config", None)
+    if config is None or not hasattr(config, "_attn_implementation_internal"):
+        yield False
+        return
+    original = config._attn_implementation
+    if original == "eager":
+        yield False
+        return
+    config._attn_implementation_internal = "eager"
+    try:
+        if config._attn_implementation != "eager":
+            raise BGODEScientificBoundary("forward-AD eager attention activation failed")
+        yield True
+    finally:
+        config._attn_implementation_internal = original
+        if config._attn_implementation != original:
+            raise BGODEScientificBoundary("forward-AD attention backend restore failed")
 
 
 class SerialForwardJVPBackend:
@@ -400,31 +431,37 @@ class SerialForwardJVPBackend:
         started = time.perf_counter()
         result: dict[tuple[int, ...], PrefixDirectionalLogits] = {}
         direction_count = len(proposal.factors)
-        for node_index, prefix in enumerate(layout.internal_prefixes):
-            function = self._function(proposal, prefix)
-            primals: list[torch.Tensor] = []
-            tangents: list[torch.Tensor] = []
-            for index in range(direction_count):
-                direction = torch.zeros(direction_count, dtype=torch.float32, device=next(self.model.parameters()).device)
-                direction[index] = 1.0
-                primal, tangent = self._directional(function, direction)
-                primals.append(primal)
-                tangents.append(tangent)
-            primal = primals[0]
-            if any(not torch.equal(primal, candidate) for candidate in primals[1:]):
-                raise BGODEScientificBoundary("serial JVP primal bytes differ by direction")
-            tangent_matrix = torch.stack(tangents, dim=1).to(dtype=torch.float32)
-            self.ledger.primal_prefix_count += 1
-            self.ledger.score_buffer_peak_bytes = max(
-                self.ledger.score_buffer_peak_bytes,
-                int(tangent_matrix.numel() * tangent_matrix.element_size()),
-            )
-            if validate_first_node_fd and node_index == 0 and self._fd_receipt is None:
-                self._validate_fd(function, primal, tangent_matrix)
-            result[prefix] = PrefixDirectionalLogits(
-                logits=primal.detach().cpu().contiguous(),
-                tangent_logits=tangent_matrix.detach().cpu().contiguous(),
-            )
+        with _forward_ad_attention(self.model) as switched:
+            self.ledger.attention_backend_switch_count += int(switched)
+            for node_index, prefix in enumerate(layout.internal_prefixes):
+                function = self._function(proposal, prefix)
+                primals: list[torch.Tensor] = []
+                tangents: list[torch.Tensor] = []
+                for index in range(direction_count):
+                    direction = torch.zeros(
+                        direction_count,
+                        dtype=torch.float32,
+                        device=next(self.model.parameters()).device,
+                    )
+                    direction[index] = 1.0
+                    primal, tangent = self._directional(function, direction)
+                    primals.append(primal)
+                    tangents.append(tangent)
+                primal = primals[0]
+                if any(not torch.equal(primal, candidate) for candidate in primals[1:]):
+                    raise BGODEScientificBoundary("serial JVP primal bytes differ by direction")
+                tangent_matrix = torch.stack(tangents, dim=1).to(dtype=torch.float32)
+                self.ledger.primal_prefix_count += 1
+                self.ledger.score_buffer_peak_bytes = max(
+                    self.ledger.score_buffer_peak_bytes,
+                    int(tangent_matrix.numel() * tangent_matrix.element_size()),
+                )
+                if validate_first_node_fd and node_index == 0 and self._fd_receipt is None:
+                    self._validate_fd(function, primal, tangent_matrix)
+                result[prefix] = PrefixDirectionalLogits(
+                    logits=primal.detach().cpu().contiguous(),
+                    tangent_logits=tangent_matrix.detach().cpu().contiguous(),
+                )
         torch.cuda.synchronize(next(self.model.parameters()).device)
         self.ledger.wall_seconds += time.perf_counter() - started
         return result
@@ -433,13 +470,21 @@ class SerialForwardJVPBackend:
         started = time.perf_counter()
         device = next(self.model.parameters()).device
         result: dict[tuple[int, ...], PrefixDirectionalLogits] = {}
-        with torch.inference_mode():
-            for prefix in layout.internal_prefixes:
-                ids = torch.tensor([self.tokenization.prompt_token_ids + prefix], dtype=torch.long, device=device)
-                self.ledger.model_forward_invocations += 1
-                self.ledger.primal_prefix_count += 1
-                logits = self.model(input_ids=ids, use_cache=False).logits[0, -1].float()
-                result[prefix] = PrefixDirectionalLogits(logits=logits.detach().cpu().contiguous())
+        with _forward_ad_attention(self.model) as switched:
+            self.ledger.attention_backend_switch_count += int(switched)
+            with torch.inference_mode():
+                for prefix in layout.internal_prefixes:
+                    ids = torch.tensor(
+                        [self.tokenization.prompt_token_ids + prefix],
+                        dtype=torch.long,
+                        device=device,
+                    )
+                    self.ledger.model_forward_invocations += 1
+                    self.ledger.primal_prefix_count += 1
+                    logits = self.model(input_ids=ids, use_cache=False).logits[0, -1].float()
+                    result[prefix] = PrefixDirectionalLogits(
+                        logits=logits.detach().cpu().contiguous()
+                    )
         torch.cuda.synchronize(device)
         self.ledger.wall_seconds += time.perf_counter() - started
         return result

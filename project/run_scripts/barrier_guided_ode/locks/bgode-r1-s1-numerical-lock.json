@@ -28,7 +28,8 @@
     "one-step-full-barrier",
     "frozen-field-n4-split"
   ],
-  "jvp_backend": "serial_forward_mode_per_prefix_per_actuator",
+  "jvp_backend": "serial_forward_mode_per_prefix_per_actuator_with_eager_attention_math",
+  "jvp_attention_entry_restore": "exact_after_each_observation_boundary",
   "jvp_actuator_count": 5,
   "fd_epsilon": 0.00390625,
   "fd_absolute_tolerance": 0.02,
@@ -56,5 +57,5 @@
     "token_or_full_vocab_ablation",
     "performance_termination_selection"
   ],
-  "lock_root_sha256": "6150a340dfaa8987dcb65853b6c83f1e5656aa336dcea1a3588cd38095f43d6a"
+  "lock_root_sha256": "f39df2767fbb70b3e2a7a9462526f117dbb78fea45b6d29c2facd79aa54be565"
 }
