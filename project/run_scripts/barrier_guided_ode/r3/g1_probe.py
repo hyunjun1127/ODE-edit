@@ -8,6 +8,7 @@ import math
 import os
 import time
 from dataclasses import asdict
+from enum import Enum
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -77,6 +78,20 @@ def _tensor_sha(value: torch.Tensor) -> str:
     return digest.hexdigest()
 
 
+def _jsonable(value: Any) -> Any:
+    """Convert observation-only receipts without changing numerical values."""
+    if isinstance(value, torch.Tensor):
+        tensor = value.detach().cpu()
+        return tensor.item() if tensor.ndim == 0 else tensor.tolist()
+    if isinstance(value, Enum):
+        return value.value
+    if isinstance(value, Mapping):
+        return {str(key): _jsonable(item) for key, item in value.items()}
+    if isinstance(value, (tuple, list)):
+        return [_jsonable(item) for item in value]
+    return value
+
+
 def _write_once(path: Path, data: bytes) -> None:
     if path.exists() or path.is_symlink():
         if path.is_symlink() or not path.is_file() or path.read_bytes() != data:
@@ -138,7 +153,7 @@ def _event_payload(value: FineEventEvaluation) -> dict[str, object]:
 
 def _solution_payload(value: Any) -> dict[str, object]:
     return {
-        "receipt": value.receipt.payload(),
+        "receipt": _jsonable(value.receipt.payload()),
         "retained_direction_count": int(value.retained_directions.shape[1]),
         "velocity": [float(item) for item in value.velocity.cpu().tolist()],
         "velocity_sha256": _tensor_sha(value.velocity),
@@ -168,7 +183,7 @@ def run_g1(
     model_alias: str,
     run_id: str,
 ) -> dict[str, Any]:
-    expected = f"s05-bgode-r3-g1-{model_alias}-natural-unequal-nonprefix-multitoken-v1"
+    expected = f"s05-bgode-r3-g1-{model_alias}-natural-unequal-nonprefix-multitoken-tech-r1-v1"
     if run_id != expected:
         raise R3ScientificBoundary("G1 run identity differs")
     output = Path(output_root).expanduser().resolve(strict=False) / run_id
@@ -471,6 +486,7 @@ def run_g1(
         result["total_wall_seconds"] = time.perf_counter() - started
         result["peak_gpu_allocated_bytes"] = int(torch.cuda.max_memory_allocated(0))
         result["peak_gpu_reserved_bytes"] = int(torch.cuda.max_memory_reserved(0))
+        result = _jsonable(result)
         result["terminal_identity"] = sha256_bytes(canonical_json(result).encode("utf-8"))
         _write_json_once(output / "terminal.json", result)
         return result

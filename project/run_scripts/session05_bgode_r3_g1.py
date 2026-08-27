@@ -26,11 +26,11 @@ from project.run_scripts.ode_edit_motivation.manifests import fixed_model_spec, 
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-LOCK_PATH = REPO_ROOT / "project/run_scripts/barrier_guided_ode/r3/locks/bgode-r3-g1-numerical-lock.json"
-MANIFEST_PATH = REPO_ROOT / "project/run_scripts/barrier_guided_ode/r3/locks/bgode-r3-g1-source-manifest.json"
+LOCK_PATH = REPO_ROOT / "project/run_scripts/barrier_guided_ode/r3/locks/bgode-r3-g1-tech-r1-numerical-lock.json"
+MANIFEST_PATH = REPO_ROOT / "project/run_scripts/barrier_guided_ode/r3/locks/bgode-r3-g1-tech-r1-source-manifest.json"
 RUN_IDS = {
-    "llama3-8b-inst": "s05-bgode-r3-g1-llama3-8b-inst-natural-unequal-nonprefix-multitoken-v1",
-    "qwen2.5-7b-inst": "s05-bgode-r3-g1-qwen2.5-7b-inst-natural-unequal-nonprefix-multitoken-v1",
+    "llama3-8b-inst": "s05-bgode-r3-g1-llama3-8b-inst-natural-unequal-nonprefix-multitoken-tech-r1-v1",
+    "qwen2.5-7b-inst": "s05-bgode-r3-g1-qwen2.5-7b-inst-natural-unequal-nonprefix-multitoken-tech-r1-v1",
 }
 
 

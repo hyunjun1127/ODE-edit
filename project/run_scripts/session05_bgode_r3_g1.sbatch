@@ -35,11 +35,11 @@ scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 case "${SLURM_ARRAY_TASK_ID:?array task id required}" in
   0)
     readonly MODEL_ALIAS="llama3-8b-inst"
-    readonly RUN_TOKEN="s05-bgode-r3-g1-llama3-8b-inst-natural-unequal-nonprefix-multitoken-v1"
+    readonly RUN_TOKEN="s05-bgode-r3-g1-llama3-8b-inst-natural-unequal-nonprefix-multitoken-tech-r1-v1"
     ;;
   1)
     readonly MODEL_ALIAS="qwen2.5-7b-inst"
-    readonly RUN_TOKEN="s05-bgode-r3-g1-qwen2.5-7b-inst-natural-unequal-nonprefix-multitoken-v1"
+    readonly RUN_TOKEN="s05-bgode-r3-g1-qwen2.5-7b-inst-natural-unequal-nonprefix-multitoken-tech-r1-v1"
     ;;
   *) echo "BGODE-R3 G1 array mapping differs" >&2; exit 2 ;;
 esac

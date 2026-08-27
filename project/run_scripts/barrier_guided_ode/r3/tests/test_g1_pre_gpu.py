@@ -7,7 +7,7 @@ from pathlib import Path
 import torch
 
 from project.run_scripts.barrier_guided_ode.r3.actuators import NormalizedActuatorBasis
-from project.run_scripts.barrier_guided_ode.r3.g1_probe import run_g1
+from project.run_scripts.barrier_guided_ode.r3.g1_probe import _jsonable, run_g1
 from project.run_scripts.barrier_guided_ode.r3.natural import load_natural_manifest, natural_case
 from project.run_scripts.ode_edit_motivation.contracts import (
     LowRankFactor,
@@ -82,3 +82,14 @@ def test_g1_array_mapping_and_cap_are_locked() -> None:
     assert '0)\n    readonly MODEL_ALIAS="llama3-8b-inst"' in source
     assert '1)\n    readonly MODEL_ALIAS="qwen2.5-7b-inst"' in source
     assert "--gres=gpu:1" in source
+
+
+def test_observation_receipt_tensor_serialization_is_value_preserving() -> None:
+    payload = {
+        "matrix": torch.tensor([[1.0, -2.0], [3.5, 4.0]], dtype=torch.float64),
+        "scalar": torch.tensor(0.25, dtype=torch.float64),
+    }
+    assert _jsonable(payload) == {
+        "matrix": [[1.0, -2.0], [3.5, 4.0]],
+        "scalar": 0.25,
+    }
