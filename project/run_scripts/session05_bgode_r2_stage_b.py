@@ -46,7 +46,13 @@ def _private_json(path: Path) -> dict[str, Any]:
     return value
 
 
-def _source_gate(head: str, tree: str) -> dict[str, Any]:
+def validate_source_release(
+    head: str,
+    tree: str,
+    *,
+    manifest_path: Path = MANIFEST_PATH,
+    lock_path: Path = LOCK_PATH,
+) -> dict[str, Any]:
     observed_head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, text=True).strip()
     observed_tree = subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=REPO_ROOT, text=True).strip()
     if observed_head != head or observed_tree != tree:
@@ -55,7 +61,7 @@ def _source_gate(head: str, tree: str) -> dict[str, Any]:
         ["git", "status", "--porcelain", "--untracked-files=no"], cwd=REPO_ROOT, text=True
     ):
         raise ValueError("queued Stage-B tracked source is dirty")
-    manifest = _private_json(MANIFEST_PATH)
+    manifest = _private_json(manifest_path)
     member_records = []
     for member in manifest.get("members", []):
         path = REPO_ROOT / member["path"]
@@ -86,14 +92,14 @@ def _source_gate(head: str, tree: str) -> dict[str, Any]:
 
     if sha256_bytes(canonical_json(member_records).encode("utf-8")) != manifest.get("members_root"):
         raise ValueError("Stage-B source manifest root differs")
-    lock = _private_json(LOCK_PATH)
+    lock = _private_json(lock_path)
     lock_body = {key: value for key, value in lock.items() if key != "identity"}
     if sha256_bytes(canonical_json(lock_body).encode("utf-8")) != lock.get("identity"):
         raise ValueError("Stage-B numerical lock identity differs")
     return {
-        "source_manifest_sha256": _sha256(MANIFEST_PATH),
+        "source_manifest_sha256": _sha256(manifest_path),
         "members_root": manifest.get("members_root"),
-        "numerical_lock_sha256": _sha256(LOCK_PATH),
+        "numerical_lock_sha256": _sha256(lock_path),
         "numerical_lock_identity": lock.get("identity"),
     }
 
@@ -111,7 +117,7 @@ def main() -> int:
     binding = model_binding(args.model_alias)
     if args.run_token != binding.run_id:
         raise ValueError("Stage-B run token differs")
-    release = _source_gate(args.source_head, args.source_tree)
+    release = validate_source_release(args.source_head, args.source_tree)
     sample = load_sealed_s1_sample()
     plan = {
         "schema": "ode-edit-bgode-r2-stage-b-dry-plan/v1",

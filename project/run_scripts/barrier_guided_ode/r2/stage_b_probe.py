@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 import time
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -196,9 +196,16 @@ def run_stage_b(
     release_receipt: Mapping[str, Any],
     model_alias: str,
     run_id: str,
+    expected_run_id: str | None = None,
+    event_token_override: tuple[tuple[int, ...], tuple[int, ...]] | None = None,
+    terminal_schema: str = SCHEMA,
+    pass_status: str = "BGODE_R2_STAGE_B_FP64_FISHER_NODE0_PASS",
+    numerical_boundary_status: str = "BGODE_R2_STAGE_B_NUMERICAL_IMPLEMENTATION_BOUNDARY",
+    infeasible_status: str = "BGODE_R2_STAGE_B_ACTUATOR_EQUALITY_INFEASIBLE",
+    stage_context: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     binding = model_binding(model_alias)
-    if run_id != binding.run_id:
+    if run_id != (binding.run_id if expected_run_id is None else expected_run_id):
         raise R2ScientificBoundary("Stage-B run identity differs")
     root = Path(easyedit_root).expanduser().resolve(strict=True)
     output = Path(output_root).expanduser().resolve(strict=False) / run_id
@@ -216,6 +223,30 @@ def run_stage_b(
         torch.cuda.synchronize(0)
         dtype_receipt = _assert_full_fp32(runtime)
         tokenization = seal_tokenization(runtime.tokenizer, sample, model_alias=model_alias)
+        if event_token_override is not None:
+            target_override, source_override = event_token_override
+            vocabulary_size = tokenization.tokenizer_vocabulary_size
+            if (
+                not target_override
+                or not source_override
+                or target_override == source_override
+                or any(token < 0 or token >= vocabulary_size for token in (*target_override, *source_override))
+            ):
+                raise R2ScientificBoundary("Stage-C event token override is invalid")
+            override_body = {
+                "base_tokenization_identity": tokenization.identity,
+                "model_alias": model_alias,
+                "prompt_token_ids": list(tokenization.prompt_token_ids),
+                "target_token_ids": list(target_override),
+                "source_token_ids": list(source_override),
+                "termination_token_count": 0,
+            }
+            tokenization = replace(
+                tokenization,
+                target_token_ids=target_override,
+                source_token_ids=source_override,
+                identity=sha256_bytes(canonical_json(override_body).encode("utf-8")),
+            )
         vocabulary = seal_model_vocabulary(runtime.model, tokenization)
         layout = PrefixEventLayout.build(
             source_tokens=tokenization.source_token_ids,
@@ -347,7 +378,7 @@ def run_stage_b(
         node = evaluate_prefix_events(layout, observations)
         moments = aggregate_r2_event_moments(node, initial=initial, reference_time=0.0)
         common = {
-            "schema": SCHEMA,
+            "schema": terminal_schema,
             "instruction_id": INSTRUCTION_ID,
             "run_id": run_id,
             "source_head": source_head,
@@ -415,6 +446,8 @@ def run_stage_b(
             "fallback_count": 0,
             "scientific_promotion": False,
         }
+        if stage_context is not None:
+            common["stage_context"] = dict(stage_context)
         try:
             solution = solve_two_equality_rayleighian(
                 moments.fisher,
@@ -425,7 +458,7 @@ def run_stage_b(
         except NumericalImplementationBoundary as boundary:
             common.update(
                 {
-                    "status": "BGODE_R2_STAGE_B_NUMERICAL_IMPLEMENTATION_BOUNDARY",
+                    "status": numerical_boundary_status,
                     "boundary": {"type": type(boundary).__name__, "message": str(boundary), "receipt": boundary.receipt},
                     "ordered_prefix_mismatch": _ordered_prefix_metrics(proposal, None),
                 }
@@ -433,7 +466,7 @@ def run_stage_b(
         except ActuatorEqualityInfeasible as boundary:
             common.update(
                 {
-                    "status": "BGODE_R2_STAGE_B_ACTUATOR_EQUALITY_INFEASIBLE",
+                    "status": infeasible_status,
                     "boundary": {"type": type(boundary).__name__, "message": str(boundary), "receipt": boundary.receipt},
                     "ordered_prefix_mismatch": _ordered_prefix_metrics(proposal, None),
                 }
@@ -441,7 +474,7 @@ def run_stage_b(
         else:
             common.update(
                 {
-                    "status": "BGODE_R2_STAGE_B_FP64_FISHER_NODE0_PASS",
+                    "status": pass_status,
                     "fisher_node0_solution": {
                         "velocity": solution.velocity.tolist(),
                         "receipt": solution.receipt.as_payload(),
