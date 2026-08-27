@@ -27,6 +27,7 @@ from project.run_scripts.barrier_guided_ode.s1_experiment import (
     INSTRUCTION_ID,
     RUN_ID,
     run_s1,
+    s1_easyedit_pins,
 )
 from project.run_scripts.ode_edit_motivation.contracts import canonical_json, sha256_bytes
 from project.run_scripts.ode_edit_motivation.easyedit_bridge import EasyEditBridge
@@ -38,7 +39,6 @@ from project.run_scripts.ode_edit_motivation.manifests import (
     fixed_model_spec,
     preflight_fixed_artifacts,
 )
-from project.run_scripts.ode_edit_motivation.mv0_fidelity import _bridge_pins
 
 
 LOCK_PATH = REPO_ROOT / "project/run_scripts/barrier_guided_ode/locks/bgode-r1-s1-numerical-lock.json"
@@ -162,7 +162,11 @@ def _preflight(
     }
     if external_inputs:
         fixed = preflight_fixed_artifacts(easyedit_root, model_alias="llama3-8b-inst")
-        bridge = EasyEditBridge(easyedit_root, expected_files=_bridge_pins()).preflight()
+        bridge = EasyEditBridge(
+            easyedit_root,
+            expected_files=s1_easyedit_pins(),
+            include_alphaedit_reference=True,
+        ).preflight()
         from transformers import AutoTokenizer
 
         with offline_environment():

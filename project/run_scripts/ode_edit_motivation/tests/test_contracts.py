@@ -25,6 +25,7 @@ from project.run_scripts.ode_edit_motivation.contracts import (
     sanitize_edit_requests,
 )
 from project.run_scripts.ode_edit_motivation.easyedit_bridge import (
+    APPROVED_ALPHAEDIT_REFERENCE_FILES,
     APPROVED_EASYEDIT_FILES,
     EasyEditBridge,
 )
@@ -151,6 +152,54 @@ class ContractTests(unittest.TestCase):
                         if key != APPROVED_EASYEDIT_FILES[-1]
                     },
                 )
+
+    def test_bridge_alphaedit_reference_opt_in_is_complete_and_verified(self):
+        self._clear_easyeditor_modules()
+        bridge = None
+        try:
+            with tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                approved = APPROVED_EASYEDIT_FILES + APPROVED_ALPHAEDIT_REFERENCE_FILES
+                pins = {}
+                for index, relative in enumerate(approved):
+                    path = root / relative
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    payload = f"VALUE = {index}\n".encode()
+                    path.write_bytes(payload)
+                    pins[relative] = {
+                        "sha256": hashlib.sha256(payload).hexdigest(),
+                        "size": len(payload),
+                    }
+                bridge = EasyEditBridge(
+                    root,
+                    expected_files=pins,
+                    include_alphaedit_reference=True,
+                )
+                bindings = bridge.load()
+                self.assertEqual(
+                    len(bindings.provenance.files),
+                    len(approved),
+                )
+                for index, relative in enumerate(APPROVED_ALPHAEDIT_REFERENCE_FILES):
+                    module_name = relative.removesuffix(".py").replace("/", ".")
+                    self.assertEqual(
+                        sys.modules[module_name].VALUE,
+                        len(APPROVED_EASYEDIT_FILES) + index,
+                    )
+                with self.assertRaises(ContractError):
+                    EasyEditBridge(
+                        root,
+                        expected_files={
+                            key: value
+                            for key, value in pins.items()
+                            if key != APPROVED_ALPHAEDIT_REFERENCE_FILES[-1]
+                        },
+                        include_alphaedit_reference=True,
+                    )
+        finally:
+            if bridge is not None:
+                bridge._remove_import_finder()
+            self._clear_easyeditor_modules()
 
     def test_bridge_uses_inert_namespace_and_skips_package_initializers(self):
         self._clear_easyeditor_modules()

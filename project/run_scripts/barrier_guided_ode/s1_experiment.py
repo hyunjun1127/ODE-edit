@@ -39,7 +39,10 @@ from project.run_scripts.ode_edit_motivation.direct_z_possibility import (
     _teacher_forced_prompts,
     load_heldout_evaluation_case,
 )
-from project.run_scripts.ode_edit_motivation.easyedit_bridge import EasyEditBridge
+from project.run_scripts.ode_edit_motivation.easyedit_bridge import (
+    APPROVED_ALPHAEDIT_REFERENCE_FILES,
+    EasyEditBridge,
+)
 from project.run_scripts.ode_edit_motivation.gpu_runtime import (
     FixedModelRuntime,
     load_fixed_model,
@@ -52,6 +55,7 @@ from project.run_scripts.ode_edit_motivation.hooks import (
     tensor_sha256,
 )
 from project.run_scripts.ode_edit_motivation.manifests import (
+    FIXED_FILE_IDENTITIES,
     fixed_model_spec,
     preflight_fixed_artifacts,
 )
@@ -102,6 +106,16 @@ SCHEMA = "ode-edit-bgode-r1-s1-six-arm-terminal/v1"
 RUN_SEED = 41
 EULER_STEPS = 4
 LAYERS = (4, 5, 6, 7, 8)
+
+
+def s1_easyedit_pins() -> dict[str, Mapping[str, Any]]:
+    """Return the exact verified MEMIT plus Official AlphaEdit import closure."""
+
+    pins = dict(_bridge_pins())
+    for relative in APPROVED_ALPHAEDIT_REFERENCE_FILES:
+        identity = FIXED_FILE_IDENTITIES[relative]
+        pins[relative] = {"sha256": identity.sha256, "size": identity.size}
+    return pins
 
 
 def _write_json_once(path: Path, payload: Mapping[str, Any]) -> None:
@@ -466,7 +480,11 @@ def run_s1(
         sample = load_sealed_s1_sample()
         spec = fixed_model_spec(S1_MODEL_ALIAS)
         fixed = preflight_fixed_artifacts(root, model_alias=S1_MODEL_ALIAS)
-        bridge = EasyEditBridge(root, expected_files=_bridge_pins())
+        bridge = EasyEditBridge(
+            root,
+            expected_files=s1_easyedit_pins(),
+            include_alphaedit_reference=True,
+        )
         bridge_manifest = bridge.preflight()
         with offline_environment():
             seed_receipt = seed_runtime(RUN_SEED)

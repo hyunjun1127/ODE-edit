@@ -1,4 +1,10 @@
-"""Narrow, provenance-checked bridge to the approved EasyEdit MEMIT files."""
+"""Narrow, provenance-checked bridge to approved EasyEdit source files.
+
+The default import closure remains the historical MEMIT-only bridge.  A caller
+that must execute the pinned Official AlphaEdit reference may explicitly opt in
+to the complete four-file AlphaEdit closure; partial or caller-selected source
+sets remain forbidden.
+"""
 
 from __future__ import annotations
 
@@ -56,6 +62,13 @@ APPROVED_EASYEDIT_FILES: tuple[str, ...] = (
     "easyeditor/models/rome/tok_dataset.py",
 )
 
+APPROVED_ALPHAEDIT_REFERENCE_FILES: tuple[str, ...] = (
+    "easyeditor/models/alphaedit/AlphaEdit_hparams.py",
+    "easyeditor/models/alphaedit/compute_z.py",
+    "easyeditor/models/alphaedit/compute_ks.py",
+    "easyeditor/models/alphaedit/AlphaEdit_main.py",
+)
+
 _EASYEDIT_GLOBAL_LOCK = threading.RLock()
 
 _MINIMAL_PACKAGE_PATHS: Mapping[str, str] = {
@@ -66,9 +79,18 @@ _MINIMAL_PACKAGE_PATHS: Mapping[str, str] = {
     "easyeditor.util": "easyeditor/util",
 }
 
+_ALPHAEDIT_PACKAGE_PATHS: Mapping[str, str] = {
+    "easyeditor.models.alphaedit": "easyeditor/models/alphaedit",
+}
+
 _APPROVED_MODULE_PATHS: Mapping[str, str] = {
     relative.removesuffix(".py").replace("/", "."): relative
     for relative in APPROVED_EASYEDIT_FILES
+}
+
+_ALPHAEDIT_REFERENCE_MODULE_PATHS: Mapping[str, str] = {
+    relative.removesuffix(".py").replace("/", "."): relative
+    for relative in APPROVED_ALPHAEDIT_REFERENCE_FILES
 }
 
 
@@ -453,14 +475,28 @@ class EasyEditBridge:
         expected_files: Mapping[
             str, ExpectedFileIdentity | Mapping[str, Any]
         ] | None = None,
+        include_alphaedit_reference: bool = False,
     ) -> None:
         self.root = Path(easyedit_root).expanduser().resolve(strict=True)
         if not self.root.is_dir():
             raise ContractError(f"EasyEdit root is not a directory: {self.root}")
+        if type(include_alphaedit_reference) is not bool:
+            raise ContractError("AlphaEdit bridge opt-in must be a boolean")
+        self.include_alphaedit_reference = include_alphaedit_reference
+        self._approved_files = APPROVED_EASYEDIT_FILES + (
+            APPROVED_ALPHAEDIT_REFERENCE_FILES if include_alphaedit_reference else ()
+        )
+        self._module_paths = dict(_APPROVED_MODULE_PATHS)
+        self._package_paths = dict(_MINIMAL_PACKAGE_PATHS)
+        if include_alphaedit_reference:
+            self._module_paths.update(_ALPHAEDIT_REFERENCE_MODULE_PATHS)
+            self._package_paths.update(_ALPHAEDIT_PACKAGE_PATHS)
         self.expected_files = dict(expected_files) if expected_files is not None else None
-        if self.expected_files is not None and set(self.expected_files) != set(APPROVED_EASYEDIT_FILES):
-            missing = set(APPROVED_EASYEDIT_FILES) - set(self.expected_files)
-            extra = set(self.expected_files) - set(APPROVED_EASYEDIT_FILES)
+        if self.expected_files is not None and set(self.expected_files) != set(
+            self._approved_files
+        ):
+            missing = set(self._approved_files) - set(self.expected_files)
+            extra = set(self.expected_files) - set(self._approved_files)
             raise ContractError(
                 "pinned EasyEdit source set must exactly match the approved bridge files; "
                 f"missing={sorted(missing)}, extra={sorted(extra)}"
@@ -472,12 +508,12 @@ class EasyEditBridge:
 
     def preflight(self) -> ProvenanceManifest:
         if self.expected_files is None:
-            paths = [self.root / relative for relative in APPROVED_EASYEDIT_FILES]
-            manifest = freeze_provenance(paths, label="EasyEdit MEMIT source")
+            paths = [self.root / relative for relative in self._approved_files]
+            manifest = freeze_provenance(paths, label="EasyEdit verified source")
         else:
             manifest = preflight_pinned_files(
                 self.expected_files,
-                label="EasyEdit MEMIT source",
+                label="EasyEdit verified source",
                 base_dir=self.root,
             )
         manifest.assert_current()
@@ -510,7 +546,7 @@ class EasyEditBridge:
             )
         created: list[str] = []
         try:
-            for name, relative in _MINIMAL_PACKAGE_PATHS.items():
+            for name, relative in self._package_paths.items():
                 package_path = (self.root / relative).resolve(strict=True)
                 module = ModuleType(name)
                 module.__package__ = name
@@ -541,7 +577,7 @@ class EasyEditBridge:
                 for record in self._provenance.files
             }
             sources: dict[str, tuple[Path, ExpectedFileIdentity]] = {}
-            for module_name, relative in _APPROVED_MODULE_PATHS.items():
+            for module_name, relative in self._module_paths.items():
                 source_path = (self.root / relative).resolve(strict=True)
                 identity = records.get(str(source_path))
                 if identity is None:
@@ -565,7 +601,7 @@ class EasyEditBridge:
             raise ImportError("verified EasyEdit import guard is no longer installed")
         approved = {
             str((self.root / relative).resolve(strict=True)): relative
-            for relative in APPROVED_EASYEDIT_FILES
+            for relative in self._approved_files
         }
         observed_files: set[str] = set()
         for name, module in tuple(sys.modules.items()):
@@ -573,7 +609,7 @@ class EasyEditBridge:
                 continue
             loaded_file = getattr(module, "__file__", None)
             if loaded_file is None:
-                if name not in _MINIMAL_PACKAGE_PATHS or not bool(
+                if name not in self._package_paths or not bool(
                     getattr(module, "__ode_edit_inert_namespace__", False)
                 ):
                     raise ImportError(
@@ -681,6 +717,14 @@ class EasyEditBridge:
                     "easyeditor.models.rome.tok_dataset",
                     "easyeditor/models/rome/tok_dataset.py",
                 )
+                alphaedit_modules: tuple[ModuleType, ...] = ()
+                if self.include_alphaedit_reference:
+                    alphaedit_modules = tuple(
+                        self._checked_import(module_name, relative)
+                        for module_name, relative in (
+                            _ALPHAEDIT_REFERENCE_MODULE_PATHS.items()
+                        )
+                    )
                 logit_lens = sys.modules["easyeditor.util.logit_lens"]
                 globals_module = sys.modules["easyeditor.util.globals"]
                 runningstats = sys.modules["easyeditor.util.runningstats"]
@@ -701,6 +745,7 @@ class EasyEditBridge:
                         layer_stats,
                         repr_tools,
                         tok_dataset,
+                        *alphaedit_modules,
                     )
                 }
                 self._assert_import_closure()
