@@ -1,7 +1,8 @@
-# BGODE-R1 CPU science core
+# BGODE-R1 science core and S1 binding
 
-이 package는 `BGODE-R1` S0의 pure CPU math만 제공한다. Model runtime, EasyEdit mutation,
-weight transaction, evaluator, Slurm launcher는 포함하지 않는다.
+이 package는 `BGODE-R1` S0 pure CPU math와, 그 수학을 기존 AlphaEdit adapter에 결속하는
+S1 단일-request pilot binding을 제공한다. S1은 B=1만 허용하며 production AlphaEdit solve를
+복제하지 않는다.
 
 ## Module boundary
 
@@ -13,6 +14,10 @@ weight transaction, evaluator, Slurm launcher는 포함하지 않는다.
 - `alphaedit_actuator_interface.py`: 기존 ordered genuine AlphaEdit adapter의 interface guard
 - `policies.py`: explicit native bypass
 - `telemetry.py`: raw-free failure/counter receipts
+- `s1_contract.py`: 봉인된 B1 request000, Llama `<|eot_id|>` 및 여섯 arm 순서
+- `s1_streaming_events.py`: vocab event를 Python object로 펼치지 않는 `V x 5` reducer
+- `s1_alphaedit_runtime.py`: fixed-z authority, serial forward JVP/FD gate, exact W0 transaction
+- `s1_experiment.py`: 한 model load에서 여섯 arm을 순차 실행하는 observation-only evaluator binding
 
 ## AlphaEdit reuse contract
 
@@ -55,12 +60,14 @@ moment다. 예를 들어 `V=128,256`, `L=5`, FP32이면 최소 buffer는
 KV/cache, ordered low-rank factors를 제외한 event reducer만의 값이다. Full event Python object
 materialization은 production에서 금지한다.
 
-## Runtime open definitions
+## S1 closed runtime definitions
 
-- termination semantic lock
-- sealed B=1 sample identity
-- `T_AE<=0` rule
-- serial/batched/hook JVP backend
-- measured `F_dict`, activation peak, factor storage
+- termination=`<|eot_id|>` id128009 단일 boundary
+- sample=canonical Phase123 B1 ordinal0(case19795)
+- horizon=`T_AE=r_AE-r0`; nonfinite/nonpositive이면 typed terminal boundary
+- correctness backend=prefix별 5방향 serial forward-mode JVP, 첫 node central-FD gate
+- Native/Plain/Fisher/Full/One-step/Frozen 여섯 arm 고정 순서
+- endpoint evaluator는 arm action freeze 뒤만 실행되고 controller return path에는 연결되지 않음
 
-이 항목이 닫히기 전 S1 model execution은 HOLD다.
+Dictionary 내부의 physical forward 수는 source-level logical capture와 분리하여
+`NOT_RESOLVED_SOURCE_LEVEL_HELPER_INTERNALS`로 기록한다. 이를 wall time에서 역추정하지 않는다.
