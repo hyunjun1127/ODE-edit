@@ -178,9 +178,31 @@ def barrier_decomposition(
     )
 
 
+def conditional_q_kl(seal: W0ConditionalSeal, current: FineEventEvaluation) -> float:
+    """Return the unweighted target-excluded KL D(q0 || q_W)."""
+    if current.layout.identity != seal.layout_identity:
+        raise R3ScientificBoundary("current event identity differs from sealed W0 q0")
+    seal.assert_immutable()
+    logs = _check_log_distribution(current.log_probabilities, name="current event")
+    non_target = list(seal.non_target_indices)
+    log_mass = torch.logsumexp(logs[non_target], dim=0)
+    log_q = logs[non_target] - log_mass
+    q0 = seal.log_q0.exp()
+    if not bool(torch.isfinite(q0).all()) or not bool((q0 > 0.0).all()):
+        raise NumericalBoundary("q0 conversion underflowed", receipt={})
+    value = torch.sum(q0 * (seal.log_q0 - log_q))
+    tolerance = 256.0 * torch.finfo(torch.float64).eps * (
+        1.0 + float(torch.max(torch.abs(seal.log_q0 - log_q)).cpu().item())
+    )
+    if not bool(torch.isfinite(value)) or float(value) < -tolerance:
+        raise NumericalBoundary("conditional q KL is invalid", receipt={"value": float(value)})
+    return float(torch.clamp_min(value, 0.0).cpu().item())
+
+
 __all__ = [
     "R3BarrierDecomposition",
     "W0ConditionalSeal",
     "barrier_decomposition",
+    "conditional_q_kl",
     "forward_kl",
 ]

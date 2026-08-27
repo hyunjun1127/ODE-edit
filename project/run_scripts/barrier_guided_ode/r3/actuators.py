@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import math
 from dataclasses import dataclass
-from typing import Sequence
+from typing import Any, Sequence
 
 import torch
 
@@ -139,4 +139,23 @@ class NodeBuildLedger:
         self.retained_factor_count = 0
 
 
-__all__ = ["NodeBuildLedger", "NormalizedActuatorBasis"]
+def release_adapter_build(provider: Any, expected_build: Any) -> dict[str, object]:
+    """Drop one verified full build while retaining only a lightweight receipt."""
+    builds = getattr(provider, "_last_builds", None)
+    if not isinstance(builds, list) or len(builds) != 1 or builds[-1] is not expected_build:
+        raise R3ScientificBoundary("R3 adapter full-build retention boundary differs")
+    proposal = expected_build.proposal
+    receipt = {
+        "factor_count": len(proposal.factors),
+        "factor_sha256": [_factor_sha(factor) for factor in proposal.factors],
+        "proposal_snapshot_id": proposal.snapshot.snapshot_id,
+        "proposal_state_id": proposal.snapshot.state_id,
+        "solver_name": proposal.solver_name,
+    }
+    builds.pop()
+    if builds:
+        raise R3ScientificBoundary("R3 adapter retained a full build after node release")
+    return receipt
+
+
+__all__ = ["NodeBuildLedger", "NormalizedActuatorBasis", "release_adapter_build"]

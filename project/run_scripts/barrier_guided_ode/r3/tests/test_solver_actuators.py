@@ -2,9 +2,14 @@ from __future__ import annotations
 
 import pytest
 import torch
+from types import SimpleNamespace
 
-from project.run_scripts.barrier_guided_ode.r3.actuators import NodeBuildLedger, NormalizedActuatorBasis
-from project.run_scripts.barrier_guided_ode.r3.errors import EqualityInfeasible
+from project.run_scripts.barrier_guided_ode.r3.actuators import (
+    NodeBuildLedger,
+    NormalizedActuatorBasis,
+    release_adapter_build,
+)
+from project.run_scripts.barrier_guided_ode.r3.errors import EqualityInfeasible, R3ScientificBoundary
 from project.run_scripts.barrier_guided_ode.r3.solver import (
     ControllerArm,
     barrier_attribution,
@@ -183,3 +188,20 @@ def test_node_build_ledger_releases_all_factors() -> None:
     assert ledger.live_factor_count == 1
     ledger.release_node()
     assert ledger.live_factor_count == 0 and ledger.retained_factor_count == 0
+
+
+def test_r3_adapter_retention_releases_exact_tail_only() -> None:
+    factor = LowRankFactor("layer.weight", torch.eye(2), torch.eye(2), "d" * 64, False)
+    proposal = SimpleNamespace(
+        factors=(factor,),
+        snapshot=SimpleNamespace(snapshot_id="snapshot", state_id="state"),
+        solver_name="solver",
+    )
+    build = SimpleNamespace(proposal=proposal)
+    provider = SimpleNamespace(_last_builds=[build])
+    receipt = release_adapter_build(provider, build)
+    assert receipt["factor_count"] == 1
+    assert provider._last_builds == []
+    provider._last_builds.append(build)
+    with pytest.raises(R3ScientificBoundary):
+        release_adapter_build(provider, SimpleNamespace(proposal=proposal))

@@ -13,7 +13,11 @@ from project.run_scripts.barrier_guided_ode.r3.moments import (
     aggregate_fine_event_moments,
     differential_identity,
 )
-from project.run_scripts.barrier_guided_ode.r3.reference import W0ConditionalSeal, barrier_decomposition
+from project.run_scripts.barrier_guided_ode.r3.reference import (
+    W0ConditionalSeal,
+    barrier_decomposition,
+    conditional_q_kl,
+)
 from project.run_scripts.barrier_guided_ode.r3.solver import ControllerArm, solve_factor_space
 
 
@@ -114,6 +118,11 @@ def test_target_excluded_and_anchored_kl_decompositions() -> None:
     assert value.anchored_excess == pytest.approx(
         (1.0 - seal.initial_target_probability)
         * (value.conditional_kl_weighted / (1.0 - seal.reference_log_probabilities(0.6)[seal.target_index].exp().item())),
+        abs=5e-14,
+    )
+    assert conditional_q_kl(seal, current) == pytest.approx(
+        value.conditional_kl_weighted
+        / (1.0 - seal.reference_log_probabilities(0.6)[seal.target_index].exp().item()),
         abs=5e-14,
     )
 
