@@ -55,6 +55,7 @@ from project.run_scripts.ode_edit_motivation.hooks import (
     tensor_sha256,
 )
 from project.run_scripts.ode_edit_motivation.manifests import (
+    ALPHAEDIT_HPARAM_BY_MODEL,
     FIXED_FILE_IDENTITIES,
     fixed_model_spec,
     preflight_fixed_artifacts,
@@ -90,6 +91,7 @@ from .s1_contract import (
     S1_MODEL_ALIAS,
     load_sealed_s1_sample,
     seal_s1_tokenization,
+    s1_model_binding,
     validate_s1_horizon,
 )
 from .s1_streaming_events import (
@@ -266,11 +268,11 @@ def _true_metrics(
     }
 
 
-def _load_alpha_hparams(root: Path, bindings: Any, spec: Any) -> Any:
+def _load_alpha_hparams(root: Path, bindings: Any, spec: Any, model_alias: str) -> Any:
     # The bridge has already installed and pinned the minimal EasyEdit namespace.
     from easyeditor.models.alphaedit.AlphaEdit_hparams import AlphaEditHyperParams
 
-    path = root / "hparams/AlphaEdit/llama3-8b.yaml"
+    path = root / ALPHAEDIT_HPARAM_BY_MODEL[model_alias]
     hparams = AlphaEditHyperParams.from_hparams(str(path))
     if tuple(int(layer) for layer in hparams.layers) != LAYERS:
         raise BGODEScientificBoundary("Official AlphaEdit layer order differs")
@@ -470,16 +472,22 @@ def run_s1(
     source_head: str,
     source_tree: str,
     release_receipt: Mapping[str, Any],
+    model_alias: str = S1_MODEL_ALIAS,
+    run_id: str | None = None,
 ) -> dict[str, Any]:
     started = time.perf_counter()
+    model_binding = s1_model_binding(model_alias)
+    selected_run_id = model_binding.run_id if run_id is None else run_id
+    if selected_run_id != model_binding.run_id:
+        raise BGODEScientificBoundary("S1 run identity does not match model binding")
     root = Path(easyedit_root).expanduser().resolve(strict=True)
-    output = Path(output_root).expanduser().resolve(strict=False) / RUN_ID
+    output = Path(output_root).expanduser().resolve(strict=False) / selected_run_id
     output.mkdir(mode=0o700, parents=True, exist_ok=False)
     status_path = output / "terminal.json"
     try:
         sample = load_sealed_s1_sample()
-        spec = fixed_model_spec(S1_MODEL_ALIAS)
-        fixed = preflight_fixed_artifacts(root, model_alias=S1_MODEL_ALIAS)
+        spec = fixed_model_spec(model_alias)
+        fixed = preflight_fixed_artifacts(root, model_alias=model_alias)
         bridge = EasyEditBridge(
             root,
             expected_files=s1_easyedit_pins(),
@@ -490,16 +498,18 @@ def run_s1(
             seed_receipt = seed_runtime(RUN_SEED)
             bindings = bridge.load()
             model_load_started = time.perf_counter()
-            runtime = load_fixed_model(S1_MODEL_ALIAS)
+            runtime = load_fixed_model(model_alias)
             torch.cuda.synchronize(0)
             model_load_wall = time.perf_counter() - model_load_started
             dtype_receipt = _assert_full_fp32(runtime)
-            tokenization = seal_s1_tokenization(runtime.tokenizer, sample)
-            hparams = _load_alpha_hparams(root, bindings, spec)
+            tokenization = seal_s1_tokenization(
+                runtime.tokenizer, sample, model_alias=model_alias
+            )
+            hparams = _load_alpha_hparams(root, bindings, spec, model_alias)
             contexts = _freeze_contexts(bridge, runtime, seed=S1_CONTEXT_SEED)
             projector = AlphaEditProjectorBank.open(root, spec)
             alpha_config, alpha_reference = load_alphaedit_solver_config(
-                root, S1_MODEL_ALIAS, memit_hparams=hparams
+                root, model_alias, memit_hparams=hparams
             )
             request = sample.edit_request
             weight_names = tuple(
@@ -786,7 +796,7 @@ def run_s1(
             result = {
                 "schema": SCHEMA,
                 "instruction_id": INSTRUCTION_ID,
-                "run_id": RUN_ID,
+                "run_id": selected_run_id,
                 "status": "BGODE_R1_S1_TERMINAL_PASS",
                 "source_head": source_head,
                 "source_tree": source_tree,
@@ -879,7 +889,7 @@ def run_s1(
         failure = {
             "schema": SCHEMA,
             "instruction_id": INSTRUCTION_ID,
-            "run_id": RUN_ID,
+            "run_id": selected_run_id,
             "status": "BGODE_R1_S1_TERMINAL_BOUNDARY",
             "failure_type": type(exc).__name__,
             "failure_message_sha256": sha256_bytes(str(exc).encode("utf-8")),
@@ -892,4 +902,4 @@ def run_s1(
         raise
 
 
-__all__ = ["INSTRUCTION_ID", "RUN_ID", "run_s1"]
+__all__ = ["INSTRUCTION_ID", "RUN_ID", "run_s1", "s1_easyedit_pins"]

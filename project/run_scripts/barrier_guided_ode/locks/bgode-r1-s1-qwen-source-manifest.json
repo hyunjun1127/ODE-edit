@@ -1,0 +1,130 @@
+{
+  "schema": "ode-edit-bgode-r1-s1-source-manifest/v1",
+  "instruction_id": "ODEEDIT-S05-BGODE-R1-SEQUENCE-EVENT-BARRIER-GUIDED-ODE-SCIENCE-R1",
+  "model_alias": "qwen2.5-7b-inst",
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "run_id": "s05-bgode-r1-s1-qwen-b1-request000-six-arm-v1",
+  "entries": [
+    {
+      "path": "project/run_scripts/barrier_guided_ode/README.md",
+      "bytes": 4336,
+      "sha256": "fa72565f5ae6b1157952ce0e116e3645e2f1b44ec0b664f6e3dd6231b48dc7d6"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/__init__.py",
+      "bytes": 1268,
+      "sha256": "c6a03ff850f1c5f379e4a1b122663f443af039d5d227bee928b94f05359903c5"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/errors.py",
+      "bytes": 798,
+      "sha256": "105e2c55641c9ad0a54ccd28125e2a38ce3d03bb15fcd9d49fa6135359b9789f"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/event_moments.py",
+      "bytes": 4874,
+      "sha256": "22e8de4025438d68d7d6833766518f448f70b89430a68855db325260f220431f"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/event_trie.py",
+      "bytes": 10956,
+      "sha256": "935f1fec80dadc137fcf8e7b27dfc9a46590e7cca72596569e7793380296cc4c"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/fisher_pullback.py",
+      "bytes": 2616,
+      "sha256": "d71ac6f46e9ee7944a64a82f0cf13c0056e69861b31b9006c6cda15e41dba79d"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/locks/bgode-r1-s1-qwen-numerical-lock.json",
+      "bytes": 2542,
+      "sha256": "a0d2f9a2b784c3fc1fa0a3cdec8070189e6afdbcdda04ff2fe16642832c5e88f"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/policies.py",
+      "bytes": 2230,
+      "sha256": "f990750d1f5eb0a0612d012d4bc931fa8b374c7373d8f3a137462f290381579a"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/rayleighian_controller.py",
+      "bytes": 9830,
+      "sha256": "08d30aecc1446173e7dd8b50eef92c8f063b08e37ea7544f237c386f6ab39a90"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/reference_path.py",
+      "bytes": 8530,
+      "sha256": "b6cb36a238db3441b22c6ae4fab75d514e201bd665bf836cc0468bdfd726d1de"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/s1_alphaedit_runtime.py",
+      "bytes": 21275,
+      "sha256": "15f4fe54af43d023ce013a28d6209eee0d422d0177bd79f01f433f7f4ec80915"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/s1_contract.py",
+      "bytes": 14675,
+      "sha256": "85e04809f02155744711454186b36fc2d1da56ab5f9674e64842bf232257dfe4"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/s1_experiment.py",
+      "bytes": 38701,
+      "sha256": "8374a7bcb491365a432e771f39046f3b37c685e525518bbbab6ae6e427b9b9e2"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/s1_streaming_events.py",
+      "bytes": 14485,
+      "sha256": "011091994ff91f9503cbef76b2d75d705c4400f9d3ee4427cee1337a01ccf3f2"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/telemetry.py",
+      "bytes": 3594,
+      "sha256": "d48632649e5138b50569e8aea61bcce36159cefe70b92eadb7dd2c2720a9e70b"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/tests/test_event_trie_reference.py",
+      "bytes": 9539,
+      "sha256": "a7d7345650f61021cf85d25b7631b99608f6a82a983cabcb943ac6728b5d11dd"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/tests/test_rayleighian_core.py",
+      "bytes": 8313,
+      "sha256": "b518dc621365a0c4014f9f1b720a6bc5e36bf971c10b2ff21362c4df997b92c3"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/tests/test_s1_contract_streaming.py",
+      "bytes": 7445,
+      "sha256": "f302201fb3fce5bcc5136d8ec05a1535d9358742ffe9ba114106b41a63599146"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/tests/test_s1_jvp_transaction.py",
+      "bytes": 6392,
+      "sha256": "5422a5c16157d413fca9685e411142fe021c72310f4c155bec541b88380cac6c"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/tests/test_science_boundaries.py",
+      "bytes": 10802,
+      "sha256": "a5de3b1c7aa5387091376e1f1278ac077b556d0522dfd0403272c7eb5d369c30"
+    },
+    {
+      "path": "project/run_scripts/ode_edit_motivation/easyedit_bridge.py",
+      "bytes": 50930,
+      "sha256": "05ea651888dcee88003813cb2d53005d0d4cabcf7083e9b55b4a4fdfebecf5da"
+    },
+    {
+      "path": "project/run_scripts/ode_edit_motivation/tests/test_contracts.py",
+      "bytes": 16130,
+      "sha256": "df548fd8a3e02f59a0b98d7a480b88acf1b32f13b2800ce8d60e483429063b83"
+    },
+    {
+      "path": "project/run_scripts/session05_bgode_r1_s1.py",
+      "bytes": 9822,
+      "sha256": "0d21b23e0e1a2a409b4a09f2c9e3df0628d53cba71101d7dfef1d660a21c5e68"
+    },
+    {
+      "path": "project/run_scripts/session05_bgode_r1_s1_qwen.sbatch",
+      "bytes": 2420,
+      "sha256": "87ee4a1b93c24b8190e7e4b92a3d002b6f89da04cddd139058abedeac6669d7c"
+    }
+  ],
+  "entries_root_sha256": "6c8f91d4a65ce36e3ddde4665ea0e3254055924b783202b2f1d7e13987ab94fe"
+}

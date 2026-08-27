@@ -11,9 +11,11 @@ from project.run_scripts.barrier_guided_ode.s1_contract import (
     CANONICAL_ORDER_SHA256,
     CANONICAL_STREAM_SHA256,
     NonpositiveNativeHorizon,
+    S1_MODEL_BINDINGS,
     S1SampleSemanticBoundary,
     load_sealed_s1_sample,
     seal_s1_tokenization,
+    s1_model_binding,
     validate_s1_horizon,
 )
 from project.run_scripts.barrier_guided_ode.s1_streaming_events import (
@@ -47,6 +49,16 @@ class _Tokenizer:
         return list(mapping[text])
 
 
+class _QwenTokenizer(_Tokenizer):
+    name_or_path = "sealed-qwen2.5-tokenizer"
+
+    def __len__(self):
+        return 152_064
+
+    def convert_tokens_to_ids(self, token):
+        return 151_645 if token == "<|im_end|>" else -1
+
+
 def test_locked_first_request_and_token_boundary_are_exact():
     sample = load_sealed_s1_sample()
     assert sample.case_id == "19795"
@@ -60,6 +72,38 @@ def test_locked_first_request_and_token_boundary_are_exact():
     assert tokenization.boundary_token_id == 128_009
     assert tokenization.target_token_ids == (21,)
     assert tokenization.source_token_ids == (22, 23)
+
+
+def test_qwen_matched_model_binding_and_fixed_boundary_are_exact():
+    sample = load_sealed_s1_sample()
+    binding = s1_model_binding("qwen2.5-7b-inst")
+    assert tuple(S1_MODEL_BINDINGS) == ("llama3-8b-inst", "qwen2.5-7b-inst")
+    assert binding.revision == "a09a35458c702b33eeacc393d103063234e8bc28"
+    assert binding.boundary_string == "<|im_end|>"
+    assert binding.boundary_token_id == 151_645
+    tokenization = seal_s1_tokenization(
+        _QwenTokenizer(), sample, model_alias="qwen2.5-7b-inst"
+    )
+    assert tokenization.model_alias == "qwen2.5-7b-inst"
+    assert tokenization.boundary_string == "<|im_end|>"
+    assert tokenization.boundary_token_id == 151_645
+    assert tokenization.target_token_ids == (21,)
+    assert tokenization.source_token_ids == (22, 23)
+
+
+def test_qwen_wrong_boundary_and_unknown_model_fail_close():
+    sample = load_sealed_s1_sample()
+
+    class WrongQwen(_QwenTokenizer):
+        def convert_tokens_to_ids(self, token):
+            return 151_643
+
+    with pytest.raises(S1SampleSemanticBoundary, match="token identity"):
+        seal_s1_tokenization(
+            WrongQwen(), sample, model_alias="qwen2.5-7b-inst"
+        )
+    with pytest.raises(S1SampleSemanticBoundary, match="unsupported"):
+        s1_model_binding("unknown-model")
 
 
 def test_token_boundary_and_native_horizon_fail_close():

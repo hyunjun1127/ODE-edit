@@ -19,13 +19,14 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from project.run_scripts.barrier_guided_ode.s1_contract import (
+    S1_MODEL_BINDINGS,
     S1_ARM_ORDER,
     load_sealed_s1_sample,
     seal_s1_tokenization,
+    s1_model_binding,
 )
 from project.run_scripts.barrier_guided_ode.s1_experiment import (
     INSTRUCTION_ID,
-    RUN_ID,
     run_s1,
     s1_easyedit_pins,
 )
@@ -41,9 +42,22 @@ from project.run_scripts.ode_edit_motivation.manifests import (
 )
 
 
-LOCK_PATH = REPO_ROOT / "project/run_scripts/barrier_guided_ode/locks/bgode-r1-s1-numerical-lock.json"
-MANIFEST_PATH = REPO_ROOT / "project/run_scripts/barrier_guided_ode/locks/bgode-r1-s1-source-manifest.json"
-RUN_TOKEN = "bgode-r1-s1-llama-b1-request000-six-arm-v1"
+LOCK_PATH_BY_MODEL = {
+    "llama3-8b-inst": REPO_ROOT
+    / "project/run_scripts/barrier_guided_ode/locks/bgode-r1-s1-numerical-lock.json",
+    "qwen2.5-7b-inst": REPO_ROOT
+    / "project/run_scripts/barrier_guided_ode/locks/bgode-r1-s1-qwen-numerical-lock.json",
+}
+MANIFEST_PATH_BY_MODEL = {
+    "llama3-8b-inst": REPO_ROOT
+    / "project/run_scripts/barrier_guided_ode/locks/bgode-r1-s1-source-manifest.json",
+    "qwen2.5-7b-inst": REPO_ROOT
+    / "project/run_scripts/barrier_guided_ode/locks/bgode-r1-s1-qwen-source-manifest.json",
+}
+RUN_TOKEN_BY_MODEL = {
+    "llama3-8b-inst": "bgode-r1-s1-llama-b1-request000-six-arm-v1",
+    "qwen2.5-7b-inst": "bgode-r1-s1-qwen-b1-request000-six-arm-v1",
+}
 
 
 def _sha256(path: Path) -> str:
@@ -63,7 +77,9 @@ def _read_private_json(path: Path) -> tuple[dict[str, Any], str]:
     return payload, _sha256(path)
 
 
-def _source_gate(source_head: str, source_tree: str) -> dict[str, Any]:
+def _source_gate(
+    source_head: str, source_tree: str, *, model_alias: str
+) -> dict[str, Any]:
     observed_head = subprocess.check_output(
         ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, text=True
     ).strip()
@@ -79,7 +95,7 @@ def _source_gate(source_head: str, source_tree: str) -> dict[str, Any]:
     )
     if dirty:
         raise ValueError("queued BGODE tracked source is dirty")
-    manifest, manifest_sha = _read_private_json(MANIFEST_PATH)
+    manifest, manifest_sha = _read_private_json(MANIFEST_PATH_BY_MODEL[model_alias])
     if (
         manifest.get("schema") != "ode-edit-bgode-r1-s1-source-manifest/v1"
         or manifest.get("instruction_id") != INSTRUCTION_ID
@@ -87,6 +103,9 @@ def _source_gate(source_head: str, source_tree: str) -> dict[str, Any]:
         or not manifest["entries"]
     ):
         raise ValueError("BGODE source manifest header differs")
+    manifest_alias = manifest.get("model_alias")
+    if manifest_alias is not None and manifest_alias != model_alias:
+        raise ValueError("BGODE source manifest model binding differs")
     for entry in manifest["entries"]:
         relative = entry.get("path") if isinstance(entry, Mapping) else None
         if not isinstance(relative, str):
@@ -114,7 +133,7 @@ def _source_gate(source_head: str, source_tree: str) -> dict[str, Any]:
     root = sha256_bytes(canonical_json(manifest["entries"]).encode("utf-8"))
     if root != manifest.get("entries_root_sha256"):
         raise ValueError("BGODE source manifest root differs")
-    lock, lock_sha = _read_private_json(LOCK_PATH)
+    lock, lock_sha = _read_private_json(LOCK_PATH_BY_MODEL[model_alias])
     lock_body = {key: value for key, value in lock.items() if key != "lock_root_sha256"}
     lock_root = sha256_bytes(canonical_json(lock_body).encode("utf-8"))
     if (
@@ -123,6 +142,8 @@ def _source_gate(source_head: str, source_tree: str) -> dict[str, Any]:
         or lock_root != lock.get("lock_root_sha256")
     ):
         raise ValueError("BGODE numerical lock differs")
+    if lock.get("model_alias") != model_alias:
+        raise ValueError("BGODE numerical lock model binding differs")
     return {
         "source_manifest_sha256": manifest_sha,
         "source_manifest_entries_root_sha256": root,
@@ -137,13 +158,19 @@ def _preflight(
     easyedit_root: Path,
     *,
     external_inputs: bool,
+    model_alias: str,
+    run_token: str,
 ) -> dict[str, Any]:
-    release = _source_gate(source_head, source_tree)
+    release = _source_gate(source_head, source_tree, model_alias=model_alias)
     sample = load_sealed_s1_sample()
+    binding = s1_model_binding(model_alias)
+    if run_token != RUN_TOKEN_BY_MODEL[model_alias]:
+        raise ValueError("BGODE S1 run token differs from model binding")
     plan = {
         "schema": "ode-edit-bgode-r1-s1-dry-plan/v1",
         "instruction_id": INSTRUCTION_ID,
-        "run_id": RUN_ID,
+        "run_id": binding.run_id,
+        "model_alias": model_alias,
         "status": "BGODE_R1_S1_PRE_GPU_PASS",
         "source_head": source_head,
         "source_tree": source_tree,
@@ -156,12 +183,15 @@ def _preflight(
         "arm_count": 6,
         "model_load_count": 1,
         "full_fp32_required": True,
-        "termination_boundary": {"string": "<|eot_id|>", "token_id": 128009},
+        "termination_boundary": {
+            "string": binding.boundary_string,
+            "token_id": binding.boundary_token_id,
+        },
         "release": release,
         "scientific_promotion": False,
     }
     if external_inputs:
-        fixed = preflight_fixed_artifacts(easyedit_root, model_alias="llama3-8b-inst")
+        fixed = preflight_fixed_artifacts(easyedit_root, model_alias=model_alias)
         bridge = EasyEditBridge(
             easyedit_root,
             expected_files=s1_easyedit_pins(),
@@ -171,9 +201,11 @@ def _preflight(
 
         with offline_environment():
             tokenizer = AutoTokenizer.from_pretrained(
-                **fixed_pretrained_kwargs(fixed_model_spec("llama3-8b-inst"))
+                **fixed_pretrained_kwargs(fixed_model_spec(model_alias))
             )
-        tokenization = seal_s1_tokenization(tokenizer, sample)
+        tokenization = seal_s1_tokenization(
+            tokenizer, sample, model_alias=model_alias
+        )
         plan.update(
             {
                 "tokenization": tokenization.receipt(),
@@ -193,7 +225,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output-root", type=Path)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--source-tree", required=True)
-    parser.add_argument("--run-token", required=True, choices=(RUN_TOKEN,))
+    parser.add_argument(
+        "--model-alias", required=True, choices=tuple(S1_MODEL_BINDINGS)
+    )
+    parser.add_argument(
+        "--run-token", required=True, choices=tuple(RUN_TOKEN_BY_MODEL.values())
+    )
     parser.add_argument("--preflight-only", action="store_true")
     args = parser.parse_args(argv)
     plan = _preflight(
@@ -201,6 +238,8 @@ def main(argv: list[str] | None = None) -> int:
         args.source_tree,
         args.easyedit_root,
         external_inputs=args.preflight_only,
+        model_alias=args.model_alias,
+        run_token=args.run_token,
     )
     if args.preflight_only:
         print(canonical_json(plan))
@@ -213,6 +252,8 @@ def main(argv: list[str] | None = None) -> int:
         source_head=args.source_head,
         source_tree=args.source_tree,
         release_receipt=plan["release"],
+        model_alias=args.model_alias,
+        run_id=plan["run_id"],
     )
     print(canonical_json({
         "status": result["status"],

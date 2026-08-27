@@ -13,6 +13,7 @@ import os
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
+from types import MappingProxyType
 from typing import Any, Mapping
 
 from project.run_scripts.ode_edit_motivation.contracts import (
@@ -40,8 +41,42 @@ S1_MODEL_ALIAS = "llama3-8b-inst"
 S1_MODEL_REVISION = "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2"
 
 
+@dataclass(frozen=True, slots=True)
+class S1ModelBinding:
+    alias: str
+    revision: str
+    boundary_string: str
+    boundary_token_id: int
+    run_id: str
+
+
+S1_MODEL_BINDINGS: Mapping[str, S1ModelBinding] = MappingProxyType({
+    S1_MODEL_ALIAS: S1ModelBinding(
+        alias=S1_MODEL_ALIAS,
+        revision=S1_MODEL_REVISION,
+        boundary_string=S1_BOUNDARY_STRING,
+        boundary_token_id=S1_BOUNDARY_TOKEN_ID,
+        run_id="s05-bgode-r1-s1-llama-b1-request000-six-arm-v1",
+    ),
+    "qwen2.5-7b-inst": S1ModelBinding(
+        alias="qwen2.5-7b-inst",
+        revision="a09a35458c702b33eeacc393d103063234e8bc28",
+        boundary_string="<|im_end|>",
+        boundary_token_id=151_645,
+        run_id="s05-bgode-r1-s1-qwen-b1-request000-six-arm-v1",
+    ),
+})
+
+
 class S1SampleSemanticBoundary(EventPartitionBoundary):
     """The outcome-independent first canonical request has invalid semantics."""
+
+
+def s1_model_binding(alias: str) -> S1ModelBinding:
+    try:
+        return S1_MODEL_BINDINGS[alias]
+    except KeyError as exc:
+        raise S1SampleSemanticBoundary(f"unsupported BGODE S1 model alias: {alias}") from exc
 
 
 class NonpositiveNativeHorizon(BGODEScientificBoundary):
@@ -216,10 +251,12 @@ class S1Tokenization:
     tokenizer_expected_revision: str
     tokenizer_vocab_size: int
     identity: str
+    model_alias: str = S1_MODEL_ALIAS
 
     def receipt(self) -> dict[str, Any]:
         return {
             "schema": "ode-edit-bgode-r1-s1-tokenization/v1",
+            "model_alias": self.model_alias,
             "prompt_token_ids": list(self.prompt_token_ids),
             "target_token_ids": list(self.target_token_ids),
             "source_token_ids": list(self.source_token_ids),
@@ -233,11 +270,17 @@ class S1Tokenization:
         }
 
 
-def seal_s1_tokenization(tokenizer: Any, sample: SealedS1Sample) -> S1Tokenization:
-    if int(tokenizer.convert_tokens_to_ids(S1_BOUNDARY_STRING)) != S1_BOUNDARY_TOKEN_ID:
-        raise S1SampleSemanticBoundary("Llama3 <|eot_id|> token identity differs")
+def seal_s1_tokenization(
+    tokenizer: Any,
+    sample: SealedS1Sample,
+    *,
+    model_alias: str = S1_MODEL_ALIAS,
+) -> S1Tokenization:
+    binding = s1_model_binding(model_alias)
+    if int(tokenizer.convert_tokens_to_ids(binding.boundary_string)) != binding.boundary_token_id:
+        raise S1SampleSemanticBoundary("fixed model termination token identity differs")
     vocab_size = int(len(tokenizer))
-    if S1_BOUNDARY_TOKEN_ID >= vocab_size:
+    if binding.boundary_token_id >= vocab_size:
         raise S1SampleSemanticBoundary("S1 boundary lies outside tokenizer vocabulary")
     prompt_text = sample.edit_request.prompt.format(sample.edit_request.subject)
     target_text = sample.edit_request.target_new
@@ -253,33 +296,35 @@ def seal_s1_tokenization(tokenizer: Any, sample: SealedS1Sample) -> S1Tokenizati
         combined = tuple(int(v) for v in tokenizer.encode(prompt_text + text, add_special_tokens=True))
         if combined != prompt_ids + suffix:
             raise S1SampleSemanticBoundary("prompt/completion token concatenation is not exact")
-    if S1_BOUNDARY_TOKEN_ID in target_ids or S1_BOUNDARY_TOKEN_ID in source_ids:
+    if binding.boundary_token_id in target_ids or binding.boundary_token_id in source_ids:
         raise S1SampleSemanticBoundary("boundary token already occurs inside source/target")
-    if target_ids + (S1_BOUNDARY_TOKEN_ID,) == source_ids + (S1_BOUNDARY_TOKEN_ID,):
+    if target_ids + (binding.boundary_token_id,) == source_ids + (binding.boundary_token_id,):
         raise S1SampleSemanticBoundary("boundary-appended source/target tokenizations are identical")
     commit = str(getattr(tokenizer, "_commit_hash", "") or getattr(tokenizer, "init_kwargs", {}).get("_commit_hash", ""))
     payload = {
         "prompt_token_ids": list(prompt_ids),
         "target_token_ids": list(target_ids),
         "source_token_ids": list(source_ids),
-        "boundary_string": S1_BOUNDARY_STRING,
-        "boundary_token_id": S1_BOUNDARY_TOKEN_ID,
+        "model_alias": binding.alias,
+        "boundary_string": binding.boundary_string,
+        "boundary_token_id": binding.boundary_token_id,
         "tokenizer_name_or_path": str(getattr(tokenizer, "name_or_path", "")),
         "tokenizer_observed_commit": commit,
-        "tokenizer_expected_revision": S1_MODEL_REVISION,
+        "tokenizer_expected_revision": binding.revision,
         "tokenizer_vocab_size": vocab_size,
     }
     identity = sha256_bytes(canonical_json(payload).encode("utf-8"))
     return S1Tokenization(
+        model_alias=binding.alias,
         prompt_text=prompt_text,
         prompt_token_ids=prompt_ids,
         target_token_ids=target_ids,
         source_token_ids=source_ids,
-        boundary_string=S1_BOUNDARY_STRING,
-        boundary_token_id=S1_BOUNDARY_TOKEN_ID,
+        boundary_string=binding.boundary_string,
+        boundary_token_id=binding.boundary_token_id,
         tokenizer_name_or_path=payload["tokenizer_name_or_path"],
         tokenizer_observed_commit=commit,
-        tokenizer_expected_revision=S1_MODEL_REVISION,
+        tokenizer_expected_revision=binding.revision,
         tokenizer_vocab_size=vocab_size,
         identity=identity,
     )
@@ -301,10 +346,13 @@ __all__ = [
     "CANONICAL_STREAM_SHA256",
     "S1Arm",
     "S1_ARM_ORDER",
+    "S1_MODEL_BINDINGS",
+    "S1ModelBinding",
     "S1SampleSemanticBoundary",
     "S1Tokenization",
     "SealedS1Sample",
     "load_sealed_s1_sample",
     "seal_s1_tokenization",
+    "s1_model_binding",
     "validate_s1_horizon",
 ]
