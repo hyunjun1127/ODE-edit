@@ -7,8 +7,8 @@
   "entries": [
     {
       "path": "project/run_scripts/barrier_guided_ode/README.md",
-      "bytes": 4336,
-      "sha256": "fa72565f5ae6b1157952ce0e116e3645e2f1b44ec0b664f6e3dd6231b48dc7d6"
+      "bytes": 4670,
+      "sha256": "c9b6dff22ce3a57c2a38076290035cc06f5c99fa2dce02c3fb96dfeaecfca487"
     },
     {
       "path": "project/run_scripts/barrier_guided_ode/__init__.py",
@@ -37,8 +37,8 @@
     },
     {
       "path": "project/run_scripts/barrier_guided_ode/locks/bgode-r1-s1-qwen-numerical-lock.json",
-      "bytes": 2542,
-      "sha256": "a0d2f9a2b784c3fc1fa0a3cdec8070189e6afdbcdda04ff2fe16642832c5e88f"
+      "bytes": 2683,
+      "sha256": "3bbeac073887da754270fcc7ea4c7ad1a1f8eba5aa1c94afee9029665007e216"
     },
     {
       "path": "project/run_scripts/barrier_guided_ode/policies.py",
@@ -62,13 +62,13 @@
     },
     {
       "path": "project/run_scripts/barrier_guided_ode/s1_contract.py",
-      "bytes": 14675,
-      "sha256": "85e04809f02155744711454186b36fc2d1da56ab5f9674e64842bf232257dfe4"
+      "bytes": 17076,
+      "sha256": "0288dcb0b3ef1af21386e2b7ff3b82a372a9f63c756f8cb2e7256f9a72a7ee25"
     },
     {
       "path": "project/run_scripts/barrier_guided_ode/s1_experiment.py",
-      "bytes": 38701,
-      "sha256": "8374a7bcb491365a432e771f39046f3b37c685e525518bbbab6ae6e427b9b9e2"
+      "bytes": 38862,
+      "sha256": "248ac4f6cc42f3dfdf8d39eac8de1caeb4e193afde977436b5891a7756619d45"
     },
     {
       "path": "project/run_scripts/barrier_guided_ode/s1_streaming_events.py",
@@ -92,8 +92,8 @@
     },
     {
       "path": "project/run_scripts/barrier_guided_ode/tests/test_s1_contract_streaming.py",
-      "bytes": 7445,
-      "sha256": "f302201fb3fce5bcc5136d8ec05a1535d9358742ffe9ba114106b41a63599146"
+      "bytes": 8782,
+      "sha256": "92483130b357dffa3bf7cbcfdb6602d8edc4ced49562ad58462835a8782f54a6"
     },
     {
       "path": "project/run_scripts/barrier_guided_ode/tests/test_s1_jvp_transaction.py",
@@ -126,5 +126,5 @@
       "sha256": "87ee4a1b93c24b8190e7e4b92a3d002b6f89da04cddd139058abedeac6669d7c"
     }
   ],
-  "entries_root_sha256": "6c8f91d4a65ce36e3ddde4665ea0e3254055924b783202b2f1d7e13987ab94fe"
+  "entries_root_sha256": "45f45ca8be0e95db4265819222cf4ab953cdf2383c1fe7ae98b48fe43cc561f1"
 }

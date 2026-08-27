@@ -14,6 +14,7 @@ from project.run_scripts.barrier_guided_ode.s1_contract import (
     S1_MODEL_BINDINGS,
     S1SampleSemanticBoundary,
     load_sealed_s1_sample,
+    seal_s1_model_vocabulary,
     seal_s1_tokenization,
     s1_model_binding,
     validate_s1_horizon,
@@ -53,7 +54,7 @@ class _QwenTokenizer(_Tokenizer):
     name_or_path = "sealed-qwen2.5-tokenizer"
 
     def __len__(self):
-        return 152_064
+        return 151_665
 
     def convert_tokens_to_ids(self, token):
         return 151_645 if token == "<|im_end|>" else -1
@@ -104,6 +105,53 @@ def test_qwen_wrong_boundary_and_unknown_model_fail_close():
         )
     with pytest.raises(S1SampleSemanticBoundary, match="unsupported"):
         s1_model_binding("unknown-model")
+
+
+def test_qwen_event_vocabulary_binds_model_output_not_tokenizer_length():
+    sample = load_sealed_s1_sample()
+    tokenization = seal_s1_tokenization(
+        _QwenTokenizer(), sample, model_alias="qwen2.5-7b-inst"
+    )
+
+    class Output:
+        weight = torch.empty((152_064, 1), dtype=torch.float32)
+
+    class Config:
+        vocab_size = 152_064
+
+    class Model:
+        config = Config()
+
+        @staticmethod
+        def get_output_embeddings():
+            return Output()
+
+    binding = seal_s1_model_vocabulary(Model(), tokenization)
+    assert binding.tokenizer_vocab_size == 151_665
+    assert binding.config_vocab_size == 152_064
+    assert binding.output_head_vocab_size == 152_064
+    assert binding.event_vocab_size == 152_064
+
+
+def test_model_config_output_vocabulary_mismatch_fails_close():
+    sample = load_sealed_s1_sample()
+    tokenization = seal_s1_tokenization(_Tokenizer(), sample)
+
+    class Output:
+        weight = torch.empty((128_257, 1), dtype=torch.float32)
+
+    class Config:
+        vocab_size = 128_256
+
+    class Model:
+        config = Config()
+
+        @staticmethod
+        def get_output_embeddings():
+            return Output()
+
+    with pytest.raises(S1SampleSemanticBoundary, match="config/output"):
+        seal_s1_model_vocabulary(Model(), tokenization)
 
 
 def test_token_boundary_and_native_horizon_fail_close():

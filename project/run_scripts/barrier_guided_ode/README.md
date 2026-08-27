@@ -75,5 +75,10 @@ Qwen matched extension은 동일한 runtime loop, sample bytes/order/context, Cl
 Official AlphaEdit artifacts와 outcome-free termination token뿐이며 별도 source/result/log/state
 namespace를 사용한다.
 
+Event partition의 vocabulary 축은 tokenizer length로 추정하지 않는다. 봉인된 model config
+`vocab_size`와 output-head row 수가 exact 일치해야 하며, 이 실제 model-logit 축을 streaming
+reducer에 사용한다. Tokenizer length는 별도 telemetry로 기록하고 model 축보다 클 경우
+fail-close한다.
+
 Dictionary 내부의 physical forward 수는 source-level logical capture와 분리하여
 `NOT_RESOLVED_SOURCE_LEVEL_HELPER_INTERNALS`로 기록한다. 이를 wall time에서 역추정하지 않는다.

@@ -90,6 +90,7 @@ from .s1_contract import (
     S1_CONTEXT_SEED,
     S1_MODEL_ALIAS,
     load_sealed_s1_sample,
+    seal_s1_model_vocabulary,
     seal_s1_tokenization,
     s1_model_binding,
     validate_s1_horizon,
@@ -505,6 +506,7 @@ def run_s1(
             tokenization = seal_s1_tokenization(
                 runtime.tokenizer, sample, model_alias=model_alias
             )
+            vocabulary = seal_s1_model_vocabulary(runtime.model, tokenization)
             hparams = _load_alpha_hparams(root, bindings, spec, model_alias)
             contexts = _freeze_contexts(bridge, runtime, seed=S1_CONTEXT_SEED)
             projector = AlphaEditProjectorBank.open(root, spec)
@@ -576,7 +578,7 @@ def run_s1(
                 source_tokens=tokenization.source_token_ids,
                 target_tokens=tokenization.target_token_ids,
                 boundary_token=tokenization.boundary_token_id,
-                vocabulary_size=tokenization.tokenizer_vocab_size,
+                vocabulary_size=vocabulary.event_vocab_size,
             )
             primal_backend = SerialForwardJVPBackend(runtime.model, tokenization)
             initial = evaluate_streaming_state(layout, primal_backend.observe_primal(layout))
@@ -804,6 +806,7 @@ def run_s1(
                 "sample": sample.receipt(),
                 "sample_identity": sample.identity,
                 "tokenization": tokenization.receipt(),
+                "model_vocabulary": vocabulary.receipt(),
                 "termination": {
                     "boundary_string": tokenization.boundary_string,
                     "boundary_token_id": tokenization.boundary_token_id,

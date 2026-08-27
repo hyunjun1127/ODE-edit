@@ -17,6 +17,9 @@
   "request_sha256": "285a3add6f31d8546b0d76689a016bc0f9f7d8e58c95f54e87bba48ad5cabc65",
   "termination_string": "<|im_end|>",
   "termination_token_id": 151645,
+  "tokenizer_vocab_size": 151665,
+  "event_vocabulary_size": 152064,
+  "event_vocabulary_source": "exact_model_config_and_output_head_rows",
   "progress_coordinate": "raw_joint_sequence_log_odds",
   "native_horizon": "T_AE_equals_r_AE_minus_r0_positive_finite_only",
   "dynamic_euler_steps": 4,
@@ -59,5 +62,5 @@
     "token_or_full_vocab_ablation",
     "performance_termination_selection"
   ],
-  "lock_root_sha256": "5b0f62d64927d94240e442eeea028935ca6a41c82ecdb98dfc46cf62c8498329"
+  "lock_root_sha256": "5c114853e6bbefe57c0c4b9572cbfe304009f312105be6872eaabf3f306d1ec0"
 }

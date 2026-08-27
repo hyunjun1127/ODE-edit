@@ -270,6 +270,64 @@ class S1Tokenization:
         }
 
 
+@dataclass(frozen=True, slots=True)
+class S1VocabularyBinding:
+    model_alias: str
+    tokenizer_vocab_size: int
+    config_vocab_size: int
+    output_head_vocab_size: int
+    event_vocab_size: int
+    identity: str
+
+    def receipt(self) -> dict[str, Any]:
+        return {
+            "schema": "ode-edit-bgode-r1-s1-model-vocabulary/v1",
+            "model_alias": self.model_alias,
+            "tokenizer_vocab_size": self.tokenizer_vocab_size,
+            "config_vocab_size": self.config_vocab_size,
+            "output_head_vocab_size": self.output_head_vocab_size,
+            "event_vocab_size": self.event_vocab_size,
+            "identity": self.identity,
+        }
+
+
+def seal_s1_model_vocabulary(
+    model: Any, tokenization: S1Tokenization
+) -> S1VocabularyBinding:
+    config_size = getattr(getattr(model, "config", None), "vocab_size", None)
+    if isinstance(config_size, bool) or not isinstance(config_size, int) or config_size <= 0:
+        raise S1SampleSemanticBoundary("model config vocabulary is invalid")
+    output = model.get_output_embeddings()
+    shape = getattr(getattr(output, "weight", None), "shape", ())
+    if len(shape) != 2:
+        raise S1SampleSemanticBoundary("model output vocabulary is unavailable")
+    output_size = int(shape[0])
+    if output_size != config_size:
+        raise S1SampleSemanticBoundary("model config/output vocabulary differs")
+    tokenizer_size = int(tokenization.tokenizer_vocab_size)
+    if tokenizer_size <= 0 or tokenizer_size > output_size:
+        raise S1SampleSemanticBoundary("tokenizer/model vocabulary relationship is invalid")
+    sealed_tokens = (
+        *tokenization.prompt_token_ids,
+        *tokenization.source_token_ids,
+        *tokenization.target_token_ids,
+        tokenization.boundary_token_id,
+    )
+    if any(token < 0 or token >= output_size for token in sealed_tokens):
+        raise S1SampleSemanticBoundary("sealed S1 token lies outside model output vocabulary")
+    payload = {
+        "model_alias": tokenization.model_alias,
+        "tokenizer_vocab_size": tokenizer_size,
+        "config_vocab_size": config_size,
+        "output_head_vocab_size": output_size,
+        "event_vocab_size": output_size,
+    }
+    return S1VocabularyBinding(
+        **payload,
+        identity=sha256_bytes(canonical_json(payload).encode("utf-8")),
+    )
+
+
 def seal_s1_tokenization(
     tokenizer: Any,
     sample: SealedS1Sample,
@@ -350,9 +408,11 @@ __all__ = [
     "S1ModelBinding",
     "S1SampleSemanticBoundary",
     "S1Tokenization",
+    "S1VocabularyBinding",
     "SealedS1Sample",
     "load_sealed_s1_sample",
     "seal_s1_tokenization",
+    "seal_s1_model_vocabulary",
     "s1_model_binding",
     "validate_s1_horizon",
 ]
