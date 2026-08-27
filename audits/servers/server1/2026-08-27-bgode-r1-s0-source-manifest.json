@@ -1,0 +1,166 @@
+{
+  "authoritative_inputs": [
+    {
+      "bytes": 35733,
+      "lines": 1583,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/attachments/30faad6b-4b90-4843-8c32-19fa05f8f6dc/pasted-text.txt",
+      "sha256": "fd95be5f0edb4be74a8bad12aea0dbd3254b6e78a56bf3e2a562c8efa49579d9",
+      "status": "scientific_input_full_read"
+    },
+    {
+      "bytes": 39514,
+      "lines": 2042,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/attachments/80a2cb58-6a3c-40dd-b9ed-b5c377fe3e74/pasted-text.txt",
+      "sha256": "5777cee0048456c79afdcbfc491c97a2f7fd96ef5838a8cc469cd2d766b39552",
+      "status": "red_team_input_full_read"
+    }
+  ],
+  "instruction_id": "ODEEDIT-S05-BGODE-R1-SEQUENCE-EVENT-BARRIER-GUIDED-ODE-SCIENCE-R1",
+  "members_root_formula": "sha256(canonical_json(sorted produced_members by path; sort_keys=true; separators=(comma,colon)))",
+  "parent_head": "cf0d55b9ecd1016bba149e49e25c859ebce41020",
+  "parent_tree": "ac7481419e1c92ace3ef393ed51aa5d9d904b5cf",
+  "produced_member_count": 17,
+  "produced_members": [
+    {
+      "bytes": 4152,
+      "lines": 63,
+      "mode": "0644",
+      "path": "audits/servers/server1/2026-08-27-bgode-r1-s0-science-red-team.md",
+      "sha256": "841d0411a3c818ca4d7bcd361cf6bb9bddcf420a5c013162c6599fbd9bbd8559"
+    },
+    {
+      "bytes": 11688,
+      "lines": 246,
+      "mode": "0644",
+      "path": "audits/servers/server1/2026-08-27-bgode-r1-s0-science-review.md",
+      "sha256": "a4f1c08e9fa1cc68fb8c82c9653726e12fa8261f42063095d49bd198fa63b9a0"
+    },
+    {
+      "bytes": 3029,
+      "lines": 66,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/README.md",
+      "sha256": "0760ba474e3509229e1e961a42be2114e6facff8d91c4387227b70a93fde06e3"
+    },
+    {
+      "bytes": 1268,
+      "lines": 40,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/__init__.py",
+      "sha256": "c6a03ff850f1c5f379e4a1b122663f443af039d5d227bee928b94f05359903c5"
+    },
+    {
+      "bytes": 5485,
+      "lines": 143,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/alphaedit_actuator_interface.py",
+      "sha256": "da5b79cd9d3758cb7a857df045a594e7e3201e9a28df5b382938a501b14e82ab"
+    },
+    {
+      "bytes": 798,
+      "lines": 25,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/errors.py",
+      "sha256": "105e2c55641c9ad0a54ccd28125e2a38ce3d03bb15fcd9d49fa6135359b9789f"
+    },
+    {
+      "bytes": 4874,
+      "lines": 117,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/event_moments.py",
+      "sha256": "22e8de4025438d68d7d6833766518f448f70b89430a68855db325260f220431f"
+    },
+    {
+      "bytes": 10956,
+      "lines": 272,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/event_trie.py",
+      "sha256": "935f1fec80dadc137fcf8e7b27dfc9a46590e7cca72596569e7793380296cc4c"
+    },
+    {
+      "bytes": 2616,
+      "lines": 69,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/fisher_pullback.py",
+      "sha256": "d71ac6f46e9ee7944a64a82f0cf13c0056e69861b31b9006c6cda15e41dba79d"
+    },
+    {
+      "bytes": 1653,
+      "lines": 40,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/locks/bgode-r1-s0-numerical-lock.json",
+      "sha256": "7dad6413165e7135cb898418f5c195d98b8f25ed9942eabbe71f71da8b905dd6"
+    },
+    {
+      "bytes": 2230,
+      "lines": 64,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/policies.py",
+      "sha256": "f990750d1f5eb0a0612d012d4bc931fa8b374c7373d8f3a137462f290381579a"
+    },
+    {
+      "bytes": 9830,
+      "lines": 217,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/rayleighian_controller.py",
+      "sha256": "08d30aecc1446173e7dd8b50eef92c8f063b08e37ea7544f237c386f6ab39a90"
+    },
+    {
+      "bytes": 8530,
+      "lines": 211,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/reference_path.py",
+      "sha256": "b6cb36a238db3441b22c6ae4fab75d514e201bd665bf836cc0468bdfd726d1de"
+    },
+    {
+      "bytes": 3594,
+      "lines": 90,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/telemetry.py",
+      "sha256": "d48632649e5138b50569e8aea61bcce36159cefe70b92eadb7dd2c2720a9e70b"
+    },
+    {
+      "bytes": 9539,
+      "lines": 248,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/tests/test_event_trie_reference.py",
+      "sha256": "a7d7345650f61021cf85d25b7631b99608f6a82a983cabcb943ac6728b5d11dd"
+    },
+    {
+      "bytes": 8313,
+      "lines": 219,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/tests/test_rayleighian_core.py",
+      "sha256": "b518dc621365a0c4014f9f1b720a6bc5e36bf971c10b2ff21362c4df997b92c3"
+    },
+    {
+      "bytes": 10802,
+      "lines": 292,
+      "mode": "0644",
+      "path": "project/run_scripts/barrier_guided_ode/tests/test_science_boundaries.py",
+      "sha256": "a5de3b1c7aa5387091376e1f1278ac077b556d0522dfd0403272c7eb5d369c30"
+    }
+  ],
+  "produced_members_root": "ca106acbc90d01a448980d47903574feab5caee9be86ab4f42a727dcc63773e1",
+  "schema": "bgode-r1-s0-source-manifest-v1",
+  "unchanged_reused_sources": [
+    {
+      "path": "project/run_scripts/ode_edit_motivation/alphaedit_factors.py",
+      "sha256": "781089cb406d47b692d09c8947d37ecd47cdc7f00e2b60f3255a9eaf437960d8"
+    },
+    {
+      "path": "project/run_scripts/ode_edit_motivation/alphaedit_proposal_adapter.py",
+      "sha256": "da824b280e38505cd01ca98206dbad07d5b329de5269157a8c852d8d5185472d"
+    },
+    {
+      "path": "project/run_scripts/ode_edit_motivation/projector_adapter.py",
+      "sha256": "d9cc3d67e2f8d0d4cba8d36f1c011a59d7c4199532a13a5730db441ea6d5070a"
+    },
+    {
+      "path": "project/run_scripts/ode_edit_motivation/alphaedit_history.py",
+      "sha256": "1593c50d32d97f189479da5f12762fc8ee9ffbcd8cfcb081bbe9012645f364ff"
+    }
+  ]
+}

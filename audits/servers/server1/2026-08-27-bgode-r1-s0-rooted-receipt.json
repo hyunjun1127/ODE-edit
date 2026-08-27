@@ -1,0 +1,83 @@
+{
+  "actions": {
+    "easyedit_mutation": 0,
+    "gpu": 0,
+    "model_load": 0,
+    "p1r55_mutation": 0,
+    "scientific_result": 0,
+    "slurm": 0
+  },
+  "deterministic_sample_rule": "first request in sealed canonical order whose frozen tokenization satisfies the predeclared semantic schema; invalid first request is a scientific boundary and is not outcome-replaced",
+  "display_name": "Sequence-Event Barrier-Guided ODE AlphaEdit Flow",
+  "family": "BGODE",
+  "focused_gate": {
+    "broad_regression_count": 0,
+    "py_compile_status": "PASS",
+    "pytest_count": 29,
+    "pytest_status": "PASS",
+    "warnings_mode": "error"
+  },
+  "future_compute_plan": {
+    "euler_nodes_symbol": "N",
+    "event_score_buffer_example_bytes_at_V128256_L5_fp32": 3078144,
+    "excluded_from_buffer_estimate": "model activations and AlphaEdit factors",
+    "layers": 5,
+    "per_euler_node": "one ordered AlphaEdit dictionary build + Q primal event evaluations + 5*Q serial directional JVPs (conservative plan)",
+    "trie_nodes_symbol": "Q"
+  },
+  "hypotheses": {
+    "H1_EVENT_VALIDITY": "TESTABLE_CPU_CORE_PASS",
+    "H2_BARRIER_ATTRIBUTION": "TESTABLE_SYNTHETIC_PASS_MODEL_OPEN",
+    "H3_ODE_ATTRIBUTION": "TESTABLE_SYNTHETIC_PASS_MODEL_OPEN"
+  },
+  "instruction_id": "ODEEDIT-S05-BGODE-R1-SEQUENCE-EVENT-BARRIER-GUIDED-ODE-SCIENCE-R1",
+  "open_definitions": [
+    "termination semantics",
+    "B=1 sample unit",
+    "T definition when native T_AE<=0",
+    "production JVP backend",
+    "ordered-dictionary physical compute cost"
+  ],
+  "parent_head": "cf0d55b9ecd1016bba149e49e25c859ebce41020",
+  "parent_tree": "ac7481419e1c92ace3ef393ed51aa5d9d904b5cf",
+  "produced_members_root": "ca106acbc90d01a448980d47903574feab5caee9be86ab4f42a727dcc63773e1",
+  "receipt_identity": "7538bce946197cbb545252dd81a97bc3345015426a7a120c01a03d9b8d9fe978",
+  "receipt_identity_formula": "sha256(canonical_json(receipt without receipt_identity; sort_keys=true; separators=(comma,colon)))",
+  "recommended_s1_pilot": [
+    "Native explicit bypass",
+    "Plain dynamic",
+    "Fisher-only",
+    "Full barrier",
+    "One-step barrier",
+    "Frozen-field split"
+  ],
+  "registry_id": "BGODE-R1",
+  "schema": "bgode-r1-s0-rooted-receipt-v1",
+  "science_boundary": {
+    "atomic_batch_size": 1,
+    "batch_gt_one": "TYPED_UNSUPPORTED_BATCH_SCIENTIFIC_BOUNDARY",
+    "fixed_z_capture_count": 1,
+    "formal_claim": "instantaneous Rayleighian minimization at exact log-odds progress equality; not CBF invariance or monotone barrier decrease",
+    "history_append_inside_euler": 0,
+    "native_bypass": "B1_N1_BARRIER_OFF_EXPLICIT_ONLY",
+    "ode_state": "physical_W",
+    "z_recompute_count": 0
+  },
+  "solver": {
+    "damping_count": 0,
+    "dtype": "torch.float32",
+    "fallback_count": 0,
+    "finite_step": "beta=h*u",
+    "progress_penalty_count": 0,
+    "rank_tolerance": "16*eps(dtype)*dimension*max(1,max_abs_eigenvalue)"
+  },
+  "source_manifest_path": "audits/servers/server1/2026-08-27-bgode-r1-s0-source-manifest.json",
+  "source_manifest_sha256": "5dc7f228f71afa70cb876050bff43c1f677c7148acea6c22fc423b2dfb8add16",
+  "status": "S0_CPU_SCIENCE_CORE_PASS_S1_MODEL_EXECUTION_HOLD",
+  "synthetic_attribution": {
+    "claim_boundary": "constructed nonlinear toy only; no model endpoint claim",
+    "off_reference_fisher_kl": 0.0228038,
+    "off_reference_full_kl": 0.01885999,
+    "off_reference_plain_kl": 0.02226517
+  }
+}
