@@ -1,0 +1,28 @@
+{
+  "schema": "ode-edit-bgode-r3-g0-numerical-lock/v1",
+  "registry_id": "BGODE-R3",
+  "scientific_stage": "G0_CPU_MATHEMATICAL_CLOSURE",
+  "input_precision": "torch.float32",
+  "reduction_solve_precision": "torch.float64",
+  "rank_rcond_formula": "max(matrix_rows,matrix_columns)*torch.finfo(torch.float32).eps",
+  "event_normalization_tolerance_formula": "128*eps_fp64*(1+max_abs_log_probability+log(event_count))",
+  "score_centering_tolerance_formula": "512*eps_fp64*(1+matrix_norm(event_scores))",
+  "factor_residual_tolerance_formula": "64*eps_fp32*dimension*(1+recorded_scale)",
+  "g0_symmetric_difference": {
+    "epsilon": 0.00390625,
+    "absolute_tolerance": 0.0001,
+    "relative_tolerance": 0.003
+  },
+  "probability_floor_count": 0,
+  "gram_inverse_count": 0,
+  "gram_eigendecomposition_count": 0,
+  "alternate_solver_count": 0,
+  "future_fixed_strength_curve": {
+    "status": "PREDECLARED_NOT_RUN",
+    "T": [0.5, 1.0, 2.0, 3.0, 5.0],
+    "N": 32,
+    "selection_influence_count": 0
+  },
+  "g2_cauchy_lock_status": "MUST_BE_SEALED_IN_SEPARATE_PRE_GPU_RECEIPT_BEFORE_G2_SUBMISSION",
+  "scientific_promotion": false
+}

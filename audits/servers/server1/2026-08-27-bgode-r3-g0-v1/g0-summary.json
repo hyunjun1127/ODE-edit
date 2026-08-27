@@ -1,0 +1,40 @@
+{
+  "action_counts": {
+    "gpu": 0,
+    "model": 0,
+    "slurm": 0
+  },
+  "authoritative_contract": {
+    "bytes": 25746,
+    "logical_records": 1089,
+    "newline_count": 1088,
+    "sha256": "fa0a6923efe944d485dc49802772b4d08f7d02f7c7113dbee302e7d9744642dc",
+    "terminal_newline": false
+  },
+  "base": {
+    "head": "8e60f5c2d8de998f128a20e25c09f66aff770597",
+    "tree": "bc9aae754dec2ea6a55dcf23c2b23d4e644bb299"
+  },
+  "closures": {
+    "canonical_event_partition": "PASS",
+    "factor_space_solver": "PASS",
+    "fp64_log_space_reference": "PASS",
+    "normalized_actuators": "PASS",
+    "production_forbidden_scan": "PASS",
+    "q0_immutable": "PASS",
+    "two_equality": "PASS"
+  },
+  "legacy_r2_focused_tests": {
+    "failed": 0,
+    "passed": 21
+  },
+  "registry_id": "BGODE-R3",
+  "r3_focused_tests": {
+    "failed": 0,
+    "passed": 28
+  },
+  "schema": "BGODE_R3_G0_SUMMARY_V1",
+  "scientific_promotion": false,
+  "stage": "G0_CPU_MATH_CLOSURE",
+  "status": "R3_G0_MATHEMATICAL_PASS_G1_NOT_RUN"
+}
