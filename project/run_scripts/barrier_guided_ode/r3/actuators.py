@@ -9,7 +9,7 @@ from typing import Sequence
 
 import torch
 
-from project.run_scripts.ode_edit_motivation.contracts import LowRankFactor
+from project.run_scripts.ode_edit_motivation.contracts import LowRankFactor, MemitFactorProposal
 
 from .errors import ActuatorBoundary, R3ScientificBoundary
 
@@ -78,6 +78,21 @@ class NormalizedActuatorBasis:
         if not bool(torch.isfinite(result).all()):
             raise ActuatorBoundary("raw coefficient conversion failed")
         return result.to(dtype=torch.float32).contiguous()
+
+    def normalized_proposal(self, raw: MemitFactorProposal) -> MemitFactorProposal:
+        if len(raw.factors) != len(self.normalized_factors):
+            raise R3ScientificBoundary("normalized proposal factor inventory differs")
+        if tuple(factor.weight_name for factor in raw.factors) != tuple(
+            factor.weight_name for factor in self.normalized_factors
+        ):
+            raise R3ScientificBoundary("normalized proposal factor order differs")
+        return MemitFactorProposal(
+            snapshot=raw.snapshot,
+            factors=self.normalized_factors,
+            semantics=raw.semantics,
+            solver_name=f"{raw.solver_name}/bgode-r3-frobenius-normalized",
+            residual_denominator=raw.residual_denominator,
+        )
 
     def block_frobenius(self, normalized_coefficients: torch.Tensor) -> float:
         if normalized_coefficients.dtype != torch.float64 or normalized_coefficients.shape != self.raw_scales.shape:

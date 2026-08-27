@@ -54,7 +54,10 @@ def test_physical_dense_block_path_uses_actual_updates() -> None:
 def test_production_ast_has_no_forbidden_identifier_or_call_path() -> None:
     directory = Path(inspect.getfile(integrate_euler)).parent
     members = tuple(path for path in directory.glob("*.py") if path.name != "__init__.py")
-    forbidden = {"rho", "root", "ridge", "damping", "floor", "early_stop", "fallback"}
+    # ``root`` by itself is a filesystem-path noun in the runtime.  The R3
+    # contract explicitly excludes that harmless use from the semantic
+    # endpoint-root ban, so the AST gate targets controller identifiers/calls.
+    forbidden = {"rho", "ridge", "damping", "floor", "early_stop", "fallback"}
     observed: set[str] = set()
     for path in members:
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
@@ -66,6 +69,10 @@ def test_production_ast_has_no_forbidden_identifier_or_call_path() -> None:
             elif isinstance(node, ast.Attribute):
                 observed.add(node.attr.lower())
     assert forbidden.isdisjoint(observed)
+    assert not any(
+        name in observed
+        for name in {"endpoint_root", "root_solver", "brent", "bisection", "retraction"}
+    )
 
 
 def test_execution_firewall_and_history_boundary() -> None:
