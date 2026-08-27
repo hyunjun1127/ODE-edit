@@ -53,7 +53,12 @@ def _private_json(path: Path) -> dict[str, Any]:
     return value
 
 
-def validate_source_release(head: str, tree: str) -> dict[str, Any]:
+def validate_source_release(
+    head: str,
+    tree: str,
+    *,
+    source_manifest_path: Path = MANIFEST_PATH,
+) -> dict[str, Any]:
     observed_head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, text=True).strip()
     observed_tree = subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=REPO_ROOT, text=True).strip()
     if observed_head != head or observed_tree != tree:
@@ -62,7 +67,11 @@ def validate_source_release(head: str, tree: str) -> dict[str, Any]:
         ["git", "status", "--porcelain", "--untracked-files=no"], cwd=REPO_ROOT, text=True
     ):
         raise ValueError("queued G2 tracked source is dirty")
-    manifest = _private_json(MANIFEST_PATH)
+    source_manifest_path = source_manifest_path.expanduser().resolve(strict=True)
+    locks = (REPO_ROOT / "project/run_scripts/barrier_guided_ode/r3/locks").resolve(strict=True)
+    if source_manifest_path.parent != locks:
+        raise ValueError("G2 source manifest is outside the sealed lock directory")
+    manifest = _private_json(source_manifest_path)
     records: list[dict[str, Any]] = []
     for member in manifest.get("members", []):
         relative = member["path"]
@@ -99,7 +108,7 @@ def validate_source_release(head: str, tree: str) -> dict[str, Any]:
         "natural_topology_manifest_sha256": natural_sha,
         "numerical_lock": lock,
         "numerical_lock_sha256": _sha256(LOCK_PATH),
-        "source_manifest_sha256": _sha256(MANIFEST_PATH),
+        "source_manifest_sha256": _sha256(source_manifest_path),
     }
 
 
@@ -111,11 +120,16 @@ def main() -> int:
     parser.add_argument("--source-tree", required=True)
     parser.add_argument("--model-alias", choices=MODEL_ALIASES, required=True)
     parser.add_argument("--run-token", required=True)
+    parser.add_argument("--source-manifest", type=Path, default=MANIFEST_PATH)
     parser.add_argument("--preflight-only", action="store_true")
     args = parser.parse_args()
     if args.run_token != expected_run_id(args.model_alias):
         raise ValueError("G2 run token differs")
-    release = validate_source_release(args.source_head, args.source_tree)
+    release = validate_source_release(
+        args.source_head,
+        args.source_tree,
+        source_manifest_path=args.source_manifest,
+    )
     case = natural_case(args.model_alias, "unequal-non-prefix")
     raw, _, _ = load_natural_record(case)
     plan: dict[str, Any] = {

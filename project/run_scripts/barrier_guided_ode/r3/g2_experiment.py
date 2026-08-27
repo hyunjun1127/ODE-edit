@@ -53,7 +53,7 @@ from project.run_scripts.ode_edit_motivation.mv0_fidelity import _freeze_context
 from project.run_scripts.ode_edit_motivation.mv1_calibration import build_exact_teacher_batch
 from project.run_scripts.ode_edit_motivation.projector_adapter import AlphaEditProjectorBank
 
-from .errors import R3ScientificBoundary
+from .errors import NumericalBoundary, R3ScientificBoundary
 from .events import FineEventLayout, evaluate_fine_events
 from .g1_jvp import R3SerialForwardJVPBackend
 from .g1_probe import _event_payload, _jsonable, _seal_q0
@@ -341,21 +341,55 @@ def run_g2(
             endpoints: dict[int, G2Endpoint] = {}
             distances: dict[tuple[int, int], float] = {}
             for step_count in N_GRID:
-                result = run_g2_trajectory(
-                    arm=arm,
-                    step_count=step_count,
-                    horizon=horizon,
-                    runtime=runtime,
-                    adapter=adapter,
-                    layout=layout,
-                    q0=q0,
-                    authority0=authority0,
-                    snapshot_factory=snapshot_factory,
-                    weight_names=weight_names,
-                    tokenization=tokenization,
-                    endpoint_observer=observe_live_endpoint,
-                    solver_prefix=f"bgode-r3/g2/{model_alias}",
-                )
+                try:
+                    result = run_g2_trajectory(
+                        arm=arm,
+                        step_count=step_count,
+                        horizon=horizon,
+                        runtime=runtime,
+                        adapter=adapter,
+                        layout=layout,
+                        q0=q0,
+                        authority0=authority0,
+                        snapshot_factory=snapshot_factory,
+                        weight_names=weight_names,
+                        tokenization=tokenization,
+                        endpoint_observer=observe_live_endpoint,
+                        solver_prefix=f"bgode-r3/g2/{model_alias}",
+                    )
+                except NumericalBoundary as error:
+                    _assert_w0(runtime, weight_names=weight_names, pointers=pointers, hashes=hashes)
+                    failure = {
+                        "schema": "ode-edit-bgode-r3-g2-numerical-boundary/v1",
+                        "status": "R3_G2_LOCKED_NUMERICAL_BOUNDARY",
+                        "instruction_id": INSTRUCTION_ID,
+                        "source_head": source_head,
+                        "source_tree": source_tree,
+                        "model_alias": model_alias,
+                        "run_id": run_id,
+                        "case": dict(case),
+                        "boundary_type": type(error).__name__,
+                        "boundary_message": str(error),
+                        "boundary_receipt": _jsonable(error.receipt),
+                        "completed_panel_count": len(panels),
+                        "completed_panel_keys": sorted(panels),
+                        "fixed_z_compute_count": fixed_z_calls,
+                        "fixed_z_recompute_count": 0,
+                        "history_append_count": 0,
+                        "w0_pointer_restore": True,
+                        "w0_bytes_restore": True,
+                        "retained_factor_count_after_boundary": len(adapter.builds),
+                        "science_definition_change_count": 0,
+                        "tolerance_change_count": 0,
+                        "threshold_change_count": 0,
+                        "scientific_promotion": False,
+                    }
+                    failure = _jsonable(failure)
+                    failure["failure_identity"] = sha256_bytes(
+                        canonical_json(failure).encode("utf-8")
+                    )
+                    _write_json_once(output / "failure-boundary.json", failure)
+                    raise
                 _assert_w0(runtime, weight_names=weight_names, pointers=pointers, hashes=hashes)
                 panels[f"{arm.value}/N{step_count}"] = result.payload
                 endpoints[step_count] = result.endpoint

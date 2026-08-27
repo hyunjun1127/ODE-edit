@@ -22,7 +22,7 @@ from .actuators import (
     NormalizedActuatorBasis,
     release_adapter_build,
 )
-from .errors import R3ScientificBoundary
+from .errors import NumericalBoundary, R3ScientificBoundary
 from .events import FineEventEvaluation, FineEventLayout, evaluate_fine_events
 from .g1_jvp import R3SerialForwardJVPBackend
 from .g1_probe import _event_payload, _jsonable, _solution_payload
@@ -146,7 +146,22 @@ def run_g2_trajectory(
             normalized = basis.normalized_proposal(raw)
             build_ledger.publish(basis, validation_call_count=validated.validation_call_count)
             backend = R3SerialForwardJVPBackend(runtime.model, tokenization)
-            observations = backend.observe_all_prefix_fd(layout=layout, proposal=normalized)
+            try:
+                observations = backend.observe_all_prefix_fd(layout=layout, proposal=normalized)
+            except NumericalBoundary as error:
+                raise NumericalBoundary(
+                    str(error),
+                    receipt={
+                        **error.receipt,
+                        "arm": arm.value,
+                        "step_count": step_count,
+                        "node_index": node_index,
+                        "completed_node_count": len(nodes),
+                        "physical_action_count": len(nodes),
+                        "current_node_write_count": 0,
+                        "failure_stage": "ALL_PREFIX_NORMALIZED_JVP_CENTRAL_FD",
+                    },
+                ) from error
             entry_event = evaluate_fine_events(layout, observations)
             moments = aggregate_fine_event_moments(
                 entry_event,
