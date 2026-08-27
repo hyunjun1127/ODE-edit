@@ -1,0 +1,75 @@
+{
+  "gpu_replay_count": 0,
+  "identity_sha256": "dbce1f7333e4bb2c20d319acc14196206653e337bd4aaa6e5a09e9f34869f5c0",
+  "imputation_count": 0,
+  "input_members": [
+    {
+      "bytes": 99755,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-bgode-r1-science-r1/local/odebf/results/s05-bgode-r1-s1-llama-b1-request000-six-arm-v1-tech-r3/s05-bgode-r1-s1-llama-b1-request000-six-arm-v1/terminal.json",
+      "sha256": "60261a5f5166ef645aee0550f977bbdf617d2badc9a7efc4386a51eb10605bcc"
+    },
+    {
+      "bytes": 19059,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s05-bgode-r1-science-r1/local/odebf/results/s05-bgode-r1-s1-llama-b1-request000-six-arm-v1-tech-r3/s05-bgode-r1-s1-llama-b1-request000-six-arm-v1/private/direct-z.pt",
+      "sha256": "874e4fa6f3ddb4092e79255cbbc878337c24776c836ff3f398acf80d27c49f15"
+    },
+    {
+      "bytes": 35733,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/attachments/30faad6b-4b90-4843-8c32-19fa05f8f6dc/pasted-text.txt",
+      "sha256": "fd95be5f0edb4be74a8bad12aea0dbd3254b6e78a56bf3e2a562c8efa49579d9"
+    },
+    {
+      "bytes": 38196,
+      "kind": "git_blob",
+      "path": "project/run_scripts/barrier_guided_ode/s1_experiment.py",
+      "sha256": "af20997eaf3c2442ffefc3a66e1f50a67fb68b5c26744052dbbeebb9bd105f23",
+      "source_head": "7c41098cc56fbf4ad6e00a9a32bcf1948425d94e"
+    }
+  ],
+  "input_members_root": "a8705895c6f3a1396b123beafa752b71aa029f9a240f7126a7b1c5191b847cf2",
+  "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "output_members": [
+    {
+      "bytes": 7397,
+      "mode": "0600",
+      "path": "report-ko.md",
+      "sha256": "96d935d353f35e34a7feb6566e52d2bda15526cf39c56118e4e5ff96f5a6397c"
+    },
+    {
+      "bytes": 1832,
+      "mode": "0600",
+      "path": "arm-endpoints.csv",
+      "sha256": "aa28762b6c1a06e273b642dbbbb742493c346ca7fb88c66213a95dc2e5db1a49"
+    },
+    {
+      "bytes": 4834,
+      "mode": "0600",
+      "path": "node-trajectory.csv",
+      "sha256": "377caf41dbcbb46063c96d28b6d6da2620269b98dd09e7a23550bb1b39eeea4e"
+    },
+    {
+      "bytes": 954,
+      "mode": "0600",
+      "path": "compute.csv",
+      "sha256": "6529913301839c956ddfdfc5fcab1a5ba9c5659c1356d0d7cdd89829d99e6ef4"
+    },
+    {
+      "bytes": 2017,
+      "mode": "0600",
+      "path": "analysis-summary.json",
+      "sha256": "de7eb2d2194940c8a8bd394a6309ecdba292c44314b9716bdec5cf787a479214"
+    }
+  ],
+  "output_members_root": "2903c3780255d31183934b1fa6b7dac23893ebc2d5c0dd44090ccd514797cf9d",
+  "raw_mutation_count": 0,
+  "sample_identity": "813f6108c425baae4b89fadc86936f28f1db40390332c1d3433d94838407b2db",
+  "schema": "ode-edit-bgode-r1-s1-llama-gh-independent-analysis-manifest/v1",
+  "scientific_promotion": false,
+  "source_head": "7c41098cc56fbf4ad6e00a9a32bcf1948425d94e",
+  "source_tree": "edb50be2ced768833b3c4a84afc15afe6152d895",
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+  "verdict": "TECHNICAL_PASS_SCIENTIFIC_HOLD_MISSING_EXACT_PROGRESS_LOCALIZATION"
+}

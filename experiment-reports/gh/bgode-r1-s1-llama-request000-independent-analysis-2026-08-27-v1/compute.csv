@@ -1,0 +1,7 @@
+arm,dictionary_build_count,physical_final_write_count,physical_layer_apply_count,model_forward_invocations,jvp_call_count,primal_prefix_count,finite_difference_forward_count,controller_core_wall_seconds,dictionary_wall_seconds,physical_write_wall_seconds,score_buffer_peak_bytes
+official-native-alphaedit-bypass,1,1,5,NOT_RECORDED_NATIVE,NOT_RECORDED_NATIVE,NOT_RECORDED_NATIVE,NOT_RECORDED_NATIVE,NOT_RECORDED_NATIVE,0,0,NOT_RECORDED_NATIVE
+plain-dynamic,4,4,20,85,60,27,10,16.550337370485067,235.42333227489144,11.1027878113091,2565120
+fisher-only-dynamic,4,4,20,75,60,27,0,15.452470577321947,234.5155030786991,10.870173076167703,2565120
+full-moving-barrier-dynamic,4,4,20,75,60,27,0,15.197531815618277,238.30204583797604,10.997961645945907,2565120
+one-step-full-barrier,1,1,5,21,15,9,0,3.7093138583004475,59.25226073060185,2.735232174396515,2565120
+frozen-field-n4-split,1,4,20,30,15,18,0,4.26161799300462,59.26601124368608,10.951056787744164,2565120

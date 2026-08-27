@@ -1,0 +1,14 @@
+{
+  "analysis_manifest_identity": "dbce1f7333e4bb2c20d319acc14196206653e337bd4aaa6e5a09e9f34869f5c0",
+  "analysis_manifest_sha256": "77b37dfbe76e56da02f0bb3aafad2e153e79816736392205e31f3a119bace118",
+  "gpu_replay_count": 0,
+  "identity_sha256": "942a9b2372936a5c06536fd6e27b965999d0a179840d863a472078046581f33b",
+  "imputation_count": 0,
+  "input_members_root": "a8705895c6f3a1396b123beafa752b71aa029f9a240f7126a7b1c5191b847cf2",
+  "output_members_root": "2903c3780255d31183934b1fa6b7dac23893ebc2d5c0dd44090ccd514797cf9d",
+  "raw_mutation_count": 0,
+  "report_sha256": "96d935d353f35e34a7feb6566e52d2bda15526cf39c56118e4e5ff96f5a6397c",
+  "schema": "ode-edit-bgode-r1-s1-llama-gh-rooted-analysis-receipt/v1",
+  "scientific_promotion": false,
+  "status": "TECHNICAL_PASS_SCIENTIFIC_HOLD_MISSING_EXACT_PROGRESS_LOCALIZATION"
+}

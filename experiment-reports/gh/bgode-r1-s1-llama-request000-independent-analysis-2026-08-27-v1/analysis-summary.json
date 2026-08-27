@@ -1,0 +1,45 @@
+{
+  "event_normalization_max_abs_residual": 4.6953558921813965e-05,
+  "gpu_replay_count": 0,
+  "imputation_count": 0,
+  "matched_progress_attribution_valid": false,
+  "native_adapter_fidelity": {
+    "pass": true,
+    "relative_frobenius": 7.94460352533726e-06,
+    "tolerance": 5e-05
+  },
+  "one_step_frozen_equivalence": {
+    "locality_forward_kl_abs_delta": 1.9371509552001953e-07,
+    "rephrase_target_new_nll_abs_delta": 6.67572021484375e-06,
+    "rewrite_target_new_nll_abs_delta": 0.0,
+    "terminal_log_odds_abs_delta": 0.0
+  },
+  "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "progress_localization_audit": {
+    "contract_requires_scalar_exact_progress_localization": true,
+    "dynamic_node_count": 17,
+    "dynamic_node_rho_or_root_receipt_count": 0,
+    "dynamic_source_applies_unlocalized_coefficients": true,
+    "dynamic_source_directly_scales_velocity_by_step_size": true,
+    "dynamic_source_mentions_rho": false,
+    "matched_progress_attribution_valid": false,
+    "maximum_absolute_nonlinear_progress_residual": 12.559093475341797,
+    "terminal_absolute_nonlinear_progress_residual_by_arm": {
+      "fisher-only-dynamic": 0.33579254150390625,
+      "frozen-field-n4-split": 9.420600891113281,
+      "full-moving-barrier-dynamic": 5.441442489624023,
+      "one-step-full-barrier": 9.420600891113281,
+      "plain-dynamic": 12.559093475341797
+    }
+  },
+  "raw_mutation_count": 0,
+  "sample_identity": "813f6108c425baae4b89fadc86936f28f1db40390332c1d3433d94838407b2db",
+  "schema": "ode-edit-bgode-r1-s1-llama-gh-independent-analysis-summary/v1",
+  "scientific_promotion": false,
+  "source_head": "7c41098cc56fbf4ad6e00a9a32bcf1948425d94e",
+  "source_tree": "edb50be2ced768833b3c4a84afc15afe6152d895",
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+  "technical_execution_valid": true,
+  "terminal_status": "BGODE_R1_S1_TERMINAL_PASS",
+  "verdict": "TECHNICAL_PASS_SCIENTIFIC_HOLD_MISSING_EXACT_PROGRESS_LOCALIZATION"
+}
