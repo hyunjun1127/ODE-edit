@@ -26,7 +26,6 @@ from project.run_scripts.ode_edit_motivation.contracts import (
     LowRankFactor,
     MemitFactorProposal,
     ProposalSemantics,
-    canonical_hash,
     canonical_json,
     sha256_bytes,
 )
@@ -763,7 +762,9 @@ def run_s1(
                     "target_recompute_count": 0,
                     "controller_influence_count": 0,
                 }
-                fidelity_receipt["identity_sha256"] = canonical_hash(fidelity_receipt)
+                fidelity_receipt["identity_sha256"] = sha256_bytes(
+                    canonical_json(fidelity_receipt).encode("utf-8")
+                )
                 _write_json_once(output / "native-adapter-fidelity.json", fidelity_receipt)
                 if not math.isfinite(relative) or relative > 5.0e-5:
                     raise BGODEScientificBoundary("P-inside adapter differs from Official AlphaEdit endpoint")
