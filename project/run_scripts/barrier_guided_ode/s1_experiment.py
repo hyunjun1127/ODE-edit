@@ -573,6 +573,7 @@ def run_s1(
                 direct_z=direct_z,
                 target_token_ids=target_ids,
                 provenance_id=bindings.provenance.manifest_id,
+                isolated_solve_backend="upstream-dense",
             )
             layout = StreamingTrieLayout.build(
                 source_tokens=tokenization.source_token_ids,

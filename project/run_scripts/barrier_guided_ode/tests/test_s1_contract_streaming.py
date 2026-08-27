@@ -154,6 +154,13 @@ def test_model_config_output_vocabulary_mismatch_fails_close():
         seal_s1_model_vocabulary(Model(), tokenization)
 
 
+def test_s1_runtime_uses_upstream_dense_p_inside_backend():
+    source = (
+        __import__("pathlib").Path(__file__).parents[1] / "s1_experiment.py"
+    ).read_text(encoding="utf-8")
+    assert 'isolated_solve_backend="upstream-dense"' in source
+
+
 def test_token_boundary_and_native_horizon_fail_close():
     sample = load_sealed_s1_sample()
 

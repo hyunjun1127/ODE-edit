@@ -14,6 +14,7 @@ from project.run_scripts.ode_edit_motivation.alphaedit_factors import (
     make_unprojected_isolated_alphaedit_proposal,
     solve_historical_alphaedit_factor,
     solve_isolated_alphaedit_factor,
+    solve_isolated_alphaedit_factor_upstream_dense,
     solve_unprojected_isolated_alphaedit_factor,
 )
 from project.run_scripts.ode_edit_motivation.contracts import (
@@ -83,6 +84,31 @@ class IsolatedAlphaEditFactorTests(unittest.TestCase):
             rtol=1e-12,
             atol=1e-12,
         )
+
+    def test_upstream_dense_factor_matches_direct_equation_and_woodbury(self) -> None:
+        native = self._native_dense_update()
+        dense = solve_isolated_alphaedit_factor_upstream_dense(
+            keys=self.keys,
+            residuals=self.residuals,
+            projector=self.projector,
+            l2=self.l2,
+            weight_name="layer.weight",
+            weight_shape=tuple(native.T.shape),
+            expected_weight_sha256="e" * 64,
+        )
+        woodbury = solve_isolated_alphaedit_factor(
+            keys=self.keys,
+            residuals=self.residuals,
+            projector=self.projector,
+            l2=self.l2,
+            weight_name="layer.weight",
+            weight_shape=tuple(native.T.shape),
+            expected_weight_sha256="e" * 64,
+        )
+        dense_update = dense.left @ dense.right.T
+        woodbury_update = woodbury.left @ woodbury.right.T
+        torch.testing.assert_close(dense_update, native.T, rtol=1e-12, atol=1e-12)
+        torch.testing.assert_close(dense_update, woodbury_update, rtol=1e-12, atol=1e-12)
 
     def test_native_and_transposed_weight_orientations_are_both_exact(self) -> None:
         native = self._native_dense_update()

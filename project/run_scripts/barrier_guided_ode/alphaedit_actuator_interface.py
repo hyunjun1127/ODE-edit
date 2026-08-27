@@ -14,6 +14,7 @@ from typing import Protocol, runtime_checkable
 import torch
 
 from project.run_scripts.ode_edit_motivation.alphaedit_factors import (
+    GENUINE_ISOLATED_ALPHAEDIT_DENSE_SOLVER_PREFIX,
     GENUINE_HISTORICAL_ALPHAEDIT_SOLVER_PREFIX,
     GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX,
 )
@@ -70,6 +71,7 @@ def validate_ordered_alphaedit_build(build: AlphaProposalBuild) -> AlphaEditActu
     proposal = build.proposal
     prefixes = (
         GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX,
+        GENUINE_ISOLATED_ALPHAEDIT_DENSE_SOLVER_PREFIX,
         GENUINE_HISTORICAL_ALPHAEDIT_SOLVER_PREFIX,
     )
     if not proposal.solver_name.startswith(prefixes) or "/ordered/" not in proposal.solver_name:

@@ -49,6 +49,11 @@ GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX = (
 )
 """Solver tag reserved for the genuine ``P``-inside-solve construction."""
 
+GENUINE_ISOLATED_ALPHAEDIT_DENSE_SOLVER_PREFIX = (
+    "alphaedit-genuine-isolated-first-edit-upstream-dense-v1"
+)
+"""Solver tag for the numerically upstream-identical dense ``P``-inside solve."""
+
 UNPROJECTED_ISOLATED_ALPHAEDIT_SOLVER_PREFIX = (
     "alphaedit-unprojected-isolated-first-edit-woodbury-v1"
 )
@@ -232,7 +237,9 @@ def alphaedit_proposal_kind(proposal: MemitFactorProposal) -> AlphaEditProposalK
         return AlphaEditProposalKind.POSTHOC_RIGHT_PROJECTED
     if proposal.solver_name.startswith(GENUINE_HISTORICAL_ALPHAEDIT_SOLVER_PREFIX):
         return AlphaEditProposalKind.GENUINE_HISTORICAL
-    if proposal.solver_name.startswith(GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX):
+    if proposal.solver_name.startswith(
+        (GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX, GENUINE_ISOLATED_ALPHAEDIT_DENSE_SOLVER_PREFIX)
+    ):
         return AlphaEditProposalKind.GENUINE_ISOLATED_FIRST_EDIT
     if proposal.solver_name.startswith(UNPROJECTED_ISOLATED_ALPHAEDIT_SOLVER_PREFIX):
         return AlphaEditProposalKind.UNPROJECTED_ISOLATED_FIRST_EDIT
@@ -358,6 +365,78 @@ def solve_isolated_alphaedit_factor(
         l2=l2,
         weight_name=weight_name,
         weight_shape=weight_shape,
+        expected_weight_sha256=expected_weight_sha256,
+    )
+
+
+def solve_isolated_alphaedit_factor_upstream_dense(
+    *,
+    keys: torch.Tensor,
+    residuals: torch.Tensor,
+    projector: torch.Tensor,
+    l2: float,
+    weight_name: str,
+    weight_shape: Sequence[int],
+    expected_weight_sha256: str,
+) -> LowRankFactor:
+    """Factor the exact dense equation evaluated by upstream AlphaEdit.
+
+    This is algebraically identical to :func:`solve_isolated_alphaedit_factor`,
+    but intentionally evaluates ``solve(P @ (K @ K.T) + lambda I, P @ K)``
+    in the same order as the pinned Official implementation.  It is useful
+    when an ill-conditioned large projector makes the Woodbury evaluation
+    differ from that reference by more than a predeclared fidelity tolerance.
+    The returned update remains low rank because only the adjusted key columns
+    are retained.
+    """
+
+    if not isinstance(weight_name, str) or not weight_name.strip():
+        raise AlphaEditFactorError("weight_name must not be empty")
+    expected_weight_sha256 = _validate_sha256(
+        expected_weight_sha256,
+        name="expected_weight_sha256",
+    )
+    shape = _validate_weight_shape(weight_shape)
+    lambda_value = _validate_l2(l2)
+    for name, value in (
+        ("keys", keys),
+        ("residuals", residuals),
+        ("projector", projector),
+    ):
+        _require_finite_matrix(value, name=name)
+    if len({keys.device, residuals.device, projector.device}) != 1:
+        raise AlphaEditFactorError(
+            "keys, residuals, and projector must share one device"
+        )
+    if keys.shape[1] == 0 or residuals.shape[1] != keys.shape[1]:
+        raise AlphaEditFactorError("keys and residuals must share non-zero rank")
+    if projector.shape[0] != projector.shape[1] or projector.shape[0] != keys.shape[0]:
+        raise AlphaEditFactorError("projector dimension must equal key width")
+
+    work_dtype = _working_dtype(keys, residuals, projector)
+    with torch.no_grad():
+        k = keys.detach().to(dtype=work_dtype)
+        resid = residuals.detach().to(dtype=work_dtype)
+        p = projector.detach().to(dtype=work_dtype)
+        projected_keys = p @ k
+        system = p @ (k @ k.transpose(0, 1))
+        system.diagonal().add_(lambda_value)
+        if not bool(torch.isfinite(system).all()) or not bool(
+            torch.isfinite(projected_keys).all()
+        ):
+            raise AlphaEditFactorError("dense AlphaEdit system is non-finite")
+        try:
+            adjusted_keys = torch.linalg.solve(system, projected_keys)
+        except RuntimeError as exc:
+            raise AlphaEditFactorError("dense AlphaEdit system is singular") from exc
+        if not bool(torch.isfinite(adjusted_keys).all()):
+            raise AlphaEditFactorError("dense AlphaEdit adjusted keys are non-finite")
+
+    return orient_easyedit_factor(
+        adjusted_keys,
+        resid,
+        weight_name=weight_name,
+        weight_shape=shape,
         expected_weight_sha256=expected_weight_sha256,
     )
 
@@ -508,6 +587,48 @@ def make_isolated_alphaedit_proposal(
         semantics=semantics,
         solver_name=(
             f"{GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX}/"
+            f"{solver_suffix.strip()}"
+        ),
+        residual_denominator=residual_denominator,
+    )
+
+
+def make_upstream_dense_isolated_alphaedit_proposal(
+    *,
+    snapshot: SnapshotManifest,
+    keys: torch.Tensor,
+    residuals: torch.Tensor,
+    projector: torch.Tensor,
+    l2: float,
+    weight_name: str,
+    solver_suffix: str,
+    semantics: ProposalSemantics = ProposalSemantics.SYNCHRONOUS_FROZEN_SNAPSHOT,
+    residual_denominator: int | None = 1,
+) -> MemitFactorProposal:
+    """Return one identity-bound dense-reference genuine AlphaEdit proposal."""
+
+    if not isinstance(snapshot, SnapshotManifest):
+        raise AlphaEditFactorError("snapshot must be a SnapshotManifest")
+    if not isinstance(solver_suffix, str) or not solver_suffix.strip():
+        raise AlphaEditFactorError("solver_suffix must not be empty")
+    if not isinstance(weight_name, str) or not weight_name.strip():
+        raise AlphaEditFactorError("weight_name must not be empty")
+    record = snapshot.parameter(weight_name)
+    factor = solve_isolated_alphaedit_factor_upstream_dense(
+        keys=keys,
+        residuals=residuals,
+        projector=projector,
+        l2=l2,
+        weight_name=weight_name,
+        weight_shape=record.shape,
+        expected_weight_sha256=record.sha256,
+    )
+    return MemitFactorProposal(
+        snapshot=snapshot,
+        factors=(factor,),
+        semantics=semantics,
+        solver_name=(
+            f"{GENUINE_ISOLATED_ALPHAEDIT_DENSE_SOLVER_PREFIX}/"
             f"{solver_suffix.strip()}"
         ),
         residual_denominator=residual_denominator,

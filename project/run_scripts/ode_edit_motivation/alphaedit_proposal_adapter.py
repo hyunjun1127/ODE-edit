@@ -17,6 +17,7 @@ from typing import Any, Mapping, Sequence
 import torch
 
 from .alphaedit_factors import (
+    GENUINE_ISOLATED_ALPHAEDIT_DENSE_SOLVER_PREFIX,
     GENUINE_HISTORICAL_ALPHAEDIT_SOLVER_PREFIX,
     GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX,
     POSTHOC_ALPHAEDIT_PROJECTOR_TOKEN,
@@ -26,6 +27,7 @@ from .alphaedit_factors import (
     make_historical_alphaedit_proposal,
     make_isolated_alphaedit_proposal,
     make_posthoc_alphaedit_proposal,
+    make_upstream_dense_isolated_alphaedit_proposal,
     make_unprojected_isolated_alphaedit_proposal,
 )
 from .alphaedit_history import AlphaEditHistoryAppend, AlphaEditHistoryBank
@@ -46,6 +48,7 @@ from .projector_adapter import AlphaEditProjectorBank
 
 
 ALPHA_SOLVE_RESIDUAL_TOLERANCE = 5e-4
+ALPHA_ISOLATED_SOLVE_BACKENDS = frozenset({"woodbury", "upstream-dense"})
 
 
 @dataclass(frozen=True, slots=True)
@@ -405,6 +408,7 @@ class AlphaEditProposalAdapter:
         target_token_ids: torch.Tensor,
         provenance_id: str,
         history_bank: AlphaEditHistoryBank | None = None,
+        isolated_solve_backend: str = "woodbury",
     ) -> None:
         if not isinstance(bridge, EasyEditBridge):
             raise ContractError("Alpha adapter requires the verified EasyEdit bridge")
@@ -432,6 +436,9 @@ class AlphaEditProposalAdapter:
         self.target_token_ids = target_token_ids.detach().cpu().contiguous().clone()
         self.provenance_id = provenance_id
         self.history_bank = history_bank
+        if isolated_solve_backend not in ALPHA_ISOLATED_SOLVE_BACKENDS:
+            raise ContractError("unknown AlphaEdit isolated solve backend")
+        self.isolated_solve_backend = isolated_solve_backend
         self.weight_names = tuple(
             f"{config.rewrite_module_tmp.format(layer)}.weight"
             for layer in config.layers
@@ -545,7 +552,12 @@ class AlphaEditProposalAdapter:
         )
         try:
             if construction == "genuine-p-inside-solve":
-                proposal = make_isolated_alphaedit_proposal(
+                maker = (
+                    make_upstream_dense_isolated_alphaedit_proposal
+                    if self.isolated_solve_backend == "upstream-dense"
+                    else make_isolated_alphaedit_proposal
+                )
+                proposal = maker(
                     snapshot=snapshot,
                     keys=keys,
                     residuals=residual,
@@ -651,7 +663,11 @@ class AlphaEditProposalAdapter:
             )
             residuals[layer] = residual
         if construction == "genuine-p-inside-solve":
-            prefix = GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX
+            prefix = (
+                GENUINE_ISOLATED_ALPHAEDIT_DENSE_SOLVER_PREFIX
+                if self.isolated_solve_backend == "upstream-dense"
+                else GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX
+            )
         elif construction == "genuine-p-inside-solve-history":
             prefix = GENUINE_HISTORICAL_ALPHAEDIT_SOLVER_PREFIX
         else:
@@ -731,7 +747,11 @@ class AlphaEditProposalAdapter:
             if restored.state_id != origin.state_id:
                 raise ContractError("ordered Alpha proposal did not restore W0")
         if construction == "genuine-p-inside-solve":
-            prefix = GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX
+            prefix = (
+                GENUINE_ISOLATED_ALPHAEDIT_DENSE_SOLVER_PREFIX
+                if self.isolated_solve_backend == "upstream-dense"
+                else GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX
+            )
         elif construction == "genuine-p-inside-solve-history":
             prefix = GENUINE_HISTORICAL_ALPHAEDIT_SOLVER_PREFIX
         elif construction == "posthoc-unprojected-alpha-base-at-p":
