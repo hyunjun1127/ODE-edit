@@ -17,6 +17,9 @@ from project.run_scripts.ode_edit_motivation.alphaedit_factors import (
     solve_isolated_alphaedit_factor_upstream_dense,
     solve_unprojected_isolated_alphaedit_factor,
 )
+from project.run_scripts.ode_edit_motivation.alphaedit_proposal_adapter import (
+    _dense_rhs_solve_residual_ratio,
+)
 from project.run_scripts.ode_edit_motivation.contracts import (
     LowRankFactor,
     MemitFactorProposal,
@@ -134,6 +137,14 @@ class IsolatedAlphaEditFactorTests(unittest.TestCase):
             native.T
         )
         self.assertLess(float(relative.item()), 5.0e-6)
+        solve_residual = _dense_rhs_solve_residual_ratio(
+            keys=keys,
+            projected_keys=projector @ keys,
+            residuals=repeated,
+            factor=factor,
+            l2=self.l2,
+        )
+        self.assertLess(solve_residual, 5.0e-4)
 
     def test_native_and_transposed_weight_orientations_are_both_exact(self) -> None:
         native = self._native_dense_update()

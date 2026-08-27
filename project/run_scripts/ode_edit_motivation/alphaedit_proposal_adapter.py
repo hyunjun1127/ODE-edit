@@ -389,6 +389,69 @@ def _solve_residual_ratio(
     return max(0.0, ratio)
 
 
+def _dense_rhs_solve_residual_ratio(
+    *,
+    keys: torch.Tensor,
+    projected_keys: torch.Tensor,
+    residuals: torch.Tensor,
+    factor: LowRankFactor,
+    l2: float,
+) -> float:
+    """Validate the compressed Official dense-RHS equation.
+
+    The upstream-order backend first solves ``A X = (P K) R.T`` and then
+    represents ``X`` in an orthonormal basis ``Q`` for the numerical column
+    space of ``R``.  Its correct compact residual is therefore
+    ``A (X Q) - (P K) R.T Q``; checking ``A adjusted - P K`` would validate a
+    different operation order and is not meaningful for this factorization.
+    """
+
+    if not factor.native_update_transposed:
+        raise ContractError("dense RHS residual requires transposed down_proj updates")
+    basis = factor.left.to(device=keys.device, dtype=torch.float32)
+    adjusted = factor.right.to(device=keys.device, dtype=torch.float32)
+    k = keys.detach().to(dtype=torch.float32)
+    u = projected_keys.detach().to(dtype=torch.float32)
+    resid = residuals.detach().to(device=keys.device, dtype=torch.float32)
+    if (
+        basis.ndim != 2
+        or adjusted.ndim != 2
+        or basis.shape[1] != adjusted.shape[1]
+        or basis.shape[0] != resid.shape[0]
+        or resid.shape[1] != k.shape[1]
+    ):
+        raise ContractError("dense RHS residual factor shapes differ")
+    identity = torch.eye(basis.shape[1], device=basis.device, dtype=basis.dtype)
+    basis_ratio = float(
+        torch.linalg.vector_norm(basis.transpose(0, 1) @ basis - identity).detach().cpu()
+    ) / max(1.0, math.sqrt(float(basis.shape[1])))
+    represented = basis @ (basis.transpose(0, 1) @ resid)
+    residual_norm = torch.linalg.vector_norm(resid)
+    residual_norm_value = float(residual_norm.detach().cpu())
+    if residual_norm_value <= 0.0 or not math.isfinite(residual_norm_value):
+        raise ContractError("dense RHS residual direction collapsed")
+    representation_ratio = float(
+        torch.linalg.vector_norm(represented - resid).detach().cpu()
+    ) / residual_norm_value
+    compressed_rhs = u @ (resid.transpose(0, 1) @ basis)
+    equation_residual = (
+        l2 * adjusted
+        + u @ (k.transpose(0, 1) @ adjusted)
+        - compressed_rhs
+    )
+    denominator = torch.linalg.vector_norm(compressed_rhs)
+    denominator_value = float(denominator.detach().cpu())
+    if denominator_value <= 0.0 or not math.isfinite(denominator_value):
+        raise ContractError("dense RHS compressed direction collapsed")
+    equation_ratio = float(
+        torch.linalg.vector_norm(equation_residual).detach().cpu()
+    ) / denominator_value
+    ratio = max(basis_ratio, representation_ratio, equation_ratio)
+    if not math.isfinite(ratio) or ratio > ALPHA_SOLVE_RESIDUAL_TOLERANCE:
+        raise ContractError("AlphaEdit dense RHS residual exceeds tolerance")
+    return max(0.0, ratio)
+
+
 class AlphaEditProposalAdapter:
     """Build genuine or post-hoc Alpha proposals at verified model states."""
 
@@ -554,7 +617,7 @@ class AlphaEditProposalAdapter:
             if construction == "genuine-p-inside-solve":
                 maker = (
                     make_upstream_dense_isolated_alphaedit_proposal
-                    if self.isolated_solve_backend == "upstream-dense"
+                    if getattr(self, "isolated_solve_backend", "woodbury") == "upstream-dense"
                     else make_isolated_alphaedit_proposal
                 )
                 proposal = maker(
@@ -616,14 +679,26 @@ class AlphaEditProposalAdapter:
                 projected_history_keys = None
             else:
                 raise ContractError("unknown Alpha layer construction")
-            solve_residual = _solve_residual_ratio(
-                keys=keys,
-                projected_keys=projected_keys,
-                factor=(base if construction.startswith("posthoc") else proposal).factors[0],
-                l2=self.config.l2,
-                history_keys=history_keys,
-                projected_history_keys=projected_history_keys,
-            )
+            if (
+                construction == "genuine-p-inside-solve"
+                and getattr(self, "isolated_solve_backend", "woodbury") == "upstream-dense"
+            ):
+                solve_residual = _dense_rhs_solve_residual_ratio(
+                    keys=keys,
+                    projected_keys=projected_keys,
+                    residuals=residual,
+                    factor=proposal.factors[0],
+                    l2=self.config.l2,
+                )
+            else:
+                solve_residual = _solve_residual_ratio(
+                    keys=keys,
+                    projected_keys=projected_keys,
+                    factor=(base if construction.startswith("posthoc") else proposal).factors[0],
+                    l2=self.config.l2,
+                    history_keys=history_keys,
+                    projected_history_keys=projected_history_keys,
+                )
         finally:
             del projector
         return proposal, solve_residual
@@ -665,7 +740,7 @@ class AlphaEditProposalAdapter:
         if construction == "genuine-p-inside-solve":
             prefix = (
                 GENUINE_ISOLATED_ALPHAEDIT_DENSE_SOLVER_PREFIX
-                if self.isolated_solve_backend == "upstream-dense"
+                if getattr(self, "isolated_solve_backend", "woodbury") == "upstream-dense"
                 else GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX
             )
         elif construction == "genuine-p-inside-solve-history":
@@ -749,7 +824,7 @@ class AlphaEditProposalAdapter:
         if construction == "genuine-p-inside-solve":
             prefix = (
                 GENUINE_ISOLATED_ALPHAEDIT_DENSE_SOLVER_PREFIX
-                if self.isolated_solve_backend == "upstream-dense"
+                if getattr(self, "isolated_solve_backend", "woodbury") == "upstream-dense"
                 else GENUINE_ISOLATED_ALPHAEDIT_SOLVER_PREFIX
             )
         elif construction == "genuine-p-inside-solve-history":
