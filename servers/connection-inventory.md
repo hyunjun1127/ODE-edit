@@ -3,7 +3,8 @@
 - 갱신 시각: 2026-08-29 (session authority만 갱신; 물리/runtime 상태는 기존 마지막 audit 기준)
 - 작성 agent: `head-server1-gh` (global-head)
 - repository: `hyunjun1127/ODE-edit`
-- 목적: 새 GH/SH session authority, direct inbox와 안전한 Git 동기화 경계 공유
+- 목적: 새 GH/SH session authority, app-server direct coordination과 안전한
+  Git 동기화 경계 공유
 
 이 tracked 파일에는 raw SSH HostName/IP, username, port, key path나 credential을
 기록하지 않는다. 실제 접속값은 ignored local-only inventory에 보관한다.
@@ -27,21 +28,31 @@ SH1 detached worktree의 기존 상태를 reset, stash, revert 또는 cleanup하
 | 서버 | 역할 | Codex session ID / deeplink | hard boundary | Repository CWD | 상태 |
 | --- | --- | --- | --- | --- | --- |
 | `server1` | global-head (GH) | `01a04939-8873-7673-8dca-4c7fc5e31af0` / `codex://threads/01a04939-8873-7673-8dca-4c7fc5e31af0` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/ODE-edit` | active caller |
-| `server1` | server-head (SH1) | `01a04939-f93a-7b50-bca0-65438eab2062` / `codex://threads/01a04939-f93a-7b50-bca0-65438eab2062` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | assigned; outbound inbox blocked |
-| `server2` | server-head (SH2) | `01a0493a-074c-7f91-9a13-769116326fef` / `codex://threads/01a0493a-074c-7f91-9a13-769116326fef` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/ODE-edit` | assigned; outbound inbox blocked |
+| `server1` | server-head (SH1) | `01a04939-f93a-7b50-bca0-65438eab2062` / `codex://threads/01a04939-f93a-7b50-bca0-65438eab2062` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | app-server direct steer accepted |
+| `server2` | server-head (SH2) | `01a0493a-074c-7f91-9a13-769116326fef` / `codex://threads/01a0493a-074c-7f91-9a13-769116326fef` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/ODE-edit` | app-server direct ACK PASS |
 | `server3` | server-head | 미지정 | 미지정 | `/data/janghj/ODE-edit` | future target |
-| `server4` | server-head (SH4) | `01a04939-b5c7-7a03-ba2d-ef3343d62cfd` / `codex://threads/01a04939-b5c7-7a03-ba2d-ef3343d62cfd` | session ID user-confirmed; app list/read PASS | `/data/janghj/ODE-edit` | assigned; outbound inbox blocked |
+| `server4` | server-head (SH4) | `01a04939-b5c7-7a03-ba2d-ef3343d62cfd` / `codex://threads/01a04939-b5c7-7a03-ba2d-ef3343d62cfd` | session ID user-confirmed; app list/read PASS | `/data/janghj/ODE-edit` | app-server direct ACK PASS |
 
-## Direct inbox matrix
+## App-server direct endpoint registry
 
-| 경로 | 결과 |
+| 역할 | app host | local Unix control socket | direct 상태 |
 | --- | --- |
-| GH→SH1 request / SH1→GH ACK | BLOCKED: target list/read PASS, `send_message_to_thread` unavailable through dynamic tools; send not delivered |
-| GH→SH2 request / SH2→GH ACK | BLOCKED: target list/read PASS, `send_message_to_thread` unavailable through dynamic tools; send not delivered |
-| GH→SH4 request / SH4→GH ACK | BLOCKED: target list/read PASS, `send_message_to_thread` unavailable through dynamic tools; send not delivered |
-| SH1↔SH2 | NOT RUN: GH could not dispatch cross-check instruction |
-| SH1↔SH4 | NOT RUN: GH could not dispatch cross-check instruction |
-| SH2↔SH4 | NOT RUN: GH could not dispatch cross-check instruction |
+| GH, SH1 | `remote-ssh-codex-managed:lab120` | `/mnt/raid5/janghj/.codex/app-server-control/app-server-control.sock` | PASS |
+| SH2 | `remote-ssh-codex-managed:lab121` | `/mnt/raid5/janghj/.codex/app-server-control/app-server-control.sock` | PASS |
+| SH4 | `remote-ssh-codex-managed:lab163` | `/data/janghj/.codex/app-server-control/app-server-control.sock` | PASS |
+
+## Direct coordination verification
+
+| 대상 | 방식 | 결과 |
+| --- | --- | --- |
+| GH→SH1 | active turn `01a04989-e4b9-79e1-978e-c07b21f49330`에 `turn/steer` | ACCEPTED; current science task unchanged |
+| GH→SH2→GH response | `thread/resume` → `turn/start` → `turn/completed` | PASS, turn `01a04994-0ed3-7253-a155-e5aacdaa9943` |
+| GH→SH4→GH response | `thread/resume` → `turn/start` → `turn/completed` | PASS, turn `01a04994-02d7-7482-8ec7-4706e96ab414` |
+
+`send_message_to_thread` dynamic wrapper는 계속 unavailable이며 direct
+coordination의 구성요소가 아니다. SH가 GH로 unsolicited push하는 것으로
+기록하지 않는다. GH가 exact SH session을 resume/start/steer하고 같은
+app-server stream에서 response를 회수한다.
 
 ## Superseded current-authority records
 

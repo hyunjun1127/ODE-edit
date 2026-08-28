@@ -11,7 +11,7 @@
 | 역할 | Codex session ID / deeplink | local hard boundary | 실제 CWD | 상태 |
 | --- | --- | --- | --- | --- |
 | global-head (GH) | `01a04939-8873-7673-8dca-4c7fc5e31af0` / `codex://threads/01a04939-8873-7673-8dca-4c7fc5e31af0` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/ODE-edit` | active caller |
-| server-head (SH1) | `01a04939-f93a-7b50-bca0-65438eab2062` / `codex://threads/01a04939-f93a-7b50-bca0-65438eab2062` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | assigned; outbound inbox blocked |
+| server-head (SH1) | `01a04939-f93a-7b50-bca0-65438eab2062` / `codex://threads/01a04939-f93a-7b50-bca0-65438eab2062` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | app-server direct steer accepted |
 
 새 session은 2026-08-28 registry의 GH/SH1 authority를 supersede한다. 과거
 task, report, audit, receipt와 completed launcher의 session ID는 historical
@@ -39,8 +39,10 @@ provenance로 보존한다.
 ## 연결 및 runtime
 
 - GH에서 SH1 session list/read: PASS
-- GH→SH1 direct inbox/ACK: BLOCKED (`send_message_to_thread`가 dynamic tools에서 비활성; send not delivered)
-- SH1↔SH2/SH4 cross-inbox: NOT RUN (GH가 cross-check instruction을 전달하지 못함)
+- GH→SH1 app-server direct: PASS; active turn
+  `01a04989-e4b9-79e1-978e-c07b21f49330`에 `turn/steer` accepted
+- current SH1 science task는 중단·변경하지 않았고 direct-mode ACK는 동일 turn의
+  terminal response에서 회수한다.
 - `PROTOCOL.md` full-read identity:
   SHA256 `a54a4e7c00c36ec9f3b0fe122e5d8735dacc2c21c8604bc598593eb396936663`,
   51,147 bytes, 1,125 lines
@@ -60,7 +62,7 @@ provenance로 보존한다.
 
 - session authority IDs: user-confirmed
 - session routing/read: PASS
-- direct inbox send: BLOCKED (`send_message_to_thread` unavailable through dynamic tools)
+- app-server direct coordination: PASS (`turn/steer` accepted)
 - GH와 SH1 local runtime checker: pending revalidation
 - tracked registry update owner: GH clean integration worktree
 - SH1 detached worktree pull/merge: HOLD; 기존 실험과 untracked state 보존

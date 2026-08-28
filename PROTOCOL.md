@@ -500,11 +500,56 @@ guessing execution authority. Small informational messages do not need the full
 envelope when no coding, Slurm submission, artifact movement, or durable task
 state transition is requested.
 
+## Codex App-Server Direct Coordination
+
+현재 GH↔SH 실시간 제어의 기본 transport는 Codex app-server 직접
+request-response다. Git inbox나 `send_message_to_thread` dynamic wrapper를
+실시간 전달 경로로 사용하지 않는다. Git은 계속 durable source/task/report
+control plane이며 app-server는 살아 있는 Codex session에 turn을 전달하고 그
+응답을 회수하는 control transport다.
+
+공식 app-server lifecycle을 그대로 사용한다.
+
+1. GH가 target host의 local Unix app-server control socket에 WebSocket HTTP
+   Upgrade로 연결한다.
+2. 연결마다 `initialize` request와 `initialized` notification을 보낸다.
+3. `thread/resume`으로 registry에 기록된 정확한 target session ID를 연다.
+4. idle session에는 `turn/start`, active session에는 active turn ID를
+   `expectedTurnId`로 고정한 `turn/steer`를 사용한다.
+5. GH는 같은 연결에서 `turn/completed`까지 읽고 final response를 직접
+   회수한다. 전송 nonce, target thread ID, accepted turn ID와 terminal status를
+   함께 검증한다.
+
+다음 경계를 반드시 지킨다.
+
+- 이 transport는 GH가 시작하고 응답을 회수하는 direct request-response다.
+  SH가 GH task로 보내는 unsolicited reverse inbox라고 부르거나 가장하지 않는다.
+- SH의 긴 결과는 repository-managed report에 기록하고 direct final response에는
+  report path와 compact identity만 보낸다.
+- `send_message_to_thread`가 실제 tool success를 반환하지 않는 동안 agent가
+  ACK 문자열만 출력한 것은 전달 성공 증거가 아니다.
+- app-server socket은 각 host의 local control endpoint이며 credential이 아니다.
+  tracked inventory에는 host/session/logical socket mapping만 기록하고 token,
+  SSH key 또는 private connection material은 기록하지 않는다.
+- app-server direct transport는 기존 instruction envelope, session boundary,
+  Git ownership, GPU cap, Slurm permission 또는 destructive-action authority를
+  확장하지 않는다.
+- socket, handshake, initialize, resume, start/steer 또는 terminal 수집이
+  실패하면 정확한 stage와 error를 `COMMUNICATION_HOLD`로 보고한다. 사용자의
+  별도 승인 없이 Git inbox, rsync, base64 또는 repository commit을 메시지
+  fallback으로 사용하지 않는다.
+
+현재 active session과 host/socket mapping은
+`servers/connection-inventory.md`가 canonical registry다. Protocol reference:
+`https://developers.openai.com/codex/app-server`.
+
 Default lifecycle:
 
-1. global-head writes the experiment intent under `messages/inbox/<server>.md`
-   or creates/promotes a structured task under `tasks/pending/`
-2. target server-head syncs, reads the inbox/task, and writes an ack
+1. global-head sends the experiment intent to the exact target session through
+   app-server direct coordination and creates/promotes durable structured task
+   state under `tasks/pending/` when needed
+2. target server-head acknowledges in the same app-server turn output; Git
+   records are used for durable task/report state, not live delivery
 3. blue-plan-runner converts the intent into concrete config, command, resource
    request, output path, and expected metric table
 4. red-team performs pre-flight audit: data split, leakage, command, resource
@@ -522,8 +567,10 @@ Default lifecycle:
    broadcast dependency helper to copy artifacts to the other active server
    `local/` trees, then records verification evidence. If no broadcast is
    needed or possible, the server-head records the exception and reason.
-10. server-head reports closure or blocker to global-head/user through
+10. server-head records closure or blocker under
     `messages/server-heads/<server>/`, `experiment-reports/`, and `audits/`
+    as required, then returns the compact path/identity through the direct
+    app-server turn response
 
 Global-head may directly submit a remote Slurm job only for explicit user
 instruction, emergency scheduling, or time-critical exploratory work. Even in
@@ -948,7 +995,9 @@ Use these paths:
   for one target server. The target server-head reads this file but reports
   execution status through `messages/server-heads/<server>/`,
   `messages/acks/<server>/`, `tasks/status/`, reports, or audits instead of
-  editing the inbox.
+  editing the inbox. Under the current app-server-direct policy this path is
+  durable historical/task context only and is not the live delivery or fallback
+  transport unless the user explicitly reauthorizes it.
 - `messages/server-heads/<server>/YYYY-MM-DD.md`: shared updates written by
   that server's `server-head`.
 - `messages/templates/`: reusable message templates.

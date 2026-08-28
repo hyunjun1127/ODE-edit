@@ -10,7 +10,8 @@
 - Codex session ID:
   `01a04939-b5c7-7a03-ba2d-ef3343d62cfd`
   (`codex://threads/01a04939-b5c7-7a03-ba2d-ef3343d62cfd`)
-- local hard boundary: session ID user-confirmed; app list/read PASS; outbound inbox blocked
+- local hard boundary: session ID user-confirmed; app list/read PASS;
+  app-server direct request-response PASS
 - 갱신 시각: `2026-08-29` (session authority rotation; 이하 runtime/실험 heartbeat는 기존 관측 보존)
 - current GH directive:
   `ODEEDIT-S05-P1R54-ENERGYFREE-LOCALZ-B100-V1`
@@ -19,9 +20,12 @@
 이 session은 이전 server4 session `01a028a7-9e3c-7541-81ba-efb40555d17d`를 supersede한다. 과거 task,
 report, audit와 experiment provenance는 변경하지 않는다.
 
-GH에서 새 SH4 session의 list/read는 PASS했다. GH→SH4 direct inbox는
-`send_message_to_thread`가 dynamic tools에서 비활성화되어 전달되지 않았고 ACK가
-없다. SH1/SH2와의 cross-inbox도 GH가 instruction을 전달할 수 없어 NOT RUN이다.
+GH에서 새 SH4 session의 list/read와 app-server direct request-response를
+검증했다. Direct-mode 전환 ACK turn은
+`01a04994-02d7-7482-8ec7-4706e96ab414`이며 nonce
+`ODEEDIT-APPSERVER-PROTOCOL-20260829-SH4-R1`이 PASS했다.
+`send_message_to_thread` dynamic wrapper와 unsolicited reverse inbox는
+사용하지 않는다.
 
 ## Repository 및 Git/Agent 상태
 

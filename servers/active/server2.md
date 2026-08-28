@@ -27,14 +27,16 @@ experiment provenance는 변경하지 않는다.
   `0d63ad4ec4978be6d04aabb640e17917bd1348d7` /
   `652b84489825371558002e24b381dcb777327a7f`
 - cached `origin/main`과 audit HEAD가 일치했다.
-- registry push 뒤 GH가 별도 direct inbox로 fetch 및 ff-only 최신화를
+- registry push 뒤 GH가 별도 app-server direct turn으로 fetch 및 ff-only 최신화를
   명령한다. 실행 중인 experiment job과 result root는 건드리지 않는다.
 
 ## 연결 및 runtime
 
 - GH에서 SH2 session list/read: PASS
-- GH→SH2 direct inbox/ACK: BLOCKED (`send_message_to_thread`가 dynamic tools에서 비활성; send not delivered)
-- SH1/SH4↔SH2 cross-inbox: NOT RUN (GH가 cross-check instruction을 전달하지 못함)
+- GH→SH2 app-server direct request-response: PASS, turn
+  `01a04994-0ed3-7253-a155-e5aacdaa9943`
+- direct-mode ACK nonce
+  `ODEEDIT-APPSERVER-PROTOCOL-20260829-SH2-R1`: PASS
 - `PROTOCOL.md` full-read identity:
   SHA256 `a54a4e7c00c36ec9f3b0fe122e5d8735dacc2c21c8604bc598593eb396936663`,
   51,147 bytes, 1,125 lines
@@ -54,7 +56,7 @@ experiment provenance는 변경하지 않는다.
 
 - session authority ID: user-confirmed
 - session routing/read: PASS
-- direct inbox send: BLOCKED (`send_message_to_thread` unavailable through dynamic tools)
-- SH1/SH4↔SH2 bidirectional inbox/ACK: NOT RUN
+- app-server direct coordination: PASS
+- unsolicited reverse inbox는 protocol 범위 밖이며 사용하지 않음
 - runtime session/repository boundary: pending revalidation
 - next: registry push 뒤 fetch 및 `git merge --ff-only origin/main`
