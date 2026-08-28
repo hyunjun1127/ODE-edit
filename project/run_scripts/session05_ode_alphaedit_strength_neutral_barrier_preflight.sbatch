@@ -2,7 +2,6 @@
 # ODE-edit hook preflight against an immutable stock EasyEdit checkout.
 #SBATCH --job-name=ode_snb_preflight
 #SBATCH --partition=gpu
-#SBATCH --nodelist=devbox
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -22,14 +21,16 @@ umask 077
 : "${ODE_SNB_PREFLIGHT_ROOT:?}"
 
 readonly UV_BIN="/usr/local/bin/uv"
-readonly ENV_PROJECT="/mnt/raid5/janghj/EasyEdit"
-readonly MODEL_PATH="/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2"
-readonly DATASET="/mnt/raid5/janghj/EasyEdit/data/counterfact/counterfact.json"
-readonly PROJECTOR="/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt"
+readonly ENV_PROJECT="${ODE_SNB_ENV_PROJECT:-/mnt/raid5/janghj/EasyEdit}"
+readonly MODEL_PATH="${ODE_SNB_MODEL_PATH:-/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2}"
+readonly DATASET="${ODE_SNB_DATASET:-/mnt/raid5/janghj/EasyEdit/data/counterfact/counterfact.json}"
+readonly PROJECTOR="${ODE_SNB_PROJECTOR:-/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt}"
 readonly HPARAMS="${ODE_SNB_EASYEDIT_ROOT}/hparams/AlphaEdit/llama3-8b.yaml"
 readonly RUNNER="${ODE_SNB_SOURCE_ROOT}/project/run_scripts/alphaedit_strength_neutral_barrier/run_preflight.py"
 
-[[ "$(hostname -s)" == "devbox" ]] || exit 2
+if [[ -n "${ODE_SNB_EXPECTED_HOST:-}" ]]; then
+  [[ "$(hostname -s)" == "${ODE_SNB_EXPECTED_HOST}" ]] || exit 2
+fi
 [[ "$(git -C "${ODE_SNB_SOURCE_ROOT}" rev-parse HEAD)" == "${ODE_SNB_EXPECTED_HEAD}" ]] || exit 2
 [[ -z "$(git -C "${ODE_SNB_SOURCE_ROOT}" status --porcelain --untracked-files=no)" ]] || exit 2
 [[ "$(git -C "${ODE_SNB_EASYEDIT_ROOT}" rev-parse HEAD)" == "${ODE_SNB_EXPECTED_EASYEDIT_HEAD}" ]] || exit 2

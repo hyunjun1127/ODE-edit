@@ -14,3 +14,16 @@ restores the node entry, and applies the guided predictor-corrector step.
 Runtime source identity is sealed by `official-source-lock.json` and checked by
 `firewall.py`.  A tracked modification or byte mismatch in the external
 EasyEdit checkout fails before model execution.
+
+## Cross-server launch inputs
+
+Both Slurm launchers take the ODE checkout, stock EasyEdit checkout and exact
+HEADs through `ODE_SNB_SOURCE_ROOT`, `ODE_SNB_EXPECTED_HEAD`,
+`ODE_SNB_EASYEDIT_ROOT`, and `ODE_SNB_EXPECTED_EASYEDIT_HEAD`.  A different
+server may additionally bind its local paths with `ODE_SNB_ENV_PROJECT`,
+`ODE_SNB_MODEL_PATH`, `ODE_SNB_DATASET`, and `ODE_SNB_PROJECTOR`.  Set
+`ODE_SNB_EXPECTED_HOST` when a host lock is required; leaving it unset permits
+the scheduler-selected host.  Result roots remain create-once.
+
+Run order is strict: preflight G0 first, then `atomic-b1`, then `atomic-b10`.
+The sequential stage stays unsubmitted until those gates are accepted.
