@@ -1,0 +1,14 @@
+{
+  "schema": "ode-edit.alphaedit-strength-neutral-barrier.official-source-lock.v1",
+  "repository": "zjunlp/EasyEdit",
+  "head": "14cea8245f06715684592ab55184939b99d70784",
+  "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7",
+  "tracked_clean_required": true,
+  "implementation_boundary": "ODE_EDIT_HOOK_STOCK_EASYEDIT_READ_ONLY",
+  "members": {
+    "easyeditor/models/alphaedit/AlphaEdit_main.py": "1016bf13b4521dddd134f54884f00c1a7fb95c33e477c9ba2fe9e0f275e2fb9a",
+    "easyeditor/models/alphaedit/compute_z.py": "f6fd935b1fbbb05cd656618414f8b71f45d2d0458f617de85c40d6013d84234a",
+    "easyeditor/models/alphaedit/compute_ks.py": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba",
+    "easyeditor/models/alphaedit/__init__.py": "609bef490ec45743ee9ecd6cd2e01280860d8aa27b3ea96b6b78f0586463f113"
+  }
+}
