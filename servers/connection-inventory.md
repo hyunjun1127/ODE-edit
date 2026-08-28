@@ -1,6 +1,6 @@
 # 서버 접속 인벤토리
 
-- 갱신 시각: 2026-08-28 (session authority만 갱신; 물리/runtime 상태는 2026-08-22 마지막 audit 기준)
+- 갱신 시각: 2026-08-29 (session authority만 갱신; 물리/runtime 상태는 기존 마지막 audit 기준)
 - 작성 agent: `head-server1-gh` (global-head)
 - repository: `hyunjun1127/ODE-edit`
 - 목적: 새 GH/SH session authority, direct inbox와 안전한 Git 동기화 경계 공유
@@ -26,24 +26,30 @@ SH1 detached worktree의 기존 상태를 reset, stash, revert 또는 cleanup하
 
 | 서버 | 역할 | Codex session ID / deeplink | hard boundary | Repository CWD | 상태 |
 | --- | --- | --- | --- | --- | --- |
-| `server1` | global-head (GH) | `01a04660-f2e5-7583-a9f9-83db20210d72` / `codex://threads/01a04660-f2e5-7583-a9f9-83db20210d72` | session ID user-confirmed; runtime checker pending | `/mnt/raid5/janghj/ODE-edit` | active caller |
-| `server1` | server-head (SH1) | `01a04664-c753-7461-b914-b4ebf24a581a` / `codex://threads/01a04664-c753-7461-b914-b4ebf24a581a` | session ID user-confirmed; runtime checker pending | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | assigned; official inbox validation blocked |
-| `server2` | server-head (SH2) | `01a04661-2f02-7d93-b3ba-4c69d113eaee` / `codex://threads/01a04661-2f02-7d93-b3ba-4c69d113eaee` | session ID user-confirmed; runtime checker pending | `/mnt/raid5/janghj/ODE-edit` | assigned; official inbox validation blocked |
+| `server1` | global-head (GH) | `01a04939-8873-7673-8dca-4c7fc5e31af0` / `codex://threads/01a04939-8873-7673-8dca-4c7fc5e31af0` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/ODE-edit` | active caller |
+| `server1` | server-head (SH1) | `01a04939-f93a-7b50-bca0-65438eab2062` / `codex://threads/01a04939-f93a-7b50-bca0-65438eab2062` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | assigned; outbound inbox blocked |
+| `server2` | server-head (SH2) | `01a0493a-074c-7f91-9a13-769116326fef` / `codex://threads/01a0493a-074c-7f91-9a13-769116326fef` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/ODE-edit` | assigned; outbound inbox blocked |
 | `server3` | server-head | 미지정 | 미지정 | `/data/janghj/ODE-edit` | future target |
-| `server4` | server-head | 미지정 | 미지정 | `/data/janghj/ODE-edit` | registered-pending-clone |
+| `server4` | server-head (SH4) | `01a04939-b5c7-7a03-ba2d-ef3343d62cfd` / `codex://threads/01a04939-b5c7-7a03-ba2d-ef3343d62cfd` | session ID user-confirmed; app list/read PASS | `/data/janghj/ODE-edit` | assigned; outbound inbox blocked |
 
 ## Direct inbox matrix
 
 | 경로 | 결과 |
 | --- | --- |
-| GH→SH1 request / SH1→GH ACK | BLOCKED: `codex_app` MCP unavailable; send not delivered |
-| GH→SH2 request / SH2→GH ACK | BLOCKED: `codex_app` MCP unavailable; send not delivered |
-| SH1→SH2 ping / SH2→SH1 ACK | NOT RUN: GH could not dispatch cross-check instruction |
-| SH2→SH1 ping / SH1→SH2 ACK | NOT RUN: GH could not dispatch cross-check instruction |
+| GH→SH1 request / SH1→GH ACK | BLOCKED: target list/read PASS, `send_message_to_thread` unavailable through dynamic tools; send not delivered |
+| GH→SH2 request / SH2→GH ACK | BLOCKED: target list/read PASS, `send_message_to_thread` unavailable through dynamic tools; send not delivered |
+| GH→SH4 request / SH4→GH ACK | BLOCKED: target list/read PASS, `send_message_to_thread` unavailable through dynamic tools; send not delivered |
+| SH1↔SH2 | NOT RUN: GH could not dispatch cross-check instruction |
+| SH1↔SH4 | NOT RUN: GH could not dispatch cross-check instruction |
+| SH2↔SH4 | NOT RUN: GH could not dispatch cross-check instruction |
 
 ## Superseded current-authority records
 
-2026-08-22 registry의 GH/SH1/SH2 session
+2026-08-28 registry의 GH/SH1/SH2 session
+`01a04660-f2e5-7583-a9f9-83db20210d72`,
+`01a04664-c753-7461-b914-b4ebf24a581a`,
+`01a04661-2f02-7d93-b3ba-4c69d113eaee`와 server4 session
+`01a028a7-9e3c-7541-81ba-efb40555d17d`, 2026-08-22 registry의 GH/SH1/SH2 session
 `01a0278e-3f20-7b12-8c26-cf71deb2708b`,
 `01a0278d-456b-7d20-820f-63fc80a57b8d`,
 `01a0278d-6e24-7a81-974a-96e4addd7ca5`와 2026-08-17 registry의

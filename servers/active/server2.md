@@ -6,14 +6,14 @@
 - physical hostname: `server2`
 - host ID: `remote-ssh-codex-managed:lab121`
 - repository: `hyunjun1127/ODE-edit`
-- 갱신 시각: 2026-08-28 (session authority rotation)
+- 갱신 시각: 2026-08-29 (session authority rotation)
 - server-head (SH2):
-  `01a04661-2f02-7d93-b3ba-4c69d113eaee`
-  (`codex://threads/01a04661-2f02-7d93-b3ba-4c69d113eaee`)
+  `01a0493a-074c-7f91-9a13-769116326fef`
+  (`codex://threads/01a0493a-074c-7f91-9a13-769116326fef`)
 - repository CWD: `/mnt/raid5/janghj/ODE-edit`
-- local hard boundary: session ID user-confirmed; runtime checker pending
+- local hard boundary: session ID user-confirmed; app list/read PASS
 
-새 session은 2026-08-22 registry의 SH2 authority를 supersede한다. 과거
+새 session은 2026-08-28 registry의 SH2 authority를 supersede한다. 과거
 experiment provenance는 변경하지 않는다.
 
 이번 갱신은 session authority만 교체했다. 아래 repository/runtime/Slurm 관측값은
@@ -32,8 +32,9 @@ experiment provenance는 변경하지 않는다.
 
 ## 연결 및 runtime
 
-- GH→SH2 direct inbox/ACK: BLOCKED (`codex_app` MCP unavailable; send not delivered)
-- SH1↔SH2 cross-inbox: NOT RUN (GH가 cross-check instruction을 전달하지 못함)
+- GH에서 SH2 session list/read: PASS
+- GH→SH2 direct inbox/ACK: BLOCKED (`send_message_to_thread`가 dynamic tools에서 비활성; send not delivered)
+- SH1/SH4↔SH2 cross-inbox: NOT RUN (GH가 cross-check instruction을 전달하지 못함)
 - `PROTOCOL.md` full-read identity:
   SHA256 `a54a4e7c00c36ec9f3b0fe122e5d8735dacc2c21c8604bc598593eb396936663`,
   51,147 bytes, 1,125 lines
@@ -52,7 +53,8 @@ experiment provenance는 변경하지 않는다.
 ## 판정
 
 - session authority ID: user-confirmed
-- session routing/direct inbox: BLOCKED (`codex_app` MCP unavailable)
-- SH1↔SH2 bidirectional inbox/ACK: NOT RUN
+- session routing/read: PASS
+- direct inbox send: BLOCKED (`send_message_to_thread` unavailable through dynamic tools)
+- SH1/SH4↔SH2 bidirectional inbox/ACK: NOT RUN
 - runtime session/repository boundary: pending revalidation
 - next: registry push 뒤 fetch 및 `git merge --ff-only origin/main`

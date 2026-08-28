@@ -23,6 +23,7 @@ agent session, systemd/cron automation, SSH, Slurm job이 읽고 수행할 때�
 
 | 작성 시각 | 작성 agent | 작성 서버 | 범위/수신 | 상태 | 요약 | 다음 행동 | 원문 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-29 | head-server1-gh | server1 | 전체 / GH·SH1·SH2·SH4 | blocked | 네 session authority 갱신; list/read PASS, outbound inbox 3/3 미전달 | direct `codex_app` MCP send 노출 후 4-way mesh 재검증 | [session registry rotation](head/2026-08-29-session-registry-rotation.md) |
 | 2026-08-28 | head-server1-gh | server1 | 전체 / GH·SH1·SH2 | blocked | 새 session authority 등록; official inbox는 `codex_app` MCP unavailable로 미전달 | Desktop/host tool 연결 복구 후 양방향 inbox 재검증 | [session registry rotation](head/2026-08-28-session-registry-rotation.md) |
 | 2026-07-30 | head-server1-gh | server1 | 전체 / SH 미배정 | info | ODE-Edit Session 01 Motivation Validation 초기화; repo push 완료, SH가 없어 실행 보류 | user가 server/SH·compute context 확인 | [초기화 공지](head/2026-07-30-gh-initialization.md) |
 
