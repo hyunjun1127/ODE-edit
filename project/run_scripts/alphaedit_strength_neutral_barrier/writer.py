@@ -49,6 +49,11 @@ from .telemetry import (
     write_create_once,
 )
 from .official_state import prepare_official_state
+from .endpoint_adoption import (
+    adopt_exact_endpoint,
+    capture_exact_endpoint,
+    tensor_sha,
+)
 
 
 class BarrierArm(str, Enum):
@@ -440,6 +445,8 @@ def _execute_guided(
                 terminal_z_residual_norm=float("nan"),
                 terminal_barrier_q_kl=float("nan"),
                 terminal_target_nll=[],
+                native_delta_sha256=tensor_sha(native_delta.float()),
+                layer_entry_weight_sha256=tensor_sha(weight.float()),
             )
             module_name = hparams.rewrite_module_tmp.format(layer)
             native_norm = float(torch.linalg.vector_norm(native_delta).item())
@@ -550,6 +557,7 @@ def _execute_guided(
                         constraint_condition=solution.constraint_condition,
                         constraint_pinv_rtol=solution.constraint_pinv_rtol,
                         correction_active=solution.active,
+                        correction_term_count=len(solution.terms),
                         native_predictor=False,
                         pre_step=pre_step,
                         post_native_counterfactual=post_native_counterfactual,
@@ -586,31 +594,14 @@ def _execute_guided(
             )
         telemetry.cache_append_count = 1
 
-        deltas = {
-            name: (weight.detach() - entry_weights[name]).cpu()
-            for name, weight in weights.items()
-        }
+        endpoint = capture_exact_endpoint(weights)
         telemetry.temporary_endpoint_selected_sha256 = _selected_sha(weights)
-        replayed = {
-            name: entry_weights[name].detach().cpu() + delta
-            for name, delta in deltas.items()
-        }
-        telemetry.authoritative_replay_selected_sha256 = _selected_sha(replayed)
-        telemetry.authoritative_replay_max_abs_by_weight = {
-            name: float(
-                (
-                    replayed[name]
-                    - weights[name].detach().cpu().to(replayed[name])
-                )
-                .abs()
-                .max()
-                .item()
-            )
-            for name in weights
+        telemetry.temporary_endpoint_component_sha256 = {
+            name: tensor_sha(value) for name, value in endpoint.items()
         }
         success = True
         telemetry.terminal_status = "TECHNICAL_PASS"
-        return deltas, telemetry
+        return endpoint, telemetry
     except Exception as error:
         telemetry.terminal_status = "FAILED_BOUNDARY"
         telemetry.failure_type = type(error).__name__
@@ -683,7 +674,7 @@ def apply_strength_neutral_barrier_to_model(
             .clone()
             for layer in hparams.layers
         }
-    deltas, telemetry = _execute_guided(
+    endpoint, telemetry = _execute_guided(
         model,
         tok,
         requests,
@@ -691,23 +682,17 @@ def apply_strength_neutral_barrier_to_model(
         config,
         cache_template=cache_template,
     )
-    with torch.no_grad():
-        for name, delta in deltas.items():
-            weight = nethook.get_parameter(model, name)
-            weight.add_(delta.to(weight))
     authoritative_weights = {
-        name: nethook.get_parameter(model, name)
-        for name in deltas
+        name: nethook.get_parameter(model, name) for name in endpoint
     }
-    telemetry.authoritative_endpoint_selected_sha256 = _selected_sha(
-        authoritative_weights
+    adoption = adopt_exact_endpoint(authoritative_weights, endpoint)
+    telemetry.authoritative_endpoint_selected_sha256 = str(
+        adoption["authoritative_endpoint_selected_sha256"]
     )
-    telemetry.authoritative_endpoint_replay_pass = (
-        telemetry.authoritative_endpoint_selected_sha256
-        == telemetry.authoritative_replay_selected_sha256
-    )
-    if not telemetry.authoritative_endpoint_replay_pass:
-        raise RuntimeError("authoritative delta application/replay endpoint mismatch")
+    telemetry.authoritative_endpoint_component_sha256 = {
+        name: tensor_sha(value) for name, value in authoritative_weights.items()
+    }
+    telemetry.authoritative_endpoint_adoption_pass = bool(adoption["pass"])
     if config.telemetry_path is not None:
         write_create_once(config.telemetry_path, telemetry.to_dict())
     return model, originals, telemetry.to_dict()

@@ -35,6 +35,10 @@ from project.run_scripts.alphaedit_strength_neutral_barrier.target_path import (
 from project.run_scripts.alphaedit_strength_neutral_barrier.telemetry import (
     write_create_once,
 )
+from project.run_scripts.alphaedit_strength_neutral_barrier.endpoint_adoption import (
+    fp32_comparison,
+)
+from project.run_scripts.alphaedit_strength_neutral_barrier import writer as guided_writer
 from project.run_scripts.alphaedit_strength_neutral_barrier.firewall import (
     verify_stock_easyedit,
 )
@@ -139,6 +143,7 @@ def _path_endpoint(
     writer_receipt: Dict[str, Any] = {}
     captured_native_deltas: Dict[str, torch.Tensor] = {}
     original_execute = official.execute_AlphaEdit
+    original_native_layer_delta = guided_writer._native_layer_delta
 
     def capture_execute(*execute_args, **execute_kwargs):
         result = original_execute(*execute_args, **execute_kwargs)
@@ -147,8 +152,17 @@ def _path_endpoint(
         )
         return result
 
+    def capture_native_layer_delta(*execute_args, **execute_kwargs):
+        result = original_native_layer_delta(*execute_args, **execute_kwargs)
+        layer = int(execute_kwargs["layer"])
+        weight_name = hparams.rewrite_module_tmp.format(layer) + ".weight"
+        captured_native_deltas[weight_name] = result[0].detach().cpu().clone()
+        return result
+
     if path in {"base_editor", "wrapper", "direct"}:
         official.execute_AlphaEdit = capture_execute
+    elif path.startswith("split-") or path.startswith("barrier-"):
+        guided_writer._native_layer_delta = capture_native_layer_delta
     try:
         if path == "base_editor":
             if len(records) != 1:
@@ -212,10 +226,26 @@ def _path_endpoint(
             raise ValueError(path)
     finally:
         official.execute_AlphaEdit = original_execute
+        guided_writer._native_layer_delta = original_native_layer_delta
     endpoint_weights = {name: weight.detach().cpu().clone() for name, weight in weights.items()}
     endpoint_deltas = {
         name: endpoint_weights[name] - entry[name].cpu() for name in weights
     }
+    split_fractional_replay = None
+    if path.startswith("split-"):
+        steps = int(path.rsplit("-", 1)[1])
+        split_fractional_replay = {}
+        for name in weights:
+            replayed = entry[name].detach().cpu().clone()
+            for _ in range(steps):
+                replayed.add_(captured_native_deltas[name].to(replayed), alpha=1.0 / steps)
+            split_fractional_replay[name] = fp32_comparison(
+                replayed.float(), endpoint_weights[name].float()
+            )
+            if not split_fractional_replay[name]["bitwise_equal"]:
+                raise RuntimeError(
+                    f"G0-B split fractional replay mismatch: N={steps} {name}"
+                )
     deltas = captured_native_deltas or endpoint_deltas
     endpoint = evaluate_counterfact(
         model,
@@ -235,6 +265,8 @@ def _path_endpoint(
         "endpoint_weights": endpoint_weights,
         "endpoint": endpoint,
         "writer_receipt": writer_receipt,
+        "native_deltas": captured_native_deltas,
+        "split_fractional_replay": split_fractional_replay,
         "cache_entry_sha256": cache_entry_sha,
         "cache_endpoint_sha256": _tensor_sha(official.cache_c),
         "cache_changed": cache_entry_sha != _tensor_sha(official.cache_c),
@@ -420,8 +452,8 @@ def _guided_integrity(
         raise RuntimeError("AlphaEdit cache append/continuity gate failed")
     if not receipt.get("w0_restore_pass"):
         raise RuntimeError("internal temporary W0 restore failed")
-    if not receipt.get("authoritative_endpoint_replay_pass"):
-        raise RuntimeError("temporary/authoritative endpoint replay failed")
+    if not receipt.get("authoritative_endpoint_adoption_pass"):
+        raise RuntimeError("G0-C exact temporary/authoritative endpoint adoption failed")
     if (
         receipt.get("temporary_endpoint_selected_sha256")
         == receipt.get("w0_selected_sha256")
@@ -467,8 +499,14 @@ def _guided_integrity(
             "authoritative_endpoint_selected_sha256"
         ],
         "restored_w0_selected_sha256": receipt["restored_w0_selected_sha256"],
-        "authoritative_replay_max_abs_by_weight": receipt[
-            "authoritative_replay_max_abs_by_weight"
+        "temporary_endpoint_component_sha256": receipt[
+            "temporary_endpoint_component_sha256"
+        ],
+        "authoritative_endpoint_component_sha256": receipt[
+            "authoritative_endpoint_component_sha256"
+        ],
+        "authoritative_endpoint_adoption_pass": receipt[
+            "authoritative_endpoint_adoption_pass"
         ],
     }
 
@@ -520,10 +558,34 @@ def _assert_split_parity(
                 for name, value in output["deltas"].items()
             },
             "endpoint_nll_max_abs": nll_max_abs,
+            "g0_b_fractional_replay": output["split_fractional_replay"],
             "integrity": _guided_integrity(
                 output, arm=BarrierArm.SPLIT, steps=steps, request_count=1
             ),
         }
+    return results
+
+
+def _assert_native_field_parity(
+    split_outputs: Dict[int, Dict[str, Any]], official_output: Dict[str, Any]
+) -> Dict[str, Any]:
+    """G0-A: compare Official native field with the hook field before splitting."""
+
+    official_deltas = official_output["native_deltas"]
+    results: Dict[str, Any] = {}
+    for steps, output in split_outputs.items():
+        per_weight = {}
+        for name, expected in official_deltas.items():
+            observed = output["native_deltas"][name]
+            comparison = fp32_comparison(expected.float(), observed.float())
+            # The first rewrite layer is evaluated at exact W0 in both paths.
+            # Later layers are reported as observed because earlier-layer state
+            # follows their respective one-add/fractional trajectories.
+            comparison["same_state_required"] = name == sorted(official_deltas)[0]
+            if comparison["same_state_required"] and not comparison["bitwise_equal"]:
+                raise RuntimeError(f"G0-A native field parity mismatch: N={steps} {name}")
+            per_weight[name] = comparison
+        results[str(steps)] = per_weight
     return results
 
 
@@ -751,6 +813,45 @@ def main() -> None:
     args.result_dir.mkdir(parents=True, mode=0o700)
     receipt_path = args.result_dir / "preflight-receipt.json"
     failure_path = args.result_dir / "failure-boundary.json"
+    partial_dir = args.result_dir / "partial-receipts"
+    partial_inventory: list[Dict[str, Any]] = []
+
+    def publish_gate(ordinal: int, gate: str, evidence: Dict[str, Any]) -> None:
+        identity = write_create_once(
+            partial_dir / f"{ordinal:02d}-{gate.lower().replace('_', '-')}.json",
+            {
+                "schema": "easyedit.alphaedit.strength-neutral-barrier.partial-gate.v1",
+                "gate": gate,
+                "terminal_status": "PASS",
+                "source": {
+                    "head": actual_head,
+                    "tree": actual_tree,
+                    "easyedit_head": easyedit_head,
+                    "easyedit_tree": easyedit_tree,
+                },
+                "evidence": evidence,
+                "science_change_count": 0,
+                "tolerance_change_count": 0,
+            },
+        )
+        partial_inventory.append(identity)
+
+    input_identities = {
+        "model_config": _file_identity(args.model_path / "config.json"),
+        "tokenizer": _file_identity(args.model_path / "tokenizer.json"),
+        "dataset": _file_identity(args.dataset),
+        "projector": _file_identity(args.projector),
+        "hparams": _file_identity(args.hparams),
+        "official_source": _file_identity(Path(official.__file__).resolve(strict=True)),
+    }
+    publish_gate(
+        1,
+        "INPUT_SOURCE_IDENTITY",
+        {
+            "input_identities": input_identities,
+            "easyedit_seal": easyedit_seal,
+        },
+    )
     model = None
     try:
         torch.backends.cuda.matmul.allow_tf32 = False
@@ -779,8 +880,19 @@ def main() -> None:
         model.eval()
         if any(parameter.dtype != torch.float32 for parameter in model.parameters()):
             raise RuntimeError("FULL_FP32 preflight gate failed")
+        publish_gate(
+            2,
+            "FULL_FP32_OFFLINE_LOAD",
+            {
+                "full_fp32": True,
+                "tf32_enabled": False,
+                "autocast_enabled": False,
+                "padding_side": tok.padding_side,
+            },
+        )
 
         alignment = _alignment_gate(model, tok, raw, hparams)
+        publish_gate(3, "ALIGNMENT", alignment)
         parity_record = raw[0]
         outputs = {
             path: _path_endpoint(
@@ -798,6 +910,11 @@ def main() -> None:
         comparisons = _assert_official_parity(outputs, envelope)
         if not all(output["cache_changed"] for output in outputs.values()):
             raise RuntimeError("Official path cache append gate failed")
+        publish_gate(
+            4,
+            "OFFICIAL_N1",
+            {"comparisons": comparisons, "cache_append_all_paths": True},
+        )
 
         split_outputs = {
             steps: _path_endpoint(
@@ -811,6 +928,36 @@ def main() -> None:
         }
         split_parity = _assert_split_parity(
             split_outputs, outputs["direct"], envelope
+        )
+        native_field_parity = _assert_native_field_parity(
+            split_outputs, outputs["direct"]
+        )
+        publish_gate(5, "G0_A_NATIVE_FIELD_PARITY", native_field_parity)
+        publish_gate(
+            6,
+            "G0_B_FRACTIONAL_REPLAY",
+            {
+                str(steps): output["split_fractional_replay"]
+                for steps, output in split_outputs.items()
+            },
+        )
+        publish_gate(
+            7,
+            "G0_C_EXACT_ENDPOINT_ADOPTION",
+            {
+                str(steps): {
+                    "temporary": output["writer_receipt"][
+                        "temporary_endpoint_selected_sha256"
+                    ],
+                    "authoritative": output["writer_receipt"][
+                        "authoritative_endpoint_selected_sha256"
+                    ],
+                    "pass": output["writer_receipt"][
+                        "authoritative_endpoint_adoption_pass"
+                    ],
+                }
+                for steps, output in split_outputs.items()
+            },
         )
         barrier_outputs = {
             steps: _path_endpoint(
@@ -835,6 +982,7 @@ def main() -> None:
             }
             for steps, output in barrier_outputs.items()
         }
+        publish_gate(8, "BARRIER_EXECUTED", single_token_barrier)
 
         multi_ordinals = []
         for fixture in alignment["fixtures"]:
@@ -863,10 +1011,19 @@ def main() -> None:
             raise RuntimeError("multi-token writer event denominator mismatch")
         if expected_events <= len(multi_records):
             raise RuntimeError("multi-token writer event count must exceed requests")
+        publish_gate(
+            9,
+            "MULTITOKEN_BARRIER",
+            {
+                "request_count": len(multi_records),
+                "target_event_count": expected_events,
+                "integrity": multi_integrity,
+            },
+        )
 
         official_source = Path(official.__file__).resolve(strict=True)
         payload = {
-            "schema": "easyedit.alphaedit.strength-neutral-barrier.preflight.v2",
+            "schema": "easyedit.alphaedit.strength-neutral-barrier.preflight.v3",
             "terminal_status": "PRE_GPU_PASS",
             "source": {
                 "head": actual_head,
@@ -877,14 +1034,7 @@ def main() -> None:
                 "implementation_boundary": "ODE_EDIT_HOOK_STOCK_EASYEDIT_READ_ONLY",
                 "easyedit_seal": easyedit_seal,
             },
-            "input_identities": {
-                "model_config": _file_identity(args.model_path / "config.json"),
-                "tokenizer": _file_identity(args.model_path / "tokenizer.json"),
-                "dataset": _file_identity(args.dataset),
-                "projector": _file_identity(args.projector),
-                "hparams": _file_identity(args.hparams),
-                "official_source": _file_identity(official_source),
-            },
+            "input_identities": input_identities,
             "tokenizer_padding_side": tok.padding_side,
             "full_fp32": True,
             "non_fp32_parameter_count": 0,
@@ -903,6 +1053,18 @@ def main() -> None:
                 "cache_append_all_paths": True,
             },
             "split_weight_parity": split_parity,
+            "g0_a_native_field_parity": native_field_parity,
+            "g0_b_fractional_replay": {
+                str(steps): output["split_fractional_replay"]
+                for steps, output in split_outputs.items()
+            },
+            "g0_c_exact_endpoint_adoption": {
+                str(steps): output["writer_receipt"][
+                    "authoritative_endpoint_adoption_pass"
+                ]
+                for steps, output in split_outputs.items()
+            },
+            "partial_receipts": partial_inventory,
             "single_token_b1": {
                 "case_id": int(parity_record["case_id"]),
                 "barrier": single_token_barrier,
@@ -941,6 +1103,8 @@ def main() -> None:
                     },
                     "failure_type": type(error).__name__,
                     "failure_message": str(error),
+                    "partial_receipts": partial_inventory,
+                    "completed_gate_count": len(partial_inventory),
                     "science_change_count": 0,
                     "tolerance_change_count": 0,
                 },

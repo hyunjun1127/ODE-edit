@@ -194,8 +194,34 @@ def main() -> None:
             raise RuntimeError("preflight receipt is not terminal-valid")
         if preflight.get("source", {}).get("head") != actual_head:
             raise RuntimeError("preflight/source HEAD mismatch")
+        if preflight.get("source", {}).get("tree") != actual_tree:
+            raise RuntimeError("preflight/source tree mismatch")
+        if preflight.get("source", {}).get("easyedit_head") != easyedit_head:
+            raise RuntimeError("preflight/EasyEdit HEAD mismatch")
+        if preflight.get("source", {}).get("easyedit_tree") != easyedit_tree:
+            raise RuntimeError("preflight/EasyEdit tree mismatch")
         if preflight.get("tokenizer_padding_side") != "right":
             raise RuntimeError("preflight tokenizer contract mismatch")
+        if not preflight.get("full_fp32") or preflight.get("quantized"):
+            raise RuntimeError("preflight FP32 deployment mismatch")
+        if not all(preflight.get("g0_c_exact_endpoint_adoption", {}).values()):
+            raise RuntimeError("preflight G0-C exact endpoint adoption is incomplete")
+        current_inputs = {
+            "model_config": _sha_file(args.model_path / "config.json"),
+            "tokenizer": _sha_file(args.model_path / "tokenizer.json"),
+            "dataset": _sha_file(args.dataset),
+            "projector": _sha_file(args.projector),
+            "hparams": _sha_file(args.hparams),
+            "official_source": _sha_file(Path(official.__file__).resolve(strict=True)),
+        }
+        sealed_inputs = preflight.get("input_identities", {})
+        for name, identity in current_inputs.items():
+            sealed = sealed_inputs.get(name, {})
+            if (identity["sha256"], identity["bytes"]) != (
+                sealed.get("sha256"),
+                sealed.get("bytes"),
+            ):
+                raise RuntimeError(f"preflight input identity mismatch: {name}")
         records, batch_size = _stage_records(raw, args.stage)
         case_ids = [int(record["case_id"]) for record in records]
 

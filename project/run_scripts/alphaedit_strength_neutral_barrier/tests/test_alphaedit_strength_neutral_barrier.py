@@ -37,6 +37,11 @@ from project.run_scripts.alphaedit_strength_neutral_barrier.writer import (
 from project.run_scripts.alphaedit_strength_neutral_barrier.run_preflight import (
     _max_ulp_distance,
 )
+from project.run_scripts.alphaedit_strength_neutral_barrier.endpoint_adoption import (
+    adopt_exact_endpoint,
+    capture_exact_endpoint,
+    fp32_comparison,
+)
 
 
 class _Tokenizer:
@@ -146,6 +151,26 @@ class TargetPathTests(unittest.TestCase):
 
 
 class GeometryTests(unittest.TestCase):
+    def test_exact_endpoint_adoption_avoids_subtract_add_drift(self):
+        entry = torch.tensor([1.0e-20, 1.0, -3.0], dtype=torch.float32)
+        temporary = torch.tensor([-1.0e-19, 1.0000001192092896, -2.999999761581421], dtype=torch.float32)
+        delta_replay = entry + (temporary - entry)
+        self.assertFalse(torch.equal(delta_replay, temporary))
+        weights = {"w": entry.clone()}
+        endpoint = {"w": temporary.clone()}
+        receipt = adopt_exact_endpoint(weights, endpoint)
+        self.assertTrue(receipt["pass"])
+        self.assertTrue(torch.equal(weights["w"], temporary))
+
+    def test_endpoint_snapshot_is_independent_and_exact(self):
+        weights = {"w": torch.arange(8, dtype=torch.float32)}
+        endpoint = capture_exact_endpoint(weights)
+        weights["w"].zero_()
+        self.assertTrue(torch.equal(endpoint["w"], torch.arange(8, dtype=torch.float32)))
+        comparison = fp32_comparison(endpoint["w"], endpoint["w"].clone())
+        self.assertTrue(comparison["bitwise_equal"])
+        self.assertEqual(comparison["max_ulp"], 0)
+
     def test_closed_form_preserves_keys_strength_and_direction(self):
         torch.manual_seed(3)
         out_dim, in_dim, rank = 5, 7, 4

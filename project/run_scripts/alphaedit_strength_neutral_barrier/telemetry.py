@@ -46,6 +46,7 @@ class NodeTelemetry:
     constraint_condition: float
     constraint_pinv_rtol: float
     correction_active: bool
+    correction_term_count: int
     native_predictor: bool
     pre_step: StateObservationTelemetry
     post_native_counterfactual: StateObservationTelemetry
@@ -65,6 +66,9 @@ class LayerTelemetry:
     terminal_z_residual_norm: float
     terminal_barrier_q_kl: float
     terminal_target_nll: List[float]
+    native_delta_sha256: Optional[str] = None
+    layer_entry_weight_sha256: Optional[str] = None
+    split_fractional_replay: Optional[Dict[str, Any]] = None
     nodes: List[NodeTelemetry] = field(default_factory=list)
 
 
@@ -93,10 +97,10 @@ class WriterTelemetry:
     w0_restore_pass: bool = False
     w0_selected_sha256: Optional[str] = None
     temporary_endpoint_selected_sha256: Optional[str] = None
-    authoritative_replay_selected_sha256: Optional[str] = None
-    authoritative_replay_max_abs_by_weight: Dict[str, float] = field(default_factory=dict)
+    temporary_endpoint_component_sha256: Dict[str, str] = field(default_factory=dict)
     authoritative_endpoint_selected_sha256: Optional[str] = None
-    authoritative_endpoint_replay_pass: bool = False
+    authoritative_endpoint_component_sha256: Dict[str, str] = field(default_factory=dict)
+    authoritative_endpoint_adoption_pass: bool = False
     restored_w0_selected_sha256: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:

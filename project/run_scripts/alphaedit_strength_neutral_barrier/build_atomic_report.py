@@ -608,7 +608,7 @@ def main() -> None:
         "- 이 보고서의 과학 단위는 **하나의 atomic B10(요청 10개 동시 편집)**이다. 10-batch sequential edit가 아니다.",
         "- 요청된 중단 경계에 따라 sequential B10×10은 제출하지 않았다.",
         "- 모든 arm은 Llama3-8B-Instruct의 8,030,261,248개 parameter가 전부 FP32였고 non-FP32/quantization=0, TF32/autocast=false였다. W0 pointer+선택 weight bytes 복원은 7/7 PASS다.",
-        "- Split N=2/4/8은 Official N=1 endpoint와 수치적으로 사실상 동일한 parity control이다. Barrier N=2/4/8은 Official 대비 rewrite target-new mean NLL을 각각 0.134/0.277/0.271 낮췄지만, rephrase target-new mean NLL은 0.0256/0.0232/0.0218 높였다.",
+        "- Split N=2/4/8은 Official N=1 endpoint와 비교하는 parity control이다. Barrier의 Official 대비 rewrite/rephrase 차이는 아래 artifact-derived paired 표에 arm별로 기록한다.",
         "- Barrier 제약 telemetry는 작은 key/strength/directional residual을 기록했고 typed boundary는 발생하지 않았다. 이는 기록된 1차 잔차 사실이며 finite-step 보장으로 해석하지 않는다.",
         "- Locality는 controller 입력이 아니라 observation-only CounterFact neighborhood 평가다. Barrier N=8만 89/100, 나머지는 87/100 prediction preservation이었다.",
         "- `scientific_promotion=false`; 단일 B10 결과로 효능·locality 인과 또는 전역 barrier 보장을 주장하지 않는다.",
@@ -760,8 +760,8 @@ def main() -> None:
                 for item in cell_summaries[1:4]
             )
             + " (rewrite-new 기준)이다.",
-            "- Barrier의 첫 global node는 native predictor이므로 correction 적용 대상에서 제외된다. 나머지 node에서 correction activation과 제약 잔차를 기록했다.",
-            "- 구현상 guided arm은 layer별 N개의 temporary node update로 full-model state를 관측한 뒤 내부 W를 복원하고, 누적 delta를 authoritative model에 한 번 적용한다. `writer_calls=1`; node update 수는 telemetry에 별도 행으로 남긴다.",
+            "- Barrier는 첫 node부터 동일한 correction gate를 적용하며 node별 correction activation과 제약 잔차를 artifact에서 집계한다.",
+            "- Guided arm은 layer별 N개의 temporary node update로 endpoint를 만든 뒤 내부 W0를 복원하고, temporary endpoint bytes를 authoritative parameter에 exact copy한다. delta subtract/add 재구성은 하지 않는다. `writer_calls=1`; node update 수는 telemetry에 별도 행으로 남긴다.",
             "",
             "## 계산 시간과 메모리",
             "",
