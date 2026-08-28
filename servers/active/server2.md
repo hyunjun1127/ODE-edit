@@ -37,6 +37,9 @@ experiment provenance는 변경하지 않는다.
   `01a04994-0ed3-7253-a155-e5aacdaa9943`
 - direct-mode ACK nonce
   `ODEEDIT-APPSERVER-PROTOCOL-20260829-SH2-R1`: PASS
+- direct sync turn `01a04998-3f36-7630-92b1-4738e576fca6`:
+  `6d9e4e625c7ed016742ca3516299eae40d9b4af1`, clean,
+  ahead/behind `0/0`
 - `PROTOCOL.md` full-read identity:
   SHA256 `a54a4e7c00c36ec9f3b0fe122e5d8735dacc2c21c8604bc598593eb396936663`,
   51,147 bytes, 1,125 lines
@@ -59,4 +62,4 @@ experiment provenance는 변경하지 않는다.
 - app-server direct coordination: PASS
 - unsolicited reverse inbox는 protocol 범위 밖이며 사용하지 않음
 - runtime session/repository boundary: pending revalidation
-- next: registry push 뒤 fetch 및 `git merge --ff-only origin/main`
+- protocol registry ff-only sync: PASS

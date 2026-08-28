@@ -11,7 +11,7 @@
 | 역할 | Codex session ID / deeplink | local hard boundary | 실제 CWD | 상태 |
 | --- | --- | --- | --- | --- |
 | global-head (GH) | `01a04939-8873-7673-8dca-4c7fc5e31af0` / `codex://threads/01a04939-8873-7673-8dca-4c7fc5e31af0` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/ODE-edit` | active caller |
-| server-head (SH1) | `01a04939-f93a-7b50-bca0-65438eab2062` / `codex://threads/01a04939-f93a-7b50-bca0-65438eab2062` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | app-server direct steer accepted |
+| server-head (SH1) | `01a04939-f93a-7b50-bca0-65438eab2062` / `codex://threads/01a04939-f93a-7b50-bca0-65438eab2062` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | app-server direct ACK PASS |
 
 새 session은 2026-08-28 registry의 GH/SH1 authority를 supersede한다. 과거
 task, report, audit, receipt와 completed launcher의 session ID는 historical
@@ -40,9 +40,12 @@ provenance로 보존한다.
 
 - GH에서 SH1 session list/read: PASS
 - GH→SH1 app-server direct: PASS; active turn
-  `01a04989-e4b9-79e1-978e-c07b21f49330`에 `turn/steer` accepted
-- current SH1 science task는 중단·변경하지 않았고 direct-mode ACK는 동일 turn의
-  terminal response에서 회수한다.
+  `01a04989-e4b9-79e1-978e-c07b21f49330`에 `turn/steer` 후
+  `turn/completed` ACK PASS
+- current SH1 science task는 중단·변경하지 않았다. 별도 direct turn
+  `01a04999-ff23-7823-bf3d-532e33f40b0b`에서 protocol commit
+  `6d9e4e625c7ed016742ca3516299eae40d9b4af1`로 ff-only sync PASS,
+  clean, ahead/behind `0/0`.
 - `PROTOCOL.md` full-read identity:
   SHA256 `a54a4e7c00c36ec9f3b0fe122e5d8735dacc2c21c8604bc598593eb396936663`,
   51,147 bytes, 1,125 lines
@@ -62,7 +65,7 @@ provenance로 보존한다.
 
 - session authority IDs: user-confirmed
 - session routing/read: PASS
-- app-server direct coordination: PASS (`turn/steer` accepted)
+- app-server direct coordination: PASS (steer/terminal ACK/ff-only sync)
 - GH와 SH1 local runtime checker: pending revalidation
 - tracked registry update owner: GH clean integration worktree
-- SH1 detached worktree pull/merge: HOLD; 기존 실험과 untracked state 보존
+- SH1 canonical session worktree sync: PASS; 기존 사용자 상태는 삭제·reset하지 않음

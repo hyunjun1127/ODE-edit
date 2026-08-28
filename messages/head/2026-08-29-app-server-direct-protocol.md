@@ -24,10 +24,12 @@ base64 또는 commit을 message fallback으로 사용하지 않는다.
 | 역할 | session | host | direct 결과 |
 | --- | --- | --- | --- |
 | GH | `01a04939-8873-7673-8dca-4c7fc5e31af0` | `lab120` | controller active |
-| SH1 | `01a04939-f93a-7b50-bca0-65438eab2062` | `lab120` | active turn steer accepted |
+| SH1 | `01a04939-f93a-7b50-bca0-65438eab2062` | `lab120` | request-response ACK PASS |
 | SH2 | `01a0493a-074c-7f91-9a13-769116326fef` | `lab121` | request-response ACK PASS |
 | SH4 | `01a04939-b5c7-7a03-ba2d-ef3343d62cfd` | `lab163` | request-response ACK PASS |
 
-SH1 steer는 진행 중인 science task를 중단하거나 변경하지 않는다. SH2/SH4
-전환 turn IDs와 host-local socket mapping은
+SH1 steer는 진행 중인 science task를 중단하거나 변경하지 않았고 같은
+turn의 terminal ACK를 회수했다. 세 SH session 모두 protocol commit
+`6d9e4e625c7ed016742ca3516299eae40d9b4af1`로 direct ff-only sync까지
+완료했다. 전환/sync turn IDs와 host-local socket mapping은
 `servers/connection-inventory.md`에 기록했다.

@@ -28,7 +28,7 @@ SH1 detached worktree의 기존 상태를 reset, stash, revert 또는 cleanup하
 | 서버 | 역할 | Codex session ID / deeplink | hard boundary | Repository CWD | 상태 |
 | --- | --- | --- | --- | --- | --- |
 | `server1` | global-head (GH) | `01a04939-8873-7673-8dca-4c7fc5e31af0` / `codex://threads/01a04939-8873-7673-8dca-4c7fc5e31af0` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/ODE-edit` | active caller |
-| `server1` | server-head (SH1) | `01a04939-f93a-7b50-bca0-65438eab2062` / `codex://threads/01a04939-f93a-7b50-bca0-65438eab2062` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | app-server direct steer accepted |
+| `server1` | server-head (SH1) | `01a04939-f93a-7b50-bca0-65438eab2062` / `codex://threads/01a04939-f93a-7b50-bca0-65438eab2062` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | app-server direct ACK PASS |
 | `server2` | server-head (SH2) | `01a0493a-074c-7f91-9a13-769116326fef` / `codex://threads/01a0493a-074c-7f91-9a13-769116326fef` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/ODE-edit` | app-server direct ACK PASS |
 | `server3` | server-head | 미지정 | 미지정 | `/data/janghj/ODE-edit` | future target |
 | `server4` | server-head (SH4) | `01a04939-b5c7-7a03-ba2d-ef3343d62cfd` / `codex://threads/01a04939-b5c7-7a03-ba2d-ef3343d62cfd` | session ID user-confirmed; app list/read PASS | `/data/janghj/ODE-edit` | app-server direct ACK PASS |
@@ -36,7 +36,7 @@ SH1 detached worktree의 기존 상태를 reset, stash, revert 또는 cleanup하
 ## App-server direct endpoint registry
 
 | 역할 | app host | local Unix control socket | direct 상태 |
-| --- | --- |
+| --- | --- | --- | --- |
 | GH, SH1 | `remote-ssh-codex-managed:lab120` | `/mnt/raid5/janghj/.codex/app-server-control/app-server-control.sock` | PASS |
 | SH2 | `remote-ssh-codex-managed:lab121` | `/mnt/raid5/janghj/.codex/app-server-control/app-server-control.sock` | PASS |
 | SH4 | `remote-ssh-codex-managed:lab163` | `/data/janghj/.codex/app-server-control/app-server-control.sock` | PASS |
@@ -45,9 +45,16 @@ SH1 detached worktree의 기존 상태를 reset, stash, revert 또는 cleanup하
 
 | 대상 | 방식 | 결과 |
 | --- | --- | --- |
-| GH→SH1 | active turn `01a04989-e4b9-79e1-978e-c07b21f49330`에 `turn/steer` | ACCEPTED; current science task unchanged |
+| GH→SH1→GH response | active turn `01a04989-e4b9-79e1-978e-c07b21f49330`에 `turn/steer` 후 `turn/completed` | PASS; current science task unchanged |
 | GH→SH2→GH response | `thread/resume` → `turn/start` → `turn/completed` | PASS, turn `01a04994-0ed3-7253-a155-e5aacdaa9943` |
 | GH→SH4→GH response | `thread/resume` → `turn/start` → `turn/completed` | PASS, turn `01a04994-02d7-7482-8ec7-4706e96ab414` |
+
+Protocol commit `6d9e4e625c7ed016742ca3516299eae40d9b4af1`의 direct
+ff-only 동기화도 같은 transport로 검증했다: SH1 turn
+`01a04999-ff23-7823-bf3d-532e33f40b0b`, SH2 turn
+`01a04998-3f36-7630-92b1-4738e576fca6`, SH4 turn
+`01a04998-37e0-7300-a9e8-91b5f16c03ec`; 모두 clean, ahead/behind
+`0/0`.
 
 `send_message_to_thread` dynamic wrapper는 계속 unavailable이며 direct
 coordination의 구성요소가 아니다. SH가 GH로 unsolicited push하는 것으로

@@ -24,6 +24,9 @@ GH에서 새 SH4 session의 list/read와 app-server direct request-response를
 검증했다. Direct-mode 전환 ACK turn은
 `01a04994-02d7-7482-8ec7-4706e96ab414`이며 nonce
 `ODEEDIT-APPSERVER-PROTOCOL-20260829-SH4-R1`이 PASS했다.
+`01a04998-37e0-7300-a9e8-91b5f16c03ec` direct turn에서 protocol commit
+`6d9e4e625c7ed016742ca3516299eae40d9b4af1`로 ff-only sync도 PASS했고,
+worktree는 clean, ahead/behind `0/0`이다.
 `send_message_to_thread` dynamic wrapper와 unsolicited reverse inbox는
 사용하지 않는다.
 
