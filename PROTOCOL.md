@@ -502,28 +502,49 @@ state transition is requested.
 
 ## Codex App-Server Direct Coordination
 
-현재 GH↔SH 실시간 제어의 기본 transport는 Codex app-server 직접
-request-response다. Git inbox나 `send_message_to_thread` dynamic wrapper를
-실시간 전달 경로로 사용하지 않는다. Git은 계속 durable source/task/report
-control plane이며 app-server는 살아 있는 Codex session에 turn을 전달하고 그
-응답을 회수하는 control transport다.
+현재 등록된 GH·SH 세션 사이의 실시간 제어 기본 transport는 Codex
+app-server direct peer-to-peer request-response다. GH↔SH뿐 아니라
+SH1↔SH2↔SH4와 SH→GH도 같은 권한의 통신 경로다. Git inbox나
+`send_message_to_thread` dynamic wrapper를 실시간 전달 경로로 사용하지
+않는다. Git은 계속 durable source/task/report control plane이며 app-server는
+살아 있는 Codex session에 turn을 전달하고 그 응답을 회수하는 control
+transport다.
 
 공식 app-server lifecycle을 그대로 사용한다.
 
-1. GH가 target host의 local Unix app-server control socket에 WebSocket HTTP
-   Upgrade로 연결한다.
+1. 발신 세션이 target host의 local Unix app-server control socket에
+   WebSocket HTTP Upgrade로 연결한다. 다른 host에서는 승인된 SSH transport
+   안에서 target host의 local socket을 사용하거나 인증된 `wss://` endpoint를
+   사용한다.
 2. 연결마다 `initialize` request와 `initialized` notification을 보낸다.
 3. `thread/resume`으로 registry에 기록된 정확한 target session ID를 연다.
 4. idle session에는 `turn/start`, active session에는 active turn ID를
    `expectedTurnId`로 고정한 `turn/steer`를 사용한다.
-5. GH는 같은 연결에서 `turn/completed`까지 읽고 final response를 직접
-   회수한다. 전송 nonce, target thread ID, accepted turn ID와 terminal status를
-   함께 검증한다.
+5. 발신 세션은 같은 연결에서 `turn/completed`까지 읽고 final response를
+   직접 회수한다. 전송 nonce, source/target role과 session ID, accepted turn
+   ID, terminal status를 함께 검증한다.
+
+다음 live message를 모든 등록 세션이 자유롭게 시작할 수 있다.
+
+- task instruction, clarification, objection, approval request
+- source/result/report/artifact path 또는 exact identity 요청
+- readiness, resource, scheduler, progress와 anomaly 상태
+- 구현 handoff와 cross-server dependency 요청
+- terminal completion, failure, blocker와 report path 전달
+- 현재 task에 속하는 ACK와 후속 질의
+
+응답은 수신 turn의 final response로 반환하는 것이 기본이다. 장시간 실행으로
+원래 연결이 닫혔거나 별도 완료 통지가 필요하면 SH가 GH session에, 또는 어떤
+SH가 다른 SH session에 새 app-server direct turn을 시작해도 된다.
 
 다음 경계를 반드시 지킨다.
 
-- 이 transport는 GH가 시작하고 응답을 회수하는 direct request-response다.
-  SH가 GH task로 보내는 unsolicited reverse inbox라고 부르거나 가장하지 않는다.
+- 특정 방향을 금지하지 않는다. SH→GH 완료 보고와 SH↔SH 경로·상태 요청은
+  정식 app-server direct 통신이며 inbox fallback이 아니다.
+- 수신 session이 idle이면 `turn/start`를 사용한다. 이미 active이면 현재
+  task와 직접 관련된 추가 정보 또는 user/GH가 승인한 긴급 stop/anomaly만
+  exact `expectedTurnId`의 `turn/steer`로 전달한다. 관련 없는 일반 보고는
+  active turn을 침범하지 않고 idle 전환 후 새 turn으로 보낸다.
 - SH의 긴 결과는 repository-managed report에 기록하고 direct final response에는
   report path와 compact identity만 보낸다.
 - `send_message_to_thread`가 실제 tool success를 반환하지 않는 동안 agent가
@@ -569,8 +590,9 @@ Default lifecycle:
    needed or possible, the server-head records the exception and reason.
 10. server-head records closure or blocker under
     `messages/server-heads/<server>/`, `experiment-reports/`, and `audits/`
-    as required, then returns the compact path/identity through the direct
-    app-server turn response
+    as required, then returns the compact path/identity through the existing
+    direct app-server turn response or starts a new direct completion turn to
+    GH when the original turn is no longer open
 
 Global-head may directly submit a remote Slurm job only for explicit user
 instruction, emergency scheduling, or time-critical exploratory work. Even in

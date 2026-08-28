@@ -48,6 +48,7 @@ SH1 detached worktree의 기존 상태를 reset, stash, revert 또는 cleanup하
 | GH→SH1→GH response | active turn `01a04989-e4b9-79e1-978e-c07b21f49330`에 `turn/steer` 후 `turn/completed` | PASS; current science task unchanged |
 | GH→SH2→GH response | `thread/resume` → `turn/start` → `turn/completed` | PASS, turn `01a04994-0ed3-7253-a155-e5aacdaa9943` |
 | GH→SH4→GH response | `thread/resume` → `turn/start` → `turn/completed` | PASS, turn `01a04994-02d7-7482-8ec7-4706e96ab414` |
+| SH1→GH reverse delivery | SH1이 exact GH active turn `01a049b4-3dc1-7e33-b3e6-ac07423ff10c`에 `turn/steer` | PASS, nonce `ODEEDIT-SH1-TO-GH-REVERSE-20260829-R1` |
 
 Protocol commit `6d9e4e625c7ed016742ca3516299eae40d9b4af1`의 direct
 ff-only 동기화도 같은 transport로 검증했다: SH1 turn
@@ -57,9 +58,21 @@ ff-only 동기화도 같은 transport로 검증했다: SH1 turn
 `0/0`.
 
 `send_message_to_thread` dynamic wrapper는 계속 unavailable이며 direct
-coordination의 구성요소가 아니다. SH가 GH로 unsolicited push하는 것으로
-기록하지 않는다. GH가 exact SH session을 resume/start/steer하고 같은
-app-server stream에서 response를 회수한다.
+coordination의 구성요소가 아니다. 등록된 GH/SH 누구나 exact target session을
+resume하고 idle `turn/start` 또는 task-related active `turn/steer`를 사용해
+경로 요청, 상태 질의, handoff, 완료 보고를 시작할 수 있다. SH→GH 및 SH↔SH도
+동일하게 허용한다.
+
+## Peer communication policy
+
+| source → target | task/path/status request | completion/report | 상태 |
+| --- | --- | --- | --- |
+| GH → SH1/SH2/SH4 | 허용 | 허용 | ENABLED |
+| SH1/SH2/SH4 → GH | 허용 | 허용 | ENABLED |
+| SH1 ↔ SH2 ↔ SH4 | 허용 | 허용 | ENABLED |
+
+통신 자유는 execution authority 확대를 뜻하지 않는다. 각 세션은 기존 Git
+ownership, GPU cap, Slurm, artifact와 destructive-action 경계를 그대로 지킨다.
 
 ## Superseded current-authority records
 

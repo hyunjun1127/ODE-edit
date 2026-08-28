@@ -6,18 +6,24 @@
 
 ## 결정
 
-GH↔SH live instruction과 response는 `send_message_to_thread` 또는 Git inbox가
-아니라 Codex app-server direct request-response로 처리한다.
+GH·SH 모든 등록 세션의 live instruction, response, 경로 요청, 상태 질의,
+handoff와 완료 보고는 `send_message_to_thread` 또는 Git inbox가 아니라 Codex
+app-server direct peer-to-peer request-response로 처리한다.
 
 각 연결은 target host의 local Unix control socket에서 WebSocket HTTP Upgrade,
 `initialize`/`initialized`, `thread/resume`, idle `turn/start` 또는 active
 `turn/steer`, `turn/completed` 순서를 사용한다. GH가 exact session과 turn을
 검증하고 같은 stream에서 response를 회수한다.
 
-이 경로는 unsolicited SH→GH inbox가 아니다. 긴 결과는 tracked report에 쓰고
-direct final에는 report path와 compact identity만 남긴다. App-server 단계가
-실패하면 `COMMUNICATION_HOLD`로 기록하며 user 재승인 없이 Git inbox, rsync,
-base64 또는 commit을 message fallback으로 사용하지 않는다.
+SH→GH와 SH↔SH도 금지하지 않으며 정식 direct 통신이다. 긴 결과는 tracked
+report에 쓰고 direct final에는 report path와 compact identity만 남긴다.
+App-server 단계가 실패하면 `COMMUNICATION_HOLD`로 기록하며 user 재승인 없이
+Git inbox, rsync, base64 또는 commit을 message fallback으로 사용하지 않는다.
+
+SH1→GH 역방향 delivery는 SH1이 GH active turn
+`01a049b4-3dc1-7e33-b3e6-ac07423ff10c`에 exact `expectedTurnId`로
+`turn/steer`하여 nonce
+`ODEEDIT-SH1-TO-GH-REVERSE-20260829-R1`를 전달했고 PASS했다.
 
 ## Current sessions
 
