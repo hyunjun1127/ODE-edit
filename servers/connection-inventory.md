@@ -1,6 +1,6 @@
 # 서버 접속 인벤토리
 
-- 갱신 시각: 2026-08-22
+- 갱신 시각: 2026-08-28 (session authority만 갱신; 물리/runtime 상태는 2026-08-22 마지막 audit 기준)
 - 작성 agent: `head-server1-gh` (global-head)
 - repository: `hyunjun1127/ODE-edit`
 - 목적: 새 GH/SH session authority, direct inbox와 안전한 Git 동기화 경계 공유
@@ -8,7 +8,10 @@
 이 tracked 파일에는 raw SSH HostName/IP, username, port, key path나 credential을
 기록하지 않는다. 실제 접속값은 ignored local-only inventory에 보관한다.
 
-## 현재 서버 상태
+## 마지막 물리 서버 상태
+
+아래 표는 2026-08-22 마지막 audit 관측값이며 이번 session rotation에서 다시
+검사하지 않았다.
 
 | 서버 | 실제 host | repository CWD | Git 상태 | audit 시 ODE-edit Slurm |
 | --- | --- | --- | --- | --- |
@@ -23,9 +26,9 @@ SH1 detached worktree의 기존 상태를 reset, stash, revert 또는 cleanup하
 
 | 서버 | 역할 | Codex session ID / deeplink | hard boundary | Repository CWD | 상태 |
 | --- | --- | --- | --- | --- | --- |
-| `server1` | global-head (GH) | `01a0278e-3f20-7b12-8c26-cf71deb2708b` / `codex://threads/01a0278e-3f20-7b12-8c26-cf71deb2708b` | PASS | `/mnt/raid5/janghj/ODE-edit` | active caller |
-| `server1` | server-head (SH1) | `01a0278d-456b-7d20-820f-63fc80a57b8d` / `codex://threads/01a0278d-456b-7d20-820f-63fc80a57b8d` | PASS | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | direct ACK PASS |
-| `server2` | server-head (SH2) | `01a0278d-6e24-7a81-974a-96e4addd7ca5` / `codex://threads/01a0278d-6e24-7a81-974a-96e4addd7ca5` | PASS | `/mnt/raid5/janghj/ODE-edit` | direct ACK PASS |
+| `server1` | global-head (GH) | `01a04660-f2e5-7583-a9f9-83db20210d72` / `codex://threads/01a04660-f2e5-7583-a9f9-83db20210d72` | session ID user-confirmed; runtime checker pending | `/mnt/raid5/janghj/ODE-edit` | active caller |
+| `server1` | server-head (SH1) | `01a04664-c753-7461-b914-b4ebf24a581a` / `codex://threads/01a04664-c753-7461-b914-b4ebf24a581a` | session ID user-confirmed; runtime checker pending | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | assigned; official inbox validation blocked |
+| `server2` | server-head (SH2) | `01a04661-2f02-7d93-b3ba-4c69d113eaee` / `codex://threads/01a04661-2f02-7d93-b3ba-4c69d113eaee` | session ID user-confirmed; runtime checker pending | `/mnt/raid5/janghj/ODE-edit` | assigned; official inbox validation blocked |
 | `server3` | server-head | 미지정 | 미지정 | `/data/janghj/ODE-edit` | future target |
 | `server4` | server-head | 미지정 | 미지정 | `/data/janghj/ODE-edit` | registered-pending-clone |
 
@@ -33,14 +36,17 @@ SH1 detached worktree의 기존 상태를 reset, stash, revert 또는 cleanup하
 
 | 경로 | 결과 |
 | --- | --- |
-| GH→SH1 request / SH1→GH ACK | PASS |
-| GH→SH2 request / SH2→GH ACK | PASS |
-| SH1→SH2 ping / SH2→SH1 ACK | PASS |
-| SH2→SH1 ping / SH1→SH2 ACK | PASS |
+| GH→SH1 request / SH1→GH ACK | BLOCKED: `codex_app` MCP unavailable; send not delivered |
+| GH→SH2 request / SH2→GH ACK | BLOCKED: `codex_app` MCP unavailable; send not delivered |
+| SH1→SH2 ping / SH2→SH1 ACK | NOT RUN: GH could not dispatch cross-check instruction |
+| SH2→SH1 ping / SH1→SH2 ACK | NOT RUN: GH could not dispatch cross-check instruction |
 
 ## Superseded current-authority records
 
-2026-08-17 registry의 GH/SH1/SH2 session
+2026-08-22 registry의 GH/SH1/SH2 session
+`01a0278e-3f20-7b12-8c26-cf71deb2708b`,
+`01a0278d-456b-7d20-820f-63fc80a57b8d`,
+`01a0278d-6e24-7a81-974a-96e4addd7ca5`와 2026-08-17 registry의
 `01a00e5f-63ef-7cc2-89ec-f2f7b23df40f`,
 `01a00e5d-29e8-7a01-822b-7acf43226035`,
 `01a00e5c-f7ae-72a2-98b2-b8b0907168b4`는 inactive/superseded다.

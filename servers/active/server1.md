@@ -6,16 +6,19 @@
 - physical hostname: `devbox`
 - host ID: `remote-ssh-codex-managed:lab120`
 - repository: `hyunjun1127/ODE-edit`
-- 갱신 시각: 2026-08-22
+- 갱신 시각: 2026-08-28 (session authority rotation)
 
 | 역할 | Codex session ID / deeplink | local hard boundary | 실제 CWD | 상태 |
 | --- | --- | --- | --- | --- |
-| global-head (GH) | `01a0278e-3f20-7b12-8c26-cf71deb2708b` / `codex://threads/01a0278e-3f20-7b12-8c26-cf71deb2708b` | `Sol Ultra`, checker PASS | `/mnt/raid5/janghj/ODE-edit` | active caller |
-| server-head (SH1) | `01a0278d-456b-7d20-820f-63fc80a57b8d` / `codex://threads/01a0278d-456b-7d20-820f-63fc80a57b8d` | `Sol Ultra`, checker PASS | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | direct inbox ACK PASS |
+| global-head (GH) | `01a04660-f2e5-7583-a9f9-83db20210d72` / `codex://threads/01a04660-f2e5-7583-a9f9-83db20210d72` | session ID user-confirmed; runtime checker pending | `/mnt/raid5/janghj/ODE-edit` | active caller |
+| server-head (SH1) | `01a04664-c753-7461-b914-b4ebf24a581a` / `codex://threads/01a04664-c753-7461-b914-b4ebf24a581a` | session ID user-confirmed; runtime checker pending | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | assigned; official inbox validation blocked |
 
-새 session은 2026-08-17 registry의 GH/SH1 authority를 supersede한다. 과거
+새 session은 2026-08-22 registry의 GH/SH1 authority를 supersede한다. 과거
 task, report, audit, receipt와 completed launcher의 session ID는 historical
 provenance로 보존한다.
+
+이번 갱신은 session authority만 교체했다. 아래 repository/runtime/Slurm 관측값은
+별도 표기가 없으면 2026-08-22 마지막 audit 기준이다.
 
 ## Repository 상태
 
@@ -35,8 +38,8 @@ provenance로 보존한다.
 
 ## 연결 및 runtime
 
-- GH→SH1 direct inbox/ACK: PASS
-- SH1→SH2 ping/ACK와 SH2→SH1 ping/ACK: PASS
+- GH→SH1 direct inbox/ACK: BLOCKED (`codex_app` MCP unavailable; send not delivered)
+- SH1↔SH2 cross-inbox: NOT RUN (GH가 cross-check instruction을 전달하지 못함)
 - `PROTOCOL.md` full-read identity:
   SHA256 `a54a4e7c00c36ec9f3b0fe122e5d8735dacc2c21c8604bc598593eb396936663`,
   51,147 bytes, 1,125 lines
@@ -54,7 +57,8 @@ provenance로 보존한다.
 
 ## 판정
 
-- session routing/direct inbox: PASS
-- GH와 SH1 local hard boundary: PASS
+- session authority IDs: user-confirmed
+- session routing/direct inbox: BLOCKED (`codex_app` MCP unavailable)
+- GH와 SH1 local runtime checker: pending revalidation
 - tracked registry update owner: GH clean integration worktree
 - SH1 detached worktree pull/merge: HOLD; 기존 실험과 untracked state 보존
