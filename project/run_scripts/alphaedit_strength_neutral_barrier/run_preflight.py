@@ -55,11 +55,24 @@ def _git_value(root: Path, value: str) -> str:
     ).strip()
 
 
-def _file_identity(path: Path) -> Dict[str, Any]:
-    if not path.is_file() or path.is_symlink():
+def _file_identity(
+    path: Path, *, allow_pinned_snapshot_symlink: bool = False
+) -> Dict[str, Any]:
+    if not path.is_file():
+        raise RuntimeError(f"expected regular input: {path}")
+    resolved = path.resolve(strict=True)
+    if path.is_symlink() and not allow_pinned_snapshot_symlink:
         raise RuntimeError(f"expected regular non-symlink input: {path}")
-    data = path.read_bytes()
-    return {"path": str(path), "bytes": len(data), "sha256": sha256(data).hexdigest()}
+    if not resolved.is_file() or resolved.is_symlink():
+        raise RuntimeError(f"resolved input is not a regular file: {resolved}")
+    data = resolved.read_bytes()
+    return {
+        "path": str(path),
+        "resolved_path": str(resolved),
+        "logical_path_is_symlink": path.is_symlink(),
+        "bytes": len(data),
+        "sha256": sha256(data).hexdigest(),
+    }
 
 
 def _request(record: Dict[str, Any]) -> Dict[str, Any]:
@@ -837,8 +850,12 @@ def main() -> None:
         partial_inventory.append(identity)
 
     input_identities = {
-        "model_config": _file_identity(args.model_path / "config.json"),
-        "tokenizer": _file_identity(args.model_path / "tokenizer.json"),
+        "model_config": _file_identity(
+            args.model_path / "config.json", allow_pinned_snapshot_symlink=True
+        ),
+        "tokenizer": _file_identity(
+            args.model_path / "tokenizer.json", allow_pinned_snapshot_symlink=True
+        ),
         "dataset": _file_identity(args.dataset),
         "projector": _file_identity(args.projector),
         "hparams": _file_identity(args.hparams),
