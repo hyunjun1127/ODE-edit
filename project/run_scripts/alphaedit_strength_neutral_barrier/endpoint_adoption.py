@@ -82,7 +82,7 @@ def fp32_comparison(
     left: torch.Tensor,
     right: torch.Tensor,
     *,
-    ulp_thresholds: Iterable[int] = (0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512),
+    ulp_thresholds: Iterable[int] = (1, 2, 4, 8, 16, 32, 64, 128, 256, 512),
 ) -> Dict[str, object]:
     """Return bounded exact/max-absolute/ULP diagnostics for two FP32 tensors."""
 
@@ -100,20 +100,30 @@ def fp32_comparison(
     max_abs, abs_index = torch.max(absolute, dim=0)
     ulp_flat_index = int(ulp_index.item())
     abs_flat_index = int(abs_index.item())
+    abs_coordinate = tuple(
+        int(value.item())
+        for value in torch.unravel_index(torch.tensor(abs_flat_index), left_cpu.shape)
+    )
+    ulp_coordinate = tuple(
+        int(value.item())
+        for value in torch.unravel_index(torch.tensor(ulp_flat_index), left_cpu.shape)
+    )
     return {
         "left_sha256": tensor_sha(left_cpu),
         "right_sha256": tensor_sha(right_cpu),
         "bitwise_equal": bool(torch.equal(left_cpu, right_cpu)),
         "max_abs": float(max_abs.item()),
         "max_abs_flat_index": abs_flat_index,
+        "max_abs_coordinate": abs_coordinate,
         "max_abs_left": float(left_flat[abs_flat_index].item()),
         "max_abs_right": float(right_flat[abs_flat_index].item()),
         "max_ulp": int(max_ulp.item()),
         "max_ulp_flat_index": ulp_flat_index,
+        "max_ulp_coordinate": ulp_coordinate,
         "max_ulp_left": float(left_flat[ulp_flat_index].item()),
         "max_ulp_right": float(right_flat[ulp_flat_index].item()),
-        "ulp_threshold_exceed_count": {
-            str(int(threshold)): int((ulp > int(threshold)).sum().item())
+        "ulp_threshold_at_or_above_count": {
+            str(int(threshold)): int((ulp >= int(threshold)).sum().item())
             for threshold in ulp_thresholds
         },
         "numel": int(left_flat.numel()),
