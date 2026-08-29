@@ -1,4 +1,4 @@
-"""Official AlphaEdit velocity plus a strength-neutral barrier correction."""
+"""Stock AlphaEdit plus cache-aware predictive q-KL projected Euler writes."""
 
 from __future__ import annotations
 
@@ -20,14 +20,12 @@ from easyeditor.models.alphaedit.AlphaEdit_hparams import AlphaEditHyperParams
 from easyeditor.models.alphaedit.compute_ks import compute_ks
 from easyeditor.models.alphaedit.compute_z import compute_z, get_module_input_output_at_words
 from .geometry import (
-    CorrectionSolution,
-    FactorTerm,
-    LowRankFactor,
-    RightProjectionReceipt,
-    apply_factor_terms_,
-    factor_terms_times_keys,
-    project_right,
-    solve_strength_neutral_correction,
+    NativeFactorization,
+    ProjectedVelocity,
+    apply_velocity_,
+    factorize_alphaedit_velocity,
+    low_rank_pullback,
+    project_one_sided_velocity,
 )
 from .contracts import require_right_padding
 from .target_path import (
@@ -35,9 +33,7 @@ from .target_path import (
     TargetPathReference,
     TargetPathValues,
     build_target_event_batch,
-    build_sequence_event_batch,
     capture_reference,
-    evaluate_token_nll,
     evaluate_values,
     sequence_nll_by_request,
 )
@@ -58,8 +54,8 @@ from .endpoint_adoption import (
 
 class BarrierArm(str, Enum):
     OFFICIAL = "OFFICIAL_ALPHAEDIT"
-    SPLIT = "SPLIT_ALPHAEDIT"
-    BARRIER = "STRENGTH_NEUTRAL_BARRIER_ODE"
+    SPLIT = "STATIC_SPLIT_OFF"
+    PROJECTED = "QKL_PROJECTED_ODE"
 
 
 @dataclass(frozen=True)
@@ -71,8 +67,8 @@ class BarrierWriterConfig:
     def __post_init__(self) -> None:
         if self.arm is BarrierArm.OFFICIAL and self.steps != 1:
             raise ValueError("Official AlphaEdit is the explicit N=1 bypass")
-        if self.arm is not BarrierArm.OFFICIAL and self.steps < 2:
-            raise ValueError("split/barrier writers require N>=2")
+        if self.arm is not BarrierArm.OFFICIAL and self.steps not in (2, 4):
+            raise ValueError("split/projected writers require N in {2,4}")
 
 
 def _normalize_requests(requests: Sequence[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -160,21 +156,11 @@ def _observe_values(
         return evaluate_values(_last_logits(model, batch), batch, reference)
 
 
-def _source_sequence_nll(
-    model: AutoModelForCausalLM, source_batch: TargetEventBatch
-) -> torch.Tensor:
-    with torch.no_grad():
-        token_nll = evaluate_token_nll(_last_logits(model, source_batch), source_batch)
-    return sequence_nll_by_request(token_nll, source_batch)
-
-
 def _state_observation(
     values: TargetPathValues,
     target_batch: TargetEventBatch,
-    source_sequence_nll: torch.Tensor,
 ) -> StateObservationTelemetry:
     target_sequence_nll = sequence_nll_by_request(values.target_nll, target_batch)
-    margin = source_sequence_nll - target_sequence_nll
     return StateObservationTelemetry(
         per_event_q_kl=[float(value) for value in values.per_event_kl.tolist()],
         aggregate_q_kl=float(values.barrier.item()),
@@ -183,16 +169,15 @@ def _state_observation(
         ],
         target_token_nll=[float(value) for value in values.target_nll.tolist()],
         target_sequence_nll=[float(value) for value in target_sequence_nll.tolist()],
-        source_sequence_nll=[float(value) for value in source_sequence_nll.tolist()],
-        target_source_margin=[float(value) for value in margin.tolist()],
+        source_sequence_nll=[],
+        target_source_margin=[],
     )
 
 
 @dataclass(frozen=True)
 class _GradientObservation:
     values: TargetPathValues
-    barrier_gradient: LowRankFactor
-    target_gradients: tuple[LowRankFactor, ...]
+    barrier_left: torch.Tensor
     common_right: torch.Tensor
 
 
@@ -222,34 +207,17 @@ def _gradient_observation(
         ):
             raise RuntimeError("AlphaEdit rewrite module must have tensor input/output")
         barrier_output_grad = torch.autograd.grad(
-            values.barrier, layer_output, retain_graph=True, create_graph=False
+            values.barrier, layer_output, retain_graph=False, create_graph=False
         )[0]
-        target_output_grads = []
-        for index in range(batch.event_count):
-            target_output_grads.append(
-                torch.autograd.grad(
-                    values.target_log_odds[index],
-                    layer_output,
-                    retain_graph=index + 1 < batch.event_count,
-                    create_graph=False,
-                )[0]
-            )
         common_right = layer_input.detach().reshape(-1, layer_input.shape[-1]).T.float()
         barrier_left = (
             barrier_output_grad.detach()
             .reshape(-1, barrier_output_grad.shape[-1])
             .T.float()
         )
-        target_left = [
-            gradient.detach().reshape(-1, gradient.shape[-1]).T.float()
-            for gradient in target_output_grads
-        ]
         return _GradientObservation(
             values=values,
-            barrier_gradient=LowRankFactor(barrier_left, common_right),
-            target_gradients=tuple(
-                LowRankFactor(left, common_right) for left in target_left
-            ),
+            barrier_left=barrier_left,
             common_right=common_right,
         )
     finally:
@@ -268,9 +236,8 @@ def _native_layer_delta(
     layer: int,
     projector: torch.Tensor,
     cache: torch.Tensor,
-    weight: torch.Tensor,
     device: torch.device,
-) -> tuple[torch.Tensor, torch.Tensor, float]:
+) -> tuple[NativeFactorization, float]:
     layer_ks = compute_ks(
         model, tok, requests, hparams, layer, context_templates
     ).T
@@ -295,13 +262,14 @@ def _native_layer_delta(
     keys = layer_ks.to(device).float()
     residual = residual.to(device).float()
     history = cache.to(device).float()
-    solve_matrix = proj @ (keys @ keys.T + history)
-    solve_matrix = solve_matrix + hparams.L2 * torch.eye(
-        keys.shape[0], dtype=torch.float32, device=device
+    factors = factorize_alphaedit_velocity(
+        residual=residual,
+        keys=keys,
+        projector=proj,
+        history_cache=history,
+        l2=float(hparams.L2),
     )
-    update = torch.linalg.solve(solve_matrix, proj @ keys @ residual.T)
-    update = official.upd_matrix_match_shape(update, weight.shape).float()
-    return update, keys, float(torch.linalg.vector_norm(targets).item())
+    return factors, float(torch.linalg.vector_norm(targets).item())
 
 
 def _terminal_z_residual(
@@ -323,21 +291,13 @@ def _terminal_z_residual(
     return float(torch.linalg.vector_norm(zs - current).item())
 
 
-def _zero_solution(native_rate: float = 0.0) -> CorrectionSolution:
-    return CorrectionSolution(
-        terms=(),
-        native_barrier_rate=native_rate,
-        feasible_gradient_norm=0.0,
-        correction_norm=0.0,
-        directional_rate=native_rate,
-        target_strength_inner_abs=(),
-        max_strength_inner_abs=0.0,
-        key_residual_max_abs=0.0,
-        constraint_rank=0,
-        constraint_condition=1.0,
-        constraint_pinv_rtol=0.0,
-        active=False,
-    )
+def _match_velocity_to_weight(
+    velocity: torch.Tensor, weight: torch.Tensor
+) -> torch.Tensor:
+    matched = official.upd_matrix_match_shape(velocity, weight.shape).float()
+    if matched.shape != weight.shape:
+        raise RuntimeError("canonical AlphaEdit velocity cannot match module weight")
+    return matched
 
 
 def _execute_guided(
@@ -365,13 +325,10 @@ def _execute_guided(
     }
     cache_entry = official.cache_c.detach().clone()
     event_batch = build_target_event_batch(tok, normalized, device=device)
-    source_batch = build_sequence_event_batch(
-        tok, normalized, target_key="target_true", device=device
-    )
     with torch.no_grad():
         reference = capture_reference(_last_logits(model, event_batch), event_batch)
     telemetry = WriterTelemetry(
-        schema="easyedit.alphaedit.strength-neutral-barrier.v2",
+        schema="easyedit.alphaedit.cache-aware-qkl-projected.v1",
         arm=config.arm.value,
         steps=config.steps,
         request_count=len(normalized),
@@ -380,10 +337,13 @@ def _execute_guided(
         q0_identity_sha256=reference.identity_sha256,
         fixed_z_compute_count=0,
         fixed_z_recompute_count=0,
+        layer_factorization_count=0,
+        predictor_forward_backward_count=0,
         projector_load_count=1,
         cache_append_count=0,
         locality_controller_influence_count=0,
         rephrase_controller_influence_count=0,
+        target_true_controller_influence_count=0,
         retry_count=0,
         imputation_count=0,
         dtype="torch.float32",
@@ -425,7 +385,7 @@ def _execute_guided(
         for layer_index, layer in enumerate(hparams.layers):
             weight_name = f"{hparams.rewrite_module_tmp.format(layer)}.weight"
             weight = weights[weight_name]
-            native_delta, keys, entry_residual = _native_layer_delta(
+            factors, entry_residual = _native_layer_delta(
                 model=model,
                 tok=tok,
                 requests=normalized,
@@ -436,33 +396,38 @@ def _execute_guided(
                 layer=layer,
                 projector=official.P[layer_index],
                 cache=official.cache_c[layer_index],
-                weight=weight,
                 device=device,
             )
+            telemetry.layer_factorization_count += 1
+            native_velocity = _match_velocity_to_weight(factors.velocity, weight)
             layer_record = LayerTelemetry(
                 layer=layer,
                 entry_z_residual_norm=entry_residual,
                 terminal_z_residual_norm=float("nan"),
                 terminal_barrier_q_kl=float("nan"),
                 terminal_target_nll=[],
-                native_delta_sha256=tensor_sha(native_delta.float()),
+                native_velocity_sha256=tensor_sha(native_velocity.float()),
                 layer_entry_weight_sha256=tensor_sha(weight.float()),
+                residual_sha256=tensor_sha(factors.residual),
+                keys_sha256=tensor_sha(factors.keys),
+                writer_map_sha256=tensor_sha(factors.writer_map),
+                metric_sha256=tensor_sha(factors.metric),
+                solve_backward_error=factors.solve_backward_error,
+                solve_backward_tolerance=factors.solve_backward_tolerance,
+                stock_velocity_max_abs=factors.stock_velocity_max_abs,
+                stock_velocity_relative=factors.stock_velocity_relative,
             )
             module_name = hparams.rewrite_module_tmp.format(layer)
-            native_norm = float(torch.linalg.vector_norm(native_delta).item())
+            native_norm = float(torch.linalg.vector_norm(native_velocity).item())
+            history_cache = official.cache_c[layer_index].to(device).float()
+            step_size = 1.0 / config.steps
             for node in range(config.steps):
                 pre_values = _observe_values(model, event_batch, reference)
-                pre_step = _state_observation(
-                    pre_values,
-                    event_batch,
-                    _source_sequence_nll(model, source_batch),
-                )
+                pre_step = _state_observation(pre_values, event_batch)
                 node_entry = weight.detach().clone()
-                with torch.no_grad():
-                    weight.add_(native_delta.to(weight), alpha=1.0 / config.steps)
+                apply_velocity_(weight, native_velocity, step_size=step_size)
 
-                projection_receipt = RightProjectionReceipt(0, 1.0, 0.0, 0.0)
-                if config.arm is BarrierArm.BARRIER:
+                if config.arm is BarrierArm.PROJECTED:
                     observation = _gradient_observation(
                         model,
                         module_name,
@@ -470,106 +435,111 @@ def _execute_guided(
                         event_batch,
                         reference,
                     )
-                    projected_right, projection_receipt = project_right(
+                    telemetry.predictor_forward_backward_count += 1
+                    barrier_pullback = low_rank_pullback(
+                        observation.barrier_left,
                         observation.common_right,
-                        official.P[layer_index].to(device),
-                        keys,
+                        factors.writer_map,
                     )
-                    solution = solve_strength_neutral_correction(
-                        barrier_gradient=observation.barrier_gradient,
-                        target_gradients=observation.target_gradients,
-                        native_delta=native_delta,
-                        projected_right=projected_right,
-                        keys=keys,
+                    projected = project_one_sided_velocity(
+                        residual=factors.residual,
+                        writer_map=factors.writer_map,
+                        metric=factors.metric,
+                        metric_pinv=factors.metric_pinv,
+                        barrier_pullback=barrier_pullback,
+                        keys=factors.keys,
+                        history_cache=history_cache,
+                        l2=float(hparams.L2),
                     )
                     predictor_values = observation.values
                 else:
                     predictor_values = _observe_values(model, event_batch, reference)
-                    solution = _zero_solution()
+                    native_energy = float(
+                        torch.sum(
+                            (factors.residual @ factors.metric) * factors.residual
+                        ).item()
+                    )
+                    projected = ProjectedVelocity(
+                        residual_velocity=factors.residual,
+                        weight_velocity=factors.velocity,
+                        residual_correction=torch.zeros_like(factors.residual),
+                        native_rate=0.0,
+                        eta=0.0,
+                        projected_rate=0.0,
+                        positive_projected_rate_violation=0.0,
+                        correction_energy=0.0,
+                        removed_energy_fraction=0.0,
+                        native_energy=native_energy,
+                        current_key_energy=0.0,
+                        history_cache_energy=0.0,
+                        l2_energy=0.0,
+                        active=False,
+                    )
 
-                post_native_counterfactual = _state_observation(
-                    predictor_values,
-                    event_batch,
-                    _source_sequence_nll(model, source_batch),
-                )
+                native_lookahead = _state_observation(predictor_values, event_batch)
                 with torch.no_grad():
                     weight.copy_(node_entry)
                 predictor_restore_pass = bool(torch.equal(weight, node_entry))
                 if not predictor_restore_pass:
                     raise RuntimeError("native predictor temporary-state restore failed")
 
-                apply_factor_terms_(
-                    weight,
-                    native_delta,
-                    solution.terms,
-                    step_scale=1.0 / config.steps,
+                commit_velocity = _match_velocity_to_weight(
+                    projected.weight_velocity, weight
                 )
+                apply_velocity_(weight, commit_velocity, step_size=step_size)
                 guided_values = _observe_values(model, event_batch, reference)
-                post_guided = _state_observation(
-                    guided_values,
-                    event_batch,
-                    _source_sequence_nll(model, source_batch),
-                )
-
-                actual_dk = factor_terms_times_keys(solution.terms, keys)
-                actual_dk_norm = (
-                    float(torch.linalg.vector_norm(actual_dk).item())
-                    if actual_dk.numel()
-                    else 0.0
-                )
-                actual_dk_max_abs = (
-                    float(actual_dk.abs().max().item()) if actual_dk.numel() else 0.0
-                )
+                post_projected = _state_observation(guided_values, event_batch)
                 component_shas[weight_name] = _weight_component_sha(weight_name, weight)
                 endpoint_sha = _selected_component_root(component_shas)
 
-                ratio = solution.correction_norm / native_norm if native_norm else 0.0
                 layer_record.nodes.append(
                     NodeTelemetry(
                         layer=layer,
                         layer_index=layer_index,
                         node=node,
                         steps=config.steps,
-                        barrier_q_kl=float(guided_values.barrier.item()),
-                        target_nll=[
-                            float(value) for value in guided_values.target_nll.tolist()
-                        ],
-                        target_log_odds=[
-                            float(value)
-                            for value in guided_values.target_log_odds.tolist()
-                        ],
-                        native_barrier_rate=solution.native_barrier_rate,
-                        feasible_gradient_norm=solution.feasible_gradient_norm,
-                        correction_norm=solution.correction_norm,
-                        native_delta_norm=native_norm,
-                        correction_native_ratio=ratio,
-                        directional_rate=solution.directional_rate,
-                        key_residual_max_abs=actual_dk_max_abs,
-                        right_projection_key_residual_max_abs=max(
-                            solution.key_residual_max_abs,
-                            projection_receipt.key_residual_max_abs,
+                        predictor_q_kl=float(predictor_values.barrier.item()),
+                        native_qkl_rate=projected.native_rate,
+                        normal_energy_eta=projected.eta,
+                        projected_qkl_rate=projected.projected_rate,
+                        positive_projected_rate_violation=(
+                            projected.positive_projected_rate_violation
                         ),
-                        max_strength_inner_abs=solution.max_strength_inner_abs,
-                        key_gram_rank=projection_receipt.gram_rank,
-                        key_gram_condition=projection_receipt.gram_condition,
-                        key_pinv_rtol=projection_receipt.pinv_rtol,
-                        constraint_rank=solution.constraint_rank,
-                        constraint_condition=solution.constraint_condition,
-                        constraint_pinv_rtol=solution.constraint_pinv_rtol,
-                        correction_active=solution.active,
-                        correction_term_count=len(solution.terms),
-                        native_predictor=False,
+                        metric_rank=factors.metric_receipt.rank,
+                        metric_condition=factors.metric_receipt.condition,
+                        metric_pinv_rtol=factors.metric_receipt.pinv_rtol,
+                        metric_minimum_eigenvalue=(
+                            factors.metric_receipt.minimum_eigenvalue
+                        ),
+                        metric_psd_tolerance=factors.metric_receipt.psd_tolerance,
+                        metric_fast_energy_max_abs=(
+                            factors.metric_receipt.fast_energy_max_abs
+                        ),
+                        metric_fast_energy_relative=(
+                            factors.metric_receipt.fast_energy_relative
+                        ),
+                        metric_fast_energy_tolerance=(
+                            factors.metric_receipt.fast_energy_tolerance
+                        ),
+                        correction_energy=projected.correction_energy,
+                        removed_energy_fraction=projected.removed_energy_fraction,
+                        native_energy=projected.native_energy,
+                        current_key_energy=projected.current_key_energy,
+                        history_cache_energy=projected.history_cache_energy,
+                        l2_energy=projected.l2_energy,
+                        native_velocity_norm=native_norm,
+                        projected_velocity_norm=float(
+                            torch.linalg.vector_norm(commit_velocity).item()
+                        ),
+                        correction_residual_norm=float(
+                            torch.linalg.vector_norm(
+                                projected.residual_correction
+                            ).item()
+                        ),
+                        correction_active=projected.active,
                         pre_step=pre_step,
-                        post_native_counterfactual=post_native_counterfactual,
-                        post_guided=post_guided,
-                        actual_dk_norm=actual_dk_norm,
-                        actual_dk_max_abs=actual_dk_max_abs,
-                        target_strength_constraint_residual_per_event_abs=list(
-                            solution.target_strength_inner_abs
-                        ),
-                        target_strength_constraint_residual_max_abs=(
-                            solution.max_strength_inner_abs
-                        ),
+                        native_lookahead=native_lookahead,
+                        post_projected=post_projected,
                         selected_weight_endpoint_sha256=endpoint_sha,
                         predictor_restore_pass=predictor_restore_pass,
                     )
@@ -655,6 +625,8 @@ def apply_strength_neutral_barrier_to_model(
             "official_native_bypass": True,
             "barrier_controller_influence_count": 0,
             "locality_controller_influence_count": 0,
+            "rephrase_controller_influence_count": 0,
+            "target_true_controller_influence_count": 0,
         }
         if config.telemetry_path is not None:
             write_create_once(config.telemetry_path, payload)

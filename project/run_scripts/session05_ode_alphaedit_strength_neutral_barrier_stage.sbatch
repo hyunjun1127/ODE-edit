@@ -8,7 +8,7 @@
 #SBATCH --gres=gpu:a6000:1
 #SBATCH --mem=180000M
 #SBATCH --time=48:00:00
-#SBATCH --array=0-6%3
+#SBATCH --array=0-4%3
 #SBATCH --output=/mnt/raid5/janghj/ODE-edit/local/logs/strength-neutral-barrier/%x-%A_%a.out
 #SBATCH --error=/mnt/raid5/janghj/ODE-edit/local/logs/strength-neutral-barrier/%x-%A_%a.err
 
@@ -28,7 +28,7 @@ readonly ENV_PROJECT="${ODE_SNB_ENV_PROJECT:-/mnt/raid5/janghj/EasyEdit}"
 readonly MODEL_PATH="${ODE_SNB_MODEL_PATH:-/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2}"
 readonly DATASET="${ODE_SNB_DATASET:-/mnt/raid5/janghj/EasyEdit/data/counterfact/counterfact.json}"
 readonly PROJECTOR="${ODE_SNB_PROJECTOR:-/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt}"
-readonly HPARAMS="${ODE_SNB_EASYEDIT_ROOT}/hparams/AlphaEdit/llama3-8b.yaml"
+readonly HPARAMS="${ODE_SNB_HPARAMS:-${ODE_SNB_EASYEDIT_ROOT}/hparams/AlphaEdit/llama3-8b.yaml}"
 readonly RUNNER="${ODE_SNB_SOURCE_ROOT}/project/run_scripts/alphaedit_strength_neutral_barrier/run_experiment.py"
 readonly CELL_DIR="${ODE_SNB_RESULT_ROOT}/cell-${SLURM_ARRAY_TASK_ID}"
 

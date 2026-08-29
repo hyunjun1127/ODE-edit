@@ -14,7 +14,7 @@ class OfficialSourceFirewallTests(unittest.TestCase):
         easyedit_root = Path(
             os.environ.get(
                 "EASYEDIT_STOCK_ROOT",
-                "/mnt/raid5/janghj/.codex/worktrees/easyeditsh1-official-readonly-v1",
+                "/data/janghj/EasyEdit-stock-14cea824",
             )
         )
         package = Path(__file__).resolve().parents[1]

@@ -42,15 +42,14 @@ ARM_MAP = {
     0: (BarrierArm.OFFICIAL, 1),
     1: (BarrierArm.SPLIT, 2),
     2: (BarrierArm.SPLIT, 4),
-    3: (BarrierArm.SPLIT, 8),
-    4: (BarrierArm.BARRIER, 2),
-    5: (BarrierArm.BARRIER, 4),
-    6: (BarrierArm.BARRIER, 8),
+    3: (BarrierArm.PROJECTED, 2),
+    4: (BarrierArm.PROJECTED, 4),
 }
 
 STAGE_COUNTS = {
     "atomic-b1": (1, 1),
     "atomic-b10": (10, 10),
+    "atomic-b100": (100, 100),
     "sequential-b10x10": (100, 10),
 }
 
@@ -204,8 +203,10 @@ def main() -> None:
             raise RuntimeError("preflight tokenizer contract mismatch")
         if not preflight.get("full_fp32") or preflight.get("quantized"):
             raise RuntimeError("preflight FP32 deployment mismatch")
-        if not all(preflight.get("g0_c_exact_endpoint_adoption", {}).values()):
-            raise RuntimeError("preflight G0-C exact endpoint adoption is incomplete")
+        if preflight.get("gate_summary", {}).get("pass_count") != preflight.get(
+            "gate_summary", {}
+        ).get("expected_count"):
+            raise RuntimeError("cache-aware q-KL focused G0 gate count mismatch")
         current_inputs = {
             "model_config": _sha_file(args.model_path / "config.json"),
             "tokenizer": _sha_file(args.model_path / "tokenizer.json"),
@@ -368,7 +369,7 @@ def main() -> None:
             raise RuntimeError("global W0 pointer/bytes restore failed")
 
         payload = {
-            "schema": "easyedit.alphaedit.strength-neutral-barrier.experiment.v1",
+            "schema": "easyedit.alphaedit.cache-aware-qkl-projected.experiment.v1",
             "terminal_status": "TECHNICAL_PASS",
             "stage": args.stage,
             "cell": args.cell,
@@ -380,7 +381,7 @@ def main() -> None:
                 "easyedit_head": easyedit_head,
                 "easyedit_tree": easyedit_tree,
                 "easyedit_tracked_clean": True,
-                "implementation_boundary": "ODE_EDIT_HOOK_STOCK_EASYEDIT_READ_ONLY",
+                "implementation_boundary": "CACHE_AWARE_QKL_HOOK_STOCK_EASYEDIT_READ_ONLY",
                 "easyedit_seal": easyedit_seal,
             },
             "model": _sha_file(args.model_path / "config.json"),
@@ -430,7 +431,7 @@ def main() -> None:
                 for name, value in selected.items():
                     value.copy_(global_entry[name])
         failure = {
-            "schema": "easyedit.alphaedit.strength-neutral-barrier.failure.v1",
+            "schema": "easyedit.alphaedit.cache-aware-qkl-projected.failure.v1",
             "terminal_status": "FAILED_BOUNDARY",
             "stage": args.stage,
             "cell": args.cell,
@@ -441,7 +442,7 @@ def main() -> None:
                 "tree": actual_tree,
                 "easyedit_head": easyedit_head,
                 "easyedit_tree": easyedit_tree,
-                "implementation_boundary": "ODE_EDIT_HOOK_STOCK_EASYEDIT_READ_ONLY",
+                "implementation_boundary": "CACHE_AWARE_QKL_HOOK_STOCK_EASYEDIT_READ_ONLY",
                 "easyedit_seal": easyedit_seal,
             },
             "failure_type": type(error).__name__,

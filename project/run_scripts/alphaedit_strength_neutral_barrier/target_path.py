@@ -228,15 +228,20 @@ def evaluate_values(
 def sequence_nll_by_request(
     per_event_nll: torch.Tensor, batch: TargetEventBatch
 ) -> torch.Tensor:
-    """Return summed token NLL for each request in deterministic request order."""
+    """Return token-mean NLL for each request in deterministic request order."""
 
     if per_event_nll.ndim != 1 or per_event_nll.numel() != batch.event_count:
         raise TargetPathBoundary("sequence NLL/event shape mismatch")
     result = per_event_nll.new_zeros((batch.request_count,))
+    counts = per_event_nll.new_zeros((batch.request_count,))
     for event in batch.events:
         result[event.request_index] = (
             result[event.request_index] + per_event_nll[event.event_index]
         )
+        counts[event.request_index] = counts[event.request_index] + 1
+    if torch.any(counts == 0):
+        raise TargetPathBoundary("request has no target-token events")
+    result = result / counts
     if not torch.isfinite(result).all():
         raise TargetPathBoundary("sequence NLL is nonfinite")
     return result

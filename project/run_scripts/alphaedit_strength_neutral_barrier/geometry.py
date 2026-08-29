@@ -1,300 +1,383 @@
-"""Low-rank projection and closed-form strength-neutral correction."""
+"""Cache-aware residual-writer geometry for predictive q-KL projection.
+
+All matrices use the canonical AlphaEdit orientation: ``R`` is ``o x m``,
+``K``/``J`` are ``d x m``, and a weight velocity is ``R @ J.T`` (``o x d``).
+The module is intentionally independent of models, optimizers, evaluators, and
+the EasyEdit runtime so its numerical contract can be tested on CPU.
+"""
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Iterable, Sequence
 
 import torch
 
 
-class BarrierStrengthInfeasible(RuntimeError):
-    """Native barrier growth has no feasible strength-neutral correction."""
-
-
 class GeometryBoundary(RuntimeError):
-    """The projector/key/constraint geometry is numerically invalid."""
+    """The AlphaEdit factorization or projected geometry is numerically invalid."""
+
+
+class ActionableNormalBoundary(GeometryBoundary):
+    """A positive q-KL rate has no actionable normal in the writer image."""
 
 
 @dataclass(frozen=True)
-class LowRankFactor:
-    """Matrix ``left @ right.T`` without dense materialization."""
-
-    left: torch.Tensor
-    right: torch.Tensor
-
-    def __post_init__(self) -> None:
-        if self.left.ndim != 2 or self.right.ndim != 2:
-            raise GeometryBoundary("low-rank factors must be matrices")
-        if self.left.shape[1] != self.right.shape[1]:
-            raise GeometryBoundary("low-rank factor rank mismatch")
-        if self.left.dtype != torch.float32 or self.right.dtype != torch.float32:
-            raise GeometryBoundary("low-rank numerical core must be FP32")
-
-
-@dataclass(frozen=True)
-class FactorTerm:
-    coefficient: torch.Tensor
-    factor: LowRankFactor
-
-
-@dataclass(frozen=True)
-class RightProjectionReceipt:
-    gram_rank: int
-    gram_condition: float
+class MetricReceipt:
+    rank: int
+    condition: float
     pinv_rtol: float
-    key_residual_max_abs: float
+    minimum_eigenvalue: float
+    psd_tolerance: float
+    fast_energy_max_abs: float
+    fast_energy_relative: float
+    fast_energy_tolerance: float
 
 
 @dataclass(frozen=True)
-class CorrectionSolution:
-    terms: tuple[FactorTerm, ...]
-    native_barrier_rate: float
-    feasible_gradient_norm: float
-    correction_norm: float
-    directional_rate: float
-    target_strength_inner_abs: tuple[float, ...]
-    max_strength_inner_abs: float
-    key_residual_max_abs: float
-    constraint_rank: int
-    constraint_condition: float
-    constraint_pinv_rtol: float
+class NativeFactorization:
+    residual: torch.Tensor
+    keys: torch.Tensor
+    writer_map: torch.Tensor
+    metric: torch.Tensor
+    metric_pinv: torch.Tensor
+    velocity: torch.Tensor
+    solve_backward_error: float
+    solve_backward_tolerance: float
+    stock_velocity_max_abs: float
+    stock_velocity_relative: float
+    metric_receipt: MetricReceipt
+
+
+@dataclass(frozen=True)
+class ProjectedVelocity:
+    residual_velocity: torch.Tensor
+    weight_velocity: torch.Tensor
+    residual_correction: torch.Tensor
+    native_rate: float
+    eta: float
+    projected_rate: float
+    positive_projected_rate_violation: float
+    correction_energy: float
+    removed_energy_fraction: float
+    native_energy: float
+    current_key_energy: float
+    history_cache_energy: float
+    l2_energy: float
     active: bool
 
 
-def factor_inner(a: LowRankFactor, b: LowRankFactor) -> torch.Tensor:
-    return torch.sum((a.left.T @ b.left) * (a.right.T @ b.right))
+def _require_fp32_matrix(name: str, value: torch.Tensor) -> torch.Tensor:
+    if value.ndim != 2:
+        raise GeometryBoundary(f"{name} must be a matrix")
+    if value.dtype != torch.float32:
+        raise GeometryBoundary(f"{name} must be FP32")
+    if not torch.isfinite(value).all():
+        raise GeometryBoundary(f"{name} is nonfinite")
+    return value
 
 
-def factor_dense_inner(factor: LowRankFactor, dense: torch.Tensor) -> torch.Tensor:
-    if dense.ndim != 2:
-        raise GeometryBoundary("dense update must be a matrix")
-    return torch.sum(factor.left * (dense @ factor.right))
+def _gamma(dimension: int, dtype: torch.dtype = torch.float32) -> float:
+    """Standard floating-point ``gamma_n`` bound, derived only from n and eps."""
+
+    eps = torch.finfo(dtype).eps
+    product = max(1, int(dimension)) * eps
+    if product >= 1.0:
+        raise GeometryBoundary("matrix dimension exceeds stable FP32 gamma_n range")
+    return product / (1.0 - product)
 
 
-def terms_inner(
-    left_terms: Sequence[FactorTerm], right_terms: Sequence[FactorTerm]
-) -> torch.Tensor:
-    if not left_terms or not right_terms:
-        reference = (
-            left_terms[0].coefficient if left_terms else right_terms[0].coefficient
-        )
-        return reference.new_zeros(())
-    total = left_terms[0].coefficient.new_zeros(())
-    for left in left_terms:
-        for right in right_terms:
-            total = total + (
-                left.coefficient
-                * right.coefficient
-                * factor_inner(left.factor, right.factor)
-            )
-    return total
-
-
-def terms_norm(terms: Sequence[FactorTerm]) -> torch.Tensor:
-    if not terms:
-        return torch.tensor(0.0, dtype=torch.float32)
-    value = terms_inner(terms, terms)
-    return torch.sqrt(torch.clamp(value, min=0.0))
-
-
-def project_right(
-    right: torch.Tensor, projector: torch.Tensor, keys: torch.Tensor
-) -> tuple[torch.Tensor, RightProjectionReceipt]:
-    """Apply ``Q=P-(PK)(K^T P K)^dagger(PK)^T`` to factor columns."""
-
-    right = right.float()
-    projector = projector.float()
-    keys = keys.float()
-    if projector.ndim != 2 or projector.shape[0] != projector.shape[1]:
-        raise GeometryBoundary("AlphaEdit P must be square")
-    if right.shape[0] != projector.shape[0] or keys.shape[0] != projector.shape[0]:
-        raise GeometryBoundary("projector/right/key shape mismatch")
-    projected_keys = projector @ keys
-    gram = keys.T @ projected_keys
-    singular = torch.linalg.svdvals(gram)
-    pinv_rtol = max(gram.shape) * torch.finfo(torch.float32).eps
-    threshold = (
-        pinv_rtol * singular.max()
-        if singular.numel()
-        else torch.tensor(0.0, device=gram.device)
+def _relative_error(left: torch.Tensor, right: torch.Tensor) -> tuple[float, float]:
+    delta = left - right
+    maximum = float(delta.abs().max().item()) if delta.numel() else 0.0
+    scale = max(
+        float(torch.linalg.vector_norm(left).item()),
+        float(torch.linalg.vector_norm(right).item()),
+        torch.finfo(left.dtype).tiny,
     )
-    rank = int(torch.count_nonzero(singular > threshold).item())
-    positive = singular[singular > threshold]
-    condition = (
-        float((positive.max() / positive.min()).item()) if positive.numel() else float("inf")
-    )
-    gram_pinv = torch.linalg.pinv(gram, rtol=pinv_rtol)
-    projected = projector @ right
-    projected = projected - projected_keys @ (
-        gram_pinv @ (projected_keys.T @ right)
-    )
-    residual = projected.T @ keys
-    max_residual = float(residual.abs().max().item()) if residual.numel() else 0.0
-    if not torch.isfinite(projected).all():
-        raise GeometryBoundary("right-projected factor is nonfinite")
-    return projected, RightProjectionReceipt(
-        gram_rank=rank,
-        gram_condition=condition,
-        pinv_rtol=float(pinv_rtol),
-        key_residual_max_abs=max_residual,
-    )
+    return maximum, float(torch.linalg.vector_norm(delta).item()) / scale
 
 
-def solve_strength_neutral_correction(
+def build_writer_metric(
     *,
-    barrier_gradient: LowRankFactor,
-    target_gradients: Sequence[LowRankFactor],
-    native_delta: torch.Tensor,
-    projected_right: torch.Tensor,
     keys: torch.Tensor,
-) -> CorrectionSolution:
-    """Solve the attachment's minimum-norm correction in closed form."""
+    writer_map: torch.Tensor,
+    history_cache: torch.Tensor,
+    l2: float,
+) -> tuple[torch.Tensor, torch.Tensor, MetricReceipt]:
+    """Build and validate the cache-aware residual metric ``M``.
 
-    g_projected = LowRankFactor(barrier_gradient.left, projected_right)
-    a_projected = [
-        LowRankFactor(gradient.left, projected_right) for gradient in target_gradients
-    ]
-    native_rate_tensor = factor_dense_inner(barrier_gradient, native_delta.float())
+    The energy form is authoritative.  ``sym(K.T @ J)`` is checked as the
+    algebraic fast form, but is never used to mask a mismatch.
+    """
+
+    keys = _require_fp32_matrix("K", keys)
+    writer_map = _require_fp32_matrix("J", writer_map)
+    history_cache = _require_fp32_matrix("C", history_cache)
+    if keys.shape != writer_map.shape:
+        raise GeometryBoundary("K/J shape mismatch")
+    if history_cache.shape != (keys.shape[0], keys.shape[0]):
+        raise GeometryBoundary("C shape mismatch")
+    if not torch.isfinite(torch.tensor(l2)) or l2 < 0:
+        raise GeometryBoundary("lambda must be finite and nonnegative")
+
+    symmetric_cache = 0.5 * (history_cache + history_cache.T)
+    state_metric = keys @ keys.T + symmetric_cache
+    energy = writer_map.T @ state_metric @ writer_map
+    energy = energy + float(l2) * (writer_map.T @ writer_map)
+    energy = 0.5 * (energy + energy.T)
+    fast = keys.T @ writer_map
+    fast = 0.5 * (fast + fast.T)
+    maximum, relative = _relative_error(fast, energy)
+    fast_tolerance = 8.0 * _gamma(keys.shape[0])
+    if relative > fast_tolerance:
+        raise GeometryBoundary(
+            "M_fast/M_energy mismatch: "
+            f"relative={relative:.9e}, tolerance={fast_tolerance:.9e}"
+        )
+
+    eigenvalues = torch.linalg.eigvalsh(energy)
+    scale = max(
+        float(eigenvalues.abs().max().item()) if eigenvalues.numel() else 0.0,
+        torch.finfo(torch.float32).tiny,
+    )
+    psd_tolerance = 8.0 * _gamma(max(energy.shape)) * scale
+    minimum = float(eigenvalues.min().item()) if eigenvalues.numel() else 0.0
+    if minimum < -psd_tolerance:
+        raise GeometryBoundary(
+            f"writer metric is not PSD: min={minimum:.9e}, tol={psd_tolerance:.9e}"
+        )
+
+    pinv_rtol = max(energy.shape) * torch.finfo(torch.float32).eps
+    singular = torch.linalg.svdvals(energy)
+    threshold = (
+        float(pinv_rtol) * singular.max()
+        if singular.numel()
+        else torch.tensor(0.0, device=energy.device)
+    )
+    positive = singular[singular > threshold]
+    rank = int(positive.numel())
+    condition = (
+        float((positive.max() / positive.min()).item())
+        if positive.numel()
+        else float("inf")
+    )
+    metric_pinv = torch.linalg.pinv(energy, rtol=pinv_rtol, hermitian=True)
+    if not torch.isfinite(metric_pinv).all():
+        raise GeometryBoundary("writer metric pseudoinverse is nonfinite")
+    return energy, metric_pinv, MetricReceipt(
+        rank=rank,
+        condition=condition,
+        pinv_rtol=float(pinv_rtol),
+        minimum_eigenvalue=minimum,
+        psd_tolerance=psd_tolerance,
+        fast_energy_max_abs=maximum,
+        fast_energy_relative=relative,
+        fast_energy_tolerance=fast_tolerance,
+    )
+
+
+def factorize_alphaedit_velocity(
+    *,
+    residual: torch.Tensor,
+    keys: torch.Tensor,
+    projector: torch.Tensor,
+    history_cache: torch.Tensor,
+    l2: float,
+) -> NativeFactorization:
+    """Return ``R,K,J,M,F`` for the stock AlphaEdit layer solve."""
+
+    residual = _require_fp32_matrix("R", residual)
+    keys = _require_fp32_matrix("K", keys)
+    projector = _require_fp32_matrix("P", projector)
+    history_cache = _require_fp32_matrix("C", history_cache)
+    if residual.shape[1] != keys.shape[1]:
+        raise GeometryBoundary("R/K request-column mismatch")
+    if projector.shape != (keys.shape[0], keys.shape[0]):
+        raise GeometryBoundary("P shape mismatch")
+    if history_cache.shape != projector.shape:
+        raise GeometryBoundary("C/P shape mismatch")
+
+    symmetric_cache = 0.5 * (history_cache + history_cache.T)
+    state_metric = keys @ keys.T + symmetric_cache
+    identity = torch.eye(keys.shape[0], dtype=torch.float32, device=keys.device)
+    solve_matrix = projector @ state_metric + float(l2) * identity
+    rhs = projector @ keys
+    writer_map = torch.linalg.solve(solve_matrix, rhs)
+    velocity = residual @ writer_map.T
+    stock_velocity = torch.linalg.solve(solve_matrix, rhs @ residual.T).T
+    stock_maximum, stock_relative = _relative_error(velocity, stock_velocity)
+
+    solve_residual = solve_matrix @ writer_map - rhs
+    denominator = (
+        torch.linalg.matrix_norm(solve_matrix) * torch.linalg.matrix_norm(writer_map)
+        + torch.linalg.matrix_norm(rhs)
+    )
+    backward_error = float(
+        (
+            torch.linalg.matrix_norm(solve_residual)
+            / denominator.clamp_min(torch.finfo(torch.float32).tiny)
+        ).item()
+    )
+    backward_tolerance = 8.0 * _gamma(keys.shape[0])
+    if backward_error > backward_tolerance:
+        raise GeometryBoundary(
+            "AJ=PK backward error exceeds machine bound: "
+            f"error={backward_error:.9e}, tolerance={backward_tolerance:.9e}"
+        )
+    if stock_relative > backward_tolerance:
+        raise GeometryBoundary(
+            "factorized/native stock solve mismatch: "
+            f"relative={stock_relative:.9e}, tolerance={backward_tolerance:.9e}"
+        )
+
+    metric, metric_pinv, metric_receipt = build_writer_metric(
+        keys=keys,
+        writer_map=writer_map,
+        history_cache=symmetric_cache,
+        l2=l2,
+    )
+    return NativeFactorization(
+        residual=residual,
+        keys=keys,
+        writer_map=writer_map,
+        metric=metric,
+        metric_pinv=metric_pinv,
+        velocity=velocity,
+        solve_backward_error=backward_error,
+        solve_backward_tolerance=backward_tolerance,
+        stock_velocity_max_abs=stock_maximum,
+        stock_velocity_relative=stock_relative,
+        metric_receipt=metric_receipt,
+    )
+
+
+def low_rank_pullback(
+    barrier_left: torch.Tensor,
+    common_right: torch.Tensor,
+    writer_map: torch.Tensor,
+) -> torch.Tensor:
+    """Compute ``U=GJ=L(X.T@J)`` without materializing dense ``G``."""
+
+    barrier_left = _require_fp32_matrix("L", barrier_left)
+    common_right = _require_fp32_matrix("X", common_right)
+    writer_map = _require_fp32_matrix("J", writer_map)
+    if common_right.shape[0] != writer_map.shape[0]:
+        raise GeometryBoundary("X/J input dimension mismatch")
+    if barrier_left.shape[1] != common_right.shape[1]:
+        raise GeometryBoundary("L/X event-rank mismatch")
+    result = barrier_left @ (common_right.T @ writer_map)
+    if not torch.isfinite(result).all():
+        raise GeometryBoundary("low-rank q-KL pullback is nonfinite")
+    return result
+
+
+def project_one_sided_velocity(
+    *,
+    residual: torch.Tensor,
+    writer_map: torch.Tensor,
+    metric: torch.Tensor,
+    metric_pinv: torch.Tensor,
+    barrier_pullback: torch.Tensor,
+    keys: torch.Tensor,
+    history_cache: torch.Tensor,
+    l2: float,
+) -> ProjectedVelocity:
+    """Project native residual velocity onto ``<U,X> <= 0`` in the M metric."""
+
+    residual = _require_fp32_matrix("R", residual)
+    writer_map = _require_fp32_matrix("J", writer_map)
+    metric = _require_fp32_matrix("M", metric)
+    metric_pinv = _require_fp32_matrix("M_pinv", metric_pinv)
+    barrier_pullback = _require_fp32_matrix("U", barrier_pullback)
+    keys = _require_fp32_matrix("K", keys)
+    history_cache = _require_fp32_matrix("C", history_cache)
+    if residual.shape != barrier_pullback.shape:
+        raise GeometryBoundary("R/U shape mismatch")
+    if metric.shape != (residual.shape[1], residual.shape[1]):
+        raise GeometryBoundary("M/R shape mismatch")
+
+    native_rate_tensor = torch.sum(barrier_pullback * residual)
+    actionable_normal = barrier_pullback @ metric_pinv
+    eta_tensor = torch.sum(actionable_normal * barrier_pullback)
     native_rate = float(native_rate_tensor.item())
+    eta = float(eta_tensor.item())
+    eta_tolerance = 8.0 * _gamma(max(metric.shape)) * max(
+        float(torch.linalg.vector_norm(barrier_pullback).item()) ** 2,
+        torch.finfo(torch.float32).tiny,
+    )
+    if eta < -eta_tolerance:
+        raise GeometryBoundary(f"normal energy is meaningfully negative: {eta:.9e}")
+    if eta < 0.0:
+        eta = 0.0
+        eta_tensor = eta_tensor.new_zeros(())
 
-    if a_projected:
-        gram = torch.stack(
-            [
-                torch.stack([factor_inner(a, b) for b in a_projected])
-                for a in a_projected
-            ]
-        )
-        rhs = torch.stack([factor_inner(a, g_projected) for a in a_projected])
-        singular = torch.linalg.svdvals(gram)
-        rtol = max(gram.shape) * torch.finfo(torch.float32).eps
-        threshold = rtol * singular.max()
-        rank = int(torch.count_nonzero(singular > threshold).item())
-        positive = singular[singular > threshold]
-        condition = (
-            float((positive.max() / positive.min()).item())
-            if positive.numel()
-            else float("inf")
-        )
-        coefficients = torch.linalg.pinv(gram, rtol=rtol) @ rhs
-    else:
-        rtol = 0.0
-        rank = 0
-        condition = 1.0
-        coefficients = native_delta.new_zeros((0,))
-
-    h_terms = [
-        FactorTerm(native_delta.new_tensor(1.0), g_projected),
-        *[
-            FactorTerm(-coefficient, factor)
-            for coefficient, factor in zip(coefficients, a_projected)
-        ],
-    ]
-    h_norm = terms_norm(h_terms)
-    h_norm_value = float(h_norm.item())
-    if not torch.isfinite(h_norm):
-        raise GeometryBoundary("feasible projected gradient norm is nonfinite")
-
-    if native_rate <= 0.0:
-        correction_terms: tuple[FactorTerm, ...] = ()
-        correction_norm = 0.0
-        directional = native_rate
-        active = False
-    else:
-        h_norm_sq = terms_inner(h_terms, h_terms)
-        if float(h_norm_sq.item()) <= 0.0:
-            raise BarrierStrengthInfeasible(
-                "BARRIER_STRENGTH_INFEASIBLE: c>0 with ||H||=0"
+    if native_rate > 0.0:
+        if eta == 0.0:
+            raise ActionableNormalBoundary(
+                "ACTIONABLE_QKL_NORMAL_ABSENT: c>0 with eta=0"
             )
-        scale = -native_rate_tensor / h_norm_sq
-        correction_terms = tuple(
-            FactorTerm(scale * term.coefficient, term.factor) for term in h_terms
-        )
-        correction_norm = float(terms_norm(correction_terms).item())
-        directional = float(
-            (
-                native_rate_tensor
-                + terms_inner(
-                    [FactorTerm(native_delta.new_tensor(1.0), g_projected)],
-                    correction_terms,
-                )
-            ).item()
-        )
+        correction = -(native_rate_tensor / eta_tensor) * actionable_normal
         active = True
+    else:
+        correction = torch.zeros_like(residual)
+        active = False
+    projected_residual = residual + correction
+    projected_velocity = projected_residual @ writer_map.T
+    projected_rate = float(torch.sum(barrier_pullback * projected_residual).item())
+    expected_rate = min(native_rate, 0.0)
+    positive_violation = max(projected_rate - max(expected_rate, 0.0), 0.0)
 
-    strength_values = []
-    for gradient in a_projected:
-        strength_values.append(
-            float(
-                abs(
-                    terms_inner(
-                        [FactorTerm(native_delta.new_tensor(1.0), gradient)],
-                        correction_terms,
-                    ).item()
-                )
-            )
+    correction_energy_tensor = torch.sum((correction @ metric) * correction)
+    native_energy_tensor = torch.sum((residual @ metric) * residual)
+    correction_energy = max(float(correction_energy_tensor.item()), 0.0)
+    native_energy = max(float(native_energy_tensor.item()), 0.0)
+    removed_fraction = correction_energy / native_energy if native_energy > 0.0 else 0.0
+
+    correction_weight = correction @ writer_map.T
+    current_key_energy = float(torch.sum((correction_weight @ keys) ** 2).item())
+    history_cache_energy = float(
+        torch.sum((correction_weight @ history_cache) * correction_weight).item()
+    )
+    l2_energy = float(l2) * float(torch.sum(correction_weight**2).item())
+    decomposition = current_key_energy + history_cache_energy + l2_energy
+    energy_tolerance = 8.0 * _gamma(keys.shape[0]) * max(
+        correction_energy, decomposition, torch.finfo(torch.float32).tiny
+    )
+    if abs(decomposition - correction_energy) > energy_tolerance:
+        raise GeometryBoundary(
+            "correction energy decomposition mismatch: "
+            f"metric={correction_energy:.9e}, terms={decomposition:.9e}, "
+            f"tol={energy_tolerance:.9e}"
         )
-    max_strength = max(strength_values, default=0.0)
-
-    key_residual = 0.0
-    for term in correction_terms:
-        residual = term.factor.right.T @ keys.float()
-        if residual.numel():
-            key_residual = max(
-                key_residual,
-                abs(float(term.coefficient.item())) * float(residual.abs().max().item()),
-            )
-
-    return CorrectionSolution(
-        terms=correction_terms,
-        native_barrier_rate=native_rate,
-        feasible_gradient_norm=h_norm_value,
-        correction_norm=correction_norm,
-        directional_rate=directional,
-        target_strength_inner_abs=tuple(strength_values),
-        max_strength_inner_abs=max_strength,
-        key_residual_max_abs=key_residual,
-        constraint_rank=rank,
-        constraint_condition=condition,
-        constraint_pinv_rtol=float(rtol),
+    if not all(
+        torch.isfinite(value).all()
+        for value in (projected_residual, projected_velocity, correction)
+    ):
+        raise GeometryBoundary("projected velocity is nonfinite")
+    return ProjectedVelocity(
+        residual_velocity=projected_residual,
+        weight_velocity=projected_velocity,
+        residual_correction=correction,
+        native_rate=native_rate,
+        eta=eta,
+        projected_rate=projected_rate,
+        positive_projected_rate_violation=positive_violation,
+        correction_energy=correction_energy,
+        removed_energy_fraction=removed_fraction,
+        native_energy=native_energy,
+        current_key_energy=current_key_energy,
+        history_cache_energy=history_cache_energy,
+        l2_energy=l2_energy,
         active=active,
     )
 
 
-def apply_factor_terms_(
-    weight: torch.Tensor,
-    native_delta: torch.Tensor,
-    correction_terms: Iterable[FactorTerm],
-    *,
-    step_scale: float,
-) -> None:
-    """Apply one Euler step without materializing the low-rank correction."""
+def apply_velocity_(weight: torch.Tensor, velocity: torch.Tensor, *, step_size: float) -> None:
+    """Apply one Euler step; ``step_size`` appears exactly once here."""
 
+    if velocity.shape != weight.shape:
+        raise GeometryBoundary("velocity/weight shape mismatch at module boundary")
+    if velocity.dtype != torch.float32 or weight.dtype != torch.float32:
+        raise GeometryBoundary("Euler write must remain FULL-FP32")
     with torch.no_grad():
-        weight.add_(native_delta.to(weight), alpha=step_scale)
-        for term in correction_terms:
-            alpha = step_scale * float(term.coefficient.item())
-            weight.addmm_(
-                term.factor.left.to(weight), term.factor.right.to(weight).T, alpha=alpha
-            )
-
-
-def factor_terms_times_keys(
-    correction_terms: Sequence[FactorTerm], keys: torch.Tensor
-) -> torch.Tensor:
-    """Materialize the actual summed ``D K`` residual without materializing D."""
-
-    if not correction_terms:
-        return keys.new_zeros((0, keys.shape[1]), dtype=torch.float32)
-    first = correction_terms[0]
-    result = first.factor.left.new_zeros(
-        (first.factor.left.shape[0], keys.shape[1]), dtype=torch.float32
-    )
-    keys = keys.float()
-    for term in correction_terms:
-        result = result + term.coefficient.float() * (
-            term.factor.left @ (term.factor.right.T @ keys)
-        )
-    if not torch.isfinite(result).all():
-        raise GeometryBoundary("actual D K residual is nonfinite")
-    return result
+        weight.add_(velocity, alpha=float(step_size))

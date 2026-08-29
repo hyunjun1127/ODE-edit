@@ -25,7 +25,7 @@ readonly ENV_PROJECT="${ODE_SNB_ENV_PROJECT:-/mnt/raid5/janghj/EasyEdit}"
 readonly MODEL_PATH="${ODE_SNB_MODEL_PATH:-/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2}"
 readonly DATASET="${ODE_SNB_DATASET:-/mnt/raid5/janghj/EasyEdit/data/counterfact/counterfact.json}"
 readonly PROJECTOR="${ODE_SNB_PROJECTOR:-/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt}"
-readonly HPARAMS="${ODE_SNB_EASYEDIT_ROOT}/hparams/AlphaEdit/llama3-8b.yaml"
+readonly HPARAMS="${ODE_SNB_HPARAMS:-${ODE_SNB_EASYEDIT_ROOT}/hparams/AlphaEdit/llama3-8b.yaml}"
 readonly RUNNER="${ODE_SNB_SOURCE_ROOT}/project/run_scripts/alphaedit_strength_neutral_barrier/run_preflight.py"
 
 if [[ -n "${ODE_SNB_EXPECTED_HOST:-}" ]]; then

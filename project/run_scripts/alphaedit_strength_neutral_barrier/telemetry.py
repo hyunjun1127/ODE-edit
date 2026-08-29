@@ -27,34 +27,32 @@ class NodeTelemetry:
     layer_index: int
     node: int
     steps: int
-    barrier_q_kl: float
-    target_nll: List[float]
-    target_log_odds: List[float]
-    native_barrier_rate: float
-    feasible_gradient_norm: float
-    correction_norm: float
-    native_delta_norm: float
-    correction_native_ratio: float
-    directional_rate: float
-    key_residual_max_abs: float
-    right_projection_key_residual_max_abs: float
-    max_strength_inner_abs: float
-    key_gram_rank: int
-    key_gram_condition: float
-    key_pinv_rtol: float
-    constraint_rank: int
-    constraint_condition: float
-    constraint_pinv_rtol: float
+    predictor_q_kl: float
+    native_qkl_rate: float
+    normal_energy_eta: float
+    projected_qkl_rate: float
+    positive_projected_rate_violation: float
+    metric_rank: int
+    metric_condition: float
+    metric_pinv_rtol: float
+    metric_minimum_eigenvalue: float
+    metric_psd_tolerance: float
+    metric_fast_energy_max_abs: float
+    metric_fast_energy_relative: float
+    metric_fast_energy_tolerance: float
+    correction_energy: float
+    removed_energy_fraction: float
+    native_energy: float
+    current_key_energy: float
+    history_cache_energy: float
+    l2_energy: float
+    native_velocity_norm: float
+    projected_velocity_norm: float
+    correction_residual_norm: float
     correction_active: bool
-    correction_term_count: int
-    native_predictor: bool
     pre_step: StateObservationTelemetry
-    post_native_counterfactual: StateObservationTelemetry
-    post_guided: StateObservationTelemetry
-    actual_dk_norm: float
-    actual_dk_max_abs: float
-    target_strength_constraint_residual_per_event_abs: List[float]
-    target_strength_constraint_residual_max_abs: float
+    native_lookahead: StateObservationTelemetry
+    post_projected: StateObservationTelemetry
     selected_weight_endpoint_sha256: str
     predictor_restore_pass: bool
 
@@ -66,9 +64,16 @@ class LayerTelemetry:
     terminal_z_residual_norm: float
     terminal_barrier_q_kl: float
     terminal_target_nll: List[float]
-    native_delta_sha256: Optional[str] = None
+    native_velocity_sha256: Optional[str] = None
     layer_entry_weight_sha256: Optional[str] = None
-    split_fractional_replay: Optional[Dict[str, Any]] = None
+    residual_sha256: Optional[str] = None
+    keys_sha256: Optional[str] = None
+    writer_map_sha256: Optional[str] = None
+    metric_sha256: Optional[str] = None
+    solve_backward_error: Optional[float] = None
+    solve_backward_tolerance: Optional[float] = None
+    stock_velocity_max_abs: Optional[float] = None
+    stock_velocity_relative: Optional[float] = None
     nodes: List[NodeTelemetry] = field(default_factory=list)
 
 
@@ -83,10 +88,13 @@ class WriterTelemetry:
     q0_identity_sha256: str
     fixed_z_compute_count: int
     fixed_z_recompute_count: int
+    layer_factorization_count: int
+    predictor_forward_backward_count: int
     projector_load_count: int
     cache_append_count: int
     locality_controller_influence_count: int
     rephrase_controller_influence_count: int
+    target_true_controller_influence_count: int
     retry_count: int
     imputation_count: int
     dtype: str
