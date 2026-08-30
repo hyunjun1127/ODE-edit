@@ -313,6 +313,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     }
     hparams_path = source_root / (spec.alpha_hparams if args.method == "alphaedit" else spec.memit_hparams)
     hparams = _load_hparams(Method(args.method), hparams_path)
+    if str(hparams.model_name) != spec.statistics_model_dir:
+        raise TechnicalBoundary("Official statistics model alias mismatch")
     stats_path = spec.statistics_root / spec.statistics_model_dir / "wikipedia_stats" / "model.layers.8.mlp.down_proj_float32_mom2_100000.npz"
     cases = []
     for row in selected:
@@ -334,6 +336,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "schema": "odeedit.s06.fixed-z-nonuniqueness.run-result.v1", "status": "TERMINAL_VALID",
         "stage": args.stage, "model": args.model, "method": args.method, "full_fp32": True,
         "padding_safety_gate": padding_gate, "tokenizer_special_boundary": special,
+        "official_statistics_model_name_binding": str(hparams.model_name),
         "case_manifest_sha256": hashlib.sha256(args.case_manifest.read_bytes()).hexdigest(),
         "case_ids": [int(row["case_id"]) for row in selected], "cases": cases, "engineering_gate": gate,
         "wall_seconds": time.monotonic() - started,

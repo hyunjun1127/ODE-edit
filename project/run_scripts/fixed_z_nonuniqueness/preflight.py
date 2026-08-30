@@ -102,6 +102,9 @@ def build(source_root: Path) -> dict[str, Any]:
     for relative, digest in lock["easyedit"]["members"].items():
         official[relative] = identity(easyedit / relative, expected_sha=digest)
     dataset = identity(Path(lock["dataset"]["path"]), expected_sha=lock["dataset"]["sha256"], expected_bytes=lock["dataset"]["bytes"])
+    artifact_manifest_path = source_root / lock["artifact_manifest"]["path"]
+    artifact_manifest_id = identity(artifact_manifest_path, expected_sha=lock["artifact_manifest"]["sha256"])
+    artifact_manifest = json.loads(artifact_manifest_path.read_text())
     package = source_root / "project/run_scripts/fixed_z_nonuniqueness"
     violations = scan(package)
     if violations:
@@ -109,10 +112,28 @@ def build(source_root: Path) -> dict[str, Any]:
     models = {}
     for alias, spec in MODEL_SPECS.items():
         expected = lock["models"][alias]
+        artifact_row = artifact_manifest["models"][alias]
+        if artifact_row["bundle_sha256"] != lock["artifact_manifest"]["llama_bundle" if alias.startswith("llama") else "qwen_bundle"]:
+            raise TechnicalBoundary(f"artifact bundle mismatch: {alias}")
+        covariance_members = []
+        for member in artifact_row["members"]:
+            if member["kind"] != "covariance":
+                continue
+            path = spec.statistics_root.parent.parent.parent / member["relative_path"]
+            covariance_members.append({
+                **identity(path, expected_sha=member["sha256"], expected_bytes=member["size"]),
+                "layer": int(member["layer"]),
+                "shape": member["shape"],
+                "dtype": member["dtype"],
+            })
+        if [row["layer"] for row in covariance_members] != [4, 5, 6, 7, 8]:
+            raise TechnicalBoundary(f"MEMIT covariance layer closure mismatch: {alias}")
         models[alias] = {
             "model": _verify_model_closure(source_root, alias),
             "projector": _verify_projector(spec, expected),
             "statistics": _verify_stats(spec, expected),
+            "memit_covariance_closure": covariance_members,
+            "official_statistics_model_name": spec.statistics_model_dir,
             "config_sha256": sha256(spec.model_path / "config.json"),
             "tokenizer_sha256": sha256(spec.model_path / "tokenizer.json"),
             "model_revision": spec.model_revision,
@@ -131,6 +152,7 @@ def build(source_root: Path) -> dict[str, Any]:
         "source": {"head": _git(source_root, "rev-parse", "HEAD"), "tree": _git(source_root, "rev-parse", "HEAD^{tree}"), "tracked_clean": not bool(_git(source_root, "status", "--porcelain", "--untracked-files=no"))},
         "easyedit": {"head": lock["easyedit"]["head"], "tree": lock["easyedit"]["tree"], "members": official},
         "dataset": dataset,
+        "artifact_manifest": artifact_manifest_id,
         "models": models,
         "numerical_lock": NumericalLock().payload(),
         "forbidden_import_count": 0,

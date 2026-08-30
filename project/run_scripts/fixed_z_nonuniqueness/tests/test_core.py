@@ -19,9 +19,22 @@ from project.run_scripts.fixed_z_nonuniqueness.padding import (
     semantic_position_ids,
     target_continuation_columns,
 )
+from project.run_scripts.fixed_z_nonuniqueness.official import official_model_name_binding
 
 
 class CoreTests(unittest.TestCase):
+    def test_official_model_name_binding_restores_snapshot_identity(self) -> None:
+        class Config:
+            _name_or_path = "/exact/local/snapshot/revision"
+
+        class Model:
+            config = Config()
+
+        model = Model()
+        with official_model_name_binding(model, "Meta-Llama-3-8B-Instruct"):
+            self.assertEqual(model.config._name_or_path, "Meta-Llama-3-8B-Instruct")
+        self.assertEqual(model.config._name_or_path, "/exact/local/snapshot/revision")
+
     def test_left_padding_semantic_positions_and_target_slice(self) -> None:
         mask = torch.tensor([[0, 0, 1, 1], [0, 1, 1, 1]])
         self.assertTrue(torch.equal(semantic_position_ids(mask), torch.tensor([[0, 0, 0, 1], [0, 0, 1, 2]])))

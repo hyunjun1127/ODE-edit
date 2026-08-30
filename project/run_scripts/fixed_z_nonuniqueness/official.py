@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib
+from contextlib import contextmanager
 from dataclasses import dataclass
 from typing import Any
 
@@ -22,6 +23,26 @@ class OfficialEndpoint:
     last_weight_name: str
     projector: torch.Tensor | None
     tokenizer_calls: list[dict[str, Any]]
+    deployment_model_name: str
+
+
+@contextmanager
+def official_model_name_binding(model: Any, deployment_model_name: str):
+    """Expose the canonical model alias expected by Official stats lookup.
+
+    A model loaded from an exact local snapshot otherwise records that absolute
+    snapshot in ``config._name_or_path``.  Stock MEMIT derives its immutable
+    covariance-cache directory from this field.  Binding the hparams alias for
+    the duration of the Official call reproduces the stock hub-id behavior and
+    is restored before returning.
+    """
+
+    previous = model.config._name_or_path
+    model.config._name_or_path = deployment_model_name
+    try:
+        yield
+    finally:
+        model.config._name_or_path = previous
 
 
 def _weight_deltas(method: Method, module: Any, raw: dict[str, Any], model: Any) -> dict[str, torch.Tensor]:
@@ -81,19 +102,21 @@ def run_official_once(
     module.compute_z = compute_z_hook
     module.compute_ks = compute_ks_hook
     setattr(module, execute_name, execute_hook)
+    deployment_model_name = str(hparams.model_name)
     try:
         apply_fn = getattr(module, apply_name)
-        edited, originals = apply_fn(
-            model,
-            tokenizer,
-            [request],
-            hparams,
-            copy=False,
-            return_orig_weights=True,
-            reset_cache=True,
-        )
-        if edited is not model:
-            raise ScientificBoundary("Official entrypoint replaced model unexpectedly")
+        with official_model_name_binding(model, deployment_model_name):
+            edited, originals = apply_fn(
+                model,
+                tokenizer,
+                [request],
+                hparams,
+                copy=False,
+                return_orig_weights=True,
+                reset_cache=True,
+            )
+            if edited is not model:
+                raise ScientificBoundary("Official entrypoint replaced model unexpectedly")
     finally:
         module.compute_z = original_compute_z
         module.compute_ks = original_compute_ks
@@ -116,6 +139,7 @@ def run_official_once(
         last_weight_name=last_name,
         projector=projector,
         tokenizer_calls=calls,
+        deployment_model_name=deployment_model_name,
     )
 
 
