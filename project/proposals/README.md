@@ -36,6 +36,13 @@ research rationale를 보관한다. Proposal은 검증할 연구 계약이지 �
 이전 ODE-BF Cold-FR-E8 결과와 구현은 역사적 evidence와 transaction 자산으로 보존하지만,
 새 proposal의 hypothesis support로 자동 승계하지 않는다.
 
+## Active fast falsification plan
+
+- [`2026-08-30-fixed-z-fast-falsification-plan.md`](../../plans/global/2026-08-30-fixed-z-fast-falsification-plan.md):
+  현재 연구 방향 전용 session이 관리하는 execution-direction lock. Single-layer
+  same-z/history-null tangent diagnostic으로 F1과 F2를 먼저 판정하고, 통과한 경우에만
+  baseline-relative barrier, static FCW와 ODE necessity 비교를 연다.
+
 ## Rationale sections
 
 - [`sections/01-motivation-validation.md`](sections/01-motivation-validation.md):

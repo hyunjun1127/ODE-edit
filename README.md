@@ -74,13 +74,14 @@ Historical-H benefit도 당시 검증되지 않았다. 관련 B10-1 실험의 ac
 ## Follow-up 읽기 순서
 
 1. [2026-08-30 current research reset proposal](project/proposals/2026-08-30-fixed-z-functional-safe-write-proposal.md)
-2. [Proposal index와 pre-reset 문서 상태](project/proposals/README.md)
-3. [이전 ODE-BF proposal](project/proposals/ODE_BF_Dynamic_Layer_Proposal.md)
-4. [전체 pre-reset 실험 파이프라인](experiment-reports/global/2026-08-08-ode-bf-experiment-pipeline.md)
-5. [SH1/SH2 pre-reset 실험 종합 리뷰](experiment-reports/global/2026-08-08-ode-bf-sh-experiment-review.md)
-6. [이전 coefficient-space ODE-Alloc](project/proposals/00.ODE_Alloc_Proposal_Report.md)
-7. [관련 연구와 novelty boundary](project/proposals/sections/02-related-work-and-novelty-boundary.md)
-8. [운영 규칙](PROTOCOL.md)
+2. [2026-08-30 active fast falsification plan](plans/global/2026-08-30-fixed-z-fast-falsification-plan.md)
+3. [Proposal index와 pre-reset 문서 상태](project/proposals/README.md)
+4. [이전 ODE-BF proposal](project/proposals/ODE_BF_Dynamic_Layer_Proposal.md)
+5. [전체 pre-reset 실험 파이프라인](experiment-reports/global/2026-08-08-ode-bf-experiment-pipeline.md)
+6. [SH1/SH2 pre-reset 실험 종합 리뷰](experiment-reports/global/2026-08-08-ode-bf-sh-experiment-review.md)
+7. [이전 coefficient-space ODE-Alloc](project/proposals/00.ODE_Alloc_Proposal_Report.md)
+8. [관련 연구와 novelty boundary](project/proposals/sections/02-related-work-and-novelty-boundary.md)
+9. [운영 규칙](PROTOCOL.md)
 
 ## Repository map
 
