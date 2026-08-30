@@ -177,6 +177,23 @@ def run_case(
     replay_difference = compare_realized_z(official_second["realized_z"], official_first["realized_z"])
     realized_tolerance = max(lock.fp32_relative_tolerance, 8.0 * replay_difference["maximum_relative"])
     duplicate_noise = abs(official_second["functional"]["cvar_0_875"] - official_first["functional"]["cvar_0_875"])
+    # Nuisance is calibrated in the same teacher-KL/CVaR units as the signal.
+    # Algebraic relative tolerance is dimensionless and must not be inserted as
+    # an absolute CVaR floor.
+    official_rebatch = teacher_kl(
+        teacher_logits, next_token_logits(model, tok, screen_prompts, batch_size=8), lock.cvar_alpha
+    )["cvar_0_875"]
+    order = list(reversed(range(len(screen_prompts))))
+    teacher_reordered = teacher_logits[order]
+    candidate_reordered = next_token_logits(model, tok, [screen_prompts[index] for index in order], batch_size=16)
+    official_reorder = teacher_kl(teacher_reordered, candidate_reordered, lock.cvar_alpha)["cvar_0_875"]
+    official_primary = official_first["functional"]["cvar_0_875"]
+    nuisance_components = {
+        "cold_replay": duplicate_noise,
+        "rebatch": abs(official_rebatch - official_primary),
+        "batch_permutation": abs(official_reorder - official_primary),
+        "fp32_identity": teacher_kl(teacher_logits, teacher_logits.clone(), lock.cvar_alpha)["cvar_0_875"],
+    }
     base_delta = endpoint.deltas[endpoint.last_weight_name].to(next(model.parameters()).device)
     base_action = moment.matrix_action(base_delta)
     projector = endpoint.projector.to(base_delta.device) if endpoint.projector is not None else None
@@ -245,7 +262,8 @@ def run_case(
     )
     cvars = [candidate["observation"]["functional"]["cvar_0_875"] for candidate in candidates if candidate["valid"]]
     spread = max(cvars) - min(cvars) if cvars else 0.0
-    nuisance = max(lock.fp32_absolute_tolerance, duplicate_noise, reverse_delta)
+    nuisance_components["candidate_reverse_order"] = reverse_delta
+    nuisance = max(nuisance_components.values())
     terminal_restore = restore_originals(model, endpoint.originals)
     if not terminal_restore:
         raise ScientificBoundary("terminal W0 restore failed")
@@ -263,6 +281,7 @@ def run_case(
         "reverse_order_cvar_max_abs": reverse_delta,
         "valid_candidate_count": sum(int(candidate["valid"]) for candidate in candidates),
         "candidate_denominator": len(candidates), "functional_spread": spread,
+        "nuisance_components_cvar_units": nuisance_components,
         "epsilon_nuisance": nuisance, "spread_gt_3x_nuisance": spread > 3.0 * nuisance,
         "w0_pointer_bytes_restore": True, "full_fp32": True,
     }
