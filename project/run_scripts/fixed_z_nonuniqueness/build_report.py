@@ -503,9 +503,12 @@ def main() -> None:
     }
     manifest_path = args.output_dir / "analysis-manifest.json"
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, allow_nan=False, indent=2, sort_keys=True) + "\n")
+    manifest_identity = identity(manifest_path)
+    manifest_identity["relative_path"] = manifest_path.name
+    del manifest_identity["path"]
     receipt = {
         "schema": "odeedit.s06.fixed-z-nonuniqueness.rooted-analysis-receipt.v1",
-        "manifest": identity(manifest_path),
+        "manifest": manifest_identity,
         "member_root": manifest["member_root"],
         "execution_source": manifest["execution_source"],
         "analysis_source": manifest["analysis_source"],
