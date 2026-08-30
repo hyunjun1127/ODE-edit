@@ -1,0 +1,9 @@
+{
+  "analysis_manifest_sha256": "845c6f5a9ec2c3b4eb453bb7d9fd2f240171ad09a79c28d21fad3762397724d3",
+  "decision": "PHASE_B_ENGINEERING_HOLD",
+  "external_input_root": "8b1b2e215d40fb8bc92167662e14059a340b0fe0efae99be144bcd5ba6f16be5",
+  "identity": "40613fcc865cd372233b9733a8d9d1652049cb27ab43dcd5f64287d7b16dfb42",
+  "member_root": "eecf3c633d9f0987eb3140c9ab1eba1d6549ee6fdbb135cb65cf1604471d6e79",
+  "schema": "odeedit.s06.barrier-usefulness.rooted-analysis-receipt.v1",
+  "scientific_promotion": false
+}

@@ -1,0 +1,5 @@
+epsilon_nuisance,median_spread,method,model,phase_a_pass,spread_denominator,spread_gt_3x_nuisance_cases,valid_cases,valid_denominator
+3.133900463581085e-07,7.205456495285034e-05,alphaedit,llama3-8b-inst,True,8,8,8,8
+1.0652001947164536e-07,4.6589921112172306e-06,memit,llama3-8b-inst,True,8,8,8,8
+4.5262277126312256e-07,9.242963278666139e-05,alphaedit,qwen2.5-7b-inst,True,8,8,8,8
+2.3137545213103294e-07,6.786093581467867e-05,memit,qwen2.5-7b-inst,True,8,8,8,8

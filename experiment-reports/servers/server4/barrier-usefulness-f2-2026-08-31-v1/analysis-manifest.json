@@ -1,0 +1,175 @@
+{
+  "decision": "PHASE_B_ENGINEERING_HOLD",
+  "external_inputs": {
+    "anchor_failure_logs": [
+      {
+        "path": "/data/janghj/ODE-edit/local/logs/barrier-usefulness-f2-v1/barrier_f2_anchor_s4-29315_0.err",
+        "sha256": "a42bc498dc072cfe4261309bcc7b5a48dfd39fd6cf0addc750d36573194bffec"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/logs/barrier-usefulness-f2-v1/barrier_f2_anchor_s4-29315_1.err",
+        "sha256": "4bd79d7863ae161f7ee117a4a699866618a4f991cc4dbc5dfdc0756fc5664c7f"
+      }
+    ],
+    "phase_a_screen_results": [
+      {
+        "path": "/data/janghj/ODE-edit/local/results/barrier-usefulness-f2-v1/phase-a-screen-5cdc58b/llama3-8b-inst-alphaedit-screen/result.json",
+        "sha256": "76557de4d64cb1872206449f0cf42ee333734b1d79af4f3013adbff6f91ab659"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/results/barrier-usefulness-f2-v1/phase-a-screen-5cdc58b/llama3-8b-inst-memit-screen/result.json",
+        "sha256": "41a33b96b75d7e982457489f3f020cb3657374fa4250bbf54216bdea1cf145b5"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/results/barrier-usefulness-f2-v1/phase-a-screen-5cdc58b/qwen2.5-7b-inst-alphaedit-screen/result.json",
+        "sha256": "13aa1ada9e5cc03606a85040b593cd7818faa15c66b4ee0ff78bccbcfff0809e"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/results/barrier-usefulness-f2-v1/phase-a-screen-5cdc58b/qwen2.5-7b-inst-memit-screen/result.json",
+        "sha256": "f1e31c93eeed6e1ec528f866543371c2acfa3bf298d16bd2d730416734e1b907"
+      }
+    ],
+    "phase_a_terminal": {
+      "path": "/data/janghj/ODE-edit/local/state/barrier-usefulness-f2-v1/phase-a-terminal-5cdc58b.json",
+      "sha256": "5329030826ec2c39307595f9f930d74d430ce6ce676431128311f13122e1d072"
+    }
+  },
+  "hold_reason": "PREREGISTERED_W0_ANCHOR_ADMISSIBILITY_INSUFFICIENT",
+  "members": {
+    "action-audit.csv": {
+      "bytes": 106,
+      "sha256": "4a7567b906196bb7fd575bbebe41f8911cc249083d6f310951e57ab5218a94e9"
+    },
+    "alpha-projector-audit.csv": {
+      "bytes": 106,
+      "sha256": "4a7567b906196bb7fd575bbebe41f8911cc249083d6f310951e57ab5218a94e9"
+    },
+    "anchor-admissibility.csv": {
+      "bytes": 664,
+      "sha256": "3cbc7e64f64aa8f45ce2a175c0180c0fa8dcd70e5c73386764d0742b779f12be"
+    },
+    "barrier-usefulness-f2-factual-ko.md": {
+      "bytes": 2101,
+      "sha256": "474a919b1992fc7c9d4647f262a36b8174ef89d75e520c486ebd6d1368d42794"
+    },
+    "compute-receipt.csv": {
+      "bytes": 1229,
+      "sha256": "dfc3aa3258bf08388361b692fe903647f1afa5effc899b924f86e6b1231f0fb3"
+    },
+    "failure-ledger.json": {
+      "bytes": 1925,
+      "sha256": "a130c96b10ed7b596a60d1589174fa0d503994684375eeb2180983bf669faa10"
+    },
+    "fig1-safe-vs-adverse.svg": {
+      "bytes": 570,
+      "sha256": "3a0dbcbb46d690c3834a7bfbd150c90028e9dd959b3b84e441fcbcda147388d2"
+    },
+    "fig2-safe-percentile.svg": {
+      "bytes": 561,
+      "sha256": "6f22cb0084c4202195a7a1a1722c3290c6bf3b278b8848c405bc990597807457"
+    },
+    "fig3-barrier-vs-gate.svg": {
+      "bytes": 545,
+      "sha256": "251e21497b2d24d18201f55de4c0f02db19f0de3bd8888d97ce14931d03b97f2"
+    },
+    "fig4-action-vs-gate.svg": {
+      "bytes": 555,
+      "sha256": "3a2c8451d0d75fc6a8dfa905ba05dbe9e89bbbdf904283bbb77264d50ee64467"
+    },
+    "fig5-barrier-vs-kl.svg": {
+      "bytes": 547,
+      "sha256": "5046531c03005a60a6480c440d05bc7d4aa2b330475de4373fe65b94a8ab51a9"
+    },
+    "fig6-equal-action-shell.svg": {
+      "bytes": 568,
+      "sha256": "2f9b7a725e3cf32d9ae164c99330231d5a05a9d04c9e7bfa201f8a52e369702d"
+    },
+    "per-candidate.csv": {
+      "bytes": 47072,
+      "sha256": "5d769c4cf3107100f3c2190158380a1094fbd20656b16e5d25be8aed9bece3b8"
+    },
+    "per-case.csv": {
+      "bytes": 3915,
+      "sha256": "26377f3b8139a4c6e29a680f08cc63fa312c34ed08230ee7c7a1cc6eb8c80159"
+    },
+    "per-prompt.csv": {
+      "bytes": 106,
+      "sha256": "4a7567b906196bb7fd575bbebe41f8911cc249083d6f310951e57ab5218a94e9"
+    },
+    "per-selector.csv": {
+      "bytes": 106,
+      "sha256": "4a7567b906196bb7fd575bbebe41f8911cc249083d6f310951e57ab5218a94e9"
+    },
+    "phase-a-cells.csv": {
+      "bytes": 460,
+      "sha256": "c54cf4742aac30a3cc59672e8f18ad89f6117a64f6d0462da5ecd7a93b243223"
+    },
+    "rollback-replay-audit.csv": {
+      "bytes": 106,
+      "sha256": "4a7567b906196bb7fd575bbebe41f8911cc249083d6f310951e57ab5218a94e9"
+    },
+    "z-realization-audit.csv": {
+      "bytes": 106,
+      "sha256": "4a7567b906196bb7fd575bbebe41f8911cc249083d6f310951e57ab5218a94e9"
+    }
+  },
+  "ode_submit_count": 0,
+  "phase_a": {
+    "cells": [
+      {
+        "epsilon_nuisance": 3.133900463581085e-07,
+        "median_spread": 7.205456495285034e-05,
+        "method": "alphaedit",
+        "model": "llama3-8b-inst",
+        "phase_a_pass": true,
+        "spread_denominator": 8,
+        "spread_gt_3x_nuisance_cases": 8,
+        "valid_cases": 8,
+        "valid_denominator": 8
+      },
+      {
+        "epsilon_nuisance": 1.0652001947164536e-07,
+        "median_spread": 4.6589921112172306e-06,
+        "method": "memit",
+        "model": "llama3-8b-inst",
+        "phase_a_pass": true,
+        "spread_denominator": 8,
+        "spread_gt_3x_nuisance_cases": 8,
+        "valid_cases": 8,
+        "valid_denominator": 8
+      },
+      {
+        "epsilon_nuisance": 4.5262277126312256e-07,
+        "median_spread": 9.242963278666139e-05,
+        "method": "alphaedit",
+        "model": "qwen2.5-7b-inst",
+        "phase_a_pass": true,
+        "spread_denominator": 8,
+        "spread_gt_3x_nuisance_cases": 8,
+        "valid_cases": 8,
+        "valid_denominator": 8
+      },
+      {
+        "epsilon_nuisance": 2.3137545213103294e-07,
+        "median_spread": 6.786093581467867e-05,
+        "method": "memit",
+        "model": "qwen2.5-7b-inst",
+        "phase_a_pass": true,
+        "spread_denominator": 8,
+        "spread_gt_3x_nuisance_cases": 8,
+        "valid_cases": 8,
+        "valid_denominator": 8
+      }
+    ],
+    "status": "PASS"
+  },
+  "phase_b": {
+    "candidate_generation_count": 0,
+    "gate_figures_are_status_placeholders": true,
+    "q_gate_edited_access_count": 0,
+    "selector_lock_count": 0
+  },
+  "phase_c_submit_count": 0,
+  "schema": "odeedit.s06.barrier-usefulness.analysis-manifest.v1",
+  "scientific_promotion": false
+}

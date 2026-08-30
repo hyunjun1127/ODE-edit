@@ -1,0 +1,60 @@
+{
+  "anchor_failures": [
+    {
+      "admissible": 26,
+      "candidate_generation_count": 0,
+      "case_id": 5685,
+      "deficit": 6,
+      "job": "29315_0",
+      "model": "llama3-8b-inst",
+      "q_gate_edited_access_count": 0,
+      "required": 32,
+      "result": "SCIENTIFIC_ANCHOR_ADMISSIBILITY_HOLD",
+      "selector_lock_count": 0,
+      "split": "ctrl",
+      "stderr_bytes": 1503,
+      "stderr_path": "/data/janghj/ODE-edit/local/logs/barrier-usefulness-f2-v1/barrier_f2_anchor_s4-29315_0.err",
+      "stderr_sha256": "a42bc498dc072cfe4261309bcc7b5a48dfd39fd6cf0addc750d36573194bffec"
+    },
+    {
+      "admissible": 20,
+      "candidate_generation_count": 0,
+      "case_id": 5685,
+      "deficit": 12,
+      "job": "29315_1",
+      "model": "qwen2.5-7b-inst",
+      "q_gate_edited_access_count": 0,
+      "required": 32,
+      "result": "SCIENTIFIC_ANCHOR_ADMISSIBILITY_HOLD",
+      "selector_lock_count": 0,
+      "split": "ctrl",
+      "stderr_bytes": 1503,
+      "stderr_path": "/data/janghj/ODE-edit/local/logs/barrier-usefulness-f2-v1/barrier_f2_anchor_s4-29315_1.err",
+      "stderr_sha256": "4bd79d7863ae161f7ee117a4a699866618a4f991cc4dbc5dfdc0756fc5664c7f"
+    }
+  ],
+  "candidate_generation_count": 0,
+  "decision": "PHASE_B_ENGINEERING_HOLD",
+  "ode_submit_count": 0,
+  "phase_a_status": "PASS",
+  "phase_c_submit_count": 0,
+  "pool_expansion_count": 0,
+  "q_gate_edited_access_count": 0,
+  "replacement_case_count": 0,
+  "schema": "odeedit.s06.barrier-usefulness.failure-ledger.v1",
+  "selector_lock_count": 0,
+  "technical_exclusions": [
+    {
+      "job": "29294_[1-3]",
+      "reason": "PENDING_ONLY_RESOURCE_MEMORY_REPAIR",
+      "replacement_job": "29301_1,29307_[2-3]",
+      "science_endpoint_count": 0
+    },
+    {
+      "job": "29301_[2-3]",
+      "reason": "PRE_MODEL_TRACKED_SOURCE_DIRTY_TECHNICAL",
+      "replacement_job": "29307_[2-3]",
+      "science_endpoint_count": 0
+    }
+  ]
+}

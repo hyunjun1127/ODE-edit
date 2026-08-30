@@ -1,0 +1,3 @@
+admissible,candidate_generation_count,case_id,deficit,job,model,q_gate_edited_access_count,required,result,selector_lock_count,split,stderr_bytes,stderr_path,stderr_sha256
+26,0,5685,6,29315_0,llama3-8b-inst,0,32,SCIENTIFIC_ANCHOR_ADMISSIBILITY_HOLD,0,ctrl,1503,/data/janghj/ODE-edit/local/logs/barrier-usefulness-f2-v1/barrier_f2_anchor_s4-29315_0.err,a42bc498dc072cfe4261309bcc7b5a48dfd39fd6cf0addc750d36573194bffec
+20,0,5685,12,29315_1,qwen2.5-7b-inst,0,32,SCIENTIFIC_ANCHOR_ADMISSIBILITY_HOLD,0,ctrl,1503,/data/janghj/ODE-edit/local/logs/barrier-usefulness-f2-v1/barrier_f2_anchor_s4-29315_1.err,4bd79d7863ae161f7ee117a4a699866618a4f991cc4dbc5dfdc0756fc5664c7f

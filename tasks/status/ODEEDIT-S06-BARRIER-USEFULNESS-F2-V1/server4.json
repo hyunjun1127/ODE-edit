@@ -1,0 +1,36 @@
+{
+  "task_id": "ODEEDIT-S06-BARRIER-USEFULNESS-F2-V1",
+  "agent_id": "server4-server-head",
+  "hostname": "server4",
+  "status": "PHASE_B_ENGINEERING_HOLD",
+  "phase_a": {
+    "status": "PASS",
+    "model_method_cells": 4,
+    "valid_cases": 32,
+    "case_denominator": 32,
+    "valid_candidates": 256,
+    "candidate_denominator": 256
+  },
+  "phase_b_entry": {
+    "job": "29315_[0-1]",
+    "failed_case_id": 5685,
+    "llama_ctrl_admissible": 26,
+    "qwen_ctrl_admissible": 20,
+    "required_per_split": 32,
+    "hold_reason": "PREREGISTERED_W0_ANCHOR_ADMISSIBILITY_INSUFFICIENT",
+    "candidate_generation_count": 0,
+    "selector_lock_count": 0,
+    "q_gate_edited_access_count": 0,
+    "replacement_count": 0
+  },
+  "execution_source_head": "5cdc58b0f657629298605f084096328d0027bb5b",
+  "phase_a_receipt_sha256": "5329030826ec2c39307595f9f930d74d430ce6ce676431128311f13122e1d072",
+  "report": "experiment-reports/servers/server4/barrier-usefulness-f2-2026-08-31-v1/barrier-usefulness-f2-factual-ko.md",
+  "analysis_manifest_sha256": "845c6f5a9ec2c3b4eb453bb7d9fd2f240171ad09a79c28d21fad3762397724d3",
+  "rooted_receipt_sha256": "aa768aa259f9a59b5ea7d287a22d98b5ffcf113424eb7e83f40fd5d4952526eb",
+  "receipt_identity": "40613fcc865cd372233b9733a8d9d1652049cb27ab43dcd5f64287d7b16dfb42",
+  "phase_c_submit_count": 0,
+  "ode_submit_count": 0,
+  "scientific_promotion": false,
+  "updated_at": "2026-08-31T02:05:00+09:00"
+}

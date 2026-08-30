@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="280" viewBox="0 0 960 280">
+<rect width="960" height="280" fill="#fafafa"/>
+<text x="480" y="105" text-anchor="middle" font-family="sans-serif" font-size="25">Equal-action shell colored by gate risk</text>
+<text x="480" y="155" text-anchor="middle" font-family="sans-serif" font-size="20">NOT_GENERATED — Q_gate never opened</text>
+<text x="480" y="195" text-anchor="middle" font-family="sans-serif" font-size="16">Preregistered W0 anchor admissibility gate failed before candidate creation.</text>
+</svg>
