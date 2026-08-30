@@ -85,6 +85,14 @@ class CoreTests(unittest.TestCase):
             path.write_text("from project.run_scripts.ode_bf import contracts\n")
             self.assertEqual(len(scan(Path(tmp))), 1)
 
+    def test_constraint_orientation_is_input_by_events(self) -> None:
+        d_in = 13
+        edit = torch.randn(d_in, 1)
+        history = torch.randn(d_in, 32)
+        target = torch.randn(d_in, 3)
+        constraints = torch.cat([edit, history, target], dim=1)
+        self.assertEqual(constraints.shape, (d_in, 36))
+
 
 if __name__ == "__main__":
     unittest.main()

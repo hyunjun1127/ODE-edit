@@ -181,7 +181,8 @@ def run_case(
         raise ScientificBoundary("gamma=0 Official parity failed")
     edit_key = endpoint.edit_key.to(next(model.parameters()).device).reshape(-1, 1)
     history_keys = history_keys.to(edit_key.device)
-    target_keys = reference["target_path"]["keys"].T.to(edit_key.device)
+    # target_path keys are already [d_in, target_token_count].
+    target_keys = reference["target_path"]["keys"].to(edit_key.device)
     constraints = torch.cat([edit_key, history_keys, target_keys], dim=1)
     base_delta = endpoint.deltas[endpoint.last_weight_name].to(edit_key.device)
     projector = None if endpoint.projector is None else endpoint.projector.to(edit_key.device)
