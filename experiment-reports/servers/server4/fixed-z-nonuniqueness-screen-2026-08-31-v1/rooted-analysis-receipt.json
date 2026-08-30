@@ -1,0 +1,20 @@
+{
+  "analysis_source": {
+    "head": "d39c7cf20408943c84921f77496969c79496c38c",
+    "tree": "0dec91bd4fe0109c6b95664f135c8a7abd25df30"
+  },
+  "engineering_screen_pass": true,
+  "execution_source": {
+    "head": "b6c6e7534bfdbf49c7d30a74b2d0a811c0e1fa70",
+    "tree": "a9f3a3997ac2a2cce59c5650173420b2fca46503"
+  },
+  "manifest": {
+    "bytes": 8393,
+    "relative_path": "analysis-manifest.json",
+    "sha256": "e5a599463ebcffc117a1162c7bb11caada4fc421f7085f07edc7a6b88c69d961"
+  },
+  "member_root": "32f4b4ab93f90a3db6901608fc335239e11ef055cbdcdb0e223835cf82d45c28",
+  "root_digest": "23a0549727afbc9f975bbdfbb3715a17d2747cf3471283ed27cf22ad15773ebe",
+  "schema": "odeedit.s06.fixed-z-nonuniqueness.rooted-analysis-receipt.v1",
+  "scientific_promotion": false
+}

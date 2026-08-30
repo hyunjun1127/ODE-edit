@@ -1,0 +1,220 @@
+{
+  "analysis_source": {
+    "head": "d39c7cf20408943c84921f77496969c79496c38c",
+    "tree": "0dec91bd4fe0109c6b95664f135c8a7abd25df30"
+  },
+  "created_utc": "2026-08-30T15:00:33.728791+00:00",
+  "denominators": {
+    "candidates_per_case": 8,
+    "cases_per_group": 8,
+    "duplicates": 64,
+    "methods": 2,
+    "models": 2,
+    "valid_candidates": 256
+  },
+  "execution_source": {
+    "head": "b6c6e7534bfdbf49c7d30a74b2d0a811c0e1fa70",
+    "tree": "a9f3a3997ac2a2cce59c5650173420b2fca46503"
+  },
+  "external_inputs": [
+    {
+      "bytes": 393942,
+      "path": "/data/janghj/ODE-edit/local/results/fixed-z-nonuniqueness-screen-v1/g2-alpha-screen-b6c6e75-padding-r1/llama3-8b-inst-alphaedit-screen/result.json",
+      "sha256": "5a7ba425978e2418cc786bc8d636ff4860e41dcabe9720013e466b609c260380"
+    },
+    {
+      "bytes": 394468,
+      "path": "/data/janghj/ODE-edit/local/results/fixed-z-nonuniqueness-screen-v1/g2-alpha-screen-b6c6e75-padding-r1/qwen2.5-7b-inst-alphaedit-screen/result.json",
+      "sha256": "58c436e85599b8babb9ac6653dfbe4849bf11390b46d7bb794bf09e3c2d34197"
+    },
+    {
+      "bytes": 368448,
+      "path": "/data/janghj/ODE-edit/local/results/fixed-z-nonuniqueness-screen-v1/g2-memit-screen-b6c6e75-padding-r1/llama3-8b-inst-memit-screen/result.json",
+      "sha256": "b27642a9a60f48d935729c62d4b5bfeda874bc155af58d627f1f38cec1684a85"
+    },
+    {
+      "bytes": 368044,
+      "path": "/data/janghj/ODE-edit/local/results/fixed-z-nonuniqueness-screen-v1/g2-memit-screen-b6c6e75-padding-r1/qwen2.5-7b-inst-memit-screen/result.json",
+      "sha256": "4fea596a3f5f78a6126dd643be044b3461a8fec7715f831ecf14e969a11f5ddb"
+    },
+    {
+      "bytes": 51567,
+      "path": "/data/janghj/ODE-edit/local/results/fixed-z-nonuniqueness-screen-v1/g1-alpha-smoke-b6c6e75-padding-r1/llama3-8b-inst-alphaedit-smoke/result.json",
+      "sha256": "e05bf810052fe3ae755916f7ac6ac23304414e862ee2e5e14c66489ffe2d35e1"
+    },
+    {
+      "bytes": 51520,
+      "path": "/data/janghj/ODE-edit/local/results/fixed-z-nonuniqueness-screen-v1/g1-alpha-smoke-b6c6e75-padding-r1/qwen2.5-7b-inst-alphaedit-smoke/result.json",
+      "sha256": "e97fe646fb5eafc28cfc8308284be98b05781283cf1311f7df8db9546f6ab5fe"
+    },
+    {
+      "bytes": 48294,
+      "path": "/data/janghj/ODE-edit/local/results/fixed-z-nonuniqueness-screen-v1/g1-memit-smoke-b6c6e75-padding-r1/llama3-8b-inst-memit-smoke/result.json",
+      "sha256": "b23212914f2cba8b6b450a113cf30b4aecbde488f53a1a9bd1dedef0aa0b12ea"
+    },
+    {
+      "bytes": 48243,
+      "path": "/data/janghj/ODE-edit/local/results/fixed-z-nonuniqueness-screen-v1/g1-memit-smoke-b6c6e75-padding-r1/qwen2.5-7b-inst-memit-smoke/result.json",
+      "sha256": "63f7260632d3cd9bc2f04221f70dd2989c0bbb742f24eb1c766013b07271930b"
+    },
+    {
+      "bytes": 20125,
+      "path": "/data/janghj/ODE-edit/local/state/fixed-z-nonuniqueness-screen-v1/readiness-b6c6e75/pre-gpu.json",
+      "sha256": "6494dabb15fd578c211b9f754682273303e984deb79cafb91e90d87d7cd15e39"
+    },
+    {
+      "bytes": 12092,
+      "path": "/data/janghj/ODE-edit/local/state/fixed-z-nonuniqueness-screen-v1/authoritative-contract.txt",
+      "sha256": "4705659e2a9c54fe4f2f5adb1662c0f5d50c778f65148753c8988d486d0b2b9a"
+    },
+    {
+      "bytes": 20091,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fixed-z-nonuniqueness-screen-v1/project/run_scripts/fixed_z_nonuniqueness/config/case-manifest-v1.json",
+      "sha256": "b20f18f3b4297280d45c542a3c69803cee357bca83665c7e511e3deaf26a11ca"
+    },
+    {
+      "bytes": 3025,
+      "path": "/data/janghj/ODE-edit/local/state/fixed-z-nonuniqueness-screen-v1/execution-ledger-b6c6e75.json",
+      "sha256": "79effa76b0f23a81e5d07560ce9bd7a1b2e1586afe6063a59fadc1c0eb9ecf3a"
+    }
+  ],
+  "final_audit_open_count": 0,
+  "full_fp32": true,
+  "jobs": {
+    "canonical_execution_source": {
+      "head": "b6c6e7534bfdbf49c7d30a74b2d0a811c0e1fa70",
+      "tree": "a9f3a3997ac2a2cce59c5650173420b2fca46503"
+    },
+    "canonical_jobs": [
+      {
+        "elapsed": "00:00:34",
+        "exit_code": "0:0",
+        "job": "29144_0",
+        "method": "alphaedit",
+        "model": "llama3-8b-inst",
+        "stage": "G1",
+        "state": "COMPLETED"
+      },
+      {
+        "elapsed": "00:00:41",
+        "exit_code": "0:0",
+        "job": "29149_1",
+        "method": "alphaedit",
+        "model": "qwen2.5-7b-inst",
+        "stage": "G1",
+        "state": "COMPLETED"
+      },
+      {
+        "elapsed": "00:00:44,00:00:53",
+        "exit_code": "0:0",
+        "job": "29150_[0-1]",
+        "method": "memit",
+        "model": "llama3-8b-inst,qwen2.5-7b-inst",
+        "stage": "G1",
+        "state": "COMPLETED"
+      },
+      {
+        "elapsed": "00:02:08,00:02:38",
+        "exit_code": "0:0",
+        "job": "29153_[0-1]",
+        "method": "alphaedit",
+        "model": "llama3-8b-inst,qwen2.5-7b-inst",
+        "stage": "G2",
+        "state": "COMPLETED"
+      },
+      {
+        "elapsed": "00:03:17,00:04:42",
+        "exit_code": "0:0",
+        "job": "29154_[0-1]",
+        "method": "memit",
+        "model": "llama3-8b-inst,qwen2.5-7b-inst",
+        "stage": "G2",
+        "state": "COMPLETED"
+      }
+    ],
+    "excluded_attempts": [
+      {
+        "classification": "PURE_TECHNICAL_RESOURCE_EXCLUSION",
+        "job": "29066",
+        "reason": "180GB request could not be scheduled; model/science endpoint 0"
+      },
+      {
+        "classification": "PURE_TECHNICAL_SOURCE_EXCLUSION",
+        "job": "29069",
+        "reason": "target-key tensor orientation failed before valid candidate panel"
+      },
+      {
+        "classification": "PURE_TECHNICAL_NUMERICAL_LOCK_EXCLUSION",
+        "job": "29072",
+        "reason": "existing FP32 endpoint/rank lock was not yet bound; superseded without tolerance tuning"
+      },
+      {
+        "classification": "SUPERSEDED_TELEMETRY_INCOMPLETE",
+        "job": "29083,29087",
+        "reason": "valid AlphaEdit smoke/screen preceded complete Official-to-hook and key padding receipt"
+      },
+      {
+        "classification": "PURE_TECHNICAL_ARTIFACT_PATH_EXCLUSION",
+        "job": "29098",
+        "reason": "Official MEMIT local covariance alias missed pinned cache and failed offline before candidate panel"
+      },
+      {
+        "classification": "SUPERSEDED_TELEMETRY_INCOMPLETE",
+        "job": "29111,29122",
+        "reason": "valid MEMIT smoke/screen preceded complete Official-to-hook and key padding receipt"
+      },
+      {
+        "classification": "PURE_TECHNICAL_SCHEDULER_EXCLUSION",
+        "job": "29144_1",
+        "reason": "task-owned Qwen AlphaEdit smoke cell canceled after 15s during walltime backfill repair; terminal result 0"
+      },
+      {
+        "classification": "PURE_TECHNICAL_SCHEDULER_EXCLUSION",
+        "job": "29145_[0-1]",
+        "reason": "pending-only MEMIT smoke array replaced by one-hour walltime submission; model endpoint 0"
+      }
+    ],
+    "schema": "odeedit.s06.fixed-z-nonuniqueness.execution-ledger.v1",
+    "scientific_promotion": false
+  },
+  "member_root": "32f4b4ab93f90a3db6901608fc335239e11ef055cbdcdb0e223835cf82d45c28",
+  "members": [
+    {
+      "bytes": 22108,
+      "relative_path": "action-drift-scatter.svg",
+      "sha256": "1dd2617013d5e8b191420f822a88d7786052900d5e6c3d0f33114649fed52d6d"
+    },
+    {
+      "bytes": 9093,
+      "relative_path": "fixed-z-nonuniqueness-screen-factual-ko.md",
+      "sha256": "29f63c5c68a13e2f1aab3d3c15c2068ef5addc5a0844239f421730d578d86bec"
+    },
+    {
+      "bytes": 12303,
+      "relative_path": "matched-pair-cvar-scatter.svg",
+      "sha256": "f09ac5e9dbb68efcc565bad4301280e8e8a003326bc560f54e8ca6c6b37bd328"
+    },
+    {
+      "bytes": 123863,
+      "relative_path": "per-candidate.csv",
+      "sha256": "f7db25644e8eb0b2607d2c213b426962253bf7a3c160f385e08a6694f5d4eeeb"
+    },
+    {
+      "bytes": 6102,
+      "relative_path": "per-case.csv",
+      "sha256": "06548ca69a345e72781203486e433187b45c179aefd002da2e5ee6b59723145d"
+    },
+    {
+      "bytes": 4844,
+      "relative_path": "rank-spread-scatter.svg",
+      "sha256": "75e9876e473f113b2563bfade7d767fcd383e0b49c78e286a451aef009ed9d1a"
+    },
+    {
+      "bytes": 37316,
+      "relative_path": "summary.json",
+      "sha256": "4b7b9f3c21bf37e8e396380d23ba9a717766c2cc2123bb8331d7ddbc04cd16b2"
+    }
+  ],
+  "schema": "odeedit.s06.fixed-z-nonuniqueness.analysis-manifest.v1",
+  "scientific_promotion": false
+}
