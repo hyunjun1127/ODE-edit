@@ -1,0 +1,57 @@
+{
+  "schema": "odeedit.s06.fixed-z-nonuniqueness.artifact-lock.v1",
+  "dataset": {
+    "path": "/data/janghj/EasyEdit/data/counterfact/counterfact.json",
+    "bytes": 45108470,
+    "sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f"
+  },
+  "easyedit": {
+    "root": "/data/janghj/EasyEdit-stock-14cea824",
+    "head": "14cea8245f06715684592ab55184939b99d70784",
+    "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7",
+    "tracked_clean": true,
+    "members": {
+      "easyeditor/models/alphaedit/AlphaEdit_main.py": "1016bf13b4521dddd134f54884f00c1a7fb95c33e477c9ba2fe9e0f275e2fb9a",
+      "easyeditor/models/alphaedit/compute_z.py": "f6fd935b1fbbb05cd656618414f8b71f45d2d0458f617de85c40d6013d84234a",
+      "easyeditor/models/alphaedit/compute_ks.py": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba",
+      "easyeditor/models/memit/memit_main.py": "39b0c91b586a136be2b6bdfabbcc17705fb3cc07e7f17e739fe565906d9d6ea7",
+      "easyeditor/models/memit/compute_z.py": "a293bf042fba463e5060887160a6c8453b427b91a6c9a6061b5a8cce5ca0187e",
+      "easyeditor/models/memit/compute_ks.py": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+      "easyeditor/models/memit/memit_hparams.py": "223dc4e663a049214c0528a02eff8c066413fbee9bce98735a2ce8d1c6585f41"
+    }
+  },
+  "immutable_model_manifest": {
+    "path": "agents/server4/p4-hf-consumed-closure-seal.json",
+    "sha256": "02db39b636625a513aca0d185d3dab04de2b6ba3ece7d867d241dd3a21c28854",
+    "llama_required_root": "a1795dc0fe12a307e16432a7c2049da1a795e4170e3b6f6822d760a5d6ea8056",
+    "qwen_required_root": "2f7e899779cac6f49071af6b98519a7058cb31bb14eef651fe6300f62f1dd43b"
+  },
+  "artifact_manifest": {
+    "path": "agents/server4/alphaedit-runtime-path-seal.json",
+    "sha256": "176018298d691a1b67ae7ca787c7dcd2bd77d8606044790833d361fd451ddeb3",
+    "llama_bundle": "2cd8517f65f476e3a8be4edddc81fc345ecd96a49634e41769bbacd4206af77e",
+    "qwen_bundle": "55a6c2557b3a89f6880a7c56f65fb2487bafee53476dd248b57a3a48185a6638"
+  },
+  "models": {
+    "llama3-8b-inst": {
+      "projector_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+      "projector_bytes": 4110419877,
+      "projector_shape": [5, 14336, 14336],
+      "statistics_layer8_sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+      "statistics_layer8_bytes": 822084814,
+      "statistics_shape": [14336, 14336],
+      "statistics_sample_size": 100000,
+      "statistics_dtype": "float32"
+    },
+    "qwen2.5-7b-inst": {
+      "projector_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+      "projector_bytes": 7177504758,
+      "projector_shape": [5, 18944, 18944],
+      "statistics_layer8_sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46",
+      "statistics_layer8_bytes": 1435501774,
+      "statistics_shape": [18944, 18944],
+      "statistics_sample_size": 100000,
+      "statistics_dtype": "float32"
+    }
+  }
+}
