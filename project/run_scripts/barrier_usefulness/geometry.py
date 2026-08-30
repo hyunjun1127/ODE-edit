@@ -104,8 +104,11 @@ def build_axes(
     case_id: str,
     count: int,
     projector: torch.Tensor | None,
+    base_action: float | None = None,
 ) -> list[Axis]:
-    base_action = actual_quadratic(base_delta, matvec)
+    base_action = actual_quadratic(base_delta, matvec) if base_action is None else float(base_action)
+    if not math.isfinite(base_action) or base_action <= 0:
+        raise ScientificBoundary("provided base action invalid")
     answer: list[Axis] = []
     for ordinal in range(count):
         seed = deterministic_seed(lock.seed_namespace, model, method, case_id, ordinal)
@@ -124,9 +127,10 @@ def build_axes(
         measured_cross = actual_cross(base_delta, u, cv)
         unit_action = float(torch.dot(u.double(), u.double()).item()) * qv
         gamma = math.sqrt(lock.rho_tangent * base_action / unit_action)
-        correction = torch.outer(u, v) * gamma
         cross_scaled = actual_cross(base_delta, u * gamma, cv)
-        correction_action = actual_quadratic(correction, matvec)
+        # The candidate N is constructed exactly as an outer product, so this
+        # is its exact registered action, not a factor approximation of D.
+        correction_action = gamma * gamma * unit_action
         total = base_action + 2.0 * cross_scaled + correction_action
         cross_relative = abs(cross_scaled) / math.sqrt(base_action * correction_action)
         action_relative = abs(total / base_action - (1.0 + lock.rho_tangent))

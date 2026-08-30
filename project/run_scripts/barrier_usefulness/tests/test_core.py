@@ -32,6 +32,7 @@ class BarrierCoreTests(unittest.TestCase):
             constraints=constraints,
             matvec=lambda value: covariance @ value,
             lock=BarrierLock(), model="m", method="x", case_id="1", count=2, projector=None,
+            base_action=float((delta * (delta @ covariance)).sum().item()),
         )
         for axis in axes:
             for sign in (-1, 1):
