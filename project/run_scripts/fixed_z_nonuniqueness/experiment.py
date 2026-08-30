@@ -15,7 +15,14 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from .algebra import candidate_action, generate_axes
-from .contracts import MODEL_SPECS, Method, NumericalLock, ScientificBoundary, TechnicalBoundary
+from .contracts import (
+    MODEL_ENDPOINT_TOLERANCE,
+    MODEL_SPECS,
+    Method,
+    NumericalLock,
+    ScientificBoundary,
+    TechnicalBoundary,
+)
 from .evaluation import (
     capture_subject_keys,
     next_token_logits,
@@ -226,12 +233,19 @@ def run_case(
             logit_error = relative_error(observed["target_path"]["logits"], reference["target_path"]["logits"])
             action = candidate_action(axis, sign)
             axis_actions[axis.axis][str(sign)] = action
-            valid = max(correction_key_residual, correction_history_residual, correction_target_residual, activation_error, logit_error, axis.cross_action_relative) <= lock.fp32_relative_tolerance and observed["target_path"]["strict"] == reference["target_path"]["strict"]
+            algebra_valid = max(
+                correction_key_residual,
+                correction_history_residual,
+                correction_target_residual,
+                axis.cross_action_relative,
+            ) <= lock.fp32_relative_tolerance
+            full_model_valid = max(activation_error, logit_error) <= MODEL_ENDPOINT_TOLERANCE[model_alias]
+            valid = algebra_valid and full_model_valid and observed["target_path"]["strict"] == reference["target_path"]["strict"]
             records.append({
                 "candidate_id": f"axis-{axis.axis}-{'plus' if sign > 0 else 'minus'}", "baseline": "official",
                 "axis": axis.axis, "sign": sign, "seed": axis.seed, "rho": lock.rho_tangent, "gamma": axis.gamma,
                 "z_sha256": tensor_sha(endpoint.z), "key_sha256": tensor_sha(constraints),
-                "equality": {"NK_E": correction_key_residual, "NK_H": correction_history_residual, "NK_T": correction_target_residual, "target_activation": activation_error, "target_logits": logit_error},
+                "equality": {"NK_E": correction_key_residual, "NK_H": correction_history_residual, "NK_T": correction_target_residual, "target_activation": activation_error, "target_logits": logit_error, "algebra_tolerance": lock.fp32_relative_tolerance, "full_model_tolerance": MODEL_ENDPOINT_TOLERANCE[model_alias]},
                 "action": action, "cross_action_relative": axis.cross_action_relative,
                 "rank": axis.rank, "valid": valid, "failure": None if valid else "FIXED_Z_OR_ACTION_IDENTITY",
                 "observation": _serializable_observation(observed),

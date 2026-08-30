@@ -123,7 +123,7 @@ def generate_axes(
     projector: torch.Tensor | None = None,
 ) -> tuple[list[TangentAxis], dict[str, float]]:
     base_u, base_v, factor_residual = rank_one_factor(
-        base_delta, lock.fp32_relative_tolerance
+        base_delta, shape_rank_rtol(tuple(base_delta.shape), base_delta.dtype)
     )
     base_v_action = covariance_quadratic(base_v, covariance_matvec)
     base_action = float(torch.dot(base_u, base_u).item()) * base_v_action

@@ -98,3 +98,10 @@ MODEL_SPECS: dict[str, ModelSpec] = {
         statistics_model_dir="Qwen2.5-7B-Instruct",
     ),
 }
+
+# Existing, pre-task FULL_FP32 endpoint locks.  These values and their receipt
+# identities predate this screen; they are not calibrated from its candidates.
+MODEL_ENDPOINT_TOLERANCE = {
+    "llama3-8b-inst": 0.013695280019564686,
+    "qwen2.5-7b-inst": 0.01810729797516364,
+}

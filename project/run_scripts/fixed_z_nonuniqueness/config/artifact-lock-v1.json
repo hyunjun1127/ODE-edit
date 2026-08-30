@@ -26,6 +26,18 @@
     "llama_required_root": "a1795dc0fe12a307e16432a7c2049da1a795e4170e3b6f6822d760a5d6ea8056",
     "qwen_required_root": "2f7e899779cac6f49071af6b98519a7058cb31bb14eef651fe6300f62f1dd43b"
   },
+  "existing_full_fp32_endpoint_locks": {
+    "llama3-8b-inst": {
+      "path": "/data/janghj/ODE-edit/local/results/cache-aware-qkl-projected-alphaedit-v1/g0-tech-r1/llama/preflight-receipt.json",
+      "sha256": "681fe9d00f36400404913d9cf347b2c63f18c4e39612fa1670c3dd48450f276d",
+      "endpoint_relative_tolerance": 0.013695280019564686
+    },
+    "qwen2.5-7b-inst": {
+      "path": "/data/janghj/ODE-edit/local/results/cache-aware-qkl-projected-alphaedit-v1/g0-tech-r1/qwen/preflight-receipt.json",
+      "sha256": "304a5dfaa2f8a547988fe215390614c64aee586efc1cb3c3353eb74fe152d2fd",
+      "endpoint_relative_tolerance": 0.01810729797516364
+    }
+  },
   "artifact_manifest": {
     "path": "agents/server4/alphaedit-runtime-path-seal.json",
     "sha256": "176018298d691a1b67ae7ca787c7dcd2bd77d8606044790833d361fd451ddeb3",

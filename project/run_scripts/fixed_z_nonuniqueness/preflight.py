@@ -117,6 +117,13 @@ def build(source_root: Path) -> dict[str, Any]:
             "tokenizer_sha256": sha256(spec.model_path / "tokenizer.json"),
             "model_revision": spec.model_revision,
             "padding_contract": {"official": spec.official_padding_side, "hook": spec.hook_padding_side, "pad_policy": spec.pad_policy},
+            "existing_full_fp32_endpoint_lock": {
+                **identity(
+                    Path(lock["existing_full_fp32_endpoint_locks"][alias]["path"]),
+                    expected_sha=lock["existing_full_fp32_endpoint_locks"][alias]["sha256"],
+                ),
+                "endpoint_relative_tolerance": lock["existing_full_fp32_endpoint_locks"][alias]["endpoint_relative_tolerance"],
+            },
         }
     return {
         "schema": "odeedit.s06.fixed-z-nonuniqueness.pre-gpu.v1",

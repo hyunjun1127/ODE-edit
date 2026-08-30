@@ -9,6 +9,8 @@ import torch
 from project.run_scripts.fixed_z_nonuniqueness.algebra import (
     candidate_action,
     generate_axes,
+    rank_one_factor,
+    shape_rank_rtol,
 )
 from project.run_scripts.fixed_z_nonuniqueness.contracts import NumericalLock
 from project.run_scripts.fixed_z_nonuniqueness.forbidden_imports import scan
@@ -92,6 +94,13 @@ class CoreTests(unittest.TestCase):
         target = torch.randn(d_in, 3)
         constraints = torch.cat([edit, history, target], dim=1)
         self.assertEqual(constraints.shape, (d_in, 36))
+
+    def test_shape_derived_rank_one_tolerance(self) -> None:
+        torch.manual_seed(17)
+        base = torch.outer(torch.randn(7), torch.randn(19))
+        noisy = base + 1e-7 * torch.randn_like(base)
+        _, _, residual = rank_one_factor(noisy, shape_rank_rtol(tuple(noisy.shape)))
+        self.assertLess(residual, shape_rank_rtol(tuple(noisy.shape)))
 
 
 if __name__ == "__main__":
