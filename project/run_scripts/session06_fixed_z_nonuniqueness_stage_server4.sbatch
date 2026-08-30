@@ -10,6 +10,8 @@
 #SBATCH --mem=180000M
 #SBATCH --time=24:00:00
 #SBATCH --array=0-1%2
+#SBATCH --output=/data/janghj/ODE-edit/local/logs/fixed-z-nonuniqueness-screen-v1/%x-%A_%a.out
+#SBATCH --error=/data/janghj/ODE-edit/local/logs/fixed-z-nonuniqueness-screen-v1/%x-%A_%a.err
 
 set -euo pipefail
 umask 077
