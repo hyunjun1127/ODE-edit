@@ -1,0 +1,156 @@
+{
+  "dataset": {
+    "bytes": 45108470,
+    "path": "/data/janghj/EasyEdit/data/counterfact/counterfact.json",
+    "sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f"
+  },
+  "excluded_prior_case_count": 120,
+  "final_audit_open_count": 0,
+  "fresh_cases": [
+    {
+      "case_id": 5685,
+      "ordinal": 0,
+      "prompt": "{} was employed in",
+      "relation_id": "P937",
+      "request_sha256": "2a28eab8521972802307f97a3f2d03ce99616b3f3a7badc3e4fb95ea2ef75ab7",
+      "row_sha256": "0d774fb272de9175aa8ec53a18c37e9665b44fd8dd8162de09e547682376c731",
+      "selection_rank": "00007c4e31103ae5f930e0aab6462d8ddd9b53fccee3c4229a58159565ef5a29",
+      "subject": "Athanase David",
+      "target_class": "single_both",
+      "target_new": "Hamburg",
+      "target_new_token_counts": {
+        "llama3-8b-inst": 1,
+        "qwen2.5-7b-inst": 1
+      },
+      "target_true": "Montreal"
+    },
+    {
+      "case_id": 1109,
+      "ordinal": 1,
+      "prompt": "The location of {} is",
+      "relation_id": "P276",
+      "request_sha256": "3624535766ed69caf04e1e5d8b0730d3d6431334f3add4a285077b81f92899df",
+      "row_sha256": "d7ed31d51df7f62a23587c39c895c81d4b87bff7131d1887f3fbbe4ffe05cd7c",
+      "selection_rank": "000c294c3aac71133a0874adc0116ba7136d62a6adcf85dcc42a6ac5048d5186",
+      "subject": "Regina Coeli",
+      "target_class": "single_both",
+      "target_new": "Dublin",
+      "target_new_token_counts": {
+        "llama3-8b-inst": 1,
+        "qwen2.5-7b-inst": 1
+      },
+      "target_true": "Rome"
+    },
+    {
+      "case_id": 14568,
+      "ordinal": 2,
+      "prompt": "The original language of {} was",
+      "relation_id": "P364",
+      "request_sha256": "e5b6a8017df517c07da49d269b38806ef4c90766c5957245a6f6568fce5e1f8d",
+      "row_sha256": "9deecb5e3426b3c5813561ff3cec455a50c89b7ffa4ad50e5ff77a1254032fa4",
+      "selection_rank": "000cb8d7f1e4af59347ec682c3c6110abf1a1db82e441a30e5eef2ae43f4b9eb",
+      "subject": "Vipra Narayana",
+      "target_class": "single_both",
+      "target_new": "French",
+      "target_new_token_counts": {
+        "llama3-8b-inst": 1,
+        "qwen2.5-7b-inst": 1
+      },
+      "target_true": "Tamil"
+    },
+    {
+      "case_id": 13642,
+      "ordinal": 3,
+      "prompt": "{}, created in",
+      "relation_id": "P495",
+      "request_sha256": "a06157a488354f75671a58f614d243905562152bdd8628c36ed7ebf97bf11124",
+      "row_sha256": "5972ac9ae85030ea1599c5aff22df2024d1e646acd212ad3fff7e6ed1558f639",
+      "selection_rank": "000fe5aca4ea011c8c1f230f1ae49ca49b5fe5b692699d050abe2cac9d9286cf",
+      "subject": "Semana",
+      "target_class": "single_both",
+      "target_new": "Ireland",
+      "target_new_token_counts": {
+        "llama3-8b-inst": 1,
+        "qwen2.5-7b-inst": 1
+      },
+      "target_true": "Colombia"
+    },
+    {
+      "case_id": 20496,
+      "ordinal": 4,
+      "prompt": "{}, who plays the position",
+      "relation_id": "P413",
+      "request_sha256": "1746e171558e89ad44d22ea71099fc1493a1a2c0515545634ccda4b0b6d7efa0",
+      "row_sha256": "6ddb22150547a5e80358a596401a2fdd65635a7c95b8492c7a172df521053bbf",
+      "selection_rank": "00831ce62ee2c2d43a79071aa3917b84b7a5ddcfa38db06e40602fdbae43840e",
+      "subject": "Junior Seau",
+      "target_class": "multi_both",
+      "target_new": "goaltender",
+      "target_new_token_counts": {
+        "llama3-8b-inst": 2,
+        "qwen2.5-7b-inst": 2
+      },
+      "target_true": "linebacker"
+    },
+    {
+      "case_id": 1767,
+      "ordinal": 5,
+      "prompt": "The profession of {} is",
+      "relation_id": "P106",
+      "request_sha256": "d8e94070239eae51aeea3a0532734a87d5205d1fde3203c0abe4a53acdeab177",
+      "row_sha256": "e240d0758018d9d7e45594931cd0744ab970fd9bc597094e8a5916118b6f573a",
+      "selection_rank": "00c79527143e3e743905dd1106d7f24ad559ae9c5e3fd55816ff41b0523e4ee1",
+      "subject": "Ethan Wayne",
+      "target_class": "multi_both",
+      "target_new": "mathematician",
+      "target_new_token_counts": {
+        "llama3-8b-inst": 2,
+        "qwen2.5-7b-inst": 2
+      },
+      "target_true": "actor"
+    },
+    {
+      "case_id": 6743,
+      "ordinal": 6,
+      "prompt": "{} expired at",
+      "relation_id": "P20",
+      "request_sha256": "9a9966f9a4bbb29c099c80f661de493b0963d4e3fe66404e7d24303ebdf657fb",
+      "row_sha256": "28c008406a4d3f73f3b80217767d7db7b51a6a4d71083feb9c529323f85becb7",
+      "selection_rank": "03b45db74b1c80b0e08f0da0ed9f445854508a1cf1f663fb3af6ffe14a10c7c8",
+      "subject": "Justus Hagman",
+      "target_class": "multi_both",
+      "target_new": "Constantinople",
+      "target_new_token_counts": {
+        "llama3-8b-inst": 2,
+        "qwen2.5-7b-inst": 2
+      },
+      "target_true": "Stockholm"
+    },
+    {
+      "case_id": 18825,
+      "ordinal": 7,
+      "prompt": "{} follows the religion of",
+      "relation_id": "P140",
+      "request_sha256": "52394e116ee83eb2bb2dc830b9fb634617a83de604eed880e4fe21f423e0672b",
+      "row_sha256": "b500f9b2a7d081db54d95c0f01c1aa18d92675fa3811b28f0b4ab2aa7cc188a0",
+      "selection_rank": "0d65921ac15afced35fdc4d53ce4e23f8de04c613c9c72ee04a5d07e9d19f7dc",
+      "subject": "Padmasambhava",
+      "target_class": "multi_both",
+      "target_new": "Catholicism",
+      "target_new_token_counts": {
+        "llama3-8b-inst": 2,
+        "qwen2.5-7b-inst": 2
+      },
+      "target_true": "Buddhism"
+    }
+  ],
+  "outcome_influence_count": 0,
+  "prior_manifest": {
+    "path": "project/run_scripts/fixed_z_nonuniqueness/config/case-manifest-v1.json",
+    "sha256": "b20f18f3b4297280d45c542a3c69803cee357bca83665c7e511e3deaf26a11ca"
+  },
+  "replacement_count": 0,
+  "root_digest": "ef670ab365978a966ea7cd1eba533048f55335eaabe48e05686001112962aa82",
+  "schema": "odeedit.s06.barrier-usefulness.fresh-case-manifest.v1",
+  "selection": "metadata-only sha256 rank; 4 single-token-both + 4 multi-token-both; unique subject/relation/target pair"
+}
