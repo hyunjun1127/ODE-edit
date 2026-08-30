@@ -49,7 +49,10 @@ def _identity(path: Path) -> dict[str, Any]:
 
 def build(source_root: Path, contract: Path) -> dict[str, Any]:
     contract_id = _identity(contract)
-    if contract_id["sha256"] != EXPECTED_CONTRACT["sha256"] or contract_id["bytes"] != EXPECTED_CONTRACT["bytes"] or contract_id["mode"] != EXPECTED_CONTRACT["mode"] or len(contract.read_text().splitlines()) != EXPECTED_CONTRACT["lines"]:
+    # The transferred contract has an intentional final non-newline blank
+    # segment; the authority-provided line identity is POSIX wc -l semantics.
+    line_count = contract.read_bytes().count(b"\n")
+    if contract_id["sha256"] != EXPECTED_CONTRACT["sha256"] or contract_id["bytes"] != EXPECTED_CONTRACT["bytes"] or contract_id["mode"] != EXPECTED_CONTRACT["mode"] or line_count != EXPECTED_CONTRACT["lines"]:
         raise TechnicalBoundary("authoritative contract identity mismatch")
     if _git(source_root, "status", "--porcelain", "--untracked-files=no"):
         raise TechnicalBoundary("tracked source worktree not clean")
