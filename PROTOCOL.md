@@ -32,6 +32,28 @@ still owns the experiment lifecycle and evidence review.
 단, 기술적 정확성을 위해 command, path, metric 이름, filename, error
 snippet은 원문 그대로 남길 수 있다.
 
+## SH Factual-Only Reporting Policy
+
+사용자 지시가 다시 변경되기 전까지 모든 `server-head`(SH), worker, 그리고
+SH가 호출한 subagent의 상태 보고와 실험 보고는 **사실과 수치만** 기록한다.
+이 정책은 이 문서의 SH 결과 해석, 연구적 판정, caveat 작성, 후속 실험 제안에
+관한 기존 문구보다 우선한다.
+
+- 기록 가능: 실행 범위, source/config/sample identity, job 상태, 자원 사용량,
+  metric과 denominator, checksum, artifact path, typed failure/exception,
+  계약에 이미 정의된 gate의 기계적 PASS/FAIL, `NOT_RECORDED`.
+- 기록 금지: 결과의 과학적 의미 해석, 원인 추론(직접 증명되지 않은 경우),
+  가설 지지/반박 서술, 방법의 우열·유망성 평가, promotion 판단, 다음 실험이나
+  method 변경 권고.
+- SH 보고서의 비교표는 원시 수치와 산술 차이만 제시한다. 인과적·기전적 의미를
+  부여하지 않는다.
+- 기술 실패는 재현된 exception과 source-backed RCA 사실만 기록할 수 있다.
+  추정 원인은 `NOT_IDENTIFIED`로 둔다.
+- 과학적 해석과 후속 권고는 SH 산출물과 분리하여 `global-head`가 사용자에게
+  제공하거나 `experiment-reports/global/`에 작성한다.
+- 사용자가 특정 SH task에 한해 해석을 명시적으로 요구한 경우에만 해당 task
+  instruction ID와 허용 범위를 보고서에 적고 예외 적용한다.
+
 ## Roles
 
 - `global-head`: final coordinator. Owns canonical plans,
@@ -51,7 +73,8 @@ snippet은 원문 그대로 남길 수 있다.
   not push to Git directly; their parent agent reviews, summarizes, and commits
   results.
 - `blue-team subagent`: 연구 파이프라인을 실행하는 subagent. Plan 실행,
-  실험 실행, 결과 정리, 해석을 담당한다.
+  실험 실행, 사실·수치·artifact 근거 정리를 담당한다. 결과 해석과 후속 권고는
+  담당하지 않는다.
 - `red-team subagent`: blue team 작업을 감사하는 subagent. 데이터 분리,
   실험 논리, 근거, Git/protocol 준수 여부를 검사한다.
 
@@ -206,7 +229,8 @@ Use this boundary by default:
   direction changed. When experiment results arrive, proposal-side section
   files should summarize the important result, the current claim boundary, and
   the reason for continuing, pivoting, or killing the direction.
-- `experiment-reports/`: experiment evidence and interpretation after a run:
+- `experiment-reports/`: experiment evidence after a run. SH-authored reports
+  contain factual records only; global-head reports may additionally contain interpretation:
   concrete commands, config, dataset/model/method identifiers, Slurm job IDs,
   artifact paths, metric summaries, row counts, failure modes, post-run
   analyses, and links back to the proposal rationale.
@@ -283,9 +307,9 @@ Required cross-links:
 - Every experiment section README should list all canonical detailed reports
   in order, with one short Korean description per report so a new agent can
   inspect the section without opening every file.
-- Every post-run report should state its claim boundary: diagnostic only,
-  smoke/preflight, baseline, scheduler performance, ablation, or paper-ready
-  evidence candidate.
+- Every SH post-run report should state its execution/evidence scope without
+  promoting or interpreting the claim. Global-head may separately state the
+  claim boundary and scientific interpretation.
 - Every experiment report should state the local artifact path, Git commit,
   dataset/subset identifier, model, method, seed, batch/step configuration,
   and whether raw artifacts were broadcast.
@@ -574,14 +598,14 @@ Default lifecycle:
 3. blue-plan-runner converts the intent into concrete config, command, resource
    request, output path, and expected metric table
 4. red-team performs pre-flight audit: data split, leakage, command, resource
-   request, output boundary, and novelty/logic checks when relevant
+   request, output boundary, and contract consistency checks
 5. server-head submits the Slurm job and records job id, job name, command,
    commit SHA, and artifact paths
 6. blue-experiment-runner monitors progress, preserves generated outputs under
    `local/`, and writes compact run metadata under `runs/`
-7. after completion or failure, blue-result-analyst writes a Korean result
-   report with metric definitions, artifact paths, proposal links, and claim
-   boundary
+7. after completion or failure, blue-result-recorder writes a factual Korean
+   result report with metric definitions, denominators, artifact paths,
+   proposal links, and typed contract gate results
 8. red-team performs post-run audit and marks `pass`, `warn`, or `block`
 9. after an experiment produces ordinary project artifacts under `local/`,
    server-head runs `scripts/rsync-artifact-broadcast.sh` or the Slurm
@@ -787,35 +811,31 @@ Minimum blue-team subagents per server:
   artifact path, file size/checksum, exit code를 `runs/`에 기계가 읽을 수
   있게 정리한다. 실패 시 CUDA OOM, import error, data path error, logic
   error 등으로 1차 분류한다.
-- `blue-result-analyst`: 실험 결과를 한글로 정리하고 해석하여
-  `experiment-reports/servers/<server>/`에 작성한다. 재현성 정보, baseline
-  비교표, 핵심 metric, caveat, 다음 실험 제안을 포함한다.
+- `blue-result-recorder`: 실험 결과의 사실과 수치를 한글로 정리하여
+  `experiment-reports/servers/<server>/`에 작성한다. 재현성 정보, denominator,
+  baseline 원시 수치 비교표, 핵심 metric, typed failure, artifact identity를
+  포함하며 해석, caveat 서술, promotion 판단, 다음 실험 제안은 포함하지 않는다.
 
 Minimum red-team subagents per server:
 
 - `red-data-eval-auditor`: train/test/validation 분리, data leakage,
   evaluation set 오염, metric 계산 조건, 재현 가능한 data path를 검사한다.
-- `red-logic-evidence-auditor`: 실험 가정, 비교 기준, ablation 논리,
-  결과 해석, hallucination 가능성, 근거 없는 주장 여부를 검사한다. report
-  claim이 실제 metric/artifact/log 근거와 연결되는지 확인한다.
+- `red-logic-evidence-auditor`: 실험 가정, 비교 기준, ablation 논리와
+  보고된 사실이 실제 metric/artifact/log 근거와 연결되는지 검사한다. SH
+  산출물에서는 과학적 해석이나 후속 권고를 작성하지 않고, 근거 불일치와
+  protocol 위반 사실만 기록한다.
 - `red-git-protocol-auditor`: Git file ownership, message/report 분리,
   local-managed output 미추적, secret/checkpoint/full-log 유입 여부,
   artifact manifest 존재 여부, sync/conflict protocol 준수를 검사한다.
 
 Red team research-audit behavior:
 
-- 연구 방향을 점검할 때는 항상 근본 시작점부터 다시 묻는다. 최근 실험 실패가
-  단순 reframing 문제인지, 아니면 중심 가설 자체의 실패 신호인지 분리한다.
-- 관련 연구는 이름만 나열하지 않는다. 각 논문의 actual method, supervision,
-  runtime input, retrieval/routing assumption, intervention timing, metric,
-  reported result를 직접 비교한다.
-- `interesting`, `useful diagnostic`, `novel`, `paper-ready`를 구분한다.
-  흥미로운 signal이 바로 novelty나 publishable contribution을 의미하지 않는다.
-- 실험 결과를 냉정하게 해석한다. Positive result는 leakage, prompt length,
-  stronger instruction, oracle retrieval, parser artifact, cherry-picking,
-  model-specific behavior로 설명 가능한지 먼저 검사한다.
-- Blue team이나 global-head가 원래 아이디어를 살리는 방향으로만 결론을 내릴
-  때는, 대체 설명과 중단 기준을 명시적으로 요구한다.
+- SH red team은 data split, metric 계산, 비교 identity, artifact/log 근거,
+  contract/protocol 준수 여부를 사실 기반으로 검사한다.
+- 확인된 불일치, 누락, leakage, parser artifact, cherry-picking 조건은 경로와
+  수치 근거를 붙여 기록하되 과학적 의미를 해석하거나 후속 실험을 권고하지 않는다.
+- `interesting`, `novel`, `paper-ready`, 가설 지지/반박 같은 연구적 판정은
+  global-head가 별도 수행한다.
 
 Red team 결과는 반드시 한글로 `audits/servers/<server>/`에 남긴다. Red
 team이 `block`으로 판정한 경우 server-head는 해당 task 승격, 결과 확정,
@@ -828,7 +848,7 @@ Required gates:
 - `pre-flight`: `tasks/proposed/<server>/`가 `tasks/pending/`으로 승격되기
   전에 data split, 논리, 실행 경로, Git 경로 정책을 검사한다.
 - `post-run`: `tasks/done/` 또는 `tasks/failed/`로 확정하기 전에 metric,
-  report 해석, artifact path, log 근거를 검사한다.
+  report 사실·수치, artifact path, log 근거를 검사한다.
 - `pre-push-sensitive`: canonical plan, approved task, experiment report,
   audit 결과처럼 여러 서버에 영향을 주는 변경은 red-team check 후 push한다.
 - `server-onboarding`: 새 서버에 task를 배정하기 전에 Slurm, Git identity,
@@ -1074,9 +1094,13 @@ Experiment reports should include:
 - experiment purpose and related plan/task/run IDs
 - server, agent, command, environment, and resource summary
 - dataset path and output/artifact paths without copying the data into Git
-- key metrics and comparison against expectations
+- key metrics, denominators, and factual arithmetic comparisons
 - notable failure modes, warnings, or caveats
-- interpretation of the result and recommended next action
+- exact typed gate results already defined by the task contract
+
+SH-authored experiment reports must not include result interpretation,
+promotion language, or recommended next actions. The global-head may add those
+only in a separate global report or direct user response.
 
 Do not use `messages/` as a result report archive. Use `messages/` only to tell
 other servers what changed, what is requested, and where the report/artifacts
