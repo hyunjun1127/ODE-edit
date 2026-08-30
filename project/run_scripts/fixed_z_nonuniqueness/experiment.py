@@ -161,6 +161,10 @@ def run_case(
     endpoint = run_official_once(method=method, model=model, tokenizer=tokenizer_hook, request=request, hparams=hparams)
     if endpoint.direct_z_compute_count != 1:
         raise ScientificBoundary("direct-z count differs")
+    if not endpoint.tokenizer_calls or not all(
+        row["semantic_input_attention_position_equal"] for row in endpoint.tokenizer_calls
+    ):
+        raise TechnicalBoundary("Official/hook token-position binding receipt missing")
     # Official endpoint is currently materialized.
     history_templates = [item["requested_rewrite"]["prompt"] for item in role_rows["history"]]
     history_subjects = [item["requested_rewrite"]["subject"] for item in role_rows["history"]]
@@ -297,12 +301,19 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     model.eval()
     tok = AutoTokenizer.from_pretrained(spec.model_path, local_files_only=True, use_fast=True, trust_remote_code=False)
     padding_binding = bind_padding(tok, model, padding_side="right")
+    hparams_path = source_root / (spec.alpha_hparams if args.method == "alphaedit" else spec.memit_hparams)
+    hparams = _load_hparams(Method(args.method), hparams_path)
+    if str(hparams.model_name) != spec.statistics_model_dir:
+        raise TechnicalBoundary("Official statistics model alias mismatch")
     calibration = roles["calibration"][:3]
     calibration_prompts = [prompt(row) for row in calibration]
     calibration_targets = [row["requested_rewrite"]["target_new"]["str"] for row in calibration]
     padding_gate = padding_safety_gate(
         model, tok, calibration_prompts, calibration_targets,
-        f"model.layers.{31 if args.model.startswith('llama') else 27}", lock,
+        hparams.layer_module_tmp.format(hparams.layers[-1]), lock,
+        input_module=hparams.rewrite_module_tmp.format(hparams.layers[-1]),
+        subject_templates=[row["requested_rewrite"]["prompt"] for row in calibration],
+        subjects=[row["requested_rewrite"]["subject"] for row in calibration],
     )
     special = {
         "tokenizer_class": type(tok).__name__, "bos_token_id": tok.bos_token_id,
@@ -311,10 +322,6 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "add_special_tokens_ids": tok.encode(calibration_prompts[0], add_special_tokens=True)[:8],
         "without_special_tokens_ids": tok.encode(calibration_prompts[0], add_special_tokens=False)[:8],
     }
-    hparams_path = source_root / (spec.alpha_hparams if args.method == "alphaedit" else spec.memit_hparams)
-    hparams = _load_hparams(Method(args.method), hparams_path)
-    if str(hparams.model_name) != spec.statistics_model_dir:
-        raise TechnicalBoundary("Official statistics model alias mismatch")
     stats_path = spec.statistics_root / spec.statistics_model_dir / "wikipedia_stats" / "model.layers.8.mlp.down_proj_float32_mom2_100000.npz"
     cases = []
     for row in selected:

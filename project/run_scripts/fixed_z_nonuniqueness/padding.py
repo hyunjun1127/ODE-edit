@@ -95,6 +95,19 @@ def batch_identity(batch: Any) -> str:
     return h.hexdigest()
 
 
+def semantic_batch_identity(batch: Any) -> str:
+    """Hash semantic tokens and positions independently of pad columns."""
+
+    h = hashlib.sha256()
+    positions = semantic_position_ids(batch["attention_mask"])
+    for row, cols in enumerate(semantic_token_columns(batch["attention_mask"])):
+        for key, tensor in (("input_ids", batch["input_ids"]), ("position_ids", positions)):
+            value = tensor[row, cols].detach().to("cpu").contiguous()
+            h.update(key.encode())
+            h.update(value.numpy().tobytes())
+    return h.hexdigest()
+
+
 @dataclass
 class OfficialTokenizerHook:
     """Thin tokenizer proxy that records Official inputs without source edits.
@@ -113,11 +126,35 @@ class OfficialTokenizerHook:
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
         output = self.tokenizer(*args, **kwargs)
         if kwargs.get("return_tensors") == "pt" and "attention_mask" in output:
+            official_semantic = semantic_batch_identity(output)
+            previous = self.tokenizer.padding_side
+            try:
+                self.tokenizer.padding_side = "left"
+                replay = self.tokenizer(*args, **kwargs)
+            finally:
+                self.tokenizer.padding_side = previous
+            replay_semantic = semantic_batch_identity(replay)
+            semantic_equal = official_semantic == replay_semantic
+            if not semantic_equal:
+                raise TechnicalBoundary("Official/hook semantic token-position identity failed")
             row = {
                 "padding_side": self.tokenizer.padding_side,
                 "input_ids_shape": list(output["input_ids"].shape),
                 "attention_mask_shape": list(output["attention_mask"].shape),
                 "semantic_lengths": [int(v) for v in output["attention_mask"].sum(-1)],
+                "official_raw_batch_sha256": batch_identity({
+                    "input_ids": output["input_ids"],
+                    "attention_mask": output["attention_mask"],
+                    "position_ids": semantic_position_ids(output["attention_mask"]),
+                }),
+                "left_replay_raw_batch_sha256": batch_identity({
+                    "input_ids": replay["input_ids"],
+                    "attention_mask": replay["attention_mask"],
+                    "position_ids": semantic_position_ids(replay["attention_mask"]),
+                }),
+                "official_semantic_sha256": official_semantic,
+                "left_replay_semantic_sha256": replay_semantic,
+                "semantic_input_attention_position_equal": semantic_equal,
             }
             self.call_identities.append(row)
         return output

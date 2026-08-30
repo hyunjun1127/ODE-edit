@@ -16,6 +16,7 @@ from project.run_scripts.fixed_z_nonuniqueness.contracts import NumericalLock
 from project.run_scripts.fixed_z_nonuniqueness.forbidden_imports import scan
 from project.run_scripts.fixed_z_nonuniqueness.padding import (
     semantic_last_columns,
+    semantic_batch_identity,
     semantic_position_ids,
     target_continuation_columns,
 )
@@ -42,6 +43,15 @@ class CoreTests(unittest.TestCase):
         spans = target_continuation_columns(mask, [1, 2])
         self.assertTrue(torch.equal(spans[0], torch.tensor([3])))
         self.assertTrue(torch.equal(spans[1], torch.tensor([2, 3])))
+        left = {
+            "input_ids": torch.tensor([[0, 11, 12], [21, 22, 23]]),
+            "attention_mask": torch.tensor([[0, 1, 1], [1, 1, 1]]),
+        }
+        right = {
+            "input_ids": torch.tensor([[11, 12, 0], [21, 22, 23]]),
+            "attention_mask": torch.tensor([[1, 1, 0], [1, 1, 1]]),
+        }
+        self.assertEqual(semantic_batch_identity(left), semantic_batch_identity(right))
 
     def test_tangent_equality_orientation_and_action_pair(self) -> None:
         torch.manual_seed(7)

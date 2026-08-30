@@ -197,6 +197,10 @@ def padding_safety_gate(
     targets: list[str],
     module_name: str,
     lock: NumericalLock,
+    *,
+    input_module: str,
+    subject_templates: list[str],
+    subjects: list[str],
 ) -> dict[str, Any]:
     """Compare left-padded batches, singletons, reorder, and longer padding."""
     if len(prompts) < 3 or len(prompts) != len(targets):
@@ -225,6 +229,55 @@ def padding_safety_gate(
         "batch_reorder": relative_error(batch_logits, reorder_l),
         "batch_padding_length": relative_error(batch_logits, padded_l[:-1]),
     }
+    target_prefix_texts: list[str] = []
+    for prompt, target in zip(prompts, targets, strict=True):
+        prefixes, _ = target_prefixes(tokenizer, prompt, target)
+        target_prefix_texts.extend(prefixes)
+    target_batch, _ = capture_last_hidden(model, tokenizer, target_prefix_texts, input_module, track="in")
+    target_singletons = torch.cat([
+        capture_last_hidden(model, tokenizer, [text], input_module, track="in")[0]
+        for text in target_prefix_texts
+    ])
+    target_order = list(reversed(range(len(target_prefix_texts))))
+    target_reordered, _ = capture_last_hidden(
+        model, tokenizer, [target_prefix_texts[index] for index in target_order], input_module, track="in"
+    )
+    target_reordered = target_reordered[torch.tensor(target_order).argsort()]
+    target_padded, _ = capture_last_hidden(
+        model, tokenizer, target_prefix_texts + [longer], input_module, track="in"
+    )
+    target_key_errors = {
+        "batch_singleton": relative_error(target_batch, target_singletons),
+        "batch_reorder": relative_error(target_batch, target_reordered),
+        "batch_padding_length": relative_error(target_batch, target_padded[:-1]),
+    }
+    if len(subject_templates) != len(subjects) or len(subjects) < 3:
+        raise TechnicalBoundary("subject-key padding gate needs three identities")
+    subject_batch = capture_subject_keys(model, tokenizer, subject_templates, subjects, input_module)
+    subject_singletons = torch.cat([
+        capture_subject_keys(model, tokenizer, [template], [subject], input_module)
+        for template, subject in zip(subject_templates, subjects, strict=True)
+    ], dim=1)
+    subject_order = list(reversed(range(len(subjects))))
+    subject_reordered = capture_subject_keys(
+        model,
+        tokenizer,
+        [subject_templates[index] for index in subject_order],
+        [subjects[index] for index in subject_order],
+        input_module,
+    )[:, torch.tensor(subject_order).argsort()]
+    subject_padded = capture_subject_keys(
+        model,
+        tokenizer,
+        subject_templates + [longer + " {}"],
+        subjects + ["control"],
+        input_module,
+    )[:, :-1]
+    subject_key_errors = {
+        "batch_singleton": relative_error(subject_batch, subject_singletons),
+        "batch_reorder": relative_error(subject_batch, subject_reordered),
+        "batch_padding_length": relative_error(subject_batch, subject_padded),
+    }
     nll_errors = []
     target_slices = []
     for prompt, target in zip(prompts, targets, strict=True):
@@ -235,7 +288,10 @@ def padding_safety_gate(
         # explicit repeat catches tokenizer state/padding mutation.
         repeated = sequence_metrics(model, tokenizer, [prompt], target)["nll"][0]
         nll_errors.append(abs(singleton - repeated))
-    maximum = max([*hidden_errors.values(), *logit_errors.values(), *nll_errors])
+    maximum = max([
+        *hidden_errors.values(), *logit_errors.values(), *target_key_errors.values(),
+        *subject_key_errors.values(), *nll_errors,
+    ])
     passed = maximum <= lock.fp32_relative_tolerance
     if not passed:
         raise TechnicalBoundary(f"left-padding batch/singleton identity failed: {maximum}")
@@ -245,6 +301,8 @@ def padding_safety_gate(
         "semantic_position_source": "attention_mask_nonzero_columns_and_cumsum_position_ids",
         "hidden_relative_errors": hidden_errors,
         "logit_relative_errors": logit_errors,
+        "target_key_relative_errors": target_key_errors,
+        "edit_history_key_relative_errors": subject_key_errors,
         "nll_absolute_errors": nll_errors,
         "target_prefix_slices": target_slices,
         "batch_reorder_identity": True,
