@@ -23,6 +23,13 @@ ARMS = tuple(arm.value for arm in (
     Arm.STRONG_STATIC_SAME_OBJECTIVE,
 ))
 
+TECHNICAL_ATTEMPT_REASONS = {
+    "campaign-d193ced-r1": "INCOMPLETE_FROZEN_FAILURE_RECEIPT",
+    "campaign-c9be848-tech-r2": "ROLLOUT_OBSERVATION_WRONGLY_DECISION_COUPLED",
+    "campaign-679f1e8-tech-r3": "INCOMPLETE_FD_CORRECTOR_FAILURE_RECEIPT",
+    "campaign-39d2f67-tech-r4": "INCOMPLETE_STRONG_STATIC_FAILURE_RECEIPT",
+}
+
 
 def _load(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -210,15 +217,40 @@ def _write_csv(path: Path, rows: list[dict[str, Any]], fields: list[str] | None 
 
 def _fd_rows(model: str, fzcb: dict[str, Any]) -> list[dict[str, Any]]:
     evidence = fzcb.get("evidence", fzcb)
-    sweeps = list(evidence.get("axis_fd_sweeps", []))
+    sweeps: list[dict[str, Any]] = []
+    for waypoint in fzcb.get("waypoints", []):
+        barrier = waypoint.get("barrier") or {}
+        if barrier.get("equality_direction_fd"):
+            sweeps.append({
+                "waypoint": waypoint.get("ordinal"), "s": waypoint.get("s_entry"),
+                "axis": "EQUALITY", "seed": "NA", **barrier["equality_direction_fd"],
+            })
+        sweeps.extend({
+            "waypoint": waypoint.get("ordinal"), "s": waypoint.get("s_entry"), **row,
+        } for row in barrier.get("axis_fd_sweeps", []))
+    sweeps.extend(evidence.get("axis_fd_sweeps", []))
     if evidence.get("equality_direction_fd"):
         sweeps.insert(0, {"axis": "EQUALITY", "seed": "NA", **evidence["equality_direction_fd"]})
+    fd_payload = fzcb.get("fd", {}) if isinstance(fzcb.get("fd"), dict) else {}
+    failure = fd_payload.get("failure", evidence.get("finite_difference_failure"))
+    if isinstance(failure, dict) and failure.get("steps"):
+        failing_axis = fd_payload.get("failing_axis", evidence.get("failing_axis", "NOT_RECORDED"))
+        if failing_axis == "NOT_RECORDED":
+            failing_axis = "EQUALITY_FAILURE"
+        sweeps.append({
+            "axis": failing_axis,
+            "seed": fd_payload.get("failing_seed", evidence.get("failing_seed", "NA")),
+            "failure": True,
+            **failure,
+        })
     rows = []
     for sweep in sweeps:
         for step in sweep.get("steps", []):
             for repeat in step.get("repeats", []):
                 rows.append({
                     "model": model,
+                    "waypoint": sweep.get("waypoint", "NOT_RECORDED"),
+                    "s": sweep.get("s", fzcb.get("s", "NOT_RECORDED")),
                     "axis": sweep.get("axis"),
                     "seed": sweep.get("seed"),
                     "multiplier": step.get("multiplier"),
@@ -231,13 +263,24 @@ def _fd_rows(model: str, fzcb: dict[str, Any]) -> list[dict[str, Any]]:
                     "repeat_noise_max": sweep.get("repeat_noise_max"),
                     "cross_step_spread": sweep.get("cross_step_spread"),
                     "stability_limit": sweep.get("stability_limit"),
+                    "failure": bool(sweep.get("failure", False)),
                 })
     return rows
 
 
 def _sketch_rows(model: str, fzcb: dict[str, Any]) -> list[dict[str, Any]]:
+    rows = []
+    for waypoint in fzcb.get("waypoints", []):
+        sketch = _nested(waypoint, "barrier", "sketch", default={})
+        if isinstance(sketch, dict):
+            rows.extend({
+                "model": model, "waypoint": waypoint.get("ordinal"),
+                "s": waypoint.get("s_entry"), **row,
+            } for row in sketch.get("ladder", []))
     sketch = _nested(fzcb, "evidence", "sketch", default=_nested(fzcb, "fd", "sketch", default={}))
-    return [{"model": model, **row} for row in sketch.get("ladder", [])] if isinstance(sketch, dict) else []
+    if isinstance(sketch, dict):
+        rows.extend({"model": model, "waypoint": "FAILURE", "s": fzcb.get("s"), **row} for row in sketch.get("ladder", []))
+    return rows
 
 
 def _waypoint_rows(model: str, arm: dict[str, Any]) -> list[dict[str, Any]]:
@@ -331,10 +374,30 @@ def build(
                     "status": arm.get("status", "NOT_RECORDED"),
                     "stage": arm.get("stage", "NOT_RECORDED"),
                     "s": arm.get("s", "NOT_RECORDED"),
+                    "proposed_step": arm.get("proposed_step", "NOT_RECORDED"),
                     "A0": arm.get("A0", "NOT_RECORDED"),
                     "E": arm.get("E", "NOT_RECORDED"),
                     "predicted_suffix": arm.get("predicted_suffix", "NOT_RECORDED"),
                     "h_cc": arm.get("h_cc", "NOT_RECORDED"),
+                    "psi0": arm.get("psi0", "NOT_RECORDED"),
+                    "psi_min": arm.get("psi_min", "NOT_RECORDED"),
+                    "g_eq": arm.get("g_eq", "NOT_RECORDED"),
+                    "partial_s_suffix": arm.get("partial_s_suffix", "NOT_RECORDED"),
+                    "g_free_norm_squared": arm.get("g_free_norm_squared", "NOT_RECORDED"),
+                    "coefficient_dimension": _nested(arm, "dimensions", "coefficient"),
+                    "output_dimension": _nested(arm, "dimensions", "output"),
+                    "null_dimension": _nested(arm, "dimensions", "null"),
+                    "effective_dimension": _nested(arm, "dimensions", "effective"),
+                    "range_residual": _nested(arm, "rank_spectral_range_kkt_cg", "range_residual"),
+                    "kkt_residual": _nested(arm, "rank_spectral_range_kkt_cg", "kkt_residual"),
+                    "candidate_closure": _nested(arm, "evidence", "candidate_failure", "absolute_closure"),
+                    "candidate_action": _nested(arm, "evidence", "candidate_failure", "candidate_coefficient_action_squared"),
+                    "best_observed_action": _nested(arm, "evidence", "best_observed_action"),
+                    "best_feasible_action": _nested(arm, "evidence", "best_feasible_action"),
+                    "w0_rollback_exact": bool(_nested(arm, "rollback", "bytes_exact", default=False)) and bool(
+                        _nested(arm, "rollback", "pointer_exact", default=False)
+                    ),
+                    "cache_rollback_exact": _nested(arm, "cache_rollback", "exact", default=False),
                     "exception_type": arm.get("root_exception_type", arm.get("exception_type", "NOT_RECORDED")),
                     "exception": arm.get("exception", "NOT_RECORDED"),
                     "denominator": 0,
@@ -343,19 +406,23 @@ def build(
         fd_rows.extend(_fd_rows(model, fzcb))
         sketch_rows.extend(_sketch_rows(model, fzcb))
 
-    if technical_attempt_roots:
+    for technical_attempt_root in technical_attempt_roots:
+        campaign = technical_attempt_root.name
         failure_rows.append({
             "model": "BOTH",
             "arm": "CAMPAIGN_TECH_R1",
-            "status": "PURE_TECHNICAL_CANCELLED_INCOMPLETE_JOURNAL",
-            "stage": "failure-receipt-schema",
+            "status": "PURE_TECHNICAL_EXCLUDED_DENOMINATOR0",
+            "stage": TECHNICAL_ATTEMPT_REASONS.get(campaign, "TECHNICAL_ATTEMPT"),
+            "campaign": campaign,
+            "root": str(technical_attempt_root),
             "s": "NA",
+            "proposed_step": "NA",
             "A0": "NOT_USED",
             "E": "NOT_USED",
             "predicted_suffix": "NOT_USED",
             "h_cc": "NOT_USED",
             "exception_type": "TECHNICAL_INSTRUMENTATION_REPAIR",
-            "exception": "shared frozen comparator exception omitted contract section 6 fields; immutable partial roots excluded",
+            "exception": TECHNICAL_ATTEMPT_REASONS.get(campaign, "TECHNICAL_ATTEMPT_EXCLUDED"),
             "denominator": 0,
         })
 
@@ -449,6 +516,7 @@ def build(
         "valid_denominators": {model: results[model].get("valid_arm_denominator", 0) for model in MODELS},
         "typed_conclusions": {model: results[model].get("typed_conclusion") for model in MODELS},
         "scientific_inputs": input_members,
+        "technical_attempt_roots": [str(path) for path in technical_attempt_roots],
         "scientific_input_member_root": canonical_hash(input_members),
         "outputs": outputs,
         "output_member_root": canonical_hash(outputs),
