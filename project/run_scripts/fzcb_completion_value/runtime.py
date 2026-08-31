@@ -404,6 +404,22 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 )
                 terminal_status = "TECHNICAL_BLOCKED"
                 break
+            if stage == "k0":
+                rollout_failures = sum(
+                    candidate["rollout_failure"] is not None
+                    for candidate in case["candidates"]
+                )
+                value_failures = sum(
+                    candidate["predicted_value_failure"] is not None
+                    for candidate in case["candidates"]
+                )
+                if rollout_failures or value_failures:
+                    terminal_failure = (
+                        f"K0 scientific range/rollout gate failed case={case['case_id']} "
+                        f"rollout_failures={rollout_failures} value_failures={value_failures}"
+                    )
+                    terminal_status = "SCIENTIFIC_HOLD"
+                    break
             if stage == "k0" and (
                 case["valid_null_direction_count"] < 3 or not case["spread_gt_3x_noise"]
             ):
