@@ -114,7 +114,10 @@ def submit(
     ]
     job_id = subprocess.check_output(command, text=True).strip().split(";", 1)[0]
     inspection = subprocess.check_output(["scontrol", "show", "job", job_id], text=True)
-    if "NodeList=server4" not in inspection or "gres/gpu:rtx_pro_6000=1" not in inspection:
+    node_pinned = "ReqNodeList=server4" in inspection or "NodeList=server4" in inspection
+    gres_pinned = "TresPerNode=gres/gpu:rtx_pro_6000:1" in inspection
+    if not node_pinned or not gres_pinned:
+        subprocess.call(["scancel", job_id])
         raise TechnicalBoundary(f"held joint job mapping differs: {inspection}")
     manifest = {
         "schema": "odeedit.s06.fzcb-tech-r1.joint-b1-campaign.v1",
