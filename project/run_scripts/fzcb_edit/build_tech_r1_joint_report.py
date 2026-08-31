@@ -209,7 +209,12 @@ def _write_csv(path: Path, rows: list[dict[str, Any]], fields: list[str] | None 
     path.parent.mkdir(parents=True, exist_ok=True)
     columns = fields or sorted({key for row in rows for key in row})
     with path.open("x", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=columns, extrasaction="ignore")
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=columns,
+            extrasaction="ignore",
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerows(rows)
     os.chmod(path, 0o600)
@@ -490,7 +495,7 @@ def build(
         "",
         "- 이 B1 감사의 모델별 typed status는 위 공동 표 그대로다.",
         "- 두 모델 모두 controller-validity를 완결하지 못하면 B10은 열지 않는다.",
-        "- `scientific_promotion=false`; GH 검토 전 task 상태는 terminal HOLD다.",
+        "- `scientific_promotion=false`; GH 검토 전 task 상태는 `HOLD_AWAITING_GH_FAILURE_REVIEW`다.",
         "",
         "## 산출물",
         "",
