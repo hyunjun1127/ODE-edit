@@ -33,6 +33,7 @@ def _summary(result: dict[str, Any]) -> tuple[dict[str, Any], list[dict[str, Any
     rows = []
     for case in result["cases"]:
         for candidate in case["candidates"]:
+            failure = candidate["rollout_failure"]
             rows.append({
                 "case_id": int(case["case_id"]), "candidate_id": candidate["candidate_id"],
                 "predicted_suffix_value": candidate["predicted_suffix_value"],
@@ -40,7 +41,7 @@ def _summary(result: dict[str, Any]) -> tuple[dict[str, Any], list[dict[str, Any
                 "total_realized_cost": candidate["total_realized_cost"],
                 "terminal_closure_relative": candidate["terminal_closure_relative"],
                 "transition_closure_relative": candidate["transition"]["closure_relative"],
-                "rollout_failure": candidate["rollout_failure"],
+                "rollout_failure": None if failure is None else failure.split(", cg=", 1)[0],
             })
     nulls = [direction for case in result["cases"] for direction in case["null_directions"]]
     failed = [row for row in rows if row["rollout_failure"] is not None]
@@ -168,7 +169,7 @@ def main() -> None:
     summary_path.write_text(canonical_json(summary) + "\n")
     candidates_path = args.output_root / "k0-candidates.csv"
     with candidates_path.open("w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader(); writer.writerows(rows)
     report_path = args.output_root / "fzcb-completion-value-fast-kill-k0-factual-ko.md"
     report_path.write_text(_report(summary, file_sha256(args.result), file_sha256(args.preflight), args.execution_head))
