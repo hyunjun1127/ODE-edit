@@ -143,6 +143,7 @@ def project_equality_null(
     *,
     relative_tolerance: float,
     max_iterations: int,
+    refinement_iterations: int = 2,
     output_preconditioner: Callable[[Vector], Vector] | None = None,
 ) -> tuple[Vector, dict[str, float | int | bool]]:
     value = _finite_vector(seed, "null seed")
@@ -164,6 +165,21 @@ def project_equality_null(
         max_iterations=max_iterations, preconditioner=output_preconditioner,
     )
     projected = (value - operator.adjoint(multiplier)).detach()
+    refinements = []
+    for ordinal in range(refinement_iterations):
+        image_residual = operator.apply(projected).detach()
+        correction_multiplier, correction_receipt = conjugate_gradient(
+            gram, image_residual, relative_tolerance=solver_relative_tolerance,
+            max_iterations=max_iterations, preconditioner=output_preconditioner,
+        )
+        projected = (projected - operator.adjoint(correction_multiplier)).detach()
+        refinements.append({
+            "ordinal": ordinal + 1,
+            "image_residual_before": float(torch.linalg.vector_norm(image_residual).item()),
+            "cg_iterations": correction_receipt.iterations,
+            "cg_converged": correction_receipt.converged,
+            "cg_relative_residual": correction_receipt.relative_residual,
+        })
     norm = float(torch.linalg.vector_norm(projected).item())
     residual = float(torch.linalg.vector_norm(operator.apply(projected)).item() / (norm + torch.finfo(torch.float32).eps))
     return projected, {
@@ -171,6 +187,8 @@ def project_equality_null(
         "cg_converged": receipt.converged,
         "solver_relative_tolerance": solver_relative_tolerance,
         "external_null_tolerance": relative_tolerance,
+        "refinement_iterations": refinement_iterations,
+        "refinements": refinements,
     }
 
 

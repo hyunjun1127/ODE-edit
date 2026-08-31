@@ -298,6 +298,7 @@ def _run_case(model: Any, tokenizer: Any, model_alias: str, row: dict[str, Any],
         projected, null_receipt = project_equality_null(
             operator25, seed, relative_tolerance=tolerance,
             max_iterations=lock.cg_max_iterations,
+            refinement_iterations=lock.null_projection_refinement_iterations,
             output_preconditioner=operator25.output_preconditioner,
         )
         candidate_id = f"seed-{ordinal:02d}"
