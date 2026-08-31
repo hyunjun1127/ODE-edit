@@ -20,12 +20,23 @@ class ScientificBoundary(FzCBEditError):
     """A frozen equality, range, action, or barrier contract failed."""
 
 
+class SubspaceInconclusive(ScientificBoundary):
+    """A reduced sensitivity sketch cannot establish a full-space verdict."""
+
+
+class NumericalSensitivityFailure(ScientificBoundary):
+    """Finite-difference sensitivity is not stable under the sealed sweep."""
+
+
 class Arm(str, Enum):
     OFFICIAL_MEMIT = "OFFICIAL_MEMIT"
-    FROZEN_SPLIT = "FROZEN_SPLIT"
+    TRUE_FROZEN_C_SPLIT = "TRUE_FROZEN_C_SPLIT"
     REFRESHED_EQUALITY_ONLY = "REFRESHED_EQUALITY_ONLY"
     FZCB = "FZCB"
-    STATIC_PATH = "STATIC_PATH"
+    STRONG_STATIC_SAME_OBJECTIVE = "STRONG_STATIC_SAME_OBJECTIVE"
+    # Source-compatibility aliases for the preserved pre-TECH-R1 runtime only.
+    FROZEN_SPLIT = "TRUE_FROZEN_C_SPLIT"
+    STATIC_PATH = "STRONG_STATIC_SAME_OBJECTIVE"
 
 
 @dataclass(frozen=True, slots=True)
@@ -36,7 +47,9 @@ class NumericalLock:
     backtrack_factor: float = 0.5
     maximum_backtracks: int = 3
     corrector_iterations: int = 2
-    reduced_null_axes: int = 2
+    sketch_ladder: tuple[int, ...] = (2, 8, 32, 128)
+    finite_difference_multipliers: tuple[float, ...] = (0.25, 0.5, 1.0, 2.0)
+    finite_difference_repeats: int = 2
     # sqrt(eps_fp32), fixed before GPU output and used only for the explicitly
     # labeled reduced-null finite-difference correctness prototype.
     finite_difference_step: float = 0.00034526698300124393
@@ -46,24 +59,24 @@ class NumericalLock:
     relative_floor_rule: str = "64*eps_fp32*sqrt(output_dimension)"
     rank_rule: str = "max(rows,cols)*eps_fp32*largest_eigenvalue"
     metric_epsilon_rule: str = "256*eps_fp32*mean(diag(C_l^0))"
-    sensitivity_method: str = "REDUCED_NULL_FINITE_DIFFERENCE_CORRECTNESS_PROTOTYPE"
+    sensitivity_method: str = "NESTED_NULL_SKETCH_WITH_DIMENSION_CORRECTION"
     direct_z_rule: str = "exactly_once_per_edit_shared_by_all_arms"
     terminal_commit_rule: str = "s_equals_1_closure_and_budget_then_atomic_commit"
     dense_inverse_count: int = 0
     explicit_kronecker_count: int = 0
     controller_output_metric_access_count: int = 0
-    seed_namespace: str = "ODEEDIT-S06-FZCB-EDIT-MAIN-METHOD-INITIAL-V1"
+    seed_namespace: str = "ODEEDIT-S06-FZCB-TECH-R1-JOINT-B1-CONTROLLER-VALIDITY-AUDIT-V1"
 
     def payload(self) -> dict[str, Any]:
         return asdict(self)
 
 
 CONTRACT_PATH = Path(
-    "/data/janghj/ODE-edit/local/state/fzcb-edit-main-method-initial-v1/authoritative-contract.txt"
+    "/data/janghj/ODE-edit/local/state/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/authoritative-contract.txt"
 )
-CONTRACT_SHA256 = "0ad22dad8ea63e65e116790c05cf3683db27cf7ea46b1d262d9a400705354073"
-CONTRACT_BYTES = 14605
-CONTRACT_LINES = 639
+CONTRACT_SHA256 = "4356a2cfea04687f25a2972e3a3f4636d57d4140d76dd2db2913b5d74d0467ac"
+CONTRACT_BYTES = 12248
+CONTRACT_LINES = 292
 PROPOSAL_PATH = Path("project/proposals/2026-08-31-fzcb-edit-method-pivot-proposal.md")
 PROPOSAL_SHA256 = "47666dada9a95be2a4d4414dcb826990b94150c8dacea08a763ed063049a3853"
 PROPOSAL_BYTES = 56759
@@ -80,4 +93,3 @@ ORDER_SHA256 = "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3
 SAMPLE_PAYLOAD_SHA256 = "fe7c8b0cb51abf591e0ec560c0009bdcc47f20e8c4efcf6efc3311710a373475"
 EXPECTED_BASE_HEAD = "ddc178584ef14efd5d4e1271b3c324e3ebd3e443"
 EXPECTED_BASE_TREE = "83889fc3d2e32119dafdffc969482de761eedfe2"
-

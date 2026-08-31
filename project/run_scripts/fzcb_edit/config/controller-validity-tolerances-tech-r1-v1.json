@@ -1,0 +1,17 @@
+{
+  "calibration_rule": "unit_separated_fp32_noop_repeat_precision_floor_pre_b1",
+  "fd_base_epsilon": 0.00034526698300124393,
+  "fd_multipliers": [
+    0.25,
+    0.5,
+    1.0,
+    2.0
+  ],
+  "fd_repeats": 2,
+  "tau_budget_over_a0": 0.000030517578125,
+  "tau_cbf_over_a0": 0.000030517578125,
+  "tau_grad_over_sqrt_a0": 0.000030517578125,
+  "tau_null": 0.00048828125,
+  "tau_range": 0.00048828125,
+  "tau_z": 0.001953125
+}

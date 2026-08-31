@@ -96,15 +96,21 @@ class CoreTests(unittest.TestCase):
             operator, seed, tolerance=1e-6, maximum_iterations=20, refinement_count=1,
         )
         self.assertLess(float(torch.linalg.vector_norm(operator.apply(null))), 1e-6)
-        inactive, inactive_receipt = scalar_rectification(-0.1, torch.tensor([1.0, 0.0]), tolerance=1e-6)
+        inactive, inactive_receipt = scalar_rectification(
+            -0.1, torch.tensor([1.0, 0.0]), tau_cbf=1e-6,
+        )
         self.assertTrue(torch.equal(inactive, torch.zeros(2)))
         self.assertFalse(inactive_receipt["barrier_active"])
-        correction, receipt = scalar_rectification(0.25, torch.tensor([1.0, 0.0]), tolerance=1e-6)
+        correction, receipt = scalar_rectification(
+            0.25, torch.tensor([1.0, 0.0]), tau_cbf=1e-6,
+        )
         residual = 0.5 * float(torch.dot(correction, correction)) + float(correction[0]) + 0.25
         self.assertLessEqual(residual, 1e-6)
         self.assertTrue(receipt["barrier_active"])
         with self.assertRaises(ScientificBoundary):
-            scalar_rectification(1.0, torch.tensor([0.1, 0.0]), tolerance=1e-6)
+            scalar_rectification(
+                1.0, torch.tensor([0.1, 0.0]), tau_cbf=1e-6,
+            )
 
     def test_actual_torch_func_operator_and_orientation(self) -> None:
         model = ToyModel()

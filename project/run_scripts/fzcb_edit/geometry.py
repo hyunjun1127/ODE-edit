@@ -140,6 +140,9 @@ class FullModelControlOperator:
         weight_names: tuple[str, ...],
         whitened_right_factors: tuple[torch.Tensor, ...],
         direct_gram_floor: float,
+        *,
+        primals_override: tuple[torch.Tensor, ...] | None = None,
+        linearization_state: str = "CURRENT",
     ) -> None:
         self.model = model
         self.batch = batch
@@ -148,7 +151,12 @@ class FullModelControlOperator:
         self.right_factors = whitened_right_factors
         self.direct_gram_floor = float(direct_gram_floor)
         parameters = dict(model.named_parameters())
-        self.primals = tuple(parameters[name] for name in weight_names)
+        self.primals = (
+            tuple(parameters[name] for name in weight_names)
+            if primals_override is None
+            else tuple(value.detach().clone() for value in primals_override)
+        )
+        self.linearization_state = linearization_state
         self.block_shapes = []
         self.offsets = [0]
         for weight, right in zip(self.primals, self.right_factors, strict=True):
@@ -208,6 +216,28 @@ class FullModelControlOperator:
             updates.append(update.to(weight))
         return tuple(updates)
 
+    def layer_action(self, value: torch.Tensor, delta_s: float) -> tuple[float, ...]:
+        if delta_s <= 0.0:
+            raise ScientificBoundary("layer action requires positive progress")
+        return tuple(
+            0.5 * float(delta_s) * float(torch.dot(block.reshape(-1), block.reshape(-1)).item())
+            for block in self.split(value)
+        )
+
+    def frozen_clone(self) -> "FullModelControlOperator":
+        """Freeze T0,H0,J_Phi0,C0 by freezing functional primals and right factors."""
+
+        return FullModelControlOperator(
+            self.model,
+            self.batch,
+            self.z_layer,
+            self.weight_names,
+            tuple(value.detach().clone() for value in self.right_factors),
+            self.direct_gram_floor,
+            primals_override=tuple(value.detach().clone() for value in self.primals),
+            linearization_state="FROZEN_ENTRY_T0_H0_JPHI0_C0",
+        )
+
     def apply(self, value: torch.Tensor) -> torch.Tensor:
         tangents = self.coefficient_to_tangents(value)
         with _forward_ad_attention(self.model):
@@ -246,6 +276,7 @@ class FullModelControlOperator:
             "direct_gram_floor": self.direct_gram_floor,
             "explicit_kronecker_count": 0,
             "dense_jacobian_count": 0,
+            "linearization_state": self.linearization_state,
         }
 
 

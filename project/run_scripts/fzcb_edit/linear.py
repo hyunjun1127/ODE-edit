@@ -8,7 +8,7 @@ from typing import Callable, Protocol
 
 import torch
 
-from .contracts import ScientificBoundary
+from .contracts import ScientificBoundary, SubspaceInconclusive
 
 
 Vector = torch.Tensor
@@ -151,6 +151,9 @@ def equality_null_projection(
 ) -> tuple[Vector, dict[str, float | int | bool]]:
     value = _finite_vector(seed, "null seed")
     image = operator.apply(value).detach()
+    input_norm = float(torch.linalg.vector_norm(value).item())
+    image_norm = float(torch.linalg.vector_norm(image).item())
+    operator_scale = image_norm / (input_norm + torch.finfo(torch.float32).eps)
 
     def gram(vector: Vector) -> Vector:
         return operator.apply(operator.adjoint(vector))
@@ -172,39 +175,116 @@ def equality_null_projection(
         raise ScientificBoundary("equality-null guide authority absent")
     projected = (projected / norm).detach()
     residual = float(torch.linalg.vector_norm(operator.apply(projected)).item())
-    if residual > tolerance:
-        raise ScientificBoundary(f"equality-null residual exceeds lock: {residual}")
+    relative_residual = residual / (operator_scale + torch.finfo(torch.float32).eps)
+    if relative_residual > tolerance:
+        raise ScientificBoundary(
+            f"equality-null normalized residual exceeds lock: {relative_residual}"
+        )
     return projected, {
         "norm_before_normalization": float(norm.item()),
-        "null_residual": residual,
+        "input_coefficient_norm": input_norm,
+        "input_image_norm": image_norm,
+        "operator_scale": operator_scale,
+        "null_residual_absolute": residual,
+        "null_residual": relative_residual,
         "cg_iterations": receipt.iterations,
         "cg_converged": receipt.converged,
     }
 
 
-def scalar_rectification(psi0: float, g_free: Vector, *, tolerance: float) -> tuple[Vector, dict[str, float | bool]]:
+def full_projected_sensitivity(
+    operator: ControlOperator,
+    gradient: Vector,
+    *,
+    tau_range: float,
+    tau_null: float,
+    maximum_iterations: int,
+    refinement_count: int,
+    preconditioner: Callable[[Vector], Vector] | None = None,
+) -> tuple[Vector, dict[str, float | int | bool]]:
+    """Project a supplied full coefficient gradient into ker(A), matrix-free."""
+
+    value = _finite_vector(gradient, "full coefficient gradient")
+    image = operator.apply(value).detach()
+
+    def gram(vector: Vector) -> Vector:
+        return operator.apply(operator.adjoint(vector))
+
+    multiplier, receipt = conjugate_gradient(
+        gram, image, tolerance=min(tau_range, tau_range * tau_range),
+        maximum_iterations=maximum_iterations, preconditioner=preconditioner,
+    )
+    projected = (value - operator.adjoint(multiplier)).detach()
+    for _ in range(refinement_count):
+        residual = operator.apply(projected).detach()
+        relative = float(torch.linalg.vector_norm(residual).item()) / (
+            float(torch.linalg.vector_norm(value).item()) + torch.finfo(torch.float32).eps
+        )
+        if relative <= tau_null:
+            break
+        correction, _ = conjugate_gradient(
+            gram, residual, tolerance=min(tau_range, tau_range * tau_range),
+            maximum_iterations=maximum_iterations, preconditioner=preconditioner,
+        )
+        projected = (projected - operator.adjoint(correction)).detach()
+    projected_image_norm = float(torch.linalg.vector_norm(operator.apply(projected)).item())
+    input_image_norm = float(torch.linalg.vector_norm(image).item())
+    null_residual = projected_image_norm / (input_image_norm + torch.finfo(torch.float32).eps)
+    if null_residual > tau_null:
+        raise ScientificBoundary(f"full projected sensitivity null residual={null_residual}")
+    return projected, {
+        "authority": "FULL_PROJECTED_SENSITIVITY",
+        "coefficient_dimension": operator.coefficient_dimension,
+        "output_dimension": operator.output_dimension,
+        "null_dimension": max(0, operator.coefficient_dimension - operator.output_dimension),
+        "g_free_norm_squared": float(torch.dot(projected, projected).item()),
+        "input_image_norm": input_image_norm,
+        "projected_image_norm": projected_image_norm,
+        "null_residual": null_residual,
+        "cg_iterations": receipt.iterations,
+        "cg_converged": receipt.converged,
+    }
+
+
+def scalar_rectification(
+    psi0: float,
+    g_free: Vector,
+    *,
+    tau_cbf: float,
+    authority: str = "FULL_PROJECTED_SENSITIVITY",
+) -> tuple[Vector, dict[str, float | bool | str]]:
     gradient = _finite_vector(g_free, "projected barrier gradient")
     norm_squared = float(torch.dot(gradient, gradient).item())
-    if psi0 <= tolerance:
+    if not math.isfinite(tau_cbf) or tau_cbf <= 0.0:
+        raise ScientificBoundary("tau_cbf must be finite positive in action-rate units")
+    if psi0 <= tau_cbf:
         return torch.zeros_like(gradient), {
             "barrier_active": False, "psi0": psi0, "g_free_norm_squared": norm_squared,
             "alpha": 0.0, "psi_min": psi0 - 0.5 * norm_squared,
+            "tau_cbf": tau_cbf, "authority": authority,
         }
     psi_min = psi0 - 0.5 * norm_squared
-    if norm_squared <= tolerance * tolerance or psi_min > tolerance:
+    if psi_min > tau_cbf:
+        if authority != "FULL_PROJECTED_SENSITIVITY":
+            raise SubspaceInconclusive(
+                f"sketched authority cannot establish full infeasibility psi0={psi0:.9g} "
+                f"g2={norm_squared:.9g} psi_min={psi_min:.9g} tau_cbf={tau_cbf:.9g}"
+            )
         raise ScientificBoundary(
-            f"typed local barrier infeasibility psi0={psi0:.9g} g2={norm_squared:.9g} psi_min={psi_min:.9g}"
+            f"typed full-space local barrier infeasibility psi0={psi0:.9g} "
+            f"g2={norm_squared:.9g} psi_min={psi_min:.9g} tau_cbf={tau_cbf:.9g}"
         )
     radicand = 1.0 - 2.0 * psi0 / norm_squared
-    if radicand < -tolerance:
+    dimensionless_floor = 64.0 * torch.finfo(torch.float32).eps
+    if radicand < -dimensionless_floor:
         raise ScientificBoundary("scalar rectification has negative radicand")
     alpha = 1.0 - math.sqrt(max(0.0, radicand))
     value = (-alpha * gradient).detach()
     residual = 0.5 * float(torch.dot(value, value).item()) + float(torch.dot(gradient, value).item()) + psi0
-    if residual > tolerance:
+    if residual > tau_cbf:
         raise ScientificBoundary(f"scalar rectification residual exceeds lock: {residual}")
     return value, {
         "barrier_active": True, "psi0": psi0, "g_free_norm_squared": norm_squared,
         "alpha": alpha, "psi_min": psi_min, "constraint_residual": residual,
+        "tau_cbf": tau_cbf, "authority": authority,
     }
-
