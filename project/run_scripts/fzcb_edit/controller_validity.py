@@ -436,12 +436,26 @@ def run_true_frozen(
     operator, geometry, phi0, equality, initial_budget, tolerances, budget_receipt = _initial_context(factory, target, policy)
     frozen = operator.frozen_clone()
     frozen_equality = _solve(frozen, target - phi0, tolerances.tau_range)
+    frozen_budget = 0.5 * frozen_equality.action_squared
+    if abs(frozen_budget - initial_budget) > tolerances.tau_budget:
+        raise ArmExecutionFailure("TRUE_FROZEN_C_SPLIT entry A0 mismatch", {
+            "arm": arm.value,
+            "stage": "frozen-entry-identity",
+            "A0": initial_budget,
+            "frozen_A0": frozen_budget,
+            "identity_error": frozen_budget - initial_budget,
+            "tolerances": tolerances.payload(),
+            "initial_geometry": geometry,
+            "frozen_operator": frozen.receipt(),
+        })
     identities = true_frozen_schedule(
         initial_budget=initial_budget,
         progress_grid=NumericalLock().progress_grid,
         tau_budget=tolerances.tau_budget,
     )
     rows = []
+    progress = 0.0
+    closure: float | str = "NOT_RECORDED"
     try:
         for identity in identities[1:]:
             progress = float(identity["progress"])
@@ -478,9 +492,47 @@ def run_true_frozen(
             "direct_z_recompute_count": 0,
             "controller_output_metric_access_count": 0,
         }
-    except Exception:
-        transaction.rollback()
-        raise
+    except Exception as exc:
+        rollback = transaction.rollback()
+        if isinstance(exc, ArmExecutionFailure):
+            exc.receipt["rollback"] = rollback
+            raise
+        spent = progress * initial_budget
+        suffix = (1.0 - progress) * initial_budget
+        raise ArmExecutionFailure(str(exc), {
+            "arm": arm.value,
+            "stage": "frozen-full-model-activation-validation",
+            "s": progress,
+            "proposed_step": NumericalLock().macro_step,
+            "A0": initial_budget,
+            "E": spent,
+            "predicted_suffix": suffix,
+            "h_cc": initial_budget - spent - suffix,
+            "psi0": 0.0,
+            "psi_min": 0.0,
+            "g_eq": "FROZEN_IDENTITY_NOT_REQUIRED",
+            "partial_s_suffix": -initial_budget,
+            "g_free_norm_squared": 0.0,
+            "coefficient_dimension": frozen.coefficient_dimension,
+            "output_dimension": frozen.output_dimension,
+            "null_dimension": max(0, frozen.coefficient_dimension - frozen.output_dimension),
+            "range_residual": frozen_equality.range_residual,
+            "solver": asdict(frozen_equality.receipt),
+            "tolerances": tolerances.payload(),
+            "initial_geometry": geometry,
+            "frozen_operator": frozen.receipt(),
+            "frozen_A0": frozen_budget,
+            "frozen_identity_schedule": identities,
+            "validated_rows_before_failure": rows,
+            "actual_closure": closure,
+            "accepted_count": len(rows),
+            "rejected_count": 0,
+            "backtrack_count": 0,
+            "exception_type": type(exc).__name__,
+            "exception": str(exc),
+            "traceback": traceback.format_exc(),
+            "rollback": rollback,
+        }) from exc
 
 
 def _run_refreshed_or_fzcb(
