@@ -27,6 +27,10 @@ class SubspaceInconclusive(ScientificBoundary):
 class NumericalSensitivityFailure(ScientificBoundary):
     """Finite-difference sensitivity is not stable under the sealed sweep."""
 
+    def __init__(self, message: str, receipt: dict[str, Any] | None = None) -> None:
+        super().__init__(message)
+        self.receipt = receipt or {}
+
 
 class Arm(str, Enum):
     OFFICIAL_MEMIT = "OFFICIAL_MEMIT"

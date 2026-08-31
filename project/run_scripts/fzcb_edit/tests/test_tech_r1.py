@@ -7,12 +7,14 @@ from pathlib import Path
 import torch
 
 from project.run_scripts.fzcb_edit.comparators import true_frozen_schedule
-from project.run_scripts.fzcb_edit.contracts import Arm, ScientificBoundary
+from project.run_scripts.fzcb_edit.contracts import Arm, NumericalSensitivityFailure, ScientificBoundary
+from project.run_scripts.fzcb_edit.controller_validity import ArmExecutionFailure
 from project.run_scripts.fzcb_edit.journal import ArmJournal
 from project.run_scripts.fzcb_edit.linear import full_projected_sensitivity, scalar_rectification
 from project.run_scripts.fzcb_edit.rollout import observe_candidate_rollout
 from project.run_scripts.fzcb_edit.sensitivity import finite_difference_sweep, sketch_ladder_receipt
 from project.run_scripts.fzcb_edit.tech_r1_joint_launcher import joint_matrix
+from project.run_scripts.fzcb_edit.tech_r1_runtime import _failure_payload
 from project.run_scripts.fzcb_edit.tolerances import UnitTolerancePolicy, synthetic_calibration_receipt
 from project.run_scripts.fzcb_edit.transaction import WeightSnapshot
 from project.run_scripts.fzcb_edit.verifier import verify_barrier_state, verify_terminal
@@ -102,6 +104,44 @@ class TechR1FocusedTests(unittest.TestCase):
         )
         self.assertEqual([row["k"] for row in receipt["ladder"]], [2, 8, 32, 128])
         self.assertFalse(receipt["full_gradient_available"])
+
+    def test_fd_failure_and_arm_failure_keep_structured_evidence(self) -> None:
+        def unstable(scale: float) -> tuple[float, dict[str, float | int]]:
+            value = scale + scale * abs(scale)
+            return value, {"scale": scale}
+
+        with self.assertRaises(NumericalSensitivityFailure) as caught:
+            finite_difference_sweep(
+                unstable,
+                base_epsilon=self.policy.fd_base_epsilon,
+                multipliers=self.policy.fd_multipliers,
+                repeats=self.policy.fd_repeats,
+                tau_grad=1e-9,
+            )
+        self.assertEqual(len(caught.exception.receipt["steps"]), 4)
+        embedded = {
+            "stage": "null_axis_fd",
+            "s": 0.25,
+            "proposed_step": 0.125,
+            "A0": 2.0,
+            "E": 0.5,
+            "finite_difference_failure": caught.exception.receipt,
+            "failing_axis": 7,
+            "failing_seed": 41,
+        }
+        payload = _failure_payload(
+            model_alias="llama3-8b-inst",
+            case_ids=(0,),
+            arm=Arm.FZCB,
+            exc=ArmExecutionFailure("structured FD failure", embedded),
+            policy=self.policy,
+            target_receipt={"target_sha256": "0" * 64},
+            rollback={"bytes_exact": True, "pointer_exact": True},
+            cache_rollback={"exact": True},
+        )
+        self.assertEqual(payload["fd"]["failing_axis"], 7)
+        self.assertEqual(payload["fd"]["failing_seed"], 41)
+        self.assertEqual(len(payload["fd"]["failure"]["steps"]), 4)
 
     def test_frozen_c_identity(self) -> None:
         rows = true_frozen_schedule(

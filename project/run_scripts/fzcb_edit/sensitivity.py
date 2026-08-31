@@ -54,7 +54,20 @@ def finite_difference_sweep(
             minus, minus_receipt = evaluate(-epsilon)
             derivative = float((plus - minus) / (2.0 * epsilon))
             if not math.isfinite(derivative):
-                raise NumericalSensitivityFailure("finite-difference derivative is nonfinite")
+                raise NumericalSensitivityFailure(
+                    "finite-difference derivative is nonfinite",
+                    {
+                        "stage": "finite_difference_nonfinite",
+                        "multiplier": float(multiplier),
+                        "epsilon": epsilon,
+                        "repeat": repeat,
+                        "positive_value": plus,
+                        "negative_value": minus,
+                        "positive": plus_receipt,
+                        "negative": minus_receipt,
+                        "completed_steps": rows,
+                    },
+                )
             repeat_derivatives.append(derivative)
             repeat_receipts.append({
                 "repeat": repeat,
@@ -90,7 +103,8 @@ def finite_difference_sweep(
     )
     if not stable:
         raise NumericalSensitivityFailure(
-            f"FD sweep unstable spread={spread:.9g} limit={stability_limit:.9g} receipt={receipt.payload()}"
+            f"FD sweep unstable spread={spread:.9g} limit={stability_limit:.9g}",
+            receipt.payload(),
         )
     return receipt
 
@@ -149,4 +163,3 @@ def _seed_root(seeds: Sequence[int]) -> str:
 
     body = json.dumps(list(seeds), separators=(",", ":")).encode()
     return hashlib.sha256(body).hexdigest()
-

@@ -87,7 +87,13 @@ def _failure_payload(
     rollback: dict[str, Any],
     cache_rollback: dict[str, Any],
 ) -> dict[str, Any]:
-    embedded = dict(exc.receipt) if isinstance(exc, ArmExecutionFailure) else {}
+    embedded = dict(getattr(exc, "receipt", {}) or {})
+    geometry = embedded.get("current_geometry", embedded.get("initial_geometry", {}))
+    layers = geometry.get("layers", []) if isinstance(geometry, dict) else []
+    equality = embedded.get("current_equality", {})
+    equality = equality if isinstance(equality, dict) else {}
+    solver = embedded.get("solver", equality.get("solver", "NOT_RECORDED"))
+    solver = solver if isinstance(solver, dict) else {}
     payload: dict[str, Any] = {
         "status": _failure_status(exc.__cause__ if isinstance(exc, ArmExecutionFailure) and exc.__cause__ else exc),
         "denominator": {"valid_terminal": 0, "attempted_arm": 1},
@@ -113,21 +119,48 @@ def _failure_payload(
             "coefficient": embedded.get("coefficient_dimension", "NOT_RECORDED"),
             "output": embedded.get("output_dimension", "NOT_RECORDED"),
             "null": embedded.get("null_dimension", "NOT_RECORDED"),
-            "effective": embedded.get("sketch", {}).get("null_dimension", "NOT_RECORDED"),
+            "effective": embedded.get(
+                "effective_dimension",
+                embedded.get("sketch", {}).get("selected_k", "NOT_RECORDED"),
+            ),
         },
         "rank_spectral_range_kkt_cg": {
-            "rank": embedded.get("rank", "NOT_RECORDED"),
-            "spectral": embedded.get("spectral", "NOT_RECORDED"),
-            "range_residual": embedded.get("range_residual", "NOT_RECORDED"),
-            "kkt_residual": embedded.get("kkt_residual", "NOT_RECORDED"),
-            "cg": embedded.get("solver", "NOT_RECORDED"),
+            "rank": embedded.get(
+                "rank",
+                [row.get("reduced_rank", "NOT_RECORDED") for row in layers] or "NOT_RECORDED",
+            ),
+            "spectral": embedded.get(
+                "spectral",
+                [
+                    {
+                        "weight_name": row.get("weight_name", "NOT_RECORDED"),
+                        "gram_eigen_min": row.get("gram_eigen_min", "NOT_RECORDED"),
+                        "gram_eigen_max": row.get("gram_eigen_max", "NOT_RECORDED"),
+                    }
+                    for row in layers
+                ] or "NOT_RECORDED",
+            ),
+            "range_residual": embedded.get(
+                "range_residual", equality.get("range_residual", "NOT_RECORDED"),
+            ),
+            "kkt_residual": embedded.get(
+                "kkt_residual", solver.get("relative_residual", "NOT_RECORDED"),
+            ),
+            "cg": embedded.get("solver", equality.get("solver", "NOT_RECORDED")),
         },
         "fd": {
             "equality": embedded.get("equality_direction_fd", "NOT_RECORDED"),
-            "axes": embedded.get("axis_fd_sweeps", "NOT_RECORDED"),
+            "axes": embedded.get(
+                "axis_fd_sweeps",
+                embedded.get("completed_axis_fd_sweeps", "NOT_RECORDED"),
+            ),
+            "failure": embedded.get("finite_difference_failure", "NOT_RECORDED"),
+            "failing_axis": embedded.get("failing_axis", "NOT_RECORDED"),
+            "failing_seed": embedded.get("failing_seed", "NOT_RECORDED"),
             "sketch": embedded.get("sketch", "NOT_RECORDED"),
         },
         "tolerance_policy": policy.receipt(),
+        "tolerance_calibration": synthetic_calibration_receipt(policy),
         "tolerances": embedded.get("tolerances", "NOT_RECORDED"),
         "target_context_operator_hashes": target_receipt,
         "rollback": rollback,

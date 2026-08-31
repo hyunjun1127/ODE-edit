@@ -39,6 +39,10 @@ class ArmExecutionFailure(ScientificBoundary):
 class CandidateFailure(ScientificBoundary):
     """A finite candidate may be retried from the accepted entry state."""
 
+    def __init__(self, message: str, receipt: dict[str, Any] | None = None) -> None:
+        super().__init__(message)
+        self.receipt = receipt or {}
+
 
 def _seed(namespace: str, axis: int) -> int:
     body = f"{NumericalLock().seed_namespace}|{namespace}|{axis}"
@@ -185,6 +189,7 @@ def barrier_control_strict(
     equality: Any,
     target: torch.Tensor,
     s: float,
+    proposed_step: float,
     spent_action: float,
     initial_budget: float,
     namespace: str,
@@ -204,29 +209,44 @@ def barrier_control_strict(
         tolerances=tolerances,
         stage=f"current-s={s:.8f}",
     )
-    equality_sweep = _sweep_direction(
-        model=model, factory=factory, entry=entry, operator=operator,
-        direction=equality.coefficient, target=target, remaining_time=remaining,
-        policy=policy, tolerances=tolerances,
-    )
-    g_eq = equality_sweep.selected_derivative
     partial_s = value / remaining
-    psi0 = 0.5 * equality.action_squared + g_eq + partial_s
     base_receipt: dict[str, Any] = {
+        "stage": "barrier-current-state",
+        "s": s,
+        "proposed_step": proposed_step,
         "remaining_time": remaining,
         "predicted_suffix": value,
         "spent_action": spent_action,
         "A0": initial_budget,
         "h_cc": strict_state["h_cc"],
         "partial_s_suffix": partial_s,
-        "g_eq": g_eq,
-        "equality_direction_fd": equality_sweep.payload(),
         "tolerances": tolerances.payload(),
         "kappa": 0.0,
         "coefficient_dimension": operator.coefficient_dimension,
         "output_dimension": operator.output_dimension,
         "null_dimension": max(0, operator.coefficient_dimension - operator.output_dimension),
     }
+    try:
+        equality_sweep = _sweep_direction(
+            model=model, factory=factory, entry=entry, operator=operator,
+            direction=equality.coefficient, target=target, remaining_time=remaining,
+            policy=policy, tolerances=tolerances,
+        )
+    except NumericalSensitivityFailure as exc:
+        base_receipt.update({
+            "sensitivity_failure_stage": "equality_direction_fd",
+            "finite_difference_failure": exc.receipt,
+            "exception_type": type(exc).__name__,
+            "exception": str(exc),
+        })
+        raise ArmExecutionFailure(str(exc), base_receipt) from exc
+    g_eq = equality_sweep.selected_derivative
+    psi0 = 0.5 * equality.action_squared + g_eq + partial_s
+    base_receipt.update({
+        "g_eq": g_eq,
+        "psi0": psi0,
+        "equality_direction_fd": equality_sweep.payload(),
+    })
     if psi0 <= tolerances.tau_cbf:
         zero = torch.zeros(1, device=equality.coefficient.device, dtype=torch.float32)
         _, rectification = scalar_rectification(
@@ -243,17 +263,38 @@ def barrier_control_strict(
         return equality.coefficient.detach(), base_receipt
 
     width = NumericalLock().sketch_ladder[-1]
-    axes, axis_receipts, seeds = _orthonormal_null_axes(
-        operator, count=width, namespace=namespace, tolerances=tolerances,
-    )
+    try:
+        axes, axis_receipts, seeds = _orthonormal_null_axes(
+            operator, count=width, namespace=namespace, tolerances=tolerances,
+        )
+    except ScientificBoundary as exc:
+        base_receipt.update({
+            "sensitivity_failure_stage": "null_axis_construction",
+            "exception_type": type(exc).__name__,
+            "exception": str(exc),
+        })
+        raise ArmExecutionFailure(str(exc), base_receipt) from exc
     derivatives: list[float] = []
     sweeps: list[dict[str, Any]] = []
     for ordinal, axis in enumerate(axes):
-        sweep = _sweep_direction(
-            model=model, factory=factory, entry=entry, operator=operator,
-            direction=axis, target=target, remaining_time=remaining,
-            policy=policy, tolerances=tolerances,
-        )
+        try:
+            sweep = _sweep_direction(
+                model=model, factory=factory, entry=entry, operator=operator,
+                direction=axis, target=target, remaining_time=remaining,
+                policy=policy, tolerances=tolerances,
+            )
+        except NumericalSensitivityFailure as exc:
+            base_receipt.update({
+                "sensitivity_failure_stage": "null_axis_fd",
+                "failing_axis": ordinal,
+                "failing_seed": seeds[ordinal],
+                "finite_difference_failure": exc.receipt,
+                "completed_axis_fd_sweeps": sweeps,
+                "axis_receipts": axis_receipts,
+                "exception_type": type(exc).__name__,
+                "exception": str(exc),
+            })
+            raise ArmExecutionFailure(str(exc), base_receipt) from exc
         derivatives.append(sweep.selected_derivative)
         sweeps.append({"axis": ordinal, "seed": seeds[ordinal], **sweep.payload()})
     sketch = sketch_ladder_receipt(
@@ -335,7 +376,15 @@ def _corrected_candidate(
         try:
             correction = _solve(candidate_operator, residual / delta_s, tolerances.tau_range)
         except ScientificBoundary as exc:
-            raise CandidateFailure(f"candidate corrector range failure: {exc}") from exc
+            raise CandidateFailure(f"candidate corrector range failure: {exc}", {
+                "stage": "nonlinear_corrector_range",
+                "iteration": ordinal + 1,
+                "residual_before": absolute,
+                "delta_s": delta_s,
+                "iterations_before_failure": iterations,
+                "exception_type": type(exc).__name__,
+                "exception": str(exc),
+            }) from exc
         value = (value + correction.coefficient).detach()
         iterations.append({
             "iteration": ordinal + 1,
@@ -348,7 +397,17 @@ def _corrected_candidate(
     final_operator = _same_current_basis(model, operator)
     closure = float(torch.linalg.vector_norm(final_operator.phi() - target_waypoint).item())
     if closure > tolerances.tau_z:
-        raise CandidateFailure(f"nonlinear corrector closure={closure:.9g} tau_z={tolerances.tau_z:.9g}")
+        raise CandidateFailure(
+            f"nonlinear corrector closure={closure:.9g} tau_z={tolerances.tau_z:.9g}",
+            {
+                "stage": "nonlinear_corrector_closure",
+                "absolute_closure": closure,
+                "tau_z": tolerances.tau_z,
+                "delta_s": delta_s,
+                "iterations": iterations,
+                "candidate_operator": final_operator.receipt(),
+            },
+        )
     action_squared = float(torch.dot(value, value).item())
     return value, {
         "iterations": iterations,
@@ -375,7 +434,28 @@ def _initial_context(
     repeat_action_noise = abs(0.5 * first.action_squared - 0.5 * second.action_squared)
     if repeat_action_noise > tolerances.tau_budget:
         raise NumericalSensitivityFailure(
-            f"initial repeated suffix solve noise={repeat_action_noise} tau_budget={tolerances.tau_budget}"
+            f"initial repeated suffix solve noise={repeat_action_noise} tau_budget={tolerances.tau_budget}",
+            {
+                "stage": "initial_suffix_repeat_calibration",
+                "A0": initial_budget,
+                "repeat_action_noise": repeat_action_noise,
+                "first": {
+                    "range_residual": first.range_residual,
+                    "action_squared": first.action_squared,
+                    "solver": asdict(first.receipt),
+                },
+                "repeat": {
+                    "range_residual": second.range_residual,
+                    "action_squared": second.action_squared,
+                    "solver": asdict(second.receipt),
+                },
+                "tolerances": tolerances.payload(),
+                "coefficient_dimension": operator.coefficient_dimension,
+                "output_dimension": operator.output_dimension,
+                "null_dimension": max(0, operator.coefficient_dimension - operator.output_dimension),
+                "operator": operator.receipt(),
+                "geometry": geometry,
+            },
         )
     receipt = {
         "A0": initial_budget,
@@ -558,6 +638,17 @@ def _run_refreshed_or_fzcb(
     rejected_count = 0
     backtrack_total = 0
     rollout_observation_failure_count = 0
+    current_stage = "controller-entry"
+    current_s = accepted_s
+    current_proposed_step: float | str = NumericalLock().macro_step
+    current_attempt = 0
+    current_geometry: dict[str, Any] | str = initial_geometry
+    current_operator: dict[str, Any] | str = initial_operator.receipt()
+    current_equality: dict[str, Any] | str = "NOT_RECORDED"
+    current_barrier: dict[str, Any] | None = None
+    current_predicted_suffix: float | str = initial_budget
+    current_h_cc: float | str = 0.0
+    last_candidate_failure: dict[str, Any] | str = "NOT_RECORDED"
     try:
         schedule = list(zip(NumericalLock().progress_grid[:-1], NumericalLock().progress_grid[1:], strict=True))
         while schedule:
@@ -569,22 +660,39 @@ def _run_refreshed_or_fzcb(
             while True:
                 delta_s = proposed * NumericalLock().backtrack_factor**attempt
                 next_s = accepted_s + delta_s
+                current_stage = "candidate-entry"
+                current_s = accepted_s
+                current_proposed_step = delta_s
+                current_attempt = attempt
                 entry = WeightSnapshot.capture(model, w0.names)
                 operator, geometry = factory.build()
+                current_geometry = geometry
+                current_operator = operator.receipt()
                 phi_entry = operator.phi()
                 waypoint = phi0 + next_s * displacement
                 equality = _solve(operator, (waypoint - phi_entry) / delta_s, tolerances.tau_range)
+                current_equality = {
+                    "range_residual": equality.range_residual,
+                    "action_squared": equality.action_squared,
+                    "solver": asdict(equality.receipt),
+                }
                 barrier_receipt = None
                 coefficient = equality.coefficient
                 if arm is Arm.FZCB:
+                    current_stage = "barrier-current-state"
                     coefficient, barrier_receipt = barrier_control_strict(
                         model=model, factory=factory, operator=operator, entry=entry,
                         equality=equality, target=target, s=accepted_s,
+                        proposed_step=delta_s,
                         spent_action=spent, initial_budget=initial_budget,
                         namespace=f"{namespace}|s={accepted_s:.8f}", policy=policy,
                         tolerances=tolerances,
                     )
+                    current_barrier = barrier_receipt
+                    current_predicted_suffix = barrier_receipt["predicted_suffix"]
+                    current_h_cc = barrier_receipt["h_cc"]
                 try:
+                    current_stage = "nonlinear-corrector"
                     corrected, corrector = _corrected_candidate(
                         model=model, operator=operator, entry=entry, coefficient=coefficient,
                         target_waypoint=waypoint, delta_s=delta_s, tolerances=tolerances,
@@ -599,6 +707,9 @@ def _run_refreshed_or_fzcb(
                         predicted_suffix = suffix_value(suffix_solution, 1.0 - next_s)
                     else:
                         predicted_suffix = 0.0
+                    current_predicted_suffix = predicted_suffix
+                    current_h_cc = initial_budget - (spent + step_action) - predicted_suffix
+                    current_stage = "candidate-strict-verification"
                     strict_receipt = verify_barrier_state(
                         initial_budget=initial_budget,
                         spent_action=spent + step_action,
@@ -608,12 +719,14 @@ def _run_refreshed_or_fzcb(
                     ) if arm is Arm.FZCB else None
                     next_viability = None
                     if arm is Arm.FZCB and next_s < 1.0 - 1e-12:
+                        current_stage = "candidate-next-state-viability"
                         next_equality = _solve(refreshed, displacement, tolerances.tau_range)
                         try:
                             _, next_viability = barrier_control_strict(
                                 model=model, factory=factory, operator=refreshed,
                                 entry=candidate, equality=next_equality, target=target,
                                 s=next_s, spent_action=spent + step_action,
+                                proposed_step=min(NumericalLock().macro_step, 1.0 - next_s),
                                 initial_budget=initial_budget,
                                 namespace=f"{namespace}|next-s={next_s:.8f}",
                                 policy=policy, tolerances=tolerances,
@@ -631,6 +744,7 @@ def _run_refreshed_or_fzcb(
                     )
                     rollout_observation_failure_count += int(rollout_observation["failure_count"])
                     candidate.restore(model)
+                    current_stage = "candidate-accepted"
                     waypoints.append({
                         "ordinal": len(waypoints),
                         "scheduled_start": scheduled_start,
@@ -663,12 +777,59 @@ def _run_refreshed_or_fzcb(
                     spent += step_action
                     accepted_count += 1
                     backtrack_total += attempt
+                    last_candidate_failure = "NOT_RECORDED"
                     break
-                except CandidateFailure:
+                except CandidateFailure as exc:
                     rejected_count += 1
-                    entry.restore(model)
+                    candidate_rollback = entry.restore(model)
+                    last_candidate_failure = {
+                        **exc.receipt,
+                        "s": accepted_s,
+                        "proposed_step": delta_s,
+                        "attempt": attempt,
+                        "candidate_rollback": candidate_rollback,
+                    }
                     if attempt >= NumericalLock().maximum_backtracks:
-                        raise
+                        barrier_values = current_barrier or {}
+                        rectification = barrier_values.get("rectification", {})
+                        raise ArmExecutionFailure(str(exc), {
+                            "arm": arm.value,
+                            "stage": exc.receipt.get("stage", "candidate-rejected"),
+                            "s": accepted_s,
+                            "proposed_step": delta_s,
+                            "attempt": attempt,
+                            "A0": initial_budget,
+                            "E": spent,
+                            "predicted_suffix": current_predicted_suffix,
+                            "h_cc": current_h_cc,
+                            "psi0": barrier_values.get("psi0", "NOT_APPLICABLE_EQUALITY_ONLY"),
+                            "psi_min": rectification.get("psi_min", "NOT_APPLICABLE_EQUALITY_ONLY"),
+                            "g_eq": barrier_values.get("g_eq", "NOT_APPLICABLE_EQUALITY_ONLY"),
+                            "partial_s_suffix": barrier_values.get("partial_s_suffix", "NOT_APPLICABLE_EQUALITY_ONLY"),
+                            "g_free_norm_squared": rectification.get(
+                                "raw_sketch_g_free_norm_squared", "NOT_APPLICABLE_EQUALITY_ONLY",
+                            ),
+                            "coefficient_dimension": operator.coefficient_dimension,
+                            "output_dimension": operator.output_dimension,
+                            "null_dimension": max(0, operator.coefficient_dimension - operator.output_dimension),
+                            "effective_dimension": barrier_values.get("sketch", {}).get(
+                                "selected_k", "NOT_APPLICABLE_EQUALITY_ONLY",
+                            ),
+                            "range_residual": equality.range_residual,
+                            "solver": asdict(equality.receipt),
+                            "current_geometry": geometry,
+                            "current_operator": operator.receipt(),
+                            "current_equality": current_equality,
+                            "barrier": barrier_values or "NOT_APPLICABLE_EQUALITY_ONLY",
+                            "candidate_failure": last_candidate_failure,
+                            "tolerances": tolerances.payload(),
+                            "initial_geometry": initial_geometry,
+                            "accepted_count": accepted_count,
+                            "rejected_count": rejected_count,
+                            "backtrack_count": backtrack_total + attempt,
+                            "exception_type": type(exc).__name__,
+                            "exception": str(exc),
+                        }) from exc
                     attempt += 1
             if accepted_s < scheduled_end - 1e-12:
                 schedule.insert(0, (accepted_s, scheduled_end))
@@ -720,10 +881,33 @@ def _run_refreshed_or_fzcb(
     except Exception as exc:
         rollback = transaction.rollback()
         if isinstance(exc, ArmExecutionFailure):
+            exc.receipt.setdefault("arm", arm.value)
+            exc.receipt.setdefault("stage", current_stage)
+            exc.receipt.setdefault("s", current_s)
+            exc.receipt.setdefault("proposed_step", current_proposed_step)
+            exc.receipt.setdefault("attempt", current_attempt)
+            exc.receipt.setdefault("A0", initial_budget)
+            exc.receipt.setdefault("E", spent)
+            exc.receipt.setdefault("predicted_suffix", current_predicted_suffix)
+            exc.receipt.setdefault("h_cc", current_h_cc)
+            exc.receipt.setdefault("coefficient_dimension", initial_operator.coefficient_dimension)
+            exc.receipt.setdefault("output_dimension", initial_operator.output_dimension)
+            exc.receipt.setdefault(
+                "null_dimension",
+                max(0, initial_operator.coefficient_dimension - initial_operator.output_dimension),
+            )
+            exc.receipt.setdefault("current_geometry", current_geometry)
+            exc.receipt.setdefault("current_operator", current_operator)
+            exc.receipt.setdefault("current_equality", current_equality)
+            exc.receipt.setdefault("barrier", current_barrier or "NOT_APPLICABLE_OR_NOT_RECORDED")
+            exc.receipt.setdefault("candidate_failure", last_candidate_failure)
+            exc.receipt.setdefault("tolerances", tolerances.payload())
+            exc.receipt.setdefault("initial_geometry", initial_geometry)
+            exc.receipt.setdefault("traceback", traceback.format_exc())
             exc.receipt["rollback"] = rollback
             exc.receipt["accepted_count"] = accepted_count
             exc.receipt["rejected_count"] = rejected_count
-            exc.receipt["backtrack_count"] = backtrack_total
+            exc.receipt["backtrack_count"] = backtrack_total + current_attempt
             exc.receipt["rollout_observation_failure_count"] = rollout_observation_failure_count
             exc.receipt["waypoints_before_failure"] = waypoints
             raise
@@ -735,10 +919,24 @@ def _run_refreshed_or_fzcb(
             "traceback": traceback.format_exc(),
             "A0": initial_budget,
             "E": spent,
+            "s": current_s,
+            "proposed_step": current_proposed_step,
+            "attempt": current_attempt,
+            "predicted_suffix": current_predicted_suffix,
+            "h_cc": current_h_cc,
+            "coefficient_dimension": initial_operator.coefficient_dimension,
+            "output_dimension": initial_operator.output_dimension,
+            "null_dimension": max(0, initial_operator.coefficient_dimension - initial_operator.output_dimension),
+            "current_geometry": current_geometry,
+            "current_operator": current_operator,
+            "current_equality": current_equality,
+            "barrier": current_barrier or "NOT_APPLICABLE_OR_NOT_RECORDED",
+            "candidate_failure": last_candidate_failure,
+            "initial_geometry": initial_geometry,
             "tolerances": tolerances.payload(),
             "accepted_count": accepted_count,
             "rejected_count": rejected_count,
-            "backtrack_count": backtrack_total,
+            "backtrack_count": backtrack_total + current_attempt,
             "rollout_observation_failure_count": rollout_observation_failure_count,
             "waypoints_before_failure": waypoints,
             "rollback": rollback,
