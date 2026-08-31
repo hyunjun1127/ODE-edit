@@ -381,6 +381,9 @@ def _corrected_candidate(
                 "iteration": ordinal + 1,
                 "residual_before": absolute,
                 "delta_s": delta_s,
+                "candidate_coefficient_action_squared": float(torch.dot(value, value).item()),
+                "candidate_coefficient_sha256": tensor_sha256(value),
+                "candidate_operator": candidate_operator.receipt(),
                 "iterations_before_failure": iterations,
                 "exception_type": type(exc).__name__,
                 "exception": str(exc),
@@ -404,6 +407,8 @@ def _corrected_candidate(
                 "absolute_closure": closure,
                 "tau_z": tolerances.tau_z,
                 "delta_s": delta_s,
+                "candidate_coefficient_action_squared": float(torch.dot(value, value).item()),
+                "candidate_coefficient_sha256": tensor_sha256(value),
                 "iterations": iterations,
                 "candidate_operator": final_operator.receipt(),
             },
@@ -955,10 +960,52 @@ def run_strong_static(
     candidates: list[StaticCandidate] = []
     snapshots: dict[str, WeightSnapshot] = {}
     try:
-        corrected, corrector = _corrected_candidate(
-            model=model, operator=operator, entry=entry, coefficient=equality.coefficient,
-            target_waypoint=target, delta_s=1.0, tolerances=tolerances,
-        )
+        try:
+            corrected, corrector = _corrected_candidate(
+                model=model, operator=operator, entry=entry, coefficient=equality.coefficient,
+                target_waypoint=target, delta_s=1.0, tolerances=tolerances,
+            )
+        except CandidateFailure as exc:
+            raise ArmExecutionFailure(str(exc), {
+                "arm": arm.value,
+                "stage": exc.receipt.get("stage", "direct_transcription_endpoint"),
+                "s": 0.0,
+                "proposed_step": 1.0,
+                "A0": initial_budget,
+                "E": 0.0,
+                "predicted_suffix": initial_budget,
+                "h_cc": 0.0,
+                "psi0": "NOT_APPLICABLE_STATIC_COMPARATOR",
+                "psi_min": "NOT_APPLICABLE_STATIC_COMPARATOR",
+                "g_eq": "NOT_APPLICABLE_STATIC_COMPARATOR",
+                "partial_s_suffix": "NOT_APPLICABLE_STATIC_COMPARATOR",
+                "g_free_norm_squared": "NOT_APPLICABLE_STATIC_COMPARATOR",
+                "coefficient_dimension": operator.coefficient_dimension,
+                "output_dimension": operator.output_dimension,
+                "null_dimension": max(0, operator.coefficient_dimension - operator.output_dimension),
+                "range_residual": equality.range_residual,
+                "solver": asdict(equality.receipt),
+                "initial_geometry": geometry,
+                "current_geometry": geometry,
+                "current_operator": operator.receipt(),
+                "current_equality": {
+                    "range_residual": equality.range_residual,
+                    "action_squared": equality.action_squared,
+                    "solver": asdict(equality.receipt),
+                },
+                "candidate_failure": exc.receipt,
+                "best_feasible_action": "NOT_AVAILABLE_NO_FEASIBLE_CANDIDATE",
+                "best_observed_action": exc.receipt.get(
+                    "candidate_coefficient_action_squared", "NOT_RECORDED",
+                ),
+                "tolerances": tolerances.payload(),
+                "accepted_count": 0,
+                "rejected_count": 1,
+                "backtrack_count": 0,
+                "exception_type": type(exc).__name__,
+                "exception": str(exc),
+                "traceback": traceback.format_exc(),
+            }) from exc
         closure = float(corrector["final_absolute_closure"])
         action = 0.5 * float(torch.dot(corrected, corrected).item())
         snapshot = WeightSnapshot.capture(model, w0.names)
@@ -981,13 +1028,28 @@ def run_strong_static(
                 initial_budget=initial_budget, tau_budget=tolerances.tau_budget,
             )
         except ScientificBoundary as exc:
+            feasible_actions = [row.action for row in candidates if row.feasible_equality and row.feasible_budget]
             raise ArmExecutionFailure(str(exc), {
                 "arm": arm.value,
                 "stage": "direct_transcription_endpoint",
+                "s": 1.0,
+                "proposed_step": 1.0,
                 "A0": initial_budget,
+                "E": min(row.action for row in candidates),
+                "predicted_suffix": 0.0,
+                "h_cc": initial_budget - min(row.action for row in candidates),
+                "coefficient_dimension": operator.coefficient_dimension,
+                "output_dimension": operator.output_dimension,
+                "null_dimension": max(0, operator.coefficient_dimension - operator.output_dimension),
+                "range_residual": equality.range_residual,
+                "solver": asdict(equality.receipt),
+                "initial_geometry": geometry,
+                "current_geometry": geometry,
+                "current_operator": operator.receipt(),
                 "tolerances": tolerances.payload(),
                 "candidates": [row.payload() for row in candidates],
-                "best_feasible_action": min(row.action for row in candidates),
+                "best_feasible_action": min(feasible_actions) if feasible_actions else "NOT_AVAILABLE_NO_FEASIBLE_CANDIDATE",
+                "best_observed_action": min(row.action for row in candidates),
                 "rollback": entry.restore(model),
             }) from exc
         terminal = snapshots[selected.candidate_id]
