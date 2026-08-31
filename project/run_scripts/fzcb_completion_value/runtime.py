@@ -300,17 +300,31 @@ def _run_case(model: Any, tokenizer: Any, model_alias: str, row: dict[str, Any],
             max_iterations=lock.cg_max_iterations,
             output_preconditioner=operator25.output_preconditioner,
         )
-        scaled = scale_null_direction(projected, math.sqrt(eq25.action_norm_squared), lock.candidate_rho)
-        null_residual = float(torch.linalg.vector_norm(operator25.apply(scaled)).div(torch.linalg.vector_norm(scaled) + torch.finfo(torch.float32).eps).item())
-        if null_residual > tolerance or float(torch.linalg.vector_norm(scaled).item()) <= tolerance:
-            raise ScientificBoundary("valid equality-null weight authority absent")
-        coefficient = eq25.coefficient + scaled / operator25.h_sqrt_vector()
         candidate_id = f"seed-{ordinal:02d}"
-        null_receipts.append({
+        receipt = {
             "candidate_id": candidate_id, "seed": _seed(model_alias, int(row["case_id"]), ordinal),
-            **null_receipt, "scaled_null_residual": null_residual,
-            "scaled_action_norm": float(torch.linalg.vector_norm(scaled).item()),
+            **null_receipt,
+        }
+        if not bool(null_receipt["cg_converged"]):
+            receipt.update({"status": "PROJECTION_SOLVER_FAILURE", "valid_weight_authority": False})
+            null_receipts.append(receipt)
+            continue
+        if float(null_receipt["norm"]) <= tolerance:
+            receipt.update({"status": "NO_WEIGHT_AUTHORITY", "valid_weight_authority": False})
+            null_receipts.append(receipt)
+            continue
+        scaled = scale_null_direction(projected, math.sqrt(eq25.action_norm_squared), lock.candidate_rho)
+        scaled_norm = float(torch.linalg.vector_norm(scaled).item())
+        null_residual = float(torch.linalg.vector_norm(operator25.apply(scaled)).div(torch.linalg.vector_norm(scaled) + torch.finfo(torch.float32).eps).item())
+        receipt.update({
+            "scaled_null_residual": null_residual, "scaled_action_norm": scaled_norm,
+            "status": "VALID" if null_residual <= tolerance and scaled_norm > tolerance else "NULL_EQUALITY_FAILURE",
+            "valid_weight_authority": bool(null_residual <= tolerance and scaled_norm > tolerance),
         })
+        null_receipts.append(receipt)
+        if not receipt["valid_weight_authority"]:
+            continue
+        coefficient = eq25.coefficient + scaled / operator25.h_sqrt_vector()
         candidates.append(_candidate(
             model=model, factory=factory, state25=state25, phi0=phi0,
             target=target, displacement=displacement, candidate_id=candidate_id,
@@ -336,7 +350,9 @@ def _run_case(model: Any, tokenizer: Any, model_alias: str, row: dict[str, Any],
         "repeated_solve_count": 3, "repeated_action_noise": solve_noise,
         "initial_operator_counts": operator0.receipt(),
         "frozen_geometry_identity": identity, "step_000_025": _serial_step(step25),
-        "null_directions": null_receipts, "valid_null_direction_count": len(null_receipts),
+        "null_directions": null_receipts,
+        "valid_null_direction_count": sum(bool(item["valid_weight_authority"]) for item in null_receipts),
+        "projection_solver_failure_count": sum(item["status"] == "PROJECTION_SOLVER_FAILURE" for item in null_receipts),
         "candidates": candidates, "candidate_value_spread": spread,
         "candidate_value_repeat_noise": value_noise,
         "spread_gt_3x_noise": spread > 3.0 * value_noise,
@@ -380,6 +396,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             case = _run_case(model, tokenizer, model_alias, row, hparams, seed_count)
             cases.append(case)
             torch.cuda.empty_cache()
+            if stage == "k0" and case["projection_solver_failure_count"]:
+                terminal_failure = (
+                    f"K0 projection solver implementation failed case={case['case_id']} "
+                    f"count={case['projection_solver_failure_count']}"
+                )
+                terminal_status = "TECHNICAL_BLOCKED"
+                break
             if stage == "k0" and (
                 case["valid_null_direction_count"] < 3 or not case["spread_gt_3x_noise"]
             ):
