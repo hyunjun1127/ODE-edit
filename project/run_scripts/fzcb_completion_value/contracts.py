@@ -33,7 +33,11 @@ class NumericalLock:
     sensitivity_rho: float = 0.05
     direct_z_compute_count: int = 1
     corrector_iterations: int = 2
-    cg_max_iterations: int = 24
+    # The original 24-step implementation cap did not converge and therefore
+    # could not distinguish solver truncation from a scientific range failure.
+    # This algebraic cap remains independent of candidate/output values.
+    cg_max_iterations: int = 512
+    cg_iteration_rule: str = "fixed_512_full_hidden_gram_without_tolerance_change"
     # Dimension-aware FP32 bounds are mechanical and locked before output.
     relative_floor_rule: str = "64*eps_fp32*sqrt(hidden_dimension)"
     absolute_floor_rule: str = "64*eps_fp32*sqrt(hidden_dimension)*(1+reference_norm)"

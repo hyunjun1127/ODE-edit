@@ -89,6 +89,25 @@ def _solve(operator: FullModelControlOperator, rhs: torch.Tensor, tolerance: flo
     )
 
 
+def _actual_adjoint_gate(operator: FullModelControlOperator, seed: int, tolerance: float) -> dict[str, Any]:
+    generator = torch.Generator().manual_seed(seed)
+    coefficient = torch.randn(operator.coefficient_dimension, generator=generator, dtype=torch.float32).to(operator.primals[0].device)
+    cotangent = torch.randn(operator.output_dimension, generator=generator, dtype=torch.float32).to(operator.primals[0].device)
+    forward_inner = torch.dot(operator.apply(coefficient), cotangent)
+    adjoint_inner = torch.dot(coefficient, operator.adjoint(cotangent))
+    relative = float(
+        torch.abs(forward_inner - adjoint_inner)
+        / (torch.abs(forward_inner) + torch.abs(adjoint_inner) + torch.finfo(torch.float32).eps)
+    )
+    if not math.isfinite(relative) or relative > tolerance:
+        raise TechnicalBoundary(f"full-model matrix-free adjoint implementation failed: {relative}")
+    return {
+        "seed": seed, "forward_inner": float(forward_inner.item()),
+        "adjoint_inner": float(adjoint_inner.item()), "relative_error": relative,
+        "tolerance": tolerance, "operator_counts": operator.receipt(),
+    }
+
+
 def _apply_step(
     model: Any, operator: FullModelControlOperator, target: torch.Tensor, delta_s: float,
     tolerance: float, initial_coefficient: torch.Tensor | None = None,
@@ -250,6 +269,7 @@ def _run_case(model: Any, tokenizer: Any, model_alias: str, row: dict[str, Any],
     target = endpoint.z.detach().to(device=device, dtype=torch.float32).reshape(-1)
     displacement = target - phi0
     tolerance = dimension_relative_floor(int(target.numel()))
+    adjoint_gate = _actual_adjoint_gate(operator0, _seed(model_alias, int(row["case_id"]), 10000), tolerance)
     initial = _solve(operator0, displacement, tolerance)
     repeated = [_solve(operator0, displacement, tolerance) for _ in range(3)]
     solve_noise = max(item.action_norm_squared for item in repeated) - min(item.action_norm_squared for item in repeated)
@@ -311,6 +331,7 @@ def _run_case(model: Any, tokenizer: Any, model_alias: str, row: dict[str, Any],
         "target_sha256": tensor_sha256(target), "phi0_sha256": tensor_sha256(phi0),
         "canonical_batch": batch_receipt, "official_tokenizer_calls": endpoint.tokenizer_calls,
         "numerical_tolerance": tolerance, "initial_geometry": asdict(geometry0),
+        "actual_full_model_adjoint_gate": adjoint_gate,
         "state025_geometry": asdict(geometry25), "initial_range_residual": initial.range_residual,
         "repeated_solve_count": 3, "repeated_action_noise": solve_noise,
         "initial_operator_counts": operator0.receipt(),
