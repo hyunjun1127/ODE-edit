@@ -282,7 +282,7 @@ def build(
     source_head: str,
     source_tree: str,
     job_id: str,
-    technical_attempt_root: Path | None,
+    technical_attempt_roots: tuple[Path, ...],
 ) -> dict[str, Any]:
     if output_root.exists() or output_root.is_symlink():
         raise RuntimeError("report output root is not create-once")
@@ -297,7 +297,7 @@ def build(
         input_members.append({"path": str(path), "sha256": file_sha256(path), "bytes": path.stat().st_size, "role": "SCIENTIFIC_RAW_INPUT"})
         journal = result_root / f"{model}-B1/arm-journal/journal-index.json"
         input_members.append({"path": str(journal), "sha256": file_sha256(journal), "bytes": journal.stat().st_size, "role": "JOURNAL_INDEX"})
-    if technical_attempt_root is not None:
+    for technical_attempt_root in technical_attempt_roots:
         for path in sorted(technical_attempt_root.rglob("*.json")):
             input_members.append({"path": str(path), "sha256": file_sha256(path), "bytes": path.stat().st_size, "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0"})
 
@@ -343,7 +343,7 @@ def build(
         fd_rows.extend(_fd_rows(model, fzcb))
         sketch_rows.extend(_sketch_rows(model, fzcb))
 
-    if technical_attempt_root is not None:
+    if technical_attempt_roots:
         failure_rows.append({
             "model": "BOTH",
             "arm": "CAMPAIGN_TECH_R1",
@@ -487,7 +487,7 @@ def main() -> None:
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--source-tree", required=True)
     parser.add_argument("--job-id", required=True)
-    parser.add_argument("--technical-attempt-root", type=Path)
+    parser.add_argument("--technical-attempt-root", type=Path, action="append", default=[])
     parser.add_argument("--summary-output", type=Path, required=True)
     args = parser.parse_args()
     write_json_once(args.summary_output, build(
@@ -497,7 +497,7 @@ def main() -> None:
         source_head=args.source_head,
         source_tree=args.source_tree,
         job_id=args.job_id,
-        technical_attempt_root=args.technical_attempt_root,
+        technical_attempt_roots=tuple(args.technical_attempt_root),
     ))
 
 

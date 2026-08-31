@@ -48,7 +48,7 @@ class TechR1ReportTests(unittest.TestCase):
                 source_head="h",
                 source_tree="t",
                 job_id="1",
-                technical_attempt_root=None,
+                technical_attempt_roots=(),
             )
             self.assertEqual(len(summary["summaries"]), 2)
             self.assertTrue(Path(summary["report"]["path"]).is_file())
