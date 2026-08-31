@@ -1,0 +1,15 @@
+{
+  "entries": [
+    {
+      "batch_size": 1,
+      "classification": "ScientificBoundary",
+      "denominator": 0,
+      "evidence": "typed local barrier infeasibility psi0=0.0904913303 g2=0.000154264271 psi_min=0.0904141982",
+      "job": "30715",
+      "model": "qwen2.5-7b-inst",
+      "repair_or_relaxation": 0,
+      "status": "SCIENTIFIC_HOLD"
+    }
+  ],
+  "schema": "odeedit.s06.fzcb-edit-main-method.failure-ledger.v1"
+}

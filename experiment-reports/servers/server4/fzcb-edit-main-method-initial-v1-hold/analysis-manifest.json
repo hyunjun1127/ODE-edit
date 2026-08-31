@@ -1,0 +1,49 @@
+{
+  "denominators": {
+    "b10_cases": 0,
+    "llama_cases": 1,
+    "qwen_terminal_cases": 0
+  },
+  "jobs": {
+    "b10": [],
+    "llama_b1": "30670",
+    "qwen_b1": "30715"
+  },
+  "member_root": "f891309f6f04bf06729d2c19ff9a7872820d76b9a9df4c816fcefa45911bbd03",
+  "members": [
+    {
+      "bytes": 4653,
+      "path": "fzcb-edit-main-method-initial-factual-ko.md",
+      "sha256": "5eac7136c60757ddce876788e1a70b071d653d5b0ed4d92b2d437e0dd772d7d7"
+    },
+    {
+      "bytes": 2777,
+      "path": "llama-b1-arm-summary.csv",
+      "sha256": "84f859e84c10b3a0911ad73ed8d49d0168ff341787139ddecb2822b86fb5add2"
+    },
+    {
+      "bytes": 430,
+      "path": "failure-ledger.json",
+      "sha256": "665db3d0660505ac058e96fef9f5a6ea9dc8d44c7236df06c44fed7f9f36b435"
+    }
+  ],
+  "raw_inputs": [
+    {
+      "bytes": 511463,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-edit-main-method-initial-v1/b1-fd6ac88-r0/llama3-8b-inst-B1/result.json",
+      "sha256": "2ca99037209328391f103f453a2010a70f8c642d1bfedccf19a0262c0222f931"
+    },
+    {
+      "bytes": 323,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-edit-main-method-initial-v1/b1-fd6ac88-r0/qwen2.5-7b-inst-B1/result.json",
+      "sha256": "ae5f948bf3038e6c4c079d49689c5b9457388b3820e1543a9aa59b8575f21471"
+    }
+  ],
+  "schema": "odeedit.s06.fzcb-edit-main-method.analysis-manifest.v1",
+  "science_source": {
+    "head": "fd6ac88f8278ea4135769965b0d8cde9435cf151",
+    "tree": "83f37c3ab49572865ee2d194dc471f20bc8ce6d3"
+  },
+  "scientific_promotion": false,
+  "status": "HOLD_AFTER_QWEN_B1_LOCAL_INFEASIBILITY"
+}
