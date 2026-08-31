@@ -153,8 +153,14 @@ def project_equality_null(
     def gram(vector: Vector) -> Vector:
         return operator.apply(operator.adjoint(vector))
 
+    # The null gate is ||A p|| / ||p|| <= tau.  Stopping the Gram solve at
+    # tau relative to ||A seed|| is not sufficient when A has large gain.
+    # Keep the scientific tau unchanged and tighten only the internal linear
+    # solve deterministically so its truncation cannot masquerade as absent
+    # null authority.
+    solver_relative_tolerance = min(relative_tolerance, relative_tolerance * relative_tolerance)
     multiplier, receipt = conjugate_gradient(
-        gram, image, relative_tolerance=relative_tolerance,
+        gram, image, relative_tolerance=solver_relative_tolerance,
         max_iterations=max_iterations, preconditioner=output_preconditioner,
     )
     projected = (value - operator.adjoint(multiplier)).detach()
@@ -163,6 +169,8 @@ def project_equality_null(
     return projected, {
         "norm": norm, "null_residual": residual, "cg_iterations": receipt.iterations,
         "cg_converged": receipt.converged,
+        "solver_relative_tolerance": solver_relative_tolerance,
+        "external_null_tolerance": relative_tolerance,
     }
 
 

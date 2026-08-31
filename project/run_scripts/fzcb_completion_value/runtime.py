@@ -318,7 +318,7 @@ def _run_case(model: Any, tokenizer: Any, model_alias: str, row: dict[str, Any],
         null_residual = float(torch.linalg.vector_norm(operator25.apply(scaled)).div(torch.linalg.vector_norm(scaled) + torch.finfo(torch.float32).eps).item())
         receipt.update({
             "scaled_null_residual": null_residual, "scaled_action_norm": scaled_norm,
-            "status": "VALID" if null_residual <= tolerance and scaled_norm > tolerance else "NULL_EQUALITY_FAILURE",
+            "status": "VALID" if null_residual <= tolerance and scaled_norm > tolerance else "PROJECTION_SOLVER_FAILURE",
             "valid_weight_authority": bool(null_residual <= tolerance and scaled_norm > tolerance),
         })
         null_receipts.append(receipt)
