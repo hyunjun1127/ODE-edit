@@ -21,7 +21,7 @@ from .contracts import (
 from .geometry import FullModelControlOperator, MEMITGeometryFactory
 from .hashing import canonical_hash, tensor_sha256
 from .linear import equality_null_projection, scalar_rectification, solve_minimum_action, suffix_value
-from .rollout import SuffixCandidate, concordance, run_actual_remaining_rollout
+from .rollout import observe_candidate_rollout, run_actual_remaining_rollout
 from .sensitivity import finite_difference_sweep, sketch_ladder_receipt
 from .tolerances import ResolvedTolerances, UnitTolerancePolicy
 from .transaction import AtomicEditTransaction, WeightSnapshot
@@ -557,6 +557,7 @@ def _run_refreshed_or_fzcb(
     accepted_count = 0
     rejected_count = 0
     backtrack_total = 0
+    rollout_observation_failure_count = 0
     try:
         schedule = list(zip(NumericalLock().progress_grid[:-1], NumericalLock().progress_grid[1:], strict=True))
         while schedule:
@@ -619,18 +620,17 @@ def _run_refreshed_or_fzcb(
                             )
                         finally:
                             candidate.restore(model)
-                    realized_action, realized_layers, rollout_receipt = _actual_rollout(
-                        model=model, factory=factory, start=candidate, phi0=phi0,
-                        displacement=displacement, start_progress=next_s,
-                        tolerances=tolerances,
-                    )
-                    candidate.restore(model)
-                    prediction = concordance([SuffixCandidate(
+                    rollout_observation = observe_candidate_rollout(
                         candidate_id="ACCEPTED_CONTROLLER_CANDIDATE",
                         predicted_suffix_after=predicted_suffix,
-                        realized_suffix_action=realized_action,
-                        layer_action=realized_layers,
-                    )])
+                        execute=lambda: _actual_rollout(
+                            model=model, factory=factory, start=candidate, phi0=phi0,
+                            displacement=displacement, start_progress=next_s,
+                            tolerances=tolerances,
+                        ),
+                    )
+                    rollout_observation_failure_count += int(rollout_observation["failure_count"])
+                    candidate.restore(model)
                     waypoints.append({
                         "ordinal": len(waypoints),
                         "scheduled_start": scheduled_start,
@@ -650,10 +650,11 @@ def _run_refreshed_or_fzcb(
                         "layer_action": list(layer_action),
                         "spent_action_after": spent + step_action,
                         "predicted_suffix_after": predicted_suffix,
-                        "realized_suffix_action": realized_action,
-                        "realized_suffix_layer_action": list(realized_layers),
-                        "realized_rollout": rollout_receipt,
-                        "predictive_concordance": prediction,
+                        "realized_suffix_action": rollout_observation["realized_suffix_action"],
+                        "realized_suffix_layer_action": rollout_observation["realized_suffix_layer_action"],
+                        "realized_rollout": rollout_observation["rollout"],
+                        "predictive_concordance": rollout_observation["concordance"],
+                        "rollout_observation_status": rollout_observation["status"],
                         "strict_barrier_verification": strict_receipt,
                         "next_state_viability": next_viability,
                         "candidate_root": candidate.root,
@@ -701,6 +702,7 @@ def _run_refreshed_or_fzcb(
             "accepted_count": accepted_count,
             "rejected_count": rejected_count,
             "backtrack_count": backtrack_total,
+            "rollout_observation_failure_count": rollout_observation_failure_count,
             "terminal": {
                 "s": accepted_s,
                 "absolute_closure": closure,
@@ -722,6 +724,7 @@ def _run_refreshed_or_fzcb(
             exc.receipt["accepted_count"] = accepted_count
             exc.receipt["rejected_count"] = rejected_count
             exc.receipt["backtrack_count"] = backtrack_total
+            exc.receipt["rollout_observation_failure_count"] = rollout_observation_failure_count
             exc.receipt["waypoints_before_failure"] = waypoints
             raise
         raise ArmExecutionFailure(str(exc), {
@@ -736,6 +739,7 @@ def _run_refreshed_or_fzcb(
             "accepted_count": accepted_count,
             "rejected_count": rejected_count,
             "backtrack_count": backtrack_total,
+            "rollout_observation_failure_count": rollout_observation_failure_count,
             "waypoints_before_failure": waypoints,
             "rollback": rollback,
         }) from exc

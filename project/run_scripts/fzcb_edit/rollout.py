@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import traceback
 from dataclasses import asdict, dataclass
 from typing import Any, Callable, Iterable
 
@@ -83,3 +84,49 @@ def concordance(candidates: Iterable[SuffixCandidate]) -> dict[str, Any]:
         "controller_selection_influence_count": 0,
     }
 
+
+def observe_candidate_rollout(
+    *,
+    candidate_id: str,
+    predicted_suffix_after: float,
+    execute: Callable[[], tuple[float, tuple[float, ...], dict[str, Any]]],
+) -> dict[str, Any]:
+    """Seal rollout telemetry without granting it controller authority."""
+
+    try:
+        realized_action, layer_action, receipt = execute()
+    except ScientificBoundary as exc:
+        return {
+            "status": "PREDICTIVE_ROLLOUT_INVALID_OBSERVATION_ONLY",
+            "realized_suffix_action": "NOT_RECORDED_ROLLOUT_INVALID",
+            "realized_suffix_layer_action": [],
+            "rollout": {
+                "status": "PREDICTIVE_ROLLOUT_INVALID_OBSERVATION_ONLY",
+                "exception_type": type(exc).__name__,
+                "exception": str(exc),
+                "traceback": traceback.format_exc(),
+                "controller_selection_influence_count": 0,
+            },
+            "concordance": {
+                "candidate_count": 1,
+                "predictive_concordance": "NOT_RECORDED_ROLLOUT_INVALID",
+                "predicted_best_regret": "NOT_RECORDED_ROLLOUT_INVALID",
+                "controller_selection_influence_count": 0,
+            },
+            "failure_count": 1,
+            "controller_selection_influence_count": 0,
+        }
+    return {
+        "status": "PREDICTIVE_ROLLOUT_VALID_OBSERVATION_ONLY",
+        "realized_suffix_action": realized_action,
+        "realized_suffix_layer_action": list(layer_action),
+        "rollout": receipt,
+        "concordance": concordance([SuffixCandidate(
+            candidate_id=candidate_id,
+            predicted_suffix_after=predicted_suffix_after,
+            realized_suffix_action=realized_action,
+            layer_action=layer_action,
+        )]),
+        "failure_count": 0,
+        "controller_selection_influence_count": 0,
+    }

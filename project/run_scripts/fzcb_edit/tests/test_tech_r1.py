@@ -10,6 +10,7 @@ from project.run_scripts.fzcb_edit.comparators import true_frozen_schedule
 from project.run_scripts.fzcb_edit.contracts import Arm, ScientificBoundary
 from project.run_scripts.fzcb_edit.journal import ArmJournal
 from project.run_scripts.fzcb_edit.linear import full_projected_sensitivity, scalar_rectification
+from project.run_scripts.fzcb_edit.rollout import observe_candidate_rollout
 from project.run_scripts.fzcb_edit.sensitivity import finite_difference_sweep, sketch_ladder_receipt
 from project.run_scripts.fzcb_edit.tech_r1_joint_launcher import joint_matrix
 from project.run_scripts.fzcb_edit.tolerances import UnitTolerancePolicy, synthetic_calibration_receipt
@@ -143,6 +144,21 @@ class TechR1FocusedTests(unittest.TestCase):
             self.assertNotEqual(first["sha256"], second["sha256"])
             sealed = journal.seal()
             self.assertEqual(sealed["member_count"], 2)
+
+    def test_realized_rollout_failure_is_observation_only(self) -> None:
+        def fail() -> tuple[float, tuple[float, ...], dict[str, object]]:
+            raise ScientificBoundary("diagnostic rollout closure")
+
+        receipt = observe_candidate_rollout(
+            candidate_id="accepted",
+            predicted_suffix_after=0.5,
+            execute=fail,
+        )
+        self.assertEqual(receipt["failure_count"], 1)
+        self.assertEqual(receipt["controller_selection_influence_count"], 0)
+        self.assertEqual(
+            receipt["status"], "PREDICTIVE_ROLLOUT_INVALID_OBSERVATION_ONLY",
+        )
 
     def test_rollback_exact_identity(self) -> None:
         model = ToyModel()
