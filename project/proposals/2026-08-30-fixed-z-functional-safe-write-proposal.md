@@ -2,9 +2,15 @@
 
 ## 2026-08-30 Research Reset Proposal
 
+> **문서 상태 변경 — 2026-08-31**
+>
+> 이 문서는 functional-anchor/KL controller branch의 historical proposal로 보존한다.
+> Current primary method는
+> [FzCB-Edit method pivot proposal](2026-08-31-fzcb-edit-method-pivot-proposal.md)이다.
+
 | 항목 | 내용 |
 |---|---|
-| 문서 상태 | 현재 primary research proposal; 모든 핵심 가설은 미검증 |
+| 문서 상태 | Historical FCW branch; 2026-08-31 FzCB pivot으로 superseded |
 | 기준일 | 2026년 8월 30일 |
 | 연구 단계 | Research reset / falsification-first |
 | 1차 적용 | MEMIT write stage |
