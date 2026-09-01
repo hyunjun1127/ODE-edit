@@ -1,0 +1,23 @@
+{
+  "denominators": {
+    "batches": 40,
+    "cells": 4,
+    "requests": 400,
+    "valid_batches": 40,
+    "valid_cells": 4,
+    "valid_requests": 400
+  },
+  "external_input_root": "c2fcfa3d1884b9f9cf02463c1137f841c8f484fed4d097a416cfbbf6eec7a69c",
+  "failure_count": 0,
+  "identity_sha256": "fd6fed6e1dc09463215c0f51c13db40b25a1a93fd29b707bbcba8fe264727074",
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-REALIZATION-DEBT-SEQUENTIAL-B10X10-V1",
+  "manifest": {
+    "bytes": 25278,
+    "path": "analysis-manifest.json",
+    "sha256": "b38bf7cfc48b8b58cb35f033d4644fb4d5b36ba74e42b006236f19fec778aa86"
+  },
+  "member_root": "034c70f7a47aa02a0816dd5a1fa83d227c14cf818aceab4123e9d0ccf3018754",
+  "schema": "odeedit.s06.official-layer-realization-debt.sequential-rooted-analysis-receipt.v1",
+  "scientific_promotion": false,
+  "status": "SEQUENTIAL_OBSERVATIONAL_STUDY_TERMINAL_VALID"
+}

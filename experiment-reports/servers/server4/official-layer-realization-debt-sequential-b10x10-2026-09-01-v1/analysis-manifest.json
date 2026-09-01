@@ -1,0 +1,526 @@
+{
+  "analysis_builder_source": {
+    "head": "3f2adf8adf4faf1551653d12fedf420b779ffe34",
+    "tree": "a6004aefd053241826dd84e70e490b050beb4e49"
+  },
+  "denominators": {
+    "batches": 40,
+    "cells": 4,
+    "requests": 400,
+    "valid_batches": 40,
+    "valid_cells": 4,
+    "valid_requests": 400
+  },
+  "easyedit_source_edit_count": 0,
+  "execution_semantics": "B1_TO_B10_CUMULATIVE_W_CACHE_SEQUENTIAL",
+  "external_inputs": [
+    {
+      "bytes": 71568,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/llama3-8b-inst-memit-sequential-b10x10/batch-01.json",
+      "sha256": "b2daa46a03ff26d2ff9c696eea6715c02d9d962b7966f65bb233d567062a350b"
+    },
+    {
+      "bytes": 70970,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/llama3-8b-inst-memit-sequential-b10x10/batch-02.json",
+      "sha256": "c665e85bb81d31467aad13c1caf1b1d45585266e3a2c5e5a44ff04ec2d831a8b"
+    },
+    {
+      "bytes": 70951,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/llama3-8b-inst-memit-sequential-b10x10/batch-03.json",
+      "sha256": "fd7b75448a07320bc3daa72725701685377354a0c6e849ec00bfd68fd17809e6"
+    },
+    {
+      "bytes": 70970,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/llama3-8b-inst-memit-sequential-b10x10/batch-04.json",
+      "sha256": "72a49f9c359400fa28d723b8c0b5aa711c2570db40bdff8f2e9f91a38120c611"
+    },
+    {
+      "bytes": 71000,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/llama3-8b-inst-memit-sequential-b10x10/batch-05.json",
+      "sha256": "43d33da8cd9257753a3e2145757ba49a02d87950a9120b2e2a5744c85bfda5e7"
+    },
+    {
+      "bytes": 70963,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/llama3-8b-inst-memit-sequential-b10x10/batch-06.json",
+      "sha256": "d8baa6ab52f20dbad3fd77a8bcbb2a7eb62d3e3cb26e4de58bb08d326a7bae39"
+    },
+    {
+      "bytes": 70945,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/llama3-8b-inst-memit-sequential-b10x10/batch-07.json",
+      "sha256": "de95c91acff2264dcda38c5f43a40c55b6af8d7e0f848ed9cbdee17703ca67cc"
+    },
+    {
+      "bytes": 70955,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/llama3-8b-inst-memit-sequential-b10x10/batch-08.json",
+      "sha256": "e7efe1683b3086114903db3d3363978eb1c0d027894cda1d059dec58b7fbbf13"
+    },
+    {
+      "bytes": 70937,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/llama3-8b-inst-memit-sequential-b10x10/batch-09.json",
+      "sha256": "11777fb55df11eb986c7d82e37677e7a99b43ae4e241a7b8526185cc7cfd6bbf"
+    },
+    {
+      "bytes": 70971,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/llama3-8b-inst-memit-sequential-b10x10/batch-10.json",
+      "sha256": "97da7df3462815f3daba1cf590dce9f28a9c89553e1cd0f52c92d09d08f4aedc"
+    },
+    {
+      "bytes": 71535,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/qwen2.5-7b-inst-memit-sequential-b10x10/batch-01.json",
+      "sha256": "4e960ca2f6bd325525ca45b4957efda898849c7972e56c87d2518f665e5921e2"
+    },
+    {
+      "bytes": 70965,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/qwen2.5-7b-inst-memit-sequential-b10x10/batch-02.json",
+      "sha256": "36b177d5c16c7b5b167573b4fc23ec7d4bc9a48c1868903d83183776c1be40b9"
+    },
+    {
+      "bytes": 70955,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/qwen2.5-7b-inst-memit-sequential-b10x10/batch-03.json",
+      "sha256": "0e039abb4c7ffc8d9cd382fbe62e32889150773103cd41a482a0f9714f1d8fed"
+    },
+    {
+      "bytes": 70958,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/qwen2.5-7b-inst-memit-sequential-b10x10/batch-04.json",
+      "sha256": "8b0ef72e7e62a96f4268725e31933b8d37b98eeb331485a64ceb4c654f132d2f"
+    },
+    {
+      "bytes": 70975,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/qwen2.5-7b-inst-memit-sequential-b10x10/batch-05.json",
+      "sha256": "af92e7dcbd4e273dae0e830147a137cc98a84a8a033e0b394e22a2c1785d1074"
+    },
+    {
+      "bytes": 70991,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/qwen2.5-7b-inst-memit-sequential-b10x10/batch-06.json",
+      "sha256": "9ce30772a1c1d527a2f185018053cea998df7639d4aa73879499d989b651d858"
+    },
+    {
+      "bytes": 70982,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/qwen2.5-7b-inst-memit-sequential-b10x10/batch-07.json",
+      "sha256": "1b1d0cf5c784d463774936887d045b23a6982ea36f686208e53d052f03f226d0"
+    },
+    {
+      "bytes": 70952,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/qwen2.5-7b-inst-memit-sequential-b10x10/batch-08.json",
+      "sha256": "c0b71f3b3db42b465f1ab373addcfc655122b5f2a4a5b5bf7942e3fe9f5987ea"
+    },
+    {
+      "bytes": 70951,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/qwen2.5-7b-inst-memit-sequential-b10x10/batch-09.json",
+      "sha256": "e1ad0300a62ea04679908bbc54841fd4a78b3d33ee8701ac81c68745801f666b"
+    },
+    {
+      "bytes": 70972,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/qwen2.5-7b-inst-memit-sequential-b10x10/batch-10.json",
+      "sha256": "fedc7669870ec09e29b741dccb528e501352c9fcfc01ff9f9da7817bdb332ca4"
+    },
+    {
+      "bytes": 69973,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/llama3-8b-inst-alphaedit-sequential-b10x10/batch-01.json",
+      "sha256": "e14f11bad2a3c8a1bc20d675d194bbf5f121d29ec743d89f0e5924cc56e72ca1"
+    },
+    {
+      "bytes": 69737,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/llama3-8b-inst-alphaedit-sequential-b10x10/batch-02.json",
+      "sha256": "85b2c2eaded13b03f80fecc841bf4352e3cd71e8e6b39074432d3b893df93b33"
+    },
+    {
+      "bytes": 69770,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/llama3-8b-inst-alphaedit-sequential-b10x10/batch-03.json",
+      "sha256": "3192afb0fc98ec7de0f470c0043f09430ad9f7d4d6afd837f73868b71cd587a3"
+    },
+    {
+      "bytes": 69735,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/llama3-8b-inst-alphaedit-sequential-b10x10/batch-04.json",
+      "sha256": "a25e11d8ec3853867fb2def6ff5c84020d04c0a7585fa2a45c5f4f79ee1604ce"
+    },
+    {
+      "bytes": 69752,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/llama3-8b-inst-alphaedit-sequential-b10x10/batch-05.json",
+      "sha256": "ae6435ef0d92e35e5a8effe35c26ca4ca0615eb33ee27fa925b8f2de075a1399"
+    },
+    {
+      "bytes": 69714,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/llama3-8b-inst-alphaedit-sequential-b10x10/batch-06.json",
+      "sha256": "a89d9a7b06a252c084cdcb07b1527b6fd969f74ae618bdc636c3a85bf87df786"
+    },
+    {
+      "bytes": 69720,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/llama3-8b-inst-alphaedit-sequential-b10x10/batch-07.json",
+      "sha256": "1ea9a97e0abf29aea7d91d11571fcbee93ee3f95c1ad63afd53e5e0bd6b0dd08"
+    },
+    {
+      "bytes": 69717,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/llama3-8b-inst-alphaedit-sequential-b10x10/batch-08.json",
+      "sha256": "986c11d048b6a036e634f4a5151bb994c90a1e9e8fbb629dda58323b99d5482e"
+    },
+    {
+      "bytes": 69705,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/llama3-8b-inst-alphaedit-sequential-b10x10/batch-09.json",
+      "sha256": "9c8c9f25b9dd6541a495c5f413727d9315c31b3966000bd7f32f874e2785147f"
+    },
+    {
+      "bytes": 69776,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/llama3-8b-inst-alphaedit-sequential-b10x10/batch-10.json",
+      "sha256": "cd7ad64301e9ecc62337daffd41573343ae605b5ed59c27cb766bc59a8b26fb8"
+    },
+    {
+      "bytes": 70076,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/qwen2.5-7b-inst-alphaedit-sequential-b10x10/batch-01.json",
+      "sha256": "c4a39e82b5b454ca6aff4df0351ebef438656bf717cbcb9abb623415a9c18951"
+    },
+    {
+      "bytes": 69836,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/qwen2.5-7b-inst-alphaedit-sequential-b10x10/batch-02.json",
+      "sha256": "f73b8742e321aa3954caa1a63d35661665e401621cb7e4aa7d6cab2fe27da573"
+    },
+    {
+      "bytes": 69853,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/qwen2.5-7b-inst-alphaedit-sequential-b10x10/batch-03.json",
+      "sha256": "08943d4f3be112263d01f52e13ba91cd2260447bdfbc359db0df04326f14d5d1"
+    },
+    {
+      "bytes": 69861,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/qwen2.5-7b-inst-alphaedit-sequential-b10x10/batch-04.json",
+      "sha256": "c6ac949763cfbbb14218339d7efa095b654a46de2d14ba620ebcad875831e54c"
+    },
+    {
+      "bytes": 69833,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/qwen2.5-7b-inst-alphaedit-sequential-b10x10/batch-05.json",
+      "sha256": "6c5021e9e1d7dd13cb0dfabc06f9d55a012f42f5a63f41721814e03e41eb60e0"
+    },
+    {
+      "bytes": 69872,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/qwen2.5-7b-inst-alphaedit-sequential-b10x10/batch-06.json",
+      "sha256": "7cae307647d110cc533b92c6e98d9592b2061e76cdebb1db4334b01b28d335c2"
+    },
+    {
+      "bytes": 69821,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/qwen2.5-7b-inst-alphaedit-sequential-b10x10/batch-07.json",
+      "sha256": "75e564c87f5906e2db407bf766662175b2f836ae436f3aa50afd3215f7532ab5"
+    },
+    {
+      "bytes": 69847,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/qwen2.5-7b-inst-alphaedit-sequential-b10x10/batch-08.json",
+      "sha256": "65f5f0a15ba767116e5742f836693f3d57691b1474c86dcb5fed6c9d1f8f5f90"
+    },
+    {
+      "bytes": 69855,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/qwen2.5-7b-inst-alphaedit-sequential-b10x10/batch-09.json",
+      "sha256": "8f62b0071e790b542338b1279961d34f32e2409f3f64b1a10439a49860ec4342"
+    },
+    {
+      "bytes": 69879,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/qwen2.5-7b-inst-alphaedit-sequential-b10x10/batch-10.json",
+      "sha256": "abe2fff84337d1cb381e8d83d24796558211cf2d6911c6ae0a5c1bbbcf0b29a8"
+    },
+    {
+      "bytes": 12849,
+      "kind": "CELL_TERMINAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/llama3-8b-inst-memit-sequential-b10x10/result.json",
+      "sha256": "5d8d3d1ad6bea793044f1e24b794324ab1e4f61985050c4b6364d4753e3c932f"
+    },
+    {
+      "bytes": 12852,
+      "kind": "CELL_TERMINAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/qwen2.5-7b-inst-memit-sequential-b10x10/result.json",
+      "sha256": "1e91866fcee4ba192082cfbe05e0d9bd3ff80a2e6cf0ee39a22197e8b61f06fd"
+    },
+    {
+      "bytes": 13131,
+      "kind": "CELL_TERMINAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/llama3-8b-inst-alphaedit-sequential-b10x10/result.json",
+      "sha256": "85dabf745c009018116d12211f12d0091af3cb899ee42f43f3c9649e41136913"
+    },
+    {
+      "bytes": 13133,
+      "kind": "CELL_TERMINAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r4-alpha/qwen2.5-7b-inst-alphaedit-sequential-b10x10/result.json",
+      "sha256": "3bf7663e20764ab9d11e707ddc9e95cb597c49dd001b2b88802c256d8f6d46f5"
+    },
+    {
+      "bytes": 2490,
+      "kind": "DRY_PLAN",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-sequential-b10x10-v1/campaign-20260901-tech-r3/dry-plan.json",
+      "sha256": "80ca7155e87db2a494d5ed6f59166899e80a1678bf687446ace9223cfed5f0c0"
+    },
+    {
+      "bytes": 2526,
+      "kind": "DRY_PLAN",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-sequential-b10x10-v1/campaign-20260901-tech-r4/dry-plan.json",
+      "sha256": "f26f234d2bb7d579980e7d100a503233ffb78a5790b8afe497485da145696441"
+    },
+    {
+      "bytes": 608,
+      "kind": "FOCUSED_GATE",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-sequential-b10x10-v1/campaign-20260901-tech-r3/focused-gate.json",
+      "sha256": "c1db6c6a2e8d1126a95968331be8e2307b2bd16162ead59519b53000fdae97bf"
+    },
+    {
+      "bytes": 608,
+      "kind": "FOCUSED_GATE",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-sequential-b10x10-v1/campaign-20260901-tech-r4/focused-gate.json",
+      "sha256": "d1e3093eb56032526f82ce5af11e6a2aa347f03d623c02044ce212fe2e1496fe"
+    },
+    {
+      "bytes": 4024,
+      "kind": "INDEPENDENT_CELL_SUMMARY",
+      "path": "/data/janghj/ODE-edit/local/worktrees/official-layer-realization-debt-sequential-b10x10-v1/experiment-reports/servers/server4/official-layer-realization-debt-b10x10-2026-09-01-v1/cell-summary.csv",
+      "sha256": "088bbfc40224816f415a2994c8871583b61e1aacc704158526ff97e9a4040bde"
+    },
+    {
+      "bytes": 23402,
+      "kind": "INDEPENDENT_MANIFEST",
+      "path": "/data/janghj/ODE-edit/local/worktrees/official-layer-realization-debt-sequential-b10x10-v1/experiment-reports/servers/server4/official-layer-realization-debt-b10x10-2026-09-01-v1/analysis-manifest.json",
+      "sha256": "471fee68daa15553c67d9433fa8f9873fb317623dd77860a205d5c0d650de474"
+    },
+    {
+      "bytes": 852,
+      "kind": "INDEPENDENT_ROOTED_RECEIPT",
+      "path": "/data/janghj/ODE-edit/local/worktrees/official-layer-realization-debt-sequential-b10x10-v1/experiment-reports/servers/server4/official-layer-realization-debt-b10x10-2026-09-01-v1/rooted-analysis-receipt.json",
+      "sha256": "5efb1506f056a7d0cd84f071529366bc1629d87449cb2c733b05f961862abb7f"
+    },
+    {
+      "bytes": 10533,
+      "kind": "PREFLIGHT",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-sequential-b10x10-v1/campaign-20260901-tech-r3/preflight.json",
+      "sha256": "b7498781b77ecd728a435db8cb82771fde1867d6eb5b7b7a6a60c21d4a29ecfc"
+    },
+    {
+      "bytes": 10533,
+      "kind": "PREFLIGHT",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-sequential-b10x10-v1/campaign-20260901-tech-r4/preflight.json",
+      "sha256": "cca541cd9e9e03d61fa550e241d400c843697cb4d9882ec01aed1c3839fd7b1e"
+    },
+    {
+      "bytes": 2284,
+      "kind": "PURE_TECHNICAL_EXCLUSION",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-sequential-b10x10-v1/sequential-tech-r3/llama3-8b-inst-alphaedit-sequential-b10x10/failure.json",
+      "sha256": "47b7be67a4a36b3f6eab4fc34d18842d633db1237f1974365c2655c1983bbed8"
+    },
+    {
+      "bytes": 1394,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-sequential-b10x10-v1/off_layer_debt_seq_s4-31585_0.err",
+      "sha256": "25916cb5e36b4135b65ffa58cb8a1322204e915129668518ff76738a823ce582"
+    },
+    {
+      "bytes": 1606,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-sequential-b10x10-v1/off_layer_debt_seq_s4-31585_0.out",
+      "sha256": "8e3d9f08a5ca3b56308d388ba91e03d786e1e949de9c8f0f5789136a0f26546e"
+    },
+    {
+      "bytes": 2577,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-sequential-b10x10-v1/off_layer_debt_seq_s4-31585_1.err",
+      "sha256": "fb7db38d0474a9a3224d53de850898d93ccdcc74978d8a7db0437b458f50361c"
+    },
+    {
+      "bytes": 251,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-sequential-b10x10-v1/off_layer_debt_seq_s4-31585_1.out",
+      "sha256": "dc60492a1d3aae8e1c92637b248e35ef5f28f9be8971f979c9c1556a237cb092"
+    },
+    {
+      "bytes": 1394,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-sequential-b10x10-v1/off_layer_debt_seq_s4-31585_2.err",
+      "sha256": "861bc6e1f5f86cec2472d6dc127e8d71f8de4104fe0150fb4ce2461dfe3fc226"
+    },
+    {
+      "bytes": 1606,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-sequential-b10x10-v1/off_layer_debt_seq_s4-31585_2.out",
+      "sha256": "8f8a36b2584d0673a84cb4dab9189fb8792bacd55e2fd558df2f76cc136908c5"
+    },
+    {
+      "bytes": 979,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-sequential-b10x10-v1/off_layer_debt_seq_s4-31593_1.err",
+      "sha256": "a07bbf054ba5a86d9958a35bbb4c7e02a9452e2c6cb52c486ee777202f82829c"
+    },
+    {
+      "bytes": 251,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-sequential-b10x10-v1/off_layer_debt_seq_s4-31593_1.out",
+      "sha256": "dc60492a1d3aae8e1c92637b248e35ef5f28f9be8971f979c9c1556a237cb092"
+    },
+    {
+      "bytes": 979,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-sequential-b10x10-v1/off_layer_debt_seq_s4-31593_3.err",
+      "sha256": "ed3ec224687be2c029e5126956144451f70276eeff73bccd7f58b8dfbfc196f7"
+    },
+    {
+      "bytes": 301,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-sequential-b10x10-v1/off_layer_debt_seq_s4-31593_3.out",
+      "sha256": "15d1139b0230769d80c5e5e80bde10db8c5e35614270abd57e38adb379f69a8c"
+    }
+  ],
+  "identity_sha256": "ca806786bf41c074847805911bcd06f533dcdca667d05ba2cf5066e47c51d93b",
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-REALIZATION-DEBT-SEQUENTIAL-B10X10-V1",
+  "invariants": {
+    "direct_z_compute_count": 400,
+    "direct_z_recompute_count": 0,
+    "failure_count": 0,
+    "imputation_count": 0,
+    "layer_loop_observation_copy_count": 200,
+    "nonfinite_count": 0,
+    "terminal_cache_restore_count": 4,
+    "terminal_forward_count": 40,
+    "terminal_w0_restore_count": 4,
+    "weight_continuity_links": 36
+  },
+  "jobs": [
+    "31585",
+    "31593"
+  ],
+  "member_root": "034c70f7a47aa02a0816dd5a1fa83d227c14cf818aceab4123e9d0ccf3018754",
+  "members": [
+    {
+      "bytes": 9735,
+      "path": "batch-summary.csv",
+      "sha256": "c0a4dc2572264deb6ad5f0c761aeb69c181ea2691d816650dad13e1d937d4026"
+    },
+    {
+      "bytes": 4036,
+      "path": "cell-summary.csv",
+      "sha256": "82d58ecc343fbd799094b36e39c602fe25170fadb7a72797393bd78fae6186eb"
+    },
+    {
+      "bytes": 4036,
+      "path": "compute-ledger.csv",
+      "sha256": "a4294e5601a7974e6f20e5a677b23b0058584f3f65e6cc8171ec90ae7f214fb7"
+    },
+    {
+      "bytes": 784,
+      "path": "continuity-summary.csv",
+      "sha256": "7ff51ce55e94aa536c03f02d8fbc11560004ef2b4c641fd8889844bee221b736"
+    },
+    {
+      "bytes": 1491,
+      "path": "independent-descriptive-comparison.csv",
+      "sha256": "07ea0d1da7fdfc7606822b76aa87c6fc8039a5b34ff2d5f0b163afbf34372716"
+    },
+    {
+      "bytes": 500995,
+      "path": "layer-request-metrics.csv",
+      "sha256": "41572c64dfef34f429a942dd09f3e61dd861dc371a21de3a49362dd57d27ce55"
+    },
+    {
+      "bytes": 14370,
+      "path": "layer-summary.csv",
+      "sha256": "9cdb65395831ed11b1f35ba26a990d1fc55dd8b55f408acf30cce1f44064bbdc"
+    },
+    {
+      "bytes": 102769,
+      "path": "layer-wise-update-magnitude.png",
+      "sha256": "6cc79065dfb2ab7d053478f9d87b1bb94b2c28a407173f6f7cec5cf3fa2082b2"
+    },
+    {
+      "bytes": 5757,
+      "path": "official-layer-realization-debt-sequential-b10x10-factual-ko.md",
+      "sha256": "4ffb2eb98f9d53d28d1c73ce59b7014f5f4360b1a8a0c149a1c690a860c3605a"
+    },
+    {
+      "bytes": 2171739,
+      "path": "q-by-batch-facets.png",
+      "sha256": "899acaf58707ac21febe895f8149be8516b5b59e5995c61a827bb2e90d33411d"
+    },
+    {
+      "bytes": 921308,
+      "path": "q-pooled-2x2.png",
+      "sha256": "909d8763bd3caf5803140588305fbc47519536b8a70b7af952bf1c69fbca6b1f"
+    },
+    {
+      "bytes": 160453,
+      "path": "request-trajectories.csv",
+      "sha256": "ce6250dc70eb3276e2bac76638f5c23ffcecd2eea8672290cb7e91a9ca68d9a1"
+    },
+    {
+      "bytes": 110340,
+      "path": "rho-by-layer.png",
+      "sha256": "af0e569de2e3df4650a9804a9315a128b8ea03db389ab46356a954b906387aa0"
+    },
+    {
+      "bytes": 105720,
+      "path": "tau-by-layer.png",
+      "sha256": "ec23b68cb289da43aacf92927979c11f6d59b33dcc35374525406698abd26805"
+    },
+    {
+      "bytes": 16884,
+      "path": "weight-energy-by-batch-layer.csv",
+      "sha256": "2f9cd93f8ed5a37bdb7ca0cb1964834975ffc7bb5d232c6f964cdf88dc5032c7"
+    }
+  ],
+  "nonce": "ODEEDIT-GH-SH4-OFFICIAL-LAYER-DEBT-SEQUENTIAL-20260901-R1",
+  "raw_prompt_logit_generation_git_count": 0,
+  "run_source": {
+    "head": "5a5a94cd98c495353e1bc5ed0fa5637f3f753481",
+    "tree": "c33b3041ce6cb874b9985c34c76a4ef157167ad6"
+  },
+  "run_sources": [
+    [
+      "4cf99cd0bbb470f2e312884d0b7cb33c3241bb9f",
+      "a2dfd5c5f93cdc68733e2326e6a4d0e084616319"
+    ],
+    [
+      "5a5a94cd98c495353e1bc5ed0fa5637f3f753481",
+      "c33b3041ce6cb874b9985c34c76a4ef157167ad6"
+    ]
+  ],
+  "schema": "odeedit.s06.official-layer-realization-debt.sequential-analysis-manifest.v1",
+  "scientific_promotion": false,
+  "status": "SEQUENTIAL_OBSERVATIONAL_STUDY_TERMINAL_VALID",
+  "stream": {
+    "evaluator": "72b8ecb737157a42d6a055ffd339dc3f907876a0a98165a00cca49ca9bbed07d",
+    "order": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+    "root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6"
+  },
+  "technical_exclusions": [
+    "31585_1_PURE_TECHNICAL_ALPHAEDIT_COMPUTE_KS_EXPECTATION",
+    "31585_3_CANCELLED_BEFORE_MODEL_LOAD_SUPERSEDED_BY_TECH_R4"
+  ]
+}

@@ -1,0 +1,5 @@
+model,method,batch_denominator,request_denominator,weight_commit_to_next_entry_numerator,weight_commit_to_next_entry_denominator,cache_kind,cache_entry_width_B1,cache_exit_width_B10,cache_entry_exit_links_numerator,cache_entry_exit_links_denominator,direct_z_count,direct_z_recompute_count,layer_observation_count,terminal_forward_count,terminal_w0_restore_exact,terminal_cache_restore_exact
+llama3-8b-inst,memit,10,100,9,9,STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE,0,0,9,9,100,0,50,10,1,1
+llama3-8b-inst,alphaedit,10,100,9,9,OFFICIAL_ALPHAEDIT_DYNAMIC_CACHE_C,0,100,9,9,100,0,50,10,1,1
+qwen2.5-7b-inst,memit,10,100,9,9,STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE,0,0,9,9,100,0,50,10,1,1
+qwen2.5-7b-inst,alphaedit,10,100,9,9,OFFICIAL_ALPHAEDIT_DYNAMIC_CACHE_C,0,100,9,9,100,0,50,10,1,1
