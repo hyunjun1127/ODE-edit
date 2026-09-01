@@ -20,8 +20,9 @@ def main() -> None:
         "project/run_scripts/official_layer_realization_debt/tests/test_observer.py",
         "project/run_scripts/official_layer_realization_debt/tests/test_sequential.py",
     ]
-    pytest_python = args.pytest_python.resolve(strict=True)
-    if not pytest_python.is_file():
+    pytest_python = args.pytest_python
+    resolved_python = pytest_python.resolve(strict=True)
+    if not pytest_python.is_file() or not resolved_python.is_file():
         raise SystemExit("pytest interpreter target is not a regular file")
     command = [str(pytest_python), "-m", "pytest", "-q", *tests]
     completed = subprocess.run(command, text=True, capture_output=True, check=False)
@@ -36,6 +37,7 @@ def main() -> None:
         "failed": 0 if completed.returncode == 0 else 1,
         "tests": tests,
         "pytest_python": str(pytest_python),
+        "pytest_python_resolved": str(resolved_python),
         "stdout_tail": completed.stdout.splitlines()[-8:],
         "stderr_tail": completed.stderr.splitlines()[-8:],
     }
