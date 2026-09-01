@@ -391,7 +391,7 @@ def _markdown_report(tables: Mapping[str, Sequence[Mapping[str, Any]]], b1_recei
     lines = [
         "# Official layer-write realization debt — Llama/Qwen B10×10 사실 보고서",
         "",
-        "상태: **OBSERVATIONAL_STUDY_TERMINAL_VALID**  ",
+        "상태: **OBSERVATIONAL_STUDY_TERMINAL_VALID**",
         "범위: Official MEMIT/AlphaEdit의 기존 update를 바꾸지 않고 layer 4→8 write 중 activation residual의 실현 양상만 관찰했다. 이 결과는 barrier 효용, ODE 필요성, 또는 보편적 last-layer 병목을 입증하지 않는다. `scientific_promotion=false`다.",
         "",
         "## 핵심 결과",
