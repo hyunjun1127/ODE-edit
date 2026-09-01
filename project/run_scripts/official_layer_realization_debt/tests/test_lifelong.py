@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest import mock
 
@@ -22,6 +23,7 @@ from project.run_scripts.official_layer_realization_debt.lifelong_metrics import
     sustained_onset,
 )
 from project.run_scripts.official_layer_realization_debt.lifelong_probe import (
+    _activation,
     _minimum_action,
 )
 from project.run_scripts.official_layer_realization_debt.lifelong_stream import (
@@ -47,6 +49,17 @@ class _ComputeModule:
 
     def get_module_input_output_at_words(self, *args, **kwargs):
         return torch.zeros(1, 1)
+
+
+class _MemitActivationModule:
+    def __init__(self) -> None:
+        self.track_values: list[str | None] = []
+
+    def get_module_input_output_at_words(self, *args, **kwargs):
+        track = kwargs.get("track")
+        self.track_values.append(track)
+        output = torch.ones(1, 2)
+        return output if track == "out" else (torch.zeros_like(output), output)
 
 
 class LifelongFocusedTests(unittest.TestCase):
@@ -101,6 +114,27 @@ class LifelongFocusedTests(unittest.TestCase):
         self.assertAlmostEqual(value["minimum_expected_completion_action"], 8.5)
         self.assertAlmostEqual(value["unreachable_fraction"], 0.0, places=12)
         self.assertEqual(value["effective_rank"], 2)
+
+    def test_same_entry_memit_activation_uses_stock_track_out(self) -> None:
+        module = _MemitActivationModule()
+        hparams = SimpleNamespace(
+            layers=[4, 5, 6, 7, 8],
+            layer_module_tmp="model.layers.{}.mlp.down_proj",
+            fact_token="subject_last",
+        )
+        with mock.patch(
+            "project.run_scripts.official_layer_realization_debt.lifelong_probe._method_module",
+            return_value=module,
+        ):
+            value = _activation(
+                model=object(),
+                tokenizer=object(),
+                method=Method.MEMIT,
+                hparams=hparams,
+                requests=({"prompt": "{} is", "subject": "x"},),
+            )
+        self.assertEqual(module.track_values, ["out"])
+        self.assertEqual(tuple(value.shape), (1, 2))
 
     def test_editable_state_rollback_exact(self) -> None:
         fake = _FakeCacheModule()

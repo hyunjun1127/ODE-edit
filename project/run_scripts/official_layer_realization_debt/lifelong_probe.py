@@ -40,14 +40,24 @@ def _activation(
     requests: Sequence[Mapping[str, Any]],
 ) -> torch.Tensor:
     module = _method_module(method)
+    arguments = {
+        "context_templates": [str(item["prompt"]) for item in requests],
+        "words": [str(item["subject"]) for item in requests],
+        "module_template": hparams.layer_module_tmp,
+        "fact_token_strategy": hparams.fact_token,
+    }
+    # Stock MEMIT's own layer loop explicitly requests ``track='out'`` and
+    # therefore receives a Tensor.  Without this exact argument the same
+    # helper returns ``(input, output)``, which is not the Official writer
+    # observation contract.  AlphaEdit has no ``track`` parameter and keeps
+    # its upstream tuple/output-component behavior.
+    if method is Method.MEMIT:
+        arguments["track"] = "out"
     value = module.get_module_input_output_at_words(
         model,
         tokenizer,
         int(hparams.layers[-1]),
-        context_templates=[str(item["prompt"]) for item in requests],
-        words=[str(item["subject"]) for item in requests],
-        module_template=hparams.layer_module_tmp,
-        fact_token_strategy=hparams.fact_token,
+        **arguments,
     )
     output = _output_component(method, value)
     if output.ndim != 2 or output.shape[0] != len(requests) or not torch.isfinite(output).all():
