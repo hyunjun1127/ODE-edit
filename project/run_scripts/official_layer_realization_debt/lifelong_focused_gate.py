@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 
 
 TESTS = (
@@ -19,7 +20,7 @@ TESTS = (
 def main() -> None:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--output", required=True, type=Path)
-    parser.add_argument("--pytest-python", required=True, type=Path)
+    parser.add_argument("--pytest-python", type=Path, default=Path(sys.executable))
     args = parser.parse_args()
     if args.output.exists() or args.output.is_symlink():
         raise SystemExit("refusing to overwrite lifelong focused gate")
