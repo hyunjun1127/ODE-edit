@@ -33,6 +33,7 @@ readonly CASE_MANIFEST="${FZCB_SOURCE_ROOT}/project/run_scripts/fzcb_hard_alpha_
 [[ -z "$(git -C "${FZCB_SOURCE_ROOT}" status --porcelain --untracked-files=no)" ]]
 [[ "$(git -C "${FZCB_OFFICIAL_ROOT}" rev-parse HEAD)" == 3488a66ee988d83ee7891a8abbbe6bcb24a77daf ]]
 [[ -z "$(git -C "${FZCB_OFFICIAL_ROOT}" status --porcelain)" ]]
+[[ "$(sha256sum "${FZCB_PREFLIGHT}" | awk '{print $1}')" == "${FZCB_PREFLIGHT_SHA256}" ]]
 [[ ! -e "${CELL}" && ! -L "${CELL}" ]]
 mkdir -p "${CELL}" "${FZCB_LOG_ROOT}"
 exec >"${FZCB_LOG_ROOT}/ha1-${MODEL}-${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID}.out" 2>"${FZCB_LOG_ROOT}/ha1-${MODEL}-${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID}.err"

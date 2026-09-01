@@ -99,8 +99,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     source_root = args.source_root.resolve()
     if git(source_root, "rev-parse", "HEAD") != args.expected_head or git(source_root, "status", "--porcelain", "--untracked-files=no"):
         raise EngineeringBoundary("source HEAD/clean gate failed")
-    if sha256(args.preflight) != args.preflight_sha256:
-        raise EngineeringBoundary("preflight receipt SHA mismatch")
+    actual_preflight_sha256 = sha256(args.preflight)
+    if actual_preflight_sha256 != args.preflight_sha256:
+        raise EngineeringBoundary(
+            "preflight receipt SHA mismatch "
+            f"actual={actual_preflight_sha256} expected={args.preflight_sha256!r} "
+            f"path={args.preflight}"
+        )
     spec = MODEL_SPECS[args.model]
     rows = load_case_rows(args.dataset, args.case_manifest, 3)
     request = official_requests(rows[:1])
