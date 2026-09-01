@@ -7,7 +7,9 @@ from typing import Any, Mapping
 from .contracts import Method, ObservationBoundary, ObservationLock
 
 
-def verify_observed_batch(payload: Mapping[str, Any], *, request_count: int) -> dict[str, Any]:
+def verify_observed_batch(
+    payload: Mapping[str, Any], *, method: Method, request_count: int
+) -> dict[str, Any]:
     observer = payload["layer_realization_observer"]
     debt = observer["residual_debt"]
     audit = payload["official_call_audit"]
@@ -22,7 +24,10 @@ def verify_observed_batch(payload: Mapping[str, Any], *, request_count: int) -> 
         "additional_z_zero": float(observer["overhead_wall_seconds"]["additional_z_optimization"]) == 0.0,
         "additional_key_zero": float(observer["overhead_wall_seconds"]["additional_key_compute"]) == 0.0,
         "additional_solve_zero": float(observer["overhead_wall_seconds"]["additional_closed_form_solve"]) == 0.0,
-        "compute_ks_5": int(audit["compute_ks_call_count"]) == 5,
+        # Stock AlphaEdit computes one key matrix for the solve and one for
+        # cache_c append at every layer; MEMIT computes one per layer.
+        "compute_ks_official_exact": int(audit["compute_ks_call_count"])
+        == (10 if method is Method.ALPHAEDIT else 5),
         "solve_5": int(audit["torch_linalg_solve_call_count"]) == 5,
     }
     if not all(checks.values()):

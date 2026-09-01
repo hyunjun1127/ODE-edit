@@ -198,7 +198,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 alpha_cache_history_width=(batch_index - 1) * len(requests),
             )
             observer_checks = verify_observed_batch(
-                apply_payload, request_count=len(requests)
+                apply_payload, method=method, request_count=len(requests)
             )
             weight_continuity = verify_weight_continuity(
                 apply_payload, expected_entry=previous_commit

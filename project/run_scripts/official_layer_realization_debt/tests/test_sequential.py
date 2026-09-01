@@ -11,10 +11,10 @@ from project.run_scripts.official_layer_realization_debt.continuity import (
 from project.run_scripts.official_layer_realization_debt.contracts import Method
 
 
-def _observed() -> dict:
+def _observed(*, compute_ks: int = 5) -> dict:
     return {
         "target_backward_count": 10,
-        "official_call_audit": {"compute_ks_call_count": 5, "torch_linalg_solve_call_count": 5},
+        "official_call_audit": {"compute_ks_call_count": compute_ks, "torch_linalg_solve_call_count": 5},
         "layer_realization_observer": {
             "direct_z_compute_count": 10,
             "direct_z_recompute_count": 0,
@@ -31,7 +31,8 @@ def _observed() -> dict:
 
 
 def test_sequential_observer_batch_contract() -> None:
-    assert all(verify_observed_batch(_observed(), request_count=10).values())
+    assert all(verify_observed_batch(_observed(), method=Method.MEMIT, request_count=10).values())
+    assert all(verify_observed_batch(_observed(compute_ks=10), method=Method.ALPHAEDIT, request_count=10).values())
 
 
 def test_weight_commit_to_next_entry() -> None:
