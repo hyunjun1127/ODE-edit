@@ -1,0 +1,28 @@
+{
+  "schema": "odeedit.s06.fzcb-hard-alpha-densec.official-source-lock.v1",
+  "authority": "isolated-clean-git-object-checkout",
+  "repository": "zjunlp/EasyEdit",
+  "runtime_root": "/mnt/raid5/janghj/ODE-edit/local/state/fzcb-hard-alpha-densec-ha0-b10-v1/easyedit-official-3488a66-v1",
+  "head": "3488a66ee988d83ee7891a8abbbe6bcb24a77daf",
+  "tree": "1f6d5e9a4a95daa15a4b5a8963dcd133876e47b3",
+  "tracked_clean_required": true,
+  "dirty_user_checkout_influence_count": 0,
+  "members": {
+    "easyeditor/models/alphaedit/AlphaEdit_main.py": "9aa9221ed7f89e26ca86fbdfee38abc527df8931af3e09c78a1ba9e98726b85b",
+    "easyeditor/models/alphaedit/AlphaEdit_hparams.py": "b8813427b01d60b9d065db40d597ce086c14387eaccb92c53bc7ad14b0a9ce59",
+    "easyeditor/models/alphaedit/__init__.py": "609bef490ec45743ee9ecd6cd2e01280860d8aa27b3ea96b6b78f0586463f113",
+    "easyeditor/models/alphaedit/compute_ks.py": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba",
+    "easyeditor/models/alphaedit/compute_z.py": "e12140c66b467759f3fb0061ec844f79147221e0649f0d0a5f9657225ff12c95",
+    "easyeditor/models/rome/repr_tools.py": "a83de9ef7a7d65403ccde83a4abf6bb9407d29da19d96cc3508da362c03b23a1",
+    "easyeditor/util/nethook.py": "410ce0da0dc15e203aa0280131ab29ca6d2b76195441a46cd5381dc9342b2a93",
+    "hparams/AlphaEdit/llama3-8b.yaml": "25a2cb68257fca38aa0ac78e318f79a6c15d83737f26a54b63e21874e9905b6b",
+    "hparams/AlphaEdit/qwen2.5-7b.yaml": "3c6eca1f3578d473f5c9c68cd2eb970036d255ae080bcfec5451786605f14349"
+  },
+  "equation_binding": {
+    "entry": "A_H=lambda*I+P@cache_c",
+    "full": "A=P@(cache_c+K@K.T)+lambda*I",
+    "rhs": "P@K@residual.T",
+    "update": "residual@D.T with upd_matrix_match_shape once",
+    "post_commit": "compute_ks(actual_committed_model); cache_c += K_post@K_post.T once/layer"
+  }
+}

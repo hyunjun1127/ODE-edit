@@ -1,0 +1,36 @@
+{
+  "schema": "odeedit.s06.fzcb-hard-alpha-densec.artifact-lock.v1",
+  "dataset": {
+    "path": "/mnt/raid5/janghj/EasyEdit/data/counterfact/counterfact.json",
+    "bytes": 45108470,
+    "sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f"
+  },
+  "model_closure_manifest": {
+    "path": "agents/server4/p4-hf-consumed-closure-seal.json",
+    "sha256": "02db39b636625a513aca0d185d3dab04de2b6ba3ece7d867d241dd3a21c28854",
+    "server2_prefix_rewrite": "/data/janghj -> /mnt/raid5/janghj"
+  },
+  "alphaedit_artifact_manifest": {
+    "path": "agents/server4/alphaedit-runtime-path-seal.json",
+    "sha256": "176018298d691a1b67ae7ca787c7dcd2bd77d8606044790833d361fd451ddeb3",
+    "server2_prefix_rewrite": "/data/janghj -> /mnt/raid5/janghj"
+  },
+  "models": {
+    "llama3-8b-inst": {
+      "snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "required_root": "a1795dc0fe12a307e16432a7c2049da1a795e4170e3b6f6822d760a5d6ea8056",
+      "statistics_alias": "Meta-Llama-3-8B-Instruct",
+      "projector": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+      "projector_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec"
+    },
+    "qwen2.5-7b-inst": {
+      "snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "required_root": "2f7e899779cac6f49071af6b98519a7058cb31bb14eef651fe6300f62f1dd43b",
+      "statistics_alias": "Qwen2.5-7B-Instruct",
+      "projector": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+      "projector_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff"
+    }
+  }
+}

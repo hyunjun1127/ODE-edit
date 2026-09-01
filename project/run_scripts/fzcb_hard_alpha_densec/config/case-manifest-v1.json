@@ -1,0 +1,25 @@
+{
+  "schema": "odeedit.s06.fzcb-hard-alpha-densec.atomic-b10-case-manifest.v1",
+  "selection": "existing_s06_fixed_z_screen8_plus_preregistered_controller2",
+  "selection_outcome_influence_count": 0,
+  "replacement_count": 0,
+  "dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+  "source_manifest": "project/run_scripts/fixed_z_nonuniqueness/config/case-manifest-v1.json",
+  "source_manifest_sha256": "b20f18f3b4297280d45c542a3c69803cee357bca83665c7e511e3deaf26a11ca",
+  "selection_sha256": "ea8130acd1e5b19748668862ee2a09d616fb3cd6044fd6d00275f71db6ae2432",
+  "cases": [
+    {"ordinal": 0, "case_id": 21100, "row_sha256": "fd151accdd618e9ad3852a0bbc44217987ca88e075c31693e21bfdcf782f0fcc"},
+    {"ordinal": 1, "case_id": 1477, "row_sha256": "d7bd609b40b272b9b2fd785c8cb870d60907589034f2a42c2d2d36f2de27f581"},
+    {"ordinal": 2, "case_id": 20838, "row_sha256": "285db6725fc5ebc351ec3d584724ec414555b62f635284339df84ca493840757"},
+    {"ordinal": 3, "case_id": 18707, "row_sha256": "672e741f58cef5abfd9297e4aa6727ce0ff57fd920a64dee73f1d5b89fbffcb8"},
+    {"ordinal": 4, "case_id": 14288, "row_sha256": "bb0e7acc9ce152152535e67d06af9a6baee0059c9ddfc14cbc3fab45fc44c6e1"},
+    {"ordinal": 5, "case_id": 16426, "row_sha256": "98bcd6dabfef7e2274c3c220a95f8c92f0befb29843bd1f6601567c76b197c53"},
+    {"ordinal": 6, "case_id": 19041, "row_sha256": "d8c09ee4f24e4eb267056c38059f2e7ace8ae0ccabdffa3e177be0f1324476f5"},
+    {"ordinal": 7, "case_id": 17609, "row_sha256": "73c5cbd87dcb6dfcd83032b4d550c700f51a80331c3262851e860f0df8bc6db2"},
+    {"ordinal": 8, "case_id": 14148, "row_sha256": "ec3d66b7273564c1134855b5ec6a0cebecf5cee4263680cda931094db9c15c88"},
+    {"ordinal": 9, "case_id": 16872, "row_sha256": "45d8466726ba8f3fcd86bad4b940fdb79ecc561b9cc82bc04cafff8e65c479fa"}
+  ],
+  "b1_case_id": 21100,
+  "attempted_request_denominator": 10,
+  "failure_request_deletion_count": 0
+}
