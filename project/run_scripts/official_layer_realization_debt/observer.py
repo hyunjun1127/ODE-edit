@@ -33,10 +33,19 @@ class OfficialLayerObserver:
         method: Method,
         request_sha256: Sequence[str],
         capture_layers: bool,
+        replay_z: Sequence[torch.Tensor] | None = None,
     ) -> None:
         self.method = method
         self.request_sha256 = tuple(str(value) for value in request_sha256)
         self.capture_layers = bool(capture_layers)
+        self._replay_z = (
+            None
+            if replay_z is None
+            else tuple(
+                value.detach().to(device="cpu", dtype=torch.float32).contiguous().clone()
+                for value in replay_z
+            )
+        )
         self._z: list[torch.Tensor] = []
         self._z_hashes: list[str] = []
         self._layer_rows: list[torch.Tensor] = []
@@ -56,6 +65,8 @@ class OfficialLayerObserver:
         self._layer_copy_wall_seconds = 0.0
         self._terminal_forward_wall_seconds = 0.0
         self._weight_action_wall_seconds = 0.0
+        self._optimizer_compute_count = 0
+        self._replay_count = 0
 
     @contextlib.contextmanager
     def observe(self, module: Any):
@@ -68,7 +79,18 @@ class OfficialLayerObserver:
         self._original_activation = original_activation
 
         def compute_z_observer(*args: Any, **kwargs: Any) -> Any:
-            value = original_compute_z(*args, **kwargs)
+            if self._replay_z is None:
+                value = original_compute_z(*args, **kwargs)
+                self._optimizer_compute_count += 1
+            else:
+                index = self._replay_count
+                if index >= len(self._replay_z):
+                    raise ObservationBoundary("fixed-z replay call count exceeds seal")
+                if not args or not hasattr(args[0], "parameters"):
+                    raise ObservationBoundary("fixed-z replay model binding differs")
+                device = next(args[0].parameters()).device
+                value = self._replay_z[index].to(device=device, dtype=torch.float32)
+                self._replay_count += 1
             if not isinstance(value, torch.Tensor) or not torch.isfinite(value).all():
                 raise ObservationBoundary("Official compute_z output differs/nonfinite")
             started = time.perf_counter()
@@ -152,6 +174,8 @@ class OfficialLayerObserver:
             "layer_capture_enabled": self.capture_layers,
             "request_count": len(self.request_sha256),
             "direct_z_compute_count": len(self._z),
+            "direct_z_optimizer_compute_count": self._optimizer_compute_count,
+            "direct_z_shared_replay_count": self._replay_count,
             "direct_z_recompute_count": 0,
             "z_sha256": list(self._z_hashes),
             "layer_loop_pass_through_call_count": self._pass_through_layer_calls,
@@ -195,6 +219,24 @@ class OfficialLayerObserver:
             "terminal_activation_sha256": tensor_sha256(self._terminal),
             "residual_debt": metrics,
             "weight_action": self._weight_action,
+        }
+
+    def replay_tensors(self) -> tuple[torch.Tensor, ...]:
+        if len(self._z) != len(self.request_sha256):
+            raise ObservationBoundary("fixed-z replay tensor inventory differs")
+        return tuple(value.detach().clone() for value in self._z)
+
+    def raw_capture(self) -> dict[str, Any]:
+        if (
+            not self.capture_layers
+            or len(self._layer_rows) != len(LAYERS)
+            or self._terminal is None
+        ):
+            raise ObservationBoundary("raw observer capture is incomplete")
+        return {
+            "z": self.replay_tensors(),
+            "pre_layer": tuple(value.detach().clone() for value in self._layer_rows),
+            "terminal": self._terminal.detach().clone(),
         }
 
 
