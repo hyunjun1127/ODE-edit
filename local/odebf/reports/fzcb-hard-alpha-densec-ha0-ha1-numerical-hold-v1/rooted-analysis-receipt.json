@@ -1,0 +1,15 @@
+{
+  "b100x10_submission_count": 0,
+  "ha2_submission_count": 0,
+  "ha3_submission_count": 0,
+  "manifest": {
+    "bytes": 762,
+    "mode": "0600",
+    "path": "local/odebf/reports/fzcb-hard-alpha-densec-ha0-ha1-numerical-hold-v1/analysis-manifest.json",
+    "sha256": "7a2c8e07709d1bdc5311322b17a27d1133aa73b56072c49d8e2d91382669391c"
+  },
+  "model_gpu_slurm_rerun_after_hold": 0,
+  "root_digest": "fe6f0880ffcc80d6b420c363063d7f15f3ed7aaa8b0a9e732cc0d7f0ac857594",
+  "schema": "odeedit.s06.fzcb-hard-alpha-densec.ha1-hold-rooted-receipt.v1",
+  "status": "SENSITIVITY_NUMERICALLY_INCONCLUSIVE"
+}
