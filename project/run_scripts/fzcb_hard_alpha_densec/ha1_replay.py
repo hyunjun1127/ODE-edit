@@ -31,6 +31,7 @@ from .model_support import (
     tensor_sha,
     tokenizer_hook,
 )
+from .official_compat import install_official_trace_kwargs_adapter
 
 
 def sha256(path: Path) -> str:
@@ -111,6 +112,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     request = official_requests(rows[:1])
     model, tokenizer, model_receipt = load_model_and_tokenizer(spec)
     hparams = load_hparams(spec, args.official_root)
+    trace_adapter = install_official_trace_kwargs_adapter()
     calibration_prompts = [row["requested_rewrite"]["prompt"].format(row["requested_rewrite"]["subject"]) for row in rows]
     calibration_targets = [row["requested_rewrite"]["target_new"]["str"] for row in rows]
     padding = padding_safety_gate(
@@ -237,6 +239,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "model_receipt": model_receipt,
         "padding_gate": padding,
         "official_source_root": str(args.official_root),
+        "official_trace_kwargs_adapter": trace_adapter,
         "official_target_compute_count": 1,
         "official_target_recompute_count": 0,
         "z_sha256": tensor_sha(z),

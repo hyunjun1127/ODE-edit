@@ -20,6 +20,7 @@ from project.run_scripts.fzcb_hard_alpha_densec.dense_backend import (
     match_update_to_weight,
 )
 from project.run_scripts.fzcb_hard_alpha_densec.matrix_free import LinearOperator
+from project.run_scripts.fzcb_hard_alpha_densec.official_compat import install_official_trace_kwargs_adapter
 
 
 DTYPE = torch.float64
@@ -33,6 +34,23 @@ def orthogonal_projector(size: int, rank: int) -> torch.Tensor:
 
 
 class DenseBackendTest(unittest.TestCase):
+    def test_official_trace_kwargs_adapter_preserves_output(self) -> None:
+        from easyeditor.util import nethook
+
+        receipt = install_official_trace_kwargs_adapter()
+        class HiddenIdentity(torch.nn.Module):
+            def forward(self, hidden_states: torch.Tensor) -> torch.Tensor:
+                return hidden_states
+
+        layer = HiddenIdentity()
+        value = torch.randn((2, 3), dtype=DTYPE)
+        with nethook.Trace(layer, retain_input=True, retain_output=True) as trace:
+            output = layer(hidden_states=value)
+        self.assertTrue(receipt["installed"])
+        self.assertTrue(torch.equal(output, value))
+        self.assertTrue(torch.equal(trace.input, value))
+        self.assertTrue(torch.equal(trace.output, value))
+
     def exercise(self, history_scale: float) -> tuple[float, float]:
         generator = torch.Generator().manual_seed(19)
         size, requests = 13, 4
