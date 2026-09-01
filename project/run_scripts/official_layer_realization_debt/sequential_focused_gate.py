@@ -12,6 +12,7 @@ import subprocess
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--pytest-python", type=Path, required=True)
     args = parser.parse_args()
     if args.output.exists() or args.output.is_symlink():
         raise SystemExit("refusing to overwrite focused gate receipt")
@@ -19,7 +20,9 @@ def main() -> None:
         "project/run_scripts/official_layer_realization_debt/tests/test_observer.py",
         "project/run_scripts/official_layer_realization_debt/tests/test_sequential.py",
     ]
-    command = ["python", "-m", "pytest", "-q", *tests]
+    if not args.pytest_python.is_file() or args.pytest_python.is_symlink():
+        raise SystemExit("pytest interpreter is not a regular file")
+    command = [str(args.pytest_python), "-m", "pytest", "-q", *tests]
     completed = subprocess.run(command, text=True, capture_output=True, check=False)
     passed = 0
     for token in completed.stdout.replace("\n", " ").split():
@@ -31,6 +34,7 @@ def main() -> None:
         "passed": passed,
         "failed": 0 if completed.returncode == 0 else 1,
         "tests": tests,
+        "pytest_python": str(args.pytest_python),
         "stdout_tail": completed.stdout.splitlines()[-8:],
         "stderr_tail": completed.stderr.splitlines()[-8:],
     }
