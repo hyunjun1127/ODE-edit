@@ -8,6 +8,7 @@ import io
 import json
 import os
 from pathlib import Path
+import re
 import sys
 
 
@@ -33,10 +34,8 @@ def main() -> None:
         returncode = int(pytest.main(["-q", *TESTS]))
     stdout_value = stdout.getvalue()
     stderr_value = stderr.getvalue()
-    passed = 0
-    for token in stdout_value.replace("\n", " ").split():
-        if token.isdigit():
-            passed = int(token)
+    match = re.search(r"(?:^|\s)(\d+) passed(?:\s|,)", stdout_value)
+    passed = int(match.group(1)) if match else 0
     payload = {
         "schema": "odeedit.s06.layer-realization-debt.lifelong-focused-gate.v1",
         "status": "PASS" if returncode == 0 else "FAIL",
