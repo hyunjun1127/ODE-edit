@@ -181,7 +181,15 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             matched_new, new_transposed = match_update_to_weight(new_update, weights[f"{hparams.rewrite_module_tmp.format(layer)}.weight"].shape)
             difference = relative(matched_new, matched_official)
             if difference > NumericalLock().fp32_backend_relative_tolerance:
-                raise EngineeringBoundary(f"Official/backend parity failure layer={layer} history={history_name}")
+                raise EngineeringBoundary(
+                    "Official/backend parity failure "
+                    f"layer={layer} history={history_name} relative_update_difference={difference:.17g} "
+                    f"tolerance={NumericalLock().fp32_backend_relative_tolerance:.17g} "
+                    f"official_equation_residual={official_residual:.17g} "
+                    f"woodbury_solve_relative={backend['solve_relative']:.17g} "
+                    f"woodbury_direct_d_relative={backend['woodbury_direct_d_relative']:.17g} "
+                    f"small_condition={backend['small_condition']:.17g}"
+                )
             parity[history_name] = {
                 "official_equation_residual": official_residual,
                 "relative_update_difference": difference,
