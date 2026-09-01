@@ -14,7 +14,11 @@ from project.run_scripts.fzcb_hard_alpha_densec.controller import (
     null_projection,
     suffix_value,
 )
-from project.run_scripts.fzcb_hard_alpha_densec.dense_backend import ContextIncidence, DenseEntryFactor
+from project.run_scripts.fzcb_hard_alpha_densec.dense_backend import (
+    ContextIncidence,
+    DenseEntryFactor,
+    match_update_to_weight,
+)
 from project.run_scripts.fzcb_hard_alpha_densec.matrix_free import LinearOperator
 
 
@@ -75,6 +79,17 @@ class DenseBackendTest(unittest.TestCase):
         self.assertEqual(update.shape, (out, size))
         self.assertLess(float(solve.coefficient_leakage(projector).item()), 2e-12)
         self.assertLess(float(torch.linalg.vector_norm(update @ (torch.eye(size, dtype=DTYPE) - projector))), 2e-11)
+
+    def test_single_shape_adapter_matches_official(self) -> None:
+        from easyeditor.models.alphaedit.AlphaEdit_main import upd_matrix_match_shape
+
+        update = torch.arange(15, dtype=DTYPE).reshape(3, 5)
+        ours_direct, transposed_direct = match_update_to_weight(update, torch.Size((3, 5)))
+        ours_transposed, transposed = match_update_to_weight(update, torch.Size((5, 3)))
+        self.assertFalse(transposed_direct)
+        self.assertTrue(transposed)
+        self.assertTrue(torch.equal(ours_direct, upd_matrix_match_shape(update, torch.Size((3, 5)))))
+        self.assertTrue(torch.equal(ours_transposed, upd_matrix_match_shape(update, torch.Size((5, 3)))))
 
     def test_request_context_incidence_parity(self) -> None:
         generator = torch.Generator().manual_seed(61)

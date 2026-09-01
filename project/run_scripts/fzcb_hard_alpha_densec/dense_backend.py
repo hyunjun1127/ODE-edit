@@ -15,6 +15,16 @@ def _relative(left: torch.Tensor, right: torch.Tensor) -> torch.Tensor:
     return torch.linalg.vector_norm(left - right) / torch.linalg.vector_norm(right).clamp_min(tiny)
 
 
+def match_update_to_weight(update: torch.Tensor, weight_shape: torch.Size) -> tuple[torch.Tensor, bool]:
+    """The single storage-orientation adapter, matching Official AlphaEdit."""
+
+    if update.shape == weight_shape:
+        return update, False
+    if update.T.shape == weight_shape:
+        return update.T, True
+    raise EngineeringBoundary(FailureLabel.PROJECTOR_ORIENTATION_FAILURE.value)
+
+
 @dataclass(frozen=True)
 class DenseEntryFactor:
     projector: torch.Tensor
