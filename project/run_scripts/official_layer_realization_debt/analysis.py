@@ -84,7 +84,7 @@ def _write_csv(path: Path, rows: Sequence[Mapping[str, Any]]) -> None:
     if any(list(row) != fields for row in rows):
         raise ObservationBoundary(f"CSV schema differs: {path.name}")
     with path.open("x", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
