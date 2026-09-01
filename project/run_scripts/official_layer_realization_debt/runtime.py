@@ -194,12 +194,18 @@ def _run_apply(
     requests: Sequence[Mapping[str, Any]],
     touched: Mapping[str, torch.nn.Parameter],
     capture_layers: bool,
+    reset_alpha_cache: bool = True,
+    alpha_cache_history_width: int | None = 0,
 ) -> tuple[dict[str, Any], Mapping[str, torch.Tensor]]:
     request_hashes = [str(value["request_sha256"]) for value in requests]
     observer = OfficialLayerObserver(method=method, request_sha256=request_hashes, capture_layers=capture_layers)
     call_audit = OfficialCallAudit()
     hook = OfficialTokenizerHook(tokenizer, [])
-    _reset_effective_entry(method)
+    # Preserve the independent experiment byte-for-byte by default.  The
+    # sequential binding opts out after B1 so stock AlphaEdit can consume its
+    # own dynamic cache_c without introducing a second writer implementation.
+    if method is Method.ALPHAEDIT and reset_alpha_cache:
+        _reset_effective_entry(method)
     with official_model_name_binding(model, str(hparams.model_name)):
         if method is Method.MEMIT:
             payload, originals = run_official_memit_apply(
@@ -218,8 +224,8 @@ def _run_apply(
                 requests,
                 hparams,
                 touched=touched,
-                reset_cache=True,
-                cache_history_width=0,
+                reset_cache=reset_alpha_cache,
+                cache_history_width=alpha_cache_history_width,
                 cache_template=None,
                 expected_native_compute_z_call_count=len(requests),
                 accepted_z_source="STOCK_COMPUTE_Z_ENTRY_STATE_ONCE_PER_REQUEST",
