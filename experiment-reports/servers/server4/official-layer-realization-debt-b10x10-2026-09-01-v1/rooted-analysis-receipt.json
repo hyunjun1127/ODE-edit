@@ -1,0 +1,23 @@
+{
+  "denominators": {
+    "batches": 40,
+    "cells": 4,
+    "requests": 400,
+    "valid_batches": 40,
+    "valid_cells": 4,
+    "valid_requests": 400
+  },
+  "external_input_root": "e9c37ea3f21a1be1a8278c3fd98faa470a9dfe24eb392eb0bfbf242e443623c4",
+  "failure_count": 0,
+  "identity_sha256": "381d2779c34cb1f881af47f44f1d75d9b7677eadfb473d19a92dd43e8b577b2c",
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-REALIZATION-DEBT-B10X10-V1",
+  "manifest": {
+    "bytes": 23402,
+    "path": "analysis-manifest.json",
+    "sha256": "471fee68daa15553c67d9433fa8f9873fb317623dd77860a205d5c0d650de474"
+  },
+  "member_root": "7c7566df2302a7353f4068664a50240cf9b7b2080fcc4f40662bf2ac4d50c77d",
+  "schema": "odeedit.s06.official-layer-realization-debt.rooted-analysis-receipt.v1",
+  "scientific_promotion": false,
+  "status": "OBSERVATIONAL_STUDY_TERMINAL_VALID"
+}

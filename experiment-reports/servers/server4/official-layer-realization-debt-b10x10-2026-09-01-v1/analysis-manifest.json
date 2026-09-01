@@ -1,0 +1,524 @@
+{
+  "analysis_builder_source": {
+    "head": "c711e45c224d9a1f19d45f7fc6bde1e1955379c1",
+    "tree": "767a58be1a6adaa91484b7d8b65c3b4526c27123"
+  },
+  "denominators": {
+    "batches": 40,
+    "cells": 4,
+    "requests": 400,
+    "valid_batches": 40,
+    "valid_cells": 4,
+    "valid_requests": 400
+  },
+  "easyedit_source_edit_count": 0,
+  "external_inputs": [
+    {
+      "bytes": 3046,
+      "kind": "B10_DRY_PLAN",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-b10x10-v1/campaign-20260901-r1/b10x10-dry-plan.json",
+      "sha256": "23053bf612c607724ed5503dfce9a769f4daf081b2fe532b16df570401a3f6fc"
+    },
+    {
+      "bytes": 1979,
+      "kind": "B1_DRY_PLAN",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-b10x10-v1/campaign-20260901-r1/b1-dry-plan.json",
+      "sha256": "c834204b72c88a1e7da60dd0e55b86d6d8bbf544fdcb75b8c95ac46fc46583c0"
+    },
+    {
+      "bytes": 31564,
+      "kind": "B1_RELEASE",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b1-replay-r1/llama3-8b-inst-alphaedit-b1/result.json",
+      "sha256": "545b9a38a1d75f9648a6606dfd810223d8c48b74f0a0ff9d333866381b387b77"
+    },
+    {
+      "bytes": 35061,
+      "kind": "B1_RELEASE",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b1-replay-r1/llama3-8b-inst-memit-b1/result.json",
+      "sha256": "4d13ebc5e6c18ac7bc99b186194d14f40a20484e5351dad7d275284e1e654df2"
+    },
+    {
+      "bytes": 31551,
+      "kind": "B1_RELEASE",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b1-replay-r1/qwen2.5-7b-inst-alphaedit-b1/result.json",
+      "sha256": "d9d4876447acf03efeee2a62c424a1a57bed57869eabc2e1d85283339bc33dea"
+    },
+    {
+      "bytes": 34932,
+      "kind": "B1_RELEASE",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b1-replay-r1/qwen2.5-7b-inst-memit-b1/result.json",
+      "sha256": "288e776963d16899d72d78908218cdb730e61c58c3441e39c1414795ef505e1f"
+    },
+    {
+      "bytes": 68533,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-alphaedit-b10x10/batch-01.json",
+      "sha256": "7bde4c24adda9f67a7331bf05a5ef45f10a4527460b8f6b82fe44797292b1820"
+    },
+    {
+      "bytes": 68525,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-alphaedit-b10x10/batch-02.json",
+      "sha256": "cada1cf148467f026711ce86af6e0a34a297da57f247e9f132774f710bd9fa57"
+    },
+    {
+      "bytes": 68531,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-alphaedit-b10x10/batch-03.json",
+      "sha256": "661e474f1907216207ba9441ccb316b726fc510153eb8e2fd466b6d21185f583"
+    },
+    {
+      "bytes": 68534,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-alphaedit-b10x10/batch-04.json",
+      "sha256": "81a22bd2f39641dfd6e525cf3ff7a56bcb297a67b80e5d4d936c15f292148d86"
+    },
+    {
+      "bytes": 68545,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-alphaedit-b10x10/batch-05.json",
+      "sha256": "9529d43afa355bcfd752cb8920b6e211701f8782da1346180d63d74e43142e04"
+    },
+    {
+      "bytes": 68538,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-alphaedit-b10x10/batch-06.json",
+      "sha256": "c17170451eefe0b71d89583affe813d4e1c8c0f1f4ec6beea87656347aba053f"
+    },
+    {
+      "bytes": 68507,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-alphaedit-b10x10/batch-07.json",
+      "sha256": "96ba2e9b9a2e23d6c00adb7f6f467081cc88a48bb501c68a2915e890eec14e49"
+    },
+    {
+      "bytes": 68479,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-alphaedit-b10x10/batch-08.json",
+      "sha256": "402949b2c82c3b3cd5d98dc7b7c2886f1d4871e1474c911ac0e533f774db6a6c"
+    },
+    {
+      "bytes": 68565,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-alphaedit-b10x10/batch-09.json",
+      "sha256": "ae3e1c735192e58dd97d85dc393f9689f1198d1e3cf86415572d9ca484ccb6ca"
+    },
+    {
+      "bytes": 68507,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-alphaedit-b10x10/batch-10.json",
+      "sha256": "93a284dbe646336778d7a34addc55c320e812aa6c7061472afc328edac60947a"
+    },
+    {
+      "bytes": 70155,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-memit-b10x10/batch-01.json",
+      "sha256": "0aa8f3332b5b884389ef50bdfafcfb1972621b4ca89e56dc1b7c38f54a133fde"
+    },
+    {
+      "bytes": 70145,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-memit-b10x10/batch-02.json",
+      "sha256": "50ad8ab20718fe41c7ebe16a2402f943697ef53743f10a0d6bf7eba7ebdc04a0"
+    },
+    {
+      "bytes": 70122,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-memit-b10x10/batch-03.json",
+      "sha256": "5aea8a76a5ee7a41b738f874062c900ee81244c92c69bacd9bc103110d072d6b"
+    },
+    {
+      "bytes": 70116,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-memit-b10x10/batch-04.json",
+      "sha256": "b13071c705ae1da052ac681c4a22b6709ae7521d1098da95bec1c002fddf2739"
+    },
+    {
+      "bytes": 70129,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-memit-b10x10/batch-05.json",
+      "sha256": "e9fe6b49bff7ce61b85d2549bd1af83edb6828914da759c327fac5d28d13e136"
+    },
+    {
+      "bytes": 70105,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-memit-b10x10/batch-06.json",
+      "sha256": "703d5f22b337a4d163249634270561e531d70d4f4ffdc358c4d8d8592ebb1f68"
+    },
+    {
+      "bytes": 70093,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-memit-b10x10/batch-07.json",
+      "sha256": "ac2bf7d1d725e26b113b218442eb67e900d4495006600eb709c1a03143957d14"
+    },
+    {
+      "bytes": 70099,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-memit-b10x10/batch-08.json",
+      "sha256": "48a4d4d43df7dcd29b1ccef3cb83028066d86a3162bef9fa387c93c452c1f70b"
+    },
+    {
+      "bytes": 70122,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-memit-b10x10/batch-09.json",
+      "sha256": "9d94a444b4bbd0061f4be322a615d224ee1c1a90e47c2e8e2c1b97978cea4a50"
+    },
+    {
+      "bytes": 70127,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-memit-b10x10/batch-10.json",
+      "sha256": "f90aa6df1244aa2c653347c5994391c097467eaf56aae1bbaaf007dc7a81a223"
+    },
+    {
+      "bytes": 68638,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-alphaedit-b10x10/batch-01.json",
+      "sha256": "0d3c0954d95ce1d3ef0545ecb6943ca8257e765c565e2fcff6523442cd5a4905"
+    },
+    {
+      "bytes": 68659,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-alphaedit-b10x10/batch-02.json",
+      "sha256": "32cd05edec9c8aa5edec600c3743befbe42af3dfbaf1d4ac0785c28ade374811"
+    },
+    {
+      "bytes": 68629,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-alphaedit-b10x10/batch-03.json",
+      "sha256": "9f2731c748650856167dcd01ecba4c1c9f017ac4e0af2387f43184f5690e527f"
+    },
+    {
+      "bytes": 68630,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-alphaedit-b10x10/batch-04.json",
+      "sha256": "0acc5be1f1b6928bbf9ec8aece3c6b3b64a53502480a2eced5d1519a82ccd207"
+    },
+    {
+      "bytes": 68666,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-alphaedit-b10x10/batch-05.json",
+      "sha256": "2a2aeb0afb663854ae8ff5f5e2b65dc4628bcb94752845551036bb92825722cc"
+    },
+    {
+      "bytes": 68640,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-alphaedit-b10x10/batch-06.json",
+      "sha256": "50da2209f4048e93c036c7d6981aa9c14a561af8158198732906d254be22ca9e"
+    },
+    {
+      "bytes": 68629,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-alphaedit-b10x10/batch-07.json",
+      "sha256": "c3eec71b76c1408a3acc6cd1052b54e2b2f3cca09caece05f71c04321acb71c3"
+    },
+    {
+      "bytes": 68659,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-alphaedit-b10x10/batch-08.json",
+      "sha256": "87d8adb83f532d4d02583eedadb34bf07dddaa71563d17d41bb29c0fb32c7bb0"
+    },
+    {
+      "bytes": 68627,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-alphaedit-b10x10/batch-09.json",
+      "sha256": "8d0dfe916b771c07d3be95072fe81e2eb78e91b48ad9523c5b1118b814f5bf73"
+    },
+    {
+      "bytes": 68675,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-alphaedit-b10x10/batch-10.json",
+      "sha256": "5df9c4808ae6ba13d514a0dfcacbd93506db2ffc01c1bad3b47403a2ae58bec9"
+    },
+    {
+      "bytes": 70122,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-memit-b10x10/batch-01.json",
+      "sha256": "779085bb6194b12e295b398e9a700d8345f0fa56095d3e296438a6c9a5f55408"
+    },
+    {
+      "bytes": 70109,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-memit-b10x10/batch-02.json",
+      "sha256": "815d99ba5ad148376e3d95cc94a5ed20bcb78c07294590018644b2db3377f889"
+    },
+    {
+      "bytes": 70138,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-memit-b10x10/batch-03.json",
+      "sha256": "8c5c7a38ac7d588847a4a1a68c884375f65e7169532a5c2d841b2f2c7b4a5658"
+    },
+    {
+      "bytes": 70169,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-memit-b10x10/batch-04.json",
+      "sha256": "362accbad67859a48a0235bde4c68b5d8be8d17da39dd135e234e340856d5517"
+    },
+    {
+      "bytes": 70138,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-memit-b10x10/batch-05.json",
+      "sha256": "a260e23632fa65cf13ef8a79f218803fb8ee1bdaebe57e73fa3c463eefe51868"
+    },
+    {
+      "bytes": 70103,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-memit-b10x10/batch-06.json",
+      "sha256": "598b4889817ae85fab1fd7d7c6fed6bd946afc5e525fd0f1265e3ed4e5e966e1"
+    },
+    {
+      "bytes": 70163,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-memit-b10x10/batch-07.json",
+      "sha256": "8beac3846446190a2cdc16df101e1f40e002d1995575115f059b377b43d59eec"
+    },
+    {
+      "bytes": 70107,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-memit-b10x10/batch-08.json",
+      "sha256": "3ac9c65006fefcd444e89a6d1ea143544a0d0416f5f70482024c7cf5dcc9d8f5"
+    },
+    {
+      "bytes": 70107,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-memit-b10x10/batch-09.json",
+      "sha256": "519e6dcac1130ebbd5c0f1811784eb24fea4d38223d9cd09a5e65ac9139ff613"
+    },
+    {
+      "bytes": 70179,
+      "kind": "BATCH_JOURNAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-memit-b10x10/batch-10.json",
+      "sha256": "2b76f6d7f646333921d74d98c45ca8eeea74cd8136f9c9ed2450d4a6dfe4fb8c"
+    },
+    {
+      "bytes": 8500,
+      "kind": "CELL_TERMINAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-alphaedit-b10x10/result.json",
+      "sha256": "cc699ba7a15c7faddc47090184d18b4c5943035711144d6061a4c0e0a1e7559d"
+    },
+    {
+      "bytes": 8348,
+      "kind": "CELL_TERMINAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/llama3-8b-inst-memit-b10x10/result.json",
+      "sha256": "71f05f694965f67190c416fd5bf3e257e621c8c637fce8454171c876d55811a6"
+    },
+    {
+      "bytes": 8503,
+      "kind": "CELL_TERMINAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-alphaedit-b10x10/result.json",
+      "sha256": "ada63aeda8e5b94133a2438fa756854b0bf3de1a7935825cd2f0b3c700cf923f"
+    },
+    {
+      "bytes": 8351,
+      "kind": "CELL_TERMINAL",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-b10x10-v1/b10x10-r1/qwen2.5-7b-inst-memit-b10x10/result.json",
+      "sha256": "77f6e8e7c485e44203fd31d400e08e099129db97d4eafe49376f7aaa42b9465d"
+    },
+    {
+      "bytes": 394,
+      "kind": "FOCUSED_GATE",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-b10x10-v1/campaign-20260901-r1/focused-gate.json",
+      "sha256": "721c06cc66fc4b91c263ef964c87959e832a2ccd0c208dc5148018a497c36cb1"
+    },
+    {
+      "bytes": 9880,
+      "kind": "PREFLIGHT",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-b10x10-v1/campaign-20260901-r1/preflight.json",
+      "sha256": "86a4e88e7009c6acdd584fac6d5211c28298fb7e8297338f0eeed92be56b4f71"
+    },
+    {
+      "bytes": 1394,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b10x10_s4-31473_0.err",
+      "sha256": "d2aa741d15c1994e0fb138f27b240d413284a9e7d2a5abd06d1d183374eb294a"
+    },
+    {
+      "bytes": 1606,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b10x10_s4-31473_0.out",
+      "sha256": "8e3d9f08a5ca3b56308d388ba91e03d786e1e949de9c8f0f5789136a0f26546e"
+    },
+    {
+      "bytes": 979,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b10x10_s4-31473_1.err",
+      "sha256": "570cde7051071be62229db596bd06c243c9f6c5387005bb21fe065eef1af83b1"
+    },
+    {
+      "bytes": 251,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b10x10_s4-31473_1.out",
+      "sha256": "dc60492a1d3aae8e1c92637b248e35ef5f28f9be8971f979c9c1556a237cb092"
+    },
+    {
+      "bytes": 1394,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b10x10_s4-31473_2.err",
+      "sha256": "8d1b6324aad7de7214df012b36a009cc5c8e73612f9347b80f173662ae4db83c"
+    },
+    {
+      "bytes": 1606,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b10x10_s4-31473_2.out",
+      "sha256": "8f8a36b2584d0673a84cb4dab9189fb8792bacd55e2fd558df2f76cc136908c5"
+    },
+    {
+      "bytes": 979,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b10x10_s4-31473_3.err",
+      "sha256": "ba6fa6e47c58ffa6492f94fe00b2e0279fba7e5cc5d4f3bc71f1c209bdc89983"
+    },
+    {
+      "bytes": 301,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b10x10_s4-31473_3.out",
+      "sha256": "15d1139b0230769d80c5e5e80bde10db8c5e35614270abd57e38adb379f69a8c"
+    },
+    {
+      "bytes": 1394,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b1_s4-31440_0.err",
+      "sha256": "4fc7d8fe14a37743599bfe1b654d215a0aeffb1f37d8f1be2bfbc95ed7cf5398"
+    },
+    {
+      "bytes": 1606,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b1_s4-31440_0.out",
+      "sha256": "8e3d9f08a5ca3b56308d388ba91e03d786e1e949de9c8f0f5789136a0f26546e"
+    },
+    {
+      "bytes": 979,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b1_s4-31440_1.err",
+      "sha256": "bcc0613085e152c236e4ce84d9a600ba3c31aeb2efeaff67f2df2ae3a65a67ef"
+    },
+    {
+      "bytes": 251,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b1_s4-31440_1.out",
+      "sha256": "dc60492a1d3aae8e1c92637b248e35ef5f28f9be8971f979c9c1556a237cb092"
+    },
+    {
+      "bytes": 1394,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b1_s4-31440_2.err",
+      "sha256": "c013e824343282935d1250626674d96568a945551217419f16e23c42839fc902"
+    },
+    {
+      "bytes": 1606,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b1_s4-31440_2.out",
+      "sha256": "8f8a36b2584d0673a84cb4dab9189fb8792bacd55e2fd558df2f76cc136908c5"
+    },
+    {
+      "bytes": 979,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b1_s4-31440_3.err",
+      "sha256": "96f038b0f46968f76dab59f37d9e2ad8f5bf92bc5a1e831f54907418eb7a2881"
+    },
+    {
+      "bytes": 301,
+      "kind": "SLURM_LOG",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-b10x10-v1/off_layer_b1_s4-31440_3.out",
+      "sha256": "15d1139b0230769d80c5e5e80bde10db8c5e35614270abd57e38adb379f69a8c"
+    }
+  ],
+  "identity_sha256": "2e2579fc7f90ab8879c4c1d939b34e9b692c5bc253554b48d995eec4006dcf23",
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-REALIZATION-DEBT-B10X10-V1",
+  "invariants": {
+    "direct_z_compute_count": 400,
+    "direct_z_recompute_count": 0,
+    "failure_count": 0,
+    "imputation_count": 0,
+    "layer_loop_observation_copy_count": 200,
+    "nonfinite_count": 0,
+    "terminal_forward_count": 40,
+    "w0_restore_count": 40
+  },
+  "jobs": {
+    "b1": "31440_[0-3]%4",
+    "b10x10": "31473_[0-3]%4"
+  },
+  "member_root": "7c7566df2302a7353f4068664a50240cf9b7b2080fcc4f40662bf2ac4d50c77d",
+  "members": [
+    {
+      "bytes": 9717,
+      "path": "batch-summary.csv",
+      "sha256": "9c9da1bcad3a32a4b8e03e07ae3cadb6ba268186c5838e7b897db7ebf8ec2815"
+    },
+    {
+      "bytes": 4024,
+      "path": "cell-summary.csv",
+      "sha256": "088bbfc40224816f415a2994c8871583b61e1aacc704158526ff97e9a4040bde"
+    },
+    {
+      "bytes": 4041,
+      "path": "compute-ledger.csv",
+      "sha256": "812da449cded38f4f500791c1d9bcf0112c5dd994fef3ee579a6d34980792f6d"
+    },
+    {
+      "bytes": 500772,
+      "path": "layer-request-metrics.csv",
+      "sha256": "1f75fe5c65440554d24f42b653b001757ec485afece603025b0715d2be9e05fb"
+    },
+    {
+      "bytes": 14397,
+      "path": "layer-summary.csv",
+      "sha256": "fbb8accf62783a8b333e687a546d862c7f23a2ea4aab4ad8c6aa30a33e9897fe"
+    },
+    {
+      "bytes": 6576,
+      "path": "official-layer-realization-debt-b10x10-factual-ko.md",
+      "sha256": "9834ac16bcfb3c5e8d4b9411e6987d534890d7a8f255d7e87eb4372b8861a4d9"
+    },
+    {
+      "bytes": 2204111,
+      "path": "q-by-batch-facets.png",
+      "sha256": "15529558d9898c5427aead6c59d9b8288048068603058c91c1da187bcbef84d5"
+    },
+    {
+      "bytes": 927071,
+      "path": "q-pooled-2x2.png",
+      "sha256": "db6193b7ce4e4a7f4adce18f78fb4a72e6cb8d7724d5cb4fc6d0fc2a948d8488"
+    },
+    {
+      "bytes": 160378,
+      "path": "request-trajectories.csv",
+      "sha256": "77d1fa131eae3cd08310b48ece9c36baf80c024d496b52fbc912173746d4cb0e"
+    },
+    {
+      "bytes": 108102,
+      "path": "rho-by-layer.png",
+      "sha256": "165452dd672d91b5befc6c7042df6bcb888b92892e06c922173254ef21260bc4"
+    },
+    {
+      "bytes": 105662,
+      "path": "tau-by-layer.png",
+      "sha256": "8307c6530780f70ccdef92090b6758cafaf4b349213dedf48bcc12493a2a350a"
+    },
+    {
+      "bytes": 16843,
+      "path": "weight-energy-by-batch-layer.csv",
+      "sha256": "ab71ce63aa68f8978a0cdabb13c4c2475427c0e101d1c4e529d5d7f4aaac5a1b"
+    },
+    {
+      "bytes": 105433,
+      "path": "weight-energy-share.png",
+      "sha256": "c24dccfb76f9547da5cc12908a488c973effe473ae041987800c3b7210043484"
+    }
+  ],
+  "nonce": "ODEEDIT-GH-SH4-OFFICIAL-LAYER-DEBT-20260901-R1",
+  "raw_prompt_logit_generation_git_count": 0,
+  "run_source": {
+    "head": "f620c6ff7ab076f7ec3d0a4d4c8e67f198c5fe5f",
+    "tree": "98acbd0b6bf64af186aebfba5164a1391a37d3a1"
+  },
+  "schema": "odeedit.s06.official-layer-realization-debt.analysis-manifest.v1",
+  "scientific_promotion": false,
+  "sequential_submit_count": 0,
+  "status": "OBSERVATIONAL_STUDY_TERMINAL_VALID",
+  "stream": {
+    "evaluator": "72b8ecb737157a42d6a055ffd339dc3f907876a0a98165a00cca49ca9bbed07d",
+    "order": "abe62c071168789b4a1e5ff57d2645ea16a328946362ea7bff166d6d5c76cd5c",
+    "root": "74d6896535fe46211e3f11d3d9b420c1ab36f1d503ee81f9eaace23c2fcb89e6"
+  }
+}
