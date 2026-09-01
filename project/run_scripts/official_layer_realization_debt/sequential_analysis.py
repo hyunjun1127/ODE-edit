@@ -47,11 +47,18 @@ def _git(root: Path, *args: str) -> str:
     return subprocess.check_output(["git", "-C", str(root), *args], text=True).strip()
 
 
-def _load_campaign(result_root: Path) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def _load_campaign(result_roots: Sequence[Path]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     cells: list[dict[str, Any]] = []
     external: list[dict[str, Any]] = []
     for model, method in CELL_ORDER:
-        result_path = result_root / f"{model}-{method}-sequential-b10x10/result.json"
+        candidates = [
+            root / f"{model}-{method}-sequential-b10x10/result.json"
+            for root in result_roots
+            if (root / f"{model}-{method}-sequential-b10x10/result.json").is_file()
+        ]
+        if len(candidates) != 1:
+            raise ObservationBoundary(f"sequential cell result root is ambiguous/absent: {model}/{method}")
+        result_path = candidates[0]
         result = _load(result_path)
         if (
             result.get("status") != "SEQUENTIAL_B1_TO_B10_TERMINAL_VALID"
@@ -201,7 +208,7 @@ def _report(
     comparison: Sequence[Mapping[str, Any]],
     run_head: str,
     run_tree: str,
-    job_id: str,
+    job_ids: Sequence[str],
 ) -> str:
     summary = {(row["model"], row["method"]): row for row in tables["cell_summary"]}
     compare = {(row["model"], row["method"]): row for row in comparison}
@@ -291,7 +298,7 @@ def _report(
         "- valid cells 4/4, batches 40/40, requests 400/400; failure/nonfinite/imputation 0.",
         "- direct-z 400, recompute 0, layer observations 200, terminal forwards 40, W links 36/36, terminal W0/cache restore 4/4.",
         "- raw prompt/logit/generation publish 0; EasyEdit source/update equation change 0.",
-        f"- Slurm: `{job_id}`.",
+        f"- Slurm valid lineages: `{', '.join(job_ids)}`.",
         f"- run source HEAD/tree: `{run_head}` / `{run_tree}`.",
         f"- stream/order/evaluator: `{STREAM_IDENTITY}` / `{ORDER_IDENTITY}` / `{EVALUATOR_IDENTITY}`.",
         "- raw roots는 ignored local path에 immutable 보존하며 Git package에는 포함하지 않았다.",
@@ -306,16 +313,26 @@ def build(args: argparse.Namespace) -> None:
     cells, external = _load_campaign(args.result_root)
     heads = {cell["result"]["source"]["head"] for cell in cells}
     trees = {cell["result"]["source"]["tree"] for cell in cells}
-    if heads != {args.expected_run_head} or len(trees) != 1:
+    if heads != set(args.expected_run_head) or len(trees) != len(heads):
         raise ObservationBoundary("sequential run source identity differs")
-    run_head, run_tree = next(iter(heads)), next(iter(trees))
+    run_head = args.expected_run_head[-1]
+    run_tree = next(
+        cell["result"]["source"]["tree"]
+        for cell in cells
+        if cell["result"]["source"]["head"] == run_head
+    )
     builder_head = _git(args.source_root, "rev-parse", "HEAD")
     builder_tree = _git(args.source_root, "rev-parse", "HEAD^{tree}")
     if _git(args.source_root, "status", "--porcelain", "--untracked-files=no"):
         raise ObservationBoundary("sequential analysis source is tracked-dirty")
-    for path in sorted(args.log_root.glob(f"*{args.job_id}*")):
-        if path.is_file() and not path.is_symlink():
-            external.append({"kind": "SLURM_LOG", "path": str(path), "bytes": path.stat().st_size, "sha256": _sha256(path)})
+    for job_id in args.job_id:
+        for path in sorted(args.log_root.glob(f"*{job_id}*")):
+            if path.is_file() and not path.is_symlink():
+                external.append({"kind": "SLURM_LOG", "path": str(path), "bytes": path.stat().st_size, "sha256": _sha256(path)})
+    for root in args.result_root:
+        for path in sorted(root.glob("*/failure.json")):
+            if path.is_file() and not path.is_symlink():
+                external.append({"kind": "PURE_TECHNICAL_EXCLUSION", "path": str(path), "bytes": path.stat().st_size, "sha256": _sha256(path)})
     for label, path in (("PREFLIGHT", args.preflight), ("FOCUSED_GATE", args.focused_gate), ("DRY_PLAN", args.dry_plan)):
         external.append({"kind": label, "path": str(path), "bytes": path.stat().st_size, "sha256": _sha256(path)})
     tables = _tabulate(cells)
@@ -354,8 +371,15 @@ def build(args: argparse.Namespace) -> None:
         "nonce": NONCE,
         "status": "SEQUENTIAL_OBSERVATIONAL_STUDY_TERMINAL_VALID",
         "run_source": {"head": run_head, "tree": run_tree},
+        "run_sources": sorted(
+            {
+                (cell["result"]["source"]["head"], cell["result"]["source"]["tree"])
+                for cell in cells
+            }
+        ),
         "analysis_builder_source": {"head": builder_head, "tree": builder_tree},
-        "job": args.job_id,
+        "jobs": list(args.job_id),
+        "technical_exclusions": list(args.technical_exclusion),
         "denominators": {"cells": 4, "batches": 40, "requests": 400, "valid_cells": 4, "valid_batches": 40, "valid_requests": 400},
         "invariants": {"direct_z_compute_count": 400, "direct_z_recompute_count": 0, "layer_loop_observation_copy_count": 200, "terminal_forward_count": 40, "weight_continuity_links": 36, "terminal_w0_restore_count": 4, "terminal_cache_restore_count": 4, "failure_count": 0, "nonfinite_count": 0, "imputation_count": 0},
         "execution_semantics": "B1_TO_B10_CUMULATIVE_W_CACHE_SEQUENTIAL",
@@ -388,14 +412,15 @@ def build(args: argparse.Namespace) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source-root", type=Path, required=True)
-    parser.add_argument("--expected-run-head", required=True)
-    parser.add_argument("--result-root", type=Path, required=True)
+    parser.add_argument("--expected-run-head", action="append", required=True)
+    parser.add_argument("--result-root", type=Path, action="append", required=True)
     parser.add_argument("--log-root", type=Path, required=True)
     parser.add_argument("--preflight", type=Path, required=True)
     parser.add_argument("--focused-gate", type=Path, required=True)
     parser.add_argument("--dry-plan", type=Path, required=True)
     parser.add_argument("--independent-package", type=Path, required=True)
-    parser.add_argument("--job-id", required=True)
+    parser.add_argument("--job-id", action="append", required=True)
+    parser.add_argument("--technical-exclusion", action="append", default=[])
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     build(args)
