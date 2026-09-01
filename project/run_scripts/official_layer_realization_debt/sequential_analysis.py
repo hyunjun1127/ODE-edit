@@ -333,8 +333,9 @@ def build(args: argparse.Namespace) -> None:
         for path in sorted(root.glob("*/failure.json")):
             if path.is_file() and not path.is_symlink():
                 external.append({"kind": "PURE_TECHNICAL_EXCLUSION", "path": str(path), "bytes": path.stat().st_size, "sha256": _sha256(path)})
-    for label, path in (("PREFLIGHT", args.preflight), ("FOCUSED_GATE", args.focused_gate), ("DRY_PLAN", args.dry_plan)):
-        external.append({"kind": label, "path": str(path), "bytes": path.stat().st_size, "sha256": _sha256(path)})
+    for label, paths in (("PREFLIGHT", args.preflight), ("FOCUSED_GATE", args.focused_gate), ("DRY_PLAN", args.dry_plan)):
+        for path in paths:
+            external.append({"kind": label, "path": str(path), "bytes": path.stat().st_size, "sha256": _sha256(path)})
     tables = _tabulate(cells)
     continuity = _continuity_table(cells)
     comparison, comparison_inputs = _independent_comparison(tables, args.independent_package)
@@ -415,9 +416,9 @@ def main() -> None:
     parser.add_argument("--expected-run-head", action="append", required=True)
     parser.add_argument("--result-root", type=Path, action="append", required=True)
     parser.add_argument("--log-root", type=Path, required=True)
-    parser.add_argument("--preflight", type=Path, required=True)
-    parser.add_argument("--focused-gate", type=Path, required=True)
-    parser.add_argument("--dry-plan", type=Path, required=True)
+    parser.add_argument("--preflight", type=Path, action="append", required=True)
+    parser.add_argument("--focused-gate", type=Path, action="append", required=True)
+    parser.add_argument("--dry-plan", type=Path, action="append", required=True)
     parser.add_argument("--independent-package", type=Path, required=True)
     parser.add_argument("--job-id", action="append", required=True)
     parser.add_argument("--technical-exclusion", action="append", default=[])
