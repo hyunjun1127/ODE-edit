@@ -21,7 +21,7 @@ from .contracts import (
 from .geometry import FullModelControlOperator, MEMITGeometryFactory
 from .hashing import canonical_hash, tensor_sha256
 from .linear import equality_null_projection, scalar_rectification, solve_minimum_action, suffix_value
-from .rollout import observe_candidate_rollout, run_actual_remaining_rollout
+from .rollout import SuffixCandidate, concordance, observe_candidate_rollout, run_actual_remaining_rollout
 from .sensitivity import finite_difference_sweep, sketch_ladder_receipt
 from .tolerances import ResolvedTolerances, UnitTolerancePolicy
 from .transaction import AtomicEditTransaction, WeightSnapshot
@@ -511,6 +511,97 @@ def _actual_rollout(
         start.restore(model)
 
 
+def _predictive_candidate_panel(
+    *,
+    model: Any,
+    factory: Any,
+    entry: WeightSnapshot,
+    operator: FullModelControlOperator,
+    coefficients: dict[str, torch.Tensor],
+    selected: WeightSnapshot,
+    selected_predicted_suffix: float,
+    target_waypoint: torch.Tensor,
+    delta_s: float,
+    next_s: float,
+    target: torch.Tensor,
+    phi0: torch.Tensor,
+    displacement: torch.Tensor,
+    tolerances: ResolvedTolerances,
+) -> dict[str, Any]:
+    """Observation-only endpoint rollouts from independent exact-copy clones."""
+
+    rows: list[dict[str, Any]] = []
+    valid: list[SuffixCandidate] = []
+    for candidate_id, coefficient in coefficients.items():
+        try:
+            if candidate_id == "FZCB_SELECTED":
+                snapshot = selected
+                predicted = selected_predicted_suffix
+                corrector = "REUSED_ACCEPTED_CANDIDATE"
+            else:
+                entry.restore(model)
+                _, corrector = _corrected_candidate(
+                    model=model,
+                    operator=operator,
+                    entry=entry,
+                    coefficient=coefficient,
+                    target_waypoint=target_waypoint,
+                    delta_s=delta_s,
+                    tolerances=tolerances,
+                )
+                snapshot = WeightSnapshot.capture(model, entry.names)
+                refreshed, _ = factory.build()
+                if next_s < 1.0 - 1e-12:
+                    predicted = suffix_value(
+                        _solve(refreshed, target - refreshed.phi(), tolerances.tau_range),
+                        1.0 - next_s,
+                    )
+                else:
+                    predicted = 0.0
+            observation = observe_candidate_rollout(
+                candidate_id=candidate_id,
+                predicted_suffix_after=float(predicted),
+                execute=lambda snapshot=snapshot: _actual_rollout(
+                    model=model,
+                    factory=factory,
+                    start=snapshot,
+                    phi0=phi0,
+                    displacement=displacement,
+                    start_progress=next_s,
+                    tolerances=tolerances,
+                ),
+            )
+            rows.append({
+                "candidate_id": candidate_id,
+                "coefficient_sha256": tensor_sha256(coefficient),
+                "coefficient_action_squared_fp64": float(
+                    torch.dot(coefficient.to(torch.float64), coefficient.to(torch.float64)).item()
+                ),
+                "predicted_suffix_after": predicted,
+                "corrector": corrector,
+                "observation": observation,
+            })
+            if observation["failure_count"] == 0:
+                valid.append(SuffixCandidate(
+                    candidate_id=candidate_id,
+                    predicted_suffix_after=float(predicted),
+                    realized_suffix_action=float(observation["realized_suffix_action"]),
+                    layer_action=tuple(float(value) for value in observation["realized_suffix_layer_action"]),
+                ))
+        finally:
+            selected.restore(model)
+    return {
+        "schema": "odeedit.s06.fzcb.production.predictive-candidate-panel.v1",
+        "candidate_count": len(rows),
+        "valid_rollout_candidate_count": len(valid),
+        "candidates": rows,
+        "concordance": concordance(valid),
+        "independent_weight_clone_count": len(rows),
+        "cache_mutation_count": 0,
+        "controller_selection_influence_count": 0,
+    }
+
+
 def run_true_frozen(
     *, model: Any, factory: MEMITGeometryFactory, w0: WeightSnapshot,
     target: torch.Tensor, policy: UnitTolerancePolicy,
@@ -629,6 +720,7 @@ def _run_refreshed_or_fzcb(
     target: torch.Tensor,
     namespace: str,
     policy: UnitTolerancePolicy,
+    barrier_control_fn: Callable[..., tuple[torch.Tensor, dict[str, Any]]] = barrier_control_strict,
 ) -> dict[str, Any]:
     if arm not in {Arm.REFRESHED_EQUALITY_ONLY, Arm.FZCB}:
         raise ScientificBoundary("invalid refreshed controller arm")
@@ -654,6 +746,7 @@ def _run_refreshed_or_fzcb(
     current_predicted_suffix: float | str = initial_budget
     current_h_cc: float | str = 0.0
     last_candidate_failure: dict[str, Any] | str = "NOT_RECORDED"
+    predictive_panel_completed = False
     try:
         schedule = list(zip(NumericalLock().progress_grid[:-1], NumericalLock().progress_grid[1:], strict=True))
         while schedule:
@@ -682,10 +775,11 @@ def _run_refreshed_or_fzcb(
                     "solver": asdict(equality.receipt),
                 }
                 barrier_receipt = None
+                diagnostic_coefficients: dict[str, torch.Tensor] = {}
                 coefficient = equality.coefficient
                 if arm is Arm.FZCB:
                     current_stage = "barrier-current-state"
-                    coefficient, barrier_receipt = barrier_control_strict(
+                    coefficient, barrier_receipt = barrier_control_fn(
                         model=model, factory=factory, operator=operator, entry=entry,
                         equality=equality, target=target, s=accepted_s,
                         proposed_step=delta_s,
@@ -693,6 +787,7 @@ def _run_refreshed_or_fzcb(
                         namespace=f"{namespace}|s={accepted_s:.8f}", policy=policy,
                         tolerances=tolerances,
                     )
+                    diagnostic_coefficients = barrier_receipt.pop("_diagnostic_coefficients", {})
                     current_barrier = barrier_receipt
                     current_predicted_suffix = barrier_receipt["predicted_suffix"]
                     current_h_cc = barrier_receipt["h_cc"]
@@ -727,7 +822,7 @@ def _run_refreshed_or_fzcb(
                         current_stage = "candidate-next-state-viability"
                         next_equality = _solve(refreshed, displacement, tolerances.tau_range)
                         try:
-                            _, next_viability = barrier_control_strict(
+                            _, next_viability = barrier_control_fn(
                                 model=model, factory=factory, operator=refreshed,
                                 entry=candidate, equality=next_equality, target=target,
                                 s=next_s, spent_action=spent + step_action,
@@ -736,6 +831,7 @@ def _run_refreshed_or_fzcb(
                                 namespace=f"{namespace}|next-s={next_s:.8f}",
                                 policy=policy, tolerances=tolerances,
                             )
+                            next_viability.pop("_diagnostic_coefficients", None)
                         finally:
                             candidate.restore(model)
                     rollout_observation = observe_candidate_rollout(
@@ -748,6 +844,30 @@ def _run_refreshed_or_fzcb(
                         ),
                     )
                     rollout_observation_failure_count += int(rollout_observation["failure_count"])
+                    predictive_panel = None
+                    if (
+                        arm is Arm.FZCB
+                        and diagnostic_coefficients
+                        and not predictive_panel_completed
+                        and bool(barrier_receipt.get("rectification", {}).get("barrier_active"))
+                    ):
+                        predictive_panel = _predictive_candidate_panel(
+                            model=model,
+                            factory=factory,
+                            entry=entry,
+                            operator=operator,
+                            coefficients=diagnostic_coefficients,
+                            selected=candidate,
+                            selected_predicted_suffix=predicted_suffix,
+                            target_waypoint=waypoint,
+                            delta_s=delta_s,
+                            next_s=next_s,
+                            target=target,
+                            phi0=phi0,
+                            displacement=displacement,
+                            tolerances=tolerances,
+                        )
+                        predictive_panel_completed = True
                     candidate.restore(model)
                     current_stage = "candidate-accepted"
                     waypoints.append({
@@ -773,6 +893,7 @@ def _run_refreshed_or_fzcb(
                         "realized_suffix_layer_action": rollout_observation["realized_suffix_layer_action"],
                         "realized_rollout": rollout_observation["rollout"],
                         "predictive_concordance": rollout_observation["concordance"],
+                        "predictive_candidate_panel": predictive_panel,
                         "rollout_observation_status": rollout_observation["status"],
                         "strict_barrier_verification": strict_receipt,
                         "next_state_viability": next_viability,
@@ -1096,6 +1217,7 @@ def run_validity_arm(
     *, arm: Arm, model: Any, factory: MEMITGeometryFactory,
     w0: WeightSnapshot, target: torch.Tensor, namespace: str,
     policy: UnitTolerancePolicy,
+    barrier_control_fn: Callable[..., tuple[torch.Tensor, dict[str, Any]]] = barrier_control_strict,
 ) -> dict[str, Any]:
     if arm is Arm.TRUE_FROZEN_C_SPLIT:
         return run_true_frozen(model=model, factory=factory, w0=w0, target=target, policy=policy)
@@ -1103,6 +1225,7 @@ def run_validity_arm(
         return _run_refreshed_or_fzcb(
             arm=arm, model=model, factory=factory, w0=w0, target=target,
             namespace=namespace, policy=policy,
+            barrier_control_fn=barrier_control_fn,
         )
     if arm is Arm.STRONG_STATIC_SAME_OBJECTIVE:
         return run_strong_static(model=model, factory=factory, w0=w0, target=target, policy=policy)

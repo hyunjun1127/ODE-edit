@@ -1,0 +1,31 @@
+{
+  "authority": "FZCB_SKETCH_K_PROTOTYPE",
+  "dtype": "float32",
+  "finite_difference_multipliers": [0.25, 0.5, 1.0, 2.0],
+  "finite_difference_repeats": 2,
+  "full_projected_sensitivity_production_call_count": 0,
+  "full_suffix_gradient_production_call_count": 0,
+  "lazy_stop_rule": "first_uncertainty_strict_candidate_at_K_2_8_32_128",
+  "normalized_value": "Vbar=V/A0",
+  "perturbation_coordinate": "c(eta)=c0+eta*sqrt(A0)*unit_direction",
+  "predictive_candidates": [
+    "EQUALITY_ONLY",
+    "FZCB_SELECTED",
+    "MATCHED_ACTION_NULL_OPPOSITE"
+  ],
+  "predictive_waypoint_rule": "first_barrier_active_waypoint_per_cohort",
+  "progress_grid": [0.0, 0.25, 0.5, 0.75, 1.0],
+  "scalar_reduction_dtype": "float64",
+  "scientific_promotion": false,
+  "sequential_submit_count": 0,
+  "sketch_ladder": [2, 8, 32, 128],
+  "stock_compute_z_rule": "once_per_request_per_method_cohort_at_W0",
+  "target_recompute_count": 0,
+  "uncertainty_components": [
+    "adjacent_epsilon_or_plateau",
+    "suffix_ulp_and_cancellation",
+    "solver_tolerance_variation",
+    "plus_minus_order",
+    "realized_perturbation_asymmetry"
+  ]
+}
