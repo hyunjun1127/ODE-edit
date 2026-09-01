@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
+import io
 import json
 import os
 from pathlib import Path
-import subprocess
 import sys
 
 
@@ -24,35 +25,36 @@ def main() -> None:
     args = parser.parse_args()
     if args.output.exists() or args.output.is_symlink():
         raise SystemExit("refusing to overwrite lifelong focused gate")
-    python = args.pytest_python.resolve(strict=True)
-    completed = subprocess.run(
-        [str(python), "-m", "pytest", "-q", *TESTS],
-        text=True,
-        capture_output=True,
-        check=False,
-    )
+    import pytest
+
+    stdout = io.StringIO()
+    stderr = io.StringIO()
+    with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+        returncode = int(pytest.main(["-q", *TESTS]))
+    stdout_value = stdout.getvalue()
+    stderr_value = stderr.getvalue()
     passed = 0
-    for token in completed.stdout.replace("\n", " ").split():
+    for token in stdout_value.replace("\n", " ").split():
         if token.isdigit():
             passed = int(token)
     payload = {
         "schema": "odeedit.s06.layer-realization-debt.lifelong-focused-gate.v1",
-        "status": "PASS" if completed.returncode == 0 else "FAIL",
+        "status": "PASS" if returncode == 0 else "FAIL",
         "passed": passed,
-        "failed": 0 if completed.returncode == 0 else 1,
+        "failed": 0 if returncode == 0 else 1,
         "tests": list(TESTS),
         "pytest_python": str(args.pytest_python),
-        "pytest_python_resolved": str(python),
-        "stdout_tail": completed.stdout.splitlines()[-12:],
-        "stderr_tail": completed.stderr.splitlines()[-12:],
+        "pytest_python_resolved": str(sys.executable),
+        "stdout_tail": stdout_value.splitlines()[-12:],
+        "stderr_tail": stderr_value.splitlines()[-12:],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     raw = json.dumps(payload, indent=2, sort_keys=True) + "\n"
     with args.output.open("x", encoding="utf-8") as handle:
         handle.write(raw)
     os.chmod(args.output, 0o600)
-    if completed.returncode:
-        raise SystemExit(completed.returncode)
+    if returncode:
+        raise SystemExit(returncode)
 
 
 if __name__ == "__main__":
