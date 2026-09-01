@@ -79,7 +79,7 @@ def _memit_covariance_cache_snapshot(memit_module: Any) -> dict[str, Any]:
     return payload
 
 
-def run_official_memit_apply(
+def _run_official_memit_apply_impl(
     model: torch.nn.Module,
     tokenizer: Any,
     requests: Sequence[Mapping[str, Any]],
@@ -162,6 +162,51 @@ def run_official_memit_apply(
         "raw_stdout_stderr_serialized_count": 0,
     }
     payload["identity_sha256"] = canonical_hash(payload)
+    return payload, originals
+
+
+def run_official_memit_apply(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    hparams: Any,
+    *,
+    touched: Mapping[str, torch.nn.Parameter],
+    observer: Any | None = None,
+    call_audit: Any | None = None,
+) -> tuple[dict[str, Any], Mapping[str, torch.Tensor]]:
+    """Apply stock MEMIT with an optional call-scoped read-only observer.
+
+    The default ``None`` path is the pre-existing adapter.  Experiment-owned
+    observers are entered before the stock entrypoint and are required to
+    restore the exact module-global function objects in ``finally``.
+    """
+
+    from easyeditor.models.memit import memit_main
+
+    with contextlib.ExitStack() as stack:
+        if observer is not None:
+            stack.enter_context(observer.observe(memit_main))
+        if call_audit is not None:
+            stack.enter_context(call_audit.observe(memit_main))
+        payload, originals = _run_official_memit_apply_impl(
+            model,
+            tokenizer,
+            requests,
+            hparams,
+            touched=touched,
+        )
+        if observer is not None:
+            observer.capture_terminal(model, tokenizer)
+    if observer is not None:
+        observer.capture_weight_action(touched, originals)
+        payload["layer_realization_observer"] = observer.payload(memit_main)
+    if call_audit is not None:
+        payload["official_call_audit"] = call_audit.payload(memit_main)
+    if observer is not None or call_audit is not None:
+        payload["identity_sha256"] = canonical_hash(
+            {key: value for key, value in payload.items() if key != "identity_sha256"}
+        )
     return payload, originals
 
 

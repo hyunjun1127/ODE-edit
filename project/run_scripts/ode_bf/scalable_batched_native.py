@@ -479,7 +479,7 @@ def restore_native_entry(
     return payload
 
 
-def run_official_native_apply(
+def _run_official_native_apply_impl(
     model: torch.nn.Module,
     tokenizer: Any,
     requests: Sequence[Mapping[str, Any]],
@@ -628,6 +628,61 @@ def run_official_native_apply(
     ):
         raise ODEBFStateError("P1R23 Official Native original copy differs")
     payload["identity_sha256"] = canonical_hash(payload)
+    return payload, originals
+
+
+def run_official_native_apply(
+    model: torch.nn.Module,
+    tokenizer: Any,
+    requests: Sequence[Mapping[str, Any]],
+    hparams: Any,
+    *,
+    touched: Mapping[str, torch.nn.Parameter],
+    reset_cache: bool = True,
+    cache_history_width: int | None = None,
+    cache_template: str | None = None,
+    expected_native_compute_z_call_count: int | None = None,
+    accepted_z_source: str | None = None,
+    observer: Any | None = None,
+    call_audit: Any | None = None,
+) -> tuple[dict[str, Any], Mapping[str, torch.Tensor]]:
+    """Apply stock AlphaEdit with optional call-scoped observation only.
+
+    Both optional contexts are absent for every existing caller.  They wrap
+    the already pinned Official entrypoint and never replace update tensors,
+    keys, projector, covariance, or dynamic-cache values.
+    """
+
+    from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
+
+    with contextlib.ExitStack() as stack:
+        if observer is not None:
+            stack.enter_context(observer.observe(alpha_main))
+        if call_audit is not None:
+            stack.enter_context(call_audit.observe(alpha_main))
+        payload, originals = _run_official_native_apply_impl(
+            model,
+            tokenizer,
+            requests,
+            hparams,
+            touched=touched,
+            reset_cache=reset_cache,
+            cache_history_width=cache_history_width,
+            cache_template=cache_template,
+            expected_native_compute_z_call_count=expected_native_compute_z_call_count,
+            accepted_z_source=accepted_z_source,
+        )
+        if observer is not None:
+            observer.capture_terminal(model, tokenizer)
+    if observer is not None:
+        observer.capture_weight_action(touched, originals)
+        payload["layer_realization_observer"] = observer.payload(alpha_main)
+    if call_audit is not None:
+        payload["official_call_audit"] = call_audit.payload(alpha_main)
+    if observer is not None or call_audit is not None:
+        payload["identity_sha256"] = canonical_hash(
+            {key: value for key, value in payload.items() if key != "identity_sha256"}
+        )
     return payload, originals
 
 
