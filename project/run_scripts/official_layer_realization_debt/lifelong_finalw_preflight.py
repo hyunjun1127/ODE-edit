@@ -37,7 +37,7 @@ from .lifelong_finalw_contracts import (
     STREAM_SEAL_SHA256,
     V3_MANIFEST_SHA256,
     V3_RECEIPT_SHA256,
-    V3_REPORT_ROOT,
+    V3_REPORT_RELATIVE,
     V3_REPORT_SHA256,
 )
 from .lifelong_finalw_evaluation import load_stream_and_rows, sha256_file
@@ -98,11 +98,12 @@ def _easyedit_identity() -> dict[str, Any]:
     }
 
 
-def _v3_identity() -> dict[str, Any]:
+def _v3_identity(source_root: Path) -> dict[str, Any]:
+    report_root = source_root / V3_REPORT_RELATIVE
     paths = {
-        "report": V3_REPORT_ROOT / "official-layer-realization-debt-lifelong-fourarm-exhaustive-factual-ko.md",
-        "manifest": V3_REPORT_ROOT / "analysis-manifest.json",
-        "receipt": V3_REPORT_ROOT / "rooted-analysis-receipt.json",
+        "report": report_root / "official-layer-realization-debt-lifelong-fourarm-exhaustive-factual-ko.md",
+        "manifest": report_root / "analysis-manifest.json",
+        "receipt": report_root / "rooted-analysis-receipt.json",
     }
     expected = {
         "report": V3_REPORT_SHA256,
@@ -240,6 +241,7 @@ def _checkpoint_record(
 def build_lock(source_root: Path, expected_head: str) -> dict[str, Any]:
     source = _source_identity(source_root, expected_head)
     easyedit = _easyedit_identity()
+    immutable_v3 = _v3_identity(source_root)
     if sha256_file(STREAM_SEAL) != STREAM_SEAL_SHA256:
         raise FinalWeightBoundary("stream seal file SHA differs")
     seal, rows = load_stream_and_rows(STREAM_SEAL, DATASET)
@@ -337,7 +339,7 @@ def build_lock(source_root: Path, expected_head: str) -> dict[str, Any]:
         "checkpoint_count": len(checkpoints),
         "checkpoints": checkpoints,
         "checkpoint_member_root": checkpoint_root,
-        "immutable_v3": _v3_identity(),
+        "immutable_v3": immutable_v3,
         "raw_outcomes_opened_for_schedule_decision": 0,
         "scientific_promotion": False,
     }

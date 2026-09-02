@@ -32,8 +32,8 @@ EVALUATOR_IDENTITY = "72b8ecb737157a42d6a055ffd339dc3f907876a0a98165a00cca49ca9b
 EASYEDIT_ROOT = Path("/data/janghj/EasyEdit-stock-14cea824")
 EASYEDIT_HEAD = "14cea8245f06715684592ab55184939b99d70784"
 EASYEDIT_TREE = "9c52aadbc0883da422badf0a730fff21aaa3a8a7"
-V3_REPORT_ROOT = Path(
-    "/data/janghj/ODE-edit/experiment-reports/servers/server4/"
+V3_REPORT_RELATIVE = Path(
+    "experiment-reports/servers/server4/"
     "official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3"
 )
 V3_REPORT_SHA256 = "c9daf397b8c9fa679fa89e4f6407d7e03761a11f9ead177e998a97e726e24a8f"
@@ -131,7 +131,7 @@ __all__ = [
     "STREAM_SEAL_SHA256",
     "V3_MANIFEST_SHA256",
     "V3_RECEIPT_SHA256",
-    "V3_REPORT_ROOT",
+    "V3_REPORT_RELATIVE",
     "V3_REPORT_SHA256",
     "cell_mapping",
 ]
