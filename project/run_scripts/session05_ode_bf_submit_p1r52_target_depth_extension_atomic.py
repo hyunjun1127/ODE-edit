@@ -31,7 +31,7 @@ STATE_ROOT = REPO_ROOT / "local/odebf/state/p1r52-target-depth-inner-telemetry-t
 RESULT_PARENT = REPO_ROOT / "local/odebf/results"
 LOG_ROOT = REPO_ROOT / "local/odebf/logs/p1r52-target-depth-inner-telemetry-tech-r1-v1"
 BRANCH = "codex/p1r52-target-depth-il8-il10-il15-v1"
-MEMORY_MIB_PER_CELL = 65000
+MEMORY_MIB_PER_CELL = 60416
 
 
 def run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -173,7 +173,7 @@ def submit(source_head: str) -> dict[str, object]:
         "JobState=PENDING",
         "Reason=JobHeldUser",
         "ReqNodeList=server2",
-        "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1",
+        "TRES=cpu=8,mem=60416M,node=1,billing=8,gres/gpu=1",
     )
     if not job_id.isdigit() or not all(value in observed for value in expected_scheduler):
         run(["scancel", job_id], check=False)

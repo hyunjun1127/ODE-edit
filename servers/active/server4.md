@@ -70,8 +70,9 @@ worktree는 clean, ahead/behind `0/0`이다.
 - Slurm 전체 alloc GPU: 2개; non-project job 1건이 사용 중
 - ODE-Edit project pattern 실행 GPU: 0개
 - current user-directed project GPU cap: server4의 `janghj` allocation 동시 최대 4 GPU
-- host-memory request cap: GPU당 65,984 MiB
-- `scripts/check-slurm-resource-cap.sh server4 1 65984`: PASS
+- public scheduler host-memory ceiling: GPU당 60 GiB
+- repository request ceiling with headroom: GPU당 59 GiB (`60416M`)
+- `scripts/check-slurm-resource-cap.sh server4 1 60416M`: required before submit
 - 현재 `janghj` active GPU는 0개이며 신규 experiment submit은 HOLD
 
 ## Storage

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # One model/family evaluator-only worker bound to the completed v3 controllers.
+# ODEEDIT_SLURM_SERVER=server1
+#SBATCH --mem=65000M
 
 set -euo pipefail
 umask 077

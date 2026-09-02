@@ -7,7 +7,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:rtx_pro_6000:1
-#SBATCH --mem=64000M
+#SBATCH --mem=60416M
 #SBATCH --time=48:00:00
 #SBATCH --array=0-3%4
 #SBATCH --output=/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-sequential-b10x10-v1/%x-%A_%a.out

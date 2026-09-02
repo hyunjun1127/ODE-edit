@@ -46,7 +46,7 @@ def build_plan(
             + (1024 * 1024 - 1)
         ) // (1024 * 1024) + 512
         r4_host_peak_mib = forecast.forecast_host_peak_mib + additional_host_mib
-        if r4_host_peak_mib > 65_000:
+        if r4_host_peak_mib > 60_416:
             raise ODEBFContractError("R4 mixed64 four-path host memory forecast exceeds request")
         jobs.append(
             {
@@ -55,7 +55,7 @@ def build_plan(
                 "result_name": expected_result_name(alias),
                 "gpu": 1,
                 "cpu": 8,
-                "memory_mib": 65_000,
+                "memory_mib": 60_416,
                 "time": "04:00:00",
                 "node": "server2",
                 "memory_forecast": forecast.raw_free_payload(),

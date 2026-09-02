@@ -133,7 +133,7 @@ class P2R4PhaseBExecutionContractTest(unittest.TestCase):
         submitter = (ROOT / "project/run_scripts/session05_ode_bf_submit_p2r4_phaseb_atomic.py").read_text()
         self.assertIn("#SBATCH --array=0-3%2", sbatch)
         self.assertIn("#SBATCH --cpus-per-task=8", sbatch)
-        self.assertIn("#SBATCH --mem=65000M", sbatch)
+        self.assertIn("#SBATCH --mem=60416M", sbatch)
         self.assertIn("#SBATCH --gres=gpu:1", sbatch)
         self.assertIn("#SBATCH --nodelist=server2", sbatch)
         self.assertNotIn("devbox", sbatch)

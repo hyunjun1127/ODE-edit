@@ -61,7 +61,7 @@ class P0SubmissionContractTests(unittest.TestCase):
             "#SBATCH --cpus-per-task=8",
             "#SBATCH --gres=gpu:1",
             "#SBATCH --nodelist=server2",
-            "#SBATCH --mem=65000M",
+            "#SBATCH --mem=60416M",
             "#SBATCH --time=04:00:00",
             "#SBATCH --export=NONE",
         ):

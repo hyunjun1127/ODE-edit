@@ -37,7 +37,9 @@ runs through active agents, SSH, Slurm, and one-shot rsync jobs.
 | Artifact broadcast helper | `scripts/rsync-artifact-broadcast.sh` | Source server executes |
 | Slurm broadcast dependency | `scripts/submit-artifact-broadcast-dependency.sh` | Optional immediate post-job broadcast |
 | GPU cap helper | `scripts/check-slurm-gpu-cap.sh` | Uses ignored `servers/local/gpu-caps.tsv` |
-| GPU + host-memory cap helper | `scripts/check-slurm-resource-cap.sh` | Enforces job GPU count and total `--mem` request from ignored local cap config |
+| GPU + host-memory cap helper | `scripts/check-slurm-resource-cap.sh` | Enforces the lower of local limits and the tracked server ceiling |
+| Slurm memory policy/auditor | `scripts/slurm_memory_policy.py` | Requires explicit `--mem` and checks all tracked `.sbatch` files |
+| Tracked server memory ceilings | `servers/slurm-memory-policy.tsv` | Scheduler maxima plus 1-GiB-headroom repo maxima |
 | Codex session boundary helper | `scripts/check-session-boundary.sh` | Refuses a session/CWD/origin mismatch before repo operations |
 | GPU cap config template | `servers/templates/gpu-caps.tsv` | Copy to `servers/local/` and edit |
 
@@ -69,9 +71,9 @@ Rules:
 
 1. A remotely submitted job is owned by the target server.
 2. The target server-head acknowledges and reviews the job after sync.
-3. Slurm work must respect the target server's project GPU and host-memory cap;
-   if either cap is unknown or exceeded, leave the work pending instead of
-   submitting.
+3. Slurm work must declare explicit `--mem` and respect the target server's
+   project GPU and host-memory cap. If either cap is unknown, `--mem` is
+   absent, or a cap is exceeded, leave the work pending instead of submitting.
 4. Ordinary artifacts stay under `local/` and are shared by artifact broadcast.
 5. Git receives compact status, reports, summaries, and manifests only.
 6. LLM analysis requires an active agent process or explicit automation.

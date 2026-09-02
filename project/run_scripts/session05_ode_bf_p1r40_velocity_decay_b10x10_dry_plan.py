@@ -65,7 +65,7 @@ def build_plan(
             "grid_count": 8,
             "gpu": 1,
             "cpu": 8,
-            "memory_mib": 65000,
+            "memory_mib": 60416,
             "time": "23:59:00",
         }
         for index, (alias, method) in enumerate(CELLS)

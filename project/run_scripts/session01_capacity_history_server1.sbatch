@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # One model/family worker for the capacity/history controller or evaluator phase.
+# ODEEDIT_SLURM_SERVER=server1
+#SBATCH --mem=65000M
 
 set -euo pipefail
 umask 077

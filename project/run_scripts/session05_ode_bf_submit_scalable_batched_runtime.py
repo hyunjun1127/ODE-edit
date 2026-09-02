@@ -127,7 +127,7 @@ def submit(source_head: str, stage: str) -> dict[str, object]:
         "JobState=PENDING",
         "Reason=JobHeldUser",
         f"ArrayTaskThrottle={max_concurrent}",
-        "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1",
+        "TRES=cpu=8,mem=60416M,node=1,billing=8,gres/gpu=1",
     )
     if not all(item in observed for item in required):
         raise ODEBFContractError("P1R23 held scheduler contract differs")

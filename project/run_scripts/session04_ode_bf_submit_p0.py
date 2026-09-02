@@ -488,7 +488,7 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
         or dry_value.get("prospective_technical_path") != "W64"
         or dry_value.get("w32_fallback") is not False
         or any(
-            int(job["r4_forecast_host_peak_mib"]) > 65_000
+            int(job["r4_forecast_host_peak_mib"]) > 60_416
             for job in dry_value.get("jobs", [])
         )
     ):

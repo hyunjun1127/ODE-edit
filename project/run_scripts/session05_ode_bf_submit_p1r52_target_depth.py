@@ -172,7 +172,7 @@ def submit(
         "JobState=PENDING",
         "Reason=JobHeldUser",
         "ReqNodeList=server2",
-        "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1",
+        "TRES=cpu=8,mem=60416M,node=1,billing=8,gres/gpu=1",
     )
     if not all(item in observed for item in required):
         _run(["scancel", job_id], check=False)

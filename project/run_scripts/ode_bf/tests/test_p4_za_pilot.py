@@ -135,7 +135,7 @@ class P4ZAPilotEssentialGateTests(unittest.TestCase):
             "#SBATCH --array=0-1%2",
             "#SBATCH --gres=gpu:1",
             "#SBATCH --cpus-per-task=8",
-            "#SBATCH --mem=65000M",
+            "#SBATCH --mem=60416M",
             "#SBATCH --time=48:00:00",
             "#SBATCH --nodelist=server4",
             "export PROJECT_GPU_CAP=2",

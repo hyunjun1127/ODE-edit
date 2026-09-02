@@ -37,12 +37,12 @@ class P0SubmissionTests(unittest.TestCase):
         self.assertEqual(first, second)
         plan = json.loads(first)
         self.assertEqual(len(plan["jobs"]), 2)
-        self.assertTrue(all(job["memory_mib"] == 65000 for job in plan["jobs"]))
+        self.assertTrue(all(job["memory_mib"] == 60416 for job in plan["jobs"]))
         self.assertTrue(all(job["gpu"] == 1 and job["cpu"] == 8 for job in plan["jobs"]))
         self.assertTrue(all(job["memory_forecast"]["edit_batch_size"] == 10 for job in plan["jobs"]))
         self.assertEqual(plan["diagnostic_paths"], ["N32", "D32", "W32", "W64"])
         self.assertTrue(
-            all(job["r4_forecast_host_peak_mib"] <= 65000 for job in plan["jobs"])
+            all(job["r4_forecast_host_peak_mib"] <= 60416 for job in plan["jobs"])
         )
         self.assertEqual(plan["prospective_technical_path"], "W64")
         self.assertFalse(plan["w32_fallback"])
@@ -56,7 +56,7 @@ class P0SubmissionTests(unittest.TestCase):
             "#SBATCH --cpus-per-task=8",
             "#SBATCH --gres=gpu:1",
             "#SBATCH --nodelist=server2",
-            "#SBATCH --mem=65000M",
+            "#SBATCH --mem=60416M",
             "#SBATCH --time=04:00:00",
             "#SBATCH --export=NONE",
         ):

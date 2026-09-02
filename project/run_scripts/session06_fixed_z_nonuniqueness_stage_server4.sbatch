@@ -7,7 +7,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:rtx_pro_6000:1
-#SBATCH --mem=80000M
+#SBATCH --mem=60416M
 #SBATCH --time=24:00:00
 #SBATCH --array=0-1%1
 #SBATCH --output=/data/janghj/ODE-edit/local/logs/fixed-z-nonuniqueness-screen-v1/%x-%A_%a.out

@@ -25,7 +25,7 @@ def build_plan() -> dict[str, object]:
             "job_count": 1,
             "gpu_per_job": 1,
             "cpu_per_job": 8,
-            "memory_mib": 65000,
+            "memory_mib": 60416,
             "walltime_hours": 48,
             "project_gpu_cap": 4,
         },

@@ -66,7 +66,7 @@ def build_plan(source_head: str, *, repository_root: Path = REPO_ROOT) -> dict[s
                     "run_token": STRENGTH_PRESERVING_RESULT_TOKEN,
                     "gpu": 1,
                     "cpu": 8,
-                    "memory_mib": 65_000,
+                    "memory_mib": 60_416,
                     "time": "23:59:00",
                     "forecast": forecast.raw_free_payload(),
                 }

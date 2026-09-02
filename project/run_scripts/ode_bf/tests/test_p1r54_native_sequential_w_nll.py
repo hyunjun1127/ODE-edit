@@ -76,7 +76,7 @@ class NativeSequentialWNLLTests(unittest.TestCase):
         self.assertIn("#SBATCH --array=0-1%2", source)
         self.assertIn("export PROJECT_GPU_CAP=4", source)
         self.assertIn("#SBATCH --gres=gpu:1", source)
-        self.assertIn("#SBATCH --mem=65000M", source)
+        self.assertIn("#SBATCH --mem=60416M", source)
 
 
 if __name__ == "__main__":

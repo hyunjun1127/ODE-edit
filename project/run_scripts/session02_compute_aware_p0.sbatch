@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# ODEEDIT_SLURM_SERVER=server1
 #SBATCH --job-name=odeedit-s02-p0-original-dtype
 #SBATCH --nodes=1
 #SBATCH --ntasks=1

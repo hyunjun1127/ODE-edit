@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# ODEEDIT_SLURM_SERVER=server1
 #SBATCH --job-name=odeedit-s02-p1-smax8-cont
 #SBATCH --nodes=1
 #SBATCH --ntasks=1

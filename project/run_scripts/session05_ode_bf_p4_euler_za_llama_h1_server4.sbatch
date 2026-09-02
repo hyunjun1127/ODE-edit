@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
 #SBATCH --nodelist=server4
-#SBATCH --mem=65000M
+#SBATCH --mem=60416M
 #SBATCH --time=48:00:00
 #SBATCH --array=2-10%2
 #SBATCH --export=NONE

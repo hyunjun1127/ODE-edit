@@ -112,7 +112,7 @@ def submit(source_head: str) -> dict[str, object]:
     if allocated + 1 > PROJECT_GPU_CAP:
         raise ODEBFContractError("P1R52 IL5 project GPU cap differs")
     memory_mib = _host_memory_available_mib()
-    if memory_mib < 65000:
+    if memory_mib < 60416:
         raise ODEBFContractError("P1R52 IL5 host memory is below request")
     plan = dry.build_plan(source_head)
     namespace = (
@@ -153,7 +153,7 @@ def submit(source_head: str) -> dict[str, object]:
         "JobState=PENDING",
         "Reason=JobHeldUser",
         "ReqNodeList=server2",
-        "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1",
+        "TRES=cpu=8,mem=60416M,node=1,billing=8,gres/gpu=1",
     )
     if not all(item in observed for item in required):
         _run(["scancel", job_id], check=False)

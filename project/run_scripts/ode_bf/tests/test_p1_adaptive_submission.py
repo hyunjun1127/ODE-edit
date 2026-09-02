@@ -33,13 +33,13 @@ class AdaptiveDryPlanTests(unittest.TestCase):
         for job in plan["jobs"]:
             self.assertEqual(job["gpu"], 1)
             self.assertEqual(job["cpu"], 8)
-            self.assertEqual(job["memory_mib"], 65_000)
+            self.assertEqual(job["memory_mib"], 60_416)
             self.assertEqual(job["time"], "24:00:00")
             self.assertLessEqual(
-                job["memory_forecast"]["forecast_gpu_peak_mib"], 65_000
+                job["memory_forecast"]["forecast_gpu_peak_mib"], 60_416
             )
             self.assertLessEqual(
-                job["memory_forecast"]["forecast_host_peak_mib"], 65_000
+                job["memory_forecast"]["forecast_host_peak_mib"], 60_416
             )
             self.assertLessEqual(job["time_forecast"]["forecast_seconds"], 86_400)
 
@@ -144,7 +144,7 @@ class AdaptiveEntryAndSubmissionTests(unittest.TestCase):
             "#SBATCH --cpus-per-task=8",
             "#SBATCH --gres=gpu:1",
             "#SBATCH --nodelist=server2",
-            "#SBATCH --mem=65000M",
+            "#SBATCH --mem=60416M",
             "#SBATCH --time=24:00:00",
             "#SBATCH --export=NONE",
             "HF_HUB_OFFLINE=1",

@@ -53,10 +53,13 @@ authority를 대체할 수 없다.
 - partition:
 - GPU:
 - CPU:
-- memory: GPU 1개당 최대 요청량을 `servers/local/gpu-caps.tsv`의
-  `mem_mb_per_gpu`에 맞춘다.
+- memory: 모든 batch allocation에 `--mem`을 명시한다. GPU 1개당 요청량은
+  `servers/slurm-memory-policy.tsv`와 `servers/local/gpu-caps.tsv` 중 더 낮은
+  한도를 적용한다. 현재 repo 안전 한도는 server1/2/3/4 각각
+  179/59/119/59 GiB이다.
 - time limit:
-- 주의할 quota/사용 정책: GPU cap 또는 `mem_mb_per_gpu`가 unknown이면 submit 금지
+- 주의할 quota/사용 정책: `--mem` 누락, GPU cap 또는 memory cap unknown,
+  tracked ceiling 초과 중 하나라도 있으면 submit 금지
 
 ## Subagent 준비
 

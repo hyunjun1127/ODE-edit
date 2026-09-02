@@ -77,7 +77,7 @@ def submit(source_head: str, *, stage: str) -> dict[str, object]:
     if allocated + stage_max > PROJECT_GPU_CAP:
         raise ODEBFContractError("joint P/C GPU cap differs")
     memory_mib = _available_memory_mib()
-    if memory_mib < stage_max * 65000:
+    if memory_mib < stage_max * 60416:
         raise ODEBFContractError("joint P/C host memory is below request")
     state_root = REPO_ROOT / f"local/odebf/state/p1r52-joint-pc-c1-c2-{stage}-v1"
     log_root = REPO_ROOT / f"local/odebf/logs/p1r52-joint-pc-c1-c2-{stage}-v1"
@@ -114,7 +114,7 @@ def submit(source_head: str, *, stage: str) -> dict[str, object]:
     if not job_id.isdigit():
         raise ODEBFContractError("joint P/C scheduler ID differs")
     observed = _run(["scontrol", "show", "job", "-o", job_id]).stdout.strip()
-    required = ("JobState=PENDING", "Reason=JobHeldUser", "ReqNodeList=server2", "TRES=cpu=8,mem=65000M,node=1,billing=8,gres/gpu=1")
+    required = ("JobState=PENDING", "Reason=JobHeldUser", "ReqNodeList=server2", "TRES=cpu=8,mem=60416M,node=1,billing=8,gres/gpu=1")
     if not all(item in observed for item in required):
         _run(["scancel", job_id], check=False)
         raise ODEBFContractError("joint P/C held scheduler contract differs")

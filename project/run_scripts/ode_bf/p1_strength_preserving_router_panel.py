@@ -79,7 +79,7 @@ def forecast_strength_preserving_panel(
         fits_envelope=bool(
             parent.conservative_gpu_peak_mib
             <= parent.allocatable_calibration_bytes // (1024 * 1024)
-            and parent.conservative_host_peak_mib <= 65_000
+            and parent.conservative_host_peak_mib <= 60_416
             and STRENGTH_PRESERVING_FORECAST_SECONDS
             <= STRENGTH_PRESERVING_ALLOCATION_SECONDS
         ),

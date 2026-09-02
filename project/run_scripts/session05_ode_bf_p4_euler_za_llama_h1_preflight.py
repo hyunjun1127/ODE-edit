@@ -399,7 +399,7 @@ def build_receipt(
         "resources_per_cell": {
             "gpu": 1,
             "cpu": 8,
-            "memory_mib": 65000,
+            "memory_mib": 60416,
             "walltime_hours": 48,
             "array_concurrency_max": 2,
         },

@@ -175,7 +175,7 @@ def build_plan(*, repository_root: Path = REPO_ROOT) -> dict[str, object]:
         "resources_per_cell": {
             "gpu": 1,
             "cpu": 8,
-            "memory_mib": 65000,
+            "memory_mib": 60416,
             "walltime_hours": 48,
             "project_gpu_cap": 2,
         },

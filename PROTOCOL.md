@@ -418,7 +418,7 @@ Rules:
 5. A Git message or task does not execute LLM analysis by itself. Analysis
    happens only when an agent session or explicit automation is alive.
 
-## Deployment GPU Cap Policy
+## Deployment GPU And Slurm Host-Memory Policy
 
 Each deployment should define a per-server concurrent GPU cap and host-memory
 request cap for project jobs. The GPU cap is about GPUs actively running for
@@ -438,32 +438,61 @@ The TSV format is:
 server<TAB>slurm_node<TAB>max_project_gpus<TAB>mem_mb_per_gpu<TAB>job_patterns
 ```
 
+The public-server scheduler ceilings and the repository request ceilings are
+tracked in `servers/slurm-memory-policy.tsv`. The repository deliberately
+leaves 1 GiB of headroom per requested GPU:
+
+| Server | Slurm node | Scheduler maximum per GPU | Repository request maximum per GPU |
+| --- | --- | ---: | ---: |
+| server1 | `devbox` | 180 GiB | 179 GiB (`183296M`) |
+| server2 | `server2` | 60 GiB | 59 GiB (`60416M`) |
+| server3 | `ubuntu` | 120 GiB | 119 GiB (`121856M`) |
+| server4 | `server4` | 60 GiB | 59 GiB (`60416M`) |
+
 Rules:
 
-1. Every Slurm experiment job for this repo must declare its target server,
+1. Every tracked `.sbatch` file and every generated Slurm batch allocation must
+   contain an explicit, positive job-total `--mem` request. Scheduler defaults,
+   `--mem-per-cpu`, inherited environment values, or an `srun --mem` step do not
+   satisfy this requirement. A missing `--mem` is a hard pre-submit failure
+   because the public scheduler cancels such work automatically.
+2. Every Slurm experiment job for this repo must declare its target server,
    requested GPU count, total host-memory request, expected job name, and
    current cap check in its task, server-head message, or run metadata.
-2. A server-head must check active project GPU usage and the host-memory
+   Portable launchers use the smallest repository ceiling, 59 GiB per GPU.
+3. A server-head must check active project GPU usage and the host-memory
    request before submitting a new job. Use
    `scripts/check-slurm-resource-cap.sh <server> <requested_gpus>
-   <requested_mem_mb>` when Slurm is available.
-3. If either cap is unknown, the cap check cannot run,
+   <requested_mem>` when Slurm is available. The memory argument may use a
+   Slurm unit such as `60416M` or `59G`. Run
+   `python3 scripts/slurm_memory_policy.py audit` after changing launchers.
+4. If either cap is unknown, the cap check cannot run, a batch file omits
+   `--mem`,
    `active_project_gpus + requested_gpus > cap`, or the requested total memory
-   exceeds `requested_gpus * mem_mb_per_gpu`, the work must remain pending
-   instead of starting another running job.
-4. Pending can mean a Git task/status waiting on `pending_resource_cap`, or a
+   exceeds `requested_gpus * min(local_mem_mb_per_gpu,
+   tracked_repo_request_max_mib_per_gpu)`, the work must remain pending instead
+   of starting another running job.
+5. Pending can mean a Git task/status waiting on `pending_resource_cap`, or a
    Slurm-side pending/throttled submission such as a dependency or array
    throttle. The required invariant is that the running project allocation
    never exceeds the cap.
-5. A single job must not request more than that server's cap unless the user
-   explicitly overrides the policy.
-6. Job names should use a project-specific prefix so server-heads and red-team
+6. The tracked repository memory ceiling is a fail-closed hard ceiling. A user
+   may lower it for a task, but neither a task instruction nor a local
+   `gpu-caps.tsv` entry may raise it. Multi-GPU jobs may request at most the
+   per-GPU repository ceiling multiplied by their requested GPU count.
+7. Job names should use a project-specific prefix so server-heads and red-team
    auditors can distinguish project jobs from other Slurm work.
-7. Red-team pre-flight must check `resource_collision_and_gpu_cap` before a
+8. Red-team pre-flight must check `resource_collision_and_gpu_cap` and
+   `explicit_mem_and_server_memory_ceiling` before a
    task is promoted or submitted. Post-run audit must check whether the cap was
    respected in the recorded job state.
-8. If the global-head directly submits a remote Slurm job under an emergency or
+9. If the global-head directly submits a remote Slurm job under an emergency or
    user instruction, the same cap policy still applies.
+10. Historical numerical locks, source manifests, receipts, and reports remain
+    immutable and are not rehashed merely because this deployment policy
+    changes. A launcher whose pinned source manifest predates the policy change
+    must use a new resource-only namespace and freshly sealed manifest before it
+    is submitted again; a stale-manifest failure must not be bypassed.
 
 ## Server-Head Experiment Lifecycle
 

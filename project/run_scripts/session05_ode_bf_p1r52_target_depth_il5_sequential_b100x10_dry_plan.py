@@ -30,7 +30,7 @@ def build_plan(source_head: str) -> dict[str, object]:
                 "result_name": RESULT_NAME,
                 "gpu": 1,
                 "cpu": 8,
-                "memory_mib": 65000,
+                "memory_mib": 60416,
             }
         ],
         "job_count": 1,

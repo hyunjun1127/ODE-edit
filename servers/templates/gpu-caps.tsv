@@ -3,10 +3,12 @@
 # server<TAB>slurm_node<TAB>max_project_gpus<TAB>mem_mb_per_gpu<TAB>job_patterns
 #
 # `mem_mb_per_gpu` is the maximum total Slurm memory request attributable to
-# one requested GPU. A k-GPU job must request at most k times this value unless
-# the user records an explicit exception.
+# one requested GPU. It may be lower than, but must never exceed, the tracked
+# hard ceiling in servers/slurm-memory-policy.tsv. A k-GPU job may request at
+# most k times this value.
 #
 # Examples:
-# server1	server1	3	198117	odeedit_*,bfode_*,motivation_*,session01_*
-# server2	server2	3	66017	odeedit_*,bfode_*,motivation_*,session01_*
-# server3	server3	2	65984	odeedit_*,bfode_*,motivation_*,session01_*
+# server1	devbox	3	183296	odeedit_*,bfode_*,motivation_*,session01_*
+# server2	server2	3	60416	odeedit_*,bfode_*,motivation_*,session01_*
+# server3	ubuntu	2	121856	odeedit_*,bfode_*,motivation_*,session01_*
+# server4	server4	4	60416	odeedit_*,bfode_*,motivation_*,session01_*

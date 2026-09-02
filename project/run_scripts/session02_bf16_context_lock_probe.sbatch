@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# ODEEDIT_SLURM_SERVER=server1
 #SBATCH --job-name=odeedit-s02-bf16-context-probe
 #SBATCH --nodes=1
 #SBATCH --ntasks=1

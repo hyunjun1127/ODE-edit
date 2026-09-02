@@ -95,7 +95,7 @@ def build_plan(
                     ["request_microbatch_size"][alias],
                     "gpu": 1,
                     "cpu": 8,
-                    "memory_mib": 65_000,
+                    "memory_mib": 60_416,
                     "time": "23:59:00",
                     "forecast": forecast.raw_free_payload(),
                 }

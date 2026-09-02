@@ -612,8 +612,8 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
         guard.assert_unchanged()
         forecast = forecast_p1_b10_memory(ARTIFACT_LOCK, BASE_ARTIFACT_LOCK, alias)
         if (
-            forecast.forecast_gpu_peak_mib > 65_000
-            or forecast.forecast_host_peak_mib > 65_000
+            forecast.forecast_gpu_peak_mib > 60_416
+            or forecast.forecast_host_peak_mib > 60_416
             or forecast.dense_fp64_full_delta
         ):
             raise ODEBFContractError("P1R4 diagnostic memory forecast differs")
@@ -707,7 +707,7 @@ def main() -> int:
     if any(record.job_name in JOB_NAMES.values() for record in before):
         raise ODEBFContractError("P1R4 diagnostic scheduler name exists")
     local_before, cluster_before = assert_node_local_capacity(before, new_gpu_count=2)
-    if 2 * 65_000 > 2 * MEMORY_CAP_MIB_PER_GPU:
+    if 2 * 60_416 > 2 * MEMORY_CAP_MIB_PER_GPU:
         raise ODEBFContractError("P1R4 diagnostic pair host memory exceeds cap")
     intent = {
         "schema": "ode-edit-s04-ode-bf-p1r4diag-submission-intent/v1",

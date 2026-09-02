@@ -59,6 +59,9 @@ provenance로 보존한다.
 - audit 시 job `22541`: array 1–3 `COMPLETED(0:0)`, array 0/4
   `RUNNING`; 변경·취소·재제출 0
 - active server1 project GPU cap: 4
+- public scheduler host-memory ceiling: GPU당 180 GiB
+- repository request ceiling with headroom: GPU당 179 GiB (`183296M`)
+- `scripts/check-slurm-resource-cap.sh server1 1 183296M`: required before submit
 - 실제 후속 제출 전에는 point-in-time GPU/host-memory cap을 다시 확인한다.
 
 ## 판정

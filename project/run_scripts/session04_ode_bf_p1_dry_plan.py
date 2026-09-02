@@ -42,7 +42,7 @@ def build_plan(
                 "result_name": expected_p1_result_name(alias),
                 "gpu": 1,
                 "cpu": 8,
-                "memory_mib": 65_000,
+                "memory_mib": 60_416,
                 "time": "24:00:00",
                 "node": "server2",
                 "memory_forecast": forecast.raw_free_payload(),

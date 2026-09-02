@@ -58,7 +58,7 @@ def build_plan(
             "writer_transition_count_per_case_arm": 8,
             "gpu": 1,
             "cpu": 8,
-            "memory_mib": 65000,
+            "memory_mib": 60416,
             "time": "23:59:00",
         }
         for index, (alias, clamp_policy) in enumerate(

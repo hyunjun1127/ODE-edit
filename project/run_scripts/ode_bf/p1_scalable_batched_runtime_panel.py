@@ -75,7 +75,7 @@ def forecast_p1r23_panel(
         fits_envelope=bool(
             parent.conservative_gpu_peak_mib
             <= parent.allocatable_calibration_bytes // (1024 * 1024)
-            and parent.conservative_host_peak_mib <= 65_000
+            and parent.conservative_host_peak_mib <= 60_416
             and P1R23_FORECAST_SECONDS <= P1R23_ALLOCATION_SECONDS
         ),
     )

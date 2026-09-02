@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# ODEEDIT_SLURM_SERVER=server1
 # ODE-edit hook preflight against an immutable stock EasyEdit checkout.
 #SBATCH --job-name=ode_snb_preflight
 #SBATCH --partition=gpu

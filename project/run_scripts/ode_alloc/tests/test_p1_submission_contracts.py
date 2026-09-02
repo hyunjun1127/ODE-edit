@@ -34,7 +34,7 @@ class P1SubmissionContractTests(unittest.TestCase):
             "#SBATCH --cpus-per-task=8",
             "#SBATCH --gres=gpu:1",
             "#SBATCH --nodelist=server2",
-            "#SBATCH --mem=65000M",
+            "#SBATCH --mem=60416M",
             "#SBATCH --time=12:00:00",
         ):
             self.assertIn(directive, sbatch)

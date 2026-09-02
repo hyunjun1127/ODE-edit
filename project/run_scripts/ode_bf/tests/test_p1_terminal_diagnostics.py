@@ -508,7 +508,7 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
         self.assertEqual(first["history_append_count"], 0)
         for job in first["jobs"]:
             self.assertEqual((job["gpu"], job["cpu"]), (1, 8))
-            self.assertEqual(job["memory_mib"], 65_000)
+            self.assertEqual(job["memory_mib"], 60_416)
             self.assertEqual(job["time"], "04:00:00")
 
     def test_submit_scope_and_existing_p1r2_p1r3_immutability(self) -> None:
@@ -558,7 +558,7 @@ class P1TerminalDiagnosticTests(unittest.TestCase):
             "#SBATCH --cpus-per-task=8",
             "#SBATCH --gres=gpu:1",
             "#SBATCH --nodelist=server2",
-            "#SBATCH --mem=65000M",
+            "#SBATCH --mem=60416M",
             "#SBATCH --time=04:00:00",
             "#SBATCH --export=NONE",
             "export HF_HUB_OFFLINE=1",

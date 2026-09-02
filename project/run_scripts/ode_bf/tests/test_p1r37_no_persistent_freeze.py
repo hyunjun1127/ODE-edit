@@ -257,7 +257,7 @@ class P1R37NoPersistentFreezeTest(unittest.TestCase):
         )
         self.assertIn("#SBATCH --array=0-7%4", sbatch)
         self.assertIn("#SBATCH --cpus-per-task=8", sbatch)
-        self.assertIn("#SBATCH --mem=65000M", sbatch)
+        self.assertIn("#SBATCH --mem=60416M", sbatch)
         self.assertIn("#SBATCH --time=23:59:00", sbatch)
         self.assertIn("p1r37-no-persistent-freeze-independent-b10x10", sbatch)
         self.assertNotIn("p1r36-p1r35-independent-b10x10-${MODEL}", sbatch)

@@ -542,8 +542,8 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
         or dry_value.get("sequential_batch_count") != 4
         or dry_value.get("arms") != ["N32_NATIVE", "F_G", "F_BF", "R_BF"]
         or any(
-            int(job["memory_forecast"]["forecast_gpu_peak_mib"]) > 65_000
-            or int(job["memory_forecast"]["forecast_host_peak_mib"]) > 65_000
+            int(job["memory_forecast"]["forecast_gpu_peak_mib"]) > 60_416
+            or int(job["memory_forecast"]["forecast_host_peak_mib"]) > 60_416
             for job in dry_value.get("jobs", [])
         )
     ):
@@ -651,7 +651,7 @@ def main() -> int:
     if any(record.job_name in JOB_NAMES.values() for record in before):
         raise ODEBFContractError("P1 scheduler job name already exists")
     local_before, cluster_before = assert_node_local_capacity(before, new_gpu_count=2)
-    if 2 * 65_000 > 2 * MEMORY_CAP_MIB_PER_GPU:
+    if 2 * 60_416 > 2 * MEMORY_CAP_MIB_PER_GPU:
         raise ODEBFContractError("P1 pair host-memory request exceeds server2 cap")
     intent = {
         "schema": "ode-edit-s04-ode-bf-p1r2-submission-intent/v2",

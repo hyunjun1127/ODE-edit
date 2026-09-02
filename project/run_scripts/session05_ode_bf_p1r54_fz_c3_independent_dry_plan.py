@@ -54,7 +54,7 @@ def build_plan() -> dict[str, object]:
             "max_concurrent_array_cells": 3,
             "gpu_per_cell": 1,
             "cpu_per_cell": 8,
-            "memory_mib_per_cell": 65000,
+            "memory_mib_per_cell": 60416,
             "walltime_hours_per_cell": 48,
             "project_gpu_cap": 4,
             "preserved_sequential_gpu_count": 1,

@@ -1,0 +1,11 @@
+# Canonical public-server host-memory policy for Slurm GPU jobs.
+#
+# Format:
+# server<TAB>slurm_node<TAB>scheduler_max_gib_per_gpu<TAB>repo_request_max_gib_per_gpu
+#
+# The repository request ceiling is deliberately 1 GiB below the scheduler
+# ceiling.  It is a hard submission ceiling, not a capacity estimate.
+server1	devbox	180	179
+server2	server2	60	59
+server3	ubuntu	120	119
+server4	server4	60	59

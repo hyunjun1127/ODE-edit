@@ -349,7 +349,7 @@ def build_receipts(
         "resources_per_cell": {
             "gpu": 1,
             "cpu": 8,
-            "memory_mib": 65000,
+            "memory_mib": 60416,
             "walltime_hours": 48,
         },
         "cuda_api_access_count": 0,

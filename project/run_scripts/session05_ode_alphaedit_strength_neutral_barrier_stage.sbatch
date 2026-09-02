@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# ODEEDIT_SLURM_SERVER=server1
 # ODE-edit hook staged experiment against immutable stock EasyEdit.
 #SBATCH --job-name=ode_snb_stage
 #SBATCH --partition=gpu

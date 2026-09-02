@@ -21,7 +21,7 @@ def build_plan() -> dict[str, object]:
         "project_gpu_cap": 4,
         "gpu_per_cell": 1,
         "cpu_per_cell": 8,
-        "memory_mib_per_cell": 65000,
+        "memory_mib_per_cell": 60416,
         "walltime_hours": 48,
         "model": "llama3-8b-inst",
         "dtype": "FULL_FP32",

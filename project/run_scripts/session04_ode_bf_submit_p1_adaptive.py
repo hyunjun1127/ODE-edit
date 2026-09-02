@@ -599,8 +599,8 @@ def _cpu_static_gate(source_head: str) -> dict[str, Any]:
             ARTIFACT_LOCK, BASE_ARTIFACT_LOCK, alias
         )
         if (
-            memory.forecast_gpu_peak_mib > 65_000
-            or memory.forecast_host_peak_mib > 65_000
+            memory.forecast_gpu_peak_mib > 60_416
+            or memory.forecast_host_peak_mib > 60_416
             or memory.dense_fp64_full_delta
             or time_forecast.forecast_seconds > 24 * 60 * 60
         ):
@@ -696,7 +696,7 @@ def main() -> int:
     local_before, cluster_before = assert_node_local_capacity(
         before, new_gpu_count=2
     )
-    if 2 * 65_000 > 2 * MEMORY_CAP_MIB_PER_GPU:
+    if 2 * 60_416 > 2 * MEMORY_CAP_MIB_PER_GPU:
         raise ODEBFContractError("adaptive pair host memory exceeds server2 cap")
     intent = {
         "schema": "ode-edit-s04-ode-bf-p1r4-adaptive-r2-submission-intent/v1",

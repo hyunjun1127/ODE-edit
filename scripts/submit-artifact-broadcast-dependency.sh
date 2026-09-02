@@ -89,6 +89,14 @@ if ! command -v sbatch >/dev/null 2>&1; then
   exit 3
 fi
 
+# This helper is portable across all four servers and requests no GPU. Apply
+# the smallest tracked per-GPU ceiling as a conservative job-total ceiling so
+# an environment override cannot create an auto-cancelled allocation.
+python3 "${repo_root}/scripts/slurm_memory_policy.py" request \
+  --server server4 \
+  --gpus 1 \
+  --mem "${mem}" >/dev/null
+
 if [[ ${#job_ids[@]} -eq 1 ]]; then
   canonical_broadcast_name="bc_${job_ids[0]}"
 else
