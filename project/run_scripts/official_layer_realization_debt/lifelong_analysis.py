@@ -596,7 +596,7 @@ def korean_report(
     lines = [
         "# Official layer-write realization debt — lifelong B100×100 네 arm 상세 사실 보고서",
         "",
-        "상태: **FOUR_ARM_LIFELONG_10K_TERMINAL_VALID**  ",
+        "상태: **FOUR_ARM_LIFELONG_10K_TERMINAL_VALID**",
         "범위: Llama/Qwen과 Official MEMIT/AlphaEdit 네 셀을 모두 동일한 PRIMARY SCIENTIFIC SCOPE로 분석했다. 각 셀은 B100 100개를 누적한 10,000-request sequential trajectory다. 이 observational study는 barrier benefit, ODE 필요성, 인과 효과 또는 보편적 last-layer bottleneck을 주장하지 않는다. `scientific_promotion=false`다.",
         "",
         "## Executive factual findings",
@@ -785,7 +785,7 @@ def korean_report_exhaustive(
     lines = [
         "# Official layer-write realization debt — lifelong B100×100 네 arm exhaustive 사실 보고서",
         "",
-        "상태: **FOUR_ARM_LIFELONG_10K_TERMINAL_VALID**  ",
+        "상태: **FOUR_ARM_LIFELONG_10K_TERMINAL_VALID**",
         "범위: Llama/Qwen × Official MEMIT/AlphaEdit 네 arm을 모두 동등한 PRIMARY SCIENTIFIC SCOPE로 분석했다. 각 arm은 B100 100개를 누적한 10,000-request sequential trajectory다. `scientific_promotion=false`다.",
         "",
         "## 1. Executive factual findings",
