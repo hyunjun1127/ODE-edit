@@ -34,7 +34,7 @@ from .lifelong_finalw_contracts import (
     V3_REPORT_RELATIVE,
     V3_REPORT_SHA256,
 )
-from .lifelong_finalw_evaluation import CATEGORIES, sha256_file
+from .lifelong_finalw_evaluation import CATEGORIES, age_stratum, sha256_file
 from .lifelong_finalw_figures import generate as generate_figures
 
 
@@ -157,7 +157,19 @@ def _read_records(path: Path, expected_sha: str, expected_rows: int) -> list[dic
     with gzip.open(path, "rt", encoding="utf-8") as handle:
         for line in handle:
             value = json.loads(line)
-            _verify_identity(value, f"{path}:{len(records) + 1}")
+            payload = dict(value)
+            identity = payload.pop("identity_sha256", None)
+            derived_age = payload.pop("age_stratum", None)
+            if identity != canonical_hash(payload):
+                raise FinalWeightBoundary(
+                    f"core evaluation row identity differs: {path}:{len(records) + 1}"
+                )
+            if derived_age != age_stratum(int(value["ordinal"]), expected_rows):
+                raise FinalWeightBoundary(
+                    f"derived edit-age stratum differs: {path}:{len(records) + 1}"
+                )
+            if value.get("raw_prompt_logit_generation_publish_count") != 0:
+                raise FinalWeightBoundary("raw prompt/logit/generation publication differs")
             records.append(value)
     if len(records) != expected_rows:
         raise FinalWeightBoundary(f"request-metric row denominator differs: {path}")
@@ -655,6 +667,7 @@ def _build_report(
         "- Four-arm checkpoint denominator 28/28; request-state denominator 120,000; final request denominator 40,000; final rephrase prompt denominator 80,000; final locality prompt denominator 400,000.",
         "- Original unavailable checkpoints `{100,500,4000,6000,8000}` remain `NOT_AVAILABLE_EXACT_STATE`; no reconstruction or estimate.",
         "- Raw prompts/logits/generations publish count 0. Per-request output contains request/case hashes and scalar metrics only.",
+        "- Per-request `identity_sha256`는 evaluator가 만든 core row(metrics+ordinal+hashes)에 결속되고, outcome-blind 파생 `age_stratum`은 그 뒤 추가된다. 분석기는 core identity와 age(ordinal, seen-count)를 각각 독립 검증했다.",
         "- Technical exclusions are denominator0: two preflight adapter roots and job33300 canonical-batching parity lineage. Their evidence is preserved separately.",
         "- New figures are deterministic headless Python outputs. No Codex visualization/imagegen/manual image editing was used; missing values were not interpolated.",
         "- Full tables and every row/member SHA are in `analysis-manifest.json`; package root is in `rooted-analysis-receipt.json`.",
@@ -994,6 +1007,7 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
         "members": members,
         "member_root": canonical_hash(members),
         "raw_prompt_logit_generation_publish_count": 0,
+        "request_row_identity_scope": "CORE_EVALUATION_ROW_BEFORE_DERIVED_AGE_STRATUM",
         "codex_visualization_or_imagegen_count": 0,
         "imputation_count": 0,
         "scientific_promotion": False,

@@ -51,11 +51,6 @@ def _record(ordinal: int) -> dict:
         "batch_index": ordinal // 100 + 1,
         "case_identity_sha256": f"case-{ordinal}",
         "request_sha256": f"request-{ordinal}",
-        "age_stratum": (
-            "EARLY_FIRST_20PCT" if ordinal < 2
-            else "RECENT_LAST_20PCT" if ordinal >= 8
-            else "MIDDLE_60PCT"
-        ),
         "metrics": {
             "rewrite_target_new": _category(1, ordinal),
             "rewrite_target_true": _category(1, ordinal + 100),
@@ -66,6 +61,11 @@ def _record(ordinal: int) -> dict:
         "raw_prompt_logit_generation_publish_count": 0,
     }
     value["identity_sha256"] = canonical_hash(value)
+    value["age_stratum"] = (
+        "EARLY_FIRST_20PCT" if ordinal < 2
+        else "RECENT_LAST_20PCT" if ordinal >= 8
+        else "MIDDLE_60PCT"
+    )
     return value
 
 
