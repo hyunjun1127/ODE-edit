@@ -597,6 +597,7 @@ def build_summaries(tables: AnalysisTables) -> list[dict[str, Any]]:
             ("model", "method", "accepted_edit_count", "fork"),
             [
                 *q_metrics,
+                "q_pre_L8_gt_0_2",
                 "d_parallel",
                 "d_perp",
                 "mean_rho",
