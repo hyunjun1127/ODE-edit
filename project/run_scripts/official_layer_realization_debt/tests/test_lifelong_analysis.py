@@ -3,12 +3,19 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
+import shlex
+import subprocess
+import sys
 import tempfile
 import unittest
+from unittest import mock
 
 import matplotlib.pyplot as plt
 
-from project.run_scripts.official_layer_realization_debt.lifelong_analysis import write_csv_once
+from project.run_scripts.official_layer_realization_debt.lifelong_analysis import (
+    execution_provenance_rows,
+    write_csv_once,
+)
 from project.run_scripts.official_layer_realization_debt.lifelong_analysis_figures import (
     FigureTables,
     load_figure_tables,
@@ -18,6 +25,7 @@ from project.run_scripts.official_layer_realization_debt.lifelong_analysis_figur
 from project.run_scripts.official_layer_realization_debt.lifelong_analysis_io import (
     ArmSpec,
     InputLock,
+    ValidatedArm,
     canonical_hash,
     extend_hash_chain,
     validate_arm,
@@ -85,6 +93,46 @@ class SummaryAndPairingTest(unittest.TestCase):
             self.assertAlmostEqual(row["D_TV"], 0.1)
         self.assertEqual([row["negative_progress_count"] for row in requests], [0, 0])
         self.assertTrue(all(row["positive_progress_total"] == 1.0 for row in requests))
+
+    def test_execution_provenance_captures_scheduler_command_config_and_launcher(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            launcher = root / "launcher.sbatch"
+            launcher.write_text("#!/bin/sh\n", encoding="utf-8")
+            spec = ArmSpec(
+                "llama3-8b-inst",
+                "memit",
+                "42",
+                root / "result.json",
+                "h",
+                "t",
+                resource={"gpus": 1},
+            )
+            arm = ValidatedArm(
+                spec=spec,
+                result={
+                    "lock": {"full_fp32": True, "batch_count": 100},
+                    "source": {"head": "h", "tree": "t"},
+                    "campaign_id": "campaign",
+                },
+                journals=[],
+                checkpoints=[],
+                raw_members=[],
+                raw_member_root="r",
+                external_members=[],
+            )
+            accounting = (
+                "42|job|COMPLETED|0:0|sbatch launcher.sbatch|"
+                f"{root}|59G|billing=8,gres/gpu=1|server4|\n"
+            )
+            with mock.patch(
+                "project.run_scripts.official_layer_realization_debt.lifelong_analysis.subprocess.check_output",
+                return_value=accounting,
+            ):
+                row = execution_provenance_rows([arm])[0]
+            self.assertEqual(row["submit_line"], "sbatch launcher.sbatch")
+            self.assertEqual(row["launcher_sha256"], hashlib.sha256(launcher.read_bytes()).hexdigest())
+            self.assertEqual(row["science_config_identity_sha256"], canonical_hash(arm.result["lock"]))
 
 
 class HashChainValidationTest(unittest.TestCase):
@@ -298,6 +346,18 @@ class FigureTest(unittest.TestCase):
             self.assertEqual(len(receipt["figures"]), 11)
             self.assertEqual(receipt["input_row_counts"]["production_weight"], 2000)
             self.assertEqual(receipt["panel_order"][0], ["llama3-8b-inst", "memit"])
+            command = shlex.split(receipt["command"])
+            self.assertEqual(command[:2], ["env", "MPLCONFIGDIR=/tmp/odeedit-lifelong-analysis-mpl"])
+            self.assertEqual(command[2], str(Path(sys.executable).absolute()))
+            verified = subprocess.run(
+                receipt["command"],
+                shell=True,
+                cwd=Path(__file__).parents[4],
+                check=True,
+                text=True,
+                capture_output=True,
+            )
+            self.assertEqual(json.loads(verified.stdout)["status"], "BYTE_STABLE_REPRODUCTION_PASS")
             self.assertTrue(all((root / row["path"]).is_file() for row in receipt["figures"]))
             second = root / "second-render"
             second.mkdir()

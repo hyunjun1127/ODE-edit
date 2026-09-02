@@ -11,10 +11,13 @@ from __future__ import annotations
 import argparse
 import csv
 import gzip
+import hashlib
 import io
 import json
 import os
 from pathlib import Path
+import re
+import shlex
 import subprocess
 import sys
 from typing import Any, Iterable, Mapping, Sequence
@@ -27,6 +30,7 @@ from .lifelong_analysis_io import (
     ValidatedArm,
     canonical_hash,
     member_root,
+    regular_file,
     sha256_file,
     validate_campaign,
     write_json_once,
@@ -198,6 +202,95 @@ def arm_summary_rows(arms: Sequence[ValidatedArm], tables: AnalysisTables) -> li
                 "nonfinite_count": arm.result["nonfinite_count"],
                 "rollback_violation_count": arm.result["rollback_violation_count"],
                 "target_recomputation_count": arm.result["target_recomputation_count"],
+            }
+        )
+    return rows
+
+
+def _scheduler_job_id(job_id: str) -> str:
+    raw = re.search(r"JobIDRaw=(\d+)", job_id)
+    if raw:
+        return raw.group(1)
+    return job_id.split("_", 1)[0]
+
+
+def execution_provenance_rows(arms: Sequence[ValidatedArm]) -> list[dict[str, Any]]:
+    """Capture exact scheduler command plus sealed science/resource config.
+
+    Slurm accounting is read-only and is queried only after raw campaign
+    validation.  This preserves the historical SubmitLine that was not copied
+    into all per-arm result schemas.
+    """
+
+    fields = (
+        "JobIDRaw,JobName,State,ExitCode,SubmitLine,WorkDir,ReqMem,"
+        "AllocTRES,NodeList"
+    )
+    rows: list[dict[str, Any]] = []
+    for arm in arms:
+        scheduler_job_id = _scheduler_job_id(arm.spec.job_id)
+        output = subprocess.check_output(
+            [
+                "sacct",
+                "-j",
+                scheduler_job_id,
+                "--duplicates",
+                "--allocations",
+                "--parsable2",
+                "--noheader",
+                "-o",
+                fields,
+            ],
+            text=True,
+        )
+        records = list(csv.DictReader(io.StringIO(output), fieldnames=fields.split(","), delimiter="|"))
+        exact = [row for row in records if str(row["JobIDRaw"]) == scheduler_job_id]
+        if len(exact) != 1:
+            raise AnalysisBoundary(
+                f"expected one Slurm allocation record for {arm.spec.job_id}; got {len(exact)}"
+            )
+        record = exact[0]
+        if record["State"] != arm.spec.scheduler_state or record["ExitCode"] != arm.spec.scheduler_exit_code:
+            raise AnalysisBoundary(
+                f"scheduler terminal identity differs for {arm.spec.job_id}: "
+                f"{record['State']}/{record['ExitCode']}"
+            )
+        submit_argv = shlex.split(str(record["SubmitLine"]))
+        if not submit_argv or submit_argv[0] != "sbatch":
+            raise AnalysisBoundary(f"Slurm SubmitLine is not an sbatch command: {arm.spec.job_id}")
+        launcher_token = submit_argv[-1]
+        launcher_path = Path(launcher_token)
+        if not launcher_path.is_absolute():
+            launcher_path = Path(str(record["WorkDir"])) / launcher_path
+        launcher_path = launcher_path.absolute()
+        regular_file(launcher_path)
+        launcher_sha = sha256_file(launcher_path)
+        config = dict(arm.result["lock"])
+        rows.append(
+            {
+                "model": arm.spec.model,
+                "method": arm.spec.method,
+                "canonical_job_id": arm.spec.job_id,
+                "scheduler_job_id_raw": scheduler_job_id,
+                "job_name": record["JobName"],
+                "scheduler_state": record["State"],
+                "scheduler_exit_code": record["ExitCode"],
+                "submit_line": record["SubmitLine"],
+                "submit_line_sha256": hashlib.sha256(str(record["SubmitLine"]).encode()).hexdigest(),
+                "work_dir": record["WorkDir"],
+                "launcher_path": str(launcher_path),
+                "launcher_sha256": launcher_sha,
+                "requested_memory_sacct": record["ReqMem"],
+                "allocated_tres": record["AllocTRES"],
+                "node_list": record["NodeList"],
+                "sealed_resource_json": dict(arm.spec.resource),
+                "science_config_json": config,
+                "science_config_identity_sha256": canonical_hash(config),
+                "runtime_module": "project.run_scripts.official_layer_realization_debt.lifelong_runtime",
+                "source_head": arm.result["source"]["head"],
+                "source_tree": arm.result["source"]["tree"],
+                "campaign_id": arm.result["campaign_id"],
+                "result_root": str(arm.spec.result_path.parent),
             }
         )
     return rows
@@ -766,6 +859,9 @@ def korean_report_exhaustive(
     tables: AnalysisTables,
     arm_summary: Sequence[Mapping[str, Any]],
     technical: Sequence[Mapping[str, Any]],
+    execution: Sequence[Mapping[str, Any]],
+    table_seal: Mapping[str, Any],
+    plot_receipt: Mapping[str, Any],
 ) -> str:
     """Render the canonical, numbers-first Korean report.
 
@@ -775,6 +871,7 @@ def korean_report_exhaustive(
     """
 
     arm_rows = {(row["model"], row["method"]): row for row in arm_summary}
+    execution_rows = {(row["model"], row["method"]): row for row in execution}
     compute_rows = {
         (row["model"], row["method"]): row for row in compute_accounting_rows(arms, tables)
     }
@@ -847,6 +944,41 @@ def korean_report_exhaustive(
         "- AlphaEdit는 성공 B100마다 신규 100개를 append했고, consume width는 그 시점의 전체 prior-history width(0→9,900)였다. Exit cache width는 0→10,000으로 연속 증가했다. MEMIT은 static covariance computation cache만 사용했고 request-history state를 만들지 않았다.",
         "- Edited weight 5/5는 `torch.float32`; BF16/FP16 parameter=0. GPU peak memory, total forward, JVP/VJP/HVP, autocast/quantization/numeric-cast inventory는 schema에 없으므로 추정하지 않았다.",
         "",
+        "### 2.1 Arm별 실제 실행 command/config/resource",
+        "",
+        "`SubmitLine`은 Slurm accounting에서 read-only로 회수한 실제 제출 문자열이다. Science config는 각 terminal result의 sealed `lock` 객체이며 아래 identity는 canonical JSON SHA-256이다.",
+        "",
+        "| arm | JobIDRaw/name | workdir | launcher SHA | SubmitLine SHA | config SHA | ReqMem / AllocTRES / node |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for model, method in CELL_ORDER:
+        row = execution_rows[(model, method)]
+        lines.append(
+            f"| {ARM_SHORT[(model, method)]} | {row['scheduler_job_id_raw']}/{row['job_name']} | "
+            f"`{row['work_dir']}` | `{row['launcher_sha256']}` | `{row['submit_line_sha256']}` | "
+            f"`{row['science_config_identity_sha256']}` | {row['requested_memory_sacct']} / "
+            f"`{row['allocated_tres']}` / {row['node_list']} |"
+        )
+    lines += [
+        "",
+        "Exact SubmitLine과 sealed science config:",
+        "",
+    ]
+    for model, method in CELL_ORDER:
+        row = execution_rows[(model, method)]
+        lines += [
+            f"#### {ARM_SHORT[(model, method)]} — {MODEL_LABEL[model]} / {METHOD_LABEL[method]}",
+            "",
+            "```text",
+            str(row["submit_line"]),
+            "```",
+            "",
+            "```json",
+            json.dumps(row["science_config_json"], ensure_ascii=False, allow_nan=False, sort_keys=True, separators=(",", ":")),
+            "```",
+            "",
+        ]
+    lines += [
         "## 3. Residual trajectory와 lifelong drift",
         "",
         "### 3.1 10k sentinel q 분포",
@@ -1366,9 +1498,37 @@ def korean_report_exhaustive(
         "",
         "## 16. Reproducible code-only figures와 artifact inventory",
         "",
-        "모든 PNG는 `lifelong_analysis_figures.py`의 headless `Agg` CLI가 sealed CSV만 읽어 생성한다. Seed/style/DPI/size/panel order/color/axis policy가 코드에 고정되며 missing interpolation/imputation=0이다. Plot source SHA, input table SHA, exact command, runtime, output PNG SHA는 `plot-reproduction.json`과 manifest에 기록했다. Codex visualization/imagegen/manual image edit artifact=0.",
+        "모든 PNG는 `lifelong_analysis_figures.py`의 headless `Agg` CLI가 sealed CSV만 읽어 생성한다. Seed/style/DPI/size/panel order/color/axis policy가 코드에 고정되며 missing interpolation/imputation=0이다. 아래 exact command는 sealed package를 덮어쓰지 않고 임시 create-once 디렉터리에 11개 PNG를 다시 렌더링한 뒤 byte SHA를 비교한다. Codex visualization/imagegen/manual image edit artifact=0.",
         "",
-        "완전한 request/layer/batch/checkpoint 정보는 deterministic gzip CSV, 요약·비교·compute·exclusion·raw inventory는 plain CSV다. 각 row count/SHA, package member root와 외부 raw roots는 `analysis-manifest.json` 및 `rooted-analysis-receipt.json`에 봉인한다.",
+        "```text",
+        str(plot_receipt["command"]),
+        "```",
+        "",
+        "### 16.1 Derived table inventory",
+        "",
+        "완전한 request/layer/batch/checkpoint 정보는 deterministic gzip CSV, 요약·비교·compute·exclusion·raw inventory는 plain CSV다. 아래는 package의 모든 derived table filename, 실제 row count, SHA-256이다.",
+        "",
+        "| table | rows | SHA-256 |",
+        "|---|---:|---|",
+    ]
+    for row in table_seal["tables"]:
+        lines.append(f"| `{row['path']}` | {row['rows']} | `{row['sha256']}` |")
+    lines += [
+        "",
+        "### 16.2 Figure inventory",
+        "",
+        "| figure | bytes | SHA-256 | denominator/missing policy |",
+        "|---|---:|---|---|",
+    ]
+    captions = plot_receipt["captions"]
+    for row in plot_receipt["figures"]:
+        lines.append(
+            f"| `{row['path']}` | {row['bytes']} | `{row['sha256']}` | {captions[row['path']]} "
+            "Missing values are not interpolated or imputed. |"
+        )
+    lines += [
+        "",
+        "Package member root와 외부 raw roots는 `analysis-manifest.json` 및 `rooted-analysis-receipt.json`에 봉인한다.",
         "",
         "### FACT / INFERENCE / DECISION",
         "",
@@ -1417,8 +1577,10 @@ def build(args: argparse.Namespace) -> None:
     tables = extract_tables(arms)
     arm_summary = arm_summary_rows(arms, tables)
     technical = technical_exclusion_rows(arms)
+    execution = execution_provenance_rows(arms)
     named_plain: dict[str, Sequence[Mapping[str, Any]]] = {
         "arm-summary.csv": arm_summary,
+        "execution-provenance.csv": execution,
         "checkpoint-summary.csv": checkpoint_summary_rows(tables),
         "layer-q-summary.csv": [row for row in tables.summary if row["metric"].startswith("q_")],
         "allocation-realization-summary.csv": allocation_summary_rows(tables),
@@ -1490,7 +1652,17 @@ def build(args: argparse.Namespace) -> None:
     report_path = args.output / report_name
     descriptor = os.open(report_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
     with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
-        handle.write(korean_report_exhaustive(arms, tables, arm_summary, technical))
+        handle.write(
+            korean_report_exhaustive(
+                arms,
+                tables,
+                arm_summary,
+                technical,
+                execution,
+                table_seal,
+                plot_receipt,
+            )
+        )
 
     data_names = [*named_plain, *named_gzip, "derived-table-seal.json", "plot-reproduction.json", *figure_names, report_name]
     members = [_member(args.output / name, args.output) for name in sorted(data_names)]
@@ -1548,6 +1720,11 @@ def build(args: argparse.Namespace) -> None:
                 "scheduler_state": arm.spec.scheduler_state,
                 "exit_code": arm.spec.scheduler_exit_code,
                 "resource": dict(arm.spec.resource),
+                "execution_provenance": next(
+                    row
+                    for row in execution
+                    if row["model"] == arm.spec.model and row["method"] == arm.spec.method
+                ),
             }
             for arm in arms
         ],

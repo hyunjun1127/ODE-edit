@@ -12,6 +12,7 @@ import os
 from pathlib import Path
 import shlex
 import sys
+import tempfile
 from typing import Any
 
 import matplotlib
@@ -400,23 +401,35 @@ def save_figures(output: Path, tables: FigureTables) -> list[str]:
     return names
 
 
+def _python_executable() -> str:
+    """Return the invoked interpreter path without resolving a venv symlink."""
+
+    return str(Path(sys.executable).absolute())
+
+
+def _reproduction_command(tables_root: Path, output: Path) -> str:
+    command_argv = [
+        "env",
+        "MPLCONFIGDIR=/tmp/odeedit-lifelong-analysis-mpl",
+        _python_executable(),
+        "-m",
+        "project.run_scripts.official_layer_realization_debt.lifelong_analysis_figures",
+        "--tables",
+        str(tables_root.absolute()),
+        "--verify-existing",
+        str(output.absolute()),
+    ]
+    return shlex.join(command_argv)
+
+
 def run_cli(tables_root: Path, output: Path) -> dict[str, Any]:
     np.random.seed(PLOT_SEED)
     plt.style.use(PLOT_STYLE)
     tables = load_figure_tables(tables_root)
     names = save_figures(output, tables)
-    command_argv = [
-        str(Path(sys.executable).resolve()),
-        "-m",
-        "project.run_scripts.official_layer_realization_debt.lifelong_analysis_figures",
-        "--tables",
-        str(tables_root.resolve()),
-        "--output",
-        str(output.resolve()),
-    ]
-    command = shlex.join(command_argv)
+    command = _reproduction_command(tables_root, output)
     receipt = {
-        "schema": "odeedit.s06.layer-realization-debt.lifelong-fourarm-plot-reproduction.v1",
+        "schema": "odeedit.s06.layer-realization-debt.lifelong-fourarm-plot-reproduction.v2",
         "source_path": str(Path(__file__).resolve()),
         "source_sha256": _sha256(Path(__file__).resolve()),
         "command": command,
@@ -477,16 +490,50 @@ def run_cli(tables_root: Path, output: Path) -> dict[str, Any]:
     return receipt
 
 
+def verify_existing(tables_root: Path, existing_output: Path) -> dict[str, Any]:
+    """Re-render into an ephemeral directory and verify byte-stable PNGs."""
+
+    receipt_path = existing_output / "plot-reproduction.json"
+    expected = json.loads(receipt_path.read_text(encoding="utf-8"))
+    expected_inputs = {row["path"]: row["sha256"] for row in expected["inputs"]}
+    actual_inputs = {name: _sha256(tables_root / name) for name in PLOT_INPUTS}
+    if actual_inputs != expected_inputs:
+        raise RuntimeError("plot input table SHA mismatch")
+    with tempfile.TemporaryDirectory(prefix="odeedit-lifelong-plot-verify-") as temporary:
+        rendered = run_cli(tables_root, Path(temporary))
+        expected_figures = {
+            row["path"]: (row["bytes"], row["sha256"])
+            for row in expected["figures"]
+        }
+        actual_figures = {
+            row["path"]: (row["bytes"], row["sha256"])
+            for row in rendered["figures"]
+        }
+        if actual_figures != expected_figures:
+            raise RuntimeError("re-rendered figure bytes/SHA differ from sealed figures")
+    return {
+        "status": "BYTE_STABLE_REPRODUCTION_PASS",
+        "figure_count": len(expected_figures),
+        "input_count": len(expected_inputs),
+        "existing_output": str(existing_output.absolute()),
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument("--tables", type=Path, required=True)
-    parser.add_argument("--output", type=Path, required=True)
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--output", type=Path)
+    mode.add_argument("--verify-existing", type=Path)
     args = parser.parse_args()
-    run_cli(args.tables, args.output)
+    if args.output is not None:
+        run_cli(args.tables, args.output)
+    else:
+        print(json.dumps(verify_existing(args.tables, args.verify_existing), sort_keys=True))
 
 
 if __name__ == "__main__":
     main()
 
 
-__all__ = ["FigureTables", "PLOT_DPI", "PLOT_INPUTS", "PLOT_SEED", "PLOT_STYLE", "checkpoint_layer_heatmap_figure", "checkpoint_q_heatmap_figure", "compute_comparison_figure", "endpoint_checkpoint_figure", "inherited_debt_figure", "load_figure_tables", "primary_residual_figure", "rho_figure", "run_cli", "save_figures", "tau_figure", "update_drift_heatmap_figure", "weight_magnitude_figure"]
+__all__ = ["FigureTables", "PLOT_DPI", "PLOT_INPUTS", "PLOT_SEED", "PLOT_STYLE", "checkpoint_layer_heatmap_figure", "checkpoint_q_heatmap_figure", "compute_comparison_figure", "endpoint_checkpoint_figure", "inherited_debt_figure", "load_figure_tables", "primary_residual_figure", "rho_figure", "run_cli", "save_figures", "tau_figure", "update_drift_heatmap_figure", "verify_existing", "weight_magnitude_figure"]
