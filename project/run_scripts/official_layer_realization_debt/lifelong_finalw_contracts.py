@@ -82,7 +82,7 @@ class EvaluationLock:
     checkpoints: tuple[int, ...] = AMENDED_CHECKPOINTS
     original_requested_checkpoints: tuple[int, ...] = ORIGINAL_REQUESTED_CHECKPOINTS
     absent_exact_checkpoints: tuple[int, ...] = ABSENT_EXACT_CHECKPOINTS
-    evaluator_batch_size: int = 32
+    evaluator_batch_size: int = 16
     request_chunk_size: int = 25
     age_early_fraction: float = 0.2
     age_recent_fraction: float = 0.2

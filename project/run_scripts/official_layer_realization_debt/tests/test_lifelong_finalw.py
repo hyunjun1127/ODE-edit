@@ -23,8 +23,8 @@ def _metric(prompt_count: int, *, strict: int, nll: float) -> dict:
             "nll": nll + index,
             "margin": 1.0 - index,
             "strict": index < strict,
-            "token_accuracy": 1.0 if index < strict else 0.0,
-            "token_correct_count": 1 if index < strict else 0,
+            "token_accuracy": "NOT_RECORDED_EVALUATOR_SCHEMA",
+            "token_correct_count": "NOT_RECORDED_EVALUATOR_SCHEMA",
             "target_token_count": 1,
         }
         for index in range(prompt_count)
@@ -32,7 +32,7 @@ def _metric(prompt_count: int, *, strict: int, nll: float) -> dict:
     return {
         "prompt_count": prompt_count,
         "strict_count": strict,
-        "token_correct_count": strict,
+        "token_correct_count": "NOT_RECORDED_EVALUATOR_SCHEMA",
         "target_token_count": prompt_count,
         "prompts": prompts,
     }

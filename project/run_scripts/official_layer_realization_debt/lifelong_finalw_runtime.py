@@ -149,7 +149,6 @@ class SummaryAccumulator:
         self.request_margin: dict[str, list[float]] = {key: [] for key in CATEGORIES}
         self.strict_count = {key: 0 for key in CATEGORIES}
         self.prompt_count = {key: 0 for key in CATEGORIES}
-        self.token_correct = {key: 0 for key in CATEGORIES}
         self.token_count = {key: 0 for key in CATEGORIES}
         self.gen_request_strict = 0
         self.rewrite_preference = 0
@@ -170,7 +169,6 @@ class SummaryAccumulator:
             self.request_margin[category].append(min(margin))
             self.strict_count[category] += int(value["strict_count"])
             self.prompt_count[category] += int(value["prompt_count"])
-            self.token_correct[category] += int(value["token_correct_count"])
             self.token_count[category] += int(value["target_token_count"])
         if metrics["rephrase_target_new"]["strict_count"] == metrics["rephrase_target_new"]["prompt_count"]:
             self.gen_request_strict += 1
@@ -220,8 +218,8 @@ class SummaryAccumulator:
                 "strict_numerator": self.strict_count[category],
                 "strict_rate": self.strict_count[category] / self.prompt_count[category],
                 "token_denominator": self.token_count[category],
-                "token_correct_numerator": self.token_correct[category],
-                "token_accuracy": self.token_correct[category] / self.token_count[category],
+                "token_correct_numerator": "NOT_RECORDED_EVALUATOR_SCHEMA",
+                "token_accuracy": "NOT_RECORDED_EVALUATOR_SCHEMA",
                 "prompt_nll": _distribution(self.prompt_nll[category]),
                 "request_cluster_nll": _distribution(self.request_nll[category]),
                 "prompt_margin": _distribution(self.prompt_margin[category]),

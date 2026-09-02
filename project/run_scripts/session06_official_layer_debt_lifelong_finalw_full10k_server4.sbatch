@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Evaluation-only final-W/all-seen-prefix backfill; no edit replay or writer.
-#SBATCH --job-name=lrd_finalw10k_v4_s4
+#SBATCH --job-name=lrd_finalw10k_r3_s4
 #SBATCH --partition=gpu
 #SBATCH --nodelist=server4
 #SBATCH --nodes=1

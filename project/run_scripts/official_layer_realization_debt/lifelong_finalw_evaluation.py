@@ -6,7 +6,6 @@ token ids, and logits exist transiently in memory and never enter artifacts.
 
 from __future__ import annotations
 
-from collections import defaultdict
 import hashlib
 import json
 import math
@@ -17,12 +16,6 @@ import torch
 
 from project.run_scripts.fixed_z_nonuniqueness.evaluation import (
     sequence_metrics,
-    target_ids,
-    target_prefixes,
-)
-from project.run_scripts.fixed_z_nonuniqueness.padding import (
-    build_position_safe_batch,
-    semantic_last_columns,
 )
 from project.run_scripts.ode_bf.contracts import canonical_hash
 from project.run_scripts.ode_bf.p1_selection import _load_canonical_request_map
@@ -156,92 +149,61 @@ def _evaluate_chunk(
     *,
     batch_size: int,
 ) -> tuple[list[dict[str, Any]], dict[str, int]]:
-    tasks: list[tuple[str, int, int, str, int]] = []
-    prompt_token_counts: dict[tuple[int, str, int], int] = {}
-    for request_index, row in enumerate(rows):
-        for category, prompts, target in _category_specs(row):
-            ids = target_ids(tokenizer, target)
-            for prompt_index, prompt in enumerate(prompts):
-                prefixes, observed = target_prefixes(tokenizer, prompt, target)
-                if not torch.equal(ids, observed):
-                    raise FinalWeightBoundary("target tokenization changed inside evaluator")
-                prompt_token_counts[(request_index, category, prompt_index)] = int(ids.numel())
-                tasks.extend(
-                    (text, int(ids[token_index]), request_index, category, prompt_index)
-                    for token_index, text in enumerate(prefixes)
-                )
-    accum: dict[tuple[int, str, int], dict[str, Any]] = defaultdict(
-        lambda: {"nll": [], "margin": [], "correct": 0}
-    )
-    device = next(model.parameters()).device
+    # Canonical evaluator identity is per request/category sequence_metrics.
+    # Cross-request rebatching changes FP32 kernel shape and is intentionally
+    # forbidden even if it would be faster.
+    if batch_size != 16:
+        raise FinalWeightBoundary("canonical sequence_metrics batch size must remain 16")
+    records: list[dict[str, Any]] = []
     forward_batches = 0
     with torch.inference_mode():
-        for start in range(0, len(tasks), batch_size):
-            part = tasks[start : start + batch_size]
-            texts = [item[0] for item in part]
-            labels = torch.tensor([item[1] for item in part], device=device, dtype=torch.long)
-            batch = build_position_safe_batch(tokenizer, texts, padding_side="left").to(device)
-            logits_all = model(**batch).logits
-            indices = torch.arange(len(part), device=device)
-            columns = semantic_last_columns(batch["attention_mask"]).to(device)
-            logits = logits_all[indices, columns].float()
-            log_probs = torch.log_softmax(logits, dim=-1)
-            nll = -log_probs[indices, labels]
-            target_logits = logits[indices, labels]
-            masked = logits.clone()
-            masked[indices, labels] = -torch.inf
-            margins = target_logits - masked.max(dim=-1).values
-            predictions = logits.argmax(dim=-1)
-            if not bool(torch.isfinite(nll).all() and torch.isfinite(margins).all()):
-                raise FinalWeightBoundary("nonfinite evaluator token metric")
-            for local, item in enumerate(part):
-                key = (item[2], item[3], item[4])
-                accum[key]["nll"].append(float(nll[local].item()))
-                accum[key]["margin"].append(float(margins[local].item()))
-                accum[key]["correct"] += int(predictions[local].item() == labels[local].item())
-            forward_batches += 1
-            del logits_all, logits, log_probs, nll, target_logits, masked, margins, predictions, batch
-    records: list[dict[str, Any]] = []
-    for request_index, row in enumerate(rows):
-        metrics: dict[str, Any] = {}
-        for category, prompts, _target in _category_specs(row):
-            prompt_values = []
-            for prompt_index in range(len(prompts)):
-                key = (request_index, category, prompt_index)
-                value = accum[key]
-                count = prompt_token_counts[key]
-                if len(value["nll"]) != count or len(value["margin"]) != count:
-                    raise FinalWeightBoundary("evaluator token accounting differs")
-                prompt_values.append(
+        for row in rows:
+            metrics: dict[str, Any] = {}
+            for category, prompts, target in _category_specs(row):
+                value = sequence_metrics(model, tokenizer, list(prompts), target)
+                prompt_values = [
                     {
-                        "nll": sum(value["nll"]) / count,
-                        "margin": min(value["margin"]),
-                        "strict": value["correct"] == count,
-                        "token_accuracy": value["correct"] / count,
-                        "token_correct_count": int(value["correct"]),
-                        "target_token_count": count,
+                        "nll": float(value["nll"][index]),
+                        "margin": float(value["margin"][index]),
+                        "strict": bool(value["strict"][index]),
+                        "target_token_count": int(value["target_token_count"]),
+                        "token_accuracy": "NOT_RECORDED_EVALUATOR_SCHEMA",
+                        "token_correct_count": "NOT_RECORDED_EVALUATOR_SCHEMA",
                     }
-                )
-            metrics[category] = {
-                "prompt_count": len(prompt_values),
-                "strict_count": sum(int(value["strict"]) for value in prompt_values),
-                "token_correct_count": sum(value["token_correct_count"] for value in prompt_values),
-                "target_token_count": sum(value["target_token_count"] for value in prompt_values),
-                "prompts": prompt_values,
+                    for index in range(int(value["prompt_count"]))
+                ]
+                if not all(
+                    math.isfinite(item[key])
+                    for item in prompt_values
+                    for key in ("nll", "margin")
+                ):
+                    raise FinalWeightBoundary("nonfinite canonical evaluator metric")
+                token_examples = int(value["prompt_count"]) * int(value["target_token_count"])
+                forward_batches += math.ceil(token_examples / 16)
+                metrics[category] = {
+                    "prompt_count": int(value["prompt_count"]),
+                    "strict_count": sum(int(item["strict"]) for item in prompt_values),
+                    "token_correct_count": "NOT_RECORDED_EVALUATOR_SCHEMA",
+                    "target_token_count": token_examples,
+                    "prompts": prompt_values,
+                }
+            record = {
+                "ordinal": int(row["ordinal"]),
+                "batch_index": int(row["batch_index"]),
+                "case_identity_sha256": str(row["case_identity_sha256"]),
+                "request_sha256": str(row["request_sha256"]),
+                "metrics": metrics,
+                "raw_prompt_logit_generation_publish_count": 0,
             }
-        record = {
-            "ordinal": int(row["ordinal"]),
-            "batch_index": int(row["batch_index"]),
-            "case_identity_sha256": str(row["case_identity_sha256"]),
-            "request_sha256": str(row["request_sha256"]),
-            "metrics": metrics,
-            "raw_prompt_logit_generation_publish_count": 0,
-        }
-        record["identity_sha256"] = canonical_hash(record)
-        records.append(record)
+            record["identity_sha256"] = canonical_hash(record)
+            records.append(record)
     return records, {
         "forward_batch_count": forward_batches,
-        "token_example_count": len(tasks),
+        "token_example_count": sum(
+            int(value["target_token_count"])
+            for record in records
+            for value in record["metrics"].values()
+        ),
         "request_count": len(rows),
     }
 
