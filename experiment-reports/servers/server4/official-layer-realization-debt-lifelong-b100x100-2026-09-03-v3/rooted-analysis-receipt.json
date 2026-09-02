@@ -1,0 +1,58 @@
+{
+  "denominators": {
+    "attempted_arms": 4,
+    "checkpoint_sentinel_request_observations_alphaedit_reset_cache": 1600,
+    "checkpoint_sentinel_request_observations_primary": 3200,
+    "checkpoint_sentinel_request_observations_total": 4800,
+    "failure_count": 0,
+    "imputation_count": 0,
+    "nonfinite_count": 0,
+    "technical_exclusion_scientific_denominator": 0,
+    "valid_arms": 4,
+    "valid_batches": 400,
+    "valid_checkpoints": 32,
+    "valid_training_requests": 40000
+  },
+  "external_input_root_deployment_path_bound": "ed0a8c83650707b62c759863341af52d7a00b1805ae094840b1ea83e0d14af6f",
+  "identity_sha256": "a430234f67796ed3f5ad7cf579018e6a1f389d6c89fcc63c710c50945ab7cbd4",
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-REALIZATION-DEBT-LIFELONG-FOURARM-EXHAUSTIVE-ANALYSIS-V1",
+  "manifest": {
+    "bytes": 46003,
+    "path": "analysis-manifest.json",
+    "sha256": "47398d3e497edbbf8f2ace5be4f315134653f16ee2698d47945d4769fe0deb15"
+  },
+  "member_root": "8c3441ffe0776f493fd78fea2858c0660e3e2c305a6b03b4e5ddcda35df5161a",
+  "raw_scientific_identity": [
+    {
+      "bytes": 9470818583,
+      "member_count": 117,
+      "method": "memit",
+      "model": "llama3-8b-inst",
+      "raw_member_root": "961149f2751a3388b348c484bed882158660f0ae85b946c9bb69077a89528a85"
+    },
+    {
+      "bytes": 38248437276,
+      "member_count": 117,
+      "method": "alphaedit",
+      "model": "llama3-8b-inst",
+      "raw_member_root": "191a075ab53e77b662ccd82a609a83bbea43b503fa660432c2994bb97e1d2ed5"
+    },
+    {
+      "bytes": 10938883628,
+      "member_count": 117,
+      "method": "memit",
+      "model": "qwen2.5-7b-inst",
+      "raw_member_root": "02c27c740c26c04430a06549fb58e8739a4eddb032b2adee3b61da0d2c7f791c"
+    },
+    {
+      "bytes": 61186136329,
+      "member_count": 117,
+      "method": "alphaedit",
+      "model": "qwen2.5-7b-inst",
+      "raw_member_root": "d5256efd74db14f5b23a5a6ab786aa139844048b040bf4a68096feff5c8c3b5a"
+    }
+  ],
+  "schema": "odeedit.s06.layer-realization-debt.lifelong-fourarm-rooted-analysis-receipt.v1",
+  "scientific_promotion": false,
+  "status": "FOUR_ARM_LIFELONG_10K_TERMINAL_VALID"
+}

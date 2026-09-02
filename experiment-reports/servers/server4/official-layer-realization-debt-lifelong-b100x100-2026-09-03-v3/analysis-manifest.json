@@ -1,0 +1,1099 @@
+{
+  "builder_source": {
+    "head": "b56b7df5fb676a548a44188fca2b8b5ede80290f",
+    "tracked_clean": true,
+    "tree": "7f361136b115b3244b3183bcc8803456a6674503"
+  },
+  "denominators": {
+    "attempted_arms": 4,
+    "checkpoint_sentinel_request_observations_alphaedit_reset_cache": 1600,
+    "checkpoint_sentinel_request_observations_primary": 3200,
+    "checkpoint_sentinel_request_observations_total": 4800,
+    "failure_count": 0,
+    "imputation_count": 0,
+    "nonfinite_count": 0,
+    "technical_exclusion_scientific_denominator": 0,
+    "valid_arms": 4,
+    "valid_batches": 400,
+    "valid_checkpoints": 32,
+    "valid_training_requests": 40000
+  },
+  "easyedit": {
+    "head": "14cea8245f06715684592ab55184939b99d70784",
+    "root": "/data/janghj/EasyEdit-stock-14cea824",
+    "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7"
+  },
+  "external_input_root_deployment_path_bound": "ed0a8c83650707b62c759863341af52d7a00b1805ae094840b1ea83e0d14af6f",
+  "external_inputs": [
+    {
+      "bytes": 10246,
+      "kind": "ANALYSIS_INPUT_LOCK",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/fourarm-exhaustive-analysis-20260903-v1/input-lock.json",
+      "sha256": "2ce6c7691c1eab8322d65f421eafdbfc207304b93b63ffbc26e3869049b0cf0e"
+    },
+    {
+      "bytes": 3219,
+      "kind": "EXECUTION_RECEIPT",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/dry-plan.json",
+      "sha256": "9a7b3b7383dcf6353959d874ba05e17a82f54a536c3af732a12633f6aef9d5b9"
+    },
+    {
+      "bytes": 1345,
+      "kind": "EXECUTION_RECEIPT",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/focused-gate.json",
+      "sha256": "073c580d91c22e2c327d1a376bea5d2c3b49152d10381d4c630807c64749b377"
+    },
+    {
+      "bytes": 13887,
+      "kind": "EXECUTION_RECEIPT",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/preflight.json",
+      "sha256": "794c1f8b5792e9cbd09420b79543a76e6884fe1104cb48fe33659758275f60b8"
+    },
+    {
+      "bytes": 3164,
+      "kind": "EXECUTION_RECEIPT",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/dry-plan.json",
+      "sha256": "d97808fdb5fb63db8547fe2d059c4a73cf3bbe338508e2040a07ebe12df560cf"
+    },
+    {
+      "bytes": 1345,
+      "kind": "EXECUTION_RECEIPT",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/focused-gate-tech-r2.json",
+      "sha256": "a93e8e68a307f2d23af44e2d0b3a12243c561e8cd9a4fcdffb93b3dbe7d31762"
+    },
+    {
+      "bytes": 13858,
+      "kind": "EXECUTION_RECEIPT",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/preflight.json",
+      "sha256": "2e247a73f573abaa649c1b328dc1e561a17c71677b78a47f0f8f0b2816989553"
+    },
+    {
+      "bytes": 1924,
+      "kind": "EXECUTION_RECEIPT",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/submission-wave1.json",
+      "sha256": "ee8d70903bc9cfa721c0333bb3a52fc58d56128e8331479bf7685f8fd225281a"
+    },
+    {
+      "bytes": 1695,
+      "kind": "EXECUTION_RECEIPT",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/first-valid-llama-alphaedit-tech-r1.json",
+      "sha256": "3fdd827a5c55603f70e19b59372070ce8776076fa87fe90ddc32c6f3e510efa7"
+    },
+    {
+      "bytes": 3812,
+      "kind": "EXECUTION_RECEIPT",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/resource-seal-llama-alphaedit-tech-r1.json",
+      "sha256": "0de4e6094d87262e1d19a9cf33e2b09e4eb75a150d1f4c9bf8b2dbb887250a97"
+    },
+    {
+      "bytes": 3591,
+      "kind": "EXECUTION_RECEIPT",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/resource-seal-llama-memit-tech-r1.json",
+      "sha256": "dfec118e8520328f69f90a4f065d927e68aaadacec45da2be7ab7ff3bab26b1b"
+    },
+    {
+      "bytes": 2750,
+      "kind": "PURE_TECHNICAL_EXCLUSION",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/four-arm-completion/odeedit_lrd_life_s4-32374.err",
+      "sha256": "395b5c4d0ac27cf18af766accbad2603a4eb1e1c10c95cc042b1418b945fb62e"
+    },
+    {
+      "bytes": 365,
+      "kind": "PURE_TECHNICAL_EXCLUSION",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/four-arm-completion/odeedit_lrd_life_s4-32374.out",
+      "sha256": "26a1382e39bc8e908cde295ebc216689d24fd4266ff6bd15f5d5c01e68fa1072"
+    },
+    {
+      "bytes": 3650,
+      "kind": "PURE_TECHNICAL_EXCLUSION",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/off_layer_debt_life_qm_r1_s4-31653_1.err",
+      "sha256": "cda805262e85a6d47e640a99a8c0397c27d316c798e035710d896d4fd21f70b0"
+    },
+    {
+      "bytes": 1606,
+      "kind": "PURE_TECHNICAL_EXCLUSION",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/off_layer_debt_life_qm_r1_s4-31653_1.out",
+      "sha256": "8f8a36b2584d0673a84cb4dab9189fb8792bacd55e2fd558df2f76cc136908c5"
+    },
+    {
+      "bytes": 2653,
+      "kind": "PURE_TECHNICAL_EXCLUSION",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-memit-lifelong-b100x100/failure.json",
+      "sha256": "13d30557ed3fad94803458223d524626cdf07ebfdeffac4341c3afcdedcb1f8d"
+    },
+    {
+      "bytes": 2191,
+      "kind": "PURE_TECHNICAL_EXCLUSION",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-v1/llama3-8b-inst-alphaedit-lifelong-b100x100/failure.json",
+      "sha256": "043b48a40542db8a0d1a2c8bf40a24dc81dcc5540bb76f7af83efd75acfddbc8"
+    },
+    {
+      "bytes": 2918,
+      "kind": "PURE_TECHNICAL_EXCLUSION",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/job31653-technical-rca-and-recovery.json",
+      "sha256": "fff14e7da1fd7cab7161ae418c847d3bd2fec4a4adbd36118d54fc5837a10983"
+    },
+    {
+      "bytes": 2645,
+      "kind": "PURE_TECHNICAL_EXCLUSION",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-v1/job32374-technical-exclusion.json",
+      "sha256": "25f495224fbf640a2c4ed4380dfcad4c7cfd90d0799db093a1ff6b469d641e97"
+    },
+    {
+      "bytes": 979,
+      "kind": "SLURM_LOG",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/four-arm-completion-tech-r1/odeedit_lrd_life_r1_s4-32380.err",
+      "sha256": "f4438d8880228f045ba647c37527bb5ec08242c60421a5be14fa019e6d216bcf"
+    },
+    {
+      "bytes": 365,
+      "kind": "SLURM_LOG",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/four-arm-completion-tech-r1/odeedit_lrd_life_r1_s4-32380.out",
+      "sha256": "26a1382e39bc8e908cde295ebc216689d24fd4266ff6bd15f5d5c01e68fa1072"
+    },
+    {
+      "bytes": 1394,
+      "kind": "SLURM_LOG",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/four-arm-completion-tech-r1/odeedit_lrd_life_r1_s4-32424.err",
+      "sha256": "d4b617c704ccca02669d3eb73d8a18b96a89608947af651158792da523d16dbb"
+    },
+    {
+      "bytes": 1720,
+      "kind": "SLURM_LOG",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/four-arm-completion-tech-r1/odeedit_lrd_life_r1_s4-32424.out",
+      "sha256": "4daaab802ee892bb4131fdbce96f18437d027b14e40e89099d3fe9dc5ead4234"
+    },
+    {
+      "bytes": 1394,
+      "kind": "SLURM_LOG",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/off_layer_debt_life_qm_tech_r1_s4-31686_1.err",
+      "sha256": "525d9cc49c74cab059c617ca6ffcc3187a9f0c758ba5f6ae5541415eb7e95c58"
+    },
+    {
+      "bytes": 1606,
+      "kind": "SLURM_LOG",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/off_layer_debt_life_qm_tech_r1_s4-31686_1.out",
+      "sha256": "8f8a36b2584d0673a84cb4dab9189fb8792bacd55e2fd558df2f76cc136908c5"
+    },
+    {
+      "bytes": 979,
+      "kind": "SLURM_LOG",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/off_layer_debt_life_s4-31651_0.err",
+      "sha256": "29da9c76e4aa3c6b2338e470f3f7039e46d0fa5eacd4409bd79e6702fec48ede"
+    },
+    {
+      "bytes": 301,
+      "kind": "SLURM_LOG",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/off_layer_debt_life_s4-31651_0.out",
+      "sha256": "15d1139b0230769d80c5e5e80bde10db8c5e35614270abd57e38adb379f69a8c"
+    },
+    {
+      "bytes": 4364914,
+      "kind": "STREAM_SEAL",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/stream-seal-v1.json",
+      "sha256": "5848dca7323335483039ec125b644dadfb87b0996133f9825f951088cf3a7861"
+    }
+  ],
+  "identity_sha256": "3bf50d41148f6bb12cddcddfd0c1212354cc2e2bd70aaa121fe02415d97ab8c3",
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-REALIZATION-DEBT-LIFELONG-FOURARM-EXHAUSTIVE-ANALYSIS-V1",
+  "jobs": [
+    {
+      "execution_provenance": {
+        "allocated_tres": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+        "campaign_id": "official-layer-realization-debt-lifelong-b100-v1-campaign-20260902-four-arm-completion-tech-r1",
+        "canonical_job_id": "32424",
+        "job_name": "odeedit_lrd_life_r1_s4",
+        "launcher_path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/launcher-server4-resource-tech-r1.sbatch",
+        "launcher_sha256": "12e7f0c567f67c82110ddb906e42452e2f70013fe45815f92a7d6f818eb9e44c",
+        "method": "memit",
+        "model": "llama3-8b-inst",
+        "node_list": "server4",
+        "requested_memory_sacct": "59G",
+        "result_root": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100",
+        "runtime_module": "project.run_scripts.official_layer_realization_debt.lifelong_runtime",
+        "scheduler_exit_code": "0:0",
+        "scheduler_job_id_raw": "32424",
+        "scheduler_state": "COMPLETED",
+        "science_config_identity_sha256": "9a9be38542356b0fbd3c634fbdff38edcfd540282dece690620198e92044e2c6",
+        "science_config_json": {
+          "accepted_cache_append_per_request": 1,
+          "batch_count": 100,
+          "batch_size": 100,
+          "checkpoint_batches": [
+            0,
+            10,
+            15,
+            20,
+            30,
+            50,
+            75,
+            100
+          ],
+          "compact_report_batches": [
+            10,
+            20,
+            50,
+            100
+          ],
+          "compute_z_per_request": 1,
+          "full_fp32": true,
+          "gpu_cap": 2,
+          "layers": [
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "observer_layer_calls_per_batch": 5,
+          "observer_terminal_calls_per_batch": 1,
+          "order_seed_index": 1,
+          "recurrence_relative_tolerance": 0.0001,
+          "request_count": 10000,
+          "sample_duplication_count": 0,
+          "scalar_reduction_dtype": "float64",
+          "scientific_promotion": false,
+          "sustained_violation_batch_count": 3
+        },
+        "sealed_resource_json": {
+          "cpus": 8,
+          "elapsed": "09:09:50",
+          "gpus": 1,
+          "max_rss_kib": 17942916,
+          "node": "server4",
+          "requested_mem": "59G"
+        },
+        "source_head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "source_tree": "84113d14cb0427afd871448fd4a5c870c7f31153",
+        "submit_line": "sbatch --parsable --export=ALL,ODE_LRD_LIFE_SOURCE_ROOT=/data/janghj/ODE-edit/local/worktrees/official-layer-realization-debt-lifelong-b100-v1-tech-r1,ODE_LRD_LIFE_EXPECTED_HEAD=85a05d0a831db667fc68c27e634302eb30cc7d79,ODE_LRD_LIFE_RESULT_ROOT=/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1,ODE_LRD_LIFE_PREFLIGHT_RECEIPT=/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/preflight.json,ODE_LRD_LIFE_EXPECTED_PREFLIGHT_SHA=794c1f8b5792e9cbd09420b79543a76e6884fe1104cb48fe33659758275f60b8,ODE_LRD_LIFE_RESOURCE_RECEIPT=/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/resource-seal-llama-memit-tech-r1.json,ODE_LRD_LIFE_EXPECTED_RESOURCE_SHA=dfec118e8520328f69f90a4f065d927e68aaadacec45da2be7ab7ff3bab26b1b,ODE_LRD_LIFE_STREAM_SEAL=/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/stream-seal-v1.json,ODE_LRD_LIFE_EXPECTED_STREAM_SHA=5848dca7323335483039ec125b644dadfb87b0996133f9825f951088cf3a7861,ODE_LRD_LIFE_CAMPAIGN_ID=official-layer-realization-debt-lifelong-b100-v1-campaign-20260902-four-arm-completion-tech-r1,ODE_LRD_LIFE_MODEL=llama3-8b-inst,ODE_LRD_LIFE_METHOD=memit,ODE_LRD_MEMORY_POLICY_ROOT=/data/janghj/ODE-edit/local/worktrees/slurm-memory-policy-rollout-20260902,ODE_LRD_EXPECTED_POLICY_HEAD=462d9afd8af7edd888281dbc015231042857ba99 /data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/launcher-server4-resource-tech-r1.sbatch",
+        "submit_line_sha256": "26809643498c886f2f689f317a85b306b4e4bb1ce03b6722fddca186f79adc93",
+        "work_dir": "/data/janghj/ODE-edit"
+      },
+      "exit_code": "0:0",
+      "job_id": "32424",
+      "method": "memit",
+      "model": "llama3-8b-inst",
+      "resource": {
+        "cpus": 8,
+        "elapsed": "09:09:50",
+        "gpus": 1,
+        "max_rss_kib": 17942916,
+        "node": "server4",
+        "requested_mem": "59G"
+      },
+      "scheduler_state": "COMPLETED"
+    },
+    {
+      "execution_provenance": {
+        "allocated_tres": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+        "campaign_id": "official-layer-realization-debt-lifelong-b100-v1-campaign-20260902-four-arm-completion-tech-r1",
+        "canonical_job_id": "32380",
+        "job_name": "odeedit_lrd_life_r1_s4",
+        "launcher_path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/launcher-server4-resource-tech-r1.sbatch",
+        "launcher_sha256": "12e7f0c567f67c82110ddb906e42452e2f70013fe45815f92a7d6f818eb9e44c",
+        "method": "alphaedit",
+        "model": "llama3-8b-inst",
+        "node_list": "server4",
+        "requested_memory_sacct": "59G",
+        "result_root": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100",
+        "runtime_module": "project.run_scripts.official_layer_realization_debt.lifelong_runtime",
+        "scheduler_exit_code": "0:0",
+        "scheduler_job_id_raw": "32380",
+        "scheduler_state": "COMPLETED",
+        "science_config_identity_sha256": "9a9be38542356b0fbd3c634fbdff38edcfd540282dece690620198e92044e2c6",
+        "science_config_json": {
+          "accepted_cache_append_per_request": 1,
+          "batch_count": 100,
+          "batch_size": 100,
+          "checkpoint_batches": [
+            0,
+            10,
+            15,
+            20,
+            30,
+            50,
+            75,
+            100
+          ],
+          "compact_report_batches": [
+            10,
+            20,
+            50,
+            100
+          ],
+          "compute_z_per_request": 1,
+          "full_fp32": true,
+          "gpu_cap": 2,
+          "layers": [
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "observer_layer_calls_per_batch": 5,
+          "observer_terminal_calls_per_batch": 1,
+          "order_seed_index": 1,
+          "recurrence_relative_tolerance": 0.0001,
+          "request_count": 10000,
+          "sample_duplication_count": 0,
+          "scalar_reduction_dtype": "float64",
+          "scientific_promotion": false,
+          "sustained_violation_batch_count": 3
+        },
+        "sealed_resource_json": {
+          "cpus": 8,
+          "elapsed": "09:26:34",
+          "gpus": 1,
+          "max_rss_kib": 56539828,
+          "node": "server4",
+          "requested_mem": "59G"
+        },
+        "source_head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "source_tree": "84113d14cb0427afd871448fd4a5c870c7f31153",
+        "submit_line": "sbatch --parsable --export=ALL,ODE_LRD_LIFE_SOURCE_ROOT=/data/janghj/ODE-edit/local/worktrees/official-layer-realization-debt-lifelong-b100-v1-tech-r1,ODE_LRD_LIFE_EXPECTED_HEAD=85a05d0a831db667fc68c27e634302eb30cc7d79,ODE_LRD_LIFE_RESULT_ROOT=/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1,ODE_LRD_LIFE_PREFLIGHT_RECEIPT=/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/preflight.json,ODE_LRD_LIFE_EXPECTED_PREFLIGHT_SHA=794c1f8b5792e9cbd09420b79543a76e6884fe1104cb48fe33659758275f60b8,ODE_LRD_LIFE_RESOURCE_RECEIPT=/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/resource-seal-llama-alphaedit-tech-r1.json,ODE_LRD_LIFE_EXPECTED_RESOURCE_SHA=0de4e6094d87262e1d19a9cf33e2b09e4eb75a150d1f4c9bf8b2dbb887250a97,ODE_LRD_LIFE_STREAM_SEAL=/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/stream-seal-v1.json,ODE_LRD_LIFE_EXPECTED_STREAM_SHA=5848dca7323335483039ec125b644dadfb87b0996133f9825f951088cf3a7861,ODE_LRD_LIFE_CAMPAIGN_ID=official-layer-realization-debt-lifelong-b100-v1-campaign-20260902-four-arm-completion-tech-r1,ODE_LRD_LIFE_MODEL=llama3-8b-inst,ODE_LRD_LIFE_METHOD=alphaedit,ODE_LRD_MEMORY_POLICY_ROOT=/data/janghj/ODE-edit/local/worktrees/slurm-memory-policy-rollout-20260902,ODE_LRD_EXPECTED_POLICY_HEAD=462d9afd8af7edd888281dbc015231042857ba99 /data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/launcher-server4-resource-tech-r1.sbatch",
+        "submit_line_sha256": "7f4a7b4fad6b4bb8e7fe3ebb35f1217a4fb769ffb38ca3de4770cb39e6fdad83",
+        "work_dir": "/data/janghj/ODE-edit"
+      },
+      "exit_code": "0:0",
+      "job_id": "32380",
+      "method": "alphaedit",
+      "model": "llama3-8b-inst",
+      "resource": {
+        "cpus": 8,
+        "elapsed": "09:26:34",
+        "gpus": 1,
+        "max_rss_kib": 56539828,
+        "node": "server4",
+        "requested_mem": "59G"
+      },
+      "scheduler_state": "COMPLETED"
+    },
+    {
+      "execution_provenance": {
+        "allocated_tres": "billing=8,cpu=8,gres/gpu=1,mem=62.50G,node=1",
+        "campaign_id": "official-layer-realization-debt-lifelong-b100-v1-campaign-20260901-tech-r1",
+        "canonical_job_id": "31686_1",
+        "job_name": "off_layer_debt_life_qm_tech_r1_s4",
+        "launcher_path": "/data/janghj/ODE-edit/local/worktrees/official-layer-realization-debt-lifelong-b100-v1-tech-r1/project/run_scripts/session06_official_layer_realization_debt_lifelong_server4.sbatch",
+        "launcher_sha256": "01083416f7423996464c7ffed1f0d885edd65a7f82e62487052cf5517dabaa96",
+        "method": "memit",
+        "model": "qwen2.5-7b-inst",
+        "node_list": "server4",
+        "requested_memory_sacct": "62.50G",
+        "result_root": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100",
+        "runtime_module": "project.run_scripts.official_layer_realization_debt.lifelong_runtime",
+        "scheduler_exit_code": "0:0",
+        "scheduler_job_id_raw": "31686",
+        "scheduler_state": "COMPLETED",
+        "science_config_identity_sha256": "9a9be38542356b0fbd3c634fbdff38edcfd540282dece690620198e92044e2c6",
+        "science_config_json": {
+          "accepted_cache_append_per_request": 1,
+          "batch_count": 100,
+          "batch_size": 100,
+          "checkpoint_batches": [
+            0,
+            10,
+            15,
+            20,
+            30,
+            50,
+            75,
+            100
+          ],
+          "compact_report_batches": [
+            10,
+            20,
+            50,
+            100
+          ],
+          "compute_z_per_request": 1,
+          "full_fp32": true,
+          "gpu_cap": 2,
+          "layers": [
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "observer_layer_calls_per_batch": 5,
+          "observer_terminal_calls_per_batch": 1,
+          "order_seed_index": 1,
+          "recurrence_relative_tolerance": 0.0001,
+          "request_count": 10000,
+          "sample_duplication_count": 0,
+          "scalar_reduction_dtype": "float64",
+          "scientific_promotion": false,
+          "sustained_violation_batch_count": 3
+        },
+        "sealed_resource_json": {
+          "cpus": 8,
+          "elapsed": "09:16:37",
+          "gpus": 1,
+          "max_rss_kib": 26593396,
+          "node": "server4",
+          "requested_mem": "64000M"
+        },
+        "source_head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "source_tree": "84113d14cb0427afd871448fd4a5c870c7f31153",
+        "submit_line": "sbatch --parsable --array=1-1%1 --mem=64000M --job-name=off_layer_debt_life_qm_tech_r1_s4 --output=/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/%x-%A_%a.out --error=/data/janghj/ODE-edit/local/logs/official-layer-realization-debt-lifelong-b100-v1/%x-%A_%a.err --export=ALL project/run_scripts/session06_official_layer_realization_debt_lifelong_server4.sbatch",
+        "submit_line_sha256": "c0259091335294026d9a9e557b1b6774100ef3fe2de1374f982e63ec50794adb",
+        "work_dir": "/data/janghj/ODE-edit/local/worktrees/official-layer-realization-debt-lifelong-b100-v1-tech-r1"
+      },
+      "exit_code": "0:0",
+      "job_id": "31686_1",
+      "method": "memit",
+      "model": "qwen2.5-7b-inst",
+      "resource": {
+        "cpus": 8,
+        "elapsed": "09:16:37",
+        "gpus": 1,
+        "max_rss_kib": 26593396,
+        "node": "server4",
+        "requested_mem": "64000M"
+      },
+      "scheduler_state": "COMPLETED"
+    },
+    {
+      "execution_provenance": {
+        "allocated_tres": "billing=8,cpu=8,gres/gpu=1,mem=120000M,node=1",
+        "campaign_id": "official-layer-realization-debt-lifelong-b100-v1-campaign-20260901-v1",
+        "canonical_job_id": "31651_0 (JobIDRaw=31652)",
+        "job_name": "off_layer_debt_life_s4",
+        "launcher_path": "/data/janghj/ODE-edit/local/worktrees/official-layer-realization-debt-lifelong-b100-v1/project/run_scripts/session06_official_layer_realization_debt_lifelong_server4.sbatch",
+        "launcher_sha256": "01083416f7423996464c7ffed1f0d885edd65a7f82e62487052cf5517dabaa96",
+        "method": "alphaedit",
+        "model": "qwen2.5-7b-inst",
+        "node_list": "server4",
+        "requested_memory_sacct": "120000M",
+        "result_root": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100",
+        "runtime_module": "project.run_scripts.official_layer_realization_debt.lifelong_runtime",
+        "scheduler_exit_code": "0:0",
+        "scheduler_job_id_raw": "31652",
+        "scheduler_state": "COMPLETED",
+        "science_config_identity_sha256": "9a9be38542356b0fbd3c634fbdff38edcfd540282dece690620198e92044e2c6",
+        "science_config_json": {
+          "accepted_cache_append_per_request": 1,
+          "batch_count": 100,
+          "batch_size": 100,
+          "checkpoint_batches": [
+            0,
+            10,
+            15,
+            20,
+            30,
+            50,
+            75,
+            100
+          ],
+          "compact_report_batches": [
+            10,
+            20,
+            50,
+            100
+          ],
+          "compute_z_per_request": 1,
+          "full_fp32": true,
+          "gpu_cap": 2,
+          "layers": [
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "observer_layer_calls_per_batch": 5,
+          "observer_terminal_calls_per_batch": 1,
+          "order_seed_index": 1,
+          "recurrence_relative_tolerance": 0.0001,
+          "request_count": 10000,
+          "sample_duplication_count": 0,
+          "scalar_reduction_dtype": "float64",
+          "scientific_promotion": false,
+          "sustained_violation_batch_count": 3
+        },
+        "sealed_resource_json": {
+          "cpus": 8,
+          "elapsed": "11:59:51",
+          "gpus": 1,
+          "max_rss_kib": 102975584,
+          "node": "server4",
+          "requested_mem": "120000M"
+        },
+        "source_head": "583aaa3f65602c13174ba4426ddb0f6a18ae7e82",
+        "source_tree": "601d394d77f676cb247aa44f9389c0ccc29a0f54",
+        "submit_line": "sbatch --parsable --export=ALL project/run_scripts/session06_official_layer_realization_debt_lifelong_server4.sbatch",
+        "submit_line_sha256": "cc07a9332c4362440c25b844007fd262dbc9c2960fbbbdccf3e6b00be30b7ae9",
+        "work_dir": "/data/janghj/ODE-edit/local/worktrees/official-layer-realization-debt-lifelong-b100-v1"
+      },
+      "exit_code": "0:0",
+      "job_id": "31651_0 (JobIDRaw=31652)",
+      "method": "alphaedit",
+      "model": "qwen2.5-7b-inst",
+      "resource": {
+        "cpus": 8,
+        "elapsed": "11:59:51",
+        "gpus": 1,
+        "max_rss_kib": 102975584,
+        "node": "server4",
+        "requested_mem": "120000M"
+      },
+      "scheduler_state": "COMPLETED"
+    }
+  ],
+  "member_root": "8c3441ffe0776f493fd78fea2858c0660e3e2c305a6b03b4e5ddcda35df5161a",
+  "members": [
+    {
+      "bytes": 689304,
+      "path": "allocation-realization-summary.csv",
+      "sha256": "fc1829d7c1a6cdd98c14d9d989c6df21ffeeeb8ad49c0c3c56fee627b808acf1"
+    },
+    {
+      "bytes": 2317,
+      "path": "arm-summary.csv",
+      "sha256": "47e451b9497445cf8c59c6e03a3d3738c47b13395e6ecf6d282e32fcccc2abe2"
+    },
+    {
+      "bytes": 3021,
+      "path": "checkpoint-geometry-complete.csv.gz",
+      "sha256": "e0fad373f9569b96f6f125119448701634406cc75f4ca8710c0160644ae9062d"
+    },
+    {
+      "bytes": 2874893,
+      "path": "checkpoint-layer-complete.csv.gz",
+      "sha256": "64d3709a3c9184a14d8ad76e89d99bcc33b3f71f77e3dad7008b4eb5e2334fd8"
+    },
+    {
+      "bytes": 145875,
+      "path": "checkpoint-layer-q-heatmap.png",
+      "sha256": "4783f26503162c298522dad103314d004c979aaabc30d48a89f522a89ae6846e"
+    },
+    {
+      "bytes": 123594,
+      "path": "checkpoint-layer-rho-heatmap.png",
+      "sha256": "b25df72ccbd3d31ee787d5e3f3919782426e160384f94e17d5381720e6d40245"
+    },
+    {
+      "bytes": 125359,
+      "path": "checkpoint-layer-tau-heatmap.png",
+      "sha256": "fcc6e50b53eb07b5fc953c19e179d2f91db874b44de3ca7f97c256d824560dba"
+    },
+    {
+      "bytes": 1148500,
+      "path": "checkpoint-request-complete.csv.gz",
+      "sha256": "1b8199001e6244a78b252d98a5b6ad1903890c5201e926e0aaaac1b4692d0ece"
+    },
+    {
+      "bytes": 8281,
+      "path": "checkpoint-same-entry-complete.csv.gz",
+      "sha256": "57b2c77d978b86a7ecadcfc54e67e5b93ea393dec22e98710e3cf59ca2b56148"
+    },
+    {
+      "bytes": 213176,
+      "path": "checkpoint-summary.csv",
+      "sha256": "bdf11ba01ccfeb42ee291963461a542cac8fde4ba290e180708a0b90aef63004"
+    },
+    {
+      "bytes": 248703,
+      "path": "checkpoint-update-magnitude-share.csv",
+      "sha256": "56415bcba19441bcde67aecb3502636b596a3ac6a6ff97e96709c2528cef37e7"
+    },
+    {
+      "bytes": 22732,
+      "path": "checkpoint-waypoint-complete.csv.gz",
+      "sha256": "5826b141e341faf3b186551420af431cd3bcca332560344a971bc5c95cfe31ca"
+    },
+    {
+      "bytes": 27944,
+      "path": "checkpoint-weight-complete.csv.gz",
+      "sha256": "3a0a70724b00e51df13df26015095ad14a966996d12d12d956436a6d9a5c26e9"
+    },
+    {
+      "bytes": 10155,
+      "path": "completion-geometry-summary.csv",
+      "sha256": "30c2fc02b725e35126b6233000170e25b56c2eb656daded08b256153f9b22c6a"
+    },
+    {
+      "bytes": 11421,
+      "path": "completion-predictive-boundary.csv",
+      "sha256": "20c1ee9c0c9f76d3e5167d99d904848c7f342bb88dd40b5cf64e4cfc05ab509e"
+    },
+    {
+      "bytes": 2579,
+      "path": "compute-accounting.csv",
+      "sha256": "24e1f3be01f8e2ea4cd240e74aeaa581c07ce58dc58ba3e9d9c1ff110482ee34"
+    },
+    {
+      "bytes": 62344,
+      "path": "compute-time-comparison.png",
+      "sha256": "baf5443a7cc9513d985a14a8fbd367e734c5bd340e0c82069625625c7d32ec90"
+    },
+    {
+      "bytes": 6636,
+      "path": "derived-table-seal.json",
+      "sha256": "e7c959bb36b579cd2f88e8affc0d1d737a1981317625f59e8c04ddb130c4449d"
+    },
+    {
+      "bytes": 11865,
+      "path": "descriptive-associations.csv",
+      "sha256": "9819e8b275594710fd03ef88b0215195097712a4cecbadd71c7157b72d818075"
+    },
+    {
+      "bytes": 247232,
+      "path": "endpoint-checkpoint-strict-rates.png",
+      "sha256": "96c516c8f11410bf9cf8383390e5dc3232d0d2b0c8aa9e6a3796dade20c2baf3"
+    },
+    {
+      "bytes": 802718,
+      "path": "endpoint-metrics-summary.csv",
+      "sha256": "015ce5133738540656741b3ad9092c5ccc3baf6a77a96d5cc95b91a41fab2442"
+    },
+    {
+      "bytes": 10820,
+      "path": "execution-provenance.csv",
+      "sha256": "d20a01c1c1fbfc66df909ea1ae916caca670a0bdd8b9f4c14061efbe2a034716"
+    },
+    {
+      "bytes": 2639,
+      "path": "failure-time-right-censor-boundary.csv",
+      "sha256": "281c5734cb1dfe8faf5c369602e9b64eef21cbd3f7838a5b9e85dc4c1c41afdd"
+    },
+    {
+      "bytes": 1127453,
+      "path": "functional-endpoint-complete.csv.gz",
+      "sha256": "5ac0164953884d7f4ff92c36acb6fe116f6466d8d955363c3de3f18533ae5882"
+    },
+    {
+      "bytes": 125547,
+      "path": "inherited-debt-distributions.png",
+      "sha256": "db5ff41a18f0872c66fce83deca346adb65607c81ec5bbcffba3c412808cac32"
+    },
+    {
+      "bytes": 232775,
+      "path": "inherited-debt-summary.csv",
+      "sha256": "46d0fd9fd4262d074e366e1c8fe9a555ea26098e1fcc5602d1428c909b39aa7b"
+    },
+    {
+      "bytes": 679325,
+      "path": "layer-q-summary.csv",
+      "sha256": "e2c157c271d3bb2bf5ba559d809e64204367ac67c9fa4999fe21942a9bc13f43"
+    },
+    {
+      "bytes": 146829,
+      "path": "layer-wise-update-magnitude-drift.png",
+      "sha256": "96f17c1b4fd23624968c01bccedaa67f1ca8b66b3c128fc342b75ac43c11d360"
+    },
+    {
+      "bytes": 102983,
+      "path": "layer-wise-update-magnitude.png",
+      "sha256": "b9e68a2bd0f052f1ece4faf0e314bea30ee59610d5cd4cc4adb837ac497a0c33"
+    },
+    {
+      "bytes": 69433,
+      "path": "official-layer-realization-debt-lifelong-fourarm-exhaustive-factual-ko.md",
+      "sha256": "c9daf397b8c9fa679fa89e4f6407d7e03761a11f9ead177e998a97e726e24a8f"
+    },
+    {
+      "bytes": 36096,
+      "path": "ordered-vs-same-entry-layer-delta.csv",
+      "sha256": "2567a25f9b3647d2e0515cc3928dc4b45d604fdcd75e971f036acc4c901eaf0a"
+    },
+    {
+      "bytes": 108792,
+      "path": "outlier-ledger.csv",
+      "sha256": "56b0fa104d22c113b3707869a773e572e9d7d79056e13660101aee41a587c8e0"
+    },
+    {
+      "bytes": 419453,
+      "path": "paired-deltas.csv",
+      "sha256": "adc01597783f70258cf72881ffb0b56fcae96c13748b1821e6d2590dee148f3d"
+    },
+    {
+      "bytes": 7563,
+      "path": "plot-reproduction.json",
+      "sha256": "1e0b2097a33ed69fbdd3649df24c2f623d9cef699d93601b7807e8bd407b48ec"
+    },
+    {
+      "bytes": 565691,
+      "path": "primary-residual-trajectory-2x2.png",
+      "sha256": "acb560c6183fcfd28fb54004d91766fe3e8a82f3a425c1b45ab34f3c8dec1237"
+    },
+    {
+      "bytes": 16856,
+      "path": "production-batch-complete.csv.gz",
+      "sha256": "cadbc0fc66f4b6ddfc2bab5b598aec8dffde38b040824b565c6acb791216808a"
+    },
+    {
+      "bytes": 13820,
+      "path": "production-compute-by-batch.csv.gz",
+      "sha256": "26bd3fc43633530dda918e55d4e641c9d56777a123094db17ee0d18c7ac3a9b0"
+    },
+    {
+      "bytes": 23850101,
+      "path": "production-layer-complete.csv.gz",
+      "sha256": "2fa6450eafa2cc9a095b25f1f8009bb2da16084a5eeefdd0287a7b568814359e"
+    },
+    {
+      "bytes": 11065700,
+      "path": "production-request-complete.csv.gz",
+      "sha256": "4e0d6020e97f8c45f6ad246224a2f581097991fc6ca8d08c621c460e1492dff5"
+    },
+    {
+      "bytes": 198735,
+      "path": "production-weight-batch-unit-complete.csv.gz",
+      "sha256": "d3333403c9fd5249d2163e51d3221e356c33e5c3617c1150de729e7294d967a8"
+    },
+    {
+      "bytes": 95924,
+      "path": "raw-member-inventory.csv",
+      "sha256": "46d30ed27a0dd54309971e1eb9a7e374c6274c9b078d8789c0a0f7339332bf6e"
+    },
+    {
+      "bytes": 20990,
+      "path": "recurrence-summary.csv",
+      "sha256": "ec08c143d216a4ca8b75c35d27a65bbdaf4ee4dd2fb070b615ceda616a625840"
+    },
+    {
+      "bytes": 101195,
+      "path": "rho-by-layer-terminal.png",
+      "sha256": "c4abb86f052ae6fe2b6ef9cf7b366f078a1fa1154d621b99303cd617f4ecbc4b"
+    },
+    {
+      "bytes": 131521,
+      "path": "rho-tau-summary.csv",
+      "sha256": "b5bad6a9a000d34811034104af61f70274f56d75e99a6e3c5772b1abf52742d0"
+    },
+    {
+      "bytes": 187179,
+      "path": "same-entry-probe-summary.csv",
+      "sha256": "6852a4d2461b92d9a5adff39438d75510059ea477231d5157443efb89be6d2dc"
+    },
+    {
+      "bytes": 112214,
+      "path": "tau-by-layer-terminal.png",
+      "sha256": "632d6cee48879f47c735d6ffe823833ae6bfd1b6b606ec6b9a6290bbd725daf3"
+    },
+    {
+      "bytes": 668,
+      "path": "technical-exclusions.csv",
+      "sha256": "707f002ef0612fa935e782a2520bfdfa6cd320d493a6cf377984f85c54961545"
+    },
+    {
+      "bytes": 21098,
+      "path": "update-magnitude-share.csv",
+      "sha256": "d57f2e1f430873513c81d9ead23ac902dccee17b626146f7a467aabd7219f3e4"
+    }
+  ],
+  "not_recorded": {
+    "autocast_quantization_numeric_cast_inventory": "NOT_RECORDED_SCHEMA",
+    "gpu_peak_memory": "NOT_RECORDED_SCHEMA",
+    "jvp_vjp_hvp": "NOT_RECORDED_SCHEMA",
+    "retention_rephrase_locality": "NOT_RECORDED_LOW_COST_BATCH",
+    "total_forward_count": "NOT_RECORDED_SCHEMA"
+  },
+  "plot_reproduction": {
+    "captions": {
+      "checkpoint-layer-q-heatmap.png": "Sentinel n=100/checkpoint/cell; medians by fixed checkpoint schedule; shared color range q=[0,1.5].",
+      "checkpoint-layer-rho-heatmap.png": "Sentinel n=100/checkpoint/layer/cell; shared median color range rho=[0,6].",
+      "checkpoint-layer-tau-heatmap.png": "Sentinel n=100/checkpoint/layer/cell; shared median color range tau=[0,8].",
+      "compute-time-comparison.png": "Recorded edit-core, observer and cell wall time; GPU peak memory is not inferred.",
+      "endpoint-checkpoint-strict-rates.png": "Current B100 functional panel n=100 requests/checkpoint/cell; prompt-count weighted within request only.",
+      "inherited-debt-distributions.png": "Sentinel n=100/checkpoint/cell at t0,5k,10k; display range [-1,2], full extrema in CSV.",
+      "layer-wise-update-magnitude-drift.png": "One observed B100 update per batch/layer/cell; log1p color range [0,6.5]; no interpolation.",
+      "layer-wise-update-magnitude.png": "Weight observation unit is one B100 batch; n=100/layer/cell; log display range [1,1000].",
+      "primary-residual-trajectory-2x2.png": "10k sentinel n=100/cell; display range q=[0,4.5]; full extrema remain in CSV; missing values are not interpolated or imputed.",
+      "rho-by-layer-terminal.png": "10k sentinel n=100/layer/cell; shared display range rho=[-0.5,9].",
+      "tau-by-layer-terminal.png": "10k sentinel n=100/layer/cell; shared display range tau=[0,22]."
+    },
+    "command": "env MPLCONFIGDIR=/tmp/odeedit-lifelong-analysis-mpl /data/janghj/EasyEdit/.venv/bin/python3 -m project.run_scripts.official_layer_realization_debt.lifelong_analysis_figures --tables /data/janghj/ODE-edit/local/worktrees/official-layer-debt-lifelong-fourarm-analysis-v1/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3 --verify-existing /data/janghj/ODE-edit/local/worktrees/official-layer-debt-lifelong-fourarm-analysis-v1/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3",
+    "dpi": 180,
+    "figure_geometry": {
+      "axis_ranges": {
+        "checkpoint_q_color": [
+          0.0,
+          1.5
+        ],
+        "checkpoint_rho_color": [
+          0.0,
+          6.0
+        ],
+        "checkpoint_tau_color": [
+          0.0,
+          8.0
+        ],
+        "compute_hours": [
+          0.0,
+          14.0
+        ],
+        "endpoint_strict_rate": [
+          -0.03,
+          1.03
+        ],
+        "inherited_debt": [
+          -1.0,
+          2.0
+        ],
+        "primary_q": [
+          0.0,
+          4.5
+        ],
+        "terminal_rho": [
+          -0.5,
+          9.0
+        ],
+        "terminal_tau": [
+          0.0,
+          22.0
+        ],
+        "update_drift_log1p_color": [
+          0.0,
+          6.5
+        ],
+        "weight_magnitude_log": [
+          1.0,
+          1000.0
+        ]
+      },
+      "axis_units": {
+        "compute": "hours",
+        "q": "dimensionless residual norm / entry residual norm",
+        "rho_tau_debt": "dimensionless",
+        "strict_rate": "fraction",
+        "weight_magnitude": "Frobenius norm, log display axis"
+      },
+      "cell_panel_layout": "rows=Llama,Qwen; columns=MEMIT,AlphaEdit",
+      "cell_panels_inches": [
+        13,
+        9
+      ],
+      "compute_inches": [
+        11,
+        6
+      ],
+      "layer_axis": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "q_axis": "pre-L4,pre-L5,pre-L6,pre-L7,pre-L8,post-L8"
+    },
+    "figures": [
+      {
+        "bytes": 565691,
+        "path": "primary-residual-trajectory-2x2.png",
+        "sha256": "acb560c6183fcfd28fb54004d91766fe3e8a82f3a425c1b45ab34f3c8dec1237"
+      },
+      {
+        "bytes": 145875,
+        "path": "checkpoint-layer-q-heatmap.png",
+        "sha256": "4783f26503162c298522dad103314d004c979aaabc30d48a89f522a89ae6846e"
+      },
+      {
+        "bytes": 101195,
+        "path": "rho-by-layer-terminal.png",
+        "sha256": "c4abb86f052ae6fe2b6ef9cf7b366f078a1fa1154d621b99303cd617f4ecbc4b"
+      },
+      {
+        "bytes": 112214,
+        "path": "tau-by-layer-terminal.png",
+        "sha256": "632d6cee48879f47c735d6ffe823833ae6bfd1b6b606ec6b9a6290bbd725daf3"
+      },
+      {
+        "bytes": 125547,
+        "path": "inherited-debt-distributions.png",
+        "sha256": "db5ff41a18f0872c66fce83deca346adb65607c81ec5bbcffba3c412808cac32"
+      },
+      {
+        "bytes": 123594,
+        "path": "checkpoint-layer-rho-heatmap.png",
+        "sha256": "b25df72ccbd3d31ee787d5e3f3919782426e160384f94e17d5381720e6d40245"
+      },
+      {
+        "bytes": 125359,
+        "path": "checkpoint-layer-tau-heatmap.png",
+        "sha256": "fcc6e50b53eb07b5fc953c19e179d2f91db874b44de3ca7f97c256d824560dba"
+      },
+      {
+        "bytes": 102983,
+        "path": "layer-wise-update-magnitude.png",
+        "sha256": "b9e68a2bd0f052f1ece4faf0e314bea30ee59610d5cd4cc4adb837ac497a0c33"
+      },
+      {
+        "bytes": 146829,
+        "path": "layer-wise-update-magnitude-drift.png",
+        "sha256": "96f17c1b4fd23624968c01bccedaa67f1ca8b66b3c128fc342b75ac43c11d360"
+      },
+      {
+        "bytes": 247232,
+        "path": "endpoint-checkpoint-strict-rates.png",
+        "sha256": "96c516c8f11410bf9cf8383390e5dc3232d0d2b0c8aa9e6a3796dade20c2baf3"
+      },
+      {
+        "bytes": 62344,
+        "path": "compute-time-comparison.png",
+        "sha256": "baf5443a7cc9513d985a14a8fbd367e734c5bd340e0c82069625625c7d32ec90"
+      }
+    ],
+    "input_tables": [
+      {
+        "bytes": 1148500,
+        "path": "checkpoint-request-complete.csv.gz",
+        "sha256": "1b8199001e6244a78b252d98a5b6ad1903890c5201e926e0aaaac1b4692d0ece"
+      },
+      {
+        "bytes": 2874893,
+        "path": "checkpoint-layer-complete.csv.gz",
+        "sha256": "64d3709a3c9184a14d8ad76e89d99bcc33b3f71f77e3dad7008b4eb5e2334fd8"
+      },
+      {
+        "bytes": 27944,
+        "path": "checkpoint-weight-complete.csv.gz",
+        "sha256": "3a0a70724b00e51df13df26015095ad14a966996d12d12d956436a6d9a5c26e9"
+      },
+      {
+        "bytes": 198735,
+        "path": "production-weight-batch-unit-complete.csv.gz",
+        "sha256": "d3333403c9fd5249d2163e51d3221e356c33e5c3617c1150de729e7294d967a8"
+      },
+      {
+        "bytes": 1127453,
+        "path": "functional-endpoint-complete.csv.gz",
+        "sha256": "5ac0164953884d7f4ff92c36acb6fe116f6466d8d955363c3de3f18533ae5882"
+      },
+      {
+        "bytes": 2579,
+        "path": "compute-accounting.csv",
+        "sha256": "24e1f3be01f8e2ea4cd240e74aeaa581c07ce58dc58ba3e9d9c1ff110482ee34"
+      }
+    ],
+    "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+    "runtime": {
+      "backend": "Agg",
+      "matplotlib": "3.10.7",
+      "numpy": "2.2.6",
+      "python": "3.12.3"
+    },
+    "seed": 660604,
+    "source_path": "/data/janghj/ODE-edit/local/worktrees/official-layer-debt-lifelong-fourarm-analysis-v1/project/run_scripts/official_layer_realization_debt/lifelong_analysis_figures.py",
+    "source_sha256": "f2a2b2bc2ad13429c26c93d4efb1e6dc303850ef59ebc10c2e7ddb670ce92eb1",
+    "style": "seaborn-v0_8-whitegrid"
+  },
+  "raw_model_cache_tensor_dataset_credential_git_count": 0,
+  "raw_prompt_logit_generation_git_count": 0,
+  "raw_scientific_identity": [
+    {
+      "bytes": 9470818583,
+      "member_count": 117,
+      "method": "memit",
+      "model": "llama3-8b-inst",
+      "raw_member_root": "961149f2751a3388b348c484bed882158660f0ae85b946c9bb69077a89528a85"
+    },
+    {
+      "bytes": 38248437276,
+      "member_count": 117,
+      "method": "alphaedit",
+      "model": "llama3-8b-inst",
+      "raw_member_root": "191a075ab53e77b662ccd82a609a83bbea43b503fa660432c2994bb97e1d2ed5"
+    },
+    {
+      "bytes": 10938883628,
+      "member_count": 117,
+      "method": "memit",
+      "model": "qwen2.5-7b-inst",
+      "raw_member_root": "02c27c740c26c04430a06549fb58e8739a4eddb032b2adee3b61da0d2c7f791c"
+    },
+    {
+      "bytes": 61186136329,
+      "member_count": 117,
+      "method": "alphaedit",
+      "model": "qwen2.5-7b-inst",
+      "raw_member_root": "d5256efd74db14f5b23a5a6ab786aa139844048b040bf4a68096feff5c8c3b5a"
+    }
+  ],
+  "run_sources": [
+    [
+      "583aaa3f65602c13174ba4426ddb0f6a18ae7e82",
+      "601d394d77f676cb247aa44f9389c0ccc29a0f54"
+    ],
+    [
+      "85a05d0a831db667fc68c27e634302eb30cc7d79",
+      "84113d14cb0427afd871448fd4a5c870c7f31153"
+    ]
+  ],
+  "schema": "odeedit.s06.layer-realization-debt.lifelong-fourarm-exhaustive-analysis-manifest.v1",
+  "scientific_promotion": false,
+  "status": "FOUR_ARM_LIFELONG_10K_TERMINAL_VALID",
+  "stream": {
+    "evaluator_identity": "72b8ecb737157a42d6a055ffd339dc3f907876a0a98165a00cca49ca9bbed07d",
+    "order": "f86dfc97f50614d8fe3d7ed929326485ea0b1237151f93d7ed7339bae8979c43",
+    "root": "2951b86dfa829ef38b2fb03551a81dc9ce4f11c779af3f0f0c027224ed65cf7d",
+    "sentinel_order": "f67306d88e3c6f72702b359f4a84087f4e526c98eb405522834b8b7dce81bbd3",
+    "sha256": "5848dca7323335483039ec125b644dadfb87b0996133f9825f951088cf3a7861"
+  },
+  "table_row_counts": {
+    "allocation-realization-summary.csv": 2600,
+    "arm-summary.csv": 4,
+    "checkpoint-geometry-complete.csv.gz": 48,
+    "checkpoint-layer-complete.csv.gz": 24000,
+    "checkpoint-request-complete.csv.gz": 4800,
+    "checkpoint-same-entry-complete.csv.gz": 240,
+    "checkpoint-summary.csv": 864,
+    "checkpoint-update-magnitude-share.csv": 960,
+    "checkpoint-waypoint-complete.csv.gz": 288,
+    "checkpoint-weight-complete.csv.gz": 240,
+    "completion-geometry-summary.csv": 48,
+    "completion-predictive-boundary.csv": 48,
+    "compute-accounting.csv": 4,
+    "descriptive-associations.csv": 48,
+    "endpoint-metrics-summary.csv": 3904,
+    "execution-provenance.csv": 4,
+    "failure-time-right-censor-boundary.csv": 16,
+    "functional-endpoint-complete.csv.gz": 27136,
+    "inherited-debt-summary.csv": 904,
+    "layer-q-summary.csv": 3164,
+    "ordered-vs-same-entry-layer-delta.csv": 240,
+    "outlier-ledger.csv": 480,
+    "paired-deltas.csv": 1336,
+    "production-batch-complete.csv.gz": 400,
+    "production-compute-by-batch.csv.gz": 480,
+    "production-layer-complete.csv.gz": 200000,
+    "production-request-complete.csv.gz": 40000,
+    "production-weight-batch-unit-complete.csv.gz": 2000,
+    "raw-member-inventory.csv": 468,
+    "recurrence-summary.csv": 52,
+    "rho-tau-summary.csv": 520,
+    "same-entry-probe-summary.csv": 720,
+    "technical-exclusions.csv": 3,
+    "update-magnitude-share.csv": 80
+  }
+}

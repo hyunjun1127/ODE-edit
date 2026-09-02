@@ -1,0 +1,4 @@
+canonical_model,canonical_method,excluded_job_id,classification,reason,scientific_denominator,immutable_path_count,imputation_count
+llama3-8b-inst,alphaedit,32374,PURE_TECHNICAL_PYTHON_SOURCE_PATH_PRECEDENCE,"root checkout adapter without observer argument loaded before locked source; T0 pre-B100, denominator0",0,4,0
+qwen2.5-7b-inst,memit,31651_1,PURE_TECHNICAL_RESOURCE_PENDING_SUPERSEDED,"pending resource cell cancelled before execution; elapsed0, model/science endpoint0, denominator0",0,1,0
+qwen2.5-7b-inst,memit,31653_1,PURE_TECHNICAL_OFFICIAL_INTERFACE_BINDING,MEMIT same-entry probe omitted track=out and received tuple before first B100; denominator0,0,4,0
