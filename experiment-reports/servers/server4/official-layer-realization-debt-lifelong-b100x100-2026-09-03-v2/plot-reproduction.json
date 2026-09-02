@@ -1,0 +1,222 @@
+{
+  "captions": {
+    "checkpoint-layer-q-heatmap.png": "Sentinel n=100/checkpoint/cell; medians by fixed checkpoint schedule; shared color range q=[0,1.5].",
+    "checkpoint-layer-rho-heatmap.png": "Sentinel n=100/checkpoint/layer/cell; shared median color range rho=[0,6].",
+    "checkpoint-layer-tau-heatmap.png": "Sentinel n=100/checkpoint/layer/cell; shared median color range tau=[0,8].",
+    "compute-time-comparison.png": "Recorded edit-core, observer and cell wall time; GPU peak memory is not inferred.",
+    "endpoint-checkpoint-strict-rates.png": "Current B100 functional panel n=100 requests/checkpoint/cell; prompt-count weighted within request only.",
+    "inherited-debt-distributions.png": "Sentinel n=100/checkpoint/cell at t0,5k,10k; display range [-1,2], full extrema in CSV.",
+    "layer-wise-update-magnitude-drift.png": "One observed B100 update per batch/layer/cell; log1p color range [0,6.5]; no interpolation.",
+    "layer-wise-update-magnitude.png": "Weight observation unit is one B100 batch; n=100/layer/cell; log display range [1,1000].",
+    "primary-residual-trajectory-2x2.png": "10k sentinel n=100/cell; display range q=[0,4.5]; full extrema remain in CSV; missing values are not interpolated or imputed.",
+    "rho-by-layer-terminal.png": "10k sentinel n=100/layer/cell; shared display range rho=[-0.5,9].",
+    "tau-by-layer-terminal.png": "10k sentinel n=100/layer/cell; shared display range tau=[0,22]."
+  },
+  "command": "/usr/bin/python3.12 -m project.run_scripts.official_layer_realization_debt.lifelong_analysis_figures --tables /data/janghj/ODE-edit/local/worktrees/official-layer-debt-lifelong-fourarm-analysis-v1/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v2 --output /data/janghj/ODE-edit/local/worktrees/official-layer-debt-lifelong-fourarm-analysis-v1/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v2",
+  "derived_table_seal": {
+    "bytes": 6459,
+    "path": "derived-table-seal.json",
+    "sha256": "a0b03d16c0cf1e645dc23c8e1abdddd99d0098cbf874597b03cfacb7e240822f"
+  },
+  "dpi": 180,
+  "figure_geometry": {
+    "axis_ranges": {
+      "checkpoint_q_color": [
+        0.0,
+        1.5
+      ],
+      "checkpoint_rho_color": [
+        0.0,
+        6.0
+      ],
+      "checkpoint_tau_color": [
+        0.0,
+        8.0
+      ],
+      "compute_hours": [
+        0.0,
+        14.0
+      ],
+      "endpoint_strict_rate": [
+        -0.03,
+        1.03
+      ],
+      "inherited_debt": [
+        -1.0,
+        2.0
+      ],
+      "primary_q": [
+        0.0,
+        4.5
+      ],
+      "terminal_rho": [
+        -0.5,
+        9.0
+      ],
+      "terminal_tau": [
+        0.0,
+        22.0
+      ],
+      "update_drift_log1p_color": [
+        0.0,
+        6.5
+      ],
+      "weight_magnitude_log": [
+        1.0,
+        1000.0
+      ]
+    },
+    "axis_units": {
+      "compute": "hours",
+      "q": "dimensionless residual norm / entry residual norm",
+      "rho_tau_debt": "dimensionless",
+      "strict_rate": "fraction",
+      "weight_magnitude": "Frobenius norm, log display axis"
+    },
+    "cell_panel_layout": "rows=Llama,Qwen; columns=MEMIT,AlphaEdit",
+    "cell_panels_inches": [
+      13,
+      9
+    ],
+    "compute_inches": [
+      11,
+      6
+    ],
+    "layer_axis": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "q_axis": "pre-L4,pre-L5,pre-L6,pre-L7,pre-L8,post-L8"
+  },
+  "figures": [
+    {
+      "bytes": 565691,
+      "path": "primary-residual-trajectory-2x2.png",
+      "sha256": "acb560c6183fcfd28fb54004d91766fe3e8a82f3a425c1b45ab34f3c8dec1237"
+    },
+    {
+      "bytes": 145875,
+      "path": "checkpoint-layer-q-heatmap.png",
+      "sha256": "4783f26503162c298522dad103314d004c979aaabc30d48a89f522a89ae6846e"
+    },
+    {
+      "bytes": 101195,
+      "path": "rho-by-layer-terminal.png",
+      "sha256": "c4abb86f052ae6fe2b6ef9cf7b366f078a1fa1154d621b99303cd617f4ecbc4b"
+    },
+    {
+      "bytes": 112214,
+      "path": "tau-by-layer-terminal.png",
+      "sha256": "632d6cee48879f47c735d6ffe823833ae6bfd1b6b606ec6b9a6290bbd725daf3"
+    },
+    {
+      "bytes": 125547,
+      "path": "inherited-debt-distributions.png",
+      "sha256": "db5ff41a18f0872c66fce83deca346adb65607c81ec5bbcffba3c412808cac32"
+    },
+    {
+      "bytes": 123594,
+      "path": "checkpoint-layer-rho-heatmap.png",
+      "sha256": "b25df72ccbd3d31ee787d5e3f3919782426e160384f94e17d5381720e6d40245"
+    },
+    {
+      "bytes": 125359,
+      "path": "checkpoint-layer-tau-heatmap.png",
+      "sha256": "fcc6e50b53eb07b5fc953c19e179d2f91db874b44de3ca7f97c256d824560dba"
+    },
+    {
+      "bytes": 102983,
+      "path": "layer-wise-update-magnitude.png",
+      "sha256": "b9e68a2bd0f052f1ece4faf0e314bea30ee59610d5cd4cc4adb837ac497a0c33"
+    },
+    {
+      "bytes": 146829,
+      "path": "layer-wise-update-magnitude-drift.png",
+      "sha256": "96f17c1b4fd23624968c01bccedaa67f1ca8b66b3c128fc342b75ac43c11d360"
+    },
+    {
+      "bytes": 247232,
+      "path": "endpoint-checkpoint-strict-rates.png",
+      "sha256": "96c516c8f11410bf9cf8383390e5dc3232d0d2b0c8aa9e6a3796dade20c2baf3"
+    },
+    {
+      "bytes": 62344,
+      "path": "compute-time-comparison.png",
+      "sha256": "baf5443a7cc9513d985a14a8fbd367e734c5bd340e0c82069625625c7d32ec90"
+    }
+  ],
+  "input_row_counts": {
+    "checkpoint_layer": 24000,
+    "checkpoint_request": 4800,
+    "checkpoint_weight": 240,
+    "compute": 4,
+    "functional": 27136,
+    "production_weight": 2000
+  },
+  "inputs": [
+    {
+      "bytes": 1148500,
+      "path": "checkpoint-request-complete.csv.gz",
+      "sha256": "1b8199001e6244a78b252d98a5b6ad1903890c5201e926e0aaaac1b4692d0ece"
+    },
+    {
+      "bytes": 2874893,
+      "path": "checkpoint-layer-complete.csv.gz",
+      "sha256": "64d3709a3c9184a14d8ad76e89d99bcc33b3f71f77e3dad7008b4eb5e2334fd8"
+    },
+    {
+      "bytes": 27944,
+      "path": "checkpoint-weight-complete.csv.gz",
+      "sha256": "3a0a70724b00e51df13df26015095ad14a966996d12d12d956436a6d9a5c26e9"
+    },
+    {
+      "bytes": 198735,
+      "path": "production-weight-batch-unit-complete.csv.gz",
+      "sha256": "d3333403c9fd5249d2163e51d3221e356c33e5c3617c1150de729e7294d967a8"
+    },
+    {
+      "bytes": 1127453,
+      "path": "functional-endpoint-complete.csv.gz",
+      "sha256": "5ac0164953884d7f4ff92c36acb6fe116f6466d8d955363c3de3f18533ae5882"
+    },
+    {
+      "bytes": 2579,
+      "path": "compute-accounting.csv",
+      "sha256": "24e1f3be01f8e2ea4cd240e74aeaa581c07ce58dc58ba3e9d9c1ff110482ee34"
+    }
+  ],
+  "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+  "panel_order": [
+    [
+      "llama3-8b-inst",
+      "memit"
+    ],
+    [
+      "llama3-8b-inst",
+      "alphaedit"
+    ],
+    [
+      "qwen2.5-7b-inst",
+      "memit"
+    ],
+    [
+      "qwen2.5-7b-inst",
+      "alphaedit"
+    ]
+  ],
+  "runtime": {
+    "backend": "Agg",
+    "matplotlib": "3.10.7",
+    "numpy": "2.2.6",
+    "python": "3.12.3"
+  },
+  "schema": "odeedit.s06.layer-realization-debt.lifelong-fourarm-plot-reproduction.v1",
+  "seed": 660604,
+  "source_path": "/data/janghj/ODE-edit/local/worktrees/official-layer-debt-lifelong-fourarm-analysis-v1/project/run_scripts/official_layer_realization_debt/lifelong_analysis_figures.py",
+  "source_sha256": "719cb9b51dcbc1d8e5d2d76f1e421e9c28063a6cb020a80c2de512ac17e696db",
+  "style": "seaborn-v0_8-whitegrid",
+  "working_directory": "/data/janghj/ODE-edit/local/worktrees/official-layer-debt-lifelong-fourarm-analysis-v1"
+}

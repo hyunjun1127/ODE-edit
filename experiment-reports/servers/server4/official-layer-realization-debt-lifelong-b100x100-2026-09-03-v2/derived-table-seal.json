@@ -1,0 +1,206 @@
+{
+  "identity_sha256": "325d8867159f82df77ceb114a64483b9170a0db425905bce2b5ef8d74be87f9d",
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-REALIZATION-DEBT-LIFELONG-FOURARM-EXHAUSTIVE-ANALYSIS-V1",
+  "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+  "schema": "odeedit.s06.layer-realization-debt.lifelong-fourarm-derived-table-seal.v1",
+  "tables": [
+    {
+      "bytes": 689304,
+      "path": "allocation-realization-summary.csv",
+      "rows": 2600,
+      "sha256": "fc1829d7c1a6cdd98c14d9d989c6df21ffeeeb8ad49c0c3c56fee627b808acf1"
+    },
+    {
+      "bytes": 2317,
+      "path": "arm-summary.csv",
+      "rows": 4,
+      "sha256": "47e451b9497445cf8c59c6e03a3d3738c47b13395e6ecf6d282e32fcccc2abe2"
+    },
+    {
+      "bytes": 3021,
+      "path": "checkpoint-geometry-complete.csv.gz",
+      "rows": 48,
+      "sha256": "e0fad373f9569b96f6f125119448701634406cc75f4ca8710c0160644ae9062d"
+    },
+    {
+      "bytes": 2874893,
+      "path": "checkpoint-layer-complete.csv.gz",
+      "rows": 24000,
+      "sha256": "64d3709a3c9184a14d8ad76e89d99bcc33b3f71f77e3dad7008b4eb5e2334fd8"
+    },
+    {
+      "bytes": 1148500,
+      "path": "checkpoint-request-complete.csv.gz",
+      "rows": 4800,
+      "sha256": "1b8199001e6244a78b252d98a5b6ad1903890c5201e926e0aaaac1b4692d0ece"
+    },
+    {
+      "bytes": 8281,
+      "path": "checkpoint-same-entry-complete.csv.gz",
+      "rows": 240,
+      "sha256": "57b2c77d978b86a7ecadcfc54e67e5b93ea393dec22e98710e3cf59ca2b56148"
+    },
+    {
+      "bytes": 213176,
+      "path": "checkpoint-summary.csv",
+      "rows": 864,
+      "sha256": "bdf11ba01ccfeb42ee291963461a542cac8fde4ba290e180708a0b90aef63004"
+    },
+    {
+      "bytes": 248703,
+      "path": "checkpoint-update-magnitude-share.csv",
+      "rows": 960,
+      "sha256": "56415bcba19441bcde67aecb3502636b596a3ac6a6ff97e96709c2528cef37e7"
+    },
+    {
+      "bytes": 22732,
+      "path": "checkpoint-waypoint-complete.csv.gz",
+      "rows": 288,
+      "sha256": "5826b141e341faf3b186551420af431cd3bcca332560344a971bc5c95cfe31ca"
+    },
+    {
+      "bytes": 27944,
+      "path": "checkpoint-weight-complete.csv.gz",
+      "rows": 240,
+      "sha256": "3a0a70724b00e51df13df26015095ad14a966996d12d12d956436a6d9a5c26e9"
+    },
+    {
+      "bytes": 10155,
+      "path": "completion-geometry-summary.csv",
+      "rows": 48,
+      "sha256": "30c2fc02b725e35126b6233000170e25b56c2eb656daded08b256153f9b22c6a"
+    },
+    {
+      "bytes": 11421,
+      "path": "completion-predictive-boundary.csv",
+      "rows": 48,
+      "sha256": "20c1ee9c0c9f76d3e5167d99d904848c7f342bb88dd40b5cf64e4cfc05ab509e"
+    },
+    {
+      "bytes": 2579,
+      "path": "compute-accounting.csv",
+      "rows": 4,
+      "sha256": "24e1f3be01f8e2ea4cd240e74aeaa581c07ce58dc58ba3e9d9c1ff110482ee34"
+    },
+    {
+      "bytes": 11865,
+      "path": "descriptive-associations.csv",
+      "rows": 48,
+      "sha256": "9819e8b275594710fd03ef88b0215195097712a4cecbadd71c7157b72d818075"
+    },
+    {
+      "bytes": 802718,
+      "path": "endpoint-metrics-summary.csv",
+      "rows": 3904,
+      "sha256": "015ce5133738540656741b3ad9092c5ccc3baf6a77a96d5cc95b91a41fab2442"
+    },
+    {
+      "bytes": 2639,
+      "path": "failure-time-right-censor-boundary.csv",
+      "rows": 16,
+      "sha256": "281c5734cb1dfe8faf5c369602e9b64eef21cbd3f7838a5b9e85dc4c1c41afdd"
+    },
+    {
+      "bytes": 1127453,
+      "path": "functional-endpoint-complete.csv.gz",
+      "rows": 27136,
+      "sha256": "5ac0164953884d7f4ff92c36acb6fe116f6466d8d955363c3de3f18533ae5882"
+    },
+    {
+      "bytes": 232775,
+      "path": "inherited-debt-summary.csv",
+      "rows": 904,
+      "sha256": "46d0fd9fd4262d074e366e1c8fe9a555ea26098e1fcc5602d1428c909b39aa7b"
+    },
+    {
+      "bytes": 679325,
+      "path": "layer-q-summary.csv",
+      "rows": 3164,
+      "sha256": "e2c157c271d3bb2bf5ba559d809e64204367ac67c9fa4999fe21942a9bc13f43"
+    },
+    {
+      "bytes": 36096,
+      "path": "ordered-vs-same-entry-layer-delta.csv",
+      "rows": 240,
+      "sha256": "2567a25f9b3647d2e0515cc3928dc4b45d604fdcd75e971f036acc4c901eaf0a"
+    },
+    {
+      "bytes": 108792,
+      "path": "outlier-ledger.csv",
+      "rows": 480,
+      "sha256": "56b0fa104d22c113b3707869a773e572e9d7d79056e13660101aee41a587c8e0"
+    },
+    {
+      "bytes": 419453,
+      "path": "paired-deltas.csv",
+      "rows": 1336,
+      "sha256": "adc01597783f70258cf72881ffb0b56fcae96c13748b1821e6d2590dee148f3d"
+    },
+    {
+      "bytes": 16856,
+      "path": "production-batch-complete.csv.gz",
+      "rows": 400,
+      "sha256": "cadbc0fc66f4b6ddfc2bab5b598aec8dffde38b040824b565c6acb791216808a"
+    },
+    {
+      "bytes": 13820,
+      "path": "production-compute-by-batch.csv.gz",
+      "rows": 480,
+      "sha256": "26bd3fc43633530dda918e55d4e641c9d56777a123094db17ee0d18c7ac3a9b0"
+    },
+    {
+      "bytes": 23850101,
+      "path": "production-layer-complete.csv.gz",
+      "rows": 200000,
+      "sha256": "2fa6450eafa2cc9a095b25f1f8009bb2da16084a5eeefdd0287a7b568814359e"
+    },
+    {
+      "bytes": 11065700,
+      "path": "production-request-complete.csv.gz",
+      "rows": 40000,
+      "sha256": "4e0d6020e97f8c45f6ad246224a2f581097991fc6ca8d08c621c460e1492dff5"
+    },
+    {
+      "bytes": 198735,
+      "path": "production-weight-batch-unit-complete.csv.gz",
+      "rows": 2000,
+      "sha256": "d3333403c9fd5249d2163e51d3221e356c33e5c3617c1150de729e7294d967a8"
+    },
+    {
+      "bytes": 95924,
+      "path": "raw-member-inventory.csv",
+      "rows": 468,
+      "sha256": "46d30ed27a0dd54309971e1eb9a7e374c6274c9b078d8789c0a0f7339332bf6e"
+    },
+    {
+      "bytes": 20990,
+      "path": "recurrence-summary.csv",
+      "rows": 52,
+      "sha256": "ec08c143d216a4ca8b75c35d27a65bbdaf4ee4dd2fb070b615ceda616a625840"
+    },
+    {
+      "bytes": 131521,
+      "path": "rho-tau-summary.csv",
+      "rows": 520,
+      "sha256": "b5bad6a9a000d34811034104af61f70274f56d75e99a6e3c5772b1abf52742d0"
+    },
+    {
+      "bytes": 187179,
+      "path": "same-entry-probe-summary.csv",
+      "rows": 720,
+      "sha256": "6852a4d2461b92d9a5adff39438d75510059ea477231d5157443efb89be6d2dc"
+    },
+    {
+      "bytes": 668,
+      "path": "technical-exclusions.csv",
+      "rows": 3,
+      "sha256": "707f002ef0612fa935e782a2520bfdfa6cd320d493a6cf377984f85c54961545"
+    },
+    {
+      "bytes": 21098,
+      "path": "update-magnitude-share.csv",
+      "rows": 80,
+      "sha256": "d57f2e1f430873513c81d9ead23ac902dccee17b626146f7a467aabd7219f3e4"
+    }
+  ]
+}
