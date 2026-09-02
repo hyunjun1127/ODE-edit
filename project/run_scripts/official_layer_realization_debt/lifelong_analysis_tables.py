@@ -585,7 +585,7 @@ def build_summaries(tables: AnalysisTables) -> list[dict[str, Any]]:
     output: list[dict[str, Any]] = []
     q_metrics = [f"q_{label.replace('-', '_')}" for label in Q_LABELS]
     ideal_metrics = [f"ideal_abs_deviation_{label.replace('-', '_')}" for label in Q_LABELS]
-    request_metrics = [*q_metrics, *ideal_metrics, "d_parallel", "d_perp", "mean_rho", "mean_tau", "recurrence_closure_relative_error", "D_TV", "delta_center", "target_new_nll", "target_true_nll", "target_new_margin", "target_true_margin", "target_new_strict", "target_true_strict"]
+    request_metrics = [*q_metrics, *ideal_metrics, "q_pre_L8_gt_0_2", "d_parallel", "d_perp", "mean_rho", "mean_tau", "recurrence_closure_relative_error", "D_TV", "delta_center", "target_new_nll", "target_true_nll", "target_new_margin", "target_true_margin", "target_new_strict", "target_true_strict"]
     output.extend(_summarize_groups(tables.production_request, ("model", "method"), request_metrics, table="production_request"))
     output.extend(_summarize_groups(tables.production_request, ("model", "method", "batch_index"), request_metrics, table="production_request_by_batch"))
     layer_metrics = ["allocation_norm_over_R1", "realized_reduction_norm_over_R1", "gap_norm_over_R1", "rho", "tau", "Y_parallel_over_R1", "Y_perp_over_R1", "E_parallel_over_R1", "E_perp_magnitude_over_R1"]
