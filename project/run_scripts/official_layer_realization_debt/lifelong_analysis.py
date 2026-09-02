@@ -943,7 +943,7 @@ def korean_report_exhaustive(
         "",
         "아래 값은 10k sentinel n=100/layer/arm이고 각 scalar는 `mean/median/IQR/p90/max`다.",
         "",
-        "| arm | L | A/R1 | Y/R1 | E/R1 | ρ | τ | Y∥/R1 | Y⊥/R1 | E∥/R1 | |E⊥|/R1 | under/over/opposite |",
+        "| arm | L | A/R1 | Y/R1 | E/R1 | ρ | τ | Y∥/R1 | Y⊥/R1 | E∥/R1 | E⊥ norm/R1 | under/over/opposite/exact |",
         "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for model, method in CELL_ORDER:
@@ -960,6 +960,7 @@ def korean_report_exhaustive(
             under = sum(row["realization_class"] == "UNDER" for row in selected)
             over = sum(row["realization_class"] == "OVERSHOOT" for row in selected)
             opposite = sum(row["realization_class"] == "OPPOSITE" for row in selected)
+            exact = sum(row["realization_class"] == "EXACT" for row in selected)
             cells = []
             for metric in (
                 "allocation_norm_over_R1",
@@ -979,7 +980,9 @@ def korean_report_exhaustive(
                     )
                 )
             lines.append(
-                f"| {ARM_SHORT[(model, method)]} | {layer} | " + " | ".join(cells) + f" | {under}/{over}/{opposite} |"
+                f"| {ARM_SHORT[(model, method)]} | {layer} | "
+                + " | ".join(cells)
+                + f" | {under}/{over}/{opposite}/{exact} |"
             )
     lines += [
         "",
