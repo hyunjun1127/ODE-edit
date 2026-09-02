@@ -462,6 +462,12 @@ def _fmt(value: Any, digits: int = 4) -> str:
     return f"{float(value):.{digits}f}"
 
 
+def _sci(value: Any, digits: int = 3) -> str:
+    if not isinstance(value, (int, float)):
+        return str(value)
+    return f"{float(value):.{digits}e}"
+
+
 def _geometry(
     tables: AnalysisTables, model: str, method: str, accepted: int, fork: str = "ACCUMULATED_OR_STATIC"
 ) -> Mapping[str, Any]:
@@ -806,7 +812,7 @@ def korean_report_exhaustive(
         "### 핵심 판정",
         "",
         "- **FACT — terminal closure:** terminal sentinel post-L8 q 중앙값은 Llama MEMIT/AlphaEdit, Qwen MEMIT/AlphaEdit 순서로 아래 표와 CSV에 기록된다. AlphaEdit가 두 모델에서 MEMIT보다 낮지만 0은 아니다.",
-        "- **FACT — 성능과 보존:** 10k에서 AlphaEdit는 MEMIT보다 rewrite/rephrase strict가 높지만 locality와 earliest-edit retention은 두 모델 모두 크게 낮다. Qwen MEMIT는 terminal current rewrite/rephrase strict가 0이다.",
+        "- **FACT — 성능과 보존:** 10k에서 AlphaEdit는 MEMIT보다 rewrite/rephrase strict가 높다. 그러나 locality strict는 네 arm 모두 0~9/1000으로 절대적으로 매우 낮고 earliest-edit rewrite strict는 네 arm 모두 0이다. Qwen MEMIT는 terminal current rewrite/rephrase strict도 0이다.",
         "- **FACT — update 위치는 보편적이지 않다:** Llama 두 방법은 10k sentinel에서 L8 update share가 가장 크지만, Qwen은 L4가 가장 크다. 따라서 universal last-layer bottleneck은 관찰되지 않았다.",
         "- **INFERENCE — progressive decoupling은 model-conditioned:** checkpoint D_TV는 Llama에서 t0→10k 증가하지만 Qwen에서는 감소한다. 네 arm 공통의 단조 증가 claim은 성립하지 않는다.",
         "- **INFERENCE — barrier 동기 부여는 미확정:** registered completion geometry는 관찰되었지만 preregistered failure envelope와 독립 onset label이 없어서 T_G/T_A/T_Z/T_F 및 early prediction은 식별할 수 없다.",
@@ -838,7 +844,7 @@ def korean_report_exhaustive(
         "- 공통 stream/order/sentinel/evaluator identity와 pinned stock EasyEdit HEAD/tree는 manifest 외부 입력에 봉인했다.",
         "- 합계: arm 4/4, B100 400/400, training requests 40,000/40,000, checkpoints 32/32, primary sentinel observations 3,200, AlphaEdit reset-cache observations 1,600, 전체 checkpoint observations 4,800.",
         "- Arm별 compute_z=10,000, recompute=0, layer observation=500, terminal forward=100. W commit→next entry=99/99; W0/cache terminal restore=4/4; nonfinite=0, rollback violation=0, imputation=0.",
-        "- AlphaEdit는 cache width 0→10,000을 성공 B100마다 100씩 append/consume했다. MEMIT은 static covariance computation cache만 사용했고 request-history state를 만들지 않았다.",
+        "- AlphaEdit는 성공 B100마다 신규 100개를 append했고, consume width는 그 시점의 전체 prior-history width(0→9,900)였다. Exit cache width는 0→10,000으로 연속 증가했다. MEMIT은 static covariance computation cache만 사용했고 request-history state를 만들지 않았다.",
         "- Edited weight 5/5는 `torch.float32`; BF16/FP16 parameter=0. GPU peak memory, total forward, JVP/VJP/HVP, autocast/quantization/numeric-cast inventory는 schema에 없으므로 추정하지 않았다.",
         "",
         "## 3. Residual trajectory와 lifelong drift",
@@ -1019,7 +1025,7 @@ def korean_report_exhaustive(
         )
         lines.append(
             f"| {ARM_SHORT[(model, method)]} | {dpar} | {dperp} | "
-            f"{_fmt(recurrence['mean'])}/{_fmt(recurrence['median'])}/{_fmt(recurrence['p90'])}/{_fmt(recurrence['max'])} | "
+            f"{_sci(recurrence['mean'])}/{_sci(recurrence['median'])}/{_sci(recurrence['p90'])}/{_sci(recurrence['max'])} | "
             f"`{recurrence['worst_request_sha256']}` | {recurrence['threshold_violation_count']}/100 |"
         )
     lines += [
@@ -1095,19 +1101,40 @@ def korean_report_exhaustive(
             )
     lines += [
         "",
-        "### 7.3 Terminal retention",
+        "### 7.3 Production online B100 endpoints 전체 10k",
+        "",
+        "각 행은 순차 실행 중 각 B100 직후 current request endpoint 10,000개를 합친 값이다. 통계는 `mean/median/p90/max`; strict는 request-level 분자/10,000이다.",
+        "",
+        "| arm | new NLL | true NLL | new margin | true margin | new strict | true strict |",
+        "|---|---:|---:|---:|---:|---:|---:|",
+    ]
+    for model, method in CELL_ORDER:
+        lines.append(
+            f"| {ARM_SHORT[(model, method)]} | "
+            f"{_stats_cell(tables, 'production_request', model, method, 'target_new_nll')} | "
+            f"{_stats_cell(tables, 'production_request', model, method, 'target_true_nll')} | "
+            f"{_stats_cell(tables, 'production_request', model, method, 'target_new_margin')} | "
+            f"{_stats_cell(tables, 'production_request', model, method, 'target_true_margin')} | "
+            f"{int(_stat(tables, 'production_request', model, method, 'target_new_strict', 'sum'))}/10000 | "
+            f"{int(_stat(tables, 'production_request', model, method, 'target_true_strict', 'sum'))}/10000 |"
+        )
+    lines += [
+        "",
+        "### 7.4 Terminal retention",
         "",
         "Retention panels record rewrite only; rephrase/locality are `NOT_RECORDED_LOW_COST_BATCH` and are not filled with zero.",
         "",
-        "| arm | cohort | rewrite new NLL mean/med/p90/max | strict |",
-        "|---|---|---:|---:|",
+        "| arm | cohort | rewrite new NLL mean/med/p90/max | new strict | rewrite true NLL mean/med/p90/max | true strict |",
+        "|---|---|---:|---:|---:|---:|",
     ]
     for model, method in CELL_ORDER:
         for cohort in ("retention_earliest", "retention_recent", "retention_hash_stratified"):
             lines.append(
                 f"| {ARM_SHORT[(model, method)]} | {cohort} | "
                 f"{_functional_stats_cell(tables, model, method, 10000, cohort, 'rewrite_target_new', 'nll_mean')} | "
-                f"{_functional_strict_cell(tables, model, method, 10000, cohort, 'rewrite_target_new')} |"
+                f"{_functional_strict_cell(tables, model, method, 10000, cohort, 'rewrite_target_new')} | "
+                f"{_functional_stats_cell(tables, model, method, 10000, cohort, 'rewrite_target_true', 'nll_mean')} | "
+                f"{_functional_strict_cell(tables, model, method, 10000, cohort, 'rewrite_target_true')} |"
             )
     lines += [
         "",
@@ -1138,6 +1165,23 @@ def korean_report_exhaustive(
             f"| {MODEL_LABEL[model]} | RESET−ACC paired median | "
             f"{_fmt(_paired_value(tables, comparison, 'q_pre_L8'))}/{_fmt(_paired_value(tables, comparison, 'q_post_L8'))} | "
             f"{_fmt(_paired_value(tables, comparison, 'D_TV'))} | N/A | N/A | N/A |"
+        )
+    lines += [
+        "",
+        "### 8.1 Ordered vs same-entry layer probe (10k)",
+        "",
+        "Same-entry는 각 layer를 동일 checkpoint-entry W에서 독립 적용한 weight-response probe다. Request-level q/ρ/τ를 기록하지 않았으므로 아래는 layer update/response magnitude 비교이며 target-progress causal estimate가 아니다.",
+        "",
+        "| arm | L | ordered ΔW | same-entry ΔW | same−ordered | same-entry response |",
+        "|---|---:|---:|---:|---:|---:|",
+    ]
+    for row in ordered_same_entry_rows(tables):
+        if row["accepted_edit_count"] != 10000 or row["fork"] != "ACCUMULATED_OR_STATIC":
+            continue
+        lines.append(
+            f"| {ARM_SHORT[(row['model'], row['method'])]} | {row['layer']} | "
+            f"{_fmt(row['ordered_delta_frobenius_magnitude'])} | {_fmt(row['same_entry_delta_frobenius_magnitude'])} | "
+            f"{_fmt(row['same_minus_ordered_delta_magnitude'])} | {_fmt(row['same_entry_response_frobenius_magnitude'])} |"
         )
     lines += [
         "",
@@ -1172,7 +1216,7 @@ def korean_report_exhaustive(
         "",
         "Within-B100 request associations and across-B100 chronological associations are separate. The latter is edit-time confounded. Correlation is association only, not causation.",
         "",
-        "| arm | unit | x→target-new-NLL | estimate/median | IQR | 95% cluster bootstrap CI | n/clusters |",
+        "| arm | unit | x→y | estimate/median | IQR | 95% cluster bootstrap CI | n/clusters |",
         "|---|---|---|---:|---:|---:|---:|",
     ]
     for row in tables.association:
@@ -1201,6 +1245,21 @@ def korean_report_exhaustive(
             )
     lines += [
         "",
+        "### 11.1 Recorded waypoint predictive diagnostic (10k)",
+        "",
+        "| arm | fork | waypoint n | Spearman V_to_go vs actual tail action | boundary | AUROC/AUPRC |",
+        "|---|---|---:|---:|---|---|",
+    ]
+    for row in completion_predictive_boundary_rows(tables):
+        if row["accepted_edit_count"] != 10000 or row["fork"] != "ACCUMULATED_OR_STATIC":
+            continue
+        lines.append(
+            f"| {ARM_SHORT[(row['model'], row['method'])]} | {row['fork']} | {row['waypoint_n']} | "
+            f"{_fmt(row['V_to_go_vs_actual_tail_action_spearman'])} | {row['interpretation_boundary']} | "
+            f"{row['AUROC']}/{row['AUPRC']} |"
+        )
+    lines += [
+        "",
         "`completion-predictive-boundary.csv`의 waypoint Spearman은 layer ordinal과 remaining-layer count가 함께 변하는 값이므로 independent predictor validation이 아니다. Preregistered calibration envelope와 sustained failure labels가 raw schema에 없어 AUROC/AUPRC 및 T_G/T_A/T_Z/T_F는 `NOT_IDENTIFIABLE_PREREGISTERED_CALIBRATION_ENVELOPE_ABSENT`; 임의 onset/right-censor time을 부여하지 않았다.",
         "",
         "## 12. Outlier audit",
@@ -1222,7 +1281,7 @@ def korean_report_exhaustive(
         for row in selected:
             lines.append(
                 f"| {ARM_SHORT[(model, method)]} | {row['rank_descending']} | {_fmt(row['value'])} | "
-                f"`{row['request_sha256']}` | {_fmt(row['recurrence_closure_relative_error'], 8)} | "
+                f"`{row['request_sha256']}` | {_sci(row['recurrence_closure_relative_error'])} | "
                 f"{row['identity_valid']}/{row['nonfinite']} |"
             )
     lines += [
@@ -1246,6 +1305,24 @@ def korean_report_exhaustive(
             f"{row['production_layer_observation_count']}/{row['production_terminal_forward_count']} | "
             f"{row['production_compute_ks_call_count']}/{row['production_solve_call_count']}/{row['production_target_backward_count']} | "
             f"{row['checkpoint_ordered_fork_count']} | {_fmt(max_rss_gib)} | {row['gpu_peak_memory_bytes']} |"
+        )
+    lines += [
+        "",
+        "Checkpoint mechanism accounting:",
+        "",
+        "| arm | direct-z optimizer/shared replay/recompute | ordered layer obs/terminal fw/same-entry fw | key/solve/backward | checkpoint edit-core/observer sec |",
+        "|---|---:|---:|---:|---:|",
+    ]
+    for model, method in CELL_ORDER:
+        row = compute_rows[(model, method)]
+        lines.append(
+            f"| {ARM_SHORT[(model, method)]} | {row['checkpoint_direct_z_optimizer_count']}/"
+            f"{row['checkpoint_shared_z_replay_count']}/{row['checkpoint_recompute_count']} | "
+            f"{row['checkpoint_ordered_layer_observation_count']}/{row['checkpoint_ordered_terminal_forward_count']}/"
+            f"{row['checkpoint_same_entry_activation_forward_count']} | "
+            f"{row['checkpoint_compute_ks_call_count']}/{row['checkpoint_solve_call_count']}/"
+            f"{row['checkpoint_target_backward_count']} | "
+            f"{_fmt(row['checkpoint_edit_core_wall_seconds_sum'])}/{_fmt(row['checkpoint_observer_wall_seconds_sum'])} |"
         )
     lines += [
         "",
