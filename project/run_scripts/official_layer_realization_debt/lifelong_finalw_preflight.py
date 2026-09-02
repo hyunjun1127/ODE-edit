@@ -253,7 +253,7 @@ def build_lock(source_root: Path, expected_head: str) -> dict[str, Any]:
         result_sha = sha256_file(result_path)
         result = json.loads(result_path.read_text(encoding="utf-8"))
         if (
-            result.get("status") != "TERMINAL_PASS"
+            result.get("status") != "LIFELONG_10K_TERMINAL_VALID"
             or result.get("model") != model
             or result.get("method") != method
             or result.get("valid_batch_denominator") != 100
