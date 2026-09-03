@@ -114,6 +114,7 @@ def debt_components(rho: float, tau: float) -> dict[str, float]:
     native = parallel + orthogonal
     return {
         "debt_native": native,
+        "debt_parallel_native": parallel,
         "debt_under": under,
         "debt_over": over,
         "debt_opposite": opposite,

@@ -71,6 +71,7 @@ ROW_METRICS = (
     "rho",
     "tau",
     "debt_native",
+    "debt_parallel_native",
     "debt_under",
     "debt_over",
     "debt_opposite",
@@ -79,6 +80,7 @@ ROW_METRICS = (
 )
 DEBT_METRICS = (
     "debt_native",
+    "debt_parallel_native",
     "debt_under",
     "debt_over",
     "debt_opposite",
@@ -286,28 +288,46 @@ def _derive_layer(layer: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, Any]]:
     out["debt_over"] = np.where(rho > 1.0, np.square(rho - 1.0), 0.0)
     out["debt_opposite"] = np.where(rho < 0.0, parallel, 0.0)
     out["debt_orthogonal"] = np.square(tau)
-    out["debt_native"] = parallel + out["debt_orthogonal"].to_numpy(dtype=np.float64)
+    out["debt_parallel_native"] = parallel
+    out["debt_native"] = out["debt_parallel_native"] + out["debt_orthogonal"].to_numpy(dtype=np.float64)
     out["normalized_potential_reduction"] = 0.5 * (
         np.square(out.q_pre.to_numpy(dtype=np.float64)) - np.square(out.q_post.to_numpy(dtype=np.float64))
     )
-    decomposition = (
+    parallel_decomposition = (
         out.debt_under.to_numpy(dtype=np.float64)
         + out.debt_over.to_numpy(dtype=np.float64)
         + out.debt_opposite.to_numpy(dtype=np.float64)
-        + out.debt_orthogonal.to_numpy(dtype=np.float64)
     )
-    absolute_error = np.abs(out.debt_native.to_numpy(dtype=np.float64) - decomposition)
-    tolerance = np.finfo(np.float64).eps * 8.0 * np.maximum(1.0, np.abs(out.debt_native.to_numpy(dtype=np.float64)))
-    failures = int((absolute_error > tolerance).sum())
-    if failures:
-        raise AnalysisBoundary(f"debt decomposition identity failures={failures}")
+    parallel_error = np.abs(out.debt_parallel_native.to_numpy(dtype=np.float64) - parallel_decomposition)
+    native_error = np.abs(
+        out.debt_native.to_numpy(dtype=np.float64)
+        - out.debt_parallel_native.to_numpy(dtype=np.float64)
+        - out.debt_orthogonal.to_numpy(dtype=np.float64)
+    )
+    parallel_tolerance = np.finfo(np.float64).eps * 8.0 * np.maximum(
+        1.0, np.abs(out.debt_parallel_native.to_numpy(dtype=np.float64))
+    )
+    native_tolerance = np.finfo(np.float64).eps * 8.0 * np.maximum(
+        1.0, np.abs(out.debt_native.to_numpy(dtype=np.float64))
+    )
+    parallel_failures = int((parallel_error > parallel_tolerance).sum())
+    native_failures = int((native_error > native_tolerance).sum())
+    if parallel_failures or native_failures:
+        raise AnalysisBoundary(
+            "debt decomposition identity failures: "
+            f"parallel={parallel_failures} native={native_failures}"
+        )
     if not np.isfinite(out[list(ROW_METRICS)].to_numpy(dtype=np.float64)).all():
         raise AnalysisBoundary("derived row debt contains nonfinite values")
     out = out.sort_values(list(LAYER_KEYS), kind="mergesort").reset_index(drop=True)
     return out, {
-        "debt_decomposition_identity_failure_count": failures,
-        "debt_decomposition_max_abs_error": float(absolute_error.max()),
-        "debt_decomposition_tolerance_rule": "8*eps_fp64*max(1,abs(debt_native)) row-wise",
+        "debt_parallel_native_identity_failure_count": parallel_failures,
+        "debt_parallel_native_identity_max_abs_residual": float(parallel_error.max()),
+        "debt_native_identity_failure_count": native_failures,
+        "debt_native_identity_max_abs_residual": float(native_error.max()),
+        "debt_decomposition_identity_failure_count": parallel_failures + native_failures,
+        "debt_decomposition_max_abs_error": float(max(parallel_error.max(), native_error.max())),
+        "debt_decomposition_tolerance_rule": "8*eps_fp64*max(1,abs(identity_lhs)) row-wise for each identity",
     }
 
 
@@ -588,13 +608,16 @@ def _report(
         "각 raw request-layer 행에서 먼저 다음을 계산했다.",
         "",
         "- `debt_native=(1-rho)^2+tau^2`",
+        "- `debt_parallel_native=debt_under+debt_over+debt_opposite=(1-rho)^2`",
         "- `debt_under=1[0<=rho<1](1-rho)^2`",
         "- `debt_over=1[rho>1](rho-1)^2`",
         "- `debt_opposite=1[rho<0](1-rho)^2`",
         "- `debt_orthogonal=tau^2`",
         "- `normalized_potential_reduction=0.5*(q_pre^2-q_post^2)`",
         "",
-        "그 뒤 arm×batch×layer의 정확히 100개 행에서 mean/median/p90/p99/top-decile CVaR0.9/max를 계산했다. percentile은 NumPy linear quantile, CVaR0.9는 정렬된 상위 10개 행의 산술평균이다. 요약 rho/tau에 debt 식을 다시 적용하지 않았다.",
+        "전 행에서 `debt_parallel_native == debt_under+debt_over+debt_opposite`와 `debt_native == debt_parallel_native+debt_orthogonal`을 별도로 검증했다. `debt_parallel_native`는 v3 inherited-debt의 `d_parallel`과 다른 per-write 값이다.",
+        "",
+        "그 뒤 arm×batch×layer의 정확히 100개 행에서 `debt_parallel_native`를 포함한 모든 row metric의 mean/median/p90/p99/top-decile CVaR0.9/max를 계산했다. percentile은 NumPy linear quantile, CVaR0.9는 정렬된 상위 10개 행의 산술평균이다. 요약 rho/tau에 debt 식을 다시 적용하지 않았다.",
         "",
         "weight action은 request별로 복제하지 않았다. 먼저 100개 request를 batch×layer로 집계한 뒤 한 개의 `frobenius_squared_telemetry`와 1:1 결합했다. 분모 `+1e-12`를 사용한 두 proxy만 `progress_eff_frobenius_proxy`, `debt_per_action_frobenius_proxy`로 명명했다.",
         "",

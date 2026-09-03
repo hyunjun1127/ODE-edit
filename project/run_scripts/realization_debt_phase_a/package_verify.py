@@ -97,6 +97,8 @@ def verify(repo: Path, package: Path) -> dict[str, Any]:
     gates = manifest.get("denominators_and_gates", {})
     if (
         gates.get("debt_decomposition_identity_failure_count") != 0
+        or gates.get("debt_parallel_native_identity_failure_count") != 0
+        or gates.get("debt_native_identity_failure_count") != 0
         or gates.get("core_nonfinite_count") != 0
         or gates.get("layer_to_endpoint_join_missing") != 0
         or gates.get("layer_to_action_join_missing") != 0

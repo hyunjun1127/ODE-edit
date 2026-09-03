@@ -31,6 +31,11 @@ class PhaseAAnalysisTest(unittest.TestCase):
                 row["debt_native"],
                 row["debt_under"] + row["debt_over"] + row["debt_opposite"] + row["debt_orthogonal"],
             )
+            self.assertAlmostEqual(
+                row["debt_parallel_native"],
+                row["debt_under"] + row["debt_over"] + row["debt_opposite"],
+            )
+            self.assertAlmostEqual(row["debt_native"], row["debt_parallel_native"] + row["debt_orthogonal"])
             self.assertGreater(row[expected], 0.0)
 
     def test_normalized_potential_reduction(self) -> None:
@@ -51,8 +56,16 @@ class PhaseAAnalysisTest(unittest.TestCase):
                 }
             )
         derived, gate = _derive_layer(pd.DataFrame(rows))
-        summary = _fixed_group_summary(derived, ("model", "method", "batch_index", "layer"), ("rho", "debt_native"), 2)
+        summary = _fixed_group_summary(
+            derived,
+            ("model", "method", "batch_index", "layer"),
+            ("rho", "debt_native", "debt_parallel_native"),
+            2,
+        )
         self.assertEqual(gate["debt_decomposition_identity_failure_count"], 0)
+        self.assertEqual(gate["debt_parallel_native_identity_failure_count"], 0)
+        self.assertEqual(gate["debt_native_identity_failure_count"], 0)
+        self.assertIn("debt_parallel_native_mean", summary)
         self.assertEqual(float(summary.loc[0, "debt_native_mean"]), 1.0)
         self.assertNotEqual(float(summary.loc[0, "debt_native_mean"]), (1.0 - float(summary.loc[0, "rho_median"])) ** 2)
 
