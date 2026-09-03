@@ -1,0 +1,347 @@
+{
+  "analysis_source_root": "e376f617adee4656b65b7b4239723d6461591df6eebb4a11ecacafa95710fc19",
+  "analysis_sources": [
+    {
+      "bytes": 165,
+      "kind": "analysis_source",
+      "mode": "0664",
+      "path": "project/run_scripts/realization_debt_phase_a/__init__.py",
+      "sha256": "9931ce8961f72411a581035288551e3c5249a12873a385fa49f03ad72259e620"
+    },
+    {
+      "bytes": 5126,
+      "kind": "analysis_source",
+      "mode": "0664",
+      "path": "project/run_scripts/realization_debt_phase_a/contracts.py",
+      "sha256": "9e3a9dd5b7810b7c48e6cdded0d9f3b73f66691c91da4eae8fa27b0d1bf6f9a9"
+    },
+    {
+      "bytes": 46233,
+      "kind": "analysis_source",
+      "mode": "0664",
+      "path": "project/run_scripts/realization_debt_phase_a/analysis.py",
+      "sha256": "ffec445e8c260d15a7e0dbbb7e6ba8fc08f6798a15c3e060524c5e131a0cb6f5"
+    },
+    {
+      "bytes": 7189,
+      "kind": "analysis_source",
+      "mode": "0664",
+      "path": "project/run_scripts/realization_debt_phase_a/figures.py",
+      "sha256": "55b6c9904436c60c8df53a222009b7db0985ff3bfef3ed89b9dc2f9836ab0452"
+    },
+    {
+      "bytes": 5865,
+      "kind": "analysis_source",
+      "mode": "0664",
+      "path": "project/run_scripts/realization_debt_phase_a/package_verify.py",
+      "sha256": "d5f1344d477e4f75ff80554d89ef5016bbccadb4e17c1fc812cdd3f5a4eb112c"
+    },
+    {
+      "bytes": 59,
+      "kind": "analysis_source",
+      "mode": "0664",
+      "path": "project/run_scripts/realization_debt_phase_a/tests/__init__.py",
+      "sha256": "5741734e8e341ed764e9dac7c5dff2dfc9368997983b60104f3992fa769f5c9c"
+    },
+    {
+      "bytes": 6903,
+      "kind": "analysis_source",
+      "mode": "0664",
+      "path": "project/run_scripts/realization_debt_phase_a/tests/test_analysis.py",
+      "sha256": "674d9c69162468a9682d4e6956b2ea5bf58e03d91c6288a4064783690bee88b3"
+    }
+  ],
+  "contract_sha256": "b46f8620dda25f44836dab7f8facbb1c8212270ee83744fcc310938045f191a2",
+  "denominators_and_gates": {
+    "absolute_allocation_energy_weighted_debt": "NOT_COMPUTABLE_FROM_SCHEMA",
+    "action_key_duplicate_rows": 0,
+    "action_rows": 2000,
+    "arm_count": 4,
+    "batch_action_request_replication_count": 0,
+    "batch_count_per_arm": 100,
+    "core_nonfinite_count": 0,
+    "debt_decomposition_identity_failure_count": 0,
+    "debt_decomposition_max_abs_error": 1.1368683772161603e-13,
+    "debt_decomposition_tolerance_rule": "8*eps_fp64*max(1,abs(identity_lhs)) row-wise for each identity",
+    "debt_native_identity_failure_count": 0,
+    "debt_native_identity_max_abs_residual": 1.1368683772161603e-13,
+    "debt_parallel_native_identity_failure_count": 0,
+    "debt_parallel_native_identity_max_abs_residual": 0.0,
+    "exact_g_metric_action": "NOT_COMPUTABLE_FROM_SCHEMA",
+    "imputation_count": 0,
+    "input_sha_before_after_unchanged": true,
+    "interpolation_count": 0,
+    "layer_key_duplicate_rows": 0,
+    "layer_rows": 200000,
+    "layer_to_action_join_missing": 0,
+    "layer_to_endpoint_join_missing": 0,
+    "layers_per_request": 5,
+    "plot_byte_reproduction_failure_count": 0,
+    "plot_count": 5,
+    "reconstruction_count": 0,
+    "request_key_duplicate_rows": 0,
+    "request_rows": 40000,
+    "requests_per_arm_batch": 100,
+    "scientific_promotion": false
+  },
+  "identity_sha256": "5c6f4a0ca309f197309f12a44f2c314e819f9d814f165cacda0d82b2b436afb2",
+  "input_root": "fe032c1cc378866bc874bbd5031b6553debb2f6209f88f84d036910a3e2cb2cb",
+  "inputs": [
+    {
+      "bytes": 23850101,
+      "kind": "primary",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3/production-layer-complete.csv.gz",
+      "sha256": "2fa6450eafa2cc9a095b25f1f8009bb2da16084a5eeefdd0287a7b568814359e"
+    },
+    {
+      "bytes": 198735,
+      "kind": "primary",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3/production-weight-batch-unit-complete.csv.gz",
+      "sha256": "d3333403c9fd5249d2163e51d3221e356c33e5c3617c1150de729e7294d967a8"
+    },
+    {
+      "bytes": 11065700,
+      "kind": "primary",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3/production-request-complete.csv.gz",
+      "sha256": "4e0d6020e97f8c45f6ad246224a2f581097991fc6ca8d08c621c460e1492dff5"
+    },
+    {
+      "bytes": 46003,
+      "kind": "context_v3",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3/analysis-manifest.json",
+      "sha256": "47398d3e497edbbf8f2ace5be4f315134653f16ee2698d47945d4769fe0deb15"
+    },
+    {
+      "bytes": 2145,
+      "kind": "context_v3",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3/rooted-analysis-receipt.json",
+      "sha256": "9882b8bca524f2a34d2a3c1c4fea803aea834552c675a19be2b1e69ab7224af9"
+    },
+    {
+      "bytes": 69433,
+      "kind": "context_v3",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3/official-layer-realization-debt-lifelong-fourarm-exhaustive-factual-ko.md",
+      "sha256": "c9daf397b8c9fa679fa89e4f6407d7e03761a11f9ead177e998a97e726e24a8f"
+    },
+    {
+      "bytes": 8318,
+      "kind": "context_v4-r2",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r2/analysis-manifest.json",
+      "sha256": "848dd78ea44d26105eb2f75344aa252413d249fddf2b03dd104e3a78f9cea0a9"
+    },
+    {
+      "bytes": 1344,
+      "kind": "context_v4-r2",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r2/rooted-analysis-receipt.json",
+      "sha256": "bffff6260cae5f4679f0c6ac7b3b5020ac2c286955caebb7e1a4683454561b04"
+    },
+    {
+      "bytes": 79795,
+      "kind": "context_v4-r2",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r2/official-layer-debt-lifelong-finalw-full10k-factual-ko.md",
+      "sha256": "225fbe8cc7fea44a2e9e00b01a1e3648686e439cd6618a150165b3f33cc95c68"
+    },
+    {
+      "bytes": 12364,
+      "kind": "context_v5",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v5/analysis-manifest.json",
+      "sha256": "5599b8a351e541f214d9aae8a2b645009edb0989001dfa37b1c36e2007ac7070"
+    },
+    {
+      "bytes": 1005,
+      "kind": "context_v5",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v5/rooted-analysis-receipt.json",
+      "sha256": "a5b7355ccbf819095cf4aa8c4a199f11ab394b41a9bc9793a1c2d8a68b44682d"
+    },
+    {
+      "bytes": 264804,
+      "kind": "context_v5",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v5/official-layer-realization-debt-lifelong-v5-exhaustive-cumulative-factual-ko.md",
+      "sha256": "7efe0fb9df78cd00c9abc3abce81db411ce099a493cd1812582ff4cb89084de3"
+    },
+    {
+      "bytes": 15407,
+      "kind": "context_v6",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v6/analysis-manifest.json",
+      "sha256": "4a9374bd9874a4ddaefae81fcec56deaf4b175ad3b553b46d3d6a1e25f21107f"
+    },
+    {
+      "bytes": 980,
+      "kind": "context_v6",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v6/rooted-analysis-receipt.json",
+      "sha256": "fad7c32463583d6c5bb1a648ebc0265440fef1466483ddac13a72eacdc5e2565"
+    },
+    {
+      "bytes": 312488,
+      "kind": "context_v6",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v6/official-layer-debt-lifelong-counterfact-metrics-v6-factual-ko.md",
+      "sha256": "60b70b81747068f84ae7904376995882695a12b4dd90214b8902ec601ca5eb23"
+    }
+  ],
+  "instruction_id": "ODEEDIT-S06-REALIZATION-DEBT-PHASE-A-LIFELONG-V6-V1",
+  "member_root": "d909364ce91b89327cecf2d998c629590ae6c9678ddf6e94b49e8ff4412589b5",
+  "members": [
+    {
+      "bytes": 11796,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "analysis-audit.json",
+      "sha256": "bb501a81730fb6463a4e43d9673c0c72ae6383a2ff69c98357809050430e124e"
+    },
+    {
+      "bytes": 8310,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "arm-debt-summary.csv",
+      "sha256": "192e1035b532b56e7e3aa058a38906e9a2d7b6611178aa49bf7ff35cb0359857"
+    },
+    {
+      "bytes": 21125,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "arm-layer-tail-summary.csv",
+      "sha256": "c8f15ad69b7ba5d8ef7f8e2dc0639478f0d99b7828c363a6fb67d8ee32c2fbc4"
+    },
+    {
+      "bytes": 1393,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "arm-tail-diagnostics.csv",
+      "sha256": "444478ca2082c61e9fa37ac0f4ac3d17747c4a5ed7bd8ed9b0d704e8e72e2548"
+    },
+    {
+      "bytes": 1918,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "association-summary.csv",
+      "sha256": "e20416336c2e4c85c4476cc077481a4625e9fdebfa1a0c9e4edc7a78875f3813"
+    },
+    {
+      "bytes": 120822,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "batch-endpoint-relationship.csv",
+      "sha256": "86518e41989aaa5053dc755433ea5a0afc69b500407d9e06186b2cf658eed076"
+    },
+    {
+      "bytes": 2019054,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "batch-layer-action-proxy.csv",
+      "sha256": "20077c3d632373948437c052266d392052079435ae6564fc22ea7be863c1564f"
+    },
+    {
+      "bytes": 1891766,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "batch-layer-debt-summary.csv",
+      "sha256": "bd77f87140248947229d4ecbb1c5500c7465525e00a189c6632e19e147b8c589"
+    },
+    {
+      "bytes": 140516,
+      "kind": "canonical_output",
+      "mode": "0664",
+      "path": "debt-frobenius-action-joint-trajectory.png",
+      "sha256": "4e36a7e8d1fe7af2c9b20c3c18e99a3bce762ee463ab8871ea652353085f9933"
+    },
+    {
+      "bytes": 246571,
+      "kind": "canonical_output",
+      "mode": "0664",
+      "path": "debt-immediate-rewrite-relationship.png",
+      "sha256": "984b24aeab81cb19848fc73fbb04a373093fce25b8beaabe67d41d15d438c68e"
+    },
+    {
+      "bytes": 6646,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "debt-tail-hotspots.csv",
+      "sha256": "35f556cae2eabd4582c633cec087cc2e819041dc0966a76d3a270eff8590f926"
+    },
+    {
+      "bytes": 47154,
+      "kind": "canonical_output",
+      "mode": "0664",
+      "path": "median-debt-native-batch-layer-heatmap.png",
+      "sha256": "be032415e2f5ebd5cc2a1888cb93ce837ba2b177e4aed6aa30dd118473ab8149"
+    },
+    {
+      "bytes": 49009,
+      "kind": "canonical_output",
+      "mode": "0664",
+      "path": "median-rho-batch-layer-heatmap.png",
+      "sha256": "e13202cae5f786d7177e35f6e9efe3e28a441b99b9dacb62d5dfe87f30c316a8"
+    },
+    {
+      "bytes": 46131,
+      "kind": "canonical_output",
+      "mode": "0664",
+      "path": "median-tau-batch-layer-heatmap.png",
+      "sha256": "4e25c2e3e3821e96dc1917750a8ba766abf57ea297164fd3efed5e5946e1897e"
+    },
+    {
+      "bytes": 2209,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "output-member-inventory.csv",
+      "sha256": "7496196d548c156620495c32054897db0b138637d18978197dad9cae9ee9d677"
+    },
+    {
+      "bytes": 30101,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "paired-method-batch-deltas.csv",
+      "sha256": "e8fb892acf363908fd01c55dc9436f8624520da8ae44049bf4290d1bd35340f7"
+    },
+    {
+      "bytes": 3663,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "plot-reproduction.json",
+      "sha256": "c15ee5d3c9597002846defbc6269557b6f57df8b95d7e0f6a37f7d30bc1f889c"
+    },
+    {
+      "bytes": 16690,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "realization-debt-phase-a-lifelong-v6-detailed-factual-ko.md",
+      "sha256": "91013cb776859eaaa80638c3f1780dbf82a5bebeb926caab68c6fafe983ba395"
+    },
+    {
+      "bytes": 18561072,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "request-debt-endpoint.csv.gz",
+      "sha256": "cd18d2339aaa788132f188d496bab07f217204f81dacfc31af3e576783a2ed38"
+    },
+    {
+      "bytes": 19855352,
+      "kind": "canonical_output",
+      "mode": "0644",
+      "path": "request-layer-debt.csv.gz",
+      "sha256": "aa737302dcada6632ac10407edba4c67280a0f867168132a1cf099be6b7d10cc"
+    }
+  ],
+  "schema": "odeedit.s06.realization-debt-phase-a.analysis-manifest.v1",
+  "scientific_promotion": false,
+  "source_base": {
+    "head": "21da9f0512cde81fa09ccd37b8306051872e3a89",
+    "tree": "54cebf2916eb0aa4b59850df566fff2f4c7cb8ec"
+  },
+  "status": "ANALYSIS_ONLY_TERMINAL_PASS"
+}

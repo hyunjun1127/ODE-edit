@@ -1,0 +1,13 @@
+[SH1→GH REALIZATION DEBT PHASE A TERMINAL]
+
+status=ANALYSIS_ONLY_TERMINAL_PASS
+report=experiment-reports/servers/server1/realization-debt-phase-a-lifelong-v6-2026-09-03-v1/realization-debt-phase-a-lifelong-v6-detailed-factual-ko.md
+report_sha256=91013cb776859eaaa80638c3f1780dbf82a5bebeb926caab68c6fafe983ba395
+manifest_sha256=abdc519ba949c3d37de638250766f8a0c1f2189f9a83682bb7ebc7733b7d805e
+member_root=d909364ce91b89327cecf2d998c629590ae6c9678ddf6e94b49e8ff4412589b5
+receipt_sha256=39ad4b494458cdc032c44c84cbf70da683e2f9bf3768f7a537261bf3e19a95b0
+receipt_identity=6ed535b0eeb0480b3c49a9bbd1a14a79b77b805cbd438dad633f2af274965043
+denominators=4arms/100batches_per_arm/100requests_per_batch/5layers/200000layer_rows/40000endpoints/2000actions
+hard_gate_failures=0
+scientific_promotion=false
+editing/checkpoint_eval/model/GPU/Slurm_actions=0

@@ -1,0 +1,85 @@
+{
+  "actual_commands": [
+    "/mnt/raid5/janghj/EasyEdit/.venv/bin/python3 -m project.run_scripts.realization_debt_phase_a.figures --tables local/state/realization-debt-phase-a-lifelong-v6-v1/canonical-build-r2-parallel-native --output local/state/realization-debt-phase-a-lifelong-v6-v1/canonical-build-r2-parallel-native",
+    "/mnt/raid5/janghj/EasyEdit/.venv/bin/python3 -m project.run_scripts.realization_debt_phase_a.figures --tables local/state/realization-debt-phase-a-lifelong-v6-v1/canonical-build-r2-parallel-native --output /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-realization-debt-phase-a-lifelong-v6-v1/local/state/realization-debt-phase-a-lifelong-v6-v1/repro-r2-parallel-native/phase-a-plot-repro-qvyhyppz"
+  ],
+  "environment": {
+    "MPLCONFIGDIR": "local/state/realization-debt-phase-a-lifelong-v6-v1/repro-r2-parallel-native/mplconfig",
+    "SOURCE_DATE_EPOCH": "0",
+    "backend": "agg",
+    "matplotlib": "3.10.7",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "pillow": "12.2.0",
+    "python": "3.12.0"
+  },
+  "identity_sha256": "00fc5379af78f8dd3ba3ce0bf4f4b53438ad253b4eaf32dc12e88d7d232c74dc",
+  "inputs": [
+    {
+      "bytes": 1891766,
+      "kind": "plot_input",
+      "mode": "0644",
+      "path": "batch-layer-debt-summary.csv",
+      "sha256": "bd77f87140248947229d4ecbb1c5500c7465525e00a189c6632e19e147b8c589"
+    },
+    {
+      "bytes": 2019054,
+      "kind": "plot_input",
+      "mode": "0644",
+      "path": "batch-layer-action-proxy.csv",
+      "sha256": "20077c3d632373948437c052266d392052079435ae6564fc22ea7be863c1564f"
+    },
+    {
+      "bytes": 120822,
+      "kind": "plot_input",
+      "mode": "0644",
+      "path": "batch-endpoint-relationship.csv",
+      "sha256": "86518e41989aaa5053dc755433ea5a0afc69b500407d9e06186b2cf658eed076"
+    }
+  ],
+  "instruction_id": "ODEEDIT-S06-REALIZATION-DEBT-PHASE-A-LIFELONG-V6-V1",
+  "outputs": [
+    {
+      "byte_stable": true,
+      "bytes": 140516,
+      "path": "debt-frobenius-action-joint-trajectory.png",
+      "reproduced_bytes": 140516,
+      "reproduced_sha256": "4e36a7e8d1fe7af2c9b20c3c18e99a3bce762ee463ab8871ea652353085f9933",
+      "sha256": "4e36a7e8d1fe7af2c9b20c3c18e99a3bce762ee463ab8871ea652353085f9933"
+    },
+    {
+      "byte_stable": true,
+      "bytes": 246571,
+      "path": "debt-immediate-rewrite-relationship.png",
+      "reproduced_bytes": 246571,
+      "reproduced_sha256": "984b24aeab81cb19848fc73fbb04a373093fce25b8beaabe67d41d15d438c68e",
+      "sha256": "984b24aeab81cb19848fc73fbb04a373093fce25b8beaabe67d41d15d438c68e"
+    },
+    {
+      "byte_stable": true,
+      "bytes": 47154,
+      "path": "median-debt-native-batch-layer-heatmap.png",
+      "reproduced_bytes": 47154,
+      "reproduced_sha256": "be032415e2f5ebd5cc2a1888cb93ce837ba2b177e4aed6aa30dd118473ab8149",
+      "sha256": "be032415e2f5ebd5cc2a1888cb93ce837ba2b177e4aed6aa30dd118473ab8149"
+    },
+    {
+      "byte_stable": true,
+      "bytes": 49009,
+      "path": "median-rho-batch-layer-heatmap.png",
+      "reproduced_bytes": 49009,
+      "reproduced_sha256": "e13202cae5f786d7177e35f6e9efe3e28a441b99b9dacb62d5dfe87f30c316a8",
+      "sha256": "e13202cae5f786d7177e35f6e9efe3e28a441b99b9dacb62d5dfe87f30c316a8"
+    },
+    {
+      "byte_stable": true,
+      "bytes": 46131,
+      "path": "median-tau-batch-layer-heatmap.png",
+      "reproduced_bytes": 46131,
+      "reproduced_sha256": "4e25c2e3e3821e96dc1917750a8ba766abf57ea297164fd3efed5e5946e1897e",
+      "sha256": "4e25c2e3e3821e96dc1917750a8ba766abf57ea297164fd3efed5e5946e1897e"
+    }
+  ],
+  "schema": "odeedit.s06.realization-debt-phase-a.plot-reproduction.v1",
+  "status": "BYTE_STABLE_REPRODUCTION_PASS"
+}

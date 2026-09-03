@@ -1,0 +1,59 @@
+{
+  "analysis_source_root": "e376f617adee4656b65b7b4239723d6461591df6eebb4a11ecacafa95710fc19",
+  "contract_sha256": "b46f8620dda25f44836dab7f8facbb1c8212270ee83744fcc310938045f191a2",
+  "gates": {
+    "absolute_allocation_energy_weighted_debt": "NOT_COMPUTABLE_FROM_SCHEMA",
+    "action_key_duplicate_rows": 0,
+    "action_rows": 2000,
+    "arm_count": 4,
+    "batch_action_request_replication_count": 0,
+    "batch_count_per_arm": 100,
+    "core_nonfinite_count": 0,
+    "debt_decomposition_identity_failure_count": 0,
+    "debt_decomposition_max_abs_error": 1.1368683772161603e-13,
+    "debt_decomposition_tolerance_rule": "8*eps_fp64*max(1,abs(identity_lhs)) row-wise for each identity",
+    "debt_native_identity_failure_count": 0,
+    "debt_native_identity_max_abs_residual": 1.1368683772161603e-13,
+    "debt_parallel_native_identity_failure_count": 0,
+    "debt_parallel_native_identity_max_abs_residual": 0.0,
+    "exact_g_metric_action": "NOT_COMPUTABLE_FROM_SCHEMA",
+    "imputation_count": 0,
+    "input_sha_before_after_unchanged": true,
+    "interpolation_count": 0,
+    "layer_key_duplicate_rows": 0,
+    "layer_rows": 200000,
+    "layer_to_action_join_missing": 0,
+    "layer_to_endpoint_join_missing": 0,
+    "layers_per_request": 5,
+    "plot_byte_reproduction_failure_count": 0,
+    "plot_count": 5,
+    "reconstruction_count": 0,
+    "request_key_duplicate_rows": 0,
+    "request_rows": 40000,
+    "requests_per_arm_batch": 100,
+    "scientific_promotion": false
+  },
+  "identity_sha256": "6ed535b0eeb0480b3c49a9bbd1a14a79b77b805cbd438dad633f2af274965043",
+  "input_root": "fe032c1cc378866bc874bbd5031b6553debb2f6209f88f84d036910a3e2cb2cb",
+  "instruction_id": "ODEEDIT-S06-REALIZATION-DEBT-PHASE-A-LIFELONG-V6-V1",
+  "manifest": {
+    "bytes": 13252,
+    "identity_sha256": "5c6f4a0ca309f197309f12a44f2c314e819f9d814f165cacda0d82b2b436afb2",
+    "path": "analysis-manifest.json",
+    "sha256": "abdc519ba949c3d37de638250766f8a0c1f2189f9a83682bb7ebc7733b7d805e"
+  },
+  "member_root": "d909364ce91b89327cecf2d998c629590ae6c9678ddf6e94b49e8ff4412589b5",
+  "model_gpu_slurm_action_count": 0,
+  "report": {
+    "bytes": 16690,
+    "path": "realization-debt-phase-a-lifelong-v6-detailed-factual-ko.md",
+    "sha256": "91013cb776859eaaa80638c3f1780dbf82a5bebeb926caab68c6fafe983ba395"
+  },
+  "schema": "odeedit.s06.realization-debt-phase-a.rooted-analysis-receipt.v1",
+  "scientific_promotion": false,
+  "source_base": {
+    "head": "21da9f0512cde81fa09ccd37b8306051872e3a89",
+    "tree": "54cebf2916eb0aa4b59850df566fff2f4c7cb8ec"
+  },
+  "status": "ANALYSIS_ONLY_TERMINAL_PASS"
+}

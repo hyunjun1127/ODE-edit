@@ -1,0 +1,18 @@
+{
+  "action_counts": {
+    "checkpoint_evaluation": 0,
+    "editing_run": 0,
+    "gpu": 0,
+    "model_load": 0,
+    "slurm": 0
+  },
+  "canonical_report": "experiment-reports/servers/server1/realization-debt-phase-a-lifelong-v6-2026-09-03-v1/realization-debt-phase-a-lifelong-v6-detailed-factual-ko.md",
+  "instruction_id": "ODEEDIT-S06-REALIZATION-DEBT-PHASE-A-LIFELONG-V6-V1",
+  "manifest_sha256": "abdc519ba949c3d37de638250766f8a0c1f2189f9a83682bb7ebc7733b7d805e",
+  "member_root": "d909364ce91b89327cecf2d998c629590ae6c9678ddf6e94b49e8ff4412589b5",
+  "receipt_identity_sha256": "6ed535b0eeb0480b3c49a9bbd1a14a79b77b805cbd438dad633f2af274965043",
+  "report_sha256": "91013cb776859eaaa80638c3f1780dbf82a5bebeb926caab68c6fafe983ba395",
+  "scientific_promotion": false,
+  "server": "server1",
+  "status": "ANALYSIS_ONLY_TERMINAL_PASS"
+}
