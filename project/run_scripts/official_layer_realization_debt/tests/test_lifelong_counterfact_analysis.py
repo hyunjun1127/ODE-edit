@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 from pathlib import Path
 import tempfile
 import unittest
 
 from project.run_scripts.official_layer_realization_debt.lifelong_counterfact_analysis import (
+    _relabel_v5_body,
     _store_summary,
     _transition_rows,
 )
@@ -22,6 +24,16 @@ def _write(path: Path, rows: list[dict]) -> None:
 
 
 class LifelongCounterFactAnalysisTests(unittest.TestCase):
+    def test_v5_relabel_changes_metric_tokens_without_corrupting_words(self) -> None:
+        source_root = Path(__file__).resolve().parents[4]
+        text = _relabel_v5_body(source_root)
+        self.assertNotIn("accality", text)
+        self.assertNotIn("rewrite_accective", text)
+        self.assertNotIn(" Gen strict", text)
+        self.assertNotIn(" Eff", text)
+        self.assertIn("Locality / target-true", text)
+        self.assertIn("neighborhood_target_true_teacher_forced_acc", text)
+
     def test_primary_store_keeps_prompt_denominator_and_ties_fail(self) -> None:
         store = {
             "rs": {
@@ -115,6 +127,13 @@ class LifelongCounterFactAnalysisTests(unittest.TestCase):
             outputs = generate(root, root)
             self.assertEqual(len(outputs), 6)
             self.assertTrue(all(path.exists() and path.stat().st_size > 0 for path in outputs))
+            replica = root / "replica"
+            replica.mkdir()
+            reproduced = generate(root, replica)
+            self.assertEqual(
+                [hashlib.sha256(path.read_bytes()).hexdigest() for path in outputs],
+                [hashlib.sha256(path.read_bytes()).hexdigest() for path in reproduced],
+            )
             source = Path(__file__).resolve().parents[1] / "lifelong_counterfact_figures.py"
             text = source.read_text(encoding="utf-8").lower()
             self.assertNotIn("equal-share", text)

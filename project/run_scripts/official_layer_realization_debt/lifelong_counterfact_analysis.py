@@ -5,14 +5,11 @@ from __future__ import annotations
 import argparse
 import csv
 import gzip
-import hashlib
 import io
 import json
 import math
-import os
 from pathlib import Path
 import re
-import shutil
 import statistics
 import subprocess
 from typing import Any, Iterable, Mapping, Sequence
@@ -23,6 +20,10 @@ from .lifelong_counterfact_contracts import (
     ARM_KEY,
     ARM_LABEL,
     ARM_ORDER,
+    CANONICAL_COUNTERFACT_EVALUATOR,
+    CANONICAL_COUNTERFACT_EVALUATOR_SHA256,
+    CANONICAL_COUNTERFACT_SUMMARIZER,
+    CANONICAL_COUNTERFACT_SUMMARIZER_SHA256,
     CounterFactMetricBoundary,
     FINALW_RESULT_ROOT,
     INSTRUCTION_ID,
@@ -44,6 +45,16 @@ from .lifelong_v5_analysis import _verify_package
 
 
 REPORT_NAME = "official-layer-debt-lifelong-counterfact-metrics-v6-factual-ko.md"
+BACKFILL_JOB_ID = "33539"
+CAMPAIGN_STATE_ROOT = Path(
+    "/data/janghj/ODE-edit/local/state/"
+    "official-layer-realization-debt-lifelong-counterfact-metrics-v6/"
+    "campaign-20260903-v1"
+)
+SOURCE_MANIFEST = CAMPAIGN_STATE_ROOT / "source-manifest.json"
+SOURCE_MANIFEST_SHA256 = "300978510c849bf22fe0506a37a4416c2625d1d6b965dc735e82b057924ad557"
+PREGPU_RECEIPT = CAMPAIGN_STATE_ROOT / "pregpu-receipt.json"
+PREGPU_RECEIPT_SHA256 = "5c07467e00cf1143cd339116f69810c287b7c55de5190cfea054a393aae16296"
 AVAILABILITY_AUDIT = Path(
     "/data/janghj/ODE-edit/local/state/"
     "official-layer-realization-debt-lifelong-counterfact-metrics-v6/"
@@ -152,14 +163,32 @@ def _terminal_and_receipts(
             terminal.get("status") != "TERMINAL_PASS"
             or terminal.get("model") != model
             or terminal.get("method") != method
+            or terminal.get("source", {}).get("head")
+            != "c6edbf62671ab66cdfda8a5af59a7043c2ef81b2"
+            or terminal.get("source", {}).get("tree")
+            != "16f5d75cb3e4bc6707688a0ff6cb2fd9e59186ed"
+            or terminal.get("source", {}).get("tracked_clean") is not True
+            or terminal.get("stream") != {"root": STREAM_ROOT, "order": ORDER_ROOT}
             or terminal.get("checkpoint_denominator") != 7
             or terminal.get("request_state_denominator") != sum(AMENDED_CHECKPOINTS)
             or terminal.get("locality_prompt_denominator") != 10 * sum(AMENDED_CHECKPOINTS)
+            or terminal.get("counts", {}).get("request_count") != sum(AMENDED_CHECKPOINTS)
+            or terminal.get("counts", {}).get("locality_prompt_count")
+            != 10 * sum(AMENDED_CHECKPOINTS)
+            or terminal.get("edit_replay_count") != 0
             or terminal.get("nonfinite_count") != 0
             or terminal.get("failure_count") != 0
             or terminal.get("imputation_count") != 0
         ):
             raise CounterFactMetricBoundary(f"backfill terminal contract differs: {arm}")
+        model_binding = terminal.get("model_binding", {})
+        if (
+            model_binding.get("full_fp32") is not True
+            or model_binding.get("autocast") is not False
+            or model_binding.get("quantized") is not False
+            or model_binding.get("padding_gate", {}).get("status") != "PASS"
+        ):
+            raise CounterFactMetricBoundary(f"backfill model/padding binding differs: {arm}")
         backfill_members.append(
             {
                 "kind": "CELL_TERMINAL",
@@ -193,6 +222,22 @@ def _terminal_and_receipts(
                 or receipt.get("nonfinite_count") != 0
             ):
                 raise CounterFactMetricBoundary("backfill checkpoint invariant differs")
+            checkpoint = receipt.get("source_checkpoint", {})
+            edited_weights = checkpoint.get("edited_weights", [])
+            expected_weight_sha = {
+                value.get("name"): value.get("sha256") for value in edited_weights
+            }
+            if (
+                checkpoint.get("model") != model
+                or checkpoint.get("method") != method
+                or checkpoint.get("accepted_edit_count") != count
+                or len(edited_weights) != 5
+                or any(value.get("dtype") != "torch.float32" for value in edited_weights)
+                or checkpoint.get("edited_weight_identity_sha256") is None
+                or receipt.get("before_evaluation_weight_identity", {}).get("sha256")
+                != expected_weight_sha
+            ):
+                raise CounterFactMetricBoundary("backfill checkpoint/state binding differs")
             forbidden = (
                 "compute_z_count",
                 "writer_count",
@@ -399,6 +444,8 @@ def _aggregate(
                     if (
                         original["request_sha256"] != backfill["request_sha256"]
                         or original["ordinal"] != backfill["ordinal"]
+                        or original["batch_index"] != backfill["batch_index"]
+                        or original["case_identity_sha256"] != backfill["case_identity_sha256"]
                         or original["age_stratum"] != backfill["age_stratum"]
                     ):
                         raise CounterFactMetricBoundary("old/new backfill row pairing differs")
@@ -494,9 +541,17 @@ def _aggregate(
                             "age_stratum": age,
                             "request_denominator": request_count,
                             **age_core,
+                            "rewrite_acc_numerator": age_acc[age]["rewrite"],
+                            "rewrite_acc_denominator": request_count,
                             "rewrite_acc": age_acc[age]["rewrite"] / request_count,
+                            "rephrase_acc_numerator": age_acc[age]["rephrase"],
+                            "rephrase_acc_denominator": 2 * request_count,
                             "rephrase_acc": age_acc[age]["rephrase"] / (2 * request_count),
+                            "rephrase_acc_strict_all_2_numerator": age_acc[age]["rephrase_all"],
+                            "rephrase_acc_strict_all_2_denominator": request_count,
                             "rephrase_acc_strict_all_2": age_acc[age]["rephrase_all"] / request_count,
+                            "neighborhood_target_true_teacher_forced_acc_numerator": age_acc[age]["locality_true"],
+                            "neighborhood_target_true_teacher_forced_acc_denominator": 10 * request_count,
                             "neighborhood_target_true_teacher_forced_acc": age_acc[age]["locality_true"] / (10 * request_count),
                         }
                     )
@@ -648,19 +703,21 @@ def _relabel_v5_body(source_root: Path) -> str:
     if start < 0:
         raise CounterFactMetricBoundary("v5 detailed-body anchor missing")
     text = text[start:]
+    # Replace complete legacy metric labels only. Substring replacement would
+    # corrupt ordinary words such as Locality or Effective.
     replacements = (
-        ("Gen prompt", "rephrase_acc (prompt)"),
-        ("Gen strict", "rephrase_acc strict-all-2"),
-        ("Eff", "rewrite_acc"),
-        ("Loc", "neighborhood_target_true_teacher_forced_acc"),
-        ("`eff`", "`rewrite_acc`"),
-        ("`gen_prompt`", "`rephrase_acc`"),
-        ("`gen_strict`", "`rephrase_acc_strict_all_2`"),
-        ("`loc`", "`neighborhood_target_true_teacher_forced_acc`"),
-        ("rephrase pref", "rephrase request-cluster mean preference (not PS)"),
+        (r"(?<![A-Za-z0-9_])Gen prompt(?![A-Za-z0-9_])", "rephrase_acc (prompt)"),
+        (r"(?<![A-Za-z0-9_])Gen strict(?![A-Za-z0-9_])", "rephrase_acc strict-all-2"),
+        (r"(?<![A-Za-z0-9_])Eff(?![A-Za-z0-9_])", "rewrite_acc"),
+        (r"(?<![A-Za-z0-9_])Loc(?![A-Za-z0-9_])", "neighborhood_target_true_teacher_forced_acc"),
+        (r"`eff`", "`rewrite_acc`"),
+        (r"`gen_prompt`", "`rephrase_acc`"),
+        (r"`gen_strict`", "`rephrase_acc_strict_all_2`"),
+        (r"`loc`", "`neighborhood_target_true_teacher_forced_acc`"),
+        (r"(?<![A-Za-z0-9_])rephrase pref(?![A-Za-z0-9_])", "rephrase request-cluster mean preference (not PS)"),
     )
-    for old, new in replacements:
-        text = text.replace(old, new)
+    for pattern, new in replacements:
+        text = re.sub(pattern, new, text)
     text = re.sub(
         r"\]\((?!\.\./)([^/)]+\.png)\)",
         rf"](../{V5_RELATIVE.name}/\1)",
@@ -689,6 +746,7 @@ def _report(
     backfill_members: Sequence[Mapping[str, Any]],
 ) -> str:
     final = {row["arm"]: row for row in core if int(row["accepted_edit_count"]) == 10_000}
+    first = {row["arm"]: row for row in core if int(row["accepted_edit_count"]) == 1_000}
     headline = [
         (
             ARM_LABEL[arm],
@@ -725,7 +783,9 @@ def _report(
     age_table = [
         (
             row["arm"], row["accepted_edit_count"], row["age_stratum"], row["request_denominator"],
-            _fmt(row["rs"], 4), _fmt(row["ps"], 4), _fmt(row["ns"], 4),
+            f"{row['rs_numerator']}/{row['rs_denominator']} ({_fmt(row['rs'], 4)})",
+            f"{row['ps_numerator']}/{row['ps_denominator']} ({_fmt(row['ps'], 4)})",
+            f"{row['ns_numerator']}/{row['ns_denominator']} ({_fmt(row['ns'], 4)})",
             _fmt(row["rewrite_acc"], 4), _fmt(row["rephrase_acc"], 4),
         )
         for row in age
@@ -746,6 +806,15 @@ def _report(
         for row in paired
         if row["metric"] in PRIMARY
     ]
+    compute_table = [
+        (
+            row["arm"], row["accepted_edit_count"], row["request_count"],
+            row["locality_prompt_count"], _fmt(row["wall_seconds"], 1),
+            row["model_forward_batch_count"], row["parity_forward_batch_count"],
+            _fmt(float(row["peak_gpu_memory_bytes"]) / (1024 ** 3), 2),
+        )
+        for row in compute
+    ]
     sections = [
         "# Official layer-write realization debt — CounterFact primary metrics v6 사실 보고서",
         "",
@@ -757,6 +826,17 @@ def _report(
         "",
         _markdown_table(("model/method", "RS", "PS", "NS", "rewrite_acc", "rephrase_acc"), headline),
         "",
+        "### 1.1 핵심 metric 교정 결과",
+        "",
+        "- 1k의 낮은 종전 `Loc`는 실험의 locality 실패율이 아니라 target-true teacher-forced strict accuracy였다. 동일 frozen W₁₀₀₀에서 canonical NS는 "
+        + ", ".join(
+            f"{arm} {row['ns_numerator']}/{row['ns_denominator']} ({_fmt(row['ns'], 4)})"
+            for arm, row in ((arm, first[arm]) for arm in ARM_ORDER)
+        )
+        + "이다.",
+        "- NS 보충 평가의 기존 locality-target-true 3-request parity는 모든 checkpoint/model/method에서 오차 0이며, 평가 전후 edited-weight pointer/version/bytes가 동일하다. 따라서 현재 증거는 edit trajectory 오류보다 metric-label/schema 불일치를 지지한다.",
+        "- RS/PS와 rewrite_acc/rephrase_acc는 성공 조건이 다르므로 값의 크기를 서로 치환하거나 같은 efficacy 정의로 pooling하지 않는다.",
+        "",
         "![Final CounterFact primary metrics](counterfact-finalw-full10k-primary.png)",
         "",
         "## 2. Metric glossary / 읽는 법",
@@ -767,17 +847,25 @@ def _report(
         "- **rewrite_acc / rephrase_acc (secondary, higher):** target-new teacher-forced continuation의 모든 target token이 top-1인 prompt 비율. generic token-mean accuracy와 다르며 RS/PS가 아니다.",
         "- **rephrase_acc strict-all-2 (secondary):** 한 request의 rephrase prompts 2개가 모두 teacher-forced strict일 때 성공 1건.",
         "- **neighborhood_target_true_teacher_forced_acc (secondary):** target-true continuation이 top-1인 prompt 비율. v5의 `Loc` 숫자는 이 값이었으며 NS로 재명명하지 않았다.",
-        "- **NLL (lower):** target continuation token들의 평균 negative log likelihood. new/true는 동일 prompt index에서 pair한다. **desired NLL advantage (higher):** RS/PS는 `true-new`, NS는 `new-true`; 양수일 때 success다.",
-        "- **mean/median/p90/max:** prompt-level NLL pair 분포를 사용한다. prompt와 request denominator를 혼합하지 않는다.",
-        "- **R, A, Y, E, q, rho, tau, d_parallel, d_perp, recurrence, D_TV, Layer-wise Update Magnitude/share:** 정의와 단위는 아래 계승 본문에 그대로 유지된다. 이 mechanism metric은 RS/PS/NS controller input이 아니라 관찰 telemetry다.",
+        "- **NLL (lower):** target continuation token들의 length-normalized mean negative log likelihood. new/true는 같은 request·category·prompt index에서 pair한다. prompt-level과 request 내부 prompts를 먼저 묶은 request-cluster 통계를 분리한다. **desired NLL advantage (higher):** RS/PS는 `true-new`, NS는 `new-true`; 양수일 때만 success다.",
+        "- **margin (higher):** 각 target token logit에서 최대 비-target logit을 뺀 뒤 continuation 최소값. 평균 margin과 all-token strict는 같은 통계가 아니다.",
+        "- **mean/median/IQR/p90/max:** 산술평균/중앙값/(p75−p25)/90백분위/최댓값. 본 v6 primary 표는 prompt-level NLL pair 분포이며 prompt와 request denominator를 혼합하지 않는다.",
+        "- **R=z*−Φ(W):** layer write 직전 activation residual. **A=R/n_remaining:** Official layer allocation. **Y=R_pre−R_post:** 실제 write가 줄인 residual. **E=A−Y:** allocation-realization gap. activation-space vector이며 NLL 단위가 아니다.",
+        "- **q=||R||/||R_entry|| (lower):** entry-normalized remaining residual. **rho=<Y,A>/||A||²:** target-aligned realization ratio(1 exact, 0–1 under, >1 overshoot, <0 opposite). **tau=||Y−rho A||/||A||:** orthogonal distortion.",
+        "- **d_parallel/d_perp:** L8 entry residual과 ideal `(1/5)R_entry` 차이의 entry-target 평행/직교 정규화 성분. **recurrence closure (lower):** exact residual recurrence의 FP64 relative error.",
+        "- **D_TV (lower for profile agreement):** 다섯 layer update-share와 positive target-progress profile의 total variation distance(0 identical, 1 maximally separated). negative progress는 normalization에서 숨기지 않고 별도 센다.",
+        "- **Layer-wise Update Magnitude:** `||ΔW_l||_F`; **share:** 다섯 layer magnitude 합 중 해당 layer 비중. activation progress와 별개 축이며 squared Frobenius telemetry와 혼용하지 않는다. 모든 mechanism metric은 관찰 telemetry이고 RS/PS/NS controller input이 아니다.",
         "",
         "## 3. Metric/source audit와 실행 provenance",
         "",
         f"- v6 source HEAD/tree: `{head}` / `{tree}`.",
+        f"- Evaluation-only backfill Slurm job: `{BACKFILL_JOB_ID}` array `0-3%2`; LM/LA/QM/QA one GPU each, explicit `--mem=60416M`.",
         f"- Common stream/order: `{STREAM_ROOT}` / `{ORDER_ROOT}`.",
+        f"- Canonical CounterFact context/pair construction: `{CANONICAL_COUNTERFACT_EVALUATOR}` lines 43–76, SHA `{CANONICAL_COUNTERFACT_EVALUATOR_SHA256}`; strict success directions: `{CANONICAL_COUNTERFACT_SUMMARIZER}` lines 63–108, SHA `{CANONICAL_COUNTERFACT_SUMMARIZER_SHA256}`.",
+        "- Secondary accuracy source: `project/run_scripts/fixed_z_nonuniqueness/evaluation.py` lines 140–170. `nll`은 target-token mean이고 `strict`는 해당 prompt의 모든 target token top-1 exact다.",
         "- Existing final-W raw: 4 terminals, 28 receipts, 120,000 request-state rows full rehash PASS. Rewrite NLL pairs=120,000 prompts; rephrase NLL pairs=240,000 prompts.",
         "- Missing field audit: locality target-new=0/1,200,000 prompts. Evaluation-only backfill produced exactly 1,200,000 prompts; edit replay/compute_z/writer/key/solve/cache-history mutation/backward/gradient/model update/imputation=0.",
-        f"- Backfill sealed members={len(backfill_members)}; local prompt-pair table={prompt_pairs['rows']} rows, `{prompt_pairs['sha256']}`. Raw prompt/logit/generation publication=0.",
+        f"- Backfill sealed members={len(backfill_members)}; local prompt-pair table=`{prompt_pairs['path']}` ({prompt_pairs['rows']} rows, `{prompt_pairs['sha256']}`). Raw prompt/logit/generation publication=0.",
         "- 기존 v5 `Loc` 저값은 `neighborhood_target_true_teacher_forced_acc`였고 NS가 아니었다. 따라서 그 수치를 canonical locality failure rate로 사용하지 않는다.",
         "",
         "## 4. Seven-checkpoint cumulative RS/PS/NS",
@@ -785,6 +873,20 @@ def _report(
         "각 W_t는 first t seen requests 전체를 평가한다. current B100나 online-at-write가 아니다.",
         "",
         _markdown_table(("arm", "t", "request n", "RS", "PS", "NS", "rewrite_acc", "rephrase_acc", "neighborhood true TF acc"), core_table),
+        "",
+        "### 4.1 1k→10k primary 변화",
+        "",
+        *(
+            f"- **{arm}:** RS {_fmt(first[arm]['rs'], 4)}→{_fmt(final[arm]['rs'], 4)} "
+            f"(Δ{_fmt(final[arm]['rs'] - first[arm]['rs'], 4)}), PS "
+            f"{_fmt(first[arm]['ps'], 4)}→{_fmt(final[arm]['ps'], 4)} "
+            f"(Δ{_fmt(final[arm]['ps'] - first[arm]['ps'], 4)}), NS "
+            f"{_fmt(first[arm]['ns'], 4)}→{_fmt(final[arm]['ns'], 4)} "
+            f"(Δ{_fmt(final[arm]['ns'] - first[arm]['ns'], 4)})."
+            for arm in ARM_ORDER
+        ),
+        "",
+        "모든 변화는 frozen checkpoint W_t에서 seen-prefix 전체를 다시 평가한 descriptive 값이다. method 효과나 인과로 해석하지 않는다.",
         "",
         "![Cumulative CounterFact primary metrics](counterfact-cumulative-primary.png)",
         "",
@@ -817,6 +919,15 @@ def _report(
         "동일 7 checkpoints/arm에서 계산한 기술 통계다. n=7이고 causal claim=0이다.",
         "",
         "![Mechanism association](counterfact-mechanism-associations.png)",
+        "",
+        "### 8.1 Evaluation-only backfill compute",
+        "",
+        _markdown_table(
+            ("arm", "t", "requests", "locality prompts", "wall s", "forward batches", "parity batches", "peak GiB"),
+            compute_table,
+        ),
+        "",
+        "각 checkpoint는 frozen W_t를 한 번 로드했다. 표의 wall time은 checkpoint 평가이며 edit replay와 model update는 0이다.",
         "",
         "아래는 v5의 provenance, residual trajectory, A/Y/E/rho/tau, inherited debt, recurrence, layer update, online/current-B100 diagnostics, cache fork, comparisons, compute, exclusions와 artifact inventory를 하나의 본문으로 계승한 것이다. 그 안의 과거 headline 이름은 secondary accuracy 의미로 재표기했다.",
         "",
@@ -857,6 +968,13 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
     )
     if sha256_file(AVAILABILITY_AUDIT) != AVAILABILITY_AUDIT_SHA256:
         raise CounterFactMetricBoundary("v6 availability audit SHA differs")
+    for path, expected, label in (
+        (SOURCE_MANIFEST, SOURCE_MANIFEST_SHA256, "v6 source manifest"),
+        (PREGPU_RECEIPT, PREGPU_RECEIPT_SHA256, "v6 pre-GPU receipt"),
+    ):
+        if sha256_file(path) != expected:
+            raise CounterFactMetricBoundary(f"{label} SHA differs")
+        _identity(_object(path), label)
     availability = _object(AVAILABILITY_AUDIT)
     _identity(availability, str(AVAILABILITY_AUDIT))
     if availability.get("status") != "MISSING_REQUIRES_EVALUATION_ONLY_BACKFILL":
@@ -889,6 +1007,9 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
         ("counterfact-primary-paired-deltas.csv", paired),
         ("counterfact-mechanism-associations.csv", associations),
         ("counterfact-backfill-compute.csv", compute),
+        ("counterfact-backfill-member-inventory.csv", backfill_members),
+        ("counterfact-existing-raw-member-inventory.csv", availability["raw_members"]),
+        ("counterfact-source-audit.csv", availability["source_audit"]["members"]),
     )
     for name, values in table_rows:
         tables[name] = _write_csv(args.output / name, values)
@@ -928,7 +1049,8 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
             "plot_source": str(plot_source.relative_to(args.source_root)),
             "plot_source_sha256": sha256_file(plot_source),
             "command": (
-                "MPLCONFIGDIR=/tmp/odeedit-counterfact-v6-mpl python3 -m "
+                "MPLCONFIGDIR=/tmp/odeedit-counterfact-v6-mpl "
+                "/data/janghj/EasyEdit/.venv/bin/python -m "
                 "project.run_scripts.official_layer_realization_debt.lifelong_counterfact_figures "
                 "--tables V6_PACKAGE --output CREATE_ONCE_OUTPUT"
             ),
@@ -983,6 +1105,10 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
         {
             "kind": "SEALED_V6_LOCALITY_TARGET_NEW_BACKFILL",
             "root": str(args.backfill_root),
+            "slurm_job_id": BACKFILL_JOB_ID,
+            "array_mapping": {"0": "LM", "1": "LA", "2": "QM", "3": "QA"},
+            "array_throttle": 2,
+            "memory_mib_per_cell": 60416,
             "member_root": canonical_hash(backfill_members),
             "member_count": len(backfill_members),
         },
@@ -993,6 +1119,20 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
             "sha256": AVAILABILITY_AUDIT_SHA256,
             "identity_sha256": availability["identity_sha256"],
             "raw_member_root": availability["raw_member_root"],
+        },
+        {
+            "kind": "V6_SOURCE_MANIFEST",
+            "path": str(SOURCE_MANIFEST),
+            "bytes": SOURCE_MANIFEST.stat().st_size,
+            "sha256": SOURCE_MANIFEST_SHA256,
+            "identity_sha256": _object(SOURCE_MANIFEST)["identity_sha256"],
+        },
+        {
+            "kind": "V6_PREGPU_RECEIPT",
+            "path": str(PREGPU_RECEIPT),
+            "bytes": PREGPU_RECEIPT.stat().st_size,
+            "sha256": PREGPU_RECEIPT_SHA256,
+            "identity_sha256": _object(PREGPU_RECEIPT)["identity_sha256"],
         },
         {
             "kind": "LOCAL_PER_PROMPT_PRIMARY_TABLE",
@@ -1014,6 +1154,41 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
             "ns_prompts": 1_200_000,
             "primary_prompt_pair_rows": 1_560_000,
             "age_rows": 84,
+        },
+        "execution": {
+            "slurm_job_id": BACKFILL_JOB_ID,
+            "array": "0-3%2",
+            "terminal_cells": 4,
+            "technical_exclusion_jobs": [],
+            "memory_mib_per_cell": 60416,
+            "gpu_per_cell": 1,
+        },
+        "metric_semantics": {
+            "counterfact_context_and_pair_source": {
+                "path": str(CANONICAL_COUNTERFACT_EVALUATOR),
+                "sha256": CANONICAL_COUNTERFACT_EVALUATOR_SHA256,
+                "line_span": "43-76,124-180",
+            },
+            "counterfact_aggregation_source": {
+                "path": str(CANONICAL_COUNTERFACT_SUMMARIZER),
+                "sha256": CANONICAL_COUNTERFACT_SUMMARIZER_SHA256,
+                "line_span": "63-108",
+            },
+            "rs_ps_rule": "target_new_mean_nll < target_true_mean_nll; tie fails",
+            "ns_rule": "target_true_mean_nll < target_new_mean_nll; tie fails",
+            "secondary_accuracy_rule": "all target tokens top-1 exact per prompt",
+        },
+        "verification": {
+            "focused_unittest": {
+                "status": "PASS",
+                "test_count": 9,
+                "modules": [
+                    "test_lifelong_counterfact_metrics",
+                    "test_lifelong_counterfact_analysis",
+                ],
+            },
+            "synthetic_plot_byte_stability": "PASS_TWO_CREATE_ONCE_OUTPUTS_EXACT_SHA",
+            "package_member_rehash": "PASS_FULL_MEMBER_SHA_AND_CANONICAL_ROOT",
         },
         "external_inputs": external,
         "external_input_root": canonical_hash(external),
