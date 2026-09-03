@@ -612,7 +612,7 @@ def _build_report(
     lines = [
         "# Official lifelong layer-debt — final W full-10k 및 cumulative seen-prefix v4 사실 보고서",
         "",
-        "상태: **FOUR_ARM_FINAL_W_FULL10K_EVALUATION_TERMINAL_VALID**  ",
+        "상태: **FOUR_ARM_FINAL_W_FULL10K_EVALUATION_TERMINAL_VALID**",
         "범위: Llama/Qwen × Official MEMIT/AlphaEdit 네 arm, evaluation-only backfill. `scientific_promotion=false`.",
         "",
         "## 1. Final W₁₀₀₀₀에서 전체 10,000 request 재평가 — 대표 결과",
