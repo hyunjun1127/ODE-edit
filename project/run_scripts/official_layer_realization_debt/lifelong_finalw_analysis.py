@@ -11,6 +11,7 @@ import json
 import math
 import os
 from pathlib import Path
+import re
 import statistics
 import subprocess
 from typing import Any, Iterable, Mapping, Sequence
@@ -463,6 +464,48 @@ def _read_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
+def _v3_detailed_appendix(v3_root: Path) -> str:
+    """Embed immutable v3 mechanism sections while excluding its old headline.
+
+    The v3 current-B100 performance section is intentionally omitted because
+    it cannot serve as final-W full-10k evidence.  All selected material is
+    explicitly scoped as diagnostic in the v4 parent section.
+    """
+
+    source = (
+        v3_root
+        / "official-layer-realization-debt-lifelong-fourarm-exhaustive-factual-ko.md"
+    ).read_text(encoding="utf-8")
+    matches = list(re.finditer(r"^## ([0-9]+)\. .*$", source, flags=re.MULTILINE))
+    selected = {2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16}
+    sections: list[str] = []
+    v3_directory = V3_REPORT_RELATIVE.name
+    for index, match in enumerate(matches):
+        number = int(match.group(1))
+        if number not in selected:
+            continue
+        stop = matches[index + 1].start() if index + 1 < len(matches) else len(source)
+        section = source[match.start() : stop].rstrip()
+        shifted: list[str] = []
+        for line in section.splitlines():
+            if line.startswith("#### "):
+                line = "##### " + line[5:]
+            elif line.startswith("### "):
+                line = "#### " + line[4:]
+            elif line.startswith("## "):
+                line = "### v3-" + line[3:]
+            line = re.sub(
+                r"\]\(([^/)][^)]*\.png)\)",
+                rf"](../{v3_directory}/\1)",
+                line,
+            )
+            shifted.append(line)
+        sections.append("\n".join(shifted))
+    if len(sections) != len(selected):
+        raise FinalWeightBoundary("immutable v3 detailed-section inventory differs")
+    return "\n\n".join(sections)
+
+
 def _build_report(
     *, output: Path, source: Mapping[str, Any], final_rows: Sequence[Mapping[str, Any]],
     cumulative_rows: Sequence[Mapping[str, Any]], age_rows: Sequence[Mapping[str, Any]],
@@ -547,6 +590,7 @@ def _build_report(
         for row in terminal_age
     ]
     v3_arms = {ARM_KEY[(row["model"], row["method"])]: row for row in _read_csv(v3_root / "arm-summary.csv")}
+    v3_appendix = _v3_detailed_appendix(v3_root)
     residual = [
         (
             arm,
@@ -672,7 +716,13 @@ def _build_report(
         "- New figures are deterministic headless Python outputs. No Codex visualization/imagegen/manual image editing was used; missing values were not interpolated.",
         "- Full tables and every row/member SHA are in `analysis-manifest.json`; package root is in `rooted-analysis-receipt.json`.",
         "",
-        "## 9. Factual conclusion",
+        "## 9. Immutable v3 detailed observational appendix",
+        "",
+        "아래는 immutable v3 report의 provenance, residual trajectory, A/Y/E, ρ/τ, inherited debt, recurrence, layer-wise update magnitude/share, cache mechanism fork, paired model/method comparison, association, completion geometry, outlier, compute, technical-exclusion 및 artifact inventory를 그대로 통합한 diagnostic appendix다. v3의 §1 executive와 §7 current-B100 performance는 제외했다. 이 appendix 안의 endpoint/retention 언급은 **current-B100·online·sentinel diagnostic**이며 final-W full-10k 대표 성능은 오직 본 보고서 §1이다.",
+        "",
+        v3_appendix,
+        "",
+        "## 10. Factual conclusion",
         "",
         "Final W₁₀₀₀₀의 실제 10,000-request 성능은 §1만이 대표값이다. Checkpoint 누적곡선은 seen-prefix retention의 진행을, v3 layer probe는 action–realization mechanism을 각각 별도로 보여준다. 이 backfill은 기존 observational 결론의 성능 분모를 교정하지만 barrier 효용이나 인과성을 새로 주장하지 않는다.",
         "",

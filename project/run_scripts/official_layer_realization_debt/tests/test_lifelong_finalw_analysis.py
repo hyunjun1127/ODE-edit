@@ -10,6 +10,7 @@ import unittest
 from project.run_scripts.ode_bf.contracts import canonical_hash
 from project.run_scripts.official_layer_realization_debt.lifelong_finalw_analysis import (
     _recompute,
+    _v3_detailed_appendix,
 )
 from project.run_scripts.official_layer_realization_debt.lifelong_finalw_figures import (
     ARM_ORDER,
@@ -77,6 +78,19 @@ def _write(path: Path, rows: list[dict]) -> None:
 
 
 class FinalWeightAnalysisTests(unittest.TestCase):
+    def test_v3_appendix_keeps_mechanism_and_excludes_old_headline(self) -> None:
+        repository = Path(__file__).resolve().parents[4]
+        root = repository / (
+            "experiment-reports/servers/server4/"
+            "official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3"
+        )
+        text = _v3_detailed_appendix(root)
+        self.assertIn("### v3-2. Provenance", text)
+        self.assertIn("### v3-16. Reproducible", text)
+        self.assertNotIn("### v3-7. Endpoint performance", text)
+        self.assertNotIn("Executive factual findings", text)
+        self.assertIn("../official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3/", text)
+
     def test_recompute_keeps_exact_aggregation_units_and_age_metrics(self) -> None:
         value = _recompute([_record(index) for index in range(10)])
         self.assertEqual(value["request_denominator"], 10)
