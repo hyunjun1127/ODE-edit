@@ -1,0 +1,263 @@
+{
+  "codex_visualization_imagegen_manual_edit_count": 0,
+  "denominators": {
+    "age_rows": 84,
+    "arms": 4,
+    "category_rows": 140,
+    "cumulative_checkpoints": 28,
+    "mechanism_association_rows": 264,
+    "mechanism_checkpoint_rows": 28,
+    "request_states": 120000
+  },
+  "external_package_root": "1ab603a64eb73da359af8e1f6dcd26f572d8c6dec5fd1b3033fa97a6491e13c9",
+  "external_packages": [
+    {
+      "kind": "IMMUTABLE_V3_NATIVE_EXHAUSTIVE",
+      "manifest_sha256": "47398d3e497edbbf8f2ace5be4f315134653f16ee2698d47945d4769fe0deb15",
+      "member_count": 48,
+      "member_root": "8c3441ffe0776f493fd78fea2858c0660e3e2c305a6b03b4e5ddcda35df5161a",
+      "receipt_sha256": "9882b8bca524f2a34d2a3c1c4fea803aea834552c675a19be2b1e69ab7224af9",
+      "report_sha256": "c9daf397b8c9fa679fa89e4f6407d7e03761a11f9ead177e998a97e726e24a8f",
+      "root": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3"
+    },
+    {
+      "external_raw_member_root": "83fc5d2c06011bed139b4924e117bafc97b866aa1c0e15aa545c8a8e6118363e",
+      "kind": "IMMUTABLE_V4_R2_CUMULATIVE_EVALUATION",
+      "manifest_sha256": "848dd78ea44d26105eb2f75344aa252413d249fddf2b03dd104e3a78f9cea0a9",
+      "member_count": 19,
+      "member_root": "aeb08ebe484b21c09a2d90e7ce2a5e33fcc90c7608b35da958ad73e527c81015",
+      "receipt_sha256": "bffff6260cae5f4679f0c6ac7b3b5020ac2c286955caebb7e1a4683454561b04",
+      "report_sha256": "225fbe8cc7fea44a2e9e00b01a1e3648686e439cd6618a150165b3f33cc95c68",
+      "root": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r2"
+    }
+  ],
+  "identity_sha256": "c1bdfd40eb678462e7b1521ac9c89e239ae1ab2f8424d8079506aa489307e84d",
+  "imputation_count": 0,
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-DEBT-LIFELONG-V5-EXHAUSTIVE-CUMULATIVE-INTEGRATION",
+  "member_root": "08e6995c9b768acfa2a96cc7b64fd52323558349c76020d9fbe44fd97cb58c94",
+  "members": [
+    {
+      "bytes": 424456,
+      "path": "checkpoint-age-strata-performance.png",
+      "sha256": "556f3a096a611879f94e2d8b23e0d8a4653e238dea952146c94ef764baa05918"
+    },
+    {
+      "bytes": 28657,
+      "path": "cumulative-age-recent-minus-early.csv",
+      "sha256": "133b2f9688fad55fe259e9d1e602de621fa7bcb67d88b1f4a9ce8c0684beb269"
+    },
+    {
+      "bytes": 79234,
+      "path": "cumulative-age-strata-full.csv",
+      "sha256": "118d2410729cf5409d7a0876a23525ee14ed3e8ffd038912defce053bd2c1ab7"
+    },
+    {
+      "bytes": 60651,
+      "path": "cumulative-category-distributions.csv",
+      "sha256": "751faa0136486f7cc3bacdf08aeb86c96a7992db17cd64ea69c3273e70518925"
+    },
+    {
+      "bytes": 142059,
+      "path": "cumulative-category-transitions.csv",
+      "sha256": "7359d4d119685e7ee6a791c7a6819003b07cad39a54068639a7b225e86af9fdf"
+    },
+    {
+      "bytes": 5392,
+      "path": "cumulative-core-rates.csv",
+      "sha256": "09a9a871ee5f6091428d21dfeedc7a5423d4f6925d031fe6bf793df73c85b2ca"
+    },
+    {
+      "bytes": 18371,
+      "path": "cumulative-core-transitions.csv",
+      "sha256": "5f8e0a6e8fb2cbde02cc0b5da6d387a508c538cad3dd334aee1541e4bf9b07af"
+    },
+    {
+      "bytes": 56045,
+      "path": "cumulative-paired-category.csv",
+      "sha256": "a799e7382f40a96159314770d960d9f5f9b9dc2e6fe2a4e1357da3ca9039ea13"
+    },
+    {
+      "bytes": 20357,
+      "path": "cumulative-paired-core.csv",
+      "sha256": "2b8ad9fca1302098dff95ee6c589d46f6fb261c277eea77ea9ba62b440eec2a6"
+    },
+    {
+      "bytes": 222404,
+      "path": "cumulative-performance-trajectories.png",
+      "sha256": "8d17c0eca8f25fb2be50d9f7b64fa8447eb18ae638c1983a2940642e958ab349"
+    },
+    {
+      "bytes": 168427,
+      "path": "cumulative-preference-trajectories.png",
+      "sha256": "b4bd1a98e9d72ccad23a1ae6edb30d5bbb2f5fb75cb7136a248ff6038c2ee9f2"
+    },
+    {
+      "bytes": 518754,
+      "path": "cumulative-target-margin-trajectories.png",
+      "sha256": "520672719b2f626d13e44e7657a760b5f448fd00ac95dfd925a6f1e140938fe9"
+    },
+    {
+      "bytes": 477612,
+      "path": "cumulative-target-nll-trajectories.png",
+      "sha256": "3856bc6be185d3b083b7a5753b52670fe8aa68ff1ebd8c3163327df6ed1cb18c"
+    },
+    {
+      "bytes": 6117,
+      "path": "finalw-full10k-arm-summary.csv",
+      "sha256": "13f782afa93d4312ed48da61eaf24c4d6d1b5e17a194fcba0f9386bc3f557ed4"
+    },
+    {
+      "bytes": 54244,
+      "path": "finalw-full10k-performance.png",
+      "sha256": "629b4cd120435bfb2d3ece7db8ffa9e606fdbc1b14706e2ddc581770ca834273"
+    },
+    {
+      "bytes": 28420,
+      "path": "mechanism-cumulative-associations.csv",
+      "sha256": "fa5307bbeaeed636bdc084b0bf9086ac1c3b1844e6ac65651c1d6cc0dad4fabb"
+    },
+    {
+      "bytes": 172155,
+      "path": "mechanism-cumulative-associations.png",
+      "sha256": "1cc63d0245013bcc427c38c4d54fc1564b6da00968789ac3227bf4102b9dc30b"
+    },
+    {
+      "bytes": 12532,
+      "path": "mechanism-cumulative-checkpoints.csv",
+      "sha256": "9e4063d6a0078da0ac83a47766eec25592ea9b57b64254379d1da760a148e95a"
+    },
+    {
+      "bytes": 264804,
+      "path": "official-layer-realization-debt-lifelong-v5-exhaustive-cumulative-factual-ko.md",
+      "sha256": "7efe0fb9df78cd00c9abc3abce81db411ce099a493cd1812582ff4cb89084de3"
+    },
+    {
+      "bytes": 33376,
+      "path": "online-cumulative-forgetting-gap.csv",
+      "sha256": "efc591abc9931cbeb222d9098fe08918753988dec93955def6afa4a67927a455"
+    },
+    {
+      "bytes": 4034,
+      "path": "plot-reproduction.csv",
+      "sha256": "308dcd2eaae96c158d469a6fdbbf28cec240ef584d07598fa1824a95b77cbb04"
+    }
+  ],
+  "plot_reproduction": [
+    {
+      "backend": "Agg",
+      "bytes": 54244,
+      "command": "MPLCONFIGDIR=/tmp/odeedit-lifelong-v5-mpl python3 -m project.run_scripts.official_layer_realization_debt.lifelong_v5_figures --tables V5_PACKAGE --output CREATE_ONCE_OUTPUT",
+      "dpi": 180,
+      "figure": "finalw-full10k-performance.png",
+      "input_table": "finalw-full10k-arm-summary.csv",
+      "input_table_sha256": "13f782afa93d4312ed48da61eaf24c4d6d1b5e17a194fcba0f9386bc3f557ed4",
+      "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+      "plot_source": "project/run_scripts/official_layer_realization_debt/lifelong_v5_figures.py",
+      "plot_source_sha256": "4fd9cb94d89eb2cde1ce694b5763a5bc38fcd17a65001e7f1edc519a3f0c9353",
+      "sha256": "629b4cd120435bfb2d3ece7db8ffa9e606fdbc1b14706e2ddc581770ca834273"
+    },
+    {
+      "backend": "Agg",
+      "bytes": 222404,
+      "command": "MPLCONFIGDIR=/tmp/odeedit-lifelong-v5-mpl python3 -m project.run_scripts.official_layer_realization_debt.lifelong_v5_figures --tables V5_PACKAGE --output CREATE_ONCE_OUTPUT",
+      "dpi": 180,
+      "figure": "cumulative-performance-trajectories.png",
+      "input_table": "cumulative-core-rates.csv",
+      "input_table_sha256": "09a9a871ee5f6091428d21dfeedc7a5423d4f6925d031fe6bf793df73c85b2ca",
+      "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+      "plot_source": "project/run_scripts/official_layer_realization_debt/lifelong_v5_figures.py",
+      "plot_source_sha256": "4fd9cb94d89eb2cde1ce694b5763a5bc38fcd17a65001e7f1edc519a3f0c9353",
+      "sha256": "8d17c0eca8f25fb2be50d9f7b64fa8447eb18ae638c1983a2940642e958ab349"
+    },
+    {
+      "backend": "Agg",
+      "bytes": 477612,
+      "command": "MPLCONFIGDIR=/tmp/odeedit-lifelong-v5-mpl python3 -m project.run_scripts.official_layer_realization_debt.lifelong_v5_figures --tables V5_PACKAGE --output CREATE_ONCE_OUTPUT",
+      "dpi": 180,
+      "figure": "cumulative-target-nll-trajectories.png",
+      "input_table": "cumulative-category-distributions.csv",
+      "input_table_sha256": "751faa0136486f7cc3bacdf08aeb86c96a7992db17cd64ea69c3273e70518925",
+      "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+      "plot_source": "project/run_scripts/official_layer_realization_debt/lifelong_v5_figures.py",
+      "plot_source_sha256": "4fd9cb94d89eb2cde1ce694b5763a5bc38fcd17a65001e7f1edc519a3f0c9353",
+      "sha256": "3856bc6be185d3b083b7a5753b52670fe8aa68ff1ebd8c3163327df6ed1cb18c"
+    },
+    {
+      "backend": "Agg",
+      "bytes": 518754,
+      "command": "MPLCONFIGDIR=/tmp/odeedit-lifelong-v5-mpl python3 -m project.run_scripts.official_layer_realization_debt.lifelong_v5_figures --tables V5_PACKAGE --output CREATE_ONCE_OUTPUT",
+      "dpi": 180,
+      "figure": "cumulative-target-margin-trajectories.png",
+      "input_table": "cumulative-category-distributions.csv",
+      "input_table_sha256": "751faa0136486f7cc3bacdf08aeb86c96a7992db17cd64ea69c3273e70518925",
+      "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+      "plot_source": "project/run_scripts/official_layer_realization_debt/lifelong_v5_figures.py",
+      "plot_source_sha256": "4fd9cb94d89eb2cde1ce694b5763a5bc38fcd17a65001e7f1edc519a3f0c9353",
+      "sha256": "520672719b2f626d13e44e7657a760b5f448fd00ac95dfd925a6f1e140938fe9"
+    },
+    {
+      "backend": "Agg",
+      "bytes": 168427,
+      "command": "MPLCONFIGDIR=/tmp/odeedit-lifelong-v5-mpl python3 -m project.run_scripts.official_layer_realization_debt.lifelong_v5_figures --tables V5_PACKAGE --output CREATE_ONCE_OUTPUT",
+      "dpi": 180,
+      "figure": "cumulative-preference-trajectories.png",
+      "input_table": "cumulative-core-rates.csv",
+      "input_table_sha256": "09a9a871ee5f6091428d21dfeedc7a5423d4f6925d031fe6bf793df73c85b2ca",
+      "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+      "plot_source": "project/run_scripts/official_layer_realization_debt/lifelong_v5_figures.py",
+      "plot_source_sha256": "4fd9cb94d89eb2cde1ce694b5763a5bc38fcd17a65001e7f1edc519a3f0c9353",
+      "sha256": "b4bd1a98e9d72ccad23a1ae6edb30d5bbb2f5fb75cb7136a248ff6038c2ee9f2"
+    },
+    {
+      "backend": "Agg",
+      "bytes": 424456,
+      "command": "MPLCONFIGDIR=/tmp/odeedit-lifelong-v5-mpl python3 -m project.run_scripts.official_layer_realization_debt.lifelong_v5_figures --tables V5_PACKAGE --output CREATE_ONCE_OUTPUT",
+      "dpi": 180,
+      "figure": "checkpoint-age-strata-performance.png",
+      "input_table": "cumulative-age-strata-full.csv",
+      "input_table_sha256": "118d2410729cf5409d7a0876a23525ee14ed3e8ffd038912defce053bd2c1ab7",
+      "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+      "plot_source": "project/run_scripts/official_layer_realization_debt/lifelong_v5_figures.py",
+      "plot_source_sha256": "4fd9cb94d89eb2cde1ce694b5763a5bc38fcd17a65001e7f1edc519a3f0c9353",
+      "sha256": "556f3a096a611879f94e2d8b23e0d8a4653e238dea952146c94ef764baa05918"
+    },
+    {
+      "backend": "Agg",
+      "bytes": 172155,
+      "command": "MPLCONFIGDIR=/tmp/odeedit-lifelong-v5-mpl python3 -m project.run_scripts.official_layer_realization_debt.lifelong_v5_figures --tables V5_PACKAGE --output CREATE_ONCE_OUTPUT",
+      "dpi": 180,
+      "figure": "mechanism-cumulative-associations.png",
+      "input_table": "mechanism-cumulative-associations.csv",
+      "input_table_sha256": "fa5307bbeaeed636bdc084b0bf9086ac1c3b1844e6ac65651c1d6cc0dad4fabb",
+      "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+      "plot_source": "project/run_scripts/official_layer_realization_debt/lifelong_v5_figures.py",
+      "plot_source_sha256": "4fd9cb94d89eb2cde1ce694b5763a5bc38fcd17a65001e7f1edc519a3f0c9353",
+      "sha256": "1cc63d0245013bcc427c38c4d54fc1564b6da00968789ac3227bf4102b9dc30b"
+    }
+  ],
+  "raw_model_checkpoint_cache_tensor_log_dataset_credential_git_count": 0,
+  "raw_prompt_logit_generation_publish_count": 0,
+  "schema": "ode-edit-s06-lifelong-v5-exhaustive-cumulative-analysis/v1",
+  "scientific_promotion": false,
+  "source": {
+    "head": "51fd5f22a38f94fee56bf48bcd156821d390eff0",
+    "tracked_clean_before_output": true,
+    "tree": "0320f33c4958dc2bb90f2560319004227daced8e"
+  },
+  "status": "TASK_COMPLETE_STOP",
+  "table_row_counts": {
+    "cumulative-age-recent-minus-early.csv": 28,
+    "cumulative-age-strata-full.csv": 84,
+    "cumulative-category-distributions.csv": 140,
+    "cumulative-category-transitions.csv": 140,
+    "cumulative-core-rates.csv": 28,
+    "cumulative-core-transitions.csv": 168,
+    "cumulative-paired-category.csv": 140,
+    "cumulative-paired-core.csv": 168,
+    "finalw-full10k-arm-summary.csv": 4,
+    "mechanism-cumulative-associations.csv": 264,
+    "mechanism-cumulative-checkpoints.csv": 28,
+    "online-cumulative-forgetting-gap.csv": 56,
+    "plot-reproduction.csv": 7
+  }
+}

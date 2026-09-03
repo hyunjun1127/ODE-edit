@@ -1,0 +1,21 @@
+{
+  "external_package_root": "1ab603a64eb73da359af8e1f6dcd26f572d8c6dec5fd1b3033fa97a6491e13c9",
+  "identity_sha256": "433bec552f3a467067c0ad34558abb2d538e24c603080d64b4193c14dd0a003a",
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-DEBT-LIFELONG-V5-EXHAUSTIVE-CUMULATIVE-INTEGRATION",
+  "manifest": {
+    "bytes": 12364,
+    "identity_sha256": "c1bdfd40eb678462e7b1521ac9c89e239ae1ab2f8424d8079506aa489307e84d",
+    "path": "analysis-manifest.json",
+    "sha256": "5599b8a351e541f214d9aae8a2b645009edb0989001dfa37b1c36e2007ac7070"
+  },
+  "member_root": "08e6995c9b768acfa2a96cc7b64fd52323558349c76020d9fbe44fd97cb58c94",
+  "next": "STOP",
+  "report": {
+    "bytes": 264804,
+    "path": "official-layer-realization-debt-lifelong-v5-exhaustive-cumulative-factual-ko.md",
+    "sha256": "7efe0fb9df78cd00c9abc3abce81db411ce099a493cd1812582ff4cb89084de3"
+  },
+  "schema": "ode-edit-s06-lifelong-v5-exhaustive-cumulative-rooted-receipt/v1",
+  "scientific_promotion": false,
+  "status": "TASK_COMPLETE_STOP"
+}
