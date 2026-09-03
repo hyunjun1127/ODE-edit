@@ -1,0 +1,21 @@
+{
+  "external_input_root": "4eaeab899213515ec6bdc50b084d4aadbc08e8de33edaba8bdac75516fba8a58",
+  "identity_sha256": "ca435b2788de59a4de62b1c6c963d8ab53323332b836258096d9e590f8f76a33",
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-DEBT-LIFELONG-COUNTERFACT-METRICS-V6",
+  "manifest": {
+    "bytes": 15407,
+    "identity_sha256": "a863b8765c56b97151ca8601e521a2707503708339b9865adfb8086599289c21",
+    "path": "analysis-manifest.json",
+    "sha256": "4a9374bd9874a4ddaefae81fcec56deaf4b175ad3b553b46d3d6a1e25f21107f"
+  },
+  "member_root": "d282f415ab35a4fbfea47333a39a38d3966dad445d5db111d516f640e821b7dc",
+  "next": "STOP",
+  "report": {
+    "bytes": 312488,
+    "path": "official-layer-debt-lifelong-counterfact-metrics-v6-factual-ko.md",
+    "sha256": "60b70b81747068f84ae7904376995882695a12b4dd90214b8902ec601ca5eb23"
+  },
+  "schema": "odeedit.s06.layer-debt.lifelong-counterfact-metrics.v6.rooted-receipt",
+  "scientific_promotion": false,
+  "status": "TASK_COMPLETE_STOP"
+}

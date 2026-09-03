@@ -1,0 +1,331 @@
+{
+  "denominators": {
+    "age_rows": 84,
+    "arms": 4,
+    "checkpoints": 28,
+    "ns_prompts": 1200000,
+    "primary_prompt_pair_rows": 1560000,
+    "ps_prompts": 240000,
+    "request_states": 120000,
+    "rs_prompts": 120000
+  },
+  "edit_replay_count": 0,
+  "execution": {
+    "array": "0-3%2",
+    "gpu_per_cell": 1,
+    "memory_mib_per_cell": 60416,
+    "slurm_job_id": "33539",
+    "technical_exclusion_jobs": [],
+    "terminal_cells": 4
+  },
+  "external_input_root": "4eaeab899213515ec6bdc50b084d4aadbc08e8de33edaba8bdac75516fba8a58",
+  "external_inputs": [
+    {
+      "kind": "IMMUTABLE_V4_R2_FINALW_EVALUATION",
+      "manifest_sha256": "848dd78ea44d26105eb2f75344aa252413d249fddf2b03dd104e3a78f9cea0a9",
+      "member_count": 19,
+      "member_root": "aeb08ebe484b21c09a2d90e7ce2a5e33fcc90c7608b35da958ad73e527c81015",
+      "receipt_sha256": "bffff6260cae5f4679f0c6ac7b3b5020ac2c286955caebb7e1a4683454561b04",
+      "report_sha256": "225fbe8cc7fea44a2e9e00b01a1e3648686e439cd6618a150165b3f33cc95c68",
+      "root": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r2"
+    },
+    {
+      "kind": "IMMUTABLE_V5_EXHAUSTIVE_CUMULATIVE",
+      "manifest_sha256": "5599b8a351e541f214d9aae8a2b645009edb0989001dfa37b1c36e2007ac7070",
+      "member_count": 21,
+      "member_root": "08e6995c9b768acfa2a96cc7b64fd52323558349c76020d9fbe44fd97cb58c94",
+      "receipt_sha256": "a5b7355ccbf819095cf4aa8c4a199f11ab394b41a9bc9793a1c2d8a68b44682d",
+      "report_sha256": "7efe0fb9df78cd00c9abc3abce81db411ce099a493cd1812582ff4cb89084de3",
+      "root": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v5"
+    },
+    {
+      "array_mapping": {
+        "0": "LM",
+        "1": "LA",
+        "2": "QM",
+        "3": "QA"
+      },
+      "array_throttle": 2,
+      "kind": "SEALED_V6_LOCALITY_TARGET_NEW_BACKFILL",
+      "member_count": 60,
+      "member_root": "cb703403eabbb06c3b67fac925c432bf41fb116eb5107a9ea0e92ef0f0288db7",
+      "memory_mib_per_cell": 60416,
+      "root": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-counterfact-metrics-v6/campaign-20260903-v1",
+      "slurm_job_id": "33539"
+    },
+    {
+      "bytes": 31168,
+      "identity_sha256": "16e86bef43b753fb3ee6ca944a1325ef6dc6de44c0dc68b16f46ee28e6034f12",
+      "kind": "V6_AVAILABILITY_AUDIT",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-counterfact-metrics-v6/campaign-20260903-v1/availability-audit.json",
+      "raw_member_root": "0ae96d2b11c36afec44ee76d6b27031a0b3e3a4c9b9112fba6aac042f0ddce2f",
+      "sha256": "c0bbd1cdbd82b6b325c09158cd06b12498033ef2a39a9f9f4ebda8c28de7d265"
+    },
+    {
+      "bytes": 1938,
+      "identity_sha256": "c7245ce58f323f54cbe9db91e4ea87a1d74befb4d21d957b9054df1aaf9ff1fd",
+      "kind": "V6_SOURCE_MANIFEST",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-counterfact-metrics-v6/campaign-20260903-v1/source-manifest.json",
+      "sha256": "300978510c849bf22fe0506a37a4416c2625d1d6b965dc735e82b057924ad557"
+    },
+    {
+      "bytes": 1756,
+      "identity_sha256": "55d0356d2caf63924ad216aab713cfe6b650afede03c44967bab6c914002a823",
+      "kind": "V6_PREGPU_RECEIPT",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-counterfact-metrics-v6/campaign-20260903-v1/pregpu-receipt.json",
+      "sha256": "5c07467e00cf1143cd339116f69810c287b7c55de5190cfea054a393aae16296"
+    },
+    {
+      "bytes": 128206850,
+      "git_included": false,
+      "kind": "LOCAL_PER_PROMPT_PRIMARY_TABLE",
+      "path": "/data/janghj/ODE-edit/local/analysis/official-layer-realization-debt-lifelong-counterfact-metrics-v6/campaign-20260903-v1/counterfact-primary-prompt-pairs.jsonl.gz",
+      "rows": 1560000,
+      "sha256": "6455b444fd6a37b30698fd357639ce195d4e544a6d8468ebee4cfa04e24fc128"
+    }
+  ],
+  "identity_sha256": "a863b8765c56b97151ca8601e521a2707503708339b9865adfb8086599289c21",
+  "imputation_count": 0,
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-DEBT-LIFELONG-COUNTERFACT-METRICS-V6",
+  "member_root": "d282f415ab35a4fbfea47333a39a38d3966dad445d5db111d516f640e821b7dc",
+  "members": [
+    {
+      "bytes": 335452,
+      "path": "counterfact-age-strata-primary.png",
+      "sha256": "1981d574269eeccf55dce0f9c4dab7d86c75019b77a64e925fad21fc46c86254"
+    },
+    {
+      "bytes": 2216,
+      "path": "counterfact-backfill-compute.csv",
+      "sha256": "60cc5a5275b2b03f15adaa2a208b693b5761d055c2a92f6c575b7c3ea71bb05a"
+    },
+    {
+      "bytes": 16516,
+      "path": "counterfact-backfill-member-inventory.csv",
+      "sha256": "117075e4f8d39cdc3703e3d3ec02a704e18d335eb4608b67727ee421490b3bda"
+    },
+    {
+      "bytes": 274482,
+      "path": "counterfact-cumulative-nll-advantage.png",
+      "sha256": "bdcabbdfb62db354eeb9d190b06924e55961b472988aca17f8ec5eef6fbd38fd"
+    },
+    {
+      "bytes": 151292,
+      "path": "counterfact-cumulative-primary.png",
+      "sha256": "0ac792211036852ef869ca22c07dd2367411c95ef5cd19d3eac2e01e071a6362"
+    },
+    {
+      "bytes": 16125,
+      "path": "counterfact-existing-raw-member-inventory.csv",
+      "sha256": "fcf43edaf608dd75b30f3790d9234909fb5050fcbcb2fc94d7177ec555489a40"
+    },
+    {
+      "bytes": 54689,
+      "path": "counterfact-finalw-full10k-primary.png",
+      "sha256": "73a50f9caad6b394b67869587c425faf76963bf5f7d6e24de7ee309db4bdc78f"
+    },
+    {
+      "bytes": 1717,
+      "path": "counterfact-finalw-full10k.csv",
+      "sha256": "015a51dba4d707cb9e27b4bf874b4bd85d44786ccd883e2d534126845c5d7dea"
+    },
+    {
+      "bytes": 13360,
+      "path": "counterfact-mechanism-associations.csv",
+      "sha256": "27cb248bbb453822e04d1e3bc0314be72fab267689976a51d56780e56c0133ef"
+    },
+    {
+      "bytes": 46508,
+      "path": "counterfact-mechanism-associations.png",
+      "sha256": "37a12246c625a83b47421e8b61d4946b59e5fdd3fefa909f3ddfcf727fcf0c0d"
+    },
+    {
+      "bytes": 129712,
+      "path": "counterfact-primary-age-distributions.csv",
+      "sha256": "f65a353697d4e49dfb758d3411482e687c9f1a52a514a68d3b757ac89986c001"
+    },
+    {
+      "bytes": 16997,
+      "path": "counterfact-primary-age-strata.csv",
+      "sha256": "3c6983928a923ee52d9113ca1aa4dd21f4743f489d1da483292055c2a59ebb26"
+    },
+    {
+      "bytes": 18341,
+      "path": "counterfact-primary-bit-roots.csv",
+      "sha256": "4cd375f1a20a8e5ab32db98d2588f908284c140b09c9f4363a090b36d4fe2a31"
+    },
+    {
+      "bytes": 9081,
+      "path": "counterfact-primary-checkpoints.csv",
+      "sha256": "78b5a0f5f9ea5dc145a926b68d5b3bc87ad88c540b3e30d51912ddbae831b373"
+    },
+    {
+      "bytes": 41798,
+      "path": "counterfact-primary-distributions.csv",
+      "sha256": "a0182755bb9b37ef487f47438ea95d006a25f47fdc8b9590438c826505e85f24"
+    },
+    {
+      "bytes": 14823,
+      "path": "counterfact-primary-paired-deltas.csv",
+      "sha256": "d95db33c112e4f1b6976cf629c2c896d43259fbd21030f735a26d76331d93ef2"
+    },
+    {
+      "bytes": 15247,
+      "path": "counterfact-primary-transitions.csv",
+      "sha256": "8f1dffb5bd103f0f7a29642102b9e5e6e88d90a316db276bc4ea2d1f10a4938f"
+    },
+    {
+      "bytes": 240398,
+      "path": "counterfact-secondary-accuracy.png",
+      "sha256": "6916f8650c621c5e1a48ac7a8af8483fd48d83ed5f6ac0e8a2858a002ae56c6a"
+    },
+    {
+      "bytes": 1014,
+      "path": "counterfact-source-audit.csv",
+      "sha256": "9fd1d9b33731921708f732fd2ca4373986e116b9e9d10e6be4a49aa90072b0e0"
+    },
+    {
+      "bytes": 312488,
+      "path": "official-layer-debt-lifelong-counterfact-metrics-v6-factual-ko.md",
+      "sha256": "60b70b81747068f84ae7904376995882695a12b4dd90214b8902ec601ca5eb23"
+    },
+    {
+      "bytes": 3800,
+      "path": "plot-reproduction.csv",
+      "sha256": "86a1669b405fdea8ae89afecfc598132cdfdd558a36ab0d6e031868c202e1367"
+    }
+  ],
+  "metric_semantics": {
+    "counterfact_aggregation_source": {
+      "line_span": "63-108",
+      "path": "/data/janghj/knowledge-editing-regularization/experiments/summarize.py",
+      "sha256": "9791812222b151952c16cacf28daf3e8be9645e37321e0aa84be6ab5e24a66f8"
+    },
+    "counterfact_context_and_pair_source": {
+      "line_span": "43-76,124-180",
+      "path": "/data/janghj/knowledge-editing-regularization/experiments/py/eval_utils_counterfact.py",
+      "sha256": "f2de63e6cc68871cb042f614193294a433c4b76622dd410de515df8cb73416b8"
+    },
+    "ns_rule": "target_true_mean_nll < target_new_mean_nll; tie fails",
+    "rs_ps_rule": "target_new_mean_nll < target_true_mean_nll; tie fails",
+    "secondary_accuracy_rule": "all target tokens top-1 exact per prompt"
+  },
+  "plot_reproduction": [
+    {
+      "backend": "Agg",
+      "bytes": 54689,
+      "command": "MPLCONFIGDIR=/tmp/odeedit-counterfact-v6-mpl /data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.official_layer_realization_debt.lifelong_counterfact_figures --tables V6_PACKAGE --output CREATE_ONCE_OUTPUT",
+      "dpi": 180,
+      "figure": "counterfact-finalw-full10k-primary.png",
+      "input_table": "counterfact-finalw-full10k.csv",
+      "input_table_sha256": "015a51dba4d707cb9e27b4bf874b4bd85d44786ccd883e2d534126845c5d7dea",
+      "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+      "plot_source": "project/run_scripts/official_layer_realization_debt/lifelong_counterfact_figures.py",
+      "plot_source_sha256": "4ee03519c7feab9eceddbc6bec2804be6444c00719083b8218d9f9a4b3599ccb",
+      "sha256": "73a50f9caad6b394b67869587c425faf76963bf5f7d6e24de7ee309db4bdc78f"
+    },
+    {
+      "backend": "Agg",
+      "bytes": 151292,
+      "command": "MPLCONFIGDIR=/tmp/odeedit-counterfact-v6-mpl /data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.official_layer_realization_debt.lifelong_counterfact_figures --tables V6_PACKAGE --output CREATE_ONCE_OUTPUT",
+      "dpi": 180,
+      "figure": "counterfact-cumulative-primary.png",
+      "input_table": "counterfact-primary-checkpoints.csv",
+      "input_table_sha256": "78b5a0f5f9ea5dc145a926b68d5b3bc87ad88c540b3e30d51912ddbae831b373",
+      "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+      "plot_source": "project/run_scripts/official_layer_realization_debt/lifelong_counterfact_figures.py",
+      "plot_source_sha256": "4ee03519c7feab9eceddbc6bec2804be6444c00719083b8218d9f9a4b3599ccb",
+      "sha256": "0ac792211036852ef869ca22c07dd2367411c95ef5cd19d3eac2e01e071a6362"
+    },
+    {
+      "backend": "Agg",
+      "bytes": 240398,
+      "command": "MPLCONFIGDIR=/tmp/odeedit-counterfact-v6-mpl /data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.official_layer_realization_debt.lifelong_counterfact_figures --tables V6_PACKAGE --output CREATE_ONCE_OUTPUT",
+      "dpi": 180,
+      "figure": "counterfact-secondary-accuracy.png",
+      "input_table": "counterfact-primary-checkpoints.csv",
+      "input_table_sha256": "78b5a0f5f9ea5dc145a926b68d5b3bc87ad88c540b3e30d51912ddbae831b373",
+      "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+      "plot_source": "project/run_scripts/official_layer_realization_debt/lifelong_counterfact_figures.py",
+      "plot_source_sha256": "4ee03519c7feab9eceddbc6bec2804be6444c00719083b8218d9f9a4b3599ccb",
+      "sha256": "6916f8650c621c5e1a48ac7a8af8483fd48d83ed5f6ac0e8a2858a002ae56c6a"
+    },
+    {
+      "backend": "Agg",
+      "bytes": 335452,
+      "command": "MPLCONFIGDIR=/tmp/odeedit-counterfact-v6-mpl /data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.official_layer_realization_debt.lifelong_counterfact_figures --tables V6_PACKAGE --output CREATE_ONCE_OUTPUT",
+      "dpi": 180,
+      "figure": "counterfact-age-strata-primary.png",
+      "input_table": "counterfact-primary-age-strata.csv",
+      "input_table_sha256": "3c6983928a923ee52d9113ca1aa4dd21f4743f489d1da483292055c2a59ebb26",
+      "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+      "plot_source": "project/run_scripts/official_layer_realization_debt/lifelong_counterfact_figures.py",
+      "plot_source_sha256": "4ee03519c7feab9eceddbc6bec2804be6444c00719083b8218d9f9a4b3599ccb",
+      "sha256": "1981d574269eeccf55dce0f9c4dab7d86c75019b77a64e925fad21fc46c86254"
+    },
+    {
+      "backend": "Agg",
+      "bytes": 274482,
+      "command": "MPLCONFIGDIR=/tmp/odeedit-counterfact-v6-mpl /data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.official_layer_realization_debt.lifelong_counterfact_figures --tables V6_PACKAGE --output CREATE_ONCE_OUTPUT",
+      "dpi": 180,
+      "figure": "counterfact-cumulative-nll-advantage.png",
+      "input_table": "counterfact-primary-distributions.csv",
+      "input_table_sha256": "a0182755bb9b37ef487f47438ea95d006a25f47fdc8b9590438c826505e85f24",
+      "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+      "plot_source": "project/run_scripts/official_layer_realization_debt/lifelong_counterfact_figures.py",
+      "plot_source_sha256": "4ee03519c7feab9eceddbc6bec2804be6444c00719083b8218d9f9a4b3599ccb",
+      "sha256": "bdcabbdfb62db354eeb9d190b06924e55961b472988aca17f8ec5eef6fbd38fd"
+    },
+    {
+      "backend": "Agg",
+      "bytes": 46508,
+      "command": "MPLCONFIGDIR=/tmp/odeedit-counterfact-v6-mpl /data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.official_layer_realization_debt.lifelong_counterfact_figures --tables V6_PACKAGE --output CREATE_ONCE_OUTPUT",
+      "dpi": 180,
+      "figure": "counterfact-mechanism-associations.png",
+      "input_table": "counterfact-mechanism-associations.csv",
+      "input_table_sha256": "27cb248bbb453822e04d1e3bc0314be72fab267689976a51d56780e56c0133ef",
+      "missing_policy": "NO_INTERPOLATION_NO_IMPUTATION",
+      "plot_source": "project/run_scripts/official_layer_realization_debt/lifelong_counterfact_figures.py",
+      "plot_source_sha256": "4ee03519c7feab9eceddbc6bec2804be6444c00719083b8218d9f9a4b3599ccb",
+      "sha256": "37a12246c625a83b47421e8b61d4946b59e5fdd3fefa909f3ddfcf727fcf0c0d"
+    }
+  ],
+  "raw_model_checkpoint_cache_log_dataset_credential_git_count": 0,
+  "raw_prompt_logit_generation_publish_count": 0,
+  "schema": "odeedit.s06.layer-debt.lifelong-counterfact-metrics.v6.analysis-manifest",
+  "scientific_promotion": false,
+  "source": {
+    "head": "9883c6be37280dec2a35a046f5ccc6b2ffa51703",
+    "tracked_clean_before_output": true,
+    "tree": "8b236f8863a757a99037dd3b44b7eb83fbb395a8"
+  },
+  "status": "TASK_COMPLETE_STOP",
+  "table_row_counts": {
+    "counterfact-backfill-compute.csv": 28,
+    "counterfact-backfill-member-inventory.csv": 60,
+    "counterfact-existing-raw-member-inventory.csv": 60,
+    "counterfact-finalw-full10k.csv": 4,
+    "counterfact-mechanism-associations.csv": 216,
+    "counterfact-primary-age-distributions.csv": 252,
+    "counterfact-primary-age-strata.csv": 84,
+    "counterfact-primary-bit-roots.csv": 84,
+    "counterfact-primary-checkpoints.csv": 28,
+    "counterfact-primary-distributions.csv": 84,
+    "counterfact-primary-paired-deltas.csv": 168,
+    "counterfact-primary-transitions.csv": 196,
+    "counterfact-source-audit.csv": 5,
+    "plot-reproduction.csv": 6
+  },
+  "verification": {
+    "focused_unittest": {
+      "modules": [
+        "test_lifelong_counterfact_metrics",
+        "test_lifelong_counterfact_analysis"
+      ],
+      "status": "PASS",
+      "test_count": 9
+    },
+    "package_member_rehash": "PASS_FULL_MEMBER_SHA_AND_CANONICAL_ROOT",
+    "synthetic_plot_byte_stability": "PASS_TWO_CREATE_ONCE_OUTPUTS_EXACT_SHA"
+  }
+}
