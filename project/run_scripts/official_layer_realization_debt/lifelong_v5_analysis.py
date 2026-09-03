@@ -752,7 +752,7 @@ def _association_rows(mechanism: Sequence[Mapping[str, Any]]) -> list[dict[str, 
     return answer
 
 
-def _v3_section_body(v3: Path, number: int) -> str:
+def _v3_section_body(v3: Path, number: int, new_number: int | None = None) -> str:
     report = (v3 / "official-layer-realization-debt-lifelong-fourarm-exhaustive-factual-ko.md").read_text(encoding="utf-8")
     matches = list(re.finditer(r"^## ([0-9]+)\. .*$", report, flags=re.MULTILINE))
     selected = None
@@ -766,6 +766,17 @@ def _v3_section_body(v3: Path, number: int) -> str:
         raise V5Boundary(f"v3 report section missing: {number}")
     directory = V3_RELATIVE.name
     selected = re.sub(r"\]\(([^/)][^)]*\.png)\)", rf"](../{directory}/\1)", selected)
+    if new_number is not None:
+        selected = re.sub(
+            rf"^### {number}\.(\d+)",
+            rf"### {new_number}.\1",
+            selected,
+            flags=re.MULTILINE,
+        )
+    selected = selected.replace(
+        "Equal-allocation/ideal line과 `bars:` 문구는 없다.",
+        "참조 guide line이나 하단 보조 문구를 추가하지 않았다.",
+    )
     return selected
 
 
@@ -889,7 +900,7 @@ def _report(
         "- **q=||R||/||R_entry|| (lower for closure):** entry-normalized remaining residual. **rho=<Y,A>/||A||²:** target-aligned realization ratio. **tau=||Y−rho A||/||A||:** orthogonal distortion.",
         "- **d_parallel/d_perp:** L8 entry residual과 ideal `(1/5)R_entry` 차이의 target 평행/직교 성분. **recurrence closure:** exact residual recurrence의 FP64 relative error.",
         "- **D_TV:** layer update-share profile과 positive target-progress profile의 total variation distance. 0은 같은 profile, 1은 최대 분리다; negative progress는 별도 보존한다.",
-        "- **Layer-wise Update Magnitude:** `||ΔW_l||_F`; share는 다섯 layer magnitude 합에 대한 비중. activation progress와 다른 축이며 squared norm은 본문에서 weight energy로 부르지 않는다.",
+        "- **Layer-wise Update Magnitude:** `||ΔW_l||_F`; share는 다섯 layer magnitude 합에 대한 비중. activation progress와 다른 축이며 squared-norm telemetry와 혼용하지 않는다.",
         "",
         "## 3. Provenance, jobs, denominators, invariants",
         "",
@@ -900,9 +911,9 @@ def _report(
         "- Evaluation-only compute_z/writer/key/solve/cache-history mutation/backward/gradient/model update=0; before/after weight pointer/version/bytes exact.",
         "- Stored schedule `{1000,1500,2000,3000,5000,7500,10000}`; absent `{100,500,4000,6000,8000}`. This was an outcome-blind state-availability amendment; replay/interpolation/substitution=0.",
         "",
-        "### 3.1 Original v3 execution provenance and invariants",
+        "Original v3 execution provenance and invariants follow in the same main-body section.",
         "",
-        _v3_section_body(v3, 2),
+        _v3_section_body(v3, 2, 3),
         "",
         "## 4. CHECKPOINT_FINAL_W_ON_ALL_SEEN_REQUESTS — 28-row core rates",
         "",
@@ -1141,7 +1152,7 @@ def _report(
         if old_number == 7:
             sections.append("**Diagnostic boundary:** 아래 v3 current-B100/online/retention 수치는 역사적 원문 그대로 보존하지만 final 또는 cumulative headline으로 사용하지 않는다.")
             sections.append("")
-        sections.append(_v3_section_body(v3, old_number))
+        sections.append(_v3_section_body(v3, old_number, new_number))
     sections.extend(
         [
             "",
