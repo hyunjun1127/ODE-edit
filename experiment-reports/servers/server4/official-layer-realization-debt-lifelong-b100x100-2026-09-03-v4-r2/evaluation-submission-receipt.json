@@ -1,0 +1,26 @@
+{
+  "schema": "odeedit.s06.layer-debt.lifelong-finalw-full10k.v1.submission-tech-r3",
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-DEBT-LIFELONG-FINALW-FULL10K-EVAL-V1",
+  "status": "SUBMITTED_ARRAY_CAP2",
+  "job_id": "33306",
+  "array": "0-3%2",
+  "mapping": [
+    {"cell": 0, "model": "llama3-8b-inst", "method": "memit"},
+    {"cell": 1, "model": "llama3-8b-inst", "method": "alphaedit"},
+    {"cell": 2, "model": "qwen2.5-7b-inst", "method": "memit"},
+    {"cell": 3, "model": "qwen2.5-7b-inst", "method": "alphaedit"}
+  ],
+  "source": {
+    "head": "c2c44901ea65a470ef3dccf252b3be425711ffa7",
+    "tree": "b94c07afac284ec4e47b7d663d724ffdc3b75d15",
+    "tracked_clean": true
+  },
+  "checkpoint_input_lock_sha256": "3684dd72e3a38e8b10544b6071e592a10eafdec881b65f0c87656eb2c662dcc7",
+  "technical_source_rebind_sha256": "5c096c7ce3563ca80d6c018563110f26db963b1ae4703634c5f1b09cb2a01527",
+  "launcher_sha256": "eff6a23c4635223c0b91578a325b78693a26df628adcc3a5a7bcd40d6f33f7df",
+  "resource": {"registered_cap": 2, "maximum_concurrency": 2, "gpus_per_cell": 1, "cpus_per_cell": 8, "mem": "60416M"},
+  "evaluator": {"implementation": "canonical per-request sequence_metrics", "internal_batch_size": 16, "cross_request_rebatch_count": 0},
+  "superseded_technical_job": "33300",
+  "scientific_denominator_at_submission": 0,
+  "scientific_promotion": false
+}

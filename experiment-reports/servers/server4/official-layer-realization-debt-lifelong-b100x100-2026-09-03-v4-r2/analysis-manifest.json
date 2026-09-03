@@ -1,0 +1,224 @@
+{
+  "codex_visualization_or_imagegen_count": 0,
+  "control_receipts": [
+    {
+      "bytes": 1314,
+      "label": "TECH_R3_SOURCE_REBIND",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-finalw-full10k-v1/campaign-20260903-tech-r3/source-rebind-receipt.json",
+      "sha256": "5c096c7ce3563ca80d6c018563110f26db963b1ae4703634c5f1b09cb2a01527"
+    },
+    {
+      "bytes": 1359,
+      "label": "JOB33306_SUBMISSION",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-finalw-full10k-v1/campaign-20260903-tech-r3/submission-receipt.json",
+      "sha256": "852cb42738a56b57dc905925b336eed40498ec259f0fe8ea8339e7356271a002"
+    },
+    {
+      "bytes": 843,
+      "label": "JOB33300_TECHNICAL_EXCLUSION",
+      "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-finalw-full10k-v1/campaign-20260903-tech-r2/job33300-technical-exclusion.json",
+      "sha256": "1b93b4eb609723cdb7af46211b8eeb83c4edde0bdd231252e00ffa58c79d2c2b"
+    }
+  ],
+  "denominators": {
+    "arms": 4,
+    "checkpoints": 28,
+    "final_locality_prompts": 400000,
+    "final_rephrase_prompts": 80000,
+    "final_requests": 40000,
+    "request_states": 120000
+  },
+  "external_v3": {
+    "manifest": {
+      "path": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3/analysis-manifest.json",
+      "sha256": "47398d3e497edbbf8f2ace5be4f315134653f16ee2698d47945d4769fe0deb15"
+    },
+    "receipt": {
+      "path": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3/rooted-analysis-receipt.json",
+      "sha256": "9882b8bca524f2a34d2a3c1c4fea803aea834552c675a19be2b1e69ab7224af9"
+    },
+    "report": {
+      "path": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3/official-layer-realization-debt-lifelong-fourarm-exhaustive-factual-ko.md",
+      "sha256": "c9daf397b8c9fa679fa89e4f6407d7e03761a11f9ead177e998a97e726e24a8f"
+    }
+  },
+  "identity_sha256": "af201dbdc88c42ff47455b4e5fc18f0874f33aa291be031fdebe8d27e7d2931f",
+  "imputation_count": 0,
+  "input_lock": {
+    "identity_sha256": "29487554644cc25ad8b34c18086206b03a54a36dd262e85f64b9beaa53c07e0b",
+    "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-finalw-full10k-v1/campaign-20260903-tech-r2/availability-amendment-and-input-lock.json",
+    "sha256": "3684dd72e3a38e8b10544b6071e592a10eafdec881b65f0c87656eb2c662dcc7"
+  },
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-DEBT-LIFELONG-FINALW-FULL10K-EVAL-V1",
+  "job_id": "33306",
+  "member_root": "aeb08ebe484b21c09a2d90e7ce2a5e33fcc90c7608b35da958ad73e527c81015",
+  "members": [
+    {
+      "bytes": 96152,
+      "path": "availability-amendment-receipt.json",
+      "sha256": "3684dd72e3a38e8b10544b6071e592a10eafdec881b65f0c87656eb2c662dcc7"
+    },
+    {
+      "bytes": 18418,
+      "path": "checkpoint-state-amendment.csv",
+      "sha256": "f65528246d7acf5434394f9ff45e2e97f6d0acc022ddda50ade6946179df2d11"
+    },
+    {
+      "bytes": 31018,
+      "path": "cumulative-seen-prefix-arm-summary.csv",
+      "sha256": "940abeaf2406ad84a1f1303d70c6de0fa5d3710113eb7004f0a2ff8e8206a50f"
+    },
+    {
+      "bytes": 233039,
+      "path": "cumulative-seen-prefix-performance.png",
+      "sha256": "7f81f4737505c264b341d50bdcd15703013f73f2d026cf5d1abd680365d8a596"
+    },
+    {
+      "bytes": 21671710,
+      "path": "cumulative-seen-prefix-request-complete.csv.gz",
+      "sha256": "adb13d79728d38813eed459805e135a5d4a7e7a4e149a168bf65fd16512a32e9"
+    },
+    {
+      "bytes": 79234,
+      "path": "edit-age-strata-summary.csv",
+      "sha256": "118d2410729cf5409d7a0876a23525ee14ed3e8ffd038912defce053bd2c1ab7"
+    },
+    {
+      "bytes": 934,
+      "path": "evaluation-compute-accounting.csv",
+      "sha256": "73e17aefc1da923659aee86c89dc9cc584cfc3b6a0e9fb9a8969afa314c7e7cd"
+    },
+    {
+      "bytes": 17482,
+      "path": "evaluation-raw-member-inventory.csv",
+      "sha256": "9a052ce7e1f9f5ddbe89c4e2eae4718dfdfaa28ba1c1fa945a3434eff1b4e671"
+    },
+    {
+      "bytes": 24671,
+      "path": "evaluation-raw-member-inventory.json",
+      "sha256": "14c500a167a0e774e74395fc6ca0f2f239277122a6bf1c9a92ba27ae49e95755"
+    },
+    {
+      "bytes": 1314,
+      "path": "evaluation-source-rebind-receipt.json",
+      "sha256": "5c096c7ce3563ca80d6c018563110f26db963b1ae4703634c5f1b09cb2a01527"
+    },
+    {
+      "bytes": 1359,
+      "path": "evaluation-submission-receipt.json",
+      "sha256": "852cb42738a56b57dc905925b336eed40498ec259f0fe8ea8339e7356271a002"
+    },
+    {
+      "bytes": 6117,
+      "path": "finalw-full10k-arm-summary.csv",
+      "sha256": "13f782afa93d4312ed48da61eaf24c4d6d1b5e17a194fcba0f9386bc3f557ed4"
+    },
+    {
+      "bytes": 90865,
+      "path": "finalw-full10k-edit-age-retention.png",
+      "sha256": "6e752f1a3a3fd901322b3c2b0bd4b83bc2f0db33944f1129d3c937704dc6b2bb"
+    },
+    {
+      "bytes": 60841,
+      "path": "finalw-full10k-performance.png",
+      "sha256": "4be2e819a254479a2792a63fc1e65df95f398d067d3145cdb5ac1fce706bec88"
+    },
+    {
+      "bytes": 76542,
+      "path": "finalw-full10k-target-nll.png",
+      "sha256": "cb7197f9df71a65f9ad8148082c8ab58e7c568be037f42edb7d2fdb7e932b0cb"
+    },
+    {
+      "bytes": 843,
+      "path": "job33300-technical-exclusion.json",
+      "sha256": "1b93b4eb609723cdb7af46211b8eeb83c4edde0bdd231252e00ffa58c79d2c2b"
+    },
+    {
+      "bytes": 79795,
+      "path": "official-layer-debt-lifelong-finalw-full10k-factual-ko.md",
+      "sha256": "225fbe8cc7fea44a2e9e00b01a1e3648686e439cd6618a150165b3f33cc95c68"
+    },
+    {
+      "bytes": 3302,
+      "path": "plot-reproduction.csv",
+      "sha256": "c0fcd6607f47f5f16353abf3b18c89676edac4452dbf852b9f9e229a0c25fabc"
+    },
+    {
+      "bytes": 635,
+      "path": "technical-exclusions.csv",
+      "sha256": "7cf2c8c60ddbb1531896efa4b7f95bb03304891220f2d3c7e6f83cb2dbd7172b"
+    }
+  ],
+  "raw_member_root": "83fc5d2c06011bed139b4924e117bafc97b866aa1c0e15aa545c8a8e6118363e",
+  "raw_prompt_logit_generation_publish_count": 0,
+  "request_row_identity_scope": "CORE_EVALUATION_ROW_BEFORE_DERIVED_AGE_STRATUM",
+  "schedule_amendment": {
+    "absent": [
+      100,
+      500,
+      4000,
+      6000,
+      8000
+    ],
+    "exact_stored": [
+      1000,
+      1500,
+      2000,
+      3000,
+      5000,
+      7500,
+      10000
+    ],
+    "interpolation": 0,
+    "original": [
+      100,
+      500,
+      1000,
+      2000,
+      4000,
+      6000,
+      8000,
+      10000
+    ],
+    "outcome_blind": true,
+    "replay": 0,
+    "substitution": 0
+  },
+  "schema": "odeedit.s06.layer-debt.lifelong-finalw-full10k.v1.analysis-manifest-v4",
+  "scientific_promotion": false,
+  "source": {
+    "analysis": {
+      "head": "e357a2932a80367ca77391a0ae43ce416c699836",
+      "root": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report",
+      "tracked_clean": true,
+      "tree": "103257034037dac8beb37c03b532be24cb744309"
+    },
+    "runtime": {
+      "head": "c2c44901ea65a470ef3dccf252b3be425711ffa7",
+      "tree": "b94c07afac284ec4e47b7d663d724ffdc3b75d15"
+    }
+  },
+  "status": "FOUR_ARM_FINAL_W_FULL10K_EVALUATION_TERMINAL_VALID",
+  "terminal_identities": [
+    {
+      "arm": "LM",
+      "identity_sha256": "fe8171351694cc215af82a95b5aa85b6e75bf4a3138cdab66bdc939a5aac999f",
+      "sha256": "2fd3382634ad0ac94c448a5e35d8556e873e6aa19aae9930dfafbfb75d1e614b"
+    },
+    {
+      "arm": "LA",
+      "identity_sha256": "07fcf4e3901dbc8df2d4143b4c1793a361780ebde18ea47b0f03a850e8574a20",
+      "sha256": "a0b1d438abdff94f060700382e8975aedbdcce385ba3c44132f0d80e658cbb6f"
+    },
+    {
+      "arm": "QM",
+      "identity_sha256": "aca88186d7077960c55e009125a115b8fd8e9ad446293c92eb0368f9b0bfc45c",
+      "sha256": "9f55a6bd655910ed906d1ab9c174ce754df380b97de755a886cdad9bc04e3122"
+    },
+    {
+      "arm": "QA",
+      "identity_sha256": "ca5b0b2d747bf6cbf0246f37fc40fa5de9cced72db0c2f4e1cd5e888a0674a3a",
+      "sha256": "9f1f337857b7327965ed811ca0581b835a0fa5d3bb9ab582b6d817d54be84843"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "odeedit.s06.layer-debt.lifelong-finalw-full10k.v1.technical-source-rebind",
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-DEBT-LIFELONG-FINALW-FULL10K-EVAL-V1",
+  "status": "SCIENCE_NEUTRAL_TECH_R3_SOURCE_REBIND_PASS",
+  "source": {
+    "head": "c2c44901ea65a470ef3dccf252b3be425711ffa7",
+    "tree": "b94c07afac284ec4e47b7d663d724ffdc3b75d15",
+    "tracked_clean": true
+  },
+  "reused_checkpoint_input_lock": {
+    "path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-finalw-full10k-v1/campaign-20260903-tech-r2/availability-amendment-and-input-lock.json",
+    "sha256": "3684dd72e3a38e8b10544b6071e592a10eafdec881b65f0c87656eb2c662dcc7",
+    "identity_sha256": "29487554644cc25ad8b34c18086206b03a54a36dd262e85f64b9beaa53c07e0b",
+    "checkpoint_count": 28,
+    "checkpoint_identity_recomputed_count": 0,
+    "reason": "Prior immutable lock already independently full-rehashed all state files, weights and cache/covariance bindings."
+  },
+  "technical_delta": {
+    "removed_cross_request_batching": true,
+    "canonical_sequence_metrics_direct_calls": true,
+    "canonical_internal_batch_size": 16,
+    "tolerance_change_count": 0,
+    "stream_order_checkpoint_change_count": 0
+  },
+  "focused_tests": {"passed": 5, "failed": 0},
+  "scientific_promotion": false
+}

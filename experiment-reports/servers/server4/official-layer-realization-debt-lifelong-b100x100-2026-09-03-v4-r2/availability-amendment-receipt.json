@@ -1,0 +1,2603 @@
+{
+  "amendment": {
+    "absent_exact_states": [
+      100,
+      500,
+      4000,
+      6000,
+      8000
+    ],
+    "class": "OUTCOME_BLIND_EXACT_STATE_AVAILABILITY_AMENDMENT",
+    "edit_replay_count": 0,
+    "exact_stored_schedule": [
+      1000,
+      1500,
+      2000,
+      3000,
+      5000,
+      7500,
+      10000
+    ],
+    "interpolation_count": 0,
+    "nearest_substitution_count": 0,
+    "original_requested": [
+      100,
+      500,
+      1000,
+      2000,
+      4000,
+      6000,
+      8000,
+      10000
+    ]
+  },
+  "arms": [
+    {
+      "job_id": "BOUND_BY_V3_MANIFEST",
+      "method": "memit",
+      "missing_original_requested_checkpoints": [
+        100,
+        500,
+        4000,
+        6000,
+        8000
+      ],
+      "model": "llama3-8b-inst",
+      "raw_root": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100",
+      "result": {
+        "bytes": 134534,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/result.json",
+        "sha256": "d6a5ad2a695c3c980a7da2cec332cb1f006e36b2e18996b8f0e5f0b3879695fa"
+      },
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      }
+    },
+    {
+      "job_id": "BOUND_BY_V3_MANIFEST",
+      "method": "alphaedit",
+      "missing_original_requested_checkpoints": [
+        100,
+        500,
+        4000,
+        6000,
+        8000
+      ],
+      "model": "llama3-8b-inst",
+      "raw_root": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100",
+      "result": {
+        "bytes": 135194,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/result.json",
+        "sha256": "5666a9c19a16d52c78d0859455cab79089ad4274c2916e966c68ee1675cb67e8"
+      },
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      }
+    },
+    {
+      "job_id": "BOUND_BY_V3_MANIFEST",
+      "method": "memit",
+      "missing_original_requested_checkpoints": [
+        100,
+        500,
+        4000,
+        6000,
+        8000
+      ],
+      "model": "qwen2.5-7b-inst",
+      "raw_root": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100",
+      "result": {
+        "bytes": 132302,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/result.json",
+        "sha256": "e3b071a3e9c7866d5fd6f0c1e16360ca5a9823209da8aac68e3fa5f5cbcab8a0"
+      },
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      }
+    },
+    {
+      "job_id": "BOUND_BY_V3_MANIFEST",
+      "method": "alphaedit",
+      "missing_original_requested_checkpoints": [
+        100,
+        500,
+        4000,
+        6000,
+        8000
+      ],
+      "model": "qwen2.5-7b-inst",
+      "raw_root": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100",
+      "result": {
+        "bytes": 132377,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/result.json",
+        "sha256": "8dc70e32360d552e99fe2f1af8b4dfc1a3eb26818d024c59dab7be2e8dd2ff9e"
+      },
+      "science_source": {
+        "head": "583aaa3f65602c13174ba4426ddb0f6a18ae7e82",
+        "tracked_clean": true,
+        "tree": "601d394d77f676cb247aa44f9389c0ccc29a0f54"
+      }
+    }
+  ],
+  "checkpoint_count": 28,
+  "checkpoint_member_root": "9b013c897547b05fafb2a8d8576c04483a26bd8830eb44670f121037cd5ff748",
+  "checkpoints": [
+    {
+      "accepted_edit_count": 1000,
+      "batch_index": 10,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "02d6df7a5e85b41e2386ce5904697b7c00e3d94b1000bbb2d03573b0e70429d6",
+        "shape": [
+          5,
+          14336,
+          14336
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1440975,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-01000.json",
+        "sha256": "b67aa633b79a465368baa3623a647f2e048e890302e5fc963f292263bd92cba8"
+      },
+      "edited_weight_identity_sha256": "7feb4c21272f0b3af1bd948c9dd18c25724873e4df05ea49fd47e47576136728",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "35bb977a421845b33764adf60d902fdcdad33760c45ec592afd549a8e3a28c79",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "23918e09fe92fe92ec28f2e6902ca0420e7f5b0563664e630dabe4a8748bbab2",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "8006010375fcb24f8595424389fad659aa9b9ae6c601f277171d42d294a8b038",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "ec898206a57f38413aee7405632754100ef4df1addef08b020e773100368066f",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "24e998c2560f18a3f9338d2662dbb832db55533b63fb3a2c945700f412ded710",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "bd5702a3622732dbae36effb7984d4670e70f37802948db98930713aa3222238",
+      "method": "alphaedit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 5284839565,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/state-01000.pt",
+        "sha256": "ec57e2f1d7f96090a53ca03623f999506dfbbcfbfaaca54306ab042ef43175f1"
+      }
+    },
+    {
+      "accepted_edit_count": 1500,
+      "batch_index": 15,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "ffc268b51c5a9ed155021851bca602f6f23d633eb8846e6bd45244233f04551e",
+        "shape": [
+          5,
+          14336,
+          14336
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1441093,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-01500.json",
+        "sha256": "bcfd82b8de808c3b8782bb9e88db7b695718765ca9b96db96a69ce4800db2b5b"
+      },
+      "edited_weight_identity_sha256": "b79cecb7779f36dcdd16664783da7da2af1b763cdc30f716f2a9fbc315340f07",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "bfd887a1b093dbc22ba288a768d5e558b129bf4ede22083ef3e6f44f87ae2913",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "41424b8fe8479cc3daf5f867fcd0eef96218a6417e8e91a2c84bb372cfcbff11",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "4946eeb9ef24b48c9d18cd0bf26ed9ba294e3878209661a12518ef728a429cf3",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "b188c3b2e1e22fe327860f22d69fa41e50092db9f90b26d1f93121389f5327ee",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "b959af6401021fda1853d684895d576c52da36872ba842e3075c1040ddfd0c5e",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "0494d8719b6474afe496ce395b13fb11d548efabad5f54d5df3c73e0f84e2ed9",
+      "method": "alphaedit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 5284839565,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/state-01500.pt",
+        "sha256": "2aa5c55fb2df840f6e14bb6779ac6cacf8524713b114bbc70ed9e3a32d09b3a9"
+      }
+    },
+    {
+      "accepted_edit_count": 2000,
+      "batch_index": 20,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "a0ee35f383be3193bcaf719e830131580ac82088fd690ea9219c00401e420303",
+        "shape": [
+          5,
+          14336,
+          14336
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1440998,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-02000.json",
+        "sha256": "61ce7ee9ebe0d7351d5b8fe6afbf7775ed9258d2fb0e4e9c8baf2189b6591e94"
+      },
+      "edited_weight_identity_sha256": "59702d3af2c8d98b48877082e9170feb1f50526e2f251a01bd43c318c8a679b8",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "ef7f4dc2ee2154ade217cfaf0d2ea76ba1e8cb9405bce4fc1623fc9f8152285d",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "0dbc22ba024d2333cd469c0a2b289b30aeba0ecd2acbfa43b8824282b377f58f",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "d4a2cf04009d3952c006e2b4b2b40ad351bdc04d588ee614076dc9373b6b2959",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "aac93858082762eba772a111a37ef53e5fadf92433204027fc881040ea6b013e",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "9035139828861f4e8f9cc21f5796a365406f8b484d7a30fa905f987f5c71ac23",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "d076172b3af300b9ccb1cadf4be688fee2b9177740d3b13606089c8dab043c23",
+      "method": "alphaedit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 5284839565,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/state-02000.pt",
+        "sha256": "23a9af78e8f236cca1e076843a50d67bcb854733242114d8eb008eb978d92708"
+      }
+    },
+    {
+      "accepted_edit_count": 3000,
+      "batch_index": 30,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "ea18a33552f33d3e08967ae4fd2c41e2b95f32174c5f7a38e0f2eca8579e1621",
+        "shape": [
+          5,
+          14336,
+          14336
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1441064,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-03000.json",
+        "sha256": "69fe1736f38d6ca521c4d30e5e95093b7dfd04a71542b7c3dae625de7c94be73"
+      },
+      "edited_weight_identity_sha256": "a71f1aa12802d9a04bd319186756dae1c45ac181419a222711bae92dd8cef9bf",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "36e83d72c99540f0e4639e79d9cfbca21997a34a9d8d07b6dbdacafd0472422d",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "d54b2c43d5f284a231cc09887c2aa38c2845e33426c29958545ba45b117ef05f",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "484abdb3e787e9fa691e7b1c71ffbb6fc56d8203ac59a3486f6caa56dba51936",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "3065eb22ba4cf4757909d600dcd3b215bd183efe80df9f924373b1abc35c2c57",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "efe0599deaf6d9321b4e7a0316e19d350804a68be5fe9279fa037a59f31fc3c2",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "55c0677a1e23820b30260acad78070d88b0492cbf95b154d9f1376992c156061",
+      "method": "alphaedit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 5284839565,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/state-03000.pt",
+        "sha256": "4457cb3a246636b0142fc1a941c0f796e5a2f8cf6d8496613549bc818410bf34"
+      }
+    },
+    {
+      "accepted_edit_count": 5000,
+      "batch_index": 50,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "e222ad9332750bf6facbf8716c6cd50f9bbf0c9650efe7777677eb63cb0dc1e5",
+        "shape": [
+          5,
+          14336,
+          14336
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1440567,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-05000.json",
+        "sha256": "7ca3161bb7e3fe41836e6a63fa934e40d324356167cfe454009e8c777f190c15"
+      },
+      "edited_weight_identity_sha256": "6f1cc0c68ec498246499213d47578d0c52d3613beb3d7510154e474225ba5707",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "9dd280925b76d13c732d61ef58209351e158438ee67d59b00bf9baa5605399a9",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "70a834bd5a68826b155aa0cbb16c4395afed78f38529b95a2288e282206935ca",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "354b9944a7c8a9373f7ae0594ded33cea9f8c21019b7927253441149c89ecb63",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "ed1d4d2f6367a1d0995830dfbae45d97cca8bf738a09fdab2c9df8d2bcb50720",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "e106ab2da12f4961be2ab21fb71ee5a1ac6e64fe59de35e8ccc73f8319f96c95",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "f7daad4142cc316419de29e87252d1a667471fac0b997f37b3cac98a5a4bac2a",
+      "method": "alphaedit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 5284839565,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/state-05000.pt",
+        "sha256": "1beae6faa652877a20ca5af8498ecd78a7b2ccf4d38d5309ced29cd412e55fcf"
+      }
+    },
+    {
+      "accepted_edit_count": 7500,
+      "batch_index": 75,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "fcce6686e63082537cc28e555277b422371d24c1f6f08eabde3ea3d1d792e6f4",
+        "shape": [
+          5,
+          14336,
+          14336
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1440294,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-07500.json",
+        "sha256": "a349f64be3e4fee2d7d19ba991d0fe3ec5c3ab8dbff30bd4215b1571a44c8dd2"
+      },
+      "edited_weight_identity_sha256": "283e01a948ae56e789fac3cf63ed3bedc4dfbab7f0f88a07d2e4f7e322841418",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "3e5a1a541c7c6ca830f073f698e9987598bd12be4651c4ab242ee6d2e86350ff",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "2c2624e671e84b851c35e64c8bd73d72e3e45037cc3277d3b369abc7940131e0",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "ddf806406be58df72ad6deaeb364dd82b388bc4fb2797a20fc2c04b3a535e066",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "9567b09829b582d5810c37ee740804af164870f2079eada2d45eb0452793080d",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "7d1b7c631edd5e307d4364f8bece9e97c6e088d3cd3c55b306b6cc60fd00ba7d",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "fd62ba2bfff4d4db87774cde32fc232b24032da43298c45d853f6aaf3674b76c",
+      "method": "alphaedit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 5284839565,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/state-07500.pt",
+        "sha256": "3d3cb88c03f58c1fc21cba03ff57c05b3126655a4afb34a64dd462f947405583"
+      }
+    },
+    {
+      "accepted_edit_count": 10000,
+      "batch_index": 100,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "666e347bc491bf185af7b700710424c199d9d7d36387ce6458790fe8fbc3330d",
+        "shape": [
+          5,
+          14336,
+          14336
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1440338,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-10000.json",
+        "sha256": "5c028d258bfb2757223d7bc9c6bb06d5665537bae8cf4e828466a5cf2aca61b3"
+      },
+      "edited_weight_identity_sha256": "c5ce1d94bd1dfb1d8fd64b1cc510f812a7da99e485981fe214ed48b07fd2a86b",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "beee78e6fee541c536eea51511773c387f4fa82a46ea3c6eb70cde1fa4770f09",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "71c9f71b5ba8ec6c9c734ec04576a0b365862305ac50f4f5f007ddd2d076ad8d",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "ae0862c99a2eea4779ae0f71b53498138a572f937bc6be78711ba31824a831dd",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "01be1da4ba8e3aa43c35bca80a1164a4cb27abf0fc9b6fc5734cfcd69c289e59",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "3aec7b64e8c00add7240f8ff947c015b51ab5bc94e42d8638677c19d7b0e0723",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "7a1dfe2515b9e92f9b6ed10dd793f90321bf6f6b68f00a5df7498af154dbde80",
+      "method": "alphaedit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 5284839565,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-alphaedit-lifelong-b100x100/checkpoints/state-10000.pt",
+        "sha256": "da2d2e2739a74bddb922b55d32ddb254307542d31eeda886a54a735d0c3fa337"
+      }
+    },
+    {
+      "accepted_edit_count": 1000,
+      "batch_index": 10,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "4fa213140e3b0e3721a5e3ce2193bc1645f143f1197a47a2c2d0dada776088b9",
+        "entry_count": 5,
+        "identity": "d8314a4a5f1ba793f48ea570e6675e503ccc550dc3aefa159ea33f5b46ea2cf0",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 846329,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-01000.json",
+        "sha256": "f6656d4b30c1783c4f1b44fcfe9ea0dfa2f05760aa0c40dbd5f6303297d83a11"
+      },
+      "edited_weight_identity_sha256": "5c465c8459ff8c6dd3db0a5e8fce46b8982e087e7868a997d14ac82563d7ef22",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "3b3a9df50f356044f067adc394612b50eb24abda9a4c27871262d8522285cac6",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "1dcffaacf98adf8ba5ffbef9dfc2ce6f21a840872c49c736be24314c617cb8cb",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "e789596feff37dd3f43a5b2dc5bda67b9199e5957ee368cf3e14d22e5b6182ce",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "41c3a659b8f89fcce3e2e2eb6d0a818a6966f891f63a8d8bd0fa9fadb97b6c25",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "82ab8c0cfb78ad84d33fee077f4aef356cfb68485eef4ba2bddea6b58debbaad",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "ce08e816f5e7c23ef3c745077e54703cc64df0869665a31dafa79e6bf9e1fb7e",
+      "method": "memit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1174421709,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/state-01000.pt",
+        "sha256": "c74e242352e9915bf3642148ab78548e3482fe1dfeee50482b8e340636f7cc51"
+      }
+    },
+    {
+      "accepted_edit_count": 1500,
+      "batch_index": 15,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "4fa213140e3b0e3721a5e3ce2193bc1645f143f1197a47a2c2d0dada776088b9",
+        "entry_count": 5,
+        "identity": "d8314a4a5f1ba793f48ea570e6675e503ccc550dc3aefa159ea33f5b46ea2cf0",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 846158,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-01500.json",
+        "sha256": "0004816c461fd19369993515ec3afdf9ba8f1245dc1a3cbc3ca010689058c450"
+      },
+      "edited_weight_identity_sha256": "a79f7fa892feee4f8c9def14312e1c22f5f5689cdf5013303f777a92068efa87",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "9ba831677def1a3fe4c8523a6aefb1e7a8524d5804cda2bfef50a82cce3bc1a8",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "4a0b7191dd6c757f5db7c6d822c1995d4513fa86c10302227e6784405f32c258",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "bc605349664a02f8e36c7b05dc5c781facebac166bc8225c3ec4509ca53c2d9b",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "a4d40a8e75df0bf9701b4565c46662ad0eb9a5806384b4374d8173884845898f",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "e9c6db2c2a6734e72f89226edbafe88aaa47a4f1fd954b8bc5b9aa8c04c02651",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "64a8383e6abe1fac20c8a50c6b5105a5091db1d40050820af7967977ae880edc",
+      "method": "memit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1174421709,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/state-01500.pt",
+        "sha256": "a677e790859bb11ddd800cc8d03c32de56ffe218405b90c4c254a5e4748bd962"
+      }
+    },
+    {
+      "accepted_edit_count": 2000,
+      "batch_index": 20,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "4fa213140e3b0e3721a5e3ce2193bc1645f143f1197a47a2c2d0dada776088b9",
+        "entry_count": 5,
+        "identity": "d8314a4a5f1ba793f48ea570e6675e503ccc550dc3aefa159ea33f5b46ea2cf0",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 846120,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-02000.json",
+        "sha256": "3a51c6200fbafeae5a85816daac1897f2476efc4c4a7f344d8b9a78979319d8a"
+      },
+      "edited_weight_identity_sha256": "504a68575bb7961ed8d078cbd5fb932158038d249e0fe62423b355043507959d",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "671df6d65ccb948a67bfc53cc20a1fd95ca2d892d9db3600a3e84f2839155e65",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "d38574b5024f8420d901cae7b83827295cdf2bc4b648b6881a498766ad24cf0d",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "14bd68b08659e8d47de55091485672be61f155a8fff444a2314a0f25b9ddd475",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "ac2020b3e4dd5da7bc25a5c3c6c04ed715dc113cac19effe4e454a4b75bba6ba",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "34b99190bc845372dc64bdada17d238b0bdf8b3dd2845bb10c57fd43b35dcf0c",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "63c2ad527100f380385e7b47b24da8ba3ae802df81749822a6020cb6ef79047f",
+      "method": "memit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1174421709,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/state-02000.pt",
+        "sha256": "600e2260953e2f048df84f6b2d23705eeb111e8d288c28bc1eb1760b246ff26e"
+      }
+    },
+    {
+      "accepted_edit_count": 3000,
+      "batch_index": 30,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "4fa213140e3b0e3721a5e3ce2193bc1645f143f1197a47a2c2d0dada776088b9",
+        "entry_count": 5,
+        "identity": "d8314a4a5f1ba793f48ea570e6675e503ccc550dc3aefa159ea33f5b46ea2cf0",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 846005,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-03000.json",
+        "sha256": "67744093c2699a6418ecde8c4f3bf889d4abe22083c049f2cbdc4e56fbf9ff80"
+      },
+      "edited_weight_identity_sha256": "bd3292f79503455d7066ab33a2d3492b79b341e59ea106648a4c4d16e07fd29b",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "93f3065c567c21acff31ca19ef58869fc72d8932193c65af60f395dc6399e894",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "78066c2b69860b68ddb0f9746d94136f6183727f9ac3f814f0038209fb845ce4",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "dca264b80a3c3dce59cd6041e386851c75253f5bd5b08e6f8f4f035948439554",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "1a97ddb8e453f81799600b98b5b22b6c6c2f05d8f6c099618015fa6490663a46",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "cd0a906e48a8214ec1709b3ba5ab83dfbae203e9baa197894e2b5a8756aff621",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "1ea96d75e836ee48aad4ccb44b0c37b3236667673e989f480147d233faad89a2",
+      "method": "memit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1174421709,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/state-03000.pt",
+        "sha256": "0061719599bed886aef459b5ed225e6e7aa6bdaa5bab603d1d3563fb22bbd996"
+      }
+    },
+    {
+      "accepted_edit_count": 5000,
+      "batch_index": 50,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "4fa213140e3b0e3721a5e3ce2193bc1645f143f1197a47a2c2d0dada776088b9",
+        "entry_count": 5,
+        "identity": "d8314a4a5f1ba793f48ea570e6675e503ccc550dc3aefa159ea33f5b46ea2cf0",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 846183,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-05000.json",
+        "sha256": "73bc0d8e4e114f3ac20d3d5602cc5a2b61875c7ce0ada50092a1922201bc834a"
+      },
+      "edited_weight_identity_sha256": "3a87671ff1f145d46bc641f80186979b302081fef8fb4b6568e469235acc758b",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "dee74077fb1c29183b2fcf1c7c3d0cc7f7f337d631608aba43a55098fd434ced",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "63e7ca322f307c52f0bb579b947f29a76d41339479d2495edcfb112de2c4c0cd",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "44008e60e097ac86db41d0a47f284502db3d5c516b841d8ff07e3b10edf24d1f",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "13c88a1e95000bd653c21a8e816bb314fc0980db709d1b356193c0493cdf09d9",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "c6f39f01fce14beca108f2a22022fa621143c1c3ef8d8654c97f78edb9e69597",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "9de736e79c351e0b13680c177ebdf8454e6dfe79588cc17e6b035aee1a0921b2",
+      "method": "memit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1174421709,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/state-05000.pt",
+        "sha256": "b531ce06a092b5057c2126c00d7d112ccafb38407bca175cec3306ce705344b5"
+      }
+    },
+    {
+      "accepted_edit_count": 7500,
+      "batch_index": 75,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "4fa213140e3b0e3721a5e3ce2193bc1645f143f1197a47a2c2d0dada776088b9",
+        "entry_count": 5,
+        "identity": "d8314a4a5f1ba793f48ea570e6675e503ccc550dc3aefa159ea33f5b46ea2cf0",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 846072,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-07500.json",
+        "sha256": "24f17f78c18f9f9bac144453f8c668546210cf7c63e93a260335cc68f0bf45f9"
+      },
+      "edited_weight_identity_sha256": "6d7ad3f8f633a6c6b088d3eceeebcc06678018bfc45df9270559241dc12faecb",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "6f42b1b642187beb0d11f527a4182db4587804bd923094c8ca72c86436d41500",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "327b461d58ced21514ba43d15c771f775dc251b837631b14075eb8a0fa375d65",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "d28ec37ba9aa5df7ebf3bd7f5ec7d7b79dc8b6e4766ee3878eb4bb3c1dec182d",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "651f894514fdd278587ffbf666ad64b57b81f9b23d3ef0c77eeb7932f9571c8e",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "dad5d2b83d7540e8b6e33a13613ee9d7802332dc26720cba46fbdcf3d35507b2",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "a4025edbcaaad822734a4c54009e27762d90e196afb981c01c63100aa47be12a",
+      "method": "memit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1174421709,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/state-07500.pt",
+        "sha256": "bd8840b00c2ee8071b61f12d1f5a57824d2139b7a4d2e287ab13e6ee3c9f87f2"
+      }
+    },
+    {
+      "accepted_edit_count": 10000,
+      "batch_index": 100,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "4fa213140e3b0e3721a5e3ce2193bc1645f143f1197a47a2c2d0dada776088b9",
+        "entry_count": 5,
+        "identity": "d8314a4a5f1ba793f48ea570e6675e503ccc550dc3aefa159ea33f5b46ea2cf0",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 845819,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-10000.json",
+        "sha256": "af4f9349fab81bebe4391661f97f975da1547342c4ff29312ae1580c1831d902"
+      },
+      "edited_weight_identity_sha256": "c1aa01c179e85206c7ca32340f7017c9f5d3617cefef0752909639f817f8258e",
+      "edited_weights": [
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "d03d743e5d716ba1b90cf06419879dcca00ead5eadee227acb24a349f688c4be",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "3d7988401a75f55a2eccae81a58d430f73b4364caa3cf80ebe6c36b88edaea27",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "459a3746f33692280482b9039c07d6eb4a5b05e4a3fb572750ac787f5150d9c5",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "51ffd4de16156aac34138187a86a8087f1afdef7964b3d673dab194979bd0838",
+          "shape": [
+            4096,
+            14336
+          ]
+        },
+        {
+          "bytes": 234881024,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "b2f3114880a633a8e19912996d8fc9adade9c347f957a563eacb8e919cd50e7a",
+          "shape": [
+            4096,
+            14336
+          ]
+        }
+      ],
+      "journal_chain_root": "6ad2754dc5471188bc4e162afdb844559e42743a3a910bd460190a586b288553",
+      "method": "memit",
+      "model": "llama3-8b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1174421709,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260902-four-arm-completion-tech-r1/llama3-8b-inst-memit-lifelong-b100x100/checkpoints/state-10000.pt",
+        "sha256": "e283c01e1938d3d9c65c01145acb791f6202025b9ac825e088df84bc48f42000"
+      }
+    },
+    {
+      "accepted_edit_count": 1000,
+      "batch_index": 10,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "2a54b718838f97ad3e70926df90c8ed81b821fe7a24e86115413adc6b83817f0",
+        "shape": [
+          5,
+          18944,
+          18944
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1442483,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-01000.json",
+        "sha256": "fb4d83e7bfd76033d35d6814ca55fc58ce1c5577ac74928ca550afb6e616c94d"
+      },
+      "edited_weight_identity_sha256": "21b170287c761b8fd6c2c1a639d1db3f2eab565c16b9ab001efc9449f1152474",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "52148788410fca59b434216aadb01b0b9d7b612ec1eea0b438ed9f15317ffd9d",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "a7751802571e32212a2d91cc806f10778ecffaa753ded8d25eb8f79681646a0e",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "cbc8eccda93421e01ea2695eaeaafb8ac732941f6f3c60a5dc2813510614de1a",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "bb8cfb4db767e866314093255aa96115a0ec767cdb6e9429dbfec367eb3ae622",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "caf761d3e9988c2fcaf5ddb1f2b665e5aa2b464fbfa22be38f5b74fcde6951cf",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "5e2b88d4dc9d48cedfe5e01b26cc6c4c3b9b69cdda2a48862239bc53616515a5",
+      "method": "alphaedit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "583aaa3f65602c13174ba4426ddb0f6a18ae7e82",
+        "tracked_clean": true,
+        "tree": "601d394d77f676cb247aa44f9389c0ccc29a0f54"
+      },
+      "state": {
+        "bytes": 8535425249,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-01000.pt",
+        "sha256": "9387f5cf2e316a0516dd3850c82bd22f574684a5232ea69d0b64a49a10fcfe8b"
+      }
+    },
+    {
+      "accepted_edit_count": 1500,
+      "batch_index": 15,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "b80f7d4a72f2df98d5a85a1ef2699da94e21a464c63b3daa11364e1b21021d52",
+        "shape": [
+          5,
+          18944,
+          18944
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1442535,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-01500.json",
+        "sha256": "6b6e4223a1e39df0183237df55eb67ec4a526d628924cf646a060b6d66ce3da7"
+      },
+      "edited_weight_identity_sha256": "fa00d40bd86ac2efca674c4ff73894b3290c43ae633fab1621ca5b4e50ca978c",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "ebd8d1bcecdf543f0900b5c31bdf8cac1dee5b6d4bbdab525255b60590ff3ba7",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "202ec16cba682eea18fa2107e3c450726a7db56c61bc68ebb7abe0530b4d06de",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "34cfff4a65a65234db544a2648bcb274deba9f387baef8a3b63124fcda0e3217",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "6ceaac2a8c45a148399e10567e55326a14002cc188cb3a4042ae78fc52343eb3",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "50421dcabed9e04ab7288cfd17d9e377003c5d70631adad7152838b4e6a5bace",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "426ef526e313ce2cbad3de9d5b0c7fa7621b0745fa256776420d697512aed685",
+      "method": "alphaedit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "583aaa3f65602c13174ba4426ddb0f6a18ae7e82",
+        "tracked_clean": true,
+        "tree": "601d394d77f676cb247aa44f9389c0ccc29a0f54"
+      },
+      "state": {
+        "bytes": 8535425249,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-01500.pt",
+        "sha256": "8f0a47f4cd3f0da82daf33efda64c1f71a842c4fcaf9f5846761f451978fa1d6"
+      }
+    },
+    {
+      "accepted_edit_count": 2000,
+      "batch_index": 20,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "d35c62580ec05872c337fa87903617bada97b348add988e0096fe2f79ddde187",
+        "shape": [
+          5,
+          18944,
+          18944
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1442771,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-02000.json",
+        "sha256": "04056b85bcba502addc4b7838346c8912d273e16f611e1111f71b1a57f3844ca"
+      },
+      "edited_weight_identity_sha256": "79d3748715aedd16f34cfc05441714189295c890119ecb3fa608a5cac34d1013",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "c0353d4d027be4f9d04a1c75121b7a36215b049a4abb4fe507ce62f6ae31dbf5",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "7aa59536b1d771e0a29f23e2417016b2305975f80de9ddd690681848cbab38d2",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "d902e9bb682d4fa4601ca6fd01a30d7c1003bfa40489767a8f10350b8c3a70da",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "600e6506693ece79d6a7118e6273fe43f3071989d41e72b9d748b00dc3d4158f",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "84ba6a9dcafdc27cc9c3b98afbd052e1378b5a251c41b881fc481b722d539b38",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "64869398ddb1d962e4c4c41fff5f5a8eb6e4e8703134d3ef35a192a15bfa2638",
+      "method": "alphaedit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "583aaa3f65602c13174ba4426ddb0f6a18ae7e82",
+        "tracked_clean": true,
+        "tree": "601d394d77f676cb247aa44f9389c0ccc29a0f54"
+      },
+      "state": {
+        "bytes": 8535425249,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-02000.pt",
+        "sha256": "62a574c5ec949741d369e6133a9b38e7c983c7a7928cebec1f3dafa40a954058"
+      }
+    },
+    {
+      "accepted_edit_count": 3000,
+      "batch_index": 30,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "761d06c7b604db6a09348c679d3969615d74a9bc3b638f5e6786341133cf83b0",
+        "shape": [
+          5,
+          18944,
+          18944
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1442699,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-03000.json",
+        "sha256": "11fdd83cac356e69b094df0a0ddeca00fb65c4d86b27e068e12ad86c3dffe21f"
+      },
+      "edited_weight_identity_sha256": "3c9befc19a91f8dc633165ff6fb1ab06214164a1140f92f8ea42719e398167e3",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "4b65466902c811103aee3986e7fb18f0da50ca2561fbc8a72ac97b0178a1163f",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "b07e37a03f5b0ae471f7ee0117df457761abe059b5bed5166e2fb66d4e9a5812",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "221739f692d55f90d34fd1671751a95851dc6fc9b2745c7185040eb9beb4f21b",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "a88a79a7af64afe402b9b13e7d2daec7de4fe0797c8f6f8ad5ecbcc4d319ddeb",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "04ab4a18925275b1e0a726b52bda4c3216f8d7bd112242836562c40829841cfe",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "7e4f9266283d834784ad870b3d68659e337e592cd5f0a555b6f97b092f22aa79",
+      "method": "alphaedit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "583aaa3f65602c13174ba4426ddb0f6a18ae7e82",
+        "tracked_clean": true,
+        "tree": "601d394d77f676cb247aa44f9389c0ccc29a0f54"
+      },
+      "state": {
+        "bytes": 8535425249,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-03000.pt",
+        "sha256": "2618e5ccc32933afb420baff8d1a578123115fbc2030b67a5e9e12c9358ef981"
+      }
+    },
+    {
+      "accepted_edit_count": 5000,
+      "batch_index": 50,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "0676afaf68112885a1e34d4b866c6d4cff8f84799366c0812d4515191b08bb21",
+        "shape": [
+          5,
+          18944,
+          18944
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1442661,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-05000.json",
+        "sha256": "cd82a9b1380d00bc3490a63b21dc46480dc9a96947e4cf6873c9d5a174c2c709"
+      },
+      "edited_weight_identity_sha256": "3b8f82e3094f0ea5258c0557e5e52120085fdc2077f4f27fff439d7d0e1f590d",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "bd293fea15e033ec9291ab3ab60ee2e62b2a921dcbbe266f4add445c2f85eebb",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "ff5dd9efa535fa37cbf558ded4d72734489b43d72ecb5ac11f328b0fc85007a6",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "ec3bcef34be3c565fb8f76b402ce306f5872d28c3ff61bb80a23b7eabd223e55",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "8696403b8e5859896b2e5a8db1bbc6ba0497b856c3f1bee1005d03f7846d28be",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "910930859be08a7d1eb4c2358c27c1bb99772e7d802fea392f34c79257d5062a",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "996c81f5a59a063f095b2b884b80a22411f26f9e292e2ed79c029b832a61b785",
+      "method": "alphaedit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "583aaa3f65602c13174ba4426ddb0f6a18ae7e82",
+        "tracked_clean": true,
+        "tree": "601d394d77f676cb247aa44f9389c0ccc29a0f54"
+      },
+      "state": {
+        "bytes": 8535425249,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-05000.pt",
+        "sha256": "52f558132e9846ce0a36bb5ff414b02581db3411f90188fae04b18f52f96d873"
+      }
+    },
+    {
+      "accepted_edit_count": 7500,
+      "batch_index": 75,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "5ce5cab566ccdd9bc1108bb96f8d4a2286fb3f54ca01b025865767460ccbf272",
+        "shape": [
+          5,
+          18944,
+          18944
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1441668,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-07500.json",
+        "sha256": "44b032b37c859e88804bc7418d54caea1db16f3468940c4a95d2b88206a11ad7"
+      },
+      "edited_weight_identity_sha256": "4edcdfb9dda48bb4633a650316f547b29745a680d779cf2244a80f1254a4461a",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "c6e01d751df0df1a482816cf8c699251293dd7759726c8e18803a11d3ceac996",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "c7e55a4147692e16e7fa5c17840cfb57b64ebb69d1beddb2a399fc28d5044248",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "c654f3649e4fb7de8c455e792625f37aa467b02103c3e2b52c00cf12a042cad8",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "efdd3aa85f7b597316865e31af5c52b7956476bb71e6c22364ff1567db3c9d7d",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "6fdf5636248e23f7eb7f4e8dac86f037e811ede3c3226cf5d271e2a93baef21e",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "9a25ba853371787e8326dec24d80534517956379a545c93d103cca6d69b837ca",
+      "method": "alphaedit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "583aaa3f65602c13174ba4426ddb0f6a18ae7e82",
+        "tracked_clean": true,
+        "tree": "601d394d77f676cb247aa44f9389c0ccc29a0f54"
+      },
+      "state": {
+        "bytes": 8535425249,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-07500.pt",
+        "sha256": "ad9690712ebbaf80c9ccb7394e426b18fe3d8a0112cb2ee52bb142d402bceb7a"
+      }
+    },
+    {
+      "accepted_edit_count": 10000,
+      "batch_index": 100,
+      "cache_or_covariance_binding": {
+        "dtype": "torch.float32",
+        "kind": "DYNAMIC_ALPHAEDIT_CACHE_C",
+        "loaded_into_evaluation_runtime": false,
+        "present": true,
+        "sha256": "c0d78dfb4cabcf275c2c94aaf1a896a726d5774d8713046dbb6eca70fd84b723",
+        "shape": [
+          5,
+          18944,
+          18944
+        ]
+      },
+      "checkpoint": {
+        "bytes": 1441577,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/checkpoint-10000.json",
+        "sha256": "e5b49088ef6d0bf58d38e217f4e55aaa199128474d4508bcf692b757d8b37c97"
+      },
+      "edited_weight_identity_sha256": "b84e6613bbf487965c9f3094a93065322e8dd48070dab59c9ecd1923c67338bb",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "de52ef57212f44b952a3a13809965aeada34ba59acb08e9c845ee17eff537141",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "7c3eb3396ff34daee82bda3bebac155bc4727df4f490c238671223ca092c6b03",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "393e3a1625c192a3a8423693e590972f3475894dbef01e45af0f7c1b7bdb1d92",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "cc5fb4c4caab00d1824f2bb4fa24406e564d2c53d1ad13eeb7a1374b4072136d",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "56abeae7e463965fd87d8f7f773e6595a577bf6fe0ca3ad9341f26686bd86e74",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "635a65f24e2e45b19c19f05c1c2006611a3e9f601615254d3bcb78f31113d905",
+      "method": "alphaedit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "583aaa3f65602c13174ba4426ddb0f6a18ae7e82",
+        "tracked_clean": true,
+        "tree": "601d394d77f676cb247aa44f9389c0ccc29a0f54"
+      },
+      "state": {
+        "bytes": 8535425249,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-10000.pt",
+        "sha256": "d07ee8a7402750e405ec5e11d8de6504d8ece19168262af0e34fadea6b626a16"
+      }
+    },
+    {
+      "accepted_edit_count": 1000,
+      "batch_index": 10,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "f0a885f7d7f79bbef52d73815a1f02d0de3485150c725425869f2afc8ff6d936",
+        "entry_count": 5,
+        "identity": "7ddeff300a825ad0af59f6e41f25a33793a3ce3c80aa69cc55191ddb20772dec",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 846763,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-01000.json",
+        "sha256": "91ccf501abc3a1983ae14d57f11ca369a9811dcc048549dc27567be0e680ed32"
+      },
+      "edited_weight_identity_sha256": "784ce592003d8f8b72daca37b761469531e2fbccddfaef7c1a03e8c43422236b",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "fe60988a12823311e554f4360c667459a96a5650bd3b95360fbb583c2226e209",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "1082e125755a249532941781cff34669fa552bbf058f44a9d378d441ad0e1778",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "c1d8fafec52a83da0a1422d5a95621ca45cdfc6befd9855e83593c2651d0c7f7",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "bb17fc0b2168bbc3ea59525c8d35bfb761704ed434e67fe23524989b4798ca53",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "cc209b6689f9a9945e3f5f51f38d6834390f76f294d20c3f9ab9bf9e14899171",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "9204323a05639042234617f5c3d92d6606d843e77e048a6399b096460e8906e8",
+      "method": "memit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1357922509,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/state-01000.pt",
+        "sha256": "7e9eac02cdd70a3a63580342dacbc30cc537e1533f91cd574951252faf2c034f"
+      }
+    },
+    {
+      "accepted_edit_count": 1500,
+      "batch_index": 15,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "f0a885f7d7f79bbef52d73815a1f02d0de3485150c725425869f2afc8ff6d936",
+        "entry_count": 5,
+        "identity": "7ddeff300a825ad0af59f6e41f25a33793a3ce3c80aa69cc55191ddb20772dec",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 846377,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-01500.json",
+        "sha256": "84d8304659ebadd01de83e0dd6b53d050e6b477e33acf731fca81ffab81577e9"
+      },
+      "edited_weight_identity_sha256": "885fbd6727b2ead37a81cb596cd7c4dec17ab4b2d3935adce0bb094d37b36c69",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "7cfefd6720e0677878055b60f7c580951546de01aad202279b82e73f677fff9c",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "acb6a544cf18b1718cef0578d738119940d761d7028530a5b316749f6e4fba1f",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "d6c982366e482647fcdeb01c62768c8582a5780c6e6c865f0fd984a15db25018",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "2e0bb56b19acf1dbd7bc25bdb4aaa0a81c98ddda46394149934ae933331cf640",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "2a4f14fda1b0119226b9eb518cf157b8bc77308a5db3c8ea8888086d23f150d1",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "2ba7d5193794883e88904cc9fab3c936cc8bad28e029d98b78d75d3b64f760eb",
+      "method": "memit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1357922509,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/state-01500.pt",
+        "sha256": "8363ac7f89e1a3dd8b9af811b8cf0242b2fe7757a5c7e0d31d55a7c51b3cf972"
+      }
+    },
+    {
+      "accepted_edit_count": 2000,
+      "batch_index": 20,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "f0a885f7d7f79bbef52d73815a1f02d0de3485150c725425869f2afc8ff6d936",
+        "entry_count": 5,
+        "identity": "7ddeff300a825ad0af59f6e41f25a33793a3ce3c80aa69cc55191ddb20772dec",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 846588,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-02000.json",
+        "sha256": "2fdaedc13767d37e327d93e11d48b90df941f1574189e8dba3b6593cc756c1d5"
+      },
+      "edited_weight_identity_sha256": "c764cf5277a02e6edab850b40941735a52003983af36cb959c46e4b7df0b6a93",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "801068912a982dca39add265b4cb4603ceecc56d1252f741c073086a502acdcc",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "8bd27f61a593d1a2b36da647cb692d20521ac47d6ac87378b126fb8158881dec",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "55a2358000a51c42ec7b2c73f74f1d97228609b9b257fabfd24a1867f1855c55",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "49208fbdf99c6231c12cc69edaf767f70ff53c5d0fc93346ea882becb35692a4",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "e421c7494b3092a5a95634ca22eb3df523efd42d73020ba73a0bb32881c1a2ea",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "93931fe3749e4796c0382f260f8499a81ae00f081f4eb0a5f37356b24ee6c241",
+      "method": "memit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1357922509,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/state-02000.pt",
+        "sha256": "0fd28a6b952a0ff71d5802a529ee7473eee0d9fcde08a5a93776dcc519d566b8"
+      }
+    },
+    {
+      "accepted_edit_count": 3000,
+      "batch_index": 30,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "f0a885f7d7f79bbef52d73815a1f02d0de3485150c725425869f2afc8ff6d936",
+        "entry_count": 5,
+        "identity": "7ddeff300a825ad0af59f6e41f25a33793a3ce3c80aa69cc55191ddb20772dec",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 846790,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-03000.json",
+        "sha256": "cb87689179b87b9cd7f5da464282705210719f00c65633d901f0941db17b1ff1"
+      },
+      "edited_weight_identity_sha256": "90465dc0302eba385c3504cf48436859e0537ac6a8c9b20f9fed68fb51feb855",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "3b2eebd387b1f7f9c7f28d3eab00c210c23588e65a2cff76ab5e8f7b65555b94",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "36cd87f9782b868e3ec41a091003095651208b5ecec2755784af0ab29f3f25c0",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "84d283f633cc98ab6e22ea9e3c72afc19d25fa329bd653b3d584c75cca46e767",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "14713253457f021437d2ab21bdb1e2e3f6e810de540e8b49cfc479120c46910d",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "8b6cdeb99dc081a420176ff2b6c65f4116fdffddabd2c15dcc6dfce7088f366e",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "7672a4682eaa2bd89d20c4ed9a2d24eaf55257cf31bff9a646077460a447dd01",
+      "method": "memit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1357922509,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/state-03000.pt",
+        "sha256": "ddf0c4b3daa9f739e3a28a6f0537d89f5dcb227efd7acde110d53d13defa92f3"
+      }
+    },
+    {
+      "accepted_edit_count": 5000,
+      "batch_index": 50,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "f0a885f7d7f79bbef52d73815a1f02d0de3485150c725425869f2afc8ff6d936",
+        "entry_count": 5,
+        "identity": "7ddeff300a825ad0af59f6e41f25a33793a3ce3c80aa69cc55191ddb20772dec",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 847087,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-05000.json",
+        "sha256": "1e09dc48abbe4850bf1a77f23f112fc9f26336053caf39554c7b9d2a481618e0"
+      },
+      "edited_weight_identity_sha256": "796d6f25c94e0a714cbd1e804ce5baa35f3f55ec7ddd5e8f19502317028566f6",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "97e7381b7d57c9232b79724d3b17efd0b244cb582ad02b297b673c82a25cf092",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "daf2d7bf2a2ca3e1663a7b5191532436940ccaeb999407724402ac7a65224fd3",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "2bedf6737d3f27eaa505d225d3d87f2b96f09b13cf7d1d5e99e3dbaffc9cce05",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "4d8be7c3f2cc5c4c4d2ee1f270bf9a9d2672fe751848451ff6fff7d123a378fc",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "97637a5ed8f9e5e1ae8ed34050ec4f7ab7654e33476627ac12bc6aed39b79f58",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "aa9346bfd93f886ac3eca0e86e2eb915de2b5d245775c831e6cd8efccb63f81e",
+      "method": "memit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1357922509,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/state-05000.pt",
+        "sha256": "588b0cca28db17950281add733a7e6872885ddd67d79f47bc0bf1badc25d25e4"
+      }
+    },
+    {
+      "accepted_edit_count": 7500,
+      "batch_index": 75,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "f0a885f7d7f79bbef52d73815a1f02d0de3485150c725425869f2afc8ff6d936",
+        "entry_count": 5,
+        "identity": "7ddeff300a825ad0af59f6e41f25a33793a3ce3c80aa69cc55191ddb20772dec",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 847017,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-07500.json",
+        "sha256": "7fc2b09b63c3aeed6a43ae3c41d5847baaacb3d28f095ff4d6ac6faf08fe130f"
+      },
+      "edited_weight_identity_sha256": "7c7acfc3c1e3f994a230138d1dab582415db57fb73e924cd6f8b5f3c32eaa259",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "371aedcbbefe40c4552bfe879daabd1489e87c31d08c844b84318ef53a8385d6",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "a85b8c6424802b0e3dc2221d4abb3b96f14738a6fbf9932383cf733d4b722013",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "cd0743222c08b19ac57a0ca9f22f0a9f0ace80f985032605ef3c6e72e467d3c4",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "b9120650c155a2e441dd0e93fae694dc887b77ba86714efb7cfd24e3737254ae",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "e02f2d75281a8628fba77cb9cd5885859eb153be03b48f0e5d85fb9f1cde1781",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "92fae5e1214b88e829a7c1fc3a6102e5c3e236f31cece19c990e2f01365174e2",
+      "method": "memit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1357922509,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/state-07500.pt",
+        "sha256": "5007d0039af4c63cc74e5d9c6bbd85bec3b8f160084dbef8dfc0aff9547e149d"
+      }
+    },
+    {
+      "accepted_edit_count": 10000,
+      "batch_index": 100,
+      "cache_or_covariance_binding": {
+        "entries_contract_sha256": "f0a885f7d7f79bbef52d73815a1f02d0de3485150c725425869f2afc8ff6d936",
+        "entry_count": 5,
+        "identity": "7ddeff300a825ad0af59f6e41f25a33793a3ce3c80aa69cc55191ddb20772dec",
+        "kind": "STATIC_MEMIT_COVARIANCE_COMPUTATION_CACHE",
+        "loaded_into_evaluation_runtime": false,
+        "request_history_width": 0
+      },
+      "checkpoint": {
+        "bytes": 846332,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/checkpoint-10000.json",
+        "sha256": "cd49f8e59fe64c8be08f2e061dddeaaa634886bfc79fed6c481a4d7a88efa400"
+      },
+      "edited_weight_identity_sha256": "1b0b05d1b4ce934db964813b1db34ea146a999c9f51e4abb580ee732754c981a",
+      "edited_weights": [
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "74a3e2cf828ab234f5d01c021065fb1d3b4ca646140bf44b11ebadb4d7785f04",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "885316e43fca4f066ab1e3aba7a784b9f65aecf6e8ef1f6dfca55caee0d8408f",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "7a50c69475156951d8b1b7b454a71b68242762603ec9c40823795c345c9fc154",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "03844950ded0db9f1b45256fcb308e3ca452e06716e4ebc23adce6bee3609da3",
+          "shape": [
+            3584,
+            18944
+          ]
+        },
+        {
+          "bytes": 271581184,
+          "dtype": "torch.float32",
+          "name": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "d6e71e726c44092f2d7b8a9986352806b203db63618efa0cac890cbdaf741fea",
+          "shape": [
+            3584,
+            18944
+          ]
+        }
+      ],
+      "journal_chain_root": "fc3288ab250326bfb519ee848538ee4229474a70d72f7db017836f4d89c4140d",
+      "method": "memit",
+      "model": "qwen2.5-7b-inst",
+      "science_source": {
+        "head": "85a05d0a831db667fc68c27e634302eb30cc7d79",
+        "tracked_clean": true,
+        "tree": "84113d14cb0427afd871448fd4a5c870c7f31153"
+      },
+      "state": {
+        "bytes": 1357922509,
+        "path": "/data/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-tech-r1/qwen2.5-7b-inst-memit-lifelong-b100x100/checkpoints/state-10000.pt",
+        "sha256": "91a6bc210c6bcb9efa7f00d7d9299cc8363d236f149e13c1c84c8fd2b20323a7"
+      }
+    }
+  ],
+  "easyedit": {
+    "head": "14cea8245f06715684592ab55184939b99d70784",
+    "root": "/data/janghj/EasyEdit-stock-14cea824",
+    "tracked_clean": true,
+    "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7"
+  },
+  "evaluation_lock": {
+    "absent_exact_checkpoints": [
+      100,
+      500,
+      4000,
+      6000,
+      8000
+    ],
+    "age_early_fraction": 0.2,
+    "age_recent_fraction": 0.2,
+    "backward_count": 0,
+    "cache_history_mutation_count": 0,
+    "checkpoint_interpolation_count": 0,
+    "checkpoints": [
+      1000,
+      1500,
+      2000,
+      3000,
+      5000,
+      7500,
+      10000
+    ],
+    "compute_z_count": 0,
+    "edit_replay_count": 0,
+    "evaluator_batch_size": 32,
+    "full_fp32": true,
+    "imputation_count": 0,
+    "nearest_substitution_count": 0,
+    "original_requested_checkpoints": [
+      100,
+      500,
+      1000,
+      2000,
+      4000,
+      6000,
+      8000,
+      10000
+    ],
+    "parameter_gradient_count": 0,
+    "request_chunk_size": 25,
+    "scientific_promotion": false,
+    "writer_count": 0
+  },
+  "identity_sha256": "29487554644cc25ad8b34c18086206b03a54a36dd262e85f64b9beaa53c07e0b",
+  "immutable_v3": {
+    "manifest": {
+      "bytes": 46003,
+      "path": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3/analysis-manifest.json",
+      "sha256": "47398d3e497edbbf8f2ace5be4f315134653f16ee2698d47945d4769fe0deb15"
+    },
+    "receipt": {
+      "bytes": 2145,
+      "path": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3/rooted-analysis-receipt.json",
+      "sha256": "9882b8bca524f2a34d2a3c1c4fea803aea834552c675a19be2b1e69ab7224af9"
+    },
+    "report": {
+      "bytes": 69433,
+      "path": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v3/official-layer-realization-debt-lifelong-fourarm-exhaustive-factual-ko.md",
+      "sha256": "c9daf397b8c9fa679fa89e4f6407d7e03761a11f9ead177e998a97e726e24a8f"
+    }
+  },
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-DEBT-LIFELONG-FINALW-FULL10K-EVAL-V1",
+  "raw_outcomes_opened_for_schedule_decision": 0,
+  "schema": "odeedit.s06.layer-debt.lifelong-finalw-full10k.v1.availability-amendment",
+  "scientific_promotion": false,
+  "source": {
+    "head": "596150ef7ae6776cb99f0c6da93f145ba76db9df",
+    "root": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4",
+    "tracked_clean": true,
+    "tree": "103ea9776ce66e2706e03b78252dcaac565416f7"
+  },
+  "status": "EXACT_STORED_CHECKPOINT_SCHEDULE_PASS",
+  "stream": {
+    "dataset_path": "/data/janghj/EasyEdit/data/counterfact/counterfact.json",
+    "dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+    "evaluator_identity": "72b8ecb737157a42d6a055ffd339dc3f907876a0a98165a00cca49ca9bbed07d",
+    "locality_prompt_count": 100000,
+    "order": "f86dfc97f50614d8fe3d7ed929326485ea0b1237151f93d7ed7339bae8979c43",
+    "rephrase_prompt_count": 20000,
+    "request_count": 10000,
+    "root": "2951b86dfa829ef38b2fb03551a81dc9ce4f11c779af3f0f0c027224ed65cf7d",
+    "sample_duplication_count": 0,
+    "seal_path": "/data/janghj/ODE-edit/local/state/official-layer-realization-debt-lifelong-b100-v1/stream-seal-v1.json",
+    "seal_sha256": "5848dca7323335483039ec125b644dadfb87b0996133f9825f951088cf3a7861"
+  }
+}

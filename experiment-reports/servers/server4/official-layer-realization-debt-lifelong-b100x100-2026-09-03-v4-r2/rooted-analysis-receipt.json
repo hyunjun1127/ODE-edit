@@ -1,0 +1,20 @@
+{
+  "external_raw_member_root": "83fc5d2c06011bed139b4924e117bafc97b866aa1c0e15aa545c8a8e6118363e",
+  "identity_sha256": "03b772b13d5fa8f126b20d4d64862da464ca96a6be1e0520dc89868c2dfd73dc",
+  "instruction_id": "ODEEDIT-S06-OFFICIAL-LAYER-DEBT-LIFELONG-FINALW-FULL10K-EVAL-V1",
+  "manifest": {
+    "bytes": 8318,
+    "identity_sha256": "af201dbdc88c42ff47455b4e5fc18f0874f33aa291be031fdebe8d27e7d2931f",
+    "path": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r2/analysis-manifest.json",
+    "sha256": "848dd78ea44d26105eb2f75344aa252413d249fddf2b03dd104e3a78f9cea0a9"
+  },
+  "member_root": "aeb08ebe484b21c09a2d90e7ce2a5e33fcc90c7608b35da958ad73e527c81015",
+  "report": {
+    "bytes": 79795,
+    "path": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r2/official-layer-debt-lifelong-finalw-full10k-factual-ko.md",
+    "sha256": "225fbe8cc7fea44a2e9e00b01a1e3648686e439cd6618a150165b3f33cc95c68"
+  },
+  "schema": "odeedit.s06.layer-debt.lifelong-finalw-full10k.v1.rooted-analysis-receipt-v4",
+  "scientific_promotion": false,
+  "status": "FOUR_ARM_FINAL_W_FULL10K_EVALUATION_TERMINAL_VALID"
+}
