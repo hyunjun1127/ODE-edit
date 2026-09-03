@@ -9,6 +9,8 @@ import numpy as np
 import pandas as pd
 
 from project.run_scripts.realization_debt_phase_a.analysis import (
+    _arm_tail_diagnostics,
+    _debt_tail_hotspots,
     _derive_layer,
     _fixed_group_summary,
     _request_endpoint_join,
@@ -98,6 +100,32 @@ class PhaseAAnalysisTest(unittest.TestCase):
         frame = pd.DataFrame({"model": ["m"], "method": ["x"], "batch_index": [1], "layer": [4], "x": [1.0]})
         with self.assertRaises(AnalysisBoundary):
             _fixed_group_summary(frame, ("model", "method", "batch_index", "layer"), ("x",), 100)
+
+    def test_tail_diagnostics_are_row_based_and_stable(self) -> None:
+        frame = pd.DataFrame(
+            {
+                "model": ["m"] * 3,
+                "method": ["x"] * 3,
+                "batch_index": [2, 1, 1],
+                "request_sha256": ["c", "b", "a"],
+                "layer": [4, 5, 4],
+                "rho": [1.0, 1.0, 1.0],
+                "tau": [2_000.0, 2.0, 3.0],
+                "debt_native": [4_000_000.0, 4.0, 9.0],
+                "debt_under": [0.0] * 3,
+                "debt_over": [0.0] * 3,
+                "debt_opposite": [0.0] * 3,
+                "debt_orthogonal": [4_000_000.0, 4.0, 9.0],
+                "normalized_potential_reduction": [-1.0, 1.0, -2.0],
+            }
+        )
+        diagnostics = _arm_tail_diagnostics(frame)
+        self.assertEqual(int(diagnostics.loc[0, "debt_gt_1e6_observation_count"]), 1)
+        self.assertEqual(int(diagnostics.loc[0, "negative_potential_reduction_count"]), 2)
+        self.assertEqual(int(diagnostics.loc[0, "max_batch_index"]), 2)
+        hotspots = _debt_tail_hotspots(frame, per_arm=2)
+        self.assertEqual(hotspots.within_arm_debt_rank.tolist(), [1, 2])
+        self.assertEqual(hotspots.debt_native.tolist(), [4_000_000.0, 9.0])
 
     def test_regular_file_rejects_symlink(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

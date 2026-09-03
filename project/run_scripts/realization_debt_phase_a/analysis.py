@@ -446,6 +446,51 @@ def _arm_layer_tail(derived: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def _arm_tail_diagnostics(derived: pd.DataFrame) -> pd.DataFrame:
+    """Describe heavy tails without using them as a gate or selection rule."""
+    rows: list[dict[str, Any]] = []
+    for (model, method), frame in derived.groupby(["model", "method"], sort=True):
+        maximum = frame.sort_values(
+            ["debt_native", "batch_index", "request_sha256", "layer"],
+            ascending=[False, True, True, True],
+            kind="mergesort",
+        ).iloc[0]
+        rows.append(
+            {
+                "model": model,
+                "method": method,
+                "request_layer_denominator": len(frame),
+                "debt_gt_1e6_observation_count": int((frame.debt_native > 1e6).sum()),
+                "negative_potential_reduction_count": int((frame.normalized_potential_reduction < 0).sum()),
+                "debt_under_mean": float(frame.debt_under.mean()),
+                "debt_over_mean": float(frame.debt_over.mean()),
+                "debt_opposite_mean": float(frame.debt_opposite.mean()),
+                "debt_orthogonal_mean": float(frame.debt_orthogonal.mean()),
+                "max_batch_index": int(maximum.batch_index),
+                "max_request_sha256": maximum.request_sha256,
+                "max_layer": int(maximum.layer),
+                "max_rho": float(maximum.rho),
+                "max_tau": float(maximum.tau),
+                "max_debt_native": float(maximum.debt_native),
+                "boundary": "OBSERVATION_ONLY_NO_SELECTION_INFLUENCE",
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def _debt_tail_hotspots(derived: pd.DataFrame, per_arm: int = 5) -> pd.DataFrame:
+    rows: list[pd.DataFrame] = []
+    for _, frame in derived.groupby(["model", "method"], sort=True):
+        ordered = frame.sort_values(
+            ["debt_native", "batch_index", "request_sha256", "layer"],
+            ascending=[False, True, True, True],
+            kind="mergesort",
+        ).head(per_arm).copy()
+        ordered.insert(2, "within_arm_debt_rank", np.arange(1, len(ordered) + 1))
+        rows.append(ordered)
+    return pd.concat(rows, ignore_index=True)
+
+
 def _paired_method_batch(relationship: pd.DataFrame) -> pd.DataFrame:
     fields = (
         "debt_native_mean",
@@ -482,6 +527,7 @@ def _report(
     gates: Mapping[str, Any],
     arm: pd.DataFrame,
     tail: pd.DataFrame,
+    diagnostics: pd.DataFrame,
     assoc: pd.DataFrame,
     output_inventory: Sequence[Mapping[str, Any]],
 ) -> str:
@@ -504,10 +550,18 @@ def _report(
     assoc_rows = []
     for row in assoc.to_dict("records"):
         assoc_rows.append((row["model"], row["method"], row["immediate_outcome"], row["pearson_r"], row["spearman_rho"]))
+    diagnostic_rows = []
+    for row in diagnostics.to_dict("records"):
+        diagnostic_rows.append(
+            (
+                row["model"], row["method"], row["debt_gt_1e6_observation_count"],
+                row["negative_potential_reduction_count"], row["debt_under_mean"],
+                row["debt_over_mean"], row["debt_opposite_mean"], row["debt_orthogonal_mean"],
+                row["max_batch_index"], row["max_layer"], row["max_debt_native"],
+            )
+        )
     input_rows = [(row["kind"], row["path"], row["bytes"], row["sha256"]) for row in inputs]
     output_rows = [(row["path"], row["bytes"], row["sha256"]) for row in output_inventory]
-    lowest = arm.loc[arm.debt_native_mean.idxmin()]
-    highest = arm.loc[arm.debt_native_mean.idxmax()]
     lines = [
         "# Realization Debt Phase A — lifelong v6 추가 분석 사실 보고서",
         "",
@@ -527,7 +581,7 @@ def _report(
             arm_rows,
         ),
         "",
-        f"행 단위 평균 debt_native 최솟값은 `{lowest['model']}/{lowest['method']}`의 {_format(lowest['debt_native_mean'])}, 최댓값은 `{highest['model']}/{highest['method']}`의 {_format(highest['debt_native_mean'])}이다. 이는 서술적 순위이며 성능 원인의 증거가 아니다.",
+        "평균과 CVaR90은 일부 L4 극단치에 매우 민감하다. 따라서 arm 비교에서는 mean 단독 순위를 사용하지 않고 median/p90/p99/max와 아래 극단-tail provenance를 함께 읽어야 한다.",
         "",
         "## 2. 정의와 산출 순서",
         "",
@@ -558,13 +612,24 @@ def _report(
         "",
         "전체 batch×layer 세부값은 `batch-layer-debt-summary.csv`, action 결합은 `batch-layer-action-proxy.csv`에 있다.",
         "",
-        "## 5. Immediate rewrite와의 동시점 연관",
+        "## 5. 구성요소와 극단 tail provenance",
+        "",
+        _markdown_table(
+            ["model", "method", "debt>1e6 rows", "negative ΔV rows", "under mean", "over mean", "opposite mean", "orthogonal mean", "max batch", "max layer", "max debt"],
+            diagnostic_rows,
+        ),
+        "",
+        "`debt>1e6`은 결과 선택이나 pass/fail에 쓰지 않은 고정 observation bin이다. 상위 5개 request-layer 행의 request SHA, rho/tau, 네 debt 구성요소는 `debt-tail-hotspots.csv`에 보존했다. 세 arm의 매우 큰 전체 mean은 소수 L4 행과 큰 orthogonal 성분에 지배되며, qwen/MEMIT은 million-scale 행이 없지만 p90과 p99가 더 넓은 별도 tail 형태를 보인다.",
+        "",
+        "`normalized_potential_reduction<0`은 같은 write에서 q_post²가 q_pre²보다 커진 관측 행 수다. 이를 미래 forgetting이나 인과 효과로 해석하지 않는다.",
+        "",
+        "## 6. Immediate rewrite와의 동시점 연관",
         "",
         _markdown_table(["model", "method", "outcome", "Pearson r", "Spearman rho"], assoc_rows),
         "",
         "상관계수의 관측 단위는 arm별 100개 batch이다. 같은 batch의 debt와 바로 뒤 current-B100 endpoint를 연결했을 뿐, 미래 forgetting이나 causal mediation으로 해석하지 않는다.",
         "",
-        "## 6. Figure",
+        "## 7. Figure",
         "",
         "- `median-rho-batch-layer-heatmap.png`: arm별 batch1–100×L4–L8 median rho",
         "- `median-tau-batch-layer-heatmap.png`: arm별 batch1–100×L4–L8 median tau",
@@ -574,19 +639,19 @@ def _report(
         "",
         "모든 PNG는 저장소 Python CLI로 동일 CSV를 두 번 실제 실행해 byte SHA가 같은지 검증했다. 정확한 명령·입력/출력 SHA·Python/NumPy/pandas/Matplotlib/Pillow 버전은 `plot-reproduction.json`에 있다.",
         "",
-        "## 7. 입력 identity",
+        "## 8. 입력 identity",
         "",
         _markdown_table(["kind", "path", "bytes", "sha256"], input_rows),
         "",
         "세 primary gzip SHA는 산출 전후 재검증해 동일했다. v3–v6 manifest/receipt/report는 context binding에만 사용했고 원본 bytes를 수정하지 않았다.",
         "",
-        "## 8. 출력 identity (report/manifest/receipt 이전 산출물)",
+        "## 9. 출력 identity (report/manifest/receipt 이전 산출물)",
         "",
         _markdown_table(["path", "bytes", "sha256"], output_rows),
         "",
         "최종 전체 member root와 report/manifest/receipt SHA는 `analysis-manifest.json` 및 `rooted-analysis-receipt.json`이 결속한다.",
         "",
-        "## 9. 한계",
+        "## 10. 한계",
         "",
         "- raw schema에는 `R_entry_norm_sq`, `A_norm_sq`, exact allocation-energy weight, `DeltaW^T G DeltaW`가 없다.",
         "- Frobenius proxy를 exact G-action 또는 request-level action으로 해석하지 않는다.",
@@ -648,6 +713,8 @@ def build(repo: Path, output: Path, repro_root: Path) -> dict[str, Any]:
     association = _association_summary(relationship)
     arm = _arm_summary(derived, request, action_proxy)
     tail = _arm_layer_tail(derived)
+    diagnostics = _arm_tail_diagnostics(derived)
+    hotspots = _debt_tail_hotspots(derived)
     paired = _paired_method_batch(relationship)
     output.mkdir(parents=True, mode=0o755)
     table_map = {
@@ -659,6 +726,8 @@ def build(repo: Path, output: Path, repro_root: Path) -> dict[str, Any]:
         "association-summary.csv": (association, False),
         "arm-debt-summary.csv": (arm, False),
         "arm-layer-tail-summary.csv": (tail, False),
+        "arm-tail-diagnostics.csv": (diagnostics, False),
+        "debt-tail-hotspots.csv": (hotspots, False),
         "paired-method-batch-deltas.csv": (paired, False),
     }
     for name, (frame, compressed) in table_map.items():
@@ -746,7 +815,7 @@ def build(repo: Path, output: Path, repro_root: Path) -> dict[str, Any]:
     inventory_frame = pd.DataFrame(pre_report_members)
     write_csv_once(output / "output-member-inventory.csv", inventory_frame)
     report_inventory = [member(path, relative_to=output, kind="derived_output") for path in sorted(output.iterdir()) if path.is_file() and not path.is_symlink()]
-    report = _report(inputs_before, gates, arm, tail, association, report_inventory)
+    report = _report(inputs_before, gates, arm, tail, diagnostics, association, report_inventory)
     report_path = output / "realization-debt-phase-a-lifelong-v6-detailed-factual-ko.md"
     descriptor = os.open(report_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
     with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
