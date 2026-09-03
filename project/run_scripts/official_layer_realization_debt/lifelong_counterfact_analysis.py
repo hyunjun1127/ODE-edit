@@ -44,6 +44,12 @@ from .lifelong_v5_analysis import _verify_package
 
 
 REPORT_NAME = "official-layer-debt-lifelong-counterfact-metrics-v6-factual-ko.md"
+AVAILABILITY_AUDIT = Path(
+    "/data/janghj/ODE-edit/local/state/"
+    "official-layer-realization-debt-lifelong-counterfact-metrics-v6/"
+    "campaign-20260903-v1/availability-audit.json"
+)
+AVAILABILITY_AUDIT_SHA256 = "c0bbd1cdbd82b6b325c09158cd06b12498033ef2a39a9f9f4ebda8c28de7d265"
 STATS = ("mean", "median", "p90", "max")
 PRIMARY = ("rs", "ps", "ns")
 PRIMARY_LABEL = {"rs": "RS", "ps": "PS", "ns": "NS"}
@@ -219,6 +225,20 @@ def _terminal_and_receipts(
             )
             original_receipt = _object(original_path.with_name("evaluation-receipt.json"))
             _identity(original_receipt, str(original_path.with_name("evaluation-receipt.json")))
+            if (
+                original_receipt.get("model") != model
+                or original_receipt.get("method") != method
+                or original_receipt.get("accepted_edit_count") != count
+                or original_receipt.get("evaluation_type") != "CHECKPOINT_FINAL_W_ON_ALL_SEEN_REQUESTS"
+                or original_receipt.get("weight_pointer_version_bytes_exact") is not True
+                or original_receipt.get("before_evaluation_weight_identity")
+                != original_receipt.get("after_evaluation_weight_identity")
+                or original_receipt.get("nonfinite_count") != 0
+                or original_receipt.get("records", {}).get("rows") != count
+            ):
+                raise CounterFactMetricBoundary("existing final-W checkpoint invariant differs")
+            if any(int(original_receipt["compute"][field]) != 0 for field in forbidden):
+                raise CounterFactMetricBoundary("existing final-W forbidden compute/mutation count differs")
             if sha256_file(original_path) != original_receipt["records"]["sha256"]:
                 raise CounterFactMetricBoundary("existing final-W records binding differs")
             indexed[(arm, count)] = (original_receipt, receipt)
@@ -835,6 +855,12 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
         manifest_sha=V5_MANIFEST_SHA256,
         receipt_sha=V5_RECEIPT_SHA256,
     )
+    if sha256_file(AVAILABILITY_AUDIT) != AVAILABILITY_AUDIT_SHA256:
+        raise CounterFactMetricBoundary("v6 availability audit SHA differs")
+    availability = _object(AVAILABILITY_AUDIT)
+    _identity(availability, str(AVAILABILITY_AUDIT))
+    if availability.get("status") != "MISSING_REQUIRES_EVALUATION_ONLY_BACKFILL":
+        raise CounterFactMetricBoundary("v6 availability classification differs")
     indexed, backfill_members, compute = _terminal_and_receipts(args.backfill_root)
     args.output.mkdir(parents=True, mode=0o755)
     args.local_output.mkdir(parents=True, mode=0o700)
@@ -959,6 +985,14 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
             "root": str(args.backfill_root),
             "member_root": canonical_hash(backfill_members),
             "member_count": len(backfill_members),
+        },
+        {
+            "kind": "V6_AVAILABILITY_AUDIT",
+            "path": str(AVAILABILITY_AUDIT),
+            "bytes": AVAILABILITY_AUDIT.stat().st_size,
+            "sha256": AVAILABILITY_AUDIT_SHA256,
+            "identity_sha256": availability["identity_sha256"],
+            "raw_member_root": availability["raw_member_root"],
         },
         {
             "kind": "LOCAL_PER_PROMPT_PRIMARY_TABLE",
