@@ -96,6 +96,25 @@ def _evaluation(case_ids: Sequence[int], *, entry: bool) -> dict[str, list[dict[
     return result
 
 
+def _evaluation_with_canonical_ns(
+    case_ids: Sequence[int], *, entry: bool
+) -> dict[str, list[dict[str, Any]]]:
+    result = _evaluation(case_ids, entry=entry)
+    result["locality_target_new"] = [
+        _row(
+            case_id,
+            "locality_target_new",
+            prompt_index,
+            nll=0.3,
+            predictions=[101, 102],
+            target_ids=[101, 102],
+        )
+        for case_id in case_ids
+        for prompt_index in range(10)
+    ]
+    return result
+
+
 def _request_shas(case_ids: Sequence[int]) -> list[str]:
     return [artifacts.canonical_hash({"case_id": value}) for value in case_ids]
 
@@ -519,6 +538,45 @@ class RawFreeEvaluationTests(unittest.TestCase):
             request_order_sha256=self.order_sha256,
         )
         self.assertEqual(checked["status"], "RAW_FREE_EVALUATION_PASS")
+
+    def test_canonical_ns_uses_prompt_pairs_and_keeps_token_preservation_separate(self) -> None:
+        entry = _evaluation_with_canonical_ns(self.case_ids, entry=True)
+        current = _evaluation_with_canonical_ns(self.case_ids, entry=False)
+        publication = artifacts.reduce_evaluation_payload(
+            current,
+            case_ids=self.case_ids,
+            request_sha256=self.request_sha256,
+            request_order_sha256=self.order_sha256,
+            entry_evaluation=entry,
+        )
+        self.assertEqual(publication["schema"], artifacts.EVALUATION_SCHEMA_V2)
+        self.assertEqual(publication["row_count"], 2600)
+        canonical = publication["locality"]["canonical_ns"]
+        self.assertEqual(canonical["predicate"], "target_true_nll < target_new_nll")
+        self.assertEqual(canonical["prompt_denominator"], 1000)
+        self.assertEqual(canonical["prompt_success_count"], 1000)
+        self.assertEqual(canonical["tie_count"], 0)
+        self.assertEqual(publication["locality"]["prediction_preservation_denominator"], 2000)
+        self.assertEqual(
+            artifacts.validate_evaluation_publication(
+                publication,
+                case_ids=self.case_ids,
+                request_sha256=self.request_sha256,
+                request_order_sha256=self.order_sha256,
+            )["status"],
+            "RAW_FREE_EVALUATION_PASS",
+        )
+        tampered = copy.deepcopy(publication)
+        tampered["locality"]["canonical_ns"]["prompt_denominator"] = 1010
+        tampered.pop("identity_sha256")
+        tampered["identity_sha256"] = artifacts.canonical_hash(tampered)
+        with self.assertRaises(artifacts.ArtifactBoundary):
+            artifacts.validate_evaluation_publication(
+                tampered,
+                case_ids=self.case_ids,
+                request_sha256=self.request_sha256,
+                request_order_sha256=self.order_sha256,
+            )
 
     def test_missing_nonfinite_and_tampered_aggregates_fail(self) -> None:
         missing = copy.deepcopy(self.current)

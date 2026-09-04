@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import unittest
 
+from project.run_scripts.ordered_response_barrier_ode.counterfact_locality_evaluator import (
+    counterfact_locality_target_new_pairs,
+)
 from project.run_scripts.ordered_response_barrier_ode.preedit_ns_backfill import (
     PROMPT_PAIR_COUNT,
     PreEditNSBoundary,
@@ -58,6 +61,30 @@ def _evaluated(kind: str, *, true: bool = False, tie_last: bool = False) -> list
 
 
 class PreEditNSBackfillTests(unittest.TestCase):
+    def test_endpoint_target_new_pairs_preserve_request_prompt_order(self) -> None:
+        pairs = counterfact_locality_target_new_pairs(
+            [
+                {
+                    "case_id": 7,
+                    "requested_rewrite": {"target_new": {"str": "new-value"}},
+                    "neighborhood_prompts": ["p0", "p1"],
+                },
+                {
+                    "case_id": 9,
+                    "requested_rewrite": {"target_new": {"str": "other-new"}},
+                    "neighborhood_prompts": ["p2"],
+                },
+            ]
+        )
+        self.assertEqual(
+            [(value.case_id, value.kind, value.prompt_index, value.prompt, value.target) for value in pairs],
+            [
+                (7, "locality_target_new", 0, "p0", "new-value"),
+                (7, "locality_target_new", 1, "p1", "new-value"),
+                (9, "locality_target_new", 0, "p2", "other-new"),
+            ],
+        )
+
     def test_pair_builder_keeps_exact_request_prompt_order(self) -> None:
         new, true = build_locality_pairs(_records())
         self.assertEqual(len(new), PROMPT_PAIR_COUNT)

@@ -166,8 +166,9 @@ def _seal_preflight(args: argparse.Namespace) -> int:
 
 def _run_cell(args: argparse.Namespace) -> int:
     spec = cell_spec(args.cell_id)
-    expected_token = f"s06-orbode-server1-{args.wave}-cell{spec.cell_id}-{spec.model_alias}-{spec.writer_family.lower()}-r1"
-    if args.run_token != expected_token:
+    legacy_token = f"s06-orbode-server1-{args.wave}-cell{spec.cell_id}-{spec.model_alias}-{spec.writer_family.lower()}-r1"
+    canonical_ns_token = f"s06-orbode-server1-{args.wave}-cell{spec.cell_id}-{spec.model_alias}-{spec.writer_family.lower()}-canonical-ns-r1"
+    if args.run_token not in {legacy_token, canonical_ns_token}:
         raise PreflightBoundary("run token or array mapping differs")
     load_shared_preflight(
         args.preflight_receipt,

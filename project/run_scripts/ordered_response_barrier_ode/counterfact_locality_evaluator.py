@@ -10,7 +10,7 @@ configuration.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Sequence
+from typing import Any, Mapping, Sequence
 
 import torch
 
@@ -26,6 +26,83 @@ class LocalityPromptTarget:
     prompt_index: int
     prompt: str
     target: str
+
+
+def counterfact_locality_target_new_pairs(
+    records: Sequence[Mapping[str, Any]],
+) -> list[Any]:
+    """Build target-new neighborhood rows in canonical request/prompt order.
+
+    The returned values use the stock observation evaluator's ``PromptTarget``
+    type so endpoint runs retain exactly the same prompt tokenization and raw
+    row schema as rewrite, rephrase, and locality-target-true observations.
+    """
+
+    from project.run_scripts.alphaedit_strength_neutral_barrier.evaluator import (
+        PromptTarget,
+    )
+
+    pairs: list[Any] = []
+    for record in records:
+        rewrite = record.get("requested_rewrite")
+        prompts = record.get("neighborhood_prompts")
+        if not isinstance(rewrite, Mapping) or not isinstance(prompts, list):
+            raise LocalityEvaluationBoundary("CounterFact locality input schema differs")
+        target_new = rewrite.get("target_new")
+        if not isinstance(target_new, Mapping) or not isinstance(target_new.get("str"), str):
+            raise LocalityEvaluationBoundary("CounterFact target-new schema differs")
+        case_id = int(record["case_id"])
+        for prompt_index, prompt in enumerate(prompts):
+            pairs.append(
+                PromptTarget(
+                    case_id=case_id,
+                    kind="locality_target_new",
+                    prompt_index=prompt_index,
+                    prompt=str(prompt),
+                    target=str(target_new["str"]),
+                )
+            )
+    if not pairs:
+        raise LocalityEvaluationBoundary("CounterFact locality target-new inventory is empty")
+    return pairs
+
+
+def evaluate_counterfact_with_canonical_ns(
+    model: Any,
+    tokenizer: Any,
+    records: Sequence[Mapping[str, Any]],
+    *,
+    device: torch.device,
+    microbatch_size: int = 16,
+) -> dict[str, list[dict[str, Any]]]:
+    """Evaluate the stock endpoint panel plus canonical NS target-new rows."""
+
+    from project.run_scripts.alphaedit_strength_neutral_barrier.evaluator import (
+        evaluate_counterfact,
+        evaluate_pairs,
+    )
+
+    if tokenizer.padding_side != "right":
+        raise LocalityEvaluationBoundary("shared tokenizer padding must remain right")
+    result = dict(
+        evaluate_counterfact(
+            model,
+            tokenizer,
+            records,
+            device=device,
+            microbatch_size=microbatch_size,
+        )
+    )
+    if "locality_target_new" in result:
+        raise LocalityEvaluationBoundary("duplicate locality target-new evaluator kind")
+    result["locality_target_new"] = evaluate_pairs(
+        model,
+        tokenizer,
+        counterfact_locality_target_new_pairs(records),
+        device=device,
+        microbatch_size=microbatch_size,
+    )
+    return result
 
 
 def _target_token_ids(tokenizer: Any, target: str) -> list[int]:
@@ -118,5 +195,7 @@ def evaluate_prompt_targets(
 __all__ = [
     "LocalityEvaluationBoundary",
     "LocalityPromptTarget",
+    "counterfact_locality_target_new_pairs",
+    "evaluate_counterfact_with_canonical_ns",
     "evaluate_prompt_targets",
 ]

@@ -349,6 +349,55 @@ def _tensor_state_identity(prefix: str, values: Mapping[str, torch.Tensor]) -> s
     return digest.hexdigest()
 
 
+def _canonical_ns_accounting(
+    round_payloads: Sequence[Mapping[str, Any]],
+) -> dict[str, Any]:
+    entry_prompt_denominator = 0
+    primary_prompt_denominator = 0
+    primary_evaluation_count = 0
+    for round_payload in round_payloads:
+        request_count = int(round_payload["request_count"])
+        expected = request_count * 10
+        entry = round_payload.get("entry_evaluation")
+        endpoints = round_payload.get("primary_endpoints")
+        if not isinstance(entry, Mapping) or not isinstance(endpoints, list):
+            raise TechnicalBoundary("canonical NS publication inventory differs")
+        entry_ns = entry.get("locality", {}).get("canonical_ns")
+        if (
+            entry.get("schema") != "orbode.raw-free-evaluation.v2"
+            or not isinstance(entry_ns, Mapping)
+            or entry_ns.get("predicate") != "target_true_nll < target_new_nll"
+            or entry_ns.get("prompt_denominator") != expected
+        ):
+            raise TechnicalBoundary("entry canonical NS denominator differs")
+        entry_prompt_denominator += expected
+        for endpoint in endpoints:
+            if not isinstance(endpoint, Mapping):
+                raise TechnicalBoundary("canonical NS endpoint is not an object")
+            evaluation = endpoint.get("evaluation")
+            ns = evaluation.get("locality", {}).get("canonical_ns") if isinstance(evaluation, Mapping) else None
+            if (
+                not isinstance(evaluation, Mapping)
+                or evaluation.get("schema") != "orbode.raw-free-evaluation.v2"
+                or not isinstance(ns, Mapping)
+                or ns.get("predicate") != "target_true_nll < target_new_nll"
+                or ns.get("prompt_denominator") != expected
+            ):
+                raise TechnicalBoundary("endpoint canonical NS denominator differs")
+            primary_prompt_denominator += expected
+            primary_evaluation_count += 1
+    return {
+        "schema": "orbode.canonical-ns-accounting.v1",
+        "predicate": "target_true_nll < target_new_nll",
+        "prompts_per_request": 10,
+        "entry_prompt_denominator": entry_prompt_denominator,
+        "primary_endpoint_prompt_denominator": primary_prompt_denominator,
+        "primary_evaluation_count": primary_evaluation_count,
+        "all_primary_endpoint_denominators_exact": True,
+        "token_prediction_preservation_is_canonical_ns": False,
+    }
+
+
 def _terminal_receipt(
     *,
     cell_id: int,
@@ -366,6 +415,7 @@ def _terminal_receipt(
     result_sha256: str,
     round_publication_identities: Sequence[str],
     round_publication_file_sha256: Sequence[str],
+    canonical_ns_accounting: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build the exact receipt consumed by the round0→remaining gate."""
 
@@ -414,6 +464,11 @@ def _terminal_receipt(
             list(round_publication_file_sha256)
         ),
         "literal_prompt_target_token_prediction_publication_count": 0,
+        "canonical_ns_accounting": (
+            dict(canonical_ns_accounting)
+            if canonical_ns_accounting is not None
+            else {"status": "NOT_RECORDED_LEGACY_RECEIPT"}
+        ),
         "scientific_promotion": False,
     }
     terminal["receipt_identity_sha256"] = canonical_hash(terminal)
@@ -679,10 +734,12 @@ class FamilyRuntime:
         )
 
     def evaluate_endpoint(self) -> Mapping[str, Any]:
-        from project.run_scripts.alphaedit_strength_neutral_barrier.evaluator import evaluate_counterfact
+        from project.run_scripts.ordered_response_barrier_ode.counterfact_locality_evaluator import (
+            evaluate_counterfact_with_canonical_ns,
+        )
 
         self.endpoint_evaluation_count += 1
-        return evaluate_counterfact(
+        return evaluate_counterfact_with_canonical_ns(
             self.model,
             self.tokenizer,
             self.endpoint_records,
@@ -2029,6 +2086,7 @@ def run_cell(
 
         request_count = sum(int(payload["request_count"]) for payload in round_payloads)
         primary_endpoint_count = request_count * len(PRIMARY_ARM_ORDER)
+        canonical_ns_accounting = _canonical_ns_accounting(round_payloads)
         entry_already_hit_count = sum(
             int(
                 arm_payload.get("mechanism_telemetry", {})
@@ -2103,6 +2161,7 @@ def run_cell(
                 [str(item["file_sha256"]) for item in round_publication_receipts]
             ),
             "literal_prompt_target_token_prediction_publication_count": 0,
+            "canonical_ns_accounting": dict(canonical_ns_accounting),
             "timing": {
                 "model_load_seconds": load_seconds,
                 "job_total_seconds": time.perf_counter() - started,
@@ -2141,6 +2200,7 @@ def run_cell(
             round_publication_file_sha256=[
                 str(item["file_sha256"]) for item in round_publication_receipts
             ],
+            canonical_ns_accounting=canonical_ns_accounting,
         )
         _create_once_json(root / "terminal-receipt.json", terminal)
         progress["stage"] = "CELL_TERMINAL_RECEIPT_PUBLISHED"

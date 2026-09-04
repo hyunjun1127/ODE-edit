@@ -19,6 +19,7 @@ from typing import Any
 
 
 EVALUATION_SCHEMA = "orbode.raw-free-evaluation.v1"
+EVALUATION_SCHEMA_V2 = "orbode.raw-free-evaluation.v2"
 ENDPOINT_SCHEMA = "orbode.raw-free-endpoint.v1"
 ROUND_SCHEMA = "orbode.raw-free-round.v1"
 MECHANISM_SCHEMA = "orbode.raw-free-mechanism-telemetry.v1"
@@ -32,12 +33,24 @@ EVALUATION_KINDS = (
     "rephrase_target_true",
     "locality_target_true",
 )
+EVALUATION_KINDS_V2 = (
+    "rewrite_target_new",
+    "rewrite_target_true",
+    "rephrase_target_new",
+    "rephrase_target_true",
+    "locality_target_new",
+    "locality_target_true",
+)
 ROWS_PER_REQUEST = {
     "rewrite_target_new": 1,
     "rewrite_target_true": 1,
     "rephrase_target_new": 2,
     "rephrase_target_true": 2,
     "locality_target_true": 10,
+}
+ROWS_PER_REQUEST_V2 = {
+    **ROWS_PER_REQUEST,
+    "locality_target_new": 10,
 }
 RAW_EVALUATOR_ROW_FIELDS = frozenset(
     {
@@ -705,6 +718,30 @@ def _request_bindings(
     return normalized_cases, dict(zip(normalized_cases, normalized_requests, strict=True))
 
 
+def _raw_evaluation_contract(
+    evaluation: object,
+) -> tuple[str, tuple[str, ...], dict[str, int]]:
+    if not isinstance(evaluation, Mapping):
+        raise ArtifactBoundary("raw evaluator is not an object")
+    observed = set(evaluation)
+    if observed == set(EVALUATION_KINDS_V2):
+        return EVALUATION_SCHEMA_V2, EVALUATION_KINDS_V2, dict(ROWS_PER_REQUEST_V2)
+    if observed == set(EVALUATION_KINDS):
+        return EVALUATION_SCHEMA, EVALUATION_KINDS, dict(ROWS_PER_REQUEST)
+    raise ArtifactBoundary("raw evaluator kind inventory differs")
+
+
+def _published_evaluation_contract(
+    payload: Mapping[str, Any],
+) -> tuple[tuple[str, ...], dict[str, int]]:
+    schema = payload.get("schema")
+    if schema == EVALUATION_SCHEMA_V2:
+        return EVALUATION_KINDS_V2, dict(ROWS_PER_REQUEST_V2)
+    if schema == EVALUATION_SCHEMA:
+        return EVALUATION_KINDS, dict(ROWS_PER_REQUEST)
+    raise ArtifactBoundary("published evaluator schema differs")
+
+
 def _validate_raw_row(
     value: object,
     *,
@@ -771,15 +808,17 @@ def _validate_raw_evaluation(
     evaluation: object,
     *,
     case_ids: tuple[int, ...],
+    kinds: tuple[str, ...],
+    rows_per_request: Mapping[str, int],
 ) -> dict[str, list[dict[str, Any]]]:
-    if not isinstance(evaluation, Mapping) or set(evaluation) != set(EVALUATION_KINDS):
+    if not isinstance(evaluation, Mapping) or set(evaluation) != set(kinds):
         raise ArtifactBoundary("raw evaluator kind inventory differs")
     result: dict[str, list[dict[str, Any]]] = {}
-    for kind in EVALUATION_KINDS:
+    for kind in kinds:
         raw_rows = evaluation[kind]
         if not isinstance(raw_rows, list):
             raise ArtifactBoundary(f"raw evaluator rows are not a list: {kind}")
-        expected = _expected_rows(case_ids, kind, ROWS_PER_REQUEST[kind])
+        expected = _expected_rows(case_ids, kind, rows_per_request[kind])
         if len(raw_rows) != len(expected):
             raise ArtifactBoundary(f"raw evaluator row count differs: {kind}")
         result[kind] = [
@@ -793,9 +832,9 @@ def _validate_raw_evaluation(
             raise ArtifactBoundary("rewrite target-new/true prompt join differs")
         new_reference = (rewrite_new["target"], rewrite_new["target_token_ids"])
         true_reference = (rewrite_true["target"], rewrite_true["target_token_ids"])
-        rephrase_start = case_position * ROWS_PER_REQUEST["rephrase_target_new"]
-        locality_start = case_position * ROWS_PER_REQUEST["locality_target_true"]
-        for prompt_index in range(ROWS_PER_REQUEST["rephrase_target_new"]):
+        rephrase_start = case_position * rows_per_request["rephrase_target_new"]
+        locality_start = case_position * rows_per_request["locality_target_true"]
+        for prompt_index in range(rows_per_request["rephrase_target_new"]):
             new_row = result["rephrase_target_new"][rephrase_start + prompt_index]["raw"]
             true_row = result["rephrase_target_true"][rephrase_start + prompt_index]["raw"]
             if new_row["prompt"] != true_row["prompt"]:
@@ -804,10 +843,16 @@ def _validate_raw_evaluation(
                 raise ArtifactBoundary("rewrite/rephrase target-new identity differs")
             if (true_row["target"], true_row["target_token_ids"]) != true_reference:
                 raise ArtifactBoundary("rewrite/rephrase target-true identity differs")
-        for prompt_index in range(ROWS_PER_REQUEST["locality_target_true"]):
+        for prompt_index in range(rows_per_request["locality_target_true"]):
             locality_row = result["locality_target_true"][locality_start + prompt_index]["raw"]
             if (locality_row["target"], locality_row["target_token_ids"]) != true_reference:
                 raise ArtifactBoundary("rewrite/locality target-true identity differs")
+            if "locality_target_new" in result:
+                locality_new = result["locality_target_new"][locality_start + prompt_index]["raw"]
+                if locality_new["prompt"] != locality_row["prompt"]:
+                    raise ArtifactBoundary("locality target-new/target-true prompt join differs")
+                if (locality_new["target"], locality_new["target_token_ids"]) != new_reference:
+                    raise ArtifactBoundary("rewrite/locality target-new identity differs")
     return result
 
 
@@ -845,6 +890,47 @@ def _preference_payload(
     }
 
 
+def _canonical_ns_payload(
+    rows_by_kind: Mapping[str, Sequence[Mapping[str, Any]]],
+    *,
+    case_ids: Sequence[int],
+) -> dict[str, Any]:
+    new_rows = rows_by_kind.get("locality_target_new")
+    true_rows = rows_by_kind.get("locality_target_true")
+    if new_rows is None or true_rows is None or len(new_rows) != len(true_rows):
+        raise ArtifactBoundary("canonical NS target-new/target-true denominator differs")
+    bits: list[bool] = []
+    ties: list[bool] = []
+    by_case: dict[int, list[bool]] = {int(case_id): [] for case_id in case_ids}
+    for new, true in zip(new_rows, true_rows, strict=True):
+        key_new = (new["case_id"], new["prompt_index"])
+        key_true = (true["case_id"], true["prompt_index"])
+        if key_new != key_true:
+            raise ArtifactBoundary("canonical NS locality row join differs")
+        new_nll = _finite(new["nll"], "canonical NS target-new nll")
+        true_nll = _finite(true["nll"], "canonical NS target-true nll")
+        success = true_nll < new_nll
+        tie = true_nll == new_nll
+        bits.append(success)
+        ties.append(tie)
+        by_case[int(new["case_id"])].append(success)
+    strict = [all(by_case[int(case_id)]) for case_id in case_ids]
+    return {
+        "schema": "counterfact.canonical-ns.v1",
+        "predicate": "target_true_nll < target_new_nll",
+        "prompt_denominator": len(bits),
+        "prompt_success_count": sum(bits),
+        "prompt_success_rate": sum(bits) / len(bits),
+        "strict_request_denominator": len(strict),
+        "strict_request_success_count": sum(strict),
+        "strict_request_success_rate": sum(strict) / len(strict),
+        "tie_count": sum(ties),
+        "tie_is_failure": True,
+        "bit_vector_sha256": canonical_hash(bits),
+        "strict_bit_vector_sha256": canonical_hash(strict),
+    }
+
+
 def reduce_evaluation_payload(
     evaluation: Mapping[str, Any],
     *,
@@ -859,14 +945,27 @@ def reduce_evaluation_payload(
     order_sha = _sha256(request_order_sha256, "request_order_sha256")
     if canonical_hash(list(request_sha256)) != order_sha:
         raise ArtifactBoundary("request order SHA does not bind the provided request identities")
-    current = _validate_raw_evaluation(evaluation, case_ids=cases)
+    evaluation_schema, kinds, rows_per_request = _raw_evaluation_contract(evaluation)
+    current = _validate_raw_evaluation(
+        evaluation,
+        case_ids=cases,
+        kinds=kinds,
+        rows_per_request=rows_per_request,
+    )
     entry = (
         None
         if entry_evaluation is None
-        else _validate_raw_evaluation(entry_evaluation, case_ids=cases)
+        else _validate_raw_evaluation(
+            entry_evaluation,
+            case_ids=cases,
+            kinds=kinds,
+            rows_per_request=rows_per_request,
+        )
     )
+    if entry_evaluation is not None and _raw_evaluation_contract(entry_evaluation)[0] != evaluation_schema:
+        raise ArtifactBoundary("entry/current evaluator schema differs")
     public_rows: list[dict[str, Any]] = []
-    for kind in EVALUATION_KINDS:
+    for kind in kinds:
         for index, observed in enumerate(current[kind]):
             row = {
                 "case_id": observed["case_id"],
@@ -911,7 +1010,7 @@ def reduce_evaluation_payload(
 
     public_by_kind = {
         kind: [row for row in public_rows if row["kind"] == kind]
-        for kind in EVALUATION_KINDS
+        for kind in kinds
     }
     locality_rows = public_by_kind["locality_target_true"]
     locality: dict[str, Any] = {
@@ -945,8 +1044,13 @@ def reduce_evaluation_payload(
                 ),
             }
         )
+    if evaluation_schema == EVALUATION_SCHEMA_V2:
+        locality["canonical_ns"] = _canonical_ns_payload(
+            public_by_kind,
+            case_ids=cases,
+        )
     payload = {
-        "schema": EVALUATION_SCHEMA,
+        "schema": evaluation_schema,
         "request_count": len(cases),
         "request_order_sha256": order_sha,
         "source_evaluation_identity_sha256": canonical_hash(evaluation),
@@ -955,7 +1059,7 @@ def reduce_evaluation_payload(
         ),
         "entry_comparison": entry is not None,
         "row_count": len(public_rows),
-        "expected_rows_per_request": dict(ROWS_PER_REQUEST),
+        "expected_rows_per_request": dict(rows_per_request),
         "rows": public_rows,
         "kind_summaries": {
             kind: _nll_summary(rows) for kind, rows in public_by_kind.items()
@@ -979,18 +1083,23 @@ def reduce_evaluation_payload(
 
 
 def _published_rows_by_kind(
-    payload: Mapping[str, Any], *, case_ids: tuple[int, ...], request_by_case: Mapping[int, str]
+    payload: Mapping[str, Any],
+    *,
+    case_ids: tuple[int, ...],
+    request_by_case: Mapping[int, str],
+    kinds: tuple[str, ...],
+    rows_per_request: Mapping[str, int],
 ) -> dict[str, list[Mapping[str, Any]]]:
     rows = payload.get("rows")
     if not isinstance(rows, list):
         raise ArtifactBoundary("published evaluation rows are absent")
-    expected_total = len(case_ids) * sum(ROWS_PER_REQUEST.values())
+    expected_total = len(case_ids) * sum(rows_per_request.values())
     if len(rows) != expected_total or payload.get("row_count") != expected_total:
         raise ArtifactBoundary("published evaluation row denominator differs")
-    result: dict[str, list[Mapping[str, Any]]] = {kind: [] for kind in EVALUATION_KINDS}
+    result: dict[str, list[Mapping[str, Any]]] = {kind: [] for kind in kinds}
     offset = 0
-    for kind in EVALUATION_KINDS:
-        expected = _expected_rows(case_ids, kind, ROWS_PER_REQUEST[kind])
+    for kind in kinds:
+        expected = _expected_rows(case_ids, kind, rows_per_request[kind])
         for case_id, expected_kind, prompt_index in expected:
             row = rows[offset]
             offset += 1
@@ -1065,15 +1174,15 @@ def validate_evaluation_publication(
         raise ArtifactBoundary("published evaluation is not an object")
     _assert_raw_free(payload)
     _assert_identity(payload)
+    kinds, rows_per_request = _published_evaluation_contract(payload)
     cases, request_by_case = _request_bindings(case_ids, request_sha256)
     order_sha = _sha256(request_order_sha256, "request_order_sha256")
     if canonical_hash(list(request_sha256)) != order_sha:
         raise ArtifactBoundary("published request order binding differs")
     if (
-        payload.get("schema") != EVALUATION_SCHEMA
-        or payload.get("request_count") != len(cases)
+        payload.get("request_count") != len(cases)
         or payload.get("request_order_sha256") != order_sha
-        or payload.get("expected_rows_per_request") != ROWS_PER_REQUEST
+        or payload.get("expected_rows_per_request") != rows_per_request
         or payload.get("literal_prompt_target_token_prediction_publication_count") != 0
         or payload.get("controller_or_writer_influence_count") != 0
         or not isinstance(payload.get("entry_comparison"), bool)
@@ -1088,7 +1197,13 @@ def validate_evaluation_publication(
         raise ArtifactBoundary("published entry comparison identity differs")
     if entry_identity is not None:
         _sha256(entry_identity, "entry evaluation identity")
-    rows = _published_rows_by_kind(payload, case_ids=cases, request_by_case=request_by_case)
+    rows = _published_rows_by_kind(
+        payload,
+        case_ids=cases,
+        request_by_case=request_by_case,
+        kinds=kinds,
+        rows_per_request=rows_per_request,
+    )
     expected_summaries = {kind: _nll_summary(values) for kind, values in rows.items()}
     if payload.get("kind_summaries") != expected_summaries:
         raise ArtifactBoundary("published NLL summaries differ")
@@ -1120,6 +1235,11 @@ def validate_evaluation_publication(
                     int(row["all_predictions_preserved"]) for row in locality_rows
                 ),
             }
+        )
+    if payload.get("schema") == EVALUATION_SCHEMA_V2:
+        expected_locality["canonical_ns"] = _canonical_ns_payload(
+            rows,
+            case_ids=cases,
         )
     if payload.get("locality") != expected_locality:
         raise ArtifactBoundary("published locality summary differs")
@@ -1917,10 +2037,13 @@ __all__ = [
     "ArtifactBoundary",
     "ENDPOINT_SCHEMA",
     "EVALUATION_SCHEMA",
+    "EVALUATION_SCHEMA_V2",
+    "EVALUATION_KINDS_V2",
     "MECHANISM_SCHEMA",
     "PREAMBLE_SCHEMA",
     "PRIMARY_ARM_ORDER",
     "PROHIBITED_PUBLIC_FIELDS",
+    "ROWS_PER_REQUEST_V2",
     "ROUND_SCHEMA",
     "canonical_hash",
     "reduce_endpoint_payload",
