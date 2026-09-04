@@ -490,6 +490,7 @@ class FamilyRuntime:
         endpoint_records: Sequence[Mapping[str, Any]],
         request_order_sha256: str,
         contexts: Sequence[Sequence[str]],
+        capture_persistent_endpoint: bool = False,
     ) -> None:
         self.model = model
         self.tokenizer = tokenizer
@@ -511,8 +512,13 @@ class FamilyRuntime:
         self.pre_evaluation: Mapping[str, Any] | None = None
         self.endpoint_evaluation_count = 0
         self._alpha_cache_entry_is_zero = False
+        self._alpha_cache_entry: torch.Tensor | None = None
         self._cov_versions: dict[tuple[Any, ...], int] = {}
         self._prepared_method_state_identity: str | None = None
+        self._capture_persistent_endpoint = bool(capture_persistent_endpoint)
+        self._captured_endpoint_weights: dict[str, torch.Tensor] | None = None
+        self._captured_endpoint_method_state: torch.Tensor | None = None
+        self._captured_endpoint_sha256: str | None = None
 
     def prepare_method_state(self) -> None:
         if self._prepared_method_state_identity is not None:
@@ -527,6 +533,7 @@ class FamilyRuntime:
             self.module.cache_c = torch.zeros((5, width, width), dtype=torch.float32)
             self.module.cache_c_new = True
             self._alpha_cache_entry_is_zero = True
+            self._alpha_cache_entry = self.module.cache_c.detach().clone()
         else:
             # Populate stock COV_CACHE from sealed files before the arm-entry
             # identity is captured.  It is read-only throughout every arm.
@@ -548,15 +555,49 @@ class FamilyRuntime:
             self._cov_versions = {key: int(value._version) for key, value in self.module.COV_CACHE.items()}
         self._prepared_method_state_identity = self.method_state_identity()
 
+    def bind_existing_method_state(self) -> None:
+        """Bind an already prepared entry state without rebuilding science assets.
+
+        Sequential runners use this at every B100 entry.  It captures the
+        current AlphaEdit history bytes (which need not be cold) or the static
+        MEMIT covariance versions, while leaving P/C and every Official
+        equation untouched.
+        """
+
+        if self._prepared_method_state_identity is not None:
+            raise TechnicalBoundary("existing method state binding is repeated")
+        if self.family == "AlphaEdit":
+            cache = getattr(self.module, "cache_c", None)
+            if (
+                not bool(getattr(self.module, "P_loaded", False))
+                or not isinstance(cache, torch.Tensor)
+                or cache.dtype is not torch.float32
+                or cache.ndim != 3
+                or tuple(cache.shape[:1]) != (5,)
+                or not bool(torch.isfinite(cache).all())
+            ):
+                raise TechnicalBoundary("AlphaEdit sequential entry state is not prepared")
+            self._alpha_cache_entry = cache.detach().clone()
+            self._alpha_cache_entry_is_zero = bool(
+                getattr(self.module, "cache_c_new", False)
+            )
+        else:
+            if not isinstance(getattr(self.module, "COV_CACHE", None), dict) or not self.module.COV_CACHE:
+                raise TechnicalBoundary("MEMIT sequential covariance state is not prepared")
+            self._cov_versions = {
+                key: int(value._version) for key, value in self.module.COV_CACHE.items()
+            }
+        self._prepared_method_state_identity = self.method_state_identity()
+
     def reset_entry(self) -> None:
         _restore_selected(self.parameters, self.w0)
         if {name: int(value.data_ptr()) for name, value in self.parameters.items()} != self.pointer_identity:
             raise TechnicalBoundary("selected parameter pointer changed")
         if self.family == "AlphaEdit":
-            if not self._alpha_cache_entry_is_zero:
-                raise TechnicalBoundary("AlphaEdit cold-cache entry is not sealed")
-            self.module.cache_c.zero_()
-            self.module.cache_c_new = True
+            if self._alpha_cache_entry is None:
+                raise TechnicalBoundary("AlphaEdit entry cache snapshot is absent")
+            self.module.cache_c.copy_(self._alpha_cache_entry)
+            self.module.cache_c_new = self._alpha_cache_entry_is_zero
         else:
             if {key: int(value._version) for key, value in self.module.COV_CACHE.items()} != self._cov_versions:
                 raise TechnicalBoundary("MEMIT static COV_CACHE mutated")
@@ -569,10 +610,10 @@ class FamilyRuntime:
     def method_state_identity(self) -> str:
         if self.family == "AlphaEdit":
             cache = self.module.cache_c
-            if cache.dtype is not torch.float32 or int(torch.count_nonzero(cache).item()) != 0:
-                raise TechnicalBoundary("AlphaEdit cold cache differs from exact zero")
+            if cache.dtype is not torch.float32 or not bool(torch.isfinite(cache).all()):
+                raise TechnicalBoundary("AlphaEdit cache differs from finite FP32")
             return _tensor_content_state_identity(
-                "orbode.alpha-cache-cold-content.v1",
+                "orbode.alpha-cache-content.v1",
                 {"cache_c": cache},
                 include_version=False,
             )
@@ -754,6 +795,63 @@ class FamilyRuntime:
             for name, parameter in self.parameters.items():
                 parameter.copy_(shadow[name].to(device=parameter.device, dtype=torch.float32))
 
+    def _capture_endpoint_for_persistence(self) -> None:
+        if not self._capture_persistent_endpoint:
+            return
+        self._captured_endpoint_weights = _clone_selected(self.parameters)
+        self._captured_endpoint_sha256 = tensor_set_sha256(
+            self._captured_endpoint_weights
+        )
+        self._captured_endpoint_method_state = (
+            self.module.cache_c.detach().clone()
+            if self.family == "AlphaEdit"
+            else None
+        )
+
+    def commit_captured_endpoint(self, *, expected_sha256: str) -> Mapping[str, Any]:
+        """Promote the already observed terminal bytes to the next B100 entry.
+
+        The integrator's guarded terminal callback always restores its entry
+        state before hooks are reinstalled.  This method performs the distinct
+        sequential harness commit from the exact captured bytes, with no
+        writer, key, target, evaluator, or model-forward recomputation.
+        """
+
+        if (
+            not self._capture_persistent_endpoint
+            or self._captured_endpoint_weights is None
+            or self._captured_endpoint_sha256 is None
+            or self._captured_endpoint_sha256 != expected_sha256
+        ):
+            raise TechnicalBoundary("captured sequential endpoint identity differs")
+        entry_weight_sha256 = tensor_set_sha256(self.parameters)
+        entry_method_state_sha256 = self.method_state_identity()
+        self._apply_shadow(self._captured_endpoint_weights)
+        if self.family == "AlphaEdit":
+            if self._captured_endpoint_method_state is None:
+                raise TechnicalBoundary("captured AlphaEdit endpoint cache is absent")
+            self.module.cache_c.copy_(self._captured_endpoint_method_state)
+            self.module.cache_c_new = False
+        observed = tensor_set_sha256(self.parameters)
+        if observed != expected_sha256:
+            raise TechnicalBoundary("sequential endpoint commit bytes differ")
+        method_state_after = self.method_state_identity()
+        result = {
+            "entry_weight_sha256": entry_weight_sha256,
+            "committed_weight_sha256": observed,
+            "entry_method_state_sha256": entry_method_state_sha256,
+            "committed_method_state_sha256": method_state_after,
+            "writer_recompute_count": 0,
+            "fixed_z_recompute_count": 0,
+            "model_forward_count": 0,
+            "evaluator_count": 0,
+            "persistent_copy_count": 1,
+        }
+        self._captured_endpoint_weights = None
+        self._captured_endpoint_method_state = None
+        self._captured_endpoint_sha256 = None
+        return result
+
     def finalize(
         self,
         *,
@@ -786,6 +884,8 @@ class FamilyRuntime:
                     ).T.detach().to(device="cpu", dtype=torch.float32)
                     self.module.cache_c[position].add_(keys @ keys.T)
                 history_append_count = 1
+            if not derived_observation_only:
+                self._capture_endpoint_for_persistence()
             return {
                 "status": "TERMINAL_VALID",
                 "arm": arm,
@@ -807,13 +907,18 @@ class FamilyRuntime:
         finally:
             _restore_selected(self.parameters, self.w0)
             if self.family == "AlphaEdit":
-                self.module.cache_c.zero_()
+                if self._alpha_cache_entry is None:
+                    raise TechnicalBoundary("AlphaEdit entry cache snapshot is absent")
+                self.module.cache_c.copy_(self._alpha_cache_entry)
+                self.module.cache_c_new = self._alpha_cache_entry_is_zero
 
     def evaluate_current(self, *, arm: str, status: str, state_version: int) -> Mapping[str, Any]:
         if state_version != 0 or tensor_set_sha256(self.parameters) != self.w0_sha256:
             raise TechnicalBoundary("no-op endpoint is not exact W0")
         terminal = self.terminal()
         semantic = self.observe_semantic()
+        if arm != ArmId.ORDERED_RESPONSE_FIRST_HIT.value:
+            self._capture_endpoint_for_persistence()
         return {
             "status": status,
             "arm": arm,
@@ -896,6 +1001,7 @@ class FamilyRuntime:
             semantic = self.observe_semantic()
             evaluation = self.evaluate_endpoint()
             history_count = 1 if self.family == "AlphaEdit" else 0
+            self._capture_endpoint_for_persistence()
             return {
                 "status": "TERMINAL_VALID",
                 "arm": ArmId.OFFICIAL.value,
@@ -921,7 +1027,10 @@ class FamilyRuntime:
             self.module.compute_z = original_compute_z
             _restore_selected(self.parameters, self.w0)
             if self.family == "AlphaEdit":
-                self.module.cache_c.zero_()
+                if self._alpha_cache_entry is None:
+                    raise TechnicalBoundary("AlphaEdit entry cache snapshot is absent")
+                self.module.cache_c.copy_(self._alpha_cache_entry)
+                self.module.cache_c_new = self._alpha_cache_entry_is_zero
 
     def adapter(self, *, compute: bool) -> CallbackMethodAdapter:
         value = CallbackMethodAdapter(
@@ -1435,6 +1544,11 @@ def _single_request_preamble(
     if family._prepared_method_state_identity is None:
         raise TechnicalBoundary("runtime preamble received unprepared method state")
     single._alpha_cache_entry_is_zero = family._alpha_cache_entry_is_zero
+    single._alpha_cache_entry = (
+        None
+        if family._alpha_cache_entry is None
+        else family._alpha_cache_entry.detach().clone()
+    )
     single._cov_versions = dict(family._cov_versions)
     single._prepared_method_state_identity = family._prepared_method_state_identity
     single.semantic_inventory = inventory

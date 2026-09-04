@@ -1805,6 +1805,25 @@ def _reduce_derived_endpoint(
     return _with_identity(payload)
 
 
+def reduce_derived_endpoint_payload(
+    value: Mapping[str, Any],
+    *,
+    case_ids: Sequence[int],
+    request_sha256: Sequence[str],
+    request_order_sha256: str,
+    entry_evaluation: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Public raw-free reducer for an ORBFH-derived ORBHit endpoint."""
+
+    return _reduce_derived_endpoint(
+        value,
+        case_ids=case_ids,
+        request_sha256=request_sha256,
+        request_order_sha256=request_order_sha256,
+        entry_evaluation=entry_evaluation,
+    )
+
+
 def reduce_round_payload(
     round_payload: Mapping[str, Any], *, expected_request_count: int = 100
 ) -> dict[str, Any]:
@@ -2049,6 +2068,7 @@ __all__ = [
     "reduce_endpoint_payload",
     "reduce_evaluation_payload",
     "reduce_round_payload",
+    "reduce_derived_endpoint_payload",
     "validate_endpoint_publication",
     "validate_evaluation_publication",
     "validate_round_publication",
