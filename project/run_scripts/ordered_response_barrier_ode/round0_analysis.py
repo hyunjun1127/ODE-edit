@@ -189,6 +189,7 @@ def _prior_metric_parity(repo: Path, current: pd.DataFrame) -> pd.DataFrame:
             [{
                 "metric": "NOT_CONFIGURED",
                 "paired_row_count": 0,
+                "matched_not_applicable_count": 0,
                 "exact_equal_count": 0,
                 "nonzero_delta_count": 0,
                 "delta_mean": np.nan,
@@ -224,13 +225,18 @@ def _prior_metric_parity(repo: Path, current: pd.DataFrame) -> pd.DataFrame:
     for metric in metrics:
         left = merged[f"{metric}_prior"].astype(np.float64)
         right = merged[f"{metric}_rerun"].astype(np.float64)
-        if left.isna().any() or right.isna().any() or not np.isfinite(left).all() or not np.isfinite(right).all():
+        if not (left.isna() == right.isna()).all():
+            raise AnalysisBoundary(f"prior/current applicability differs: {metric}")
+        valid = ~(left.isna() | right.isna())
+        left_valid, right_valid = left[valid], right[valid]
+        if not len(left_valid) or not np.isfinite(left_valid).all() or not np.isfinite(right_valid).all():
             raise AnalysisBoundary(f"prior/current nonfinite metric: {metric}")
-        delta = right - left
+        delta = right_valid - left_valid
         rows.append(
             {
                 "metric": metric,
                 "paired_row_count": len(delta),
+                "matched_not_applicable_count": int((~valid).sum()),
                 "exact_equal_count": int((delta == 0.0).sum()),
                 "nonzero_delta_count": int((delta != 0.0).sum()),
                 "delta_mean": float(delta.mean()),
@@ -1498,7 +1504,7 @@ def _report(
     input_rows = [(row["kind"], row["path"], row["bytes"], row["mode"], row["sha256"]) for row in inputs]
     prior_parity_rows = [
         (
-            row.metric, row.paired_row_count, row.exact_equal_count,
+            row.metric, row.paired_row_count, row.matched_not_applicable_count, row.exact_equal_count,
             row.nonzero_delta_count, _fmt(row.delta_mean), _fmt(row.delta_median),
             _fmt(row.delta_p90), _fmt(row.max_absolute_delta),
         )
@@ -1582,7 +1588,7 @@ def _report(
             "기존 `exhaustive-v1`은 mechanics·RS/PS·PP-token을 상세 분석했지만 endpoint locality target-new NLL이 없었다. `baseline-inclusive-v2`는 별도 PRE_EDIT canonical NS만 보완했으며 endpoint canonical NS는 schema gap으로 남았다. 이 통합판은 두 package를 immutable reference로 결속하고, 새 v2 evaluator raw에서 PRE_EDIT와 O/QCL/NQFIX/ORBFH/JAC 전체 canonical NS를 다시 계산했다.",
             "",
             _markdown_table(
-                ["shared metric", "paired rows", "exact equal", "nonzero", "Δ mean", "Δ median", "Δ p90", "max |Δ|"],
+                ["shared metric", "paired rows", "matched N/A", "exact equal", "nonzero", "Δ mean", "Δ median", "Δ p90", "max |Δ|"],
                 prior_parity_rows,
             ),
             "",
