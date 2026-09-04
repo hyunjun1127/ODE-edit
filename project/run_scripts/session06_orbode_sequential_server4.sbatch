@@ -44,9 +44,9 @@ scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 
 case "${SLURM_ARRAY_TASK_ID:?array task id required}" in
   0) readonly RUN_TOKEN="s06-orbode-sequential-server4-cell0-llama3-8b-inst-memit-r1" ;;
-  1) readonly RUN_TOKEN="s06-orbode-sequential-server4-cell1-llama3-8b-inst-alphaedit-tech-r2" ;;
+  1) readonly RUN_TOKEN="s06-orbode-sequential-server4-cell1-llama3-8b-inst-alphaedit-r1" ;;
   2) readonly RUN_TOKEN="s06-orbode-sequential-server4-cell2-qwen2.5-7b-inst-memit-r1" ;;
-  3) readonly RUN_TOKEN="s06-orbode-sequential-server4-cell3-qwen2.5-7b-inst-alphaedit-tech-r2" ;;
+  3) readonly RUN_TOKEN="s06-orbode-sequential-server4-cell3-qwen2.5-7b-inst-alphaedit-r1" ;;
   *) echo "ORBODE sequential array mapping differs" >&2; exit 2 ;;
 esac
 
