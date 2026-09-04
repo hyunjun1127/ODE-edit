@@ -1,0 +1,41 @@
+{
+  "canonical_job": "36275_[0-1]",
+  "excluded_job": "36273_[0-1]",
+  "identity_sha256": "80848f520f6b2ee1332971aaece7305bb6ec702e0376db3bba80f5dc52de4eee",
+  "rows": [
+    {
+      "elapsed": "00:00:49",
+      "exit_code": "1:0",
+      "inclusion": "EXCLUDED_TECHNICAL_DENOMINATOR_ZERO",
+      "job_id": "36273_0",
+      "job_id_raw": "36274",
+      "state": "FAILED"
+    },
+    {
+      "elapsed": "00:00:46",
+      "exit_code": "1:0",
+      "inclusion": "EXCLUDED_TECHNICAL_DENOMINATOR_ZERO",
+      "job_id": "36273_1",
+      "job_id_raw": "36273",
+      "state": "FAILED"
+    },
+    {
+      "elapsed": "00:00:49",
+      "exit_code": "0:0",
+      "inclusion": "INCLUDED_CANONICAL_PREEDIT_NS",
+      "job_id": "36275_0",
+      "job_id_raw": "36276",
+      "state": "COMPLETED"
+    },
+    {
+      "elapsed": "00:00:46",
+      "exit_code": "0:0",
+      "inclusion": "INCLUDED_CANONICAL_PREEDIT_NS",
+      "job_id": "36275_1",
+      "job_id_raw": "36275",
+      "state": "COMPLETED"
+    }
+  ],
+  "schema": "odeedit.s06.orbode.round0-baseline-inclusive.scheduler.v2",
+  "status": "TECH_R2_2_OF_2_TERMINAL_VALID"
+}

@@ -1,0 +1,4 @@
+metric,unit,denominator_per_model_or_endpoint,definition,availability
+canonical_ns,locality_prompt_pair,1000,target_true_nll < target_new_nll; ties fail,PRE_EDIT_RECORDED; ENDPOINT_NOT_RECORDED_SCHEMA_GAP
+pp_prompt,locality_prompt,1000,all target-true token predictions equal PRE_EDIT for a prompt,ENDPOINT_RECORDED; PRE_EDIT_NOT_APPLICABLE
+pp_token,target_true_token,1010,individual target-true token predictions equal PRE_EDIT,ENDPOINT_RECORDED; 990x1-token + 10x2-token prompts

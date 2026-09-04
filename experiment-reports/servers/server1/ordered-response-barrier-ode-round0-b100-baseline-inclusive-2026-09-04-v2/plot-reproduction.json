@@ -1,0 +1,52 @@
+{
+  "commands": [
+    "/mnt/raid5/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.ordered_response_barrier_ode.round0_baseline_figures --tables /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-orbode-round0-analysis-v1/experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2 --output /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-orbode-round0-analysis-v1/experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2",
+    "/mnt/raid5/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.ordered_response_barrier_ode.round0_baseline_figures --tables /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-orbode-round0-analysis-v1/experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2 --output /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-orbode-round0-analysis-v1/local/state/orbode-round0-baseline-report-v2/orbode-baseline-plot-repro-ls6qp613"
+  ],
+  "environment": {
+    "SOURCE_DATE_EPOCH": "0",
+    "backend": "agg",
+    "matplotlib": "3.10.7",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "pillow": "12.2.0",
+    "python": "3.12.0"
+  },
+  "identity_sha256": "e5bd491ad386275b00827d43272d439d02fc06b740bd871b95e84c6c2df8a236",
+  "inputs": [
+    {
+      "bytes": 9646,
+      "kind": "plot_input",
+      "mode": "0644",
+      "path": "baseline-inclusive-performance.csv",
+      "sha256": "7f5ed478faba2a12f444921b6d1324fa00646876418af1724c68d18cd8dd37b5"
+    },
+    {
+      "bytes": 451,
+      "kind": "plot_input",
+      "mode": "0644",
+      "path": "preedit-canonical-ns-summary.csv",
+      "sha256": "9d0c499129914099424116003bdcf038783786af73862c3b6cd7fa82b2b6c101"
+    }
+  ],
+  "outputs": [
+    {
+      "byte_stable": true,
+      "bytes": 98757,
+      "path": "baseline-rs-ps-pp.png",
+      "reproduced_bytes": 98757,
+      "reproduced_sha256": "e7fe337242e118ada197045e8815f8bffa8ef28ecd5a19a6439b37e055181543",
+      "sha256": "e7fe337242e118ada197045e8815f8bffa8ef28ecd5a19a6439b37e055181543"
+    },
+    {
+      "byte_stable": true,
+      "bytes": 24500,
+      "path": "preedit-canonical-ns.png",
+      "reproduced_bytes": 24500,
+      "reproduced_sha256": "22f67310e6c63711d804f421f4559301aae16279e146486132b836e97f07179b",
+      "sha256": "22f67310e6c63711d804f421f4559301aae16279e146486132b836e97f07179b"
+    }
+  ],
+  "schema": "odeedit.s06.orbode.round0-baseline-inclusive.plot-reproduction.v2",
+  "status": "BYTE_STABLE_REPRODUCTION_PASS"
+}

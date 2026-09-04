@@ -1,0 +1,43 @@
+{
+  "backfill_editor_compute_z_writer_model_update_count": 0,
+  "backfill_terminal_valid_cell_count": 2,
+  "canonical_round0_endpoint_count": 2000,
+  "canonical_round0_job": "35694",
+  "endpoint_canonical_ns": "NOT_RECORDED_SCHEMA_GAP_LOCALITY_TARGET_NEW_NLL",
+  "identity_sha256": "5d459ecc6476fa009bffb94cc323ee151695516f73a1158fa71c6e03084a74b5",
+  "imputation_count": 0,
+  "instruction_id": "ODEEDIT-S06-ORRBODE-ROUND0-BASELINE-INCLUSIVE-PREEDIT-NS-20260904-V2",
+  "legacy_identity": {
+    "manifest_sha256": "78b6217e952f03d446089d773bac365ace29ede806653ed72436d60ebd279a55",
+    "member_root": "6a7e2fa7c697d4d5cfce87054ce5727585ca9c99b171ed574f66047cb8fb8b31",
+    "receipt_identity": "026b3022f07d02f5b34177b56743047127531c15c0f5c3256d1a803d0c2dc134",
+    "receipt_sha256": "d0fdeb5a1c4fd4e055265a1833576ff81ae3bce5093207bad92e531e4a059342",
+    "report_sha256": "54ef00e3944413a9908dd0ccabd33a487831c878b5a43bfbd55955ba03fa0a82",
+    "verify_status": "FULL_PACKAGE_REHASH_PASS"
+  },
+  "pp_multitoken_case_id": 9936,
+  "pp_multitoken_request_ordinal": 61,
+  "pp_prompt_denominator_per_endpoint": 1000,
+  "pp_token_denominator_formula": "990 locality prompts x 1 token + 10 prompts x 2 tokens",
+  "pp_token_denominator_per_endpoint": 1010,
+  "preedit_ns": {
+    "llama3-8b-inst": {
+      "denominator": 1000,
+      "numerator": 893,
+      "rate": 0.893
+    },
+    "qwen2.5-7b-inst": {
+      "denominator": 1000,
+      "numerator": 849,
+      "rate": 0.849
+    }
+  },
+  "preedit_ns_backfill_job": "36275_[0-1]",
+  "remaining_nine_submit_count": 0,
+  "report_generation_model_gpu_slurm_action_count": 0,
+  "schema": "odeedit.s06.orbode.round0-baseline-inclusive.summary.v2",
+  "scientific_promotion": false,
+  "status": "ANALYSIS_ONLY_BASELINE_INCLUSIVE_PASS",
+  "technical_failure_attempt_count": 2,
+  "technical_failure_canonical_denominator": 0
+}
