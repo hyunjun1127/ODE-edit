@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ODEEDIT_SLURM_SERVER=server4
-#SBATCH --job-name=odeedit_orbode_seq_s4
+#SBATCH --job-name=odeedit_orbode_seq_s4_r2
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -44,9 +44,9 @@ scripts/check-session-boundary.sh "${EXPECTED_SESSION}"
 
 case "${SLURM_ARRAY_TASK_ID:?array task id required}" in
   0) readonly RUN_TOKEN="s06-orbode-sequential-server4-cell0-llama3-8b-inst-memit-r1" ;;
-  1) readonly RUN_TOKEN="s06-orbode-sequential-server4-cell1-llama3-8b-inst-alphaedit-r1" ;;
+  1) readonly RUN_TOKEN="s06-orbode-sequential-server4-cell1-llama3-8b-inst-alphaedit-tech-r2" ;;
   2) readonly RUN_TOKEN="s06-orbode-sequential-server4-cell2-qwen2.5-7b-inst-memit-r1" ;;
-  3) readonly RUN_TOKEN="s06-orbode-sequential-server4-cell3-qwen2.5-7b-inst-alphaedit-r1" ;;
+  3) readonly RUN_TOKEN="s06-orbode-sequential-server4-cell3-qwen2.5-7b-inst-alphaedit-tech-r2" ;;
   *) echo "ORBODE sequential array mapping differs" >&2; exit 2 ;;
 esac
 
@@ -67,4 +67,3 @@ exec "${PYTHON_BIN}" -m project.run_scripts.session06_orbode_sequential_server4 
   --output-parent "${OUTPUT_PARENT}" --log-root "${LOG_ROOT}" \
   --preflight-receipt "${PREFLIGHT_RECEIPT}" --cell-id "${SLURM_ARRAY_TASK_ID}" \
   --run-token "${RUN_TOKEN}"
-

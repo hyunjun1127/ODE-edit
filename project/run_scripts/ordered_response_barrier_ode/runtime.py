@@ -831,7 +831,11 @@ class FamilyRuntime:
             if self._captured_endpoint_method_state is None:
                 raise TechnicalBoundary("captured AlphaEdit endpoint cache is absent")
             self.module.cache_c.copy_(self._captured_endpoint_method_state)
-            self.module.cache_c_new = False
+            # A committed sequential endpoint is initialized AlphaEdit
+            # history.  Stock interprets ``False`` as a request to replace it
+            # with a fresh zero tensor on the next Official call, severing the
+            # B100 cache pointer/content chain.
+            self.module.cache_c_new = True
         observed = tensor_set_sha256(self.parameters)
         if observed != expected_sha256:
             raise TechnicalBoundary("sequential endpoint commit bytes differ")
