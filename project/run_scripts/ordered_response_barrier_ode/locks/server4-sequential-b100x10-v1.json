@@ -1,0 +1,54 @@
+{
+  "N": 4,
+  "T": 1.0,
+  "arms": [
+    "O",
+    "QCL",
+    "NQFIX",
+    "ORBFH",
+    "JAC"
+  ],
+  "array": "0-3%2",
+  "cell_mapping": {
+    "0": [
+      "llama3-8b-inst",
+      "MEMIT"
+    ],
+    "1": [
+      "llama3-8b-inst",
+      "AlphaEdit"
+    ],
+    "2": [
+      "qwen2.5-7b-inst",
+      "MEMIT"
+    ],
+    "3": [
+      "qwen2.5-7b-inst",
+      "AlphaEdit"
+    ]
+  },
+  "controller_evaluator_influence_count": 0,
+  "derived_arm": "ORBHit",
+  "dynamic_z_recompute_count": 0,
+  "execution_semantics": "ARM_LOCAL_B1_TO_B10_CUMULATIVE_W_CACHE_SEQUENTIAL",
+  "full_fp32": true,
+  "h": 0.25,
+  "identity_sha256": "5a67d156d621b9354223abb887cb763847620d98ec61ac5d102e5e7149d7d240",
+  "instruction_id": "ODEEDIT-S06-ORDERED-RESPONSE-BARRIER-ODE-SEQUENTIAL-B100X10-SERVER4-V1",
+  "memory_mib_per_task": 60416,
+  "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "round_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "scientific_promotion": false,
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
+}
