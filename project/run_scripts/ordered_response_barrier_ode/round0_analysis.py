@@ -111,6 +111,7 @@ LINEAGE = (
     ("35615", "b1-tech-r1", RAW_SOURCE_HEAD, "B1_PILOT"),
     ("35694", "round0-b1-gated-tech-r1", RAW_SOURCE_HEAD, "CANONICAL_B100"),
 )
+INCLUDE_LEGACY_DRY_PLAN = True
 
 
 def _git(repo: Path, *args: str) -> str:
@@ -258,6 +259,7 @@ def _validate_evaluation(
 
     request_rows: list[dict[str, Any]] = []
     locality = rows[rows.kind == "locality_target_true"]
+    locality_new = rows[rows.kind == "locality_target_new"] if "locality_target_new" in set(rows.kind) else None
     for ordinal, request_sha in enumerate(request_order):
         rewrite = pairs["rewrite"][pairs["rewrite"].request_sha256 == request_sha]
         rephrase = pairs["rephrase"][pairs["rephrase"].request_sha256 == request_sha].sort_values("prompt_index")
@@ -288,6 +290,40 @@ def _validate_evaluation(
             "locality_target_true_accuracy_count": int(local.all_tokens_correct.astype(bool).sum()),
             "locality_prompt_denominator": 10,
         }
+        if locality_new is not None:
+            local_new = locality_new[locality_new.request_sha256 == request_sha].sort_values("prompt_index")
+            local_pair = local_new.merge(
+                local,
+                on=["request_sha256", "case_id", "prompt_index"],
+                suffixes=("_new", "_true"),
+                validate="one_to_one",
+            )
+            if len(local_pair) != 10:
+                raise AnalysisBoundary("per-request canonical NS denominator differs")
+            local_pair["canonical_ns_success"] = local_pair.nll_true < local_pair.nll_new
+            row.update(
+                {
+                    "canonical_ns_numerator": int(local_pair.canonical_ns_success.sum()),
+                    "canonical_ns_denominator": 10,
+                    "canonical_ns_rate": float(local_pair.canonical_ns_success.mean()),
+                    "canonical_ns_tie_count": int((local_pair.nll_true == local_pair.nll_new).sum()),
+                    "locality_target_new_nll_mean": float(local_pair.nll_new.mean()),
+                    "locality_target_true_minus_new_nll_mean": float(
+                        (local_pair.nll_true - local_pair.nll_new).mean()
+                    ),
+                }
+            )
+        else:
+            row.update(
+                {
+                    "canonical_ns_numerator": np.nan,
+                    "canonical_ns_denominator": np.nan,
+                    "canonical_ns_rate": np.nan,
+                    "canonical_ns_tie_count": np.nan,
+                    "locality_target_new_nll_mean": np.nan,
+                    "locality_target_true_minus_new_nll_mean": np.nan,
+                }
+            )
         if endpoint:
             needed = {"prediction_preserved_count", "prediction_token_count", "all_predictions_preserved"}
             if not needed.issubset(local.columns):
@@ -324,6 +360,19 @@ def _validate_evaluation(
             or prompt_preserved != int(stored_locality.get("all_prompt_predictions_preserved_count", -1))
         ):
             raise AnalysisBoundary("stored locality preservation differs")
+    if locality_new is not None:
+        stored_ns = evaluation.get("locality", {}).get("canonical_ns", {})
+        ns_numerator = int(request_frame.canonical_ns_numerator.sum())
+        ns_denominator = int(request_frame.canonical_ns_denominator.sum())
+        ns_ties = int(request_frame.canonical_ns_tie_count.sum())
+        if (
+            stored_ns.get("predicate") != "target_true_nll < target_new_nll"
+            or stored_ns.get("tie_is_failure") is not True
+            or ns_numerator != int(stored_ns.get("prompt_success_count", -1))
+            or ns_denominator != int(stored_ns.get("prompt_denominator", -1))
+            or ns_ties != int(stored_ns.get("tie_count", -1))
+        ):
+            raise AnalysisBoundary("stored canonical NS differs")
     performance = {
         "rewrite_success_count": preference["rewrite"]["prompt_success_count"],
         "rewrite_success_denominator": 100,
@@ -343,6 +392,20 @@ def _validate_evaluation(
         "locality_prediction_preservation_rate": (
             float(request_frame.locality_prediction_preservation_numerator.sum()
                   / request_frame.locality_prediction_preservation_denominator.sum()) if endpoint else np.nan
+        ),
+        "canonical_ns_numerator": (
+            int(request_frame.canonical_ns_numerator.sum()) if locality_new is not None else np.nan
+        ),
+        "canonical_ns_denominator": (
+            int(request_frame.canonical_ns_denominator.sum()) if locality_new is not None else np.nan
+        ),
+        "canonical_ns_rate": (
+            float(request_frame.canonical_ns_numerator.sum() / request_frame.canonical_ns_denominator.sum())
+            if locality_new is not None
+            else np.nan
+        ),
+        "canonical_ns_tie_count": (
+            int(request_frame.canonical_ns_tie_count.sum()) if locality_new is not None else np.nan
         ),
     }
     for summary in summaries:
@@ -556,7 +619,12 @@ def _endpoint_tables(cells: Sequence[dict[str, Any]]) -> tuple[pd.DataFrame, pd.
     performance = pd.DataFrame(performance_rows)
     nll = pd.DataFrame(nll_rows)
     expected_prompt_rows = 4 * 6 * EXPECTED_EVALUATION_ROWS
-    if len(prompt) != expected_prompt_rows or len(request) != 4 * 6 * 100 or len(performance) != 24 or len(nll) != 120:
+    if (
+        len(prompt) != expected_prompt_rows
+        or len(request) != 4 * 6 * 100
+        or len(performance) != 24
+        or len(nll) != 4 * 6 * len(KIND_COUNTS)
+    ):
         raise AnalysisBoundary("derived endpoint table denominator differs")
     gates.update(
         {
@@ -653,8 +721,37 @@ def _paired_delta_table(
                     "worse_count": int((delta < 0).sum()),
                 }
             )
+            if "canonical_ns_rate" in request.columns and not a_req.canonical_ns_rate.isna().all():
+                paired_ns = o_req[["request_sha256", "canonical_ns_rate"]].merge(
+                    a_req[["request_sha256", "canonical_ns_rate"]],
+                    on="request_sha256",
+                    suffixes=("_official", "_ours"),
+                    validate="one_to_one",
+                )
+                delta_ns = (
+                    paired_ns.canonical_ns_rate_ours.to_numpy(dtype=np.float64)
+                    - paired_ns.canonical_ns_rate_official.to_numpy(dtype=np.float64)
+                )
+                stats_ns = _stat(delta_ns)
+                rows.append(
+                    {
+                        "cell_id": cell_id,
+                        "model": CELL_BINDINGS[cell_id][0],
+                        "writer_family": CELL_BINDINGS[cell_id][1],
+                        "arm": arm,
+                        "metric": "canonical_ns_rate",
+                        "comparison": "OURS_MINUS_OFFICIAL",
+                        "descriptive_direction": "HIGHER_CANONICAL_NS_IS_HIGHER",
+                        "paired_denominator": len(delta_ns),
+                        **{f"delta_{key}": value for key, value in stats_ns.items()},
+                        "better_count": int((delta_ns > 0).sum()),
+                        "exact_equal_count": int((delta_ns == 0).sum()),
+                        "worse_count": int((delta_ns < 0).sum()),
+                    }
+                )
     result = pd.DataFrame(rows)
-    if len(result) != 4 * 4 * 7:
+    metrics_per_comparison = 8 if "canonical_ns_rate" in set(result.metric) else 7
+    if len(result) != 4 * 4 * metrics_per_comparison:
         raise AnalysisBoundary("paired delta row denominator differs")
     return result
 
@@ -944,7 +1041,7 @@ def _derived_orbhit_table(cells: Sequence[dict[str, Any]]) -> pd.DataFrame:
 
 def _method_contrast_table(request: pd.DataFrame) -> pd.DataFrame:
     comparisons = (("QCL", "NQFIX"), ("NQFIX", "ORBFH"), ("ORBFH", "JAC"))
-    metrics = (
+    metrics = [
         ("rewrite_target_new_nll", "LOWER_IS_LOWER"),
         ("rewrite_target_true_nll", "LOWER_IS_LOWER"),
         ("rewrite_margin_true_minus_new", "HIGHER_FAVORS_TARGET_NEW"),
@@ -952,7 +1049,9 @@ def _method_contrast_table(request: pd.DataFrame) -> pd.DataFrame:
         ("rephrase_target_new_nll_max", "LOWER_IS_LOWER"),
         ("rephrase_margin_true_minus_new_mean", "HIGHER_FAVORS_TARGET_NEW"),
         ("locality_prediction_preservation_rate", "HIGHER_IS_HIGHER"),
-    )
+    ]
+    if "canonical_ns_rate" in request.columns and not request.canonical_ns_rate.isna().all():
+        metrics.append(("canonical_ns_rate", "HIGHER_IS_HIGHER"))
     rows: list[dict[str, Any]] = []
     for cell_id in CELL_BINDINGS:
         selected = request[request.cell_id == cell_id]
@@ -981,7 +1080,7 @@ def _method_contrast_table(request: pd.DataFrame) -> pd.DataFrame:
                     }
                 )
     result = pd.DataFrame(rows)
-    if len(result) != 4 * 3 * 7:
+    if len(result) != 4 * 3 * len(metrics):
         raise AnalysisBoundary("method contrast denominator differs")
     return result
 
@@ -1096,9 +1195,9 @@ def _lineage_table(state_base: Path) -> pd.DataFrame:
                     "terminal_status": terminal.get("status", ""),
                 }
             )
-    # TECH-R3 was prepared after the gate-policy change but never submitted.
-    rows.append(
-        {
+    # The immutable v1 package records its prepared-but-unsubmitted TECH-R3.
+    if INCLUDE_LEGACY_DRY_PLAN:
+        rows.append({
             "parent_job_id": "NOT_SUBMITTED", "array_task_id": -1, "child_job_id_raw": "NOT_APPLICABLE",
             "job_name": "NOT_SUBMITTED", "scheduler_state": "DRY_PLAN_ONLY", "exit_code": "NOT_APPLICABLE",
             "elapsed": "00:00:00", "start": "", "end": "", "node": "",
@@ -1109,8 +1208,7 @@ def _lineage_table(state_base: Path) -> pd.DataFrame:
             "failure_stage": "", "completed_primary_arms_before_failure": 0,
             "science_change_count": 0, "threshold_change_count": 0, "tolerance_change_count": 0,
             "w0_restore_pass": "NOT_APPLICABLE_NO_RUN", "terminal_status": "",
-        }
-    )
+        })
     return pd.DataFrame(rows)
 
 
@@ -1187,6 +1285,10 @@ def _report(
     inputs: Sequence[Mapping[str, Any]],
 ) -> str:
     performance = performance.copy()
+    canonical_ns_recorded = (
+        "canonical_ns_rate" in performance.columns
+        and not performance.canonical_ns_rate.isna().all()
+    )
     performance["stage_order"] = performance.stage.map({name: index for index, name in enumerate(STAGE_ORDER)})
     performance = performance.sort_values(["cell_id", "stage_order"])
     core_rows = []
@@ -1197,6 +1299,11 @@ def _report(
                 _rate(row["rewrite_success_count"], row["rewrite_success_denominator"], row["rewrite_success_rate"]),
                 _rate(row["rephrase_success_count"], row["rephrase_success_denominator"], row["rephrase_success_rate"]),
                 _rate(row["strict_rephrase_success_count"], row["strict_rephrase_success_denominator"], row["strict_rephrase_success_rate"]),
+                _rate(
+                    row["canonical_ns_numerator"],
+                    row["canonical_ns_denominator"],
+                    row["canonical_ns_rate"],
+                ) if canonical_ns_recorded else "N/A",
                 _rate(row["locality_prediction_preservation_numerator"], row["locality_prediction_preservation_denominator"], row["locality_prediction_preservation_rate"]),
                 _rate(row["rewrite_target_new_accuracy_count"], row["rewrite_target_new_accuracy_denominator"], row["rewrite_target_new_accuracy_rate"]),
                 _rate(row["rewrite_target_true_accuracy_count"], row["rewrite_target_true_accuracy_denominator"], row["rewrite_target_true_accuracy_rate"]),
@@ -1222,7 +1329,18 @@ def _report(
         order = {(CELL_BINDINGS[c][0], CELL_BINDINGS[c][1], s): c * 10 + STAGE_ORDER.index(s) for c in CELL_BINDINGS for s in STAGE_ORDER}
         return sorted(rows, key=lambda row: order[(row[0], row[1], row[2])])
 
-    paired_focus = paired[paired.metric.isin(("rewrite_target_new_nll", "rephrase_target_new_nll", "rewrite_margin_true_minus_new", "rephrase_margin_true_minus_new", "locality_prediction_preservation_rate"))]
+    paired_focus = paired[
+        paired.metric.isin(
+            (
+                "rewrite_target_new_nll",
+                "rephrase_target_new_nll",
+                "rewrite_margin_true_minus_new",
+                "rephrase_margin_true_minus_new",
+                "canonical_ns_rate",
+                "locality_prediction_preservation_rate",
+            )
+        )
+    ]
     paired_rows = [
         (
             row.model, row.writer_family, row.arm, row.metric, row.paired_denominator,
@@ -1294,19 +1412,38 @@ def _report(
     top = []
     for cell_id in CELL_BINDINGS:
         selected = performance[(performance.cell_id == cell_id) & performance.stage.isin(PRIMARY_ARMS)]
-        for metric, label in (("rewrite_success_rate", "RS"), ("rephrase_success_rate", "PS"), ("locality_prediction_preservation_rate", "NS")):
+        top_metrics = [("rewrite_success_rate", "RS"), ("rephrase_success_rate", "PS")]
+        top_metrics.append(
+            ("canonical_ns_rate", "canonical NS")
+            if canonical_ns_recorded
+            else ("locality_prediction_preservation_rate", "PP-token")
+        )
+        for metric, label in top_metrics:
             maximum = selected[metric].max()
             names = ",".join(selected[selected[metric] == maximum].stage)
             top.append((CELL_BINDINGS[cell_id][0], CELL_BINDINGS[cell_id][1], label, names, f"{100*maximum:.2f}%"))
+    memory_facts = []
+    for cell_id, binding in CELL_BINDINGS.items():
+        selected = compute[compute.cell_id == cell_id]
+        memory_facts.append(
+            f"{binding[0]}/{binding[1]} "
+            f"{float(selected.peak_gpu_allocated_bytes_cell_scope.iloc[0]) / 1e9:.2f}/"
+            f"{float(selected.peak_gpu_reserved_bytes_cell_scope.iloc[0]) / 1e9:.2f}GB"
+        )
 
     return "\n".join(
         [
-            "# Ordered Response-Barrier ODE-Edit — Server1 round0 B100 상세 사실 보고서",
+            "# Ordered Response-Barrier ODE-Edit — Server1 round0 B100 canonical-NS 재실행 상세 사실 보고서"
+            if canonical_ns_recorded
+            else "# Ordered Response-Barrier ODE-Edit — Server1 round0 B100 상세 사실 보고서",
             "",
             "## 0. 판정과 실행 경계",
             "",
-            "- 상태: `ANALYSIS_ONLY_TERMINAL_PASS`; canonical 실행은 Slurm array `35694`, round0 B100 네 cell이다.",
-            "- scheduler child: `35694_0→35737`, `35694_1→35752`, `35694_2→35889`, `35694_3→35694`; 모두 `COMPLETED/0:0`이다.",
+            f"- 상태: `ANALYSIS_ONLY_TERMINAL_PASS`; canonical 실행은 Slurm array `{ROUND_JOB_ID}`, round0 B100 네 cell이다.",
+            "- scheduler child: " + ", ".join(
+                f"`{ROUND_JOB_ID}_{cell_id}→{binding[2]}`"
+                for cell_id, binding in CELL_BINDINGS.items()
+            ) + "; 모두 `COMPLETED/0:0`이다.",
             "- canonical 과학 분모: `4 cells × 5 primary arms × 100 requests = 2,000 request-arm endpoints`; 입력 request는 cell별 100, 전체 실행 관측 400이다.",
             "- `ORBHit`은 ORBFH 경로의 derived materialized prefix라 primary arm이나 2,000 분모에 중복 포함하지 않았다.",
             "- 분석 중 새 model/GPU/Slurm/editing run/retry/imputation은 모두 0이며 remaining-nine은 HOLD다.",
@@ -1317,15 +1454,16 @@ def _report(
             "- NLL은 teacher-forced target token의 평균 negative log likelihood다. `target-new`는 새 사실 정답, `target-true`는 원래 사실 정답이며 NLL 수치 자체는 낮을수록 해당 target에 더 높은 확률을 준다.",
             "- `RS`는 100 rewrite pair에서 `NLL(new) < NLL(true)`인 strict count/rate다. tie는 failure다.",
             "- `PS`는 200 rephrase prompt pair에서 같은 strict 비교를 한 count/rate다. `strict PS`는 request별 두 rephrase가 모두 성공한 100-request count/rate다.",
-            "- `NS`는 endpoint locality prompt에서 PRE_EDIT token prediction이 보존된 token count/전체 token count다. prompt 1,000개의 all-token preserved count도 CSV에 있다.",
+            "- `canonical NS`는 1,000 neighborhood prompt pair에서 `NLL(target-true) < NLL(target-new)`인 strict count/rate다. tie는 failure다.",
+            "- `PP-token`은 endpoint token prediction이 PRE_EDIT과 같은 token 수/전체 target token 수다. target 길이 때문에 분모가 1,010이며 canonical NS가 아니다. `PP-prompt`의 분모는 1,000이다.",
             "- rewrite/rephrase accuracy는 target token을 모두 맞힌 prompt 수로, pairwise RS/PS와 다른 secondary 지표다.",
-            "- PRE_EDIT은 endpoint 이전 W0 관측이다. NS는 전후 비교가 없어 `N/A`; locality target-true accuracy만 secondary로 보존했다.",
+            "- PRE_EDIT은 endpoint 이전 W0 관측이며 이번 v2 evaluator에서 canonical NS 분모 1,000을 직접 기록했다. PRE_EDIT에는 전후 비교인 PP-token/PP-prompt가 적용되지 않는다.",
             "- `ENTRY_ALREADY_HIT`은 계약상 정상 W0 no-op endpoint로 분모에 들어가지만 이번 네 cell에서는 0건이었다.",
             "",
             "## 2. 핵심 endpoint 표 — PRE_EDIT, O, QCL, NQFIX, ORBFH, JAC",
             "",
             _markdown_table(
-                ["model", "writer", "stage", "status", "RS", "PS", "strict PS", "NS", "RW new acc", "RW true acc", "RP new acc", "RP true acc", "LOC true acc"],
+                ["model", "writer", "stage", "status", "RS", "PS", "strict PS", "canonical NS", "PP-token", "RW new acc", "RW true acc", "RP new acc", "RP true acc", "LOC true acc"],
                 core_rows,
             ),
             "",
@@ -1347,7 +1485,18 @@ def _report(
                 nll_rows("rephrase"),
             ),
             "",
-            "`prompt-nll.csv.gz`는 38,400개 PRE_EDIT/endpoint prompt 행을 모두 보존하고, `request-endpoint-metrics.csv.gz`는 2,400개 request-stage 행에서 rewrite, 두 rephrase, 열 locality 관측을 결속한다.",
+            "## 4.1 Neighborhood locality NLL 분포와 canonical NS 입력",
+            "",
+            _markdown_table(
+                ["model", "writer", "stage", "new mean", "new median", "new p90", "new max", "true mean", "true median", "true p90", "true max"],
+                nll_rows("locality"),
+            ) if canonical_ns_recorded else "`locality_target_new`은 legacy raw에 없어 `NOT_RECORDED_SCHEMA_GAP`이다.",
+            "",
+            "이 표의 각 stage는 target-new 1,000행과 target-true 1,000행을 같은 `(request, prompt_index)`로 결속한다. canonical NS count는 두 NLL의 strict 비교에서 직접 계산하며 token prediction-preservation과 섞지 않는다."
+            if canonical_ns_recorded
+            else "",
+            "",
+            f"`prompt-nll.csv.gz`는 {4 * 6 * EXPECTED_EVALUATION_ROWS:,}개 PRE_EDIT/endpoint prompt 행을 모두 보존하고, `request-endpoint-metrics.csv.gz`는 2,400개 request-stage 행에서 rewrite, 두 rephrase, 열 neighborhood target-new/target-true 관측을 결속한다.",
             "",
             "## 5. 동일 request의 Official O 대비 paired delta",
             "",
@@ -1358,7 +1507,7 @@ def _report(
                 paired_rows,
             ),
             "",
-            "모든 target-new/target-true NLL, rewrite/rephrase margin, NS의 112개 paired summary는 `paired-official-deltas.csv`; QCL→NQFIX→ORBFH→JAC의 84개 predeclared adjacent contrast는 `method-contrast-deltas.csv`에 있다.",
+            f"모든 target-new/target-true NLL, rewrite/rephrase margin, canonical NS와 PP-token의 {len(paired)}개 paired summary는 `paired-official-deltas.csv`; QCL→NQFIX→ORBFH→JAC의 {len(contrast)}개 predeclared adjacent contrast는 `method-contrast-deltas.csv`에 있다.",
             "",
             "## 6. 다섯 primary arm의 구현상 차이",
             "",
@@ -1391,7 +1540,7 @@ def _report(
                 compute_rows,
             ),
             "",
-            "Official stock 내부 actual solve call은 intercept하지 않아 logical expected 5만 기록됐고, dynamic arms는 adapter-intercepted 20 solves/builds가 기록됐다. peak GPU memory는 arm별이 아니라 cell-level이다: Llama/MEMIT 42.41/47.32GB allocated/reserved, Llama/AlphaEdit 40.29/43.38GB, Qwen/MEMIT 45.75/50.14GB, Qwen/AlphaEdit 42.35/44.72GB. model load는 cell별 1회이며 wave 분리 시 reload가 필요하다.",
+            "Official stock 내부 actual solve call은 intercept하지 않아 logical expected 5만 기록됐고, dynamic arms는 adapter-intercepted 20 solves/builds가 기록됐다. peak GPU memory는 arm별이 아니라 cell-level allocated/reserved다: " + "; ".join(memory_facts) + ". model load는 cell별 1회이며 wave 분리 시 reload가 필요하다.",
             "",
             "## 10. Runtime B1 preamble와 integrity",
             "",
@@ -1413,18 +1562,19 @@ def _report(
                 lineage_rows,
             ),
             "",
-            "`35520/35567`은 preamble 기술 실패 4/4, `35582`는 2개 기술 실패 후 2개 task 사용자 취소다. `round0-tech-r3`는 dry-plan-only이며 제출되지 않았다. `35615`는 4/4 완료한 별도 B1 pilot이라 B100 분모에서 제외했다. canonical 과학 분모는 source `84e6cde…`, job `35694`만 사용한다.",
+            f"이전 기술 시도와 B1 pilot은 B100 과학 분모에서 제외했다. canonical 과학 분모는 source `{RAW_SOURCE_HEAD[:12]}…`, job `{ROUND_JOB_ID}`만 사용한다.",
             "",
             "## 12. ORBHit derived endpoint",
             "",
             _markdown_table(
-                ["model", "writer", "status", "factors", "RS", "PS", "strict PS", "NS"],
+                ["model", "writer", "status", "factors", "RS", "PS", "strict PS", "canonical NS", "PP-token"],
                 [
                     (
                         row.model, row.writer_family, row.status, row.factor_count,
                         _rate(row.rewrite_success_count, row.rewrite_success_denominator, row.rewrite_success_rate),
                         _rate(row.rephrase_success_count, row.rephrase_success_denominator, row.rephrase_success_rate),
                         _rate(row.strict_rephrase_success_count, row.strict_rephrase_success_denominator, row.strict_rephrase_success_rate),
+                        _rate(row.canonical_ns_numerator, row.canonical_ns_denominator, row.canonical_ns_rate),
                         _rate(row.locality_prediction_preservation_numerator, row.locality_prediction_preservation_denominator, row.locality_prediction_preservation_rate),
                     ) for row in orbhit.itertuples()
                 ],
@@ -1440,7 +1590,7 @@ def _report(
             "",
             "## 14. Figures와 재현성",
             "",
-            "- `primary-rs-ps-ns.png`: PRE_EDIT/O/QCL/NQFIX/ORBFH/JAC의 primary RS/PS/NS.",
+            "- `primary-rs-ps-ns.png`: PRE_EDIT/O/QCL/NQFIX/ORBFH/JAC의 primary RS/PS/canonical NS.",
             "- `paired-target-new-nll-deltas.png`: 동일 prompt의 ours−O target-new NLL.",
             "- `hit-action-to-go-trajectories.png`: 20 visits의 residual-after와 strict-request count.",
             "- `layer-update-energy-share.png`: L4–L8 terminal-net squared-Frobenius share.",
@@ -1536,7 +1686,7 @@ def build(repo: Path, raw_root: Path, log_base: Path, output: Path, repro_root: 
     scheduler_payload = {
         "schema": "odeedit.s06.orbode.round0.scheduler-terminal.v1",
         "instruction_id": INSTRUCTION_ID,
-        "status": "CANONICAL_JOB_35694_4_OF_4_COMPLETED",
+        "status": f"CANONICAL_JOB_{ROUND_JOB_ID}_4_OF_4_COMPLETED",
         "task_owned_active_job_count": 0,
         "canonical_rows": lineage[lineage.parent_job_id == ROUND_JOB_ID].to_dict("records"),
         "all_lineage_row_count": len(lineage),

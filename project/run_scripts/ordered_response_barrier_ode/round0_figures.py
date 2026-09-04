@@ -58,15 +58,27 @@ def performance_primary(tables: Path, path: Path) -> None:
         width = 0.24
         ax.bar(x - width, 100.0 * selected.rewrite_success_rate, width, label="RS", color=colors[0])
         ax.bar(x, 100.0 * selected.rephrase_success_rate, width, label="PS", color=colors[1])
-        ns = 100.0 * selected.locality_prediction_preservation_rate
-        ax.bar(x + width, ns, width, label="NS", color=colors[2])
+        canonical_ns = (
+            "canonical_ns_rate" in selected.columns
+            and not selected.canonical_ns_rate.isna().all()
+        )
+        ns = 100.0 * (
+            selected.canonical_ns_rate
+            if canonical_ns
+            else selected.locality_prediction_preservation_rate
+        )
+        ax.bar(x + width, ns, width, label="canonical NS" if canonical_ns else "PP-token", color=colors[2])
         ax.set_xticks(x, STAGE_ORDER, rotation=25, ha="right")
         ax.set_ylim(0, 105)
         ax.set_ylabel("Rate (%)")
         ax.set_title(_title(cell_id), loc="left")
         ax.grid(axis="y", alpha=0.2, linewidth=0.4)
     axes[0, 0].legend(ncol=3, loc="lower right")
-    fig.suptitle("Primary CounterFact endpoint rates (PRE_EDIT NS is not applicable)")
+    fig.suptitle(
+        "Primary CounterFact endpoint rates (canonical NS, strict NLL-pair)"
+        if "canonical_ns_rate" in frame.columns and not frame.canonical_ns_rate.isna().all()
+        else "Primary CounterFact endpoint rates (legacy token preservation)"
+    )
     _save(fig, path)
 
 
