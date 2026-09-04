@@ -126,6 +126,7 @@ class FiniteDifferenceReceipt:
     reference_l2_norm: float
     finite_difference_l2_norm: float
     rounding_l2_envelope: float
+    numerical_activity_status: str
     allclose: bool
 
 
@@ -248,23 +249,33 @@ class TerminalResponseObserver:
         reference_norm = float(torch.linalg.vector_norm(reference64).item())
         finite_norm = float(torch.linalg.vector_norm(finite64).item())
         rounding_envelope = float(absolute_tolerance * math.sqrt(max(1, reference64.numel())))
-        if reference_norm <= rounding_envelope:
-            raise NumericalMethodBoundary(
-                "ZERO_RESPONSE_ROUNDING_ENVELOPE: "
-                f"norm={reference_norm}, envelope={rounding_envelope}"
-            )
+        both_inactive = (
+            reference_norm <= rounding_envelope
+            and finite_norm <= rounding_envelope
+        )
         relative_l2 = float(
             torch.linalg.vector_norm(reference64 - finite64).item()
             / max(reference_norm, finite_norm, torch.finfo(torch.float64).tiny)
         )
-        cosine = float(
-            torch.dot(reference64, finite64).item()
-            / max(reference_norm * finite_norm, torch.finfo(torch.float64).tiny)
+        cosine = (
+            1.0
+            if both_inactive
+            else float(
+                torch.dot(reference64, finite64).item()
+                / max(reference_norm * finite_norm, torch.finfo(torch.float64).tiny)
+            )
         )
         sign_active = torch.maximum(reference64.abs(), finite64.abs()) > absolute_tolerance
-        sign_agreement = float(
-            ((torch.sign(reference64[sign_active]) == torch.sign(finite64[sign_active])).double().mean()).item()
-        ) if bool(sign_active.any()) else 1.0
+        sign_agreement = (
+            1.0
+            if both_inactive or not bool(sign_active.any())
+            else float(
+                (
+                    torch.sign(reference64[sign_active])
+                    == torch.sign(finite64[sign_active])
+                ).double().mean().item()
+            )
+        )
         allclose = bool(torch.allclose(reference.response, finite, atol=absolute_tolerance, rtol=relative_tolerance))
         receipt = FiniteDifferenceReceipt(
             epsilon=epsilon,
@@ -278,13 +289,23 @@ class TerminalResponseObserver:
             reference_l2_norm=reference_norm,
             finite_difference_l2_norm=finite_norm,
             rounding_l2_envelope=rounding_envelope,
+            numerical_activity_status=(
+                "ALL_ZERO_WITHIN_NUMERICAL_ENVELOPE_OBSERVED"
+                if both_inactive
+                else "NUMERICALLY_ACTIVE_RESPONSE"
+            ),
             allclose=allclose,
         )
         if (
             not allclose
-            or not math.isfinite(cosine)
-            or cosine <= 0.0
-            or sign_agreement != 1.0
+            or (
+                not both_inactive
+                and (
+                    not math.isfinite(cosine)
+                    or cosine <= 0.0
+                    or sign_agreement != 1.0
+                )
+            )
         ):
             raise TechnicalBoundary(f"terminal JVP/FD preamble failed: {receipt}")
         return receipt

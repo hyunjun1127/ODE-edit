@@ -561,6 +561,9 @@ def _reduce_mechanism_telemetry(
             "materialization_count",
             "physical_write_count",
             "history_append_count",
+            "anchor_active_request_count",
+            "anchor_zero_request_count",
+            "anchor_zero_semantic_miss_count",
         ):
             _count(value.get(field), f"dynamic telemetry.{field}")
         if (
@@ -568,6 +571,13 @@ def _reduce_mechanism_telemetry(
             or int(value["zero_action_visit_count"])
             + int(value["nonzero_action_visit_count"])
             != len(steps)
+            or int(value["anchor_active_request_count"])
+            + int(value["anchor_zero_request_count"])
+            != request_count
+            or int(value["anchor_zero_semantic_miss_count"])
+            > int(value["anchor_zero_request_count"])
+            or value.get("anchor_zero_semantic_miss_policy")
+            != "NONBLOCKING_SCIENTIFIC_OBSERVATION"
         ):
             raise ArtifactBoundary("dynamic mechanism visit/build reconciliation differs")
         for field in (
@@ -1232,16 +1242,59 @@ def _reduce_runtime_preamble(value: object, *, round_index: int) -> dict[str, An
     if not isinstance(value.get("request_case_id"), str) or not value["request_case_id"]:
         raise ArtifactBoundary("runtime preamble request case identity differs")
     p0 = value.get("P0_official_scaling")
+    stock = p0.get("stock_official_parity") if isinstance(p0, Mapping) else None
     if (
         not isinstance(p0, Mapping)
-        or p0.get("custom_r_over_n_stock_exact_parity") is not True
+        or not isinstance(stock, Mapping)
+        or stock.get("mode") != "PINNED_STOCK_R_OVER_N_WRAPPER_VS_DIRECT"
+        or stock.get("dynamic_qcl_one_pass_used_as_stock_oracle") is not False
+        or stock.get("exact_parity") is not True
+        or any(
+            stock.get(f"{field}_present") is not True
+            or stock.get(f"{field}_equal") is not True
+            for field in (
+                "selected_weight_endpoint_sha256",
+                "terminal_activation_sha256",
+                "semantic_observation_sha256",
+                "evaluation_sha256",
+            )
+        )
+        or p0.get("dynamic_qcl_one_pass_stock_parity_claim")
+        != "NOT_APPLICABLE_DISTINCT_NUMERICAL_PATH"
         or p0.get("right_factor_bitwise_identity") is not True
         or _finite(p0.get("residual_scaling_max_abs_error"), "P0 scaling error") != 0.0
     ):
         raise ArtifactBoundary("runtime preamble P0 gate differs")
-    for key, item in p0.items():
-        if str(key).endswith("_sha256"):
-            _sha256(item, f"P0.{key}")
+    for field in (
+        "selected_weight_endpoint_sha256",
+        "terminal_activation_sha256",
+        "semantic_observation_sha256",
+        "evaluation_sha256",
+    ):
+        _sha256(stock.get(f"wrapper_{field}"), f"P0.stock.wrapper_{field}")
+        _sha256(stock.get(f"direct_{field}"), f"P0.stock.direct_{field}")
+    policy = value.get("outcome_comparison_gate_policy")
+    if (
+        not isinstance(policy, Mapping)
+        or policy.get("schema") != "orbode.nonblocking-outcome-comparison-policy.v1"
+        or policy.get("classification") != "NONBLOCKING_TELEMETRY_ONLY"
+        or policy.get("blocking_outcome_comparison_count") != 0
+        or any(
+            policy.get(field) is not False
+            for field in (
+                "ours_vs_official_gate",
+                "ours_vs_ours_gate",
+                "resolution_match_monotonicity_convergence_gate",
+                "action_magnitude_match_gate",
+                "zero_correction_or_official_path_gate",
+                "official_nonworse_outcome_gate",
+            )
+        )
+        or policy.get("stock_official_o_wrapper_direct_fidelity_gate") is not True
+        or policy.get("technical_integrity_gates_retained") is not True
+        or policy.get("scientific_selection_influence_count") != 0
+    ):
+        raise ArtifactBoundary("runtime preamble outcome-comparison gate policy differs")
     p1 = value.get("P1_jvp")
     if not isinstance(p1, Mapping):
         raise ArtifactBoundary("runtime preamble P1 gate is absent")
@@ -1252,16 +1305,32 @@ def _reduce_runtime_preamble(value: object, *, round_index: int) -> dict[str, An
         or p1.get("absolute_tolerance_formula")
         != "64*eps_float32*max(1,max_abs(primal))/epsilon"
         or p1.get("relative_tolerance") != 2.0 ** -5
+        or p1.get("response_selection_status")
+        not in {
+            "FIRST_NUMERICALLY_ACTIVE_RESPONSE",
+            "ALL_ZERO_WITHIN_NUMERICAL_ENVELOPE_OBSERVED",
+        }
         or not _is_int(p1.get("selected_layer"))
         or int(p1["selected_layer"]) not in (4, 5, 6, 7, 8)
         or not isinstance(p1.get("finite_difference"), list)
         or len(p1["finite_difference"]) != 3
         or any(
-            not isinstance(item, Mapping) or item.get("allclose") is not True
+            not isinstance(item, Mapping)
+            or item.get("allclose") is not True
+            or item.get("numerical_activity_status")
+            not in {
+                "NUMERICALLY_ACTIVE_RESPONSE",
+                "ALL_ZERO_WITHIN_NUMERICAL_ENVELOPE_OBSERVED",
+            }
             for item in p1["finite_difference"]
         )
         or not isinstance(p1.get("virtual_materialized"), Mapping)
         or p1["virtual_materialized"].get("allclose") is not True
+        or p1["virtual_materialized"].get("numerical_activity_status")
+        not in {
+            "NUMERICALLY_ACTIVE_RESPONSE",
+            "ALL_ZERO_WITHIN_NUMERICAL_ENVELOPE_OBSERVED",
+        }
     ):
         raise ArtifactBoundary("runtime preamble P1 FD/JVP gate differs")
     p2 = value.get("P2_state_transaction")
@@ -1272,6 +1341,11 @@ def _reduce_runtime_preamble(value: object, *, round_index: int) -> dict[str, An
         or p2.get("inner_persistent_mutation_count") != 0
         or p2.get("algorithmic_retry_count") != 0
         or p2.get("algorithmic_rollback_count") != 0
+        or not isinstance(p2.get("terminal_changed_observed"), bool)
+        or not isinstance(p2.get("l5_keys_changed_observed"), bool)
+        or p2.get("state_effect_comparison_policy")
+        != "NONBLOCKING_TELEMETRY_ONLY"
+        or p2.get("state_effect_comparison_gate_count") != 0
         or not isinstance(p2.get("overlay"), Mapping)
         or p2["overlay"].get("w0_pointer_version_bytes_unchanged") is not True
         or p2["overlay"].get("physical_inner_write_count") != 0

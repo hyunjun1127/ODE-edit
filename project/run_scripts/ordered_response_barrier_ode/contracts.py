@@ -326,7 +326,18 @@ def response_statistics(
     ):
         raise NumericalMethodBoundary("response observation is non-finite or shape-mismatched")
     if not bool(anchor.active.any()):
-        raise ScientificBoundary("ANCHOR_DEGENERATE: response active set is empty")
+        # A zero anchor is a finite scientific observation.  It carries no
+        # response command and must reach the ordinary no-op endpoint rather
+        # than being promoted to an implementation failure.
+        return ResponseStatistics(
+            g=0.0,
+            r=0.0,
+            u=0.0,
+            per_request_g=tuple(None for _ in range(anchor.request_count)),
+            per_request_r=tuple(None for _ in range(anchor.request_count)),
+            active_count=0,
+            nonpositive_request_fraction_when_batch_positive=None,
+        )
     active = anchor.active
     scales = anchor.scales[active].double().unsqueeze(0)
     residual = (anchor.target - current)[:, active].double() / scales

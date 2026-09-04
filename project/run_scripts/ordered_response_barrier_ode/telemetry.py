@@ -192,6 +192,9 @@ class ArmTelemetry:
     history_append_count: int = 0
     terminal_net_frobenius: float = 0.0
     terminal_net_frobenius_squared: float = 0.0
+    anchor_active_request_count: int = 0
+    anchor_zero_request_count: int = 0
+    anchor_zero_semantic_miss_count: int = 0
 
     def latch_hit(self, *, sweep: int, layer: int, state_version: int, prefix_length: int) -> None:
         if self.first_hit is None:
@@ -208,6 +211,15 @@ class ArmTelemetry:
             or not math.isfinite(self.terminal_net_frobenius_squared)
             or self.terminal_net_frobenius < 0.0
             or self.terminal_net_frobenius_squared < 0.0
+            or any(
+                isinstance(value, bool) or not isinstance(value, int) or value < 0
+                for value in (
+                    self.anchor_active_request_count,
+                    self.anchor_zero_request_count,
+                    self.anchor_zero_semantic_miss_count,
+                )
+            )
+            or self.anchor_zero_semantic_miss_count > self.anchor_zero_request_count
         ):
             raise NumericalMethodBoundary("terminal net Frobenius telemetry is invalid")
         step_action_squared = sum(
@@ -243,6 +255,10 @@ class ArmTelemetry:
             "resolution_stable_path_frobenius_squared": resolution_stable_path_squared,
             "terminal_net_frobenius": self.terminal_net_frobenius,
             "terminal_net_frobenius_squared": self.terminal_net_frobenius_squared,
+            "anchor_active_request_count": self.anchor_active_request_count,
+            "anchor_zero_request_count": self.anchor_zero_request_count,
+            "anchor_zero_semantic_miss_count": self.anchor_zero_semantic_miss_count,
+            "anchor_zero_semantic_miss_policy": "NONBLOCKING_SCIENTIFIC_OBSERVATION",
             "native_creg_action_status": "TELEMETRY_WITHHELD",
             "steps": [asdict(step) for step in self.steps],
         }

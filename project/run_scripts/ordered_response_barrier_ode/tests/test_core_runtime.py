@@ -45,6 +45,7 @@ from project.run_scripts.ordered_response_barrier_ode.preflight import (
 from project.run_scripts.ordered_response_barrier_ode.runtime import (
     FamilyRuntime,
     _arm_dtype_scope,
+    _changed_state_rebuild_observation,
     _classify_failure_status,
     _fd_absolute_tolerance,
     _install_model_forward_counter,
@@ -64,6 +65,7 @@ from project.run_scripts.ordered_response_barrier_ode.semantic import (
 )
 from project.run_scripts.ordered_response_barrier_ode.telemetry import ArmTelemetry, build_step_record
 from project.run_scripts.ordered_response_barrier_ode.terminal_jvp import (
+    TerminalJVPResult,
     TerminalResponseObserver,
     seal_eager_attention,
 )
@@ -359,8 +361,96 @@ class EntryAlreadyHitTests(unittest.TestCase):
         self.assertEqual(result.telemetry["physical_write_count"], 0)
         self.assertEqual(result.telemetry["history_append_count"], 0)
 
+    def test_zero_anchor_semantic_miss_is_valid_noop_observation(self) -> None:
+        model = ToyLinearModel().float()
+        names = {layer: f"layers.{layer}.weight" for layer in (4, 5, 6, 7, 8)}
+        target = torch.zeros((2, 1), dtype=torch.float32)
+        fixed = FixedZArtifact(
+            target, tensor_sha256(target), _sha(b"order"), _sha(b"contexts")
+        )
+        calls = {"evaluate": 0}
+
+        def build(**kwargs):
+            layer = int(kwargs["layer"])
+            return LayerBuild(
+                layer=layer,
+                weight_name=names[layer],
+                left=torch.ones((2, 1), dtype=torch.float32),
+                right=torch.ones((3, 1), dtype=torch.float32),
+                built_state_version=int(kwargs["state_version"]),
+                residual_denominator=int(kwargs["residual_denominator"]),
+                residual_sha256=_sha(f"residual-{layer}".encode()),
+                keys_sha256=_sha(f"keys-{layer}".encode()),
+                solver_identity=_sha(f"solver-{layer}".encode()),
+            )
+
+        def evaluate(**kwargs):
+            calls["evaluate"] += 1
+            return {
+                "status": kwargs["status"],
+                "physical_write_count": 0,
+                "history_append_count": 0,
+            }
+
+        class ZeroJVP:
+            @staticmethod
+            def observe(layer_build, *, expected_state_version):
+                return TerminalJVPResult(
+                    terminal=target.clone(),
+                    response=torch.zeros_like(target),
+                    built_state_version=expected_state_version,
+                    attention_backend_switched=False,
+                    wall_seconds=0.0,
+                )
+
+        adapter = CallbackMethodAdapter(
+            family="MEMIT",
+            layers=(4, 5, 6, 7, 8),
+            weight_names_by_layer=names,
+            compute_fixed_z=lambda: fixed,
+            capture_terminal=lambda: target.clone(),
+            build_official_form_layer=build,
+            run_official_endpoint=lambda **_: {},
+            finalize_terminal_state=lambda **_: {},
+            evaluate_current_endpoint=evaluate,
+            capture_method_state_identity=lambda: _sha(b"state"),
+        )
+        adapter.use_fixed_z(fixed)
+        result = OrderedResponseIntegrator(
+            adapter=adapter,
+            overlay=GroupedFP32Overlay(model, names),
+            jvp=ZeroJVP(),
+            observe_semantic=lambda: SemanticObservation(
+                False, 0, 1, (False,), 0, 0.0, 0.0, 0.0, 0
+            ),
+        ).run_dynamic(canonical_arm_configs()[4], fixed)
+        self.assertEqual(result.status, "FLOW_STALLED_ZERO_ACTION")
+        self.assertEqual(calls["evaluate"], 1)
+        self.assertEqual(result.telemetry["zero_action_visit_count"], 5)
+        self.assertEqual(result.telemetry["physical_write_count"], 0)
+        self.assertEqual(result.telemetry["anchor_active_request_count"], 0)
+        self.assertEqual(result.telemetry["anchor_zero_semantic_miss_count"], 1)
+
 
 class MechanismTelemetryTests(unittest.TestCase):
+    def test_all_zero_anchor_returns_zero_response_action(self) -> None:
+        terminal = torch.zeros((2, 3), dtype=torch.float32)
+        anchor = build_frozen_anchor(
+            target=terminal,
+            entry_terminal=terminal,
+            target_sha256=tensor_sha256(terminal),
+            request_order_sha256=_sha(b"order"),
+        )
+        statistics = response_statistics(
+            anchor=anchor,
+            terminal=terminal,
+            response=torch.zeros_like(terminal),
+        )
+        self.assertEqual((statistics.g, statistics.r, statistics.u), (0.0, 0.0, 0.0))
+        self.assertEqual(statistics.active_count, 0)
+        self.assertEqual(statistics.per_request_g, (None, None, None))
+        self.assertEqual(statistics.per_request_r, (None, None, None))
+
     def test_request_g_r_and_qcl_command_geometry_are_preserved(self) -> None:
         target = torch.tensor([[10.0, 0.0]], dtype=torch.float32)
         entry = torch.zeros_like(target)
@@ -915,6 +1005,92 @@ class RuntimePreambleMathTests(unittest.TestCase):
         self.assertGreaterEqual(receipt.sign_agreement_fraction, 0.0)
         self.assertLessEqual(receipt.sign_agreement_fraction, 1.0)
         self.assertGreaterEqual(receipt.relative_l2_error, 0.0)
+
+    def test_zero_response_jvp_fd_and_materialized_identity_are_nonblocking(self) -> None:
+        model = ToyLinearModel().float()
+        input_value = torch.tensor([[0.5, -1.0, 2.0]], dtype=torch.float32)
+        build = LayerBuild(
+            layer=4,
+            weight_name="layers.4.weight",
+            left=torch.zeros((2, 1), dtype=torch.float32),
+            right=torch.tensor([[1.0], [-1.0], [0.5]], dtype=torch.float32),
+            built_state_version=0,
+            residual_denominator=1,
+            residual_sha256=_sha(b"zero-residual"),
+            keys_sha256=_sha(b"zero-keys"),
+            solver_identity=_sha(b"zero-solver"),
+        )
+        with GroupedFP32Overlay(model, {4: "layers.4.weight"}) as overlay:
+            observer = TerminalResponseObserver(
+                model=model,
+                overlay=overlay,
+                capture_terminal_graph=lambda: model.layers[4](input_value).T,
+            )
+            reference = observer.observe(build, expected_state_version=0)
+            epsilon = 2.0 ** -8
+            receipt = observer.audit_central_difference(
+                build,
+                expected_state_version=0,
+                epsilon=epsilon,
+                absolute_tolerance=_fd_absolute_tolerance(reference.terminal, epsilon),
+                relative_tolerance=2.0 ** -5,
+            )
+        self.assertTrue(receipt.allclose)
+        self.assertEqual(
+            receipt.numerical_activity_status,
+            "ALL_ZERO_WITHIN_NUMERICAL_ENVELOPE_OBSERVED",
+        )
+        identity = _response_identity(
+            torch.zeros((2, 1), dtype=torch.float32),
+            torch.zeros((2, 1), dtype=torch.float32),
+            absolute_tolerance=1.0e-6,
+        )
+        self.assertTrue(identity["allclose"])
+        self.assertEqual(
+            identity["numerical_activity_status"],
+            "ALL_ZERO_WITHIN_NUMERICAL_ENVELOPE_OBSERVED",
+        )
+
+    def test_changed_state_rebuild_effect_is_observation_only(self) -> None:
+        terminal = torch.zeros((2, 1), dtype=torch.float32)
+        unchanged = LayerBuild(
+            layer=5,
+            weight_name="layers.5.weight",
+            left=torch.zeros((2, 1), dtype=torch.float32),
+            right=torch.ones((3, 1), dtype=torch.float32),
+            built_state_version=1,
+            residual_denominator=1,
+            residual_sha256=_sha(b"residual"),
+            keys_sha256=_sha(b"same-keys"),
+            solver_identity=_sha(b"solver"),
+        )
+        receipt = _changed_state_rebuild_observation(
+            entry_terminal=terminal,
+            changed_terminal=terminal,
+            entry_keys_sha256=unchanged.keys_sha256,
+            changed_build=unchanged,
+        )
+        self.assertFalse(receipt["terminal_changed_observed"])
+        self.assertFalse(receipt["l5_keys_changed_observed"])
+        self.assertEqual(receipt["state_effect_comparison_gate_count"], 0)
+        stale = LayerBuild(
+            layer=5,
+            weight_name="layers.5.weight",
+            left=torch.zeros((2, 1), dtype=torch.float32),
+            right=torch.ones((3, 1), dtype=torch.float32),
+            built_state_version=0,
+            residual_denominator=1,
+            residual_sha256=_sha(b"residual"),
+            keys_sha256=_sha(b"same-keys"),
+            solver_identity=_sha(b"solver"),
+        )
+        with self.assertRaisesRegex(TechnicalBoundary, "advanced state version"):
+            _changed_state_rebuild_observation(
+                entry_terminal=terminal,
+                changed_terminal=terminal,
+                entry_keys_sha256=stale.keys_sha256,
+                changed_build=stale,
+            )
 
 
 if __name__ == "__main__":

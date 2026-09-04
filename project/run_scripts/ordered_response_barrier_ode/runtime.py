@@ -1198,6 +1198,8 @@ def _response_identity(
         / max(left_norm * right_norm, torch.finfo(torch.float64).tiny)
     )
     maximum_absolute = float((left - right).abs().max().item()) if left.numel() else 0.0
+    rounding_envelope = absolute_tolerance * math.sqrt(max(1, left.numel()))
+    both_inactive = left_norm <= rounding_envelope and right_norm <= rounding_envelope
     sign_active = torch.maximum(left.abs(), right.abs()) > absolute_tolerance
     sign_agreement = float(
         (
@@ -1210,6 +1212,9 @@ def _response_identity(
         atol=absolute_tolerance,
         rtol=_FD_RELATIVE_TOLERANCE,
     ))
+    if both_inactive:
+        cosine = 1.0
+        sign_agreement = 1.0
     receipt = {
         "maximum_absolute_error": maximum_absolute,
         "relative_l2_error": relative_l2,
@@ -1219,11 +1224,41 @@ def _response_identity(
         "active_element_sign_agreement_fraction": sign_agreement,
         "absolute_tolerance": absolute_tolerance,
         "relative_tolerance": _FD_RELATIVE_TOLERANCE,
+        "rounding_l2_envelope": rounding_envelope,
+        "numerical_activity_status": (
+            "ALL_ZERO_WITHIN_NUMERICAL_ENVELOPE_OBSERVED"
+            if both_inactive
+            else "NUMERICALLY_ACTIVE_RESPONSE"
+        ),
         "allclose": allclose,
     }
-    if not allclose or not math.isfinite(cosine) or cosine <= 0.0 or sign_agreement != 1.0:
+    if not allclose or (
+        not both_inactive
+        and (not math.isfinite(cosine) or cosine <= 0.0 or sign_agreement != 1.0)
+    ):
         raise TechnicalBoundary(f"virtual/materialized response identity failed: {receipt}")
     return receipt
+
+
+def _changed_state_rebuild_observation(
+    *,
+    entry_terminal: torch.Tensor,
+    changed_terminal: torch.Tensor,
+    entry_keys_sha256: str,
+    changed_build: LayerBuild,
+) -> dict[str, Any]:
+    """Bind a versioned rebuild without requiring a nonzero scientific effect."""
+
+    if changed_build.built_state_version != 1:
+        raise TechnicalBoundary("L5 rebuild did not consume the advanced state version")
+    return {
+        "terminal_changed_observed": (
+            tensor_sha256(changed_terminal) != tensor_sha256(entry_terminal)
+        ),
+        "l5_keys_changed_observed": changed_build.keys_sha256 != entry_keys_sha256,
+        "state_effect_comparison_policy": "NONBLOCKING_TELEMETRY_ONLY",
+        "state_effect_comparison_gate_count": 0,
+    }
 
 
 def _stock_official_parity_receipt(
@@ -1376,6 +1411,7 @@ def _single_request_preamble(
     )
     selected_build: LayerBuild | None = None
     selected_observation: Any | None = None
+    response_selection_status = "ALL_ZERO_WITHIN_NUMERICAL_ENVELOPE_OBSERVED"
     zero_response_candidates: list[dict[str, Any]] = []
     with overlay:
         adapter.bind_state_version(0)
@@ -1389,12 +1425,18 @@ def _single_request_preamble(
                 fixed_z=fixed_z,
             )
             observation = observer.observe(build, expected_state_version=0)
+            if selected_build is None:
+                # Deterministic layer-order fallback for a valid all-zero
+                # response.  A later numerically active layer supersedes it.
+                selected_build = build
+                selected_observation = observation
             primary_atol = _fd_absolute_tolerance(observation.terminal, _FD_PRIMARY_EPSILON)
             direction_norm = float(torch.linalg.vector_norm(observation.response.double()).item())
             rounding_envelope = primary_atol * math.sqrt(max(1, observation.response.numel()))
             if direction_norm > rounding_envelope:
                 selected_build = build
                 selected_observation = observation
+                response_selection_status = "FIRST_NUMERICALLY_ACTIVE_RESPONSE"
                 break
             zero_response_candidates.append({
                 "layer": layer,
@@ -1402,9 +1444,7 @@ def _single_request_preamble(
                 "rounding_l2_envelope": rounding_envelope,
             })
         if selected_build is None or selected_observation is None:
-            raise NumericalMethodBoundary(
-                f"ZERO_RESPONSE_ROUNDING_ENVELOPE: {zero_response_candidates}"
-            )
+            raise TechnicalBoundary("P1 response layer inventory is empty")
         fd_receipts = []
         for epsilon in _FD_EPSILONS:
             absolute_tolerance = _fd_absolute_tolerance(selected_observation.terminal, epsilon)
@@ -1459,12 +1499,12 @@ def _single_request_preamble(
             current_terminal=changed_terminal,
             fixed_z=fixed_z,
         )
-        if (
-            changed_l5.built_state_version != 1
-            or tensor_sha256(changed_terminal) == tensor_sha256(entry_terminal)
-            or changed_l5.keys_sha256 == entry_l5.keys_sha256
-        ):
-            raise TechnicalBoundary("L4 advance did not change the L5 state/key build")
+        changed_state_observation = _changed_state_rebuild_observation(
+            entry_terminal=entry_terminal,
+            changed_terminal=changed_terminal,
+            entry_keys_sha256=entry_l5.keys_sha256,
+            changed_build=changed_l5,
+        )
         overlay2.append(changed_l5.overlay_delta(0.25))
         adapter2.bind_state_version(overlay2.state_version)
         repeat_terminal = adapter2.current_terminal(state_version=overlay2.state_version)
@@ -1625,8 +1665,23 @@ def _single_request_preamble(
             "residual_scaling_max_relative_error": scaling_relative_error,
             "right_factor_bitwise_identity": True,
         },
+        "outcome_comparison_gate_policy": {
+            "schema": "orbode.nonblocking-outcome-comparison-policy.v1",
+            "classification": "NONBLOCKING_TELEMETRY_ONLY",
+            "blocking_outcome_comparison_count": 0,
+            "ours_vs_official_gate": False,
+            "ours_vs_ours_gate": False,
+            "resolution_match_monotonicity_convergence_gate": False,
+            "action_magnitude_match_gate": False,
+            "zero_correction_or_official_path_gate": False,
+            "official_nonworse_outcome_gate": False,
+            "stock_official_o_wrapper_direct_fidelity_gate": True,
+            "technical_integrity_gates_retained": True,
+            "scientific_selection_influence_count": 0,
+        },
         "P1_jvp": {
             "selected_layer": selected_build.layer,
+            "response_selection_status": response_selection_status,
             "epsilon_grid": list(_FD_EPSILONS),
             "primary_epsilon": _FD_PRIMARY_EPSILON,
             "absolute_tolerance_formula": (
@@ -1642,6 +1697,7 @@ def _single_request_preamble(
             "entry_l5_keys_sha256": entry_l5.keys_sha256,
             "changed_l5_keys_sha256": changed_l5.keys_sha256,
             "changed_l5_state_version": changed_l5.built_state_version,
+            **changed_state_observation,
             "same_layer_repeated_factor_count": 2,
             "overlay": overlay2.receipt(),
             "terminal_identity": terminal_identity,

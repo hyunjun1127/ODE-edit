@@ -212,6 +212,10 @@ def _telemetry(arm: str) -> dict[str, Any]:
         "materialization_count": 1,
         "physical_write_count": 1,
         "history_append_count": 0,
+        "anchor_active_request_count": 100,
+        "anchor_zero_request_count": 0,
+        "anchor_zero_semantic_miss_count": 0,
+        "anchor_zero_semantic_miss_policy": "NONBLOCKING_SCIENTIFIC_OBSERVATION",
         "sum_step_action_frobenius_squared": 0.0625,
         "resolution_stable_path_frobenius_squared": 0.125,
         "terminal_net_frobenius": 0.25,
@@ -338,19 +342,51 @@ def _round() -> dict[str, Any]:
             "fixed_z_request_consumption_count": 1,
             "fixed_z_recompute_count": 0,
             "P0_official_scaling": {
-                "wrapper_endpoint_sha256": "a" * 64,
-                "direct_endpoint_sha256": "a" * 64,
-                "wrapper_evaluation_sha256": "b" * 64,
-                "direct_evaluation_sha256": "b" * 64,
-                "custom_r_over_n_one_pass_endpoint_sha256": "a" * 64,
-                "custom_r_over_n_one_pass_activation_sha256": "c" * 64,
-                "custom_r_over_n_one_pass_evaluation_sha256": "b" * 64,
-                "custom_r_over_n_stock_exact_parity": True,
+                "stock_official_parity": {
+                    "mode": "PINNED_STOCK_R_OVER_N_WRAPPER_VS_DIRECT",
+                    "dynamic_qcl_one_pass_used_as_stock_oracle": False,
+                    "wrapper_selected_weight_endpoint_sha256": "a" * 64,
+                    "direct_selected_weight_endpoint_sha256": "a" * 64,
+                    "selected_weight_endpoint_sha256_present": True,
+                    "selected_weight_endpoint_sha256_equal": True,
+                    "wrapper_terminal_activation_sha256": "b" * 64,
+                    "direct_terminal_activation_sha256": "b" * 64,
+                    "terminal_activation_sha256_present": True,
+                    "terminal_activation_sha256_equal": True,
+                    "wrapper_semantic_observation_sha256": "c" * 64,
+                    "direct_semantic_observation_sha256": "c" * 64,
+                    "semantic_observation_sha256_present": True,
+                    "semantic_observation_sha256_equal": True,
+                    "wrapper_evaluation_sha256": "d" * 64,
+                    "direct_evaluation_sha256": "d" * 64,
+                    "evaluation_sha256_present": True,
+                    "evaluation_sha256_equal": True,
+                    "exact_parity": True,
+                },
+                "dynamic_qcl_one_pass_stock_parity_claim": (
+                    "NOT_APPLICABLE_DISTINCT_NUMERICAL_PATH"
+                ),
                 "residual_scaling_max_abs_error": 0.0,
+                "residual_scaling_max_relative_error": 0.0,
                 "right_factor_bitwise_identity": True,
+            },
+            "outcome_comparison_gate_policy": {
+                "schema": "orbode.nonblocking-outcome-comparison-policy.v1",
+                "classification": "NONBLOCKING_TELEMETRY_ONLY",
+                "blocking_outcome_comparison_count": 0,
+                "ours_vs_official_gate": False,
+                "ours_vs_ours_gate": False,
+                "resolution_match_monotonicity_convergence_gate": False,
+                "action_magnitude_match_gate": False,
+                "zero_correction_or_official_path_gate": False,
+                "official_nonworse_outcome_gate": False,
+                "stock_official_o_wrapper_direct_fidelity_gate": True,
+                "technical_integrity_gates_retained": True,
+                "scientific_selection_influence_count": 0,
             },
             "P1_jvp": {
                 "selected_layer": 4,
+                "response_selection_status": "FIRST_NUMERICALLY_ACTIVE_RESPONSE",
                 "epsilon_grid": [2.0 ** -7, 2.0 ** -8, 2.0 ** -9],
                 "primary_epsilon": 2.0 ** -8,
                 "absolute_tolerance_formula": (
@@ -359,16 +395,29 @@ def _round() -> dict[str, Any]:
                 "relative_tolerance": 2.0 ** -5,
                 "zero_response_candidates": [],
                 "finite_difference": [
-                    {"epsilon": epsilon, "maximum_absolute_error": 0.0, "allclose": True}
+                    {
+                        "epsilon": epsilon,
+                        "maximum_absolute_error": 0.0,
+                        "numerical_activity_status": "NUMERICALLY_ACTIVE_RESPONSE",
+                        "allclose": True,
+                    }
                     for epsilon in (2.0 ** -7, 2.0 ** -8, 2.0 ** -9)
                 ],
-                "virtual_materialized": {"maximum_absolute_error": 0.0, "allclose": True},
+                "virtual_materialized": {
+                    "maximum_absolute_error": 0.0,
+                    "numerical_activity_status": "NUMERICALLY_ACTIVE_RESPONSE",
+                    "allclose": True,
+                },
                 "ledger": {"jvp_call_count": 1, "physical_write_count": 0},
             },
             "P2_state_transaction": {
                 "entry_l5_keys_sha256": "d" * 64,
                 "changed_l5_keys_sha256": "e" * 64,
                 "changed_l5_state_version": 1,
+                "terminal_changed_observed": True,
+                "l5_keys_changed_observed": True,
+                "state_effect_comparison_policy": "NONBLOCKING_TELEMETRY_ONLY",
+                "state_effect_comparison_gate_count": 0,
                 "same_layer_repeated_factor_count": 2,
                 "overlay": {
                     "w0_pointer_version_bytes_unchanged": True,
@@ -560,6 +609,19 @@ class RoundPublicationTests(unittest.TestCase):
         identity = preamble["P3_orbhit_direct_prefix_identity"]
         self.assertTrue(identity["exception_message_redacted"])
         self.assertEqual(len(identity["exception_message_sha256"]), 64)
+
+    def test_outcome_comparisons_cannot_be_reenabled_as_gates(self) -> None:
+        source = _round()
+        source["runtime_preamble"]["outcome_comparison_gate_policy"][
+            "ours_vs_official_gate"
+        ] = True
+        source["runtime_preamble"]["outcome_comparison_gate_policy"][
+            "blocking_outcome_comparison_count"
+        ] = 1
+        with self.assertRaisesRegex(
+            artifacts.ArtifactBoundary, "outcome-comparison gate policy"
+        ):
+            artifacts.reduce_round_payload(source)
 
     def test_round_arm_order_w0_and_public_raw_tamper_fail(self) -> None:
         wrong_order = _round()

@@ -76,16 +76,22 @@ def _residual_denominator(config: ArmConfig, layer_position: int, layer_count: i
     raise ORBODEContractError("dynamic integrator received Official residual policy")
 
 
-def _anchor_semantic_gate(anchor: FrozenAnchor, semantic: SemanticObservation) -> None:
+def _anchor_semantic_observation(
+    anchor: FrozenAnchor, semantic: SemanticObservation
+) -> dict[str, int | str]:
     if len(semantic.request_strict) != anchor.request_count:
-        raise ScientificBoundary("semantic/target request denominator differs")
+        raise TechnicalBoundary("semantic/target request denominator differs")
     invalid = [
         index
         for index, active in enumerate(anchor.active.tolist())
         if not active and not semantic.request_strict[index]
     ]
-    if invalid:
-        raise ScientificBoundary(f"ANCHOR_DEGENERATE: zero residual with semantic miss at {invalid}")
+    return {
+        "anchor_active_request_count": int(anchor.active.sum().item()),
+        "anchor_zero_request_count": int((~anchor.active).sum().item()),
+        "anchor_zero_semantic_miss_count": len(invalid),
+        "anchor_zero_semantic_miss_policy": "NONBLOCKING_SCIENTIFIC_OBSERVATION",
+    }
 
 
 def terminal_flow_status(
@@ -347,8 +353,20 @@ class OrderedResponseIntegrator:
         )
         self._entry_potential, _ = normalized_potential(self._anchor, terminal)
         semantic = self.observe_semantic()
-        _anchor_semantic_gate(self._anchor, semantic)
-        telemetry = ArmTelemetry(arm=config.arm.value, entry_semantic=semantic_payload(semantic))
+        anchor_observation = _anchor_semantic_observation(self._anchor, semantic)
+        telemetry = ArmTelemetry(
+            arm=config.arm.value,
+            entry_semantic=semantic_payload(semantic),
+            anchor_active_request_count=int(
+                anchor_observation["anchor_active_request_count"]
+            ),
+            anchor_zero_request_count=int(
+                anchor_observation["anchor_zero_request_count"]
+            ),
+            anchor_zero_semantic_miss_count=int(
+                anchor_observation["anchor_zero_semantic_miss_count"]
+            ),
+        )
         if semantic.all_strict:
             status = "ENTRY_ALREADY_HIT"
             endpoint = dict(self.adapter.evaluate_current(
