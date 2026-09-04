@@ -51,6 +51,7 @@ from project.run_scripts.ordered_response_barrier_ode.runtime import (
     _model_forward_count,
     _reconcile_arm_accounting,
     _response_identity,
+    _stock_official_parity_receipt,
     _stock_repr_tools,
     _tensor_state_identity,
     _tensor_content_state_identity,
@@ -859,6 +860,27 @@ class RuntimeReceiptTests(unittest.TestCase):
 
 
 class RuntimePreambleMathTests(unittest.TestCase):
+    def test_stock_official_parity_is_wrapper_direct_not_dynamic_qcl(self) -> None:
+        endpoint = {
+            "selected_weight_endpoint_sha256": _sha(b"weights"),
+            "terminal_activation_sha256": _sha(b"activation"),
+            "semantic_observation": {"strict": [True], "logit": 1.25},
+            "evaluation": {"rewrite": {"target_new_nll": 0.25}},
+        }
+        receipt = _stock_official_parity_receipt(endpoint, dict(endpoint))
+        self.assertTrue(receipt["exact_parity"])
+        self.assertFalse(receipt["dynamic_qcl_one_pass_used_as_stock_oracle"])
+        changed = dict(endpoint)
+        changed["terminal_activation_sha256"] = _sha(b"different")
+        mismatch = _stock_official_parity_receipt(endpoint, changed)
+        self.assertFalse(mismatch["exact_parity"])
+        self.assertFalse(mismatch["terminal_activation_sha256_equal"])
+        missing = dict(endpoint)
+        missing.pop("terminal_activation_sha256")
+        absent = _stock_official_parity_receipt(missing, missing)
+        self.assertFalse(absent["exact_parity"])
+        self.assertFalse(absent["terminal_activation_sha256_present"])
+
     def test_fd_receipt_has_locked_error_cosine_sign_and_l2_fields(self) -> None:
         model = ToyLinearModel().float()
         input_value = torch.tensor([[0.5, -1.0, 2.0]], dtype=torch.float32)
