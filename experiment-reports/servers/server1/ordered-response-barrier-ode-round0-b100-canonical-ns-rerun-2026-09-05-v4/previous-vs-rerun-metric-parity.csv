@@ -1,0 +1,10 @@
+metric,paired_row_count,matched_not_applicable_count,exact_equal_count,nonzero_delta_count,numerically_equal_count,outside_pinned_tolerance_count,delta_mean,delta_median,delta_p90,max_absolute_delta
+rewrite_success_rate,24,0,24,0,24,0,0,0,0,0
+rephrase_success_rate,24,0,21,3,24,0,1.3877787807814457e-17,0,7.7715611723760879e-17,1.1102230246251565e-16
+strict_rephrase_success_rate,24,0,24,0,24,0,0,0,0,0
+locality_prediction_preservation_rate,20,4,9,11,20,0,3.8857805861880476e-17,0,1.1102230246251565e-16,1.1102230246251565e-16
+rewrite_target_new_accuracy_rate,24,0,24,0,24,0,0,0,0,0
+rewrite_target_true_accuracy_rate,24,0,24,0,24,0,0,0,0,0
+rephrase_target_new_accuracy_rate,24,0,20,4,24,0,1.6190752442450201e-17,0,9.4368957093138266e-17,1.1102230246251565e-16
+rephrase_target_true_accuracy_rate,24,0,20,4,24,0,1.5323390704461797e-17,0,8.3266726846886741e-17,1.0061396160665481e-16
+locality_target_true_accuracy_rate,24,0,6,18,24,0,6.2450045135165055e-17,8.3266726846886741e-17,8.3266726846886741e-17,8.3266726846886741e-17

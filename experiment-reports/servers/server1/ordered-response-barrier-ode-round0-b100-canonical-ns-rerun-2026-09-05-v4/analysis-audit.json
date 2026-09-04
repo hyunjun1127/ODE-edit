@@ -1,0 +1,460 @@
+{
+  "analysis_source": {
+    "head": "6dc527ef96501756fc7522771f42f1ed19dce409",
+    "tree": "cb1e8d451e7ee829d8141a67460596d41b85ef90"
+  },
+  "gates": {
+    "analysis_only_gpu_action_count": 0,
+    "analysis_only_model_action_count": 0,
+    "analysis_only_slurm_submit_count": 0,
+    "artifact_inventory_row_count": 50,
+    "canonical_cell_count": 4,
+    "canonical_request_count": 400,
+    "compute_row_count": 20,
+    "derived_orbhit_primary_denominator_influence_count": 0,
+    "derived_orbhit_row_count": 4,
+    "dynamic_z_recompute_count": 0,
+    "entry_already_hit_count": 0,
+    "evaluation_entry_binding_failure_count": 0,
+    "evaluation_prompt_row_count": 62400,
+    "evaluation_request_row_count": 2400,
+    "evaluation_summary_recompute_failure_count": 0,
+    "forbidden_controller_evaluator_access_count": 0,
+    "full_fp32_scope": "MODEL_STORAGE_AND_ORBODE_DYNAMIC_PATH",
+    "global_first_hit_count": 0,
+    "history_append_count": 10,
+    "horizon_semantic_miss_dynamic_endpoint_count": 16,
+    "immutable_prior_report_reference_count": 8,
+    "imputation_count": 0,
+    "inner_cache_mutation_count": 0,
+    "inner_history_append_count": 0,
+    "layer_update_row_count": 100,
+    "lineage_row_count": 12,
+    "mechanism_arm_aggregate_row_count": 16,
+    "mechanism_arm_row_count": 20,
+    "mechanism_request_step_row_count": 32000,
+    "mechanism_step_row_count": 320,
+    "method_contrast_summary_row_count": 96,
+    "method_state_content_mismatch_count": 0,
+    "nll_summary_row_count": 144,
+    "nonfinite_count": 0,
+    "official_memit_ephemeral_fp64_exception_cell_count": 2,
+    "official_wrapper_direct_fidelity_failure_count": 0,
+    "paired_official_summary_row_count": 128,
+    "performance_summary_row_count": 24,
+    "plot_byte_reproduction_failure_count": 0,
+    "plot_count": 5,
+    "primary_endpoint_count": 2000,
+    "prior_rerun_parity_metric_count": 9,
+    "prior_rerun_parity_outside_pinned_tolerance_count": 0,
+    "prior_rerun_parity_raw_nonzero_delta_count": 40,
+    "raw_input_sha_before_after_unchanged": true,
+    "remaining_nine_submit_count": 0,
+    "rerun_count_for_analysis": 0,
+    "retry_count": 0,
+    "runtime_preamble_failure_count": 0,
+    "runtime_preamble_row_count": 4,
+    "same_pre_edit_within_model": true,
+    "same_request_order_cross_cell": true,
+    "scientific_failure_count": 0,
+    "scientific_promotion": false,
+    "source_head_tree_pass": true,
+    "squeue_checked": true,
+    "stream_order_root_pass": true,
+    "task_owned_active_job_count": 0,
+    "technical_failure_count": 0,
+    "unqualified_all_algorithm_full_fp32_cell_count": 2
+  },
+  "identity_sha256": "a76ee93529bdb667d4eb764a4f6459b14de2ad08071a503426db2201f8340dec",
+  "imputation_count": 0,
+  "input_root": "02887b2df1c74a40b798eec0f7606fdb516a2cf75b2523746ba9b395c3676113",
+  "inputs_after": [
+    {
+      "bytes": 55900,
+      "kind": "authoritative_document",
+      "lines": 1359,
+      "mode": "0664",
+      "path": "/mnt/raid5/janghj/ODE-edit/project/proposals/2026-09-03-ordered-response-barrier-ode-edit-proposal.md",
+      "sha256": "03a6fc61258e7643fc281fab8ab0d3ca700bb80f09aaa3eb34591ce5827087be"
+    },
+    {
+      "bytes": 13143,
+      "kind": "authoritative_document",
+      "lines": 287,
+      "mode": "0664",
+      "path": "/mnt/raid5/janghj/ODE-edit/project/proposals/2026-09-03-ordered-response-barrier-ode-edit-gh-fast-main-prompt.md",
+      "sha256": "8548d016fda343f8b8917bcbe43647b58ad99ab6f796ece2fe4ef661faa4c431"
+    },
+    {
+      "bytes": 18113,
+      "kind": "authoritative_document",
+      "lines": 451,
+      "mode": "0664",
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-03-ordered-response-barrier-ode-edit-fast-main-table.md",
+      "sha256": "e134ac708c556482b912d7103e12a12347a78958943e7fa3d3da0a473908aa40"
+    },
+    {
+      "bytes": 6779,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/core-performance-summary.csv",
+      "sha256": "6169a4a5827dfcd50675a0cb4c755454e086792738b8243b58af10b0c798df41"
+    },
+    {
+      "bytes": 48228,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/ordered-response-barrier-ode-round0-b100-exhaustive-factual-ko.md",
+      "sha256": "54ef00e3944413a9908dd0ccabd33a487831c878b5a43bfbd55955ba03fa0a82"
+    },
+    {
+      "bytes": 15839,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/analysis-manifest.json",
+      "sha256": "78b6217e952f03d446089d773bac365ace29ede806653ed72436d60ebd279a55"
+    },
+    {
+      "bytes": 3772,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/rooted-analysis-receipt.json",
+      "sha256": "d0fdeb5a1c4fd4e055265a1833576ff81ae3bce5093207bad92e531e4a059342"
+    },
+    {
+      "bytes": 9646,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2/baseline-inclusive-performance.csv",
+      "sha256": "7f5ed478faba2a12f444921b6d1324fa00646876418af1724c68d18cd8dd37b5"
+    },
+    {
+      "bytes": 57221,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2/ordered-response-barrier-ode-round0-b100-baseline-inclusive-factual-ko.md",
+      "sha256": "0067446cc19308991aa6fcb3ed5f2e9b6c2af2bb08af6d11477b0be4a6b4a84e"
+    },
+    {
+      "bytes": 21131,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2/analysis-manifest.json",
+      "sha256": "5ebfc9df241e6ab22b68a7e0bf1f1992994b758111588b29c5106bf910f8c7af"
+    },
+    {
+      "bytes": 1658,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2/rooted-analysis-receipt.json",
+      "sha256": "9fde6a3527b6e578c4de6939eb64bf50b1e65e178568fea897e4c9606c4b720d"
+    },
+    {
+      "bytes": 13299777,
+      "cell_id": 0,
+      "child_job_id": "36614",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-0/result.json",
+      "sha256": "68bb5ea3f0b455e3a3e892760de2b0ee40e12332e42a46894d02940eeee05553"
+    },
+    {
+      "bytes": 13295072,
+      "cell_id": 0,
+      "child_job_id": "36614",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-0/round-00-result.json",
+      "sha256": "be14adf153986c7a86a1451a83e5c2b20879352bb3eae899be243ff5a79928d9"
+    },
+    {
+      "bytes": 2086,
+      "cell_id": 0,
+      "child_job_id": "36614",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-0/terminal-receipt.json",
+      "sha256": "1cfb5052a796c5bb546519cf5d62affda662bbe44e5087cc2fce68b913fefb74"
+    },
+    {
+      "bytes": 13296531,
+      "cell_id": 1,
+      "child_job_id": "36615",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-1/result.json",
+      "sha256": "2d988ec2f53f437f8897261c3ff21220425d0caff160a2985f5bc3c64a85256c"
+    },
+    {
+      "bytes": 13291816,
+      "cell_id": 1,
+      "child_job_id": "36615",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-1/round-00-result.json",
+      "sha256": "fe1a5300dd6c864e8f49563934315529b914dab2b6806e085d901113c7192324"
+    },
+    {
+      "bytes": 2093,
+      "cell_id": 1,
+      "child_job_id": "36615",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-1/terminal-receipt.json",
+      "sha256": "bb0925cd51877a29620ad53b79c6b5bd6998c7ba8067eb8fad4120bc8ab86412"
+    },
+    {
+      "bytes": 13291646,
+      "cell_id": 2,
+      "child_job_id": "36840",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-2/result.json",
+      "sha256": "7c80c75b778ea6d58d32219058b2ab01a6dd611175122ddafe12be374291a8c9"
+    },
+    {
+      "bytes": 13286949,
+      "cell_id": 2,
+      "child_job_id": "36840",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-2/round-00-result.json",
+      "sha256": "8574d548b31a5b0734b853abcb4aa4a2986fa7de09c3768d06fba90817fe56f8"
+    },
+    {
+      "bytes": 2088,
+      "cell_id": 2,
+      "child_job_id": "36840",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-2/terminal-receipt.json",
+      "sha256": "d4195863d31870093bbf67e8adfcd69d73aff346fcdce072f326fdd484430bd3"
+    },
+    {
+      "bytes": 13282763,
+      "cell_id": 3,
+      "child_job_id": "36613",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-3/result.json",
+      "sha256": "941f97dc3ddb1082927abdc941ee045cbc9e701ebc5ef1432c7b5d570d2fddd2"
+    },
+    {
+      "bytes": 13278055,
+      "cell_id": 3,
+      "child_job_id": "36613",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-3/round-00-result.json",
+      "sha256": "d1212141b68e6bb8e540a30d80cd58c1f182f8ad4f7188691d2520eeadc268ea"
+    },
+    {
+      "bytes": 2095,
+      "cell_id": 3,
+      "child_job_id": "36613",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-3/terminal-receipt.json",
+      "sha256": "4af589d067cd604204e003b05e8e4cd7e1f501706934599d35105ba5c6706f35"
+    }
+  ],
+  "inputs_before": [
+    {
+      "bytes": 55900,
+      "kind": "authoritative_document",
+      "lines": 1359,
+      "mode": "0664",
+      "path": "/mnt/raid5/janghj/ODE-edit/project/proposals/2026-09-03-ordered-response-barrier-ode-edit-proposal.md",
+      "sha256": "03a6fc61258e7643fc281fab8ab0d3ca700bb80f09aaa3eb34591ce5827087be"
+    },
+    {
+      "bytes": 13143,
+      "kind": "authoritative_document",
+      "lines": 287,
+      "mode": "0664",
+      "path": "/mnt/raid5/janghj/ODE-edit/project/proposals/2026-09-03-ordered-response-barrier-ode-edit-gh-fast-main-prompt.md",
+      "sha256": "8548d016fda343f8b8917bcbe43647b58ad99ab6f796ece2fe4ef661faa4c431"
+    },
+    {
+      "bytes": 18113,
+      "kind": "authoritative_document",
+      "lines": 451,
+      "mode": "0664",
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-03-ordered-response-barrier-ode-edit-fast-main-table.md",
+      "sha256": "e134ac708c556482b912d7103e12a12347a78958943e7fa3d3da0a473908aa40"
+    },
+    {
+      "bytes": 6779,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/core-performance-summary.csv",
+      "sha256": "6169a4a5827dfcd50675a0cb4c755454e086792738b8243b58af10b0c798df41"
+    },
+    {
+      "bytes": 48228,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/ordered-response-barrier-ode-round0-b100-exhaustive-factual-ko.md",
+      "sha256": "54ef00e3944413a9908dd0ccabd33a487831c878b5a43bfbd55955ba03fa0a82"
+    },
+    {
+      "bytes": 15839,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/analysis-manifest.json",
+      "sha256": "78b6217e952f03d446089d773bac365ace29ede806653ed72436d60ebd279a55"
+    },
+    {
+      "bytes": 3772,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/rooted-analysis-receipt.json",
+      "sha256": "d0fdeb5a1c4fd4e055265a1833576ff81ae3bce5093207bad92e531e4a059342"
+    },
+    {
+      "bytes": 9646,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2/baseline-inclusive-performance.csv",
+      "sha256": "7f5ed478faba2a12f444921b6d1324fa00646876418af1724c68d18cd8dd37b5"
+    },
+    {
+      "bytes": 57221,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2/ordered-response-barrier-ode-round0-b100-baseline-inclusive-factual-ko.md",
+      "sha256": "0067446cc19308991aa6fcb3ed5f2e9b6c2af2bb08af6d11477b0be4a6b4a84e"
+    },
+    {
+      "bytes": 21131,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2/analysis-manifest.json",
+      "sha256": "5ebfc9df241e6ab22b68a7e0bf1f1992994b758111588b29c5106bf910f8c7af"
+    },
+    {
+      "bytes": 1658,
+      "kind": "immutable_prior_report_reference",
+      "mode": "0664",
+      "path": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2/rooted-analysis-receipt.json",
+      "sha256": "9fde6a3527b6e578c4de6939eb64bf50b1e65e178568fea897e4c9606c4b720d"
+    },
+    {
+      "bytes": 13299777,
+      "cell_id": 0,
+      "child_job_id": "36614",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-0/result.json",
+      "sha256": "68bb5ea3f0b455e3a3e892760de2b0ee40e12332e42a46894d02940eeee05553"
+    },
+    {
+      "bytes": 13295072,
+      "cell_id": 0,
+      "child_job_id": "36614",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-0/round-00-result.json",
+      "sha256": "be14adf153986c7a86a1451a83e5c2b20879352bb3eae899be243ff5a79928d9"
+    },
+    {
+      "bytes": 2086,
+      "cell_id": 0,
+      "child_job_id": "36614",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-0/terminal-receipt.json",
+      "sha256": "1cfb5052a796c5bb546519cf5d62affda662bbe44e5087cc2fce68b913fefb74"
+    },
+    {
+      "bytes": 13296531,
+      "cell_id": 1,
+      "child_job_id": "36615",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-1/result.json",
+      "sha256": "2d988ec2f53f437f8897261c3ff21220425d0caff160a2985f5bc3c64a85256c"
+    },
+    {
+      "bytes": 13291816,
+      "cell_id": 1,
+      "child_job_id": "36615",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-1/round-00-result.json",
+      "sha256": "fe1a5300dd6c864e8f49563934315529b914dab2b6806e085d901113c7192324"
+    },
+    {
+      "bytes": 2093,
+      "cell_id": 1,
+      "child_job_id": "36615",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-1/terminal-receipt.json",
+      "sha256": "bb0925cd51877a29620ad53b79c6b5bd6998c7ba8067eb8fad4120bc8ab86412"
+    },
+    {
+      "bytes": 13291646,
+      "cell_id": 2,
+      "child_job_id": "36840",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-2/result.json",
+      "sha256": "7c80c75b778ea6d58d32219058b2ab01a6dd611175122ddafe12be374291a8c9"
+    },
+    {
+      "bytes": 13286949,
+      "cell_id": 2,
+      "child_job_id": "36840",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-2/round-00-result.json",
+      "sha256": "8574d548b31a5b0734b853abcb4aa4a2986fa7de09c3768d06fba90817fe56f8"
+    },
+    {
+      "bytes": 2088,
+      "cell_id": 2,
+      "child_job_id": "36840",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-2/terminal-receipt.json",
+      "sha256": "d4195863d31870093bbf67e8adfcd69d73aff346fcdce072f326fdd484430bd3"
+    },
+    {
+      "bytes": 13282763,
+      "cell_id": 3,
+      "child_job_id": "36613",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-3/result.json",
+      "sha256": "941f97dc3ddb1082927abdc941ee045cbc9e701ebc5ef1432c7b5d570d2fddd2"
+    },
+    {
+      "bytes": 13278055,
+      "cell_id": 3,
+      "child_job_id": "36613",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-3/round-00-result.json",
+      "sha256": "d1212141b68e6bb8e540a30d80cd58c1f182f8ad4f7188691d2520eeadc268ea"
+    },
+    {
+      "bytes": 2095,
+      "cell_id": 3,
+      "child_job_id": "36613",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-canonical-ns-rerun-v1/round0-tech-r2/task-3/terminal-receipt.json",
+      "sha256": "4af589d067cd604204e003b05e8e4cd7e1f501706934599d35105ba5c6706f35"
+    }
+  ],
+  "instruction_id": "ODEEDIT-S06-ORRBODE-ROUND0-CANONICAL-NS-RERUN-20260905-V4",
+  "new_model_gpu_slurm_action_count": 0,
+  "raw_source": {
+    "head": "15fd9579821695270c8d7a3e9b8759f9cd360d93",
+    "tree": "2af82e059054276f123b65a85a93799f67688e06"
+  },
+  "schema": "odeedit.s06.orbode.round0.analysis-audit.v1",
+  "scientific_promotion": false,
+  "status": "PASS"
+}

@@ -1,0 +1,99 @@
+{
+  "actual_commands": [
+    "/mnt/raid5/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.ordered_response_barrier_ode.round0_figures --tables /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-orbode-round0-canonical-ns-report-v3/experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-canonical-ns-rerun-2026-09-05-v4 --output /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-orbode-round0-canonical-ns-report-v3/experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-canonical-ns-rerun-2026-09-05-v4",
+    "/mnt/raid5/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.ordered_response_barrier_ode.round0_figures --tables /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-orbode-round0-canonical-ns-report-v3/experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-canonical-ns-rerun-2026-09-05-v4 --output /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-orbode-round0-canonical-ns-report-v3/local/state/orbode-round0-canonical-ns-report-v4/repro/orbode-round0-plot-repro-1u0enap2"
+  ],
+  "environment": {
+    "MPLCONFIGDIR": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-orbode-round0-canonical-ns-report-v3/local/state/orbode-round0-canonical-ns-report-v4/repro/mplconfig",
+    "SOURCE_DATE_EPOCH": "0",
+    "backend": "agg",
+    "matplotlib": "3.10.7",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "pillow": "12.2.0",
+    "python": "3.12.0"
+  },
+  "identity_sha256": "f90605382944e80b57865265a157f04694b0e4d1becf51648489ba6c49789fe7",
+  "inputs": [
+    {
+      "bytes": 8223,
+      "kind": "plot_input",
+      "mode": "0644",
+      "path": "core-performance-summary.csv",
+      "sha256": "fdc0e34d5593d9018aec369616d40af784b50d0e8fec37a0f9c867c8fe6c1cf1"
+    },
+    {
+      "bytes": 24323,
+      "kind": "plot_input",
+      "mode": "0644",
+      "path": "paired-official-deltas.csv",
+      "sha256": "4532e72872e70493fdb486acd638880a5e411c177f926c58b9addb930637d772"
+    },
+    {
+      "bytes": 432350,
+      "kind": "plot_input",
+      "mode": "0644",
+      "path": "mechanism-step-summary.csv",
+      "sha256": "cf60822783b697c8b92e3c19c32d977610db5036b210fea2faf32bfddcb998aa"
+    },
+    {
+      "bytes": 15629,
+      "kind": "plot_input",
+      "mode": "0644",
+      "path": "layer-update-summary.csv",
+      "sha256": "0b756585af7a9e5750eb574c9b70f3646eef8ca256b3de9bedf34f4371b4b7f8"
+    },
+    {
+      "bytes": 4297,
+      "kind": "plot_input",
+      "mode": "0644",
+      "path": "compute-summary.csv",
+      "sha256": "1e08fb7e0af1f768ca4c1e6b6895a6eb343a73ad8b728eff7703719639553549"
+    }
+  ],
+  "instruction_id": "ODEEDIT-S06-ORRBODE-ROUND0-CANONICAL-NS-RERUN-20260905-V4",
+  "outputs": [
+    {
+      "byte_stable": true,
+      "bytes": 73791,
+      "path": "compute-tradeoff.png",
+      "reproduced_bytes": 73791,
+      "reproduced_sha256": "3a49578a61d034b0d295cfe775a9e39af5637f788f58e7c394bb6c7fb62e2ec8",
+      "sha256": "3a49578a61d034b0d295cfe775a9e39af5637f788f58e7c394bb6c7fb62e2ec8"
+    },
+    {
+      "byte_stable": true,
+      "bytes": 316858,
+      "path": "hit-action-to-go-trajectories.png",
+      "reproduced_bytes": 316858,
+      "reproduced_sha256": "fec51a613c5ec5b4ab5988dbe7cdeb5e99a20be8c672e5cf03be1fc2ed0423b7",
+      "sha256": "fec51a613c5ec5b4ab5988dbe7cdeb5e99a20be8c672e5cf03be1fc2ed0423b7"
+    },
+    {
+      "byte_stable": true,
+      "bytes": 48178,
+      "path": "layer-update-energy-share.png",
+      "reproduced_bytes": 48178,
+      "reproduced_sha256": "ac5adcaa91a63913239c5197996b7214d1f9d384151f149261dfbf7b0344870f",
+      "sha256": "ac5adcaa91a63913239c5197996b7214d1f9d384151f149261dfbf7b0344870f"
+    },
+    {
+      "byte_stable": true,
+      "bytes": 61121,
+      "path": "paired-target-new-nll-deltas.png",
+      "reproduced_bytes": 61121,
+      "reproduced_sha256": "c3fb0db747c0edfbad1ca55e4cfe747f559625b42a39feae9911402d87666991",
+      "sha256": "c3fb0db747c0edfbad1ca55e4cfe747f559625b42a39feae9911402d87666991"
+    },
+    {
+      "byte_stable": true,
+      "bytes": 55212,
+      "path": "primary-rs-ps-ns.png",
+      "reproduced_bytes": 55212,
+      "reproduced_sha256": "41abce8098f305a112ae79e1a433cb84fa00e881c088582f5ff99e2173be619a",
+      "sha256": "41abce8098f305a112ae79e1a433cb84fa00e881c088582f5ff99e2173be619a"
+    }
+  ],
+  "schema": "odeedit.s06.orbode.round0.plot-reproduction.v1",
+  "status": "BYTE_STABLE_REPRODUCTION_PASS"
+}
