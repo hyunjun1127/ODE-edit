@@ -518,18 +518,30 @@ class FamilyRuntime:
         return self.fixed_z
 
     def terminal_graph(self) -> torch.Tensor:
-        value = self.module.get_module_input_output_at_words(
-            self.model,
-            self.tokenizer,
-            8,
+        # AlphaEdit's stock wrapper always asks for both representations and
+        # detaches them, while MEMIT's sibling accepts the private ``track``
+        # extension.  The response JVP needs the undetached output for both
+        # families, so bind the shared stock repr-tools primitive directly
+        # instead of relying on that family-specific wrapper signature.
+        fact_token_strategy = str(self.hparams.fact_token)
+        if not fact_token_strategy.startswith("subject_"):
+            raise TechnicalBoundary("terminal graph requires a subject-token strategy")
+        repr_tools = getattr(self.module, "repr_tools", None)
+        get_outputs = getattr(repr_tools, "get_reprs_at_word_tokens", None)
+        if not callable(get_outputs):
+            raise TechnicalBoundary("stock family module does not expose repr_tools")
+        value = get_outputs(
+            model=self.model,
+            tok=self.tokenizer,
+            layer=8,
             context_templates=[str(item["prompt"]) for item in self.requests],
             words=[str(item["subject"]) for item in self.requests],
             module_template=self.hparams.layer_module_tmp,
-            fact_token_strategy=self.hparams.fact_token,
             track="out",
+            subtoken=fact_token_strategy.removeprefix("subject_"),
         )
-        if isinstance(value, tuple):
-            value = value[-1]
+        if not isinstance(value, torch.Tensor) or value.ndim != 2:
+            raise TechnicalBoundary("stock terminal representation has invalid geometry")
         return value.T
 
     def terminal(self) -> torch.Tensor:

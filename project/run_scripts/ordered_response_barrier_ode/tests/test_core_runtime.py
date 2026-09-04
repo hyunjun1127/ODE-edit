@@ -43,6 +43,7 @@ from project.run_scripts.ordered_response_barrier_ode.preflight import (
     validate_round0_common_gate,
 )
 from project.run_scripts.ordered_response_barrier_ode.runtime import (
+    FamilyRuntime,
     _arm_dtype_scope,
     _classify_failure_status,
     _fd_absolute_tolerance,
@@ -114,6 +115,48 @@ class ArmAndFP32Tests(unittest.TestCase):
         finally:
             torch.backends.cuda.matmul.allow_tf32 = old_cuda
             torch.backends.cudnn.allow_tf32 = old_cudnn
+
+    def test_terminal_graph_uses_shared_undetached_repr_tools_contract(self) -> None:
+        model = ToyLinearModel().float()
+
+        class ReprTools:
+            calls: list[dict[str, object]] = []
+
+            @classmethod
+            def get_reprs_at_word_tokens(cls, **kwargs: object) -> torch.Tensor:
+                cls.calls.append(dict(kwargs))
+                batch = len(kwargs["words"])  # type: ignore[arg-type]
+                value = model.layers[0].weight.sum(dim=1)
+                return value.unsqueeze(0).expand(batch, -1)
+
+        class StockModule:
+            repr_tools = ReprTools
+
+            @staticmethod
+            def get_module_input_output_at_words(*_args: object, **_kwargs: object) -> torch.Tensor:
+                raise AssertionError("family-specific detached wrapper must not be called")
+
+        family = object.__new__(FamilyRuntime)
+        family.model = model
+        family.tokenizer = object()
+        family.module = StockModule()
+        family.hparams = SimpleNamespace(
+            fact_token="subject_last",
+            layer_module_tmp="layers.{}.weight",
+        )
+        family.requests = (
+            {"prompt": "{} was born in", "subject": "Ada"},
+            {"prompt": "{} works in", "subject": "Grace"},
+        )
+
+        terminal = family.terminal_graph()
+        self.assertEqual(tuple(terminal.shape), (2, 2))
+        self.assertTrue(terminal.requires_grad)
+        terminal.sum().backward()
+        self.assertIsNotNone(model.layers[0].weight.grad)
+        self.assertEqual(len(ReprTools.calls), 1)
+        self.assertEqual(ReprTools.calls[0]["track"], "out")
+        self.assertEqual(ReprTools.calls[0]["subtoken"], "last")
 
 
 class OverlayTests(unittest.TestCase):
