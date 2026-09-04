@@ -112,6 +112,25 @@ class PersistentEndpointTests(unittest.TestCase):
         self.assertEqual(receipt["committed_weight_sha256"], expected)
         self.assertEqual(receipt["fixed_z_recompute_count"], 0)
         self.assertEqual(float(family.module.cache_c.mean()), 2.0)
+        self.assertIs(family.module.cache_c_new, True)
+
+        committed_ptr = int(family.module.cache_c.data_ptr())
+        if not family.module.cache_c_new:
+            family.module.cache_c = torch.zeros_like(family.module.cache_c)
+            family.module.cache_c_new = True
+        next_family = self._alpha_family()
+        next_family.parameters = family.parameters
+        next_family.w0 = {
+            name: value.detach().clone() for name, value in family.parameters.items()
+        }
+        next_family.w0_sha256 = tensor_set_sha256(next_family.w0)
+        next_family.pointer_identity = {
+            name: int(value.data_ptr()) for name, value in family.parameters.items()
+        }
+        next_family.module = family.module
+        next_family.bind_existing_method_state()
+        self.assertEqual(int(next_family.module.cache_c.data_ptr()), committed_ptr)
+        self.assertEqual(float(next_family.module.cache_c.mean()), 2.0)
 
     def test_memit_covariance_mutation_fails_closed(self) -> None:
         family = object.__new__(FamilyRuntime)
