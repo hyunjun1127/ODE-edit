@@ -192,6 +192,8 @@ def _prior_metric_parity(repo: Path, current: pd.DataFrame) -> pd.DataFrame:
                 "matched_not_applicable_count": 0,
                 "exact_equal_count": 0,
                 "nonzero_delta_count": 0,
+                "numerically_equal_count": 0,
+                "outside_pinned_tolerance_count": 0,
                 "delta_mean": np.nan,
                 "delta_median": np.nan,
                 "delta_p90": np.nan,
@@ -232,6 +234,10 @@ def _prior_metric_parity(repo: Path, current: pd.DataFrame) -> pd.DataFrame:
         if not len(left_valid) or not np.isfinite(left_valid).all() or not np.isfinite(right_valid).all():
             raise AnalysisBoundary(f"prior/current nonfinite metric: {metric}")
         delta = right_valid - left_valid
+        tolerance = 32.0 * np.finfo(np.float64).eps * np.maximum(
+            1.0, np.maximum(np.abs(left_valid.to_numpy()), np.abs(right_valid.to_numpy()))
+        )
+        numerically_equal = np.abs(delta.to_numpy()) <= tolerance
         rows.append(
             {
                 "metric": metric,
@@ -239,6 +245,8 @@ def _prior_metric_parity(repo: Path, current: pd.DataFrame) -> pd.DataFrame:
                 "matched_not_applicable_count": int((~valid).sum()),
                 "exact_equal_count": int((delta == 0.0).sum()),
                 "nonzero_delta_count": int((delta != 0.0).sum()),
+                "numerically_equal_count": int(numerically_equal.sum()),
+                "outside_pinned_tolerance_count": int((~numerically_equal).sum()),
                 "delta_mean": float(delta.mean()),
                 "delta_median": float(np.quantile(delta, 0.5, method="linear")),
                 "delta_p90": float(np.quantile(delta, 0.9, method="linear")),
@@ -1505,8 +1513,10 @@ def _report(
     prior_parity_rows = [
         (
             row.metric, row.paired_row_count, row.matched_not_applicable_count, row.exact_equal_count,
-            row.nonzero_delta_count, _fmt(row.delta_mean), _fmt(row.delta_median),
-            _fmt(row.delta_p90), _fmt(row.max_absolute_delta),
+            row.nonzero_delta_count, row.numerically_equal_count,
+            row.outside_pinned_tolerance_count,
+            f"{float(row.delta_mean):.3e}", f"{float(row.delta_median):.3e}",
+            f"{float(row.delta_p90):.3e}", f"{float(row.max_absolute_delta):.3e}",
         )
         for row in prior_parity.itertuples()
     ]
@@ -1588,11 +1598,11 @@ def _report(
             "기존 `exhaustive-v1`은 mechanics·RS/PS·PP-token을 상세 분석했지만 endpoint locality target-new NLL이 없었다. `baseline-inclusive-v2`는 별도 PRE_EDIT canonical NS만 보완했으며 endpoint canonical NS는 schema gap으로 남았다. 이 통합판은 두 package를 immutable reference로 결속하고, 새 v2 evaluator raw에서 PRE_EDIT와 O/QCL/NQFIX/ORBFH/JAC 전체 canonical NS를 다시 계산했다.",
             "",
             _markdown_table(
-                ["shared metric", "paired rows", "matched N/A", "exact equal", "nonzero", "Δ mean", "Δ median", "Δ p90", "max |Δ|"],
+                ["shared metric", "paired rows", "matched N/A", "bitwise equal", "raw nonzero", "pinned equal", "outside tol", "Δ mean", "Δ median", "Δ p90", "max |Δ|"],
                 prior_parity_rows,
             ),
             "",
-            "여기서 delta는 `canonical-NS rerun - 기존 exhaustive-v1`이다. canonical NS 자체는 기존 endpoint schema에 없었으므로 parity 대상으로 만들지 않았다. 기존 두 보고서와 manifest/receipt의 exact SHA는 §15 input inventory에 포함된다.",
+            "여기서 delta는 `canonical-NS rerun - 기존 exhaustive-v1`이다. `pinned equal`은 outcome-independent `32·eps_FP64·max(1,|old|,|new|)` envelope 안의 동등성이고, raw nonzero는 CSV decimal→binary 재파싱의 최하위 표현 차이까지 포함한다. canonical NS 자체는 기존 endpoint schema에 없었으므로 parity 대상으로 만들지 않았다. 기존 두 보고서와 manifest/receipt의 exact SHA는 §15 input inventory에 포함된다.",
             "",
             "## 3. Rewrite NLL 분포",
             "",
@@ -1794,7 +1804,8 @@ def build(repo: Path, raw_root: Path, log_base: Path, output: Path, repro_root: 
             "artifact_inventory_row_count": len(artifact_inventory),
             "immutable_prior_report_reference_count": len(references),
             "prior_rerun_parity_metric_count": len(prior_parity),
-            "prior_rerun_parity_nonzero_delta_count": int(prior_parity["nonzero_delta_count"].sum()),
+            "prior_rerun_parity_raw_nonzero_delta_count": int(prior_parity["nonzero_delta_count"].sum()),
+            "prior_rerun_parity_outside_pinned_tolerance_count": int(prior_parity["outside_pinned_tolerance_count"].sum()),
             "analysis_only_model_action_count": 0,
             "analysis_only_gpu_action_count": 0,
             "analysis_only_slurm_submit_count": 0,
