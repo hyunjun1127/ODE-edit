@@ -1379,6 +1379,34 @@ def _report(
         )
         for row in compute.itertuples()
     ]
+    compute_detail_rows = [
+        (
+            row.model, row.writer_family, row.arm,
+            row.terminal_capture_count,
+            row.stock_expected_layer_solve_count,
+            _fmt(row.stock_actual_solve_count),
+            row.jvp_model_forward_invocation_count,
+            row.shadow_materialization_count,
+            row.endpoint_evaluator_count,
+            row.derived_endpoint_evaluator_count,
+        )
+        for row in compute.itertuples()
+    ]
+    compute_cell_rows = []
+    for cell_id, selected in compute.groupby("cell_id", sort=True):
+        first = selected.iloc[0]
+        compute_cell_rows.append(
+            (
+                first["model"], first["writer_family"],
+                _fmt(first["model_load_seconds_cell_scope"], 2),
+                _fmt(first["job_total_seconds_cell_scope"], 2),
+                _fmt(float(first["peak_gpu_allocated_bytes_cell_scope"]) / (1024**3), 3),
+                _fmt(float(first["peak_gpu_reserved_bytes_cell_scope"]) / (1024**3), 3),
+                int(selected["model_forward_invocation_count"].sum()),
+                int(selected["jvp_call_count"].sum()),
+                _fmt(float(selected["wall_seconds"].sum()), 2),
+            )
+        )
     preamble_rows = [
         (
             row.model, row.writer_family, row.status, row.official_wrapper_direct_exact_fidelity,
@@ -1400,6 +1428,7 @@ def _report(
     ]
     input_rows = [(row["kind"], row["path"], row["bytes"], row["mode"], row["sha256"]) for row in inputs]
     gap_rows = [(key, value) for key, value in (
+        ("exact FLOPs", "NOT_RECORDED_SCHEMA_GAP; 호출 수와 actual wall time만 보고"),
         ("per-layer factor condition number", "NOT_RECORDED_SCHEMA_GAP"),
         ("per-layer SVD spectrum", "NOT_RECORDED_SCHEMA_GAP"),
         ("stock Official actual torch.linalg.solve call count", "NOT_RECORDED_STOCK_SOURCE; expected logical layer count only"),
@@ -1540,7 +1569,21 @@ def _report(
                 compute_rows,
             ),
             "",
-            "Official stock 내부 actual solve call은 intercept하지 않아 logical expected 5만 기록됐고, dynamic arms는 adapter-intercepted 20 solves/builds가 기록됐다. peak GPU memory는 arm별이 아니라 cell-level allocated/reserved다: " + "; ".join(memory_facts) + ". model load는 cell별 1회이며 wave 분리 시 reload가 필요하다.",
+            "위 표의 `wall s`는 endpoint edit-core 관측 시간이고 `Δs/ratio`는 같은 model/writer cell의 Official O 대비다. JVP 시간은 endpoint wall의 구성 요소이며 별도 합산하지 않는다.",
+            "",
+            _markdown_table(
+                ["model", "writer", "arm", "terminal captures", "stock logical solves", "stock actual solves", "JVP forwards", "shadow mats", "endpoint eval", "derived eval"],
+                compute_detail_rows,
+            ),
+            "",
+            _markdown_table(
+                ["model", "writer", "model load s", "job total s", "peak alloc GiB", "peak reserved GiB", "arm forwards sum", "arm JVP sum", "arm wall sum s"],
+                compute_cell_rows,
+            ),
+            "",
+            "Official stock 내부 actual solve call은 intercept하지 않아 logical expected 5만 기록됐고, dynamic arms는 adapter-intercepted 20 solves/builds가 기록됐다. `endpoint eval`은 각 primary endpoint의 evaluator 호출, `derived eval`은 ORBHit observation-only 평가다. canonical NS v2는 같은 1,000 neighborhood prompt에 target-new와 target-true를 모두 실행하므로 그 비용은 현재 job의 actual model-forward/wall 카운터에 포함된다. 이전 schema와의 FLOP 차이를 시간으로 역산하지 않는다.",
+            "",
+            "peak GPU memory는 arm별이 아니라 cell-level allocated/reserved다: " + "; ".join(memory_facts) + ". model load는 cell별 1회이며 wave 분리 시 reload가 필요하다. exact FLOPs는 raw schema에 없으므로 만들지 않았고, 실제 forward/key/factor/solve/JVP/capture/write/materialization/evaluator 호출 수와 CUDA 동기화된 wall time을 계산량의 재현 가능한 대리 계정으로 보고한다.",
             "",
             "## 10. Runtime B1 preamble와 integrity",
             "",
