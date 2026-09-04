@@ -28,6 +28,9 @@ MEMORY_MIB_PER_TASK = 182_272
 GPU_PER_TASK = 1
 STREAM_ROOT = "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
 ORDER_ROOT = "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3"
+B1_CASE_ID = 19_795
+B1_REQUEST_SHA256 = "285a3add6f31d8546b0d76689a016bc0f9f7d8e58c95f54e87bba48ad5cabc65"
+B1_REQUEST_ORDER_SHA256 = "0e6ded7a9103f5dc9588c11748b14d8c575093626be7055e3e4d390811f9ce5c"
 STREAM_SEAL_RELATIVE = Path(
     "project/run_scripts/ode_bf/locks/p1r52_sequential_b100x10_stream_seal.json"
 )
@@ -38,6 +41,7 @@ EXECUTION_SOURCE_PATHS = (
     "project/run_scripts/ordered_response_barrier_ode",
     "project/run_scripts/session06_orbode_server1.py",
     "project/run_scripts/session06_orbode_server1_dry_plan.py",
+    "project/run_scripts/session06_orbode_server1_b1.sbatch",
     "project/run_scripts/session06_orbode_server1_round0.sbatch",
     "project/run_scripts/session06_orbode_server1_remaining.sbatch",
 )
@@ -81,6 +85,7 @@ CELL_SPECS = (
 )
 
 WAVE_ROUNDS: dict[str, tuple[int, ...]] = {
+    "b1": (0,),
     "round0": (0,),
     "remaining": tuple(range(1, 10)),
 }
@@ -398,6 +403,15 @@ def validate_execution_lock(repo_root: Path) -> dict[str, object]:
         or value.get("T") != 1.0
         or value.get("N") != 4
         or value.get("h") != 0.25
+        or value.get("b1_common_gate", {}).get("cell_count") != 4
+        or value.get("b1_common_gate", {}).get("request_count_per_cell") != 1
+        or value.get("b1_common_gate", {}).get("primary_endpoint_count") != 20
+        or value.get("b1_common_gate", {}).get("canonical_case_id") != B1_CASE_ID
+        or value.get("b1_common_gate", {}).get("canonical_request_sha256")
+        != B1_REQUEST_SHA256
+        or value.get("b1_common_gate", {}).get("canonical_request_order_sha256")
+        != B1_REQUEST_ORDER_SHA256
+        or value.get("b1_common_gate", {}).get("required_before_round0_wave") is not True
         or value.get("slurm", {}).get("mem_mib_per_task") != MEMORY_MIB_PER_TASK
         or value.get("slurm", {}).get("export") != "NONE"
         or value.get("scientific_promotion") is not False
@@ -502,13 +516,19 @@ def validate_model_artifacts(
     return {"deep_hash": deep_hash, "models": models}
 
 
-def validate_round0_common_gate(
-    round0_root: Path,
+def _validate_four_cell_common_gate(
+    gate_root: Path,
     *,
     source_head: str,
     source_tree: str,
+    wave: str,
+    request_count: int,
+    gate_status: str,
 ) -> dict[str, object]:
-    root = round0_root.absolute()
+    if wave not in {"b1", "round0"} or request_count not in {1, 100}:
+        raise PreflightBoundary("unsupported ORBODE common-gate contract")
+    expected_primary_endpoints = request_count * len(PRIMARY_ARMS)
+    root = gate_root.absolute()
     _assert_no_symlink_components(root)
     receipts: list[dict[str, object]] = []
     identities: list[str] = []
@@ -522,44 +542,57 @@ def validate_round0_common_gate(
         observed_round = _regular(round_path)
         if stat.S_IMODE(observed.st_mode) != 0o600:
             raise PreflightBoundary(
-                f"round0 terminal receipt mode differs for cell {expected_cell}"
+                f"{wave} terminal receipt mode differs for cell {expected_cell}"
             )
         if stat.S_IMODE(observed_result.st_mode) != 0o600:
             raise PreflightBoundary(
-                f"round0 result mode differs for cell {expected_cell}"
+                f"{wave} result mode differs for cell {expected_cell}"
             )
         if stat.S_IMODE(observed_round.st_mode) != 0o600:
             raise PreflightBoundary(
-                f"round0 publication mode differs for cell {expected_cell}"
+                f"{wave} publication mode differs for cell {expected_cell}"
             )
         try:
             receipt = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
-            raise PreflightBoundary(f"cannot read round0 receipt for cell {expected_cell}") from exc
+            raise PreflightBoundary(f"cannot read {wave} receipt for cell {expected_cell}") from exc
         if not isinstance(receipt, dict):
-            raise PreflightBoundary("round0 terminal receipt is not an object")
+            raise PreflightBoundary(f"{wave} terminal receipt is not an object")
         try:
             result = json.loads(result_path.read_text(encoding="utf-8"))
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise PreflightBoundary(
-                f"cannot read round0 result for cell {expected_cell}"
+                f"cannot read {wave} result for cell {expected_cell}"
             ) from exc
         if not isinstance(result, dict):
-            raise PreflightBoundary("round0 result is not an object")
+            raise PreflightBoundary(f"{wave} result is not an object")
         try:
             round_publication = json.loads(round_path.read_text(encoding="utf-8"))
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise PreflightBoundary(
-                f"cannot read round0 publication for cell {expected_cell}"
+                f"cannot read {wave} publication for cell {expected_cell}"
             ) from exc
         if not isinstance(round_publication, dict):
-            raise PreflightBoundary("round0 publication is not an object")
+            raise PreflightBoundary(f"{wave} publication is not an object")
         try:
-            validate_round_publication(round_publication, expected_round_index=0)
+            validate_round_publication(
+                round_publication,
+                expected_round_index=0,
+                expected_request_count=request_count,
+            )
         except ArtifactBoundary as exc:
             raise PreflightBoundary(
-                f"round0 nested publication differs for cell {expected_cell}: {exc}"
+                f"{wave} nested publication differs for cell {expected_cell}: {exc}"
             ) from exc
+        if wave == "b1" and (
+            round_publication.get("case_ids") != [B1_CASE_ID]
+            or round_publication.get("request_sha256") != [B1_REQUEST_SHA256]
+            or round_publication.get("request_order_sha256")
+            != B1_REQUEST_ORDER_SHA256
+        ):
+            raise PreflightBoundary(
+                f"B1 canonical first-request identity differs for cell {expected_cell}"
+            )
         round_file_sha256 = sha256_file(round_path)
         round_identity = str(round_publication.get("identity_sha256"))
         expected_publication_receipt = {
@@ -579,12 +612,12 @@ def validate_round0_common_gate(
             != canonical_hash([round_file_sha256])
         ):
             raise PreflightBoundary(
-                f"round0 result/publication binding differs for cell {expected_cell}"
+                f"{wave} result/publication binding differs for cell {expected_cell}"
             )
         body = dict(receipt)
         identity = body.pop("receipt_identity_sha256", None)
         if identity != canonical_hash(body):
-            raise PreflightBoundary(f"round0 receipt identity differs for cell {expected_cell}")
+            raise PreflightBoundary(f"{wave} receipt identity differs for cell {expected_cell}")
         native_memit_exception = expected_spec.writer_family == "MEMIT"
         if (
             receipt.get("schema") != ROUND0_SCHEMA
@@ -592,15 +625,15 @@ def validate_round0_common_gate(
             or receipt.get("cell_id") != expected_cell
             or receipt.get("model_alias") != expected_spec.model_alias
             or receipt.get("writer_family") != expected_spec.writer_family
-            or receipt.get("wave") != "round0"
+            or receipt.get("wave") != wave
             or receipt.get("rounds") != [0]
-            or receipt.get("request_count") != 100
+            or receipt.get("request_count") != request_count
             or receipt.get("primary_arms") != list(PRIMARY_ARMS)
-            or receipt.get("primary_endpoint_count") != 500
-            or receipt.get("scientific_attempted_count") != 500
-            or receipt.get("terminal_valid_count") != 500
+            or receipt.get("primary_endpoint_count") != expected_primary_endpoints
+            or receipt.get("scientific_attempted_count") != expected_primary_endpoints
+            or receipt.get("terminal_valid_count") != expected_primary_endpoints
             or receipt.get("technical_failure_count") != 0
-            or receipt.get("fixed_z_compute_count") != 100
+            or receipt.get("fixed_z_compute_count") != request_count
             or receipt.get("fixed_z_recompute_count") != 0
             or receipt.get("model_reload_wave_count") != 1
             or receipt.get("source_head") != source_head
@@ -638,15 +671,15 @@ def validate_round0_common_gate(
             or result.get("cell_id") != expected_cell
             or result.get("model_alias") != expected_spec.model_alias
             or result.get("writer_family") != expected_spec.writer_family
-            or result.get("wave") != "round0"
+            or result.get("wave") != wave
             or result.get("rounds") != [0]
-            or result.get("request_count") != 100
+            or result.get("request_count") != request_count
             or result.get("primary_arms") != list(PRIMARY_ARMS)
-            or result.get("primary_endpoint_count") != 500
-            or result.get("scientific_attempted_count") != 500
-            or result.get("terminal_valid_count") != 500
+            or result.get("primary_endpoint_count") != expected_primary_endpoints
+            or result.get("scientific_attempted_count") != expected_primary_endpoints
+            or result.get("terminal_valid_count") != expected_primary_endpoints
             or result.get("technical_failure_count") != 0
-            or result.get("fixed_z_compute_count") != 100
+            or result.get("fixed_z_compute_count") != request_count
             or result.get("fixed_z_recompute_count") != 0
             or result.get("source_head") != source_head
             or result.get("source_tree") != source_tree
@@ -668,18 +701,57 @@ def validate_round0_common_gate(
             or result.get("fast_runtime_preamble_count") != 1
             or result.get("fast_runtime_preamble_status") != "PASS_THIS_WAVE"
         ):
-            raise PreflightBoundary(f"round0 common integrity differs for cell {expected_cell}")
+            raise PreflightBoundary(f"{wave} common integrity differs for cell {expected_cell}")
         receipts.append(receipt)
         identities.append(str(identity))
-    if sum(int(item["primary_endpoint_count"]) for item in receipts) != 2000:
-        raise PreflightBoundary("round0 common endpoint denominator differs")
+    total_endpoints = 4 * expected_primary_endpoints
+    if sum(int(item["primary_endpoint_count"]) for item in receipts) != total_endpoints:
+        raise PreflightBoundary(f"{wave} common endpoint denominator differs")
     return {
         "cell_count": 4,
-        "endpoint_count": 2000,
+        "endpoint_count": total_endpoints,
+        "request_count": 4 * request_count,
         "receipt_identities": identities,
         "receipt_identity_root": canonical_hash(identities),
-        "status": "ROUND0_COMMON_INTEGRITY_PASS",
+        "status": gate_status,
+        "wave": wave,
     }
+
+
+def validate_b1_common_gate(
+    b1_root: Path,
+    *,
+    source_head: str,
+    source_tree: str,
+) -> dict[str, object]:
+    """Validate four terminal-valid first-request cells before B100 round0."""
+
+    return _validate_four_cell_common_gate(
+        b1_root,
+        source_head=source_head,
+        source_tree=source_tree,
+        wave="b1",
+        request_count=1,
+        gate_status="B1_COMMON_INTEGRITY_PASS",
+    )
+
+
+def validate_round0_common_gate(
+    round0_root: Path,
+    *,
+    source_head: str,
+    source_tree: str,
+) -> dict[str, object]:
+    """Validate four terminal-valid B100 round0 cells before remaining rounds."""
+
+    return _validate_four_cell_common_gate(
+        round0_root,
+        source_head=source_head,
+        source_tree=source_tree,
+        wave="round0",
+        request_count=100,
+        gate_status="ROUND0_COMMON_INTEGRITY_PASS",
+    )
 
 
 def run_preflight(
@@ -694,6 +766,7 @@ def run_preflight(
     cell_id: int,
     wave: str,
     deep_artifact_hash: bool,
+    b1_root: Path | None = None,
     round0_root: Path | None = None,
 ) -> dict[str, object]:
     if authoritative_root.absolute() != AUTHORITATIVE_ROOT:
@@ -706,11 +779,25 @@ def run_preflight(
         raise PreflightBoundary("server1 HF hub cache root differs")
     spec = cell_spec(cell_id)
     rounds = wave_rounds(wave)
-    common_gate: Mapping[str, object] | None = None
-    if wave == "remaining":
+    b1_common_gate: Mapping[str, object] | None = None
+    round0_common_gate: Mapping[str, object] | None = None
+    if wave == "b1":
+        if b1_root is not None or round0_root is not None:
+            raise PreflightBoundary("b1 wave cannot consume a later-wave common gate")
+    elif wave == "round0":
+        if b1_root is None:
+            raise PreflightBoundary("round0 wave requires a B1 common-gate root")
+        if round0_root is not None:
+            raise PreflightBoundary("round0 wave cannot consume its own common gate")
+        b1_common_gate = validate_b1_common_gate(
+            b1_root, source_head=source_head, source_tree=source_tree
+        )
+    elif wave == "remaining":
+        if b1_root is not None:
+            raise PreflightBoundary("remaining wave consumes round0 gate, not B1 directly")
         if round0_root is None:
             raise PreflightBoundary("remaining wave requires a round0 common-gate root")
-        common_gate = validate_round0_common_gate(
+        round0_common_gate = validate_round0_common_gate(
             round0_root, source_head=source_head, source_tree=source_tree
         )
     receipt: dict[str, object] = {
@@ -730,7 +817,8 @@ def run_preflight(
         "model_artifacts": validate_model_artifacts(
             repo_root, easyedit_artifact_root, hf_hub_cache, deep_hash=deep_artifact_hash
         ),
-        "round0_common_gate": common_gate,
+        "b1_common_gate": b1_common_gate,
+        "round0_common_gate": round0_common_gate,
         "science_lock": {
             "T": 1.0,
             "dynamic_z_recompute_count": 0,
@@ -753,6 +841,7 @@ def run_preflight(
             "model_reload_wave_count": 1,
             "name": wave,
             "round_indices": list(rounds),
+            "state_carry_from_b1": False,
             "state_carry_from_round0": False,
         },
     }

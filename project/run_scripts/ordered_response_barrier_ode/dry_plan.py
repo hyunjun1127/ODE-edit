@@ -112,6 +112,7 @@ def build_dry_plan(
     log_root: Path,
     local_caps: Path,
     live_resources: bool,
+    b1_root: Path | None = None,
     round0_root: Path | None = None,
 ) -> dict[str, object]:
     rounds = wave_rounds(wave)
@@ -129,6 +130,7 @@ def build_dry_plan(
         cell_id=0,
         wave=wave,
         deep_artifact_hash=False,
+        b1_root=b1_root,
         round0_root=round0_root,
     )
     resources: dict[str, object]
@@ -166,15 +168,28 @@ def build_dry_plan(
         "instruction_id": INSTRUCTION_ID,
         "memory_mib_per_task": MEMORY_MIB_PER_TASK,
         "model_reload_for_this_wave": 1,
+        "round0_wave_release": (
+            "B1_COMMON_INTEGRITY_PASS_ALREADY_VERIFIED"
+            if wave == "round0"
+            else (
+                "HOLD_UNTIL_FOUR_B1_TERMINAL_RECEIPTS_PASS"
+                if wave == "b1"
+                else "NOT_THIS_WAVE"
+            )
+        ),
         "remaining_wave_release": (
             "ROUND0_COMMON_INTEGRITY_PASS_ALREADY_VERIFIED"
             if wave == "remaining"
-            else "HOLD_UNTIL_FOUR_ROUND0_TERMINAL_RECEIPTS_PASS"
+            else (
+                "HOLD_UNTIL_FOUR_ROUND0_TERMINAL_RECEIPTS_PASS"
+                if wave == "round0"
+                else "BLOCKED_BEHIND_B1_THEN_ROUND0_COMMON_GATES"
+            )
         ),
         "resource_cap": cap,
         "resource_snapshot": resources,
         "round_indices": list(rounds),
-        "round_request_count": len(rounds) * 100,
+        "round_request_count": 1 if wave == "b1" else len(rounds) * 100,
         "sbatch": {
             "array": "0-3%<point-in-time-throttle>",
             "cli_overrides": {
@@ -188,11 +203,11 @@ def build_dry_plan(
                 f"AGENT_GPU_CAPS_FILE={local_caps} scripts/check-slurm-resource-cap.sh "
                 f"{SERVER} <throttle> {MEMORY_MIB_PER_TASK}M"
             ),
-            "script": (
-                "project/run_scripts/session06_orbode_server1_round0.sbatch"
-                if wave == "round0"
-                else "project/run_scripts/session06_orbode_server1_remaining.sbatch"
-            ),
+            "script": {
+                "b1": "project/run_scripts/session06_orbode_server1_b1.sbatch",
+                "round0": "project/run_scripts/session06_orbode_server1_round0.sbatch",
+                "remaining": "project/run_scripts/session06_orbode_server1_remaining.sbatch",
+            }[wave],
         },
         "schema": "ode-edit.orbode.server1-gated-dry-plan.v1",
         "scientific_outcome_changes_plan": False,
@@ -215,10 +230,11 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--hf-hub-cache", type=Path, required=True)
     value.add_argument("--source-head", required=True)
     value.add_argument("--source-tree", required=True)
-    value.add_argument("--wave", choices=("round0", "remaining"), required=True)
+    value.add_argument("--wave", choices=("b1", "round0", "remaining"), required=True)
     value.add_argument("--output-root", type=Path, required=True)
     value.add_argument("--log-root", type=Path, required=True)
     value.add_argument("--local-caps", type=Path, required=True)
+    value.add_argument("--b1-root", type=Path)
     value.add_argument("--round0-root", type=Path)
     value.add_argument("--live-resource-check", action="store_true")
     return value
@@ -239,6 +255,7 @@ def main() -> int:
         log_root=args.log_root,
         local_caps=args.local_caps,
         live_resources=args.live_resource_check,
+        b1_root=args.b1_root,
         round0_root=args.round0_root,
     )
     print(canonical_json(plan))

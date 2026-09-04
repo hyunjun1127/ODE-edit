@@ -78,6 +78,8 @@ def load_shared_preflight(
     stream = value.get("stream")
     source = value.get("source")
     model_artifacts = value.get("model_artifacts")
+    b1_gate = value.get("b1_common_gate")
+    round0_gate = value.get("round0_common_gate")
     if (
         value.get("instruction_id") != INSTRUCTION_ID
         or value.get("status") != "PRE_GPU_BINDING_PASS"
@@ -95,6 +97,22 @@ def load_shared_preflight(
         or model_artifacts.get("deep_hash") is not True
     ):
         raise PreflightBoundary("shared pre-GPU receipt binding differs")
+    if wave == "b1" and (b1_gate is not None or round0_gate is not None):
+        raise PreflightBoundary("B1 shared pre-GPU receipt gate ordering differs")
+    if wave == "round0" and (
+        not isinstance(b1_gate, dict)
+        or b1_gate.get("status") != "B1_COMMON_INTEGRITY_PASS"
+        or b1_gate.get("endpoint_count") != 20
+        or round0_gate is not None
+    ):
+        raise PreflightBoundary("round0 shared pre-GPU receipt lacks B1 common gate")
+    if wave == "remaining" and (
+        b1_gate is not None
+        or not isinstance(round0_gate, dict)
+        or round0_gate.get("status") != "ROUND0_COMMON_INTEGRITY_PASS"
+        or round0_gate.get("endpoint_count") != 2000
+    ):
+        raise PreflightBoundary("remaining shared pre-GPU receipt lacks round0 common gate")
     return value
 
 
@@ -106,7 +124,8 @@ def _common_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--hf-hub-cache", type=Path, required=True)
     parser.add_argument("--source-head", required=True)
     parser.add_argument("--source-tree", required=True)
-    parser.add_argument("--wave", choices=("round0", "remaining"), required=True)
+    parser.add_argument("--wave", choices=("b1", "round0", "remaining"), required=True)
+    parser.add_argument("--b1-root", type=Path)
     parser.add_argument("--round0-root", type=Path)
 
 
@@ -137,6 +156,7 @@ def _seal_preflight(args: argparse.Namespace) -> int:
         cell_id=0,
         wave=args.wave,
         deep_artifact_hash=True,
+        b1_root=args.b1_root,
         round0_root=args.round0_root,
     )
     write_create_once_json(args.receipt, receipt)
@@ -167,6 +187,7 @@ def _run_cell(args: argparse.Namespace) -> int:
         cell_id=args.cell_id,
         wave=args.wave,
         deep_artifact_hash=False,
+        b1_root=args.b1_root,
         round0_root=args.round0_root,
     )
     if args.output_root.exists() or args.output_root.is_symlink():

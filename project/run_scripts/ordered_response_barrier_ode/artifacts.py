@@ -1261,6 +1261,10 @@ def _reduce_runtime_preamble(value: object, *, round_index: int) -> dict[str, An
         )
         or p0.get("dynamic_qcl_one_pass_stock_parity_claim")
         != "NOT_APPLICABLE_DISTINCT_NUMERICAL_PATH"
+        or p0.get("residual_scaling_replay")
+        != "WRITER_DEVICE_FP32_DIVISION_THEN_CPU_STORAGE"
+        or not isinstance(p0.get("residual_scaling_replay_device"), str)
+        or not p0["residual_scaling_replay_device"]
         or p0.get("right_factor_bitwise_identity") is not True
         or _finite(p0.get("residual_scaling_max_abs_error"), "P0 scaling error") != 0.0
     ):
@@ -1681,8 +1685,10 @@ def _reduce_derived_endpoint(
     return _with_identity(payload)
 
 
-def reduce_round_payload(round_payload: Mapping[str, Any]) -> dict[str, Any]:
-    """Reduce one exact B100 round and validate the primary terminal panel."""
+def reduce_round_payload(
+    round_payload: Mapping[str, Any], *, expected_request_count: int = 100
+) -> dict[str, Any]:
+    """Reduce one exact cohort and validate its primary terminal panel."""
 
     if not isinstance(round_payload, Mapping):
         raise ArtifactBoundary("round payload is not an object")
@@ -1694,11 +1700,13 @@ def reduce_round_payload(round_payload: Mapping[str, Any]) -> dict[str, Any]:
     if (
         not _is_int(round_index)
         or not 0 <= int(round_index) <= 9
-        or round_payload.get("request_count") != 100
+        or not _is_int(expected_request_count)
+        or int(expected_request_count) <= 0
+        or round_payload.get("request_count") != int(expected_request_count)
         or not isinstance(case_ids, list)
         or not isinstance(request_sha256, list)
-        or len(case_ids) != 100
-        or len(request_sha256) != 100
+        or len(case_ids) != int(expected_request_count)
+        or len(request_sha256) != int(expected_request_count)
         or not isinstance(arms, list)
         or len(arms) != len(PRIMARY_ARM_ORDER)
         or round_payload.get("w0_pointer_bytes_restore_pass") is not True
@@ -1742,12 +1750,12 @@ def reduce_round_payload(round_payload: Mapping[str, Any]) -> dict[str, Any]:
     semantic = round_payload.get("semantic")
     if (
         not isinstance(fixed_z, Mapping)
-        or fixed_z.get("compute_count") != 100
+        or fixed_z.get("compute_count") != int(expected_request_count)
         or fixed_z.get("recompute_count") != 0
         or not isinstance(semantic, Mapping)
-        or semantic.get("request_count") != 100
+        or semantic.get("request_count") != int(expected_request_count)
         or not _is_int(semantic.get("event_count"))
-        or int(semantic["event_count"]) <= 100
+        or int(semantic["event_count"]) <= int(expected_request_count)
     ):
         raise ArtifactBoundary("round fixed-z/semantic denominator differs")
     runtime_preamble = _reduce_runtime_preamble(
@@ -1757,7 +1765,7 @@ def reduce_round_payload(round_payload: Mapping[str, Any]) -> dict[str, Any]:
         "schema": ROUND_SCHEMA,
         "status": "TERMINAL_VALID",
         "round_index": int(round_index),
-        "request_count": 100,
+        "request_count": int(expected_request_count),
         "case_ids": list(cases),
         "request_sha256": list(request_sha256),
         "request_order_sha256": order_sha,
@@ -1772,14 +1780,14 @@ def reduce_round_payload(round_payload: Mapping[str, Any]) -> dict[str, Any]:
             fixed_z.get("target_context_identity_sha256"),
             "fixed-z target context identity",
         ),
-        "fixed_z_compute_count": 100,
+        "fixed_z_compute_count": int(expected_request_count),
         "fixed_z_recompute_count": 0,
         "semantic_inventory_sha256": _sha256(
             semantic.get("inventory_sha256"), "semantic inventory identity"
         ),
         "semantic_event_count": int(semantic["event_count"]),
         "primary_arm_order": list(PRIMARY_ARM_ORDER),
-        "primary_endpoint_count": 500,
+        "primary_endpoint_count": int(expected_request_count) * len(PRIMARY_ARM_ORDER),
         "entry_evaluation": entry,
         "primary_endpoints": endpoints,
         "derived_orbhit": derived,
@@ -1795,14 +1803,18 @@ def reduce_round_payload(round_payload: Mapping[str, Any]) -> dict[str, Any]:
         "scientific_promotion": False,
     }
     result = _with_identity(payload)
-    validate_round_publication(result, expected_round_index=int(round_index))
+    validate_round_publication(
+        result,
+        expected_round_index=int(round_index),
+        expected_request_count=int(expected_request_count),
+    )
     return result
 
 
 def validate_round_publication(
-    payload: Mapping[str, Any], *, expected_round_index: int
+    payload: Mapping[str, Any], *, expected_round_index: int, expected_request_count: int = 100
 ) -> dict[str, Any]:
-    """Validate a raw-free B100 round for runtime/common-gate consumption."""
+    """Validate a raw-free cohort for runtime/common-gate consumption."""
 
     if not isinstance(payload, Mapping):
         raise ArtifactBoundary("published round is not an object")
@@ -1815,14 +1827,17 @@ def validate_round_publication(
         payload.get("schema") != ROUND_SCHEMA
         or payload.get("status") != "TERMINAL_VALID"
         or payload.get("round_index") != expected_round_index
-        or payload.get("request_count") != 100
+        or not _is_int(expected_request_count)
+        or int(expected_request_count) <= 0
+        or payload.get("request_count") != int(expected_request_count)
         or not isinstance(case_ids, list)
         or not isinstance(request_sha256, list)
-        or len(case_ids) != 100
-        or len(request_sha256) != 100
+        or len(case_ids) != int(expected_request_count)
+        or len(request_sha256) != int(expected_request_count)
         or payload.get("primary_arm_order") != list(PRIMARY_ARM_ORDER)
-        or payload.get("primary_endpoint_count") != 500
-        or payload.get("fixed_z_compute_count") != 100
+        or payload.get("primary_endpoint_count")
+        != int(expected_request_count) * len(PRIMARY_ARM_ORDER)
+        or payload.get("fixed_z_compute_count") != int(expected_request_count)
         or payload.get("fixed_z_recompute_count") != 0
         or payload.get("w0_pointer_bytes_restore_pass") is not True
         or payload.get("literal_prompt_target_token_prediction_publication_count") != 0
@@ -1892,8 +1907,8 @@ def validate_round_publication(
     return {
         "status": "RAW_FREE_ROUND_PASS",
         "round_index": expected_round_index,
-        "request_count": 100,
-        "primary_endpoint_count": 500,
+        "request_count": int(expected_request_count),
+        "primary_endpoint_count": int(expected_request_count) * len(PRIMARY_ARM_ORDER),
         "identity_sha256": payload["identity_sha256"],
     }
 

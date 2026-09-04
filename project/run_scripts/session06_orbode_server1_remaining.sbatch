@@ -8,7 +8,7 @@
 #SBATCH --nodelist=devbox
 #SBATCH --mem=182272M
 #SBATCH --time=14-00:00:00
-#SBATCH --array=0-3%4
+#SBATCH --array=0-3%2
 #SBATCH --export=NONE
 #SBATCH --output=local/logs/ordered-response-barrier-ode/remaining-%A_%a.out
 #SBATCH --error=local/logs/ordered-response-barrier-ode/remaining-%A_%a.err

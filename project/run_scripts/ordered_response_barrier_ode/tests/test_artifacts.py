@@ -114,8 +114,7 @@ def _semantic(request_count: int = 100) -> dict[str, Any]:
     }
 
 
-def _step(arm: str) -> dict[str, Any]:
-    request_count = 100
+def _step(arm: str, request_count: int = 100) -> dict[str, Any]:
     optional_values = [0.25] * request_count
     return {
         "arm": arm,
@@ -178,12 +177,12 @@ def _step(arm: str) -> dict[str, Any]:
     }
 
 
-def _telemetry(arm: str) -> dict[str, Any]:
+def _telemetry(arm: str, request_count: int = 100) -> dict[str, Any]:
     if arm == "O":
         return {
             "schema": "orbode.official-bypass.v1",
-            "entry_semantic": _semantic(),
-            "terminal_semantic": _semantic(),
+            "entry_semantic": _semantic(request_count),
+            "terminal_semantic": _semantic(request_count),
             "native_compute_z_bypassed_with_shared_fixed_z": True,
             "dynamic_layer_visit_count": 0,
             "factor_build_count": 5,
@@ -198,10 +197,10 @@ def _telemetry(arm: str) -> dict[str, Any]:
     return {
         "schema": "orbode.arm-telemetry.v1",
         "arm": arm,
-        "entry_semantic": _semantic(),
+        "entry_semantic": _semantic(request_count),
         "first_hit": None,
         "terminal_status": "TERMINAL_VALID",
-        "terminal_semantic": _semantic(),
+        "terminal_semantic": _semantic(request_count),
         "step_count": 1,
         "zero_action_visit_count": 0,
         "nonzero_action_visit_count": 1,
@@ -212,7 +211,7 @@ def _telemetry(arm: str) -> dict[str, Any]:
         "materialization_count": 1,
         "physical_write_count": 1,
         "history_append_count": 0,
-        "anchor_active_request_count": 100,
+        "anchor_active_request_count": request_count,
         "anchor_zero_request_count": 0,
         "anchor_zero_semantic_miss_count": 0,
         "anchor_zero_semantic_miss_policy": "NONBLOCKING_SCIENTIFIC_OBSERVATION",
@@ -221,7 +220,7 @@ def _telemetry(arm: str) -> dict[str, Any]:
         "terminal_net_frobenius": 0.25,
         "terminal_net_frobenius_squared": 0.0625,
         "native_creg_action_status": "TELEMETRY_WITHHELD",
-        "steps": [_step(arm)],
+        "steps": [_step(arm, request_count)],
     }
 
 
@@ -230,11 +229,12 @@ def _arm(
     evaluation: Mapping[str, Any],
     *,
     derived: Mapping[str, Any] | None = None,
+    request_count: int = 100,
 ) -> dict[str, Any]:
     return {
         "arm": arm,
         "status": "TERMINAL_VALID",
-        "request_count": 100,
+        "request_count": request_count,
         "endpoint": {
             "arm": arm,
             "status": "TERMINAL_VALID",
@@ -246,12 +246,12 @@ def _arm(
             "history_append_count": 0,
             "inner_history_append_count": 0,
             "inner_cache_mutation_count": 0,
-            "semantic_observation": _semantic(),
+            "semantic_observation": _semantic(request_count),
             "terminal_net_frobenius": 1.0,
             "terminal_net_frobenius_squared": 1.0,
             "terminal_net_frobenius_squared_by_weight": {"layer.weight": 1.0},
         },
-        "telemetry": _telemetry(arm),
+        "telemetry": _telemetry(arm, request_count),
         "overlay": {
             "w0_pointer_version_bytes_unchanged": True,
             "physical_inner_write_count": 0,
@@ -294,8 +294,8 @@ def _arm(
     }
 
 
-def _round() -> dict[str, Any]:
-    case_ids = list(range(10_000, 10_100))
+def _round(request_count: int = 100) -> dict[str, Any]:
+    case_ids = list(range(10_000, 10_000 + request_count))
     request_shas = _request_shas(case_ids)
     entry = _evaluation(case_ids, entry=True)
     endpoint = _evaluation(case_ids, entry=False)
@@ -312,11 +312,14 @@ def _round() -> dict[str, Any]:
             "selected_weight_endpoint_sha256": "e" * 64,
         },
     }
-    arms = [_arm(arm, endpoint) for arm in artifacts.PRIMARY_ARM_ORDER]
+    arms = [
+        _arm(arm, endpoint, request_count=request_count)
+        for arm in artifacts.PRIMARY_ARM_ORDER
+    ]
     arms[3]["derived_endpoint"] = derived
     return {
         "round_index": 0,
-        "request_count": 100,
+        "request_count": request_count,
         "case_ids": case_ids,
         "request_sha256": request_shas,
         "canonical_request_order_sha256": artifacts.canonical_hash(request_shas),
@@ -324,13 +327,13 @@ def _round() -> dict[str, Any]:
         "fixed_z": {
             "identity_sha256": "1" * 64,
             "target_context_identity_sha256": "2" * 64,
-            "compute_count": 100,
+            "compute_count": request_count,
             "recompute_count": 0,
         },
         "semantic": {
             "inventory_sha256": "3" * 64,
-            "event_count": 600,
-            "request_count": 100,
+            "event_count": request_count * 6,
+            "request_count": request_count,
         },
         "pre_evaluation": entry,
         "runtime_preamble": {
@@ -366,6 +369,10 @@ def _round() -> dict[str, Any]:
                 "dynamic_qcl_one_pass_stock_parity_claim": (
                     "NOT_APPLICABLE_DISTINCT_NUMERICAL_PATH"
                 ),
+                "residual_scaling_replay": (
+                    "WRITER_DEVICE_FP32_DIVISION_THEN_CPU_STORAGE"
+                ),
+                "residual_scaling_replay_device": "cuda:0",
                 "residual_scaling_max_abs_error": 0.0,
                 "residual_scaling_max_relative_error": 0.0,
                 "right_factor_bitwise_identity": True,
@@ -551,6 +558,22 @@ class RawFreeEvaluationTests(unittest.TestCase):
 
 
 class RoundPublicationTests(unittest.TestCase):
+    def test_single_request_b1_panel_uses_explicit_denominator(self) -> None:
+        source = _round(request_count=1)
+        publication = artifacts.reduce_round_payload(
+            source, expected_request_count=1
+        )
+        checked = artifacts.validate_round_publication(
+            publication, expected_round_index=0, expected_request_count=1
+        )
+        self.assertEqual(checked["request_count"], 1)
+        self.assertEqual(checked["primary_endpoint_count"], 5)
+        self.assertEqual(publication["fixed_z_compute_count"], 1)
+        with self.assertRaises(artifacts.ArtifactBoundary):
+            artifacts.validate_round_publication(
+                publication, expected_round_index=0, expected_request_count=100
+            )
+
     def test_round_primary_panel_and_transaction_are_validated(self) -> None:
         source = _round()
         publication = artifacts.reduce_round_payload(source)

@@ -31,6 +31,7 @@ class MappingTests(unittest.TestCase):
                 (3, "qwen2.5-7b-inst", "AlphaEdit"),
             ],
         )
+        self.assertEqual(preflight.wave_rounds("b1"), (0,))
         self.assertEqual(preflight.wave_rounds("round0"), (0,))
         self.assertEqual(preflight.wave_rounds("remaining"), tuple(range(1, 10)))
         with self.assertRaises(preflight.PreflightBoundary):
@@ -158,11 +159,39 @@ class SourceAndArtifactTests(unittest.TestCase):
 
 
 class WaveGateTests(unittest.TestCase):
+    @staticmethod
+    def _canonical_b1_round() -> dict[str, object]:
+        value = raw_round_fixture(1)
+
+        def replace_case_ids(item: object) -> None:
+            if isinstance(item, dict):
+                for key, child in item.items():
+                    if key == "case_id":
+                        item[key] = preflight.B1_CASE_ID
+                    else:
+                        replace_case_ids(child)
+            elif isinstance(item, list):
+                for child in item:
+                    replace_case_ids(child)
+
+        replace_case_ids(value)
+        value["case_ids"] = [preflight.B1_CASE_ID]
+        value["request_sha256"] = [preflight.B1_REQUEST_SHA256]
+        value["canonical_request_order_sha256"] = preflight.B1_REQUEST_ORDER_SHA256
+        preamble = value["runtime_preamble"]
+        assert isinstance(preamble, dict)
+        preamble["request_case_id"] = str(preflight.B1_CASE_ID)
+        preamble["request_sha256"] = preflight.B1_REQUEST_SHA256
+        return value
+
     def _result(
         self,
         cell: int,
         round_publication: dict[str, object],
         round_file_sha256: str,
+        *,
+        wave: str = "round0",
+        request_count: int = 100,
     ) -> dict[str, object]:
         native_memit_exception = preflight.cell_spec(cell).writer_family == "MEMIT"
         publication_receipt = {
@@ -177,15 +206,15 @@ class WaveGateTests(unittest.TestCase):
             "cell_id": cell,
             "model_alias": preflight.cell_spec(cell).model_alias,
             "writer_family": preflight.cell_spec(cell).writer_family,
-            "wave": "round0",
+            "wave": wave,
             "rounds": [0],
-            "request_count": 100,
+            "request_count": request_count,
             "primary_arms": list(preflight.PRIMARY_ARMS),
-            "primary_endpoint_count": 500,
-            "scientific_attempted_count": 500,
-            "terminal_valid_count": 500,
+            "primary_endpoint_count": request_count * 5,
+            "scientific_attempted_count": request_count * 5,
+            "terminal_valid_count": request_count * 5,
             "technical_failure_count": 0,
-            "fixed_z_compute_count": 100,
+            "fixed_z_compute_count": request_count,
             "fixed_z_recompute_count": 0,
             "source_head": "h",
             "source_tree": "t",
@@ -217,6 +246,8 @@ class WaveGateTests(unittest.TestCase):
         result_sha256: str,
         round_identity: str,
         round_file_sha256: str,
+        wave: str = "round0",
+        request_count: int = 100,
     ) -> dict[str, object]:
         native_memit_exception = preflight.cell_spec(cell).writer_family == "MEMIT"
         value: dict[str, object] = {
@@ -225,16 +256,16 @@ class WaveGateTests(unittest.TestCase):
             "cell_id": cell,
             "model_alias": preflight.cell_spec(cell).model_alias,
             "writer_family": preflight.cell_spec(cell).writer_family,
-            "wave": "round0",
+            "wave": wave,
             "rounds": [0],
-            "request_count": 100,
+            "request_count": request_count,
             "primary_arms": list(preflight.PRIMARY_ARMS),
-            "primary_endpoint_count": 500,
-            "scientific_attempted_count": 500,
-            "terminal_valid_count": 500,
+            "primary_endpoint_count": request_count * 5,
+            "scientific_attempted_count": request_count * 5,
+            "terminal_valid_count": request_count * 5,
             "technical_failure_count": 0,
             "entry_already_hit_count": cell,
-            "fixed_z_compute_count": 100,
+            "fixed_z_compute_count": request_count,
             "fixed_z_recompute_count": 0,
             "model_reload_wave_count": 1,
             "source_head": "h",
@@ -263,6 +294,121 @@ class WaveGateTests(unittest.TestCase):
         }
         value["receipt_identity_sha256"] = preflight.canonical_hash(value)
         return value
+
+    def _write_cell(
+        self,
+        root: Path,
+        cell: int,
+        round_publication: dict[str, object],
+        *,
+        wave: str,
+        request_count: int,
+    ) -> None:
+        task = root / f"task-{cell}"
+        task.mkdir(parents=True, exist_ok=True)
+        round_path = task / "round-00-result.json"
+        round_path.write_text(
+            preflight.canonical_json(round_publication) + "\n", encoding="utf-8"
+        )
+        round_path.chmod(0o600)
+        round_file_sha256 = preflight.sha256_file(round_path)
+        result_path = task / "result.json"
+        result_path.write_text(
+            preflight.canonical_json(
+                self._result(
+                    cell,
+                    round_publication,
+                    round_file_sha256,
+                    wave=wave,
+                    request_count=request_count,
+                )
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        result_path.chmod(0o600)
+        terminal = self._terminal(
+            cell,
+            result_sha256=preflight.sha256_file(result_path),
+            round_identity=str(round_publication["identity_sha256"]),
+            round_file_sha256=round_file_sha256,
+            wave=wave,
+            request_count=request_count,
+        )
+        terminal_path = task / "terminal-receipt.json"
+        terminal_path.write_text(
+            preflight.canonical_json(terminal) + "\n", encoding="utf-8"
+        )
+        terminal_path.chmod(0o600)
+
+    def test_b1_common_gate_binds_exact_first_request_and_denominator(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            for cell in range(4):
+                publication = artifacts.reduce_round_payload(
+                    self._canonical_b1_round(), expected_request_count=1
+                )
+                self._write_cell(
+                    root, cell, publication, wave="b1", request_count=1
+                )
+            gate = preflight.validate_b1_common_gate(
+                root, source_head="h", source_tree="t"
+            )
+            self.assertEqual(gate["status"], "B1_COMMON_INTEGRITY_PASS")
+            self.assertEqual(gate["request_count"], 4)
+            self.assertEqual(gate["endpoint_count"], 20)
+
+            noncanonical = artifacts.reduce_round_payload(
+                raw_round_fixture(1), expected_request_count=1
+            )
+            self._write_cell(
+                root, 0, noncanonical, wave="b1", request_count=1
+            )
+            with self.assertRaisesRegex(
+                preflight.PreflightBoundary, "canonical first-request identity"
+            ):
+                preflight.validate_b1_common_gate(
+                    root, source_head="h", source_tree="t"
+                )
+
+    def test_round0_preflight_requires_and_binds_b1_common_gate(self) -> None:
+        arguments = {
+            "repo_root": Path("/repo"),
+            "authoritative_root": preflight.AUTHORITATIVE_ROOT,
+            "easyedit_source_root": preflight.OFFICIAL_EASYEDIT_ROOT,
+            "easyedit_artifact_root": preflight.EASYEDIT_ARTIFACT_ROOT,
+            "hf_hub_cache": preflight.HF_HUB_CACHE_ROOT,
+            "source_head": "h",
+            "source_tree": "t",
+            "cell_id": 0,
+            "wave": "round0",
+            "deep_artifact_hash": False,
+        }
+        with self.assertRaisesRegex(
+            preflight.PreflightBoundary, "requires a B1 common-gate root"
+        ):
+            preflight.run_preflight(**arguments)
+
+        gate = {
+            "status": "B1_COMMON_INTEGRITY_PASS",
+            "cell_count": 4,
+            "request_count": 4,
+            "endpoint_count": 20,
+        }
+        with (
+            mock.patch.object(preflight, "validate_b1_common_gate", return_value=gate),
+            mock.patch.object(preflight, "validate_authoritative_inputs", return_value=[]),
+            mock.patch.object(preflight, "validate_easyedit_source", return_value={}),
+            mock.patch.object(preflight, "validate_execution_lock", return_value={}),
+            mock.patch.object(preflight, "validate_model_artifacts", return_value={}),
+            mock.patch.object(preflight, "validate_source_checkout", return_value={}),
+            mock.patch.object(preflight, "validate_stream", return_value={}),
+        ):
+            receipt = preflight.run_preflight(
+                **arguments, b1_root=Path("/sealed/b1")
+            )
+        self.assertEqual(receipt["b1_common_gate"], gate)
+        self.assertIsNone(receipt["round0_common_gate"])
 
     def test_four_cell_common_gate_and_create_once_receipt(self) -> None:
         with tempfile.TemporaryDirectory() as raw:
@@ -340,7 +486,7 @@ class WaveGateTests(unittest.TestCase):
             value: dict[str, object] = {
                 "instruction_id": preflight.INSTRUCTION_ID,
                 "status": "PRE_GPU_BINDING_PASS",
-                "wave": {"name": "round0", "round_indices": [0]},
+                "wave": {"name": "b1", "round_indices": [0]},
                 "stream": {
                     "stream_root": preflight.STREAM_ROOT,
                     "order_root": preflight.ORDER_ROOT,
@@ -353,13 +499,29 @@ class WaveGateTests(unittest.TestCase):
             path.write_text(preflight.canonical_json(value) + "\n", encoding="utf-8")
             path.chmod(0o600)
             loaded = launch.load_shared_preflight(
-                path, source_head="h", source_tree="t", wave="round0"
+                path, source_head="h", source_tree="t", wave="b1"
             )
             self.assertEqual(loaded["status"], "PRE_GPU_BINDING_PASS")
             with self.assertRaises(preflight.PreflightBoundary):
                 launch.load_shared_preflight(
                     path, source_head="h", source_tree="t", wave="remaining"
                 )
+
+            value["wave"] = {"name": "round0", "round_indices": [0]}
+            value["b1_common_gate"] = {
+                "status": "B1_COMMON_INTEGRITY_PASS",
+                "endpoint_count": 20,
+            }
+            value["round0_common_gate"] = None
+            value.pop("receipt_identity_sha256")
+            value["receipt_identity_sha256"] = preflight.canonical_hash(value)
+            path.write_text(preflight.canonical_json(value) + "\n", encoding="utf-8")
+            self.assertEqual(
+                launch.load_shared_preflight(
+                    path, source_head="h", source_tree="t", wave="round0"
+                )["wave"]["name"],
+                "round0",
+            )
 
 
 if __name__ == "__main__":

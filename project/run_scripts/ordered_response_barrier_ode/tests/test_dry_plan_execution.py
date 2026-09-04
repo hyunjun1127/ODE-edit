@@ -52,18 +52,23 @@ class DryPlanResourceTests(unittest.TestCase):
 
     def test_slurm_scripts_have_locked_resource_and_wave_contracts(self) -> None:
         root = Path(__file__).resolve().parents[4]
+        b1 = (root / "project/run_scripts/session06_orbode_server1_b1.sbatch").read_text()
         round0 = (root / "project/run_scripts/session06_orbode_server1_round0.sbatch").read_text()
         remaining = (root / "project/run_scripts/session06_orbode_server1_remaining.sbatch").read_text()
-        for text in (round0, remaining):
+        for text in (b1, round0, remaining):
             self.assertEqual(text.count("#SBATCH --mem="), 1)
             self.assertIn("#SBATCH --mem=182272M", text)
             self.assertIn("#SBATCH --export=NONE", text)
             self.assertIn("#SBATCH --gres=gpu:1", text)
-            self.assertIn("#SBATCH --array=0-3%4", text)
+            self.assertIn("#SBATCH --array=0-3%2", text)
             self.assertIn("easyeditsh1-official-readonly-v1", text)
             self.assertIn("IMPORTED_EASYEDIT", text)
             self.assertNotIn("PYTHONPATH=\"${REPO_ROOT}:${EASYEDIT_ARTIFACT_ROOT}", text)
+        self.assertIn("--wave b1", b1)
+        self.assertNotIn("--b1-root", b1)
+        self.assertNotIn("--round0-root", b1)
         self.assertIn("--wave round0", round0)
+        self.assertIn("--b1-root", round0)
         self.assertNotIn("--round0-root", round0)
         self.assertIn("--wave remaining", remaining)
         self.assertIn("--round0-root", remaining)
@@ -110,6 +115,48 @@ class DryPlanResourceTests(unittest.TestCase):
                 plan["sbatch"]["cli_overrides"]["error"],
                 str(root / "logs/wave-r1/%A_%a.err"),
             )
+
+    def test_b1_plan_is_one_request_and_holds_round0(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            (root / "state").mkdir()
+            (root / "logs").mkdir()
+            cap = {
+                "job_patterns": "odeedit_*",
+                "max_project_gpus": 4,
+                "mem_mib_per_gpu": 183_296,
+                "node": "devbox",
+                "server": "server1",
+            }
+            with (
+                mock.patch.object(dry_plan, "parse_local_cap", return_value=cap),
+                mock.patch.object(
+                    dry_plan,
+                    "run_preflight",
+                    return_value={"receipt_identity_sha256": "a" * 64},
+                ),
+            ):
+                plan = dry_plan.build_dry_plan(
+                    repo_root=root,
+                    authoritative_root=root,
+                    easyedit_source_root=root,
+                    easyedit_artifact_root=root,
+                    hf_hub_cache=root,
+                    source_head="h",
+                    source_tree="t",
+                    wave="b1",
+                    output_root=root / "state/b1-r1",
+                    log_root=root / "logs/b1-r1",
+                    local_caps=root / "caps.tsv",
+                    live_resources=False,
+                )
+            self.assertEqual(plan["round_indices"], [0])
+            self.assertEqual(plan["round_request_count"], 1)
+            self.assertEqual(
+                plan["round0_wave_release"],
+                "HOLD_UNTIL_FOUR_B1_TERMINAL_RECEIPTS_PASS",
+            )
+            self.assertTrue(plan["sbatch"]["script"].endswith("_b1.sbatch"))
 
 
 if __name__ == "__main__":

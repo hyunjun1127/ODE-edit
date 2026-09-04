@@ -47,6 +47,7 @@ from .preflight import (
     STREAM_ROOT,
     STREAM_SEAL_RELATIVE,
     canonical_hash,
+    wave_rounds,
 )
 from .semantic import (
     SemanticInventory,
@@ -66,6 +67,33 @@ TERMINAL_SCHEMA = "orbode.round0.cell-terminal.v1"
 def _sync() -> None:
     if torch.cuda.is_available():
         torch.cuda.synchronize(torch.device("cuda:0"))
+
+
+def _writer_device_residual_division_replay(
+    full_left: torch.Tensor,
+    *,
+    divisor: int,
+    device: torch.device,
+) -> torch.Tensor:
+    """Replay production R/n arithmetic before detached CPU factor storage."""
+
+    if (
+        full_left.ndim != 2
+        or full_left.dtype is not torch.float32
+        or full_left.requires_grad
+        or isinstance(divisor, bool)
+        or not isinstance(divisor, int)
+        or divisor <= 0
+        or not bool(torch.isfinite(full_left).all())
+    ):
+        raise TechnicalBoundary("residual scaling replay contract differs")
+    return (
+        full_left.to(device=device, dtype=torch.float32)
+        .div(float(divisor))
+        .detach()
+        .to(device="cpu", dtype=torch.float32)
+        .contiguous()
+    )
 
 
 def _model_forward_count(model: torch.nn.Module) -> int:
@@ -1392,13 +1420,27 @@ def _single_request_preamble(
         residual_denominator=5,
         state_version=0,
     )
-    scaling_error = float((divided_build.left - full_build.left / 5.0).abs().max().item())
-    scaling_reference = float((full_build.left / 5.0).abs().max().item())
+    # build_layer divides R on the writer device, then stores the detached
+    # factor on CPU.  Replaying `/ 5` on CPU compares different FP32 backends
+    # and can differ by one ULP even when the production scaling is exact.
+    scaling_expected = _writer_device_residual_division_replay(
+        full_build.left,
+        divisor=5,
+        device=single.device,
+    )
+    scaling_error = float((divided_build.left - scaling_expected).abs().max().item())
+    scaling_reference = float(scaling_expected.abs().max().item())
     scaling_relative_error = scaling_error / max(
         scaling_reference, torch.finfo(torch.float32).tiny
     )
-    if scaling_error != 0.0 or not torch.equal(divided_build.right, full_build.right):
-        raise TechnicalBoundary("fixed-state B(R/n)=B(R)/n scaling parity failed")
+    right_factor_bitwise_identity = torch.equal(divided_build.right, full_build.right)
+    if not torch.equal(divided_build.left, scaling_expected) or not right_factor_bitwise_identity:
+        raise TechnicalBoundary(
+            "fixed-state B(R/n)=B(R)/n scaling parity failed: "
+            f"writer_device={single.device}, max_abs={scaling_error}, "
+            f"max_relative={scaling_relative_error}, "
+            f"right_factor_bitwise_identity={right_factor_bitwise_identity}"
+        )
 
     # P1: first nonzero response layer, three locked FD epsilons, and a
     # materialized-factor response identity at the primary epsilon.
@@ -1661,9 +1703,11 @@ def _single_request_preamble(
         "P0_official_scaling": {
             "stock_official_parity": official_parity,
             "dynamic_qcl_one_pass_stock_parity_claim": "NOT_APPLICABLE_DISTINCT_NUMERICAL_PATH",
+            "residual_scaling_replay": "WRITER_DEVICE_FP32_DIVISION_THEN_CPU_STORAGE",
+            "residual_scaling_replay_device": str(single.device),
             "residual_scaling_max_abs_error": scaling_error,
             "residual_scaling_max_relative_error": scaling_relative_error,
-            "right_factor_bitwise_identity": True,
+            "right_factor_bitwise_identity": right_factor_bitwise_identity,
         },
         "outcome_comparison_gate_policy": {
             "schema": "orbode.nonblocking-outcome-comparison-policy.v1",
@@ -1716,7 +1760,13 @@ def _single_request_preamble(
     }
 
 
-def _load_stream(repo_root: Path, dataset: Path, round_indices: Sequence[int]) -> tuple[Any, tuple[tuple[dict[str, Any], ...], ...], dict[int, dict[str, Any]]]:
+def _load_stream(
+    repo_root: Path,
+    dataset: Path,
+    round_indices: Sequence[int],
+    *,
+    wave: str,
+) -> tuple[Any, tuple[tuple[dict[str, Any], ...], ...], dict[int, dict[str, Any]]]:
     from project.run_scripts.ode_bf.p1r52_b100x10_stream import load_p1r52_b100x10_batches, verify_p1r52_b100x10_stream
 
     seal = verify_p1r52_b100x10_stream(json.loads((repo_root / STREAM_SEAL_RELATIVE).read_text(encoding="utf-8")))
@@ -1724,6 +1774,10 @@ def _load_stream(repo_root: Path, dataset: Path, round_indices: Sequence[int]) -
         raise TechnicalBoundary("sealed stream identity differs")
     batches = load_p1r52_b100x10_batches(dataset, seal)
     chosen = tuple(batches[index] for index in round_indices)
+    if wave == "b1":
+        if tuple(round_indices) != (0,) or len(chosen) != 1 or len(chosen[0]) != 100:
+            raise TechnicalBoundary("B1 canonical source cohort differs")
+        chosen = (tuple(chosen[0][:1]),)
     case_ids = {int(item["case_id"]) for batch in chosen for item in batch}
     return seal, chosen, _raw_records(dataset, case_ids)
 
@@ -1767,7 +1821,7 @@ def run_cell(
     }
     try:
         cell = _cell(cell_id)
-        if tuple(round_indices) != ((0,) if wave == "round0" else tuple(range(1, 10))):
+        if tuple(round_indices) != wave_rounds(wave):
             raise TechnicalBoundary("wave/round mapping differs")
         if _git(repo_root, "rev-parse", "HEAD") != source_head or _git(repo_root, "rev-parse", "HEAD^{tree}") != source_tree:
             raise TechnicalBoundary("queued source HEAD/tree drift")
@@ -1854,7 +1908,9 @@ def run_cell(
             raise TechnicalBoundary("stock compute-z context builder failed")
 
         dataset = (easyedit_artifact_root / "data/counterfact/counterfact.json").resolve(strict=True)
-        seal, batches, raw_map = _load_stream(repo_root, dataset, round_indices)
+        seal, batches, raw_map = _load_stream(
+            repo_root, dataset, round_indices, wave=wave
+        )
         round_payloads: list[dict[str, Any]] = []
         round_publication_receipts: list[dict[str, Any]] = []
         fixed_z_total = 0
@@ -1892,7 +1948,7 @@ def run_cell(
             fixed_z_recompute += z_adapter.ledger.fixed_z_recompute_count
             family_runtime.pre_evaluation = family_runtime.evaluate_endpoint()
             runtime_preamble = None
-            if wave == "round0" and round_index == 0:
+            if wave in {"b1", "round0"} and round_index == 0:
                 progress["stage"] = "B1_RUNTIME_PREAMBLE"
                 runtime_preamble = _single_request_preamble(
                     family=family_runtime,
@@ -1947,9 +2003,13 @@ def run_cell(
                 ),
             }
             progress["stage"] = "ROUND_CREATE_ONCE_PUBLICATION"
-            round_payload = reduce_round_payload(raw_round_payload)
+            round_payload = reduce_round_payload(
+                raw_round_payload, expected_request_count=len(batch)
+            )
             validate_round_publication(
-                round_payload, expected_round_index=int(round_index)
+                round_payload,
+                expected_round_index=int(round_index),
+                expected_request_count=len(batch),
             )
             round_relative_path = f"round-{round_index:02d}-result.json"
             round_file_sha256 = _create_once_json(
@@ -1967,7 +2027,7 @@ def run_cell(
             progress["completed_rounds"].append(int(round_index))
             progress.update(stage="ROUND_TERMINAL_VALID", arm=None)
 
-        request_count = len(round_indices) * 100
+        request_count = sum(int(payload["request_count"]) for payload in round_payloads)
         primary_endpoint_count = request_count * len(PRIMARY_ARM_ORDER)
         entry_already_hit_count = sum(
             int(
@@ -2008,7 +2068,9 @@ def run_cell(
                 for round_payload in round_payloads
             ),
             "fast_runtime_preamble_status": (
-                "PASS_THIS_WAVE" if wave == "round0" else "INHERITED_ROUND0_COMMON_GATE"
+                "PASS_THIS_WAVE"
+                if wave in {"b1", "round0"}
+                else "INHERITED_ROUND0_COMMON_GATE"
             ),
             "fixed_z_compute_count": fixed_z_total,
             "fixed_z_recompute_count": fixed_z_recompute,

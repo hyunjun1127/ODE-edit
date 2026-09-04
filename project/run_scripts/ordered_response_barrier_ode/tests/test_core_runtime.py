@@ -57,6 +57,7 @@ from project.run_scripts.ordered_response_barrier_ode.runtime import (
     _tensor_state_identity,
     _tensor_content_state_identity,
     _terminal_receipt,
+    _writer_device_residual_division_replay,
 )
 from project.run_scripts.ordered_response_barrier_ode.semantic import (
     SemanticObservation,
@@ -98,6 +99,27 @@ def _delta(layer: int, version: int, coefficient: float = 1.0) -> OverlayDelta:
 
 
 class ArmAndFP32Tests(unittest.TestCase):
+    def test_residual_scaling_replays_production_device_order(self) -> None:
+        next_float = torch.nextafter(torch.tensor(1.0), torch.tensor(2.0))
+        full = torch.tensor(
+            [[1.0, -3.25], [float(next_float.item()), 0.0]],
+            dtype=torch.float32,
+        )
+        replay = _writer_device_residual_division_replay(
+            full,
+            divisor=5,
+            device=torch.device("cpu"),
+        )
+        self.assertTrue(torch.equal(replay, full.to(dtype=torch.float32).div(5.0)))
+        self.assertEqual(replay.device.type, "cpu")
+        self.assertFalse(replay.requires_grad)
+        with self.assertRaises(TechnicalBoundary):
+            _writer_device_residual_division_replay(
+                full,
+                divisor=0,
+                device=torch.device("cpu"),
+            )
+
     def test_exact_arm_order_and_clock(self) -> None:
         values = canonical_arm_configs(sweeps=4)
         self.assertEqual(tuple(value.arm.value for value in values), ("O", "QCL", "NQFIX", "ORBFH", "JAC", "ORBHit"))

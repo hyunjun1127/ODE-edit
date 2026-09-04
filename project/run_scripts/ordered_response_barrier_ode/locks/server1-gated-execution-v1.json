@@ -11,6 +11,7 @@
     "3": ["qwen2.5-7b-inst", "AlphaEdit"]
   },
   "wave_rounds": {
+    "b1": [0],
     "round0": [0],
     "remaining": [1, 2, 3, 4, 5, 6, 7, 8, 9]
   },
@@ -62,7 +63,7 @@
   "hf_hub_cache": "/mnt/raid5/janghj/.cache/huggingface/hub",
   "slurm": {
     "array": "0-3",
-    "throttle": "POINT_IN_TIME_MIN_4_AND_FREE_CAP_AT_SUBMIT",
+    "throttle": "POINT_IN_TIME_MIN_2_AND_FREE_CAP_AT_SUBMIT",
     "gpu_per_task": 1,
     "mem_mib_per_task": 182272,
     "export": "NONE"
@@ -72,6 +73,19 @@
     "primary_endpoint_count": 2000,
     "technical_failure_count": 0,
     "required_before_remaining_wave": true,
+    "receipt_relative": "task-{cell}/terminal-receipt.json",
+    "result_relative": "task-{cell}/result.json",
+    "nested_round_arm_request_validation": true
+  },
+  "b1_common_gate": {
+    "cell_count": 4,
+    "request_count_per_cell": 1,
+    "primary_endpoint_count": 20,
+    "canonical_case_id": 19795,
+    "canonical_request_sha256": "285a3add6f31d8546b0d76689a016bc0f9f7d8e58c95f54e87bba48ad5cabc65",
+    "canonical_request_order_sha256": "0e6ded7a9103f5dc9588c11748b14d8c575093626be7055e3e4d390811f9ce5c",
+    "technical_failure_count": 0,
+    "required_before_round0_wave": true,
     "receipt_relative": "task-{cell}/terminal-receipt.json",
     "result_relative": "task-{cell}/result.json",
     "nested_round_arm_request_validation": true
@@ -87,5 +101,5 @@
   "logit_tie_policy": "PREDICATE_MISS",
   "scientific_outcome_blocks_continuation": false,
   "scientific_promotion": false,
-  "identity": "c5198ce345ce02bf463753b548521c97c733a15b085378bdb0f6137b60b8d810"
+  "identity": "754aa72aab0e8be856202a48c06ea8b885c6492f6cc0c4182453720750ff2da1"
 }
