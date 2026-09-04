@@ -1,0 +1,91 @@
+{
+  "schema": "ode-edit.orbode.server1-gated-execution-lock.v1",
+  "instruction_id": "ODEEDIT-S06-ORDERED-RESPONSE-BARRIER-ODE-FAST-MAIN-SH1-V1",
+  "session_id": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "server": "server1",
+  "node": "devbox",
+  "cell_mapping": {
+    "0": ["llama3-8b-inst", "MEMIT"],
+    "1": ["llama3-8b-inst", "AlphaEdit"],
+    "2": ["qwen2.5-7b-inst", "MEMIT"],
+    "3": ["qwen2.5-7b-inst", "AlphaEdit"]
+  },
+  "wave_rounds": {
+    "round0": [0],
+    "remaining": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  },
+  "wave_state_policy": "INDEPENDENT_EXACT_W0_COLD_ENTRY_NO_CARRY",
+  "wave_model_reload_count": 1,
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+  "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "requests_per_cohort": 100,
+  "cohort_count": 10,
+  "arms": ["O", "QCL", "NQFIX", "ORBFH", "JAC", "ORBHit"],
+  "primary_arms": ["O", "QCL", "NQFIX", "ORBFH", "JAC"],
+  "arm_order_locked": true,
+  "T": 1.0,
+  "N": 4,
+  "h": 0.25,
+  "dtype": "FULL_FP32",
+  "dtype_scope": {
+    "model_storage_overlay_jvp_dynamic_writer_solve": "torch.float32",
+    "controller_reduction": "torch.float64",
+    "official_memit_native_ephemeral_solve": "torch.float64",
+    "official_memit_exception_reason": "PINNED_LITERAL_STOCK_BASELINE_NO_EASYEDIT_MUTATION",
+    "numeric_storage_cast_count": 0
+  },
+  "attention_backend": "eager",
+  "native_z_capture_episode_per_cohort": 1,
+  "native_z_request_compute_per_cohort": 100,
+  "native_z_recompute_count": 0,
+  "inner_history_cache_mutation_count": 0,
+  "fast_runtime_preamble": {
+    "fd_epsilons": [0.0078125, 0.00390625, 0.001953125],
+    "fd_primary_epsilon": 0.00390625,
+    "fd_atol_formula": "64*eps_float32*max(1,max_abs(primal))/epsilon",
+    "fd_rtol": 0.03125,
+    "sign_contradiction_policy": "ACTIVE_ELEMENT_SIGN_IDENTITY_FAIL_CLOSE",
+    "orbhit_identity_failure_policy": "WITHHOLD_ORBHIT_ONLY_KEEP_ORBFH"
+  },
+  "official_easyedit": {
+    "root": "/mnt/raid5/janghj/.codex/worktrees/easyeditsh1-official-readonly-v1",
+    "head": "14cea8245f06715684592ab55184939b99d70784",
+    "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7",
+    "tracked_clean": true,
+    "use": "PYTHON_SOURCE_ONLY_READ_ONLY"
+  },
+  "artifact_root": {
+    "root": "/mnt/raid5/janghj/EasyEdit",
+    "use": "SEALED_DATA_PROJECTOR_STATS_ONLY_NO_PYTHON_IMPORT"
+  },
+  "hparams_authority": "ODE_REPO_FIXED_Z_NONUNIQUENESS_CONFIGS_WITH_RUNTIME_PATH_REMAP",
+  "hf_hub_cache": "/mnt/raid5/janghj/.cache/huggingface/hub",
+  "slurm": {
+    "array": "0-3",
+    "throttle": "POINT_IN_TIME_MIN_4_AND_FREE_CAP_AT_SUBMIT",
+    "gpu_per_task": 1,
+    "mem_mib_per_task": 182272,
+    "export": "NONE"
+  },
+  "round0_common_gate": {
+    "cell_count": 4,
+    "primary_endpoint_count": 2000,
+    "technical_failure_count": 0,
+    "required_before_remaining_wave": true,
+    "receipt_relative": "task-{cell}/terminal-receipt.json",
+    "result_relative": "task-{cell}/result.json",
+    "nested_round_arm_request_validation": true
+  },
+  "per_round_publication": {
+    "schema": "orbode.raw-free-round.v1",
+    "create_once": true,
+    "raw_prompt_target_token_prediction_fields": 0,
+    "failure_preserves_completed_rounds": true
+  },
+  "nonfinite_classification": "TECHNICAL_PENDING_OFFICIAL_REFERENCE_SOLVE_JVP_CLEAN_REPLAY_FP64_OBSERVER_EXCLUSION",
+  "entry_already_hit_policy": "W0_NOOP_CANONICAL_ENDPOINT_WITH_RS_PS_NS_DENOMINATOR",
+  "logit_tie_policy": "PREDICATE_MISS",
+  "scientific_outcome_blocks_continuation": false,
+  "scientific_promotion": false,
+  "identity": "c5198ce345ce02bf463753b548521c97c733a15b085378bdb0f6137b60b8d810"
+}
