@@ -185,6 +185,23 @@ def _method_module(family: str) -> Any:
     return importlib.import_module(name)
 
 
+def _stock_repr_tools(method_module: Any) -> Any:
+    """Bind repr-tools from the exact stock ``compute_z`` implementation.
+
+    The family main modules re-export ``compute_z`` but do not themselves
+    export its ``repr_tools`` import.  Following the function binding keeps
+    this graph-producing observer tied to the same pinned EasyEdit source as
+    the fixed-z authority without modifying that source.
+    """
+
+    compute_z = getattr(method_module, "compute_z", None)
+    namespace = getattr(compute_z, "__globals__", None)
+    repr_tools = namespace.get("repr_tools") if isinstance(namespace, dict) else None
+    if not callable(getattr(repr_tools, "get_reprs_at_word_tokens", None)):
+        raise TechnicalBoundary("stock compute_z repr_tools binding is unavailable")
+    return repr_tools
+
+
 def _selected(model: torch.nn.Module, hparams: Any) -> dict[str, torch.nn.Parameter]:
     parameters = dict(model.named_parameters())
     values: dict[str, torch.nn.Parameter] = {}
@@ -400,6 +417,7 @@ class FamilyRuntime:
         self.family = family
         self.hparams = hparams
         self.module = module
+        self._repr_tools = _stock_repr_tools(module)
         self.requests = tuple(dict(item) for item in requests)
         self.endpoint_records = tuple(dict(item) for item in endpoint_records)
         self.request_order_sha256 = request_order_sha256
@@ -526,8 +544,7 @@ class FamilyRuntime:
         fact_token_strategy = str(self.hparams.fact_token)
         if not fact_token_strategy.startswith("subject_"):
             raise TechnicalBoundary("terminal graph requires a subject-token strategy")
-        repr_tools = getattr(self.module, "repr_tools", None)
-        get_outputs = getattr(repr_tools, "get_reprs_at_word_tokens", None)
+        get_outputs = getattr(self._repr_tools, "get_reprs_at_word_tokens", None)
         if not callable(get_outputs):
             raise TechnicalBoundary("stock family module does not expose repr_tools")
         value = get_outputs(

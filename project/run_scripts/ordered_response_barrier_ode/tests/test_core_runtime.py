@@ -51,6 +51,7 @@ from project.run_scripts.ordered_response_barrier_ode.runtime import (
     _model_forward_count,
     _reconcile_arm_accounting,
     _response_identity,
+    _stock_repr_tools,
     _tensor_state_identity,
     _tensor_content_state_identity,
     _terminal_receipt,
@@ -130,7 +131,13 @@ class ArmAndFP32Tests(unittest.TestCase):
                 return value.unsqueeze(0).expand(batch, -1)
 
         class StockModule:
-            repr_tools = ReprTools
+            class ComputeZBinding:
+                __globals__ = {"repr_tools": ReprTools}
+
+                def __call__(self, *_args: object, **_kwargs: object) -> None:
+                    return None
+
+            compute_z = ComputeZBinding()
 
             @staticmethod
             def get_module_input_output_at_words(*_args: object, **_kwargs: object) -> torch.Tensor:
@@ -140,6 +147,7 @@ class ArmAndFP32Tests(unittest.TestCase):
         family.model = model
         family.tokenizer = object()
         family.module = StockModule()
+        family._repr_tools = _stock_repr_tools(family.module)
         family.hparams = SimpleNamespace(
             fact_token="subject_last",
             layer_module_tmp="layers.{}.weight",
