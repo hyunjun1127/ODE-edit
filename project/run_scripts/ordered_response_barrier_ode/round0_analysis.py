@@ -64,6 +64,8 @@ SOURCE_FILES = (
     "project/run_scripts/ordered_response_barrier_ode/round0_package_verify.py",
     "project/run_scripts/ordered_response_barrier_ode/tests/test_round0_analysis.py",
 )
+REFERENCE_FILES: tuple[str, ...] = ()
+REFERENCE_CORE_PERFORMANCE_FILE = ""
 KIND_ORDER = tuple(KIND_COUNTS)
 ARRAY_FIELDS = (
     "per_request_D_R0",
@@ -172,6 +174,72 @@ def _verify_document_inputs() -> list[dict[str, Any]]:
         row["lines"] = lines
         rows.append(row)
     return rows
+
+
+def _verify_reference_inputs(repo: Path) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for relative in REFERENCE_FILES:
+        rows.append(member(repo / relative, relative_to=repo, kind="immutable_prior_report_reference"))
+    return rows
+
+
+def _prior_metric_parity(repo: Path, current: pd.DataFrame) -> pd.DataFrame:
+    if not REFERENCE_CORE_PERFORMANCE_FILE:
+        return pd.DataFrame(
+            [{
+                "metric": "NOT_CONFIGURED",
+                "paired_row_count": 0,
+                "exact_equal_count": 0,
+                "nonzero_delta_count": 0,
+                "delta_mean": np.nan,
+                "delta_median": np.nan,
+                "delta_p90": np.nan,
+                "max_absolute_delta": np.nan,
+            }]
+        )
+    prior_path = repo / REFERENCE_CORE_PERFORMANCE_FILE
+    regular_file(prior_path)
+    prior = pd.read_csv(prior_path)
+    keys = ["cell_id", "model", "writer_family", "stage"]
+    if len(prior) != 24 or prior.duplicated(keys).any() or len(current) != 24 or current.duplicated(keys).any():
+        raise AnalysisBoundary("prior/current performance key denominator differs")
+    metrics = (
+        "rewrite_success_rate",
+        "rephrase_success_rate",
+        "strict_rephrase_success_rate",
+        "locality_prediction_preservation_rate",
+        "rewrite_target_new_accuracy_rate",
+        "rewrite_target_true_accuracy_rate",
+        "rephrase_target_new_accuracy_rate",
+        "rephrase_target_true_accuracy_rate",
+        "locality_target_true_accuracy_rate",
+    )
+    merged = prior[keys + list(metrics)].merge(
+        current[keys + list(metrics)], on=keys, how="outer", validate="one_to_one",
+        suffixes=("_prior", "_rerun"), indicator=True,
+    )
+    if len(merged) != 24 or not (merged["_merge"] == "both").all():
+        raise AnalysisBoundary("prior/current performance join differs")
+    rows: list[dict[str, Any]] = []
+    for metric in metrics:
+        left = merged[f"{metric}_prior"].astype(np.float64)
+        right = merged[f"{metric}_rerun"].astype(np.float64)
+        if left.isna().any() or right.isna().any() or not np.isfinite(left).all() or not np.isfinite(right).all():
+            raise AnalysisBoundary(f"prior/current nonfinite metric: {metric}")
+        delta = right - left
+        rows.append(
+            {
+                "metric": metric,
+                "paired_row_count": len(delta),
+                "exact_equal_count": int((delta == 0.0).sum()),
+                "nonzero_delta_count": int((delta != 0.0).sum()),
+                "delta_mean": float(delta.mean()),
+                "delta_median": float(np.quantile(delta, 0.5, method="linear")),
+                "delta_p90": float(np.quantile(delta, 0.9, method="linear")),
+                "max_absolute_delta": float(np.abs(delta).max()),
+            }
+        )
+    return pd.DataFrame(rows)
 
 
 def _validate_evaluation(
@@ -1281,6 +1349,7 @@ def _report(
     preamble: pd.DataFrame,
     orbhit: pd.DataFrame,
     lineage: pd.DataFrame,
+    prior_parity: pd.DataFrame,
     gates: Mapping[str, Any],
     inputs: Sequence[Mapping[str, Any]],
 ) -> str:
@@ -1427,6 +1496,14 @@ def _report(
         for row in lineage.itertuples()
     ]
     input_rows = [(row["kind"], row["path"], row["bytes"], row["mode"], row["sha256"]) for row in inputs]
+    prior_parity_rows = [
+        (
+            row.metric, row.paired_row_count, row.exact_equal_count,
+            row.nonzero_delta_count, _fmt(row.delta_mean), _fmt(row.delta_median),
+            _fmt(row.delta_p90), _fmt(row.max_absolute_delta),
+        )
+        for row in prior_parity.itertuples()
+    ]
     gap_rows = [(key, value) for key, value in (
         ("exact FLOPs", "NOT_RECORDED_SCHEMA_GAP; 호출 수와 actual wall time만 보고"),
         ("per-layer factor condition number", "NOT_RECORDED_SCHEMA_GAP"),
@@ -1462,7 +1539,7 @@ def _report(
 
     return "\n".join(
         [
-            "# Ordered Response-Barrier ODE-Edit — Server1 round0 B100 canonical-NS 재실행 상세 사실 보고서"
+            "# Ordered Response-Barrier ODE-Edit — Server1 round0 B100 기존 분석 + canonical-NS 재실행 통합 사실 보고서"
             if canonical_ns_recorded
             else "# Ordered Response-Barrier ODE-Edit — Server1 round0 B100 상세 사실 보고서",
             "",
@@ -1499,6 +1576,17 @@ def _report(
             "각 cell에서 primary rate의 단순 최댓값(선택·promotion 규칙 아님):",
             "",
             _markdown_table(["model", "writer", "metric", "max arm(s)", "rate"], top),
+            "",
+            "## 2.1 기존 v1/v2 보고서 통합과 재실행 parity",
+            "",
+            "기존 `exhaustive-v1`은 mechanics·RS/PS·PP-token을 상세 분석했지만 endpoint locality target-new NLL이 없었다. `baseline-inclusive-v2`는 별도 PRE_EDIT canonical NS만 보완했으며 endpoint canonical NS는 schema gap으로 남았다. 이 통합판은 두 package를 immutable reference로 결속하고, 새 v2 evaluator raw에서 PRE_EDIT와 O/QCL/NQFIX/ORBFH/JAC 전체 canonical NS를 다시 계산했다.",
+            "",
+            _markdown_table(
+                ["shared metric", "paired rows", "exact equal", "nonzero", "Δ mean", "Δ median", "Δ p90", "max |Δ|"],
+                prior_parity_rows,
+            ),
+            "",
+            "여기서 delta는 `canonical-NS rerun - 기존 exhaustive-v1`이다. canonical NS 자체는 기존 endpoint schema에 없었으므로 parity 대상으로 만들지 않았다. 기존 두 보고서와 manifest/receipt의 exact SHA는 §15 input inventory에 포함된다.",
             "",
             "## 3. Rewrite NLL 분포",
             "",
@@ -1667,12 +1755,14 @@ def build(repo: Path, raw_root: Path, log_base: Path, output: Path, repro_root: 
         raise AnalysisBoundary("tracked analysis worktree must be clean")
     active_gate = _assert_no_active_task_jobs()
     documents = _verify_document_inputs()
+    references = _verify_reference_inputs(repo)
     cells, raw_inputs, gates = _load_cells(raw_root)
-    inputs_before = documents + raw_inputs
+    inputs_before = documents + references + raw_inputs
     input_root = canonical_hash(inputs_before)
     gates.update(active_gate)
     performance, nll, prompt, request, indexed_prompts, endpoint_gates = _endpoint_tables(cells)
     gates.update(endpoint_gates)
+    prior_parity = _prior_metric_parity(repo, performance)
     paired = _paired_delta_table(indexed_prompts, request)
     contrast = _method_contrast_table(request)
     arm, step, request_step, layer, compute, preamble, mechanism_gates = _mechanism_tables(cells)
@@ -1696,6 +1786,9 @@ def build(repo: Path, raw_root: Path, log_base: Path, output: Path, repro_root: 
             "derived_orbhit_primary_denominator_influence_count": 0,
             "lineage_row_count": len(lineage),
             "artifact_inventory_row_count": len(artifact_inventory),
+            "immutable_prior_report_reference_count": len(references),
+            "prior_rerun_parity_metric_count": len(prior_parity),
+            "prior_rerun_parity_nonzero_delta_count": int(prior_parity["nonzero_delta_count"].sum()),
             "analysis_only_model_action_count": 0,
             "analysis_only_gpu_action_count": 0,
             "analysis_only_slurm_submit_count": 0,
@@ -1722,6 +1815,7 @@ def build(repo: Path, raw_root: Path, log_base: Path, output: Path, repro_root: 
         "derived-orbhit-summary.csv": (orbhit, False),
         "lineage-inventory.csv": (lineage, False),
         "artifact-inventory.csv": (artifact_inventory, False),
+        "previous-vs-rerun-metric-parity.csv": (prior_parity, False),
     }
     for name, (frame, compressed) in table_map.items():
         _write_csv_once(output / name, frame, compressed=compressed)
@@ -1806,7 +1900,7 @@ def build(repo: Path, raw_root: Path, log_base: Path, output: Path, repro_root: 
     gates["plot_count"] = len(plot_rows)
     gates["plot_byte_reproduction_failure_count"] = 0
 
-    inputs_after = _verify_document_inputs()
+    inputs_after = _verify_document_inputs() + _verify_reference_inputs(repo)
     for cell_id, (_, _, child_job) in CELL_BINDINGS.items():
         task_root = raw_root / f"task-{cell_id}"
         for path, kind in ((task_root / "result.json", "canonical_result"), (task_root / "round-00-result.json", "canonical_round"), (task_root / "terminal-receipt.json", "terminal_receipt")):
@@ -1833,7 +1927,10 @@ def build(repo: Path, raw_root: Path, log_base: Path, output: Path, repro_root: 
     audit_payload["identity_sha256"] = canonical_hash(audit_payload)
     write_json_once(output / "analysis-audit.json", audit_payload)
 
-    report_text = _report(performance, nll, paired, contrast, arm, step, layer, compute, preamble, orbhit, lineage, gates, inputs_before)
+    report_text = _report(
+        performance, nll, paired, contrast, arm, step, layer, compute,
+        preamble, orbhit, lineage, prior_parity, gates, inputs_before,
+    )
     report_path = output / "ordered-response-barrier-ode-round0-b100-exhaustive-factual-ko.md"
     descriptor = os.open(report_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
     with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:

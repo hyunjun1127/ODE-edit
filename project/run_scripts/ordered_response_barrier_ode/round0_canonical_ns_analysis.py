@@ -26,6 +26,16 @@ KIND_COUNTS = {
     "locality_target_new": 1000,
     "locality_target_true": 1000,
 }
+REFERENCE_FILES = (
+    "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/core-performance-summary.csv",
+    "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/ordered-response-barrier-ode-round0-b100-exhaustive-factual-ko.md",
+    "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/analysis-manifest.json",
+    "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/rooted-analysis-receipt.json",
+    "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2/baseline-inclusive-performance.csv",
+    "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2/ordered-response-barrier-ode-round0-b100-baseline-inclusive-factual-ko.md",
+    "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2/analysis-manifest.json",
+    "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-baseline-inclusive-2026-09-04-v2/rooted-analysis-receipt.json",
+)
 
 
 def configure(*, parent_job: str, child_jobs: tuple[str, str, str, str], raw_namespace: str) -> None:
@@ -44,6 +54,8 @@ def configure(*, parent_job: str, child_jobs: tuple[str, str, str, str], raw_nam
     analysis.KIND_COUNTS = dict(KIND_COUNTS)
     analysis.KIND_ORDER = tuple(KIND_COUNTS)
     analysis.EXPECTED_EVALUATION_ROWS = sum(KIND_COUNTS.values())
+    analysis.REFERENCE_FILES = REFERENCE_FILES
+    analysis.REFERENCE_CORE_PERFORMANCE_FILE = REFERENCE_FILES[0]
     analysis.LINEAGE = (
         ("36603", "round0-tech-r1", SOURCE_HEAD, "TECHNICAL_ATTEMPT"),
         ("36415", "b1-tech-r1", SOURCE_HEAD, "B1_PILOT"),
