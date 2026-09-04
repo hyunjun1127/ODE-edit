@@ -1,0 +1,28 @@
+{
+  "action_counts": {
+    "editing_run": 0,
+    "gpu": 0,
+    "model_load": 0,
+    "remaining_nine_submit": 0,
+    "slurm_submit": 0
+  },
+  "canonical_job_id": "35694",
+  "canonical_report": "experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/ordered-response-barrier-ode-round0-b100-exhaustive-factual-ko.md",
+  "canonical_scientific_denominator": {
+    "cells": 4,
+    "primary_arms": 5,
+    "request_arm_endpoints": 2000,
+    "requests_per_cell": 100
+  },
+  "instruction_id": "ODEEDIT-ORRBODE-ROUND0-DETAILED-REVIEW-20260904-R1",
+  "manifest_identity_sha256": "b6f65a56c7582d16c66ec353498e8c8b16fb4aa041b9422d992dd4ccf746c04d",
+  "manifest_sha256": "78b6217e952f03d446089d773bac365ace29ede806653ed72436d60ebd279a55",
+  "member_root": "6a7e2fa7c697d4d5cfce87054ce5727585ca9c99b171ed574f66047cb8fb8b31",
+  "receipt_identity_sha256": "026b3022f07d02f5b34177b56743047127531c15c0f5c3256d1a803d0c2dc134",
+  "receipt_sha256": "d0fdeb5a1c4fd4e055265a1833576ff81ae3bce5093207bad92e531e4a059342",
+  "report_sha256": "54ef00e3944413a9908dd0ccabd33a487831c878b5a43bfbd55955ba03fa0a82",
+  "scientific_promotion": false,
+  "server": "server1",
+  "status": "ANALYSIS_ONLY_TERMINAL_PASS",
+  "task_owned_active_job_count": 0
+}

@@ -1,0 +1,14 @@
+[SH1→GH ORBODE ROUND0 B100 EXHAUSTIVE REVIEW TERMINAL]
+
+nonce=ODEEDIT-ORRBODE-ROUND0-DETAILED-REVIEW-20260904-R1
+status=ANALYSIS_ONLY_TERMINAL_PASS
+job=35694; scheduler_cells=4/4_COMPLETED; canonical_denominator=4cells/5primary_arms/100requests=2000_endpoints
+report=experiment-reports/servers/server1/ordered-response-barrier-ode-round0-b100-exhaustive-2026-09-04-v1/ordered-response-barrier-ode-round0-b100-exhaustive-factual-ko.md
+report_sha256=54ef00e3944413a9908dd0ccabd33a487831c878b5a43bfbd55955ba03fa0a82
+manifest_sha256=78b6217e952f03d446089d773bac365ace29ede806653ed72436d60ebd279a55
+member_root=6a7e2fa7c697d4d5cfce87054ce5727585ca9c99b171ed574f66047cb8fb8b31
+receipt_sha256=d0fdeb5a1c4fd4e055265a1833576ff81ae3bce5093207bad92e531e4a059342
+receipt_identity=026b3022f07d02f5b34177b56743047127531c15c0f5c3256d1a803d0c2dc134
+integrity=PASS; technical_failures=0; nonfinite=0; imputation=0; raw_unchanged=true
+dynamic_endpoints=16/16 HORIZON_SEMANTIC_MISS observation; global_first_hit=0; scientific_promotion=false
+remaining_nine=HOLD; task_owned_active_jobs=0; analysis_model/GPU/Slurm_actions=0

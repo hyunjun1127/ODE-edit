@@ -1,0 +1,344 @@
+{
+  "analysis_source": {
+    "head": "800c7912dbbe25c29b30daaa866221f46921f4bf",
+    "tree": "175cc2ca11b837a159f4376caaeaa89602fa7843"
+  },
+  "gates": {
+    "analysis_only_gpu_action_count": 0,
+    "analysis_only_model_action_count": 0,
+    "analysis_only_slurm_submit_count": 0,
+    "artifact_inventory_row_count": 93,
+    "canonical_cell_count": 4,
+    "canonical_request_count": 400,
+    "compute_row_count": 20,
+    "derived_orbhit_primary_denominator_influence_count": 0,
+    "derived_orbhit_row_count": 4,
+    "dynamic_z_recompute_count": 0,
+    "entry_already_hit_count": 0,
+    "evaluation_entry_binding_failure_count": 0,
+    "evaluation_prompt_row_count": 38400,
+    "evaluation_request_row_count": 2400,
+    "evaluation_summary_recompute_failure_count": 0,
+    "forbidden_controller_evaluator_access_count": 0,
+    "full_fp32_scope": "MODEL_STORAGE_AND_ORBODE_DYNAMIC_PATH",
+    "global_first_hit_count": 0,
+    "history_append_count": 10,
+    "horizon_semantic_miss_dynamic_endpoint_count": 16,
+    "imputation_count": 0,
+    "inner_cache_mutation_count": 0,
+    "inner_history_append_count": 0,
+    "layer_update_row_count": 100,
+    "lineage_row_count": 21,
+    "mechanism_arm_aggregate_row_count": 16,
+    "mechanism_arm_row_count": 20,
+    "mechanism_request_step_row_count": 32000,
+    "mechanism_step_row_count": 320,
+    "method_contrast_summary_row_count": 84,
+    "method_state_content_mismatch_count": 0,
+    "nll_summary_row_count": 120,
+    "nonfinite_count": 0,
+    "official_memit_ephemeral_fp64_exception_cell_count": 2,
+    "official_wrapper_direct_fidelity_failure_count": 0,
+    "paired_official_summary_row_count": 112,
+    "performance_summary_row_count": 24,
+    "plot_byte_reproduction_failure_count": 0,
+    "plot_count": 5,
+    "primary_endpoint_count": 2000,
+    "raw_input_sha_before_after_unchanged": true,
+    "remaining_nine_submit_count": 0,
+    "rerun_count_for_analysis": 0,
+    "retry_count": 0,
+    "runtime_preamble_failure_count": 0,
+    "runtime_preamble_row_count": 4,
+    "same_pre_edit_within_model": true,
+    "same_request_order_cross_cell": true,
+    "scientific_failure_count": 0,
+    "scientific_promotion": false,
+    "source_head_tree_pass": true,
+    "squeue_checked": true,
+    "stream_order_root_pass": true,
+    "task_owned_active_job_count": 0,
+    "technical_failure_count": 0,
+    "unqualified_all_algorithm_full_fp32_cell_count": 2
+  },
+  "identity_sha256": "839d44997786278349c2ede519f280bad21b24ced30fc6b3afc0acbd88b81db8",
+  "imputation_count": 0,
+  "input_root": "dce41a47c20c6eaf77c3afbc914362b4517e9a4f6aee2270cdc9fc1e3a4c22fe",
+  "inputs_after": [
+    {
+      "bytes": 55900,
+      "kind": "authoritative_document",
+      "lines": 1359,
+      "mode": "0664",
+      "path": "/mnt/raid5/janghj/ODE-edit/project/proposals/2026-09-03-ordered-response-barrier-ode-edit-proposal.md",
+      "sha256": "03a6fc61258e7643fc281fab8ab0d3ca700bb80f09aaa3eb34591ce5827087be"
+    },
+    {
+      "bytes": 13143,
+      "kind": "authoritative_document",
+      "lines": 287,
+      "mode": "0664",
+      "path": "/mnt/raid5/janghj/ODE-edit/project/proposals/2026-09-03-ordered-response-barrier-ode-edit-gh-fast-main-prompt.md",
+      "sha256": "8548d016fda343f8b8917bcbe43647b58ad99ab6f796ece2fe4ef661faa4c431"
+    },
+    {
+      "bytes": 18113,
+      "kind": "authoritative_document",
+      "lines": 451,
+      "mode": "0664",
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-03-ordered-response-barrier-ode-edit-fast-main-table.md",
+      "sha256": "e134ac708c556482b912d7103e12a12347a78958943e7fa3d3da0a473908aa40"
+    },
+    {
+      "bytes": 8999580,
+      "cell_id": 0,
+      "child_job_id": "35737",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-0/result.json",
+      "sha256": "fcc6d54d04696c62e4438e108b236138a6dfe122bcefec8d88f4ed172ced7607"
+    },
+    {
+      "bytes": 8995236,
+      "cell_id": 0,
+      "child_job_id": "35737",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-0/round-00-result.json",
+      "sha256": "1cab6512fdad9f4fb3f20777fca9f74be596541db1d92dcf9968341910d4775e"
+    },
+    {
+      "bytes": 1723,
+      "cell_id": 0,
+      "child_job_id": "35737",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-0/terminal-receipt.json",
+      "sha256": "c83d1f2da67ed6d9a7075c8b753ff8f1f05829e4cde866ed258ac0d29fa585cf"
+    },
+    {
+      "bytes": 8998043,
+      "cell_id": 1,
+      "child_job_id": "35752",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-1/result.json",
+      "sha256": "fa3f12037fb4af0dd53ba0882638d5ab1f80236cfe53b430c4a1c431a527dfbd"
+    },
+    {
+      "bytes": 8993689,
+      "cell_id": 1,
+      "child_job_id": "35752",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-1/round-00-result.json",
+      "sha256": "0fe47dfc75a42b2cea3411d1d4b39604967ffb84560d4697559353e349ae31fe"
+    },
+    {
+      "bytes": 1730,
+      "cell_id": 1,
+      "child_job_id": "35752",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-1/terminal-receipt.json",
+      "sha256": "4158012f3b215e59404646ad6b8c7c94697ba6dfeaea3915faa0c77e74f1094a"
+    },
+    {
+      "bytes": 8992013,
+      "cell_id": 2,
+      "child_job_id": "35889",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-2/result.json",
+      "sha256": "6798fee4195f016ec0f7429a71bfea6fe8a98c40e349e042702ca97f89764832"
+    },
+    {
+      "bytes": 8987678,
+      "cell_id": 2,
+      "child_job_id": "35889",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-2/round-00-result.json",
+      "sha256": "df46f1dd66cdba74a9af5d1c2f291c97503d1fc7dbe721069fe306fba34a94b7"
+    },
+    {
+      "bytes": 1725,
+      "cell_id": 2,
+      "child_job_id": "35889",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-2/terminal-receipt.json",
+      "sha256": "9a69e7bf5ada5ad65a7660d6a944e508a2835d63559ad610ae524e87d6c7ca56"
+    },
+    {
+      "bytes": 8983591,
+      "cell_id": 3,
+      "child_job_id": "35694",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-3/result.json",
+      "sha256": "50060bdb29ac4c6135fe6c8a64580f6f33c809b4128d7ce080b41ac2e51d487c"
+    },
+    {
+      "bytes": 8979244,
+      "cell_id": 3,
+      "child_job_id": "35694",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-3/round-00-result.json",
+      "sha256": "3771f20b8635670127edf2873e629f109c60563015a6f676c90e083a4ea054dc"
+    },
+    {
+      "bytes": 1732,
+      "cell_id": 3,
+      "child_job_id": "35694",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-3/terminal-receipt.json",
+      "sha256": "155d9cf550df82a14024b65c67db644c3ffc35e2834a3876266a538cc0a8a622"
+    }
+  ],
+  "inputs_before": [
+    {
+      "bytes": 55900,
+      "kind": "authoritative_document",
+      "lines": 1359,
+      "mode": "0664",
+      "path": "/mnt/raid5/janghj/ODE-edit/project/proposals/2026-09-03-ordered-response-barrier-ode-edit-proposal.md",
+      "sha256": "03a6fc61258e7643fc281fab8ab0d3ca700bb80f09aaa3eb34591ce5827087be"
+    },
+    {
+      "bytes": 13143,
+      "kind": "authoritative_document",
+      "lines": 287,
+      "mode": "0664",
+      "path": "/mnt/raid5/janghj/ODE-edit/project/proposals/2026-09-03-ordered-response-barrier-ode-edit-gh-fast-main-prompt.md",
+      "sha256": "8548d016fda343f8b8917bcbe43647b58ad99ab6f796ece2fe4ef661faa4c431"
+    },
+    {
+      "bytes": 18113,
+      "kind": "authoritative_document",
+      "lines": 451,
+      "mode": "0664",
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-03-ordered-response-barrier-ode-edit-fast-main-table.md",
+      "sha256": "e134ac708c556482b912d7103e12a12347a78958943e7fa3d3da0a473908aa40"
+    },
+    {
+      "bytes": 8999580,
+      "cell_id": 0,
+      "child_job_id": "35737",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-0/result.json",
+      "sha256": "fcc6d54d04696c62e4438e108b236138a6dfe122bcefec8d88f4ed172ced7607"
+    },
+    {
+      "bytes": 8995236,
+      "cell_id": 0,
+      "child_job_id": "35737",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-0/round-00-result.json",
+      "sha256": "1cab6512fdad9f4fb3f20777fca9f74be596541db1d92dcf9968341910d4775e"
+    },
+    {
+      "bytes": 1723,
+      "cell_id": 0,
+      "child_job_id": "35737",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-0/terminal-receipt.json",
+      "sha256": "c83d1f2da67ed6d9a7075c8b753ff8f1f05829e4cde866ed258ac0d29fa585cf"
+    },
+    {
+      "bytes": 8998043,
+      "cell_id": 1,
+      "child_job_id": "35752",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-1/result.json",
+      "sha256": "fa3f12037fb4af0dd53ba0882638d5ab1f80236cfe53b430c4a1c431a527dfbd"
+    },
+    {
+      "bytes": 8993689,
+      "cell_id": 1,
+      "child_job_id": "35752",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-1/round-00-result.json",
+      "sha256": "0fe47dfc75a42b2cea3411d1d4b39604967ffb84560d4697559353e349ae31fe"
+    },
+    {
+      "bytes": 1730,
+      "cell_id": 1,
+      "child_job_id": "35752",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-1/terminal-receipt.json",
+      "sha256": "4158012f3b215e59404646ad6b8c7c94697ba6dfeaea3915faa0c77e74f1094a"
+    },
+    {
+      "bytes": 8992013,
+      "cell_id": 2,
+      "child_job_id": "35889",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-2/result.json",
+      "sha256": "6798fee4195f016ec0f7429a71bfea6fe8a98c40e349e042702ca97f89764832"
+    },
+    {
+      "bytes": 8987678,
+      "cell_id": 2,
+      "child_job_id": "35889",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-2/round-00-result.json",
+      "sha256": "df46f1dd66cdba74a9af5d1c2f291c97503d1fc7dbe721069fe306fba34a94b7"
+    },
+    {
+      "bytes": 1725,
+      "cell_id": 2,
+      "child_job_id": "35889",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-2/terminal-receipt.json",
+      "sha256": "9a69e7bf5ada5ad65a7660d6a944e508a2835d63559ad610ae524e87d6c7ca56"
+    },
+    {
+      "bytes": 8983591,
+      "cell_id": 3,
+      "child_job_id": "35694",
+      "kind": "canonical_result",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-3/result.json",
+      "sha256": "50060bdb29ac4c6135fe6c8a64580f6f33c809b4128d7ce080b41ac2e51d487c"
+    },
+    {
+      "bytes": 8979244,
+      "cell_id": 3,
+      "child_job_id": "35694",
+      "kind": "canonical_round",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-3/round-00-result.json",
+      "sha256": "3771f20b8635670127edf2873e629f109c60563015a6f676c90e083a4ea054dc"
+    },
+    {
+      "bytes": 1732,
+      "cell_id": 3,
+      "child_job_id": "35694",
+      "kind": "terminal_receipt",
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/ordered-response-barrier-ode-server1-gated-v1/round0-b1-gated-tech-r1/task-3/terminal-receipt.json",
+      "sha256": "155d9cf550df82a14024b65c67db644c3ffc35e2834a3876266a538cc0a8a622"
+    }
+  ],
+  "instruction_id": "ODEEDIT-ORRBODE-ROUND0-DETAILED-REVIEW-20260904-R1",
+  "new_model_gpu_slurm_action_count": 0,
+  "raw_source": {
+    "head": "84e6cde74db9b85bb9ffa16685ff80f50f2e6e06",
+    "tree": "32d996fd3c7e124c6068d713e6b0abb80dfb9105"
+  },
+  "schema": "odeedit.s06.orbode.round0.analysis-audit.v1",
+  "scientific_promotion": false,
+  "status": "PASS"
+}
