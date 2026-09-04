@@ -546,7 +546,7 @@ class OrderedResponseIntegrator:
                 if not first_hit_deltas:
                     derived_endpoint_payload = dict(self.adapter.evaluate_current(
                         arm=ArmId.ORDERED_RESPONSE_FIRST_HIT.value,
-                        status="ENTRY_ALREADY_HIT",
+                        status="HORIZON_SEMANTIC_MISS",
                         state_version=0,
                     ))
                 elif len(first_hit_deltas) == self.overlay.factor_count:

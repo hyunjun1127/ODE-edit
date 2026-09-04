@@ -423,13 +423,18 @@ class EntryAlreadyHitTests(unittest.TestCase):
             observe_semantic=lambda: SemanticObservation(
                 False, 0, 1, (False,), 0, 0.0, 0.0, 0.0, 0
             ),
-        ).run_dynamic(canonical_arm_configs()[4], fixed)
+        ).run_dynamic(canonical_arm_configs()[3], fixed)
         self.assertEqual(result.status, "FLOW_STALLED_ZERO_ACTION")
-        self.assertEqual(calls["evaluate"], 1)
+        self.assertEqual(calls["evaluate"], 2)
         self.assertEqual(result.telemetry["zero_action_visit_count"], 5)
         self.assertEqual(result.telemetry["physical_write_count"], 0)
         self.assertEqual(result.telemetry["anchor_active_request_count"], 0)
         self.assertEqual(result.telemetry["anchor_zero_semantic_miss_count"], 1)
+        self.assertIsNotNone(result.derived_endpoint)
+        self.assertEqual(result.derived_endpoint.status, "HORIZON_SEMANTIC_MISS")
+        self.assertEqual(
+            result.derived_endpoint.endpoint["status"], "HORIZON_SEMANTIC_MISS"
+        )
 
 
 class MechanismTelemetryTests(unittest.TestCase):
