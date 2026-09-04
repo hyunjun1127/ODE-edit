@@ -180,7 +180,10 @@ def reduce_locality_rows(
         raise PreEditNSBoundary("evaluated locality pair denominator differs")
     if len(request_rows) != REQUEST_COUNT:
         raise PreEditNSBoundary("sealed request binding denominator differs")
-    request_by_case = {int(row["case_id"]): row for row in request_rows}
+    request_by_case = {
+        int(row["case_id"]): (ordinal, row)
+        for ordinal, row in enumerate(request_rows)
+    }
     if len(request_by_case) != REQUEST_COUNT:
         raise PreEditNSBoundary("sealed request case identity is not unique")
     reduced: list[dict[str, Any]] = []
@@ -189,15 +192,16 @@ def reduce_locality_rows(
         right = (int(true["case_id"]), int(true["prompt_index"]), str(true["prompt"]))
         if left != right or new.get("kind") != "locality_target_new" or true.get("kind") != "locality_target_true":
             raise PreEditNSBoundary("locality target-new/target-true alignment differs")
-        sealed = request_by_case.get(left[0])
-        if sealed is None:
+        sealed_binding = request_by_case.get(left[0])
+        if sealed_binding is None:
             raise PreEditNSBoundary("locality case is outside sealed round0")
+        request_ordinal, sealed = sealed_binding
         new_nll = float(new["nll"])
         true_nll = float(true["nll"])
         if not math.isfinite(new_nll) or not math.isfinite(true_nll):
             raise PreEditNSBoundary("locality NLL is nonfinite")
         payload: dict[str, Any] = {
-            "request_ordinal": int(sealed["round_ordinal"]),
+            "request_ordinal": request_ordinal,
             "case_id": left[0],
             "request_sha256": str(sealed["request_sha256"]),
             "prompt_index": left[1],

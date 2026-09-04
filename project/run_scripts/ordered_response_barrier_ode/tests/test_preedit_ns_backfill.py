@@ -29,7 +29,6 @@ def _sealed() -> list[dict[str, object]]:
     return [
         {
             "case_id": index,
-            "round_ordinal": index,
             "request_sha256": f"{index:064x}",
         }
         for index in range(100)
