@@ -168,6 +168,12 @@ class ArmAndFP32Tests(unittest.TestCase):
 
 
 class OverlayTests(unittest.TestCase):
+    def test_tensor_hash_accepts_transposed_singleton_final_dimension(self) -> None:
+        flat = torch.arange(32, dtype=torch.float32)
+        transposed = flat.reshape(1, -1).T
+        self.assertEqual(transposed.stride(), (1, 32))
+        self.assertEqual(tensor_sha256(transposed), tensor_sha256(flat.reshape(-1, 1)))
+
     def test_canonical_rectangular_factor_and_shadow(self) -> None:
         model = ToyLinearModel().float()
         entry = model.layers[4].weight.detach().clone()

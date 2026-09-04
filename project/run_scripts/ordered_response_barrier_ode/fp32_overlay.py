@@ -21,7 +21,11 @@ def tensor_sha256(value: torch.Tensor) -> str:
     digest = hashlib.sha256()
     digest.update(str(tensor.dtype).encode("ascii"))
     digest.update(str(tuple(tensor.shape)).encode("ascii"))
-    digest.update(tensor.view(torch.uint8).numpy().tobytes())
+    # ``contiguous()`` may preserve an arbitrary stride on a singleton final
+    # dimension (for example a transposed [D, 1] terminal activation).  Flatten
+    # first so the dtype reinterpretation always sees a unit-stride axis while
+    # hashing the same canonical row-major values.
+    digest.update(tensor.reshape(-1).view(torch.uint8).numpy().tobytes())
     return digest.hexdigest()
 
 
