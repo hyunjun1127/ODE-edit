@@ -296,6 +296,7 @@ def run_cell(
     source_tree: str,
     cell_id: int,
     run_token: str,
+    cumulative_observation: bool = False,
 ) -> dict[str, Any]:
     started = time.perf_counter()
     root = output_root.absolute()
@@ -451,6 +452,10 @@ def run_cell(
 
         for config in canonical_arm_configs(sweeps=4)[:5]:
             arm = config.arm.value
+            cumulative = None
+            if cumulative_observation:
+                from .cumulative_observation import CumulativeObserver
+                cumulative = CumulativeObserver(root, arm)
             progress.update(stage="ARM_RESTORE_COLD_ENTRY", arm=arm, batch_index=None)
             _restore_selected(parameters, global_w0)
             _restore_method_state(
@@ -512,6 +517,9 @@ def run_cell(
                         if runtime_preamble.get("status") != "FAST_RUNTIME_PREAMBLE_PASS":
                             raise TechnicalBoundary("FAST runtime preamble did not pass")
                     progress["stage"] = "ARM_BATCH_EXECUTION"
+                    if cumulative is not None:
+                        cumulative.begin(active_family,batch_index,batch,fixed_z)
+                        active_family.cumulative_observer = cumulative
                     raw_arm = _arm_run(active_family, config)
                     endpoint = raw_arm.get("endpoint")
                     if not isinstance(endpoint, Mapping):
@@ -551,6 +559,11 @@ def run_cell(
                     arm_dir = root / f"arm-{arm}"
                     arm_dir.mkdir(parents=True, exist_ok=True, mode=0o700)
                     batch_path = arm_dir / f"batch-{batch_index + 1:02d}.json"
+                    if cumulative is not None:
+                        cumulative_binding=cumulative.committed(active_family,commit)
+                        batch_payload['cumulative_evaluation_receipt']=cumulative_binding
+                        batch_payload.pop('identity_sha256')
+                        batch_payload['identity_sha256']=canonical_hash(batch_payload)
                     batch_sha = _create_once_json(batch_path, batch_payload)
                 except BaseException:
                     active_family.reset_entry()
@@ -636,6 +649,10 @@ def run_cell(
                 "scientific_promotion": False,
             }
             arm_terminal["identity_sha256"] = canonical_hash(arm_terminal)
+            if cumulative is not None:
+                arm_terminal.pop('identity_sha256')
+                arm_terminal['cumulative_terminal_receipt']=cumulative.terminal()
+                arm_terminal['identity_sha256']=canonical_hash(arm_terminal)
             arm_path = root / f"arm-{arm}" / "terminal-receipt.json"
             arm_sha = _create_once_json(arm_path, arm_terminal)
             arm_receipts.append(

@@ -149,11 +149,13 @@ class OrderedResponseIntegrator:
         overlay: GroupedFP32Overlay,
         jvp: TerminalResponseObserver,
         observe_semantic: Callable[[], SemanticObservation],
+        observe_transition: Callable[..., None] | None = None,
     ) -> None:
         self.adapter = adapter
         self.overlay = overlay
         self.jvp = jvp
         self.observe_semantic = observe_semantic
+        self.observe_transition = observe_transition
 
     def run_official(self, config: ArmConfig, fixed_z: FixedZArtifact) -> ArmExecutionResult:
         if config.arm is not ArmId.OFFICIAL:
@@ -330,6 +332,11 @@ class OrderedResponseIntegrator:
         telemetry.key_capture_count += 1
         telemetry.terminal_capture_count += int(acted)
         telemetry.jvp_call_count += int(jvp is not None)
+        if self.observe_transition is not None:
+            self.observe_transition(layer=layer, sweep=sweep, visit=visit_ordinal,
+                                    terminal=terminal_after.detach(), record=telemetry.steps[-1],
+                                    terminal_before=terminal_before.detach(),command=command_residual.detach()*coefficient,
+                                    prediction=None if jvp is None else jvp.response.detach()*coefficient)
         return terminal_after, semantic_after, acted
 
     def run_dynamic(
