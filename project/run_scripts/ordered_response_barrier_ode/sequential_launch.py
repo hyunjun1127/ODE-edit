@@ -222,7 +222,7 @@ def cumulative_measurement_plan(repo:Path,output:Path,hub:Path)->dict[str,Any]:
         config=json.loads(data);one=5*4*int(config['hidden_size'])*int(config['intermediate_size'])
         estimates[alias]={'five_edited_FP32_tensor_bytes':one,'checkpoint_count_two_methods':100}
         total+=100*one
-    free=shutil.disk_usage(output).free
+    free=shutil.disk_usage(output if output.exists() else output.parent).free
     # Reserve 128 GiB plus 25% for journals, target tensors and serialization.
     if free<total*1.25+128*2**30:
         raise PreflightBoundary('cumulative storage reserve insufficient')
