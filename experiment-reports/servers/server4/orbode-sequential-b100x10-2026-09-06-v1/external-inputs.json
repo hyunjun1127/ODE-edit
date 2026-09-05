@@ -1,0 +1,192 @@
+{
+  "members": [
+    {
+      "bytes": 853,
+      "kind": "external_operational_evidence",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/dry-plan.json",
+      "sha256": "4063d5d4d3fcdbbd13ce0e8edbb446d490e022eee271166a83d754d9390afcb4"
+    },
+    {
+      "bytes": 1520,
+      "kind": "external_operational_evidence",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/logs/37151_0.err",
+      "sha256": "bbc3411eaaebd9830d64d78a378e64dce8723ba4c694dbca44556437aa8499bc"
+    },
+    {
+      "bytes": 9879270,
+      "kind": "external_operational_evidence",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/logs/37151_0.out",
+      "sha256": "fa8217edb536eb4ff2ea9c19326903aab3577716e0c3beb3ac32290eb0ff682c"
+    },
+    {
+      "bytes": 4096,
+      "kind": "external_operational_evidence",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/logs/37151_1.err",
+      "sha256": "7d6cdda7ea5381f67e6cb669a1032742eb20f9129a5b9bb81ad9858029476c36"
+    },
+    {
+      "bytes": 456999,
+      "kind": "external_operational_evidence",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/logs/37151_1.out",
+      "sha256": "4875b19369bcf12df6e1912426e9f9c08fd7e2614aa246ad046f78d527595674"
+    },
+    {
+      "bytes": 1520,
+      "kind": "external_operational_evidence",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/logs/37151_2.err",
+      "sha256": "a67c0311987489c2ea1661e724892dcf5d3651594f587ceee718136df523b67a"
+    },
+    {
+      "bytes": 5883105,
+      "kind": "external_operational_evidence",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/logs/37151_2.out",
+      "sha256": "206f2757e648f522709deaff0bfb0ba647890116451891667a41df3aef5936f1"
+    },
+    {
+      "bytes": 19020,
+      "kind": "external_operational_evidence",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/pre-gpu-receipt.json",
+      "sha256": "c0145083a92f572a132cc9dfb980050f45b2ecccd411c7070071c714b0f332db"
+    },
+    {
+      "bytes": 853,
+      "kind": "external_operational_evidence",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-1/dry-plan.json",
+      "sha256": "86df5f5b070bd176f9ea8dd6c3a1691f954f9e27f03bbd73e1890db2173680d5"
+    },
+    {
+      "bytes": 853,
+      "kind": "external_operational_evidence",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/dry-plan.json",
+      "sha256": "63ad5a2a56bacd3f82f8125a42d84a7428b5b73208637d3d0e7fa1cd6b364e53"
+    },
+    {
+      "bytes": 1105,
+      "kind": "external_operational_evidence",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/logs/37214_1.err",
+      "sha256": "9e9af6d15dc8a0f8ba6c358a9853ccac64f6a893e635377f36e291d48333bd01"
+    },
+    {
+      "bytes": 10250487,
+      "kind": "external_operational_evidence",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/logs/37214_1.out",
+      "sha256": "ea44ceca8f56cb7783ac570ecfce5fc866490a6ebfbc0ad0acb92537cd923317"
+    },
+    {
+      "bytes": 1105,
+      "kind": "external_operational_evidence",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/logs/37214_3.err",
+      "sha256": "2a563f591754d40e0607dfab58ee3a1731168d8e360caedb582f43d892bede79"
+    },
+    {
+      "bytes": 7360521,
+      "kind": "external_operational_evidence",
+      "mode": "0664",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/logs/37214_3.out",
+      "sha256": "cac136f59815695be475f4e731436ec7ca3d686a05856aa07f3e8d5947124e43"
+    },
+    {
+      "bytes": 19074,
+      "kind": "external_operational_evidence",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/pre-gpu-receipt.json",
+      "sha256": "881b569b0961855ddf519b05b7685b2661263227067e6de4d83b2a6eca481c71"
+    },
+    {
+      "bytes": 2152,
+      "kind": "external_operational_evidence",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/submission-receipt.json",
+      "sha256": "f46fe04b3b39ea2f22b4a79afb459e683358620a1a222f3999dfe4d86cf1c0cf"
+    },
+    {
+      "bytes": 1005,
+      "kind": "external_operational_evidence",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/user-cap2-throttle-release-receipt.json",
+      "sha256": "620a2ff094528cd15bda78ac2c7b46ca7a80b19d17cde64411739098edb27afc"
+    },
+    {
+      "bytes": 2683,
+      "kind": "external_operational_evidence",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/technical-repair-receipt.json",
+      "sha256": "993ff6ef6ebbef6ec5d74b3ec605c5857fc798e6ffe3f7b57b69996f44276ded"
+    },
+    {
+      "bytes": 3299,
+      "kind": "excluded_failure",
+      "mode": "0600",
+      "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-1/failure-boundary.json",
+      "sha256": "e4a2ed31c325b7cf47d009d651851e5fb56c3679b782d4b333120a1f81ad9921"
+    }
+  ],
+  "members_root": "624c383d20d4b504dea249814014356c67c0accaf18a05a60a03cf6f83f231f6",
+  "technical_repair": {
+    "classification": "PURE_TECHNICAL_ALPHAEDIT_CACHE_LIFECYCLE_BINDING",
+    "created_at_utc": "2026-09-04T20:37:41Z",
+    "failed_lineage": {
+      "array_job_id": 37151,
+      "array_task_id": 1,
+      "elapsed": "00:39:59",
+      "exit_code": "1:0",
+      "failure_boundary_path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-1/failure-boundary.json",
+      "failure_boundary_sha256": "e4a2ed31c325b7cf47d009d651851e5fb56c3679b782d4b333120a1f81ad9921",
+      "first_error": "prepared Alpha cache/MEMIT COV content identity drifted",
+      "model_alias": "llama3-8b-instruct",
+      "partial_final_denominator": 0,
+      "published_complete_batches": 1,
+      "source_head": "9b167455c1562be076aa2437fa63565187804aa7",
+      "source_tree": "2af244e2dfe45d9fc8902d889b688b40231c6662",
+      "state": "FAILED",
+      "stderr_sha256": "7d6cdda7ea5381f67e6cb669a1032742eb20f9129a5b9bb81ad9858029476c36",
+      "stdout_sha256": "4875b19369bcf12df6e1912426e9f9c08fd7e2614aa246ad046f78d527595674",
+      "writer_family": "AlphaEdit"
+    },
+    "instruction_id": "ODEEDIT-S06-ORDERED-RESPONSE-BARRIER-ODE-SEQUENTIAL-B100X10-SERVER4-V1",
+    "new_model_gpu_result_action_at_receipt": 0,
+    "prevented_old_lineage": {
+      "array_job_id": 37151,
+      "array_task_id": 3,
+      "model_alias": "qwen2.5-7b-instruct",
+      "science_denominator": 0,
+      "state": "CANCELLED_BEFORE_START",
+      "writer_family": "AlphaEdit"
+    },
+    "repair": {
+      "equation_threshold_tolerance_changed": false,
+      "focused_tests": "66 PASS, 2 SKIP",
+      "launcher_sha256": "da82b7c8bf167d1f3060e361cf8f8752ea0b83aab4b8b7c7eac74c1aa8b7d716",
+      "memory_policy": "PASS checked=1 failures=0",
+      "repair_source_head": "958f96d0f2dc7481dd39fe76184127708a90e229",
+      "repair_source_tree": "0b95d9ea82a4c087dde7e19546a5fe402d4d7a91",
+      "runtime_sha256": "3c84ccbf4bfe5f366a431108f1c40108e877e6f7f220a7b1f49235a1fcdd6eac",
+      "science_changed": false,
+      "scope": "set cache_c_new=true after exact committed endpoint cache copy; add cross-B100 pointer/content regression; distinct launcher/job/run tokens",
+      "stream_order_changed": false
+    },
+    "root_cause": {
+      "adapter_defect": "sequential endpoint commit incorrectly set cache_c_new=false after committing initialized history",
+      "integrity_effect": "B2 replaced the committed B1 cache object and severed pointer/content continuity",
+      "scientific_endpoint_failure": false,
+      "stock_contract": "AlphaEdit cache_c_new=false causes next Official call to replace cache_c with a cold tensor"
+    },
+    "schema": "orbode.server4.sequential-technical-repair.v1",
+    "science_denominator": 0,
+    "status": "TECH_R2_PREPARED",
+    "unaffected_jobs_mutated": 0
+  }
+}

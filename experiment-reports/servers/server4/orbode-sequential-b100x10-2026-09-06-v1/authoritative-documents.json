@@ -1,0 +1,23 @@
+[
+  {
+    "bytes": 55900,
+    "kind": "GH_authoritative_transfer",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-v1/authoritative-docs/2026-09-03-ordered-response-barrier-ode-edit-proposal.md",
+    "sha256": "03a6fc61258e7643fc281fab8ab0d3ca700bb80f09aaa3eb34591ce5827087be"
+  },
+  {
+    "bytes": 13143,
+    "kind": "GH_authoritative_transfer",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-v1/authoritative-docs/2026-09-03-ordered-response-barrier-ode-edit-gh-fast-main-prompt.md",
+    "sha256": "8548d016fda343f8b8917bcbe43647b58ad99ab6f796ece2fe4ef661faa4c431"
+  },
+  {
+    "bytes": 18113,
+    "kind": "GH_authoritative_transfer",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-v1/authoritative-docs/2026-09-03-ordered-response-barrier-ode-edit-fast-main-table.md",
+    "sha256": "e134ac708c556482b912d7103e12a12347a78958943e7fa3d3da0a473908aa40"
+  }
+]

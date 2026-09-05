@@ -1,0 +1,17 @@
+{
+  "arms": 20,
+  "batches": 200,
+  "cells": 4,
+  "identity_sha256": "ccdb235e5154c82143af929578730526a83d5a44fbad2e695b8fc8d0e315092d",
+  "manifest_identity": "81bba4e46f50179a3d20b0f5ac03b9146b64e8c4b97c1a3f2dfb2a8c75d38370",
+  "manifest_sha256": "8b959d4f29eeb25964a6b6bc428f9f40d0c2640f18830eb7cabb91e6c2885804",
+  "members_root": "5ed2fa75337e6ca59cf490d2af3ecec4aced3a5d28656c2c6b413107de22223d",
+  "new_experiment_action": 0,
+  "raw_member_root": "6ec4bf66793c4b4495e334b77b2fd156ac71e2bbfe4d16f95a5e9cdd16928dd3",
+  "report": "orbode-sequential-b100x10-fourcell-factual-ko.md",
+  "report_sha256": "43732eff439e66a8cbae09d099ad998f57bca5ada3b302445c1862d4f02ddfe7",
+  "request_endpoints": 20000,
+  "schema": "orbode.server4.rooted-sequential-analysis-receipt.v1",
+  "scientific_promotion": false,
+  "status": "REPORT_COMPLETE_CUMULATIVE_RETENTION_NOT_RECORDED"
+}

@@ -1,0 +1,128 @@
+{
+  "DPI": 160,
+  "arm_order": [
+    "O",
+    "QCL",
+    "NQFIX",
+    "ORBFH",
+    "JAC"
+  ],
+  "backend": "Agg",
+  "byte_stable_reproduction": true,
+  "cell_order": [
+    "LM",
+    "LA",
+    "QM",
+    "QA"
+  ],
+  "command": "python -m project.run_scripts.ordered_response_barrier_ode.sequential_plots --tables PACKAGE/tables --output NEW_EMPTY_FIGURE_DIR",
+  "figure_inches": [
+    11,
+    7
+  ],
+  "figures": [
+    {
+      "bytes": 146493,
+      "kind": "member",
+      "mode": "0664",
+      "path": "figures/immediate-rs-trajectory.png",
+      "sha256": "babaf52bea3d14a3801fa12e0aaddc414908948f88847f8809113600ba0189f3"
+    },
+    {
+      "bytes": 190690,
+      "kind": "member",
+      "mode": "0664",
+      "path": "figures/immediate-ps-trajectory.png",
+      "sha256": "059b869641aeb1c04b20eebe7be80064faef746f6249cc17a1c078bb12695320"
+    },
+    {
+      "bytes": 184869,
+      "kind": "member",
+      "mode": "0664",
+      "path": "figures/immediate-ns-trajectory.png",
+      "sha256": "af792fae3e29ecb67f4a8d7b31acbe5a6ce1b0be6df5956ac180faac97264413"
+    },
+    {
+      "bytes": 108178,
+      "kind": "member",
+      "mode": "0664",
+      "path": "figures/online-prefix-not-cumulative-W.png",
+      "sha256": "d1e3d50eacad32f17a1f7615c8283185a821badf3bdfec610763669115a5f346"
+    },
+    {
+      "bytes": 215350,
+      "kind": "member",
+      "mode": "0664",
+      "path": "figures/immediate-rewrite-nll.png",
+      "sha256": "a3330cc5904135d2efaeafd26d01aa4d0672af814751b8fca9df43a3cd17be48"
+    },
+    {
+      "bytes": 320991,
+      "kind": "member",
+      "mode": "0664",
+      "path": "figures/immediate-rephrase-nll.png",
+      "sha256": "7292e0c73b53fbb3cf72dde7350d6504ba4b626d5c96178d83066f4ce3370b32"
+    },
+    {
+      "bytes": 87451,
+      "kind": "member",
+      "mode": "0664",
+      "path": "figures/layer-wise-update-magnitude.png",
+      "sha256": "a6e4a0d34ff1408a93f4b8b1202c7efc6a914dae7574a9835b00b144816457fa"
+    },
+    {
+      "bytes": 176870,
+      "kind": "member",
+      "mode": "0664",
+      "path": "figures/dynamic-terminal-residual.png",
+      "sha256": "873c6c3b0eed7407dbca0d60a27a95a8c0cf563543514d95931667cc4ddfbc6c"
+    },
+    {
+      "bytes": 93150,
+      "kind": "member",
+      "mode": "0664",
+      "path": "figures/endpoint-call-compute-ratio.png",
+      "sha256": "fcb2a273e21c7d1d7b14456e61d242147e515e6ce1a41f183a0af18267e1b7a9"
+    }
+  ],
+  "input_members": [
+    {
+      "bytes": 667551,
+      "kind": "member",
+      "mode": "0664",
+      "path": "tables/batch-performance.csv",
+      "sha256": "a1586d4c4ef8391096870e9ac23b989d5ce11b653bca6dbbcbd69601ec737498"
+    },
+    {
+      "bytes": 319914,
+      "kind": "member",
+      "mode": "0664",
+      "path": "tables/online-prefix-not-cumulative-W.csv",
+      "sha256": "c305f0d0d8a71ec8ae2a0c9c11613920795a667e93b39026c5dd07c8c0dc57d0"
+    },
+    {
+      "bytes": 1578440,
+      "kind": "member",
+      "mode": "0664",
+      "path": "tables/batch-distributions.csv",
+      "sha256": "095da97bd8d62f80ca0d2e3bd9a03fd410f90dcb9f526fbaefde31e1d35c7b36"
+    },
+    {
+      "bytes": 89620,
+      "kind": "member",
+      "mode": "0664",
+      "path": "tables/layer-updates.csv",
+      "sha256": "624854d1bbfa456654220a0e06d787f2faae51d1132ca729f484027e90508291"
+    },
+    {
+      "bytes": 115599,
+      "kind": "member",
+      "mode": "0664",
+      "path": "tables/batch-mechanism-compute.csv",
+      "sha256": "5e35a41b2b2d13d5bc17448397e2ba4613e281e8e5e9184d8134fa2f3603cb3b"
+    }
+  ],
+  "missing_policy": "NO_IMPUTATION_OR_INTERPOLATION",
+  "seed": 20260906,
+  "source_sha256": "5906f74dcf6a6971d56907fcdd17a4bb8b49f9688313bc8b2dc73ccb84cf7295"
+}

@@ -1,0 +1,1626 @@
+[
+  {
+    "bytes": 801,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/terminal-receipt.json",
+    "sha256": "262274c03de7de5025e07e1a343e9f1cd94601926fa14d9df60b3e8c84aeda34"
+  },
+  {
+    "bytes": 6806,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/result.json",
+    "sha256": "d06a0f50a4a5b029dd600799d36ebdcda077f37d3e96fedc45b03ec98a13ec20"
+  },
+  {
+    "bytes": 1208,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/first-valid-gate.json",
+    "sha256": "8633dddd1a1fb46931d1887b540ec8607c5214986752a870dbab626ecf1100d4"
+  },
+  {
+    "bytes": 3512,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-O/terminal-receipt.json",
+    "sha256": "03e44baf1ecc78d4210d3fa0b9b5273aaf772ccac820545bc36af4a4bdf5238a"
+  },
+  {
+    "bytes": 2926972,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-O/batch-01.json",
+    "sha256": "3eefcbdb21d234bd72f1db1234c0db2aa96e19f45524b7caf1db5b28f09f60dc"
+  },
+  {
+    "bytes": 2918599,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-O/batch-02.json",
+    "sha256": "f54609d83131f6544d8435c63329ae105876c7909bb19f4f2259892bace106f1"
+  },
+  {
+    "bytes": 2917954,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-O/batch-03.json",
+    "sha256": "710a919d88443ed22f42ba86b49e26936abdee37347157f78afdec848af4d744"
+  },
+  {
+    "bytes": 2917806,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-O/batch-04.json",
+    "sha256": "447eb81ec7d946ec96bb833220e3cc0490935073ae00057b44ab6907f0b0efcd"
+  },
+  {
+    "bytes": 2918782,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-O/batch-05.json",
+    "sha256": "c312414a54adf9415e50d02fe8e507a61d1ffbc0d79a3c94622e1ce35e2bff31"
+  },
+  {
+    "bytes": 2917813,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-O/batch-06.json",
+    "sha256": "b71fe84aaebb99b5b003b1514a29f1b8b5d7fb7ab482c853447f96b0461ab08a"
+  },
+  {
+    "bytes": 2916998,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-O/batch-07.json",
+    "sha256": "fd16de5ffc6f7ee6dfd04efed6a457fa55a4e9383cf671b0299a9f369ef1cb91"
+  },
+  {
+    "bytes": 2917860,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-O/batch-08.json",
+    "sha256": "b05b4ce09954b4f37f96ac40c313c780b9ee31c8e96e0167bbd2196e5ed7f56c"
+  },
+  {
+    "bytes": 2917194,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-O/batch-09.json",
+    "sha256": "bb7031ee739e9554136aa8cbf8c3f165f5ced067bb2e7264054b3dbe11d54168"
+  },
+  {
+    "bytes": 2917396,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-O/batch-10.json",
+    "sha256": "ae5e03ad26ac1133fd6df24ce222f1320e40f1d7bbb3d62c70af5041b42149c1"
+  },
+  {
+    "bytes": 3534,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-QCL/terminal-receipt.json",
+    "sha256": "89650451e383c0ec7d080c162d8174f150950f7b9b7b6139a7f69a19a0de1609"
+  },
+  {
+    "bytes": 3253466,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-QCL/batch-01.json",
+    "sha256": "7412bd494c8e2fb73a07e9055eced7b81885072742f77e0b339041cc6ee72d74"
+  },
+  {
+    "bytes": 3253288,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-QCL/batch-02.json",
+    "sha256": "0232141f8b20061b2b687890f6f50825b47b7c31e5aa7483d7f5f3fe0128c71d"
+  },
+  {
+    "bytes": 3252821,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-QCL/batch-03.json",
+    "sha256": "d4386904fd3fa818675dbe8c7427222b5ab629d29b05e7f678c072ae5abcf7b8"
+  },
+  {
+    "bytes": 3252725,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-QCL/batch-04.json",
+    "sha256": "76b1daba27239d1e4805aa07f63d506c611c61fec9605c62183e3011c380b66c"
+  },
+  {
+    "bytes": 3253650,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-QCL/batch-05.json",
+    "sha256": "7bfb1b985183021f5b1bbc040d23faa046f8a79d3df88794eb210a47f4bb003b"
+  },
+  {
+    "bytes": 3252697,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-QCL/batch-06.json",
+    "sha256": "8abfc305b7e0334e3c7151a8c8877aa60ee4ce1e33bc560acb088b1d504c5000"
+  },
+  {
+    "bytes": 3251959,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-QCL/batch-07.json",
+    "sha256": "8ffde3ff5c4b28ceb7395c3a22bf2867c4eeff181fe81f3f88080a41cda8bfba"
+  },
+  {
+    "bytes": 3252958,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-QCL/batch-08.json",
+    "sha256": "897a4f2eb01f408976798f4ad49abab71b4315a43d59d312b6e6b607c497ae26"
+  },
+  {
+    "bytes": 3252484,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-QCL/batch-09.json",
+    "sha256": "952e19ad18710b39d15bf212a101dd159afd7fd35d457f7b9e7b333961aec8fd"
+  },
+  {
+    "bytes": 3252678,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-QCL/batch-10.json",
+    "sha256": "ad698f2a79f0f6341f2fb02e88c4d8256c018ac24f7cdbac619f508c1efa7442"
+  },
+  {
+    "bytes": 3556,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-NQFIX/terminal-receipt.json",
+    "sha256": "39561a944a1c765cf69efea694d8792a85e9779d54d39c7ab9c958239eef5fa3"
+  },
+  {
+    "bytes": 3251839,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-NQFIX/batch-01.json",
+    "sha256": "4bef0f899691c240382a89bef6e9e4b431c94a261744e2c0d8955630de9ed12f"
+  },
+  {
+    "bytes": 3251740,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-NQFIX/batch-02.json",
+    "sha256": "1578e0a4ef68d0629dae8b32aca1ac0717d986c3481104976a9c563ec654366c"
+  },
+  {
+    "bytes": 3251527,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-NQFIX/batch-03.json",
+    "sha256": "8cd500e8e5f3cbb1d6a72538ae93e1d4095b2bffe7d6ac6f5dae2672c352ff6c"
+  },
+  {
+    "bytes": 3251487,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-NQFIX/batch-04.json",
+    "sha256": "7d2a712f0804796bf31ff78540027702db7964de167281205e80f3df472b5e6b"
+  },
+  {
+    "bytes": 3252821,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-NQFIX/batch-05.json",
+    "sha256": "3cc692121842e4f0d56c32538d89e45ada67673f58fa7bed0ab760046f89ba5c"
+  },
+  {
+    "bytes": 3252230,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-NQFIX/batch-06.json",
+    "sha256": "229c869e9668befd6e39dc49fd72b56e62d036c36555ae6da3e420a288f66b08"
+  },
+  {
+    "bytes": 3252072,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-NQFIX/batch-07.json",
+    "sha256": "0c85e76ced0b394f11527dd68957f97a671720dc761163145b36aa93234d411b"
+  },
+  {
+    "bytes": 3252946,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-NQFIX/batch-08.json",
+    "sha256": "47954addbf78321aed6900e8fc6926d56c100c8783e6b8ef06d8b4e2c282ffa5"
+  },
+  {
+    "bytes": 3252212,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-NQFIX/batch-09.json",
+    "sha256": "3363b53903bde7c2a616a901f30434d76e4ac448c44ee4823b7446f8b441de13"
+  },
+  {
+    "bytes": 3252603,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-NQFIX/batch-10.json",
+    "sha256": "b982053a684844db7cac14c0b297dda8748799f8eda8a8a777d2b25c6ce14926"
+  },
+  {
+    "bytes": 3556,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-ORBFH/terminal-receipt.json",
+    "sha256": "4bd97d8f7eafdec55c674c6f13109156b0ca5120d49689daa3d8fbf64af09167"
+  },
+  {
+    "bytes": 5106893,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-ORBFH/batch-01.json",
+    "sha256": "39c853f2dc8b4524de37f17fd57d88bc0facfaa8ddd7bcdf05e175eb586da31a"
+  },
+  {
+    "bytes": 5106705,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-ORBFH/batch-02.json",
+    "sha256": "22fc00e7e6dd48288950d597b6ba59e3b4ec3b841fdd3a30a9efa0ca14fc3516"
+  },
+  {
+    "bytes": 5105770,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-ORBFH/batch-03.json",
+    "sha256": "06ca1042fe2d1a7e5b31adbf4f77991b35f11491efcf23a907af7852a95eee80"
+  },
+  {
+    "bytes": 5105487,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-ORBFH/batch-04.json",
+    "sha256": "eb6a44f58143569f53557c44c19a9c5fa05d2d4d0c96ec1f069c388efbf73e6f"
+  },
+  {
+    "bytes": 5107202,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-ORBFH/batch-05.json",
+    "sha256": "8904c275199c9d99a194e051e4cd3ffaa28c3afef19784fe4728a3f26934ddfa"
+  },
+  {
+    "bytes": 5105024,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-ORBFH/batch-06.json",
+    "sha256": "07e6088ae900ce5ac4dbf154e27efe086c85b0af3546937fce5ad2d069316457"
+  },
+  {
+    "bytes": 5103806,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-ORBFH/batch-07.json",
+    "sha256": "92d81760f2700661c0cc4fbefb90ff4e60c0d8f3579d47a338bb39feed1d575f"
+  },
+  {
+    "bytes": 5105581,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-ORBFH/batch-08.json",
+    "sha256": "ff8244b28ba504d963f1af098788c99379cff11c22744b9f0afb3ac11a26760e"
+  },
+  {
+    "bytes": 5068053,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-ORBFH/batch-09.json",
+    "sha256": "64cddfc13f0dbd0a9b9ef72a695653d75e5d016f8e5b765cac501dc2ccf05b5f"
+  },
+  {
+    "bytes": 5104919,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-ORBFH/batch-10.json",
+    "sha256": "4939604272430b04bd7f9e648ed42273edfbe6f25dbad1da0b1c5483cf8bd7b6"
+  },
+  {
+    "bytes": 3534,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-JAC/terminal-receipt.json",
+    "sha256": "7099cabf47ba552673c653daaa0feab66b90006d243f93869b2123a409883cf1"
+  },
+  {
+    "bytes": 3325413,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-JAC/batch-01.json",
+    "sha256": "f16194d2b48595995c634a5b98f04c9460b34601b40a464bf2efefa455073fcc"
+  },
+  {
+    "bytes": 3325065,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-JAC/batch-02.json",
+    "sha256": "89364dd231cec78c661631ff9025a2bc7a86aafa72c2de3d44d58b32161d388a"
+  },
+  {
+    "bytes": 3330799,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-JAC/batch-03.json",
+    "sha256": "7345618d8e716e22b83a6b96f45e509f7b28345d529fdd901adfa2f7cb2a4376"
+  },
+  {
+    "bytes": 3324465,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-JAC/batch-04.json",
+    "sha256": "83b35830f689438b6b1ee7e7496133c6816dfbbdd3ab9abe14c7eac31cd14afa"
+  },
+  {
+    "bytes": 3325032,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-JAC/batch-05.json",
+    "sha256": "a7fc6e3c4b3608204c57f52acf4cb60af7d68ac165ab13eef3f2958647592eee"
+  },
+  {
+    "bytes": 3317370,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-JAC/batch-06.json",
+    "sha256": "87d75053023819e2df762b712b240c2f8679eb12b38c88a1798f0d8f52b83045"
+  },
+  {
+    "bytes": 3330049,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-JAC/batch-07.json",
+    "sha256": "d37b5ecd44a25ce828ac6a1c4a793af8a42a1fe09204752241ca85f7b54ff85e"
+  },
+  {
+    "bytes": 3330800,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-JAC/batch-08.json",
+    "sha256": "0cea79accb16852e9785cade9a1408aab3f9a5e69c8b9767798477fae735f832"
+  },
+  {
+    "bytes": 3330284,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-JAC/batch-09.json",
+    "sha256": "63b35712c96fdbd94ea1d28fc2ae52ba8e4fdb2be57adf393655cfbab651352f"
+  },
+  {
+    "bytes": 3324294,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-0/arm-JAC/batch-10.json",
+    "sha256": "31f960c998bc2c03f56f7029e67157575e3a549af0b7f1d7e5cee0bf9bec3176"
+  },
+  {
+    "bytes": 805,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/terminal-receipt.json",
+    "sha256": "c8ef6d88cc9398be0018910c2438a3708c36df9b317690fafc75219a43b4060f"
+  },
+  {
+    "bytes": 6826,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/result.json",
+    "sha256": "1d977ca38d6b32f457427ad194c01324b562738af7d06491ba416e5681990b79"
+  },
+  {
+    "bytes": 1212,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/first-valid-gate.json",
+    "sha256": "3de5f76fec26b513d3b8c02255703709a33e55f23a1814dec2308116e74c00ed"
+  },
+  {
+    "bytes": 3523,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-O/terminal-receipt.json",
+    "sha256": "2faa017182429f88c66e537e676bc6ca384c7e2219bf855e1237e457335b42f5"
+  },
+  {
+    "bytes": 2926473,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-O/batch-01.json",
+    "sha256": "a19986262c7d478e2aa939dbfde8664361ea2f91f621e95bd55bb809d591c0e0"
+  },
+  {
+    "bytes": 2918163,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-O/batch-02.json",
+    "sha256": "681cc28e118130ca3e29658ab8d860770b3c08c02b1729aa814a73475572d32f"
+  },
+  {
+    "bytes": 2917985,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-O/batch-03.json",
+    "sha256": "abce1602ff2c3f99126301190cf3c5c6a6836168b8e84d02985645b9a85d69ee"
+  },
+  {
+    "bytes": 2917702,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-O/batch-04.json",
+    "sha256": "e669799b9447681005055ef0fbceeb92562173b1dd49a8b18edf3b107e383585"
+  },
+  {
+    "bytes": 2918612,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-O/batch-05.json",
+    "sha256": "b47a3e46231a6ce05e761ea18f73d08bdb6f6fc9be92525bb99ca54ebc0dbc92"
+  },
+  {
+    "bytes": 2917814,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-O/batch-06.json",
+    "sha256": "dd051ed7b53ede8c157eca0a5ae999dbeeec15f101c7060c72d63f46367ea925"
+  },
+  {
+    "bytes": 2917265,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-O/batch-07.json",
+    "sha256": "e7b5e4ffc2d836cbc15594d73282272e4714579b69a96d12563175751a205a9b"
+  },
+  {
+    "bytes": 2918264,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-O/batch-08.json",
+    "sha256": "437f2df1b6f8b63b74268e76a3a0d77994ddcc7841bc63ab123573ae25dd9cb8"
+  },
+  {
+    "bytes": 2918120,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-O/batch-09.json",
+    "sha256": "f28c79ec865b2dab3e6c25f8310cfdf74f8ef8ac0ef888d80f5faea67cfcbba0"
+  },
+  {
+    "bytes": 2918387,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-O/batch-10.json",
+    "sha256": "db2249e40a0fe351913163421bd84d2fa5b500619d400bd9476787004c7131aa"
+  },
+  {
+    "bytes": 3545,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-QCL/terminal-receipt.json",
+    "sha256": "c4a78e16857e64296a2d607a40b11d8cd57396100f1ef28dafc34eea3a9c8e92"
+  },
+  {
+    "bytes": 3254395,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-QCL/batch-01.json",
+    "sha256": "6ef95d02e3cc276fd25d1a5b6da05898d4d7c6c341e1e9fa424fd1d72beac9a9"
+  },
+  {
+    "bytes": 3254369,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-QCL/batch-02.json",
+    "sha256": "5303309355bb723e8bfc7e1dc69753219df856a767942a6c564bdfe1cfc8baed"
+  },
+  {
+    "bytes": 3254091,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-QCL/batch-03.json",
+    "sha256": "4403b8f77b5261afff419e04b9a9f46547ab7cf9fc7932512a55f52ed34445b5"
+  },
+  {
+    "bytes": 3254193,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-QCL/batch-04.json",
+    "sha256": "1a9587592e528a48261bd7ca69400bfc37dc3f5fb236ddcef10af9e144b4905f"
+  },
+  {
+    "bytes": 3255010,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-QCL/batch-05.json",
+    "sha256": "324f81868d156b9a0b2d0970fdb339621d9a3642e8df46f609983ca9a0717115"
+  },
+  {
+    "bytes": 3254428,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-QCL/batch-06.json",
+    "sha256": "a02f6c0f694aab72037bce879dfbfd49b83bf3d33f7dea391f855028187801aa"
+  },
+  {
+    "bytes": 3253705,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-QCL/batch-07.json",
+    "sha256": "26c48796344c768e442c02edd4618f1dd502cf43bc403330888c1eff8b12ef1b"
+  },
+  {
+    "bytes": 3254944,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-QCL/batch-08.json",
+    "sha256": "cf18f85286e9990210544e2233fbe059ce2bad5b2e5d16236446444d0bf515c2"
+  },
+  {
+    "bytes": 3254365,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-QCL/batch-09.json",
+    "sha256": "1d273b1010220fef943f2793b494ee6ddb74660db58d46d7669fbad48218d0c7"
+  },
+  {
+    "bytes": 3255174,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-QCL/batch-10.json",
+    "sha256": "6f9bceacc987eab512f2e23dd10e17ffa92c4f1b68d5812237822da4fd196061"
+  },
+  {
+    "bytes": 3567,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-NQFIX/terminal-receipt.json",
+    "sha256": "b89582dbe6aae687404a359417fe5b4133599b26dcd4879ab0ff845d02e44028"
+  },
+  {
+    "bytes": 3253010,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-NQFIX/batch-01.json",
+    "sha256": "b4d7388ab9edaef5a84fcb08eee1f93276d9f32ed6b293abe053d445a1ccd4ba"
+  },
+  {
+    "bytes": 3253620,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-NQFIX/batch-02.json",
+    "sha256": "4a1d5ff24d4d2a5229f1340eba4ffcd0ef8f3affcf5f8832b25e5cd524536725"
+  },
+  {
+    "bytes": 3253936,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-NQFIX/batch-03.json",
+    "sha256": "83b9c94f8395c00852f0a5879dc8d11c3dc2f30906d0641ab62506adb8798e27"
+  },
+  {
+    "bytes": 3254261,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-NQFIX/batch-04.json",
+    "sha256": "5900e130d3347f763f15e207b7af1aa51d57a6e3f6f479d606628b8a48ae9a25"
+  },
+  {
+    "bytes": 3255704,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-NQFIX/batch-05.json",
+    "sha256": "8006ab94885115fad3ed163d449a4dc52f9d746aafd9f0a203f9937da67d5ec2"
+  },
+  {
+    "bytes": 3255597,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-NQFIX/batch-06.json",
+    "sha256": "7e7005cb14f4c0235001e0590050e3727b7069c99e563e33ced681061787b1ae"
+  },
+  {
+    "bytes": 3255256,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-NQFIX/batch-07.json",
+    "sha256": "71fb26192fb7ccc1055d812313b83873cced47439f1ea49b83a35508a16b2a15"
+  },
+  {
+    "bytes": 3256400,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-NQFIX/batch-08.json",
+    "sha256": "f7e619b69af8c70b5ee14798d601cec1bd7bf0245d92ab09aedcd20794be7b5c"
+  },
+  {
+    "bytes": 3256066,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-NQFIX/batch-09.json",
+    "sha256": "d6e93d3c341f9245490bdf2d7c4b8fb0b4c49280aaef85f83588062c18271c3e"
+  },
+  {
+    "bytes": 3256913,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-NQFIX/batch-10.json",
+    "sha256": "e500d57a4415c0420b3e79e44248fc64a6e825c90fce96b0214151dc4fedbfd4"
+  },
+  {
+    "bytes": 3567,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-ORBFH/terminal-receipt.json",
+    "sha256": "137d3e63bc2a9a1438e113d92a0d3194ed2689eb81eddc2e46c212461e167e2d"
+  },
+  {
+    "bytes": 5107386,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-ORBFH/batch-01.json",
+    "sha256": "be8afa86f71a75bdb4bf52e1969e13b55704ed31744c3e382e2f120fa32c81db"
+  },
+  {
+    "bytes": 5107550,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-ORBFH/batch-02.json",
+    "sha256": "b22425fb108a881a444df8ee05773aeb8d0f92b8f716dd6300bbddcb3519ee15"
+  },
+  {
+    "bytes": 5107073,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-ORBFH/batch-03.json",
+    "sha256": "2978b36c153bf5ad5d206055d97ad48826881e2d3fa51e9fc12cb28d6414f34b"
+  },
+  {
+    "bytes": 5106942,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-ORBFH/batch-04.json",
+    "sha256": "6478b2db347f1bbd89d575106d6dea3bd89c9b999144aac1ff1e84c8c4fadd11"
+  },
+  {
+    "bytes": 5108642,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-ORBFH/batch-05.json",
+    "sha256": "2488320c7c6e82457df2975f3cf2fb44aab01e25b7df8e8b028686bfbe7a4faf"
+  },
+  {
+    "bytes": 5107082,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-ORBFH/batch-06.json",
+    "sha256": "9cc7efb965929dfa894f7b417e090a094473118ebf18078c4d7bafddb7021a65"
+  },
+  {
+    "bytes": 5106296,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-ORBFH/batch-07.json",
+    "sha256": "808697db12301641a164e187496fc0655967d65a4eea0c735ad30c61e0bd7c40"
+  },
+  {
+    "bytes": 5107725,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-ORBFH/batch-08.json",
+    "sha256": "90fc2279ad5c17140bb6b190261561bc864c8ef2a950153572c83018e5487fa9"
+  },
+  {
+    "bytes": 5107369,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-ORBFH/batch-09.json",
+    "sha256": "9b4ecca5f4c7a8027c8baf47880050ef426b03ed0c637c6b52ff53c21209b533"
+  },
+  {
+    "bytes": 5108252,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-ORBFH/batch-10.json",
+    "sha256": "958c43c2dd01950454d41430df4809ac7bb4c4ec6faa501703a883280cced9b4"
+  },
+  {
+    "bytes": 3545,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-JAC/terminal-receipt.json",
+    "sha256": "a0cd5c005bdb114f09d4e6c59253c9cd8735de5fbbd0987d7739210a373b89ec"
+  },
+  {
+    "bytes": 3320107,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-JAC/batch-01.json",
+    "sha256": "9f9173293c3dc4e8971a6f6fce8d4eb607d7551881aa21863582c4b698e327a2"
+  },
+  {
+    "bytes": 3319973,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-JAC/batch-02.json",
+    "sha256": "d3aca031be81022eb877b1d7f76ff763e7d27263f6b9bf6dfd5267506be21641"
+  },
+  {
+    "bytes": 3319530,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-JAC/batch-03.json",
+    "sha256": "2056645132f8c0ba6b49001066893274ed1228a60da8754e281648f74cf865f3"
+  },
+  {
+    "bytes": 3319230,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-JAC/batch-04.json",
+    "sha256": "15cf9313490f565e30962d7f9aed1623f948370ae48712843e06a2745dca0cf6"
+  },
+  {
+    "bytes": 3319530,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-JAC/batch-05.json",
+    "sha256": "10c553e0a17960d773133e77a0d601ca0ab077ce741aace00e1a22210a39f14a"
+  },
+  {
+    "bytes": 3325954,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-JAC/batch-06.json",
+    "sha256": "a12d91ca0ce3a5e79ff738892daaa1c1bc6f066d76a0748112c91f16e02c3054"
+  },
+  {
+    "bytes": 3318964,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-JAC/batch-07.json",
+    "sha256": "596e64cec823e783e67b8e184a80bd5c89a9bf90dd5f52218b7ba3d50baaa3b2"
+  },
+  {
+    "bytes": 3319929,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-JAC/batch-08.json",
+    "sha256": "4bea20e1c4695ed0a5adf597cde7bc2e4b96c604f8f0a35b8f0606d8b53b848b"
+  },
+  {
+    "bytes": 3325515,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-JAC/batch-09.json",
+    "sha256": "cc345ad98be295b877864e3f30fef9996332c4a9cf6e60c5a620f942ca96097d"
+  },
+  {
+    "bytes": 3326270,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-1/arm-JAC/batch-10.json",
+    "sha256": "c55a0cfc29d3025239ed445c42fc3acc76d5d1276379ced21efad00b39640b72"
+  },
+  {
+    "bytes": 802,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/terminal-receipt.json",
+    "sha256": "d661c86d0ee61145f3b2872f894d08385767b94983f14eeff63a4dc88c080e42"
+  },
+  {
+    "bytes": 6799,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/result.json",
+    "sha256": "f8336e3fbb742d77fdf87e3802a8a0b5ab950babc6c25cd80ac136a26f0d293c"
+  },
+  {
+    "bytes": 1209,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/first-valid-gate.json",
+    "sha256": "fb87008099b021399b11047d40efe2a982e24f6f52e8150ab87de00ce06df72d"
+  },
+  {
+    "bytes": 3513,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-O/terminal-receipt.json",
+    "sha256": "4e243d50c599388707edd4887107ee60de17ede3eb891107cf9bcf875fc35608"
+  },
+  {
+    "bytes": 2926349,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-O/batch-01.json",
+    "sha256": "d8efe48022785cd3c2a357f6c96dee57fe6aa0801d5b5a513d9e3defdea54bcf"
+  },
+  {
+    "bytes": 2917927,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-O/batch-02.json",
+    "sha256": "328a74b4027457d8ddf0735f03df6d55db7ca36c52169c1d139be0dffd7a7bfa"
+  },
+  {
+    "bytes": 2917480,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-O/batch-03.json",
+    "sha256": "60dab5e0e1c80fe960401f7e831a42af2ba295845bbf5d6e0650ed2101d55bf0"
+  },
+  {
+    "bytes": 2917045,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-O/batch-04.json",
+    "sha256": "268c37ff32e02dc48b05784c596dbb86f8b288916fabb2af3eb2313a74ee0b36"
+  },
+  {
+    "bytes": 2917861,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-O/batch-05.json",
+    "sha256": "49addc8a30f7085624eb5d1fe2b52dd8a5eb61b28d174e04d1a78df019131168"
+  },
+  {
+    "bytes": 2917208,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-O/batch-06.json",
+    "sha256": "791f8bade82352b8947018b214cf8b7ee3d2042d9fb67ace52f04dbe3e9a6064"
+  },
+  {
+    "bytes": 2916434,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-O/batch-07.json",
+    "sha256": "5a7d495822d82a914185db9be3d301988ef68511aa6e528c87b0223f25569ce3"
+  },
+  {
+    "bytes": 2917611,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-O/batch-08.json",
+    "sha256": "b5f327096b63c1be76880ac6e7a8b990a53479ba1e91ccc4038a2f251c5b5c11"
+  },
+  {
+    "bytes": 2917122,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-O/batch-09.json",
+    "sha256": "b27591eb29e416819c55b08eb76b1f7b9c33d2116796f28a17319d45f74b80eb"
+  },
+  {
+    "bytes": 2917215,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-O/batch-10.json",
+    "sha256": "60e32838c0bb5d86316b1612fef94bf608a0d06b73bed04a173505fce933a075"
+  },
+  {
+    "bytes": 3535,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-QCL/terminal-receipt.json",
+    "sha256": "78017a20cc9d03d88a4f1552b95b8e252d0902ad17b0f9bb73c1d628e017152c"
+  },
+  {
+    "bytes": 3253919,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-QCL/batch-01.json",
+    "sha256": "18130c04f4286ac1cfc36e157bda91b8df8ce378665d030fb9812f9b1af6e91a"
+  },
+  {
+    "bytes": 3253643,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-QCL/batch-02.json",
+    "sha256": "cc45e2ea6a842016d097fac2075435703b8371d5c2642ec5e8175acb0f86167f"
+  },
+  {
+    "bytes": 3253079,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-QCL/batch-03.json",
+    "sha256": "81c8ac71df4a7f1b2d84d6ed05c6b561e4e4c9c0056618d62ca2a74155a6dfa8"
+  },
+  {
+    "bytes": 3252957,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-QCL/batch-04.json",
+    "sha256": "f54e68ed2fb711932d80c448129dcd1c687396c7d7177c3c02ffeaf347ace063"
+  },
+  {
+    "bytes": 3253629,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-QCL/batch-05.json",
+    "sha256": "1ab672586090d6b0f94e5e83af9e07e6ff6970563f2c294857585c8bd43f194a"
+  },
+  {
+    "bytes": 3253140,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-QCL/batch-06.json",
+    "sha256": "bfa3443bcbd6131f27e1be816c74daf32da715b0df63c3af478a3fadd9bedac4"
+  },
+  {
+    "bytes": 3252509,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-QCL/batch-07.json",
+    "sha256": "e2ef2652bb193801f115f169b0e98df84dd7184a43d8fb9e565a26fefded2416"
+  },
+  {
+    "bytes": 3253335,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-QCL/batch-08.json",
+    "sha256": "48eebfe2771e30c2b566eb57210260a9561e48f1ff4e4d07a06e06ba85f2b3c9"
+  },
+  {
+    "bytes": 3252876,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-QCL/batch-09.json",
+    "sha256": "b82d85a051159d4ed0a8a726e27400be75e3550af65e56dc72b1a43c6aff2a77"
+  },
+  {
+    "bytes": 3253371,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-QCL/batch-10.json",
+    "sha256": "6ff1aa57f7a6ca041b866da5467fcb1b13281668d638b1f9380dd00537446078"
+  },
+  {
+    "bytes": 3557,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-NQFIX/terminal-receipt.json",
+    "sha256": "3d3dfc4d72996f76ea7bb11869a4ffd2e8c7cd3c3c25c6a313774f05abb4450a"
+  },
+  {
+    "bytes": 3255598,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-NQFIX/batch-01.json",
+    "sha256": "fbbd28bef29cc7a8611579d86e273f3b11419b4218d9038d835041a472a98b25"
+  },
+  {
+    "bytes": 3255867,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-NQFIX/batch-02.json",
+    "sha256": "facec790a4f90bfb0b38c14064d653ad8de0159f84d1dc84f671eb8a57cc7575"
+  },
+  {
+    "bytes": 3255247,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-NQFIX/batch-03.json",
+    "sha256": "9e4cb355791c7364a24b31e9081ca31415d10c689171f67b75a995e72f720ad6"
+  },
+  {
+    "bytes": 3254844,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-NQFIX/batch-04.json",
+    "sha256": "ae574af9ae4e3362daba0f83bdeddb09a3db73c9995cb67a27ac9e0a86b19231"
+  },
+  {
+    "bytes": 3255987,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-NQFIX/batch-05.json",
+    "sha256": "dd5f8dd8a28bc950fcaf4e3f27d0374bf7aafde722c56a71f010fc43f0fd9576"
+  },
+  {
+    "bytes": 3255333,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-NQFIX/batch-06.json",
+    "sha256": "94743dfe9ef28b7c74535fc13eb3f61bcac16b59c9631c92cdf7bf2d3588bfe4"
+  },
+  {
+    "bytes": 3254856,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-NQFIX/batch-07.json",
+    "sha256": "a493e5756999f3f3c21f96765b5d70f6ebebe54a2382c771e1b120d83ef1a2e6"
+  },
+  {
+    "bytes": 3254984,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-NQFIX/batch-08.json",
+    "sha256": "fc738e045e0b702753b04f7cc1919e7c7e45bfcf76fdaa2b3cd159946025cd1e"
+  },
+  {
+    "bytes": 3255740,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-NQFIX/batch-09.json",
+    "sha256": "8d48a61050e4dd792bfa42f27a770b7099d9005f2c7299543b9c09351983169d"
+  },
+  {
+    "bytes": 3256291,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-NQFIX/batch-10.json",
+    "sha256": "397eae6ef4a3a0ea01d56cba99eb6b2972e053a05056cd55581220b47639b65d"
+  },
+  {
+    "bytes": 3557,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-ORBFH/terminal-receipt.json",
+    "sha256": "770e447407db35a64fc9ccce879eafa69b1636556051019906f0bf6bc9ae7c02"
+  },
+  {
+    "bytes": 5107283,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-ORBFH/batch-01.json",
+    "sha256": "0fcc0a9bd6db07f2a8391f8c6d4f44484abbcd17ffc84d9ff6164e293daf2a8e"
+  },
+  {
+    "bytes": 5101403,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-ORBFH/batch-02.json",
+    "sha256": "e6d374ba948fc7178caadbdd2e3ca88cf385e989647532baa365db25edd0d6ec"
+  },
+  {
+    "bytes": 5106208,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-ORBFH/batch-03.json",
+    "sha256": "274df237d2be855c80132da700182d9fee53863c3fcb0122fba71b56116f1766"
+  },
+  {
+    "bytes": 5106399,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-ORBFH/batch-04.json",
+    "sha256": "fe656250dcd4989cb77d067fcaa0979544b738b66b63d1563be53f6238f30783"
+  },
+  {
+    "bytes": 5107309,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-ORBFH/batch-05.json",
+    "sha256": "ab437411d7f0150dc929a8336a8e1f0c81a49594dfb495eb20348f0d06456c9f"
+  },
+  {
+    "bytes": 5105796,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-ORBFH/batch-06.json",
+    "sha256": "1169c61b71b34ec81adec89dbed06a4eed0fc80aa6e2d4cc3098d0df6e038bd8"
+  },
+  {
+    "bytes": 5105263,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-ORBFH/batch-07.json",
+    "sha256": "ff5e59cc450653ef12de4fd0b35fddfdcc7073ffe23ab6f93c13becb7b564212"
+  },
+  {
+    "bytes": 5106534,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-ORBFH/batch-08.json",
+    "sha256": "13d5320c8118ae59fd30ee298948b3f3f830a7fe98b7162c5727992680a99c4d"
+  },
+  {
+    "bytes": 5105647,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-ORBFH/batch-09.json",
+    "sha256": "c8f00a31810f845dd3c440e2bb5166f2718d6314da9456458e00c91b0f348f3a"
+  },
+  {
+    "bytes": 5105661,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-ORBFH/batch-10.json",
+    "sha256": "b7cfe45806ef1187b81688a4639322e9db738b710b921d3b14e3752067839116"
+  },
+  {
+    "bytes": 3535,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-JAC/terminal-receipt.json",
+    "sha256": "e44afa46f3bac7504e120f2c89edaea92707ed2e1409ac8f3d1e933ae1f882ea"
+  },
+  {
+    "bytes": 3312706,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-JAC/batch-01.json",
+    "sha256": "250ff1152fb48265763ac50776a3b2218240c6fe15365669246efa07e7d301ea"
+  },
+  {
+    "bytes": 3312239,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-JAC/batch-02.json",
+    "sha256": "a4d7be40256217e6c7bb020d2ea57c13b6340fa192f46aa5dfa50b23e6e237a0"
+  },
+  {
+    "bytes": 3311663,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-JAC/batch-03.json",
+    "sha256": "d3b4739273a194176355af2edf79278466929078e375e64ae0f2127469112206"
+  },
+  {
+    "bytes": 3312077,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-JAC/batch-04.json",
+    "sha256": "8a0a2b14f240f42106249ae7d13f64834e8e80f1f54a9499fd38dd93f57323bf"
+  },
+  {
+    "bytes": 3312471,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-JAC/batch-05.json",
+    "sha256": "94ed27b11b78c3b4339f42f2656321587377cb4264827e0c55ad4fc018f9d0f8"
+  },
+  {
+    "bytes": 3324329,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-JAC/batch-06.json",
+    "sha256": "45a451e0695b0923b4fc37e3d1782bf9237a6fade18bfb4e108e920cf5260f6a"
+  },
+  {
+    "bytes": 3329420,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-JAC/batch-07.json",
+    "sha256": "20f3cedd25ea589455b0d7c957113e2bc5c1e7fb034c937d3babb9e7bf8ab2a1"
+  },
+  {
+    "bytes": 3324217,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-JAC/batch-08.json",
+    "sha256": "14d8d3212a3b43d708a23c855de65565903b26c5a60f106dc19b967c874f103b"
+  },
+  {
+    "bytes": 3329945,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-JAC/batch-09.json",
+    "sha256": "3bc45de3c68ce96db2ed6fd274ce0291ec45a42d3aad7a62affab43ec1ebb877"
+  },
+  {
+    "bytes": 3336756,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r1/results/task-2/arm-JAC/batch-10.json",
+    "sha256": "66f6d767dd41214f125354205bba9c06feb8e026f3682061bce1e524445ed184"
+  },
+  {
+    "bytes": 806,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/terminal-receipt.json",
+    "sha256": "11e16db5789f9d2dee5b274840280a62aa360b64eb63a8bdd2dea8a81f942517"
+  },
+  {
+    "bytes": 6820,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/result.json",
+    "sha256": "92ecb4a3280aec8620dfbeac12d02b001be61ae09ad17a1e34b53ef94841254a"
+  },
+  {
+    "bytes": 1213,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/first-valid-gate.json",
+    "sha256": "355e2595dc80c662a6db26844283f2195889561f77d95b3cd1313b8816b0177a"
+  },
+  {
+    "bytes": 3524,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-O/terminal-receipt.json",
+    "sha256": "ab07a963b835af3716a1e869638310c0462e4c6a0be43fe10b49458254a99fcb"
+  },
+  {
+    "bytes": 2926058,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-O/batch-01.json",
+    "sha256": "9c9682bd940fed8aa95797e7ad1bdeb8ff51bed2acd47ac64ef563b6749456bb"
+  },
+  {
+    "bytes": 2917748,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-O/batch-02.json",
+    "sha256": "07303f752312bf2aabe5ed6e7cabc652a5e7983fdd4fe95db8c3be871911b669"
+  },
+  {
+    "bytes": 2916855,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-O/batch-03.json",
+    "sha256": "c3c0e47c77248081f078ee3bb5d92731a19c3dcf4b0c682b53f5f63958a33cb7"
+  },
+  {
+    "bytes": 2916889,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-O/batch-04.json",
+    "sha256": "9ca70ca0d37c7ab8829b6e7f45e5c36506a5a8c40c7209572605a6daa0ad9510"
+  },
+  {
+    "bytes": 2917515,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-O/batch-05.json",
+    "sha256": "e1b61db4223136fecf451952a9779bdb7f3bcdbd51a84d7df6a1f51b283a9e08"
+  },
+  {
+    "bytes": 2917231,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-O/batch-06.json",
+    "sha256": "6c66d37e24bced4c554f020b207fe8b9790aff569e35895cb666cf9ed4594f8a"
+  },
+  {
+    "bytes": 2915317,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-O/batch-07.json",
+    "sha256": "13b8017b098138a049aac2921021c328a80c0b3daab59746d6991752ce753930"
+  },
+  {
+    "bytes": 2917257,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-O/batch-08.json",
+    "sha256": "9bada5a7f1b358f9f48dd318faee36b4a0d5540d24202808d7c0d8d13263eb9d"
+  },
+  {
+    "bytes": 2917169,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-O/batch-09.json",
+    "sha256": "60ee8abb8dfd11ca85836ff185587d54223d25ac01ba3b70335784f119f72c67"
+  },
+  {
+    "bytes": 2917597,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-O/batch-10.json",
+    "sha256": "305e1a984303501d6b7b96f449c7c12a00912ad4a0d85ca5f4776dd0269d9b83"
+  },
+  {
+    "bytes": 3546,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-QCL/terminal-receipt.json",
+    "sha256": "a25fe66d402aaf6960754d74cd1eac65d3206b6f0354932333ef2c81e2e286cc"
+  },
+  {
+    "bytes": 3255032,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-QCL/batch-01.json",
+    "sha256": "508fabccb611f80180f87d3ab26f7e62bbe814666631f2e17415a67394fe8330"
+  },
+  {
+    "bytes": 3254753,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-QCL/batch-02.json",
+    "sha256": "64f552d63917d4f7d27ea107c8166afeff31f74b55862137f0100aaeae9fd654"
+  },
+  {
+    "bytes": 3254618,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-QCL/batch-03.json",
+    "sha256": "6a62568c32df5a2bea4b247eb9d2cd9ada065d241dd3ea4e495e43d9657fdeca"
+  },
+  {
+    "bytes": 3254524,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-QCL/batch-04.json",
+    "sha256": "087942e17aeb28dcda16bcc89d76c54f9a751ca3d6d3d1d9dd6fab5dd41832f7"
+  },
+  {
+    "bytes": 3255206,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-QCL/batch-05.json",
+    "sha256": "33ee58e803a8764e25dd6c3bbe9230321b57f3d02ad93cd358d38f8d794648bf"
+  },
+  {
+    "bytes": 3254597,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-QCL/batch-06.json",
+    "sha256": "159726cbf8cdad7d83bd56fd5fc0b5e63012564005663ff379be952bac7aa78f"
+  },
+  {
+    "bytes": 3252488,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-QCL/batch-07.json",
+    "sha256": "c6e610181986af080a958bc9c227f7c794c4d94444d6671fd7a0228e783f3d4a"
+  },
+  {
+    "bytes": 3253798,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-QCL/batch-08.json",
+    "sha256": "36ee8cc85f8d354091946814170ee66fa71ff69730a04c4e0d70f880a2f6eccf"
+  },
+  {
+    "bytes": 3254881,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-QCL/batch-09.json",
+    "sha256": "54833d7681c1efe6da02d01dd3e607255b620c7033ac28c7658b8b4e14625cc5"
+  },
+  {
+    "bytes": 3254398,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-QCL/batch-10.json",
+    "sha256": "3a8c3b38b93fa03fac1804b4952433a8744ddbbcf3ba6b9ac34ea703fd260c85"
+  },
+  {
+    "bytes": 3568,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-NQFIX/terminal-receipt.json",
+    "sha256": "672f63ef8e43a94391213b51b00f7f255fa7639771400eb773f2b63099be15a0"
+  },
+  {
+    "bytes": 3257224,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-NQFIX/batch-01.json",
+    "sha256": "5b8d3180cbd0850bb5b5d731b2214c8938f2e669cb680c91b56a7b557e70a7d5"
+  },
+  {
+    "bytes": 3257634,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-NQFIX/batch-02.json",
+    "sha256": "13644839eef35889f52bef01d42b1d85255af0398f5fb181c2253187809e2690"
+  },
+  {
+    "bytes": 3248435,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-NQFIX/batch-03.json",
+    "sha256": "035f319a12ae944f74fbc0270f3e6ed07baa98ddec05afa47d3c22cd5bc3d455"
+  },
+  {
+    "bytes": 3253293,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-NQFIX/batch-04.json",
+    "sha256": "d75d0336e9ed17f79a8d891df837bfa37b38e69213c3466fdded317e2aebbda8"
+  },
+  {
+    "bytes": 3254952,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-NQFIX/batch-05.json",
+    "sha256": "797ef0181a7c5d287edeb2703df3471b324ad221c6bb454566e933c5b4f3cac0"
+  },
+  {
+    "bytes": 3253800,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-NQFIX/batch-06.json",
+    "sha256": "8a3ace6cc922b098965e7da4de59d7839f00476253109920969d72ca27f73ecd"
+  },
+  {
+    "bytes": 3246725,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-NQFIX/batch-07.json",
+    "sha256": "01684e5c27921b78f3237c576b0c2ab9de5b165bb87b9502de59e313b40311bb"
+  },
+  {
+    "bytes": 3254596,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-NQFIX/batch-08.json",
+    "sha256": "5b75e8396edc66c356c7e24baa3da7d65c6941fd9a22a40c0ec626944ee3d282"
+  },
+  {
+    "bytes": 3252106,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-NQFIX/batch-09.json",
+    "sha256": "25b1af064c8b3d15cd59b07620d67256de35821f49f095de88fcef271d34aaed"
+  },
+  {
+    "bytes": 3252713,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-NQFIX/batch-10.json",
+    "sha256": "186775b671bc4cee839b546ebfa3623a1db70ea9ca5aa419888c2589e8a75d0d"
+  },
+  {
+    "bytes": 3568,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-ORBFH/terminal-receipt.json",
+    "sha256": "63becf7d35fc9a7f12afa5a92aade6384289e6c617f536da318716487fbf1715"
+  },
+  {
+    "bytes": 5101721,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-ORBFH/batch-01.json",
+    "sha256": "04814e40566de683128c01732c5dd26f6ca4077f6336785505076da2305429f6"
+  },
+  {
+    "bytes": 5101586,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-ORBFH/batch-02.json",
+    "sha256": "227f25c7e653210452367960e308e0adb4241f25e4213099c220d9d2546b3434"
+  },
+  {
+    "bytes": 5107130,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-ORBFH/batch-03.json",
+    "sha256": "e55729fde4ccb688c64b1183343885e7d1e6ac7f16bf70536857affffdba4863"
+  },
+  {
+    "bytes": 5107176,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-ORBFH/batch-04.json",
+    "sha256": "9c0ded3d4b9543e3ae34d53cb102a3a9574c1dac276c44f30bce49047e937203"
+  },
+  {
+    "bytes": 5108308,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-ORBFH/batch-05.json",
+    "sha256": "78389b612c67667c57df40b18158360c2b2c439801d83848f1d5001d760a7305"
+  },
+  {
+    "bytes": 5107750,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-ORBFH/batch-06.json",
+    "sha256": "623f753a43d38ecd693d4771f796f854d88acfa4d75ccd8de9eca41c09aeb0a1"
+  },
+  {
+    "bytes": 5093230,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-ORBFH/batch-07.json",
+    "sha256": "ce32f23b5d7b68176d7d516ab8cbfcd6e463214ecceb3577dd872d17ef8bf5d5"
+  },
+  {
+    "bytes": 5105728,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-ORBFH/batch-08.json",
+    "sha256": "ad37a13ce178df20ff97d7abf58bfb84ed30d4071673416ca70eee391806a006"
+  },
+  {
+    "bytes": 5094463,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-ORBFH/batch-09.json",
+    "sha256": "830ee2b6a30ee55c8886a7389e3034a773b0dd3cce539a985e803d13fb763135"
+  },
+  {
+    "bytes": 5105447,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-ORBFH/batch-10.json",
+    "sha256": "16a2b11220ba9b1ca5fc8c3f60b1f2253276994f563cee3f5f551703a57318be"
+  },
+  {
+    "bytes": 3546,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-JAC/terminal-receipt.json",
+    "sha256": "e79ab143fe6ca806d30d153b79a4524b34bbb2dd9f324f6c96356a46c8003902"
+  },
+  {
+    "bytes": 3307223,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-JAC/batch-01.json",
+    "sha256": "13e278f763140eee95dd6888f9756f27e5ce9f873bebaf8e56092138e5381700"
+  },
+  {
+    "bytes": 3306605,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-JAC/batch-02.json",
+    "sha256": "6dbca8427d194e9d502f32d4b9c2397c7314868b8e8c0b761a2d6afc0d673870"
+  },
+  {
+    "bytes": 3318240,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-JAC/batch-03.json",
+    "sha256": "355cf715a6675356520e940aa99cc6f955d2d14e3ec90cc51d6d62082a0b8a9c"
+  },
+  {
+    "bytes": 3306153,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-JAC/batch-04.json",
+    "sha256": "8c23e2a51b4e3f474899560d9f3886450986706cc72acf70143da42e1e5688ab"
+  },
+  {
+    "bytes": 3306780,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-JAC/batch-05.json",
+    "sha256": "aa508770879564d1252c492bd456f069cab4951c070ec48790ff8cb46d056e42"
+  },
+  {
+    "bytes": 3312553,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-JAC/batch-06.json",
+    "sha256": "c33ef1bc3f95330b8ee2adc53dca40a518a5bb7087180785421cfde99cc340ea"
+  },
+  {
+    "bytes": 3305731,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-JAC/batch-07.json",
+    "sha256": "cbc47c6f3cd10f94a791764ca5d690fbcc9d46e454d33611936497e2f315fc6a"
+  },
+  {
+    "bytes": 3290291,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-JAC/batch-08.json",
+    "sha256": "b720ae83348b11c6b93c8896623ec0af2ab443d22b382d3be0e69dadd732779f"
+  },
+  {
+    "bytes": 3300415,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-JAC/batch-09.json",
+    "sha256": "0f104ad1b98ce1967bb028b79e9cd954be7c279035c8265b65bd25cdf27aefe5"
+  },
+  {
+    "bytes": 3306454,
+    "kind": "sealed_raw",
+    "mode": "0600",
+    "path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-server4-v1/tech-r2/execution-2/results/task-3/arm-JAC/batch-10.json",
+    "sha256": "d2cc80290088b6dc58f1793015e098e9568b729f23a371297a645b5d6cacbee2"
+  }
+]

@@ -1,0 +1,294 @@
+{
+  "HEAD": "c8adb30c154c4f7d87ce866e9440a42c0381deb4",
+  "members": [
+    {
+      "bytes": 695,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/__init__.py",
+      "sha256": "aa7b332461eea6e6b2317da82e9c537f0c645aea592832445edf33f40e2e5a90"
+    },
+    {
+      "bytes": 15873,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/adapters.py",
+      "sha256": "b100b8471938d73330688c5ecf63b24f051380eb9009940480167c449148edf0"
+    },
+    {
+      "bytes": 86208,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/artifacts.py",
+      "sha256": "faaf53b52f55b437b9fa04e5fbf936fb2e65c45acc95f7fb0bef6d4924cc3aa5"
+    },
+    {
+      "bytes": 14663,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/contracts.py",
+      "sha256": "e94e1d2c17827bc89078010b8b5ca735470b5f376b70e9cee902921afb1dd514"
+    },
+    {
+      "bytes": 7892,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/counterfact_locality_evaluator.py",
+      "sha256": "51551523511a87901c8edd0755f2f2f6f6f16bfd5fd31169e55cd12c7ad89fe6"
+    },
+    {
+      "bytes": 9479,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/dry_plan.py",
+      "sha256": "8a71e1b88c9b281117081f883ddee1b006705f337d3868853c50efc70a92977c"
+    },
+    {
+      "bytes": 17827,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/fp32_overlay.py",
+      "sha256": "eeb86d8a2b4e9dde053436e3ac14c1710e184a89f2decc83b533cf9359ab44ac"
+    },
+    {
+      "bytes": 27630,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/integrator.py",
+      "sha256": "475b47a8f44ee4a4e760e34cde2210f396f074930a6fdba9075cf0a3928b4852"
+    },
+    {
+      "bytes": 9140,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/launch.py",
+      "sha256": "885c6d9ef57701d79fd810df60d174c614abb65cfac5a472645af00a56c36c0f"
+    },
+    {
+      "bytes": 4233,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/locks/server1-gated-execution-v1.json",
+      "sha256": "77bdc11de3d12e8365d45c550aee898c9257da6187c662916902009290fffbfc"
+    },
+    {
+      "bytes": 1106,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/locks/server4-sequential-b100x10-v1.json",
+      "sha256": "88b6d274963974899fb900ba0f385f0f610691cccc459543a3924e1a842079f6"
+    },
+    {
+      "bytes": 26554,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/preedit_ns_backfill.py",
+      "sha256": "fd3f60ea0182a2bfaced09b653f26aa43dbc7c3d54f1b7510684e1d458e6fa3d"
+    },
+    {
+      "bytes": 39039,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/preflight.py",
+      "sha256": "571e4abe3cd8ca0f95bb0517c9ba5d6efde1a70113ce08b06b3403cb54cd3e9c"
+    },
+    {
+      "bytes": 113813,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/round0_analysis.py",
+      "sha256": "cda8b15235e25349a7cf6733b00c27b9bfced816c51d061eae8556ae319b054e"
+    },
+    {
+      "bytes": 4486,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/round0_analysis_contracts.py",
+      "sha256": "6b95b03fdc662755e2efceedbe440c592059a8e562c7fa77ae0a947099f5848c"
+    },
+    {
+      "bytes": 3965,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/round0_baseline_figures.py",
+      "sha256": "feeb972b91a46347cf559e42f72a0e7766e6f353b25e85d8fb5fd7882a4e5bf8"
+    },
+    {
+      "bytes": 50196,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/round0_baseline_report.py",
+      "sha256": "5361f099ac7414d857bda753c77f8fa853c0c454dc301baabcbc8388e2e31a71"
+    },
+    {
+      "bytes": 4647,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/round0_canonical_ns_analysis.py",
+      "sha256": "24d6526710ad458acc0ed54cb86a1975c152bb679bc4141abd2d4ec217cd65ee"
+    },
+    {
+      "bytes": 8596,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/round0_figures.py",
+      "sha256": "cd84ef7294d1a51acedc767a705ee31e4d515be59a576c9d01cccf6bed564878"
+    },
+    {
+      "bytes": 6806,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/round0_package_verify.py",
+      "sha256": "37dbedbc335a4ef886acc0775addc4e825fe34066a672f97fda4ffdf1a460789"
+    },
+    {
+      "bytes": 107258,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/runtime.py",
+      "sha256": "3c84ccbf4bfe5f366a431108f1c40108e877e6f7f220a7b1f49235a1fcdd6eac"
+    },
+    {
+      "bytes": 14714,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/semantic.py",
+      "sha256": "f18c46f2c2c4b50a7cd82fe4bf05340da65a73d3ce6dc96f868672e82fe36ef6"
+    },
+    {
+      "bytes": 21234,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/sequential_analysis.py",
+      "sha256": "d6dffe2d9a1e13b7f23efdcd49b8678271afa47ac4cbcaf0ac938e9b44070463"
+    },
+    {
+      "bytes": 4029,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/sequential_contracts.py",
+      "sha256": "35ca2c37ecb68b4ed153fa5a7c9331e5c1bff2345258d6a577aa89c05088ff34"
+    },
+    {
+      "bytes": 10131,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/sequential_launch.py",
+      "sha256": "0621b8c47ad23187e57cf625835a247171aa186ccd22690a871b6b4eeed55eea"
+    },
+    {
+      "bytes": 2668,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/sequential_package_verify.py",
+      "sha256": "1b3c776a751954c4b44c8166d8faee937d4718c60db226583b8bfd7e7a6e35d5"
+    },
+    {
+      "bytes": 5174,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/sequential_plots.py",
+      "sha256": "5906f74dcf6a6971d56907fcdd17a4bb8b49f9688313bc8b2dc73ccb84cf7295"
+    },
+    {
+      "bytes": 10611,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/sequential_preflight.py",
+      "sha256": "093987156992120abe5dff8966964e7615f5162f7e9ed5f759e7d2ccc313edea"
+    },
+    {
+      "bytes": 33157,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/sequential_report.py",
+      "sha256": "27830ce84119d1f28ebbc4acecb64bae23c6f1607402c2cd91368d2cb2e2cc66"
+    },
+    {
+      "bytes": 32423,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/sequential_runtime.py",
+      "sha256": "046b7451e932c10d4ff88d002fd6af9abe82ea98ad35c1d27336a39c94132441"
+    },
+    {
+      "bytes": 23152,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/telemetry.py",
+      "sha256": "5017c99837e2232d68b6f986af8f17ef41f13ede2c2604dd91bd166006384179"
+    },
+    {
+      "bytes": 13707,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/terminal_jvp.py",
+      "sha256": "47a0d3d3592a43dc2d2a62afba6beef7156630cd3d25cde0cda0c9079e424b40"
+    },
+    {
+      "bytes": 30394,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_artifacts.py",
+      "sha256": "d3862894c01a16175327ed67480d3646e20edb71830d259ac7ad480c4607393f"
+    },
+    {
+      "bytes": 49146,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_core_runtime.py",
+      "sha256": "cb62cb58eef33babcb91b9cea3e8bce3f027492c3b762d3e90c7e90e6ec012c6"
+    },
+    {
+      "bytes": 6886,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_dry_plan_execution.py",
+      "sha256": "5af86035701be2abbc9ca956c065ce33d2ff32cec4f762b2f4f09ee187e95591"
+    },
+    {
+      "bytes": 4697,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_preedit_ns_backfill.py",
+      "sha256": "a5c65c786e0b54a03e57bf54113ea2059baf333c3c83a428e62dd352df7ff0df"
+    },
+    {
+      "bytes": 23958,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_preflight_execution.py",
+      "sha256": "7cd729aa758db2e98a716ef2748cedfc7d2e08d151b33e3f9af17c93cee083d9"
+    },
+    {
+      "bytes": 5305,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_round0_analysis.py",
+      "sha256": "2fffeb7d1c22eaa1a0b38bd1819062dad585d9812973daab66800ceb066e3104"
+    },
+    {
+      "bytes": 3954,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_round0_baseline_report.py",
+      "sha256": "02af0d6b047ae579fd5983bea12a2d5dbf3fafbf81b87df275ff894cb5785aab"
+    },
+    {
+      "bytes": 4147,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_sequential_analysis.py",
+      "sha256": "8c259e69ecac0d18098cb883cb15ffdaf717a91ec84289f9cfb6f0cd6ea12052"
+    },
+    {
+      "bytes": 8546,
+      "kind": "reusable_source",
+      "mode": "0664",
+      "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_sequential_server4.py",
+      "sha256": "72694a41d4dcce2e22ab188e081ccc14a405e1bb159630ac1f5da504c0997644"
+    }
+  ],
+  "members_root": "b8b850febe288fed7924676f3a9123c3222834dabec5dca73cd81170ddc0bbf2",
+  "tree": "6a1e5e62112e2bdd43ed95d6f7ec5a91180f972b"
+}
