@@ -43,6 +43,9 @@ preservation (where recorded) are distinct secondary metrics, never NS.
 Every visited layer probes all seen cohorts using their original z/origin;
 current-edit A/Y/E and historical response are separated. Missing/no-op visits
 are not fabricated. Per-batch and cumulative action denominators are distinct.
+Dynamic per-visit action is the nominal low-rank alpha*B Frobenius norm, not
+the FP32 rounding difference of stored weights; Official per-layer action and
+all arms' committed batch-net/W0-to-current norms use actual stored weights.
 Preserve per-request/per-layer rows for age/cohort, early/late, tails and paired
 comparisons. Compare method/arm at shared request/order/checkpoint, without
 equating different cohort-native z. Exact-state activation and CounterFact

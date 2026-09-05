@@ -175,6 +175,7 @@ class CumulativeObserver:
                 for request,row in zip(c.sealed,rows,strict=True):
                     value={'arm':self.arm,'at_batch':self.batch,'cohort_batch':c.batch,'request_sha256':request['request_sha256'],
                         'layer':layer,'sweep':sweep,'visit':visit,'parameter_action_Frobenius':action,
+                        'parameter_action_definition':'ACTUAL_STORED_WEIGHT_DIFFERENCE' if self.arm=='O' else 'NOMINAL_LOW_RANK_ALPHA_B_NOT_FP32_ROUNDING_DIFFERENCE',
                         'cumulative_layer_path_magnitude':self.layer_path[layer],**row}
                     out.write(json.dumps(value,sort_keys=True,allow_nan=False,separators=(',',':'))+'\n')
                 c.last=after.clone()
