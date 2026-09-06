@@ -6,7 +6,11 @@ from zoneinfo import ZoneInfo
 
 
 def read(p):return json.loads(Path(p).read_text())
-def sha(p):return hashlib.file_digest(Path(p).open('rb'),'sha256').hexdigest()
+def sha(p):
+    digest=hashlib.sha256()
+    with Path(p).open('rb') as f:
+        for chunk in iter(lambda:f.read(1024*1024),b''):digest.update(chunk)
+    return digest.hexdigest()
 def write(path,value):
     with open(path,'x',encoding='utf-8') as f:f.write(value)
 def jwrite(path,obj):write(path,json.dumps(obj,ensure_ascii=False,sort_keys=True,indent=2,allow_nan=False)+'\n')
