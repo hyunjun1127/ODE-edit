@@ -27,4 +27,4 @@ export TOKENIZERS_PARALLELISM=false
 export PYTHONUNBUFFERED=1
 exec /mnt/raid5/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.native_response_ode_v31.followup \
     --repo "$pilot_repo" --primary-root "$primary_root" --output-root "$output_root" \
-    --cell "$SLURM_ARRAY_TASK_ID" --budget-seconds "$budget_seconds"
+    --cell "$SLURM_ARRAY_TASK_ID" --budget-seconds "$budget_seconds" "${@:5}"

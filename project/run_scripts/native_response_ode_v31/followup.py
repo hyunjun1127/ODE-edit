@@ -14,6 +14,7 @@ from .provenance import save,ARM_ORDER,git
 from .algebra import FrozenNormalization
 from .native_binding import NativeDictionary
 from .trajectory import run_joint
+from .state_identity import content_identity,verify_warm_state
 from project.run_scripts.ordered_response_barrier_ode import runtime as old
 from project.run_scripts.ordered_response_barrier_ode import preflight as assets
 from project.run_scripts.ordered_response_barrier_ode.contracts import canonical_arm_configs,assert_full_fp32
@@ -28,7 +29,7 @@ def verify_warm_member(path, expected_sha):
     if digest.hexdigest()!=expected_sha:raise RuntimeError('WARM_MEMBER_BYTES_DRIFT')
 
 
-def run(repo,primary_root,output_root,cell_id,budget_seconds):
+def run(repo,primary_root,output_root,cell_id,budget_seconds,audit_only=False):
     def terminate(signum,frame):raise RuntimeError(f'EXTERNAL_RESOURCE_TERMINATION_SIGNAL_{signum}')
     signal.signal(signal.SIGTERM,terminate)
     stage='PREMODEL';f=None;started=time.perf_counter()
@@ -43,6 +44,14 @@ def run(repo,primary_root,output_root,cell_id,budget_seconds):
         lock=json.loads((output_root/'followup.lock.json').read_text())
         if lock['source_head']!=git(repo,'rev-parse','HEAD') or lock['budget_seconds_per_cell']!=budget_seconds or git(repo,'status','--porcelain','--untracked-files=no'):
             raise RuntimeError('FOLLOWUP_SOURCE_RESOURCE_DRIFT')
+        if bool(lock.get('audit_only',False))!=audit_only:raise RuntimeError('AUDIT_SCOPE_LOCK_DRIFT')
+        if audit_only:
+            for n in (2,4,8):
+                member=lock['completed_refinements'][str(cell_id)][str(n)]
+                path=Path(member['path'])
+                if hashlib.sha256(path.read_bytes()).hexdigest()!=member['sha256']:raise RuntimeError('REFINEMENT_PROVENANCE_DRIFT')
+                record=json.loads(path.read_text())
+                if record['status']!='TERMINAL_VALID' or record['w0_restore'] is not True:raise RuntimeError('REFINEMENT_NOT_COMPLETE')
         warm_path=primary_root/f'cell-{cell_id}'/'warm-state.pt'
         verify_warm_member(warm_path,lock['warm_members'][str(cell_id)]['sha256'])
         os.environ.update(HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',HF_DATASETS_OFFLINE='1',TOKENIZERS_PARALLELISM='false')
@@ -86,16 +95,19 @@ def run(repo,primary_root,output_root,cell_id,budget_seconds):
         cold_weights=f.w0;cold_sha=f.w0_sha256
         cold_cache=module.cache_c.detach().clone() if cell.writer_family=='AlphaEdit' else None
         cold_cache_flag=getattr(module,'cache_c_new',None)
-        f.compute_fixed_z()
-        with torch.no_grad():
-            entry=f.terminal();norm=FrozenNormalization.capture(f.fixed_z.values,entry,f.w0_sha256)
-            dictionary=NativeDictionary(f);dictionary.capture_reference(dictionary.build(entry,0))
+        static_cov_identity=content_identity(module.COV_CACHE) if cell.writer_family=='MEMIT' else None
+        if not audit_only:
+            f.compute_fixed_z()
+            with torch.no_grad():
+                entry=f.terminal();norm=FrozenNormalization.capture(f.fixed_z.values,entry,f.w0_sha256)
+                dictionary=NativeDictionary(f);dictionary.capture_reference(dictionary.build(entry,0))
         save(root/'runtime.lock.json',dict(source_head=lock['source_head'],phase='POST_PRIMARY',
             model_reload_count=1,model_reload_seconds=load_seconds,setup_until_D2_target_seconds=time.perf_counter()-load_start,
-            D2_entry='COLD_DEV_FIXTURE',D2_z_compute_count=1,D10A_replay_count=0,
+            D2_entry='COLD_DEV_FIXTURE',D2_z_compute_count=0 if audit_only else 1,D10A_replay_count=0,
+            audit_only=audit_only,refinement_replay_count=0,
             warm_entry_sha=warm['commit']['committed_weight_sha256'],sample_root=sample['ordered_root'],
             budget_seconds=budget_seconds,scientific_promotion=False))
-        for n in (2,4,8):
+        for n in (() if audit_only else (2,4,8)):
             stage=f'D2_N{n}'
             result=run_joint(f,'JV_NATIVE',dictionary,norm,n=n,output=root/'D2'/f'N{n}',fixture='D2')
             save(root/f'D2-N{n}.json',result)
@@ -115,8 +127,7 @@ def run(repo,primary_root,output_root,cell_id,budget_seconds):
                 raise RuntimeError('WARM_WEIGHT_SHA_BOUNDARY')
             if cell.writer_family=='AlphaEdit':module.cache_c.copy_(warm['alpha_cache']);module.cache_c_new=True
             f=make('H10');f.old_records=[raw[int(r['case_id'])] for r in sample['records'] if r['fixture']=='D10A']
-            if f.method_state_identity()!=warm['commit']['committed_method_state_sha256']:
-                raise RuntimeError('WARM_METHOD_STATE_BOUNDARY')
+            save(root/'warm-portability.json',verify_warm_state(f,warm,static_cov_identity))
             old._sync();target_started=time.perf_counter();f.compute_fixed_z();old._sync()
             target_seconds=time.perf_counter()-target_started
             with torch.no_grad():
@@ -144,7 +155,8 @@ def run(repo,primary_root,output_root,cell_id,budget_seconds):
                 D10A_replay_count=0,D10B_state_carry_count=0))
         f.reset_entry();old._restore_selected(f.parameters,cold_weights)
         if cell.writer_family=='AlphaEdit':module.cache_c.copy_(cold_cache);module.cache_c_new=cold_cache_flag
-        save(root/'terminal.json',dict(status='TERMINAL_VALID',D2_refinements=3,cold_restore=tensor_set_sha256(f.parameters)==cold_sha,
+        save(root/'terminal.json',dict(status='TERMINAL_VALID',D2_refinements=0 if audit_only else 3,
+            previously_completed_refinements=3 if audit_only else 0,cold_restore=tensor_set_sha256(f.parameters)==cold_sha,
             allocated_seconds=time.perf_counter()-started,scientific_promotion=False))
     except BaseException as exc:
         restore=None
@@ -160,4 +172,5 @@ if __name__=='__main__':
     p=argparse.ArgumentParser()
     for name in ['repo','primary-root','output-root']:p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--cell',type=int,required=True);p.add_argument('--budget-seconds',type=int,required=True)
-    a=p.parse_args();run(a.repo,a.primary_root,a.output_root,a.cell,a.budget_seconds)
+    p.add_argument('--audit-only',action='store_true')
+    a=p.parse_args();run(a.repo,a.primary_root,a.output_root,a.cell,a.budget_seconds,a.audit_only)
