@@ -17,7 +17,8 @@ def number(row, key):
 
 
 def fmt(value):
-    return 'NOT_RECORDED' if value is None else f'{value:.6g}'
+    # Near-collinear history shadows must not be rounded into an apparent exact 1.
+    return 'NOT_RECORDED' if value is None else f'{value:.12g}'
 
 
 def pair(row, prefix):
