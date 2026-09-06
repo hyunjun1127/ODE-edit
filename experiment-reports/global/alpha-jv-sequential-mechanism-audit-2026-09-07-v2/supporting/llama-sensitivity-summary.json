@@ -1,0 +1,83 @@
+{
+  "input": "/mnt/raid5/janghj/.codex/worktrees/odeedit-gh-alpha-jv-review-20260907/experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/layer_allocation_nodes.csv",
+  "input_sha256": "58c91dd3196a01bcbd5771387ff44c2dc1b1bca7dbee1c2ca74e43323dbc476b",
+  "nodes": 80,
+  "shadows": 1040,
+  "max_source_coefficient_reproduction_relative_error": 5.556796261650433e-16,
+  "numerical_policy": "Independent FP64 Python active-face elimination, original recorded matrices; Jacobi eigenvalues on symmetric part; no model/GPU or new data",
+  "llama_b10_spectrum": [
+    {
+      "alias": "llama3-8b-inst",
+      "batch": 10,
+      "node": 0,
+      "eigenvalues": "[1661413.8536802724, 2640943.1042506495, 2950431.2400172637, 3421863.850387495, 5301647.205242103]",
+      "condition": 3.1910455022980497,
+      "lambda_over_min_eigenvalue": 6.018969913997377e-08,
+      "regularized_support": "[7]",
+      "g": "[-9.512228005007852, -6.504220647285539, -0.8615451327317479, 4.750022529092239, 0.48467567209265083]",
+      "c": "[0.0, 0.0, 0.0, 1.2873506272294687e-06, 0.0]",
+      "response_cosine": "[-0.005540074628136536, -0.003099961832025152, -0.00048614023477329263, 0.0024728410993422544, 0.0003617115060238453]",
+      "nonnegative_predicted_response_sq": 6.114944316453837e-06,
+      "unconstrained_explainable_fraction": 4.460736204397026e-05,
+      "normalized_model_error": 0.010280962256632373,
+      "model_error_over_linear_step": 8.315100585271582,
+      "coefficient_reproduction_relative_error": 1.6449150086585495e-16
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "batch": 10,
+      "node": 1,
+      "eigenvalues": "[1661421.1170912269, 2640941.7316585626, 2950432.7669002768, 3421854.4721767437, 5301633.287117395]",
+      "condition": 3.191023174425131,
+      "lambda_over_min_eigenvalue": 6.018943600228064e-08,
+      "regularized_support": "[7, 8]",
+      "g": "[-9.27624335147612, -5.266921443256095, -1.5407397329597485, 3.3947252289528476, 0.5296089779509664]",
+      "c": "[0.0, 0.0, 0.0, 9.146522945369534e-07, 3.966664924169077e-08]",
+      "response_cosine": "[-0.005402435640779164, -0.0025101633216051615, -0.0008693530755739008, 0.0017672142466307855, 0.00039522947343236333]",
+      "nonnegative_predicted_response_sq": 3.1260009497316118e-06,
+      "unconstrained_explainable_fraction": 3.712772689041708e-05,
+      "normalized_model_error": 0.010604343568031947,
+      "model_error_over_linear_step": 11.995524242306267,
+      "coefficient_reproduction_relative_error": 0.0
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "batch": 10,
+      "node": 2,
+      "eigenvalues": "[1661420.2207863883, 2640945.2216100087, 2950431.9824339724, 3421845.7172710383, 5301630.011392136]",
+      "condition": 3.19102292428026,
+      "lambda_over_min_eigenvalue": 6.018946847334488e-08,
+      "regularized_support": "[7]",
+      "g": "[-10.28270884076641, -5.479582367764119, -1.617946328610034, 1.313618490242082, -0.18285074697479317]",
+      "c": "[0.0, 0.0, 0.0, 3.560184539198102e-07, 0.0]",
+      "response_cosine": "[-0.005988970026164213, -0.00261167333038433, -0.0009129721891009126, 0.0006838817522191419, -0.0001364638076297201]",
+      "nonnegative_predicted_response_sq": 4.676724112615473e-07,
+      "unconstrained_explainable_fraction": 3.999723417142851e-05,
+      "normalized_model_error": 0.008752296741039431,
+      "model_error_over_linear_step": 25.596533527274957,
+      "coefficient_reproduction_relative_error": 1.4869891889176595e-16
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "batch": 10,
+      "node": 3,
+      "eigenvalues": "[1661418.8651696488, 2640949.0260529006, 2950433.112171825, 3421851.6415967713, 5301649.02159135]",
+      "condition": 3.191036970108074,
+      "lambda_over_min_eigenvalue": 6.018951758429018e-08,
+      "regularized_support": "[7]",
+      "g": "[-10.581080801525502, -5.6596919328205715, -1.2826059569639445, 0.8643125677629534, -0.4866530003467133]",
+      "c": "[0.0, 0.0, 0.0, 2.3424712305415134e-07, 0.0]",
+      "response_cosine": "[-0.00616298265797581, -0.0026976177037450213, -0.0007237751486471931, 0.0004499868210534857, -0.00036320965204421997]",
+      "nonnegative_predicted_response_sq": 2.024627269308466e-07,
+      "unconstrained_explainable_fraction": 4.1633006653900425e-05,
+      "normalized_model_error": 0.008627449618348973,
+      "model_error_over_linear_step": 38.34774991886774,
+      "coefficient_reproduction_relative_error": 1.129993797002912e-16
+    }
+  ],
+  "llama_b10_max_relative_coefficient_change": 2.548120481900877e-07,
+  "outputs": {
+    "llama-spectrum-all80.csv": "8cf95d38b507010eae63c2f66a139ff5d60b7f7f2361eba8f87ebc94416243bb",
+    "llama-lambda-shadow-all1040.csv": "02e799fca02b90b34dafad713a7263e34b5c9b93e041ec9a8b03d7de4d703872"
+  }
+}

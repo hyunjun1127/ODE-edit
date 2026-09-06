@@ -1,0 +1,85 @@
+{
+  "status": "CANDIDATES_ONLY_EXECUTION_HOLD",
+  "unique_configurations": 10,
+  "model_configuration_pairs": 20,
+  "new_gpu_model_slurm_actions": 0,
+  "cpu_completed_lambda_grid": [
+    0.001,
+    0.0017782794100389228,
+    0.0031622776601683794,
+    0.005623413251903491,
+    0.01,
+    0.01778279410038923,
+    0.03162277660168379,
+    0.05623413251903491,
+    0.1,
+    0.1778279410038923,
+    0.31622776601683794,
+    0.5623413251903491,
+    1.0
+  ],
+  "cpu_completed_state_count": 80,
+  "cpu_completed_shadow_count": 1040,
+  "gpu_lambda_screen": [
+    0.01,
+    0.03162277660168379,
+    0.1,
+    0.31622776601683794,
+    1.0
+  ],
+  "conditional_dense_refinement": "lambda_dev * 10**(k/8), k=-2,-1,0,1,2; lambda_dev未選定",
+  "frozen_compute_z_hparams": [
+    "v_num_grad_steps",
+    "v_lr",
+    "v_loss_layer",
+    "v_weight_decay",
+    "kl_factor",
+    "clamp_norm_factor",
+    "fact_token",
+    "layer_module_tmp",
+    "ln_f_module",
+    "lm_head_module",
+    "target_loss",
+    "context_templates",
+    "target_layer8",
+    "tokenization/padding/position",
+    "stock_early_stop_loss_0.05"
+  ],
+  "frozen_other_baseline": [
+    "P assets/index",
+    "native_L2",
+    "committed_history_policy",
+    "layers4..8",
+    "FULL_FP32"
+  ],
+  "normalization_ablation_candidates": [
+    {
+      "id": "N0",
+      "status": "PRIMARY_UNCHANGED"
+    },
+    {
+      "id": "NRMS_ENTRY",
+      "status": "SEPARATE_SCIENCE_DIAGNOSIS_NOT_IMPLEMENTED_OR_SUBMITTED",
+      "definition": "same active set; s_batch^2=mean(s_i^2); e_i=R_i/(sqrt(B_active)*s_batch); same JVP weighting"
+    },
+    {
+      "id": "NNUM_OBSERVED_NOISE",
+      "status": "CONDITIONAL_MEASURED_NOISE_REQUIRED_NOT_SUBMITTED",
+      "definition": "define floor from independent entry readout noise; no arbitrary constant/result-selected row deletion"
+    }
+  ],
+  "configuration_requirements": [
+    "one immutable runtime config shared by trajectory/telemetry/locks",
+    "assert T==N*h before model run; T-only JSON edit is not sufficient in current source",
+    "lambda_response is NOT AlphaEdit L2 or compute-z weight_decay/kl_factor",
+    "same-step h multiplies physical update/energy once; never enters NNLS objective",
+    "source-exact current configuration reproduction before expanded settings"
+  ],
+  "interpretation": [
+    "fixed-state shadow is not actual trajectory",
+    "same T refinement is not horizon extension",
+    "normalization variants are different scientific ablations, not technical repair",
+    "existing1000 is retrospective; development/audit identities must be newly sealed",
+    "no automatic20-chain/full-lifelong submission; execution budget remains unset"
+  ]
+}

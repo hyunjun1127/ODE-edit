@@ -1,0 +1,10 @@
+{
+  "status": "ANALYSIS_COMPLETE_SWEEP_CANDIDATES_ONLY",
+  "report_sha256": "9cb37eb8e58ef3d3a2c4a309ca60fe0a0168595362377ecdbfcac11ca96a2889",
+  "manifest_sha256": "dfa6bc42f21f93ba8248ff3e2adf178590612545da021e161b7c444135fab406",
+  "members_root": "d71dd628ec451df812a88f5607a8a19a45aac0c89444437a8ffa5bfaf04a6133",
+  "member_count": 22,
+  "validation_sha256": "89fcf40a634f67d36aa918893c353bb97862fe72a41bda0b76290b90a35e1f6e",
+  "scientific_promotion": false,
+  "identity": "359f0357a2107164541c0a77d179b5e5535511a6e7978c13bbcd37e81f0a2f04"
+}

@@ -1,0 +1,105 @@
+{
+  "status": "PASS_PUBLICATION_CPU_REPRODUCTION_AND_LOCAL_REPORT_LINKS",
+  "combined_report_candidate_rows_verified": 10,
+  "source_members_checked": 82,
+  "controller_nodes": 80,
+  "lambda_shadows": 1040,
+  "candidate_summary_rows": 52,
+  "candidate_configurations": 10,
+  "core_execution_source_files_unchanged": [
+    {
+      "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/runtime.py",
+      "execution": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+      "sha256": "4748729e66028c30e77e31de01811fa95169dfa674aaaf35b1bf489b1c7590ea"
+    },
+    {
+      "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/trajectory.py",
+      "execution": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+      "sha256": "11795e561d96e455e2a504ce3b6b7962a1a94afd3ce2ce0686908a63130871e9"
+    },
+    {
+      "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/state.py",
+      "execution": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+      "sha256": "5ff24ed01db0051785aa396f1b62dc02ec7ddc5c09b543a996f6cdc7c5ade43e"
+    },
+    {
+      "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/telemetry.py",
+      "execution": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+      "sha256": "758eb70cb22a86ae0b18d29489261bf853e283566e6750882b9b2a194a0d48a9"
+    },
+    {
+      "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/contracts.py",
+      "execution": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+      "sha256": "5be97ac714daa87a77ceef6b8dd542b24b061bc96eba6d7e8f08effc95474883"
+    },
+    {
+      "path": "project/run_scripts/native_response_ode_v31/algebra.py",
+      "execution": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+      "sha256": "4a1740af9fff530159ae14fe137ff8360ee238fd90928182f5b1bab9911785c5"
+    },
+    {
+      "path": "project/run_scripts/native_response_ode_v31/native_binding.py",
+      "execution": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+      "sha256": "acef232f5de10f8e4ad64427bf779198858d9b809ec061674175f5d1524e2991"
+    },
+    {
+      "path": "project/run_scripts/ordered_response_barrier_ode/runtime.py",
+      "execution": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+      "sha256": "3c84ccbf4bfe5f366a431108f1c40108e877e6f7f220a7b1f49235a1fcdd6eac"
+    },
+    {
+      "path": "project/run_scripts/ordered_response_barrier_ode/terminal_jvp.py",
+      "execution": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+      "sha256": "47a0d3d3592a43dc2d2a62afba6beef7156630cd3d25cde0cda0c9079e424b40"
+    },
+    {
+      "path": "project/run_scripts/ordered_response_barrier_ode/fp32_overlay.py",
+      "execution": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+      "sha256": "eeb86d8a2b4e9dde053436e3ac14c1710e184a89f2decc83b533cf9359ab44ac"
+    },
+    {
+      "path": "project/run_scripts/ordered_response_barrier_ode/counterfact_locality_evaluator.py",
+      "execution": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+      "sha256": "51551523511a87901c8edd0755f2f2f6f6f16bfd5fd31169e55cd12c7ad89fe6"
+    }
+  ],
+  "independent_numpy_spectrum_max_relative_error": 1.186456474385222e-15,
+  "byte_reproduction": [
+    {
+      "path": "derived/controller_barrier_audit.csv",
+      "sha256": "d3572de4dedf6197836002ede1cd557877c92be2e1c1c6deb197263407d619de"
+    },
+    {
+      "path": "derived/batch_mechanism_comparison.csv",
+      "sha256": "89f96cf05a39890cab388d6363db30c0712038c2d31336b47d0bfaf74e89419f"
+    },
+    {
+      "path": "derived/verification.json",
+      "sha256": "25644fd5b0c7f06aa9585bff72ba1da0fa1868ea3dd8bcd51ba1fc5fb298ab96"
+    },
+    {
+      "path": "derived/mechanism-evidence.png",
+      "sha256": "6df311c154a0c66510ca24a03b1bc0313d1f906304f4146dfd1893d7ddcd5532"
+    },
+    {
+      "path": "supporting/llama-spectrum-all80.csv",
+      "sha256": "8cf95d38b507010eae63c2f66a139ff5d60b7f7f2361eba8f87ebc94416243bb"
+    },
+    {
+      "path": "supporting/llama-lambda-shadow-all1040.csv",
+      "sha256": "02e799fca02b90b34dafad713a7263e34b5c9b93e041ec9a8b03d7de4d703872"
+    },
+    {
+      "path": "supporting/llama-sensitivity-summary.json",
+      "sha256": "1c36509da74eb104e0ea6e0ed348543b116bc277afeefea55ebccc9922dd2be9"
+    },
+    {
+      "path": "supporting/candidate-sensitivity-summary.csv",
+      "sha256": "bb6d93c8626431c3a088988a1434ec396d4dc8b674acda12a78f869ab805451e"
+    }
+  ],
+  "source_raw_rehash": "NOT_PERFORMED_SERVER2_UNAVAILABLE",
+  "new_GPU_model_Slurm_evaluation": 0,
+  "main_push": 0,
+  "execution_status": "SWEEP_HOLD_CANDIDATES_ONLY"
+}

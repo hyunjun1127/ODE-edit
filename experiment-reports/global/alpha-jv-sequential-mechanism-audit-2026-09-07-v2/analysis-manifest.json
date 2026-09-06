@@ -1,0 +1,140 @@
+{
+  "status": "GH_ANALYSIS_ONLY",
+  "members": [
+    {
+      "path": "README.md",
+      "bytes": 3173,
+      "sha256": "c768e2f15cae0437e10875cc00c8d6416176bf5520b73ac95d752025fec6556a",
+      "rows": null
+    },
+    {
+      "path": "analyze.py",
+      "bytes": 10185,
+      "sha256": "5d940bb3cf919434ed27635d0f402e4876631373bad7a68b83962b8cf8db7605",
+      "rows": null
+    },
+    {
+      "path": "derived/batch_mechanism_comparison.csv",
+      "bytes": 5777,
+      "sha256": "89f96cf05a39890cab388d6363db30c0712038c2d31336b47d0bfaf74e89419f",
+      "rows": 20
+    },
+    {
+      "path": "derived/controller_barrier_audit.csv",
+      "bytes": 37211,
+      "sha256": "d3572de4dedf6197836002ede1cd557877c92be2e1c1c6deb197263407d619de",
+      "rows": 80
+    },
+    {
+      "path": "derived/mechanism-evidence.png",
+      "bytes": 179176,
+      "sha256": "6df311c154a0c66510ca24a03b1bc0313d1f906304f4146dfd1893d7ddcd5532",
+      "rows": null
+    },
+    {
+      "path": "derived/verification.json",
+      "bytes": 31507,
+      "sha256": "25644fd5b0c7f06aa9585bff72ba1da0fa1868ea3dd8bcd51ba1fc5fb298ab96",
+      "rows": null
+    },
+    {
+      "path": "gh-mechanism-review-ko.md",
+      "bytes": 37885,
+      "sha256": "9cb37eb8e58ef3d3a2c4a309ca60fe0a0168595362377ecdbfcac11ca96a2889",
+      "rows": null
+    },
+    {
+      "path": "seal_report.py",
+      "bytes": 5933,
+      "sha256": "ec0de611a702d8e47407a81aa1cd3f80a1d0f5647f382cd25e03aa8b36f79113",
+      "rows": null
+    },
+    {
+      "path": "supporting/candidate-sensitivity-summary.csv",
+      "bytes": 27425,
+      "sha256": "bb6d93c8626431c3a088988a1434ec396d4dc8b674acda12a78f869ab805451e",
+      "rows": 52
+    },
+    {
+      "path": "supporting/history-audit.md",
+      "bytes": 21121,
+      "sha256": "362a9871103af07627f571ec6f106759f09756f1e9941114d2987ca74dbd154f",
+      "rows": null
+    },
+    {
+      "path": "supporting/llama-audit.md",
+      "bytes": 17294,
+      "sha256": "eaf25a48f23c41f63f4b5f4b65c56eddcbcbd6d183da7da664a5c3c8dd5c0d24",
+      "rows": null
+    },
+    {
+      "path": "supporting/llama-lambda-shadow-all1040.csv",
+      "bytes": 465279,
+      "sha256": "02e799fca02b90b34dafad713a7263e34b5c9b93e041ec9a8b03d7de4d703872",
+      "rows": 1040
+    },
+    {
+      "path": "supporting/llama-sensitivity-summary.json",
+      "bytes": 4827,
+      "sha256": "1c36509da74eb104e0ea6e0ed348543b116bc277afeefea55ebccc9922dd2be9",
+      "rows": null
+    },
+    {
+      "path": "supporting/llama-spectrum-all80.csv",
+      "bytes": 46479,
+      "sha256": "8cf95d38b507010eae63c2f66a139ff5d60b7f7f2361eba8f87ebc94416243bb",
+      "rows": 80
+    },
+    {
+      "path": "supporting/llama_sensitivity.py",
+      "bytes": 6588,
+      "sha256": "d4aeb72d21414be4fe3cf3824b148f3930a703a8398f99d89226f641d8fd4502",
+      "rows": null
+    },
+    {
+      "path": "supporting/qwen-audit.md",
+      "bytes": 15502,
+      "sha256": "12d8b40d2ae2c30c9720543ef0dfa539b0766d04287b9f9da94e5437b7241529",
+      "rows": null
+    },
+    {
+      "path": "supporting/summarize_candidate_sensitivity.py",
+      "bytes": 2507,
+      "sha256": "1b3aa7308c91d384f64527c55f09b681052ce2711bddae6df000cc8d0b0b60f3",
+      "rows": null
+    },
+    {
+      "path": "supporting/sweep-runtime-knobs-audit.md",
+      "bytes": 11123,
+      "sha256": "89da5648a6d273b22621fef9760a66d084e3153c598f964791341ca12c150584",
+      "rows": null
+    },
+    {
+      "path": "sweep-candidate-policy.json",
+      "bytes": 2663,
+      "sha256": "8b4c823c27f955d43239f61200ddd4a8068263fb64298ea92070a48e3a2dfec4",
+      "rows": null
+    },
+    {
+      "path": "sweep-candidates.csv",
+      "bytes": 2675,
+      "sha256": "5d959ab3f328f32a4e40d97333c11f563ac92f0b93d038ff65a3ed2afa390105",
+      "rows": 10
+    },
+    {
+      "path": "sweep_candidates.py",
+      "bytes": 4224,
+      "sha256": "5762961959289cdce785aea41dfc633418cd279e9630d2859e81062830007d9f",
+      "rows": null
+    },
+    {
+      "path": "validation.json",
+      "bytes": 4489,
+      "sha256": "89fcf40a634f67d36aa918893c353bb97862fe72a41bda0b76290b90a35e1f6e",
+      "rows": null
+    }
+  ],
+  "members_root": "d71dd628ec451df812a88f5607a8a19a45aac0c89444437a8ffa5bfaf04a6133",
+  "scientific_promotion": false,
+  "execution_source": "77358b1546d1baf83b3e251afcce663b08d7bfd7"
+}
