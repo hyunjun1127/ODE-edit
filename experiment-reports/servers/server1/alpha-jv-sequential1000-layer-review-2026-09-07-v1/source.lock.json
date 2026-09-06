@@ -1,0 +1,38 @@
+{
+  "execution_head": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+  "head": "94d626606c768532d71f516efe6b82d3207d7c34",
+  "publication_commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+  "source_files": [
+    {
+      "bytes": 73,
+      "path": "project/run_scripts/alpha_native_response_ode_v31_analysis/__init__.py",
+      "sha256": "fe2f95a2e5cf8d361ed8914202ae59d580943e217d4f5ab6a8fc6cc85a659a25"
+    },
+    {
+      "bytes": 36519,
+      "path": "project/run_scripts/alpha_native_response_ode_v31_analysis/analyze.py",
+      "sha256": "76dd3800af956e17eed2f0808be3ac0cb5be3fc58b1bb694fb6948ebd4bee6be"
+    },
+    {
+      "bytes": 1799,
+      "path": "project/run_scripts/alpha_native_response_ode_v31_analysis/inputs.py",
+      "sha256": "838c3b45d522ccc556a61fc482117b0ec390d5d1cb37f80d959b05614872d4b5"
+    },
+    {
+      "bytes": 3414,
+      "path": "project/run_scripts/alpha_native_response_ode_v31_analysis/plots.py",
+      "sha256": "58067f38f63b0372a7544a77734501aeb55b328f2e2ca70785d529218c958c92"
+    },
+    {
+      "bytes": 2217,
+      "path": "project/run_scripts/alpha_native_response_ode_v31_analysis/test_analysis.py",
+      "sha256": "9d5b47b2271a97395767be46a799505af3c28aba374e3b2181dfaea9671bdbc4"
+    },
+    {
+      "bytes": 1601,
+      "path": "project/run_scripts/alpha_native_response_ode_v31_analysis/verify.py",
+      "sha256": "fc4813fad572331322680f191053d85fb699c7db39aaf0f5b687af55616e53b3"
+    }
+  ],
+  "tree": "d53ed7945afb767d4983acf711d3f0f025ed2dec"
+}

@@ -1,0 +1,30 @@
+{
+  "command": "python -m project.run_scripts.alpha_native_response_ode_v31_analysis.analyze --repo REPO --output NEW_DIRECTORY --gh-verification GH_VERIFICATION",
+  "figures": [
+    {
+      "bytes": 63887,
+      "path": "layer-update-magnitude.png",
+      "sha256": "ff2ee697e746ba2b9857626f92bd00d3d3a94d616ad83c1f51d07ea9b6bca7c7"
+    },
+    {
+      "bytes": 135165,
+      "path": "concentration-absolute-action-endpoints.png",
+      "sha256": "e9daf877179350d57b009f4d2b864dc9774f61eb95b52b70d6357c98b81d86e0"
+    },
+    {
+      "bytes": 189203,
+      "path": "four-node-progression.png",
+      "sha256": "9fd2ba019002e91c87ad53e1a2546d6c20d79127ba85476dfea67a6cf15e5c4a"
+    }
+  ],
+  "input_sha256": {
+    "batch-layer.csv": "1232c6e65c98b19ea4c544524210a4dd0c8e413d950c3a22c14c7cd0939eb377",
+    "batches.csv": "9c96ad17064c18d631b20f7e1bb0c690ab2bcb37a72adfd0a4491b1a7f8e82e5",
+    "nodes.csv": "db4cc0f5c43779e16773ebb4c3487b7ed986632accede7e5994bf78316d997cb"
+  },
+  "matplotlib": "3.10.7",
+  "numpy": "2.2.6",
+  "python": "3.12.0",
+  "runs": 2,
+  "status": "BYTE_IDENTICAL_PASS"
+}

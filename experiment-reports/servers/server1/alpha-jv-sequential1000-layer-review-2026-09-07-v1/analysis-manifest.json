@@ -1,0 +1,284 @@
+{
+  "members": [
+    {
+      "bytes": 47089,
+      "mode": "0600",
+      "path": "batch-layer.csv",
+      "rows": 200,
+      "sha256": "1232c6e65c98b19ea4c544524210a4dd0c8e413d950c3a22c14c7cd0939eb377"
+    },
+    {
+      "bytes": 18805,
+      "mode": "0600",
+      "path": "batches.csv",
+      "rows": 40,
+      "sha256": "9c96ad17064c18d631b20f7e1bb0c690ab2bcb37a72adfd0a4491b1a7f8e82e5"
+    },
+    {
+      "bytes": 78625,
+      "mode": "0600",
+      "path": "compute_accounting.csv",
+      "rows": 40,
+      "sha256": "b3281974c89db7c425b8a18760b6f8a102b118c3fab97a54c8771c4ac112b7bf"
+    },
+    {
+      "bytes": 135165,
+      "mode": "0600",
+      "path": "concentration-absolute-action-endpoints.png",
+      "rows": null,
+      "sha256": "e9daf877179350d57b009f4d2b864dc9774f61eb95b52b70d6357c98b81d86e0"
+    },
+    {
+      "bytes": 765,
+      "mode": "0600",
+      "path": "cost.csv",
+      "rows": 4,
+      "sha256": "60256af4d0340e2fa1284a4e7ea9d5bcccc09e9d6a3ead5fcccf0b98a2834673"
+    },
+    {
+      "bytes": 32055,
+      "mode": "0600",
+      "path": "current_batch_metrics.csv",
+      "rows": 40,
+      "sha256": "086bd6d208143e879d9bd06b9b02c96b927f9f02c066951dc74882d82767fc6c"
+    },
+    {
+      "bytes": 552,
+      "mode": "0600",
+      "path": "endpoint-partitions.csv",
+      "rows": 4,
+      "sha256": "f37496921a3b2e9d9ba75bbde00a7ea47d914815783ee3944d8ae0ae7a0d0739"
+    },
+    {
+      "bytes": 28637,
+      "mode": "0600",
+      "path": "factual-report-ko.md",
+      "rows": null,
+      "sha256": "7966d00f7e3218f2c092123bc87f45f9a2cc047f0caa726d28ac8c478b5595e7"
+    },
+    {
+      "bytes": 7187,
+      "mode": "0600",
+      "path": "final_metrics.csv",
+      "rows": 6,
+      "sha256": "e93dbcf0117b0c778f8204732fa2ea3ad4bc59825732341c60f22c03f003ce02"
+    },
+    {
+      "bytes": 189203,
+      "mode": "0600",
+      "path": "four-node-progression.png",
+      "rows": null,
+      "sha256": "9fd2ba019002e91c87ad53e1a2546d6c20d79127ba85476dfea67a6cf15e5c4a"
+    },
+    {
+      "bytes": 22577,
+      "mode": "0600",
+      "path": "gh-crosscheck.json",
+      "rows": null,
+      "sha256": "f53080baddd489ee4150e7fa5a37bc4165f3fb83247f2b4971308f80412bc152"
+    },
+    {
+      "bytes": 673,
+      "mode": "0600",
+      "path": "history-cost-comparison.csv",
+      "rows": 6,
+      "sha256": "8af0e0c97c1b3980aa02b963140cdc79adefa63fd345c163885545f9d6c88a7d"
+    },
+    {
+      "bytes": 6295,
+      "mode": "0600",
+      "path": "history_cost_shadows.csv",
+      "rows": 6,
+      "sha256": "625513fb85532daa5c58b9e5b9f2f9eb85cd6436d22cfc6999b5d65f9d60ddd7"
+    },
+    {
+      "bytes": 21570,
+      "mode": "0600",
+      "path": "input-inventory.json",
+      "rows": null,
+      "sha256": "86cccda983c74e4d398025e221abd65c4a5a03ab471771881c9616f30f6d8fc9"
+    },
+    {
+      "bytes": 217673,
+      "mode": "0600",
+      "path": "l8_single_layer_shadows.csv",
+      "rows": 400,
+      "sha256": "13be4c822a7567adb293edc707b5e64dd2ff5c0210ff134157bfdc0690395189"
+    },
+    {
+      "bytes": 63887,
+      "mode": "0600",
+      "path": "layer-update-magnitude.png",
+      "rows": null,
+      "sha256": "ff2ee697e746ba2b9857626f92bd00d3d3a94d616ad83c1f51d07ea9b6bca7c7"
+    },
+    {
+      "bytes": 119133,
+      "mode": "0600",
+      "path": "layer_allocation_nodes.csv",
+      "rows": 80,
+      "sha256": "58c91dd3196a01bcbd5771387ff44c2dc1b1bca7dbee1c2ca74e43323dbc476b"
+    },
+    {
+      "bytes": 1884,
+      "mode": "0600",
+      "path": "native_target_log_observations.csv",
+      "rows": 1,
+      "sha256": "da6cf6f6c76f0886d9333cf98a05ae400e537d4608ebb3809aed31414baad520"
+    },
+    {
+      "bytes": 725,
+      "mode": "0600",
+      "path": "neighborhood_transition_summary.csv",
+      "rows": 12,
+      "sha256": "9a18642d3f35062cb40b077af147cc28f4f8c318decb89222b0cd547a5782a33"
+    },
+    {
+      "bytes": 37030,
+      "mode": "0600",
+      "path": "nll-distributions.csv",
+      "rows": 276,
+      "sha256": "24d763e0f539f2867c49580304ad44583e4df93f113fd8b90ea7a7a651971bca"
+    },
+    {
+      "bytes": 231138,
+      "mode": "0600",
+      "path": "node-layer.csv",
+      "rows": 400,
+      "sha256": "916e1af13a14fadab7d56a3c8034b40ef5c2fa42f73ee9cf21d53f94c16d32ac"
+    },
+    {
+      "bytes": 41478,
+      "mode": "0600",
+      "path": "nodes.csv",
+      "rows": 80,
+      "sha256": "db4cc0f5c43779e16773ebb4c3487b7ed986632accede7e5994bf78316d997cb"
+    },
+    {
+      "bytes": 10799,
+      "mode": "0600",
+      "path": "normalization_batch_summary.csv",
+      "rows": 40,
+      "sha256": "9dc79a2817320b9baf9cea8e0557bfd582280570bfa057f1d96bd2a453d4562c"
+    },
+    {
+      "bytes": 2643,
+      "mode": "0600",
+      "path": "paired_seen_endpoint_metrics.csv",
+      "rows": 18,
+      "sha256": "7992ee9e55f5a7fb19c82e86863a2d8dc5516bca2987cace568d994de9bcf37b"
+    },
+    {
+      "bytes": 1091,
+      "mode": "0600",
+      "path": "plot-reproduction.json",
+      "rows": null,
+      "sha256": "27931fbdee1c5048c2a013a1bc7768180be9300cc072ad3aee550e8d8ad5d349"
+    },
+    {
+      "bytes": 12432,
+      "mode": "0600",
+      "path": "previous-warm-old_edit_metrics.csv",
+      "rows": 160,
+      "sha256": "1a049a308352a633e6ccd30847b2272ab318700d736058f0eefec6b12d22e606"
+    },
+    {
+      "bytes": 21088,
+      "mode": "0600",
+      "path": "previous-warm-pilot_main_table.csv",
+      "rows": 20,
+      "sha256": "2ac3895bb0eceb2083ea16f37c85cb1f330b22903e0f51932957263d65c00342"
+    },
+    {
+      "bytes": 656167,
+      "mode": "0600",
+      "path": "request_normalization_scales.csv",
+      "rows": 4000,
+      "sha256": "2dd0a7a5cfa0cc4a1aaf4deb110c916b2ecfe2b955e75593f9c1fdac88e38483"
+    },
+    {
+      "bytes": 32560,
+      "mode": "0600",
+      "path": "retention_cohort_metrics.csv",
+      "rows": 220,
+      "sha256": "5027bc1ddf14a99c07ed2b42dc27bb3b02b1d73c0f2c1371dc70cbba0565408f"
+    },
+    {
+      "bytes": 11863,
+      "mode": "0600",
+      "path": "seen_prefix_metrics.csv",
+      "rows": 12,
+      "sha256": "e91d275961e7e79a028c5d97807d5b72eec831e0251b399ea9b8bf0bb80a3d39"
+    },
+    {
+      "bytes": 1493,
+      "mode": "0600",
+      "path": "source.lock.json",
+      "rows": null,
+      "sha256": "60bf18a2dcdddb2f692ef1cf029834c5277d222f8edd7ed9c52bc84744626042"
+    },
+    {
+      "bytes": 14757,
+      "mode": "0600",
+      "path": "state_continuity_summary.csv",
+      "rows": 40,
+      "sha256": "60ea15f0ac993e8a754a066427e81b4671d66895438815a597ae92226689a029"
+    },
+    {
+      "bytes": 3083,
+      "mode": "0600",
+      "path": "terminal-identity-checks.json",
+      "rows": null,
+      "sha256": "2a0570bd2ded514661d8bb200b94c8a08fb598cf2de29e73338e55d19282e0eb"
+    },
+    {
+      "bytes": 995,
+      "mode": "0600",
+      "path": "verification.json",
+      "rows": null,
+      "sha256": "315f4a9645f1a86bdeadfd3cb03f2c3d4db6bf8a2f1697aa30e59f906204f2ee"
+    }
+  ],
+  "members_root": "29d5fa82ffe151b2694851bc78d26a629c6dd848f8ec60855aaa3860eaa35c6b",
+  "new_gpu_model_slurm_actions": 0,
+  "schema": "alpha-jv-sequential-layer-analysis.v1",
+  "scientific_promotion": false,
+  "source": {
+    "execution_head": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+    "head": "94d626606c768532d71f516efe6b82d3207d7c34",
+    "publication_commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+    "source_files": [
+      {
+        "bytes": 73,
+        "path": "project/run_scripts/alpha_native_response_ode_v31_analysis/__init__.py",
+        "sha256": "fe2f95a2e5cf8d361ed8914202ae59d580943e217d4f5ab6a8fc6cc85a659a25"
+      },
+      {
+        "bytes": 36519,
+        "path": "project/run_scripts/alpha_native_response_ode_v31_analysis/analyze.py",
+        "sha256": "76dd3800af956e17eed2f0808be3ac0cb5be3fc58b1bb694fb6948ebd4bee6be"
+      },
+      {
+        "bytes": 1799,
+        "path": "project/run_scripts/alpha_native_response_ode_v31_analysis/inputs.py",
+        "sha256": "838c3b45d522ccc556a61fc482117b0ec390d5d1cb37f80d959b05614872d4b5"
+      },
+      {
+        "bytes": 3414,
+        "path": "project/run_scripts/alpha_native_response_ode_v31_analysis/plots.py",
+        "sha256": "58067f38f63b0372a7544a77734501aeb55b328f2e2ca70785d529218c958c92"
+      },
+      {
+        "bytes": 2217,
+        "path": "project/run_scripts/alpha_native_response_ode_v31_analysis/test_analysis.py",
+        "sha256": "9d5b47b2271a97395767be46a799505af3c28aba374e3b2181dfaea9671bdbc4"
+      },
+      {
+        "bytes": 1601,
+        "path": "project/run_scripts/alpha_native_response_ode_v31_analysis/verify.py",
+        "sha256": "fc4813fad572331322680f191053d85fb699c7db39aaf0f5b687af55616e53b3"
+      }
+    ],
+    "tree": "d53ed7945afb767d4983acf711d3f0f025ed2dec"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "GPU": 0,
+  "Slurm": 0,
+  "coefficient_identity_failures": 0,
+  "current_final_denominator_checks": 46,
+  "final_NS_transition_checks": 4,
+  "history_L2_identity_failures": 0,
+  "imputation": 0,
+  "joins_missing": 0,
+  "model": 0,
+  "publication": {
+    "external_raw_checkpoint_rehash": "NOT_PERFORMED_SERVER2_UNAVAILABLE",
+    "members": 48,
+    "no_remote_live_result_access": true,
+    "receipt": {
+      "manifest_sha256": "ffbe19fd206959c021d25b1178d27d129349d88b170293263efa37da8396adae",
+      "report_sha256": "b9b7fd9b7f37f782ee5fe81608d1b80e942e701ccf01b9896d4d79401d2617ad",
+      "root_sha256": "5e52e67d36759104da8c81f3c1e4751d1bc599dd225348b6ab361d013b8046ce",
+      "status": "RAW_FREE_PUBLICATION_SUBSET_REHASH_PASS"
+    },
+    "status": "PASS_GIT_PUBLICATION_REHASH"
+  },
+  "recorded_state_edges": 36,
+  "rows": {
+    "batch": 40,
+    "batch_layer": 200,
+    "node": 80,
+    "node_layer": 400
+  },
+  "scientific_promotion": false,
+  "terminal_node_batch_net_failures": 0
+}

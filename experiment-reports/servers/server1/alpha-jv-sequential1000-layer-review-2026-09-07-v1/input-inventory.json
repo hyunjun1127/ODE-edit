@@ -1,0 +1,373 @@
+{
+  "GH_reference": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/state/alpha-jv-gh-review-20260907-v1/verification.json",
+    "sha256": "2a7b64acebc5e7e1d5b6da3a4f47a4f0914abf04186e62ab6d8193d3d58a00ee"
+  },
+  "before_after_unchanged": true,
+  "pilot_members": [
+    {
+      "bytes": 21109,
+      "commit": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+      "path": "experiment-reports/servers/server1/native-response-v31-b10-warm-pilot-2026-09-06-v1/primary/pilot_main_table.csv",
+      "sha256": "8c243ec8ea58ca28661ae5cbe453e5344294f5d08f8c0a2d6449372c3ed75cef"
+    },
+    {
+      "bytes": 12593,
+      "commit": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+      "path": "experiment-reports/servers/server1/native-response-v31-b10-warm-pilot-2026-09-06-v1/primary/old_edit_metrics.csv",
+      "sha256": "b0154d2ce08f00b928da5402e0777bf0c45e6e2ae2b68b0f656cea131fbd6862"
+    }
+  ],
+  "publication_members": [
+    {
+      "bytes": 14888,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/package-manifest.json",
+      "sha256": "ffbe19fd206959c021d25b1178d27d129349d88b170293263efa37da8396adae"
+    },
+    {
+      "bytes": 319,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/rooted-package-receipt.json",
+      "sha256": "9392d8adcbbf028beed4f313408e0b63318b974964d4ed9dccff64ae1ebeaa59"
+    },
+    {
+      "bytes": 24768,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/factual-report-ko.md",
+      "sha256": "b9b7fd9b7f37f782ee5fe81608d1b80e942e701ccf01b9896d4d79401d2617ad"
+    },
+    {
+      "bytes": 624,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/PACKAGE.md",
+      "sha256": "966d9659e3ad37ef1f675ba60b38dcdbaa48782d5ae32bcaacda9f121797954b"
+    },
+    {
+      "bytes": 7550,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/assets.lock.json",
+      "sha256": "94e93c1e27a25a98b1a9fe128e26db35599c0d55066dd2449be77c2c688aa755"
+    },
+    {
+      "bytes": 24846,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/chain-0-llama3-8b-inst-O_NATIVE.runtime.lock.json",
+      "sha256": "99031458b9f982bb0982b54bdc7575f687063430204b938a6ab64f7486758382"
+    },
+    {
+      "bytes": 26715,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/chain-0-llama3-8b-inst-O_NATIVE.terminal-receipt.json",
+      "sha256": "e25ea524e0185cdf18d045dbb9ac5064b4b36b10e2acecdc88214d2c6159524b"
+    },
+    {
+      "bytes": 24837,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/chain-1-qwen2.5-7b-inst-O_NATIVE.runtime.lock.json",
+      "sha256": "2dd71c967eecf7c5e8b792e13026b9246043adc2cf2669c3c6ef648687d2e66d"
+    },
+    {
+      "bytes": 26715,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/chain-1-qwen2.5-7b-inst-O_NATIVE.terminal-receipt.json",
+      "sha256": "1225391dd79b0cad4c05d61aeb013d7091226bfce67bd5e36cc03d62fe41b9b1"
+    },
+    {
+      "bytes": 24848,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/chain-2-llama3-8b-inst-JV_NATIVE.runtime.lock.json",
+      "sha256": "c93a6323e2f36b40fab5c600e0e49c2ac84f4f6da1b37898bbf69c6fc70f5a0b"
+    },
+    {
+      "bytes": 26718,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/chain-2-llama3-8b-inst-JV_NATIVE.terminal-receipt.json",
+      "sha256": "360012effcdc1aa1a5ed7b2c44a6b1f7f71662daa5fb10b47c0cf2816dc65ecb"
+    },
+    {
+      "bytes": 24838,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/chain-3-qwen2.5-7b-inst-JV_NATIVE.runtime.lock.json",
+      "sha256": "58ab0117a94e4c2e75f52e07b6f6ed3ffd33756c0b51031e917e9a88ac5643b6"
+    },
+    {
+      "bytes": 26715,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/chain-3-qwen2.5-7b-inst-JV_NATIVE.terminal-receipt.json",
+      "sha256": "57ab756cbd1155ec53ac3f1e279457ea4ff2d843e1ea50edf65e323c16941bbb"
+    },
+    {
+      "bytes": 3388,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/checkpoint_context_support.csv",
+      "sha256": "086fa91e2a22299e6cb6e7261f66162064787c4e89a92d74b88bd79ef7801603"
+    },
+    {
+      "bytes": 6007,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/checkpoint_inventory.csv",
+      "sha256": "f3c17ab2f090a7eee333e129175347836b9a1a00b3816d22bd083c5d96634a83"
+    },
+    {
+      "bytes": 78625,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/compute_accounting.csv",
+      "sha256": "b3281974c89db7c425b8a18760b6f8a102b118c3fab97a54c8771c4ac112b7bf"
+    },
+    {
+      "bytes": 32055,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/current_batch_metrics.csv",
+      "sha256": "086bd6d208143e879d9bd06b9b02c96b927f9f02c066951dc74882d82767fc6c"
+    },
+    {
+      "bytes": 959,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/dry-plan.json",
+      "sha256": "5765e908198329679e02464d247582dcdd4a23bbd012560eba1b60bcf4c97b89"
+    },
+    {
+      "bytes": 648,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/external-table-identities.json",
+      "sha256": "d5f4ce71710faf0248a163486a007b4e0f561a2153ddf6f2e3f886edfc000ce3"
+    },
+    {
+      "bytes": 1,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/failure_registry.csv",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "bytes": 7187,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/final_metrics.csv",
+      "sha256": "e93dbcf0117b0c778f8204732fa2ea3ad4bc59825732341c60f22c03f003ce02"
+    },
+    {
+      "bytes": 6295,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/history_cost_shadows.csv",
+      "sha256": "625513fb85532daa5c58b9e5b9f2f9eb85cd6436d22cfc6999b5d65f9d60ddd7"
+    },
+    {
+      "bytes": 217673,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/l8_single_layer_shadows.csv",
+      "sha256": "13be4c822a7567adb293edc707b5e64dd2ff5c0210ff134157bfdc0690395189"
+    },
+    {
+      "bytes": 241542,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/layer_action_decomposition.csv",
+      "sha256": "ad3ee5310dd01257e61f2e9db1ce84e9841b2ab7f370d3257bf9c9a291712b64"
+    },
+    {
+      "bytes": 119133,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/layer_allocation_nodes.csv",
+      "sha256": "58c91dd3196a01bcbd5771387ff44c2dc1b1bca7dbee1c2ca74e43323dbc476b"
+    },
+    {
+      "bytes": 6973,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/layer_redistribution_summary.csv",
+      "sha256": "c240d0da284c04be1f576c5a9a42a25d8da55ec91c3e9aa548aea8677fe5f0da"
+    },
+    {
+      "bytes": 139293,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/llama3-8b-inst-trajectory-physical.png",
+      "sha256": "8281b95c19cac197455b354ebd130fa3f45f48b90675467ef5d5aa6a115ee5e1"
+    },
+    {
+      "bytes": 1091,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/main-held-inspection.json",
+      "sha256": "a7e94900e7f958985db4569eba8945fe82e64a845c6fb050337b8f323a1a2944"
+    },
+    {
+      "bytes": 1884,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/native_target_log_observations.csv",
+      "sha256": "da6cf6f6c76f0886d9333cf98a05ae400e537d4608ebb3809aed31414baad520"
+    },
+    {
+      "bytes": 725,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/neighborhood_transition_summary.csv",
+      "sha256": "9a18642d3f35062cb40b077af147cc28f4f8c318decb89222b0cd547a5782a33"
+    },
+    {
+      "bytes": 28365,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/node_mechanism_summary.csv",
+      "sha256": "0241844ff88d04676686f2f9410005f20d678ffdf4399eeead1486d7ccf80ae2"
+    },
+    {
+      "bytes": 10799,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/normalization_batch_summary.csv",
+      "sha256": "9dc79a2817320b9baf9cea8e0557bfd582280570bfa057f1d96bd2a453d4562c"
+    },
+    {
+      "bytes": 531,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/online_own_batch_metrics.csv",
+      "sha256": "3bec00e9a74c98adbb3bd25bd8622d5e5af78430742bdfdeaf80be3c97ca46d8"
+    },
+    {
+      "bytes": 2643,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/paired_seen_endpoint_metrics.csv",
+      "sha256": "7992ee9e55f5a7fb19c82e86863a2d8dc5516bca2987cace568d994de9bcf37b"
+    },
+    {
+      "bytes": 64591,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/physical_layer_batch_metrics.csv",
+      "sha256": "ce770b95b4cf9162f60863869c8280a8839af1402f18fc93a0d98310908dab02"
+    },
+    {
+      "bytes": 145570,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/qwen2.5-7b-inst-trajectory-physical.png",
+      "sha256": "544dccba966082af1c361a4368a10a5dc22e01dd20012a85018a5ff627ee3bb2"
+    },
+    {
+      "bytes": 656167,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/request_normalization_scales.csv",
+      "sha256": "2dd0a7a5cfa0cc4a1aaf4deb110c916b2ecfe2b955e75593f9c1fdac88e38483"
+    },
+    {
+      "bytes": 518,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/resource.lock.json",
+      "sha256": "c359f48d75797a8161213821d02f1d6733cb0c493234b28f3ff1e460e742ec06"
+    },
+    {
+      "bytes": 32560,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/retention_cohort_metrics.csv",
+      "sha256": "5027bc1ddf14a99c07ed2b42dc27bb3b02b1d73c0f2c1371dc70cbba0565408f"
+    },
+    {
+      "bytes": 2479,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/run_registry.csv",
+      "sha256": "19496c0fb9d843c6d180af0394afc293185a3a2e634428162cd545da7b57baf3"
+    },
+    {
+      "bytes": 676766,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/sample.lock.json",
+      "sha256": "105750c7951164790e0fecced4bf5e08535f94e438bb1fbd3104ad9d77dba5e8"
+    },
+    {
+      "bytes": 1220,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/scheduler_terminal.csv",
+      "sha256": "c365ce6cd30686028d1480387a873a7c8bd4af8dbebebc18366427957e20ebe6"
+    },
+    {
+      "bytes": 881,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/science.lock.json",
+      "sha256": "ade6c3de5b1236d6dd08df703b2a6bb0433e9e2e722011fe75dae4f8b3ac906f"
+    },
+    {
+      "bytes": 11863,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/seen_prefix_metrics.csv",
+      "sha256": "e91d275961e7e79a028c5d97807d5b72eec831e0251b399ea9b8bf0bb80a3d39"
+    },
+    {
+      "bytes": 14671,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/sequential_commit_checks.csv",
+      "sha256": "99fd705a356b146660b83d0af6921082fc2a59a632624d23c70543830c0c1f5b"
+    },
+    {
+      "bytes": 524,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/smoke-gates.lock.json",
+      "sha256": "99a69ec167186b175a0aeb4853948f716769baa1d8de94b3ba8f88131e2e640f"
+    },
+    {
+      "bytes": 118230,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/source-analysis-manifest.json",
+      "sha256": "e80676c57188aa7debe95f204f07c0964816042178c1b19e745dae8e7e5bb408"
+    },
+    {
+      "bytes": 363,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/source-rooted-analysis-receipt.json",
+      "sha256": "818ea1a16d90c1b2424baf4aa4dc23a938441c744ccf8e4c04ef8adcb199a0b3"
+    },
+    {
+      "bytes": 22171,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/source.lock.json",
+      "sha256": "7de15c0865e7261351d0f3877ec8540a59e8801d85981a16de30a7d68c25efcc"
+    },
+    {
+      "bytes": 14757,
+      "commit": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "original_server2_filesystem_mode": "NOT_REHASHED_GIT_BLOB_ONLY",
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/state_continuity_summary.csv",
+      "sha256": "60ea15f0ac993e8a754a066427e81b4671d66895438815a597ae92226689a029"
+    }
+  ]
+}

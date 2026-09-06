@@ -1,0 +1,944 @@
+{
+  "checks": 136,
+  "items": [
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 1,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 1,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 1.3739009929736312e-14,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 1,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 2,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 2,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 8.743006318923108e-15,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 2,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 3,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 3,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 1.3877787807814457e-14,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 3,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 4,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 4,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 5.440092820663267e-15,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 4,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 5,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 5,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 3.3306690738754696e-15,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 5,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 6,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 6,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 3.885780586188048e-15,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 6,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 7,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 7,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 8.076872504148014e-15,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 7,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 8,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 8,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 4.385380947269368e-15,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 8,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 9,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 9,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 7.66053886991358e-15,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 9,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 10,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 10,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 10,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 1,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 1,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 7.105427357601002e-15,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 1,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 2,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 2,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 2,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 3,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 3,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 3,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 4,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 4,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 4,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 5,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 5,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 1.4210854715202004e-14,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 5,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 6,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 6,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 6,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 7,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 7,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 1.4210854715202004e-14,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 7,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 8,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 8,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 8,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 9,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 9,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 9,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 10,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 10,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 1.4210854715202004e-14,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "batch": 10,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 1,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 1,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 1.949551631241775e-13,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 1,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 2,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 2,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 4.1744385725905886e-14,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 2,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 3,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 3,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 9.090506125630782e-13,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 3,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 4,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 4,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 5.3734794391857577e-14,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 4,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 5,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 5,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 2.699507284376068e-13,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 5,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 6,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 6,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 9.475753515175711e-14,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 6,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 7,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 7,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 8.637535131583718e-13,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 7,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 8,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 8,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 3.093081346605686e-13,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 8,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 9,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 9,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 2.4788504582318183e-13,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 9,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 10,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 10,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 1.4637180356658064e-12,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "batch": 10,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 1,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 1,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 2.2737367544323206e-13,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 1,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 2,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 2,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 2,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 3,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 3,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 3,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 4,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 4,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 4,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 4.547473508864641e-13,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 5,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 5,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 4.547473508864641e-13,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 5,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 4.547473508864641e-13,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 6,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 1.3877787807814457e-17,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 6,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 6,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 7,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 7,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 7,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 8,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 8,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 8,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 4.547473508864641e-13,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 9,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 2.7755575615628914e-17,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 9,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 9,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 10,
+      "field": "total_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0.0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 10,
+      "field": "L8_energy_share"
+    },
+    {
+      "absolute_difference": 4.547473508864641e-13,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "batch": 10,
+      "field": "L4_7_batch_net_energy"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "field": "at_write_success"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "field": "initially_failed"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "field": "at_write_success_to_final_failure"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "field": "initially_failed_to_final_recovery"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "field": "at_write_success"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "field": "initially_failed"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "field": "at_write_success_to_final_failure"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "field": "initially_failed_to_final_recovery"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "field": "at_write_success"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "field": "initially_failed"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "field": "at_write_success_to_final_failure"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "field": "initially_failed_to_final_recovery"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "field": "at_write_success"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "field": "initially_failed"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "field": "at_write_success_to_final_failure"
+    },
+    {
+      "absolute_difference": 0,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "field": "initially_failed_to_final_recovery"
+    }
+  ],
+  "reference_path": "/mnt/raid5/janghj/ODE-edit/local/state/alpha-jv-gh-review-20260907-v1/verification.json",
+  "reference_sha256": "2a7b64acebc5e7e1d5b6da3a4f47a4f0914abf04186e62ab6d8193d3d58a00ee",
+  "status": "PASS_INDEPENDENT_ARITHMETIC_MATCH"
+}
