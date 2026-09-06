@@ -91,6 +91,18 @@ def make(out, completed):
         scope=x.get('scope') or 'first current B100'
         text.append(f"| {x['alias']} | {x['arm']} | {scope} | {pair(x,'RS')} | {pair(x,'PS')} | {pair(x,'NS')} | {fmt(number(x,'rewrite_target_new_nll_mean'))} / {fmt(number(x,'rewrite_target_true_nll_mean'))} | {fmt(number(x,'rephrase_target_new_nll_mean'))} / {fmt(number(x,'rephrase_target_true_nll_mean'))} |")
     text+=['\nNLL median/p90/max, strict preference 및 teacher-forced token correctness는 current_batch_metrics.csv / final_metrics.csv의 별도 열에 보존한다. 자유 생성 accuracy는 NOT_RECORDED다.',
+        '\n| Model | Arm | at-write rewrite success | final W10 success | at-write failure | at-write success→final failure | at-write failure→final recovery | non-overwrite conditional forgetting |',
+        '|---|---|---:|---:|---:|---:|---:|---:|']
+    cohorts=defaultdict(list)
+    for x in rows(out,'retention_cohort_metrics'):
+        if x['batch']=='10':cohorts[(x['alias'],x['arm'])].append(x)
+    for (alias,arm),rr in sorted(cohorts.items()):
+        total=lambda key:sum(int(x[key]) for x in rr)
+        den=total('canonical_denominator');initial=total('at_write_success')
+        final_success=total('current_success');lost=total('at_write_success_now_failure')
+        failed=den-initial;recovered=final_success-(initial-lost)
+        text.append(f"| {alias} | {arm} | {initial}/{den} | {final_success}/{den} | {failed}/{den} | {lost}/{initial} | {recovered}/{failed} | {total('nonoverwrite_forgetting_num')}/{total('nonoverwrite_forgetting_den')} |")
+    text+=['\n분모 0은 빈 조건부 집합이며 rate를 계산하지 않는다. 위 분해는 final rewrite 손실을 전부 forgetting으로 오인하지 않기 위한 것이다. At-write와 final 사이에 일시적 실패 후 회복한 경로는 별도의 cohort/retention matrix에 보존했다.',
         '\n### 6. Official 대비 retention/locality 및 문항 전이',
         '\npaired_seen_endpoint_metrics.csv는 exact request/prompt identity를 확인한 O/JV/L8 end-to-end 차이와 양방향 성공 전이를 제공한다. B1 이후 arm-local W/M/z가 다르므로 same-state causal contrast라고 부르지 않는다.',
         '\n| Model | Arm | Wk | W0-success→failure / W0-success | W0-failure→recovery / W0-failure | all NS prompts |',
