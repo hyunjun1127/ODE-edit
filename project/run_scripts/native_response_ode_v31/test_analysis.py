@@ -66,5 +66,12 @@ class AnalysisTests(unittest.TestCase):
         self.assertAlmostEqual(result['relative_to_second_update'],1/(8**.5))
         self.assertFalse(result['hash_only_convergence_claim'])
 
+    def test_audit_source_mapping_is_explicit_and_complete(self):
+        from .diagnostics_analysis import audit_root_mapping
+        sources={0:'/a',1:'/a',2:'/b',3:'/a'}
+        self.assertEqual(audit_root_mapping('/original',sources)[2],Path('/b'))
+        with self.assertRaises(ValueError):audit_root_mapping('/original',{0:'/a'})
+        self.assertEqual(audit_root_mapping('/original',None)[3],Path('/original'))
+
 
 if __name__=='__main__':unittest.main()
