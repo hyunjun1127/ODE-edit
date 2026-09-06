@@ -9,6 +9,7 @@
 #SBATCH --time=02:00:00
 #SBATCH --array=0-3%1
 #SBATCH --export=NONE
+#SBATCH --no-requeue
 set -euo pipefail
 pilot_repo="$1"
 pilot_root="$2"

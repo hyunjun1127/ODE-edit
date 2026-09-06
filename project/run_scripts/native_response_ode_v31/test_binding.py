@@ -2,6 +2,7 @@ import copy
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 import torch
 from project.run_scripts.ordered_response_barrier_ode.adapters import LayerBuild
 from project.run_scripts.ordered_response_barrier_ode.fp32_overlay import GroupedFP32Overlay
@@ -59,6 +60,19 @@ class BindingTests(unittest.TestCase):
             with self.assertRaises(FileExistsError):save(path,{'test':2})
             (Path(folder)/'link').symlink_to(Path(folder),target_is_directory=True)
             with self.assertRaises(RuntimeError):save(Path(folder)/'link'/'escape.json',{})
+
+    def test_derived_prefix_cannot_replace_primary_old_edit(self):
+        from .runtime import ObservedFamily,old
+        f=object.__new__(ObservedFamily)
+        f.last_terminal='PRIMARY';f.last_old_evaluation={'primary':1}
+        def observe(**kwargs):
+            f.last_terminal='PREFIX';f.last_old_evaluation={'prefix':1}
+            return {'status':'derived'}
+        with patch.object(old.FamilyRuntime,'finalize',side_effect=observe):
+            result=f.finalize(derived_observation_only=True)
+        self.assertEqual(result['status'],'derived')
+        self.assertEqual(f.last_terminal,'PRIMARY')
+        self.assertEqual(f.last_old_evaluation,{'primary':1})
 
 
 if __name__=='__main__':unittest.main()

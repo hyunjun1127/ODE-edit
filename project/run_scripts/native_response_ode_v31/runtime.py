@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import random
+import signal
 import time
 import traceback
 import torch
@@ -37,6 +38,15 @@ class ObservedFamily(old.FamilyRuntime):
         old._sync();self.evaluation_seconds+=time.perf_counter()-started
         return result
 
+    def finalize(self, **kwargs):
+        """Derived prefix evaluations cannot replace the primary observation."""
+        previous=(self.last_terminal,self.last_old_evaluation)
+        try:
+            return super().finalize(**kwargs)
+        finally:
+            if kwargs.get('derived_observation_only',False):
+                self.last_terminal,self.last_old_evaluation=previous
+
 
 def raw_requests(rows):
     return [dict(case_id=int(r['case_id']),prompt=r['requested_rewrite']['prompt'],
@@ -44,6 +54,9 @@ def raw_requests(rows):
 
 
 def run_cell(repo, root, cell_id):
+    def terminate(signum,frame):
+        raise RuntimeError(f'EXTERNAL_RESOURCE_TERMINATION_SIGNAL_{signum}')
+    signal.signal(signal.SIGTERM,terminate)
     cell=assets.cell_spec(cell_id)
     output=root/f'cell-{cell_id}'
     if output.exists():
