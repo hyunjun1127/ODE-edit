@@ -147,7 +147,7 @@ class NativeDictionary:
         started=time.perf_counter();rows=[]
         for layer in (4,5,6,7,8):
             name=f'{self.family.hparams.rewrite_module_tmp.format(layer)}.weight'
-            delta=parameters[name].detach().cpu().double()-entry[name].double()
+            delta=parameters[name].detach().cpu().double()-entry[name].detach().cpu().double()
             q=float((delta.T*self.operator(layer)(delta.T)).sum())
             frob=float(delta.square().sum())
             rows.append(dict(layer=layer,native_raw=q,frobenius_sq=frob,

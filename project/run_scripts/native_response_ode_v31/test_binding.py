@@ -74,5 +74,21 @@ class BindingTests(unittest.TestCase):
         self.assertEqual(f.last_terminal,'PRIMARY')
         self.assertEqual(f.last_old_evaluation,{'primary':1})
 
+    def test_dense_metric_aligns_both_endpoint_and_entry_to_cpu(self):
+        from types import SimpleNamespace
+        from .native_binding import NativeDictionary
+        class DeviceSnapshot:
+            def detach(self):return self
+            def cpu(self):return torch.zeros((2,3))
+            def double(self):raise AssertionError('entry remained on original device')
+        family=SimpleNamespace(hparams=SimpleNamespace(rewrite_module_tmp='layer{}'))
+        dictionary=NativeDictionary(family);dictionary.qref=5.
+        dictionary.operator=lambda layer:lambda value:value
+        weights={f'layer{l}.weight':torch.ones(2,3) for l in (4,5,6,7,8)}
+        snapshots={key:DeviceSnapshot() for key in weights}
+        result=dictionary.actual_dense_action(weights,snapshots)
+        self.assertEqual(result['native_net_raw'],30.)
+        self.assertEqual(result['native_net_normalized'],6.)
+
 
 if __name__=='__main__':unittest.main()

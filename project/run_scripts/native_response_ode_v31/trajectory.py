@@ -110,7 +110,7 @@ def run_joint(family, arm, dictionary, normalization, *, n=4, output, fixture):
             if fixture=='D2':
                 # Local raw only: enable physical endpoint Cauchy distances, not hash-only claims.
                 torch.save(dict(activation=endpoint_activation,
-                    delta={key:shadow[key]-family.w0[key] for key in shadow}),output/'endpoint-state.pt')
+                    delta={key:shadow[key].cpu()-family.w0[key].cpu() for key in shadow}),output/'endpoint-state.pt')
             old._sync(); edit_seconds=time.perf_counter()-start
             with overlay.suspend(authoritative=True):
                 endpoint=family.finalize(arm=arm,terminal_state_version=overlay.state_version,
