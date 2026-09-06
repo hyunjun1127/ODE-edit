@@ -34,8 +34,11 @@ def validate_inputs(repo,root):
 
 def verify_prerequisites(root,mode,index):
     if mode=='smoke':return
+    binding=json.loads((root/'smoke-gates.lock.json').read_text())
     for alias in ALIASES:
-        gate=json.loads((root/f'smoke-{alias}'/'terminal-receipt.json').read_text())
+        path=Path(binding['root'])/f'smoke-{alias}'/'terminal-receipt.json'
+        if assets.sha256_file(path)!=binding['terminal_receipt_sha256'][alias]:raise RuntimeError('SMOKE_GATE_RECEIPT_DRIFT')
+        gate=json.loads(path.read_text())
         if gate['status']!='TERMINAL_VALID' or gate['completed_batches']!=2 or gate['W0_restored'] is not True:
             raise RuntimeError('TWO_MODEL_TWO_BATCH_SMOKE_REQUIRED')
     if index>=4:
@@ -80,6 +83,7 @@ def run(repo,root,mode,index):
         hp.device=0;hp.stats_dir=str(assets.EASYEDIT_ARTIFACT_ROOT/'examples/data/stats')
         hp.P_loc=str(assets.EASYEDIT_ARTIFACT_ROOT/assets.MODEL_BINDINGS[alias]['projector'][0])
         module=old._method_module('AlphaEdit');module.CONTEXT_TEMPLATES_CACHE=None
+        account.bind_native(module)
         with old._model_name(model,str(hp.model_name)):contexts=module.get_context_templates(model,tok)
         save(output/'runtime.lock.json',dict(source=source,alias=alias,arm=arm,mode=mode,
             official=official,snapshot=str(snapshot),hparams=str(hppath),dtype=dtype,
@@ -101,6 +105,7 @@ def run(repo,root,mode,index):
                 f.prepare_method_state()
                 if bool(torch.count_nonzero(module.cache_c)):raise RuntimeError('COLD_M0_NOT_ZERO')
                 cold={n:p.detach().cpu().clone() for n,p in f.parameters.items()};coldsha=tensor_set_sha256(cold)
+                cold_pointers={n:p.data_ptr() for n,p in f.parameters.items()}
                 coldM=module.cache_c.detach().clone()
             else:f.bind_existing_method_state()
             check_entry(f,previous)
@@ -126,6 +131,8 @@ def run(repo,root,mode,index):
             if arm=='O_NATIVE':result=dict(arm=arm,endpoint=f.run_official(fixed_z=f.fixed_z),nodes=[],main_jvp_count=0)
             else:result=run_joint(f,arm,dictionary,normalization,batch_index=k,output=batchdir/'nodes')
             old._sync();write_compute=account.difference(before)
+            result['history_finalization_compute']=account.finish_history(f.evaluation_seconds if arm=='O_NATIVE' else 0.)
+            if write_compute['history_key_captures']!=5:raise RuntimeError('POST_HISTORY_FULL_INVENTORY_COUNT')
             endpoint=result['endpoint'];current_raw=endpoint['evaluation']
             save(batchdir/'current-full-raw.json',current_raw)
             endpoint['evaluation']=public_full(current_raw,rows)
@@ -175,6 +182,7 @@ def run(repo,root,mode,index):
             for n,p in parameters.items():p.copy_(cold[n].to(p.device))
             module.cache_c.copy_(coldM);module.cache_c_new=True
         restored=tensor_set_sha256(parameters)==coldsha and torch.equal(module.cache_c,coldM)
+        restored=restored and {n:p.data_ptr() for n,p in parameters.items()}==cold_pointers
         if not restored:raise RuntimeError('FINAL_W0_M0_RESTORE')
         if mode=='smoke':
             # One common original-W0 reference per model, after smoke state is discarded.

@@ -10,9 +10,31 @@ from .telemetry import restricted_l8,initial_history_gram,actual_delta_rows,same
 from .state import commit_checked,check_entry,checkpoint
 from .contracts import LAYERS,H,N,T,CHAINS,SCIENCE
 from .evaluation import public_full,public_rewrite,join_panels
+from .accounting import Accounting
+
+
+class FakeNative:
+    def __init__(self):self.cache_c=torch.zeros(5,1)
+    def compute_ks(self):return torch.ones(1)
+    def execute_AlphaEdit(self):
+        cache_c=self.cache_c
+        for i in range(5):
+            keys=self.compute_ks()
+            cache_c[i]+=keys
 
 
 class Tests(unittest.TestCase):
+    def test_profiling_preserves_values_and_counts_history(self):
+        module=FakeNative();model=torch.nn.Linear(1,1);ledger=Accounting(model)
+        try:
+            ledger.bind_native(module);module.execute_AlphaEdit()
+            self.assertTrue(torch.equal(module.cache_c,torch.ones(5,1)))
+            self.assertEqual(ledger.counts['history_key_captures'],5)
+            self.assertEqual(ledger.counts['native_keys'],5)
+            self.assertGreaterEqual(ledger.finish_history()['seconds'],0)
+            torch.testing.assert_close(torch.linalg.solve(torch.eye(2),torch.ones(2)),torch.ones(2))
+            self.assertEqual(ledger.counts['linalg_solve'],1)
+        finally:ledger.close()
     def test_l8_closed_form_support_and_mapping(self):
         gen=torch.Generator().manual_seed(31)
         p=torch.randn(9,5,generator=gen,dtype=torch.float64);e=torch.randn(9,generator=gen,dtype=torch.float64)

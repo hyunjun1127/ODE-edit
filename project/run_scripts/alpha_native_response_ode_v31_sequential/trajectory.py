@@ -25,6 +25,7 @@ def run_joint(family,arm,dictionary,normalization,*,batch_index,output):
                 old._sync();node_started=time.perf_counter()
                 terminal=family.terminal();e=normalization.weight(target-terminal)
                 version=overlay.state_version
+                build_time_before=dictionary.wall;jvp_time_before=observer.ledger.wall_seconds
                 builds=dictionary.build(terminal,version)
                 # qref was captured from all five ENTRY directions even for L8.
                 if arm=='L8_ONLY_NATIVE':builds=[b for b in builds if b.layer==8]
@@ -39,22 +40,28 @@ def run_joint(family,arm,dictionary,normalization,*,batch_index,output):
                     responses.append(response.response)
                 psi=torch.stack([normalization.weight(r)/q[i].sqrt() for i,r in enumerate(responses)],dim=1) if responses else torch.empty((e.numel(),0),dtype=torch.float64)
                 metric=torch.eye(len(active),dtype=torch.float64)
+                controller_start=time.perf_counter()
                 solution=nnls_response(e,psi,metric,LAMBDA)
                 c=solution.coefficients if arm=='JV_NATIVE' else restricted_l8(e,psi,layers)
                 fact=identities(e,psi,metric,c,LAMBDA)
                 bound=1e-10*max(1.,fact['gain'],fact['response_sq'],fact['qN'])
                 if abs(fact['dissipation_residual'])>bound or fact['speed_excess']>bound:raise RuntimeError('NNLS_DISSIPATION_BOUNDARY')
+                controller_seconds=time.perf_counter()-controller_start;shadow_start=time.perf_counter()
                 shadows=None
                 if arm=='JV_NATIVE':
                     gram=initial_history_gram(dictionary,active,q) if batch_index in CHECKPOINTS and node==0 else None
                     shadows=same_state_shadows(e,psi,metric,gf,q,layers,c,gram)
                 layers_action=layer_actions(dictionary,active,q,c)
+                shadow_seconds=time.perf_counter()-shadow_start
                 token=overlay.seal_sweep_entry(node)
                 for i,b in enumerate(active):overlay.append(b.overlay_delta(float(H*c[i]/q[i].sqrt())),sweep_token=token)
                 overlay.close_sweep(token)
+                post_start=time.perf_counter()
                 exit_terminal=family.terminal();exit_e=normalization.weight(target-exit_terminal)
+                old._sync();post_seconds=time.perf_counter()-post_start;physical_start=time.perf_counter()
                 shadow=overlay.materialize_shadow(device='cpu')
                 physical=actual_delta_rows(shadow,previous,family.w0,names);previous=shadow
+                physical_seconds=time.perf_counter()-physical_start
                 normalized_delta=normalization.weight(exit_terminal-terminal)
                 raw_prediction=sum((responses[i].double()*float(c[i]/q[i].sqrt()) for i in range(len(c))),torch.zeros_like(terminal,dtype=torch.float64))
                 v_after=float(exit_e.square().sum()/2);energy+=H*fact['qN']
@@ -75,6 +82,10 @@ def run_joint(family,arm,dictionary,normalization,*,batch_index,output):
                     inner_weight_mutation_count=0,inner_history_append_count=0,controller_heldout_access_count=0,
                     normalized_model_error_space='SOURCE_EXACT_N0_FROZEN_PER_BATCH',
                     node_wall_seconds=time.perf_counter()-node_started,
+                    compute_seconds=dict(native_dictionary=dictionary.wall-build_time_before,
+                        main_jvp=observer.ledger.wall_seconds-jvp_time_before,primary_NNLS=controller_seconds,
+                        shadow_metric_NNLS_and_layer_observers=shadow_seconds,post_step_forward=post_seconds,
+                        snapshot_materialization_and_actual_norm=physical_seconds),
                     **controller_matrices(e,psi,metric,c),**fact)
                 save(output/f'node-{node:02}.json',record);nodes.append(record)
             endpoint_activation=family.terminal()

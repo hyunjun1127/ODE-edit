@@ -35,7 +35,7 @@ def select_samples(repo,dataset):
         smoke_ids=[r['case_id'] for r in pilot['records'] if r['fixture'] in ('G0A','G0B')])
 
 
-def prepare(repo,root,official):
+def prepare(repo,root,official,smoke_root=None):
     repo,root,official=map(lambda p:Path(p).absolute(),(repo,root,official))
     if root.exists():raise RuntimeError('CREATE_ONCE_RUN_ROOT')
     if git(repo,'status','--porcelain','--untracked-files=all'):raise RuntimeError('SOURCE_MUST_BE_CLEAN')
@@ -57,6 +57,14 @@ def prepare(repo,root,official):
     root.mkdir(parents=True,mode=0o700)
     save(root/'source.lock.json',source);save(root/'science.lock.json',SCIENCE);save(root/'sample.lock.json',sample)
     save(root/'assets.lock.json',asset)
+    if smoke_root is not None:
+        smoke_root=Path(smoke_root).absolute()
+        if json.loads((smoke_root/'sample.lock.json').read_text())['ordered_root']!=sample['ordered_root']:
+            raise RuntimeError('SMOKE_MAIN_SAMPLE_BINDING')
+        gates={alias:assets.sha256_file(smoke_root/f'smoke-{alias}'/'terminal-receipt.json') for alias in assets.MODEL_BINDINGS}
+        save(root/'smoke-gates.lock.json',dict(root=str(smoke_root),terminal_receipt_sha256=gates,
+            reuse_boundary='identical state/target/NNLS/overlay/finalizer/checkpoint; child adds observation-only timings and pointer receipt',
+            source_head=json.loads((smoke_root/'source.lock.json').read_text())['head']))
     save(root/'resource.lock.json',dict(server='server2',cap=3,gpu_per_process=1,mem_mib=60416,cpus=8,
         maximum_hours=48,pilot_gpu_hour_cap_inherited=False,chains=CHAINS))
     save(root/'dry-plan.json',dict(smoke=dict(indices=[0,1],requests_per_batch=1,batches=2,arm='JV_NATIVE',
@@ -72,4 +80,5 @@ def prepare(repo,root,official):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--repo',type=Path,required=True);p.add_argument('--root',type=Path,required=True)
-    p.add_argument('--official',type=Path,required=True);a=p.parse_args();print(prepare(a.repo,a.root,a.official))
+    p.add_argument('--official',type=Path,required=True);p.add_argument('--smoke-root',type=Path)
+    a=p.parse_args();print(prepare(a.repo,a.root,a.official,a.smoke_root))
