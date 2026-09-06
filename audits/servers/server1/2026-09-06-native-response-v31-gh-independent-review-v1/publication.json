@@ -1,0 +1,31 @@
+{
+  "schema": "gh-native-v31-review-publication/v1",
+  "reviewed_main": "347a892a910317b606443cf53d9155ae6a460831",
+  "original_review_root": "/mnt/raid5/janghj/ODE-edit/local/native-response-v31-gh-review/20260906-r1",
+  "review_copy_byte_exact": true,
+  "existing_experiment_package_unchanged": true,
+  "model_gpu_slurm_actions": 0,
+  "publication_authority": "USER_MAIN_PUSH_REQUEST",
+  "members": [
+    {
+      "path": "gh-independent-review-ko.md",
+      "bytes": 12639,
+      "sha256": "03847659c68498e657b1f9709f76c7dfcdd37fff1fd5e00807581b08ab2145c1"
+    },
+    {
+      "path": "refinement-verification.json",
+      "bytes": 1879,
+      "sha256": "896155e87fa69d984e2b62656e1ef713eefa7618b94b1e5028cad9098780970a"
+    },
+    {
+      "path": "verification.json",
+      "bytes": 16105,
+      "sha256": "7f79c560d36a2fd18d9fe5e78f8ace6eb5f9e9a8d54d888614d802be33d99c7d"
+    },
+    {
+      "path": "verify.py",
+      "bytes": 9233,
+      "sha256": "91b3d9a580db5495dd5757189e6598bb89375fa4da4130b597b1a7fa14519622"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "actual_tensor_distance_pairs_checked": 8,
+  "mismatches": 0,
+  "values": [
+    {
+      "cell": 0,
+      "pair": [
+        2,
+        4
+      ],
+      "weight_distance": 0.12155760292761394,
+      "relative_update_distance": 0.08728450334874234,
+      "activation_distance": 0.332955856737149
+    },
+    {
+      "cell": 0,
+      "pair": [
+        4,
+        8
+      ],
+      "weight_distance": 0.05955524915626529,
+      "relative_update_distance": 0.04464598931431514,
+      "activation_distance": 0.1695146906644771
+    },
+    {
+      "cell": 1,
+      "pair": [
+        2,
+        4
+      ],
+      "weight_distance": 0.07397833469146739,
+      "relative_update_distance": 0.07155902370966896,
+      "activation_distance": 0.2940976887932814
+    },
+    {
+      "cell": 1,
+      "pair": [
+        4,
+        8
+      ],
+      "weight_distance": 0.04196575462538722,
+      "relative_update_distance": 0.0423088418207599,
+      "activation_distance": 0.16717645653961735
+    },
+    {
+      "cell": 2,
+      "pair": [
+        2,
+        4
+      ],
+      "weight_distance": 0.3491256413160892,
+      "relative_update_distance": 0.08985243186537253,
+      "activation_distance": 6.3368781598964
+    },
+    {
+      "cell": 2,
+      "pair": [
+        4,
+        8
+      ],
+      "weight_distance": 0.16639348704563922,
+      "relative_update_distance": 0.04469581991634768,
+      "activation_distance": 3.2627879785503495
+    },
+    {
+      "cell": 3,
+      "pair": [
+        2,
+        4
+      ],
+      "weight_distance": 0.33232962200177596,
+      "relative_update_distance": 0.07873414985151829,
+      "activation_distance": 5.990391338401639
+    },
+    {
+      "cell": 3,
+      "pair": [
+        4,
+        8
+      ],
+      "weight_distance": 0.17471521365707432,
+      "relative_update_distance": 0.04316283099387149,
+      "activation_distance": 3.2564827483584757
+    }
+  ]
+}
