@@ -72,6 +72,7 @@ def collect(root,output,label,with_plots=False):
             process_total_seconds=terminal['total_seconds'] if terminal else None,
             dedicated_one_gpu_process_hours=terminal['total_seconds']/3600 if terminal else None,
             terminal_compute=terminal['compute'] if terminal else 'NOT_YET_TERMINAL',
+            terminal_compute_wall_semantics='MONOTONIC_CLOCK_READING_NOT_ELAPSED',
             W0_restored=terminal['W0_restored'] if terminal else 'NOT_YET_TERMINAL')
         tables['run_registry'].append(registry)
         if terminal and terminal['completed_batches']==10 and terminal['requested']==1000:
@@ -160,7 +161,7 @@ def collect(root,output,label,with_plots=False):
         '\nsequential_commit_checks는 실제 W/M commit→entry identity 및 append1/recompute0을 결속한다. checkpoint1/5/10은 실제 selected weight/dense M tensor를 저장하고 다시 읽어 hash를 검증했다. Low-rank journal replay parity는 NOT_TESTED이며 hash만으로 복원성을 주장하지 않는다.',
         '\nlayer_allocation_nodes와 layer_action_decomposition은 g/full H/G, raw/normalized work, 실제 FP32 DeltaW를 구분한다. L8 share 감소 자체는 redistribution 성공이 아니다. 다른 layer의 절대 write/기여와 RS/PS를 함께 보아야 한다. 초기 history-cost shadow는 actual basis/response/N0/qref를 유지하며 M0+L2 Gram을 실제 계산한 observer다.',
         '\n## 비용',
-        '\ncompute_accounting의 writer 시간은 endpoint 평가 포함값과 endpoint 평가값을 함께 제공한다. Keys/solves/JVP/shadow/forward/materialization은 node와 writer receipt에 분리했다. History bracket은 post-key부터 snapshot/restore까지로, 순수 append-only 시간과 동일시하지 않는다. 첫 B100 비용의 10배는 예상치이지 실제 전체 시간은 아니다.',
+        '\ncompute_accounting의 writer 시간은 endpoint 평가 포함값과 endpoint 평가값을 함께 제공한다. Keys/solves/JVP/shadow/forward/materialization은 node와 writer receipt에 분리했다. History bracket은 post-key부터 snapshot/restore까지로, 순수 append-only 시간과 동일시하지 않는다. 첫 B100 비용의 10배는 예상치이지 실제 전체 시간은 아니다. Terminal compute.wall은 time.perf_counter의 절대 clock reading이며 elapsed가 아니다. 전체 시간은 terminal total_seconds/run_registry process_total_seconds, 구간 시간은 difference로 기록한 wall을 사용한다.',
         '\n## 독립 검토',
         '\nA/B/C 및 Cases A..H 판정은 current-B100, all-seen retention, 절대 layer action, same-state history-cost 및 실제 L8-only trajectory를 함께 비교한다. Main 네 chain 보고를 L8-only 완료까지 미루지 않는다. 1,000 edits 이후 generalization, global causal claim 또는 learned history preservation 보장은 이번 범위 밖이다.',
         f'\n원본 root: `{root}`',f"\nSource: `{read(root/'source.lock.json')['head']}`; sample root: `{sample['ordered_root']}`."]
@@ -199,6 +200,23 @@ def collect(root,output,label,with_plots=False):
     write(output/'factual-report-ko.md','\n'.join(text)+'\n')
     for name in ('source.lock.json','science.lock.json','sample.lock.json','resource.lock.json','smoke-gates.lock.json'):
         inputs.add(root/name)
+    # Byte-preserving, allowlisted, raw-free locks make peer review possible
+    # without treating server2 absolute input paths as shared storage.
+    portable=[(root/name,name) for name in (
+        'source.lock.json','science.lock.json','sample.lock.json','resource.lock.json','smoke-gates.lock.json',
+        'assets.lock.json','dry-plan.json','main-held-inspection.json')]
+    if (root/'l8-held-inspection.json').exists():
+        portable.append((root/'l8-held-inspection.json','l8-held-inspection.json'))
+    for chain in sorted(root.glob('chain-*')):
+        for name in ('runtime.lock.json','terminal-receipt.json'):
+            path=chain/name
+            if path.exists():portable.append((path,chain.name+'.'+name))
+    for path,name in portable:
+        inputs.add(path)
+        if path.is_symlink() or not path.is_file():raise RuntimeError('RAW_FREE_LOCK_REGULAR_FILE')
+        with path.open('rb') as src,(output/name).open('xb') as dst:
+            for chunk in iter(lambda:src.read(1024*1024),b''):dst.write(chunk)
+        if sha(path)!=sha(output/name):raise RuntimeError('RAW_FREE_LOCK_COPY_IDENTITY')
     code=Path(__file__).resolve().parent
     analysis_identity=dict(head=subprocess.check_output(['git','-C',str(code),'rev-parse','HEAD'],text=True).strip(),
         members=[dict(path=str(p),sha256=sha(p),bytes=p.stat().st_size) for p in sorted(code.glob('*.py'))])
