@@ -1,0 +1,268 @@
+{
+  "analysis_implementation": {
+    "head": "c11fd17d573689bb5a2c4e797a7acfba373b36e3",
+    "members": [
+      {
+        "bytes": 80,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/__init__.py",
+        "sha256": "bd71b395ac76c6944a4f54ba47c4a5352ca55077880fa3f7623b9beee9c1ea30"
+      },
+      {
+        "bytes": 3464,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/accounting.py",
+        "sha256": "02f4354995b75f4b1665e3fda57a88adf7f0be135c35893032b774d610767ffc"
+      },
+      {
+        "bytes": 9759,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/conclusions.py",
+        "sha256": "ab452ca0911e7e4f6ea6442c430083e5ae1e5c5b380152b9489f206d868f0c8d"
+      },
+      {
+        "bytes": 1293,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/contracts.py",
+        "sha256": "5be97ac714daa87a77ceef6b8dd542b24b061bc96eba6d7e8f08effc95474883"
+      },
+      {
+        "bytes": 1972,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/evaluation.py",
+        "sha256": "3bf8c76498ee2788973039cc86e8473af068227e752329518fbf025a27d6b999"
+      },
+      {
+        "bytes": 9146,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/milestones.py",
+        "sha256": "162b4dbe4734c6c9c9ed3a432d806d294a5bf2aed057db7c03b395a7e68ff06c"
+      },
+      {
+        "bytes": 3987,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/package_report.py",
+        "sha256": "b5c2af66d30c1da65ae076b90860a044f47f8b759efceb7fe3d35aae584ec0a4"
+      },
+      {
+        "bytes": 3257,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/plots.py",
+        "sha256": "1a93de552588ae5aaf9dd669a9c972f8cfb6794ef60721f8105cccbe098874c0"
+      },
+      {
+        "bytes": 6802,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/provenance.py",
+        "sha256": "583ca35b8492aaad9f4ce939b6150307c806438d357568411ce2375165fdd248"
+      },
+      {
+        "bytes": 2775,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/recovery_context.py",
+        "sha256": "821e7b043cc8fb64069c2ae955b0e19f3ab55410543dfee74d3639accff77730"
+      },
+      {
+        "bytes": 17113,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/reporting.py",
+        "sha256": "0c132ed5a2d25af11eddca2b8a675d357b7940a9a1243ca90c02dd9431f83c60"
+      },
+      {
+        "bytes": 16698,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/runtime.py",
+        "sha256": "4748729e66028c30e77e31de01811fa95169dfa674aaaf35b1bf489b1c7590ea"
+      },
+      {
+        "bytes": 2883,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/state.py",
+        "sha256": "5ff24ed01db0051785aa396f1b62dc02ec7ddc5c09b543a996f6cdc7c5ade43e"
+      },
+      {
+        "bytes": 12488,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/synthesis.py",
+        "sha256": "e5682f3242808980e475dfa05cfb560bdc1c232eef9f47a66773619378f880c3"
+      },
+      {
+        "bytes": 4098,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/telemetry.py",
+        "sha256": "758eb70cb22a86ae0b18d29489261bf853e283566e6750882b9b2a194a0d48a9"
+      },
+      {
+        "bytes": 4379,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/test_reporting.py",
+        "sha256": "d4b5dc67dba0bd88d318d0afcef8ef7fd59ff7fdc6b77f775bdf858e3918fbc9"
+      },
+      {
+        "bytes": 7390,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/test_sequential.py",
+        "sha256": "79d32eaab12b0f5d4138661f2c4209271f26e5f7a7295f1cb2b957a1e941db35"
+      },
+      {
+        "bytes": 8633,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/trajectory.py",
+        "sha256": "11795e561d96e455e2a504ce3b6b7962a1a94afd3ce2ce0686908a63130871e9"
+      }
+    ]
+  },
+  "completed_chains": [
+    0,
+    1
+  ],
+  "external_raw_free_tables": [
+    {
+      "bytes": 5364563,
+      "classification": "RAW_FREE_LARGE_TABLE_LOCAL_ONLY",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/b5-both-models-20260906-v1/prompt_transition_metrics.csv",
+      "sha256": "a1a1b5a8fcd6e199b73c6602d6bca71c51dd456f1e8794d9f6d8bd8657f07934"
+    },
+    {
+      "bytes": 5591655,
+      "classification": "RAW_FREE_LARGE_TABLE_LOCAL_ONLY",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/b5-both-models-20260906-v1/rewrite_retention_matrix.csv",
+      "sha256": "e1d6c33066369b4b670e9cb0ecd0aa2a6f0e8668725f620019787ab60a19321a"
+    }
+  ],
+  "members": [
+    {
+      "bytes": 620,
+      "path": "PACKAGE.md",
+      "sha256": "aaf00a82cd8aa18c994cfa9304ff7ed369147ecccd6c3cc28efb9f6c0694b683"
+    },
+    {
+      "bytes": 3388,
+      "path": "checkpoint_context_support.csv",
+      "sha256": "086fa91e2a22299e6cb6e7261f66162064787c4e89a92d74b88bd79ef7801603"
+    },
+    {
+      "bytes": 5033,
+      "path": "checkpoint_inventory.csv",
+      "sha256": "4b80a70c55c5997433f930e2411ae6bb4e164187c45bebb736a4829b136f9ab0"
+    },
+    {
+      "bytes": 66891,
+      "path": "compute_accounting.csv",
+      "sha256": "87e1e5d25c12fddd8600e4013c8395333f58af7594a70a78b290e7f7e30692c8"
+    },
+    {
+      "bytes": 27649,
+      "path": "current_batch_metrics.csv",
+      "sha256": "037b3131d46a9b911ea18b7847a277b8282e3484e84306b7976b4f0c98d47436"
+    },
+    {
+      "bytes": 640,
+      "path": "external-table-identities.json",
+      "sha256": "5e8d862a182b6a4fed648d24bdd4b5c74844a68896e646b5aff5701e234035f8"
+    },
+    {
+      "bytes": 17921,
+      "path": "factual-report-ko.md",
+      "sha256": "966876429437a1af6f09fb26bd3b0be5cda81f78e0bf1bdb34735e683a01c88e"
+    },
+    {
+      "bytes": 1,
+      "path": "failure_registry.csv",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "bytes": 5575,
+      "path": "final_metrics.csv",
+      "sha256": "8e5c7fe549ba8055861a120a907319ef851006fa7805a126f4fcc4274e8ec652"
+    },
+    {
+      "bytes": 4384,
+      "path": "history_cost_shadows.csv",
+      "sha256": "2868be722aa98df3dbdcf140a87cbc376feedaae85cdb876de1182312e8108eb"
+    },
+    {
+      "bytes": 154953,
+      "path": "l8_single_layer_shadows.csv",
+      "sha256": "ae306e081b6f3a80943f591b60ae485ca3d41b0a066149e92833efd8636d6f39"
+    },
+    {
+      "bytes": 176332,
+      "path": "layer_action_decomposition.csv",
+      "sha256": "847093dc46d3152874b9730e7599926afa1c0b6ccde8b7dbe2295db244bc4703"
+    },
+    {
+      "bytes": 83840,
+      "path": "layer_allocation_nodes.csv",
+      "sha256": "e47d550d8dc4fc008417c14d1910413f908e3042eaee8bf9fbaab8a804cc02c6"
+    },
+    {
+      "bytes": 5600,
+      "path": "layer_redistribution_summary.csv",
+      "sha256": "5d8ac74b70fc38b135b22ff190b64188f70772bbe5333da23f8a1351112c09b3"
+    },
+    {
+      "bytes": 124081,
+      "path": "llama3-8b-inst-trajectory-physical.png",
+      "sha256": "4fc635dd08c185a8d24d5e3808205c1daa9d7bfc95275948618e33adc3aad813"
+    },
+    {
+      "bytes": 618,
+      "path": "neighborhood_transition_summary.csv",
+      "sha256": "00e29e9c7c0915429ad128ef6cd272f012fce86fb349293c2993661be3be8778"
+    },
+    {
+      "bytes": 19974,
+      "path": "node_mechanism_summary.csv",
+      "sha256": "ed9e03686f29e29df3177e9ab56ad830a3b74a1890801759f136e1301a870188"
+    },
+    {
+      "bytes": 544,
+      "path": "online_own_batch_metrics.csv",
+      "sha256": "16a4491b071a9e8bf97b58597a0405309b38e14bcc8de24f936c6a031dccc33b"
+    },
+    {
+      "bytes": 1824,
+      "path": "paired_seen_endpoint_metrics.csv",
+      "sha256": "9bbe7b8d570d1335672f00d4fc0ff8ad366393aca8d481b061d1fbfb77a16699"
+    },
+    {
+      "bytes": 53311,
+      "path": "physical_layer_batch_metrics.csv",
+      "sha256": "78c65e550ecf4933e0478bda1d3dc7b9f9c61192d1fa46eb4f899f02c794bea0"
+    },
+    {
+      "bytes": 137527,
+      "path": "qwen2.5-7b-inst-trajectory-physical.png",
+      "sha256": "3f2b60f08e04f4c7d44d80b136d2b37bacdf200974f96ce08b0fc1cfa294a8af"
+    },
+    {
+      "bytes": 25176,
+      "path": "retention_cohort_metrics.csv",
+      "sha256": "80ee0429508b538e857ccb9dbfd1afa0e90e374457056f3270df744594ea930f"
+    },
+    {
+      "bytes": 1737,
+      "path": "run_registry.csv",
+      "sha256": "6a98f34b3e9a2bf1547146be9709ef959eab7f2c77d3320e3fca4d486ae8b519"
+    },
+    {
+      "bytes": 704,
+      "path": "scheduler_terminal.csv",
+      "sha256": "fd97438cd2faf7ba0c6bfc6b042ed0b2af5803d27ea9f9ae3a092f040e9b11f2"
+    },
+    {
+      "bytes": 10261,
+      "path": "seen_prefix_metrics.csv",
+      "sha256": "7df9f80014fc08a964f380d355768a2f8fd7fa047a5b72fbad06197dfa1dc87f"
+    },
+    {
+      "bytes": 12492,
+      "path": "sequential_commit_checks.csv",
+      "sha256": "02e1a14334e2305575ef94e0002abff2e4fc2a37d5d0a5af3eacfbf08866a49f"
+    },
+    {
+      "bytes": 101749,
+      "path": "source-analysis-manifest.json",
+      "sha256": "069425a87171347eedfaa43160a392ea5aa7c1553019dc3a2ab9b672dd2ddb48"
+    },
+    {
+      "bytes": 349,
+      "path": "source-rooted-analysis-receipt.json",
+      "sha256": "8fed9def612dd4bc9059f96ef5497b24fab65ee8b397a4f827c03a5fd663a8c5"
+    },
+    {
+      "bytes": 12566,
+      "path": "state_continuity_summary.csv",
+      "sha256": "a7145344e40fdf628083f7184132057c03f151ac8b2df7390631cafd02de07d7"
+    }
+  ],
+  "model_replay_count": 0,
+  "raw_prompt_target_generation_model_cache_log_bytes": 0,
+  "source_analysis_root": "d81bcc5fa2910502c7955607f3258fc89a9d841d764f3979aa755ae14d12deb8",
+  "source_head": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+  "source_report_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/b5-both-models-20260906-v1/factual-report-ko.md",
+  "source_report_sha256": "966876429437a1af6f09fb26bd3b0be5cda81f78e0bf1bdb34735e683a01c88e"
+}

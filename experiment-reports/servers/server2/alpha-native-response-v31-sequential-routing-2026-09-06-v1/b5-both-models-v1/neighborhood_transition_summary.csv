@@ -1,0 +1,11 @@
+W0_failure_denominator,W0_failure_to_recovery,W0_success_denominator,W0_success_to_failure,alias,arm,batch,canonical_prompt_denominator
+114,9,886,37,llama3-8b-inst,JV_NATIVE,1,1000
+608,105,4392,588,llama3-8b-inst,JV_NATIVE,5,5000
+114,9,886,26,llama3-8b-inst,O_NATIVE,1,1000
+608,113,4392,405,llama3-8b-inst,O_NATIVE,5,5000
+1180,254,8820,1490,llama3-8b-inst,O_NATIVE,10,10000
+140,12,860,39,qwen2.5-7b-inst,JV_NATIVE,1,1000
+771,140,4229,462,qwen2.5-7b-inst,JV_NATIVE,5,5000
+140,5,860,16,qwen2.5-7b-inst,O_NATIVE,1,1000
+771,129,4229,642,qwen2.5-7b-inst,O_NATIVE,5,5000
+1537,353,8463,1838,qwen2.5-7b-inst,O_NATIVE,10,10000
