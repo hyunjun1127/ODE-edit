@@ -1,0 +1,15 @@
+{
+  "authority": "USER_AUTHORIZED",
+  "immutable_lock_mutation_count": 0,
+  "max_extra_gpu_hours_per_cell": 2,
+  "max_extra_gpu_hours_total": 8,
+  "mem_mib": 182272,
+  "nonce": "ODEEDIT-SERVER1-CAP4-GH-FINAL-REVIEW-20260906-R1",
+  "prior_job37677_cancel_count": 0,
+  "project_gpu_cap": 4,
+  "science_change_count": 0,
+  "supersedes_resource_lock_fields": {
+    "array": "0-3%4",
+    "max_parallel_gpu_jobs": 4
+  }
+}

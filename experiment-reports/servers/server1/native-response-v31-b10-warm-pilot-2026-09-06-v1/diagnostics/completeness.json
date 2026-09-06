@@ -1,0 +1,14 @@
+{
+  "audit_NS_denominator": 1600,
+  "audit_PS_denominator": 320,
+  "audit_RS_denominator": 160,
+  "audit_valid_arms": 16,
+  "expected_audit_NS_denominator": 1600,
+  "expected_audit_PS_denominator": 320,
+  "expected_audit_RS_denominator": 160,
+  "expected_audit_arms": 16,
+  "expected_refinement_units": 12,
+  "imputation_count": 0,
+  "primary_result_change_count": 0,
+  "refinement_units": 12
+}

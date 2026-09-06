@@ -1,0 +1,70 @@
+{
+  "array": "0-3%4",
+  "cap": 4,
+  "job": 37681,
+  "mem_mib": 182272,
+  "reserved_seconds": 6300,
+  "scientific_promotion": false,
+  "scontrol": "JobId=37681 ArrayJobId=37681 ArrayTaskId=0-3%4 ArrayTaskThrottle=4 JobName=odeedit_native_v31_pilot UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=0 Nice=0 Account=lab QOS=normal JobState=PENDING Reason=JobHeldUser Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=01:45:00 TimeMin=N/A SubmitTime=2026-09-06T12:51:21 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-06T12:51:21 Scheduler=Main Partition=gpu AllocNode:Sid=devbox:1264703 ReqNodeList=devbox ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=12 NumTasks=1 CPUs/Task=12 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=12,mem=178G,node=1,billing=12,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=12 MinMemoryNode=178G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/project/run_scripts/native_response_ode_v31/pilot.sbatch SubmitLine=sbatch --hold --parsable --array=0-3%4 --time=01:45:00 --output=/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/slurm-%A_%a.out --error=/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/slurm-%A_%a.err project/run_scripts/native_response_ode_v31/pilot.sbatch /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3 /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3 WorkDir=/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3 StdErr=/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/slurm-37681_4294967294.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/slurm-37681_4294967294.out TresPerNode=gres/gpu:1 TresPerTask=cpu=12\n",
+  "source": {
+    "easyedit": {
+      "head": "14cea8245f06715684592ab55184939b99d70784",
+      "implementation_boundary": "ODE_EDIT_HOOK_STOCK_EASYEDIT_READ_ONLY",
+      "members": [
+        {
+          "bytes": 13663,
+          "path": "easyeditor/models/alphaedit/AlphaEdit_main.py",
+          "sha256": "1016bf13b4521dddd134f54884f00c1a7fb95c33e477c9ba2fe9e0f275e2fb9a"
+        },
+        {
+          "bytes": 10172,
+          "path": "easyeditor/models/alphaedit/compute_z.py",
+          "sha256": "f6fd935b1fbbb05cd656618414f8b71f45d2d0458f617de85c40d6013d84234a"
+        },
+        {
+          "bytes": 1552,
+          "path": "easyeditor/models/alphaedit/compute_ks.py",
+          "sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba"
+        },
+        {
+          "bytes": 74,
+          "path": "easyeditor/models/alphaedit/__init__.py",
+          "sha256": "609bef490ec45743ee9ecd6cd2e01280860d8aa27b3ea96b6b78f0586463f113"
+        },
+        {
+          "bytes": 11103,
+          "path": "easyeditor/models/memit/memit_main.py",
+          "sha256": "39b0c91b586a136be2b6bdfabbcc17705fb3cc07e7f17e739fe565906d9d6ea7"
+        },
+        {
+          "bytes": 10575,
+          "path": "easyeditor/models/memit/compute_z.py",
+          "sha256": "a293bf042fba463e5060887160a6c8453b427b91a6c9a6061b5a8cce5ca0187e"
+        },
+        {
+          "bytes": 1540,
+          "path": "easyeditor/models/memit/compute_ks.py",
+          "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+        },
+        {
+          "bytes": 1578,
+          "path": "easyeditor/models/memit/memit_hparams.py",
+          "sha256": "223dc4e663a049214c0528a02eff8c066413fbee9bce98735a2ce8d1c6585f41"
+        }
+      ],
+      "members_root": "a7935ad384903e4bb37fc8eaab6d2542c3733d5356518e4c929a9028b63c5962",
+      "root": "/mnt/raid5/janghj/.codex/worktrees/easyeditsh1-official-readonly-v1",
+      "tracked_clean": true,
+      "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7"
+    },
+    "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+    "historical_execution_heads": [
+      "9b167455c1562be076aa2437fa63565187804aa7",
+      "f47d035dc1ac35b1adcd8c036336ea69c5f32a4e"
+    ],
+    "historical_report_ref": "f2dcfd4ab6fcb2917ae0a29cbc384cf95a82eb3c",
+    "tracked_dirty": "",
+    "tree": "5c7310d74357461f3040cf22342282b69cda7baf"
+  },
+  "status": "PASS"
+}

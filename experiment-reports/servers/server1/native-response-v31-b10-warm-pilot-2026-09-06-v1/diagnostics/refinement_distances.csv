@@ -1,0 +1,9 @@
+cell,first_N,second_N,delta_W_distance,relative_to_second_update,activation_distance,relative_activation_distance,residual_difference_distance,residual_difference_identity,hash_only_convergence_claim
+0,2,4,0.12155760292761394,0.08728450334874234,0.332955856737149,0.048024057790794925,0.332955856737149,same fixed target: residual difference = negative activation difference,False
+0,4,8,0.05955524915626529,0.04464598931431514,0.1695146906644771,0.024768431028057467,0.1695146906644771,same fixed target: residual difference = negative activation difference,False
+1,2,4,0.07397833469146739,0.07155902370966896,0.2940976887932814,0.042213456176989524,0.2940976887932814,same fixed target: residual difference = negative activation difference,False
+1,4,8,0.04196575462538722,0.0423088418207599,0.16717645653961735,0.02430431167194814,0.16717645653961735,same fixed target: residual difference = negative activation difference,False
+2,2,4,0.3491256413160892,0.08985243186537253,6.3368781598964,0.05868506578350442,6.3368781598964,same fixed target: residual difference = negative activation difference,False
+2,4,8,0.16639348704563922,0.04469581991634768,3.2627879785503495,0.030887240544717084,3.2627879785503495,same fixed target: residual difference = negative activation difference,False
+3,2,4,0.33232962200177596,0.07873414985151829,5.990391338401639,0.05532537143678723,5.990391338401639,same fixed target: residual difference = negative activation difference,False
+3,4,8,0.17471521365707432,0.04316283099387149,3.2564827483584757,0.030743025488460574,3.2564827483584757,same fixed target: residual difference = negative activation difference,False

@@ -1,0 +1,12 @@
+{
+  "actual_content_identity": "92e4f2b2f6a7e80a86cf57ffa456533806097adaf5eb301f57959ca7c695dbe9",
+  "cross_process_pointer_equality_required": false,
+  "equation_change_count": 0,
+  "expected_content_identity": "92e4f2b2f6a7e80a86cf57ffa456533806097adaf5eb301f57959ca7c695dbe9",
+  "new_process_bound_identity": "348d06530c73f8460e7fce0610b8a8a0ccd3cfc2c78aa143461b03ac4f238127",
+  "original_process_bound_identity": "56b7734da4dae50f7d71a16dd397ec54bce8b9874ad9464fdca04bcfd94733f2",
+  "reference": "SHA_SEALED_PRIMARY_WARM_CACHE_TENSOR",
+  "status": "PASS",
+  "tolerance_change_count": 0,
+  "within_process_pointer_version_guards_preserved": true
+}

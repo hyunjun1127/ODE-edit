@@ -1,0 +1,1328 @@
+[
+  {
+    "bytes": 7518,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/assets.lock.json",
+    "sha256": "08c06390bd3b1747d401e1d9af58f6b4a7d08714519d2abb9308569a2515d7d6"
+  },
+  {
+    "bytes": 416,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cap4-control-override.json",
+    "sha256": "d0f23d4736dd0624778a9976c097d328f524f32511391e93ff19eca3ff2f9f2c"
+  },
+  {
+    "bytes": 115322,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10A-native-warm-creation.json",
+    "sha256": "b05c79509d07989eb66ee282b57292c4de9844de7183cabfb5e6b367ec6458c3"
+  },
+  {
+    "bytes": 12519,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/JV_NATIVE/node-00.json",
+    "sha256": "ffb7f080b5886f2817a24e15cc346f9806adc699c33619407f0ed64f697bb00e"
+  },
+  {
+    "bytes": 12568,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/JV_NATIVE/node-01.json",
+    "sha256": "eab44c3bdb5d549da48c1ef3bd097ade61d2ea14b80f4ad20938b7e717ff9196"
+  },
+  {
+    "bytes": 12731,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/JV_NATIVE/node-02.json",
+    "sha256": "d667137ebd9d6e8a5ecc304243e8dfb185c5109f12c4a45eb49255cc78cf601a"
+  },
+  {
+    "bytes": 12774,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/JV_NATIVE/node-03.json",
+    "sha256": "cf04f82223f1c29153baae5072bad378f7a998e9156748c88fd5fc94c50b4a08"
+  },
+  {
+    "bytes": 10448,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/JV_NATIVE/shadow-00.json",
+    "sha256": "506f866219f5558856a916c4dc92d7b5dd766fc693fb077523cdb5c8516ef7ef"
+  },
+  {
+    "bytes": 10500,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/JV_NATIVE/shadow-01.json",
+    "sha256": "49a6c4e07da3e2751a31f52f5766765045e8414a57c5ab82676f02cbad2e7760"
+  },
+  {
+    "bytes": 10601,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/JV_NATIVE/shadow-02.json",
+    "sha256": "c970b0dd910ef13f324bb3d172349678bb7092d2ae99228574206acd598972de"
+  },
+  {
+    "bytes": 10700,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/JV_NATIVE/shadow-03.json",
+    "sha256": "ef3e47ab2edbd31dc468bb5d13aa151d59d08bdb016b10928b00276180602f73"
+  },
+  {
+    "bytes": 12574,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/ORB_RAY_N/node-00.json",
+    "sha256": "f1ab528c957becfa822b34f588ef3c046f3957e116c895aeb1a88de66d456ca7"
+  },
+  {
+    "bytes": 12675,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/ORB_RAY_N/node-01.json",
+    "sha256": "120f017f0ab2d2d0b4a33e5266c176d9ad903589ca5a3f6d021eac69391f0d06"
+  },
+  {
+    "bytes": 12698,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/ORB_RAY_N/node-02.json",
+    "sha256": "9b898388e6dbd28855461d718d84bd9af07685e8e5f57808bd307dd1c5912c47"
+  },
+  {
+    "bytes": 12752,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/ORB_RAY_N/node-03.json",
+    "sha256": "4f6a99ca9e169c4bb4509b31ddbde609f3473ae6bd53e9318d2b1d24d98114ac"
+  },
+  {
+    "bytes": 10448,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/ORB_RAY_N/shadow-00.json",
+    "sha256": "53aa47feac721317fb66068737d902e717fa36c9ebcd9e93e42998d272deb6eb"
+  },
+  {
+    "bytes": 10604,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/ORB_RAY_N/shadow-01.json",
+    "sha256": "3804f62f0ee5165fcf2264dcdbe4ae281bea7de103fb0284ce78814e35442f38"
+  },
+  {
+    "bytes": 10617,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/ORB_RAY_N/shadow-02.json",
+    "sha256": "10434afd0b343505717833529d1f3e54da93d2fb6ad9813bec839f0285dd9d47"
+  },
+  {
+    "bytes": 10667,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B/ORB_RAY_N/shadow-03.json",
+    "sha256": "991810fa6e6218ff8639cfd720a2e49e8dea29a506d41fb65bc1228b632b4002"
+  },
+  {
+    "bytes": 462625,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B-JV_NATIVE.json",
+    "sha256": "a69676481372459187bcdac4f728c01c5204d515032b3bc608c21dcbcbfa9754"
+  },
+  {
+    "bytes": 643150,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B-ORBFH_HIST.json",
+    "sha256": "302e5420ef0bcd92a32190f13308ac067f0c5b512a5cf6830fbf3ac9f32b31de"
+  },
+  {
+    "bytes": 462872,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B-ORB_RAY_N.json",
+    "sha256": "72a8409daec24a6b114423b79f93836dc176b62d998e6cc3064dba4eecbe05ea"
+  },
+  {
+    "bytes": 354395,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B-O_NATIVE.json",
+    "sha256": "1902ab04d90078d54cc18ebb3dc2d92d08e73568e987b0333eb20615f9f12f02"
+  },
+  {
+    "bytes": 228643,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/D10B-entry.json",
+    "sha256": "4ddb2fcc30503f92e012bb33a72d012b6cd32e175c849865491e2750a350e021"
+  },
+  {
+    "bytes": 1034,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0A/fd-layer4.json",
+    "sha256": "de16a25615e856e5d4f0ef3eac097638dcf9dbc13fc38a61453ea9c784909e81"
+  },
+  {
+    "bytes": 1032,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0A/fd-layer5.json",
+    "sha256": "88c22af0f3fb0fda8ce05035c7cc5c61a62291790632c085f78f0db9e57af376"
+  },
+  {
+    "bytes": 1035,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0A/fd-layer6.json",
+    "sha256": "7f260b19f2a95814a6720eb54e3e5bd54c9c402838f6031cc68d2be29af2969d"
+  },
+  {
+    "bytes": 1034,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0A/fd-layer7.json",
+    "sha256": "7eded89c02ae876b32410e75d0560dce6d90d9fd043da80843ad18a32ccc5305"
+  },
+  {
+    "bytes": 1034,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0A/fd-layer8.json",
+    "sha256": "0ffb9a03dcc5454a3664abe7618e55d85fff48d63f87d166e17a7e346f91bf62"
+  },
+  {
+    "bytes": 9528,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0A/gpu_fidelity_checks.json",
+    "sha256": "7fb726a3fb993c5188355e7c36da7174f38345189ba98f9258d309da6d1b741a"
+  },
+  {
+    "bytes": 13173,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0A/official-endpoint.json",
+    "sha256": "6532649c513ff8c170c384f313af1e01db9b0c9add1940da8bd6172c270ebb1b"
+  },
+  {
+    "bytes": 1030,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0B/fd-layer4.json",
+    "sha256": "c518858aaf12bbf54e84a52363131e3b6f3621146a35a42d04fefd3ba2eb162b"
+  },
+  {
+    "bytes": 1035,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0B/fd-layer5.json",
+    "sha256": "09041061b13d79baf5a77671158f95a3ee7827d6656f69b37f1816b8ba38ddec"
+  },
+  {
+    "bytes": 1036,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0B/fd-layer6.json",
+    "sha256": "8a2bd8d7f97c721f276cf659ab1893c6ed01320ab1a327882317c05c5bab76bf"
+  },
+  {
+    "bytes": 1034,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0B/fd-layer7.json",
+    "sha256": "abce270120e9366e5113efc67954b19819f5dce2bf0c22a14fb569ba9db70406"
+  },
+  {
+    "bytes": 1034,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0B/fd-layer8.json",
+    "sha256": "f6edd58d5d53a5d2ce7048867233ad03ef306cad1bf2a0be6ba8dcd6511d86a0"
+  },
+  {
+    "bytes": 9525,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0B/gpu_fidelity_checks.json",
+    "sha256": "69ebda1b3f0d850aba2acc4d4a6419a8bde893329fcb050f30e37896b03030f7"
+  },
+  {
+    "bytes": 12802,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/G0B/official-endpoint.json",
+    "sha256": "3d7174ea1f5a0a604b7962eb803ff146c83cb15ebf234a24d818cb9743a20549"
+  },
+  {
+    "bytes": 84,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/audit-status.json",
+    "sha256": "1f4f53555bddd515df251b468c68edc4c92485e042a47fc8581b3a1eb2ccb2dc"
+  },
+  {
+    "bytes": 143,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/first-valid-G0A.json",
+    "sha256": "5fba2e0c74e40e99595562aebafd6c07113f572bc472590672731e5e817cda5f"
+  },
+  {
+    "bytes": 143,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/first-valid-G0B.json",
+    "sha256": "454dbab469ae513e4bb4cc73730346a2e4bb2d50033f99667dc652bd70bad844"
+  },
+  {
+    "bytes": 21530,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/gpu_fidelity_checks.json",
+    "sha256": "6c1e8dd5fc1effa8caa9fd90c32b8e209de4943e6a73951fac6ad0adc27ac739"
+  },
+  {
+    "bytes": 378,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/primary-terminal.json",
+    "sha256": "84ec2bfa92e3b0caffc3d66283fa1434d818d839f93154797b14ec9ce2ce159c"
+  },
+  {
+    "bytes": 118,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/progress-1.json",
+    "sha256": "d47258e3691162019d955083416b44f955f4f046afb905dc509802d200fad8a8"
+  },
+  {
+    "bytes": 138,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/progress-2.json",
+    "sha256": "e6cb4c41415e9a61acb81514fefaf17e03a01b67a07b24e5365b128232af3023"
+  },
+  {
+    "bytes": 155,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/progress-3.json",
+    "sha256": "44f19c7d34f49ac4dc08c641214aa9a5159625d90e86b23cce1c4a00e55d8254"
+  },
+  {
+    "bytes": 172,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/progress-4.json",
+    "sha256": "36dae64cfe66730e3f8ba0a8b947d136f054e0c26d1c0d4844c1fb5e0a46448e"
+  },
+  {
+    "bytes": 154,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/refinement-status.json",
+    "sha256": "f196fbf3b952fe13ec261d6239b47ed4162fbb79243ba59ac253bbe87b6b64e8"
+  },
+  {
+    "bytes": 4115,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/runtime.lock.json",
+    "sha256": "8af54fec0cab0836596537ae477be4365c3416626488949e41e6b4495bcd118a"
+  },
+  {
+    "bytes": 526,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/terminal.json",
+    "sha256": "e8e73b616b89ea4c4dcc1c3a4502c090d56f19207a8c0edfc9637ffa94cd0436"
+  },
+  {
+    "bytes": 707,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/warm-entry.json",
+    "sha256": "73a61f95581243a21311bd03aafb42ceb1288d6adb2c658bf4e723aff55944a1"
+  },
+  {
+    "bytes": 1174409018,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/warm-state.pt",
+    "sha256": "c5194d0b35ea6326f6a4482eeeeaac7f83635a7461d7606232e99cb7f15b69d2"
+  },
+  {
+    "bytes": 115323,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10A-native-warm-creation.json",
+    "sha256": "d1f91aa126321f919592725a2256f9346b50bbb6a84cb6cac122781f1c3b1ffc"
+  },
+  {
+    "bytes": 12462,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/JV_NATIVE/node-00.json",
+    "sha256": "6d3729069a361f3a0d9f1cdfbf00640244bdbf2564433c8883762fbea0a7dc3a"
+  },
+  {
+    "bytes": 12537,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/JV_NATIVE/node-01.json",
+    "sha256": "7425ef29f5ca217b9a42c831b57b5a067c357405061712924643f92fd4fc5d73"
+  },
+  {
+    "bytes": 12718,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/JV_NATIVE/node-02.json",
+    "sha256": "f9b3197e8f2dafe41442da99758d70355e0be0f5dd361d390bd1b616ae0cb7fe"
+  },
+  {
+    "bytes": 12807,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/JV_NATIVE/node-03.json",
+    "sha256": "2c046e2686c3653c39428c8827f8c9135b0ea1cf077a650cb5b97b22a39bea03"
+  },
+  {
+    "bytes": 10435,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/JV_NATIVE/shadow-00.json",
+    "sha256": "0fa9a8ee5ef2eda99ae7311dfdaaa5344b8f6a5486eb9d681a8a98080f843fda"
+  },
+  {
+    "bytes": 10482,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/JV_NATIVE/shadow-01.json",
+    "sha256": "214427f5252b1201c262649cab0eeada85e271b80576d413f320131cbce72666"
+  },
+  {
+    "bytes": 10611,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/JV_NATIVE/shadow-02.json",
+    "sha256": "7d2cf79c77f56a2ba214e7fb62882a964527b52c90004c7e3577a5db2ad7f9c5"
+  },
+  {
+    "bytes": 10735,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/JV_NATIVE/shadow-03.json",
+    "sha256": "aea7ba0a4f32d0933d7de70a073132f216685e6359d2c66b6eb711dccb59d498"
+  },
+  {
+    "bytes": 12518,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/ORB_RAY_N/node-00.json",
+    "sha256": "e442221edbe3f9f77766ce3db639486a02cb3cdf4ce18b2d18eb2b862b8c9ea4"
+  },
+  {
+    "bytes": 12678,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/ORB_RAY_N/node-01.json",
+    "sha256": "0af828c97867965b27d90c2f31d6f7330b0c1f0833dc0261856b504bd5b49982"
+  },
+  {
+    "bytes": 12629,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/ORB_RAY_N/node-02.json",
+    "sha256": "06bd13e588e1e77577b6d7c65819bc6410de90154390dc5f2900741a76fb56ac"
+  },
+  {
+    "bytes": 12791,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/ORB_RAY_N/node-03.json",
+    "sha256": "ffb82139d799e58f5f363376e1fdf031f7f972ab4d645710f5f516328eade1d7"
+  },
+  {
+    "bytes": 10435,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/ORB_RAY_N/shadow-00.json",
+    "sha256": "a59d2590f33100320ef550c8c9cb05bf15edd3ba9815a289ac5f8afee0c5891b"
+  },
+  {
+    "bytes": 10621,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/ORB_RAY_N/shadow-01.json",
+    "sha256": "8d23b204c3927e676304eccfac38a836482769b7fdcb8538aed5435bf5c075d7"
+  },
+  {
+    "bytes": 10445,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/ORB_RAY_N/shadow-02.json",
+    "sha256": "d4fb0957fcd3240ab77eb4dfb48bf6a194ecc0d8661252502f880dbf23f30fbe"
+  },
+  {
+    "bytes": 10615,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B/ORB_RAY_N/shadow-03.json",
+    "sha256": "26f87156458e782c11889fe7781ff84677390478dde722c7bc9dc940f1e02459"
+  },
+  {
+    "bytes": 462613,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B-JV_NATIVE.json",
+    "sha256": "a0d8483712c80387e42633a9e36ee0a8fc59fb8f7f9606c7a9cd504c75646411"
+  },
+  {
+    "bytes": 642377,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B-ORBFH_HIST.json",
+    "sha256": "0958b2ef2c4296b92ee1815964c56555cfda05555fac35bd161c081a24ff4e67"
+  },
+  {
+    "bytes": 462571,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B-ORB_RAY_N.json",
+    "sha256": "a052a581ef413bf16beba39dd2a54c7749e8aa43eef6559d8c5b89f186864519"
+  },
+  {
+    "bytes": 354429,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B-O_NATIVE.json",
+    "sha256": "544f1c134f184d91503f87eb1b022564f188d3cc447b8b9fc261a4f6d38c1eba"
+  },
+  {
+    "bytes": 228656,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/D10B-entry.json",
+    "sha256": "394d5c52e7b37590f3407166dcd78530505f6f3444a316fde4a6cf25fbbbf1e4"
+  },
+  {
+    "bytes": 1102,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0A/fd-layer4.json",
+    "sha256": "c6114622833d00b32fb47b5947de5b366e3040d78289be78068eb3a5c7e5dcdb"
+  },
+  {
+    "bytes": 1103,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0A/fd-layer5.json",
+    "sha256": "84ba5b3ae033446af7d5eca2c41ce319e8637e51be4d7f9d6c0dc55cb8b5af75"
+  },
+  {
+    "bytes": 1100,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0A/fd-layer6.json",
+    "sha256": "2d3f6675765286991f032db4ae5ced703d3295f2d218f93f97232023e18e55c8"
+  },
+  {
+    "bytes": 1103,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0A/fd-layer7.json",
+    "sha256": "b7ead9755f7a9eca51b8647a1558454ee48791a7101c75754a0cca9f673774ee"
+  },
+  {
+    "bytes": 1103,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0A/fd-layer8.json",
+    "sha256": "80468c570553746493c49ae7df9f2e529f3fb1293e0b87fbbbc6f23325f259ac"
+  },
+  {
+    "bytes": 9902,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0A/gpu_fidelity_checks.json",
+    "sha256": "b199bad94e3a7fce186aa6006fcbd0e3d4123cb209a7666bc5c2f38f8851cb45"
+  },
+  {
+    "bytes": 13193,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0A/official-endpoint.json",
+    "sha256": "3df4c3df5c2c95baceadc4e6e6379897d9014b712b60ca086162a36ecccc42f5"
+  },
+  {
+    "bytes": 1102,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0B/fd-layer4.json",
+    "sha256": "f3fcc9dfa5e0107749b0e49ddacc8a2075618f4c235aabca40102a2ff4cb2c75"
+  },
+  {
+    "bytes": 1104,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0B/fd-layer5.json",
+    "sha256": "3d36062b643ef56d7ef080d65bbd0a90c7569558d50c42f17198df5729dab2fb"
+  },
+  {
+    "bytes": 1105,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0B/fd-layer6.json",
+    "sha256": "8269568538cecd65862ce77d5877235545632a4c865bec1f646a01177bd65bf6"
+  },
+  {
+    "bytes": 1099,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0B/fd-layer7.json",
+    "sha256": "945a1674d3e740a5dbe94f1b572746c3a99eb2e2b930e529f9fb43b09050eee3"
+  },
+  {
+    "bytes": 1104,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0B/fd-layer8.json",
+    "sha256": "30a78e714c1329cac42d4e70a2b024515fdf18cfdf8fed4685d6ba00d8543ef6"
+  },
+  {
+    "bytes": 9909,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0B/gpu_fidelity_checks.json",
+    "sha256": "701937543b9d5338f96cdda75db64feb6ea97240806cec25735550f7e7fae8d8"
+  },
+  {
+    "bytes": 12824,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/G0B/official-endpoint.json",
+    "sha256": "efe107a6299c03c77010ae3f82aad67104d89ed4a99c109f4050174773f236ee"
+  },
+  {
+    "bytes": 84,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/audit-status.json",
+    "sha256": "1f4f53555bddd515df251b468c68edc4c92485e042a47fc8581b3a1eb2ccb2dc"
+  },
+  {
+    "bytes": 143,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/first-valid-G0A.json",
+    "sha256": "156488df53afa73e9fc4cbe58f49cfb271f8c0a335754375056064c7fbb2ce32"
+  },
+  {
+    "bytes": 143,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/first-valid-G0B.json",
+    "sha256": "99a982a963f57b18ffa7a008cf47c10f59cac3dbbf41a601d902dd2c6afcfd6e"
+  },
+  {
+    "bytes": 22328,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/gpu_fidelity_checks.json",
+    "sha256": "ef146e3ef36c06570e76314c82dfad17f18c2019c75e9864f25d2e8e6a1c7044"
+  },
+  {
+    "bytes": 378,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/primary-terminal.json",
+    "sha256": "01c1f06724258e41c02db4f5e361724885ca1d8cc541d355197bd26613986e1c"
+  },
+  {
+    "bytes": 118,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/progress-1.json",
+    "sha256": "e9238bfc034b6ea3ddf6bdeafed2deb153b552ef1a2831c2f0c8fb6dbb752d13"
+  },
+  {
+    "bytes": 138,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/progress-2.json",
+    "sha256": "0ebdcb80814e7155e89a19c019bb13b7188a5552684b6adc2014bc4aa1048cdd"
+  },
+  {
+    "bytes": 155,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/progress-3.json",
+    "sha256": "a177f40ba70ab1ece23c76de579f5cafd4db31ffe9b9d5b5cfa7ad70ecb927e5"
+  },
+  {
+    "bytes": 172,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/progress-4.json",
+    "sha256": "4717a7be4c8967f4a24629efcd94b8548a9ead8d954de13dfe9a791e6be31016"
+  },
+  {
+    "bytes": 154,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/refinement-status.json",
+    "sha256": "f196fbf3b952fe13ec261d6239b47ed4162fbb79243ba59ac253bbe87b6b64e8"
+  },
+  {
+    "bytes": 4123,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/runtime.lock.json",
+    "sha256": "9eb2be9449ce9554d0ccbe65a3d79597c60d1e5c96d447a8b009c903bc2978da"
+  },
+  {
+    "bytes": 530,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/terminal.json",
+    "sha256": "9212b3a3c927b4a5847dfb9924316c7dddcb4406f67991921af8183041135fc7"
+  },
+  {
+    "bytes": 707,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/warm-entry.json",
+    "sha256": "eab7ee7eeac19bd77c9cd66f5481d42da86fd83a8729096280c9b1f5a3962fff"
+  },
+  {
+    "bytes": 5284827225,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/warm-state.pt",
+    "sha256": "1aca6de63cf941d2e4a767e0ca44acb5c55b4b48d12554ca5dad5e39bfe9c7b2"
+  },
+  {
+    "bytes": 115248,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10A-native-warm-creation.json",
+    "sha256": "454f0f61d9e1cb440019cf34be9e45dc1d3b18efd11b3f9384a7db2d423f2fa6"
+  },
+  {
+    "bytes": 12409,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/JV_NATIVE/node-00.json",
+    "sha256": "7647a30459c5e35b26e99fce76b9f5001503f13ed70c92665b995a462fa18cd9"
+  },
+  {
+    "bytes": 12488,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/JV_NATIVE/node-01.json",
+    "sha256": "5e85d03363ee8351619e2a1f7a17ea8429645c66a0651823b04d840ad046f4e8"
+  },
+  {
+    "bytes": 12658,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/JV_NATIVE/node-02.json",
+    "sha256": "ab5f3b3462ed88175de5c9f10e41a5aea3878a4169653e41d0323e3220e4daf0"
+  },
+  {
+    "bytes": 12813,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/JV_NATIVE/node-03.json",
+    "sha256": "c7237d9e35ad02ce50a7418268b4ee52083d4a469dc9d2d467558d242a0bbc64"
+  },
+  {
+    "bytes": 10372,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/JV_NATIVE/shadow-00.json",
+    "sha256": "ac5723f9bd7af88264f4f65c99121904c5e6d0c940f9a6b427d469e05ba9c8d5"
+  },
+  {
+    "bytes": 10441,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/JV_NATIVE/shadow-01.json",
+    "sha256": "9da4b77e55c02cdaf202c42c34f2586cdef3895558654d9a61c69f1cdde22446"
+  },
+  {
+    "bytes": 10607,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/JV_NATIVE/shadow-02.json",
+    "sha256": "b0442801cfef16371f774359aed861d31118c87302bcc6847194bf081c889cab"
+  },
+  {
+    "bytes": 10708,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/JV_NATIVE/shadow-03.json",
+    "sha256": "110bfe6968052da661cf7bb75ab0a0a04013c391bb048b48d9121773153257ae"
+  },
+  {
+    "bytes": 12505,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/ORB_RAY_N/node-00.json",
+    "sha256": "56e759e5f37097944cd183f0fed063e09f703038c03c881d8deb406a401eef49"
+  },
+  {
+    "bytes": 12592,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/ORB_RAY_N/node-01.json",
+    "sha256": "038524ef748acd3ded8f91a7116a8b9d59c7d6dfb0ffd2d67aed6c77fe6eefa9"
+  },
+  {
+    "bytes": 12621,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/ORB_RAY_N/node-02.json",
+    "sha256": "7a8ff370a80199d9c44ad1b8e1d0660e1153bf42149c1d934d983ecb6d8f6fdc"
+  },
+  {
+    "bytes": 12723,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/ORB_RAY_N/node-03.json",
+    "sha256": "c71b190671ce5f60668e04f65932a8ee291277c867064feff4bb720917caa1aa"
+  },
+  {
+    "bytes": 10372,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/ORB_RAY_N/shadow-00.json",
+    "sha256": "4365e610d4a6a74437030a6396023a2a1904d172384058e6d25611b80949c8c3"
+  },
+  {
+    "bytes": 10463,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/ORB_RAY_N/shadow-01.json",
+    "sha256": "61580a8b165d4b3dd343b304ca303b19dbde69c8be51d0f4b13c3d365cd3ed00"
+  },
+  {
+    "bytes": 10305,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/ORB_RAY_N/shadow-02.json",
+    "sha256": "63154043f771ea615a2b8649dee8299b822879241a156446c2e48337fffae979"
+  },
+  {
+    "bytes": 10458,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B/ORB_RAY_N/shadow-03.json",
+    "sha256": "569679bbe83e14d02e00770db3a4d48a752c39e999cebddf992265fa5738f4a2"
+  },
+  {
+    "bytes": 462104,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B-JV_NATIVE.json",
+    "sha256": "96083152138749c4ba51d1a1f6e0f8aa554b3f2b108f3b27546d0ae64153cdb5"
+  },
+  {
+    "bytes": 642077,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B-ORBFH_HIST.json",
+    "sha256": "2fc15161d507fe4940862d67f86ac38845f254bbedbc372a818f5eca6438e5bc"
+  },
+  {
+    "bytes": 461672,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B-ORB_RAY_N.json",
+    "sha256": "e8382eb188b70198fd0170ebab082d7811a67ae84a90c5ce37926f1dfec3085e"
+  },
+  {
+    "bytes": 354209,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B-O_NATIVE.json",
+    "sha256": "b8285e8b8b0a7d6a1f3a313566e0a6860753df5292eb4eb051dc5afca0bf8ac3"
+  },
+  {
+    "bytes": 228511,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/D10B-entry.json",
+    "sha256": "2529704d5c722ad7c417628f3292fc31889d019c18931a07817b73e9709364a6"
+  },
+  {
+    "bytes": 1030,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0A/fd-layer4.json",
+    "sha256": "1fd60722ebdb9ff47f54105f34de2fcb083a2a33d28d11724506cca294b6aab7"
+  },
+  {
+    "bytes": 1032,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0A/fd-layer5.json",
+    "sha256": "e8c2e651c759d77f32c851bbce79cb86b467e3c5dc4a4df5b84728e01a09f937"
+  },
+  {
+    "bytes": 1028,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0A/fd-layer6.json",
+    "sha256": "e411d2cd5ab189189ab8321b1fd210b63cb68988e9d89f248a46171d52788be6"
+  },
+  {
+    "bytes": 1027,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0A/fd-layer7.json",
+    "sha256": "629308e6e23dc61d4c60a9b4b97fb377583eab13c743caea596406ff4569d10b"
+  },
+  {
+    "bytes": 1033,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0A/fd-layer8.json",
+    "sha256": "112ccd6660edd71a5d854dcb8ec7c7592d16c1d172d7ab567db0d990c058a7a8"
+  },
+  {
+    "bytes": 9494,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0A/gpu_fidelity_checks.json",
+    "sha256": "f89e95f6cd6e0a83936df128606630188c823b06b3faa81fb500dd87fefa1b9e"
+  },
+  {
+    "bytes": 13155,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0A/official-endpoint.json",
+    "sha256": "ad3b7ce6f4d7438e9efb948161bec62b4d1aace13a56a18e3ff389702b669d34"
+  },
+  {
+    "bytes": 1029,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0B/fd-layer4.json",
+    "sha256": "55aa517486c4b2b4b8c436471b7c264a5f1ebe2de9260a84cbc9bc0410c3225c"
+  },
+  {
+    "bytes": 1029,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0B/fd-layer5.json",
+    "sha256": "da750a72429c3ce8760e0774c783beb46a4b1063c83917e6573f8cb4e3580b0b"
+  },
+  {
+    "bytes": 1031,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0B/fd-layer6.json",
+    "sha256": "cac739e0996bc7fd3a4a3135e82ac71858b755ef150e43d67ae84dd775e5ba66"
+  },
+  {
+    "bytes": 1029,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0B/fd-layer7.json",
+    "sha256": "9722a414ac689097c76778088c672ff63f5b07fbea63b7e7b3286c65b8d75023"
+  },
+  {
+    "bytes": 1028,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0B/fd-layer8.json",
+    "sha256": "76b3e361d0f72d7b360b900d03993f4b86ac53749a4caebec0b5256ba27f41d3"
+  },
+  {
+    "bytes": 9491,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0B/gpu_fidelity_checks.json",
+    "sha256": "b56501b54d83f7602cc85fe19db303722d70b47731b332acd2eac3020880703a"
+  },
+  {
+    "bytes": 12786,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/G0B/official-endpoint.json",
+    "sha256": "2da8589cdc39eccd1b65d3e649867fbbd63d1c1d9636246041c3037fb670c480"
+  },
+  {
+    "bytes": 84,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/audit-status.json",
+    "sha256": "1f4f53555bddd515df251b468c68edc4c92485e042a47fc8581b3a1eb2ccb2dc"
+  },
+  {
+    "bytes": 143,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/first-valid-G0A.json",
+    "sha256": "df2c0a80b8c2d9092e5475e76273568bf94cda8f04a12d8e1fa2832f42406653"
+  },
+  {
+    "bytes": 143,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/first-valid-G0B.json",
+    "sha256": "59555ef1ca8f01a96b64460d0b8b40f7dea485f324113108aaff993f97232d4e"
+  },
+  {
+    "bytes": 21462,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/gpu_fidelity_checks.json",
+    "sha256": "079e735b4bba519f836d976e58da344a06d33047f110d3031a37c6622cbbd74c"
+  },
+  {
+    "bytes": 378,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/primary-terminal.json",
+    "sha256": "e183548155efb0ad2f1e387d2f3abf52605c5f7c02434851ae249e8cc2a91f3c"
+  },
+  {
+    "bytes": 119,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/progress-1.json",
+    "sha256": "734e49c81d3a267c4233d85bc68e5678ff41a75ac33ec53928d6e2c3edf12f1a"
+  },
+  {
+    "bytes": 139,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/progress-2.json",
+    "sha256": "a0ec807c53164a80698aaf1bd44346484252696498264b2e7d3b98eabc1a65d4"
+  },
+  {
+    "bytes": 155,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/progress-3.json",
+    "sha256": "a4adfaf9347755ef87e9fe280d73307ad5d23bf73408e655870a0f66e8699d16"
+  },
+  {
+    "bytes": 171,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/progress-4.json",
+    "sha256": "67170cba94538052c84cbb7cfb92650725ece0ea09f7704abee07081cdf093c7"
+  },
+  {
+    "bytes": 154,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/refinement-status.json",
+    "sha256": "f196fbf3b952fe13ec261d6239b47ed4162fbb79243ba59ac253bbe87b6b64e8"
+  },
+  {
+    "bytes": 4105,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/runtime.lock.json",
+    "sha256": "24427e8c8db5394e600427e154fbe120df5088bc4c0f952c07c9f669ca23098c"
+  },
+  {
+    "bytes": 526,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/terminal.json",
+    "sha256": "2d881031fcf0610d8e01590cbf27cab3a90a18fb4dfcc1d72a2c2618ce8bf155"
+  },
+  {
+    "bytes": 707,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/warm-entry.json",
+    "sha256": "17990d1e1eac51e894b9d7f5e33c3a1e8484b5d29cf13f9805f28f394c53244c"
+  },
+  {
+    "bytes": 1357909818,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/warm-state.pt",
+    "sha256": "84f7e906962456704e8710a7c3475d0557b097118af53fbd94acae43e3ae5bea"
+  },
+  {
+    "bytes": 115262,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10A-native-warm-creation.json",
+    "sha256": "5d762a36a44bb6808ec456bc441a6f880c16d6972d0ad9f3394b6ee7abb1128e"
+  },
+  {
+    "bytes": 12635,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/JV_NATIVE/node-00.json",
+    "sha256": "ba3944f8ac01bd2792b800abcc4af3b8908f612178926b29f82b2c4e324f8f13"
+  },
+  {
+    "bytes": 12570,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/JV_NATIVE/node-01.json",
+    "sha256": "b58f8da3bb8b03dfd567bde2b18d683f1697ca988bf5d648aa44a24572848f29"
+  },
+  {
+    "bytes": 12656,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/JV_NATIVE/node-02.json",
+    "sha256": "c0ca127555586b363c939ed1c0df3bc8f0b94dce40b01bea941ee3a96e7f7711"
+  },
+  {
+    "bytes": 12738,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/JV_NATIVE/node-03.json",
+    "sha256": "4186fb14b4d1bd577c4516f2b301fc475cda2791e47945a44c921da4dbde11c0"
+  },
+  {
+    "bytes": 10583,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/JV_NATIVE/shadow-00.json",
+    "sha256": "b2aa2cd1bf121df8bb4d6eba2f1222c66b789aa7f8808797f788f38116b04abe"
+  },
+  {
+    "bytes": 10540,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/JV_NATIVE/shadow-01.json",
+    "sha256": "85229107cc7b0a4affff1813782478e1a41187baa7b8dcb183d41472313b16eb"
+  },
+  {
+    "bytes": 10666,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/JV_NATIVE/shadow-02.json",
+    "sha256": "8fdb300dde41ecba4c1a74480791026286df3ebab74c25ce16a68c28bd03c30b"
+  },
+  {
+    "bytes": 10723,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/JV_NATIVE/shadow-03.json",
+    "sha256": "90ae9866c7348305998770bc0866f01379bb3db2d9fdb0d428b42f074c095da1"
+  },
+  {
+    "bytes": 12616,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/ORB_RAY_N/node-00.json",
+    "sha256": "d7c5cd029f3583d47f814e3bc4f4435b2b07c53f9900121428255a990b6d7d7f"
+  },
+  {
+    "bytes": 12541,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/ORB_RAY_N/node-01.json",
+    "sha256": "cee349f1e24e44f319094a63438852e23cd6bfea15f2197b253978a9f5ae46a3"
+  },
+  {
+    "bytes": 12669,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/ORB_RAY_N/node-02.json",
+    "sha256": "aa25804ca31ff009c606d8e3d68ac75e47a089e1e6b6847ddd0885e6085af725"
+  },
+  {
+    "bytes": 12752,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/ORB_RAY_N/node-03.json",
+    "sha256": "0fef883d34a964b8a60314560990566196bfdaa9b2c3bccff2f65bf0de8c5fec"
+  },
+  {
+    "bytes": 10583,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/ORB_RAY_N/shadow-00.json",
+    "sha256": "2dfca34b8843453c0f7767a67d7d082d1fc096c6dcfe398657adecb89164dfdc"
+  },
+  {
+    "bytes": 10282,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/ORB_RAY_N/shadow-01.json",
+    "sha256": "72c76ecaf864f98f9a5fa970e007a73633abd56660f1ff8c4f2867cf2e5208a5"
+  },
+  {
+    "bytes": 10583,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/ORB_RAY_N/shadow-02.json",
+    "sha256": "73cbab2bb6a9681002143459724f0e6480d39d2caa17ca9bfbfc70924ed4c37f"
+  },
+  {
+    "bytes": 10607,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B/ORB_RAY_N/shadow-03.json",
+    "sha256": "f83430c4fa846ff015d43ee6bd5c9130d20a1f883157f32905e53f0c019ddd42"
+  },
+  {
+    "bytes": 462791,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B-JV_NATIVE.json",
+    "sha256": "9bae0f202eeba14c6fb43e8c1a4b2a936f1e96bbe2e81d043bde5eba71c83077"
+  },
+  {
+    "bytes": 642508,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B-ORBFH_HIST.json",
+    "sha256": "3c2fff9b4232261e0a01a8cfd976305f873ec409bc2dc36e2982110aadebfb7f"
+  },
+  {
+    "bytes": 462285,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B-ORB_RAY_N.json",
+    "sha256": "349b26b10fd56811ad0475cfe53cc236c7a737e3bdbcbafb524bd80516e5904e"
+  },
+  {
+    "bytes": 354231,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B-O_NATIVE.json",
+    "sha256": "05b5541bb558bf49b1d904f6e79fd365a4922c7aab988091a92a3822d21c9cf4"
+  },
+  {
+    "bytes": 228523,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/D10B-entry.json",
+    "sha256": "d68c63a5cb5e627bacec3c0a27f184ba27454fb72def6bbfda49233862ae16a6"
+  },
+  {
+    "bytes": 1101,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0A/fd-layer4.json",
+    "sha256": "0fb768e0505696c5595934cc13a93935d3ec51b72d63cc04626f3cf1d4983592"
+  },
+  {
+    "bytes": 1100,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0A/fd-layer5.json",
+    "sha256": "68cc82c8f7233710a36a1a5a239367a09ae3776773df238a46fd4ef02f1632b2"
+  },
+  {
+    "bytes": 1103,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0A/fd-layer6.json",
+    "sha256": "77b46e15f223d94ac8b29af58af3ddd4757fc339b916791cecc9cf782a1935ae"
+  },
+  {
+    "bytes": 1097,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0A/fd-layer7.json",
+    "sha256": "3413d0d69ca552966d6260938d8f48ef50409e1d6e10bcb04fd1434218612f10"
+  },
+  {
+    "bytes": 1100,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0A/fd-layer8.json",
+    "sha256": "802d1681ae46df64c844659923bfa5a029b116d88ba0c4b26e378e3395a95ce7"
+  },
+  {
+    "bytes": 9887,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0A/gpu_fidelity_checks.json",
+    "sha256": "190b924f1cfe613f6d16d156cb643c0a6933ea9969694673443225aeb97fe69b"
+  },
+  {
+    "bytes": 13175,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0A/official-endpoint.json",
+    "sha256": "801659e201748ca9b7f88693778d050680e1833ac16400476a54425357e9038f"
+  },
+  {
+    "bytes": 1096,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0B/fd-layer4.json",
+    "sha256": "42458069f0db72fed24b0c01fd3cf330881092a2a8a022ba1791e29ed0e66064"
+  },
+  {
+    "bytes": 1093,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0B/fd-layer5.json",
+    "sha256": "0d5a79a2cc24c16d26ba81bb91e742adc9fdd8ed96ab7fc0aa5c1bcd6d2d64ff"
+  },
+  {
+    "bytes": 1098,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0B/fd-layer6.json",
+    "sha256": "1eb18e7ab366967317e0795dbe0e81f8fc5b541cbb06e168c2a66567137c51e1"
+  },
+  {
+    "bytes": 1095,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0B/fd-layer7.json",
+    "sha256": "469ef6abe4c0c323fb665babb519525ea0ee8ebf6a299e4ef1392a3baea7368b"
+  },
+  {
+    "bytes": 1100,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0B/fd-layer8.json",
+    "sha256": "a0fe5c2d172ca7cdb74e023c4b52ed443a2ac286e4eff775395e5ce5ce2084db"
+  },
+  {
+    "bytes": 9864,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0B/gpu_fidelity_checks.json",
+    "sha256": "08fa4b1dca5eb1f3c25eb50a1a22f50b66d0ff7e34dbf834b28f77473f0935a4"
+  },
+  {
+    "bytes": 12804,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/G0B/official-endpoint.json",
+    "sha256": "be8386337483e065b5d8a6a42a6ebd7909d9170b3ee586099aff6c7fc0f37e47"
+  },
+  {
+    "bytes": 84,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/audit-status.json",
+    "sha256": "1f4f53555bddd515df251b468c68edc4c92485e042a47fc8581b3a1eb2ccb2dc"
+  },
+  {
+    "bytes": 143,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/first-valid-G0A.json",
+    "sha256": "e9772442be4770fd84a32aba28c0cc28a19eac0617400fc6e693684c647ad06c"
+  },
+  {
+    "bytes": 143,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/first-valid-G0B.json",
+    "sha256": "6d1fca394660a5c78c3667d014dbe4a20f6e6efdb049a0d15ac0ad287099cd99"
+  },
+  {
+    "bytes": 22268,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/gpu_fidelity_checks.json",
+    "sha256": "0dca2a16c652397f7ba7f69d55abda2573b262a3b48d83681b3054bd3e8980c0"
+  },
+  {
+    "bytes": 378,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/primary-terminal.json",
+    "sha256": "ac37a16cb10964e2a1870f0d1e5aaf1b3297a545cdb3f2779aea2942a4c56d06"
+  },
+  {
+    "bytes": 118,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/progress-1.json",
+    "sha256": "a73c7014a34c49977adae1a8a1865bb65b58ab7ce3e9ee980023db4aa8a328bf"
+  },
+  {
+    "bytes": 139,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/progress-2.json",
+    "sha256": "a6692a6be79b7c0ce3aac6407f8ff07f167903b378efd535ab12582daee49425"
+  },
+  {
+    "bytes": 155,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/progress-3.json",
+    "sha256": "b2474b45188a0bb16a6c6c0102d686fabc6ea119a718636aeb87deec949c5bcf"
+  },
+  {
+    "bytes": 172,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/progress-4.json",
+    "sha256": "b1fea4b8b781a8dd33b6b87122d6c0bb879d61102531619c7e08fb0a88d73216"
+  },
+  {
+    "bytes": 154,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/refinement-status.json",
+    "sha256": "f196fbf3b952fe13ec261d6239b47ed4162fbb79243ba59ac253bbe87b6b64e8"
+  },
+  {
+    "bytes": 4115,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/runtime.lock.json",
+    "sha256": "41491c24fe79ce9771455d23c7f8136eb3c266dd827816f15e1fc1b1220ad072"
+  },
+  {
+    "bytes": 531,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/terminal.json",
+    "sha256": "3bc1d967cd0857ab572e005c32057f428bbd26496730d544a70447b355c4e1c2"
+  },
+  {
+    "bytes": 707,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/warm-entry.json",
+    "sha256": "91dbe613a4d2c8307c35d2ad7398e62adf3a81b6196b98846fd94862d4ad9e07"
+  },
+  {
+    "bytes": 8535412845,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/warm-state.pt",
+    "sha256": "d50fd0f10cc4a22ad7bbdc636fef06e1ba01fad6596f6ee0a0bcbb75634be76f"
+  },
+  {
+    "bytes": 373,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cpu_algebra_checks.json",
+    "sha256": "212bf1b99da684b1a22ceaa6241d3d6736cfd7a63d018a8233acc30fb3a10bf3"
+  },
+  {
+    "bytes": 582,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/gpu-hour-ledger-before-submit.json",
+    "sha256": "d1cb7b7a01ac2587bc18c594625132e90be03ff74272b23ed161a3cd5b391e4b"
+  },
+  {
+    "bytes": 404,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/gpu-hour-ledger-primary-terminal.json",
+    "sha256": "b13b6b9e178ec466eb508aab79e993421ba7666b0409cadb8146f21b713af3e7"
+  },
+  {
+    "bytes": 4881,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/held-inspection.json",
+    "sha256": "338113ff11c2671c2cff2a2fe18a1617c2df4d6f1f94e081c3b0dbc67282f440"
+  },
+  {
+    "bytes": 288,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/primary-common-gate.json",
+    "sha256": "fc4ec7b0ab71020f25970effe14147ce858caee6cf77f2ec743bba090dd1caae"
+  },
+  {
+    "bytes": 76,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/release.json",
+    "sha256": "dfb504936c8e5303f1791ea382285d9fb7dfcb9ee7375d63d733ae96a5de1d6c"
+  },
+  {
+    "bytes": 310,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/resource.lock.json",
+    "sha256": "25f868c73be9bc43a748925468555ca075bc8905b471a8f29930f1579e6b8d35"
+  },
+  {
+    "bytes": 14184,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/sample.lock.json",
+    "sha256": "db2a863b4caad2d73e5485d194e4ab0d25f6625fe847d69851ca02dd31d9ba20"
+  },
+  {
+    "bytes": 637,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/science.lock.json",
+    "sha256": "f1e67ea3f5f48e744465a9f370166534f71c798c817a86775bb8af79a607b7cb"
+  },
+  {
+    "bytes": 1249,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/slurm-37681_0.err",
+    "sha256": "410431791b00f1cab15c4cfd561f314dbc98c202b08b3912eb05f6b1090596ba"
+  },
+  {
+    "bytes": 68680,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/slurm-37681_0.out",
+    "sha256": "fb18ab90b03c5302afbf121139f37b74b12eb284933fffaf9c98e14569dcfdff"
+  },
+  {
+    "bytes": 834,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/slurm-37681_1.err",
+    "sha256": "61ee3e4a80acc65f628118d10066763c7b6ccc4f8a5159012a974c5a7da811f1"
+  },
+  {
+    "bytes": 55471,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/slurm-37681_1.out",
+    "sha256": "bcc16f8cdedc93dbbcf0fb008cd0f4d67ac2d9000ef2cf6d4a1b8f5fc9c24aca"
+  },
+  {
+    "bytes": 1249,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/slurm-37681_2.err",
+    "sha256": "3f8916468af98f94097d8785122c9525991ebbeefd2c604479944ee64e5ad644"
+  },
+  {
+    "bytes": 41572,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/slurm-37681_2.out",
+    "sha256": "9baad728506f14a1fdd78eff37f5abb73e2dbf63342d0164407364cdc84336ac"
+  },
+  {
+    "bytes": 834,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/slurm-37681_3.err",
+    "sha256": "4465205694a9631dae83358105c1a27ef1f5e6b8b62e9940c844dcd724fd46c1"
+  },
+  {
+    "bytes": 28888,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/slurm-37681_3.out",
+    "sha256": "16f4908e6d14a4ce66f558efcf4d86f700f96a1422ad7ad89f24c979dea7f98d"
+  },
+  {
+    "bytes": 2242,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/source.lock.json",
+    "sha256": "977e13ab661ba7f840af82ad0b1ee4f7d3cca9c87748ffbea8e3c99f9efd0ca8"
+  },
+  {
+    "bytes": 2438,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/technical-exclusion.json",
+    "sha256": "3d43b6a8d2da4c46ac67e9bf454da7d3803f015466d69c7bbfdff3a01f7039db"
+  }
+]

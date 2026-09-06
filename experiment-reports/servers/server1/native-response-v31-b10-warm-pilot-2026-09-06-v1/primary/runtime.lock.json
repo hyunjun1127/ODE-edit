@@ -1,0 +1,438 @@
+[
+  {
+    "autocast": false,
+    "cell": {
+      "cell_id": 0,
+      "model_alias": "llama3-8b-inst",
+      "writer_family": "MEMIT"
+    },
+    "cell_index": 0,
+    "controller_dtype": "float64",
+    "cuda_device": "NVIDIA RTX A6000",
+    "cuda_visible": "0",
+    "dtype": {
+      "autocast_enabled": false,
+      "bf16_fp16_cast_count": 0,
+      "loaded_model_dtype": "torch.float32",
+      "parameter_dtype_counts": {
+        "torch.float32": 8030261248
+      },
+      "quantized": false,
+      "requested_dtype": "torch.float32",
+      "tf32_enabled": false
+    },
+    "dynamic_model_forward_dtype": "float32",
+    "hf_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "hparams": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/project/run_scripts/fixed_z_nonuniqueness/config/memit-llama3-8b.yaml",
+    "load_seconds": 4.159546792507172,
+    "memit_ephemeral_solve_dtype": "float64",
+    "model_load_count": 1,
+    "official": {
+      "head": "14cea8245f06715684592ab55184939b99d70784",
+      "root": "/mnt/raid5/janghj/.codex/worktrees/easyeditsh1-official-readonly-v1",
+      "tracked_clean": true,
+      "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7"
+    },
+    "parameter_inventory": {
+      "parameter_elements_by_dtype": {
+        "torch.float32": 8030261248
+      },
+      "parameter_tensors_by_dtype": {
+        "torch.float32": 291
+      },
+      "quantized": false
+    },
+    "sample_root": "f1deb7fee7a7c0e7f8acf3691dd3fbab1ec2981be4746b61d2f9c2e170b70cf1",
+    "slurm_job": "37682",
+    "source": {
+      "easyedit": {
+        "head": "14cea8245f06715684592ab55184939b99d70784",
+        "implementation_boundary": "ODE_EDIT_HOOK_STOCK_EASYEDIT_READ_ONLY",
+        "members": [
+          {
+            "bytes": 13663,
+            "path": "easyeditor/models/alphaedit/AlphaEdit_main.py",
+            "sha256": "1016bf13b4521dddd134f54884f00c1a7fb95c33e477c9ba2fe9e0f275e2fb9a"
+          },
+          {
+            "bytes": 10172,
+            "path": "easyeditor/models/alphaedit/compute_z.py",
+            "sha256": "f6fd935b1fbbb05cd656618414f8b71f45d2d0458f617de85c40d6013d84234a"
+          },
+          {
+            "bytes": 1552,
+            "path": "easyeditor/models/alphaedit/compute_ks.py",
+            "sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba"
+          },
+          {
+            "bytes": 74,
+            "path": "easyeditor/models/alphaedit/__init__.py",
+            "sha256": "609bef490ec45743ee9ecd6cd2e01280860d8aa27b3ea96b6b78f0586463f113"
+          },
+          {
+            "bytes": 11103,
+            "path": "easyeditor/models/memit/memit_main.py",
+            "sha256": "39b0c91b586a136be2b6bdfabbcc17705fb3cc07e7f17e739fe565906d9d6ea7"
+          },
+          {
+            "bytes": 10575,
+            "path": "easyeditor/models/memit/compute_z.py",
+            "sha256": "a293bf042fba463e5060887160a6c8453b427b91a6c9a6061b5a8cce5ca0187e"
+          },
+          {
+            "bytes": 1540,
+            "path": "easyeditor/models/memit/compute_ks.py",
+            "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+          },
+          {
+            "bytes": 1578,
+            "path": "easyeditor/models/memit/memit_hparams.py",
+            "sha256": "223dc4e663a049214c0528a02eff8c066413fbee9bce98735a2ce8d1c6585f41"
+          }
+        ],
+        "members_root": "a7935ad384903e4bb37fc8eaab6d2542c3733d5356518e4c929a9028b63c5962",
+        "root": "/mnt/raid5/janghj/.codex/worktrees/easyeditsh1-official-readonly-v1",
+        "tracked_clean": true,
+        "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7"
+      },
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "historical_execution_heads": [
+        "9b167455c1562be076aa2437fa63565187804aa7",
+        "f47d035dc1ac35b1adcd8c036336ea69c5f32a4e"
+      ],
+      "historical_report_ref": "f2dcfd4ab6fcb2917ae0a29cbc384cf95a82eb3c",
+      "tracked_dirty": "",
+      "tree": "5c7310d74357461f3040cf22342282b69cda7baf"
+    },
+    "target_context_identity": "bef722a3c30990f06084570a55a8e2056f5d38d7b4d5bd303e7d48de70920611",
+    "tf32": false,
+    "timing": "CUDA synchronize before/after; synchronization wait included, leading sync excluded"
+  },
+  {
+    "autocast": false,
+    "cell": {
+      "cell_id": 1,
+      "model_alias": "llama3-8b-inst",
+      "writer_family": "AlphaEdit"
+    },
+    "cell_index": 1,
+    "controller_dtype": "float64",
+    "cuda_device": "NVIDIA RTX A6000",
+    "cuda_visible": "0",
+    "dtype": {
+      "autocast_enabled": false,
+      "bf16_fp16_cast_count": 0,
+      "loaded_model_dtype": "torch.float32",
+      "parameter_dtype_counts": {
+        "torch.float32": 8030261248
+      },
+      "quantized": false,
+      "requested_dtype": "torch.float32",
+      "tf32_enabled": false
+    },
+    "dynamic_model_forward_dtype": "float32",
+    "hf_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "hparams": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/project/run_scripts/fixed_z_nonuniqueness/config/alphaedit-llama3-8b.yaml",
+    "load_seconds": 4.068779686465859,
+    "memit_ephemeral_solve_dtype": "float64",
+    "model_load_count": 1,
+    "official": {
+      "head": "14cea8245f06715684592ab55184939b99d70784",
+      "root": "/mnt/raid5/janghj/.codex/worktrees/easyeditsh1-official-readonly-v1",
+      "tracked_clean": true,
+      "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7"
+    },
+    "parameter_inventory": {
+      "parameter_elements_by_dtype": {
+        "torch.float32": 8030261248
+      },
+      "parameter_tensors_by_dtype": {
+        "torch.float32": 291
+      },
+      "quantized": false
+    },
+    "sample_root": "f1deb7fee7a7c0e7f8acf3691dd3fbab1ec2981be4746b61d2f9c2e170b70cf1",
+    "slurm_job": "37683",
+    "source": {
+      "easyedit": {
+        "head": "14cea8245f06715684592ab55184939b99d70784",
+        "implementation_boundary": "ODE_EDIT_HOOK_STOCK_EASYEDIT_READ_ONLY",
+        "members": [
+          {
+            "bytes": 13663,
+            "path": "easyeditor/models/alphaedit/AlphaEdit_main.py",
+            "sha256": "1016bf13b4521dddd134f54884f00c1a7fb95c33e477c9ba2fe9e0f275e2fb9a"
+          },
+          {
+            "bytes": 10172,
+            "path": "easyeditor/models/alphaedit/compute_z.py",
+            "sha256": "f6fd935b1fbbb05cd656618414f8b71f45d2d0458f617de85c40d6013d84234a"
+          },
+          {
+            "bytes": 1552,
+            "path": "easyeditor/models/alphaedit/compute_ks.py",
+            "sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba"
+          },
+          {
+            "bytes": 74,
+            "path": "easyeditor/models/alphaedit/__init__.py",
+            "sha256": "609bef490ec45743ee9ecd6cd2e01280860d8aa27b3ea96b6b78f0586463f113"
+          },
+          {
+            "bytes": 11103,
+            "path": "easyeditor/models/memit/memit_main.py",
+            "sha256": "39b0c91b586a136be2b6bdfabbcc17705fb3cc07e7f17e739fe565906d9d6ea7"
+          },
+          {
+            "bytes": 10575,
+            "path": "easyeditor/models/memit/compute_z.py",
+            "sha256": "a293bf042fba463e5060887160a6c8453b427b91a6c9a6061b5a8cce5ca0187e"
+          },
+          {
+            "bytes": 1540,
+            "path": "easyeditor/models/memit/compute_ks.py",
+            "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+          },
+          {
+            "bytes": 1578,
+            "path": "easyeditor/models/memit/memit_hparams.py",
+            "sha256": "223dc4e663a049214c0528a02eff8c066413fbee9bce98735a2ce8d1c6585f41"
+          }
+        ],
+        "members_root": "a7935ad384903e4bb37fc8eaab6d2542c3733d5356518e4c929a9028b63c5962",
+        "root": "/mnt/raid5/janghj/.codex/worktrees/easyeditsh1-official-readonly-v1",
+        "tracked_clean": true,
+        "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7"
+      },
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "historical_execution_heads": [
+        "9b167455c1562be076aa2437fa63565187804aa7",
+        "f47d035dc1ac35b1adcd8c036336ea69c5f32a4e"
+      ],
+      "historical_report_ref": "f2dcfd4ab6fcb2917ae0a29cbc384cf95a82eb3c",
+      "tracked_dirty": "",
+      "tree": "5c7310d74357461f3040cf22342282b69cda7baf"
+    },
+    "target_context_identity": "bef722a3c30990f06084570a55a8e2056f5d38d7b4d5bd303e7d48de70920611",
+    "tf32": false,
+    "timing": "CUDA synchronize before/after; synchronization wait included, leading sync excluded"
+  },
+  {
+    "autocast": false,
+    "cell": {
+      "cell_id": 2,
+      "model_alias": "qwen2.5-7b-inst",
+      "writer_family": "MEMIT"
+    },
+    "cell_index": 2,
+    "controller_dtype": "float64",
+    "cuda_device": "NVIDIA RTX A6000",
+    "cuda_visible": "0",
+    "dtype": {
+      "autocast_enabled": false,
+      "bf16_fp16_cast_count": 0,
+      "loaded_model_dtype": "torch.float32",
+      "parameter_dtype_counts": {
+        "torch.float32": 7615616512
+      },
+      "quantized": false,
+      "requested_dtype": "torch.float32",
+      "tf32_enabled": false
+    },
+    "dynamic_model_forward_dtype": "float32",
+    "hf_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+    "hparams": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/project/run_scripts/fixed_z_nonuniqueness/config/memit-qwen2.5-7b.yaml",
+    "load_seconds": 4.50390201061964,
+    "memit_ephemeral_solve_dtype": "float64",
+    "model_load_count": 1,
+    "official": {
+      "head": "14cea8245f06715684592ab55184939b99d70784",
+      "root": "/mnt/raid5/janghj/.codex/worktrees/easyeditsh1-official-readonly-v1",
+      "tracked_clean": true,
+      "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7"
+    },
+    "parameter_inventory": {
+      "parameter_elements_by_dtype": {
+        "torch.float32": 7615616512
+      },
+      "parameter_tensors_by_dtype": {
+        "torch.float32": 339
+      },
+      "quantized": false
+    },
+    "sample_root": "f1deb7fee7a7c0e7f8acf3691dd3fbab1ec2981be4746b61d2f9c2e170b70cf1",
+    "slurm_job": "37684",
+    "source": {
+      "easyedit": {
+        "head": "14cea8245f06715684592ab55184939b99d70784",
+        "implementation_boundary": "ODE_EDIT_HOOK_STOCK_EASYEDIT_READ_ONLY",
+        "members": [
+          {
+            "bytes": 13663,
+            "path": "easyeditor/models/alphaedit/AlphaEdit_main.py",
+            "sha256": "1016bf13b4521dddd134f54884f00c1a7fb95c33e477c9ba2fe9e0f275e2fb9a"
+          },
+          {
+            "bytes": 10172,
+            "path": "easyeditor/models/alphaedit/compute_z.py",
+            "sha256": "f6fd935b1fbbb05cd656618414f8b71f45d2d0458f617de85c40d6013d84234a"
+          },
+          {
+            "bytes": 1552,
+            "path": "easyeditor/models/alphaedit/compute_ks.py",
+            "sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba"
+          },
+          {
+            "bytes": 74,
+            "path": "easyeditor/models/alphaedit/__init__.py",
+            "sha256": "609bef490ec45743ee9ecd6cd2e01280860d8aa27b3ea96b6b78f0586463f113"
+          },
+          {
+            "bytes": 11103,
+            "path": "easyeditor/models/memit/memit_main.py",
+            "sha256": "39b0c91b586a136be2b6bdfabbcc17705fb3cc07e7f17e739fe565906d9d6ea7"
+          },
+          {
+            "bytes": 10575,
+            "path": "easyeditor/models/memit/compute_z.py",
+            "sha256": "a293bf042fba463e5060887160a6c8453b427b91a6c9a6061b5a8cce5ca0187e"
+          },
+          {
+            "bytes": 1540,
+            "path": "easyeditor/models/memit/compute_ks.py",
+            "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+          },
+          {
+            "bytes": 1578,
+            "path": "easyeditor/models/memit/memit_hparams.py",
+            "sha256": "223dc4e663a049214c0528a02eff8c066413fbee9bce98735a2ce8d1c6585f41"
+          }
+        ],
+        "members_root": "a7935ad384903e4bb37fc8eaab6d2542c3733d5356518e4c929a9028b63c5962",
+        "root": "/mnt/raid5/janghj/.codex/worktrees/easyeditsh1-official-readonly-v1",
+        "tracked_clean": true,
+        "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7"
+      },
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "historical_execution_heads": [
+        "9b167455c1562be076aa2437fa63565187804aa7",
+        "f47d035dc1ac35b1adcd8c036336ea69c5f32a4e"
+      ],
+      "historical_report_ref": "f2dcfd4ab6fcb2917ae0a29cbc384cf95a82eb3c",
+      "tracked_dirty": "",
+      "tree": "5c7310d74357461f3040cf22342282b69cda7baf"
+    },
+    "target_context_identity": "1873aa14c7724794a6b96763b68738dd45db38627da0bc4bd4881f9c5959a503",
+    "tf32": false,
+    "timing": "CUDA synchronize before/after; synchronization wait included, leading sync excluded"
+  },
+  {
+    "autocast": false,
+    "cell": {
+      "cell_id": 3,
+      "model_alias": "qwen2.5-7b-inst",
+      "writer_family": "AlphaEdit"
+    },
+    "cell_index": 3,
+    "controller_dtype": "float64",
+    "cuda_device": "NVIDIA RTX A6000",
+    "cuda_visible": "0",
+    "dtype": {
+      "autocast_enabled": false,
+      "bf16_fp16_cast_count": 0,
+      "loaded_model_dtype": "torch.float32",
+      "parameter_dtype_counts": {
+        "torch.float32": 7615616512
+      },
+      "quantized": false,
+      "requested_dtype": "torch.float32",
+      "tf32_enabled": false
+    },
+    "dynamic_model_forward_dtype": "float32",
+    "hf_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+    "hparams": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/project/run_scripts/fixed_z_nonuniqueness/config/alphaedit-qwen2.5-7b.yaml",
+    "load_seconds": 4.5213431511074305,
+    "memit_ephemeral_solve_dtype": "float64",
+    "model_load_count": 1,
+    "official": {
+      "head": "14cea8245f06715684592ab55184939b99d70784",
+      "root": "/mnt/raid5/janghj/.codex/worktrees/easyeditsh1-official-readonly-v1",
+      "tracked_clean": true,
+      "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7"
+    },
+    "parameter_inventory": {
+      "parameter_elements_by_dtype": {
+        "torch.float32": 7615616512
+      },
+      "parameter_tensors_by_dtype": {
+        "torch.float32": 339
+      },
+      "quantized": false
+    },
+    "sample_root": "f1deb7fee7a7c0e7f8acf3691dd3fbab1ec2981be4746b61d2f9c2e170b70cf1",
+    "slurm_job": "37681",
+    "source": {
+      "easyedit": {
+        "head": "14cea8245f06715684592ab55184939b99d70784",
+        "implementation_boundary": "ODE_EDIT_HOOK_STOCK_EASYEDIT_READ_ONLY",
+        "members": [
+          {
+            "bytes": 13663,
+            "path": "easyeditor/models/alphaedit/AlphaEdit_main.py",
+            "sha256": "1016bf13b4521dddd134f54884f00c1a7fb95c33e477c9ba2fe9e0f275e2fb9a"
+          },
+          {
+            "bytes": 10172,
+            "path": "easyeditor/models/alphaedit/compute_z.py",
+            "sha256": "f6fd935b1fbbb05cd656618414f8b71f45d2d0458f617de85c40d6013d84234a"
+          },
+          {
+            "bytes": 1552,
+            "path": "easyeditor/models/alphaedit/compute_ks.py",
+            "sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba"
+          },
+          {
+            "bytes": 74,
+            "path": "easyeditor/models/alphaedit/__init__.py",
+            "sha256": "609bef490ec45743ee9ecd6cd2e01280860d8aa27b3ea96b6b78f0586463f113"
+          },
+          {
+            "bytes": 11103,
+            "path": "easyeditor/models/memit/memit_main.py",
+            "sha256": "39b0c91b586a136be2b6bdfabbcc17705fb3cc07e7f17e739fe565906d9d6ea7"
+          },
+          {
+            "bytes": 10575,
+            "path": "easyeditor/models/memit/compute_z.py",
+            "sha256": "a293bf042fba463e5060887160a6c8453b427b91a6c9a6061b5a8cce5ca0187e"
+          },
+          {
+            "bytes": 1540,
+            "path": "easyeditor/models/memit/compute_ks.py",
+            "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+          },
+          {
+            "bytes": 1578,
+            "path": "easyeditor/models/memit/memit_hparams.py",
+            "sha256": "223dc4e663a049214c0528a02eff8c066413fbee9bce98735a2ce8d1c6585f41"
+          }
+        ],
+        "members_root": "a7935ad384903e4bb37fc8eaab6d2542c3733d5356518e4c929a9028b63c5962",
+        "root": "/mnt/raid5/janghj/.codex/worktrees/easyeditsh1-official-readonly-v1",
+        "tracked_clean": true,
+        "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7"
+      },
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "historical_execution_heads": [
+        "9b167455c1562be076aa2437fa63565187804aa7",
+        "f47d035dc1ac35b1adcd8c036336ea69c5f32a4e"
+      ],
+      "historical_report_ref": "f2dcfd4ab6fcb2917ae0a29cbc384cf95a82eb3c",
+      "tracked_dirty": "",
+      "tree": "5c7310d74357461f3040cf22342282b69cda7baf"
+    },
+    "target_context_identity": "1873aa14c7724794a6b96763b68738dd45db38627da0bc4bd4881f9c5959a503",
+    "tf32": false,
+    "timing": "CUDA synchronize before/after; synchronization wait included, leading sync excluded"
+  }
+]

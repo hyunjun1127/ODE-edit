@@ -1,0 +1,12 @@
+{
+  "identity": "190deef6212456ded9bbf448fab1f4d6055bff3d5dc66c2a60ad6a2174e8bc9c",
+  "imputation_count": 0,
+  "input_mutation_count": 0,
+  "input_root": "7074e4bccbd9cc8cfa373177a30adaa54d370136dcdfb50eb60d037495e970d1",
+  "manifest_sha256": "c50a9936b3cbd0943c11ce0383cb625a54ead73e472e829b02cd669f755262e6",
+  "members_root": "fca03c7e0b0bd5b808a4e13fc414218bb71d310238f3e418d3cad8684d1bbde2",
+  "report_sha256": "c6ac596ab8cce4c8a65da0bceaf5bf472224461b03a1a65d15e1fc7d070f1239",
+  "scientific_promotion": false,
+  "source_head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+  "status": "PRIMARY_FOUR_CELL_TECHNICAL_PASS"
+}

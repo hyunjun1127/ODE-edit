@@ -1,0 +1,5 @@
+cell,D10A_requests,D10B_requests,exact_prompt_overlap,exact_prompt_different_target,semantic_conflict,selection_or_controller_influence_count
+0,10,10,0,0,NOT_EVALUATED,0
+1,10,10,0,0,NOT_EVALUATED,0
+2,10,10,0,0,NOT_EVALUATED,0
+3,10,10,0,0,NOT_EVALUATED,0

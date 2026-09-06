@@ -1,0 +1,129 @@
+{
+  "deep_hash": true,
+  "models": {
+    "llama3-8b-inst": {
+      "hparams": {
+        "AlphaEdit": {
+          "absolute_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/project/run_scripts/fixed_z_nonuniqueness/config/alphaedit-llama3-8b.yaml",
+          "bytes": 743,
+          "sha256": "63239e48ea8faf78dfcc40d7d4f5aff3ff0832eb4208384d11f4a812819765c3"
+        },
+        "MEMIT": {
+          "absolute_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/project/run_scripts/fixed_z_nonuniqueness/config/memit-llama3-8b.yaml",
+          "bytes": 644,
+          "sha256": "1c5bccc160493c078de3066313443fe8cc6bc53ec2c61865d64851a10cb80444"
+        }
+      },
+      "native_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "projector": {
+        "absolute_path": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+        "bytes": 4110419877,
+        "expected_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+        "observed_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec"
+      },
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "snapshot_config_sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b",
+      "snapshot_tokenizer_sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7",
+      "statistics": [
+        {
+          "absolute_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+          "bytes": 822084814,
+          "expected_sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+          "layer": 4,
+          "observed_sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e"
+        },
+        {
+          "absolute_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+          "bytes": 822084814,
+          "expected_sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+          "layer": 5,
+          "observed_sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435"
+        },
+        {
+          "absolute_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+          "bytes": 822084814,
+          "expected_sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+          "layer": 6,
+          "observed_sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495"
+        },
+        {
+          "absolute_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+          "bytes": 822084814,
+          "expected_sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+          "layer": 7,
+          "observed_sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830"
+        },
+        {
+          "absolute_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+          "bytes": 822084814,
+          "expected_sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+          "layer": 8,
+          "observed_sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050"
+        }
+      ]
+    },
+    "qwen2.5-7b-inst": {
+      "hparams": {
+        "AlphaEdit": {
+          "absolute_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/project/run_scripts/fixed_z_nonuniqueness/config/alphaedit-qwen2.5-7b.yaml",
+          "bytes": 732,
+          "sha256": "e980d9b5e4ee68b2dc6497672f9a6803f7a9ec5350888b23eb05b9c90f05e815"
+        },
+        "MEMIT": {
+          "absolute_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/project/run_scripts/fixed_z_nonuniqueness/config/memit-qwen2.5-7b.yaml",
+          "bytes": 638,
+          "sha256": "2cec6319248f24bf49575bf5dff1824ca8b6965b22ccb9d18a59e8a323463231"
+        }
+      },
+      "native_name": "Qwen/Qwen2.5-7B-Instruct",
+      "projector": {
+        "absolute_path": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+        "bytes": 7177504758,
+        "expected_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+        "observed_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff"
+      },
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+      "snapshot_config_sha256": "7463bb0ea78315365e6c6b74de4e73bbcc8359dfb0c5a737584e077d42c0b03c",
+      "snapshot_tokenizer_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "statistics": [
+        {
+          "absolute_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+          "bytes": 1435501774,
+          "expected_sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b",
+          "layer": 4,
+          "observed_sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b"
+        },
+        {
+          "absolute_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+          "bytes": 1435501774,
+          "expected_sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519",
+          "layer": 5,
+          "observed_sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519"
+        },
+        {
+          "absolute_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+          "bytes": 1435501774,
+          "expected_sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a",
+          "layer": 6,
+          "observed_sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a"
+        },
+        {
+          "absolute_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+          "bytes": 1435501774,
+          "expected_sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d",
+          "layer": 7,
+          "observed_sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d"
+        },
+        {
+          "absolute_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+          "bytes": 1435501774,
+          "expected_sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46",
+          "layer": 8,
+          "observed_sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46"
+        }
+      ]
+    }
+  }
+}

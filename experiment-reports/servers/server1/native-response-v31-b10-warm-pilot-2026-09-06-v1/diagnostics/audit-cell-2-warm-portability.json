@@ -1,0 +1,12 @@
+{
+  "actual_content_identity": "a8851090ef4faff2e9541c163cc140931e12bd7c6be3beaadf04d61628ea71ed",
+  "cross_process_pointer_equality_required": false,
+  "equation_change_count": 0,
+  "expected_content_identity": "a8851090ef4faff2e9541c163cc140931e12bd7c6be3beaadf04d61628ea71ed",
+  "new_process_bound_identity": "0a14b7c2f8d5cc0ffeacaaac20a6c77e4fecef34a2bd21b1dc8ffe7c658a81d3",
+  "original_process_bound_identity": "f772b0116fb6db8fad8b30c9b3c1a9b5ceda12bf41d8d974a692bc1e7d9e45ef",
+  "reference": "PINNED_STATIC_COV_SOURCE_AND_UNCHANGED_RELOAD_ENTRY",
+  "status": "PASS",
+  "tolerance_change_count": 0,
+  "within_process_pointer_version_guards_preserved": true
+}

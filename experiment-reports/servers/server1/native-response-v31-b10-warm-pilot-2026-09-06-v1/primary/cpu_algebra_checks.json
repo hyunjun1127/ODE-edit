@@ -1,0 +1,9 @@
+{
+  "command": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python -m unittest -q project.run_scripts.native_response_ode_v31.test_algebra project.run_scripts.native_response_ode_v31.test_binding",
+  "gpu_count": 0,
+  "model_load_count": 0,
+  "output": "Ran 15 tests in 1.082s; OK",
+  "source_head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+  "status": "PASS",
+  "tests": 15
+}

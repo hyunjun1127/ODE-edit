@@ -1,0 +1,24 @@
+{
+  "completeness": {
+    "audit_NS_denominator": 1600,
+    "audit_PS_denominator": 320,
+    "audit_RS_denominator": 160,
+    "audit_valid_arms": 16,
+    "expected_audit_NS_denominator": 1600,
+    "expected_audit_PS_denominator": 320,
+    "expected_audit_RS_denominator": 160,
+    "expected_audit_arms": 16,
+    "expected_refinement_units": 12,
+    "imputation_count": 0,
+    "primary_result_change_count": 0,
+    "refinement_units": 12
+  },
+  "identity": "fd4bf3b9734cdc1f977dc7c4ad0dc07197e3b339104aeb595cdbe56e502ac65b",
+  "imputation_count": 0,
+  "input_mutation_count": 0,
+  "manifest_sha256": "aada9c5a73a8d7041e6ff5a3960506ed13e836d39522e15408529509321ee761",
+  "members_root": "97bab320f2dc290a06065b4e49dea26cce121f1c5ac3e6a0bcbea58f12da1621",
+  "report_sha256": "4f9fb520874b4d2cabbfe903369d3a5da4999663486e1d8006b4f71dc3a009b0",
+  "scientific_promotion": false,
+  "status": "FACTUAL_DIAGNOSTIC_PACKAGE"
+}

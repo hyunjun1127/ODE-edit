@@ -1,0 +1,11 @@
+{
+  "GH_independent_review": "PENDING",
+  "diagnostic_receipt_identity": "fd4bf3b9734cdc1f977dc7c4ad0dc07197e3b339104aeb595cdbe56e502ac65b",
+  "identity": "705c3833bf5150538bc6ca39242e8eb803d22c731c567f0cfe7579dbc678ed99",
+  "manifest_sha256": "9d3feefb94efec034c7ac1e494574bcee41dcdcf2e428f93510cc1727f883845",
+  "members_root": "87f09e2e6157ae35ccea5b119bc95386f81e5e55986b9741f0a7c73928353b6e",
+  "primary_receipt_identity": "190deef6212456ded9bbf448fab1f4d6055bff3d5dc66c2a60ad6a2174e8bc9c",
+  "report_sha256": "8bd7956fe12fc82fab9cae4b0f92438c7a8dc3c8c502f511dcc219d99a5f2aff",
+  "scientific_promotion": false,
+  "status": "REVIEW_READY"
+}

@@ -1,0 +1,11 @@
+{
+  "expected": 16,
+  "expected_request_endpoints": 160,
+  "historical_anomalies": "HISTORICAL_STATE_UNAVAILABLE_NO_REPLAY",
+  "primary_arm_endpoints": 16,
+  "primary_request_endpoints": 160,
+  "refinement": "PENDING_POST_PRIMARY_COMMON_GATE",
+  "scientific_promotion": false,
+  "server4_rerun_mutation": 0,
+  "status": "PRIMARY_FOUR_CELL_TECHNICAL_PASS"
+}

@@ -1,0 +1,192 @@
+{
+  "EasyEdit_mutation_count": 0,
+  "Server4_mutation_count": 0,
+  "baseline_ref": "f2dcfd4ab6fcb2917ae0a29cbc384cf95a82eb3c",
+  "members": [
+    {
+      "bytes": 68,
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "path": "project/run_scripts/native_response_ode_v31/__init__.py",
+      "role": "execution",
+      "sha256": "61ad50349e80fef94c0ed39e5b05536109710da3a00d297f683a1d6a40f31d71"
+    },
+    {
+      "bytes": 5812,
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "path": "project/run_scripts/native_response_ode_v31/algebra.py",
+      "role": "execution",
+      "sha256": "4a1740af9fff530159ae14fe137ff8360ee238fd90928182f5b1bab9911785c5"
+    },
+    {
+      "bytes": 7243,
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "path": "project/run_scripts/native_response_ode_v31/fidelity.py",
+      "role": "execution",
+      "sha256": "72c2798affd4f3d64c133da6f2c2e68c7e09014a06d5ec135ddb031aa4cd66f5"
+    },
+    {
+      "bytes": 8378,
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "path": "project/run_scripts/native_response_ode_v31/native_binding.py",
+      "role": "execution",
+      "sha256": "acef232f5de10f8e4ad64427bf779198858d9b809ec061674175f5d1524e2991"
+    },
+    {
+      "bytes": 799,
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "path": "project/run_scripts/native_response_ode_v31/pilot.sbatch",
+      "role": "execution",
+      "sha256": "97f8fdf63845be0c57c217618eb5b12e0438d018291ea97dcf457d2fe9aecf15"
+    },
+    {
+      "bytes": 5151,
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "path": "project/run_scripts/native_response_ode_v31/provenance.py",
+      "role": "execution",
+      "sha256": "1196b6c61a3367d3937e6e3694aa3f7ffff571ea6d12b9be6941e29c0c49d307"
+    },
+    {
+      "bytes": 14753,
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "path": "project/run_scripts/native_response_ode_v31/runtime.py",
+      "role": "execution",
+      "sha256": "04d681f2fe80fcee174bc718ca536572e96323011d728e78ee8d725b78cd9aff"
+    },
+    {
+      "bytes": 4164,
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "path": "project/run_scripts/native_response_ode_v31/test_algebra.py",
+      "role": "execution",
+      "sha256": "a898a370b226dd6a2f28eb4af58dc6ddf82f68c7a0d4b7f16892a5c420477c0b"
+    },
+    {
+      "bytes": 4779,
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "path": "project/run_scripts/native_response_ode_v31/test_binding.py",
+      "role": "execution",
+      "sha256": "ebcca45eb848014e387a7d28ca3a8e872b2feac2f57370db1863201b00e41887"
+    },
+    {
+      "bytes": 11008,
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "path": "project/run_scripts/native_response_ode_v31/trajectory.py",
+      "role": "execution",
+      "sha256": "6dfef926becbc3ba7d2b1c3de77f8d78e9f0230311dceaa1ec154be438183b91"
+    },
+    {
+      "bytes": 68,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/__init__.py",
+      "role": "analysis",
+      "sha256": "61ad50349e80fef94c0ed39e5b05536109710da3a00d297f683a1d6a40f31d71"
+    },
+    {
+      "bytes": 5812,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/algebra.py",
+      "role": "analysis",
+      "sha256": "4a1740af9fff530159ae14fe137ff8360ee238fd90928182f5b1bab9911785c5"
+    },
+    {
+      "bytes": 29446,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/analysis.py",
+      "role": "analysis",
+      "sha256": "d7891e532681edd390331c557a27023013f1bf8287a960efffbe75f8ee9c0b1a"
+    },
+    {
+      "bytes": 7966,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/diagnostics_analysis.py",
+      "role": "analysis",
+      "sha256": "1e97d739a9aa89152785ea8cc040f0d2c5ed611f5a9308a310fa9aa8763462be"
+    },
+    {
+      "bytes": 7243,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/fidelity.py",
+      "role": "analysis",
+      "sha256": "72c2798affd4f3d64c133da6f2c2e68c7e09014a06d5ec135ddb031aa4cd66f5"
+    },
+    {
+      "bytes": 11654,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/followup.py",
+      "role": "analysis",
+      "sha256": "da1932ea8a35b33d1a08bf54cac3cea9801ab10ba9a8002a8650729e49f1c36b"
+    },
+    {
+      "bytes": 979,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/followup.sbatch",
+      "role": "analysis",
+      "sha256": "d6fc1b6071b2c5863dbf170cc3df727533e8b0dc4ad9d366e145272a35e571a3"
+    },
+    {
+      "bytes": 8378,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/native_binding.py",
+      "role": "analysis",
+      "sha256": "acef232f5de10f8e4ad64427bf779198858d9b809ec061674175f5d1524e2991"
+    },
+    {
+      "bytes": 799,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/pilot.sbatch",
+      "role": "analysis",
+      "sha256": "97f8fdf63845be0c57c217618eb5b12e0438d018291ea97dcf457d2fe9aecf15"
+    },
+    {
+      "bytes": 5151,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/provenance.py",
+      "role": "analysis",
+      "sha256": "1196b6c61a3367d3937e6e3694aa3f7ffff571ea6d12b9be6941e29c0c49d307"
+    },
+    {
+      "bytes": 14753,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/runtime.py",
+      "role": "analysis",
+      "sha256": "04d681f2fe80fcee174bc718ca536572e96323011d728e78ee8d725b78cd9aff"
+    },
+    {
+      "bytes": 4164,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/test_algebra.py",
+      "role": "analysis",
+      "sha256": "a898a370b226dd6a2f28eb4af58dc6ddf82f68c7a0d4b7f16892a5c420477c0b"
+    },
+    {
+      "bytes": 3806,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/test_analysis.py",
+      "role": "analysis",
+      "sha256": "606e99eef9b2272bc565f094f328ef91e9ef522ee8d2f782808258cc5e384bc2"
+    },
+    {
+      "bytes": 4779,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/test_binding.py",
+      "role": "analysis",
+      "sha256": "ebcca45eb848014e387a7d28ca3a8e872b2feac2f57370db1863201b00e41887"
+    },
+    {
+      "bytes": 11008,
+      "head": "f50e2e84cfa344ec57c63791660a83fa9cb8312a",
+      "path": "project/run_scripts/native_response_ode_v31/trajectory.py",
+      "role": "analysis",
+      "sha256": "6dfef926becbc3ba7d2b1c3de77f8d78e9f0230311dceaa1ec154be438183b91"
+    }
+  ],
+  "members_root": "8e63e825516be55a20af53b60311331834380a0467e3fffaa66a34b701ee5685",
+  "modified_scientific_paths": [
+    "project/run_scripts/native_response_ode_v31/"
+  ],
+  "reuse": [
+    "ordered_response_barrier_ode.runtime.FamilyRuntime",
+    "ordered_response_barrier_ode.fp32_overlay.GroupedFP32Overlay",
+    "ordered_response_barrier_ode.terminal_jvp.TerminalResponseObserver",
+    "stock EasyEdit MEMIT/AlphaEdit compute_z and native entrypoints"
+  ]
+}

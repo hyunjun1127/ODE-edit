@@ -1,0 +1,72 @@
+{
+  "D10A_replay_count": 0,
+  "D10B_carry_count": 0,
+  "D2_entry": "COLD_DEV_FIXTURE",
+  "H10_entry": "SEALED_COMMON_WARM",
+  "RCA": "Historical method-state hash includes data_ptr; not portable across model reload processes. Exact content guard plus unchanged in-process pointer/version guards retained.",
+  "array": "2%1",
+  "audit_only": true,
+  "budget_seconds_per_cell": 2640,
+  "cap": 4,
+  "cold_refinement_replay_count": 0,
+  "completed_refinements": {
+    "2": {
+      "2": {
+        "bytes": 55016,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-followup-v1/local/native-response-ode-v31-parallel-pilot/20260906-followup-v1/cell-2/D2-N2.json",
+        "sha256": "3efb6f6d482294221fffa5795772f8e2d41b5ebcef313066994b33034750dde9"
+      },
+      "4": {
+        "bytes": 93488,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-followup-v1/local/native-response-ode-v31-parallel-pilot/20260906-followup-v1/cell-2/D2-N4.json",
+        "sha256": "b2cc71eb15996268d9997ae42c8ac4756aa7920ac8bf9ea849b76cb60f39f79b"
+      },
+      "8": {
+        "bytes": 171088,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-followup-v1/local/native-response-ode-v31-parallel-pilot/20260906-followup-v1/cell-2/D2-N8.json",
+        "sha256": "8069b170f49798cfbca5770c69e8d5be72c8320cf8f0635e615aa54dbbdf28da"
+      }
+    }
+  },
+  "concurrent_other_task_cell2_worst_seconds": null,
+  "cumulative_prior_seconds_by_submitted_cell": {
+    "2": 4556
+  },
+  "max_seconds_per_cell": 7200,
+  "max_total_seconds": 28800,
+  "mem_mib": 182272,
+  "nonce": "ODEEDIT-SERVER1-CAP4-GH-FINAL-REVIEW-20260906-R1",
+  "preflight_evidence_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-audit-tech-r1/local/native-response-ode-v31-parallel-pilot/20260906-audit-tech-r1",
+  "previous_refinement_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-followup-v1/local/native-response-ode-v31-parallel-pilot/20260906-followup-v1",
+  "primary_common_gate": "4/4 cells,16/16 arms,160/160 requests",
+  "primary_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3",
+  "science_change_count": 0,
+  "scientific_promotion": false,
+  "source_head": "2214387fba0f6338c09269004e6b305f576b733f",
+  "source_tree": "524cc8635cd3bdad0c6abd78bf8fb5184537ab6c",
+  "technical_source_change_count": 1,
+  "tolerance_change_count": 0,
+  "warm_members": {
+    "0": {
+      "bytes": 1174409018,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-0/warm-state.pt",
+      "sha256": "c5194d0b35ea6326f6a4482eeeeaac7f83635a7461d7606232e99cb7f15b69d2"
+    },
+    "1": {
+      "bytes": 5284827225,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-1/warm-state.pt",
+      "sha256": "1aca6de63cf941d2e4a767e0ca44acb5c55b4b48d12554ca5dad5e39bfe9c7b2"
+    },
+    "2": {
+      "bytes": 1357909818,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-2/warm-state.pt",
+      "sha256": "84f7e906962456704e8710a7c3475d0557b097118af53fbd94acae43e3ae5bea"
+    },
+    "3": {
+      "bytes": 8535412845,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3/cell-3/warm-state.pt",
+      "sha256": "d50fd0f10cc4a22ad7bbdc636fef06e1ba01fad6596f6ee0a0bcbb75634be76f"
+    }
+  },
+  "worst_total_seconds": 24664
+}

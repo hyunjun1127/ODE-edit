@@ -1,0 +1,14 @@
+{
+  "array": "0-3%1",
+  "cpus_per_task": 12,
+  "export": "NONE",
+  "gpu_per_task": 1,
+  "max_extra_gpu_hours_per_cell": 2,
+  "max_extra_gpu_hours_total": 8,
+  "max_parallel_gpu_jobs": 1,
+  "mem_mib": 182272,
+  "node": "devbox",
+  "retry_budget_shared": true,
+  "server": "server1",
+  "unrelated_mutation": 0
+}

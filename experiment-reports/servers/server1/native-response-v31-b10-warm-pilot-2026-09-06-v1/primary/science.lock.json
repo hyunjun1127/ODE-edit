@@ -1,0 +1,37 @@
+{
+  "N": 4,
+  "T": 2.0,
+  "adaptive_gain": false,
+  "arm_order": [
+    "O_NATIVE",
+    "ORBFH_HIST",
+    "JV_NATIVE",
+    "ORB_RAY_N"
+  ],
+  "first_hit_controls_dynamics": false,
+  "fixed_z_recompute_count": 0,
+  "h": 0.5,
+  "historical_ORBFH": {
+    "N": 4,
+    "T": 1,
+    "h": 0.25,
+    "ordered_layer_visits": 5
+  },
+  "native_rhs_divisor": 1,
+  "normalization": "SOURCE_EXACT_N0",
+  "primary_lambda": 0.1,
+  "qN_ref_capture_count": 1,
+  "refinement_N": [
+    2,
+    4,
+    8
+  ],
+  "rescue": false,
+  "schema": "native-response-v31.science.v1",
+  "scientific_promotion": false,
+  "shadow_lambda": [
+    0.01,
+    0.1,
+    1.0
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "RCA": "CPU actual endpoint metric subtracted device-preserving GPU entry snapshot; observation-only alignment correction",
+  "failed_job37677": [
+    {
+      "bytes": 1530,
+      "cell": 0,
+      "exception": "Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r2/local/native-response-ode-v31-parallel-pilot/20260906-tech-r2-exec/cell-0/failure-boundary.json",
+      "primary_denominator": 0,
+      "sha256": "113f7d084320b94657cbef66ed8415e96f2a444d67953fd4889772a2059ee673",
+      "stage": "D10B",
+      "w0_restore": true
+    },
+    {
+      "bytes": 1529,
+      "cell": 1,
+      "exception": "Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r2/local/native-response-ode-v31-parallel-pilot/20260906-tech-r2-exec/cell-1/failure-boundary.json",
+      "primary_denominator": 0,
+      "sha256": "07e798db051b7823ade2b24f01d5d1994d16945cc293bd9d425cbbb64bf6de04",
+      "stage": "D10B",
+      "w0_restore": true
+    },
+    {
+      "bytes": 1530,
+      "cell": 2,
+      "exception": "Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r2/local/native-response-ode-v31-parallel-pilot/20260906-tech-r2-exec/cell-2/failure-boundary.json",
+      "primary_denominator": 0,
+      "sha256": "d3b4a1269f2a970a67323600a7932a32c6f734fffc26012c0b309a70cfc82a4e",
+      "stage": "D10B",
+      "w0_restore": true
+    },
+    {
+      "bytes": 1530,
+      "cell": 3,
+      "exception": "Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r2/local/native-response-ode-v31-parallel-pilot/20260906-tech-r2-exec/cell-3/failure-boundary.json",
+      "primary_denominator": 0,
+      "sha256": "748bd5b069d08aa4c60746f06286b12e45cafc3ee501708a71fd268cff0a60c2",
+      "stage": "D10B",
+      "w0_restore": true
+    }
+  ],
+  "new_source": "29884f208bca5afc2367c67510779b4a674cbbb1",
+  "old_source": "6b692c9d06c47f633fd0b0ae276b1992c0aa0ada",
+  "partial_reuse": 0,
+  "science_change": 0,
+  "tolerance_change": 0
+}

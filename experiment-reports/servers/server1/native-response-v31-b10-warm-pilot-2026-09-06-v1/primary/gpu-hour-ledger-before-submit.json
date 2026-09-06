@@ -1,0 +1,29 @@
+{
+  "additional_gpu": 4,
+  "cap": 4,
+  "cell_budget_seconds": 7200,
+  "charged_seconds_by_cell": [
+    743,
+    531,
+    805,
+    554
+  ],
+  "existing_project_gpu": 0,
+  "next_reserved_seconds_per_cell": 6300,
+  "previous37675_cell0_conservative_seconds": 122,
+  "previous37677_seconds": [
+    621,
+    531,
+    805,
+    554
+  ],
+  "sacct_rule": "allocation parent only; no batch/extern double count; prior120s conservatively122s",
+  "total_budget_seconds": 28800,
+  "worst_cumulative_seconds_by_cell": [
+    7043,
+    6831,
+    7105,
+    6854
+  ],
+  "worst_total_seconds": 27833
+}

@@ -1,0 +1,544 @@
+{
+  "attempts": [
+    {
+      "allocation_elapsed_seconds": 120,
+      "cell": 0,
+      "charged_seconds": 122,
+      "child_job_id": "37676",
+      "job": "37675_0",
+      "state": "CANCELLED by 1025",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "120",
+          "JobID": "37675_0",
+          "JobIDRaw": "37676",
+          "State": "CANCELLED by 1025"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "121",
+          "JobID": "37675_0.batch",
+          "JobIDRaw": "37676.batch",
+          "State": "CANCELLED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "122",
+          "JobID": "37675_0.extern",
+          "JobIDRaw": "37676.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 621,
+      "cell": 0,
+      "charged_seconds": 621,
+      "child_job_id": "37678",
+      "job": "37677_0",
+      "state": "FAILED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "621",
+          "JobID": "37677_0",
+          "JobIDRaw": "37678",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "621",
+          "JobID": "37677_0.batch",
+          "JobIDRaw": "37678.batch",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "621",
+          "JobID": "37677_0.extern",
+          "JobIDRaw": "37678.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 531,
+      "cell": 1,
+      "charged_seconds": 531,
+      "child_job_id": "37679",
+      "job": "37677_1",
+      "state": "FAILED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "531",
+          "JobID": "37677_1",
+          "JobIDRaw": "37679",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "531",
+          "JobID": "37677_1.batch",
+          "JobIDRaw": "37679.batch",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "531",
+          "JobID": "37677_1.extern",
+          "JobIDRaw": "37679.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 805,
+      "cell": 2,
+      "charged_seconds": 805,
+      "child_job_id": "37680",
+      "job": "37677_2",
+      "state": "FAILED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "805",
+          "JobID": "37677_2",
+          "JobIDRaw": "37680",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "805",
+          "JobID": "37677_2.batch",
+          "JobIDRaw": "37680.batch",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "805",
+          "JobID": "37677_2.extern",
+          "JobIDRaw": "37680.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 554,
+      "cell": 3,
+      "charged_seconds": 554,
+      "child_job_id": "37677",
+      "job": "37677_3",
+      "state": "FAILED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "554",
+          "JobID": "37677_3",
+          "JobIDRaw": "37677",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "554",
+          "JobID": "37677_3.batch",
+          "JobIDRaw": "37677.batch",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "554",
+          "JobID": "37677_3.extern",
+          "JobIDRaw": "37677.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 1478,
+      "cell": 0,
+      "charged_seconds": 1478,
+      "child_job_id": "37682",
+      "job": "37681_0",
+      "state": "COMPLETED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1478",
+          "JobID": "37681_0",
+          "JobIDRaw": "37682",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1478",
+          "JobID": "37681_0.batch",
+          "JobIDRaw": "37682.batch",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1478",
+          "JobID": "37681_0.extern",
+          "JobIDRaw": "37682.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 1355,
+      "cell": 1,
+      "charged_seconds": 1355,
+      "child_job_id": "37683",
+      "job": "37681_1",
+      "state": "COMPLETED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1355",
+          "JobID": "37681_1",
+          "JobIDRaw": "37683",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1355",
+          "JobID": "37681_1.batch",
+          "JobIDRaw": "37683.batch",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1355",
+          "JobID": "37681_1.extern",
+          "JobIDRaw": "37683.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 2371,
+      "cell": 2,
+      "charged_seconds": 2371,
+      "child_job_id": "37684",
+      "job": "37681_2",
+      "state": "COMPLETED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "2371",
+          "JobID": "37681_2",
+          "JobIDRaw": "37684",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "2371",
+          "JobID": "37681_2.batch",
+          "JobIDRaw": "37684.batch",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "2371",
+          "JobID": "37681_2.extern",
+          "JobIDRaw": "37684.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 1599,
+      "cell": 3,
+      "charged_seconds": 1599,
+      "child_job_id": "37681",
+      "job": "37681_3",
+      "state": "COMPLETED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1599",
+          "JobID": "37681_3",
+          "JobIDRaw": "37681",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1599",
+          "JobID": "37681_3.batch",
+          "JobIDRaw": "37681.batch",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1599",
+          "JobID": "37681_3.extern",
+          "JobIDRaw": "37681.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 769,
+      "cell": 0,
+      "charged_seconds": 769,
+      "child_job_id": "37689",
+      "job": "37688_0",
+      "state": "FAILED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "769",
+          "JobID": "37688_0",
+          "JobIDRaw": "37689",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "769",
+          "JobID": "37688_0.batch",
+          "JobIDRaw": "37689.batch",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "769",
+          "JobID": "37688_0.extern",
+          "JobIDRaw": "37689.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 560,
+      "cell": 1,
+      "charged_seconds": 560,
+      "child_job_id": "37690",
+      "job": "37688_1",
+      "state": "FAILED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "560",
+          "JobID": "37688_1",
+          "JobIDRaw": "37690",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "560",
+          "JobID": "37688_1.batch",
+          "JobIDRaw": "37690.batch",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "560",
+          "JobID": "37688_1.extern",
+          "JobIDRaw": "37690.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 1380,
+      "cell": 2,
+      "charged_seconds": 1380,
+      "child_job_id": "37691",
+      "job": "37688_2",
+      "state": "FAILED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1380",
+          "JobID": "37688_2",
+          "JobIDRaw": "37691",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1380",
+          "JobID": "37688_2.batch",
+          "JobIDRaw": "37691.batch",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1380",
+          "JobID": "37688_2.extern",
+          "JobIDRaw": "37691.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 879,
+      "cell": 3,
+      "charged_seconds": 879,
+      "child_job_id": "37688",
+      "job": "37688_3",
+      "state": "FAILED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "879",
+          "JobID": "37688_3",
+          "JobIDRaw": "37688",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "879",
+          "JobID": "37688_3.batch",
+          "JobIDRaw": "37688.batch",
+          "State": "FAILED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "879",
+          "JobID": "37688_3.extern",
+          "JobIDRaw": "37688.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 1074,
+      "cell": 0,
+      "charged_seconds": 1074,
+      "child_job_id": "37696",
+      "job": "37693_0",
+      "state": "COMPLETED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1074",
+          "JobID": "37693_0",
+          "JobIDRaw": "37696",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1074",
+          "JobID": "37693_0.batch",
+          "JobIDRaw": "37696.batch",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1074",
+          "JobID": "37693_0.extern",
+          "JobIDRaw": "37696.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 1045,
+      "cell": 1,
+      "charged_seconds": 1045,
+      "child_job_id": "37697",
+      "job": "37693_1",
+      "state": "COMPLETED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1045",
+          "JobID": "37693_1",
+          "JobIDRaw": "37697",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1045",
+          "JobID": "37693_1.batch",
+          "JobIDRaw": "37697.batch",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1045",
+          "JobID": "37693_1.extern",
+          "JobIDRaw": "37697.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 1300,
+      "cell": 3,
+      "charged_seconds": 1300,
+      "child_job_id": "37693",
+      "job": "37693_3",
+      "state": "COMPLETED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1300",
+          "JobID": "37693_3",
+          "JobIDRaw": "37693",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1300",
+          "JobID": "37693_3.batch",
+          "JobIDRaw": "37693.batch",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1300",
+          "JobID": "37693_3.extern",
+          "JobIDRaw": "37693.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "allocation_elapsed_seconds": 1769,
+      "cell": 2,
+      "charged_seconds": 1769,
+      "child_job_id": "37698",
+      "job": "37698_2",
+      "state": "COMPLETED",
+      "step_rows": [
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1769",
+          "JobID": "37698_2",
+          "JobIDRaw": "37698",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1769",
+          "JobID": "37698_2.batch",
+          "JobIDRaw": "37698.batch",
+          "State": "COMPLETED"
+        },
+        {
+          "AllocTRES": "billing=12,cpu=12,gres/gpu=1,mem=178G,node=1",
+          "ElapsedRaw": "1769",
+          "JobID": "37698_2.extern",
+          "JobIDRaw": "37698.extern",
+          "State": "COMPLETED"
+        }
+      ]
+    }
+  ],
+  "cancelled_unallocated_array_cells": "zero GPU seconds; not scientific endpoints",
+  "cap": 4,
+  "cumulative_seconds_by_cell": [
+    4064,
+    3491,
+    6325,
+    4332
+  ],
+  "max_cell_seconds": 7200,
+  "max_total_seconds": 28800,
+  "rule": "max parent/batch/extern elapsed per allocation, never sum concurrent step lifetimes",
+  "source_sacct_sha256": "dedcd0ba49fb958fe203a744511ce9a2dfeba26deb94173cb2b2bcd09cd271bd",
+  "total_gpu_hours": 5.058888888888889
+}

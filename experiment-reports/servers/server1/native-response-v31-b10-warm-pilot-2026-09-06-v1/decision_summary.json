@@ -1,0 +1,10 @@
+{
+  "matched_quality_old_retention_benefit": "NOT_DEMONSTRATED_PRIMARY_OLD_LOSS_ZERO_ALL_ARMS",
+  "primary_endpoint_denominator": "16/16 arms;160/160 request endpoints",
+  "realized_path_change": "OBSERVED_NODE_READOUT_AND_ENDPOINT_ACTION_DIFFERENCES",
+  "same_state_physical_turning": "OBSERVED_NOT_SCALAR_ONLY",
+  "scientific_promotion": false,
+  "status": "PILOT_COMPLETE_REVIEW_READY",
+  "total_gpu_hours": 5.058888888888889,
+  "universal_or_lifelong_claim": false
+}

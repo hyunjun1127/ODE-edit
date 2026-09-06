@@ -1,0 +1,2478 @@
+[
+  {
+    "cell": 0,
+    "fixtures": [
+      {
+        "activation_parity": {
+          "atol": 7.62939453125e-06,
+          "max_abs": 7.152557373046875e-07,
+          "pass_check": true,
+          "relative_l2": 8.106064569786426e-07,
+          "rtol": 7.62939453125e-06
+        },
+        "context_sha": "1187510f72eeeb222b571223692b72bc7340e97e928158a316494456de133b7d",
+        "entry_pointer_bytes_restore": true,
+        "entry_sha": "c8ea4686f3070ba6fe032c2d3b579c7c9dacd842886175216c34b8dd18f911f2",
+        "fd_epsilons": [
+          0.0078125,
+          0.00390625,
+          0.001953125
+        ],
+        "finite_zero_step": false,
+        "fixed_z_sha": "eeb7f0754122668ff6b1149a0265d140b588033b5b469513242b0ef0a6672040",
+        "layers": [
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999923799202,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.00014069259035571257,
+                "rounding_envelope": 4.0090898592817564e-05,
+                "signal": 0.06277213252396938,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999867064358,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.0001642789341791238,
+                "rounding_envelope": 4.00846609671051e-05,
+                "signal": 0.03138755621287887,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999552369482,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.0003006243557946007,
+                "rounding_envelope": 4.0081486216843485e-05,
+                "signal": 0.015693634404833654,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 4,
+            "native_solve_backward_error": 1.0088654047007094e-17,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.999999994879145,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.000103618171334345,
+                "rounding_envelope": 4.009623091419183e-05,
+                "signal": 0.044538516253282125,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999803325282,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.0001984325952247344,
+                "rounding_envelope": 4.0087356238890306e-05,
+                "signal": 0.02226989509207626,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999296419895,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.0003751973166966939,
+                "rounding_envelope": 4.008284483148469e-05,
+                "signal": 0.011134792002764677,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 5,
+            "native_solve_backward_error": 2.0116897585608204e-17,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999948847708,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.00010150459562560473,
+                "rounding_envelope": 4.008777709514879e-05,
+                "signal": 0.039232607029383845,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999843057593,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00017718532430521843,
+                "rounding_envelope": 4.008305008646804e-05,
+                "signal": 0.01961642191933656,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999311004775,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.0003712448212680353,
+                "rounding_envelope": 4.008067085081537e-05,
+                "signal": 0.009808282498171134,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 6,
+            "native_solve_backward_error": 1.4466924665424895e-17,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999969181449,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 7.854164659267779e-05,
+                "rounding_envelope": 4.009162467500919e-05,
+                "signal": 0.036665257645492104,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999887876887,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00014974854136269854,
+                "rounding_envelope": 4.0084901062160505e-05,
+                "signal": 0.018332669570366316,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999566214899,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.0002945492645834153,
+                "rounding_envelope": 4.008157745384943e-05,
+                "signal": 0.0091663209516882,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 7,
+            "native_solve_backward_error": 1.4267706230480878e-17,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999999667648,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 8.153102507312137e-06,
+                "rounding_envelope": 4.0084765929920776e-05,
+                "signal": 0.0308100506920863,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.999999999868398,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 1.6223852838054758e-05,
+                "rounding_envelope": 4.0081480260074715e-05,
+                "signal": 0.015405024101055521,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999995359224,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 3.0474143950358517e-05,
+                "rounding_envelope": 4.007986961126749e-05,
+                "signal": 0.007702507155595088,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 8,
+            "native_solve_backward_error": 8.463583110164072e-18,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true
+          }
+        ],
+        "logit_parity": {
+          "atol": 0.00019557250197976828,
+          "max_abs": 2.6941299438476562e-05,
+          "pass_check": true,
+          "relative_l2": 1.0377031309393703e-06,
+          "rtol": 7.62939453125e-06
+        },
+        "metric": {
+          "capture_count": 1,
+          "metric": "lambda_mom2_C",
+          "qF_ref": 3.9870883489422484,
+          "qN_ref": 18.863479281303967,
+          "raw_layer_actions": [
+            3.7115482398940336,
+            3.6048148530974937,
+            3.800976979910012,
+            3.8655800607032273,
+            3.880559147699199
+          ]
+        },
+        "official": {
+          "arm": "O",
+          "fixed_z_callback_count": 1,
+          "history_append_count": 0,
+          "inner_cache_mutation_count": 0,
+          "inner_history_append_count": 0,
+          "model_and_storage_dtype": "torch.float32",
+          "numeric_storage_cast_count": 0,
+          "official_entrypoint": "easyeditor.models.memit.memit_main.apply_memit_to_model",
+          "official_native_ephemeral_solve_dtype": "torch.float64",
+          "physical_write_count": 1,
+          "selected_weight_endpoint_sha256": "0dae6b8775330de9f189734b923fa29c0b3bd03c53bbba838f9693789be350a0",
+          "status": "TERMINAL_VALID",
+          "terminal_activation_sha256": "5f6c83947b70b598689725a6e10c90eeffac592a5ccdae01b456bbd652082154",
+          "terminal_history_key_capture_count": 0,
+          "terminal_net_frobenius": 0.7799019499993474,
+          "terminal_net_frobenius_squared": 0.6082470516127845,
+          "terminal_net_frobenius_squared_by_weight": {
+            "model.layers.4.mlp.down_proj.weight": 0.05496938484093671,
+            "model.layers.5.mlp.down_proj.weight": 0.05054515635769642,
+            "model.layers.6.mlp.down_proj.weight": 0.06613953424918544,
+            "model.layers.7.mlp.down_proj.weight": 0.12328205443563937,
+            "model.layers.8.mlp.down_proj.weight": 0.31331092172932645
+          }
+        },
+        "one_nonzero_joint_step": true,
+        "overlay": {
+          "accumulated_rank": 5,
+          "entry_component_sha256": {
+            "model.layers.4.mlp.down_proj.weight": "d0267d23c5ccb50dead069b819432e1750dbee142d332539ec0cd5f0dfd8f16b",
+            "model.layers.5.mlp.down_proj.weight": "a2c68f28f4142fd840a541001049f4e7d41633b5b51e47d417b2906dcf499597",
+            "model.layers.6.mlp.down_proj.weight": "96f95e0afdab51d9382e9de25f9d437d240a6d7591dacf1768537450e4ee9a24",
+            "model.layers.7.mlp.down_proj.weight": "abd1e823966595f963d8aabe14ddc5a4989b3795103a27dddcf7d42bba64be73",
+            "model.layers.8.mlp.down_proj.weight": "b627ffa221a8531ef614fc53ec27bc9c329a17fc5d898aac4cada65e84dbea1a"
+          },
+          "entry_selected_sha256": "c8ea4686f3070ba6fe032c2d3b579c7c9dacd842886175216c34b8dd18f911f2",
+          "factor_count": 5,
+          "forward_hook_calls": 240,
+          "physical_inner_write_count": 0,
+          "physical_terminal_write_count": 0,
+          "schema": "orbode.grouped-fp32-overlay.v1",
+          "shadow_materialization_count": 1,
+          "state_version": 5,
+          "w0_pointer_version_bytes_unchanged": true
+        },
+        "schema": "native-v31.gpu-fidelity.v1",
+        "status": "PASS",
+        "tokenizer_padding_side": "right"
+      },
+      {
+        "activation_parity": {
+          "atol": 2.2915475710760802e-05,
+          "max_abs": 1.1920928955078125e-06,
+          "pass_check": true,
+          "relative_l2": 7.470353271507315e-07,
+          "rtol": 7.62939453125e-06
+        },
+        "context_sha": "e5604d2353ab215fef783db7532c38d606361eef47015dc49bc2f42113e6ee63",
+        "entry_pointer_bytes_restore": true,
+        "entry_sha": "c8ea4686f3070ba6fe032c2d3b579c7c9dacd842886175216c34b8dd18f911f2",
+        "fd_epsilons": [
+          0.0078125,
+          0.00390625,
+          0.001953125
+        ],
+        "finite_zero_step": false,
+        "fixed_z_sha": "506dcdb4a56fb73911860420a413a1f213ca74892574f6215ebb49f6316bb969",
+        "layers": [
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999998986241596,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.00047858922281962296,
+                "rounding_envelope": 4.720062735900634e-05,
+                "signal": 0.11285849700617423,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999899076709,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00015227308307912208,
+                "rounding_envelope": 4.718216819479762e-05,
+                "signal": 0.05643531321403002,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.999999985152987,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.0001724590760220085,
+                "rounding_envelope": 4.717260729027482e-05,
+                "signal": 0.0282190070071555,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 4,
+            "native_solve_backward_error": 1.027950842070535e-17,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.999999988951598,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.00016480632176734758,
+                "rounding_envelope": 4.71912783682648e-05,
+                "signal": 0.07564567093942366,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999933014458,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00011830143725468693,
+                "rounding_envelope": 4.7177147312472095e-05,
+                "signal": 0.03782460237111482,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999757111353,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00022376467919697787,
+                "rounding_envelope": 4.7170011880013524e-05,
+                "signal": 0.018912032639992814,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 5,
+            "native_solve_backward_error": 1.2047476376836557e-17,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999815660111,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0001996532946429682,
+                "rounding_envelope": 4.7202050332160125e-05,
+                "signal": 0.07342545256730129,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999953809813,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 9.633737592282589e-05,
+                "rounding_envelope": 4.7182550847032034e-05,
+                "signal": 0.03671449520689154,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999832815353,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00018370735306196873,
+                "rounding_envelope": 4.7172719110453356e-05,
+                "signal": 0.018357043575337094,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 6,
+            "native_solve_backward_error": 2.3079856927972255e-17,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999987794762,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 5.007659119318602e-05,
+                "rounding_envelope": 4.718878014793463e-05,
+                "signal": 0.05183265775544077,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999962496797,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 8.667740261920762e-05,
+                "rounding_envelope": 4.717576912904466e-05,
+                "signal": 0.02591644933481042,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999855523009,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00016999059571945458,
+                "rounding_envelope": 4.7169290666345114e-05,
+                "signal": 0.012958254682413226,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 7,
+            "native_solve_backward_error": 3.1913297696698296e-17,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999999754893,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 7.003011872117605e-06,
+                "rounding_envelope": 4.7168489119787065e-05,
+                "signal": 0.03594920617266199,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999998438196,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 1.7675430501877567e-05,
+                "rounding_envelope": 4.7165609099171735e-05,
+                "signal": 0.017974609982627433,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999995577732,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 2.974056019902182e-05,
+                "rounding_envelope": 4.716420590920538e-05,
+                "signal": 0.00898730473631236,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 8,
+            "native_solve_backward_error": 8.841575323076692e-18,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true
+          }
+        ],
+        "logit_parity": {
+          "atol": 0.00021482701413333416,
+          "max_abs": 2.09808349609375e-05,
+          "pass_check": true,
+          "relative_l2": 8.679628918087447e-07,
+          "rtol": 7.62939453125e-06
+        },
+        "metric": {
+          "capture_count": 1,
+          "metric": "lambda_mom2_C",
+          "qF_ref": 6.098614525943811,
+          "qN_ref": 25.514076301737113,
+          "raw_layer_actions": [
+            5.057165531188397,
+            4.927550634175016,
+            4.977468540346863,
+            5.183190914870011,
+            5.368700681156825
+          ]
+        },
+        "official": {
+          "arm": "O",
+          "fixed_z_callback_count": 1,
+          "history_append_count": 0,
+          "inner_cache_mutation_count": 0,
+          "inner_history_append_count": 0,
+          "model_and_storage_dtype": "torch.float32",
+          "numeric_storage_cast_count": 0,
+          "official_entrypoint": "easyeditor.models.memit.memit_main.apply_memit_to_model",
+          "official_native_ephemeral_solve_dtype": "torch.float64",
+          "physical_write_count": 1,
+          "selected_weight_endpoint_sha256": "b33416c2c908633b13ab5887f2881d4dee30a53c0c7521d9b05ab3f8d5bdbbda",
+          "status": "TERMINAL_VALID",
+          "terminal_activation_sha256": "938539e2b0a869a155776126503d18f42a4327514e19ce3cac7f93f29e2f187a",
+          "terminal_history_key_capture_count": 0,
+          "terminal_net_frobenius": 1.023275571433427,
+          "terminal_net_frobenius_squared": 1.0470928950924066,
+          "terminal_net_frobenius_squared_by_weight": {
+            "model.layers.4.mlp.down_proj.weight": 0.07872700003063181,
+            "model.layers.5.mlp.down_proj.weight": 0.08554342478017912,
+            "model.layers.6.mlp.down_proj.weight": 0.12358561244804338,
+            "model.layers.7.mlp.down_proj.weight": 0.22949203661652878,
+            "model.layers.8.mlp.down_proj.weight": 0.5297448212170234
+          }
+        },
+        "one_nonzero_joint_step": true,
+        "overlay": {
+          "accumulated_rank": 5,
+          "entry_component_sha256": {
+            "model.layers.4.mlp.down_proj.weight": "d0267d23c5ccb50dead069b819432e1750dbee142d332539ec0cd5f0dfd8f16b",
+            "model.layers.5.mlp.down_proj.weight": "a2c68f28f4142fd840a541001049f4e7d41633b5b51e47d417b2906dcf499597",
+            "model.layers.6.mlp.down_proj.weight": "96f95e0afdab51d9382e9de25f9d437d240a6d7591dacf1768537450e4ee9a24",
+            "model.layers.7.mlp.down_proj.weight": "abd1e823966595f963d8aabe14ddc5a4989b3795103a27dddcf7d42bba64be73",
+            "model.layers.8.mlp.down_proj.weight": "b627ffa221a8531ef614fc53ec27bc9c329a17fc5d898aac4cada65e84dbea1a"
+          },
+          "entry_selected_sha256": "c8ea4686f3070ba6fe032c2d3b579c7c9dacd842886175216c34b8dd18f911f2",
+          "factor_count": 5,
+          "forward_hook_calls": 240,
+          "physical_inner_write_count": 0,
+          "physical_terminal_write_count": 0,
+          "schema": "orbode.grouped-fp32-overlay.v1",
+          "shadow_materialization_count": 1,
+          "state_version": 5,
+          "w0_pointer_version_bytes_unchanged": true
+        },
+        "schema": "native-v31.gpu-fidelity.v1",
+        "status": "PASS",
+        "tokenizer_padding_side": "right"
+      }
+    ],
+    "status": "PASS"
+  },
+  {
+    "cell": 1,
+    "fixtures": [
+      {
+        "activation_parity": {
+          "atol": 7.62939453125e-06,
+          "max_abs": 2.5704503059387207e-07,
+          "pass_check": true,
+          "relative_l2": 7.76712599001327e-07,
+          "rtol": 7.62939453125e-06
+        },
+        "context_sha": "1187510f72eeeb222b571223692b72bc7340e97e928158a316494456de133b7d",
+        "entry_pointer_bytes_restore": true,
+        "entry_sha": "c8ea4686f3070ba6fe032c2d3b579c7c9dacd842886175216c34b8dd18f911f2",
+        "fd_epsilons": [
+          0.0078125,
+          0.00390625,
+          0.001953125
+        ],
+        "finite_zero_step": false,
+        "fixed_z_sha": "eeb7f0754122668ff6b1149a0265d140b588033b5b469513242b0ef0a6672040",
+        "layers": [
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999792364319,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.00024403209118054143,
+                "rounding_envelope": 4.009745128089406e-05,
+                "signal": 0.0910714220763008,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999926818302,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00012510964905487054,
+                "rounding_envelope": 4.008801722003445e-05,
+                "signal": 0.0455403741946811,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999720879907,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00023772852867504586,
+                "rounding_envelope": 4.008319330005572e-05,
+                "signal": 0.022771510979459467,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 4,
+            "native_solve_backward_error": 9.225328057027582e-09,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 4.334910923686451e-06
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999934274082,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.00012451209621535612,
+                "rounding_envelope": 4.010369354674103e-05,
+                "signal": 0.06695704822105698,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999906857828,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00013749709895279183,
+                "rounding_envelope": 4.009120838212755e-05,
+                "signal": 0.03347959257915416,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999665949548,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.000258479875857867,
+                "rounding_envelope": 4.0084804467985877e-05,
+                "signal": 0.01674005232873566,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 5,
+            "native_solve_backward_error": 1.6552981207951234e-08,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 4.010513975938071e-06
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.99999999710435,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 8.113278836771435e-05,
+                "rounding_envelope": 4.0094664552138334e-05,
+                "signal": 0.06592238525776184,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999939463979,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00011044401684736579,
+                "rounding_envelope": 4.008653978268953e-05,
+                "signal": 0.03296180583271503,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.999999975234363,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.0002231544586364784,
+                "rounding_envelope": 4.008242669594898e-05,
+                "signal": 0.016481328665052156,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 6,
+            "native_solve_backward_error": 2.5972378026040133e-08,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 4.23608953595125e-06
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999984746986,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 5.66384208303015e-05,
+                "rounding_envelope": 4.0103641177749477e-05,
+                "signal": 0.06559506430277146,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999965174048,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 8.34577772414088e-05,
+                "rounding_envelope": 4.0090802542443726e-05,
+                "signal": 0.032797946206409336,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999868051523,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.0001624493021693648,
+                "rounding_envelope": 4.0084500978126867e-05,
+                "signal": 0.01639896698230968,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 7,
+            "native_solve_backward_error": 1.5830710964337413e-08,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 4.032933279944503e-06
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999999915328,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 4.116058282400022e-06,
+                "rounding_envelope": 4.009093128686025e-05,
+                "signal": 0.05869197424819487,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999999637651,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 8.513775608432783e-06,
+                "rounding_envelope": 4.008445001030967e-05,
+                "signal": 0.029345992417636666,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999998587872,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 1.680865697682335e-05,
+                "rounding_envelope": 4.008132624438052e-05,
+                "signal": 0.014672999297335282,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 8,
+            "native_solve_backward_error": 2.0844973747102813e-08,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 3.953379637296952e-06
+          }
+        ],
+        "logit_parity": {
+          "atol": 0.00019579657237045467,
+          "max_abs": 2.47955322265625e-05,
+          "pass_check": true,
+          "relative_l2": 1.0492299619144292e-06,
+          "rtol": 7.62939453125e-06
+        },
+        "metric": {
+          "capture_count": 1,
+          "metric": "entry_M_plus_L2_I",
+          "qF_ref": 5.18791157499785,
+          "qN_ref": 5.18791157499785,
+          "raw_layer_actions": [
+            1.7250499102408694,
+            0.9172195572356059,
+            0.7810861760359793,
+            0.9402896585866307,
+            0.8242662728987646
+          ]
+        },
+        "official": {
+          "arm": "O",
+          "fixed_z_callback_count": 1,
+          "history_append_count": 1,
+          "inner_cache_mutation_count": 0,
+          "inner_history_append_count": 0,
+          "model_and_storage_dtype": "torch.float32",
+          "numeric_storage_cast_count": 0,
+          "official_entrypoint": "easyeditor.models.alphaedit.AlphaEdit_main.apply_AlphaEdit_to_model",
+          "official_native_ephemeral_solve_dtype": "torch.float32",
+          "physical_write_count": 1,
+          "selected_weight_endpoint_sha256": "0983060a231c6d4f1b8cbd5f5acc825461965b7052b6b370bc6ac984214bde1e",
+          "status": "TERMINAL_VALID",
+          "terminal_activation_sha256": "b7755ac03e5b97012626e6a8e8e12b3ca8953bc67f60d0be8b3ddf3b775cf0e9",
+          "terminal_history_key_capture_count": 5,
+          "terminal_net_frobenius": 0.8531506292770553,
+          "terminal_net_frobenius_squared": 0.7278659962358355,
+          "terminal_net_frobenius_squared_by_weight": {
+            "model.layers.4.mlp.down_proj.weight": 0.06900199306499974,
+            "model.layers.5.mlp.down_proj.weight": 0.06432413426532936,
+            "model.layers.6.mlp.down_proj.weight": 0.09034509689091533,
+            "model.layers.7.mlp.down_proj.weight": 0.17706173108358603,
+            "model.layers.8.mlp.down_proj.weight": 0.32713304093100504
+          }
+        },
+        "one_nonzero_joint_step": true,
+        "overlay": {
+          "accumulated_rank": 5,
+          "entry_component_sha256": {
+            "model.layers.4.mlp.down_proj.weight": "d0267d23c5ccb50dead069b819432e1750dbee142d332539ec0cd5f0dfd8f16b",
+            "model.layers.5.mlp.down_proj.weight": "a2c68f28f4142fd840a541001049f4e7d41633b5b51e47d417b2906dcf499597",
+            "model.layers.6.mlp.down_proj.weight": "96f95e0afdab51d9382e9de25f9d437d240a6d7591dacf1768537450e4ee9a24",
+            "model.layers.7.mlp.down_proj.weight": "abd1e823966595f963d8aabe14ddc5a4989b3795103a27dddcf7d42bba64be73",
+            "model.layers.8.mlp.down_proj.weight": "b627ffa221a8531ef614fc53ec27bc9c329a17fc5d898aac4cada65e84dbea1a"
+          },
+          "entry_selected_sha256": "c8ea4686f3070ba6fe032c2d3b579c7c9dacd842886175216c34b8dd18f911f2",
+          "factor_count": 5,
+          "forward_hook_calls": 240,
+          "physical_inner_write_count": 0,
+          "physical_terminal_write_count": 0,
+          "schema": "orbode.grouped-fp32-overlay.v1",
+          "shadow_materialization_count": 1,
+          "state_version": 5,
+          "w0_pointer_version_bytes_unchanged": true
+        },
+        "schema": "native-v31.gpu-fidelity.v1",
+        "status": "PASS",
+        "tokenizer_padding_side": "right"
+      },
+      {
+        "activation_parity": {
+          "atol": 2.293541911058128e-05,
+          "max_abs": 2.384185791015625e-07,
+          "pass_check": true,
+          "relative_l2": 6.859323627176095e-07,
+          "rtol": 7.62939453125e-06
+        },
+        "context_sha": "e5604d2353ab215fef783db7532c38d606361eef47015dc49bc2f42113e6ee63",
+        "entry_pointer_bytes_restore": true,
+        "entry_sha": "c8ea4686f3070ba6fe032c2d3b579c7c9dacd842886175216c34b8dd18f911f2",
+        "fd_epsilons": [
+          0.0078125,
+          0.00390625,
+          0.001953125
+        ],
+        "finite_zero_step": false,
+        "fixed_z_sha": "506dcdb4a56fb73911860420a413a1f213ca74892574f6215ebb49f6316bb969",
+        "layers": [
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999996101228611,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0009342323653242063,
+                "rounding_envelope": 4.7215387218577306e-05,
+                "signal": 0.1587549719399436,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999751886759,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00023483041226482896,
+                "rounding_envelope": 4.7189968118674615e-05,
+                "signal": 0.07939583320068926,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999901543395,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00014362777912376145,
+                "rounding_envelope": 4.71766173298626e-05,
+                "signal": 0.03969965189101899,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 4,
+            "native_solve_backward_error": 8.713375798663492e-09,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 4.599893735244065e-06
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999533946221,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.00033876199067011883,
+                "rounding_envelope": 4.720426068611082e-05,
+                "signal": 0.11028243952513861,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999943318327,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00011487167950196216,
+                "rounding_envelope": 4.718373654300724e-05,
+                "signal": 0.055146939763279876,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.999999988776562,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00015032057424814875,
+                "rounding_envelope": 4.717333390950925e-05,
+                "signal": 0.02757432165405493,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 5,
+            "native_solve_backward_error": 1.4602138165287215e-08,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 4.347054527098154e-06
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999080702938,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.00045020963423676714,
+                "rounding_envelope": 4.722138089880433e-05,
+                "signal": 0.11035188696562842,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999920657762,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00012904217836823089,
+                "rounding_envelope": 4.7192354926488575e-05,
+                "signal": 0.05518197581542864,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999921855975,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00012787798578839122,
+                "rounding_envelope": 4.717765083401215e-05,
+                "signal": 0.02759101779715879,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 6,
+            "native_solve_backward_error": 2.0370638509348282e-08,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 4.137058073591922e-06
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999975589268,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 7.34433761539152e-05,
+                "rounding_envelope": 4.720431064107356e-05,
+                "signal": 0.08242475771491443,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999982851933,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 5.909401611889838e-05,
+                "rounding_envelope": 4.718348176350557e-05,
+                "signal": 0.0412129854520866,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.999999993861025,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00011085038192363508,
+                "rounding_envelope": 4.717313177932105e-05,
+                "signal": 0.020606590836587793,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 7,
+            "native_solve_backward_error": 1.684903061516252e-08,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 4.080879435138796e-06
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999999927865,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 3.7988865547386545e-06,
+                "rounding_envelope": 4.717412092026046e-05,
+                "signal": 0.0694375553405369,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999999400307,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 1.0953416094098579e-05,
+                "rounding_envelope": 4.716828829795465e-05,
+                "signal": 0.034718768728675485,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999997204652,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 2.3652036513405245e-05,
+                "rounding_envelope": 4.71655124859029e-05,
+                "signal": 0.017359397973389895,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              4096,
+              14336
+            ],
+            "layer": 8,
+            "native_solve_backward_error": 1.4964880890033783e-08,
+            "orientation": [
+              4096,
+              14336
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 4.077550402031971e-06
+          }
+        ],
+        "logit_parity": {
+          "atol": 0.0002150027285097167,
+          "max_abs": 2.0503997802734375e-05,
+          "pass_check": true,
+          "relative_l2": 9.020563032526964e-07,
+          "rtol": 7.62939453125e-06
+        },
+        "metric": {
+          "capture_count": 1,
+          "metric": "entry_M_plus_L2_I",
+          "qF_ref": 7.743781982896051,
+          "qN_ref": 7.743781982896051,
+          "raw_layer_actions": [
+            2.4220068375736377,
+            1.5068794150817102,
+            1.1650466122358536,
+            1.2370545492543734,
+            1.4127945687504762
+          ]
+        },
+        "official": {
+          "arm": "O",
+          "fixed_z_callback_count": 1,
+          "history_append_count": 1,
+          "inner_cache_mutation_count": 0,
+          "inner_history_append_count": 0,
+          "model_and_storage_dtype": "torch.float32",
+          "numeric_storage_cast_count": 0,
+          "official_entrypoint": "easyeditor.models.alphaedit.AlphaEdit_main.apply_AlphaEdit_to_model",
+          "official_native_ephemeral_solve_dtype": "torch.float32",
+          "physical_write_count": 1,
+          "selected_weight_endpoint_sha256": "2df2c4d7389368f0cfe6c92749ecc100f6fdf3ab69341b540c34e5d0b208c1fc",
+          "status": "TERMINAL_VALID",
+          "terminal_activation_sha256": "9cfe6a7a90915e7f3f148011d4111f31eca486cb1fe024518527895ccb11d638",
+          "terminal_history_key_capture_count": 5,
+          "terminal_net_frobenius": 1.2074972051802184,
+          "terminal_net_frobenius_squared": 1.4580495005180383,
+          "terminal_net_frobenius_squared_by_weight": {
+            "model.layers.4.mlp.down_proj.weight": 0.09688027894422917,
+            "model.layers.5.mlp.down_proj.weight": 0.12483043548182571,
+            "model.layers.6.mlp.down_proj.weight": 0.19798222069958182,
+            "model.layers.7.mlp.down_proj.weight": 0.3309178042691917,
+            "model.layers.8.mlp.down_proj.weight": 0.7074387611232098
+          }
+        },
+        "one_nonzero_joint_step": true,
+        "overlay": {
+          "accumulated_rank": 5,
+          "entry_component_sha256": {
+            "model.layers.4.mlp.down_proj.weight": "d0267d23c5ccb50dead069b819432e1750dbee142d332539ec0cd5f0dfd8f16b",
+            "model.layers.5.mlp.down_proj.weight": "a2c68f28f4142fd840a541001049f4e7d41633b5b51e47d417b2906dcf499597",
+            "model.layers.6.mlp.down_proj.weight": "96f95e0afdab51d9382e9de25f9d437d240a6d7591dacf1768537450e4ee9a24",
+            "model.layers.7.mlp.down_proj.weight": "abd1e823966595f963d8aabe14ddc5a4989b3795103a27dddcf7d42bba64be73",
+            "model.layers.8.mlp.down_proj.weight": "b627ffa221a8531ef614fc53ec27bc9c329a17fc5d898aac4cada65e84dbea1a"
+          },
+          "entry_selected_sha256": "c8ea4686f3070ba6fe032c2d3b579c7c9dacd842886175216c34b8dd18f911f2",
+          "factor_count": 5,
+          "forward_hook_calls": 240,
+          "physical_inner_write_count": 0,
+          "physical_terminal_write_count": 0,
+          "schema": "orbode.grouped-fp32-overlay.v1",
+          "shadow_materialization_count": 1,
+          "state_version": 5,
+          "w0_pointer_version_bytes_unchanged": true
+        },
+        "schema": "native-v31.gpu-fidelity.v1",
+        "status": "PASS",
+        "tokenizer_padding_side": "right"
+      }
+    ],
+    "status": "PASS"
+  },
+  {
+    "cell": 2,
+    "fixtures": [
+      {
+        "activation_parity": {
+          "atol": 0.0001371308753732592,
+          "max_abs": 7.62939453125e-06,
+          "pass_check": true,
+          "relative_l2": 8.57963214078097e-07,
+          "rtol": 7.62939453125e-06
+        },
+        "context_sha": "3630b6e9666894c7bcea8786386b8107eed6dacc8185c667aae810019520cf33",
+        "entry_pointer_bytes_restore": true,
+        "entry_sha": "cdd5922436375d05aa5b7bae8059da9767e51a6f89eda6ec78b49a2986551428",
+        "fd_epsilons": [
+          0.0078125,
+          0.00390625,
+          0.001953125
+        ],
+        "finite_zero_step": false,
+        "fixed_z_sha": "d6135d761195eef76f193903bc28b05a3687a16a0f7c500865afc82939de698f",
+        "layers": [
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999997448574864,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0008304092970834624,
+                "rounding_envelope": 0.00047867055587818826,
+                "signal": 1.8870512117859615,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999781350507,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.0002344429855113668,
+                "rounding_envelope": 0.0004785230076018371,
+                "signal": 0.9438254688629909,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999816417067,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.0001941299570743178,
+                "rounding_envelope": 0.00047845147122684115,
+                "signal": 0.47194806075421897,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 4,
+            "native_solve_backward_error": 4.721460355824374e-18,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999159545041,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0004895172507787277,
+                "rounding_envelope": 0.00047850851876977724,
+                "signal": 1.7936595569353502,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999909380756,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00015197184618249738,
+                "rounding_envelope": 0.00047844900584284014,
+                "signal": 0.8970065262496535,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999856983827,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00016916203396732062,
+                "rounding_envelope": 0.0004784162166573817,
+                "signal": 0.4485332973254944,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 5,
+            "native_solve_backward_error": 1.9725310560587836e-17,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999806293244,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0002683456391968732,
+                "rounding_envelope": 0.0004795433479231238,
+                "signal": 1.5017033022129287,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999963470839,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 9.7120885089821e-05,
+                "rounding_envelope": 0.00047896643891023557,
+                "signal": 0.7509540075076052,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999879868527,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00015526999816834844,
+                "rounding_envelope": 0.0004786749811228765,
+                "signal": 0.37549090657356393,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 6,
+            "native_solve_backward_error": 1.338283269360921e-17,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.99999999693313,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 8.793192704125632e-05,
+                "rounding_envelope": 0.0004787746550362657,
+                "signal": 1.1620374854844562,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999977585982,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 6.746407007610261e-05,
+                "rounding_envelope": 0.00047857593134202224,
+                "signal": 0.5810371601021079,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999903515804,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.0001389526973551982,
+                "rounding_envelope": 0.0004784782265216352,
+                "signal": 0.2905219480810225,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 7,
+            "native_solve_backward_error": 1.6824464388826127e-17,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999999952158,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 3.093783129551956e-06,
+                "rounding_envelope": 0.00047847179524712147,
+                "signal": 0.9252894744814306,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999999757716,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 6.961519363941349e-06,
+                "rounding_envelope": 0.00047842339861187117,
+                "signal": 0.4626447655477047,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999998681899,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 1.6237083274225468e-05,
+                "rounding_envelope": 0.00047840164590601573,
+                "signal": 0.23132233635382216,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 8,
+            "native_solve_backward_error": 1.7353818086843064e-17,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true
+          }
+        ],
+        "logit_parity": {
+          "atol": 0.0001983225520234555,
+          "max_abs": 4.1961669921875e-05,
+          "pass_check": true,
+          "relative_l2": 1.4458781638804061e-06,
+          "rtol": 7.62939453125e-06
+        },
+        "metric": {
+          "capture_count": 1,
+          "metric": "lambda_mom2_C",
+          "qF_ref": 244.99346505836823,
+          "qN_ref": 8656.311746720516,
+          "raw_layer_actions": [
+            1586.2962531709713,
+            1596.5803199458662,
+            1479.060426832732,
+            1917.5632418837374,
+            2076.8115048872087
+          ]
+        },
+        "official": {
+          "arm": "O",
+          "fixed_z_callback_count": 1,
+          "history_append_count": 0,
+          "inner_cache_mutation_count": 0,
+          "inner_history_append_count": 0,
+          "model_and_storage_dtype": "torch.float32",
+          "numeric_storage_cast_count": 0,
+          "official_entrypoint": "easyeditor.models.memit.memit_main.apply_memit_to_model",
+          "official_native_ephemeral_solve_dtype": "torch.float64",
+          "physical_write_count": 1,
+          "selected_weight_endpoint_sha256": "6627121c4cccd4e30ae726ebeee97da02019a388faa0a35df0bd869261fbec9e",
+          "status": "TERMINAL_VALID",
+          "terminal_activation_sha256": "33f590fb1db146ef1733aab236c8b71b104d3922da2f99b1c654a84cd9575cfe",
+          "terminal_history_key_capture_count": 0,
+          "terminal_net_frobenius": 4.161770498539068,
+          "terminal_net_frobenius_squared": 17.320333682510125,
+          "terminal_net_frobenius_squared_by_weight": {
+            "model.layers.4.mlp.down_proj.weight": 5.706071022110181,
+            "model.layers.5.mlp.down_proj.weight": 3.817408239185057,
+            "model.layers.6.mlp.down_proj.weight": 1.1787844340864768,
+            "model.layers.7.mlp.down_proj.weight": 2.585762102157679,
+            "model.layers.8.mlp.down_proj.weight": 4.032307884970731
+          }
+        },
+        "one_nonzero_joint_step": true,
+        "overlay": {
+          "accumulated_rank": 4,
+          "entry_component_sha256": {
+            "model.layers.4.mlp.down_proj.weight": "ee7588e3e286ee1c032c1372b38980a428fb49a816d6066c4d197e39dfdbd0eb",
+            "model.layers.5.mlp.down_proj.weight": "5d21a8d4ea84d13f473e5fce9f351ffc7e6ce1fa2c7e863c4121d794063939fb",
+            "model.layers.6.mlp.down_proj.weight": "08dc226b1a5c2350d0f0bf336872eeed6293158ff164687863a3bf573eb87911",
+            "model.layers.7.mlp.down_proj.weight": "22abdacd64c72934417bc6bd997ae7bae1e99243f42543d3cfbe908a917ac5f0",
+            "model.layers.8.mlp.down_proj.weight": "3648d5feca7e89634b252766931d92ec0a40271f6245538478c76067e95b4c59"
+          },
+          "entry_selected_sha256": "cdd5922436375d05aa5b7bae8059da9767e51a6f89eda6ec78b49a2986551428",
+          "factor_count": 4,
+          "forward_hook_calls": 240,
+          "physical_inner_write_count": 0,
+          "physical_terminal_write_count": 0,
+          "schema": "orbode.grouped-fp32-overlay.v1",
+          "shadow_materialization_count": 1,
+          "state_version": 4,
+          "w0_pointer_version_bytes_unchanged": true
+        },
+        "schema": "native-v31.gpu-fidelity.v1",
+        "status": "PASS",
+        "tokenizer_padding_side": "right"
+      },
+      {
+        "activation_parity": {
+          "atol": 0.0001715980761218816,
+          "max_abs": 5.7220458984375e-06,
+          "pass_check": true,
+          "relative_l2": 8.984569905424977e-07,
+          "rtol": 7.62939453125e-06
+        },
+        "context_sha": "1e4715bc49eab934a310ec041ed10f48f0bc631e10b070ce75ee2a860b440233",
+        "entry_pointer_bytes_restore": true,
+        "entry_sha": "cdd5922436375d05aa5b7bae8059da9767e51a6f89eda6ec78b49a2986551428",
+        "fd_epsilons": [
+          0.0078125,
+          0.00390625,
+          0.001953125
+        ],
+        "finite_zero_step": false,
+        "fixed_z_sha": "4c14801b6be3a2d5a477aa155b376e816b7af3feec83acc359097ff0c6a8054b",
+        "layers": [
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999998274349218,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0006950595738005792,
+                "rounding_envelope": 0.0005051505409649842,
+                "signal": 2.0055791856350416,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999849642109,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00019572411899802577,
+                "rounding_envelope": 0.0005048880297735163,
+                "signal": 1.0030713376558922,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999810617793,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00019591063460165905,
+                "rounding_envelope": 0.0005047529422613781,
+                "signal": 0.5015699211147608,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 4,
+            "native_solve_backward_error": 4.659219137515633e-18,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999038443675,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0004749805760287997,
+                "rounding_envelope": 0.0005057332417549713,
+                "signal": 2.1950915250051843,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999918462326,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00013563408347140363,
+                "rounding_envelope": 0.0005051625662726999,
+                "signal": 1.0976959908746746,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999893334424,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.0001477781908614084,
+                "rounding_envelope": 0.0005048859686291341,
+                "signal": 0.5488607432632445,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 5,
+            "native_solve_backward_error": 1.4220076026723165e-17,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999589020179,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0003439889492852132,
+                "rounding_envelope": 0.0005050852085520851,
+                "signal": 1.8496308518461078,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999953939102,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00010600873888957065,
+                "rounding_envelope": 0.0005048423413494839,
+                "signal": 0.9249496554531568,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999940751678,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00010957345713295626,
+                "rounding_envelope": 0.0005047267830150179,
+                "signal": 0.46248985380456475,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 6,
+            "native_solve_backward_error": 3.0536875383552814e-17,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999956859617,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0001025096552551314,
+                "rounding_envelope": 0.0005047547343232785,
+                "signal": 1.3646540658460398,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999983336694,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 5.868733243130286e-05,
+                "rounding_envelope": 0.0005046789512414927,
+                "signal": 0.6823494156436705,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999942511535,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00010722760751683428,
+                "rounding_envelope": 0.0005046456291420027,
+                "signal": 0.3411783972398456,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 7,
+            "native_solve_backward_error": 1.3948529190366794e-17,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.999999999996908,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 2.4875066992359827e-06,
+                "rounding_envelope": 0.0005047038291737062,
+                "signal": 1.0780576396621648,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999999857008,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 5.347822384225809e-06,
+                "rounding_envelope": 0.0005046553556320586,
+                "signal": 0.5390288441683733,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999999346668,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 1.1431582617207016e-05,
+                "rounding_envelope": 0.0005046342624022642,
+                "signal": 0.269514453444837,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 8,
+            "native_solve_backward_error": 4.4821248952507525e-17,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true
+          }
+        ],
+        "logit_parity": {
+          "atol": 0.00021419630502350628,
+          "max_abs": 3.337860107421875e-05,
+          "pass_check": true,
+          "relative_l2": 9.78755621632885e-07,
+          "rtol": 7.62939453125e-06
+        },
+        "metric": {
+          "capture_count": 1,
+          "metric": "lambda_mom2_C",
+          "qF_ref": 172.0120569123816,
+          "qN_ref": 7186.423106891238,
+          "raw_layer_actions": [
+            1320.74330074015,
+            813.269641034271,
+            1196.014895947916,
+            1818.785621577842,
+            2037.6096475910585
+          ]
+        },
+        "official": {
+          "arm": "O",
+          "fixed_z_callback_count": 1,
+          "history_append_count": 0,
+          "inner_cache_mutation_count": 0,
+          "inner_history_append_count": 0,
+          "model_and_storage_dtype": "torch.float32",
+          "numeric_storage_cast_count": 0,
+          "official_entrypoint": "easyeditor.models.memit.memit_main.apply_memit_to_model",
+          "official_native_ephemeral_solve_dtype": "torch.float64",
+          "physical_write_count": 1,
+          "selected_weight_endpoint_sha256": "0945fe40941d3a1f568c2c980329e70e95b834ff83e1b01d33c320179af2150c",
+          "status": "TERMINAL_VALID",
+          "terminal_activation_sha256": "caa016d845c9e0e393d848249b3abf35eb158d5302811f58a3cc9b7d340ff066",
+          "terminal_history_key_capture_count": 0,
+          "terminal_net_frobenius": 3.5210297858659945,
+          "terminal_net_frobenius_squared": 12.397650752955531,
+          "terminal_net_frobenius_squared_by_weight": {
+            "model.layers.4.mlp.down_proj.weight": 3.583604343653473,
+            "model.layers.5.mlp.down_proj.weight": 2.8380421258609356,
+            "model.layers.6.mlp.down_proj.weight": 0.8826808943926275,
+            "model.layers.7.mlp.down_proj.weight": 2.176542475098641,
+            "model.layers.8.mlp.down_proj.weight": 2.9167809139498537
+          }
+        },
+        "one_nonzero_joint_step": true,
+        "overlay": {
+          "accumulated_rank": 3,
+          "entry_component_sha256": {
+            "model.layers.4.mlp.down_proj.weight": "ee7588e3e286ee1c032c1372b38980a428fb49a816d6066c4d197e39dfdbd0eb",
+            "model.layers.5.mlp.down_proj.weight": "5d21a8d4ea84d13f473e5fce9f351ffc7e6ce1fa2c7e863c4121d794063939fb",
+            "model.layers.6.mlp.down_proj.weight": "08dc226b1a5c2350d0f0bf336872eeed6293158ff164687863a3bf573eb87911",
+            "model.layers.7.mlp.down_proj.weight": "22abdacd64c72934417bc6bd997ae7bae1e99243f42543d3cfbe908a917ac5f0",
+            "model.layers.8.mlp.down_proj.weight": "3648d5feca7e89634b252766931d92ec0a40271f6245538478c76067e95b4c59"
+          },
+          "entry_selected_sha256": "cdd5922436375d05aa5b7bae8059da9767e51a6f89eda6ec78b49a2986551428",
+          "factor_count": 3,
+          "forward_hook_calls": 240,
+          "physical_inner_write_count": 0,
+          "physical_terminal_write_count": 0,
+          "schema": "orbode.grouped-fp32-overlay.v1",
+          "shadow_materialization_count": 1,
+          "state_version": 3,
+          "w0_pointer_version_bytes_unchanged": true
+        },
+        "schema": "native-v31.gpu-fidelity.v1",
+        "status": "PASS",
+        "tokenizer_padding_side": "right"
+      }
+    ],
+    "status": "PASS"
+  },
+  {
+    "cell": 3,
+    "fixtures": [
+      {
+        "activation_parity": {
+          "atol": 0.0001376220170641318,
+          "max_abs": 8.58306884765625e-06,
+          "pass_check": true,
+          "relative_l2": 8.792365980241767e-07,
+          "rtol": 7.62939453125e-06
+        },
+        "context_sha": "3630b6e9666894c7bcea8786386b8107eed6dacc8185c667aae810019520cf33",
+        "entry_pointer_bytes_restore": true,
+        "entry_sha": "cdd5922436375d05aa5b7bae8059da9767e51a6f89eda6ec78b49a2986551428",
+        "fd_epsilons": [
+          0.0078125,
+          0.00390625,
+          0.001953125
+        ],
+        "finite_zero_step": false,
+        "fixed_z_sha": "d6135d761195eef76f193903bc28b05a3687a16a0f7c500865afc82939de698f",
+        "layers": [
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999992955545324,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0013881856777965959,
+                "rounding_envelope": 0.00047875448490403675,
+                "signal": 2.440778978118443,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999548331546,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00035081325618858245,
+                "rounding_envelope": 0.00047856284963617546,
+                "signal": 1.2210484460669473,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999863196413,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00017126785310216385,
+                "rounding_envelope": 0.00047847078314507417,
+                "signal": 0.6106076090904481,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 4,
+            "native_solve_backward_error": 6.705558064368233e-08,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 3.549979144880284e-05
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999997578628972,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0008281096176220808,
+                "rounding_envelope": 0.00047854678912942825,
+                "signal": 2.3442281465175263,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999824625877,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.0002162091539717394,
+                "rounding_envelope": 0.0004784708347283564,
+                "signal": 1.1725140228627247,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999913781114,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.0001330790079837403,
+                "rounding_envelope": 0.00047842791668975234,
+                "signal": 0.5863076995870843,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 5,
+            "native_solve_backward_error": 7.459818363031445e-08,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 2.3079408409013233e-05
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999522519775,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.00042380770936004635,
+                "rounding_envelope": 0.0004798410671882224,
+                "signal": 1.8949412294346883,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999954660983,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00012312187424478235,
+                "rounding_envelope": 0.00047911774349472346,
+                "signal": 0.947671561720297,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999936382161,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00011308726187966259,
+                "rounding_envelope": 0.00047875127018001966,
+                "signal": 0.4738689387570781,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 6,
+            "native_solve_backward_error": 1.2802772175746213e-07,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 0.00010508784230446547
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999882742258,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0001746448103629318,
+                "rounding_envelope": 0.0004789610870835027,
+                "signal": 1.695080177640286,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999983640563,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 6.143931980218257e-05,
+                "rounding_envelope": 0.000478666758522538,
+                "signal": 0.8475922546470461,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999959455295,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 9.005175652791483e-05,
+                "rounding_envelope": 0.0004785230062584047,
+                "signal": 0.42380537097891735,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 7,
+            "native_solve_backward_error": 5.5355663164391444e-08,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 5.826974838346895e-05
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999999982593,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 1.8665387156001133e-06,
+                "rounding_envelope": 0.0004785373116451187,
+                "signal": 1.4715392738224848,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999999934185,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 3.6284425800256348e-06,
+                "rounding_envelope": 0.0004784511840145527,
+                "signal": 0.7357696358684588,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999999753438,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 7.02268116568608e-06,
+                "rounding_envelope": 0.00047841428904475615,
+                "signal": 0.36788482986315907,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 8,
+            "native_solve_backward_error": 7.415982139491462e-08,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 5.262635212847296e-05
+          }
+        ],
+        "logit_parity": {
+          "atol": 0.0001985728886211291,
+          "max_abs": 3.814697265625e-05,
+          "pass_check": true,
+          "relative_l2": 1.6059799788116161e-06,
+          "rtol": 7.62939453125e-06
+        },
+        "metric": {
+          "capture_count": 1,
+          "metric": "entry_M_plus_L2_I",
+          "qF_ref": 183.05213421635287,
+          "qN_ref": 183.05213421635287,
+          "raw_layer_actions": [
+            30.982744177770922,
+            39.44224578529745,
+            19.454434535917585,
+            40.10665116629214,
+            53.066058551074775
+          ]
+        },
+        "official": {
+          "arm": "O",
+          "fixed_z_callback_count": 1,
+          "history_append_count": 1,
+          "inner_cache_mutation_count": 0,
+          "inner_history_append_count": 0,
+          "model_and_storage_dtype": "torch.float32",
+          "numeric_storage_cast_count": 0,
+          "official_entrypoint": "easyeditor.models.alphaedit.AlphaEdit_main.apply_AlphaEdit_to_model",
+          "official_native_ephemeral_solve_dtype": "torch.float32",
+          "physical_write_count": 1,
+          "selected_weight_endpoint_sha256": "0493bc3d8aaf4497e8fec51b673f78f4d0cdc971723691dd381c094a6d752fc6",
+          "status": "TERMINAL_VALID",
+          "terminal_activation_sha256": "b5693bb973249b596060f27b4033619acd1c1a4fbb1900f7a9f9a2242f73c9df",
+          "terminal_history_key_capture_count": 5,
+          "terminal_net_frobenius": 3.7022423860454863,
+          "terminal_net_frobenius_squared": 13.706598685031777,
+          "terminal_net_frobenius_squared_by_weight": {
+            "model.layers.4.mlp.down_proj.weight": 1.2392915789756944,
+            "model.layers.5.mlp.down_proj.weight": 1.9835072595879648,
+            "model.layers.6.mlp.down_proj.weight": 1.3741400913113087,
+            "model.layers.7.mlp.down_proj.weight": 4.41496699788812,
+            "model.layers.8.mlp.down_proj.weight": 4.6946927572686885
+          }
+        },
+        "one_nonzero_joint_step": true,
+        "overlay": {
+          "accumulated_rank": 4,
+          "entry_component_sha256": {
+            "model.layers.4.mlp.down_proj.weight": "ee7588e3e286ee1c032c1372b38980a428fb49a816d6066c4d197e39dfdbd0eb",
+            "model.layers.5.mlp.down_proj.weight": "5d21a8d4ea84d13f473e5fce9f351ffc7e6ce1fa2c7e863c4121d794063939fb",
+            "model.layers.6.mlp.down_proj.weight": "08dc226b1a5c2350d0f0bf336872eeed6293158ff164687863a3bf573eb87911",
+            "model.layers.7.mlp.down_proj.weight": "22abdacd64c72934417bc6bd997ae7bae1e99243f42543d3cfbe908a917ac5f0",
+            "model.layers.8.mlp.down_proj.weight": "3648d5feca7e89634b252766931d92ec0a40271f6245538478c76067e95b4c59"
+          },
+          "entry_selected_sha256": "cdd5922436375d05aa5b7bae8059da9767e51a6f89eda6ec78b49a2986551428",
+          "factor_count": 4,
+          "forward_hook_calls": 240,
+          "physical_inner_write_count": 0,
+          "physical_terminal_write_count": 0,
+          "schema": "orbode.grouped-fp32-overlay.v1",
+          "shadow_materialization_count": 1,
+          "state_version": 4,
+          "w0_pointer_version_bytes_unchanged": true
+        },
+        "schema": "native-v31.gpu-fidelity.v1",
+        "status": "PASS",
+        "tokenizer_padding_side": "right"
+      },
+      {
+        "activation_parity": {
+          "atol": 0.00017004116671159863,
+          "max_abs": 4.76837158203125e-06,
+          "pass_check": true,
+          "relative_l2": 9.494160738325805e-07,
+          "rtol": 7.62939453125e-06
+        },
+        "context_sha": "1e4715bc49eab934a310ec041ed10f48f0bc631e10b070ce75ee2a860b440233",
+        "entry_pointer_bytes_restore": true,
+        "entry_sha": "cdd5922436375d05aa5b7bae8059da9767e51a6f89eda6ec78b49a2986551428",
+        "fd_epsilons": [
+          0.0078125,
+          0.00390625,
+          0.001953125
+        ],
+        "finite_zero_step": false,
+        "fixed_z_sha": "4c14801b6be3a2d5a477aa155b376e816b7af3feec83acc359097ff0c6a8054b",
+        "layers": [
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999996399502354,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0010039687439254775,
+                "rounding_envelope": 0.000505254213095342,
+                "signal": 2.4103136110445256,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999748498102,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00026206940718035695,
+                "rounding_envelope": 0.000504942068276404,
+                "signal": 1.2056406732549247,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999847911736,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.0001751975971263308,
+                "rounding_envelope": 0.0005047806030215422,
+                "signal": 0.6028920537366127,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 4,
+            "native_solve_backward_error": 8.68781526719431e-08,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 4.8200719882193196e-05
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999998552200642,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0005849798473641817,
+                "rounding_envelope": 0.000505857510876791,
+                "signal": 2.42976319137912,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999893998232,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00015435757822209955,
+                "rounding_envelope": 0.0005052220233195701,
+                "signal": 1.2150982929439715,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999909795608,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.000134564767736307,
+                "rounding_envelope": 0.0005049151653038068,
+                "signal": 0.6075753162889826,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 5,
+            "native_solve_backward_error": 2.68419086069116e-07,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 8.049415925886049e-05
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999218648505,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0004750302222318252,
+                "rounding_envelope": 0.0005051733673579048,
+                "signal": 2.171027210313201,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999938523949,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 0.00012787084076967985,
+                "rounding_envelope": 0.0005048833741119114,
+                "signal": 1.085730542092926,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999950923407,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 0.00010094958745514194,
+                "rounding_envelope": 0.0005047465750055947,
+                "signal": 0.5428893259292952,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 6,
+            "native_solve_backward_error": 8.751283786523345e-08,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 0.00013160749961567988
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999868753269,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 0.0001790589240229802,
+                "rounding_envelope": 0.000504811350885554,
+                "signal": 1.8236513132217422,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999984015031,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 5.919918437829635e-05,
+                "rounding_envelope": 0.0005047026019002993,
+                "signal": 0.9118791993569808,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999967586576,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 8.06223199279309e-05,
+                "rounding_envelope": 0.0005046562632326626,
+                "signal": 0.4559457000441619,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 7,
+            "native_solve_backward_error": 9.085049157420144e-08,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 7.552455290803548e-05
+          },
+          {
+            "adjacent_pass": true,
+            "eps": [
+              {
+                "cosine": 0.9999999999982585,
+                "epsilon": 0.0078125,
+                "passed": true,
+                "relative_L2": 1.8667495795566356e-06,
+                "rounding_envelope": 0.0005047528684003809,
+                "signal": 1.5475134198338456,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999999937056,
+                "epsilon": 0.00390625,
+                "passed": true,
+                "relative_L2": 3.5513158737656387e-06,
+                "rounding_envelope": 0.0005046754362659073,
+                "signal": 0.7737565853169942,
+                "sufficient_signal": true
+              },
+              {
+                "cosine": 0.9999999999727421,
+                "epsilon": 0.001953125,
+                "passed": true,
+                "relative_L2": 7.385005430018287e-06,
+                "rounding_envelope": 0.0005046431902498806,
+                "signal": 0.3868784048229206,
+                "sufficient_signal": true
+              }
+            ],
+            "factor_shape": [
+              3584,
+              18944
+            ],
+            "layer": 8,
+            "native_solve_backward_error": 1.0079801171514191e-07,
+            "orientation": [
+              3584,
+              18944
+            ],
+            "residual_scaling_half_exact": true,
+            "stored_projector_operator_action_relative": 6.181634733770007e-05
+          }
+        ],
+        "logit_parity": {
+          "atol": 0.000214267973206006,
+          "max_abs": 3.24249267578125e-05,
+          "pass_check": true,
+          "relative_l2": 8.291453425383936e-07,
+          "rtol": 7.62939453125e-06
+        },
+        "metric": {
+          "capture_count": 1,
+          "metric": "entry_M_plus_L2_I",
+          "qF_ref": 117.85228223514686,
+          "qN_ref": 117.85228223514686,
+          "raw_layer_actions": [
+            18.970705373575697,
+            15.143551187922405,
+            14.644733926608362,
+            31.843208121089,
+            37.2500836259514
+          ]
+        },
+        "official": {
+          "arm": "O",
+          "fixed_z_callback_count": 1,
+          "history_append_count": 1,
+          "inner_cache_mutation_count": 0,
+          "inner_history_append_count": 0,
+          "model_and_storage_dtype": "torch.float32",
+          "numeric_storage_cast_count": 0,
+          "official_entrypoint": "easyeditor.models.alphaedit.AlphaEdit_main.apply_AlphaEdit_to_model",
+          "official_native_ephemeral_solve_dtype": "torch.float32",
+          "physical_write_count": 1,
+          "selected_weight_endpoint_sha256": "0a5011d3b312cf6bc7da1a1bf9abea70e16ad9d3540448f3d672bd1a1e195136",
+          "status": "TERMINAL_VALID",
+          "terminal_activation_sha256": "95d521326e777ce9ad76e57dbbd5306135074c599d1529ac62803a1c5a3f38a1",
+          "terminal_history_key_capture_count": 5,
+          "terminal_net_frobenius": 2.8771761637836892,
+          "terminal_net_frobenius_squared": 8.278142677445025,
+          "terminal_net_frobenius_squared_by_weight": {
+            "model.layers.4.mlp.down_proj.weight": 0.7588281880644943,
+            "model.layers.5.mlp.down_proj.weight": 1.120976140639211,
+            "model.layers.6.mlp.down_proj.weight": 0.6829447469187477,
+            "model.layers.7.mlp.down_proj.weight": 2.800701282012522,
+            "model.layers.8.mlp.down_proj.weight": 2.914692319810051
+          }
+        },
+        "one_nonzero_joint_step": true,
+        "overlay": {
+          "accumulated_rank": 3,
+          "entry_component_sha256": {
+            "model.layers.4.mlp.down_proj.weight": "ee7588e3e286ee1c032c1372b38980a428fb49a816d6066c4d197e39dfdbd0eb",
+            "model.layers.5.mlp.down_proj.weight": "5d21a8d4ea84d13f473e5fce9f351ffc7e6ce1fa2c7e863c4121d794063939fb",
+            "model.layers.6.mlp.down_proj.weight": "08dc226b1a5c2350d0f0bf336872eeed6293158ff164687863a3bf573eb87911",
+            "model.layers.7.mlp.down_proj.weight": "22abdacd64c72934417bc6bd997ae7bae1e99243f42543d3cfbe908a917ac5f0",
+            "model.layers.8.mlp.down_proj.weight": "3648d5feca7e89634b252766931d92ec0a40271f6245538478c76067e95b4c59"
+          },
+          "entry_selected_sha256": "cdd5922436375d05aa5b7bae8059da9767e51a6f89eda6ec78b49a2986551428",
+          "factor_count": 3,
+          "forward_hook_calls": 240,
+          "physical_inner_write_count": 0,
+          "physical_terminal_write_count": 0,
+          "schema": "orbode.grouped-fp32-overlay.v1",
+          "shadow_materialization_count": 1,
+          "state_version": 3,
+          "w0_pointer_version_bytes_unchanged": true
+        },
+        "schema": "native-v31.gpu-fidelity.v1",
+        "status": "PASS",
+        "tokenizer_padding_side": "right"
+      }
+    ],
+    "status": "PASS"
+  }
+]

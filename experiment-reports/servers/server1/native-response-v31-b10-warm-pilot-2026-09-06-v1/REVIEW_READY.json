@@ -1,0 +1,308 @@
+{
+  "analysis_environment": {
+    "model_load_count": 0,
+    "numpy": "2.2.6",
+    "platform": "Linux-5.15.0-179-generic-x86_64-with-glibc2.35",
+    "python": "3.12.0 (main, Jun 18 2025, 15:39:44) [GCC 11.4.0]",
+    "torch": "2.9.1+cu128",
+    "torch_cpu_threads": 4
+  },
+  "analysis_publication_repair": {
+    "GPU_action_count": 0,
+    "diagnostic_component_change_count": 0,
+    "exception": "TypeError duplicate scientific_promotion metadata keyword",
+    "existing_ledger_overwrite_count": 0,
+    "existing_ledger_sha256": "5d659335e5e96a223dd28161aa03b2397d1589660779744f584552901b341b45",
+    "metric_change_count": 0,
+    "primary_component_change_count": 0,
+    "source_change": "dictionary merge; exact existing budget metadata verification only"
+  },
+  "audit_raw_roots": {
+    "0": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-audit-tech-r1/local/native-response-ode-v31-parallel-pilot/20260906-audit-tech-r1-exec",
+    "1": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-audit-tech-r1/local/native-response-ode-v31-parallel-pilot/20260906-audit-tech-r1-exec",
+    "2": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-audit-tech-r1/local/native-response-ode-v31-parallel-pilot/20260906-audit-tech-r1-qm",
+    "3": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-audit-tech-r1/local/native-response-ode-v31-parallel-pilot/20260906-audit-tech-r1-exec"
+  },
+  "baseline_diff_scope": [
+    "project/run_scripts/native_response_ode_v31/__init__.py",
+    "project/run_scripts/native_response_ode_v31/algebra.py",
+    "project/run_scripts/native_response_ode_v31/analysis.py",
+    "project/run_scripts/native_response_ode_v31/diagnostics_analysis.py",
+    "project/run_scripts/native_response_ode_v31/fidelity.py",
+    "project/run_scripts/native_response_ode_v31/finalize.py",
+    "project/run_scripts/native_response_ode_v31/followup.py",
+    "project/run_scripts/native_response_ode_v31/followup.sbatch",
+    "project/run_scripts/native_response_ode_v31/native_binding.py",
+    "project/run_scripts/native_response_ode_v31/pilot.sbatch",
+    "project/run_scripts/native_response_ode_v31/provenance.py",
+    "project/run_scripts/native_response_ode_v31/runtime.py",
+    "project/run_scripts/native_response_ode_v31/state_identity.py",
+    "project/run_scripts/native_response_ode_v31/test_algebra.py",
+    "project/run_scripts/native_response_ode_v31/test_analysis.py",
+    "project/run_scripts/native_response_ode_v31/test_binding.py",
+    "project/run_scripts/native_response_ode_v31/test_state_identity.py",
+    "project/run_scripts/native_response_ode_v31/trajectory.py"
+  ],
+  "baseline_report_ref": "f2dcfd4ab6fcb2917ae0a29cbc384cf95a82eb3c",
+  "code_members": [
+    {
+      "bytes": 68,
+      "git_blob": "5e060bccc1a62e8fdba27a6e711939b0ad08ae63",
+      "path": "project/run_scripts/native_response_ode_v31/__init__.py",
+      "sha256": "61ad50349e80fef94c0ed39e5b05536109710da3a00d297f683a1d6a40f31d71"
+    },
+    {
+      "bytes": 5812,
+      "git_blob": "ba2c2b06fc545f28661b9735882258affac0146b",
+      "path": "project/run_scripts/native_response_ode_v31/algebra.py",
+      "sha256": "4a1740af9fff530159ae14fe137ff8360ee238fd90928182f5b1bab9911785c5"
+    },
+    {
+      "bytes": 29446,
+      "git_blob": "d9490701e52084e9434d5b1eca6ee1d84f0d2a23",
+      "path": "project/run_scripts/native_response_ode_v31/analysis.py",
+      "sha256": "d7891e532681edd390331c557a27023013f1bf8287a960efffbe75f8ee9c0b1a"
+    },
+    {
+      "bytes": 11170,
+      "git_blob": "6c35233df6307b593f085018c04c2e486b5242be",
+      "path": "project/run_scripts/native_response_ode_v31/diagnostics_analysis.py",
+      "sha256": "e970470ef343a633dc6358669f31a3d964720bceeb1d8225d55856531677e02f"
+    },
+    {
+      "bytes": 7243,
+      "git_blob": "cba1389cfa0c607d933e419840d9dc8dfca0f01b",
+      "path": "project/run_scripts/native_response_ode_v31/fidelity.py",
+      "sha256": "72c2798affd4f3d64c133da6f2c2e68c7e09014a06d5ec135ddb031aa4cd66f5"
+    },
+    {
+      "bytes": 12404,
+      "git_blob": "534b2d79c0071b3493ba50667674ab1aacc4c60b",
+      "path": "project/run_scripts/native_response_ode_v31/finalize.py",
+      "sha256": "2493623c0a1ae4aeacaed2d4a5536caee7acfdf8a775184d41697d665d8ccf58"
+    },
+    {
+      "bytes": 12676,
+      "git_blob": "bafd6516a9e248454e8b6f2c40d43ee017a15607",
+      "path": "project/run_scripts/native_response_ode_v31/followup.py",
+      "sha256": "d29ae27d407c527a98d7423b2c7820b032f97a94b4b0d52efa4943a92edca14b"
+    },
+    {
+      "bytes": 988,
+      "git_blob": "e8d87c7a3c2d7875f5f2d19321d9acc43411573c",
+      "path": "project/run_scripts/native_response_ode_v31/followup.sbatch",
+      "sha256": "1221cfca13ccf09ea489fd0c5b2a371f79a7834963e255767ef8bb0ac7d79b22"
+    },
+    {
+      "bytes": 8378,
+      "git_blob": "eb82aa0284963a8ff3043852e587b6ca20c0676d",
+      "path": "project/run_scripts/native_response_ode_v31/native_binding.py",
+      "sha256": "acef232f5de10f8e4ad64427bf779198858d9b809ec061674175f5d1524e2991"
+    },
+    {
+      "bytes": 799,
+      "git_blob": "9c3d39586b13a9e752d0500f4a0ffb7f944a932f",
+      "path": "project/run_scripts/native_response_ode_v31/pilot.sbatch",
+      "sha256": "97f8fdf63845be0c57c217618eb5b12e0438d018291ea97dcf457d2fe9aecf15"
+    },
+    {
+      "bytes": 5151,
+      "git_blob": "cba69bc8673d17630e488e3fe88e0e8155009eeb",
+      "path": "project/run_scripts/native_response_ode_v31/provenance.py",
+      "sha256": "1196b6c61a3367d3937e6e3694aa3f7ffff571ea6d12b9be6941e29c0c49d307"
+    },
+    {
+      "bytes": 14753,
+      "git_blob": "e9406c49d977b25e9ea4abd3646d5e557554679b",
+      "path": "project/run_scripts/native_response_ode_v31/runtime.py",
+      "sha256": "04d681f2fe80fcee174bc718ca536572e96323011d728e78ee8d725b78cd9aff"
+    },
+    {
+      "bytes": 1477,
+      "git_blob": "9ef6d5c0ebac26be05da8f80924d04adb4ee4cbf",
+      "path": "project/run_scripts/native_response_ode_v31/state_identity.py",
+      "sha256": "728aef79883f90e37ddc65cf8c8e56d77bc16943265066c15f60daefede9cbcf"
+    },
+    {
+      "bytes": 4164,
+      "git_blob": "fc77809492316c8645fc29a3a0877820364b8cde",
+      "path": "project/run_scripts/native_response_ode_v31/test_algebra.py",
+      "sha256": "a898a370b226dd6a2f28eb4af58dc6ddf82f68c7a0d4b7f16892a5c420477c0b"
+    },
+    {
+      "bytes": 5399,
+      "git_blob": "4f0942f6e0b31c53f5ef3e918ec7bd22ca581a5c",
+      "path": "project/run_scripts/native_response_ode_v31/test_analysis.py",
+      "sha256": "dc4d47c7736843d64f026fc43e760d441c4fce7cf3ffb0aca794a217aae8d8ab"
+    },
+    {
+      "bytes": 4779,
+      "git_blob": "6be1935ca77160c7dbcd6ae2fa14be9b2f9b4848",
+      "path": "project/run_scripts/native_response_ode_v31/test_binding.py",
+      "sha256": "ebcca45eb848014e387a7d28ca3a8e872b2feac2f57370db1863201b00e41887"
+    },
+    {
+      "bytes": 1632,
+      "git_blob": "45450c616b1bca37f845096b7754f01bdf4133d2",
+      "path": "project/run_scripts/native_response_ode_v31/test_state_identity.py",
+      "sha256": "6d2bd46fcd0027d60f5a4401af287edb0b5a895c134fa49b6516b5f65315c2ec"
+    },
+    {
+      "bytes": 11008,
+      "git_blob": "3745129e8c246f9d9cdba0e1caadd4bf0bf61950",
+      "path": "project/run_scripts/native_response_ode_v31/trajectory.py",
+      "sha256": "6dfef926becbc3ba7d2b1c3de77f8d78e9f0230311dceaa1ec154be438183b91"
+    }
+  ],
+  "diagnostics": {
+    "manifest_sha256": "aada9c5a73a8d7041e6ff5a3960506ed13e836d39522e15408529509321ee761",
+    "members_root": "97bab320f2dc290a06065b4e49dea26cce121f1c5ac3e6a0bcbea58f12da1621",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-analysis-v1/experiment-reports/servers/server1/native-response-v31-b10-warm-pilot-2026-09-06-v1/diagnostics",
+    "receipt_identity": "fd4bf3b9734cdc1f977dc7c4ad0dc07197e3b339104aeb595cdbe56e502ac65b",
+    "receipt_sha256": "7b3bd2153dbafef482fc204b0bb181639066f595eda770f4318cd4f922ff451d",
+    "report_sha256": "4f9fb520874b4d2cabbfe903369d3a5da4999663486e1d8006b4f71dc3a009b0"
+  },
+  "explicit_mem_gate": "exactly one --mem=182272M per launcher",
+  "final_analysis_head": "3c90103474ee95ac6fda154703aaf7add8a50d33",
+  "final_analysis_tree": "4e123a38e82281d0d829d7367087bab1f744d828",
+  "focused_compile_bash_diff": "PASS",
+  "focused_test_receipt": {
+    "GPU_actions": 0,
+    "command": [
+      "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "project/run_scripts/native_response_ode_v31",
+      "-t",
+      ".",
+      "-p",
+      "test_*.py",
+      "-q"
+    ],
+    "model_load": 0,
+    "returncode": 0,
+    "source_head": "3c90103474ee95ac6fda154703aaf7add8a50d33",
+    "stderr": "----------------------------------------------------------------------\nRan 26 tests in 1.082s\n\nOK\n",
+    "stdout": "",
+    "test_count": 26
+  },
+  "gh_independent_review_status": "PENDING",
+  "gh_review_status": "PENDING",
+  "instruction_id": "ODEEDIT-S06-NATIVE-RESPONSE-ODE-V31-MECHANISM-PILOT-SH1-V1",
+  "lineages": {
+    "analysis": {
+      "branch": "codex/native-response-ode-v31-pilot-analysis-v1",
+      "head": "3c90103474ee95ac6fda154703aaf7add8a50d33",
+      "tree": "4e123a38e82281d0d829d7367087bab1f744d828",
+      "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-analysis-v1"
+    },
+    "audit_repair": {
+      "branch": "codex/native-response-ode-v31-audit-tech-r1",
+      "head": "2214387fba0f6338c09269004e6b305f576b733f",
+      "tree": "524cc8635cd3bdad0c6abd78bf8fb5184537ab6c",
+      "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-audit-tech-r1"
+    },
+    "primary": {
+      "branch": "codex/native-response-ode-v31-pilot-tech-r3",
+      "head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+      "tree": "5c7310d74357461f3040cf22342282b69cda7baf",
+      "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3"
+    },
+    "refinement": {
+      "branch": "codex/native-response-ode-v31-pilot-followup-v1",
+      "head": "964453d9308c1f68848c08946b01a72a5820bc55",
+      "tree": "035d917cc924f99f9055e1b7725a14b745e148b2",
+      "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-followup-v1"
+    }
+  },
+  "locks": [
+    "primary/source.lock.json",
+    "primary/runtime.lock.json",
+    "primary/science.lock.json",
+    "primary/sample.lock.json",
+    "primary/resource.lock.json",
+    "primary/cap4-control-override.json",
+    "primary/assets.lock.json",
+    "diagnostics/followup.lock.json",
+    "diagnostics/audit-source-mapping.json"
+  ],
+  "missing_schema": [
+    "Frobenius cross-arm cosine",
+    "cross-arm dense endpoint distance",
+    "intermediate matched-progress endpoint evaluation",
+    "setup backward and forward component breakdown"
+  ],
+  "nonce": "ODEEDIT-SERVER1-CAP4-GH-FINAL-REVIEW-20260906-R1",
+  "primary": {
+    "manifest_sha256": "c50a9936b3cbd0943c11ce0383cb625a54ead73e472e829b02cd669f755262e6",
+    "members_root": "fca03c7e0b0bd5b808a4e13fc414218bb71d310238f3e418d3cad8684d1bbde2",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-analysis-v1/experiment-reports/servers/server1/native-response-v31-b10-warm-pilot-2026-09-06-v1/primary",
+    "receipt_identity": "190deef6212456ded9bbf448fab1f4d6055bff3d5dc66c2a60ad6a2174e8bc9c",
+    "receipt_sha256": "fc4a3d3af7d6afc101196948a4393ff1f7e1829c3b34a4571edece9a414fb081",
+    "report_sha256": "c6ac596ab8cce4c8a65da0bceaf5bf472224461b03a1a65d15e1fc7d070f1239"
+  },
+  "primary_execution_head": "29884f208bca5afc2367c67510779b4a674cbbb1",
+  "primary_execution_tree": "5c7310d74357461f3040cf22342282b69cda7baf",
+  "primary_full_input_rehash": {
+    "bytes": 16362935186,
+    "input_mutation_count": 0,
+    "members": 221,
+    "status": "PASS",
+    "wall_seconds": 18.765574460849166
+  },
+  "primary_raw_layout": [
+    "cell-{i}/gpu_fidelity_checks.json",
+    "cell-{i}/warm-state.pt",
+    "cell-{i}/D10B-entry.json",
+    "cell-{i}/D10B-{arm}.json",
+    "cell-{i}/primary-terminal.json",
+    "cell-{i}/terminal.json"
+  ],
+  "primary_raw_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-tech-r3/local/native-response-ode-v31-parallel-pilot/20260906-tech-r3",
+  "raw_exclusions": [
+    "logs",
+    "literal prompts",
+    "models",
+    "weights",
+    "tensors",
+    "cache",
+    "checkpoints",
+    "datasets",
+    "credentials"
+  ],
+  "refinement_raw_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-followup-v1/local/native-response-ode-v31-parallel-pilot/20260906-followup-v1",
+  "reproduction": {
+    "create_once": true,
+    "diagnostics": "torch.set_num_threads(4); diagnostics_analysis.build(primary_raw, refinement_raw, NEW_DIAGNOSTICS_OUTPUT, audit_sources=REVIEW_READY.audit_raw_roots)",
+    "final": "finalize.build(NEW_ROOT_WITH_COMPONENTS, gpu_ledger_json, review_input_json)",
+    "input_files": "each component external-inputs.json",
+    "original_package_overwrite": false,
+    "primary": "python -m project.run_scripts.native_response_ode_v31.analysis --root PRIMARY_RAW --output NEW_PRIMARY_OUTPUT",
+    "python": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+    "source_identities": "primary analysis-source.lock and final_analysis_head/tree; execution differs",
+    "working_directory": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-native-response-v31-analysis-v1"
+  },
+  "required_review": [
+    "NNLS primal/dual/complementarity",
+    "native metric versus Frobenius",
+    "detached JVP",
+    "virtual/physical overlay parity",
+    "terminal/history lifecycle",
+    "same warm snapshot and fixed-z",
+    "RS/PS/NS and old-edit denominators",
+    "raw to tables to report identities",
+    "GPU budget including technical attempts"
+  ],
+  "reserved_fixture_status": "SEALED_NOT_EXECUTED; minimum G0 then primary/D2/H10 priority; no outcome-based replacement",
+  "reserved_not_executed_fixtures": [
+    "D1",
+    "D3",
+    "H1",
+    "H2",
+    "H3"
+  ],
+  "scientific_promotion": false,
+  "server4_mutation_count": 0
+}
